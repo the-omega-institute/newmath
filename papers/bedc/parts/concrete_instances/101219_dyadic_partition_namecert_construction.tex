@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\DyadicPartitionUp$}
+\label{ch:concrete-instances-dyadic-partition-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis and the standard dyadic partition use in Riemann and Darboux integration, the $\DyadicPartitionUp$ packet records a finite ordered family of dyadic interval cells over \autoref{ch:concrete-instances-dyadicinterval-namecert}. It sits between the interval tree route of \autoref{ch:concrete-instances-dyadicintervaltree-namecert}, the bisection route of \autoref{ch:concrete-instances-intervalhalving-namecert}, the finite-cover handoff of \autoref{ch:concrete-instances-interval-finite-cover-certificate-namecert}, and the step-function consumer of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}. The packet gives the L10 Real and Completion route a finite partition interface without importing open-cover compactness, quotient-style real equality, selected mesh limits, or ambient completeness.
+
+\begin{definition}[Dyadic partition carrier rows]
+\label{def:dyadic-partition-carrier-rows}
+A $\DyadicPartitionUp$ carrier is a finite $\BHist$ packet
+$$
+P=(B,I,A,R,F,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the boundary row. It records the lower and upper dyadic endpoints of the inspected interval, read through the $\DyadicIntervalUp$ surface.
+\item $I$ is the finite ordered list of $\DyadicIntervalUp$ cell rows. Each cell exposes its two dyadic endpoints and its local endpoint ledger.
+\item $A$ is the adjacency and coverage row. It records that consecutive cells share the displayed endpoint and that the first and last cells meet the boundary row $B$.
+\item $R$ is the common-refinement row. It names the finite interval rows produced when two accepted partition carriers are compared through a displayed refinement.
+\item $F$ is the finite-cover handoff row. It exports the same cells as a finite interval-cover certificate for downstream compactness-facing consumers.
+\item $H$ records componentwise $\hsame$ transport for the boundary, cells, adjacency, common-refinement, finite-cover, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a partition request through $B,I,A,R,F,H,G,N$.
+\item $G$ is the $\Pkg$ provenance over $\DyadicPartitionUp$, $\DyadicIntervalUp$, $\DyadicIntervalTreeUp$, $\IntervalHalvingUp$, $\IntervalFiniteCoverCertificateUp$, $\DyadicStepFunctionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicPartitionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. The carrier has no coordinate for open-cover compactness, quotient-style real equality, selected limiting mesh, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.DyadicPartitionUp.TasteGate.DyadicPartitionTasteGate\_single\_carrier\_alignment}
+
+\begin{definition}[Dyadic partition classifier rows]
+\label{def:dyadic-partition-classifier-rows}
+Two accepted $\DyadicPartitionUp$ carriers are classified together exactly when their boundary rows agree through the displayed $\DyadicIntervalUp$ endpoint classifier, their cell lists admit the finite common-refinement row $R$, every refined cell transports to a parent cell through the adjacency ledger $A$, and the finite-cover handoff row $F$ exports the same displayed cells. The comparison is finite and ordered: every read is mediated by $B,I,A,R,F,H,C,G,N$.
+\end{definition}
+
+\begin{theorem}[Dyadic partition NameCert obligation rows]
+\label{thm:dyadic-partition-namecert-obligation-rows}
+For every accepted $\DyadicPartitionUp$ carrier $P=(B,I,A,R,F,H,C,G,N)$, the local $\NameCert_{\DyadicPartitionUp}$ surface consists of exactly the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed boundary, cell list, adjacency, common-refinement, finite-cover, transport, replay, provenance, and local naming rows;
+\item boundary and cell exposure, requiring every endpoint read to pass through $B$ or one of the finitely many cells of $I$;
+\item adjacency and coverage exactness, requiring $A$ to account for shared endpoints and boundary contact;
+\item common-refinement stability, requiring comparisons of two partition carriers to use the finite row $R$ and no hidden partition representative;
+\item finite-cover handoff, requiring $F$ to export exactly the displayed cells to the interval finite-cover route before any step-function or completion-facing consumer reads the packet.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:dyadic-partition-carrier-rows}. The accepted packet displays exactly the boundary row, finite ordered cell list, adjacency ledger, common-refinement row, finite-cover handoff, and the structural rows.
+
+Boundary and cell exposure are forced by $B$ and $I$. A downstream read can inspect an endpoint only through the boundary interval or one of the listed dyadic interval cells.
+
+Adjacency and coverage exactness are forced by $A$. The shared endpoint and boundary-contact reads are finite rows, so the packet does not select an external subdivision or an ambient real equality witness.
+
+Common-refinement stability is forced by $R$. When two carriers are compared, the classifier first displays the finite refinement and then transports each refined cell back to its parent cell through $A$.
+
+Finally, $F,H,C,G,N$ export, transport, replay, source, and name the same rows. Since the carrier has no additional coordinate, the five listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\closureat{DyadicPartitionUp}{seedStr}
+
+\begin{closurestatus}{\DyadicPartitionUp}
+  \constructivestory{A $\DyadicPartitionUp$ packet is generated from a boundary dyadic interval row, a finite ordered list of dyadic interval cells, an adjacency and coverage ledger, a common-refinement row, a finite-cover handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-partition-carrier-rows}, \autoref{def:dyadic-partition-classifier-rows}, and \autoref{thm:dyadic-partition-namecert-obligation-rows} seed the finite dyadic partition interface from displayed dyadic interval cells to common refinement, finite-cover handoff, and step-function consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, quotient-style real equality, selected limiting meshes, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundary and cell exposure, adjacency and coverage exactness, common-refinement stability, finite-cover handoff, provenance exhaustion, and local naming for BEDC.Derived.DyadicPartitionUp.}
+\end{closurestatus}

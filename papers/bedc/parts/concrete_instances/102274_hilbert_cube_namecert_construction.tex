@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\HilbertCubeUp$}
+\label{ch:concrete-instances-hilbert-cube-namecert}
+\origin{human}
+
+Following Hilbert's cube as treated in Kelley and Bourbaki, the $\HilbertCubeUp$ packet records the countable product boundary as a finite BEDC naming certificate rather than as a completed host product. It consumes the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the binary product-metric ledger of \autoref{ch:concrete-instances-productmetric-namecert}, and the finite compact-metric product route of \autoref{ch:concrete-instances-compact-metric-product-namecert}. The packet is the standard constructive test object: a countable coordinate schedule over real interval seals whose every consumer request is reduced to finitely many displayed coordinate windows.
+
+\begin{definition}[Hilbert cube carrier]
+\label{def:hilbert-cube-carrier}
+A $\HilbertCubeUp$ carrier is a finite $\BHist$ packet
+$$
+H=(I,W,S,R,E,M,K,T,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the coordinate-window row. It records a finite set of inspected natural-number coordinates, the requested rational tolerances for those coordinates, and the interval bounds assigned to the inspected coordinates.
+\item $W$ is the $\StreamNameUp$ finite-window schedule. It names exactly the stream entries inspected at the coordinates listed by $I$ and contains no row for an unrequested tail coordinate.
+\item $S$ is the $\RegSeqRatUp$ readback row. It reads the rational approximants and tolerance witnesses exposed by $W$ for the displayed coordinate windows.
+\item $R$ is the $\RealUp$ interval seal row. For every coordinate named in $I$, it seals the associated regular rational readback into the displayed closed interval boundary for that coordinate.
+\item $E$ is the finite projection row. It packages the displayed coordinate windows as a finite product route, using the $\ProductMetricUp$ ledger for binary projection steps and the $\CompactMetricProductUp$ route when a finite compact-metric product consumer asks for paired interval data.
+\item $M$ records componentwise $\hsame$ transport for the coordinate-window row, the stream-window schedule, the rational readback, the real interval seals, the finite projection row, replay, provenance, and local naming.
+\item $K$ records displayed $\Cont$ replay from a consumer request through
+$$
+I \longmapsto W \longmapsto S \longmapsto R \longmapsto E \longmapsto M,Q,N .
+$$
+\item $T$ is the tail-boundary row. It records that coordinates not named by $I$ are invisible to the current consumer read and contribute only the displayed interval-bound promise, not a selected coordinate value.
+\item $Q$ is the $\Pkg$ provenance over $\HilbertCubeUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\ProductMetricUp$, $\CompactMetricProductUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HilbertCubeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,W,S,R,E,M,K,T,Q,N$. It has no coordinate for quotient streams, choice-selected coordinates, open-cover compactness, host function equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.HilbertCubeUp.HilbertCubeTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Hilbert cube NameCert obligations]
+\label{thm:hilbert-cube-namecert-obligations}
+For every accepted $\HilbertCubeUp$ carrier $H=(I,W,S,R,E,M,K,T,Q,N)$, the local $\NameCert_{\HilbertCubeUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the coordinate-window row, finite stream schedule, regular rational readback, real interval seals, finite projection row, tail boundary, transport, replay, provenance, and local naming;
+\item coordinate-window exactness, requiring every displayed coordinate request to be read first from $I$ and then through the matching $\StreamNameUp$ window in $W$;
+\item real interval sealing, requiring every coordinate value exposed to a consumer to pass through the $\RegSeqRatUp$ row $S$ and the $\RealUp$ interval seal row $R$;
+\item finite projection compatibility, requiring every product-metric or compact-metric product read to factor through the finite projection row $E$ and the displayed structural rows $M,K,Q,N$;
+\item boundary nonescape, requiring the packet to export no quotient stream, choice-selected coordinate, open-cover compactness argument, host function equality, or ambient $\RealUp$ completeness principle.
+\end{enumerate}
+No Hilbert cube obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:hilbert-cube-carrier}. The accepted packet displays the coordinate-window row $I$, the finite $\StreamNameUp$ schedule $W$, the $\RegSeqRatUp$ readback $S$, the $\RealUp$ interval seals $R$, the finite projection row $E$, the tail boundary $T$, and the structural rows $M,K,Q,N$.
+
+Coordinate-window exactness follows from the order of the carrier. A consumer names only the coordinates listed in $I$, and the only stream observations available for those coordinates are the finite windows in $W$.
+
+The real interval clause is downstream of this finite window. The row $S$ reads rational approximants from the displayed windows, and $R$ seals those readbacks as coordinate interval data before any product-metric or compact-metric product row is visible.
+
+Projection compatibility is then a finite-product statement. The row $E$ repacks only the displayed coordinate seals, using the $\ProductMetricUp$ and $\CompactMetricProductUp$ routes already named in the provenance row.
+
+Since the carrier has no coordinate for quotient streams, selected coordinates, open-cover compactness, host function equality, or ambient completeness, the local NameCert surface cannot store such an obligation.
+\end{proof}
+
+\begin{theorem}[Hilbert cube finite coordinate projection]
+\label{thm:hilbert-cube-finite-coordinate-projection}
+Let $H=(I,W,S,R,E,M,K,T,Q,N)$ be an accepted $\HilbertCubeUp$ carrier. Every consumer read of $H$ factors through finitely many displayed coordinate windows:
+$$
+I \longmapsto W \longmapsto S \longmapsto R \longmapsto E \longmapsto M,K,Q,N .
+$$
+In particular, a $\ProductMetricUp$, $\CompactMetricProductUp$, $\RegSeqRatUp$, or $\RealUp$ consumer can inspect only the coordinates named by $I$ and cannot force a read of the unlisted countable tail.
+\end{theorem}
+\begin{proof}
+Begin with an arbitrary consumer read. The carrier exposes no coordinate data before $I$, so the read first names a finite coordinate-window request.
+
+The request then moves through $W$ and $S$. These rows contain only the finite stream windows and rational readbacks attached to the coordinates already listed by $I$.
+
+The $\RealUp$ interval seals in $R$ are built from those readbacks. A real-facing consumer therefore sees a finite family of sealed coordinate intervals rather than a completed countable sequence.
+
+For product-facing consumers, the only subsequent route is $E$. That row repacks the finite sealed family through the product-metric and compact-metric product surfaces, while $M,K,Q,N$ transport, replay, package, and name the same finite route.
+
+The tail-boundary row $T$ records noninspection of every unlisted coordinate. Hence the accepted consumer read factors through the displayed finite coordinate windows and cannot force an additional tail read.
+\end{proof}
+
+\begin{theorem}[Hilbert cube real-completion boundary]
+\label{thm:hilbert-cube-real-completion-boundary}
+Every accepted $\HilbertCubeUp$ carrier excludes quotient streams, choice-selected coordinates, open-cover compactness, host function equality, and ambient $\RealUp$ completeness from its public boundary. Its real-facing completion surface is only the finite route through $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\RealUp$ interval seals, the finite $\ProductMetricUp$ or $\CompactMetricProductUp$ projection row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\HilbertCubeUp}$ row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only real-facing rows are the finite stream-window schedule $W$, the regular rational readback $S$, and the interval seals $R$ attached to the coordinate-window row $I$.
+
+The finite product surface does not add a completed countable product. It reads only the row $E$, whose inputs are the displayed coordinate seals and whose provenance points to the existing $\ProductMetricUp$ and $\CompactMetricProductUp$ finite routes.
+
+Transport and replay preserve this boundary componentwise. The rows $M$ and $K$ move the listed coordinates, readbacks, interval seals, finite projection row, and tail boundary without introducing a second equality or completion coordinate.
+
+The provenance and local naming rows package exactly this finite route. Because quotient streams, selected coordinates, open-cover compactness, host function equality, and ambient $\RealUp$ completeness are absent from $I,W,S,R,E,M,K,T,Q,N$, no public consumer can read them from the packet.
+\end{proof}
+
+\closureat{HilbertCubeUp}{seedStr}
+
+\begin{closurestatus}{\HilbertCubeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hilbert-cube-carrier}, \autoref{thm:hilbert-cube-namecert-obligations}, \autoref{thm:hilbert-cube-finite-coordinate-projection}, and \autoref{thm:hilbert-cube-real-completion-boundary} seed the finite coordinate-window boundary for the Hilbert cube over StreamName, RegSeqRat, Real interval seals, product metrics, compact-metric finite products, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, choice-selected coordinates, open-cover compactness, host function equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, coordinate-window exactness, real interval sealing, finite projection compatibility, boundary nonescape, consumer factorization, transport, replay, provenance, and local naming for BEDC.Derived.HilbertCubeUp.}
+  \constructivestory{A $\HilbertCubeUp$ packet is generated from a finite coordinate-window row, StreamName finite-window schedule, RegSeqRat readback, RealUp interval seals, ProductMetric or CompactMetricProduct finite projection rows, a tail boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

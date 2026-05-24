@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\DenseUniformEmbeddingUp$}
+\label{ch:concrete-instances-dense-uniform-embedding-namecert}
+\origin{human}
+
+Following the Bourbaki and Kelley treatment of uniform completions, and the Bishop--Bridges constructive use of dense uniform embeddings, the $\DenseUniformEmbeddingUp$ packet records the finite interface by which a source uniform or metric object enters a separated completion as a dense uniformly controlled subobject. It binds the dense embedding surface of \autoref{ch:concrete-instances-completionembedding-namecert}, the completion target of \autoref{ch:concrete-instances-uniformcompletion-namecert}, the modulus route of \autoref{ch:concrete-instances-uniformcontinuity-namecert}, the extension consumer of \autoref{ch:concrete-instances-uniform-continuous-extension-namecert}, and the separated target boundary of \autoref{ch:concrete-instances-separatedcompletion-namecert}. The packet is a NameCert carrier for the L10 completion route; it is not a quotient completion, a representative selector, or an assertion of ambient completeness.
+
+\begin{definition}[DenseUniformEmbedding carrier]
+\label{def:dense-uniform-embedding-carrier}
+A $\DenseUniformEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+D=(S,T,I,Q,M,E,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source uniform or metric data row whose point histories, entourages, and metric observations supply the dense domain.
+\item $T$ is the target separated completion data row, read through the $\UniformCompletionUp$ and $\SeparatedCompletionUp$ surfaces before any consumer treats target reads as separated completion reads.
+\item $I$ is the dense image witness row, recording that every displayed target tolerance window has a source-side image window.
+\item $Q$ is the uniform-continuity modulus row, read through $\UniformContinuityUp$, that transports source closeness to target closeness along the displayed image route.
+\item $M$ is the $\CompletionEmbeddingUp$ handoff row by which source observations enter the completion-facing target route.
+\item $E$ is the $\UniformContinuousExtensionUp$ consumer row naming the downstream extension interface that may read the dense source and target separated completion together.
+\item $U$ is the local compatibility row stating that $I,Q,M,E$ are read over the same source row $S$ and target row $T$.
+\item $H$ records componentwise $\hsame$ transport for $S,T,I,Q,M,E,U$ and for the structural rows.
+\item $C$ records displayed $\Cont$ replay from source histories through dense image, uniform modulus, completion embedding handoff, extension consumer, and separated completion target.
+\item $P$ is the $\Pkg$ provenance over $\DenseUniformEmbeddingUp$, $\UniformCompletionUp$, $\SeparatedCompletionUp$, $\CompletionEmbeddingUp$, $\UniformContinuityUp$, $\UniformContinuousExtensionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\DenseUniformEmbeddingUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient completions, selected representatives, host equality, countable choice, ambient completeness, or a detached target-completion object.
+\end{definition}
+\leanchecked{BEDC.Derived.DenseUniformEmbeddingUp.DenseUniformEmbeddingTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[DenseUniformEmbedding NameCert obligations]
+\label{thm:dense-uniform-embedding-namecert-obligations}
+For every accepted $\DenseUniformEmbeddingUp$ carrier $D=(S,T,I,Q,M,E,U,H,C,P,N)$, the local $\NameCert_{\DenseUniformEmbeddingUp}$ surface consists exactly of these finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source uniform or metric row, target separated completion row, dense image witness, uniform-continuity modulus, completion embedding handoff, extension consumer, compatibility row, hsame transport, Cont replay, package provenance, and local naming;
+\item dense image coverage, requiring each target tolerance request in $T$ to route through the source image witness $I$ before any separated completion read is exported;
+\item uniform-modulus stability, requiring every source closeness read consumed by the dense route to pass through $Q$ before it reaches the target side;
+\item completion-embedding compatibility, requiring the handoff row $M$ to be the only route from source observations into the completion-facing target;
+\item extension-consumer compatibility, requiring every $\UniformContinuousExtensionUp$ consumer to read the same $S,T,I,Q,M$ route before using $E$;
+\item transport and replay preservation, requiring $H$ and $C$ to preserve the ordered route under componentwise $\hsame$ transport and displayed $\Cont$ replay;
+\item ledger non-escape, excluding quotient completions, selected representatives, host equality, countable choice, ambient completeness, and detached target-completion data.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dense-uniform-embedding-carrier}. The tuple lists the source row, target separated completion row, dense image witness, modulus, completion handoff, extension consumer, compatibility row, transport, replay, provenance, and local naming.
+
+Dense image coverage is read from $I$ over the same target row $T$. A target tolerance request cannot be consumed until the packet has displayed a source-side image window for that request.
+
+Uniform-modulus stability is the row $Q$. It is the only route by which source closeness is transported to target closeness, so every completion-facing dense read must pass through $Q$ before reaching the target side.
+
+The completion and extension boundaries are the rows $M$ and $E$. The handoff row $M$ admits source observations into the completion-facing route, and the extension row $E$ is read only after $S,T,I,Q,M$ have been fixed by $U$.
+
+Finally, $H,C,P,N$ record transport, replay, provenance, and local naming for exactly those rows. Since the carrier contains no quotient, selected representative, host equality, choice, ambient-completeness, or detached-completion coordinate, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[DenseUniformEmbedding completion consumer route]
+\label{thm:dense-uniform-embedding-completion-consumer-route}
+Every completion or extension consumer of an accepted $\DenseUniformEmbeddingUp$ packet factors through the finite route
+$$
+S\longmapsto I\longmapsto Q\longmapsto M\longmapsto T\longmapsto E\longmapsto H,C,P,N .
+$$
+Thus the consumer receives a dense uniformly controlled source image inside the separated completion target, not a quotient-completion point, selected representative, host equality witness, countable-choice schedule, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with the source row $S$. The consumer may read only the displayed source uniform or metric histories supplied by the packet.
+
+The dense image row $I$ and uniform-modulus row $Q$ are the next route components. They turn a target tolerance request into a source image window and transport source closeness to target closeness.
+
+The completion embedding handoff $M$ then sends the controlled source observations into the completion-facing boundary. The target row $T$ is reached only after this dense uniform route has been recorded.
+
+Finally the extension consumer row $E$ may read the same route, while $H,C,P,N$ preserve and name it. No excluded quotient, representative, host equality, choice, or ambient completeness object has a coordinate in the carrier, so no consumer can escape the displayed route.
+\end{proof}
+
+\begin{theorem}[DenseUniformEmbedding ledger non-escape]
+\label{thm:dense-uniform-embedding-ledger-nonescape}
+For every accepted $\DenseUniformEmbeddingUp$ carrier $D=(S,T,I,Q,M,E,U,H,C,P,N)$, every exported read remains inside the rows
+$$
+S,T,I,Q,M,E,U,H,C,P,N
+$$
+of \autoref{def:dense-uniform-embedding-carrier}. The packet exports no quotient completion, selected representative, host equality, countable-choice selector, ambient completeness witness, or detached completion object.
+\end{theorem}
+\begin{proof}
+The NameCert obligations of \autoref{thm:dense-uniform-embedding-namecert-obligations} enumerate every admissible carrier, coverage, modulus, handoff, extension, transport, replay, provenance, and naming row.
+
+The completion consumer route of \autoref{thm:dense-uniform-embedding-completion-consumer-route} covers each downstream read by forcing it through $S,I,Q,M,T,E,H,C,P,N$. The compatibility row $U$ states that these route components are read over the same source and target rows.
+
+There is no remaining carrier coordinate from which a consumer could project a quotient class, selected representative, host equality judgement, choice schedule, ambient-completeness theorem, or detached completion object. Therefore every exported read stays within the displayed finite ledger.
+\end{proof}
+
+\begin{closurestatus}{\DenseUniformEmbeddingUp}
+  \constructivestory{A $\DenseUniformEmbeddingUp$ packet is generated from a source uniform or metric row, a target UniformCompletion and SeparatedCompletion row, a dense image witness, a UniformContinuity modulus, a CompletionEmbedding handoff, a UniformContinuousExtension consumer row, route compatibility, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dense-uniform-embedding-carrier}, \autoref{thm:dense-uniform-embedding-namecert-obligations}, \autoref{thm:dense-uniform-embedding-completion-consumer-route}, and \autoref{thm:dense-uniform-embedding-ledger-nonescape} seed the dense uniform embedding interface for the L10 completion route.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.DenseUniformEmbeddingUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected representatives, host equality, countable choice, ambient completeness, or detached target-completion objects.}
+  \upgradepath{Obligation closure requires checked carrier admission, dense image coverage, uniform-modulus stability, completion-embedding compatibility, extension-consumer compatibility, transport replay, and ledger non-escape for BEDC.Derived.DenseUniformEmbeddingUp.}
+\end{closurestatus}

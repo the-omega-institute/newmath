@@ -1,0 +1,130 @@
+\chapter{A Concrete Naming Certificate for $\WeaklyCauchySequenceUp$}
+\label{ch:concrete-instances-weakly-cauchy-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive treatment of Cauchy data, the $\WeaklyCauchySequenceUp$ packet records finite weak-Cauchy evidence without turning it into a regular modulus or a located real limit. It sits between the finite StreamName windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal Real boundary of \autoref{ch:concrete-instances-real-namecert}, and the Specker-style obstruction surface of \autoref{ch:concrete-instances-speckersequence-namecert}. The packet names the finite tail-comparison evidence visible to a BEDC consumer; it does not supply a regular modulus, selected limit, located supremum, quotient stream equality, countable choice, trichotomy, or $\RealUp$ completeness.
+
+\begin{definition}[Weakly Cauchy sequence carrier]
+\label{def:weakly-cauchy-sequence-carrier}
+A $\WeaklyCauchySequenceUp$ carrier is a finite $\BHist$ packet
+$$
+W=(S,R,D,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row, naming the inspected sequence indices and the stream observations available at those indices.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same inspected windows, recording the rational approximants read from the displayed stream data.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic radii used in the inspected pairwise tail comparisons.
+\item $T$ is the weak-Cauchy tail-comparison ledger: for each displayed tolerance request it stores only the finite pairs of inspected tail indices and the dyadic comparison rows witnessed for those pairs.
+\item $E$ is an optional $\RealUp$ seal-boundary row, present only as a downstream consumer boundary after $S,R,D,T$ have been displayed and never as a completed limit coordinate.
+\item $H$ records componentwise $\hsame$ transport for stream windows, rational readbacks, dyadic tolerances, tail-comparison rows, optional Real boundary rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a finite tolerance query through $S,R,D,T$ and then through $E,H,P,N$ when the optional Real boundary is read.
+\item $P$ is the $\Pkg$ provenance over $\WeaklyCauchySequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\WeaklyCauchySequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,D,T,E,H,C,P,N$. It has no coordinate for a regular modulus, selected limit, located supremum, quotient stream equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.WeaklyCauchySequenceUp.WeaklyCauchySequenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Weakly Cauchy sequence NameCert obligations]
+\label{thm:weakly-cauchy-sequence-namecert-obligations}
+For every accepted $\WeaklyCauchySequenceUp$ carrier
+$$
+W=(S,R,D,T,E,H,C,P,N),
+$$
+the local $\NameCert_{\WeaklyCauchySequenceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance rows, weak tail-comparison ledger, optional Real boundary, transport, replay, provenance, and local naming;
+\item window exactness, requiring every inspected sequence coordinate to be read through the displayed $\StreamNameUp$ row $S$ before any rational readback is used;
+\item readback exactness, requiring the rational observations used by the tail comparisons to be the displayed $\RegSeqRatUp$ row $R$;
+\item tolerance exactness, requiring every pairwise comparison in $T$ to cite a dyadic tolerance row in $D$;
+\item weak-tail exposure, requiring $T$ to store only finite inspected tail comparisons and not a global regular modulus;
+\item boundary nonescape, excluding selected limits, located suprema, quotient stream equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No weak-Cauchy obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:weakly-cauchy-sequence-carrier}. The projection exposes exactly one finite StreamName window row, one RegSeqRat readback row, one dyadic tolerance ledger, one weak tail-comparison ledger, the optional Real boundary row, and the structural transport, replay, provenance, and naming rows.
+
+Window and readback exactness are forced by $S$ and $R$. Every inspected sequence coordinate is first scheduled by $S$, and every rational observation used downstream is then read through the corresponding regular rational row $R$.
+
+Tolerance exactness is forced by $D$. Each pairwise tail comparison in $T$ names a dyadic radius and comparison row already present in the tolerance ledger, so no hidden metric or host real comparison can be inserted.
+
+The weak-tail obligation is exactly the ledger $T$. It records finite inspected tail comparisons, but it does not choose a threshold function for all tolerances and it does not package a regular Cauchy modulus.
+
+The rows $E,H,C,P,N$ only preserve or expose the same packet. Since the excluded limit, supremum, quotient, choice, trichotomy, completeness, verification, and bridge coordinates are absent from the carrier inventory, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Weakly Cauchy finite-window boundary]
+\label{thm:weakly-cauchy-sequence-finite-window-boundary}
+Let $W=(S,R,D,T,E,H,C,P,N)$ be an accepted $\WeaklyCauchySequenceUp$ carrier. Every consumer-visible weak-Cauchy read factors through the finite route
+$$
+\StreamNameUp(S)\longrightarrow \RegSeqRatUp(R)\longrightarrow \DyadicRatCoreUp(D)\longrightarrow T\longrightarrow H,C,P,N .
+$$
+The route may compare finitely inspected tail windows at displayed dyadic tolerances. It cannot be strengthened into a regular modulus, quotient stream equality, selected limit, countable-choice tail selector, trichotomy decision, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Begin with a consumer-visible weak-Cauchy read. The carrier definition gives $S$ as the only row that schedules sequence observations, so the consumer first receives finite StreamName windows rather than an unrestricted host stream.
+
+The rational observations are then read through $R$. This keeps every inspected value on the RegSeqRat route named by the packet.
+
+The dyadic scale is read through $D$, and the actual weak-tail comparison is one of the finite entries of $T$. Thus the consumer obtains only a finite comparison between displayed tail indices at displayed tolerances.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same route. No row produces a global threshold function, quotient equality, selected limit, choice selector, trichotomy decision, or ambient completeness theorem, so every accepted read remains a finite-window boundary read.
+\end{proof}
+
+\begin{theorem}[Weakly Cauchy regular-modulus refusal]
+\label{thm:weakly-cauchy-sequence-regular-modulus-refusal}
+Let
+$$
+W=(S,R,D,T,E,H,C,P,N)
+$$
+be an accepted $\WeaklyCauchySequenceUp$ carrier. Any route that exports a $\RegSeqRatUp$ regular modulus or a $\RealUp$ limit from $W$ must factor through an additional modulus row not contained in $S,R,D,T,E,H,C,P,N$. The displayed weak-tail ledger $T$ alone supplies only inspected pairwise tail comparisons at displayed dyadic tolerances.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:weakly-cauchy-sequence-carrier}. Its displayed inventory contains StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerances, the finite weak-tail ledger, the optional Real boundary row, transport, replay, provenance, and local naming; it contains no coordinate that chooses a threshold function for every tolerance.
+
+Apply \autoref{thm:weakly-cauchy-sequence-namecert-obligations}. The weak-tail exposure obligation identifies $T$ as finite inspected tail evidence and explicitly prevents that ledger from being read as a global regular modulus.
+
+Apply \autoref{thm:weakly-cauchy-sequence-finite-window-boundary}. Every consumer-visible read passes through
+$$
+\StreamNameUp(S)\longrightarrow \RegSeqRatUp(R)\longrightarrow \DyadicRatCoreUp(D)\longrightarrow T ,
+$$
+before the structural rows replay or name the route, so a regular-modulus export needs data beyond the displayed finite route.
+
+Finally apply \autoref{thm:weakly-cauchy-sequence-specker-boundary}. The Specker-facing boundary excludes selected limits, located suprema, countable choice, trichotomy, and ambient $\RealUp$ completeness, so no $\RealUp$ limit can be obtained from $W$ unless an additional modulus row is supplied outside the accepted carrier.
+\end{proof}
+
+\begin{theorem}[Weakly Cauchy sequence Specker boundary]
+\label{thm:weakly-cauchy-sequence-specker-boundary}
+For an accepted $\WeaklyCauchySequenceUp$ carrier $W=(S,R,D,T,E,H,C,P,N)$, every Specker-style or Real-facing consumer route is exhausted by the displayed rows
+$$
+S,R,D,T,E,H,C,P,N .
+$$
+In particular, the packet may expose finite weak-Cauchy tail comparisons before a $\RealUp$ boundary row is read, but it does not convert those comparisons into a located supremum, a regular Cauchy modulus, a selected limit, quotient stream equality, countable choice, trichotomy, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The Specker-facing information is the finite schedule $S$, the rational readback row $R$, the dyadic ledger $D$, and the weak tail-comparison ledger $T$.
+
+A Real-facing read can only use $E$ after those finite rows have been displayed. The row $E$ is therefore a boundary row for consumers of the evidence, not an independent completed real or located supremum coordinate.
+
+The structural rows $H,C,P,N$ do not add analytic strength. They preserve componentwise equality, replay the displayed continuation route, record provenance, and name the local certificate.
+
+The Specker obstruction remains visible because the packet stops at finite weak-Cauchy evidence. Since no carrier coordinate stores a regular modulus, selected limit, located supremum, quotient stream equality, countable choice, trichotomy, or ambient completeness theorem, every accepted Specker-style or Real-facing route is exhausted by the displayed boundary.
+\end{proof}
+
+\falsifiablePrediction{Every $\WeaklyCauchySequenceUp$ read factors through finite StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance rows, a finite weak tail-comparison ledger, optional RealUp boundary exposure, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, speckersequence: $\WeaklyCauchySequenceUp$ is not bijective to any listed sibling because it jointly carries inspected sequence windows, regular rational readback, dyadic tolerance comparisons, finite weak-tail evidence, and a Specker-facing Real boundary refusal as one local NameCert packet.}
+
+\closureat{WeaklyCauchySequenceUp}{seedStr}
+
+\begin{closurestatus}{\WeaklyCauchySequenceUp}
+  \constructivestory{A $\WeaklyCauchySequenceUp$ packet is generated from inspected StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance ledgers, finite weak-Cauchy tail comparisons, an optional RealUp boundary row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:weakly-cauchy-sequence-carrier}, \autoref{thm:weakly-cauchy-sequence-namecert-obligations}, \autoref{thm:weakly-cauchy-sequence-finite-window-boundary}, \autoref{thm:weakly-cauchy-sequence-regular-modulus-refusal}, and \autoref{thm:weakly-cauchy-sequence-specker-boundary} seed the finite weak-Cauchy boundary over inspected StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerances, finite tail comparisons, RealUp boundary exposure, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close regular moduli, selected limits, located suprema, quotient stream equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window exactness, readback exactness, tolerance exactness, weak-tail exposure, finite-window boundary, regular-modulus refusal, and Specker boundary proofs for BEDC.Derived.WeaklyCauchySequenceUp.}
+\end{closurestatus}

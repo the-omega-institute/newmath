@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\StationaryDyadicStreamUp$}
+\label{ch:concrete-instances-stationarydyadicstream-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\StationaryDyadicStreamUp$ packet records the finite constant dyadic stream route that feeds the open Real and Completion path. It begins at the dyadic source boundary of \autoref{ch:concrete-instances-dyadicratcore-namecert}, passes through the constant stream window of \autoref{ch:concrete-instances-streamname-namecert}, hands the regularity row to \autoref{ch:concrete-instances-regseqrat-namecert}, reaches the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and is read alongside the normal-form and zero-real boundaries of \autoref{ch:concrete-instances-dyadic-normal-form-namecert} and \autoref{ch:concrete-instances-realzero-namecert}. The packet names a displayed constant dyadic stream, not a quotient stream, selected limit, host real equality, trichotomy, countable choice, or ambient completeness principle.
+
+\begin{definition}[Stationary dyadic stream carrier]
+\label{def:stationary-dyadic-stream-carrier}
+A $\StationaryDyadicStreamUp$ carrier is a finite $\BHist$ packet
+$$
+S=(D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ source row, including the finite dyadic endpoint, tolerance ledger, and readback surface inspected before any stream request.
+\item $W$ is the constant $\StreamNameUp$ window, recording that every admitted finite request reads the same dyadic row $D$.
+\item $R$ is the $\RegSeqRatUp$ regularity handoff, exposing the constant dyadic window as a regular rational sequence with zero internal drift across displayed finite windows.
+\item $E$ is the $\RealUp$ seal, reached only after the dyadic source row, constant StreamName window, and regularity handoff have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for $D,W,R,E,C,P,N$ and for every displayed finite request window carried by $W$.
+\item $C$ records displayed $\Cont$ replay from $D$ into $W$, from $W$ into $R$, and from $R$ into the terminal seal $E$.
+\item $P$ records $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicNormalFormUp$, $\RealZeroUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StationaryDyadicStreamUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, selected limits, host real equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Stationary dyadic stream NameCert obligations]
+\label{thm:stationary-dyadic-stream-namecert-obligations}
+For every accepted $\StationaryDyadicStreamUp$ carrier $S=(D,W,R,E,H,C,P,N)$, the local $\NameCert_{\StationaryDyadicStreamUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the DyadicRatCore source row, constant StreamName window, RegSeqRat handoff, terminal RealUp seal, transport, continuation, provenance, and local naming rows;
+\item constant-window exactness, requiring each displayed finite request in $W$ to read the same source row $D$;
+\item regularity handoff, requiring $R$ to expose zero pairwise drift between all displayed windows admitted by the same constant source route;
+\item terminal seal routing, requiring $E$ to be exported only after $D$, $W$, and $R$ have been displayed in that order;
+\item componentwise transport and replay stability, requiring $H$ and $C$ to preserve the same dyadic source, constant window, regularity handoff, and real seal rows;
+\item ledger refusal, excluding quotient streams, selected limits, host real equality, trichotomy, countable choice, and ambient Real completeness.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stationary-dyadic-stream-carrier}. The projection exposes only $D,W,R,E,H,C,P,N$, so carrier admission and the local naming row are finite.
+
+For constant-window exactness, induct on the displayed finite request window stored in $W$. The empty window has no request to compare. In the successor step, the new request is read from the same DyadicRatCore row $D$, and the induction hypothesis preserves the earlier requests.
+
+The RegSeqRat handoff is the same induction read through $R$. Each pair of displayed windows has identical dyadic readback because both are componentwise transported to $D$, so the regularity ledger records zero displayed drift without selecting a limit.
+
+Replay by $C$ gives the ordered route $D \to W \to R \to E$, and transport by $H$ preserves the components of that route. Since the carrier contains no quotient stream, selected limit, host real equality, trichotomy, countable choice, or completeness coordinate, the local NameCert surface cannot export any such principle.
+\end{proof}
+
+\begin{theorem}[Stationary dyadic stream RegSeqRat handoff]
+\label{thm:stationary-dyadic-stream-regseqrat-handoff}
+Every accepted $\StationaryDyadicStreamUp$ carrier $S=(D,W,R,E,H,C,P,N)$ exports its regular rational sequence boundary through the finite route
+$$
+D \longrightarrow W \longrightarrow R
+$$
+where $W$ repeats the displayed $\DyadicRatCoreUp$ source row and $R$ records regularity by componentwise equality of finite windows. The handoff does not require quotient stream equality, a chosen Cauchy limit, trichotomy, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read $D$ through the constant StreamName window $W$. Induction over any displayed finite window shows that every entry in the window is the same dyadic source row.
+
+The row $R$ consumes exactly that finite constant-window evidence. Componentwise $\hsame$ transport turns equality of entries in $W$ into the regular-rational zero-drift ledger demanded by $\RegSeqRatUp$.
+
+No further principle is available in the carrier. The handoff therefore remains the displayed route $D \to W \to R$, rather than a quotient-stream class or a selected limiting real.
+\end{proof}
+
+\begin{theorem}[Stationary dyadic stream Real seal boundary]
+\label{thm:stationary-dyadic-stream-real-seal-boundary}
+Every accepted $\RealUp$ consumer of a $\StationaryDyadicStreamUp$ packet must inspect the dyadic source row, the constant StreamName window, and the RegSeqRat handoff before reading the terminal seal $E$. Consequently the public real-facing boundary is the finite route
+$$
+D \longrightarrow W \longrightarrow R \longrightarrow E
+$$
+together with $H,C,P,N$, and no consumer may replace that route by quotient stream equality, host real equality, selected limits, trichotomy, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $S=(D,W,R,E,H,C,P,N)$. The seal $E$ is a terminal row in the carrier inventory, so it is not available before the source row $D$, the window $W$, and the handoff row $R$ have been displayed.
+
+Continuation replay $C$ records the route from the dyadic source through the constant stream and regularity rows into $E$. Componentwise transport $H$ preserves the same route for any accepted copy of the packet.
+
+Thus a downstream $\RealUp$ or Completion-facing consumer receives the finite real-facing boundary $D \to W \to R \to E$ with its structural rows. The missing coordinates rule out quotient streams, host real equality, selected limits, trichotomy, countable choice, and ambient completeness as replacement routes.
+\end{proof}
+
+\closureat{StationaryDyadicStreamUp}{seedStr}
+
+\begin{closurestatus}{\StationaryDyadicStreamUp}
+  \constructivestory{A $\StationaryDyadicStreamUp$ packet is generated from a DyadicRatCore source row, a constant StreamName finite-window row, a RegSeqRat regularity handoff, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stationary-dyadic-stream-carrier}, \autoref{thm:stationary-dyadic-stream-namecert-obligations}, \autoref{thm:stationary-dyadic-stream-regseqrat-handoff}, and \autoref{thm:stationary-dyadic-stream-real-seal-boundary} seed the finite constant-dyadic stream bridge from DyadicRatCore to Real and Completion consumers.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.StationaryDyadicStreamUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient streams, selected limits, host real equality, trichotomy, countable choice, ambient Real completeness, Lean theorem checking, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, constant-window exactness, RegSeqRat handoff, RealUp seal routing, componentwise transport and replay stability, and ledger refusal for the same finite packet.}
+\end{closurestatus}

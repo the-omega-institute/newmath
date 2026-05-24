@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\LocatedIntervalBisectionUp$}
+\label{ch:concrete-instances-located-interval-bisection-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\LocatedIntervalBisectionUp$ packet names the finite bisection route for a located real interval without replacing it by a host closed interval or by a completed choice of midpoint decisions. It consumes the located endpoint-plus-radius surface of \autoref{ch:concrete-instances-located-real-interval-namecert}, the dyadic branch ledger of \autoref{ch:concrete-instances-dyadicbisection-namecert}, the retained-window discipline of \autoref{ch:concrete-instances-nestedinterval-namecert}, the downstream root-location consumer of \autoref{ch:concrete-instances-intermediatevalue-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet records one requested finite bisection history: located interval data, dyadic midpoint rows, refinement signs or locator decisions, retained nested windows, and a Real-facing seal route.
+
+\begin{definition}[Located interval bisection carrier]
+\label{def:located-interval-bisection-carrier}
+A $\LocatedIntervalBisectionUp$ carrier is a finite $\BHist$ packet
+$$
+B=(I,D,M,S,W,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\LocatedRealIntervalUp$ row. It supplies lower and upper $\RealUp$ endpoint names, the radius budget, locator reads, and the locatedness modulus exposed by the source interval.
+\item $D$ is the $\DyadicBisectionUp$ branch ledger. It records the finite left-or-right branch prefix and the dyadic enclosure scale used by the requested bisection depth.
+\item $M$ is the midpoint row. It stores the displayed dyadic midpoint cell, the two child interval cells, and the endpoint-radius compatibility budget inherited from $I$.
+\item $S$ is the sign or refinement row. It records the finite locator, sign, or containment decision that selects the retained child interval at each branch of $D$.
+\item $W$ is the retained nested-window row. It stores the visible lower and upper windows after each retained branch and exposes them to \autoref{ch:concrete-instances-nestedinterval-namecert}.
+\item $R$ is the $\RealUp$-facing seal row. It is reached only after the retained window has passed through the $\StreamNameUp$ and $\RegSeqRatUp$ readback route.
+\item $H$ records componentwise $\hsame$ transport for $I,D,M,S,W,R$ and the local structural rows.
+\item $C$ records displayed $\Cont$ replay from a bisection request through interval inspection, midpoint construction, branch retention, nested-window exposure, regular readback, and the Real-facing seal.
+\item $P$ is the $\Pkg$ provenance over $\LocatedIntervalBisectionUp$, $\LocatedRealIntervalUp$, $\DyadicBisectionUp$, $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedIntervalBisectionUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite located-interval bisection packet. It has no coordinate for host interval equality, trichotomy, selected quotient representatives, open-cover compactness, ambient $\RealUp$ completeness, or a choice-selected root.
+\end{definition}
+\leanchecked{BEDC.Derived.LocatedIntervalBisectionUp.LocatedIntervalBisectionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Located interval bisection NameCert obligations]
+\label{thm:located-interval-bisection-namecert-obligations}
+For every accepted $\LocatedIntervalBisectionUp$ carrier $B=(I,D,M,S,W,R,H,C,P,N)$, the local $\NameCert_{\LocatedIntervalBisectionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the located interval row, dyadic branch ledger, midpoint row, sign or refinement row, retained nested window, Real-facing seal, transports, replay, provenance, and local naming;
+\item interval-source discipline, requiring every endpoint, radius, locator, and locatedness read to factor through $I$ before midpoint data are inspected;
+\item midpoint branch discipline, requiring $M$ and $S$ to attach each retained child interval to the branch prefix recorded by $D$;
+\item nested-window exposure, requiring $W$ to store only the retained lower and upper windows produced by the displayed branch ledger;
+\item Real-facing seal discipline, requiring $R$ to be reached through the retained $\StreamNameUp$ windows and $\RegSeqRatUp$ readback rather than through a host interval object;
+\item ledger exhaustion, excluding host interval equality, trichotomy, selected quotient representatives, open-cover compactness, ambient $\RealUp$ completeness, a choice-selected root, Lean verification, and a standard bridge.
+\end{enumerate}
+No located interval bisection obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-interval-bisection-carrier}. The projection exposes the located source interval, the finite dyadic branch ledger, midpoint data, branch-retention data, nested-window data, and structural rows.
+
+Interval-source discipline is supplied by $I$. Every endpoint, radius, locator, and locatedness request starts from the accepted $\LocatedRealIntervalUp$ row, so the bisection packet cannot replace the source by a host closed interval.
+
+Midpoint branch discipline is supplied by $D,M$, and $S$. The branch ledger names the finite prefix, the midpoint row supplies the displayed child cells at each step, and the sign or refinement row selects the retained child from data already attached to that prefix.
+
+Nested-window exposure is supplied by $W$. It records only the lower and upper windows retained by the displayed branch route, with $H$ and $C$ transporting and replaying those windows componentwise.
+
+The Real-facing seal is therefore downstream of the retained windows and the regular readback route. Provenance and local naming exhaust the remaining coordinates, so no excluded host equality, compactness, completeness, or root-selection coordinate can be exported.
+\end{proof}
+
+\begin{theorem}[Located interval bisection nested-window route]
+\label{thm:located-interval-bisection-nested-window-route}
+Every nested-window, $\RegSeqRatUp$, or $\RealUp$ read of an accepted $\LocatedIntervalBisectionUp$ carrier factors through the displayed route
+$$
+I \longmapsto D,M,S \longmapsto W \longmapsto R,H,C,P,N .
+$$
+The consumer first reads the located interval source, then the finite midpoint and branch-retention ledger, then the retained nested window, and only then the regular rational readback and Real-facing seal.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $B=(I,D,M,S,W,R,H,C,P,N)$. The only source interval coordinate is $I$, so every endpoint, radius, and locator observation begins at the displayed $\LocatedRealIntervalUp$ row.
+
+The branch stage is $D,M,S$. The dyadic ledger records the finite prefix, the midpoint row gives the child cells, and the sign or refinement row records which child is retained. No nested-window row is available before this stage has been displayed.
+
+The retained-window stage is $W$. It reads the visible lower and upper windows produced by the branch stage and presents them to the nested-interval and stream-name surfaces.
+
+Finally, $R,H,C,P,N$ route the retained windows through regular readback and the Real-facing seal. Since the route is exhausted by the listed rows, a consumer cannot bypass the branch ledger to obtain an independent host interval or selected limit.
+\end{proof}
+
+\begin{theorem}[Located interval bisection non-escape]
+\label{thm:located-interval-bisection-nonescape}
+Every public read of an accepted $\LocatedIntervalBisectionUp$ carrier is exhausted by the located interval row $I$, the branch ledger $D$, the midpoint row $M$, the sign or refinement row $S$, the retained window $W$, the Real-facing seal $R$, componentwise transport $H$, continuation replay $C$, provenance $P$, and the local naming row $N$. In particular, the certificate exports no host interval equality, no trichotomy row, no selected quotient representatives, no open-cover compactness witness, no ambient $\RealUp$ completeness principle, and no choice-selected root.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligation theorem. It lists the carrier, source discipline, midpoint branch discipline, nested-window exposure, Real-facing seal discipline, and ledger exhaustion rows.
+
+Apply the nested-window route theorem for any nested-window, regular-rational, or Real-facing read. Such a read must pass through $I$, then $D,M,S$, then $W$, and finally the structural and seal rows.
+
+The remaining public reads are structural: transport, replay, provenance, and local naming. These are exactly $H,C,P,N$ and do not add analytic coordinates beyond the displayed bisection packet.
+
+Thus every public read is one of the listed coordinates or a route through them. The excluded host equality, trichotomy, quotient-representative selection, compactness, completeness, and root-selection principles have no row from which they could be projected.
+\end{proof}
+
+\closureat{LocatedIntervalBisectionUp}{seedStr}
+
+\begin{closurestatus}{\LocatedIntervalBisectionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-interval-bisection-carrier}, \autoref{thm:located-interval-bisection-namecert-obligations}, \autoref{thm:located-interval-bisection-nested-window-route}, and \autoref{thm:located-interval-bisection-nonescape} seed the finite located-interval bisection surface over source interval, dyadic branch, midpoint, retained window, regular readback, and Real-facing seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host interval equality, trichotomy, selected quotient representatives, open-cover compactness, ambient RealUp completeness, a choice-selected root, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, midpoint branch discipline, nested-window routing, seal discipline, and non-escape proofs for BEDC.Derived.LocatedIntervalBisectionUp.}
+  \constructivestory{A $\LocatedIntervalBisectionUp$ packet is generated from a $\LocatedRealIntervalUp$ source row, a $\DyadicBisectionUp$ branch ledger, displayed midpoint rows, sign or refinement rows, retained nested windows, $\StreamNameUp$ and $\RegSeqRatUp$ readback, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

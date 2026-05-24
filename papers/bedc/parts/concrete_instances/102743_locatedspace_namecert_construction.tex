@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\LocatedSpaceUp$}
+\label{ch:concrete-instances-locatedspace-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\LocatedSpaceUp$ packet records the finite route by which a metric source answers locatedness requests without importing a global real-order decision or a completed ambient space. It sits between the apartness interface of \autoref{ch:concrete-instances-apartnessspace-namecert}, the compact located handoff of \autoref{ch:concrete-instances-locatedcompact-namecert}, and the completion boundary of \autoref{ch:concrete-instances-metriccompletion-namecert}: every consumer sees the finite $\StreamNameUp$ window of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert} before it can treat a distance-to-source query as located.
+
+\begin{definition}[LocatedSpace carrier]
+\label{def:located-space-carrier}
+A $\LocatedSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+L=(X,R,A,G,W,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the metric or source carrier whose finite points, distance requests, and source-side observation windows are being certified.
+\item $R$ is the finite locatedness request, consisting of the displayed point or name to be tested, the source subset or source family being queried, and the dyadic tolerance budget at which the request is opened.
+\item $A$ is the positive $\ApartnessSpaceUp$ gap row attached to the request, displaying the positive separation witness used when the request is answered on the apart side.
+\item $G$ is the positive gap budget shared by the apartness row, the metric distance comparison, and the completion-facing refusal boundary.
+\item $W$ is the $\StreamNameUp$ window through which the source point, target observation, tolerance budget, and gap comparison are inspected.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the windows in $W$ and to every rational comparison used by the locatedness request.
+\item $E$ is the $\RealUp$ seal boundary reached by the displayed distance and gap reads after $R,A,G,W,Q$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for the source carrier, locatedness request, positive apartness gap, stream window, regular readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of every locatedness-facing consumer route through
+$$
+X,R,A,G,W,Q \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\LocatedSpaceUp$, $\ApartnessSpaceUp$, $\LocatedCompactUp$, $\MetricCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,R,A,G,W,Q,E,H,C,P,N$. It has no coordinate for trichotomy, quotient real equality, selected limits, open-cover compactness, choice, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.
+\end{definition}
+\leanchecked{BEDC.Derived.LocatedSpaceUp.LocatedSpaceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[LocatedSpace NameCert obligations]
+\label{thm:located-space-namecert-obligations}
+For every accepted $\LocatedSpaceUp$ carrier
+$$
+L=(X,R,A,G,W,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedSpaceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed metric or source carrier, locatedness request, positive apartness gap, stream window, regular readback, real seal, transport, replay, provenance, and local naming rows;
+\item locatedness stability, requiring every transported or replayed request to read the same source carrier $X$, request row $R$, gap row $A$, gap budget $G$, window $W$, and readback $Q$ before exposing the real seal $E$;
+\item positive-gap exactness, requiring the apartness gap used by $A$ to be the same positive budget $G$ read by the finite metric comparison and the regular rational readback;
+\item completion-boundary nonescape, requiring every completion-facing or real-facing consumer to pass through $R,A,G,W,Q,E$ and to receive no selected limit, quotient representative, ambient completeness theorem, or host real equality from the packet;
+\item ledger refusal, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed rows, with no trichotomy, quotient real equality, open-cover compactness, choice, Lean verification, or bridge credential.
+\end{enumerate}
+No located-space NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-space-carrier}. The packet displays the metric source, the finite locatedness request, the apartness gap, the gap budget, the stream window, the regular readback, the real seal, and the four structural rows.
+
+Locatedness stability is componentwise. A transported or replayed request keeps the same source row and the same finite request row, so the downstream consumer cannot replace the displayed window and readback by an ambient predicate on the completed space.
+
+Positive-gap exactness is the shared role of $A$ and $G$. The apartness row names the positive separation, while $G$ is the budget read both by the metric comparison and by the regular rational observation.
+
+For the completion boundary, the real seal $E$ appears only after $R,A,G,W,Q$ have been displayed. A completion-facing consumer therefore receives a finite locatedness route rather than a quotient class, selected limit, or completeness theorem.
+
+Finally, $H,C,P,N$ only transport, replay, source, and name the carrier rows. Since the packet contains no trichotomy, quotient real equality, open-cover compactness, choice, Lean verification, or bridge credential, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[LocatedSpace Real completion boundary]
+\label{thm:located-space-real-completion-boundary}
+Every completion-facing read of an accepted $\LocatedSpaceUp$ carrier
+$$
+L=(X,R,A,G,W,Q,E,H,C,P,N)
+$$
+factors through the displayed locatedness request $R$, the positive apartness gap $A$, the positive gap budget $G$, the $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $Q$, and the $\RealUp$ seal boundary $E$. The factorization exports only the finite route
+$$
+X,R,A,G,W,Q \longmapsto E
+$$
+and exports no trichotomy, quotient real equality, selected limit, open-cover compactness, choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier and a completion-facing read. Projection from \autoref{def:located-space-carrier} gives the rows $X,R,A,G,W,Q,E,H,C,P,N$ and no further completion object.
+
+The read first opens the locatedness request $R$ against the source carrier $X$. If the apart side is used, the only positive separation data are the apartness row $A$ and the positive budget $G$.
+
+The observation then passes through the finite stream window $W$ and the regular rational readback $Q$. These are the only rows that expose the rational data used by the distance and gap comparisons.
+
+Only after those rows have been displayed can the route reach the real seal $E$. The structural rows $H,C,P,N$ preserve this order under transport, replay, provenance, and local naming.
+
+Thus every completion-facing read factors through the displayed finite route. The excluded trichotomy, quotient equality, selected-limit, compactness, choice, and ambient-completeness data cannot be exported because they are absent from the accepted packet.
+\end{proof}
+
+\closureat{LocatedSpaceUp}{seedStr}
+
+\begin{closurestatus}{\LocatedSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-space-carrier}, \autoref{thm:located-space-namecert-obligations}, and \autoref{thm:located-space-real-completion-boundary} seed the finite locatedness-request route from metric source data through apartness gaps and regular readback to the Real completion boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close trichotomy, quotient real equality, selected limits, open-cover compactness, choice, ambient Real completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, locatedness stability, positive-gap exactness, completion-boundary nonescape, and ledger refusal for BEDC.Derived.LocatedSpaceUp.}
+  \constructivestory{A $\LocatedSpaceUp$ packet is generated from a metric source carrier, a finite locatedness request, a positive ApartnessSpace gap, a StreamName window, a RegSeqRat readback, a RealUp seal boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

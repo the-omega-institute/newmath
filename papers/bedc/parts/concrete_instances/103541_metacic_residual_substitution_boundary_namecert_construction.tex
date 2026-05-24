@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICResidualSubstitutionBoundaryUp$}
+\label{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}
+\origin{ai}
+
+The $\MetaCICResidualSubstitutionBoundaryUp$ packet realizes the residual-substitution compatibility boundary of \autoref{ch:metacic-confluence-audit-map} as finite NameCert data. It sits beside the confluence audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}, the closed-normal fragment of \autoref{ch:concrete-instances-metacicconfluencenormalfragment-namecert}, and the substitution audit surface of \autoref{ch:concrete-instances-substitutionboundaryaudit-namecert}. The packet names exactly the row needed by the conditional parallel-diamond handoff without turning the checked fragments into unconditional MetaCIC confluence.
+
+\begin{definition}[MetaCIC residual-substitution boundary carrier]
+\label{def:metacic-residual-substitution-boundary-carrier}
+A $\MetaCICResidualSubstitutionBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(R,S,A,J,N,F,L,H,C,P,K)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the residual beta-branch row. It records the two residual branches whose componentwise join is blocked without substitution compatibility.
+\item $S$ is the substitution-compatibility boundary row. It names the $\mathsf{BetaParallelSubstitutionCompatibility}$ input as a required row, not as a theorem produced by the packet.
+\item $A$ is the application-branch audit row. It records the beta-application shape where the substitution boundary is consumed by the parallel diamond route.
+\item $J$ is the conditional join row. It records the route from $S$ and $A$ to the parallel-diamond handoff while keeping the premise visible.
+\item $N$ is the closed-normal fragment row, read through \autoref{ch:concrete-instances-metacicconfluencenormalfragment-namecert} as an available sibling fragment rather than as a discharge of $S$.
+\item $F$ is the confluence audit packet row, read through \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert} as the larger audit context that consumes this boundary.
+\item $L$ is the substitution audit ledger, read through \autoref{ch:concrete-instances-substitutionboundaryaudit-namecert}, recording which closed substitution routes are audited before a consumer cites $S$.
+\item $H$ records componentwise $\hsame$ transport for residual branches, substitution boundary, application audit, conditional join, sibling fragment, audit packet, ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+R,S,A,L \longmapsto J \longmapsto F,N \longmapsto H,P,K .
+$$
+\item $P$ is the $\Pkg$ provenance over $\MetaCICResidualSubstitutionBoundaryUp$, MetaCIC beta reduction, $\mathsf{BetaParallel}$, $\mathsf{BetaStarStep}$, closedness rows, the named sibling packets, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $K$ is the local $\NameCert_{\MetaCICResidualSubstitutionBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate proving $\mathsf{BetaParallelSubstitutionCompatibility}$, no coordinate proving full parallel diamond without $S$, no coordinate proving arbitrary closed Church--Rosser, and no coordinate for host substitution semantics.
+\end{definition}
+
+\begin{theorem}[MetaCIC residual-substitution boundary NameCert obligations]
+\label{thm:metacic-residual-substitution-boundary-namecert-obligations}
+For every accepted $\MetaCICResidualSubstitutionBoundaryUp$ carrier
+$$
+B=(R,S,A,J,N,F,L,H,C,P,K),
+$$
+the local $\NameCert_{\MetaCICResidualSubstitutionBoundaryUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the residual beta branches, substitution-compatibility boundary, application-branch audit, conditional join, closed-normal fragment, confluence audit packet, substitution audit ledger, transport, replay, provenance, and local naming row;
+\item residual-row exposure, requiring a consumer to read the beta residual branches $R$ before citing the boundary;
+\item substitution-boundary visibility, requiring $S$ to remain a named premise row whenever the conditional join $J$ is exported;
+\item sibling separation, requiring $N$ and $F$ to be read as contextual fragments and audit packets rather than as proofs of $S$;
+\item ledger exactness, requiring $L$ to record the audited closed substitution rows visible to the boundary;
+\item provenance exhaustion, requiring $H,C,P,K$ to transport, replay, source, and name exactly the displayed rows and no proof of $\mathsf{BetaParallelSubstitutionCompatibility}$, no premise-free parallel diamond, no arbitrary closed Church--Rosser theorem, and no host substitution semantics.
+\end{enumerate}
+No residual-substitution-boundary obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $B=(R,S,A,J,N,F,L,H,C,P,K)$. The carrier definition lists the whole finite packet, so carrier admission is projection from the displayed rows.
+
+The residual branch data are read first. Row $R$ records the beta branches whose join requires substitution compatibility, and row $A$ records the application shape where the branch interaction occurs.
+
+The boundary row $S$ remains visible through the conditional join $J$. Since $S$ is a premise row rather than a produced theorem, the packet can expose the conditional handoff but cannot erase the input.
+
+Rows $N$ and $F$ keep the siblings separate. The closed-normal fragment and the confluence audit packet are useful context, but neither contains a projection that proves the residual substitution boundary row.
+
+The ledger row $L$ records the audited closed substitution data that may be cited before the boundary is consumed. Finally $H,C,P,K$ transport, replay, source, and name exactly those rows. With no coordinate for the refused endpoint claims, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-substitution premise preservation]
+\label{thm:metacic-residual-substitution-boundary-premise-preservation}
+Let $B=(R,S,A,J,N,F,L,H,C,P,K)$ be an accepted $\MetaCICResidualSubstitutionBoundaryUp$ carrier. Any consumer of $B$ that exports a parallel-diamond handoff or a closed Church--Rosser handoff must keep the substitution row $S$ visible as a premise through the route
+$$
+R,S,A,L \longmapsto J \longmapsto F,N \longmapsto H,P,K .
+$$
+Thus the consumer may export only a conditional handoff whose displayed route still contains $S$; it does not obtain $\mathsf{BetaParallelSubstitutionCompatibility}$ as a theorem of the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-residual-substitution-boundary-carrier}. The rows $R,S,A,L$ are the only entry surface for the residual beta branches, the substitution-compatibility boundary, the application audit, and the substitution audit ledger.
+
+Apply \autoref{thm:metacic-residual-substitution-boundary-namecert-obligations}. Its substitution-boundary visibility clause requires $S$ to remain a named premise whenever the conditional join row $J$ is exported, while its ledger exactness clause keeps $L$ attached to the audited closed substitution rows.
+
+The sibling separation rows then route the handoff through the confluence audit packet $F$ and the closed-normal fragment $N$ without turning either sibling into a proof of $S$. The confluence audit map may consume the conditional route, but the visible premise row remains part of the exported packet.
+
+Finally $H,P,K$ transport, source, and name the same finite route. Since the carrier has no coordinate proving $\mathsf{BetaParallelSubstitutionCompatibility}$, a parallel-diamond or closed Church--Rosser consumer can receive only the premise-preserving handoff displayed above.
+\end{proof}
+
+\falsifiablePrediction{A packet lacking the residual-substitution row is rejected even if it carries closed-normal confluence rows.}
+
+\independenceWitness{metacicconfluenceauditpacket, metacicconfluencenormalfragment, metacicredexfrontier, closedsubstitutionboundary, substitutionboundaryaudit: the residual-substitution boundary carrier is not bijective to any sibling because it carries the dedicated premise row $S$ coupled to the conditional join row $J$ and the residual beta-branch row $R$.}
+
+The proposed Lean follow-up supplies $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances in \texttt{lean4/BEDC/Derived/MetaCICResidualSubstitutionBoundaryUp/TasteGate.lean} by giving two explicit boundary packets, one with the residual-substitution row present and one refused by that row, and by matching on the fields $R,S,A,J,N,F,L,H,C,P,K$.
+
+\closureat{MetaCICResidualSubstitutionBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICResidualSubstitutionBoundaryUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-substitution-boundary-carrier} and \autoref{thm:metacic-residual-substitution-boundary-namecert-obligations} seed the finite residual-substitution boundary packet over residual beta branches, the visible substitution premise row, application audit, conditional join, sibling fragments, substitution ledger, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close BetaParallelSubstitutionCompatibility, premise-free parallel diamond, arbitrary closed Church--Rosser, host substitution semantics, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual-row exposure, substitution-boundary visibility, sibling separation, ledger exactness, provenance exhaustion, and TasteGate nontriviality with field faithfulness for BEDC.Derived.MetaCICResidualSubstitutionBoundaryUp.}
+  \constructivestory{A $\MetaCICResidualSubstitutionBoundaryUp$ packet is generated from residual beta branches, a visible substitution-compatibility premise row, application audit data, conditional join data, closed-normal and confluence-audit sibling rows, a substitution audit ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

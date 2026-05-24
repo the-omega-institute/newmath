@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\PicardLindelofUp$}
+\label{ch:concrete-instances-picard-lindelof-namecert}
+\origin{human}
+
+Following Picard and Lindelöf, the $\PicardLindelofUp$ packet records the local constructive existence-and-uniqueness route for ordinary differential equations with a Lipschitz vector field. It consumes the local-flow source of \autoref{ch:concrete-instances-ode-namecert}, the Banach state classifier of \autoref{ch:concrete-instances-banach-namecert}, the map-level Lipschitz ledger of \autoref{ch:concrete-instances-lipschitzmap-namecert}, the complete-metric convergence boundary of \autoref{ch:concrete-instances-completemetric-namecert}, the finite iteration route of \autoref{ch:concrete-instances-picardcontraction-namecert}, and the fixed-point endpoint discipline of \autoref{ch:concrete-instances-banach-fixed-point-namecert}. The packet names a local time-state window and a displayed Picard iteration certificate; it is not a global ODE solver, a maximal-interval continuation theorem, a host function-space equality principle, or a choice-selected solution object.
+
+\begin{definition}[Picard--Lindelof carrier]
+\label{def:picard-lindelof-carrier}
+A $\PicardLindelofUp$ carrier is a finite $\BHist$ packet
+$$
+P=(I,F,L,R,Q,U,H,C,G,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $I$ is the initial time-state cell, recording a displayed time row $t_0$, a state row $x_0$, and the shared $\OdeUp$ local-flow source in which both rows are interpreted;
+\item $F$ is the Lipschitz vector-field ledger, a $\LipschitzMapUp$ row for the vector field on the named local time-state window, including the displayed bound and graph rows used by ODE evaluations;
+\item $L$ is the Picard iteration route, a $\PicardContractionUp$ ledger that records the finite sequence of successive integral or step approximants starting at $I$ and reading every vector-field value through $F$;
+\item $R$ is the complete-metric convergence row, supplied by $\CompleteMetricUp$ for the carried space of local approximants and containing the displayed Cauchy modulus, limit row, and late-observation comparisons for the Picard route;
+\item $Q$ is the local uniqueness classifier, recording that two displayed local-flow rows with the same initial cell and the same Lipschitz ledger are classified by the endpoint classifier inherited from $\OdeUp$ and the Banach state surface;
+\item $U$ is the nonescape window row, naming the local time interval and state ball in which the Picard iterates, the convergence limit, and the uniqueness comparison are all read;
+\item $H$ stores componentwise $\hsame$ transports for the initial cell, vector-field ledger, Picard route, convergence row, uniqueness classifier, nonescape window, replay rows, provenance row, and local naming row;
+\item $C$ stores the displayed $\Cont$ replay from the initial time-state cell through the vector-field ledger, Picard iteration route, complete-metric convergence row, uniqueness classifier, and local-flow endpoint;
+\item $G$ is the $\Pkg$ provenance row over $\PicardLindelofUp$, $\OdeUp$, $\BanachUp$, $\LipschitzMapUp$, $\PicardContractionUp$, $\CompleteMetricUp$, $\BanachFixedPointUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ dependency rows;
+\item $N$ is the local $\NameCert_{\PicardLindelofUp}$ row.
+\end{enumerate}
+The carrier exposes only a local NameCert route from displayed ODE and Lipschitz data to a classified local-flow endpoint. It has no coordinate for global existence, maximal continuation, host equality of solution functions, selected representatives of solutions, or bridge-checked standardization.
+\end{definition}
+\leanchecked{BEDC.Derived.PicardLindelofUp.PicardLindelofTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Picard--Lindelof NameCert obligations]
+\label{thm:picard-lindelof-namecert-obligations}
+For an accepted $\PicardLindelofUp$ carrier
+$$
+P=(I,F,L,R,Q,U,H,C,G,N),
+$$
+the local $\NameCert_{\PicardLindelofUp}$ surface consists exactly of carrier admission for the displayed rows, initial time-state compatibility for $I$, Lipschitz vector-field stability for $F$, Picard iteration compatibility for $L$, complete-metric convergence visibility for $R$, local uniqueness classification for $Q$, nonescape-window stability for $U$, componentwise transport through $H$, displayed replay through $C$, package provenance through $G$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:picard-lindelof-carrier}. Each accepted packet displays the initial cell, vector-field ledger, Picard route, convergence row, uniqueness classifier, nonescape window, transport, replay, provenance, and local name.
+
+The source-side obligations are local to $I,F,U$. The row $I$ fixes the $\OdeUp$ time-state source, the row $F$ supplies the $\LipschitzMapUp$ vector-field graph and bound rows on the named window, and $U$ records the finite nonescape boundary in which those reads are valid.
+
+The iterative and limiting obligations are then forced in order. The row $L$ reads only the displayed Picard route supplied by $\PicardContractionUp$, and the row $R$ reads the resulting regular Cauchy ledger through $\CompleteMetricUp$.
+
+Finally $Q$ classifies any competing local-flow row with the same initial cell and vector-field ledger. The rows $H,C,G,N$ transport, replay, source, and name this same route, so the certificate cannot export a global continuation, a host function-space equality, or a selected solution.
+\end{proof}
+
+\begin{theorem}[Picard--Lindelof Picard iteration route]
+\label{thm:picard-lindelof-picard-iteration-route}
+Every accepted $\PicardLindelofUp$ carrier factors each local-flow endpoint read through the finite route
+$$
+\OdeUp \longmapsto \BanachUp \longmapsto \LipschitzMapUp \longmapsto \PicardContractionUp \longmapsto \CompleteMetricUp \longmapsto \BanachFixedPointUp
+$$
+as instantiated by $I,F,L,R,Q,U$. The route first opens the ODE time-state source and Banach state classifier, then reads the Lipschitz vector-field ledger, then records the Picard iteration route, then reads the complete-metric convergence row, and only then exposes the local uniqueness classifier for the endpoint. No endpoint read bypasses these rows.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates. The initial cell $I$ is the only entrance to the $\OdeUp$ local-flow source, and the vector-field row $F$ is the only Lipschitz ledger available on the named window.
+
+The Picard approximants are supplied by $L$. Since $L$ records the $\PicardContractionUp$ route using evaluations from $F$, every displayed iterate remains attached to the same ODE source and nonescape window.
+
+The limiting step is supplied by $R$. It reads the Picard ledger as a regular Cauchy object in the carried complete metric and exposes the limit only through the displayed $\CompleteMetricUp$ convergence row.
+
+The uniqueness boundary is supplied by $Q$ and may be compared with the fixed-point endpoint discipline of $\BanachFixedPointUp$ only after the previous rows have been displayed. Because the carrier lacks global continuation, host function-space equality, and choice-selected solution coordinates, the theorem exports only the stated local route.
+\end{proof}
+
+\falsifiablePrediction{Every $\PicardLindelofUp$ local endpoint read factors through one initial time-state cell, one Lipschitz vector-field ledger, one PicardContraction route, one CompleteMetric convergence row, one local uniqueness classifier, one nonescape window row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{ode, lipschitzmap, completemetric, picardcontraction, banachfixedpoint: $\PicardLindelofUp$ is not bijective to any listed sibling because it jointly carries the initial time-state cell, vector-field Lipschitz ledger, Picard iteration route, complete-metric convergence row, local uniqueness classifier, nonescape window, and the transport/replay/provenance rows tying them together.}
+
+\closureat{PicardLindelofUp}{seedStr}
+
+\begin{closurestatus}{\PicardLindelofUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:picard-lindelof-carrier}, \autoref{thm:picard-lindelof-namecert-obligations}, and \autoref{thm:picard-lindelof-picard-iteration-route} seed the local constructive ODE existence-and-uniqueness route over an initial time-state cell, a Lipschitz vector-field ledger, a Picard iteration route, a complete-metric convergence row, a local uniqueness classifier, a nonescape window, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim global ODE existence, maximal interval continuation, host function-space equality, choice-selected solutions, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, initial time-state compatibility, Lipschitz vector-field stability, Picard iteration compatibility, complete-metric convergence visibility, local uniqueness classification, nonescape-window stability, transport, replay, provenance, and local naming for BEDC.Derived.PicardLindelofUp.}
+  \constructivestory{A $\PicardLindelofUp$ packet is generated from one initial time-state cell, one Lipschitz vector-field ledger, one PicardContraction route, one CompleteMetric convergence row, one local uniqueness classifier, one nonescape window, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

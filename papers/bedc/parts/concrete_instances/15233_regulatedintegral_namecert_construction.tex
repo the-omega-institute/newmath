@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\RegulatedIntegralUp$}
+\label{ch:concrete-instances-regulatedintegral-namecert}
+\origin{human}
+
+Following Riemann, Darboux, and Bishop--Bridges constructive analysis, the packet names the integral of a regulated real function by finite dyadic step primitives and Darboux/Riemann compatibility rows, not by host function-space limits or measure completion.
+
+The packet consumes the regulated-function approximation surface of \autoref{ch:concrete-instances-regulatedrealfunction-namecert}, the finite step primitive of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}, the Darboux gap route of \autoref{ch:concrete-instances-darbouxintegral-namecert}, and the tagged-mesh boundary of \autoref{ch:concrete-instances-riemannintegral-namecert}. It is a BEDC-native consumer target for Real and Completion work: every integral read is routed through displayed step sums, compatibility ledgers, transport rows, replay rows, provenance, and a local name.
+
+\begin{definition}[Regulated integral NameCert surface]
+\label{def:regulated-integral-namecert-surface}
+A $\RegulatedIntegralUp$ carrier is a finite $\BHist$ packet
+$$
+J=(I,G,A,S,D,R,E,H,C,P,N)
+$$
+with the following displayed coordinates.
+\begin{enumerate}
+\item $I$ is the interval row naming the integration domain, endpoint order data, and cell-facing boundary reads.
+\item $G$ is the $\RegulatedRealFunctionUp$ row, read through \autoref{ch:concrete-instances-regulatedrealfunction-namecert}, naming the regulated integrand by finite dyadic step approximations and a uniform tail ledger.
+\item $A$ is the finite dyadic step approximation ledger selected from $G$ at displayed tolerances.
+\item $S$ is the step-integral primitive, computing finite sums from the cells and carried values of the $\DyadicStepFunctionUp$ rows in $A$.
+\item $D$ is the Darboux/Riemann compatibility row, recording that the same step approximation route fits the upper-lower gap boundary of \autoref{ch:concrete-instances-darbouxintegral-namecert} and the tagged-mesh surface of \autoref{ch:concrete-instances-riemannintegral-namecert}.
+\item $R$ is the $\RealUp$ handoff row reached from the displayed finite sums and compatibility ledger.
+\item $E$ records the error and modulus bounds connecting the chosen step rows, the regulated-function tail ledger, and the real-facing handoff.
+\item $H$ records componentwise $\hsame$ transport for interval, integrand, approximation, step-integral, compatibility, error, handoff, provenance, and local naming rows.
+\item $C$ records the displayed $\Cont$ replay from regulated-function reads to step approximants, from step approximants to finite sums, from compatibility rows to the Darboux/Riemann boundary, and from error bounds to the real handoff.
+\item $P$ is the $\Pkg$ provenance over $\RegulatedIntegralUp$, $\RegulatedRealFunctionUp$, $\DyadicStepFunctionUp$, $\DarbouxIntegralUp$, $\RiemannIntegralUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegulatedIntegralUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,G,A,S,D,R,E,H,C,P,N$. It has no coordinate for a host function quotient, a measure completion, a selected limiting tag family, open-cover compactness, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Regulated integral step primitive]
+\label{thm:regulated-integral-step-primitive}
+Every accepted $\RegulatedIntegralUp$ packet exposes its integral through finite $\DyadicStepFunctionUp$ primitive sums. A consumer may read the interval row $I$, the regulated-function row $G$, the selected approximation ledger $A$, the finite sum primitive $S$, and the recorded error bounds $E$, but it cannot bypass these rows through a host integral or a hidden limiting functional.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regulated-integral-namecert-surface}. The integrand-facing row is $G$, and \autoref{ch:concrete-instances-regulatedrealfunction-namecert} exposes $G$ by finite dyadic step approximations rather than by a host function-space object.
+
+The selected approximation ledger $A$ chooses the displayed $\DyadicStepFunctionUp$ rows at the tolerances recorded by $E$. The primitive $S$ computes the corresponding step integrals from finite cells, endpoint transports, and carried values supplied by \autoref{ch:concrete-instances-dyadicstepfunction-namecert}.
+
+The continuation row $C$ can replay only this route: interval read, regulated-function approximation, step ledger, finite sum, and error ledger. Since no other integral coordinate is part of $J$, every accepted integral read factors through the displayed step primitive.
+\end{proof}
+
+\begin{theorem}[Regulated integral Darboux--Riemann compatibility]
+\label{thm:regulated-integral-darboux-riemann-compatibility}
+The regulated step approximation route of an accepted $\RegulatedIntegralUp$ packet is compatible with the $\DarbouxIntegralUp$ gap boundary and the $\RiemannIntegralUp$ tagged-mesh surface. The compatibility is recorded by the displayed row $D$ and is consumed before the $\RealUp$ handoff row $R$ becomes available.
+\end{theorem}
+\begin{proof}
+Start from the finite step primitive of \autoref{thm:regulated-integral-step-primitive}. The same approximation ledger $A$ supplies the lower and upper step data needed by the Darboux gap row and the tagged-cell data needed by the Riemann mesh surface.
+
+The compatibility row $D$ records both readings. Through \autoref{ch:concrete-instances-darbouxintegral-namecert}, it checks the visible upper-lower gap and its modulus; through \autoref{ch:concrete-instances-riemannintegral-namecert}, it checks that the tagged-mesh sums are read against the same displayed cells and carried values.
+
+Only after this row is present can the packet expose $R$. The transport row $H$ and continuation row $C$ preserve the same order of consumption, so the Darboux and Riemann boundaries share the regulated step ledger rather than introducing separate host analytic data.
+\end{proof}
+
+\begin{theorem}[Regulated integral nonescape]
+\label{thm:regulated-integral-nonescape}
+No accepted $\RegulatedIntegralUp$ packet exports a host function quotient, measure completion, selected limiting tag family, open-cover compactness witness, or ambient Real-completeness principle. Every consumer read is confined to the displayed ledger
+$$
+I,G,A,S,D,R,E,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates in \autoref{def:regulated-integral-namecert-surface}. They display the interval row, regulated-function row, finite approximation ledger, step-sum primitive, Darboux/Riemann compatibility row, real handoff, error ledger, transports, continuations, provenance, and local naming row.
+
+Apply \autoref{thm:regulated-integral-step-primitive} to route every integral read through finite dyadic step sums. Apply \autoref{thm:regulated-integral-darboux-riemann-compatibility} to route the real-facing read through the visible Darboux gap and Riemann tagged-mesh compatibility row.
+
+The excluded objects have no carrier coordinate and no continuation route. Thus a downstream Real or Completion consumer receives only the displayed ledger and cannot access a quotient of host functions, a measure-completion object, selected limiting tags, open-cover compactness, or a completeness principle outside the packet.
+\end{proof}
+
+\closureat{RegulatedIntegralUp}{seedStr}
+
+\begin{closurestatus}{\RegulatedIntegralUp}
+  \constructivestory{A $\RegulatedIntegralUp$ packet is generated from an interval row, a $\RegulatedRealFunctionUp$ integrand row, a finite $\DyadicStepFunctionUp$ approximation ledger, a step-integral primitive, a Darboux/Riemann compatibility row, a $\RealUp$ handoff, error and modulus bounds, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regulated-integral-namecert-surface}, \autoref{thm:regulated-integral-step-primitive}, \autoref{thm:regulated-integral-darboux-riemann-compatibility}, and \autoref{thm:regulated-integral-nonescape} seed the regulated integration boundary over finite step primitives, Darboux gap rows, Riemann tagged-mesh rows, and Real handoff data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure-theoretic integration, quotient function equality, open-cover compactness, full Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, step primitive exposure, Darboux/Riemann compatibility, non-escape, and field faithfulness for BEDC.Derived.RegulatedIntegralUp.}
+\end{closurestatus}

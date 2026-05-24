@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\RealPolynomialUp$}
+\label{ch:concrete-instances-real-polynomial-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real functions and the standard polynomial-function construction, the $\RealPolynomialUp$ packet names finite polynomial evaluation over displayed $\RealUp$ names. It consumes the coefficient-list surface of \autoref{ch:concrete-instances-polynomial-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular-Cauchy algebra route of \autoref{ch:concrete-instances-regularcauchyring-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the continuous-map handoff of \autoref{ch:concrete-instances-continuousmap-namecert}. The chapter records polynomial evaluation as displayed BEDC finite data rather than host real-function syntax, quotient real functions, selected limits, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Real polynomial carrier]
+\label{def:real-polynomial-carrier}
+A $\RealPolynomialUp$ carrier is a finite $\BHist$ packet
+$$
+R_P=(A,X,Q,S,G,W,D,E,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the finite coefficient-list provenance row read from $\PolynomialUp$. It records the polynomial arity, coefficient order, constant term, successor-coefficient cells, and the finite list boundary used by the evaluator.
+\item $X$ is the input $\RealUp$ row whose regular name is read only through the displayed real-name seal.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the input real name and to every real coefficient name requested by the coefficient list.
+\item $S$ is the $\StreamNameUp$ finite-window row. It records the shared precision window used to inspect the input name and the finitely many coefficient names.
+\item $G$ is the $\RegularCauchyRingUp$ algebra row. It records the finite addition, multiplication, and powering schedule used by Horner evaluation, with no host real-operation coordinate.
+\item $W$ is the finite-window support row binding the coefficient list, input stream windows, regular readbacks, dyadic tolerances, and regular-Cauchy algebra operations to one evaluation request.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row. It stores dyadic radii, endpoint refinements, multiplication slack, addition slack, and the final output tolerance budget.
+\item $E$ is the evaluation ledger. It records the finite Horner spine from the last coefficient toward the constant coefficient, with each intermediate value read through $Q,S,G,W,D$.
+\item $M$ is the $\ContinuousMapUp$ handoff row. It exposes the same finite evaluation route as a continuous-map consumer surface once the evaluation ledger has been displayed.
+\item $H$ records componentwise $\hsame$ transport for coefficient provenance, input real names, regular readbacks, finite windows, regular-Cauchy algebra rows, dyadic tolerances, the evaluation ledger, the continuous-map handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each polynomial-evaluation request through $A,X,Q,S,G,W,D,E,M,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RealPolynomialUp$, $\PolynomialUp$, $\RealUp$, $\RegularCauchyRingUp$, $\ContinuousMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealPolynomialUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite polynomial-evaluation history. The classifier compares accepted packets only through $A,X,Q,S,G,W,D,E,M,H,C,P,N$, so it has no coordinate for host polynomial functions, quotient real functions, selected limits, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.RealPolynomialUp.RealPolynomialUpTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Real polynomial NameCert obligations]
+\label{thm:real-polynomial-namecert-obligations}
+For every accepted $\RealPolynomialUp$ carrier
+$$
+R_P=(A,X,Q,S,G,W,D,E,M,H,C,P,N),
+$$
+the local $\NameCert_{\RealPolynomialUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the coefficient-list provenance, input $\RealUp$ row, regular readbacks, finite windows, regular-Cauchy algebra, dyadic tolerance row, evaluation ledger, continuous-map handoff, transport, replay, provenance, and local naming rows;
+\item coefficient normalization, requiring $A$ to expose a finite $\PolynomialUp$ coefficient list before any evaluator row consumes coefficients;
+\item finite evaluation route, requiring the Horner spine in $E$ to read only $Q,S,G,W,D$ and the already displayed coefficient cells of $A$;
+\item classifier transport, requiring $H$ to preserve componentwise sameness for coefficient provenance, input real names, finite windows, regular readbacks, regular-Cauchy algebra rows, dyadic tolerances, the evaluation ledger, and structural rows;
+\item continuous-map handoff, requiring $M$ to export only the same finite evaluation route already displayed by $A,X,Q,S,G,W,D,E$;
+\item non-escape, refusing quotient real functions, host polynomial functions, selected limits, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, and bridge checking as local NameCert data.
+\end{enumerate}
+No real polynomial obligation is stored outside these six rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:real-polynomial-carrier}. The projection exposes exactly the coefficient-list row, input real row, regular readbacks, finite windows, regular-Cauchy algebra row, dyadic tolerance row, evaluation ledger, continuous-map handoff, and structural rows.
+
+Coefficient normalization is read from $A$ using the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}. The row supplies the finite coefficient order, so evaluation never ranges over an unbounded host polynomial.
+
+The finite evaluation route is the Horner spine recorded in $E$. At each step the input and coefficient rows are read through the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, regular readbacks from \autoref{ch:concrete-instances-regseqrat-namecert}, finite windows from \autoref{ch:concrete-instances-streamname-namecert}, dyadic tolerances from \autoref{ch:concrete-instances-dyadicratcore-namecert}, and algebra rows from \autoref{ch:concrete-instances-regularcauchyring-namecert}.
+
+Classifier transport is componentwise. The row $H$ preserves the coefficient provenance, input row, regular readbacks, finite windows, algebra schedule, tolerance row, and ledger before $C,P,N$ replay, source, and name the same packet.
+
+Finally use the continuous-map surface of \autoref{ch:concrete-instances-continuousmap-namecert}. The handoff row $M$ receives only the displayed finite evaluation route, so quotient real functions, host polynomial functions, selected limits, trichotomy, countable choice, ambient completeness, Lean verification, and bridge checking have no local obligation row.
+\end{proof}
+
+\begin{theorem}[Real polynomial evaluation stability]
+\label{thm:real-polynomial-evaluation-stability}
+Every accepted $\RealPolynomialUp$ evaluation route reads only the displayed coefficient provenance, input $\RealUp$ name, regular-Cauchy algebra, finite-window support, regular rational readback, dyadic tolerance, evaluation ledger, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, continuous-map handoff, and local $\NameCert$ rows. Consequently two accepted carriers matched componentwise by their displayed classifier data have the same finite evaluation route.
+\end{theorem}
+\begin{proof}
+Inspect an accepted carrier $R_P=(A,X,Q,S,G,W,D,E,M,H,C,P,N)$. The coefficient source is $A$, the real input is $X$, and the only analytic readback rows are $Q,S,G,W,D,E,M$.
+
+The evaluation ledger $E$ fixes the dependency order. It reads coefficient cells from \autoref{ch:concrete-instances-polynomial-namecert}, real-name rows from \autoref{ch:concrete-instances-real-namecert}, algebra operations from \autoref{ch:concrete-instances-regularcauchyring-namecert}, finite stream windows from \autoref{ch:concrete-instances-streamname-namecert}, regular rational readbacks from \autoref{ch:concrete-instances-regseqrat-namecert}, dyadic tolerance rows from \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the continuous-map handoff from \autoref{ch:concrete-instances-continuousmap-namecert}.
+
+Componentwise sameness in $H$ transports each displayed row and no other row. The replay row $C$ preserves the same dependency order, while $P$ and $N$ record provenance and local naming for the transported packet.
+
+Thus any consumer route accepted by the local certificate is already one of the displayed projections. Since the carrier contains no coordinate for quotient real functions, host polynomial functions, selected limits, trichotomy, countable choice, or ambient completeness, stability cannot acquire such data under transport.
+\end{proof}
+
+\closureat{RealPolynomialUp}{seedStr}
+\begin{closurestatus}{\RealPolynomialUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-polynomial-carrier}, \autoref{thm:real-polynomial-namecert-obligations}, and \autoref{thm:real-polynomial-evaluation-stability} seed the finite polynomial-evaluation route over $\PolynomialUp$ coefficient provenance, $\RealUp$ input rows, $\RegularCauchyRingUp$ algebra, $\ContinuousMapUp$ handoff, $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, and $\DyadicRatCoreUp$ tolerance rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real functions, host polynomial functions, selected limits, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, coefficient normalization, finite evaluation route, classifier transport, continuous-map handoff, and non-escape for BEDC.Derived.RealPolynomialUp.}
+  \constructivestory{A $\RealPolynomialUp$ packet is generated from finite $\PolynomialUp$ coefficient-list provenance, an input $\RealUp$ name, $\RegSeqRatUp$ readbacks, $\StreamNameUp$ windows, $\RegularCauchyRingUp$ algebra rows, $\DyadicRatCoreUp$ tolerance rows, a finite Horner evaluation ledger, a $\ContinuousMapUp$ handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

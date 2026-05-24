@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\DyadicRatCoreArithmeticUp$}
+\label{ch:concrete-instances-dyadic-rat-core-arithmetic-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\DyadicRatCoreArithmeticUp$ packet names the finite arithmetic-window face of the dyadic rational core used before regular rational names and real completions inspect arithmetic data. It sits downstream of \autoref{ch:concrete-instances-dyadicratcore-namecert}, reads the signed rows of \autoref{ch:concrete-instances-int-namecert}, the rational mantissa rows of \autoref{ch:concrete-instances-rat-namecert}, the finite schedule rows of \autoref{ch:concrete-instances-streamname-namecert}, the regular readback rows of \autoref{ch:concrete-instances-regseqrat-namecert}, and the completion-facing seal of \autoref{ch:concrete-instances-real-namecert}. The packet records arithmetic stability for displayed dyadic windows; it is not full $\RealUp$ arithmetic, not a quotient construction, not an order principle, not completeness, and not a standard bridge.
+
+\begin{definition}[DyadicRatCoreArithmetic carrier]
+\label{def:dyadic-rat-core-arithmetic-carrier}
+A $\DyadicRatCoreArithmeticUp$ carrier is a finite $\BHist$ packet
+$$
+A=(M_0,M_1,E_0,E_1,L_0,L_1,S,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M_0$ and $M_1$ are signed mantissa rows, each read through the $\IntUp$ and $\RatUp$ surfaces used by accepted $\DyadicRatCoreUp$ packets.
+\item $E_0$ and $E_1$ are positive unary exponent rows, carrying the dyadic denominator scale before any common-scale readback is allowed.
+\item $L_0$ and $L_1$ are the denominator ledgers attached to the two mantissa-exponent pairs.
+\item $S$ is the common-scale normalization row, displaying the finite exponent window into which both mantissas are transported.
+\item $W$ is the arithmetic-window ledger for sum, negation, difference, and product readbacks at that common scale.
+\item $H$ records componentwise $\hsame$ transport for mantissas, exponents, denominator ledgers, common-scale rows, arithmetic windows, continuation rows, provenance rows, and the local naming row.
+\item $C$ records $\Cont$ replay from the two input dyadic packets through common-scale normalization and then through the arithmetic-window ledger.
+\item $P$ is the $\Pkg$ provenance over $\IntUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicRatCoreArithmeticUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for full $\RealUp$ arithmetic, order, quotient rational equality, completion endpoints, completeness, or a standard bridge.
+\end{definition}
+\leanstmt{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreArithmeticWindow}
+
+\begin{theorem}[DyadicRatCoreArithmetic NameCert obligations]
+\label{thm:dyadic-rat-core-arithmetic-namecert-obligations}
+For every accepted $\DyadicRatCoreArithmeticUp$ carrier $A=(M_0,M_1,E_0,E_1,L_0,L_1,S,W,H,C,P,N)$, the local $\NameCert_{\DyadicRatCoreArithmeticUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the two signed mantissas, two unary exponents, two denominator ledgers, common-scale normalization row, arithmetic-window ledger, transport, continuation, provenance, and local naming row;
+\item source compatibility, requiring the mantissa and exponent rows to be read as the arithmetic face of accepted $\DyadicRatCoreUp$ packets;
+\item common-scale exactness, requiring $S$ to be consumed before the arithmetic row $W$ is read;
+\item arithmetic-window transport, requiring $H$ and $C$ to preserve the displayed sum, negation, difference, and product windows under $\hsame$ transport;
+\item downstream handoff, requiring $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers to inspect only the finite window exposed by $W$;
+\item ledger refusal, excluding full $\RealUp$ arithmetic, order, quotient rational equality, completion endpoints, completeness, and standard-bridge data.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-rat-core-arithmetic-carrier}. The projection exposes exactly the two signed mantissa rows, two positive unary exponent rows, denominator ledgers, common-scale row, arithmetic-window ledger, and structural rows $H,C,P,N$.
+
+Source compatibility is forced by the attachment to \autoref{ch:concrete-instances-dyadicratcore-namecert}. The mantissas can be inspected only through the displayed $\IntUp$ and $\RatUp$ rows already packaged by the dyadic core, and the exponent rows can be inspected only through the visible unary denominator ledgers.
+
+Replay the continuation row $C$. A consumer reaches $W$ only after the two input ledgers have been transported into the common-scale row $S$, so arithmetic readback never bypasses normalization.
+
+Transport by $H$ preserves the displayed coordinates of the same finite window. The package and local naming rows record only this route, hence no full real arithmetic, order, quotient equality, completion endpoint, completeness, or standard bridge is available.
+\end{proof}
+
+\begin{theorem}[DyadicRatCoreArithmetic normalization handoff]
+\label{thm:dyadic-rat-core-arithmetic-normalization-handoff}
+Let $A=(M_0,M_1,E_0,E_1,L_0,L_1,S,W,H,C,P,N)$ be an accepted $\DyadicRatCoreArithmeticUp$ carrier. Every $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of its arithmetic row factors through the finite route
+$$
+M_0,M_1,E_0,E_1,L_0,L_1 \longmapsto S \longmapsto W \longmapsto H,C,P,N .
+$$
+Thus the downstream phase reads arithmetic only as a normalized dyadic window over displayed mantissa, exponent, denominator, transport, continuation, provenance, and naming data. The route supplies no full $\RealUp$ arithmetic, order, quotient rational equality, completion endpoint, completeness principle, or standard bridge.
+\end{theorem}
+\begin{proof}
+Begin with a downstream consumer of the arithmetic row. Carrier admission exposes $W$, but only as a row downstream of the mantissa, exponent, denominator, and common-scale coordinates.
+
+Replay $C$ from the two dyadic inputs. The route first reads the signed mantissas $M_0,M_1$, then the unary exponent rows $E_0,E_1$, then the denominator ledgers $L_0,L_1$, and only then the common-scale row $S$.
+
+The arithmetic ledger $W$ is therefore a normalized finite dyadic window. Its visible rows are exactly the sum, negation, difference, and product readbacks transported by $H$ and packaged by $P,N$.
+
+Since the route ends at the displayed window and structural rows, it cannot export a completed real operation, order classifier, quotient equality, completion endpoint, completeness witness, or standard-bridge component.
+\end{proof}
+
+\begin{closurestatus}{\DyadicRatCoreArithmeticUp}
+  \constructivestory{A $\DyadicRatCoreArithmeticUp$ packet is generated from two signed mantissa rows, two unary exponent rows, denominator ledgers, a common-scale normalization row, an arithmetic-window ledger, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-rat-core-arithmetic-carrier}, \autoref{thm:dyadic-rat-core-arithmetic-namecert-obligations}, and \autoref{thm:dyadic-rat-core-arithmetic-normalization-handoff} seed the finite arithmetic-window face of $\DyadicRatCoreUp$ used by downstream regular and completion phases.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full $\RealUp$ arithmetic, order, quotient construction, completion endpoints, completeness, a standard bridge, or theorem-level Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-scale normalization, arithmetic-window transport, downstream handoff, and ledger refusal proofs for the same packet.}
+\end{closurestatus}

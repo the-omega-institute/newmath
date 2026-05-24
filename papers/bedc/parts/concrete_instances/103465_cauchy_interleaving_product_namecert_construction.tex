@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\CauchyInterleavingProductUp$}
+\label{ch:concrete-instances-cauchy-interleaving-product-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyInterleavingProductUp$ packet records the finite product route obtained by alternating two regular Cauchy observation schedules before exposing the pointwise product readback. It sits between the interleaving surface of \autoref{ch:concrete-instances-regularcauchyinterleaving-namecert}, the product budget surface of \autoref{ch:concrete-instances-regularcauchyproduct-namecert}, and the root Cauchy product route of \autoref{ch:concrete-instances-cauchyproduct-namecert}. Its dependencies are the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[CauchyInterleavingProduct carrier]
+\label{def:cauchy-interleaving-product-carrier}
+A $\CauchyInterleavingProductUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(A,B,S_A,S_B,\sigma,M,D_A,D_B,D,E,R,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two $\RegSeqRatUp$ source names whose scheduled rational observations may be inspected;
+\item $S_A$ and $S_B$ are the two $\StreamNameUp$ windows used to expose the selected source observations;
+\item $\sigma$ is the alternating selector row, with even reads attached to $A$ and odd reads attached to $B$;
+\item $M$ is the shared modulus and product-budget ledger recording the selected source precisions, endpoint magnitude bounds, and output tolerance;
+\item $D_A$ and $D_B$ are the selected $\DyadicRatCoreUp$ endpoint rows obtained from the two scheduled windows;
+\item $D$ is the displayed dyadic product row for $D_A \cdot D_B$ at the common exponent named by $M$;
+\item $E$ is the finite product-error ledger attached to the dyadic product row;
+\item $R$ is the $\RegSeqRatUp$ product readback whose scheduled point row is $D$ with tolerance budget $E$;
+\item $I$ is the interleaving provenance row binding $R$ to the alternating selector, both schedules, and the two source names;
+\item $H$ stores componentwise $\hsame$ transports for the source names, schedules, selector, modulus ledger, dyadic endpoint rows, product ledger, readback, and interleaving provenance;
+\item $C$ stores the displayed $\Cont$ routes for selecting a source side, reading the two windows needed by the product, forming the dyadic endpoint product, checking the product budget, and exposing the readback;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyInterleavingProductUp}$ row.
+\end{enumerate}
+The carrier is a finite observation certificate. It stores no quotient stream, selected real limit, ambient completeness object, or host-level multiplication law over completed reals.
+\end{definition}
+
+\begin{theorem}[CauchyInterleavingProduct NameCert obligations]
+\label{thm:cauchy-interleaving-product-namecert-obligations}
+The local $\NameCert_{\CauchyInterleavingProductUp}$ surface for the carrier of \autoref{def:cauchy-interleaving-product-carrier} consists exactly of carrier admission, selector-window coverage, dyadic product formation, finite product-budget exactness, regular readback handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. Every consumer route for $Q$ factors through
+$$
+A,B,S_A,S_B,\sigma,M,D_A,D_B,D,E,R,I,H,C,P,N.
+$$
+No obligation exports quotient stream equality, a selected limit, host real equality, ambient Real completeness, or completed-real multiplication.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple $Q$. The two source names, two schedules, selector, modulus ledger, dyadic endpoint rows, product row, product-error ledger, readback row, and interleaving provenance are explicit coordinates.
+
+Selector-window coverage follows the same even-and-odd partition used by the regular Cauchy interleaving packet. Product formation then reads the selected windows through the dyadic core and records the output tolerance in the finite product ledger.
+
+The readback row $R$ is downstream of those displayed rows. The transport, continuation, package, and naming coordinates attach the same finite route to every accepted consumer, so no omitted quotient, selected limit, host equality, completeness, or completed multiplication row can enter the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CauchyInterleavingProduct diagonal product route]
+\label{thm:cauchy-interleaving-product-diagonal-product-route}
+For every accepted $\CauchyInterleavingProductUp$ carrier $Q$, the diagonal product route first reads the alternating selector $\sigma$, then exposes the two scheduled windows $S_A,S_B$ at the common product request, then forms the $\DyadicRatCoreUp$ product row $D$ from $D_A$ and $D_B$, and only then exposes the $\RegSeqRatUp$ readback $R$. The route is diagonal because both selected source observations are checked against the same ledger $M$ before the product row is accepted.
+\end{theorem}
+\begin{proof}
+Project the selector, schedule, and modulus coordinates of $Q$. The selector chooses the active interleaving side, while the common product request still displays both windows needed to form the product.
+
+Read $D_A$ and $D_B$ through $S_A,S_B$ under the ledger $M$. The dyadic product row $D$ is then a finite core row at the displayed common exponent, and the product-error row $E$ records the tolerance assigned to that row.
+
+Finally repack $D$ and $E$ as the regular readback $R$ with interleaving provenance $I$. Since the route never leaves the displayed tuple, the product is diagonal over the finite schedules rather than a multiplication of selected completed limits.
+\end{proof}
+
+\begin{theorem}[CauchyInterleavingProduct nonescape]
+\label{thm:cauchy-interleaving-product-nonescape}
+Every $\RealUp$ consumer of a $\CauchyInterleavingProductUp$ carrier must pass through the regular readback $R$, the interleaving provenance $I$, the dyadic product row $D$, the product-error ledger $E$, the two source schedules, the shared ledger $M$, and the structural rows $H,C,P,N$. The packet exposes no route to quotient stream equality, selected host limits, ambient completeness, or completed-real multiplication.
+\end{theorem}
+\begin{proof}
+The real-facing row is downstream of the regular readback. By the carrier definition, $R$ is not available without the source schedules, dyadic endpoint product, and finite product-error ledger.
+
+The interleaving provenance row $I$ keeps the readback attached to the alternating selector and to the two source names. The structural rows $H,C,P,N$ preserve this route under transport and consumer replay.
+
+No field of $Q$ names a quotient stream, a selected limit, an ambient completeness witness, or a completed-real multiplication operation. Thus every real-facing consumer remains inside the finite interleaving-product certificate.
+\end{proof}
+
+\closureat{CauchyInterleavingProductUp}{seedStr}
+
+\begin{closurestatus}{\CauchyInterleavingProductUp}
+  \constructivestory{A $\CauchyInterleavingProductUp$ packet is generated from two regular Cauchy source names, two stream windows, an alternating selector, a shared modulus and product-budget ledger, dyadic endpoint rows, a dyadic product row, a product-error ledger, a regular readback, interleaving provenance, transport, replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-interleaving-product-carrier}, \autoref{thm:cauchy-interleaving-product-namecert-obligations}, \autoref{thm:cauchy-interleaving-product-diagonal-product-route}, and \autoref{thm:cauchy-interleaving-product-nonescape} bind the finite product/interleaving certificate for the L10 Real and Completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected real limits, ambient completeness, host real equality, or completed-real multiplication.}
+  \upgradepath{Lean closure requires carrier admission, selector-window coverage, dyadic product formation, product-budget exactness, regular readback handoff, nonescape, and TasteGate field faithfulness for BEDC.Derived.CauchyInterleavingProductUp.}
+\end{closurestatus}

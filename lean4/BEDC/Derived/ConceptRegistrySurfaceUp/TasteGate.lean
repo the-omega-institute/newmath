@@ -2,6 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
@@ -12,6 +13,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
@@ -206,6 +208,12 @@ theorem ConceptRegistrySurfaceTasteGate_single_carrier_alignment :
       ⟨conceptRegistrySurfaceFieldFaithful⟩,
       ⟨conceptRegistrySurfaceNontrivial⟩,
       rfl⟩
+
+def ConceptRegistrySurfaceCarrier [AskSetup] [PackageSetup]
+    (C T G R S F U H P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  Cont C T G ∧ Cont G R S ∧ Cont S F U ∧ Cont U H P ∧ PkgSig bundle P pkg ∧
+    PkgSig bundle N pkg
 
 theorem ConceptRegistrySurface_forbidden_reading_refusal_certificate [AskSetup] [PackageSetup]
     {C T G R S F U H P N refusedRead : BHist}

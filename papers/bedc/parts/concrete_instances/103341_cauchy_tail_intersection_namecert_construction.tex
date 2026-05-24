@@ -1,0 +1,113 @@
+\chapter{A Concrete Naming Certificate for $\CauchyTailIntersectionUp$}
+\label{ch:concrete-instances-cauchy-tail-intersection-namecert}
+\origin{human}
+
+Following Bishop and Bridges, Constructive Analysis, the $\CauchyTailIntersectionUp$ packet records the finite common tail-window intersection retained after two displayed regular-Cauchy windows have been compared and synchronized. It sits after the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the tail-comparison route of \autoref{ch:concrete-instances-cauchy-tail-comparison-namecert}, and the shared threshold surface of \autoref{ch:concrete-instances-regular-cauchy-tail-meet-namecert}. The packet names the retained intersection carrier itself: a finite row that can be handed to later $\RegSeqRatUp$ and $\RealUp$ consumers without choosing a quotient stream, selecting a limit, or invoking ambient completeness.
+
+\begin{definition}[CauchyTailIntersection carrier]
+\label{def:cauchy-tail-intersection-carrier}
+A $\CauchyTailIntersectionUp$ carrier is a finite $\BHist$ packet
+$$
+T=(X,Y,W_0,W_1,I,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two regular-Cauchy source rows whose finite tail windows are being compared.
+\item $W_0$ and $W_1$ are the displayed $\StreamNameUp$ tail-window rows retained from the two sources after the sibling comparison and meet packets have fixed the visible cuts.
+\item $I$ is the retained common finite tail-window intersection. It stores exactly the inspected cuts lying in both displayed tails, together with their local order and membership evidence.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the retained intersection. It records the dyadic precision requests and budget comparisons used by the common tail rows.
+\item $R$ is the $\RegSeqRatUp$ readback row. It reads the retained intersection through the regular rational sequence interface and exposes no independent stream or quotient coordinate.
+\item $E$ is the $\RealUp$ handoff row. It is visible only after the intersection, dyadic ledger, and regular readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source rows, windows, retained intersection, dyadic ledger, regular readback, real handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+X,Y,W_0,W_1 \longmapsto I \longmapsto D \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyTailIntersectionUp$, $\CauchyTailComparisonUp$, $\RegularCauchyTailMeetUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyTailIntersectionUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these twelve rows. Its classifier compares accepted packets only through the two source rows, the two displayed windows, the retained intersection, the dyadic ledger, the regular readback, the real handoff, componentwise transport, continuation replay, provenance, and local naming. It has no coordinate for quotient streams, selected limits, countable choice, host real equality, trichotomy, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[CauchyTailIntersection NameCert obligations]
+\label{thm:cauchy-tail-intersection-namecert-obligations}
+For every accepted $\CauchyTailIntersectionUp$ carrier
+$$
+T=(X,Y,W_0,W_1,I,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyTailIntersectionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two source rows, two displayed windows, retained intersection, dyadic ledger, regular readback, real handoff, transport, replay, provenance, and local naming row;
+\item comparison admission, requiring $W_0$ and $W_1$ to be supplied by the sibling $\CauchyTailComparisonUp$ and $\RegularCauchyTailMeetUp$ routes before $I$ can be read;
+\item intersection exactness, requiring $I$ to retain only cuts displayed in both windows and to retain every displayed cut certified by both windows inside the finite packet;
+\item tolerance compatibility, requiring $D$ to read only dyadic tolerance requests attached to the retained intersection;
+\item readback exactness, requiring $R$ to be the only $\RegSeqRatUp$ readback of the retained intersection and $E$ to be the only $\RealUp$ handoff downstream of $R$;
+\item structural exhaustion, requiring $H,C,P,N$ to preserve, replay, source, and name the listed rows without exporting quotient streams, selected limits, countable choice, host real equality, trichotomy, or ambient completeness.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-tail-intersection-carrier}. The accepted packet displays exactly the two source rows, two tail windows, retained intersection, dyadic ledger, regular readback, real handoff, and structural rows.
+
+Comparison admission is read from the sibling routes named in the provenance row $P$. The comparison and meet packets expose the two compatible finite tail windows before the local intersection row $I$ can be inspected.
+
+Intersection exactness is a projection of $I$. Since $I$ is a finite row, membership is checked only against the displayed cuts in $W_0$ and $W_1$, and every retained cut carries both displayed membership entries.
+
+Tolerance compatibility is read from $D$. The dyadic ledger is downstream of $I$, so every tolerance request is attached to an already retained common cut rather than to a hidden tail oracle.
+
+Readback exactness is read from $R$ and $E$. The regular readback consumes $I$ and $D$, and the real handoff is visible only after that readback has been displayed.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. Because the carrier has no quotient, selected-limit, choice, host-equality, trichotomy, or completeness coordinate, the six listed obligation rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[CauchyTailIntersection window meet]
+\label{thm:cauchy-tail-intersection-window-meet}
+Let $T=(X,Y,W_0,W_1,I,D,R,E,H,C,P,N)$ be an accepted $\CauchyTailIntersectionUp$ carrier. Every consumer read of a retained common tail cut factors through the displayed route
+$$
+X,Y \longmapsto W_0,W_1 \longmapsto I .
+$$
+The row $I$ is therefore the unique retained finite intersection surface available to the packet, and no consumer can replace it by an independent tail, quotient stream, selected limit, host equality proof, trichotomy branch, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with a consumer read of a retained common tail cut. Projection of the accepted carrier supplies the source rows $X,Y$ and the displayed windows $W_0,W_1$ before the intersection row is available.
+
+The sibling comparison and meet routes inside $P$ account for the two displayed windows. Their role is to expose finite compatible tail cuts, not to export a completed tail object.
+
+Now inspect $I$. A cut is readable from $I$ only with membership evidence from both $W_0$ and $W_1$, so the consumer cannot bypass either displayed window.
+
+The transport and replay rows $H$ and $C$ preserve the same route through $\hsame$ and $\Cont$. The local naming row $N$ names that retained intersection and no second intersection coordinate.
+
+Thus every retained common cut factors through $X,Y,W_0,W_1,I$, and the packet exports no independent tail, quotient stream, selected limit, host equality, trichotomy branch, or ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[CauchyTailIntersection RegSeqRat handoff]
+\label{thm:cauchy-tail-intersection-regseqrat-handoff}
+Let $T=(X,Y,W_0,W_1,I,D,R,E,H,C,P,N)$ be an accepted $\CauchyTailIntersectionUp$ carrier. Every $\RegSeqRatUp$ or $\RealUp$ consumer of the retained common tail-window intersection factors through
+$$
+I \longmapsto D \longmapsto R \longmapsto E
+$$
+after the source-window route $X,Y,W_0,W_1$ has been displayed. The handoff exports the finite retained intersection, dyadic tolerance ledger, regular rational readback, and real-name boundary, and it exports no quotient streams, selected limits, countable choice, host real equality, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with a $\RegSeqRatUp$ or $\RealUp$ consumer request. The source-window route has already displayed $X,Y,W_0,W_1$ and the retained common intersection $I$.
+
+The dyadic ledger $D$ is the next visible row. It reads tolerance requests only from the retained intersection, so it cannot introduce a separate budget schedule or unbounded tail selector.
+
+The regular readback $R$ consumes $I$ through $D$. Since $R$ is the only $\RegSeqRatUp$ row in the carrier, the consumer has no alternate regular-rational channel.
+
+The real handoff $E$ is downstream of $R$. It seals the displayed finite route for $\RealUp$ consumers but does not assert a host real equality or completeness theorem.
+
+Componentwise transport, continuation replay, package provenance, and local naming preserve this same chain. Therefore every regular or real-facing read factors through $I,D,R,E$ and exports none of the excluded objects.
+\end{proof}
+
+\closureat{CauchyTailIntersectionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyTailIntersectionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-tail-intersection-carrier}, \autoref{thm:cauchy-tail-intersection-namecert-obligations}, \autoref{thm:cauchy-tail-intersection-window-meet}, and \autoref{thm:cauchy-tail-intersection-regseqrat-handoff} seed the finite retained common tail-window intersection carrier for regular-Cauchy and real-name consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, host real equality, trichotomy, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, comparison admission, intersection exactness, tolerance compatibility, regular readback exactness, real handoff exactness, and structural exhaustion for BEDC.Derived.CauchyTailIntersectionUp.}
+  \constructivestory{A $\CauchyTailIntersectionUp$ packet is generated from two regular-Cauchy source rows, two displayed finite tail windows, one retained common intersection row, a dyadic tolerance ledger, a regular rational readback, a real-name handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

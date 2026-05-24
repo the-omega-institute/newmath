@@ -243,4 +243,22 @@ theorem ClosedBoundedIntervalUniformModulusTasteGate_single_carrier_alignment :
           closedBoundedIntervalUniformModulus_round_trip,
           rfl⟩⟩⟩
 
+theorem ClosedBoundedIntervalUniformModulus_heine_cantor_route_rows
+    (I : ClosedBoundedIntervalUniformModulusUp) :
+    ∃ A B R C D L M U H Q P N : BHist,
+      closedBoundedIntervalUniformModulusFields I = [A, B, R, C, D, L, M, U, H, Q, P, N] ∧
+        closedBoundedIntervalUniformModulusFromEventFlow
+            (([A, B, R, C, D, L, M, U, H, Q, P, N] : List BHist).map
+              closedBoundedIntervalUniformModulusEncodeBHist) =
+          some I ∧
+          closedBoundedIntervalUniformModulusEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases I with
+  | mk A B R C D L M U H Q P N =>
+      exact
+        ⟨A, B, R, C, D, L, M, U, H, Q, P, N, rfl,
+          closedBoundedIntervalUniformModulus_round_trip
+            (ClosedBoundedIntervalUniformModulusUp.mk A B R C D L M U H Q P N),
+          rfl⟩
+
 end BEDC.Derived.ClosedBoundedIntervalUniformModulusUp

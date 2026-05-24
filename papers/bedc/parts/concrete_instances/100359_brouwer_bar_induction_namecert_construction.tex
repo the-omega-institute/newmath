@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\BrouwerBarInductionUp$}
+\label{ch:concrete-instances-brouwer-bar-induction-namecert}
+\origin{human}
+
+Following Brouwer and Troelstra--van Dalen on spreads, bars, and bar induction, the $\BrouwerBarInductionUp$ packet records the finite barred-spread boundary needed by constructive Real and Completion work. It is positioned after the finite fan surface of \autoref{ch:concrete-instances-fantheorem-namecert}, the prefix-law surface of \autoref{ch:concrete-instances-spread-law-namecert}, and the finite choice-sequence surface of \autoref{ch:concrete-instances-choice-sequence-namecert}. Downstream Real and Completion consumers may cite it only through the $\StreamNameUp$ window discipline, the $\RegSeqRatUp$ readback route, and the terminal $\RealUp$ seal; they do not receive countable choice, open-cover compactness, sequential compactness, selected infinite branches, quotient stream equality, or ambient real completeness.
+
+\begin{definition}[Brouwer bar induction carrier]
+\label{def:brouwer-bar-induction-carrier}
+A $\BrouwerBarInductionUp$ carrier is a finite barred-spread packet
+$$
+K=(T,B,M,I,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the finite prefix-tree row for the currently inspected spread. It records the displayed root, prefix closure, and finite extension rows, not a completed infinite branch.
+\item $B$ is the decidable bar row on prefixes of $T$, including the displayed Bool decisions for every prefix exposed by the current packet.
+\item $M$ is the monotone coverage row, asserting that whenever a displayed prefix is barred, every displayed extension remains barred through the same prefix-tree route.
+\item $I$ is the induction-step replay row. It records the local backwards step from barred immediate extensions to the displayed parent prefix, using only the finite children visible in $T$.
+\item $W$ is the $\StreamNameUp$ window row by which Real and Completion consumers may request finite observations of the spread.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those windows when a regular-rational consumer reads the packet.
+\item $E$ is the $\RealUp$ handoff row reached only after $T,B,M,I,W,R$ and the structural rows have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the prefix tree, bar decisions, monotone coverage, induction replay, StreamName windows, RegSeqRat readback, Real handoff, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from prefix inspection through bar decisions, monotone closure, induction-step replay, StreamName windows, RegSeqRat readback, and the Real handoff.
+\item $P$ is the $\Pkg$ provenance over $\BrouwerBarInductionUp$, $\FanTheoremUp$, $\SpreadLawUp$, $\ChoiceSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BrouwerBarInductionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $T,B,M,I,W,R,E,H,C,P,N$. It has no coordinate for countable choice, open-cover compactness, sequential compactness, quotient equality of streams, a selected infinite branch, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.BrouwerBarInductionUp.BrouwerBarInductionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Brouwer bar induction prefix stability]
+\label{thm:brouwer-bar-induction-prefix-stability}
+Let $K=(T,B,M,I,W,R,E,H,C,P,N)$ be an accepted $\BrouwerBarInductionUp$ carrier. Every displayed prefix subtree of $T$, with the restricted bar row, monotone coverage row, induction-step replay row, StreamName windows, RegSeqRat readback, Real handoff, and structural rows inherited from $K$, repacks as an accepted $\BrouwerBarInductionUp$ carrier. The restricted packet has no access to tail values outside the displayed prefix subtree.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:brouwer-bar-induction-carrier}. A displayed prefix subtree is formed by retaining only the prefix rows already present in $T$ together with the corresponding decisions in $B$.
+
+The monotone row $M$ restricts because every retained extension is still an extension inside the original finite tree row. The induction-step row $I$ restricts for the same reason: the local backwards step is read only over the displayed children of the retained parent prefix.
+
+The rows $W,R,E$ remain downstream of the restricted prefix surface. Componentwise transport, continuation replay, provenance, and naming are supplied by $H,C,P,N$, so the restricted tuple is again the same finite packet type and exposes no hidden tail data.
+\end{proof}
+
+\begin{theorem}[Brouwer bar induction choice and completeness boundary]
+\label{thm:brouwer-bar-induction-choice-boundary}
+Every $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, or Completion-facing read of an accepted $\BrouwerBarInductionUp$ carrier factors through
+$$
+T,B,M,I,W,R,E,H,C,P,N.
+$$
+The read may use finite barred-prefix information and the displayed induction-step replay, but it cannot extract countable choice, open-cover compactness, sequential compactness without choice-like data, quotient stream equality, a selected infinite branch, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a downstream read. The only analytic-facing rows of the carrier are the StreamName window $W$, the RegSeqRat readback $R$, and the Real handoff $E$.
+
+Replay the continuation row $C$. The route first exposes the prefix tree $T$, the decidable bar row $B$, monotone coverage $M$, and the induction-step row $I$; only then can it open $W$, read $R$, and reach $E$.
+
+The structural rows $H,P,N$ preserve and name that same route. Since the carrier contains no selector for infinite branches, no quotient stream equality row, no open-cover row, no sequential compactness row, and no ambient completeness row, none of those principles can be exported by the packet.
+\end{proof}
+
+\begin{theorem}[Brouwer bar induction NameCert obligations]
+\label{thm:brouwer-bar-induction-namecert-obligations}
+For every accepted $\BrouwerBarInductionUp$ carrier $K=(T,B,M,I,W,R,E,H,C,P,N)$, the local $\NameCert_{\BrouwerBarInductionUp}$ surface consists exactly of the following five finite rows:
+\begin{enumerate}
+\item carrier admission for the prefix tree, decidable bar, monotone coverage, induction-step replay, StreamName window, RegSeqRat readback, Real handoff, transport, continuation, provenance, and naming rows;
+\item prefix stability, requiring every displayed prefix subtree to repack through \autoref{thm:brouwer-bar-induction-prefix-stability};
+\item monotone barred-spread replay, requiring bar decisions and extension closure to be read only through $T,B,M$;
+\item induction-step exactness, requiring every backwards step to pass through the displayed local replay row $I$ rather than through a host infinite branch;
+\item analytic boundary nonescape, requiring every Real or Completion-facing read to use the route of \autoref{thm:brouwer-bar-induction-choice-boundary}.
+\end{enumerate}
+No local obligation is stored outside these five rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple displayed in \autoref{def:brouwer-bar-induction-carrier}. The classifier can inspect only the listed coordinates, so the first obligation is exactly the projection of $T,B,M,I,W,R,E,H,C,P,N$.
+
+Prefix stability is \autoref{thm:brouwer-bar-induction-prefix-stability}. It shows that a shorter displayed subtree keeps the same bar, monotone, replay, analytic handoff, transport, continuation, provenance, and naming structure.
+
+The monotone barred-spread and induction-step clauses are read directly from $B,M,I$. The bar row gives only displayed Bool decisions, the monotone row preserves those decisions along displayed extensions, and the replay row supplies only the finite backwards step over visible children.
+
+The analytic boundary is \autoref{thm:brouwer-bar-induction-choice-boundary}. It forces every StreamName, RegSeqRat, Real, or Completion consumer through $W,R,E$ after the barred-spread rows have been displayed.
+
+The packet has no further coordinate. Therefore countable choice, open-cover compactness, sequential compactness, quotient stream equality, selected infinite branches, and ambient $\RealUp$ completeness are not local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BrouwerBarInductionUp$ Real or Completion-facing read factors through a displayed finite prefix tree, decidable bar row, monotone coverage row, induction-step replay row, StreamName window, RegSeqRat readback, Real handoff, transport, continuation, provenance, and local naming.}
+
+\independenceWitness{fantheorem, spread-law, choice-sequence, streamname, regseqrat, real: $\BrouwerBarInductionUp$ is not bijective to any listed sibling because it jointly carries a finite barred-spread prefix tree, decidable bar, monotone coverage, induction-step replay, analytic window handoff, transport, continuation, provenance, and local naming while refusing branch selection and ambient completeness.}
+
+\closureat{BrouwerBarInductionUp}{seedStr}
+
+\begin{closurestatus}{\BrouwerBarInductionUp}
+  \constructivestory{A $\BrouwerBarInductionUp$ packet is generated from a finite prefix tree, a decidable bar row, monotone coverage, induction-step replay, StreamName windows, RegSeqRat readback, a Real handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:brouwer-bar-induction-carrier}, \autoref{thm:brouwer-bar-induction-prefix-stability}, \autoref{thm:brouwer-bar-induction-choice-boundary}, and \autoref{thm:brouwer-bar-induction-namecert-obligations} seed the finite barred-spread boundary for Real and Completion-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, open-cover compactness, sequential compactness, quotient stream equality, selected infinite branches, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix stability, monotone barred-spread replay, induction-step exactness, analytic boundary nonescape, and TasteGate field faithfulness for BEDC.Derived.BrouwerBarInductionUp.}
+\end{closurestatus}

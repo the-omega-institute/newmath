@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySeparationUp$}
+\label{ch:concrete-instances-regularcauchyseparation-namecert}
+\origin{human}
+
+Following Bishop and Bridges-style regular Cauchy equality, the $\RegularCauchySeparationUp$ packet records how two regular rational names can be read as separated, or not yet separated at a displayed tolerance, before any $\RealUp$ seal is consumed. It sits over the regular rational rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the modulus surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The certificate keeps separation evidence as finite NameCert data, not as quotient real equality, host real equality, trichotomy, or ambient completeness.
+
+\begin{definition}[Regular Cauchy separation carrier]
+\label{def:regular-cauchy-separation-carrier}
+A $\RegularCauchySeparationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(L,R,W,D,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the left $\RegSeqRatUp$ regular rational name row.
+\item $R$ is the right $\RegSeqRatUp$ regular rational name row.
+\item $W$ is the $\StreamNameUp$ finite-window ledger naming the left and right observation windows inspected by the separation read.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic radii and rational comparison rows used at those windows.
+\item $M$ is the $\CauchyModulusUp$ separation-modulus evidence, stating which finite windows in $W$ must be displayed before the tolerance rows in $D$ may be read as equality or separation evidence.
+\item $E$ is the $\RealUp$ seal boundary reached only after $L,R,W,D,M$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two regular names, finite windows, dyadic tolerance rows, separation modulus evidence, Real seal boundary, continuation, provenance, and local naming rows.
+\item $C$ records the displayed $\Cont$ replay from every equality or separation read through $L,R,W,D,M,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchySeparationUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchySeparationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient real equality, host real equality, trichotomy, selected limits, countable choice, ambient Real completeness, or a standard bridge.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchySeparationUp.RegularCauchySeparationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy separation NameCert obligations]
+\label{thm:regular-cauchy-separation-namecert-obligations}
+For an accepted carrier $K=(L,R,W,D,M,E,H,C,P,N)$ of \autoref{def:regular-cauchy-separation-carrier}, the local $\NameCert_{\RegularCauchySeparationUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the two $\RegSeqRatUp$ source rows $L,R$, the $\StreamNameUp$ window ledger $W$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\CauchyModulusUp$ separation-modulus row $M$, the $\RealUp$ boundary row $E$, and the structural rows $H,C,P,N$;
+\item classifier exposure, stating that every equality or separation read of the packet is classified through the displayed route $L,R,W,D,M$ before it can reach $E$;
+\item finite-window stability, stating that transport through $H$ and replay through $C$ preserve the same left and right windows named by $W$;
+\item dyadic tolerance exactness, stating that the rational comparison rows read from $D$ are the only tolerance rows admitted for the displayed separation read;
+\item modulus boundary, stating that $M$ is the only row allowed to turn a requested equality or separation tolerance into finite windows of $W$;
+\item Real seal non-escape, stating that $E$ is a boundary row consumed only after $L,R,W,D,M,H,C,P,N$ have been retained;
+\item package provenance and local naming, stating that $P$ names exactly the listed sibling certificates and $N$ names the same finite packet as a local $\NameCert_{\RegularCauchySeparationUp}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $L,R,W,D,M,E$ are the analytic coordinates, while $H,C,P,N$ transport, replay, source, and name the same finite packet.
+
+Read the classifier in dependency order. A separation or equality request first reads the two regular rational names $L$ and $R$, then the finite observation windows $W$, then the dyadic tolerance ledger $D$, and then the modulus row $M$ that binds the requested tolerance to those windows.
+
+The Real-facing row is downstream of that route. Since $E$ is stored only after $L,R,W,D,M$, a consumer that bypasses one of those rows has not obtained a read of the packet's Real seal boundary.
+
+The structural rows add no hidden equality principle. Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve the displayed route, so the listed rows exhaust the seed NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy separation modulus boundary]
+\label{thm:regular-cauchy-separation-modulus-boundary}
+For every accepted $\RegularCauchySeparationUp$ packet $K=(L,R,W,D,M,E,H,C,P,N)$, every equality or separation read factors through the finite route
+$$
+(L,R)\longmapsto W\longmapsto D\longmapsto M
+$$
+before reaching the $\RealUp$ seal boundary $E$. Thus the packet exports no equality or separation evidence whose source is a detached Real value, a host equality relation, trichotomy, a selected limit, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:regular-cauchy-separation-namecert-obligations}. The classifier exposure places every accepted equality or separation read on the displayed left and right regular names, their finite window ledger, the dyadic tolerance ledger, and the separation-modulus row.
+
+The modulus row is the last analytic gate before the seal boundary. It converts the requested tolerance into the finite windows already named by $W$ and the dyadic comparison rows already named by $D$; it does not select a completed real or import host equality.
+
+Finally read $E$ as a boundary row. The package reaches $\RealUp$ only after the finite route through $L,R,W,D,M$ has been displayed, and the transport, continuation, provenance, and local naming rows preserve that route. Therefore every equality or separation read factors through $W,D,M$ before reaching the Real seal boundary.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchySeparationUp$ consumer that reaches an equality or separation read without the displayed $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledger, and $\CauchyModulusUp$ separation-modulus row refutes the carrier surface.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, cauchymodulus, real: no listed sibling supplies the whole ten-row packet $K=(L,R,W,D,M,E,H,C,P,N)$, because each sibling contributes only regular-name rows, finite windows, dyadic tolerances, modulus evidence, or a Real seal boundary while this chapter binds the separation route with transport, replay, provenance, and local naming.}
+
+\begin{closurestatus}{\RegularCauchySeparationUp}
+  \constructivestory{A $\RegularCauchySeparationUp$ packet is generated from left and right $\RegSeqRatUp$ rows, a $\StreamNameUp$ finite-window ledger, a $\DyadicRatCoreUp$ tolerance ledger, a $\CauchyModulusUp$ separation-modulus row, a $\RealUp$ seal boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-separation-carrier}, \autoref{thm:regular-cauchy-separation-namecert-obligations}, and \autoref{thm:regular-cauchy-separation-modulus-boundary} seed the certified separation boundary for regular Cauchy names over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient real equality, host real equality, trichotomy, selected limits, countable choice, ambient Real completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exposure, finite-window stability, dyadic tolerance exactness, modulus boundary, Real seal non-escape, package provenance, and local naming for the displayed separation packet.}
+\end{closurestatus}

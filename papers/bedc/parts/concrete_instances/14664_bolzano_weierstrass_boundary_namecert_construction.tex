@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\BolzanoWeierstrassBoundaryUp$}
+\label{ch:concrete-instances-bolzano-weierstrass-boundary-namecert}
+\origin{human}
+
+Following Bolzano, Weierstrass, and Bishop--Bridges, the $\BolzanoWeierstrassBoundaryUp$ packet records the constructive finite boundary from a bounded real sequence to a $\RealUp$ cluster seal. It consumes the bounded source surface of \autoref{ch:concrete-instances-boundedrealsequence-namecert}, the subsequence compactness route of \autoref{ch:concrete-instances-bolzanoweierstrass-namecert}, the selector handoff of \autoref{ch:concrete-instances-bolzanoweierstrassselector-namecert}, the monotone subsequence ledger of \autoref{ch:concrete-instances-monotone-subsequence-namecert}, the finite-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}. The packet is a boundary certificate for the bounded-sequence cluster route; it is not open-cover compactness, a host completeness theorem, quotient equality of streams, a least cluster selector, or a choice-selected arbitrary subsequence.
+
+\begin{definition}[Bolzano--Weierstrass boundary carrier]
+\label{def:bolzano-weierstrass-boundary-carrier}
+A $\BolzanoWeierstrassBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,W,Q,D,BW,L,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the bounded source row, read as a $\BoundedRealSequenceUp$ packet and carrying only inspected sequence indices, finite bounds, and the displayed source route needed by downstream consumers.
+\item $W$ is the finite $\StreamNameUp$ window family exposed for the inspected source indices and selected subsequence indices.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the displayed windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare the displayed windows at the precisions requested by $Q$ and by the seal row.
+\item $BW$ is the $\BolzanoWeierstrassUp$ packet that routes the bounded real sequence through finite interval nets and regular subsequence readback.
+\item $L$ is the $\BolzanoWeierstrassSelectorUp$ selector packet that keeps the finite selector surface visible before any real-facing seal is consumed.
+\item $T$ is the $\MonotoneSubsequenceUp$ route naming the monotone selected subsequence windows used by $L$ and $BW$.
+\item $E$ is the terminal $\RealUp$ cluster seal reached only after $S,W,Q,D,BW,L,T$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the bounded source, stream windows, regular readback, dyadic tolerances, Bolzano--Weierstrass route, selector route, monotone subsequence route, Real seal, continuation rows, provenance rows, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the bounded source to stream windows, from stream windows to dyadic and regular readback, from selector and monotone subsequence rows to the Bolzano--Weierstrass route, and from that route to the Real cluster seal.
+\item $P$ is the $\Pkg$ provenance over $\BolzanoWeierstrassBoundaryUp$, $\BoundedRealSequenceUp$, $\BolzanoWeierstrassUp$, $\BolzanoWeierstrassSelectorUp$, $\MonotoneSubsequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BolzanoWeierstrassBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for open-cover compactness, ambient completeness, quotient-stream equality, a least cluster selector, a hidden tail selector, or choice over arbitrary subsequences.
+\end{definition}
+
+\begin{theorem}[Bolzano--Weierstrass boundary NameCert obligations]
+\label{thm:bolzano-weierstrass-boundary-namecert-obligations}
+For every accepted $\BolzanoWeierstrassBoundaryUp$ carrier $B=(S,W,Q,D,BW,L,T,E,H,C,P,N)$, the local $\NameCert_{\BolzanoWeierstrassBoundaryUp}$ surface consists exactly of carrier admission for the twelve displayed rows, bounded-source admission through $S$, finite-window coverage through $W$, regular readback through $Q$, dyadic tolerance coverage through $D$, Bolzano--Weierstrass route admission through $BW$, selector-route admission through $L$, monotone-subsequence admission through $T$, Real cluster sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bolzano-weierstrass-boundary-carrier}. The bounded source row $S$ is read through \autoref{ch:concrete-instances-boundedrealsequence-namecert}, so the source side is already a finite sequence-window and bound certificate before the cluster route is inspected.
+
+Read the analytic route next. The packet $BW$ supplies the bounded-sequence subsequence compactness route of \autoref{ch:concrete-instances-bolzanoweierstrass-namecert}, while $L$ and $T$ expose the selector and monotone-subsequence rows consumed by that route.
+
+Now inspect the finite completion-facing rows. The windows $W$, regular readback $Q$, and dyadic tolerance ledger $D$ are precisely the surfaces read through the StreamName, RegSeqRat, and DyadicRatCore chapters before the $\RealUp$ seal $E$ is available.
+
+Finally the structural rows $H,C,P,N$ transport, replay, source, and name only the displayed source, route, selector, window, tolerance, readback, and seal rows. Since no other coordinate is present, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bolzano--Weierstrass boundary source handoff]
+\label{thm:bolzano-weierstrass-boundary-source-handoff}
+Every accepted $\BolzanoWeierstrassBoundaryUp$ carrier hands a bounded real sequence source to the Bolzano--Weierstrass route only through
+$$
+S\longmapsto W\longmapsto Q,D\longmapsto L,T\longmapsto BW
+$$
+together with $H,C,P,N$. Consequently the source consumed by the cluster route is the finite $\BoundedRealSequenceUp$ surface, not a host sequence object, an open-cover compactness principle, trichotomy of reals, quotient equality of streams, or a choice-selected arbitrary subsequence.
+\end{theorem}
+\begin{proof}
+Start with $S$. By \autoref{ch:concrete-instances-boundedrealsequence-namecert}, this row exposes bounded sequence data through inspected indices, finite stream windows, regular readback, Real-name sealing, and an interval-net bound row.
+
+The carrier then reads $W,Q,D$. These rows make the inspected source and selected subsequence windows visible through the finite StreamName, RegSeqRat, and DyadicRatCore surfaces before the selector or cluster route can be consumed.
+
+Pass through $L$ and $T$. The selector packet and monotone subsequence packet display the selected-window route that the Bolzano--Weierstrass packet reads; the route is finite and cofinal on the inspected thresholds, not a choice-selected subsequence.
+
+Only after these rows does $BW$ receive the source. Transport, replay, provenance, and local naming preserve the same path, so the handoff cannot bypass the finite bounded-source certificate.
+\end{proof}
+
+\begin{theorem}[Bolzano--Weierstrass boundary Real seal nonescape]
+\label{thm:bolzano-weierstrass-boundary-real-seal-nonescape}
+Every $\RealUp$ cluster seal read from an accepted $\BolzanoWeierstrassBoundaryUp$ carrier factors through
+$$
+S,W,Q,D,L,T,BW,E,H,C,P,N.
+$$
+The seal row $E$ is reachable only after the bounded source, finite windows, regular readback, dyadic tolerance ledger, selector route, monotone-subsequence route, and Bolzano--Weierstrass route have been displayed. Thus a real-facing consumer receives a finite boundary certificate for the bounded-sequence cluster route and receives no open-cover compactness theorem, host completeness row, quotient equality of streams, least cluster selector, hidden tail selector, or arbitrary subsequence choice.
+\end{theorem}
+\begin{proof}
+Begin with the handoff of \autoref{thm:bolzano-weierstrass-boundary-source-handoff}. It places the bounded source, finite windows, regular readback, dyadic tolerances, selector route, monotone subsequence route, and Bolzano--Weierstrass packet before any terminal real-facing row.
+
+Read the seal row through \autoref{ch:concrete-instances-real-namecert}. The row $E$ is therefore a $\RealUp$ cluster seal for the displayed subsequence route, not a host limit, quotient representative, or separate completeness field.
+
+The continuation and transport rows preserve the same factorization. Since the carrier has no coordinate for open-cover compactness, host completeness, quotient equality, least cluster selection, hidden tail selection, or arbitrary subsequence choice, no real-facing read can escape the listed finite rows.
+\end{proof}
+
+\falsifiablePrediction{Every $\BolzanoWeierstrassBoundaryUp$ cluster-seal read factors through $\BoundedRealSequenceUp$, $\BolzanoWeierstrassUp$, $\BolzanoWeierstrassSelectorUp$, $\MonotoneSubsequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ before reaching the $\RealUp$ seal.}
+
+\independenceWitness{boundedrealsequence, bolzanoweierstrass, bolzanoweierstrassselector, monotonesubsequence, streamname, regseqrat, dyadicratcore, real: $\BolzanoWeierstrassBoundaryUp$ is not bijective to any listed sibling because it jointly carries a bounded source row, finite windows, regular readback, dyadic tolerances, Bolzano--Weierstrass routing, selector routing, monotone subsequence routing, Real cluster sealing, transport, continuation, package provenance, and local naming.}
+
+\closureat{BolzanoWeierstrassBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\BolzanoWeierstrassBoundaryUp}
+  \constructivestory{A $\BolzanoWeierstrassBoundaryUp$ packet is generated from a bounded real sequence source, finite StreamName windows, RegSeqRat readback, DyadicRatCore tolerance rows, Bolzano-Weierstrass routing, selector routing, monotone-subsequence routing, a RealUp cluster seal, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bolzano-weierstrass-boundary-carrier}, \autoref{thm:bolzano-weierstrass-boundary-namecert-obligations}, \autoref{thm:bolzano-weierstrass-boundary-source-handoff}, and \autoref{thm:bolzano-weierstrass-boundary-real-seal-nonescape} bind the finite boundary from bounded real sequences to Real cluster seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, open-cover compactness, host completeness, quotient equality of streams, least cluster selection, hidden tail selection, or arbitrary subsequence choice.}
+  \upgradepath{Lean closure requires carrier admission, NameCert obligations, bounded-source handoff, Real seal nonescape, and TasteGate field faithfulness for BEDC.Derived.BolzanoWeierstrassBoundaryUp.}
+\end{closurestatus}

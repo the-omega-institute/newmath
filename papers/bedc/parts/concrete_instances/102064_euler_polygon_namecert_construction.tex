@@ -1,0 +1,139 @@
+\chapter{A Concrete Naming Certificate for $\EulerPolygonUp$}
+\label{ch:concrete-instances-euler-polygon-namecert}
+\origin{human}
+
+Following Euler's polygonal method and Bishop--Bridges constructive analysis, the $\EulerPolygonUp$ packet records the finite approximation route by which local slope data, a dyadic mesh, and displayed polygon vertices are read before any $\RegSeqRatUp$ or $\RealUp$ consumer sees a terminal seal. It sits on the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the local Lipschitz control packet of \autoref{ch:concrete-instances-lipschitzmap-namecert}. The certificate names a finite polygonal approximation object; it is not an ODE solution, not a selected limiting curve, not quotient stream equality, not host real equality, not countable choice, and not ambient $\RealUp$ completeness.
+
+\begin{definition}[Euler polygon carrier]
+\label{def:euler-polygon-carrier}
+An $\EulerPolygonUp$ carrier is a finite $\BHist$ packet
+$$
+E=(M,A,L,V,D,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the mesh row, listing a finite dyadic time grid, the step widths between adjacent grid points, and the local tolerance budget attached to each step.
+\item $A$ is the initial point row, recording the displayed initial time and value from which the polygonal path begins.
+\item $L$ is the local slope and Lipschitz row, carrying the finite slope samples and the local Lipschitz bounds licensed through $\LipschitzMapUp$ before any vertex is advanced.
+\item $V$ is the polygon-vertex $\StreamNameUp$ window row, listing the finite sequence of vertices obtained by reading $A$, $M$, and $L$ in order.
+\item $D$ is the $\DyadicRatCoreUp$ step ledger, storing the dyadic products, radius comparisons, slack cells, and accumulated step errors used by the vertex row.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the vertex windows and the dyadic ledger.
+\item $R$ is the terminal $\RealUp$ seal row, reachable only after $M,A,L,V,D,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the mesh, initial point, local slope/Lipschitz row, vertex windows, step ledger, readback row, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite polygon route
+$$
+(M,A,L)\longmapsto V\longmapsto D\longmapsto Q\longmapsto R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\EulerPolygonUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\LipschitzMapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EulerPolygonUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,A,L,V,D,Q,R,H,C,P,N$. It has no coordinate for an ODE solution, selected limiting curve, global existence theorem, quotient stream equality, host real equality, countable-choice schedule, ambient $\RealUp$ completeness, Lean evidence, or standard-bridge data.
+\end{definition}
+
+\begin{theorem}[Euler polygon NameCert obligations]
+\label{thm:euler-polygon-namecert-obligations}
+For every accepted $\EulerPolygonUp$ carrier
+$$
+E=(M,A,L,V,D,Q,R,H,C,P,N),
+$$
+the local $\NameCert_{\EulerPolygonUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the dyadic mesh, initial point, local slope/Lipschitz row, polygon-vertex $\StreamNameUp$ windows, $\DyadicRatCoreUp$ step ledger, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal, and structural rows $H,C,P,N$;
+\item mesh exposure, requiring every vertex advance to consult the displayed mesh row $M$ and its dyadic step width before any readback row is consumed;
+\item initial-point anchoring, requiring the first vertex window in $V$ to be sourced from the displayed initial row $A$;
+\item local slope control, requiring each finite step to read its slope sample and Lipschitz bound from $L$ rather than from an external differential equation object;
+\item dyadic step accounting, requiring $D$ to store exactly the dyadic products, radius comparisons, slack cells, and accumulated error cells consumed by the displayed vertex windows;
+\item regular rational handoff, requiring $Q$ to be the only route by which the polygon-vertex windows become a $\RegSeqRatUp$ name;
+\item Real-seal nonescape, requiring every consumer of $R$ to pass through $M,A,L,V,D,Q$ and the structural rows, with no ODE solution, selected limit, quotient stream equality, host real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge credential.
+\end{enumerate}
+No Euler polygon obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $E=(M,A,L,V,D,Q,R,H,C,P,N)$. Carrier admission exposes exactly the mesh, initial point, local slope/Lipschitz row, vertex windows, dyadic ledger, regular readback, terminal Real seal, and the four structural rows.
+
+The mesh and initial-point clauses are forced at the start of the route. A vertex advance has no source coordinate except $M$ for its step width and $A$ for the initial vertex.
+
+Local slope control is the row $L$. Each displayed step reads its slope sample and Lipschitz bound there, so the packet does not import a separate differential-equation object.
+
+Dyadic accounting is then forced by $D$. The ledger stores the products, radius comparisons, slack cells, and accumulated error cells consumed by $V$ before any regular rational readback can occur.
+
+Finally, $Q,R,H,C,P,N$ exhaust the handoff boundary. The readback row $Q$ is the only route from vertex windows to the Real seal $R$, while transport, replay, provenance, and naming preserve only the displayed rows. Thus no excluded solution, selected limit, quotient equality, host equality, choice schedule, ambient completeness principle, Lean evidence, or bridge credential is exported.
+\end{proof}
+
+\begin{theorem}[Euler polygon step-ledger induction]
+\label{thm:euler-polygon-step-ledger-induction}
+For every accepted $\EulerPolygonUp$ carrier
+$$
+E=(M,A,L,V,D,Q,R,H,C,P,N),
+$$
+induction over the finite dyadic mesh row $M$ shows that every displayed prefix of the polygon route has a matching prefix of polygon-vertex windows in $V$ and accumulated dyadic ledger cells in $D$. The base prefix is the initial row $A$. At each successor mesh step, the route reads exactly one step width from $M$, exactly one slope and Lipschitz-control row from $L$, appends one vertex window to $V$, and appends the corresponding dyadic product, slack, and error cell to $D$. Thus the completed finite ledger is available before the $\RegSeqRatUp$ row $Q$ or the terminal $\RealUp$ seal $R$ can be read.
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite mesh row $M$. The empty-prefix case exposes no step width, so the only route prefix is the initial point row $A$. The matching vertex prefix is the first displayed vertex window in $V$, and the matching ledger prefix in $D$ is empty except for the accumulated zero-step accounting attached to the initial row.
+
+For the successor case, assume the prefix already has matching displayed vertex windows and accumulated dyadic ledger cells. The next mesh entry of $M$ supplies the single step width allowed for the next advance. The local row $L$ supplies the corresponding slope sample and Lipschitz bound; no external differential-equation object is available in the carrier.
+
+Using exactly those displayed rows, the polygon route appends one vertex window to $V$. The dyadic ledger $D$ appends the product cell for the step, the slack comparison for the local radius budget, and the accumulated error cell for the enlarged prefix. Hence the extended route prefix again has matching prefixes in $V$ and $D$.
+
+Finite induction over all displayed mesh entries therefore constructs the full vertex-and-ledger route
+$$
+(M,A,L)\longmapsto V\longmapsto D .
+$$
+The existing $\RegSeqRatUp$ handoff and $\RealUp$ nonescape results consume this completed finite induction ledger: $Q$ can read only the already displayed $V,D$ prefixes, and $R$ is downstream of $Q$.
+\end{proof}
+
+\begin{theorem}[Euler polygon RegSeqRat handoff]
+\label{thm:euler-polygon-regseqrat-handoff}
+For every accepted $\EulerPolygonUp$ carrier
+$$
+E=(M,A,L,V,D,Q,R,H,C,P,N),
+$$
+the $\RegSeqRatUp$ readback row $Q$ is determined only by the polygon-vertex $\StreamNameUp$ windows $V$ together with the $\DyadicRatCoreUp$ step ledger $D$ and the displayed structural rows $H,C,P,N$. In particular, $Q$ cannot be replaced by a selected solution curve, quotient equality of vertex streams, host real equality, or an ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Read the packet through the vertex boundary. The only coordinates feeding a regular rational name are the finite vertex windows $V$ and the dyadic step ledger $D$.
+
+The mesh, initial point, and local slope rows determine which windows and ledger cells are displayed, but they do not themselves export a $\RegSeqRatUp$ object. The handoff to a regular rational name occurs at $Q$.
+
+The structural rows preserve that same handoff. Componentwise $\hsame$ transports $V,D,Q$, displayed $\Cont$ replays their order, and $P,N$ name the route without adding a second readback surface.
+
+Therefore every accepted regular-rational read factors through $V,D,Q,H,C,P,N$. The carrier contains no coordinate from which a selected solution curve, quotient stream equality, host real equality, or ambient completeness witness could replace $Q$.
+\end{proof}
+
+\begin{theorem}[Euler polygon Real-seal nonescape]
+\label{thm:euler-polygon-real-seal-nonescape}
+For every accepted $\EulerPolygonUp$ carrier
+$$
+E=(M,A,L,V,D,Q,R,H,C,P,N),
+$$
+every $\RealUp$ consumer of the terminal seal $R$ factors through the displayed finite route
+$$
+(M,A,L)\longmapsto V\longmapsto D\longmapsto Q\longmapsto R
+$$
+together with componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The seal does not assert existence of an ODE solution, convergence of refined meshes, uniqueness of a limiting curve, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a seal-facing consumer. The carrier exposes $R$ only as the terminal coordinate after mesh data, initial data, local slope control, vertex windows, dyadic step accounting, and regular rational readback have been displayed.
+
+Trace the route backward from $R$. The seal is downstream of $Q$, the readback row is downstream of $D$ and $V$, and the vertex windows are downstream of the mesh, initial point, and local slope/Lipschitz rows.
+
+The structural rows preserve this order. The transport row $H$ is componentwise, the replay row $C$ displays the same finite route, and $P,N$ provide provenance and local naming without adding an independent Real surface.
+
+Thus every Real-facing use of the seal factors through $M,A,L,V,D,Q,R,H,C,P,N$. Since the packet has no coordinate for global solution existence, refined-mesh convergence, limiting-curve uniqueness, host real equality, countable choice, or ambient Real completeness, none of those claims escapes through the terminal seal.
+\end{proof}
+
+\falsifiablePrediction{Every $\EulerPolygonUp$ Real-facing read factors through a dyadic mesh row, an initial point row, a local slope/Lipschitz row, polygon-vertex StreamName windows, a DyadicRatCore step ledger, a RegSeqRat readback row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, lipschitzmap: $\EulerPolygonUp$ is not bijective to any listed sibling because it jointly carries a dyadic mesh, initial point, local slope/Lipschitz data, polygon-vertex windows, step-error accounting, regular rational handoff, terminal Real seal routing, transport, replay, provenance, and local naming.}
+
+\closureat{EulerPolygonUp}{seedStr}
+
+\begin{closurestatus}{\EulerPolygonUp}
+  \constructivestory{An $\EulerPolygonUp$ packet is generated from a dyadic mesh, an initial point row, local slope and Lipschitz rows, polygon-vertex StreamName windows, a DyadicRatCore step ledger, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:euler-polygon-carrier}, \autoref{thm:euler-polygon-namecert-obligations}, \autoref{thm:euler-polygon-regseqrat-handoff}, and \autoref{thm:euler-polygon-real-seal-nonescape} seed the finite Euler polygon route used by Real and Completion consumers before any terminal seal is read.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ODE solution existence, refined-mesh convergence, selected limiting curves, quotient stream equality, host real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, mesh exposure, initial-point anchoring, local slope control, dyadic step accounting, RegSeqRat handoff, Real-seal nonescape, transport/replay/provenance coverage, and non-escape for BEDC.Derived.EulerPolygonUp.}
+\end{closurestatus}

@@ -9,6 +9,18 @@ open BEDC.FKernel.Unary
 def MetricspacePublicDistanceSurface (x y d budget provenance : BHist) : Prop :=
   MetricDistanceWitness x y d ∧ UnaryHistory budget ∧ Cont d budget provenance
 
+def MetricLedgerPolicy (x y d budget provenance : BHist) : Prop :=
+  MetricspacePublicDistanceSurface x y d budget provenance ∧
+    hsame provenance (append d budget)
+
+theorem MetricLedgerPolicy_rows {x y d budget provenance : BHist} :
+    MetricLedgerPolicy x y d budget provenance ->
+      MetricDistanceWitness x y d ∧ UnaryHistory budget ∧ Cont d budget provenance ∧
+        hsame provenance (append d budget) := by
+  intro policy
+  exact And.intro policy.left.left
+    (And.intro policy.left.right.left (And.intro policy.left.right.right policy.right))
+
 theorem MetricspacePublicDistanceSurface_exhaustion {x y d budget provenance : BHist} :
     MetricspacePublicDistanceSurface x y d budget provenance ->
       UnaryHistory x ∧ UnaryHistory y ∧ UnaryHistory d ∧ UnaryHistory budget ∧
@@ -45,5 +57,23 @@ theorem MetricspacePublicDistanceSurface_visible_context_consumer_surface
     (And.intro publicRows.right.right.right.right.left
       (And.intro publicRows.right.right.right.right.right.right.left
         publicRows.right.right.right.right.right.right.right))
+
+theorem MetricspacePublicDistanceSurface_hsame_transport
+    {x x' y y' d d' budget budget' provenance provenance' : BHist} :
+    MetricspacePublicDistanceSurface x y d budget provenance ->
+      hsame x x' ->
+        hsame y y' ->
+          hsame d d' ->
+            hsame budget budget' ->
+              hsame provenance provenance' ->
+                MetricspacePublicDistanceSurface x' y' d' budget' provenance' ∧
+                  Cont d' budget' provenance' := by
+  intro surface sameX sameY sameD sameBudget sameProvenance
+  cases sameX
+  cases sameY
+  cases sameD
+  cases sameBudget
+  cases sameProvenance
+  exact And.intro surface surface.right.right
 
 end BEDC.Derived.MetricUp

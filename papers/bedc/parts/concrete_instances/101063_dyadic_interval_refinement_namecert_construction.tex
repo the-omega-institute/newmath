@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\DyadicIntervalRefinementUp$}
+\label{ch:concrete-instances-dyadic-interval-refinement-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Moore--Kearfott--Cloud interval analysis, the $\DyadicIntervalRefinementUp$ packet isolates one finite dyadic subdivision step before any infinite nested route is read. It sits over the dyadic endpoint core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the interval surface of \autoref{ch:concrete-instances-dyadicinterval-namecert}, the midpoint selector of \autoref{ch:concrete-instances-located-interval-midpoint-namecert}, the finite nesting discipline of \autoref{ch:concrete-instances-nesteddyadicinterval-namecert}, the Cauchy handoff of \autoref{ch:concrete-instances-nested-dyadic-cauchy-namecert}, the finite schedule interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a one-step finite-means carrier for L10 real and completion work; it is not an open-cover compactness theorem, a selected branch, a quotient stream equality, a trichotomy principle, countable choice, ambient real completeness, a Lean theorem, or a bridge check.
+
+\begin{definition}[Dyadic interval refinement carrier]
+\label{def:dyadic-interval-refinement-carrier}
+A $\DyadicIntervalRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,J_0,J_1,E,R,S,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the parent $\DyadicIntervalUp$ row. It exposes the ordered dyadic endpoints through $\DyadicRatCoreUp$ and the parent containment ledger read by later interval consumers.
+\item $J_0$ and $J_1$ are the two child $\DyadicIntervalUp$ rows produced by the displayed midpoint row. Their outer endpoints are reused from $I$, and their shared endpoint is the midpoint supplied by $\LocatedIntervalMidpointUp$.
+\item $E$ is the endpoint-reuse ledger. It records that the lower endpoint of $J_0$ is the lower endpoint of $I$, the upper endpoint of $J_1$ is the upper endpoint of $I$, and the upper endpoint of $J_0$ is the lower endpoint of $J_1$.
+\item $R$ is the refinement-containment ledger. It records both child intervals as dyadic subintervals of $I$, and records that any retained child row is a finite step admissible for the $\NestedDyadicIntervalUp$ surface.
+\item $S$ is the finite $\StreamNameUp$ window row. It names only the parent endpoint observations, child endpoint observations, midpoint observation, and retained-child flag opened by this one refinement step.
+\item $Q$ is the $\RegSeqRatUp$ readback row. It repacks the scheduled dyadic observations from $S$ as regular rational data for downstream Cauchy consumers.
+\item $H$ records componentwise $\hsame$ transport for the parent interval, child intervals, endpoint-reuse ledger, refinement-containment ledger, stream window, regular rational readback, replay rows, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a refinement request through $I,J_0,J_1,E,R,S,Q,H,P,N$ without adding a branch selector, quotient stream, or completed real point.
+\item $P$ is the $\Pkg$ provenance over $\DyadicIntervalRefinementUp$, $\DyadicRatCoreUp$, $\DyadicIntervalUp$, $\LocatedIntervalMidpointUp$, $\NestedDyadicIntervalUp$, $\NestedDyadicCauchyUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicIntervalRefinementUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these eleven displayed rows. The carrier has no coordinate for open-cover compactness, selected infinite branches, quotient stream equality, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.DyadicIntervalRefinementUp.DyadicIntervalRefinementTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Dyadic interval refinement NameCert obligations]
+\label{thm:dyadic-interval-refinement-namecert-obligations}
+For every accepted $\DyadicIntervalRefinementUp$ carrier
+$$
+K=(I,J_0,J_1,E,R,S,Q,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicIntervalRefinementUp}$ surface consists exactly of carrier admission, parent dyadic interval exposure, two child dyadic interval exposures, endpoint-reuse exactness, dyadic containment and retained-step exactness, finite StreamName window exposure, RegSeqRat readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row. No local NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-interval-refinement-carrier}. The projection exposes one parent interval row, two child interval rows, one endpoint-reuse row, one refinement-containment row, one stream window, one regular rational readback, and the structural rows.
+
+The parent and child exposure obligations are forced by $I,J_0,J_1$. Endpoint-reuse exactness is forced by $E$, and containment exactness is forced by $R$; a consumer can inspect no other interval or containment object through the classifier.
+
+The downstream read rows are $S$ and $Q$. The StreamName row lists exactly the finite observations opened by this subdivision step, while the RegSeqRat row repacks only those observations as regular rational data.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same displayed rows. Since the carrier has no extra coordinate, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dyadic interval refinement window handoff]
+\label{thm:dyadic-interval-refinement-window-handoff}
+Let $K=(I,J_0,J_1,E,R,S,Q,H,C,P,N)$ be an accepted $\DyadicIntervalRefinementUp$ carrier. Every $\NestedDyadicIntervalUp$, $\StreamNameUp$, or $\RegSeqRatUp$ consumer of the refinement factors through the finite route
+$$
+I,J_0,J_1 \longmapsto E \longmapsto R \longmapsto S \longmapsto Q \longmapsto H,C,P,N .
+$$
+Thus the consumer receives a parent interval, two displayed child intervals, endpoint reuse, finite containment, the scheduled observation window, and regular rational readback, but receives no infinite branch selector or quotient stream equality.
+\end{theorem}
+\begin{proof}
+Start with the interval rows. The parent row $I$ and child rows $J_0,J_1$ provide the only endpoint data available to any nested-window consumer.
+
+Use $E$ to identify the reused endpoints and shared midpoint. Then use $R$ to read the finite containment relation that makes either child an admissible retained step for a nested dyadic interval prefix.
+
+The schedule row $S$ fixes which endpoint, midpoint, and retained-child observations may be opened. The readback row $Q$ then repacks those finite observations for regular rational consumers.
+
+The structural rows $H,C,P,N$ only transport, replay, source, and name this route. They do not add an infinite branch, a quotient stream, or an external real point, so every listed consumer factors through the displayed finite handoff.
+\end{proof}
+
+\begin{theorem}[Dyadic interval refinement Real boundary]
+\label{thm:dyadic-interval-refinement-real-boundary}
+For every accepted $\DyadicIntervalRefinementUp$ carrier $K=(I,J_0,J_1,E,R,S,Q,H,C,P,N)$, every $\NestedDyadicCauchyUp$ or $\RealUp$-facing read must pass through the finite StreamName window $S$ and the RegSeqRat readback $Q$ before any real-completion consumer can inspect the row. The refinement exports a finite dyadic subdivision boundary, not open-cover compactness, a selected infinite branch, quotient stream equality, trichotomy, countable choice, ambient real completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only schedule coordinate is $S$, and the only regular rational readback coordinate is $Q$.
+
+Apply \autoref{thm:dyadic-interval-refinement-window-handoff}. A NestedDyadicCauchy or Real-facing consumer must first read the displayed parent and child intervals, endpoint reuse, containment, and scheduled observations before the readback row is available.
+
+The readback row $Q$ is therefore the boundary through which real-completion consumers see the refinement. Because the carrier contains no open-cover, selected-branch, quotient, trichotomy, choice, completeness, Lean, or bridge coordinate, none of those objects can be exported by the local NameCert surface.
+\end{proof}
+
+\closureat{DyadicIntervalRefinementUp}{seedStr}
+
+\begin{closurestatus}{\DyadicIntervalRefinementUp}
+  \constructivestory{A $\DyadicIntervalRefinementUp$ packet is generated from one parent dyadic interval, two child dyadic intervals, endpoint reuse, dyadic containment and retained-step rows, finite StreamName windows, RegSeqRat readback, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-interval-refinement-carrier}, \autoref{thm:dyadic-interval-refinement-namecert-obligations}, \autoref{thm:dyadic-interval-refinement-window-handoff}, and \autoref{thm:dyadic-interval-refinement-real-boundary} seed the finite one-step dyadic refinement route from interval subdivision to StreamName, RegSeqRat, NestedDyadicCauchy, and Real-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected infinite branches, quotient stream equality, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-reuse exactness, containment and retained-step exactness, finite window exposure, RegSeqRat readback, Real-boundary nonescape, provenance exhaustion, and local naming for BEDC.Derived.DyadicIntervalRefinementUp.}
+\end{closurestatus}

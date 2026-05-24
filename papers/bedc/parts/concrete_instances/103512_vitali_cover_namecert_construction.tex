@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\VitaliCoverUp$}
+\label{ch:concrete-instances-vitali-cover-namecert}
+\origin{human}
+
+Following Vitali and Bishop--Bridges constructive analysis, the $\VitaliCoverUp$ packet records the finite ledger by which a displayed interval family offers disjoint candidates for later measure-facing arguments. It sits after the dyadic interval surface of \autoref{ch:concrete-instances-dyadicinterval-namecert}, the finite epsilon-net route of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}, the measure interface of \autoref{ch:concrete-instances-measure-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names finite interval selection data only; it does not assert the full Vitali covering theorem, measure completion, countable selection, open-cover compactness, quotient real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[VitaliCover carrier]
+\label{def:vitali-cover-carrier}
+A $\VitaliCoverUp$ carrier is a finite $\BHist$ packet
+$$
+V=(I,D,E,F,M,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite interval-family row. Each listed candidate is read through the $\DyadicIntervalUp$ interface and carries its displayed endpoints and radius ledger.
+\item $D$ is the disjointness ledger. It records the finite pairwise separation checks used to certify that selected intervals do not overlap.
+\item $E$ is the $\FiniteEpsilonNetUp$ witness row. It records the finite demand points or cells whose local cover requests are visible to the packet.
+\item $F$ is the finite selection row. It records the chosen subfamily, its ordering, and the dependency of each chosen interval on a displayed request in $E$.
+\item $M$ is the $\MeasureUp$ handoff row. It records only the finite additive ledger exposed to a measure-facing consumer after $I,D,E,F$ have been displayed.
+\item $R$ is the $\RealUp$ boundary row. It records endpoint and radius reads through real-name seals rather than host real values.
+\item $H$ records componentwise $\hsame$ transport for the interval family, disjointness ledger, epsilon-net row, selection row, measure handoff, real boundary, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+I,D,E,F \longmapsto M,R \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\VitaliCoverUp$, $\DyadicIntervalUp$, $\FiniteEpsilonNetUp$, $\MeasureUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\VitaliCoverUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,D,E,F,M,R,H,C,P,N$. It has no coordinate for an infinite subcover, a countable selector, completed measure, host open-cover compactness, or quotient equality of real endpoints.
+\end{definition}
+
+\begin{theorem}[VitaliCover NameCert obligations]
+\label{thm:vitali-cover-namecert-obligations}
+For every accepted $\VitaliCoverUp$ carrier
+$$
+V=(I,D,E,F,M,R,H,C,P,N),
+$$
+the local $\NameCert_{\VitaliCoverUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the interval family, disjointness ledger, epsilon-net witnesses, finite selection row, measure handoff, real boundary, transport, replay, provenance, and local naming row;
+\item interval locality, requiring every candidate interval to be read through the $\DyadicIntervalUp$ endpoint and radius data in $I$;
+\item finite request coverage, requiring each selected interval in $F$ to answer a displayed request in the $\FiniteEpsilonNetUp$ row $E$;
+\item disjointness exactness, requiring the pairwise ledger $D$ to certify all overlaps refused by the selected finite subfamily;
+\item measure handoff, requiring the $\MeasureUp$ row $M$ to consume only the selected disjoint finite family and its displayed dyadic endpoint data;
+\item real-boundary nonescape, requiring the $\RealUp$ row $R$ to expose only endpoint and radius seals already routed through $I,D,E,F$;
+\item provenance exhaustion, requiring $H,C,P,N$ to transport, replay, source, and name exactly the rows above.
+\end{enumerate}
+No obligation row supplies the full Vitali covering theorem, measure completion, countable selection, open-cover compactness, quotient real equality, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:vitali-cover-carrier}. The packet exposes only the interval family $I$, disjointness ledger $D$, epsilon-net requests $E$, finite selection row $F$, measure handoff $M$, real boundary $R$, and the structural rows $H,C,P,N$.
+
+The locality and request-coverage obligations are read before any measure-facing consumer is reached. Candidate intervals enter through $\DyadicIntervalUp$, and every selected interval is tied to a displayed finite request in $\FiniteEpsilonNetUp$.
+
+The disjointness ledger is then the only selected-subfamily compatibility row. It records pairwise finite separation checks, so a later consumer may not replace it by a host almost-disjoint family or an infinite extraction principle.
+
+Finally $M$ and $R$ consume the same finite route, while $H,C,P,N$ transport, replay, source, and name it. Since no other coordinate is available, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[VitaliCover finite selection handoff]
+\label{thm:vitali-cover-finite-selection-handoff}
+Let
+$$
+V=(I,D,E,F,M,R,H,C,P,N)
+$$
+be an accepted $\VitaliCoverUp$ carrier. Every measure-facing read of the finite disjoint selection factors through the route
+$$
+I\longmapsto D\longmapsto E\longmapsto F\longmapsto M,R\longmapsto H,C,P,N .
+$$
+The handoff supplies $\MeasureUp$ with a selected finite disjoint interval ledger and supplies $\RealUp$ with the endpoint and radius seals used by that ledger. It does not export the full Vitali covering theorem, measure completion, countable selection, open-cover compactness, quotient real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a measure-facing read of $V$. The candidate intervals are first read through $I$, so their endpoint and radius information remains inside the dyadic interval surface.
+
+The pairwise compatibility check is then $D$, and the finite request source is $E$. The selected row $F$ can therefore name only intervals whose requests and disjointness witnesses have already been displayed.
+
+The consumer handoff is downstream of those rows. The $\MeasureUp$ row $M$ reads the finite additive ledger for the selected disjoint family, and the $\RealUp$ row $R$ supplies the endpoint and radius seals used by that ledger.
+
+Transport by $H$, replay by $C$, provenance by $P$, and naming by $N$ preserve the same finite route. No excluded infinite or completed covering principle has a carrier coordinate from which it could be exported.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\VitaliCoverUp$ measure-facing read factors through a finite DyadicInterval family, a pairwise disjointness ledger, a FiniteEpsilonNet request row, a finite selection row, a Measure handoff, a Real endpoint boundary, transport, continuation, provenance, and local naming.}
+
+\independenceWitness{dyadicinterval, finite-epsilon-net, measure, real: $\VitaliCoverUp$ is not bijective to any listed sibling because it jointly carries interval candidates, finite request coverage, pairwise disjointness, selected-subfamily ordering, measure handoff, real endpoint seals, transport, continuation, provenance, and local naming.}
+
+\closureat{VitaliCoverUp}{seedStr}
+
+\begin{closurestatus}{\VitaliCoverUp}
+  \constructivestory{A $\VitaliCoverUp$ packet is generated from a finite DyadicInterval family, pairwise disjointness ledger, FiniteEpsilonNet request row, finite selection row, Measure handoff, Real endpoint boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:vitali-cover-carrier}, \autoref{thm:vitali-cover-namecert-obligations}, and \autoref{thm:vitali-cover-finite-selection-handoff} seed the finite disjoint interval selection ledger for measure-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the full Vitali covering theorem, measure completion, countable selection, open-cover compactness, quotient real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite request coverage, disjointness exactness, measure handoff, real-boundary nonescape, and provenance exhaustion for BEDC.Derived.VitaliCoverUp.}
+\end{closurestatus}

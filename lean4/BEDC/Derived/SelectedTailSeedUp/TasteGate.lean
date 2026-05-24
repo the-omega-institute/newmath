@@ -354,4 +354,22 @@ theorem SelectedTailSeedCarrier_real_window_handoff {Q E A W K S R H C P N : BHi
     · exact cont_intro rfl
     · exact hsame_refl (append R N)
 
+theorem SelectedTailSeedWindowReadbackCoherence {Q E A W K S R H C P N : BHist}
+    (windowUnary : UnaryHistory W) (readbackUnary : UnaryHistory K)
+    (realSealUnary : UnaryHistory R) (windowReadback : Cont W K S) :
+    UnaryHistory S ∧ UnaryHistory (append S R) ∧ Cont W K S ∧
+      Cont S R (append S R) ∧
+        BHistCarrier.fromEventFlow
+            (BHistCarrier.toEventFlow (SelectedTailSeedUp.mk Q E A W K S R H C P N)) =
+          some (SelectedTailSeedUp.mk Q E A W K S R H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont UnaryHistory
+  have ledgerUnary : UnaryHistory S :=
+    unary_cont_closed windowUnary readbackUnary windowReadback
+  have replay : Cont S R (append S R) := cont_intro rfl
+  have sealedUnary : UnaryHistory (append S R) :=
+    unary_cont_closed ledgerUnary realSealUnary replay
+  exact
+    ⟨ledgerUnary, sealedUnary, windowReadback, replay,
+      selectedTailSeed_round_trip (SelectedTailSeedUp.mk Q E A W K S R H C P N)⟩
+
 end BEDC.Derived.SelectedTailSeedUp

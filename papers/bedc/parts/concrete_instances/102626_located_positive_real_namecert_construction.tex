@@ -1,0 +1,130 @@
+\chapter{A Concrete Naming Certificate for $\LocatedPositiveRealUp$}
+\label{ch:concrete-instances-located-positive-real-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\LocatedPositiveRealUp$ packet records a positive real together with the displayed located-apartness route by which its separation from zero is inspected. It refines the bare positivity surface of \autoref{ch:concrete-instances-positivereal-namecert}: a consumer sees not only that the $\RealUp$ name is apart from zero, but also the finite radius, window, regular readback, and located-apartness handoff that make the witness inspectable. The dependency surface is the sealed $\RealUp$ row of \autoref{ch:concrete-instances-real-namecert}, the positive-real row of \autoref{ch:concrete-instances-positivereal-namecert}, the separation row of \autoref{ch:concrete-instances-apartnessreal-namecert}, the located handoff of \autoref{ch:concrete-instances-located-apartness-namecert}, the located-real boundary of \autoref{ch:concrete-instances-locatedreal-namecert}, the dyadic radius ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, and the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}.
+
+\begin{definition}[Located positive real carrier]
+\label{def:located-positive-real-carrier}
+A $\LocatedPositiveRealUp$ carrier is a finite packet
+$$
+X=(R,P,A,L,D,W,Q,H,C,S,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the sealed $\RealUp$ row for the real-name presentation being certified.
+\item $P$ is the $\PositiveRealUp$ row naming positivity by apartness from the zero real-name row.
+\item $A$ is the $\ApartnessRealUp$ separation-to-zero row whose endpoints are the zero real-name row and $R$.
+\item $L$ is the $\LocatedApartnessUp$ handoff row displaying how the separation witness is inspected at the requested finite window.
+\item $D$ is a positive $\DyadicRatCoreUp$ radius row used by $A$ and exposed again by $L$.
+\item $W$ is the finite $\StreamNameUp$ window through which the zero row, $R$, and the radius comparison are observed.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the windows in $W$ and to the rational observations used by the radius comparison.
+\item $H$ records componentwise $\hsame$ transport for the real seal, positive row, apartness row, located handoff, dyadic radius, stream window, readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of every consumer route through
+$$
+P,A,L,D,W,Q \longmapsto R .
+$$
+\item $S$ is the $\Pkg$ provenance over $\LocatedPositiveRealUp$, $\PositiveRealUp$, $\ApartnessRealUp$, $\LocatedApartnessUp$, $\LocatedRealUp$, $\RealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedPositiveRealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,P,A,L,D,W,Q,H,C,S,N$. It has no coordinate for trichotomy, a total order on constructive reals, quotient stream equality, a selected limit, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Located positive real NameCert obligations]
+\label{thm:located-positive-real-namecert-obligations}
+For every accepted $\LocatedPositiveRealUp$ carrier
+$$
+X=(R,P,A,L,D,W,Q,H,C,S,N),
+$$
+the local $\NameCert_{\LocatedPositiveRealUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed real seal, positive-real row, apartness-to-zero row, located-apartness handoff, positive dyadic radius, stream window, regular readback, transport, replay, provenance, and local naming rows;
+\item positivity alignment, requiring $P$ to read its positive witness only through the same $A,D,W,Q$ rows displayed by the carrier;
+\item located-apartness exposure, requiring $L$ to display the inspection route for $A$ before any metric, order, or completion-facing consumer can use the separation from zero;
+\item radius exactness, requiring $D$ to be the unique positive dyadic radius row exported by both the apartness and located-apartness coordinates;
+\item real-seal factorization, requiring every read of $R$ as a positive located object to pass through $P,A,L,D,W,Q$ first;
+\item transport and replay stability, requiring $H,C,S,N$ to preserve and name exactly the displayed rows, with no trichotomy, total order, quotient stream equality, selected limit, ambient completeness, Lean verification, or bridge credential.
+\end{enumerate}
+No located-positive-real NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-positive-real-carrier}. Carrier admission exposes exactly the sealed real row, the positive-real row, the apartness-to-zero row, the located-apartness handoff, the positive dyadic radius, the stream window, the regular readback, and the four structural rows.
+
+The positivity alignment is the comparison between $P$ and $A$. The $\PositiveRealUp$ row names positivity only by apartness from zero, and the apartness row displayed here is the sole separation-to-zero source in the carrier.
+
+Located exposure is then supplied by $L$. It makes the finite inspection route visible before a downstream consumer can use the separation, so the route passes through the located-apartness handoff rather than through an uninspected order predicate.
+
+The radius and readback rows exhaust the witness data. The positive radius is $D$, and the finite observations supporting it are the window $W$ and readback $Q$.
+
+Finally, componentwise transport and replay through $H$ and $C$ preserve the same rows, while $S$ and $N$ only record provenance and local naming. Since the carrier contains no trichotomy, total order, quotient stream equality, selected limit, ambient completeness, Lean verification, or bridge credential, the listed rows are the whole obligation surface.
+\end{proof}
+
+\begin{theorem}[Located positive real apartness witness]
+\label{thm:located-positive-real-apartness-witness}
+Every accepted $\LocatedPositiveRealUp$ carrier
+$$
+X=(R,P,A,L,D,W,Q,H,C,S,N)
+$$
+exports a displayed located-apartness witness for the positivity of $R$: the witness is the finite route from the $\PositiveRealUp$ row $P$ through the $\ApartnessRealUp$ separation row $A$, the $\LocatedApartnessUp$ handoff $L$, the positive $\DyadicRatCoreUp$ radius $D$, the $\StreamNameUp$ window $W$, and the $\RegSeqRatUp$ readback $Q$. This route is available without a trichotomy decision, a total-order comparison, quotient stream equality, a selected limit, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier. By \autoref{def:located-positive-real-carrier}, the positive row $P$ is displayed in the same finite packet as the sealed real row $R$ and the separation-to-zero row $A$.
+
+Read the separation witness. The apartness row $A$ names the zero-to-$R$ gap, while $D$ records the positive dyadic radius used by that gap.
+
+The witness is located because $L$ displays the finite inspection route for the same gap. The stream window $W$ and regular readback $Q$ are the only observation rows available to that route.
+
+Thus every exported positivity witness is the displayed route $P,A,L,D,W,Q$. The excluded order, quotient, selected-limit, and completeness data are absent from the carrier inventory.
+\end{proof}
+
+\begin{theorem}[Located positive real transport stability]
+\label{thm:located-positive-real-transport-stability}
+Let
+$$
+X=(R,P,A,L,D,W,Q,H,C,S,N)
+$$
+and
+$$
+X'=(R',P',A',L',D',W',Q',H',C',S',N')
+$$
+be accepted $\LocatedPositiveRealUp$ carriers related by the displayed componentwise $\hsame$ and $\Cont$ routes. Then the located positivity witness of \autoref{thm:located-positive-real-apartness-witness} transports from $X$ to $X'$ by carrying the same real-seal, positive row, apartness row, located handoff, radius, window, readback, provenance, and local naming surfaces componentwise. No transported read may replace that witness by trichotomy, a total order, quotient stream equality, a selected limit, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:located-positive-real-apartness-witness} to $X$. The witness surface consists only of $P,A,L,D,W,Q$ together with the surrounding seal, transport, replay, provenance, and local naming rows.
+
+Now use the displayed $\hsame$ rows in $H$ and $H'$. They compare the real seal, positive row, apartness row, located handoff, radius, window, and readback componentwise, so the same witness surface is carried to $P',A',L',D',W',Q'$.
+
+Replay through $C$ and $C'$ preserves the order of the route. The provenance and local naming rows $S,N,S',N'$ merely record the same packet boundary.
+
+Therefore the transported object still exports located positivity by the displayed apartness route. The excluded order, quotient, selected-limit, and completeness coordinates cannot appear under transport because they are not coordinates of either accepted carrier.
+\end{proof}
+
+\begin{theorem}[Located positive real nonescape]
+\label{thm:located-positive-real-nonescape}
+Every metric, order-facing, or completion-facing consumer of an accepted $\LocatedPositiveRealUp$ carrier receives only the rows
+$$
+R,P,A,L,D,W,Q,H,C,S,N
+$$
+before using the positivity of the displayed real name. In particular, the consumer cannot extract trichotomy for $\RealUp$, a total real order, quotient stream equality, selected limits, ambient $\RealUp$ completeness, Lean verification, or a standard bridge from the located-positive-real packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. Its only real-facing coordinate is $R$, and its only positivity coordinate is the displayed route through $P,A,L,D,W,Q$.
+
+Any consumer of positivity must therefore read $P$ and then the apartness and located-apartness rows $A,L$. The dyadic radius $D$, stream window $W$, and readback $Q$ are the finite witness surface attached to that route.
+
+The structural rows $H,C,S,N$ do not create further mathematical data. They transport, replay, source, and name the rows already displayed by the carrier.
+
+The packet inventory is exhausted by the displayed rows. Hence none of the excluded trichotomy, total-order, quotient-equality, selected-limit, ambient-completeness, Lean-verification, or bridge data can escape from the certificate.
+\end{proof}
+
+\closureat{LocatedPositiveRealUp}{seedStr}
+
+\begin{closurestatus}{\LocatedPositiveRealUp}
+  \constructivestory{A $\LocatedPositiveRealUp$ packet is generated from a sealed RealUp row, a PositiveRealUp positivity row, an ApartnessRealUp separation-to-zero row, a LocatedApartnessUp handoff, a positive DyadicRatCoreUp radius, a StreamNameUp window, a RegSeqRatUp readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-positive-real-carrier}, \autoref{thm:located-positive-real-namecert-obligations}, \autoref{thm:located-positive-real-apartness-witness}, \autoref{thm:located-positive-real-transport-stability}, and \autoref{thm:located-positive-real-nonescape} seed the finite located-apartness witness route for positive real packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close trichotomy, total order, quotient stream equality, selected limits, ambient Real completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, positivity alignment, located-apartness exposure, radius exactness, real-seal factorization, transport/replay/provenance stability, and non-escape for BEDC.Derived.LocatedPositiveRealUp.}
+\end{closurestatus}

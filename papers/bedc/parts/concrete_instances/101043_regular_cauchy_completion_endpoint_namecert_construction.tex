@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyCompletionEndpointUp$}
+\label{ch:concrete-instances-regular-cauchy-completion-endpoint-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive analysis, the $\RegularCauchyCompletionEndpointUp$ packet records the finite endpoint handoff by which regular Cauchy completion data may be read by public $\RealUp$ and Completion consumers without importing a quotient stream, a selected representative, or an ambient completeness principle. It sits after the regular-completion carrier of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}, the limit-seal route of \autoref{ch:concrete-instances-cauchylimitseal-namecert}, the exact-boundary row of \autoref{ch:concrete-instances-real-completion-exact-boundary-namecert}, the source-to-endpoint unit of \autoref{ch:concrete-instances-cauchycompletionunit-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is an endpoint boundary: it names the handoff surface consumed by later Real and Completion routes, not a completeness theorem for $\RealUp$.
+
+\begin{definition}[Regular Cauchy completion endpoint carrier]
+\label{def:regular-cauchy-completion-endpoint-carrier}
+A $\RegularCauchyCompletionEndpointUp$ carrier is a finite $\BHist$ packet
+$$
+E=(B,L,X,U,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BishopRegularCauchyCompletionUp$ row containing the regular rational sequence route, dyadic tail modulus, common-tail window, and completion-facing carrier boundary.
+\item $L$ is the $\CauchyLimitSealUp$ route that seals the displayed regular Cauchy handoff before any endpoint consumer reads it.
+\item $X$ is the $\RealCompletionExactBoundaryUp$ exact-boundary row binding the StreamName, RegSeqRat, DyadicRatCore, CauchyLimitSeal, and terminal Real faces into one finite completion route.
+\item $U$ is the $\CauchyCompletionUnitUp$ source-to-endpoint row, recording how the displayed source name enters the endpoint boundary without selecting a representative.
+\item $R$ is the terminal $\RealUp$ seal exposed only after $B,L,X,U$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the regular-completion row, limit-seal route, exact-boundary row, unit row, terminal seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an endpoint request through $B,L,X,U,R$ and then through the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyCompletionEndpointUp$, $\BishopRegularCauchyCompletionUp$, $\CauchyLimitSealUp$, $\RealCompletionExactBoundaryUp$, $\CauchyCompletionUnitUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyCompletionEndpointUp}$ row.
+\end{enumerate}
+The classifier accepts only packets read through $B,L,X,U,R,H,C,P,N$. It has no coordinate for quotient stream equality, selected representatives, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+\leandef{BEDC.Derived.RegularCauchyCompletionEndpointUp.RegularCauchyCompletionEndpointUp}
+\leanchecked{BEDC.Derived.RegularCauchyCompletionEndpointUp.RegularCauchyCompletionEndpointTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy completion endpoint NameCert obligations]
+\label{thm:regular-cauchy-completion-endpoint-namecert-obligations}
+For every accepted $\RegularCauchyCompletionEndpointUp$ carrier $E=(B,L,X,U,R,H,C,P,N)$, the local $\NameCert_{\RegularCauchyCompletionEndpointUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the regular-completion row, limit-seal route, exact-boundary row, source-to-endpoint unit, terminal Real seal, transport, replay, provenance, and local naming row;
+\item classifier transport, requiring $H$ to preserve $B,L,X,U,R,C,P,N$ componentwise and requiring $C$ to replay the same endpoint route;
+\item endpoint seal handoff, requiring every endpoint-facing read to pass through $B,L,X,U$ before exposing $R$;
+\item unit and embedding compatibility, requiring the unit row $U$ to reuse the displayed source route already admitted by $B$ and sealed by $L,X$;
+\item nonescape, requiring the packet to export no quotient stream equality, selected representative, countable choice, host real equality, or ambient Real completeness.
+\end{enumerate}
+No endpoint obligation is stored outside these rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyCompletionEndpointUp.RegularCauchyCompletionEndpointCarrier\_namecert\_obligations}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-completion-endpoint-carrier}. The projection exposes exactly the regular-completion row, limit-seal route, exact-boundary row, unit row, terminal seal, and structural rows.
+
+Carrier admission is therefore rowwise. The completion-facing source is admitted through $B$, the seal route through $L$, the exact endpoint boundary through $X$, the unit handoff through $U$, and the terminal Real surface through $R$.
+
+Classifier transport is componentwise. The row $H$ preserves each visible coordinate, while $C$ replays the ordered route from an endpoint request through $B,L,X,U,R$.
+
+The endpoint seal handoff and unit compatibility are forced by the placement of $R$ downstream of $B,L,X,U$. A consumer cannot read the terminal $\RealUp$ seal before the displayed regular-completion source, limit-seal route, exact boundary, and unit row have all been exposed.
+
+Finally, the carrier inventory contains no excluded coordinate. Since quotient stream equality, selected representatives, countable choice, host real equality, and ambient Real completeness are absent from the tuple and from the replay route, the nonescape obligation is exhausted by $B,L,X,U,R,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy completion endpoint Real-seal handoff]
+\label{thm:regular-cauchy-completion-endpoint-real-seal-handoff}
+Let $E=(B,L,X,U,R,H,C,P,N)$ be an accepted $\RegularCauchyCompletionEndpointUp$ carrier. Every $\RealUp$ or Completion endpoint consumer of $E$ factors through the displayed route
+$$
+B \longmapsto L \longmapsto X \longmapsto U \longmapsto R
+$$
+together with the structural rows $H,C,P,N$. Consequently the consumer receives only the regular-completion carrier, CauchyLimitSeal route, RealCompletionExactBoundary row, CauchyCompletionUnit handoff, terminal Real seal, componentwise transport, displayed replay, provenance, and local NameCert rows, and receives no quotient stream equality, selected representative, countable choice, host real equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Begin with an endpoint consumer of the accepted packet. By carrier projection, its only completion-facing source is $B$, the displayed $\BishopRegularCauchyCompletionUp$ row.
+
+The consumer next reads $L$ and $X$. The row $L$ supplies the Cauchy-limit seal for the same regular-completion route, while $X$ binds that sealed route to the exact Real-completion boundary before an endpoint row is public.
+
+The source-to-endpoint step is $U$. This row records the unit handoff from the displayed source route into the endpoint boundary and does not add a second representative or a hidden selector.
+
+Only after $B,L,X,U$ have been read may the terminal seal $R$ be exposed. The rows $H,C,P,N$ transport, replay, source, and name the same ordered route, so every endpoint consumer factors through the listed packet.
+
+The excluded principles have no carrier slot and no replay insertion point. Hence the consumer receives no quotient stream equality, selected representative, countable choice, host real equality, or ambient Real completeness.
+\end{proof}
+
+\closureat{RegularCauchyCompletionEndpointUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyCompletionEndpointUp}
+  \constructivestory{A $\RegularCauchyCompletionEndpointUp$ packet is generated from a BishopRegularCauchyCompletion row, CauchyLimitSeal route, RealCompletionExactBoundary row, CauchyCompletionUnit source-to-endpoint row, terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-completion-endpoint-carrier}, \autoref{thm:regular-cauchy-completion-endpoint-namecert-obligations}, and \autoref{thm:regular-cauchy-completion-endpoint-real-seal-handoff} seed the endpoint handoff from regular Cauchy completion packets to public RealUp and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, countable choice, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires future Lean work under BEDC.Derived.RegularCauchyCompletionEndpointUp for carrier admission, classifier transport, endpoint seal handoff, unit and embedding compatibility, and nonescape.}
+\end{closurestatus}

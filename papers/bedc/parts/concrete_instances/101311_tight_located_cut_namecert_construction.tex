@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\TightLocatedCutUp$}
+\label{ch:concrete-instances-tight-located-cut-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\TightLocatedCutUp$ packet names the finite two-sided located-cut boundary where lower observations, upper observations, positive separation, boundedness, and dyadic tolerance data meet before the terminal $\RealUp$ seal is visible. It refines the located-cut route of \autoref{ch:concrete-instances-locatedcut-namecert}, reads one-sided observations through \autoref{ch:concrete-instances-lowerreal-namecert} and \autoref{ch:concrete-instances-upperreal-namecert}, reuses bounded lower and upper cut ledgers from \autoref{ch:concrete-instances-bounded-real-lower-cut-namecert} and \autoref{ch:concrete-instances-bounded-real-upper-cut-namecert}, and exposes positive separation only through \autoref{ch:concrete-instances-apartnessreal-namecert}. The packet gives the Real-and-Completion phase a tight cut boundary without importing Dedekind completeness, Real completeness, quotient stream equality, selected cuts, trichotomy, countable choice, or host real equality.
+
+\begin{definition}[Tight located cut carrier]
+\label{def:tight-located-cut-carrier}
+A $\TightLocatedCutUp$ carrier is a finite $\BHist$ packet
+$$
+T=(L,U,A,B,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LowerRealUp$ row. It records the lower observations that may be inspected by the packet and their downward-use discipline.
+\item $U$ is the $\UpperRealUp$ row. It records the upper observations that may be inspected by the packet and their upward-use discipline.
+\item $A$ is the apartness and locatedness row. It ties the two one-sided ledgers to the displayed $\LocatedCutUp$ and $\ApartnessRealUp$ separation surfaces.
+\item $B$ is the boundedness row. It reuses the bounded lower-cut and bounded upper-cut ledgers as finite bounds on the two-sided observation window.
+\item $D$ is the dyadic tolerance row. It stores the visible $\DyadicRatCoreUp$ radii, gap margins, and finite slack rows used by the tightness checks.
+\item $E$ is the terminal $\RealUp$ seal row. It is visible only after $L,U,A,B,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the lower row, upper row, apartness and locatedness row, boundedness row, dyadic tolerance row, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for every tight located-cut request through $L,U,A,B,D,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\TightLocatedCutUp$, $\LowerRealUp$, $\UpperRealUp$, $\LocatedCutUp$, $\BoundedRealLowerCutUp$, $\BoundedRealUpperCutUp$, $\ApartnessRealUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TightLocatedCutUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite two-sided located-cut packet. It has no coordinate for Dedekind completeness, Real completeness, quotient stream equality, selected cuts, trichotomy, countable choice, host real equality, or ambient Real completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.TightLocatedCutUp.TightLocatedCutTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Tight located cut NameCert obligations]
+\label{thm:tight-located-cut-namecert-obligations}
+For every accepted $\TightLocatedCutUp$ carrier $T=(L,U,A,B,D,E,H,C,P,N)$, the local $\NameCert_{\TightLocatedCutUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed lower row, upper row, apartness and locatedness row, boundedness row, dyadic tolerance row, Real seal, transport, replay, provenance, and local naming row;
+\item lower and upper compatibility, requiring every lower-row read in $L$ and every upper-row read in $U$ to meet only through the displayed located-cut and apartness data in $A$;
+\item located-apartness separation, requiring any positive gap exported by the packet to be read from $A$ and the dyadic margins in $D$ rather than from a trichotomy branch or host order;
+\item boundedness reuse, requiring the finite bounds in $B$ to be the only bounded lower-cut and bounded upper-cut information visible to the packet;
+\item dyadic tolerance routing, requiring every tightness request to pass through the displayed tolerances and slack rows in $D$;
+\item Real-seal nonescape, requiring the seal $E$ to remain terminal and never to export Dedekind completeness, Real completeness, quotient stream equality, selected cuts, trichotomy, countable choice, host real equality, or ambient Real completeness;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the displayed route $L,U,A,B,D,E,P,N$ componentwise;
+\item ledger exhaustion, requiring $P$ and $N$ to name exactly the displayed finite packet and no object outside it.
+\end{enumerate}
+No tight located-cut obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:tight-located-cut-carrier}. The accepted packet exposes exactly the lower row, upper row, apartness and locatedness row, boundedness row, dyadic tolerance row, Real seal, and structural rows $H,C,P,N$.
+
+Lower and upper compatibility is finite. A lower request reads only $L$, an upper request reads only $U$, and their common interface is the located-apartness row $A$; there is no ambient cut object in which the two sides can be merged.
+
+The separation and boundedness obligations are read from displayed rows. Positive gap evidence is stored in $A$ and checked against the dyadic margins in $D$, while the bounded lower and upper ledgers are consumed only through $B$.
+
+Dyadic tolerance routing is forced by the row order. A tightness request cannot reach the Real seal until the relevant radii, margins, and slack rows in $D$ have been displayed.
+
+Finally, transport, replay, provenance, and local naming are structural. Componentwise $\hsame$ in $H$ and displayed $\Cont$ replay in $C$ preserve the same route, while $P$ and $N$ exhaust the ledger; none of the excluded completeness, quotient, selection, trichotomy, choice, or host-equality surfaces is a coordinate of $T$.
+\end{proof}
+
+\begin{theorem}[Tight located cut two-sided seal route]
+\label{thm:tight-located-cut-two-sided-seal-route}
+Let $T=(L,U,A,B,D,E,H,C,P,N)$ be an accepted $\TightLocatedCutUp$ carrier. Every $\RealUp$-facing read exported by $T$ factors through the route
+$$
+L,U,A,B,D,E \longmapsto H,C,P,N .
+$$
+Thus the read must inspect the lower row, upper row, apartness and locatedness row, boundedness row, dyadic tolerance row, and terminal Real seal before it can use the structural rows. It cannot export Dedekind completeness, quotient stream equality, selected cuts, trichotomy, countable choice, host real equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Begin with a $\RealUp$-facing read. The one-sided faces are $L$ and $U$, so the read sees lower and upper observations only as finite displayed ledgers.
+
+The two faces meet through $A$. This row supplies located-apartness separation and records the only positive-gap route available to the packet.
+
+The boundedness and tightness checks are then read through $B$ and $D$. The row $B$ contributes the bounded lower and upper cut ledgers, while $D$ contributes the dyadic radii, margins, and slack rows needed before the seal is visible.
+
+Only after these rows does the Real-facing coordinate $E$ appear. Because $E$ is terminal and because $H,C,P,N$ only transport, replay, source, and name the same route, no excluded completeness, quotient, selected-cut, trichotomy, countable-choice, or host-equality surface can be exported.
+\end{proof}
+
+\closureat{TightLocatedCutUp}{seedStr}
+\begin{closurestatus}{\TightLocatedCutUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tight-located-cut-carrier}, \autoref{thm:tight-located-cut-namecert-obligations}, and \autoref{thm:tight-located-cut-two-sided-seal-route} seed the finite two-sided located-cut boundary feeding the terminal $\RealUp$ seal for Real-and-Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Dedekind completeness, Real completeness, quotient stream equality, selected cuts, trichotomy, countable choice, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, lower and upper compatibility, located-apartness separation, boundedness reuse, dyadic tolerance routing, Real-seal nonescape, transport and replay stability, and ledger exhaustion for BEDC.Derived.TightLocatedCutUp.}
+  \constructivestory{A $\TightLocatedCutUp$ packet is generated from lower and upper real rows, located-apartness separation, bounded lower and upper cut ledgers, dyadic tolerance data, a terminal RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

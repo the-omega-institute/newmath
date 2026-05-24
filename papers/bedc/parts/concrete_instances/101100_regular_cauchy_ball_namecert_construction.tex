@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyBallUp$}
+\label{ch:concrete-instances-regular-cauchy-ball-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyBallUp$ packet records finite-window membership in a rational-radius ball around a displayed regular Cauchy real name. It sits over the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later metric and completion consumers a local-neighbourhood surface before any ambient real ball, selected limit, quotient equality, trichotomy, countable choice, compactness principle, or $\RealUp$ completeness claim is available.
+
+\begin{definition}[Regular Cauchy ball carrier]
+\label{def:regular-cauchy-ball-carrier}
+A $\RegularCauchyBallUp$ carrier is a finite $\BHist$ packet
+$$
+B=(X,C,R,W,D,Q,S,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\RegSeqRatUp$ source row for the point being tested.
+\item $C$ is the $\RegSeqRatUp$ centre row for the displayed ball.
+\item $R$ is the positive $\DyadicRatCoreUp$ radius row, including the rational endpoint and dyadic scale used by the membership test.
+\item $W$ is the shared $\StreamNameUp$ finite-window ledger from which $X$ and $C$ are inspected.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row attached to the requested window and radius budget.
+\item $Q$ is the comparison row recording that the displayed window distance is inside the radius budget after the dyadic tolerance descent in $D$.
+\item $S$ is the $\RealUp$ seal boundary reached only after $X,C,R,W,D,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the point row, centre row, radius row, window ledger, tolerance row, comparison row, seal row, replay row, provenance row, and local naming row.
+\item $T$ records displayed $\Cont$ replay from a ball-membership request through $X,C,R,W,D,Q,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyBallUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyBallUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed tuple $X,C,R,W,D,Q,S,H,T,P,N$. The carrier has no coordinate for ambient real balls, quotient equality of real names, selected limits, trichotomy, countable-choice schedules, metric-space compactness, or $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyBallUp.TasteGate.RegularCauchyBallTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy ball window stability]
+\label{thm:regular-cauchy-ball-window-stability}
+Let
+$$
+B=(X,C,R,W,D,Q,S,H,T,P,N)
+$$
+be an accepted $\RegularCauchyBallUp$ carrier. Every ball-membership read of $B$ factors through the same finite route
+$$
+X,C,R\longmapsto W,D\longmapsto Q\longmapsto S,H,T,P,N .
+$$
+Consequently any two reads transported by $H$ and replayed by $T$ use the same point row, centre row, radius row, finite window ledger, dyadic tolerance descent, comparison row, and seal boundary.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The point row $X$, centre row $C$, and radius row $R$ are the only analytic inputs available to a membership request, and the request has no direct access to an ambient real ball.
+
+The finite observation step is therefore forced through $W$ and $D$. The window ledger $W$ names the finite observations of $X$ and $C$, while the tolerance row $D$ supplies the dyadic descent needed to compare those observations against the radius row $R$.
+
+The comparison row $Q$ is read only after those finite rows are displayed. The seal boundary $S$ is downstream of $Q$, so a Real-facing consumer receives a window-stable membership route rather than a host-level ball assertion.
+
+Finally transport and replay are componentwise. The rows $H$ and $T$ preserve the same displayed inputs and the same route through $W,D,Q,S$, while $P$ and $N$ source and name that finite packet. Thus repeated reads cannot introduce a second window, hidden radius, selected limit, quotient equality, compactness principle, or $\RealUp$ completeness row.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy ball NameCert obligations]
+\label{thm:regular-cauchy-ball-namecert-obligations}
+For every accepted $\RegularCauchyBallUp$ carrier $B=(X,C,R,W,D,Q,S,H,T,P,N)$, the local $\NameCert_{\RegularCauchyBallUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the point $\RegSeqRatUp$ row, centre $\RegSeqRatUp$ row, positive $\DyadicRatCoreUp$ radius row, shared $\StreamNameUp$ window ledger, dyadic tolerance row, comparison row, $\RealUp$ seal boundary, transport, replay, provenance, and local name;
+\item finite-window exposure, requiring membership to be tested only on the windows displayed by $W$;
+\item radius-budget exactness, requiring the radius row $R$ and tolerance row $D$ to be read before the comparison row $Q$;
+\item comparison routing, requiring $Q$ to bind the point and centre observations to the radius budget through the same dyadic ledger;
+\item seal non-escape, requiring $S$ to remain downstream of $X,C,R,W,D,Q$;
+\item structural stability, requiring $H,T,P,N$ to transport, replay, source, and name exactly the displayed route.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Read the carrier projection from \autoref{def:regular-cauchy-ball-carrier}. It exposes exactly the two regular rational names, one positive dyadic radius row, one finite window ledger, one dyadic tolerance row, one comparison row, one seal boundary, and the structural rows.
+
+Finite-window exposure is the first obligation. A membership request can inspect $X$ and $C$ only through $W$, and the dyadic tolerance row $D$ supplies the visible descent used with the radius row $R$.
+
+The comparison row then records the local ball test. Since $Q$ is downstream of $R,W,D$, it is a finite-window comparison row and not an ambient real-ball predicate.
+
+The remaining obligations are structural. The seal row $S$ cannot be read before the comparison route is displayed, while $H,T,P,N$ only preserve, replay, source, and name the same finite packet. The excluded principles are absent because no carrier coordinate stores Real completeness, trichotomy, selected limits, countable choice, metric compactness, or quotient equality.
+\end{proof}
+
+\begin{closurestatus}{\RegularCauchyBallUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-ball-carrier}, \autoref{thm:regular-cauchy-ball-window-stability}, and \autoref{thm:regular-cauchy-ball-namecert-obligations} seed the finite-window ball-membership surface for two $\RegSeqRatUp$ rows, a positive $\DyadicRatCoreUp$ radius row, shared $\StreamNameUp$ windows, dyadic tolerance descent, comparison routing, and terminal $\RealUp$ seal data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim $\RealUp$ completeness, trichotomy, selected limits, countable choice, metric-space compactness, quotient equality, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exposure, radius-budget exactness, comparison routing, seal non-escape, structural stability, and local naming for BEDC.Derived.RegularCauchyBallUp.}
+  \constructivestory{A $\RegularCauchyBallUp$ packet is generated from a point RegSeqRat row, a centre RegSeqRat row, a positive DyadicRatCore radius row, shared StreamName windows, a dyadic tolerance row, a comparison row, a terminal RealUp seal boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

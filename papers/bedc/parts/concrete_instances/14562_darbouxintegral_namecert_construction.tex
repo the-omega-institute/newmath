@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\DarbouxIntegralUp$}
+\label{ch:concrete-instances-darbouxintegral-namecert}
+\origin{human}
+
+Following Darboux and Bishop-style constructive analysis, the $\DarbouxIntegralUp$ packet presents integration through finite partitions, upper and lower dyadic step approximants, refinement ledgers, and $\RealUp$ handoff rows. It does not use measure completion, quotient functions, choice-selected tags, or ambient real completeness. The packet consumes the step-function surface of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}, the finite partition ledger of \autoref{ch:concrete-instances-partition-namecert}, and the public integration consumer boundary of \autoref{ch:concrete-instances-integral-namecert}.
+
+\section{Carrier packet}
+\label{sec:darboux-integral-carrier}
+
+\begin{definition}[Darboux integral finite carrier]
+\label{def:darboux-integral-carrier}
+A $\DarbouxIntegralUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+D=(P,U,L,SU,SL,G,R,H,C,N)
+$$
+with the following displayed coordinates.
+\begin{enumerate}
+  \item $P$ is a $\PartitionUp$ row, read as the finite dyadic partition ledger on the integration interval.
+  \item $U$ and $L$ are upper and lower $\DyadicStepFunctionUp$ approximants over a displayed common refinement of $P$.
+  \item $SU$ and $SL$ are the finite upper and lower Darboux sum rows computed from the cells and carried values of $U$ and $L$.
+  \item $G$ is the upper-lower gap and modulus ledger comparing $SU$ and $SL$ at the displayed precision.
+  \item $R$ is the $\RegSeqRatUp$ and $\RealUp$ handoff surface produced from the gap ledger.
+  \item $H$ records the componentwise $\hsame$ transports of partition, step-function, sum, gap, and handoff rows.
+  \item $C$ records the finite $\Cont$ routes that replay refinements, cell reads, finite sums, and handoff rows.
+  \item $N$ is the local $\NameCert_{\DarbouxIntegralUp}$ row and $\Pkg$ provenance surface attached to the packet.
+\end{enumerate}
+The carrier classifies two accepted packets only by these displayed rows. In particular, it has no coordinate for a selected tag, a host Riemann sum oracle, a quotient function space, a measure completion, or an ambient real-completeness principle.
+\end{definition}
+\leanchecked{BEDC.Derived.DarbouxIntegralUp.DarbouxIntegralTasteGate\_single\_carrier\_alignment}
+
+\section{Certificate obligations}
+\label{sec:darboux-integral-obligations}
+
+\begin{theorem}[Darboux integral NameCert obligations]
+\label{thm:darboux-integral-namecert-obligations}
+The local $\NameCert_{\DarbouxIntegralUp}$ surface consists of the following five rows.
+\begin{enumerate}
+  \item Carrier habitation for the finite packet $D=(P,U,L,SU,SL,G,R,H,C,N)$ of \autoref{def:darboux-integral-carrier}.
+  \item Refinement-stable classification of the displayed partition and upper/lower step-function approximants by common dyadic refinement.
+  \item Finite Darboux-sum exactness for $SU$ and $SL$ over the carried cells and values of $U$ and $L$.
+  \item Gap-modulus exposure through $G$, with $\RegSeqRatUp$ and $\RealUp$ handoff through $R$.
+  \item Ledger exclusion of selected tags, quotient functions, measure completion, and ambient real-completeness data.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.DarbouxIntegralUp.DarbouxIntegralPacket\_namecert\_obligations}
+\begin{proof}
+Carrier habitation is the finite packaging operation of \autoref{def:darboux-integral-carrier}. It displays the partition row, upper and lower step-function approximants, the two finite sum rows, the gap row, the handoff surface, transport routes, continuation routes, and the local name.
+
+Refinement stability is read through the common-refinement machinery already exposed by the $\DyadicStepFunctionUp$ packet. The same displayed refinement transports $P$, $U$, $L$, $SU$, and $SL$, so classification remains a finite ledger statement rather than a comparison of host functions.
+
+The Darboux-sum and gap rows are then inspected as ledger coordinates. Since every downstream handoff to $\RegSeqRatUp$, $\RealUp$, or $\IntegralUp$ passes through $G$ and $R$, the excluded host data have no carrier coordinate or continuation route.
+\end{proof}
+
+\begin{theorem}[Darboux upper-lower sum gap]
+\label{thm:darboux-integral-upper-lower-sum-gap}
+For accepted $\DarbouxIntegralUp$ packets with displayed common refinement of their partition rows, transporting to that refinement preserves the visible upper/lower sum gap recorded by $G$. The transported packet computes $SU$ and $SL$ only from displayed refined cells and carried values, and the gap comparison never introduces a selected tag, quotient function, or measure completion.
+\end{theorem}
+\leanchecked{BEDC.Derived.DarbouxIntegralUp.DarbouxIntegralPacket\_upper\_lower\_sum\_gap}
+\begin{proof}
+Project the accepted packet through \autoref{def:darboux-integral-carrier}. The common refinement gives the finite cell list on which both approximants are read, and the rows $U$ and $L$ already carry the value data used on those cells.
+
+Compute $SU$ and $SL$ by replaying the finite sum routes in $C$. Refinement only changes the displayed parent-cell ledger: each refined cell points back to a named cell, and its upper or lower value is the transported value already present in $U$ or $L$.
+
+The gap row $G$ compares the two transported finite sums after this replay. Because the packet has no coordinate for tags, quotient functions, or measure completion, preserving the displayed gap cannot add any of those objects.
+\end{proof}
+
+\begin{theorem}[Darboux real handoff]
+\label{thm:darboux-integral-real-handoff}
+An accepted $\DarbouxIntegralUp$ packet hands an $\IntegralUp$ consumer only the displayed partition row, upper and lower $\DyadicStepFunctionUp$ rows, upper and lower sum rows, gap ledger, $\RegSeqRatUp$ row, $\RealUp$ row, componentwise $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. No host integrand equality, measure completion, selected tag family, or ambient real-completeness witness is exported.
+\end{theorem}
+\leanchecked{BEDC.Derived.DarbouxIntegralUp.DarbouxIntegralPacket\_integral\_consumer\_surface}
+\begin{proof}
+Start from \autoref{thm:darboux-integral-namecert-obligations}. The public surface is exhausted by the carrier, refinement classifier, Darboux-sum exactness, gap-modulus row, and ledger exclusion rows.
+
+Use \autoref{thm:darboux-integral-upper-lower-sum-gap} to route every consumer-visible approximation through common refinement before the gap is read. The $\RegSeqRatUp$ and $\RealUp$ rows in $R$ are therefore handoff rows for the displayed gap ledger, not independent real-completeness data.
+
+Finally pass the same rows to the $\IntegralUp$ consumer boundary. That boundary receives the partition, step-function, sum, gap, handoff, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows named by the packet, and no additional analytic surface is available.
+\end{proof}
+
+\closureat{DarbouxIntegralUp}{seedStr}
+
+\begin{closurestatus}{\DarbouxIntegralUp}
+  \constructivestory{A $\DarbouxIntegralUp$ packet is generated from a finite partition row, upper and lower $\DyadicStepFunctionUp$ approximants, upper and lower Darboux sum rows, a visible gap ledger, a $\RegSeqRatUp/\RealUp$ handoff surface, componentwise $\hsame$ transports, finite $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:darboux-integral-carrier}, \autoref{thm:darboux-integral-namecert-obligations}, \autoref{thm:darboux-integral-upper-lower-sum-gap}, and \autoref{thm:darboux-integral-real-handoff} seed the finite Darboux integration boundary over $\PartitionUp$, $\DyadicStepFunctionUp$, $\RegSeqRatUp$, $\RealUp$, and $\IntegralUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a measure completion, quotient function space, selected tag family, host integrand equality, ambient real-completeness theorem, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the finite carrier and prove the NameCert obligation surface, gap preservation theorem, and IntegralUp handoff theorem.}
+\end{closurestatus}

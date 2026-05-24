@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyLocationWitnessUp$}
+\label{ch:concrete-instances-regular-cauchy-location-witness-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyLocationWitnessUp$ packet records the finite location witness by which a regular Cauchy rational name may be consumed as a located real-name route. It sits over the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the sequence-level located Cauchy surface of \autoref{ch:concrete-instances-locatedcauchy-namecert}, and the filter-level located witness rows of \autoref{ch:concrete-instances-located-cauchy-filter-namecert}. The certificate supplies the missing sequence-level location surface for later $\RealUp$ consumers without asserting Dedekind cuts, quotient streams, selected limits, countable choice, real trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy location witness carrier]
+\label{def:regular-cauchy-location-witness-carrier}
+A $\RegularCauchyLocationWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+L=(R,S,D,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the regular source row, namely the $\RegSeqRatUp$ regular rational name whose finite windows are being located.
+\item $S$ is the finite window schedule, namely the $\StreamNameUp$ row that exposes exactly the inspected windows of $R$.
+\item $D$ is the dyadic tolerance ledger, recording requested radii, comparison budgets, endpoint approximants, and window tolerances.
+\item $W$ is the location-witness row, recording for each displayed dyadic cut request a finite left-or-right locatedness witness over the windows selected by $S$ and the tolerances in $D$.
+\item $E$ is the $\RealUp$ seal boundary, reachable only after $R,S,D,W$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the regular source, schedule, dyadic ledger, location witness, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a location request through $R,S,D,W,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyLocationWitnessUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\LocatedCauchyUp$, $\LocatedCauchyFilterUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyLocationWitnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,S,D,W,E,H,C,P,N$. The carrier contains no Dedekind cut, quotient stream equality, real trichotomy branch, countable-choice selector, selected limit, ambient $\RealUp$ completeness theorem, Lean verification credential, or bridge checking datum.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyLocationWitnessUp.TasteGate.RegularCauchyLocationWitnessTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy location witness NameCert obligations]
+\label{thm:regular-cauchy-location-witness-namecert-obligations}
+For every accepted $\RegularCauchyLocationWitnessUp$ carrier
+$$
+L=(R,S,D,W,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyLocationWitnessUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the regular source row, finite window schedule, dyadic tolerance ledger, location-witness row, $\RealUp$ seal boundary, transport, replay, provenance, and local name;
+\item regular-source exposure, requiring every location request to read the $\RegSeqRatUp$ source row $R$ only through the displayed schedule $S$;
+\item dyadic-budget exactness, requiring each locatedness comparison to consume the radius, endpoint, and tolerance data stored in $D$ before the witness row $W$ is inspected;
+\item witness routing, requiring $W$ to record only finite left-or-right locatedness rows over the windows selected by $S$ and the dyadic budget supplied by $D$;
+\item seal non-escape, requiring every $\RealUp$ read to remain downstream of $R,S,D,W$;
+\item structural stability, requiring $H,C,P,N$ to transport, replay, source, and name exactly the displayed route and no off-packet completeness or choice object.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier from \autoref{def:regular-cauchy-location-witness-carrier}. The analytic rows are exactly the regular rational source, the finite schedule, the dyadic tolerance ledger, the location witness, and the terminal seal boundary.
+
+Regular-source exposure is forced by the schedule row. A location request cannot inspect $R$ directly; it must pass through the finite windows named by $S$.
+
+The dyadic-budget and witness rows are then read together. The ledger $D$ supplies the radius, endpoint, and tolerance data for the displayed cut request, and $W$ records the finite locatedness witness over those same scheduled windows.
+
+Finally, seal non-escape and structural stability are componentwise. The seal row $E$ is reached only after $R,S,D,W$, while $H,C,P,N$ preserve, replay, source, and name that same route. Since no excluded object is a coordinate of the packet, the local certificate has no place from which to export Dedekind cuts, quotient streams, trichotomy, choice, selected limits, ambient completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy location witness regular readback]
+\label{thm:regular-cauchy-location-witness-regular-readback}
+Let
+$$
+L=(R,S,D,W,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyLocationWitnessUp$ carrier. Every location read of $L$ factors through the displayed regular-Cauchy route
+$$
+R \longmapsto S \longmapsto D \longmapsto W
+$$
+before any $\RealUp$ seal or structural row is inspected.
+\end{theorem}
+\begin{proof}
+Begin with a location read. Carrier admission supplies $R$ as the only regular rational source row, so no second stream representative or quotient stream can be selected.
+
+The read then passes through $S$. This schedule determines the finite windows on which the regular source is inspected, and it is the only window source available to the packet.
+
+Next the read consumes $D$ and $W$. The dyadic ledger fixes the tolerance and endpoint budget, while the witness row records the finite locatedness decision over the scheduled windows.
+
+Only after this route is displayed can the read reach $E$ or the structural rows $H,C,P,N$. Thus every location read is a regular-Cauchy readback route rather than a host-level located real construction.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy location witness Real seal non-escape]
+\label{thm:regular-cauchy-location-witness-real-seal-nonescape}
+For every accepted $\RegularCauchyLocationWitnessUp$ carrier $L=(R,S,D,W,E,H,C,P,N)$, the exported $\RealUp$ seal $E$ is read only as the terminal boundary of the displayed finite route through $R,S,D,W,H,C,P,N$. It exports no Dedekind cuts, quotient stream equality, real trichotomy, countable-choice selector, selected limit, ambient Real completeness theorem, Lean verification, or bridge checking datum.
+\end{theorem}
+\begin{proof}
+Project the seal row from the carrier. The row $E$ is listed after the regular source, schedule, dyadic ledger, and witness rows, so a seal-facing consumer has no direct entry to $E$.
+
+Use \autoref{thm:regular-cauchy-location-witness-regular-readback}. Any seal-facing location route first reads $R,S,D,W$, and those rows exhaust the finite analytic data available to the packet.
+
+The structural rows preserve only this route. Transport $H$, replay $C$, provenance $P$, and local naming $N$ do not add new analytic coordinates; they keep the same displayed packet available under componentwise comparison and continuation.
+
+The excluded principles are absent from the carrier inventory and from the provenance row. Therefore the terminal seal remains a finite located regular-Cauchy boundary, not a proof of Dedekind completeness, quotient equality, trichotomy, choice, selected limits, Lean verification, or bridge checking.
+\end{proof}
+
+\closureat{RegularCauchyLocationWitnessUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyLocationWitnessUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-location-witness-carrier}, \autoref{thm:regular-cauchy-location-witness-namecert-obligations}, \autoref{thm:regular-cauchy-location-witness-regular-readback}, and \autoref{thm:regular-cauchy-location-witness-real-seal-nonescape} seed the finite location-witness route from regular rational source rows through StreamName windows, DyadicRatCore tolerances, displayed locatedness witnesses, and the terminal Real seal.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RegularCauchyLocationWitnessUp.TasteGate.RegularCauchyLocationWitnessTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Dedekind cuts, quotient streams, real trichotomy, countable choice, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, regular-source exposure, dyadic-budget exactness, witness routing, regular readback, Real-seal non-escape, and structural stability for BEDC.Derived.RegularCauchyLocationWitnessUp.}
+  \constructivestory{A $\RegularCauchyLocationWitnessUp$ packet is generated from a RegSeqRat regular source row, finite StreamName windows, a DyadicRatCore tolerance ledger, displayed locatedness witnesses, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

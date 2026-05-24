@@ -1,0 +1,201 @@
+\begin{definition}[Spectral ablation]
+\label{def:philosophy-spectral-ablation}
+Let $\lambda(M)$ be the killed bit-flip spectral radius of the median
+closure. If a vertex set, edge set, or quotient module is removed and
+the resulting killed-walk matrix has spectral radius $\lambda'$, define
+the spectral loss by
+$$
+  \Delta\lambda=\lambda(M)-\lambda'.
+$$
+\end{definition}
+
+\begin{theorem}[Single-codon ablation]
+\label{thm:philosophy-single-codon-ablation}
+Single-codon deletion has the following orbit-level losses:
+$$
+\begin{array}{c|l|r}
+  \text{state} & \text{codons} & \Delta\lambda\\
+  \hline
+  \mathrm{UUR} & \mathrm{UUA},\mathrm{UUG} & 0.041994\\
+  \mathrm{StopStart}_{6}
+    & \mathrm{AUA},\mathrm{AUG},\mathrm{UAA},\mathrm{UAG},
+      \mathrm{UCA},\mathrm{UCG} & 0.035931\\
+  \mathrm{Anchor}_{6}
+    & \mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},
+      \mathrm{UGA},\mathrm{UGG} & 0.033066\\
+  \mathrm{AGR} & \mathrm{AGA},\mathrm{AGG} & 0.031505\\
+  \mathrm{CUR} & \mathrm{CUA},\mathrm{CUG} & 0.005593\\
+  \mathrm{CUY} & \mathrm{CUC},\mathrm{CUU} & 0.000643.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each codon $c\in M$, compute the spectral radius of
+$M\setminus\{c\}$. The symmetry orbits of
+\autoref{thm:philosophy-six-orbit-states-median-closure} make the loss
+constant within each displayed row.
+\end{proof}
+
+\begin{corollary}[UUR as point-level spectral hinge]
+\label{cor:philosophy-uur-point-spectral-hinge}
+The largest single-codon loss occurs at the $\mathrm{UUR}$ pair
+$\{\mathrm{UUA},\mathrm{UUG}\}$.
+\end{corollary}
+\begin{proof}
+This is the first row of
+\autoref{thm:philosophy-single-codon-ablation}.
+\end{proof}
+
+\begin{theorem}[Orbit-module ablation]
+\label{thm:philosophy-orbit-module-ablation}
+Deleting entire quotient modules gives
+$$
+\begin{array}{c|r|r|r}
+  \text{module} & \text{size} & \lambda(M\setminus S) & \Delta\lambda\\
+  \hline
+  \mathrm{StopStart}_{6} & 6 & 0.455342 & 0.219906\\
+  \mathrm{Anchor}_{6} & 6 & 0.512386 & 0.162862\\
+  \mathrm{UUR} & 2 & 0.607625 & 0.067623\\
+  \mathrm{AGR} & 2 & 0.624360 & 0.050888\\
+  \mathrm{CUR} & 2 & 0.666667 & 0.008581\\
+  \mathrm{CUY} & 2 & 0.674246 & 0.001002.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each module $S$, remove all codons in $S$ from $M$ and compute the
+Perron root of the resulting killed transition matrix.
+\end{proof}
+
+\begin{corollary}[Point and module sensitivity differ]
+\label{cor:philosophy-point-module-sensitivity-differ}
+The most sensitive single-codon module is $\mathrm{UUR}$, whereas the
+largest module-level loss comes from $\mathrm{StopStart}_{6}$.
+\end{corollary}
+\begin{proof}
+Compare \autoref{thm:philosophy-single-codon-ablation} and
+\autoref{thm:philosophy-orbit-module-ablation}.
+\end{proof}
+
+\begin{theorem}[Tail-coupling ablation]
+\label{thm:philosophy-tail-coupling-ablation}
+Deleting the two interface edges
+$$
+  \mathrm{UUA}-\mathrm{CUA},
+  \qquad
+  \mathrm{UUG}-\mathrm{CUG}
+$$
+between $\mathrm{UUR}$ and $\mathrm{CUR}$ gives spectral radius
+$$
+  \frac{2}{3}.
+$$
+The spectral loss is
+$$
+  0.008581264\ldots.
+$$
+\end{theorem}
+\begin{proof}
+Removing these two edges disconnects the $\mathrm{CUN}$ tail from the
+$\mathrm{WNR}$ core. The core has spectral radius $2/3$ by
+\autoref{thm:philosophy-wnr-core-killed-walk-q4}, and the detached tail
+has smaller spectral radius. Therefore the largest component spectral
+radius is $2/3$.
+\end{proof}
+
+\begin{corollary}[Antenna input port]
+\label{cor:philosophy-antenna-input-port}
+The spectral gain of the $\mathrm{CUN}$ antenna enters the core through
+the $\mathrm{UUR}-\mathrm{CUR}$ interface.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:philosophy-cun-spectral-antenna}, the total gain over
+the $\mathrm{WNR}$ core is $0.008581264\ldots$. By
+\autoref{thm:philosophy-tail-coupling-ablation}, removing the
+$\mathrm{UUR}-\mathrm{CUR}$ interface loses exactly this amount.
+\end{proof}
+
+\begin{theorem}[Edge-group ablation]
+\label{thm:philosophy-edge-group-ablation}
+Deleting internal edge groups by radial module gives
+$$
+\begin{array}{c|r|r|r}
+  \text{edge group} & \text{edges} & \lambda' & \Delta\lambda\\
+  \hline
+  \mathrm{Anchor}_{6}-\mathrm{StopStart}_{6} & 12 & 0.512386 & 0.162862\\
+  \mathrm{StopStart}_{6}-\mathrm{UUR} & 6 & 0.607625 & 0.067623\\
+  \mathrm{StopStart}_{6}\ \text{internal} & 3 & 0.622672 & 0.052576\\
+  \mathrm{AGR}-\mathrm{Anchor}_{6} & 6 & 0.624360 & 0.050888\\
+  \mathrm{Anchor}_{6}\ \text{internal} & 3 & 0.627825 & 0.047423\\
+  \mathrm{UUR}\ \text{internal} & 1 & 0.655912 & 0.019336\\
+  \mathrm{AGR}\ \text{internal} & 1 & 0.661306 & 0.013942\\
+  \mathrm{UUR}-\mathrm{CUR} & 2 & 0.666667 & 0.008581\\
+  \mathrm{CUR}\ \text{internal} & 1 & 0.672777 & 0.002471\\
+  \mathrm{CUR}-\mathrm{CUY} & 2 & 0.674246 & 0.001002\\
+  \mathrm{CUY}\ \text{internal} & 1 & 0.674978 & 0.000270.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each displayed group, remove exactly those Hamming edges from the
+killed-walk adjacency matrix and compute the Perron root of the
+remaining matrix.
+\end{proof}
+
+\begin{corollary}[Central load-bearing interface]
+\label{cor:philosophy-central-load-bearing-interface}
+The largest edge-group loss comes from the
+$\mathrm{Anchor}_{6}-\mathrm{StopStart}_{6}$ interface. This central
+interface is the load-bearing interface of the median closure.
+\end{corollary}
+\begin{proof}
+It is the first row of \autoref{thm:philosophy-edge-group-ablation}.
+\end{proof}
+
+\begin{theorem}[Single-edge ablation]
+\label{thm:philosophy-single-edge-ablation}
+Among the $38$ internal Hamming edges of $M$, the largest single-edge
+loss occurs at the wobble edge
+$$
+  \mathrm{UUA}-\mathrm{UUG},
+$$
+with
+$$
+  \Delta\lambda=0.019336.
+$$
+The next six edge losses are the six
+$\mathrm{StopStart}_{6}-\mathrm{UUR}$ edges, each with
+$$
+  \Delta\lambda=0.017432.
+$$
+\end{theorem}
+\begin{proof}
+Remove one internal Hamming edge at a time and compute the Perron root
+of the resulting killed-walk matrix. The edge
+$\mathrm{UUA}-\mathrm{UUG}$ gives the largest loss; the next six are
+the six edges between $\mathrm{StopStart}_{6}$ and $\mathrm{UUR}$.
+\end{proof}
+
+\begin{theorem}[Spectral hinges and load-bearing interfaces]
+\label{thm:philosophy-spectral-hinges-load-bearing-interfaces}
+The spectral stability of $M$ separates into distinct critical
+structures:
+$$
+\begin{array}{c|c}
+  \text{level} & \text{critical object}\\
+  \hline
+  \text{single codon} & \mathrm{UUR}\\
+  \text{module} & \mathrm{StopStart}_{6}\\
+  \text{edge group} & \mathrm{Anchor}_{6}-\mathrm{StopStart}_{6}\\
+  \text{antenna input} & \mathrm{UUR}-\mathrm{CUR}\\
+  \text{single edge} & \mathrm{UUA}-\mathrm{UUG}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The five entries are respectively
+\autoref{cor:philosophy-uur-point-spectral-hinge},
+\autoref{thm:philosophy-orbit-module-ablation},
+\autoref{cor:philosophy-central-load-bearing-interface},
+\autoref{cor:philosophy-antenna-input-port}, and
+\autoref{thm:philosophy-single-edge-ablation}.
+\end{proof}

@@ -1,0 +1,323 @@
+\begin{definition}[Synonymous induced graph]
+\label{def:philosophy-synonymous-induced-graph}
+Let $E:Q_{6}\to C$ be the standard translation classifier. For a class
+$a\in C$, write $G_{a}$ for the subgraph of the Hamming graph on $Q_{6}$
+induced by the fiber $E^{-1}(a)$.
+\end{definition}
+
+\begin{theorem}[Synonymous induced graph types]
+\label{thm:philosophy-synonymous-induced-graph-types}
+The standard classifier has exactly the following synonymous component
+types:
+$$
+\begin{array}{c|l}
+  \text{component type} & \text{classes}\\
+\hline
+  1 & \mathrm{Met},\mathrm{Trp}\\
+  2 & \mathrm{Phe},\mathrm{Tyr},\mathrm{Cys},\mathrm{His},
+      \mathrm{Gln},\mathrm{Asn},\mathrm{Lys},\mathrm{Asp},\mathrm{Glu}\\
+  3 & \mathrm{Ile},\mathrm{Stop}\\
+  4 & \mathrm{Pro},\mathrm{Thr},\mathrm{Val},\mathrm{Ala},\mathrm{Gly}\\
+  4+2 & \mathrm{Ser},\mathrm{Arg}\\
+  6 & \mathrm{Leu}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each translation class, restrict the $Q_{6}$ Hamming graph to the
+codons in that class and compute connected component sizes. The
+standard table gives the displayed finite list.
+\end{proof}
+
+\begin{corollary}[Dual tripleton shape]
+\label{cor:philosophy-dual-tripleton-shape}
+The two tripleton classes $\mathrm{Ile}$ and $\mathrm{Stop}$ have the
+same induced $X_{2}$ graph shape. In local coordinates they are
+$$
+  \{00,01,10\},
+$$
+with Hamming path $01-00-10$.
+\end{corollary}
+\begin{proof}
+The tripleton component type in
+\autoref{thm:philosophy-synonymous-induced-graph-types} is connected of
+size $3$. Substituting the coordinates of the Ile/Met and Stop/Trp
+faces from
+\autoref{thm:philosophy-complete-global-fiber-tiles-standard-code} gives
+the displayed $X_{2}$ shape.
+\end{proof}
+
+\begin{theorem}[Internal edge and boundary spectrum]
+\label{thm:philosophy-internal-edge-boundary-spectrum}
+For each class $a$, let
+$$
+  e_{a}=|\{x\sim y:E(x)=E(y)=a\}|.
+$$
+The internal edge and external boundary degrees are:
+$$
+\begin{array}{c|r|r|r}
+  \text{class type} & |E^{-1}(a)| & e_{a}
+    & 6|E^{-1}(a)|-2e_{a}\\
+\hline
+  \mathrm{Met},\mathrm{Trp} & 1 & 0 & 6\\
+  \text{doubleton classes} & 2 & 1 & 10\\
+  \mathrm{Ile},\mathrm{Stop} & 3 & 2 & 14\\
+  \mathrm{Pro},\mathrm{Thr},\mathrm{Val},\mathrm{Ala},\mathrm{Gly}
+    & 4 & 4 & 16\\
+  \mathrm{Ser},\mathrm{Arg} & 6 & 5 & 26\\
+  \mathrm{Leu} & 6 & 7 & 22.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Enumerate the $192$ Hamming edges of $Q_{6}$ and count those whose two
+endpoints lie in the same translation class. The boundary degree formula
+subtracts twice the internal edges from the total incident degree
+$6|E^{-1}(a)|$.
+\end{proof}
+
+\begin{corollary}[Leu is the tight sextupleton]
+\label{cor:philosophy-leu-tight-sextupleton}
+Among the three sextupleton classes, $\mathrm{Leu}$ has the largest
+internal Hamming edge count:
+$$
+  e_{\mathrm{Leu}}=7,\qquad
+  e_{\mathrm{Ser}}=e_{\mathrm{Arg}}=5.
+$$
+Thus the Phe/Leu block is a sense expansion geometry rather than a
+halt/continue control geometry.
+\end{corollary}
+\begin{proof}
+Read the sextupleton rows of
+\autoref{thm:philosophy-internal-edge-boundary-spectrum} and compare
+with the unique $6+2$ $Q_{3}$ cube described in
+\autoref{thm:philosophy-standard-code-q-three-cube-spectrum}.
+\end{proof}
+
+\begin{definition}[Class adjacency and coarse bit-flip transition]
+\label{def:philosophy-class-adjacency-transition}
+The class adjacency matrix is
+$$
+  A_{ab}=|\{x\sim y:E(x)=a,\ E(y)=b\}|.
+$$
+For the coarse one-bit transition from class $a$ to class $b$, set
+$$
+  P(b\mid a)
+  =
+  \frac{|\{x\in E^{-1}(a),\ y\sim x,\ E(y)=b\}|}
+       {6|E^{-1}(a)|}.
+$$
+\end{definition}
+
+\begin{theorem}[Largest class-adjacency weights]
+\label{thm:philosophy-largest-class-adjacency-weights}
+The largest off-diagonal entries of the class adjacency matrix are
+$$
+\begin{array}{c|r}
+  \text{class pair} & A_{ab}\\
+\hline
+  \mathrm{Ser}{-}\mathrm{Thr} & 6\\
+  \mathrm{Gly}{-}\mathrm{Arg} & 6\\
+  \mathrm{Phe}{-}\mathrm{Leu} & 4\\
+  \mathrm{Pro}{-}\mathrm{Ser} & 4\\
+  \mathrm{Cys}{-}\mathrm{Ser} & 4\\
+  \mathrm{Leu}{-}\mathrm{Val} & 4\\
+  \mathrm{Leu}{-}\mathrm{Pro} & 4\\
+  \mathrm{Ala}{-}\mathrm{Pro} & 4\\
+  \mathrm{Pro}{-}\mathrm{Arg} & 4\\
+  \mathrm{Ala}{-}\mathrm{Thr} & 4\\
+  \mathrm{Ala}{-}\mathrm{Val} & 4\\
+  \mathrm{Ala}{-}\mathrm{Gly} & 4.
+\end{array}
+$$
+The two control pairs satisfy
+$$
+  A_{\mathrm{Ile},\mathrm{Met}}=2,
+  \qquad
+  A_{\mathrm{Stop},\mathrm{Trp}}=2.
+$$
+\end{theorem}
+\begin{proof}
+Each Hamming edge is decoded at both endpoints and then accumulated by
+the unordered pair of translation classes. The displayed rows are the
+largest finite counts; the two control-pair counts are the corresponding
+entries for the singleton/tripleton contacts.
+\end{proof}
+
+\begin{corollary}[Control pairs are corner contacts]
+\label{cor:philosophy-control-pairs-corner-contacts}
+The Ile/Met and Stop/Trp pairs are not maximal by adjacency weight.
+Their distinction is geometric: each is a singleton $11$ corner adjacent
+to a tripleton $X_{2}$ fiber.
+\end{corollary}
+\begin{proof}
+The weights are only $2$ by
+\autoref{thm:philosophy-largest-class-adjacency-weights}. The global
+singleton/tripleton $11$-corner geometry is
+\autoref{thm:philosophy-complete-global-fiber-tiles-standard-code}.
+\end{proof}
+
+\begin{theorem}[Dual singleton transition probabilities]
+\label{thm:philosophy-dual-singleton-transition-probabilities}
+The coarse one-bit transition probabilities satisfy
+$$
+  P(\mathrm{Ile}\mid\mathrm{Met})=\frac{2}{6}=\frac{1}{3},
+  \qquad
+  P(\mathrm{Stop}\mid\mathrm{Trp})=\frac{2}{6}=\frac{1}{3}.
+$$
+Moreover
+$$
+  P(\mathrm{Met}\mid\mathrm{Ile})=\frac{2}{18}=\frac{1}{9},
+  \qquad
+  P(\mathrm{Trp}\mid\mathrm{Stop})=\frac{2}{18}=\frac{1}{9}.
+$$
+\end{theorem}
+\begin{proof}
+The Met singleton has six one-bit neighbors, two of which lie in the Ile
+fiber. The Trp singleton has six one-bit neighbors, two of which lie in
+the Stop fiber. Reversing direction divides the same two boundary
+contacts by the total directed degree $18$ of each tripleton fiber.
+\end{proof}
+
+\begin{definition}[$Q_{4}$ neighborhood of a tile]
+\label{def:philosophy-q-four-tile-neighborhood}
+An axis-aligned $Q_{4}$ cube is obtained by fixing two bits of $Q_{6}$
+and freeing the remaining four. A $Q_{2}$ tile has six direct $Q_{4}$
+neighborhoods, one for each choice of two additional free bits.
+\end{definition}
+
+\begin{theorem}[Standard-code $Q_{4}$ spectrum]
+\label{thm:philosophy-standard-code-q-four-spectrum}
+The $60$ axis-aligned $Q_{4}$ cubes of the standard classifier have
+maximal within-cube class sizes distributed as
+$$
+\begin{array}{c|rrrr}
+  \max_{a}|Q_{4}\cap E^{-1}(a)| & 2 & 3 & 4 & 6\\
+\hline
+  \text{cube count} & 17 & 15 & 23 & 5.
+\end{array}
+$$
+The complete sextupleton appearances inside $Q_{4}$ cubes are
+$$
+  \mathrm{Leu}:3,\qquad
+  \mathrm{Ser}:1,\qquad
+  \mathrm{Arg}:1.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate the $\binom{6}{4}2^{2}=60$ axis-aligned $Q_{4}$ cubes. For
+each cube count the multiplicities of translation labels inside it and
+record the maximum. A complete sextupleton appearance is counted when
+all six codons of a global six-codon class lie in the cube.
+\end{proof}
+
+\begin{theorem}[Dual control $Q_{4}$ neighborhoods]
+\label{thm:philosophy-dual-control-q-four-neighborhoods}
+All six $Q_{4}$ neighborhoods of the Stop/Trp tile retain
+$\mathrm{Stop}_{3}+\mathrm{Trp}_{1}$. All six $Q_{4}$ neighborhoods of
+the Ile/Met tile retain $\mathrm{Ile}_{3}+\mathrm{Met}_{1}$.
+However, the Ile/Met neighborhoods also include ordinary large sense
+blocks, including
+$$
+  \mathrm{Ala}_{4}+\mathrm{Thr}_{4}+\mathrm{Val}_{4}
+  +\mathrm{Ile}_{3}+\mathrm{Met}_{1}
+$$
+and
+$$
+  \mathrm{Leu}_{6}+\mathrm{Val}_{4}
+  +\mathrm{Ile}_{3}+\mathrm{Phe}_{2}+\mathrm{Met}_{1}.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate the six $Q_{4}$ cubes containing each displayed $Q_{2}$ tile
+and record their translation-class multiplicities. The Stop/Trp
+neighborhoods always keep the same $\mathrm{Stop}_{3}$ and
+$\mathrm{Trp}_{1}$ core. The Ile/Met neighborhoods keep the
+$\mathrm{Ile}_{3}$ and $\mathrm{Met}_{1}$ core, while two of the
+neighborhoods contain the displayed larger sense blocks.
+\end{proof}
+
+\begin{corollary}[Boundary tile versus entry tile]
+\label{cor:philosophy-boundary-entry-tile-q-four-distinction}
+Stop/Trp is a locally closed halt/continue boundary through the
+$Q_{3}$ and $Q_{4}$ neighborhoods. Ile/Met has the same local $X_{2}/11$
+shape, but its higher neighborhoods attach it to ordinary four-codon and
+six-codon sense regions.
+\end{corollary}
+\begin{proof}
+Combine the $Q_{3}$ neighborhood counts in
+\autoref{thm:philosophy-standard-code-q-three-cube-spectrum} with the
+$Q_{4}$ neighborhood statement in
+\autoref{thm:philosophy-dual-control-q-four-neighborhoods}.
+\end{proof}
+
+\begin{definition}[Control half-cube]
+\label{def:philosophy-control-half-cube}
+A $Q_{5}$ half-cube in $Q_{6}$ is obtained by fixing one bit and freeing
+the other five bits.
+\end{definition}
+
+\begin{theorem}[Unique shared control half-cube]
+\label{thm:philosophy-unique-shared-control-half-cube}
+The Ile/Met tile and the Stop/Trp tile share exactly one fixed-bit
+condition:
+$$
+  b_{1}^{f}=0.
+$$
+Thus both lie in the unique half-cube whose first codon base has family
+bit $0$, equivalently whose first base lies in $\{\mathrm{U},\mathrm{A}\}$.
+Inside this $Q_{5}$ half-cube, the class multiplicities are
+$$
+\begin{gathered}
+  \mathrm{Ser}_{6},\ \mathrm{Thr}_{4},\
+  \mathrm{Stop}_{3},\ \mathrm{Ile}_{3},\\
+  \mathrm{Phe}_{2},\ \mathrm{Leu}_{2},\
+  \mathrm{Tyr}_{2},\ \mathrm{Cys}_{2},\
+  \mathrm{Asn}_{2},\ \mathrm{Lys}_{2},\
+  \mathrm{Arg}_{2},\ \mathrm{Trp}_{1},\ \mathrm{Met}_{1}.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+The Stop/Trp tile has first base $\mathrm{U}=00$, while the Ile/Met tile
+has first base $\mathrm{A}=10$. The two first-base shape bits differ,
+but their first-base family bit is the common value $0$. Checking the
+remaining four bit coordinates across the eight tile vertices shows no
+other common fixed coordinate. Enumerating the resulting $32$ vertices
+gives the displayed multiplicities.
+\end{proof}
+
+\begin{corollary}[Co-localized dual control tiles]
+\label{cor:philosophy-colocalized-dual-control-tiles}
+The two $X_{2}/11$ control tiles are not isolated coincidences in
+$Q_{6}$. They are co-localized in the single half-cube $b_{1}^{f}=0$,
+where the two tripleton fibers and the two singleton fibers appear
+together:
+$$
+  \mathrm{Stop}_{3},\quad \mathrm{Ile}_{3},\quad
+  \mathrm{Trp}_{1},\quad \mathrm{Met}_{1}.
+$$
+\end{corollary}
+\begin{proof}
+This is the control-class sublist of
+\autoref{thm:philosophy-unique-shared-control-half-cube}.
+\end{proof}
+
+\begin{corollary}[Half-cube reading of dual $10$-to-$11$ reassignment]
+\label{cor:philosophy-half-cube-dual-ten-eleven-reassignment}
+The alternative assignments $\mathrm{AUA}\to\mathrm{Met}$ and
+$\mathrm{UGA}\to\mathrm{Trp}$ have the same local form inside the shared
+half-cube:
+$$
+  \{00,01,10\}\mid\{11\}
+  \rightsquigarrow
+  \{00,01\}\mid\{10,11\}.
+$$
+\end{corollary}
+\begin{proof}
+By \autoref{prop:philosophy-dual-ten-to-eleven-reassignment}, both
+assignments move the local $10$ vertex into the class containing the
+$11$ corner. By
+\autoref{thm:philosophy-unique-shared-control-half-cube}, the two
+instances lie in the same $b_{1}^{f}=0$ half-cube.
+\end{proof}

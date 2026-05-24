@@ -1,0 +1,183 @@
+\chapter{A Concrete Naming Certificate for $\ContinuedFractionConvergentsUp$}
+\label{ch:concrete-instances-continued-fraction-convergents-namecert}
+\origin{human}
+
+Following Perron, Khinchin, and the Hardy--Wright treatment of continued
+fractions, the $\ContinuedFractionConvergentsUp$ packet names finite
+convergent data before any completion-facing consumer reads it as a regular
+rational sequence or as a real-name seal. It refines the partial-quotient
+surface of \autoref{ch:concrete-instances-continuedfraction-namecert} by
+separating the convergent numerator and denominator rows, the rational
+normalization rows of \autoref{ch:concrete-instances-rat-namecert}, the
+finite-window route of \autoref{ch:concrete-instances-streamname-namecert},
+the regular-rational handoff of
+\autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal
+$\RealUp$ boundary of \autoref{ch:concrete-instances-real-namecert}. The
+packet is a finite approximation certificate between continued fractions and
+Real or Completion routes; it is not a completeness theorem and not a
+quotient equality principle.
+
+\begin{definition}[ContinuedFractionConvergents carrier]
+\label{def:continued-fraction-convergent-carrier}
+A $\ContinuedFractionConvergentsUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,N,D,Q,W,E,R,S,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\ContinuedFractionUp$ partial-quotient source row, including
+the finite prefix of partial quotients and the local recurrence ledger that
+names which prefix is being read.
+\item $N$ and $D$ are the $\RatUp$ numerator and denominator convergent rows.
+They display the finite recurrence steps and the denominator-nonzero side
+condition needed to read each convergent as a rational endpoint.
+\item $Q$ is the $\RatUp$ normalized rational-convergent row obtained from
+$N$ and $D$ by the displayed rational arithmetic route.
+\item $W$ is the $\StreamNameUp$ finite-window row exposing only the
+convergent indices requested by the downstream consumer.
+\item $E$ is the $\DyadicRatCoreUp$ error-ledger row. It records the dyadic
+radius, endpoint enclosure, and precision budget attached to each displayed
+finite window.
+\item $R$ is the $\RegSeqRatUp$ handoff row built from $Q,W,E$ and the
+recurrence ledger of $A,N,D$.
+\item $S$ is the terminal $\RealUp$ seal reached only after the regular
+rational row $R$ has been displayed.
+\item $H$ records componentwise $\hsame$ transport for partial quotients,
+numerator rows, denominator rows, normalized rationals, stream windows,
+dyadic ledgers, regular handoff, the Real seal, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from each finite window request
+through $A,N,D,Q,W,E,R,S,H,P,L$.
+\item $P$ is the $\Pkg$ provenance row over
+$\ContinuedFractionConvergentsUp$, $\ContinuedFractionUp$, $\RatUp$,
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$,
+$\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\ContinuedFractionConvergentsUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no
+coordinate for an infinite continued-fraction tail, host rational equality,
+quotient real equality, a selected limit, countable choice, or ambient
+$\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.ContinuedFractionConvergentsUp.ContinuedFractionConvergentsTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[ContinuedFractionConvergents NameCert obligations]
+\label{thm:continued-fraction-convergent-namecert-obligations}
+For every accepted $\ContinuedFractionConvergentsUp$ carrier
+$K=(A,N,D,Q,W,E,R,S,H,C,P,L)$, the local
+$\NameCert_{\ContinuedFractionConvergentsUp}$ surface consists exactly of the
+following six obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed partial-quotient source, rational
+numerator and denominator rows, normalized rational convergent row, finite
+stream windows, dyadic error ledger, regular handoff, Real seal, and
+structural rows $H,C,P,L$;
+\item recurrence exactness, requiring each displayed numerator and denominator
+row to read the finite recurrence ledger of $A$ before the rational row $Q$
+is available;
+\item rational-window compatibility, requiring $Q$ and $W$ to expose the same
+finite convergent indices and no unrequested tail data;
+\item dyadic error compatibility, requiring $E$ to be attached to the same
+finite windows as $W$ and to supply the precision budget consumed by $R$;
+\item Real-route nonescape, requiring $S$ to remain terminal with respect to
+$A,N,D,Q,W,E,R$ and to expose no detached real object;
+\item componentwise transport, replay, provenance, and naming, requiring
+$H,C,P,L$ to preserve only the displayed route under $\hsame$ transport and
+$\Cont$ replay.
+\end{enumerate}
+No local obligation is stored outside these six rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from
+\autoref{def:continued-fraction-convergent-carrier}. The visible packet
+contains the partial-quotient source, the rational numerator and denominator
+rows, the normalized rational convergent row, finite windows, dyadic error
+data, regular handoff, Real seal, and the structural rows $H,C,P,L$.
+
+Recurrence exactness reads the source row $A$ before $N$ and $D$ are accepted.
+The rational row $Q$ is therefore downstream of the finite recurrence ledger,
+not a detached rational sequence.
+
+Window and dyadic compatibility read $W$ and $E$ over the same finite index
+set. The stream row exposes only requested convergent windows, and the dyadic
+row supplies the precision budget that the regular handoff row $R$ consumes.
+
+The Real-route clause follows from the placement of $S$ after $R$. Since the
+carrier has no separate coordinate for completed tails, quotient equality, or
+selected limits, $H,C,P,L$ can transport and name only the displayed finite
+route.
+\end{proof}
+
+\begin{theorem}[ContinuedFractionConvergents RegSeqRat handoff]
+\label{thm:continued-fraction-convergent-regseqrat-handoff}
+Let $K=(A,N,D,Q,W,E,R,S,H,C,P,L)$ be an accepted
+$\ContinuedFractionConvergentsUp$ carrier. Every $\RegSeqRatUp$ consumer reads
+the packet through the displayed route
+$$
+A,N,D \longmapsto Q \longmapsto W,E \longmapsto R \longmapsto H,C,P,L .
+$$
+Consequently the consumer receives finite continued-fraction prefixes,
+rational numerator and denominator rows, normalized rational convergents,
+finite stream windows, dyadic error ledgers, componentwise $\hsame$ transport,
+$\Cont$ replay, package provenance, and the local NameCert row before any
+regular-rational data is available. The route cannot use quotient real
+equality, a choice-selected limit, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a $\RegSeqRatUp$ read of $K$. By
+\autoref{def:continued-fraction-convergent-carrier}, the only regular
+rational coordinate is $R$, and it is downstream of $Q,W,E$ together with the
+recurrence ledger carried by $A,N,D$.
+
+The rational part of the route is fixed by $N,D,Q$. The numerator and
+denominator rows expose the finite recurrence data, while $Q$ records the
+normalized rational convergent surface read through
+\autoref{ch:concrete-instances-rat-namecert}.
+
+The window and precision part of the route is fixed by $W$ and $E$. The
+finite stream surface of
+\autoref{ch:concrete-instances-streamname-namecert} chooses the displayed
+windows, and the $\DyadicRatCoreUp$ ledger supplies the error budget consumed
+by the regular-rational row of
+\autoref{ch:concrete-instances-regseqrat-namecert}.
+
+Finally, $H,C,P,L$ transport, replay, package, and name the same route. Since
+the excluded objects have no coordinate in the carrier, every handoff to
+$\RegSeqRatUp$ factors through the displayed finite convergent packet.
+\end{proof}
+
+\begin{theorem}[ContinuedFractionConvergents Real seal boundary]
+\label{thm:continued-fraction-convergent-real-seal-boundary}
+Every $\RealUp$ read of an accepted $\ContinuedFractionConvergentsUp$ carrier
+factors through the $\RegSeqRatUp$ handoff row $R$ before it reaches the Real
+seal row $S$. The boundary exposes the same finite partial-quotient source,
+rational convergent rows, finite windows, dyadic error ledger, transport,
+replay, provenance, and local naming; it does not assert full real
+completeness, quotient equality of real names, or a choice-selected limit of
+the convergent sequence.
+\end{theorem}
+\begin{proof}
+Read the Real-facing coordinate of
+\autoref{def:continued-fraction-convergent-carrier}. The seal row is $S$, and
+the definition places $S$ after the regular handoff row $R$.
+
+Apply \autoref{thm:continued-fraction-convergent-regseqrat-handoff}. The
+handoff row already factors through the finite partial-quotient source,
+rational numerator and denominator rows, normalized rational convergents,
+stream windows, dyadic error ledgers, and structural rows.
+
+Thus any Real-facing consumer receives the same finite route before the seal
+is visible. No coordinate can bypass $R$ to provide quotient equality,
+choice-selected limits, or ambient completeness for $\RealUp$.
+\end{proof}
+
+\closureat{ContinuedFractionConvergentsUp}{seedStr}
+
+\begin{closurestatus}{\ContinuedFractionConvergentsUp}
+  \constructivestory{A $\ContinuedFractionConvergentsUp$ packet is generated from a ContinuedFraction partial-quotient source, Rat numerator and denominator convergent rows, StreamName finite windows, a DyadicRatCore error ledger, RegSeqRat handoff, Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:continued-fraction-convergent-carrier}, \autoref{thm:continued-fraction-convergent-namecert-obligations}, \autoref{thm:continued-fraction-convergent-regseqrat-handoff}, and \autoref{thm:continued-fraction-convergent-real-seal-boundary} seed the finite continued-fraction convergent route consumed by RegSeqRat and Real packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full real completeness, quotient equality of real names, choice-selected limits of convergent sequences, total continued-fraction expansion for every real, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, recurrence exactness, rational-window compatibility, dyadic error compatibility, Real-route nonescape, componentwise transport, provenance, and local naming for the same displayed packet.}
+\end{closurestatus}

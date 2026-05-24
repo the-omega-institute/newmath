@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\SchurOrthogonalityUp$}
+\label{ch:concrete-instances-schurorthogonality-namecert}
+\origin{human}
+
+Starting from Schur's orthogonality relations for finite-group characters, the $\SchurOrthogonalityUp$ packet records the row and column orthogonality ledger as finite BEDC readback data. It refines the character ledger of \autoref{ch:concrete-instances-charactertheory-namecert} and supplies a concrete downstream source for $\RepresentationRingUp$ and $\InducedRepUp$ without importing host character tables, quotient conjugacy-class carriers, or complete representation categories.
+
+\begin{definition}[SchurOrthogonality carrier]
+\label{def:schur-orthogonality-carrier}
+A $\SchurOrthogonalityUp$ carrier is a finite $\BHist$ packet
+$$
+S=(G,V,X,\Phi,\Omega,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the consumed $\NameCert_{\GroupUp}$ row for the finite group endpoint.
+\item $V$ is the consumed $\NameCert_{\VecSpaceUp}$ row for the representation-space endpoints that carry the character reads.
+\item $X$ is the consumed $\NameCert_{\CharacterTheoryUp}$ row, restricted to trace and class-function readback data already exposed by the character-theory packet.
+\item $\Phi$ is the finite character-pairing ledger whose entries name the displayed pairings of character rows before any representation-ring or induced-representation consumer reads them.
+\item $\Omega$ is the row and column orthogonality ledger, containing only finite rows for the displayed Schur row relations, Schur column relations, normalization reads, and zero-off-diagonal reads.
+\item $H$ records componentwise $\hsame$ transport for the group, vector-space, character-theory, pairing, orthogonality, continuation, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from $G,V,X$ into $\Phi$, from $\Phi$ into $\Omega$, and from $\Omega$ into the downstream $\RepresentationRingUp$ and $\InducedRepUp$ readback rows.
+\item $P$ is the $\Pkg$ provenance over $\SchurOrthogonalityUp$, $\GroupUp$, $\VecSpaceUp$, $\CharacterTheoryUp$, $\RepresentationRingUp$, $\InducedRepUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SchurOrthogonalityUp}$ row.
+\end{enumerate}
+The carrier exports only this finite orthogonality ledger. It contains no host character table, no quotient carrier of conjugacy classes, no ambient inner-product space, and no complete category of representations.
+\end{definition}
+
+\begin{theorem}[SchurOrthogonality NameCert obligations]
+\label{thm:schur-orthogonality-namecert-obligations}
+For every accepted $\SchurOrthogonalityUp$ carrier $S=(G,V,X,\Phi,\Omega,H,C,P,N)$, the local $\NameCert_{\SchurOrthogonalityUp}$ surface consists exactly of the following five rows:
+\begin{enumerate}
+\item carrier admission for the displayed group, vector-space, character-theory, pairing, orthogonality, transport, continuation, provenance, and naming rows;
+\item character-pairing route, requiring every orthogonality read to pass through the finite pairing ledger $\Phi$ before it is consumed by $\RepresentationRingUp$ or $\InducedRepUp$;
+\item row and column orthogonality ledger, recording the displayed Schur row relations, Schur column relations, normalization reads, and zero-off-diagonal reads in $\Omega$;
+\item transport stability, requiring $\hsame$ and $\Cont$ replay to preserve the same displayed pairing and orthogonality entries under accepted source transport;
+\item no-host-quotient boundary, excluding character-table computation, quotient conjugacy-class carriers, host inner products, and complete representation categories.
+\end{enumerate}
+No local obligation is stored outside these finite rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:schur-orthogonality-carrier}. The only available data are the consumed $G,V,X$ rows, the pairing ledger $\Phi$, the orthogonality ledger $\Omega$, and the structural rows $H,C,P,N$.
+
+The character-pairing route is forced by the row order: downstream consumers read orthogonality only after the relevant character rows have been paired in $\Phi$. The row and column relations are then read from $\Omega$, whose entries are displayed finite ledger rows rather than host sums over a character table.
+
+Transport stability is the role of $H$ and $C$. They move accepted source rows componentwise and replay the same path from $G,V,X$ through $\Phi$ into $\Omega$.
+
+Finally, the provenance and naming rows bind exactly this finite packet. Since no coordinate stores a host character table, quotient conjugacy-class carrier, host inner product, or representation category, such data remain outside the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[SchurOrthogonality character-pairing route]
+\label{thm:schur-orthogonality-character-pairing-route}
+Let $S=(G,V,X,\Phi,\Omega,H,C,P,N)$ be an accepted $\SchurOrthogonalityUp$ carrier. Every orthogonality read exported from $S$ to a $\RepresentationRingUp$ or $\InducedRepUp$ consumer factors through the displayed route
+$$
+G,V,X \longmapsto \Phi \longmapsto \Omega \longmapsto C,P,N .
+$$
+Thus no consumer can read a Schur row relation, Schur column relation, normalization row, or zero-off-diagonal row before the corresponding character-pairing entry has appeared in $\Phi$.
+\end{theorem}
+\begin{proof}
+Start with a downstream orthogonality request. The group, vector-space, and character-theory sources available to the request are exactly the displayed rows $G,V,X$.
+
+The request first enters the character-pairing ledger $\Phi$. Only after that pairing entry is present can the continuation route reach the orthogonality ledger $\Omega$ and select the corresponding row relation, column relation, normalization row, or zero-off-diagonal row.
+
+The structural rows $C,P,N$ then expose that selected entry to the downstream consumer. Since every exported entry has this route as its displayed source, there is no direct read from a host character table, quotient class carrier, or ambient inner product.
+\end{proof}
+
+\closureat{SchurOrthogonalityUp}{seedStr}
+
+\begin{closurestatus}{\SchurOrthogonalityUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:schur-orthogonality-carrier}, \autoref{thm:schur-orthogonality-namecert-obligations}, and \autoref{thm:schur-orthogonality-character-pairing-route} seed the finite Schur orthogonality ledger over displayed $\GroupUp$, $\VecSpaceUp$, $\CharacterTheoryUp$, $\RepresentationRingUp$, and $\InducedRepUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close character-table computation, quotient conjugacy classes, host inner products, complete representation categories, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, character-pairing routing, row and column orthogonality ledger coverage, transport stability, and no-host-quotient boundary for the same finite packet.}
+  \constructivestory{A $\SchurOrthogonalityUp$ packet is generated from displayed Group, VecSpace, and CharacterTheory sources, a finite character-pairing ledger, a finite row and column orthogonality ledger, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+\end{closurestatus}

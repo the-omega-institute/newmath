@@ -1,0 +1,151 @@
+\chapter{A Concrete Naming Certificate for $\IntervalLengthUp$}
+\label{ch:concrete-instances-interval-length-namecert}
+\origin{human}
+
+Following Bishop and Bridges, Constructive Analysis, the
+$\IntervalLengthUp$ packet names the finite diameter data of a closed
+interval before any appeal to compactness, selected endpoints, or completed
+real equality. It sits after the dyadic arithmetic surface of
+\autoref{ch:concrete-instances-dyadicratcore-namecert}, the endpoint window
+interfaces of \autoref{ch:concrete-instances-dyadicinterval-namecert} and
+\autoref{ch:concrete-instances-rationalinterval-namecert}, and the
+real-window enclosure route of
+\autoref{ch:concrete-instances-real-interval-enclosure-namecert}. Downstream
+uses in \autoref{ch:concrete-instances-real-namecert} read only this finite
+diameter certificate when a $\RealUp$ or $\RegSeqRatUp$ argument needs the
+length of an interval window.
+
+\begin{definition}[IntervalLength carrier]
+\label{def:interval-length-carrier}
+An $\IntervalLengthUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,R,O,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the left endpoint row, accepted either as a
+$\DyadicIntervalUp$ endpoint projection or as a $\RationalIntervalUp$
+endpoint row.
+\item $R$ is the right endpoint row, accepted through the same endpoint
+surface as $L$.
+\item $O$ is the endpoint-order ledger proving that the displayed left row
+precedes the displayed right row in the corresponding finite rational or
+dyadic comparison surface.
+\item $D$ is the dyadic diameter row, a $\DyadicRatCoreUp$ row naming the
+finite value read as $R-L$ on the common endpoint window.
+\item $E$ is the real-interval enclosure handoff row, linking the same
+endpoint and diameter data to the finite enclosure surface of
+\autoref{ch:concrete-instances-real-interval-enclosure-namecert}.
+\item $H$ records componentwise $\hsame$ transport for the endpoint rows,
+order ledger, diameter row, enclosure handoff, continuation row, provenance
+row, and local naming row.
+\item $C$ records the $\Cont$ replay by which a later finite consumer reads
+the same endpoint, order, diameter, and enclosure rows.
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$,
+$\DyadicIntervalUp$, $\RationalIntervalUp$,
+$\RealIntervalEnclosureUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\IntervalLengthUp}$ row.
+\end{enumerate}
+The carrier predicate is exactly the assertion that these nine rows form one
+finite interval-length packet. It has no coordinate for open-cover
+compactness, selected endpoints, quotient real equality, trichotomy, or
+ambient completeness.
+\end{definition}
+
+\begin{theorem}[IntervalLength NameCert obligations]
+\label{thm:interval-length-namecert-obligations}
+For every accepted $\IntervalLengthUp$ carrier
+$I=(L,R,O,D,E,H,C,P,N)$, the local
+$\NameCert_{\IntervalLengthUp}$ surface consists exactly of the following
+finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two endpoint rows, endpoint-order ledger,
+dyadic diameter row, enclosure handoff, componentwise transport,
+continuation replay, package provenance, and local naming row;
+\item endpoint-order exposure, requiring every length read to display the
+same $O$ row that certifies the endpoint orientation;
+\item diameter exactness, requiring $D$ to be the displayed
+$\DyadicRatCoreUp$ subtraction row $R-L$ on the common endpoint window;
+\item enclosure handoff, requiring $E$ to route the same endpoints and
+diameter into the finite real-interval enclosure surface;
+\item classifier transport, requiring $H$ to transport endpoint,
+order, diameter, enclosure, provenance, and naming rows componentwise;
+\item replay stability, requiring $C$ to replay the same finite rows for
+later $\RegSeqRatUp$ and $\RealUp$ consumers;
+\item provenance exhaustion, requiring $P$ to name every consumed
+$\DyadicRatCoreUp$, $\DyadicIntervalUp$, $\RationalIntervalUp$, and
+$\RealIntervalEnclosureUp$ source row;
+\item ledger non-escape, excluding any read through open-cover compactness,
+selected endpoint choice, quotient real equality, trichotomy, or ambient
+completeness.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:interval-length-carrier}. The projection
+exposes exactly two endpoint rows, one endpoint-order ledger, one dyadic
+diameter row, one enclosure handoff, and the structural rows $H,C,P,N$.
+
+Endpoint-order exposure is the row $O$. Since the carrier stores $D$ next to
+$O$, a consumer cannot read a length without also reading the finite
+orientation ledger for the same endpoint window.
+
+Diameter exactness is the row $D$. It is typed as a $\DyadicRatCoreUp$
+subtraction row on the displayed endpoint surface, so the value read by a
+consumer is the finite dyadic difference $R-L$ and not a host metric length.
+
+The handoff row $E$ is then read through the real-interval enclosure surface.
+Transport by $H$ and replay by $C$ preserve the same endpoint, order,
+diameter, and enclosure rows componentwise.
+
+Finally, $P$ and $N$ exhaust provenance and naming. Because the carrier has
+no coordinate for open-cover compactness, selected endpoints, quotient real
+equality, trichotomy, or ambient completeness, the listed non-escape
+conditions are immediate from the packet inventory.
+\end{proof}
+
+\begin{theorem}[IntervalLength dyadic diameter handoff]
+\label{thm:interval-length-dyadic-diameter-handoff}
+Every $\RealUp$ or $\RegSeqRatUp$ consumer of an accepted
+$\IntervalLengthUp$ packet reads the interval diameter only through the
+displayed route
+$$
+L,R,O \longmapsto D \longmapsto E \longmapsto H,C,P,N .
+$$
+The route factors through $\DyadicRatCoreUp$, $\DyadicIntervalUp$,
+$\RationalIntervalUp$, $\RealIntervalEnclosureUp$, $\BHist$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows. It does not expose an ambient metric
+length, a selected endpoint pair, quotient equality of real names, trichotomy,
+open-cover compactness, or a completeness witness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $I=(L,R,O,D,E,H,C,P,N)$. The only endpoint
+coordinates are $L$ and $R$, and the only orientation coordinate attached to
+them is $O$.
+
+The diameter coordinate is $D$. By
+\autoref{def:interval-length-carrier}, $D$ is a displayed
+$\DyadicRatCoreUp$ row computed from the same endpoint window, so every
+diameter read first factors through the finite dyadic arithmetic surface.
+
+The enclosure handoff is $E$. It routes the same endpoint and diameter rows
+into the finite real-interval enclosure packet, which is the only surface
+available to a $\RealUp$ consumer at this boundary.
+
+Finally $H,C,P,N$ package transport, replay, provenance, and local naming.
+Thus a $\RealUp$ or $\RegSeqRatUp$ consumer receives exactly the displayed
+BEDC rows and no ambient metric length, selected endpoint pair, quotient
+real equality, trichotomy, compactness theorem, or completeness datum.
+\end{proof}
+
+\closureat{IntervalLengthUp}{seedStr}
+
+\begin{closurestatus}{\IntervalLengthUp}
+  \constructivestory{An $\IntervalLengthUp$ packet is generated from displayed left and right endpoint rows, an endpoint-order ledger, a dyadic diameter row, a real-interval enclosure handoff, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:interval-length-carrier}, \autoref{thm:interval-length-namecert-obligations}, and \autoref{thm:interval-length-dyadic-diameter-handoff} seed the finite interval-diameter surface used by DyadicRatCore, DyadicInterval, RationalInterval, RealIntervalEnclosure, RegSeqRat, and Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected endpoints, quotient real equality, trichotomy, ambient completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-order exposure, diameter exactness, enclosure handoff, classifier transport, replay stability, provenance exhaustion, and ledger non-escape proofs for BEDC.Derived.IntervalLengthUp.}
+\end{closurestatus}

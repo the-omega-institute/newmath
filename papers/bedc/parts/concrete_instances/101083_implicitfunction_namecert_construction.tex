@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\ImplicitFunctionUp$}
+\label{ch:concrete-instances-implicitfunction-namecert}
+\origin{human}
+
+Following the classical implicit function theorem tradition of Dieudonne and Rudin, the $\ImplicitFunctionUp$ packet records the local-solution data that a constructive BEDC consumer may inspect when an equation row is solved by a displayed derivative and an invertible linear approximation. The packet consumes the derivative source of \autoref{ch:concrete-instances-derivative-namecert}, the linear approximation surface of \autoref{ch:concrete-instances-linearmap-namecert}, the finite coordinate ledger of \autoref{ch:concrete-instances-matrix-namecert}, the completeness boundary of \autoref{ch:concrete-instances-completemetric-namecert}, the Picard contraction route of \autoref{ch:concrete-instances-picardcontraction-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It is not a host-level theorem asserting differentiability of an ambient function space or selecting a solution germ; it is a finite NameCert route from displayed analytic rows to a local graph window.
+
+\begin{definition}[Implicit function carrier]\label{def:implicit-function-carrier}
+An $\ImplicitFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+I=(E,B,D,L,M,Q,G,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the displayed equation row. It stores the finite source variables, target variable, equation-value history, and local classifier for the read $F(x,y)=0$.
+\item $B$ is the base-point row. It records the displayed point $(x_0,y_0)$, the equation read at that point, and the finite neighbourhood name in which all later rows are interpreted.
+\item $D$ is the $\DerivativeUp$ row for the equation source at $B$, including the displayed partial-derivative histories consumed by the linear approximation.
+\item $L$ is the invertible $\LinearMapUp$ approximation row attached to the target-variable derivative, together with its finite inverse-witness ledger.
+\item $M$ is the $\MatrixUp$ coordinate row that displays the same approximation and inverse witness in finite component form for comparison and tolerance bookkeeping.
+\item $Q$ is the $\PicardContractionUp$ local-solution row. It records the displayed fixed-point map, contraction budget, iterate ledger, and local nonescape side condition obtained from $D,L,M$.
+\item $G$ is the local graph and window row. It records the source window, target window, graph readback, and uniqueness window exported by the Picard route.
+\item $R$ is the terminal $\RealUp$ seal row reached only after the equation, base point, derivative, linear approximation, matrix ledger, Picard route, and graph window have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the equation row, base-point row, derivative row, linear approximation row, matrix row, Picard local-solution row, graph-window row, Real seal, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from an equation request through $E,B,D,L,M,Q,G,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ImplicitFunctionUp$, $\DerivativeUp$, $\LinearMapUp$, $\MatrixUp$, $\CompleteMetricUp$, $\PicardContractionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ImplicitFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,B,D,L,M,Q,G,R,H,C,P,N$. The carrier has no coordinate for host differentiability, quotient function spaces, selected solution germs, the classical inverse-function theorem, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.ImplicitFunctionUp.ImplicitFunctionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Implicit function NameCert obligations]\label{thm:implicit-function-namecert-obligations}
+For every accepted $\ImplicitFunctionUp$ carrier
+$$
+I=(E,B,D,L,M,Q,G,R,H,C,P,N),
+$$
+the local $\NameCert_{\ImplicitFunctionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed equation row, base-point row, derivative row, linear approximation row, matrix row, Picard row, graph-window row, Real seal, transport, replay, provenance, and local name;
+\item derivative and invertibility ledger compatibility, requiring $D,L,M$ to display the same target-variable approximation and inverse witness;
+\item Picard local-solution handoff, requiring $Q$ to be the only fixed-point route available to the packet;
+\item graph-window transport, requiring $G$ to expose local reads only through the source and target windows named by $B$ and certified by $Q$;
+\item Real-seal non-escape, requiring every read of $R$ to remain downstream of $E,B,D,L,M,Q,G$ and the structural rows;
+\item provenance exactness, requiring $P$ and $N$ to name only the listed rows and no host differentiability theorem, quotient function space, selected solution germ, classical inverse-function theorem, or ambient completeness principle.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:implicit-function-carrier}. The finite packet lists the equation, base point, derivative source, invertible approximation, matrix ledger, Picard route, graph window, Real seal, transport, replay, provenance, and local name.
+
+The derivative and invertibility obligations are local to $D,L,M$. The derivative row supplies the displayed partial-derivative histories, the linear-map row records the inverse witness, and the matrix row exposes the same witness in component form for finite tolerance comparison.
+
+The local solution is then routed through $Q$. Since $Q$ is the only Picard coordinate of the carrier, any fixed-point read must use the displayed contraction budget, iterate ledger, and nonescape row recorded there.
+
+The graph-window and seal obligations are downstream. The row $G$ reads the local graph only inside the carried source and target windows, and the row $R$ is reached only after the equation, derivative, invertibility, Picard, and graph-window rows have been opened. The structural rows $H,C,P,N$ transport, replay, source, and name this same route without adding a host solution object.
+\end{proof}
+
+\begin{theorem}[Implicit function Picard local-solution route]\label{thm:implicit-function-picard-local-solution-route}
+Every accepted $\ImplicitFunctionUp$ carrier factors each local-solution read through the route
+$$
+\DerivativeUp \longmapsto \LinearMapUp \longmapsto \MatrixUp \longmapsto \CompleteMetricUp \longmapsto \PicardContractionUp \longmapsto \RealUp
+$$
+as instantiated by $D,L,M,Q,R$ and the graph-window row $G$. In particular, the $\RealUp$ seal is consumed only after the derivative row of \autoref{ch:concrete-instances-derivative-namecert}, the linear-map row of \autoref{ch:concrete-instances-linearmap-namecert}, the matrix row of \autoref{ch:concrete-instances-matrix-namecert}, the complete-metric boundary of \autoref{ch:concrete-instances-completemetric-namecert}, the Picard contraction route of \autoref{ch:concrete-instances-picardcontraction-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert} have been displayed.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates. The equation and base-point rows $E,B$ provide only the local problem statement and the neighbourhood in which the route is interpreted.
+
+The analytic source then passes through $D,L,M$. The derivative row $D$ supplies the local derivative data, the linear-map row $L$ supplies the invertible approximation, and the matrix row $M$ supplies finite componentwise comparisons for the same approximation and inverse witness.
+
+The completeness and fixed-point part is exposed only by $Q$. Its contraction budget and nonescape side condition are the carried route to the complete-metric boundary and Picard local-solution ledger, so no alternate selected solution germ is available.
+
+Finally $G$ repacks the Picard endpoint as a local graph-window read, and $R$ provides the terminal $\RealUp$ seal. Because $R$ is downstream of $D,L,M,Q,G$, every Real-facing local-solution read factors through the listed chapters before the seal is consumed.
+\end{proof}
+
+\falsifiablePrediction{Every $\ImplicitFunctionUp$ local-solution read factors through one displayed equation row, one base-point row, one Derivative row, one invertible LinearMap approximation row, one Matrix component ledger, one PicardContraction local-solution row, one local graph-window row, one Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{derivative, linearmap, matrix, completemetric, picardcontraction, real: $\ImplicitFunctionUp$ is not bijective to any listed sibling because it jointly carries equation data, base-point data, derivative data, an invertible linear approximation, matrix coordinates, a Picard local-solution route, a local graph window, and a terminal Real seal.}
+
+\closureat{ImplicitFunctionUp}{seedStr}
+
+\begin{closurestatus}{\ImplicitFunctionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:implicit-function-carrier}, \autoref{thm:implicit-function-namecert-obligations}, and \autoref{thm:implicit-function-picard-local-solution-route} seed the constructive local-solution packet over equation data, base-point data, derivative rows, invertible linear approximation rows, matrix component ledgers, Picard contraction data, graph-window rows, Real seal data, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host differentiability, quotient function spaces, selected solution germs, the classical inverse-function theorem, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, derivative and invertibility ledger compatibility, Picard local-solution handoff, graph-window transport, Real-seal non-escape, provenance exactness, and local naming for BEDC.Derived.ImplicitFunctionUp.}
+  \constructivestory{An $\ImplicitFunctionUp$ packet is generated from one displayed equation row, one base-point row, one Derivative row, one invertible LinearMap approximation row, one Matrix component ledger, one PicardContraction local-solution row, one local graph-window row, one Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

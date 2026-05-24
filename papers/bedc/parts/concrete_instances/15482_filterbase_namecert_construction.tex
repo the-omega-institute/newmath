@@ -1,0 +1,143 @@
+\chapter{A Concrete Naming Certificate for $\FilterBaseUp$}
+\label{ch:concrete-instances-filterbase-namecert}
+\origin{human}
+
+Following Kelley and Bourbaki on filters and filter bases, the $\FilterBaseUp$ packet names the finite directed-base surface that completion routes may consume before any Cauchy specialization is chosen. It sits upstream of the $\CauchyFilterUp$ surface in \autoref{ch:concrete-instances-cauchyfilter-namecert} and gives $\UniformCompletionUp$, $\MetricCompletionUp$, and $\CauchyFilterCompletionUp$ consumers a common finite base interface. The packet records displayed base rows, directed lower-bound witnesses, refinement ledgers, transport, replay, provenance, and local naming only; it is not an ultrafilter, not a quotient filter, not a selected limit, and not an ambient completeness principle.
+
+\begin{definition}[FilterBase finite carrier]
+\label{def:filter-base-carrier}
+A $\FilterBaseUp$ carrier is a finite $\BHist$ packet
+$$
+B=(I,E,D,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite index row naming the base packets that may be requested by a downstream filter or completion consumer.
+\item $E$ is the base-element row. Each entry stores the displayed $\BHist$ surface for one base packet and the local admissibility read attached to that packet.
+\item $D$ is the directed lower-bound row. For every two displayed base packets it names a third displayed packet together with the two containment reads back to the requested packets.
+\item $R$ is the refinement ledger. It records every inclusion, common-refinement, and replay edge used when a consumer narrows one displayed base packet to another.
+\item $H$ records componentwise $\hsame$ transport for index rows, base-element rows, lower-bound witnesses, refinement ledgers, continuation rows, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a base request through the selected element, through the directed lower-bound witness, and through the refinement ledger exposed to downstream consumers.
+\item $P$ is the $\Pkg$ provenance over $\FilterBaseUp$, $\CauchyFilterUp$, $\UniformCompletionUp$, $\MetricCompletionUp$, $\CauchyFilterCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FilterBaseUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,E,D,R,H,C,P,N$. There is no coordinate for ultrafilters, Zorn arguments, choice functions, quotient filters, selected limits, or ambient completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.FilterBaseUp.FilterBaseTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[FilterBase NameCert obligations]
+\label{thm:filter-base-namecert-obligations}
+For every accepted $\FilterBaseUp$ carrier $B=(I,E,D,R,H,C,P,N)$, the local $\NameCert_{\FilterBaseUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed finite index row, base-element row, directed lower-bound row, refinement ledger, componentwise transport, continuation replay, provenance, and local naming row;
+\item directedness, requiring each pair of displayed base packets to read a lower-bound witness from $D$ and the two containment reads recorded by $R$;
+\item refinement stability, requiring every narrowed base request to remain inside the displayed ledger $R$ after $\hsame$ transport by $H$ and $\Cont$ replay by $C$;
+\item downstream exposure, requiring every filter or completion consumer to receive only the displayed finite base row $I,E,D,R$ together with its structural rows $H,C,P,N$;
+\item ledger refusal, excluding ultrafilters, Zorn arguments, choice functions, quotient filters, selected limits, and ambient completeness.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.FilterBaseUp.FilterBaseCarrier\_namecert\_obligations}
+\begin{proof}
+Carrier admission is projection from \autoref{def:filter-base-carrier}. The projection exposes exactly the finite index row, the base-element row, the directed lower-bound row, the refinement ledger, and the structural rows $H,C,P,N$.
+
+Directedness is the stored row $D$. A request for two base packets must read the selected lower-bound packet from the same finite carrier and then replay the two containment edges recorded in $R$.
+
+Refinement stability is componentwise. Transport by $H$ preserves the visible coordinates, while $C$ replays the same base request through the selected element and the refinement ledger.
+
+Finally, the provenance row $P$ and the naming row $N$ name only this carrier. Since ultrafilters, Zorn arguments, choice functions, quotient filters, selected limits, and ambient completeness are not coordinates of $B$, the local NameCert surface cannot export them.
+\end{proof}
+
+\begin{theorem}[FilterBase Cauchy-filter and completion handoff]
+\label{thm:filter-base-cauchyfilter-handoff}
+Let $B=(I,E,D,R,H,C,P,N)$ be an accepted $\FilterBaseUp$ carrier. Every $\CauchyFilterUp$, $\UniformCompletionUp$, $\MetricCompletionUp$, or $\CauchyFilterCompletionUp$ consumer of the base route in \autoref{ch:concrete-instances-cauchyfilter-namecert}, \autoref{ch:concrete-instances-uniformcompletion-namecert}, \autoref{ch:concrete-instances-metriccompletion-namecert}, and \autoref{ch:concrete-instances-cauchyfiltercompletion-namecert} factors through the finite route
+$$
+I,E,D,R \longmapsto H,C,P,N .
+$$
+Thus completion consumers receive only the displayed finite base surface: base packets, directed lower-bound witnesses, refinement ledgers, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming. They do not receive ultrafilters, choice data, quotient filters, selected limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with a downstream request. The carrier gives the consumer access to the base rows only through $I$ and $E$, so the request first selects displayed base packets rather than an external filter object.
+
+When the consumer needs common refinement, it reads $D$ and the containment rows in $R$. These rows are finite coordinates of the same packet, and $C$ records the replay route from the requested packets through the displayed lower-bound witness.
+
+Transport and provenance preserve the same boundary. The row $H$ moves the listed coordinates componentwise, while $P$ and $N$ expose the packet to $\CauchyFilterUp$, $\UniformCompletionUp$, $\MetricCompletionUp$, and $\CauchyFilterCompletionUp$ only through the displayed finite route.
+
+No further coordinate remains. Hence the completion-facing handoff supplies a finite base surface, not an ultrafilter, a choice function, a quotient filter, a selected limit, or an ambient completeness witness.
+\end{proof}
+\leanchecked{BEDC.Derived.FilterBaseUp.FilterBaseCarrier\_cauchyfilter\_completion\_handoff}
+
+\begin{theorem}[FilterBase directed-refinement coverage]
+\label{thm:filter-base-directed-refinement-coverage}
+Let $B=(I,E,D,R,H,C,P,N)$ be an accepted $\FilterBaseUp$ carrier. For every pair of displayed base packets requested through $I$ and $E$, the directed lower-bound row $D$ and the refinement ledger $R$ expose a third displayed packet whose two containment reads replay through $C$ and remain stable under $H$. This coverage is internal to the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $B$; it does not invoke ultrafilters, Zorn arguments, quotient filters, selected limits, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.FilterBaseUp.FilterBaseCarrier\_directed\_refinement\_coverage}
+\begin{proof}
+Start from \autoref{def:filter-base-carrier}. A request for two displayed base packets is a read through the index row $I$ and base-element row $E$, so the request has no access to an external filter object.
+
+Apply \autoref{thm:filter-base-namecert-obligations}. Its directedness row requires $D$ to name a lower-bound packet and requires $R$ to record the two containment reads back to the requested packets. The replay row $C$ is therefore the only route by which the consumer can inspect the common refinement.
+
+Apply \autoref{thm:filter-base-cauchyfilter-handoff} for downstream stability. The same finite route is handed to $\CauchyFilterUp$, $\UniformCompletionUp$, $\MetricCompletionUp$, and $\CauchyFilterCompletionUp$ consumers, while $H$ transports the listed coordinates componentwise.
+
+Since neither the carrier nor the handoff theorem contains an ultrafilter row, Zorn argument, quotient filter, selected limit, or ambient completeness witness, directed-refinement coverage is exactly the displayed finite lower-bound surface recorded by $D,R,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[FilterBase refinement stability]
+\label{thm:filter-base-refinement-stability}
+Let $B=(I,E,D,R,H,C,P,N)$ be an accepted $\FilterBaseUp$ carrier. Every refinement of a displayed base packet that is admitted through $I,E$ must remain in the same refinement ledger $R$ after componentwise $\hsame$ transport by $H$ and displayed $\Cont$ replay by $C$. The stable refinement read is therefore a finite row of $B$, not an external inclusion proof, ultrafilter argument, quotient filter, selected limit, or ambient completeness witness.
+\end{theorem}
+\leanchecked{BEDC.Derived.FilterBaseUp.FilterBaseCarrier\_refinement\_stability}
+\begin{proof}
+Start from the carrier definition. The only refinement coordinate is $R$, and every displayed base packet is first read through $I$ and $E$.
+
+Apply \autoref{thm:filter-base-namecert-obligations}. Its refinement-stability obligation requires narrowed base requests to remain inside $R$ after transport and replay. Thus $H$ can only move the listed rows componentwise, while $C$ replays the already displayed refinement route.
+
+Finally apply \autoref{thm:filter-base-directed-refinement-coverage}. Directed lower-bound reads also return to the same ledger $R$, so refinement stability remains internal to the finite carrier and cannot introduce an external filter principle.
+\end{proof}
+
+\begin{theorem}[FilterBase classifier stability]
+\label{thm:filter-base-classifier-stability}
+If two accepted $\FilterBaseUp$ carriers agree on $I,E,D,R,H,C,P,N$, then every $\CauchyFilterUp$, $\UniformCompletionUp$, $\MetricCompletionUp$, and $\CauchyFilterCompletionUp$ consumer reads the same finite base surface from them. Classifier stability is determined by the displayed index, base-element, directed lower-bound, refinement, transport, replay, provenance, and naming rows; no hidden completion row or quotient filter can alter the comparison.
+\end{theorem}
+\leanchecked{BEDC.Derived.FilterBaseUp.FilterBaseCarrier\_classifier\_stability}
+\begin{proof}
+Use \autoref{def:filter-base-carrier} to inspect the classifier. It compares accepted packets only through $I,E,D,R,H,C,P,N$.
+
+Apply \autoref{thm:filter-base-cauchyfilter-handoff}. Downstream consumers for $\CauchyFilterUp$, $\UniformCompletionUp$, $\MetricCompletionUp$, and $\CauchyFilterCompletionUp$ receive exactly the same displayed finite route.
+
+The refinement-stability theorem keeps narrowed requests inside $R$ under $H$ and $C$. Therefore agreement on the carrier rows is enough to preserve every classifier read visible to the listed consumers.
+\end{proof}
+
+\begin{theorem}[FilterBase completion branch coverage]
+\label{thm:filter-base-completion-branch-coverage}
+Every completion-facing branch that consumes an accepted $\FilterBaseUp$ carrier factors through the same finite base route before reaching $\CauchyFilterUp$, $\UniformCompletionUp$, $\MetricCompletionUp$, or $\CauchyFilterCompletionUp$. The branch may use displayed base packets, directed lower-bound witnesses, and refinement ledgers, but it receives no selected limit, quotient filter, ultrafilter, Zorn argument, or ambient completeness datum from the carrier.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing request. By \autoref{thm:filter-base-cauchyfilter-handoff}, the request is routed through $I,E,D,R$ and then through $H,C,P,N$ before any sibling completion chapter can consume it.
+
+Directed-refinement coverage supplies the common lower-bound witness needed by the branch. It reads that witness from $D$ and the two containment routes from $R$, with replay through $C$.
+
+Refinement stability keeps subsequent narrowing inside the same finite ledger. Hence the branch coverage is exactly the displayed filter-base surface shared by the Cauchy-filter and completion siblings.
+\end{proof}
+
+\begin{theorem}[FilterBase ledger refusal]
+\label{thm:filter-base-ledger-refusal}
+For every accepted $\FilterBaseUp$ carrier $B=(I,E,D,R,H,C,P,N)$, the refinement ledger $R$ refuses to act as an ultrafilter ledger, a choice-function ledger, a quotient-filter ledger, a selected-limit ledger, or an ambient-completeness ledger. Any consumer that asks for one of those rows receives only the displayed finite base route and the explicit absence of such a coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:filter-base-carrier}. The row list contains finite indices, base elements, directed lower-bound witnesses, refinement ledgers, transport, replay, provenance, and local naming only.
+
+Use the ledger-refusal obligation in \autoref{thm:filter-base-namecert-obligations}. It excludes ultrafilters, Zorn arguments, choice functions, quotient filters, selected limits, and ambient completeness from the local $\NameCert$ surface.
+
+The handoff and completion-coverage theorems do not add a new coordinate. They only expose the same finite route to $\CauchyFilterUp$, $\UniformCompletionUp$, $\MetricCompletionUp$, and $\CauchyFilterCompletionUp$, so the refusal remains visible to every downstream consumer.
+\end{proof}
+
+\begin{closurestatus}{\FilterBaseUp}
+  \constructivestory{A $\FilterBaseUp$ packet is generated from finite base rows, directed lower-bound witnesses, refinement ledgers, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:filter-base-carrier}, \autoref{thm:filter-base-namecert-obligations}, \autoref{thm:filter-base-cauchyfilter-handoff}, and \autoref{thm:filter-base-directed-refinement-coverage} seed the finite filter-base interface consumed by CauchyFilter and completion routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ultrafilters, Zorn arguments, choice, quotient filters, selected limits, Lean verification, bridge checking, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, directed lower-bound coverage, refinement stability, CauchyFilter handoff, completion handoff, and ledger-refusal proofs for BEDC.Derived.FilterBaseUp.}
+\end{closurestatus}

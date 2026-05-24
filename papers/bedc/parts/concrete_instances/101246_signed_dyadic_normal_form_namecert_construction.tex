@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\SignedDyadicNormalFormUp$}
+\label{ch:concrete-instances-signed-dyadic-normal-form-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\SignedDyadicNormalFormUp$ packet records the finite signed dyadic normal-form boundary used between the arithmetic surface of \autoref{ch:concrete-instances-dyadicratcore-namecert} and the stream, regular-rational, and real-name handoff surfaces of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. It reads signed mantissas through the rational and integer certificates of \autoref{ch:concrete-instances-rat-namecert} and \autoref{ch:concrete-instances-int-namecert}, records the positive unary exponent and denominator ledger as finite rows, and exposes canonical comparison only after a common-scale replay has been displayed.
+
+The packet is a normal-form interface for L10 real and completion work. It gives downstream chapters a single finite object to cite when they need dyadic comparison, distance, radius, or scale data, without importing quotient rational equality, host integer normal forms, quotient streams, host real equality, trichotomy, choice, or Real completeness.
+
+\begin{definition}[Signed dyadic normal-form carrier]
+\label{def:signed-dyadic-normal-form-carrier}
+A $\SignedDyadicNormalFormUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M,E,L,C,K,D,T,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the signed mantissa row, read through the $\RatUp$ and $\IntUp$ certificate surfaces rather than through a host integer normal form.
+\item $E$ is the positive unary exponent row, recording the denominator scale as finite $\UnaryHistory$ data.
+\item $L$ is the denominator ledger row, listing the finite denominator witnesses and the scale requests consumed by the packet.
+\item $C$ is the common-scale row, displaying the single scale at which two signed dyadic rows may be compared or subtracted.
+\item $K$ is the normalized comparison row, recording sign, zero, distance, and radius comparisons only after the common-scale row has been projected.
+\item $D$ is the $\DyadicRatCoreUp$ provenance row for the mantissa, exponent, denominator ledger, common scale, and comparison data.
+\item $T$ is the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ handoff row, exposing precisely the normal-form data that downstream completion consumers may read.
+\item $H$ records componentwise $\hsame$ transport for the mantissa, exponent, denominator ledger, common scale, comparison, dyadic provenance, handoff, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from a signed dyadic request through mantissa inspection, exponent inspection, denominator ledger lookup, common-scale comparison, normalized comparison, DyadicRatCore provenance, downstream handoff, transport, packaging, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\SignedDyadicNormalFormUp$, $\RatUp$, $\IntUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SignedDyadicNormalFormUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,E,L,C,K,D,T,H,R,P,N$. It has no coordinate for quotient rational equality, host integer canonicalization, quotient stream equality, host real equality, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.SignedDyadicNormalFormUp.SignedDyadicNormalFormTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Signed dyadic normal-form NameCert obligations]
+\label{thm:signed-dyadic-normal-form-namecert-obligations}
+For every accepted $\SignedDyadicNormalFormUp$ carrier $S=(M,E,L,C,K,D,T,H,R,P,N)$, the local $\NameCert_{\SignedDyadicNormalFormUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the signed mantissa, positive unary exponent, denominator ledger, common scale, normalized comparison, DyadicRatCore provenance, completion handoff, transport, replay, provenance, and local naming rows;
+\item signed-mantissa exactness, requiring each mantissa read to pass through the displayed $\RatUp$ and $\IntUp$ rows before any dyadic comparison is exported;
+\item denominator-ledger exactness, requiring every denominator and scale request to be discharged by $E$ and $L$ before the common-scale row is opened;
+\item common-scale classifier stability, requiring $C$ and $K$ to be preserved componentwise under $\hsame$ transport and displayed $\Cont$ replay;
+\item completion-handoff nonescape, requiring the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers in $T$ to read only the displayed normal-form route.
+\end{enumerate}
+No signed dyadic normal-form obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:signed-dyadic-normal-form-carrier}. The finite packet exposes exactly the signed mantissa, positive unary exponent, denominator ledger, common scale, normalized comparison, DyadicRatCore provenance, handoff, and structural rows.
+
+The mantissa and denominator obligations are forced by the order of the displayed rows. A comparison cannot read the mantissa without passing through $M$, and it cannot read a denominator scale without the exponent row $E$ and ledger row $L$.
+
+Common-scale stability is the role of $C,K,H,R$. The common-scale row fixes the scale, the normalized comparison row records the comparison at that scale, the transport row preserves those coordinates componentwise, and the replay row repeats the same route.
+
+The downstream handoff is then only a reader of the normal form. Since $T$ is downstream of $M,E,L,C,K,D$ and the structural rows contain no excluded coordinate, the local NameCert surface exports no quotient rational equality, host integer normal form, quotient stream equality, host real equality, trichotomy, choice, ambient real completeness, Lean credential, or bridge datum.
+\end{proof}
+
+\begin{theorem}[Signed dyadic common-scale canonicality]
+\label{thm:signed-dyadic-normal-form-common-scale-canonicality}
+Let $S=(M,E,L,C,K,D,T,H,R,P,N)$ be an accepted $\SignedDyadicNormalFormUp$ carrier. Every normalized comparison exported by $S$ factors through the finite route
+$$
+M,E,L \longmapsto C \longmapsto K \longmapsto D,H,R,P,N .
+$$
+Thus the comparison is canonical at the displayed common scale, and two accepted replays with componentwise $\hsame$ rows export the same normalized comparison surface without appealing to quotient equality or trichotomy.
+\end{theorem}
+\begin{proof}
+Start with an exported normalized comparison. Carrier admission places the only comparison coordinate at $K$, and $K$ is downstream of the common-scale row $C$.
+
+The row $C$ is downstream of the signed mantissa, positive unary exponent, and denominator ledger rows. Hence the compared signed dyadics are first read through $M,E,L$, and the common comparison scale is part of the finite packet before $K$ can be inspected.
+
+Componentwise transport through $H$ preserves $M,E,L,C,K$ as displayed rows, while replay through $R$ repeats the same access path. Provenance and local naming through $P,N$ source and name that route but do not add a second comparison rule.
+
+Therefore a downstream reader receives the normalized comparison at the displayed common scale. The conclusion is canonical for this finite carrier route and uses neither quotient equality nor a trichotomy principle.
+\end{proof}
+
+\begin{theorem}[Signed dyadic Real handoff]
+\label{thm:signed-dyadic-normal-form-real-handoff}
+Every $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer named by an accepted $\SignedDyadicNormalFormUp$ carrier reads the route
+$$
+M,E,L,C,K,D \longmapsto T \longmapsto H,R,P,N .
+$$
+Consequently the handoff supplies signed dyadic normal-form data for stream windows, regular rational Cauchy names, and real-name consumers without importing quotient streams, host real equality, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the handoff row $T$. It is the only row whose purpose is to expose the signed dyadic packet to $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers.
+
+The row $T$ is downstream of the arithmetic and normal-form rows $M,E,L,C,K,D$. A consumer therefore sees signed mantissa data, positive unary exponent data, denominator ledger data, common-scale comparison data, normalized comparison data, and DyadicRatCore provenance before any stream or completion-facing read is available.
+
+Transport, replay, provenance, and local naming preserve the same route. They do not store quotient streams, host real equality, representative selectors, choice schedules, or completeness principles.
+
+Thus the downstream consumer receives a finite signed dyadic normal-form boundary. The packet is sufficient for stream-window, regular rational Cauchy, and real-name handoffs, but it does not claim any completed real object or ambient completeness theorem.
+\end{proof}
+
+\closureat{SignedDyadicNormalFormUp}{seedStr}
+
+\begin{closurestatus}{\SignedDyadicNormalFormUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:signed-dyadic-normal-form-carrier}, \autoref{thm:signed-dyadic-normal-form-namecert-obligations}, \autoref{thm:signed-dyadic-normal-form-common-scale-canonicality}, and \autoref{thm:signed-dyadic-normal-form-real-handoff} seed the finite signed dyadic normal-form boundary between DyadicRatCore arithmetic and StreamName, RegSeqRat, and Real handoff consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient rational equality, host integer normal forms, quotient streams, host real equality, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, signed-mantissa exactness, denominator-ledger exactness, common-scale classifier stability, completion-handoff nonescape, and Real-and-Completion replay for BEDC.Derived.SignedDyadicNormalFormUp.}
+  \constructivestory{A $\SignedDyadicNormalFormUp$ packet is generated from signed Rat and Int mantissa rows, a positive UnaryHistory exponent row, a denominator ledger, a common-scale row, a normalized comparison row, DyadicRatCore provenance, StreamName, RegSeqRat, and Real handoff support, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

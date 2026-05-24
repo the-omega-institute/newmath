@@ -25,6 +25,19 @@ def LipschitzMapCarrier [AskSetup] [PackageSetup]
       Cont graph bound modulus ∧ Cont modulus routes provenance ∧
         PkgSig bundle provenance pkg
 
+def LipschitzMapClassifier [AskSetup] [PackageSetup]
+    (source target bound graph modulus transports routes provenance localCert source' target'
+      bound' graph' modulus' transports' routes' provenance' localCert' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  LipschitzMapCarrier source target bound graph modulus transports routes provenance localCert
+      bundle pkg ∧
+    LipschitzMapCarrier source' target' bound' graph' modulus' transports' routes'
+        provenance' localCert' bundle pkg ∧
+      hsame source source' ∧ hsame target target' ∧ hsame bound bound' ∧
+        hsame graph graph' ∧ hsame modulus modulus' ∧ Cont graph bound modulus ∧
+          Cont graph' bound' modulus' ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle provenance' pkg
+
 theorem LipschitzMapCarrier_uniform_modulus_boundary [AskSetup] [PackageSetup]
     {source target bound graph modulus transports routes provenance localCert consumer : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -221,6 +234,69 @@ theorem LipschitzMapCarrier_namecert_obligation_certificate [AskSetup] [PackageS
   exact
     ⟨cert, sourceUnary, targetUnary, boundUnary, graphUnary, modulusUnary, graphBoundModulus,
       modulusRoutesProvenance, pkgSig⟩
+
+theorem LipschitzMapCarrier_semantic_carrier_package [AskSetup] [PackageSetup]
+    {source target bound graph modulus transports routes provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LipschitzMapCarrier source target bound graph modulus transports routes provenance localCert
+        bundle pkg →
+      SemanticNameCert
+          (fun row : BHist => hsame row localCert ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row source ∨ hsame row target ∨ hsame row bound ∨ hsame row graph ∨
+              hsame row modulus ∨ hsame row localCert)
+          (fun row : BHist =>
+            hsame row localCert ∧ PkgSig bundle provenance pkg)
+          hsame ∧
+        UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory bound ∧
+          UnaryHistory graph ∧ UnaryHistory modulus ∧ Cont graph bound modulus ∧
+            Cont modulus routes provenance ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont
+  intro carrier
+  obtain ⟨sourceUnary, targetUnary, boundUnary, graphUnary, _transportsUnary, routesUnary,
+    localCertUnary, graphBoundModulus, modulusRoutesProvenance, provenancePkg⟩ := carrier
+  have modulusUnary : UnaryHistory modulus :=
+    unary_cont_closed graphUnary boundUnary graphBoundModulus
+  have sourceLocal :
+      (fun row : BHist => hsame row localCert ∧ UnaryHistory row) localCert := by
+    exact ⟨hsame_refl localCert, localCertUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row localCert ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row source ∨ hsame row target ∨ hsame row bound ∨ hsame row graph ∨
+              hsame row modulus ∨ hsame row localCert)
+          (fun row : BHist =>
+            hsame row localCert ∧ PkgSig bundle provenance pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro localCert sourceLocal
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other same source
+          exact
+            ⟨hsame_trans (hsame_symm same) source.left,
+              unary_transport source.right same⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, provenancePkg⟩
+    }
+  exact
+    ⟨cert, sourceUnary, targetUnary, boundUnary, graphUnary, modulusUnary,
+      graphBoundModulus, modulusRoutesProvenance, provenancePkg⟩
 
 theorem LipschitzMapCarrier_target_distance_exactness [AskSetup] [PackageSetup]
     {source target bound graph modulus transports routes provenance localCert sourceDistance
@@ -511,5 +587,77 @@ theorem LipschitzMapCarrier_composition_boundary [AskSetup] [PackageSetup]
   exact
     ⟨cert, compositeGraphUnary, compositeModulusUnary, compositeProvenanceUnary,
       consumerUnary, graphRoute, modulusRoute, provenanceRoute, consumerRoute⟩
+theorem LipschitzMapCarrier_ledger_nonescape [AskSetup] [PackageSetup]
+    {source target bound graph modulus transports routes provenance localCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LipschitzMapCarrier source target bound graph modulus transports routes provenance localCert
+        bundle pkg ->
+      Cont provenance localCert consumer ->
+        PkgSig bundle consumer pkg ->
+          SemanticNameCert
+                (fun row : BHist => hsame row consumer ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row source ∨ hsame row target ∨ hsame row bound ∨
+                    hsame row graph ∨ hsame row modulus ∨ hsame row transports ∨
+                      hsame row routes ∨ hsame row provenance ∨ hsame row localCert ∨
+                        hsame row consumer)
+                (fun row : BHist => hsame row consumer ∧ PkgSig bundle consumer pkg)
+                hsame ∧
+            UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory bound ∧
+              UnaryHistory graph ∧ UnaryHistory modulus ∧ UnaryHistory transports ∧
+                UnaryHistory routes ∧ UnaryHistory provenance ∧ UnaryHistory localCert ∧
+                  UnaryHistory consumer ∧ Cont graph bound modulus ∧
+                    Cont modulus routes provenance ∧ Cont provenance localCert consumer ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier consumerRoute consumerPkg
+  obtain ⟨sourceUnary, targetUnary, boundUnary, graphUnary, transportsUnary, routesUnary,
+    localCertUnary, graphBoundModulus, modulusRoutesProvenance, provenancePkg⟩ := carrier
+  have modulusUnary : UnaryHistory modulus :=
+    unary_cont_closed graphUnary boundUnary graphBoundModulus
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed modulusUnary routesUnary modulusRoutesProvenance
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed provenanceUnary localCertUnary consumerRoute
+  have sourceAtConsumer : hsame consumer consumer ∧ UnaryHistory consumer :=
+    ⟨hsame_refl consumer, consumerUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row consumer ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row source ∨ hsame row target ∨ hsame row bound ∨ hsame row graph ∨
+              hsame row modulus ∨ hsame row transports ∨ hsame row routes ∨
+                hsame row provenance ∨ hsame row localCert ∨ hsame row consumer)
+          (fun row : BHist => hsame row consumer ∧ PkgSig bundle consumer pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro consumer sourceAtConsumer
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr (Or.inr source.left))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, consumerPkg⟩
+  }
+  exact
+    ⟨cert, sourceUnary, targetUnary, boundUnary, graphUnary, modulusUnary, transportsUnary,
+      routesUnary, provenanceUnary, localCertUnary, consumerUnary, graphBoundModulus,
+      modulusRoutesProvenance, consumerRoute, provenancePkg, consumerPkg⟩
 
 end BEDC.Derived.LipschitzMapUp

@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRealizerSequenceUp$}
+\label{ch:concrete-instances-cauchy-realizer-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyRealizerSequenceUp$ packet records a finite sequence-level window over explicit Cauchy realizers before any completion-facing consumer is allowed to read a terminal real-name seal. It sits over the single-realizer route of \autoref{ch:concrete-instances-cauchy-realizer-namecert}, the finite stream-window gateway of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite sequence surface for the L10 Real and Completion route; it is not quotient stream equality, a selected limit, countable choice, RealUp completeness, trichotomy, host real equality, Lean verification, or a standard bridge.
+
+\begin{definition}[Cauchy realizer sequence carrier]
+\label{def:cauchy-realizer-sequence-carrier}
+A $\CauchyRealizerSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(S,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite $\StreamNameUp$ schedule of sequence indices, precision requests, and visible observation windows consumed by the sequence route.
+\item $W$ is the finite family of $\CauchyRealizerUp$ rows, one row for each displayed sequence window in $S$.
+\item $R$ is the family of $\RegSeqRatUp$ readbacks obtained from the displayed windows of $S$ and the realizer rows of $W$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the requested radii, slack comparisons, and finite compatibility checks for every displayed readback in $R$.
+\item $E$ is the family of terminal $\RealUp$ seal rows reached only after the corresponding rows of $S,W,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the schedule, realizer rows, readbacks, dyadic ledgers, real seals, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each Real or Completion request through the finite schedule $S$, the realizer family $W$, the readback family $R$, the ledger family $D$, the seal family $E$, and the structural rows $H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyRealizerSequenceUp$, $\CauchyRealizerUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyRealizerSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed rows $S,W,R,D,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, ambient RealUp completeness, trichotomy, host real equality, Lean verification, or a standard bridge.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyRealizerSequenceUp.CauchyRealizerSequenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy realizer sequence NameCert obligations]
+\label{thm:cauchy-realizer-sequence-namecert-obligations}
+For every accepted $\CauchyRealizerSequenceUp$ carrier
+$$
+Z=(S,W,R,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyRealizerSequenceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier exposure for the finite $\StreamNameUp$ schedule $S$, the $\CauchyRealizerUp$ family $W$, the $\RegSeqRatUp$ readback family $R$, the $\DyadicRatCoreUp$ ledger family $D$, the terminal $\RealUp$ seal family $E$, and the structural rows $H,C,P,N$;
+\item schedule exactness, requiring each displayed sequence index and precision request to enter through $S$ before any realizer row is read;
+\item rowwise realizer exposure, requiring every member of $W$ to be an exposed $\CauchyRealizerUp$ row attached to the corresponding finite window of $S$;
+\item regular-readback exactness, requiring $R$ to consume only the displayed schedule and realizer rows $S,W$;
+\item dyadic tolerance accounting, requiring $D$ to store precisely the visible radii, slack rows, and comparison evidence consumed by $R$ and $E$;
+\item Real-seal routing, requiring every terminal $\RealUp$ row in $E$ to be downstream of the matching $S,W,R,D$ rows;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $H,C,P,N$;
+\item non-escape for quotient stream equality, selected limits, countable choice, RealUp completeness, trichotomy, host real equality, Lean verification, and standard-bridge data.
+\end{enumerate}
+No sequence-level Cauchy realizer obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-realizer-sequence-carrier}. The finite schedule $S$ is the only source of displayed sequence indices and precision requests, while the family $W$ is the only source of CauchyRealizer rows attached to that schedule.
+
+For each displayed window, the readback and ledger rows are then forced. The row $R$ records exactly the regular rational observations obtained from $S$ and $W$, and $D$ records exactly the dyadic tolerances and comparison evidence used to certify those observations.
+
+The terminal seal rows are downstream. The family $E$ has no entrance other than the matching $S,W,R,D$ rows, while $H,C,P,N$ transport, replay, source, and name the same finite route. Since the excluded objects do not occur as carrier coordinates, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy realizer sequence window factorization]
+\label{thm:cauchy-realizer-sequence-window-factorization}
+Every Real or Completion consumer that reads an accepted $\CauchyRealizerSequenceUp$ carrier factors each displayed sequence request through the finite route
+$$
+S \longmapsto W \longmapsto R \longmapsto D \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the consumer receives a finite StreamName schedule, a family of CauchyRealizer rows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, terminal RealUp seals, transport, replay, provenance, and local naming. The factorization does not supply quotient stream equality, selected limits, countable choice, RealUp completeness, trichotomy, host real equality, Lean verification, or a standard bridge.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier and inspect its schedule row. A downstream request has no direct access to a sequence member; it first lands in the finite $\StreamNameUp$ schedule $S$.
+
+Now proceed by finite-window induction over the displayed schedule. In the empty window there is no member to read, so the route is exhausted by the structural rows. In the step case, the new displayed request exposes exactly one attached $\CauchyRealizerUp$ row in $W$, then its $\RegSeqRatUp$ readback in $R$, then the $\DyadicRatCoreUp$ ledger row in $D$, and then the matching $\RealUp$ seal in $E$.
+
+The induction hypothesis transports the already displayed windows through $H,C,P,N$, and the step row uses the same structural transport and replay. Thus every consumed sequence request factors through the displayed route, and the excluded quotient, selector, choice, completeness, order, equality, verification, and bridge objects remain outside the packet.
+\end{proof}
+
+\begin{theorem}[Cauchy realizer sequence Real seal non-escape]
+\label{thm:cauchy-realizer-sequence-real-seal-nonescape}
+Let $Z=(S,W,R,D,E,H,C,P,N)$ be an accepted $\CauchyRealizerSequenceUp$ carrier. Any downstream use of a terminal $\RealUp$ seal in $E$ must pass through the finite schedule-realizer-readback-ledger route
+$$
+S,W,R,D
+$$
+and the structural rows $H,C,P,N$. Thus no Real seal in the sequence packet can be used as a hidden endpoint for quotient stream equality, selected limits, countable choice, RealUp completeness, trichotomy, host real equality, Lean verification, or a standard bridge.
+\end{theorem}
+\begin{proof}
+The only $\RealUp$ rows in the carrier are the rows of $E$. By \autoref{def:cauchy-realizer-sequence-carrier}, each of them is placed after a displayed schedule window, an attached CauchyRealizer row, a regular rational readback, and a dyadic tolerance ledger.
+
+A downstream consumer therefore reaches such a seal only by replaying the corresponding finite route through $C$ and transporting it componentwise through $H$. The package row $P$ and local name $N$ record the same route and do not add another terminal endpoint.
+
+Because no carrier coordinate stores quotient stream equality, a selected limit, choice data, RealUp completeness, trichotomy, host real equality, Lean evidence, or bridge data, the terminal Real seals cannot escape the finite route named above.
+\end{proof}
+
+\falsifiablePrediction{Every $\CauchyRealizerSequenceUp$ Real or Completion read factors through a finite StreamName schedule, CauchyRealizer rows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, RealUp seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{cauchy-realizer, streamname, regseqrat, dyadicratcore, real: $\CauchyRealizerSequenceUp$ is not bijective to any listed sibling because it jointly carries a finite sequence schedule, rowwise CauchyRealizer data, regular readbacks, dyadic tolerance ledgers, terminal Real seals, transport, replay, provenance, and local naming.}
+
+\closureat{CauchyRealizerSequenceUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRealizerSequenceUp}
+  \constructivestory{A $\CauchyRealizerSequenceUp$ packet is generated from a finite StreamName schedule, CauchyRealizer rows, RegSeqRat readbacks, DyadicRatCore tolerance ledgers, terminal RealUp seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-realizer-sequence-carrier}, \autoref{thm:cauchy-realizer-sequence-namecert-obligations}, \autoref{thm:cauchy-realizer-sequence-window-factorization}, and \autoref{thm:cauchy-realizer-sequence-real-seal-nonescape} seed the finite sequence-level realizer route for L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, RealUp completeness, trichotomy, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, schedule exactness, rowwise realizer exposure, regular-readback exactness, dyadic tolerance accounting, Real-seal routing, finite-window factorization, and Real-seal non-escape for BEDC.Derived.CauchyRealizerSequenceUp.}
+\end{closurestatus}

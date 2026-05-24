@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\DyadicLipschitzModulusUp$}
+\label{ch:concrete-instances-dyadic-lipschitz-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\DyadicLipschitzModulusUp$ packet records the finite error-propagation route for Lipschitz estimates whose tolerances are read through dyadic rational data. It sits over the dyadic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the function-bound surface of \autoref{ch:concrete-instances-lipschitzmap-namecert}. The packet names a non-quotient certificate for moving a displayed dyadic input tolerance through a displayed Lipschitz bound before any Real-facing consumer can inspect the sealed output.
+
+\begin{definition}[DyadicLipschitzModulus carrier]
+\label{def:dyadic-lipschitz-modulus-carrier}
+A $\DyadicLipschitzModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(D,S,R,B,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger. It records the inspected dyadic input radius, the dyadic output allowance, and the finite comparisons used to certify that the input radius is small enough for the displayed Lipschitz bound.
+\item $S$ is the $\StreamNameUp$ window row. It lists exactly the finite input-name and output-name windows whose observations may be used by the modulus computation.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same dyadic ledger and stream windows.
+\item $B$ is the $\LipschitzMapUp$ bound ledger. It stores the displayed Lipschitz constant row and the finite multiplication or scaling comparisons needed to move a dyadic input tolerance to a dyadic output tolerance.
+\item $G$ is the terminal $\RealUp$ seal row. It may be inspected only after $D,S,R,B$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the dyadic ledger, stream windows, regular rational readback, Lipschitz bound ledger, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a modulus request through $D,S,R,B,G,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\DyadicLipschitzModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\LipschitzMapUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicLipschitzModulusUp}$ row.
+\end{enumerate}
+The carrier contains no Real completeness row, host function extensionality row, quotient stream equality, selected limit, trichotomy datum, countable-choice selector, Lean verification credential, or standard bridge.
+\end{definition}
+\leanchecked{BEDC.Derived.DyadicLipschitzModulusUp.DyadicLipschitzModulusTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[DyadicLipschitzModulus NameCert obligations]
+\label{thm:dyadic-lipschitz-modulus-namecert-obligations}
+For every accepted $\DyadicLipschitzModulusUp$ carrier
+$$
+M=(D,S,R,B,G,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicLipschitzModulusUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed dyadic tolerance ledger, stream-window row, regular rational readback row, Lipschitz bound ledger, Real seal, componentwise transport, replay, provenance, and local naming row;
+\item classifier exactness, requiring accepted carriers to be compared only through $D,S,R,B,G,H,C,P,N$;
+\item bound admission, requiring $B$ to expose the displayed Lipschitz constant and the finite dyadic scaling comparisons used by the output tolerance;
+\item finite-window admission, requiring $S$ to expose only the input and output windows licensed by $D$ and $B$;
+\item RegSeqRat handoff, requiring $R$ to read back the same dyadic and stream-window observations rather than a second regular sequence;
+\item Real seal nonescape, requiring $G$ to be reached only after $D,S,R,B$ and to export no Real completeness, host function extensionality, quotient stream equality, selected limit, trichotomy, or bridge credential;
+\item transport and replay stability, requiring $H,C,P,N$ to preserve, replay, source, and name the same finite rows without adding an external analytic premise.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-lipschitz-modulus-carrier}. The accepted packet displays exactly the dyadic tolerance ledger, stream windows, regular rational readback, Lipschitz bound ledger, Real seal, and structural rows.
+
+Classifier exactness is componentwise. Two accepted carriers can be compared only by the displayed coordinates $D,S,R,B,G,H,C,P,N$, so no hidden function equality, quotient-stream equality, selected limit, or trichotomy branch can enter the classifier.
+
+The bound and finite-window clauses are forced by $B$ and $S$. The Lipschitz row supplies the displayed constant and finite dyadic scaling comparisons, while the stream row supplies only the input and output observations licensed by those dyadic comparisons.
+
+The regular rational and Real-facing clauses are downstream. The row $R$ reads back the same observations as a regular rational name, and $G$ seals the resulting Real-facing value only after $D,S,R,B$ have been displayed.
+
+Finally $H,C,P,N$ preserve the route. Transport is componentwise, replay follows the displayed request path, provenance names the same source packets, and the local NameCert row names only this packet. Since no excluded coordinate occurs in the carrier, the local NameCert surface has exactly the listed obligations.
+\end{proof}
+
+\begin{theorem}[DyadicLipschitzModulus RegSeqRat handoff]
+\label{thm:dyadic-lipschitz-modulus-regseqrat-handoff}
+Let $M=(D,S,R,B,G,H,C,P,N)$ be an accepted $\DyadicLipschitzModulusUp$ carrier. Every consumer route exported by $M$ factors through the finite path
+$$
+D\longmapsto S\longmapsto R\longmapsto B\longmapsto G
+$$
+before it can inspect the transport, replay, provenance, or local naming rows. Thus every Real-facing Lipschitz error read passes through dyadic tolerance data, StreamName windows, RegSeqRat readback, the Lipschitz bound ledger, and the terminal $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Begin with an exported consumer route. The carrier has no analytic source row before the dyadic tolerance ledger $D$, so the input tolerance and the output allowance are read first as displayed dyadic data.
+
+The route then passes through $S$ and $R$. The stream row exposes only the finite input and output windows licensed by the dyadic ledger, and the regular rational row repacks those same observations as the readback available to later consumers.
+
+Next the route reads $B$. The displayed Lipschitz constant and dyadic scaling comparisons are the only rows allowed to propagate the input tolerance into an output tolerance.
+
+Only after this finite path has been displayed can the route reach the Real seal $G$. The remaining rows $H,C,P,N$ transport, replay, source, and name that path, so every exported consumer route factors through the dyadic tolerance, StreamName, RegSeqRat, Lipschitz-bound, and $\RealUp$-seal stages.
+\end{proof}
+
+\closureat{DyadicLipschitzModulusUp}{seedStr}
+
+\begin{closurestatus}{\DyadicLipschitzModulusUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-lipschitz-modulus-carrier}, \autoref{thm:dyadic-lipschitz-modulus-namecert-obligations}, and \autoref{thm:dyadic-lipschitz-modulus-regseqrat-handoff} seed the finite L10 route from dyadic tolerance data through StreamName windows, RegSeqRat readback, Lipschitz bound propagation, and the terminal Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, host function extensionality, quotient streams, selected limits, trichotomy, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exactness, bound admission, finite-window admission, RegSeqRat handoff, Real seal nonescape, transport stability, and replay stability for BEDC.Derived.DyadicLipschitzModulusUp.}
+  \constructivestory{A $\DyadicLipschitzModulusUp$ packet is generated from a DyadicRatCore tolerance ledger, StreamName finite windows, RegSeqRat readback, a LipschitzMap bound ledger, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\EudoxusRealUp$}
+\label{ch:concrete-instances-eudoxus-real-namecert}
+\origin{human}
+
+Following Eudoxus and modern almost-homomorphism presentations of the real numbers, the $\EudoxusRealUp$ packet records a real name as an integer-valued line with bounded additive defect. It sits after the integer certificate of \autoref{ch:concrete-instances-int-namecert}, the rational-bound surface of \autoref{ch:concrete-instances-archimedeanreal-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational sequence surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter keeps the almost-additive function, its defect bound, and its readback windows as displayed finite rows; it is not a quotient construction of reals and does not select limits from host functions.
+
+\begin{definition}[Eudoxus real carrier]
+\label{def:eudoxus-real-carrier}
+An $\EudoxusRealUp$ carrier is a finite $\BHist$ packet
+$$
+E=(I,A,B,D,S,Q,R,H,C,P,N)
+$$
+with the following displayed rows.
+\begin{enumerate}
+\item $I$ is the $\IntUp$ source row naming the integer inputs and integer outputs inspected by the packet.
+\item $A$ is the almost-homomorphism graph row. It records the finite table of inspected pairs together with their displayed additivity comparisons.
+\item $B$ is the bounded-defect row. It records one integer defect budget and the checked inequalities for every inspected pair in $A$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger translating defect and denominator windows into dyadic error bounds.
+\item $S$ is the finite window schedule for denominator requests and comparison requests.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the displayed integer graph, defect budget, dyadic ledger, and window schedule.
+\item $R$ is the terminal $\RealUp$ seal row reached only after $I,A,B,D,S,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the integer graph, bounded-defect row, dyadic ledger, schedule, regular rational readback, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each denominator or comparison request through $I,A,B,D,S,Q,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\EudoxusRealUp$, $\IntUp$, $\ArchimedeanRealUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EudoxusRealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,A,B,D,S,Q,R,H,C,P,N$. It has no coordinate for quotient equality of almost homomorphisms, host functions $\IntUp\to\IntUp$, selected limits, Cauchy-completeness proofs for $\RealUp$, or an ambient ordered-field construction.
+\end{definition}
+
+\begin{theorem}[Eudoxus real NameCert obligations]
+\label{thm:eudoxus-real-namecert-obligations}
+For every accepted $\EudoxusRealUp$ carrier
+$$
+E=(I,A,B,D,S,Q,R,H,C,P,N),
+$$
+the seed $\NameCert_{\EudoxusRealUp}$ surface consists exactly of carrier exposure for the displayed integer graph, bounded-defect budget, dyadic tolerance ledger, finite request schedule, regular rational readback, terminal Real seal, componentwise transport, continuation replay, provenance, and local naming rows. Each accepted request is classified only by the inspected integer rows, the bounded-defect inequalities, the dyadic tolerance rows, and the resulting regular rational readback.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple from \autoref{def:eudoxus-real-carrier}. The rows $I,A,B,D,S,Q,R$ expose the analytic data, while $H,C,P,N$ transport, replay, source, and name the same packet.
+
+Read a request in dependency order. The integer graph row $A$ is meaningful only over the displayed $\IntUp$ source $I$; the defect row $B$ bounds the displayed additivity comparisons in $A$; the dyadic row $D$ turns that bounded defect into finite tolerance information; and the schedule $S$ selects the inspected denominator and comparison windows.
+
+The regular rational row $Q$ is then read from the same displayed rows, and the terminal $\RealUp$ seal $R$ is reached only through $Q$. Since no excluded object is a coordinate of the carrier, the listed rows exhaust the seed obligation surface.
+\end{proof}
+
+\begin{theorem}[Eudoxus real bounded-defect readback]
+\label{thm:eudoxus-real-bounded-defect-readback}
+Let
+$$
+E=(I,A,B,D,S,Q,R,H,C,P,N)
+$$
+be an accepted $\EudoxusRealUp$ carrier. Every finite read of the almost-homomorphism graph that reaches $\RegSeqRatUp$ or $\RealUp$ factors through the bounded-defect route
+$$
+I,A \longmapsto B \longmapsto D \longmapsto S \longmapsto Q \longmapsto R.
+$$
+Thus a consumer may read a regular rational approximation or a terminal Real seal only after the same integer graph and bounded-defect ledger have been displayed.
+\end{theorem}
+\begin{proof}
+Start with an accepted read of $Q$ or $R$. By \autoref{thm:eudoxus-real-namecert-obligations}, the read enters through the displayed integer source and graph rows $I,A$.
+
+The bounded-defect row $B$ is the next required row. It records the finite inequalities witnessing that the inspected graph behaves like an additive homomorphism up to the same integer budget on every displayed pair.
+
+The dyadic ledger $D$ converts that budget into tolerance rows, and the schedule $S$ records which denominators and comparisons are inspected. The regular rational row $Q$ is therefore downstream of $I,A,B,D,S$.
+
+Finally the Real seal $R$ is downstream of $Q$, and the structural rows $H,C,P,N$ only preserve and name the route. Hence a read skipping the bounded-defect ledger cannot reach either the regular rational readback or the terminal Real seal inside this carrier.
+\end{proof}
+
+\begin{theorem}[Eudoxus real RegSeqRat comparison]
+\label{thm:eudoxus-real-regseqrat-comparison}
+Every accepted $\EudoxusRealUp$ packet determines its $\RegSeqRatUp$ comparison surface from the common finite rows
+$$
+I,\quad A,\quad B,\quad D,\quad S.
+$$
+If two accepted packets are componentwise $\hsame$ on these rows, then their displayed $\RegSeqRatUp$ readback rows compare through the same dyadic tolerances and denominator windows before either packet exposes its terminal $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Use the classifier in \autoref{def:eudoxus-real-carrier}. It compares accepted packets componentwise through the integer source, graph, defect, dyadic, and schedule rows before it compares the regular rational readback row.
+
+The bounded-defect row fixes the same finite error budget, and the dyadic ledger translates it through the same tolerance windows. Componentwise $\hsame$ on $I,A,B,D,S$ therefore gives the same displayed input data for the $\RegSeqRatUp$ row $Q$ in both packets.
+
+Only after that comparison can a consumer reach the terminal $\RealUp$ seal $R$. The theorem does not identify quotient classes of almost homomorphisms; it identifies the finite readback route exposed by this NameCert packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\EudoxusRealUp$ consumer that reaches $\RegSeqRatUp$ or $\RealUp$ without the displayed $\IntUp$ graph, bounded-defect row, $\DyadicRatCoreUp$ tolerance ledger, and request schedule refutes the carrier surface.}
+
+\independenceWitness{int, archimedeanreal, dyadicratcore, regseqrat, real: no listed sibling supplies the whole eleven-row packet $E=(I,A,B,D,S,Q,R,H,C,P,N)$, because each sibling contributes only an integer, rational-bound, dyadic-tolerance, regular-rational, or Real-seal surface while this chapter binds the almost-homomorphism graph and bounded-defect route between them.}
+
+\closureat{EudoxusRealUp}{seedStr}[BEDC.Derived.EudoxusRealUp]
+\begin{closurestatus}{\EudoxusRealUp}
+  \constructivestory{An $\EudoxusRealUp$ packet is generated from an $\IntUp$ source row, an almost-homomorphism graph row, a bounded-defect row, a $\DyadicRatCoreUp$ tolerance ledger, a finite request schedule, a $\RegSeqRatUp$ readback row, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:eudoxus-real-carrier}, \autoref{thm:eudoxus-real-namecert-obligations}, \autoref{thm:eudoxus-real-bounded-defect-readback}, and \autoref{thm:eudoxus-real-regseqrat-comparison} seed the almost-homomorphism real-name boundary over $\IntUp$, $\ArchimedeanRealUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.EudoxusRealUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient reals, host functions, selected limits, completeness of $\RealUp$, or an ambient ordered-field construction.}
+  \upgradepath{Scoped closure requires binding the displayed bounded-defect readback route as the public route for every accepted Eudoxus real-name consumer.}
+\end{closurestatus}

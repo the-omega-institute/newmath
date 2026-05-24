@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyZeroDistanceUp$}
+\label{ch:concrete-instances-regular-cauchy-zero-distance-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyZeroDistanceUp$ packet records the constructive zero-distance boundary for two regular Cauchy names by routing the displayed difference through a finite $\NullSequenceUp$ tolerance-window witness before any $\RealEqualityUp$ or $\RealUp$ seal is consumed. It sits between the source rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the pointwise difference surface of \autoref{ch:concrete-instances-regularcauchydifference-namecert}, the zero-tail consumer of \autoref{ch:concrete-instances-nullsequence-namecert}, the equality boundary of \autoref{ch:concrete-instances-real-equality-namecert}, the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}.
+
+The certificate is a finite equality boundary. It does not identify quotient streams, select limits, compare host reals, or invoke completeness; it records only the displayed route by which the regular-Cauchy difference is certified as a null sequence and then handed to the equality classifier.
+
+\begin{definition}[RegularCauchyZeroDistance carrier]
+\label{def:regular-cauchy-zero-distance-carrier}
+A $\RegularCauchyZeroDistanceUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+Q=(X,Y,D,Z,E,W,T,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\RegSeqRatUp$ source rows whose regular rational observations are compared.
+\item $D$ is the $\RegularCauchyDifferenceUp$ row displaying the pointwise difference stream $X-Y$ through aligned finite windows.
+\item $Z$ is the $\NullSequenceUp$ zero-tail row consuming the displayed difference stream before equality is sealed.
+\item $E$ is the $\RealEqualityUp$ classifier-consumption row that reads the null-difference packet and exposes the corresponding $\RealUp$ equality boundary.
+\item $W$ stores the $\StreamNameUp$ observation windows used by the two source rows, the displayed difference row, and the null-sequence consumer.
+\item $T$ stores the $\DyadicRatCoreUp$ tolerance requests, slack rows, and comparison budgets consumed by the difference and zero-tail rows.
+\item $H$ records componentwise $\hsame$ transport for source rows, difference rows, zero-tail rows, equality classifier rows, windows, tolerance ledgers, continuation routes, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a zero-distance request through $X,Y,D,Z,W,T,H,P,N$ and then into $E$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyZeroDistanceUp$, $\RegSeqRatUp$, $\RegularCauchyDifferenceUp$, $\NullSequenceUp$, $\RealEqualityUp$, $\RealUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyZeroDistanceUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite zero-distance packet. It has no coordinate for quotient stream equality, host real equality, trichotomy, selected limits, countable choice, $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyZeroDistanceUp.RegularCauchyZeroDistanceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[RegularCauchyZeroDistance NameCert obligations]
+\label{thm:regular-cauchy-zero-distance-namecert-obligations}
+For every accepted $\RegularCauchyZeroDistanceUp$ carrier $Q=(X,Y,D,Z,E,W,T,H,C,P,N)$, the local $\NameCert_{\RegularCauchyZeroDistanceUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the two $\RegSeqRatUp$ source rows, the $\RegularCauchyDifferenceUp$ displayed difference row, the $\NullSequenceUp$ zero-tail row, the $\RealEqualityUp$ classifier-consumption row, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerances, transport, continuation, provenance, and local naming rows;
+\item componentwise classifier stability for source rows, aligned windows, dyadic tolerances, the displayed difference route, the zero-tail route, the equality handoff, and the structural rows $H,C,P,N$;
+\item zero-tail exactness, requiring $Z$ to consume precisely the difference row $D$ through the windows $W$ and tolerance ledger $T$ before the equality classifier is read;
+\item RealEquality handoff, requiring $E$ to read the $\NullSequenceUp$ packet as the equality evidence for the two regular Cauchy names and not as a host equality proof;
+\item non-escape, requiring every public zero-distance read to factor through $Q$ and forbidding quotient stream equality, host real equality, trichotomy, selected limits, countable choice, $\RealUp$ completeness, and bridge checking from the local surface.
+\end{enumerate}
+No zero-distance obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-zero-distance-carrier}. The packet displays the two regular rational source rows, the difference row, the null-sequence row, the equality classifier row, finite windows, dyadic tolerances, and structural provenance before any equality read is visible.
+
+Classifier stability is componentwise. The source rows transport their regular rational observations, the windows transport the finite reads, the tolerance ledger transports the requested dyadic bounds, and the displayed difference row transports before the null-sequence row is consumed.
+
+Zero-tail exactness comes next. The row $Z$ can read only the displayed difference $D$ through $W$ and $T$, so the equality handoff has already passed through the finite null-difference package before $E$ is inspected.
+
+Finally inspect the carrier inventory. Since no coordinate of $Q$ is a quotient stream equality, host real equality proof, trichotomy principle, selected limit, countable-choice schedule, completeness theorem, or bridge certificate, none can occur in the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[RegularCauchyZeroDistance NullSequence criterion]
+\label{thm:regular-cauchy-zero-distance-nullsequence-criterion}
+Let $Q=(X,Y,D,Z,E,W,T,H,C,P,N)$ be an accepted $\RegularCauchyZeroDistanceUp$ carrier. A zero-distance read for the two regular Cauchy source rows is admitted exactly when the displayed difference route $D$ factors through the $\NullSequenceUp$ packet $Z$ using the finite $\StreamNameUp$ windows $W$, the $\DyadicRatCoreUp$ tolerance ledger $T$, the transport ledger $H$, the continuation replay $C$, the provenance row $P$, and the local naming row $N$ before the $\RealEqualityUp$ classifier row $E$ and the downstream $\RealUp$ seal are consumed.
+
+Thus zero distance is the finite null-sequence-mediated equality boundary for the displayed difference stream, not a quotient equality of streams, host real equality, trichotomy comparison, selected limit, countable-choice construction, or completeness assertion.
+\end{theorem}
+\begin{proof}
+For the forward direction, begin with an admitted zero-distance read. The NameCert obligations of \autoref{thm:regular-cauchy-zero-distance-namecert-obligations} force the read through the carrier coordinates of $Q$.
+
+The displayed difference row $D$ is read before any equality classifier row. By zero-tail exactness, the consumer must then pass through the $\NullSequenceUp$ row $Z$, using exactly the windows $W$ and tolerance ledger $T$ transported by $H$ and replayed by $C$.
+
+Only after that finite null-difference package is visible may the classifier row $E$ consume it as $\RealEqualityUp$ evidence. The provenance and local naming rows $P,N$ record the same route and add no analytic data.
+
+For the reverse direction, suppose the displayed difference route factors through $Z$ with $W,T,H,C,P,N$ before $E$ is consumed. Then the carrier admission, zero-tail exactness, and RealEquality handoff clauses of \autoref{thm:regular-cauchy-zero-distance-namecert-obligations} accept this route as the local zero-distance read.
+
+The non-escape clause rules out all stronger interpretations. Since the packet contains no quotient stream equality, host real equality, trichotomy, selected limit, countable-choice row, or completeness theorem, the accepted read is exactly the stated finite boundary.
+\end{proof}
+
+\closureat{RegularCauchyZeroDistanceUp}{seedStr}
+\begin{closurestatus}{\RegularCauchyZeroDistanceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-zero-distance-carrier}, \autoref{thm:regular-cauchy-zero-distance-namecert-obligations}, and \autoref{thm:regular-cauchy-zero-distance-nullsequence-criterion} seed the finite zero-distance boundary for two regular Cauchy source rows through displayed difference, NullSequence zero-tail evidence, RealEquality classifier consumption, StreamName windows, and DyadicRatCore tolerance rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient stream equality, host real equality, trichotomy, selected limits, countable choice, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean theorems for carrier admission, componentwise classifier stability, zero-tail exactness, RealEquality handoff, and non-escape for BEDC.Derived.RegularCauchyZeroDistanceUp.}
+  \constructivestory{A $\RegularCauchyZeroDistanceUp$ packet is generated from two RegSeqRat source rows, one RegularCauchyDifference route, one NullSequence zero-tail row, one RealEquality classifier-consumption row, finite StreamName windows, DyadicRatCore tolerances, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -376,6 +376,26 @@ Use \autoref{thm:uniform-limit-diagonal-window-handoff} for the boundary handoff
 Finally apply \autoref{thm:uniform-limit-non-escape-boundary}. The excluded analytic objects are not carrier coordinates and are not exposed by the continuation or provenance rows. Therefore the Real and completion consumers are confined to the displayed uniform-limit packet.
 \end{proof}
 
+\begin{theorem}[UniformLimit continuous map handoff]
+\label{thm:uniformlimit-continuous-map-handoff}
+Let
+$$
+U=(F,M,T,R,S,E,H,C,P,N)
+$$
+be an accepted $\UniformLimitUp$ carrier. Any $\ContinuousMapUp$ consumer, and more generally any continuity-preservation consumer of the limiting endpoint, must factor through the finite route
+$$
+F \longmapsto M \longmapsto T \longmapsto R \longmapsto S \longmapsto E
+$$
+together with the transport, continuation, provenance, and non-escape rows $H,C,P,N$. The shared threshold ledger $M$ and uniform tail row $T$ supply the only uniform threshold surface before the $\RegSeqRatUp$ handoff $R$ and the $\CauchyLimitSealUp$ row $S$. The consumer therefore has no access to pointwise-only convergence, host function limits, quotient function spaces, open-cover compactness, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a $\ContinuousMapUp$ or continuity-preservation consumer of the limiting endpoint. By \autoref{thm:uniform-limit-completion-consumer-boundary}, every endpoint-facing consumer is confined to the displayed carrier rows $F,M,T,R,S,E,H,C,P,N$ and cannot read an ambient function-space or completeness object.
+
+Use \autoref{thm:uniform-limit-windowwise-cauchy-obligation}. The route into the endpoint is forced to pass through the finite windows, the shared threshold ledger $M$, and the uniform tail row $T$. Thus the continuity consumer receives its limiting-endpoint data only after the same uniform threshold surface has been selected.
+
+Finally apply \autoref{thm:uniform-limit-seal-factorization}. The $\RegSeqRatUp$ handoff $R$ and the $\CauchyLimitSealUp$ row $S$ are downstream of that shared uniform route, so the handoff presented to a continuous-map consumer is exactly the finite completion-facing surface already sealed by the packet. The listed pointwise, host-limit, quotient, compactness, and $\RealUp$-completeness readings are outside the carrier inventory and cannot be consumed here.
+\end{proof}
+
 \begin{theorem}[UniformLimit finite window seal exhaustion]
 \label{thm:uniform-limit-finite-window-seal-exhaustion}
 Let
@@ -419,7 +439,7 @@ For the converse direction, start with a read assembled from the displayed rows 
   \constructivestory{A $\UniformLimitUp$ packet is generated from a displayed function/window family, a shared threshold ledger, one $\UniformCauchyCriterionUp$ tail ledger, a $\RegSeqRatUp$ handoff, a $\CauchyLimitSealUp$ seal row, a $\RealUp$ endpoint, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:uniform-limit-carrier}, \autoref{thm:uniform-limit-seal-factorization}, \autoref{thm:uniform-limit-finite-endpoint-certificate}, \autoref{thm:uniform-limit-shared-threshold-regular-seal}, and \autoref{thm:uniform-limit-non-escape-boundary} bind the finite carrier, seal factorization, public-facing endpoint certificate, tail-ledger exactness, and non-escape boundary for the displayed uniform-limit packet.}
-  \formalstatus{\auditCleanV}
+  \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.UniformLimitUp.UniformLimitCarrier\_seal\_factorization}
   \bridgestatus{none}
   \origin{human}

@@ -1,0 +1,262 @@
+\begin{definition}[$f_{3}$ quotient]
+\label{def:philosophy-f3-quotient}
+Let
+$$
+  \pi:Q_{6}\to Q_{5}
+$$
+delete the third-position family bit:
+$$
+  \pi(s_{1},f_{1},s_{2},f_{2},s_{3},f_{3})
+  =
+  (s_{1},f_{1},s_{2},f_{2},s_{3}).
+$$
+Thus the third codon position retains only its shape class. A quotient
+symbol such as $\mathrm{UUR}$ denotes the pair
+$$
+  \mathrm{UUR}=\{\mathrm{UUA},\mathrm{UUG}\},
+$$
+and $\mathrm{ACR}$ denotes
+$$
+  \mathrm{ACR}=\{\mathrm{ACA},\mathrm{ACG}\}.
+$$
+\end{definition}
+
+\begin{theorem}[Median closure quotient]
+\label{thm:philosophy-median-closure-quotient}
+For $M=\operatorname{Med}(\mathcal{R})$, the $f_{3}$ quotient has ten
+vertices:
+$$
+  \pi(M)
+  =
+  \{\mathrm{UUR},\mathrm{UCR},\mathrm{UAR},\mathrm{UGR},
+    \mathrm{AUR},\mathrm{ACR},\mathrm{AAR},\mathrm{AGR},
+    \mathrm{CUR},\mathrm{CUY}\}.
+$$
+Equivalently, $\pi(M)$ is the image of
+$\mathrm{WNR}\cup\mathrm{CUN}$ after deleting $f_{3}$.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:philosophy-reassignment-median-closure},
+$M=\mathrm{WNR}\cup\mathrm{CUN}$. The image of $\mathrm{WNR}$ is the
+eight-point quotient block with first position in $\{\mathrm{U},\mathrm{A}\}$,
+arbitrary second position, and third-position shape $R$. The image of
+$\mathrm{CUN}$ contributes $\mathrm{CUY}$ and $\mathrm{CUR}$. These ten
+vertices are exactly the displayed set.
+\end{proof}
+
+\begin{theorem}[Active quotient as a one-hole closure]
+\label{thm:philosophy-active-quotient-one-hole}
+The active reassignment support projects to the quotient median closure
+with exactly one missing vertex:
+$$
+  \pi(\mathcal{R})
+  =
+  \pi(M)\setminus\{\mathrm{ACR}\}.
+$$
+Thus
+$$
+  \pi(\mathcal{R})
+  =
+  \{\mathrm{UUR},\mathrm{UCR},\mathrm{UAR},\mathrm{UGR},
+    \mathrm{AUR},\mathrm{AAR},\mathrm{AGR},\mathrm{CUR},
+    \mathrm{CUY}\}.
+$$
+\end{theorem}
+\begin{proof}
+Project each active codon by deleting $f_{3}$. The pairs
+$\mathrm{AAA}/\mathrm{AAG}$, $\mathrm{AGA}/\mathrm{AGG}$,
+$\mathrm{AUA}/\mathrm{AUG}$, and similarly for the $\mathrm{U}$ and
+$\mathrm{CU}$ rows, give all vertices of $\pi(M)$ except
+$\mathrm{ACR}$. The support contains neither $\mathrm{ACA}$ nor
+$\mathrm{ACG}$, so $\mathrm{ACR}$ is absent.
+\end{proof}
+
+\begin{corollary}[The Thr pair as a quotient hole]
+\label{cor:philosophy-thr-pair-quotient-hole}
+The two codons $\mathrm{ACA}$ and $\mathrm{ACG}$ are the two lifts of
+the single quotient vertex $\mathrm{ACR}$. Hence the first-layer point
+$\mathrm{ACA}$ and the sealing point $\mathrm{ACG}$ in $Q_{6}$ become
+one missing vertex after quotienting by $f_{3}$.
+\end{corollary}
+\begin{proof}
+Both codons have the same first five coordinates and differ only in
+$f_{3}$.
+\end{proof}
+
+\begin{theorem}[One-step quotient median closure]
+\label{thm:philosophy-one-step-quotient-median-closure}
+In $Q_{5}$,
+$$
+  \operatorname{Med}_{Q_{5}}(\pi(\mathcal{R}))=\pi(M),
+$$
+and the unique added quotient vertex is $\mathrm{ACR}$. One median
+witness is
+$$
+  \mathrm{ACR}=m(\mathrm{AGR},\mathrm{AUR},\mathrm{UCR}).
+$$
+\end{theorem}
+\begin{proof}
+By finite enumeration of coordinatewise medians in $Q_{5}$, the first
+median pass on $\pi(\mathcal{R})$ adds exactly $\mathrm{ACR}$ and then
+stabilizes. The displayed witness verifies that $\mathrm{ACR}$ is
+forced by the quotient support.
+\end{proof}
+
+\begin{theorem}[Quotient cubical skeleton]
+\label{thm:philosophy-quotient-cubical-skeleton}
+The cubical complex $K(\pi(M))$ has f-vector
+$$
+  (f_{0},f_{1},f_{2},f_{3})=(10,14,6,1).
+$$
+Its maximal cells are one $Q_{3}$ core
+$$
+  \{\mathrm{UUR},\mathrm{UCR},\mathrm{UAR},\mathrm{UGR},
+    \mathrm{AUR},\mathrm{ACR},\mathrm{AAR},\mathrm{AGR}\},
+$$
+and two edges
+$$
+  \mathrm{UUR}-\mathrm{CUR},
+  \qquad
+  \mathrm{CUY}-\mathrm{CUR}.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate all subcubes of $Q_{5}$ contained in $\pi(M)$. The unique
+maximal three-cell is the quotient of $\mathrm{WNR}$, and the quotient
+of the $\mathrm{CUN}$ tail contributes $\mathrm{CUY}-\mathrm{CUR}$.
+The bridge $\mathrm{UUR}-\mathrm{CUR}$ attaches the tail to the core.
+The resulting cell counts are $(10,14,6,1)$.
+\end{proof}
+
+\begin{theorem}[Punctured quotient skeleton]
+\label{thm:philosophy-punctured-quotient-skeleton}
+The active quotient $K(\pi(\mathcal{R}))$ has f-vector
+$$
+  (f_{0},f_{1},f_{2})=(9,11,3).
+$$
+It is the punctured $Q_{3}$ core
+$$
+  \pi(\mathrm{WNR})\setminus\{\mathrm{ACR}\}
+$$
+together with the same two-edge tail
+$$
+  \mathrm{UUR}-\mathrm{CUR}-\mathrm{CUY}.
+$$
+\end{theorem}
+\begin{proof}
+Deleting one vertex from a $Q_{3}$ leaves seven vertices, nine edges,
+and three squares. The quotient tail contributes two vertices and two
+edges, giving $(9,11,3)$.
+\end{proof}
+
+\begin{theorem}[Wobble product decomposition]
+\label{thm:philosophy-wobble-product-decomposition}
+The median closure complex is the product of the quotient complex with
+the $f_{3}$ edge:
+$$
+  K(M)=K(\pi(M))\times Q_{1}^{f_{3}}.
+$$
+Consequently the f-vector of $K(M)$ is recovered from
+$f(K(\pi(M)))=(10,14,6,1)$ by
+$$
+  f_{k}(K\times Q_{1})=2f_{k}(K)+f_{k-1}(K),
+$$
+giving
+$$
+  f(K(M))=(20,38,26,8,1).
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{thm:philosophy-wobble-saturation-closure}, $M$ is saturated
+in the $f_{3}$ direction, so every quotient vertex of $\pi(M)$ has both
+$f_{3}$ lifts in $M$. This is exactly the cubical product with the
+$f_{3}$ edge. Applying the displayed product formula gives the stated
+f-vector, matching \autoref{thm:philosophy-sealing-corner-f-vector}.
+\end{proof}
+
+\begin{theorem}[Quotient spectral reconstruction]
+\label{thm:philosophy-quotient-spectral-reconstruction}
+Let $G_{\pi(M)}$ be the Hamming graph on the quotient skeleton. Its
+largest adjacency eigenvalue is
+$$
+  \mu_{\max}(G_{\pi(M)})=3.051487585\ldots.
+$$
+Since $G_{M}=G_{\pi(M)}\square K_{2}$, the killed bit-flip spectral
+radius of $M$ is
+$$
+  \lambda(M)
+  =
+  \frac{\mu_{\max}(G_{\pi(M)})+1}{6}
+  =
+  0.675247931\ldots.
+$$
+\end{theorem}
+\begin{proof}
+The adjacency spectrum of a Cartesian product satisfies
+$$
+  \operatorname{Spec}(G\square H)
+  =
+  \{\mu+\nu:\mu\in\operatorname{Spec}(G),\nu\in\operatorname{Spec}(H)\}.
+$$
+For $H=K_{2}$ the eigenvalues are $1$ and $-1$. The largest adjacency
+eigenvalue of $G_{M}$ is therefore $\mu_{\max}(G_{\pi(M)})+1$, and the
+killed bit-flip matrix is $A_{M}/6$.
+\end{proof}
+
+\begin{theorem}[Wobble-pair occupancy]
+\label{thm:philosophy-wobble-pair-occupancy}
+The active support occupies quotient fibers as follows:
+$$
+\begin{array}{c|c|r}
+  \text{quotient vertex} & \text{fiber} & \text{active occupancy}\\
+  \hline
+  \mathrm{UUR} & \mathrm{UUA}/\mathrm{UUG} & 1\\
+  \mathrm{UCR} & \mathrm{UCA}/\mathrm{UCG} & 1\\
+  \mathrm{UAR} & \mathrm{UAA}/\mathrm{UAG} & 2\\
+  \mathrm{UGR} & \mathrm{UGA}/\mathrm{UGG} & 1\\
+  \mathrm{AUR} & \mathrm{AUA}/\mathrm{AUG} & 1\\
+  \mathrm{ACR} & \mathrm{ACA}/\mathrm{ACG} & 0\\
+  \mathrm{AAR} & \mathrm{AAA}/\mathrm{AAG} & 1\\
+  \mathrm{AGR} & \mathrm{AGA}/\mathrm{AGG} & 2\\
+  \mathrm{CUR} & \mathrm{CUA}/\mathrm{CUG} & 2\\
+  \mathrm{CUY} & \mathrm{CUC}/\mathrm{CUU} & 2.
+\end{array}
+$$
+Thus the full active fibers are
+$$
+  \mathrm{UAR},\mathrm{AGR},\mathrm{CUR},\mathrm{CUY},
+$$
+the half-active fibers are
+$$
+  \mathrm{UUR},\mathrm{UCR},\mathrm{UGR},\mathrm{AUR},\mathrm{AAR},
+$$
+and the empty fiber is $\mathrm{ACR}$.
+\end{theorem}
+\begin{proof}
+For each quotient vertex, count the two $f_{3}$ lifts that lie in
+$\mathcal{R}$. The displayed table is the resulting finite count.
+\end{proof}
+
+\begin{theorem}[Wobble quotient closure]
+\label{thm:philosophy-wobble-quotient-closure}
+The full median closure is recovered by taking median closure after
+the $f_{3}$ quotient and then lifting all $f_{3}$ fibers:
+$$
+  M
+  =
+  \pi^{-1}\!\left(\operatorname{Med}_{Q_{5}}(\pi(\mathcal{R}))\right).
+$$
+Equivalently,
+$$
+  M=(Q_{3}\text{ core plus a two-edge tail})\times Q_{1}^{f_{3}}.
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{thm:philosophy-one-step-quotient-median-closure},
+$\operatorname{Med}_{Q_{5}}(\pi(\mathcal{R}))=\pi(M)$. By
+\autoref{thm:philosophy-wobble-product-decomposition},
+$M=\pi^{-1}(\pi(M))$. Combining the two identities gives the displayed
+formula.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-wobble-quotient-spectral-trigger-namecert}{finite quotient-trigger rows for wobble spectral geometry}

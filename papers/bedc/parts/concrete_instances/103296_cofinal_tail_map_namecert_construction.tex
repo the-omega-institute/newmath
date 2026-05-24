@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\CofinalTailMapUp$}
+\label{ch:concrete-instances-cofinal-tail-map-namecert}
+\origin{human}
+
+Following Kelley-style net and filter cofinal maps and Bishop--Bridges constructive analysis, the $\CofinalTailMapUp$ packet records the finite tail-reindexing surface used when a late request on one directed window must be answered by a displayed later request on another window. It sits after the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback row of \autoref{ch:concrete-instances-regseqrat-namecert}, the filter-tail route of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the Cauchy-net route of \autoref{ch:concrete-instances-cauchynet-namecert}, the real-series packet of \autoref{ch:concrete-instances-realseries-namecert}, and the diagonal tail-selector route of \autoref{ch:concrete-instances-diagonal-tail-selector-namecert}. The packet isolates the cofinal tail map itself: a finite monotone reindexing and budget row, not a selected subsequence, not a quotient tail, and not an ambient completeness principle for $\RealUp$.
+
+\begin{definition}[CofinalTailMap carrier]
+\label{def:cofinal-tail-map-carrier}
+A $\CofinalTailMapUp$ carrier is a finite $\BHist$ packet
+$$
+T=(I,J,U,V,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the source index-window row. It records the finite source tail cuts, inspected source indices, and local order comparisons available to the request.
+\item $J$ is the target tail-window row. It records the finite target cuts and target requests that must be reached by cofinal reindexing.
+\item $U$ is the source-tail service row. It names the $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyFilterUp$, $\CauchyNetUp$, or $\RealSeriesUp$ source window whose late request is being transported.
+\item $V$ is the target-tail service row. It names the corresponding target window after reindexing and records the finite tail preservation data exposed to downstream consumers.
+\item $M$ is the monotone map row from the displayed source window to the displayed target window. It stores only finite comparisons proving that later source indices are sent to later target indices on the rows under inspection.
+\item $H$ records componentwise $\hsame$ transport for the source window, target window, source-tail service, target-tail service, monotone map, cofinality budget, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the reindexing route
+$$
+I,J,U,M \longmapsto V .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CofinalTailMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyFilterUp$, $\CauchyNetUp$, $\RealSeriesUp$, $\DiagonalTailSelectorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CofinalTailMapUp}$ row. It includes the finite cofinality-budget row saying that every displayed target tail request in $J$ is reached by some displayed source cut in $I$ through $M$.
+\end{enumerate}
+The carrier predicate admits exactly these nine rows. Its classifier compares accepted packets only through the displayed source windows, target tail windows, monotone map row, cofinality-budget entry inside $N$, tail-window preservation data in $V$, componentwise transport, continuation replay, provenance, and local naming. It has no coordinate for selected subsequences, host functions, quotient tails, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CofinalTailMap NameCert obligations]
+\label{thm:cofinal-tail-map-namecert-obligations}
+For every accepted $\CofinalTailMapUp$ carrier $T=(I,J,U,V,M,H,C,P,N)$, the local $\NameCert_{\CofinalTailMapUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source index windows, target tail windows, source-tail service, target-tail service, monotone map row, transport, replay, provenance, and local naming row;
+\item monotone transport, requiring every displayed comparison in $I$ to be preserved by $M$ as a displayed comparison in $J$;
+\item cofinal reachability, requiring every target tail request retained by $J$ to have a source cut in $I$ whose image under $M$ reaches that request within the budget recorded by $N$;
+\item tail-window preservation, requiring $V$ to read only the target windows obtained from $U$ through the displayed map row and cofinality budget;
+\item classifier stability, requiring componentwise $\hsame$ transport in $H$ and displayed $\Cont$ replay in $C$ to preserve $I,J,U,V,M$ and the budget row inside $N$;
+\item ledger nonescape, requiring $P$ and $N$ to source exactly the displayed packet and no selected subsequence, host function, quotient-tail equality, countable-choice schedule, or ambient $\RealUp$ completeness theorem.
+\end{enumerate}
+No $\CofinalTailMapUp$ NameCert obligation is stored outside these rows.
+\end{theorem}
+
+\begin{proof}
+Carrier admission is projection from \autoref{def:cofinal-tail-map-carrier}. The accepted packet exposes the source window, target window, two service rows, monotone map, and structural rows $H,C,P,N$.
+
+Monotone transport is part of the displayed map row $M$. Since $M$ is finite, every comparison it can use is already named by $I$ and every transported comparison is already named by $J$.
+
+Cofinal reachability is the budget component of $N$. For each retained target-tail request, the budget supplies a displayed source cut and records that its image under $M$ reaches the target request.
+
+The target-tail service row $V$ is downstream of this route. It can read a target window only after the source service $U$, the map row $M$, and the budget entry in $N$ have been displayed.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no coordinate for selected subsequences, host functions, quotient tails, countable choice, or ambient real completeness, the six listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[CofinalTailMap regular-Cauchy handoff]
+\label{thm:cofinal-tail-map-regular-cauchy-handoff}
+Let $T=(I,J,U,V,M,H,C,P,N)$ be an accepted $\CofinalTailMapUp$ carrier. Any $\RegSeqRatUp$ or $\StreamNameUp$ tail request transported through $T$ factors through the displayed source window $I$, the monotone map row $M$, the cofinality budget recorded by $N$, and the target tail window $J$ before it can be read through $V$. The handoff exports a finite reindexing route for regular-Cauchy and stream-name consumers, and it exports no countable choice, quotient equality, selected subsequence, host function, or ambient $\RealUp$ completeness proof.
+\end{theorem}
+
+\begin{proof}
+Start with a transported $\RegSeqRatUp$ or $\StreamNameUp$ tail request. The source side is the displayed window $I$ together with the source-tail service row $U$.
+
+The request can move toward the target side only through $M$. The row $M$ supplies the finite monotone comparisons needed to send the requested source cut to a target cut in $J$.
+
+Next read the cofinality budget inside $N$. It records that the displayed target request is reached by a source cut already present in $I$, so the consumer cannot introduce a separate selected subsequence or choice schedule.
+
+The target-tail service row $V$ is then the only readable target surface. Componentwise transport in $H$, replay in $C$, and provenance in $P$ keep the route attached to the same displayed packet.
+
+Therefore the regular-Cauchy or stream-name handoff factors through $I,M,N,J,V$ and contains no quotient tail, host map equality, selected subsequence, countable-choice datum, or completeness principle for $\RealUp$.
+\end{proof}
+
+\closureat{CofinalTailMapUp}{seedStr}
+
+\begin{closurestatus}{\CofinalTailMapUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cofinal-tail-map-carrier}, \autoref{thm:cofinal-tail-map-namecert-obligations}, and \autoref{thm:cofinal-tail-map-regular-cauchy-handoff} seed the finite cofinal tail-reindexing packet over source windows, target windows, monotone map rows, cofinality budgets, tail-window preservation, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected subsequences, host functions, quotient tails, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, monotone transport, cofinal reachability, tail-window preservation, classifier stability, ledger nonescape, and the regular-Cauchy handoff for BEDC.Derived.CofinalTailMapUp.}
+  \constructivestory{A $\CofinalTailMapUp$ packet is generated from source index windows, target tail windows, source and target tail services, one finite monotone map row, a cofinality-budget row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\UniformLimitInterchangeUp$}
+\label{ch:concrete-instances-uniform-limit-interchange-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\UniformLimitInterchangeUp$ packet records the finite handoff by which continuity data for a finite family of displayed real-valued maps is preserved when the family is consumed through a uniform-limit route. It consumes the uniform-limit endpoint packet of \autoref{ch:concrete-instances-uniformlimit-namecert}, the continuous-map rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the shared-window modulus service of \autoref{ch:concrete-instances-uniform-cauchy-modulus-namecert}, the regular rational readback discipline of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet exposes the Real and Completion handoff for finite uniform-limit continuity consumers; it does not claim host function-space completeness, quotient equality of maps, selected limits, open-cover compactness, or ambient completeness of $\RealUp$.
+
+\begin{definition}[UniformLimitInterchange carrier]
+\label{def:uniform-limit-interchange-carrier}
+A $\UniformLimitInterchangeUp$ carrier is a finite $\BHist$ packet
+$$
+I=(F,L,M,R,S,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the finite family ledger of $\ContinuousMapUp$ rows whose source and target Real windows are visible to the packet.
+\item $L$ is the $\UniformLimitUp$ row that reads the same finite family through its shared uniform-tail route.
+\item $M$ is the $\UniformCauchyModulusUp$ evidence row, recording the single modulus ledger used by the continuity rows and by the uniform-limit route.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the finite window observations after the shared modulus row has been displayed.
+\item $S$ is the $\RealUp$ seal row exposed from the regular readback and made available to Real and Completion consumers.
+\item $T$ is the interchange transport row, asserting that continuity-facing reads of $F$ and endpoint-facing reads of $L$ use the same $M,R,S$ route.
+\item $H$ records componentwise $\hsame$ transport for the continuous-map ledger, uniform-limit row, shared modulus evidence, regular readback, Real seal, interchange transport, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from $F$ to $L$, from both rows to $M$, from $M$ to $R$, from $R$ to $S$, and from this route to the transport row $T$.
+\item $P$ is the $\Pkg$ provenance over $\UniformLimitInterchangeUp$, $\UniformLimitUp$, $\ContinuousMapUp$, $\UniformCauchyModulusUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformLimitInterchangeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,L,M,R,S,T,H,C,P,N$. It has no coordinate for host function-space completeness, quotient equality of maps, selected host limits, open-cover compactness, pointwise-only convergence, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.UniformLimitInterchangeUp.UniformLimitInterchangeTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[UniformLimitInterchange NameCert obligations]
+\label{thm:uniform-limit-interchange-namecert-obligations}
+For every accepted $\UniformLimitInterchangeUp$ carrier $I=(F,L,M,R,S,T,H,C,P,N)$, the local $\NameCert_{\UniformLimitInterchangeUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite $\ContinuousMapUp$ family ledger, $\UniformLimitUp$ route, shared $\UniformCauchyModulusUp$ evidence, $\RegSeqRatUp$ readback, $\RealUp$ seal, interchange transport, replay, provenance, and local naming rows;
+\item continuity-route exactness, requiring every continuity-facing read of $F$ to use the same displayed family rows consumed by $L$;
+\item shared-modulus exactness, requiring the continuity rows and the uniform-limit row to consult the single modulus evidence row $M$ before a readback is exposed;
+\item RegSeqRat readback exactness, requiring $R$ to be obtained only after $F,L,M$ have been displayed;
+\item Real-seal handoff, requiring $S$ to be consumed only after $R$ and only along the route replayed by $C$;
+\item componentwise transport and displayed replay for $F,L,M,R,S,T,P,N$ through $H$ and $C$;
+\item refusal of host function-space completeness, quotient equality of maps, selected host limits, open-cover compactness, pointwise-only convergence, and ambient $\RealUp$ completeness as local certificate data.
+\end{enumerate}
+No uniform-limit interchange obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:uniform-limit-interchange-carrier}. The only analytic rows are the finite continuous-map ledger $F$, the uniform-limit route $L$, the shared modulus row $M$, the regular readback $R$, the Real seal $S$, and the transport row $T$.
+
+The continuity and limit routes meet at the shared modulus. A continuity-facing read cannot bypass $M$, because the carrier contains no second modulus row, and a uniform-limit read cannot expose a readback before $F,L,M$ have been displayed.
+
+The Real-facing boundary is downstream. The replay row $C$ places $R$ after $F,L,M$ and places $S$ after $R$, while the transport row $H$ moves only the listed coordinates.
+
+The provenance and local naming rows package the same finite route. Since no coordinate names host function-space completeness, quotient map equality, selected limits, open-cover compactness, pointwise-only convergence, or ambient Real completeness, none of those objects is a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[UniformLimitInterchange Real seal handoff]
+\label{thm:uniform-limit-interchange-real-seal-handoff}
+Every $\RealUp$ or Completion-facing read exported by an accepted $\UniformLimitInterchangeUp$ carrier factors through the finite route
+$$
+F,L \longmapsto M \longmapsto R \longmapsto S \longmapsto T,H,C,P,N .
+$$
+Thus the consumer receives a finite uniform-limit continuity handoff from continuous-map rows to a Real seal through the shared modulus evidence, the $\RegSeqRatUp$ readback, and the displayed transport and replay rows. The route exports no host function-space completeness, quotient equality of maps, selected host limits, open-cover compactness, pointwise-only convergence, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a Real or Completion consumer of the accepted packet. The endpoint seal $S$ is not an entrance row; the carrier first exposes the finite continuous-map ledger $F$ and the $\UniformLimitUp$ route $L$.
+
+The shared modulus row is then forced. By the shared-modulus obligation in \autoref{thm:uniform-limit-interchange-namecert-obligations}, both the continuity rows and the limit row consult the same $M$ before the regular readback row $R$ is available.
+
+After $R$ is displayed, the Real seal $S$ can be consumed. The interchange transport row $T$ states that the continuity-facing and endpoint-facing requests follow this same route, and the structural rows $H,C,P,N$ preserve and name it.
+
+Composing these route projections gives the displayed factorization. Because every step is a row of the finite packet and the packet has no coordinate for the excluded analytic objects, the handoff cannot export any stronger host-level principle.
+\end{proof}
+
+\begin{theorem}[UniformLimitInterchange shared modulus determinacy]
+\label{thm:uniform-limit-interchange-shared-modulus-determinacy}
+Let $I=(F,L,M,R,S,T,H,C,P,N)$ be an accepted $\UniformLimitInterchangeUp$ carrier. Every consumer route from the finite $\ContinuousMapUp$ rows of $F$ and the $\UniformLimitUp$ route $L$ to $\RegSeqRatUp$ readback and the $\RealUp$ seal factors through the same displayed shared-modulus row $M$ before it reaches $R$ and $S$.
+
+Equivalently, the finite gate for the interchange is determined by the carrier rows $F,L,M,R,S,T,H,C,P,N$: no host function-space completeness, quotient equality of maps, selected limit, open-cover compactness, pointwise-only convergence, or ambient $\RealUp$ completeness can replace the row $M$ in a certified readback route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:uniform-limit-interchange-carrier}. Its analytic surface contains the continuous-map ledger $F$, the uniform-limit row $L$, the shared modulus evidence $M$, the regular readback $R$, the Real seal $S$, and the transport row $T$.
+
+Apply \autoref{thm:uniform-limit-interchange-namecert-obligations}. The shared-modulus exactness row identifies $M$ as the single row consulted by both the continuity-facing reads of $F$ and the limit-facing read of $L$ before any $\RegSeqRatUp$ readback is exposed.
+
+Apply \autoref{thm:uniform-limit-interchange-real-seal-handoff}. Since every Real or Completion consumer reaches $S$ only through the displayed route
+$$
+F,L \longmapsto M \longmapsto R \longmapsto S \longmapsto T,H,C,P,N ,
+$$
+both $R$ and $S$ are downstream of that same $M$.
+
+The remaining excluded objects are absent from the classifier coordinates. They therefore cannot supply an alternate gate for the finite readback route or replace the shared modulus row inside the local $\NameCert_{\UniformLimitInterchangeUp}$ surface.
+\end{proof}
+
+\closureat{UniformLimitInterchangeUp}{seedStr}
+
+\begin{closurestatus}{\UniformLimitInterchangeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-limit-interchange-carrier}, \autoref{thm:uniform-limit-interchange-namecert-obligations}, \autoref{thm:uniform-limit-interchange-real-seal-handoff}, and \autoref{thm:uniform-limit-interchange-shared-modulus-determinacy} seed the finite continuity handoff from continuous-map rows and a uniform-limit route to RegSeqRat readback and a Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function-space completeness, quotient equality of maps, selected host limits, open-cover compactness, pointwise-only convergence, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, continuity-route exactness, shared-modulus exactness, RegSeqRat readback exactness, Real-seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.UniformLimitInterchangeUp.}
+  \constructivestory{A $\UniformLimitInterchangeUp$ packet is generated from a finite ContinuousMap family ledger, a UniformLimit route, shared UniformCauchyModulus evidence, RegSeqRat readback, a RealUp seal, an interchange transport row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

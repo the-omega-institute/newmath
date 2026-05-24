@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveCompletionModulusUp$}
+\label{ch:concrete-instances-constructive-completion-modulus-namecert}
+\origin{human}
+
+Bishop--Bridges constructive completion treats convergence toward a completed real as a displayed modulus discipline: a completion-facing consumer may open only the finite windows, regular rational readbacks, dyadic tolerances, and real-name seals justified by the exhibited rate. The $\ConstructiveCompletionModulusUp$ packet records that discipline on the L10 Real and Completion spine. It sits after the dyadic rational ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names a finite modulus certificate for completion-facing reads; it does not identify quotient streams, choose limits, invoke countable choice, assert host real equality, or import ambient completeness of $\RealUp$.
+
+\begin{definition}[Constructive completion modulus carrier]
+\label{def:constructive-completion-modulus-carrier}
+A $\ConstructiveCompletionModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,\mu,W,Q,D,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source Cauchy family row, including the displayed observations and precision requests whose completion-facing reads are being certified.
+\item $\mu$ is the unary modulus row assigning to each requested tolerance a finite stage bound for the same source Cauchy family.
+\item $W$ is the $\StreamNameUp$ finite-window row opened only after the relevant value of $\mu$ has been displayed.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the displayed window $W$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the dyadic budget consumed by $\mu$, $W$, and $Q$.
+\item $R$ is the $\RealUp$ seal exposed only after the modulus, window, readback, and dyadic tolerance rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source Cauchy family, unary modulus, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the completion route
+$$
+S,\mu\longmapsto W\longmapsto Q\longmapsto D\longmapsto R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ConstructiveCompletionModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConstructiveCompletionModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,\mu,W,Q,D,R,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Constructive completion modulus NameCert obligations]
+\label{thm:constructive-completion-modulus-namecert-obligations}
+For every accepted $\ConstructiveCompletionModulusUp$ carrier
+$$
+M=(S,\mu,W,Q,D,R,H,C,P,N),
+$$
+the local $\NameCert_{\ConstructiveCompletionModulusUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source Cauchy family, unary modulus, finite StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, Real seal, transport, replay, provenance, and local naming rows;
+\item modulus/readback discipline, requiring each completion-facing read to expose the unary modulus value before the corresponding $\StreamNameUp$ window and $\RegSeqRatUp$ readback are inspected;
+\item finite-window completion handoff, requiring the completion-facing read to pass through the displayed window $W$, readback $Q$, dyadic ledger $D$, and Real seal $R$ in that order;
+\item transport/replay stability, requiring $H$ and $C$ to preserve the same source Cauchy family, modulus value, window, readback, tolerance budget, and seal under componentwise $\hsame$ transport and displayed $\Cont$ replay;
+\item provenance/local naming, requiring $P$ and $N$ to source and name only the displayed rows and to export no quotient stream, selected limit, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{enumerate}
+No constructive completion modulus obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:constructive-completion-modulus-carrier}. The accepted packet displays exactly the source Cauchy family, unary modulus, finite-window, readback, dyadic tolerance, Real seal, transport, replay, provenance, and local naming rows.
+
+The modulus/readback discipline is read from $\mu$, $W$, and $Q$. Since the window row is opened only after the relevant modulus value is displayed, the regular rational readback cannot be inspected as an unbounded stream or as a selected completion representative.
+
+The finite-window completion handoff is forced by the route through $W,Q,D,R$. The dyadic ledger records the tolerance budget before the Real seal is exposed, so the seal is a named terminal row of the finite route rather than an ambient completeness principle.
+
+Transport and replay stability are exactly the content of $H$ and $C$. They preserve the same source row, modulus value, window, readback, tolerance ledger, and seal, so a replayed packet cannot substitute a different completion witness.
+
+Finally $P$ and $N$ add provenance and local naming only for the displayed route. Because the carrier has no coordinate for quotient streams, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness, the five obligation rows exhaust the certificate surface.
+\end{proof}
+
+\begin{theorem}[Constructive completion modulus finite route]
+\label{thm:constructive-completion-modulus-finite-route}
+Let
+$$
+M=(S,\mu,W,Q,D,R,H,C,P,N)
+$$
+be an accepted $\ConstructiveCompletionModulusUp$ carrier. Every completion-facing read of $M$ factors through the finite route
+$$
+S,\mu\longmapsto W\longmapsto Q\longmapsto D\longmapsto R\longmapsto H,C,P,N .
+$$
+Equivalently, the read uses only the displayed unary modulus, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, $\RealUp$ seal, $\BHist$ packet, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. It exports no quotient stream, selected limit, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Fix a completion-facing read of an accepted carrier. Projection gives the source Cauchy family $S$ and the unary modulus row $\mu$.
+
+The read then opens only the finite window justified by the displayed modulus value. Thus the $\StreamNameUp$ row $W$ and the $\RegSeqRatUp$ row $Q$ are downstream of $\mu$ and cannot be replaced by an unbounded quotient stream.
+
+The dyadic ledger and Real seal follow the same finite route. The row $D$ records the tolerance budget consumed by the read, and $R$ is exposed only after that budget is displayed.
+
+The structural rows close the route. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row preserve and name only $S,\mu,W,Q,D,R$. Hence no completion-facing consumer receives selected limits, countable choice, host real equality, quotient stream equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{ConstructiveCompletionModulusUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveCompletionModulusUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-completion-modulus-carrier}, \autoref{thm:constructive-completion-modulus-namecert-obligations}, and \autoref{thm:constructive-completion-modulus-finite-route} seed the finite modulus route for completion-facing reads on the L10 Real and Completion spine.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.ConstructiveCompletionModulusUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, host real equality, Lean verification, bridge checking, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus/readback discipline, finite-window completion handoff, transport/replay stability, provenance/local naming, and finite-route nonescape for BEDC.Derived.ConstructiveCompletionModulusUp.}
+  \constructivestory{A $\ConstructiveCompletionModulusUp$ packet is generated from a source Cauchy family row, a unary modulus row, finite StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+\end{closurestatus}

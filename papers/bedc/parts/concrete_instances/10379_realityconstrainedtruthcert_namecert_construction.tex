@@ -329,6 +329,7 @@ No accepted $\RealityConstrainedTruthCertUp$ packet exports model--reality
 identity, unbounded confirmation, observer privilege, hidden classifier choice,
 or truth outside the displayed rows $S,\Sigma,K,T,U,D,I,L,F,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedTruthCertUp.RealityConstrainedTruthCertNonescape}
 \begin{proof}
 Inspect the carrier definition
 \autoref{def:reality-constrained-truth-cert-carrier}. Its final sentence
@@ -365,6 +366,7 @@ with $L'$, and $F$ only with $F'$. No comparison accepted by the local
 $\NameCert_{\RealityConstrainedTruthCertUp}$ row may substitute one of these
 rows for another.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedTruthCertUp.RealityConstrainedTruthCertClassifier\_stability}
 \begin{proof}
 Project the two carriers through
 \autoref{def:reality-constrained-truth-cert-carrier}. The displayed packets
@@ -542,6 +544,7 @@ The methodology-ledger chapter records exactly the downstream scope, domain-leak
 \label{thm:reality-constrained-truth-cert-open-fit-export-boundary}
 Every accepted $\RealityConstrainedTruthCertUp$ export whose failure row changes must route through the open-fit and failure-surface siblings before export. A changed row $F$ is accepted only when the finite-fit, defeat, classifier-mismatch, domain-exit, continuation-scope, and ledger reads remain visible through the displayed carrier $S,\Sigma,K,T,U,D,I,L,F,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedTruthCertUp.RealityConstrainedTruthCertOpenFitExportBoundary}
 \begin{proof}
 Use failure-surface exactness, \autoref{thm:reality-constrained-truth-cert-failure-surface-exactness}. Later observations, classifier mismatches, domain exits, and finite defeats have the single public landing row $F$.
 
@@ -550,17 +553,7 @@ Apply sibling dependency and classifier stability, \autoref{thm:reality-constrai
 Finally use export readiness. Since $N$ is readable only after field coverage, sibling routing, ledger exactness, classifier stability, and failure-surface exactness have all been read, a changed $F$ must be routed through the open-fit and failure-surface surfaces before export. Otherwise the changed failure row is outside the accepted TruthCert packet.
 \end{proof}
 
-\begin{theorem}[Reality-constrained TruthCert observer-invariant ledger route]
-\label{thm:reality-constrained-truth-cert-observer-invariant-ledger-route}
-Every observer-invariant $\RealityConstrainedTruthCertUp$ truth export must preserve the invariant row $I$ and the ledger row $L$ together. A consumer may not read observer invariance without the compression, idealization, hidden-residue, provenance, and package-descent ledger, and may not read the ledger as public truth without the observer-invariant row.
-\end{theorem}
-\begin{proof}
-Project the carrier through \autoref{def:reality-constrained-truth-cert-carrier}. The invariant row $I$ and ledger row $L$ are separate displayed coordinates, but both are mandatory fields of the same accepted packet.
-
-Use the stability-descent-invariant obligation and ledger exactness, \autoref{thm:reality-constrained-truth-cert-stability-descent-invariant-obligation} and \autoref{thm:reality-constrained-truth-cert-ledger-exactness}. The former keeps observer-anchor transport joined to tower, stability, and descent rows; the latter keeps compression, idealization, hidden residue, provenance, and package descent visible at $L$.
-
-Now apply export readiness. Since the local name $N$ certifies export only after all mandatory rows have been read through the same carrier, $I$ and $L$ cannot be exported as independent authorities. Observer-invariant truth export preserves the invariant and ledger rows as one route through the accepted TruthCert packet.
-\end{proof}
+\input{parts/concrete_instances/realityconstrainedtruthcert/observer_invariant_ledger_route}
 
 \begin{theorem}[Reality-constrained TruthCert failure routing]
 \label{thm:reality-constrained-truth-cert-failure-routing}
@@ -618,6 +611,7 @@ Therefore the five sibling routes are total for this export surface. They are al
 consumed before $N$ certifies the local $\NameCert_{\RealityConstrainedTruthCertUp}$
 packet.
 \end{proof}
+\leanchecked{BEDC.Derived.RealityConstrainedTruthCertUp.RealityConstrainedTruthCertSiblingHandoffTotality}
 
 \begin{theorem}[Reality-constrained TruthCert root readiness packet]
 \label{thm:reality-constrained-truth-cert-root-readiness-packet}
@@ -632,6 +626,7 @@ over the displayed rows $S,\Sigma,K,T,U,D,I,L,F,N$. A root consumer receives a
 TruthCert packet only along that route, not along a separate truth coordinate
 or a projection of the carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedTruthCertUp.RealityConstrainedTruthCertRootReadinessPacket}
 \begin{proof}
 Start with carrier admission and field coverage,
 \autoref{thm:reality-constrained-truth-cert-carrier-admission} and
@@ -664,6 +659,7 @@ TruthCert carrier. Such a consumer does not receive the root-ready packet
 unless the changed or disputed failure surface is routed through the displayed
 open-fit, defeat, classifier, ledger, and export rows before $N$ is read.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedTruthCertUp.RealityConstrainedTruthCertRootDefeatProjection}
 \begin{proof}
 Use failure routing,
 \autoref{thm:reality-constrained-truth-cert-failure-routing}. Defeating
@@ -691,7 +687,7 @@ tower-compression consumer of the $\RealityConstrainedTruthCertUp$ name must
 consume all five sibling routes before $N$ exports the TruthCert packet. No
 such consumer may read one sibling route as an independent root authority while
 claiming the full rows $S,\Sigma,K,T,U,D,I,L,F,N$.
-\end{theorem}
+\end{theorem}\leanchecked{BEDC.Derived.RealityConstrainedTruthCertUp.RealityConstrainedTruthCertRootConsumerTotality}
 \begin{proof}
 Begin with sibling dependency and sibling handoff totality,
 \autoref{thm:reality-constrained-truth-cert-sibling-dependency} and
@@ -723,7 +719,7 @@ Every root-facing consumer of $\RealityConstrainedTruthCertUp$ must receive the
 displayed carrier packet $S,\Sigma,K,T,U,D,I,L,F,N$. Omitting any one of these
 rows leaves only a projection and cannot be read as the root-ready TruthCert
 export named by $N$.
-\end{theorem}
+\end{theorem}\leanchecked{BEDC.Derived.RealityConstrainedTruthCertUp.RealityConstrainedTruthCertRootCarrierObligation}
 \begin{proof}
 Use the carrier and classifier definitions,
 \autoref{def:reality-constrained-truth-cert-carrier} and
@@ -747,6 +743,7 @@ $S,\Sigma,K,T,U,D,I,L,F,N$ and
 $S',\Sigma',K',T',U',D',I',L',F',N'$. The transport cannot replace the
 classifier row while preserving root readiness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealityConstrainedTruthCertUp.RealityConstrainedTruthCertRootClassifierStability}
 \begin{proof}
 Start with classifier stability and carrier transport,
 \autoref{thm:reality-constrained-truth-cert-classifier-stability} and
@@ -762,33 +759,11 @@ would leave that route, so the transported export remains root-ready only when
 $K$ and $K'$ are the classifier rows being compared.
 \end{proof}
 
-\begin{theorem}[Reality-constrained TruthCert root ledger nonescape]
-\label{thm:reality-constrained-truth-cert-root-ledger-nonescape}
-No root-facing export may expose the local name $N$ while bypassing the ledger
-row $L$ or the failure row $F$. The accepted export of
-$S,\Sigma,K,T,U,D,I,L,F,N$ therefore records compression, provenance, hidden
-residue, finite defeat, domain exit, classifier mismatch, and later observation
-before $N$ is readable.
-\end{theorem}
-\begin{proof}
-Apply ledger exactness and failure-surface exactness,
-\autoref{thm:reality-constrained-truth-cert-ledger-exactness} and
-\autoref{thm:reality-constrained-truth-cert-failure-surface-exactness}. They
-make $L$ and $F$ exact displayed rows, not optional annotations.
-
-Finally use export readiness and sibling handoff totality,
-\autoref{thm:reality-constrained-truth-cert-export-readiness} and
-\autoref{thm:reality-constrained-truth-cert-sibling-handoff-totality}. The local
-name $N$ is readable only after all displayed rows and sibling routes are
-consumed, so an export that bypasses $L$ or $F$ cannot be the root-ready
-$\RealityConstrainedTruthCertUp$ packet.
-\end{proof}
+\input{parts/concrete_instances/realityconstrainedtruthcert/root_ledger_nonescape}
 
 \falsifiablePrediction{A purported reality-constrained truth export that omits the displayed source, signature, classifier, tower, stability, descent, invariant, ledger, or failure-surface row is not an accepted TruthCert packet.}
 
 \independenceWitness{reality-constrained-open-fit, reality-constrained-objectivity, reality-constrained-explanation, physical-induction-stability-seal, reality-constrained-tower-compression: the full nine-field TruthCert packet is available only after these sibling dependencies are consumed together.}
-
-Lean follow-up must provide \texttt{Nontrivial RealityConstrainedTruthCertUp} and \texttt{FieldFaithful RealityConstrainedTruthCertUp} instances in \texttt{lean4/BEDC/Derived/RealityConstrainedTruthCertUp/TasteGate.lean} if the composite packet is later treated as an atomic Lean carrier.
 
 \input{parts/concrete_instances/realityconstrainedtruthcert/l10_source_readiness}
 \input{parts/concrete_instances/realityconstrainedtruthcert/root_tastegate_obligations}

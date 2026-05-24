@@ -49,6 +49,28 @@ theorem OrderUnaryComparisonNameCertObligations :
         · intro Z W V hZW hWV
           exact ⟨hsame_trans hZW.left hWV.left, hsame_trans hZW.right hWV.right⟩
 
+theorem OrderUnaryComparison_obligation_prefix_ledger_exhaustion
+    (Z : OrderUnaryComparisonCarrier) :
+    UnaryHistory Z.left ∧ UnaryHistory Z.right ∧ OrderUnaryComparisonClassifier Z Z ∧
+      (NatUnaryStrictPrefix Z.left Z.right ∨
+        NatUnaryStrictPrefix Z.right Z.left ∨ hsame Z.left Z.right) := by
+  -- BEDC touchpoint anchor: BHist hsame UnaryHistory NatUnaryStrictPrefix
+  obtain ⟨_inhabited, unaryRows, reflexiveClassifier, _symmetricClassifier,
+    _transitiveClassifier⟩ := OrderUnaryComparisonNameCertObligations
+  constructor
+  · exact (unaryRows Z).left
+  · constructor
+    · exact (unaryRows Z).right
+    · constructor
+      · exact reflexiveClassifier Z
+      · cases Z.branch with
+        | leftPrefix leftStrict =>
+            exact Or.inl leftStrict
+        | rightPrefix rightStrict =>
+            exact Or.inr (Or.inl rightStrict)
+        | same sameEndpoints =>
+            exact Or.inr (Or.inr sameEndpoints)
+
 theorem OrderFullNatArithmeticHandoff :
     (∀ Z : OrderUnaryComparisonCarrier,
       UnaryHistory Z.left ∧

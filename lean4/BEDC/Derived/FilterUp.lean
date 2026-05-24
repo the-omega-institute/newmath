@@ -88,6 +88,24 @@ theorem FilterPrincipalSuffix_unary_intersection_meet_commutes {left right meet 
   exact FilterPrincipalSuffix_unary_commuting_square leftCarrier rightCarrier
     (cont_left_unit left) (cont_left_unit right) leftRight rightLeft
 
+theorem FilterPrincipalSuffix_topology_lattice_route
+    {base left right meet leftPoint rightPoint meetPoint commute : BHist} :
+    UnaryHistory base -> UnaryHistory left -> UnaryHistory right -> Cont left right meet ->
+      Cont right left commute -> Cont base left leftPoint -> Cont base right rightPoint ->
+        Cont base meet meetPoint ->
+          UnaryHistory meetPoint ∧ Cont leftPoint right meetPoint ∧
+            Cont rightPoint left meetPoint ∧ hsame meet commute := by
+  intro baseCarrier leftCarrier rightCarrier leftRight rightLeft baseLeft baseRight baseMeet
+  have closed :
+      UnaryHistory meetPoint ∧ Cont leftPoint right meetPoint ∧
+        Cont rightPoint left meetPoint :=
+    FilterPrincipalSuffix_unary_intersection_closed
+      baseCarrier leftCarrier rightCarrier leftRight baseLeft baseRight baseMeet
+  have meetCommutes : hsame meet commute :=
+    FilterPrincipalSuffix_unary_intersection_meet_commutes
+      leftCarrier rightCarrier leftRight rightLeft
+  exact ⟨closed.left, closed.right.left, closed.right.right, meetCommutes⟩
+
 theorem FilterPrincipalSuffix_unary_intersection_commuted_meet_closed
     {base left right meet meetPoint : BHist} :
     UnaryHistory left -> UnaryHistory right -> Cont left right meet -> Cont base meet meetPoint ->

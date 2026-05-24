@@ -1,0 +1,43 @@
+\begin{theorem}[HaltingDistinction public export package]
+\label{thm:halting-distinction-public-export-package}
+The public export of an accepted $\HaltingDistinctionUp$ packet factors through
+the bounded trace surfaces of \autoref{ch:concrete-instances-turingmachine-namecert}
+and \autoref{ch:concrete-instances-computable-namecert}, the
+$\HaltingDistinctionTraceUp$ row of
+\autoref{ch:concrete-instances-haltingdistinctiontrace-namecert}, the
+$\ContinuationTraceNormalFormUp$ route of
+\autoref{ch:concrete-instances-continuationtracenormalform-namecert}, the
+$\InscriptionEventUp$ record of
+\autoref{ch:concrete-instances-inscriptionevent-namecert}, and the
+$\HaltingObstructionUp$ ledger of
+\autoref{ch:concrete-instances-haltingobstruction-namecert}. Only after those
+finite rows have been read may the package expose the obstruction boundary
+carried by $Q,T,Z,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+First read the machine-facing surface. The public $\TuringMachineUp$ certificate
+of \autoref{thm:turingmachine-public-certificate-export} and the bounded
+$\ComputableUp$ certificate of
+\autoref{thm:computable-bounded-graph-scoped-certificate} provide only finite
+configuration traces, bounded readbacks, and displayed provenance.
+
+Next project the accepted $\HaltingDistinctionUp$ packet through
+\autoref{def:halting-distinction-carrier}. The local carrier supplies the
+certificate-history row $Q$, finite trace row $T$, diagonal row $Z$,
+componentwise transports $H$, continuation routes $C$, package provenance $P$,
+and local ledger $N$.
+
+The sibling routes then refine this packet without adding an evaluator row.
+Apply \autoref{thm:halting-distinction-consumer-non-escape},
+\autoref{thm:halting-distinction-root-consumer-obstruction-exhaustion}, and
+\autoref{thm:halting-distinction-downstream-obstruction-handoff}; these force
+the trace, normal-form, inscription-event, and obstruction consumers to use the
+same finite rows.
+
+Finally apply \autoref{thm:halting-distinction-obstruction-consumer-boundary}
+and \autoref{thm:halting-distinction-consumer-boundary-package}. The public
+package therefore exposes the finite obstruction boundary only after the
+bounded trace, distinction trace, normal-form, inscription-event, and
+obstruction ledgers have been consumed, and it exports no total halting
+predicate, divergence oracle, host evaluator, or global truth classifier.
+\end{proof}

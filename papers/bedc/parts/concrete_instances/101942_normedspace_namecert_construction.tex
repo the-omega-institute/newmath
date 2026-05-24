@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\NormedSpaceUp$}
+\label{ch:concrete-instances-normedspace-namecert}
+\origin{human}
+
+Following Bourbaki and Bishop--Bridges constructive analysis, the $\NormedSpaceUp$ packet records the finite NameCert surface for a non-singleton normed vector space. It consumes the displayed vector-space source of \autoref{ch:concrete-instances-vecspace-namecert}, the real-valued norm interface of \autoref{ch:concrete-instances-norm-namecert}, the metric readback discipline of \autoref{ch:concrete-instances-metric-namecert}, and the completion-facing boundary of \autoref{ch:concrete-instances-completion-namecert}. The packet is an interface for later Banach, Hilbert, bounded-operator, and functional-analysis certificates; it is not the singleton $\NormUp$ instance, not a host normed-space structure, not quotient completion, and not a choice principle.
+
+\begin{definition}[NormedSpace carrier]
+\label{def:normed-space-carrier}
+A $\NormedSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(V,R,N,M,Q,H,T,P,C)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the $\VecSpaceUp$ row, exposing the vector carrier, vector classifier, zero vector, addition, negation, and scalar action only through displayed BEDC data.
+\item $R$ is the $\RealUp$ row used by all norm values, scalar absolute values, metric distances, and completion tolerances.
+\item $N$ is the real-valued norm row, carrying a map from admitted vector histories to $R$-sealed real histories together with nonnegativity, zero exactness, triangle inequality, and scalar compatibility evidence.
+\item $M$ is the induced $\MetricUp$ row, whose distance read between $x$ and $y$ is the norm read of the displayed difference $x-y$ through $V,N,R$.
+\item $Q$ is the completion-facing row, recording Cauchy windows, tolerance requests, and handoff data for completion consumers without selecting a completed point.
+\item $H$ records componentwise $\hsame$ transport for $V,R,N,M,Q$ and for the replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from every norm, metric, or completion request through the same rows $V,R,N,M,Q,H,P,C$.
+\item $P$ is the $\Pkg$ provenance over $\NormedSpaceUp$, $\VecSpaceUp$, $\NormUp$, $\RealUp$, $\MetricUp$, completion-facing Cauchy data, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $C$ is the local $\NameCert_{\NormedSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these nine rows. It has no coordinate for host normed-space equality, quotient completion, selected limits, basis choice, classical duality, or an ambient Banach or Hilbert structure.
+\end{definition}
+
+\begin{theorem}[NormedSpace NameCert obligations]
+\label{thm:normed-space-namecert-obligations}
+For every accepted $\NormedSpaceUp$ carrier
+$$
+S=(V,R,N,M,Q,H,T,P,C),
+$$
+the local $\NameCert_{\NormedSpaceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed vector-space, Real, norm, induced metric, completion-facing, transport, replay, provenance, and local naming rows;
+\item classifier transport, requiring equality of packet reads to be checked componentwise through $V,R,N,M,Q,H,T,P,C$ and never through host extensional equality;
+\item zero exactness, requiring the norm-zero classifier in $N$ to coincide with the displayed vector-zero classifier in $V$;
+\item triangle inequality, requiring every norm read of a displayed sum to factor through the $R$-sealed addition and order rows already attached to $N$;
+\item scalar compatibility, requiring each scalar multiplication read to pass through the scalar row of $V$, the real absolute-value row of $R$, and the norm row $N$;
+\item metric handoff, requiring $M$ to read distances only as norm reads of displayed vector differences through $V,N,R$;
+\item completion-facing nonescape, requiring $Q,H,T,P,C$ to preserve the same displayed route for Cauchy and completion consumers without adding quotient completions, selected limits, basis choice, choice, or host Banach/Hilbert structure.
+\end{enumerate}
+No $\NormedSpaceUp$ obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:normed-space-carrier}. The accepted packet lists the vector-space, Real, norm, induced metric, completion-facing, transport, replay, provenance, and local naming rows.
+
+Classifier transport is then componentwise. A comparison of two accepted packets can inspect only the rows displayed in the carrier, so vector data are compared through $V$, real and norm data through $R,N$, metric data through $M$, completion-facing data through $Q$, and structural replay through $H,T,P,C$.
+
+The zero, triangle, and scalar rows are the norm obligations. Zero exactness identifies a zero norm read precisely with the displayed vector-zero classifier of $V$. The triangle row reads the norm of a sum through the real addition and order data in $R$, and scalar compatibility reads scalar multiplication through the scalar row of $V$ together with the absolute-value row of $R$.
+
+The metric row is forced by construction: $M$ has no independent distance source. Its distance read from $x$ to $y$ is the norm read of the displayed difference $x-y$, so every metric consumer must pass through $V,N,R$ before it reaches $M$.
+
+Finally, the completion-facing row $Q$ and the structural rows $H,T,P,C$ replay the same displayed route for Cauchy windows and completion requests. Since the carrier has no quotient-completion, selected-limit, basis-choice, or host Banach/Hilbert coordinate, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[NormedSpace completion handoff]
+\label{thm:normed-space-completion-handoff}
+Every Banach, Hilbert, bounded-operator, or functional-analysis consumer of an accepted $\NormedSpaceUp$ packet reads the packet through the displayed route
+$$
+V,R,N,M,Q\longmapsto H,T,P,C .
+$$
+In particular, the consumer obtains its vector operations from $V$, its real-valued norm and scalar absolute-value reads from $R,N$, its metric comparisons from $M$, and its Cauchy or completion-facing requests from $Q$. It does not obtain a host normed-space object, quotient completion, selected limit, basis choice, choice principle, or ambient Banach/Hilbert structure from the packet.
+\end{theorem}
+\begin{proof}
+Start with a downstream consumer request. A vector operation can be answered only by projecting the displayed vector-space row $V$, while a norm or scalar-size request must read $R$ and $N$ before any real-valued comparison is available.
+
+Metric requests are not separate host data. By \autoref{thm:normed-space-namecert-obligations}, the metric row $M$ reads distance as the norm of a displayed vector difference, so the route necessarily passes through $V,N,R$ before a metric comparison is exported.
+
+Completion-facing requests then pass through $Q$. This row stores only Cauchy windows, tolerance requests, and handoff data, so a Banach or Hilbert chapter may consume readiness for completion without receiving a selected completed point or a quotient object.
+
+The structural rows $H,T,P,C$ preserve the same route under transport, replay, provenance, and local naming. Thus every listed consumer sees exactly the displayed VecSpace, Real, Metric, and Completion rows, and no host normed-space structure or choice-based completion datum is introduced.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\NormedSpaceUp$ consumer that reaches a Banach, Hilbert, bounded-operator, or functional-analysis read without first reading the displayed rows $V,R,N,M,Q,H,T,P,C$ refutes the carrier surface.}
+
+\independenceWitness{norm, normed-real-line, metricspace, cauchycompletion: no listed sibling supplies the full non-singleton packet $S=(V,R,N,M,Q,H,T,P,C)$, because each sibling contributes only a singleton norm instance, a one-dimensional real-line normed surface, a metric readback, or a completion handoff while this chapter binds the general normed-vector-space NameCert interface into one finite carrier.}
+
+\closureat{NormedSpaceUp}{seedStr}
+
+\begin{closurestatus}{\NormedSpaceUp}
+  \constructivestory{A $\NormedSpaceUp$ packet is generated from a displayed VecSpace row, a Real-valued norm row, an induced Metric row, a completion-facing Cauchy handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:normed-space-carrier}, \autoref{thm:normed-space-namecert-obligations}, and \autoref{thm:normed-space-completion-handoff} seed the non-singleton normed-space interface consumed by Banach, Hilbert, bounded-operator, and functional-analysis certificates.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host normed-space equality, quotient completion, selected limits, basis choice, classical duality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, zero exactness, triangle inequality, scalar compatibility, metric handoff, completion-facing nonescape, and a Lean carrier/obligation formalization for BEDC.Derived.NormedSpaceUp.}
+\end{closurestatus}

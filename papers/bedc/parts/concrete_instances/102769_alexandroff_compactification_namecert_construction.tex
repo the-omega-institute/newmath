@@ -1,0 +1,108 @@
+\chapter{A Concrete Naming Certificate for $\AlexandroffCompactificationUp$}
+\label{ch:concrete-instances-alexandroff-compactification-namecert}
+\origin{human}
+
+Following Alexandroff, Bourbaki, and Kelley, the one-point compactification of a locally compact Hausdorff space is recorded here as a finite BEDC boundary packet rather than as an imported host-space construction. The $\AlexandroffCompactificationUp$ carrier reads the topology surface of \autoref{ch:concrete-instances-topology-namecert}, the locally compact neighborhood data of \autoref{ch:concrete-instances-locallycompact-namecert}, the Hausdorff separation surface of \autoref{ch:concrete-instances-hausdorffspace-namecert}, and the finite compactness interface of \autoref{ch:concrete-instances-compact-namecert}. It names the adjoined point and the compact-complement neighborhood ledger that compactification consumers need, while leaving open-cover compactness, quotient topology, selected representatives, choice, ambient completeness, Lean verification, and bridge checking outside the packet.
+
+\begin{definition}[AlexandroffCompactification carrier]
+\label{def:alexandroff-compactification-carrier}
+An $\AlexandroffCompactificationUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,T,L,S,\infty,O,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the underlying source carrier whose points are being compactified.
+\item $T$ is the $\TopologyUp$ row on $X$, exposing only the ordinary open rows that may be reused away from the adjoined point.
+\item $L$ is the $\LocallyCompactUp$ row, displaying the finite local compact-neighborhood witnesses needed before any infinity-neighborhood row may be opened.
+\item $S$ is the $\HausdorffSpaceUp$ row, displaying the separated-neighborhood ledger used to keep ordinary points apart from compact-complement boundary reads.
+\item $\infty$ is the named adjoined point row, stored as a new BEDC name rather than as a host representative or quotient class.
+\item $O$ is the ordinary-open ledger: a finite family of rows saying that a displayed open row in the compactified packet whose carrier avoids $\infty$ is read exactly through $T$.
+\item $K$ is the compact-complement infinity-neighborhood ledger: each row consists of a displayed compact witness from the $\CompactUp$ surface, its complement request, and the assertion that the resulting neighborhood contains $\infty$.
+\item $H$ records componentwise $\hsame$ transport for the source carrier, topology row, local compactness row, Hausdorff row, infinity name, ordinary-open ledger, compact-complement ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of every compactification-facing route through
+$$
+(X,T,L,S) \longmapsto (O,K,\infty) \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\AlexandroffCompactificationUp$, $\TopologyUp$, $\LocallyCompactUp$, $\HausdorffSpaceUp$, $\CompactUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AlexandroffCompactificationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,T,L,S,\infty,O,K,H,C,P,N$. There is no coordinate for open-cover compactness, quotient topology, selected representatives, choice, ambient completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[AlexandroffCompactification NameCert obligations]
+\label{thm:alexandroff-compactification-namecert-obligations}
+For every accepted $\AlexandroffCompactificationUp$ carrier
+$$
+A=(X,T,L,S,\infty,O,K,H,C,P,N),
+$$
+the local $\NameCert_{\AlexandroffCompactificationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source carrier, topology row, locally compact row, Hausdorff row, infinity name, ordinary-open ledger, compact-complement ledger, transport, replay, provenance, and local naming row;
+\item source topology exactness, requiring every ordinary open read in $O$ to factor through the displayed $\TopologyUp$ row $T$ on $X$;
+\item local compactness exposure, requiring every infinity-neighborhood row in $K$ to open the displayed $\LocallyCompactUp$ row $L$ before it may read a compact witness;
+\item Hausdorff separation compatibility, requiring ordinary-point separation and compact-complement boundary reads to use the displayed $\HausdorffSpaceUp$ row $S$ and no host point equality;
+\item provenance exhaustion, requiring $H,C,P,N$ to transport, replay, source, and name only the listed route.
+\end{enumerate}
+No NameCert obligation is stored outside these rows, and none exports open-cover compactness, quotient topology, selected representatives, choice, ambient completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:alexandroff-compactification-carrier}. The accepted packet displays the source carrier, topology row, local compactness row, Hausdorff row, infinity name, the two open-neighborhood ledgers, and the structural rows.
+
+Source topology exactness follows from the role of $O$. An ordinary open row that does not contain $\infty$ is replayed through the displayed topology row $T$, and the carrier contains no second topology coordinate.
+
+The infinity-neighborhood obligation is the role of $K$. Each row in $K$ first reads local compactness through $L$, then names a compact witness through the $\CompactUp$ surface, and only then records the compact-complement neighborhood containing $\infty$.
+
+Hausdorff compatibility is supplied by $S$. The separated-neighborhood data are transported componentwise by $H$ and replayed by $C$, so no host point equality or selected representative can be inserted into the route.
+
+Finally, $P$ and $N$ source and name the same finite route. Since the carrier has no row for the excluded principles, the displayed rows exhaust the local $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[AlexandroffCompactification neighborhood classifier]
+\label{thm:alexandroff-compactification-neighborhood-classifier}
+Let $A=(X,T,L,S,\infty,O,K,H,C,P,N)$ be an accepted $\AlexandroffCompactificationUp$ carrier. Every displayed compactification-neighborhood read is classified by exactly one of the following packet-local routes:
+\begin{enumerate}
+\item an ordinary-open route through $O$ and the source topology row $T$, with no read of the infinity point;
+\item an infinity-neighborhood route through $K$, beginning with the adjoined point row $\infty$ and continuing through the local compactness row $L$ and a compact-complement witness from $\CompactUp$.
+\end{enumerate}
+Both routes are stable under componentwise $\hsame$ transport and displayed $\Cont$ replay, and neither route exports quotient topology, selected representatives, choice, ambient completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Take an accepted carrier and a displayed neighborhood read. Projection from the carrier gives only the ordinary-open ledger $O$ and the compact-complement ledger $K$ as neighborhood sources.
+
+If the read avoids $\infty$, the classifier uses the first route. The row in $O$ points back to $T$, so the neighborhood is an ordinary source-topology row and no compact-complement data are inspected.
+
+If the read contains $\infty$, the classifier uses the second route. The row in $K$ names the adjoined point, opens local compactness through $L$, and records the compact witness whose complement supplies the infinity neighborhood.
+
+The transport and replay rows do not add a third route. They preserve the same displayed coordinates, while $P$ and $N$ source and name the packet. The excluded quotient, representative, choice, completeness, verification, and bridge data are absent from the carrier.
+\end{proof}
+
+\begin{theorem}[AlexandroffCompactification compact boundary ledger]
+\label{thm:alexandroff-compactification-compact-boundary-ledger}
+Every compact-facing consumer of an accepted $\AlexandroffCompactificationUp$ carrier receives only the finite boundary ledger
+$$
+(T,L,S,\infty,O,K,H,C,P,N).
+$$
+The ordinary side of the ledger reads source opens through $T$, and the infinity side reads compact-complement neighborhoods through $L$ and the $\CompactUp$ witness rows. The handoff therefore exposes a concrete compactification boundary without claiming open-cover compactness, quotient topology, selected representatives, choice, ambient completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Let a compact-facing consumer read the accepted packet. The carrier inventory identifies the only boundary rows available to the consumer: the source topology, locally compact and Hausdorff support, the adjoined point, the two neighborhood ledgers, and the structural rows.
+
+On the ordinary side, the consumer reads an $O$ row and thereby returns to the source topology $T$. This provides ordinary opens over $X$ without creating a new host-space topology object.
+
+On the infinity side, the consumer reads a $K$ row. That row passes through the locally compact witness $L$ and a compact witness from the $\CompactUp$ surface before exposing the complement as a neighborhood of $\infty$.
+
+The remaining rows only preserve the ledger. Componentwise transport, continuation replay, package provenance, and local naming record the same route, so the handoff contains no row for the excluded compactness, quotient, representative, choice, completeness, verification, or bridge principles.
+\end{proof}
+
+\closureat{AlexandroffCompactificationUp}{seedStr}
+
+\begin{closurestatus}{\AlexandroffCompactificationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:alexandroff-compactification-carrier}, \autoref{thm:alexandroff-compactification-namecert-obligations}, \autoref{thm:alexandroff-compactification-neighborhood-classifier}, and \autoref{thm:alexandroff-compactification-compact-boundary-ledger} seed the finite one-point compactification route from locally compact Hausdorff source data to a compact-complement boundary ledger.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, quotient topology, selected representatives, choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source topology exactness, local compactness exposure, Hausdorff separation compatibility, provenance exhaustion, neighborhood classification, and compact boundary ledger coverage for BEDC.Derived.AlexandroffCompactificationUp.}
+  \constructivestory{An $\AlexandroffCompactificationUp$ packet is generated from a source carrier, a Topology row, a LocallyCompact row, a HausdorffSpace row, an adjoined infinity name, ordinary-open rows, compact-complement infinity-neighborhood rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

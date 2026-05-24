@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionContinuationUp$}
+\label{ch:concrete-instances-cauchy-completion-continuation-namecert}
+\origin{human}
+
+Following Mac Lane's Kleisli category terminology for continuation-style monad consumers, and Bishop--Bridges and Kelley completion terminology for Cauchy completion interfaces, the $\CauchyCompletionContinuationUp$ packet names the finite route by which a continuation request reads a bind source before it can reach the L10 completion face. It sits after the completion monad of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the Kleisli consumer boundary of \autoref{ch:concrete-instances-cauchy-completion-kleisli-namecert}, the unit certificate of \autoref{ch:concrete-instances-cauchycompletionunit-namecert}, the multiplication certificate of \autoref{ch:concrete-instances-cauchycompletionmultiplication-namecert}, the stream surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic observation ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}.
+
+The packet is a continuation-facing certificate rather than a choice of completed limits. It records the finite request row, bind source row, schedule, stream window, dyadic observation, regular readback, Real seal, and structural transport by which downstream completion consumers replay a bind request.
+
+\begin{definition}[Cauchy completion continuation carrier]
+\label{def:cauchy-completion-continuation-carrier}
+A $\CauchyCompletionContinuationUp$ carrier is a finite $\BHist$ packet
+$$
+T=(Q,B,S,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the continuation request row, naming the finite consumer request that asks for a completed value through a Kleisli bind route.
+\item $B$ is the bind source row inherited from $\CauchyCompletionKleisliUp$ and $\CauchyCompletionMonadUp$, displaying the source family before any downstream window or seal is read.
+\item $S$ is the finite unary schedule row attached to the request and bind source.
+\item $W$ is the finite $\StreamNameUp$ window row opened by the schedule.
+\item $D$ is the $\DyadicRatCoreUp$ observation and tolerance row read from the same finite window.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to $W$ and $D$.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $Q,B,S,W,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the continuation request, bind source, schedule, stream window, dyadic observation, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the continuation request through $Q,B,S,W,D,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionContinuationUp$, $\CauchyCompletionKleisliUp$, $\CauchyCompletionMonadUp$, $\CauchyCompletionUnitUp$, $\CauchyCompletionMultiplicationUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionContinuationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,B,S,W,D,R,E,H,C,P,N$. The carrier has no coordinate for quotient streams, selected limits, countable choice, host equality, hidden representatives, ambient completeness, $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyCompletionContinuationUp.CauchyCompletionContinuationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy completion continuation NameCert obligations]
+\label{thm:cauchy-completion-continuation-namecert-obligations}
+For every accepted $\CauchyCompletionContinuationUp$ carrier $T=(Q,B,S,W,D,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyCompletionContinuationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the continuation request, bind source, schedule, finite stream window, dyadic observation and tolerance row, regular rational readback, Real seal, transport, replay, provenance, and local naming row;
+\item request admission, requiring every continuation consumer to display $Q$ before it can read a bind source or public L10 row;
+\item bind-source admission, requiring every continuation replay to pass through $B$ before opening $S,W,D,R,E$;
+\item schedule and window exactness, requiring $S,W$ to be the only finite stream-window surface exposed by the request;
+\item readback and seal coherence, requiring $D,R,E$ to be read in the displayed order and to remain stable under componentwise $\hsame$ transport and displayed $\Cont$ replay;
+\item non-escape, requiring $P,N$ to source and name no quotient stream, selected limit, countable-choice selector, host equality, hidden representative, ambient completeness theorem, $\RealUp$ completeness theorem, Lean verification credential, or bridge credential.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-completion-continuation-carrier}. The accepted packet displays exactly the continuation request, bind source, finite schedule, stream window, dyadic observation, regular rational readback, Real seal, and structural rows.
+
+Request admission is supplied by $Q$. Since $Q$ is the first coordinate of the continuation-facing route, a consumer cannot inspect the bind source or the public completion face before the request row is displayed.
+
+Bind-source admission is supplied by $B$ and by the Kleisli boundary of \autoref{ch:concrete-instances-cauchy-completion-kleisli-namecert}. The route fixes the bind source before opening the shared schedule, window, dyadic observation, readback, and seal.
+
+Schedule and window exactness are projections to $S,W$. The packet contains no second schedule or hidden window family, so every continuation replay uses the displayed finite window surface.
+
+Readback, seal coherence, and non-escape are structural. Componentwise transport $H$, continuation replay $C$, provenance $P$, and the local name $N$ preserve and source only the displayed continuation packet, so no excluded completion coordinate is available.
+\end{proof}
+
+\begin{theorem}[Cauchy completion continuation bind route]
+\label{thm:cauchy-completion-continuation-bind-route}
+Every accepted $\CauchyCompletionContinuationUp$ carrier $T=(Q,B,S,W,D,R,E,H,C,P,N)$ routes a continuation request through the bind source before any public L10 completion row is read:
+$$
+Q \longmapsto B \longmapsto S \longmapsto W \longmapsto D \longmapsto R \longmapsto E .
+$$
+Thus the StreamName window, DyadicRatCore observation, RegSeqRat readback, and Real seal are continuation results of the displayed bind source rather than detached representatives.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $T=(Q,B,S,W,D,R,E,H,C,P,N)$. Projection gives the continuation request row $Q$ before any downstream coordinate is available.
+
+The bind source row $B$ is the next displayed coordinate. It is inherited from the Kleisli and monad surfaces, so the continuation reads the source family before opening a schedule or stream window.
+
+Only after $Q,B$ have been read does the carrier expose $S,W,D,R,E$. The route-order inspection of the tuple therefore gives the displayed chain from request through bind source, schedule, window, dyadic observation, regular readback, and Real seal.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name this same chain. They do not insert a detached stream representative or a second seal-facing route.
+\end{proof}
+
+\begin{theorem}[Cauchy completion continuation Real seal nonescape]
+\label{thm:cauchy-completion-continuation-real-seal-nonescape}
+Let $T=(Q,B,S,W,D,R,E,H,C,P,N)$ be an accepted $\CauchyCompletionContinuationUp$ carrier. Every $\RealUp$-facing consumer of $T$ receives the terminal seal $E$ only after the displayed continuation request, bind source, schedule, finite stream window, dyadic observation, and regular rational readback have been read. The consumer receives no quotient stream, selected limit, countable-choice selector, host equality comparison, hidden representative, ambient completeness datum, completeness theorem for $\RealUp$, Lean verification credential, or bridge credential.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only seal coordinate is $E$, and it appears downstream of $Q,B,S,W,D,R$.
+
+The replay row $C$ confirms the same order for a continuation request. A Real-facing consumer therefore reaches the seal only through the displayed request, bind source, schedule, window, dyadic observation, and readback route.
+
+Transport and provenance do not enlarge the route. The $\hsame$ row $H$ is componentwise, $P$ cites only the listed completion and L10 source chapters, and $N$ names the local certificate.
+
+Since none of the excluded objects occurs as a carrier coordinate, classifier row, or replay target, no $\RealUp$-facing consumer can escape to quotient streams, selected limits, countable choice, host equality, hidden representatives, ambient completeness, $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\closureat{CauchyCompletionContinuationUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionContinuationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-continuation-carrier}, \autoref{thm:cauchy-completion-continuation-namecert-obligations}, \autoref{thm:cauchy-completion-continuation-bind-route}, and \autoref{thm:cauchy-completion-continuation-real-seal-nonescape} seed the finite continuation-facing route from a request through a bind source and into the L10 Real-facing seal.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CauchyCompletionContinuationUp.CauchyCompletionContinuationTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, host equality, hidden representatives, ambient completeness, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, request admission, bind-source admission, schedule-window exactness, readback-seal coherence, bind-route, and Real-seal non-escape proofs for BEDC.Derived.CauchyCompletionContinuationUp.}
+  \constructivestory{A $\CauchyCompletionContinuationUp$ packet is generated from a continuation request row, a bind source row, a finite schedule, StreamName windows, DyadicRatCore observations, RegSeqRat readback, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\DyadicExponentShiftUp$}
+\label{ch:concrete-instances-dyadic-exponent-shift-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DyadicExponentShiftUp$ packet records the finite exponent-shift normalization route used before dyadic data is handed to regular rational and real-name consumers. It sits between the dyadic core boundary of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the precision-scale packet of \autoref{ch:concrete-instances-dyadic-tolerance-scale-namecert}, the canonical normal-form surface of \autoref{ch:concrete-instances-dyadic-normal-form-namecert}, the finite-window route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a BEDC-native finite normalization ledger for shifting dyadic exponents; it is not quotient equality of dyadics, host arithmetic on powers of two, or an appeal to ambient real completeness.
+
+\begin{definition}[Dyadic exponent-shift carrier]
+\label{def:dyadic-exponent-shift-carrier}
+A $\DyadicExponentShiftUp$ carrier is a finite $\BHist$ packet
+$$
+E=(M,U,K,S,D,T,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the signed mantissa row, read through the finite integer and rational surfaces already admitted by the dyadic core.
+\item $U$ is the unary exponent row attached to $M$, recording the current dyadic denominator scale before any shift is applied.
+\item $K$ is the shift amount row, recording a finite signed shift request as BEDC data rather than as host exponent arithmetic.
+\item $S$ is the common-scale row, displaying the single finite scale at which the shifted mantissa and shifted exponent are compared.
+\item $D$ is the $\DyadicRatCoreUp$ readback row for the mantissa-exponent pair before and after shifting.
+\item $T$ is the $\DyadicToleranceScaleUp$ handoff row, recording the precision-scale ledger that downstream regular rational and real-name consumers may inspect.
+\item $F$ is the $\DyadicNormalFormUp$ handoff row, recording the canonical finite normal-form surface reached after the common-scale comparison.
+\item $H$ records componentwise $\hsame$ transport for the mantissa, exponent, shift amount, common scale, dyadic readback, tolerance-scale handoff, normal-form handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the input dyadic packet through shift inspection, common-scale comparison, dyadic readback, tolerance-scale handoff, normal-form handoff, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\DyadicExponentShiftUp$, $\DyadicRatCoreUp$, $\DyadicToleranceScaleUp$, $\DyadicNormalFormUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicExponentShiftUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,U,K,S,D,T,F,H,C,P,N$. It has no coordinate for quotient dyadic equality, host powers of two, selected limits, trichotomy, countable choice, ambient $\RealUp$ completeness, or bridge data.
+\end{definition}
+\leanvariant{BEDC.Derived.DyadicExponentShiftUp.DyadicExponentShiftTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Dyadic exponent-shift NameCert obligations]
+\label{thm:dyadic-exponent-shift-namecert-obligations}
+For every accepted $\DyadicExponentShiftUp$ carrier $E=(M,U,K,S,D,T,F,H,C,P,N)$, the local $\NameCert_{\DyadicExponentShiftUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the signed mantissa, unary exponent, shift amount, common scale, dyadic readback, tolerance-scale handoff, normal-form handoff, transport, replay, provenance, and local naming rows;
+\item shift-ledger exactness, requiring $K$ to be consumed as the only shift request and requiring $S$ to record the finite common scale before any shifted readback is exported;
+\item common-scale classifier stability, requiring accepted comparisons to preserve $M,U,K,S,D,T,F,H,C,P,N$ componentwise under $\hsame$ transport and displayed $\Cont$ replay;
+\item normalization handoff, requiring $\DyadicToleranceScaleUp$ and $\DyadicNormalFormUp$ rows to be exposed before $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumers read the shifted dyadic;
+\item Real-and-Completion nonescape, requiring $P$ and $N$ to export no quotient dyadic equality, host powers of two, selected limits, trichotomy, countable choice, ambient $\RealUp$ completeness, or public bridge component.
+\end{enumerate}
+No exponent-shift NameCert obligation is stored outside these rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicExponentShiftUp.DyadicExponentShiftTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-exponent-shift-carrier}. The finite packet exposes exactly the mantissa row, unary exponent row, shift row, common-scale row, dyadic readback row, two normalization handoff rows, and structural rows $H,C,P,N$.
+
+Shift-ledger exactness is the role of $K$ and $S$. Since $K$ is the only row carrying a shift amount and $S$ is the only row carrying the common comparison scale, a shifted readback cannot be named before both rows have been displayed.
+
+Classifier stability is componentwise through $H$ and replayed through $C$. These rows preserve the route from $M,U,K$ into $S$, then into the DyadicRatCore readback $D$, and then into the tolerance-scale and normal-form rows $T$ and $F$.
+
+The normalization handoff follows from the placement of $T$ and $F$. A stream, regular rational, or real-name consumer reaches the shifted dyadic only after those two rows have been exposed, so the consumer reads a displayed finite normalization route rather than an implicit exponent manipulation.
+
+The nonescape row is immediate from the carrier inventory. Quotient dyadic equality, host powers of two, selected limits, trichotomy, countable choice, ambient real completeness, and bridge components are absent from the tuple and are not produced by transport, replay, provenance, or local naming.
+\end{proof}
+
+\begin{theorem}[Dyadic exponent-shift normalization handoff]
+\label{thm:dyadic-exponent-shift-normalization-handoff}
+Let $E=(M,U,K,S,D,T,F,H,C,P,N)$ be an accepted $\DyadicExponentShiftUp$ carrier. Every $\RegSeqRatUp$ or $\RealUp$ consumer of an exponent-shifted dyadic read factors through the finite route
+$$
+M,U,K \longmapsto S \longmapsto D \longmapsto T,F \longmapsto H,C,P,N
+$$
+over $\DyadicRatCoreUp$, $\DyadicToleranceScaleUp$, $\DyadicNormalFormUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Consequently the shifted dyadic is exported only as a normalized finite packet, not through quotient dyadic equality, host exponent arithmetic, selected limits, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a regular rational or real-name consumer of the shifted dyadic. By \autoref{def:dyadic-exponent-shift-carrier}, the consumer can reach dyadic readback only at the row $D$.
+
+The readback row $D$ is downstream of the visible route $M,U,K,S$. Thus the mantissa, unary exponent, requested shift, and common-scale comparison must all be displayed before the shifted dyadic is available.
+
+The rows $T$ and $F$ then route the same readback through the tolerance-scale and normal-form surfaces. These rows are the only downstream normalization interface presented to $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers.
+
+Finally, $H,C,P,N$ transport, replay, package, and name that same route. Since no excluded coordinate appears in the packet, the consumer receives only the displayed finite normalization route over the listed BEDC rows.
+\end{proof}
+
+\closureat{DyadicExponentShiftUp}{seedStr}
+
+\begin{closurestatus}{\DyadicExponentShiftUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-exponent-shift-carrier}, \autoref{thm:dyadic-exponent-shift-namecert-obligations}, and \autoref{thm:dyadic-exponent-shift-normalization-handoff} seed the finite exponent-shift route from mantissa and unary exponent data through common-scale comparison, DyadicRatCore readback, tolerance-scale handoff, and normal-form handoff into regular rational and real-name consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient dyadic equality, host powers of two, selected limits, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, shift-ledger exactness, common-scale classifier stability, normalization handoff, and Real-and-Completion nonescape for BEDC.Derived.DyadicExponentShiftUp.}
+  \constructivestory{A $\DyadicExponentShiftUp$ packet is generated from a signed mantissa row, unary exponent row, shift amount row, common-scale row, DyadicRatCore readback, DyadicToleranceScale and DyadicNormalForm handoff rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

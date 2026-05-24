@@ -1,0 +1,109 @@
+\chapter{A Concrete Naming Certificate for $\AlternatingSeriesTestUp$}
+\label{ch:concrete-instances-alternating-series-test-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\AlternatingSeriesTestUp$ packet records the alternating-series test as finite BEDC data before a completion-facing consumer may read a regular rational handoff or a real seal. Its source and partial-sum rows sit beside the Cauchy criterion of \autoref{ch:concrete-instances-cauchycriterion-namecert}; its regular rational endpoint is the route of \autoref{ch:concrete-instances-regseqrat-namecert}; its terminal boundary is the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}; and its dyadic tail estimate is the finite comparison discipline of \autoref{ch:concrete-instances-regular-cauchy-comparison-test-namecert}. The packet is a constructive convergence-test surface for a displayed alternating source; it is not a selected sum, a quotient series equality, host real equality, countable choice, trichotomy on arbitrary summands, or RealUp completeness.
+
+\begin{definition}[Alternating series test carrier]
+\label{def:alternating-series-test-carrier}
+An $\AlternatingSeriesTestUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,\Sigma,M,T,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the series source row, displaying a rational summand family $a_n$ and the partial-sum histories for $\sum_{i<n} (-1)^i a_i$.
+\item $\Sigma$ is the alternating-sign ledger, recording the finite parity row that attaches the sign $(-1)^n$ to the $n$th inspected summand.
+\item $M$ is the monotone dyadic magnitude ledger, displaying nonnegative dyadic majorants for the inspected magnitudes and the finite rows witnessing that the majorants decrease along the observed tail.
+\item $T$ is the tail-bound schedule, assigning each displayed precision request a finite threshold after which the next omitted magnitude is below the requested dyadic tolerance.
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained from the partial-sum source, alternating-sign ledger, monotone magnitude ledger, and tail-bound schedule.
+\item $E$ is the $\RealUp$ seal row attached to the regular rational handoff.
+\item $H$ records componentwise $\hsame$ transports for the source, sign ledger, magnitude ledger, tail-bound schedule, regular handoff, real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ routes from each precision request through $\Sigma,M,T$ to the $\RegSeqRatUp$ handoff $R$ and then to the $\RealUp$ seal row $E$.
+\item $P$ is the $\Pkg$ provenance over $\AlternatingSeriesTestUp$, $\SeriesUp$, $\CauchyCriterionUp$, $\RegSeqRatUp$, $\RealUp$, $\RegularCauchyComparisonTestUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AlternatingSeriesTestUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these ten displayed rows. It has no coordinate for a chosen infinite sum, quotient series equality, host-level equality of reals, countable choice, trichotomy outside the inspected dyadic magnitude rows, or an ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Alternating series test NameCert obligations]
+\label{thm:alternating-series-test-namecert-obligations}
+For every accepted $\AlternatingSeriesTestUp$ carrier $A=(S,\Sigma,M,T,R,E,H,C,P,N)$, the local $\NameCert_{\AlternatingSeriesTestUp}$ surface consists exactly of the following obligations:
+\begin{enumerate}
+\item carrier admission for the displayed ten-row packet;
+\item source exposure for the rational summand and partial-sum rows in $S$;
+\item alternating-sign exposure for $\Sigma$, tying every inspected partial-sum step to its finite parity row;
+\item monotone dyadic magnitude exposure for $M$, including the nonnegative magnitude row and the displayed decrease row on the observed tail;
+\item tail-bound compatibility for $T$, sending every precision request to a finite threshold with next omitted magnitude below that tolerance;
+\item $\RegSeqRatUp$ handoff and $\RealUp$ seal exposure for $R$ and $E$;
+\item transport stability, continuation replay, provenance, and local naming for exactly the route recorded by $H,C,P,N$.
+\end{enumerate}
+These obligations are finite-row obligations over the Cauchy criterion of \autoref{ch:concrete-instances-cauchycriterion-namecert}, the regular rational route of \autoref{ch:concrete-instances-regseqrat-namecert}, the real seal boundary of \autoref{ch:concrete-instances-real-namecert}, and the dyadic comparison route of \autoref{ch:concrete-instances-regular-cauchy-comparison-test-namecert}.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $A=(S,\Sigma,M,T,R,E,H,C,P,N)$. The projection exposes exactly the rational source, alternating-sign ledger, monotone dyadic magnitude ledger, tail-bound schedule, regular handoff, real seal, transport rows, continuation replay, provenance, and local naming row.
+
+Read a displayed precision request through $T$. The schedule selects a finite threshold, and the magnitude ledger $M$ states that the next omitted majorant past that threshold is below the requested dyadic tolerance.
+
+The sign ledger $\Sigma$ is used only to identify the finite cancellation pattern in the partial sums from $S$. Together with monotonicity in $M$, this is the displayed Cauchy-criterion input: tails after the chosen threshold are bounded by the next omitted magnitude, not by an unrecorded infinite choice.
+
+Finally apply the structural rows. The componentwise transports in $H$ preserve the source, sign, magnitude, threshold, handoff, and seal rows together, while $C,P,N$ only replay, source, and name that route. Since the carrier has no further coordinate, the listed obligations exhaust the local $\NameCert_{\AlternatingSeriesTestUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Alternating series test Cauchy handoff]
+\label{thm:alternating-series-test-cauchy-handoff}
+Every accepted $\AlternatingSeriesTestUp$ carrier sends the alternating partial-sum family to the Cauchy-facing route only through the finite handoff
+$$
+S,\Sigma,M,T \longmapsto R \longmapsto E,H,C,P,N.
+$$
+Thus a $\RegSeqRatUp$ consumer can use the alternating-series test only after reading the displayed summand source, alternating-sign ledger, monotone dyadic magnitude ledger, and tail-bound schedule that bind the tail estimate to the regular rational handoff.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier and a displayed precision request. The tail-bound schedule $T$ supplies a finite threshold, while the source row $S$ supplies only the partial sums visible around that threshold.
+
+Read the sign and magnitude rows. The ledger $\Sigma$ determines which finite summand positions are added and subtracted, and $M$ supplies the monotone dyadic magnitude comparison on the same positions.
+
+These rows are exactly the data consumed by the Cauchy criterion route: the difference of two sufficiently late partial sums is bounded by the next omitted displayed magnitude. The handoff row $R$ records that regular rational readback and does not receive any separate completed real or quotient series object.
+
+Transport and replay preserve this handoff componentwise. The rows $H,C,P,N$ attach the route to the local certificate without creating an alternate path through host convergence, selected sums, or RealUp completeness.
+\end{proof}
+
+\begin{theorem}[Alternating series test Real-seal boundary]
+\label{thm:alternating-series-test-real-seal-boundary}
+For every accepted $\AlternatingSeriesTestUp$ carrier, any $\RealUp$ seal-facing read factors through the $\RegSeqRatUp$ handoff row $R$ produced from the displayed alternating partial sums, sign ledger, monotone dyadic magnitude ledger, and tail-bound schedule. The seal row $E$ receives only $R$ together with the componentwise transports, continuation replay, provenance, and local naming rows; it receives no selected sum, quotient series equality, host real equality, countable choice, trichotomy premise, or RealUp completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the seal-facing rows $R$ and $E$ from the accepted carrier. The regular handoff $R$ is downstream of $S,\Sigma,M,T$, and the seal row $E$ is downstream of $R$.
+
+Apply \autoref{thm:alternating-series-test-cauchy-handoff}. It identifies the only route from alternating partial sums to the regular readback as the finite path through the displayed source, sign, magnitude, and tail-bound rows.
+
+Read the seal row. Its analytic input is exactly the regular handoff $R$, together with $H,C,P,N$. Since the carrier has no coordinate for a selected sum, quotient series equality, host real equality, countable choice, unrestricted trichotomy, or RealUp completeness, the seal-facing read cannot export any of those objects.
+\end{proof}
+
+\begin{theorem}[Alternating series test public convergence export]
+\label{thm:alternating-series-test-public-convergence-export}
+The public convergence export of an accepted $\AlternatingSeriesTestUp$ carrier is exactly the finite statement that its displayed alternating partial sums form a $\RegSeqRatUp$ row and may be sealed as the displayed $\RealUp$ boundary. Any downstream consumer receives the source row $S$, alternating-sign ledger $\Sigma$, monotone dyadic magnitude ledger $M$, tail-bound schedule $T$, regular handoff $R$, real seal $E$, componentwise transports $H$, continuation replay $C$, provenance $P$, and local naming row $N$, and receives no further convergence principle.
+\end{theorem}
+\begin{proof}
+Unpack the public export through the carrier definition. The only exported convergence data are the regular handoff $R$ and the seal row $E$, and both are indexed by the same source, sign, magnitude, and tail-bound rows.
+
+Use \autoref{thm:alternating-series-test-namecert-obligations} to identify the certificate obligations attached to those rows. They expose carrier admission, finite source inspection, sign parity, monotone dyadic magnitude, tail-bound scheduling, regular readback, seal exposure, and structural transport.
+
+Use \autoref{thm:alternating-series-test-real-seal-boundary} for the boundary condition. The real-facing consumer reads the displayed seal and cannot recover any selected sum, quotient series equality, host real equality, choice principle, trichotomy oracle, or completeness theorem beyond the finite packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\AlternatingSeriesTestUp$ consumer that reaches a $\RegSeqRatUp$ handoff or $\RealUp$ seal without reading the displayed alternating-sign ledger, monotone dyadic magnitude ledger, tail-bound schedule, and source partial-sum row refutes the carrier surface.}
+
+\independenceWitness{cauchycriterion, regseqrat, real, regular-cauchy-comparison-test: no listed sibling supplies the whole ten-row packet $A=(S,\Sigma,M,T,R,E,H,C,P,N)$, because each sibling contributes only a Cauchy route, regular readback, seal face, or dyadic comparison face while this chapter binds the alternating sign, monotone magnitude, tail-bound, transport, replay, provenance, and naming rows into one carrier.}
+
+\closureat{$\AlternatingSeriesTestUp$}{seedStr}
+
+\begin{closurestatus}{\AlternatingSeriesTestUp}
+  \constructivestory{An $\AlternatingSeriesTestUp$ packet is generated from a rational summand source, finite alternating-sign ledger, monotone dyadic magnitude ledger, tail-bound schedule, $\RegSeqRatUp$ handoff, $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:alternating-series-test-carrier}, \autoref{thm:alternating-series-test-namecert-obligations}, \autoref{thm:alternating-series-test-cauchy-handoff}, \autoref{thm:alternating-series-test-real-seal-boundary}, and \autoref{thm:alternating-series-test-public-convergence-export} seed the finite alternating-series-test boundary over $\SeriesUp$, $\CauchyCriterionUp$, $\RegSeqRatUp$, $\RealUp$, and $\RegularCauchyComparisonTestUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected sums, quotient series equality, host real equality, countable choice, trichotomy, RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the ten-row carrier and prove the finite NameCert obligation surface, Cauchy handoff theorem, Real-seal boundary theorem, and public convergence export theorem.}
+\end{closurestatus}

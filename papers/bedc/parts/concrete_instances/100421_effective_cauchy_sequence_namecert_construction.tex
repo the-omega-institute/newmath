@@ -1,0 +1,112 @@
+\chapter{A Concrete Naming Certificate for $\EffectiveCauchySequenceUp$}
+\label{ch:concrete-instances-effective-cauchy-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\EffectiveCauchySequenceUp$ packet records a Cauchy sequence whose convergence is exposed by an explicit modulus before any $\RegSeqRatUp$ handoff or terminal $\RealUp$ seal is read. It sits on the finite-window route of \autoref{ch:concrete-instances-streamname-namecert}, the modulus schedule surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback boundary of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a source-level certificate for explicit-modulus Cauchy sequence data on the current Real and Completion route; it is not quotient stream equality, a selected limit, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Effective Cauchy sequence carrier]\label{def:effective-cauchy-sequence-carrier}
+An $\EffectiveCauchySequenceUp$ carrier is a finite $\BHist$ packet
+$$
+G=(S,M,W,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the sequence source row. It names the displayed source of observations whose finite windows are inspected by Real-facing or Completion-facing consumers.
+\item $M$ is the explicit $\CauchyModulusUp$ row. For each requested positive tolerance it gives the finite stage after which the source row is to be read within that tolerance.
+\item $W$ is the finite $\StreamNameUp$ window row. It records the actual inspected source windows downstream of the modulus schedule.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger. It stores the dyadic radii, slack rows, comparison budgets, and tolerance conversions used by $M$ and $W$.
+\item $Q$ is the $\RegSeqRatUp$ handoff row. It records the regular rational readback obtained only after the source, modulus, window, and dyadic ledger rows have been displayed.
+\item $E$ is the terminal $\RealUp$ seal row reached downstream of $S,M,W,D,Q$.
+\item $H$ records componentwise $\hsame$ transport for the source, modulus, window, dyadic ledger, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Real or Completion request through $S,M,W,D,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\EffectiveCauchySequenceUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EffectiveCauchySequenceUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite explicit-modulus Cauchy sequence packet. It has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient Real completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.EffectiveCauchySequenceUp.TasteGate.EffectiveCauchySequenceUpTasteGate\_single\_carrier\_alignment}
+\leanchecked{BEDC.Derived.EffectiveCauchySequenceUp.EffectiveCauchySequenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Effective Cauchy sequence NameCert obligations]\label{thm:effective-cauchy-sequence-namecert-obligations}
+For every accepted $\EffectiveCauchySequenceUp$ carrier $G=(S,M,W,D,Q,E,H,C,P,N)$, the local $\NameCert_{\EffectiveCauchySequenceUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed sequence source, explicit modulus, finite stream windows, dyadic tolerance ledger, regular rational handoff, Real seal, transport, replay, provenance, and local naming rows;
+\item modulus exposure, requiring every tolerance request to read $M$ before the corresponding window row $W$ is consumed;
+\item dyadic tolerance accounting, requiring every use of the modulus to pass through the dyadic radii, slack rows, comparison budgets, and tolerance conversions stored in $D$;
+\item regular readback, requiring $Q$ to be downstream of the source, modulus, window, and dyadic rows before any regular rational observation is exported;
+\item Real seal boundary, requiring $E$ to remain downstream of $S,M,W,D,Q$ and never to serve as quotient stream equality, a selected limit, countable choice, trichotomy, host real equality, or ambient completeness;
+\item transport, replay, provenance, and local naming stability, requiring $H,C,P,N$ to preserve and name exactly the displayed packet.
+\end{enumerate}
+No effective-Cauchy-sequence obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of \autoref{def:effective-cauchy-sequence-carrier}. The projected rows are exactly the sequence source $S$, explicit modulus $M$, finite windows $W$, dyadic ledger $D$, regular readback $Q$, Real seal $E$, and structural rows $H,C,P,N$.
+
+Modulus exposure reads \autoref{ch:concrete-instances-cauchymodulus-namecert} together with the finite-window discipline of \autoref{ch:concrete-instances-streamname-namecert}. A tolerance request cannot reach the inspected window row $W$ until the corresponding stage has first been supplied by $M$.
+
+Dyadic tolerance accounting is supplied by \autoref{ch:concrete-instances-dyadicratcore-namecert}. The row $D$ is the only displayed place where radii, slack, comparison budgets, and tolerance conversions live, so every modulus-guided read must pass through it before reaching the regular readback.
+
+The regular readback and Real boundary then follow the route of \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert}. Since $Q$ and $E$ are downstream of $S,M,W,D$, neither row can introduce a quotient stream, selected limit, countable choice, trichotomy, host real equality, or ambient completeness datum.
+
+Finally, $H,C,P,N$ transport, replay, package, and name the same displayed rows. They add no analytic coordinate beyond the carrier, so the six listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Effective Cauchy sequence RegSeqRat handoff]\label{thm:effective-cauchy-sequence-regseqrat-handoff}
+Every $\RegSeqRatUp$ read exported by an accepted $\EffectiveCauchySequenceUp$ carrier $G=(S,M,W,D,Q,E,H,C,P,N)$ factors through the finite route
+$$
+S \longmapsto M \longmapsto W \longmapsto D \longmapsto Q \longmapsto H,C,P,N .
+$$
+Thus a regular rational consumer receives the displayed source, explicit modulus, finite stream windows, dyadic tolerance ledger, regular readback, transport, replay, provenance, and local naming before it can inspect the handoff.
+\end{theorem}
+\begin{proof}
+Begin with a $\RegSeqRatUp$ read of $G$. By \autoref{def:effective-cauchy-sequence-carrier}, the only regular readback coordinate is $Q$, and $Q$ is placed after the source, modulus, window, and dyadic ledger rows.
+
+The first part of the route reads $S$ through the window interface of \autoref{ch:concrete-instances-streamname-namecert}. The explicit stage discipline is then supplied by $M$ through \autoref{ch:concrete-instances-cauchymodulus-namecert}, and the inspected finite windows are recorded by $W$.
+
+The tolerance conversion and comparison work is read through $D$ using \autoref{ch:concrete-instances-dyadicratcore-namecert}. Only after that dyadic ledger is fixed does \autoref{ch:concrete-instances-regseqrat-namecert} expose the regular rational handoff $Q$.
+
+The rows $H,C,P,N$ preserve and name the same order. Therefore every regular rational read factors through the displayed route and has no bypass through quotient stream equality, a selected limit, countable choice, trichotomy, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Effective Cauchy sequence Real seal boundary]\label{thm:effective-cauchy-sequence-real-seal-boundary}
+Every $\RealUp$-facing read of an accepted $\EffectiveCauchySequenceUp$ carrier $G=(S,M,W,D,Q,E,H,C,P,N)$ factors through
+$$
+S \longmapsto M \longmapsto W \longmapsto D \longmapsto Q \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the terminal Real seal is available only after the source, explicit modulus, finite windows, dyadic tolerance ledger, and regular rational handoff have been displayed.
+\end{theorem}
+\begin{proof}
+Start from a $\RealUp$-facing consumer. The carrier definition exposes the terminal seal only as the row $E$ in the same finite packet as $S,M,W,D,Q,H,C,P,N$.
+
+Replay the continuation row $C$. The consumer first reads the source row $S$, obtains the requested stage from the explicit modulus $M$, inspects the finite stream windows $W$, and checks the dyadic tolerance ledger $D$ before any regular rational handoff can be consumed.
+
+The regular readback $Q$ then supplies the only route into the terminal seal of \autoref{ch:concrete-instances-real-namecert}. Since $E$ is downstream of $Q$, the Real-facing read cannot export quotient stream equality, a selected limit, countable choice, trichotomy, host real equality, or an ambient completeness theorem for $\RealUp$.
+
+Componentwise transport, replay, provenance, and local naming preserve the route. Hence every Real-facing read factors through the displayed source-to-seal boundary.
+\end{proof}
+
+\begin{theorem}[Effective Cauchy sequence non-escape]\label{thm:effective-cauchy-sequence-nonescape}
+Let $G=(S,M,W,D,Q,E,H,C,P,N)$ be an accepted $\EffectiveCauchySequenceUp$ carrier. No consumer of $G$ can read quotient stream equality, a selected limit, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking from the packet unless that datum is already one of the displayed rows $S,M,W,D,Q,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier rows in \autoref{def:effective-cauchy-sequence-carrier}. The analytic rows are only the source, explicit modulus, finite windows, dyadic ledger, regular readback, and terminal Real seal.
+
+The structural rows $H,C,P,N$ provide sameness transport, replay, provenance, and local naming for those same rows. They do not add a quotient relation, limit selector, choice principle, order decision, host equality predicate, completeness theorem, Lean target, or bridge certificate.
+
+Therefore the excluded data have no carrier coordinate, replay edge, provenance entry, or local NameCert row from which to be read. Any consumer of $G$ is confined to the displayed explicit-modulus route.
+\end{proof}
+
+\falsifiablePrediction{Every $\EffectiveCauchySequenceUp$ regular or Real-facing read factors through a sequence source row, explicit CauchyModulus row, finite StreamName windows, DyadicRatCore tolerance ledger, RegSeqRat handoff, RealUp seal, transport, replay, provenance, and local naming.}
+
+\independenceWitness{streamname, cauchymodulus, dyadicratcore, regseqrat, real: $\EffectiveCauchySequenceUp$ is not bijective to any listed sibling because it jointly carries a source row, explicit modulus, finite windows, tolerance ledger, regular handoff, Real seal, transport, replay, provenance, and local naming.}
+
+\closureat{EffectiveCauchySequenceUp}{seedStr}
+\begin{closurestatus}{\EffectiveCauchySequenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:effective-cauchy-sequence-carrier}, \autoref{thm:effective-cauchy-sequence-namecert-obligations}, \autoref{thm:effective-cauchy-sequence-regseqrat-handoff}, \autoref{thm:effective-cauchy-sequence-real-seal-boundary}, and \autoref{thm:effective-cauchy-sequence-nonescape} seed the finite explicit-modulus Cauchy sequence route through $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus exposure, dyadic tolerance accounting, regular readback, Real seal boundary, transport, replay, provenance, local naming, and non-escape for BEDC.Derived.EffectiveCauchySequenceUp.}
+  \constructivestory{An $\EffectiveCauchySequenceUp$ packet is generated from a displayed sequence source, explicit $\CauchyModulusUp$ row, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ handoff, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

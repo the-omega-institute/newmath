@@ -1,0 +1,95 @@
+\chapter{CauchyContinuousMapUp NameCert Construction}
+\label{ch:concrete-instances-cauchycontinuousmap-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyContinuousMapUp$ packet records the finite interface by which a map on regular Cauchy names preserves regularity and hands its output to a $\RealUp$ seal. The construction is a NameCert surface over the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-name schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational-name carrier of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real-seal boundary of \autoref{ch:concrete-instances-real-namecert}.
+
+The packet is deliberately weaker than the general continuous-map surface of \autoref{ch:concrete-instances-continuousmap-namecert}. It records a finite Cauchy-name transformer with displayed readback and seal handoff, not a host function on reals, a metric-continuity proof over all points, a uniform-continuity modulus, a quotient-stream map, or a completeness theorem.
+
+\begin{definition}[CauchyContinuousMap carrier]
+\label{def:cauchy-continuous-map-carrier}
+A $\CauchyContinuousMapUp$ carrier is a finite $\BHist$ packet
+$$
+M=(W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the finite $\StreamNameUp$ window surface read by the map, including the source windows and the output windows that the packet promises to fill;
+\item $R$ is the $\RegSeqRatUp$ image-readback row, carrying the source regular rational name, the displayed output rational name, and the finite evidence that output windows remain regular;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare every selected source window with its displayed output tolerance row;
+\item $E$ is the $\RealUp$ seal handoff row reached from the output regular name after the dyadic tolerance checks have been replayed;
+\item $H$ records componentwise $\hsame$ transports for $W,R,D,E$ and for the local classifier row;
+\item $C$ records the displayed $\Cont$ replay routes by which consumers inspect the same windows, tolerance rows, image readback, and seal handoff;
+\item $P$ is the $\Pkg$ provenance over the stream, regular-name, dyadic, real-seal, transport, continuation, and local naming rows;
+\item $N$ is the local $\NameCert_{\CauchyContinuousMapUp}$ row.
+\end{enumerate}
+The classifier compares two accepted carriers only by replaying these finite rows. It has no coordinate for a full $\ContinuousMapUp$ object, host real function, metric continuity theorem, uniform-continuity modulus, quotient of streams, or ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[RegSeqRat image preservation]
+\label{thm:cauchy-continuous-map-regseqrat-image}
+For every accepted $\CauchyContinuousMapUp$ carrier $M=(W,R,D,E,H,C,P,N)$, every image read exposed by the packet factors through the finite $\StreamNameUp$ windows $W$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the $\RegSeqRatUp$ row $R$. The readback therefore preserves the regular-Cauchy-name shape visible to \autoref{ch:concrete-instances-regseqrat-namecert}, without exporting a quotient stream or a host-level function on reals.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-continuous-map-carrier}. The only image-readback coordinate is $R$, and it is stored beside the finite window surface $W$ and dyadic tolerance ledger $D$.
+
+Replay the consumer route through $C$. The route can inspect the selected source windows, the output windows, the dyadic tolerances, and the regular rational output row, but it cannot read an additional stream quotient or host real function because no such row is present.
+
+Transport along $H$ preserves the same displayed rows componentwise. Thus every accepted image read remains a $\RegSeqRatUp$-shaped finite readback assembled from $W,D$, and $R$.
+\end{proof}
+
+\begin{theorem}[Real seal handoff]
+\label{thm:cauchy-continuous-map-real-seal-handoff}
+For every accepted $\CauchyContinuousMapUp$ carrier $M=(W,R,D,E,H,C,P,N)$, any $\RealUp$ seal consumer must first read the finite stream windows $W$, the image regular-name row $R$, and the dyadic tolerance ledger $D$. Only after those rows are replayed can the consumer reach the seal handoff $E$.
+\end{theorem}
+\begin{proof}
+Read the carrier order in \autoref{def:cauchy-continuous-map-carrier}. The seal handoff row $E$ is not independent; it is listed as the handoff reached from the output regular name after the dyadic tolerance checks.
+
+Use the displayed $\Cont$ routes in $C$ to replay the handoff. These routes expose the window schedule, the image readback, and the tolerance ledger before the real-seal row is available.
+
+The componentwise $\hsame$ transports in $H$ keep the same dependency order after transport. Hence a seal consumer receives a finite RegSeqRat-to-Real route and no detached real function, quotient stream, or completeness datum.
+\end{proof}
+
+\begin{theorem}[ContinuousMap boundary]
+\label{thm:cauchy-continuous-map-continuousmap-boundary}
+Every accepted $\CauchyContinuousMapUp$ packet supplies only a finite Cauchy-name transformer boundary for the $\ContinuousMapUp$ interface. A $\ContinuousMapUp$ consumer may read the packet only after the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows have been displayed through $W,R,D,E$ and transported through $H,C,P,N$. The packet does not provide a full host function, metric continuity theorem, uniform-continuity modulus, quotient stream map, or completeness witness.
+\end{theorem}
+\begin{proof}
+Read the carrier rows from \autoref{def:cauchy-continuous-map-carrier}. The rows $W,R,D,E$ display the stream windows, regular rational image readback, dyadic tolerance checks, and real-seal handoff before any continuous-map consumer can inspect the packet.
+
+The sibling boundary is \autoref{ch:concrete-instances-continuousmap-namecert}. This chapter exposes only the Cauchy-name side of that interface: $H$ transports the displayed rows, $C$ replays them for consumers, $P$ records provenance, and $N$ names the local certificate.
+
+Since the carrier inventory has no coordinate for a host function, metric continuity theorem, uniform-continuity modulus, quotient stream map, or completeness witness, a $\ContinuousMapUp$ read must treat the packet as a finite boundary rather than as the full continuous-map object.
+\end{proof}
+
+\begin{theorem}[CauchyContinuousMap NameCert obligations]
+\label{thm:cauchy-continuous-map-namecert-obligations}
+The seed $\NameCert_{\CauchyContinuousMapUp}$ obligation surface consists of five finite rows:
+\begin{enumerate}
+\item carrier habitation by a $\StreamNameUp$ window surface, $\RegSeqRatUp$ image-readback row, $\DyadicRatCoreUp$ tolerance ledger, $\RealUp$ seal handoff, displayed transports, continuations, provenance, and local naming;
+\item classifier replay by the finite windows and dyadic tolerance checks that witness regular-name preservation;
+\item transport stability under the stored $\hsame$ rows and displayed $\Cont$ routes;
+\item real-seal exactness, stating that every $\RealUp$ read factors through the image regular-name and dyadic tolerance rows first;
+\item ledger refusal, stating that full $\ContinuousMapUp$ structure, metric continuity, uniform continuity, quotient streams, host real functions, and ambient completeness are not packet coordinates.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier habitation is exactly the tuple displayed in \autoref{def:cauchy-continuous-map-carrier}. It supplies the window, image-readback, tolerance, seal, transport, continuation, provenance, and local naming rows.
+
+The classifier row is finite because it replays only the windows in $W$ and the tolerance checks in $D$. \autoref{thm:cauchy-continuous-map-regseqrat-image} gives the corresponding regular-name preservation surface.
+
+Transport stability is obtained by projecting the componentwise $\hsame$ rows in $H$ and replaying the same reads through $C$. \autoref{thm:cauchy-continuous-map-real-seal-handoff} gives the seal-exactness row.
+
+The refusal row follows from the carrier inventory. None of the displayed coordinates stores a full continuous-map object, metric-continuity proof, uniform-continuity modulus, quotient stream, host real function, or completeness principle.
+\end{proof}
+
+\begin{closurestatus}{\CauchyContinuousMapUp}
+  \constructivestory{A $\CauchyContinuousMapUp$ packet is generated from finite $\StreamNameUp$ windows, a $\RegSeqRatUp$ image-readback row, a $\DyadicRatCoreUp$ tolerance ledger, a $\RealUp$ seal handoff, displayed $\hsame$ transports, $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-continuous-map-carrier}, \autoref{thm:cauchy-continuous-map-regseqrat-image}, \autoref{thm:cauchy-continuous-map-real-seal-handoff}, \autoref{thm:cauchy-continuous-map-continuousmap-boundary}, and \autoref{thm:cauchy-continuous-map-namecert-obligations} bind the finite Cauchy-name preservation, Real-seal handoff, and ContinuousMap boundary surface.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.CauchyContinuousMapUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full $\ContinuousMapUp$, metric continuity, uniform continuity, completeness, quotient streams, or host real functions.}
+  \upgradepath{A later verification route can prove the carrier, image-preservation, seal-handoff, and NameCert-obligation rows over the displayed BEDC packet.}
+\end{closurestatus}

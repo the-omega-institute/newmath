@@ -1,0 +1,107 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyFiniteProductUp$}
+\label{ch:concrete-instances-regular-cauchy-finite-product-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy real arithmetic, the $\RegularCauchyFiniteProductUp$ packet records the finite product of displayed regular Cauchy rational names as one synchronized NameCert route. It sits after the regular rational source surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the binary regular product route of \autoref{ch:concrete-instances-regularcauchyproduct-namecert}, and the completion-facing product packet of \autoref{ch:concrete-instances-cauchyproduct-namecert}. The carrier packages repeated binary product evidence without importing a host finite product, quotient stream equality, selected limits, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy finite product carrier]\label{def:regular-cauchy-finite-product-carrier}
+A $\RegularCauchyFiniteProductUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,S,W,D,P,R,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite unary index row. It lists exactly the component slots opened by the product request and the fold order used by the displayed route.
+\item $S$ is the component $\RegSeqRatUp$ source family, one row for each slot of $I$.
+\item $W$ is the synchronized $\StreamNameUp$ window family for the component reads, intermediate product reads, and final product-facing read.
+\item $D$ is the $\DyadicRatCoreUp$ observation row, storing the component dyadic observations, intermediate product observations, requested radii, and slack cells.
+\item $P$ is the finite product-budget ledger. It records the binary-product schedule, radius allocation, and accumulated dyadic error account for the fold named by $I$.
+\item $R$ is the $\RegSeqRatUp$ readback row for the final folded product, obtained only from $S,W,D,P$.
+\item $E$ is the $\RealUp$ seal row reached after the regular readback of the folded product has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the index row, sources, synchronized windows, dyadic observations, product-budget ledger, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from any finite product request through the same rows.
+\item $Q$ is the $\Pkg$ provenance over $\RegularCauchyFiniteProductUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyProductUp$, $\CauchyProductUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyFiniteProductUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,S,W,D,P,R,E,H,C,Q,N$. It has no coordinate for a host finite product, quotient stream equality, selected limit, trichotomy, ambient $\RealUp$ completeness, Lean verification, or standard bridge.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy finite product NameCert obligations]\label{thm:regular-cauchy-finite-product-namecert-obligations}
+For every accepted $\RegularCauchyFiniteProductUp$ carrier
+$$
+K=(I,S,W,D,P,R,E,H,C,Q,N),
+$$
+the local $\NameCert_{\RegularCauchyFiniteProductUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite unary index row, component $\RegSeqRatUp$ sources, synchronized $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations, product-budget ledger, final readback, $\RealUp$ seal, transport, replay, provenance, and local name;
+\item finite tuple-window coverage, requiring every component slot in $I$ to open the matching source row and all synchronized windows needed by the fold;
+\item dyadic product-budget exactness, requiring every intermediate product observation to consume its assigned radius and slack cells from $D$ and $P$;
+\item RegSeqRat readback stability, requiring the final readback row $R$ to depend only on the displayed sources, windows, dyadic observations, and product-budget ledger;
+\item Real seal non-escape, requiring $E,H,C,Q,N$ to expose no host finite product, quotient stream equality, selected limit, trichotomy, ambient completeness theorem, Lean verification, or bridge credential.
+\end{enumerate}
+No Regular Cauchy finite product obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:regular-cauchy-finite-product-carrier}. The displayed tuple $I,S,W,D,P,R,E,H,C,Q,N$ is the entire public surface, so carrier admission is exactly the admission of those rows.
+
+Tuple-window coverage is forced by the index row. Each slot named by $I$ has one component $\RegSeqRatUp$ source in $S$, and the synchronized window row $W$ is the only place where component, intermediate, and final product reads are opened.
+
+Dyadic exactness is the joint role of $D$ and $P$. The observations in $D$ supply component and intermediate dyadic cells, while $P$ assigns the binary-product schedule, radii, slack, and accumulated error account for the fold.
+
+The final regular readback row $R$ is downstream of $S,W,D,P$. Therefore readback stability follows from the carrier order: no product-facing $\RegSeqRatUp$ data can be inspected until the synchronized windows and dyadic product budget have already been displayed.
+
+Finally, the seal, transport, replay, provenance, and local name rows preserve only this displayed route. Since none of the excluded objects is a coordinate of the carrier, the listed five rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy finite product tail budget]\label{thm:regular-cauchy-finite-product-tail-budget}
+Let
+$$
+K=(I,S,W,D,P,R,E,H,C,Q,N)
+$$
+be an accepted $\RegularCauchyFiniteProductUp$ carrier. Every finite product read from $K$ factors through
+$$
+I,S \longmapsto W \longmapsto D,P \longmapsto R \longmapsto E,H,C,Q,N .
+$$
+In particular, no read reaches the final $\RegSeqRatUp$ product row before the synchronized windows and dyadic product-budget ledger have been displayed.
+\end{theorem}
+\begin{proof}
+Begin with a finite product request. The request first names its finite unary index row $I$ and the component source family $S$, because those are the only carrier rows that identify which regular Cauchy names participate in the fold.
+
+The requested component and intermediate observations then pass through $W$. This synchronized window row is the only row that aligns the component reads with the intermediate product reads used by the fold.
+
+The dyadic part of the request is read next. The observation row $D$ supplies the dyadic product cells and requested radii, while the budget row $P$ supplies the binary-product schedule and accumulated slack account.
+
+Only after those rows are displayed can the final regular rational readback $R$ be consumed. The downstream rows $E,H,C,Q,N$ seal, transport, replay, source, and name the same route, so the finite product read cannot bypass the synchronized windows or the dyadic ledger.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy finite product Real seal non-escape]\label{thm:regular-cauchy-finite-product-real-seal-nonescape}
+For every accepted $\RegularCauchyFiniteProductUp$ carrier $K$, the $\RealUp$ seal row exposed by $K$ is a downstream seal for the displayed finite route
+$$
+I,S,W,D,P,R .
+$$
+It exposes no host finite product, no quotient stream equality, no selected limit, no trichotomy, and no ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Inspect the carrier boundary. The seal row $E$ appears only after the index, source, synchronized window, dyadic observation, product-budget, and regular readback rows.
+
+The transport and replay rows $H$ and $C$ preserve this order. They can move or replay the displayed route, but they do not add an independent product coordinate or a host equality coordinate.
+
+The provenance and local naming rows $Q$ and $N$ cite the same dependencies. Since the carrier has no coordinate for a host finite product, quotient stream equality, selected limit, trichotomy, or ambient completeness theorem, the $\RealUp$ seal cannot export any of them.
+\end{proof}
+
+\falsifiablePrediction{Every $\RegularCauchyFiniteProductUp$ product-facing read factors through a finite unary index row, component RegSeqRat sources, synchronized StreamName windows, DyadicRatCore observations, a finite product-budget ledger, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, real, regularcauchyproduct, cauchyproduct: $\RegularCauchyFiniteProductUp$ is not bijective to any listed sibling because it jointly carries a finite unary product index, synchronized multi-source windows, dyadic product-budget accounting, final RegSeqRat readback, RealUp sealing, transport, continuation, provenance, and local naming.}
+
+\closureat{RegularCauchyFiniteProductUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyFiniteProductUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-finite-product-carrier}, \autoref{thm:regular-cauchy-finite-product-namecert-obligations}, \autoref{thm:regular-cauchy-finite-product-tail-budget}, and \autoref{thm:regular-cauchy-finite-product-real-seal-nonescape} seed the finite product route from displayed regular Cauchy sources through synchronized windows, dyadic product budgets, final RegSeqRat readback, and RealUp sealing.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RegularCauchyFiniteProductUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host finite products, quotient stream equality, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tuple-window coverage, budget exactness, readback stability, seal non-escape, and local naming for BEDC.Derived.RegularCauchyFiniteProductUp.}
+  \constructivestory{A $\RegularCauchyFiniteProductUp$ packet is generated from a finite unary index row, component RegSeqRat source rows, synchronized StreamName windows, DyadicRatCore observations, a finite product-budget ledger, final RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

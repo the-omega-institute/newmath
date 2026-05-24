@@ -250,6 +250,42 @@ theorem GraphContEdge_composition_closure {h k l hk kl : BHist} :
         (And.intro (And.intro edgeHK.left (And.intro unaryKL contRight))
           (And.intro contLeft (And.intro contRight sameLR)))))
 
+theorem GraphContPath_reassociation {h k l m hk kl lm : BHist} :
+    GraphContEdge h k hk -> GraphContEdge k l kl -> GraphContEdge l m lm ->
+      exists hkl : BHist, exists klm : BHist, exists left : BHist, exists right : BHist,
+        GraphContEdge hk l hkl ∧ GraphContEdge hkl m left ∧ GraphContEdge k lm klm ∧
+          GraphContEdge h klm right ∧ Cont hkl m left ∧ Cont h klm right ∧
+            hsame left right := by
+  intro hkEdge klEdge lmEdge
+  let hkl : BHist := append hk l
+  let klm : BHist := append k lm
+  let left : BHist := append hkl m
+  let right : BHist := append h klm
+  have hklCont : Cont hk l hkl := cont_intro rfl
+  have klmCont : Cont k lm klm := cont_intro rfl
+  have leftCont : Cont hkl m left := cont_intro rfl
+  have rightCont : Cont h klm right := cont_intro rfl
+  have hkUnary : UnaryHistory hk :=
+    unary_cont_closed hkEdge.left hkEdge.right.left hkEdge.right.right
+  have lmUnary : UnaryHistory lm :=
+    unary_cont_closed lmEdge.left lmEdge.right.left lmEdge.right.right
+  have hklUnary : UnaryHistory hkl :=
+    unary_cont_closed hkUnary klEdge.right.left hklCont
+  have klmUnary : UnaryHistory klm :=
+    unary_cont_closed klEdge.left lmUnary klmCont
+  have same : hsame left right :=
+    cont_assoc_four hkEdge.right.right hklCont lmEdge.right.right klmCont leftCont rightCont
+  exact
+    Exists.intro hkl
+      (Exists.intro klm
+        (Exists.intro left
+          (Exists.intro right
+            ⟨⟨hkUnary, klEdge.right.left, hklCont⟩,
+              ⟨hklUnary, lmEdge.right.left, leftCont⟩,
+              ⟨klEdge.left, lmUnary, klmCont⟩,
+              ⟨hkEdge.left, klmUnary, rightCont⟩,
+              leftCont, rightCont, same⟩)))
+
 theorem GraphContEdge_visible_tail_step_closure {h k g : BHist} :
     GraphContEdge h k g -> UnaryHistory (BHist.e0 k) -> UnaryHistory (BHist.e0 g) ->
       UnaryHistory (BHist.e1 k) -> UnaryHistory (BHist.e1 g) ->

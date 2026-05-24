@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\LocatedIntervalMidpointUp$}
+\label{ch:concrete-instances-located-interval-midpoint-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LocatedIntervalMidpointUp$ packet records the finite midpoint route for a displayed located real interval before an interval-refinement or completion consumer may inspect child cells. It consumes the located endpoint and radius discipline of \autoref{ch:concrete-instances-located-real-interval-namecert}, the common-denominator midpoint ledger of \autoref{ch:concrete-instances-dyadicmidpoint-namecert}, the child-cell handoff of \autoref{ch:concrete-instances-intervalbisection-namecert}, the finite mesh route of \autoref{ch:concrete-instances-closedboundedintervalnet-namecert}, and the nested completion consumer of \autoref{ch:concrete-instances-cantor-intersection-namecert}. The packet is a midpoint certificate for one located interval; it is not host real equality, a selected quotient representative, an interval completeness principle, or a branch-choice oracle.
+
+\begin{definition}[Located interval midpoint carrier]
+\label{def:located-interval-midpoint-carrier}
+A $\LocatedIntervalMidpointUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,D,E_0,E_1,B,S,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the parent $\LocatedRealIntervalUp$ row, including the lower and upper $\RealUp$ endpoints, radius budget, locator route, locatedness modulus, and metric bracket rows.
+\item $D$ is the $\DyadicMidpointUp$ row that computes the midpoint from the displayed endpoint windows by a common-denominator dyadic calculation.
+\item $E_0$ and $E_1$ are endpoint transport rows. They record the lower-to-midpoint and midpoint-to-upper endpoint reuse checks consumed by child located intervals.
+\item $B$ is the $\IntervalBisectionUp$ handoff row that exposes the two child interval cells after the midpoint row has been displayed.
+\item $S$ is the $\StreamNameUp$ finite-window row for the parent endpoint reads, midpoint read, and child endpoint observations.
+\item $R$ is the $\RegSeqRatUp$ readback row for the same finite windows, including the regular rational midpoint approximation used by Real-facing readers.
+\item $Q$ is the pair of $\RealUp$ seal rows reached by the midpoint and child endpoint reads through $S,R,D,E_0,E_1$.
+\item $H$ records componentwise $\hsame$ transport for the parent interval, midpoint row, endpoint transports, bisection handoff, windows, readbacks, real seals, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a midpoint, bisection, finite-net, or nested-interval request through $I,D,E_0,E_1,B,S,R,Q,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedIntervalMidpointUp$, $\LocatedRealIntervalUp$, $\DyadicMidpointUp$, $\IntervalBisectionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedIntervalMidpointUp}$ row.
+\end{enumerate}
+The carrier predicate asserts that these rows form one parent-interval-to-midpoint packet. It has no coordinate for host real midpoint arithmetic, quotient real equality, trichotomy, selected branch choice, countable choice, or ambient completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.LocatedIntervalMidpointUp.LocatedIntervalMidpointTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Located interval midpoint NameCert obligations]
+\label{thm:located-interval-midpoint-namecert-obligations}
+For every accepted $\LocatedIntervalMidpointUp$ carrier $K=(I,D,E_0,E_1,B,S,R,Q,H,C,P,N)$, the local $\NameCert_{\LocatedIntervalMidpointUp}$ surface consists exactly of carrier admission for those twelve rows, parent located-interval admission through $I$, dyadic midpoint exactness through $D$, endpoint transport through $E_0,E_1$, interval-bisection handoff through $B$, StreamName and RegSeqRat readback through $S,R$, Real seal exposure through $Q$, componentwise classifier transport through $H$, consumer replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-interval-midpoint-carrier}. The displayed tuple exposes the parent located interval, midpoint row, endpoint transport rows, bisection handoff, finite windows, regular readbacks, real seals, and structural rows as finite $\BHist$ coordinates.
+
+Parent admission is read through $I$. The lower and upper endpoint rows, radius budget, locator route, locatedness modulus, and metric bracket remain the only source of interval data available to the midpoint packet.
+
+Dyadic midpoint exactness is read through $D$. The row is the common-denominator calculation already named by the $\DyadicMidpointUp$ surface, so the midpoint is obtained from displayed endpoint windows rather than from host real arithmetic.
+
+Endpoint transport is read through $E_0,E_1$ and then passed to $B$. These rows record that the left child reuses the parent lower endpoint with the midpoint upper endpoint, while the right child reuses the midpoint lower endpoint with the parent upper endpoint. The $\IntervalBisectionUp$ handoff can therefore expose two child cells without selecting a branch.
+
+The finite-window and seal obligations are read through $S,R,Q$. Componentwise transport, continuation replay, provenance, and local naming are then supplied by $H,C,P,N$. Since the carrier has no coordinate for quotient equality, trichotomy, selected branch choice, countable choice, or completeness, no such datum can be exported by the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Located interval midpoint refinement handoff]
+\label{thm:located-interval-midpoint-handoff}
+Every interval-refinement, finite-net, or Cantor-intersection consumer of an accepted $\LocatedIntervalMidpointUp$ packet factors its midpoint request through the displayed route
+$$
+I,D,E_0,E_1,B \longmapsto S,R,Q \longmapsto H,C,P,N .
+$$
+Consequently later $\IntervalBisectionUp$, $\ClosedBoundedIntervalNetUp$, and $\CantorIntersectionUp$ reads receive a finite located midpoint packet, not host real equality, selected branch choice, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the parent row $I$. It fixes the displayed located real interval before any midpoint or child-cell request is inspected.
+
+Next read $D,E_0,E_1,B$. The dyadic midpoint row supplies the common-denominator midpoint calculation, the endpoint transport rows bind that midpoint to the two inherited endpoint routes, and the bisection handoff exposes the two child cells as finite interval data.
+
+Now pass to $S,R,Q$. The finite-window and regular-rational rows provide the readback required by Real-facing consumers, and the seal rows expose only the midpoint and child endpoint names already routed through the displayed packet.
+
+Finally replay the route through $H,C,P,N$. A finite-net consumer may use the child cells as mesh data, and a Cantor-intersection consumer may use them in a nested interval chain, but both consumers receive the same finite midpoint route. The packet contains no selector for an infinite branch, no quotient real equality, and no completeness coordinate.
+\end{proof}
+
+\closureat{LocatedIntervalMidpointUp}{seedStr}
+
+\begin{closurestatus}{\LocatedIntervalMidpointUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-interval-midpoint-carrier}, \autoref{thm:located-interval-midpoint-namecert-obligations}, and \autoref{thm:located-interval-midpoint-handoff} seed the finite midpoint route for one displayed located real interval over dyadic midpoint, endpoint transport, bisection handoff, finite-window readback, and Real seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real midpoint arithmetic, quotient real equality, trichotomy, selected branch choice, countable choice, ambient RealUp completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic midpoint exactness, endpoint transport, bisection handoff, finite-window readback, Real seal nonescape, and consumer-route proofs for BEDC.Derived.LocatedIntervalMidpointUp.}
+  \constructivestory{A $\LocatedIntervalMidpointUp$ packet is generated from a parent LocatedRealIntervalUp row, a DyadicMidpointUp common-denominator midpoint row, endpoint transport rows, an IntervalBisectionUp handoff row, StreamNameUp windows, RegSeqRatUp readbacks, RealUp seal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

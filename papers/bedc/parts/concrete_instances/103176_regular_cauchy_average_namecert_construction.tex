@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyAverageUp$}
+\label{ch:concrete-instances-regular-cauchy-average-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive Cauchy real arithmetic, the $\RegularCauchyAverageUp$ packet names finite barycentric averaging of regular rational Cauchy names by displayed dyadic weights, synchronized finite windows, finite summation, scalar normalization, and the terminal $\RealUp$ seal. It sits over the regular-rational source rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic arithmetic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the pointwise summation surface of \autoref{ch:concrete-instances-regularcauchysum-namecert}, the normalization row of \autoref{ch:concrete-instances-regularcauchyscalar-namecert}, the two-source specialization of \autoref{ch:concrete-instances-regular-cauchy-midpoint-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet supplies the finite average route needed by Real and Completion consumers; it does not assert quotient streams, selected limits, trichotomy, ambient $\RealUp$ completeness, or a detached completed-real barycenter.
+
+\begin{definition}[RegularCauchyAverage carrier]
+\label{def:regular-cauchy-average-carrier}
+A $\RegularCauchyAverageUp$ carrier is a finite $\BHist$ packet
+$$
+A_{\mathrm{avg}}=(I,R,W,D,B,S,K,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is a unary finite index row naming the displayed list of average inputs and the finite arity used by all downstream rows.
+\item $R$ is the indexed family of component $\RegSeqRatUp$ source rows.
+\item $W$ is the synchronized $\StreamNameUp$ window family, one finite window for each index in $I$, all opened at the common precision request.
+\item $D$ is the family of $\DyadicRatCoreUp$ observation rows read from the sources $R$ through the windows $W$.
+\item $B$ is the $\DyadicRatCoreUp$ barycentric weight ledger, recording the finite dyadic weights, their common denominator budget, and the displayed normalization total.
+\item $S$ is the iterated $\RegularCauchySumUp$ aggregation row, summing the weighted component rows in the order named by $I$.
+\item $K$ is the $\RegularCauchyScalarUp$ normalization row, applying the displayed reciprocal or total-budget scalar from $B$ to the aggregate row $S$.
+\item $M$ is an optional $\RegularCauchyMidpointUp$ two-source specialization row, present only when $I$ displays two equal weights and absent from all other classifier comparisons.
+\item $E$ is the final $\RegSeqRatUp$ readback row produced by the sum and scalar route before the real-name boundary is opened.
+\item $H$ records componentwise $\hsame$ transport for the index row, source family, window family, dyadic observations, weight ledger, sum row, scalar row, optional midpoint row, readback row, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from every average-facing precision request through $I,R,W,D,B,S,K,M,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyAverageUp$, $\RegularCauchySumUp$, $\RegularCauchyScalarUp$, $\RegularCauchyMidpointUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyAverageUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,R,W,D,B,S,K,M,E,H,C,P,N$. The carrier has no coordinate for quotient stream equality, a selected limit, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[RegularCauchyAverage NameCert obligations]
+\label{thm:regular-cauchy-average-namecert-obligations}
+For every accepted $\RegularCauchyAverageUp$ carrier
+$$
+A_{\mathrm{avg}}=(I,R,W,D,B,S,K,M,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyAverageUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the unary finite index row, component $\RegSeqRatUp$ sources, synchronized $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations and weights, $\RegularCauchySumUp$ aggregation row, $\RegularCauchyScalarUp$ normalization row, optional $\RegularCauchyMidpointUp$ specialization row, final $\RegSeqRatUp$ readback, $\RealUp$ seal boundary, and structural rows;
+\item tuple-window coverage, requiring every indexed component requested by $I$ to be opened through the synchronized finite window family $W$ before the aggregate row is available;
+\item dyadic weight normalization, requiring $B$ to display the finite weights, the common denominator budget, and the normalization total used by the scalar row;
+\item sum and scalar budget exactness, requiring $S$ to consume exactly the weighted component rows and $K$ to apply exactly the normalization budget recorded by $B$;
+\item readback stability, requiring the final $\RegSeqRatUp$ row $E$ to transport through $H$ together with the same index, source, window, dyadic, sum, scalar, optional midpoint, replay, provenance, and naming data;
+\item Real seal non-escape, requiring every $\RealUp$ consumer to pass through the final readback row $E$ and its displayed provenance before any real-name seal is exposed;
+\item provenance and local naming, requiring $P$ and $N$ to name exactly the finite barycentric packet and no external completed-real average.
+\end{enumerate}
+No average obligation is stored outside these finite rows, and the surface refuses quotient streams, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, and bridge checking as local data.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic coordinates are the finite index row $I$, the source family $R$, the synchronized windows $W$, the dyadic observations $D$, the barycentric weight ledger $B$, the sum row $S$, the scalar normalization row $K$, the optional midpoint row $M$, and the readback row $E$.
+
+Read the tuple windows before any aggregate is visible. The row $I$ fixes the finite arity, and $W$ opens exactly the component windows used to read $D$ from the $\RegSeqRatUp$ source family $R$.
+
+Next read the weight and budget rows. The ledger $B$ supplies the dyadic weights, the common denominator budget, and the displayed normalization total. The aggregation row $S$ then consumes the weighted component rows through the $\RegularCauchySumUp$ surface, and the scalar row $K$ applies the normalization through $\RegularCauchyScalarUp$.
+
+The two-source equal-weight case is only a specialization. When $M$ is present, it is the same displayed route through the sibling $\RegularCauchyMidpointUp$ packet; when it is absent, no classifier coordinate is created for a separate completed-real midpoint.
+
+Finally replay and transport the readback through $C,H,P,N$. The terminal real-name consumer can reach the seal only after $E$ and its provenance are displayed, so no quotient stream, selected limit, countable-choice selector, trichotomy witness, host real equality, ambient completeness theorem, Lean verification, or bridge credential can be exported by the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[RegularCauchyAverage barycentric handoff]
+\label{thm:regular-cauchy-average-barycentric-handoff}
+Every average read exported by an accepted $\RegularCauchyAverageUp$ carrier factors through the finite route
+$$
+(I,R)\longmapsto W\longmapsto D\longmapsto B\longmapsto S\longmapsto K\longmapsto E
+$$
+before it may be sealed as a $\RealUp$ read. In particular, the read factors through $\RegularCauchySumUp$ and $\RegularCauchyScalarUp$ before the $\RealUp$ seal; in the two-source equal-weight case the same route may also be displayed through the $\RegularCauchyMidpointUp$ specialization row. The handoff exports no quotient streams, selected limits, trichotomy, host real equality, ambient $\RealUp$ completeness, or detached completed-real barycenter.
+\end{theorem}
+\begin{proof}
+Start with the accepted packet $A_{\mathrm{avg}}$. The only component sources are the $\RegSeqRatUp$ rows named by $R$, and the only observations attached to them are opened through the synchronized $\StreamNameUp$ windows $W$ and the dyadic rows $D$.
+
+The barycentric weights are displayed before aggregation. The ledger $B$ fixes the dyadic weights and the normalization budget, so the row $S$ can only be read as the finite $\RegularCauchySumUp$ aggregation of those weighted component rows.
+
+Normalization is downstream of the aggregate. The row $K$ is the $\RegularCauchyScalarUp$ route applying the displayed total-budget scalar to $S$, and the final $\RegSeqRatUp$ readback $E$ is exposed only after this scalar row is present.
+
+If the finite index has two equal weights, the midpoint row $M$ gives the same consumer boundary through \autoref{ch:concrete-instances-regular-cauchy-midpoint-namecert}. It does not add a second route to a completed-real average.
+
+The $\RealUp$ seal is therefore terminal. Componentwise transport, continuation replay, package provenance, and the local naming row preserve the route through $I,R,W,D,B,S,K,E$, leaving no carrier coordinate through which the refused principles or a detached completed-real barycenter could be read.
+\end{proof}
+
+\closureat{RegularCauchyAverageUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyAverageUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-average-carrier}, \autoref{thm:regular-cauchy-average-namecert-obligations}, and \autoref{thm:regular-cauchy-average-barycentric-handoff} seed the finite barycentric-average surface over unary finite indices, component $\RegSeqRatUp$ rows, synchronized $\StreamNameUp$ windows, $\DyadicRatCoreUp$ weights and budgets, $\RegularCauchySumUp$ aggregation, $\RegularCauchyScalarUp$ normalization, optional $\RegularCauchyMidpointUp$ specialization, final readback, $\RealUp$ seal, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RegularCauchyAverageUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tuple-window coverage, dyadic weight normalization, sum and scalar budget exactness, readback stability, Real seal non-escape, provenance, and local naming for BEDC.Derived.RegularCauchyAverageUp.}
+  \constructivestory{A $\RegularCauchyAverageUp$ packet is generated from a unary finite index row, component RegSeqRat sources, synchronized StreamName windows, DyadicRatCore weights and normalization budget, a RegularCauchySum aggregation row, a RegularCauchyScalar normalization row, an optional RegularCauchyMidpoint specialization row, a final RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

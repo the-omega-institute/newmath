@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\RealIntegerPartUp$}
+\label{ch:concrete-instances-real-integer-part-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RealIntegerPartUp$ packet records the finite boundary at which a displayed real name may expose an integer-part read to decimal, approximation, and completion-facing consumers. It sits after the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the Archimedean bound surface of \autoref{ch:concrete-instances-archimedeanreal-namecert}, the integer-bracketing certificate of \autoref{ch:concrete-instances-archimedean-integer-part-namecert}, the residual interface of \autoref{ch:concrete-instances-fractional-part-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, and the regular-rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names the public RealUp integer-part boundary; it is not a host floor operation, a trichotomy oracle, quotient real equality, a selected representative, countable choice, or ambient Real completeness.
+
+\begin{definition}[RealIntegerPart carrier]
+\label{def:real-integer-part-carrier}
+A $\RealIntegerPartUp$ carrier is a finite $\BHist$ packet
+$$
+K=(R,A,B,Z,F,D,S,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the source $\RealUp$ row whose integer part is being read.
+\item $A$ is the $\ArchimedeanRealUp$ bound row attached to the same source real.
+\item $B$ is the $\ArchimedeanIntegerPartUp$ bracket row, displaying the finite lower integer candidate and successor comparison for $R$.
+\item $Z$ is the $\IntUp$ integer candidate exposed by the bracket row.
+\item $F$ is the $\FractionalPartUp$ residual row tied to the same source real and integer candidate.
+\item $D$ is the $\DyadicRatCoreUp$ scale row recording the tolerances and dyadic refinements used to observe the source, bracket, and residual rows.
+\item $S$ is the $\StreamNameUp$ finite-window row opened for decimal, approximation, and completion-facing reads.
+\item $G$ is the $\RegSeqRatUp$ readback row that interprets the windows in $S$ as regular rational data before any consumer receives the integer-part value.
+\item $H$ records componentwise $\hsame$ transport for the source real, Archimedean bound, integer bracket, integer candidate, residual, dyadic scale, stream window, readback, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from every precision, decimal-prefix, or approximation request through $R,A,B,Z,F,D,S,G$ without inserting another integer search.
+\item $P$ is the $\Pkg$ provenance over $\RealIntegerPartUp$, $\RealUp$, $\ArchimedeanRealUp$, $\ArchimedeanIntegerPartUp$, $\IntUp$, $\FractionalPartUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealIntegerPartUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows. It has no coordinate for host floor, trichotomy over arbitrary real names, quotient real equality, selected representatives, countable choice, hidden Archimedean search, unbounded stream reads, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RealIntegerPart NameCert obligations]
+\label{thm:real-integer-part-namecert-obligations}
+For every accepted $\RealIntegerPartUp$ carrier
+$$
+K=(R,A,B,Z,F,D,S,G,H,C,P,N),
+$$
+the local $\NameCert_{\RealIntegerPartUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier exposure for the source $\RealUp$ row, $\ArchimedeanRealUp$ bound row, $\ArchimedeanIntegerPartUp$ bracket row, $\IntUp$ candidate row, $\FractionalPartUp$ residual row, $\DyadicRatCoreUp$ scale row, $\StreamNameUp$ window row, $\RegSeqRatUp$ readback row, and structural rows $H,C,P,N$;
+\item bracket-route exactness, requiring the integer candidate $Z$ to be read only through the displayed source row $R$, Archimedean bound row $A$, and ArchimedeanIntegerPart bracket row $B$;
+\item residual handoff, requiring $F$ to consume the same $R,B,Z$ route before any fractional residual is exposed;
+\item classifier transport, requiring the accepted status of $R,A,B,Z,F,D,S,G$ to remain stable under the componentwise $\hsame$ transports in $H$ and the displayed $\Cont$ replay in $C$;
+\item ledger non-escape, excluding host floor, trichotomy, quotient real equality, selected representatives, countable choice, hidden Archimedean search, unbounded stream reads, ambient Real completeness, Lean verification, and bridge checking from the local certificate surface.
+\end{enumerate}
+No RealIntegerPart obligation is stored outside these rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealIntegerPartUp.RealIntegerPartTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the accepted packet $K=(R,A,B,Z,F,D,S,G,H,C,P,N)$. The projection exposes exactly the real source, Archimedean bound, integer bracket, integer candidate, residual, dyadic scale, stream window, regular readback, transport, replay, provenance, and naming rows.
+
+Bracket-route exactness follows from the sibling surface of \autoref{ch:concrete-instances-archimedean-integer-part-namecert}. The row $B$ is downstream of the source real and Archimedean bound rows, and the integer candidate $Z$ is exposed only as the integer endpoint carried by that bracket.
+
+Residual handoff follows from \autoref{ch:concrete-instances-fractional-part-namecert}. The residual row $F$ records the same source real and integer candidate before it opens any fractional read, so the residual cannot introduce a second integer-part route.
+
+The transport and replay clauses are stored in $H$ and $C$. They carry the visible rows componentwise and send each downstream request back through $R,A,B,Z,F,D,S,G$.
+
+The excluded objects have no carrier coordinate and no classifier clause. Therefore the listed rows exhaust the local $\NameCert_{\RealIntegerPartUp}$ obligation surface.
+\end{proof}
+
+\begin{theorem}[RealIntegerPart bracket route]
+\label{thm:real-integer-part-bracket-route}
+Every Real, decimal, or approximation consumer that reads an integer part from an accepted $\RealIntegerPartUp$ carrier must pass through the finite route
+$$
+\RealUp \longmapsto \ArchimedeanRealUp \longmapsto \ArchimedeanIntegerPartUp \longmapsto \IntUp \longmapsto \FractionalPartUp \longmapsto \DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp .
+$$
+Concretely, the consumer first receives the source real row $R$, then the Archimedean bound row $A$, the ArchimedeanIntegerPart bracket row $B$, the integer candidate row $Z$, the fractional residual row $F$, the dyadic scale row $D$, the finite window row $S$, the regular readback row $G$, and finally the structural rows $H,C,P,N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealIntegerPartUp.RealIntegerPartCarrier\_bracket\_route}
+\begin{proof}
+Begin with a precision, decimal-prefix, or approximation request. The replay row $C$ sends the request to the displayed $\RealUp$ source row $R$, so the route starts from a named real carrier rather than a host real value.
+
+The Archimedean data then enter through $A$ and $B$. The row $A$ provides the finite bound surface, and the row $B$ supplies the bracket route named by \autoref{ch:concrete-instances-archimedean-integer-part-namecert}.
+
+The integer candidate $Z$ is the endpoint exported by that bracket. The residual row $F$ is then read through \autoref{ch:concrete-instances-fractional-part-namecert}, tying the integer endpoint and source real to the same fractional handoff.
+
+The consumer can inspect the route only through the dyadic, window, and readback rows $D,S,G$. These rows expose finite tolerances, finite StreamName windows, and RegSeqRat readback before the integer-part value is usable by a Real or decimal consumer.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same displayed route. Since no other coordinate is present, every integer-part read factors through the stated boundary.
+\end{proof}
+
+\falsifiablePrediction{Every $\RealIntegerPartUp$ integer-part read factors through one $\RealUp$ source row, one $\ArchimedeanRealUp$ bound row, one $\ArchimedeanIntegerPartUp$ bracket row, one $\IntUp$ candidate row, one $\FractionalPartUp$ residual row, one $\DyadicRatCoreUp$ scale row, one $\StreamNameUp$ window row, one $\RegSeqRatUp$ readback row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{real, archimedeanreal, archimedean-integer-part, int, fractional-part, dyadicratcore, streamname, regseqrat: no listed sibling is bijective to $\RealIntegerPartUp$ because this packet jointly binds the source real, Archimedean bound, integer bracket, integer candidate, fractional residual, finite tolerance scale, window read, readback route, transport, replay, provenance, and local naming for the Real-facing integer-part boundary.}
+
+\closureat{RealIntegerPartUp}{seedStr}
+
+\begin{closurestatus}{\RealIntegerPartUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-integer-part-carrier}, \autoref{thm:real-integer-part-namecert-obligations}, and \autoref{thm:real-integer-part-bracket-route} seed the finite Real-facing integer-part boundary from a displayed Real source through Archimedean bound, ArchimedeanIntegerPart bracket, Int candidate, FractionalPart residual, DyadicRatCore scale, StreamName window, RegSeqRat readback, and structural rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host floor, trichotomy, quotient real equality, selected representatives, countable choice, hidden Archimedean search, unbounded stream reads, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, bracket-route exactness, residual handoff, classifier transport, and ledger non-escape for BEDC.Derived.RealIntegerPartUp.}
+  \constructivestory{A $\RealIntegerPartUp$ packet is generated from a $\RealUp$ source row, an $\ArchimedeanRealUp$ bound row, an $\ArchimedeanIntegerPartUp$ bracket row, an $\IntUp$ candidate row, a $\FractionalPartUp$ residual row, a $\DyadicRatCoreUp$ scale row, a $\StreamNameUp$ window row, a $\RegSeqRatUp$ readback row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

@@ -1,0 +1,124 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRealComparisonUp$}
+\label{ch:concrete-instances-located-real-comparison-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\LocatedRealComparisonUp$ packet records the finite comparison surface for two located real presentations. It sits between \autoref{ch:concrete-instances-locatedreal-namecert}, \autoref{ch:concrete-instances-bishoprealcomparison-namecert}, \autoref{ch:concrete-instances-located-apartness-namecert}, \autoref{ch:concrete-instances-apartnessreal-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet names the finite row surface by which a later order, density, or apartness consumer compares two displayed located-real endpoints without importing trichotomy, quotient real equality, selected representatives, countable choice, ambient $\RealUp$ completeness, or a standard bridge.
+
+\begin{definition}[Located real comparison carrier]
+\label{def:located-real-comparison-carrier}
+A $\LocatedRealComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+K=(L_0,L_1,W,R_0,R_1,D_0,D_1,B,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L_0$ and $L_1$ are the two $\LocatedRealUp$ endpoint rows. Each endpoint is read as a located real presentation before any comparison row is opened.
+\item $W$ is the shared $\StreamNameUp$ window row. It records the common finite observation schedule used to inspect both endpoint presentations at the requested precision.
+\item $R_0$ and $R_1$ are the two $\RegSeqRatUp$ readback rows attached to the windows of $L_0$ and $L_1$.
+\item $D_0$ and $D_1$ are the two $\DyadicRatCoreUp$ endpoint and tolerance rows. They record the dyadic enclosures, slack budgets, and comparison tolerances used by the common window.
+\item $B$ is the $\BishopRealComparisonUp$ row. It records the finite comparison request, its rational bracket data, and the displayed sign or overlap evidence available at the chosen window.
+\item $A$ is the optional positive-gap handoff row. When the comparison exposes a positive separation, $A$ routes the same gap through the $\LocatedApartnessUp$ and $\ApartnessRealUp$ surfaces; when no positive gap is displayed, $A$ records the absent handoff and exports no apartness witness.
+\item $H$ records componentwise $\hsame$ transport for both located-real endpoints, the shared window, both regular readbacks, both dyadic endpoint rows, the Bishop comparison row, the optional apartness handoff, continuation replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a comparison request through $L_0,L_1,W,R_0,R_1,D_0,D_1,B,A,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealComparisonUp$, $\LocatedRealUp$, $\BishopRealComparisonUp$, $\LocatedApartnessUp$, $\ApartnessRealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedRealComparisonUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite comparison packet for two displayed located real endpoints. The classifier compares accepted packets only through $L_0,L_1,W,R_0,R_1,D_0,D_1,B,A,H,C,P,N$, so it has no coordinate for trichotomy, total order of constructive reals, quotient real equality, selected representatives, countable choice, ambient $\RealUp$ completeness, or a standard bridge.
+\end{definition}
+\leanchecked{BEDC.Derived.LocatedRealComparisonUp.LocatedRealComparisonUpTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Located real comparison NameCert obligations]
+\label{thm:located-real-comparison-namecert-obligations}
+For every accepted $\LocatedRealComparisonUp$ carrier
+$$
+K=(L_0,L_1,W,R_0,R_1,D_0,D_1,B,A,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedRealComparisonUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two $\LocatedRealUp$ endpoint rows, shared finite window, two regular readbacks, two dyadic endpoint and tolerance rows, Bishop comparison row, optional apartness handoff, transport, replay, provenance, and local naming rows;
+\item shared-window discipline, requiring both endpoints to be inspected through the same $W$ before the comparison row $B$ is public;
+\item readback exactness, requiring $R_0,R_1,D_0,D_1$ to supply the rational and dyadic data consumed by $B$ without exposing host endpoint values;
+\item classifier transport, requiring $H$ to preserve componentwise sameness for the endpoint rows, window, readbacks, dyadic ledgers, comparison row, optional handoff row, and structural rows;
+\item positive-gap handoff, requiring $A$ to export a $\LocatedApartnessUp$ or $\ApartnessRealUp$ witness only when the same displayed comparison data in $B$ and dyadic budget in $D_0,D_1$ exhibit a positive gap;
+\item non-escape, refusing trichotomy, total order of constructive reals, quotient real equality, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, and bridge checking as local NameCert data.
+\end{enumerate}
+No located-real comparison obligation is stored outside these six rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-real-comparison-carrier}. The projection exposes exactly the two located-real endpoints, the shared window, the two regular readbacks, the two dyadic ledgers, the Bishop comparison row, the optional apartness handoff, and the structural rows.
+
+The shared-window obligation is read from $W$. Since both endpoint presentations are inspected through the same finite schedule before $B$ is public, a comparison consumer cannot compare one endpoint at a hidden precision or through an unrecorded stream request.
+
+Readback exactness is the role of $R_0,R_1,D_0,D_1$. The regular rational rows supply finite endpoint observations, while the dyadic rows store the slack budgets and endpoint enclosures consumed by the Bishop comparison row.
+
+Classifier transport is componentwise. The row $H$ preserves the endpoint, window, readback, dyadic, comparison, and optional handoff rows before $C,P,N$ replay, source, and name the same packet.
+
+Finally, the positive-gap handoff is governed by $A$. A handoff to $\LocatedApartnessUp$ or $\ApartnessRealUp$ may occur only when the already displayed comparison and dyadic rows exhibit the gap; otherwise the row records absence. Thus trichotomy, total order, quotient real equality, selected representatives, countable choice, ambient completeness, Lean verification, and bridge checking never become local obligations.
+\end{proof}
+
+\begin{theorem}[Located real comparison shared-window stability]
+\label{thm:located-real-comparison-window-stability}
+Every accepted $\LocatedRealComparisonUp$ packet reads both endpoints through the same displayed $\StreamNameUp$ window before it exposes the comparison row. Consequently two accepted carriers matched componentwise by $L_0,L_1,W,R_0,R_1,D_0,D_1,B,A,H,C,P,N$ have the same finite comparison route and the same available positive-gap handoff status.
+\end{theorem}
+\begin{proof}
+Inspect an accepted carrier $K=(L_0,L_1,W,R_0,R_1,D_0,D_1,B,A,H,C,P,N)$. The only window coordinate is $W$, and both endpoint readbacks cite this same finite observation schedule.
+
+The comparison row $B$ is downstream of the endpoint rows, readbacks, and dyadic ledgers. Therefore changing the public comparison route would require changing at least one displayed coordinate among $L_0,L_1,W,R_0,R_1,D_0,D_1,B$.
+
+The transport row $H$ moves these coordinates componentwise, while $C,P,N$ replay, source, and name the transported packet. The optional handoff $A$ is part of the same displayed route, so its present or absent status is stable under the same classifier match.
+\end{proof}
+
+\begin{theorem}[Located real comparison apartness handoff]
+\label{thm:located-real-comparison-apartness-handoff}
+If an accepted $\LocatedRealComparisonUp$ carrier exposes a positive-gap handoff row, then every downstream $\LocatedApartnessUp$ or $\ApartnessRealUp$ consumer of that gap factors through the displayed route
+$$
+(L_0,L_1)\longmapsto W\longmapsto(R_0,R_1)\longmapsto(D_0,D_1)\longmapsto B\longmapsto A\longmapsto H,C,P,N.
+$$
+If the handoff row is absent, the packet exports no apartness witness.
+\end{theorem}
+\begin{proof}
+Start with a downstream consumer asking for apartness evidence from the comparison packet. The endpoint data available to that consumer are the displayed located-real rows $L_0$ and $L_1$, not host endpoint values.
+
+The consumer must next read the common window $W$, the two regular readbacks $R_0,R_1$, and the dyadic endpoint budgets $D_0,D_1$. These rows supply the finite observations consumed by the Bishop comparison row $B$.
+
+When $B$ and the dyadic budgets exhibit a positive gap, the handoff row $A$ routes that same evidence to the $\LocatedApartnessUp$ and $\ApartnessRealUp$ surfaces. When the row is absent, no consumer can project an apartness witness from the packet.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. Hence the handoff exports exactly the displayed positive-gap evidence and no trichotomy, total order, quotient real equality, selected representative, countable-choice selector, ambient completeness witness, or bridge data.
+\end{proof}
+
+\begin{theorem}[Located real comparison Real seal factorization]
+\label{thm:located-real-comparison-real-seal-factorization}
+Every accepted $\LocatedRealComparisonUp$ carrier
+$$
+K=(L_0,L_1,W,R_0,R_1,D_0,D_1,B,A,H,C,P,N)
+$$
+first reads the two $\LocatedRealUp$ endpoint rows $L_0,L_1$ and then factors their terminal $\RealUp$ seals through the shared finite readback route
+$$
+(L_0,L_1)\longmapsto W\longmapsto(R_0,R_1)\longmapsto(D_0,D_1)
+$$
+before exposing either the $\BishopRealComparisonUp$ row $B$ or the optional positive-gap handoff row $A$. Thus any downstream order, density, or apartness consumer of $B$ or $A$ reaches the two real seals only through the displayed $\StreamNameUp$ window, the two $\RegSeqRatUp$ readbacks, and the two $\DyadicRatCoreUp$ ledgers.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The only endpoint coordinates are $L_0$ and $L_1$, and the comparison packet contains no separate host endpoint row or quotient-real representative from which $B$ or $A$ could be opened directly.
+
+Apply \autoref{thm:located-real-comparison-window-stability}. The shared $W$ coordinate is the common $\StreamNameUp$ window for both endpoints, and the comparison route is stable only through the displayed coordinates $L_0,L_1,W,R_0,R_1,D_0,D_1,B,A,H,C,P,N$.
+
+The two regular readbacks $R_0,R_1$ and the two dyadic ledgers $D_0,D_1$ are the finite rows that connect the endpoint presentations to the comparison row. Hence the terminal $\RealUp$ seals of the located endpoints are visible to $B$ only after this common readback route has been traversed.
+
+Apply \autoref{thm:located-real-comparison-apartness-handoff} for the positive-gap branch. If $A$ is present, it exports only the same displayed gap already routed through $W,R_0,R_1,D_0,D_1$ and $B$; if $A$ is absent, it exports no apartness witness.
+
+Consequently the factorization refuses host endpoint equality, quotient real equality, trichotomy, countable choice, ambient $\RealUp$ completeness, and bridge data. The public comparison and handoff surfaces are exactly the finite certified route named by the carrier.
+\end{proof}
+
+\closureat{LocatedRealComparisonUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRealComparisonUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-real-comparison-carrier}, \autoref{thm:located-real-comparison-namecert-obligations}, \autoref{thm:located-real-comparison-window-stability}, \autoref{thm:located-real-comparison-apartness-handoff}, and \autoref{thm:located-real-comparison-real-seal-factorization} seed the finite comparison route over two $\LocatedRealUp$ endpoints, a shared $\StreamNameUp$ window, two $\RegSeqRatUp$ readbacks, two $\DyadicRatCoreUp$ endpoint rows, a $\BishopRealComparisonUp$ row, and an optional $\LocatedApartnessUp$ or $\ApartnessRealUp$ positive-gap handoff.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.LocatedRealComparisonUp.LocatedRealComparisonUpTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close trichotomy, total order of constructive reals, quotient real equality, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared-window discipline, readback exactness, classifier transport, positive-gap handoff, non-escape, and downstream apartness routing for BEDC.Derived.LocatedRealComparisonUp.}
+  \constructivestory{A $\LocatedRealComparisonUp$ packet is generated from two displayed $\LocatedRealUp$ endpoint rows, one shared $\StreamNameUp$ window, two $\RegSeqRatUp$ readbacks, two $\DyadicRatCoreUp$ endpoint and tolerance ledgers, a $\BishopRealComparisonUp$ row, an optional positive-gap handoff through $\LocatedApartnessUp$ or $\ApartnessRealUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

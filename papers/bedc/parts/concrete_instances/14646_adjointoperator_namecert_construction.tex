@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\AdjointOperatorUp$}
+\label{ch:concrete-instances-adjointoperator-namecert}
+\origin{human}
+
+Following the Hilbert-space adjoint construction in standard functional analysis, the $\AdjointOperatorUp$ packet records the finite BEDC surface of a bounded operator together with a displayed adjoint endpoint and the inner-product pairing law that characterizes it. It is read over the $\HilbertUp$ source of \autoref{ch:concrete-instances-hilbert-namecert}, the $\InnerProductUp$ form rows of \autoref{ch:concrete-instances-innerproduct-namecert}, the bounded-linear-operator carrier of \autoref{def:banach-bounded-linear-operator-carrier}, and the functional-analysis consumer frontier of \autoref{ch:concrete-instances-functionalanalysis-namecert}.
+
+\section{Carrier packet}
+\label{sec:adjoint-operator-carrier}
+
+\begin{definition}[Adjoint operator carrier]
+\label{def:adjoint-operator-carrier}
+For carried $\HilbertUp$ sources $H$ and $K$, an $\AdjointOperatorUp(H,K)$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+A=(H,K,T,T^\ast,B,B^\ast,\langle-,-\rangle_H,\langle-,-\rangle_K,J,L,P,N)
+$$
+with the following displayed rows.
+\begin{enumerate}
+  \item $H$ and $K$ are the Hilbert source rows, including their inherited $\InnerProductUp$ form rows and Banach normed-complete rows.
+  \item $T$ is a carried bounded-linear-operator row from $H$ to $K$, read through \autoref{def:banach-bounded-linear-operator-carrier}.
+  \item $T^\ast$ is a carried bounded-linear-operator row from $K$ to $H$, with bound row $B^\ast$ and its own visible operator ledger.
+  \item $\langle-,-\rangle_H$ and $\langle-,-\rangle_K$ are the two displayed inner-product form rows consumed from the $\InnerProductUp$ surfaces of $H$ and $K$.
+  \item $J$ is the finite adjunction ledger stating the componentwise pairing comparison between applying $T$ on the $H$ side and applying $T^\ast$ on the $K$ side.
+  \item $L$ records the $\hsame$ transports of Hilbert source rows, operator endpoints, bound endpoints, inner-product values, and adjunction comparisons.
+  \item $P$ is the local $\Pkg$ provenance surface, and $N$ is the local $\NameCert_{\AdjointOperatorUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a host Hilbert space, a choice-selected representing vector, a spectral resolution, a polar decomposition, or a full Riesz representation theorem.
+\end{definition}
+\leanchecked{BEDC.Derived.AdjointOperatorUp.AdjointOperatorTasteGate\_single\_carrier\_alignment}
+
+\section{Adjunction law}
+\label{sec:adjoint-operator-adjunction}
+
+\begin{theorem}[Adjoint operator inner-product adjunction]
+\label{thm:adjoint-operator-inner-product-adjunction}
+Let $A=(H,K,T,T^\ast,B,B^\ast,\langle-,-\rangle_H,\langle-,-\rangle_K,J,L,P,N)$ be an accepted $\AdjointOperatorUp(H,K)$ packet. For every carried $H$-endpoint $x$ and carried $K$-endpoint $y$ visible to the operator ledgers, the packet exposes the classified scalar comparison
+$$
+\langle T x,y\rangle_K \sim_{\RealUp} \langle x,T^\ast y\rangle_H .
+$$
+This comparison is part of the finite ledger $J$; it is not obtained by appealing to an ambient Hilbert-space duality theorem, a choice principle, or an external operator equality.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:adjoint-operator-carrier}. The source and target Hilbert rows give the two inner-product forms, while the bounded-operator rows for $T$ and $T^\ast$ give the endpoint values $T x$ and $T^\ast y$ in the carried Hilbert carriers.
+
+Read the adjunction ledger $J$ at the displayed pair $(x,y)$. Its scalar comparison is already typed over the $\RealUp$ classifier inherited by the two inner-product rows, so the asserted equality is a BEDC endpoint comparison rather than host-level equality of scalar values.
+
+The transport ledger $L$ keeps the same comparison stable when $x$, $y$, $T$, $T^\ast$, or either Hilbert source row is replaced by a classified row. Hence the public adjunction law is exactly the row displayed by the packet.
+\end{proof}
+
+\section{Name certificate surface}
+\label{sec:adjoint-operator-namecert}
+
+\begin{theorem}[Adjoint operator NameCert obligations]
+\label{thm:adjoint-operator-namecert-obligations}
+The local $\NameCert_{\AdjointOperatorUp}$ surface consists of the following five rows.
+\begin{enumerate}
+  \item Carrier habitation for the finite packet of \autoref{def:adjoint-operator-carrier}.
+  \item Componentwise classification of the two Hilbert source rows, the two bounded-operator rows, the two bound rows, and the two inner-product form rows.
+  \item Inner-product adjunction exactness through the ledger $J$ of \autoref{thm:adjoint-operator-inner-product-adjunction}.
+  \item Transport stability for source, target, operator, bound, form-value, and adjunction rows through $L$.
+  \item Ledger exclusion of Riesz representation, spectral theorem, polar decomposition, host Hilbert equality, and external operator equality.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier habitation is the finite packaging operation of \autoref{def:adjoint-operator-carrier}. The Hilbert, inner-product, bounded-operator, bound, adjunction, transport, provenance, and local-name rows are visible coordinates of the packet.
+
+The classifier row is componentwise. Hilbert source comparison is read through the $\HilbertUp$ classifiers, bounded-operator comparison through the Banach bounded-operator surface, and scalar comparison through the $\RealUp$ classifiers used by the two $\InnerProductUp$ form rows.
+
+Adjunction exactness is the assertion of \autoref{thm:adjoint-operator-inner-product-adjunction}. Transport stability is supplied by $L$, which repacks classified replacements of the same rows without introducing any host duality or spectral data. The excluded analytic theorems therefore remain outside the local certificate surface.
+\end{proof}
+
+\closureat{AdjointOperatorUp}{seedStr}
+
+\begin{closurestatus}{\AdjointOperatorUp}
+  \constructivestory{An $\AdjointOperatorUp$ packet records two carried Hilbert source rows, a carried bounded operator $T$, a carried bounded operator $T^\ast$ in the reverse direction, their bound ledgers, the two inner-product form rows, a finite adjunction ledger comparing $\langle T x,y\rangle_K$ with $\langle x,T^\ast y\rangle_H$, componentwise transport rows, provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:adjoint-operator-carrier}, \autoref{thm:adjoint-operator-inner-product-adjunction}, and \autoref{thm:adjoint-operator-namecert-obligations} seed the Hilbert bounded-operator adjoint boundary over $\HilbertUp$, $\InnerProductUp$, $\BanachUp$, $\RealUp$, and $\FunctionalAnalysisUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Riesz representation, the spectral theorem, polar decomposition, host Hilbert-space duality, arbitrary existence of adjoints, Lean verification, or a standard bridge.}
+  \upgradepath{A formal route can encode the finite carrier and prove the adjunction ledger, transport stability, and local NameCert obligation surface.}
+\end{closurestatus}

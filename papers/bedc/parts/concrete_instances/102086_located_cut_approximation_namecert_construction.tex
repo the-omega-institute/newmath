@@ -1,0 +1,118 @@
+\chapter{A Concrete Naming Certificate for $\LocatedCutApproximationUp$}
+\label{ch:concrete-instances-located-cut-approximation-namecert}
+\origin{human}
+
+Following Bishop and Bridges on located real-number data, the $\LocatedCutApproximationUp$ packet records the finite approximation layer between the located lower/upper dyadic windows of \autoref{ch:concrete-instances-locatedcut-namecert} and the regular-Cauchy route consumed by \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert}. It keeps the refusal boundary of \autoref{ch:concrete-instances-dedekind-cut-cauchy-boundary-namecert} intact: the packet observes located cut windows and hands them to the Cauchy-facing route, while \autoref{ch:concrete-instances-dedekind-cauchy-comparison-namecert} remains only a comparison sibling. Its dependency surface is the finite dyadic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ handoff, and the terminal $\RealUp$ seal. The chapter names only finite observation and handoff rows; it is not a Dedekind construction of $\RealUp$, a quotient-cut object, a selected supremum, trichotomy, choice, $\mathsf{Quot.sound}$, propext, or ambient completeness.
+
+\begin{definition}[Located cut approximation carrier]
+\label{def:located-cut-approximation-carrier}
+A $\LocatedCutApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(L,U,W,A,S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower located dyadic row read from $\LocatedCutUp$, recording finite rational witnesses below the cut.
+\item $U$ is the upper located dyadic row read from $\LocatedCutUp$, recording finite rational witnesses above the cut.
+\item $W$ is the located window row binding the lower and upper dyadic observations to one inspected precision request.
+\item $A$ is the approximation row, storing the finite midpoint, endpoint, or bracket readback exported by $L,U,W$.
+\item $S$ is the $\StreamNameUp$ window family through which the approximation row is read as finite stream data.
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained after the displayed stream windows and approximation row have been fixed.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, storing dyadic radii, slack comparisons, and endpoint budgets used by $W,A,S,R$.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $L,U,W,A,S,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the lower row, upper row, located window, approximation row, stream windows, regular handoff, dyadic ledger, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+L,U \longmapsto W \longmapsto A \longmapsto S \longmapsto R \longmapsto D \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\LocatedCutApproximationUp$, $\LocatedCutUp$, $\DedekindCutCauchyBoundaryUp$, $\DedekindCauchyComparisonUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedCutApproximationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,U,W,A,S,R,D,E,H,C,P,N$. It has no coordinate for quotient cuts, selected suprema, trichotomy, choice, $\mathsf{Quot.sound}$, propext, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Located cut approximation NameCert obligations]
+\label{thm:located-cut-approximation-namecert-obligations}
+For every accepted $\LocatedCutApproximationUp$ carrier
+$$
+Q=(L,U,W,A,S,R,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedCutApproximationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed lower row, upper row, located window, approximation row, stream windows, regular-Cauchy handoff, dyadic tolerance ledger, Real seal, and structural rows $H,C,P,N$;
+\item located-window exposure, requiring every approximation request to display both $L$ and $U$ through the common window row $W$ before any stream or regular-Cauchy read can be consumed;
+\item approximation exactness, requiring $A$ to store only finite dyadic readback data obtained from $L,U,W$ and the tolerance ledger $D$;
+\item stream-window readiness, requiring $S$ to expose the finite $\StreamNameUp$ windows used by the approximation row before $R$ is read;
+\item regular-Cauchy handoff, requiring $R$ to be the only route by which the located-window approximation becomes a $\RegSeqRatUp$ row;
+\item Real-seal factorization, requiring every downstream read of $E$ to pass through $L,U,W,A,S,R,D$ and the structural rows;
+\item transport, replay, and provenance non-escape, requiring $H,C,P,N$ to preserve and name exactly the displayed rows, with no Dedekind construction of $\RealUp$, quotient cut, selected supremum, trichotomy, choice, $\mathsf{Quot.sound}$, propext, ambient completeness, Lean verification, or bridge credential.
+\end{enumerate}
+No located-cut approximation obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $Q=(L,U,W,A,S,R,D,E,H,C,P,N)$. Carrier admission exposes exactly the lower and upper located dyadic rows, the common located window, the finite approximation row, the stream windows, the regular-Cauchy handoff, the dyadic tolerance ledger, the Real seal, and the four structural rows.
+
+The located-window obligation is the projection to $W$ together with its source rows $L$ and $U$. A precision request cannot inspect a lower row or an upper row separately and then enter the Cauchy route; the common window row records the finite bracket in which both sides are read.
+
+Approximation exactness is then the projection to $A$ and $D$. The approximation row stores only the displayed dyadic readback supported by the tolerance ledger, so it cannot introduce quotient-cut equality, a selected supremum, trichotomy, or choice.
+
+The stream and regular handoff obligations are the projections to $S$ and $R$. The stream row exposes the finite windows used by the approximation, and the regular row is downstream of those windows rather than a detached regular representative.
+
+Finally, the Real seal and structural rows exhaust the boundary. The seal $E$ is downstream of $L,U,W,A,S,R,D$, while $H,C,P,N$ transport, replay, name, and source only those displayed rows. Hence no Dedekind construction of $\RealUp$, quotient cut, selected supremum, trichotomy, choice, $\mathsf{Quot.sound}$, propext, ambient completeness, Lean verification, or bridge credential is exported.
+\end{proof}
+
+\begin{theorem}[Located cut approximation regular-Cauchy handoff]
+\label{thm:located-cut-approximation-regular-cauchy-handoff}
+For every accepted $\LocatedCutApproximationUp$ carrier
+$$
+Q=(L,U,W,A,S,R,D,E,H,C,P,N),
+$$
+every $\RegSeqRatUp$ consumer read exported by $Q$ factors through the displayed route
+$$
+\LocatedCutUp \longrightarrow \LocatedCutApproximationUp \longrightarrow \StreamNameUp \longrightarrow \RegSeqRatUp
+$$
+by reading the finite rows $L,U,W,A,S,R,D,H,C,P,N$. In particular, the handoff does not use a Dedekind construction of $\RealUp$, quotient cut equality, a selected supremum, trichotomy, choice, $\mathsf{Quot.sound}$, propext, or ambient completion data.
+\end{theorem}
+\begin{proof}
+Begin with a regular-Cauchy consumer. Carrier projection exposes the handoff row $R$ only after the source located rows $L,U$, the common located window $W$, the approximation row $A$, the stream windows $S$, and the dyadic tolerance ledger $D$ have been displayed.
+
+The route inspection is finite. The lower and upper located rows determine the observed bracket, $W$ binds them to a single precision request, $A$ records the approximation readback, and $S$ opens exactly the stream windows used by that readback.
+
+The handoff row $R$ is therefore downstream of the displayed stream route. Componentwise transport and replay through $H$ and $C$ preserve the same order, while $P$ and $N$ only name the visible packet.
+
+Since no carrier coordinate stores quotient cuts, selected suprema, trichotomy data, choice data, $\mathsf{Quot.sound}$, propext, or ambient completeness, no $\RegSeqRatUp$ read exported by the packet can factor through those excluded sources.
+\end{proof}
+
+\begin{theorem}[Located cut approximation Real-seal nonescape]
+\label{thm:located-cut-approximation-real-seal-nonescape}
+For every accepted $\LocatedCutApproximationUp$ carrier
+$$
+Q=(L,U,W,A,S,R,D,E,H,C,P,N),
+$$
+every $\RealUp$ consumer of the terminal seal $E$ receives only the displayed located-window approximation route
+$$
+L,U,W,A,S,R,D,E,H,C,P,N .
+$$
+The seal is not a Dedekind construction of $\RealUp$, not a quotient-cut completion, not a selected supremum, not a trichotomy witness, not a choice object, not a $\mathsf{Quot.sound}$ or propext bridge, and not an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start from the terminal seal $E$. In the carrier, $E$ is not an independent real-completion coordinate; it is the endpoint of the displayed route through the located lower and upper rows, the common located window, the finite approximation row, the stream windows, the regular handoff, and the dyadic tolerance ledger.
+
+Trace the route backward. The Real-facing read reaches $E$ only after $R$ has been read, $R$ only after $S$ and $A$ have been displayed, and $A$ only after the lower and upper located rows have been bound by $W$ and checked against $D$.
+
+The structural coordinates do not add a second seal source. The transport row $H$ is componentwise, the replay row $C$ displays the same route order, and the provenance and local certificate rows $P,N$ name this packet rather than importing a host completion principle.
+
+Thus every Real-facing consumer is confined to $L,U,W,A,S,R,D,E,H,C,P,N$. The excluded Dedekind, quotient-cut, selected-supremum, trichotomy, choice, $\mathsf{Quot.sound}$, propext, and ambient-completeness readings are outside the carrier inventory.
+\end{proof}
+
+\closureat{LocatedCutApproximationUp}{seedStr}
+
+\begin{closurestatus}{\LocatedCutApproximationUp}
+  \constructivestory{A $\LocatedCutApproximationUp$ packet is generated from lower and upper located dyadic rows, a common located window, a finite approximation row, StreamName windows, a RegSeqRat handoff, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-cut-approximation-carrier}, \autoref{thm:located-cut-approximation-namecert-obligations}, \autoref{thm:located-cut-approximation-regular-cauchy-handoff}, and \autoref{thm:located-cut-approximation-real-seal-nonescape} seed the finite located-window approximation packet between located-cut observations and regular-Cauchy Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a Dedekind construction of $\RealUp$, quotient cuts, selected suprema, trichotomy, choice, $\mathsf{Quot.sound}$, propext, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located-window exposure, approximation exactness, stream-window readiness, regular-Cauchy handoff, Real-seal factorization, transport/replay/provenance coverage, and non-escape for BEDC.Derived.LocatedCutApproximationUp.}
+\end{closurestatus}

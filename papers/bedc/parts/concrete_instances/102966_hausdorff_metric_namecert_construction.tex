@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\HausdorffMetricUp$}
+\label{ch:concrete-instances-hausdorff-metric-namecert}
+\origin{human}
+
+Following the Hausdorff--Kuratowski compact-set metric reading, the $\HausdorffMetricUp$ packet records the finite-net route by which two nonempty compact-subset names expose a displayed distance bound without importing an ambient supremum or a choice-selected nearest point. It sits over the compact-metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the finite-net discipline of \autoref{ch:concrete-instances-totallybounded-namecert}, and the precompact metric surface of \autoref{ch:concrete-instances-precompactmetric-namecert}. The packet is a NameCert interface for compact-subset distance reads; it is not an open-cover compactness theorem, a host hyperspace construction, a quotient subset equality principle, a supremum principle, or a nearest-point selector.
+
+\begin{definition}[Hausdorff metric finite-net carrier]
+\label{def:hausdorff-metric-finite-net-carrier}
+A $\HausdorffMetricUp$ carrier is a finite $\BHist$ packet
+$$
+H=(A,B,M,K,E,D,S,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two nonempty compact-subset name rows. Each row records the displayed subset identifier, nonempty witness address, compact-subset admission data, and the finite request for which the Hausdorff read is being exposed.
+\item $M$ is the ambient $\MetricUp$ row consumed by both compact-subset names, including the point-distance reads used by the finite-net comparison.
+\item $K$ records the two $\CompactMetricUp$ rows, one for each compact-subset name, together with the compact-metric admission data needed before a finite net may be inspected.
+\item $E$ records finite $\ProbeBundle$ nets for $A$ and $B$ at a displayed positive $\RatUp$ tolerance, including the mesh budget, net membership rows, and coverage witnesses relative to the compact-metric rows in $K$.
+\item $D$ records point-to-set distance witnesses from each displayed net point in the first compact-subset name to the second compact-subset name, and from each displayed net point in the second compact-subset name to the first compact-subset name.
+\item $S$ records the two symmetric bound rows obtained from $D$, including the rational slack showing that the two directed finite-net estimates share the same tolerance budget.
+\item $T$ records componentwise $\hsame$ transport for the subset names, metric row, compact-metric rows, finite nets, point-to-set witnesses, symmetric bounds, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+A,B,M,K,E \longmapsto D \longmapsto S .
+$$
+\item $P$ is the $\Pkg$ provenance over $\HausdorffMetricUp$, $\CompactMetricUp$, $\MetricUp$, $\TotallyBoundedUp$, $\PrecompactMetricUp$, $\ProbeBundle$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HausdorffMetricUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,B,M,K,E,D,S,T,C,P,N$. It has no coordinate for open-cover compactness, host hyperspace membership, quotient subset equality, ambient supremum formation, infimum formation, or a choice-selected nearest point.
+\end{definition}
+
+\begin{theorem}[HausdorffMetricUp NameCert obligations]
+\label{thm:hausdorff-metric-namecert-obligations}
+For every accepted $\HausdorffMetricUp$ carrier
+$$
+H=(A,B,M,K,E,D,S,T,C,P,N),
+$$
+the local $\NameCert_{\HausdorffMetricUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two nonempty compact-subset names, the ambient metric row, the compact-metric rows, the finite-net rows, the point-to-set witness rows, the symmetric bound rows, transport, replay, provenance, and local naming rows;
+\item compact-subset net exactness, requiring every displayed $\ProbeBundle$ net in $E$ to be read through the corresponding compact-subset name and compact-metric row before a point-distance request can be inspected;
+\item symmetric point-distance bound stability, requiring the two directed estimates in $D$ and $S$ to use the same positive $\RatUp$ tolerance budget and to survive componentwise $\hsame$ transport in $T$;
+\item classifier transport, requiring any accepted comparison of packets to preserve the same subset-name rows, metric source, compact-metric witnesses, finite nets, point-to-set witnesses, and symmetric rational bounds;
+\item ledger exhaustion, requiring $C,P,N$ to replay, source, and name only the displayed finite route and to export no open-cover compactness theorem, host hyperspace object, quotient subset equality, ambient supremum, infimum, or selected nearest point.
+\end{enumerate}
+No Hausdorff metric obligation is stored outside these rows.
+\end{theorem}
+
+\begin{theorem}[Hausdorff compact-subset distance bound]
+\label{thm:hausdorff-metric-compact-subset-distance-bound}
+Every Metric-facing, CompactMetric-facing, or hyperspace-facing consumer of an accepted $\HausdorffMetricUp$ carrier factors through the finite route
+$$
+A,B,M,K,E \longmapsto D \longmapsto S \longmapsto T,C,P,N .
+$$
+Consequently the consumer receives only the displayed nonempty compact-subset names, the shared metric row, the compact-metric rows, the finite $\ProbeBundle$ nets at a positive $\RatUp$ tolerance, the point-to-set distance witnesses, the symmetric finite-net bounds, componentwise transport, replay, provenance, and the local name. It cannot claim an open-cover compactness theorem, host supremum, quotient subset equality, infimum, or choice-selected nearest point from the packet.
+\end{theorem}
+
+\closureat{HausdorffMetricUp}{seedStr}
+
+\begin{closurestatus}{\HausdorffMetricUp}
+  \constructivestory{A $\HausdorffMetricUp$ packet is generated from two nonempty compact-subset names, CompactMetricUp rows, a shared MetricUp source, finite ProbeBundle nets at a positive RatUp tolerance, point-to-set distance witnesses, symmetric bound rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hausdorff-metric-finite-net-carrier}, \autoref{thm:hausdorff-metric-namecert-obligations}, and \autoref{thm:hausdorff-metric-compact-subset-distance-bound} seed the finite-net Hausdorff distance interface for nonempty compact-subset names without importing compactness, quotient, supremum, infimum, or nearest-point principles.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, host hyperspaces, quotient subset equality, ambient suprema or infima, selected nearest points, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-subset net exactness, symmetric point-distance bound stability, classifier transport, and ledger exhaustion for BEDC.Derived.HausdorffMetricUp.}
+\end{closurestatus}

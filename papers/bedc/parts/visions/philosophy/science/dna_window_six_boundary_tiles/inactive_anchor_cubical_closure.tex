@@ -1,0 +1,256 @@
+\begin{definition}[Inactive-anchor closure]
+\label{def:philosophy-inactive-anchor-closure}
+Let
+$$
+  \mathcal{A}=\{\mathrm{UGG},\mathrm{AAG},\mathrm{ACA}\}
+$$
+be the inactive envelope corners from
+\autoref{cor:philosophy-inactive-envelope-corners}. The inactive-anchor
+closure of the reassigned support is
+$$
+  \overline{\mathcal{R}}=\mathcal{R}\cup\mathcal{A}.
+$$
+\end{definition}
+
+\begin{definition}[Cubical support complex]
+\label{def:philosophy-cubical-support-complex}
+For a codon set $S\subset Q_{6}$, let $K(S)$ be the cubical complex
+whose cells are exactly the axis-aligned subcubes of $Q_{6}$ whose
+vertices all lie in $S$.
+\end{definition}
+
+\begin{theorem}[Active cubical f-vector]
+\label{thm:philosophy-active-cubical-f-vector}
+The active support complex has
+$$
+  f(K(\mathcal{R}))=(13,16,4,0,\ldots).
+$$
+The four $2$-cells are the square faces
+$$
+  \mathrm{CUN},\quad \mathrm{UNA},\quad
+  \mathrm{WWA},\quad \mathrm{WRA}.
+$$
+There are no $3$-cells.
+\end{theorem}
+\begin{proof}
+Enumerate every axis-aligned subcube of $Q_{6}$ and retain those whose
+vertices lie in $\mathcal{R}$. The retained cells consist of the
+$13$ vertices of $\mathcal{R}$, the $16$ internal Hamming edges from
+\autoref{thm:philosophy-reassignment-support-graph}, and the four
+square faces listed in \autoref{thm:philosophy-four-square-cycles}.
+No retained cube has dimension $3$ or higher.
+\end{proof}
+
+\begin{theorem}[Active cubical homology]
+\label{thm:philosophy-active-cubical-homology}
+Over $\mathbb{F}_{2}$, the cubical homology of $K(\mathcal{R})$ has
+Betti vector
+$$
+  \beta(K(\mathcal{R}))=(1,0,0).
+$$
+Equivalently, the graph cycles in $G_{\mathcal{R}}$ are filled by the
+four square $2$-cells of the cubical complex.
+\end{theorem}
+\begin{proof}
+The cellular boundary ranks over $\mathbb{F}_{2}$ are
+$$
+  \operatorname{rank}\partial_{1}=12,\qquad
+  \operatorname{rank}\partial_{2}=4.
+$$
+Together with $f(K(\mathcal{R}))=(13,16,4)$ this gives
+$$
+\begin{aligned}
+  \beta_{0}&=13-12=1,\\
+  \beta_{1}&=16-12-4=0,\\
+  \beta_{2}&=4-4=0.
+\end{aligned}
+$$
+\end{proof}
+
+\begin{theorem}[Inactive-anchor closure formula]
+\label{thm:philosophy-inactive-anchor-closure-formula}
+The inactive-anchor closure is exactly
+$$
+  \overline{\mathcal{R}}
+  =
+  \mathrm{WNA}\cup\mathrm{WRR}\cup\mathrm{CUN}.
+$$
+Here
+$$
+\begin{aligned}
+  \mathrm{WNA}
+    &=
+    \{\mathrm{UUA},\mathrm{UCA},\mathrm{UAA},\mathrm{UGA},
+      \mathrm{AUA},\mathrm{ACA},\mathrm{AAA},\mathrm{AGA}\},\\
+  \mathrm{WRR}
+    &=
+    \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA},\mathrm{UGG},
+      \mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG}\},\\
+  \mathrm{CUN}
+    &=
+    \{\mathrm{CUU},\mathrm{CUC},\mathrm{CUA},\mathrm{CUG}\}.
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+The only codons in the displayed union that are not in $\mathcal{R}$
+are $\mathrm{UGG}$, $\mathrm{AAG}$, and $\mathrm{ACA}$, which are the
+inactive anchors. Conversely, every codon of $\mathcal{R}$ lies in one
+of the three displayed motifs by
+\autoref{thm:philosophy-punctured-cube-skeleton-formula} and
+\autoref{thm:philosophy-envelope-versus-exact-support}.
+\end{proof}
+
+\begin{theorem}[Closure cubical f-vector]
+\label{thm:philosophy-closure-cubical-f-vector}
+The inactive-anchor closure complex has
+$$
+  f(K(\overline{\mathcal{R}}))=(16,25,12,2,0,\ldots).
+$$
+The two $3$-cells are precisely the cubes $\mathrm{WNA}$ and
+$\mathrm{WRR}$.
+\end{theorem}
+\begin{proof}
+Enumerating all internal subcubes of
+$\overline{\mathcal{R}}$ gives $16$ vertices, $25$ edges, $12$ square
+faces, and $2$ cubes. No retained cube has dimension greater than $3$.
+The two retained $3$-cubes are exactly the two eight-vertex motifs
+$\mathrm{WNA}$ and $\mathrm{WRR}$.
+\end{proof}
+
+\begin{theorem}[Closure cubical homology]
+\label{thm:philosophy-closure-cubical-homology}
+Over $\mathbb{F}_{2}$, the closure complex has Betti vector
+$$
+  \beta(K(\overline{\mathcal{R}}))=(1,0,0,0).
+$$
+\end{theorem}
+\begin{proof}
+The cellular boundary ranks are
+$$
+  \operatorname{rank}\partial_{1}=15,\qquad
+  \operatorname{rank}\partial_{2}=10,\qquad
+  \operatorname{rank}\partial_{3}=2.
+$$
+Together with
+$f(K(\overline{\mathcal{R}}))=(16,25,12,2)$, these ranks give
+$$
+\begin{aligned}
+  \beta_{0}&=16-15=1,\\
+  \beta_{1}&=25-15-10=0,\\
+  \beta_{2}&=12-10-2=0,\\
+  \beta_{3}&=2-2=0.
+\end{aligned}
+$$
+\end{proof}
+
+\begin{theorem}[Hinge square]
+\label{thm:philosophy-hinge-square}
+The two closure cubes meet in the square
+$$
+  \mathrm{WNA}\cap\mathrm{WRR}=\mathrm{WRA}.
+$$
+Explicitly,
+$$
+  \mathrm{WRA}
+  =
+  \{\mathrm{UAA},\mathrm{UGA},\mathrm{AAA},\mathrm{AGA}\},
+$$
+and its reassignment weight is $34$.
+\end{theorem}
+\begin{proof}
+The first base is constrained to $W$ in both $\mathrm{WNA}$ and
+$\mathrm{WRR}$. The second base is $N\cap R=R$, and the third base is
+$A\cap R=A$. Hence the intersection is $WRA$. The weight is
+$$
+  w(\mathrm{UAA})+w(\mathrm{UGA})+w(\mathrm{AAA})+w(\mathrm{AGA})
+  =
+  8+15+3+8=34.
+$$
+\end{proof}
+
+\begin{theorem}[Inactive anchors eliminate the active leaves]
+\label{thm:philosophy-inactive-anchors-eliminate-leaves}
+In $G_{\mathcal{R}}$, the codons $\mathrm{UAG}$ and $\mathrm{AGG}$ are
+leaves. In the closure graph on $\overline{\mathcal{R}}$, both have
+degree $3$:
+$$
+\begin{aligned}
+  N_{\overline{\mathcal{R}}}(\mathrm{UAG})
+    &=\{\mathrm{UAA},\mathrm{UGG},\mathrm{AAG}\},\\
+  N_{\overline{\mathcal{R}}}(\mathrm{AGG})
+    &=\{\mathrm{AGA},\mathrm{UGG},\mathrm{AAG}\}.
+\end{aligned}
+$$
+\end{theorem}
+\begin{proof}
+The active graph has leaf set $\{\mathrm{UAG},\mathrm{AGG}\}$ by
+\autoref{thm:philosophy-reassignment-articulation-gates}. Adding
+$\mathrm{UGG}$ and $\mathrm{AAG}$ supplies the two additional Hamming
+neighbors displayed above for each leaf.
+\end{proof}
+
+\begin{theorem}[Boundary edge comparison]
+\label{thm:philosophy-boundary-edge-comparison}
+The active support and the inactive-anchor closure have the same number
+of boundary edges:
+$$
+  |\partial_{E}\mathcal{R}|
+  =
+  |\partial_{E}\overline{\mathcal{R}}|
+  =
+  46.
+$$
+\end{theorem}
+\begin{proof}
+For the active support,
+$$
+  13\cdot6-2\cdot16=46.
+$$
+For the closure,
+$$
+  16\cdot6-2\cdot25=46.
+$$
+Thus the inactive anchors increase internal dimension without reducing
+the number of external boundary edges.
+\end{proof}
+
+\begin{theorem}[Isoperimetric comparison]
+\label{thm:philosophy-isoperimetric-comparison}
+In $Q_{6}$, the maximum possible number of internal edges among
+$13$ vertices is $22$, while $\mathcal{R}$ has $16$. The maximum
+possible number among $16$ vertices is $32$, while
+$\overline{\mathcal{R}}$ has $25$.
+\end{theorem}
+\begin{proof}
+Use the hypercube edge-isoperimetric recurrence
+$$
+  F(d,n)=
+  \max_{k}
+  \bigl(F(d-1,k)+F(d-1,n-k)+\min(k,n-k)\bigr).
+$$
+The finite computation gives $F(6,13)=22$ and $F(6,16)=32$.
+\end{proof}
+
+\begin{theorem}[Inactive-anchor cubical closure]
+\label{thm:philosophy-inactive-anchor-cubical-closure}
+The active support is a low-dimensional cubical seed, and the inactive
+anchors complete it to
+$$
+  \overline{\mathcal{R}}
+  =
+  \mathrm{WNA}\cup\mathrm{WRR}\cup\mathrm{CUN},
+  \qquad
+  \mathrm{WNA}\cap\mathrm{WRR}=\mathrm{WRA}.
+$$
+Both $K(\mathcal{R})$ and $K(\overline{\mathcal{R}})$ are connected
+with vanishing higher Betti numbers.
+\end{theorem}
+\begin{proof}
+The closure formula is
+\autoref{thm:philosophy-inactive-anchor-closure-formula}. The
+homology claims are
+\autoref{thm:philosophy-active-cubical-homology} and
+\autoref{thm:philosophy-closure-cubical-homology}. The hinge identity
+is \autoref{thm:philosophy-hinge-square}.
+\end{proof}

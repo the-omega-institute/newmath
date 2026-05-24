@@ -1,0 +1,180 @@
+\begin{definition}[Anchor subcube span]
+\label{def:philosophy-anchor-subcube-span}
+Let
+$$
+  M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}.
+$$
+Every codon outside $M^{\star}$ lies in the third-position $Y$
+halfspace. For a set $B\subseteq Q_{6}\setminus M^{\star}$, let
+$\rho(B)$ be the projection of $B$ to the four bits of the first two
+codon positions, and let $D(B)$ be the smallest axis-aligned subcube of
+that $Q_{4}$ which contains the anchor $\mathrm{CU}$ and $\rho(B)$.
+Write
+$$
+  d(B)=\dim D(B).
+$$
+\end{definition}
+
+\begin{theorem}[Anchor-subcube closure formula]
+\label{thm:philosophy-anchor-subcube-closure-formula}
+For every $B\subseteq Q_{6}\setminus M^{\star}$,
+$$
+  \operatorname{Med}(M^{\star}\cup B)
+  =
+  \mathrm{NNR}\cup(D(B)\times Y).
+$$
+\end{theorem}
+\begin{proof}
+The set $M^{\star}$ contains the full third-position $R$ halfspace. Take
+two points $x,y$ in the $Y$ halfspace and a point $t$ in the $R$
+halfspace. In the third-position shape coordinate, the median of
+$x,y,t$ remains in the $Y$ halfspace. In any one of the first-four
+coordinates, if $x$ and $y$ agree, the median is forced to that common
+value; if they disagree, the corresponding coordinate of $t$ chooses
+the median value. Since the $R$ halfspace is complete, all choices of
+$t$ are available. Iterating this interval operation generates exactly
+the smallest axis-aligned subcube containing the anchor $\mathrm{CU}$
+and $\rho(B)$, and no coordinate outside that subcube can be introduced.
+\end{proof}
+
+\begin{corollary}[Closure size by span dimension]
+\label{cor:philosophy-closure-size-by-span-dimension}
+The closure size depends only on $d(B)$:
+$$
+  |\operatorname{Med}(M^{\star}\cup B)|
+  =
+  32+2^{d(B)+1}.
+$$
+Thus
+$$
+\begin{array}{c|r}
+  d(B) & \text{closure size}\\
+  \hline
+  0 & 34\\
+  1 & 36\\
+  2 & 40\\
+  3 & 48\\
+  4 & 64.
+\end{array}
+$$
+\end{corollary}
+\begin{proof}
+The $R$ halfspace $\mathrm{NNR}$ has $32$ codons. A $d(B)$-dimensional
+subcube in the first-four coordinates has $2^{d(B)}$ vertices, and
+lifting across the two third-position $Y$ codons contributes the factor
+$2$.
+\end{proof}
+
+\begin{theorem}[Single-codon span classification]
+\label{thm:philosophy-single-codon-span-classification}
+If $p\in Q_{6}\setminus M^{\star}$ lies in the shell $H_{d}$ around
+$\mathrm{CUY}$, then
+$$
+  |\operatorname{Med}(M^{\star}\cup\{p\})|
+  =
+  32+2^{d+1}.
+$$
+Equivalently,
+$$
+\begin{array}{c|r|r}
+  \text{shell} & \text{codons} & \text{closure size}\\
+  \hline
+  H_{1} & 8 & 36\\
+  H_{2} & 12 & 40\\
+  H_{3} & 8 & 48\\
+  H_{4}=\mathrm{AGY} & 2 & 64.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For a single codon, the subcube spanned by its projection and the
+anchor $\mathrm{CU}$ is exactly their interval in the first-four-bit
+$Q_{4}$. Its dimension is their Hamming distance, namely the shell
+index $d$.
+\end{proof}
+
+\begin{theorem}[External subset trigger counts]
+\label{thm:philosophy-external-subset-trigger-counts}
+Among the $30$ codons of $Q_{6}\setminus M^{\star}$, the distribution
+of median-closure sizes for $m$ adjoined codons is
+$$
+\begin{array}{r|r|rrrr}
+  m & \text{candidate sets} & 36 & 40 & 48 & 64\\
+  \hline
+  1 & 30 & 8 & 12 & 8 & 2\\
+  2 & 435 & 4 & 78 & 196 & 157\\
+  3 & 4060 & 0 & 120 & 1216 & 2724\\
+  4 & 27405 & 0 & 90 & 3824 & 23491.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each $m$-element subset $B$ of $Q_{6}\setminus M^{\star}$, compute
+the union of first-four-coordinate supports relative to the anchor
+$\mathrm{CU}$, then apply
+\autoref{cor:philosophy-closure-size-by-span-dimension}. The same table
+is checked against representative median closures for every nonempty
+support pattern.
+\end{proof}
+
+\begin{definition}[Anchor-relative support]
+\label{def:philosophy-anchor-relative-support}
+For $p\in Q_{6}\setminus M^{\star}$, define
+$$
+  \operatorname{supp}(p)
+  =
+  \{i\in\{s_{1},f_{1},s_{2},f_{2}\}:\rho(p)_{i}\neq \mathrm{CU}_{i}\}.
+$$
+\end{definition}
+
+\begin{theorem}[Full-cube trigger criterion]
+\label{thm:philosophy-full-cube-trigger-criterion}
+For $B\subseteq Q_{6}\setminus M^{\star}$,
+$$
+  \operatorname{Med}(M^{\star}\cup B)=Q_{6}
+$$
+if and only if
+$$
+  \bigcup_{p\in B}\operatorname{supp}(p)
+  =
+  \{s_{1},f_{1},s_{2},f_{2}\}.
+$$
+\end{theorem}
+\begin{proof}
+By \autoref{thm:philosophy-anchor-subcube-closure-formula}, the closure
+is the whole cube exactly when $D(B)$ is the full first-two-position
+$Q_{4}$. This is equivalent to every one of the four coordinates being
+freed by at least one anchor-relative support.
+\end{proof}
+
+\begin{corollary}[AGY as the full-support point]
+\label{cor:philosophy-agy-full-support-point}
+The codons $\mathrm{AGU}$ and $\mathrm{AGC}$ have anchor-relative
+support
+$$
+  \{s_{1},f_{1},s_{2},f_{2}\}.
+$$
+Hence either one is a full-cube trigger for $M^{\star}$.
+\end{corollary}
+\begin{proof}
+The first two positions $\mathrm{AG}$ are antipodal to $\mathrm{CU}$ in
+the four-bit coordinate system. The claim follows from
+\autoref{thm:philosophy-full-cube-trigger-criterion}.
+\end{proof}
+
+\begin{theorem}[Anchor-subcube trigger theorem]
+\label{thm:philosophy-anchor-subcube-trigger-theorem}
+The median dynamics beyond $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$ are
+completely determined by the subcube span of the outside $Y$-halfspace
+points relative to the anchor $\mathrm{CUY}$. In particular, the
+antipodal trigger $\mathrm{AGY}$ is the single-codon case with
+$d(B)=4$.
+\end{theorem}
+\begin{proof}
+The exact closure formula is
+\autoref{thm:philosophy-anchor-subcube-closure-formula}. The size and
+full-cube criteria are
+\autoref{cor:philosophy-closure-size-by-span-dimension} and
+\autoref{thm:philosophy-full-cube-trigger-criterion}. The antipodal
+case is \autoref{cor:philosophy-agy-full-support-point}.
+\end{proof}

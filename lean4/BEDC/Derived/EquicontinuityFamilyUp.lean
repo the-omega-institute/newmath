@@ -1,3 +1,4 @@
+import BEDC.Derived.EquicontinuityFamilyUp.TasteGate
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
@@ -109,5 +110,39 @@ theorem EquicontinuityFamilyPacket_rational_radius_transport [AskSetup] [Package
   exact
     ⟨toleranceUnary, centerUnary, radiusUnary, toleranceRow, centerRow, radiusRow,
       provenancePkg, radiusPkg⟩
+
+theorem EquicontinuityFamilyPacket_ledger_non_escape_package [AskSetup] [PackageSetup]
+    {source target family probes equicont image modulus selections transport route provenance
+      nameCert finiteRead toleranceRead ledgerRead radiusRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EquicontinuityFamilyPacket source target family probes equicont image modulus selections
+        transport route provenance nameCert bundle pkg →
+      Cont probes equicont finiteRead →
+        Cont modulus selections toleranceRead →
+          Cont finiteRead toleranceRead ledgerRead →
+            Cont ledgerRead modulus radiusRead →
+              PkgSig bundle radiusRead pkg →
+                UnaryHistory finiteRead ∧ UnaryHistory toleranceRead ∧
+                  UnaryHistory ledgerRead ∧ UnaryHistory radiusRead ∧
+                    Cont probes equicont finiteRead ∧ Cont modulus selections toleranceRead ∧
+                      Cont finiteRead toleranceRead ledgerRead ∧
+                        Cont ledgerRead modulus radiusRead ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle radiusRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet finiteRow toleranceRow ledgerRow radiusRow radiusPkg
+  obtain ⟨_sourceUnary, _targetUnary, _familyUnary, probesUnary, equicontUnary, _imageUnary,
+    modulusUnary, selectionsUnary, _familyRow, _modulusRow, _provenanceRow,
+    provenancePkg⟩ := packet
+  have finiteUnary : UnaryHistory finiteRead :=
+    unary_cont_closed probesUnary equicontUnary finiteRow
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed modulusUnary selectionsUnary toleranceRow
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed finiteUnary toleranceUnary ledgerRow
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed ledgerUnary modulusUnary radiusRow
+  exact
+    ⟨finiteUnary, toleranceUnary, ledgerUnary, radiusUnary, finiteRow, toleranceRow,
+      ledgerRow, radiusRow, provenancePkg, radiusPkg⟩
 
 end BEDC.Derived.EquicontinuityFamilyUp

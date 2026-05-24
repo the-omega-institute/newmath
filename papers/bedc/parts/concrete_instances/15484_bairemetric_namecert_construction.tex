@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\BaireMetricUp$}
+\label{ch:concrete-instances-bairemetric-namecert}
+\origin{human}
+
+Following Brouwer's finite-prefix presentation of choice sequences, the Bishop--Bridges metric treatment of countable product spaces, and Kelley's prefix topology, the $\BaireMetricUp$ packet records the standard prefix ultrametric on $\BaireSpaceUp$ as finite BEDC rows. It sits between the prefix carrier of \autoref{ch:concrete-instances-bairespace-namecert}, the metric parent surface of \autoref{ch:concrete-instances-metric-namecert}, and the strong-triangle interface of \autoref{ch:concrete-instances-ultrametricspace-namecert}. The packet names only displayed first-disagreement windows, dyadic radius comparisons, stream-name schedules, transport, replay, provenance, and a local certificate; it does not import completed streams, quotient equality of infinite names, real-valued host metrics, or external topology.
+
+\begin{definition}[BaireMetric prefix-distance carrier]
+\label{def:bairemetric-prefix-distance-carrier}
+A $\BaireMetricUp$ carrier is a finite $\BHist$ packet
+$$
+M=(B,W,D,R,U,S,H,C,P,N)
+$$
+over $\BaireSpaceUp$, $\NatUp$, $\DyadicRatCoreUp$, $\MetricSpaceUp$, $\UltrametricSpaceUp$, $\StreamNameUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the accepted $\BaireSpaceUp$ prefix packet whose finite stream windows supply the two names under comparison.
+\item $W$ is the $\NatUp$ first-disagreement window. It records the inspected prefix length, the equality rows below that length, and the first displayed coordinate where the two prefix windows separate, when such a coordinate is present.
+\item $D$ is the dyadic radius row. It records the radius $2^{-k}$ attached to the first displayed disagreement at $k$, together with the zero-radius branch for displayed equality across the inspected window.
+\item $R$ is the parent $\MetricSpaceUp$ row that reads the displayed point names, zero-distance boundary, symmetry row, and ordinary triangle route from $B,W,D$.
+\item $U$ is the $\UltrametricSpaceUp$ witness whose strong max-radius comparison is read from the same first-disagreement window and dyadic radius row.
+\item $S$ is the $\StreamNameUp$ schedule controlling which finite prefixes of the two Baire names may be inspected by a consumer.
+\item $H$ records componentwise $\hsame$ transport for the BaireSpace row, Nat window, dyadic radius row, parent metric row, ultrametric witness, stream schedule, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a requested prefix comparison through $S$, then through $B,W,D$, and only then into the parent metric row $R$ and ultrametric witness $U$.
+\item $P$ is the $\Pkg$ provenance over the listed BEDC dependencies.
+\item $N$ is the local $\NameCert_{\BaireMetricUp}$ row.
+\end{enumerate}
+The classifier accepts the packet only when every distance comparison is read through the displayed first-disagreement window and dyadic radius row. It has no coordinate for a completed infinite stream, a quotient of Baire names, a host real-valued distance function, countable choice, or an external topological space.
+\end{definition}
+
+\begin{theorem}[BaireMetric NameCert obligations]
+\label{thm:bairemetric-namecert-obligations}
+For every accepted $\BaireMetricUp$ carrier $M=(B,W,D,R,U,S,H,C,P,N)$, the local $\NameCert_{\BaireMetricUp}$ surface consists exactly of the following five rows:
+\begin{enumerate}
+\item carrier admission for the displayed BaireSpace prefix packet, Nat first-disagreement window, dyadic radius row, parent MetricSpace row, UltrametricSpace witness, StreamName schedule, transport, replay, provenance, and local naming rows;
+\item prefix-distance admission, requiring every positive radius claim to name the first displayed disagreement in $W$ and every zero-radius claim to remain inside the inspected equality window;
+\item metric compatibility, requiring the parent $\MetricSpaceUp$ row $R$ to read zero-distance, symmetry, and ordinary triangle evidence only from $B,W,D$;
+\item ultrametric compatibility, requiring the witness $U$ to read its strong max-radius comparison from the same first-disagreement and dyadic-radius rows;
+\item ledger refusal, excluding completed streams, quotient equality of Baire names, host real-valued metrics, countable-choice selectors, and external topology.
+\end{enumerate}
+No obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bairemetric-prefix-distance-carrier}. The tuple lists exactly the BaireSpace prefix packet, first-disagreement window, dyadic radius row, parent metric row, ultrametric witness, stream schedule, transport, continuation, provenance, and local name.
+
+Prefix-distance admission is read from $W$ and $D$. A positive comparison names the least displayed coordinate where the two scheduled prefixes disagree, while the zero-radius branch records only equality across the inspected finite window.
+
+Metric compatibility is then replayed through $R$. The zero-distance boundary, symmetry row, and ordinary triangle route do not inspect a separate distance function; they use the same prefix windows and dyadic radius comparisons already displayed by $B,W,D$.
+
+Ultrametric compatibility is read from $U$. Since the controlling radius is determined by the earliest displayed disagreement, the strong max-radius comparison factors through the same window and cannot bypass the dyadic ledger.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name only those coordinates. Hence no completed stream, quotient equality of infinite names, host real metric, countable-choice selector, or external topological datum can appear as a NameCert obligation.
+\end{proof}
+
+\begin{theorem}[BaireMetric ultrametric prefix route]
+\label{thm:bairemetric-ultrametric-prefix-route}
+Let $M=(B,W,D,R,U,S,H,C,P,N)$ be an accepted $\BaireMetricUp$ packet. Every accepted prefix-distance comparison exported by $M$ factors through the displayed route
+$$
+B,S,W,D,R,U .
+$$
+Equivalently, a consumer reads first the $\BaireSpaceUp$ prefix packet, then the $\StreamNameUp$ schedule, the $\NatUp$ first-disagreement window, the $\DyadicRatCoreUp$ radius row, the parent $\MetricSpaceUp$ row, and finally the $\UltrametricSpaceUp$ strong-triangle witness. The route is a finite BEDC replay over prefix rows, not a host metric on completed streams.
+\end{theorem}
+\begin{proof}
+Start with an accepted prefix-distance comparison exported by $M$. Carrier admission exposes the comparison only through the coordinates $B,S,W,D,R,U$ together with the structural rows.
+
+The continuation row $C$ first schedules finite prefix reads through $S$ and then reads the accepted $\BaireSpaceUp$ packet $B$. The $\NatUp$ window $W$ records how far the comparison has inspected the two prefixes and, when the positive branch is taken, which displayed coordinate is the first disagreement.
+
+The dyadic radius row $D$ converts that window into the displayed radius comparison. The parent $\MetricSpaceUp$ row $R$ receives only this radius evidence when supplying zero-distance, symmetry, and ordinary triangle data.
+
+Finally the $\UltrametricSpaceUp$ witness $U$ reads the same first-disagreement and radius rows to supply the strong max-radius route. Componentwise transport by $H$ and provenance by $P$ preserve this order, so no consumer-facing path bypasses the displayed BaireSpace, Nat, StreamName, DyadicRatCore, MetricSpace, and UltrametricSpace rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BaireMetricUp$ distance comparison factors through the $\BaireSpaceUp$ prefix packet, $\StreamNameUp$ schedule, $\NatUp$ first-disagreement window, $\DyadicRatCoreUp$ radius row, parent $\MetricSpaceUp$ row, $\UltrametricSpaceUp$ witness, componentwise transport, continuation replay, provenance, and local $\NameCert$ before any consumer reads a metric or ultrametric conclusion.}
+
+\independenceWitness{bairespace, streamname, nat, dyadicratcore, metricspace, ultrametricspace: $\BaireMetricUp$ is not bijective to any listed sibling because it jointly carries prefix windows, first-disagreement evidence, dyadic radii, parent metric compatibility, ultrametric strong-triangle evidence, transport, replay, provenance, and local naming.}
+
+\closureat{BaireMetricUp}{seedStr}
+
+\begin{closurestatus}{\BaireMetricUp}
+  \constructivestory{A $\BaireMetricUp$ packet is generated from a BaireSpace prefix packet, StreamName schedule, Nat first-disagreement window, DyadicRatCore radius row, parent MetricSpace row, UltrametricSpace witness, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bairemetric-prefix-distance-carrier}, \autoref{thm:bairemetric-namecert-obligations}, and \autoref{thm:bairemetric-ultrametric-prefix-route} seed the finite prefix ultrametric interface on $\BaireSpaceUp$ through first-disagreement windows and dyadic radius rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed streams, quotient equality of Baire names, host real-valued metrics, countable-choice selectors, external topology, completeness, category arguments, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix-distance admission, metric compatibility, ultrametric compatibility, handoff ordering, and ledger refusal for BEDC.Derived.BaireMetricUp.}
+\end{closurestatus}

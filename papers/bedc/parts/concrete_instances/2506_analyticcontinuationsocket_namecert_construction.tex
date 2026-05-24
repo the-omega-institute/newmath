@@ -352,6 +352,7 @@ Apply the ledger non-escape theorem \autoref{thm:analytic-continuation-socket-le
 
 Finally use the holomorphic handoff of \autoref{thm:analytic-continuation-socket-holomorphic-handoff}. Downstream $\HolomorphicUp$ consumers receive $O$ only through $F,G,U,A,H,C,P,N$, so a branch-obstruction read remains ledger data and cannot turn into another output row.
 \end{proof}
+\leanchecked{BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketCarrier\_ledger\_exactness\_obligation}
 
 \begin{theorem}[AnalyticContinuationSocket operation landing exactness]
 \label{thm:analytic-continuation-socket-operation-landing-exactness}
@@ -383,6 +384,7 @@ Finally use holomorphic handoff together with ledger exactness and ledger non-es
 \label{thm:analytic-continuation-socket-branch-obstruction-nonexport}
 For an accepted $\AnalyticContinuationSocketUp$ packet $S=(F,G,U,A,O,B,H,C,P,N)$, every nonlocal continuation request is recorded in the branch-obstruction ledger $B$. Such a request may be transported by $H$, replayed by $C$, packaged by $P$, and locally named by $N$, but it cannot export a $\HolomorphicUp$ output, branch selector, quotient-of-germs equality, monodromy theorem, or zero-location datum.
 \end{theorem}
+\leanchecked{BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketCarrier\_branch\_obstruction\_nonexport}
 \begin{proof}
 Project the branch-obstruction coordinate from \autoref{def:analytic-continuation-socket-carrier}. The carrier assigns nonlocal continuation requests to $B$ and lists no separate coordinate for branch selection, monodromy, quotient-of-germs equality, or zero-location data.
 
@@ -460,6 +462,7 @@ F,G,U,A,O,H,C,P,N
 $$
 together with the ledger row $B$. The handoff may certify that $O$ is the displayed local output over the overlap witness $U$, but it supplies no nontrivial zero-location datum, monodromy theorem, branch selector, or continuation evidence outside $O$.
 \end{theorem}
+\leanchecked{BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketCarrier\_overlap\_to\_zeta\_handoff}
 \begin{proof}
 Start from \autoref{thm:analytic-continuation-socket-holomorphic-handoff}. The output row $O$ is exposed only through the source rows $F,G$, the overlap witness $U$, the operation row $A$, and the transport, route, provenance, and local naming rows $H,C,P,N$.
 
@@ -472,6 +475,7 @@ Apply \autoref{thm:analytic-continuation-socket-rh-handoff-boundary} and \autore
 \label{thm:analytic-continuation-socket-no-zero-location-read}
 Let $S=(F,G,U,A,O,B,H,C,P,N)$ be an accepted $\AnalyticContinuationSocketUp$ carrier. No Riemann-hypothesis-facing consumer can read a nontrivial zero-location conclusion from $S$. The consumer can read only the local overlap/output socket, and every zero-location, monodromy, branch-selector, or global-continuation request is recorded in $B$ rather than exported as continuation evidence.
 \end{theorem}
+\leanchecked{BEDC.Derived.AnalyticContinuationSocketUp.AnalyticContinuationSocketCarrier\_no\_zero\_location\_read}
 \begin{proof}
 The carrier definition \autoref{def:analytic-continuation-socket-carrier} lists no zero-location coordinate. Its output coordinate is the local $\HolomorphicUp$ row $O$, read through the finite overlap and operation packet.
 

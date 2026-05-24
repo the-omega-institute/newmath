@@ -1,0 +1,95 @@
+\chapter{Located choice sequence NameCert construction}
+\label{ch:concrete-instances-located-choice-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LocatedChoiceSequenceUp$ packet records the finite located prefix data by which a choice sequence becomes usable as regular rational evidence. It sits between the prefix surface of \autoref{ch:concrete-instances-choice-sequence-namecert}, the observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the finite rate row of \autoref{ch:concrete-instances-regularitymodulus-namecert}, and the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet is a bridge of finite means: it names only displayed prefixes, located comparison rows, rate requests, and downstream handoff rows, and it does not identify an infinite host function or a completed real.
+
+\begin{definition}[Located choice sequence carrier]
+\label{def:located-choice-sequence-carrier}
+A $\LocatedChoiceSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+L=(Q,S,W,A,D,M,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the accepted $\ChoiceSequenceUp$ prefix carrier whose visible answers are being read as located data.
+\item $S$ is the $\StreamNameUp$ request schedule naming the finite prefix positions inspected by the consumer.
+\item $W$ is the prefix-window ledger listing exactly the displayed observations of $Q$ used by this packet.
+\item $A$ is the answer ledger over $W$, carrying the displayed $\NatUp$ or rational-code rows supplied by the choice-sequence prefix.
+\item $D$ is the located comparison ledger over $\DyadicRatCoreUp$ rows, recording the inspected lower/upper or apartness comparisons attached to the answers in $A$.
+\item $M$ is the $\RegularityModulusUp$ row assigning every requested tolerance to a displayed prefix window before any regular rational readback is consumed.
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained from $S,W,A,D,M$.
+\item $E$ is the optional $\RealUp$ seal row reached only after the regular rational handoff $R$ is displayed.
+\item $H$ stores componentwise $\hsame$ transport for the choice prefix, schedule, window, answer ledger, located comparisons, modulus row, handoff, seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a precision request through the finite prefix window, the located comparison ledger, the regularity modulus row, and the regular rational handoff.
+\item $P$ is the $\Pkg$ provenance over $\LocatedChoiceSequenceUp$, $\ChoiceSequenceUp$, $\StreamNameUp$, $\RegularityModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedChoiceSequenceUp}$ row.
+\end{enumerate}
+The regularity modulus row is displayed as the finite dependency route
+$$
+\begin{aligned}
+\text{precision request}
+&\longmapsto (S,W)\\
+&\longmapsto (A,D)\\
+&\longmapsto M\\
+&\longmapsto R .
+\end{aligned}
+$$
+Thus a consumer obtains a regular rational readback only after the finite prefix observations and located comparison rows have supplied the requested modulus witness.
+\end{definition}
+
+\begin{theorem}[Located choice sequence modulus stability]
+\label{thm:located-choice-sequence-modulus-stability}
+Let
+$$
+L=(Q,S,W,A,D,M,R,E,H,C,P,N)
+$$
+be an accepted $\LocatedChoiceSequenceUp$ carrier. If a precision request is transported through the displayed $\hsame$ row $H$ and replayed through the continuation row $C$, then the same finite prefix window $W$, answer ledger $A$, located comparison ledger $D$, and regularity modulus row $M$ repack as an accepted $\LocatedChoiceSequenceUp$ carrier for the transported request. No transported read can inspect a prefix position outside $W$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-choice-sequence-carrier}. The schedule $S$, window $W$, answer ledger $A$, comparison ledger $D$, and modulus row $M$ are all displayed coordinates of one finite history.
+
+Transport the precision request and the displayed rows through $H$. The continuation row $C$ records the replay route from the request to the same finite prefix observations and then to the same regularity modulus row, so the transported read does not need a new tail value.
+
+Repack the transported rows with the existing provenance $P$ and local name $N$. Since the carrier has no coordinate for a completed host function or hidden tail oracle, the resulting carrier can expose only the prefix positions already listed in $W$.
+\end{proof}
+
+\begin{theorem}[Located choice sequence RegSeqRat handoff]
+\label{thm:located-choice-sequence-regseqrat-handoff}
+Every $\RegSeqRatUp$ consumer of an accepted $\LocatedChoiceSequenceUp$ carrier factors through the displayed $\ChoiceSequenceUp$ prefix carrier, the $\StreamNameUp$ schedule, the finite located comparison ledger, and the $\RegularityModulusUp$ row before it can read the handoff row $R$. The regular rational handoff receives exactly the finite route
+$$
+\ChoiceSequenceUp,\quad \StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegularityModulusUp,\quad \RegSeqRatUp
+$$
+and no quotient stream equality, countable-choice selector, or completed real-name equality.
+\end{theorem}
+\begin{proof}
+Start with a $\RegSeqRatUp$ read of $L$. The carrier first exposes the choice-sequence prefix $Q$ and the stream schedule $S$; without these rows there is no named finite position at which a prefix answer can be inspected.
+
+The answer ledger $A$ is read only over the finite window $W$. The located comparison ledger $D$ then records the dyadic comparison data attached to those answers, and the regularity modulus row $M$ assigns the precision request to that displayed window.
+
+Only after these rows are present can the handoff row $R$ be consumed. The listed route is therefore forced by projection of the carrier, and none of the excluded objects appears as a coordinate that could be passed to the $\RegSeqRatUp$ consumer.
+\end{proof}
+
+\begin{theorem}[Located choice sequence NameCert obligation surface]
+\label{thm:located-choice-sequence-namecert-obligation-surface}
+The seed $\NameCert_{\LocatedChoiceSequenceUp}$ obligation surface consists exactly of carrier admission for \autoref{def:located-choice-sequence-carrier}, modulus stability of \autoref{thm:located-choice-sequence-modulus-stability}, RegSeqRat handoff of \autoref{thm:located-choice-sequence-regseqrat-handoff}, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $N$. The surface records how finite choice-sequence prefix information becomes located regularity data consumable by $\RegSeqRatUp$ while exporting no completed host function, countable-choice selector, quotient stream equality, $\RealUp$ completeness theorem, open-cover compactness principle, or standard bridge.
+\end{theorem}
+\begin{proof}
+Carrier admission is the twelve-coordinate packet of \autoref{def:located-choice-sequence-carrier}. It lists the choice prefix, stream schedule, prefix window, answer ledger, located comparison ledger, modulus row, regular rational handoff, optional real seal, and structural rows.
+
+Modulus stability is supplied by \autoref{thm:located-choice-sequence-modulus-stability}. It shows that transported precision requests reuse the same displayed prefix window and regularity modulus row rather than reading an undisplayed tail.
+
+The RegSeqRat handoff is supplied by \autoref{thm:located-choice-sequence-regseqrat-handoff}. It forces every regular rational consumer through the choice prefix, stream schedule, located comparison data, and regularity modulus before the handoff row is available.
+
+The remaining obligations are componentwise. The rows $H,C,P,N$ transport, replay, source, and name exactly the same displayed coordinates, so there is no additional obligation outside the packet. The excluded host functions, selectors, quotient equalities, completeness principles, compactness principles, and bridge rows are absent from the carrier and therefore absent from the local NameCert surface.
+\end{proof}
+
+\begin{closurestatus}{\LocatedChoiceSequenceUp}
+  \constructivestory{A $\LocatedChoiceSequenceUp$ packet is generated from a displayed ChoiceSequence prefix, StreamName schedule, finite answer ledger, DyadicRatCore located comparison rows, a RegularityModulus row, RegSeqRat handoff data, optional RealUp sealing, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-choice-sequence-carrier}, \autoref{thm:located-choice-sequence-modulus-stability}, \autoref{thm:located-choice-sequence-regseqrat-handoff}, and \autoref{thm:located-choice-sequence-namecert-obligation-surface} seed the finite located choice-sequence route from displayed prefixes through regularity modulus rows into RegSeqRat handoff data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close completed host functions, countable-choice selectors, quotient stream equality, $\RealUp$ completeness, open-cover compactness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus stability, RegSeqRat handoff, transport, replay, provenance, local naming, and non-escape for the finite located choice-sequence packet.}
+\end{closurestatus}

@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionCriterionUp$}
+\label{ch:concrete-instances-cauchycompletioncriterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\CauchyCompletionCriterionUp$ packet names the finite criterion that licenses admission of a regular Cauchy route into the Real completion seal. It sits between the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the completion-modulus route of \autoref{ch:concrete-instances-bishopcompletionmodulus-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The certificate is a finite admission surface for Real completion consumers, not a quotient stream, a selected host limit, or an ambient completeness principle.
+
+\begin{definition}[Cauchy completion criterion carrier]
+\label{def:cauchy-completion-criterion-carrier}
+A $\CauchyCompletionCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,R,D,M,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite observation schedule through which every sequence read is windowed.
+\item $R$ is the $\RegSeqRatUp$ regular rational Cauchy handoff read from the displayed stream windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the rational thresholds, comparison rows, and dyadic scale used by the handoff.
+\item $M$ is the $\BishopCompletionModulusUp$ row that sends each precision request to a displayed finite threshold for the same windows and tolerances.
+\item $Q$ is the local finite admission criterion, asserting that the stream windows, regular handoff, dyadic ledger, and modulus row are mutually compatible before any Real-facing seal is read.
+\item $E$ is the $\RealUp$ seal-admission row reached only after $S,R,D,M,Q$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the stream schedule, regular handoff, dyadic ledger, modulus row, criterion row, seal row, continuation, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ replay from finite stream windows to the regular handoff, from the handoff through the dyadic and modulus ledgers to the criterion row, and from the criterion row to the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionCriterionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BishopCompletionModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these ten rows. It contains no coordinate for quotient streams, selected host limits, countable choice, host real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy completion criterion NameCert obligations]
+\label{thm:cauchy-completion-criterion-namecert-obligations}
+For every accepted $\CauchyCompletionCriterionUp$ carrier $K=(S,R,D,M,Q,E,H,C,P,N)$, the local $\NameCert_{\CauchyCompletionCriterionUp}$ surface consists exactly of the following five obligations:
+\begin{enumerate}
+\item carrier admission for the displayed ten-row packet;
+\item finite-window handoff, stating that $R$ is read only through the $\StreamNameUp$ schedule $S$ and the stored continuation rows;
+\item tolerance-modulus compatibility, stating that $D$ and $M$ use the same displayed thresholds, dyadic scales, and precision requests for the regular rational handoff;
+\item criterion admission, stating that $Q$ is the sole local row that licenses passage from $S,R,D,M$ to a Real-facing completion read;
+\item Real seal non-escape, stating that $E$ exports no quotient streams, selected host limits, countable-choice row, host real equality, or ambient completeness witness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-criterion-carrier}. The stream schedule, regular handoff, dyadic ledger, completion modulus, criterion row, Real seal, transport, continuation, provenance, and local naming rows are exactly the classifier-visible coordinates.
+
+The finite-window handoff is forced by the source rows. A consumer can read the regular rational handoff $R$ only after it has read the displayed stream schedule $S$ and the continuation routes that replay the relevant finite windows.
+
+The tolerance and modulus faces are tied to the same requests. The dyadic ledger $D$ records the comparison and scale data, while the Bishop completion modulus row $M$ records the threshold chosen for each precision request; both are consumed before the criterion row $Q$ is available.
+
+The criterion row is the only admission point to the seal. Since the carrier has no coordinate for quotient streams, selected host limits, countable choice, host real equality, or ambient completeness, the five listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy completion criterion Real seal non-escape]
+\label{thm:cauchy-completion-criterion-real-seal-non-escape}
+Every $\RealUp$-facing consumer of an accepted $\CauchyCompletionCriterionUp$ carrier $K=(S,R,D,M,Q,E,H,C,P,N)$ factors through the displayed route
+$$
+S \longmapsto R \longmapsto D,M \longmapsto Q \longmapsto E
+$$
+together with the stored $\hsame$ transport $H$, $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. The consumer receives no quotient stream, selected host limit, countable-choice row, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing consumer and project the accepted carrier. The only sequence data available to the consumer is the finite schedule $S$ together with the regular rational handoff $R$ read from that schedule.
+
+Next read the threshold data. The dyadic ledger $D$ and Bishop completion modulus row $M$ supply the displayed tolerance and threshold information used by the handoff; the continuation row $C$ replays this same route without adding a second source of convergence data.
+
+The admission row $Q$ is then the sole bridge from the regular Cauchy data to the seal row $E$. The transport and provenance rows $H$ and $P$ preserve the same ten-row packet, and the local naming row $N$ records that no additional coordinate has been admitted.
+
+Thus every Real-facing read factors through $S,R,D,M,Q,E,H,C,P,N$. The forbidden outputs are absent by inspection of the carrier, so the consumer cannot obtain quotient streams, selected host limits, countable choice, host real equality, or ambient completeness from this certificate.
+\end{proof}
+
+\closureat{CauchyCompletionCriterionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionCriterionUp}
+  \constructivestory{A $\CauchyCompletionCriterionUp$ packet is generated from a finite StreamName schedule, RegSeqRat handoff, DyadicRatCore tolerance ledger, BishopCompletionModulus row, local completion-admission criterion, RealUp seal row, componentwise transport, continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-criterion-carrier}, \autoref{thm:cauchy-completion-criterion-namecert-obligations}, and \autoref{thm:cauchy-completion-criterion-real-seal-non-escape} declare the finite carrier, its five NameCert obligations, and the Real seal non-escape boundary for completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected host limits, countable choice, host real equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window handoff, tolerance-modulus compatibility, criterion admission, and Real seal non-escape for the same finite packet.}
+\end{closurestatus}

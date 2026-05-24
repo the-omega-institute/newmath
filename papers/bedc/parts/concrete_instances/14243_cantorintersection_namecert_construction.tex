@@ -59,6 +59,7 @@ every $\RealUp$-facing read factors through the displayed $\NestedIntervalInters
 
 The handoff does not claim open-cover compactness, point choice, host real equality, quotient equality of real names, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CantorIntersectionUp.CantorIntersection\_real\_seal\_handoff}
 \begin{proof}
 Start with the real-facing row $H$ in \autoref{def:cantor-intersection-carrier}. Its source is the regular-rational handoff $R$ together with the displayed transports, provenance, and local naming row.
 
@@ -67,13 +68,57 @@ Apply \autoref{thm:cantor-intersection-namecert-obligations}. The obligation sur
 Thus every real-facing consumer reaches the seal only after passing through the displayed finite nested-interval intersection route. No remaining coordinate in $K$ carries an open-cover compactness proof, a chosen intersection point, a host real equality row, quotient equality of real names, or an ambient completeness principle.
 \end{proof}
 
+\begin{theorem}[Cantor intersection diagonal cofinal readback]
+\label{thm:cantor-intersection-diagonal-cofinal-readback}
+For every accepted $\CantorIntersectionUp$ carrier
+$$
+K=(N,W,D,E,R,H,C,P,Q),
+$$
+and every displayed precision request named by the finite width-window ledger $W$, the diagonal selector row $D$ selects a visible interval row already present in the nested-interval intersection packet $N$. The selected row determines the endpoint enclosure row in $E$, and the $\RegSeqRatUp$ handoff row $R$ is read from that same enclosure.
+
+Consequently the $\RealUp$ seal row $H$ is reachable only through the finite cofinal route
+$$
+W,D \longrightarrow N \longrightarrow E \longrightarrow R \longrightarrow H
+$$
+together with the displayed transports $C$, package provenance $P$, and local $\NameCert_{\CantorIntersectionUp}$ row $Q$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $K$ along the rows listed in \autoref{def:cantor-intersection-carrier}. A displayed precision request is not an external real-completion demand; in the packet it is a row of the finite ledger $W$.
+
+Apply the selector-stability obligation of \autoref{thm:cantor-intersection-namecert-obligations}. After any displayed $\hsame$ or $\Cont$ transport in $C$, the row $D$ still points to a finite nested-window row of $N$ for that request. Thus the selector has no access to a hidden tail of the chain and no coordinate for a chosen intersection point.
+
+The endpoint enclosure row $E$ is then the visible enclosure attached to the selected row, and the $\RegSeqRatUp$ handoff exactness clause of \autoref{thm:cantor-intersection-namecert-obligations} forces $R$ to be obtained from $E$. There is no side input from quotient equality of real names, host real equality, open-cover compactness, or ambient $\RealUp$ completeness.
+
+Finally apply \autoref{thm:cantor-intersection-real-seal-handoff}. The only route to the real-facing seal is the already displayed chain through $N,W,D,E,R,C,P,Q$, so every precision request consumed by $H$ has already been answered by a finite diagonal row of $N$.
+\end{proof}
+
+\begin{theorem}[Cantor intersection public completion consumer]
+\label{thm:cantor-intersection-public-completion-consumer}
+For every accepted $\CantorIntersectionUp$ carrier
+$$
+K=(N,W,D,E,R,H,C,P,Q),
+$$
+the public completion consumer surface of $K$ is exactly the finite route through $\NestedIntervalIntersectionUp$, $\NestedIntervalUp$ or $\NestedDyadicIntervalUp$, $\DyadicIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert_{\CantorIntersectionUp}$ row.
+
+Equivalently, every public consumer row factors through the displayed nested-interval intersection packet $N$, the width-window ledger $W$, the diagonal selector $D$, the selected endpoint enclosures $E$, the regular-rational handoff $R$, the real seal row $H$, the transport rows $C$, the package provenance $P$, and the local naming row $Q$. The surface exports no point selector, quotient real equality, open-cover compactness, uniqueness of an intersection point, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cantor-intersection-namecert-obligations}. The carrier, classifier, selector-stability, handoff-exactness, and seal-nonescape obligations list exactly the finite rows visible to a $\CantorIntersectionUp$ consumer.
+
+The real-facing boundary is fixed by \autoref{thm:cantor-intersection-real-seal-handoff}. Any read reaching $\RealUp$ must first pass through the nested-interval packet, the selected finite window, the regular-rational handoff, the displayed transports, the provenance row, and the local certificate row.
+
+The finite cofinality of those reads is fixed by \autoref{thm:cantor-intersection-diagonal-cofinal-readback}. Each displayed precision request is answered by a visible diagonal row of $N$, so the consumer has no access to an unrecorded tail or to an external choice of intersection point.
+
+Combining these three surfaces leaves precisely the listed public route and no further public coordinate. In particular, quotient equality of real names, host real equality, open-cover compactness, uniqueness of an intersection point, and ambient $\RealUp$ completeness are not part of the exported consumer surface.
+\end{proof}
+
 \closureat{CantorIntersectionUp}{seedStr}
 
 \begin{closurestatus}{\CantorIntersectionUp}
   \constructivestory{A $\CantorIntersectionUp$ packet is generated from an accepted $\NestedIntervalIntersectionUp$ packet, a finite width-window ledger over $\NestedIntervalUp$ or $\NestedDyadicIntervalUp$ source rows, selected $\DyadicIntervalUp$ endpoint enclosures with $\DyadicRatCoreUp$ reads, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal row, displayed $\hsame$ and $\Cont$ transports, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
   \scopeclosed{The seed scope registers the carrier, finite-window classifier, selector stability, regular-rational handoff exactness, and real-seal nonescape surface for a finite Cantor nested-interval completion consumer over $\NestedIntervalIntersectionUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.CantorIntersectionUp.CantorIntersectionCarrier\_namecert\_obligations}
   \bridgestatus{none}
   \notclaimed{This chapter does not close open-cover compactness, point choice, host real equality, quotient equality of real names, uniqueness of an intersection point, or ambient $\RealUp$ completeness.}

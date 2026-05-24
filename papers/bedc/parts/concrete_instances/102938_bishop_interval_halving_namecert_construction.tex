@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\BishopIntervalHalvingUp$}
+\label{ch:concrete-instances-bishop-interval-halving-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\BishopIntervalHalvingUp$ packet records the interval-halving route by which a located real interval supplies finite bisection windows, dyadic diameter budgets, regular rational readback, and a terminal real seal. It consumes the located interval surface of \autoref{ch:concrete-instances-located-real-interval-namecert}, the midpoint and bisection rows of \autoref{ch:concrete-instances-located-interval-midpoint-namecert} and \autoref{ch:concrete-instances-located-interval-bisection-namecert}, the finite stream discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a constructive bisection certificate for L10 Real and Completion routes; it does not assert open-cover compactness, host interval completeness, quotient real equality, a selected limit, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop interval halving carrier]
+\label{def:bishop-interval-halving-carrier}
+A $\BishopIntervalHalvingUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,M,B,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the source $\LocatedRealIntervalUp$ row, carrying the lower and upper endpoint names, locator reads, radius data, and locatedness budget for the interval to be halved.
+\item $M$ is the $\LocatedIntervalMidpointUp$ row, exposing the finite midpoint cell used by each halving request.
+\item $B$ is the $\LocatedIntervalBisectionUp$ row, recording the retained child interval and the displayed branch decision for the current finite request.
+\item $D$ is the dyadic diameter budget row. It records the requested precision, the halving depth, the dyadic denominator budget, and the comparison slack showing that the retained interval diameter is below the requested tolerance.
+\item $W$ is the $\StreamNameUp$ finite-window row. It lists the visible halving windows inspected by the downstream readback, and it contains no completed infinite branch.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the retained interval windows and their dyadic diameter witnesses.
+\item $E$ is the terminal $\RealUp$ seal row, reached only after $I,M,B,D,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the located interval, midpoint, bisection, dyadic budget, finite windows, regular rational readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+I,M,B,D \longmapsto W \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BishopIntervalHalvingUp$, $\LocatedRealIntervalUp$, $\LocatedIntervalMidpointUp$, $\LocatedIntervalBisectionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopIntervalHalvingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,M,B,D,W,R,E,H,C,P,N$. It has no coordinate for open-cover compactness, an infinite branch selector, quotient stream equality, quotient real equality, host real equality, countable choice, selected limits, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop interval halving NameCert obligations]
+\label{thm:bishop-interval-halving-namecert-obligations}
+For every accepted $\BishopIntervalHalvingUp$ carrier
+$$
+K=(I,M,B,D,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\BishopIntervalHalvingUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the located interval, midpoint row, bisection row, dyadic diameter budget, finite stream windows, regular rational readback, real seal, transport, replay, provenance, and local name;
+\item source-interval exactness, requiring every endpoint, radius, locator, locatedness, and metric-bracket request to pass through the displayed $\LocatedRealIntervalUp$ row $I$;
+\item midpoint and bisection exactness, requiring every retained child interval to read its midpoint from $M$ and its branch data from $B$ before any downstream window is exposed;
+\item diameter-budget exactness, requiring $D$ to bind each halving depth to a displayed dyadic tolerance and to the retained interval diameter used for the current request;
+\item regular readback ordering, requiring $W$ and $D$ to feed $R$ before the terminal $\RealUp$ seal $E$ is consumed;
+\item ledger non-escape, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed route and to export no open-cover compactness, infinite branch selector, quotient stream equality, quotient real equality, host real equality, countable choice, selected limit, or ambient completeness row.
+\end{enumerate}
+No Bishop interval halving obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-interval-halving-carrier}. The accepted packet displays exactly the located source interval, midpoint row, bisection row, dyadic budget, finite windows, regular readback, seal, and structural rows.
+
+Source-interval exactness is forced by $I$. Endpoint, radius, locator, locatedness, and metric-bracket reads have no route except the displayed $\LocatedRealIntervalUp$ coordinate.
+
+Midpoint and bisection exactness are forced by $M$ and $B$. A retained child interval is available only after the midpoint cell has been displayed and the bisection row has recorded the branch data for the finite request.
+
+The dyadic diameter obligation is internal to $D$. The row binds each request to a halving depth, denominator budget, comparison slack, and retained-interval diameter bound before any regular rational readback is visible.
+
+The rows $W$ and $R$ then supply the finite-window and $\RegSeqRatUp$ handoff. The terminal seal $E$ is downstream of this readback, so a Real-facing consumer cannot bypass the displayed halving route.
+
+Finally, $H,C,P,N$ only transport, replay, source, and name the same packet. Since the carrier contains no excluded coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop interval halving Real seal route]
+\label{thm:bishop-interval-halving-real-seal-route}
+Every $\RegSeqRatUp$, $\RealUp$, or Completion-facing consumer of an accepted $\BishopIntervalHalvingUp$ carrier factors through the finite route
+$$
+I,M,B,D \longmapsto W \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the consumer receives only the displayed located interval, midpoint and bisection rows, dyadic diameter budget, finite stream windows, regular rational readback, terminal real seal, componentwise transport, continuation replay, package provenance, and local naming data. It receives no open-cover compactness theorem, completed branch, selected real limit, quotient equality of real names, host real equality, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $K=(I,M,B,D,W,R,E,H,C,P,N)$. The only source interval coordinate is $I$, so every interval request begins with the displayed located endpoint and locator data.
+
+The midpoint and bisection rows form the finite halving step. The midpoint row $M$ supplies the child-cell boundary, and the bisection row $B$ records the retained interval for the current request.
+
+The dyadic diameter budget $D$ supplies the quantitative contraction. It records the halving depth and the diameter comparison needed before the finite StreamName windows $W$ can be consumed by the regular rational readback.
+
+The row $R$ is downstream of $W$ and $D$, so every $\RegSeqRatUp$ read is built from displayed halving windows and dyadic contraction data. The terminal seal $E$ is then read only after $R$ has been exposed.
+
+The structural rows $H,C,P,N$ preserve this route under componentwise transport, replay, provenance, and naming. Since no carrier coordinate stores compactness, a completed branch, a selected real limit, quotient equality, host equality, countable choice, or ambient completeness, no consumer can obtain such data from the packet.
+\end{proof}
+
+\closureat{BishopIntervalHalvingUp}{seedStr}
+
+\begin{closurestatus}{\BishopIntervalHalvingUp}
+  \constructivestory{A $\BishopIntervalHalvingUp$ packet is generated from a LocatedRealIntervalUp row, a LocatedIntervalMidpointUp row, a LocatedIntervalBisectionUp row, a dyadic diameter budget, StreamNameUp finite windows, RegSeqRatUp readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-interval-halving-carrier}, \autoref{thm:bishop-interval-halving-namecert-obligations}, and \autoref{thm:bishop-interval-halving-real-seal-route} seed the constructive interval-halving route from located intervals through midpoint and bisection rows, dyadic contraction budgets, finite windows, regular rational readback, terminal real seals, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, completed branches, selected real limits, quotient equality of real names, host real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-interval exactness, midpoint and bisection exactness, diameter-budget exactness, regular readback ordering, and real-seal nonescape for BEDC.Derived.BishopIntervalHalvingUp.}
+\end{closurestatus}

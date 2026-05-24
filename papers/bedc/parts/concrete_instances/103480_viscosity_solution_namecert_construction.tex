@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\ViscositySolutionUp$}
+\label{ch:concrete-instances-viscosity-solution-namecert}
+\origin{human}
+
+Following Crandall--Ishii--Lions viscosity-solutions theory, the $\ViscositySolutionUp$ packet records the weak PDE solution interface by finite contact-test data rather than by ambient differentiability of the unknown. It sits over the Sobolev carrier of \autoref{ch:concrete-instances-sobolev-namecert}, the Lipschitz-map modulus surface of \autoref{ch:concrete-instances-lipschitzmap-namecert}, the metric observation boundary of \autoref{ch:concrete-instances-metric-namecert}, and the real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite viscosity subsolution and supersolution obligation surface needed by PDE-facing consumers without importing existence, uniqueness, comparison principles, classical differentiability, or ambient PDE regularity.
+
+\begin{definition}[Viscosity solution carrier]
+\label{def:viscosity-solution-carrier}
+A $\ViscositySolutionUp$ carrier is a finite $\BHist$ packet
+$$
+V=(D,M,U,F,T_{-},T_{+},B,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the domain row. It records the metric observation windows, boundary faces, interior-window tags, and localization radii read through the $\MetricSpaceUp$ surface.
+\item $M$ is the regularity row. It exposes the Sobolev-facing and Lipschitz-facing bounds used to keep test functions local to the same displayed domain row.
+\item $U$ is the candidate scalar row. It records the observed real values, semicontinuity side, boundary trace windows, and finite comparison requests through the $\RealUp$ seal.
+\item $F$ is the finite PDE operator row. It records only the inspected operator values $F(x,r,p,X)$ at named contact jets and has no coordinate for a global host PDE algebra.
+\item $T_{-}$ is the subsolution test-function row. Each entry contains a smooth-test name, a local touching-above certificate, the inspected first and second jet data, and the resulting inequality check.
+\item $T_{+}$ is the supersolution test-function row. Each entry contains a smooth-test name, a local touching-below certificate, the inspected first and second jet data, and the resulting inequality check.
+\item $B$ is the boundary compatibility row. It records boundary-window reads, admissible trace comparisons, and the refusal of uninspected boundary regularity.
+\item $L$ is the finite localization ledger. It ties every test-function contact, operator read, and boundary read back to the same displayed domain and tolerance windows.
+\item $R$ records $\RealUp$ readback for the candidate values, operator values, comparison inequalities, and boundary traces.
+\item $H$ records componentwise $\hsame$ transport for the domain, regularity, candidate, operator, subsolution tests, supersolution tests, boundary, localization, real-readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+D,M,U,F,T_{-},T_{+},B,L,R \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ViscositySolutionUp$, $\SobolevUp$, $\LipschitzMapUp$, $\MetricSpaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ViscositySolutionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,M,U,F,T_{-},T_{+},B,L,R,H,C,P,N$. The carrier has no coordinate for solution existence, uniqueness, comparison principles, classical differentiability of the candidate, global PDE regularity, host function equality, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Viscosity solution NameCert obligations]
+\label{thm:viscosity-solution-namecert-obligations}
+For every accepted $\ViscositySolutionUp$ carrier
+$$
+V=(D,M,U,F,T_{-},T_{+},B,L,R,H,C,P,N),
+$$
+the local $\NameCert_{\ViscositySolutionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the domain, regularity, candidate scalar, PDE operator, subsolution test, supersolution test, boundary, localization, real-readback, transport, replay, provenance, and local naming rows;
+\item common-domain discipline, requiring every Sobolev, Lipschitz, metric, candidate-value, operator, and boundary read to pass through the same displayed domain row $D$;
+\item contact-test exactness, requiring each entry of $T_{-}$ and $T_{+}$ to record the touching side, localization window, inspected jet data, operator value, and inequality sign for that contact;
+\item boundary compatibility, requiring $B$ to expose only the named trace windows and comparison rows before any boundary-facing consumer may read the packet;
+\item localization stability, requiring $L$ to bind every contact test and boundary read to the same finite metric windows and tolerance rows;
+\item real-readback nonescape, requiring $R$ to expose only the displayed candidate values, operator values, comparison inequalities, and trace rows;
+\item provenance exhaustion, requiring $H,C,P,N$ to transport, replay, source, and name exactly the displayed rows and no solution existence theorem, uniqueness theorem, comparison principle, classical differentiability witness, global PDE regularity, host function equality, Lean verification, or bridge credential.
+\end{enumerate}
+No viscosity-solution obligation is stored outside these rows.
+\end{theorem}
+
+\begin{proof}
+Project the accepted packet $V=(D,M,U,F,T_{-},T_{+},B,L,R,H,C,P,N)$. The carrier definition lists the entire visible packet, so carrier admission is projection from the displayed finite $\BHist$ data.
+
+The common-domain discipline is forced by the source row $D$. The Sobolev and Lipschitz regularity row $M$, the scalar candidate row $U$, the operator row $F$, and the boundary row $B$ all refer back to the same metric observation windows and localization radii.
+
+The contact obligations are exactly the two test rows. A subsolution read must pass through $T_{-}$ and therefore displays a touching-above certificate, inspected jet data, the operator value, and the required inequality. A supersolution read is the dual read through $T_{+}$ with touching-below data and its displayed inequality.
+
+Boundary and localization data are finite ledgers. The row $B$ exposes only named trace comparisons, while $L$ binds each interior or boundary contact to the same domain windows and tolerance data.
+
+Finally $R,H,C,P,N$ read back, transport, replay, source, and name those rows componentwise. Since the excluded analytic principles have no carrier coordinate and no replay edge, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Viscosity solution test-function boundary]
+\label{thm:viscosity-solution-test-function-boundary}
+Every PDE-facing consumer read of an accepted $\ViscositySolutionUp$ carrier factors through the finite route
+$$
+D,M,U,F,T_{-},T_{+},B,L,R \longmapsto H,C,P,N .
+$$
+Thus the consumer receives the displayed metric domain windows, Sobolev and Lipschitz regularity rows, candidate real-value observations, finite PDE-operator values, subsolution and supersolution contact-test ledgers, boundary trace comparisons, localization data, real-readback rows, componentwise transport, continuation replay, package provenance, and local naming. It receives no solution existence theorem, uniqueness theorem, comparison principle, classical differentiability of the candidate, ambient PDE regularity, or host function equality.
+\end{theorem}
+
+\begin{proof}
+Start with a PDE-facing read of the accepted packet. The domain row $D$ is the first admissible source because every contact test, boundary trace, and operator value is localized over its metric observation windows.
+
+The regularity and candidate rows are then fixed. The row $M$ supplies only Sobolev-facing and Lipschitz-facing bounds, while $U$ supplies the observed real values and semicontinuity side used by the contact tests.
+
+The operator and test-function rows form the viscosity boundary. The row $F$ supplies only inspected operator values at named contact jets, and the rows $T_{-}$ and $T_{+}$ expose the touching side, jet data, and inequality signs required for subsolution and supersolution reads.
+
+Boundary traces cannot bypass the contact route. The row $B$ contributes named trace comparisons, and $L$ ties them to the same localization windows before $R$ exposes the corresponding real-readback inequalities.
+
+The structural rows $H,C,P,N$ preserve exactly this dependency order. Therefore every consumer read factors through the finite route above and cannot obtain existence, uniqueness, comparison, differentiability, global regularity, or host equality data from the packet.
+\end{proof}
+
+\closureat{ViscositySolutionUp}{seedStr}
+
+\begin{closurestatus}{\ViscositySolutionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:viscosity-solution-carrier}, \autoref{thm:viscosity-solution-namecert-obligations}, and \autoref{thm:viscosity-solution-test-function-boundary} seed the finite viscosity-solution packet over metric domain windows, Sobolev and Lipschitz regularity rows, real candidate observations, PDE operator reads, contact-test ledgers, boundary traces, localization, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close solution existence, uniqueness, comparison principles, classical differentiability, ambient PDE regularity, host function equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-domain discipline, contact-test exactness, boundary compatibility, localization stability, real-readback nonescape, and provenance exhaustion for BEDC.Derived.ViscositySolutionUp.}
+  \constructivestory{A $\ViscositySolutionUp$ packet is generated from metric domain windows, Sobolev and Lipschitz regularity rows, candidate RealUp observations, finite PDE-operator values, subsolution and supersolution contact-test ledgers, boundary trace comparisons, localization rows, RealUp readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

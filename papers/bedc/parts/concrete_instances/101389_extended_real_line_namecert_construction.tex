@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\ExtendedRealLineUp$}
+\label{ch:concrete-instances-extended-real-line-namecert}
+\origin{human}
+
+Following Bourbaki, Kelley, and Bishop--Bridges on the extended real line and one-sided real boundaries, the $\ExtendedRealLineUp$ packet records the finite interface obtained by adjoining positive and negative infinity tags to already named real data. It is a boundary surface over $\RealUp$, $\LowerRealUp$, $\UpperRealUp$, $\PositiveRealUp$, and $\CountableChoiceBoundaryUp$: finite rows may cite ordinary real names and one-sided infinity behavior, but the packet does not import a host extended-real primitive, a quotient cut, trichotomy, a selected supremum, a countable-choice selector, or an ambient completeness theorem.
+
+The finite-real row is consumed from \autoref{ch:concrete-instances-real-namecert}; the one-sided boundary rows are consumed from \autoref{ch:concrete-instances-lowerreal-namecert} and \autoref{ch:concrete-instances-upperreal-namecert}; the positive-bound discipline is consumed from \autoref{ch:concrete-instances-positivereal-namecert}; and the non-choice boundary is consumed from \autoref{ch:concrete-instances-countable-choice-boundary-namecert}. Thus $\ExtendedRealLineUp$ is a tagged consumer of those sibling rows, with finite, lower, upper, positive-bound, and non-choice evidence displayed as carrier coordinates, rather than a host extended-real primitive that could select boundary representatives or import completeness.
+
+\begin{definition}[ExtendedRealLine carrier]
+\label{def:extended-real-line-carrier}
+An $\ExtendedRealLineUp$ carrier is a finite $\BHist$ packet
+$$
+E=(T,R,L,U,P,B,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the finite tag row. Each accepted observation is tagged as finite real, positive infinity, or negative infinity.
+\item $R$ is the finite-real row. It is read only through the already named $\RealUp$ surface, and it is available exactly for observations whose tag in $T$ is finite real.
+\item $L$ is the lower-boundary row. It records negative-infinity-facing lower real behavior through $\LowerRealUp$ and exports no chosen cut representative.
+\item $U$ is the upper-boundary row. It records positive-infinity-facing upper real behavior through $\UpperRealUp$ and exports no selected supremum.
+\item $P$ is the positive-bound discipline row. It reads positive finite bounds through $\PositiveRealUp$ before any positive-infinity comparison is accepted.
+\item $B$ is the non-choice boundary row, inherited from $\CountableChoiceBoundaryUp$, which refuses countable selectors, global supremum choices, selected limit schedules, and ambient completeness witnesses.
+\item $H$ records componentwise $\hsame$ transport for tag, finite-real, lower-boundary, upper-boundary, positive-bound, non-choice, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+T\longmapsto R,L,U,P\longmapsto B .
+$$
+\item $K$ is the $\Pkg$ provenance over $\ExtendedRealLineUp$, $\RealUp$, $\LowerRealUp$, $\UpperRealUp$, $\PositiveRealUp$, $\CountableChoiceBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ExtendedRealLineUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,R,L,U,P,B,H,C,K,N$. It has no coordinate for a host extended-real type, quotient cuts, trichotomy, selected suprema, countable-choice selectors, ambient completeness, Lean verification, or bridge data.
+\end{definition}
+\leanchecked{BEDC.Derived.ExtendedRealLineUp.TasteGate.ExtendedRealLineTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[ExtendedRealLine NameCert obligations]
+\label{thm:extended-real-line-namecert-obligations}
+For every accepted $\ExtendedRealLineUp$ carrier
+$$
+E=(T,R,L,U,P,B,H,C,K,N),
+$$
+the local $\NameCert_{\ExtendedRealLineUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the tag row, finite-real row, lower-boundary row, upper-boundary row, positive-bound row, non-choice boundary, transport, replay, provenance, and local naming;
+\item tag classifier stability, requiring every consumer comparison to preserve the finite real, positive infinity, and negative infinity cases named by $T$;
+\item finite-real seal discipline, requiring finite-tagged observations to read ordinary real data only through $R$ and hence through $\RealUp$;
+\item one-sided infinity boundary nonescape, requiring negative-infinity reads to pass through $L$ and $\LowerRealUp$, and positive-infinity reads to pass through $U$, $\UpperRealUp$, and the positive-bound discipline $P$;
+\item provenance and local naming, requiring $H,C,K,N$ to transport, replay, source, and name only the displayed rows of the packet;
+\item non-choice refusal, requiring the boundary row $B$ to exclude host extended-real primitives, quotient cuts, trichotomy, selected suprema, countable-choice selectors, ambient completeness theorems, Lean verification, and bridge checking.
+\end{enumerate}
+No ExtendedRealLine obligation is stored outside these six rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.ExtendedRealLineUp.ExtendedRealLineTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:extended-real-line-carrier}. The accepted tuple displays exactly the tag row, the three tag-dependent value rows, the positive-bound discipline, the non-choice boundary, and the structural rows.
+
+Tag classifier stability follows from the role of $T$. Every accepted observation is first classified as finite real, positive infinity, or negative infinity, and all later rows are read under that displayed tag rather than under host trichotomy for an ambient extended-real type.
+
+The finite-real seal is the row $R$. A finite-tagged observation reaches ordinary real data only through $R$, whose source is $\RealUp$; hence no quotient cut or host extended-real primitive is projected from the finite case.
+
+For the one-sided tags, negative-infinity behavior is read through $L$ and $\LowerRealUp$, while positive-infinity behavior is read through $U$, $\UpperRealUp$, and the positive-bound row $P$. The non-choice row $B$ then refuses selected suprema, countable-choice selectors, selected limit schedules, and ambient completeness witnesses.
+
+Finally inspect $H,C,K,N$. Transport is componentwise, replay follows the displayed route, and provenance plus local naming mention only the rows listed in the carrier. Therefore the six obligation rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[ExtendedRealLine finite boundary]
+\label{thm:extended-real-line-finite-boundary}
+Every consumer route out of an accepted $\ExtendedRealLineUp$ carrier
+$$
+E=(T,R,L,U,P,B,H,C,K,N)
+$$
+factors through
+$$
+\RealUp,\ \LowerRealUp,\ \UpperRealUp,\ \PositiveRealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+Consequently the packet exports no host extended-real primitive, quotient cut, trichotomy, selected supremum, countable-choice selector, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with a consumer of $E$. The tag row $T$ is the only entry point, so the consumer must first decide which displayed case of the finite packet is being read.
+
+In the finite case the consumer reaches $R$, and $R$ routes through $\RealUp$. In the negative-infinity case the consumer reaches $L$, and $L$ routes through $\LowerRealUp$. In the positive-infinity case the consumer reaches $U$ and then the positive-bound discipline $P$, so the route passes through $\UpperRealUp$ and $\PositiveRealUp$.
+
+The carrier itself is a $\BHist$ packet. Its equality-like motion is componentwise $\hsame$, its rereading surface is $\Cont$, its source ledger is $\Pkg$, and its public name is the local $\NameCert$ row.
+
+The non-choice row $B$ is read on every boundary-facing route. Since $B$ is inherited from $\CountableChoiceBoundaryUp$, it blocks countable-choice selectors, selected suprema, selected limits, and ambient completeness witnesses; since the carrier inventory has no host extended-real coordinate, no quotient cut or trichotomy principle can be exported either.
+\end{proof}
+
+\closureat{ExtendedRealLineUp}{seedStr}
+
+\begin{closurestatus}{\ExtendedRealLineUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:extended-real-line-carrier}, \autoref{thm:extended-real-line-namecert-obligations}, and \autoref{thm:extended-real-line-finite-boundary} seed the finite extended-real boundary over ordinary real rows, one-sided lower and upper rows, positive-bound discipline, non-choice refusal, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host extended-real primitives, quotient cuts, trichotomy, selected suprema, countable-choice selectors, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tag classifier stability, finite-real seal discipline, one-sided infinity boundary nonescape, provenance and local naming, non-choice refusal, and finite consumer factorization for BEDC.Derived.ExtendedRealLineUp.}
+  \constructivestory{An $\ExtendedRealLineUp$ packet is generated from a finite tag row, a $\RealUp$ finite row, $\LowerRealUp$ and $\UpperRealUp$ one-sided boundary rows, a $\PositiveRealUp$ positive-bound row, a $\CountableChoiceBoundaryUp$ non-choice row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

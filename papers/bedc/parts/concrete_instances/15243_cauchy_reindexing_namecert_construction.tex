@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\CauchyReindexingUp$}
+\label{ch:concrete-instances-cauchy-reindexing-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\CauchyReindexingUp$ packet records the finite certified route by which a regular Cauchy name may be inspected along a displayed monotone cofinal schedule before it reaches a $\RealUp$ seal. It sits between the finite observation schedules of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite NameCert surface for changing observation indices; it is not quotient-stream equality, not a selected limit, not countable choice, not host real equality, and not ambient completeness of $\RealUp$.
+
+\begin{definition}[CauchyReindexing carrier]
+\label{def:cauchy-reindexing-carrier}
+A $\CauchyReindexingUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,I,M,Q,D,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\StreamNameUp$ schedule row whose finite windows are available to the packet;
+\item $I$ is the target $\StreamNameUp$ schedule row obtained by reading $S$ along a displayed unary index map;
+\item $M$ is the monotone row for that unary index map, recording that accepted target windows never ask for source observations in reverse order;
+\item $Q$ is the cofinal row for the same unary map, recording that every displayed source tolerance budget is eventually reached by some displayed target window;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used to compare the source and target observations at the finite budgets named by $M$ and $Q$;
+\item $R$ is the $\RegSeqRatUp$ regularity row showing that the target schedule remains a regular rational name after the reindexing route has been replayed;
+\item $A$ is the $\RealUp$ seal row reached only after $S,I,M,Q,D,R$ have been consumed;
+\item $H$ records componentwise $\hsame$ transport for the source schedule, target schedule, monotone row, cofinal row, dyadic tolerance row, regularity row, Real seal, continuation, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay from a target-window request through the unary reindexing rows, back to the source schedule, then forward through dyadic tolerance, regular readback, and the Real seal;
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyReindexingUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, selected limits, countable-choice selection of a subsequence, host real equality, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[CauchyReindexing NameCert obligations]
+\label{thm:cauchy-reindexing-namecert-obligations}
+For every accepted $\CauchyReindexingUp$ carrier $K=(S,I,M,Q,D,R,A,H,C,P,N)$, the local $\NameCert_{\CauchyReindexingUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the source schedule, reindexed schedule, monotone row, cofinal row, dyadic tolerance row, regularity row, Real seal, transport, continuation, provenance, and local naming row;
+\item index admissibility, requiring every target-window read in $I$ to replay through the displayed unary map before it can consult the source schedule $S$;
+\item monotone and cofinal discipline, requiring $M$ and $Q$ to be read together before a consumer treats the target schedule as a regular Cauchy name;
+\item tolerance and regularity preservation, requiring $D$ and $R$ to certify the finite regular readback after the reindexing route has been replayed;
+\item seal nonescape, requiring the $\RealUp$ row $A$ to remain downstream of $S,I,M,Q,D,R$;
+\item ledger refusal, excluding quotient streams, selected limits, countable-choice selectors, host real equality, and ambient $\RealUp$ completeness.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-reindexing-carrier}. The projection exposes exactly the source schedule, target schedule, monotone row, cofinal row, dyadic tolerance row, regularity row, Real seal, and structural rows $H,C,P,N$.
+
+Index admissibility is forced by the continuation row $C$. A target-window request reaches $I$ only by replaying the displayed unary index route back to the source schedule $S$, so the packet has no independent target stream coordinate.
+
+The monotone and cofinal rows are then the only rows that justify treating the target schedule as a regular Cauchy inspection surface. The dyadic tolerance row $D$ and regularity row $R$ sit downstream of those two rows, so tolerance preservation and regular readback cannot be exported before the reindexing discipline has been consumed.
+
+Finally, the seal row $A$ is downstream of the same route. Transport by $H$ preserves each listed coordinate, while $P$ and $N$ package only that finite route; hence no quotient stream, selected limit, countable-choice selector, host real equality, or ambient completeness coordinate remains available.
+\end{proof}
+
+\begin{theorem}[CauchyReindexing RegSeqRat to Real handoff]
+\label{thm:cauchy-reindexing-regseqrat-real-handoff}
+Let $K=(S,I,M,Q,D,R,A,H,C,P,N)$ be an accepted $\CauchyReindexingUp$ carrier. Every $\RealUp$-facing read of the reindexed regular name factors through the finite route
+$$
+S,I,M,Q,D,R \longmapsto A \longmapsto H,C,P,N .
+$$
+Thus the $\RegSeqRatUp$ row reaches the $\RealUp$ seal only after the source $\StreamNameUp$ schedule, reindexed $\StreamNameUp$ schedule, monotone row, cofinal row, and $\DyadicRatCoreUp$ tolerance row have been displayed. The route contains no quotient stream, selected limit, countable-choice selector, host real equality, or ambient Real completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing consumer of the packet. Carrier admission gives access to the seal row $A$, but only as a row downstream of the regularity row $R$ and the dyadic tolerance row $D$.
+
+Replay the continuation row $C$. The request first reads the target schedule $I$ as a displayed reindexing of the source schedule $S$, then consumes the monotone row $M$ and cofinal row $Q$ that make the index change admissible for regular Cauchy inspection.
+
+After those rows have been consumed, the dyadic tolerance row $D$ and regularity row $R$ provide the finite readback accepted by the Real seal. The transport, provenance, and local naming rows record the same dependency order, so the packet exports no direct route through quotient streams, selected limits, countable choice, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[CauchyReindexing composition stability]
+\label{thm:cauchy-reindexing-composition-stability}
+Let $K_{01}$ be an accepted $\CauchyReindexingUp$ packet from a source schedule $S_0$ to a middle schedule $S_1$, and let $K_{12}$ be an accepted $\CauchyReindexingUp$ packet from $S_1$ to a target schedule $S_2$. Suppose that the two packets display the same middle $\StreamNameUp$ schedule row and that their middle-facing monotone rows, cofinal rows, dyadic tolerance rows, $\RegSeqRatUp$ rows, $\RealUp$ seal rows, $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance rows, and local $\NameCert_{\CauchyReindexingUp}$ rows agree on that shared schedule. Then the finite route obtained by composing the displayed unary index maps from $S_0$ through $S_1$ to $S_2$ is again an accepted $\CauchyReindexingUp$ surface, with carrier rows in the same order
+$$
+S,I,M,Q,D,R,A,H,C,P,N .
+$$
+Its downstream $\RegSeqRatUp$ and $\RealUp$ consumers factor through the composed monotone--cofinal route and acquire no quotient stream, selected limit, countable-choice selector, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The target schedule row of $K_{01}$ and the source schedule row of $K_{12}$ are the same displayed middle schedule, so their endpoint data can be read as one finite route from $S_0$ to $S_2$.
+
+Compose the two unary index routes at the level of the displayed monotone and cofinal rows. Monotonicity is preserved because a target-window request first moves monotonically along the second route and then monotonically along the first route; cofinality is preserved because any source tolerance requested at $S_0$ is reached by the first route and then by the second route through the shared middle schedule.
+
+The shared dyadic tolerance rows and $\RegSeqRatUp$ readback rows are reused along the composed route. Componentwise $\hsame$ transport identifies the common middle schedule and its tolerance, regularity, seal, continuation, package, and local naming rows, while $\Cont$ concatenates the two finite replays without adding a new coordinate.
+
+Finally apply \autoref{thm:cauchy-reindexing-regseqrat-real-handoff} to the repacked route. The Real-facing consumer still reaches the seal only after reading the source schedule, target schedule, composed monotone row, composed cofinal row, dyadic tolerance row, and regularity row, so the composed surface has the same carrier order and the same ledger refusals as an accepted $\CauchyReindexingUp$ packet.
+\end{proof}
+
+\begin{closurestatus}{\CauchyReindexingUp}
+  \constructivestory{A $\CauchyReindexingUp$ packet is generated from source and target StreamName schedules, monotone and cofinal unary reindexing rows, a DyadicRatCore tolerance row, a RegSeqRat regularity row, a RealUp seal, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-reindexing-carrier}, \autoref{thm:cauchy-reindexing-namecert-obligations}, \autoref{thm:cauchy-reindexing-regseqrat-real-handoff}, and \autoref{thm:cauchy-reindexing-composition-stability} seed the finite certified reindexing route from regular Cauchy names to the downstream $\RealUp$ seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable-choice selectors, host real equality, ambient $\RealUp$ completeness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, monotone and cofinal reindexing discipline, dyadic tolerance preservation, RegSeqRat readback, Real seal factorization, and ledger refusal.}
+\end{closurestatus}

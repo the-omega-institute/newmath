@@ -1,0 +1,303 @@
+\begin{definition}[Killed bit-flip walk]
+\label{def:philosophy-killed-bit-flip-walk}
+Let $S\subseteq Q_{6}$. The killed bit-flip walk on $S$ starts at a
+codon $x\in S$, chooses one of the six bit coordinates uniformly, and
+flips that coordinate. If the resulting codon remains in $S$, the walk
+continues. If the resulting codon lies outside $S$, the walk is absorbed.
+The transient matrix is
+$$
+  Q_S(x,y)
+  =
+  \begin{cases}
+    1/6, & x\sim y\ \text{and}\ y\in S,\\
+    0, & \text{otherwise}.
+  \end{cases}
+$$
+Its spectral radius is denoted
+$$
+  \lambda(S)=\rho(Q_S).
+$$
+\end{definition}
+
+\begin{theorem}[Spectral stabilization along the closure chain]
+\label{thm:philosophy-spectral-stabilization-closure-chain}
+For the closure chain
+$$
+  \mathcal{R}
+  \subset
+  \overline{\mathcal{R}}
+  \subset
+  \operatorname{Med}_{1}(\mathcal{R})
+  \subset
+  M,
+$$
+the killed bit-flip spectral data are
+$$
+\begin{array}{c|r|r|r|r|r}
+  \text{set} & \text{vertices} & \text{internal edges}
+  & \rho_1 & \lambda & 1/(1-\lambda)\\
+  \hline
+  \mathcal{R} & 13 & 16 & 16/39\approx 0.410
+    & 0.4759 & 1.908\\
+  \overline{\mathcal{R}} & 16 & 25 & 25/48\approx 0.521
+    & 0.5733 & 2.344\\
+  \operatorname{Med}_{1}(\mathcal{R}) & 19 & 34 & 34/57\approx 0.596
+    & 0.6422 & 2.795\\
+  M & 20 & 38 & 19/30\approx 0.633
+    & 0.6752 & 3.079.
+\end{array}
+$$
+\end{theorem}
+\concretizedIn{ch:concrete-instances-spectral-stabilization-namecert}{The killed bit-flip closure-chain spectral-radius and survival-potential ledger is realized as a finite NameCert packet.}
+\begin{proof}
+For each set $S$, enumerate the Hamming edges internal to $S$ and form
+the transient matrix of \autoref{def:philosophy-killed-bit-flip-walk}.
+The one-step retention $\rho_1$ is the retention quantity of
+\autoref{def:philosophy-one-step-retention}. Since $Q_S$ is a symmetric
+nonnegative matrix, its spectral radius is the Perron root. Direct finite
+enumeration gives the displayed values.
+\end{proof}
+
+\begin{corollary}[Spectral meaning of median closure]
+\label{cor:philosophy-spectral-meaning-median-closure}
+The median closure is a spectral stabilization envelope for the
+reassignment support: along the closure chain, the killed-walk spectral
+radius rises from approximately $0.476$ to approximately $0.675$.
+\end{corollary}
+\begin{proof}
+This is the monotone comparison of the four spectral radii in
+\autoref{thm:philosophy-spectral-stabilization-closure-chain}.
+\end{proof}
+
+\begin{definition}[Quasi-stationary distribution and survival potential]
+\label{def:philosophy-quasi-stationary-survival-potential}
+For $M=\operatorname{Med}(\mathcal{R})$, let $\lambda_M$ be the Perron
+root of $Q_M$. The quasi-stationary distribution is the normalized left
+Perron vector
+$$
+  \pi Q_M=\lambda_M\pi,
+  \qquad
+  \sum_{x\in M}\pi(x)=1.
+$$
+The survival potential is the right Perron vector
+$$
+  Q_Mh=\lambda_Mh,
+$$
+normalized so that the largest orbit-average value is $1$.
+\end{definition}
+
+\begin{theorem}[Quasi-stationary mass on the quotient path]
+\label{thm:philosophy-quasi-stationary-quotient-mass}
+Aggregated over the six quotient states of
+\autoref{thm:philosophy-six-orbit-states-median-closure}, the
+quasi-stationary distribution of the killed walk on $M$ is
+$$
+\begin{array}{c|r}
+  \text{state} & \text{quasi-stationary mass}\\
+  \hline
+  \mathrm{AGR} & 0.1117\\
+  \mathrm{Anchor}_{6} & 0.3407\\
+  \mathrm{StopStart}_{6} & 0.3524\\
+  \mathrm{UUR} & 0.1313\\
+  \mathrm{CUR} & 0.0482\\
+  \mathrm{CUY} & 0.0158.
+\end{array}
+$$
+Hence
+$$
+  \pi(\mathrm{Anchor}_{6}\cup\mathrm{StopStart}_{6})
+  =
+  0.6931.
+$$
+\end{theorem}
+\begin{proof}
+Compute the Perron vector of $Q_M$ and sum its entries over the six
+orbits of $\operatorname{Stab}(M)$. The two central orbit states
+$\mathrm{Anchor}_{6}$ and $\mathrm{StopStart}_{6}$ have combined mass
+$0.3407+0.3524=0.6931$ after normalization.
+\end{proof}
+
+\begin{corollary}[Quasi-stationary core]
+\label{cor:philosophy-quasi-stationary-core}
+Conditioned on long survival inside $M$, the walk is concentrated on
+the anchor and stop-start core
+$$
+  \mathrm{Anchor}_{6}\cup\mathrm{StopStart}_{6}.
+$$
+\end{corollary}
+\begin{proof}
+The combined quasi-stationary mass of these two states is $0.6931$ by
+\autoref{thm:philosophy-quasi-stationary-quotient-mass}.
+\end{proof}
+
+\begin{theorem}[Survival potential on the quotient path]
+\label{thm:philosophy-survival-potential-quotient-path}
+The orbit-averaged survival potential is
+$$
+\begin{array}{c|r}
+  \text{state} & \text{survival potential}\\
+  \hline
+  \mathrm{AGR} & 0.8506\\
+  \mathrm{Anchor}_{6} & 0.8652\\
+  \mathrm{StopStart}_{6} & 0.8948\\
+  \mathrm{UUR} & 1.0000\\
+  \mathrm{CUR} & 0.3671\\
+  \mathrm{CUY} & 0.1203.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Take the Perron vector $h$ satisfying $Q_Mh=\lambda_Mh$, average it on
+each quotient orbit, and divide by the largest orbit average. The largest
+average occurs on $\mathrm{UUR}$.
+\end{proof}
+
+\begin{corollary}[UUR as survival bridge]
+\label{cor:philosophy-uur-survival-bridge}
+The state $\mathrm{UUR}$ has the highest survival potential, even though
+the quasi-stationary mass is concentrated mainly on
+$\mathrm{Anchor}_{6}\cup\mathrm{StopStart}_{6}$.
+\end{corollary}
+\begin{proof}
+Compare \autoref{thm:philosophy-quasi-stationary-quotient-mass} with
+\autoref{thm:philosophy-survival-potential-quotient-path}.
+\end{proof}
+
+\begin{theorem}[Quasi-stationary escape source]
+\label{thm:philosophy-quasi-stationary-escape-source}
+Conditioned on the next step escaping from $M$, the pre-escape quotient
+state has distribution
+$$
+\begin{array}{c|r}
+  \text{state} & \text{conditional probability}\\
+  \hline
+  \mathrm{AGR} & 0.1146\\
+  \mathrm{Anchor}_{6} & 0.3497\\
+  \mathrm{StopStart}_{6} & 0.3617\\
+  \mathrm{UUR} & 0.0674\\
+  \mathrm{CUR} & 0.0742\\
+  \mathrm{CUY} & 0.0324.
+\end{array}
+$$
+Thus
+$$
+  P(\mathrm{Anchor}_{6}\cup\mathrm{StopStart}_{6}\mid\text{escape})
+  =
+  0.7114.
+$$
+\end{theorem}
+\begin{proof}
+In quasi-stationarity the probability of escape in one step is
+$1-\lambda_M$. The conditional contribution of a quotient state $S$ is
+$$
+  \frac{\pi(S)P(S\to\text{outside})}{1-\lambda_M}.
+$$
+Use the quasi-stationary masses from
+\autoref{thm:philosophy-quasi-stationary-quotient-mass} and the leakage
+probabilities from \autoref{thm:philosophy-quotient-leakage-rates}.
+\end{proof}
+
+\begin{corollary}[Escape mass versus pointwise leakage]
+\label{cor:philosophy-escape-mass-versus-pointwise-leakage}
+The CUN tail has high pointwise leakage, but the dominant
+quasi-stationary escape contribution comes from the anchor and
+stop-start core.
+\end{corollary}
+\begin{proof}
+The tail leakage comparison is
+\autoref{cor:philosophy-cun-tail-leakage}. The conditional escape
+source distribution is
+\autoref{thm:philosophy-quasi-stationary-escape-source}.
+\end{proof}
+
+\begin{theorem}[Outside target classes]
+\label{thm:philosophy-quasi-stationary-outside-target-classes}
+Starting from quasi-stationarity and conditioning on a one-step escape,
+the outside target codons aggregate by standard-code class as
+$$
+\begin{array}{c|r}
+  \text{class} & \text{probability}\\
+  \hline
+  \mathrm{Ser} & 0.1176\\
+  \mathrm{Pro} & 0.0931\\
+  \mathrm{Val} & 0.0931\\
+  \mathrm{Gln} & 0.0850\\
+  \mathrm{Phe} & 0.0755\\
+  \mathrm{Ile} & 0.0603\\
+  \mathrm{Tyr} & 0.0603\\
+  \mathrm{Ala} & 0.0583\\
+  \mathrm{Cys} & 0.0583\\
+  \mathrm{Glu} & 0.0583\\
+  \mathrm{Asn} & 0.0583\\
+  \mathrm{Arg} & 0.0583\\
+  \mathrm{Thr} & 0.0583\\
+  \mathrm{Gly} & 0.0573\\
+  \mathrm{His} & 0.0081.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each $x\in M$ and each one-bit outside neighbor $y\notin M$, add
+the weight
+$$
+  \frac{\pi(x)}{6(1-\lambda_M)}
+$$
+to the standard-code class of $y$. Summing over all outside neighbors
+gives the displayed distribution.
+\end{proof}
+
+\begin{corollary}[Sense-class escape boundary]
+\label{cor:philosophy-sense-class-escape-boundary}
+The outside escape distribution is spread over ordinary sense classes;
+it is not concentrated on stop-like targets.
+\end{corollary}
+\begin{proof}
+The target table in
+\autoref{thm:philosophy-quasi-stationary-outside-target-classes}
+contains no dominant stop-class entry.
+\end{proof}
+
+\begin{theorem}[$\mathrm{ACG}$ as spectral sealing corner]
+\label{thm:philosophy-acg-spectral-sealing-corner}
+Adding $\mathrm{ACG}$ to $\operatorname{Med}_{1}(\mathcal{R})$ raises
+the killed-walk spectral radius from $0.6422$ to $0.6752$, raises
+one-step retention from approximately $0.596$ to approximately $0.633$,
+and lowers the boundary half-edge count from $46$ to $44$.
+\end{theorem}
+\begin{proof}
+The spectral radii are the last two rows of
+\autoref{thm:philosophy-spectral-stabilization-closure-chain}. The
+retention and boundary values are the last two rows of
+\autoref{thm:philosophy-closure-chain-retention}.
+\end{proof}
+
+\begin{corollary}[Four roles of $\mathrm{ACG}$]
+\label{cor:philosophy-four-roles-acg}
+The codon $\mathrm{ACG}$ is simultaneously a strict second-order median
+point, a top-dimensional sealing corner, an orbit-completion point for
+$S_{3}\times C_{2}$ symmetry, and a spectral stabilization point.
+\end{corollary}
+\begin{proof}
+The median-depth role is
+\autoref{thm:philosophy-median-layer-witnesses}. The top-dimensional role is
+\autoref{cor:philosophy-top-dimensional-sealing-corner}. The
+orbit-completion role is \autoref{thm:philosophy-acg-orbit-completion}.
+The spectral role is \autoref{thm:philosophy-acg-spectral-sealing-corner}.
+\end{proof}
+
+\begin{theorem}[Spectral stabilization theorem]
+\label{thm:philosophy-spectral-stabilization-theorem}
+The median closure $M=WNR\cup CUN$ is the spectral stabilization
+envelope of the active reassignment support under killed one-bit
+Hamming dynamics: the closure chain increases the Perron root, the
+quasi-stationary mass concentrates on the anchor and stop-start core,
+the strongest survival potential lies at the $\mathrm{UUR}$ bridge, and
+$\mathrm{ACG}$ completes the spectral seal.
+\end{theorem}
+\begin{proof}
+Combine
+\autoref{thm:philosophy-spectral-stabilization-closure-chain},
+\autoref{thm:philosophy-quasi-stationary-quotient-mass},
+\autoref{thm:philosophy-survival-potential-quotient-path}, and
+\autoref{thm:philosophy-acg-spectral-sealing-corner}.
+\end{proof}

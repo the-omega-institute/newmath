@@ -4,7 +4,7 @@
 
 The $\StationaryEmbeddingClassifierUp$ packet realizes the stationary rational embedding classifier correspondence as finite NameCert data. It binds two RatUp seed rows, their constant StreamName rows, their stationary $\RegSeqRat$ diagonal rows, their RealUp constant rational embedding seals, the RatUp and RealUp classifier faces, and the transport routes that identify the two readings. The packet is local to stationary rational diagonals: it does not construct quotient streams, host real equality, selected limits, or ambient completeness.
 
-The dependency route is the Real-and-Completion lattice rather than an isolated classifier packet. The carrier consumes stationary rational Cauchy inputs through \autoref{ch:concrete-instances-stationary-rational-cauchy-namecert} and the RealUp constant rational embedding seal through \autoref{ch:concrete-instances-real-namecert} before comparing the RatUp and RealUp classifier faces.
+The dependency route is the Real-and-Completion lattice rather than an isolated classifier packet. The carrier consumes stationary rational Cauchy inputs through \autoref{ch:concrete-instances-stationary-rational-cauchy-namecert}, the rational constant route through \autoref{ch:concrete-instances-rationalembedding-namecert}, the dyadic constant-name route through \autoref{ch:concrete-instances-dyadicembedding-namecert}, and the RealUp constant rational embedding seal through \autoref{ch:concrete-instances-real-namecert} before comparing the RatUp and RealUp classifier faces.
 
 \begin{definition}[Stationary-embedding-classifier carrier]
 \label{def:stationary-embedding-classifier-carrier}
@@ -73,6 +73,38 @@ For the reverse direction, start from $R$. The constant StreamName witness trans
 The RealUp constant rational embedding seals in $H$ identify those representatives with the RealUp face $Q$. The same $W,C,P,N$ rows carry both readings, so the two implications form the displayed finite equivalence.
 \end{proof}
 
+\begin{theorem}[StationaryEmbeddingClassifier dyadic rational factorization]
+\label{thm:stationary-embedding-dyadic-rational-factorization}
+Let $E=(D,E_0,S,T,G,H,R,Q,W,C,P,N)$ be an accepted $\StationaryEmbeddingClassifierUp$ carrier. Suppose the RatUp seed rows $D$ and $E_0$ admit displayed dyadic observation rows $d_D$ and $d_{E_0}$, and suppose those rows are read through accepted constant-name packets whose public routes are the $\RationalEmbeddingUp$ and $\DyadicEmbeddingUp$ routes. Then the public equivalence
+$$
+\RealClassifier(L_D,L_{E_0})
+\quad\Longleftrightarrow\quad
+\RatHistoryClassifier(D,E_0)
+$$
+factors through the ordered L10 route
+$$
+\RationalEmbeddingUp
+\to
+\DyadicEmbeddingUp
+\to
+\StationaryRationalCauchyUp
+\to
+\RealUp
+$$
+before the Real classifier face is compared with the RatUp classifier face. The factorization exports only the displayed RatUp seed rows, dyadic observation rows, constant $\StreamNameUp$ rows, stationary $\RegSeqRatUp$ rows, RealUp seal rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. It exports no quotient stream, selected limit, host real equality, trichotomy, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier with \autoref{def:stationary-embedding-classifier-carrier}. The rows $D,E_0,S,T,G,H,R,Q,W,C,P,N$ expose the two RatUp seeds, their constant stream schedules, the stationary diagonal rows, the RealUp seals, the two classifier faces, and the visible transport and route data.
+
+Use \autoref{ch:concrete-instances-rationalembedding-namecert} to read each RatUp seed through the rational constant route. This supplies the constant $\StreamNameUp$ schedule, the stationary $\RegSeqRatUp$ readback, the dyadic observation ledger, and the RealUp seal boundary for the same finite source row.
+
+Use \autoref{ch:concrete-instances-dyadicembedding-namecert} on the displayed dyadic observation rows $d_D$ and $d_{E_0}$. Its constant stream readback identifies the dyadic row, constant schedule, stationary readback, and RealUp seal as one constant dyadic real-name route, so the dyadic observation rows cannot be replaced by quotient streams or selected host limits.
+
+Compose these two constant-name routes with the stationary rational Cauchy handoff of \autoref{ch:concrete-instances-stationary-rational-cauchy-namecert}. The composed route reaches the same RealUp seal rows named in $H$ before any classifier comparison is exported.
+
+Finally apply \autoref{thm:stationary-embedding-classifier-correspondence}. The correspondence reads the Real classifier face $Q=\RealClassifier(L_D,L_{E_0})$ and the RatUp classifier face $R=\RatHistoryClassifier(D,E_0)$ through the same displayed rows, so the public equivalence factors through the ordered L10 route above. The non-escape clauses in the cited constant-name and classifier surfaces exclude quotient streams, selected limits, host real equality, trichotomy, and ambient completeness.
+\end{proof}
+
 \begin{theorem}[StationaryEmbeddingClassifier Real completion link]
 \label{thm:stationary-embedding-classifier-real-completion-link}
 Every accepted $\StationaryEmbeddingClassifierUp$ carrier factors its public classifier correspondence through \autoref{ch:concrete-instances-stationary-rational-cauchy-namecert} and \autoref{ch:concrete-instances-real-namecert} before exporting
@@ -108,7 +140,7 @@ No listed coordinate is a quotient stream, host real equality, selected limit, a
 \begin{closurestatus}{\StationaryEmbeddingClassifierUp}
   \constructivestory{A $\StationaryEmbeddingClassifierUp$ packet is generated from RatUp seed rows, constant StreamName rows, stationary RegSeqRat diagonal rows, RealUp constant rational embedding seals, RatUp and RealUp classifier faces, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:stationary-embedding-classifier-carrier}, \autoref{thm:stationary-embedding-classifier-namecert-obligations}, \autoref{thm:stationary-embedding-classifier-correspondence}, and \autoref{thm:stationary-embedding-classifier-nonescape} bind the finite stationary rational embedding classifier packet.}
+  \scopeclosed{\autoref{def:stationary-embedding-classifier-carrier}, \autoref{thm:stationary-embedding-classifier-namecert-obligations}, \autoref{thm:stationary-embedding-classifier-correspondence}, \autoref{thm:stationary-embedding-dyadic-rational-factorization}, and \autoref{thm:stationary-embedding-classifier-nonescape} bind the finite stationary rational embedding classifier packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

@@ -1,0 +1,298 @@
+\begin{definition}[Median-closure orbit quotient]
+\label{def:philosophy-median-closure-orbit-quotient}
+Let $M=\operatorname{Med}(\mathcal{R})$ and let
+$\Gamma=\operatorname{Stab}(M)\cong S_{3}\times C_{2}$. The orbit
+quotient $M/\Gamma$ has one state for each $\Gamma$-orbit in $M$.
+For two orbit states $O_i,O_j$, define the edge weight
+$$
+  E_{ij}
+  =
+  |\{x\sim y:x\in O_i,\ y\in O_j\}|,
+$$
+where $x\sim y$ means Hamming adjacency in $Q_{6}$. For $i=j$, this is
+the number of internal Hamming edges in the orbit.
+\end{definition}
+
+\begin{theorem}[Six orbit states of the median closure]
+\label{thm:philosophy-six-orbit-states-median-closure}
+The median closure has the following six orbit states:
+$$
+\begin{array}{c|l|r|l|l|r}
+  \text{state} & \text{codons} & \text{size}
+  & \text{active} & \text{inactive} & \text{weight}\\
+  \hline
+  \mathrm{Anchor}_{6}
+    & \mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{UGA},\mathrm{UGG}
+    & 6 & \mathrm{AAA},\mathrm{UGA}
+    & \mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{UGG} & 18\\
+  \mathrm{StopStart}_{6}
+    & \mathrm{AUA},\mathrm{AUG},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG}
+    & 6 & \mathrm{AUA},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA}
+    & \mathrm{AUG},\mathrm{UCG} & 24\\
+  \mathrm{AGR}
+    & \mathrm{AGA},\mathrm{AGG}
+    & 2 & \mathrm{AGA},\mathrm{AGG} & \varnothing & 16\\
+  \mathrm{UUR}
+    & \mathrm{UUA},\mathrm{UUG}
+    & 2 & \mathrm{UUA} & \mathrm{UUG} & 1\\
+  \mathrm{CUR}
+    & \mathrm{CUA},\mathrm{CUG}
+    & 2 & \mathrm{CUA},\mathrm{CUG} & \varnothing & 4\\
+  \mathrm{CUY}
+    & \mathrm{CUC},\mathrm{CUU}
+    & 2 & \mathrm{CUC},\mathrm{CUU} & \varnothing & 2.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply the $12$ automorphisms of
+$\Gamma=\operatorname{Stab}(\operatorname{Med}(\mathcal{R}))$ to the
+$20$ codons of $M$. The resulting orbit partition is the one displayed.
+Weights are sums of NCBI reassignment counts over each orbit.
+\end{proof}
+
+\begin{corollary}[Active support as an orbit selector]
+\label{cor:philosophy-active-support-orbit-selector}
+The median closure is symmetric, but the active support selects
+different fractions of different orbit states:
+$$
+  2/6,\quad 4/6,\quad 2/2,\quad 1/2,\quad 2/2,\quad 2/2.
+$$
+Thus $\mathcal{R}$ is a nonuniform active selector inside the symmetric
+median closure.
+\end{corollary}
+\begin{proof}
+Read off the active columns in
+\autoref{thm:philosophy-six-orbit-states-median-closure}.
+\end{proof}
+
+\begin{theorem}[Weighted quotient path]
+\label{thm:philosophy-weighted-quotient-path}
+With orbit order
+$$
+  \mathrm{Anchor}_{6},\quad
+  \mathrm{StopStart}_{6},\quad
+  \mathrm{AGR},\quad
+  \mathrm{UUR},\quad
+  \mathrm{CUR},\quad
+  \mathrm{CUY},
+$$
+the orbit adjacency matrix is
+$$
+\begin{array}{c|rrrrrr}
+ & \mathrm{Anchor}_{6} & \mathrm{StopStart}_{6} & \mathrm{AGR}
+ & \mathrm{UUR} & \mathrm{CUR} & \mathrm{CUY}\\
+\hline
+\mathrm{Anchor}_{6} & 3 & 12 & 6 & 0 & 0 & 0\\
+\mathrm{StopStart}_{6} & 12 & 3 & 0 & 6 & 0 & 0\\
+\mathrm{AGR} & 6 & 0 & 1 & 0 & 0 & 0\\
+\mathrm{UUR} & 0 & 6 & 0 & 1 & 2 & 0\\
+\mathrm{CUR} & 0 & 0 & 0 & 2 & 1 & 2\\
+\mathrm{CUY} & 0 & 0 & 0 & 0 & 2 & 1.
+\end{array}
+$$
+After removing internal loops, the quotient graph is the weighted path
+$$
+  \mathrm{AGR}
+  -
+  \mathrm{Anchor}_{6}
+  -
+  \mathrm{StopStart}_{6}
+  -
+  \mathrm{UUR}
+  -
+  \mathrm{CUR}
+  -
+  \mathrm{CUY}.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate all $38$ Hamming edges internal to
+$\operatorname{Med}(\mathcal{R})$ and group each edge by the two orbit
+states of its endpoints. The nonzero cross-orbit weights are
+$$
+\begin{gathered}
+  \mathrm{AGR}-\mathrm{Anchor}_{6}:6,\qquad
+  \mathrm{Anchor}_{6}-\mathrm{StopStart}_{6}:12,\\
+  \mathrm{StopStart}_{6}-\mathrm{UUR}:6,\qquad
+  \mathrm{UUR}-\mathrm{CUR}:2,\qquad
+  \mathrm{CUR}-\mathrm{CUY}:2.
+\end{gathered}
+$$
+There are no other cross-orbit edges.
+\end{proof}
+
+\begin{corollary}[Six-state codon-window automaton]
+\label{cor:philosophy-six-state-codon-window-automaton}
+The $20$-codon median closure admits a six-state quotient dynamics:
+$$
+  \mathrm{AGR}
+  \longleftrightarrow
+  \mathrm{Anchor}_{6}
+  \longleftrightarrow
+  \mathrm{StopStart}_{6}
+  \longleftrightarrow
+  \mathrm{UUR}
+  \longleftrightarrow
+  \mathrm{CUR}
+  \longleftrightarrow
+  \mathrm{CUY}.
+$$
+\end{corollary}
+\begin{proof}
+This is the loop-free quotient graph of
+\autoref{thm:philosophy-weighted-quotient-path}.
+\end{proof}
+
+\begin{theorem}[Inactive median layer]
+\label{thm:philosophy-inactive-median-layer}
+Let $I=M\setminus\mathcal{R}$. Then
+$$
+  I
+  =
+  \mathrm{WYG}\cup\{\mathrm{AAG},\mathrm{ACA},\mathrm{UGG}\}.
+$$
+Here
+$$
+  \mathrm{WYG}
+  =
+  \{\mathrm{UUG},\mathrm{UCG},\mathrm{AUG},\mathrm{ACG}\}.
+$$
+The induced Hamming graph on $I$ is the square $\mathrm{WYG}$ together
+with three leaves attached by
+$$
+  \mathrm{AAG}-\mathrm{AUG},\qquad
+  \mathrm{ACA}-\mathrm{ACG},\qquad
+  \mathrm{UGG}-\mathrm{UCG}.
+$$
+\end{theorem}
+\begin{proof}
+The inactive codons are
+$$
+  \{\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},
+    \mathrm{AUG},\mathrm{UCG},\mathrm{UGG},\mathrm{UUG}\}.
+$$
+The codons $\mathrm{UUG},\mathrm{UCG},\mathrm{AUG},\mathrm{ACG}$ form
+the $\mathrm{WYG}$ square. Direct Hamming-edge enumeration gives the
+three displayed leaf edges and the four square edges.
+\end{proof}
+
+\begin{corollary}[Inactive layer is contractible]
+\label{cor:philosophy-inactive-layer-contractible}
+The cubical complex induced by $I$ has
+$$
+  f=(7,7,1,0,\ldots),
+  \qquad
+  \beta=(1,0,0).
+$$
+Thus the inactive layer is a contractible cubical patch.
+\end{corollary}
+\begin{proof}
+The graph has $7$ vertices and $7$ edges, and the $\mathrm{WYG}$ square
+contributes one $2$-cell. The cellular boundary ranks are
+$\operatorname{rank}\partial_{1}=6$ and
+$\operatorname{rank}\partial_{2}=1$, giving the displayed Betti vector.
+\end{proof}
+
+\begin{definition}[Active-inactive interface]
+\label{def:philosophy-active-inactive-interface}
+The active-inactive interface is the set of Hamming edges
+$$
+  \partial_{A/I}
+  =
+  \{x-y:x\in\mathcal{R},\ y\in I,\ d_H(x,y)=1\}.
+$$
+\end{definition}
+
+\begin{theorem}[Active-inactive interface]
+\label{thm:philosophy-active-inactive-interface}
+The active-inactive interface has $15$ edges. Grouped by inactive
+endpoint, the interface degrees are
+$$
+\begin{array}{c|l|r}
+  \text{inactive codon} & \text{active neighbors} & \text{degree}\\
+  \hline
+  \mathrm{AAG} & \mathrm{AAA},\mathrm{AGG},\mathrm{UAG} & 3\\
+  \mathrm{ACA} & \mathrm{AGA},\mathrm{AUA},\mathrm{UCA} & 3\\
+  \mathrm{ACG} & \mathrm{AGG} & 1\\
+  \mathrm{AUG} & \mathrm{AUA} & 1\\
+  \mathrm{UCG} & \mathrm{UCA} & 1\\
+  \mathrm{UGG} & \mathrm{AGG},\mathrm{UAG},\mathrm{UGA} & 3\\
+  \mathrm{UUG} & \mathrm{CUG},\mathrm{UAG},\mathrm{UUA} & 3.
+\end{array}
+$$
+The active endpoints of maximum interface degree are
+$$
+  \mathrm{AGG},\qquad \mathrm{UAG}.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate the Hamming edges of $M$ and retain exactly those with one
+endpoint in $\mathcal{R}$ and the other in $I$. There are $15$ such
+edges. Sorting by inactive endpoint gives the displayed table. Sorting
+by active endpoint shows that $\mathrm{AGG}$ and $\mathrm{UAG}$ each
+have three inactive neighbors, the largest active-side degree.
+\end{proof}
+
+\begin{corollary}[Double gate to the inactive layer]
+\label{cor:philosophy-double-gate-inactive-layer}
+The codons $\mathrm{AGG}$ and $\mathrm{UAG}$ are the two active gates
+from the reassigned support into the inactive median layer.
+\end{corollary}
+\begin{proof}
+This is the maximum active-side interface degree statement in
+\autoref{thm:philosophy-active-inactive-interface}.
+\end{proof}
+
+\begin{theorem}[$\mathrm{ACG}$ as inactive-square contact point]
+\label{thm:philosophy-acg-inactive-square-contact}
+The codon $\mathrm{ACG}$ has inactive neighbors
+$$
+  \mathrm{ACA},\qquad \mathrm{AUG},\qquad \mathrm{UCG},
+$$
+and active neighbor
+$$
+  \mathrm{AGG}.
+$$
+Thus $\mathrm{ACG}$ is the contact point between the inactive
+$\mathrm{WYG}$ square and the active gate $\mathrm{AGG}$.
+\end{theorem}
+\begin{proof}
+The inactive-neighbor statement is read from the induced graph on $I$.
+The active-neighbor statement is read from the active-inactive
+interface. Both are direct Hamming-edge enumerations.
+\end{proof}
+
+\begin{theorem}[Orbit-interface quotient]
+\label{thm:philosophy-orbit-interface-quotient}
+The median closure admits a compact quotient description:
+$$
+  M/\Gamma
+  =
+  \mathrm{AGR}
+  -
+  \mathrm{Anchor}_{6}
+  -
+  \mathrm{StopStart}_{6}
+  -
+  \mathrm{UUR}
+  -
+  \mathrm{CUR}
+  -
+  \mathrm{CUY},
+$$
+while the inactive layer is the contractible patch
+$$
+  \mathrm{WYG}\cup\{\mathrm{AAG},\mathrm{ACA},\mathrm{UGG}\}.
+$$
+The active-inactive interface has two active gates, $\mathrm{AGG}$ and
+$\mathrm{UAG}$, and $\mathrm{ACG}$ is the inactive-square contact point
+at $\mathrm{AGG}$.
+\end{theorem}
+\begin{proof}
+The quotient path is \autoref{thm:philosophy-weighted-quotient-path}.
+The inactive patch is \autoref{thm:philosophy-inactive-median-layer}.
+The interface and contact-point statements are
+\autoref{thm:philosophy-active-inactive-interface} and
+\autoref{thm:philosophy-acg-inactive-square-contact}.
+\end{proof}

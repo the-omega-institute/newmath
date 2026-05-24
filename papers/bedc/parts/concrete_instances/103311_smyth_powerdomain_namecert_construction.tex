@@ -1,0 +1,104 @@
+\chapter{A Concrete Naming Certificate for $\SmythPowerdomainUp$}
+\label{ch:concrete-instances-smyth-powerdomain-namecert}
+\origin{human}
+
+Following Smyth, Plotkin, and Gierz--Hofmann--Keimel--Lawson--Mislove--Scott domain theory, the $\SmythPowerdomainUp$ packet records the finite upper-family powerdomain route over L10 interval-domain cells. It sits after the interval-domain carrier of \autoref{ch:concrete-instances-intervaldomain-namecert}, the way-below refinement of \autoref{ch:concrete-instances-intervaldomainwaybelow-namecert}, the Scott-real presentation of \autoref{ch:concrete-instances-scott-real-namecert}, and the asymmetric completion route of \autoref{ch:concrete-instances-smyth-completion-namecert}. The packet exports compact upper approximation data for completion-facing consumers without quotient completion, selected representatives, countable choice, host real equality, open-cover compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Smyth powerdomain carrier]
+\label{def:smyth-powerdomain-carrier}
+A $\SmythPowerdomainUp$ carrier is a finite $\BHist$ packet
+$$
+P=(F,I,W,S,C,H,R,G,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is a finite nonempty upper family of L10 interval-domain cells. Each entry is an accepted $\IntervalDomainUp$ cell, and the family is read by upward closure under the displayed interval containment order.
+\item $I$ is the aggregate $\IntervalDomainUp$ support row, recording the interval cells, endpoint containment checks, enclosure order, and finite upper-family membership witnesses.
+\item $W$ is the $\IntervalDomainWayBelowUp$ support row, recording compact-containment refinements used when a consumer asks for a tighter upper approximation.
+\item $S$ is the $\ScottRealUp$ readback row, exposing Scott-real consumers only after the interval-domain and way-below rows have been displayed.
+\item $C$ is the $\SmythCompletionUp$ handoff row, exposing asymmetric completion consumers only through finite upper-family approximation data.
+\item $H$ records componentwise $\hsame$ transport for the finite family, interval-domain support, way-below support, Scott-real readback, Smyth-completion handoff, replay, provenance, classifier, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from upper-family requests through $F,I,W,S,C,H,G,Q,N$.
+\item $G$ is the $\Pkg$ provenance over $\SmythPowerdomainUp$, $\IntervalDomainUp$, $\IntervalDomainWayBelowUp$, $\ScottRealUp$, $\SmythCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $Q$ is the classifier row comparing accepted packets only through finite upper-family membership, interval containment, way-below refinement, Scott-real readback, Smyth-completion handoff, transport, replay, and provenance.
+\item $N$ is the local $\NameCert_{\SmythPowerdomainUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these rows. It has no coordinate for a quotient completion object, a selected representative, countable choice, host real equality, open-cover compactness, a hidden ambient compactness principle, or an ambient $\RealUp$ completeness theorem.
+\end{definition}
+
+\begin{theorem}[Smyth powerdomain NameCert obligations]
+\label{thm:smyth-powerdomain-namecert-obligations}
+For an accepted $\SmythPowerdomainUp$ carrier
+$$
+P=(F,I,W,S,C,H,R,G,Q,N),
+$$
+the local $\NameCert_{\SmythPowerdomainUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the finite nonempty upper family, interval-domain support row, way-below support row, Scott-real readback row, Smyth-completion handoff row, transport, replay, provenance, classifier, and local naming row;
+\item nonempty upper-family exposure, requiring $F$ to display at least one interval-domain cell and to answer every membership request by finite containment data in $I$;
+\item way-below refinement compatibility, requiring every requested tightening of an upper approximation to pass through $W$ before it reaches a Scott-real or completion-facing consumer;
+\item Scott-real handoff discipline, requiring $S$ to read only the interval-domain and way-below rows already exposed by $F,I,W$;
+\item Smyth-completion handoff discipline, requiring $C$ to receive finite upper-family approximation data rather than quotient completion data;
+\item structural exhaustion, requiring $H,R,G,Q,N$ to transport, replay, source, classify, and name only the listed rows.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows, and none exports quotient completion, selected representatives, countable choice, host real equality, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:smyth-powerdomain-carrier}. The accepted packet exposes exactly the finite upper family, interval-domain support, way-below support, Scott-real readback, Smyth-completion handoff, transport, replay, provenance, classifier, and local naming rows.
+
+Nonempty upper-family exposure is read from $F$ and $I$. The row $F$ supplies a finite inhabited list of interval cells, and $I$ supplies the displayed containment and membership witnesses used to read that list upward.
+
+Way-below refinement compatibility is read before any downstream handoff. A tighter upper approximation may be consumed only after $W$ has displayed the compact-containment evidence connecting the requested cell to the interval-domain support.
+
+The Scott-real and Smyth-completion handoffs are downstream rows. The row $S$ reads the same interval and way-below data as a Scott-real approximation surface, while $C$ reads the finite upper-family route as an asymmetric completion approximation.
+
+Finally $H,R,G,Q,N$ add no analytic principle. They transport, replay, source, classify, and name the displayed route, so the excluded quotient, representative selection, choice, host equality, compactness, and completeness principles have no row from which a consumer could read them.
+\end{proof}
+
+\begin{theorem}[Smyth powerdomain interval-domain handoff]
+\label{thm:smyth-powerdomain-interval-domain-handoff}
+Let
+$$
+P=(F,I,W,S,C,H,R,G,Q,N)
+$$
+be an accepted $\SmythPowerdomainUp$ carrier. Every Scott-real or completion-facing consumer of $P$ factors through the displayed finite route
+$$
+F \longmapsto I \longmapsto W \longmapsto S,C \longmapsto H,R,G,Q,N .
+$$
+Thus the powerdomain packet reaches $\ScottRealUp$ and $\SmythCompletionUp$ consumers only by passing from a finite nonempty upper family of interval-domain cells to interval containment data, way-below refinements, the downstream readback rows, and the structural $\hsame/\Cont/\Pkg/\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Fix a Scott-real or completion-facing consumer of the accepted packet. The first visible object is the finite nonempty family $F$, so the consumer begins with displayed interval-domain cells rather than with a completed host object.
+
+The interval-domain stage reads $I$. This row supplies the endpoint containment, enclosure order, and finite membership evidence that make the family an upper approximation surface.
+
+The refinement stage reads $W$. Compact-containment evidence is displayed before any consumer may request a sharper approximation, so the route stays inside the interval-domain and way-below packets.
+
+The downstream handoff reads $S$ or $C$. A Scott-real consumer obtains only the displayed interval-domain readback, and a Smyth-completion consumer obtains only the finite upper-family approximation route.
+
+The rows $H,R,G,Q,N$ close the factorization by transport, replay, provenance, classification, and local naming. Since no other coordinate exists in the carrier, the excluded quotient, choice, host equality, compactness, and completeness principles cannot be exported by the handoff.
+\end{proof}
+
+\begin{theorem}[Smyth powerdomain non-escape]
+\label{thm:smyth-powerdomain-nonescape}
+Let $P$ be an accepted $\SmythPowerdomainUp$ carrier. Any consumer that asks for quotient completion, selected representatives, countable choice, host real equality, open-cover compactness, or ambient $\RealUp$ completeness receives no row of $P$ from which such data can be read. The only exported data are the finite upper-family carrier, the interval-domain and way-below support rows, the Scott-real and Smyth-completion handoff rows, and the structural transport, replay, provenance, classifier, and local naming rows.
+\end{theorem}
+\begin{proof}
+Inspect the carrier in \autoref{def:smyth-powerdomain-carrier}. Its analytic rows are $F,I,W,S,C$, and each of them is a finite interval-domain, way-below, Scott-real, or Smyth-completion route.
+
+The structural rows $H,R,G,Q,N$ only preserve, replay, source, compare, and name those displayed routes. They do not introduce a new carrier coordinate or a hidden functional.
+
+Therefore a consumer requesting quotient completion, a selected representative, countable choice, host real equality, open-cover compactness, or ambient $\RealUp$ completeness has no matching row to read. The request remains outside the packet interface.
+\end{proof}
+
+\closureat{SmythPowerdomainUp}{seedStr}
+
+\begin{closurestatus}{\SmythPowerdomainUp}
+  \constructivestory{A $\SmythPowerdomainUp$ packet is generated from a finite nonempty upper family of IntervalDomain cells, aggregate interval-domain support, way-below refinement support, ScottReal readback, SmythCompletion handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, classifier comparison, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:smyth-powerdomain-carrier}, \autoref{thm:smyth-powerdomain-namecert-obligations}, \autoref{thm:smyth-powerdomain-interval-domain-handoff}, and \autoref{thm:smyth-powerdomain-nonescape} seed the finite upper-family powerdomain route over L10 interval-domain cells.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected representatives, countable choice, host real equality, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite upper-family exposure, way-below refinement compatibility, Scott-real handoff discipline, Smyth-completion handoff discipline, transport stability, replay stability, classifier exhaustion, and ledger non-escape for BEDC.Derived.SmythPowerdomainUp.}
+\end{closurestatus}

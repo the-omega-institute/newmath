@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\InverseLimitMetricUp$}
+\label{ch:concrete-instances-inverse-limit-metric-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on inverse limits of metric systems, the $\InverseLimitMetricUp$ packet records the L10 completion-neighbour obtained from finite projection rows rather than from a host inverse-limit object. It consumes the metric surface of \autoref{ch:concrete-instances-metric-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readbacks of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-valued distance seals of \autoref{ch:concrete-instances-real-namecert}, and the completion-facing boundary of \autoref{ch:concrete-instances-metriccompletion-namecert}. The certificate names only finite diagram observations, projection compatibility, and local completion-neighbour data; it does not assert a host inverse limit, quotient completion equality, selected representatives, countable choice, or ambient completeness.
+
+\begin{definition}[InverseLimitMetric carrier]\label{def:inverse-limit-metric-carrier}
+An $\InverseLimitMetricUp$ carrier is a finite $\BHist$ packet
+$$
+I=(D,\Pi,W,Q,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the finite diagram row, listing the visible metric nodes, displayed bonding arrows, and nodewise $\MetricUp$ evidence consumed by the packet.
+\item $\Pi$ is the projection row. Each projection observation names its source node, target node, finite bonding path, and compatibility check against the diagram row.
+\item $W$ is the $\StreamNameUp$ window row used to address finite node histories and finite projection histories.
+\item $Q$ is the $\RegSeqRatUp$ readback row for distance comparisons inside the displayed nodes and along displayed projection paths.
+\item $R$ is the $\RealUp$ distance-seal row. It seals the real-valued distance read after the finite window and regular readback rows have been displayed.
+\item $L$ is the local completion-neighbour row. It records the $\MetricCompletionUp$ handoff used by later completion consumers, without quotienting Cauchy names or selecting a representative point.
+\item $H$ records componentwise $\hsame$ transport for diagram rows, projection rows, stream windows, regular readbacks, real distance seals, local completion-neighbour rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+D\longmapsto \Pi\longmapsto W\longmapsto Q\longmapsto R\longmapsto L .
+$$
+\item $P$ is the $\Pkg$ provenance over $\InverseLimitMetricUp$, $\MetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\MetricCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\InverseLimitMetricUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,\Pi,W,Q,R,L,H,C,P,N$. It has no coordinate for a host inverse-limit carrier, quotient completion equality, selected representatives, countable-choice selectors, or an ambient complete metric space.
+\end{definition}
+
+\begin{theorem}[InverseLimitMetric NameCert obligations]\label{thm:inverse-limit-metric-namecert-obligations}
+For every accepted $\InverseLimitMetricUp$ carrier $I=(D,\Pi,W,Q,R,L,H,C,P,N)$, the local $\NameCert_{\InverseLimitMetricUp}$ surface consists exactly of carrier admission for the displayed diagram rows, finite projection rows, $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\RealUp$ distance seals, local $\MetricCompletionUp$ neighbour handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every public read must pass through those rows in the order displayed by $C$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier in \autoref{def:inverse-limit-metric-carrier}. The only available mathematical rows are the finite diagram $D$, projection data $\Pi$, stream windows $W$, regular readbacks $Q$, real distance seals $R$, and local completion-neighbour row $L$.
+
+The replay row $C$ orders those rows before the structural support is consumed. Thus a public read first sees finite diagram and projection data, then finite windows and regular readbacks, then the real distance seal and the completion-neighbour handoff.
+
+The rows $H,P,N$ transport, source, and name exactly this surface. Since the carrier has no coordinate for a host inverse-limit object, quotient completion equality, selected representatives, choice, or ambient completeness, the listed obligations exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[InverseLimitMetric projection stability]\label{thm:inverse-limit-metric-projection-stability}
+Let $I=(D,\Pi,W,Q,R,L,H,C,P,N)$ be an accepted $\InverseLimitMetricUp$ carrier. If a consumer transports $I$ componentwise along the $\hsame$ rows recorded in $H$, then every finite projection compatibility check still factors through
+$$
+D,\Pi,W,Q,R,L,H,C,P,N .
+$$
+In particular, transported projection rows cannot be replaced by a host inverse-limit point, a selected completion representative, a countable-choice schedule, or an ambient completeness witness.
+\end{theorem}
+\begin{proof}
+The projection row $\Pi$ is named as a coordinate of the carrier, and the transport row $H$ stores componentwise $\hsame$ data for that coordinate together with the diagram, windows, readbacks, distance seals, and completion-neighbour row.
+
+After transport, the only projection evidence available is the transported instance of $\Pi$ over the transported diagram row $D$. The replay row $C$ still routes finite projection observations through $W,Q,R,L$ before provenance and local naming are read.
+
+No coordinate remains from which a host inverse-limit point, chosen representative, choice schedule, or ambient complete metric space could be recovered. Therefore projection compatibility is stable exactly along the finite NameCert surface.
+\end{proof}
+
+\closureat{InverseLimitMetricUp}{seedStr}
+
+\begin{closurestatus}{\InverseLimitMetricUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:inverse-limit-metric-carrier}, \autoref{thm:inverse-limit-metric-namecert-obligations}, and \autoref{thm:inverse-limit-metric-projection-stability} seed the finite inverse-limit metric packet over diagram rows, projection rows, stream windows, regular readbacks, real distance seals, local completion-neighbour evidence, transport, replay, provenance, and naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host inverse limits, quotient completion equality, selected representatives, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite projection compatibility, StreamName window routing, RegSeqRat readback, RealUp distance sealing, MetricCompletionUp neighbour handoff, transport stability, provenance, and local naming for BEDC.Derived.InverseLimitMetricUp.}
+  \constructivestory{An $\InverseLimitMetricUp$ packet is generated from finite metric diagram rows, projection rows, StreamName windows, RegSeqRat readbacks, RealUp distance seals, local MetricCompletionUp neighbour data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+\end{closurestatus}

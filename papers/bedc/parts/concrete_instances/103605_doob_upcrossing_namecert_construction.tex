@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\DoobUpcrossingUp$}
+\label{ch:concrete-instances-doob-upcrossing-namecert}
+\origin{human}
+
+Following Doob, the $\DoobUpcrossingUp$ packet names the finite upcrossing-inequality surface obtained from a displayed martingale window. It consumes the probability, random-variable, conditional-expectation, martingale, optional-stopping, and crossing-count certificates of \autoref{ch:concrete-instances-probspace-namecert}, \autoref{ch:concrete-instances-randomvar-namecert}, \autoref{ch:concrete-instances-condexp-namecert}, \autoref{ch:concrete-instances-martingale-namecert}, \autoref{ch:concrete-instances-optionalstopping-namecert}, and \autoref{ch:concrete-instances-upcrossing-namecert}. The finite Doob-bound row consumes the crossing-count ledger of \autoref{ch:concrete-instances-upcrossing-namecert} and the bounded stopped-window rows of \autoref{ch:concrete-instances-optionalstopping-namecert} before any martingale-convergence consumer may read it. Its carrier is not a convergence theorem; it is the finite ledger that relates a displayed crossing count to the corresponding expectation-bound row.
+
+\begin{definition}[Doob upcrossing carrier]
+\label{def:doob-upcrossing-carrier}
+A $\DoobUpcrossingUp$ carrier is a finite $\BHist$ packet
+$$
+D=(\Omega,M,a,b,N,U,E,B,H,C,P,Q)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $\Omega$ is the displayed $\ProbSpaceUp$ row naming the probability context;
+\item $M$ is the consumed $\MartingaleUp$ finite adapted-sequence packet over the displayed time spine $0,\ldots,N$;
+\item $a$ and $b$ are displayed $\RealUp$ endpoints with a carried strict comparison row $a<_R b$;
+\item $U$ is the consumed $\UpcrossingUp$ crossing-count ledger for $M,a,b,N$;
+\item $E$ is the finite expectation row read through the $\RandomVarUp$ endpoint rows and the $\CondExpUp$ faces of $M$;
+\item $B$ is the displayed Doob bound row comparing the scaled completed-count read $(b-a)\cdot U_N(a,b)$ with the final negative-part expectation read;
+\item $H$ records componentwise $\hsame$ transport for the probability row, martingale row, boundary endpoints, upcrossing ledger, expectation row, bound row, continuation row, provenance row, and local naming row;
+\item $C$ records the finite $\Cont$ routes from the martingale endpoint rows and bounded $\OptionalStoppingUp$ windows to the crossing-count and expectation-bound reads;
+\item $P$ is the $\Pkg$ provenance row naming exactly $\ProbSpaceUp$, $\RandomVarUp$, $\CondExpUp$, $\MartingaleUp$, $\OptionalStoppingUp$, $\UpcrossingUp$, and the local Doob-bound rows;
+\item $Q$ is the local $\NameCert_{\DoobUpcrossingUp}$ row.
+\end{enumerate}
+The local classifier compares two carriers only through these displayed rows. In particular, it compares the bound row as a finite relation between the consumed upcrossing ledger and the displayed expectation read, not as an ambient theorem about all stochastic processes.
+\end{definition}
+
+\begin{theorem}[Doob upcrossing NameCert obligations]
+\label{thm:doob-upcrossing-namecert-obligations}
+The local $\NameCert_{\DoobUpcrossingUp}$ surface consists of five obligations:
+\begin{enumerate}
+\item carrier: formation of the finite packet of \autoref{def:doob-upcrossing-carrier};
+\item classifier: componentwise transport of the probability row, martingale row, boundary endpoints, crossing-count ledger, expectation row, Doob-bound row, $\hsame$ rows, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row;
+\item upcrossing consumption: the completed-count coordinate is read only from the finite $\UpcrossingUp$ ledger of \autoref{ch:concrete-instances-upcrossing-namecert};
+\item martingale-bound route: the expectation and stopped-window reads factor through the $\RandomVarUp$, $\CondExpUp$, $\MartingaleUp$, and $\OptionalStoppingUp$ rows named in the carrier;
+\item ledger exactness: every row used by the inequality surface appears in the displayed carrier.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier tuple of \autoref{def:doob-upcrossing-carrier}. Carrier formation is exactly the finite package whose visible rows are $\Omega$, $M$, $a$, $b$, $N$, $U$, $E$, $B$, $H$, $C$, $P$, and $Q$.
+
+Classifier stability is componentwise. The probability, endpoint, martingale, upcrossing, expectation, and bound coordinates are compared by the displayed $\hsame$ rows, while the replay of the dependency route is confined to $C$ and $P$.
+
+The upcrossing-consumption obligation uses \autoref{ch:concrete-instances-upcrossing-namecert}. Its finite ledger supplies the completed-count row, so the Doob packet does not construct a second crossing counter.
+
+The martingale-bound route uses \autoref{ch:concrete-instances-probspace-namecert}, \autoref{ch:concrete-instances-randomvar-namecert}, \autoref{ch:concrete-instances-condexp-namecert}, \autoref{ch:concrete-instances-martingale-namecert}, and \autoref{ch:concrete-instances-optionalstopping-namecert}. These chapters provide the probability context, endpoint rows, conditional-expectation faces, finite martingale window, and bounded stopped-window reads consumed by $E$ and $B$.
+
+Ledger exactness follows because no coordinate outside $D$ is named by the carrier or the local classifier. Every public inequality read therefore projects from one of the displayed rows.
+\end{proof}
+
+\begin{theorem}[Doob upcrossing martingale route]
+\label{thm:doob-upcrossing-martingale-route}
+Every accepted $\DoobUpcrossingUp$ carrier scopes its finite inequality read through the displayed $\ProbSpaceUp$ source, the $\RandomVarUp$ endpoint rows, the $\CondExpUp$ martingale faces, the finite $\MartingaleUp$ adapted-sequence packet, the bounded $\OptionalStoppingUp$ windows, and the consumed $\UpcrossingUp$ crossing-count ledger. The route contains no host stochastic process, no unbounded stopping theorem, no limiting event, and no martingale convergence principle.
+\end{theorem}
+\begin{proof}
+Start with the finite martingale packet $M$. Its public surface supplies only displayed endpoint rows, conditional-expectation faces, filtration visibility rows, and finite transport and provenance data as named by \autoref{ch:concrete-instances-martingale-namecert}.
+
+The endpoint rows are interpreted inside the probability context through \autoref{ch:concrete-instances-probspace-namecert}, \autoref{ch:concrete-instances-randomvar-namecert}, and \autoref{ch:concrete-instances-condexp-namecert}. The crossing-count coordinate is not recomputed here; it is the consumed $\UpcrossingUp$ row of \autoref{ch:concrete-instances-upcrossing-namecert}.
+
+The only stopped reads used to compare lower and upper visits with the final expectation row are bounded reads through \autoref{ch:concrete-instances-optionalstopping-namecert}. Since the carrier fixes the horizon $N$ and stores no unbounded index coordinate, the route cannot export an unbounded stopping theorem.
+
+Thus the martingale-facing content of the packet is exhausted by the named finite dependency rows and the local Doob-bound row. No limiting event, almost-sure quotient, or convergence principle is present in the carrier.
+\end{proof}
+
+\begin{theorem}[Doob upcrossing no-escape boundary]
+\label{thm:doob-upcrossing-noescape}
+The public boundary of $\DoobUpcrossingUp$ exports only the finite Doob upcrossing inequality row for a displayed martingale window, boundary pair $a<_R b$, consumed crossing-count ledger, and displayed expectation-bound read. It exports no martingale convergence theorem, no almost-sure quotient equality, no unbounded stopping principle, no measure completion, and no standard bridge beyond the rows explicitly carried by \autoref{def:doob-upcrossing-carrier}.
+\end{theorem}
+\begin{proof}
+Inspect the accepted carrier. Its time information is the finite horizon $N$, its stochastic information is the displayed probability and martingale dependency rows, and its crossing information is the consumed $\UpcrossingUp$ ledger.
+
+Apply \autoref{thm:doob-upcrossing-namecert-obligations}. The certificate surface reads the inequality only through the displayed carrier, classifier, upcrossing-consumption, martingale-bound-route, and ledger-exactness rows.
+
+Apply \autoref{thm:doob-upcrossing-martingale-route}. Every martingale-facing read factors through the finite adapted-sequence packet and every stopped-window read is bounded by the displayed finite horizon.
+
+None of the carrier coordinates names a limiting event, a quotient of almost-sure equality classes, an unbounded stopping index, a completed measure space, or a standard bridge. Therefore none of those objects can be exported by the public boundary of $\DoobUpcrossingUp$.
+\end{proof}
+
+\closureat{DoobUpcrossingUp}{seedStr}
+
+\begin{closurestatus}{\DoobUpcrossingUp}
+  \constructivestory{A $\DoobUpcrossingUp$ packet is generated from a displayed probability row, a finite $\MartingaleUp$ adapted-sequence packet, fixed lower and upper $\RealUp$ boundary endpoints, a consumed $\UpcrossingUp$ crossing-count ledger, endpoint expectation rows, a displayed Doob-bound comparison row, componentwise $\hsame$ transports, finite continuation routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope names the finite carrier, the five-row naming-certificate obligation surface, the martingale dependency route, and the no-escape boundary for finite Doob upcrossing inequality rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close martingale convergence, almost-sure quotient equality, unbounded stopping, measure completion, or a standard bridge.}
+  \upgradepath{Obligation closure requires Lean targets for carrier transport, upcrossing consumption, martingale-bound routing, finite inequality-row exactness, and the no-escape boundary.}
+\end{closurestatus}

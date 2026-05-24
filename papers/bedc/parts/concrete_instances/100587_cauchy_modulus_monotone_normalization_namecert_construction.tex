@@ -1,0 +1,88 @@
+\chapter{Cauchy Modulus Monotone Normalization NameCert Construction}
+\label{ch:concrete-instances-cauchy-modulus-monotone-normalization-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive analysis with explicit moduli, the $\CauchyModulusMonotoneNormalizationUp$ packet records the finite certificate by which an inspected Cauchy-modulus row is replaced by a displayed monotone threshold schedule without changing the tail-window claims already exposed to Real and Completion consumers. It sits on the explicit source route of \autoref{ch:concrete-instances-effective-cauchy-sequence-namecert}, the separation boundary of \autoref{ch:concrete-instances-regularcauchyseparation-namecert}, the finite completion route of \autoref{ch:concrete-instances-fast-cauchy-completion-namecert}, and the shared-budget surface of \autoref{ch:concrete-instances-uniform-cauchy-modulus-namecert}. The packet is a normalization certificate for later diagonal and tail-window arguments; it is not Real completeness, quotient completion, quotient stream equality, a selected limit, countable choice, trichotomy, host real equality, or a standard bridge.
+
+\begin{definition}[Cauchy modulus monotone normalization carrier]
+\label{def:cauchy-modulus-monotone-normalization-carrier}
+A $\CauchyModulusMonotoneNormalizationUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(S,M,D,T,U,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source row: a displayed $\StreamNameUp$, $\RegSeqRatUp$, or $\EffectiveCauchySequenceUp$ surface whose Cauchy-window comparisons are being normalized.
+\item $M$ is the input $\CauchyModulusUp$ threshold row, assigning a finite tail budget to each requested dyadic tolerance in the source route.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the finite precision requests, slack conversions, and comparison budgets consumed by $M$.
+\item $T$ is the finite prefix-maximum table. For each displayed tolerance request it records the largest threshold among the finitely many tighter requests visible in $D$.
+\item $U$ is the normalized monotone modulus row obtained by reading $T$ as the replacement threshold schedule.
+\item $W$ is the tail-window witness row saying that every accepted pair of source observations beyond the threshold named by $U$ is still admitted by the original row $M$ at the requested tolerance.
+\item $E$ is the endpoint handoff row available to $\RegSeqRatUp$, $\RealUp$, or completion-facing consumers only after $S,M,D,T,U,W$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, input modulus, dyadic ledger, prefix-maximum table, normalized modulus, witness, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through $D$, $M$, $T$, $U$, $W$, and the endpoint handoff $E$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusMonotoneNormalizationUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\EffectiveCauchySequenceUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\UniformCauchyModulusUp$, $\RegularCauchySeparationUp$, $\FastCauchyCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyModulusMonotoneNormalizationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,M,D,T,U,W,E,H,C,P,N$. It has no coordinate for Real completeness, quotient completion, quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyModulusMonotoneNormalizationUp.CauchyModulusMonotoneNormalizationUpTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy modulus monotone normalization NameCert obligations]
+\label{thm:cauchy-modulus-monotone-normalization-namecert-obligations}
+For every accepted $\CauchyModulusMonotoneNormalizationUp$ carrier $Z=(S,M,D,T,U,W,E,H,C,P,N)$, the local $\NameCert_{\CauchyModulusMonotoneNormalizationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source, input modulus, dyadic tolerance ledger, prefix-maximum table, normalized modulus, tail-window witness, endpoint handoff, transport, replay, provenance, and local naming rows;
+\item prefix-maximum exactness, requiring $T$ to be read only from the finite tolerance requests displayed in $D$ and the input thresholds displayed in $M$;
+\item monotone schedule exposure, requiring $U$ to expose the normalized threshold for each displayed tolerance request through $T$ and no hidden cofinal tail;
+\item tail-window preservation, requiring $W$ to show that every comparison admitted beyond $U$ is already a comparison admitted by $M$ at the requested tolerance;
+\item consumer handoff nonescape, requiring $E$ to be downstream of $S,M,D,T,U,W$ and to export no Real completeness, quotient completion, quotient stream equality, selected limit, countable choice, trichotomy, host real equality, or bridge datum;
+\item componentwise transport, replay, provenance, and local naming stability for exactly the displayed rows.
+\end{enumerate}
+No monotone-normalization obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-modulus-monotone-normalization-carrier}. The packet exposes the source row, input modulus, dyadic ledger, prefix-maximum table, normalized modulus, tail-window witness, endpoint handoff, and structural rows as one finite carrier.
+
+Prefix-maximum exactness is finite. For each displayed tolerance request in $D$, the table $T$ reads only the finitely many tighter requests already visible to the packet and the corresponding thresholds named by $M$.
+
+The normalized modulus row $U$ is therefore monotone by construction of the table $T$. Moving to a tighter displayed tolerance can only enlarge the inspected finite prefix, so the threshold exposed by $U$ does not move backward.
+
+Tail-window preservation is the witness row $W$. A consumer using $U$ first reads the table entry in $T$, then reads the input threshold row $M$ for the corresponding finite requests, and only then obtains the same tail-window comparison.
+
+Finally, $E,H,C,P,N$ hand off, transport, replay, source, and name the same finite route. Since Real completeness, quotient completion, quotient stream equality, selected limits, countable choice, trichotomy, host real equality, and bridge data are absent from the carrier, none can become a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus monotone normalization tail-window handoff]
+\label{thm:cauchy-modulus-monotone-normalization-tail-window-handoff}
+Every $\RegSeqRatUp$, $\RealUp$, or completion-facing read of an accepted $\CauchyModulusMonotoneNormalizationUp$ carrier factors through
+$$
+S,M,D \longmapsto T \longmapsto U \longmapsto W \longmapsto E,H,C,P,N .
+$$
+Thus later diagonal, separation, and tail-window consumers may read a monotone threshold schedule only through the displayed input modulus, dyadic tolerance ledger, prefix-maximum table, normalized row, and preservation witness. The route exports no Real completeness, quotient completion, quotient stream equality, selected limit, countable choice, trichotomy, host real equality, or standard bridge.
+\end{theorem}
+\begin{proof}
+Start with a consumer read. The only normalized schedule coordinate is $U$, and \autoref{def:cauchy-modulus-monotone-normalization-carrier} places $U$ after the source, input modulus, dyadic ledger, and prefix-maximum table.
+
+The consumer first reads $S,M,D$. This fixes the inspected source, the original Cauchy thresholds, and the finite tolerance requests whose prefix maximum is allowed to be formed.
+
+The table $T$ then supplies the displayed maximum for the relevant finite prefix, and $U$ reads that table as the monotone schedule. The witness row $W$ checks that using this threshold remains a valid tail-window read for the input modulus $M$.
+
+Endpoint and structural rows do not add a completion object. They only pass the same normalized route to $E$ and preserve it through $H,C,P,N$, so the excluded objects have no coordinate from which a consumer can read them.
+\end{proof}
+
+\falsifiablePrediction{Every $\CauchyModulusMonotoneNormalizationUp$ consumer read factors through a source row, an input CauchyModulus threshold row, a DyadicRatCore tolerance ledger, a finite prefix-maximum table, a normalized monotone modulus row, a tail-window preservation witness, an endpoint handoff, componentwise hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{effectivecauchysequence, regularcauchyseparation, fastcauchycompletion, uniformcauchymodulus: $\CauchyModulusMonotoneNormalizationUp$ is not bijective to any listed sibling because it jointly carries the input modulus, dyadic tolerance ledger, prefix-maximum table, normalized monotone schedule, preservation witness, endpoint handoff, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{CauchyModulusMonotoneNormalizationUp}{seedStr}
+
+\begin{closurestatus}{\CauchyModulusMonotoneNormalizationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-monotone-normalization-carrier}, \autoref{thm:cauchy-modulus-monotone-normalization-namecert-obligations}, and \autoref{thm:cauchy-modulus-monotone-normalization-tail-window-handoff} seed the finite normalization packet that turns displayed Cauchy-modulus threshold rows into monotone threshold schedules for later Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient completion, quotient stream equality, selected limits, countable choice, trichotomy, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix-maximum exactness, monotone schedule exposure, tail-window preservation, consumer handoff nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyModulusMonotoneNormalizationUp.}
+  \constructivestory{A $\CauchyModulusMonotoneNormalizationUp$ packet is generated from a displayed source row, an input CauchyModulus threshold row, a DyadicRatCore tolerance ledger, a finite prefix-maximum table, a normalized monotone modulus row, a tail-window witness, an endpoint handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

@@ -54,6 +54,7 @@ The carrier accepts exactly those packets whose displayed graph reads and
 metric-distance rows are bounded by the ledger $B$ and whose modulus row $M$ is
 the finite uniform-modulus route induced by that same bound.
 \end{definition}
+\leanchecked{BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier\_semantic\_carrier\_package}
 
 \begin{definition}[LipschitzMap classifier]
 \label{def:lipschitz-map-classifier}
@@ -73,6 +74,7 @@ It does not compare host functions extensionally, form a quotient of maps,
 choose representatives, assert completeness of either metric space, or infer
 differentiability.
 \end{definition}
+\leandef{BEDC.Derived.LipschitzMapUp.LipschitzMapClassifier}
 
 \begin{theorem}[LipschitzMap NameCert obligations]
 \label{thm:lipschitz-map-namecert-obligations}
@@ -152,7 +154,7 @@ No consumer can obtain a Banach fixed-point conclusion, completeness witness,
 differentiability row, quotient of maps, selected representative, or host
 function extensionality from the Lipschitz ledger alone.
 \end{theorem}
-\leanchecked{BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier\_uniform\_modulus\_boundary}
+\leanchecked{BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier\_ledger\_nonescape}
 \begin{proof}
 Use the obligation surface of
 \autoref{thm:lipschitz-map-namecert-obligations}. It lists the carrier,
@@ -541,16 +543,52 @@ Next use the complete-metric regular seal boundary. The completion-facing $\RegS
 Finally apply \autoref{thm:lipschitz-map-bound-dependency-lock}. It excludes detaching the common bound into completeness, selected limits, quotient-map equality, host function extensionality, or differentiability, and leaves the displayed $\MetricSpaceUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\RegSeqRatUp$, and $\RealUp$ rows as the only available completion route.
 \end{proof}
 
+\begin{theorem}[LipschitzMap separated-completion nonescape]
+\label{thm:lipschitz-map-separated-completion-nonescape}
+Let
+$$
+L=(X,Y,B,G,M,H,C,P,N)
+$$
+be an accepted $\LipschitzMapUp$ carrier. Every completion-facing consumer routed through $\CompleteMetricUp$, $\SeparatedMetricUp$, $\RealUp$, $\RegSeqRatUp$, and $\UniformModulusUp$ must read the rational Lipschitz-bound ledger $B$ and the separated zero-distance route before any completion identity claim is exposed. The consumer receives only the common-bound completion route, target-distance exactness, contraction-threshold factorization, and the public zero-distance route of $\SeparatedMetricUp$; it receives no ambient completeness theorem, selected limit, quotient completion equality, host function extensionality, differentiability, or detached real equality.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:lipschitz-map-common-bound-completion-route}. It places the graph row $G$, rational bound ledger $B$, source and target metric rows $X,Y$, induced modulus row $M$, $\RegSeqRatUp$ source row, and $\RealUp$ seal on one shared completion-facing route.
+
+Apply target-distance exactness and the contraction threshold factorization. The target-distance read is tied to $X,Y,B,G$, while contraction-facing consumers may use the bound only through the displayed threshold route and induced modulus row.
+
+Finally use the public separated-metric zero-distance route of \autoref{thm:separatedmetric-public-identity-export}. A completion identity claim can be exposed only after the separated zero-distance classifier has been read, so the Lipschitz packet cannot bypass $B$ or replace the separated route by quotient completion equality, selected limits, or host equality.
+\end{proof}
+
+\begin{theorem}[LipschitzMap scoped modulus route]
+\label{thm:lipschitz-map-scoped-modulus-route}
+Let
+$$
+L=(X,Y,B,G,M,H,C,P,N)
+$$
+be an accepted $\LipschitzMapUp$ carrier. Before any separated-completion or uniform-continuity consumer reads $L$, the metric source and target rows $X,Y$, rational $\RealUp$ distance row $B$, $\ContinuousMapUp$ graph row $G$, $\UniformModulusUp$ row $M$, common bound, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\LipschitzMapUp}$ row must pass through one finite surface. The consumer receives the scoped modulus route displayed by the packet, not a detached modulus, ambient completion theorem, quotient equality of maps, host function extensionality, differentiability claim, or selected representative.
+\end{theorem}
+\leanchecked{BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier\_scoped\_modulus\_route}
+\begin{proof}
+Start with the local NameCert obligations. They expose exactly the source and target metric rows, the rational bound ledger, the continuous graph row, the induced modulus row, transport, replay, provenance, and local naming surface of $L$.
+
+Use the uniform-modulus consumer handoff and public modulus export. A uniform-continuity consumer can read $M$ only as the modulus induced by the same $X,Y,B,G$ route, and the exported modulus remains tied to the displayed Lipschitz bound rather than becoming an ambient modulus fact.
+
+Next apply bound transport, target-distance exactness, and the common-bound completion route. The bound row $B$ is transported only with the graph and modulus data, each target-distance read is tied to $X,Y,B,G$, and every completion-facing read factors through the shared bound before reaching $\RegSeqRatUp$ or $\RealUp$ seals.
+
+Finally use \autoref{thm:lipschitz-map-separated-completion-nonescape}. Separated-completion consumers must read the separated zero-distance route after the same scoped Lipschitz surface, so no consumer can bypass $B,M,H,C,P,N$ or replace the packet by quotient equality, host extensionality, differentiability, selected representatives, or ambient completion.
+\end{proof}
+
 \closureat{LipschitzMapUp}{seedStr}
 \closureat{LipschitzMapUp}{obligationStr}
+\closureat{LipschitzMapUp}{scopedStr}
 
 \begin{closurestatus}{\LipschitzMapUp}
   \constructivestory{A $\LipschitzMapUp$ packet is generated from source and target $\MetricSpaceUp$ rows, a rational $\RealUp$ Lipschitz-bound ledger, a $\ContinuousMapUp$ graph row, a $\UniformModulusUp$ modulus row induced by the bound, componentwise $\hsame$ transports, visible $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:lipschitz-map-carrier}, \autoref{def:lipschitz-map-classifier}, \autoref{thm:lipschitz-map-namecert-obligations}, \autoref{thm:lipschitz-map-bound-transport}, \autoref{thm:lipschitz-map-target-distance-exactness}, \autoref{thm:lipschitz-map-composite-bound-routing}, and \autoref{thm:lipschitz-map-obligation-closure-package} bind the carrier, classifier, NameCert obligations, bound transport, target-distance exactness, composite-bound routing, and obligation surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:lipschitz-map-carrier}, \autoref{def:lipschitz-map-classifier}, \autoref{thm:lipschitz-map-namecert-obligations}, \autoref{thm:lipschitz-map-bound-transport}, \autoref{thm:lipschitz-map-target-distance-exactness}, \autoref{thm:lipschitz-map-composite-bound-routing}, \autoref{thm:lipschitz-map-obligation-closure-package}, and \autoref{thm:lipschitz-map-scoped-modulus-route} bind the displayed $\MetricSpaceUp$, $\RealUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows used by the carrier, classifier, bound transport, target-distance exactness, composite-bound routing, obligation surface, and scoped modulus route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Banach fixed point, completeness of the metric spaces, differentiability, quotient equality of maps, selected representatives, host function extensionality, or bridge checking.}
-  \upgradepath{Scoped closure requires routing $\MetricSpaceUp$, $\RealUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows through the displayed bound, graph, modulus, transport, continuation, provenance, and local naming surface.}
+  \upgradepath{Public closure requires a consumer-facing export theorem for the same displayed bound, graph, modulus, transport, continuation, provenance, and local naming surface.}
 \end{closurestatus}

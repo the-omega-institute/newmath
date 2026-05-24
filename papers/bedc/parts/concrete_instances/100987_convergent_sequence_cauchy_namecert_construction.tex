@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\ConvergentSequenceCauchyUp$}
+\label{ch:concrete-instances-convergent-sequence-cauchy-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\ConvergentSequenceCauchyUp$ packet records the standard passage from a displayed convergent real sequence to a displayed Cauchy criterion as finite BEDC route data. It sits over the displayed limit row of \autoref{ch:concrete-instances-real-sequence-limit-namecert}, the criterion row of \autoref{ch:concrete-instances-cauchy-convergence-criterion-namecert}, the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic triangle ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal seal boundary of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Convergent sequence Cauchy carrier]\label{def:convergent-sequence-cauchy-carrier}
+A $\ConvergentSequenceCauchyUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(L,W,D,K,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\RealSequenceLimitUp$ row containing the displayed source sequence, candidate limit, tail-window schedule, dyadic tolerance ledger, and convergence classifier.
+\item $W$ is the paired finite tail-window schedule. For each requested dyadic tolerance it stores two tail observations of the displayed sequence and the matching observation windows of the displayed limit row.
+\item $D$ is the $\DyadicRatCoreUp$ triangle ledger. It records the two sequence-to-limit comparisons from $L$ and the finite triangle comparison routing the two tail observations through the displayed limit.
+\item $K$ is the $\CauchyConvergenceCriterionUp$ row obtained from the same paired tail-window schedule and dyadic triangle ledger.
+\item $R$ is the $\RegSeqRatUp$ readback row for the scheduled sequence observations and the displayed limit observations used by $L,W,D,K$.
+\item $E$ is the terminal $\RealUp$ seal reached only after the displayed limit row, paired tail windows, dyadic ledger, criterion row, and regular rational readback have been exposed.
+\item $H$ records componentwise $\hsame$ transports for $L,W,D,K,R,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from a Cauchy request through the limit row, paired tail windows, dyadic ledger, criterion handoff, regular rational readback, and terminal seal.
+\item $P$ is the $\Pkg$ provenance over $\ConvergentSequenceCauchyUp$, $\RealSequenceLimitUp$, $\CauchyConvergenceCriterionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConvergentSequenceCauchyUp}$ row.
+\end{enumerate}
+The carrier stores a finite route from displayed convergence data to displayed Cauchy data. It contains no host sequence convergence theorem, selected limit, quotient stream equality, countable-choice selector, trichotomy row, or ambient $\RealUp$ completeness coordinate.
+\end{definition}
+\leanchecked{BEDC.Derived.ConvergentSequenceCauchyUp.ConvergentSequenceCauchyTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Convergent sequence Cauchy NameCert obligations]\label{thm:convergent-sequence-cauchy-namecert-obligations}
+For every accepted $\ConvergentSequenceCauchyUp$ carrier $Q=(L,W,D,K,R,E,H,C,P,N)$, the local $\NameCert_{\ConvergentSequenceCauchyUp}$ surface consists exactly of the following six obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed $\RealSequenceLimitUp$ row, paired tail-window schedule, dyadic triangle ledger, $\CauchyConvergenceCriterionUp$ row, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal, transport, replay, provenance, and local name;
+\item limit-source exposure, requiring every tail comparison to read the displayed convergence classifier stored in $L$;
+\item paired-window synchronization, requiring the two sequence observations and the two limit observations to be taken from the same tolerance request in $W$;
+\item triangle-ledger exactness, requiring the Cauchy comparison to be assembled only from the two sequence-to-limit comparisons recorded in $D$;
+\item criterion handoff, requiring the row $K$ to reuse the same finite windows and dyadic ledger rather than introducing a second sequence representative;
+\item seal boundary, requiring every terminal $\RealUp$ read to remain downstream of $L,W,D,K,R$ and the structural rows.
+\end{enumerate}
+No obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:convergent-sequence-cauchy-carrier}. Its visible coordinates are exactly the displayed limit row, paired tail-window schedule, dyadic triangle ledger, criterion row, regular rational readback, terminal seal, transport, replay, provenance, and local naming row.
+
+The limit-source and paired-window obligations are forced by $L$ and $W$. A Cauchy request first selects one tolerance request, then $W$ exposes two tail observations together with the matching limit observations certified by the displayed convergence row $L$.
+
+The triangle-ledger obligation is read from $D$. The ledger contains the two sequence-to-limit comparisons and the finite triangle route comparing the two tail observations through the displayed limit, so no detached comparison row is available.
+
+The criterion handoff is the projection to $K$. Since $K$ is part of the same packet and reuses $W,D,R$, the local certificate names the Cauchy criterion without adding a second stream representative or a selected host limit.
+
+The seal boundary follows from the ordering of the rows. The terminal seal $E$ can be consumed only after the displayed limit, paired windows, dyadic ledger, criterion handoff, and regular rational readback have been exposed, while $H,C,P,N$ transport, replay, source, and name the same finite route.
+\end{proof}
+
+\begin{theorem}[Convergent sequence Cauchy tail-window factorization]\label{thm:convergent-sequence-cauchy-window-factorization}
+Let $Q=(L,W,D,K,R,E,H,C,P,N)$ be an accepted $\ConvergentSequenceCauchyUp$ carrier. Every $\CauchyConvergenceCriterionUp$ consumer of $Q$ factors through the finite route
+$$
+L \longmapsto W \longmapsto D \longmapsto K
+$$
+before it can inspect the regular rational readback $R$, the terminal $\RealUp$ seal $E$, or the structural rows $H,C,P,N$. The route compares two tail observations only by routing each observation through the displayed limit row and then through the dyadic triangle ledger.
+\end{theorem}
+\begin{proof}
+Begin with a criterion-facing consumer of $Q$. Carrier admission gives the consumer no sequence source except the displayed $\RealSequenceLimitUp$ row $L$.
+
+The request then passes to the paired window schedule $W$. This schedule supplies two tail observations for the same dyadic tolerance request, together with the limit-side observation windows needed to read the convergence classifier in $L$.
+
+Next read the dyadic triangle ledger $D$. The ledger is the only row comparing the two tail observations, and it does so by composing the two sequence-to-limit comparisons through the displayed limit.
+
+The handoff to $K$ now has exactly the data required by the $\CauchyConvergenceCriterionUp$ surface: finite windows, dyadic tolerances, and a regular rational readback route. Only after this handoff may the consumer inspect $R,E,H,C,P,N$, so the criterion read factors through $L,W,D,K$.
+\end{proof}
+
+\begin{theorem}[Convergent sequence Cauchy Real-seal boundary]\label{thm:convergent-sequence-cauchy-real-seal-boundary}
+For an accepted $\ConvergentSequenceCauchyUp$ carrier $Q=(L,W,D,K,R,E,H,C,P,N)$, every terminal $\RealUp$-facing read is downstream of the displayed convergence row $L$, the paired tail-window schedule $W$, the dyadic triangle ledger $D$, the criterion row $K$, and the regular rational readback $R$. The read exports only the finite NameCert route from displayed convergence to displayed Cauchy data, not host sequence convergence, a selected limit, quotient stream equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Start from the accepted packet. The terminal seal row $E$ is not a source coordinate; it is listed after the displayed limit row, paired window schedule, dyadic ledger, criterion row, and regular rational readback.
+
+A terminal consumer must therefore traverse $L,W,D,K,R$ in order. The rows $L,W,D$ supply the finite convergence-to-Cauchy triangle route, while $K$ names the Cauchy criterion handoff and $R$ supplies the regular rational observations used by that handoff.
+
+The structural rows preserve the same route. Transport $H$ is componentwise, replay $C$ follows the displayed request path, provenance $P$ records the same dependencies, and $N$ names the local certificate.
+
+Since the carrier has no coordinate for host sequence convergence, selected limits, quotient stream equality, countable choice, trichotomy, ambient real completeness, Lean verification, or bridge checking, the terminal seal read exports none of those principles.
+\end{proof}
+
+\closureat{ConvergentSequenceCauchyUp}{seedStr}
+
+\begin{closurestatus}{\ConvergentSequenceCauchyUp}
+  \constructivestory{A $\ConvergentSequenceCauchyUp$ packet is generated from a displayed RealSequenceLimit row, paired finite tail-window schedule, DyadicRatCore triangle ledger, CauchyConvergenceCriterion handoff, RegSeqRat readback, terminal RealUp seal, componentwise hsame transports, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:convergent-sequence-cauchy-carrier}, \autoref{thm:convergent-sequence-cauchy-namecert-obligations}, \autoref{thm:convergent-sequence-cauchy-window-factorization}, and \autoref{thm:convergent-sequence-cauchy-real-seal-boundary} seed the finite route from displayed convergence data to displayed Cauchy criterion data through paired tail windows and a dyadic triangle ledger.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host sequence convergence, selected limits, quotient stream equality, countable choice, trichotomy, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, limit-source exposure, paired-window synchronization, triangle-ledger exactness, criterion handoff, and Real-seal boundary for the same displayed packet.}
+\end{closurestatus}

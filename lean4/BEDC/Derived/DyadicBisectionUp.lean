@@ -271,4 +271,40 @@ theorem DyadicBisectionCarrier_public_branch_totality [AskSetup] [PackageSetup]
     ⟨retainedUnary, sealUnary, publicRouteUnary, selectedRow, retainedRow, sealRoute,
       publicRouteRow, routePkg, publicRouteSig⟩
 
+theorem DyadicBisectionCarrier_retained_interval_consumer_route [AskSetup] [PackageSetup]
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    {initial precision midpoint branch nested endpoint regseq stream real transport route name
+      selected retained sealRow publicRoute publicRoute' : BHist} :
+    DyadicBisectionCarrier initial precision midpoint branch nested endpoint regseq stream real
+        transport route name bundle pkg ->
+      Cont branch nested selected ->
+        Cont selected endpoint retained ->
+          Cont retained stream sealRow ->
+            Cont sealRow name publicRoute ->
+              Cont sealRow name publicRoute' ->
+                PkgSig bundle publicRoute pkg ->
+                  PkgSig bundle publicRoute' pkg ->
+                    hsame publicRoute publicRoute' ∧ UnaryHistory publicRoute ∧
+                      UnaryHistory publicRoute' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame
+  intro carrier selectedRow retainedRow sealRoute publicRouteRow publicRouteRow'
+    _publicRouteSig _publicRouteSig'
+  obtain ⟨_initialUnary, _precisionUnary, _midpointUnary, branchUnary, nestedUnary,
+    endpointUnary, _regseqUnary, streamUnary, _realUnary, _transportUnary, _routeUnary,
+    nameUnary, _initialPrecision, _midpointBranch, _nestedEndpoint, _regseqStream,
+    _realTransport, _routePkg, _namePkg⟩ := carrier
+  have selectedUnary : UnaryHistory selected :=
+    unary_cont_closed branchUnary nestedUnary selectedRow
+  have retainedUnary : UnaryHistory retained :=
+    unary_cont_closed selectedUnary endpointUnary retainedRow
+  have sealUnary : UnaryHistory sealRow :=
+    unary_cont_closed retainedUnary streamUnary sealRoute
+  have publicRouteUnary : UnaryHistory publicRoute :=
+    unary_cont_closed sealUnary nameUnary publicRouteRow
+  have publicRouteUnary' : UnaryHistory publicRoute' :=
+    unary_cont_closed sealUnary nameUnary publicRouteRow'
+  have samePublicRoute : hsame publicRoute publicRoute' :=
+    cont_respects_hsame (hsame_refl sealRow) (hsame_refl name) publicRouteRow publicRouteRow'
+  exact ⟨samePublicRoute, publicRouteUnary, publicRouteUnary'⟩
+
 end BEDC.Derived.DyadicBisectionUp

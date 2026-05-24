@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\RealMinMaxUp$}
+\label{ch:concrete-instances-real-min-max-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, finite minimum and maximum of two displayed real names are read through located comparison and equality rows, not through trichotomy, quotient equality, host real order, or completeness. The $\RealMinMaxUp$ packet sits over the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the equality boundary of \autoref{ch:concrete-instances-real-equality-namecert}, the located comparison row of \autoref{ch:concrete-instances-bishoprealcomparison-namecert}, and the algebraic order ledger of \autoref{ch:concrete-instances-real-alg-order-namecert}. It supplies a finite order-operation boundary for RealAlgOrder consumers without selecting representatives or asserting ambient completeness.
+
+\begin{definition}[RealMinMax carrier]
+\label{def:real-min-max-carrier}
+A $\RealMinMaxUp$ carrier is a finite $\BHist$ packet
+$$
+M=(X,Y,R_X,R_Y,S_X,S_Y,D,E,C,O,L,U,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two displayed $\RealUp$ seal rows whose finite minimum and maximum are being named.
+\item $R_X$ and $R_Y$ are the two $\RegSeqRatUp$ readback rows exposed by the real seals before any order operation is consumed.
+\item $S_X$ and $S_Y$ are finite $\StreamNameUp$ windows selecting the observations used by $R_X$ and $R_Y$.
+\item $D$ is the $\DyadicRatCoreUp$ comparison-tolerance ledger, recording the dyadic radius, slack, and finite comparison budget for the windows.
+\item $E$ is the $\RealEqualityUp$ boundary row, used when the displayed comparison reaches an equality or overlap boundary.
+\item $C$ is the $\BishopRealComparisonUp$ row, recording the located comparison verdict obtained from the readbacks and the dyadic tolerance ledger.
+\item $O$ is the $\RealAlgOrderUp$ order ledger, exposing the nonnegative and apartness-facing rows that downstream algebraic-order consumers may read.
+\item $L$ is the minimum row. It is admitted only after $X,Y,R_X,R_Y,S_X,S_Y,D,E,C,O$ have been displayed.
+\item $U$ is the maximum row. It is admitted only after the same comparison, equality, and order rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two real seals, readbacks, finite windows, tolerance ledger, equality row, comparison row, order ledger, minimum row, maximum row, continuation row, provenance row, and local naming row.
+\item $T$ records displayed $\Cont$ replay from a finite comparison request through $S_X,S_Y,R_X,R_Y,D,E,C,O,L,U$ and back to the public min/max boundary.
+\item $P$ is the $\Pkg$ provenance over $\RealMinMaxUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealEqualityUp$, $\BishopRealComparisonUp$, $\RealAlgOrderUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealMinMaxUp}$ row.
+\end{enumerate}
+The carrier predicate is exactly the assertion that these rows form one finite constructive min/max packet. It has no coordinate for real trichotomy, quotient real equality, host real order, selected representatives, or $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.RealMinMaxUp.RealMinMaxUp\_single\_carrier\_alignment}
+
+\begin{theorem}[RealMinMax NameCert obligations]
+\label{thm:real-min-max-namecert-obligations}
+For every accepted $\RealMinMaxUp$ carrier $M=(X,Y,R_X,R_Y,S_X,S_Y,D,E,C,O,L,U,H,T,P,N)$, the local $\NameCert_{\RealMinMaxUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two $\RealUp$ seals, two $\RegSeqRatUp$ readbacks, two finite $\StreamNameUp$ windows, dyadic tolerance ledger, equality boundary, comparison row, order ledger, min row, max row, transport, replay, provenance, and local naming rows;
+\item classifier transport, requiring $H$ and $T$ to preserve the same two seals, readbacks, windows, tolerance row, equality row, comparison row, order row, and min/max rows componentwise;
+\item finite comparison handoff, requiring every order-facing consumer to receive $L$ and $U$ only through the displayed route $D,E,C,O$;
+\item min/max row stability, requiring replacement of displayed windows by $\hsame$-transported windows to preserve the same public minimum and maximum rows;
+\item non-escape, excluding trichotomy, quotient real equality, host real order, selected representatives, $\RealUp$ completeness, and bridge checking.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealMinMaxUp.RealMinMaxTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the accepted carrier. The analytic coordinates are the two real seals, their readbacks, their finite windows, the tolerance ledger, the equality boundary, the comparison row, the algebraic order row, and the two output rows $L$ and $U$.
+
+Carrier admission is exactly admission of those displayed coordinates together with $H,T,P,N$. The local certificate has no additional field from which a host real value or quotient representative could be recovered.
+
+Classifier transport is structural. Componentwise $\hsame$ in $H$ keeps the two input seals, readbacks, windows, comparison data, and output rows aligned, while $\Cont$ replay in $T$ repeats the same finite comparison route for later consumers.
+
+The handoff obligation is forced by the order of the rows. A consumer can inspect $L$ or $U$ only after the dyadic tolerance row $D$, equality row $E$, located comparison row $C$, and algebraic order ledger $O$ have already been displayed.
+
+Min/max stability follows because changing finite windows along the recorded $\hsame$ transport does not change the comparison route presented to $D,E,C,O$. The same route therefore names the same public minimum and maximum rows.
+
+Finally, the non-escape clause is immediate from the carrier surface. None of trichotomy, quotient real equality, host real order, selected representatives, $\RealUp$ completeness, or bridge checking is a coordinate of $M$.
+\end{proof}
+
+\begin{theorem}[RealMinMax finite comparison handoff]
+\label{thm:real-min-max-finite-comparison-handoff}
+For every accepted $\RealMinMaxUp$ carrier $M=(X,Y,R_X,R_Y,S_X,S_Y,D,E,C,O,L,U,H,T,P,N)$, every $\RealAlgOrderUp$ consumer receives the minimum row $L$ and maximum row $U$ only through the displayed finite route
+$$
+X,Y \longmapsto S_X,S_Y \longmapsto R_X,R_Y \longmapsto D,E,C,O \longmapsto L,U \longmapsto H,T,P,N .
+$$
+Consequently the handoff supplies min/max data only through displayed finite comparison, equality, and order rows; it does not supply trichotomy, quotient real equality, host real order, selected representatives, $\RealUp$ completeness, or a bridge-checked standard object.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier. The only input real rows are $X$ and $Y$, and their only readback route in the packet passes through the finite windows $S_X,S_Y$ and regular rational rows $R_X,R_Y$.
+
+The comparison data are then fixed by $D,E,C,O$. The dyadic row $D$ supplies the finite tolerance budget, $E$ records the equality boundary, $C$ records the Bishop-style located comparison read, and $O$ records the algebraic order ledger consumed by RealAlgOrder-facing requests.
+
+The output rows $L$ and $U$ occur after those rows in the carrier, so they cannot be read before the comparison route is displayed. They are therefore public min/max rows over that route rather than representatives selected from a host ordered real.
+
+The rows $H,T,P,N$ transport, replay, source, and name the same packet. Since the carrier has no coordinate for trichotomy, quotient real equality, host real order, selected representatives, completeness, or bridge checking, every $\RealAlgOrderUp$ consumer receives only the displayed finite handoff.
+\end{proof}
+
+\begin{closurestatus}{\RealMinMaxUp}
+  \constructivestory{A $\RealMinMaxUp$ packet is generated from two displayed RealUp seals, two RegSeqRat readbacks, finite StreamName windows, a DyadicRatCore comparison-tolerance ledger, a RealEquality boundary row, a BishopRealComparison comparison row, a RealAlgOrder order ledger, min and max rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-min-max-carrier}, \autoref{thm:real-min-max-namecert-obligations}, and \autoref{thm:real-min-max-finite-comparison-handoff} seed the finite constructive min/max boundary for displayed RealUp names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim trichotomy, quotient real equality, host real order, selected representatives, RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, finite comparison handoff, min/max row stability, and non-escape proofs for BEDC.Derived.RealMinMaxUp.}
+\end{closurestatus}

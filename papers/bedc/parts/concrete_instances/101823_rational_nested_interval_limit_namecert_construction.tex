@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\RationalNestedIntervalLimitUp$}
+\label{ch:concrete-instances-rational-nested-interval-limit-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RationalNestedIntervalLimitUp$ packet records the rational nested-interval construction of a regular Cauchy name through finite endpoint windows, not a host interval intersection or ambient real-completeness theorem. It sits between the nested-interval surface of \autoref{ch:concrete-instances-nestedinterval-namecert}, the rational interval endpoint carrier of \autoref{ch:concrete-instances-rationalinterval-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter isolates the interval-to-regular-name handoff: finite rational windows and width controls are displayed before any consumer may read the $\RegSeqRatUp$ row or the $\RealUp$ seal.
+
+\begin{definition}[Rational nested-interval limit carrier]
+\label{def:rational-nested-interval-limit-carrier}
+A $\RationalNestedIntervalLimitUp$ carrier is a finite $\BHist$ packet
+$$
+L=(I,W,E,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the rational nested-interval row. It records the inspected finite chain of rational intervals, the endpoint order witnesses, and the displayed containment step from each interval to its predecessor.
+\item $W$ is the width and tolerance ledger. It records the finite dyadic and rational bounds that turn each inspected interval width into the requested regular-Cauchy tolerance.
+\item $E$ is the endpoint-enclosure row. It records the lower and upper rational endpoint windows read through the $\RationalIntervalUp$ and $\DyadicRatCoreUp$ sibling surfaces.
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained from the displayed endpoint windows and the width ledger.
+\item $S$ is the terminal $\RealUp$ seal, visible only after $I,W,E,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the interval chain, width ledger, endpoint enclosures, regular rational handoff, terminal seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite nested-interval request through $I,W,E,R,S$.
+\item $P$ is the $\Pkg$ provenance over $\RationalNestedIntervalLimitUp$, $\NestedIntervalUp$, $\RationalIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RationalNestedIntervalLimitUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,W,E,R,S,H,C,P,N$. The carrier has no coordinate for host interval intersections, quotient stream equality, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Rational nested-interval limit NameCert obligations]
+\label{thm:rational-nested-interval-limit-namecert-obligations}
+For every accepted $\RationalNestedIntervalLimitUp$ carrier
+$$
+L=(I,W,E,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\RationalNestedIntervalLimitUp}$ surface consists exactly of the following five finite obligation rows:
+\begin{enumerate}
+\item carrier admission: the accepted object is exactly the displayed packet with rational nested-interval data, width and tolerance data, endpoint enclosures, regular rational handoff, terminal real seal, transport, replay, provenance, and local naming;
+\item nesting exactness: every interval read is one of the displayed rational rows of $I$, and every successor interval is read together with its displayed containment witness;
+\item width-to-tolerance control: every requested tolerance consumed by the handoff row is discharged by a visible width entry in $W$ and the corresponding endpoint enclosure in $E$;
+\item RegSeqRat handoff exactness: the row $R$ reads only the rational interval windows and width entries displayed by $I,W,E$;
+\item Real-seal nonescape: the terminal seal $S$ is reached only after $I,W,E,R$ and the structural rows $H,C,P,N$ have been displayed.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:rational-nested-interval-limit-carrier}. The accepted packet displays exactly the rational interval chain, width ledger, endpoint enclosures, regular rational handoff, Real seal, and structural rows.
+
+Nesting exactness is forced by $I$. A consumer can inspect only the finite chain already present in the packet, and each successor interval is carried with its containment witness into the preceding interval.
+
+Width-to-tolerance control is forced by $W$ and $E$. The tolerance request cannot reach the regular-Cauchy handoff until the width row supplies the bound and the endpoint-enclosure row supplies the rational windows used to witness it.
+
+The RegSeqRat handoff exactness clause follows because $R$ is downstream of $I,W,E$. It repacks those displayed interval windows as a regular rational readback and has no coordinate for a second chain, a quotient stream, or a selected host limit.
+
+Finally, $S,H,C,P,N$ close the route. The Real seal is terminal, while transport, replay, provenance, and the local NameCert row preserve the same finite data. Since no excluded coordinate occurs in the carrier, the local NameCert surface has exactly the listed obligations.
+\end{proof}
+
+\begin{theorem}[Rational nested-interval RegSeqRat handoff]
+\label{thm:rational-nested-interval-limit-regseqrat-handoff}
+Let $L=(I,W,E,R,S,H,C,P,N)$ be an accepted $\RationalNestedIntervalLimitUp$ carrier. Every $\RegSeqRatUp$ consumer read exported by $L$ factors through the displayed rational interval windows $I,E$ and the width ledger $W$ before reaching the terminal $\RealUp$ seal $S$. Equivalently, the only exported completion-facing route has the form
+$$
+I,E,W \longmapsto R \longmapsto S .
+$$
+The route provides a regular rational name from finite rational nested-interval data; it does not provide host interval intersection, quotient stream equality, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a consumer read of the regular rational handoff. The carrier gives no direct edge to $R$ except through the displayed rational nested-interval row $I$, the endpoint-enclosure row $E$, and the width ledger $W$.
+
+The endpoint windows in $E$ are tied to the same inspected interval chain recorded in $I$. The width ledger $W$ then supplies the tolerance comparison required for the regular-Cauchy readback, so the consumer cannot replace the displayed chain by a host intersection or by a selected endpoint.
+
+After $I,E,W$ have been displayed, the read may reach $R$. Only then may the terminal seal $S$ be consumed, and the structural rows $H,C,P,N$ transport, replay, source, and name the same route.
+
+Because the carrier contains no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, or ambient Real completeness, every exported $\RegSeqRatUp$ read remains the finite route shown above.
+\end{proof}
+
+\closureat{RationalNestedIntervalLimitUp}{seedStr}
+
+\begin{closurestatus}{\RationalNestedIntervalLimitUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-nested-interval-limit-carrier}, \autoref{thm:rational-nested-interval-limit-namecert-obligations}, and \autoref{thm:rational-nested-interval-limit-regseqrat-handoff} seed the finite rational nested-interval route from endpoint windows and width ledgers to a RegSeqRat handoff and terminal Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host interval intersections, quotient stream equality, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, nesting exactness, width-to-tolerance control, RegSeqRat handoff exactness, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RationalNestedIntervalLimitUp.}
+  \constructivestory{A $\RationalNestedIntervalLimitUp$ packet is generated from a rational nested-interval row, a width and tolerance ledger, endpoint enclosure windows, a RegSeqRat handoff row, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

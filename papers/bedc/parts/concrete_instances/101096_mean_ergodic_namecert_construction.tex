@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\MeanErgodicUp$}
+\label{ch:concrete-instances-mean-ergodic-namecert}
+\origin{human}
+
+Following von Neumann on Hilbert-space mean convergence and Birkhoff on orbit averages, the $\MeanErgodicUp$ packet records only the finite Cesaro-average ledger visible to a BEDC consumer. It consumes the measure-preserving transformation surface of \autoref{ch:concrete-instances-ergodic-namecert}, the finite transition rows of \autoref{ch:concrete-instances-dynsystem-namecert}, the event and preservation rows of \autoref{ch:concrete-instances-measure-namecert}, the finite transfer-row handoff of \autoref{ch:concrete-instances-transferoperator-namecert}, and the Cesaro averaging route of \autoref{ch:concrete-instances-hardy-cesaro-mean-namecert}. The chapter names a finite averaging NameCert surface; it does not claim a host Hilbert projection, pointwise convergence theorem, invariant-function quotient, or ambient completed orbit space.
+
+\begin{definition}[Mean ergodic carrier]
+\label{def:mean-ergodic-carrier}
+A $\MeanErgodicUp$ carrier is a finite $\BHist$ packet
+$$
+M=(E,D,W,T,H,A,P,R,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the measure-preserving $\ErgodicUp$ source row. It displays the carried transformation, the invariant-row ledger, the measure-preservation witness, and the finite dynamic and measure endpoints already visible through $\ErgodicUp$.
+\item $D$ is the $\DynSystemUp$ step row for the same transformation, recording the source point row, successor row, and finite iterate endpoints used by the orbit window.
+\item $W$ stores finite orbit windows $x,Tx,\ldots,T^{n-1}x$ together with the visible unary window length $n$.
+\item $T$ is the $\TransferOperatorUp$ or transition-row handoff. It records the finite row by which each displayed step is transported into the averaging ledger when the packet is read through a transfer-style consumer.
+\item $H$ is the $\HardyCesaroMeanUp$ averaging row. It stores the prefix sums, denominator row, and finite Cesaro division route for the orbit-window observations.
+\item $A$ stores the averaged endpoint rows exposed to downstream consumers, each obtained only after $W,T,H$ have been displayed.
+\item $P$ is the $\MeasureUp$ preservation row, recording that the same measure ledger is carried across the displayed transformation and its finite orbit-window reads.
+\item $R$ stores componentwise $\hsame$ transport for the ergodic source, dynamic steps, finite windows, transfer rows, Cesaro averages, averaged endpoints, measure preservation, replay, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ replay from an orbit-window request through $E,D,W,T,H,A,P,R,Q,N$.
+\item $Q$ is the $\Pkg$ provenance over $\MeanErgodicUp$, $\ErgodicUp$, $\DynSystemUp$, $\TransferOperatorUp$, $\HardyCesaroMeanUp$, $\MeasureUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MeanErgodicUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,D,W,T,H,A,P,R,C,Q,N$. It has no coordinate for a host Hilbert-space projection, pointwise ergodic convergence, completed invariant subspace, quotient orbit space, spectral theorem, or ambient Banach-space limit.
+\end{definition}
+\leanchecked{BEDC.Derived.MeanErgodicUp.MeanErgodicTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Mean ergodic NameCert obligations]
+\label{thm:mean-ergodic-namecert-obligations}
+For every accepted $\MeanErgodicUp$ carrier $M=(E,D,W,T,H,A,P,R,C,Q,N)$, the local $\NameCert_{\MeanErgodicUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed ergodic source, dynamic step row, finite orbit windows, transfer handoff, Hardy--Cesaro averaging row, averaged endpoint rows, measure-preservation row, transport, replay, provenance, and local name;
+\item orbit-window exactness, requiring every entry of $W$ to be read from the displayed $\DynSystemUp$ step ledger and the measure-preserving $\ErgodicUp$ source row;
+\item Cesaro-average exactness, requiring every exposed average in $A$ to be computed by the $\HardyCesaroMeanUp$ row from the displayed finite orbit window and denominator row;
+\item preservation stability, requiring the $\MeasureUp$ preservation row to be transported with the same $\hsame$ and $\Cont$ routes as the orbit-window source;
+\item nonescape, requiring the packet to export no Hilbert projection, no pointwise convergence theorem, no invariant-function quotient, no completed orbit space, and no ambient spectral or Banach-space limit.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:mean-ergodic-carrier}. The visible packet lists exactly the ergodic source, dynamic steps, orbit windows, transfer rows, Cesaro averaging row, averaged endpoints, preservation row, transport rows, replay rows, provenance, and local name.
+
+Orbit-window exactness is read from $D$ and $W$. Each window entry is generated by replaying the displayed $\DynSystemUp$ step row over the transformation already carried by $E$, so there is no independent trajectory object.
+
+Cesaro-average exactness is read from $H$ and $A$. The averaging row consumes the finite window $W$, prefix sums, the visible denominator, and dyadic division data supplied by $\HardyCesaroMeanUp$ before an averaged endpoint can be exposed.
+
+Preservation stability is then read from $P,R,C$. The same measure-preservation row is transported along the displayed $\hsame$ and replay routes used by the orbit-window source, so a measure claim cannot detach from the carried transformation.
+
+Finally, nonescape follows from the carrier inventory. Since none of the coordinates names a Hilbert projection, pointwise convergence theorem, invariant quotient, completed orbit space, spectral theorem, or Banach limit, the local NameCert obligations are exhausted by the finite rows above.
+\end{proof}
+
+\begin{theorem}[Mean ergodic Cesaro-average handoff]
+\label{thm:mean-ergodic-cesaro-average-handoff}
+Every averaged endpoint exported by an accepted $\MeanErgodicUp$ packet factors through the route
+$$
+\ErgodicUp \longmapsto \DynSystemUp \longmapsto \TransferOperatorUp \longmapsto \HardyCesaroMeanUp \longmapsto \MeasureUp
+$$
+as instantiated by $E,D,T,H,P$ and the finite orbit-window row $W$. Consequently, the consumer sees only the displayed transformation, finite orbit windows, transfer or step handoff rows, Hardy--Cesaro prefix averages, measure-preservation ledger, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming before reading $A$.
+\end{theorem}
+\begin{proof}
+Start with an averaged-endpoint request. The request first opens $E$, so the transformation and preservation source are the carried $\ErgodicUp$ rows rather than a host measurable dynamical system.
+
+The finite orbit is then read through $D$ and $W$. These rows display the step ledger and the selected finite window length, so the consumer has only the requested finite prefix of the orbit.
+
+If the packet is viewed through a transfer-style consumer, $T$ records the handoff from the step rows into the finite transfer ledger. This handoff is still a finite row route and does not add an analytic transfer operator or a spectral datum.
+
+The averaging itself is supplied by $H$. By \autoref{ch:concrete-instances-hardy-cesaro-mean-namecert}, the prefix sum, denominator, and division rows are the only route from the finite window to a Cesaro mean.
+
+The preservation row $P$ is finally replayed along the same transported source. Thus every exported endpoint in $A$ factors through the displayed finite route and no alternate host projection or convergence theorem can be read.
+\end{proof}
+
+\begin{theorem}[Mean ergodic nonescape boundary]
+\label{thm:mean-ergodic-nonescape-boundary}
+An accepted $\MeanErgodicUp$ carrier exports no data beyond the finite rows $E,D,W,T,H,A,P,R,C,Q,N$. In particular, it does not export a Hilbert-space orthogonal projection onto invariant vectors, a pointwise almost-everywhere convergence theorem, an invariant-function quotient, an infinite orbit measure, a completed orbit closure, a spectral decomposition, or a Banach-space limit operator.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to the tuple of \autoref{def:mean-ergodic-carrier}. The only readable coordinates are the displayed finite rows $E,D,W,T,H,A,P,R,C,Q,N$.
+
+The first group $E,D,W,T,H,A,P$ accounts for the mathematical content: carried ergodic source, displayed dynamic steps, finite windows, transfer handoff, Cesaro averaging, averaged endpoints, and measure preservation. Each row has a named sibling source and a finite replay route.
+
+The second group $R,C,Q,N$ accounts for transport, continuation replay, package provenance, and local naming. These structural rows preserve and name the same packet; they do not add a projection, quotient, completion, spectral, or Banach-space coordinate.
+
+Therefore any downstream consumer is confined to the finite rows in the carrier. The listed host-level objects are not merely unproved; they are absent from the packet boundary.
+\end{proof}
+
+\falsifiablePrediction{Every $\MeanErgodicUp$ averaged endpoint read factors through one ErgodicUp measure-preserving source row, one DynSystemUp finite step ledger, one finite orbit-window row, a TransferOperatorUp or step handoff row, one HardyCesaroMeanUp averaging row, one MeasureUp preservation row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{ergodic, dynsystem, transferoperator, hardycesaromean, measure: $\MeanErgodicUp$ is not bijective to any listed sibling because it jointly carries a measure-preserving ergodic source, finite orbit windows, transition handoff rows, Cesaro prefix averages, preservation stability, transport, replay, provenance, and local naming while excluding host projection and convergence coordinates.}
+
+\closureat{MeanErgodicUp}{seedStr}
+
+\begin{closurestatus}{\MeanErgodicUp}
+  \constructivestory{A $\MeanErgodicUp$ packet is generated from an ErgodicUp measure-preserving source row, DynSystemUp finite step rows, finite orbit-window rows, TransferOperatorUp or step handoff rows, HardyCesaroMeanUp prefix-average rows, MeasureUp preservation rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:mean-ergodic-carrier}, \autoref{thm:mean-ergodic-namecert-obligations}, \autoref{thm:mean-ergodic-cesaro-average-handoff}, and \autoref{thm:mean-ergodic-nonescape-boundary} seed the finite Cesaro-average ergodic packet from measure-preserving orbit windows to averaged endpoint reads.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.MeanErgodicUp.MeanErgodicTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host Hilbert-space projection, pointwise ergodic convergence, invariant-function quotients, infinite orbit measures, completed orbit closures, spectral decompositions, Banach-space limit operators, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, orbit-window exactness, Cesaro-average handoff, preservation stability, nonescape, and local naming for BEDC.Derived.MeanErgodicUp.}
+\end{closurestatus}

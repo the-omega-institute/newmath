@@ -1,0 +1,114 @@
+\chapter{A Concrete Naming Certificate for $\ConvergentRealSequenceCauchyUp$}
+\label{ch:concrete-instances-convergent-real-sequence-cauchy-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\ConvergentRealSequenceCauchyUp$ packet records the finite route by which displayed convergence data for a real sequence supplies Cauchy readiness. It sits between the displayed-limit surface of \autoref{ch:concrete-instances-real-sequence-limit-namecert}, the Cauchy-consumer boundary of \autoref{ch:concrete-instances-real-cauchy-criterion-namecert}, the oscillation route of \autoref{ch:concrete-instances-cauchyoscillation-namecert}, the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is an induction-style L10 handoff from a displayed limit row to a late-pair Cauchy-test row; it is not a Real completeness theorem and it does not choose limits for arbitrary streams.
+
+\begin{definition}[Convergent real sequence Cauchy carrier]\label{def:convergent-real-sequence-cauchy-carrier}
+A $\ConvergentRealSequenceCauchyUp$ carrier is a finite $\BHist$ packet
+$$
+C=(L,W,Q,D,T,E,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\RealSequenceLimitUp$ row, containing the displayed source sequence, the displayed limit $\RealUp$ row, the convergence tail schedule, and the local convergence classifier.
+\item $W$ stores the finite $\StreamNameUp$ windows selected from the sequence and from the displayed limit row.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the sequence windows, limit windows, and late-pair rational observations opened by $W$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the split tolerance, triangle budget, and comparison entries used to turn two convergence reads into one late-pair Cauchy test.
+\item $T$ is the late-pair Cauchy-test ledger, pairing the two sufficiently late sequence indices with the shared limit row and the dyadic split budget.
+\item $E$ is the $\RealCauchyCriterionUp$ consumer row, exposed only after $L,W,Q,D,T$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the limit row, stream windows, rational readback, dyadic ledger, late-pair test, Cauchy-consumer row, replay row, provenance row, and local naming row.
+\item $R$ records displayed $\Cont$ replay from a convergence request through the two late reads, the common limit, the dyadic split ledger, and the Cauchy-consumer row.
+\item $P$ is the $\Pkg$ provenance over $\ConvergentRealSequenceCauchyUp$, $\RealSequenceLimitUp$, $\RealCauchyCriterionUp$, $\CauchyOscillationUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConvergentRealSequenceCauchyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,W,Q,D,T,E,H,R,P,N$. It has no coordinate for Real completeness, quotient streams, selected limits, trichotomy, countable choice, host sequence equality, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.ConvergentRealSequenceCauchyUp.ConvergentRealSequenceCauchyTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Convergent real sequence Cauchy NameCert obligations]\label{thm:convergent-real-sequence-cauchy-namecert-obligations}
+For every accepted $\ConvergentRealSequenceCauchyUp$ carrier
+$$
+C=(L,W,Q,D,T,E,H,R,P,N),
+$$
+the local $\NameCert_{\ConvergentRealSequenceCauchyUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed $\RealSequenceLimitUp$ row, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, late-pair Cauchy-test ledger, $\RealCauchyCriterionUp$ consumer row, transport, replay, provenance, and local naming rows;
+\item limit-row exactness, requiring $L$ to be the only source of the displayed sequence, displayed limit, and convergence tail schedule;
+\item window and readback alignment, requiring $W$ and $Q$ to expose only the sequence, limit, and late-pair observations selected by $L$ and $T$;
+\item dyadic split exactness, requiring $D$ to store the tolerance split and triangle comparison used by the late-pair test;
+\item late-pair Cauchy-test exactness, requiring $T$ to use two convergence reads from $L$ against the same displayed limit row before any Cauchy consumer is exposed;
+\item criterion handoff, requiring $E$ to be read only after $L,W,Q,D,T$ have been replayed;
+\item componentwise transport, displayed replay, provenance, and local naming through $H,R,P,N$;
+\item refusal of Real completeness, quotient streams, selected limits, trichotomy, countable choice, host sequence equality, Lean verification, and bridge checking as local certificate data.
+\end{enumerate}
+No convergent-real-sequence Cauchy obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:convergent-real-sequence-cauchy-carrier}. The visible packet consists of the displayed convergence row $L$, finite windows $W$, rational readback $Q$, dyadic ledger $D$, late-pair test $T$, Cauchy-consumer row $E$, and structural rows $H,R,P,N$.
+
+The limit row is the only source of convergence data. It supplies the displayed sequence, the displayed limit, and the tail schedule that selects the two late reads used by the Cauchy test.
+
+The window, readback, and dyadic rows align those two reads. The row $W$ exposes only the selected sequence and limit windows, $Q$ reads back the corresponding regular rational observations, and $D$ records the split tolerance and triangle comparison.
+
+The late-pair ledger $T$ then forms the Cauchy test by comparing both late sequence values to the same displayed limit row. Only after that finite test is displayed can the $\RealCauchyCriterionUp$ row $E$ be read.
+
+Finally, $H,R,P,N$ transport, replay, record, and name the same finite route. Since none of the excluded objects occur as carrier coordinates, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Convergent real sequence Cauchy criterion handoff]\label{thm:convergent-real-sequence-cauchy-criterion-handoff}
+Every $\RealCauchyCriterionUp$-facing read from an accepted $\ConvergentRealSequenceCauchyUp$ carrier
+$$
+C=(L,W,Q,D,T,E,H,R,P,N)
+$$
+factors through the displayed finite route
+$$
+L \longmapsto W \longmapsto Q \longmapsto D \longmapsto T \longmapsto E \longmapsto H,R,P,N .
+$$
+Consequently the consumer receives one displayed $\RealSequenceLimitUp$ row, finite $\StreamNameUp$ windows for the sequence and limit, $\RegSeqRatUp$ readback, a $\DyadicRatCoreUp$ tolerance split, a late-pair Cauchy-test ledger, a $\RealCauchyCriterionUp$ consumer row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The route exports no Real completeness theorem, quotient stream, selected limit, trichotomy principle, countable-choice selector, host sequence equality, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Begin with a Cauchy-facing read. The carrier has no direct Cauchy coordinate before $E$, so the read must first expose the displayed convergence row $L$.
+
+The two late sequence observations are then opened through $W$ and $Q$. These rows provide only the finite windows and rational readbacks selected by the convergence tail schedule and the late-pair request.
+
+The tolerance accounting is supplied by $D$. Its split budget and triangle comparison turn the two reads against the common displayed limit into the late-pair ledger $T$.
+
+The consumer row $E$ is downstream of that ledger. Thus any $\RealCauchyCriterionUp$ use sees $L,W,Q,D,T$ first, and the structural rows $H,R,P,N$ only preserve and name the same route.
+
+Because Real completeness, quotient streams, selected limits, trichotomy, countable choice, host sequence equality, Lean evidence, and bridge data are absent from the carrier, none of them can be exported by the handoff.
+\end{proof}
+
+\begin{theorem}[Convergent real sequence Cauchy late-pair exhaustion]\label{thm:convergent-real-sequence-cauchy-late-pair-exhaustion}
+Let
+$$
+C=(L,W,Q,D,T,E,H,R,P,N)
+$$
+be an accepted $\ConvergentRealSequenceCauchyUp$ carrier. Every accepted late-pair Cauchy-test ledger $T$ is exhausted by two convergence reads from the same $\RealSequenceLimitUp$ row $L$, the finite $\StreamNameUp$ windows $W$, the $\RegSeqRatUp$ readbacks $Q$, and one $\DyadicRatCoreUp$ split ledger $D$. No third limit row, alternate window family, selected limit, quotient stream equality, trichotomy principle, countable-choice selector, or ambient $\RealUp$ completeness coordinate can participate in the Cauchy handoff.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only limit coordinate is $L$, the only finite-window coordinate is $W$, the only rational readback coordinate is $Q$, and the only tolerance-split coordinate is $D$.
+
+Apply the limit-row exactness, window and readback alignment, and dyadic split exactness clauses of \autoref{thm:convergent-real-sequence-cauchy-namecert-obligations}. These clauses force $T$ to use two late reads selected by the same tail schedule in $L$, opened through $W$ and $Q$, and compared with the split ledger recorded in $D$.
+
+Now apply the criterion handoff theorem \autoref{thm:convergent-real-sequence-cauchy-criterion-handoff}. The consumer row $E$ is downstream of exactly the displayed route through $L,W,Q,D,T$.
+
+Since the carrier has no coordinate for a third limit row, a second window family, a selected host limit, quotient stream equality, trichotomy, countable choice, or ambient completeness, none of those objects can enter the late-pair ledger or the downstream Cauchy read.
+\end{proof}
+
+\falsifiablePrediction{Every $\ConvergentRealSequenceCauchyUp$ criterion-facing read factors through a displayed RealSequenceLimit row, finite StreamName windows for the sequence and limit, RegSeqRat readback, a DyadicRatCore tolerance split, a late-pair Cauchy-test ledger, a RealCauchyCriterion consumer row, componentwise hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{real-sequence-limit, real-cauchy-criterion, cauchyoscillation, streamname, regseqrat, dyadicratcore, real: $\ConvergentRealSequenceCauchyUp$ is not bijective to any listed sibling because it jointly carries a displayed convergence row, selected sequence-and-limit windows, regular rational readback, dyadic split accounting, a late-pair Cauchy-test ledger, criterion handoff, transport, replay, provenance, and local naming.}
+
+\closureat{ConvergentRealSequenceCauchyUp}{seedStr}
+
+\begin{closurestatus}{\ConvergentRealSequenceCauchyUp}
+  \constructivestory{A $\ConvergentRealSequenceCauchyUp$ packet is generated from a RealSequenceLimit row, finite StreamName windows for the source sequence and displayed limit, RegSeqRat readback, a DyadicRatCore tolerance ledger, a late-pair Cauchy-test ledger, a RealCauchyCriterion consumer row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:convergent-real-sequence-cauchy-carrier}, \autoref{thm:convergent-real-sequence-cauchy-namecert-obligations}, \autoref{thm:convergent-real-sequence-cauchy-criterion-handoff}, and \autoref{thm:convergent-real-sequence-cauchy-late-pair-exhaustion} seed the finite route from displayed convergence data to Cauchy readiness through late-pair dyadic accounting, readback, criterion handoff, transport, replay, provenance, and local naming.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ConvergentRealSequenceCauchyUp.ConvergentRealSequenceCauchyTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient streams, selected limits, trichotomy, countable choice, host sequence equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, limit-row exactness, window and readback alignment, dyadic split exactness, late-pair Cauchy-test exactness, criterion handoff, transport, replay, provenance, and local naming for BEDC.Derived.ConvergentRealSequenceCauchyUp.}
+\end{closurestatus}

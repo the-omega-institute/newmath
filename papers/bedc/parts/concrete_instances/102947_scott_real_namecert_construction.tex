@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\ScottRealUp$}
+\label{ch:concrete-instances-scott-real-namecert}
+\origin{human}
+
+Following Scott, Gierz--Hofmann--Keimel--Lawson--Mislove--Scott, and Bishop--Bridges, $\ScottRealUp$ is the finite interval-domain presentation of a real name. It sits after the interval-domain carrier of \autoref{ch:concrete-instances-intervaldomain-namecert}, the way-below refinement of \autoref{ch:concrete-instances-intervaldomainwaybelow-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet records the domain-theoretic real presentation as displayed NameCert data, not as quotient real equality, selected limits, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[ScottReal carrier]
+\label{def:scott-real-carrier}
+A $\ScottRealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(I,W,D,M,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\IntervalDomainUp$ row. It records the finite rational interval enclosure surface and the containment checks visible at the current request.
+\item $W$ is the $\IntervalDomainWayBelowUp$ row. It records the compact-containment and way-below refinements used to move between coarser and sharper interval observations.
+\item $D$ is the $\DyadicRatCoreUp$ refinement ledger. It stores dyadic endpoints, radii, slack, denominator budgets, and comparison witnesses for the displayed interval refinements.
+\item $M$ is the $\StreamNameUp$ window row. It schedules the finite interval observations consumed by a request without selecting an infinite stream representative.
+\item $R$ is the $\RegSeqRatUp$ handoff row. It reads the same displayed windows and dyadic budgets as regular rational observations.
+\item $E$ is the $\RealUp$ seal row. It is reachable only after the interval-domain, way-below, dyadic, stream-window, and regular-rational rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the interval-domain, way-below, dyadic, stream, regular-rational, real-seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite real-facing request through $I,W,D,M,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ScottRealUp$, $\IntervalDomainUp$, $\IntervalDomainWayBelowUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ScottRealUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these rows. Its classifier compares accepted packets through the displayed tuple $I,W,D,M,R,E,H,C,P,N$ and has no coordinate for quotient real equality, selected limits, countable choice, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.
+\end{definition}
+\leanchecked{BEDC.Derived.ScottRealUp.ScottRealTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[ScottReal NameCert obligations]
+\label{thm:scott-real-namecert-obligations}
+For an accepted $\ScottRealUp$ carrier
+$$
+S=(I,W,D,M,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\ScottRealUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the interval-domain row, way-below row, dyadic refinement ledger, stream window, regular rational handoff, real seal, transport, replay, provenance, and local naming row;
+\item interval-domain coherence, requiring every exposed interval read to come from $I$ and to preserve the displayed endpoint containment and enclosure order;
+\item way-below compatibility, requiring each refinement in $W$ to be read as compact containment inside the interval-domain row before a sharper interval observation is consumed;
+\item stream and readback handoff, requiring $M$ and $R$ to consume the same finite interval and dyadic rows before any regular rational observation is exported;
+\item $\RealUp$ seal non-escape, requiring $E$ to remain downstream of $I,W,D,M,R$ and to export only the displayed real-name seal;
+\item ledger refusal, requiring $D,H,C,P,N$ to record the displayed refinement route and to export no quotient real equality, no selected limits, no countable choice, no open-cover compactness, and no ambient $\RealUp$ completeness.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:scott-real-carrier}. The accepted packet exposes exactly the interval-domain, way-below, dyadic, stream, regular-rational, real-seal, transport, replay, provenance, and local naming rows.
+
+Interval-domain coherence is read from $I$. Every public interval observation is a displayed row with endpoints, containment checks, and enclosure order already present in the packet.
+
+Way-below compatibility is read from $W$ against $I$. A sharper observation may be consumed only after the compact-containment row has shown how it lies inside the coarser interval-domain observation.
+
+The stream and regular-rational handoff is then finite. The row $M$ schedules only the displayed interval observations, and the row $R$ reads those scheduled observations through the dyadic ledger $D$ rather than through a selected infinite stream.
+
+The real seal is last. Since $E$ is downstream of $I,W,D,M,R$, a real-facing consumer cannot bypass the interval-domain and readback route.
+
+Finally $H,C,P,N$ are structural rows. They transport, replay, source, and name the displayed route, so the excluded quotient, selection, choice, compactness, completeness, verification, and bridge principles have no coordinate from which they could be read.
+\end{proof}
+
+\begin{theorem}[ScottReal interval-domain handoff]
+\label{thm:scott-real-interval-domain-handoff}
+Let
+$$
+S=(I,W,D,M,R,E,H,C,P,N)
+$$
+be an accepted $\ScottRealUp$ carrier. Every $\RealUp$-facing or completion-facing consumer of $S$ factors through the displayed route
+$$
+I \longmapsto W,D \longmapsto M \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the Scott interval-domain presentation reaches real and completion consumers only by passing from interval enclosures to way-below and dyadic refinements, then to finite stream windows, regular rational readback, the real seal, and the structural $\hsame/\Cont/\Pkg/\NameCert$ rows. It does not export quotient real equality, selected limits, countable choice, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.
+\end{theorem}
+\begin{proof}
+Fix a real-facing or completion-facing consumer of the accepted packet. The first visible row is the interval-domain surface $I$, so the consumer begins with displayed finite interval enclosures.
+
+The refinement step reads $W$ and $D$. The way-below row records compact containment inside the interval-domain surface, while the dyadic ledger supplies the endpoint, radius, slack, and comparison data used by those refinements.
+
+The window step reads $M$. A consumer receives only finite scheduled interval observations, not an infinite stream representative or a selected limit.
+
+The regular rational step reads $R$. This row turns the same displayed windows and dyadic budgets into regular rational observations before any terminal real seal is available.
+
+The seal step reads $E$ only after the preceding rows have been displayed. Hence a $\RealUp$ or completion-facing consumer obtains the real presentation through the stated route.
+
+The rows $H,C,P,N$ close the factorization by transport, replay, provenance, and local naming. Since no other coordinate exists in the carrier, the excluded quotient, choice, compactness, completeness, verification, and bridge principles cannot be exported by the handoff.
+\end{proof}
+
+\closureat{ScottRealUp}{seedStr}
+
+\begin{closurestatus}{\ScottRealUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:scott-real-carrier}, \autoref{thm:scott-real-namecert-obligations}, and \autoref{thm:scott-real-interval-domain-handoff} seed the finite interval-domain presentation of real names through way-below refinements, dyadic ledgers, stream windows, regular rational readback, and the terminal real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, selected limits, countable choice, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, interval-domain coherence, way-below compatibility, dyadic refinement replay, stream and RegSeqRat handoff, Real seal non-escape, and structural transport for BEDC.Derived.ScottRealUp.}
+  \constructivestory{A $\ScottRealUp$ packet is generated from an IntervalDomain row, an IntervalDomainWayBelow row, a DyadicRatCore refinement ledger, a StreamName finite window, a RegSeqRat handoff, a Real seal row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

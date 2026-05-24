@@ -1,0 +1,104 @@
+\chapter{A Concrete Naming Certificate for $\DyadicIntervalDiameterUp$}
+\label{ch:concrete-instances-dyadic-interval-diameter-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\DyadicIntervalDiameterUp$ packet names the finite dyadic width certificate used when an interval enclosure is handed to regular-rational and real-name consumers. It sits after the endpoint packet of \autoref{ch:concrete-instances-dyadicinterval-namecert}, the dyadic rational carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the rounding and tolerance surface of \autoref{ch:concrete-instances-dyadicrounding-namecert}, the nested dyadic enclosure route of \autoref{ch:concrete-instances-nesteddyadicinterval-namecert}, the finite stream-window layer of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter isolates the width row that says how a displayed dyadic interval supplies an error budget before any $\RegSeqRatUp$ or $\RealUp$ consumer reads it.
+
+\begin{definition}[Dyadic interval diameter carrier]
+\label{def:dyadic-interval-diameter-carrier}
+A $\DyadicIntervalDiameterUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(I,L,U,D,R,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\DyadicIntervalUp$ row whose interval-order ledger and endpoint slots are being measured.
+\item $L$ and $U$ are the lower and upper $\DyadicRatCoreUp$ endpoint rows read from the same interval packet $I$.
+\item $D$ is the displayed nonnegative dyadic diameter row, recording the width comparison $0\leq D$ and the endpoint bound $U-L\leq D$ in the visible dyadic order ledger.
+\item $R$ is the $\DyadicRoundingUp$ tolerance row that translates the displayed diameter into the requested dyadic error budget.
+\item $W$ is the readback window opened for $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers that need the interval midpoint, endpoint, or width information.
+\item $H$ records componentwise $\hsame$ transport for the interval row, endpoint rows, diameter row, tolerance row, readback window, replay, provenance, and local naming data.
+\item $C$ records displayed $\Cont$ replay for consumers that inspect the interval, the endpoints, the diameter bound, the rounding tolerance, or the readback window.
+\item $P$ is the $\Pkg$ provenance over $\DyadicIntervalDiameterUp$, $\DyadicIntervalUp$, $\DyadicRatCoreUp$, $\DyadicRoundingUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicIntervalDiameterUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,L,U,D,R,W,H,C,P,N$. It has no coordinate for a host interval diameter, quotient real equality, a selected limit, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.DyadicIntervalDiameterUp.DyadicIntervalDiameterTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Dyadic interval diameter NameCert obligations]
+\label{thm:dyadic-interval-diameter-namecert-obligations}
+For every accepted $\DyadicIntervalDiameterUp$ carrier
+$$
+Q=(I,L,U,D,R,W,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicIntervalDiameterUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed interval row, lower endpoint, upper endpoint, diameter row, tolerance row, readback window, transport, replay, provenance, and local naming;
+\item endpoint source exactness, requiring $L$ and $U$ to be the endpoint rows exposed by the same $\DyadicIntervalUp$ packet $I$;
+\item nonnegative diameter exactness, requiring $D$ to carry both the displayed nonnegativity witness and the visible dyadic bound from $L,U$ to the width row;
+\item tolerance handoff exactness, requiring every consumer error budget to pass through $R$ before the readback window $W$ is exposed;
+\item classifier stability, requiring transported packets to compare only through the stored $\hsame$ and $\Cont$ rows;
+\item ledger non-escape, requiring $P,N$ to source and name no host interval diameter, quotient real equality, selected limit, trichotomy, countable choice, or ambient Real completeness.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-interval-diameter-carrier}. The accepted packet displays exactly one interval row, two endpoint rows, one nonnegative diameter row, one tolerance row, one readback window, and the structural rows that transport, replay, source, and name them.
+
+Endpoint source exactness is read from $I,L,U$. The lower and upper rows are not independent dyadic rationals chosen by a host interval operation; they are the endpoint slots exposed by the displayed $\DyadicIntervalUp$ carrier.
+
+The nonnegative diameter clause is read from $D$. Its visible order ledger records $0\leq D$ and the bound $U-L\leq D$, so the local NameCert surface can answer width queries by projection through the same dyadic rows.
+
+The tolerance handoff clause is downstream of $R$ and $W$. A requested error budget first reaches the rounding row $R$, and only then opens the finite readback window $W$ for $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumers.
+
+Finally, $H,C,P,N$ preserve the same finite route under transport, replay, provenance, and local naming. Since the carrier contains no excluded coordinate, none of the excluded objects can enter the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dyadic interval diameter width handoff]
+\label{thm:dyadic-interval-diameter-width-handoff}
+Let $Q=(I,L,U,D,R,W,H,C,P,N)$ be an accepted $\DyadicIntervalDiameterUp$ carrier. Every $\StreamNameUp$ or $\RegSeqRatUp$ consumer read of interval width factors through the displayed route
+$$
+I,L,U,D \longmapsto R \longmapsto W .
+$$
+The handoff supplies a finite dyadic error budget from the endpoint rows of $I$; it does not supply a host interval diameter, quotient stream equality, selected limiting point, trichotomy decision, countable-choice selector, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with a consumer read of the width information. The only interval-facing coordinate is $I$, and the only endpoint-facing coordinates are $L$ and $U$, so the read first projects the displayed dyadic interval and its two endpoint rows.
+
+The diameter query then reaches $D$. This row supplies the nonnegative width certificate and the displayed bound from $U-L$ to $D$, so the consumer receives a dyadic error budget rather than an external interval-measure operation.
+
+The tolerance row $R$ repacks that dyadic budget for the requested readback precision. Once $R$ has been displayed, $W$ opens the finite stream and regular-rational window consumed downstream.
+
+Because $H,C,P,N$ only transport, replay, source, and name this route, every exported width read factors through the displayed chain and none of the excluded host objects is produced.
+\end{proof}
+
+\begin{theorem}[Dyadic interval diameter real error boundary]
+\label{thm:dyadic-interval-diameter-real-error-boundary}
+For an accepted $\DyadicIntervalDiameterUp$ carrier $Q=(I,L,U,D,R,W,H,C,P,N)$, any $\RealUp$-facing error claim exported by $Q$ is bounded by the displayed dyadic diameter row before it reaches the terminal real-name consumer. Concretely, the only public route to a real error boundary is
+$$
+I,L,U,D,R,W \longmapsto \RealUp .
+$$
+The route certifies the finite enclosure width available to the real-name layer, but it does not identify quotient real representatives, choose a limit point, decide trichotomy, invoke countable choice, or close ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. A real-facing error claim cannot bypass the interval row $I$, because the endpoint rows $L,U$ and the diameter row $D$ are named as coordinates of that same finite packet.
+
+The displayed diameter row is then the only source of a width bound. It provides the dyadic comparison needed for an error boundary, while the tolerance row $R$ records the finite rounding step required before any readback window opens.
+
+The window $W$ is the only public bridge to $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers. Therefore a terminal real-name read receives the interval width through $I,L,U,D,R,W$ and not through a quotient equality or a selected limit.
+
+The transport, replay, provenance, and local naming rows preserve this route. Since the excluded objects are absent from the carrier, the real-facing boundary remains a finite displayed dyadic error certificate.
+\end{proof}
+
+\closureat{DyadicIntervalDiameterUp}{seedStr}
+
+\begin{closurestatus}{\DyadicIntervalDiameterUp}
+  \constructivestory{A $\DyadicIntervalDiameterUp$ packet is generated from a DyadicInterval row, lower and upper DyadicRatCore endpoint rows, a displayed nonnegative diameter row, a DyadicRounding tolerance row, a finite StreamName/RegSeqRat/Real readback window, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-interval-diameter-carrier}, \autoref{thm:dyadic-interval-diameter-namecert-obligations}, \autoref{thm:dyadic-interval-diameter-width-handoff}, and \autoref{thm:dyadic-interval-diameter-real-error-boundary} seed the finite diameter route from dyadic interval endpoints to regular rational and real-name error budgets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host interval diameter, quotient real equality, selected limits, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint source exactness, nonnegative diameter exactness, tolerance handoff exactness, real error boundary routing, classifier stability, transport, replay, provenance, and local naming for BEDC.Derived.DyadicIntervalDiameterUp.}
+\end{closurestatus}

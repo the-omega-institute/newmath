@@ -1,0 +1,110 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchyNormalizationUp$}
+\label{ch:concrete-instances-bishop-cauchy-normalization-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy completion, the $\BishopCauchyNormalizationUp$ packet records the finite route by which a regular Cauchy rational name is replaced by a cofinal normalized name before the terminal real seal is read. It sits after the modulus-normal-form surface of \autoref{ch:concrete-instances-cauchy-modulus-normal-form-namecert}, the cofinal subsequence route of \autoref{ch:concrete-instances-regular-cauchy-cofinal-subsequence-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal boundary of \autoref{ch:concrete-instances-real-namecert}. The packet gives later $\RealUp$ and completion consumers a normal-form route without quotient real equality, selected limits, countable choice, or ambient completeness.
+
+\begin{definition}[BishopCauchyNormalization carrier]
+\label{def:bishop-cauchy-normalization-carrier}
+A $\BishopCauchyNormalizationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,M,\phi,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\RegSeqRatUp$ row, carrying the regular Cauchy rational observations before normalization.
+\item $M$ is the $\CauchyModulusNormalFormUp$ row that converts the source regularity budget into a displayed monotone precision schedule.
+\item $\phi$ is the $\RegularCauchyCofinalSubsequenceUp$ row selecting cofinal source windows along the normalized schedule.
+\item $W$ is the $\StreamNameUp$ finite-window row inspected by the source and normalized reads.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic radii, endpoint observations, slack rows, and comparison cells consumed by $M$ and $\phi$.
+\item $R$ is the normalized $\RegSeqRatUp$ readback row obtained after the cofinal schedule and dyadic ledger have been displayed.
+\item $E$ is the inherited $\RealUp$ seal row, reached only after $S,M,\phi,W,D,R$ have been consumed.
+\item $H$ records componentwise $\hsame$ transport for the source, modulus normal form, cofinal route, stream windows, dyadic ledger, normalized readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,M \longmapsto \phi,W,D \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BishopCauchyNormalizationUp$, $\CauchyModulusNormalFormUp$, $\RegularCauchyCofinalSubsequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopCauchyNormalizationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,M,\phi,W,D,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected subsequence functions, chosen real limits, trichotomy, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[BishopCauchyNormalization NameCert obligations]
+\label{thm:bishop-cauchy-normalization-namecert-obligations}
+For every accepted $\BishopCauchyNormalizationUp$ carrier
+$$
+K=(S,M,\phi,W,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\BishopCauchyNormalizationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source regular rational row, modulus-normal-form row, cofinal subsequence row, finite-window row, dyadic tolerance ledger, normalized readback, real seal, transport, replay, provenance, and local name;
+\item modulus normalization, requiring $M$ to expose the monotone precision schedule before any cofinal window is selected;
+\item cofinal schedule stability, requiring $\phi$ to choose only displayed source windows and to witness cofinality for every inspected normalized precision;
+\item regularity preservation, requiring $W$ and $D$ to feed the normalized $\RegSeqRatUp$ row $R$ with the dyadic slack named by the same schedule;
+\item Real seal compatibility, requiring $E$ to be read only after the source, normal-form, cofinal, window, dyadic, and normalized readback rows have been displayed;
+\item ledger non-escape, requiring $H,C,P,N$ to preserve and name only the listed route and to export no quotient stream, selected limit, countable-choice schedule, host real equality, trichotomy, or ambient completeness row.
+\end{enumerate}
+No Bishop Cauchy normalization obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-cauchy-normalization-carrier}. The accepted packet displays exactly the source regular rational row, modulus-normal-form row, cofinal route, stream windows, dyadic ledger, normalized readback, seal, and structural rows.
+
+Modulus normalization is read from $M$. Since $M$ is the only coordinate that names the normalized precision schedule, any accepted cofinal read must expose that schedule before $\phi$ can select source windows.
+
+Cofinal schedule stability is then read from $\phi$. The selected windows are visible only as displayed windows in $W$, and their tolerances are carried by $D$, so the route cannot appeal to a host subsequence function or an unrecorded selector.
+
+Regularity preservation and seal compatibility follow from the row order. The normalized readback $R$ consumes the selected windows and dyadic slack before the Real seal $E$ is available.
+
+Finally $H,C,P,N$ add only transport, replay, provenance, and naming. Since the carrier has no row for quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient completeness, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[BishopCauchyNormalization cofinal subsequence route]
+\label{thm:bishop-cauchy-normalization-cofinal-subsequence-route}
+Let
+$$
+K=(S,M,\phi,W,D,R,E,H,C,P,N)
+$$
+be an accepted $\BishopCauchyNormalizationUp$ carrier. Every normalized regular Cauchy read exported by $K$ factors through the finite route
+$$
+S,M \longmapsto \phi,W,D \longmapsto R \longmapsto H,C,P,N .
+$$
+The route is cofinal in the displayed source schedule: each inspected normalized precision reads a source window selected by $\phi$ after $M$ has exposed the corresponding normal-form request, and before $R$ exports the normalized $\RegSeqRatUp$ row.
+\end{theorem}
+\begin{proof}
+Fix an inspected normalized precision. The only row naming the normal-form request is $M$, so the request is first read through the modulus-normal-form coordinate.
+
+The cofinal row $\phi$ then supplies the selected source window for that request. Because $\phi$ is paired with the displayed finite-window row $W$, the selected index is consumed as a finite observation window rather than as an external subsequence function.
+
+The dyadic ledger $D$ attaches the required tolerance and slack data to the selected window. The normalized readback row $R$ is downstream of both $W$ and $D$, so it can export only the regular rational observation generated by the displayed cofinal route.
+
+Transport, replay, provenance, and local naming preserve this route. Thus every normalized read factors through $S,M,\phi,W,D,R,H,C,P,N$, and cofinality is the displayed $\RegularCauchyCofinalSubsequenceUp$ row rather than a choice principle.
+\end{proof}
+
+\begin{theorem}[BishopCauchyNormalization Real seal nonescape]
+\label{thm:bishop-cauchy-normalization-real-seal-nonescape}
+Every $\RealUp$-facing consumer of an accepted $\BishopCauchyNormalizationUp$ carrier reaches the seal only through
+$$
+S,M \longmapsto \phi,W,D \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the normalized name exports the same finite source, modulus-normal-form, cofinal-window, dyadic-ledger, normalized-readback, and seal rows, and exports no quotient real equality, chosen limit, selected representative, trichotomy, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier and inspect the Real-facing coordinate. The seal row $E$ is downstream of the source row $S$, modulus row $M$, cofinal route $\phi$, finite windows $W$, dyadic ledger $D$, and normalized readback row $R$.
+
+By the cofinal subsequence route theorem, each normalized read already passes through the displayed normal-form request, selected source window, dyadic tolerance ledger, and regular rational readback. A Real-facing consumer therefore cannot reach $E$ before that route has been consumed.
+
+The remaining rows $H,C,P,N$ only transport, replay, source, and name the same finite route. Since the carrier inventory contains no quotient real equality, chosen limit, selected representative, trichotomy, countable-choice schedule, or ambient completeness row, none of those principles can escape through the Real seal.
+\end{proof}
+
+\closureat{BishopCauchyNormalizationUp}{seedStr}
+
+\begin{closurestatus}{\BishopCauchyNormalizationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-cauchy-normalization-carrier}, \autoref{thm:bishop-cauchy-normalization-namecert-obligations}, \autoref{thm:bishop-cauchy-normalization-cofinal-subsequence-route}, and \autoref{thm:bishop-cauchy-normalization-real-seal-nonescape} seed the finite Bishop Cauchy normalization route from source regular rational names through modulus normal forms, cofinal windows, dyadic ledgers, normalized readback, Real seals, transport, continuation, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, quotient real equality, selected limits, selected representatives, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus normalization, cofinal schedule stability, regularity preservation, Real seal compatibility, and ledger non-escape for BEDC.Derived.BishopCauchyNormalizationUp.}
+  \constructivestory{A $\BishopCauchyNormalizationUp$ packet is generated from a RegSeqRat source row, CauchyModulusNormalForm row, RegularCauchyCofinalSubsequence row, StreamName windows, DyadicRatCore tolerance ledger, normalized RegSeqRat readback, inherited RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

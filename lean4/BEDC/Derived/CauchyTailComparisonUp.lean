@@ -1,6 +1,7 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -111,6 +112,99 @@ theorem CauchyTailComparisonCarrier_real_completion_handoff [AskSetup] [PackageS
                     (And.intro endpointReadback
                       (And.intro endpointSame
                         (And.intro namecertSame pkgSig)))))))))))
+
+theorem CauchyTailComparisonCarrier_non_escape_boundary [AskSetup] [PackageSetup]
+    {leftName rightName modulus window endpointLedger readback provenance namecert endpoint
+      sealRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyTailComparisonCarrier leftName rightName modulus window endpointLedger readback
+        provenance namecert endpoint bundle pkg ->
+      Cont readback namecert sealRow ->
+        UnaryHistory leftName ∧ UnaryHistory rightName ∧ UnaryHistory modulus ∧
+          UnaryHistory window ∧ UnaryHistory endpointLedger ∧ UnaryHistory readback ∧
+            UnaryHistory provenance ∧ UnaryHistory namecert ∧ UnaryHistory endpoint ∧
+              UnaryHistory sealRow ∧ Cont (append leftName rightName) modulus window ∧
+                Cont window endpointLedger readback ∧ Cont readback namecert sealRow ∧
+                  hsame endpoint (append readback provenance) ∧ hsame namecert endpoint ∧
+                    PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro carrier sealRoute
+  obtain ⟨leftUnary, rightUnary, modulusUnary, windowUnary, endpointLedgerUnary,
+    readbackUnary, provenanceUnary, namecertUnary, endpointUnary, commonWindow,
+    endpointReadback, endpointSame, namecertSame, pkgSig⟩ := carrier
+  have sealRowUnary : UnaryHistory sealRow :=
+    unary_cont_closed readbackUnary namecertUnary sealRoute
+  exact
+    ⟨leftUnary, rightUnary, modulusUnary, windowUnary, endpointLedgerUnary, readbackUnary,
+      provenanceUnary, namecertUnary, endpointUnary, sealRowUnary, commonWindow, endpointReadback,
+      sealRoute, endpointSame, namecertSame, pkgSig⟩
+
+theorem CauchyTailComparisonCarrier_real_seal_stability [AskSetup] [PackageSetup]
+    {leftName rightName modulus window endpointLedger readback provenance namecert endpoint
+      leftName' rightName' modulus' window' endpointLedger' readback' provenance' namecert'
+      endpoint' sealRow' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyTailComparisonCarrier leftName rightName modulus window endpointLedger readback
+        provenance namecert endpoint bundle pkg ->
+      hsame leftName leftName' ->
+        hsame rightName rightName' ->
+          hsame modulus modulus' ->
+            hsame window window' ->
+              hsame endpointLedger endpointLedger' ->
+                hsame readback readback' ->
+                  hsame provenance provenance' ->
+                    hsame namecert namecert' ->
+                      hsame endpoint endpoint' ->
+                        Cont readback' namecert' sealRow' ->
+                          PkgSig bundle endpoint' pkg ->
+                            UnaryHistory leftName' /\ UnaryHistory rightName' /\
+                              UnaryHistory modulus' /\ UnaryHistory window' /\
+                                UnaryHistory endpointLedger' /\ UnaryHistory readback' /\
+                                  UnaryHistory provenance' /\ UnaryHistory namecert' /\
+                                    UnaryHistory endpoint' /\ UnaryHistory sealRow' /\
+                                      Cont window' endpointLedger' readback' /\
+                                        Cont readback' namecert' sealRow' /\
+                                          hsame endpoint' (append readback' provenance') /\
+                                            hsame namecert' endpoint' /\
+                                              PkgSig bundle endpoint' pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier sameLeft sameRight sameModulus sameWindow sameEndpointLedger sameReadback
+    sameProvenance sameNamecert sameEndpoint sealRoute pkgSig'
+  obtain ⟨leftUnary, rightUnary, modulusUnary, windowUnary, endpointLedgerUnary, readbackUnary,
+    provenanceUnary, namecertUnary, endpointUnary, _commonWindow, endpointReadback, endpointSame,
+    namecertSame, _pkgSig⟩ := carrier
+  have leftUnary' : UnaryHistory leftName' :=
+    unary_transport leftUnary sameLeft
+  have rightUnary' : UnaryHistory rightName' :=
+    unary_transport rightUnary sameRight
+  have modulusUnary' : UnaryHistory modulus' :=
+    unary_transport modulusUnary sameModulus
+  have windowUnary' : UnaryHistory window' :=
+    unary_transport windowUnary sameWindow
+  have endpointLedgerUnary' : UnaryHistory endpointLedger' :=
+    unary_transport endpointLedgerUnary sameEndpointLedger
+  have readbackUnary' : UnaryHistory readback' :=
+    unary_transport readbackUnary sameReadback
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have namecertUnary' : UnaryHistory namecert' :=
+    unary_transport namecertUnary sameNamecert
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport endpointUnary sameEndpoint
+  have endpointReadback' : Cont window' endpointLedger' readback' :=
+    cont_hsame_transport sameWindow sameEndpointLedger sameReadback endpointReadback
+  have sealUnary' : UnaryHistory sealRow' :=
+    unary_cont_closed readbackUnary' namecertUnary' sealRoute
+  have endpointSame' : hsame endpoint' (append readback' provenance') := by
+    cases sameReadback
+    cases sameProvenance
+    exact hsame_trans (hsame_symm sameEndpoint) endpointSame
+  have namecertSame' : hsame namecert' endpoint' :=
+    hsame_trans (hsame_symm sameNamecert) (hsame_trans namecertSame sameEndpoint)
+  exact
+    ⟨leftUnary', rightUnary', modulusUnary', windowUnary', endpointLedgerUnary', readbackUnary',
+      provenanceUnary', namecertUnary', endpointUnary', sealUnary', endpointReadback', sealRoute,
+      endpointSame', namecertSame', pkgSig'⟩
 
 theorem CauchyTailComparisonCarrier_standard_bridge_source [AskSetup] [PackageSetup]
     {leftName rightName modulus window endpointLedger readback provenance namecert endpoint

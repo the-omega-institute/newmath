@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\VietorisRipsComplexUp$}
+\label{ch:concrete-instances-vietoris-rips-complex-namecert}
+\origin{human}
+
+Following Vietoris and Rips on finite threshold complexes, the $\VietorisRipsComplexUp$ packet records the BEDC surface that turns finite metric data into a simplex ledger. It sits over the metric distance interface of \autoref{ch:concrete-instances-metric-namecert}, the finite net exposure of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}, the rational radius ledgers of \autoref{ch:concrete-instances-dyadicratcore-namecert} and \autoref{ch:concrete-instances-rat-namecert}, and the finite face consumer of \autoref{ch:concrete-instances-simplicialcomplex-namecert}. The packet gives compact-metric approximation and persistent-homology consumers a finite threshold complex without importing host topology, open covers, selected dense subsets, quotient realization, or ambient homology.
+
+\begin{definition}[Vietoris--Rips complex carrier]
+\label{def:vietoris-rips-complex-carrier}
+A $\VietorisRipsComplexUp$ carrier is a finite $\BHist$ packet
+$$
+R=(X,V,\epsilon,D,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricUp$ row. It records only the finite point histories and displayed distance witnesses available to the metric consumer.
+\item $V$ is the finite vertex or net ledger, read through the $\FiniteEpsilonNetUp$ surface when the source data come from an approximation row.
+\item $\epsilon$ is the threshold row. It is displayed through the $\DyadicRatCoreUp$ and $\RatUp$ rational-radius ledgers before any simplex test can compare distances with the threshold.
+\item $D$ records pairwise distance witnesses for the displayed vertices. Each row names two vertices from $V$, the metric-distance witness read from $X$, and the comparison of that witness with $\epsilon$.
+\item $S$ is the $\SimplicialComplexUp$ handoff row. It records exactly the finite simplex and face rows whose simplex predicate is accepted by threshold tests in $D$.
+\item $H$ records componentwise $\hsame$ transport for the metric source, vertex ledger, threshold row, pairwise distance ledger, simplicial handoff, replay data, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a simplex request through $V,\epsilon,D$ before the request reaches $S$.
+\item $P$ is the $\Pkg$ provenance over $\VietorisRipsComplexUp$, $\MetricUp$, $\FiniteEpsilonNetUp$, $\SimplicialComplexUp$, $\DyadicRatCoreUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\VietorisRipsComplexUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these nine rows. Its classifier compares accepted packets only through $X,V,\epsilon,D,S,H,C,P,N$ and has no coordinate for host topology, open-cover compactness, selected dense subsets, quotient geometric realization, ambient homology, Lean proof search, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Vietoris--Rips complex NameCert obligations]
+\label{thm:vietoris-rips-complex-namecert-obligations}
+For an accepted $\VietorisRipsComplexUp$ carrier
+$$
+R=(X,V,\epsilon,D,S,H,C,P,N),
+$$
+the local $\NameCert_{\VietorisRipsComplexUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the metric source row, finite vertex or net ledger, threshold row, pairwise distance ledger, simplicial handoff row, transport, replay, provenance, and local naming;
+\item threshold simplex exactness, requiring a displayed simplex of $S$ to be accepted only when every displayed pair of its vertices has a row in $D$ whose metric-distance witness is bounded by $\epsilon$;
+\item finite-net exposure, requiring vertex reads imported from $\FiniteEpsilonNetUp$ to remain inside the ledger $V$ before any distance row or simplex row can use them;
+\item $\SimplicialComplexUp$ compatibility, requiring the simplex and face rows handed to $S$ to be closed under displayed face restriction because every face removes pairwise threshold requests rather than creating new ones;
+\item classifier transport, requiring $\hsame$ comparison to preserve the metric source, vertex ledger, threshold row, pairwise distance ledger, simplicial handoff, replay, provenance, and local naming rows componentwise;
+\item non-escape, excluding host topology, open covers, selected dense subsets, quotient geometric realization, ambient homology, and any simplex not routed through the finite threshold ledger.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:vietoris-rips-complex-carrier}. The accepted packet exposes exactly the metric source, vertex ledger, threshold row, pairwise distance ledger, simplicial handoff, and structural rows $H,C,P,N$.
+
+Threshold simplex exactness is the route $V,\epsilon,D,S$. A simplex read first lists its vertices in $V$, then reads the rational threshold $\epsilon$, then checks every displayed pair through the corresponding metric-distance row in $D$ before the simplex row is handed to $S$.
+
+Finite-net exposure is inherited from $V$. When the vertices are supplied by a $\FiniteEpsilonNetUp$ packet, the Rips carrier reads them as ledger entries rather than as a selected dense subset or host-level finite set.
+
+Compatibility with $\SimplicialComplexUp$ follows because every face request removes vertices from an already accepted simplex. The remaining pairwise requests are a subledger of the same $D$ rows, so the face row can be handed to $S$ without creating a new metric or threshold coordinate.
+
+Finally $H,C,P,N$ preserve and name only the displayed coordinates. Since topology, open covers, quotient realization, ambient homology, and unrouted simplex predicates have no carrier row, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Vietoris--Rips simplex threshold handoff]
+\label{thm:vietoris-rips-complex-simplex-threshold-handoff}
+Let
+$$
+R=(X,V,\epsilon,D,S,H,C,P,N)
+$$
+be an accepted $\VietorisRipsComplexUp$ carrier. Every simplex read exported to the $\SimplicialComplexUp$ consumer factors through the finite route
+$$
+V\longmapsto \epsilon\longmapsto D\longmapsto S\longmapsto H,C,P,N .
+$$
+Consequently the simplicial consumer can use only the displayed finite metric threshold rows. It cannot use host topology, open-cover compactness, selected dense subsets, quotient geometric realization, ambient homology, or a simplex predicate detached from $D$.
+\end{theorem}
+\begin{proof}
+Start with a simplex read. Projection gives the vertex ledger $V$, but the packet exposes no host finite set, no selected dense subset, and no geometric realization at this stage.
+
+The read must next pass through the threshold row $\epsilon$ and the pairwise distance ledger $D$. For each displayed pair of vertices, $D$ supplies the metric-distance witness from $X$ and the finite comparison with $\epsilon$.
+
+Only after those rows have been read is the simplex handed to $S$. Face reads are handled by the same route because restricting a simplex can only delete pairwise threshold requests already present in $D$.
+
+Transport, replay, provenance, and local naming are exactly $H,C,P,N$. They preserve the displayed route and add no topology, cover, representative choice, realization quotient, homology group, or detached simplex classifier. Hence every simplex read factors through the stated finite threshold handoff.
+\end{proof}
+
+\closureat{VietorisRipsComplexUp}{seedStr}
+
+\begin{closurestatus}{\VietorisRipsComplexUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:vietoris-rips-complex-carrier}, \autoref{thm:vietoris-rips-complex-namecert-obligations}, and \autoref{thm:vietoris-rips-complex-simplex-threshold-handoff} seed the finite metric threshold complex packet over displayed metric, net, rational threshold, pairwise distance, simplicial handoff, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.VietorisRipsComplexUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close persistent homology, Cech complexes, open-cover compactness, quotient geometric realization, selected dense subsets, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, threshold simplex exactness, finite-net exposure, SimplicialComplex compatibility, classifier transport, simplex handoff factorization, and non-escape for BEDC.Derived.VietorisRipsComplexUp.}
+  \constructivestory{A $\VietorisRipsComplexUp$ packet is generated from a MetricUp source row, a finite vertex or FiniteEpsilonNet ledger, a DyadicRatCore or Rat threshold row, pairwise distance witnesses, a SimplicialComplex handoff, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

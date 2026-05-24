@@ -1,0 +1,15 @@
+The $\MeasureUp$ packet is read as a dependency lattice for analysis consumers: value rows are grounded in the real-name surface, integration rows consume the same measure values, and probability rows read normalization through the resulting finite event-value boundary. Its measurable-event surface consumes the displayed set-like event classifier rows of \autoref{sec:measure-root-event-boundary-package} and the $\RealUp$ value row of \autoref{ch:concrete-instances-real-namecert} before probability, random-variable, distribution, integral, and spectral-measure consumers read it.
+
+\begin{theorem}[Measure dependency lattice]
+\label{thm:measure-dependency-lattice}
+Every accepted $\MeasureUp$ carrier reads its value object through \autoref{ch:concrete-instances-real-namecert}, exports integration consumers through \autoref{ch:concrete-instances-integral-namecert}, and supplies probability normalization consumers through \autoref{ch:concrete-instances-probspace-namecert}. These three reads are attached to the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, so no consumer can detach a measure value from its real, integral, and probability-facing dependency surface.
+\end{theorem}
+\begin{proof}
+The value row is read first. It is the $\RealUp$-facing object that fixes the codomain used by event-value comparisons.
+
+The integration consumer is downstream of that value row. It receives the displayed measure values as the input surface for integral construction, not as an independent host-valued function.
+
+The probability consumer is downstream of the same event-value boundary. Its normalization read is therefore attached to the measure value and integral-facing rows through the carrier's structural transport, replay, provenance, and local naming data.
+
+Since the same finite structural rows bind all three consumers, the dependency lattice records one $\MeasureUp$ packet rather than three unrelated analysis interfaces.
+\end{proof}

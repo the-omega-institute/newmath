@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\BrouwerOperationUp$}
+\label{ch:concrete-instances-brouwer-operation-namecert}
+\origin{human}
+
+Following Troelstra--van Dalen on neighbourhood functions, the $\BrouwerOperationUp$ packet records a finite prefix-tree operation surface over countable-name data. It sits between the $\StreamNameUp$ window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the $\BaireSpaceUp$ finite cylinder surface of \autoref{ch:concrete-instances-bairespace-namecert}, the prefix-law rows of \autoref{ch:concrete-instances-spread-law-namecert}, the barred-prefix boundary of \autoref{ch:concrete-instances-brouwer-bar-induction-namecert}, the $\RegSeqRatUp$ readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite neighbourhood-function certificate for downstream Real and Completion consumers; it is not a host function space, countable choice, quotient stream equality, a selected limit, or ambient $\RealUp$ completeness.
+
+\begin{definition}[BrouwerOperation finite neighbourhood carrier]
+\label{def:brouwer-operation-carrier}
+A $\BrouwerOperationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,O,M,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the finite prefix-tree row over countable-name observations. It records the retained prefixes, root row, immediate-extension rows, and the finite cylinder boundary shared with $\BaireSpaceUp$ and $\SpreadLawUp$.
+\item $O$ is the output-row ledger. For each accepted prefix at which the neighbourhood function has stabilized, $O$ records the displayed output cell and the finite justification prefix that produced it.
+\item $M$ is the monotone extension ledger. It requires every displayed extension of a stabilized prefix to retain the same output row through the same prefix-tree route.
+\item $W$ is the $\StreamNameUp$ window row by which a consumer reads only the finite prefix needed by the current operation cell.
+\item $R$ is the $\RegSeqRatUp$ readback row exposed after the relevant window has been displayed.
+\item $E$ is the terminal $\RealUp$ seal reached only after the prefix tree, output ledger, monotone extension ledger, StreamName window, and RegSeqRat readback have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the prefix tree, output rows, monotone ledger, StreamName window, RegSeqRat readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from finite prefix inspection through output stabilization, monotone extension, StreamName window, RegSeqRat readback, and the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\BrouwerOperationUp$, $\StreamNameUp$, $\BaireSpaceUp$, $\SpreadLawUp$, $\BrouwerBarInductionUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BrouwerOperationUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $T,O,M,W,R,E,H,C,P,N$. It has no coordinate for host function extensionality, countable choice, quotient stream equality, selected infinite branches, selected limits, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.BrouwerOperationUp.BrouwerOperationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[BrouwerOperation NameCert obligations]
+\label{thm:brouwer-operation-namecert-obligations}
+For every accepted $\BrouwerOperationUp$ carrier $K=(T,O,M,W,R,E,H,C,P,N)$, the local $\NameCert_{\BrouwerOperationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed prefix tree, output-row ledger, monotone extension ledger, StreamName window, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming rows;
+\item prefix-tree stability, requiring accepted restrictions to retain only rows already displayed in $T$ and to compare them through the $\BaireSpaceUp$ and $\SpreadLawUp$ cylinder classifiers;
+\item output exactness, requiring each stabilized output in $O$ to name its finite justification prefix and no hidden tail of the input name;
+\item monotone extension, requiring $M$ to preserve the output row along every displayed extension of a stabilized prefix;
+\item analytic readback, requiring $W,R,E$ to be consumed in that order before a Real or Completion-facing route may read the operation value;
+\item provenance and local naming, requiring $P$ and $N$ to package exactly the displayed rows and no additional function-space datum.
+\end{enumerate}
+No BrouwerOperation obligation is stored outside these six rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:brouwer-operation-carrier}. The visible packet consists exactly of the prefix tree $T$, output ledger $O$, monotone extension ledger $M$, analytic rows $W,R,E$, and structural rows $H,C,P,N$.
+
+Prefix-tree stability is inherited from the retained finite rows of $T$. A restriction keeps only prefixes already displayed, so its comparisons still pass through the same BaireSpace cylinder and SpreadLaw prefix surfaces.
+
+Output exactness and monotone extension are the local contents of $O$ and $M$. The output row names the finite justification prefix, while the monotone ledger says that displayed extensions of that prefix preserve the same output cell.
+
+The analytic readback row is forced by $W,R,E$. The StreamName window must be opened before RegSeqRat readback, and the Real seal is terminal after that readback.
+
+Finally, $H,C,P,N$ transport, replay, package, and name the same route without adding a host function, stream quotient, choice selector, branch selector, selected limit, or Real-completeness coordinate. Hence the six listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[BrouwerOperation prefix-continuity handoff]
+\label{thm:brouwer-operation-prefix-continuity-handoff}
+Every $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, or Completion-facing consumer of an accepted $\BrouwerOperationUp$ carrier receives only the finite prefix-continuity route
+$$
+T \longmapsto O \longmapsto M \longmapsto W \longmapsto R \longmapsto E \longmapsto H,C,P,N.
+$$
+Consequently the consumer may cite a stabilized finite prefix and its monotone extension ledger, but it cannot bypass the displayed route by importing a host function space, countable choice, quotient stream equality, a selected infinite branch, a selected limit, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier and a downstream consumer. The only input-inspection coordinate is the prefix tree $T$, and the only operation-value coordinate is the output ledger $O$.
+
+The monotone extension ledger $M$ is the route from a stabilized prefix to its displayed extensions. It prevents the consumer from replacing the finite justification prefix by an unstated tail property of the input name.
+
+The analytic part of the handoff is then forced through $W,R,E$. A StreamName window opens the finite observation, RegSeqRat reads that window as regular rational data, and the Real seal is reached only after those rows have been consumed.
+
+The structural rows $H,C,P,N$ preserve and name this same route. Since the carrier has no coordinate for a host function space, countable choice, quotient stream equality, selected branch, selected limit, or ambient completeness theorem, none of those objects can be exported by the handoff.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BrouwerOperationUp$ Real or Completion-facing read factors through a finite prefix tree, output-row ledger, monotone extension ledger, StreamName window, RegSeqRat readback, Real seal, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{streamname, bairespace, spread-law, brouwer-bar-induction, regseqrat, real: $\BrouwerOperationUp$ is not bijective to any listed sibling because it jointly carries finite prefix-tree operation data, stabilized output rows, monotone extension, analytic readback, transport, replay, provenance, and local naming while refusing host functions, countable choice, quotient stream equality, selected branches, selected limits, and ambient completeness.}
+
+\closureat{BrouwerOperationUp}{seedStr}
+
+\begin{closurestatus}{\BrouwerOperationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:brouwer-operation-carrier}, \autoref{thm:brouwer-operation-namecert-obligations}, and \autoref{thm:brouwer-operation-prefix-continuity-handoff} seed the finite neighbourhood-function route from prefix-tree operation data through StreamName windows, RegSeqRat readback, Real sealing, hsame transport, Cont replay, Pkg provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function extensionality, countable choice, quotient stream equality, selected infinite branches, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix-tree stability, output exactness, monotone extension, analytic readback, provenance, and local naming for BEDC.Derived.BrouwerOperationUp.}
+  \constructivestory{A $\BrouwerOperationUp$ packet is generated from finite prefix-tree neighbourhood data, stabilized output rows, a monotone extension ledger, a StreamName window, RegSeqRat readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

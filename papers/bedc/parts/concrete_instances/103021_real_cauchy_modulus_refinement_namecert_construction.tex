@@ -1,0 +1,109 @@
+\chapter{A Concrete Naming Certificate for $\RealCauchyModulusRefinementUp$}
+\label{ch:concrete-instances-real-cauchy-modulus-refinement-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the packet records refinement of a modulus-controlled real-name read, consuming \autoref{ch:concrete-instances-cauchy-modulus-refinement-namecert}, \autoref{ch:concrete-instances-realcauchymodulus-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. It keeps the stronger precision request inside finite BEDC rows before any downstream Real-facing consumer reads the terminal seal.
+
+\begin{definition}[Real Cauchy modulus refinement carrier]
+\label{def:real-cauchy-modulus-refinement-carrier}
+A $\RealCauchyModulusRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M_0,M_1,R,S_0,S_1,D_0,D_1,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M_0$ is the coarse $\CauchyModulusUp$ schedule already accepted by the Real-facing read.
+\item $M_1$ is the refined $\CauchyModulusUp$ schedule for the stronger dyadic tolerance request.
+\item $R$ is the $\CauchyModulusRefinementUp$ witness that the refined threshold extends the coarse threshold for the displayed unary precision.
+\item $S_0$ is the coarse $\StreamNameUp$ finite-window row selected by $M_0$.
+\item $S_1$ is the refined $\StreamNameUp$ finite-window row selected by $M_1$.
+\item $D_0$ is the coarse $\DyadicRatCoreUp$ tolerance ledger consumed by the coarse window.
+\item $D_1$ is the refined $\DyadicRatCoreUp$ tolerance ledger consumed by the refined window.
+\item $Q$ is the $\RegSeqRatUp$ readback row shared by the coarse and refined windows after the refinement witness has been displayed.
+\item $E$ is the terminal $\RealUp$ seal reached only after $M_0,M_1,R,S_0,S_1,D_0,D_1,Q$ have been consumed.
+\item $H$ records componentwise $\hsame$ transport for the two schedules, the refinement witness, both windows, both dyadic ledgers, the readback, the seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each finite precision request through
+$$
+M_0,M_1,R,S_0,S_1,D_0,D_1,Q \longmapsto E,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusRefinementUp$, $\RealCauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealCauchyModulusRefinementUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, selected limits, host real equality, countable choice, trichotomy, ambient $\RealUp$ completeness, open-cover compactness, or a detached Real seal.
+\end{definition}
+
+\begin{definition}[Real Cauchy modulus refinement classifier]
+\label{def:real-cauchy-modulus-refinement-classifier}
+The $\RealCauchyModulusRefinementUp$ classifier compares packets only by componentwise $\hsame$ transport of the rows
+$$
+M_0,M_1,R,S_0,S_1,D_0,D_1,Q,E,H,C,P,N.
+$$
+Thus a packet is accepted exactly when its coarse modulus, refined modulus, refinement witness, coarse and refined StreamName windows, dyadic tolerance ledgers, RegSeqRat readback, terminal Real seal, transport row, continuation replay, provenance row, and local NameCert row match a displayed carrier packet component by component. The classifier does not compare packets by quotienting streams, selecting a limit, invoking host real equality, using countable choice, using trichotomy, or importing ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Real Cauchy modulus refinement NameCert obligations]
+\label{thm:real-cauchy-modulus-refinement-namecert-obligations}
+For every accepted $\RealCauchyModulusRefinementUp$ carrier
+$$
+B=(M_0,M_1,R,S_0,S_1,D_0,D_1,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\RealCauchyModulusRefinementUp}$ surface consists exactly of carrier exposure for the displayed packet, coarse-modulus exposure through $M_0$, refined-modulus exposure through $M_1$, refinement-witness exposure through $R$, coarse and refined finite-window exposure through $S_0,S_1$, dyadic tolerance exposure through $D_0,D_1$, regular rational readback through $Q$, terminal $\RealUp$ seal exposure through $E$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple in \autoref{def:real-cauchy-modulus-refinement-carrier}. Each named coordinate is a finite row of the same $\BHist$ packet, and the last coordinate is the local naming row.
+
+The analytic route is read in the displayed order. A finite precision request first exposes the coarse schedule $M_0$, the refined schedule $M_1$, and the witness $R$ that connects them; it then reads the two StreamName windows $S_0,S_1$, the two dyadic ledgers $D_0,D_1$, and the shared regular readback $Q$ before the terminal seal $E$ is available.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name only this route. Since the carrier contains no coordinate for quotient stream equality, selected limits, host real equality, countable choice, trichotomy, or ambient Real completeness, none of those principles can be part of the seed obligation surface.
+\end{proof}
+\leanchecked{BEDC.Derived.RealCauchyModulusRefinementUp.RealCauchyModulusRefinementTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Real Cauchy modulus refinement window refinement]
+\label{thm:real-cauchy-modulus-refinement-window-refinement}
+Let
+$$
+B=(M_0,M_1,R,S_0,S_1,D_0,D_1,Q,E,H,C,P,N)
+$$
+be an accepted $\RealCauchyModulusRefinementUp$ carrier. For every finite unary precision request, the refined read preserves the coarse Real-facing route by the finite passage
+$$
+M_0,M_1,R,S_0,S_1,D_0,D_1,Q \longmapsto E,H,P,N .
+$$
+The refined window may expose more displayed StreamName data, but it cannot replace the coarse window by quotient stream equality, detach the RegSeqRat readback, select a limit, invoke host real equality, use countable choice, use trichotomy, or call ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the finite unary precision request.
+
+In the base case, the request reads $M_0$, then $M_1$, and then the displayed refinement witness $R$. The windows $S_0,S_1$ and ledgers $D_0,D_1$ are therefore accessed as named finite rows of the same packet, not as quotient classes or host stream objects.
+
+For the successor step, assume the preceding precision request has already followed the displayed route. The next refined request consumes the next threshold in $M_1$ together with the witness $R$, so the refined window $S_1$ extends the amount of visible finite data while leaving the coarse window $S_0$ and coarse ledger $D_0$ attached to the route.
+
+The shared readback row $Q$ is read only after both dyadic ledgers have been displayed, and the terminal seal $E$ is read only after $Q$. The continuation row $C$, transported by $H$ and sourced by $P,N$, replays the same finite route at every induction stage. Hence no selected limit, host real equality, countable-choice principle, trichotomy principle, quotient stream equality, or ambient Real completeness theorem can enter the refinement.
+\end{proof}
+
+\begin{theorem}[Real Cauchy modulus refinement Real seal nonescape]
+\label{thm:real-cauchy-modulus-refinement-real-seal-nonescape}
+No $\RealUp$ seal read accepted by a $\RealCauchyModulusRefinementUp$ carrier can bypass the displayed route through the coarse modulus, refined modulus, refinement witness, coarse and refined StreamName windows, dyadic tolerance ledgers, RegSeqRat readback, and local structural rows. Equivalently, every accepted terminal seal read is attached to the packet
+$$
+B=(M_0,M_1,R,S_0,S_1,D_0,D_1,Q,E,H,C,P,N)
+$$
+and cannot be separated from those rows by quotient stream equality, selected limits, host real equality, countable choice, trichotomy, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Use the obligation theorem \autoref{thm:real-cauchy-modulus-refinement-namecert-obligations}. It exposes the seal row $E$ only after the two modulus rows, the refinement witness, the two StreamName windows, the two dyadic ledgers, and the shared RegSeqRat readback have been displayed.
+
+Now apply the window-refinement theorem \autoref{thm:real-cauchy-modulus-refinement-window-refinement}. The induction on finite unary precision requests preserves the same route when the tolerance request is strengthened, so the refined read cannot detach the terminal seal from the coarse route it refines.
+
+Finally inspect the carrier definition. There is no coordinate for quotient stream equality, selected limits, host real equality, countable choice, trichotomy, ambient Real completeness, open-cover compactness, or a separate Real seal. A purported seal read that omits one of the displayed rows is therefore not a read accepted by the local classifier.
+\end{proof}
+
+\closureat{RealCauchyModulusRefinementUp}{seedStr}
+
+\begin{closurestatus}{\RealCauchyModulusRefinementUp}
+  \constructivestory{A $\RealCauchyModulusRefinementUp$ packet is generated from coarse and refined CauchyModulus schedules, a refinement witness, coarse and refined StreamName windows, dyadic tolerance ledgers, a RegSeqRat readback row, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-cauchy-modulus-refinement-carrier}, \autoref{def:real-cauchy-modulus-refinement-classifier}, \autoref{thm:real-cauchy-modulus-refinement-namecert-obligations}, \autoref{thm:real-cauchy-modulus-refinement-window-refinement}, and \autoref{thm:real-cauchy-modulus-refinement-real-seal-nonescape} seed the finite Real-facing modulus-refinement route over displayed StreamName windows, dyadic tolerance ledgers, RegSeqRat readback, and the RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, host real equality, countable choice, trichotomy, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, componentwise classifier transport, window refinement, and Real-seal nonescape for BEDC.Derived.RealCauchyModulusRefinementUp.}
+\end{closurestatus}

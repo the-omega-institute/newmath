@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\CauchyNetFilterCorrespondenceUp$}
+\label{ch:concrete-instances-cauchy-net-filter-correspondence-namecert}
+\origin{human}
+
+Following Kelley and Bourbaki on Moore--Smith nets, filters, and uniform spaces, the $\CauchyNetFilterCorrespondenceUp$ packet records the finite correspondence between Cauchy-net and Cauchy-filter completion routes as BEDC naming data. It sits over the directed-net surface of \autoref{ch:concrete-instances-cauchynet-namecert}, the filter-base surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the uniform entourage surface of \autoref{ch:concrete-instances-uniformspace-namecert}, the finite-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the uniform-net route of \autoref{ch:concrete-instances-cauchy-uniform-net-namecert}. The chapter packages the correspondence as one finite NameCert object; it is not a quotient of nets, not a quotient of filters, not a selected limit, not countable choice, not host equality, and not ambient completeness.
+
+\begin{definition}[Cauchy net-filter correspondence carrier]
+\label{def:cauchy-net-filter-correspondence-carrier}
+A $\CauchyNetFilterCorrespondenceUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(K,F,U,W,R,E,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CauchyNetUp$ row, recording the directed index surface, displayed tail witnesses, and finite Cauchy-net requests available before any filter read is made.
+\item $F$ is the $\CauchyFilterUp$ row, recording the filter-base trace generated from the displayed tails and the reverse filter request surface that can be read back as net data.
+\item $U$ is the $\UniformSpaceUp$ entourage row, storing the selected entourage requests, symmetric or composed tolerance cells, and finite comparison budget shared by the net and filter reads.
+\item $W$ is the $\StreamNameUp$ window row, exposing only the finite windows inspected by the displayed $K,F,U$ route.
+\item $R$ is the $\RegSeqRatUp$ readback row reached from those windows and tolerance cells.
+\item $E$ is the downstream $\RealUp$ seal boundary, reachable only after $K,F,U,W,R$ have been consumed.
+\item $J$ is the common-refinement ledger, listing the finite tail/filter-base refinements through which the net-to-filter and filter-to-net reads are compared.
+\item $H$ records componentwise $\hsame$ transport for the Cauchy-net row, Cauchy-filter row, uniform entourage row, window row, readback row, seal boundary, common-refinement ledger, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite Cauchy request through $K,F,U,W,R,J$ and then to the seal row $E$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyNetUp$, $\CauchyFilterUp$, $\UniformSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyUniformNetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyNetFilterCorrespondenceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient net equality, quotient filter equality, selected limits, countable-choice refinements, host equality, ambient completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyNetFilterCorrespondenceUp.CauchyNetFilterCorrespondenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy net-filter correspondence NameCert obligations]
+\label{thm:cauchy-net-filter-correspondence-namecert-obligations}
+For every accepted $\CauchyNetFilterCorrespondenceUp$ carrier
+$$
+Q=(K,F,U,W,R,E,J,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyNetFilterCorrespondenceUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier exposure: the accepted object exposes only the displayed packet $Q$ with rows $K,F,U,W,R,E,J,H,C,P,N$;
+\item net-to-filter routing: every read from a displayed Cauchy-net tail to a filter-base trace passes through $K,F,U$ before any finite window is inspected;
+\item filter-to-net routing: every read from a displayed filter-base request back to a net tail passes through the same $F,K,U$ rows before any finite window is inspected;
+\item common-refinement comparison: both directions compare their visible outputs only through the ledger $J$, then through $W,R,E$ when a real or completion-facing seal is requested;
+\item provenance and name exhaustion: $H,C,P,N$ transport, replay, name, and exhaust exactly this finite route and export no quotient nets, quotient filters, selected limits, countable choice, host equality, ambient completeness, Lean verification, or bridge checking.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:cauchy-net-filter-correspondence-carrier}. The packet displays the Cauchy-net row, Cauchy-filter row, uniform entourage row, finite windows, regular rational readback, Real seal boundary, common-refinement ledger, and structural rows $H,C,P,N$.
+
+The two routing clauses are read from the same finite packet. A net-to-filter read starts at the displayed tail witnesses in $K$, opens the filter-base trace $F$ generated by those tails, and carries the selected entourage budget through $U$ before any window in $W$ is available. A filter-to-net read starts at the displayed request in $F$, returns to the net-tail row $K$, and uses the same $U$ budget before it reaches $W$.
+
+The comparison clause is forced by $J$. The ledger records the common refinements already displayed by both directions, so the two reads can be compared only at those visible refinements and then transported through the same $W,R,E$ route when a seal-facing consumer asks for a real or completion boundary.
+
+Finally, $H$ and $C$ transport and replay the listed route componentwise, while $P$ and $N$ name only those rows. Since the carrier has no excluded quotient, choice, host-equality, completeness, verification, or bridge coordinate, the five obligation rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Cauchy net-filter common refinement]
+\label{thm:cauchy-net-filter-correspondence-common-refinement}
+Let $Q=(K,F,U,W,R,E,J,H,C,P,N)$ be an accepted $\CauchyNetFilterCorrespondenceUp$ carrier. Every net-to-filter read and every filter-to-net read of $Q$ compare their visible outputs only through displayed common refinements in $J$. In particular, a comparison has the finite route
+$$
+K,F,U \longmapsto J \longmapsto W,R,E,H,C,P,N ,
+$$
+and no comparison may use quotient net equality, quotient filter equality, a selected subnet, a selected ultrafilter, countable choice, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $K$ and $F$ are both present before a comparison can be made, and the uniform budget row $U$ is shared by the two directions.
+
+Apply the routing obligations of \autoref{thm:cauchy-net-filter-correspondence-namecert-obligations}. Each direction must reach the same finite comparison boundary before reading windows or rational readbacks. That boundary is exactly the ledger $J$.
+
+Once $J$ is fixed, the downstream route is unique in the carrier: windows are read through $W$, regular rational data through $R$, and the seal boundary through $E$, with $H,C,P,N$ carrying transport, replay, provenance, and local naming. No row outside this displayed route can witness a comparison, so quotient, choice, host-equality, and completeness principles are unavailable.
+\end{proof}
+
+\begin{theorem}[Cauchy net-filter real seal handoff]
+\label{thm:cauchy-net-filter-correspondence-real-seal-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\CauchyNetFilterCorrespondenceUp$ carrier must factor through the same finite route
+$$
+K,F,U,J,W,R \longmapsto E
+$$
+before it reads the seal boundary. Thus the consumer receives a Cauchy-net row, a Cauchy-filter row, a uniform entourage row, the displayed common-refinement ledger, finite StreamName windows, regular rational readback, and the Real seal, but receives no quotient net, quotient filter, selected limit, countable-choice selector, host equality, ambient completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+The seal row $E$ is a downstream coordinate of the carrier in \autoref{def:cauchy-net-filter-correspondence-carrier}. It is not available before the rows $K,F,U,W,R,J$ have been displayed.
+
+Use \autoref{thm:cauchy-net-filter-correspondence-common-refinement}. Any route that compares the net and filter presentations must pass through $J$, and the only seal-facing route after that comparison is through the finite windows $W$ and regular rational readback $R$.
+
+Therefore a $\RealUp$ or completion-facing consumer reaches $E$ only by the displayed route $K,F,U,J,W,R\longmapsto E$. The structural rows $H,C,P,N$ preserve and name that route, and the absence of quotient, choice, host-equality, completeness, verification, and bridge rows prevents any alternate seal handoff.
+\end{proof}
+
+\closureat{CauchyNetFilterCorrespondenceUp}{seedStr}
+
+\begin{closurestatus}{\CauchyNetFilterCorrespondenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-net-filter-correspondence-carrier}, \autoref{thm:cauchy-net-filter-correspondence-namecert-obligations}, \autoref{thm:cauchy-net-filter-correspondence-common-refinement}, and \autoref{thm:cauchy-net-filter-correspondence-real-seal-handoff} seed the finite correspondence route tying Cauchy-net and Cauchy-filter completion reads through a shared uniform budget, common-refinement ledger, StreamName windows, RegSeqRat readback, and Real seal boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient nets, quotient filters, selected limits, countable choice, host equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, net-to-filter routing, filter-to-net routing, common-refinement comparison, Real-seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyNetFilterCorrespondenceUp.}
+  \constructivestory{A $\CauchyNetFilterCorrespondenceUp$ packet is generated from one CauchyNet row, one CauchyFilter row, one UniformSpace entourage row, finite StreamName windows, RegSeqRat readback, a Real seal boundary, a common-refinement ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

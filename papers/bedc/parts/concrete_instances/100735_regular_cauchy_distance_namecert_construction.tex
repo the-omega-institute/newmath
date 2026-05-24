@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyDistanceUp$}
+\label{ch:concrete-instances-regular-cauchy-distance-namecert}
+\origin{human}
+
+Following Bishop and Bridges, Constructive Analysis, the $\RegularCauchyDistanceUp$ packet records the finite distance ledger between two regular Cauchy names before any $\RealUp$ metric handoff treats the distance as a completed real. It sits over the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter supplies the distance-account row consumed by Real and metric-facing packets; it does not identify quotient streams, compare host reals by trichotomy, select limits, invoke countable choice, or claim ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy distance carrier]
+\label{def:regular-cauchy-distance-carrier}
+A $\RegularCauchyDistanceUp$ carrier is a finite $\BHist$ packet
+$$
+L_{\mathrm{dist}}=(X,Y,S,T,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\RegSeqRatUp$ source rows whose regular rational observations are compared.
+\item $S$ is the paired $\StreamNameUp$ window row exposing aligned finite observations of $X$ and $Y$.
+\item $T$ is the tolerance-window row, recording the displayed tail threshold at which the two names are read for a requested distance precision.
+\item $D$ is the $\DyadicRatCoreUp$ distance ledger, containing the dyadic absolute-difference bounds and slack rows used by the finite comparison.
+\item $Q$ is the precision-query row consumed jointly by $S,T,D$.
+\item $E$ is the terminal $\RealUp$ distance seal row, read only after the finite ledger has displayed the distance account.
+\item $H$ records componentwise $\hsame$ transport for the two source rows, paired windows, threshold row, dyadic ledger, precision query, distance seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the two source rows through $S,T,D,Q$ and then into $E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyDistanceUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyDistanceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,Y,S,T,D,Q,E,H,C,P,N$. It has no coordinate for quotient stream equality, host real comparison, trichotomy, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyDistanceUp.RegularCauchyDistanceUpTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy distance NameCert obligations]
+\label{thm:regular-cauchy-distance-namecert-obligations}
+For every accepted $\RegularCauchyDistanceUp$ carrier
+$$
+L_{\mathrm{dist}}=(X,Y,S,T,D,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyDistanceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two $\RegSeqRatUp$ source rows, paired $\StreamNameUp$ windows, tolerance-window row, $\DyadicRatCoreUp$ distance ledger, precision query, terminal $\RealUp$ distance seal, transport, replay, provenance, and local naming rows;
+\item source alignment, requiring the windows in $S$ to expose observations from the same two source rows $X,Y$ named by the carrier;
+\item query exactness, requiring $Q$ to be the displayed precision request consumed by the threshold row $T$ and the dyadic ledger $D$;
+\item dyadic distance exactness, requiring $D$ to store precisely the absolute-difference bounds and slack rows read through $S,T,Q$;
+\item Real metric handoff, requiring $E$ to consume the finite dyadic distance ledger as a $\RealUp$ distance seal after $X,Y,S,T,D,Q$ are visible;
+\item componentwise transport and displayed replay for $X,Y,S,T,D,Q,E,P,N$ through $H$ and $C$;
+\item refusal of quotient stream equality, host real comparison, trichotomy, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, and bridge checking as local certificate data.
+\end{enumerate}
+No regular Cauchy distance obligation is stored outside these rows.
+\end{theorem}
+
+\begin{theorem}[Regular Cauchy distance classifier stability]
+\label{thm:regular-cauchy-distance-classifier-stability}
+Let
+$$
+L_{\mathrm{dist}}=(X,Y,S,T,D,Q,E,H,C,P,N)
+$$
+and
+$$
+L'_{\mathrm{dist}}=(X',Y',S',T',D',Q',E',H',C',P',N')
+$$
+be accepted $\RegularCauchyDistanceUp$ carriers. If their source rows, paired windows, threshold rows, dyadic distance ledgers, precision queries, terminal seals, transport rows, replay rows, provenance rows, and local naming rows are componentwise $\hsame$, then the local classifier gives the same distance certificate verdict to $L_{\mathrm{dist}}$ and $L'_{\mathrm{dist}}$.
+
+Consequently classifier stability is ledgerwise: it follows only from the displayed source-window-threshold-ledger-query-seal route and not from quotient stream equality, host real comparison, trichotomy, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+
+\begin{theorem}[Regular Cauchy distance Real metric handoff]
+\label{thm:regular-cauchy-distance-real-metric-handoff}
+Every $\RealUp$ metric consumer that reads a distance between the two source rows of an accepted $\RegularCauchyDistanceUp$ carrier must factor through the finite route
+$$
+X,Y \longmapsto S,T,Q \longmapsto D \longmapsto E \longmapsto H,C,P,N .
+$$
+The consumer therefore receives the two regular rational source rows, aligned finite observation windows, the requested tolerance threshold, the dyadic absolute-difference ledger, and the terminal real-name distance seal before using the distance as metric data. This handoff is a finite distance account between regular Cauchy names; it is not a quotient equality of streams, host real trichotomy, a selected limit, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{theorem}
+
+\falsifiablePrediction{Every $\RegularCauchyDistanceUp$ metric-facing read factors through two RegSeqRat source rows, paired StreamName windows, one tolerance-window row, one DyadicRatCore distance ledger, one precision query, one terminal RealUp distance seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, real: $\RegularCauchyDistanceUp$ is not bijective to any listed sibling because it jointly carries two regular Cauchy source rows, aligned finite windows, dyadic absolute-difference bounds, and the terminal RealUp distance seal that metric consumers read as one ledger.}
+
+\closureat{RegularCauchyDistanceUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyDistanceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-distance-carrier}, \autoref{thm:regular-cauchy-distance-namecert-obligations}, \autoref{thm:regular-cauchy-distance-classifier-stability}, and \autoref{thm:regular-cauchy-distance-real-metric-handoff} seed the finite distance ledger over two regular Cauchy names, paired StreamName windows, DyadicRatCore tolerance rows, RegSeqRat readbacks, a terminal RealUp distance seal, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, host real comparison, trichotomy, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source alignment, query exactness, dyadic distance exactness, Real metric handoff, componentwise transport, displayed replay, classifier stability, and metric-consumer nonescape for BEDC.Derived.RegularCauchyDistanceUp.}
+  \constructivestory{A $\RegularCauchyDistanceUp$ packet is generated from two RegSeqRat source rows, paired StreamName windows, one tolerance-window row, one DyadicRatCore distance ledger, one precision query, one terminal RealUp distance seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

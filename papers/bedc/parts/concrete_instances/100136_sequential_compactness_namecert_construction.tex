@@ -1,0 +1,115 @@
+\chapter{A Concrete Naming Certificate for $\SequentialCompactnessUp$}
+\label{ch:concrete-instances-sequential-compactness-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Kelley, the $\SequentialCompactnessUp$ packet records only explicit finite subsequence-selector and convergence-window data for compact-metric sequence consumers. It sits over the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the sequence-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the displayed selector route of \autoref{ch:concrete-instances-bolzanoweierstrassselector-namecert}. The chapter names the finite boundary that compactness consumers may inspect; it is not unrestricted sequential compactness and does not import choice-like subsequence selection.
+
+\begin{definition}[Sequential compactness carrier]
+\label{def:sequential-compactness-carrier}
+A $\SequentialCompactnessUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(K,S,B,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row whose finite covering and metric inspection data bound the sequence consumer.
+\item $S$ is the $\StreamNameUp$ sequence-window row, recording the inspected source indices, target windows, and finite request schedule opened by the consumer.
+\item $B$ is the displayed $\BolzanoWeierstrassSelectorUp$ subsequence window, including the selected index row and the finite evidence that the selected windows stay inside the compact-metric source.
+\item $R$ is the $\RegSeqRatUp$ convergence handoff row attached to the selected subsequence windows and rational tail budgets.
+\item $H$ is the $\RealUp$ seal row for the displayed limit read after the regular rational handoff has been accepted.
+\item $C$ records componentwise $\hsame$ transports for $K,S,B,R,H$ and displayed $\Cont$ replays from compact-metric source reads to sequence windows, selected subsequence windows, regular rational tail reads, and the terminal real seal.
+\item $P$ is the $\Pkg$ provenance over $\SequentialCompactnessUp$, $\CompactMetricUp$, $\StreamNameUp$, $\BolzanoWeierstrassSelectorUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SequentialCompactnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,S,B,R,H,C,P,N$. It has no coordinate for host sequential compactness, countable choice, quotient equality of streams, a subsequence selected outside $B$, or ambient completeness of $\RealUp$.
+\end{definition}
+\leanchecked{BEDC.Derived.SequentialCompactnessUp.SequentialCompactnessTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Sequential compactness NameCert obligations]
+\label{thm:sequential-compactness-namecert-obligations}
+For every accepted $\SequentialCompactnessUp$ carrier
+$$
+Q=(K,S,B,R,H,C,P,N),
+$$
+the local $\NameCert_{\SequentialCompactnessUp}$ surface consists of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the compact-metric source row, sequence-window row, displayed selector window, regular rational convergence handoff, real seal, transports, provenance, and local naming row;
+\item finite-window classifier exposure, requiring every sequence read to pass through $S$ and every compactness read to pass through $K$ before a selector row is inspected;
+\item selector stability, requiring selected indices and selected windows to be exactly the rows displayed in $B$ and stable under the componentwise transports in $C$;
+\item $\RegSeqRatUp$ handoff exactness, requiring convergence reads to enter $R$ only from the selected windows in $B$ and the rational tail budgets displayed by the packet;
+\item $\RealUp$ seal nonescape, requiring the terminal limit read to pass through $H$ after $R$ and forbidding any ambient completeness or quotient stream equality coordinate.
+\end{enumerate}
+No accepted packet carries a further obligation row for host sequential compactness, countable choice, external subsequence selection, quotient streams, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:sequential-compactness-carrier}. The packet exposes exactly the compact source, sequence window, selector window, convergence handoff, real seal, transport, provenance, and local naming rows.
+
+Finite-window classifier exposure follows from the route through $K$ and $S$. A consumer first reads the compact metric source and the finite sequence windows; only then can it inspect the displayed selector window $B$.
+
+Selector stability is internal to $B$ and $C$. The selected indices and selected windows are the rows stored in $B$, and $C$ transports those rows componentwise without adding a second selection principle.
+
+The convergence handoff is the row $R$. It accepts only the selected windows displayed by $B$ together with the rational tail budgets stored in the carrier, so the handoff cannot be replaced by host convergence of an unspecified subsequence.
+
+Finally, the limit read is sealed by $H$. Since the carrier has no coordinate for host sequential compactness, countable choice, quotient stream equality, external selected subsequences, or ambient real completeness, none of those data can be exported by the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Sequential compactness selector refusal]
+\label{thm:sequential-compactness-selector-refusal}
+No accepted $\SequentialCompactnessUp$ consumer may replace the displayed selector rows by host sequential compactness, countable choice, quotient stream equality, a selected subsequence outside $B$, or ambient $\RealUp$ completeness. Every accepted consumer factors through the displayed route
+$$
+K,S \longmapsto B \longmapsto R \longmapsto H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Let a consumer read an accepted carrier $Q=(K,S,B,R,H,C,P,N)$. The only compactness source is $K$, and the only sequence access route is the finite window row $S$.
+
+The only subsequence data are stored in $B$. Thus selected indices, selected windows, and the boundary evidence that they remain inside the compact-metric source must be read from $B$ itself.
+
+The only convergence route is then $R$, followed by the real seal $H$. The structural rows $C,P,N$ transport, source, and name this same route; they do not add host sequential compactness, choice, quotient stream equality, an external subsequence, or ambient completeness.
+
+Therefore every accepted consumer factors through $K,S,B,R,H,C,P,N$, and every attempted replacement by the listed external data lies outside the $\SequentialCompactnessUp$ packet.
+\end{proof}
+
+\begin{theorem}[Sequential compactness compact-metric route]
+\label{thm:sequential-compactness-compactmetric-route}
+Every accepted $\SequentialCompactnessUp$ packet
+$$
+Q=(K,S,B,R,H,C,P,N)
+$$
+reads its compact source $K$ through $\CompactMetricUp$, then reads the finite sequence windows $S$, then reads the $\BolzanoWeierstrassSelectorUp$ row $B$, and only then reaches the $\RegSeqRatUp$ handoff $R$ and the $\RealUp$ seal $H$. No host sequential compactness theorem, choice-selected subsequence, quotient stream equality, or ambient completeness row can bypass the displayed $\CompactMetricUp$ source.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sequential-compactness-carrier}. The first row $K$ is the compact-metric source, and the sequence-window row $S$ is the only route by which a consumer can inspect source indices and target windows.
+
+Apply \autoref{thm:sequential-compactness-namecert-obligations}. Its finite-window classifier clause requires every sequence read to pass through $S$ and every compactness read to pass through $K$ before the selector row is inspected.
+
+Now apply \autoref{thm:sequential-compactness-selector-refusal}. It blocks host sequential compactness, countable choice, quotient stream equality, externally selected subsequences, and ambient real completeness. Therefore the only route to $R$ and $H$ is the displayed $K,S,B,R,H,C,P,N$ route, with $\CompactMetricUp$ as the compact source.
+\end{proof}
+
+\begin{theorem}[Sequential compactness Bolzano-Weierstrass window]
+\label{thm:sequential-compactness-bolzano-weierstrass-window}
+Every accepted $\SequentialCompactnessUp$ packet consumed by a Bolzano-Weierstrass-facing route must factor through the finite window
+$$
+\CompactMetricUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp,\quad \BoundedRealSequenceUp,\quad \RealSequenceClusterPointUp .
+$$
+The route reads compact-metric finite nets, sequence windows, regular rational readback, RealUp seal rows, and the sibling surfaces of \autoref{ch:concrete-instances-boundedrealsequence-namecert} and \autoref{ch:concrete-instances-real-sequence-cluster-point-namecert}. It exports no unrestricted subsequence selector, countable choice, open-cover compactness theorem, quotient stream equality, or ambient Real completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sequential-compactness-carrier}. The compact source $K$, sequence windows $S$, displayed selector row $B$, regular rational handoff $R$, and terminal Real seal $H$ are the only rows available to a consumer.
+
+Apply \autoref{thm:sequential-compactness-compactmetric-route}. It forces every route to $R$ and $H$ through the compact-metric source and the displayed sequence windows before the selector row can be inspected.
+
+The bounded-real-sequence sibling supplies the finite bounded-window source surface, and the real-sequence-cluster-point sibling supplies the cluster-seal handoff. Reading those siblings through $K,S,B,R,H,C,P,N$ gives the displayed Bolzano-Weierstrass-facing route while preserving the refusal of unrestricted selection, countable choice, open-cover compactness, quotient stream equality, and ambient Real completeness.
+\end{proof}
+
+\closureat{SequentialCompactnessUp}{seedStr}
+
+\begin{closurestatus}{\SequentialCompactnessUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequential-compactness-carrier}, \autoref{thm:sequential-compactness-namecert-obligations}, and \autoref{thm:sequential-compactness-selector-refusal} seed the finite selector-boundary surface for compact-metric sequence consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter explicitly refuses unrestricted sequential compactness, host subsequence selection, countable choice, quotient stream equality, selected subsequences outside the displayed selector row, ambient Real completeness, Lean verification, and bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window classifier exposure, selector stability, RegSeqRat handoff exactness, RealUp seal nonescape, and selector-refusal proofs for BEDC.Derived.SequentialCompactnessUp.}
+  \constructivestory{A $\SequentialCompactnessUp$ packet is generated from a CompactMetric source row, StreamName sequence-window row, displayed BolzanoWeierstrassSelector subsequence window, RegSeqRat convergence handoff, Real seal row, componentwise transport and replay rows, provenance, and a local NameCert row.}
+\end{closurestatus}

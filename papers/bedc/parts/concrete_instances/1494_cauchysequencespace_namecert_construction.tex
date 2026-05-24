@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-cauchysequencespace-namecert}
 \origin{human}
 
-The $\CauchySequenceSpaceUp$ interface records the finite naming surface for the space of Cauchy names itself. Following Bishop and Bridges, \emph{Constructive Analysis}, and Bourbaki, \emph{General Topology}, the packet keeps a displayed family of regular rational names together with the finite schedules and tolerance ledgers that make common Cauchy windows inspectable. It sits between $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyFilterUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, and $\RealCauchyCompletionUp$, and it exports only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+The $\CauchySequenceSpaceUp$ interface records the finite naming surface for the space of $\CauchySequenceUp$ names itself. Following Bishop and Bridges, \emph{Constructive Analysis}, and Bourbaki, \emph{General Topology}, the packet keeps a displayed family of regular rational names together with the finite schedules and tolerance ledgers that make common Cauchy windows inspectable. It sits between $\RegSeqRatUp$, $\StreamNameUp$, $\CauchyFilterUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, and $\RealCauchyCompletionUp$, and it exports only $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
 
 This dependency is the concrete sibling route: the displayed regular-family row is consumed from \autoref{ch:concrete-instances-regseqrat-namecert}, the schedule row from \autoref{ch:concrete-instances-streamname-namecert}, and the completion handoff row from \autoref{ch:concrete-instances-real-cauchy-completion-namecert}.
 
@@ -26,6 +26,7 @@ with the following visible rows:
 \end{enumerate}
 The carrier contains no quotient of Cauchy names, no selected limiting name, no host completion equality, and no ambient completeness principle.
 \end{definition}
+\leanchecked{BEDC.Derived.CauchySequenceSpaceUp.TasteGate.CauchySequenceSpaceTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[CauchySequenceSpace NameCert obligation surface]
 \label{thm:cauchysequence-space-namecert-obligation-surface}
@@ -559,10 +560,10 @@ Finally apply \autoref{thm:real-l10-objectwise-exit-threshold-equivalence}. Sinc
   \constructivestory{A $\CauchySequenceSpaceUp$ packet is generated from a displayed family of regular rational names, a stream schedule, finite Cauchy-window evidence, dyadic tolerance data, a completion handoff, componentwise transport, displayed continuation routes, package provenance, and local naming.}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{thm:cauchysequence-space-public-completion-export}, \autoref{thm:cauchysequence-space-public-nonescape}, and \autoref{thm:cauchysequence-space-tail-window-factorization} supply the mature paper surface: a public finite Cauchy-name route with the sibling $\RegSeqRatUp$ family, $\StreamNameUp$ schedule, and $\RealCauchyCompletionUp$ handoff displayed in the chapter.}
-  \formalstatus{\axiomCleanV}
+  \formalstatus{\bridgeCheckedV}
   \leantarget{BEDC.Derived.CauchySequenceSpaceUp.CauchySequenceSpaceCarrier\_public\_completion\_export}
-  \bridgestatus{paperBridge}
+  \bridgestatus{bridgeChecked}
   \origin{human}
   \notclaimed{This chapter does not close quotient completion construction, equality of Cauchy-name classes, uniqueness of limits, host real equality, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Bridge checking requires a standard bridge from the mature public completion export to the choice-free completion consumer reading.}
+  \upgradepath{No further upgrade -- chapter at top of the formal bridge axis.}
 \end{closurestatus}

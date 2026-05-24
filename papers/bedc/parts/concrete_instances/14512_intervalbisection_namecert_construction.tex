@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\IntervalBisectionUp$}
+\label{ch:concrete-instances-intervalbisection-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive interval bisection, the $\IntervalBisectionUp$ packet records the explicit split of a displayed located interval into left and right located subintervals through a finite midpoint route. It consumes the endpoint-cell surface of \autoref{ch:concrete-instances-locatedinterval-namecert}, the dyadic-cell surface of \autoref{ch:concrete-instances-dyadicinterval-namecert}, the rational-cell surface of \autoref{ch:concrete-instances-rationalinterval-namecert}, the finite-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readbacks of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, and the finite-net consumer boundary of \autoref{ch:concrete-instances-closed-interval-compact-net-namecert}. The packet is an explicit bisection certificate for one located interval; it is not open-cover compactness, trichotomy, quotient real equality, or a choice principle for selecting a branch.
+
+\begin{definition}[IntervalBisection carrier]
+\label{def:interval-bisection-carrier}
+An $\IntervalBisectionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,M,L,R,D,S,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the parent $\LocatedIntervalUp$ row, including its lower and upper endpoint observations and locatedness ledger;
+\item $M$ is the midpoint route, computed through the displayed $\RationalIntervalUp$ endpoint cells and recorded as a midpoint row before any branch is inspected;
+\item $L$ is the left subinterval row with inherited lower endpoint, midpoint upper endpoint, and its local locatedness witness;
+\item $R$ is the right subinterval row with midpoint lower endpoint, inherited upper endpoint, and its local locatedness witness;
+\item $D$ is the $\DyadicIntervalUp$ refinement ledger aligning the parent cell, midpoint cell, and the two child cells at the requested mesh scale;
+\item $S$ is the $\StreamNameUp$ finite-window row for the parent endpoints, midpoint read, and child endpoint observations;
+\item $Q$ is the $\RegSeqRatUp$ readback row for the same finite windows, including the rational midpoint calculation and the endpoint reuse checks;
+\item $E$ is the pair of $\RealUp$ seal rows reached by the left and right child intervals through $S,Q,D$ and through no detached quotient-real equality coordinate;
+\item $H$ records componentwise $\hsame$ transport for the parent interval, midpoint route, left and right subinterval rows, dyadic ledger, windows, readbacks, real seals, and branch handoff;
+\item $C$ records displayed $\Cont$ routes by which consumers replay the parent row, midpoint route, both child rows, the dyadic ledger, finite windows, readbacks, real seals, and the nested-cell handoff;
+\item $P$ is the $\Pkg$ provenance over $\IntervalBisectionUp$, $\LocatedIntervalUp$, $\DyadicIntervalUp$, $\RationalIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\ClosedIntervalCompactNetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\IntervalBisectionUp}$ row.
+\end{enumerate}
+The carrier exports only the displayed parent-to-midpoint-to-children route. It has no coordinate for an arbitrary open cover, selected subcover, trichotomy on real names, quotient real equality, hidden endpoint choice, or ambient compactness theorem.
+\end{definition}
+\leanchecked{BEDC.Derived.IntervalBisectionUp.IntervalBisectionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[IntervalBisection NameCert obligations]
+\label{thm:interval-bisection-namecert-obligations}
+For an accepted $\IntervalBisectionUp$ carrier $K=(I,M,L,R,D,S,Q,E,H,C,P,N)$, the local $\NameCert_{\IntervalBisectionUp}$ surface consists exactly of carrier admission for those twelve rows, midpoint formation from the displayed parent endpoint cells, left and right located-subinterval admission, dyadic refinement compatibility, finite-window readback compatibility, child real-seal exposure, componentwise classifier transport, consumer replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple of \autoref{def:interval-bisection-carrier}. The parent interval, midpoint route, two child intervals, dyadic ledger, finite windows, regular readbacks, real seals, transports, continuations, package provenance, and local naming row are all explicit $\BHist$ coordinates.
+
+The midpoint obligation is read through $I,M,Q$. The parent row supplies the displayed endpoint cells, the midpoint route records the rational midpoint before branch inspection, and the regular readback row checks that the midpoint is read from the same finite endpoint windows.
+
+The child-interval obligations are read through $L,R,D,S,Q,E$. The left row reuses the lower endpoint of $I$ and the midpoint upper endpoint; the right row reuses the midpoint lower endpoint and the upper endpoint of $I$. The dyadic ledger, finite windows, readbacks, and real seals expose that both child rows remain inside the same displayed completion route.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no coordinate for branch choice, trichotomy, quotient real equality, selected subcovers, or ambient compactness, none of those objects can become local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[IntervalBisection endpoint transport]
+\label{thm:interval-bisection-endpoint-transport}
+Every endpoint-facing consumer of an accepted $\IntervalBisectionUp$ packet receives the displayed transport route
+$$
+I,M,L,R,D,S,Q,E,H,C,P,N.
+$$
+The route preserves the parent lower endpoint into the left child, the parent upper endpoint into the right child, and the midpoint endpoint into both children by componentwise $\hsame$ transport over the displayed $\BHist$ rows.
+\end{theorem}
+\begin{proof}
+Begin with the parent row $I$ and midpoint route $M$. These two rows determine the three endpoint positions that can be exported: the parent lower endpoint, the midpoint endpoint, and the parent upper endpoint.
+
+Project the child rows $L$ and $R$. The left child has the inherited lower endpoint and the midpoint upper endpoint; the right child has the midpoint lower endpoint and the inherited upper endpoint. No further endpoint selector appears in the carrier.
+
+Now read $D,S,Q,E$. The dyadic ledger aligns the parent and child cells, the finite windows expose only the required endpoint reads, the regular readbacks check the same midpoint calculation, and the real seals close the two child endpoint routes.
+
+Finally the structural rows $H,C,P,N$ transport, replay, source, and name this endpoint route. Componentwise $\hsame$ is therefore the only endpoint-transport mechanism available to a consumer.
+\end{proof}
+
+\begin{theorem}[IntervalBisection nested-cell handoff]
+\label{thm:interval-bisection-nested-cell-handoff}
+Every nested-interval or finite-net consumer of an accepted $\IntervalBisectionUp$ packet factors its child-cell request through the displayed route
+$$
+I,M,L,R,D,H,C,P,N
+$$
+before it may read $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, or $\ClosedIntervalCompactNetUp$ data downstream. Thus the packet hands off a pair of finite child cells, not a selected infinite branch or an open-cover compactness argument.
+\end{theorem}
+\begin{proof}
+First read the parent interval and midpoint route. The row $I$ fixes the displayed located interval, and $M$ fixes the midpoint row used by both children.
+
+Next use the child rows and dyadic ledger. The rows $L$ and $R$ are the only child-cell exports, while $D$ records their refinement relation to the parent cell and midpoint cell.
+
+The handoff to downstream consumers is then replayed through $H,C,P,N$. A nested-interval consumer may iterate the same finite packet shape, and a $\ClosedIntervalCompactNetUp$ consumer may read the two displayed child cells as finite mesh data, but neither consumer receives an infinite branch selector or an open-cover subcover selector from this packet.
+
+The stream, regular-rational, and real-seal rows $S,Q,E$ remain available only as finite readbacks for the already displayed cells. They cannot introduce quotient real equality or a hidden choice of a child branch because those coordinates are absent from the carrier.
+\end{proof}
+
+\closureat{IntervalBisectionUp}{seedStr}
+
+\begin{closurestatus}{\IntervalBisectionUp}
+  \constructivestory{An $\IntervalBisectionUp$ packet is generated from a displayed LocatedIntervalUp parent row, a RationalIntervalUp midpoint route, left and right located subinterval rows, a DyadicIntervalUp refinement ledger, StreamNameUp finite windows, RegSeqRatUp readbacks, RealUp child seals, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:interval-bisection-carrier}, \autoref{thm:interval-bisection-namecert-obligations}, \autoref{thm:interval-bisection-endpoint-transport}, and \autoref{thm:interval-bisection-nested-cell-handoff} bind the explicit bisection certificate for displayed located intervals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, trichotomy, quotient real equality, selected branch choice, selected subcover choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, midpoint formation, endpoint transport, child-cell nesting, and finite-net handoff for BEDC.Derived.IntervalBisectionUp.}
+\end{closurestatus}

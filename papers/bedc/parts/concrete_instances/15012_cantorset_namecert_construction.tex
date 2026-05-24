@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\CantorSetUp$}
+\label{ch:concrete-instances-cantorset-namecert}
+\origin{human}
+
+Following Cantor and Bishop--Bridges constructive analysis, the $\CantorSetUp$ packet records the middle-third closed subset of the real line as finite ternary-prefix and deleted-middle interval data. It is a real-set certificate downstream of the nested interval discipline of \autoref{ch:concrete-instances-nestedinterval-namecert}, the dyadic endpoint surface of \autoref{ch:concrete-instances-dyadicinterval-namecert}, and the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The carrier names only finite prefixes, finite gap ledgers, nested interval rows, and real-seal routing; it does not import open-cover compactness, host powersets, quotient real equality, or a completed infinite intersection.
+
+\begin{definition}[Cantor set carrier]
+\label{def:cantor-set-carrier}
+A $\CantorSetUp$ carrier is a finite $\BHist$ packet
+$$
+C=(T,G,I,D,R,E,H,K,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $T$ is the ternary-prefix ledger, a finite word over the left and right retained thirds, together with its generation depth.
+\item $G$ is the deleted-middle interval ledger, listing the middle-third gaps excluded at the displayed depths.
+\item $I$ is the retained nested-interval row whose endpoints are determined by $T$ and whose containment route is read through the $\NestedIntervalUp$ surface.
+\item $D$ is the auxiliary $\DyadicIntervalUp$ or rational endpoint ledger used to expose the retained interval endpoints to finite consumers.
+\item $R$ is the $\RegSeqRatUp$ handoff row for a real-name readback compatible with the retained interval chain.
+\item $E$ is the $\RealUp$ seal row reached only after the ternary prefix, deleted-gap ledger, retained interval row, endpoint ledger, and regular-rational handoff have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the ternary prefix, gap ledger, interval row, endpoint ledger, handoff row, real seal, continuation replay, provenance, and local naming row.
+\item $K$ stores displayed $\Cont$ replay from prefix requests to gap checks, from gap checks to retained intervals, and from retained intervals to $R$ and $E$.
+\item $P$ is the $\Pkg$ provenance over $\CantorSetUp$, $\NestedIntervalUp$, $\DyadicIntervalUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CantorSetUp}$ row.
+\end{enumerate}
+The classifier accepts a packet only when the displayed prefix $T$ selects retained thirds, the ledger $G$ contains exactly the finite deleted-middle gaps inspected at those depths, the interval row $I$ avoids those gaps, and every real-facing read factors through $R,E,H,K,P,N$. It has no coordinate for a host subset of $\RealUp$, open-cover compactness, quotient real equality, selected infinite branch, or ambient completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.CantorSetUp.CantorSetTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cantor set NameCert obligations]
+\label{thm:cantor-set-namecert-obligations}
+For an accepted $\CantorSetUp$ carrier $C=(T,G,I,D,R,E,H,K,P,N)$, the local $\NameCert_{\CantorSetUp}$ obligations are exactly carrier admission, finite ternary-prefix classification, deleted-middle gap exclusion, nested-interval containment, endpoint-ledger compatibility, $\RealUp$ seal handoff, and non-escape. These obligations are discharged by the displayed route
+$$
+T\longmapsto G\longmapsto I\longmapsto D\longmapsto R\longmapsto E
+$$
+together with $H,K,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission projects the finite tuple of \autoref{def:cantor-set-carrier}. The prefix classifier reads $T$ as a finite retained-third word and therefore inspects only finitely many ternary branch decisions.
+
+The deleted-middle exclusion row $G$ is the only place where removed middle-third intervals are named. The retained interval row $I$ must pass through the $\NestedIntervalUp$ containment surface, so every accepted prefix determines a retained nested interval before any real-facing row is read.
+
+Endpoint compatibility is checked by $D$. This ledger exposes the same retained interval endpoints to dyadic or rational interval consumers and prevents a later consumer from replacing the ternary interval by an unrelated host interval.
+
+Finally, $R$ and $E$ are downstream readback and seal rows. The transport, continuation, provenance, and naming rows $H,K,P,N$ preserve the same finite route, and no carrier coordinate supplies open-cover compactness, host powersets, quotient real equality, a selected infinite branch, or ambient real completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CantorSetUp$ real-facing read factors through the displayed ternary-prefix ledger, deleted-middle interval ledger, retained nested-interval row, endpoint ledger, regular-rational handoff, and $\RealUp$ seal before the set membership surface is consumed.}
+
+\independenceWitness{nestedinterval, dyadicinterval, regseqrat, real, cantorspace: $\CantorSetUp$ is not bijective to any listed sibling because it jointly carries a ternary retained-prefix ledger, deleted-middle gap ledger, retained nested interval row, endpoint compatibility row, regular-rational handoff, real seal, transport, continuation replay, provenance, and local naming.}
+
+\closureat{CantorSetUp}{seedStr}
+
+\begin{closurestatus}{\CantorSetUp}
+  \constructivestory{A $\CantorSetUp$ packet is generated from a finite ternary retained-prefix ledger, a deleted-middle gap ledger, a retained NestedInterval row, a DyadicInterval or rational endpoint ledger, a RegSeqRat handoff, a RealUp seal, componentwise transport, continuation replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cantor-set-carrier} and \autoref{thm:cantor-set-namecert-obligations} seed the finite closed-set carrier for the middle-third Cantor subset through retained prefixes, deleted gaps, nested intervals, endpoint rows, and the $\RealUp$ seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close located compactness, open-cover compactness, host powerset equality, quotient real equality, selected infinite branches, ambient $\RealUp$ completeness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix classification, gap exclusion, nested-interval containment, endpoint-ledger compatibility, real-seal handoff, and non-escape for BEDC.Derived.CantorSetUp.}
+\end{closurestatus}

@@ -1,0 +1,253 @@
+\begin{definition}[Hypercube automorphism stabilizer]
+\label{def:philosophy-hypercube-automorphism-stabilizer}
+The automorphism group of $Q_{6}$ is
+$$
+  \operatorname{Aut}(Q_{6})\cong C_{2}^{6}\rtimes S_{6},
+  \qquad
+  |\operatorname{Aut}(Q_{6})|=2^{6}\cdot 6!=46080.
+$$
+For $S\subseteq Q_{6}$, write
+$$
+  \operatorname{Stab}(S)
+  =
+  \{\phi\in\operatorname{Aut}(Q_{6}):\phi(S)=S\}.
+$$
+For a weight function $w:Q_{6}\to\mathbb{R}_{\ge 0}$, write
+$$
+  \operatorname{Stab}(w)
+  =
+  \{\phi\in\operatorname{Aut}(Q_{6}):w(\phi(x))=w(x)\text{ for all }x\in Q_{6}\}.
+$$
+\end{definition}
+
+\begin{theorem}[Active-support stabilizer]
+\label{thm:philosophy-active-support-stabilizer}
+The active reassignment support has
+$$
+  |\operatorname{Stab}(\mathcal{R})|=2.
+$$
+The nonidentity element is the coordinate transposition
+$$
+  \tau:s_{1}\leftrightarrow f_{2},
+$$
+with all other bit coordinates fixed.
+\end{theorem}
+\begin{proof}
+Enumerate all $46080$ automorphisms of $Q_{6}$ and retain those whose
+image of $\mathcal{R}$ is exactly $\mathcal{R}$. The retained
+automorphisms are the identity and the transposition
+$s_{1}\leftrightarrow f_{2}$.
+\end{proof}
+
+\begin{corollary}[Hidden $C_{2}$ orbit structure]
+\label{cor:philosophy-hidden-c2-orbit-structure}
+Under $\tau$, the nontrivial active-support orbits are
+$$
+  \{\mathrm{AAA},\mathrm{UGA}\},
+  \qquad
+  \{\mathrm{AUA},\mathrm{UCA}\}.
+$$
+The remaining active codons are fixed by $\tau$.
+\end{corollary}
+\begin{proof}
+Apply the bit transposition $s_{1}\leftrightarrow f_{2}$ to each codon
+of $\mathcal{R}$.
+\end{proof}
+
+\begin{theorem}[Persistence of the hidden $C_{2}$]
+\label{thm:philosophy-hidden-c2-persists}
+The inactive-anchor closure and the first median layer have the same
+stabilizer size:
+$$
+  |\operatorname{Stab}(\overline{\mathcal{R}})|=2,
+  \qquad
+  |\operatorname{Stab}(\operatorname{Med}_{1}(\mathcal{R}))|=2.
+$$
+In both cases the nonidentity stabilizer is again
+$\tau:s_{1}\leftrightarrow f_{2}$.
+\end{theorem}
+\begin{proof}
+Enumerate all automorphisms of $Q_{6}$ and test set preservation for
+$\overline{\mathcal{R}}$ and
+$\operatorname{Med}_{1}(\mathcal{R})$. Each stabilizer contains exactly
+the identity and $\tau$.
+\end{proof}
+
+\begin{corollary}[Orbit growth under $\tau$]
+\label{cor:philosophy-tau-orbit-growth}
+The nontrivial $\tau$-orbits grow along the closure chain as
+$$
+\begin{gathered}
+  \mathcal{R}:
+  \{\mathrm{AAA},\mathrm{UGA}\},\quad
+  \{\mathrm{AUA},\mathrm{UCA}\},\\
+  \overline{\mathcal{R}}:
+  \{\mathrm{AAG},\mathrm{UGG}\}\text{ also appears},\\
+  \operatorname{Med}_{1}(\mathcal{R}):
+  \{\mathrm{AUG},\mathrm{UCG}\}\text{ also appears}.
+\end{gathered}
+$$
+\end{corollary}
+\begin{proof}
+This is the explicit orbit decomposition of $\tau$ on
+$\mathcal{R}$, $\overline{\mathcal{R}}$, and
+$\operatorname{Med}_{1}(\mathcal{R})$.
+\end{proof}
+
+\begin{theorem}[Median-closure stabilizer]
+\label{thm:philosophy-median-closure-stabilizer}
+The full median closure has
+$$
+  \operatorname{Stab}(\operatorname{Med}(\mathcal{R}))
+  \cong
+  S_{3}\times C_{2},
+  \qquad
+  |\operatorname{Stab}(\operatorname{Med}(\mathcal{R}))|=12.
+$$
+The $S_{3}$ factor permutes the three coordinates
+$$
+  s_{1},\qquad s_{2},\qquad f_{2},
+$$
+and the $C_{2}$ factor flips $f_{3}$.
+\end{theorem}
+\begin{proof}
+The median closure is $\mathrm{WNR}\cup\mathrm{CUN}$. In bit variables
+$$
+  a=s_{1},\quad b=f_{1},\quad c=s_{2},\quad d=f_{2},
+  \quad e=s_{3},\quad g=f_{3},
+$$
+this set is described by
+$$
+  (\neg b\land e)
+  \ \lor\
+  (b\land\neg a\land\neg c\land\neg d).
+$$
+The coordinates $a,c,d$ are symmetric in this formula, and $g$ is
+absent. This gives $S_{3}\times C_{2}$. Exhaustive enumeration of all
+$46080$ hypercube automorphisms gives no additional stabilizers.
+\end{proof}
+
+\begin{corollary}[Symmetry restoration at the sealing corner]
+\label{cor:philosophy-symmetry-restoration-sealing-corner}
+The stabilizer size changes along the median chain as
+$$
+  |\operatorname{Stab}(\mathcal{R})|=2,
+  \qquad
+  |\operatorname{Stab}(\operatorname{Med}_{1}(\mathcal{R}))|=2,
+  \qquad
+  |\operatorname{Stab}(\operatorname{Med}(\mathcal{R}))|=12.
+$$
+Thus the sealing codon $\mathrm{ACG}$ raises the set stabilizer from
+$C_{2}$ to $S_{3}\times C_{2}$.
+\end{corollary}
+\begin{proof}
+The first two stabilizers are
+\autoref{thm:philosophy-active-support-stabilizer} and
+\autoref{thm:philosophy-hidden-c2-persists}. The last stabilizer is
+\autoref{thm:philosophy-median-closure-stabilizer}. The equality
+$\operatorname{Med}_{1}(\mathcal{R})
+=\operatorname{Med}(\mathcal{R})\setminus\{\mathrm{ACG}\}$ is
+\autoref{thm:philosophy-punctured-median-q4}.
+\end{proof}
+
+\begin{theorem}[Median-closure orbits]
+\label{thm:philosophy-median-closure-orbits}
+Under $\operatorname{Stab}(\operatorname{Med}(\mathcal{R}))$, the
+median closure decomposes into the following orbits:
+$$
+\begin{array}{c|l}
+  \text{size} & \text{orbit}\\
+  \hline
+  6 & \{\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},
+        \mathrm{ACG},\mathrm{UGA},\mathrm{UGG}\}\\
+  6 & \{\mathrm{AUA},\mathrm{AUG},\mathrm{UAA},
+        \mathrm{UAG},\mathrm{UCA},\mathrm{UCG}\}\\
+  2 & \{\mathrm{AGA},\mathrm{AGG}\}\\
+  2 & \{\mathrm{UUA},\mathrm{UUG}\}\\
+  2 & \{\mathrm{CUA},\mathrm{CUG}\}\\
+  2 & \{\mathrm{CUC},\mathrm{CUU}\}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Apply the $12$ stabilizing automorphisms of
+\autoref{thm:philosophy-median-closure-stabilizer} to the $20$ codons
+of $\operatorname{Med}(\mathcal{R})$ and group codons by orbit.
+\end{proof}
+
+\begin{theorem}[Orbit-completion role of $\mathrm{ACG}$]
+\label{thm:philosophy-acg-orbit-completion}
+The codon $\mathrm{ACG}$ is the unique missing point of the orbit
+$$
+  \{\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},
+    \mathrm{ACG},\mathrm{UGA},\mathrm{UGG}\}
+$$
+inside $\operatorname{Med}_{1}(\mathcal{R})$. Hence it is both the
+top-dimensional sealing corner of
+\autoref{cor:philosophy-top-dimensional-sealing-corner} and the
+orbit-completion point for the restored $S_{3}\times C_{2}$ symmetry.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:philosophy-punctured-median-q4},
+$\operatorname{Med}_{1}(\mathcal{R})$ is the full median closure with
+$\mathrm{ACG}$ removed. By
+\autoref{thm:philosophy-median-closure-orbits}, $\mathrm{ACG}$ lies in
+the displayed $6$-point orbit. The other five points of that orbit are
+already present in $\operatorname{Med}_{1}(\mathcal{R})$.
+\end{proof}
+
+\begin{theorem}[Weighted symmetry is trivial]
+\label{thm:philosophy-weighted-symmetry-trivial}
+Let $w(c)$ be the number of NCBI alternative genetic-code tables in
+which codon $c$ differs from the standard table. Then
+$$
+  |\operatorname{Stab}(w)|=1.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate all automorphisms of $Q_{6}$ and retain those preserving the
+weight function on all $64$ codons. Only the identity remains. In
+particular, the support-level symmetry $\tau:s_{1}\leftrightarrow f_{2}$
+does not preserve weights: it maps $\mathrm{UGA}$ to $\mathrm{AAA}$,
+while
+$$
+  w(\mathrm{UGA})=15,\qquad w(\mathrm{AAA})=3.
+$$
+\end{proof}
+
+\begin{corollary}[Geometry and direction]
+\label{cor:philosophy-support-symmetry-weight-direction}
+Support geometry and weight geometry separate. The support and median
+closure have nontrivial set symmetries, while reassignment frequency
+breaks all nonidentity hypercube symmetries.
+\end{corollary}
+\begin{proof}
+Combine \autoref{thm:philosophy-active-support-stabilizer},
+\autoref{thm:philosophy-median-closure-stabilizer}, and
+\autoref{thm:philosophy-weighted-symmetry-trivial}.
+\end{proof}
+
+\begin{theorem}[Symmetry restoration]
+\label{thm:philosophy-symmetry-restoration}
+The closure sequence has stabilizer chain
+$$
+\begin{array}{c|c|c}
+  \text{object} & \text{stabilizer size} & \text{group}\\
+  \hline
+  w & 1 & \text{trivial}\\
+  \mathcal{R} & 2 & C_{2}\\
+  \overline{\mathcal{R}} & 2 & C_{2}\\
+  \operatorname{Med}_{1}(\mathcal{R}) & 2 & C_{2}\\
+  \operatorname{Med}(\mathcal{R}) & 12 & S_{3}\times C_{2}.
+\end{array}
+$$
+Thus median closure restores a larger hidden symmetry, while the
+weighted reassignment function remains fully direction-bearing.
+\end{theorem}
+\begin{proof}
+The table is the collection of
+\autoref{thm:philosophy-weighted-symmetry-trivial},
+\autoref{thm:philosophy-active-support-stabilizer},
+\autoref{thm:philosophy-hidden-c2-persists}, and
+\autoref{thm:philosophy-median-closure-stabilizer}.
+\end{proof}

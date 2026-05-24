@@ -27,6 +27,7 @@ with the following displayed coordinates:
 \end{enumerate}
 The packet is an Archimedean bound certificate for a displayed real name. It stores no host supremum, no selected least bound, no quotient stream equality, and no ambient completeness object.
 \end{definition}
+\leandef{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealUp}
 
 \begin{theorem}[ArchimedeanReal NameCert obligations]
 \label{thm:archimedean-real-namecert-obligations}
@@ -60,6 +61,21 @@ Apply the ledger-exactness clause of \autoref{thm:archimedean-real-namecert-obli
 Thus the exported witness is exactly the finite pair $(Q,D)$ with its ledger $B$ and provenance routes $H,C,P,N$. No coordinate of the packet is a supremum operator, a selected least bound, a quotient of streams, or a completeness principle, so none of those objects is available to a consumer of the rational-bound witness.
 \end{proof}
 \leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealPacket\_rational\_bound\_witness}
+
+\begin{theorem}[ArchimedeanReal rational-dyadic bound coherence]
+\label{thm:archimedean-real-rat-dyadic-bound-coherence}
+For every accepted $\ArchimedeanRealUp$ packet $A=(R,Q,D,S,G,B,H,C,P,N)$, the $\RatUp$ row $Q$ and the $\DyadicRatCoreUp$ row $D$ form one coherent bound witness for the displayed $\RealUp$ name $R$. Every $\RealUp$ order, locatedness, completion, integer-part, or decimal-prefix consumer that reads either row must read both rows through the same finite ledger $B$, $\StreamNameUp$ window $S$, $\RegSeqRatUp$ handoff $G$, $\hsame$ transports $H$, $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\ArchimedeanRealUp}$ row $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealCarrier\_rat\_dyadic\_bound\_coherence}
+\begin{proof}
+Project the carrier in \autoref{def:archimedean-real-carrier}. The accepted packet exposes $Q$ and $D$ as named coordinates of a single finite $\ArchimedeanRealUp$ carrier rather than as two independent bound witnesses.
+
+Apply \autoref{thm:archimedean-real-namecert-obligations}. Its ledger-exactness and rational-bound export clauses say that the comparison of inspected $\RegSeqRatUp$ observations against $Q$ and $D$ is mediated by the same ledger $B$, while the exported consumer surface keeps the same $S,G,H,C,P,N$ rows.
+
+Apply \autoref{thm:archimedean-real-rational-bound-witness}. The public witness for the displayed real name is the pair $Q,D$ together with the finite ledger $B$, so a consumer cannot take the $\RatUp$ row without the dyadic presentation or take the dyadic row without the rational row.
+
+Finally use \autoref{thm:archimedean-real-bound-ledger-nonescape}. Since the packet has no host supremum, selected least bound, quotient stream equality, host limit, or ambient completeness coordinate, there is no second bound surface through which a downstream order, locatedness, completion, integer-part, or decimal-prefix consumer could separate the two rows.
+\end{proof}
 
 \begin{theorem}[ArchimedeanReal transported bound stability]
 \label{thm:archimedean-real-transported-bound-stability}
@@ -202,6 +218,25 @@ Next use the budgeted observation handoff of \autoref{thm:archimedean-real-budge
 The dyadic threshold totality theorem of \autoref{thm:archimedean-real-dyadic-threshold-totality} then supplies the finite threshold row for unary budget requests. Its source is the rational-bound witness through $Q,D$, and its route is the composed budget-window and Archimedean-bound route.
 
 Finally apply the bound-ledger non-escape theorem of \autoref{thm:archimedean-real-bound-ledger-nonescape}. Since none of the forbidden host objects is a carrier coordinate, the public order consumer cannot project a supremum, selected least bound, quotient stream equality, host limit, or ambient completeness object.
+\end{proof}
+
+\begin{theorem}[ArchimedeanReal integer bracket handoff]
+\label{thm:archimedean-real-integer-bracket}
+Let an accepted $\ArchimedeanRealUp$ packet
+$$
+A=(R,Q,D,S,G,B,H,C,P,N)
+$$
+be read by an integer-part or decimal-prefix consumer of the displayed real name. The consumer must first receive the public Archimedean bound surface $Q,D,S,G,B,H,C,P,N$. If it then forms an $\ArchimedeanIntegerPartUp$ packet, the bracket row factors through the existing real or regular-Cauchy read, the Archimedean comparison row, the dyadic floor scale, the $\IntUp$ candidate, and the successor bracket rows of \autoref{thm:archimedean-integer-part-bracket-route}. The combined handoff exports no host floor, trichotomy row, quotient stream equality, hidden integer search, selected representative, or ambient completeness coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealCarrier\_integer\_bracket}
+\begin{proof}
+Start with the rational-bound witness of \autoref{thm:archimedean-real-rational-bound-witness}. It identifies the Archimedean source available from $A$ as the displayed $Q,D$ rows together with the finite ledger $B$ and its routes $H,C,P,N$.
+
+Apply the public order consumer theorem of \autoref{thm:archimedean-real-public-order-consumer}. An integer-part or decimal-prefix request is therefore not allowed to read the displayed real name through a bare host order; it first passes through the public surface $Q,D,S,G,B,H,C,P,N$.
+
+Now suppose the consumer forms an $\ArchimedeanIntegerPartUp$ packet. The bracket-route theorem \autoref{thm:archimedean-integer-part-bracket-route} forces that packet to expose the real or regular-Cauchy read, then the Archimedean comparison row, then the dyadic floor scale, then the $\IntUp$ candidate, and only then the successor bracket row. This is exactly the integer-bracket surface available downstream of the public Archimedean bound rows.
+
+Finally use the no-hidden-search boundary of \autoref{thm:archimedean-integer-part-no-hidden-search}. Together with the non-escape boundary already attached to the Archimedean real packet, it excludes host floor selection, trichotomy over arbitrary real names, quotient stream equality, hidden integer search, selected representatives, and ambient completeness from the composed route.
 \end{proof}
 
 \closureat{ArchimedeanRealUp}{seedStr}

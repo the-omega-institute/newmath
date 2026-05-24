@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyMultiplicationUp$}
+\label{ch:concrete-instances-regular-cauchy-multiplication-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyMultiplicationUp$ packet records binary multiplication of displayed regular rational Cauchy real names as a finite bounded-window product route. It sits over the regular rational source rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the synchronized window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the addition route of \autoref{ch:concrete-instances-regular-cauchy-addition-namecert}, the subtraction route of \autoref{ch:concrete-instances-regular-cauchy-subtraction-namecert}, the sign-flip route of \autoref{ch:concrete-instances-regularcauchynegation-namecert}, the algebra packet of \autoref{ch:concrete-instances-regularcauchyring-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is the finite product surface consumed by later Real algebra and completion routes; it is not host real multiplication, a quotient Cauchy-class operation, a selected limit, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[RegularCauchyMultiplication carrier]
+\label{def:regular-cauchy-multiplication-carrier}
+A $\RegularCauchyMultiplicationUp$ carrier is a finite $\BHist$ packet
+$$
+B_\times=(X,Y,W,D,B,E,M,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\RegSeqRatUp$ source rows for regular rational Cauchy real names.
+\item $W$ is the synchronized $\StreamNameUp$ window ledger aligning the finite observations of $X$ and $Y$ at every product-facing precision request.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger containing the two source tolerance rows, the displayed endpoint products, and the dyadic product tolerance row.
+\item $B$ is the finite bounding ledger used to choose a product window large enough for the two source magnitudes and the requested output tolerance.
+\item $E$ is the finite error-budget accounting row combining source tolerance, bounding data, dyadic product tolerance, and the output tolerance required by the product readback.
+\item $M$ is the resulting $\RegSeqRatUp$ readback row for the displayed binary multiplication route.
+\item $Z$ is the $\RealUp$ seal row reached only after the two source rows, synchronized windows, dyadic tolerance rows, bounding ledger, finite error budget, and product readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source rows, synchronized windows, dyadic ledger, bounding ledger, finite budget row, readback, seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from any multiplication-facing precision request through $X,Y,W,D,B,E,M,Z,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyMultiplicationUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyAdditionUp$, $\RegularCauchySubtractionUp$, $\RegularCauchyNegationUp$, $\RegularCauchyRingUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyMultiplicationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,Y,W,D,B,E,M,Z,H,C,P,N$. The carrier has no coordinate for host real multiplication, quotient Cauchy classes, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyMultiplicationUp.TasteGate.RegularCauchyMultiplicationTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy multiplication NameCert obligations]
+\label{thm:regular-cauchy-multiplication-namecert-obligations}
+For every accepted $\RegularCauchyMultiplicationUp$ carrier
+$$
+B_\times=(X,Y,W,D,B,E,M,Z,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyMultiplicationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two $\RegSeqRatUp$ source rows, synchronized $\StreamNameUp$ windows, dyadic tolerance rows, finite bounding ledger, finite error-budget row, product readback, $\RealUp$ seal row, and structural rows;
+\item synchronized-window exposure, requiring each multiplication-facing precision request to inspect the two source windows before any endpoint product row is available;
+\item dyadic endpoint product, requiring $D$ to be read from the displayed source observations and tolerance rows through the $\DyadicRatCoreUp$ arithmetic route;
+\item bounding handoff, requiring $B$ to record enough finite source-magnitude information to allocate the product tolerance without appealing to a completed real norm or global order;
+\item finite error-budget accounting, requiring $E$ to combine the source tolerance, bounding data, dyadic product tolerance, and output tolerance before $M$ is available;
+\item Real seal nonescape, requiring every $\RealUp$ consumer to read the route through $X,Y,W,D,B,E,M$ before any terminal seal is exposed;
+\item componentwise transport, replay, provenance, and local naming, requiring $H,C,P,N$ to preserve and name exactly the same finite multiplication packet;
+\item refusal of host real multiplication, quotient Cauchy classes, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, and bridge checking as local NameCert data.
+\end{enumerate}
+No multiplication obligation is stored outside these finite rows.
+\end{theorem}
+
+\begin{theorem}[Regular Cauchy multiplication Real seal handoff]
+\label{thm:regular-cauchy-multiplication-real-seal-handoff}
+Every Real-facing product read exported by an accepted $\RegularCauchyMultiplicationUp$ carrier factors through the finite route
+$$
+(X,Y)\longmapsto W\longmapsto D\longmapsto B\longmapsto E\longmapsto M\longmapsto Z
+$$
+before it may be consumed as a completed real-name boundary. Thus the consumer receives two regular rational source rows, synchronized $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance and endpoint-product rows, a finite bounding ledger, a finite product-budget ledger, a $\RegSeqRatUp$ product readback, and the $\RealUp$ seal. It receives no host real multiplication, quotient Cauchy class, selected limit, trichotomy, ambient completeness coordinate, Lean verification, or bridge checking.
+\end{theorem}
+
+\closureat{RegularCauchyMultiplicationUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyMultiplicationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-multiplication-carrier}, \autoref{thm:regular-cauchy-multiplication-namecert-obligations}, and \autoref{thm:regular-cauchy-multiplication-real-seal-handoff} seed the finite binary multiplication route through $\RegSeqRatUp$ source rows, synchronized $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance and endpoint-product rows, finite bounding and error-budget rows, resulting $\RegSeqRatUp$ product readback, and $\RealUp$ seal data.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RegularCauchyMultiplicationUp.TasteGate.RegularCauchyMultiplicationTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real multiplication, quotient Cauchy classes, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, synchronized-window exposure, dyadic endpoint product, finite bounding, finite error-budget accounting, Real seal nonescape, componentwise transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyMultiplicationUp.}
+  \constructivestory{A $\RegularCauchyMultiplicationUp$ packet is generated from two $\RegSeqRatUp$ source rows, synchronized $\StreamNameUp$ finite-window schedules, $\DyadicRatCoreUp$ tolerance and endpoint-product rows, a finite bounding ledger, a finite error-budget row, a resulting $\RegSeqRatUp$ product readback, a $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

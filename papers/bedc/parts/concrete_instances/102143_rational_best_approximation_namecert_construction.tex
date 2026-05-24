@@ -1,0 +1,123 @@
+\chapter{A Concrete Naming Certificate for $\RationalBestApproximationUp$}
+\label{ch:concrete-instances-rational-best-approximation-namecert}
+\origin{human}
+
+Following Bishop and Bridges on finite rational approximation and Hardy--Wright's treatment of denominator-bounded rational comparison, the $\RationalBestApproximationUp$ packet records the NameCert surface for a displayed best-approximation candidate at a finite denominator bound. It sits between the rational approximation window of \autoref{ch:concrete-instances-real-rational-approximation-namecert}, the Farey-neighbor comparison surface of \autoref{ch:concrete-instances-farey-sequence-namecert}, the denominator-bounded route of \autoref{ch:concrete-instances-dirichlet-approximation-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream readback of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only finite comparison rows: it records what has been inspected, which rational candidate is locally certified against that inspection, and where nonuniqueness prevents a selector from escaping the displayed boundary.
+
+\begin{definition}[Rational best approximation carrier]
+\label{def:rational-best-approximation-carrier}
+A $\RationalBestApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+B=(E,S,G,D,Q,L,F,A,M,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the displayed $\RealUp$ seal whose rational approximation window is being inspected.
+\item $S$ is the finite $\StreamNameUp$ window family opened from $E$ before any rational candidate is compared.
+\item $G$ is the $\RegSeqRatUp$ readback row obtained from the same stream windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, storing the dyadic error budget, slack comparisons, and endpoint margins used by the finite comparison.
+\item $Q$ is the $\RatUp$ candidate row whose numerator, denominator, sign, and reduced-form data are displayed before the local best-approximation check is read.
+\item $L$ is the denominator-bound row, recording the finite bound against which $Q$ and all competitor rows are compared.
+\item $F$ is the $\FareySequenceUp$ comparison row, exposing adjacent rational boundary rows and mediant-neighbor data at the displayed denominator level.
+\item $A$ is the $\DirichletApproximationUp$ comparison row, exposing the denominator-bounded approximation route used to populate the finite competitor ledger.
+\item $M$ is the error ledger, comparing the displayed candidate row $Q$ with the readback row $G$ under the tolerance budget $D$ and denominator bound $L$.
+\item $T$ is the tie and nonuniqueness boundary row, recording whether the finite ledger exhibits a unique candidate, a displayed tie family, or an unresolved boundary that blocks selector export.
+\item $H$ records componentwise $\hsame$ transport for the Real seal, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, Rat candidate, denominator bound, FareySequence comparison row, DirichletApproximation comparison row, error ledger, tie boundary, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+E,S,G,D,L,F,A,Q,M,T \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RationalBestApproximationUp$, $\RealRationalApproximationUp$, $\FareySequenceUp$, $\DirichletApproximationUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RationalBestApproximationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,S,G,D,Q,L,F,A,M,T,H,C,P,N$. It has no coordinate for host real order, quotient equality of real representatives, a globally selected best approximant, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Rational best approximation NameCert obligations]
+\label{thm:rational-best-approximation-namecert-obligations}
+For every accepted $\RationalBestApproximationUp$ carrier
+$$
+B=(E,S,G,D,Q,L,F,A,M,T,H,C,P,N),
+$$
+the local $\NameCert_{\RationalBestApproximationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed $\RealUp$ seal, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, $\RatUp$ candidate, denominator bound, $\FareySequenceUp$ comparison row, $\DirichletApproximationUp$ comparison row, error ledger, tie boundary, transport, replay, provenance, and local naming rows;
+\item window-readback exposure, requiring $S$ and $G$ to be displayed from $E$ before the candidate row or competitor ledger can be consumed;
+\item tolerance and denominator control, requiring $D$ and $L$ to name the dyadic error budget and finite denominator cap used by the comparison;
+\item candidate admission, requiring $Q$ to be a displayed $\RatUp$ row before any local best-approximation assertion is read;
+\item competitor coverage, requiring $F$ and $A$ to provide the finite FareySequence and DirichletApproximation comparison rows for the same denominator bound and tolerance ledger;
+\item error-ledger exactness, requiring $M$ to compare only the displayed candidate and displayed competitor rows against $G,D,L$;
+\item tie-boundary exposure, requiring $T$ to record unique-candidate, displayed-tie, or unresolved-boundary status before any consumer attempts to read a selector;
+\item transport, replay, provenance, and naming exhaustion, requiring $H,C,P,N$ to preserve and source exactly the displayed packet.
+\end{enumerate}
+No rational-best-approximation obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:rational-best-approximation-carrier}. The accepted packet displays exactly the Real seal, finite stream windows, regular rational readback, dyadic tolerance ledger, rational candidate, denominator bound, Farey comparison row, Dirichlet comparison row, error ledger, tie boundary, and structural rows.
+
+The window-readback and tolerance obligations fix the observation boundary. A consumer first reads $S$ from the displayed seal $E$, obtains $G$ through the same finite windows, and then reads the dyadic budget $D$ and denominator cap $L$ before any candidate can be compared.
+
+Candidate admission is the projection to $Q$. The candidate is a displayed rational row, not a host-real element or an implicit representative chosen outside the packet.
+
+Competitor coverage is carried by $F$ and $A$. The FareySequence row supplies finite adjacent-rational comparisons at the denominator level, while the DirichletApproximation row supplies the denominator-bounded approximation route used by the competitor ledger.
+
+The error ledger and tie boundary are the only best-approximation-facing rows. The row $M$ compares the displayed candidate and displayed competitors against $G,D,L$, and $T$ records whether the comparison yields a unique displayed candidate, a displayed tie family, or an unresolved boundary.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite inventory. Since the carrier has no coordinate for host real order, quotient equality, a globally selected best approximant, trichotomy, countable choice, ambient completeness, Lean verification, or bridge checking, the listed rows exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Rational best approximation window extraction]
+\label{thm:rational-best-approximation-window-extraction}
+Every accepted $\RationalBestApproximationUp$ carrier
+$$
+B=(E,S,G,D,Q,L,F,A,M,T,H,C,P,N)
+$$
+exposes a finite denominator-bounded approximation window
+$$
+E \longrightarrow S \longrightarrow G \longrightarrow D,L \longrightarrow F,A,Q \longrightarrow M,T
+$$
+for the displayed $\RealUp$ name. The extracted window is a finite NameCert route through $\RealRationalApproximationUp$, $\FareySequenceUp$, $\DirichletApproximationUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RatUp$, and $\RealUp$ rows, not a host theorem selecting best approximants.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet. Projection exposes the terminal real seal $E$ and the finite stream windows $S$ opened from it.
+
+The regular readback $G$ is read through those windows. The dyadic tolerance ledger $D$ and denominator-bound row $L$ then fix the finite comparison scope for the request.
+
+Within that scope, the rows $F$ and $A$ expose the FareySequence and DirichletApproximation competitor routes. The candidate row $Q$ is compared only after those rows and the budget rows have been displayed.
+
+The extraction ends at $M$ and $T$. The error ledger $M$ records the finite comparisons, and the tie boundary $T$ records whether the packet has a unique displayed candidate, a displayed tie family, or an unresolved boundary.
+
+Transport, replay, provenance, and local naming preserve this same route. Thus the extracted window is finite BEDC data rather than a host-real order argument or a choice-based selector.
+\end{proof}
+
+\begin{theorem}[Rational best approximation selector nonescape]
+\label{thm:rational-best-approximation-selector-nonescape}
+For every accepted $\RationalBestApproximationUp$ carrier
+$$
+B=(E,S,G,D,Q,L,F,A,M,T,H,C,P,N),
+$$
+any consumer that reads a best-approximation candidate receives only the displayed candidate row $Q$ together with the finite denominator-bound, comparison, error, and tie-boundary rows $L,F,A,M,T$. No consumer receives host real order, quotient equality, a globally selected best approximant, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking from the packet.
+\end{theorem}
+\begin{proof}
+Begin with a consumer read of a candidate. The carrier provides only one candidate coordinate, the displayed rational row $Q$, and places it downstream of the real-name window, regular readback, dyadic tolerance ledger, and denominator bound.
+
+The comparison evidence is also finite. The rows $F$ and $A$ expose the FareySequence and DirichletApproximation competitor routes, while $M$ records the displayed error comparisons against the readback and tolerance data.
+
+Selector nonescape is enforced by the tie row $T$. If the finite ledger displays a unique candidate, the packet may expose that displayed row; if it displays a tie family or unresolved boundary, the packet records that boundary instead of exporting a hidden selector.
+
+The structural rows cannot add a second source of selection. Componentwise transport, continuation replay, provenance, and local naming preserve only $E,S,G,D,Q,L,F,A,M,T$.
+
+Therefore every candidate read remains inside the finite packet. Host real order, quotient equality, globally selected best approximants, trichotomy, countable choice, ambient completeness, Lean verification, and bridge checking are outside the carrier inventory.
+\end{proof}
+
+\closureat{RationalBestApproximationUp}{seedStr}
+
+\begin{closurestatus}{\RationalBestApproximationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-best-approximation-carrier}, \autoref{thm:rational-best-approximation-namecert-obligations}, \autoref{thm:rational-best-approximation-window-extraction}, and \autoref{thm:rational-best-approximation-selector-nonescape} seed the finite denominator-bounded best-approximation packet over displayed Real, StreamName, RegSeqRat, DyadicRatCore, Rat, FareySequence, and DirichletApproximation rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host real order, quotient equality, selected best approximants, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window-readback exposure, tolerance and denominator control, candidate admission, competitor coverage, error-ledger exactness, tie-boundary exposure, selector nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RationalBestApproximationUp.}
+  \constructivestory{A $\RationalBestApproximationUp$ packet is generated from a displayed RealUp seal, finite StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a RatUp candidate row, a denominator-bound row, FareySequence and DirichletApproximation comparison rows, an error ledger, a tie/nonuniqueness boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

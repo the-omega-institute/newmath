@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\DnaWindowSixBoundaryTileUp$}
+\label{ch:concrete-instances-dna-window-six-boundary-tile-namecert}
+\origin{ai}
+
+The $\DnaWindowSixBoundaryTileUp$ packet realizes the finite stop/Trp and Ile/Met $X_2\sqcup\{11\}$ boundary-tile surface of \autoref{thm:philosophy-stop-trp-boundary-tile} and \autoref{thm:philosophy-ile-met-boundary-tile} as BEDC NameCert data. It consumes the six-coordinate codon source window of \autoref{ch:concrete-instances-codon-six-bit-window-namecert}, the standard-code transition rows of \autoref{ch:concrete-instances-codon-transition-matrix-namecert}, the stop-suffix packet of \autoref{ch:concrete-instances-stopcodonzeckendorfsuffix-namecert}, and the spectral stabilization route of \autoref{ch:concrete-instances-spectral-stabilization-namecert}. The packet records the two boundary tiles as finite classifier rows, not as a hidden biological table or an ambient stochastic model.
+
+\begin{definition}[DnaWindowSixBoundaryTile carrier]
+\label{def:dna-window-six-boundary-tile-carrier}
+A $\DnaWindowSixBoundaryTileUp$ carrier is a finite $\BHist$ packet
+$$
+T=(W,M,B,I,S,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\CodonSixBitWindowUp$ source-window row exposing the six bit coordinates of the relevant codon windows;
+\item $M$ is the $\CodonTransitionMatrixUp$ row exposing the standard-code bridge rows used to read stop, tryptophan, isoleucine, methionine, and initiation contexts;
+\item $B$ is the finite boundary-tile classifier row, recording the stop/Trp tile $\mathrm{U}+\mathrm{RR}+X_2/11$ and the Ile/Met tile $\mathrm{AU}+X_2/11$;
+\item $I$ is the Ile/Met initiation handoff row, distinguishing the Met amino-acid row from the canonical start bridge row when initiation context is present;
+\item $S$ is the $\StopCodonZeckendorfSuffixUp$ stop-suffix handoff row for the stop-side tile;
+\item $L$ is the $\SpectralStabilizationUp$ sibling route row used by finite consumers that compare the same stop-face boundary with spectral support data;
+\item $H$ records componentwise $\hsame$ transport for source windows, transition rows, boundary tiles, initiation handoff, stop suffix, spectral route, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay from a boundary-tile request through $W,M,B,I,S,L,H$;
+\item $P$ is the $\Pkg$ provenance over $\DnaWindowSixBoundaryTileUp$, $\CodonSixBitWindowUp$, $\CodonTransitionMatrixUp$, $\StopCodonZeckendorfSuffixUp$, $\SpectralStabilizationUp$, the source vision of \autoref{subsec:philosophy-dna-window-six-boundary-tiles}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\DnaWindowSixBoundaryTileUp}$ row.
+\end{enumerate}
+The classifier accepts only packets whose stop/Trp and Ile/Met boundary reads are exhausted by $W,M,B,I,S,L,H,C,P,N$. It has no coordinate for a hidden codon table, global biological semantics, probabilistic inference, quotient codon equality, or a selected stochastic process.
+\end{definition}
+
+\begin{theorem}[DnaWindowSixBoundaryTile NameCert obligations]
+\label{thm:dna-window-six-boundary-tile-namecert-obligations}
+For every accepted $\DnaWindowSixBoundaryTileUp$ carrier $T=(W,M,B,I,S,L,H,C,P,N)$, the local $\NameCert_{\DnaWindowSixBoundaryTileUp}$ surface consists exactly of source-window admission through $W$, standard-code bridge-row admission through $M$, boundary-tile classifier exactness through $B$, initiation handoff through $I$, stop-suffix handoff through $S$, spectral-stabilization sibling routing through $L$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:dna-window-six-boundary-tile-carrier}. The source window, transition bridge, boundary classifier, initiation handoff, stop suffix, spectral sibling route, transport, replay, provenance, and local naming rows are the only displayed coordinates.
+
+The stop/Trp tile and the Ile/Met tile are finite classifier reads. The row $W$ supplies the six coordinate positions, $M$ supplies the standard-code bridge rows, and $B$ records the two $X_2\sqcup\{11\}$ partitions.
+
+The rows $I,S,L$ keep the initiation, stop-suffix, and spectral consumers attached to the same boundary-tile surface. Finally $H,C,P,N$ transport, replay, source, and name that surface, so no hidden codon table, global biological semantics, probabilistic inference, quotient codon equality, or selected stochastic process is exported.
+\end{proof}
+
+\begin{theorem}[DnaWindowSixBoundaryTile consumer nonescape]
+\label{thm:dna-window-six-boundary-tile-consumer-nonescape}
+Every accepted consumer of a $\DnaWindowSixBoundaryTileUp$ packet reads the route
+$$
+\CodonSixBitWindowUp,\ \CodonTransitionMatrixUp \longmapsto B,I,S,L \longmapsto \hsame,\Cont,\Pkg,\NameCert .
+$$
+Thus the six-coordinate codon window and standard-code bridge rows are read before any stop/Trp, Ile/Met, initiation, stop-suffix, or spectral-stabilization consumer can use the boundary-tile classifier. The route exports no hidden biological table, global semantics, probabilistic inference, quotient codon equality, or selected stochastic model.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:dna-window-six-boundary-tile-namecert-obligations}. The boundary classifier row $B$ is downstream of the source-window row $W$ and standard-code bridge row $M$.
+
+The initiation, stop-suffix, and spectral rows are also downstream. They may consume the displayed boundary-tile classifier, but they do not replace the six-coordinate source window or the standard-code bridge rows.
+
+The structural rows $H,C,P,N$ preserve and name the same finite route. Since the carrier contains no row for the refused external principles, every accepted consumer remains inside the displayed packet.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\DnaWindowSixBoundaryTileUp$ consumer omitting the six-coordinate $\CodonSixBitWindowUp$ source window or the standard-code $\CodonTransitionMatrixUp$ bridge rows refutes the packet.}
+
+\independenceWitness{codon-six-bit-window, codon-transition-matrix, stopcodonzeckendorfsuffix, spectral-stabilization: $\DnaWindowSixBoundaryTileUp$ is not bijective to any listed sibling because it jointly carries two boundary-tile classifier rows, initiation handoff, stop-suffix routing, spectral sibling routing, transport, replay, provenance, and local naming.}
+
+The Lean TasteGate route for \texttt{BEDC.Derived.DnaWindowSixBoundaryTileUp} must provide explicit $\Nontrivial\ \DnaWindowSixBoundaryTileUp$ and $\FieldFaithful\ \DnaWindowSixBoundaryTileUp$ instances preserving $W,M,B,I,S,L,H,C,P,N$ as separate displayed fields.
+
+\closureat{DnaWindowSixBoundaryTileUp}{seedStr}
+
+\begin{closurestatus}{\DnaWindowSixBoundaryTileUp}
+  \constructivestory{A $\DnaWindowSixBoundaryTileUp$ packet is generated from codon six-bit windows, standard-code bridge rows, finite stop/Trp and Ile/Met boundary-tile classifiers, initiation handoff, stop-suffix handoff, spectral sibling routing, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dna-window-six-boundary-tile-carrier}, \autoref{thm:dna-window-six-boundary-tile-namecert-obligations}, and \autoref{thm:dna-window-six-boundary-tile-consumer-nonescape} seed the finite boundary-tile packet over codon windows and standard-code bridge rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close biological table identity, global biological semantics, probabilistic inference, quotient codon equality, selected stochastic modeling, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundary-tile classifier exactness, initiation handoff, stop-suffix handoff, spectral sibling routing, transport, replay, provenance, local naming, Nontrivial DnaWindowSixBoundaryTileUp, and FieldFaithful DnaWindowSixBoundaryTileUp for BEDC.Derived.DnaWindowSixBoundaryTileUp.}
+\end{closurestatus}

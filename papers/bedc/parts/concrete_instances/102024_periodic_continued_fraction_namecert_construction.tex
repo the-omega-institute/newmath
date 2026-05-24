@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\PeriodicContinuedFractionUp$}
+\label{ch:concrete-instances-periodic-continued-fraction-namecert}
+\origin{human}
+
+Following Lagrange and Hardy--Wright on periodic continued fractions, the $\PeriodicContinuedFractionUp$ packet records finite partial-quotient prefixes, a nonempty repeating block, convergent recurrence rows, rational-convergent windows, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and a terminal $\RealUp$ seal. It refines the partial-quotient source of \autoref{ch:concrete-instances-continuedfraction-namecert}, the recurrence ledger of \autoref{ch:concrete-instances-continued-fraction-convergents-namecert}, the denominator-bounded approximation route of \autoref{ch:concrete-instances-dirichlet-approximation-namecert}, the rational-tree boundary of \autoref{ch:concrete-instances-stern-brocot-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite periodic-block route into rational approximation; it is not a host quadratic irrational, a selected infinite expansion, quotient real equality, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[PeriodicContinuedFraction carrier]
+\label{def:periodic-continued-fraction-carrier}
+A $\PeriodicContinuedFractionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,B,L,Q,D,S,G,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the partial-quotient prefix row, recording the finite initial block and the inspected continued-fraction source inherited from $\ContinuedFractionUp$.
+\item $B$ is the nonempty period-block row, recording the finite repeating block together with the local phase coordinate used to unfold displayed windows.
+\item $L$ is the recurrence and convergent ledger, recording numerator and denominator recurrence rows for the prefix followed by repetitions of $B$.
+\item $Q$ is the rational normalization row, recording the normalized rational convergents exported by the recurrence ledger.
+\item $D$ is the denominator-bound comparison row, recording the finite denominator budgets and comparison witnesses used by the Dirichlet-style approximation surface.
+\item $S$ is the $\StreamNameUp$ window row, recording exactly which unfolded prefix-and-period windows may be read by downstream consumers.
+\item $G$ is the $\RegSeqRatUp$ handoff row, reached from $I,B,L,Q,D,S$ before any real-facing seal is visible.
+\item $E$ is the terminal $\RealUp$ seal row, exposed only after the prefix, period, recurrence, rational normalization, denominator comparison, StreamName window, and RegSeqRat rows have been displayed.
+\item $H$ is the componentwise $\hsame$ transport row for the prefix, period block, recurrence ledger, rational normalization, denominator comparisons, StreamName windows, RegSeqRat handoff, Real seal, replay, provenance, and local naming rows.
+\item $C$ is the displayed $\Cont$ replay row from a finite periodic-window request through the recurrence ledger, rational normalization, denominator comparison, regular handoff, and terminal seal.
+\item $P$ is the $\Pkg$ provenance over $\PeriodicContinuedFractionUp$, $\ContinuedFractionUp$, $\ContinuedFractionConvergentsUp$, $\DirichletApproximationUp$, $\SternBrocotUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PeriodicContinuedFractionUp}$ row.
+\end{enumerate}
+The carrier predicate accepts exactly these finite prefix-and-period packets. It has no coordinate for a host quadratic irrational, a chosen infinite continued fraction, quotient real equality, trichotomy, global irrationality measure, or ambient $\RealUp$ completeness principle.
+\end{definition}
+
+\begin{theorem}[PeriodicContinuedFraction NameCert obligations]
+\label{thm:periodic-continued-fraction-namecert-obligations}
+For every accepted $\PeriodicContinuedFractionUp$ carrier $F=(I,B,L,Q,D,S,G,E,H,C,P,N)$, the local $\NameCert_{\PeriodicContinuedFractionUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed prefix, nonempty period block, recurrence ledger, rational normalization, denominator comparison, StreamName window, RegSeqRat handoff, Real seal, transport, replay, provenance, and local naming rows;
+\item periodic-block stability, requiring every unfolded window in $S$ to read the same nonempty row $B$ with its displayed phase coordinate;
+\item recurrence exactness, requiring every convergent in $L$ and $Q$ to be obtained from the displayed prefix and period rows by the finite numerator and denominator recurrence;
+\item convergent-window compatibility, requiring the rational normalization and denominator-bound comparisons in $Q,D$ to address only the windows exposed by $S$;
+\item Real-seal nonescape, requiring $E$ to be downstream of $G$ and to expose no host quadratic irrational, selected infinite expansion, quotient real equality, trichotomy branch, or ambient completeness theorem;
+\item provenance exhaustion, requiring $H,C,P,N$ to transport, replay, source, and name exactly the finite route recorded by $I,B,L,Q,D,S,G,E$.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:periodic-continued-fraction-carrier}. The accepted packet displays exactly the prefix, period block, recurrence ledger, rational normalization, denominator comparison, StreamName windows, regular handoff, terminal Real seal, and structural rows.
+
+The periodic-block and recurrence obligations are finite. The row $B$ is nonempty and supplies the only repeated block, while $L$ unfolds that row after the prefix $I$ by the displayed numerator and denominator recurrence.
+
+The rational approximation obligations then read only displayed windows. The row $Q$ normalizes the convergents from $L$, the row $D$ compares their denominators against the finite budgets, and the row $S$ records the finite StreamName windows to which those comparisons apply.
+
+The handoff and seal are terminal. The row $G$ is downstream of $I,B,L,Q,D,S$, and the row $E$ is downstream of $G$, so a Real-facing consumer cannot bypass the regular rational route.
+
+Finally, $H,C,P,N$ preserve the same packet componentwise. Since the carrier contains no further coordinate, the six listed clauses exhaust the local $\NameCert_{\PeriodicContinuedFractionUp}$ surface.
+\end{proof}
+
+\begin{theorem}[PeriodicContinuedFraction quadratic boundary]
+\label{thm:periodic-continued-fraction-quadratic-boundary}
+An accepted $\PeriodicContinuedFractionUp$ carrier exports only the finite periodic-block-to-convergent boundary
+$$
+I,B \longmapsto L,Q,D,S \longmapsto G \longmapsto E .
+$$
+Consequently the packet may be consumed as a finite rational-approximation source for $\RegSeqRatUp$ and $\RealUp$, but it does not export a host quadratic irrational, selected infinite expansion, quotient real equality, trichotomy, irrationality-measure bound, or $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $F=(I,B,L,Q,D,S,G,E,H,C,P,N)$. The only periodic data are the finite prefix row $I$ and the nonempty block row $B$.
+
+The rows $L,Q,D,S$ turn this finite source into convergent and comparison data. They record recurrence, normalization, denominator bounds, and finite windows, but they do not add an ambient completed expansion.
+
+The rows $G$ and $E$ provide the only regular rational and Real-facing exits. Their order forces every such exit through the finite convergent boundary before the terminal seal is visible.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same route. Since no row stores a host quadratic irrational, quotient equality, trichotomy branch, irrationality-measure theorem, or completeness witness, none is exported by the packet.
+\end{proof}
+
+\closureat{PeriodicContinuedFractionUp}{seedStr}
+
+\begin{closurestatus}{\PeriodicContinuedFractionUp}
+  \constructivestory{A $\PeriodicContinuedFractionUp$ packet is generated from a finite partial-quotient prefix, a nonempty period block, recurrence and convergent rows, rational normalization, denominator-bound comparison, StreamName windows, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:periodic-continued-fraction-carrier}, \autoref{thm:periodic-continued-fraction-namecert-obligations}, and \autoref{thm:periodic-continued-fraction-quadratic-boundary} seed the finite periodic-block route from continued fractions to rational convergent windows, RegSeqRat readback, and a RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a host quadratic irrational, selected infinite expansion, quotient real equality, trichotomy, irrationality-measure theorem, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, periodic-block stability, recurrence exactness, convergent-window compatibility, Real-seal nonescape, provenance exhaustion, and transport stability for BEDC.Derived.PeriodicContinuedFractionUp.}
+\end{closurestatus}

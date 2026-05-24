@@ -372,4 +372,35 @@ theorem RegularCauchyFamily_standard_bridge_boundary [AskSetup] [PackageSetup]
     ⟨certificate, selectedMemberUnary, diagonalReadUnary, selectedMemberRoute',
       diagonalReadRoute', provenancePkg, diagonalReadPkg'⟩
 
+theorem RegularCauchyFamily_completion_consumer_factorization [AskSetup] [PackageSetup]
+    {memberLedger memberRows modulus windows dyadicLedger diagonalRoute transports contRoutes
+      provenance localCert selectedMember diagonalRead terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyFamilyCarrier memberLedger memberRows modulus windows dyadicLedger
+        diagonalRoute transports contRoutes provenance localCert bundle pkg ->
+      Cont modulus windows selectedMember ->
+        Cont selectedMember diagonalRoute diagonalRead ->
+          Cont diagonalRead provenance terminalRead ->
+            PkgSig bundle terminalRead pkg ->
+              UnaryHistory selectedMember ∧ UnaryHistory diagonalRead ∧
+                UnaryHistory terminalRead ∧ Cont modulus windows selectedMember ∧
+                  Cont selectedMember diagonalRoute diagonalRead ∧
+                    Cont diagonalRead provenance terminalRead ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle terminalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier selectedMemberRoute diagonalReadRoute terminalReadRoute terminalPkg
+  obtain ⟨_memberLedgerUnary, _memberRowsUnary, modulusUnary, windowsUnary,
+    _dyadicLedgerUnary, diagonalRouteUnary, _transportsUnary, _contRoutesUnary,
+    provenanceUnary, _localCertUnary, _memberRowsRoute, _dyadicLedgerRoute,
+    _contRoutesRoute, _provenanceRoute, provenancePkg⟩ := carrier
+  have selectedMemberUnary : UnaryHistory selectedMember :=
+    unary_cont_closed modulusUnary windowsUnary selectedMemberRoute
+  have diagonalReadUnary : UnaryHistory diagonalRead :=
+    unary_cont_closed selectedMemberUnary diagonalRouteUnary diagonalReadRoute
+  have terminalReadUnary : UnaryHistory terminalRead :=
+    unary_cont_closed diagonalReadUnary provenanceUnary terminalReadRoute
+  exact
+    ⟨selectedMemberUnary, diagonalReadUnary, terminalReadUnary, selectedMemberRoute,
+      diagonalReadRoute, terminalReadRoute, provenancePkg, terminalPkg⟩
+
 end BEDC.Derived.RegularCauchyFamilyUp

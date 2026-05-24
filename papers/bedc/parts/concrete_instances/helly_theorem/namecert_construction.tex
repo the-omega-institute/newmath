@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\HellyTheoremUp$}
+\label{ch:concrete-instances-helly-theorem-namecert}
+\origin{human}
+
+Following Helly and the finite-dimensional convexity tradition, the $\HellyTheoremUp$ packet records finite convex-intersection data as a BEDC naming surface. It consumes the convex-family rows of \autoref{ch:concrete-instances-convexset-namecert}, the finite witness rows of \autoref{ch:concrete-instances-polytope-namecert}, the ambient affine and vector rows of \autoref{ch:concrete-instances-affinespace-namecert} and \autoref{ch:concrete-instances-vecspace-namecert}, and the compact finite-read discipline of \autoref{ch:concrete-instances-compactmetric-namecert}. The chapter names only finite subfamily ledgers, displayed intersection witnesses, transport, continuation replay, provenance, and local naming; it does not assert a host separation theorem, choice-selected intersection point, quotient convex-set equality, or ambient standard-model convexity.
+
+The finite subfamily ledger exported by $\HellyTheoremUp$ is consumed by \autoref{ch:concrete-instances-caratheodory-convex-hull-namecert} as the boundary that keeps convex-hull support rows finite before Caratheodory support reduction is read.
+
+\section{Finite Convex Intersection Carrier}
+\label{sec:helly-theorem-carrier}
+
+\begin{definition}[HellyTheorem carrier]\label{def:helly-theorem-carrier}
+A $\HellyTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+H=(A,V,F,W,S,I,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the finite-dimensional $\AffineSpaceUp$ ambient row.
+\item $V$ is the associated $\VecSpaceUp$ displacement row used by the affine coordinates.
+\item $F$ is a finite family of $\ConvexSetUp$ rows in the ambient affine space.
+\item $W$ is the $\PolytopeUp$ finite witness ledger for displayed simplex, face, or hull witnesses used by the subfamily checks.
+\item $S$ is the finite subfamily intersection ledger, recording each inspected subfamily and its displayed nonempty intersection witness.
+\item $I$ is the resulting full-family intersection row exposed by the packet after the finite ledger has been replayed.
+\item $T$ records componentwise $\hsame$ transport for $A,V,F,W,S,I,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from ambient affine data through convex-family rows, finite polytope witnesses, subfamily intersection checks, the full-family intersection row, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\HellyTheoremUp$, $\ConvexSetUp$, $\PolytopeUp$, $\AffineSpaceUp$, $\VecSpaceUp$, $\CompactMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HellyTheoremUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,V,F,W,S,I,T,C,P,N$. It has no coordinate for host convex equality, ambient standard-model convexity, choice-selected points, separation or compactness theorems not displayed by the finite rows, or an infinite family of constraints.
+\end{definition}
+
+\section{Helly NameCert Surface}
+\label{sec:helly-theorem-namecert-surface}
+
+\begin{theorem}[HellyTheorem NameCert obligations]\label{thm:helly-theorem-namecert-obligations}
+For every accepted $\HellyTheoremUp$ carrier
+$$
+H=(A,V,F,W,S,I,T,C,P,N),
+$$
+the local $\NameCert_{\HellyTheoremUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the ambient affine row, vector displacement row, finite convex-family row, finite polytope witness ledger, subfamily intersection ledger, full-family intersection row, transport, replay, provenance, and local naming;
+\item ambient compatibility, requiring the $\AffineSpaceUp$ and $\VecSpaceUp$ rows to be the only coordinates through which convex sets and polytope witnesses are read;
+\item convex-family exposure, requiring each displayed family member to pass through a $\ConvexSetUp$ row before it enters any subfamily intersection check;
+\item finite witness exactness, requiring every inspected subfamily intersection and every exported full-family intersection row to be backed by the displayed $\PolytopeUp$ witness ledger;
+\item subfamily ledger stability, requiring the finite intersection ledger $S$ to be transported componentwise by $T$ and replayed by $C$ before $I$ is exposed;
+\item nonescape, excluding host convex-set equality, choice-selected intersection points, separation theorems, unlisted compactness principles, infinite-family claims, Lean verification, and bridge checking.
+\end{enumerate}
+No HellyTheorem obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The ambient coordinates are $A$ and $V$, the convex input is the finite family row $F$, and the finite witness coordinates are $W,S,I$.
+
+Ambient compatibility is forced because the carrier has no second affine or vector coordinate. Every convex-family read therefore passes through $F$ over the same $A,V$ boundary.
+
+The witness ledger $W$ and the subfamily ledger $S$ are the only rows that record inspected finite intersections. Transport $T$ and replay $C$ preserve those rows componentwise before the exported row $I$ is read.
+
+The remaining coordinates are provenance and local naming. Since no coordinate stores host convex equality, a choice-selected point, a separation theorem, an unlisted compactness principle, an infinite-family assertion, Lean verification, or bridge data, those objects cannot become local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Helly finite-intersection route]\label{thm:helly-theorem-finite-intersection-route}
+Every accepted $\HellyTheoremUp$ packet routes a finite convex-intersection request through
+$$
+\AffineSpaceUp,\VecSpaceUp \longmapsto \ConvexSetUp \longmapsto \PolytopeUp \longmapsto S \longmapsto I.
+$$
+The route exposes ambient affine data, vector displacement data, convex-family membership, finite polytope witnesses, and the finite subfamily ledger before the full-family intersection row is available. A request bypassing one of these rows is outside the accepted $\HellyTheoremUp$ carrier.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:helly-theorem-carrier}. The first two coordinates bind the ambient affine and vector rows, and the convex-family coordinate $F$ is interpreted only over that ambient boundary.
+
+The polytope witness row $W$ and the finite subfamily ledger $S$ supply the displayed intersection checks. The replay row $C$ presents them before the full-family row $I$ is exposed.
+
+Thus a consumer reaches $I$ only along the stated route. If any one of the ambient, convex-family, polytope-witness, or subfamily-ledger rows is missing, the packet has no finite coordinate from which the requested intersection row can be read.
+\end{proof}
+
+\closureat{HellyTheoremUp}{seedStr}
+
+\begin{closurestatus}{\HellyTheoremUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:helly-theorem-carrier}, \autoref{thm:helly-theorem-namecert-obligations}, and \autoref{thm:helly-theorem-finite-intersection-route} seed the finite convex-intersection packet over affine ambient rows, vector displacement rows, convex-family rows, polytope witness ledgers, subfamily intersection ledgers, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host convex-set equality, choice-selected intersection points, separation theorems, unlisted compactness principles, infinite-family Helly claims, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, ambient compatibility, convex-family exposure, finite witness exactness, subfamily ledger stability, and finite-intersection routing for BEDC.Derived.HellyTheoremUp.}
+  \constructivestory{A $\HellyTheoremUp$ packet is generated from affine ambient data, vector displacement data, finite convex-family rows, finite polytope witness rows, finite subfamily intersection ledgers, a full-family intersection row, componentwise transport, continuation replay, provenance, and local NameCert rows.}
+\end{closurestatus}

@@ -1,0 +1,107 @@
+\chapter{Rational Interval Cover NameCert Construction}
+\label{ch:concrete-instances-rational-interval-cover-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and the finite interval methods of Moore--Kearfott--Cloud, the $\RationalIntervalCoverUp$ packet records finite rational interval covers as displayed endpoint, coverage, and refinement data. It sits between the rational interval surface of \autoref{ch:concrete-instances-rationalinterval-namecert}, the refinement rows of \autoref{ch:concrete-instances-rationalintervalrefinement-namecert}, the located interval boundary of \autoref{ch:concrete-instances-locatedinterval-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite cover ledger for Real and Completion consumers; it is not an open-cover compactness principle, a countable-choice construction, quotient equality of completed reals, selected-limit data, or ambient $\RealUp$ completeness.
+
+\begin{definition}[RationalIntervalCover carrier]
+\label{def:rational-interval-cover-carrier}
+A $\RationalIntervalCoverUp$ carrier is a finite $\BHist$ packet
+$$
+C=(I,F,R,W,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite family of $\RationalIntervalUp$ rows whose endpoint and containment surfaces are read through \autoref{ch:concrete-instances-rationalinterval-namecert}.
+\item $F$ is the finite coverage ledger, recording exactly which rational samples, located interval requests, and regular rational windows are covered by rows of $I$.
+\item $R$ is the finite refinement ledger, displaying the $\RationalIntervalRefinementUp$ rows by which accepted subcovers and retained windows refine through the intervals in $I$.
+\item $W$ is the StreamName and $\RegSeqRatUp$ window boundary, naming the finite stream indices, rational tolerances, and regular-readback requests for which the cover is available.
+\item $H$ records componentwise $\hsame$ transport for interval-family rows, coverage rows, refinement rows, window-boundary rows, continuation rows, provenance, and local naming.
+\item $K$ records displayed $\Cont$ replay, so a consumer can reread $I,F,R,W,H,P,N$ without changing the cover ledger.
+\item $P$ is the $\Pkg$ provenance over $\RationalIntervalCoverUp$, $\RationalIntervalUp$, $\RationalIntervalRefinementUp$, $\LocatedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RationalIntervalCoverUp}$ row.
+\end{enumerate}
+The classifier compares accepted covers only through the displayed rows $I,F,R,W,H,K,P,N$. It has no coordinate for an arbitrary open cover, countable cover selection, quotient real equality, selected limit, or ambient completeness theorem.
+\end{definition}
+\leanchecked{BEDC.Derived.RationalIntervalCoverUp.RationalIntervalCoverTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[RationalIntervalCover NameCert obligations]
+\label{thm:rational-interval-cover-namecert-obligations}
+For every accepted $\RationalIntervalCoverUp$ carrier
+$$
+C=(I,F,R,W,H,K,P,N),
+$$
+the local $\NameCert_{\RationalIntervalCoverUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite rational interval family, coverage ledger, refinement ledger, StreamName and $\RegSeqRatUp$ boundary, transports, replay, provenance, and local naming;
+\item interval-family exactness, requiring every cover read to expose its $\RationalIntervalUp$ endpoint and containment rows before any completion-facing consumer may use the cover;
+\item coverage-ledger exactness, requiring every covered rational sample, located interval request, or regular rational window to appear as a displayed row of $F$;
+\item refinement-ledger exactness, requiring every retained subcover or narrowed window to factor through displayed $\RationalIntervalRefinementUp$ rows in $R$;
+\item window-boundary ordering, requiring the StreamName and $\RegSeqRatUp$ rows in $W$ to be read before any terminal $\RealUp$ seal is available;
+\item ledger non-escape, requiring $H,K,P,N$ to export no open-cover compactness, countable choice, quotient real equality, selected limit, or ambient $\RealUp$ completeness principle.
+\end{enumerate}
+No RationalIntervalCover obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:rational-interval-cover-carrier}. The accepted packet displays exactly one finite interval-family row, one finite coverage ledger, one finite refinement ledger, one finite window boundary, and the structural rows that transport, replay, package, and name them.
+
+Interval-family exactness follows because $I$ is the only coordinate containing $\RationalIntervalUp$ packets. A consumer can therefore inspect interval endpoints and containment only through the displayed rational interval rows.
+
+Coverage-ledger exactness is the row $F$. Every accepted cover request must be one of its displayed rational samples, located interval requests, or regular rational windows, and there is no second coordinate from which an unrecorded cover read could be obtained.
+
+Refinement-ledger exactness is the row $R$. Its entries are the displayed $\RationalIntervalRefinementUp$ witnesses, so any retained subcover or narrowed window is read through those finite refinement rows.
+
+The remaining rows $W,H,K,P,N$ bind the cover to finite stream windows, regular rational readback, transport, replay, provenance, and local naming. Since the excluded compactness, choice, quotient, limit, and completeness objects are absent from the carrier inventory, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[RationalIntervalCover finite refinement]
+\label{thm:rational-interval-cover-finite-refinement}
+Every accepted $\RationalIntervalCoverUp$ carrier $C=(I,F,R,W,H,K,P,N)$ refines through the displayed $\RationalIntervalRefinementUp$ rows in $R$. More precisely, each accepted subcover, retained window, or consumer-facing narrowed interval is obtained by reading a finite row of $R$ against the interval family $I$, coverage ledger $F$, StreamName and $\RegSeqRatUp$ boundary $W$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $K$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. The refinement route does not use open-cover compactness, countable choice, quotient real equality, selected limits, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:rational-interval-cover-carrier}. The interval family $I$ supplies the finite rational interval rows, and $F$ records which rational samples, located interval requests, and regular rational windows are covered by those rows.
+
+The only refinement coordinate is $R$. Reading a subcover or narrowed window must therefore choose a displayed row of $R$, and that row is a $\RationalIntervalRefinementUp$ witness by the carrier definition.
+
+The window boundary $W$ fixes the StreamName and $\RegSeqRatUp$ requests for which the refinement is being read. The structural rows $H$ and $K$ transport and replay the same finite data, while $P$ and $N$ bind provenance and local naming.
+
+No carrier coordinate contains an arbitrary open cover, a countable selector, a quotient-real equality proof, a selected limit, or a completeness theorem for $\RealUp$. Thus every accepted cover refinement is finite and factors through the displayed rational interval refinement ledger.
+\end{proof}
+
+\begin{theorem}[RationalIntervalCover finite consumer factorization]
+\label{thm:rational-interval-cover-finite-consumer-factorization}
+For every accepted $\RationalIntervalCoverUp$ carrier
+$$
+C=(I,F,R,W,H,K,P,N),
+$$
+every Real or Completion consumer of the cover factors through the displayed route
+$$
+I \to F \to R \to W \to H,K \to P,N.
+$$
+Here $I$ supplies the $\RationalIntervalUp$ rows, $F$ supplies the finite coverage ledger, $R$ supplies the $\RationalIntervalRefinementUp$ rows, and $W$ supplies StreamName and $\RegSeqRatUp$ boundary data before any $\RealUp$ seal is reachable. The factorization route has no coordinate for open-cover compactness, countable choice, quotient real equality, selected limits, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:rational-interval-cover-carrier}. The first admissible reads are the rational interval rows in $I$ and the finite coverage ledger $F$, because the NameCert obligations require interval-family exactness and coverage-ledger exactness before a Real or Completion consumer can use the cover.
+
+Next use \autoref{thm:rational-interval-cover-finite-refinement}. Any retained window or consumer-facing narrowed interval is forced through a displayed row of $R$, so the consumer cannot bypass the finite $\RationalIntervalRefinementUp$ ledger when it asks for a narrower cover view.
+
+The window-boundary obligation then orders the StreamName and $\RegSeqRatUp$ data in $W$ before the terminal real-facing seal. The structural rows $H$ and $K$ transport and replay the same displayed data, and $P,N$ bind the route to provenance and local naming.
+
+No coordinate of $C$ stores open-cover compactness, countable choice, quotient real equality, a selected limit, or ambient $\RealUp$ completeness. Hence every accepted Real or Completion consumer reaches the cover only through the finite route $I \to F \to R \to W \to H,K \to P,N$.
+\end{proof}
+
+\falsifiablePrediction{Every $\RationalIntervalCoverUp$ read factors through a finite family of $\RationalIntervalUp$ rows, one finite coverage ledger, one finite $\RationalIntervalRefinementUp$ ledger, one StreamName and $\RegSeqRatUp$ window boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{rational-interval, rational-interval-refinement, located-interval, dyadicratcore, regseqrat, real: $\RationalIntervalCoverUp$ is not bijective to any listed sibling because it jointly carries a finite interval family, finite coverage ledger, finite refinement ledger, stream-window boundary, regular rational readback boundary, and terminal Real-facing provenance as one cover packet.}
+
+\closureat{RationalIntervalCoverUp}{seedStr}
+
+\begin{closurestatus}{\RationalIntervalCoverUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-interval-cover-carrier}, \autoref{thm:rational-interval-cover-namecert-obligations}, \autoref{thm:rational-interval-cover-finite-refinement}, and \autoref{thm:rational-interval-cover-finite-consumer-factorization} seed the finite rational interval cover route from rational interval rows through finite coverage, displayed refinement, StreamName and regular rational windows, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, countable choice, quotient real equality, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, interval-family exactness, coverage-ledger exactness, refinement-ledger exactness, window-boundary ordering, ledger non-escape, and finite consumer factorization for BEDC.Derived.RationalIntervalCoverUp.}
+  \constructivestory{A $\RationalIntervalCoverUp$ packet is generated from a finite family of $\RationalIntervalUp$ rows, a finite coverage ledger, a finite $\RationalIntervalRefinementUp$ ledger, StreamName and $\RegSeqRatUp$ window-boundary rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

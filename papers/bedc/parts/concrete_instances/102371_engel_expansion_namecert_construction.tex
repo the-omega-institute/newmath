@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\EngelExpansionUp$}
+\label{ch:concrete-instances-engel-expansion-namecert}
+\origin{human}
+
+Following Engel's expansion theorem and the Hardy--Wright treatment of rational expansion by increasing denominators, the $\EngelExpansionUp$ packet records finite Engel readback before a rational expansion surface is allowed to enter the regular rational and Real seal pipeline. It sits beside the rational carrier of \autoref{ch:concrete-instances-rat-namecert}, the dyadic bound ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, and the continued-fraction comparison route of \autoref{ch:concrete-instances-continuedfraction-namecert}. The packet is a finite denominator-schedule certificate; it does not assert quotient reals, selected infinite sums, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Engel expansion carrier]
+\label{def:engel-expansion-carrier}
+An $\EngelExpansionUp$ carrier is a finite $\BHist$ packet
+$$
+E=(D,S,B,W,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the denominator schedule row, listing the accepted finite Engel denominators and their monotone successor checks.
+\item $S$ is the $\RatUp$ partial-sum row, displaying the finite rational sums obtained from the visible denominator schedule.
+\item $B$ is the $\DyadicRatCoreUp$ remainder-bound row, recording the dyadic upper bounds that certify the unread Engel tail for each exposed window.
+\item $W$ is the $\StreamNameUp$ finite-window row, selecting exactly the denominator prefixes, partial sums, and remainder bounds inspected by the readback.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from $D,S,B,W$ and no other numeric coordinate.
+\item $L$ is the terminal $\RealUp$ seal row, available only after the regular rational readback row has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the denominator schedule, partial sums, remainder bounds, stream windows, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through
+$$
+D,S,W \longmapsto B \longmapsto R \longmapsto L .
+$$
+\item $P$ is the $\Pkg$ provenance over $\EngelExpansionUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\ContinuedFractionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EngelExpansionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for quotient real equality, a selected value of an infinite sum, trichotomy, countable-choice selection, ambient $\RealUp$ completeness, or a continued-fraction uniqueness theorem.
+\end{definition}
+
+\begin{theorem}[EngelExpansion NameCert obligations]
+\label{thm:engel-expansion-namecert-obligations}
+For every accepted $\EngelExpansionUp$ carrier $E=(D,S,B,W,R,L,H,C,P,N)$, the local $\NameCert_{\EngelExpansionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the denominator schedule, partial-sum rows, remainder-bound rows, stream windows, regular readback, Real seal, transport, replay, provenance, and local naming;
+\item denominator-schedule visibility, requiring each displayed denominator and successor check to be recorded in $D$ before any partial sum is read;
+\item rational partial-sum exactness, requiring $S$ to expose only $\RatUp$ sums generated from the denominator windows selected by $W$;
+\item dyadic remainder control, requiring every tail claim consumed by $R$ or $L$ to pass through the $\DyadicRatCoreUp$ row $B$;
+\item readback order, requiring the finite route $D,S,W \longmapsto B \longmapsto R \longmapsto L$ before any Real-facing consumer receives the packet;
+\item transport, continuation replay, provenance, and local naming for exactly the rows recorded in $H,C,P,N$.
+\end{enumerate}
+No EngelExpansion NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $E=(D,S,B,W,R,L,H,C,P,N)$. The projection exposes exactly the denominator schedule, partial sums, remainder bounds, stream windows, readback rows, and structural rows.
+
+The finite Engel data are read before the analytic handoff. The row $D$ supplies the visible denominator schedule, and $W$ selects the finite windows in which that schedule may be inspected. The partial-sum row $S$ can therefore present only rational sums generated from those displayed windows.
+
+The remainder step is separate. The row $B$ supplies dyadic tail bounds for the unread Engel part, so a regular rational or Real-facing consumer cannot treat the expansion as a selected infinite sum.
+
+Finally $R$ and $L$ are downstream of $B$. Componentwise transport in $H$ and replay in $C$ preserve the same displayed route, while $P$ and $N$ only source and name it. Since the carrier has no excluded coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[EngelExpansion real readback boundary]
+\label{thm:engel-expansion-real-readback-boundary}
+Let $E=(D,S,B,W,R,L,H,C,P,N)$ be an accepted $\EngelExpansionUp$ carrier. Every finite Engel expansion readback consumed as a regular rational name or as a terminal real-name seal factors through
+$$
+D,S,W \longmapsto B \longmapsto R \longmapsto L
+$$
+with structural support $H,C,P,N$. Thus the consumer receives a denominator schedule, $\RatUp$ partial sums, $\DyadicRatCoreUp$ remainder bounds, $\StreamNameUp$ finite windows, a $\RegSeqRatUp$ readback, and a terminal $\RealUp$ seal, all as finite BEDC data.
+
+The boundary supplies no quotient real equality, no selected infinite sum, no trichotomy row, no countable-choice selector, no ambient $\RealUp$ completeness theorem, and no claim that the continued-fraction and Engel presentations are unique as host real objects.
+\end{theorem}
+\begin{proof}
+Start with a downstream consumer of $R$ or $L$. By the carrier definition, neither row is an independent real object; both are downstream of the finite Engel schedule and dyadic tail ledger.
+
+The consumer first reads $D$, $S$, and $W$. These rows expose the accepted denominators, the rational partial sums, and the finite windows in which the expansion is being inspected.
+
+Next the consumer reads $B$. This row is the only remainder-control coordinate in the packet, and it records dyadic bounds for the unread Engel tail before any regular rational readback is available.
+
+The row $R$ then repacks the displayed partial sums and bounds as a $\RegSeqRatUp$ readback, and the terminal row $L$ seals only that regular rational route as a $\RealUp$ presentation. The structural rows transport, replay, package, and name the same route, so the excluded principles cannot be recovered from the packet.
+\end{proof}
+
+\closureat{EngelExpansionUp}{seedStr}
+
+\begin{closurestatus}{\EngelExpansionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:engel-expansion-carrier}, \autoref{thm:engel-expansion-namecert-obligations}, and \autoref{thm:engel-expansion-real-readback-boundary} seed the finite Engel denominator-schedule route through rational partial sums, dyadic remainder bounds, regular rational readback, and terminal Real seal data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient reals, selected infinite sums, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, bridge checking, or uniqueness against continued-fraction presentations as host real objects.}
+  \upgradepath{Obligation closure requires checked carrier admission, denominator-schedule visibility, rational partial-sum exactness, dyadic remainder control, readback-order, and real readback boundary proofs for BEDC.Derived.EngelExpansionUp.}
+  \constructivestory{An $\EngelExpansionUp$ packet is generated from finite denominator schedule rows, RatUp partial-sum rows, DyadicRatCore remainder-bound rows, StreamName windows, RegSeqRat readback, terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

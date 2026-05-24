@@ -1,20 +1,30 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v4.38 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.42 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Dedup partial drop handling
 
 If the orchestrator's dedup gate drops some `targets[i]` (in-flight collision with another worker), apply the SURVIVING targets — do NOT skip revise entirely. Even 1 surviving target is worth running. Only fast-skip when ALL N targets dropped, AND the orchestrator explicitly reports "0 targets remaining after dedup".
 
-## Multi-target round support
+## Multi-target round support — EXECUTION CONTRACT (mandatory)
 
-Phase Review may emit up to 5 targets in `targets[]` (not just `targets[0]`). Step 1 (Apply each target) below already loops over all targets — process them in array order. Between targets:
+Phase Review may emit up to 5 targets in `targets[]` (not just `targets[0]`). This is NOT a "pick your favorite" list. You MUST attempt every target in `targets[0..N-1]`. A round that commits only target 0 — leaving valid targets 1..N-1 untouched — is INCOMPLETE and wastes the round's codex-exec budget; targets 1..N-1 must be re-emitted by a later Phase Review and re-implemented, multiplying total compute cost.
+
+The previous version of this prompt was misread as allowing "do the first one and stop". It does not. Explicit rules:
+
+- **Process every target in array order.** After committing one target (or noting it as already-applied), continue to the next. Do NOT terminate the codex run after a single target completes successfully.
+- **closure_mark / drift / bridge_sync / orphan_repair are CHEAP** (typically 1-3 line edits each). These should be processed FIRST in priority order — even before the higher-difficulty `human_chapter_extension` or `theory_extension` targets — because they close horizons immediately and have minimal merge-conflict surface.
+- **One commit per target**: each applied target gets its own commit with subject formatted per Step 6 below (e.g. `P<N>: sync <X>Up formalstatus to axiomCleanV` for drift sync). This keeps merge conflict surface small (1-2 file changes per commit) and makes the recovery consumer's job easier when a single target's lake build fails.
+- **Sequential apply, sequential commit, single push at end**: after ALL targets in the round have been processed (committed or skipped), the round's final push to its branch happens once. Do NOT push after each individual target commit — the orchestrator's merge step pushes the round's branch tip to BASE in one operation.
+- **Failed target ≠ failed round**: if target `i` cannot apply (already done, prerequisite missing, file at line cap), skip it with a `git commit --allow-empty -m "P<N>: skip target i — <reason>"` skip-marker commit and continue. Skip markers are dropped by the orchestrator's `git filter` before merge, but produce a clear log of which targets were attempted.
+- **0 targets applied is rare**: if every target was skip-able, the round may emit empty. But this should be extremely uncommon in a 4-5 target round.
+
+Between targets:
 
 - Re-run `make check` after applying each substantive target to confirm intermediate state compiles. Quick `closure_mark` targets (1-3 line edits) can be batched without intermediate compile.
-- If target `i` fails to apply (e.g. file already at desired state, prerequisite missing), skip it with a note in commit body and continue to target `i+1`. Do NOT abort the whole round.
-- The single round commit accumulates ALL applied target changes. Commit subject prefers the highest-impact target's wording; the body lists each applied target as a bullet.
-- If 0 targets apply (all skipped), emit empty commit OK — do not force-add changes.
+- If target `i` fails to apply (e.g. file already at desired state, prerequisite missing), commit a skip-marker and continue to target `i+1`. Do NOT abort the whole round.
+- Each applied target gets its own commit; the round's commit chain accumulates N entries (1 per applied target).
 
 ## Round P<ROUND_NUM>
 
@@ -32,6 +42,16 @@ git checkout -- papers/bedc/ 2>/dev/null
 Then exit with a clear log line. **Run this BEFORE the Step 1 sync merge** — an aborting round must not leave a base-sync merge commit on the round branch (the orchestrator's verify gate would otherwise see "no own-round commit found, only Merge ..." and waste a round). The 800-line hard cap is enforced by the verify gate — do NOT try to cram a theorem into a 780-line file.
 
 If the target's `proposed_change` IS a split (move existing content into child files in the same theme subdirectory and replace the parent with `\input` lines), proceed and the new theorem/definition content lands in a child file that starts well under 800 lines.
+
+### Hub-file exception (≥780-line root indexes)
+
+A "hub" is a `.tex` whose body is dominated by `\input{...}` lines and contains zero substantive content (no `\begin{theorem|definition|lemma|proposition|corollary|example}`, no proof prose, no certificate body). The canonical examples are `papers/bedc/main.tex` (root index of all chapters) and the per-theme hubs under `parts/concrete_instances/<NN>_<slug>_namecert_construction.tex` (when their body is just `\input{parts/concrete_instances/<slug>/<file>.tex}` lines).
+
+A hub at ≥780 lines is the expected steady state: every new chapter adds one `\input{...}` line to the root index, and the count grows with chapter count. The 800-line cap is irrelevant for hubs — splitting an index does not change the artifact, only the bookkeeping.
+
+**Exception rule**: If `target.paper_files[0]` is a hub (verify by `grep -cE '^\\input\{' <file>` covering ≥80% of non-blank lines AND `grep -cE '^\\begin\{(theorem|definition|lemma|proposition|corollary|example|proof)\}' <file>` equals 0) AND the target's `proposed_change` only ADDS `\input{...}` lines (no theorem/definition/proof prose), DO NOT abort. Proceed with the round; the added `\input` line(s) is in scope.
+
+If the hub-file exception applies but the change does more than add `\input` lines (e.g. adds a `\chapter{...}` header or theorem body to the hub itself), revert to the standard abort behavior — content added directly to a hub is a Phase REVIEW miss and should not be applied.
 
 ## Step 1: Sync with remote base before any edits
 Only after Step 0 confirmed no abort condition, run:
@@ -271,12 +291,12 @@ If the diff only re-indents existing lines or only adds new `\leanvariant` marke
 git add papers/bedc lean4/BEDC
 git commit -m "P<ROUND_NUM>: [brief description of what was revised]
 
-	prompts: v4.38
+	prompts: v4.42
 
 Co-Authored-By: Codex <noreply@openai.com>"
 ```
 
-The `prompts: v4.38` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
+The `prompts: v4.42` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
 
 DO NOT include any of the forbidden iteration-narrative words (Hard Constraint #1) in the commit message itself.
 

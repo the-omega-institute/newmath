@@ -123,4 +123,31 @@ theorem DoCalculusPacket_adjustment_ledger_exactness [AskSetup] [PackageSetup]
       interventionVariablesAdjustment, adjustmentDistributionIndependence, adjustmentRow,
       localNamePkg, adjustmentPkg⟩
 
+theorem DoCalculusPacket_intervention_non_escape [AskSetup] [PackageSetup]
+    {intervention variables adjustment distribution independence expectation exported htrans replay
+      provenance localName interventionRead localRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DoCalculusPacket intervention variables adjustment distribution independence expectation exported
+        htrans replay provenance localName bundle pkg ->
+      Cont intervention variables interventionRead ->
+        hsame localRead localName ->
+          PkgSig bundle localName pkg ->
+            UnaryHistory interventionRead ∧ UnaryHistory localRead ∧
+              Cont intervention variables interventionRead ∧ PkgSig bundle localName pkg ∧
+                hsame localRead localName := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory ProbeBundle Pkg
+  intro packet interventionRoute localReadSame localNamePkg
+  obtain ⟨interventionUnary, variablesUnary, _adjustmentUnary, _distributionUnary,
+    _independenceUnary, _expectationUnary, _exportedUnary, _htransUnary, _replayUnary,
+    _provenanceUnary, localNameUnary, _interventionVariablesAdjustment,
+    _adjustmentDistributionIndependence, _independenceExpectationExport,
+    _htransReplayProvenance, _packetNamePkg⟩ := packet
+  have interventionReadUnary : UnaryHistory interventionRead :=
+    unary_cont_closed interventionUnary variablesUnary interventionRoute
+  have localReadUnary : UnaryHistory localRead :=
+    unary_transport_symm localNameUnary localReadSame
+  exact
+    ⟨interventionReadUnary, localReadUnary, interventionRoute, localNamePkg,
+      localReadSame⟩
+
 end BEDC.Derived.DoCalculusUp

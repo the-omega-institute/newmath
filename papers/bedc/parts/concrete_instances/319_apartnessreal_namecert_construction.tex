@@ -21,6 +21,7 @@ An $\ApartnessRealUp$ carrier is a finite $\mathsf{BHist}$ packet containing two
 \end{enumerate}
 The carrier accepts only the displayed positive-separation packet. It does not decide whether arbitrary real names are equal or apart, does not assert trichotomy, and does not add quotient classes of real-name presentations.
 \end{definition}
+\leanchecked{BEDC.Derived.ApartnessRealUp.ApartnessRealTasteGate\_single\_carrier\_alignment}
 
 \begin{definition}[ApartnessReal classifier]
 \label{def:apartnessreal-classifier}
@@ -150,6 +151,22 @@ Apply \autoref{thm:locatedreal-scope-regseqrat-dyadic-window} to read the shared
 The disjoint-enclosure hypothesis supplies the positive dyadic gap row $\rho$. Repack that row as the separation ledger, using the same common window, endpoint readbacks, and provenance rows already projected from the two located packets.
 
 Finally apply \autoref{thm:apartnessreal-finite-window-separation-transport} and then \autoref{thm:apartnessreal-metric-consumer-separation-boundary}. The first theorem identifies the repacked tuple as a stable finite-window separation row, and the second theorem restricts every later metric or order consumer to exactly that finite apartness evidence.
+\end{proof}
+
+\begin{theorem}[Localized Cauchy apartness bridge]
+\label{thm:localized-cauchy-apartness-bridge}
+Let $L$ and $R$ be displayed $\LocatedRealUp$ packets whose finite $\StreamNameUp$ observation window, $\RegSeqRatUp$ source rows, positive $\DyadicRatCoreUp$ gap row, endpoint readbacks, and $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ provenance agree componentwise. Suppose the displayed endpoint ledgers exhibit a positive located-window gap in the sense of \autoref{thm:apartnessreal-located-window-positive-gap-handoff}. Then the resulting $\ApartnessRealUp$ finite-window separation row is stable under the $\RegSeqRatUp$ classifier routes and may be consumed by $\RealUp$ metric or order interfaces only as positive apartness evidence.
+
+The bridge exports no host inequality, quotient equality, trichotomy decision, total order, or completeness datum over the real or completion substrate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:apartnessreal-located-window-positive-gap-handoff} to the two displayed located-real packets. The shared finite window, regular Cauchy source rows, positive dyadic gap row, endpoint readbacks, and visible provenance repack as the finite separation row of \autoref{def:apartnessreal-finite-window-separation-row}.
+
+Next read the packet through \autoref{def:apartnessreal-classifier}. The componentwise agreement hypotheses are exactly the classifier coordinates needed to transport the two endpoint rows, the common window, the gap row, the two readbacks, and the separation ledger along the displayed $\RegSeqRatUp$ routes.
+
+Apply \autoref{thm:apartnessreal-finite-window-separation-transport} to make that transport stable. The transported packet is still the same finite positive-gap row, now presented over the regular Cauchy classifiers feeding the real-name substrate.
+
+Finally apply \autoref{thm:apartnessreal-metric-consumer-separation-boundary}. It restricts every $\RealUp$ metric or order consumer to the finite positive-apartness row and excludes any readback of host inequality, quotient equality, trichotomy, total order, or completion data.
 \end{proof}
 
 \begin{theorem}[ApartnessReal real separation scope]

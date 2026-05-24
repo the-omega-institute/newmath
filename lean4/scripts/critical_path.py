@@ -182,10 +182,37 @@ LEAN_MARKER_RE = re.compile(r"\\(leanchecked|leanstmt|leandef)\{")
 PAPER_LABEL_RE = re.compile(r"\\label\{(thm|def|lem|prop|cor):")
 PAPER_LABEL_FULL_RE = re.compile(r"\\label\{(thm|def|lem|prop|cor):([^}]+)\}")
 NOTCLAIMED_RE = re.compile(r"\\notclaimed\{([^}]*)\}", re.DOTALL)
+# Legacy regex retained for compat (some callers may still reference it),
+# but `_has_induction_proof` below is the canonical fast path.
 INDUCTION_PROOF_RE = re.compile(
-    r"\\begin\{proof\}.*?(?:induction|induct|structural induction|case analysis).*?\\end\{proof\}",
+    r"\\begin\{proof\}.*?(?:induct|case analysis).*?\\end\{proof\}",
     re.IGNORECASE | re.DOTALL,
 )
+# Catastrophic-regex avoidance: the old INDUCTION_PROOF_RE.search() on
+# a 491KB chapter with `re.DOTALL` + lazy `.*?` + alternation prefix
+# overlap (induction ⊂ induct, structural induction ⊂ induct) took 20s
+# per chapter, and `compute_paper_priority_surfaces` ran it on ~100
+# `\origin{human}` chapters → 150s+ total. The semantic intent is "is
+# there any induction/case-analysis proof in this chapter?" — a fast
+# substring check captures essentially the same signal at zero cost.
+_INDUCTION_KEYWORDS = ("induct", "case analysis")
+
+
+def _has_induction_proof(text: str) -> bool:
+    """Fast O(N) substring approximation of the legacy regex. Returns
+    True iff the chapter contains a `\\begin{proof}` block AND any
+    induction/case-analysis keyword anywhere in the text. The keyword
+    is not strictly required to be inside the proof block — but as a
+    priority-surface heuristic (used only by `_has_human_derivation_gap`
+    to suppress chapters whose human derivation appears to already
+    induct/case-split), the loss of strict scoping is acceptable and
+    avoids 20s/chapter catastrophic backtracking.
+    """
+    if "\\begin{proof}" not in text:
+        return False
+    lowered = text.lower()
+    return any(k in lowered for k in _INDUCTION_KEYWORDS)
+
 METACIC_RE = re.compile(r"metacic|MetaCIC|BEDC\.MetaCIC", re.IGNORECASE)
 CLOSURESTATUS_BEGIN_RE = re.compile(
     r"\\begin\{closurestatus\}\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}"
@@ -458,6 +485,7 @@ def _git_head_short() -> str:
         out = subprocess.run(
             ["git", "rev-parse", "--short=12", "HEAD"],
             cwd=str(ROOT), capture_output=True, text=True, check=False,
+            timeout=5,
         )
         return out.stdout.strip() or "nohead"
     except Exception:
@@ -762,29 +790,66 @@ def load_objective_formal_grades() -> dict[str, str]:
         return _objective_grades_cache
 
     import tempfile
+    import time as _time
+    tmp_dir = Path(tempfile.gettempdir())
     head = _git_head_short()
-    cache_path = Path(tempfile.gettempdir()) / f"bedc_objective_grades_{head}.json"
+    cache_path = tmp_dir / f"bedc_objective_grades_{head}.json"
+
     if cache_path.exists():
         try:
             data = json.loads(cache_path.read_text(encoding="utf-8"))
             if isinstance(data, dict):
                 _objective_grades_cache = data
+                # Opportunistic LRU prune (cheap when under cap: only
+                # glob + len-check). Runs on every critical_path call so
+                # exact-HEAD cache hits also keep the temp dir bounded.
+                _prune_objective_grades_cache_files(tmp_dir, keep=50)
                 return data
         except Exception:
             pass
 
+    STALE_CACHE_MAX_AGE_SECONDS = 6 * 3600  # 6h ceiling
+    now = _time.time()
+    stale_candidates = sorted(
+        tmp_dir.glob("bedc_objective_grades_*.json"),
+        key=lambda p: p.stat().st_mtime if p.exists() else 0,
+        reverse=True,
+    )
+    for stale in stale_candidates:
+        try:
+            age = now - stale.stat().st_mtime
+        except OSError:
+            continue
+        if age > STALE_CACHE_MAX_AGE_SECONDS:
+            break  # everything older is even more stale
+        try:
+            data = json.loads(stale.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if not (isinstance(data, dict) and data):
+            continue
+        _objective_grades_cache = data
+        try:
+            cache_path.write_text(json.dumps(data), encoding="utf-8")
+        except Exception:
+            pass
+        _prune_objective_grades_cache_files(tmp_dir, keep=50)
+        return data
+
+    AXIOM_PURITY_BUDGET_SECONDS = 300
     try:
         result = subprocess.run(
             ["python3", "lean4/scripts/bedc_ci.py",
              "axiom-purity", "--strict", "--json"],
             cwd=str(ROOT), capture_output=True, text=True, check=False,
+            timeout=AXIOM_PURITY_BUDGET_SECONDS,
         )
         if result.returncode == 0 and result.stdout.strip():
             payload = json.loads(result.stdout)
             pure_set = set(payload.get("pure", []))
         else:
             pure_set = set()
-    except Exception:
+    except (subprocess.TimeoutExpired, Exception):
         pure_set = set()
 
     # Reuse bedc_ci's declaration inventory to know each target's kind.
@@ -811,11 +876,43 @@ def load_objective_formal_grades() -> dict[str, str]:
             grades[qn] = "formalTargetV"
 
     _objective_grades_cache = grades
+    # Always persist — even an empty/partial result spares the next worker
+    # from repeating the 5-min axiom-purity attempt under the same HEAD.
     try:
         cache_path.write_text(json.dumps(grades), encoding="utf-8")
     except Exception:
         pass
+    _prune_objective_grades_cache_files(tmp_dir, keep=50)
     return grades
+
+
+def _prune_objective_grades_cache_files(tmp_dir: Path, keep: int = 50) -> None:
+    """LRU eviction for `bedc_objective_grades_<HEAD>.json` files.
+
+    codex-auto-dev advances HEAD every 1-2 minutes; each new HEAD that
+    misses the exact cache writes a fresh ~2.5MB file. Without eviction
+    the temp dir accumulates GBs (observed 1299 files / 3.3GB) over a
+    24h pipeline run. Keep the `keep` newest files (ample stale-fallback
+    supply within the 6h window) and delete the rest. Best-effort:
+    failures (e.g. file deleted by sibling worker between listdir and
+    unlink) are silently ignored.
+    """
+    try:
+        files = list(tmp_dir.glob("bedc_objective_grades_*.json"))
+    except OSError:
+        return
+    if len(files) <= keep:
+        return
+    try:
+        files.sort(key=lambda p: p.stat().st_mtime if p.exists() else 0,
+                   reverse=True)
+    except OSError:
+        return
+    for stale in files[keep:]:
+        try:
+            stale.unlink()
+        except OSError:
+            pass
 
 
 def normalize_name(stem: str) -> str:
@@ -843,6 +940,18 @@ def derive_lean_camel_case(paper_key: str, paper_text: str) -> str:
     return "".join(p.capitalize() for p in paper_key.split("_"))
 
 
+# Per-call recursive-read memo: chapters are read by extract_horizons,
+# compute_paper_priority_surfaces, is_chapter_retired_from_horizon (called
+# from extract_horizons), _collect_siblings, and compute_root_unblocks —
+# the same hub chapter can be recursive-read 3-5x per critical_path run.
+# At ~2000 chapters with hub-only layout (each closure can pull in dozens
+# of sibling .tex files totalling hundreds of KB), repeated full recursion
+# becomes the dominant cost. Memoize by resolved path; the memo is reset
+# at process start (module-level), so each fresh critical_path invocation
+# pays the read cost once and amortizes across all callers.
+_read_chapter_recursive_memo: dict[Path, str] = {}
+
+
 def _read_chapter_recursive(chapter_path: Path,
                               seen: "set | None" = None) -> str:
     """Read a paper chapter and recursively follow `\\input{...}` includes.
@@ -852,6 +961,14 @@ def _read_chapter_recursive(chapter_path: Path,
     if seen is None:
         seen = set()
     chapter_path = chapter_path.resolve()
+    # Top-level memo hit: when called without an active include cycle
+    # (seen is empty before adding this path), we can safely cache the
+    # full closure result keyed on this path. Mid-recursion calls (seen
+    # non-empty) cannot use the memo because the result would depend on
+    # which ancestors are already in `seen`.
+    can_memo = not seen
+    if can_memo and chapter_path in _read_chapter_recursive_memo:
+        return _read_chapter_recursive_memo[chapter_path]
     if chapter_path in seen or not chapter_path.exists():
         return ""
     seen.add(chapter_path)
@@ -866,7 +983,10 @@ def _read_chapter_recursive(chapter_path: Path,
             rel = rel + ".tex"
         child = (PAPER_ROOT_DIR / rel).resolve()
         parts.append(_read_chapter_recursive(child, seen))
-    return "".join(parts)
+    result = "".join(parts)
+    if can_memo:
+        _read_chapter_recursive_memo[chapter_path] = result
+    return result
 
 
 def is_chapter_retired_from_horizon(
@@ -941,7 +1061,10 @@ def extract_horizons() -> dict[str, dict]:
     horizons: dict[str, dict] = {}
     for tex in sorted(NAMECERT_GLOB.glob("*_namecert_construction.tex")):
         name = normalize_name(tex.name)
-        text = tex.read_text(encoding="utf-8", errors="replace")
+        try:
+            text = tex.read_text(encoding="utf-8", errors="replace")
+        except (FileNotFoundError, OSError):
+            continue
         # Resolve all included subfiles for closure / dep / marker scanning.
         full_text = _read_chapter_recursive(tex)
         deps = {m.group(1).lower() for m in UP_REF_RE.finditer(full_text)}
@@ -1013,7 +1136,7 @@ def _has_human_derivation_gap(text: str) -> tuple[bool, list[str]]:
     ]
     if not canonical_hits:
         return (False, [])
-    if INDUCTION_PROOF_RE.search(text):
+    if _has_induction_proof(text):
         return (False, [])
     reasons = ["origin{human}", "canonical_notclaimed"]
     reasons.extend(f"notclaimed:{term.replace(' ', '_')}" for term in canonical_hits[:4])

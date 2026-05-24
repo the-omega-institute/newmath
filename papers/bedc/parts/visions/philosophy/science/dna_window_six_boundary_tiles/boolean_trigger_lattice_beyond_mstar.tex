@@ -1,0 +1,315 @@
+\begin{definition}[Boolean trigger closure]
+\label{def:philosophy-boolean-trigger-closure}
+Let $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$, and let the first-two-position
+coordinates be ordered as
+$$
+  s_{1},f_{1},s_{2},f_{2}.
+$$
+For $p\in Q_{6}\setminus M^{\star}$, define the anchor support
+$$
+  \sigma(p)
+  =
+  \{i\in\{s_{1},f_{1},s_{2},f_{2}\}:p_{i}\neq \mathrm{CU}_{i}\}.
+$$
+For $B\subseteq Q_{6}\setminus M^{\star}$, put
+$$
+  J(B)=\bigcup_{p\in B}\sigma(p),
+  \qquad
+  r(B)=|J(B)|.
+$$
+For $J\subseteq\{s_{1},f_{1},s_{2},f_{2}\}$, let $Q_{J}(\mathrm{CU})$
+be the first-two-position subcube based at $\mathrm{CU}$ with exactly
+the coordinates in $J$ free, and set
+$$
+  C_{J}=\mathrm{NNR}\cup(Q_{J}(\mathrm{CU})\times Y).
+$$
+\end{definition}
+
+\begin{theorem}[Trigger lattice]
+\label{thm:philosophy-trigger-lattice}
+For every $B\subseteq Q_{6}\setminus M^{\star}$,
+$$
+  \operatorname{Med}(M^{\star}\cup B)=C_{J(B)}.
+$$
+Consequently the post-$M^{\star}$ median closures are exactly the
+sixteen sets $C_{J}$ indexed by
+$J\subseteq\{s_{1},f_{1},s_{2},f_{2}\}$.
+\end{theorem}
+\begin{proof}
+This is \autoref{thm:philosophy-anchor-subcube-closure-formula} with
+the subcube $D(B)$ written by its free-coordinate set. The free
+coordinates are exactly the union of the anchor-relative supports of
+the adjoined codons.
+\end{proof}
+
+\begin{corollary}[Rank size and full triggering]
+\label{cor:philosophy-trigger-rank-size}
+If $|J|=r$, then
+$$
+  |C_{J}|=32+2^{r+1}.
+$$
+Thus
+$$
+\begin{array}{c|r}
+  r & |C_{J}|\\
+  \hline
+  0 & 34\\
+  1 & 36\\
+  2 & 40\\
+  3 & 48\\
+  4 & 64.
+\end{array}
+$$
+In particular, $\operatorname{Med}(M^{\star}\cup B)=Q_{6}$ if and only
+if $J(B)=\{s_{1},f_{1},s_{2},f_{2}\}$.
+\end{corollary}
+\begin{proof}
+The $R$ halfspace contributes $32$ codons. The $Y$-side trigger subcube
+has $2^{r}$ first-two-position vertices and two third-position
+$Y$-lifts. Full-cube triggering is the case in which all four
+first-two-position coordinates are free.
+\end{proof}
+
+\begin{theorem}[Boolean lattice operations]
+\label{thm:philosophy-boolean-lattice-operations}
+For all $I,J\subseteq\{s_{1},f_{1},s_{2},f_{2}\}$,
+$$
+  C_{I}\cap C_{J}=C_{I\cap J},
+$$
+and
+$$
+  \operatorname{Med}(C_{I}\cup C_{J})=C_{I\cup J}.
+$$
+\end{theorem}
+\begin{proof}
+On the $Y$ side, intersection fixes exactly the coordinates fixed by
+both subcubes, hence leaves the free set $I\cap J$. Median closure of
+the union is governed by the free-coordinate support of the union, so
+the free set is $I\cup J$. The common $R$ halfspace $\mathrm{NNR}$ is
+present in every $C_{J}$ and is unchanged by both operations.
+\end{proof}
+
+\begin{theorem}[Cubical and spectral rank table]
+\label{thm:philosophy-trigger-lattice-rank-table}
+The cubical $f$-vector and killed-walk spectral radius of $C_{J}$ depend
+only on $r=|J|$:
+$$
+\begin{array}{c|r|l|r}
+  r & |C_{J}| & f(C_{J}) & \lambda(C_{J})\\
+  \hline
+  0 & 34 & (34,83,81,40,10,1) & 0.836111\\
+  1 & 36 & (36,88,85,41,10,1) & 0.840912\\
+  2 & 40 & (40,100,98,47,11,1) & 0.855963\\
+  3 & 48 & (48,128,136,72,19,2) & 0.902369\\
+  4 & 64 & (64,192,240,160,60,12,1) & 1.000000.
+\end{array}
+$$
+The cubical formula is
+$$
+  f_{k}(C_{J})
+  =
+  f_{k}(Q_{5})+f_{k}(Q_{r+2})-f_{k}(Q_{r+1}),
+  \qquad
+  f_{k}(Q_{n})=2^{n-k}\binom{n}{k}.
+$$
+\end{theorem}
+\begin{proof}
+The complex is the union of the complete $R$ halfspace $Q_{5}$ and the
+trigger slab $Q_{J}(\mathrm{CU})\times N\cong Q_{r+2}$. Their
+intersection is $Q_{r+1}$, giving the displayed inclusion-exclusion
+formula. The spectral radii are obtained by the finite killed-walk
+adjacency computation on each rank representative.
+\end{proof}
+
+\begin{theorem}[Quotient spectral equations]
+\label{thm:philosophy-trigger-quotient-spectral-equations}
+Since every $C_{J}$ is saturated in the $f_{3}$ direction, its
+killed-walk radius has the form
+$$
+  \lambda_{r}=\frac{\mu_{r}+1}{6},
+  \qquad r=|J|.
+$$
+The quotient spectral roots are
+$$
+\begin{array}{c|l|r}
+  r & \text{equation for }\mu_{r} & \mu_{r}\\
+  \hline
+  0 & \mu^{6}-21\mu^{4}+80\mu^{2}-24=0 & 4.016667\\
+  1 & \mu^{4}-4\mu^{3}-5\mu^{2}+18\mu+6=0 & 4.045475\\
+  2 & \mu^{4}-8\mu^{3}+19\mu^{2}-12\mu-2=0 & 4.135779\\
+  3 & \mu^{2}-6\mu+7=0 & 4.414214\\
+  4 & \mu-5=0 & 5.000000.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The $f_{3}$-wobble edge contributes one uniform self-neighbor in the
+quotient dynamics, so the six-bit killed-walk eigenvalue is
+$(\mu_{r}+1)/6$. The displayed equations are the characteristic
+equations of the finite quotient adjacency matrices for rank
+$r=0,1,2,3,4$, with the largest positive root selected in each case.
+\end{proof}
+
+\begin{corollary}[Near-global rank]
+\label{cor:philosophy-near-global-rank}
+At rank $3$, the closure has $48$ codons and spectral radius
+$$
+  \lambda_{3}=0.902369.
+$$
+Thus a trigger set covering any three of the four first-two-position
+coordinates already lies in a high-survival regime, while covering the
+last coordinate gives $C_{\{s_{1},f_{1},s_{2},f_{2}\}}=Q_{6}$.
+\end{corollary}
+\begin{proof}
+This is the $r=3$ row of
+\autoref{thm:philosophy-trigger-lattice-rank-table} and
+\autoref{thm:philosophy-trigger-quotient-spectral-equations}.
+\end{proof}
+
+\begin{theorem}[Rank distribution for external codons]
+\label{thm:philosophy-trigger-rank-distribution}
+Among $m$ adjoined codons from $Q_{6}\setminus M^{\star}$, the number
+whose final trigger rank is $d$ is
+$$
+  N(m,d)
+  =
+  \binom{4}{d}
+  \sum_{j=0}^{d}
+  (-1)^{j}
+  \binom{d}{j}
+  \binom{2(2^{d-j}-1)}{m}.
+$$
+For $m\leq 6$ this gives
+$$
+\begin{array}{r|rrrr|r}
+  m & r=1 & r=2 & r=3 & r=4 & \binom{30}{m}\\
+  \hline
+  1 & 8 & 12 & 8 & 2 & 30\\
+  2 & 4 & 78 & 196 & 157 & 435\\
+  3 & 0 & 120 & 1216 & 2724 & 4060\\
+  4 & 0 & 90 & 3824 & 23491 & 27405\\
+  5 & 0 & 36 & 7936 & 134534 & 142506\\
+  6 & 0 & 6 & 12000 & 581769 & 593775.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Choose the $d$ coordinates that appear in the final support. Inside
+those coordinates there are $2(2^{d}-1)$ codon lifts with nonempty
+support. Inclusion-exclusion removes the selections that miss at least
+one of the $d$ chosen coordinates, giving the stated formula.
+\end{proof}
+
+\begin{corollary}[Full-trigger probabilities]
+\label{cor:philosophy-full-trigger-probabilities}
+For uniformly chosen $m$-codon subsets of $Q_{6}\setminus M^{\star}$,
+the full-cube trigger probabilities for $m=1,\ldots,6$ are
+$$
+\begin{array}{c|r}
+  m & \Pr(\operatorname{Med}(M^{\star}\cup B)=Q_{6})\\
+  \hline
+  1 & 0.0667\\
+  2 & 0.3609\\
+  3 & 0.6709\\
+  4 & 0.8572\\
+  5 & 0.9441\\
+  6 & 0.9798.
+\end{array}
+$$
+\end{corollary}
+\begin{proof}
+Divide the $r=4$ column of
+\autoref{thm:philosophy-trigger-rank-distribution} by $\binom{30}{m}$.
+\end{proof}
+
+\begin{theorem}[Maximum non-trigger blockers]
+\label{thm:philosophy-maximum-nontrigger-blockers}
+The largest external subsets that do not trigger the full cube have
+cardinality
+$$
+  2(2^{3}-1)=14.
+$$
+There are four such maximal blockers, one for each omitted coordinate
+in $\{s_{1},f_{1},s_{2},f_{2}\}$. Consequently every
+$B\subseteq Q_{6}\setminus M^{\star}$ with $|B|\geq 15$ satisfies
+$$
+  \operatorname{Med}(M^{\star}\cup B)=Q_{6}.
+$$
+\end{theorem}
+\begin{proof}
+A non-trigger set has rank at most $3$. For fixed three-coordinate
+support $J$, the largest such set contains every nonempty quotient
+support contained in $J$, and each quotient support has two
+$f_{3}$-lifts. This gives $2(2^{3}-1)=14$ codons. There are four choices
+of the missing coordinate. Any subset of size at least $15$ cannot be
+contained in one of these blockers, so its support rank is $4$.
+\end{proof}
+
+\begin{theorem}[Minimal full triggers]
+\label{thm:philosophy-minimal-full-triggers}
+At quotient level, the minimal full triggers have counts
+$$
+\begin{array}{c|r}
+  \text{trigger size} & \text{quotient count}\\
+  \hline
+  1 & 1\\
+  2 & 25\\
+  3 & 22\\
+  4 & 1\\
+  \hline
+  \text{total} & 49.
+\end{array}
+$$
+At codon level, where each quotient support has two $f_{3}$-lifts, the
+corresponding counts are
+$$
+\begin{array}{c|r}
+  \text{trigger size} & \text{codon count}\\
+  \hline
+  1 & 2\\
+  2 & 100\\
+  3 & 176\\
+  4 & 16\\
+  \hline
+  \text{total} & 294.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+A quotient-level minimal full trigger is a minimal set cover of the four
+coordinate set $\{s_{1},f_{1},s_{2},f_{2}\}$ by nonempty supports.
+Enumerating the minimal covers of a four-element set gives
+$1,25,22,1$ by trigger size. A codon-level trigger of size $m$ has
+$2^{m}$ choices of $f_{3}$-lifts, giving the second table.
+\end{proof}
+
+\begin{corollary}[Antipodal singleton]
+\label{cor:philosophy-antipodal-singleton-trigger}
+The only quotient-level one-point full trigger is $\mathrm{AGY}$. Its
+two codon-level lifts are $\mathrm{AGU}$ and $\mathrm{AGC}$.
+\end{corollary}
+\begin{proof}
+A one-point full trigger must have support
+$\{s_{1},f_{1},s_{2},f_{2}\}$. The unique first-two-position quotient
+point with that support relative to $\mathrm{CU}$ is $\mathrm{AG}$.
+\end{proof}
+
+\begin{theorem}[Rank-spectral trigger lattice theorem]
+\label{thm:philosophy-rank-spectral-trigger-lattice-theorem}
+After $M^{\star}=\mathrm{NNR}\cup\mathrm{CUY}$, every median closure,
+closure size, cubical $f$-vector, killed-walk spectral radius, and
+full-cube threshold is controlled by the Boolean trigger rank on
+$\{s_{1},f_{1},s_{2},f_{2}\}$. The full cube appears exactly at rank
+$4$, the largest non-trigger external set has size $14$, and
+$\mathrm{AGY}$ is the unique quotient-level singleton full trigger.
+\end{theorem}
+\begin{proof}
+The closure classification is \autoref{thm:philosophy-trigger-lattice}.
+The rank size and full-cube criterion are
+\autoref{cor:philosophy-trigger-rank-size}. The cubical and spectral
+rank data are \autoref{thm:philosophy-trigger-lattice-rank-table} and
+\autoref{thm:philosophy-trigger-quotient-spectral-equations}. The
+forced threshold is \autoref{thm:philosophy-maximum-nontrigger-blockers},
+and the singleton classification is
+\autoref{cor:philosophy-antipodal-singleton-trigger}.
+\end{proof}

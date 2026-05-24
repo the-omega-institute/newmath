@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\UniformConvergenceSeriesUp$}
+\label{ch:concrete-instances-uniform-convergence-series-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\UniformConvergenceSeriesUp$ packet records the finite handoff from uniform Cauchy control of real-series partial sums to a uniform-limit surface. It sits over the real-series packet of \autoref{ch:concrete-instances-realseries-namecert}, the uniform Cauchy series packet of \autoref{ch:concrete-instances-uniform-cauchy-series-namecert}, the uniform-limit endpoint packet of \autoref{ch:concrete-instances-uniformlimit-namecert}, the majorant-test route of \autoref{ch:concrete-instances-weierstrassmtest-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later power-series, real-function, and continuity-transfer chapters a named theorem-level boundary without treating $\UniformCauchySeriesUp$ itself as an infinite-sum object.
+
+\begin{definition}[Uniform convergence series carrier]
+\label{def:uniform-convergence-series-carrier}
+A $\UniformConvergenceSeriesUp$ carrier is a finite $\BHist$ packet
+$$
+U=(A,S,W,D,Q,L,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the real-valued term-family row. Each summand is read only through displayed finite windows before it is admitted to a partial-sum comparison.
+\item $S$ is the $\RealSeriesUp$ partial-sum row. It records finite series windows, displayed partial sums, and the shared real-series tail threshold.
+\item $W$ is the $\StreamNameUp$ schedule row used by the partial sums and by the uniform tail request.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger. It records the requested radius, dyadic slack, finite addition budget, and exhausted comparison windows.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the displayed partial sums.
+\item $L$ is the $\UniformCauchySeriesUp$ ledger. It records the single uniform tail threshold that works across the displayed parameter window.
+\item $M$ is the optional $\WeierstrassMTestUp$ majorant route. When present, it supplies the finite domination and majorant-tail rows used to populate $L$; when absent, $L$ is supplied directly by the uniform Cauchy series packet.
+\item $E$ is the $\UniformLimitUp$ endpoint row. It becomes visible only after $S,W,D,Q,L$ and the applicable majorant route $M$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the term-family, real-series, stream-window, dyadic, regular-rational, uniform-Cauchy, majorant, uniform-limit, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+A,S,W,D,Q \longmapsto L \longmapsto M \longmapsto E .
+$$
+If the majorant route is not used, the $M$ coordinate is the displayed empty majorant branch rather than a hidden summability principle.
+\item $P$ is the $\Pkg$ provenance over $\UniformConvergenceSeriesUp$, $\RealSeriesUp$, $\UniformCauchySeriesUp$, $\UniformLimitUp$, $\WeierstrassMTestUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformConvergenceSeriesUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these twelve rows. Its classifier compares accepted packets only through $A,S,W,D,Q,L,M,E,H,C,P,N$ and has no coordinate for host infinite sums, selected limits, quotient equality, countable choice, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Uniform convergence series NameCert obligations]
+\label{thm:uniform-convergence-series-namecert-obligations}
+For every accepted $\UniformConvergenceSeriesUp$ carrier
+$$
+U=(A,S,W,D,Q,L,M,E,H,C,P,N),
+$$
+the local $\NameCert_{\UniformConvergenceSeriesUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the term-family row, real-series partial-sum row, stream schedule, dyadic tolerance ledger, regular-rational readback, uniform Cauchy ledger, optional majorant route, uniform-limit endpoint, transport, replay, provenance, and local naming row;
+\item partial-sum coverage, requiring every convergence request to read the displayed $\RealSeriesUp$ partial-sum row $S$ before reaching any limit endpoint;
+\item uniform-tail exactness, requiring the single threshold row $L$ to answer all displayed parameter-window requests through the same dyadic tolerance ledger $D$ and schedule row $W$;
+\item regular readback discipline, requiring $Q$ to be the only regular-rational route by which the finite partial sums are handed to the uniform-limit endpoint;
+\item majorant confinement, requiring $M$ to be either the displayed $\WeierstrassMTestUp$ domination route or the displayed empty majorant branch, never a host summability assertion;
+\item endpoint factorization, requiring $E$ to remain downstream of $S,W,D,Q,L$ and the applicable $M$ branch;
+\item transport, replay, provenance, and naming stability, requiring $H,C,P,N$ to preserve and source exactly the displayed rows componentwise;
+\item non-escape, excluding host infinite sums, selected limits, quotient equality, countable choice, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No uniform-convergence-series obligation is stored outside these rows.
+\end{theorem}
+
+\begin{proof}
+Project the accepted packet $U=(A,S,W,D,Q,L,M,E,H,C,P,N)$. The carrier exposes exactly the term-family row, the real-series partial-sum row, the shared stream schedule, the dyadic ledger, the regular readback, the uniform Cauchy ledger, the optional majorant route, the uniform-limit endpoint, and the structural rows.
+
+The convergence request first consumes the real-series partial sums. The row $S$ supplies the finite partial-sum windows, while $W$ fixes the displayed schedule and $D$ fixes the dyadic tolerance budget used by the comparison.
+
+Uniformity is supplied by $L$. The same threshold row must answer every displayed parameter-window request, so a consumer cannot replace the packet by pointwise convergence data or by a separately chosen limit at each parameter.
+
+The regular readback and majorant branch are then confined. The row $Q$ is the only route into the regular-rational handoff, and $M$ either records the finite Weierstrass majorant route or records that no majorant branch is used.
+
+Finally $E,H,C,P,N$ seal, transport, replay, source, and name that same finite route. Since host infinite sums, selected limits, quotient equality, countable choice, open-cover compactness, and ambient real completeness have no carrier coordinate or replay edge, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Uniform convergence series RealSeries handoff]
+\label{thm:uniform-convergence-series-realseries-handoff}
+Every $\UniformLimitUp$ endpoint read of an accepted $\UniformConvergenceSeriesUp$ carrier factors through the finite route
+$$
+A,S,W,D,Q \longmapsto L \longmapsto M \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the consumer receives a displayed real-valued term family, $\RealSeriesUp$ partial-sum windows, $\StreamNameUp$ schedules, $\DyadicRatCoreUp$ tolerance accounting, $\RegSeqRatUp$ readback, one $\UniformCauchySeriesUp$ tail ledger, the applicable $\WeierstrassMTestUp$ branch, the $\UniformLimitUp$ endpoint row, componentwise transport, continuation replay, package provenance, and local naming. It receives no host infinite sum, selected limit, quotient equality, countable-choice schedule, open-cover compactness principle, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+
+\begin{proof}
+Start with an accepted endpoint read. The term-family row $A$ is visible only through the real-series partial-sum row $S$, and those partial sums are inspected along the schedule row $W$ with the tolerance accounting recorded in $D$.
+
+The regular-rational readback is then forced through $Q$. It is the unique displayed handoff from the finite partial sums to the uniform Cauchy comparison surface, so no quotient equality of series or selected infinite sum is introduced.
+
+The uniform Cauchy step is the row $L$. It supplies the common tail threshold that works for every displayed parameter-window request; if a majorant proof is used, the row $M$ records exactly the Weierstrass domination and majorant-tail rows that populate $L$.
+
+Only after this route is displayed can $E$ expose the $\UniformLimitUp$ endpoint. The structural rows $H,C,P,N$ preserve the same route under componentwise transport, continuation replay, provenance, and local naming.
+
+Induction over the displayed route order proves the factorization. The base stage reads $A,S,W,D,Q$, the uniform-tail stage reads $L$, the majorant branch reads $M$, and the terminal stage reads $E,H,C,P,N$. There is no coordinate outside this route from which a consumer could extract a host infinite sum, selected limit, quotient equality, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{UniformConvergenceSeriesUp}{seedStr}
+
+\begin{closurestatus}{\UniformConvergenceSeriesUp}
+  \constructivestory{A $\UniformConvergenceSeriesUp$ packet is generated from a real-valued term-family row, RealSeries partial-sum windows, StreamName schedules, a DyadicRatCore tolerance ledger, RegSeqRat readback, one UniformCauchySeries tail ledger, an optional WeierstrassMTest majorant route, a UniformLimit endpoint row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-convergence-series-carrier}, \autoref{thm:uniform-convergence-series-namecert-obligations}, and \autoref{thm:uniform-convergence-series-realseries-handoff} seed the finite theorem-level route from RealSeries partial sums and UniformCauchySeries tail control to the UniformLimit endpoint surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host infinite sums, selected limits, quotient equality, countable choice, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, partial-sum coverage, uniform-tail exactness, regular readback discipline, majorant confinement, endpoint factorization, transport, replay, provenance, and local naming for BEDC.Derived.UniformConvergenceSeriesUp.}
+\end{closurestatus}

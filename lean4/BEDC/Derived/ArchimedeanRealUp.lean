@@ -124,6 +124,54 @@ theorem ArchimedeanRealCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact And.intro provenancePkg rowUnary
   }
 
+theorem ArchimedeanRealCarrier_rat_dyadic_bound_coherence [AskSetup] [PackageSetup]
+    {realName ratBound dyadicBound streamWindow regseqHandoff boundLedger transport routes
+      provenance localCert coherenceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow regseqHandoff
+        boundLedger transport routes provenance localCert bundle pkg ->
+      Cont boundLedger provenance coherenceRead ->
+        PkgSig bundle coherenceRead pkg ->
+          SemanticNameCert
+              (fun row : BHist =>
+                hsame row realName ∧
+                  ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow
+                    regseqHandoff boundLedger transport routes provenance localCert bundle pkg)
+              (fun _row : BHist =>
+                UnaryHistory realName ∧ UnaryHistory ratBound ∧ UnaryHistory dyadicBound ∧
+                  Cont realName streamWindow regseqHandoff ∧
+                    Cont ratBound dyadicBound boundLedger)
+              (fun row : BHist => PkgSig bundle provenance pkg ∧ UnaryHistory row)
+              hsame ∧
+            UnaryHistory ratBound ∧ UnaryHistory dyadicBound ∧ UnaryHistory boundLedger ∧
+              UnaryHistory coherenceRead ∧ Cont ratBound dyadicBound boundLedger ∧
+                Cont boundLedger provenance coherenceRead ∧
+                  PkgSig bundle coherenceRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig SemanticNameCert UnaryHistory
+  intro carrier boundProvenanceCoherence coherencePkg
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row realName ∧
+            ArchimedeanRealCarrier realName ratBound dyadicBound streamWindow regseqHandoff
+              boundLedger transport routes provenance localCert bundle pkg)
+        (fun _row : BHist =>
+          UnaryHistory realName ∧ UnaryHistory ratBound ∧ UnaryHistory dyadicBound ∧
+            Cont realName streamWindow regseqHandoff ∧ Cont ratBound dyadicBound boundLedger)
+        (fun row : BHist => PkgSig bundle provenance pkg ∧ UnaryHistory row)
+        hsame :=
+    ArchimedeanRealCarrier_namecert_obligations carrier
+  obtain ⟨_realNameUnary, ratBoundUnary, dyadicBoundUnary, _streamWindowUnary,
+    _regseqHandoffUnary, boundLedgerUnary, _transportUnary, _routesUnary, provenanceUnary,
+    _localCertUnary, _realNameStreamWindowRegseq, ratDyadicBoundLedger,
+    _regseqLedgerTransport, _transportRoutesProvenance, _provenancePkg, _localCertPkg⟩ :=
+    carrier
+  have coherenceUnary : UnaryHistory coherenceRead :=
+    unary_cont_closed boundLedgerUnary provenanceUnary boundProvenanceCoherence
+  exact
+    ⟨cert, ratBoundUnary, dyadicBoundUnary, boundLedgerUnary, coherenceUnary,
+      ratDyadicBoundLedger, boundProvenanceCoherence, coherencePkg⟩
+
 theorem ArchimedeanRealCarrier_transported_bound_stability [AskSetup] [PackageSetup]
     {realName ratBound dyadicBound streamWindow regseqHandoff boundLedger transport routes
       provenance localCert realName' ratBound' dyadicBound' streamWindow' regseqHandoff'

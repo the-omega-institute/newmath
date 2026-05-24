@@ -1,0 +1,114 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyAdditionUp$}
+\label{ch:concrete-instances-regular-cauchy-addition-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyAdditionUp$ packet names addition of two regular rational Cauchy real names by finite synchronized-window arithmetic before a completed $\RealUp$ consumer is allowed to read the sum. It sits over the regular rational source rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later real-algebra and completion consumers a licensed BEDC route for addition; it does not import host real arithmetic, quotient Cauchy classes, selected limits, trichotomy, or ambient completeness.
+
+\begin{definition}[RegularCauchyAddition carrier]
+\label{def:regular-cauchy-addition-carrier}
+A $\RegularCauchyAdditionUp$ carrier is a finite $\BHist$ packet
+$$
+A_+=(R_0,R_1,W_0,W_1,T_0,T_1,D,S,E,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R_0$ and $R_1$ are the two $\RegSeqRatUp$ input rows.
+\item $W_0$ and $W_1$ are paired $\StreamNameUp$ finite-window schedules, read at a common precision request and observation index.
+\item $T_0$ and $T_1$ are the $\DyadicRatCoreUp$ tolerance rows assigned to the two source observations.
+\item $D$ is the $\DyadicRatCoreUp$ summed-endpoint row, recording the dyadic readback of the pointwise sum exposed by the two windows.
+\item $S$ is the summed $\RegSeqRatUp$ readback row whose regularity is supplied by the two input regularity rows, the paired window schedules, and the dyadic tolerance rows.
+\item $E$ is the finite error-budget ledger combining the two source tolerances, the dyadic addition tolerance, and the output tolerance needed by the summed readback row.
+\item $Z$ is the $\RealUp$ seal row reached only after the two source rows, paired windows, dyadic tolerance rows, summed readback row, and finite ledger have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two source rows, paired stream windows, tolerance rows, summed endpoint row, summed readback, Real seal, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from every addition-facing precision request through $R_0,R_1,W_0,W_1,T_0,T_1,D,E,S,Z,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyAdditionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyAdditionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R_0,R_1,W_0,W_1,T_0,T_1,D,S,E,Z,H,C,P,N$. The carrier has no coordinate for host real addition, quotient Cauchy classes, selected limits, trichotomy, ambient $\RealUp$ completeness, or a detached completed-real addition operation.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyAdditionUp.RegularCauchyAdditionUp\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy addition NameCert obligations]
+\label{thm:regular-cauchy-addition-namecert-obligations}
+For every accepted $\RegularCauchyAdditionUp$ carrier
+$$
+A_+=(R_0,R_1,W_0,W_1,T_0,T_1,D,S,E,Z,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyAdditionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two $\RegSeqRatUp$ input rows, paired $\StreamNameUp$ windows, dyadic tolerance rows, summed endpoint row, finite error ledger, summed $\RegSeqRatUp$ readback, $\RealUp$ seal row, and structural rows;
+\item paired-window exposure, requiring each addition-facing precision request to inspect $W_0$ and $W_1$ at the same finite precision before any summed readback is available;
+\item dyadic endpoint addition, requiring $D$ to be read from the displayed $\DyadicRatCoreUp$ tolerance rows $T_0,T_1$ and the two window observations;
+\item finite regularity accounting, requiring $E$ to combine the two input tolerance rows, the dyadic addition tolerance, and the output tolerance before $S$ is consumed;
+\item Real seal boundary, requiring $Z$ to be read only after the route through $R_0,R_1,W_0,W_1,T_0,T_1,D,E,S$ has been displayed;
+\item transport, replay, provenance, and local naming, requiring $H,C,P,N$ to preserve and name exactly the same finite addition packet;
+\item refusal of host real addition, quotient Cauchy classes, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, and bridge checking as local NameCert data.
+\end{enumerate}
+No addition obligation is stored outside these finite rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic rows are the two regular rational names $R_0,R_1$, the paired stream schedules $W_0,W_1$, the dyadic tolerance rows $T_0,T_1$, the summed endpoint row $D$, the finite ledger $E$, the summed readback $S$, and the Real seal $Z$.
+
+Read the windows before the sum by finite-window induction on the displayed precision schedule. The base window exposes the first paired observations, and the successor window preserves the same synchronized request before any pointwise dyadic arithmetic is used.
+
+Form the dyadic endpoint and the regular readback next. The row $D$ consumes the two displayed observations and their tolerance rows through the $\DyadicRatCoreUp$ arithmetic route, while $E$ records the finite tolerance accounting that turns the pointwise sum into the $\RegSeqRatUp$ readback row $S$.
+
+Finally seal and package the route. The row $Z$ is downstream of the summed readback, and the structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no carrier coordinate stores host real addition, quotient classes, selected limits, trichotomy, ambient completeness, Lean verification, or bridge data, none can become a local NameCert obligation.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyAdditionUp.RegularCauchyAdditionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy addition window-sum stability]
+\label{thm:regular-cauchy-addition-window-sum-stability}
+Let two accepted $\RegularCauchyAdditionUp$ carriers have input rows, paired windows, dyadic tolerance rows, summed endpoint rows, finite ledgers, readbacks, Real seals, package provenance, and local naming rows matched componentwise by their displayed $\hsame$ classifiers. Then every summed-window route supplied by the obligation surface of \autoref{thm:regular-cauchy-addition-namecert-obligations} transports to the corresponding route of the second packet.
+\end{theorem}
+\begin{proof}
+Start with the componentwise classifier data in $H$. A finite-window induction on the paired schedules transports the two $\RegSeqRatUp$ source rows and the $\StreamNameUp$ windows without changing the common precision request.
+
+Transport the dyadic addition row. The matched tolerance rows $T_0,T_1$ still feed the same $\DyadicRatCoreUp$ summed endpoint route $D$, so the pointwise addition step remains tied to the displayed finite windows.
+
+The ledger and readback rows are preserved by the same componentwise transport. The row $E$ remains the only place where source tolerances, dyadic addition tolerance, and output tolerance are combined before $S$ and $Z$ are exposed.
+
+Replay through $C$ and repack through $P$ and $N$. Every consumer route in the obligation surface is one of these displayed projections, so classifier transport cannot add host real addition, quotient Cauchy classes, selected limits, trichotomy, ambient completeness, Lean verification, or bridge data.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy addition Real seal handoff]
+\label{thm:regular-cauchy-addition-real-seal-handoff}
+Every accepted $\RegularCauchyAdditionUp$ carrier factors its Real-facing addition read through the finite route
+$$
+(R_0,R_1)\longmapsto(W_0,W_1)\longmapsto(T_0,T_1,D)\longmapsto E\longmapsto S\longmapsto Z
+$$
+before it may hand the result to a $\RealUp$ consumer. Thus the consumer receives two regular rational source rows, paired finite schedules, dyadic tolerance and summed endpoint rows, a finite addition ledger, a summed $\RegSeqRatUp$ readback row, and a Real seal row; it receives no host real addition, quotient Cauchy class, selected limit, trichotomy, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $A_+$. The only source coordinates for the addition read are $R_0$ and $R_1$, and finite-window induction over the attached schedules $W_0,W_1$ supplies the paired observations in dependency order.
+
+The pointwise sum then passes through the dyadic rows. The rows $T_0$ and $T_1$ attach the source tolerances to the displayed observations, while $D$ records the finite dyadic addition readback.
+
+The finite ledger finishes the regular handoff. The row $E$ combines the two source budgets with the dyadic addition and output budgets before the summed $\RegSeqRatUp$ readback row $S$ can be consumed.
+
+Only then is the $\RealUp$ seal row $Z$ exposed. The rows $H,C,P,N$ preserve and name this same dependency order, so the Real-facing consumer receives a finite BEDC addition route rather than host arithmetic, quotient classes, selected limits, trichotomy, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy addition sibling dependency route]
+\label{thm:regular-cauchy-addition-sibling-dependency-route}
+Every downstream Real algebra or completion consumer of an accepted $\RegularCauchyAdditionUp$ packet factors through the two $\RegSeqRatUp$ source rows, paired $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance rows, the $\DyadicRatCoreUp$ summed-endpoint row, the finite addition ledger, the summed $\RegSeqRatUp$ readback, the $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RegularCauchyAdditionUp}$ row. The route is exactly the dependency package certified by the NameCert obligations, window-sum stability, and Real seal handoff; it excludes host real addition, quotient Cauchy classes, selected limits, trichotomy, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligation surface of \autoref{thm:regular-cauchy-addition-namecert-obligations}. It lists the two regular rational source rows, paired stream windows, dyadic tolerance rows, summed endpoint row, finite ledger, summed readback, Real seal, and structural rows as the complete carrier-facing surface.
+
+Use \autoref{thm:regular-cauchy-addition-window-sum-stability} to keep the same rows under componentwise classifier transport. No downstream consumer can replace the paired windows or dyadic addition rows while preserving the accepted packet.
+
+Finally apply the Real seal handoff of \autoref{thm:regular-cauchy-addition-real-seal-handoff}. The seal is exposed only after the displayed addition route, so Real algebra and completion consumers inherit precisely this sibling dependency route and none of the excluded host or completion objects.
+\end{proof}
+
+\closureat{RegularCauchyAdditionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyAdditionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-addition-carrier}, \autoref{thm:regular-cauchy-addition-namecert-obligations}, \autoref{thm:regular-cauchy-addition-window-sum-stability}, and \autoref{thm:regular-cauchy-addition-real-seal-handoff} seed the finite addition surface over two $\RegSeqRatUp$ inputs, paired $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance and summed endpoint rows, summed $\RegSeqRatUp$ readback, and $\RealUp$ seal data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real addition, quotient Cauchy classes, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, paired-window exposure, dyadic endpoint addition, finite regularity accounting, Real seal boundary, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyAdditionUp.}
+  \constructivestory{A $\RegularCauchyAdditionUp$ packet is generated from two $\RegSeqRatUp$ rows, paired $\StreamNameUp$ finite-window schedules, two $\DyadicRatCoreUp$ tolerance rows, a $\DyadicRatCoreUp$ summed endpoint row, a finite error ledger, a summed $\RegSeqRatUp$ readback row, a $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

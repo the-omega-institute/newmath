@@ -1,0 +1,293 @@
+\begin{definition}[Active median leakage]
+\label{def:philosophy-active-median-leakage}
+Let
+$$
+  \mathcal{T}_{3}(\mathcal{R})
+  =
+  \{\{x,y,z\}:x,y,z\in\mathcal{R}\text{ distinct}\}.
+$$
+For a triple $T=\{x,y,z\}$ write $m(T)=m(x,y,z)$. A triple is
+closed when $m(T)\in\mathcal{R}$ and leaking when
+$m(T)\notin\mathcal{R}$.
+\end{definition}
+
+\begin{theorem}[Median-almost-closed active support]
+\label{thm:philosophy-median-almost-closed-support}
+The reassigned support has $286$ active triples. Among them, $264$
+triples are closed and $22$ triples leak to inactive codons:
+$$
+  \frac{264}{286}=0.923076\ldots,\qquad
+  \frac{22}{286}=0.076923\ldots.
+$$
+Thus $\mathcal{R}$ is nearly closed under the median operation on
+distinct active triples.
+\end{theorem}
+\begin{proof}
+There are $\binom{13}{3}=286$ distinct active triples. Enumerating them
+and applying coordinatewise majority gives $264$ outputs in
+$\mathcal{R}$ and $22$ outputs outside $\mathcal{R}$.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-median-leakage-spectrum-namecert}{Median leakage spectra are realized as finite NameCert packets over active triples, median outputs, inactive leakage rows, centrality counts, direct-output multiplicities, transport, replay, provenance, and local naming.}
+
+\begin{corollary}[Random median comparison]
+\label{cor:philosophy-random-median-comparison}
+In $100000$ random $13$-point subsets of $Q_{6}$, using seed
+$20260522$, the mean number of closed active triples is $157.49515$.
+The mean one-step median closure size is $43.79654$, and the mean
+number of one-step leakage outputs is $30.79654$. The estimated
+tail probabilities are
+$$
+  \Pr(\text{closed triples}\ge 264)=0.00007,
+  \qquad
+  \Pr(\text{leakage outputs}\le 6)=0.00034.
+$$
+\end{corollary}
+\begin{proof}
+For each random subset, enumerate its distinct triples and apply the
+same median-output count used in
+\autoref{thm:philosophy-median-almost-closed-support}. The displayed
+means and tail probabilities are the direct Monte Carlo tallies.
+\end{proof}
+
+\begin{theorem}[One-step leakage outputs]
+\label{thm:philosophy-one-step-leakage-outputs}
+The one-step active leakage set is
+$$
+  \{m(T):T\in\mathcal{T}_{3}(\mathcal{R})\}
+  \setminus\mathcal{R}
+  =
+  \{\mathrm{AAG},\mathrm{ACA},\mathrm{AUG},
+    \mathrm{UCG},\mathrm{UGG},\mathrm{UUG}\}.
+$$
+Consequently
+$$
+  \operatorname{Med}_{1}(\mathcal{R})
+  =
+  \mathcal{R}\cup
+  \{\mathrm{AAG},\mathrm{ACA},\mathrm{AUG},
+    \mathrm{UCG},\mathrm{UGG},\mathrm{UUG}\}.
+$$
+\end{theorem}
+\begin{proof}
+The six displayed codons are the distinct inactive outputs among the
+$22$ leaking triples of
+\autoref{thm:philosophy-median-almost-closed-support}. This is the same
+first median layer as in
+\autoref{thm:philosophy-median-depth-sealing}.
+\end{proof}
+
+\begin{corollary}[$\mathrm{ACG}$ is not a direct leakage point]
+\label{cor:philosophy-acg-not-direct-leakage}
+The codon $\mathrm{ACG}$ is the only inactive codon in
+$\operatorname{Med}(\mathcal{R})\setminus\mathcal{R}$ that is not
+produced by any distinct active triple.
+\end{corollary}
+\begin{proof}
+The full inactive median set is
+$$
+  \{\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AUG},
+    \mathrm{UCG},\mathrm{UGG},\mathrm{UUG}\}.
+$$
+Subtract the one-step leakage set of
+\autoref{thm:philosophy-one-step-leakage-outputs}.
+\end{proof}
+
+\begin{definition}[Median centrality]
+\label{def:philosophy-median-centrality}
+For $p\in Q_{6}$, define
+$$
+  \mu_{\mathcal{R}}(p)
+  =
+  |\{T\in\mathcal{T}_{3}(\mathcal{R}):m(T)=p\}|.
+$$
+\end{definition}
+
+\begin{theorem}[Median centrality ranking]
+\label{thm:philosophy-median-centrality-ranking}
+The nonzero median centralities, together with the sealing value, are:
+$$
+\begin{array}{c|c|r}
+  \text{codon} & \text{active} & \mu_{\mathcal{R}}\\
+  \hline
+  \mathrm{UUA} & \text{yes} & 61\\
+  \mathrm{UAA} & \text{yes} & 46\\
+  \mathrm{CUA} & \text{yes} & 31\\
+  \mathrm{AAA} & \text{yes} & 19\\
+  \mathrm{UGA} & \text{yes} & 19\\
+  \mathrm{CUG} & \text{yes} & 16\\
+  \mathrm{UAG} & \text{yes} & 16\\
+  \mathrm{AGA} & \text{yes} & 14\\
+  \mathrm{AUA} & \text{yes} & 14\\
+  \mathrm{UCA} & \text{yes} & 14\\
+  \mathrm{CUU} & \text{yes} & 8\\
+  \mathrm{UUG} & \text{no} & 8\\
+  \mathrm{AAG} & \text{no} & 4\\
+  \mathrm{UGG} & \text{no} & 4\\
+  \mathrm{AGG} & \text{yes} & 3\\
+  \mathrm{CUC} & \text{yes} & 3\\
+  \mathrm{ACA} & \text{no} & 2\\
+  \mathrm{AUG} & \text{no} & 2\\
+  \mathrm{UCG} & \text{no} & 2\\
+  \mathrm{ACG} & \text{no} & 0.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Count the median outputs of all $286$ active triples and group the
+results by output codon. The codon $\mathrm{ACG}$ has zero direct
+centrality by \autoref{cor:philosophy-acg-not-direct-leakage}.
+\end{proof}
+
+\begin{corollary}[Mass core and median center differ]
+\label{cor:philosophy-mass-core-median-center-differ}
+The median center is not the same as the reassignment-mass core. In
+particular, $\mathrm{UUA}$ has the largest median centrality
+$\mu_{\mathcal{R}}(\mathrm{UUA})=61$, whereas high-weight AGR-side
+codons such as $\mathrm{AGG}$ have much smaller direct median
+centrality.
+\end{corollary}
+\begin{proof}
+Compare \autoref{thm:philosophy-median-centrality-ranking} with the
+weighted reassignment counts in
+\autoref{thm:philosophy-high-mass-and-broad-support-cores}.
+\end{proof}
+
+\begin{theorem}[Direct leakage spectrum]
+\label{thm:philosophy-direct-leakage-spectrum}
+The inactive one-step leakage multiplicities are
+$$
+\begin{array}{c|r}
+  \text{inactive output} & \text{active triples}\\
+  \hline
+  \mathrm{UUG} & 8\\
+  \mathrm{AAG} & 4\\
+  \mathrm{UGG} & 4\\
+  \mathrm{ACA} & 2\\
+  \mathrm{AUG} & 2\\
+  \mathrm{UCG} & 2.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+Restrict the median centrality count to the six inactive outputs in
+\autoref{thm:philosophy-one-step-leakage-outputs}.
+\end{proof}
+
+\begin{theorem}[Direct-leakage catalyst]
+\label{thm:philosophy-direct-leakage-catalyst}
+Among the $22$ leaking active triples, active codons occur with the
+following multiplicities:
+$$
+\begin{array}{c|r}
+  \text{active codon} & \text{leaking triples containing it}\\
+  \hline
+  \mathrm{AGG} & 15\\
+  \mathrm{UAG} & 10\\
+  \mathrm{CUC} & 8\\
+  \mathrm{CUG} & 8\\
+  \mathrm{AUA} & 7\\
+  \mathrm{UCA} & 7\\
+  \mathrm{UUA} & 4\\
+  \mathrm{AAA} & 3\\
+  \mathrm{UGA} & 3\\
+  \mathrm{AGA} & 1.
+\end{array}
+$$
+Thus $\mathrm{AGG}$ is the principal direct-leakage catalyst.
+\end{theorem}
+\begin{proof}
+Enumerate the $22$ leaking triples and count active codon appearances
+inside those triples.
+\end{proof}
+
+\begin{corollary}[Median gate role of $\mathrm{AGG}$]
+\label{cor:philosophy-agg-median-gate-role}
+The codon $\mathrm{AGG}$ is both median-essential and the leading
+direct-leakage catalyst. It appears in $15$ of the $22$ leaking triples.
+\end{corollary}
+\begin{proof}
+Median-essentiality is
+\autoref{thm:philosophy-median-essential-codons}. The leakage catalyst
+count is \autoref{thm:philosophy-direct-leakage-catalyst}.
+\end{proof}
+
+\begin{theorem}[Minimum inactive median generators]
+\label{thm:philosophy-minimum-inactive-median-generators}
+The minimum size of an active subset $G\subseteq\mathcal{R}$ satisfying
+$$
+  \operatorname{Med}(\mathcal{R})\setminus\mathcal{R}
+  \subseteq
+  \operatorname{Med}(G)
+$$
+is $5$. The four minimum subsets are
+$$
+\begin{gathered}
+  \{\mathrm{AGG},\mathrm{AUA},\mathrm{CUC},\mathrm{UAA},\mathrm{UCA}\},\\
+  \{\mathrm{AGG},\mathrm{AUA},\mathrm{CUC},\mathrm{UAG},\mathrm{UCA}\},\\
+  \{\mathrm{AGG},\mathrm{AUA},\mathrm{CUG},\mathrm{UAA},\mathrm{UCA}\},\\
+  \{\mathrm{AGG},\mathrm{AUA},\mathrm{CUG},\mathrm{UAG},\mathrm{UCA}\}.
+\end{gathered}
+$$
+\end{theorem}
+\begin{proof}
+Enumerate all active subsets $G\subseteq\mathcal{R}$ and compute
+$\operatorname{Med}(G)$. No subset of size at most $4$ contains all
+seven inactive median codons in its closure. Exactly the four displayed
+subsets of size $5$ do.
+\end{proof}
+
+\begin{corollary}[Inactive leakage core]
+\label{cor:philosophy-inactive-leakage-core}
+Every minimum inactive median generator contains
+$$
+  \mathrm{AGG},\qquad \mathrm{AUA},\qquad \mathrm{UCA}.
+$$
+The remaining choices are one of $\mathrm{CUC},\mathrm{CUG}$ and one of
+$\mathrm{UAA},\mathrm{UAG}$.
+\end{corollary}
+\begin{proof}
+Intersect the four generators in
+\autoref{thm:philosophy-minimum-inactive-median-generators}.
+\end{proof}
+
+\begin{theorem}[$\mathrm{ACG}$ has twelve second-layer derivations]
+\label{thm:philosophy-acg-second-layer-derivations}
+Inside $\operatorname{Med}_{1}(\mathcal{R})$, exactly $12$ distinct
+triples have median $\mathrm{ACG}$.
+\end{theorem}
+\begin{proof}
+Enumerate all distinct triples in $\operatorname{Med}_{1}(\mathcal{R})$
+and retain those whose median is $\mathrm{ACG}$. The count is $12$.
+Examples include
+$$
+  \mathrm{ACG}=m(\mathrm{AAG},\mathrm{ACA},\mathrm{UCG}),
+  \qquad
+  \mathrm{ACG}=m(\mathrm{ACA},\mathrm{AUG},\mathrm{UGG}).
+$$
+\end{proof}
+
+\begin{theorem}[Controlled median leakage]
+\label{thm:philosophy-controlled-median-leakage}
+The median generation path of the reassigned support is
+$$
+  \mathcal{R}
+  \xrightarrow{22\text{ leaking triples}}
+  \mathcal{R}\cup
+  \{\mathrm{AAG},\mathrm{ACA},\mathrm{AUG},
+    \mathrm{UCG},\mathrm{UGG},\mathrm{UUG}\}
+  \xrightarrow{\mathrm{ACG}}
+  \mathrm{WNR}\cup\mathrm{CUN}.
+$$
+Thus $\mathcal{R}$ is a median-almost-closed active support whose
+inactive median closure is generated by a small controlled leakage
+spectrum and a single second-layer sealing codon.
+\end{theorem}
+\begin{proof}
+The first arrow is
+\autoref{thm:philosophy-median-almost-closed-support} and
+\autoref{thm:philosophy-one-step-leakage-outputs}. The second arrow is
+\autoref{cor:philosophy-acg-not-direct-leakage} together with
+\autoref{thm:philosophy-acg-second-layer-derivations}. The terminal
+formula is \autoref{thm:philosophy-reassignment-median-closure}.
+\end{proof}

@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\CauchySequenceUp$}
+\label{ch:concrete-instances-cauchy-sequence-namecert}
+\origin{human}
+
+Bishop--Bridges constructive analysis treats Cauchy sequences as tail-stable observable data before any completed real, quotient representative, or chosen limit is available. The $\CauchySequenceUp$ packet records that ordinary sequence layer as a finite NameCert surface between the explicit-modulus route of \autoref{ch:concrete-instances-effective-cauchy-sequence-namecert} and the weak finite-tail route of \autoref{ch:concrete-instances-weakly-cauchy-sequence-namecert}. It reads finite observations through the $\StreamNameUp$ interface of \autoref{ch:concrete-instances-streamname-namecert}, optional threshold data through the $\CauchyModulusUp$ surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, dyadic tolerances through \autoref{ch:concrete-instances-dyadicratcore-namecert}, regular rational readback through \autoref{ch:concrete-instances-regseqrat-namecert}, and its terminal boundary through \autoref{ch:concrete-instances-real-namecert}. The packet is the ordinary Cauchy sequence carrier used by Real and Completion consumers; it is not quotient stream equality, a selected limit, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.
+
+\begin{definition}[Cauchy sequence carrier]
+\label{def:cauchy-sequence-carrier}
+A $\CauchySequenceUp$ carrier is a finite $\BHist$ packet
+$$
+X=(S,T,M,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source sequence row, naming the observable sequence surface whose values are inspected only through displayed finite requests.
+\item $T$ is the tail-comparison ledger, recording the finite inspected pairs of tail indices and the comparison rows witnessing Cauchy behavior at the displayed tolerances.
+\item $M$ is an optional $\CauchyModulusUp$ row. When present, it gives an explicit threshold schedule; when absent, the packet remains on the ordinary tail-comparison surface rather than the effective-modulus surface.
+\item $W$ is the finite $\StreamNameUp$ window row, listing the inspected source windows used by $T$ and by any downstream readback.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, storing dyadic radii, slack rows, comparison budgets, and tolerance conversions used by the tail comparisons.
+\item $R$ is the $\RegSeqRatUp$ handoff row, available only after the source, tail-comparison, optional-modulus, window, and dyadic rows have been displayed.
+\item $E$ is the terminal $\RealUp$ seal boundary, read only downstream of $S,T,M,W,D,R$ and never as a selected limit or ambient completeness witness.
+\item $H$ records componentwise $\hsame$ transport for the source, tail ledger, optional modulus, finite windows, dyadic ledger, regular handoff, Real boundary, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each Real or Completion request through $S,T,M,W,D,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchySequenceUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\EffectiveCauchySequenceUp$, $\WeaklyCauchySequenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,T,M,W,D,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Cauchy sequence NameCert obligations]
+\label{thm:cauchy-sequence-namecert-obligations}
+For every accepted $\CauchySequenceUp$ carrier
+$$
+X=(S,T,M,W,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchySequenceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source sequence row, tail-comparison ledger, optional modulus, StreamName windows, DyadicRatCore tolerances, RegSeqRat handoff, Real boundary, transport, replay, provenance, and local naming;
+\item window exactness, requiring every inspected sequence value used by $T$ or $R$ to be read through the displayed $\StreamNameUp$ row $W$;
+\item tail-comparison exactness, requiring $T$ to store the finite pairwise tail comparisons that make the ordinary Cauchy evidence visible;
+\item optional-modulus compatibility, requiring any displayed $M$ row to refine the same tail comparisons without replacing the ordinary packet by the explicit-modulus packet;
+\item dyadic tolerance accounting, requiring every comparison in $T$ and every readback exported by $R$ to cite the dyadic radii, slack rows, and conversions stored in $D$;
+\item regular handoff and Real boundary discipline, requiring $R$ and then $E$ to remain downstream of $S,T,M,W,D$;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $H,C,P,N$;
+\item non-escape for quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No ordinary Cauchy-sequence obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-sequence-carrier}. The projection exposes exactly one source sequence row $S$, one finite tail-comparison ledger $T$, one optional modulus row $M$, one finite window row $W$, one dyadic tolerance ledger $D$, one regular handoff row $R$, one terminal Real boundary row $E$, and the structural rows $H,C,P,N$.
+
+Window and tail-comparison exactness are forced by the order of the rows. Every inspected sequence value is first read through the finite $\StreamNameUp$ window row $W$, and every ordinary Cauchy assertion visible to the packet is then one of the displayed finite comparisons stored in $T$.
+
+The optional-modulus clause is conservative. If $M$ is present, it cites the same source, window, and dyadic rows as $T$; if it is absent, the packet still retains the ordinary tail-comparison ledger. Thus the carrier sits between the explicit-modulus chapter and the weak finite-tail chapter without collapsing into either one.
+
+Dyadic accounting is supplied by $D$. Since the packet has no other tolerance coordinate, all comparison budgets, slack rows, and conversions used by $T$ or by the regular readback $R$ must pass through that ledger.
+
+Finally, the rows $R,E,H,C,P,N$ export, seal, transport, replay, source, and name the same displayed data. None of those rows adds quotient equality, a selected endpoint, a choice principle, trichotomy, host real equality, completeness of $\RealUp$, Lean evidence, or bridge data, so the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy sequence RegSeqRat handoff]
+\label{thm:cauchy-sequence-regseqrat-handoff}
+Every $\RegSeqRatUp$ read exported by an accepted $\CauchySequenceUp$ carrier $X=(S,T,M,W,D,R,E,H,C,P,N)$ factors through the finite route
+$$
+S \longmapsto W \longmapsto T,M \longmapsto D \longmapsto R \longmapsto H,C,P,N .
+$$
+Consequently a regular rational consumer receives the displayed source, finite StreamName windows, ordinary tail comparisons, any compatible modulus row, dyadic tolerance accounting, transport, replay, provenance, and local naming before it can inspect the handoff.
+\end{theorem}
+\begin{proof}
+Begin with a regular rational consumer of $X$. By \autoref{def:cauchy-sequence-carrier}, the only $\RegSeqRatUp$ coordinate is the handoff row $R$, and $R$ is downstream of the source, window, tail-comparison, optional-modulus, and dyadic rows.
+
+The source observations are first exposed through the $\StreamNameUp$ row $W$. The ordinary Cauchy information is then the tail-comparison ledger $T$, while an available modulus row $M$ is read only as a compatible refinement of those displayed comparisons.
+
+The tolerance work is read through the $\DyadicRatCoreUp$ ledger $D$. Only after the relevant dyadic radii, slack rows, comparison budgets, and conversions have been displayed can the regular rational handoff $R$ be exported.
+
+The structural rows $H,C,P,N$ preserve and name the same route. Hence every regular rational read factors through the displayed ordinary Cauchy sequence packet and has no bypass through quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\falsifiablePrediction{Every $\CauchySequenceUp$ regular or Real-facing read factors through a source sequence row, finite StreamName windows, tail-comparison ledger, optional CauchyModulus row, DyadicRatCore tolerance ledger, RegSeqRat handoff, RealUp boundary seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{streamname, cauchymodulus, dyadicratcore, regseqrat, real, effective-cauchy-sequence, weakly-cauchy-sequence: $\CauchySequenceUp$ is not bijective to any listed sibling because it jointly carries ordinary tail comparisons, optional explicit-modulus compatibility, finite stream windows, dyadic tolerance accounting, regular rational handoff, terminal Real boundary, transport, replay, provenance, and local naming.}
+
+\closureat{CauchySequenceUp}{seedStr}
+
+\begin{closurestatus}{\CauchySequenceUp}
+  \constructivestory{A $\CauchySequenceUp$ packet is generated from a source sequence row, finite tail-comparison ledger, optional CauchyModulus row, StreamName windows, DyadicRatCore tolerance ledger, RegSeqRat handoff, terminal RealUp boundary row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-sequence-carrier}, \autoref{thm:cauchy-sequence-namecert-obligations}, and \autoref{thm:cauchy-sequence-regseqrat-handoff} seed the ordinary Cauchy sequence route between explicit-modulus and weak finite-tail sequence surfaces.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window exactness, tail-comparison exactness, optional-modulus compatibility, dyadic tolerance accounting, regular handoff, Real boundary discipline, transport, replay, provenance, local naming, and non-escape for BEDC.Derived.CauchySequenceUp.}
+\end{closurestatus}

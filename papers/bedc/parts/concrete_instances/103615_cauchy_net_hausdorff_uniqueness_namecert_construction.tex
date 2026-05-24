@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\CauchyNetHausdorffUniquenessUp$}
+\label{ch:concrete-instances-cauchy-net-hausdorff-uniqueness-namecert}
+\origin{human}
+
+Following Kelley-style nets and the standard Hausdorff uniqueness principle, the $\CauchyNetHausdorffUniquenessUp$ packet records the finite BEDC route by which two accepted limit reads of the same Cauchy net are identified only at a displayed separated zero-distance row. It sits downstream of the directed-window Cauchy-net surface of \autoref{ch:concrete-instances-cauchynet-namecert}, the zero-distance classifier of \autoref{ch:concrete-instances-separatedmetric-namecert}, the completion-facing handoff of \autoref{ch:concrete-instances-metriccompletion-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives completion consumers a uniqueness boundary without importing quotient nets, selected limit representatives, host equality, countable choice, or ambient completeness.
+
+\begin{definition}[CauchyNetHausdorffUniqueness carrier]
+\label{def:cauchy-net-hausdorff-uniqueness-carrier}
+A $\CauchyNetHausdorffUniquenessUp$ carrier is a finite $\BHist$ packet
+$$
+U=(D,L_0,L_1,S,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\CauchyNetUp$ directed-window route, including the index preorder, late-window Cauchy rows, and finite metric-distance reads for the same net;
+\item $L_0$ and $L_1$ are two displayed limit reads over $D$, written through the finite routes
+$$
+D \longmapsto L_0
+$$
+and
+$$
+D \longmapsto L_1;
+$$
+\item $S$ is the $\SeparatedMetricUp$ or Hausdorff-metric separation row that displays zero distance between the two limit reads after both are read from the same directed-window route;
+\item $M$ is the $\MetricCompletionUp$ handoff row, recording that completion-facing consumers see only the Cauchy-net route, the two displayed limit reads, and the separated comparison row;
+\item $H$ records componentwise $\hsame$ transport for $D,L_0,L_1,S,M,C,P,N$;
+\item $C$ records displayed $\Cont$ replay through the directed Cauchy windows, the two limit reads, the separated comparison, and the metric-completion handoff;
+\item $P$ is the $\Pkg$ provenance over $\CauchyNetUp$, $\SeparatedMetricUp$, $\MetricCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CauchyNetHausdorffUniquenessUp}$ row.
+\end{enumerate}
+The carrier contains no quotient-net equality, no selected representative limit, no host equality of points, no countable-choice schedule, and no ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[CauchyNetHausdorffUniqueness NameCert obligations]
+\label{thm:cauchy-net-hausdorff-uniqueness-namecert-obligations}
+For the carrier of \autoref{def:cauchy-net-hausdorff-uniqueness-carrier}, the local $\NameCert_{\CauchyNetHausdorffUniquenessUp}$ surface consists exactly of carrier admission for $U=(D,L_0,L_1,S,M,H,C,P,N)$, the shared $\CauchyNetUp$ directed-window route $D$, Hausdorff separation through $S$, endpoint uniqueness through the displayed zero-distance comparison, $\MetricCompletionUp$ handoff through $M$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+
+The obligations do not include quotienting nets, choosing a canonical limit, comparing host equality, importing countable choice, or asserting ambient completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-net-hausdorff-uniqueness-carrier}. The rows $D,L_0,L_1,S,M,H,C,P,N$ are the complete displayed packet.
+
+The shared Cauchy-net route is the first obligation. Both limit reads are attached to the same directed-window row $D$, so a consumer cannot compare endpoints before reading the same Cauchy evidence.
+
+The Hausdorff step is the row $S$. It is read only after $L_0$ and $L_1$ have both been displayed over $D$, and it identifies the endpoints through separated zero-distance evidence rather than through host equality.
+
+The rows $M,H,C,P,N$ preserve and expose that same route. The metric-completion handoff, transport, replay, provenance, and local naming rows add no coordinate for quotient nets, selected representatives, choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[CauchyNetHausdorff limit separation]
+\label{thm:cauchy-net-hausdorff-limit-separation}
+Let
+$$
+U=(D,L_0,L_1,S,M,H,C,P,N)
+$$
+be an accepted $\CauchyNetHausdorffUniquenessUp$ packet. If $L_0$ and $L_1$ are two accepted limit reads over the same $\CauchyNetUp$ directed-window route $D$, then the packet identifies them only through the displayed separated zero-distance row $S$, transported by $H$ and replayed by $C$ into the same $\MetricCompletionUp$ handoff $M$.
+
+Thus two accepted limit reads of the same directed-window Cauchy route are equal for the exported classifier exactly at the $\SeparatedMetricUp$ row. The conclusion is not quotient-net equality, not host point equality, and not a selected-limit principle.
+\end{theorem}
+\begin{proof}
+Read the accepted packet through the carrier definition. The two limit rows $L_0$ and $L_1$ share the same source coordinate $D$, so every comparison begins with the displayed $\CauchyNetUp$ directed-window evidence.
+
+The only comparison row is $S$. It records separated zero-distance evidence for the two displayed limit reads and is therefore the unique route by which the exported classifier identifies them.
+
+Transport and replay do not change the comparison target. The rows $H$ and $C$ move and replay $D,L_0,L_1,S$ componentwise, while $M,P,N$ record the completion handoff, provenance, and local name.
+
+Since no remaining coordinate contains quotient-net equality, host equality, a selected representative, choice, or ambient completeness, the uniqueness conclusion stays at the displayed separated row.
+\end{proof}
+
+\closureat{CauchyNetHausdorffUniquenessUp}{seedStr}
+
+\begin{closurestatus}{\CauchyNetHausdorffUniquenessUp}
+  \constructivestory{A $\CauchyNetHausdorffUniquenessUp$ packet is generated from one displayed CauchyNet directed-window route, two displayed limit reads over that route, a separated zero-distance comparison row, a MetricCompletion handoff row, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-net-hausdorff-uniqueness-carrier}, \autoref{thm:cauchy-net-hausdorff-uniqueness-namecert-obligations}, and \autoref{thm:cauchy-net-hausdorff-limit-separation} seed the finite Cauchy-net Hausdorff uniqueness route over directed windows, displayed limit reads, separated zero-distance evidence, and MetricCompletion handoff rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, quotient-net equality, selected representatives, host equality, countable choice, ambient completeness, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared Cauchy-net route stability, separated zero-distance comparison, MetricCompletion handoff exactness, and ledger non-escape for BEDC.Derived.CauchyNetHausdorffUniquenessUp.}
+\end{closurestatus}
