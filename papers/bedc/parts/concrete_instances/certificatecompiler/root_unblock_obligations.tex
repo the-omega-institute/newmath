@@ -126,6 +126,7 @@ S,T,G,E,C,H,P,N.
 $$
 More precisely, landing is determined by $S,T,G,E$, paired-edge classifier transport is determined by $S,T,H,C$, continuation route readback is determined by $C$ over the endpoint rows $S,T$, and the handoff rows $P,N$ can only repack those displayed obligations. No host compiler equality, ambient program equivalence, optimizer correctness, decompiler behavior, external semantic relation, or unrecorded target behavior supplies an additional bridge coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_root\_landing\_bridge\_determinacy}
 \begin{proof}
 Start with root landing. By \autoref{thm:certificate-compiler-root-landing-obligation}, a root consumer may treat a displayed graph edge as landed only after reading the endpoint rows $S,T$, the displayed graph row $G$, and the edge-landing row $E$. Thus every bridge use whose first demand is endpoint readback, graph readback, or target landing is already forced through $S,T,G,E$.
 
@@ -153,3 +154,4 @@ The remaining alternatives are therefore ruled out by absence of a row to read. 
 
 Consequently, once the cited local rows are fixed, every accepted consumer-facing use lands on the same displayed route, readback route, handoff, or exactness decision named by the $\CertificateCompilerUp$ chapter. A hidden coordinate, duplicate classifier source, or external semantic witness is not an accepted consumer source for root landing data.
 \end{proof}
+\leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_root\_landing\_consumer\_determinacy}
