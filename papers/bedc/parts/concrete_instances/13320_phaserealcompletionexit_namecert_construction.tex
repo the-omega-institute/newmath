@@ -379,6 +379,22 @@ Apply \autoref{thm:phase-real-completion-exit-scoped-audit-threshold} to the acc
 Finally apply \autoref{thm:phase-real-completion-exit-four-object-threshold-projection}. It projects the five-face packet read to the four roadmap objects $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, with $\RealCompletionExactBoundaryUp$ used only as the same-route boundary witness. The projection therefore discharges the roadmap Phase Real and Completion exit criterion without adding an aggregate formalstatus row, quotient stream, selected limit, host-completeness row, or fused bridge token.
 \end{proof}
 
+\begin{theorem}[Real-completion exit dyadic-stream regularity]
+\label{thm:real-completion-exit-dyadic-stream-regularity}
+Let $E=(D,S,Q,R,B,H,C,P,N)$ be an accepted $\PhaseRealCompletionExitUp$ packet satisfying the current local-status witness of \autoref{thm:phase-real-completion-exit-current-local-status-witness}. Every accepted read of the current L10 gate must expose, in order, the $\DyadicRatCoreUp$ tolerance face $D$, the $\StreamNameUp$ finite-window face $S$, the $\RegSeqRatUp$ regularity face $Q$, and the terminal $\RealUp$ seal $R$. The $\RealCompletionExactBoundaryUp$ row $B$ is available only as the same-route boundary witness over those four objectwise faces, with support through $H,C,P,N$. The read refuses quotient streams, selected limits, aggregate formalstatus rows, bridge tokens, countable choice, metric completeness, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the status-token product of \autoref{thm:phase-real-completion-exit-status-token-product}. It reads the accepted gate as the objectwise product of the four local records $D,S,Q,R$ together with the same-route boundary row $B$ and the support rows $H,C,P,N$.
+
+Apply \autoref{thm:phase-real-completion-exit-four-object-threshold-projection}. The projection identifies the roadmap objects in the required order: dyadic tolerance first, finite StreamName window next, regular rational readback next, and the terminal Real seal last.
+
+Now use \autoref{thm:phase-real-completion-exit-current-local-status-witness}. It certifies that these four faces meet the current L10 gate and that $\RealCompletionExactBoundaryUp$ remains a same-route witness rather than an additional roadmap object or a completion primitive.
+
+The support rows cannot be replaced. By \autoref{thm:phase-real-completion-exit-support-row-nonsubstitution}, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ support remain part of the same finite read and cannot be supplied by an aggregate status record or bridge token.
+
+Finally apply \autoref{thm:phase-real-completion-exit-boundary-face-nonsubstitution}. Quotient streams, selected limits, countable-choice rows, metric-completeness data, and ambient $\RealUp$ completeness have no coordinate in the packet. Hence every accepted L10 read remains objectwise through $D,S,Q,R$, with $B$ only as the same-route boundary witness.
+\end{proof}
+
 \begin{theorem}[Phase real-completion exit component-status extraction]
 \label{thm:phase-real-completion-exit-component-status-extraction}
 Let $E=(D,S,Q,R,B,H,C,P,N)$ be an accepted $\PhaseRealCompletionExitUp$ packet satisfying the current local-status witness of \autoref{thm:phase-real-completion-exit-current-local-status-witness}. Then the roadmap export of $E$ is exactly the four local status records $D,S,Q,R$ for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, together with the same-route $\RealCompletionExactBoundaryUp$ witness $B$ and the displayed $\BHist$, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\PhaseRealCompletionExitUp}$ support rows $H,C,P,N$. Conversely, any accepted packet displaying precisely those four local records, the same-route boundary witness, and those support rows satisfies the current Phase Real and Completion exit read. No aggregate formalstatus row, aggregate bridge token, quotient stream, selected limit, countable-choice row, metric-completeness datum, or ambient $\RealUp$ completeness claim is extracted or supplied by this equivalence.
