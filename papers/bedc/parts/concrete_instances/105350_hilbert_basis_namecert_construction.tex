@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\HilbertBasisUp$}
+\label{ch:concrete-instances-hilbert-basis-namecert}
+\origin{human}
+
+Following Hilbert's basis theorem and constructive commutative algebra, the $\HilbertBasisUp$ packet records the finite generating rows needed to read a polynomial ideal as a named basis surface. It sits after the polynomial constructors of \autoref{ch:concrete-instances-polynomial-namecert}, the ring and commutative-ring ledgers of \autoref{ch:concrete-instances-ring-namecert} and \autoref{ch:concrete-instances-commring-namecert}, the ideal carrier of \autoref{ch:concrete-instances-ideal-namecert}, and the finite reduction route of \autoref{ch:concrete-instances-groebner-basis-namecert}.
+
+\begin{definition}[HilbertBasis carrier]\label{def:hilbert-basis-carrier}
+A $\HilbertBasisUp$ carrier is a finite $\BHist$ packet
+$$
+\mathsf{HB}(P,R,C,I,G,B,H,K,Q,N)
+$$
+with the following rows.
+\begin{itemize}
+\item $P$ is the $\PolynomialUp$ source row for the ambient polynomial syntax and monomial ledger.
+\item $R$ is the $\RingUp$ source row for coefficient addition, multiplication, zero, one, and additive inverse.
+\item $C$ is the $\CommRingUp$ row that makes coefficient multiplication commute for the displayed polynomial operations.
+\item $I$ is the $\IdealUp$ row naming the finite ideal-membership and generator surface.
+\item $G$ is the $\GroebnerBasisUp$ reduction row used only as a finite normal-form witness.
+\item $B$ is the displayed Hilbert-basis list of polynomial generators, together with the bounded reduction traces that place each ideal row under that list.
+\item $H,K,Q,N$ are the componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\HilbertBasisUp}$ naming rows.
+\end{itemize}
+The packet has no coordinate for quotient ideals, host noetherianity, excluded middle over ideals, selected infinite generator search, or choice-produced basis extraction.
+\end{definition}
+
+\begin{theorem}[HilbertBasis NameCert obligations]\label{thm:hilbert-basis-namecert-obligations}
+For an accepted $\HilbertBasisUp$ carrier $\mathsf{HB}(P,R,C,I,G,B,H,K,Q,N)$, the local $\NameCert_{\HilbertBasisUp}$ surface consists exactly of carrier admission for the ten displayed rows, polynomial-source compatibility through $P$, coefficient-ring compatibility through $R$ and $C$, ideal generator access through $I$, finite reduction replay through $G$, basis-list exactness through $B$, componentwise transport through $H$, continuation replay through $K$, package provenance through $Q$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hilbert-basis-carrier}. The only rows available to the local certificate are $P,R,C,I,G,B,H,K,Q,N$.
+
+The polynomial, ring, commutative-ring, and ideal rows supply the algebraic source surface. The Groebner row supplies finite reduction traces only after those source rows have been displayed.
+
+The basis-list row $B$ records the finitely many generators and the reductions that witness their coverage. Transport, continuation, provenance, and local naming then repack the same finite rows, so quotient ideals, host noetherianity, and choice data cannot enter the certificate.
+\end{proof}
+
+\begin{theorem}[HilbertBasis polynomial-ideal route]\label{thm:hilbert-basis-polynomial-ideal-route}
+Every downstream consumer of an accepted $\HilbertBasisUp$ packet that asks for a polynomial-ideal basis must read the route
+$$
+\PolynomialUp \longrightarrow \RingUp \longrightarrow \CommRingUp \longrightarrow \IdealUp \longrightarrow \GroebnerBasisUp \longrightarrow \NameCert_{\HilbertBasisUp}.
+$$
+The exported object is the finite generator row $B$ together with its displayed reduction traces and structural rows $H,K,Q,N$; it is not a quotient ideal, not an infinite ascending-chain argument, not a host noetherian theorem, and not a selected basis obtained by choice.
+\end{theorem}
+\begin{proof}
+Start with the polynomial row $P$ and coefficient rows $R,C$. These determine the syntax and coefficient operations that an ideal consumer is allowed to inspect.
+
+Next read the ideal row $I$ and the finite Groebner row $G$. The ideal surface provides the finite membership and generator coordinates, while the Groebner route provides terminating reduction traces for the displayed basis list.
+
+Finally apply the NameCert obligations of \autoref{thm:hilbert-basis-namecert-obligations}. They force the exported basis to remain inside $B,H,K,Q,N$, so no quotient ideal, no ambient noetherian principle, and no choice-produced generator search is exported.
+\end{proof}
+
+\falsifiablePrediction{Every $\HilbertBasisUp$ consumer that claims a polynomial-ideal basis must exhibit the polynomial row, ring row, commutative-ring row, ideal row, Groebner reduction row, basis-list row, transport, continuation, provenance, and local naming row.}
+\independenceWitness{polynomial, ring, commring, ideal, groebner-basis: $\HilbertBasisUp$ is not bijective to any listed sibling because it jointly carries polynomial syntax, coefficient algebra, ideal membership, finite reduction traces, and a named basis-list surface.}
+
+\closureat{HilbertBasisUp}{seedStr}
+
+\begin{closurestatus}{\HilbertBasisUp}
+  \constructivestory{A $\HilbertBasisUp$ packet is generated from PolynomialUp syntax rows, RingUp and CommRingUp coefficient rows, an IdealUp generator surface, a GroebnerBasisUp reduction row, a finite basis-list row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hilbert-basis-carrier}, \autoref{thm:hilbert-basis-namecert-obligations}, and \autoref{thm:hilbert-basis-polynomial-ideal-route} seed the finite polynomial-ideal basis interface over PolynomialUp, RingUp, CommRingUp, IdealUp, GroebnerBasisUp, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient ideals, host noetherianity, excluded middle over ideals, selected infinite generator search, choice-produced basis extraction, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, polynomial and coefficient compatibility, ideal generator access, finite reduction replay, basis-list exactness, componentwise transport, provenance non-escape, and local NameCert exactness for BEDC.Derived.HilbertBasisUp.}
+\end{closurestatus}
