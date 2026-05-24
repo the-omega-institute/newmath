@@ -4599,6 +4599,183 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "quotient_path_terms": polynomial_terms(quotient_path_polynomial),
         "codon_path_terms": polynomial_terms(codon_path_polynomial),
     }
+
+    def coordinate_block_label(block: frozenset[int]) -> str:
+        return "".join(str(index + 1) for index in sorted(block))
+
+    def partition_core_label(partition: tuple[frozenset[int], ...]) -> str:
+        return "|".join(coordinate_block_label(block) for block in partition)
+
+    partition_cores_by_size: dict[int, tuple[tuple[frozenset[int], ...], ...]] = {
+        1: ((frozenset((0, 1, 2, 3)),),),
+        2: (
+            (frozenset((0,)), frozenset((1, 2, 3))),
+            (frozenset((1,)), frozenset((0, 2, 3))),
+            (frozenset((2,)), frozenset((0, 1, 3))),
+            (frozenset((3,)), frozenset((0, 1, 2))),
+            (frozenset((0, 1)), frozenset((2, 3))),
+            (frozenset((0, 2)), frozenset((1, 3))),
+            (frozenset((0, 3)), frozenset((1, 2))),
+        ),
+        3: (
+            (frozenset((0, 1)), frozenset((2,)), frozenset((3,))),
+            (frozenset((0, 2)), frozenset((1,)), frozenset((3,))),
+            (frozenset((0, 3)), frozenset((1,)), frozenset((2,))),
+            (frozenset((1, 2)), frozenset((0,)), frozenset((3,))),
+            (frozenset((1, 3)), frozenset((0,)), frozenset((2,))),
+            (frozenset((2, 3)), frozenset((0,)), frozenset((1,))),
+        ),
+        4: ((frozenset((0,)), frozenset((1,)), frozenset((2,)), frozenset((3,))),),
+    }
+
+    def partition_core_type(partition: tuple[frozenset[int], ...]) -> str:
+        return "+".join(str(size) for size in sorted((len(block) for block in partition), reverse=True))
+
+    def partition_core_is_below_trigger(partition: tuple[frozenset[int], ...], family: tuple[frozenset[int], ...]) -> bool:
+        return any(
+            all(block <= support for block, support in zip(partition, support_order))
+            for support_order in itertools.permutations(family)
+        )
+
+    def integer_matrix_rank(matrix: list[list[int]]) -> int:
+        if not matrix or not matrix[0]:
+            return 0
+        rows = [[fractions.Fraction(value) for value in row] for row in matrix]
+        row_count = len(rows)
+        column_count = len(rows[0])
+        rank = 0
+        for column in range(column_count):
+            pivot = next((row for row in range(rank, row_count) if rows[row][column]), None)
+            if pivot is None:
+                continue
+            rows[rank], rows[pivot] = rows[pivot], rows[rank]
+            pivot_value = rows[rank][column]
+            rows[rank] = [value / pivot_value for value in rows[rank]]
+            for row in range(row_count):
+                if row != rank and rows[row][column]:
+                    factor = rows[row][column]
+                    rows[row] = [
+                        value - factor * pivot_entry
+                        for value, pivot_entry in zip(rows[row], rows[rank])
+                    ]
+            rank += 1
+            if rank == row_count:
+                break
+        return rank
+
+    def spectrum_is_verified(gram_matrix: list[list[int]], spectrum: tuple[int, ...]) -> bool:
+        size = len(gram_matrix)
+        if len(spectrum) != size:
+            return False
+        multiplicities = collections.Counter(spectrum)
+        for eigenvalue, multiplicity in multiplicities.items():
+            shifted = [
+                [
+                    gram_matrix[row][column] - (eigenvalue if row == column else 0)
+                    for column in range(size)
+                ]
+                for row in range(size)
+            ]
+            if size - integer_matrix_rank(shifted) != multiplicity:
+                return False
+        return True
+
+    def bipartite_graph_metrics(left_count: int, right_count: int, edges: list[tuple[int, int]]) -> tuple[int, int]:
+        adjacency = {index: set() for index in range(left_count + right_count)}
+        for left, right in edges:
+            adjacency[left].add(left_count + right)
+            adjacency[left_count + right].add(left)
+        seen: set[int] = set()
+        component_count = 0
+        diameter = 0
+        for start in range(left_count + right_count):
+            if start in seen:
+                continue
+            component_count += 1
+            queue = collections.deque([start])
+            seen.add(start)
+            component_vertices = []
+            while queue:
+                vertex = queue.popleft()
+                component_vertices.append(vertex)
+                for neighbor in adjacency[vertex]:
+                    if neighbor not in seen:
+                        seen.add(neighbor)
+                        queue.append(neighbor)
+            for source in component_vertices:
+                distances = {source: 0}
+                queue = collections.deque([source])
+                while queue:
+                    vertex = queue.popleft()
+                    for neighbor in adjacency[vertex]:
+                        if neighbor not in distances:
+                            distances[neighbor] = distances[vertex] + 1
+                            queue.append(neighbor)
+                diameter = max(diameter, max(distances.values(), default=0))
+        return component_count, diameter
+
+    partition_core_kernel_expected_spectra = {
+        1: (1,),
+        2: (22, 7, 7, 6, 6, 6, 1),
+        3: (15, 7, 7, 7, 3, 3),
+        4: (1,),
+    }
+    partition_core_kernel_rows = []
+    for trigger_size in range(1, 5):
+        cores = partition_cores_by_size[trigger_size]
+        families = quotient_minimal_trigger_families_by_size[trigger_size]
+        incidence_matrix = [
+            [
+                1 if partition_core_is_below_trigger(core, family) else 0
+                for family in families
+            ]
+            for core in cores
+        ]
+        gram_matrix = [
+            [
+                sum(left_value * right_value for left_value, right_value in zip(left_row, right_row))
+                for right_row in incidence_matrix
+            ]
+            for left_row in incidence_matrix
+        ]
+        edge_indices = [
+            (core_index, trigger_index)
+            for core_index, row in enumerate(incidence_matrix)
+            for trigger_index, value in enumerate(row)
+            if value
+        ]
+        component_count, diameter = bipartite_graph_metrics(len(cores), len(families), edge_indices)
+        expected_spectrum = partition_core_kernel_expected_spectra[trigger_size]
+        partition_core_kernel_rows.append(
+            {
+                "trigger_size": trigger_size,
+                "partition_core_labels": tuple(partition_core_label(core) for core in cores),
+                "partition_core_types": tuple(partition_core_type(core) for core in cores),
+                "partition_core_count": len(cores),
+                "quotient_trigger_count": len(families),
+                "quotient_incidence_edges": sum(sum(row) for row in incidence_matrix),
+                "codon_incidence_edges": (2 ** trigger_size) * sum(sum(row) for row in incidence_matrix),
+                "gram_matrix": tuple(tuple(row) for row in gram_matrix),
+                "spectrum": expected_spectrum,
+                "spectrum_verified": spectrum_is_verified(gram_matrix, expected_spectrum),
+                "connected_components": component_count,
+                "diameter": diameter,
+            }
+        )
+    partition_core_kernel_summary = {
+        "quotient_incidence_edges": tuple(row["quotient_incidence_edges"] for row in partition_core_kernel_rows),
+        "codon_incidence_edges": tuple(row["codon_incidence_edges"] for row in partition_core_kernel_rows),
+        "quotient_incidence_total": sum(row["quotient_incidence_edges"] for row in partition_core_kernel_rows),
+        "codon_incidence_total": sum(row["codon_incidence_edges"] for row in partition_core_kernel_rows),
+        "nontrivial_spectra": {
+            row["trigger_size"]: row["spectrum"]
+            for row in partition_core_kernel_rows
+            if row["trigger_size"] in (2, 3)
+        },
+        "m2_perron_weight_ratio_2_plus_2_to_3_plus_1": "4/3",
+        "m3_perron_mode": "uniform",
+        "all_spectra_verified": all(row["spectrum_verified"] for row in partition_core_kernel_rows),
+    }
     descending_path_orbit_rows = []
     for row in defect_flow_orbit_rows:
         paths_per_trigger = math.factorial(row["defect"]) * row["partition_core_count"]
@@ -5341,6 +5518,8 @@ def support_compression_summary(tables: dict[int, dict[str, str]]) -> dict[str, 
         "partition_basin_codon_path_polynomial": "94 + 288q + 384q^2",
         "partition_basin_rows": partition_basin_rows,
         "partition_basin_summary": partition_basin_summary,
+        "partition_core_kernel_rows": partition_core_kernel_rows,
+        "partition_core_kernel_summary": partition_core_kernel_summary,
         "descending_path_formula": "delta! prod_a |R_a|",
         "descending_path_orbit_rows": descending_path_orbit_rows,
         "descending_path_summary": descending_path_summary,
@@ -9354,6 +9533,58 @@ def assert_expected(summary: dict[str, object]) -> None:
         "codon_incidence_terms": ((0, 94), (1, 288), (2, 192)),
         "quotient_path_terms": ((0, 15), (1, 48), (2, 72)),
         "codon_path_terms": ((0, 94), (1, 288), (2, 384)),
+    }
+    assert [
+        (
+            row["trigger_size"],
+            row["partition_core_count"],
+            row["quotient_trigger_count"],
+            row["quotient_incidence_edges"],
+            row["codon_incidence_edges"],
+            row["spectrum"],
+            row["spectrum_verified"],
+            row["connected_components"],
+            row["diameter"],
+        )
+        for row in antipodal["partition_core_kernel_rows"]
+    ] == [
+        (1, 1, 1, 1, 2, (1,), True, 1, 1),
+        (2, 7, 25, 55, 220, (22, 7, 7, 6, 6, 6, 1), True, 1, 4),
+        (3, 6, 22, 42, 336, (15, 7, 7, 7, 3, 3), True, 1, 6),
+        (4, 1, 1, 1, 16, (1,), True, 1, 1),
+    ]
+    assert antipodal["partition_core_kernel_rows"][1]["partition_core_labels"] == (
+        "1|234", "2|134", "3|124", "4|123", "12|34", "13|24", "14|23",
+    )
+    assert antipodal["partition_core_kernel_rows"][1]["gram_matrix"] == (
+        (7, 1, 1, 1, 3, 3, 3),
+        (1, 7, 1, 1, 3, 3, 3),
+        (1, 1, 7, 1, 3, 3, 3),
+        (1, 1, 1, 7, 3, 3, 3),
+        (3, 3, 3, 3, 9, 2, 2),
+        (3, 3, 3, 3, 2, 9, 2),
+        (3, 3, 3, 3, 2, 2, 9),
+    )
+    assert antipodal["partition_core_kernel_rows"][2]["partition_core_labels"] == (
+        "12|3|4", "13|2|4", "14|2|3", "23|1|4", "24|1|3", "34|1|2",
+    )
+    assert antipodal["partition_core_kernel_rows"][2]["gram_matrix"] == (
+        (7, 2, 2, 2, 2, 0),
+        (2, 7, 2, 2, 0, 2),
+        (2, 2, 7, 0, 2, 2),
+        (2, 2, 0, 7, 2, 2),
+        (2, 0, 2, 2, 7, 2),
+        (0, 2, 2, 2, 2, 7),
+    )
+    assert antipodal["partition_core_kernel_summary"] == {
+        "quotient_incidence_edges": (1, 55, 42, 1),
+        "codon_incidence_edges": (2, 220, 336, 16),
+        "quotient_incidence_total": 99,
+        "codon_incidence_total": 574,
+        "nontrivial_spectra": {2: (22, 7, 7, 6, 6, 6, 1), 3: (15, 7, 7, 7, 3, 3)},
+        "m2_perron_weight_ratio_2_plus_2_to_3_plus_1": "4/3",
+        "m3_perron_mode": "uniform",
+        "all_spectra_verified": True,
     }
     assert antipodal["descending_path_formula"] == "delta! prod_a |R_a|"
     assert [
