@@ -45,6 +45,7 @@ import BEDC.Derived.AffineSpaceUp
 import BEDC.Derived.AffineVarUp
 import BEDC.Derived.AffineVarUp.TasteGate
 import BEDC.Derived.AitkenDeltaSquaredUp.TasteGate
+import BEDC.Derived.AlexanderDualTriggerAlgebraUp.TasteGate
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.AlgClosureUp.TasteGate
 import BEDC.Derived.AllowedProofAuditUp.TasteGate
@@ -1084,6 +1085,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.BudgetNaturality
 import BEDC.Derived.CauchyModulusRefinementUp.BudgetSelectorSourceLock
 import BEDC.Derived.CauchyModulusRefinementUp.CarrierNonescape
 import BEDC.Derived.CauchyModulusRefinementUp.CauchyCriterionSelectorCofinality
+import BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementL10FaceStatusNoncollapse
 import BEDC.Derived.CauchyModulusRefinementUp.CauchyPrimitiveScope
 import BEDC.Derived.CauchyModulusRefinementUp.CofinalWindowFactorization
 import BEDC.Derived.CauchyModulusRefinementUp.CommonRefinementSelectorLock
@@ -1198,6 +1200,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowComparisonLock
 import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowFrontTotality
 import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowRealConsumerLock
 import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowRealSealPullback
+import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowStrictObstruction
 import BEDC.Derived.CauchyModulusRefinementUp.SourceWindowTotality
 import BEDC.Derived.CauchyModulusRefinementUp.TailBudgetSealUniqueness
 import BEDC.Derived.CauchyModulusRefinementUp.TailBudgetSelectorLock
@@ -1233,6 +1236,7 @@ import BEDC.Derived.CauchyProductCommutativityUp.TasteGate
 import BEDC.Derived.CauchyProductModulusUp
 import BEDC.Derived.CauchyProductModulusUp.TasteGate
 import BEDC.Derived.CauchyProductUp
+import BEDC.Derived.CauchyProductUp.BudgetProductSymmetricRoute
 import BEDC.Derived.CauchyProductUp.BudgetRouteExactness
 import BEDC.Derived.CauchyProductUp.BudgetRouteStrictObstruction
 import BEDC.Derived.CauchyProductUp.BudgetSelectorDistributiveLock
@@ -2725,6 +2729,7 @@ import BEDC.Derived.DyadicStepFunctionUp.RealSealPublicBoundary
 import BEDC.Derived.DyadicStepFunctionUp.RefinementLedgerScope
 import BEDC.Derived.DyadicStepFunctionUp.ScopeTransportPackage
 import BEDC.Derived.DyadicStepFunctionUp.ScopedWindowPackage
+import BEDC.Derived.DyadicStepFunctionUp.TasteGate
 import BEDC.Derived.DyadicSubdivisionUp
 import BEDC.Derived.DyadicSubdivisionUp.TasteGate
 import BEDC.Derived.DyadicSupremumUp.TasteGate
@@ -5155,6 +5160,7 @@ import BEDC.Derived.RegularCauchySumUp.ObligationSurface
 import BEDC.Derived.RegularCauchySumUp.RealSealRoute
 import BEDC.Derived.RegularCauchySumUp.SharedTailMeetHandoff
 import BEDC.Derived.RegularCauchySumUp.TailSelectorCompatibility
+import BEDC.Derived.RegularCauchySumUp.TasteGate
 import BEDC.Derived.RegularCauchySumUp.ZeroSourceConsumerRoute
 import BEDC.Derived.RegularCauchySumUp.ZeroSourceIdentityBoundary
 import BEDC.Derived.RegularCauchySwapBisimulationUp.TasteGate
