@@ -116,15 +116,39 @@ The Picard-facing part is supplied by \autoref{thm:contraction-mapping-picard-st
 Completeness is not a coordinate of the contraction packet. A $\CompleteMetricUp$ handoff therefore requires a separate complete-metric row, and a $\BanachFixedPointUp$ endpoint route requires the later Picard, modulus, completion, and seal rows named in its own carrier. The contraction packet contributes only the map-level surface displayed here.
 \end{proof}
 
+\begin{theorem}[ContractionMapping tail-modulus readiness]
+\label{thm:contraction-mapping-tail-modulus-readiness}
+For every accepted $\ContractionMappingUp$ carrier $K=(X,d,T,G,\lambda,M,I,H,C,P,N)$ and every finite Cauchy-orbit ledger $O=(x_0,\ell,B,R,W)$, the finite orbit ledger together with the rational contraction bound yields a displayed tail-modulus row for Picard iterates through $\MetricUp$, $\LipschitzMapUp$, $\PicardContractionUp$, and $\CompleteMetricUp$. The row is read from the metric carrier and distance surface $X,d$, the graph-exact self-map $T,G$, the strict unit-bound ledger $\lambda$, the induced modulus $M$, the Picard route $I$, and the finite replay rows $B,R,W$; it does not select a limit point.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:contraction-mapping-carrier}. The metric and distance rows $X,d$ provide the only distance reads, while $T,G$ provide graph-exact applications of the self-map.
+
+Use \autoref{thm:contraction-mapping-picard-step-contraction} for adjacent Picard comparisons and \autoref{thm:contraction-mapping-cauchy-orbit-contractivity} for their finite replay through the orbit ledger. The rational bound ledger $\lambda$ and induced modulus row $M$ are therefore visible before any tail claim is made.
+
+The Banach and complete-metric handoffs, \autoref{thm:contraction-mapping-banach-handoff} and \autoref{thm:contraction-mapping-complete-metric-handoff}, identify the consumer route. They require a separate $\CompleteMetricUp$ row and preserve the same finite $\MetricUp$, $\LipschitzMapUp$, and $\PicardContractionUp$ reads, so the exported tail-modulus row is readiness data rather than a selected endpoint.
+\end{proof}
+
+\begin{theorem}[ContractionMapping fixed-point readiness]
+\label{thm:contraction-mapping-fixed-point-readiness}
+Every $\BanachFixedPointUp$ consumer may read an accepted $\ContractionMappingUp$ packet only after the complete-metric row of \autoref{thm:contraction-mapping-complete-metric-handoff} and the finite tail-modulus route of \autoref{thm:contraction-mapping-tail-modulus-readiness} have both been displayed. This readiness condition exposes the contraction packet, Picard iterates, finite Cauchy ledger, rational bound powers, and complete-metric handoff, but it does not select a fixed point, a completed orbit endpoint, or a host equality proof.
+\end{theorem}
+\begin{proof}
+Start with a $\BanachFixedPointUp$ consumer. By \autoref{thm:contraction-mapping-banach-handoff}, it receives the finite Cauchy-orbit ledger and a separate $\CompleteMetricUp$ row rather than an endpoint from the contraction packet alone.
+
+The complete-metric handoff of \autoref{thm:contraction-mapping-complete-metric-handoff} makes the metric self-map, graph-exact contraction comparison, induced modulus, and one-step Picard route visible. The tail-modulus readiness theorem then packages the finite Picard comparisons into the displayed tail route required by the consumer.
+
+Only after both rows are displayed may the consumer proceed to its own fixed-point seal. Because neither row contains a selected point, completed orbit endpoint, host fixed-point equality, quotient map equality, or ambient completeness coordinate, the readiness statement remains a finite obligation boundary.
+\end{proof}
+
 \closureat{ContractionMappingUp}{seedStr}
 
 \begin{closurestatus}{\ContractionMappingUp}
   \constructivestory{A $\ContractionMappingUp$ packet is generated from a $\MetricUp$ carrier row, a metric-distance row, a self-map row, a graph row, a rational contraction-bound ledger below one, an induced modulus row, a one-step $\PicardContractionUp$ route, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:contraction-mapping-carrier}, \autoref{thm:contraction-mapping-namecert-obligations}, \autoref{thm:contraction-mapping-picard-step-contraction}, \autoref{def:contraction-mapping-cauchy-orbit-ledger}, \autoref{thm:contraction-mapping-cauchy-orbit-contractivity}, \autoref{thm:contraction-mapping-banach-handoff}, and \autoref{thm:contraction-mapping-complete-metric-handoff} bind the carrier, Picard-step contraction, finite orbit ledger, Banach handoff, and complete-metric handoff obligation surface for the constructive self-map contraction packet.}
+  \scopeclosed{\autoref{def:contraction-mapping-carrier}, \autoref{thm:contraction-mapping-namecert-obligations}, \autoref{thm:contraction-mapping-picard-step-contraction}, \autoref{def:contraction-mapping-cauchy-orbit-ledger}, \autoref{thm:contraction-mapping-cauchy-orbit-contractivity}, \autoref{thm:contraction-mapping-banach-handoff}, \autoref{thm:contraction-mapping-complete-metric-handoff}, \autoref{thm:contraction-mapping-tail-modulus-readiness}, and \autoref{thm:contraction-mapping-fixed-point-readiness} bind the carrier, Picard-step contraction, finite orbit ledger, Banach handoff, complete-metric handoff, finite tail-modulus readiness, and fixed-point readiness obligation surface for the constructive self-map contraction packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not claim host fixed-point selection, ambient completeness, quotient map equality, bridge checking, host function extensionality, or a completed endpoint seal.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, graph exactness, rational bound stability, Picard-step compatibility, and complete-metric handoff visibility for the same finite packet.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, graph exactness, rational bound stability, Picard-step compatibility, complete-metric handoff visibility, finite tail-modulus routing, and fixed-point readiness for the same finite packet.}
 \end{closurestatus}
