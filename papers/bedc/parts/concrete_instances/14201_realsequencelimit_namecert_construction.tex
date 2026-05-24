@@ -155,6 +155,28 @@ The observation-window obligation and Cauchy-modulus handoff identify the only r
 Consequently the real seal is terminal for this displayed route rather than a source of extra principles. No row supplies host sequence equality, quotient limits, countable choice, trichotomy, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[RealSequenceLimit Cauchy-modulus extraction]\label{thm:realsequencelimit-cauchy-modulus-extraction}
+For every accepted $\RealSequenceLimitUp$ carrier $(S,L,W,D,E,H,C,P,N)$, the scheduled rows $W,D,E$ expose a $\CauchyModulusUp$-compatible threshold before the $\RealUp$ seal is consumed. A tolerance request is admitted only after $D$ records the dyadic tolerance, $W$ supplies the corresponding finite tail window, and $E$ classifies the displayed sequence-to-limit comparison through that scheduled window.
+\end{theorem}
+\begin{proof}
+Start with the observation-tail carrier of \autoref{thm:realsequencelimit-observation-tail-carrier}. It restricts all visible sequence and candidate-limit observations to the scheduled rows $W$ and $D$.
+
+The classifier stability theorem \autoref{thm:realsequencelimit-limit-classifier-stability} and the tail-window transport theorem \autoref{thm:realsequencelimit-tail-window-transport} keep the same comparison route after componentwise transport. Thus the classifier cannot move a tolerance request to an unscheduled observation window.
+
+Apply the modulus extraction theorem \autoref{thm:real-sequence-limit-modulus-extraction} and the Cauchy-modulus handoff theorem \autoref{thm:real-sequence-limit-cauchy-modulus-handoff}. They identify the displayed threshold as the finite tail response to the dyadic request. The tail-refinement ledger of \autoref{thm:real-sequence-limit-tail-refinement-ledger} preserves that response under smaller tolerances, and the real-seal non-escape theorem \autoref{thm:real-sequence-limit-real-seal-nonescape} prevents ambient $\RealUp$ completeness from supplying any further threshold.
+\end{proof}
+
+\begin{theorem}[RealSequenceLimit regular classifier transport]\label{thm:realsequencelimit-regular-classifier-transport}
+For every accepted $\RealSequenceLimitUp$ carrier $(S,L,W,D,E,H,C,P,N)$, componentwise $\hsame$ transport of the $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ rows preserves the same regular-Cauchy classifier route for candidate limits. Transported consumers still compare the sequence row and candidate limit through $W,D,E,H,C,P,N$ before any $\RealUp$ seal is read.
+\end{theorem}
+\begin{proof}
+Use the carrier definition to project the finite stream windows, regular rational readbacks, dyadic tolerance ledger, convergence classifier, transport, replay, provenance, and local naming rows.
+
+Classifier stability in \autoref{thm:realsequencelimit-limit-classifier-stability} says that the row $E$ is stable under the componentwise transports stored in $H$. Tail-window transport in \autoref{thm:realsequencelimit-tail-window-transport} then replays the transported comparison through the same scheduled windows and dyadic ledger.
+
+The observation-tail carrier and tail-refinement ledger, \autoref{thm:realsequencelimit-observation-tail-carrier} and \autoref{thm:real-sequence-limit-tail-refinement-ledger}, keep refined or transported reads inside the $\StreamNameUp/\RegSeqRatUp/\DyadicRatCoreUp$ route. Finally, \autoref{thm:real-sequence-limit-real-seal-nonescape} blocks host sequence equality, quotient limits, countable choice, trichotomy, and ambient $\RealUp$ completeness from entering the transported classifier.
+\end{proof}
+
 \begin{closurestatus}{\RealSequenceLimitUp}
   \constructivestory{A $\RealSequenceLimitUp$ packet is generated from a displayed sequence of RealUp names, a candidate limit RealUp row, finite StreamName windows and RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a finite convergence classifier, componentwise transport, continuation routes, package provenance, and local naming.}
   \theoryclosure{\seedClosure}
