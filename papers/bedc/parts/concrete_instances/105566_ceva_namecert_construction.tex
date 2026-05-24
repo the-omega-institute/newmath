@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\CevaUp$}
+\label{ch:concrete-instances-ceva-namecert}
+\origin{human}
+
+Following Ceva, the $\CevaUp$ packet records the finite incidence data for three cevians in a triangle and the concurrence witness that makes the side-intersection rows compatible. It sits beside the affine carrier of \autoref{ch:concrete-instances-affinespace-namecert}, the projective incidence boundary of \autoref{ch:concrete-instances-projectivespace-namecert}, and the bilinear pairing row of \autoref{ch:concrete-instances-bilinform-namecert}. The chapter names only triangle vertices, side-incidence rows, cevian rows, concurrence, transport, replay, provenance, and local naming; it does not export a coordinate determinant proof, a host projective plane, or an analytic area computation.
+
+\begin{definition}[Ceva carrier]
+\label{def:ceva-carrier}
+A $\CevaUp$ carrier is a finite $\BHist$ packet
+$$
+V=(T,S,L,X,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the triangle-vertex row, recording three carried point histories read through the $\AffineSpaceUp$ and $\ProjectiveSpaceUp$ source certificates;
+\item $S$ is the side-incidence row, recording the three side lines and the finite incidence witnesses that place each side between the corresponding vertex pair;
+\item $L$ is the cevian row, recording one displayed cevian from each triangle vertex to the opposite side-incidence row;
+\item $X$ is the concurrence witness, recording that the three cevian rows meet at a common projective point;
+\item $H$ records componentwise $\hsame$ transport for vertices, side incidences, cevian rows, concurrence, and the bilinear incidence tests used by the local classifier;
+\item $C$ records displayed $\Cont$ replay for vertex admission, side construction, cevian attachment, concurrence inspection, and incidence readback;
+\item $P$ is the $\Pkg$ provenance over $\CevaUp$, $\AffineSpaceUp$, $\ProjectiveSpaceUp$, $\BilinFormUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CevaUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate chart, no determinant numerator, no host quotient of points and lines, and no external proof that bypasses the displayed incidence rows.
+\end{definition}
+
+\begin{theorem}[Ceva NameCert obligations]
+\label{thm:ceva-namecert-obligations}
+For the carrier of \autoref{def:ceva-carrier}, the local $\NameCert_{\CevaUp}$ surface consists exactly of carrier admission for $V=(T,S,L,X,H,C,P,N)$, triangle-vertex coverage through $T$, side-incidence coverage through $S$, cevian coverage through $L$, concurrence exactness through $X$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$. The $\AffineSpaceUp$, $\ProjectiveSpaceUp$, and $\BilinFormUp$ rows are consumed only as dependency certificates for the displayed incidence packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:ceva-carrier}. The vertex row $T$ supplies the three carried point histories, while $S$ records the side incidences they determine inside the affine and projective dependency surfaces.
+
+Read the cevian row $L$ next. Each cevian is attached to one vertex and the opposite side, so the line data cannot be consumed without the side-incidence witnesses already present in $S$.
+
+The concurrence row $X$ then binds the three cevian rows to one displayed projective point. The bilinear row is used only as the incidence test named by the packet, and the transport and replay rows $H$ and $C$ preserve the same vertices, sides, cevians, and concurrence witness.
+
+Finally $P$ and $N$ source and name the resulting packet. Since the carrier has no further coordinate, these rows exhaust the local $\NameCert_{\CevaUp}$ obligations.
+\end{proof}
+
+\begin{theorem}[Ceva incidence non-escape]
+\label{thm:ceva-incidence-nonescape}
+Let
+$$
+V=(T,S,L,X,H,C,P,N)
+$$
+be an accepted $\CevaUp$ packet. Any consumer that reads a Ceva concurrence conclusion must pass through the triangle-vertex row $T$, the side-incidence row $S$, the cevian row $L$, the concurrence witness $X$, the transport row $H$, the replay row $C$, the provenance row $P$, and the local naming row $N$. No conclusion can be recovered from a coordinate determinant, an unnamed projective-plane quotient, or a bilinear incidence test detached from the displayed side and cevian rows.
+\end{theorem}
+\begin{proof}
+Use the obligation surface of \autoref{thm:ceva-namecert-obligations}. It places triangle vertices, side incidences, cevian rows, and concurrence in one finite packet, with the affine, projective, and bilinear sources appearing only through displayed dependency rows.
+
+If a route omits $S$, it no longer knows which opposite side each cevian meets. If it omits $L$, it no longer has the three cevians whose concurrence is being read. If it omits $X$, it has only side and line data, not a concurrence witness.
+
+The rows $H,C,P,N$ keep the same incidence data under transport, replay, provenance, and local naming. Thus any route bypassing the listed rows exits the $\CevaUp$ carrier rather than exporting a BEDC Ceva incidence conclusion.
+\end{proof}
+
+\falsifiablePrediction{If the concurrence witness row is absent, no accepted $\CevaUp$ packet exports a three-cevian concurrence reading.}
+
+\independenceWitness{affinespace, projectivespace, bilinform: the affine-space packet names carried point and translation data without the three side and cevian rows, the projective-space packet names scaling-orbit representatives without the Ceva concurrence witness, and the bilinear-form packet names pairing data without the triangle incidence carrier. None is bijective to $\CevaUp$.}
+
+\closureat{CevaUp}{seedStr}
+\closureat{CevaUp}{obligationStr}
