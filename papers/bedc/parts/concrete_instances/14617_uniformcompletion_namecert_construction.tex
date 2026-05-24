@@ -203,6 +203,54 @@ The filter-to-net factorization is the local route from $F$ to $D$. The filter r
 The RegSeqRat and Real handoff data are named in the provenance row $P$ and replayed by $C$ after $F,D,U,E$ have been fixed. Componentwise $\hsame$ transport through $H$ preserves the same displayed rows, and the local $\NameCert$ row $N$ admits exactly this packet.
 \end{proof}
 
+\begin{theorem}[UniformCompletion filter-net exactness]
+\label{thm:uniformcompletion-filter-net-exactness}
+Every accepted $\UniformCompletionUp$ packet routes a completion request through the Cauchy-filter row $F$ and then through the Cauchy-net row $D$ before any universal-extension or classifier read reaches $U$ or $E$. In carrier notation, the only accepted completion-facing order is
+$$
+F \longmapsto D \longmapsto U,E \longmapsto H,C,P,N .
+$$
+Thus the packet exposes filter data, directed finite witness data, extension comparison, transport, replay, provenance, and local naming, with no bypass through quotient completion, selected representatives, ambient complete uniform spaces, open-cover compactness, or choice.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $(F,D,U,E,H,C,P,N)$ from \autoref{def:uniform-completion-carrier}. The carrier projection gives the only displayed coordinates available to a completion-facing request.
+
+Apply \autoref{thm:uniform-completion-filter-net-obligations}. It fixes the filter row $F$ as the request boundary and the directed-net row $D$ as the finite witness route for that request.
+
+The universal and classifier rows are downstream of that boundary. The structural rows $H,C,P,N$ transport, replay, source, and name the same route, so no excluded completion object has a coordinate from which to enter.
+\end{proof}
+
+\begin{theorem}[UniformCompletion directed subwindow extraction]
+\label{thm:uniformcompletion-directed-subwindow-extraction}
+For every accepted $\UniformCompletionUp$ carrier $(F,D,U,E,H,C,P,N)$, each directed witness used by a completion consumer is a finite $\CauchyNetUp$ subwindow extracted after the $\CauchyFilterUp$ row $F$ fixes the request. The extraction route is confined to
+$$
+F \longmapsto D \longmapsto H,C,P,N ,
+$$
+and the universal row $U$ may read the extracted witness only after this route is displayed.
+\end{theorem}
+\begin{proof}
+Begin with the finite request fixed by $F$. By \autoref{thm:uniform-completion-filter-net-obligations}, the directed witness is supplied by the row $D$ for that same request, not by an ambient net chosen outside the packet.
+
+Use \autoref{thm:uniform-completion-directed-net-witness}. The witness row is the displayed Cauchy-net evidence available to the packet, so any subwindow extracted for a consumer remains a finite subwindow of $D$.
+
+The transport, replay, provenance, and naming rows preserve that extracted row. Since $U$ is read only after the filter-net witness is displayed, universal extension cannot introduce a separate directed object.
+\end{proof}
+
+\begin{theorem}[UniformCompletion universal extension scope]
+\label{thm:uniformcompletion-universal-extension-scope}
+Every extension comparison exported by an accepted $\UniformCompletionUp$ carrier is confined to the universal-extension row $U$ and the classifier row $E$ after the filter-net boundary has been displayed. Equivalently, any such comparison factors as
+$$
+F,D \longmapsto U,E \longmapsto H,C,P,N ,
+$$
+with $\RegSeqRatUp$ and $\RealUp$ handoffs readable only as provenance downstream of that route.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:uniformcompletion-filter-net-exactness}. It places all extension consumers behind the displayed filter row $F$ and directed-net row $D$.
+
+Next apply \autoref{thm:uniform-completion-universal-extension-uniqueness}. The comparison itself is carried by the universal-extension row and read through the classifier row, so the comparison surface is $U,E$.
+
+Finally use \autoref{thm:uniform-completion-universal-ledger-nonescape}. The structural rows preserve the same route, and downstream RegSeqRat or Real handoffs are provenance reads rather than additional universal-extension coordinates.
+\end{proof}
+
 \begin{theorem}[UniformCompletion universal ledger non-escape]
 \label{thm:uniform-completion-universal-ledger-nonescape}
 Any universal-extension read of an accepted $\UniformCompletionUp$ packet factors through the displayed universal-extension uniqueness row and gains no host quotient, selected limit, choice, or ambient completeness coordinate. The only extension comparison route is
