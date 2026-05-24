@@ -285,6 +285,59 @@ theorem OnticResidueLedgerScoped_consumer_surface
         · exact OnticResidueLedgerObserverAccess_row_nonescape visibleA
         · exact OnticResidueLedgerSignatureResidue_row_nonescape hR
 
+theorem OnticResidueLedgerBridgeExport_structural_rows_nonescape
+    {O M S A C R H T P N : BHist}
+    (visibleT : T ≠ BHist.Empty)
+    (visibleP : P ≠ BHist.Empty)
+    (visibleN : N ≠ BHist.Empty) :
+    onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) =
+        [O, M, S, A, C, R, H, T, P, N] ∧
+      onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) ≠
+        onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H BHist.Empty P N) ∧
+        onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) ≠
+          onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T BHist.Empty N) ∧
+          onticResidueLedgerFields (OnticResidueLedgerUp.mk O M S A C R H T P N) ≠
+            onticResidueLedgerFields
+              (OnticResidueLedgerUp.mk O M S A C R H T P BHist.Empty) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  constructor
+  · rfl
+  · constructor
+    · intro hfields
+      injection hfields with _ tail1
+      injection tail1 with _ tail2
+      injection tail2 with _ tail3
+      injection tail3 with _ tail4
+      injection tail4 with _ tail5
+      injection tail5 with _ tail6
+      injection tail6 with _ tail7
+      injection tail7 with hT _
+      exact visibleT hT
+    · constructor
+      · intro hfields
+        injection hfields with _ tail1
+        injection tail1 with _ tail2
+        injection tail2 with _ tail3
+        injection tail3 with _ tail4
+        injection tail4 with _ tail5
+        injection tail5 with _ tail6
+        injection tail6 with _ tail7
+        injection tail7 with _ tail8
+        injection tail8 with hP _
+        exact visibleP hP
+      · intro hfields
+        injection hfields with _ tail1
+        injection tail1 with _ tail2
+        injection tail2 with _ tail3
+        injection tail3 with _ tail4
+        injection tail4 with _ tail5
+        injection tail5 with _ tail6
+        injection tail6 with _ tail7
+        injection tail7 with _ tail8
+        injection tail8 with _ tail9
+        injection tail9 with hN _
+        exact visibleN hN
+
 end TasteGate
 
 namespace TasteGate
