@@ -335,6 +335,38 @@ Use \autoref{thm:realsequencelimit-regular-classifier-transport} to move the mid
 Finally apply \autoref{thm:realsequencelimit-diagonal-window-uniqueness}. The lower, middle, and upper reads meet at one finite diagonal window before any classifier-facing read reaches the terminal $\RealUp$ seal. Therefore the middle packet inherits the finite modulus surface already exposed by the bounding packets, and no ambient completeness, countable choice, trichotomy, selected host limit, or quotient sequence equality enters the handoff.
 \end{proof}
 
+\begin{theorem}[RealSequenceLimit scoped dependency package]\label{thm:realsequencelimit-scoped-dependency-package}
+For every accepted $\RealSequenceLimitUp$ packet $K=(S,L,W,D,E,H,C,P,N)$, every accepted limit read factors through the full finite dependency route
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp \longmapsto H,C,P,N
+$$
+before the limit certificate is exported. Concretely, the tolerance request is recorded in the dyadic ledger $D$, the finite observation window is selected from $W$, the rational approximation is read through the $\RegSeqRatUp$ row, the candidate limit and sequence values reach the terminal $\RealUp$ seal, and only then do componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row expose the certificate.
+
+The scoped package is a dependency statement for the displayed packet. It does not assert host sequence convergence, quotient equality of streams, selected limits, countable choice, trichotomy, or ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:real-sequence-limit-carrier}. Its visible coordinates are the displayed sequence source, candidate limit row, finite windows, dyadic tolerance ledger, classifier, transport, replay, provenance, and local naming rows.
+
+Apply the NameCert obligation surface of \autoref{thm:real-sequence-limit-namecert-obligation-surface}. Those obligations force a tolerance request to enter the dyadic ledger $D$ and the finite window row $W$ before any convergence classifier is consumed.
+
+Use \autoref{thm:realsequencelimit-tail-window-transport} and \autoref{thm:realsequencelimit-regular-classifier-transport}. Together they route every transported read through the same $\StreamNameUp$ windows and $\RegSeqRatUp$ readback, with componentwise $\hsame$ transport and displayed $\Cont$ replay preserving the dependency order.
+
+Finally apply \autoref{thm:real-sequence-limit-real-seal-nonescape}. The terminal $\RealUp$ seal is reached only after the dyadic, window, and regular-readback rows are displayed, while $P,N$ merely package and name that route. Hence the exported limit certificate has exactly the scoped dependency package stated above.
+\end{proof}
+
+\begin{theorem}[RealSequenceLimit regular-tail scope lock]\label{thm:realsequencelimit-regular-tail-scope-lock}
+Let $K=(S,L,W,D,E,H,C,P,N)$ be an accepted $\RealSequenceLimitUp$ packet. Any tail read that is admitted as a regular limit read is locked to the same $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ route as $K$: changing the tail window, rational readback, or Real seal requires changing one of the displayed rows $W,D,E,H,C,P,N$ of the packet. Thus regular tails are scoped by the packet rows themselves rather than by a host convergence predicate, an external subsequence selector, a quotient equality of streams, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the packet rows. A regular tail read has no coordinate outside $W,D,E,H,C,P,N$ from which to obtain a tolerance, observation window, rational readback, or terminal Real seal.
+
+Use \autoref{thm:realsequencelimit-tail-window-transport}. Tail transport may reindex only through the displayed $\StreamNameUp$ windows already stored in $W$, with tolerance requests still accounted for by the dyadic ledger $D$.
+
+Next apply \autoref{thm:realsequencelimit-regular-classifier-transport}. The regular classifier can be consumed only after the matching $\RegSeqRatUp$ readback and the componentwise $\hsame$ transport have been displayed, so a tail read cannot switch to an unrecorded regular route.
+
+The Real boundary is fixed by \autoref{thm:real-sequence-limit-real-seal-nonescape}, and diagonal reuse is controlled by \autoref{thm:realsequencelimit-diagonal-window-uniqueness}. Therefore every admitted regular tail remains locked to the same finite dependency route before $P,N$ export the named limit certificate.
+\end{proof}
+
 \begin{closurestatus}{\RealSequenceLimitUp}
   \constructivestory{A $\RealSequenceLimitUp$ packet is generated from a displayed sequence of RealUp names, a candidate limit RealUp row, finite StreamName windows and RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a finite convergence classifier, componentwise transport, continuation routes, package provenance, and local naming.}
   \theoryclosure{\obligationClosure}
