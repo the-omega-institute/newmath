@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\CauchyInterleavingComparisonUp$}
+\label{ch:concrete-instances-cauchy-interleaving-comparison-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\CauchyInterleavingComparisonUp$ packet records the finite comparison surface for two interleaved regular-Cauchy names before a completion-facing consumer reads either name as a real-facing object. It sits over the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the convergence-modulus route of \autoref{ch:concrete-instances-cauchy-convergence-modulus-namecert}, the sequence-limit handoff of \autoref{ch:concrete-instances-real-sequence-limit-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies a finite comparison certificate for completion consumers; it is not a quotient of Cauchy names, not a selected representative, and not an ambient completeness principle.
+
+\begin{definition}[Cauchy interleaving comparison carrier]
+\label{def:cauchy-interleaving-comparison-carrier}
+A $\CauchyInterleavingComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,E,O,D,T,W,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the paired regular-Cauchy source row, storing the two regular rational names whose observations are compared.
+\item $E$ is the even interleaving window row, exposing the finite observations assigned to the first source.
+\item $O$ is the odd interleaving window row, exposing the finite observations assigned to the second source.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic comparison budget and endpoint error rows.
+\item $T$ is the shared tail threshold, read before either interleaving window may be used as a comparison witness.
+\item $W$ is the $\StreamNameUp$ window family that displays the finite window requests routed through $T$.
+\item $Q$ is the $\RegSeqRatUp$ readback comparison row, reconstructing the regular rational comparison from $E,O,D,T,W$.
+\item $H$ records componentwise $\hsame$ transport for the source, window, tolerance, threshold, readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each completion-facing comparison request through $S,E,O,D,T,W,Q,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyInterleavingComparisonUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyConvergenceModulusUp$, $\RealSequenceLimitUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyInterleavingComparisonUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient equality of Cauchy names, selected representatives, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy interleaving comparison NameCert obligations]
+\label{thm:cauchy-interleaving-comparison-namecert-obligations}
+For every accepted $\CauchyInterleavingComparisonUp$ carrier $K=(S,E,O,D,T,W,Q,H,C,P,N)$, the local $\NameCert_{\CauchyInterleavingComparisonUp}$ surface consists exactly of paired regular-Cauchy source admission, even-window exposure, odd-window exposure, dyadic tolerance exposure, shared tail-threshold exposure, StreamName finite-window exposure, RegSeqRat readback comparison, componentwise transport, displayed continuation replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-interleaving-comparison-carrier}. Its analytic rows are the paired source $S$, the even and odd windows $E,O$, the dyadic ledger $D$, the shared threshold $T$, the finite window family $W$, and the readback comparison row $Q$.
+
+The NameCert obligations read those rows in the displayed order. The even and odd windows are not independent representatives; they are the two finite faces of the same paired source, controlled by the same dyadic ledger and the same threshold row.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name the packet. Since the carrier lists no quotient equality, chosen representative, choice selector, trichotomy row, or ambient completeness row, the local certificate surface is exhausted by the displayed finite comparison data.
+\end{proof}
+
+\begin{theorem}[Cauchy interleaving comparison tail lock]
+\label{thm:cauchy-interleaving-comparison-tail-lock}
+Every completion-facing consumer of an accepted $\CauchyInterleavingComparisonUp$ packet must read the shared threshold row $T$ before inspecting either the even window $E$ or the odd window $O$. The comparison route is
+$$
+S\longmapsto D\longmapsto T\longmapsto W\longmapsto E,O\longmapsto Q\longmapsto H,C,P,N,
+$$
+so a downstream $\RealSequenceLimitUp$, $\CauchyConvergenceModulusUp$, or $\RealUp$ consumer receives a single finite tail lock rather than two selected tail representatives.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations. They place $D$ and $T$ before the window family and before the even--odd observations may be read as comparison evidence.
+
+The $\StreamNameUp$ family $W$ then displays the finite requests controlled by the shared threshold. Since both interleaving windows are read through the same $T,W$ pair, a consumer cannot replace the comparison by separate chosen tails for the two sources.
+
+Finally $Q$ repacks the displayed windows as a $\RegSeqRatUp$ readback comparison, and the structural rows preserve that route for $\CauchyConvergenceModulusUp$, $\RealSequenceLimitUp$, and $\RealUp$ consumers. Quotient equality, countable choice, trichotomy, selected representatives, and ambient completeness are absent from the carrier and from the local provenance.
+\end{proof}
+
+\falsifiablePrediction{A $\CauchyInterleavingComparisonUp$ consumer that reads an even or odd interleaving window without first reading the shared threshold $T$ refutes the carrier surface.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, cauchyconvergencemodulus, realsequencelimit, real: no listed sibling supplies the whole packet $K=(S,E,O,D,T,W,Q,H,C,P,N)$, because each sibling contributes only tolerance, finite-window, readback, convergence-modulus, limit-handoff, or seal data while this chapter binds the two interleaved windows to one shared comparison threshold.}
+
+\closureat{CauchyInterleavingComparisonUp}{seedStr}
+
+\begin{closurestatus}{\CauchyInterleavingComparisonUp}
+  \constructivestory{A $\CauchyInterleavingComparisonUp$ packet is generated from a paired regular-Cauchy source, even and odd interleaving windows, a DyadicRatCore tolerance ledger, a shared tail threshold, StreamName finite windows, RegSeqRat readback comparison, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-interleaving-comparison-carrier}, \autoref{thm:cauchy-interleaving-comparison-namecert-obligations}, and \autoref{thm:cauchy-interleaving-comparison-tail-lock} seed the finite comparison route for interleaved regular-Cauchy names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient equality, selected representatives, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier admission, even--odd window exposure, shared threshold locking, RegSeqRat readback comparison, transport, replay, provenance, and local naming for BEDC.Derived.CauchyInterleavingComparisonUp.}
+\end{closurestatus}
