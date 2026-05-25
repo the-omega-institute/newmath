@@ -99,6 +99,54 @@ $$
 whose $\StreamNameUp$ coordinate $S_0$ is a subwindow of the carried row $S$, whose $\RegSeqRatUp$ coordinate $R_0$ is read through $R$, whose rational and dyadic containment ledgers $Q_0,D_0$ are subledgers of $Q,D$, and whose endpoint seal $E_0$ is reached through the same $\RealUp$ row $E$. The window is admissible only when its lower-endpoint, upper-endpoint, endpoint-order, rational-containment, dyadic-containment, readback, and seal reads are all classifier-preserved by the carrier rows $H$ and $C$ of \autoref{def:closed-bounded-interval-classifier}.
 \end{definition}
 
+\begin{theorem}[Closed bounded interval finite-net source]
+\label{thm:closed-bounded-interval-finite-net-source}
+Every finite-net consumer of an accepted $\ClosedBoundedIntervalUp$ carrier
+$$
+I=(L,U,O,Q,D,S,R,E,H,C,P,N)
+$$
+must read the lower endpoint $L$, upper endpoint $U$, endpoint-order row $O$, rational containment ledger $Q$, and dyadic containment ledger $D$ before any net row is available. The $\StreamNameUp$ window $S$, $\RegSeqRatUp$ readback $R$, and $\RealUp$ seal $E$ are downstream of the same endpoint and containment route, with $H,C,P,N$ preserving the route under transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:closed-bounded-interval-carrier}. Its finite-net source coordinates are the lower endpoint, upper endpoint, endpoint order, rational containment, and dyadic containment rows $L,U,O,Q,D$.
+
+Apply the classifier and source-window definitions. The classifier of \autoref{def:closed-bounded-interval-classifier} preserves these rows componentwise, while \autoref{def:closed-bounded-interval-source-window} reads them before any downstream interval-net, compactness, or uniform-modulus consumer opens its own rows.
+
+Finally use source nonescape, \autoref{thm:closed-bounded-interval-source-nonescape}. It forces every interval-net read through $L,U,O,Q,D,S,R,E,H,C,P,N$, so the endpoint and containment rows are the required source before any finite-net row can be consumed.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval RegSeqRat window]
+\label{thm:closed-bounded-interval-regseqrat-window}
+For accepted $\ClosedBoundedIntervalUp$ carriers
+$$
+I=(L,U,O,Q,D,S,R,E,H,C,P,N)
+$$
+and
+$$
+I'=(L',U',O',Q',D',S',R',E',H',C',P',N')
+$$
+classified together, each finite-cover window preserves its $\StreamNameUp$ and $\RegSeqRatUp$ readback rows under componentwise $\hsame$ transport. In particular, every transported window carries $S,R$ to $S',R'$ only after $L,U,O,Q,D$ have been transported to $L',U',O',Q',D'$ and replayed through the displayed $\Cont$ rows.
+\end{theorem}
+\begin{proof}
+Project the two carriers and the classifier of \autoref{def:closed-bounded-interval-classifier}. The classifier compares endpoint, containment, window, readback, and seal rows only by componentwise $\hsame$ transport and displayed replay.
+
+Use the finite-cover window of \autoref{def:closed-bounded-interval-finite-cover-window}. Its $S_0$ and $R_0$ rows are subwindow and readback rows of the carried $S$ and $R$, while $Q_0,D_0,E_0$ remain attached to the same endpoint and containment route.
+
+Now apply source transport, \autoref{thm:closed-bounded-interval-source-transport}. It transports the endpoint and containment rows before the StreamName and RegSeqRat rows are available to consumers. Hence a transported finite-cover window preserves the $S,R$ readback route under the same componentwise transport and replay.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval Real seal nonescape]
+\label{thm:closed-bounded-interval-real-seal-nonescape}
+For an accepted $\ClosedBoundedIntervalUp$ carrier $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$, the $\RealUp$ seal row $E$ exports only the endpoint route displayed by $L,U,O,Q,D,S,R,H,C,P,N$. It exports no open-cover compactness, selected point, selected subcover, quotient equality of Real names, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the carrier and source window. The seal row $E$ is reached only after the endpoint rows $L,U$, endpoint order $O$, rational and dyadic containment ledgers $Q,D$, StreamName window $S$, and RegSeqRat readback $R$ have been displayed.
+
+Apply source nonescape and finite-cover nonescape. Theorems~\ref{thm:closed-bounded-interval-source-nonescape} and \ref{thm:closed-bounded-interval-finite-cover-nonescape} keep every consumer route inside the displayed endpoint, containment, window, readback, seal, transport, replay, provenance, and local naming rows.
+
+The excluded objects have no carrier coordinate and no replay edge. Since $H,C,P,N$ only transport, replay, source, and name the same finite route, the Real seal cannot export open-cover compactness, selected points or subcovers, quotient equality, trichotomy, countable choice, or ambient Real completeness.
+\end{proof}
+
 \begin{theorem}[Closed bounded interval finite-cover nonescape]
 \label{thm:closed-bounded-interval-finite-cover-nonescape}
 Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ be an accepted $\ClosedBoundedIntervalUp$ carrier, and let $W_I=(S_0,R_0,Q_0,D_0,E_0)$ be a finite-cover window in the sense of \autoref{def:closed-bounded-interval-finite-cover-window}. Every finite-cover read exported to an interval-net, nested-window, or uniform-modulus consumer factors through

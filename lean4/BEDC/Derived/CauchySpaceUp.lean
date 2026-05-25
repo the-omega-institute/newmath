@@ -85,4 +85,28 @@ theorem CauchySpaceCarrier_real_completion_consumer {F U R Q T H C P N replay re
     ⟨fUnary, uUnary, rUnary, replayUnary, nUnary, realReadUnary, replaySame,
       transportRow, replayRoute, realReadRoute⟩
 
+theorem CauchySpaceCarrier_filter_uniform_real_consumer_obligation
+    {F U R Q T H C P N filterUniform replay realRead : BHist} :
+    CauchySpaceCarrier F U R Q T H C P N ->
+      Cont F U filterUniform ->
+        Cont filterUniform C replay ->
+          Cont replay N realRead ->
+            UnaryHistory F ∧ UnaryHistory U ∧ UnaryHistory R ∧
+              UnaryHistory filterUniform ∧ UnaryHistory replay ∧ UnaryHistory N ∧
+                UnaryHistory realRead ∧ hsame H (append F U) ∧ Cont F U filterUniform ∧
+                  Cont filterUniform C replay ∧ Cont replay N realRead := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro carrier filterUniformRoute replayRoute realReadRoute
+  obtain ⟨fUnary, uUnary, rUnary, _qUnary, _tUnary, _hUnary, cUnary, _pUnary,
+    nUnary, transportRow, _carrierFilterRoute, _carrierNameRoute⟩ := carrier
+  have filterUniformUnary : UnaryHistory filterUniform :=
+    unary_cont_closed fUnary uUnary filterUniformRoute
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed filterUniformUnary cUnary replayRoute
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed replayUnary nUnary realReadRoute
+  exact
+    ⟨fUnary, uUnary, rUnary, filterUniformUnary, replayUnary, nUnary, realReadUnary,
+      transportRow, filterUniformRoute, replayRoute, realReadRoute⟩
+
 end BEDC.Derived.CauchySpaceUp
