@@ -1,11 +1,19 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package.Core
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DirectedSetUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -133,5 +141,61 @@ theorem DirectedSetTasteGate_single_carrier_alignment :
         intro x y heq
         exact directedSetToEventFlow_injective heq,
       rfl⟩
+
+theorem DirectedSet_cauchynet_index_handoff_certificate [AskSetup] [PackageSetup]
+    {I Le W U H C P N cauchyWindow limitRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont I W cauchyWindow →
+      Cont U H limitRead →
+        PkgSig bundle P pkg →
+          SemanticNameCert
+              (fun row : BHist =>
+                hsame row cauchyWindow ∧
+                  directedSetFields (DirectedSetUp.mk I Le W U H C P N) =
+                    [I, Le, W, U, H, C, P, N])
+              (fun row : BHist =>
+                hsame row I ∨ hsame row Le ∨ hsame row W ∨ hsame row U ∨
+                  hsame row cauchyWindow ∨ hsame row limitRead)
+              (fun row : BHist => hsame row cauchyWindow ∧ PkgSig bundle P pkg)
+              hsame ∧
+            Exists (fun route : BHist => Cont I W route) ∧
+              Exists (fun route : BHist => Cont U H route) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle PkgSig SemanticNameCert
+  intro cauchyRoute limitRoute pkgSig
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row cauchyWindow ∧
+              directedSetFields (DirectedSetUp.mk I Le W U H C P N) =
+                [I, Le, W, U, H, C, P, N])
+          (fun row : BHist =>
+            hsame row I ∨ hsame row Le ∨ hsame row W ∨ hsame row U ∨
+              hsame row cauchyWindow ∨ hsame row limitRead)
+          (fun row : BHist => hsame row cauchyWindow ∧ PkgSig bundle P pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro cauchyWindow ⟨hsame_refl cauchyWindow, rfl⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl source.left))))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.left, pkgSig⟩
+    }
+  exact ⟨cert, ⟨cauchyWindow, cauchyRoute⟩, ⟨limitRead, limitRoute⟩⟩
 
 end BEDC.Derived.DirectedSetUp
