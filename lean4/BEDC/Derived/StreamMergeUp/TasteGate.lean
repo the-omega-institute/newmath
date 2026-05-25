@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.StreamMergeUp.TasteGate
+namespace BEDC.Derived.StreamMergeUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,11 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive StreamMergeUp : Type where
-  | mk
-      (sourceLeft sourceRight selector leftWindow rightWindow mergedWindow transport
-        continuation provenance localName : BHist) :
-      StreamMergeUp
-  deriving DecidableEq
+  | mk : (S0 S1 sigma W0 W1 W H C P N : BHist) → StreamMergeUp
 
 def streamMergeEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -28,130 +24,127 @@ def streamMergeDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (streamMergeDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (streamMergeDecodeBHist tail)
 
-private theorem StreamMergeTasteGate_single_carrier_alignment_decode :
+private theorem streamMergeDecode_encode_bhist :
     ∀ h : BHist, streamMergeDecodeBHist (streamMergeEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
-
-def streamMergeFields : StreamMergeUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | StreamMergeUp.mk sourceLeft sourceRight selector leftWindow rightWindow mergedWindow
-      transport continuation provenance localName =>
-      [sourceLeft, sourceRight, selector, leftWindow, rightWindow, mergedWindow, transport,
-        continuation, provenance, localName]
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def streamMergeToEventFlow : StreamMergeUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | StreamMergeUp.mk sourceLeft sourceRight selector leftWindow rightWindow mergedWindow
-      transport continuation provenance localName =>
-      [streamMergeEncodeBHist sourceLeft,
-        streamMergeEncodeBHist sourceRight,
-        streamMergeEncodeBHist selector,
-        streamMergeEncodeBHist leftWindow,
-        streamMergeEncodeBHist rightWindow,
-        streamMergeEncodeBHist mergedWindow,
-        streamMergeEncodeBHist transport,
-        streamMergeEncodeBHist continuation,
-        streamMergeEncodeBHist provenance,
-        streamMergeEncodeBHist localName]
+  | StreamMergeUp.mk S0 S1 sigma W0 W1 W H C P N =>
+      [[BMark.b0],
+        streamMergeEncodeBHist S0,
+        [BMark.b1, BMark.b0],
+        streamMergeEncodeBHist S1,
+        [BMark.b1, BMark.b1, BMark.b0],
+        streamMergeEncodeBHist sigma,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        streamMergeEncodeBHist W0,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        streamMergeEncodeBHist W1,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        streamMergeEncodeBHist W,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        streamMergeEncodeBHist H,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        streamMergeEncodeBHist C,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        streamMergeEncodeBHist P,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        streamMergeEncodeBHist N]
 
-private def StreamMergeTasteGate_single_carrier_alignment_eventAtDefault :
-    Nat → EventFlow → RawEvent
+def streamMergeFromEventFlow : EventFlow → Option StreamMergeUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      StreamMergeTasteGate_single_carrier_alignment_eventAtDefault index rest
+  | _tag0 :: S0 :: _tag1 :: S1 :: _tag2 :: sigma :: _tag3 :: W0 :: _tag4 ::
+      W1 :: _tag5 :: W :: _tag6 :: H :: _tag7 :: C :: _tag8 :: P :: _tag9 :: N ::
+      [] =>
+      some (StreamMergeUp.mk
+        (streamMergeDecodeBHist S0) (streamMergeDecodeBHist S1)
+        (streamMergeDecodeBHist sigma) (streamMergeDecodeBHist W0)
+        (streamMergeDecodeBHist W1) (streamMergeDecodeBHist W)
+        (streamMergeDecodeBHist H) (streamMergeDecodeBHist C)
+        (streamMergeDecodeBHist P) (streamMergeDecodeBHist N))
+  | [] => none
+  | _ :: [] => none
+  | _ :: _ :: [] => none
+  | _ :: _ :: _ :: [] => none
+  | _ :: _ :: _ :: _ :: [] => none
+  | _ :: _ :: _ :: _ :: _ :: [] => none
+  | _ :: _ :: _ :: _ :: _ :: _ :: [] => none
+  | _ :: _ :: _ :: _ :: _ :: _ :: _ :: [] => none
+  | _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: [] => none
+  | _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: [] => none
+  | _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: [] => none
+  | _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: [] => none
+  | _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: [] => none
+  | _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: [] => none
+  | _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: [] => none
+  | _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ ::
+      [] => none
+  | _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ ::
+      _ :: [] => none
+  | _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ ::
+      _ :: _ :: [] => none
+  | _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ ::
+      _ :: _ :: _ :: [] => none
+  | _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ ::
+      _ :: _ :: _ :: _ :: [] => none
+  | _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ :: _ ::
+      _ :: _ :: _ :: _ :: _ :: _ :: _ => none
 
-def streamMergeFromEventFlow (ef : EventFlow) : Option StreamMergeUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  some
-    (StreamMergeUp.mk
-      (streamMergeDecodeBHist
-        (StreamMergeTasteGate_single_carrier_alignment_eventAtDefault 0 ef))
-      (streamMergeDecodeBHist
-        (StreamMergeTasteGate_single_carrier_alignment_eventAtDefault 1 ef))
-      (streamMergeDecodeBHist
-        (StreamMergeTasteGate_single_carrier_alignment_eventAtDefault 2 ef))
-      (streamMergeDecodeBHist
-        (StreamMergeTasteGate_single_carrier_alignment_eventAtDefault 3 ef))
-      (streamMergeDecodeBHist
-        (StreamMergeTasteGate_single_carrier_alignment_eventAtDefault 4 ef))
-      (streamMergeDecodeBHist
-        (StreamMergeTasteGate_single_carrier_alignment_eventAtDefault 5 ef))
-      (streamMergeDecodeBHist
-        (StreamMergeTasteGate_single_carrier_alignment_eventAtDefault 6 ef))
-      (streamMergeDecodeBHist
-        (StreamMergeTasteGate_single_carrier_alignment_eventAtDefault 7 ef))
-      (streamMergeDecodeBHist
-        (StreamMergeTasteGate_single_carrier_alignment_eventAtDefault 8 ef))
-      (streamMergeDecodeBHist
-        (StreamMergeTasteGate_single_carrier_alignment_eventAtDefault 9 ef)))
-
-private theorem StreamMergeTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : StreamMergeUp, streamMergeFromEventFlow (streamMergeToEventFlow x) = some x := by
+private theorem streamMerge_round_trip :
+    ∀ x : StreamMergeUp,
+      streamMergeFromEventFlow (streamMergeToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk sourceLeft sourceRight selector leftWindow rightWindow mergedWindow transport
-      continuation provenance localName =>
+  | mk S0 S1 sigma W0 W1 W H C P N =>
       change
         some
           (StreamMergeUp.mk
-            (streamMergeDecodeBHist (streamMergeEncodeBHist sourceLeft))
-            (streamMergeDecodeBHist (streamMergeEncodeBHist sourceRight))
-            (streamMergeDecodeBHist (streamMergeEncodeBHist selector))
-            (streamMergeDecodeBHist (streamMergeEncodeBHist leftWindow))
-            (streamMergeDecodeBHist (streamMergeEncodeBHist rightWindow))
-            (streamMergeDecodeBHist (streamMergeEncodeBHist mergedWindow))
-            (streamMergeDecodeBHist (streamMergeEncodeBHist transport))
-            (streamMergeDecodeBHist (streamMergeEncodeBHist continuation))
-            (streamMergeDecodeBHist (streamMergeEncodeBHist provenance))
-            (streamMergeDecodeBHist (streamMergeEncodeBHist localName))) =
-          some
-            (StreamMergeUp.mk sourceLeft sourceRight selector leftWindow rightWindow
-              mergedWindow transport continuation provenance localName)
-      rw [StreamMergeTasteGate_single_carrier_alignment_decode sourceLeft,
-        StreamMergeTasteGate_single_carrier_alignment_decode sourceRight,
-        StreamMergeTasteGate_single_carrier_alignment_decode selector,
-        StreamMergeTasteGate_single_carrier_alignment_decode leftWindow,
-        StreamMergeTasteGate_single_carrier_alignment_decode rightWindow,
-        StreamMergeTasteGate_single_carrier_alignment_decode mergedWindow,
-        StreamMergeTasteGate_single_carrier_alignment_decode transport,
-        StreamMergeTasteGate_single_carrier_alignment_decode continuation,
-        StreamMergeTasteGate_single_carrier_alignment_decode provenance,
-        StreamMergeTasteGate_single_carrier_alignment_decode localName]
+            (streamMergeDecodeBHist (streamMergeEncodeBHist S0))
+            (streamMergeDecodeBHist (streamMergeEncodeBHist S1))
+            (streamMergeDecodeBHist (streamMergeEncodeBHist sigma))
+            (streamMergeDecodeBHist (streamMergeEncodeBHist W0))
+            (streamMergeDecodeBHist (streamMergeEncodeBHist W1))
+            (streamMergeDecodeBHist (streamMergeEncodeBHist W))
+            (streamMergeDecodeBHist (streamMergeEncodeBHist H))
+            (streamMergeDecodeBHist (streamMergeEncodeBHist C))
+            (streamMergeDecodeBHist (streamMergeEncodeBHist P))
+            (streamMergeDecodeBHist (streamMergeEncodeBHist N))) =
+          some (StreamMergeUp.mk S0 S1 sigma W0 W1 W H C P N)
+      rw [streamMergeDecode_encode_bhist S0,
+        streamMergeDecode_encode_bhist S1,
+        streamMergeDecode_encode_bhist sigma,
+        streamMergeDecode_encode_bhist W0,
+        streamMergeDecode_encode_bhist W1,
+        streamMergeDecode_encode_bhist W,
+        streamMergeDecode_encode_bhist H,
+        streamMergeDecode_encode_bhist C,
+        streamMergeDecode_encode_bhist P,
+        streamMergeDecode_encode_bhist N]
 
-private theorem StreamMergeTasteGate_single_carrier_alignment_injective {x y : StreamMergeUp} :
+private theorem streamMergeToEventFlow_injective {x y : StreamMergeUp} :
     streamMergeToEventFlow x = streamMergeToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
-  have optionEq : some x = some y := by
-    calc
-      some x = streamMergeFromEventFlow (streamMergeToEventFlow x) :=
-        (StreamMergeTasteGate_single_carrier_alignment_round_trip x).symm
-      _ = streamMergeFromEventFlow (streamMergeToEventFlow y) :=
-        congrArg streamMergeFromEventFlow heq
-      _ = some y := StreamMergeTasteGate_single_carrier_alignment_round_trip y
-  exact Option.some.inj optionEq
-
-private theorem StreamMergeTasteGate_single_carrier_alignment_field_faithful :
-    ∀ x y : StreamMergeUp, streamMergeFields x = streamMergeFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y h
-  cases x with
-  | mk sourceLeft₁ sourceRight₁ selector₁ leftWindow₁ rightWindow₁ mergedWindow₁
-      transport₁ continuation₁ provenance₁ localName₁ =>
-      cases y with
-      | mk sourceLeft₂ sourceRight₂ selector₂ leftWindow₂ rightWindow₂ mergedWindow₂
-          transport₂ continuation₂ provenance₂ localName₂ =>
-          cases h
-          rfl
+  have hread :
+      streamMergeFromEventFlow (streamMergeToEventFlow x) =
+        streamMergeFromEventFlow (streamMergeToEventFlow y) :=
+    congrArg streamMergeFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans (streamMerge_round_trip x).symm
+      (Eq.trans hread (streamMerge_round_trip y)))
 
 instance streamMergeBHistCarrier : BHistCarrier StreamMergeUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -163,50 +156,30 @@ instance streamMergeChapterTasteGate : ChapterTasteGate StreamMergeUp where
   round_trip := by
     intro x
     change streamMergeFromEventFlow (streamMergeToEventFlow x) = some x
-    exact StreamMergeTasteGate_single_carrier_alignment_round_trip x
+    exact streamMerge_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (StreamMergeTasteGate_single_carrier_alignment_injective heq)
+    exact hxy (streamMergeToEventFlow_injective heq)
 
-instance streamMergeFieldFaithful : FieldFaithful StreamMergeUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := streamMergeFields
-  field_faithful := StreamMergeTasteGate_single_carrier_alignment_field_faithful
-
-instance streamMergeNontrivial : Nontrivial StreamMergeUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨StreamMergeUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      StreamMergeUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
-def streamMergeTasteGate : ChapterTasteGate StreamMergeUp :=
+def taste_gate : ChapterTasteGate StreamMergeUp :=
   -- BEDC touchpoint anchor: BHist BMark
   streamMergeChapterTasteGate
 
 theorem StreamMergeTasteGate_single_carrier_alignment :
     (∀ h : BHist, streamMergeDecodeBHist (streamMergeEncodeBHist h) = h) ∧
-      (∀ x : StreamMergeUp, streamMergeFromEventFlow (streamMergeToEventFlow x) = some x) ∧
-        (∀ x y : StreamMergeUp,
-          streamMergeToEventFlow x = streamMergeToEventFlow y → x = y) ∧
-          Nonempty (ChapterTasteGate StreamMergeUp) ∧
-            Nonempty (FieldFaithful StreamMergeUp) ∧
-              Nonempty (Nontrivial StreamMergeUp) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+      (∀ x : StreamMergeUp,
+        streamMergeFromEventFlow (streamMergeToEventFlow x) = some x) ∧
+      (∀ x y : StreamMergeUp,
+        streamMergeToEventFlow x = streamMergeToEventFlow y → x = y) ∧
+      streamMergeEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
   constructor
-  · exact StreamMergeTasteGate_single_carrier_alignment_decode
+  · exact streamMergeDecode_encode_bhist
   · constructor
-    · exact StreamMergeTasteGate_single_carrier_alignment_round_trip
+    · exact streamMerge_round_trip
     · constructor
       · intro x y heq
-        exact StreamMergeTasteGate_single_carrier_alignment_injective heq
-      · exact
-          ⟨⟨streamMergeChapterTasteGate⟩,
-            ⟨streamMergeFieldFaithful⟩,
-            ⟨streamMergeNontrivial⟩⟩
+        exact streamMergeToEventFlow_injective heq
+      · rfl
 
-end BEDC.Derived.StreamMergeUp.TasteGate
+end BEDC.Derived.StreamMergeUp
