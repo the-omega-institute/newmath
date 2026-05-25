@@ -103,7 +103,7 @@ def _event_stable_key(event: dict[str, Any]) -> str:
 def _dedup(records: list[dict[str, Any]], key: str) -> list[dict[str, Any]]:
     seen: set[str] = set()
     out: list[dict[str, Any]] = []
-    status_rank = {"archived": 0, "consumed": 1, "open": 2}
+    status_rank = {"open": 0, "consumed": 1, "archived": 2}
     by_stable_key: dict[str, dict[str, Any]] = {}
     for record in records:
         value = str(record.get(key) or stable_id(key, record))
@@ -911,7 +911,7 @@ def self_test() -> int:
             len(duplicate_events) != 1
             or duplicate_events[0].get("created_at") != duplicate_a["created_at"]
             or duplicate_events[0].get("reason") != "new reason"
-            or duplicate_events[0].get("status") != "open"
+            or duplicate_events[0].get("status") != "consumed"
         ):
             print(json.dumps(duplicate_events, indent=2), file=sys.stderr)
             return 1
