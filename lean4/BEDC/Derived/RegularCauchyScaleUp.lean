@@ -182,6 +182,43 @@ theorem RegularCauchyScaleCarrier_classifier_route_exhaustion [AskSetup] [Packag
       provenanceNamecertEndpoint,
       endpointPkg⟩
 
+theorem RegularCauchyScaleCarrier_ledger_exactness_obligation [AskSetup] [PackageSetup]
+    {scalar source window scalarEndpoint sourceEndpoint scaledEndpoint budget readback sameRows
+      route provenance namecert endpoint ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyScaleCarrier scalar source window scalarEndpoint sourceEndpoint scaledEndpoint
+        budget readback sameRows route provenance namecert endpoint bundle pkg →
+      hsame ledgerRead readback →
+        UnaryHistory scalar ∧ UnaryHistory source ∧ UnaryHistory window ∧
+          UnaryHistory scaledEndpoint ∧ UnaryHistory budget ∧ UnaryHistory ledgerRead ∧
+            Cont scalar window scalarEndpoint ∧ Cont source window sourceEndpoint ∧
+              Cont scalarEndpoint sourceEndpoint scaledEndpoint ∧
+                Cont scaledEndpoint budget readback ∧ Cont readback route provenance ∧
+                  Cont provenance namecert endpoint ∧ hsame sameRows (append scalar source) ∧
+                    PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameLedgerRead
+  obtain ⟨scalarUnary, sourceUnary, windowUnary, _scalarEndpointUnary,
+    _sourceEndpointUnary, scaledEndpointUnary, budgetUnary, readbackUnary, _sameRowsUnary,
+    _routeUnary, _provenanceUnary, _namecertUnary, _endpointUnary, scalarWindow,
+    sourceWindow, endpointsScaled, scaledBudgetReadback, readbackRouteProvenance,
+    provenanceNamecertEndpoint, sameRowsAppend, endpointPkg⟩ := carrier
+  exact
+    ⟨scalarUnary,
+      sourceUnary,
+      windowUnary,
+      scaledEndpointUnary,
+      budgetUnary,
+      unary_transport readbackUnary (hsame_symm sameLedgerRead),
+      scalarWindow,
+      sourceWindow,
+      endpointsScaled,
+      scaledBudgetReadback,
+      readbackRouteProvenance,
+      provenanceNamecertEndpoint,
+      sameRowsAppend,
+      endpointPkg⟩
+
 theorem RegularCauchyScaleCarrier_scalar_classifier_stability_obligation
     [AskSetup] [PackageSetup]
     {scalar source window scalarEndpoint sourceEndpoint scaledEndpoint budget readback sameRows
