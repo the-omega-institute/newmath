@@ -35,4 +35,19 @@ theorem RealPowerSeriesCarrier_coefficient_window_obligation [AskSetup] [Package
     _majorantEndpoint, pkgSig⟩ := carrier
   exact ⟨AUnary, WUnary, SUnary, coefficientWindow, pkgSig⟩
 
+theorem RealPowerSeriesCarrier_radius_window_handoff [AskSetup] [PackageSetup]
+    {A Z X R W S M E H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ->
+      UnaryHistory A ∧ UnaryHistory W ∧ UnaryHistory S ∧ UnaryHistory R ∧
+        UnaryHistory M ∧ UnaryHistory E ∧ UnaryHistory C ∧ Cont A W S ∧
+          Cont R S M ∧ Cont M E C ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier
+  obtain ⟨AUnary, _ZUnary, _XUnary, RUnary, WUnary, SUnary, MUnary, EUnary,
+    _HUnary, CUnary, _PUnary, _NUnary, coefficientWindow, radiusMajorant,
+    majorantEndpoint, pkgSig⟩ := carrier
+  exact
+    ⟨AUnary, WUnary, SUnary, RUnary, MUnary, EUnary, CUnary, coefficientWindow,
+      radiusMajorant, majorantEndpoint, pkgSig⟩
+
 end BEDC.Derived.RealPowerSeriesUp
