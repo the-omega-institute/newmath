@@ -210,6 +210,38 @@ product-facing positivity read cannot draw on any evidence outside the two
 finite PositiveReal packets.
 \end{proof}
 
+\begin{theorem}[PositiveReal product-radius window compatibility]
+\label{thm:positivereal-product-radius-window-compatibility}
+Two accepted $\PositiveRealUp$ packets used by a product-facing
+$\RealAlgOrderUp$ or metric consumer may combine their positive
+$\DyadicRatCoreUp$ radius rows only after both packets expose compatible
+$\StreamNameUp$ windows and $\RegSeqRatUp$ readbacks. The product-radius read is
+then transported through the same $R,A,D,W,Q,H,C,P,N$ carrier rows for each
+packet, with the radius ledgers, windows, readbacks, replay routes, provenance,
+and local names kept componentwise.
+
+No product-facing consumer may infer radius compatibility from a host real
+order predicate, quotient stream equality, selected limits, or ambient
+$\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:positivereal-regseqrat-window-positivity-scope}. It
+forces each positivity read to pass through the displayed $\StreamNameUp$ window
+$W$ and the $\RegSeqRatUp$ readback row $Q$ before the apartness radius is
+available to a downstream consumer.
+
+Next apply \autoref{thm:positivereal-apartness-radius-transport}. The positive
+dyadic radius row $D$ is the same row consumed by the apartness-to-zero packet
+$A$, and it is moved only with $R,W,Q,H,C,P,N$.
+
+Finally invoke \autoref{thm:positivereal-multiplicative-radius-transport}. Its
+product-facing route combines two positive radius reads only through shared
+finite observation data and componentwise transport. Therefore a
+$\RealAlgOrderUp$ or metric consumer may reuse the product radius exactly when
+the two packets display compatible stream windows and regular readbacks, and no
+stronger real-order or completeness datum is exported.
+\end{proof}
+
 \begin{theorem}[PositiveReal dyadic radius lower bound]
 \label{thm:positive-real-dyadic-radius-lower-bound}
 Every accepted $\PositiveRealUp$ packet whose positivity is read through the

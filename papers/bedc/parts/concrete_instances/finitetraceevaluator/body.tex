@@ -26,6 +26,18 @@ The classifier accepts exactly packets whose visible coordinates are $I,T,A,V,H,
 \end{definition}
 \leanchecked{BEDC.Derived.FiniteTraceEvaluatorUp.FiniteTraceEvaluatorTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[FiniteTraceEvaluator runtime-candidate sibling route]
+\label{thm:finite-trace-evaluator-runtime-candidate-sibling-route}
+Every accepted $\FiniteTraceEvaluatorUp$ carrier reads bounded trace admission through the runtime-candidate boundary of \autoref{ch:concrete-instances-runtimecandidateboundary-namecert} and the recognizer-admission route of \autoref{ch:concrete-instances-groundcompilerrecognizerflow-namecert} before any accepted-result classifier row is exported. Thus $I,T,A,V,H,C,P,N$ record an admitted finite evaluator trace, not a host validator, total truth predicate, or unbounded runtime.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-trace-evaluator-carrier}. The provenance row $P$ already names the runtime-candidate boundary as a source for admitted object-level runtime rows.
+
+Use \autoref{ch:concrete-instances-groundcompilerrecognizerflow-namecert} for the recognizer-admission side. It supplies the finite route by which a source-level recognizer flow is admitted before a consumer can treat the trace as a displayed row.
+
+The accepted-result classifier $A$ is therefore downstream of the bounded trace row $T$ and the boundary row $V$. Since no host validator, total truth predicate, or unbounded runtime is a carrier coordinate, the sibling route is exactly the displayed admission route.
+\end{proof}
+
 \begin{theorem}[FiniteTraceEvaluator NameCert obligations]
 \label{thm:finite-trace-evaluator-namecert-obligations}
 For the carrier of \autoref{def:finite-trace-evaluator-carrier}, the local $\NameCert_{\FiniteTraceEvaluatorUp}$ surface consists exactly of five finite obligations:
