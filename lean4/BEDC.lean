@@ -486,6 +486,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalAuthorizedOutputCover
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalBranchDescentExactness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalBranchLedgerLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalConsumerReadiness
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalConsumerStrictObstruction
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalGeneratorAdmission
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalGeneratorStrictObstruction
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalOutputDownstreamCoverage
@@ -1711,6 +1712,7 @@ import BEDC.Derived.ClosurePreservationClassifierUp.TasteGate
 import BEDC.Derived.ClosureStatusReferenceUp.TasteGate
 import BEDC.Derived.ClosureUniversalityQuadrantUp.TasteGate
 import BEDC.Derived.ClosureWitnessLedgerUp
+import BEDC.Derived.CodonSixBitWindowUp.TasteGate
 import BEDC.Derived.CodonWindowSpectralInverseUp.TasteGate
 import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.CofinalDiagonalSealUp.TasteGate
@@ -3272,6 +3274,7 @@ import BEDC.Derived.FiniteObservationBudgetSelectorUp.UniformCauchyRealReadiness
 import BEDC.Derived.FiniteObservationBudgetSelectorUp.WindowIndexScope
 import BEDC.Derived.FiniteObservationCofinalitySelectorUp.TasteGate
 import BEDC.Derived.FiniteObservationConfluenceUp.TasteGate
+import BEDC.Derived.FiniteObservationFoldUp.TasteGate
 import BEDC.Derived.FiniteObservationInterfaceUp.TasteGate
 import BEDC.Derived.FiniteObservationLockUp.TasteGate
 import BEDC.Derived.FiniteObservationReflectionSealUp.TasteGate
@@ -4183,6 +4186,7 @@ import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidableAuditPacketUp.TasteGate
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.RouteBoundary
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.TasteGate
+import BEDC.Derived.MetricBallUp.FiniteIntersectionReadiness
 import BEDC.Derived.MetricBallUp.NameCertObligations
 import BEDC.Derived.MetricBallUp.PositiveRadiusTransport
 import BEDC.Derived.MetricBallUp.TasteGate
