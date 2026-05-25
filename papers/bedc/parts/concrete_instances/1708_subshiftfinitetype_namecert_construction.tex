@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-subshift-finite-type-namecert}
 \origin{human}
 
-The $\SubshiftOfFiniteTypeUp$ interface is a BEDC-native finite certificate surface. It packages finite binary $\mathsf{BHist}$ words together with a finite forbidden-adjacency ledger, not an ambient shift space or an external symbolic-dynamics object.
+Following Lind and Marcus symbolic dynamics, the $\SubshiftOfFiniteTypeUp$ interface is a BEDC finite certificate surface. It packages finite $\mathsf{BHist}$ words, forbidden-window ledgers, shift-window reads, and regular-language handoff rows, not an ambient shift space or an external symbolic-dynamics object.
 
 The singleton forbidden-adjacency instance is consumed by \autoref{ch:concrete-instances-golden-mean-shift-namecert}, so the finite forbidden-ledger carrier here is not isolated from the symbolic-dynamics branch.
 
@@ -11,43 +11,48 @@ The singleton forbidden-adjacency instance is consumed by \autoref{ch:concrete-i
 
 \begin{definition}[Subshift of finite type carrier]
 \label{def:subshift-finite-type-carrier}
+\label{def:subshift-of-finite-type-carrier}
 A $\SubshiftOfFiniteTypeUp$ carrier is a finite $\mathsf{BHist}$ packet
 $$
-S=(A,W,F,L,P,N)
+S=(A,W,F,L,R,H,C,P,N)
 $$
 with the following displayed coordinates:
 \begin{enumerate}
-\item $A$ is the finite visible alphabet row, specialized here to the displayed zero and one bit rows;
-\item $W$ is a finite word row over $A$, recorded as a list of visible $\mathsf{BHist}$ bit rows;
-\item $F$ is the finite forbidden-adjacency ledger whose rows are adjacent bit pairs disallowed inside $W$;
-\item $L$ is the acceptance ledger recording, for every neighboring pair of $W$, that the pair is absent from $F$;
-\item $P$ records the finite prefix, restriction, and row-transport provenance through $\Cont$ and $\Pkg$;
+\item $A$ is the finite visible alphabet row, specialized here to the displayed zero and one bit rows when the GoldenMean sibling is read;
+\item $W$ is a finite word row over $A$, recorded as a list of visible $\mathsf{BHist}$ letter rows;
+\item $F$ is the finite forbidden-window ledger whose rows are displayed words of one fixed positive length and whose binary adjacency specialization is the forbidden-pair ledger;
+\item $L$ is the admissibility ledger recording, for every displayed window of $W$, that the window is absent from $F$;
+\item $R$ is the shift-window row recording the left and right one-step windows of $W$ and the finite $\StreamNameUp$ observation through which those windows are read;
+\item $H$ records componentwise $\hsame$ transport for alphabet rows, word rows, forbidden-window rows, admissibility rows, shift-window rows, replay rows, provenance rows, and local naming rows;
+\item $C$ records displayed $\Cont$ replay from the finite word to its subwindows and from the subwindows to the admissibility ledger;
+\item $P$ records the finite prefix, restriction, $\FiniteAutomatonUp$, $\RegularLanguageUp$, and row-transport provenance through $\Cont$ and $\Pkg$;
 \item $N$ is the local $\NameCert_{\SubshiftOfFiniteTypeUp}$ row for the componentwise visible-word classifier.
 \end{enumerate}
-The classifier compares two carriers componentwise by $\hsame$ on the alphabet row, each visible word row, the forbidden-adjacency ledger, the acceptance ledger, the provenance row, and the local certificate row. Acceptance is exactly finite ledger inspection: every adjacent pair displayed by $W$ must be rejected by no row of $F$ and certified in $L$ as allowed.
+The classifier compares two carriers componentwise by $\hsame$ on the alphabet row, each visible word row, the forbidden-window ledger, the admissibility ledger, the shift-window row, the $\Cont$ replay row, the provenance row, and the local certificate row. Acceptance is exactly finite ledger inspection: every fixed-length window displayed by $W$ must be rejected by no row of $F$ and certified in $L$ as allowed.
 \end{definition}
 \leanchecked{BEDC.Derived.SubshiftOfFiniteTypeUp.SubshiftOfFiniteTypeTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Subshift of finite type NameCert obligations]
 \label{thm:subshift-finite-type-namecert-obligations}
+\label{thm:subshift-of-finite-type-namecert-obligations}
 The local $\NameCert_{\SubshiftOfFiniteTypeUp}$ obligation surface consists of five finite obligations:
 \begin{enumerate}
-\item carrier habitation: the empty word and every one-letter visible word over $A$ are accepted, because they display no forbidden adjacent pair;
-\item classifier laws: reflexivity, symmetry, and transitivity are inherited componentwise from $\hsame$ on visible alphabet rows, word rows, forbidden-ledger rows, acceptance-ledger rows, provenance rows, and certificate rows;
-\item adjacency-ledger transport: displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes transport accepted carriers exactly when transported neighboring pairs remain outside the transported forbidden ledger;
-\item finite-prefix restriction: every displayed prefix or finite restriction of $W$ retains the corresponding subledger of $F,L,P,N$ and remains accepted;
-\item non-escape: every accepted row is justified only by the finite visible alphabet, word, forbidden-adjacency ledger, acceptance ledger, provenance, and local certificate rows.
+\item carrier habitation: the empty word and every word shorter than the displayed forbidden-window length are accepted, because they display no forbidden window;
+\item classifier laws: reflexivity, symmetry, and transitivity are inherited componentwise from $\hsame$ on visible alphabet rows, word rows, forbidden-window rows, admissibility rows, shift-window rows, replay rows, provenance rows, and certificate rows;
+\item forbidden-window transport: displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes transport accepted carriers exactly when transported finite windows remain outside the transported forbidden ledger;
+\item finite-prefix restriction: every displayed prefix, suffix, shift-window, or finite restriction of $W$ retains the corresponding subledger of $F,L,R,C,P,N$ and remains accepted;
+\item non-escape: every accepted row is justified only by the finite visible alphabet, word, forbidden-window ledger, admissibility ledger, shift-window row, replay row, provenance row, and local certificate rows.
 \end{enumerate}
 Thus the certificate is a BEDC-native finite-window object over $\mathsf{BHist}$ rows.
 \end{theorem}
 \begin{proof}
-For habitation, choose the empty word or a one-letter word. There is no adjacent position to inspect, so the acceptance ledger is empty and no forbidden pair can be witnessed.
+For habitation, choose the empty word or any displayed word shorter than the forbidden-window length. There is no full forbidden window to inspect, so the admissibility ledger is empty and no forbidden window can be witnessed.
 
 For the classifier laws, read each coordinate of \autoref{def:subshift-finite-type-carrier} componentwise. The visible rows are compared by $\hsame$, and the packet has no further coordinate on which another classifier could act.
 
-For adjacency-ledger transport, move the alphabet, word, forbidden-ledger, acceptance-ledger, provenance, and certificate rows through the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes. The transported carrier is accepted exactly when every transported neighboring pair remains absent from the transported forbidden ledger, because acceptance is defined by that finite inspection.
+For forbidden-window transport, move the alphabet, word, forbidden-window ledger, admissibility ledger, shift-window row, replay row, provenance row, and certificate row through the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes. The transported carrier is accepted exactly when every transported window remains absent from the transported forbidden ledger, because acceptance is defined by that finite inspection.
 
-For finite-prefix restriction, select an initial segment of the word through the recorded $\Cont$ route and restrict the ledgers to neighboring pairs that still appear in the segment. A retained neighbor was already accepted in the original word, so the restricted acceptance ledger certifies it again.
+For finite-prefix restriction, select an initial segment, suffix segment, or one-step shift window of the word through the recorded $\Cont$ route and restrict the ledgers to windows that still appear in the segment. A retained window was already accepted in the original word, so the restricted admissibility ledger certifies it again.
 
 Non-escape follows by projection of the carrier coordinates. The packet exposes no entropy row, inverse-limit object, quotient coordinate, infinite sequence carrier, or host symbolic-dynamics theorem, so a downstream $\NameCert$ consumer can cite only the displayed finite ledger rows and their routes.
 \end{proof}
@@ -76,23 +81,23 @@ This one-forbidden-word instance is the sibling dependency consumed by \autoref{
 For accepted $\SubshiftOfFiniteTypeUp$ carriers, componentwise $\hsame$ transport of the visible alphabet row, finite word row, forbidden-adjacency ledger, acceptance ledger, $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row preserves the finite adjacency carrier whenever the forbidden-pair ledger is transported with the same rows.
 \end{theorem}
 \begin{proof}
-Project the carrier of \autoref{def:subshift-finite-type-carrier}. The carrier predicate is stated only in terms of the displayed alphabet, word, forbidden-ledger, acceptance-ledger, provenance, and local certificate rows.
+Project the carrier of \autoref{def:subshift-finite-type-carrier}. The carrier predicate is stated only in terms of the displayed alphabet, word, forbidden-window ledger, admissibility ledger, shift-window row, replay row, provenance row, and local certificate rows.
 
-Transport the forbidden-pair ledger and the acceptance ledger along the same componentwise $\hsame$ routes. Every neighboring pair in the transported word is the image of a neighboring pair already inspected by the original finite ledger.
+Transport the forbidden-pair ledger and the admissibility ledger along the same componentwise $\hsame$ routes. Every neighboring pair in the transported word is the length-two image of a window already inspected by the original finite ledger.
 
 The $\Cont$ routes and $\Pkg$ provenance then repack the transported rows into the same carrier shape. Since no further coordinate participates in the predicate, the transported packet remains an accepted finite adjacency carrier.
 \end{proof}
 
 \begin{theorem}[Subshift finite type forbidden-word ledger exhaustion]
 \label{thm:subshift-finite-type-forbidden-word-ledger-exhaustion}
-Every accepted neighboring-pair decision in a $\SubshiftOfFiniteTypeUp$ carrier is read from the displayed allowed and forbidden adjacency ledgers. No decision is supplied by entropy, inverse limits, quotient shift spaces, external imports, or an ambient symbolic-dynamics theorem.
+Every accepted neighboring-pair decision in a $\SubshiftOfFiniteTypeUp$ carrier is read from the displayed allowed and forbidden adjacency ledgers, as the length-two specialization of the forbidden-window surface. No decision is supplied by entropy, inverse limits, quotient shift spaces, external imports, or an ambient symbolic-dynamics theorem.
 \end{theorem}
 \begin{proof}
-Take a neighboring-pair decision in an accepted word row. By the carrier definition, acceptance is recorded by the finite acceptance ledger and by absence from the finite forbidden-adjacency ledger.
+Take a neighboring-pair decision in an accepted word row. By the carrier definition, acceptance is recorded by the finite admissibility ledger and by absence from the finite forbidden-window ledger specialized to length two.
 
 The provenance row records only $\Cont$ and $\Pkg$ routes between the displayed rows. These routes name how the finite rows are read; they do not introduce any entropy value, inverse-limit object, quotient carrier, or host symbolic-dynamics theorem.
 
-Thus the decision is exhausted by the local adjacency ledgers. A downstream consumer can recover the decision by projecting the word, forbidden-ledger, acceptance-ledger, provenance, and local $\NameCert$ coordinates.
+Thus the decision is exhausted by the local adjacency ledgers. A downstream consumer can recover the decision by projecting the word, forbidden-ledger, admissibility-ledger, shift-window, replay, provenance, and local $\NameCert$ coordinates.
 \end{proof}
 
 \begin{theorem}[Subshift finite type golden-mean scope]
@@ -107,16 +112,34 @@ If the pair is zero-zero, zero-one, or one-zero, it is absent from the forbidden
 This is exactly the finite-window $\GoldenMeanShiftUp$ classifier used in \autoref{thm:subshift-finite-type-golden-mean-instance}. The $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ row repack the same scoped packet without adding an infinite shift carrier.
 \end{proof}
 
-\begin{theorem}[Subshift finite type scoped obligation package]
-\label{thm:subshift-finite-type-scoped-obligation-package}
-The carrier of \autoref{def:subshift-finite-type-carrier}, the five $\NameCert_{\SubshiftOfFiniteTypeUp}$ obligations of \autoref{thm:subshift-finite-type-namecert-obligations}, adjacency carrier transport, forbidden-word ledger exhaustion, and the $\GoldenMeanShiftUp$ singleton-forbidden scope form one scoped package over the displayed alphabet row, finite word row, forbidden ledger, acceptance ledger, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package exports no entropy coordinate, inverse-limit object, quotient shift-space, external import, or ambient symbolic-dynamics theorem.
+\begin{theorem}[Subshift finite type window-language route]
+\label{thm:subshift-of-finite-type-window-language-route}
+Every accepted $\SubshiftOfFiniteTypeUp$ carrier factors its admissible-word decision through the finite route
+$$
+\BHist \longrightarrow \StreamNameUp \longrightarrow \FiniteAutomatonUp \longrightarrow \RegularLanguageUp
+$$
+before any symbolic-dynamics consumer can read the word as a language element. The $\BHist$ row supplies the displayed finite word, the $\StreamNameUp$ row supplies the inspected finite windows, the $\FiniteAutomatonUp$ row replays the forbidden-window scan as a finite-state run, and the $\RegularLanguageUp$ row records the accepted-language endpoint. No infinite shift space, quotient presentation, entropy coordinate, invariant measure, or ambient compactness theorem is inserted into this route.
 \end{theorem}
 \begin{proof}
-Project the carrier coordinates $A,W,F,L,P,N$. They supply the visible alphabet row, finite word row, forbidden-adjacency ledger, acceptance ledger, provenance, and local naming row that support the scoped package.
+Project the accepted carrier to $A,W,F,L,R,H,C,P,N$. The rows $W,F,L$ give the finite word, the forbidden-window ledger, and the admissibility ledger; $R$ names the shift-window observations of the same finite word.
 
-Use the five local obligations of \autoref{thm:subshift-finite-type-namecert-obligations}. Habitation, classifier laws, adjacency-ledger transport, finite-prefix restriction, and non-escape are all stated over the displayed finite rows and their $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes.
+Read $R$ through the $\StreamNameUp$ finite-window surface. This only exposes the inspected windows as finite $\BHist$ observations, so the consumer still has no access to an infinite sequence or quotient shift space.
 
-Next apply adjacency carrier transport and forbidden-word ledger exhaustion from \autoref{thm:subshift-finite-type-adjacency-carrier-transport} and \autoref{thm:subshift-finite-type-forbidden-word-ledger-exhaustion}. These rows keep accepted packets within the same finite adjacency surface and identify every neighboring-pair decision with the displayed ledgers.
+Replay the same window scan as a $\FiniteAutomatonUp$ run whose states remember the finite suffix needed to test the forbidden ledger. The accepting endpoint is then a $\RegularLanguageUp$ row for the language of finite words avoiding $F$.
+
+Finally, $H,C,P,N$ transport and name that route componentwise. Since every coordinate used by the consumer is one of these displayed rows, the accepted word decision is exhausted by the finite window-language route.
+\end{proof}
+
+\begin{theorem}[Subshift finite type scoped obligation package]
+\label{thm:subshift-finite-type-scoped-obligation-package}
+The carrier of \autoref{def:subshift-finite-type-carrier}, the five $\NameCert_{\SubshiftOfFiniteTypeUp}$ obligations of \autoref{thm:subshift-finite-type-namecert-obligations}, adjacency carrier transport, forbidden-word ledger exhaustion, the finite window-language route, and the $\GoldenMeanShiftUp$ singleton-forbidden scope form one scoped package over the displayed alphabet row, finite word row, forbidden ledger, admissibility ledger, shift-window row, $\mathsf{BHist}$, $\StreamNameUp$, $\FiniteAutomatonUp$, $\RegularLanguageUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package exports no entropy coordinate, inverse-limit object, quotient shift-space, external import, or ambient symbolic-dynamics theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates $A,W,F,L,R,H,C,P,N$. They supply the visible alphabet row, finite word row, forbidden-window ledger, admissibility ledger, shift-window row, transport, replay, provenance, and local naming row that support the scoped package.
+
+Use the five local obligations of \autoref{thm:subshift-finite-type-namecert-obligations}. Habitation, classifier laws, forbidden-window transport, finite-prefix restriction, and non-escape are all stated over the displayed finite rows and their $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes.
+
+Next apply adjacency carrier transport, forbidden-word ledger exhaustion, and the finite window-language route from \autoref{thm:subshift-finite-type-adjacency-carrier-transport}, \autoref{thm:subshift-finite-type-forbidden-word-ledger-exhaustion}, and \autoref{thm:subshift-of-finite-type-window-language-route}. These rows keep accepted packets within the same finite adjacency surface, identify every neighboring-pair decision with the displayed ledgers, and route finite words through $\StreamNameUp$, $\FiniteAutomatonUp$, and $\RegularLanguageUp$ before any language consumer reads them.
 
 Finally specialize by \autoref{thm:subshift-finite-type-golden-mean-scope}. The singleton forbidden one-one row gives the GoldenMean finite-window scope inside the same packet, while the non-escape clauses rule out entropy, inverse limits, quotient shift spaces, external imports, and ambient symbolic-dynamics data.
 \end{proof}
@@ -125,13 +148,13 @@ Finally specialize by \autoref{thm:subshift-finite-type-golden-mean-scope}. The 
 \closureat{SubshiftOfFiniteTypeUp}{obligationStr}[BEDC.Derived.SubshiftfinitetypeUp.SubshiftFiniteTypeCarrier\_semantic\_name\_certificate]
 
 \begin{closurestatus}{\SubshiftOfFiniteTypeUp}
-  \constructivestory{A $\SubshiftOfFiniteTypeUp$ packet is generated from a visible binary alphabet row, a finite $\mathsf{BHist}$ word row, a finite forbidden-adjacency ledger, an acceptance ledger for neighboring pairs, componentwise $\hsame$ transport, $\Cont$ and $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \constructivestory{A $\SubshiftOfFiniteTypeUp$ packet is generated from a visible alphabet row, a finite $\mathsf{BHist}$ word row, a finite forbidden-window ledger, an admissibility ledger for inspected windows, a shift-window row, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation surface names the finite adjacency-window carrier, its five local NameCert obligations, adjacency-carrier transport, forbidden-ledger exhaustion, and the $\GoldenMeanShiftUp$ singleton-forbidden-ledger scope.}
+  \scopeclosed{The obligation surface names the finite forbidden-window carrier, its five local NameCert obligations, adjacency-carrier transport, forbidden-ledger exhaustion, the finite window-language route, and the $\GoldenMeanShiftUp$ singleton-forbidden-ledger scope.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.SubshiftfinitetypeUp.SubshiftFiniteTypeCarrier\_semantic\_name\_certificate}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close entropy, inverse limits, quotient presentations, infinite shift spaces, external imports, or a public standard bridge.}
-  \upgradepath{Scoped closure requires complete Lean coverage of adjacency-carrier transport, forbidden-ledger exhaustion, and the singleton-forbidden-row $\GoldenMeanShiftUp$ scope.}
+  \notclaimed{This chapter does not close entropy, inverse limits, quotient presentations, infinite shift spaces, invariant measures, external imports, or a public standard bridge.}
+  \upgradepath{Scoped closure requires complete Lean coverage of adjacency-carrier transport, forbidden-ledger exhaustion, the finite window-language route, and the singleton-forbidden-row $\GoldenMeanShiftUp$ scope.}
 \end{closurestatus}
