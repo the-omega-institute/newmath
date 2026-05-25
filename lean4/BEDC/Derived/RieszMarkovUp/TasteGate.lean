@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RieszMarkovUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -164,5 +174,39 @@ theorem RieszMarkovTasteGate_single_carrier_alignment :
       ⟨rieszMarkovChapterTasteGate⟩,
       ⟨rieszMarkovFieldFaithful⟩,
       rfl⟩
+
+def RieszMarkovCarrier [AskSetup] [PackageSetup]
+    (K F L M I H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  Cont K F L ∧ Cont M I C ∧ hsame H H ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
+theorem RieszMarkovCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {K F L M I H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RieszMarkovCarrier K F L M I H C P N bundle pkg →
+      SemanticNameCert
+        (fun row : BHist => RieszMarkovCarrier K F L M I H C P N bundle pkg ∧ hsame row N)
+        (fun _row : BHist =>
+          RieszMarkovCarrier K F L M I H C P N bundle pkg ∧ Cont K F L ∧ Cont M I C)
+        (fun row : BHist => PkgSig bundle N pkg ∧ hsame row N)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier
+  have hcarrier := carrier
+  obtain ⟨compactObservableFunctional, measureIntegralReplay, _transportSelf, _provenancePkg,
+    namePkg⟩ := carrier
+  constructor
+  · constructor
+    · exact ⟨N, hcarrier, hsame_refl N⟩
+    · intro row _source
+      exact hsame_refl row
+    · intro row other sameRows
+      exact hsame_symm sameRows
+    · intro row middle other sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro row other sameRows source
+      exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+  · intro _row _source
+    exact ⟨hcarrier, compactObservableFunctional, measureIntegralReplay⟩
+  · intro _row source
+    exact ⟨namePkg, source.right⟩
 
 end BEDC.Derived.RieszMarkovUp
