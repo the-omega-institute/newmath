@@ -76,10 +76,22 @@ Apply \autoref{thm:regular-cauchy-abs-namecert-obligations}. Every local obligat
 Finally combine \autoref{thm:regular-cauchy-abs-regseqrat-handoff} with \autoref{thm:regular-cauchy-abs-real-seal-boundary}. All regular and real-facing consumers pass through $X,W,D,V,R,E,H,C,P,N$, so no unlisted analytic or quotient object can be extracted from the certificate.
 \end{proof}
 
+\begin{theorem}[RegularCauchyAbs obligation closure package]
+\label{thm:regularcauchyabs-obligation-closure}
+The carrier of \autoref{def:regular-cauchy-abs-carrier} together with \autoref{thm:regular-cauchy-abs-namecert-obligations}, \autoref{thm:regular-cauchy-abs-regseqrat-handoff}, \autoref{thm:regular-cauchy-abs-real-seal-boundary}, and \autoref{thm:regular-cauchy-abs-non-escape} forms the complete obligation surface for $\RegularCauchyAbsUp$ over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\DyadicAbsoluteValueUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package preserves the refusals of trichotomy, quotient streams, host absolute value, selected limits, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier row. It exposes exactly the source regular name $X$, scheduled stream windows $W$, dyadic endpoint rows $D$, dyadic absolute-value tolerance rows $V$, regular readback $R$, real seal $E$, transport $H$, continuation replay $C$, provenance $P$, and local name $N$.
+
+Use the NameCert obligations to identify the local certificate surface over those rows. The handoff theorem then routes every $\RegSeqRatUp$ consumer through $X,W,D,V,R,H,C,P,N$, while the seal-boundary theorem routes every $\RealUp$ consumer through the same finite prefix before $E$ is available.
+
+Finally apply the non-escape boundary. Since every obligation is read from the displayed rows and since the excluded principles have no carrier coordinate, the package closes exactly the finite obligation surface and preserves the stated refusals.
+\end{proof}
+
 \begin{closurestatus}{\RegularCauchyAbsUp}
   \constructivestory{A $\RegularCauchyAbsUp$ packet is generated from one RegSeqRat source row, scheduled StreamName windows, DyadicRatCore endpoint observations, DyadicAbsoluteValue endpoint-and-tolerance rows, a RegSeqRat readback row, a RealUp seal row, componentwise transport, continuation replay, package provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-abs-carrier}, \autoref{thm:regular-cauchy-abs-namecert-obligations}, \autoref{thm:regular-cauchy-abs-regseqrat-handoff}, \autoref{thm:regular-cauchy-abs-real-seal-boundary}, and \autoref{thm:regular-cauchy-abs-non-escape} seed the finite absolute-value lift from $\DyadicAbsoluteValueUp$ to $\RegSeqRatUp$ and $\RealUp$.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-abs-carrier}, \autoref{thm:regular-cauchy-abs-namecert-obligations}, \autoref{thm:regular-cauchy-abs-regseqrat-handoff}, \autoref{thm:regular-cauchy-abs-real-seal-boundary}, \autoref{thm:regular-cauchy-abs-non-escape}, and \autoref{thm:regularcauchyabs-obligation-closure} close the finite absolute-value obligation surface from $\DyadicAbsoluteValueUp$ to $\RegSeqRatUp$ and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, trichotomy, quotient-stream equality, host real absolute value, selected limits, ambient completeness, or a public standard bridge.}
