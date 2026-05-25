@@ -410,6 +410,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBoundaryLedgerTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBoundaryNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBoundaryNonescapeSaturation
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBranchAuditCoupling
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBranchAuditDownstreamCoverage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBranchDescentLedger
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBranchOutputClosedBoundary
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootBranchPackageCoverage
@@ -3590,6 +3591,7 @@ import BEDC.Derived.IrrationalWitnessUp.TasteGate
 import BEDC.Derived.IshiharaTrickUp
 import BEDC.Derived.IshiharaTrickUp.TasteGate
 import BEDC.Derived.IsometricCompletionUp
+import BEDC.Derived.IsometricCompletionUp.TasteGate
 import BEDC.Derived.IsometricEmbeddingUp
 import BEDC.Derived.IsometricEmbeddingUp.DistanceReflection
 import BEDC.Derived.IsometricEmbeddingUp.TasteGate
