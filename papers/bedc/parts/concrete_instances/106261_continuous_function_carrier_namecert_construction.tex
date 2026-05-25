@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\ContinuousFunctionCarrierUp$}
+\label{ch:concrete-instances-continuous-function-carrier-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Kelley continuous-function carriers, the $\ContinuousFunctionCarrierUp$ packet records a continuous function as finite source, map, target, modulus, and certificate rows rather than as an ambient function-space quotient. It sits between the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the graph-and-modulus surface of \autoref{ch:concrete-instances-continuousmap-namecert}. The chapter isolates the non-quotient carrier object consumed by $\RealPowerSeriesUp$ and later $\ContinuousMapUp$ readers: a consumer sees only displayed BEDC rows, not a host function, function extensionality principle, selected modulus function, or completed mapping space.
+
+\begin{definition}[Continuous function carrier]\label{def:continuous-function-carrier-carrier}
+A $\ContinuousFunctionCarrierUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,F,T,M,Q,W,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source-domain row, including the finite input histories and any $\StreamNameUp$ windows used to read source points.
+\item $F$ is the graph or map row, recording only the displayed relation between inspected source histories and target histories.
+\item $T$ is the target-domain row, including the terminal $\RealUp$ or sibling endpoint rows that the carrier may expose.
+\item $M$ is the modulus row, recording the finite tolerance conversion used by the continuity request.
+\item $Q$ is the certificate row that binds the source read, graph read, target read, and modulus read into one continuity witness.
+\item $W$ is the shared finite-window ledger over $\StreamNameUp$, $\RegSeqRatUp$, and any real-facing tolerance readbacks needed by the source and target rows.
+\item $R$ is the $\RegSeqRatUp$ and $\RealUp$ readback row used when the carrier is consumed by real-valued maps or power-series endpoints.
+\item $H$ records componentwise $\hsame$ transport for the source, map, target, modulus, certificate, window, readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an input tolerance request through $S,F,T,M,Q,W,R$ to the named endpoint rows.
+\item $P$ is the $\Pkg$ provenance over $\ContinuousFunctionCarrierUp$, $\ContinuousMapUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ContinuousFunctionCarrierUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,F,T,M,Q,W,R,H,C,P,N$. It has no coordinate for host functions, quotient mapping spaces, function extensionality, selected moduli, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Continuous function carrier NameCert obligations]\label{thm:continuous-function-carrier-namecert-obligations}
+For every accepted $\ContinuousFunctionCarrierUp$ carrier $K=(S,F,T,M,Q,W,R,H,C,P,N)$, the local $\NameCert_{\ContinuousFunctionCarrierUp}$ surface consists exactly of carrier admission for the eleven displayed rows, source access through $S$, graph or map access through $F$, target access through $T$, modulus access through $M$, continuity-certificate binding through $Q$, shared $\StreamNameUp$ and $\RegSeqRatUp$ windows through $W$, real-facing readback through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:continuous-function-carrier-carrier}. The only rows available to a consumer are $S,F,T,M,Q,W,R,H,C,P,N$, so source, graph, target, modulus, certificate, window, and readback obligations must be read there.
+
+The continuity witness is not a host theorem. It is the finite row $Q$ together with the shared windows $W$ and the real-facing readback row $R$, so every endpoint read stays inside the displayed packet.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same rows. Since no other coordinate exists, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Continuous function carrier L10 readback]\label{thm:continuous-function-carrier-l10-readback}
+Every L10 consumer read of an accepted $\ContinuousFunctionCarrierUp$ packet factors through
+$$
+S,F,T,M,Q \longmapsto W,R \longmapsto H,C,P,N .
+$$
+Thus $\RealPowerSeriesUp$ and $\ContinuousMapUp$ consumers may use the displayed source, graph, target, modulus, certificate, stream-window, regular-rational, real-readback, transport, replay, provenance, and local naming rows, but they receive no host function object, quotient mapping space, selected modulus function, function extensionality principle, countable-choice selector, or ambient real-completeness witness.
+\end{theorem}
+\begin{proof}
+Start with the displayed carrier. The source, graph, target, modulus, and certificate rows form the only continuity-facing entry point.
+
+The finite windows and readback rows come next. They are the rows through which $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ observations are exposed to real-valued and continuous-map consumers.
+
+The structural rows $H,C,P,N$ preserve the same route under transport, replay, provenance, and naming. The field-exclusion clause of the carrier then blocks every host-function or quotient-function-space escape route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ContinuousFunctionCarrierUp$ read must expose source, graph or map, target, modulus, certificate, finite StreamName windows, RegSeqRat readback, Real-facing readback when present, componentwise transport, displayed replay, provenance, and local naming rows.}
+
+\independenceWitness{continuousmap, real, streamname, regseqrat: $\ContinuousFunctionCarrierUp$ is not bijective to any listed sibling because it jointly carries source, graph, target, modulus, certificate, window, readback, transport, replay, provenance, and local naming rows without quotienting maps or selecting host functions.}
+
+\closureat{ContinuousFunctionCarrierUp}{seedStr}

@@ -69,4 +69,28 @@ theorem AuthorizedGeneratorRecursor_ledger_exhaustion [AskSetup] [PackageSetup]
       exact ⟨authorizationGeneratorRoute, fuelRoute, provenancePkg, outputPkg⟩
   }
 
+theorem AuthorizedGeneratorRecursorDisplayedRoute_downstream_coverage [AskSetup] [PackageSetup]
+    {A G F K P N branchRead outputRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont A G branchRead ->
+      Cont F K outputRead ->
+        PkgSig bundle P pkg ->
+          PkgSig bundle N pkg ->
+            UnaryHistory A ->
+              UnaryHistory G ->
+                UnaryHistory F ->
+                  UnaryHistory K ->
+                    UnaryHistory branchRead ∧ UnaryHistory outputRead ∧
+                      Cont A G branchRead ∧ Cont F K outputRead ∧
+                        PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro branchRoute outputRoute provenancePkg namePkg authorizationUnary generatorUnary fuelUnary
+    continuationUnary
+  have branchReadUnary : UnaryHistory branchRead :=
+    unary_cont_closed authorizationUnary generatorUnary branchRoute
+  have outputReadUnary : UnaryHistory outputRead :=
+    unary_cont_closed fuelUnary continuationUnary outputRoute
+  exact
+    ⟨branchReadUnary, outputReadUnary, branchRoute, outputRoute, provenancePkg, namePkg⟩
+
 end BEDC.Derived.AuthorizedGeneratorRecursorUp
