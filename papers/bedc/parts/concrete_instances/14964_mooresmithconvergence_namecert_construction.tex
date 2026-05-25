@@ -85,6 +85,18 @@ The readback rows $R$ and $L$ are later than $B$. They expose regular rational a
 The carrier omits selected completion points, quotient nets, global completeness, and host-level equality of boundary points. Hence the completion boundary exported by $M$ is exactly the finite Moore--Smith convergence boundary named by the same packet.
 \end{proof}
 
+\begin{theorem}[Moore--Smith convergence boundary scope]
+\label{thm:moore-smith-convergence-boundary-scope}
+For every accepted $\MooreSmithConvergenceUp$ packet $M=(D,V,U,C,B,R,L,H,K,P,N)$, a route reaches $\UniformCompletionUp$ or $\MetricCompletionUp$ only after the directed index-window ledger $D$, the net-value window $V$, the entourage row $U$, and the $\CauchyNetUp$ tail row $C$ have been displayed. The $\RegSeqRatUp$ and $\RealUp$ readbacks $R,L$ are downstream of the same boundary row $B$, so no completion-facing consumer can bypass the directed-net boundary ledger.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:moore-smith-convergence-carrier}. The only completion-facing coordinate is $B$, and it is carried with the directed ledger $D$, net-value window $V$, uniform entourage row $U$, and Cauchy-tail row $C$.
+
+Apply \autoref{thm:moore-smith-convergence-uniform-handoff} to force uniform-facing reads through the directed window, entourage, value, and tail rows. Then apply \autoref{thm:moore-smith-convergence-completion-boundary} to place every $\UniformCompletionUp$ or $\MetricCompletionUp$ read at $B$ and every $\RegSeqRatUp$ or $\RealUp$ readback after $B$.
+
+The remaining rows $H,K,P,N$ only transport, replay, source, and name this displayed boundary route. Because the carrier has no coordinate for quotient nets, selected limits, global completeness, or cofinal choice, ledger nonescape records those requests outside the accepted packet.
+\end{proof}
+
 \begin{theorem}[Moore--Smith convergence obligation exhaustion]
 \label{thm:moore-smith-convergence-obligation-exhaustion}
 For every accepted $\MooreSmithConvergenceUp$ carrier $M=(D,V,U,C,B,R,L,H,K,P,N)$, every consumer-visible convergence read is exhausted by the displayed rows

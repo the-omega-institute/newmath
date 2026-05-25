@@ -51,6 +51,18 @@ The finite windows $W$ and partial sums $S$ mediate every read from $R$ to conve
 The allowed shapes of $M$ are the named M-test, ratio-test, and root-test routes. Since $H,C,P,N$ only preserve the same carrier, the radius obligation cannot escape into analytic continuation, quotient function values, selected sums, countable choice, or ambient $\RealUp$ completeness.
 \end{proof}
 
+\begin{theorem}[Real power series obligation scope]
+\label{thm:real-power-series-obligation-scope}
+For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, coefficient data are exposed only through the $\FormalPowerSeriesUp$ or $\StreamNameUp$ windows in $A$ and $W$, radius data only through the displayed $\ConvergenceRadiusUp$ or subradius row $R$, partial sums only through the $\RealSeriesUp$ row $S$, convergence justification only through the selected $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, or $\RegularCauchyRootTestUp$ majorant row $M$, and terminal output only through the $\RealUp$ seal $E$ after the $\DyadicRatCoreUp$ and $\RegSeqRatUp$ readbacks named by $W,S,M$ have been consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-power-series-carrier}. Its coefficient-facing coordinates are $A$ and the finite windows $W$, its radius coordinate is $R$, its partial-sum coordinate is $S$, its convergence coordinate is $M$, and its terminal row is $E$.
+
+Apply \autoref{thm:realpowerseries-coefficient-window-obligation} to force coefficient and formal-series reads through $A$ and $W$. Apply \autoref{thm:realpowerseries-majorant-radius-obligation} to place radius reads before the partial-sum and majorant rows. Apply \autoref{thm:realpowerseries-terminal-real-seal-obligation} to place the endpoint seal after the dyadic and regular-rational readbacks.
+
+The structural rows $H,C,P,N$ only transport, replay, source, and name the same route. Since the carrier has no coordinate for analytic continuation, quotient function spaces, selected sums, countable choice, or ambient $\RealUp$ completeness, row exhaustion excludes each of those objects from the accepted obligation scope.
+\end{proof}
+
 \begin{theorem}[Real power series terminal Real seal obligation]
 \label{thm:realpowerseries-terminal-real-seal-obligation}
 For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, the terminal $\RealUp$ seal $E$ is available only after the coefficient or $\FormalPowerSeriesUp$ row $A$, center and argument $\RealUp$ rows $Z,X$, radius row $R$, finite $\StreamNameUp$ windows $W$, $\RegSeqRatUp$ and $\DyadicRatCoreUp$ tolerance readbacks, $\RealSeriesUp$ partial sums $S$, and M-test or ratio/root-test majorant row $M$ have been read. The seal is transported, replayed, sourced, and named only by $H,C,P,N$.
