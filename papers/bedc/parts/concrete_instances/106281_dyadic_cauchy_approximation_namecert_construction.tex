@@ -55,6 +55,20 @@ The regular rational stage is $Q$. It reads precisely the windows and dyadic tol
 The endpoint stage is $E,L,H,C,P,N$. The $\RealUp$ seal and $\CauchyRealLocatorUp$ handoff are downstream of the regular readback, while transport, replay, provenance, and local naming preserve the same finite route.
 \end{proof}
 
+\begin{theorem}[Dyadic Cauchy approximation window composition]
+\label{thm:dyadic-cauchy-approximation-window-composition}
+Every accepted $\DyadicCauchyApproximationUp$ packet composes a tolerance request through the $\DyadicRatCoreUp$ budget row $D$, the finite $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ readback row $Q$, and the terminal $\RealUp$-facing seal $E$ before any locator-facing or consumer-facing output is exported. The composed route is preserved by $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ naming $N$, and it provides no quotient-stream equality, selected limit, trichotomy, countable-choice schedule, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-cauchy-approximation-carrier}. The tolerance request is recorded first by $D$, and the only stream data available to it is the finite window row $W$.
+
+Apply the NameCert obligations theorem \autoref{thm:dyadic-cauchy-approximation-namecert-obligations}. It identifies the regular rational readback as $Q$, the Real-facing endpoint as $E$, and the locator handoff as $L$, all sourced by the same finite approximation history.
+
+Apply the RegSeqRat handoff theorem \autoref{thm:dyadic-cauchy-approximation-regseqrat-handoff}. It forces every $\RegSeqRatUp$ or $\RealUp$ consumer through $D,W,Q,E$ before transport, replay, provenance, and naming rows export the route.
+
+Since the carrier has no quotient-stream, selected-limit, trichotomy, choice, or ambient-completeness coordinate, the displayed window composition is the full consumer-visible path.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\DyadicCauchyApproximationUp$ consumer that reaches $\RegSeqRatUp$, $\RealUp$, or $\CauchyRealLocatorUp$ while omitting the DyadicRatCore tolerance row, StreamName window row, transport row, replay row, provenance row, or local naming row refutes the packet.}
 
 \closureat{DyadicCauchyApproximationUp}{seedStr}
