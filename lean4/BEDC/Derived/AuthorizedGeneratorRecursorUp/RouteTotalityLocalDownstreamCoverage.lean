@@ -79,4 +79,38 @@ theorem AuthorizedGeneratorRecursorCarrier_route_totality_local_downstream_cover
   exact
     ⟨cert, routeUnary, outputUnary, coverageUnary, routeRoute, outputRoute, coverageRoute⟩
 
+theorem AuthorizedGeneratorRecursorRouteTotalityLocalDownstreamCoverage
+    [AskSetup] [PackageSetup]
+    {I E M B D O A H C P G N routeRead boundaryRead outputRead auditedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuthorizedGeneratorRecursorCarrier I E M B D O A H C P G N bundle pkg →
+      Cont H C routeRead →
+        Cont routeRead G boundaryRead →
+          Cont O A outputRead →
+            Cont outputRead N auditedRead →
+              PkgSig bundle auditedRead pkg →
+                UnaryHistory routeRead ∧ UnaryHistory boundaryRead ∧
+                  UnaryHistory outputRead ∧ UnaryHistory auditedRead ∧ Cont H C routeRead ∧
+                    Cont routeRead G boundaryRead ∧ Cont O A outputRead ∧
+                      Cont outputRead N auditedRead ∧ hsame H (append A C) ∧
+                        PkgSig bundle P pkg ∧ PkgSig bundle auditedRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig hsame UnaryHistory
+  intro carrier routeCont boundaryCont outputCont auditCont auditedPkg
+  obtain
+    ⟨_unaryI, _unaryE, _unaryM, _unaryB, _unaryD, outputUnary, auditUnary,
+      transportUnary, continuationUnary, _provenanceUnary, boundaryUnary, localCertUnary,
+      _contIEM, _contMBD, _contDOA, sameTransport, provenancePkg⟩ :=
+      carrier
+  have routeUnary : UnaryHistory routeRead :=
+    unary_cont_closed transportUnary continuationUnary routeCont
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed routeUnary boundaryUnary boundaryCont
+  have outputReadUnary : UnaryHistory outputRead :=
+    unary_cont_closed outputUnary auditUnary outputCont
+  have auditedReadUnary : UnaryHistory auditedRead :=
+    unary_cont_closed outputReadUnary localCertUnary auditCont
+  exact
+    ⟨routeUnary, boundaryReadUnary, outputReadUnary, auditedReadUnary, routeCont,
+      boundaryCont, outputCont, auditCont, sameTransport, provenancePkg, auditedPkg⟩
+
 end BEDC.Derived.AuthorizedGeneratorRecursorUp
