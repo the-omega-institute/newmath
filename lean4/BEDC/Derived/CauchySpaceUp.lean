@@ -109,4 +109,28 @@ theorem CauchySpaceCarrier_filter_uniform_real_consumer_obligation
     ⟨fUnary, uUnary, rUnary, filterUniformUnary, replayUnary, nUnary, realReadUnary,
       transportRow, filterUniformRoute, replayRoute, realReadRoute⟩
 
+theorem CauchySpaceCarrier_regseqrat_uniform_obligation
+    {F0 F1 U0 R0 T0 H0 C0 P0 N0 replay named : BHist} :
+    CauchySpaceCarrier F0 U0 R0 F1 T0 H0 C0 P0 N0 ->
+      Cont F0 U0 replay ->
+        Cont replay P0 named ->
+          UnaryHistory F0 ∧ UnaryHistory U0 ∧ UnaryHistory R0 ∧
+            UnaryHistory replay ∧ UnaryHistory named ∧ hsame replay R0 ∧
+              hsame H0 (append F0 U0) ∧ Cont F0 U0 replay ∧
+                Cont replay P0 named := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro carrier replayRoute namedRoute
+  have interface :=
+    CauchySpaceCarrier_uniform_regseq_interface
+      (F := F0) (U := U0) (R := R0) (Q := F1) (T := T0) (H := H0)
+      (C := C0) (P := P0) (N := N0) (replay := replay) carrier replayRoute
+  obtain ⟨fUnary, uUnary, rUnary, replayUnary, replaySame, transportRow⟩ := interface
+  obtain ⟨_fUnary, _uUnary, _rUnary, _qUnary, _tUnary, _hUnary, _cUnary, pUnary,
+    _nUnary, _transportRow, _filterRoute, _nameRoute⟩ := carrier
+  have namedUnary : UnaryHistory named :=
+    unary_cont_closed replayUnary pUnary namedRoute
+  exact
+    ⟨fUnary, uUnary, rUnary, replayUnary, namedUnary, replaySame, transportRow,
+      replayRoute, namedRoute⟩
+
 end BEDC.Derived.CauchySpaceUp

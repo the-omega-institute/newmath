@@ -139,6 +139,56 @@ Apply carrier transport. Any consumer trying to move a classified packet must re
 The nonlocal analytic objects listed in the statement are not coordinates of $S$. Coordinate exhaustion therefore blocks them from acting as classifier inputs or classifier witnesses.
 \end{proof}
 
+\begin{theorem}[Sobolev root obligation package]
+\label{thm:sobolev-root-obligation-package}
+Every accepted $\SobolevUp$ packet $S=(D,M,V,L,G,H,C,P,N)$ exports a root obligation package consisting of carrier admission, classifier stability, weak-gradient ledger exactness, completion-boundary nonescape, and $\RealUp$ seal nonescape. The package is read only through the displayed rows
+$$
+D,M,V,L,G,H,C,P,N .
+$$
+The carrier row admits the packet, the classifier row keeps sameness componentwise, the weak-gradient ledger forces derivative-facing reads through $D,M,V,L,G$, the completion boundary blocks ambient Sobolev completion, and the $\RealUp$ domain seal in $D$ cannot be read outside the same finite route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sobolev-bhist-carrier}. It lists exactly the displayed rows $D,M,V,L,G,H,C,P,N$, so carrier admission has no additional analytic coordinate.
+
+Apply the classifier of \autoref{def:sobolev-classifier} and the NameCert obligation surface of \autoref{thm:sobolev-namecert-obligation-surface}. These give classifier stability, carrier transport, weak-derivative ledger exactness, and completion-boundary nonescape over the same rows.
+
+Use the weak-derivative ledger and completion boundary, \autoref{thm:sobolev-weak-derivative-ledger} and \autoref{thm:sobolev-completion-boundary}. The derivative-facing route must pass through $D,M,V,L,G$, while completion-facing and Real-facing consumers remain inside the carrier and structural rows.
+
+Finally repack the route through $H,C,P,N$. Since these rows only transport, replay, source, and name the same packet, the Real seal and completion boundary cannot escape the finite root obligation package.
+\end{proof}
+
+\begin{theorem}[Sobolev weak-gradient consumer boundary]
+\label{thm:sobolev-weak-gradient-consumer-boundary}
+Every PDE, variational, and functional-analysis consumer of an accepted $\SobolevUp$ weak-gradient read must pass through
+$$
+D,M,V,L,G,H,C,P,N
+$$
+before reading Sobolev data. In particular, such a consumer first reads the $\RealUp$ domain row $D$, the metric or complete-metric row $M$, the norm or Hilbert row $V$, the $\IntegralUp$ magnitude ledger $L$, and the $\DerivativeUp$ weak-gradient row $G$, then uses $H,C,P,N$ only for transport, replay, provenance, and local naming. It cannot read a host weak-gradient predicate, quotient function equality, distributional dual, Lebesgue completion, density theorem, compact embedding theorem, or trace theorem from the packet.
+\end{theorem}
+\begin{proof}
+Start with a downstream consumer request. The carrier definition forces the request to enter through the displayed inventory $D,M,V,L,G,H,C,P,N$.
+
+Apply the weak-derivative ledger. It orders every derivative-facing observation from the Real domain row through the metric base, codomain, integral magnitude ledger, and derivative test row before the observation is exported.
+
+Now use classifier locality and carrier transport. They keep sameness and transport local to the same finite rows, so PDE, variational, and functional-analysis consumers cannot substitute an ambient analytic object for the displayed route.
+
+The completion boundary removes the excluded objects. Distributional duals, quotient equality, Lebesgue completion, density, compactness, trace, and host weak-gradient predicates are not coordinates of the packet, and $H,C,P,N$ add only structural replay and naming.
+\end{proof}
+
+\begin{theorem}[Sobolev integral and derivative source package]
+\label{thm:sobolev-integral-derivative-source-package}
+In every accepted $\SobolevUp$ packet, the $\IntegralUp$ magnitude row $L$ and the $\DerivativeUp$ weak-gradient row $G$ are source rows for the weak-gradient ledger. Neither row can be replaced by distribution theory, Lebesgue completion, or an ambient quotient-function carrier: $L$ supplies the displayed magnitude ledger, $G$ supplies the displayed weak-gradient tests, and the route from $D$ through $M,V,L,G$ is the only analytic source package exported to downstream Real, metric, derivative, integral, Hilbert, PDE, variational, or functional-analysis consumers.
+\end{theorem}
+\begin{proof}
+Project $L$ and $G$ from \autoref{def:sobolev-bhist-carrier}. The row $L$ is explicitly the integral magnitude ledger, and $G$ is explicitly the derivative-facing weak-gradient test row.
+
+Apply \autoref{thm:sobolev-weak-derivative-ledger}. It places $L$ immediately before $G$ in the finite route from the Real domain row and metric base through the codomain row, so the weak-gradient read has a displayed source package.
+
+Use \autoref{thm:sobolev-completion-boundary} and \autoref{thm:sobolev-classifier-locality}. They state that downstream consumers and classifier reads remain inside the same finite carrier rows and cannot appeal to distribution theory, Lebesgue completion, or quotient equality.
+
+Finally transport through $H$ and replay through $C$. Provenance $P$ and local naming $N$ source the same $L,G$ package, so no replacement analytic carrier can discharge the integral or derivative source obligations.
+\end{proof}
+
 \begin{theorem}[Sobolev root-unblock certificate]
 \label{thm:sobolev-root-unblock-certificate}
 Every accepted $\SobolevUp$ packet exports a root-unblock certificate consisting exactly of the carrier row, local classifier, weak-derivative ledger, carrier transport row, classifier-locality row, completion-boundary row, $\Pkg$ provenance, and local $\NameCert$ evidence. Any Hilbert, metric, integral, derivative, PDE, variational, or compactness-facing consumer must first pass through these finite $\BHist$, $\hsame$, and $\Cont$ rows before reading the weak-gradient data. The certificate supplies no completed Sobolev space, no distributional dual, no quotient function equality, no selected representative, no density theorem, no compact embedding theorem, and no trace theorem.
@@ -215,6 +265,50 @@ Use the weak-derivative ledger and classifier locality rows. Every derivative-fa
 Apply the derivative norm ledger. It places norm and Hilbert-facing magnitude reads inside $V$ before the integral and derivative rows are exposed, so the finite root package is stable under downstream norm, integral, derivative, and completion-facing consumption.
 
 The excluded analytic objects are absent from the carrier, classifier, weak-derivative ledger, and derivative norm ledger. Coordinate exhaustion therefore blocks distributional duals, Lebesgue completion, quotient equality, density, compact embedding, trace rows, and selected representatives from entering the exported root package.
+\end{proof}
+
+\begin{theorem}[Sobolev finite energy carrier]
+\label{thm:sobolev-finite-energy-carrier}
+Let $S=(D,M,V,L,G,H,C,P,N)$ be an accepted $\SobolevUp$ packet. Its finite energy carrier is exactly the displayed $\BHist$ route through the $\RealUp$ domain row $D$, the $\MetricSpaceUp$ or $\CompleteMetricUp$ base row $M$, the $\NormUp$ or $\HilbertUp$ codomain row $V$, the $\IntegralUp$ magnitude ledger $L$, the $\DerivativeUp$ weak-gradient row $G$, the componentwise $\hsame$ transport row $H$, the displayed $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\SobolevUp}$ row $N$. No Real, metric, integral, derivative, or Hilbert-facing consumer can read an energy datum outside these coordinates.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:sobolev-bhist-carrier}. The tuple $D,M,V,L,G,H,C,P,N$ is the complete coordinate list, and each analytic face is named by one of those rows.
+
+Apply the NameCert obligation surface and \autoref{thm:sobolev-finite-window-root-package}. Carrier admission, classifier stability, weak-derivative ledger exactness, and completion-boundary non-escape all refer back to the same finite inventory.
+
+Coordinate exhaustion then handles the consumer side. A Real, metric, integral, derivative, or Hilbert read must enter through the named row assigned to that face; the remaining rows only transport, replay, source, and name the same route.
+\end{proof}
+
+\begin{theorem}[Sobolev weak-derivative scope]
+\label{thm:sobolev-weak-derivative-scope}
+Let $S=(D,M,V,L,G,H,C,P,N)$ be an accepted $\SobolevUp$ packet. Every weak-derivative observation of $S$ is scoped by the finite path
+$$
+D,M,V,L,G,H,C,P,N .
+$$
+The derivative row $G$ is readable only after the domain, base, codomain, and integral magnitude rows $D,M,V,L$ have been displayed, and the resulting observation is preserved only by the componentwise $\hsame$ row $H$, the displayed $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Start from the weak-derivative ledger in the carrier definition. The row $G$ is not a free-standing predicate; it is the derivative-facing coordinate attached to the already displayed rows $D,M,V,L$.
+
+Use the classifier and transport rows. Sameness of accepted Sobolev packets is componentwise through $H$, and replay of a weak-derivative read is through $C$, so the observation cannot leave the same carrier route.
+
+Finally apply the finite-window root package. It packages Real, metric, norm or Hilbert, integral, derivative, transport, replay, provenance, and naming rows as one finite $\BHist$ surface, which proves the stated scope by coordinate exhaustion.
+\end{proof}
+
+\begin{theorem}[Sobolev complete-metric handoff]
+\label{thm:sobolev-complete-metric-handoff}
+Let $S=(D,M,V,L,G,H,C,P,N)$ be an accepted $\SobolevUp$ packet. Any $\CompleteMetricUp$, $\MetricSpaceUp$, $\HilbertUp$, PDE, variational, integral, or compactness-facing consumer receives the Sobolev data only through the finite handoff
+$$
+D,M,V,L,G,H,C,P,N .
+$$
+The handoff may read complete-metric boundary information through $M$ and Hilbert or norm information through $V$, but it does not export a completed Sobolev carrier, selected metric limit, quotient function class, distributional dual, density theorem, compact embedding, or trace theorem.
+\end{theorem}
+\begin{proof}
+Begin with the finite energy carrier. It fixes $D,M,V,L,G,H,C,P,N$ as the only readable rows and assigns metric or complete-metric data to $M$ and norm or Hilbert data to $V$.
+
+Next apply the weak-derivative scope. The integral and derivative rows $L$ and $G$ remain downstream of the same domain, base, and codomain rows, and their observations are preserved only by $H,C,P,N$.
+
+The downstream handoff is therefore just a repackaging of the finite root package. Since no coordinate names a completed Sobolev carrier, selected limit, quotient class, distributional dual, density theorem, compact embedding, or trace theorem, none of those objects can be supplied to the listed consumers.
 \end{proof}
 
 \begin{definition}[Sobolev finite-window carrier]
@@ -427,6 +521,60 @@ Start with the metric completion root window. It confines metric-facing and comp
 Apply the Hilbert-norm root window. Hilbert-facing and norm-facing consumers read $V$ only through the same weak-gradient ledger, with $L$ and $G$ providing the integral magnitude and derivative response rows.
 
 Use the completion consumer export to repack the handoff. The exported surface is the finite norm and weak-gradient ledger plus structural transport, replay, provenance, and naming rows; no completed Sobolev space, quotient function carrier, selected limit, or completed Lebesgue object is a coordinate of the packet.
+\end{proof}
+
+\begin{theorem}[Sobolev root-unblock package]
+\label{thm:sobolev-root-unblock-package}
+Every accepted $\SobolevUp$ packet $S=(D,M,V,L,G,H,C,P,N)$ exports a root-unblock package consisting of the $\RealUp$ domain surface $D$, the $\MetricSpaceUp$ or $\CompleteMetricUp$ base row $M$, the $\NormUp$ or $\HilbertUp$ codomain row $V$, the $\IntegralUp$ magnitude ledger $L$, the $\DerivativeUp$ weak-gradient ledger $G$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ evidence $N$. Downstream analysis chapters may cite this package only through the displayed carrier, weak-derivative, completion-boundary, Hilbert-norm, and root-window routes already exposed in the chapter.
+
+The package supplies no host Sobolev space, distributional dual, quotient function class, completed Lebesgue carrier, selected representative, compact embedding theorem, trace theorem, or density theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sobolev-bhist-carrier}. The visible inventory is exactly $D,M,V,L,G,H,C,P,N$, and each row has the analytic or structural role named in the statement.
+
+Apply the local NameCert obligation surface, the weak-derivative ledger, and the root obligation package. These results give carrier admission, classifier stability, weak-gradient ledger exactness, completion-boundary nonescape, and $\RealUp$ seal nonescape over the same finite rows.
+
+Use the metric completion root window, Hilbert-norm root window, and completion-norm handoff to expose the downstream route. Metric, complete-metric, Hilbert, norm, integral, derivative, PDE, variational, and compactness-facing consumers must traverse the displayed carrier route before reading Sobolev data.
+
+The excluded analytic objects are absent from the carrier and from the cited routes. Transport, replay, provenance, and local naming preserve the package but do not add new analytic coordinates.
+\end{proof}
+
+\begin{theorem}[Sobolev weak-gradient energy carrier]
+\label{thm:sobolev-weak-gradient-energy-carrier}
+For every accepted $\SobolevUp$ packet $S=(D,M,V,L,G,H,C,P,N)$, the weak-gradient energy carrier is the finite route
+$$
+D \longmapsto M \longmapsto V \longmapsto L \longmapsto G \longmapsto H,C,P,N .
+$$
+The $\RealUp$ domain row $D$, metric or complete-metric row $M$, norm or Hilbert row $V$, $\IntegralUp$ magnitude row $L$, and $\DerivativeUp$ weak-gradient row $G$ must be read together before any downstream PDE, variational, Hilbert, norm, integral, derivative, or completion consumer receives energy data.
+
+No energy read can be discharged by a host weak-gradient predicate, quotient function class, distributional dual, completed measure carrier, selected representative, compact embedding, trace row, or density theorem.
+\end{theorem}
+\begin{proof}
+Start with the carrier energy window. It identifies $D,M,V,L,G,H,C,P,N$ as one finite energy window and rules out splitting it into a separate measure-completion object or quotient function class.
+
+Apply the weak-derivative route and integral-derivative source package. They place the $\IntegralUp$ magnitude row $L$ immediately before the $\DerivativeUp$ weak-gradient row $G$ and make both rows the displayed source package for derivative-facing consumers.
+
+Use the derivative norm ledger and Hilbert-norm root window. These keep norm and Hilbert-facing reads inside the codomain row $V$ before the integral and derivative rows are interpreted.
+
+Finally replay the route through $H,C,P,N$. Those rows transport, replay, source, and name the same weak-gradient energy carrier, while the excluded host objects remain outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[Sobolev completion-metric handoff]
+\label{thm:sobolev-completion-metric-handoff}
+Every completion-facing, metric-facing, Hilbert-facing, PDE-facing, or variational consumer of an accepted $\SobolevUp$ packet receives Sobolev data through the displayed handoff
+$$
+D,M,V,L,G,H,C,P,N .
+$$
+The base row $M$ is the only $\MetricSpaceUp$ or $\CompleteMetricUp$ boundary read, the codomain row $V$ is the only $\NormUp$ or $\HilbertUp$ magnitude read, and $L,G$ are the only integral and derivative ledgers exported to the consumer. The handoff does not create a completed Sobolev carrier, selected Cauchy limit, quotient function class, distributional dual, completed Lebesgue carrier, compact embedding object, trace row, or density theorem.
+\end{theorem}
+\begin{proof}
+Begin with the complete-metric handoff and completion-norm handoff. They force completion-facing consumers to read the base row $M$ and codomain row $V$ only as coordinates of the same finite Sobolev packet.
+
+Apply the weak-gradient energy carrier. Integral and derivative data are then read through $L$ and $G$ downstream of $D,M,V$, with $H,C,P,N$ preserving the route.
+
+Use the completion boundary and completion-boundary nonescape results. These results block completed Sobolev spaces, quotient function carriers, selected limits, completed measure carriers, distributional duals, compact embeddings, traces, and density statements from entering the handoff.
+
+Thus the completion-metric consumer receives exactly the displayed $\BHist$ route and its structural transport, replay, provenance, and naming rows.
 \end{proof}
 
 \closureat{SobolevUp}{seedStr}
