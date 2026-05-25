@@ -279,4 +279,34 @@ theorem BoundedVariationPartitionLedger_refinement_monotonicity [AskSetup] [Pack
     unary_cont_closed edgeUnary' refinementUnary edgeRefinementVariation'
   exact ⟨sameVariation, edgeUnary', variationUnary', provenancePkg⟩
 
+theorem BoundedVariationCarrier_cauchy_consumer_boundary [AskSetup] [PackageSetup]
+    {interval partition endpoint dyadic variation refinement transport route provenance nameCert
+      edgeRead cauchyRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedVariationCarrier interval partition endpoint dyadic variation refinement transport route
+        provenance nameCert bundle pkg ->
+      Cont endpoint dyadic edgeRead ->
+        Cont variation refinement cauchyRead ->
+          PkgSig bundle cauchyRead pkg ->
+            UnaryHistory endpoint ∧ UnaryHistory dyadic ∧ UnaryHistory variation ∧
+              UnaryHistory edgeRead ∧ UnaryHistory cauchyRead ∧
+                Cont endpoint dyadic edgeRead ∧ Cont variation refinement cauchyRead ∧
+                  hsame variation (append partition dyadic) ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle cauchyRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier endpointDyadicEdgeRead variationRefinementCauchy cauchyPkg
+  obtain ⟨_intervalUnary, _partitionUnary, endpointUnary, dyadicUnary, variationUnary,
+    refinementUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary,
+    _intervalPartitionEndpoint, _endpointDyadicTransport, _partitionDyadicVariation,
+    _variationRefinementRoute, _routeProvenanceNameCert, variationSame, provenancePkg⟩ :=
+      carrier
+  have edgeReadUnary : UnaryHistory edgeRead :=
+    unary_cont_closed endpointUnary dyadicUnary endpointDyadicEdgeRead
+  have cauchyReadUnary : UnaryHistory cauchyRead :=
+    unary_cont_closed variationUnary refinementUnary variationRefinementCauchy
+  exact
+    ⟨endpointUnary, dyadicUnary, variationUnary, edgeReadUnary, cauchyReadUnary,
+      endpointDyadicEdgeRead, variationRefinementCauchy, variationSame, provenancePkg,
+      cauchyPkg⟩
+
 end BEDC.Derived.BoundedVariationUp
