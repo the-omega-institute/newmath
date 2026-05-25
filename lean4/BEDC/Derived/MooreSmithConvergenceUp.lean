@@ -131,4 +131,39 @@ theorem MooreSmithConvergencePacket_boundary_scope [AskSetup] [PackageSetup]
     ⟨dUnary, vUnary, uUnary, cUnary, bUnary, rUnary, lUnary, boundaryUnary,
       completionUnary, dvu, ucb, boundaryRoute, completionRoute, pPkg⟩
 
+theorem MooreSmithConvergencePacket_directed_window_stability [AskSetup] [PackageSetup]
+    {D V U C B R L H K P N D' V' U' C' B' R' L' H' K' P' N'
+      directedRead directedRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MooreSmithConvergencePacket D V U C B R L H K P N bundle pkg ->
+      MooreSmithConvergencePacket D' V' U' C' B' R' L' H' K' P' N' bundle pkg ->
+        hsame D D' ->
+          hsame V V' ->
+            hsame U U' ->
+              hsame C C' ->
+                hsame B B' ->
+                  Cont D V directedRead ->
+                    Cont D' V' directedRead' ->
+                      PkgSig bundle directedRead' pkg ->
+                        hsame directedRead directedRead' ∧ UnaryHistory directedRead ∧
+                          UnaryHistory directedRead' ∧ Cont D V directedRead ∧
+                            Cont D' V' directedRead' ∧ PkgSig bundle P pkg ∧
+                              PkgSig bundle directedRead' pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory PkgSig
+  intro packet packet' sameD sameV _sameU _sameC _sameB directedRoute directedRoute'
+    directedReadPkg
+  obtain ⟨dUnary, vUnary, _uUnary, _cUnary, _bUnary, _rUnary, _lUnary, _hUnary,
+    _kUnary, _nUnary, _dvu, _ucb, _brl, provenancePkg⟩ := packet
+  obtain ⟨_dUnary', _vUnary', _uUnary', _cUnary', _bUnary', _rUnary', _lUnary',
+    _hUnary', _kUnary', _nUnary', _dvu', _ucb', _brl', _provenancePkg'⟩ := packet'
+  have directedSame : hsame directedRead directedRead' :=
+    cont_respects_hsame sameD sameV directedRoute directedRoute'
+  have directedUnary : UnaryHistory directedRead :=
+    unary_cont_closed dUnary vUnary directedRoute
+  have directedUnary' : UnaryHistory directedRead' :=
+    unary_transport directedUnary directedSame
+  exact
+    ⟨directedSame, directedUnary, directedUnary', directedRoute, directedRoute',
+      provenancePkg, directedReadPkg⟩
+
 end BEDC.Derived.MooreSmithConvergenceUp
