@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealIntervalArithmeticUp
@@ -178,7 +179,8 @@ instance realIntervalArithmeticFieldFaithful : FieldFaithful RealIntervalArithme
   fields := realIntervalArithmeticFields
   field_faithful := realIntervalArithmetic_fields_faithful
 
-instance realIntervalArithmeticNontrivial : Nontrivial RealIntervalArithmeticUp where
+instance realIntervalArithmeticNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial RealIntervalArithmeticUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨RealIntervalArithmeticUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
