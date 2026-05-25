@@ -146,6 +146,38 @@ Now compare the endpoint route with the route obtained by one more displayed rea
 Finally apply \autoref{thm:banach-fixed-point-completion-handoff-scope}. The sealing operation can pass only through $R,E,H,C,P,N$, so the comparison returns the same $\RealUp$ endpoint classifier and cannot be upgraded into host equality, a choice-selected limit, or an external completeness assertion.
 \end{proof}
 
+\begin{theorem}[BanachFixedPoint contraction Cauchy route]
+\label{thm:banach-fixed-point-contraction-cauchy-route}
+Every accepted $\BanachFixedPointUp$ packet reads its fixed-point route in the following order. It first reads contraction data through the displayed $\ContractionMappingUp$ and $\PicardContractionUp$ rows carried by $T$ and $I$. It then reads the explicit $\CauchyModulusUp$ row $M$, the $\RegSeqRatUp$ handoff row $R$, the carried $\CompleteMetricUp$ row $d$, and only then the $\RealUp$ endpoint seal $E$. The route exports no host fixed-point equality, selected limit, quotient-map equality, or ambient completeness outside the carried $\CompleteMetricUp$ row.
+\end{theorem}
+\begin{proof}
+Start with the finite iteration surface. By \autoref{thm:banach-fixed-point-iteration-ledger}, every adjacent Picard step is read through the carried contraction row $T$, the finite ledger $I$, the metric row $d$, and the rational Lipschitz ledger $\lambda$. This is the displayed $\ContractionMappingUp$ and $\PicardContractionUp$ part of the packet, not a host orbit.
+
+Next use \autoref{thm:banach-fixed-point-cauchy-handoff}. The finite contraction ledger and the rational unit-bound row determine the explicit modulus $M$, and the handoff row $R$ routes that modulus through the regular-rational name and the carried complete-metric surface.
+
+Finally apply \autoref{thm:banach-fixed-point-endpoint-fixedness}. The endpoint fixedness comparison is sealed only after the route has reached $R$ and $E$, so the result is an internal classifier statement about the $\RealUp$ endpoint boundary.
+
+The refusal clauses are inherited from \autoref{thm:banach-fixed-point-public-export} and \autoref{thm:banach-fixed-point-completion-handoff-scope}. Since the carrier contains no coordinate for host fixed-point equality, selected limits, quotient-map equality, or ambient completeness outside $d$, a consumer cannot extract any of those readings from the contraction-to-Cauchy route.
+\end{proof}
+
+\begin{theorem}[BanachFixedPoint bridge packet scope]
+\label{thm:banach-fixed-point-bridge-packet-scope}
+Any standard bridge for $\BanachFixedPointUp$ must factor through the displayed packet rows
+$$
+B,\ d,\ T,\ \lambda,\ I,\ M,\ R,\ E,\ H,\ C,\ P,\ N,
+$$
+the public export surface of \autoref{thm:banach-fixed-point-public-export}, and the completion handoff scope of \autoref{thm:banach-fixed-point-completion-handoff-scope}. Such a bridge may transport the finite Picard ledger, the explicit Cauchy modulus, the regular-rational completion handoff, and the seal-facing endpoint classifier, but it may not read host fixed-point equality, choice-selected limits, global nonlinear analysis, or ambient completeness outside the carried $\CompleteMetricUp$ row.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection from \autoref{def:banach-fixed-point-carrier}. The displayed rows are the only accessible coordinates of an accepted packet.
+
+Apply \autoref{thm:banach-fixed-point-iteration-ledger} to identify the finite Picard route. Apply \autoref{thm:banach-fixed-point-cauchy-handoff} to route that ledger through the explicit modulus $M$, the regular-rational handoff $R$, and the carried complete-metric row $d$.
+
+Next apply \autoref{thm:banach-fixed-point-public-export} and \autoref{thm:banach-fixed-point-scoped-transport-route}. Every public consumer and every transported route must pass through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally apply \autoref{thm:banach-fixed-point-completion-handoff-scope} and \autoref{thm:banach-fixed-point-endpoint-fixedness}. The endpoint comparison is therefore sealed inside $R,E,H,C,P,N$, so a standard bridge has no coordinate from which to extract host fixed-point equality, a choice-selected limit, or ambient completeness beyond the carried row $d$.
+\end{proof}
+
 \closureat{BanachFixedPointUp}{seedStr}
 \closureat{BanachFixedPointUp}{obligationStr}
 \closureat{BanachFixedPointUp}{scopedStr}

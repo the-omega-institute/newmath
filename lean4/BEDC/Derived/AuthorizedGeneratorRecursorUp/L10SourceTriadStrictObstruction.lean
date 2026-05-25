@@ -9,34 +9,34 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-theorem AuthorizedGeneratorRecursorL10SourceTriadStrictObstruction [AskSetup]
-    [PackageSetup]
-    {I E M B D O A H C P G N sourceRead boundaryRead obstructionRead : BHist}
+theorem AuthorizedGeneratorRecursorL10SourceTriadStrictObstruction [AskSetup] [PackageSetup]
+    {I E M B D O A H C P G N sourceRead ledgerRead obstructionRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    AuthorizedGeneratorRecursorCarrier I E M B D O A H C P G N bundle pkg ->
-      Cont O N sourceRead ->
-        Cont G N boundaryRead ->
-          Cont sourceRead boundaryRead obstructionRead ->
-            PkgSig bundle obstructionRead pkg ->
-              UnaryHistory sourceRead ∧ UnaryHistory boundaryRead ∧
+    AuthorizedGeneratorRecursorCarrier I E M B D O A H C P G N bundle pkg →
+      Cont O N sourceRead →
+        Cont A G ledgerRead →
+          Cont sourceRead ledgerRead obstructionRead →
+            PkgSig bundle obstructionRead pkg →
+              UnaryHistory sourceRead ∧ UnaryHistory ledgerRead ∧
                 UnaryHistory obstructionRead ∧ Cont O N sourceRead ∧
-                  Cont G N boundaryRead ∧ Cont sourceRead boundaryRead obstructionRead ∧
+                  Cont A G ledgerRead ∧ Cont sourceRead ledgerRead obstructionRead ∧
                     hsame H (append A C) ∧ PkgSig bundle P pkg ∧
                       PkgSig bundle obstructionRead pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame
-  intro carrier outputNameSource boundaryNameRead sourceBoundaryObstruction obstructionPkg
-  obtain ⟨_unaryI, _unaryE, _unaryM, _unaryB, _unaryD, outputUnary, _auditUnary,
-    _transportUnary, _continuationUnary, _provenanceUnary, boundaryUnary, localCertUnary,
-    _signatureEliminatorMotive, _motiveBranchDescent, _descentOutputAudit,
-    transportSame, provenancePkg⟩ := carrier
+  intro carrier outputLocalSource auditBoundaryLedger sourceLedgerObstruction obstructionPkg
+  rcases carrier with
+    ⟨_IUnary, _EUnary, _MUnary, _BUnary, _DUnary, outputUnary, auditUnary,
+      _transportUnary, continuationUnary, _provenanceUnary, boundaryUnary, localCertUnary,
+      _signatureEliminatorMotive, _motiveBranchDescent, _descentOutputAudit,
+      transportAuditContinuation, provenancePkg⟩
   have sourceUnary : UnaryHistory sourceRead :=
-    unary_cont_closed outputUnary localCertUnary outputNameSource
-  have boundaryReadUnary : UnaryHistory boundaryRead :=
-    unary_cont_closed boundaryUnary localCertUnary boundaryNameRead
+    unary_cont_closed outputUnary localCertUnary outputLocalSource
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed auditUnary boundaryUnary auditBoundaryLedger
   have obstructionUnary : UnaryHistory obstructionRead :=
-    unary_cont_closed sourceUnary boundaryReadUnary sourceBoundaryObstruction
+    unary_cont_closed sourceUnary ledgerUnary sourceLedgerObstruction
   exact
-    ⟨sourceUnary, boundaryReadUnary, obstructionUnary, outputNameSource, boundaryNameRead,
-      sourceBoundaryObstruction, transportSame, provenancePkg, obstructionPkg⟩
+    ⟨sourceUnary, ledgerUnary, obstructionUnary, outputLocalSource, auditBoundaryLedger,
+      sourceLedgerObstruction, transportAuditContinuation, provenancePkg, obstructionPkg⟩
 
 end BEDC.Derived.AuthorizedGeneratorRecursorUp

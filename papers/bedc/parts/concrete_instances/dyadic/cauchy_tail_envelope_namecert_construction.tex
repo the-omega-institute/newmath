@@ -91,6 +91,22 @@ $$
 Both tail ledgers are consumed before either $\RealUp$ seal boundary is inspected. Because the repacked object uses only carrier coordinates already listed in \autoref{def:dyadic-cauchy-tail-envelope-carrier}, it cannot expose quotient streams, selected limits, countable-choice selectors, trichotomy data, host real equality, or a Real-completeness principle.
 \end{proof}
 
+\begin{theorem}[DyadicCauchyTailEnvelope regular-seal handoff]
+\label{thm:dyadic-cauchy-tail-regular-seal}
+Every accepted $\DyadicCauchyTailEnvelopeUp$ packet $E=(S,R,D,T,I,H,C,P,N)$ reaches any $\RealUp$ or $\CauchyLimitSealUp$ consumer only through the ordered finite route
+$$
+I \longrightarrow S \longrightarrow R \longrightarrow D \longrightarrow T
+$$
+before the seal row is read. The route presents the reindexing request, finite stream window, regular rational readback, dyadic tolerance row, and tail-envelope ledger through the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and it exposes no quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-cauchy-tail-envelope-carrier}. The accepted packet exposes only $S,R,D,T,I,H,C,P,N$, so a Real or Completion consumer has no route except the displayed envelope rows.
+
+Apply \autoref{thm:dyadic-cauchy-tail-envelope-regseqrat-real-route}. It orders the consumer-facing read as the finite path from the precision request through $I$, then $S$, then $R$, then $D$, and finally $T$ before any Real-facing seal is consumed.
+
+For paired tail reads, use \autoref{thm:dyadic-cauchy-tail-envelope-common-refinement}. The common refinement supplies a shared finite route for the two reads, so neither branch can replace the displayed stream window, regular readback, dyadic budget, or tail ledger by a quotient stream, selected limit, countable-choice selector, trichotomy datum, host real equality, or ambient completeness proof.
+\end{proof}
+
 \closureat{DyadicCauchyTailEnvelopeUp}{seedStr}
 
 \begin{closurestatus}{\DyadicCauchyTailEnvelopeUp}

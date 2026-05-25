@@ -1,0 +1,105 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICDecidableTypingFrontierUp$}
+\label{ch:concrete-instances-metacic-decidable-typing-frontier-namecert}
+\origin{ai}
+
+The $\MetaCICDecidableTypingFrontierUp$ packet realizes the checker frontier of \autoref{ch:metacic-decidable-audit-map} as finite NameCert data. It sits beside the decidability witness of \autoref{ch:concrete-instances-metacicdecidabilitywitness-namecert}, the decidability boundary packet of \autoref{ch:concrete-instances-metacicdecidableboundary-namecert}, the local diamond witness of \autoref{ch:concrete-instances-metacic-local-diamond-witness-namecert}, and the self-compilation substrate of \autoref{sec:self-comp-metacic}. The packet names the boundary between checked typing inference and bounded normal equality; it does not claim unrestricted beta-conversion, global normalization, subject reduction, confluence, or a closedness decider.
+
+\falsifiablePrediction{Every accepted $\MetaCICDecidableTypingFrontierUp$ packet displays checker rows for \texttt{inferTypeCtx}, \texttt{checkSameTerm}, \texttt{Term.eq}, bounded normal equality, frontier refusal, transport, continuation, provenance, and local naming.}
+
+\independenceWitness{metacicdecidabilitywitness, metacicdecidableboundary, bounded-normal-equality-checker, metacic-local-diamond-witness, metacic-confluence-audit-packet: the decidability witness packages positive checker exactness, the decidability boundary records a broader refusal surface, the bounded-normal-equality checker names the normal-form comparison row, the local-diamond witness names confluence peaks, and the confluence audit packet records join obligations. None is bijective to $\MetaCICDecidableTypingFrontierUp$.}
+
+\begin{definition}[MetaCIC decidable typing frontier carrier]
+\label{def:metacic-decidable-typing-frontier-carrier}
+A $\MetaCICDecidableTypingFrontierUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,S,Q,B,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the \texttt{inferTypeCtx} row. It records the context, represented term, optional inferred type, and the checked soundness and completeness surface available for that option-valued procedure.
+\item $S$ is the \texttt{checkSameTerm} row. It records successful same-term checks as structural equality evidence and refuses to treat failure as negative beta-conversion data.
+\item $Q$ is the \texttt{Term.eq} row. It records Boolean structural equality, reflexivity, true-to-equality, equality-to-true, and the exported correctness theorem for represented terms.
+\item $B$ is the bounded normal-equality row. It records the fuel, bounded normalizer outputs, and finished-normalization hypotheses required before \texttt{decideClosedBetaConv} can be read as a sound comparison.
+\item $R$ is the frontier refusal row. It records that unrestricted beta-conversion, global normalization, arbitrary closedness decidability, subject reduction, and confluence are not exported by this packet.
+\item $H$ records componentwise $\hsame$ transport for the typing checker, same-term checker, structural equality, bounded normal equality, frontier refusal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a decidable-typing-frontier request through $I,S,Q,B,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICDecidableTypingFrontierUp$, the MetaCIC decidability audit map, $\MetaCICLocalDiamondWitnessUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICDecidableTypingFrontierUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an unrestricted beta-conversion oracle, a global normalization theorem, a subject-reduction theorem, a confluence theorem, host quotient equality of terms, or an ambient completeness principle for all represented syntax.
+\end{definition}
+
+\begin{theorem}[MetaCIC decidable typing frontier NameCert obligations]
+\label{thm:metacic-decidable-typing-frontier-namecert-obligations}
+For every accepted $\MetaCICDecidableTypingFrontierUp$ carrier $F=(I,S,Q,B,R,H,C,P,N)$, the local $\NameCert_{\MetaCICDecidableTypingFrontierUp}$ surface consists exactly of typing-checker admission through $I$, same-term checker admission through $S$, structural equality readback through $Q$, bounded normal-equality admission through $B$, frontier refusal through $R$, componentwise transport through $H$, displayed continuation replay through $C$, provenance through $P$, and local naming through $N$.
+
+Later Lean TasteGate work must provide $\mathrm{Nontrivial}$ and $\mathrm{FieldFaithful}$ instances for this carrier surface. Those instances must witness that the packet cannot collapse to an empty frontier marker and cannot hide a missing typing, same-term, structural-equality, bounded-normal, refusal, transport, replay, provenance, or naming row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-decidable-typing-frontier-carrier}. The positive checker rows are $I,S,Q$: typing inference, same-term checking, and structural equality.
+
+The bounded comparison row is $B$. It is read only as bounded normal equality with the finished-normalization hypotheses named by the audit map, so it cannot become unrestricted beta-conversion data.
+
+The refusal row $R$ records the open boundary for global normalization, closedness decidability, subject reduction, confluence, and host quotient equality. This row is part of the certificate rather than prose outside the packet.
+
+Finally $H,C,P,N$ transport, replay, record provenance for, and locally name the same frontier route. Since the carrier has no coordinate for the stronger theorems listed above, the displayed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable typing frontier nonescape]
+\label{thm:metacic-decidable-typing-frontier-nonescape}
+Every consumer of an accepted $\MetaCICDecidableTypingFrontierUp$ packet factors through the finite route
+$$
+\texttt{inferTypeCtx},\ \texttt{checkSameTerm},\ \texttt{Term.eq},\ \texttt{decideClosedBetaConv}
+\longmapsto R,H,C,P,N .
+$$
+The route exports checked typing-inference and structural same-term data, plus bounded normal-equality data under its displayed hypotheses. It exports no unrestricted beta-conversion oracle, no global normalization theorem, no subject-reduction theorem, no confluence theorem, no arbitrary closedness decider, and no host quotient equality of terms.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $F=(I,S,Q,B,R,H,C,P,N)$. Rows $I,S,Q$ expose the typing, same-term, and structural equality procedures named by the audit map.
+
+The bounded normal-equality request then passes through $B$. This row contains the fuel and finished-normalization boundary, so the consumer receives only the checked bounded comparison surface.
+
+The refusal row $R$ is read before the structural rows finish the packet. It prevents the consumer from replacing the bounded route by global beta-conversion, normalization, subject reduction, confluence, closedness decidability, or quotient equality.
+
+The final rows $H,C,P,N$ preserve the same route under transport, continuation replay, provenance, and local naming.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable typing audit split]
+\label{thm:metacic-decidable-typing-frontier-audit-split}
+Every audit-map consumer of an accepted $\MetaCICDecidableTypingFrontierUp$ packet first reads \texttt{inferTypeCtx}, \texttt{checkSameTerm}, and \texttt{Term.eq} as the positive typing and structural syntax-equality side. It reads \texttt{decideClosedBetaConv} only through the bounded normal-equality row and its displayed finished-normalisation hypotheses. The refusal row then blocks any promotion to global normalization, subject reduction, confluence, arbitrary closedness decidability, unrestricted beta-conversion, or host quotient equality of terms.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier $F=(I,S,Q,B,R,H,C,P,N)$. The positive checker side is exactly $I,S,Q$: typing inference through \texttt{inferTypeCtx}, same-term checking through \texttt{checkSameTerm}, and structural equality through \texttt{Term.eq}.
+
+The beta-conversion side is narrower. A consumer reaches \texttt{decideClosedBetaConv} only through $B$, whose stored data includes bounded normalizer outputs, fuel, and the finished-normalisation hypotheses required by the audit map.
+
+The refusal row $R$ is read before the packet is exported through $H,C,P,N$. It prevents the bounded comparison row from being reinterpreted as global normalization, subject reduction, confluence, arbitrary closedness decidability, unrestricted beta-conversion, or quotient equality.
+
+Thus the packet preserves the audit-map split: positive typing and syntax equality are read directly from checker rows, while beta conversion remains bounded and hypothesis-indexed.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable typing coverage frontier]
+\label{thm:metacic-decidable-typing-coverage-frontier}
+Every accepted $\MetaCICDecidableTypingFrontierUp$ packet exports exactly the positive checker rows \texttt{inferTypeCtx}, \texttt{checkSameTerm}, and \texttt{Term.eq}. It exports \texttt{decideClosedBetaConv} only through the bounded normal-equality row carrying displayed fuel, bounded normalizer outputs, and finished-normalization hypotheses. Therefore any consumer claiming global normalization, subject reduction, confluence, arbitrary closedness decidability, unrestricted beta-conversion, or quotient equality must leave this packet.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier $F=(I,S,Q,B,R,H,C,P,N)$ from \autoref{def:metacic-decidable-typing-frontier-carrier}. The projected positive checker rows are exactly $I,S,Q$, corresponding to \texttt{inferTypeCtx}, \texttt{checkSameTerm}, and \texttt{Term.eq}.
+
+Use \autoref{thm:metacic-decidable-typing-frontier-namecert-obligations}. It identifies the local NameCert obligations with the displayed checker rows, bounded normal-equality row, refusal row, and structural rows, with no hidden coordinate for stronger metatheory.
+
+Apply \autoref{thm:metacic-decidable-typing-frontier-audit-split}. The only route to \texttt{decideClosedBetaConv} passes through $B$, where the fuel, bounded outputs, and finished-normalization hypotheses are part of the exported row.
+
+Finally apply \autoref{thm:metacic-decidable-typing-frontier-nonescape}. The refusal row $R$ blocks global normalization, subject reduction, confluence, arbitrary closedness decidability, unrestricted beta-conversion, and quotient equality from being read as packet exports.
+\end{proof}
+
+\closureat{MetaCICDecidableTypingFrontierUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICDecidableTypingFrontierUp}
+  \constructivestory{A $\MetaCICDecidableTypingFrontierUp$ packet is generated from inferTypeCtx typing rows, checkSameTerm rows, Term.eq structural equality rows, bounded normal-equality rows, frontier refusal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-decidable-typing-frontier-carrier}, \autoref{thm:metacic-decidable-typing-frontier-namecert-obligations}, \autoref{thm:metacic-decidable-typing-frontier-nonescape}, and \autoref{thm:metacic-decidable-typing-frontier-audit-split} seed the finite decidable-typing frontier over checked typing inference, structural equality, bounded normal equality, and explicit refusal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted beta-conversion, global normalization, subject reduction, confluence, arbitrary closedness decidability, host quotient equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, typing-checker exactness, same-term exactness, structural equality readback, bounded-normal comparison exactness, frontier refusal, TasteGate nontriviality, FieldFaithful coverage, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICDecidableTypingFrontierUp.}
+\end{closurestatus}

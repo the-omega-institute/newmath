@@ -51,6 +51,30 @@ A $\RegSeqRatUp$ consumer reaches rational data only through the finite window $
 A $\RealUp$ consumer reaches the terminal seal $E$ only after the same window and readback route has been replayed by $C$ and transported by $H$. The remaining rows $P$ and $N$ certify provenance and local naming, so the handoff contains no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[RegSeqRat located-modulus located row exhaustion]
+\label{thm:regseqrat-located-modulus-located-row-exhaustion}
+For an accepted $\RegSeqRatLocatedModulusUp$ carrier $M=(Q,L,\mu,W,D,R,E,H,C,P,N)$, every located read exported to $\LocatedRegSeqRatUp$, $\RegSeqRatUp$, or $\RealUp$ is exhausted by exactly the located row $L$, the displayed modulus row $\mu$, the finite windows $W$, the dyadic decision ledger $D$, the $\RegSeqRatUp$ readback row $R$, the $\RealUp$ seal $E$, the componentwise transport row $H$, the displayed replay row $C$, the provenance row $P$, and the local naming row $N$. No exported located read factors through quotient stream equality, selected limits, countable choice, trichotomy, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regseqrat-located-modulus-carrier}. The located export has no coordinates other than $Q,L,\mu,W,D,R,E,H,C,P,N$, and its consumer-visible located row is $L$ together with the displayed modulus row $\mu$.
+
+Use the handoff theorem \autoref{thm:regseqrat-located-modulus-handoff}. A $\LocatedRegSeqRatUp$ consumer reads $L$ and $\mu$ before exporting locatedness; a $\RegSeqRatUp$ consumer reaches data through $W,D,R$; and a $\RealUp$ consumer reaches the terminal seal $E$ only after transport and replay through $H$ and $C$.
+
+The remaining rows $P$ and $N$ source and name this same route. Since the carrier definition contains no quotient stream equality, selected-limit representative, countable-choice schedule, trichotomy oracle, host equality coordinate, or ambient completeness witness, the listed rows exhaust every exported located read.
+\end{proof}
+
+\begin{theorem}[RegSeqRat located-modulus Real route]
+\label{thm:regseqrat-located-modulus-real-route}
+Every $\RealUp$-facing read of an accepted $\RegSeqRatLocatedModulusUp$ carrier $M=(Q,L,\mu,W,D,R,E,H,C,P,N)$ passes in order through the $\DyadicRatCoreUp$ tolerance query $Q$, the $\LocatedRegSeqRatUp$ row $L$, the displayed modulus row $\mu$, the $\StreamNameUp$ finite windows $W$, the dyadic decision ledger $D$, the $\RegSeqRatUp$ readback row $R$, the terminal $\RealUp$ seal $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. No $\RealUp$-facing read bypasses this route by quotient stream equality, selected limits, countable choice, trichotomy, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:regseqrat-located-modulus-carrier}. The only Real-facing rows in the packet are the displayed tolerance, locatedness, modulus, window, ledger, readback, seal, transport, replay, provenance, and naming rows.
+
+Apply the handoff theorem \autoref{thm:regseqrat-located-modulus-handoff} to force every $\RealUp$ consumer through $Q,L,\mu,W,D,R,E,H,C,P,N$ before a consumer-visible seal is exported.
+
+Apply the located-row exhaustion theorem \autoref{thm:regseqrat-located-modulus-located-row-exhaustion}. It rules out additional coordinates for quotient stream equality, selected limits, countable choice, trichotomy, host equality, or ambient completeness, so the displayed order is the full Real route.
+\end{proof}
+
 \closureat{RegSeqRatLocatedModulusUp}{seedStr}
 
 \begin{closurestatus}{\RegSeqRatLocatedModulusUp}
