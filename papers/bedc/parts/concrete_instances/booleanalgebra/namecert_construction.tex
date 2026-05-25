@@ -1,0 +1,52 @@
+\chapter{A Concrete Naming Certificate for $\BooleanAlgebraUp$}
+\label{ch:concrete-instances-booleanalgebra-namecert}
+\origin{human}
+
+Following Stone and Birkhoff, the $\BooleanAlgebraUp$ packet records the finite algebraic endpoint where complemented distributive lattice operations meet two-element truth rows. It sits beside the order carrier of \autoref{ch:concrete-instances-poset-namecert}, the meet--join interface of \autoref{ch:concrete-instances-lattice-namecert}, and the endpoint discriminator of \autoref{ch:concrete-instances-bool-namecert}; it supplies a finite order-algebra neighbour for later Stone-duality and topology bridges without assuming a host Boolean algebra.
+
+\begin{definition}[BooleanAlgebra BHist carrier]
+\label{def:booleanalgebra-bhist-carrier}
+A $\BooleanAlgebraUp$ carrier is a finite $\BHist$ packet
+$$
+B=(J,M,K,Z,O,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $J$ is the binary join row, read as the finite least-upper-bound operation inherited from the lattice-facing surface.
+\item $M$ is the binary meet row, read as the finite greatest-lower-bound operation inherited from the lattice-facing surface.
+\item $K$ is the complement row, assigning to each displayed carrier element its finite complement witness.
+\item $Z$ is the zero row, the finite bottom endpoint of the order surface.
+\item $O$ is the one row, the finite top endpoint of the order surface.
+\item $R$ is the partial-order row tying $J,M,Z,O$ to the displayed $\PosetUp$ and $\LatticeUp$ obligations.
+\item $H$ records componentwise $\hsame$ transport for join, meet, complement, endpoint, order, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay routes by which a consumer reads the operation, endpoint, order, transport, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\BoolUp$, $\PosetUp$, $\LatticeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BooleanAlgebraUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host powerset algebra, excluded-middle oracle, ultrafilter space, locale of opens, quotient lattice, or ambient topological representation.
+\end{definition}
+
+\begin{theorem}[BooleanAlgebra NameCert obligation surface]
+\label{thm:booleanalgebra-namecert-obligation-surface}
+For the carrier of \autoref{def:booleanalgebra-bhist-carrier}, the local $\NameCert_{\BooleanAlgebraUp}$ surface consists of exactly five finite obligation rows: carrier exposure for $J,M,K,Z,O,R,H,C,P,N$; lattice-order compatibility with the $\PosetUp$ and $\LatticeUp$ rows; complement endpoint exactness, requiring $x \wedge Kx$ to read through $Z$ and $x \vee Kx$ to read through $O$ inside the displayed route; endpoint transport under componentwise $\hsame$ and displayed $\Cont$ replay; and non-escape from host Boolean algebras, powersets, ultrafilter spaces, locale carriers, quotient lattices, and topological representation theorems.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $J,M,K,Z,O,R,H,C,P,N$ are the complete visible inventory, with $R$ carrying the order comparison and $P$ naming the Bool, Poset, and Lattice sources.
+
+Apply the sibling order surfaces. The poset row supplies the comparison route, while the lattice row supplies the meet and join readings; the Bool row supplies only finite endpoint discrimination, not an external truth oracle.
+
+The complement row is checked against the displayed endpoints. The meet-with-complement route lands at $Z$, the join-with-complement route lands at $O$, and both reads are transported only by $H$ and replayed only by $C$.
+
+Since no row names a powerset algebra, ultrafilter space, locale carrier, quotient lattice, or ambient topology, coordinate exhaustion gives the stated non-escape boundary for the local naming certificate.
+\end{proof}
+
+\begin{closurestatus}{\BooleanAlgebraUp}
+  \constructivestory{A $\BooleanAlgebraUp$ packet is generated from finite join, meet, complement, zero, one, order, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local $\NameCert$ rows, with Bool, Poset, and Lattice sources read only through their displayed NameCert surfaces.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:booleanalgebra-bhist-carrier} and \autoref{thm:booleanalgebra-namecert-obligation-surface} bind the finite carrier and five-row local naming obligation surface for Boolean algebra packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Stone duality, Heyting algebra, locale theory, frame theory, ultrafilter construction, powerset representation, or a Lean theorem.}
+  \upgradepath{Obligation closure requires checked carrier habitation, order-lattice compatibility, complement endpoint exactness, transport replay, and non-escape for the same finite packet.}
+\end{closurestatus}
