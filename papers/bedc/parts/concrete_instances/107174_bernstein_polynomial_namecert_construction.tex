@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\BernsteinPolynomialUp$}
+\label{ch:concrete-instances-bernstein-polynomial-namecert}
+\origin{human}
+
+Following Bernstein and Bishop--Bridges constructive analysis, the $\BernsteinPolynomialUp$ packet records constructive uniform approximation over displayed $\RealUp$ interval data as finite BEDC rows. It sits after the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the real-name surface of \autoref{ch:concrete-instances-real-namecert}, the compact-uniform continuity packet of \autoref{ch:concrete-instances-compactuniformcontinuity-namecert}, the uniform-modulus carrier of \autoref{ch:concrete-instances-uniformmodulus-namecert}, and the rational observation rows of \autoref{ch:concrete-instances-rat-namecert}. The chapter names the finite Bernstein basis, coefficient, mesh, and error-ledger surface; it does not import a host Weierstrass theorem, a selected infinite approximation sequence, quotient equality of real functions, or ambient completeness beyond the cited rows.
+
+\begin{definition}[Bernstein polynomial carrier]
+\label{def:bernstein-polynomial-carrier}
+A $\BernsteinPolynomialUp$ carrier is a finite $\BHist$ packet
+$$
+B=(I,F,U,M,S,K,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\RealUp$ closed interval row, exposing the endpoint names and the interval membership boundary used by the approximation request.
+\item $F$ is the sampled $\RealUp$ function-read row over $I$, read only through the compact-uniform continuity surface.
+\item $U$ is the $\CompactUniformContinuityUp/\UniformModulusUp$ row that supplies a finite modulus request for the interval.
+\item $M$ is the dyadic mesh row, recording the chosen mesh scale, mesh points, and interval subdivision ledger.
+\item $S$ is the $\RatUp$ coefficient row, listing the rational sample and binomial-weight reads used by the displayed Bernstein polynomial.
+\item $K$ is the $\PolynomialUp$ Bernstein-basis row, recording the finite basis terms and the polynomial assembly route.
+\item $E$ is the uniform-error ledger, comparing each mesh and interval cell read against the requested tolerance by rational bounds.
+\item $H$ records componentwise $\hsame$ transport for interval, function-read, modulus, mesh, coefficient, basis, error, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from interval admission through compact-uniform modulus selection, dyadic mesh construction, rational coefficient readback, polynomial assembly, and uniform-error certification.
+\item $P$ records $\Pkg$ provenance over $\BernsteinPolynomialUp$, $\RealUp$, $\PolynomialUp$, $\RatUp$, $\CompactUniformContinuityUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BernsteinPolynomialUp}$ row.
+\end{enumerate}
+The classifier compares accepted Bernstein packets only through $I,F,U,M,S,K,E,H,C,P,N$. It has no coordinate for host function equality, a nonconstructive supremum, a choice-selected polynomial sequence, or an external real-analysis theorem.
+\end{definition}
+
+\begin{theorem}[Bernstein polynomial NameCert obligations]
+\label{thm:bernstein-polynomial-namecert-obligations}
+For every accepted $\BernsteinPolynomialUp$ carrier
+$$
+B=(I,F,U,M,S,K,E,H,C,P,N),
+$$
+the local $\NameCert_{\BernsteinPolynomialUp}$ surface consists exactly of interval admission, compact-uniform modulus exposure, dyadic mesh construction, rational coefficient readback, Bernstein-basis polynomial assembly, uniform-error ledger exactness, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming.
+
+Every approximation-facing consumer must read
+$$
+\RealUp,\ \CompactUniformContinuityUp,\ \UniformModulusUp,\ \RatUp,\ \PolynomialUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert
+$$
+through these rows before it receives a Bernstein approximation certificate.
+\end{theorem}
+
+\begin{theorem}[Bernstein uniform approximation boundary]
+\label{thm:bernstein-polynomial-uniform-approximation-boundary}
+Given an accepted $\BernsteinPolynomialUp$ packet and a displayed tolerance request, the exported approximation boundary is the finite route
+$$
+I,F,U \longmapsto M \longmapsto S,K \longmapsto E \longmapsto H,C,P,N.
+$$
+The packet may certify only that the displayed Bernstein polynomial row meets the displayed uniform-error ledger over the displayed interval. It does not claim a free-standing Weierstrass theorem, an ambient complete function space, a quotient equality class of continuous functions, or a selected infinite chain of approximants.
+\end{theorem}
+
+\closureat{BernsteinPolynomialUp}{seedStr}
+
+\begin{closurestatus}{\BernsteinPolynomialUp}
+  \constructivestory{A $\BernsteinPolynomialUp$ packet is generated from Real interval rows, compact-uniform modulus rows, dyadic mesh rows, Rat coefficient rows, Polynomial Bernstein-basis rows, a uniform-error ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bernstein-polynomial-carrier}, \autoref{thm:bernstein-polynomial-namecert-obligations}, and \autoref{thm:bernstein-polynomial-uniform-approximation-boundary} seed the finite constructive approximation certificate over interval, modulus, mesh, coefficient, basis, error, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the Weierstrass approximation theorem, host function equality, selected approximation sequences, ambient complete function spaces, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked interval admission, modulus exposure, dyadic mesh construction, rational coefficient readback, polynomial assembly, uniform-error exactness, transport, replay, provenance, and local naming for BEDC.Derived.BernsteinPolynomialUp.}
+\end{closurestatus}
