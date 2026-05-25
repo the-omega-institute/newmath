@@ -120,6 +120,50 @@ The center and bound rows supply the displayed comparison data. The row $c$ name
 The containment ledger $B$ is then required before the consumer can treat membership as bounded. The remaining rows $H,C,P,N$ transport, replay, package, and name the same finite route, so no supremum, selected maximum, compactness theorem, or ambient completeness row can be read by a diameter or uniform-space consumer.
 \end{proof}
 
+\begin{theorem}[BoundedSet diameter consumer handoff]
+\label{thm:bounded-set-diameter-consumer-handoff}
+Every diameter-facing consumer of an accepted $\BoundedSetUp$ carrier $Q=(X,S,c,r,B,H,C,P,N)$ must receive the rows $X,S,c,r,B,H,C,P,N$ before it can read bounded-subset data. In particular, the consumer must pass through the $\MetricUp$ carrier $X$, the $\MetricBallUp$ containment ledger $B$, and the $\RealAlgOrderUp$ or $\RealUp$ comparison row $r$ before any $\MetricDiameterUp$ bound is public.
+
+The handoff exports no supremum, selected maximum, compactness theorem, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-set-carrier}. The only subset data is $S$, and the only bounding data is the displayed center or witness $c$, bound row $r$, and containment ledger $B$.
+
+Apply \autoref{thm:bounded-set-ball-containment-route}. It places every membership read behind the route from $X,S$ through $c,r$ and then through $B$.
+
+Apply \autoref{thm:bounded-set-real-bound-nonescape}. The bound row is read only through the displayed Real or rational comparison surface, so a diameter consumer cannot replace it by a supremum or selected maximum.
+
+The rows $H,C,P,N$ preserve the same route under transport, replay, provenance, and local naming. Since compactness, trichotomy, and ambient Real completeness have no carrier coordinate, the handoff stops at the displayed bounded-set rows.
+\end{proof}
+
+\begin{theorem}[BoundedSet finite-net consumer boundary]
+\label{thm:bounded-set-finite-net-consumer-boundary}
+Every finite-net or precompactness consumer of an accepted $\BoundedSetUp$ carrier $Q=(X,S,c,r,B,H,C,P,N)$ must read boundedness through $X,S,c,r,B,H,C,P,N$, with $X$ supplying the $\MetricUp$ carrier, $B$ supplying the $\MetricBallUp$ boundary, and $r$ supplying the $\RealAlgOrderUp$ or $\RealUp$ comparison data. The consumer receives a bounded-subset boundary for later finite-net construction; it does not receive compactness, an open-cover subcover, a selected finite net, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from a finite-net request. The carrier does not contain a finite-net row, so the request can only consume boundedness through the subset classifier $S$ and the displayed ball data $c,r,B$.
+
+Use \autoref{thm:bounded-set-ball-containment-route}. It requires each accepted member of $S$ to pass through the $\MetricBallUp$ ledger before bounded-subset data is available.
+
+Use \autoref{thm:bounded-set-real-bound-nonescape}. It keeps the radius row within the Real or rational comparison route and refuses selected maxima, suprema, and trichotomy.
+
+The structural rows $H,C,P,N$ export only this bounded boundary. Since a finite net, compactness theorem, open-cover subcover, and ambient completeness principle are absent from $Q$, the consumer must obtain those obligations elsewhere.
+\end{proof}
+
+\begin{theorem}[BoundedSet completion nonescape]
+\label{thm:bounded-set-completion-nonescape}
+Every completion-facing consumer of an accepted $\BoundedSetUp$ carrier $Q=(X,S,c,r,B,H,C,P,N)$ must pass through $X,S,c,r,B,H,C,P,N$, the $\MetricUp$ carrier, the $\MetricBallUp$ containment ledger, and the $\RealAlgOrderUp$ or $\RealUp$ comparison row before it can use bounded-subset data. The carrier supplies a boundedness boundary for completion arguments, not a completed subset, not a selected completion point, not compactness, not trichotomy, and not ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the bounded-set carrier. Its analytic rows are the metric carrier $X$, subset classifier $S$, displayed center or witness $c$, comparison row $r$, and containment ledger $B$.
+
+Apply \autoref{thm:bounded-set-ball-containment-route}. A completion-facing consumer must see membership routed through the displayed ball before it may consume boundedness.
+
+Apply \autoref{thm:bounded-set-real-bound-nonescape}. The comparison row remains a Real or rational bound read through $\RealAlgOrderUp$ or $\RealUp$, not a completeness assertion.
+
+Finally transport and replay through $H,C,P,N$. Since the carrier has no completed-subset row, selected completion point, compactness proof, trichotomy row, or ambient Real-completeness theorem, boundedness cannot escape into those stronger completion claims.
+\end{proof}
+
 \closureat{BoundedSetUp}{seedStr}
 
 \begin{closurestatus}{\BoundedSetUp}
