@@ -1266,6 +1266,7 @@ import BEDC.Derived.CauchyProductUp.CommutedBudgetRoute
 import BEDC.Derived.CauchyProductUp.L10DependencyLattice
 import BEDC.Derived.CauchyProductUp.LimitSealSiblingDependency
 import BEDC.Derived.CauchyProductUp.PairedWindowLedgerClassifier
+import BEDC.Derived.CauchyProductUp.PairedWindowSourceAdmission
 import BEDC.Derived.CauchyProductUp.ProductSealNonescape
 import BEDC.Derived.CauchyProductUp.PublicInterfaceExport
 import BEDC.Derived.CauchyProductUp.RadiusBudgetConservation
@@ -4441,6 +4442,7 @@ import BEDC.Derived.PadicUp.AppendCommutation
 import BEDC.Derived.PadicUp.AppendUnitLeft
 import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.PaperLeanDriftWitnessUp
+import BEDC.Derived.ParacompactUp.TasteGate
 import BEDC.Derived.ParallelConfluenceAuditUp.TasteGate
 import BEDC.Derived.PartitionUp
 import BEDC.Derived.PdeUp
@@ -5158,6 +5160,7 @@ import BEDC.Derived.RegularCauchyLocatedOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyLocationWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyMapUp.TasteGate
 import BEDC.Derived.RegularCauchyMaxUp.TasteGate
+import BEDC.Derived.RegularCauchyMaximumUp.TasteGate
 import BEDC.Derived.RegularCauchyMeshUp.TasteGate
 import BEDC.Derived.RegularCauchyMetricUp.TasteGate
 import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
@@ -5523,6 +5526,7 @@ import BEDC.Derived.SpeckerSequenceUp.TasteGate
 import BEDC.Derived.SpectralMeasureUp
 import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.SpectralTheoremUp
+import BEDC.Derived.SpernerLemmaUp.TasteGate
 import BEDC.Derived.SpinGroupUp
 import BEDC.Derived.SpinGroupUp.BoundaryConsumerExactness
 import BEDC.Derived.SpinGroupUp.CarrierObligation
