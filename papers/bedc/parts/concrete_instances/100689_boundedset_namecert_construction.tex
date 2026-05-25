@@ -67,6 +67,7 @@ The containment claim is downstream of those rows. The ledger $B$ is the only co
 
 The structural rows preserve the same order. Componentwise transport, replay, provenance, and local naming add no coordinate for any stronger analytic principle, so the displayed factorization is the only exported route.
 \end{proof}
+\leanchecked{BEDC.Derived.BoundedSetUp.BoundedSetCarrier\_ball\_containment\_route}
 
 \begin{theorem}[BoundedSet real-bound nonescape]
 \label{thm:bounded-set-real-bound-nonescape}
@@ -90,6 +91,44 @@ Project the carrier named in \autoref{def:bounded-set-carrier}. The subset class
 The only route from membership to boundedness passes through these rows. The consumer first reads $X,S,c,r$, then reads $B$ as the MetricBall containment ledger, and only then reaches the replay and naming rows $H,C,P,N$.
 
 Since no other analytic coordinate occurs in the carrier, diameter and uniform-space consumers cannot bypass either the ball-containment row or the real-order comparison row.
+\end{proof}
+
+\begin{theorem}[BoundedSet MetricBall carrier obligation]
+\label{thm:boundedset-metricball-carrier-obligation}
+For every accepted $\BoundedSetUp$ carrier $Q=(X,S,c,r,B,H,C,P,N)$, each membership read of $S$ must pass through the displayed $\MetricBallUp$ containment ledger $B$ over the same metric carrier $X$, center row $c$, and bound row $r$ before it can be consumed as bounded-set data. The carrier exports no host set, subset comprehension oracle, selected maximal point, supremum row, trichotomy proof, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-set-carrier}. The subset classifier $S$ is paired with the metric carrier $X$, center row $c$, bound row $r$, and containment ledger $B$ inside the same finite tuple.
+
+Apply \autoref{thm:bounded-set-ball-containment-route}. It forces every accepted membership read to follow the route from $X,S$ through $c,r$ and then through $B$ before the structural rows are available.
+
+Use \autoref{thm:bounded-set-real-bound-nonescape}. The excluded host set, supremum, selected maximum, trichotomy, and ambient completeness rows have no coordinate in the packet, so the $\MetricBallUp$ ledger is the only boundedness carrier obligation.
+\end{proof}
+
+\begin{theorem}[BoundedSet RealAlgOrder radius obligation]
+\label{thm:boundedset-real-order-radius-obligation}
+For every accepted $\BoundedSetUp$ carrier $Q=(X,S,c,r,B,H,C,P,N)$, the radius or bound row $r$ is readable only through the displayed $\RealAlgOrderUp$ comparison surface before the $\MetricBallUp$ containment row $B$ can witness membership containment. A diameter, uniform-space, finite-net, or completion-facing consumer cannot replace $r$ by a host supremum, selected maximum, trichotomy decision, compactness proof, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the bound row in \autoref{def:bounded-set-carrier}. It is explicitly a $\RealUp$ or rational bound read through $\RealAlgOrderUp$, and it is paired with $c$ and $B$ rather than with a host-order extremum.
+
+Apply \autoref{thm:bounded-set-real-bound-nonescape}. That theorem confines every replay of $r$ to the displayed comparison-and-containment route.
+
+Then use \autoref{thm:bounded-set-diameter-consumer-boundary}. Downstream consumers receive boundedness only after the $\MetricBallUp$ containment and real-order comparison rows are displayed, so no stronger analytic principle can replace the radius obligation.
+\end{proof}
+
+\begin{theorem}[BoundedSet NameCert ledger nonescape]
+\label{thm:boundedset-namecert-ledger-nonescape}
+Let $Q=(X,S,c,r,B,H,C,P,N)$ be an accepted $\BoundedSetUp$ carrier. The local $\NameCert_{\BoundedSetUp}$ ledger consumes exactly the membership classifier $S$, $\MetricBallUp$ containment row $B$, $\RealAlgOrderUp$ radius comparison row $r$, and structural rows $H,C,P,N$ over the metric carrier $X$ and center row $c$. No accepted ledger read can escape into host sets, suprema, selected maxima, trichotomy, compactness, finite-net existence, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:bounded-set-namecert-obligations}. It identifies carrier admission, subset classifier stability, ball containment, real-bound nonescape, and transport-replay stability as the whole local certificate surface.
+
+Use \autoref{thm:boundedset-metricball-carrier-obligation} for the membership side. Every accepted member of $S$ must pass through the displayed $\MetricBallUp$ ledger $B$ over $X,c,r$.
+
+Use \autoref{thm:boundedset-real-order-radius-obligation} for the radius side. The bound row $r$ remains a $\RealAlgOrderUp$ comparison input and not a host extremal object or completeness theorem.
+
+The structural rows $H,C,P,N$ only transport, replay, source, and name this same route. Since the carrier has no coordinate for the excluded analytic objects, the NameCert ledger cannot export them.
 \end{proof}
 
 \begin{theorem}[BoundedSet subset-ball replay stability]

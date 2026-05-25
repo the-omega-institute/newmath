@@ -169,7 +169,37 @@ theorem ContinuationBigStepCarrier_namecert_obligations [AskSetup] [PackageSetup
       (And.intro traceUnary
         (And.intro terminalUnary
           (And.intro endpointUnary
-            (And.intro terminalRow
-              (And.intro replayRow replayCert))))))
+              (And.intro terminalRow
+                (And.intro replayRow replayCert))))))
+
+theorem ContinuationBigStepConsumerExactness [AskSetup] [PackageSetup]
+    {source trace terminal witness transport replay provenance nameCert terminalRead namedRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationBigStepPacket source trace terminal witness transport replay provenance nameCert
+        bundle pkg ->
+      Cont witness transport terminalRead ->
+        Cont terminalRead nameCert namedRead ->
+          PkgSig bundle namedRead pkg ->
+            Cont source trace replay ∧ Cont replay terminal witness ∧
+              Cont witness transport terminalRead ∧ Cont terminalRead nameCert namedRead ∧
+                UnaryHistory trace ∧ UnaryHistory terminal ∧ UnaryHistory witness ∧
+                  UnaryHistory terminalRead ∧ UnaryHistory namedRead ∧
+                    PkgSig bundle nameCert pkg ∧ PkgSig bundle namedRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont hsame PkgSig UnaryHistory ProbeBundle Pkg
+  intro packet terminalRoute namedRoute namedPkg
+  obtain ⟨sourceTraceReplay, replayTerminalWitness, traceUnary, terminalUnary, nameCertPkg⟩ :=
+    ContinuationBigStepPacket_small_step_factorization packet
+  obtain ⟨_sourceUnary, _traceUnary, _terminalUnary, witnessUnary, transportUnary,
+    _replayUnary, _provenanceUnary, nameCertUnary, _sourceTraceReplay,
+    _replayTerminalWitness, _witnessTransportProvenance, _nameCertSame, _nameCertPkg⟩ :=
+      packet
+  have terminalReadUnary : UnaryHistory terminalRead :=
+    unary_cont_closed witnessUnary transportUnary terminalRoute
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed terminalReadUnary nameCertUnary namedRoute
+  exact
+    ⟨sourceTraceReplay, replayTerminalWitness, terminalRoute, namedRoute, traceUnary,
+      terminalUnary, witnessUnary, terminalReadUnary, namedReadUnary, nameCertPkg, namedPkg⟩
 
 end BEDC.Derived.ContinuationBigStepUp

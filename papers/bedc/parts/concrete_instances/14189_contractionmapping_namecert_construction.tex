@@ -217,6 +217,18 @@ The $\PicardContractionUp$ route $I$ is the stored one-step replay for each adja
 \end{proof}
 \leanchecked{BEDC.Derived.ContractionMappingUp.ContractionMappingCarrier\_orbit\_uniqueness\_window}
 
+\begin{theorem}[ContractionMapping Picard regular-Cauchy uniqueness]
+\label{thm:contraction-mapping-picard-regular-cauchy-uniqueness}
+Let $K=(X,d,T,G,\lambda,M,I,H,C,P,N)$ be an accepted $\ContractionMappingUp$ carrier, and let $O=(x_0,\ell,B,R,W)$ and $O'=(x'_0,\ell',B',R',W')$ be accepted Picard orbit ledgers for the same contraction packet. If the two ledgers share the same displayed initial row and the same rational bound ledger, then the $\RegSeqRatUp$ handoff rows exported from $O$ and $O'$ are classifier-equivalent before any $\CompleteMetricUp$ endpoint row or $\BanachFixedPointUp$ seal is read.
+\end{theorem}
+\begin{proof}
+The shared displayed initial row and rational bound ledger put the two ledgers inside the orbit uniqueness window of \autoref{thm:contraction-mapping-orbit-uniqueness-window}. Hence every common finite Picard window is classifier-stable through the stored metric, graph-exact self-map, contraction, and replay rows.
+
+Use \autoref{thm:contraction-mapping-tail-modulus-readiness} to expose the same finite tail-modulus route for those windows. Then apply \autoref{thm:contraction-mapping-regular-cauchy-modulus-export}; the exported $\RegSeqRatUp$ surface reads only the Picard route, finite orbit rows, tail-bound extraction, transport, replay, provenance, and local naming rows.
+
+Finally, \autoref{thm:contraction-mapping-complete-metric-regular-cauchy-handoff} identifies the downstream boundary: a complete-metric consumer supplies its own endpoint discipline only after this regular-Cauchy route has been displayed. Therefore the two Picard ledgers determine classifier-equivalent $\RegSeqRatUp$ handoff rows without selecting a completed endpoint or invoking a $\BanachFixedPointUp$ seal.
+\end{proof}
+
 \begin{theorem}[ContractionMapping fixed-point tail seal]
 \label{thm:contraction-mapping-fixed-point-tail-seal}
 Before a $\BanachFixedPointUp$ consumer supplies the separate $\CompleteMetricUp$ row, the only endpoint-facing seal exported by an accepted $\ContractionMappingUp$ packet is the finite tail-modulus route of \autoref{thm:contraction-mapping-tail-modulus-readiness}. Thus every fixed-point-facing request must pass through the graph-exact self-map $T,G$, rational bound ledger $\lambda$, induced modulus $M$, Picard route $I$, finite orbit ledger $O$, and complete-metric handoff boundary; the contraction packet alone cannot select a fixed point or certify a completed endpoint.
@@ -277,13 +289,14 @@ Use the scoped dependency surface. The visible source stack includes $\CompleteM
 
 Thus the contraction packet contributes readiness data, not a completion theorem. Since no row names a limit point, selected fixed point, quotient map equality, or ambient completeness proof, the route remains a completion-facing boundary rather than a fixed-point construction.
 \end{proof}
+\leanchecked{BEDC.Derived.ContractionMappingUp.ContractionMappingCarrier\_completion\_readiness\_scope}
 
 \closureat{ContractionMappingUp}{seedStr}
 
 \begin{closurestatus}{\ContractionMappingUp}
   \constructivestory{A $\ContractionMappingUp$ packet is generated from a $\MetricUp$ carrier row, a metric-distance row, a self-map row, a graph row, a rational contraction-bound ledger below one, an induced modulus row, a one-step $\PicardContractionUp$ route, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:contraction-mapping-carrier}, \autoref{thm:contraction-mapping-namecert-obligations}, \autoref{thm:contraction-mapping-picard-step-contraction}, \autoref{def:contraction-mapping-cauchy-orbit-ledger}, \autoref{thm:contraction-mapping-cauchy-orbit-contractivity}, \autoref{thm:contraction-mapping-banach-handoff}, \autoref{thm:contraction-mapping-complete-metric-handoff}, \autoref{thm:contraction-mapping-tail-modulus-readiness}, \autoref{def:contraction-mapping-regular-cauchy-modulus-surface}, \autoref{thm:contraction-mapping-tail-bound-extraction}, \autoref{thm:contraction-mapping-regular-cauchy-modulus-export}, \autoref{thm:contraction-mapping-complete-metric-regular-cauchy-handoff}, \autoref{thm:contraction-mapping-fixed-point-readiness}, \autoref{thm:contraction-mapping-orbit-uniqueness-window}, \autoref{thm:contraction-mapping-fixed-point-tail-seal}, \autoref{thm:contraction-mapping-complete-metric-consumer-package}, \autoref{def:contraction-mapping-scoped-source-stack}, \autoref{thm:contraction-mapping-scoped-dependency-surface}, and \autoref{thm:contraction-mapping-completion-readiness-scope} bind the carrier, Picard-step contraction, finite orbit ledger, Banach handoff, complete-metric handoff, finite tail-modulus readiness, regular-Cauchy modulus surface, fixed-point readiness, orbit-window uniqueness, endpoint-facing tail seal, complete-metric consumer package, scoped source stack, scoped dependency surface, and completion readiness scope for the constructive self-map contraction packet.}
+  \scopeclosed{\autoref{def:contraction-mapping-carrier}, \autoref{thm:contraction-mapping-namecert-obligations}, \autoref{thm:contraction-mapping-picard-step-contraction}, \autoref{def:contraction-mapping-cauchy-orbit-ledger}, \autoref{thm:contraction-mapping-cauchy-orbit-contractivity}, \autoref{thm:contraction-mapping-banach-handoff}, \autoref{thm:contraction-mapping-complete-metric-handoff}, \autoref{thm:contraction-mapping-tail-modulus-readiness}, \autoref{def:contraction-mapping-regular-cauchy-modulus-surface}, \autoref{thm:contraction-mapping-tail-bound-extraction}, \autoref{thm:contraction-mapping-regular-cauchy-modulus-export}, \autoref{thm:contraction-mapping-complete-metric-regular-cauchy-handoff}, \autoref{thm:contraction-mapping-fixed-point-readiness}, \autoref{thm:contraction-mapping-orbit-uniqueness-window}, \autoref{thm:contraction-mapping-picard-regular-cauchy-uniqueness}, \autoref{thm:contraction-mapping-fixed-point-tail-seal}, \autoref{thm:contraction-mapping-complete-metric-consumer-package}, \autoref{def:contraction-mapping-scoped-source-stack}, \autoref{thm:contraction-mapping-scoped-dependency-surface}, and \autoref{thm:contraction-mapping-completion-readiness-scope} bind the carrier, Picard-step contraction, finite orbit ledger, Banach handoff, complete-metric handoff, finite tail-modulus readiness, regular-Cauchy modulus surface, fixed-point readiness, orbit-window uniqueness, Picard regular-Cauchy uniqueness, endpoint-facing tail seal, complete-metric consumer package, scoped source stack, scoped dependency surface, and completion readiness scope for the constructive self-map contraction packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

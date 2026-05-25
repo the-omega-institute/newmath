@@ -187,6 +187,21 @@ The threshold selected by $M$ may point to a larger finite window in $S$. This c
 The dyadic ledger and regular readback follow the same containment. The row $D$ records the earlier tolerance entry and the stronger tolerance entry as finite ledger data, while $Q$ is read only after $D$ has been displayed. Replaying $C$ therefore keeps the earlier window, ledger, readback, and terminal seal available to every downstream consumer.
 \end{proof}
 
+\begin{theorem}[Real Cauchy modulus cofinal window extraction]
+\label{thm:real-cauchy-modulus-cofinal-window-extraction}
+Let $B=(M,S,D,Q,E,H,C,P,N)$ be an accepted $\RealCauchyModulusUp$ packet. For any two finite unary precision requests whose second request refines the first, the displayed modulus row $M$ selects a finite $\StreamNameUp$ window in $S$ for the refined request that is cofinal over the earlier window. The extraction preserves the earlier $\DyadicRatCoreUp$ tolerance ledger entry, the $\RegSeqRatUp$ readback row, the terminal $\RealUp$ seal, and the structural rows $H,C,P,N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealCauchyModulusUp.RealCauchyModulusCarrier\_cofinal\_window\_extraction}
+\begin{proof}
+Proceed by induction on the finite unary refinement. The base request is handled by threshold-window totality, \autoref{thm:real-cauchy-modulus-threshold-window-totality}, which forces the read through $M$ and then the displayed finite window in $S$ before $D,Q,E$ are available.
+
+For the refinement step, use precision induction from \autoref{thm:real-cauchy-modulus-precision-induction}. The stronger request is still classified by the same carrier rows and therefore reads a scheduled threshold from $M$ and a finite window from $S$.
+
+Apply window monotonicity, \autoref{thm:real-cauchy-modulus-window-monotonicity}. The refined window may enlarge the displayed StreamName data, but it preserves the earlier finite window, dyadic tolerance entry, regular readback, and terminal seal.
+
+The continuation row $C$, transported by $H$ and sourced by $P,N$, repacks this preserved route as one accepted carrier read. Thus the finite window extracted for the refined request is cofinal over the earlier one, with the tolerance ledger, readback, seal, and structural rows intact.
+\end{proof}
+
 \begin{theorem}[Real Cauchy modulus seal determinacy]
 \label{thm:real-cauchy-modulus-seal-determinacy}
 Let $B=(M,S,D,Q,E,H,C,P,N)$ and $B'=(M',S',D',Q',E',H',C',P',N')$ be accepted $\RealCauchyModulusUp$ packets. If their modulus schedules, stream windows, dyadic tolerance ledgers, regular readbacks, terminal seal rows, continuation replays, provenance rows, and local naming rows are componentwise $\hsame$, then the local classifier exposes the same terminal $\RealUp$ seal route for $B$ and $B'$.
@@ -247,6 +262,7 @@ Finally use tail-threshold determinacy, \autoref{thm:real-cauchy-modulus-tail-th
 
 The componentwise $\hsame$ assumptions identify the schedules, windows, ledgers, and readback rows of $B$ and $B'$. Since ledger exhaustion excludes detached stream representatives, host equality, countable choice, and ambient completeness, both terminal seal reads factor through the same $\RegSeqRatUp$ classifier route.
 \end{proof}
+\leanchecked{BEDC.Derived.RealCauchyModulusUp.RealCauchyModulusCarrier\_regseqrat\_classifier\_determinacy}
 
 \begin{theorem}[Real Cauchy modulus tail handoff]
 \label{thm:real-cauchy-modulus-tail-handoff}

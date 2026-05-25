@@ -256,6 +256,34 @@ Zero-difference and source coverage are supplied by \autoref{thm:cauchy-converge
 Together these theorems account for carrier admission, window coverage, threshold stability, regular handoff, Real-seal nonescape, and ledger exhaustion. Since the carrier has no additional coordinate, the chapter reaches obligation closure exactly over the displayed packet.
 \end{proof}
 
+\begin{theorem}[Cauchy convergence criterion scope window]
+\label{thm:cauchy-convergence-criterion-scope-window}
+For every accepted $\CauchyConvergenceCriterionUp$ carrier $G=(S,M,D,R,E,H,C,P,N)$, the convergence criterion's window-threshold and tail-diameter reads are scoped by the displayed $\StreamNameUp$ schedule $S$, $\RegSeqRatUp$ handoff $R$, $\DyadicRatCoreUp$ ledger $D$, $\NullSequenceUp$ zero-difference factorization, and $\RealUp$ seal row $E$. A consumer must traverse
+$$
+S\longmapsto M\longmapsto D\longmapsto R\longmapsto E
+$$
+with $H,C,P,N$ before it can read a convergence boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The only windows are named by $S$, the only threshold row is $M$, the only dyadic tolerance ledger is $D$, and the only regular-rational handoff is $R$.
+
+Apply \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage} and \autoref{thm:cauchy-convergence-criterion-tail-diameter-scope}. These theorems force every finite window and tail-diameter request through $S,M,D,R$ before the seal row $E$ is available.
+
+Zero-difference and seal reads remain on the same route. By \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization}, any zero-difference comparison factors through the displayed $\NullSequenceUp$ packet; by \autoref{thm:cauchy-convergence-criterion-real-seal-handoff}, the $\RealUp$ consumer can only read the downstream seal row. The structural rows $H,C,P,N$ preserve and name that scope.
+\end{proof}
+
+\begin{theorem}[Cauchy convergence criterion kernel-dependency scope]
+\label{thm:cauchy-convergence-criterion-kernel-dependency-scope}
+Every exported read from an accepted $\CauchyConvergenceCriterionUp$ carrier depends only on $\BHist$, $\hsame$, displayed $\Cont$ replay, $\Pkg$ provenance, the local $\NameCert$ row, and the listed L10 dependencies $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\NullSequenceUp$, $\RealUp$, and $\CauchyLimitSealUp$. It does not depend on host limits, quotient equality, trichotomy, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The carrier definition exposes exactly $S,M,D,R,E,H,C,P,N$. Thus the kernel rows available to a consumer are the history packet, componentwise equality transport, continuation replay, provenance, and local naming row attached to those displayed dependencies.
+
+The obligation theorem and the source-triad exhaustion theorem account for carrier admission, finite-window classification, threshold stability, regular handoff, ledger exhaustion, and the pre-seal route. The null-sequence factorization and limit-seal determinacy theorems account for zero-difference and boundary comparisons without adding a new coordinate.
+
+Finally read the exclusions from the carrier surface. No row names a host limit, quotient equality, trichotomy branch, countable-choice selector, open-cover compactness object, or ambient completeness principle. Hence every exported criterion read is scoped by the stated kernel and L10 dependency rows.
+\end{proof}
+
 \closureat{CauchyConvergenceCriterionUp}{seedStr}
 \closureat{CauchyConvergenceCriterionUp}{obligationStr}
 
