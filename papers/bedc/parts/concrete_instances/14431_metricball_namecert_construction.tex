@@ -43,6 +43,20 @@ Finite refinement and intersection readiness are only readiness claims. They exp
 Ledger non-escape follows by inspecting the carrier. Every exported read is one of $X,d,c,r,\rho,m,H,C,P,N$, so no ambient powerset, unindexed open predicate, quotient equality test, or generated topology closure field can be recovered from the packet.
 \end{proof}
 
+\begin{theorem}[MetricBall refinement obligations]
+\label{thm:metric-ball-refinement-obligations}
+For an accepted $\MetricBallUp$ packet $B=(X,d,c,r,\rho,m,H,C,P,N)$, the refinement-facing obligation surface supplies exactly three additional rows. The first row transports positive-radius data through the $\RatUp$ or $\RealUp$ radius ledger before any consumer reads the comparison $d(c,x)<_{\mathsf R}r$. The second row refines the finite base into the topology singleton-ball index of \autoref{def:metric-finite-ball-indexed-topology}. The third row routes bounded-set containment through $\BoundedSetUp$ without replacing the center-radius packet by a host subset, selected supremum, compactness proof, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations of \autoref{def:metric-ball-carrier} and \autoref{thm:metric-ball-namecert-obligations}. They expose the carrier row, distance witness, center, radius, positive-radius ledger, membership comparison, transport, replay, provenance, and local name as the only rows of the packet.
+
+The positive-radius row is the transport route of \autoref{thm:metric-ball-positive-radius-transport}. It keeps $r$, $\rho$, and $m$ together through the ordered-real comparison used by the metric source, so the $\RatUp$ or $\RealUp$ radius cannot be read independently of its positivity evidence.
+
+The finite-base refinement row is the topology handoff of \autoref{thm:metric-ball-topology-handoff}. It sends the center-radius datum to the singleton-ball index in \autoref{def:metric-finite-ball-indexed-topology}, and then to the singleton carrying theorem already cited by that handoff.
+
+The bounded containment row is the route of \autoref{thm:metric-ball-boundedset-containment-route}. It hands the same transported comparison to $\BoundedSetUp$ and leaves no coordinate for a host subset, selected maximum, compactness witness, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[MetricBall topology handoff]
 \label{thm:metric-ball-topology-handoff}
 Every $\TopologyUp$ metric-generated singleton-ball open read factors through a $\MetricBallUp$ packet before it enters generated-open exactness. In particular, the singleton ball datum of \autoref{def:metric-finite-ball-indexed-topology} and the singleton carrying theorem of \autoref{thm:metric-balls-instantiate-indexed-topology-opens} are read as the $X,d,c,r,\rho,m,H,C,P,N$ rows of $\MetricBallUp$ and only then handed to the indexed topology carrier.
