@@ -1,11 +1,11 @@
 import BEDC.FKernel.Hist
 
-namespace BEDC
-namespace Derived
+namespace BEDC.Derived
 
-inductive CauchySpeedupUp : Type
-| mk (A J D W R E H C P N : BEDC.FKernel.Hist.BHist) : CauchySpeedupUp
+open BEDC.FKernel.Hist
+
+inductive CauchySpeedupUp : Type where
+  | mk (A J D W R E H C P N : BHist) : CauchySpeedupUp
   deriving DecidableEq
 
-end Derived
-end BEDC
+end BEDC.Derived
