@@ -1,21 +1,21 @@
 \begin{theorem}[SeparatedMetric root distance-completion row exhaustion]
-\label{thm:separatedmetric-root-distance-completion-row-exhaustion}
+\label{thm:separatedmetric-consumer-distance-completion-row-exhaustion}
 For every accepted $\SeparatedMetricUp$ zero-distance carrier $S=\mathsf{SepZero}(X,D,Z,E,L,H,C,P,N)$, the zero-distance and completion-equivalence obligations are exhausted by the rows $X,D,Z,E,L,H,C,P,N$ together with \autoref{thm:separatedmetric-root-zero-distance-dependency}, \autoref{thm:separatedmetric-root-completion-limit-handoff}, and \autoref{thm:separatedmetric-root-classifier-nonescape}.
 \end{theorem}
 \begin{proof}
 Project $S$. The cited root theorems first expose $X,D,Z$, then route completion-facing reads through $E,L$, and finally refuse every classifier read not carried by $H,C,P,N$.
 \end{proof}
 \begin{theorem}[SeparatedMetric Real-seal classifier transport budget]
-\label{thm:separatedmetric-real-seal-classifier-transport-budget}
+\label{thm:separatedmetric-consumer-real-seal-classifier-transport-budget}
 Every Real-seal classifier transport from an accepted carrier $S=\mathsf{SepZero}(X,D,Z,E,L,H,C,P,N)$ must consume the zero-distance row $D$, the completion handoff rows $E,L$, and the structural budget $H,C,P,N$ before any separated classifier export is available.
 \end{theorem}
 \begin{proof}
 Apply \autoref{thm:separatedmetric-root-completion-limit-handoff} to place completion reads behind $E,L$ and \autoref{thm:separatedmetric-root-classifier-nonescape} to keep the classifier behind $X,D,Z,H,C,P,N$.
 \end{proof}
 \begin{theorem}[SeparatedMetric NameCert consumer row coverage]
-\label{thm:separatedmetric-namecert-consumer-row-coverage}
+\label{thm:separatedmetric-consumer-namecert-row-coverage}
 Every accepted $\NameCert_{\SeparatedMetricUp}$ consumer row for $S=\mathsf{SepZero}(X,D,Z,E,L,H,C,P,N)$ is covered by the zero-distance route, the completion-equivalence route, or the classifier nonescape route, and no consumer row can be sourced from host equality, quotient equality, selected representatives, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness.
 \end{theorem}
 \begin{proof}
-Use \autoref{thm:separatedmetric-root-distance-completion-row-exhaustion}. Its row exhaustion combines the zero-distance dependency, completion-limit handoff, and classifier nonescape statements, leaving no carrier coordinate for the excluded consumers.
+Use \autoref{thm:separatedmetric-consumer-distance-completion-row-exhaustion}. Its row exhaustion combines the zero-distance dependency, completion-limit handoff, and classifier nonescape statements, leaving no carrier coordinate for the excluded consumers.
 \end{proof}
