@@ -1,0 +1,41 @@
+\begin{theorem}[MetaCIC critical-path normalization-frontier dependency exposure]
+\label{thm:metacic-critical-path-normalization-frontier-dependency-exposure}
+Every accepted $\MetaCICCriticalPathUp$ packet exposes the normalization-frontier dependency as the finite row route from the candidate-mediated strong-normalization surface of $\MetaCICNormalizationFrontierUp$ and $\MetaCICNormalizationCertificateRouterUp$ into the normal-form endpoint row $N$ of \autoref{def:metacic-critical-path-packet}. The exposure also keeps the source-window siblings $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ visible through the open-phase ledger before any normal-form read is consumed.
+
+This row is an obligation surface for the MetaCIC critical path. It is not a subject-reduction proof, not a closed-consistency theorem, and not a verification-axis upgrade.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $K=(S,N,O,U,D,H,C,P,L)$. The row $S$ is the only normalization-frontier entrance, and the row $N$ is the only normal-form endpoint available to a consistency-facing consumer.
+
+Read the cited sibling packets through the same route. $\MetaCICNormalizationFrontierUp$ and $\MetaCICNormalizationCertificateRouterUp$ supply the candidate-mediated normalization evidence, while $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ remain the finite source ledger rows for the open phase.
+
+Since $O$ and $D$ remain visible beside $S$ and $N$, the dependency exposure stops at the displayed obligation row. No carrier coordinate fills subject reduction or raises the verification axis.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path confluence-audit dependency exposure]
+\label{thm:metacic-critical-path-confluence-audit-dependency-exposure}
+Every accepted $\MetaCICCriticalPathUp$ packet exposes the confluence-audit dependency through the handoff row $U$, with the confluence-facing siblings $\CandidateSNConfluenceBoundaryUp$, $\FiniteObservationConfluenceUp$, $\MetaCICConfluenceCriticalPairBoundaryUp$, and $\MetaCICCriticalPairLedgerUp$ read only as bounded audit rows. The packet may use these rows to keep the route from $S$ to $N$ coherent with the displayed obstruction $O$ and discharge socket $D$.
+
+This row is an obligation surface for confluence auditing on the MetaCIC path. It is not a Church--Rosser theorem, not a subject-reduction proof, and not a verification-axis upgrade.
+\end{theorem}
+\begin{proof}
+Begin with the handoff row $U$ in \autoref{def:metacic-critical-path-packet}. It is the only row that names substitution, confluence, and decidability support before the normal-form consistency read is attempted.
+
+The confluence-facing siblings are therefore consumed as finite audit rows. $\CandidateSNConfluenceBoundaryUp$ and $\FiniteObservationConfluenceUp$ keep the SN-window and finite-observation sides bounded, while $\MetaCICConfluenceCriticalPairBoundaryUp$ and $\MetaCICCriticalPairLedgerUp$ keep critical-pair data visible as ledger entries.
+
+The obstruction row $O$ and socket $D$ remain part of the same carrier. Thus the confluence dependency is exposed as a bounded obligation surface, not as a proof of global confluence or as a change in verification status.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path closed-substitution boundary exposure]
+\label{thm:metacic-critical-path-closed-substitution-boundary-exposure}
+Every accepted $\MetaCICCriticalPathUp$ packet exposes closed-substitution support through the same handoff row $U$ and discharge socket $D$, reading $\MetaCICClosureTraceUp$, $\ClosedTermSubstitutionBoundaryUp$, $\SubjectReductionDischargeSocketUp$, and $\MetaCICResidualSubstitutionBoundaryUp$ only as boundary packets. The rows may explain which closed-substitution data must be present before a later subject-reduction consumer can act, but they do not fill that consumer.
+
+This row is an obligation surface for the closed-substitution boundary. It is not a subject-reduction proof, not a closed MetaCIC consistency theorem, and not a verification-axis upgrade.
+\end{theorem}
+\begin{proof}
+Inspect the critical-path carrier. The row $U$ names the substitution handoff, while $D$ names the separate discharge socket that must be filled before any subject-reduction consumer can be treated as supplied.
+
+The closed-substitution siblings are consumed only as boundary data. $\MetaCICClosureTraceUp$ records closedness-preservation routes, $\ClosedTermSubstitutionBoundaryUp$ records the closed-term projection boundary, $\SubjectReductionDischargeSocketUp$ records the four-row discharge socket, and $\MetaCICResidualSubstitutionBoundaryUp$ records the residual substitution boundary.
+
+Because $D$ remains a socket and $O$ remains visible, the packet cannot convert these boundary rows into subject reduction or closed consistency. The theorem records the dependency surface and no verification-axis change.
+\end{proof}

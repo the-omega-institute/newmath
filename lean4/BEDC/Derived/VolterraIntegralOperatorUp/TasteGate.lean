@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.VolterraIntegralOperatorUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -198,5 +208,43 @@ theorem VolterraIntegralOperatorTasteGate_single_carrier_alignment :
       ⟨volterraIntegralOperatorChapterTasteGate⟩,
       ⟨volterraIntegralOperatorFieldFaithful⟩,
       rfl⟩
+
+def VolterraIntegralOperatorCarrier [AskSetup] [PackageSetup]
+    (S K F I C A H R P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  Cont S K F ∧ Cont I C A ∧ Cont H R P ∧ PkgSig bundle N pkg
+
+theorem VolterraIntegralOperatorCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {S K F I C A H R P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    VolterraIntegralOperatorCarrier S K F I C A H R P N bundle pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          VolterraIntegralOperatorCarrier S K F I C A H R P N bundle pkg ∧ hsame row N)
+        (fun _row : BHist =>
+          VolterraIntegralOperatorCarrier S K F I C A H R P N bundle pkg ∧
+            Cont S K F ∧ Cont I C A ∧ Cont H R P)
+        (fun row : BHist => PkgSig bundle N pkg ∧ hsame row N)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier
+  have hcarrier := carrier
+  obtain ⟨sourceKernelFunction, integralCausalityApproximation, handoffReadbackProvenance,
+    namePkg⟩ := carrier
+  constructor
+  · constructor
+    · exact ⟨N, hcarrier, hsame_refl N⟩
+    · intro row _source
+      exact hsame_refl row
+    · intro row other sameRows
+      exact hsame_symm sameRows
+    · intro row middle other sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro row other sameRows source
+      exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+  · intro _row _source
+    exact
+      ⟨hcarrier, sourceKernelFunction, integralCausalityApproximation,
+        handoffReadbackProvenance⟩
+  · intro _row source
+    exact ⟨namePkg, source.right⟩
 
 end BEDC.Derived.VolterraIntegralOperatorUp
