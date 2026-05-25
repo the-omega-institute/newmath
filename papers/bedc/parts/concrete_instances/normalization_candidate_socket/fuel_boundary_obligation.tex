@@ -1,0 +1,13 @@
+\begin{theorem}[Normalization candidate socket fuel boundary]
+\label{thm:normalization-candidate-socket-fuel-boundary}
+Every $\NormalizationCandidateSocketUp$ consumer that asks for bounded normalization receives only the displayed finite socket rows: the candidate term window $M$, a fuel row $U$, a bounded trace row $T$, a closedness-preservation row $Q$, and the structural rows $H,C,P,N$ that transport and name that finite route. The trace row records that the fuel-indexed computation reaches the displayed bounded result within $U$ steps and that each recorded step preserves the closedness row $Q$. The socket does not export a strong-normalization certificate, a no-infinite-reduction theorem, an erased candidate projection, global confluence, quotient syntax equality, host evaluator soundness, or completed closed consistency from this bounded trace.
+\end{theorem}
+\begin{proof}
+Project the socket carrier of \autoref{def:normalization-candidate-socket-carrier}. The closed typed term window is available as $M$, while candidate, closed-candidate, and candidate-set rows remain the only rows that can support any strong-normalization export.
+
+For bounded normalization, insert the fuel row $U$ and bounded trace row $T$ between the term window and the replay rows. The trace is finite because each step is indexed by the displayed fuel ledger rather than by an unbounded reduction argument.
+
+Closedness preservation is carried separately by $Q$. Each trace edge may be read only together with the source and target closedness rows named by $Q$, so the consumer receives a closed finite computation rather than a global normalization theorem.
+
+Finally, $H,C,P,N$ transport, replay, package, and name exactly these displayed rows. Since no strong-normalization certificate is a coordinate of the bounded route, the socket boundary refuses any consumer that tries to read strong normalization from fuel alone.
+\end{proof}

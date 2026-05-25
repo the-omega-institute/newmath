@@ -64,6 +64,25 @@ The row $S$ is the dyadic step approximation surface attached to that displayed 
 
 The row $I$ then packages the regulated-integral handoff from the step approximation and bounded-variation ledger. Only after this handoff is displayed does $E$ expose a $\RealUp$ endpoint seal. Componentwise transport through $H$ and replay through $C$ preserve this order, and the package and local naming rows add no bypass coordinate.
 \end{proof}
+\leanchecked{BEDC.Derived.RiemannStieltjesUp.RiemannStieltjesCarrier\_regulated\_integral\_handoff}
+
+\begin{theorem}[Riemann--Stieltjes Darboux mesh refinement]
+\label{thm:riemann-stieltjes-darboux-mesh-refinement}
+Every accepted $\RiemannStieltjesUp$ carrier refines a finite Darboux mesh through the displayed $\RegulatedIntegralUp$, $\BoundedVariationUp$, $\RiemannSumUp$, $\DyadicStepFunctionUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. For a carrier
+$$
+R=(F,A,T,S,I,E,H,C,P,N),
+$$
+any downstream Darboux or tagged-sum consumer must read the refined mesh from $T$ and $S$, the integrator control from $A$, the regulated-integral handoff from $I$, and the endpoint seal from $E$. The packet exports no selected limit, quotient of tagged sums, host integrand quotient, host integrator quotient, or ambient real equality beyond those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier as $R=(F,A,T,S,I,E,H,C,P,N)$. The only partition data available to the consumer is the finite tagged-sum row $T$, and the only step approximation data available on a refinement is the dyadic step row $S$.
+
+Refine the displayed mesh by replaying the continuation row $C$. Each cell containment, tag read, and dyadic step replacement is transported componentwise through $H$, so the refinement is a BEDC row calculation rather than a host-level limit selection.
+
+The bounded-variation row $A$ controls the integrator contribution on the refined cells. Its endpoint jumps and variation ledger are finite rows, and the regulated-integral handoff row $I$ can be read only after $A,T,S$ have all been displayed.
+
+Finally, $P$ and $N$ route the refined mesh through the local package and classifier. Since equality is mediated only by $H$ and by the local $\NameCert_{\RiemannStieltjesUp}$ comparison, no quotient of tagged sums, selected limit, or ambient real equality is exported by the carrier.
+\end{proof}
 
 \closureat{RiemannStieltjesUp}{seedStr}
 

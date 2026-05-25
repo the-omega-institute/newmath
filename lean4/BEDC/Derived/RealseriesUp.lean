@@ -1,4 +1,5 @@
 import BEDC.FKernel.Package.Core
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived.RealseriesUp
@@ -7,6 +8,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -160,5 +162,140 @@ theorem RealSeries_partial_sum_ledger_nonescape [AskSetup] [PackageSetup]
   exact
     ⟨termUnary, partialUnary, partialWindowUnary, replayUnary, ledgerUnary,
       termPartialWindow, partialWindowReplayLedger, provenancePkg, ledgerPkg⟩
+
+theorem RealSeriesRegSeqRatTailObligation [AskSetup] [PackageSetup]
+    {term «partial» window readback dyadic threshold transport replay provenance cert
+      qtail endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealSeriesRootCauchyProductSurface term «partial» window readback dyadic threshold
+        transport replay provenance cert bundle pkg →
+      Cont readback dyadic qtail →
+        Cont qtail threshold endpoint →
+          PkgSig bundle endpoint pkg →
+            UnaryHistory readback ∧ UnaryHistory dyadic ∧ UnaryHistory qtail ∧
+              UnaryHistory threshold ∧ UnaryHistory endpoint ∧ Cont readback dyadic qtail ∧
+                Cont qtail threshold endpoint ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig
+  intro carrier readbackDyadicTail tailThresholdEndpoint endpointPkg
+  obtain ⟨_termUnary, _partialUnary, _windowUnary, readbackUnary, dyadicUnary,
+    thresholdUnary, _transportUnary, _replayUnary, _provenanceUnary, _certUnary,
+    _readbackDyadicThreshold, provenancePkg⟩ := carrier
+  have qtailUnary : UnaryHistory qtail :=
+    unary_cont_closed readbackUnary dyadicUnary readbackDyadicTail
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed qtailUnary thresholdUnary tailThresholdEndpoint
+  exact
+    ⟨readbackUnary, dyadicUnary, qtailUnary, thresholdUnary, endpointUnary,
+      readbackDyadicTail, tailThresholdEndpoint, provenancePkg, endpointPkg⟩
+
+theorem RealSeriesPartialSumWindowRoute [AskSetup] [PackageSetup]
+    {term «partial» window readback dyadic threshold transport replay provenance cert
+      partialWindow readbackWindow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealSeriesRootCauchyProductSurface term «partial» window readback dyadic threshold
+        transport replay provenance cert bundle pkg →
+      Cont «partial» window partialWindow →
+        Cont partialWindow readback readbackWindow →
+          PkgSig bundle readbackWindow pkg →
+            UnaryHistory «partial» ∧ UnaryHistory window ∧ UnaryHistory partialWindow ∧
+              UnaryHistory readback ∧ UnaryHistory readbackWindow ∧
+                Cont «partial» window partialWindow ∧
+                  Cont partialWindow readback readbackWindow ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle readbackWindow pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig
+  intro carrier partialWindowRoute readbackWindowRoute readbackWindowPkg
+  obtain ⟨_termUnary, partialUnary, windowUnary, readbackUnary, _dyadicUnary,
+    _thresholdUnary, _transportUnary, _replayUnary, _provenanceUnary, _certUnary,
+    _readbackDyadicThreshold, provenancePkg⟩ := carrier
+  have partialWindowUnary : UnaryHistory partialWindow :=
+    unary_cont_closed partialUnary windowUnary partialWindowRoute
+  have readbackWindowUnary : UnaryHistory readbackWindow :=
+    unary_cont_closed partialWindowUnary readbackUnary readbackWindowRoute
+  exact
+    ⟨partialUnary, windowUnary, partialWindowUnary, readbackUnary, readbackWindowUnary,
+      partialWindowRoute, readbackWindowRoute, provenancePkg, readbackWindowPkg⟩
+
+theorem RealSeriesNonescapeBoundary [AskSetup] [PackageSetup]
+    {term «partial» window readback dyadic threshold transport replay provenance cert
+      endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealSeriesRootCauchyProductSurface term «partial» window readback dyadic threshold
+        transport replay provenance cert bundle pkg →
+      Cont threshold cert endpointRead →
+        PkgSig bundle endpointRead pkg →
+          SemanticNameCert
+              (fun row : BHist =>
+                hsame row term ∨ hsame row «partial» ∨ hsame row window ∨
+                  hsame row readback ∨ hsame row dyadic ∨ hsame row threshold ∨
+                    hsame row endpointRead)
+              (fun row : BHist =>
+                hsame row term ∨ hsame row «partial» ∨ hsame row window ∨
+                  hsame row readback ∨ hsame row dyadic ∨ hsame row threshold ∨
+                    hsame row endpointRead)
+              (fun row : BHist =>
+                PkgSig bundle endpointRead pkg ∧
+                  (hsame row term ∨ hsame row «partial» ∨ hsame row window ∨
+                    hsame row readback ∨ hsame row dyadic ∨ hsame row threshold ∨
+                      hsame row endpointRead))
+              hsame ∧
+            UnaryHistory endpointRead ∧ Cont readback dyadic threshold ∧
+              Cont threshold cert endpointRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle endpointRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig SemanticNameCert hsame
+  intro carrier thresholdCertEndpoint endpointPkg
+  obtain ⟨_termUnary, _partialUnary, _windowUnary, readbackUnary, dyadicUnary,
+    thresholdUnary, _transportUnary, _replayUnary, _provenanceUnary, certUnary,
+    readbackDyadicThreshold, provenancePkg⟩ := carrier
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed thresholdUnary certUnary thresholdCertEndpoint
+  have sourceEndpoint :
+      (fun row : BHist =>
+        hsame row term ∨ hsame row «partial» ∨ hsame row window ∨
+          hsame row readback ∨ hsame row dyadic ∨ hsame row threshold ∨
+            hsame row endpointRead) endpointRead := by
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (hsame_refl endpointRead))))))
+  have certData :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row term ∨ hsame row «partial» ∨ hsame row window ∨
+            hsame row readback ∨ hsame row dyadic ∨ hsame row threshold ∨
+              hsame row endpointRead)
+        (fun row : BHist =>
+          hsame row term ∨ hsame row «partial» ∨ hsame row window ∨
+            hsame row readback ∨ hsame row dyadic ∨ hsame row threshold ∨
+              hsame row endpointRead)
+        (fun row : BHist =>
+          PkgSig bundle endpointRead pkg ∧
+            (hsame row term ∨ hsame row «partial» ∨ hsame row window ∨
+              hsame row readback ∨ hsame row dyadic ∨ hsame row threshold ∨
+                hsame row endpointRead))
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpointRead sourceEndpoint
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other leftSame rightSame
+        exact hsame_trans leftSame rightSame
+      carrier_respects_equiv := by
+        intro _row _other same source
+        cases same
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact ⟨endpointPkg, source⟩
+  }
+  exact
+    ⟨certData, endpointUnary, readbackDyadicThreshold, thresholdCertEndpoint, provenancePkg,
+      endpointPkg⟩
 
 end BEDC.Derived.RealseriesUp

@@ -129,6 +129,32 @@ the obstruction, but it cannot convert the obstruction into the closed
 substitution premise demanded by the closed diamond route.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit closed-face decider boundary]
+\label{thm:metacic-confluence-audit-closed-face-decider-boundary}
+Any finite decider row for the closed substitution face of an accepted
+$\MetaCICConfluenceAuditPacketUp$ carrier may be consumed only through the rows
+$S,H,T,P,L$ together with the existing closed-face hypotheses. It may not be
+promoted to full substitution compatibility, subject reduction, global
+$\beta$-conversion decidability, or arbitrary closed Church--Rosser.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:metacic-confluence-audit-packet-carrier}. The row $S$ is the
+substitution-boundary coordinate, while $H,T,P,L$ are the displayed transport,
+route replay, provenance, and local naming rows through which any finite
+closed-face decider must be read.
+
+Apply \autoref{thm:metacic-confluence-audit-packet-conditional-boundary} and
+\autoref{thm:metacic-confluence-audit-packet-closed-substitution-boundary}. The
+first keeps the generic substitution input conditional, and the second confines
+the closed substitution face to the hypotheses $\mathsf{ClosedAt}\ 0\ a$ and
+$\mathsf{ClosedAt}\ 1\ b$.
+
+The nonescape reading of the carrier then prevents promotion beyond those rows.
+There is no coordinate for full substitution compatibility, subject reduction,
+global $\beta$-conversion decidability, or arbitrary closed Church--Rosser.
+\end{proof}
+
 \begin{theorem}[MetaCIC confluence audit packet subject-reduction separation]
 \label{thm:metacic-confluence-audit-packet-subject-reduction-separation}
 The subject-reduction separation row $R$ of an accepted
@@ -365,6 +391,30 @@ First collect the positive and boundary rows from the carrier. The rows $D,C,N,A
 Next add the two displayed consumer routes. The residual critical-pair boundary and candidate-normalization handoff explain how downstream audits may consume those rows without creating a stronger MetaCIC theorem.
 
 Finally use transport, replay, provenance, and local naming. The rows $H,T,P,L$ preserve and name the same finite surface, and no further coordinate is present. Thus the ledger is exhausted exactly at the stated boundary and cannot conceal closed Church--Rosser, subject reduction, full substitution compatibility, or a substitution oracle.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence audit substitution-obligation inversion]
+\label{thm:metacic-confluence-audit-substitution-obligation-inversion}
+Any consumer that claims to use an accepted $\MetaCICConfluenceAuditPacketUp$ carrier for closed substitution compatibility must invert the carrier to the explicit substitution-obligation row $S$ together with the transport, replay, provenance, and local naming rows $H,T,P,L$. Residual critical-pair reads, candidate-normalization reads, normal-fragment reads, and subject-reduction-separation reads do not supply $S$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:metacic-confluence-audit-packet-conditional-boundary} and \autoref{thm:metacic-confluence-audit-packet-closed-substitution-boundary}. The former exposes only the conditional rows $D,C$, while the latter names $S$ as the closed-substitution boundary row.
+
+The residual, candidate, normal-fragment, and subject-reduction routes are then bounded by \autoref{thm:metacic-confluence-audit-residual-critical-pair-boundary}, \autoref{thm:metacic-confluence-audit-candidate-normalization-handoff}, and \autoref{thm:metacic-confluence-audit-obstruction-ledger-exhaustion}. They can consume the displayed audit surface but cannot manufacture the missing substitution row.
+
+Thus a substitution-compatibility consumer must read $S$ directly and replay it through $H,T,P,L$. Without that inversion, the packet exports only boundary data and not full closed substitution compatibility.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence critical-pair obligations]
+\label{thm:metacic-confluence-critical-pair-obligations}
+Every accepted $\MetaCICConfluenceAuditPacketUp$ carrier exposes the critical-pair surface as obligation rows rather than as a closed confluence theorem. The rows include candidate-mediated overlap formation, bounded local diamond witness, and normal-form readback nonescape, each routed through the carrier rows of \autoref{def:metacic-confluence-audit-packet-carrier}, the NameCert obligations of \autoref{thm:metacic-confluence-audit-packet-namecert-obligations}, the residual boundary of \autoref{thm:metacic-confluence-audit-residual-critical-pair-boundary}, the candidate-normalization handoff of \autoref{thm:metacic-confluence-audit-candidate-normalization-handoff}, and the obstruction ledger of \autoref{thm:metacic-confluence-audit-obstruction-ledger-exhaustion}. These rows preserve the TasteGate discipline of the chapter: without a displayed TasteGate marker for obligation promotion, they do not promote the packet beyond seed closure and they do not export closed Church--Rosser, subject reduction, full substitution compatibility, or global confluence.
+\end{theorem}
+\begin{proof}
+First form the candidate-mediated overlap row. The carrier rows expose conditional bridge data, normal-fragment data, substitution-boundary data, subject-reduction separation, transports, replay, provenance, and local naming, while the candidate-normalization handoff allows a candidate witness to be consumed only through that displayed audit surface.
+
+Next form the bounded local diamond witness row. The conditional boundary and residual critical-pair boundary route any overlap request into the finite windows already named by the packet, so the witness remains bounded by the displayed local audit rows rather than becoming an arbitrary parallel-diamond theorem.
+
+Finally read the normal-form nonescape row. The normal-fragment theorem and obstruction-ledger exhaustion account for the closed-normal, atom, source-shape, substitution-boundary, subject-reduction, residual, and candidate rows. Since the chapter is origin-ai and carries no displayed TasteGate marker for the promotion step, the theorem records obligation content only at seed closure and leaves stronger confluence principles outside the exported surface.
 \end{proof}
 
 \closureat{MetaCICConfluenceAuditPacketUp}{seedStr}

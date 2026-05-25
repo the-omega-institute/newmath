@@ -96,11 +96,27 @@ Project the first carrier along the same finite pattern. The matching request th
 
 The structural rows add no new primitive. The $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates in $M_f$ and $M_g$ transport and name the two projected routes, so their concatenation is still a finite tolerance-to-window route built from the displayed carrier rows alone.
 \end{proof}
+\leanchecked{BEDC.Derived.ModulusContinuityUp.ModulusContinuityCompositionRoute}
+
+\begin{theorem}[Modulus-continuity composition non-escape]
+\label{thm:modulus-continuity-composition-non-escape}
+Under the hypotheses of \autoref{thm:modulus-continuity-composition-route}, the composed Real or Completion consumer exports no open-cover compactness, selected limit, quotient stream equality, host real equality, detached continuity oracle, or ambient $\RealUp$ completeness. Every exported read is confined to the displayed rows of $M_f$ and $M_g$ and their concatenated finite tolerance-to-window route.
+\end{theorem}
+\leanchecked{BEDC.Derived.ModulusContinuityUp.ModulusContinuityCompositionNonescape}
+\begin{proof}
+Project both carriers through \autoref{def:modulus-continuity-carrier}. The only rows available in each packet are the continuous-map graph, source window, modulus row, dyadic ledger, regular readback, Real seal, transport, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:modulus-continuity-real-completion-handoff} to each leg. For $M_g$, the outer request reads its target tolerance through $D_g,K_g,S_g,G_g,Q_g$ before it reaches the matched surface. For $M_f$, that matched surface is consumed only through $D_f,K_f,S_f,G_f,Q_f,R_f$.
+
+Now concatenate the two displayed routes using \autoref{thm:modulus-continuity-composition-route}. Concatenation adds no coordinate beyond the rows already projected from $M_f$ and $M_g$; it only orders the finite tolerance-to-window reads into one longer route.
+
+The excluded analytic principles are absent from both carrier inventories. Since transport, replay, provenance, and local naming preserve the displayed rows rather than adding open-cover compactness, selected limits, quotient stream equality, host real equality, detached continuity oracles, or ambient Real completeness, none of those objects can be exported by the composed consumer.
+\end{proof}
 
 \begin{closurestatus}{\ModulusContinuityUp}
   \constructivestory{A $\ModulusContinuityUp$ packet is generated from a ContinuousMap graph row, a source StreamName window, a CauchyModulus tolerance-to-window row, a DyadicRatCore tolerance ledger, RegSeqRat readback, a Real target seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:modulus-continuity-carrier}, \autoref{thm:modulus-continuity-namecert-obligations}, \autoref{thm:modulus-continuity-real-completion-handoff}, and \autoref{thm:modulus-continuity-composition-route} seed the finite function-specific modulus route for Real and Completion consumers.}
+  \scopeclosed{\autoref{def:modulus-continuity-carrier}, \autoref{thm:modulus-continuity-namecert-obligations}, \autoref{thm:modulus-continuity-real-completion-handoff}, \autoref{thm:modulus-continuity-composition-route}, and \autoref{thm:modulus-continuity-composition-non-escape} seed the finite function-specific modulus route for Real and Completion consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close open-cover compactness, selected limits, quotient stream equality, host real equality, ambient $\RealUp$ completeness, Lean verification, or a public standard bridge.}

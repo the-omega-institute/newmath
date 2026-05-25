@@ -67,10 +67,29 @@ of \autoref{def:authorized-generator-recursor-displayed-route}. More precisely, 
 \end{enumerate}
 Consequently every request for an unrecorded host recursor, an unbounded recursion principle, an extra generator branch, or a detached output channel has no accepted coordinate in the $\AuthorizedGeneratorRecursorUp$ displayed-route packet.
 \end{lemma}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorDisplayedRoute\_downstream\_coverage}
 \begin{proof}
 Start with an accepted local consumer read of the displayed route. By \autoref{thm:authorized-generator-recursor-ledger-exhaustion}, every consumer read of an accepted $\AuthorizedGeneratorRecursorUp$ displayed route factors through the authorization row $A$, generator row $G$, recursion-fuel row $F$, continuation route $K$, package provenance row $P$, and local naming row $N$.
 
 Project those rows through \autoref{def:authorized-generator-recursor-displayed-route}. The displayed route is the finite $\BHist$ packet $R=(A,G,F,K,P,N)$, and the definition assigns each public coordinate a fixed role: $A$ admits the accepted generator signature, $G$ names the generator whose recursor is public, $F$ bounds the recursive descent, $K$ carries the displayed continuation data for branches, recursive calls, and output rows, $P$ records the package provenance for the route data, and $N$ supplies the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row. Thus the factorization supplied by ledger exhaustion lands in exactly the six alternatives listed in the statement.
 
 It remains to exclude requests not listed among those alternatives. An unrecorded host recursor would require a second recursor coordinate, but \autoref{def:authorized-generator-recursor-displayed-route} states that the route has no coordinate for one and \autoref{thm:authorized-generator-recursor-ledger-exhaustion} blocks importing one through a consumer read. An unbounded recursion principle would have to bypass $F$, while ledger exhaustion requires every recursive access to factor through the displayed fuel row. An extra generator branch would require a branch coordinate outside the continuation route $K$, but the displayed route exposes branches only through $K$. A detached output channel would require an output read not attached to $A,G,F,K,P,N$, while ledger exhaustion states that no consumer can read such an output. Hence every accepted local consumer is covered by the displayed finite rows, and every unlisted alternative remains outside the BEDC packet.
+\end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor public route]
+\label{thm:authorized-generator-recursor-public-route}
+For an accepted $\AuthorizedGeneratorRecursorUp$ displayed route
+$$
+R=(A,G,F,K,P,N),
+$$
+the public finite export surface for generator-recursor consumers is exactly the displayed route of \autoref{def:authorized-generator-recursor-displayed-route}, the ledger exhaustion of \autoref{thm:authorized-generator-recursor-ledger-exhaustion}, the NameCert route of \autoref{thm:authorized-generator-recursor-namecert-route}, and the downstream coverage of \autoref{lem:authorized-generator-recursor-displayed-route-downstream-coverage}. A consumer may read authorization, generator identity, recursion fuel, continuation data, provenance, and local naming from this surface, but it receives no unrecorded host recursor, unbounded recursion principle, extra generator branch, or detached output channel.
+\end{theorem}
+\begin{proof}
+First expose the displayed route. The definition fixes the six public rows $A,G,F,K,P,N$ and rules out any second recursor coordinate.
+
+Next apply ledger exhaustion. Every consumer read factors through those six rows, with recursive access routed through the fuel and continuation rows.
+
+Apply the NameCert route to package carrier exposure, classifier transport, route determinacy, ledger exhaustion, and non-escape as the local certificate surface.
+
+Finally apply downstream coverage. It identifies the accepted local consumer alternatives with the same six rows and excludes every request outside them, so the public export surface is exactly the displayed route together with its ledger and NameCert route.
 \end{proof}

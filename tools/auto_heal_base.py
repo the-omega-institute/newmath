@@ -914,8 +914,15 @@ def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
             if row.get("conclusion") != "failure":
                 continue
             ts = row.get("createdAt", "")
+            # GitHub Actions createdAt is UTC ISO ("YYYY-MM-DDTHH:MM:SSZ").
+            # time.mktime interprets strptime() output as LOCAL time, so a
+            # UTC 07:21 timestamp was being treated as local 07:21 — which
+            # in CST/UTC+8 sits 8h in the past and falls outside any
+            # reasonable cutoff window, silently dropping every failure.
+            # Use calendar.timegm to parse the UTC timestamp correctly.
+            import calendar as _calendar
             try:
-                t = time.mktime(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
+                t = _calendar.timegm(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
             except Exception:
                 t = time.time()
             if t < cutoff:
