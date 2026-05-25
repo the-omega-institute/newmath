@@ -11,3 +11,21 @@ Closedness preservation is carried separately by $Q$. Each trace edge may be rea
 
 Finally, $H,C,P,N$ transport, replay, package, and name exactly these displayed rows. Since no strong-normalization certificate is a coordinate of the bounded route, the socket boundary refuses any consumer that tries to read strong normalization from fuel alone.
 \end{proof}
+
+\begin{theorem}[Normalization candidate socket candidate-set readback]
+\label{thm:normalization-candidate-socket-candidate-set-readback}
+If an accepted $\NormalizationCandidateSocketUp$ packet exposes the candidate-set row $E$, then closed typed strong-normalization and no-infinite-reduction reads factor through the finite route
+$$
+M,E,A,B,I,H,C,P,N .
+$$
+Bounded fuel rows may refine the displayed trace, but they cannot replace $E$ as the candidate-set readback row. The packet therefore refuses global normalization, erased candidate projection, unrestricted subject reduction, global confluence, quotient syntax equality, host evaluator soundness, and completed consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:normalization-candidate-socket-carrier}. The closed typed term window $M$ is available to the socket, but \autoref{thm:normalization-candidate-socket-boundary} places strong-normalization and no-infinite-reduction exports downstream of candidate evidence.
+
+Now specialize that boundary to the candidate-set row $E$. The application adequacy row $A$ and Pi adequacy row $B$ can refine the route through function and dependent-function cases, while $I$ records the no-infinite-reduction read downstream of the candidate-mediated strong-normalization projection.
+
+Use \autoref{thm:normalization-candidate-socket-fuel-boundary} for bounded fuel traces. A fuel row may display a finite computation and preserve closedness along that trace, but it supplies no candidate-set membership, no candidate soundness, and no beta-closure data. It therefore cannot replace $E$.
+
+Finally $H,C,P,N$ transport, replay, source, and name the candidate-set route. Since neither the base carrier nor the bounded-fuel extension contains rows for global normalization, erased candidate projection, unrestricted subject reduction, global confluence, quotient syntax equality, host evaluator soundness, or completed consistency, those reads remain refused.
+\end{proof}
