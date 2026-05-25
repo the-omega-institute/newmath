@@ -92,6 +92,20 @@ Apply \autoref{thm:metacic-decidable-typing-frontier-audit-split}. The only rout
 Finally apply \autoref{thm:metacic-decidable-typing-frontier-nonescape}. The refusal row $R$ blocks global normalization, subject reduction, confluence, arbitrary closedness decidability, unrestricted beta-conversion, and quotient equality from being read as packet exports.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidable typing frontier positive checker exactness]
+\label{thm:metacic-decidable-typing-frontier-positive-checker-exactness}
+An accepted $\MetaCICDecidableTypingFrontierUp$ packet exports positive checker exactness only for \texttt{inferTypeCtx}, \texttt{checkSameTerm}, and \texttt{Term.eq}. Any read of \texttt{decideClosedBetaConv} must pass through the bounded normal-equality row with displayed fuel, bounded normalizer outputs, and finished-normalization hypotheses, and the refusal row blocks global normalization, subject reduction, confluence, arbitrary closedness decidability, unrestricted beta-conversion, and quotient equality.
+\end{theorem}
+\begin{proof}
+Project the carrier $F=(I,S,Q,B,R,H,C,P,N)$ of \autoref{def:metacic-decidable-typing-frontier-carrier}. The positive checker rows are exactly $I,S,Q$, so exactness for typing inference, same-term checking, and structural equality is confined to those rows.
+
+Compose the NameCert obligations of \autoref{thm:metacic-decidable-typing-frontier-namecert-obligations} with the audit split of \autoref{thm:metacic-decidable-typing-frontier-audit-split}. They keep the bounded beta-conversion read in $B$, where fuel and finished-normalization hypotheses are displayed before any comparison result is exported.
+
+Finally use the coverage frontier of \autoref{thm:metacic-decidable-typing-coverage-frontier}. It separates the positive checker rows from the bounded normal-equality row and reads the refusal row $R$ before transport, replay, provenance, and local naming finish the packet.
+
+Because the carrier has no row for global normalization, subject reduction, confluence, arbitrary closedness decidability, unrestricted beta-conversion, or quotient equality, those claims cannot be exported as positive checker exactness.
+\end{proof}
+
 \closureat{MetaCICDecidableTypingFrontierUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICDecidableTypingFrontierUp}
