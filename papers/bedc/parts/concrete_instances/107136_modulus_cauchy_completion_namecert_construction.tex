@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\ModulusCauchyCompletionUp$}
+\label{ch:concrete-instances-modulus-cauchy-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\ModulusCauchyCompletionUp$ packet records the finite completion endpoint surface obtained when a displayed Cauchy modulus is bound to regular rational readback and a terminal real seal. It sits over the modulus interface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the regular rational surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-window route of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the Bishop regular Cauchy completion packet of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a modulus-driven endpoint handoff; it does not choose a quotient representative, assert ambient completeness, or select limits by countable choice.
+
+\begin{definition}[Modulus Cauchy completion carrier]
+\label{def:modulus-cauchy-completion-carrier}
+A $\ModulusCauchyCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(M,S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\CauchyModulusUp$ row, carrying the finite precision-to-window schedule used by the completion endpoint request.
+\item $S$ is the $\StreamNameUp$ row, exposing the finite source windows admitted by the modulus schedule.
+\item $R$ is the $\RegSeqRatUp$ readback row, repacking the displayed stream windows as regular rational Cauchy data.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic thresholds, comparison rows, and endpoint error budgets used by $M,S,R$.
+\item $E$ is the endpoint seal row, read through the Bishop regular completion boundary and then through the terminal $\RealUp$ seal.
+\item $H$ stores componentwise $\hsame$ transport for the modulus, stream, readback, dyadic ledger, endpoint seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from the modulus schedule to source windows, from source windows to regular readback, from the dyadic ledger to endpoint tolerances, and from the regular completion handoff to the real seal.
+\item $P$ is the $\Pkg$ provenance over $\ModulusCauchyCompletionUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, Bishop regular Cauchy completion, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ModulusCauchyCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $M,S,R,D,E,H,C,P,N$. It contains no coordinate for quotient completion equality, selected host limits, countable choice, ambient real completeness, or a bridge-checked standard endpoint.
+\end{definition}
+
+\begin{theorem}[Modulus Cauchy completion NameCert obligations]
+\label{thm:modulus-cauchy-completion-namecert-obligations}
+For every accepted $\ModulusCauchyCompletionUp$ carrier $Q=(M,S,R,D,E,H,C,P,N)$, the local $\NameCert_{\ModulusCauchyCompletionUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed modulus, stream-window, regular readback, dyadic tolerance, endpoint seal, transport, replay, provenance, and local naming rows;
+\item modulus compatibility, requiring every endpoint request to read its threshold and observation window through the same $\CauchyModulusUp$ row $M$ and $\StreamNameUp$ row $S$;
+\item regular-readback stability, requiring the $\RegSeqRatUp$ row $R$ to be transported componentwise from the displayed stream windows and dyadic tolerance rows;
+\item endpoint handoff, requiring the endpoint row $E$ to be exposed only after the Bishop regular completion boundary and terminal $\RealUp$ seal have read $M,S,R,D$;
+\item ledger nonescape, excluding quotient completion equality, host real equality, selected limits, countable choice, ambient completeness, and bridge checking from the local carrier.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:modulus-cauchy-completion-carrier}. The rows $M,S,R,D,E,H,C,P,N$ are the full accepted inventory, so carrier admission and classifier comparison are finite.
+
+The modulus and stream rows are read together. A precision request reaches an observation window only through $M$ and $S$, and the dyadic row $D$ records the tolerance ledger attached to that same read.
+
+The regular readback and endpoint handoff are downstream. The row $R$ is obtained from the displayed windows and tolerance data, while $E$ is exposed only after the Bishop regular completion boundary and the $\RealUp$ seal consume the same rows.
+
+Finally inspect the missing coordinates. Since the carrier has no quotient equality, host real equality, selected limit, countable-choice, ambient-completeness, or bridge-checking row, the local NameCert surface cannot export any of those objects.
+\end{proof}
+
+\closureat{ModulusCauchyCompletionUp}{seedStr}
+
+\begin{closurestatus}{\ModulusCauchyCompletionUp}
+  \constructivestory{A $\ModulusCauchyCompletionUp$ packet is generated from a CauchyModulus row, finite StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, an endpoint Real/completion seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:modulus-cauchy-completion-carrier} and \autoref{thm:modulus-cauchy-completion-namecert-obligations} seed the finite modulus-to-endpoint packet over completion-facing regular rational Cauchy data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient completion equality, selected limits, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus compatibility, regular-readback stability, endpoint handoff, and ledger nonescape for the same finite packet.}
+\end{closurestatus}

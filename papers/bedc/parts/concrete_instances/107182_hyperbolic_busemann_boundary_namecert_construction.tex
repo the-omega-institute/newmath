@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicBusemannBoundaryUp$}
+\label{ch:concrete-instances-hyperbolic-busemann-boundary-namecert}
+\origin{ai}
+
+The $\HyperbolicBusemannBoundaryUp$ packet realizes the boundary-fixed disk transport and horocycle reading of \autoref{def:hyperbolic-boundary-fixed-disk-transport} as finite Busemann-level boundary data. It sits after the metric-read surface of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, the horocycle packet of \autoref{ch:concrete-instances-hyperbolic-horocycle-namecert}, the boundary-fixed transport route of \autoref{ch:concrete-instances-poincare-boundary-fixed-transport-namecert}, the disk phase-transport packet of \autoref{ch:concrete-instances-poincare-disk-phase-transport-namecert}, and the Denjoy-Wolff boundary-dynamics packet of \autoref{ch:concrete-instances-denjoy-wolff-boundary-dynamics-namecert}. The chapter names a finite boundary metric and horocycle ledger; it does not turn the ideal boundary into a quotient compactification, select a global geodesic representative, or identify boundary dynamics with a host analytic fixed-point theorem.
+
+\begin{definition}[Hyperbolic Busemann boundary carrier]
+\label{def:hyperbolic-busemann-boundary-carrier}
+A $\HyperbolicBusemannBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+G=(D,M,O,T,R,B,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\PoincareDiskPhaseTransportUp$ disk-phase row exposing the finite source, target, and reversible disk-coordinate route.
+\item $M$ is the $\HyperbolicMetricUp$ metric-read row over the same displayed disk observations.
+\item $O$ is the $\HyperbolicHorocycleUp$ horocycle row, recording the boundary-tangent horocycle read used by the packet.
+\item $T$ is the $\PoincareBoundaryFixedTransportUp$ row, requiring the displayed boundary end to remain fixed during the disk transport.
+\item $R$ is the $\DenjoyWolffBoundaryDynamicsUp$ boundary-dynamics row consumed only as displayed finite boundary-dynamics data.
+\item $B$ is the Busemann-level row, recording the finite distance-difference read against the fixed boundary end.
+\item $L$ is the boundary-horocycle ledger, pairing the Busemann-level row with the horocycle row and the boundary-fixed transport audit.
+\item $H$ records componentwise $\hsame$ transport for disk phase, metric, horocycle, boundary-fixed transport, boundary dynamics, Busemann-level, ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through disk phase, hyperbolic metric, horocycle read, boundary-fixed transport, boundary dynamics, Busemann-level comparison, and boundary-horocycle ledger exposure.
+\item $P$ records $\Pkg$ provenance over $\HyperbolicBusemannBoundaryUp$, $\HyperbolicMetricUp$, $\HyperbolicHorocycleUp$, $\PoincareBoundaryFixedTransportUp$, $\PoincareDiskPhaseTransportUp$, $\DenjoyWolffBoundaryDynamicsUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HyperbolicBusemannBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted boundary packets only through $D,M,O,T,R,B,L,H,C,P,N$. It has no coordinate for quotient ideal-boundary equality, a selected geodesic representative, a host compactification, or an analytic fixed-point theorem outside the displayed rows.
+\end{definition}
+
+\begin{theorem}[Hyperbolic Busemann boundary NameCert obligations]
+\label{thm:hyperbolic-busemann-boundary-namecert-obligations}
+For every accepted $\HyperbolicBusemannBoundaryUp$ carrier
+$$
+G=(D,M,O,T,R,B,L,H,C,P,N),
+$$
+the local $\NameCert_{\HyperbolicBusemannBoundaryUp}$ surface consists exactly of disk-phase admission, hyperbolic-metric read compatibility, horocycle read exposure, boundary-fixed transport, boundary-dynamics provenance, Busemann-level distance-difference reading, boundary-horocycle ledger exactness, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming.
+
+The Lean follow-up for this packet must provide \texttt{Nontrivial} and \texttt{FieldFaithful} instances in \texttt{lean4/BEDC/Derived/HyperbolicBusemannBoundaryUp/TasteGate.lean}; the paper packet itself records only the finite NameCert obligation surface.
+\end{theorem}
+
+\begin{theorem}[Hyperbolic Busemann horocycle route]
+\label{thm:hyperbolic-busemann-boundary-horocycle-route}
+Every accepted $\HyperbolicBusemannBoundaryUp$ boundary read factors through
+$$
+\HyperbolicMetricUp,\ \HyperbolicHorocycleUp,\ \PoincareBoundaryFixedTransportUp,\ \PoincareDiskPhaseTransportUp,\ \DenjoyWolffBoundaryDynamicsUp
+$$
+before the Busemann-level row and boundary-horocycle ledger are exposed. A consumer that bypasses the metric read, horocycle read, boundary-fixed transport, provenance, or local $\NameCert$ row is outside the accepted packet.
+\end{theorem}
+
+\falsifiablePrediction{Any accepted boundary consumer omitting $\HyperbolicMetricUp$, horocycle, boundary-fixed transport, provenance, or local $\NameCert$ rows refutes the $\HyperbolicBusemannBoundaryUp$ packet.}
+
+\independenceWitness{\texttt{hyperbolic\_metric}, \texttt{hyperbolic\_horocycle}, \texttt{poincare\_boundary\_fixed\_transport}, \texttt{poincare\_disk\_phase\_transport}, \texttt{denjoy\_wolff\_boundary\_dynamics}: none is bijective to $\HyperbolicBusemannBoundaryUp$ because the packet adds the Busemann-level row and the boundary-horocycle ledger tying metric, horocycle, fixed-boundary transport, boundary dynamics, provenance, replay, and local naming into one carrier.}
+
+\closureat{HyperbolicBusemannBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicBusemannBoundaryUp}
+  \constructivestory{A $\HyperbolicBusemannBoundaryUp$ packet is generated from disk-phase transport rows, HyperbolicMetric reads, HyperbolicHorocycle rows, boundary-fixed transport, Denjoy-Wolff boundary-dynamics rows, a Busemann-level distance-difference row, a boundary-horocycle ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-busemann-boundary-carrier}, \autoref{thm:hyperbolic-busemann-boundary-namecert-obligations}, and \autoref{thm:hyperbolic-busemann-boundary-horocycle-route} seed the finite boundary metric, horocycle, fixed-transport, Busemann-level, ledger, provenance, replay, and local naming surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient ideal-boundary equality, selected geodesic representatives, host compactifications, analytic fixed-point theorems, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked disk-phase admission, metric-read compatibility, horocycle exposure, boundary-fixed transport, Busemann-level reading, boundary-horocycle ledger exactness, transport, replay, provenance, and local naming for BEDC.Derived.HyperbolicBusemannBoundaryUp.}
+\end{closurestatus}
