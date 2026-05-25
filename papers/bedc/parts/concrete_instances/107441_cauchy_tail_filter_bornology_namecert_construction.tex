@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\CauchyTailFilterBornologyUp$}
+\label{ch:concrete-instances-cauchy-tail-filter-bornology-namecert}
+\origin{human}
+
+Following Bourbaki and Weil on uniform spaces and bounded structures, the $\CauchyTailFilterBornologyUp$ packet records bounded Cauchy-tail filters as finite BEDC rows. It sits between the finite stream schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational source discipline of \autoref{ch:concrete-instances-regseqrat-namecert}, the bounded-set carrier of \autoref{ch:concrete-instances-boundedset-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names tail-bound surfaces for regular Cauchy data; it is not a quotient of streams, a choice-selected bound, trichotomy, or an ambient completeness theorem.
+
+\begin{definition}[Cauchy tail filter bornology carrier]\label{def:cauchy-tail-filter-bornology-carrier}
+A $\CauchyTailFilterBornologyUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,R,B,W,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ schedule whose finite windows are the only tail observations visible to the packet.
+\item $R$ is the $\RegSeqRatUp$ source row read through the same windows.
+\item $B$ is the $\BoundedSetUp$ tail-bound row, recording the displayed bound cell for the admitted tail window.
+\item $W$ is the tail-window row specifying the finite index after which the bound row is read.
+\item $M$ is the Cauchy-modulus compatibility row, matching the tail window to the tolerance requests carried by the regular sequence.
+\item $E$ is the $\RealUp$ seal row reached only after $S,R,B,W,M$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for schedule, regular source, bounded tail, window, modulus, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tail-bound request through $S,R,B,W,M,E$ and then through the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\CauchyTailFilterBornologyUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BoundedSetUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyTailFilterBornologyUp}$ row.
+\end{enumerate}
+The carrier exports no quotient stream, selected bound, selected tail representative, trichotomy row, or ambient $\RealUp$ completeness datum.
+\end{definition}
+
+\begin{definition}[Cauchy tail filter bornology classifier]\label{def:cauchy-tail-filter-bornology-classifier}
+Two accepted $\CauchyTailFilterBornologyUp$ carriers
+$$
+T=(S,R,B,W,M,E,H,C,P,N)
+$$
+and
+$$
+T'=(S',R',B',W',M',E',H',C',P',N')
+$$
+are classified together exactly when the displayed $\hsame$ rows transport $S$ to $S'$, $R$ to $R'$, $B$ to $B'$, $W$ to $W'$, $M$ to $M'$, and $E$ to $E'$, and the displayed $\Cont$ rows replay the same tail-window-to-bound-to-seal route on both packets. The classifier has no coordinate for equality of quotient streams, a least bound, a selected eventual index, trichotomy, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy tail filter bornology NameCert obligations]\label{thm:cauchy-tail-filter-bornology-namecert-obligations}
+For every accepted $\CauchyTailFilterBornologyUp$ carrier $T=(S,R,B,W,M,E,H,C,P,N)$, the local $\NameCert_{\CauchyTailFilterBornologyUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item tail-window carrier admission, requiring $S,R,W$ to display the finite observation window before any tail-bound row is consumed;
+\item eventual boundedness classifier, requiring $B$ to be preserved under the componentwise $\hsame$ transport of the accepted carrier and replayed by the same $\Cont$ route;
+\item Cauchy-modulus compatibility, requiring $M$ to attach each bound read to the same regular Cauchy source and finite window;
+\item $\RegSeqRatUp$ and $\RealUp$ seal handoff, requiring $R$ and $E$ to remain downstream of the displayed schedule, tail window, bound row, and modulus row;
+\item ledger non-escape, requiring $H,C,P,N$ to expose no quotient stream, selected bound, selected tail representative, trichotomy row, or ambient completeness theorem.
+\end{enumerate}
+No Cauchy tail filter bornology obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:cauchy-tail-filter-bornology-carrier}. The displayed tuple $S,R,B,W,M,E,H,C,P,N$ is the whole public surface, so tail-window carrier admission is exactly admission of those rows.
+
+The eventual boundedness classifier is forced by the bound row. A tail-bound consumer can read $B$ only through the finite window $W$ over the stream schedule $S$ and the regular source $R$, and classifier preservation transports that same row componentwise.
+
+The Cauchy-modulus row supplies the compatibility check. It attaches the displayed bound to the tolerance and tail-window requests already visible in $S,R,W$, so the read cannot replace the packet by a host-level eventual bound or by a chosen index.
+
+Finally, the Real-facing rows are downstream. The seal row $E$ is reached only after $S,R,B,W,M$ are displayed, and $H,C,P,N$ preserve and name that route. Since the carrier has no coordinate for quotient streams, selected bounds, trichotomy, or ambient completeness, the five listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every $\CauchyTailFilterBornologyUp$ read factors through a finite StreamName schedule, a RegSeqRat source row, a BoundedSet tail-bound row, a finite tail-window row, a Cauchy-modulus compatibility row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{streamname, regseqrat, boundedset, real: $\CauchyTailFilterBornologyUp$ is not bijective to any listed sibling because it jointly carries a finite tail-window schedule, regular Cauchy source, bounded tail row, modulus compatibility, RealUp sealing, transport, replay, provenance, and local naming.}
+
+\closureat{CauchyTailFilterBornologyUp}{seedStr}
+
+\begin{closurestatus}{\CauchyTailFilterBornologyUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-tail-filter-bornology-carrier}, \autoref{def:cauchy-tail-filter-bornology-classifier}, and \autoref{thm:cauchy-tail-filter-bornology-namecert-obligations} seed the bounded tail-filter surface from finite StreamName windows through RegSeqRat readback, BoundedSet tail bounds, Cauchy-modulus compatibility, and RealUp sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected bounds, least bounds, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, eventual boundedness classification, Cauchy-modulus compatibility, RegSeqRat and Real seal handoff, ledger non-escape, and local naming for BEDC.Derived.CauchyTailFilterBornologyUp.}
+  \constructivestory{A $\CauchyTailFilterBornologyUp$ packet is generated from finite StreamName windows, a RegSeqRat source row, a BoundedSet tail-bound row, a finite tail-window row, Cauchy-modulus compatibility, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
