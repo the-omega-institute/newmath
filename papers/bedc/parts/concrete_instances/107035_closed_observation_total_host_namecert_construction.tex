@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\ClosedObservationTotalHostUp$}
+\label{ch:concrete-instances-closed-observation-total-host-namecert}
+\origin{ai}
+
+The $\ClosedObservationTotalHostUp$ packet realizes the total-host discipline of \autoref{ch:visions-strong-normalization-vs-turing-completeness} as finite NameCert data. It sits beside the candidate-mediated normalization socket of \autoref{ch:concrete-instances-normalization-candidate-socket-namecert}, the MetaCIC normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the total-host fuel handoff of \autoref{ch:concrete-instances-totalhostfuelhandoff-namecert}, and the reduction fuel boundary of \autoref{ch:concrete-instances-reductionfuelboundary-namecert}. The packet names a discipline on accepted host-observation records: a finite termination or observation row must be visible before substrate-step readback. It does not claim global normalization of arbitrary host calculi, substrate halting, or evaluator soundness outside the displayed rows.
+
+\begin{definition}[ClosedObservationTotalHost carrier]
+\label{def:closed-observation-total-host-carrier}
+A $\ClosedObservationTotalHostUp$ carrier is a finite $\BHist$ packet
+$$
+O=(A,T,S,F,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the accepted host-observation row, displaying the closed observation record and its host-side typing boundary.
+\item $T$ is the totality row, recording the finite termination or normal-form readback required before the record can be consumed.
+\item $S$ is the substrate-step row, displaying the finite step-indexed substrate observation that the host record describes.
+\item $F$ is the refusal row for any consumer that asks to read $S$ before $A,T$ have been displayed.
+\item $R$ is the readback row binding the host observation to the substrate-step record without asserting substrate halting.
+\item $H$ records componentwise $\hsame$ transport for accepted observation, totality, substrate-step, refusal, readback, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a closed-observation request through $A,T,S,F,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ClosedObservationTotalHostUp$, \autoref{ch:visions-strong-normalization-vs-turing-completeness}, $\NormalizationCandidateSocketUp$, $\MetaCICNormalizationFrontierUp$, $\TotalHostFuelHandoffUp$, $\ReductionFuelBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClosedObservationTotalHostUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,T,S,F,R,H,C,P,N$. It has no coordinate for unbounded substrate halting, non-total host terms, erased termination evidence, host evaluator soundness, completed consistency, global confluence, or quotient syntax equality.
+\end{definition}
+
+\begin{theorem}[ClosedObservationTotalHost NameCert obligations]
+\label{thm:closed-observation-total-host-namecert-obligations}
+For every accepted $\ClosedObservationTotalHostUp$ carrier $O=(A,T,S,F,R,H,C,P,N)$, the local $\NameCert_{\ClosedObservationTotalHostUp}$ surface consists exactly of accepted observation exposure, finite termination or normal-form exposure, substrate-step readback, pre-read refusal, readback binding, componentwise transport, displayed replay, provenance exhaustion, and local naming.
+
+Every accepted host-observation record exposes $A$ and $T$ before any consumer can read $S$. The substrate row is therefore a finite step-indexed observation named by a total host record, not a claim that the substrate computation halts or that arbitrary host computations are accepted.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-observation-total-host-carrier}. The accepted record $A$ and totality row $T$ are distinct rows, so accepting the host observation does not erase the termination or normal-form evidence.
+
+The substrate row $S$ is downstream of $A,T$. If a consumer asks for substrate readback first, the refusal row $F$ is the only available route, so the packet records the total-host discipline as a finite ordering of rows.
+
+The row $R$ then binds the displayed host observation to the displayed substrate step. This binding is step-indexed and finite; it is not a substrate-halting theorem and does not import an unbounded evaluator.
+
+Finally $H,C,P,N$ transport, replay, source, and name exactly these rows. Since no coordinate carries non-total host terms, erased termination evidence, host evaluator soundness, global confluence, quotient syntax equality, or completed consistency, none of those principles can be exported from the packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted host-observation record exposes a finite termination or observation row before any substrate-read row is available to a consumer.}
+
+\independenceWitness{normalization-candidate-socket, metacicnormalizationfrontier, continuationtrace, certificate-machine: $\ClosedObservationTotalHostUp$ is not bijective to any listed sibling because it jointly carries accepted observation, finite totality, substrate-step, refusal, readback, transport, replay, provenance, and local naming rows.}
+
+\closureat{ClosedObservationTotalHostUp}{seedStr}
+
+\begin{closurestatus}{\ClosedObservationTotalHostUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-observation-total-host-carrier} and \autoref{thm:closed-observation-total-host-namecert-obligations} seed the finite total-host discipline for closed observation records before substrate-step readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global host normalization, substrate halting, host evaluator soundness, global confluence, quotient syntax equality, completed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, accepted-observation exposure, totality-row precedence, substrate-read refusal, readback binding, transport, replay, provenance, and local naming for BEDC.Derived.ClosedObservationTotalHostUp.}
+  \constructivestory{A $\ClosedObservationTotalHostUp$ packet is generated from an accepted host-observation row, a finite totality row, a substrate-step row, a pre-read refusal row, a readback binding row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

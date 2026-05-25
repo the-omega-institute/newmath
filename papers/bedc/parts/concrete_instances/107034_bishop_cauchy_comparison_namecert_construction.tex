@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchyComparisonUp$}
+\label{ch:concrete-instances-bishop-cauchy-comparison-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopCauchyComparisonUp$ packet records the finite comparison route between Cauchy-criterion reads and convergence-modulus reads before a $\RealUp$ or completion consumer can inspect a terminal seal. It sits beside the criterion surface of \autoref{ch:concrete-instances-cauchycriterion-namecert}, the bidirectional criterion/modulus surface of \autoref{ch:concrete-instances-cauchy-criterion-equivalence-namecert}, the convergence-modulus boundary of \autoref{ch:concrete-instances-real-modulus-of-convergence-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite comparison only; it does not assert quotient-stream equality, selected limits, countable choice over thresholds, host convergence, or ambient completeness.
+
+\begin{definition}[Cauchy criterion comparison chain]
+\label{def:cauchy-criterion-comparison-chain}
+A $\BishopCauchyComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,Q,M,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\StreamNameUp$ window row, displaying the finite sequence windows read by both presentations.
+\item $Q$ is the $\CauchyCriterionUp$ late-pair request row, recording the criterion-facing tolerance read.
+\item $M$ is the $\RealModulusOfConvergenceUp$ schedule row, recording the modulus-facing threshold handoff.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row shared by the criterion request and the modulus schedule.
+\item $R$ is the $\RegSeqRatUp$ readback row through which both presentations inspect the same rational windows.
+\item $E$ is the $\RealUp$ seal row reached only after $S,Q,M,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source windows, criterion request, modulus schedule, tolerance, readback, real seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from either criterion-facing or modulus-facing entry through the same finite route.
+\item $P$ is the $\Pkg$ provenance over $\BishopCauchyComparisonUp$, $\CauchyCriterionUp$, $\CauchyCriterionEquivalenceUp$, $\RealModulusOfConvergenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopCauchyComparisonUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,Q,M,D,R,E,H,C,P,N$. It has no coordinate for quotient streams, selected limits, countable-choice threshold selection, detached completion, host convergence, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy criterion comparison NameCert obligations]
+\label{thm:cauchy-criterion-comparison-chain-namecert-obligations}
+For every accepted $\BishopCauchyComparisonUp$ carrier $B=(S,Q,M,D,R,E,H,C,P,N)$, the local $\NameCert_{\BishopCauchyComparisonUp}$ surface consists exactly of carrier admission, criterion-to-modulus handoff, modulus-to-criterion handoff, shared tolerance-readback exactness, $\RealUp$ seal nonescape, componentwise transport, displayed replay, provenance exhaustion, and local naming.
+
+A criterion-facing consumer may read the modulus schedule $M$ only through the same $S,D,R,E,H,C,P,N$ rows that support the criterion request $Q$. Conversely, a modulus-facing consumer may read the criterion request $Q$ only through those same rows. Thus the packet supplies a finite comparison chain rather than a host equality between presentations.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-criterion-comparison-chain}. Carrier admission exposes exactly the tuple $S,Q,M,D,R,E,H,C,P,N$.
+
+For the criterion-to-modulus direction, the late-pair request $Q$ is read together with the source windows $S$, the shared dyadic tolerance row $D$, and the regular rational readback row $R$. The modulus schedule $M$ is visible only as the threshold row attached to that same finite data.
+
+For the modulus-to-criterion direction, the schedule $M$ is read with the same source, tolerance, and readback rows. The criterion request $Q$ is therefore reconstructed as a finite late-pair obligation over the displayed windows, not as an independent convergence predicate.
+
+The real seal $E$ is downstream of both reads. Transport, replay, provenance, and naming are supplied by $H,C,P,N$ over the same rows, so no quotient stream, selected limit, countable-choice selector, host convergence theorem, or ambient completeness row can enter the local certificate.
+\end{proof}
+
+\begin{theorem}[Cauchy criterion comparison real-seal nonescape]
+\label{thm:cauchy-criterion-comparison-chain-real-seal-nonescape}
+Every $\RealUp$ or completion-facing consumer of an accepted $\BishopCauchyComparisonUp$ packet reaches the terminal seal only through the finite route
+$$
+S,Q,M,D,R \longmapsto E \longmapsto H,C,P,N .
+$$
+In particular, neither the criterion presentation nor the modulus presentation can bypass the shared tolerance-readback route or replace it by quotient-stream equality, selected limits, host convergence, countable choice, or ambient completion.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cauchy-criterion-comparison-chain-namecert-obligations}. Both handoff directions force the criterion row $Q$ and modulus row $M$ to share the source windows $S$, tolerance row $D$, and readback row $R$.
+
+The terminal row $E$ is listed only after those shared rows. A $\RealUp$ or completion-facing consumer therefore cannot inspect the seal before the finite comparison route has been displayed.
+
+Finally $H,C,P,N$ preserve and name that same route. Since the carrier has no row for quotient streams, selected limits, countable-choice schedules, host convergence, or detached completion, the seal cannot escape through such data.
+\end{proof}
+
+\falsifiablePrediction{Every accepted criterion/modulus comparison read exposes the shared StreamName, RegSeqRat, and DyadicRatCore rows before any RealUp or completion-facing seal is exported.}
+
+\independenceWitness{cauchycriterion, cauchy-criterion-equivalence, real-modulus-of-convergence, streamname, regseqrat, dyadicratcore, real: $\BishopCauchyComparisonUp$ is not bijective to any listed sibling because it jointly carries criterion request, modulus schedule, shared tolerance-readback, RealUp seal, transport, replay, provenance, and local naming rows.}
+
+\closureat{BishopCauchyComparisonUp}{seedStr}
+
+\begin{closurestatus}{\BishopCauchyComparisonUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-criterion-comparison-chain}, \autoref{thm:cauchy-criterion-comparison-chain-namecert-obligations}, and \autoref{thm:cauchy-criterion-comparison-chain-real-seal-nonescape} seed the finite comparison route between Cauchy-criterion reads and convergence-modulus reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient-stream equality, selected limits, countable-choice threshold selection, host convergence, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bidirectional handoff exactness, shared tolerance-readback exactness, RealUp seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BishopCauchyComparisonUp.}
+  \constructivestory{A $\BishopCauchyComparisonUp$ packet is generated from source StreamName windows, a CauchyCriterion request, a RealModulusOfConvergence schedule, DyadicRatCore tolerance accounting, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
