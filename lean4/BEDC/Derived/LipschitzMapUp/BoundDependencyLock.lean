@@ -58,4 +58,33 @@ theorem LipschitzMapCarrier_transported_bound_dependency_lock [AskSetup] [Packag
   exact
     LipschitzMapCarrier_bound_dependency_lock transported.left boundModulusConsumer consumerPkg
 
+theorem LipschitzMapCarrier_identity_bound_dependency_lock [AskSetup] [PackageSetup]
+    {source bound graph modulus transports routes provenance localCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory source →
+      UnaryHistory bound →
+        UnaryHistory graph →
+          UnaryHistory transports →
+            UnaryHistory routes →
+              UnaryHistory localCert →
+                Cont graph bound modulus →
+                  Cont modulus routes provenance →
+                    PkgSig bundle provenance pkg →
+                      Cont bound modulus consumer →
+                        PkgSig bundle consumer pkg →
+                          UnaryHistory source ∧ UnaryHistory source ∧ UnaryHistory bound ∧
+                            UnaryHistory graph ∧ UnaryHistory modulus ∧ UnaryHistory consumer ∧
+                              Cont graph bound modulus ∧ Cont bound modulus consumer ∧
+                                PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro sourceUnary boundUnary graphUnary transportsUnary routesUnary localCertUnary
+    graphBoundModulus modulusRoutesProvenance provenancePkg boundModulusConsumer consumerPkg
+  have identityCarrier :=
+    LipschitzMapCarrier_identity_carrier_boundary sourceUnary boundUnary graphUnary
+      transportsUnary routesUnary localCertUnary graphBoundModulus modulusRoutesProvenance
+      provenancePkg
+  exact
+    LipschitzMapCarrier_bound_dependency_lock identityCarrier.left boundModulusConsumer
+      consumerPkg
+
 end BEDC.Derived.LipschitzMapUp
