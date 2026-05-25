@@ -1294,6 +1294,7 @@ import BEDC.Derived.CauchyProductUp.RootRealSealObligations
 import BEDC.Derived.CauchyProductUp.RootRealSealProductLedger
 import BEDC.Derived.CauchyProductUp.RootRegSeqRatClassifierLock
 import BEDC.Derived.CauchyProductUp.RootRegularProductBudgetSealExhaustion
+import BEDC.Derived.CauchyProductUp.RootRegularProductBudgetSeparation
 import BEDC.Derived.CauchyProductUp.RootRegularProductDownstreamCoverage
 import BEDC.Derived.CauchyProductUp.RootRegularProductPublic
 import BEDC.Derived.CauchyProductUp.RootSealLedgerExactness
@@ -5988,6 +5989,7 @@ import BEDC.Derived.UniformCauchyFilterUp.TasteGate
 import BEDC.Derived.UniformCauchyModulusUp.TasteGate
 import BEDC.Derived.UniformCauchySequenceUp.TasteGate
 import BEDC.Derived.UniformCauchySeriesUp.TasteGate
+import BEDC.Derived.UniformCauchySubsequenceUp.TasteGate
 import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
 import BEDC.Derived.UniformCompletionMonadUp
 import BEDC.Derived.UniformCompletionSeparationKernelUp
