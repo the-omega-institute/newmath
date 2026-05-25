@@ -1,19 +1,34 @@
 \chapter{A Concrete Naming Certificate for $\SpectralMeasureUp$}
-\label{ch:concrete-instances-spectralmeasure-namecert}
+\label{ch:concrete-instances-spectral-measure-namecert}
 \origin{human}
 
-The $\SpectralMeasureUp$ interface records the finite BEDC certificate surface for a projection-valued spectral measure over a Hilbert carrier, an observable row, and a measurable-event carrier. Its traditional target is the projection-valued measure used in the spectral theorem, as in Reed and Simon, \emph{Methods of Modern Mathematical Physics I: Functional Analysis} (1980), or Conway, \emph{A Course in Functional Analysis} (1990). The chapter states only the finite certificate surface consumed by $\SpectralTheoremUp$ and $\ObservableUp$: it does not prove a spectral theorem, countable additivity over completed sigma-algebras, or a choice of eigenbasis.
+Following von Neumann and standard functional analysis, the $\SpectralMeasureUp$ interface records the finite BEDC certificate surface for a projection-valued spectral measure over a Hilbert carrier, a bounded-operator row, a projection-family ledger, and finite scalar measure windows. Its traditional target is the projection-valued measure used in the spectral theorem, as in Reed and Simon, \emph{Methods of Modern Mathematical Physics I: Functional Analysis} (1980), or Conway, \emph{A Course in Functional Analysis} (1990). The chapter states only the finite certificate surface consumed by $\SpectralTheoremUp$ and $\ObservableUp$: it does not prove a spectral theorem, host sigma-additivity, quotient measure spaces, unrestricted functional calculus, or choice-selected spectral decompositions.
 
-The packet consumes the Hilbert carrier of \autoref{ch:concrete-instances-hilbert-namecert}, the self-adjoint observable row of \autoref{ch:concrete-instances-observable-namecert}, and the event-carrier and finite-additivity surface of \autoref{ch:concrete-instances-measure-namecert}. These are substantive carrier and ledger dependencies, not background references: without them the spectral-measure packet has no Hilbert endpoint for projections, no observable row to measure, and no finite event ledger on which projection additivity can be recorded.
+The packet consumes the Hilbert carrier of \autoref{ch:concrete-instances-hilbert-namecert}, the bounded operator surface of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the operator-ideal projection boundary of \autoref{ch:concrete-instances-operatorideal-namecert}, the self-adjoint observable row of \autoref{ch:concrete-instances-observable-namecert}, the event-carrier and finite-additivity surface of \autoref{ch:concrete-instances-measure-namecert}, and the spectral-data consumer of \autoref{ch:concrete-instances-spectraltheorem-namecert}. These are substantive carrier and ledger dependencies, not background references: without them the spectral-measure packet has no Hilbert endpoint for projections, no bounded-operator row whose projections can act, no operator-ideal surface for projection-family transport, no observable row to measure, and no finite event ledger on which projection additivity can be recorded.
 
 \section{Carrier definition}
 \label{sec:spectralmeasure-carrier}
 
 \begin{definition}[SpectralMeasureUp carrier]
 \label{def:spectralmeasure-carrier}
-A $\SpectralMeasureUp$ carrier is a finite $\mathsf{BHist}$ packet whose rows are a $\HilbertUp$ carrier row, an $\ObservableUp$ self-adjoint observable row over that Hilbert carrier, a $\MeasureUp$ event-carrier row, a projection endpoint row assigning a displayed Hilbert projection to each visible event row, an orthogonality and finite-additivity ledger for disjoint displayed events, $\hsame$ comparison rows for Hilbert, observable, event, and projection endpoints, $\Cont$ transport rows for every accepted event-to-projection readback, and $\mathsf{Pkg}$ provenance naming the $\HilbertUp$, $\ObservableUp$, and $\MeasureUp$ sources.
+\label{def:spectral-measure-carrier}
+A $\SpectralMeasureUp$ carrier is a finite $\BHist$ packet
+$$
+M=(H,B,\Pi,\mu,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the $\HilbertUp$ source row over which all projection endpoints are typed.
+\item $B$ is the $\BoundedLinearOperatorUp$ row carrying the displayed self-adjoint or normal operator endpoint whose spectral windows are being named.
+\item $\Pi$ is the projection-family ledger: each visible event row is assigned a projection endpoint over the same $H$, with orthogonality and finite-additivity rows for disjoint displayed events.
+\item $\mu$ is the scalar $\RealUp$ measure-window row read from finite event probes, recording only finite scalar windows attached to the same projection family.
+\item $T$ is the classifier-transport row, comparing Hilbert, bounded-operator, event, projection, and scalar-window endpoints only by displayed $\hsame$ rows.
+\item $C$ records displayed $\Cont$ replay from event rows through projection endpoints and scalar $\RealUp$ measure windows.
+\item $P$ is the $\Pkg$ provenance over $\SpectralMeasureUp$, $\HilbertUp$, $\BoundedLinearOperatorUp$, $\OperatorIdealUp$, $\ObservableUp$, $\MeasureUp$, $\SpectralTheoremUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SpectralMeasureUp}$ row.
+\end{enumerate}
 
-The carrier exports no ambient Hilbert-space equality, host sigma-algebra completion, countable family selector, eigenbasis, or external spectral-theorem object.
+The carrier exports no ambient Hilbert-space equality, host sigma-additivity, quotient measure space, unrestricted functional calculus, choice-selected spectral decomposition, countable family selector, eigenbasis, or external spectral-theorem object.
 \end{definition}
 
 \begin{definition}[SpectralMeasureUp classifier]
@@ -97,7 +112,8 @@ The packet has no coordinate for countable families, completed measurable spaces
 
 \begin{theorem}[SpectralMeasureUp NameCert obligation surface]
 \label{thm:spectralmeasure-namecert-obligation-surface}
-The local $\NameCert_{\SpectralMeasureUp}$ obligation surface consists of the carrier of \autoref{def:spectralmeasure-carrier}, the classifier of \autoref{def:spectralmeasure-classifier}, the $\hsame$ stability theorem, the orthogonal finite-additivity ledger, and the provenance rows naming $\HilbertUp$, $\ObservableUp$, and $\MeasureUp$. Every consumer of $\SpectralMeasureUp$ can read only those finite $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\mathsf{Pkg}$ rows.
+\label{thm:spectral-measure-namecert-obligations}
+The local $\NameCert_{\SpectralMeasureUp}$ obligation surface consists of the carrier of \autoref{def:spectralmeasure-carrier}, the classifier of \autoref{def:spectralmeasure-classifier}, the $\hsame$ stability theorem, the orthogonal finite-additivity ledger, the projection-family ledger, the scalar $\RealUp$ measure windows, and the provenance rows naming $\HilbertUp$, $\BoundedLinearOperatorUp$, $\OperatorIdealUp$, $\ObservableUp$, $\MeasureUp$, and $\SpectralTheoremUp$. Every consumer of $\SpectralMeasureUp$ can read only those finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
 \end{theorem}
 \leanchecked{BEDC.Derived.SpectralMeasureUp.SpectralMeasureFinitePacket\_namecert\_obligation\_surface}
 \begin{proof}
@@ -106,6 +122,22 @@ Start with the carrier and classifier definitions. They expose the Hilbert sourc
 Use \autoref{thm:spectralmeasure-hsame-stability} for classified replacement of a packet and \autoref{thm:spectralmeasure-orthogonal-additivity} for the finite disjoint-event ledger. These two rows are the visible stability and exactness obligations needed by spectral-data consumers.
 
 Finally repack the displayed rows as the local naming-certificate surface. Because no spectral theorem proof, completed sigma-algebra, countable additivity row, or eigenbasis row is part of the carrier, the obligation surface stops at the finite BEDC certificate boundary.
+\end{proof}
+
+\begin{theorem}[SpectralMeasureUp projection-ledger nonescape]
+\label{thm:spectral-measure-projection-ledger-nonescape}
+Every $\SpectralTheoremUp$, bounded-operator, or observable consumer of an accepted $\SpectralMeasureUp$ packet reads the projection-family ledger only through
+$$
+H,B,\Pi,\mu,T,C,P,N .
+$$
+The read therefore passes through the displayed $\HilbertUp$ source, $\BoundedLinearOperatorUp$ row, projection-family ledger, scalar $\RealUp$ measure windows, classifier transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\SpectralMeasureUp}$ row before it exports spectral data. It cannot expose host sigma-additivity, quotient measure spaces, unrestricted functional calculus, choice-selected spectral decompositions, host projection-valued functions, or eigenbasis choices.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:spectralmeasure-carrier}. The only projection-facing coordinates are $H,B,\Pi,\mu,T,C,P,N$.
+
+The projection-family ledger $\Pi$ is typed over the same Hilbert source $H$ and bounded-operator row $B$, and the scalar measure windows $\mu$ are read only through finite $\RealUp$ windows attached to visible event probes. Thus the consumer receives finite projection and scalar-window data, not a completed host measure space.
+
+The classifier and replay rows close the boundary. The row $T$ transports only the displayed Hilbert, operator, event, projection, and scalar-window endpoints, while $C,P,N$ replay, source, and name that finite route. Since no excluded object appears among these rows, the projection-ledger read has no route to host sigma-additivity, quotient measure spaces, unrestricted functional calculus, choice-selected spectral decompositions, host projection-valued functions, or eigenbasis choices.
 \end{proof}
 
 \closureat{SpectralMeasureUp}{seedStr}
