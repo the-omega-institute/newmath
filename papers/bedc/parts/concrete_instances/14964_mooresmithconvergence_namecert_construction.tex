@@ -84,6 +84,7 @@ The readback rows $R$ and $L$ are later than $B$. They expose regular rational a
 
 The carrier omits selected completion points, quotient nets, global completeness, and host-level equality of boundary points. Hence the completion boundary exported by $M$ is exactly the finite Moore--Smith convergence boundary named by the same packet.
 \end{proof}
+\leanchecked{BEDC.Derived.MooreSmithConvergenceUp.MooreSmithConvergencePacket\_completion\_boundary}
 
 \begin{theorem}[Moore--Smith convergence boundary scope]
 \label{thm:moore-smith-convergence-boundary-scope}
@@ -115,6 +116,42 @@ Next apply the uniform handoff of \autoref{thm:moore-smith-convergence-uniform-h
 Finally apply the completion boundary theorem \autoref{thm:moore-smith-convergence-completion-boundary}. It places the $\RegSeqRatUp$ and $\RealUp$ readbacks downstream of $B$ and prevents them from reading an independent completion object.
 
 The excluded data have no projected coordinate. There is no row for a quotient net, selected limit, cofinal choice operator, or ambient completeness theorem, so ledger non-escape records such requests outside the packet rather than exporting them as convergence evidence.
+\end{proof}
+
+\begin{theorem}[Moore--Smith convergence directed-window stability]
+\label{thm:moore-smith-convergence-directed-window-stability}
+Let $M=(D,V,U,C,B,R,L,H,K,P,N)$ and $M'=(D',V',U',C',B',R',L',H',K',P',N')$ be accepted $\MooreSmithConvergenceUp$ carriers. If $D,V,U,C,B$ and $D',V',U',C',B'$ are matched componentwise by displayed $\hsame$ rows, then every directed-window convergence read admitted by $M$ transports to an admitted directed-window convergence read of $M'$. The transport preserves the inspected directed windows, net-value exposure, entourage row, Cauchy-tail row, and completion-boundary row, and it introduces no quotient-net coordinate or cofinal choice row.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The only rows used by a directed-window convergence read are $D,V,U,C,B$ together with the transport and replay rows $H,K$.
+
+The displayed $\hsame$ witnesses match each of $D,V,U,C,B$ with its primed counterpart. Apply the componentwise transport row to move the directed index window first, then the net values, the entourage row, the Cauchy-tail row, and finally the completion-boundary row.
+
+The replay row $K'$ records the same accepted route in the primed packet after the transport has reached $B'$. Since neither carrier has a coordinate for quotient nets or cofinal choice, the transported read remains a finite directed-window read and cannot escape into an ambient net construction.
+\end{proof}
+
+\begin{theorem}[Moore--Smith convergence completion-readback exactness]
+\label{thm:moore-smith-convergence-completion-readback-exactness}
+For every accepted $\MooreSmithConvergenceUp$ carrier $M=(D,V,U,C,B,R,L,H,K,P,N)$, any $\RegSeqRatUp$ or $\RealUp$ readback exported by $R$ or $L$ is downstream of the displayed completion-boundary row $B$, and $B$ is downstream of the directed window, net-value, entourage, and Cauchy-tail rows $D,V,U,C$. Thus completion-facing readback is exact for the finite packet: it cannot read a selected limit, a quotient of nets, an ambient completeness theorem, or host equality of completion points.
+\end{theorem}
+\begin{proof}
+Start with a readback request for $R$ or $L$. The carrier places both rows after the completion-boundary coordinate $B$.
+
+By \autoref{thm:moore-smith-convergence-completion-boundary}, every boundary read reaches $B$ only after the directed index window, value window, entourage row, and Cauchy-tail evidence have been displayed. Hence the readback request is already routed through $D,V,U,C,B$ before any regular rational or real-facing coordinate is exposed.
+
+The tuple has no row for a selected limit, quotient-net object, ambient completeness theorem, or host equality relation on completion points. Therefore $R$ and $L$ read back exactly the finite boundary data certified by the packet and nothing outside it.
+\end{proof}
+
+\begin{theorem}[Moore--Smith convergence ledger refusal]
+\label{thm:moore-smith-convergence-ledger-refusal}
+Let $M=(D,V,U,C,B,R,L,H,K,P,N)$ be an accepted $\MooreSmithConvergenceUp$ carrier. A consumer request that asks for a quotient net, a selected Moore--Smith limit, a cofinal choice function, ambient completeness, or host equality of completion points is not exported by the local $\NameCert_{\MooreSmithConvergenceUp}$ row. It is recorded as outside the finite ledger because none of those objects is a row of $M$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier rows in \autoref{def:moore-smith-convergence-carrier}. They are exactly the directed window, net-value window, entourage row, Cauchy-tail row, completion-boundary row, two readback rows, transport, replay, provenance, and local name.
+
+Apply the ledger non-escape clause of \autoref{thm:moore-smith-convergence-namecert-obligations}. A request without a displayed tail witness or boundary row is not exported as convergence data.
+
+The named excluded objects have no coordinate in $M$. Consequently the local name row cannot certify them, and the packet refuses the request rather than treating it as Moore--Smith convergence evidence.
 \end{proof}
 
 \closureat{MooreSmithConvergenceUp}{seedStr}
