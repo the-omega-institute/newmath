@@ -267,4 +267,39 @@ theorem BoundedLinearOperatorCarrier_namecert_obligations [AskSetup] [PackageSet
     ⟨sourceUnary, endpointUnary, endpointReadUnary, boundReadUnary, ledgerReadUnary,
       sourceEndpoint, endpointBound, boundLedger, provenanceSig, packageSig⟩
 
+theorem BoundedLinearOperatorCarrier_nonescape_boundary [AskSetup] [PackageSetup]
+    {source target endpoint bound ledger transport continuation provenance name endpointRead boundRead
+      ledgerRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedLinearOperatorCarrier source target endpoint bound ledger transport continuation provenance
+        name bundle pkg →
+      Cont source endpoint endpointRead →
+        Cont endpoint bound boundRead →
+          Cont boundRead ledger ledgerRead →
+            Cont ledgerRead continuation publicRead →
+              PkgSig bundle publicRead pkg →
+                UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory endpoint ∧
+                  UnaryHistory bound ∧ UnaryHistory ledger ∧ UnaryHistory continuation ∧
+                    UnaryHistory publicRead ∧ Cont source endpoint endpointRead ∧
+                      Cont endpoint bound boundRead ∧ Cont boundRead ledger ledgerRead ∧
+                        Cont ledgerRead continuation publicRead ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier sourceEndpoint endpointBound boundLedger ledgerContinuation publicSig
+  obtain ⟨sourceUnary, targetUnary, endpointUnary, boundUnary, ledgerUnary,
+    _transportUnary, continuationUnary, _provenanceUnary, _nameUnary, provenanceSig,
+    _nameSig⟩ := carrier
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed sourceUnary endpointUnary sourceEndpoint
+  have boundReadUnary : UnaryHistory boundRead :=
+    unary_cont_closed endpointUnary boundUnary endpointBound
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed boundReadUnary ledgerUnary boundLedger
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed ledgerReadUnary continuationUnary ledgerContinuation
+  exact
+    ⟨sourceUnary, targetUnary, endpointUnary, boundUnary, ledgerUnary, continuationUnary,
+      publicReadUnary, sourceEndpoint, endpointBound, boundLedger, ledgerContinuation,
+      provenanceSig, publicSig⟩
+
 end BEDC.Derived.BoundedLinearOperatorUp
