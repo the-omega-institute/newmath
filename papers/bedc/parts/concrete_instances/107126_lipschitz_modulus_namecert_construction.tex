@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\LipschitzModulusUp$}
+\label{ch:concrete-instances-lipschitz-modulus-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive metric analysis and Kelley-style uniform-space bookkeeping, the $\LipschitzModulusUp$ packet records the finite tolerance object carried by a displayed Lipschitz bound. It sits over the source and target metric rows of \autoref{ch:concrete-instances-metric-namecert}, the real-bound seal of \autoref{ch:concrete-instances-real-namecert}, the Lipschitz map and constant surfaces of \autoref{ch:concrete-instances-lipschitzmap-namecert} and \autoref{ch:concrete-instances-lipschitz-constant-namecert}, the division and rounding ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the exported modulus and continuity consumers of \autoref{ch:concrete-instances-uniformmodulus-namecert} and \autoref{ch:concrete-instances-uniformcontinuity-namecert}. The packet names a finite tolerance-only route; it is not a host proof of continuity, a quotient of maps, a selected inverse for a real bound, or an ambient completeness theorem.
+
+\begin{definition}[LipschitzModulus carrier]\label{def:lipschitz-modulus-carrier}
+A $\LipschitzModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(X,Y,F,K,E,D,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricUp$ row and $Y$ is the target $\MetricUp$ row.
+\item $F$ is the $\LipschitzMapUp$ row whose graph and source-distance reads use $X$ and $Y$.
+\item $K$ is the $\LipschitzConstantUp$ row for the same source, target, and graph data.
+\item $E$ is the positive target-tolerance row, read through $\RealUp$ rather than through a host scalar.
+\item $D$ is the $\DyadicRatCoreUp$ division and rounding ledger that turns $E$ and the displayed bound in $K$ into a source-tolerance request.
+\item $U$ is the exported $\UniformModulusUp$ row consumed by $\UniformContinuityUp$ and $\ContinuousMapUp$ routes.
+\item $H$ records componentwise $\hsame$ transport for metric rows, map rows, constant rows, tolerance rows, dyadic division and rounding rows, the exported modulus, continuation, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a target-tolerance request through $E,K,D$ to the source-tolerance row exported by $U$.
+\item $P$ is the $\Pkg$ provenance over $\LipschitzModulusUp$, $\MetricUp$, $\LipschitzMapUp$, $\LipschitzConstantUp$, $\RealUp$, $\DyadicRatCoreUp$, $\UniformModulusUp$, $\UniformContinuityUp$, $\ContinuousMapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LipschitzModulusUp}$ row.
+\end{enumerate}
+The classifier accepts only packets with these rows. It has no coordinate for an unbounded host Lipschitz proof, a quotient-function equality, a hidden choice of reciprocal, a completed function space, or an ambient real-completeness argument.
+\end{definition}
+
+\begin{theorem}[LipschitzModulus NameCert obligations]\label{thm:lipschitz-modulus-namecert-obligations}
+For every accepted $\LipschitzModulusUp$ carrier $M=(X,Y,F,K,E,D,U,H,C,P,N)$, the local $\NameCert_{\LipschitzModulusUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the source metric, target metric, Lipschitz map, Lipschitz constant, positive tolerance, dyadic division and rounding, exported modulus, transport, replay, provenance, and local naming rows;
+\item bound alignment, requiring $F$ and $K$ to read the same source, target, and graph rows before a tolerance conversion is exported;
+\item tolerance positivity, requiring $E$ to be displayed before the dyadic ledger is read;
+\item modulus export, requiring every $\UniformModulusUp$, $\UniformContinuityUp$, or $\ContinuousMapUp$ consumer to pass through $E,K,D,U$ in that order;
+\item ledger non-escape, excluding host Lipschitz proofs, quotient map equality, hidden reciprocal choice, completed function spaces, selected limits, countable choice, and ambient completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:lipschitz-modulus-carrier}. The displayed packet exposes exactly the metric, Lipschitz-map, Lipschitz-constant, positive-tolerance, dyadic-ledger, modulus, transport, replay, provenance, and naming rows.
+
+The bound-alignment and positivity obligations are row-order checks. The map row $F$ and constant row $K$ share the source and target metric rows, and the tolerance row $E$ is the only positive target request available to the dyadic ledger $D$.
+
+The export obligation follows because $U$ is the only $\UniformModulusUp$ row in the carrier. A continuity consumer therefore reaches $U$ only after reading the displayed tolerance, constant, and dyadic division and rounding route.
+
+The refusal clause is an inventory check on the carrier. None of the displayed rows supplies host continuity, quotient map equality, hidden reciprocal selection, completed function-space data, selected limits, choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[LipschitzModulus uniform-continuity handoff]\label{thm:lipschitz-modulus-uniform-continuity-handoff}
+Let $M=(X,Y,F,K,E,D,U,H,C,P,N)$ be an accepted $\LipschitzModulusUp$ carrier. Every $\UniformContinuityUp$ or $\ContinuousMapUp$ consumer that requests a target tolerance receives only the source-tolerance route exported by $U$ after the packet has displayed the target tolerance $E$, the aligned Lipschitz constant $K$, and the $\DyadicRatCoreUp$ division and rounding ledger $D$. Thus the handoff is a finite modulus route, not a rereading of a host Lipschitz proof.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:lipschitz-modulus-carrier}. The source and target metrics are $X$ and $Y$, the graph and bound rows are $F$ and $K$, and the only target-tolerance request is $E$.
+
+The dyadic ledger $D$ performs the finite division and rounding step from the displayed tolerance and bound data. Since $D$ is the only arithmetic route in the packet, no consumer can replace it by a host reciprocal or by a selected real approximation.
+
+The exported row $U$ is then read by the $\UniformModulusUp$ surface and by downstream $\UniformContinuityUp$ and $\ContinuousMapUp$ consumers. Transport through $H$ and replay through $C$ preserve this order, so the consumer receives only the displayed finite modulus route.
+\end{proof}
+
+\closureat{LipschitzModulusUp}{seedStr}
+
+\begin{closurestatus}{\LipschitzModulusUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lipschitz-modulus-carrier}, \autoref{thm:lipschitz-modulus-namecert-obligations}, and \autoref{thm:lipschitz-modulus-uniform-continuity-handoff} seed the finite Lipschitz tolerance route from displayed metric, Lipschitz-map, Lipschitz-constant, positive-tolerance, dyadic division and rounding, and uniform-modulus rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient function spaces, host continuity proofs, reciprocal choice, completed Sobolev or function-space carriers, selected limits, countable choice, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, bound alignment, tolerance positivity, dyadic division and rounding exactness, uniform-modulus export, transport stability, and replay stability for BEDC.Derived.LipschitzModulusUp.}
+  \constructivestory{A $\LipschitzModulusUp$ packet is generated from source and target metric rows, Lipschitz map and constant rows, a positive tolerance row, a DyadicRatCore division and rounding ledger, an exported UniformModulus row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+\end{closurestatus}
