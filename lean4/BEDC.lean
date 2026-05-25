@@ -1042,6 +1042,7 @@ import BEDC.Derived.CauchyFilterLimitUp
 import BEDC.Derived.CauchyFilterLimitUp.TasteGate
 import BEDC.Derived.CauchyFilterMeetUp
 import BEDC.Derived.CauchyFilterMeetUp.TasteGate
+import BEDC.Derived.CauchyFilterModulusTransferUp.TasteGate
 import BEDC.Derived.CauchyFilterNetCorrespondenceUp.TasteGate
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyInverseBudgetUp.RouteSurface
@@ -1086,6 +1087,7 @@ import BEDC.Derived.CauchyModulusExtractionUp.StdBridge
 import BEDC.Derived.CauchyModulusMeetUp
 import BEDC.Derived.CauchyModulusMeetUp.StdBridge
 import BEDC.Derived.CauchyModulusMonotoneNormalizationUp.TasteGate
+import BEDC.Derived.CauchyModulusNormalFormUp.TasteGate
 import BEDC.Derived.CauchyModulusPullbackUp.TasteGate
 import BEDC.Derived.CauchyModulusRefinementUp
 import BEDC.Derived.CauchyModulusRefinementUp.BHistSourceScope
@@ -1230,6 +1232,7 @@ import BEDC.Derived.CauchyModulusRefinementUp.WindowConsumerCoverage
 import BEDC.Derived.CauchyModulusRefinementUp.WindowMeetSealUnicity
 import BEDC.Derived.CauchyModulusRefinementUp.WindowSelectorThresholdExhaustion
 import BEDC.Derived.CauchyModulusRefinementUp.WindowToleranceExactness
+import BEDC.Derived.CauchyModulusSelectionUp.TasteGate
 import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
@@ -5461,6 +5464,7 @@ import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SierpinskiSpaceUp.TasteGate
 import BEDC.Derived.SigmaCompactUp.TasteGate
 import BEDC.Derived.SignedBinaryExpansionUp
+import BEDC.Derived.SignedBinaryExpansionUp.TasteGate
 import BEDC.Derived.SignedDigitRealUp
 import BEDC.Derived.SignedDigitRealUp.TasteGate
 import BEDC.Derived.SignedDigitStreamUp
