@@ -244,6 +244,42 @@ Apply \autoref{thm:real-power-series-radius-window-handoff} to place the endpoin
 Thus $E$ is a finite endpoint seal for the accepted packet, not a host analytic object or a proof of ambient completeness.
 \end{proof}
 
+\begin{theorem}[Real power series root radius-majorant triad]
+\label{thm:realpowerseries-root-radius-majorant-triad}
+For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, root-test radius evidence must pass through the triad $R,W,S$ and then through the majorant row $M$ before the endpoint seal $E$ is available. In particular, a $\RegularCauchyRootTestUp$ read cannot reach $E$ directly from $R$ and cannot bypass the finite coefficient windows or partial-sum row.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:real-power-series-radius-window-handoff}. It places the radius row $R$ before the finite window row $W$, the partial-sum row $S$, and the majorant row $M$ on every endpoint-facing route.
+
+Apply \autoref{thm:real-power-series-majorant-route-totality}. The root-test evidence is one of the allowed shapes of $M$, so it is consumed as majorant data rather than as a detached host convergence theorem.
+
+Finally use \autoref{thm:real-power-series-endpoint-seal-factorization}. Since $E$ is downstream of $A,Z,X,R,W,S,M$, root-radius evidence must pass through the majorant row before endpoint sealing.
+\end{proof}
+
+\begin{theorem}[Real power series root endpoint nonescape]
+\label{thm:realpowerseries-root-endpoint-nonescape}
+For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$ whose majorant row $M$ is read through a $\RegularCauchyRootTestUp$ route, the endpoint row $E$ exports no selected infinite sum, analytic continuation, quotient function space, or ambient $\RealUp$ completeness witness. The root-test route remains confined to the displayed rows of $K$.
+\end{theorem}
+\begin{proof}
+Read the endpoint scope theorem, \autoref{thm:real-power-series-endpoint-seal-scope}. It says that $E$ is available only after the route through $A,Z,X,R,W,S,M,H,C,P,N$.
+
+Apply \autoref{thm:real-power-series-majorant-route-totality} to identify the root-test route as one possible reading of $M$. This does not add a new endpoint coordinate; it only selects the displayed majorant evidence.
+
+Now use \autoref{thm:real-power-series-nonescape}. The carrier excludes selected sums, analytic continuation, quotient function spaces, countable choice, and ambient completeness, so the root-test endpoint read cannot export any of those objects.
+\end{proof}
+
+\begin{theorem}[Real power series root coefficient-window coverage]
+\label{thm:realpowerseries-root-coefficient-window-coverage}
+For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, every coefficient read needed by a $\RegularCauchyRootTestUp$ majorant is already covered by the coefficient row $A$, the finite window row $W$, and the partial-sum row $S$ before $M$ or $E$ is consumed. No root-test consumer may introduce a fresh coefficient stream outside the displayed carrier.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:real-power-series-coefficient-window-ledger}. It forces every coefficient-facing read through $A$ and then through the finite windows $W$ before it contributes to $S$.
+
+Use \autoref{thm:real-power-series-radius-window-handoff}. The handoff puts $S$ before the majorant row $M$, so the root-test route can consume only coefficient windows already displayed in the packet.
+
+Finally apply \autoref{thm:real-power-series-majorant-route-totality}. Since a root-test majorant is read as $M$, it receives coefficient evidence from $A,W,S$ and cannot import a separate host coefficient stream or selected infinite series object.
+\end{proof}
+
 \falsifiablePrediction{Every $\RealPowerSeriesUp$ endpoint-facing read factors through a coefficient or FormalPowerSeries row, center Real row, argument Real row, displayed radius or subradius row, finite StreamName windows, partial-sum RealSeries row, majorant data from M-test or ratio/root-test rows, endpoint Real seal, transport, continuation, provenance, and local naming.}
 
 \independenceWitness{realseries, weierstrass-mtest, regular-cauchy-ratio-test, regular-cauchy-root-test, formalpowerseries, convergence-radius, real, regseqrat, streamname, dyadicratcore: $\RealPowerSeriesUp$ is not bijective to any listed sibling because it jointly carries coefficient-stream access, center and argument Real rows, displayed radius windows, finite polynomial partial sums, selected majorant routes, endpoint sealing, transport, continuation, provenance, and local naming.}
