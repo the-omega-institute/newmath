@@ -58,12 +58,33 @@ The numerical handoff is $S,E$. Paired finite windows are read through $\RegSeqR
 Apply \autoref{thm:cauchy-completion-product-preservation-namecert-obligations}. The transport, replay, provenance, and local naming rows preserve exactly that route, so every finite-product completion consumer factors through the displayed handoff and cannot export quotient equality or selected limits.
 \end{proof}
 
+\begin{theorem}[Cauchy completion product-preservation scoped ledger]
+\label{thm:cauchy-completion-product-preservation-scope-ledger}
+Every accepted $\CauchyCompletionProductPreservationUp$ packet factors its visible product-preservation read through exactly the following scoped ledger:
+\begin{enumerate}
+\item the two completion routes $L$ and $R$, each read through $\CauchyCompletionMonadUp$ and $\MetricCompletionUp$;
+\item the product metric row $M$ and projection row $\Pi$, including the displayed finite product carrier, coordinate projections, recombination read, and coordinatewise tolerance ledger;
+\item the paired $\RegSeqRatUp$ readback row $S$ and terminal $\RealUp$ seal row $E$;
+\item componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and the local $\NameCert_{\CauchyCompletionProductPreservationUp}$ row $N$.
+\end{enumerate}
+No accepted packet exports quotient completion equality, selected-limit data, countable-choice schedules, ambient completed products, or host equality of completed points outside this ledger.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:cauchy-completion-product-preservation-finite-product-handoff}. The handoff route already forces every completion-product read through the displayed completion, metric, product, regular-rational, and Real rows.
+
+The carrier of \autoref{def:cauchy-completion-product-preservation-carrier} names the ledger entries. The rows $L$ and $R$ are the two source completion routes, while $M$ and $\Pi$ are the only product metric and projection rows.
+
+The numerical readback is confined to $S$ and $E$. These rows pair the regular rational windows and then seal the coordinate tolerances and product distance read at the $\RealUp$ boundary.
+
+Finally $H,C,P,N$ preserve the same ledger under transport, replay, provenance, and local naming. Since no other carrier coordinate exists, the scoped ledger is exact and the excluded quotient, selection, choice, ambient-product, and host-equality data cannot be exported.
+\end{proof}
+
 \closureat{CauchyCompletionProductPreservationUp}{seedStr}
 
 \begin{closurestatus}{\CauchyCompletionProductPreservationUp}
   \constructivestory{A $\CauchyCompletionProductPreservationUp$ packet is generated from two CauchyCompletionMonad and MetricCompletion source routes, a product metric row, projection rows, RegSeqRat paired-window readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-completion-product-preservation-carrier}, \autoref{thm:cauchy-completion-product-preservation-namecert-obligations}, and \autoref{thm:cauchy-completion-product-preservation-finite-product-handoff} seed the finite completion-product handoff over CauchyCompletionMonadUp, MetricCompletionUp, ProdUp, RegSeqRatUp, RealUp, and local NameCert rows.}
+  \scopeclosed{\autoref{def:cauchy-completion-product-preservation-carrier}, \autoref{thm:cauchy-completion-product-preservation-namecert-obligations}, \autoref{thm:cauchy-completion-product-preservation-finite-product-handoff}, and \autoref{thm:cauchy-completion-product-preservation-scope-ledger} seed the finite completion-product handoff over CauchyCompletionMonadUp, MetricCompletionUp, ProdUp, RegSeqRatUp, RealUp, and local NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completion equality, selected representatives, selected limits, countable choice, ambient completed products, Lean verification, or bridge checking.}

@@ -84,6 +84,7 @@ L,M,Q,D,Z,F,S,R,E,H,C,P,N
 $$
 of \autoref{def:closed-bounded-interval-net-carrier}, read with the following scope assignments: $L$ is the $\LocatedIntervalUp$ source row, $M$ is the unary dyadic mesh scale, $Q$ is the $\RationalIntervalUp$ cell ledger, $D$ is the $\DyadicIntervalUp$ refinement ledger, $Z$ is the displayed center ledger, $F$ is finite coverage, $S$ is the $\StreamNameUp$ window row, $R$ is the $\RegSeqRatUp$ readback row, $E$ is the $\RealUp$ seal, $H$ is componentwise transport, $C$ is displayed replay, $P$ is provenance, and $N$ is the local NameCert row. The scope ledger is visible exactly to $\RealUp$ and $\CompactUniformContinuityUp$ consumers and does not add an open-cover compactness row, selected subcover, quotient stream, host real equality, or ambient Real completeness principle.
 \end{definition}
+\leandef{BEDC.Derived.ClosedBoundedIntervalNetUp.ClosedBoundedIntervalNetScopeLedger}
 
 \begin{theorem}[Closed bounded interval net RegSeqRat window exactness]
 \label{thm:closed-bounded-interval-net-regseqrat-window-exactness}
@@ -151,6 +152,7 @@ as in \autoref{def:closed-bounded-interval-net-carrier}, read with $M$ as the un
 \label{thm:closed-bounded-interval-net-unary-mesh-monotonicity}
 Let $K=(L,M,Q,D,Z,F,S,R,E,H,C,P,N)$ be an accepted $\ClosedBoundedIntervalNetUp$ packet, and let $M'$ be a unary mesh scale obtained by extending $M$ by displayed successor rows. The refined packet keeps the source row $L$ and replaces $Q,D,Z,F,S,R,E$ by rows at scale $M'$ so that every rational cell in $Q$ is subdivided by rational cells in the refined ledger, every dyadic cell in $D$ is subdivided by dyadic cells in the refined ledger, and every coverage route displayed by $F$ factors through the refined $\ProbeBundle$ center rows. Transport by $H$, replay by $C$, provenance by $P$, and local naming by $N$ preserve the same coverage route.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedBoundedIntervalNetUp.ClosedBoundedIntervalNetUnaryMeshMonotonicity}
 \begin{proof}
 Start from the dyadic coverage theorem \autoref{thm:closed-bounded-interval-net-dyadic-coverage}. It places every containment read on the finite route $L,M,Q,D,Z,F,H,C,P,N$, so the mesh coordinate is the only row being extended.
 
@@ -223,6 +225,7 @@ L,M,Q,D,Z,F,S,R,E,H,C,P,N.
 $$
 Thus the read consumes the dyadic and rational interval rows, $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, componentwise $\hsame$, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\ClosedBoundedIntervalNetUp}$ row before it reaches any compact-uniform consumer. It exports no open-cover compactness principle, selected subcover, selected limit, quotient stream, host real equality, hidden center chooser, or ambient Real completeness row.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedBoundedIntervalNetUp.ClosedBoundedIntervalNetPublicEnvelope}
 \begin{proof}
 Project the carrier of \autoref{def:closed-bounded-interval-net-carrier}. Its public rows are the located interval source $L$, mesh scale $M$, rational cells $Q$, dyadic refinements $D$, center row $Z$, coverage ledger $F$, StreamName windows $S$, RegSeqRat readback $R$, Real seal $E$, and the structural rows $H,C,P,N$.
 
@@ -264,6 +267,7 @@ L,M,Q,D,Z,F,S,R,E,H,C,P,N.
 $$
 The consumer reads the located interval, mesh scale, rational cells, dyadic refinements, centers, finite coverage, stream windows, regular-rational readbacks, Real seal, transport, replay, provenance, and local naming before any uniform-continuity conclusion can be replayed.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedBoundedIntervalNetUp.ClosedBoundedIntervalNetUniformModulusInput}
 \begin{proof}
 Use \autoref{thm:closed-bounded-interval-net-compactuniformconsumer-handoff}. It already states that compact-uniform consumers receive the scoped row family $L,M,Q,D,Z,F,S,R,E,H,C,P,N$ and no stronger compactness object.
 

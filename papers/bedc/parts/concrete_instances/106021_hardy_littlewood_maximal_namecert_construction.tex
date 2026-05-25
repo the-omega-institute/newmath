@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\HardyLittlewoodMaximalUp$}
+\label{ch:concrete-instances-hardy-littlewood-maximal-namecert}
+\origin{human}
+
+Following Hardy--Littlewood maximal estimates and the Vitali-cover selection lemma, the $\HardyLittlewoodMaximalUp$ packet records the finite maximal-function surface for metric balls, positive radius windows, and local average rows. It sits beside the finite covering ledger of \autoref{ch:concrete-instances-finite-vitali-cover-namecert} and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}; the packet names one displayed maximal domination route without importing measure completion, countable choice, selected suprema, quotient function equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Hardy-Littlewood maximal carrier]
+\label{def:hardy-littlewood-maximal-carrier}
+A $\HardyLittlewoodMaximalUp$ carrier is a finite $\BHist$ packet
+$$
+M=(X,B,R,A,V,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the metric-source row. It records the carried points, the displayed distance reads, and the finite ball names inspected by the maximal request.
+\item $B$ is the metric-ball row. Each ball record stores a center, a positive radius witness, the membership probes read by the packet, and the carrier-local inclusion comparisons used downstream.
+\item $R$ is the positive-radius window row. It stores only finite radius candidates and rational comparison budgets; it has no coordinate for a selected optimizing radius.
+\item $A$ is the local-average row. For every displayed ball window it records the finite readback route for the corresponding average value and the rational tolerance by which that value is compared.
+\item $V$ is the finite Vitali-cover ledger, read through $\FiniteVitaliCoverUp$. It records the selected disjoint subfamily, the overlap budget, and the cover cells used to dominate the requested window.
+\item $D$ is the domination witness row. It records the finite comparison that bounds each displayed local average by the exported maximal value read through the same radius and cover windows.
+\item $E$ is the $\RealUp$ seal row. It exposes only the finite real-name windows reached from $A$ and $D$.
+\item $H$ records componentwise $\hsame$ transport for the metric source, ball windows, radius budgets, local averages, Vitali ledger, domination witness, real seal, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+\FiniteVitaliCoverUp,\RealUp,\BHist
+\longmapsto
+\HardyLittlewoodMaximalUp .
+$$
+\item $P$ is the $\Pkg$ provenance over $\HardyLittlewoodMaximalUp$, $\FiniteVitaliCoverUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HardyLittlewoodMaximalUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these eleven rows. Its classifier compares accepted packets only through $X,B,R,A,V,D,E,H,C,P,N$ and has no coordinate for a selected supremum, a countable ball family, a measure-completion object, quotient function equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Hardy-Littlewood maximal NameCert obligations]
+\label{thm:hardy-littlewood-maximal-namecert-obligations}
+For an accepted $\HardyLittlewoodMaximalUp$ carrier
+$$
+M=(X,B,R,A,V,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\HardyLittlewoodMaximalUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the metric source, metric-ball windows, positive-radius budgets, local average rows, finite Vitali-cover ledger, domination witness, real seal, transport, replay, provenance, and local naming row;
+\item positive-radius visibility, requiring every local average request to read a displayed radius witness from $R$ and the matching ball data from $B$ before any average row in $A$ is inspected;
+\item finite Vitali-cover discipline, requiring domination to pass through the ledger $V$ and its overlap budget before the witness row $D$ is exported;
+\item real-seal discipline, requiring every numerical output to pass through $E$ after the local average and domination rows have been displayed;
+\item ledger non-escape, requiring $H,C,P,N$ to preserve exactly the rows $X,B,R,A,V,D,E$ and to export no selected supremum, no countable-choice ball selection, no measure completion, no quotient function equality, and no ambient $\RealUp$ completeness.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:hardy-littlewood-maximal-carrier}. The accepted packet exposes exactly the metric source, ball windows, positive-radius budgets, local average rows, finite Vitali ledger, domination witness, real seal, transport, replay, provenance, and local naming rows.
+
+The radius and average obligations are ordered by the carrier itself. A local average read from $A$ is meaningful only after the matching ball data from $B$ and positive radius witness from $R$ have been displayed, so the packet cannot replace finite windows by an optimizing host radius.
+
+The covering step is the row $V$. Its $\FiniteVitaliCoverUp$ ledger supplies the finite selected subfamily and overlap budget used by $D$, and the domination witness can only cite those displayed cells.
+
+Finally $E,H,C,P,N$ seal, transport, replay, source, and name the same finite route. Since there is no carrier coordinate for a selected supremum, countable-choice ball family, measure completion, quotient function equality, or ambient $\RealUp$ completeness, none of those principles appears in the local $\NameCert_{\HardyLittlewoodMaximalUp}$ surface.
+\end{proof}
+
+\closureat{HardyLittlewoodMaximalUp}{seedStr}
+
+\begin{closurestatus}{\HardyLittlewoodMaximalUp}
+  \constructivestory{A $\HardyLittlewoodMaximalUp$ packet is generated from a metric source row, metric-ball windows, positive-radius budgets, local average rows, a finite Vitali-cover ledger, a domination witness, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hardy-littlewood-maximal-carrier} and \autoref{thm:hardy-littlewood-maximal-namecert-obligations} seed the finite maximal-function carrier and obligation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, measure completion, countable-choice ball selection, selected suprema, quotient function equality, ambient $\RealUp$ completeness, Lebesgue differentiation, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, positive-radius visibility, finite Vitali-cover discipline, real-seal discipline, and ledger non-escape for BEDC.Derived.HardyLittlewoodMaximalUp.}
+\end{closurestatus}

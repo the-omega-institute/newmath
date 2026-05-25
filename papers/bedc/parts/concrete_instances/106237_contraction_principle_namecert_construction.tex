@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\ContractionPrincipleUp$}
+\label{ch:concrete-instances-contraction-principle-namecert}
+\origin{human}
+
+Following Banach and Bishop--Bridges constructive metric analysis, the $\ContractionPrincipleUp$ packet records the theorem-level completion-neighbour object that connects the contraction-map surface of \autoref{ch:concrete-instances-contractionmapping-namecert}, the finite iteration ledger of \autoref{ch:concrete-instances-fixed-point-iteration-namecert}, the complete-metric handoff of \autoref{ch:concrete-instances-completemetric-namecert}, the metric source of \autoref{ch:concrete-instances-metric-namecert}, and the endpoint-facing consumer discipline of \autoref{ch:concrete-instances-banach-fixed-point-namecert}. The packet names the finite route through which contraction data becomes completion-facing evidence; it does not itself choose a fixed point or assert ambient completeness.
+
+\begin{definition}[ContractionPrinciple carrier]
+\label{def:contraction-principle-carrier}
+A $\ContractionPrincipleUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+R=(X,d,T,q,I,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricUp$ carrier row whose point histories and classifier are read by the contraction route.
+\item $d$ is the metric-distance row used for all finite source, target, and iterate-distance comparisons.
+\item $T$ is the $\ContractionMappingUp$ graph row, exposing the self-map application surface without host function extensionality.
+\item $q$ is the rational contraction-bound ledger, including the displayed nonnegative row and strict unit-bound row consumed by finite estimates.
+\item $I$ is the $\FixedPointIterationUp$ route, displaying the initial row, finite iterate window, and residual-budget rows generated from $T$ and $q$.
+\item $L$ is the $\CompleteMetricUp$ handoff row, naming the completion-facing service that may consume the finite Cauchy evidence without being stored as ambient completeness in the contraction packet.
+\item $H$ records componentwise $\hsame$ transport for the metric source, distance row, contraction graph, rational bound, finite iteration route, completion handoff, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for metric reads, contraction graph inspection, bound comparison, finite iteration extension, completion handoff, and consumer readback.
+\item $P$ is the $\Pkg$ provenance row over $\MetricUp$, $\ContractionMappingUp$, $\FixedPointIterationUp$, $\CompleteMetricUp$, $\BanachFixedPointUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ContractionPrincipleUp}$ row.
+\end{enumerate}
+The carrier is a theorem-level route packet. It contains no selected fixed point, no completed endpoint row, no host equality of maps, and no completeness assertion outside the displayed handoff row.
+\end{definition}
+
+\begin{theorem}[ContractionPrinciple NameCert obligations]
+\label{thm:contraction-principle-namecert-obligations}
+For an accepted $\ContractionPrincipleUp$ carrier $R=(X,d,T,q,I,L,H,C,P,N)$, the local $\NameCert_{\ContractionPrincipleUp}$ surface consists of carrier admission, contraction-bound stability, iterate visibility, complete-metric handoff visibility, componentwise transport, continuation replay, package provenance stability, and local naming for the packet of \autoref{def:contraction-principle-carrier}. Every accepted read of the principle is routed through these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission projects the displayed tuple $X,d,T,q,I,L,H,C,P,N$. The contraction graph row and rational bound ledger supply the map-level comparison surface, while the metric row is the only source of distance reads.
+
+Iterate visibility is supplied by $I$. It records only finite Picard windows and residual budgets generated from $T$ and $q$, so it cannot introduce a completed orbit or a selected endpoint.
+
+The completion handoff is supplied by $L$, transported by $H$, and replayed by $C$. Provenance and local naming are then read from $P$ and $N$, giving exactly the listed NameCert obligations and no additional analytic coordinate.
+\end{proof}
+
+\begin{theorem}[ContractionPrinciple completion handoff]
+\label{thm:contraction-principle-completion-handoff}
+Every $\BanachFixedPointUp$ or $\CompleteMetricUp$ consumer of an accepted $\ContractionPrincipleUp$ carrier must pass through the displayed route
+$$
+\ContractionMappingUp,\quad
+\FixedPointIterationUp,\quad
+\CompleteMetricUp,\quad
+\MetricUp,\quad
+\NameCert_{\ContractionPrincipleUp}.
+$$
+Equivalently, the consumer reads the rows $X,d,T,q,I,L,H,C,P,N$ before any endpoint-facing fixed-point seal can be consumed. The handoff exports contraction-map evidence, finite iterate evidence, metric-distance reads, complete-metric service visibility, transport, replay, provenance, and local naming; it does not export a selected fixed point, a completed orbit endpoint, host fixed-point equality, quotient equality of maps, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the contraction surface. The rows $T$ and $q$ are read as the $\ContractionMappingUp$ graph and rational bound ledger over the $\MetricUp$ source $X,d$.
+
+Next read the finite iteration route $I$. It exposes the $\FixedPointIterationUp$ orbit window and residual budget that a completion-facing consumer may inspect before any endpoint row is available.
+
+Finally pass through $L,H,C,P,N$. The row $L$ is only a $\CompleteMetricUp$ handoff, while $H$ and $C$ preserve the same componentwise route under transport and replay. Therefore a $\BanachFixedPointUp$ or $\CompleteMetricUp$ consumer receives the displayed theorem-level route but must provide its own endpoint or completeness discipline downstream.
+\end{proof}
+
+\closureat{ContractionPrincipleUp}{seedStr}
+
+\begin{closurestatus}{\ContractionPrincipleUp}
+  \constructivestory{A $\ContractionPrincipleUp$ packet is generated from a MetricUp source row, a distance row, a ContractionMapping graph row, a rational contraction-bound ledger, a FixedPointIteration route, a CompleteMetric handoff, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:contraction-principle-carrier}, \autoref{thm:contraction-principle-namecert-obligations}, and \autoref{thm:contraction-principle-completion-handoff} seed the theorem-level contraction principle route over metric, contraction-map, finite iteration, complete-metric, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected fixed points, completed endpoints, host fixed-point equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, contraction-bound stability, iterate visibility, complete-metric handoff visibility, transport stability, replay stability, provenance stability, and local naming for BEDC.Derived.ContractionPrincipleUp.}
+\end{closurestatus}

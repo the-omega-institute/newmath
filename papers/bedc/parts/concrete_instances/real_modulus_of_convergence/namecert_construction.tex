@@ -41,6 +41,22 @@ The regular rational handoff $Q$ is then read through the monotone ledger $M$. M
 The Real seal row $E$ is downstream of $D,W,Q,M$. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route, so no quotient equality of streams, selected host limit, countable-choice schedule, host real equality, or ambient completeness theorem can be exported by the local classifier.
 \end{proof}
 
+\begin{theorem}[Real modulus of convergence tail stability]
+\label{thm:real-modulus-of-convergence-tail-stability}
+Let $R=(D,W,Q,M,E,H,C,P,N)$ be an accepted $\RealModulusOfConvergenceUp$ packet. For any later dyadic tolerance request transported through the monotone ledger $M$, the corresponding read uses a weakly later finite $\StreamNameUp$ window, the same $\RegSeqRatUp$ handoff route, and the same downstream $\RealUp$ seal boundary before any Real or Completion consumer may use the convergence claim. The routed tail-stability surface is exactly
+$$
+D,W,Q,M \longmapsto E \longmapsto H,C,P,N .
+$$
+It contains no quotient stream equality, selected limit, countable-choice schedule, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-modulus-of-convergence-carrier}. The rows $D,W,Q$ expose the tolerance request, the finite stream window, and the regular rational handoff available before any Real-facing seal is consumed.
+
+Use the monotonicity row inside $M$. A later dyadic tolerance request may only move the accepted read to a weakly later finite window, so the packet preserves the tail already admitted by the earlier request and never introduces a separate tail selector.
+
+Finally route the resulting read through $E,H,C,P,N$. The seal row $E$ remains downstream of the displayed tolerance, window, readback, and modulus rows, while $H,C,P,N$ transport, replay, source, and name the same route. Since no carrier coordinate supplies quotient stream equality, selected limits, countable choice, or ambient Real completeness, those objects cannot be exported to the Real or Completion consumer.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\RealModulusOfConvergenceUp$ Real or Completion consumer factors through one displayed $\DyadicRatCoreUp$ tolerance row, one $\StreamNameUp$ finite-window row, one $\RegSeqRatUp$ readback row, one monotone convergence-modulus ledger, one $\RealUp$ seal handoff, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before it may use a convergence-modulus claim.}
 
 \independenceWitness{dyadicratcore, streamname, regseqrat, real: $\RealModulusOfConvergenceUp$ is not bijective to any listed sibling because the siblings separately supply tolerance comparisons, finite windows, regular rational readback, and terminal Real sealing, while this packet uniquely binds them to a monotone convergence-modulus ledger consumed by the L10 Real and Completion route.}
