@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\SylowUp$}
+\label{ch:concrete-instances-sylow-namecert}
+\origin{human}
+
+Following Sylow's finite group theorem, the $\SylowUp$ packet records a prime-power subgroup witness inside a displayed finite $\GroupUp$ carrier. It consumes the group and subgroup rows of \autoref{ch:concrete-instances-group-namecert} and \autoref{ch:concrete-instances-subgroup-namecert}, the prime and unary counting rows of \autoref{ch:concrete-instances-prime-namecert} and \autoref{ch:concrete-instances-nat-namecert}, and the finite action surface of \autoref{ch:concrete-instances-finite-group-representation-namecert}. The packet names only a displayed $p$-subgroup carrier, maximal prime-power coverage, conjugacy transport, and representation-facing consumer boundary; it does not assert a host subgroup lattice, quotient group classification, character table, arbitrary normalizer computation, or complete finite-group structure theorem.
+
+\begin{definition}[Sylow carrier]
+\label{def:sylow-carrier}
+A $\SylowUp$ carrier is a finite $\BHist$ packet
+$$
+Y=(G,S,p,n,W,A,T,C,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the consumed finite $\NameCert_{\GroupUp}$ source row, including multiplication, unit, inverse, finite support, and componentwise group transport.
+\item $S$ is the consumed $\NameCert_{\SubgroupUp}$ row naming the candidate subgroup inside $G$.
+\item $p$ is the $\NameCert_{\PrimeUp}$ row naming the prime whose power controls the subgroup order.
+\item $n$ is the $\NatUp$ unary exponent row recording the displayed prime-power size $p^{n}$.
+\item $W$ is the membership and order witness row saying that the subgroup carrier has exactly the displayed $p^{n}$ support and that no larger displayed $p$-subgroup row is present in the packet.
+\item $A$ is the finite conjugation-action row, read through the group operation of $G$ and through the action discipline of $\FiniteGroupRepresentationUp$ when a downstream representation consumer asks for transport of a Sylow row.
+\item $T$ is the conjugacy-transport row sending any displayed Sylow witness with the same prime-power coverage to a conjugate subgroup row inside $G$.
+\item $C$ is the consumer ledger for representation, character, and subgroup-normalizer reads; it exposes only the rows $G,S,p,n,W,A,T$ before a consumer may name a Sylow conclusion.
+\item $H$ records componentwise $\hsame$ transport for group, subgroup, prime, exponent, coverage, action, conjugacy, consumer, replay, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\SylowUp$, $\GroupUp$, $\SubgroupUp$, $\PrimeUp$, $\NatUp$, $\FiniteGroupRepresentationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SylowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $G,S,p,n,W,A,T,C,H,P,N$. It has no coordinate for an ambient subgroup lattice, quotient classification, selected normalizer, character-table computation, or host finite-group theorem.
+\end{definition}
+\leandef{BEDC.Derived.SylowUp.SylowCarrier}
+
+\begin{theorem}[Sylow NameCert obligations]
+\label{thm:sylow-namecert-obligations}
+For every accepted $\SylowUp$ carrier $Y=(G,S,p,n,W,A,T,C,H,P,N)$, the local $\NameCert_{\SylowUp}$ surface consists exactly of finite group admission through $G$, subgroup admission through $S$, prime admission through $p$, unary exponent exposure through $n$, prime-power coverage through $W$, conjugation-action exposure through $A$, conjugacy transport through $T$, consumer-boundary exposure through $C$, componentwise transport through $H$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sylow-carrier}. The rows $G,S,p,n,W$ expose the finite group, candidate subgroup, prime, unary exponent, and prime-power coverage before any Sylow read can be consumed.
+
+The conjugation row $A$ is finite because it is read from the displayed group operation and, when representation-facing consumers are present, through the finite action surface of \autoref{ch:concrete-instances-finite-group-representation-namecert}. The transport row $T$ is therefore a row of the packet, not a host orbit theorem.
+
+Finally $C,H,P,N$ preserve, source, and name the same route. Since no ambient subgroup lattice, quotient classification, selected normalizer, character-table computation, or complete finite-group structure theorem is a carrier coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+\leanchecked{BEDC.Derived.SylowUp.SylowCarrier\_namecert\_obligations}
+
+\begin{theorem}[Sylow conjugacy transport]
+\label{thm:sylow-conjugacy-transport}
+Let $Y=(G,S,p,n,W,A,T,C,H,P,N)$ and $Y'=(G,S',p,n,W',A',T',C',H',P',N')$ be accepted $\SylowUp$ packets over the same displayed finite $\GroupUp$ row and the same $\PrimeUp$ and $\NatUp$ rows. If both coverage ledgers display maximal $p^{n}$ support inside $G$, then every consumer that identifies $S$ with $S'$ must pass through the conjugation-action rows $A,A'$ and the transport rows $T,T'$. The exported comparison is a displayed conjugacy transport inside $G$, not equality of host subgroup sets or a quotient of all subgroups.
+\end{theorem}
+\begin{proof}
+Read the two carriers and their shared rows $G,p,n$. The only rows that connect subgroup witnesses with the ambient group operation are the coverage rows $W,W'$ and the conjugation-action rows $A,A'$.
+
+The transport rows $T,T'$ record the allowed movement between displayed maximal prime-power subgroup rows. Thus a consumer comparing $S$ and $S'$ must use those rows before it may name a conjugacy result.
+
+The consumer and structural rows $C,C',H,H',P,P',N,N'$ preserve the same displayed route. Because neither carrier contains a host subgroup lattice or quotient over all subgroup rows, the comparison remains a finite conjugacy-transport packet inside $G$.
+\end{proof}
+
+\begin{theorem}[Sylow prime-power coverage]
+\label{thm:sylow-prime-power-coverage}
+For an accepted $\SylowUp$ carrier $Y=(G,S,p,n,W,A,T,C,H,P,N)$, every prime-power coverage read of $S$ in $G$ factors through the prime row $p$, the unary exponent row $n$, and the coverage ledger $W$. The packet may expose that the displayed subgroup has maximal $p^{n}$ support among the subgroup rows named by the packet, but it does not compute the full host order of $G$, enumerate all subgroups of $G$, or choose a canonical Sylow subgroup.
+\end{theorem}
+\begin{proof}
+Project $p,n,W$ from the carrier. The prime row supplies the arithmetic base, the unary exponent row supplies the finite counting index, and the coverage ledger records the displayed $p^{n}$ support for the subgroup row $S$.
+
+Apply \autoref{thm:sylow-namecert-obligations}. No coverage conclusion is available before $G,S,p,n,W$ have been read, and no later row can replace $W$ with an ambient order computation.
+
+The action, transport, consumer, and structural rows $A,T,C,H,P,N$ only replay the same coverage route. Therefore prime-power coverage is a packet-level finite witness, with full subgroup enumeration and canonical selection outside the chapter.
+\end{proof}
+
+\closureat{SylowUp}{seedStr}
+
+\begin{closurestatus}{\SylowUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sylow-carrier}, \autoref{thm:sylow-namecert-obligations}, \autoref{thm:sylow-conjugacy-transport}, and \autoref{thm:sylow-prime-power-coverage} seed the finite prime-power subgroup packet over displayed $\GroupUp$, $\SubgroupUp$, $\PrimeUp$, $\NatUp$, and $\FiniteGroupRepresentationUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host subgroup lattices, quotient group classification, character-table computation, arbitrary normalizer calculation, canonical Sylow selection, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prime-power coverage, conjugacy transport, representation-facing consumer boundary, Nontrivial SylowUp, and FieldFaithful SylowUp for BEDC.Derived.SylowUp.}
+  \constructivestory{A $\SylowUp$ packet is generated from a finite GroupUp row, a SubgroupUp row, a PrimeUp row, a NatUp exponent row, a prime-power coverage ledger, conjugation-action and transport rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
