@@ -47,6 +47,20 @@ Next replay $M$ through the finite prime-implicant enumeration row $I$. This pre
 Finally project the minimal-cover row $U$ from $I$. The package, transport, replay, and local naming rows carry no additional semantic oracle, so a consumer cannot bypass the finite support, motif, prime-implicant, and cover rows. The Lean follow-up will provide `Nontrivial ReassignmentSupportCompressionUp` and `FieldFaithful ReassignmentSupportCompressionUp` in `lean4/BEDC/Derived/ReassignmentSupportCompressionUp/TasteGate.lean`.
 \end{proof}
 
+\begin{theorem}[ReassignmentSupportCompression sibling lattice]
+\label{thm:reassignment-support-compression-sibling-lattice}
+Every accepted $\ReassignmentSupportCompressionUp$ consumer must read the codon six-bit window of \autoref{ch:concrete-instances-codon-six-bit-window-namecert}, the stop-codon Zeckendorf suffix surface of \autoref{ch:concrete-instances-stopcodonzeckendorfsuffix-namecert}, the codon transition matrix of \autoref{ch:concrete-instances-codon-transition-matrix-namecert}, and the bitvector carrier of \autoref{ch:concrete-instances-bitvector-namecert} before treating the five-motif row $M$ and the prime-cover rows $I,U$ as support-compression data.
+
+Thus the packet is read as a horizontal lattice over displayed codon coordinates, stop-boundary suffixes, transition rows, and finite bitvector surfaces. It cannot be consumed as an isolated Boolean minimization certificate, a raw support bitvector, a stop-codon suffix rule, or a transition-matrix equivalence.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:reassignment-support-compression-carrier}. The support row $S$ is already tied to displayed codon membership, and the packet's provenance row names the DNA six-bit boundary tile source rows before the motif row is replayed.
+
+Read the sibling surfaces in order. The codon six-bit window supplies the coordinate surface, the stop-codon Zeckendorf suffix supplies the stop-boundary comparison row, the codon transition matrix supplies table-movement visibility, and the bitvector carrier supplies the finite support encoding boundary.
+
+Only after those sibling rows are visible can the consumer interpret $M,I,U$ as support-compression rows. Since the carrier contains no host Boolean minimizer, raw bitvector equality, isolated suffix rule, or transition-matrix quotient, the five-motif and prime-cover rows remain downstream of the sibling lattice.
+\end{proof}
+
 \closureat{ReassignmentSupportCompressionUp}{seedStr}
 
 \begin{closurestatus}{\ReassignmentSupportCompressionUp}

@@ -1,11 +1,21 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.MetaCICNormalizationCertificateRouterUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -305,5 +315,38 @@ theorem MetaCICNormalizationCertificateRouterUp_single_carrier_alignment :
           by
             intro h
             cases h⟩
+
+def MetaCICNormalizationCertificateRouterPacket [AskSetup] [PackageSetup]
+    (audit candidate strongNorm piApp closedProjection generator compiler kernelAccept transport
+      replay provenance localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame
+  UnaryHistory audit ∧ UnaryHistory candidate ∧ UnaryHistory strongNorm ∧
+    UnaryHistory piApp ∧ UnaryHistory closedProjection ∧ UnaryHistory generator ∧
+      UnaryHistory compiler ∧ UnaryHistory kernelAccept ∧ UnaryHistory transport ∧
+        UnaryHistory replay ∧ UnaryHistory provenance ∧ UnaryHistory localName ∧
+          Cont candidate strongNorm piApp ∧ Cont piApp closedProjection transport ∧
+            Cont generator compiler kernelAccept ∧ Cont transport replay provenance ∧
+              PkgSig bundle localName pkg
+
+theorem MetaCICNormalizationCertificateRouterClosedReadRefusal [AskSetup] [PackageSetup]
+    {audit candidate strongNorm piApp closedProjection generator compiler kernelAccept transport
+      replay provenance localName closedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICNormalizationCertificateRouterPacket audit candidate strongNorm piApp
+        closedProjection generator compiler kernelAccept transport replay provenance localName
+        bundle pkg →
+      Cont candidate closedProjection closedRead →
+        UnaryHistory candidate ∧ UnaryHistory closedProjection ∧ UnaryHistory closedRead ∧
+          Cont candidate closedProjection closedRead ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro packet closedRoute
+  obtain ⟨_auditUnary, candidateUnary, _strongNormUnary, _piAppUnary, closedProjectionUnary,
+    _generatorUnary, _compilerUnary, _kernelAcceptUnary, _transportUnary, _replayUnary,
+    _provenanceUnary, _localNameUnary, _candidateStrongNorm, _piAppProjection,
+    _producerAcceptance, _transportReplay, pkgSig⟩ := packet
+  have closedReadUnary : UnaryHistory closedRead :=
+    unary_cont_closed candidateUnary closedProjectionUnary closedRoute
+  exact ⟨candidateUnary, closedProjectionUnary, closedReadUnary, closedRoute, pkgSig⟩
 
 end BEDC.Derived.MetaCICNormalizationCertificateRouterUp

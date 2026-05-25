@@ -63,9 +63,22 @@ Only after this replay can the seal row $A$ be read. The transport, provenance, 
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyNetLimitUp.CauchyNetLimitCarrier\_real\_seal\_handoff}
 
+\begin{theorem}[CauchyNetLimit directed-window obligations]
+\label{thm:cauchy-net-limit-directed-window-obligations}
+Let $L=(K,W,R,D,A,H,C,P,N)$ be an accepted $\CauchyNetLimitUp$ packet. Every directed-limit read must consume the accepted $\CauchyNetUp$ row $K$ before it reads the window row $W$, regular readback row $R$, dyadic tolerance ledger $D$, or $\RealUp$ seal row $A$. Common upper-window witnesses exposed by $K$ remain stable under the componentwise transport row $H$ and replay through $C$ before the packet can be sealed by $P$ and $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-net-limit-carrier}. The row $K$ is the only source for the directed windows and their common upper-window witnesses, while $W,R,D,A$ are downstream reads.
+
+Replay $C$ in the displayed order. The request first consumes $K$, then the finite windows $W$, the regular rational readback $R$, and the dyadic tolerance ledger $D$ before the seal row $A$ is available.
+
+Transport by $H$ preserves the same finite route. The provenance row $P$ and local naming row $N$ therefore package the directed-window obligation without adding quotient nets, selected limits, cofinal choice, host equality, or Real completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyNetLimitUp.CauchyNetLimitCarrier\_directed\_window\_obligations}
+
 \begin{closurestatus}{\CauchyNetLimitUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-net-limit-carrier}, \autoref{thm:cauchy-net-limit-namecert-obligations}, and \autoref{thm:cauchy-net-limit-real-seal-handoff} seed the finite Cauchy-net limit boundary between directed-window data and the downstream $\RealUp$ seal.}
+  \scopeclosed{\autoref{def:cauchy-net-limit-carrier}, \autoref{thm:cauchy-net-limit-namecert-obligations}, \autoref{thm:cauchy-net-limit-real-seal-handoff}, and \autoref{thm:cauchy-net-limit-directed-window-obligations} seed the finite Cauchy-net limit boundary between directed-window data and the downstream $\RealUp$ seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient nets, selected host limits, cofinal choice, host real equality, ambient $\RealUp$ completeness, or Lean verification.}
