@@ -74,10 +74,25 @@ Replay $C$ in the displayed order. The request first consumes $K$, then the fini
 
 Transport by $H$ preserves the same finite route. The provenance row $P$ and local naming row $N$ therefore package the directed-window obligation without adding quotient nets, selected limits, cofinal choice, host equality, or Real completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyNetLimitUp.CauchyNetLimitCarrier\_directed\_window\_obligations}
+
+\begin{theorem}[CauchyNetLimit dyadic-tolerance handoff]
+\label{thm:cauchy-net-limit-dyadic-tolerance-handoff}
+Let $L=(K,W,R,D,A,H,C,P,N)$ be an accepted $\CauchyNetLimitUp$ packet. Every $\RealUp$-facing read consumes the $\CauchyNetUp$ directed-window row $K$, the $\StreamNameUp$ finite window row $W$, the $\RegSeqRatUp$ readback row $R$, and the $\DyadicRatCoreUp$ tolerance ledger $D$ before the seal row $A$ is visible. Thus the Real seal handoff is a dyadic-tolerance handoff, not a direct passage from directed nets to host real equality or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-net-limit-carrier}. The rows $K,W,R,D$ are the only rows from which a Real-facing request can obtain directed-window evidence, finite stream observations, regular rational readback, and dyadic tolerance data.
+
+Use \autoref{thm:cauchy-net-limit-namecert-obligations}. Its directed-window consumption, regular readback, Real seal handoff, and ledger refusal clauses require the request to pass through $K,W,R,D$ before the seal row $A$ is available.
+
+The order is the same as in \autoref{thm:cauchy-net-limit-real-seal-handoff} and \autoref{thm:cauchy-net-limit-directed-window-obligations}. Replay by $C$ first opens the directed-window row, then the finite window and regular readback rows, then the dyadic tolerance ledger; transport by $H$ preserves this route when the packet is moved componentwise.
+
+Therefore any $\RealUp$-facing consumer reads $A$ only after the dyadic tolerance ledger has been displayed. The packet still contains no quotient net, selected host limit, cofinal-choice selector, host real equality, or ambient completeness coordinate.
+\end{proof}
 
 \begin{closurestatus}{\CauchyNetLimitUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-net-limit-carrier}, \autoref{thm:cauchy-net-limit-namecert-obligations}, \autoref{thm:cauchy-net-limit-real-seal-handoff}, and \autoref{thm:cauchy-net-limit-directed-window-obligations} seed the finite Cauchy-net limit boundary between directed-window data and the downstream $\RealUp$ seal.}
+  \scopeclosed{\autoref{def:cauchy-net-limit-carrier}, \autoref{thm:cauchy-net-limit-namecert-obligations}, \autoref{thm:cauchy-net-limit-real-seal-handoff}, \autoref{thm:cauchy-net-limit-directed-window-obligations}, and \autoref{thm:cauchy-net-limit-dyadic-tolerance-handoff} seed the finite Cauchy-net limit boundary between directed-window data and the downstream $\RealUp$ seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient nets, selected host limits, cofinal choice, host real equality, ambient $\RealUp$ completeness, or Lean verification.}
