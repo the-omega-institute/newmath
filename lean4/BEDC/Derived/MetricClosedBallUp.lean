@@ -1,0 +1,76 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
+
+namespace BEDC.Derived.MetricClosedBallUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def MetricClosedBallCarrier [AskSetup] [PackageSetup]
+    (X d c r rho m H C P N : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory X ∧ UnaryHistory d ∧ UnaryHistory c ∧ UnaryHistory r ∧
+    UnaryHistory rho ∧ UnaryHistory m ∧ UnaryHistory H ∧ UnaryHistory C ∧
+      UnaryHistory P ∧ UnaryHistory N ∧ Cont X d H ∧ Cont d c m ∧
+        Cont H C N ∧ hsame m (append d c) ∧ PkgSig bundle P pkg
+
+theorem MetricClosedBallCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {X d c r rho m H C P N strict : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricClosedBallCarrier X d c r rho m H C P N bundle pkg ->
+      Cont d c m ->
+        Cont rho strict C ->
+          SemanticNameCert
+            (fun row : BHist =>
+              MetricClosedBallCarrier X d c r rho m H C P N bundle pkg ∧ hsame row N)
+            (fun row : BHist =>
+              MetricClosedBallCarrier X d c r rho m H C P N bundle pkg ∧ hsame row N)
+            (fun row : BHist =>
+              MetricClosedBallCarrier X d c r rho m H C P N bundle pkg ∧ hsame row N)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg SemanticNameCert
+  intro carrier closedMembership strictBoundary
+  have accepted : MetricClosedBallCarrier X d c r rho m H C P N bundle pkg := carrier
+  obtain ⟨_XUnary, _dUnary, _cUnary, _rUnary, _rhoUnary, _mUnary, _HUnary,
+    _CUnary, _PUnary, _NUnary, _sourceRoute, carrierMembership, _nameRoute,
+    carrierMembershipSame, _pkgSig⟩ := carrier
+  have closedMembershipSame : hsame m (append d c) := closedMembership
+  have sameMembershipRows : hsame m (append d c) :=
+    hsame_trans carrierMembershipSame (hsame_refl (append d c))
+  have strictBoundaryRead : hsame C (append rho strict) := strictBoundary
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro N (And.intro accepted (hsame_refl N))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+
+end BEDC.Derived.MetricClosedBallUp
