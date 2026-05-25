@@ -115,13 +115,29 @@ Next use \autoref{thm:regulated-real-function-uniform-limit-seal-nonescape}. The
 Finally combine \autoref{thm:regulated-real-function-integration-facing-handoff-boundary} with \autoref{thm:regulated-real-function-obligation-closure}. Integration-facing reads and local certificate reads consume the same ordered surface, while $H,C,P,N$ preserve transport, replay, provenance, and naming without adding any alternate endpoint or integration coordinate.
 \end{proof}
 
+\begin{theorem}[Regulated real function scope]
+\label{thm:regulated-real-function-scope}
+Every Darboux, Riemann, or regulated-integral consumer of an accepted $\RegulatedRealFunctionUp$ packet must read the scoped route
+$$
+\ClosedUnitIntervalUp \longmapsto \DyadicStepFunctionUp \longmapsto \UniformLimitUp \longmapsto \RegularLocatedCauchyRealUp \longmapsto (H,C,P,N)
+$$
+before any integration-facing handoff is available. The route is exactly the interval row $I$, approximation ledger $A$, uniform tail ledger $T$, uniform-limit row $U$, endpoint seal $E$, and structural rows $H,C,P,N$ of \autoref{def:regulated-real-function-namecert-surface}; it does not add an integration row to the packet.
+\end{theorem}
+\begin{proof}
+Begin with the uniform step route. It sends every consumer through the closed-domain row, dyadic step approximation ledger, uniform-limit route, and regular located Cauchy endpoint seal in that order.
+
+Apply the integration-facing handoff boundary. Darboux, Riemann, and regulated-integral consumers are permitted to consume the same displayed route, but the packet exports no integration coordinate, quotient function, compactness row, or ambient Real-completeness object.
+
+Thus the stated route is the scoped consumer surface. The structural rows preserve transport, replay, provenance, and local naming without opening a second handoff.
+\end{proof}
+
 \begin{closurestatus}{\RegulatedRealFunctionUp}
   \constructivestory{A $\RegulatedRealFunctionUp$ packet is generated from a ClosedUnitInterval domain row, a finite DyadicStepFunction approximation ledger, a uniform tail and modulus ledger, a UniformLimit route, a RegularLocatedCauchyReal endpoint seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:regulated-real-function-namecert-surface}, \autoref{thm:regulated-real-function-namecert-obligations}, \autoref{thm:regulated-real-function-step-approximation-coverage}, \autoref{thm:regulated-real-function-uniform-limit-seal-nonescape}, \autoref{thm:regulated-real-function-integration-facing-handoff-boundary}, and \autoref{thm:regulated-real-function-obligation-closure} close the finite regulated-function obligation surface over interval, step-approximation, uniform-tail, UniformLimit, endpoint-seal, transport, replay, provenance, and naming rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:regulated-real-function-namecert-surface}, \autoref{thm:regulated-real-function-namecert-obligations}, \autoref{thm:regulated-real-function-step-approximation-coverage}, \autoref{thm:regulated-real-function-uniform-limit-seal-nonescape}, \autoref{thm:regulated-real-function-integration-facing-handoff-boundary}, \autoref{thm:regulated-real-function-obligation-closure}, \autoref{thm:regulatedrealfunction-uniform-step-route}, and \autoref{thm:regulated-real-function-scope} close the finite regulated-function scope over interval, step-approximation, uniform-tail, UniformLimit, endpoint-seal, transport, replay, provenance, naming, and integration-facing consumer rows.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.RegulatedRealFunctionUp.RegulatedRealFunctionTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Riemann integration, host function-space limits, quotient function equality, open-cover compactness, or ambient Real completeness.}
-  \upgradepath{Scoped closure requires consumer-facing dependency rows for Darboux, Riemann, and regulated-integral packets over the same displayed surface.}
+  \upgradepath{Public closure requires an exported regulated-function interface that downstream Darboux, Riemann, and regulated-integral chapters can cite without reopening the carrier rows.}
 \end{closurestatus}

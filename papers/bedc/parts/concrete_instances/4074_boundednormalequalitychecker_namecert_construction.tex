@@ -124,6 +124,49 @@ fuel existence for every closed input and no row deciding beta conversion
 outside the displayed bounded outputs.
 \end{proof}
 
+\begin{theorem}[BoundedNormalEqualityChecker deterministic normal-form readback]
+\label{thm:bounded-normal-equality-checker-deterministic-normal-form-readback}
+Let
+$$
+Q=(L,R,F,N_L,N_R,E,W,C,H,K,P,A)
+$$
+and
+$$
+Q'=(L',R',F',N'_L,N'_R,E',W',C',H',K',P',A')
+$$
+be accepted $\BoundedNormalEqualityCheckerUp$ packets with the same bounded
+normal input rows, the same shared fuel row, the same comparison ledger, and
+classifier-related output rows. Then the concrete packet exposes the same
+normal-form readback route: the displayed bounded normalizer outputs are read
+through the same $N_L,N_R$ positions, the structural \texttt{Term.eq} result is
+read through the same ledger row $E$, and every finished-normal readback
+consumer factors through the same carrier rows $L,R,F,N_L,N_R,E,W,C,H,K,P,A$.
+The conclusion is internal to $\BoundedNormalEqualityCheckerUp$ and does not
+pass through an abstract source-equivalence transport.
+\end{theorem}
+\begin{proof}
+Project both accepted packets through
+\autoref{def:bounded-normal-equality-checker-carrier}. The carrier rows fix
+the two input terms, shared fuel, bounded normalizer outputs, structural
+readback row, finished witnesses, closedness rows, transports, replay,
+provenance, and local naming data.
+
+Use the classifier of
+\autoref{def:bounded-normal-equality-checker-classifier} and the stability row
+of \autoref{thm:bounded-normal-equality-checker-classifier-stability-row}. The
+hypothesis that the inputs, fuel, comparison ledger, and output rows are
+classifier-related forces the displayed readback route to compare
+componentwise through the same finite coordinates.
+
+The finished soundness boundary of
+\autoref{thm:bounded-normal-equality-checker-finished-soundness-boundary}
+allows a consumer to read equality only for the named finished normal forms.
+Finally, ledger exactness from
+\autoref{thm:bounded-normal-equality-checker-ledger-exactness-row} prevents the
+consumer from replacing the concrete route by host equality, quotient equality,
+fuel erasure, hidden termination, or an abstract source-equivalence transport.
+\end{proof}
+
 \begin{theorem}[BoundedNormalEqualityChecker consumer non-escape]
 \label{thm:bounded-normal-equality-checker-consumer-nonescape}
 Every consumer of an accepted $\BoundedNormalEqualityCheckerUp$ packet reads
@@ -244,7 +287,7 @@ claim.
 \begin{closurestatus}{\BoundedNormalEqualityCheckerUp}
   \constructivestory{A $\BoundedNormalEqualityCheckerUp$ packet is generated from two closed MetaCIC term rows, a bounded fuel row, bounded normalizer outputs, structural equality readback, finished-normalization witness rows, componentwise transports, displayed continuation routes, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:bounded-normal-equality-checker-carrier}, \autoref{def:bounded-normal-equality-checker-classifier}, \autoref{thm:bounded-normal-equality-checker-namecert-obligations}, \autoref{thm:bounded-normal-equality-checker-finished-soundness-boundary}, \autoref{thm:bounded-normal-equality-checker-consumer-nonescape}, \autoref{thm:bounded-normal-equality-checker-classifier-stability-row}, \autoref{thm:bounded-normal-equality-checker-ledger-exactness-row}, and \autoref{thm:bounded-normal-equality-checker-obligation-package} bind the finite bounded normal-equality checker seed surface.}
+  \scopeclosed{\autoref{def:bounded-normal-equality-checker-carrier}, \autoref{def:bounded-normal-equality-checker-classifier}, \autoref{thm:bounded-normal-equality-checker-namecert-obligations}, \autoref{thm:bounded-normal-equality-checker-finished-soundness-boundary}, \autoref{thm:bounded-normal-equality-checker-deterministic-normal-form-readback}, \autoref{thm:bounded-normal-equality-checker-consumer-nonescape}, \autoref{thm:bounded-normal-equality-checker-classifier-stability-row}, \autoref{thm:bounded-normal-equality-checker-ledger-exactness-row}, and \autoref{thm:bounded-normal-equality-checker-obligation-package} bind the finite bounded normal-equality checker seed surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

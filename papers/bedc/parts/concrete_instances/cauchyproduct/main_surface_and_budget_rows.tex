@@ -111,6 +111,7 @@ X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N,
 $$
 and it excludes host multiplication, quotient streams, selected limits, trichotomy, independent real carriers, and ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_root\_obligation\_package}
 \begin{proof}
 First read carrier admission and NameCert obligations through \autoref{def:cauchy-product-namecert-source} and \autoref{thm:cauchy-product-namecert-obligations}. These give the two source names, paired windows, dyadic rows, product observation, classifier row, transport rows, continuation routes, ledger, provenance, and local naming row.
 
@@ -157,6 +158,7 @@ Now apply \autoref{thm:cauchy-product-root-budget-obligations}. The product-radi
 \label{thm:cauchy-product-root-downstream-unblock-surface}
 The root-unblock surface of an accepted $\CauchyProductUp$ packet is the finite union of the source-pair lock, the product-observation route, the root budget obligations, the root $\RealUp$ seal obligations, and the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\CauchyProductUp}$ rows. Downstream $\RealUp$ and $\RegSeqRatUp$ product consumers read only this union and cannot import quotient streams, host multiplication, selected limits, trichotomy, independent real carriers, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_root\_downstream\_unblock\_surface}
 \begin{proof}
 First combine \autoref{thm:cauchy-product-root-source-pair-lock} and \autoref{thm:cauchy-product-root-product-observation-route}. These identify the source-window side and the finite product-observation path into $P$.
 
@@ -173,6 +175,7 @@ Z=(X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N),
 $$
 the rows $X,Y,W_X,W_Y$ are admitted only as paired $\StreamNameUp$ finite-window source rows over the two $\RegularCauchyNameUp$ inputs. The admission route is the one exposed by the sibling surfaces \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}; it has no quotient-stream, selected-limit, host multiplication, or ambient-completeness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_paired\_window\_source\_admission}
 \begin{proof}
 Begin with \autoref{thm:cauchy-product-root-obligation-package}. It identifies $X,Y,W_X,W_Y$ as the source side of the root package for the product packet.
 
@@ -189,12 +192,50 @@ M_X,M_Y,Q_X,Q_Y,P,L
 $$
 are the exact finite budget route into the $\RegSeqRatUp$ classifier row $E$. The route reads dyadic observations through \autoref{ch:concrete-instances-dyadicratcore-namecert}, records its regular-rational classifier through \autoref{ch:concrete-instances-regseqrat-namecert}, and admits no radius oracle, quotient stream, selected limit, host multiplication estimate, or ambient completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_budget\_route\_exactness}
 \begin{proof}
 Start from \autoref{thm:cauchy-product-root-budget-obligations}. It lists $M_X,M_Y,Q_X,Q_Y,P,E,L$ as the finite product-radius route.
 
 Use \autoref{thm:cauchy-product-root-obligation-package} to keep the same route inside the carrier, transport, continuation, provenance, and local naming rows. The dyadic observation surface comes from the displayed $Q_X,Q_Y$ rows, and the product observation $P$ is the only combining row.
 
 Finally apply \autoref{thm:cauchy-product-root-window-seal-compatibility}. The classifier row $E$ is reached only after the budget ledger $L$ has consumed those rows, so the sibling DyadicRatCore and RegSeqRat surfaces are the whole classifier-facing budget path.
+\end{proof}
+
+\begin{theorem}[CauchyProduct finite budget composition]
+\label{thm:cauchy-product-finite-budget-composition}
+For every accepted $\CauchyProductUp$ packet, the paired $\StreamNameUp$ window route, root budget route, $\RegSeqRatUp$ seal route, $\RealObservationBudgetUp$ seal, and $\RealSeriesUp$ consumer boundary compose into one finite CauchyProduct budget handoff over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The composed handoff is the displayed route through
+$$
+X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N
+$$
+together with the budget-facing rows consumed by $\RealObservationBudgetUp$ and the terminal $\RealSeriesUp$ consumer row. It exposes no ambient $\RealUp$ completeness theorem, quotient sequence equality, selected representative, host infinite sum, host multiplication primitive, trichotomy row, or independent real carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_finite\_budget\_composition}
+\begin{proof}
+Start with paired-window source admission. By \autoref{thm:cauchy-product-paired-window-source-admission}, the source rows $X,Y$ are read only through the paired finite $\StreamNameUp$ windows $W_X,W_Y$.
+
+Next apply budget route exactness. \autoref{thm:cauchy-product-budget-route-exactness} fixes the route from $M_X,M_Y,Q_X,Q_Y,P,L$ into the classifier row $E$, and \autoref{thm:cauchy-product-paired-window-ledger-classifier} ties that classifier to the same paired windows.
+
+Now use the Real seal boundary. The root RealObservationBudget seal boundary of \autoref{thm:cauchy-product-root-real-budget-seal-boundary} keeps budget-facing reads inside the displayed product and budget rows.
+
+Finally apply the RealSeries consumer boundary of \autoref{thm:cauchy-product-real-series-consumer-boundary}. It consumes the public CauchyProduct surface only after the finite budget handoff has been assembled, so none of the excluded analytic objects has a coordinate in the composed route.
+\end{proof}
+
+\begin{theorem}[CauchyProduct main surface public handoff]
+\label{thm:cauchy-product-main-surface-public-handoff}
+Every public $\CauchyProductUp$ consumer reads the paired $\RegularCauchyNameUp$ sources, $\StreamNameUp$ windows, $\DyadicRatCoreUp$ budget rows, $\RegSeqRatUp$ classifier, $\RealObservationBudgetUp$ seal, and $\RealSeriesUp$ consumer boundary through one displayed route over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. For an accepted packet, that route is the finite surface
+$$
+X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N
+$$
+together with the budget-facing rows consumed by $\RealObservationBudgetUp$ and the terminal $\RealSeriesUp$ consumer row. It exposes no quotient stream, selected limit, host multiplication primitive, trichotomy row, independent real carrier, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with paired-window source admission. The theorem \autoref{thm:cauchy-product-paired-window-source-admission} forces the two $\RegularCauchyNameUp$ rows $X,Y$ to be read only through the paired $\StreamNameUp$ windows $W_X,W_Y$.
+
+Next assemble the budget route. By \autoref{thm:cauchy-product-budget-route-exactness}, the dyadic rows $M_X,M_Y,Q_X,Q_Y,P,L$ are the exact finite route into the classifier row $E$, and \autoref{thm:cauchy-product-finite-budget-composition} composes that route with the public budget handoff.
+
+Now use the root seal and series boundaries. The root $\RealObservationBudgetUp$ seal obligations of \autoref{thm:cauchy-product-root-real-budget-seal-boundary} keep budget-facing reads inside the displayed product and budget rows, while \autoref{thm:cauchy-product-real-series-consumer-boundary} permits a $\RealSeriesUp$ consumer only after the public CauchyProduct surface has been read.
+
+Finally repack the route through the structural rows. The displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows are already part of the accepted packet, so no public consumer has a coordinate for quotient streams, selected limits, host multiplication, trichotomy, independent real carriers, or ambient $\RealUp$ completeness.
 \end{proof}
 
 \begin{theorem}[CauchyProduct paired-window ledger classifier]
@@ -295,6 +336,7 @@ No other coordinate in \autoref{def:cauchy-product-namecert-source} can supply c
 \label{thm:cauchy-product-public-interface-export}
 Every public consumer of an accepted $\CauchyProductUp$ packet reads the product through the paired-window source rows, the finite budget route, the ledger classifier, the $\StreamNameUp$ handoff, and the $\RealUp$ seal boundary. Equivalently, the public export surface is the finite route through $W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N$ together with the displayed source, budget, provenance, continuation, and naming rows; it exports no quotient stream equality, selected infinite sum, host multiplication primitive, trichotomy row, independent real carrier, or ambient completeness claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_public\_interface\_export}
 \begin{proof}
 First use the paired-window source surface. The StreamName handoff, \autoref{thm:cauchy-product-streamname-handoff}, places every product read behind the two finite windows $W_X,W_Y$ and the dyadic observation rows $Q_X,Q_Y,M_X,M_Y$.
 
@@ -313,6 +355,58 @@ Begin with a RealSeries-facing read. The public interface export theorem routes 
 The series consumer can then inspect only the named BEDC rows. Its stream access is through $\StreamNameUp$, its rational readback is through $\RegSeqRatUp$, its real-facing seal is through $\RealUp$, and its order-facing comparison surface is through $\RealAlgOrderUp$ before the $\RealSeriesUp$ row is consumed.
 
 The structural rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ preserve that route without adding analytic data. Applying \autoref{thm:cauchy-product-real-seal-boundary} removes any remaining path to a selected infinite sum, quotient stream equality, host multiplication primitive, order trichotomy, independent real carrier, or ambient completeness witness.
+\end{proof}
+
+\begin{theorem}[CauchyProduct public RealSeries budget export]
+\label{thm:cauchy-product-public-real-series-budget-export}
+Every public $\RealSeriesUp$-facing $\CauchyProductUp$ consumer exports a product claim only after the finite budget route through the $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, dyadic product rows, $\RealUp$ seal, and $\RealSeriesUp$ partial-sum ledger has been displayed. For an accepted packet, the export route is
+$$
+W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N
+$$
+together with the terminal $\RealSeriesUp$ consumer row.
+
+The public export surface supplies no quotient stream equality, selected infinite sum, host multiplication primitive, order trichotomy, independent real carrier, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with the root budget obligations of \autoref{thm:cauchy-product-root-budget-obligations}. They bind $M_X,M_Y,Q_X,Q_Y,P,E,L$ as the product-radius route downstream of the paired windows.
+
+Next use the StreamName handoff and the public interface export, \autoref{thm:cauchy-product-streamname-handoff} and \autoref{thm:cauchy-product-public-interface-export}. These force the stream windows and regular-rational classifier to be consumed before any public product claim is named.
+
+Finally apply \autoref{thm:cauchy-product-real-series-consumer-boundary}. The $\RealSeriesUp$ row reads the product only after the $\RealUp$ seal and the displayed public CauchyProduct surface, so the partial-sum ledger cannot import an untracked analytic object.
+\end{proof}
+
+\begin{theorem}[CauchyProduct public observation budget export]
+\label{thm:cauchy-product-public-observation-budget-export}
+Every public $\RealObservationBudgetUp$ handoff from an accepted $\CauchyProductUp$ packet exports the product through the same paired-window, regular-readback, dyadic-budget, and real-seal route as the RealSeries consumer. The handoff is the finite route through
+$$
+W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N
+$$
+plus the accepted $\RealObservationBudgetUp$ budget row; it exports no radius oracle, quotient stream, selected limit, host multiplication primitive, trichotomy row, independent real carrier, or ambient completeness claim.
+\end{theorem}
+\begin{proof}
+Use the root RealObservationBudget seal boundary of \autoref{thm:cauchy-product-root-real-budget-seal-boundary}. It identifies the budget-facing consumer as downstream of the product rows and the observation-budget rows.
+
+Compose this with \autoref{thm:cauchy-product-root-budget-obligations}. The dyadic product observation and radius ledger are fixed before the classifier row $E$ and ledger row $L$ can be inspected.
+
+The StreamName handoff and Real seal boundary, \autoref{thm:cauchy-product-streamname-handoff} and \autoref{thm:cauchy-product-real-seal-boundary}, keep the public observation-budget route inside the displayed finite rows. Therefore the handoff cannot export any excluded analytic or host-side object.
+\end{proof}
+
+\begin{theorem}[CauchyProduct public RealSeries export]
+\label{thm:cauchy-product-public-real-series-export}
+Every public $\RealSeriesUp$-facing export of an accepted $\CauchyProductUp$ packet is the composition of paired-window source admission, budget route exactness, paired-window ledger classification, public interface export, and the RealSeries consumer boundary. The exported surface is exactly the finite route through
+$$
+X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N
+$$
+together with the $\RealSeriesUp$ row. It supplies no quotient stream, selected infinite sum, host multiplication, order trichotomy, independent real carrier, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with paired-window source admission and budget route exactness. The source rows $X,Y,W_X,W_Y$ and the budget rows $M_X,M_Y,Q_X,Q_Y,P,L$ are fixed by \autoref{thm:cauchy-product-paired-window-source-admission} and \autoref{thm:cauchy-product-budget-route-exactness}.
+
+Next apply the paired-window ledger classifier. \autoref{thm:cauchy-product-paired-window-ledger-classifier} places the classifier row $E$ downstream of those windows, dyadic observations, product row, and ledger.
+
+Now use the public interface export. \autoref{thm:cauchy-product-public-interface-export} packages the same finite route with the displayed transport, continuation, provenance, and local naming rows $H,C,N$.
+
+Finally apply the RealSeries consumer boundary. It attaches the $\RealSeriesUp$ consumer row only after the public CauchyProduct surface has been read, and it rules out the excluded quotient, sum-selection, host-multiplication, trichotomy, independent-carrier, and completeness objects.
 \end{proof}
 
 \input{parts/concrete_instances/cauchyproduct/formal_marker_sync_and_product_tail}

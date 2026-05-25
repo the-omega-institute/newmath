@@ -37,6 +37,22 @@ Now apply \autoref{thm:dyadicratcore-regseqrat-bridge-handoff-exactness}. The te
 Therefore the whole finite widening chain is cofinal in the displayed dyadic comparison route, and the exclusion clauses from the cited theorems remove host rational order, quotient equality, completed Real endpoints, and ambient completeness.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore common-exponent comparison closure]
+\label{thm:dyadicratcore-common-exponent-comparison-closure}
+Any finite positive-unary exponent-window widening chain of an accepted $\DyadicRatCoreUp$ scale-window packet preserves the common-exponent comparison row consumed by $\StreamNameUp$ and $\RegSeqRatUp$. At every stage the comparison row is carried only by the displayed scale transport, componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ rows of \autoref{def:dyadicratcore-scale-window-packet}.
+
+The closure statement exports no host rational order, quotient equality, selected $\RealUp$ endpoint, hidden denominator selector, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Proceed by finite induction on the displayed positive-unary exponent-window widening chain. The empty chain leaves the initial packet unchanged, so the common-exponent comparison row is the original displayed row of the accepted packet.
+
+For the step, factor the chain as a shorter widening chain followed by one displayed widening. The induction hypothesis preserves the common-exponent comparison row at the intermediate packet, with only the displayed transport, $\hsame$, $\Cont$, $\Pkg$, and local NameCert support rows in scope.
+
+Apply scale-window monotonicity, \autoref{thm:dyadicratcore-scale-window-monotonicity}, to the last widening. It transports the same comparison row across the wider exponent window and imports no ambient order or quotient equality.
+
+Finally use scale-window cofinality, \autoref{thm:dyadicratcore-scale-window-cofinality}, to identify the terminal packet as lying on the same cofinal dyadic comparison route consumed by $\StreamNameUp$ and $\RegSeqRatUp$. The exclusion clauses from monotonicity and cofinality remove host rational order, quotient equality, selected Real endpoints, hidden denominator selectors, and ambient completeness.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore finite widening-chain induction]
 \label{thm:dyadicratcore-finite-widening-chain-induction}
 Let $I$ be a BEDC-visible invariant on accepted $\DyadicRatCoreUp$ scale-window packets. Suppose $I$ holds for an initial accepted packet, and suppose one displayed positive-unary exponent-window widening preserves $I$ whenever the widening is witnessed only by the scale transport, componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DyadicRatCoreUp}$ rows of \autoref{def:dyadicratcore-scale-window-packet}. Then $I$ holds for the terminal packet of any finite positive-unary widening chain starting at the initial packet.

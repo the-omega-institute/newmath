@@ -121,4 +121,37 @@ theorem KleeneTree_streamname_path_boundary [AskSetup] [PackageSetup]
     unary_cont_closed nodeUnary obstructionUnary nodeObstruction
   exact ⟨streamUnary, prefixUnary, nodeUnary, obstructionReadUnary, provenancePkg⟩
 
+theorem KleeneTree_fan_boundary [AskSetup] [PackageSetup]
+    {tree boolLedger listSpine stream obstruction transport traversal provenance localName
+      streamRead spineRead boolRead _treeRead obstructionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KleeneTreeCarrier tree boolLedger listSpine stream obstruction transport traversal provenance
+        localName bundle pkg →
+      Cont stream listSpine streamRead →
+        Cont streamRead boolLedger spineRead →
+          Cont spineRead tree boolRead →
+            Cont boolRead obstruction obstructionRead →
+              PkgSig bundle obstructionRead pkg →
+                UnaryHistory stream ∧ UnaryHistory listSpine ∧ UnaryHistory boolLedger ∧
+                  UnaryHistory tree ∧ UnaryHistory obstruction ∧ UnaryHistory obstructionRead ∧
+                    Cont stream listSpine streamRead ∧ Cont streamRead boolLedger spineRead ∧
+                      Cont spineRead tree boolRead ∧ Cont boolRead obstruction obstructionRead ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle obstructionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier streamSpine spineBool boolTree treeObstruction obstructionPkg
+  obtain ⟨treeUnary, boolUnary, listUnary, streamUnary, obstructionUnary, _transportUnary,
+    _traversalUnary, _provenanceUnary, _localNameUnary, provenancePkg, _localNamePkg⟩ :=
+    carrier
+  have streamReadUnary : UnaryHistory streamRead :=
+    unary_cont_closed streamUnary listUnary streamSpine
+  have spineReadUnary : UnaryHistory spineRead :=
+    unary_cont_closed streamReadUnary boolUnary spineBool
+  have boolReadUnary : UnaryHistory boolRead :=
+    unary_cont_closed spineReadUnary treeUnary boolTree
+  have obstructionReadUnary : UnaryHistory obstructionRead :=
+    unary_cont_closed boolReadUnary obstructionUnary treeObstruction
+  exact
+    ⟨streamUnary, listUnary, boolUnary, treeUnary, obstructionUnary, obstructionReadUnary,
+      streamSpine, spineBool, boolTree, treeObstruction, provenancePkg, obstructionPkg⟩
+
 end BEDC.Derived.KleeneTreeUp

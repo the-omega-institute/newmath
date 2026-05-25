@@ -28,6 +28,34 @@ Mode C names refused supply through a counterexample or socket. By
 classical item therefore remains visible in $S$ before $W$ is consumed.
 \end{proof}
 
+\begin{theorem}[AxiomDependencyTuple supply provenance sibling route]
+\label{thm:axiom-dependency-tuple-supply-provenance-sibling-route}
+For every accepted $\AxiomDependencyTupleUp$ carrier
+$A=(M,W,S,H,C,P,N)$, each required-supply ledger row that is consumed as a
+kernel supply witness is first read through the sibling
+$\SubjectReductionDischargeSocketUp$ route of
+\autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}.
+Only after that route has exposed the relevant discharge, obstruction, and
+provenance rows may the selected entry of $S$ be consumed by $W$ as a
+kernel-facing supply witness.
+\end{theorem}
+\begin{proof}
+Project the tuple fields from \autoref{def:axiom-dependency-tuple-carrier}.
+The carrier exposes the mode row $M$, witness row $W$, required-supply ledger
+$S$, transport row $H$, continuation row $C$, provenance row $P$, and local
+naming row $N$; it has no hidden coordinate for external supply.
+
+Apply \autoref{thm:axiom-dependency-tuple-kernel-supply-visibility}. Any
+kernel-side external assumption is visible first in $S$ and is selected by
+$M$ before $W$ can consume it.
+
+The sibling socket supplies the provenance route named by
+\autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}.
+Thus the ledger row is not a kernel-only island: it is read through the
+displayed discharge-socket surface, then transported and replayed by $H$ and
+$C$, sourced by $P$, and named by $N$ before it reaches the witness row.
+\end{proof}
+
 \begin{theorem}[AxiomDependencyTuple external supply refusal]
 \label{thm:axiom-dependency-tuple-external-supply-refusal}
 For every accepted $\AxiomDependencyTupleUp$ carrier
@@ -91,4 +119,58 @@ while \autoref{thm:axiom-dependency-tuple-route-nonexport} and
 \autoref{thm:axiom-dependency-tuple-consumer-exhaustion} confine every consumer
 to the displayed packet rows. Hence a complete audit consumer must pass through
 $H$, $C$, $P$, and $N$ as well as $M$, $W$, and $S$.
+\end{proof}
+
+\begin{corollary}[AxiomDependencyTuple kernel supply visibility strict obstruction]
+\label{cor:axiom-dependency-tuple-kernel-supply-visibility-strict-obstruction}
+For every accepted $\AxiomDependencyTupleUp$ carrier
+$A=(M,W,S,H,C,P,N)$, any displayed failure, refusal, separation, or
+counterexample-or-socket row used in the kernel-supply visibility argument has
+strictly local force. It blocks only the named converse or reuse route that
+tries to read external supply outside the required-supply ledger $S$, erase a
+listed supply entry, reread a mode as another mode, or export refused supply as
+BEDC proof data. It cannot be reinterpreted as a global impossibility for
+$\AxiomDependencyTupleUp$, as a host theorem, or as hidden external validation.
+Every consumer-facing use of the obstruction factors through one of the
+displayed rows $M,W,S,H,C,P,N$ and rejects any unlisted coordinate.
+\end{corollary}
+\begin{proof}
+Start with \autoref{thm:axiom-dependency-tuple-kernel-supply-visibility}. Any
+external assumption read by the kernel side is visible first as a row of the
+required-supply ledger $S$, selected by the mode row $M$ and attached to the
+witness row $W$. Thus the obstruction has a named input surface before any
+consumer can use it.
+
+Now apply \autoref{thm:axiom-dependency-tuple-external-supply-refusal}. Host
+conversion, quotient equality, $\mathsf{Classical.choice}$, $\mathsf{propext}$,
+and ambient classical theorem supply may be named in $S$ or by the refused
+witness reading, but the rows $H$, $C$, $P$, and $N$ can only transport,
+replay, record provenance for, and name the displayed tuple rows. Hence a
+consumer-facing obstruction has the listed route, transport, provenance, and
+NameCert coordinates as its whole interface.
+
+The three mode rows give the strict local cases. In Mode A,
+\autoref{thm:axiom-dependency-tuple-zero-supply-row-separation} says that the
+empty external ledger remains separate from the zero-supply witness, so the
+blocked route is only the attempted conversion of emptiness into host or
+classical proof data. In Mode B,
+\autoref{thm:axiom-dependency-tuple-restricted-supply-ledger-totality} says that
+the restricted witness is consumed only with the full displayed ledger, so the
+blocked route is only subledger erasure, ledger shrinking, or replacement by an
+implicit host rule. In Mode C,
+\autoref{thm:axiom-dependency-tuple-counterexample-socket-nonexport} says that a
+counterexample or socket names refused supply without discharging it, so the
+blocked route is only promotion of that refusal into an exported BEDC rule.
+
+It remains to exclude broader readings. By
+\autoref{thm:axiom-dependency-tuple-supply-ledger-readback},
+\autoref{thm:axiom-dependency-tuple-route-nonexport}, and
+\autoref{thm:axiom-dependency-tuple-host-supply-nonescape}, the obstruction is
+read back through the visible ledger, replayed only by displayed routes, and
+kept inside the audit surface under transport. By
+\autoref{thm:axiom-dependency-tuple-audit-consumer-completeness}, any consumer
+that omits one of $M,W,S,H,C,P,N$ is not a consumer of the displayed dependency
+tuple. Therefore the row blocks only the named local converse or reuse route,
+and no unlisted coordinate can turn it into a global impossibility, host
+theorem, or hidden external validation.
 \end{proof}

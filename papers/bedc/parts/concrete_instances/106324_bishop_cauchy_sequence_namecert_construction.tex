@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchySequenceUp$}
+\label{ch:concrete-instances-bishop-cauchy-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopCauchySequenceUp$ packet records the textbook sequence-level Cauchy surface that mediates between regular rational names and the sealed Real object. It sits after the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational name packet of \autoref{ch:concrete-instances-regseqrat-namecert}, and the uniqueness route of \autoref{ch:concrete-instances-regular-cauchy-uniqueness-namecert}, while feeding the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite carrier for Cauchy sequence evidence; it does not assert quotient streams, selected limits, countable choice, or ambient Real completeness.
+
+\begin{definition}[Bishop Cauchy sequence carrier]
+\label{def:bishop-cauchy-sequence-carrier}
+A $\BishopCauchySequenceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,D,X,U,R,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the finite $\StreamNameUp$ window row exposing the requested rational sequence entries;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the dyadic radius, comparison budget, and rational-distance rows used by the Cauchy test;
+\item $X$ is the $\RegSeqRatUp$ regularity row that certifies the sequence entries respect the displayed tolerance discipline;
+\item $U$ is the $\RegularCauchyUniquenessUp$ comparison row used only to compare accepted regular names at the same displayed tolerance surface;
+\item $R$ is the downstream $\RealUp$ seal row available only after $S,D,X,U$ have been displayed;
+\item $H$ stores componentwise $\hsame$ transport for the stream window, dyadic ledger, regularity row, uniqueness comparison, seal row, continuation route, package row, and local naming row;
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,D \longmapsto X \longmapsto U \longmapsto R ;
+$$
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RegularCauchyUniquenessUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\BishopCauchySequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through the displayed rows $S,D,X,U,R,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, ambient Real completeness, or a host equality oracle for Real values.
+\end{definition}
+
+\begin{theorem}[Bishop Cauchy sequence NameCert obligations]
+\label{thm:bishop-cauchy-sequence-namecert-obligations}
+For an accepted $\BishopCauchySequenceUp$ carrier
+$$
+B=(S,D,X,U,R,H,C,P,N),
+$$
+the local $\NameCert_{\BishopCauchySequenceUp}$ surface consists exactly of carrier admission for the $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ regularity row, $\RegularCauchyUniquenessUp$ comparison row, $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row; classifier stability under the same displayed rows; tolerance exactness through $D$; regularity handoff through $X$; uniqueness comparison through $U$; and Real-seal boundary control through $R$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-cauchy-sequence-carrier}. The projection exposes exactly the stream window, dyadic tolerance ledger, regular rational sequence evidence, uniqueness comparison, Real seal, and structural rows.
+
+Classifier stability follows row by row because the classifier has no coordinate beyond $S,D,X,U,R,H,C,P,N$. Tolerance exactness is the projection of $D$, and regularity handoff is the projection of $X$ with the same displayed tolerance row.
+
+The uniqueness row $U$ compares only accepted regular names at the displayed surface. The Real seal row $R$ is downstream from $S,D,X,U$, so no consumer can read a sealed Real object without first passing through the finite Bishop Cauchy sequence packet.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy sequence regularity handoff]
+\label{thm:bishop-cauchy-sequence-regularity-handoff}
+Every accepted $\BishopCauchySequenceUp$ packet hands its stream-window and tolerance data to a displayed $\RegSeqRatUp$ row before the uniqueness comparison or Real seal is available. The handoff route is the finite chain
+$$
+S,D \longmapsto X \longmapsto U \longmapsto R ,
+$$
+preserved by $H,C,P,N$ and not by quotient stream equality, a selected limiting object, countable choice, or an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier and read the continuation route $C$. The route opens the finite stream window $S$ and dyadic tolerance ledger $D$ before the regularity row $X$.
+
+The comparison row $U$ is downstream from the regularity row. Since $U$ is a $\RegularCauchyUniquenessUp$ row, it compares accepted regular names through the displayed sequence and tolerance data rather than through a quotient stream.
+
+The Real seal row $R$ occurs at the end of the displayed route. The transport, provenance, and naming rows preserve that order, while no carrier coordinate supplies a selected limit, countable-choice principle, or ambient completeness argument.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy sequence Real seal boundary]
+\label{thm:bishop-cauchy-sequence-real-seal-boundary}
+Every $\RealUp$-facing read from an accepted $\BishopCauchySequenceUp$ packet factors through the finite rows $S,D,X,U$ before it reaches the seal row $R$. The packet therefore exposes a sequence-level route from rational windows and dyadic tolerances to the Real seal, while withholding quotient streams, selected limits, countable choice, and ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start from a Real-facing read and project the carrier. The only seal row is $R$, and the continuation route places it after the stream window, tolerance ledger, regularity row, and uniqueness comparison.
+
+Use \autoref{thm:bishop-cauchy-sequence-regularity-handoff} to bind the regularity row to the same stream and dyadic tolerance data. Then use the uniqueness row $U$ only as a displayed comparison between accepted regular names.
+
+The coordinate list of \autoref{def:bishop-cauchy-sequence-carrier} exhausts the packet. Since it contains no quotient stream, selected limit, countable choice, or ambient-completeness coordinate, no consumer can derive such data from the Real seal boundary.
+\end{proof}
+
+\closureat{BishopCauchySequenceUp}{seedStr}
+
+\begin{closurestatus}{\BishopCauchySequenceUp}
+  \constructivestory{A $\BishopCauchySequenceUp$ packet is generated from finite StreamName windows, a DyadicRatCore tolerance ledger, RegSeqRat regularity evidence, a RegularCauchyUniqueness comparison row, a Real seal, transport data, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-cauchy-sequence-carrier}, \autoref{thm:bishop-cauchy-sequence-namecert-obligations}, \autoref{thm:bishop-cauchy-sequence-regularity-handoff}, and \autoref{thm:bishop-cauchy-sequence-real-seal-boundary} name the L10 sequence-level carrier between regular rational streams and the Real seal boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, ambient Real completeness, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, tolerance exactness, regularity handoff, uniqueness comparison, and Real-seal boundary rows for the displayed Bishop Cauchy sequence packet.}
+\end{closurestatus}

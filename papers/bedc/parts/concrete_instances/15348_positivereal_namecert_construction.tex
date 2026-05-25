@@ -132,6 +132,49 @@ The carrier has no coordinate for an order decision, quotient representative,
 chosen limit, or completeness witness. Therefore every downstream consumer is
 confined to the finite apartness-from-zero evidence stated above.
 \end{proof}
+\leanchecked{BEDC.Derived.PositiveRealUp.PositiveRealCarrier\_apartness\_handoff}
+
+\begin{theorem}[PositiveReal RegSeqRat window positivity scope]
+\label{thm:positivereal-regseqrat-window-positivity-scope}
+Every accepted $\PositiveRealUp$ packet $(R,A,D,W,Q,H,C,P,N)$ exposes positivity reads only through the finite $\StreamNameUp$ windows $W$ and the $\RegSeqRatUp$ readback row $Q$ attached to the sealed $\RealUp$ row $R$. The apartness coordinate $A$ may consume the positive $\DyadicRatCoreUp$ radius $D$ only after those window and readback rows are displayed, and every transported read remains confined to the same $R,A,D,W,Q,H,C,P,N$ carrier surface.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:positivereal-carrier}. The real endpoint is $R$, the apartness-to-zero evidence is $A$, the positive radius is $D$, and the only observation route is the pair $W,Q$.
+
+Use the obligation surface of \autoref{thm:positivereal-namecert-obligations}. Its real-seal non-escape and apartness handoff rows require each positivity read to pass through the displayed window and readback rows before the apartness evidence is exported.
+
+Apply \autoref{thm:positivereal-apartness-handoff}. The handoff keeps $A$ tied to the finite $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $Q$, and the dyadic radius $D$.
+
+Transport is componentwise through $H$ and replayed through $C$, with $P,N$ recording provenance and local naming. Hence the positivity scope never leaves the displayed $R,A,D,W,Q,H,C,P,N$ packet.
+\end{proof}
+
+\begin{theorem}[PositiveReal apartness radius transport]
+\label{thm:positivereal-apartness-radius-transport}
+For every accepted $\PositiveRealUp$ carrier $(R,A,D,W,Q,H,C,P,N)$, the positive $\DyadicRatCoreUp$ radius row $D$ transported by $H$ and replayed by $C$ is the same radius read by the apartness-to-zero row $A$. A downstream consumer may move this radius only together with the sealed real row $R$, the stream window $W$, the regular readback $Q$, the provenance row $P$, and the local name $N$.
+\end{theorem}
+\begin{proof}
+Read $D$ from the carrier definition. It is the unique positive dyadic radius ledger assigned to the apartness coordinate $A$, so a radius consumer has no second radius row to inspect.
+
+Invoke \autoref{thm:positivereal-namecert-obligations}. Positive-radius exactness identifies the radius consumed by $A$ with the displayed $D$ row, while classifier transport moves the real seal, apartness row, radius ledger, window, readback, replay, provenance, and local certificate componentwise.
+
+The apartness handoff of \autoref{thm:positivereal-apartness-handoff} supplies the consumer boundary. It lets downstream order, metric, or algebraic reads use only the finite apartness-from-zero evidence carried by $A,D,W,Q$.
+
+Therefore $H$ and $C$ transport the positive radius as part of the whole $R,A,D,W,Q,H,C,P,N$ packet. The transported radius is not a host real selector, a trichotomy branch, a quotient representative, or a completeness witness.
+\end{proof}
+
+\begin{theorem}[PositiveReal RealAlgOrder consumer boundary]
+\label{thm:positivereal-realalgorder-consumer-boundary}
+Every $\RealAlgOrderUp$ or metric consumer of an accepted $\PositiveRealUp$ carrier $(R,A,D,W,Q,H,C,P,N)$ receives only apartness-from-zero evidence: the sealed real row $R$, the apartness row $A$, the positive radius ledger $D$, the finite window $W$, the readback $Q$, and the support rows $H,C,P,N$. Such a consumer receives no trichotomy, host order predicate, quotient stream equality, selected limit, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier and project its finite rows. The only order-facing data are the apartness row $A$ and the positive dyadic radius $D$ attached to the sealed real row $R$.
+
+The NameCert obligations of \autoref{thm:positivereal-namecert-obligations} force real-seal non-escape and ledger exhaustion. Thus any consumer reads $R$ through $W,Q$, reads positivity through $A,D$, and reads stability only through $H,C,P,N$.
+
+Use \autoref{thm:positivereal-apartness-handoff} to identify the exported evidence. The handoff is apartness-from-zero evidence with visible transport, replay, provenance, and local naming.
+
+Since no carrier coordinate stores trichotomy, a host order predicate, quotient stream equality, a selected limit, or real completeness, $\RealAlgOrderUp$ and metric consumers cannot receive any such principle from the packet.
+\end{proof}
 
 \begin{theorem}[PositiveReal multiplicative radius transport]
 \label{thm:positivereal-multiplicative-radius-transport}
@@ -144,6 +187,7 @@ $\NameCert$ rows of the two packets. The transported read cannot use
 trichotomy, host order, quotient stream equality, selected limits, or
 $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.PositiveRealUp.PositiveRealCarrier\_multiplicative\_radius\_transport}
 \begin{proof}
 Project the two accepted carriers of \autoref{def:positivereal-carrier}. Each
 projection exposes a sealed real row, an apartness-to-zero row, a positive
@@ -164,6 +208,38 @@ The carrier definition supplies no trichotomy coordinate, host order predicate,
 quotient stream equality, selected limit, or completeness witness. Hence the
 product-facing positivity read cannot draw on any evidence outside the two
 finite PositiveReal packets.
+\end{proof}
+
+\begin{theorem}[PositiveReal dyadic radius lower bound]
+\label{thm:positive-real-dyadic-radius-lower-bound}
+Every accepted $\PositiveRealUp$ packet whose positivity is read through the
+$\RealUp$ apartness row exposes a finite $\DyadicRatCoreUp$ radius row below
+the positive witness. The row is transported through the displayed
+$\RegSeqRatUp$ readback and $\StreamNameUp$ observation windows, and it is
+available to $\MetricBallUp$ and $\RealAlgOrderUp$ consumers as finite
+apartness-radius evidence without trichotomy, a host real selector, quotient
+stream equality, selected limits, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:positivereal-carrier}. Its
+apartness coordinate $A$ is read over the sealed real row $R$, and its dyadic
+radius ledger $D$ is already displayed before any downstream order or metric
+consumer can inspect the packet.
+
+Use the apartness handoff of \autoref{thm:positivereal-apartness-handoff}. The
+handoff keeps the positive witness attached to the same finite
+$\StreamNameUp$ window and the same $\RegSeqRatUp$ readback row, so $D$ is read
+as a lower-radius row beneath that witness rather than as a host real choice.
+
+Transport follows the multiplicative radius route of
+\autoref{thm:positivereal-multiplicative-radius-transport}. The $\hsame$,
+$\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows preserve the dyadic radius ledger,
+the finite observation window, and the regular-rational readback componentwise.
+
+Thus a $\MetricBallUp$ or $\RealAlgOrderUp$ consumer receives exactly the
+displayed dyadic lower-radius row. Since the carrier contains no trichotomy,
+selector, quotient equality, selected limit, or completeness coordinate, no
+stronger real-order principle is exported.
 \end{proof}
 
 \closureat{PositiveRealUp}{seedStr}

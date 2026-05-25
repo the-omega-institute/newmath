@@ -26,6 +26,8 @@ with the following displayed rows:
 The carrier has no coordinate for host real equality, a choice-selected dense point, quotient stream equality, ambient completeness, trichotomy, Lean verification, or bridge checking.
 \end{definition}
 
+The sibling lattice route is explicit: $\RealSeparabilityUp$ consumes \autoref{ch:concrete-instances-dyadic-density-real-namecert} for the dyadic tolerance witness and \autoref{ch:concrete-instances-rational-density-real-namecert} for the rational interval witness before $\CountableDenseSubsetUp$ names the dense source. This places the separability packet downstream of the dyadic and rational density witnesses rather than treating density as a detached Real-side fact.
+
 \begin{theorem}[Real separability NameCert obligations]
 \label{thm:real-separability-namecert-obligations}
 For every accepted $\RealSeparabilityUp$ carrier
@@ -96,6 +98,24 @@ Next read the interval witness through \autoref{ch:concrete-instances-rational-d
 Compose those two witness routes with \autoref{thm:real-separability-rational-dense-handoff}. The consumer first sees the $\DyadicRatCoreUp$ source, then the dyadic-density witness, then the rational-density witness, and only then the rational enumeration, StreamName window, RegSeqRat readback, and Real seal recorded by $Q,W,R,E$.
 
 The remaining rows $T,H,C,P,N$ preserve the same order as exactness ledger, componentwise transport, displayed replay, provenance, and local naming. Since none of the three packets contains a coordinate for host real equality, a choice-selected dense point, quotient stream equality, trichotomy, or ambient completeness, the composed handoff cannot export any such data.
+\end{proof}
+
+\begin{theorem}[Real separability dyadic witness family]
+\label{thm:real-separability-dyadic-witness-family}
+An accepted $\RealSeparabilityUp$ density read determines a finite family of rational witnesses indexed only by the displayed dyadic tolerance row $D$ and finite $\StreamNameUp$ window $W$ of its carrier
+$$
+S=(Q,D,W,R,E,T,H,C,P,N).
+$$
+Every witness in that family is routed through $\RatUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CountableDenseSubsetUp$, and the terminal $\RealUp$ seal before separability is exported. The family contains no choice-selected dense point, host real equality, quotient stream, trichotomy row, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-separability-carrier}. The only rows that can index a finite density family are the dyadic tolerance row $D$ and the finite StreamName window row $W$, with the rational enumeration row $Q$ supplying the visible rational candidates.
+
+Apply \autoref{thm:real-separability-rational-dense-handoff}. Each candidate read starts in $\RatUp$, passes through the dyadic tolerance and finite window rows, and reaches $\RegSeqRatUp$ before the terminal $\RealUp$ seal is consumed.
+
+Next apply \autoref{thm:real-separability-dyadic-rational-density-handoff}. The dyadic-density and rational-density witnesses attach the family to the same displayed route, so the candidate family is indexed by $D,W$ rather than by a choice function over Real balls.
+
+Finally apply \autoref{thm:real-separability-finite-density-exhaustion}. The $\CountableDenseSubsetUp$ boundary receives exactly the finite rational family already routed through $Q,D,W,R,E,T,H,C,P,N$. Since the carrier and handoff theorems expose no host equality, quotient stream, trichotomy, selected dense point, or ambient completeness coordinate, the witness family exports none of them.
 \end{proof}
 
 \begin{theorem}[Real separability finite-density exhaustion]

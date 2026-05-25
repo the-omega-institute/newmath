@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\CauchyUp$}
+\label{ch:concrete-instances-cauchy-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyUp$ packet records the ordinary constructive Cauchy-real carrier as finite BEDC naming data. It sits above the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular-rational sequence surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet is not a quotient construction of reals; it is a finite route by which a modulus, rational readback, transport, replay, provenance, and local naming row become visible before any $\RealUp$ consumer can read the Cauchy object.
+
+\begin{definition}[Cauchy carrier]
+\label{def:cauchy-carrier}
+A $\CauchyUp$ carrier is a finite $\BHist$ packet
+$$
+X=(S,D,R,M,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ observation row, recording the finite windows of rational approximants inspected by the carrier.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, carrying the positive dyadic scale, comparison cells, and slack conversions used to interpret each requested window.
+\item $R$ is the $\RegSeqRatUp$ regular-sequence row, exposing the rational readback consumed downstream.
+\item $M$ is the modulus row, recording the displayed threshold assignment used by Cauchy requests and refusing any hidden convergence theorem.
+\item $Q$ is the modulus/readback compatibility row, requiring the stream window, dyadic tolerance, regular rational sequence, and modulus rows to agree at every displayed precision request.
+\item $E$ is the terminal $\RealUp$ seal-facing row, exposed only after $S,D,R,M,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the stream, dyadic, regular-sequence, modulus, compatibility, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Cauchy request through $S,D,R,M,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through the displayed rows $S,D,R,M,Q,E,H,C,P,N$. It has no coordinate for quotient-stream equality, a selected limit, host real equality, countable choice, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy NameCert obligations]
+\label{thm:cauchy-namecert-obligations}
+For every accepted $\CauchyUp$ carrier
+$$
+X=(S,D,R,M,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyUp}$ surface consists exactly of carrier admission, stream-window stability, dyadic tolerance exactness, regular-rational readback, displayed modulus admission, modulus/readback compatibility, $\RealUp$ seal ordering, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming for the finite carrier of \autoref{def:cauchy-carrier}.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-carrier}. The accepted packet displays precisely the stream, dyadic, regular-sequence, modulus, compatibility, seal, transport, replay, provenance, and local naming rows.
+
+The stability and exactness obligations are rowwise. The stream row supplies only finite windows, the dyadic row supplies only displayed tolerance cells, the regular-sequence row supplies only rational readback, and the modulus row supplies only the visible threshold assignment.
+
+The compatibility row $Q$ binds these four data rows before any $\RealUp$ seal can be consumed. The structural rows $H,C,P,N$ then transport, replay, source, and name the same route without adding quotient equality, selected limits, host real equality, choice, trichotomy, compactness, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus readback route]
+\label{thm:cauchy-modulus-readback-route}
+Every accepted $\CauchyUp$ consumer route factors through the displayed path
+$$
+S,D,M \longmapsto Q \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus a precision request reads finite $\StreamNameUp$ observations, $\DyadicRatCoreUp$ tolerances, the explicit modulus row, the compatibility row, the $\RegSeqRatUp$ readback, and only then the $\RealUp$ seal-facing boundary.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $X=(S,D,R,M,Q,E,H,C,P,N)$ and a displayed precision request. The only finite observations available to the request are the windows in $S$, and their tolerance scale is read through $D$.
+
+The request next reads the explicit modulus row $M$. The compatibility row $Q$ is the only coordinate that relates the chosen window, tolerance, threshold, and regular-rational readback, so the route cannot bypass it.
+
+After $Q$ is displayed, the consumer may read the $\RegSeqRatUp$ row $R$ and then the terminal $\RealUp$ seal-facing row $E$. The rows $H,C,P,N$ preserve this same route under transport, replay, provenance, and local naming.
+
+Since the carrier has no quotient, selected-limit, host equality, countable-choice, trichotomy, open-cover, or ambient-completeness coordinate, the displayed route is the whole public Cauchy readback surface.
+\end{proof}
