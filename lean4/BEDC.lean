@@ -840,6 +840,7 @@ import BEDC.Derived.BoundedVariationCompletionUp
 import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.BoundedVariationUp.CauchyConsumerBoundary
 import BEDC.Derived.BoundedVariationUp.RealDependencyScope
+import BEDC.Derived.BoundedVariationUp.TasteGate
 import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.BranchObstructionUp.TasteGate
@@ -3664,6 +3665,7 @@ import BEDC.Derived.IntermediateValueUp.BisectionNesting
 import BEDC.Derived.IntermediateValueUp.BisectionWindowScope
 import BEDC.Derived.IntermediateValueUp.LocatedSignScope
 import BEDC.Derived.IntermediateValueUp.LocatedSignWindowExactness
+import BEDC.Derived.IntermediateValueUp.ObligationClosurePackage
 import BEDC.Derived.IntermediateValueUp.RealSealHandoff
 import BEDC.Derived.IntermediateValueUp.SignBracketCarrier
 import BEDC.Derived.IntermediateValueUp.SignChangeLedger
@@ -3700,6 +3702,7 @@ import BEDC.Derived.KernelAuditWitnessUp.AcceptanceGate
 import BEDC.Derived.KernelAuditWitnessUp.TasteGate
 import BEDC.Derived.KernelCategoryUp
 import BEDC.Derived.KernelCategoryUp.CarrierAdmissionObligation
+import BEDC.Derived.KernelCategoryUp.CategoryPublicExportLock
 import BEDC.Derived.KernelCategoryUp.CertificateSurface
 import BEDC.Derived.KernelCategoryUp.CompositeEndpointDeterminacy
 import BEDC.Derived.KernelCategoryUp.CompositionContRouteExactness
@@ -4861,6 +4864,7 @@ import BEDC.Derived.RealCauchyModulusUp.SealAdmission
 import BEDC.Derived.RealCauchyModulusUp.TailHandoff
 import BEDC.Derived.RealCauchyModulusUp.TasteGate
 import BEDC.Derived.RealCauchyModulusUp.ThresholdWindowTotality
+import BEDC.Derived.RealCauchyModulusUp.UniformCofinalSeal
 import BEDC.Derived.RealCauchyModulusUp.UniformTailExtraction
 import BEDC.Derived.RealCauchyModulusUp.WindowScope
 import BEDC.Derived.RealCauchySumUp.TasteGate
