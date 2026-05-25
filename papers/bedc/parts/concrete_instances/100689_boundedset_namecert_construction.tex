@@ -80,6 +80,46 @@ Every replay of $r$ is governed by $C$. The replay starts at a membership reques
 Thus $r$ is available only as part of the displayed comparison-and-containment route. Since the excluded objects have no carrier coordinate and no replay edge, they cannot escape through the bound row.
 \end{proof}
 
+\begin{theorem}[BoundedSet obligation closure rows]
+\label{thm:bounded-set-obligation-closure-rows}
+For every accepted $\BoundedSetUp$ carrier $Q=(X,S,c,r,B,H,C,P,N)$ of \autoref{def:bounded-set-carrier}, the obligation-facing surface is exhausted by the concrete rows $X,S,c,r,B,H,C,P,N$. In particular, every $\MetricDiameterUp$ or $\UniformSpaceUp$ consumer that reads boundedness must pass through the $\MetricBallUp$ containment ledger $B$ and the $\RealAlgOrderUp$ comparison read of $r$ before it can consume the bounded-subset claim.
+\end{theorem}
+\begin{proof}
+Project the carrier named in \autoref{def:bounded-set-carrier}. The subset classifier is $S$, the displayed center or witness is $c$, the bound is $r$, and the containment evidence is $B$.
+
+The only route from membership to boundedness passes through these rows. The consumer first reads $X,S,c,r$, then reads $B$ as the MetricBall containment ledger, and only then reaches the replay and naming rows $H,C,P,N$.
+
+Since no other analytic coordinate occurs in the carrier, diameter and uniform-space consumers cannot bypass either the ball-containment row or the real-order comparison row.
+\end{proof}
+
+\begin{theorem}[BoundedSet subset-ball replay stability]
+\label{thm:bounded-set-subset-ball-replay-stability}
+For an accepted $\BoundedSetUp$ carrier $Q=(X,S,c,r,B,H,C,P,N)$ of \autoref{def:bounded-set-carrier}, componentwise replay preserves the order
+$$
+X,S \longmapsto c,r \longmapsto B \longmapsto H,C,P,N .
+$$
+Thus a transported $\MetricDiameterUp$ or $\UniformSpaceUp$ consumer still reads boundedness only after the subset membership row has passed through $\MetricBallUp$ containment and the bound row has passed through $\RealAlgOrderUp$ comparison.
+\end{theorem}
+\begin{proof}
+The transport row $H$ is componentwise, so it can move the metric carrier, subset classifier, center or witness, bound, containment ledger, replay, provenance, and local name only along their displayed coordinates.
+
+The continuation row $C$ replays the same dependency order. A transported membership request starts at $X,S$, opens $c,r$, reads $B$, and then packages the result through $H,P,N$.
+
+Therefore replay stability does not create a new boundedness route. The consumer boundary remains the MetricBall containment and RealAlgOrder comparison route recorded in the carrier.
+\end{proof}
+
+\begin{theorem}[BoundedSet diameter consumer boundary]
+\label{thm:bounded-set-diameter-consumer-boundary}
+Every $\MetricDiameterUp$ consumer of an accepted $\BoundedSetUp$ carrier $Q=(X,S,c,r,B,H,C,P,N)$ from \autoref{def:bounded-set-carrier} receives only the finite rows $X,S,c,r,B,H,C,P,N$. Its diameter read must factor through $\MetricBallUp$ containment for $S$ around $c$ and through the $\RealAlgOrderUp$ comparison surface for $r$ before any boundedness datum is available. The same boundary applies to $\UniformSpaceUp$ consumers that use boundedness as a uniform-control input.
+\end{theorem}
+\begin{proof}
+Start with the diameter-facing read. The carrier offers the metric row $X$ and the classifier row $S$, but neither row by itself contains a diameter bound.
+
+The center and bound rows supply the displayed comparison data. The row $c$ names the center or witness, while $r$ is available only through the order-facing comparison surface.
+
+The containment ledger $B$ is then required before the consumer can treat membership as bounded. The remaining rows $H,C,P,N$ transport, replay, package, and name the same finite route, so no supremum, selected maximum, compactness theorem, or ambient completeness row can be read by a diameter or uniform-space consumer.
+\end{proof}
+
 \closureat{BoundedSetUp}{seedStr}
 
 \begin{closurestatus}{\BoundedSetUp}
