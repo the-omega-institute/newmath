@@ -68,6 +68,19 @@
       ]
     },
     {
+      "lane": "bio-B",
+      "loop_name": "bio_B_bedc_writeback",
+      "role": "BEDC concrete-instances writeback from gate-passed BioReality NameCert proposals",
+      "durable_write_allowed": true,
+      "durable_write_scope": [
+        "papers/bedc/parts/concrete_instances/*bioreality*.tex",
+        "papers/bedc/parts/concrete_instances/*reality_bound*.tex",
+        "papers/bedc/parts/concrete_instances/bioreality_*/*.tex",
+        "papers/bedc/parts/concrete_instances/reality_bound_*/*.tex",
+        "papers/bedc/parts/bio_reality_module.tex"
+      ]
+    },
+    {
       "lane": "bio-Q",
       "loop_name": "bio_Q_quality_hardening",
       "role": "convert agent reviews into gate and prompt hardening targets",
@@ -118,7 +131,12 @@
       "papers/bio_reality/*.tex",
       "papers/bio_reality/Makefile",
       "papers/bio_reality/parts/*.tex",
-      "papers/bio_reality/parts/namecerts/*.tex"
+      "papers/bio_reality/parts/namecerts/*.tex",
+      "papers/bedc/parts/concrete_instances/*bioreality*.tex",
+      "papers/bedc/parts/concrete_instances/*reality_bound*.tex",
+      "papers/bedc/parts/concrete_instances/bioreality_*/*.tex",
+      "papers/bedc/parts/concrete_instances/reality_bound_*/*.tex",
+      "papers/bedc/parts/bio_reality_module.tex"
     ],
     "exclude_paths": [
       "tools/bio_reality/state/*",
@@ -142,6 +160,49 @@
     ],
     "min_seconds_between_pushes": 60,
     "max_push_retries": 2
+  },
+  "bedc_writeback": {
+    "enabled": true,
+    "target_concrete_instances_dir": "papers/bedc/parts/concrete_instances",
+    "module_aggregator": "papers/bedc/parts/bio_reality_module.tex",
+    "max_writebacks_per_cycle": 1,
+    "claim_to_chapter_mapping": [
+      {
+        "claim_id": "h0.M.equals.WNR.CUN",
+        "hub_filename": "14102_bioreality_q_six_median_closure_ledger_namecert_construction.tex",
+        "subdir_slug": "bioreality_q_six_median_closure_ledger",
+        "carrier_name": "BioRealityQSixMedianClosureLedger",
+        "natural_language": "the finite reality-bound median closure ledger for the standard-code reassignment support"
+      },
+      {
+        "claim_id": "h0.M.shape.significance",
+        "hub_filename": "14103_bioreality_q_six_median_shape_significance_namecert_construction.tex",
+        "subdir_slug": "bioreality_q_six_median_shape_significance",
+        "carrier_name": "BioRealityQSixMedianShapeSignificance",
+        "natural_language": "the finite reality-bound median-shape rarity packet under a curated standard-code bridge"
+      },
+      {
+        "claim_id": "h0.quotient.geometry",
+        "hub_filename": "14104_reality_bound_codon_topology_quotient_geometry_namecert_construction.tex",
+        "subdir_slug": "reality_bound_codon_topology_quotient_geometry",
+        "carrier_name": "RealityBoundCodonTopologyQuotientGeometry",
+        "natural_language": "the finite reality-bound quotient and product bookkeeping of the codon-coordinate cube"
+      },
+      {
+        "claim_id": "h0.R.cardinality.13",
+        "hub_filename": "14106_bioreality_q_six_reassigned_codon_ledger_namecert_construction.tex",
+        "subdir_slug": "bioreality_q_six_reassigned_codon_ledger",
+        "carrier_name": "BioRealityQSixReassignedCodonLedger",
+        "natural_language": "the finite reality-bound ledger for the standard-code reassigned-codon support under a curated bridge"
+      },
+      {
+        "claim_id": "h0.spectrum",
+        "hub_filename": "14107_bioreality_q_six_empirical_codon_spectrum_namecert_construction.tex",
+        "subdir_slug": "bioreality_q_six_empirical_codon_spectrum",
+        "carrier_name": "BioRealityQSixEmpiricalCodonSpectrum",
+        "natural_language": "the finite reality-bound spectral bookkeeping packet behind a curated standard-code bridge"
+      }
+    ]
   },
   "sync_lane": {
     "enabled": true,

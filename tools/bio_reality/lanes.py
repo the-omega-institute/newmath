@@ -18,6 +18,7 @@ from typing import Any
 
 try:
     import agent_bus
+    import bedc_writeback_gates
     import bio_reality_loop
     from experiments import runner as experiment_runner
     import signal_assimilator
@@ -26,6 +27,7 @@ try:
 except ModuleNotFoundError:  # pragma: no cover
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     import agent_bus
+    import bedc_writeback_gates
     import bio_reality_loop
     from experiments import runner as experiment_runner
     import signal_assimilator
@@ -1008,6 +1010,14 @@ def _load_sync_lane_config() -> dict[str, Any]:
     return config if isinstance(config, dict) else {}
 
 
+def _load_bedc_writeback_config() -> dict[str, Any]:
+    data = json.loads(PIPELINE_CONFIG.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        return {}
+    config = data.get("bedc_writeback")
+    return config if isinstance(config, dict) else {}
+
+
 def _run_command(repo_root: Path, cmd: list[str], *, timeout: float = 60.0) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         cmd,
@@ -1612,6 +1622,7 @@ def _temp_paths(base: Path) -> BioRealityPaths:
         loning_intelligence=base / "loning_intelligence.jsonl",
         namecert_proposals_dir=base / "namecert_proposals",
         namecert_lane_log=base / "namecert_lane.log",
+        bedc_writeback_log=base / "bedc_writeback.log",
         experiments_dir=base / "experiments",
         data_dir=base / "data",
         vision_dir=base / "vision",
@@ -1899,6 +1910,230 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
     }
 
 
+def _append_bedc_writeback_log(store: BioRealityStore, event: str, details: dict[str, Any]) -> None:
+    record = {"ts": now_iso(), "event": event, "details": details}
+    try:
+        store.paths.bedc_writeback_log.parent.mkdir(parents=True, exist_ok=True)
+        with store.paths.bedc_writeback_log.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
+    except OSError:
+        return
+
+
+def _mapping_records(config: dict[str, Any]) -> list[dict[str, Any]]:
+    mappings = config.get("claim_to_chapter_mapping")
+    if not isinstance(mappings, list):
+        return []
+    return [item for item in mappings if isinstance(item, dict)]
+
+
+def _repo_path(value: Any, repo_root: Path) -> Path:
+    text = str(value or "")
+    path = Path(text)
+    return path if path.is_absolute() else repo_root / path
+
+
+def _tex_literal(value: Any) -> str:
+    return _tex_escape(value)
+
+
+def _render_bedc_hub(mapping: dict[str, Any]) -> str:
+    claim_id = _tex_literal(mapping.get("claim_id", "unnamed"))
+    subdir_slug = str(mapping.get("subdir_slug") or "bioreality_packet")
+    return "\n".join(
+        [
+            f"% Auto-generated BioReality NameCert hub for {claim_id}.",
+            "% This hub follows the newmath concrete-instances hub+subdir layout.",
+            r"% Only orienting prose and \input lines are allowed here.",
+            rf"\input{{parts/concrete_instances/{subdir_slug}/namecert_construction}}",
+            "",
+        ]
+    )
+
+
+def _render_bedc_spine(mapping: dict[str, Any], proposal_text: str, conjecture: dict[str, Any] | None) -> str:
+    claim_id = _tex_literal(mapping.get("claim_id", "unnamed"))
+    subdir_slug = str(mapping.get("subdir_slug") or "bioreality_packet")
+    carrier_name = re.sub(r"[^A-Za-z0-9]", "", str(mapping.get("carrier_name") or "BioRealityPacket")) or "BioRealityPacket"
+    natural_language = _tex_literal(mapping.get("natural_language", "a finite reality-bound BioReality packet"))
+    _ = proposal_text
+    forbidden_claims = conjecture.get("forbidden_claims") if conjecture else []
+    verified_facts = conjecture.get("verified_facts") if conjecture else {}
+    if isinstance(forbidden_claims, list):
+        _ = [str(item) for item in forbidden_claims if isinstance(item, str)]
+    if isinstance(verified_facts, dict):
+        _ = sorted(str(key) for key in verified_facts)
+    return "\n".join(
+        [
+            rf"\chapter{{A Concrete Naming Certificate for $\{carrier_name}Up$}}",
+            rf"\label{{ch:concrete-instances-{subdir_slug}-namecert}}",
+            r"\origin{ai}",
+            "",
+            f"This BioReality NameCert packet records a finite, reality-bound seed",
+            f"witness for the claim {claim_id}. It does not claim biological-code",
+            "necessity, translation realization, folded structure, physical",
+            "admissibility, function realization, mechanism, or universality. The",
+            "external curated standard-code bridge and the empirical witness rows",
+            "remain provenance fields and are not BEDC kernel facts.",
+            "",
+            rf"\paragraph{{Carrier.}} $\{carrier_name}Up$ is the BEDC packet name we",
+            f"reserve for the finite reality-bound seed of {natural_language}.",
+            "",
+            r"\paragraph{External reality bridge.} A curated standard-code bridge",
+            "row is the external source for the labelling. The bridge appears as a",
+            "provenance row and not as kernel content of the packet. The bridge can",
+            "test code-layer readback only; it cannot test translation, folding,",
+            "physical admissibility, or function.",
+            "",
+            r"\paragraph{Internal coordinate structure.} The packet records six-bit",
+            "codon-coordinate, median-closure, quotient, and spectrum bookkeeping.",
+            "No biological mechanism, function, or universality is asserted at this",
+            "layer.",
+            "",
+            r"\paragraph{Cannot-claim boundary.}",
+            r"\begin{itemize}",
+            "  \\item This chapter does not claim biological-code necessity.",
+            "  \\item This chapter does not claim window-six geometry realizes translation.",
+            "  \\item This chapter does not claim folded protein structure, physical admissibility, biological function, or universal mechanism from this packet.",
+            "  \\item This chapter does not claim that a curated code-row, spectral value, polynomial coefficient, tolerance threshold, or statistical witness is a BEDC kernel fact.",
+            r"\end{itemize}",
+            "",
+            rf"\falsifiablePrediction{{A $\{carrier_name}Up$ packet cannot export a",
+            "translation, folding, physical admissibility, function realization, or",
+            "universality claim without a separate, independent external reality",
+            "contact that can test that higher layer.}",
+            "",
+            r"\independenceWitness{The carrier records only coordinate, closure,",
+            "quotient, and spectrum bookkeeping; it does not export biological",
+            "mechanism, evolutionary necessity, or biochemical detail. Any apparent",
+            "biological consequence must be re-derived through a separate bridge.}",
+            "",
+            rf"\closureat{{{carrier_name}Up}}{{seedStr}}",
+            rf"\begin{{closurestatus}}{{\{carrier_name}Up}}",
+            f"  \\constructivestory{{Finite reality-bound seed witness for {claim_id};",
+            "    records six-bit codon-coordinate and closure/spectrum bookkeeping",
+            "    behind a curated standard-code bridge.}",
+            r"  \theoryclosure{\seedClosure}",
+            "  \\scopeclosed{Code-layer readback under the curated standard-code",
+            "    bridge only.}",
+            r"  \formalstatus{\unformalizedV}",
+            r"  \bridgestatus{paperBridge}",
+            "  \\notclaimed{This chapter does not close biological-code necessity,",
+            "    translation realization, folded structure, physical admissibility,",
+            "    function realization, mechanism, universality, or any cross-layer",
+            "    biological consequence.}",
+            "  \\upgradepath{Attach a separate reality contact that can test the",
+            "    higher realization layer and re-derive through a new bridge",
+            "    chapter.}",
+            r"\end{closurestatus}",
+            "",
+        ]
+    )
+
+
+def _linked_conjecture_for_claim(conjectures: list[dict[str, Any]], claim_id: str) -> dict[str, Any] | None:
+    for conjecture in conjectures:
+        if str(conjecture.get("conjecture_id") or "") == claim_id:
+            return conjecture
+        linked = conjecture.get("linked_claim_ids")
+        if isinstance(linked, list) and claim_id in [str(item) for item in linked]:
+            return conjecture
+        verified = conjecture.get("verified_facts")
+        if isinstance(verified, dict) and claim_id in verified:
+            return conjecture
+    return None
+
+
+def _ensure_aggregator_line(aggregator: Path, subdir_slug: str) -> None:
+    line = rf"\input{{parts/concrete_instances/{subdir_slug}/namecert_construction}}"
+    if aggregator.exists():
+        text = aggregator.read_text(encoding="utf-8")
+        if line in text.splitlines():
+            return
+        text = text.rstrip() + "\n" + line + "\n"
+    else:
+        text = "\n".join(
+            [
+                "% BioReality BEDC module aggregator.",
+                "% Operators input this file from the BEDC paper integration point.",
+                line,
+                "",
+            ]
+        )
+    aggregator.parent.mkdir(parents=True, exist_ok=True)
+    aggregator.write_text(text, encoding="utf-8")
+
+
+def run_bedc_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
+    try:
+        config = _load_bedc_writeback_config()
+    except (OSError, json.JSONDecodeError) as exc:
+        _append_bedc_writeback_log(store, "config_error", {"error": str(exc)})
+        return {"lane": "bio-B", "error": "config_error"}
+    if not config.get("enabled"):
+        return {"lane": "bio-B", "skipped": "disabled"}
+
+    repo_root = store.paths.root.parent.parent
+    target_dir = _repo_path(config.get("target_concrete_instances_dir"), repo_root)
+    aggregator = _repo_path(config.get("module_aggregator"), repo_root)
+    max_writebacks = max(1, int(config.get("max_writebacks_per_cycle") or 1))
+    conjectures = store.load_conjectures()
+    proposal_dir = store.paths.namecert_proposals_dir
+    attempted = 0
+    written = 0
+    blocked_by_gate = 0
+    issues_summary: list[dict[str, Any]] = []
+
+    for mapping in _mapping_records(config):
+        if written >= max_writebacks:
+            break
+        claim_id = str(mapping.get("claim_id") or "")
+        hub_filename = str(mapping.get("hub_filename") or "")
+        subdir_slug = str(mapping.get("subdir_slug") or "")
+        if not claim_id or not hub_filename or not subdir_slug:
+            issues_summary.append({"claim_id": claim_id, "issues": ["mapping missing claim_id, hub_filename, or subdir_slug"]})
+            continue
+        hub_path = target_dir / hub_filename
+        if hub_path.exists():
+            continue
+        proposal_path = proposal_dir / f"{claim_id}.md"
+        if not proposal_path.exists():
+            continue
+        attempted += 1
+        proposal_text = proposal_path.read_text(encoding="utf-8")
+        conjecture = _linked_conjecture_for_claim(conjectures, claim_id)
+        hub_text = _render_bedc_hub(mapping)
+        spine_text = _render_bedc_spine(mapping, proposal_text, conjecture)
+        gate_result = bedc_writeback_gates.validate_chapter_pair(hub_text, spine_text)
+        if not gate_result["passed"]:
+            blocked_by_gate += 1
+            issue_record = {"claim_id": claim_id, "issues": gate_result["issues"]}
+            issues_summary.append(issue_record)
+            _append_bedc_writeback_log(store, "gate_blocked", issue_record)
+            continue
+
+        spine_path = target_dir / subdir_slug / "namecert_construction.tex"
+        hub_path.parent.mkdir(parents=True, exist_ok=True)
+        spine_path.parent.mkdir(parents=True, exist_ok=True)
+        hub_path.write_text(hub_text, encoding="utf-8")
+        spine_path.write_text(spine_text, encoding="utf-8")
+        _ensure_aggregator_line(aggregator, subdir_slug)
+        written += 1
+        _append_bedc_writeback_log(
+            store,
+            "written",
+            {"claim_id": claim_id, "hub_filename": hub_filename, "subdir_slug": subdir_slug},
+        )
+
+    return {
+        "lane": "bio-B",
+        "attempted": attempted,
+        "written": written,
+        "blocked_by_gate": blocked_by_gate,
+        "issues_summary": issues_summary,
+    }
+
+
 def render_lane_dashboard(paths: BioRealityPaths, targets: list[dict[str, Any]], signals: dict[str, Any] | None = None) -> None:
     lines = [
         "# BioReality lane dashboard",
@@ -2076,6 +2311,110 @@ def self_test() -> int:
             return 1
         if "tools/bio_reality/state/foo.jsonl" not in keep_dropped:
             print(json.dumps({"selected": keep_selected, "dropped": keep_dropped}, indent=2), file=sys.stderr)
+            return 1
+
+        bedc_paths = _temp_paths(base / "bedc")
+        bedc_paths.namecert_proposals_dir.mkdir(parents=True, exist_ok=True)
+        bedc_claim_id = "h0.M.equals.WNR.CUN"
+        bedc_target_dir = base / "bedc_target" / "concrete_instances"
+        bedc_aggregator = base / "bedc_target" / "bio_reality_module.tex"
+        bedc_mappings = [
+            {
+                "claim_id": bedc_claim_id,
+                "hub_filename": "14102_bioreality_q_six_median_closure_ledger_namecert_construction.tex",
+                "subdir_slug": "bioreality_q_six_median_closure_ledger",
+                "carrier_name": "BioRealityQSixMedianClosureLedger",
+                "natural_language": "the finite reality-bound median closure ledger for the standard-code reassignment support",
+            },
+            {
+                "claim_id": "h0.M.shape.significance",
+                "hub_filename": "14103_bioreality_q_six_median_shape_significance_namecert_construction.tex",
+                "subdir_slug": "bioreality_q_six_median_shape_significance",
+                "carrier_name": "BioRealityQSixMedianShapeSignificance",
+                "natural_language": "the finite reality-bound median-shape rarity packet under a curated standard-code bridge",
+            },
+            {
+                "claim_id": "h0.quotient.geometry",
+                "hub_filename": "14104_reality_bound_codon_topology_quotient_geometry_namecert_construction.tex",
+                "subdir_slug": "reality_bound_codon_topology_quotient_geometry",
+                "carrier_name": "RealityBoundCodonTopologyQuotientGeometry",
+                "natural_language": "the finite reality-bound quotient and product bookkeeping of the codon-coordinate cube",
+            },
+            {
+                "claim_id": "h0.R.cardinality.13",
+                "hub_filename": "14106_bioreality_q_six_reassigned_codon_ledger_namecert_construction.tex",
+                "subdir_slug": "bioreality_q_six_reassigned_codon_ledger",
+                "carrier_name": "BioRealityQSixReassignedCodonLedger",
+                "natural_language": "the finite reality-bound ledger for the standard-code reassigned-codon support under a curated bridge",
+            },
+            {
+                "claim_id": "h0.spectrum",
+                "hub_filename": "14107_bioreality_q_six_empirical_codon_spectrum_namecert_construction.tex",
+                "subdir_slug": "bioreality_q_six_empirical_codon_spectrum",
+                "carrier_name": "BioRealityQSixEmpiricalCodonSpectrum",
+                "natural_language": "the finite reality-bound spectral bookkeeping packet behind a curated standard-code bridge",
+            },
+        ]
+        bedc_config_path = base / "bedc_pipeline_config.json"
+        bedc_config_path.write_text(
+            json.dumps(
+                {
+                    "bedc_writeback": {
+                        "enabled": True,
+                        "target_concrete_instances_dir": str(bedc_target_dir),
+                        "module_aggregator": str(bedc_aggregator),
+                        "max_writebacks_per_cycle": 1,
+                        "claim_to_chapter_mapping": bedc_mappings,
+                    }
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+        (bedc_paths.namecert_proposals_dir / f"{bedc_claim_id}.md").write_text(
+            "\n".join(
+                [
+                    "# NameCert proposal",
+                    "",
+                    "This proposal is an internal review packet for a coordinate ledger.",
+                ]
+            ),
+            encoding="utf-8",
+        )
+        write_jsonl(
+            bedc_paths.conjectures,
+            [
+                {
+                    "conjecture_id": "codon.window6.local.tile.boundary",
+                    "linked_claim_ids": [bedc_claim_id],
+                    "forbidden_claims": ["no translation realization"],
+                    "verified_facts": {bedc_claim_id: {"values": {"status": "passed"}}},
+                }
+            ],
+        )
+        original_pipeline_config = PIPELINE_CONFIG
+        globals()["PIPELINE_CONFIG"] = bedc_config_path
+        try:
+            bedc_summary = run_bedc_writeback_lane(BioRealityStore(bedc_paths))
+        finally:
+            globals()["PIPELINE_CONFIG"] = original_pipeline_config
+        if len(bedc_mappings) != 5:
+            print(json.dumps(bedc_mappings, indent=2), file=sys.stderr)
+            return 1
+        if bedc_summary["written"] != 1 or bedc_summary["blocked_by_gate"] != 0:
+            print(json.dumps(bedc_summary, indent=2), file=sys.stderr)
+            return 1
+        bedc_hub = bedc_target_dir / bedc_mappings[0]["hub_filename"]
+        bedc_spine = bedc_target_dir / bedc_mappings[0]["subdir_slug"] / "namecert_construction.tex"
+        if not bedc_hub.exists() or not bedc_spine.exists() or not bedc_aggregator.exists():
+            print(json.dumps({"hub": str(bedc_hub), "spine": str(bedc_spine), "aggregator": str(bedc_aggregator)}, indent=2), file=sys.stderr)
+            return 1
+        bedc_gate = bedc_writeback_gates.validate_chapter_pair(
+            bedc_hub.read_text(encoding="utf-8"),
+            bedc_spine.read_text(encoding="utf-8"),
+        )
+        if not bedc_gate["passed"]:
+            print(json.dumps(bedc_gate, indent=2), file=sys.stderr)
             return 1
 
         promote_paths = _temp_paths(base / "promote")
@@ -2570,8 +2909,8 @@ def self_test() -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Run BioReality V/P/G/X/N/R/W/Q/A lanes")
-    parser.add_argument("--lane", choices=["vision", "packet", "gate", "execute", "namecert", "agent", "writeback", "quality", "assimilate", "all"], default="all")
+    parser = argparse.ArgumentParser(description="Run BioReality V/P/G/X/N/R/W/B/Q/A lanes")
+    parser.add_argument("--lane", choices=["vision", "packet", "gate", "execute", "namecert", "agent", "writeback", "bedc", "quality", "assimilate", "all"], default="all")
     parser.add_argument("--plan-only", action="store_true")
     parser.add_argument("--max-dispatch", type=int, default=1)
     parser.add_argument("--conjectures", default=str(BioRealityPaths.conjectures))
@@ -2633,6 +2972,8 @@ def main(argv: list[str] | None = None) -> int:
         summaries.append(run_agent_lane(store, execute_codex=not args.plan_only, max_dispatch=max(0, args.max_dispatch)))
     if args.lane in {"writeback", "all"}:
         summaries.append(run_writeback_lane(store))
+    if args.lane in {"bedc", "all"}:
+        summaries.append(run_bedc_writeback_lane(store))
     if args.lane in {"quality", "all"}:
         summaries.append(run_quality_lane(store))
     if args.lane in {"assimilate", "all"}:
