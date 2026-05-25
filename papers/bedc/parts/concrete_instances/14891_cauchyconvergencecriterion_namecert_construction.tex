@@ -159,6 +159,25 @@ Apply \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage}. A ta
 Now use \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion} and \autoref{thm:cauchy-convergence-criterion-real-seal-handoff}. These force every convergence-facing read through $S,M,D,R$ before $E$, while \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy} keeps the $\CauchyLimitSealUp$ consumer on the same finite boundary.
 \end{proof}
 
+\begin{theorem}[Cauchy convergence criterion scoped closure]\label{thm:cauchy-convergence-criterion-scoped-closure}
+Let $G=(S,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyConvergenceCriterionUp$ carrier. Every $\RealUp$-facing, $\CauchyLimitSealUp$-facing, or zero-difference convergence read of $G$ is scoped exactly by the displayed $\StreamNameUp$ schedule $S$, $\CauchyModulusUp$ threshold row $M$, $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$ handoff $R$, $\RealUp$ seal $E$, $\hsame$ transport $H$, $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$.
+
+Consequently such a read has no coordinate outside
+$$
+S,M,D,R,E,H,C,P,N
+$$
+and cannot introduce quotient streams, selected host limits, detached limit seals, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the source rows. The source-triad exhaustion theorem, \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion}, forces every $\RealUp$- or $\CauchyLimitSealUp$-facing read through $S,M,D,R$ before $E$ is visible.
+
+The window and tail requirements stay on the same route. By \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage}, every finite stream window has its matching threshold and dyadic ledger inside the carrier, and by \autoref{thm:cauchy-convergence-criterion-tail-diameter-scope}, every tail-diameter request passes through $S,M,D,R$ before the seal.
+
+Zero-difference reads add no second source. The null-sequence scope theorem, \autoref{thm:cauchy-convergence-criterion-null-sequence-scope}, keeps comparison reads inside the same $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\CauchyLimitSealUp$ route.
+
+Finally read the structural rows. The carrier definition supplies only $H,C,P,N$ as transport, replay, provenance, and local naming data for this route. Since the listed theorems exhaust all Real-facing, limit-seal-facing, and zero-difference reads, the displayed rows $S,M,D,R,E,H,C,P,N$ are exactly the scope of the convergence criterion packet.
+\end{proof}
+
 \begin{theorem}[Cauchy convergence criterion null-sequence scope]
 \label{thm:cauchy-convergence-criterion-null-sequence-scope}
 Let $G=(S,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyConvergenceCriterionUp$ carrier. If a convergence-facing comparison is a zero-difference read, then the read uses the existing $\NullSequenceUp$ factorization route over $S,M,D,R,E,H,C,P,N$ and not a second stream representative. In particular, the zero-difference consumer remains inside the finite $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\CauchyLimitSealUp$ route recorded by the carrier.
