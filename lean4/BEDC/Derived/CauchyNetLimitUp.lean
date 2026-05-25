@@ -161,4 +161,27 @@ theorem CauchyNetLimitCarrier_real_seal_handoff
     ⟨windowUnary, readbackUnary, toleranceUnary, sealUnary, namedUnary, windowRoute,
       readbackRoute, toleranceRoute, sealRoute, namedRoute⟩
 
+theorem CauchyNetLimitCarrier_directed_window_obligations
+    {K W R D windowRead readbackRead toleranceRead : BHist} :
+    Cont K W windowRead →
+      Cont windowRead R readbackRead →
+        Cont readbackRead D toleranceRead →
+          UnaryHistory K →
+            UnaryHistory W →
+              UnaryHistory R →
+                UnaryHistory D →
+                  UnaryHistory windowRead ∧ UnaryHistory readbackRead ∧
+                    UnaryHistory toleranceRead ∧ Cont K W windowRead ∧
+                      Cont windowRead R readbackRead ∧ Cont readbackRead D toleranceRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro windowRoute readbackRoute toleranceRoute kUnary wUnary rUnary dUnary
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed kUnary wUnary windowRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed windowUnary rUnary readbackRoute
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed readbackUnary dUnary toleranceRoute
+  exact
+    ⟨windowUnary, readbackUnary, toleranceUnary, windowRoute, readbackRoute, toleranceRoute⟩
+
 end BEDC.Derived.CauchyNetLimitUp
