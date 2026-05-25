@@ -122,10 +122,30 @@ Use \autoref{thm:metric-ball-topology-handoff} for the topology consumer. Each s
 Finally apply \autoref{thm:metric-ball-positive-radius-transport} to both packets. The transported rows keep $c_i,r_i,\rho_i,m_i$ together through the ordered-real ledger, so no selected radius, compactness proof, or ambient $\RealUp$ completeness principle can be read from the finite-intersection request.
 \end{proof}
 
+\begin{theorem}[MetricBall obligation transport package]
+\label{thm:metric-ball-obligation-transport-package}
+Every topology, bounded-set, finite-intersection, or compact-net consumer of an accepted $\MetricBallUp$ packet
+$$
+B=(X,d,c,r,\rho,m,H,C,P,N)
+$$
+must read the packet through the same displayed $\MetricSpaceUp$ source row $X$, metric-distance row $d$, center row $c$, positive $\RatUp$ or $\RealUp$ radius rows $r,\rho$, membership comparison row $m$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\MetricBallUp}$ row $N$. The transport package has no coordinate for an ambient powerset, a selected replacement radius, compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:metric-ball-carrier}. It displays exactly $X,d,c,r,\rho,m,H,C,P,N$, so every consumer first receives the metric source, distance witness, center, radius, positive-radius ledger, and membership comparison before any downstream read is available.
+
+For topology consumers, apply \autoref{thm:metric-ball-topology-handoff}. The singleton-ball datum reaches generated-open exactness only after the MetricBall rows have been packaged.
+
+For bounded-set consumers, apply \autoref{thm:metric-ball-boundedset-containment-route}. The containment ledger reads the same center-radius comparison and does not introduce a host subset or supremum coordinate.
+
+For finite-intersection and compact-net consumers, use \autoref{thm:metric-ball-finite-intersection-readiness} together with \autoref{thm:metric-ball-positive-radius-transport}. These rows keep $r,\rho,m$ attached to the same metric source and ordered-real comparison before any finite request is replayed.
+
+Thus the shared obligation package is the displayed tuple $X,d,c,r,\rho,m,H,C,P,N$. Since the carrier contains no powerset, selected radius, compactness, or ambient completeness coordinate, none can be exported by transport.
+\end{proof}
+
 \begin{closurestatus}{\MetricBallUp}
   \constructivestory{A $\MetricBallUp$ packet is generated from a MetricSpace carrier row, a MetricDistanceWitness row, a center row, a RatUp or RealUp positive-radius row, a membership comparison row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metric-ball-carrier}, \autoref{thm:metric-ball-namecert-obligations}, \autoref{thm:metric-ball-topology-handoff}, \autoref{thm:metric-ball-boundedset-containment-route}, \autoref{thm:metric-ball-positive-radius-transport}, and \autoref{thm:metric-ball-finite-intersection-readiness} bind the finite center-radius ball seed used by metric-generated topology, finite-intersection requests, and bounded-set containment.}
+  \scopeclosed{\autoref{def:metric-ball-carrier}, \autoref{thm:metric-ball-namecert-obligations}, \autoref{thm:metric-ball-topology-handoff}, \autoref{thm:metric-ball-boundedset-containment-route}, \autoref{thm:metric-ball-positive-radius-transport}, \autoref{thm:metric-ball-finite-intersection-readiness}, and \autoref{thm:metric-ball-obligation-transport-package} bind the finite center-radius ball seed used by metric-generated topology, finite-intersection requests, bounded-set containment, and compact-net obligation transport.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim a full metric topology, arbitrary generated-open closure, compactness, continuity, quotient equality for metric points, or a standard bridge.}
