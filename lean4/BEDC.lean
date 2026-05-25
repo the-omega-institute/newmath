@@ -406,7 +406,6 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RealSealRouteNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RecursionChannelRefusal
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RegSeqRatRealSealOutputExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAdmissionDownstreamCoverage
-import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAdmissionPublicExport
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditBoundaryExposure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditHandoffLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditLedgerExactness
@@ -1310,6 +1309,7 @@ import BEDC.Derived.CauchyProductUp.L10DependencyLattice
 import BEDC.Derived.CauchyProductUp.LimitSealSelectorCoherence
 import BEDC.Derived.CauchyProductUp.LimitSealSiblingDependency
 import BEDC.Derived.CauchyProductUp.PairedWindowLedgerClassifier
+import BEDC.Derived.CauchyProductUp.PairedWindowRegularityExhaustion
 import BEDC.Derived.CauchyProductUp.PairedWindowSourceAdmission
 import BEDC.Derived.CauchyProductUp.ProductObservationSealObligations
 import BEDC.Derived.CauchyProductUp.ProductSealNonescape
@@ -1324,6 +1324,7 @@ import BEDC.Derived.CauchyProductUp.RealBudgetSealBoundary
 import BEDC.Derived.CauchyProductUp.RealClassifierObligation
 import BEDC.Derived.CauchyProductUp.RealRegSeqRatStreamNameHandoff
 import BEDC.Derived.CauchyProductUp.RealSealBudgetGate
+import BEDC.Derived.CauchyProductUp.RealSealConsumerExhaustion
 import BEDC.Derived.CauchyProductUp.RealSealMultiplicationNonescape
 import BEDC.Derived.CauchyProductUp.RealSealRootSurface
 import BEDC.Derived.CauchyProductUp.RealSealRootUnblockSurface
@@ -2724,7 +2725,6 @@ import BEDC.Derived.DomainTruthCertificateUp.SiblingIndependence
 import BEDC.Derived.DomainTruthCertificateUp.TasteGate
 import BEDC.Derived.DoubleCauchyDiagonalUp.TasteGate
 import BEDC.Derived.DoubleLimitInterchangeUp.TasteGate
-import BEDC.Derived.DoublingMetricUp.TasteGate
 import BEDC.Derived.DyadicAbsoluteValueUp
 import BEDC.Derived.DyadicApproximationUp
 import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
@@ -4173,6 +4173,8 @@ import BEDC.Derived.MetricCompletionUp.NameCertObligations
 import BEDC.Derived.MetricCompletionUp.PublicExportSurface
 import BEDC.Derived.MetricCompletionUp.ReadbackLedger
 import BEDC.Derived.MetricCompletionUp.RealSealScopeLock
+import BEDC.Derived.MetricCompletionUp.RootObligationCarrierWitness
+import BEDC.Derived.MetricCompletionUp.RootObligationClassifierWitness
 import BEDC.Derived.MetricCompletionUp.ScopedDependencyPackage
 import BEDC.Derived.MetricCompletionUp.SeparatedLimit
 import BEDC.Derived.MetricCompletionUp.TasteGate
