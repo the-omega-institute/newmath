@@ -1279,6 +1279,7 @@ import BEDC.Derived.CauchyProductUp.BudgetSelectorDistributiveLock
 import BEDC.Derived.CauchyProductUp.BudgetSelectorDownstreamCoverage
 import BEDC.Derived.CauchyProductUp.BudgetedBilinearDiagonal
 import BEDC.Derived.CauchyProductUp.CommutedBudgetRoute
+import BEDC.Derived.CauchyProductUp.DyadicProductWindowInversion
 import BEDC.Derived.CauchyProductUp.FiniteBudgetComposition
 import BEDC.Derived.CauchyProductUp.L10DependencyLattice
 import BEDC.Derived.CauchyProductUp.LimitSealSelectorCoherence
@@ -3124,6 +3125,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.TerminalRadiusStability
 import BEDC.Derived.FiniteLebesgueNumberUp.TerminalReadiness
 import BEDC.Derived.FiniteLebesgueNumberUp.TerminalReadinessExitHandoff
 import BEDC.Derived.FiniteLebesgueNumberUp.TotalBoundedConsumerFactorization
+import BEDC.Derived.FiniteLebesgueNumberUp.UniformModulusConsumerExactness
 import BEDC.Derived.FiniteLebesgueNumberUp.UniformModulusRadiusScope
 import BEDC.Derived.FiniteLebesgueNumberUp.WindowCoverageExactness
 import BEDC.Derived.FiniteLebesgueNumberUp.WindowRadiusLedgerCoherence
@@ -5190,6 +5192,7 @@ import BEDC.Derived.RegularCauchyDiagonalUp.StationaryFamilyExhaustion
 import BEDC.Derived.RegularCauchyDiagonalUp.TasteGate
 import BEDC.Derived.RegularCauchyDifferenceUp
 import BEDC.Derived.RegularCauchyDistanceUp.TasteGate
+import BEDC.Derived.RegularCauchyDivisionUp.TasteGate
 import BEDC.Derived.RegularCauchyEquivalenceUp.RefinementTransport
 import BEDC.Derived.RegularCauchyEquivalenceUp.TasteGate
 import BEDC.Derived.RegularCauchyExtensionalityUp.TasteGate
