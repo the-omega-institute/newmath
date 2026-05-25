@@ -45,4 +45,20 @@ theorem RealSeriesRootTailFactorization {S W D M sw dm left right outer : BHist}
     unary_cont_closed DUnary MUnary dmRoute
   exact ⟨common, commonLeft, commonRight, leftSame, outerSame, dmUnary⟩
 
+theorem RealSeriesRootTailThresholdFusion {S W Q D M SW SWQ SWQD SWQDM ME : BHist} :
+    Cont S W SW ->
+      Cont SW Q SWQ ->
+        Cont SWQ D SWQD ->
+          Cont SWQD M SWQDM ->
+            Cont M SWQDM ME ->
+              UnaryHistory M ->
+                UnaryHistory SWQDM ->
+                  exists thresholdRead : BHist,
+                    Cont M SWQDM thresholdRead ∧ hsame ME thresholdRead ∧
+                      UnaryHistory thresholdRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro _sWindow _qRead _dyadicRead _thresholdRead endpointRead thresholdUnary tailUnary
+  refine ⟨ME, endpointRead, hsame_refl ME, ?_⟩
+  exact unary_cont_closed thresholdUnary tailUnary endpointRead
+
 end BEDC.Derived.RealSeriesUp
