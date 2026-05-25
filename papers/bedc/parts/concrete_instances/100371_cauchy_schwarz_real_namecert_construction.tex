@@ -87,6 +87,34 @@ Apply the NameCert obligations of \autoref{thm:cauchy-schwarz-real-namecert-obli
 Finally use the dyadic square handoff of \autoref{thm:cauchy-schwarz-real-dyadic-square-handoff}. It is the unique route exporting the square-form comparison to RealUp consumers, so the norm-bound read can only be the consumer-facing boundary obtained from that finite square ledger and seal. Since none of the excluded analytic coordinates is present in the carrier, no host real order, hidden square-root extraction, quotient stream, ambient completeness, or bridge row can supply an alternate handoff.
 \end{proof}
 
+\begin{theorem}[CauchySchwarzReal inner-product bound route]
+\label{thm:cauchy-schwarz-real-innerproduct-bound}
+For every accepted $\CauchySchwarzRealUp$ carrier $K=(V,X,Y,I,A,B,D,Q,S,E,H,T,P,N)$, the complete route by which downstream $\HolderInequalityUp$ and $\MinkowskiInequalityUp$ consumers read the inner-product bound is the row sequence
+$$
+V,X,Y \longmapsto I,A,B \longmapsto D \longmapsto Q,S \longmapsto E \longmapsto H,T,P,N .
+$$
+The row $I$ supplies the finite inner-product read, $A$ and $B$ supply the two norm-square reads, $D$ supplies the $\DyadicRatCoreUp$ square ledger, $Q$ supplies the $\RegSeqRatUp$ readback, $S$ supplies the $\StreamNameUp$ finite windows, and $E$ supplies the terminal $\RealUp$ seal. No additional row is available between the square ledger and the downstream Holder or Minkowski consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier. The displayed vector information is exhausted by $V,X,Y$, and the scalar inequality information is exhausted by $I,A,B,D$.
+
+The readback and sealing rows are then forced. The $\RegSeqRatUp$ row $Q$ and $\StreamNameUp$ row $S$ expose the finite observations used by the dyadic comparison, and the $\RealUp$ row $E$ is the only terminal seal available before the transport, replay, provenance, and naming rows $H,T,P,N$.
+
+Apply \autoref{thm:cauchy-schwarz-real-namecert-obligations} and \autoref{thm:cauchy-schwarz-real-norm-bound}. Together they state that every downstream read of the Cauchy--Schwarz boundary passes through the displayed finite rows and that the norm-bound form is the consumer-facing consequence of the same square ledger. Thus Holder and Minkowski consumers receive exactly this route and no intermediate analytic object.
+\end{proof}
+
+\begin{theorem}[CauchySchwarzReal non-escape boundary]
+\label{thm:cauchy-schwarz-real-nonescape}
+For every accepted $\CauchySchwarzRealUp$ carrier $K=(V,X,Y,I,A,B,D,Q,S,E,H,T,P,N)$, the packet exports no host inner-product theorem, no quotient stream equality, no infinite-dimensional Hilbert theorem, no selected limit, no countable choice principle, and no ambient $\RealUp$ completeness theorem. Every exported Cauchy--Schwarz row is read through the finite carrier coordinates of \autoref{thm:cauchy-schwarz-real-innerproduct-bound}.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates in \autoref{def:cauchy-schwarz-real-carrier}. They name finite vector rows, scalar reads, a dyadic square comparison ledger, regular readback, finite windows, a terminal Real seal, and structural transport data.
+
+None of the listed excluded objects is a coordinate of the carrier. There is no host inner-product theorem row, no quotient-stream equality row, no Hilbert-space theorem row, no selected-limit row, no countable-choice row, and no ambient completeness row.
+
+The only exported inequality route is therefore the one isolated in \autoref{thm:cauchy-schwarz-real-innerproduct-bound}. Since every downstream read factors through that finite route, the excluded objects cannot be recovered from the packet as public data.
+\end{proof}
+
 \falsifiablePrediction{Every $\CauchySchwarzRealUp$ inequality read factors through a VecSpaceUp finite-vector source, two RealUp finite vector rows, an inner-product row, two NormUp square rows, a DyadicRatCore square-and-tolerance ledger, RegSeqRat readback, StreamName windows, a RealUp seal, transport, replay, provenance, and local naming.}
 
 \independenceWitness{real, dyadicratcore, regseqrat, streamname, vecspace, norm: $\CauchySchwarzRealUp$ is not bijective to any listed sibling because it jointly carries finite vector rows, inner-product readback, norm-square rows, dyadic square comparison, regular readback, stream windows, Real seal, transport, replay, provenance, and local naming.}
