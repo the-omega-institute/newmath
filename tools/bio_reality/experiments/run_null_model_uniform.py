@@ -25,8 +25,8 @@ def now_iso() -> str:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--samples", type=int, default=10000)
-    parser.add_argument("--position-samples", type=int, default=2000)
+    parser.add_argument("--samples", type=int, default=50000)
+    parser.add_argument("--position-samples", type=int, default=10000)
     parser.add_argument("--seed", type=int, default=42)
     return parser.parse_args()
 
@@ -124,7 +124,7 @@ def main() -> int:
             },
         ]
         result.update({
-            "status": "passed" if any(check["passed"] for check in checks) else "failed",
+            "status": "passed" if all(check["passed"] for check in checks) else "failed",
             "completed_at": now_iso(),
             "checks": checks,
             "result": {
