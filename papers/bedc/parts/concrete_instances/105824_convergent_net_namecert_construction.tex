@@ -64,12 +64,26 @@ For a Cauchy-directed completion consumer, the row $C$ is the required tail-evid
 The omitted coordinates are exactly the forbidden exits: quotient nets, selected limits, countable choice, cofinal choice, host equality, and ambient completeness. Hence the handoff preserves only the displayed finite route.
 \end{proof}
 
+\begin{theorem}[ConvergentNet completion-consumer boundary]
+\label{thm:convergent-net-completion-consumer-boundary}
+Let $G=(D,V,T,L,M,C,H,K,P,N)$ be an accepted $\ConvergentNetUp$ packet. Every $\MetricCompletionUp$ or $\UniformCompletionUp$ consumer of $G$ must read the $\DirectedSetUp$ row $D$, the net-value row $V$, the convergence-test row $T$, the boundary row $L$, the $\MooreSmithConvergenceUp$ row $M$, and the optional $\CauchyNetUp$ tail-evidence row $C$ in that order before any completion-facing handoff is available. The consumer receives only the finite route named by $D,V,T,L,M,C,H,K,P,N$ and receives no selected host limit, quotient net, countable-choice selector, cofinal-choice operator, host equality of boundary points, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:convergent-net-carrier}. The only rows visible to a completion consumer are the directed-window row $D$, the value row $V$, the test row $T$, the boundary row $L$, the Moore--Smith row $M$, the optional Cauchy-tail row $C$, and the structural rows $H,K,P,N$.
+
+Use \autoref{thm:convergent-net-namecert-obligations}. Its directed-window coverage, value exposure, boundary exposure, and Moore--Smith packaging clauses force the read order $D,V,T,L,M$ before any completion-facing consumer can see convergence evidence.
+
+Then apply \autoref{thm:convergent-net-cauchy-handoff}. A metric-completion or uniform-completion consumer that needs Cauchy-directed evidence must next read $C$, so the completion-facing route is the displayed finite route through $D,V,T,L,M,C$.
+
+Since the carrier omits selected host limits, quotient nets, choice operators, host equality, and ambient completeness, no completion consumer can bypass this order or turn the convergence packet into a selected limit object.
+\end{proof}
+
 \closureat{ConvergentNetUp}{seedStr}
 
 \begin{closurestatus}{\ConvergentNetUp}
   \constructivestory{A $\ConvergentNetUp$ packet is generated from a DirectedSet index-window row, net values, convergence tests, a displayed boundary row, Moore--Smith convergence data, optional CauchyNet tail evidence, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:convergent-net-carrier}, \autoref{thm:convergent-net-namecert-obligations}, and \autoref{thm:convergent-net-cauchy-handoff} seed the finite convergent-net surface between directed index data, Moore--Smith convergence, and completion-facing Cauchy handoff.}
+  \scopeclosed{\autoref{def:convergent-net-carrier}, \autoref{thm:convergent-net-namecert-obligations}, \autoref{thm:convergent-net-cauchy-handoff}, and \autoref{thm:convergent-net-completion-consumer-boundary} seed the finite convergent-net surface between directed index data, Moore--Smith convergence, and completion-consumer handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient nets, selected host limits, countable choice, cofinal choice, host equality of boundary points, ambient completeness, Lean verification, or bridge checking.}

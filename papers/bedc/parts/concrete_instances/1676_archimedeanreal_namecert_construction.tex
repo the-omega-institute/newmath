@@ -163,6 +163,23 @@ The two routes therefore compose in one order: budget rows first, Archimedean bo
 \end{proof}
 \leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealCarrier\_budgeted\_observation\_handoff}
 
+\begin{theorem}[ArchimedeanReal budgeted Cauchy bound]
+\label{thm:archimedean-real-budgeted-cauchy-bound}
+Let a $\RealObservationBudgetUp$ consumer display the finite budget rows for a precision request and accept an $\ArchimedeanRealUp$ packet
+$$
+A=(R,Q,D,S,G,B,H,C,P,N).
+$$
+Then every Cauchy-tail or completion-facing consumer receives the rational and dyadic bound rows $Q,D$ through the same $\StreamNameUp$ windows, $\RegSeqRatUp$ handoff, bound ledger, componentwise transport, replay, provenance, and local $\NameCert$ route $S,G,B,H,C,P,N$. The bound witness is available only through the composed budgeted route and exports no host supremum, selected least bound, quotient stream equality, hidden limit selector, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the public bound export of \autoref{thm:archimedean-real-public-bound-export}. It identifies the Archimedean bound surface for the displayed $\RealUp$ name as the rational row $Q$, the dyadic row $D$, the stream windows $S$, the regular handoff $G$, the bound ledger $B$, and the structural rows $H,C,P,N$.
+
+Now compose this surface with the budgeted observation handoff of \autoref{thm:archimedean-real-budgeted-observation-handoff}. The consumer first displays the finite $\RealObservationBudgetUp$ rows for the precision request and only then reads the Archimedean bound rows.
+
+The resulting Cauchy-tail or completion-facing read therefore receives a bound witness through the same $Q,D,S,G,B,H,C,P,N$ route already exposed by the accepted packet. Since neither theorem supplies a host supremum, selected least bound, quotient stream equality, hidden limit selector, or ambient completeness coordinate, the composed budgeted read cannot export one.
+\end{proof}
+\leanchecked{BEDC.Derived.ArchimedeanRealUp.ArchimedeanRealCarrier\_budgeted\_cauchy\_bound}
+
 \begin{theorem}[ArchimedeanReal dyadic threshold totality]
 \label{thm:archimedean-real-dyadic-threshold-totality}
 Let an accepted $\ArchimedeanRealUp$ packet
