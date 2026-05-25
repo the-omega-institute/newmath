@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\FiniteGroupRepresentationUp$}
+\label{ch:concrete-instances-finite-group-representation-namecert}
+\origin{human}
+
+Following Frobenius on finite-group characters and the representation-theory treatments of Serre and Fulton--Harris, the $\FiniteGroupRepresentationUp$ packet records a finite group action on a finite displayed vector-space row as NameCert data. It consumes the group source of \autoref{ch:concrete-instances-group-namecert}, the vector-space source of \autoref{ch:concrete-instances-vecspace-namecert}, the linear-map and matrix rows of \autoref{ch:concrete-instances-linearmap-namecert} and \autoref{ch:concrete-instances-matrix-namecert}, and the downstream trace and ledger consumers of \autoref{ch:concrete-instances-charactertheory-namecert}, \autoref{ch:concrete-instances-representationring-namecert}, and \autoref{ch:concrete-instances-character-table-namecert}. The packet names only the displayed finite action, transport, and consumer boundary rows; it does not assert Maschke semisimplicity, Schur orthogonality, complete reducibility, irreducible decomposition, or a host category of representations.
+
+\begin{definition}[FiniteGroupRepresentation carrier]
+\label{def:finite-group-representation-carrier}
+A $\FiniteGroupRepresentationUp$ carrier is a finite $\BHist$ packet
+$$
+R=(G,V,L,M,A,U,C,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the consumed finite $\NameCert_{\GroupUp}$ source row, including the multiplication, unit, inverse, and finite support rows needed to index the action.
+\item $V$ is the consumed $\NameCert_{\VecSpaceUp}$ row for the represented vector-space endpoint.
+\item $L$ is the consumed $\NameCert_{\LinearMapUp}$ row naming the linear endomorphism surface over $V$.
+\item $M$ is the consumed $\NameCert_{\MatrixUp}$ row used only when the finite action is displayed by matrix rows over a chosen presentation already recorded in the packet.
+\item $A$ is the finite action ledger assigning to each displayed group row a displayed linear endomorphism row and recording the multiplication and unit compatibility rows.
+\item $U$ is the finite action-unit row, recording that the unit row of $G$ acts by the identity linear-map row on $V$.
+\item $C$ is the downstream consumer ledger, exposing only the rows read by $\CharacterTheoryUp$, $\RepresentationRingUp$, and $\CharacterTableUp$ consumers.
+\item $H$ is the componentwise $\hsame$ transport for $G,V,L,M,A,U,C$.
+\item $P$ is the $\Pkg$ provenance over $\GroupUp$, $\VecSpaceUp$, $\LinearMapUp$, $\MatrixUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteGroupRepresentationUp}$ row.
+\end{enumerate}
+No carrier coordinate stores a host representation category, a quotient representation, an irreducible decomposition, a character table, a Maschke complement, or a Schur orthogonality relation.
+\end{definition}
+
+\begin{theorem}[FiniteGroupRepresentation NameCert bridge]
+\label{thm:finite-group-representation-namecert-bridge}
+For every accepted $\FiniteGroupRepresentationUp$ carrier
+$$
+R=(G,V,L,M,A,U,C,H,P,N),
+$$
+the local $\NameCert_{\FiniteGroupRepresentationUp}$ surface consists exactly of the following five finite obligations:
+\begin{enumerate}
+\item carrier admission exposes the displayed group row $G$, vector-space row $V$, linear-map row $L$, optional matrix presentation row $M$, action ledger $A$, unit row $U$, consumer ledger $C$, transport row $H$, provenance row $P$, and local naming row $N$;
+\item action exactness requires each action entry in $A$ to be sourced by a group row of $G$ and to land in a linear endomorphism row read through $L$ over the represented vector-space row $V$;
+\item unit and multiplication stability require the unit row $U$ and the product rows of $G$ to replay through finite $\Cont$ rows inside $A$ and remain preserved by the componentwise $\hsame$ transport $H$;
+\item matrix presentation compatibility allows $M$ to display action entries only as rows already tied to $L$ and $V$, so matrix reads cannot create an additional carrier outside the packet;
+\item consumer boundary requires every $\CharacterTheoryUp$, $\RepresentationRingUp$, or $\CharacterTableUp$ read to pass through $C$ after the action ledger has been displayed, and it excludes Maschke semisimplicity, Schur orthogonality, irreducible decomposition, quotient representation carriers, and host representation categories.
+\end{enumerate}
+These five obligations give the finite NameCert bridge from the consumed group and vector-space certificates to the downstream character and representation-ring consumers.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:finite-group-representation-carrier}. Carrier admission is exactly the displayed tuple $G,V,L,M,A,U,C,H,P,N$, so no additional source row is available.
+
+For action exactness, read each entry of $A$ as a finite row from the group source $G$ into the endomorphism surface supplied by $L$ over $V$. The unit row $U$ and the product rows of $G$ are then replayed through the same finite continuation ledger.
+
+Matrix presentation compatibility is only a display route. Any matrix row in $M$ must already be tied to the linear-map and vector-space rows $L$ and $V$, so it cannot supply a second representation carrier.
+
+Finally expose the consumer ledger $C$. Character-theory, representation-ring, and character-table consumers read only after the displayed action rows have been named, while Maschke semisimplicity and Schur orthogonality remain in their own chapters. Repacking the projected rows with $H$, $P$, and $N$ gives the stated local NameCert surface.
+\end{proof}
+
+\closureat{FiniteGroupRepresentationUp}{seedStr}
+
+\begin{closurestatus}{\FiniteGroupRepresentationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-group-representation-carrier} and \autoref{thm:finite-group-representation-namecert-bridge} seed the finite action carrier and its NameCert obligation bridge over displayed $\GroupUp$, $\VecSpaceUp$, $\LinearMapUp$, $\MatrixUp$, $\CharacterTheoryUp$, $\RepresentationRingUp$, and $\CharacterTableUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Maschke semisimplicity, Schur orthogonality, irreducible decomposition, complete reducibility, character-table computation, quotient representation carriers, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, action exactness, unit and multiplication stability, matrix presentation compatibility, and downstream consumer boundary for the same finite packet.}
+  \constructivestory{A $\FiniteGroupRepresentationUp$ packet is generated from a displayed finite group source, represented vector-space source, linear-map and matrix presentation rows, a finite action ledger, unit and multiplication replay rows, componentwise transport, package provenance, and local NameCert evidence.}
+\end{closurestatus}
