@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\BoundedVariationRealFunctionUp$}
+\label{ch:concrete-instances-bounded-variation-real-function-namecert}
+\origin{human}
+
+Following Jordan's bounded variation theorem and Bishop--Bridges constructive analysis, the $\BoundedVariationRealFunctionUp$ packet records a real-valued function on a displayed real interval through finite partition windows and variation budgets. It sits between the real-valued sequence interface of \autoref{ch:concrete-instances-real-sequence-space-namecert}, the finite partition carrier of \autoref{ch:concrete-instances-dyadic-partition-namecert}, the stream-name observation route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite BEDC surface needed by later regulated-integration and Jordan-decomposition consumers without selecting a total variation supremum or importing ambient real completeness.
+
+\begin{definition}[BoundedVariationRealFunction carrier]
+\label{def:bounded-variation-real-function-carrier}
+A $\BoundedVariationRealFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+V=(I,F,W,R,D,B,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the interval and partition window row supplied by $\DyadicPartitionUp$, listing the finite dyadic subdivision on which variation is inspected.
+\item $F$ is the displayed real-valued function row, exposed only through $\RealSequenceSpaceUp$ coordinate requests over the partition endpoints.
+\item $W$ is the $\StreamNameUp$ observation row scheduling the finite endpoint windows and adjacent-pair probes.
+\item $R$ is the $\RegSeqRatUp$ readback row for the values of $F$ at the endpoints named by $W$.
+\item $D$ is the $\DyadicRatCoreUp$ variation-budget ledger, recording absolute-difference budgets, partial variation sums, and the displayed bound attached to the current partition window.
+\item $B$ is the bounded-variation acceptance row, asserting that the inspected partition window is admitted only when its dyadic variation sum is witnessed below the displayed budget in $D$.
+\item $J$ is the Jordan-route row, naming the finite positive and negative variation ledgers available to a later Jordan-decomposition consumer without selecting a global decomposition.
+\item $H$ records componentwise $\hsame$ transport for the partition, function, observation, readback, variation-budget, bounded-variation, Jordan-route, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a bounded-variation request through $I,F,W,R,D,B,J$.
+\item $P$ is the $\Pkg$ provenance over $\BoundedVariationRealFunctionUp$, $\RealSequenceSpaceUp$, $\DyadicPartitionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedVariationRealFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows. It has no coordinate for total variation as a host supremum, quotient equality of functions, a selected Jordan decomposition, measure integration, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[BoundedVariationRealFunction NameCert obligations]
+\label{thm:bounded-variation-real-function-namecert-obligations}
+For every accepted $\BoundedVariationRealFunctionUp$ carrier $V=(I,F,W,R,D,B,J,H,C,P,N)$, the local $\NameCert_{\BoundedVariationRealFunctionUp}$ surface consists exactly of finite $\BHist$ rows for carrier admission, partition-window exposure, real-value readback, variation-budget exactness, bounded-variation acceptance, Jordan-route availability, componentwise transport, replay, provenance, and local naming:
+\begin{enumerate}
+\item carrier admission requires the displayed $\DyadicPartitionUp$ row, $\RealSequenceSpaceUp$ function row, $\StreamNameUp$ observations, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ budgets, bounded-variation row, Jordan-route row, transport, replay, provenance, and local name;
+\item partition exposure requires every variation request to pass through the finite dyadic row $I$ before any endpoint value is read;
+\item value readback requires the endpoint values of $F$ to be inspected only through $W$ and $R$, and then sealed as $\RealUp$ data through the provenance row $P$;
+\item variation-budget exactness requires the partial sums and displayed bound in $D$ to mediate every acceptance read by $B$;
+\item Jordan-route availability requires $J$ to expose only finite positive and negative variation ledgers downstream of the same $I,F,W,R,D,B$ route;
+\item transport and replay stability require $H,C,P,N$ to preserve and name the same finite surface.
+\end{enumerate}
+No obligation supplies total variation as a host supremum, quotient equality of functions, a selected Jordan decomposition, measure integration, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-variation-real-function-carrier}. The packet exposes a dyadic partition window, a displayed real-valued function row, finite observation windows, regular rational readbacks, a dyadic variation ledger, a bounded-variation acceptance row, and a Jordan-route row before any structural replay is available.
+
+The local obligations are therefore row-local. A variation request first enters the $\DyadicPartitionUp$ row $I$; endpoint values of $F$ are then read only through the $\StreamNameUp$ and $\RegSeqRatUp$ rows $W$ and $R$; and every absolute-difference or partial-sum comparison is mediated by the $\DyadicRatCoreUp$ row $D$.
+
+The bounded-variation and Jordan-facing rows are downstream of the same route. The acceptance row $B$ can certify only the displayed partition window and budget, while $J$ can expose only finite positive and negative variation ledgers built from that accepted data.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no coordinate for a host supremum, quotient function equality, selected decomposition, measure integration, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[BoundedVariationRealFunction Jordan route]
+\label{thm:bounded-variation-real-function-jordan-route}
+Every Jordan-facing consumer of an accepted $\BoundedVariationRealFunctionUp$ carrier $V=(I,F,W,R,D,B,J,H,C,P,N)$ reads the ordered finite route
+$$
+\DyadicPartitionUp
+\longrightarrow
+\RealSequenceSpaceUp
+\longrightarrow
+\StreamNameUp
+\longrightarrow
+\RegSeqRatUp
+\longrightarrow
+\DyadicRatCoreUp
+\longrightarrow
+\RealUp
+$$
+through $I,F,W,R,D,B,J,H,C,P,N$. The consumer may use the finite positive and negative variation ledgers exposed by $J$, but it cannot extract total variation as a host supremum, quotient equality of functions, a selected Jordan decomposition, measure integration, or ambient $\RealUp$ completeness from the packet.
+\end{theorem}
+\begin{proof}
+Start with a Jordan-facing read of an accepted carrier. By \autoref{thm:bounded-variation-real-function-namecert-obligations}, the read first passes through the finite $\DyadicPartitionUp$ row and the displayed $\RealSequenceSpaceUp$ function row, so every inspected endpoint value is tied to the same partition window.
+
+The observation and readback rows then fix the value interface. The $\StreamNameUp$ row schedules the endpoint probes, the $\RegSeqRatUp$ row supplies the regular rational readbacks, and the $\DyadicRatCoreUp$ row records the variation-budget comparisons used by the bounded-variation acceptance row.
+
+The Jordan route $J$ is downstream of that accepted data. It may expose finite positive and negative variation ledgers for the displayed window, and the structural rows $H,C,P,N$ transport, replay, source, and name the route.
+
+No additional carrier coordinate remains for a host supremum of all partitions, quotient equality of real-valued functions, a selected Jordan decomposition, measure integration, or ambient $\RealUp$ completeness. Hence every Jordan-facing read factors through the displayed finite route.
+\end{proof}
+
+\closureat{BoundedVariationRealFunctionUp}{seedStr}
+
+\begin{closurestatus}{\BoundedVariationRealFunctionUp}
+  \constructivestory{A $\BoundedVariationRealFunctionUp$ packet is generated from finite $\DyadicPartitionUp$ windows, a displayed $\RealSequenceSpaceUp$ function row, $\StreamNameUp$ observations, $\RegSeqRatUp$ readbacks, a $\DyadicRatCoreUp$ variation-budget ledger, a bounded-variation acceptance row, a finite Jordan-route row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-variation-real-function-carrier}, \autoref{thm:bounded-variation-real-function-namecert-obligations}, and \autoref{thm:bounded-variation-real-function-jordan-route} seed the finite bounded-variation real-function surface over partition windows, real-valued sequence rows, finite observations, regular readbacks, dyadic variation budgets, and local Jordan-route ledgers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim total variation as a host supremum, quotient equality of functions, a selected Jordan decomposition, measure integration, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, partition-window exposure, real-value readback, variation-budget exactness, bounded-variation acceptance, finite Jordan-route availability, componentwise transport, replay, provenance, and local naming for the same displayed packet.}
+\end{closurestatus}
