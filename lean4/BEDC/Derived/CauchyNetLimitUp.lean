@@ -10,6 +10,12 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
+def CauchyNetLimitCarrier (K W R D A H C P N : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist UnaryHistory
+  UnaryHistory K ∧ UnaryHistory W ∧ UnaryHistory R ∧ UnaryHistory D ∧
+    UnaryHistory A ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
+      UnaryHistory N
+
 theorem CauchyNetLimitCarrier_semantic_name_certificate
     (K W R D A H C P N : BHist) :
     SemanticNameCert
@@ -160,6 +166,34 @@ theorem CauchyNetLimitCarrier_real_seal_handoff
   exact
     ⟨windowUnary, readbackUnary, toleranceUnary, sealUnary, namedUnary, windowRoute,
       readbackRoute, toleranceRoute, sealRoute, namedRoute⟩
+
+theorem CauchyNetLimitCarrier_admission
+    {K W R D A H C P N request windowRead readbackRead sealRead : BHist} :
+    CauchyNetLimitCarrier K W R D A H C P N →
+      Cont K W request →
+        Cont request R windowRead →
+          Cont windowRead D readbackRead →
+            Cont readbackRead A sealRead →
+              UnaryHistory K ∧ UnaryHistory W ∧ UnaryHistory R ∧ UnaryHistory D ∧
+                UnaryHistory A ∧ UnaryHistory request ∧ UnaryHistory windowRead ∧
+                  UnaryHistory readbackRead ∧ UnaryHistory sealRead ∧
+                    Cont K W request ∧ Cont request R windowRead ∧
+                      Cont windowRead D readbackRead ∧ Cont readbackRead A sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro carrier requestRoute windowRoute readbackRoute sealRoute
+  obtain ⟨kUnary, wUnary, rUnary, dUnary, aUnary, _hUnary, _cUnary, _pUnary,
+    _nUnary⟩ := carrier
+  have requestUnary : UnaryHistory request :=
+    unary_cont_closed kUnary wUnary requestRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed requestUnary rUnary windowRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed windowUnary dUnary readbackRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackUnary aUnary sealRoute
+  exact
+    ⟨kUnary, wUnary, rUnary, dUnary, aUnary, requestUnary, windowUnary,
+      readbackUnary, sealUnary, requestRoute, windowRoute, readbackRoute, sealRoute⟩
 
 theorem CauchyNetLimitCarrier_directed_window_obligations
     {K W R D windowRead readbackRead toleranceRead : BHist} :
