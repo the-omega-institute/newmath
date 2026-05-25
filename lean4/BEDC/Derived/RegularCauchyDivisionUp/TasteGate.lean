@@ -37,7 +37,8 @@ private theorem RegularCauchyDivisionUpTasteGate_single_carrier_alignment_decode
 
 def regularCauchyDivisionFields : RegularCauchyDivisionUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | RegularCauchyDivisionUp.mk X Y A I P W R E H C Q N => [X, Y, A, I, P, W, R, E, H, C, Q, N]
+  | RegularCauchyDivisionUp.mk X Y A I P W R E H C Q N =>
+      [X, Y, A, I, P, W, R, E, H, C, Q, N]
 
 def regularCauchyDivisionToEventFlow : RegularCauchyDivisionUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
