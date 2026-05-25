@@ -1,3 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\DyadicUp$}
+\label{ch:concrete-instances-dyadic-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\DyadicUp$ interface records the finite dyadic naming surface used by constructive real-name and completion routes. It is the direct handoff object between $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the $\RealUp$ seal: every consumer receives displayed finite tolerance, stream-window, regular-sequence, transport, replay, provenance, and naming rows, rather than host real equality, selected binary expansions, trichotomy, or completed quotient data.
+
+\begin{definition}[DyadicUp carrier]
+\label{def:dyadic-up-carrier}
+A $\DyadicUp$ carrier is a finite $\BHist$ packet
+$$
+D=(Q,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\DyadicRatCoreUp$ row, carrying the dyadic rational numerator, denominator, tolerance budget, and arithmetic ledger read by dyadic consumers.
+\item $S$ is the $\StreamNameUp$ finite-window row through which requested precision windows are opened.
+\item $R$ is the $\RegSeqRatUp$ regular rational sequence row attached to the same window surface.
+\item $E$ is the $\RealUp$ seal row, exposing only the displayed real-name boundary reached after $Q,S,R$ have been read.
+\item $H$ records componentwise $\hsame$ transport for the dyadic core, stream window, regular sequence, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through $Q,S,R$ and then to the real seal $E$.
+\item $P$ is the $\Pkg$ provenance over $\DyadicUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for selected binary expansions, host real equality, countable choice, trichotomy, quotient-stream representatives, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[DyadicUp NameCert obligations]
+\label{thm:dyadic-up-namecert-obligations}
+For every accepted $\DyadicUp$ carrier
+$$
+D=(Q,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the dyadic core, stream window, regular sequence, real seal, transport, replay, provenance, and local naming rows;
+\item dyadic core admission, requiring every tolerance and arithmetic read to pass through $Q$;
+\item stream and regular-sequence admission, requiring the precision window $S$ and regular rational row $R$ to be displayed before any real-name consumer reads the dyadic packet;
+\item real-seal handoff, requiring $E$ to expose only the $\RealUp$ boundary reached from $Q,S,R$;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the same dyadic core, stream, regular sequence, and real-seal rows componentwise;
+\item nonescape from selected binary expansions, host real equality, countable choice, trichotomy, quotient-stream representatives, and ambient completeness.
+\end{enumerate}
+No $\DyadicUp$ naming obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-up-carrier}. The accepted packet displays exactly the dyadic rational core $Q$, finite stream window $S$, regular rational row $R$, real seal $E$, and the structural rows $H,C,P,N$.
+
+Dyadic core, stream, and regular-sequence admission follow from the displayed route order. A precision request first reads the dyadic tolerance ledger $Q$, opens the finite window $S$, and then reads the regular rational row $R$ attached to that window.
+
+The real-seal handoff is then forced through $E$. Since $E$ is the only Real-facing coordinate of the carrier, a downstream Real or Completion consumer cannot replace the displayed handoff by host equality, a selected binary expansion, or a quotient-stream representative.
+
+Transport and replay are componentwise. The $\hsame$ row $H$ preserves each displayed coordinate, while the $\Cont$ row $C$ repeats the same finite path from precision request to real seal.
+
+Finally inspect $P$ and $N$. Provenance and local naming mention only $Q,S,R,E,H,C$, so the excluded choice, trichotomy, quotient, host-equality, and completeness data have no projection from the packet.
+\end{proof}
+
 The dyadic Cauchy interface packets collect finite approximation and
 tail-envelope certificates for displayed real-name routes before Real and
 Completion consumers can read them. This interface consumes the DyadicRatCore
