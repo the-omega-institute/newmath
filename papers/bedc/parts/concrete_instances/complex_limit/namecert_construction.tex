@@ -4,6 +4,18 @@
 
 This chapter gives a concrete naming-certificate construction for the complex-limit interface $\ComplexLimitUp$ at the paper-proof level. The construction sits above the complex-history certificate $\ComplexUp$ (\autoref{ch:concrete-instances-complex-namecert}) and the RealUp chapter $\RealUp$ (\autoref{ch:concrete-instances-real-namecert}), with explicit unary-history moduli throughout.
 
+\begin{theorem}[Complex-limit real-coordinate sibling route]
+\label{thm:complex-limit-real-coordinate-sibling-route}
+Every accepted $\ComplexLimitUp$ read first consumes the $\ComplexUp$ coordinate carrier of \autoref{ch:concrete-instances-complex-namecert} and the $\RealUp$ real-coordinate seal of \autoref{ch:concrete-instances-real-namecert}. Only after those coordinate rows are displayed may the read expose the unary-history modulus, the complex-distance rows, and the local $\NameCert_{\ComplexLimitUp}$ rows. The route exports no host complex equality, quotient limit, selected representative, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier already described by the chapter. Its source history is a regular complex sequence, hence its entries are read through the $\ComplexUp$ coordinate carrier before any limit-facing row is available.
+
+The $\ComplexUp$ carrier itself is componentwise over real coordinates, so the real-coordinate seal is the $\RealUp$ dependency named by the same introductory route. A limit consumer therefore reaches the unary-history modulus only after the real and imaginary coordinate seals have been displayed.
+
+The remaining rows are local to $\ComplexLimitUp$: they record the modulus comparison, the complex-distance history, replay, provenance, and the naming certificate. Since no coordinate in that carrier is a host complex equality, quotient limit, selected representative, or ambient completeness principle, the sibling route cannot export any of those objects.
+\end{proof}
+
 \closureat{ComplexLimitUp}{seedStr}[BEDC.Derived.ComplexLimitUp.ComplexLimit\_semanticNameCert]
 \closureat{ComplexLimitUp}{scopedStr}[BEDC.Derived.ComplexLimitUp.ComplexLimit\_semanticNameCert]
 \closureat{ComplexLimitUp}{bridgedStr}[BEDC.Derived.ComplexLimitUp.ComplexLimit\_semanticNameCert]
@@ -19,9 +31,9 @@ This chapter gives a concrete naming-certificate construction for the complex-li
   \constructivestory{A complex limit is carried by a displayed package whose source history contains a regular complex sequence with a unary modulus and a proposed complex target with its own convergence witness; histories lacking the regular-sequence row, the target row, or the modulus comparison are simply outside the carrier. The classifier does not identify limits by an external topology, but compares the carried target point componentwise by $\hsame$ on the real and imaginary histories, while the source specification covers exactly the regular-sequence-and-limit pairs and the pattern records the distance rows $\mathsf{CplxDist}(s(n),z,D)$ once the unary index has passed the displayed threshold $M(k)$. The ledger keeps the raw sequence, target, and modulus data visible, and its checked rows paste moduli for constant sequences, pointwise sums, pointwise products, and componentwise assembly rather than hiding convergence behind choice. The five name-certificate obligations follow from the constant-sequence witness for nonemptiness, the componentwise $\hsame$ equivalence laws, and the stability rows saying that regularity, limit status, and modulus comparisons transport along the same component histories. A source history $h$ lies in the signature gap of a $\ComplexLimitUp$ token $p$ when the source-domain accepts the regular sequence and limit package, the signature relation pairs that package with an answer target and evidence ledger, and the token-introduction relation names that answer as $p$; unfolded, the target components must be the ones encoded by $p$ and the ledger must display the modulus that proves the sequence is eventually within each requested distance. The chapter registers this regular-sequence convergence construction under the name $\ComplexLimitUp$; it introduces no completeness principle, no choice-based extraction of a limit point, and no standard complex-analysis bridge.}
   \theoryclosure{\matureClosure}
   \scopeclosed{The bridged paper scope is the semantic name certificate surface, constant-sequence row, pointwise closure rows, explicit modulus rows, and the paper bridge from those rows to the standard complex-limit schema.}
-  \formalstatus{\auditCleanV}
+  \formalstatus{\bridgeCheckedV}
   \leantarget{BEDC.Derived.ComplexLimitUp.ComplexLimit\_semanticNameCert}
-  \bridgestatus{paperBridge}
+  \bridgestatus{bridgeChecked}
   \notclaimed{The chapter does not close completeness of complex Cauchy sequences, standard complex-analysis bridge theorems, or choice-based extraction of limit points.}
-  \upgradepath{BridgeChecked status requires formal bridge-schema acceptance for the displayed complex-limit surface.}
+  \upgradepath{no further upgrade -- chapter at top of formal axis.}
 \end{closurestatus}

@@ -1,0 +1,13 @@
+\begin{theorem}[MetaCIC SN confluence-decidability handoff]
+\label{thm:metacic-critical-path-sn-confluence-decidability-handoff}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$ that displays a strong-normalization budget row, a confluence budget row, and a decidability budget row, every closed-normal-form membership decision routed through the packet must first pass through those three rows, then through the continuation and provenance rows $C,P,L$, before it exports the current open-phase ledger. The route exports no full MetaCIC consistency theorem, no closed subject-reduction theorem, no arbitrary Church--Rosser theorem, no global beta-conversion decision procedure, and no discharge of the socket row $D$.
+\end{theorem}
+\begin{proof}
+Start with the SN budget row. The candidate SN confluence-decidability budget theorem, \autoref{thm:metacic-critical-path-sn-confluence-budget}, places the strong-normalization read inside the finite socket route $S,N,O,U,D,H,C,P,L$ and the four current Phase Real faces.
+
+Next route confluence and decidability through the existing handoff surface. The confluence-decidability handoff exhaustion theorem, \autoref{thm:metacic-critical-path-confluence-decidability-handoff-exhaustion}, confines confluence-facing and decidability-facing reads to $U$ together with the obstruction, socket, transport, replay, provenance, and naming rows.
+
+Then apply the confluence-decidability budget theorem, \autoref{thm:metaciccriticalpath-confluence-decidability-budget}. It requires these reads to pass through the open L10 source ledger before any current Phase Real or Completion consumer may inspect them.
+
+Finally compose the three rows. A closed-normal-form membership decision may be read only after strong normalization supplies the normal-form route, confluence supplies the comparison handoff, and decidability supplies the bounded checker handoff. Since all three rows remain inside $K$ and its open-phase ledger, the route cannot promote itself to full MetaCIC consistency, closed subject reduction, arbitrary Church--Rosser, global beta-conversion decidability, or a discharged socket.
+\end{proof}

@@ -61,6 +61,21 @@ Apply the obligation theorem \autoref{thm:closed-parallel-diamond-premise-ledger
 Therefore a consumer reading closed-star confluence through this packet must carry $S$ and $D$ as premises. Since the carrier has no row proving either premise and no row for arbitrary closed confluence, the packet cannot be cited as an unconditional diamond or confluence proof.
 \end{proof}
 
+\begin{theorem}[Closed parallel diamond premise vision handoff]
+\label{thm:closed-parallel-diamond-premise-vision-handoff}
+Every confluence-vision consumer of $\ClosedParallelDiamondPremiseLedgerUp$ must read the closed parallel-step source row $P$, residual-substitution premise row $S$, closed parallel diamond premise row $D$, conditional closed-star handoff row $C$, closed-normal fragment row $N$, confluence audit row $R$, and parallel audit row $A$ before any closed-star confluence claim is available. The packet therefore refuses premise-free closed confluence: it exposes the vision handoff only as the displayed route
+$$
+P,S,D \longmapsto C \longmapsto N,R,A .
+$$
+\end{theorem}
+\begin{proof}
+Use the carrier definition \autoref{def:closed-parallel-diamond-premise-ledger-carrier}. Its rows $P,S,D,C,N,R,A$ are displayed separately, so a vision consumer cannot collapse the source, premise, conditional handoff, closed-normal fragment, and audit consumers into a single unnamed confluence fact.
+
+Apply \autoref{thm:closed-parallel-diamond-premise-ledger-obligations}. The local NameCert surface includes closed parallel-step source exposure, residual-substitution premise visibility, closed parallel diamond premise visibility, conditional handoff visibility, closed-normal fragment separation, confluence audit consumption, and parallel audit consumption.
+
+Thus the confluence-vision marker is read through the same finite ledger as the concrete chapter. Since the carrier has no row proving $\mathrm{BetaParallelDiamondClosed}$, no row proving residual-substitution compatibility, and no row for arbitrary closed Church--Rosser, the handoff cannot be used as premise-free closed confluence.
+\end{proof}
+
 \falsifiablePrediction{A conditional MetaCIC confluence bridge that consumes $\ClosedParallelDiamondPremiseLedgerUp$ must display closed parallel-step source rows, residual-substitution premise rows, the closed parallel diamond premise row, closed-star handoff rows, closed-normal seal rows, confluence audit rows, parallel audit rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{metacicconfluenceauditpacket, closednormalconfluenceseal, metacicresidualsubstitutionboundary, parallelconfluenceaudit: $\ClosedParallelDiamondPremiseLedgerUp$ is not bijective to any listed sibling because it jointly carries the closed parallel-step source, the residual-substitution premise row, the closed parallel diamond premise row, the conditional closed-star handoff, sibling audit consumers, transport, replay, provenance, and local NameCert rows.}

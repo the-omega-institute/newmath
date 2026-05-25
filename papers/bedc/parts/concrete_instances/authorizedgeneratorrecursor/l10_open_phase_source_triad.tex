@@ -50,3 +50,27 @@ Next use root-output totality and output provenance coverage. They keep L10-faci
 
 Thus the ledger exported to $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and completion-facing consumers is finite and local to the packet. Completion objects, real-completeness data, quotient completion equality, selected limits, and host completeness proofs are not rows of $R$, so they cannot escape from the ledger.
 \end{proof}
+
+\begin{corollary}[AuthorizedGeneratorRecursor L10 source-triad strict obstruction]
+\label{cor:authorized-generator-recursor-l10-source-triad-strict-obstruction}
+Let
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be an accepted $\AuthorizedGeneratorRecursorUp$ packet, and let a $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, or completion-facing L10 consumer display a failure, refusal, separation, or countermodel row against a named converse or reuse route for the source triad. Then that row is a strict local obstruction: it blocks only the named route whose consumer-facing read factors through the displayed finite route, transport, and readback rows
+$$
+I,E,M,B,D,O,A,H,C,P,G,N
+$$
+with $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ access. It cannot be reinterpreted as a global impossibility theorem, a host theorem about recursors or real completion, hidden external validation of the failed route, a selected real witness, a quotient stream equality, a completion object, or a proof-producing channel outside the accepted packet.
+\end{corollary}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorL10SourceTriadStrictObstruction}
+\begin{proof}
+Start with the L10 source triad in \autoref{thm:authorized-generator-recursor-l10-open-phase-source-triad}. It identifies the only rows available to an L10-facing finite-source consumer: signature admission $I$, emitted recursor naming $E$, motive checking $M$, branch coverage $B$, structural descent $D$, output naming $O$, audit provenance $A$, componentwise $\hsame$ transport $H$, continuation locality $C$, package provenance $P$, boundary refusal $G$, and the local $\NameCert_{\AuthorizedGeneratorRecursorUp}$ row $N$. The same theorem excludes host choice, detached induction, selected real data, quotient stream data, and external proof production as possible source reads.
+
+Now apply ledger non-escape, \autoref{thm:authorized-generator-recursor-open-phase-ledger-nonescape}. For L10-facing use, the exported ledger is exhausted by the audit row $A$ and boundary row $G$, and every consumer route is a finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route over the displayed packet. The ledger exports no completion object, real-completeness datum, quotient completion equality, selected limit, or host proof of completeness.
+
+Consider the displayed failure, refusal, separation, or countermodel row. If it is used by the named consumer against the authorized source triad, the two cited results force that use to pass through exactly the displayed packet rows and their $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ readback surface. Thus the row can obstruct only the advertised converse or reuse route at the packet coordinate where that route asks to read, replace, or bypass one of those rows.
+
+Any stronger interpretation asks for an unlisted coordinate. A global impossibility theorem would require a theorem surface beyond the finite packet; a host theorem would require host choice, detached induction, or a host completeness proof; hidden external validation would require an external certificate route; a selected real witness, quotient stream equality, completion object, or proof-producing channel would require one of the objects that the triad and the ledger explicitly refuse. Since none of those coordinates is exported by $R$, the obstruction remains strict and local to the named L10 source-triad route.
+\end{proof}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorL10SourceTriadStrictObstruction}

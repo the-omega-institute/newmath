@@ -1,0 +1,133 @@
+\begin{theorem}[SeparatedMetric carrier boundary]
+\label{thm:separatedmetric-carrier-boundary}
+Every accepted carrier read of a $\SeparatedMetricUp$ packet factors through the displayed $\MetricUp$ carrier row, the $\RealUp$ zero-distance witness row, the $\CompleteMetricUp$ limit rows, the $\CauchySequenceEquivalenceUp$ comparison row, and the structural rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. No consumer may read a separated classifier by omitting any of these carrier-boundary rows when the requested read is a completion-limit uniqueness read.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:separatedmetric-carrier}. Its coordinates list the metric source $X$, real-valued distance witness $D$, complete-metric limit rows $L_0,L_1$, comparison route $E$, transport $H$, replay $C$, provenance $P$, and local naming row $N$.
+
+For identity-facing reads, the metric and real rows expose the distance witness before the separation row is consumed. For completion-facing reads, the two complete-metric rows and the Cauchy-sequence equivalence route are projected before the same zero-distance route is available.
+
+The support rows are not optional. They transport, replay, source, and name the finite path, so every accepted carrier read factors through the listed BEDC rows rather than through host equality or an off-packet completion principle.
+\end{proof}
+
+\begin{theorem}[SeparatedMetric symmetry transport]
+\label{thm:separatedmetric-symmetry-transport}
+For an accepted $\SeparatedMetricUp$ carrier, zero-distance classifier evidence is stable under componentwise $\hsame$ transport and displayed $\Cont$ replay. If the endpoints, distance witness, zero-distance reading, completion rows, comparison row, provenance row, and local name are transported componentwise, the replayed route exports the transported separated classifier evidence and no additional equality principle.
+\end{theorem}
+\begin{proof}
+Use the transport row $H$ of \autoref{def:separatedmetric-carrier}. It moves endpoints, distance witnesses, zero-distance readings, completion rows, the comparison route, provenance, and the local naming row as components of one finite packet.
+
+Apply the replay row $C$ after transport. The replay forms the same metric-distance witness, reads it through the same $\RealUp$ zero-distance interface, and then consumes the transported separation row.
+
+Thus symmetry of the classifier evidence is a transported replay of the displayed route. It is not a conversion to host equality, quotient equality, selected representatives, trichotomy, choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[SeparatedMetric zero-distance refusal]
+\label{thm:separatedmetric-zero-distance-refusal}
+No accepted $\SeparatedMetricUp$ consumer may replace the separated zero-distance classifier route by host equality, quotient equality, trichotomy, choice, selected representatives, or ambient $\RealUp$ completeness. The only exported route from zero distance to identification is the finite route through $\MetricUp$, $\RealUp$, $\CompleteMetricUp$ when completion rows are present, $\CauchySequenceEquivalenceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:separatedmetric-namecert-obligations}. They make carrier admission, classifier stability, completion compatibility, zero-distance exactness, and ledger visibility the complete accepted surface.
+
+The zero-distance exactness row sends a metric-distance witness through the $\RealUp$ zero-distance reading before the separation row may be exported. Completion consumers must additionally display the two $\CompleteMetricUp$ rows and the $\CauchySequenceEquivalenceUp$ comparison route.
+
+The ledger visibility clause excludes each proposed replacement because none is a coordinate of the packet. Therefore the refused principles have no row to transport through $H$, replay through $C$, source through $P$, or name through $N$.
+\end{proof}
+
+\begin{definition}[SeparatedMetric zero-distance carrier]
+\label{def:separated-metric-zero-distance-carrier}
+A $\SeparatedMetricUp$ zero-distance carrier is a finite $\BHist$ packet
+$$
+\mathsf{SepZero}(X,D,Z,E,L,H,C,P,N)
+$$
+whose coordinates are exactly:
+\begin{enumerate}
+  \item $X$, the displayed $\MetricUp$ source row containing the carried endpoints and distance witness;
+  \item $D$, the $\RealUp$ distance witness row reading that distance as zero;
+  \item $Z$, the zero-distance refusal row that permits classifier identification only through the displayed zero-distance route;
+  \item $E$, the $\CauchySequenceEquivalenceUp$ handoff row used when the endpoints are completion names;
+  \item $L$, the $\CompleteMetricUp$ compatibility row binding completion-limit consumers to the same metric source;
+  \item $H$, the componentwise $\hsame$ transport ledger for endpoints, distance witnesses, zero rows, and completion rows;
+  \item $C$, the displayed $\Cont$ replay ledger for the same route;
+  \item $P$, the $\Pkg$ provenance row naming the source of the carrier;
+  \item $N$, the local $\NameCert_{\SeparatedMetricUp}$ row.
+\end{enumerate}
+The classifier of this carrier compares packets only by these rows. It has no coordinate for host equality, quotient metric equality, selected representatives, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[SeparatedMetric NameCert obligation surface]
+\label{thm:separated-metric-namecert-obligation-surface}
+For an accepted $\SeparatedMetricUp$ zero-distance carrier
+$$
+S=\mathsf{SepZero}(X,D,Z,E,L,H,C,P,N),
+$$
+the local $\NameCert_{\SeparatedMetricUp}$ surface is exactly the finite obligation surface consisting of the $\MetricUp$ source row $X$, the $\RealUp$ zero-distance witness $D$, the zero-distance refusal row $Z$, the $\CauchySequenceEquivalenceUp$ handoff $E$, the $\CompleteMetricUp$ compatibility row $L$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local naming row $N$.
+
+Every accepted identity or completion-uniqueness read must consume these rows in this order before it may export a point-classifier identification. The surface refuses host equality, quotient equality, selected representatives, trichotomy, open-cover compactness, and ambient completeness data because no such row occurs in $S$.
+\end{theorem}
+\begin{proof}
+Project the coordinates of \autoref{def:separated-metric-zero-distance-carrier}. The first three rows supply the metric source, the real-valued zero-distance witness, and the refusal that prevents classifier identification unless the zero-distance route has been displayed.
+
+For completion-facing reads, use the $\CauchySequenceEquivalenceUp$ and $\CompleteMetricUp$ rows before the separation classifier is consumed. These rows bind completion names to the displayed metric source rather than to a quotient completion object.
+
+Finally transport, replay, provenance, and naming pass through $H,C,P,N$. Since the carrier lists no additional coordinate, every accepted $\NameCert_{\SeparatedMetricUp}$ obligation is exhausted by the stated finite surface.
+\end{proof}
+
+\begin{theorem}[SeparatedMetric Cauchy-completion readback]
+\label{thm:separated-metric-cauchy-completion-readback}
+Let $S=\mathsf{SepZero}(X,D,Z,E,L,H,C,P,N)$ be an accepted $\SeparatedMetricUp$ zero-distance carrier. Any Cauchy or completion consumer that reads a zero-distance collapse from $S$ must route the read through the $\SeparatedMetricUp$ packet together with the displayed $\MetricUp$, $\RealUp$, $\CauchySequenceEquivalenceUp$, and $\CompleteMetricUp$ rows.
+
+The consumer may not read zero-distance collapse from a host Cauchy quotient, an ambient equality of completion endpoints, a selected limit, countable choice, trichotomy, or an untracked completeness theorem. The only exported conclusion is the classifier route named by $N$ after the displayed rows $X,D,Z,E,L,H,C,P$ have been consumed.
+\end{theorem}
+\begin{proof}
+Start with a Cauchy or completion consumer. If it asks for limit identification, the read first passes through $E$ and $L$, so the two completion-facing rows are bound to the same displayed metric source.
+
+Then apply the separated-metric route through $X,D,Z$. The metric row supplies the distance witness, the $\RealUp$ row reads that witness as zero, and the refusal row allows only the corresponding classifier identification.
+
+The remaining rows $H,C,P,N$ transport, replay, source, and name the route. No host quotient, selected limit, countable-choice schedule, trichotomy row, or ambient completeness theorem is present in the carrier, so the readback is confined to the listed BEDC rows.
+\end{proof}
+
+\begin{theorem}[SeparatedMetric root completion-limit handoff]
+\label{thm:separatedmetric-root-completion-limit-handoff}
+Every completion-limit classifier export from an accepted $\SeparatedMetricUp$ zero-distance carrier must first route through the $\CompleteMetricUp$ row, $\CauchySequenceEquivalenceUp$ row, $\MetricUp$ source row, $\RealUp$ zero-distance witness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. The export is therefore a readback of the finite carrier in \autoref{def:separated-metric-zero-distance-carrier} together with \autoref{thm:separated-metric-cauchy-completion-readback}, not a direct read from ambient completion equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:separated-metric-zero-distance-carrier}. The completion-facing rows are $L$ and $E$, the metric and zero-distance rows are $X,D,Z$, and the structural rows are $H,C,P,N$.
+
+Use \autoref{thm:separated-metric-cauchy-completion-readback}. It already forces Cauchy and completion consumers to route through the displayed $\SeparatedMetricUp$, $\MetricUp$, $\RealUp$, $\CauchySequenceEquivalenceUp$, and $\CompleteMetricUp$ rows.
+
+The completion-limit classifier export is therefore downstream of $L,E,X,D,Z,H,C,P,N$. Since no host completion equality or selected representative row occurs in the carrier, the export cannot bypass the finite handoff.
+\end{proof}
+
+\begin{theorem}[SeparatedMetric root classifier nonescape]
+\label{thm:separatedmetric-root-classifier-nonescape}
+The separated classifier of an accepted $\SeparatedMetricUp$ zero-distance carrier cannot be consumed from host equality, quotient equality, selected representatives, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness. It is consumable only through the displayed $\MetricUp$ source, $\RealUp$ zero-distance witness, separation row, $\CauchySequenceEquivalenceUp$ handoff, $\CompleteMetricUp$ compatibility row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:separated-metric-zero-distance-carrier}. Its rows are exactly $X,D,Z,E,L,H,C,P,N$, and none of the excluded host or quotient principles is a carrier coordinate.
+
+Apply \autoref{thm:separated-metric-cauchy-completion-readback}. Any completion-facing consumption of the classifier must pass through the displayed Cauchy and completion rows before the local name is exported.
+
+The nonescape claim follows because every permitted classifier read is already accounted for by the finite carrier rows, while host equality, quotient equality, selected representatives, trichotomy, open-cover compactness, and ambient $\RealUp$ completeness have no row to transport, replay, source, or name.
+\end{proof}
+\begin{theorem}[SeparatedMetric root distance-completion row exhaustion]
+\label{thm:separatedmetric-root-distance-completion-row-exhaustion}
+For every accepted $\SeparatedMetricUp$ zero-distance carrier $S=\mathsf{SepZero}(X,D,Z,E,L,H,C,P,N)$, the zero-distance and completion-equivalence obligations are exhausted by the rows $X,D,Z,E,L,H,C,P,N$ together with \autoref{thm:separatedmetric-root-zero-distance-dependency}, \autoref{thm:separatedmetric-root-completion-limit-handoff}, and \autoref{thm:separatedmetric-root-classifier-nonescape}.
+\end{theorem}
+\begin{proof}
+Project $S$. The cited root theorems first expose $X,D,Z$, then route completion-facing reads through $E,L$, and finally refuse every classifier read not carried by $H,C,P,N$.
+\end{proof}
+\begin{theorem}[SeparatedMetric Real-seal classifier transport budget]
+\label{thm:separatedmetric-real-seal-classifier-transport-budget}
+Every Real-seal classifier transport from an accepted carrier $S=\mathsf{SepZero}(X,D,Z,E,L,H,C,P,N)$ must consume the zero-distance row $D$, the completion handoff rows $E,L$, and the structural budget $H,C,P,N$ before any separated classifier export is available.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:separatedmetric-root-completion-limit-handoff} to place completion reads behind $E,L$ and \autoref{thm:separatedmetric-root-classifier-nonescape} to keep the classifier behind $X,D,Z,H,C,P,N$.
+\end{proof}
+\begin{theorem}[SeparatedMetric NameCert consumer row coverage]
+\label{thm:separatedmetric-namecert-consumer-row-coverage}
+Every accepted $\NameCert_{\SeparatedMetricUp}$ consumer row for $S=\mathsf{SepZero}(X,D,Z,E,L,H,C,P,N)$ is covered by the zero-distance route, the completion-equivalence route, or the classifier nonescape route, and no consumer row can be sourced from host equality, quotient equality, selected representatives, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:separatedmetric-root-distance-completion-row-exhaustion}. Its row exhaustion combines the zero-distance dependency, completion-limit handoff, and classifier nonescape statements, leaving no carrier coordinate for the excluded consumers.
+\end{proof}

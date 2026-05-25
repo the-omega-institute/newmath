@@ -153,6 +153,72 @@ theorem CompletionReflectionPacket_namecert_obligations [AskSetup] [PackageSetup
       exact And.intro source.left (And.intro source.right packet.right.right.right.right.right.right.right.right.right.right.right.right.right)
   }
 
+theorem CompletionReflectionPacket_carrier_scope [AskSetup] [PackageSetup]
+    {completion universal separated diagonal regular sealRow transport route package provenance
+      cert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionReflectionPacket completion universal separated diagonal regular sealRow transport route
+        package provenance cert bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist => hsame row cert ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row completion ∨ hsame row universal ∨ hsame row separated ∨
+              hsame row diagonal ∨ hsame row regular ∨ hsame row sealRow ∨
+                hsame row transport ∨ hsame row route ∨ hsame row package ∨
+                  hsame row provenance ∨ hsame row cert)
+          (fun row : BHist => PkgSig bundle cert pkg ∧ hsame row cert)
+          hsame ∧
+        UnaryHistory completion ∧ UnaryHistory universal ∧ UnaryHistory separated ∧
+          UnaryHistory diagonal ∧ UnaryHistory regular ∧ UnaryHistory sealRow ∧
+            UnaryHistory transport ∧ UnaryHistory route ∧ UnaryHistory package ∧
+              UnaryHistory provenance ∧ UnaryHistory cert ∧ Cont completion universal package ∧
+                Cont transport route provenance ∧ PkgSig bundle cert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro packet
+  obtain ⟨completionUnary, universalUnary, separatedUnary, diagonalUnary, regularUnary,
+    sealUnary, transportUnary, routeUnary, packageUnary, provenanceUnary, certUnary,
+    packageRow, provenanceRow, certSig⟩ := packet
+  have semantic :
+      SemanticNameCert
+        (fun row : BHist => hsame row cert ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row completion ∨ hsame row universal ∨ hsame row separated ∨
+            hsame row diagonal ∨ hsame row regular ∨ hsame row sealRow ∨
+              hsame row transport ∨ hsame row route ∨ hsame row package ∨
+                hsame row provenance ∨ hsame row cert)
+        (fun row : BHist => PkgSig bundle cert pkg ∧ hsame row cert)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro cert (And.intro (hsame_refl cert) certUnary)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact
+          And.intro (hsame_trans (hsame_symm sameRows) source.left)
+            (unary_transport source.right sameRows)
+    }
+    pattern_sound := by
+      intro row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr (Or.inr source.left)))))))))
+    ledger_sound := by
+      intro row source
+      exact And.intro certSig source.left
+  }
+  exact
+    ⟨semantic, completionUnary, universalUnary, separatedUnary, diagonalUnary, regularUnary,
+      sealUnary, transportUnary, routeUnary, packageUnary, provenanceUnary, certUnary,
+      packageRow, provenanceRow, certSig⟩
+
 theorem CompletionReflectionPacket_provenance_route_scope [AskSetup] [PackageSetup]
     {completion universal separated diagonal regular sealRow transport route package provenance
       cert audit : BHist}
@@ -331,6 +397,72 @@ theorem CompletionReflectionPacket_standard_bridge_boundary [AskSetup] [PackageS
   exact
     ⟨reflectedUnary, extensionUnary, bridgeUnary, reflectedSame, extensionSame,
       reflectedRow, extensionRow, bridgeRow, certPkg⟩
+
+theorem CompletionReflectionPacket_regular_source_tail_reflection [AskSetup] [PackageSetup]
+    {completion universal separated diagonal regular sealRow transport route package provenance cert
+      reflected extension audit : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionReflectionPacket completion universal separated diagonal regular sealRow transport route
+        package provenance cert bundle pkg ->
+      Cont diagonal regular reflected ->
+        hsame reflected sealRow ->
+          Cont universal completion extension ->
+            hsame extension package ->
+              Cont route provenance audit ->
+                PkgSig bundle audit pkg ->
+                  UnaryHistory reflected ∧ UnaryHistory sealRow ∧ UnaryHistory extension ∧
+                    UnaryHistory audit ∧ Cont diagonal regular reflected ∧
+                      Cont universal completion extension ∧ Cont route provenance audit ∧
+                        hsame reflected sealRow ∧ hsame extension package ∧
+                          PkgSig bundle cert pkg ∧ PkgSig bundle audit pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet reflectedRow reflectedSame extensionRow extensionSame auditRow auditPkg
+  obtain ⟨_diagonalUnary, _regularUnary, reflectedUnary, sealUnary, extensionUnary,
+    _routeUnary, _provenanceUnary, auditUnary, reflectedRoute, extensionRoute, auditRoute,
+    reflectedSame', extensionSame', certPkg, auditPkg'⟩ :=
+    CompletionReflectionPacket_stream_regseq_real_factor packet reflectedRow reflectedSame
+      extensionRow extensionSame auditRow auditPkg
+  exact
+    ⟨reflectedUnary, sealUnary, extensionUnary, auditUnary, reflectedRoute, extensionRoute,
+      auditRoute, reflectedSame', extensionSame', certPkg, auditPkg'⟩
+
+theorem CompletionReflectionPacket_real_completion_functor_handoff [AskSetup] [PackageSetup]
+    {completion universal separated diagonal regular sealRow transport route package provenance cert
+      reflected extension functorRead completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionReflectionPacket completion universal separated diagonal regular sealRow transport route
+        package provenance cert bundle pkg ->
+      Cont diagonal regular reflected ->
+        hsame reflected sealRow ->
+          Cont universal completion extension ->
+            hsame extension package ->
+              Cont reflected extension functorRead ->
+                Cont functorRead cert completionRead ->
+                  PkgSig bundle completionRead pkg ->
+                    UnaryHistory reflected ∧ UnaryHistory extension ∧
+                      UnaryHistory functorRead ∧ UnaryHistory completionRead ∧
+                        Cont diagonal regular reflected ∧ Cont universal completion extension ∧
+                          Cont reflected extension functorRead ∧
+                            Cont functorRead cert completionRead ∧
+                              PkgSig bundle cert pkg ∧
+                                PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet reflectedRow _reflectedSame extensionRow _extensionSame functorRow
+    completionReadRow completionReadPkg
+  obtain ⟨completionUnary, universalUnary, _separatedUnary, diagonalUnary, regularUnary,
+    _sealUnary, _transportUnary, _routeUnary, _packageUnary, _provenanceUnary, certUnary,
+    _packageRow, _provenanceRow, certPkg⟩ := packet
+  have reflectedUnary : UnaryHistory reflected :=
+    unary_cont_closed diagonalUnary regularUnary reflectedRow
+  have extensionUnary : UnaryHistory extension :=
+    unary_cont_closed universalUnary completionUnary extensionRow
+  have functorUnary : UnaryHistory functorRead :=
+    unary_cont_closed reflectedUnary extensionUnary functorRow
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed functorUnary certUnary completionReadRow
+  exact
+    ⟨reflectedUnary, extensionUnary, functorUnary, completionReadUnary, reflectedRow,
+      extensionRow, functorRow, completionReadRow, certPkg, completionReadPkg⟩
 
 theorem CompletionReflectionPacket_classifier_scope [AskSetup] [PackageSetup]
     {completion universal separated diagonal regular sealRow transport route package provenance

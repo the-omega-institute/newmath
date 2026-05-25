@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\DecidableBetaFrontierUp$}
+\label{ch:concrete-instances-decidable-beta-frontier-namecert}
+\origin{ai}
+
+The $\DecidableBetaFrontierUp$ packet realizes the bounded MetaCIC beta-audit window named in \autoref{ch:metacic-open-problems} as finite NameCert data. It sits beside the literal lambda-calculus substrate of \autoref{ch:concrete-instances-lambdacalc-namecert}, the beta-redex frontier of \autoref{ch:concrete-instances-metacic-redex-frontier-namecert}, the decidability audit packet of \autoref{ch:concrete-instances-metacicdecidableauditpacket-namecert}, and the GroundCompiler audit map of \autoref{ch:concrete-instances-groundcompilerauditmap-namecert}. The packet records a bounded audit frontier for beta checking; it does not claim full normalization, arbitrary closed beta-conversion decidability, closed subject reduction, or global Church--Rosser.
+
+\begin{definition}[Decidable beta frontier carrier]
+\label{def:decidable-beta-frontier-carrier}
+A $\DecidableBetaFrontierUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,L,W,Q,A,G,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the MetaCIC audit-source row, reading the open-problem and decidability boundaries of \autoref{ch:metacic-open-problems}.
+\item $L$ is the $\LambdaCalcUp$ syntax and beta-step row, anchored in \autoref{ch:concrete-instances-lambdacalc-namecert}.
+\item $W$ is the bounded beta-frontier window: it fixes the finite depth, fuel, closedness observations, and normal-output comparisons that the packet may inspect.
+\item $Q$ is the bounded checker row, read through the finite decidability surface of \autoref{ch:concrete-instances-metacicdecidableauditpacket-namecert}.
+\item $A$ is the audit refusal row, recording why the bounded window is not a proof of full normalization or unrestricted beta-conversion decidability.
+\item $G$ is the GroundCompiler provenance row, read through \autoref{ch:concrete-instances-groundcompilerauditmap-namecert} only as compiler-layer audit data.
+\item $R$ is the redex-frontier handoff row, read through \autoref{ch:concrete-instances-metacic-redex-frontier-namecert}.
+\item $H$ records componentwise $\hsame$ transport for the audit source, lambda syntax row, bounded window, checker row, refusal row, compiler provenance, frontier handoff, continuation replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the bounded audit route.
+\item $P$ is the $\Pkg$ provenance over $\DecidableBetaFrontierUp$, MetaCIC audit rows, $\LambdaCalcUp$, bounded checker rows, GroundCompiler audit rows, beta-frontier rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DecidableBetaFrontierUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for full normalization, arbitrary closed conversion decidability, closed subject reduction, residual-substitution compatibility, global confluence, host evaluator equality, or hidden compiler evidence.
+\end{definition}
+
+\begin{theorem}[Decidable beta frontier NameCert obligations]
+\label{thm:decidable-beta-frontier-namecert-obligations}
+For every accepted $\DecidableBetaFrontierUp$ carrier $B=(M,L,W,Q,A,G,R,H,C,P,N)$, the local $\NameCert_{\DecidableBetaFrontierUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the MetaCIC audit source, LambdaCalc syntax row, bounded beta window, checker row, refusal row, GroundCompiler provenance, redex-frontier handoff, transport, replay, provenance, and local naming;
+\item bounded-window exactness, requiring every beta-check request to name the finite depth, fuel, closedness observations, and normal-output comparisons in $W$;
+\item checker accountability, requiring $Q$ to expose only bounded checker facts already visible at the decidability audit surface;
+\item frontier refusal, requiring $A$ to record the non-claim against full normalization, unrestricted conversion decidability, subject reduction, and global confluence;
+\item compiler-layer provenance, requiring $G$ to be read only as a GroundCompiler audit row and not as hidden semantic evidence;
+\item structural stability, requiring $H,C,P,N$ to transport, replay, source, and name only the rows already listed.
+\end{enumerate}
+No decidable beta frontier obligation is stored outside $B$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:decidable-beta-frontier-carrier}. The displayed packet exposes the MetaCIC audit source, lambda syntax row, bounded window, checker row, refusal row, compiler provenance, redex-frontier handoff, and structural rows.
+
+Bounded-window exactness is the row $W$. A beta-check request cannot enter the packet unless its finite depth, fuel, closedness observations, and normal-output comparisons have been fixed as displayed data.
+
+Checker accountability is the row $Q$, and frontier refusal is the row $A$. The checker row may report bounded facts, while the refusal row keeps full normalization, unrestricted conversion decidability, subject reduction, and global confluence outside the carrier.
+
+The compiler and redex rows are $G$ and $R$. They provide audit provenance and frontier routing, not semantic shortcuts. Since $H,C,P,N$ only transport, replay, source, and name displayed rows, the local obligations are exhausted by the finite packet.
+\end{proof}
+
+\begin{theorem}[Decidable beta frontier MetaCIC handoff]
+\label{thm:decidable-beta-frontier-metacic-handoff}
+Every MetaCIC, $\LambdaCalcUp$, or GroundCompiler-facing consumer of an accepted $\DecidableBetaFrontierUp$ carrier $B=(M,L,W,Q,A,G,R,H,C,P,N)$ must read the bounded route
+$$
+M,L \longmapsto W \longmapsto Q \longmapsto A \longmapsto G,R \longmapsto H,C,P,N .
+$$
+The handoff exposes the MetaCIC audit source, LambdaCalc syntax, bounded beta window, checker row, refusal ledger, GroundCompiler provenance, redex-frontier handoff, transport, replay, provenance, and local naming before any beta-frontier conclusion is consumed.
+\end{theorem}
+\begin{proof}
+Start with a MetaCIC, LambdaCalc, or GroundCompiler-facing read of $B$. The carrier gives the audit source $M$ and lambda syntax row $L$ as the only source coordinates.
+
+The finite audit boundary is $W \longmapsto Q$. The bounded window fixes the observed beta frontier, and the checker row reads only that finite window.
+
+The refusal and provenance rows are then forced into the route. The row $A$ records the non-claims, while $G$ and $R$ expose GroundCompiler audit provenance and redex-frontier handoff without adding hidden semantic evidence.
+
+Finally $H,C,P,N$ replay and name the same packet. Therefore no consumer can turn the bounded frontier into full normalization, unrestricted beta-conversion decidability, closed subject reduction, residual-substitution compatibility, global confluence, host evaluator equality, or a compiler fact absent from the displayed rows.
+\end{proof}
+
+\begin{theorem}[Decidable beta frontier TasteGate boundary]
+\label{thm:decidable-beta-frontier-tastegate-boundary}
+The Lean-facing $\mathsf{TasteGate.lean}$ site for $\DecidableBetaFrontierUp$ must provide explicit $\mathsf{Nontrivial}\ \DecidableBetaFrontierUp$ and $\mathsf{FieldFaithful}\ \DecidableBetaFrontierUp$ instances for the displayed rows $M,L,W,Q,A,G,R,H,C,P,N$. These instances preserve the distinction between bounded checker evidence, redex-frontier handoff, refusal ledger, and compiler-layer provenance before any checked carrier-alignment target may cite $\mathsf{BEDC.Derived.DecidableBetaFrontierUp}$.
+\end{theorem}
+\begin{proof}
+Read the carrier rows of \autoref{def:decidable-beta-frontier-carrier}. The bounded window, checker row, refusal ledger, compiler provenance, and redex-frontier handoff have different consumer roles and cannot be collapsed without changing the NameCert surface.
+
+Nontriviality rules out the degenerate packet in which the frontier has no distinguishable bounded audit row. Field faithfulness requires each displayed coordinate $M,L,W,Q,A,G,R,H,C,P,N$ to survive transport as the same named row.
+
+Thus the later Lean TasteGate site must keep those rows separate before it records a carrier-alignment theorem for the packet.
+\end{proof}
+
+\falsifiablePrediction{Every $\DecidableBetaFrontierUp$ beta-frontier read factors through displayed MetaCIC audit source, LambdaCalc syntax, bounded window, checker row, refusal ledger, GroundCompiler provenance, redex-frontier handoff, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+
+\independenceWitness{MetaCIC, LambdaCalc, GroundCompiler: $\DecidableBetaFrontierUp$ is not bijective to any listed sibling because it jointly carries bounded beta-window data, checker accountability, refusal rows, compiler-layer provenance, redex-frontier handoff, transport, replay, provenance, and local naming.}
+
+\closureat{DecidableBetaFrontierUp}{seedStr}
+\begin{closurestatus}{\DecidableBetaFrontierUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:decidable-beta-frontier-carrier}, \autoref{thm:decidable-beta-frontier-namecert-obligations}, \autoref{thm:decidable-beta-frontier-metacic-handoff}, and \autoref{thm:decidable-beta-frontier-tastegate-boundary} seed the finite bounded beta-frontier route over MetaCIC, LambdaCalc, GroundCompiler, and beta-audit rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full normalization, unrestricted closed beta-conversion decidability, closed subject reduction, residual-substitution compatibility, global confluence, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-window exactness, checker accountability, frontier refusal, compiler-layer provenance, redex-frontier handoff, TasteGate nontriviality, and field faithfulness for BEDC.Derived.DecidableBetaFrontierUp.}
+  \constructivestory{A $\DecidableBetaFrontierUp$ packet is generated from a MetaCIC audit source, LambdaCalc syntax row, bounded beta window, checker row, refusal ledger, GroundCompiler provenance, redex-frontier handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

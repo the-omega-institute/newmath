@@ -284,6 +284,20 @@ theorem UniformCompletion_cauchy_filter_factorization {F D U E H C P N : BHist} 
       · exact uniformCompletionDecode_encode_bhist F
       · exact uniformCompletionDecode_encode_bhist D
 
+theorem UniformCompletion_directed_net_witness {F D U E H C P N : BHist} :
+    Cont F D U →
+      uniformCompletionFields (UniformCompletionUp.mk F D U E H C P N) =
+          [F, D, U, E, H, C, P, N] ∧
+        hsame (uniformCompletionDecodeBHist (uniformCompletionEncodeBHist D)) D ∧
+          Exists (fun route : BHist => Cont F D route) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro route
+  constructor
+  · rfl
+  · constructor
+    · exact uniformCompletionDecode_encode_bhist D
+    · exact ⟨U, route⟩
+
 theorem UniformCompletion_namecert_obligation_surface
     [AskSetup] [PackageSetup]
     {F D U E H C P N audit : BHist}
@@ -308,7 +322,7 @@ theorem UniformCompletion_universal_extension_uniqueness
           hsame route H →
             hsame route' H →
               UniformCompletionClassifier route route' ∧
-                UniformCompletionLedgerPolicy N ∧
+                  UniformCompletionLedgerPolicy N ∧
                   UniformCompletionCauchyFilterPattern N := by
   -- BEDC touchpoint anchor: BHist Cont hsame NameCert
   intro carrier routeLeft routeRight sameRoute sameRoute'
@@ -321,6 +335,24 @@ theorem UniformCompletion_universal_extension_uniqueness
     · exact
         ⟨F0, D0, U0, filterRoute, E0, H0, C0, P0, N0, sameName,
           extensionRoute, replayRoute, ledgerRoute⟩
+
+theorem UniformCompletion_scope_lock {row : BHist} :
+    UniformCompletionCarrier row →
+      UniformCompletionCauchyFilterPattern row ∧
+        UniformCompletionLedgerPolicy row ∧
+          UniformCompletionClassifier
+            (uniformCompletionDecodeBHist (uniformCompletionEncodeBHist row)) row := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame NameCert
+  intro carrier
+  obtain ⟨F, D, U, E, H, C, P, N, sameName, filterRoute, extensionRoute,
+    replayRoute, ledgerRoute⟩ := carrier
+  constructor
+  · exact
+      ⟨F, D, U, filterRoute, E, H, C, P, N, sameName, extensionRoute,
+        replayRoute, ledgerRoute⟩
+  · constructor
+    · exact ⟨P, N, sameName, ledgerRoute⟩
+    · exact uniformCompletionDecode_encode_bhist row
 
 theorem UniformCompletion_universal_ledger_nonescape {F D U E H C P N route : BHist} :
     UniformCompletionCarrier N →
@@ -339,6 +371,56 @@ theorem UniformCompletion_universal_ledger_nonescape {F D U E H C P N route : BH
     · exact
         ⟨F0, D0, U0, filterRoute, E0, H0, C0, P0, N0, sameName,
           extensionRoute, replayRoute, ledgerRoute⟩
+
+theorem UniformCompletion_filter_net_exactness
+    {F D U E H C P N request witness extensionRead : BHist} :
+    UniformCompletionCarrier N →
+      Cont F D U →
+        Cont F request witness →
+          hsame request D →
+            Cont U E extensionRead →
+              UniformCompletionCauchyFilterPattern N ∧
+                UniformCompletionLedgerPolicy N ∧
+                  UniformCompletionClassifier request D ∧
+                    Exists (fun route : BHist => Cont F D route) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame NameCert
+  intro carrier displayedRoute _requestRoute sameRequest _extensionRead
+  obtain ⟨F0, D0, U0, E0, H0, C0, P0, N0, sameName, filterRoute,
+    extensionRoute, replayRoute, ledgerRoute⟩ := carrier
+  constructor
+  · exact
+      ⟨F0, D0, U0, filterRoute, E0, H0, C0, P0, N0, sameName,
+        extensionRoute, replayRoute, ledgerRoute⟩
+  · constructor
+    · exact ⟨P0, N0, sameName, ledgerRoute⟩
+    · constructor
+      · exact sameRequest
+      · exact ⟨U, displayedRoute⟩
+
+theorem UniformCompletion_directed_subwindow_extraction
+    {F D U E H C P N subwindow routeRead extensionRead : BHist} :
+    UniformCompletionCarrier N →
+      Cont F D U →
+        Cont D subwindow routeRead →
+          Cont U E extensionRead →
+            hsame subwindow D →
+              Exists (fun route : BHist => Cont D subwindow route) ∧
+                UniformCompletionCauchyFilterPattern N ∧
+                  UniformCompletionLedgerPolicy N ∧
+                    UniformCompletionClassifier subwindow D := by
+  -- BEDC touchpoint anchor: BHist Cont hsame NameCert
+  intro carrier _displayedRoute subwindowRoute _extensionRead sameSubwindow
+  obtain ⟨F0, D0, U0, E0, H0, C0, P0, N0, sameName, filterRoute,
+    extensionRoute, replayRoute, ledgerRoute⟩ := carrier
+  constructor
+  · exact ⟨routeRead, subwindowRoute⟩
+  · constructor
+    · exact
+        ⟨F0, D0, U0, filterRoute, E0, H0, C0, P0, N0, sameName,
+          extensionRoute, replayRoute, ledgerRoute⟩
+    · constructor
+      · exact ⟨P0, N0, sameName, ledgerRoute⟩
+      · exact sameSubwindow
 
 theorem UniformCompletion_real_regseqrat_handoff {F D U E H C P N realRead : BHist} :
     UniformCompletionCarrier N →
@@ -481,5 +563,25 @@ def taste_gate : ChapterTasteGate UniformCompletionUp :=
   BEDC.Derived.UniformCompletionUp.taste_gate
 
 end TasteGate
+
+theorem UniformCompletion_filter_net_obligations {F D U E H C P N : BHist}
+    (filterRoute : Cont F D U) (extensionRoute : Cont U E H)
+    (replayRoute : Cont H C P) (ledgerRoute : Cont P BHist.Empty N) :
+    TasteGate.UniformCompletionCarrier N ∧
+      TasteGate.UniformCompletionCauchyFilterPattern N ∧
+        TasteGate.UniformCompletionLedgerPolicy N ∧
+          hsame (uniformCompletionDecodeBHist (uniformCompletionEncodeBHist N)) N := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame NameCert
+  constructor
+  · exact
+      ⟨F, D, U, E, H, C, P, N, hsame_refl N, filterRoute, extensionRoute,
+        replayRoute, ledgerRoute⟩
+  · constructor
+    · exact
+        ⟨F, D, U, filterRoute, E, H, C, P, N, hsame_refl N, extensionRoute,
+          replayRoute, ledgerRoute⟩
+    · constructor
+      · exact ⟨P, N, hsame_refl N, ledgerRoute⟩
+      · exact uniformCompletionDecode_encode_bhist N
 
 end BEDC.Derived.UniformCompletionUp

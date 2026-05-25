@@ -1,10 +1,14 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.CauchyNetLimitUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 
 theorem CauchyNetLimitCarrier_semantic_name_certificate
     (K W R D A H C P N : BHist) :
@@ -119,5 +123,65 @@ theorem CauchyNetLimitCarrier_semantic_name_certificate
       intro _row source
       exact source
   }
+
+theorem CauchyNetLimitCarrier_real_seal_handoff
+    {K W R D A H C P N windowRead readbackRead toleranceRead sealRead namedRead : BHist} :
+    Cont K W windowRead ->
+      Cont windowRead R readbackRead ->
+        Cont readbackRead D toleranceRead ->
+          Cont toleranceRead A sealRead ->
+            Cont sealRead H namedRead ->
+              UnaryHistory K ->
+                UnaryHistory W ->
+                  UnaryHistory R ->
+                    UnaryHistory D ->
+                      UnaryHistory A ->
+                        UnaryHistory H ->
+                          UnaryHistory windowRead ∧ UnaryHistory readbackRead ∧
+                            UnaryHistory toleranceRead ∧ UnaryHistory sealRead ∧
+                              UnaryHistory namedRead ∧ Cont K W windowRead ∧
+                                Cont windowRead R readbackRead ∧
+                                  Cont readbackRead D toleranceRead ∧
+                                    Cont toleranceRead A sealRead ∧
+                                      Cont sealRead H namedRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro windowRoute readbackRoute toleranceRoute sealRoute namedRoute
+  intro kUnary wUnary rUnary dUnary aUnary hUnary
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed kUnary wUnary windowRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed windowUnary rUnary readbackRoute
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed readbackUnary dUnary toleranceRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed toleranceUnary aUnary sealRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed sealUnary hUnary namedRoute
+  exact
+    ⟨windowUnary, readbackUnary, toleranceUnary, sealUnary, namedUnary, windowRoute,
+      readbackRoute, toleranceRoute, sealRoute, namedRoute⟩
+
+theorem CauchyNetLimitCarrier_directed_window_obligations
+    {K W R D windowRead readbackRead toleranceRead : BHist} :
+    Cont K W windowRead →
+      Cont windowRead R readbackRead →
+        Cont readbackRead D toleranceRead →
+          UnaryHistory K →
+            UnaryHistory W →
+              UnaryHistory R →
+                UnaryHistory D →
+                  UnaryHistory windowRead ∧ UnaryHistory readbackRead ∧
+                    UnaryHistory toleranceRead ∧ Cont K W windowRead ∧
+                      Cont windowRead R readbackRead ∧ Cont readbackRead D toleranceRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro windowRoute readbackRoute toleranceRoute kUnary wUnary rUnary dUnary
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed kUnary wUnary windowRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed windowUnary rUnary readbackRoute
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed readbackUnary dUnary toleranceRoute
+  exact
+    ⟨windowUnary, readbackUnary, toleranceUnary, windowRoute, readbackRoute, toleranceRoute⟩
 
 end BEDC.Derived.CauchyNetLimitUp

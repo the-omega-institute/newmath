@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyModulusRealizerUp

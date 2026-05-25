@@ -117,3 +117,41 @@ the finite rows $C,P,N,S,T$ and the local $\NameCert$ obligations, so no
 unstated compiler semantics or decompiler correctness theorem can enter the
 continuation route.
 \end{proof}
+
+\begin{theorem}[CertificateCompiler root landing bridge determinacy]
+\label{thm:certificate-compiler-root-landing-bridge-determinacy}
+Let $K=(S,T,G,E,C,H,P,N)$ be an accepted $\CertificateCompilerUp$ packet. Every consumer-facing bridge use of root landing data for $K$, including a displayed edge route, classifier transport, endpoint readback, continuation readback, package handoff, or local naming handoff, factors through the local row surface
+$$
+S,T,G,E,C,H,P,N.
+$$
+More precisely, landing is determined by $S,T,G,E$, paired-edge classifier transport is determined by $S,T,H,C$, continuation route readback is determined by $C$ over the endpoint rows $S,T$, and the handoff rows $P,N$ can only repack those displayed obligations. No host compiler equality, ambient program equivalence, optimizer correctness, decompiler behavior, external semantic relation, or unrecorded target behavior supplies an additional bridge coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_root\_landing\_bridge\_determinacy}
+\begin{proof}
+Start with root landing. By \autoref{thm:certificate-compiler-root-landing-obligation}, a root consumer may treat a displayed graph edge as landed only after reading the endpoint rows $S,T$, the displayed graph row $G$, and the edge-landing row $E$. Thus every bridge use whose first demand is endpoint readback, graph readback, or target landing is already forced through $S,T,G,E$.
+
+Next read classifier transport. By \autoref{thm:certificate-compiler-root-classifier-transport-obligation}, paired-edge comparison is exhausted by the source and target endpoint rows $S,T$, the componentwise $\hsame$ row $H$, and the continuation row $C$. Hence a consumer cannot turn a landing bridge into an independent classifier witness: the only accepted transport reads the same endpoints, moves the target classifier through $H$, and follows the paired $\Cont$ routes in $C$.
+
+Now apply \autoref{thm:certificate-compiler-root-continuation-route-obligation}. A downstream route consumer reads continuation compatibility through $C$, package provenance through $P$, and local naming through $N$ together with the endpoint certificates $S,T$. Therefore route readback, continuation readback, package handoff, and local naming handoff do not create a second bridge surface; they publish the same finite landing and transport rows to downstream consumers.
+
+Combining the three obligations gives determinacy. The landing rows $S,T,G,E$ decide which displayed edge has landed, the transport rows $S,T,H,C$ decide which paired-edge classifier comparison is available, and the rows $C,P,N$ decide how that route is handed to later consumers. Each listed row has a fixed role in the packet, while the carrier and classifier supply no coordinate for host compiler equality, ambient program equivalence, optimizer correctness, decompiler behavior, an external semantic relation, or unrecorded target behavior. Any attempted bridge coordinate outside $S,T,G,E,C,H,P,N$ therefore has no row to read, and every permitted consumer-facing use factors through the cited local rows.
+\end{proof}
+
+\begin{corollary}[CertificateCompiler root landing consumer determinacy]
+\label{cor:certificate-compiler-root-landing-consumer-determinacy}
+Let $K=(S,T,G,E,C,H,P,N)$ be an accepted $\CertificateCompilerUp$ packet, and fix the consumer-visible rows cited by \autoref{thm:certificate-compiler-root-landing-bridge-determinacy}: the source endpoint row $S$, the target endpoint row $T$, the displayed compiler graph $G$, the edge-landing row $E$, the continuation row $C$, the componentwise $\hsame$ transport row $H$, the package provenance row $P$, and the local $\NameCert_{\CertificateCompilerUp}$ row $N$. Then any accepted consumer-facing use of root landing data for $K$ must pick the same finite displayed edge route, the same continuation readback route, the same package or local naming handoff, and the same classifier-exactness decision determined by those rows. It cannot pick an alternate hidden coordinate, a duplicate source classifier row, a second endpoint readback source, host compiler equality, ambient program equivalence, optimizer correctness, decompiler behavior, an external semantic relation, or unrecorded target behavior.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:certificate-compiler-root-landing-obligation}, root landing can be consumed only after the consumer has read $S,T,G,E$. Thus the landing part of any accepted use is already pinned to the source endpoint certificate, target endpoint certificate, displayed graph edge, and edge-landing row named in the packet. There is no carrier coordinate from which the consumer could obtain another landing witness, endpoint readback, or source classifier row.
+
+Apply \autoref{thm:certificate-compiler-root-landing-bridge-determinacy}. It lists the consumer-facing bridge uses of the same root landing data: displayed edge route, classifier transport, endpoint readback, continuation readback, package handoff, and local naming handoff. The theorem states that each such use factors through the finite row surface
+$$
+S,T,G,E,C,H,P,N.
+$$
+It also separates the roles of the rows: $S,T,G,E$ determine landing, $S,T,H,C$ determine paired-edge classifier transport, $C$ over $S,T$ determines continuation readback, and $P,N$ only repack those obligations for package and local naming handoff.
+
+The remaining alternatives are therefore ruled out by absence of a row to read. A claimed alternate finite route would have to alter the displayed graph, edge landing, continuation row, or handoff row, but those are fixed as $G,E,C,P,N$. A claimed different normal form would have to use an identity, composite, or readback surface outside the displayed packet, but \autoref{thm:certificate-compiler-root-landing-bridge-determinacy} permits only the listed bridge surface for consumer-facing use. A claimed different classifier-exactness decision would have to replace the source classifier row in $S$, the target classifier row in $T$, the componentwise transport row $H$, or the paired $\Cont$ row $C$, but the classifier transport part of the bridge determinacy theorem exhausts exactly $S,T,H,C$.
+
+Consequently, once the cited local rows are fixed, every accepted consumer-facing use lands on the same displayed route, readback route, handoff, or exactness decision named by the $\CertificateCompilerUp$ chapter. A hidden coordinate, duplicate classifier source, or external semantic witness is not an accepted consumer source for root landing data.
+\end{proof}
+\leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_root\_landing\_consumer\_determinacy}

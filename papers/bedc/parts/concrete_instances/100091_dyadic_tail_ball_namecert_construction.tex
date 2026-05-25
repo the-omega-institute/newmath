@@ -69,6 +69,7 @@ Only after this containment row has been replayed can the consumer inspect $R$. 
 
 Transport through $H$ and provenance through $P,N$ preserve the same ordered route. The excluded quotient, choice, host-equality, trichotomy, and completeness objects are absent from the carrier inventory, so no consumer read can export them.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicTailBallUp.TasteGate.DyadicTailBallCarrier\_regular\_cauchy\_consumer\_route}
 
 \begin{theorem}[DyadicTailBall late-window stability]
 \label{thm:dyadic-tail-ball-window-stability}
@@ -86,6 +87,26 @@ Use the refinement hypothesis to replay every late-tail request through $D'$ and
 The Real-facing consumer remains fixed. After $B$ receives the refined late-tail observations, the same row $R$ consumes the packet, so the public route has the same four stages as in \autoref{thm:dyadic-tail-ball-regular-cauchy-consumer-route}.
 
 Finally, replay $H',C',P',N'$ componentwise. These rows transport, continue, source, and name the refined packet without adding any coordinate for quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient Real completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicTailBallUp.DyadicTailBallWindowStability}
+
+\begin{theorem}[DyadicTailBall monotone inclusion]
+\label{thm:dyadic-tail-ball-monotone-inclusion}
+Let $T=(B,D,F,R,H,C,P,N)$ and $T'=(B,D',F',R,H',C',P',N')$ be accepted $\DyadicTailBallUp$ packets with the same $\DyadicBallUp$ row $B$ and the same $\RealCauchyCriterionUp$ consumer row $R$. Suppose $D'$ refines the dyadic tail-bound ledger of $D$, and suppose the refined route preserves the same containment handoff from $F'$ into $B$ and the same Real Cauchy criterion handoff into $R$. Then every late-tail containment read accepted by $T$ is accepted by $T'$ through the same dyadic-ball containment row.
+
+Equivalently, tightening the displayed threshold or tolerance budget while preserving $B$ and $R$ gives a monotone inclusion of accepted containment reads. The inclusion exports no quotient stream, selected limit, countable-choice selector, trichotomy, host real equality, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers through \autoref{def:dyadic-tail-ball-carrier}. The public ball row $B$ and Real Cauchy criterion row $R$ are shared, so the containment target and terminal consumer boundary do not change.
+
+Apply the regular Cauchy consumer route of \autoref{thm:dyadic-tail-ball-regular-cauchy-consumer-route}. Every accepted containment read from $T$ passes through the displayed order
+$$
+\DyadicTailBoundUp \longmapsto \RegularCauchyTailFilterUp \longmapsto \DyadicBallUp \longmapsto \RealCauchyCriterionUp .
+$$
+
+The refinement hypothesis replaces $D,F$ by $D',F'$ without changing the ball containment row $B$ or the consumer row $R$. Hence any late-tail observation already admitted through $D,F$ is replayed through the refined threshold and tolerance ledger before it reaches the same containment row.
+
+It remains to check that the refined packet exports only the same public route. This is exactly the late-window stability statement of \autoref{thm:dyadic-tail-ball-window-stability}: the refined rows $H',C',P',N'$ transport, replay, source, and name the packet without adding quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient Real completeness.
 \end{proof}
 
 \begin{closurestatus}{\DyadicTailBallUp}
