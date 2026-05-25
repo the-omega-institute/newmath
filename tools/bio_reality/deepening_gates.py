@@ -328,7 +328,9 @@ def validate_conjecture(
             _nonempty(f"bedc_minimal_form.{key}", form.get(key), issues)
         _array("bedc_minimal_form.distinctions", form.get("distinctions"), issues, min_items=1)
         internal = set(_array("bedc_minimal_form.internal_structure", form.get("internal_structure"), issues, allowed=INTERNAL_STRUCTURES))
-        if evidence & {"bedc_coordinate", "bedc_closure", "bedc_spectrum"} and internal == {"none"}:
+        if "none" in internal and len(internal) > 1:
+            issues.append("bedc_minimal_form.internal_structure cannot mix none with explicit structures")
+        if evidence & {"bedc_coordinate", "bedc_closure", "bedc_spectrum"} and not (internal - {"none"}):
             issues.append("BEDC evidence requires explicit internal structure")
 
     text_parts = [
@@ -525,7 +527,46 @@ def self_test() -> int:
         "forbidden_interpretations": ["The boundary alone proves function."],
         "null_reason": "",
     }
-    results = gate_all([conjecture, overclaim, b1_overclaim, b3_conjecture], [contact], [b3_probe], [])
+    bedc_without_structure = {
+        "conjecture_id": "bedc.structure.missing",
+        "biological_object": "codon window",
+        "informal_statement": "The packet has BEDC coordinate evidence but no internal structure.",
+        "bedc_minimal_form": {
+            "carrier": "codon window",
+            "distinctions": ["window boundary"],
+            "readback": "window enumeration",
+            "internal_structure": [],
+        },
+        "claimed_layer": "orf_eligibility",
+        "evidence_basis": ["bedc_coordinate"],
+        "reality_contact_refs": [],
+        "probe_refs": [],
+        "forbidden_claims": ["Coordinate evidence alone is not translation realization."],
+        "null_reason": "",
+    }
+    mixed_none_structure = {
+        "conjecture_id": "bedc.structure.mixed",
+        "biological_object": "codon window",
+        "informal_statement": "The packet mixes no internal structure with an explicit coordinate.",
+        "bedc_minimal_form": {
+            "carrier": "codon window",
+            "distinctions": ["window boundary"],
+            "readback": "window enumeration",
+            "internal_structure": ["none", "coordinate"],
+        },
+        "claimed_layer": "orf_eligibility",
+        "evidence_basis": ["bedc_coordinate"],
+        "reality_contact_refs": [],
+        "probe_refs": [],
+        "forbidden_claims": ["Coordinate evidence alone is not translation realization."],
+        "null_reason": "",
+    }
+    results = gate_all(
+        [conjecture, overclaim, b1_overclaim, b3_conjecture, bedc_without_structure, mixed_none_structure],
+        [contact],
+        [b3_probe],
+        [],
+    )
     by_id = {str(result["packet_id"]): result for result in results}
     if by_id["codon.code.read"]["gate_status"] != "gate_passed":
         print(json.dumps(results, indent=2), file=sys.stderr)
@@ -540,6 +581,16 @@ def self_test() -> int:
         return 1
     if by_id["boundary.probe.overreach"]["gate_status"] != "gate_blocked" or not any(
         "structural probe_kind" in issue for issue in by_id["boundary.probe.overreach"]["issues"]
+    ):
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    if by_id["bedc.structure.missing"]["gate_status"] != "gate_blocked" or not any(
+        "BEDC evidence requires explicit internal structure" in issue for issue in by_id["bedc.structure.missing"]["issues"]
+    ):
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    if by_id["bedc.structure.mixed"]["gate_status"] != "gate_blocked" or not any(
+        "cannot mix none" in issue for issue in by_id["bedc.structure.mixed"]["issues"]
     ):
         print(json.dumps(results, indent=2), file=sys.stderr)
         return 1
