@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\SturmRootCountUp$}
+\label{ch:concrete-instances-sturm-root-count-namecert}
+\origin{human}
+
+Following Sturm's theorem and Bishop--Bridges constructive analysis, the $\SturmRootCountUp$ packet records the finite route by which a displayed polynomial and two endpoint windows yield a root-count ledger without selecting any root in a host field. It consumes the sign-variation surface of \autoref{ch:concrete-instances-sturm-sequence-namecert} and exposes the retained count to the bracket consumers of \autoref{ch:concrete-instances-real-root-isolation-namecert}. The packet names the count-and-handoff interface between a Sturm-chain variation ledger and a Real-facing isolating-window consumer; it does not name a chosen algebraic root.
+
+\begin{definition}[Sturm root count carrier]
+\label{def:sturm-root-count-carrier}
+A $\SturmRootCountUp$ carrier is a finite $\BHist$ packet
+$$
+R=(P,S,E,V,D,I,A,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the $\PolynomialUp$ source row, carrying the coefficient ledger, degree bound, derivative row, and polynomial identity whose interval counts are inspected.
+\item $S$ is the $\SturmSequenceUp$ sign-variation window row, recording the accepted Sturm chain, endpoint sign table, zero-deletion witnesses, and the two visible variation counts.
+\item $E$ is the endpoint dyadic-window row. It stores the left and right dyadic endpoint cells, requested precisions, comparison rows, and endpoint containment checks.
+\item $V$ is the variation-count difference row. It records the displayed subtraction of the right endpoint variation count from the left endpoint variation count.
+\item $D$ is the $\RealRootIsolationUp$ bracket handoff row, exposing only the polynomial source, endpoint windows, and certified count accepted by the downstream isolating-window consumer.
+\item $I$ is the $\RegSeqRatUp$ readback row, retaining the same two endpoint windows and the same count at unary precision before a real seal is inspected.
+\item $A$ is the $\RealUp$ seal row for the two endpoint names and the bracket-facing interval read.
+\item $H$ records componentwise $\hsame$ transport for polynomial source, Sturm-sequence window, endpoint dyadic windows, variation-count difference, isolation handoff, regular-rational readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a root-count request through polynomial inspection, Sturm-chain variation, endpoint dyadic comparison, count subtraction, isolation handoff, regular-rational readback, and real-seal access.
+\item $K$ is the $\Pkg$ provenance over $\PolynomialUp$, $\SturmSequenceUp$, $\RealRootIsolationUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SturmRootCountUp}$ registration row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a selected root, a host-field factorization, quotient real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Sturm root count NameCert obligations]
+\label{thm:sturm-root-count-namecert-obligations}
+For every accepted $\SturmRootCountUp$ carrier $R=(P,S,E,V,D,I,A,H,C,K,N)$, the local $\NameCert_{\SturmRootCountUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the rows listed in \autoref{def:sturm-root-count-carrier};
+\item polynomial-source exactness through the coefficient, degree, derivative, and identity cells of $P$;
+\item Sturm-window exactness through the finite chain, endpoint sign table, zero-deletion witnesses, and variation counts of $S$;
+\item endpoint-window exactness through the dyadic cells, precision requests, comparison rows, and containment checks of $E$;
+\item count-difference exactness through the displayed subtraction row $V$;
+\item bracket-consumer discipline through the $\RealRootIsolationUp$ handoff row $D$;
+\item regular-rational and Real-facing readback through $I$ and $A$;
+\item componentwise transport, continuation replay, provenance, and local naming through $H,C,K,N$.
+\end{enumerate}
+There is no additional NameCert obligation for selected roots, factorization over a host field, quotient real equality, real trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sturm-root-count-carrier}. The polynomial source $P$ and the Sturm-window row $S$ fix the displayed chain, endpoint sign table, zero-deletion witnesses, and variation counts, so a count read cannot inspect roots or factors outside the finite ledger.
+
+The dyadic endpoint row $E$ supplies the only endpoint cells admitted to the count. The difference row $V$ then records the visible subtraction of endpoint variation counts, with no separate root-selection coordinate.
+
+The handoff row $D$ gives the downstream $\RealRootIsolationUp$ consumer exactly the source polynomial, endpoint windows, and accepted count. Rows $I$ and $A$ expose the same endpoint data through $\RegSeqRatUp$ readback and the $\RealUp$ seal.
+
+Finally, $H,C,K,N$ transport, replay, source, and locally name the same route. Since none of those structural rows adds a selected root, factorization theorem, quotient equality proof, trichotomy decision, or completeness witness, the local certificate is exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[Sturm root count isolation handoff]
+\label{thm:sturm-root-count-isolation-handoff}
+Every accepted $\SturmRootCountUp$ read handed to a $\RealRootIsolationUp$ bracket consumer factors through
+$$
+P,S,E,V \longmapsto D \longmapsto I,A,H,C,K,N .
+$$
+The consumer receives the polynomial source, Sturm-chain sign-variation window, endpoint dyadic windows, variation-count difference, regular-rational endpoint readback, Real-facing seal, componentwise transport, replay, provenance, and local naming. It receives no selected host root, no factorization over a host field, no quotient real equality principle, no trichotomy decision, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the downstream read. The source polynomial must pass through $P$, and the variation data must pass through the $\SturmSequenceUp$ row $S$ from \autoref{ch:concrete-instances-sturm-sequence-namecert}.
+
+The endpoint cells are then read from $E$, while $V$ records the displayed count difference. Thus the bracket-facing row can see only a finite source, two endpoint windows, and one accepted integer count.
+
+The handoff row $D$ is the only row available to the $\RealRootIsolationUp$ consumer described in \autoref{ch:concrete-instances-real-root-isolation-namecert}. The regular-rational readback $I$ and real seal $A$ preserve the same endpoint information for Real-facing consumers.
+
+The remaining rows $H,C,K,N$ compare, replay, source, and name the route componentwise. They add no hidden analytic principle, so the isolation handoff remains a finite Sturm-count certificate.
+\end{proof}
+
+\falsifiablePrediction{Every $\SturmRootCountUp$ read handed to a $\RealRootIsolationUp$ bracket consumer factors through one $\PolynomialUp$ source row, one $\SturmSequenceUp$ sign-variation window row, one dyadic endpoint-window row, one variation-count difference row, one bracket handoff row, one $\RegSeqRatUp$ readback row, one $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+
+\independenceWitness{polynomial, sturmsequence, realrootisolation, dyadicratcore, regseqrat, real: $\SturmRootCountUp$ is not bijective to any listed sibling because it jointly carries the polynomial source, Sturm-chain sign-variation windows, endpoint dyadic windows, count-difference row, bracket handoff, readback, real seal, transport, replay, provenance, and local naming.}
+
+\closureat{SturmRootCountUp}{seedStr}
+
+\begin{closurestatus}{\SturmRootCountUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sturm-root-count-carrier}, \autoref{thm:sturm-root-count-namecert-obligations}, and \autoref{thm:sturm-root-count-isolation-handoff} seed the finite bridge from Sturm-chain variation ledgers to Real-root-isolation bracket consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected roots, factorization over a host field, quotient real equality, real trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Sturm-window exactness, endpoint-window exactness, count-difference exactness, isolation handoff, readback discipline, and transport-replay coverage for BEDC.Derived.SturmRootCountUp.}
+  \constructivestory{A $\SturmRootCountUp$ packet is generated from a $\PolynomialUp$ source row, a $\SturmSequenceUp$ sign-variation window row, dyadic endpoint windows, a variation-count difference row, a $\RealRootIsolationUp$ bracket handoff row, a $\RegSeqRatUp$ readback row, a $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
