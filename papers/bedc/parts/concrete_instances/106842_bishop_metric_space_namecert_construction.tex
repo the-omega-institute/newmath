@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\BishopMetricSpaceUp$}
+\label{ch:concrete-instances-bishop-metric-space-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopMetricSpaceUp$ packet names a metric presentation whose distances are read through displayed regular rational approximations, finite stream windows, and real-name seals. It sits between the abstract metric certificate of \autoref{ch:concrete-instances-metric-namecert}, the positive-separation interface of \autoref{ch:concrete-instances-metric-apartness-namecert}, the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the sealed real-name consumer of \autoref{ch:concrete-instances-real-namecert}. The packet is a constructive metric object for Real and completion-facing consumers; it is not a host metric-space structure, quotient completion, choice-selected limit, or ambient classical distance oracle.
+
+\begin{definition}[Bishop metric-space carrier]
+\label{def:bishop-metric-space-carrier}
+A $\BishopMetricSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+M=(X,D,S,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the displayed point-name row and local carrier admission surface.
+\item $D$ is the metric-distance row, read as a $\RealUp$ name rather than as a host real-valued function.
+\item $S$ stores the $\StreamNameUp$ finite windows used to observe the distance name.
+\item $R$ stores the $\RegSeqRatUp$ regular rational readback of each displayed distance.
+\item $A$ is the $\MetricApartnessUp$ handoff row, present when a positive distance window exports apartness.
+\item $H$ stores componentwise $\hsame$ transport for point names, distance rows, stream windows, regular rational readbacks, apartness handoff, replay, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ replay from point-name reads through the distance, stream, regular rational, apartness, and Real-seal rows.
+\item $P$ is the $\Pkg$ provenance over $\BishopMetricSpaceUp$, $\MetricSpaceUp$, $\MetricApartnessUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopMetricSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,D,S,R,A,H,C,P,N$. It has no coordinate for host equality of points, host-valued distance functions, quotient completion, choice-selected limits, total boundedness, compactness, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Bishop metric-space NameCert obligations]
+\label{thm:bishop-metric-space-namecert-obligations}
+For every accepted $\BishopMetricSpaceUp$ carrier
+$$
+M=(X,D,S,R,A,H,C,P,N),
+$$
+the local $\NameCert_{\BishopMetricSpaceUp}$ surface consists exactly of carrier admission for the displayed point names, Real-valued distance rows, finite stream windows, regular rational readbacks, optional positive-distance apartness handoff, componentwise transport, displayed replay, package provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-metric-space-carrier}. The projection exposes point-name rows $X$, distance rows $D$, stream windows $S$, regular readbacks $R$, and the apartness handoff $A$.
+
+The distance row is Real-facing because every inspected distance is routed through $S$ and $R$ before it reaches the $\RealUp$ seal. Thus no consumer can replace the displayed constructive distance with a host-valued function.
+
+The apartness handoff is confined to $A$. It can be exported only when the displayed distance window supplies positive separation, and the transport rows $H,C$ replay that same finite route.
+
+Finally $P$ and $N$ record provenance and local naming for exactly these rows. Since the carrier has no coordinate for host point equality, quotient completion, selected limits, compactness, or ambient completeness, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Bishop metric-space located Cauchy route]
+\label{thm:bishop-metric-space-located-cauchy-route}
+Every completion-facing read of an accepted $\BishopMetricSpaceUp$ packet factors through
+$$
+X,D\longmapsto S,R\longmapsto A,H,C,P,N .
+$$
+Thus a $\RegSeqRatUp$ or $\RealUp$ consumer may inspect a Cauchy or locatedness claim only through displayed distance windows, regular rational readbacks, optional apartness handoff, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Begin with the point-name and distance rows $X,D$. They name the metric input but do not by themselves expose a Real-valued oracle.
+
+The stream and regular rational rows $S,R$ provide the finite observation route for the distance name. Any located Cauchy read must therefore pass through those rows before it reaches a Real-facing consumer.
+
+The rows $A,H,C,P,N$ preserve the same route under apartness handoff, componentwise transport, replay, provenance, and local naming. A claim using quotient completion, selected limits, host equality of points, compactness, total boundedness, or ambient completeness has no carrier coordinate and leaves the packet.
+\end{proof}
+
+\closureat{BishopMetricSpaceUp}{seedStr}
+
+\begin{closurestatus}{\BishopMetricSpaceUp}
+  \constructivestory{A $\BishopMetricSpaceUp$ packet is generated from displayed point names, Real-valued distance rows, StreamName finite windows, RegSeqRat regular rational readbacks, optional MetricApartness handoff, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-metric-space-carrier}, \autoref{thm:bishop-metric-space-namecert-obligations}, and \autoref{thm:bishop-metric-space-located-cauchy-route} seed the constructive metric carrier, finite NameCert obligations, and located Cauchy route for Real and completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected limits, compactness, total boundedness, host equality of points, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, distance-window exactness, regular rational readback, apartness handoff, located Cauchy routing, and TasteGate field faithfulness for BEDC.Derived.BishopMetricSpaceUp.}
+\end{closurestatus}
