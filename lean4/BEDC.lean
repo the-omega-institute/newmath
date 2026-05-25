@@ -1387,6 +1387,7 @@ import BEDC.Derived.CauchyProductUp.RootUnblockCertificate
 import BEDC.Derived.CauchyProductUp.RootWindowFactorization
 import BEDC.Derived.CauchyProductUp.RootWindowObligations
 import BEDC.Derived.CauchyProductUp.RootWindowReadStability
+import BEDC.Derived.CauchyProductUp.RootWindowSealCompatibility
 import BEDC.Derived.CauchyProductUp.RootWindowSealStability
 import BEDC.Derived.CauchyProductUp.SharedRadiusProductCoverage
 import BEDC.Derived.CauchyProductUp.SharedSelectorBudgetTotality
@@ -1950,6 +1951,8 @@ import BEDC.Derived.ConsciousObserverStateUp.RouteScopePackage
 import BEDC.Derived.ConsciousUniverseSpaceUp.NameCertObligations
 import BEDC.Derived.ConsciousUniverseSpaceUp.TasteGate
 import BEDC.Derived.ConstructiveCompletionModulusUp
+import BEDC.Derived.ConstructiveCompletionModulusUp.FiniteRoute
+import BEDC.Derived.ConstructiveCompletionModulusUp.TasteGate
 import BEDC.Derived.ConstructiveMeanValueUp.TasteGate
 import BEDC.Derived.ConstructiveRefutationUp.TasteGate
 import BEDC.Derived.ContactUp
