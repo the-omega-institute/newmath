@@ -330,12 +330,24 @@ Apply \autoref{thm:regular-cauchy-filter-regseqrat-window-exposure}. Every regul
 Now apply \autoref{thm:regular-cauchy-filter-real-seal-route}. The Real-facing endpoint is the same seal $E$, with $H,C,P,N$ transporting, replaying, sourcing, and naming the route. The excluded quotient, choice, hidden-tail, equality, and completeness coordinates are absent, so the listed rows exhaust every accepted Real seal consumer.
 \end{proof}
 
+\begin{theorem}[RegularCauchyFilter scoped public package]
+\label{thm:regular-cauchy-filter-scoped-public-package}
+Every accepted $\RegularCauchyFilterUp$ packet $G=(B,R,T,D,M,E,H,C,P,N)$ exports one scoped public package formed by the $\CauchyFilterUp$ source row $B$, the displayed basis witness $T,D,M$, the $\RegSeqRatUp$ readback row $R$, the $\RealUp$ seal $E$, and the structural rows $H,C,P,N$. Every consumer route factors through this package and cannot split off quotient filters, selected limits, hidden cofinal tails, countable choice, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+First compose the source and basis rows. Apply \autoref{thm:regular-cauchy-filter-tail-meet}, \autoref{thm:regular-cauchy-filter-basis-factorization}, and \autoref{thm:regular-cauchy-filter-basis-witness-admission} to read the $\CauchyFilterUp$ source $B$ through the displayed windows $T$, tolerance ledger $D$, and directed-meet witness $M$.
+
+Next expose the regular-rational and Real-facing rows. Apply \autoref{thm:regular-cauchy-filter-regseqrat-window-exposure} to force every $\RegSeqRatUp$ readback through $B,T,D,M,R,H,C,P,N$, and apply \autoref{thm:regular-cauchy-filter-real-seal-consumer-exhaustion} to force every $\RealUp$ consumer through the same route ending at $E$.
+
+The scoped package is the single tuple of those rows. Transport is supplied by $H$, replay by $C$, provenance by $P$, and naming by $N$, so no consumer has a coordinate from which to extract a quotient filter, a host-selected limit, a hidden cofinal tail, a choice selector, host equality, or ambient completeness.
+\end{proof}
+
 \closureat{RegularCauchyFilterUp}{obligationStr}
 
 \begin{closurestatus}{\RegularCauchyFilterUp}
   \constructivestory{A $\RegularCauchyFilterUp$ packet is generated from a displayed CauchyFilter finite-filterbase row, a RegSeqRat readback row, StreamName tail windows, a DyadicRatCore tolerance ledger, a directed tail-meet row, a RealUp seal row, componentwise transport, continuation replay, package provenance, and local NameCert naming.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-filter-carrier}, \autoref{thm:regular-cauchy-filter-namecert-obligations}, \autoref{thm:regular-cauchy-filter-tail-meet}, \autoref{thm:regular-cauchy-filter-real-seal-route}, \autoref{thm:regular-cauchy-filter-basis-factorization}, \autoref{thm:regular-cauchy-filter-obligation-scope-package}, \autoref{thm:regular-cauchy-filter-tail-basis-exhaustion}, \autoref{thm:regular-cauchy-filter-branch-exhaustion}, \autoref{thm:regular-cauchy-filter-tail-window-exactness}, \autoref{thm:regular-cauchy-filter-basis-witness-admission}, \autoref{thm:regular-cauchy-filter-regseqrat-window-exposure}, and \autoref{thm:regular-cauchy-filter-real-seal-consumer-exhaustion} bind the finite bridge from directed Cauchy filterbase rows to regular rational Cauchy names, the CauchyFilterBasis admission witness, the RegSeqRat window exposure, and the Real seal consumer exhaustion route.}
+  \scopeclosed{\autoref{def:regular-cauchy-filter-carrier}, \autoref{thm:regular-cauchy-filter-namecert-obligations}, \autoref{thm:regular-cauchy-filter-tail-meet}, \autoref{thm:regular-cauchy-filter-real-seal-route}, \autoref{thm:regular-cauchy-filter-basis-factorization}, \autoref{thm:regular-cauchy-filter-obligation-scope-package}, \autoref{thm:regular-cauchy-filter-tail-basis-exhaustion}, \autoref{thm:regular-cauchy-filter-branch-exhaustion}, \autoref{thm:regular-cauchy-filter-tail-window-exactness}, \autoref{thm:regular-cauchy-filter-basis-witness-admission}, \autoref{thm:regular-cauchy-filter-regseqrat-window-exposure}, \autoref{thm:regular-cauchy-filter-real-seal-consumer-exhaustion}, and \autoref{thm:regular-cauchy-filter-scoped-public-package} bind the finite bridge from directed Cauchy filterbase rows to regular rational Cauchy names, the CauchyFilterBasis admission witness, the RegSeqRat window exposure, the Real seal consumer exhaustion route, and the scoped public package.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient filters, selected host limits, countable choice, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
