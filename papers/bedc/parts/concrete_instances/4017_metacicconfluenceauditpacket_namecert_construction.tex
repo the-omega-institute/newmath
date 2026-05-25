@@ -393,6 +393,18 @@ Next add the two displayed consumer routes. The residual critical-pair boundary 
 Finally use transport, replay, provenance, and local naming. The rows $H,T,P,L$ preserve and name the same finite surface, and no further coordinate is present. Thus the ledger is exhausted exactly at the stated boundary and cannot conceal closed Church--Rosser, subject reduction, full substitution compatibility, or a substitution oracle.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit substitution-obligation inversion]
+\label{thm:metacic-confluence-audit-substitution-obligation-inversion}
+Any consumer that claims to use an accepted $\MetaCICConfluenceAuditPacketUp$ carrier for closed substitution compatibility must invert the carrier to the explicit substitution-obligation row $S$ together with the transport, replay, provenance, and local naming rows $H,T,P,L$. Residual critical-pair reads, candidate-normalization reads, normal-fragment reads, and subject-reduction-separation reads do not supply $S$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:metacic-confluence-audit-packet-conditional-boundary} and \autoref{thm:metacic-confluence-audit-packet-closed-substitution-boundary}. The former exposes only the conditional rows $D,C$, while the latter names $S$ as the closed-substitution boundary row.
+
+The residual, candidate, normal-fragment, and subject-reduction routes are then bounded by \autoref{thm:metacic-confluence-audit-residual-critical-pair-boundary}, \autoref{thm:metacic-confluence-audit-candidate-normalization-handoff}, and \autoref{thm:metacic-confluence-audit-obstruction-ledger-exhaustion}. They can consume the displayed audit surface but cannot manufacture the missing substitution row.
+
+Thus a substitution-compatibility consumer must read $S$ directly and replay it through $H,T,P,L$. Without that inversion, the packet exports only boundary data and not full closed substitution compatibility.
+\end{proof}
+
 \closureat{MetaCICConfluenceAuditPacketUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICConfluenceAuditPacketUp}
