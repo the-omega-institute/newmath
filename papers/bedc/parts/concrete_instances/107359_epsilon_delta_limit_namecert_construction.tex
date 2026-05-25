@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\EpsilonDeltaLimitUp$}
+\label{ch:concrete-instances-epsilon-delta-limit-namecert}
+\origin{human}
+
+Following Bishop and Bridges, Constructive Analysis, the $\EpsilonDeltaLimitUp$ packet records the traditional epsilon-delta limit interface as finite BEDC data. It sits between the source and target metric carriers of \autoref{ch:concrete-instances-metric-namecert}, the dyadic tolerance surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite-window names of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback rows of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only a displayed point, a proposed target limit, positive dyadic epsilon requests, matching positive dyadic delta witnesses, finite window reads, regular-rational readback, transport, replay, provenance, and local naming; it does not identify host reals, select limits, form quotient streams, invoke trichotomy, use choice, or assert ambient $\RealUp$ completeness.
+
+\begin{definition}[Epsilon-delta limit carrier]
+\label{def:epsilon-delta-limit-carrier}
+An $\EpsilonDeltaLimitUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,Y,a,L,E,D,W,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricSpaceUp$ row, including its accepted point classifier and distance-witness surface.
+\item $Y$ is the target $\MetricSpaceUp$ row, including its accepted point classifier and $\RealUp$-valued distance-witness surface.
+\item $a$ is the source point row at which the limiting read is taken.
+\item $L$ is the proposed target-limit row, read as a displayed point of $Y$ before any Real-facing equality question is asked.
+\item $E$ is the positive $\DyadicRatCoreUp$ epsilon request row for the target distance to $L$.
+\item $D$ is the positive $\DyadicRatCoreUp$ delta witness row for source distance to $a$.
+\item $W$ is the $\StreamNameUp$ finite-window row used to inspect the source point, the candidate values, the proposed limit, and the two dyadic tolerance rows.
+\item $R$ is the $\RegSeqRatUp$ readback row for the displayed windows and for the $\RealUp$ distance rows reached through $X$ and $Y$.
+\item $H$ records componentwise $\hsame$ transport for the metric rows, point row, proposed limit, epsilon request, delta witness, windows, readback, continuation, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from epsilon requests through delta witnesses, metric-distance reads, finite windows, regular-rational readback, and the target $\RealUp$ seal.
+\item $P$ is the $\Pkg$ provenance over $\EpsilonDeltaLimitUp$, $\MetricSpaceUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EpsilonDeltaLimitUp}$ row.
+\end{enumerate}
+The classifier accepts the packet only when all rows name the same finite epsilon-delta route: every accepted epsilon request in $E$ is met by the displayed delta row $D$, and every Real-facing target-distance read passes through $X,Y,a,L,E,D,W,R,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Epsilon-delta limit NameCert obligations]
+\label{thm:epsilon-delta-limit-namecert-obligations}
+For the carrier of \autoref{def:epsilon-delta-limit-carrier}, the local $\NameCert_{\EpsilonDeltaLimitUp}$ surface consists exactly of carrier admission for $K=(X,Y,a,L,E,D,W,R,H,C,P,N)$, source and target metric-space admission through $X$ and $Y$, point admission through $a$, proposed-limit admission through $L$, positive dyadic epsilon and delta admission through $E$ and $D$, finite-window admission through $W$, regular-rational and Real-facing readback through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The metric rows $X$ and $Y$ display the source and target point classifiers and the distance witnesses before the point row $a$ or the proposed target limit $L$ can be consumed by a limit read.
+
+The tolerance part is finite. The epsilon request $E$ and delta witness $D$ are $\DyadicRatCoreUp$ rows, so the smallness comparison is a dyadic ledger rather than a host real inequality or selected limit object.
+
+The analytic readback is downstream of those rows. The $\StreamNameUp$ window row $W$ records the finite observations used by the source point, target values, proposed limit, and dyadic tolerances, while the $\RegSeqRatUp$ row $R$ reads the displayed windows before any $\RealUp$ distance seal is exposed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since no carrier coordinate stores host real equality, quotient streams, selected limits, trichotomy, choice, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Epsilon-delta limit Real seal nonescape]
+\label{thm:epsilon-delta-limit-real-seal-nonescape}
+Every $\RealUp$-facing consumer of an accepted $\EpsilonDeltaLimitUp$ packet reads the limit assertion through the finite route
+$$
+X,Y,a,L,E,D,W,R,H,C,P,N.
+$$
+The consumer first sees the source and target $\MetricSpaceUp$ rows, the point row, the proposed limit row, the $\DyadicRatCoreUp$ epsilon request and delta witness, the $\StreamNameUp$ windows, and the $\RegSeqRatUp$ readback. Only then may it read the target $\RealUp$ distance seal carried by the target metric row, and it receives no host real equality, quotient stream, selected limit, trichotomy, choice principle, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:epsilon-delta-limit-namecert-obligations}. It orders every Real-facing read after $X,Y,a,L,E,D,W,R$, so the target distance to the proposed limit is visible only as a readback routed through the displayed metric, dyadic, window, and regular-rational rows.
+
+The target metric row $Y$ is the only source of the $\RealUp$-valued distance seal. Because $E$ and $D$ are displayed $\DyadicRatCoreUp$ tolerance rows, the consumer cannot replace the certificate by a host epsilon quantifier, a hidden delta chooser, or a quotient representative of a target real.
+
+The structural rows preserve the same route. Componentwise transport $H$, replay $C$, provenance $P$, and local naming $N$ carry the finite packet forward without adding coordinates for host equality, selected limits, trichotomy, choice, quotient streams, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every epsilon-delta limit read of an $\EpsilonDeltaLimitUp$ packet factors through displayed metric rows, dyadic tolerance rows, finite StreamName windows, RegSeqRat readback, and the terminal RealUp distance seal.}
+
+\independenceWitness{metric, dyadicratcore, streamname, regseqrat, real: EpsilonDeltaLimitUp is not bijective to any listed sibling because it jointly carries source and target MetricSpace rows, a point row, a proposed limit row, dyadic epsilon and delta rows, finite windows, regular-rational readback, Real-facing distance seals, transport, replay, provenance, and local naming.}
+
+\closureat{EpsilonDeltaLimitUp}{seedStr}
+
+\begin{closurestatus}{\EpsilonDeltaLimitUp}
+  \constructivestory{An $\EpsilonDeltaLimitUp$ packet is generated from source and target MetricSpace rows, a point row, a proposed limit row, dyadic epsilon requests, dyadic delta witnesses, finite StreamName windows, RegSeqRat readback, Real-facing distance seals, hsame transport, Cont replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:epsilon-delta-limit-carrier}, \autoref{thm:epsilon-delta-limit-namecert-obligations}, and \autoref{thm:epsilon-delta-limit-real-seal-nonescape} seed the finite epsilon-delta limit interface for Phase Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real equality, quotient streams, selected limits, trichotomy, choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic tolerance handling, finite-window readback, target Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.EpsilonDeltaLimitUp.}
+\end{closurestatus}
