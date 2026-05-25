@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FiniteRealCoverUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -169,5 +179,40 @@ theorem FiniteRealCoverTasteGate_single_carrier_alignment :
       ⟨finiteRealCoverChapterTasteGate⟩,
       ⟨finiteRealCoverFieldFaithful⟩,
       rfl⟩
+
+def FiniteRealCoverCarrier [AskSetup] [PackageSetup]
+    (X U R M S H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  Cont X U R ∧ Cont M S H ∧ Cont C P N ∧ PkgSig bundle N pkg
+
+theorem FiniteRealCoverCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {X U R M S H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FiniteRealCoverCarrier X U R M S H C P N bundle pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          FiniteRealCoverCarrier X U R M S H C P N bundle pkg ∧ hsame row N)
+        (fun _row : BHist =>
+          FiniteRealCoverCarrier X U R M S H C P N bundle pkg ∧
+            Cont X U R ∧ Cont M S H ∧ Cont C P N)
+        (fun row : BHist => PkgSig bundle N pkg ∧ hsame row N)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier
+  have hcarrier := carrier
+  obtain ⟨sourceCoverRoute, metricWitnessTransport, replayProvenanceName, namePkg⟩ := carrier
+  constructor
+  · constructor
+    · exact ⟨N, hcarrier, hsame_refl N⟩
+    · intro row _source
+      exact hsame_refl row
+    · intro row other sameRows
+      exact hsame_symm sameRows
+    · intro row middle other sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro row other sameRows source
+      exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+  · intro _row _source
+    exact ⟨hcarrier, sourceCoverRoute, metricWitnessTransport, replayProvenanceName⟩
+  · intro _row source
+    exact ⟨namePkg, source.right⟩
 
 end BEDC.Derived.FiniteRealCoverUp
