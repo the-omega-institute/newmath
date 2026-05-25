@@ -4745,6 +4745,7 @@ import BEDC.Derived.RealCauchyModulusUp.TasteGate
 import BEDC.Derived.RealCauchyModulusUp.ThresholdWindowTotality
 import BEDC.Derived.RealCauchyModulusUp.UniformTailExtraction
 import BEDC.Derived.RealCauchyModulusUp.WindowScope
+import BEDC.Derived.RealCauchySumUp.TasteGate
 import BEDC.Derived.RealCauchyWitnessGridUp.TasteGate
 import BEDC.Derived.RealClassifierUp
 import BEDC.Derived.RealCofinalModulusGateUp.TasteGate
@@ -4931,6 +4932,7 @@ import BEDC.Derived.RealUp.UnarySelectedEndpointShape
 import BEDC.Derived.RealWindowBudgetUp
 import BEDC.Derived.RealWindowBudgetUp.DiagonalObservationRouteExhaustion
 import BEDC.Derived.RealWindowBudgetUp.DyadicHandoffSealObligation
+import BEDC.Derived.RealWindowBudgetUp.FiniteTailFilterHandoff
 import BEDC.Derived.RealWindowBudgetUp.FourObjectReadbackLock
 import BEDC.Derived.RealWindowBudgetUp.ObservationScopeExhaustion
 import BEDC.Derived.RealWindowBudgetUp.OpenPhaseFourFaceStatusPullback
@@ -4942,6 +4944,7 @@ import BEDC.Derived.RealWindowBudgetUp.RegSeqSelectorExactness
 import BEDC.Derived.RealWindowBudgetUp.SelectorDisclosureScope
 import BEDC.Derived.RealWindowBudgetUp.SelectorPullback
 import BEDC.Derived.RealWindowBudgetUp.SelectorPullbackExactness
+import BEDC.Derived.RealWindowBudgetUp.StreamNamePullbackRoute
 import BEDC.Derived.RealWindowBudgetUp.StreamNameRegSeqRatFactorization
 import BEDC.Derived.RealWindowBudgetUp.TasteGate
 import BEDC.Derived.RealWindowBudgetUp.TerminalPullbackCoherence
