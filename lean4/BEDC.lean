@@ -333,10 +333,10 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.GapBoundaryTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GeneratorNormalizationReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerAdmission
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerAuthorization
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerAuthorizationStrictObstruction
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerRouteTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundRouteRefusalSurface
-import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundedAcceptanceStrictObstruction
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundedAcceptanceSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.HiddenGeneratorExclusion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.HostKernelHandoff
@@ -436,6 +436,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputRouteReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputRouteSaturation
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputTotalityLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootReadinessExhaustion
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootRouteStrictObstruction
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootSignatureRowTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootSignatureTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootSource
@@ -642,7 +643,6 @@ import BEDC.Derived.BoundaryAdmissionDecisionUp.TasteGate
 import BEDC.Derived.BoundaryGateUp.TasteGate
 import BEDC.Derived.BoundedBetaComparisonUp.TasteGate
 import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
-import BEDC.Derived.BoundedFunctionFamilyUp.TasteGate
 import BEDC.Derived.BoundedLinearOperatorUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BudgetCofinalReadback
@@ -3020,7 +3020,6 @@ import BEDC.Derived.FiniteLebesgueNumberUp.CompactConsumerRadiusLedgerTotality
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactContinuousSourceAccountability
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactContinuousUnblock
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactMetricHandoffExactness
-import BEDC.Derived.FiniteLebesgueNumberUp.CompactRadiusBridge
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactUniformChoiceRefusal
 import BEDC.Derived.FiniteLebesgueNumberUp.Core
 import BEDC.Derived.FiniteLebesgueNumberUp.DyadicCoverCellSelection
@@ -3030,7 +3029,6 @@ import BEDC.Derived.FiniteLebesgueNumberUp.L10PhaseConsumerReadiness
 import BEDC.Derived.FiniteLebesgueNumberUp.L10SiblingRoute
 import BEDC.Derived.FiniteLebesgueNumberUp.L10SourceLock
 import BEDC.Derived.FiniteLebesgueNumberUp.LedgerTransport
-import BEDC.Derived.FiniteLebesgueNumberUp.MeshRefinementCoverExhaustion
 import BEDC.Derived.FiniteLebesgueNumberUp.ObligationCoverageRow
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenCoverRefusalBoundary
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhase
@@ -5317,6 +5315,7 @@ import BEDC.Derived.RootSystemUp
 import BEDC.Derived.RootSystemUp.TasteGate
 import BEDC.Derived.RoundedIdealCompletionUp.TasteGate
 import BEDC.Derived.RoundedIntervalUp
+import BEDC.Derived.RoundedIntervalUp.TasteGate
 import BEDC.Derived.RuleOneTenGliderCatalogUp.TasteGate
 import BEDC.Derived.RuntimeBoundaryAuditUp.TasteGate
 import BEDC.Derived.RuntimeCandidateBoundaryUp.TasteGate
