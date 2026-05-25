@@ -70,6 +70,20 @@ The obstruction row $O$ is downstream of the same finite traversal. It records t
 The structural rows $H,C,P,N$ preserve and name that route. Therefore the finite data may be reused by CantorSpace, FanTheorem, RegSeqRat, or Real-facing consumers only as finite prefix information, never as quotient stream equality, an open-cover compactness principle, or a completeness theorem for $\RealUp$.
 \end{proof}
 
+\begin{theorem}[Kleene tree prefix-induction closure]
+\label{thm:kleene-tree-prefix-induction-closure}
+Every accepted finite prefix-tree ledger in a $\KleeneTreeUp$ carrier is closed under displayed parent-prefix induction. Each accepted non-root listed word has its displayed parent in the $\ListUp$ prefix spine and its $\BoolUp$ node decision in the ledger, and $\hsame/\Cont$ replay preserves this finite closure without selecting an infinite branch. The induction uses only the $T,B,L,S,O,H,C,P,N$ carrier rows.
+\end{theorem}
+\begin{proof}
+Induct on the displayed prefix spine $L$ of \autoref{def:kleene-tree-carrier}. The root case is listed directly in the finite tree ledger $T$ and has its Bool decision in $B$, so no parent row is required.
+
+For a non-root listed word, the next row of $L$ displays its parent prefix. The induction hypothesis places that parent inside the same finite spine, while the corresponding row of $B$ records the accepted or refused node decision for the listed word.
+
+The StreamName schedule $S$ only chooses finite windows into this displayed spine. It cannot add a branch beyond the rows already present in $T,B,L$.
+
+Finally $H$ and $C$ transport and replay the same finite packet, while $P,N$ record provenance and local naming. Since the obstruction row $O$ remains part of the carrier, the prefix induction closes the finite ledger without selecting an infinite path or invoking countable choice.
+\end{proof}
+
 \begin{theorem}[Kleene tree fan boundary]
 \label{thm:kleene-tree-fan-boundary}
 For every accepted $\KleeneTreeUp$ packet, any $\FanTheoremUp$ or $\CantorSpaceUp$ consumer sees only the finite rows $S,L,B,T,O,H,C,P,N$. The consumer may use finite-bar tests and finite prefix checks along those rows, but it receives no infinite branch, no branch selector, no countable-choice functional, no quotient stream equality, no open-cover compactness principle, and no $\RealUp$ completeness theorem.

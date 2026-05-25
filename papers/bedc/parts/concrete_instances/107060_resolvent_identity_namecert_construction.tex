@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\ResolventIdentityUp$}
+\label{ch:concrete-instances-resolvent-identity-namecert}
+\origin{human}
+
+Following Dunford--Schwartz and Conway on the resolvent calculus for bounded operators, the $\ResolventIdentityUp$ packet records the finite BEDC surface on which the algebraic resolvent identity is read before any completed spectrum or host operator quotient is available. It sits at the operator-theory frontier beside the bounded-operator carrier of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the scalar operator-norm surface of \autoref{ch:concrete-instances-operator-norm-namecert}, the resolvent-facing spectral-radius route of \autoref{ch:concrete-instances-spectral-radius-namecert}, and the compact-operator schedule boundary of \autoref{ch:concrete-instances-compactoperator-namecert}.
+
+\begin{definition}[Resolvent identity carrier]
+\label{def:resolvent-identity-carrier}
+A $\ResolventIdentityUp$ carrier is a finite $\BHist$ packet
+$$
+R=(X,T,\lambda,\mu,A_\lambda,A_\mu,U_\lambda,U_\mu,I,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the Banach source surface on which the operator rows are read.
+\item $T$ is the accepted $\BoundedLinearOperatorUp$ row naming the displayed operator action, linearity ledger, norm-bound endpoint, and transport data.
+\item $\lambda,\mu$ are the two scalar-window rows whose separation witness is recorded before any inverse row is consumed.
+\item $A_\lambda,A_\mu$ are the shifted-operator rows for $\lambda I-T$ and $\mu I-T$, each read through the same bounded-operator and operator-norm surface.
+\item $U_\lambda,U_\mu$ are the displayed two-sided inverse-check rows for the two shifts.
+\item $I$ is the identity and composition ledger needed to compare $U_\lambda-U_\mu$ with $(\mu-\lambda)U_\lambda U_\mu$.
+\item $D$ is the domain and denominator ledger recording the scalar separation, multiplication order, and refusal of zero-denominator or detached inverse reads.
+\item $H$ records componentwise $\hsame$ transport for the operator, scalar, shifted-operator, inverse-check, identity, and denominator rows.
+\item $C$ records displayed $\Cont$ replay of the route from bounded operator and operator norm rows to the two resolvent checks and the identity ledger.
+\item $P$ is the $\Pkg$ provenance over $\ResolventIdentityUp$, $\BoundedLinearOperatorUp$, $\OperatorNormUp$, $\SpectralRadiusUp$, $\CompactOperatorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ResolventIdentityUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a completed spectrum, a spectral measure, quotient operator equality, selected inverse outside the displayed two-sided checks, compact-operator eigenvalue lists, or countable choice.
+\end{definition}
+
+\begin{theorem}[Resolvent identity NameCert obligations]
+\label{thm:resolvent-identity-namecert-obligations}
+For an accepted $\ResolventIdentityUp$ carrier $R=(X,T,\lambda,\mu,A_\lambda,A_\mu,U_\lambda,U_\mu,I,D,H,C,P,N)$, the local $\NameCert_{\ResolventIdentityUp}$ surface consists exactly of carrier admission, bounded-operator source admission through $T$, operator-norm scalar-bound admission for the two shifts, scalar-separation admission for $\lambda,\mu$, two-sided inverse-check admission for $U_\lambda,U_\mu$, identity and composition ledger exactness through $I$, denominator and refusal ledger exactness through $D$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+
+Every downstream resolvent consumer must read the same rows before using the identity. It receives no completed spectrum, no spectral-radius limit theorem beyond the finite resolvent-facing boundary of \autoref{ch:concrete-instances-spectral-radius-namecert}, no compact-operator spectral decomposition, and no quotient equality of operators.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:resolvent-identity-carrier}. The rows $X,T,\lambda,\mu,A_\lambda,A_\mu,U_\lambda,U_\mu,I,D,H,C,P,N$ are the whole accepted surface.
+
+The bounded-operator and operator-norm rows expose the two shifted operators. The scalar rows record $\lambda,\mu$ and their separation before any inverse-check row is read, so no inverse can be selected outside the displayed denominator ledger.
+
+The rows $U_\lambda,U_\mu$ supply only two-sided inverse checks for the displayed shifts. The identity ledger $I$ then compares the two compositions and the scalar multiple on the same bounded-operator route.
+
+Finally, $H,C,P,N$ transport, replay, source, and name that finite route. Since the carrier has no coordinate for a completed spectrum, compact spectral decomposition, quotient equality, or choice, those objects cannot be part of the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Resolvent identity two-sided law]
+\label{thm:resolvent-identity-two-sided-law}
+Let $R=(X,T,\lambda,\mu,A_\lambda,A_\mu,U_\lambda,U_\mu,I,D,H,C,P,N)$ be an accepted $\ResolventIdentityUp$ carrier. If the two displayed inverse-check rows certify
+$$
+U_\lambda A_\lambda=A_\lambda U_\lambda=I_X
+\quad\text{and}\quad
+U_\mu A_\mu=A_\mu U_\mu=I_X,
+$$
+then every public resolvent read factors through the finite identity ledger
+$$
+U_\lambda-U_\mu=(\mu-\lambda)U_\lambda U_\mu
+$$
+with the same scalar-separation row, bounded-operator source row, operator-norm bound rows, and structural rows $H,C,P,N$.
+
+The law exports only this two-sided displayed algebraic comparison. It does not export a completed resolvent set, a spectral theorem, quotient operator equality, selected approximate eigenvectors, compact-operator eigenvalue data, or countable choice.
+\end{theorem}
+\begin{proof}
+Start with the two shifted-operator rows $A_\lambda$ and $A_\mu$. They are read from the same bounded operator $T$ and scalar-window rows $\lambda,\mu$, so their comparison is already inside the accepted packet.
+
+Use the inverse-check rows $U_\lambda$ and $U_\mu$. The hypotheses certify both left and right inverse equations for the displayed shifts, and the denominator ledger $D$ records the scalar separation needed to form $\mu-\lambda$.
+
+Apply the identity and composition ledger $I$. It records the finite algebraic rearrangement of the two inverse equations and the composition $U_\lambda U_\mu$, producing the displayed equality without invoking a host quotient of operators.
+
+The structural rows $H,C,P,N$ preserve and name the same route for every public consumer. Since no carrier coordinate stores a completed spectrum, selected inverse, compact eigenvalue list, or choice schedule, the public law is exactly the finite two-sided resolvent identity.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ResolventIdentityUp$ consumer exposes the bounded operator row, both scalar-window rows, both shifted-operator rows, both two-sided inverse-check rows, the identity ledger, the denominator ledger, componentwise transport, replay, provenance, and local naming before reading the resolvent identity.}
+
+\independenceWitness{boundedlinearoperator, operatornorm, spectralradius, compactoperator: BoundedLinearOperatorUp supplies the action and norm-bound carrier but not the two scalar shifted-inverse ledger; OperatorNormUp supplies scalar norm bounds without the two-sided inverse checks; SpectralRadiusUp supplies a resolvent-facing boundary but not the algebraic two-shift identity packet; CompactOperatorUp supplies image-net schedules without the bounded-operator resolvent algebra.}
+
+\closureat{ResolventIdentityUp}{seedStr}
+
+\begin{closurestatus}{\ResolventIdentityUp}
+  \constructivestory{A $\ResolventIdentityUp$ packet is generated from a Banach source surface, a bounded-operator row, two scalar-window rows, two shifted-operator rows, two two-sided inverse-check rows, identity and denominator ledgers, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:resolvent-identity-carrier}, \autoref{thm:resolvent-identity-namecert-obligations}, \autoref{thm:resolvent-identity-two-sided-law}, the falsifiable prediction, and the independence witness seed the finite two-shift resolvent identity route over BoundedLinearOperatorUp, OperatorNormUp, SpectralRadiusUp, CompactOperatorUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, a completed resolvent set, a spectral theorem, quotient operator equality, selected approximate eigenvectors, compact-operator eigenvalue data, or countable choice.}
+  \upgradepath{Obligation closure requires checked carrier admission, shifted-operator stability, inverse-check exactness, denominator-ledger exactness, two-sided identity replay, classifier transport, and consumer non-escape for BEDC.Derived.ResolventIdentityUp.}
+\end{closurestatus}
