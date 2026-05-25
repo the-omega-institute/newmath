@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\SubdifferentialUp$}
+\label{ch:concrete-instances-subdifferential-namecert}
+\origin{human}
+
+Following Rockafellar and Boyd--Vandenberghe, the $\SubdifferentialUp$ packet records the finite supporting-hyperplane data that makes a convex subgradient usable inside BEDC without importing a separation theorem. It sits beside the convex-set carrier of \autoref{ch:concrete-instances-convexset-namecert}, the conjugacy rows of \autoref{ch:concrete-instances-convex-conjugate-namecert}, the duality handoff of \autoref{ch:concrete-instances-fenchelduality-namecert}, the order boundary of \autoref{ch:concrete-instances-positive-cone-namecert}, and the stationarity surface of \autoref{ch:concrete-instances-kkt-namecert}. The chapter names the local subgradient certificate only; it does not assert Hahn--Banach separation, quotient function-space duality, selected suprema, or choice-selected subgradients.
+
+\section{Subdifferential Carrier}
+\label{sec:subdifferential-carrier}
+
+\begin{definition}[Subdifferential carrier]
+\label{def:subdifferential-carrier}
+A $\SubdifferentialUp$ carrier is a finite $\BHist$ packet
+$$
+S=(F,x,\xi,E,L,G,K,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $F$ is the displayed convex functional row, including its finite convex-domain, convex-combination, value-comparison, and lower-support ledgers;
+\item $x$ is the displayed base point row inside the carrier domain of $F$;
+\item $\xi$ is the displayed dual covector row, read only through the finite pairing tests carried by the packet;
+\item $E$ is the pairing-evaluation ledger recording the finite values $\langle \xi,y-x\rangle$ that are actually inspected;
+\item $L$ is the supporting-inequality ledger asserting, for each displayed comparison point $y$, the row $F(y)\geq F(x)+\langle \xi,y-x\rangle$;
+\item $G$ is the epigraph row that reads the same support inequality as a displayed lower supporting face of the epigraph carrier;
+\item $K$ is the cone-boundary row connecting the finite support inequality to the $\PositiveConeUp$ order boundary and to the stationarity rows later consumed by $\KKTUp$;
+\item $H$ stores componentwise $\hsame$ transport for the functional, base point, covector, pairing ledger, support ledger, epigraph row, cone boundary, continuation row, provenance row, and local naming row;
+\item $C$ stores displayed $\Cont$ replay from a subgradient request through the convex functional, pairing, support, epigraph, cone-boundary, and downstream handoff rows;
+\item $P$ is the $\Pkg$ provenance over $\SubdifferentialUp$, $\ConvexSetUp$, $\ConvexConjugateUp$, $\FenchelDualityUp$, $\PositiveConeUp$, $\KKTUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\SubdifferentialUp}$ row.
+\end{enumerate}
+The carrier contains no ambient locally convex dual, no quotient function space, no selected separating hyperplane, no selected supremum in a conjugate formula, and no rule choosing a subgradient when the displayed support ledger is absent.
+\end{definition}
+
+\section{Subdifferential Certificate}
+\label{sec:subdifferential-certificate}
+
+\begin{theorem}[Subdifferential NameCert obligations]
+\label{thm:subdifferential-namecert-obligations}
+For every accepted $\SubdifferentialUp$ carrier $S=(F,x,\xi,E,L,G,K,H,C,P,N)$, the local $\NameCert_{\SubdifferentialUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the convex functional row, base point row, dual covector row, finite pairing-evaluation ledger, supporting-inequality ledger, epigraph row, cone boundary, transport, replay, provenance, and local naming row;
+\item support-inequality exactness, requiring every exported subgradient read to pass through the displayed row $F(y)\geq F(x)+\langle \xi,y-x\rangle$ for the listed comparison point;
+\item epigraph compatibility, requiring the support ledger and epigraph row to name the same lower supporting face and the same base point;
+\item Fenchel handoff, requiring any conjugacy or duality consumer to pass through the displayed $\ConvexConjugateUp$ and $\FenchelDualityUp$ rows before reading a dual certificate;
+\item KKT and normal-cone consumer boundary, requiring stationarity consumers to read the cone-boundary row and refusing any normal-cone claim not carried by the finite support ledger;
+\item non-escape from Hahn--Banach, quotient function spaces, selected suprema, and choice-selected subgradients.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $F,x,\xi,E,L,G,K$ are the entire analytic surface, and the rows $H,C,P,N$ are the entire structural surface.
+
+Support exactness is a ledger condition. A consumer can call $\xi$ a subgradient only at a displayed comparison point whose support inequality is present in $L$ and whose pairing value is present in $E$.
+
+Epigraph compatibility and the Fenchel handoff are then read through $G$ and the provenance row $P$. The same lower support row is available to epigraph, conjugacy, and duality consumers, but no hidden supremum or separating functional is added by that handoff.
+
+Finally the stationarity boundary passes through $K$. Since no coordinate of $S$ names Hahn--Banach separation, a quotient dual space, a selected supremum, or a choice functional for subgradients, those principles cannot be exported by the local certificate.
+\end{proof}
+
+\closureat{SubdifferentialUp}{seedStr}
+
+\begin{closurestatus}{\SubdifferentialUp}
+  \constructivestory{A $\SubdifferentialUp$ packet is generated from a convex functional row, base point row, dual covector row, finite pairing-evaluation ledger, supporting-inequality ledger, epigraph row, cone-boundary row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:subdifferential-carrier} and \autoref{thm:subdifferential-namecert-obligations} seed the finite subgradient certificate surface between convex sets, convex conjugacy, Fenchel duality, positive cones, and KKT stationarity.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Hahn--Banach separation, quotient function-space duality, selected suprema, choice-selected subgradients, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, support-inequality exactness, epigraph compatibility, Fenchel handoff, KKT and normal-cone consumer boundary, and non-escape for BEDC.Derived.SubdifferentialUp.}
+\end{closurestatus}
