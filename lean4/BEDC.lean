@@ -972,6 +972,7 @@ import BEDC.Derived.CauchyChoiceBoundaryUp.NoChoiceNonescape
 import BEDC.Derived.CauchyChoiceBoundaryUp.StdBridge
 import BEDC.Derived.CauchyChoiceBoundaryUp.TasteGate
 import BEDC.Derived.CauchyCompactUp.TasteGate
+import BEDC.Derived.CauchyCompletenessModulusUp.TasteGate
 import BEDC.Derived.CauchyCompletionAdjunctionUp.TasteGate
 import BEDC.Derived.CauchyCompletionAssociativityUp
 import BEDC.Derived.CauchyCompletionAssociativityUp.TasteGate
@@ -3183,6 +3184,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.RadiusCover
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusCoverMonotoneReadback
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusLedgerExactness
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusMeshStabilityRow
+import BEDC.Derived.FiniteLebesgueNumberUp.RadiusModulusTransportScope
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusReadback
 import BEDC.Derived.FiniteLebesgueNumberUp.RadiusWindowAdmission
 import BEDC.Derived.FiniteLebesgueNumberUp.RealPhaseSourceExhaustion
