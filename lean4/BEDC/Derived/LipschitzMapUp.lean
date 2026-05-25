@@ -142,44 +142,6 @@ theorem LipschitzMapCarrier_bound_transport [AskSetup] [PackageSetup]
     ⟨⟨sourceUnary', targetUnary', boundUnary', graphUnary', transportsUnary, routesUnary,
       localCertUnary, modulusCont', provenanceCont', pkgSig⟩, sameModulus⟩
 
-theorem LipschitzMapCarrier_composite_bound_routing [AskSetup] [PackageSetup]
-    {source middle target bound graph modulus transports routes provenance localCert bound' graph'
-      modulus' transports' routes' provenance' localCert' compositeGraph compositeModulus
-      compositeProvenance consumer : BHist}
-    {bundle bundle' : ProbeBundle ProbeName} {pkg pkg' : Pkg} :
-    LipschitzMapCarrier source middle bound graph modulus transports routes provenance localCert
-        bundle pkg ->
-      LipschitzMapCarrier middle target bound' graph' modulus' transports' routes' provenance'
-          localCert' bundle' pkg' ->
-        Cont graph graph' compositeGraph ->
-          Cont modulus modulus' compositeModulus ->
-            Cont compositeModulus routes' compositeProvenance ->
-              Cont compositeProvenance localCert' consumer ->
-                UnaryHistory compositeGraph ∧ UnaryHistory compositeModulus ∧
-                  UnaryHistory compositeProvenance ∧ UnaryHistory consumer ∧
-                    Cont graph graph' compositeGraph ∧
-                      Cont modulus modulus' compositeModulus := by
-  intro carrier carrier' graphRoute modulusRoute provenanceRoute consumerRoute
-  obtain ⟨_sourceUnary, _middleUnary, boundUnary, graphUnary, _transportsUnary,
-    routesUnary, _localCertUnary, modulusCont, _provenanceCont, _pkgSig⟩ := carrier
-  obtain ⟨_middleUnary', _targetUnary, boundUnary', graphUnary', _transportsUnary',
-    routesUnary', localCertUnary', modulusCont', _provenanceCont', _pkgSig'⟩ := carrier'
-  have modulusUnary : UnaryHistory modulus :=
-    unary_cont_closed graphUnary boundUnary modulusCont
-  have modulusUnary' : UnaryHistory modulus' :=
-    unary_cont_closed graphUnary' boundUnary' modulusCont'
-  have compositeGraphUnary : UnaryHistory compositeGraph :=
-    unary_cont_closed graphUnary graphUnary' graphRoute
-  have compositeModulusUnary : UnaryHistory compositeModulus :=
-    unary_cont_closed modulusUnary modulusUnary' modulusRoute
-  have compositeProvenanceUnary : UnaryHistory compositeProvenance :=
-    unary_cont_closed compositeModulusUnary routesUnary' provenanceRoute
-  have consumerUnary : UnaryHistory consumer :=
-    unary_cont_closed compositeProvenanceUnary localCertUnary' consumerRoute
-  exact
-    ⟨compositeGraphUnary, compositeModulusUnary, compositeProvenanceUnary, consumerUnary,
-      graphRoute, modulusRoute⟩
-
 theorem LipschitzMapCarrier_namecert_obligation_certificate [AskSetup] [PackageSetup]
     {source target bound graph modulus transports routes provenance localCert : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
