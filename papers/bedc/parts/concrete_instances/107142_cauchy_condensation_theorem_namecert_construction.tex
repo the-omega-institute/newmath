@@ -1,0 +1,79 @@
+\chapter{Cauchy Condensation Theorem NameCert Construction}
+\label{ch:concrete-instances-cauchy-condensation-theorem-namecert}
+\origin{human}
+
+Following Cauchy and Bishop--Bridges constructive analysis, the $\CauchyCondensationTheoremUp$ packet records the theorem-level NameCert surface that turns a monotone nonnegative $\RealSeriesUp$ tail into the dyadic block series and back through Cauchy criteria. It sits after the dyadic-block packet of \autoref{ch:concrete-instances-cauchycondensation-namecert}, the comparison-test surface of \autoref{ch:concrete-instances-cauchy-condensation-test-namecert}, the Real-series carrier of \autoref{ch:concrete-instances-cauchy-condensation-real-series-namecert}, and the finite dyadic partition ledger of \autoref{ch:concrete-instances-dyadic-partition-namecert}. The packet is a theorem certificate over displayed tails, block ledgers, and Cauchy handoff rows; it is not a host summability principle, a quotient of infinite series, a selected sum, countable choice, arbitrary trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy condensation theorem carrier]
+\label{def:cauchy-condensation-theorem-carrier}
+A $\CauchyCondensationTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,M,D,B,G,Q,U,V,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the monotone nonnegative $\RealSeriesUp$ source row, read only through finite term windows and partial-sum windows.
+\item $M$ is the monotone-tail ledger, recording the nonnegativity row, decreasing transport, and the finite tail cut from which the theorem is applied.
+\item $D$ is the $\DyadicPartitionUp$ block schedule, listing the powers of two, block endpoints, and finite block intervals used by the theorem.
+\item $B$ is the original block-sum ledger, storing the finite sums of $A$ over the dyadic intervals named by $D$.
+\item $G$ is the condensed-series row, displaying the dyadic terms $2^n a_{2^n}$ on the same block schedule.
+\item $Q$ is the blockwise comparison ledger, recording the lower and upper estimates that monotonicity supplies between $B$ and $G$.
+\item $U$ is the original-series Cauchy criterion row, expressed through displayed partial-sum windows of $A$.
+\item $V$ is the condensed-series Cauchy criterion row, expressed through displayed partial-sum windows of $G$.
+\item $R$ is the $\RegSeqRatUp$ readback row for the original and condensed partial-sum windows.
+\item $E$ is the $\RealUp$ seal-facing row reached only after the Cauchy criterion handoff has passed through $U,V,R$.
+\item $H$ records componentwise $\hsame$ transport for the source, monotone ledger, dyadic schedule, block sums, condensed terms, comparison ledger, Cauchy rows, readback row, seal row, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each finite tail request through the dyadic blocks, comparison ledger, Cauchy criteria, regular readback, and seal-facing row.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCondensationTheoremUp$, $\RealSeriesUp$, $\CauchyCondensationUp$, $\CauchyCondensationTestUp$, $\CauchyCondensationRealSeriesUp$, $\DyadicPartitionUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCondensationTheoremUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $A,M,D,B,G,Q,U,V,R,E,H,C,P,N$. It has no coordinate for a host infinite sum, quotient equality of series, selected endpoint, countable choice, an arbitrary trichotomy split, or an ambient completeness theorem.
+\end{definition}
+
+\begin{definition}[Blockwise Cauchy comparison classifier]
+\label{def:cauchy-condensation-theorem-blockwise-classifier}
+Two accepted $\CauchyCondensationTheoremUp$ carriers are blockwise Cauchy equivalent when their displayed $\RealSeriesUp$ source rows, monotone-tail ledgers, dyadic schedules, original block sums, condensed terms, comparison rows, original and condensed Cauchy criterion rows, regular readbacks, seal-facing rows, transports, continuations, provenance, and local names are pairwise $\hsame$ through the rows named in \autoref{def:cauchy-condensation-theorem-carrier}. Equivalence is not allowed to inspect an unlisted host limit, a quotient of streams, or a chosen infinite sum.
+\end{definition}
+
+\begin{theorem}[Cauchy condensation theorem NameCert obligations]
+\label{thm:cauchy-condensation-theorem-namecert-obligations}
+For every accepted $\CauchyCondensationTheoremUp$ carrier $K=(A,M,D,B,G,Q,U,V,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyCondensationTheoremUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed fourteen-row packet;
+\item monotone nonnegative source exposure through $A$ and $M$;
+\item dyadic block scheduling through $D$ and original block-sum formation through $B$;
+\item condensed dyadic-term formation through $G$;
+\item blockwise tail comparison through $Q$, using only monotone transport on displayed finite windows;
+\item original-to-condensed Cauchy transport through $U,V,R$;
+\item $\RealUp$ seal exposure through $E$ only after the Cauchy handoff has reached the regular readback row;
+\item transport stability, continuation replay, provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No obligation row asserts host summability, a selected infinite sum, quotient equality of real streams, countable choice, arbitrary trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $K=(A,M,D,B,G,Q,U,V,R,E,H,C,P,N)$. The carrier row exposes exactly the monotone Real-series source, monotone-tail ledger, dyadic block schedule, original block sums, condensed terms, comparison ledger, two Cauchy criterion rows, regular readback, seal-facing row, and structural rows.
+
+The source and classifier obligations are finite. The rows $A$ and $M$ provide nonnegativity and decreasing behavior only on displayed term windows, while \autoref{def:cauchy-condensation-theorem-blockwise-classifier} permits comparison only through the carrier coordinates named in \autoref{def:cauchy-condensation-theorem-carrier}.
+
+The dyadic block ledger is then read. The schedule $D$ fixes the inspected powers of two and finite intervals, $B$ records the original block sums on those intervals, and $G$ records the condensed terms $2^n a_{2^n}$ on the same indices.
+
+Monotone transport enters only through $Q$. Each block comparison is a finite estimate between rows already displayed by $A,M,D,B,G$, so the theorem-level packet does not appeal to an infinite selector of blocks or to host equality of series.
+
+Finally the Cauchy-convergence handoff is read through $U,V,R,E$. The original and condensed Cauchy criterion rows route the two partial-sum tails into the same regular readback boundary before the $\RealUp$ seal row is visible. The rows $H,C,P,N$ preserve, replay, source, and name that route, so the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CauchyCondensationTheoremUp$ consumer that claims theorem-level condensation without reading the monotone source row, dyadic block schedule, original block sums, condensed terms, blockwise comparison ledger, Cauchy criterion rows, and $\RegSeqRatUp$ handoff refutes the carrier surface.}
+
+\independenceWitness{cauchycondensation, cauchy-condensation-test, cauchy-condensation-real-series, dyadic-partition, realseries, regseqrat, real: no listed sibling supplies the whole fourteen-row theorem packet $K=(A,M,D,B,G,Q,U,V,R,E,H,C,P,N)$, because each sibling contributes only a dyadic block, comparison-test, Real-series, partition, readback, or seal face while this chapter binds the theorem-level equivalence through blockwise comparison and Cauchy handoff.}
+
+\closureat{CauchyCondensationTheoremUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCondensationTheoremUp}
+  \constructivestory{A $\CauchyCondensationTheoremUp$ packet is generated from a monotone nonnegative RealSeries source row, a monotone-tail ledger, a DyadicPartition block schedule, original block sums, condensed dyadic terms, a blockwise comparison ledger, original and condensed Cauchy criterion rows, RegSeqRat readback, a RealUp seal-facing row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-condensation-theorem-carrier}, \autoref{def:cauchy-condensation-theorem-blockwise-classifier}, and \autoref{thm:cauchy-condensation-theorem-namecert-obligations} seed the theorem-level dyadic block carrier, classifier, monotone transport ledger, and Cauchy-convergence handoff for monotone nonnegative real series.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host summability, quotient equality of series, selected sums, countable choice, arbitrary trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode BEDC.Derived.CauchyCondensationTheoremUp and prove carrier admission, blockwise classifier stability, monotone dyadic transport, the block ledger, and the Cauchy criterion handoff.}
+\end{closurestatus}
