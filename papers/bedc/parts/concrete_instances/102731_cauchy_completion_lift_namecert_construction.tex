@@ -86,11 +86,33 @@ The universal route row $R$ is downstream of $K$. Thus every allowed consumer re
 Transport, replay, provenance, and local naming close the route. Since $H,C,P,N$ preserve only the listed rows, the packet exports no quotient completion equality, selected limit, representative choice, countable choice, or ambient $\RealUp$ completeness.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionLift uniform-modulus handoff]
+\label{thm:cauchy-completion-lift-uniform-modulus-handoff}
+Let
+$$
+L=(S,T,F,U,E,K,R,H,C,P,N)
+$$
+be an accepted $\CauchyCompletionLiftUp$ carrier. Every completion consumer of lifted map data must expose the uniformly continuous source-map row $F$ and its modulus-bearing finite data before the $\UniformCompletionFunctorUp$, $\EffectiveCompletionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows can be read. Equivalently, the consumer route factors through
+$$
+S,T,F \longmapsto U,E \longmapsto K,R \longmapsto H,C,P,N
+$$
+with $F$ as the mandatory uniform-modulus handoff row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-lift-carrier}. The source row $S$, target consumer row $T$, and uniformly continuous source-map row $F$ are displayed before any completion-facing row.
+
+Apply \autoref{thm:cauchy-completion-lift-namecert-obligations}. Its uniform-continuity handoff obligation requires $F$ to be consumed through the uniform completion row $U$, while its effective completion exactness obligation makes the stream windows, regular rational readback, dyadic tolerance ledger, and real seal downstream of $E$.
+
+Now apply \autoref{thm:cauchy-completion-lift-universal-route}. The universal consumer route reads the lifted map through $K$ and $R$ only after $S,T,F,U,E$ have been displayed, and the structural rows $H,C,P,N$ merely preserve that route.
+
+The excluded alternatives have no carrier coordinate. Quotient completion equality, selected limits, host function equality, countable choice, and ambient $\RealUp$ completeness cannot supply the required modulus handoff because every accepted consumer has already been routed through $F$.
+\end{proof}
+
 \closureat{CauchyCompletionLiftUp}{seedStr}
 
 \begin{closurestatus}{\CauchyCompletionLiftUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-completion-lift-carrier}, \autoref{thm:cauchy-completion-lift-namecert-obligations}, and \autoref{thm:cauchy-completion-lift-universal-route} seed the finite universal lift route for uniformly continuous finite-source maps across Cauchy completion consumers.}
+  \scopeclosed{\autoref{def:cauchy-completion-lift-carrier}, \autoref{thm:cauchy-completion-lift-namecert-obligations}, \autoref{thm:cauchy-completion-lift-universal-route}, and \autoref{thm:cauchy-completion-lift-uniform-modulus-handoff} seed the finite universal lift route for uniformly continuous finite-source maps across Cauchy completion consumers.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.CauchyCompletionLiftUp}
   \bridgestatus{none}
