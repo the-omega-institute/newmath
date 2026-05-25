@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ParacompactUp
@@ -13,20 +14,20 @@ inductive ParacompactUp : Type where
   | mk (T A R L N M H C P Z : BHist) : ParacompactUp
   deriving DecidableEq
 
-def paracompactEncodeBHist : BHist -> RawEvent
+def paracompactEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: paracompactEncodeBHist h
   | BHist.e1 h => BMark.b1 :: paracompactEncodeBHist h
 
-def paracompactDecodeBHist : RawEvent -> BHist
+def paracompactDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (paracompactDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (paracompactDecodeBHist tail)
 
 private theorem ParacompactTasteGate_single_carrier_alignment_decode_encode :
-    forall h : BHist, paracompactDecodeBHist (paracompactEncodeBHist h) = h := by
+    ∀ h : BHist, paracompactDecodeBHist (paracompactEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -34,15 +35,15 @@ private theorem ParacompactTasteGate_single_carrier_alignment_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-private def paracompactFields : ParacompactUp -> List BHist
+private def paracompactFields : ParacompactUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | ParacompactUp.mk T A R L N M H C P Z => [T, A, R, L, N, M, H, C, P, Z]
 
-def paracompactToEventFlow : ParacompactUp -> EventFlow
+def paracompactToEventFlow : ParacompactUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (paracompactFields x).map paracompactEncodeBHist
 
-private def paracompactEventAt : Nat -> EventFlow -> RawEvent
+private def paracompactEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
@@ -65,7 +66,7 @@ def paracompactFromEventFlow (ef : EventFlow) : Option ParacompactUp :=
       (paracompactDecodeBHist (paracompactEventAt 9 ef)))
 
 private theorem ParacompactTasteGate_single_carrier_alignment_round_trip :
-    forall x : ParacompactUp,
+    ∀ x : ParacompactUp,
       paracompactFromEventFlow (paracompactToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
@@ -98,7 +99,7 @@ private theorem ParacompactTasteGate_single_carrier_alignment_round_trip :
 
 private theorem ParacompactTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : ParacompactUp} :
-    paracompactToEventFlow x = paracompactToEventFlow y -> x = y := by
+    paracompactToEventFlow x = paracompactToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -111,7 +112,7 @@ private theorem ParacompactTasteGate_single_carrier_alignment_toEventFlow_inject
       (Eq.trans hread (ParacompactTasteGate_single_carrier_alignment_round_trip y)))
 
 private theorem ParacompactTasteGate_single_carrier_alignment_fields :
-    forall x y : ParacompactUp, paracompactFields x = paracompactFields y -> x = y := by
+    ∀ x y : ParacompactUp, paracompactFields x = paracompactFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
@@ -141,16 +142,27 @@ instance paracompactFieldFaithful : FieldFaithful ParacompactUp where
   fields := paracompactFields
   field_faithful := ParacompactTasteGate_single_carrier_alignment_fields
 
+instance paracompactNontrivial : BEDC.Meta.TasteGate.Nontrivial ParacompactUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨ParacompactUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      ParacompactUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate ParacompactUp :=
   -- BEDC touchpoint anchor: BHist BMark
   paracompactChapterTasteGate
 
 theorem ParacompactTasteGate_single_carrier_alignment :
-    (forall h : BHist, paracompactDecodeBHist (paracompactEncodeBHist h) = h) ∧
-      (forall x : ParacompactUp,
+    (∀ h : BHist, paracompactDecodeBHist (paracompactEncodeBHist h) = h) ∧
+      (∀ x : ParacompactUp,
         paracompactFromEventFlow (paracompactToEventFlow x) = some x) ∧
-        (forall x y : ParacompactUp,
-          paracompactToEventFlow x = paracompactToEventFlow y -> x = y) ∧
+        (∀ x y : ParacompactUp,
+          paracompactToEventFlow x = paracompactToEventFlow y → x = y) ∧
           paracompactEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   exact
