@@ -69,6 +69,9 @@ def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_disp
     def execute_experiments() -> dict[str, object]:
         return lanes.run_execute_lane(store)
 
+    def namecert_decomposition() -> dict[str, object]:
+        return lanes.run_namecert_lane(store)
+
     def plan_phase_and_stuck() -> dict[str, object]:
         return lanes.run_plan_lane(store)
 
@@ -94,6 +97,7 @@ def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_disp
             LoopUnit("bio_V_vision_intake", vision_intake),
             LoopUnit("bio_G_gate_and_plan", gate_and_plan),
             LoopUnit("bio_X_execute_experiments", execute_experiments),
+            LoopUnit("bio_N_namecert_decomposition", namecert_decomposition),
             LoopUnit("bio_Plan_phase_and_stuck", plan_phase_and_stuck),
             LoopUnit("bio_R_agent_dispatch", agent_dispatch),
             LoopUnit("bio_W_writeback_paper", writeback_paper),

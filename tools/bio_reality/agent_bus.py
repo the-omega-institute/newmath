@@ -72,6 +72,13 @@ AGENTS = {
         ],
         "mission": "decompose passed BioReality content into next-step BEDC claim and experiment skeletons, or redesign stuck claims with stronger statistics",
     },
+    "bio-namer": {
+        "lane": "bio-R",
+        "writes": [
+            "tools/bio_reality/state/namecert_proposals/*.md",
+        ],
+        "mission": "translate a stable BioReality claim into a Loning-format NameCert proposal markdown with explicit external-reality fields and avoid Loning's already-occupied namespaces",
+    },
 }
 
 
@@ -377,6 +384,8 @@ def plan_agent_tasks(events: list[dict[str, Any]], existing_tasks: list[dict[str
             append_task(event, "bio-planner", "draft_next_phase_claim_and_experiment", 70)
         elif kind == "claim_redesign_proposed":
             append_task(event, "bio-planner", "redesign_stuck_claim", 75)
+        elif kind == "namecert_proposal_needed":
+            append_task(event, "bio-namer", "draft_namecert_proposal", 60)
     tasks.sort(key=_status_sort)
     return _dedup(tasks, "task_id")
 
@@ -484,6 +493,73 @@ def render_prompt(event: dict[str, Any], agent_id: str, action: str) -> str:
             "  experiment must now satisfy.",
             "- All edits must be atomic and pass the BioReality self-tests before",
             "  you finish.",
+        ]
+    elif agent_id == "bio-namer":
+        extra_rules = [
+            "",
+            "NAMECERT PROPOSAL DISCIPLINE (hard rules for bio-namer):",
+            "",
+            "Step 0. Read the event payload to find claim_id and linked_conjecture_id.",
+            "  Read tools/bio_reality/registries/claims.json and find the matching claim;",
+            "  read tools/bio_reality/inbox/conjectures.jsonl and find the matching",
+            "  conjecture; read the latest experiment_runs.jsonl entry for the claim.",
+            "",
+            "Step 1. Read tools/bio_reality/state/research_notes/loning_writeback_pattern.md",
+            "  if it exists. It records Loning's already-occupied terms",
+            "  (Codon64, Q_6, M^star, StopCodonZeckendorfSuffix, etc.) and recommended",
+            "  prefixes (BioRealityQSix, RealityBoundCodonTopology, CuratedGeneticTableLedger,",
+            "  EmpiricalCodonSpectrum). Avoid Loning's occupied names; use the recommended",
+            "  prefixes.",
+            "",
+            "Step 2. Compose a NameCert proposal markdown at",
+            "  tools/bio_reality/state/namecert_proposals/<claim_id>.md with EXACTLY these",
+            "  sections (in order, including the header lines verbatim):",
+            "",
+            "  # NameCert proposal for <claim_id>",
+            "",
+            "  ## 1. Loning-format chapter slug",
+            "  Propose a slug like <NNN>_<concept_in_snake_case>_namecert_construction",
+            "  using a BioReality-namespaced concept (must not clash with Loning).",
+            "",
+            "  ## 2. Carrier",
+            "  Carrier name (CamelCase, must start with BioReality or RealityBound or Empirical",
+            "  or Curated). Include short BEDC 5-tuple description.",
+            "",
+            "  ## 3. Distinctions",
+            "  List the distinctions enumerated by the experiment (e.g., codons in R, codons in M).",
+            "",
+            "  ## 4. Readback",
+            "  How the carrier reads back to observable data.",
+            "",
+            "  ## 5. Internal newmath/BEDC derivation",
+            "  Pure-BEDC content (median closure, spectrum, quotient). NO external biological",
+            "  numbers as kernel facts. Numbers go in section 6.",
+            "",
+            "  ## 6. External reality sources",
+            "  Cite curated NCBI tables, experiment_run IDs, and statistical witnesses by",
+            "  reference, not by repeating their contents. External numbers stay as bridge /",
+            "  provenance fields, never internalised.",
+            "",
+            "  ## 7. Cannot-claim boundary",
+            "  Use Loning's pattern: list what this chapter explicitly does NOT claim",
+            "  (e.g., biological-code necessity, translation realisation, folding,",
+            "  function realisation, universal mechanism).",
+            "",
+            "  ## 8. Bridge disclaimer",
+            '  Single paragraph mirroring Loning\'s "vision-level scientific-model bridge"',
+            "  language, adjusted for this claim.",
+            "",
+            "  ## 9. Lean target sketch (statement-only)",
+            "  A single line describing what Lean object would carry this (e.g.,",
+            "  BEDC.Derived.BioRealityQSixMedianClosureUp.TasteGate carrier alignment).",
+            "  Do NOT write Lean code; this section is text only.",
+            "",
+            "Step 3. Do not edit any other file. Do not modify claims.json, conjectures.jsonl,",
+            "  or any registry. Do not create new experiments. Do not call codex",
+            "  recursively. Do not push remote.",
+            "",
+            "Step 4. After writing the proposal, print a one-line completion summary to",
+            "  stdout listing the proposal path and the proposed slug.",
         ]
     return "\n".join(
         [
@@ -1110,6 +1186,38 @@ def self_test() -> int:
         for required_text in ("PLANNING DISCIPLINE", "depends_on must list ONLY", "never weaken the acceptance"):
             if required_text not in planner_prompt:
                 print(json.dumps({"missing": required_text, "prompt": planner_prompt}, indent=2), file=sys.stderr)
+                return 1
+        namer_tasks = plan_agent_tasks(
+            [
+                _event(
+                    "namecert_proposal_needed",
+                    "bio-N",
+                    "claim",
+                    "test.M.size",
+                    "claim test.M.size is stable; NameCert proposal not yet written",
+                    {"claim_id": "test.M.size", "linked_conjecture_id": "test.codon"},
+                )
+            ]
+        )
+        namer_task = next((task for task in namer_tasks if task.get("agent_id") == "bio-namer"), {})
+        if namer_task.get("action") != "draft_namecert_proposal" or int(namer_task.get("priority") or 0) != 60:
+            print(json.dumps(namer_tasks, indent=2), file=sys.stderr)
+            return 1
+        namer_prompt = render_prompt(
+            _event(
+                "namecert_proposal_needed",
+                "bio-N",
+                "claim",
+                "test.M.size",
+                "claim test.M.size is stable; NameCert proposal not yet written",
+                {"claim_id": "test.M.size", "linked_conjecture_id": "test.codon"},
+            ),
+            "bio-namer",
+            "draft_namecert_proposal",
+        )
+        for required_text in ("NAMECERT PROPOSAL DISCIPLINE", "BioReality or RealityBound", "vision-level scientific-model bridge"):
+            if required_text not in namer_prompt:
+                print(json.dumps({"missing": required_text, "prompt": namer_prompt}, indent=2), file=sys.stderr)
                 return 1
         stable_event = _event("experiment_failed", "bio-X", "experiment", "same-experiment", "failed", {})
         in_flight = _task_for_event(stable_event, "bio-experimentalist", "repair_experiment_script", 98)

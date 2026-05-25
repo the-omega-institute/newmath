@@ -392,6 +392,166 @@ def _brief_run(record: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _namecert_log(store: BioRealityStore, event: str, details: dict[str, Any]) -> None:
+    record = {"ts": now_iso(), "event": event, "details": details}
+    try:
+        store.paths.namecert_lane_log.parent.mkdir(parents=True, exist_ok=True)
+        with store.paths.namecert_lane_log.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
+    except OSError:
+        return
+
+
+def _string_tokens(value: Any) -> set[str]:
+    text = json.dumps(value, ensure_ascii=False, sort_keys=True) if isinstance(value, (dict, list)) else str(value or "")
+    tokens: set[str] = set()
+    current: list[str] = []
+    for char in text.lower():
+        if char.isalnum():
+            current.append(char)
+        else:
+            if len(current) >= 2:
+                tokens.add("".join(current))
+            current = []
+    if len(current) >= 2:
+        tokens.add("".join(current))
+    return tokens
+
+
+def _claim_match_tokens(claim: dict[str, Any]) -> set[str]:
+    fields = [
+        claim.get("claim_id"),
+        claim.get("statement"),
+        claim.get("bedc_minimal_form"),
+        claim.get("bedc_form"),
+        claim.get("experiment_id"),
+    ]
+    tokens: set[str] = set()
+    for field in fields:
+        tokens.update(_string_tokens(field))
+    if "q6" in tokens:
+        tokens.add("q")
+        tokens.add("6")
+    return tokens
+
+
+def _conjecture_match_tokens(conjecture: dict[str, Any]) -> set[str]:
+    bedc = conjecture.get("bedc_minimal_form") if isinstance(conjecture.get("bedc_minimal_form"), dict) else {}
+    fields = [
+        conjecture.get("conjecture_id"),
+        conjecture.get("biological_object"),
+        conjecture.get("informal_statement"),
+        bedc.get("carrier") if isinstance(bedc, dict) else None,
+        bedc.get("distinctions") if isinstance(bedc, dict) else None,
+        bedc.get("readback") if isinstance(bedc, dict) else None,
+        bedc.get("internal_structure") if isinstance(bedc, dict) else None,
+        conjecture.get("probe_refs"),
+    ]
+    tokens: set[str] = set()
+    for field in fields:
+        tokens.update(_string_tokens(field))
+    if "q6" in tokens:
+        tokens.add("q")
+        tokens.add("6")
+    return tokens
+
+
+def _latest_passed_run_for_claim(claim: dict[str, Any], runs: list[dict[str, Any]]) -> dict[str, Any] | None:
+    claim_id = str(claim.get("claim_id") or "")
+    experiment_id = str(claim.get("experiment_id") or "")
+    candidates = [
+        run
+        for run in runs
+        if str(run.get("status") or "") == "passed"
+        and (
+            (claim_id and str(run.get("claim_id") or "") == claim_id)
+            or (experiment_id and str(run.get("experiment_id") or "") == experiment_id)
+        )
+    ]
+    if not candidates:
+        return None
+    candidates.sort(key=lambda run: str(run.get("completed_at") or run.get("started_at") or ""), reverse=True)
+    return candidates[0]
+
+
+def _verified_facts_from_run(run: dict[str, Any]) -> dict[str, Any]:
+    values: dict[str, Any] = {}
+    checks = run.get("checks")
+    if isinstance(checks, list):
+        for check in checks:
+            if not isinstance(check, dict):
+                continue
+            name = str(check.get("name") or "")
+            if name and "actual" in check:
+                values[name] = check.get("actual")
+    result = run.get("result")
+    if isinstance(result, dict):
+        for key, value in result.items():
+            if isinstance(value, (str, int, float, bool)) or value is None:
+                values[str(key)] = value
+    return values
+
+
+def _find_matching_conjecture(
+    claim: dict[str, Any],
+    conjectures: list[dict[str, Any]],
+    runs: list[dict[str, Any]],
+) -> dict[str, Any] | None:
+    linked_id = str(claim.get("linked_conjecture_id") or "")
+    if linked_id:
+        for conjecture in conjectures:
+            if str(conjecture.get("conjecture_id") or "") == linked_id:
+                return conjecture
+
+    experiment_id = str(claim.get("experiment_id") or "")
+    experiment_run_probe_tokens: set[str] = set()
+    for run in runs:
+        if experiment_id and str(run.get("experiment_id") or "") == experiment_id:
+            experiment_run_probe_tokens.update(_string_tokens(run.get("probe_id")))
+            experiment_run_probe_tokens.update(_string_tokens(run.get("probe_ref")))
+            experiment_run_probe_tokens.update(_string_tokens(run.get("probe_refs")))
+
+    claim_tokens = _claim_match_tokens(claim)
+    strong_terms = {"codon", "q6", "median", "med", "spectrum", "reassignment", "genetic", "table", "boundary"}
+    best: tuple[int, str, dict[str, Any]] | None = None
+    for conjecture in conjectures:
+        probe_refs = {
+            str(item)
+            for item in conjecture.get("probe_refs", [])
+            if isinstance(item, str) and item
+        }
+        score = 0
+        if experiment_run_probe_tokens and (experiment_run_probe_tokens & _string_tokens(probe_refs)):
+            score += 8
+        conjecture_tokens = _conjecture_match_tokens(conjecture)
+        overlap = claim_tokens & conjecture_tokens
+        score += len(overlap)
+        score += 3 * len(overlap & strong_terms)
+        if score <= 0:
+            continue
+        candidate = (score, str(conjecture.get("conjecture_id") or ""), conjecture)
+        if best is None or candidate[0] > best[0] or (candidate[0] == best[0] and candidate[1] < best[1]):
+            best = candidate
+    return best[2] if best is not None else None
+
+
+def _loning_naming_hint(claim: dict[str, Any], conjecture: dict[str, Any]) -> str:
+    tokens = _claim_match_tokens(claim) | _conjecture_match_tokens(conjecture)
+    if {"q6", "median", "med"} & tokens:
+        return "BioRealityQSix"
+    if "codon" in tokens and ("spectrum" in tokens or "reassignment" in tokens):
+        return "EmpiricalCodonSpectrum"
+    if "table" in tokens or "genetic" in tokens:
+        return "CuratedGeneticTableLedger"
+    if "codon" in tokens:
+        return "RealityBoundCodonTopology"
+    return "BioReality"
+
+
+def _proposal_exists(store: BioRealityStore, claim_id: str) -> bool:
+    return (store.paths.namecert_proposals_dir / f"{claim_id}.md").exists()
+
+
 def _experiment_claim_index(claims: list[dict[str, Any]], experiments: list[dict[str, Any]]) -> dict[str, str]:
     claim_by_experiment = {
         str(claim.get("experiment_id") or ""): str(claim.get("claim_id") or "")
@@ -707,6 +867,98 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
     claims_document["claims"] = claims
     _write_claims_document(store.paths.claims_registry, claims_document)
     summary["claim_states"] = _claim_state_counts(claims)
+    return summary
+
+
+def run_namecert_lane(store: BioRealityStore) -> dict[str, Any]:
+    claims_document = _load_claims_document(store.paths.claims_registry)
+    claims = [item for item in claims_document.get("claims", []) if isinstance(item, dict)]
+    conjectures = store.load_conjectures()
+    runs = read_jsonl(store.paths.experiment_runs)
+    passed_claims = [claim for claim in claims if str(claim.get("status") or "") == "passed"]
+    summary = {
+        "lane": "bio-N",
+        "passed_claims_scanned": len(passed_claims),
+        "newly_linked": 0,
+        "verified_facts_updated": 0,
+        "proposal_events_emitted": 0,
+        "skipped_no_match": 0,
+    }
+    new_events: list[dict[str, Any]] = []
+
+    for claim in passed_claims:
+        claim_id = str(claim.get("claim_id") or "")
+        if not claim_id:
+            continue
+        had_link = bool(str(claim.get("linked_conjecture_id") or ""))
+        conjecture = _find_matching_conjecture(claim, conjectures, runs)
+        if conjecture is None:
+            summary["skipped_no_match"] += 1
+            _namecert_log(store, "no_linked_conjecture", {"claim_id": claim_id})
+            continue
+        latest_run = _latest_passed_run_for_claim(claim, runs)
+        if latest_run is None:
+            _namecert_log(store, "no_passed_experiment_run", {"claim_id": claim_id})
+            continue
+        conjecture_id = str(conjecture.get("conjecture_id") or "")
+        if not had_link and conjecture_id:
+            claim["linked_conjecture_id"] = conjecture_id
+            summary["newly_linked"] += 1
+
+        verified_facts = conjecture.setdefault("verified_facts", {})
+        if not isinstance(verified_facts, dict):
+            verified_facts = {}
+            conjecture["verified_facts"] = verified_facts
+        was_verified = claim_id in verified_facts
+        values = _verified_facts_from_run(latest_run)
+        verified_record = {
+            "verified_at": now_iso(),
+            "experiment_run_id": latest_run.get("experiment_run_id"),
+            "values": values,
+        }
+        verified_facts[claim_id] = verified_record
+        conjecture["last_verified_at"] = verified_record["verified_at"]
+        linked_claim_ids = conjecture.setdefault("linked_claim_ids", [])
+        if not isinstance(linked_claim_ids, list):
+            linked_claim_ids = []
+            conjecture["linked_claim_ids"] = linked_claim_ids
+        if claim_id not in [str(item) for item in linked_claim_ids]:
+            linked_claim_ids.append(claim_id)
+        if not was_verified:
+            summary["verified_facts_updated"] += 1
+
+        if (not had_link or not was_verified) and not _proposal_exists(store, claim_id):
+            event = agent_bus._event(
+                "namecert_proposal_needed",
+                "bio-N",
+                "claim",
+                claim_id,
+                f"claim {claim_id} is stable; NameCert proposal not yet written",
+                {
+                    "claim_id": claim_id,
+                    "linked_conjecture_id": conjecture_id,
+                    "verified_facts": verified_record,
+                    "loning_naming_hint": _loning_naming_hint(claim, conjecture),
+                },
+            )
+            new_events.append(event)
+
+    store.write_conjectures(conjectures)
+    claims_document["claims"] = claims
+    _write_claims_document(store.paths.claims_registry, claims_document)
+    existing_events = store.load_events()
+    merged = agent_bus._dedup(existing_events + new_events, "event_id")
+    store.write_events(merged)
+    existing_open = {
+        agent_bus._event_stable_key(event)
+        for event in existing_events
+        if str(event.get("status") or "open") == "open"
+    }
+    summary["proposal_events_emitted"] = sum(
+        1
+        for event in new_events
+        if agent_bus._event_stable_key(event) not in existing_open
+    )
     return summary
 
 
@@ -1314,6 +1566,8 @@ def _temp_paths(base: Path) -> BioRealityPaths:
         sync_lane_state=base / "sync_lane.json",
         sync_lane_log=base / "sync_lane.log",
         loning_intelligence=base / "loning_intelligence.jsonl",
+        namecert_proposals_dir=base / "namecert_proposals",
+        namecert_lane_log=base / "namecert_lane.log",
         experiments_dir=base / "experiments",
         data_dir=base / "data",
         vision_dir=base / "vision",
@@ -1795,6 +2049,81 @@ def self_test() -> int:
             print(json.dumps({"summary": execute_summary, "claims": updated_claims}, indent=2), file=sys.stderr)
             return 1
 
+        namecert_paths = _temp_paths(base / "namecert")
+        namecert_paths.claims_registry.parent.mkdir(parents=True, exist_ok=True)
+        namecert_paths.claims_registry.write_text(
+            json.dumps(
+                {
+                    "version": "bio-reality-claims-v1",
+                    "claims": [
+                        {
+                            "claim_id": "test.M.size",
+                            "statement": "codon median set M has size 20",
+                            "depends_on": [],
+                            "status": "passed",
+                            "experiment_id": "check_size",
+                            "history": [],
+                        }
+                    ],
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+        write_jsonl(
+            namecert_paths.conjectures,
+            [
+                {
+                    "conjecture_id": "test.codon",
+                    "biological_object": "codon table",
+                    "informal_statement": "codon median packet",
+                    "bedc_minimal_form": {
+                        "carrier": "codon carrier",
+                        "distinctions": ["codons in R", "codons in M"],
+                        "readback": "observable codon table",
+                        "internal_structure": ["median closure"],
+                    },
+                    "probe_refs": ["codon.size.probe"],
+                    "forbidden_claims": ["translation realisation"],
+                }
+            ],
+        )
+        write_jsonl(
+            namecert_paths.experiment_runs,
+            [
+                {
+                    "experiment_run_id": "run.test.size.1",
+                    "experiment_id": "check_size",
+                    "claim_id": "test.M.size",
+                    "status": "passed",
+                    "checks": [{"name": "M_size_equals_20", "passed": True, "actual": 20}],
+                    "result": {"lambda": 0.5, "nested": {"skip": True}, "items": [1, 2]},
+                    "completed_at": "2026-05-25T00:00:01+00:00",
+                }
+            ],
+        )
+        namecert_store = BioRealityStore(namecert_paths)
+        namecert_summary = run_namecert_lane(namecert_store)
+        namecert_claims = json.loads(namecert_paths.claims_registry.read_text(encoding="utf-8"))["claims"]
+        namecert_conjectures = namecert_store.load_conjectures()
+        namecert_events = namecert_store.load_events()
+        if (
+            namecert_summary["passed_claims_scanned"] != 1
+            or namecert_summary["newly_linked"] != 1
+            or namecert_summary["verified_facts_updated"] != 1
+            or namecert_summary["proposal_events_emitted"] != 1
+            or namecert_claims[0].get("linked_conjecture_id") != "test.codon"
+            or "test.M.size" not in namecert_conjectures[0].get("verified_facts", {})
+            or not namecert_conjectures[0].get("last_verified_at")
+            or not any(event.get("event_kind") == "namecert_proposal_needed" for event in namecert_events)
+        ):
+            print(json.dumps({"summary": namecert_summary, "claims": namecert_claims, "conjectures": namecert_conjectures, "events": namecert_events}, indent=2), file=sys.stderr)
+            return 1
+        namecert_repeat = run_namecert_lane(namecert_store)
+        if namecert_repeat["proposal_events_emitted"] != 0:
+            print(json.dumps({"summary": namecert_repeat, "events": namecert_store.load_events()}, indent=2), file=sys.stderr)
+            return 1
+
         plan_phase_paths = _temp_paths(base / "plan_phase")
         plan_phase_paths.claims_registry.parent.mkdir(parents=True, exist_ok=True)
         plan_phase_paths.claims_registry.write_text(
@@ -1902,8 +2231,8 @@ def self_test() -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Run BioReality V/P/G/X/R/W/Q/A lanes")
-    parser.add_argument("--lane", choices=["vision", "packet", "gate", "execute", "agent", "writeback", "quality", "assimilate", "all"], default="all")
+    parser = argparse.ArgumentParser(description="Run BioReality V/P/G/X/N/R/W/Q/A lanes")
+    parser.add_argument("--lane", choices=["vision", "packet", "gate", "execute", "namecert", "agent", "writeback", "quality", "assimilate", "all"], default="all")
     parser.add_argument("--plan-only", action="store_true")
     parser.add_argument("--max-dispatch", type=int, default=1)
     parser.add_argument("--conjectures", default=str(BioRealityPaths.conjectures))
@@ -1959,6 +2288,8 @@ def main(argv: list[str] | None = None) -> int:
         summaries.append(run_gate_lane(store))
     if args.lane in {"execute", "all"}:
         summaries.append(run_execute_lane(store))
+    if args.lane in {"namecert", "all"}:
+        summaries.append(run_namecert_lane(store))
     if args.lane in {"agent", "all"}:
         summaries.append(run_agent_lane(store, execute_codex=not args.plan_only, max_dispatch=max(0, args.max_dispatch)))
     if args.lane in {"writeback", "all"}:
