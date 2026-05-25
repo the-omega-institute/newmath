@@ -1,11 +1,18 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyAdditionUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -221,5 +228,44 @@ theorem RegularCauchyAdditionTasteGate_single_carrier_alignment :
       regularCauchyAdditionEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   exact RegularCauchyAdditionUp_single_carrier_alignment
+
+def RegularCauchyAdditionCarrier [AskSetup] [PackageSetup]
+    (R0 R1 W0 W1 T0 T1 D S E Z H C P N : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  UnaryHistory R0 ∧ UnaryHistory R1 ∧ UnaryHistory W0 ∧ UnaryHistory W1 ∧
+    UnaryHistory T0 ∧ UnaryHistory T1 ∧ UnaryHistory D ∧ UnaryHistory S ∧
+      UnaryHistory E ∧ UnaryHistory Z ∧ UnaryHistory H ∧ UnaryHistory C ∧
+        UnaryHistory P ∧ UnaryHistory N ∧ Cont R0 R1 W0 ∧ Cont W0 W1 T0 ∧
+          Cont T0 T1 D ∧ Cont D E H ∧ Cont H C S ∧ Cont S Z P ∧
+            PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
+theorem RegularCauchyAdditionCarrier_real_seal_handoff [AskSetup] [PackageSetup]
+    {R0 R1 W0 W1 T0 T1 D S E Z H C P N sourceRead endpointRead ledgerRead
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyAdditionCarrier R0 R1 W0 W1 T0 T1 D S E Z H C P N bundle pkg →
+      Cont R0 R1 sourceRead →
+        Cont T0 T1 endpointRead →
+          Cont D E ledgerRead →
+            Cont S Z sealRead →
+              PkgSig bundle sealRead pkg →
+                UnaryHistory R0 ∧ UnaryHistory R1 ∧ UnaryHistory T0 ∧
+                  UnaryHistory T1 ∧ UnaryHistory D ∧ UnaryHistory E ∧
+                    UnaryHistory S ∧ UnaryHistory Z ∧ UnaryHistory sealRead ∧
+                      Cont R0 R1 sourceRead ∧ Cont T0 T1 endpointRead ∧
+                        Cont D E ledgerRead ∧ Cont S Z sealRead ∧
+                          PkgSig bundle P pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier sourceRoute endpointRoute ledgerRoute sealRoute sealSig
+  obtain ⟨R0Unary, R1Unary, _W0Unary, _W1Unary, T0Unary, T1Unary, DUnary, SUnary,
+    EUnary, ZUnary, _HUnary, _CUnary, _PUnary, _NUnary, _R0R1W0, _W0W1T0,
+    _T0T1D, _DEH, _HCS, _SZP, provenanceSig, _nameSig⟩ := carrier
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed SUnary ZUnary sealRoute
+  exact
+    ⟨R0Unary, R1Unary, T0Unary, T1Unary, DUnary, EUnary, SUnary, ZUnary,
+      sealReadUnary, sourceRoute, endpointRoute, ledgerRoute, sealRoute,
+      provenanceSig, sealSig⟩
 
 end BEDC.Derived.RegularCauchyAdditionUp
