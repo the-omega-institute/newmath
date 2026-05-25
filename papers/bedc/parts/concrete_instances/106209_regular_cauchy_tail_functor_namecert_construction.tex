@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailFunctorUp$}
+\label{ch:concrete-instances-regular-cauchy-tail-functor-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyTailFunctorUp$ packet records the finite functorial surface of tail shift on regular Cauchy rational names. It sits over the finite window service of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the one-step tail-shift packet of \autoref{ch:concrete-instances-regular-cauchy-shift-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the identity and composition behaviour of displayed tail shifts; it does not identify quotient streams, select host limits, import countable choice, or claim ambient completeness.
+
+\begin{definition}[Regular Cauchy tail-functor carrier]
+\label{def:regular-cauchy-tail-functor-carrier}
+A $\RegularCauchyTailFunctorUp$ carrier is a finite $\BHist$ packet
+$$
+F=(R,W,D,I,K,J,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ source row whose regular rational name is inspected only through displayed finite windows.
+\item $W$ is the $\StreamNameUp$ schedule row naming the source windows, shifted windows, and comparison windows used by the functorial read.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the precision requests and endpoint comparisons preserved by the shifts.
+\item $I$ is the identity-tail row, recording that the zero shift rereads the same displayed windows and tolerance rows.
+\item $K$ is the composable-tail row, recording two displayed tail shifts $k$ and $\ell$ together with the single displayed shift $k+\ell$.
+\item $J$ is the $\RegularCauchyShiftUp$ handoff row that supplies each one-step or finite-tail shift certificate used by $I$ and $K$.
+\item $E$ is the terminal $\RealUp$ seal row reached after $R,W,D,I,K,J$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, window, tolerance, identity, composition, shift-handoff, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each tail-shift request through $R,W,D,I,K,J,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTailFunctorUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyShiftUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyTailFunctorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,W,D,I,K,J,E,H,C,P,N$. It has no coordinate for quotienting streams by tail agreement, selecting a limit, countable-choice tail selectors, host equality of sequences, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tail-functor NameCert obligations]
+\label{thm:regular-cauchy-tail-functor-namecert-obligations}
+For every accepted $\RegularCauchyTailFunctorUp$ carrier $F=(R,W,D,I,K,J,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyTailFunctorUp}$ surface consists exactly of carrier admission for the source, window, dyadic tolerance, identity-tail, composable-tail, shift-handoff, Real seal, transport, replay, provenance, and local naming rows; identity stability through $I$; composition stability through $K$ and $J$; Real-seal non-escape through $E$; and refusal of quotient stream equality, selected limits, countable choice, host sequence equality, and ambient completeness as certificate data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-functor-carrier}. The analytic rows are $R,W,D,I,K,J,E$, and the structural rows $H,C,P,N$ transport, replay, source, and name the same finite data.
+
+The identity obligation is read from $I$. It records the zero-tail request against the same displayed $\StreamNameUp$ windows and the same $\DyadicRatCoreUp$ tolerance ledger, so the accepted read has no second source row.
+
+The composition obligation is read from $K$ and $J$. The two displayed shifts $k$ and $\ell$ are admitted only through $\RegularCauchyShiftUp$ handoff rows, and the same handoff surface records the single displayed shift $k+\ell$.
+
+Finally $E$ is downstream of the source, window, tolerance, identity, composition, and shift-handoff rows. Since the excluded quotient, selection, choice, host-equality, and completeness objects have no carrier coordinate, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-functor identity and composition]
+\label{thm:regular-cauchy-tail-functor-identity-composition}
+Let $F=(R,W,D,I,K,J,E,H,C,P,N)$ be an accepted $\RegularCauchyTailFunctorUp$ packet. Every $\RealUp$-facing consumer of the identity tail read and every $\RealUp$-facing consumer of a composed tail read factors through the finite route
+$$
+\RegSeqRatUp \longrightarrow \StreamNameUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RegularCauchyShiftUp \longrightarrow \RealUp .
+$$
+The zero shift rereads the displayed $R,W,D$ rows, and the composite of shifts $k$ and $\ell$ is exported only through the displayed $k+\ell$ shift handoff. No consumer receives a quotient-stream equality, selected host limit, countable-choice selector, or ambient completeness theorem from the packet.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regular-cauchy-tail-functor-namecert-obligations}. The identity-tail row $I$ is tied to the displayed source $R$, window schedule $W$, and tolerance ledger $D$, so an identity consumer cannot bypass those rows.
+
+For composition, the row $K$ records the two shifts and their displayed sum. The handoff row $J$ supplies the required $\RegularCauchyShiftUp$ certificates before any Real-facing seal is read.
+
+The terminal row $E$ seals only this displayed route. The structural rows $H,C,P,N$ preserve that route under transport, replay, provenance, and naming, and they do not add quotient, selection, choice, host-equality, or completeness coordinates.
+\end{proof}
+
+\closureat{RegularCauchyTailFunctorUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTailFunctorUp}
+  \constructivestory{A $\RegularCauchyTailFunctorUp$ packet is generated from a RegSeqRat source row, StreamName schedule rows, a DyadicRatCore tolerance ledger, identity-tail and composable-tail rows, RegularCauchyShift handoff rows, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-functor-carrier}, \autoref{thm:regular-cauchy-tail-functor-namecert-obligations}, and \autoref{thm:regular-cauchy-tail-functor-identity-composition} seed the finite tail-functor route over StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, RegularCauchyShiftUp, RealUp, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, countable-choice tail selectors, host sequence equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, identity-tail stability, composition stability, RegularCauchyShift handoff exactness, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyTailFunctorUp.}
+\end{closurestatus}
