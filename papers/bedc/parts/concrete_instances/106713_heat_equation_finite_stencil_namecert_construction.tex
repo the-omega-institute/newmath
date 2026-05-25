@@ -1,0 +1,161 @@
+\chapter{A Concrete Naming Certificate for $\HeatEquationFiniteStencilUp$}
+\label{ch:concrete-instances-heat-equation-finite-stencil-namecert}
+\origin{human}
+
+Following Fourier's heat-equation analysis and the Courant--Friedrichs--Lewy
+finite-difference tradition, the $\HeatEquationFiniteStencilUp$ packet records
+only the finite constructive stencil interface visible to BEDC consumers. It
+sits after the partial-differential-equation row of
+\autoref{ch:concrete-instances-pde-namecert}, the derivative row of
+\autoref{ch:concrete-instances-derivative-namecert}, the integral row of
+\autoref{ch:concrete-instances-integral-namecert}, the transform handoff of
+\autoref{ch:concrete-instances-laplace-transform-namecert}, the real seal of
+\autoref{ch:concrete-instances-real-namecert}, the regular rational readback
+of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream-window
+discipline of \autoref{ch:concrete-instances-streamname-namecert}, and the
+dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}.
+The chapter records heat-equation finite-stencil data as a local NameCert
+surface; it does not assert analytic solution existence, global PDE
+well-posedness, host function spaces, measure theory, or ambient
+$\RealUp$ completeness.
+
+\begin{definition}[Heat-equation finite-stencil carrier]
+\label{def:heat-equation-finite-stencil-carrier}
+A $\HeatEquationFiniteStencilUp$ carrier is a finite $\BHist$ packet
+$$
+E=(F,T,X,B,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the finite source-function window row, read through
+$\StreamNameUp$ and $\RegSeqRatUp$ observations of the finitely inspected
+source values.
+\item $T$ is the time-step row containing the displayed dyadic time width,
+time-index schedule, and local tolerance budget.
+\item $X$ is the spatial stencil row containing the displayed dyadic mesh
+width, nearest-neighbour or finite-radius stencil weights, and inspected
+spatial index schedule.
+\item $B$ is the boundary row containing only the boundary values and boundary
+classifier reads requested by the finite stencil.
+\item $Q$ is the finite replay row that records how source, time-step,
+spatial-stencil, and boundary reads produce the next displayed heat row.
+\item $R$ is the real-seal row reached through $\RealUp$, $\RegSeqRatUp$,
+$\StreamNameUp$, and $\DyadicRatCoreUp$ readbacks for the finitely inspected
+stencil values.
+\item $H$ records componentwise $\hsame$ transport for $F,T,X,B,Q,R,P,N$ and
+for the local certificate rows.
+\item $C$ records displayed $\Cont$ replay from the source-function windows
+through time-step, spatial-stencil, boundary, and real-seal rows.
+\item $P$ is the $\Pkg$ provenance over $\HeatEquationFiniteStencilUp$,
+$\PdeUp$, $\DerivativeUp$, $\IntegralUp$, $\LaplaceTransformUp$, $\RealUp$,
+$\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$,
+$\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HeatEquationFiniteStencilUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through
+$F,T,X,B,Q,R,H,C,P,N$. It has no coordinate for analytic solution existence,
+global parabolic well-posedness, host function-space equality, measure-theory
+integration, infinite mesh limits, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Heat-equation finite-stencil NameCert obligations]
+\label{thm:heat-equation-finite-stencil-namecert-obligations}
+For an accepted $\HeatEquationFiniteStencilUp$ carrier
+$E=(F,T,X,B,Q,R,H,C,P,N)$, the local
+$\NameCert_{\HeatEquationFiniteStencilUp}$ surface consists exactly of carrier
+admission, source-window admission, time-step exactness, spatial-stencil
+exactness, boundary-row exactness, finite replay, real-seal handoff,
+componentwise transport, displayed continuation replay, provenance, and local
+naming. These obligations are discharged along the finite route
+$$
+F,T,X,B\longmapsto Q\longmapsto R
+$$
+together with $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from
+\autoref{def:heat-equation-finite-stencil-carrier}. The projection exposes the
+source-function windows, time-step row, spatial-stencil row, boundary row,
+finite replay row, real-seal row, transport rows, replay rows, provenance row,
+and local name.
+
+The source-window, time-step, spatial-stencil, and boundary obligations are
+the rows $F,T,X,B$. They record only finite stream positions, regular rational
+readbacks, dyadic mesh and time budgets, and boundary reads already displayed
+in the packet.
+
+The finite replay obligation is $Q$. It consumes $F,T,X,B$ before the real
+seal $R$ is read, so the heat row is a displayed stencil calculation rather
+than a host PDE solution.
+
+Finally $H$ transports the same rows componentwise, $C$ replays the same route,
+and $P,N$ source and name the packet. Since the carrier contains no row for
+analytic existence, global well-posedness, host function spaces, measure
+theory, infinite mesh limits, or ambient real completeness, the listed rows
+exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Heat-equation finite-stencil Laplace-PDE handoff]
+\label{thm:heat-equation-finite-stencil-laplace-pde-handoff}
+Every accepted $\HeatEquationFiniteStencilUp$ handoff to a $\PdeUp$ or
+$\LaplaceTransformUp$ consumer passes first through the displayed finite
+stencil route
+$$
+F,T,X,B\longmapsto Q\longmapsto R.
+$$
+The $\PdeUp$ read receives only the derivative-relation and boundary rows
+visible through the stencil packet, while the $\LaplaceTransformUp$ read
+receives only the finite transform-window handoff after $R$ has been displayed.
+Neither consumer obtains analytic solution existence, global heat-kernel
+semantics, selected improper limits, host function-space equality, measure
+theory, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier
+$E=(F,T,X,B,Q,R,H,C,P,N)$. The PDE-facing data are not independent host
+equations; they are the derivative-relation, time-step, spatial-stencil, and
+boundary reads already present in $T,X,B,Q$.
+
+For a $\PdeUp$ consumer, replay $C$ from the source windows through the time
+and spatial rows into $Q$. The consumer can inspect only the finite relation
+and boundary rows that the replay exposes, transported by $H$ and sourced by
+$P,N$.
+
+For a $\LaplaceTransformUp$ consumer, the transform-window handoff is available
+only after the real-seal row $R$ has been reached through the same route. The
+read therefore consumes finite stream, regular rational, and dyadic rows
+before it reaches any transform output.
+
+The excluded analytic objects are not fields of the carrier. The handoff is
+therefore a finite NameCert route from stencil data to PDE and Laplace
+interfaces, not a claim of global heat-equation solvability or host analytic
+semantics.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\HeatEquationFiniteStencilUp$ consumer
+that reaches a $\PdeUp$, $\DerivativeUp$, $\IntegralUp$,
+$\LaplaceTransformUp$, or $\RealUp$ row without reading the displayed
+$\StreamNameUp$ source windows, $\RegSeqRatUp$ readbacks,
+$\DyadicRatCoreUp$ mesh and tolerance rows, finite stencil replay,
+componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$
+provenance, and local $\NameCert$ row refutes the carrier surface.}
+
+\independenceWitness{pde, derivative, integral, laplacetransform, real,
+regseqrat, streamname, dyadicratcore: no listed sibling supplies the whole
+heat finite-stencil packet $E=(F,T,X,B,Q,R,H,C,P,N)$, because each sibling
+contributes only a PDE relation, derivative read, integral window, transform
+handoff, real seal, regular rational readback, stream schedule, or dyadic
+tolerance ledger while this chapter binds them into one finite replay and
+local naming route.}
+
+\closureat{HeatEquationFiniteStencilUp}{seedStr}
+
+\begin{closurestatus}{\HeatEquationFiniteStencilUp}
+  \constructivestory{A $\HeatEquationFiniteStencilUp$ packet is generated from finite source-function windows, a displayed time-step row, a displayed spatial-stencil row, boundary rows, finite replay rows, a Real-seal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:heat-equation-finite-stencil-carrier}, \autoref{thm:heat-equation-finite-stencil-namecert-obligations}, and \autoref{thm:heat-equation-finite-stencil-laplace-pde-handoff} seed the finite constructive heat-equation stencil boundary over $\PdeUp$, $\DerivativeUp$, $\IntegralUp$, $\LaplaceTransformUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim analytic solution existence, global PDE well-posedness, host function spaces, measure theory, infinite mesh convergence, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the displayed carrier and prove the finite NameCert obligation surface and Laplace-PDE handoff.}
+\end{closurestatus}
