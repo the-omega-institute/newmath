@@ -195,6 +195,82 @@ theorem MetricCompletion_branch_conversion_refusal [AskSetup] [PackageSetup]
     ⟨filterUnary, netUnary, filterReadUnary, netReadUnary, mixedReadUnary, filterRoute,
       netRoute, mixedRoute, provenancePkg, mixedPkg⟩
 
+theorem MetricCompletion_obligation_separated_comparison [AskSetup] [PackageSetup]
+    {source filterBranch netBranch readback separated transport replay provenance localCert
+      selectedBranch branchRead separatedRead comparisonRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricCompletionCarrier source filterBranch netBranch readback separated transport replay
+        provenance localCert bundle pkg →
+      (hsame selectedBranch filterBranch ∨ hsame selectedBranch netBranch) →
+        Cont source selectedBranch branchRead →
+          Cont branchRead separated separatedRead →
+            Cont separatedRead transport comparisonRead →
+              PkgSig bundle comparisonRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row comparisonRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row source ∨ hsame row selectedBranch ∨ hsame row branchRead ∨
+                        hsame row separated ∨ hsame row comparisonRead)
+                    (fun row : BHist =>
+                      hsame row comparisonRead ∧ PkgSig bundle comparisonRead pkg)
+                    hsame ∧
+                  UnaryHistory source ∧ UnaryHistory selectedBranch ∧
+                    UnaryHistory branchRead ∧ UnaryHistory separated ∧
+                      UnaryHistory comparisonRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg SemanticNameCert UnaryHistory
+  intro carrier branchChoice branchRoute separatedRoute comparisonRoute comparisonPkg
+  obtain ⟨sourceUnary, filterUnary, netUnary, _readbackUnary, separatedUnary,
+    transportUnary, _replayUnary, _provenanceUnary, _localCertUnary, _carrierReplay,
+    _transportSame, _provenancePkg, _localCertPkg⟩ := carrier
+  have selectedUnary : UnaryHistory selectedBranch := by
+    cases branchChoice with
+    | inl sameFilter =>
+        exact unary_transport filterUnary (hsame_symm sameFilter)
+    | inr sameNet =>
+        exact unary_transport netUnary (hsame_symm sameNet)
+  have branchReadUnary : UnaryHistory branchRead :=
+    unary_cont_closed sourceUnary selectedUnary branchRoute
+  have separatedReadUnary : UnaryHistory separatedRead :=
+    unary_cont_closed branchReadUnary separatedUnary separatedRoute
+  have comparisonUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed separatedReadUnary transportUnary comparisonRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row comparisonRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row source ∨ hsame row selectedBranch ∨ hsame row branchRead ∨
+              hsame row separated ∨ hsame row comparisonRead)
+          (fun row : BHist => hsame row comparisonRead ∧ PkgSig bundle comparisonRead pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro comparisonRead
+          ⟨hsame_refl comparisonRead, comparisonUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          constructor
+          · exact hsame_trans (hsame_symm sameRows) sourceRow.left
+          · exact unary_transport sourceRow.right sameRows
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left)))
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.left, comparisonPkg⟩
+    }
+  exact
+    ⟨cert, sourceUnary, selectedUnary, branchReadUnary, separatedUnary, comparisonUnary⟩
+
 end BEDC.Derived.MetricCompletionUp.BranchReadback
 
 namespace BEDC.Derived.MetricCompletionUp
