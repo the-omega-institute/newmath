@@ -3012,6 +3012,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.CompactConsumerRadiusLedgerTotality
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactContinuousSourceAccountability
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactContinuousUnblock
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactMetricHandoffExactness
+import BEDC.Derived.FiniteLebesgueNumberUp.CompactRadiusBridge
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactUniformChoiceRefusal
 import BEDC.Derived.FiniteLebesgueNumberUp.Core
 import BEDC.Derived.FiniteLebesgueNumberUp.DyadicCoverCellSelection
@@ -3021,6 +3022,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.L10PhaseConsumerReadiness
 import BEDC.Derived.FiniteLebesgueNumberUp.L10SiblingRoute
 import BEDC.Derived.FiniteLebesgueNumberUp.L10SourceLock
 import BEDC.Derived.FiniteLebesgueNumberUp.LedgerTransport
+import BEDC.Derived.FiniteLebesgueNumberUp.MeshRefinementCoverExhaustion
 import BEDC.Derived.FiniteLebesgueNumberUp.ObligationCoverageRow
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenCoverRefusalBoundary
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhase
@@ -3642,6 +3644,7 @@ import BEDC.Derived.KroneckerLemmaUp.TasteGate
 import BEDC.Derived.KuratowskiCompletionNaturalityUp
 import BEDC.Derived.KuratowskiEmbeddingUp.TasteGate
 import BEDC.Derived.LFunctionUp
+import BEDC.Derived.LLPOBoundaryUp.TasteGate
 import BEDC.Derived.LPDualityUp
 import BEDC.Derived.LQRUp
 import BEDC.Derived.LQRUp.EmptyHorizon
