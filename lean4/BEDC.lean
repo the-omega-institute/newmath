@@ -1578,6 +1578,7 @@ import BEDC.Derived.ClosedBoundedIntervalNetUp.CellCenterReadback
 import BEDC.Derived.ClosedBoundedIntervalNetUp.CompactUniformRoute
 import BEDC.Derived.ClosedBoundedIntervalNetUp.FiniteMeshCoverage
 import BEDC.Derived.ClosedBoundedIntervalNetUp.LocatedEndpointStability
+import BEDC.Derived.ClosedBoundedIntervalNetUp.MeshRefinementFusion
 import BEDC.Derived.ClosedBoundedIntervalNetUp.PublicEnvelope
 import BEDC.Derived.ClosedBoundedIntervalNetUp.PublicFiniteNetExport
 import BEDC.Derived.ClosedBoundedIntervalNetUp.RegSeqRatWindowExactness
@@ -3078,6 +3079,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.CompactContinuousUnblock
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactMetricHandoffExactness
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactRadiusBridge
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactUniformChoiceRefusal
+import BEDC.Derived.FiniteLebesgueNumberUp.ContinuousMapUniformRouteRow
 import BEDC.Derived.FiniteLebesgueNumberUp.Core
 import BEDC.Derived.FiniteLebesgueNumberUp.CoverShrinkageStability
 import BEDC.Derived.FiniteLebesgueNumberUp.DyadicCoverCellSelection
@@ -3093,6 +3095,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.OpenCoverRefusalBoundary
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhase
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseNonchoiceCover
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseRadiusWindowExhaustion
+import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseRootPackage
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseRootUnblockObligations
 import BEDC.Derived.FiniteLebesgueNumberUp.OpenPhaseSourceNonescape
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealAuditLedgerReadiness
