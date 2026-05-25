@@ -873,6 +873,7 @@ import BEDC.Derived.CantorDiagonalRealUncountabilityUp.TasteGate
 import BEDC.Derived.CantorFanBarrierUp.TasteGate
 import BEDC.Derived.CantorFunctionUp.TasteGate
 import BEDC.Derived.CantorIntersectionUp
+import BEDC.Derived.CantorIntersectionUp.DiagonalCofinalReadback
 import BEDC.Derived.CantorIntersectionUp.RegSeqRatHandoffExactness
 import BEDC.Derived.CantorIntersectionUp.TasteGate
 import BEDC.Derived.CantorIntersectionUp.WidthWindowTransport

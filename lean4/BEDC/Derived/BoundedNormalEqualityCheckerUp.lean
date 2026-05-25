@@ -85,6 +85,28 @@ theorem BoundedNormalEqualityCheckerCarrier_namecert_obligations [AskSetup] [Pac
           exact ⟨provenancePkg, nameCertPkg, source.left⟩ }
   exact ⟨cert, leftRoute, rightRoute, equalityRoute, nameCertPkg⟩
 
+theorem BoundedNormalEqualityCheckerCarrier_namecert_ledger_read_boundary [AskSetup]
+    [PackageSetup]
+    {left right fuel normalLeft normalRight equality witness closed transport route provenance
+      nameCert localRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedNormalEqualityCheckerCarrier left right fuel normalLeft normalRight equality witness
+        closed transport route provenance nameCert bundle pkg ->
+      hsame localRead nameCert ->
+        UnaryHistory localRead ->
+          (hsame localRead left ∨ hsame localRead right ∨ hsame localRead fuel ∨
+              hsame localRead normalLeft ∨ hsame localRead normalRight ∨
+                hsame localRead equality ∨ hsame localRead witness ∨ hsame localRead closed ∨
+                  hsame localRead nameCert) ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle nameCert pkg ∧
+              hsame localRead nameCert := by
+  intro carrier localSame localUnary
+  have cert :=
+    (BoundedNormalEqualityCheckerCarrier_namecert_obligations carrier).left
+  exact
+    ⟨cert.pattern_sound ⟨localSame, localUnary⟩,
+      cert.ledger_sound ⟨localSame, localUnary⟩⟩
+
 theorem BoundedNormalEqualityCheckerCarrier_finished_soundness_boundary [AskSetup]
     [PackageSetup]
     {left right fuel normalLeft normalRight equality witness closed transport route provenance
