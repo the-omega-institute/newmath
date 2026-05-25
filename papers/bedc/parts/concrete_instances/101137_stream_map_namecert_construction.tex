@@ -58,6 +58,20 @@ The target classifier $T$ and the output observations $W$ then package exactly t
 Thus every mapped finite-window read has the displayed factorization $S \longmapsto F \longmapsto T \longmapsto W$, and downstream consumers inherit that route rather than a quotient-stream or selected-limit principle.
 \end{proof}
 
+\begin{theorem}[Stream map composition-window route]
+\label{thm:stream-map-composition-window-route}
+Let two accepted $\StreamMapUp$ carriers be composable by identifying the first target window with the second source window. The composed mapped stream can be exposed only through the first source $\StreamNameUp$ row, the first point-map row, the intermediate target/source window, the second point-map row, and the final target window before any $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ row is consumed.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The first carrier exposes its mapped finite-window read through its source row, point-map row, target row, and output row before any regular rational, dyadic, or Real-facing row is available.
+
+Apply \autoref{thm:stream-map-finite-window-functoriality} to the first carrier. The intermediate target window is therefore a displayed $\StreamNameUp$ window, not a selected stream representative or a host-function value.
+
+Apply the same theorem to the second carrier with that intermediate window serving as its source window. The second point-map row consumes only the displayed cells of the intermediate window and exports only the final displayed target window.
+
+Thus the composed route is the concatenation of the two finite-window routes. It reaches the regular rational handoff, dyadic ledger, or Real seal only after the first source window, first point-map row, intermediate window, second point-map row, and final target window have all been displayed.
+\end{proof}
+
 \begin{theorem}[Stream map NameCert obligation surface]
 \label{thm:stream-map-namecert-obligation-surface}
 For every accepted $\StreamMapUp$ carrier
@@ -91,7 +105,7 @@ Finally, ledger non-escape is exhausted by $D,R,H,C,P,N$. These rows record tole
 
 \begin{closurestatus}{\StreamMapUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:stream-map-carrier}, \autoref{thm:stream-map-pointwise-stability}, \autoref{thm:stream-map-finite-window-functoriality}, and \autoref{thm:stream-map-namecert-obligation-surface} seed the finite L10 pointwise map route for certified countable names through StreamName, RegSeqRat, DyadicRatCore, Real, transport, replay, provenance, and local NameCert rows.}
+  \scopeclosed{\autoref{def:stream-map-carrier}, \autoref{thm:stream-map-pointwise-stability}, \autoref{thm:stream-map-finite-window-functoriality}, \autoref{thm:stream-map-composition-window-route}, and \autoref{thm:stream-map-namecert-obligation-surface} seed the finite L10 pointwise map route for certified countable names through StreamName, RegSeqRat, DyadicRatCore, Real, transport, replay, provenance, and local NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, host function extensionality, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
