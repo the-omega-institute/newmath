@@ -88,15 +88,26 @@ When all rows are present, $H$ and $P$ preserve the packet as a transported and 
 \end{proof}
 \leanchecked{BEDC.Derived.KernelAuditWitnessUp.KernelAuditWitnessAcceptanceGate}
 
+\begin{theorem}[KernelAuditWitness kernel-scope binding]
+\label{thm:kernelauditwitness-kernel-scope-binding}
+For every accepted $\KernelAuditWitnessUp$ carrier $K=(G,A,L,R,H,C,P,N)$, the accepted declaration row $A$, environment ledger row $L$, axiom-ancestry report row $R$, replay route $C$, provenance row $P$, and local $\NameCert_{\KernelAuditWitnessUp}$ row $N$ are exactly the kernel-scope witnesses of the packet. A consumer may read the candidate through $G$ and transport the rows through $H$, but it cannot replace these kernel-scope witnesses by prose endorsement, an untracked checker, a hidden proof source, or an ancestry report outside $R$.
+\end{theorem}
+\begin{proof}
+Read the carrier rows in \autoref{def:kernel-audit-witness-carrier}. The kernel-facing data are precisely the acceptance stamp, accepted environment ledger, ancestry report, replay route, provenance row, and local naming row.
+
+Apply the NameCert obligations and ledger exactness theorems. They bind marker resolution to $L$ through $N$ and $C$, and they keep the ancestry information in the displayed row $R$.
+
+The non-contamination and acceptance-gate theorems exclude hidden routes. Since no other carrier coordinate can certify the kernel scope, the listed rows are the exact witnesses for this packet.
+\end{proof}
+
 \closureat{KernelAuditWitnessUp}{seedStr}
 
 \begin{closurestatus}{\KernelAuditWitnessUp}
   \constructivestory{A $\KernelAuditWitnessUp$ packet is generated from a Lean candidate row, kernel-acceptance stamp, environment ledger row, axiom-ancestry report, componentwise $\hsame$ transport, replay $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:kernel-audit-witness-carrier}, \autoref{thm:kernel-audit-witness-namecert-obligations}, \autoref{thm:kernel-audit-witness-non-contamination}, \autoref{thm:kernel-audit-witness-ledger-exactness}, and \autoref{thm:kernel-audit-witness-acceptance-gate} bind the finite audit-witness carrier, NameCert obligation surface, ancestry non-contamination, ledger exactness, and conjunctive acceptance gate.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:kernel-audit-witness-carrier}, \autoref{thm:kernel-audit-witness-namecert-obligations}, \autoref{thm:kernel-audit-witness-non-contamination}, \autoref{thm:kernel-audit-witness-ledger-exactness}, \autoref{thm:kernel-audit-witness-acceptance-gate}, and \autoref{thm:kernelauditwitness-kernel-scope-binding} bind the finite audit-witness carrier, NameCert obligation surface, ancestry non-contamination, ledger exactness, conjunctive acceptance gate, and kernel-scope witness boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
   \notclaimed{This chapter does not certify the Lean kernel itself, close TasteGate-backed obligation discharge, provide Lean verification, supply public standard bridge data, or prove semantic adequacy of surrounding prose beyond the displayed audit packet.}
-  \upgradepath{Obligation closure requires TasteGate-backed encoding of the carrier and checked coverage for kernel acceptance, ledger resolution, axiom-ancestry exactness, replay continuity, provenance, and local NameCert naming.}
+  \upgradepath{Public closure requires a standard export surface for downstream audit consumers without enlarging the kernel-scope witness rows.}
 \end{closurestatus}

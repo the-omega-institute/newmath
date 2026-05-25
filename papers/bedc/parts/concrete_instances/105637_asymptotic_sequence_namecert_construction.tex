@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\AsymptoticSequenceUp$}
+\label{ch:concrete-instances-asymptotic-sequence-namecert}
+\origin{human}
+
+Following Hardy and Littlewood on asymptotic comparison of sequences, the $\AsymptoticSequenceUp$ packet records finite tail-comparison data for displayed sequence names rather than importing host sequence equality or completed real analysis. It sits over the $\StreamNameUp$ window surface of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the limit-facing handoff of \autoref{ch:concrete-instances-real-sequence-limit-namecert}, the symmetric tail comparison of \autoref{ch:concrete-instances-cauchy-tail-equivalence-namecert}, and the cofinal route comparison of \autoref{ch:concrete-instances-cofinaltailequivalence-namecert}. The packet is a named consumer for Real and Completion tail comparisons: it exposes finite windows, thresholds, readbacks, transport, replay, provenance, and local naming, while refusing quotient streams, arbitrary subsequence choice, and ambient $\RealUp$ completeness.
+
+\begin{definition}[AsymptoticSequence carrier]
+\label{def:asymptotic-sequence-carrier}
+An $\AsymptoticSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,T,W,M,Q,L,E,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ and $T$ are the two source sequence-name rows, read only through finite $\StreamNameUp$ windows.
+\item $W$ is the paired $\StreamNameUp$ window ledger naming the inspected source cells and the corresponding comparison windows.
+\item $M$ is the tail-threshold row recording which displayed unary tail must be reached before the comparison classifier is read.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the rational observations attached to $W$ and $M$.
+\item $L$ is the $\RealSequenceLimitUp$ handoff row available only after the scheduled windows and rational readbacks are displayed.
+\item $E$ is the $\CauchyTailEquivalenceUp$ provenance row for symmetric regular-Cauchy tail comparison.
+\item $F$ is the $\CofinalTailEquivalenceUp$ provenance row for cofinal reindexing and tail-route comparison.
+\item $H$ records componentwise $\hsame$ transport for the source rows, windows, threshold, readback, limit handoff, tail-equivalence rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from each asymptotic-comparison request through $S,T,W,M,Q,L,E,F,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\AsymptoticSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealSequenceLimitUp$, $\CauchyTailEquivalenceUp$, $\CofinalTailEquivalenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AsymptoticSequenceUp}$ row.
+\end{enumerate}
+The carrier exports no quotient equality of streams, no host asymptotic relation, no selected subsequence, no trichotomy row, and no ambient $\RealUp$ completeness coordinate.
+\end{definition}
+
+\begin{theorem}[AsymptoticSequence NameCert obligations]
+\label{thm:asymptotic-sequence-namecert-obligations}
+For every accepted $\AsymptoticSequenceUp$ carrier
+$$
+A=(S,T,W,M,Q,L,E,F,H,C,P,N),
+$$
+the local $\NameCert_{\AsymptoticSequenceUp}$ surface consists exactly of carrier admission for the two source sequence rows, paired $\StreamNameUp$ windows, the displayed tail threshold, $\RegSeqRatUp$ readback, $\RealSequenceLimitUp$ handoff, $\CauchyTailEquivalenceUp$ provenance, $\CofinalTailEquivalenceUp$ provenance, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every accepted comparison reads $W$ and $M$ before $Q$, reads $Q$ before $L,E,F$, and reaches $H,C,P,N$ only as structural support for the same finite route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:asymptotic-sequence-carrier}. The source rows $S,T$ expose only the finite $\StreamNameUp$ windows stored in $W$, and the comparison cannot inspect a tail before the threshold row $M$ has been displayed.
+
+The readback row $Q$ is then forced by the $\RegSeqRatUp$ surface of \autoref{ch:concrete-instances-regseqrat-namecert}. It consumes the same windows and threshold data rather than a host sequence value.
+
+The analytic rows are downstream of that readback. The limit-facing handoff $L$ is the finite route supplied by \autoref{ch:concrete-instances-real-sequence-limit-namecert}, while $E$ and $F$ record the symmetric and cofinal tail provenance of \autoref{ch:concrete-instances-cauchy-tail-equivalence-namecert} and \autoref{ch:concrete-instances-cofinaltailequivalence-namecert}.
+
+Finally $H,C,P,N$ transport, replay, source, and name only the displayed route. Since no carrier coordinate contains quotient stream equality, host asymptotic comparison, a selected subsequence, trichotomy, or ambient completeness, none can appear as a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[AsymptoticSequence tail classifier]
+\label{thm:asymptotic-sequence-tail-classifier}
+Let $A=(S,T,W,M,Q,L,E,F,H,C,P,N)$ and $A'=(S',T',W',M',Q',L',E',F',H',C',P',N')$ be accepted $\AsymptoticSequenceUp$ carriers. Their accepted tail classifiers agree exactly when the paired source rows, displayed $\StreamNameUp$ windows, tail-threshold rows, $\RegSeqRatUp$ readbacks, $\RealSequenceLimitUp$ handoff rows, $\CauchyTailEquivalenceUp$ provenance rows, $\CofinalTailEquivalenceUp$ provenance rows, componentwise $\hsame$ transports, displayed $\Cont$ replays, package provenance rows, and local naming rows agree under the displayed transport. The classifier has no further coordinate for host sequence equality, quotient tails, arbitrary subsequence choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, read an accepted classifier agreement through the NameCert obligations of \autoref{thm:asymptotic-sequence-namecert-obligations}. The agreement must pass through $S,T,W,M,Q,L,E,F,H,C,P,N$, so each corresponding displayed row is preserved under the componentwise transport.
+
+For the reverse direction, assume the listed rows agree under the displayed transport. Carrier admission reconstructs the same paired windows and tail threshold, the same $\RegSeqRatUp$ readback, and the same limit, Cauchy-tail, and cofinal-tail provenance rows.
+
+Displayed replay through $C$ and $C'$ then gives the same consumer route, while $P,N$ and $P',N'$ record the same source and local naming surface. The absence of quotient, choice, host equality, and completeness coordinates shows that no hidden classifier field remains.
+\end{proof}
+
+\falsifiablePrediction{Every $\AsymptoticSequenceUp$ comparison read factors through paired StreamName windows, one displayed tail threshold, RegSeqRat readback, RealSequenceLimit handoff, CauchyTailEquivalence provenance, CofinalTailEquivalence provenance, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{streamname, regseqrat, realsequencelimit, cauchytailequivalence, cofinaltailequivalence: $\AsymptoticSequenceUp$ is not bijective to any listed sibling because it jointly carries paired source windows, a tail threshold, rational readback, limit handoff, symmetric tail comparison, cofinal route comparison, transport, replay, provenance, and local naming.}
+
+\closureat{AsymptoticSequenceUp}{seedStr}
+
+\begin{closurestatus}{\AsymptoticSequenceUp}
+  \constructivestory{An $\AsymptoticSequenceUp$ packet is generated from paired source sequence rows, finite StreamName windows, a tail-threshold row, RegSeqRat readback, RealSequenceLimit handoff, CauchyTailEquivalence and CofinalTailEquivalence provenance, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:asymptotic-sequence-carrier}, \autoref{thm:asymptotic-sequence-namecert-obligations}, and \autoref{thm:asymptotic-sequence-tail-classifier} seed the finite tail-comparison certificate for sequence-limit and Cauchy-criterion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, quotient stream equality, host asymptotic comparison, arbitrary subsequence choice, trichotomy, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{Formal closure requires a Lean carrier and obligation package for the same $\StreamNameUp$, $\RegSeqRatUp$, $\RealSequenceLimitUp$, $\CauchyTailEquivalenceUp$, $\CofinalTailEquivalenceUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.}
+\end{closurestatus}

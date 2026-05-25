@@ -48,3 +48,28 @@ Use \autoref{thm:authorized-generator-recursor-root-branch-package-coverage} and
 
 Use \autoref{thm:authorized-generator-recursor-root-audit-ledger-exactness} for the output side. It exhausts public output reads by $O,A,H,C,P,G,N$ after branch and descent admission. The TasteGate marker \texttt{BEDC.Derived.AuthorizedGeneratorRecursorUp.taste\_gate} only aligns this finite carrier with the chapter handoff, so it does not supply an additional boundary or ledger row. Hence the visible boundary ledger is total for exactly the displayed packet.
 \end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor root branch-audit downstream coverage]
+\label{thm:authorized-generator-recursor-root-branch-audit-downstream-coverage}
+For every accepted $\AuthorizedGeneratorRecursorUp$ root packet with displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+every accepted local downstream consumer of the root branch-audit output is exhausted by the finite rows displayed in this carrier. More precisely, the consumer can read only a branch-admission alternative in $I,E,M,B,D$, an output-audit ledger row in $O,A,H,C,P,G,N$, or the boundary coverage row obtained by keeping these two surfaces coupled inside the same packet. Any candidate consumer that asks for a detached branch package, unaudited output route, hidden generator, external axiom channel, host-kernel completeness claim, or off-packet naming certificate remains outside the accepted $\BEDC$ packet.
+\end{theorem}
+\begin{proof}
+Fix an accepted root packet and project the displayed carrier
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N).
+$$
+The branch side of any local consumer is finite because the exposed branch package is not a free generator surface. By \autoref{thm:authorized-generator-recursor-root-branch-audit-coupling}, every public read of $O$ couples the branch package $B$ to the audit row $A$ through the same signature, eliminator, motive, descent, transport, continuation, package, boundary, and local-name rows. Hence a local consumer cannot first read a branch alternative and then detach that alternative from the audit ledger of $R$.
+
+The downstream side is total because the boundary ledger has no further public coordinates. By \autoref{thm:authorized-generator-recursor-root-boundary-ledger-totality}, the output boundary visible to recursor, closed-normal, generator-audit, and TasteGate consumers is exhausted by
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+Thus any accepted consumer that reaches the output must land either on the admission rows $I,E,M,B,D$ before $O$, or on the audit, transport, continuation, package, boundary, and local-name rows $O,A,H,C,P,G,N$ after $O$.
+
+It remains only to exclude apparent alternatives. A detached branch package is rejected by the coupling theorem, since no downstream recursor or generator-audit consumer can read $O$ from a branch package separated from $A$. An unaudited output route, hidden generator, external axiom channel, host-kernel completeness claim, or off-packet naming certificate is rejected by the boundary-ledger totality theorem, since none of those objects is a coordinate of the displayed carrier. Therefore the accepted local downstream coverage is exactly the finite branch alternatives, ledgers, and coverage rows already displayed in $R$, and every excluded alternative remains outside the accepted $\BEDC$ packet.
+\end{proof}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorRootBranchAuditDownstreamCoverage}

@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\BaireUltrametricUp$}
+\label{ch:concrete-instances-baire-ultrametric-namecert}
+\origin{human}
+
+Following Brouwer's spread semantics and the prefix-space practice of Troelstra--van Dalen and Bishop--Bridges, the $\BaireUltrametricUp$ packet names the common-prefix ultrametric surface on Baire streams. It sits between the finite prefix carrier of \autoref{ch:concrete-instances-bairespace-namecert}, the prefix metric route of \autoref{ch:concrete-instances-bairemetric-namecert}, the general ultrametric discipline of \autoref{ch:concrete-instances-ultrametricspace-namecert}, the finite-window readback of \autoref{ch:concrete-instances-streamname-namecert}, and the completion-facing packet of \autoref{ch:concrete-instances-complete-baire-space-namecert}. The chapter names the finite common-prefix distance interface; it is not host stream equality, quotient equality of streams, countable choice, a selected branch principle, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Baire ultrametric carrier]
+\label{def:baire-ultrametric-carrier}
+A $\BaireUltrametricUp$ carrier is a finite $\BHist$ packet
+$$
+U=(B,M,V,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BaireSpaceUp$ finite prefix row, naming the two inspected Baire prefixes and their common-prefix length.
+\item $M$ is the $\BaireMetricUp$ row, recording the dyadic distance value attached to the first displayed disagreement or to full agreement on the inspected window.
+\item $V$ is the $\UltrametricSpaceUp$ comparison row, exposing the strong-triangle comparison only through finite common-prefix witnesses.
+\item $S$ is the $\StreamNameUp$ finite-window row, listing exactly the stream coordinates read before the prefix distance is declared.
+\item $H$ records componentwise $\hsame$ transport for prefix rows, metric rows, ultrametric comparisons, finite windows, replay rows, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the same finite prefix windows and distance rows.
+\item $P$ is the $\Pkg$ provenance over $\BaireUltrametricUp$, $\BaireSpaceUp$, $\BaireMetricUp$, $\UltrametricSpaceUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BaireUltrametricUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,M,V,S,H,C,P,N$. It has no coordinate for host stream equality, quotient stream equality, selected branches, countable choice, ambient Real completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Baire ultrametric NameCert obligations]
+\label{thm:baire-ultrametric-namecert-obligations}
+For every accepted $\BaireUltrametricUp$ carrier $U=(B,M,V,S,H,C,P,N)$, the local $\NameCert_{\BaireUltrametricUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed Baire prefix row, BaireMetric distance row, UltrametricSpace comparison row, StreamName window row, transport, replay, provenance, and local naming;
+\item common-prefix distance exactness, requiring each distance read to be the dyadic value named by the first displayed disagreement, or the zero-distance window when the inspected prefixes agree throughout the displayed window;
+\item finite-cylinder classifier stability, requiring every cylinder comparison to transport only the displayed prefix rows through componentwise $\hsame$ and displayed $\Cont$ replay;
+\item StreamName readback, requiring every coordinate read to pass through the finite window row $S$ before the metric row $M$ or ultrametric row $V$ is consulted;
+\item nonescape, excluding selected branches, quotient stream equality, countable choice, ambient Real completeness, host stream equality, Lean verification, and bridge checking.
+\end{enumerate}
+No BaireUltrametric obligation is stored outside these rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.BaireUltrametricUp.BaireUltrametricTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:baire-ultrametric-carrier}. The accepted packet displays exactly the Baire prefix row, the prefix metric row, the ultrametric comparison row, the finite StreamName window, and the structural rows.
+
+Common-prefix distance exactness is read from $B$ and $M$. The prefix row records the inspected coordinates and the first displayed disagreement if one exists; the metric row records the corresponding dyadic distance, with the zero-distance window available only for agreement across the displayed finite window.
+
+Finite-cylinder classifier stability is supplied by $H$ and $C$. Componentwise $\hsame$ transport identifies the displayed prefix rows, and displayed $\Cont$ replay rereads the same finite windows before any classifier output is compared.
+
+StreamName readback is the row $S$. Since every coordinate request must pass through $S$, the ultrametric row $V$ can only witness the strong-triangle comparison through finite common-prefix evidence already displayed by the packet.
+
+The listed rows contain no selector for an infinite branch, no quotient equality of streams, no countable-choice operation, no host stream equality predicate, and no ambient $\RealUp$ completeness theorem. Thus the five rows exhaust the local naming surface.
+\end{proof}
+
+\begin{theorem}[Baire ultrametric prefix stability]
+\label{thm:baire-ultrametric-prefix-stability}
+Let $U=(B,M,V,S,H,C,P,N)$ and $U'=(B',M',V',S',H',C',P',N')$ be accepted $\BaireUltrametricUp$ carriers. If the displayed $\BaireSpaceUp$ prefix rows, $\BaireMetricUp$ common-prefix distance rows, $\UltrametricSpaceUp$ comparison rows, and $\StreamNameUp$ finite-window rows transport componentwise under $\hsame$ and replay through displayed $\Cont$ routes, then $U$ and $U'$ determine the same finite-cylinder classifier value and the same common-prefix ultrametric route.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{def:baire-ultrametric-carrier}. The only analytic rows available for comparison are the prefix rows $B,B'$, the metric rows $M,M'$, the ultrametric rows $V,V'$, and the window rows $S,S'$.
+
+Use the assumed componentwise $\hsame$ transports to identify the displayed prefix and distance rows. The displayed $\Cont$ replays then force the same finite StreamName coordinates to be reread before either carrier can expose a classifier value.
+
+Apply \autoref{thm:baire-ultrametric-namecert-obligations}. Common-prefix distance exactness fixes the dyadic value from the first displayed disagreement or from the displayed agreement window, and finite-cylinder classifier stability keeps the classifier on those same rows.
+
+The structural rows $P,N$ and $P',N'$ provide provenance and local naming only for the already transported route. Since no excluded branch, quotient, choice, host equality, or ambient Real-completeness coordinate is present, both carriers determine the same finite common-prefix ultrametric surface.
+\end{proof}
+
+\falsifiablePrediction{Every $\BaireUltrametricUp$ read factors through a displayed $\BaireSpaceUp$ prefix row, a $\BaireMetricUp$ common-prefix distance row, a finite $\StreamNameUp$ window row, an $\UltrametricSpaceUp$ strong-triangle comparison row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{bairespace, bairemetric, ultrametricspace, streamname, complete-baire-space: $\BaireUltrametricUp$ is not bijective to any listed sibling because it jointly carries finite Baire prefixes, common-prefix dyadic distances, ultrametric comparisons, finite stream windows, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{BaireUltrametricUp}{seedStr}
+
+\begin{closurestatus}{\BaireUltrametricUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:baire-ultrametric-carrier}, \autoref{thm:baire-ultrametric-namecert-obligations}, and \autoref{thm:baire-ultrametric-prefix-stability} seed the common-prefix ultrametric route from Baire prefixes through prefix distances, finite StreamName windows, ultrametric comparison rows, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host stream equality, quotient stream equality, selected branches, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-prefix distance exactness, finite-cylinder classifier stability, StreamName readback, prefix stability, and nonescape for BEDC.Derived.BaireUltrametricUp.}
+  \constructivestory{A $\BaireUltrametricUp$ packet is generated from finite Baire prefix rows, BaireMetric common-prefix distance rows, UltrametricSpace comparison rows, StreamName finite windows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

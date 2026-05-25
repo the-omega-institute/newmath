@@ -52,3 +52,19 @@ Next use \autoref{thm:authorized-generator-recursor-boundary-ledger-totality}. A
 
 Finally apply \autoref{thm:authorized-generator-recursor-closed-substitution-consumer-lock} and \autoref{thm:authorized-generator-recursor-normalization-frontier-consumer-lock}. They allow downstream consumers to read the authorized output only through the displayed packet, so detached generators, host recursion oracles, hidden substitution channels, unlicensed output rows, and external naming witnesses are exhausted by the same finite route.
 \end{proof}
+
+\begin{lemma}[AuthorizedGeneratorRecursor output route downstream coverage]
+\label{lem:authorized-generator-recursor-output-route-downstream-coverage}
+Let $c$ be an accepted local consumer of an $\AuthorizedGeneratorRecursorUp$ output route. If $c$ reads the output row through the readiness surface, then its consumer-facing use is exhausted by the finite packet
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+More precisely, the route alternatives are the accepted signature row $I$, emitted eliminator row $E$, checked motive row $M$, authorized branch row $B$, structural descent row $D$, output row $O$, and audit row $A$; the transport and readback ledger is the componentwise $\hsame$ row $H$, displayed $\Cont$ route $C$, and $\Pkg$ provenance row $P$; and the boundary-certificate ledger is the ground-boundary row $G$ together with the local $\NameCert$ row $N$. Hence an accepted downstream consumer has no coordinate for an unauthorized signature, unchecked branch, missing descent row, absent audit row, private continuation route, off-packet package, hidden boundary, external naming certificate, detached generator route, host recursion oracle, or hidden substitution channel.
+\end{lemma}
+\begin{proof}
+Start with the readiness side. By \autoref{thm:authorized-generator-recursor-output-route-readiness}, the output row $O$ is route-ready only inside the displayed $\BHist$ packet $I,E,M,B,D,O,A,H,C,P,G,N$. That theorem also identifies the rows that must be present before output exposure is admitted: the accepted signature, emitted eliminator, checked motive, authorized branch, structural descent, audit, $\hsame$ transport, $\Cont$ route, $\Pkg$ provenance, ground-boundary, and local $\NameCert$ rows. Thus any accepted local consumer reading $O$ from the readiness surface already factors through the route alternatives $I,E,M,B,D,O,A$, the transport and provenance rows $H,C,P$, and the boundary-certificate rows $G,N$.
+
+Apply \autoref{thm:authorized-generator-recursor-boundary-ledger-totality} to the same consumer-facing read. Once the read reaches the boundary ledger, totality requires the same rows $I,E,M,B,D,O,A,H,C,P,G,N$ to be preserved as displayed rows of one $\BHist$ packet. In particular, the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support cannot be detached from the accepted signature, branch, descent, audit, route, package, boundary, and local naming surface.
+
+Combining these two constraints leaves no further accepted coordinate. Readiness admits $O$ only through the displayed packet, and boundary-ledger totality says every ledger read preserving that output remains on exactly that packet. Therefore every accepted downstream consumer is covered by the listed route alternatives, transport and readback ledger, or boundary-certificate ledger, while all unauthorized signatures, unchecked branches, missing descent or audit rows, private continuation routes, off-packet packages, hidden boundaries, external naming certificates, detached generator routes, host recursion oracles, and hidden substitution channels remain outside the $\AuthorizedGeneratorRecursorUp$ packet.
+\end{proof}

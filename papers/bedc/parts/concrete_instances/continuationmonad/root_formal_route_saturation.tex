@@ -130,3 +130,20 @@ Next apply route-budget exhaustion. It removes the quotient Kleisli, host-compos
 
 Finally combine root formal handoff saturation with \autoref{thm:continuation-monad-root-formal-namecert-handoff}. The handoff and local NameCert route read the same finite packet, so a downstream formal consumer has no accepted route outside the audit factorization and no leftover route budget for the refused objects.
 \end{proof}
+
+\begin{theorem}[ContinuationMonad root formal downstream coverage]
+\label{thm:continuation-monad-root-formal-downstream-coverage}
+For an accepted $\ContinuationMonadUp$ packet $Z=(A,B,C,f,g,u,H,K,L,N)$, every accepted local consumer of the root formal target is exhausted by the finite downstream coverage surface
+$$
+A,B,C,f,g,u,H,K,L,N.
+$$
+The coverage surface consists of the displayed $\BHist$ source histories, $\Cont$ continuation tails, componentwise $\hsame$ transports, $\Pkg$ provenance, the $\CategoryUp$ hom-carrier row, the ContinuationMorphism row, the local $\NameCert$ row, and the ledger and readback rows named by the root formal route. Unit and bind consumers factor through the unit-bind and bind-readback rows, generator and Category consumers factor through the generator-category rows, and local naming or handoff consumers factor through the root formal handoff rows. Quotient Kleisli arrows, host-function composition, ambient category completion, external monad evaluators, and unlisted continuation-generator rules remain outside the packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.ContinuationMonadUp.ContinuationMonadCarrier\_root\_formal\_downstream\_coverage}
+\begin{proof}
+Start with \autoref{thm:continuation-monad-root-route-formal-handoff}. It states that every downstream formal target reading the root route receives $A,B,C,f,g,u,H,K,L,N$ through root unit-bind exhaustion, generator-category lock, the root downstream unblock package, and bind readback exhaustion. Thus the accepted local consumers are already sorted into the unit-bind face, the generator-Category face, and the bind-readback or handoff face.
+
+Apply \autoref{thm:continuation-monad-root-formal-route-saturation}. The saturation theorem identifies the exported formal route with the same finite rows and lists the only readings exported by that route: $\BHist$, $\Cont$, $\hsame$, $\Pkg$, the $\CategoryUp$ hom-carrier, the ContinuationMorphism row, and local $\NameCert$. Therefore any consumer-facing use of the formal target must factor through one of those displayed rows.
+
+It remains to check that no local consumer can enter through an accounting side door. The ledger side is closed by \autoref{thm:continuation-monad-root-ledger-saturation-boundary}, which records no extra entry beyond $A,B,C,f,g,u,H,K,L,N$. The coverage side is closed by \autoref{thm:continuation-monad-root-formal-audit-factorization} and \autoref{thm:continuation-monad-root-formal-route-budget-exhaustion}, which route audit, naming, Category, unit, bind, and generator-facing reads through the same packet and exhaust the route budget. Finally \autoref{thm:continuation-monad-root-formal-namecert-consumer-lock} transfers that exhaustion to local formal consumers. Since none of these rows contains a coordinate for quotient Kleisli arrows, host-function composition, ambient category completion, external monad evaluators, or unlisted continuation-generator rules, all excluded alternatives remain outside the BEDC packet.
+\end{proof}

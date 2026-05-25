@@ -107,3 +107,28 @@ substitution channels, unlicensed output rows, and external naming witnesses
 from downstream reads. Hence the displayed finite carrier exhausts the output
 route naming surface.
 \end{proof}
+
+\begin{lemma}[AuthorizedGeneratorRecursor root output consumer downstream coverage]
+\label{lem:authorized-generator-recursor-root-output-consumer-downstream-coverage}
+For every accepted $\AuthorizedGeneratorRecursorUp$ root output packet with displayed route
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+every accepted local consumer-facing use of the root output row $O$ is exhausted by the finite downstream surfaces already displayed in $R$. More precisely, the use must factor through the authorization and branch alternatives $I,E,M,B,D$, the output and audit ledger rows $O,A$, the transport, continuation, package, boundary, and local naming rows $H,C,P,G,N$, or the coverage row obtained by reading readiness and output-route naming through the same carrier.
+
+Consequently a request for an unlisted branch, non-structural recursive call, hidden generator state, host recursion rule, private output channel, external continuation, unaudited package source, missing readiness row, or naming certificate outside the displayed $\BHist$ packet is not an accepted local consumer of the $\AuthorizedGeneratorRecursorUp$ root output.
+\end{lemma}
+\begin{proof}
+Start with readiness route totality, \autoref{thm:authorized-generator-recursor-readiness-route-totality}. It states that the route from authorization to output is total exactly on
+$$
+I,E,M,B,D,O,A,H,C,P,G,N.
+$$
+Thus a consumer-facing use of $O$ cannot begin from a free generator surface. Its admission side is forced through the accepted constructor signature, emitted eliminator, motive, branch package, and structural descent rows $I,E,M,B,D$, and its output side is forced to retain $O,A,H,C,P,G,N$ as route support in the same packet.
+
+Next use output route naming exhaustion, \autoref{thm:authorized-generator-recursor-output-route-naming-exhaustion}. Any public name of the output route must keep the authorization rows, generator-state row, readiness and audit rows, displayed $\Cont$ route, $\Pkg$ source, and local $\NameCert$ row already present in $R$. Hence naming $O$ supplies no fourth downstream surface: it only records the same finite carrier as a named route and keeps the local consumer inside the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, boundary, and $\NameCert$ coordinates.
+
+Combine these two constraints. If a proposed local consumer is accepted, readiness totality places the read on the displayed authorization-to-output route, while naming exhaustion keeps the public name of that read on the same carrier. The consumer therefore lands on one of the finite alternatives, ledger rows, or carrier-coverage rows listed in the statement.
+
+It remains to exclude the apparent alternatives. An unlisted branch or non-structural recursive call would bypass $I,E,M,B,D$; hidden generator state or a host recursion rule would add a generator coordinate not present in the readiness route; a private output channel would detach $O$ from $A,H,C,P,G,N$; an external continuation or unaudited package source would replace $C$ or $P$; a missing readiness row would contradict route totality; and an outside naming certificate would contradict output route naming exhaustion. None of these requests has a coordinate in $R$, so each remains outside the accepted $\AuthorizedGeneratorRecursorUp$ packet.
+\end{proof}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorRootOutputConsumerDownstreamCoverage}

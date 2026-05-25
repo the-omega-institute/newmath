@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySubsequenceStabilityUp$}
+\label{ch:concrete-instances-regular-cauchy-subsequence-stability-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive analysis, the $\RegularCauchySubsequenceStabilityUp$ packet records the finite certificate surface for the standard fact that a monotone cofinal subsequence of a regular Cauchy rational name remains regular and presents the same real-name boundary. It consumes the subsequence interface of \autoref{ch:concrete-instances-regular-cauchy-subsequence-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal seal surface of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite BEDC handoff for Phase Real and Completion consumers; it does not choose a subsequence by countable choice, quotient streams, or invoke ambient completeness.
+
+\begin{definition}[RegularCauchySubsequenceStability carrier]
+\label{def:regular-cauchy-subsequence-stability-carrier}
+A $\RegularCauchySubsequenceStabilityUp$ carrier is a finite $\BHist$ packet
+$$
+G=(S,T,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source regular Cauchy packet, carrying the accepted $\RegSeqRatUp$ readback rows and the source finite stream observations.
+\item $T$ is a monotone-cofinal schedule row, recording the unary reindexing route by which each selected subsequence window is reached from an inspected source window.
+\item $W$ records the finite $\StreamNameUp$ source and subsequence windows compared by the packet.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, carrying dyadic radii, endpoint comparisons, and the transported regularity budgets.
+\item $R$ is the $\RegSeqRatUp$ readback row for the subsequence window after transport along $T$.
+\item $E$ is the $\RealUp$ seal boundary exposed only after the source, schedule, window, dyadic, and readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source packet, schedule, windows, tolerance ledger, readback row, seal boundary, continuation routes, provenance, and local certificate.
+\item $C$ records displayed $\Cont$ replay of the same finite route.
+\item $P$ records the $\Pkg$ provenance over $\RegularCauchySubsequenceStabilityUp$, $\RegularCauchySubsequenceUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchySubsequenceStabilityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by $S,T,W,D,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, a choice-selected infinite subsequence, host sequence equality, host real equality, or a completeness principle for $\RealUp$.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchySubsequenceStabilityUp.RegularCauchySubsequenceStabilityTasteGate\_single\_carrier\_alignment}
+\leandef{BEDC.Derived.RegularCauchySubsequenceStabilityUp.RegularCauchySubsequenceStabilityCarrier}
+
+\begin{theorem}[RegularCauchySubsequenceStability NameCert obligations]
+\label{thm:regular-cauchy-subsequence-stability-namecert-obligations}
+For every accepted $\RegularCauchySubsequenceStabilityUp$ carrier
+$$
+G=(S,T,W,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchySubsequenceStabilityUp}$ surface consists exactly of the source regular Cauchy rows $S$, the monotone-cofinal schedule $T$, the finite $\StreamNameUp$ windows $W$, the transported $\DyadicRatCoreUp$ tolerance ledger $D$, the $\RegSeqRatUp$ subsequence readback $R$, the $\RealUp$ seal boundary $E$, the componentwise transport row $H$, the continuation replay row $C$, the package provenance row $P$, and the local naming row $N$.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:regular-cauchy-subsequence-stability-carrier}. Each row in the statement is one displayed coordinate of the finite packet, and the definition lists no hidden coordinate for an externally selected subsequence or completion object.
+
+The source and schedule obligations are $S$ and $T$. The finite-window obligation is $W$, while the dyadic tolerance and regular rational readback obligations are $D$ and $R$. These are the rows that express the usual cofinal-subsequence regularity argument inside the BEDC packet.
+
+Transport, replay, provenance, and local naming are supplied by $H,C,P,N$. Repacking these projections yields the displayed $\NameCert_{\RegularCauchySubsequenceStabilityUp}$ surface, with no quotient stream, host equality, or ambient completeness datum.
+\end{proof}
+
+\begin{theorem}[RegularCauchySubsequenceStability Real seal boundary]
+\label{thm:regular-cauchy-subsequence-stability-real-seal-boundary}
+An accepted $\RegularCauchySubsequenceStabilityUp$ carrier may expose its $\RealUp$ seal row $E$ only after the source regular Cauchy data $S$, the monotone-cofinal schedule $T$, the finite stream windows $W$, the transported dyadic tolerance ledger $D$, and the $\RegSeqRatUp$ readback row $R$ have been displayed through $H$ and $C$. Thus cofinal subsequence transport preserves the real-name seal surface as finite BEDC data and does not export quotient streams, a choice-selected subsequence, host sequence equality, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier. The seal row $E$ is not a source coordinate; it is reached after the source, schedule, window, dyadic, readback, transport, continuation, provenance, and naming rows have been projected.
+
+Apply the NameCert obligation surface of \autoref{thm:regular-cauchy-subsequence-stability-namecert-obligations}. It identifies the monotone-cofinal schedule, the inspected and selected finite windows, the transported dyadic tolerance ledger, and the regular rational readback as the only data available before the seal boundary.
+
+The ordinary constructive subsequence argument is therefore recorded as carrier projection followed by cofinal schedule transport and finite-window replay. Since the classifier has no coordinate for quotient streams, choice-selected subsequences, host sequence equality, host real equality, or a completeness principle, none of those data can escape through the $\RealUp$ seal row.
+\end{proof}
+
+\closureat{RegularCauchySubsequenceStabilityUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchySubsequenceStabilityUp}
+  \constructivestory{A $\RegularCauchySubsequenceStabilityUp$ packet is generated from source regular Cauchy rows, a monotone-cofinal schedule, finite $\StreamNameUp$ windows, transported $\DyadicRatCoreUp$ tolerance rows, $\RegSeqRatUp$ readback, a $\RealUp$ seal boundary, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-subsequence-stability-carrier}, \autoref{thm:regular-cauchy-subsequence-stability-namecert-obligations}, and \autoref{thm:regular-cauchy-subsequence-stability-real-seal-boundary} bind the carrier, local NameCert obligations, and Real-facing seal boundary for cofinal regular Cauchy subsequence stability.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not prove a public standard bridge, quotient stream equality, host sequence equality, host real equality, countable choice, or ambient completeness of $\RealUp$.}
+  \upgradepath{Scoped closure requires Lean encoding of the carrier, the NameCert obligation surface, the Real seal boundary, and the nonescape boundary for data outside the displayed rows.}
+\end{closurestatus}
