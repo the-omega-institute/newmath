@@ -1368,6 +1368,30 @@ def _remote_behind_count(repo_root: Path, remote: str, branch: str) -> int:
     return int(parts[1])
 
 
+def _local_ahead_count(repo_root: Path, remote: str, branch: str) -> int:
+    fetch = _run_command(repo_root, ["git", "fetch", remote, branch], timeout=60.0)
+    if fetch.returncode != 0:
+        raise RuntimeError((fetch.stderr or fetch.stdout or "git fetch failed").strip())
+    compare_ref = f"{remote}/{branch}"
+    counts = _run_command(repo_root, ["git", "rev-list", "--left-right", "--count", f"HEAD...{compare_ref}"], timeout=60.0)
+    if counts.returncode != 0:
+        raise RuntimeError((counts.stderr or counts.stdout or "git rev-list failed").strip())
+    parts = counts.stdout.strip().split()
+    if len(parts) != 2:
+        raise RuntimeError(f"unexpected rev-list output: {counts.stdout.strip()}")
+    return int(parts[0])
+
+
+def _push_ahead_only(store: BioRealityStore, repo_root: Path, remote: str, branch: str) -> tuple[bool, str]:
+    """Push HEAD to remote when local is ahead but working tree has no
+    changes to commit. Used for syncing bio-S merge commits and any other
+    commits made outside bio-K. Fast-forward only; never force-pushes."""
+    push = _run_command(repo_root, ["git", "push", remote, f"HEAD:{branch}"], timeout=180.0)
+    if push.returncode != 0:
+        return False, (push.stderr or push.stdout or "git push failed").strip()[-500:]
+    return True, ""
+
+
 def _keep_lane_commit_message(store: BioRealityStore, selected: list[str]) -> str:
     loop_state = _read_json_object(store.paths.root / "state" / "loop_state.json")
     loops = loop_state.get("loops") if isinstance(loop_state.get("loops"), dict) else {}
@@ -1411,8 +1435,27 @@ def run_keep_lane(store: BioRealityStore) -> dict[str, Any]:
     except (OSError, RuntimeError) as exc:
         _append_keep_log(store, "git_status_error", {"error": str(exc)})
         return {"lane": "bio-K", "error": "git status failed"}
+
+    remote_default = str(config.get("remote") or "origin")
+    branch_default = str(config.get("branch") or "feat/bio-reality-deepening")
+
     if not changed:
-        return {"lane": "bio-K", "skipped": "no changes"}
+        try:
+            ahead = _local_ahead_count(repo_root, remote_default, branch_default)
+        except (OSError, RuntimeError, ValueError) as exc:
+            _append_keep_log(store, "ahead_check_error", {"error": str(exc)})
+            return {"lane": "bio-K", "skipped": "no changes", "ahead_check_error": True}
+        if ahead <= 0:
+            return {"lane": "bio-K", "skipped": "no changes"}
+        try:
+            push_ok, push_detail = _push_ahead_only(store, repo_root, remote_default, branch_default)
+        except (OSError, subprocess.TimeoutExpired, RuntimeError) as exc:
+            _append_keep_log(store, "ahead_push_error", {"error": str(exc), "ahead": ahead})
+            return {"lane": "bio-K", "skipped": "no changes", "ahead": ahead, "push_error": str(exc)}
+        if push_ok:
+            return {"lane": "bio-K", "pushed_ahead": ahead, "no_local_commit": True}
+        _append_keep_log(store, "ahead_push_failure", {"ahead": ahead, "detail": push_detail})
+        return {"lane": "bio-K", "skipped": "ahead_push_failed", "ahead": ahead, "detail": push_detail}
 
     include_paths = [str(item) for item in config.get("include_paths", []) if isinstance(item, str)]
     exclude_paths = [str(item) for item in config.get("exclude_paths", []) if isinstance(item, str)]
