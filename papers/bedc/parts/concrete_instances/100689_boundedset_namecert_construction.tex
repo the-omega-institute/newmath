@@ -120,6 +120,26 @@ The center and bound rows supply the displayed comparison data. The row $c$ name
 The containment ledger $B$ is then required before the consumer can treat membership as bounded. The remaining rows $H,C,P,N$ transport, replay, package, and name the same finite route, so no supremum, selected maximum, compactness theorem, or ambient completeness row can be read by a diameter or uniform-space consumer.
 \end{proof}
 
+\begin{theorem}[BoundedSet ball-radius ledger factorization]
+\label{thm:bounded-set-ball-radius-ledger-factorization}
+Every boundedness read from an accepted $\BoundedSetUp$ carrier
+$$
+Q=(X,S,c,r,B,H,C,P,N)
+$$
+factors through the displayed ball-radius ledger
+$$
+S \longmapsto c,r \longmapsto B \longmapsto H,C,P,N .
+$$
+Here $r$ is read only through the $\RealAlgOrderUp$ comparison surface, and $B$ is read only as the $\MetricBallUp$ containment ledger. Thus no finite-net, diameter, or uniform-space consumer can use a bounded-subset claim before receiving the displayed center, radius, ball-containment, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-set-carrier}. The subset classifier is $S$, the displayed center or witness is $c$, the radius row is $r$, and the containment ledger is $B$.
+
+Apply \autoref{thm:bounded-set-namecert-obligations}. It places carrier admission, subset classifier stability, ball containment, real-bound nonescape, transport, replay, provenance, and local naming in the same finite obligation surface.
+
+Now use \autoref{thm:bounded-set-diameter-consumer-boundary}. A consumer can treat the subset as bounded only after the $\MetricBallUp$ containment row and the $\RealAlgOrderUp$ comparison read have been displayed. The structural rows $H,C,P,N$ preserve that order, so the factorization is exactly the route shown above.
+\end{proof}
+
 \begin{theorem}[BoundedSet diameter consumer handoff]
 \label{thm:bounded-set-diameter-consumer-handoff}
 Every diameter-facing consumer of an accepted $\BoundedSetUp$ carrier $Q=(X,S,c,r,B,H,C,P,N)$ must receive the rows $X,S,c,r,B,H,C,P,N$ before it can read bounded-subset data. In particular, the consumer must pass through the $\MetricUp$ carrier $X$, the $\MetricBallUp$ containment ledger $B$, and the $\RealAlgOrderUp$ or $\RealUp$ comparison row $r$ before any $\MetricDiameterUp$ bound is public.
