@@ -97,6 +97,20 @@ Apply \autoref{thm:kleene-tree-namecert-obligations}. Prefix stability, window e
 It remains to identify what cannot pass through that read. Apply \autoref{thm:kleene-tree-streamname-path-boundary}: the finite route is not a path selector, not a countable-choice functional, not quotient stream equality, not open-cover compactness, and not $\RealUp$ completeness.
 \end{proof}
 
+\begin{theorem}[Kleene tree selector refusal]
+\label{thm:kleene-tree-selector-refusal}
+Every read from an accepted $\KleeneTreeUp$ packet into $\CauchySelectionFunctionUp$, $\ChoiceSequenceUp$, or $\SequentialCauchySelectorUp$ factors through the finite rows $S,L,B,T,O,H,C,P,N$. The read may reuse finite StreamName windows, finite prefix ledgers, and finite obstruction data, but it cannot produce a branch selector, a countable-choice functional, or a sequential Cauchy selector row. The obstruction is carried by the row $O$ together with the path and fan boundaries of \autoref{thm:kleene-tree-streamname-path-boundary} and \autoref{thm:kleene-tree-fan-boundary}.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:kleene-tree-carrier}. The only rows exposed to a selector-facing consumer are the finite StreamName schedule $S$, the prefix spine $L$, the Bool ledger $B$, the tree ledger $T$, the obstruction row $O$, and the structural rows $H,C,P,N$.
+
+Apply \autoref{thm:kleene-tree-streamname-path-boundary}. A read through $S,L,B,T$ supplies finite prefix information, not an infinite path, quotient stream equality, or a countable-choice functional.
+
+Apply \autoref{thm:kleene-tree-fan-boundary}. Any CantorSpace or FanTheorem-facing use of the same packet remains inside the finite rows and reaches the obstruction row before it can export a selector.
+
+The row $O$ explicitly denies a computable infinite branch, a selected path, and a branch-producing choice functional as packet coordinates. A sequential Cauchy selector row would require a finite request ledger of selected Cauchy answers, but the Kleene packet contains only tree-prefix and stream-window rows. Therefore no read into $\CauchySelectionFunctionUp$, $\ChoiceSequenceUp$, or $\SequentialCauchySelectorUp$ escapes the finite obstruction boundary.
+\end{proof}
+
 \begin{theorem}[Kleene tree Real-completion non-escape]
 \label{thm:kleene-tree-real-completion-nonescape}
 Every $\RegSeqRatUp$ or $\RealUp$ completion-facing read sourced from an accepted $\KleeneTreeUp$ packet factors through finite $\StreamNameUp$ windows and the obstruction row before any real seal can be inspected. Consequently the read cannot assert a selected Cantor point, a path-coded real, ambient $\RealUp$ completeness, or open-cover compactness.
@@ -115,7 +129,7 @@ The obstruction row contains no selected Cantor point, no path-coded real, no op
 \begin{closurestatus}{\KleeneTreeUp}
   \constructivestory{A $\KleeneTreeUp$ packet is generated from a finite binary prefix-tree ledger, a Bool decidable node ledger, a List prefix spine, a StreamName window schedule, an obstruction row, componentwise $\hsame$ transport, displayed $\Cont$ traversal, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:kleene-tree-carrier}, \autoref{thm:kleene-tree-namecert-obligations}, \autoref{thm:kleene-tree-streamname-path-boundary}, \autoref{thm:kleene-tree-fan-boundary}, and \autoref{thm:kleene-tree-real-completion-nonescape} seed the finite prefix-tree boundary separating StreamName, FanTheorem, CantorSpace, RegSeqRat, and Real-facing data from path-selection and completeness principles.}
+  \scopeclosed{\autoref{def:kleene-tree-carrier}, \autoref{thm:kleene-tree-namecert-obligations}, \autoref{thm:kleene-tree-streamname-path-boundary}, \autoref{thm:kleene-tree-fan-boundary}, \autoref{thm:kleene-tree-selector-refusal}, and \autoref{thm:kleene-tree-real-completion-nonescape} seed the finite prefix-tree boundary separating StreamName, FanTheorem, CantorSpace, selector-facing, RegSeqRat, and Real-facing data from path-selection and completeness principles.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim a computable infinite branch, selected Cantor point, quotient stream equality, countable choice, $\RealUp$ completeness, open-cover compactness, Lean verification, or bridge checking.}
