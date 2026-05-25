@@ -7,6 +7,7 @@ import argparse
 import fnmatch
 import hashlib
 import json
+import re
 import subprocess
 import sys
 import tempfile
@@ -1620,33 +1621,140 @@ def _temp_paths(base: Path) -> BioRealityPaths:
     )
 
 
-def _render_paper_main(paths: BioRealityPaths) -> str:
-    return "\n".join(
+def _render_paper_main(paths: BioRealityPaths, namecert_slugs: list[str]) -> str:
+    lines = [
+        r"\documentclass[11pt]{article}",
+        r"\usepackage[margin=1in]{geometry}",
+        r"\usepackage[T1]{fontenc}",
+        r"\usepackage{lmodern}",
+        r"\usepackage{microtype}",
+        r"\usepackage{hyperref}",
+        "",
+        r"\title{BioReality: Reality-Bound Biological Deepening}",
+        r"\author{The Omega Institute}",
+        r"\date{}",
+        "",
+        r"\begin{document}",
+        r"\maketitle",
+        "",
+        r"\section{Scope}",
+        "BioReality records biological conjecture deepening under explicit provenance boundaries. "
+        "External curated biology is recorded as reality input; newmath and BEDC-style structure is recorded as internal derivation; every cross-layer biological claim remains blocked until a separate reality contact supports that layer.",
+        "",
+        r"\input{parts/codon_window_reality_boundary}",
+        "",
+    ]
+    if namecert_slugs:
+        lines.extend(
+            [
+                r"\section{NameCert Proposals}",
+                "These deterministic writeback chapters promote draft NameCert proposal notes into reviewable paper text.",
+                "",
+            ]
+        )
+        for slug in sorted(namecert_slugs):
+            lines.extend([rf"\input{{parts/namecerts/{slug}}}", ""])
+    lines.extend(
         [
-            r"\documentclass[11pt]{article}",
-            r"\usepackage[margin=1in]{geometry}",
-            r"\usepackage[T1]{fontenc}",
-            r"\usepackage{lmodern}",
-            r"\usepackage{microtype}",
-            r"\usepackage{hyperref}",
-            "",
-            r"\title{BioReality: Reality-Bound Biological Deepening}",
-            r"\author{The Omega Institute}",
-            r"\date{}",
-            "",
-            r"\begin{document}",
-            r"\maketitle",
-            "",
-            r"\section{Scope}",
-            "BioReality records biological conjecture deepening under explicit provenance boundaries. "
-            "External curated biology is recorded as reality input; newmath and BEDC-style structure is recorded as internal derivation; every cross-layer biological claim remains blocked until a separate reality contact supports that layer.",
-            "",
-            r"\input{parts/codon_window_reality_boundary}",
-            "",
             r"\end{document}",
             "",
         ]
     )
+    return "\n".join(lines)
+
+
+def _format_verified_fact_value(value: Any) -> str | None:
+    if isinstance(value, bool):
+        return "True" if value else "False"
+    if isinstance(value, int):
+        return str(value)
+    if isinstance(value, float):
+        return f"{value:.6g}"
+    if isinstance(value, str):
+        return _tex_escape(value)
+    if isinstance(value, list) and all(isinstance(item, str) and len(item) <= 32 for item in value):
+        return r"\{" + ", ".join(_tex_escape(item) for item in value) + r"\}"
+    return None
+
+
+def _render_verified_facts(conjecture: dict[str, Any]) -> list[str]:
+    lines = [r"\paragraph{Verified facts.}"]
+    verified_facts = conjecture.get("verified_facts")
+    if not isinstance(verified_facts, dict) or not verified_facts:
+        return lines + ["No verified facts attached yet.", ""]
+    for claim_id, fact in sorted(verified_facts.items()):
+        if not isinstance(fact, dict):
+            continue
+        experiment_run_id = str(fact.get("experiment_run_id") or "")
+        values = fact.get("values") if isinstance(fact.get("values"), dict) else {}
+        rendered_values: list[str] = []
+        for key, value in sorted(values.items()):
+            rendered_value = _format_verified_fact_value(value)
+            if rendered_value is not None:
+                rendered_values.append(f"{_tex_escape(str(key))}={rendered_value}")
+        values_text = ", ".join(rendered_values) if rendered_values else "no scalar values recorded"
+        lines.extend(
+            [
+                rf"\textbf{{{_tex_escape(str(claim_id))}}}. Run {_tex_escape(experiment_run_id[:12])}. {values_text}.",
+                "",
+            ]
+        )
+    if len(lines) == 1:
+        lines.extend(["No verified facts attached yet.", ""])
+    return lines
+
+
+def _namecert_slug(markdown_path: Path) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "_", markdown_path.stem.lower()).strip("_")
+    return slug or "namecert"
+
+
+def _namecert_claim_id(markdown_path: Path) -> str:
+    return markdown_path.stem
+
+
+def _namecert_paragraph_title(title: str) -> str:
+    cleaned = re.sub(r"^\s*\d+\.\s*", "", title).strip()
+    if cleaned.lower() == "loning-format chapter slug":
+        return "NameCert chapter slug"
+    return cleaned or "Section"
+
+
+def _render_namecert_proposal(markdown_path: Path, slug: str) -> str:
+    lines = [
+        rf"\subsection{{NameCert: {_tex_escape(_namecert_claim_id(markdown_path))}}}",
+        rf"\label{{sec:namecert-{slug}}}",
+        r"\noindent\textit{Proposed by bio-namer; review status: draft.}",
+        "",
+    ]
+    current_title: str | None = None
+    current_body: list[str] = []
+
+    def flush_section() -> None:
+        nonlocal current_title, current_body
+        if current_title is None:
+            current_body = []
+            return
+        body = "\n".join(line for line in current_body).strip()
+        lines.extend([rf"\paragraph{{{_tex_escape(_namecert_paragraph_title(current_title))}.}}"])
+        if body:
+            paragraphs = [part.strip() for part in re.split(r"\n\s*\n", body) if part.strip()]
+            for paragraph in paragraphs:
+                lines.extend([_tex_escape(" ".join(paragraph.splitlines())), ""])
+        else:
+            lines.extend(["No proposal text recorded.", ""])
+        current_title = None
+        current_body = []
+
+    for raw_line in markdown_path.read_text(encoding="utf-8").splitlines():
+        if raw_line.startswith("## "):
+            flush_section()
+            current_title = raw_line[3:].strip()
+            current_body = []
+        elif current_title is not None:
+            current_body.append(raw_line)
+    flush_section()
+    return "\n".join(lines) + "\n"
 
 
 def _render_conjecture_section(
@@ -1724,7 +1832,30 @@ def _render_conjecture_section(
             "",
         ]
     )
+    lines.extend(_render_verified_facts(conjecture))
     return lines
+
+
+def _write_namecert_proposals(paths: BioRealityPaths) -> list[str]:
+    proposals_dir = paths.namecert_proposals_dir
+    namecerts_dir = paths.paper_part.parent / "namecerts"
+    markdown_paths = sorted(proposals_dir.glob("*.md")) if proposals_dir.exists() else []
+    if not markdown_paths:
+        return []
+    namecerts_dir.mkdir(parents=True, exist_ok=True)
+    slugs: list[str] = []
+    used_slugs: set[str] = set()
+    for markdown_path in markdown_paths:
+        slug = _namecert_slug(markdown_path)
+        original_slug = slug
+        suffix = 2
+        while slug in used_slugs:
+            slug = f"{original_slug}_{suffix}"
+            suffix += 1
+        used_slugs.add(slug)
+        (namecerts_dir / f"{slug}.tex").write_text(_render_namecert_proposal(markdown_path, slug), encoding="utf-8")
+        slugs.append(slug)
+    return slugs
 
 
 def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
@@ -1756,13 +1887,15 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
     paths = store.paths
     paths.paper_main.parent.mkdir(parents=True, exist_ok=True)
     paths.paper_part.parent.mkdir(parents=True, exist_ok=True)
-    paths.paper_main.write_text(_render_paper_main(paths), encoding="utf-8")
     paths.paper_part.write_text("\n".join(part_lines), encoding="utf-8")
+    namecert_slugs = _write_namecert_proposals(paths)
+    paths.paper_main.write_text(_render_paper_main(paths, namecert_slugs), encoding="utf-8")
     return {
         "lane": "bio-W",
         "paper_main": str(paths.paper_main),
         "paper_part": str(paths.paper_part),
         "written_conjectures": len(conjectures),
+        "namecerts_written": len(namecert_slugs),
     }
 
 
@@ -2124,7 +2257,7 @@ def self_test() -> int:
                         "carrier": "codon carrier",
                         "distinctions": ["codons in R", "codons in M"],
                         "readback": "observable codon table",
-                        "internal_structure": ["median closure"],
+                        "internal_structure": ["closure"],
                     },
                     "probe_refs": ["codon.size.probe"],
                     "forbidden_claims": ["translation realisation"],
@@ -2165,6 +2298,169 @@ def self_test() -> int:
         namecert_repeat = run_namecert_lane(namecert_store)
         if namecert_repeat["proposal_events_emitted"] != 0:
             print(json.dumps({"summary": namecert_repeat, "events": namecert_store.load_events()}, indent=2), file=sys.stderr)
+            return 1
+        writeback_empty_fact_paths = _temp_paths(base / "writeback_empty_fact")
+        write_jsonl(
+            writeback_empty_fact_paths.conjectures,
+            [
+                {
+                    "conjecture_id": "empty.fact.codon",
+                    "biological_object": "codon table",
+                    "informal_statement": "codon code readback",
+                    "bedc_minimal_form": {
+                        "carrier": "codon carrier",
+                        "distinctions": ["codon label"],
+                        "readback": "observable codon table",
+                        "internal_structure": ["coordinate"],
+                    },
+                    "claimed_layer": "code_read",
+                    "evidence_basis": ["external_reality", "bedc_coordinate"],
+                    "reality_contact_refs": ["curated.standard.code.table"],
+                    "probe_refs": [],
+                    "forbidden_claims": ["code readback is not translation"],
+                    "null_reason": "",
+                }
+            ],
+        )
+        write_jsonl(
+            writeback_empty_fact_paths.contacts,
+            [
+                {
+                    "contact_id": "curated.standard.code.table",
+                    "source_kind": "genetic_code_table",
+                    "source_ref": "fixture",
+                    "source_snapshot": "fixture",
+                    "observed_fact": "curated code table",
+                    "resolution": "code readback",
+                    "known_noise_or_bias": "fixture only",
+                    "can_test": ["code_read"],
+                    "cannot_test": ["translation"],
+                    "null_reason": "",
+                }
+            ],
+        )
+        writeback_empty_fact_store = BioRealityStore(writeback_empty_fact_paths)
+        writeback_empty_fact_summary = run_writeback_lane(writeback_empty_fact_store)
+        writeback_empty_fact_part = writeback_empty_fact_paths.paper_part.read_text(encoding="utf-8")
+        if writeback_empty_fact_summary["written_conjectures"] != 1:
+            print(json.dumps(writeback_empty_fact_summary, indent=2), file=sys.stderr)
+            return 1
+        if "Verified facts" not in writeback_empty_fact_part or "No verified facts attached yet." not in writeback_empty_fact_part:
+            print(writeback_empty_fact_part, file=sys.stderr)
+            return 1
+        writeback_fact_paths = _temp_paths(base / "writeback_fact")
+        writeback_fact_paths.namecert_proposals_dir.mkdir(parents=True, exist_ok=True)
+        write_jsonl(
+            writeback_fact_paths.conjectures,
+            [
+                {
+                    "conjecture_id": "test.codon",
+                    "biological_object": "codon table",
+                    "informal_statement": "codon median packet",
+                    "bedc_minimal_form": {
+                        "carrier": "codon carrier",
+                        "distinctions": ["codons in R", "codons in M"],
+                        "readback": "observable codon table",
+                        "internal_structure": ["closure"],
+                    },
+                    "claimed_layer": "code_read",
+                    "evidence_basis": ["external_reality", "bedc_coordinate", "derived_probe"],
+                    "reality_contact_refs": ["curated.standard.code.table"],
+                    "probe_refs": ["codon.size.probe"],
+                    "forbidden_claims": ["translation realisation"],
+                    "null_reason": "",
+                    "verified_facts": {
+                        "h0.test": {
+                            "verified_at": "2026-05-25T00:00:01+00:00",
+                            "experiment_run_id": "abcd1234efgh",
+                            "values": {"size": 13, "lambda_M": 0.675248},
+                        }
+                    },
+                }
+            ],
+        )
+        write_jsonl(
+            writeback_fact_paths.contacts,
+            [
+                {
+                    "contact_id": "curated.standard.code.table",
+                    "source_kind": "genetic_code_table",
+                    "source_ref": "fixture",
+                    "source_snapshot": "fixture",
+                    "observed_fact": "curated code table",
+                    "resolution": "code readback",
+                    "known_noise_or_bias": "fixture only",
+                    "can_test": ["code_read"],
+                    "cannot_test": ["translation"],
+                    "null_reason": "",
+                }
+            ],
+        )
+        write_jsonl(
+            writeback_fact_paths.probes,
+            [
+                {
+                    "probe_id": "codon.size.probe",
+                    "conjecture_ref": "test.codon",
+                    "probe_kind": "boundary_mismatch",
+                    "derived_from": ["bedc_coordinate"],
+                    "test_statement": "size probe",
+                    "support_condition": "passed run",
+                    "break_condition": "failed run",
+                    "required_contacts": ["curated.standard.code.table"],
+                    "forbidden_interpretations": ["size probe does not prove translation"],
+                    "null_reason": "",
+                }
+            ],
+        )
+        write_jsonl(
+            writeback_fact_paths.mismatches,
+            [
+                {
+                    "mismatch_id": "codon.size.aligned",
+                    "probe_ref": "codon.size.probe",
+                    "contact_ref": "curated.standard.code.table",
+                    "status": "aligned",
+                    "mismatch_kind": "none",
+                    "observed_delta": "none",
+                    "refinement_pressure": "none",
+                    "blocked_claims": ["translation"],
+                    "null_reason": "",
+                }
+            ],
+        )
+        (writeback_fact_paths.namecert_proposals_dir / "h0.test.md").write_text(
+            "\n".join(
+                [
+                    "# NameCert proposal for h0.test",
+                    "## 1. Loning-format chapter slug",
+                    "Proposed slug: 14101_test",
+                    "## 2. Carrier",
+                    "Test carrier.",
+                ]
+            ),
+            encoding="utf-8",
+        )
+        writeback_fact_store = BioRealityStore(writeback_fact_paths)
+        writeback_fact_summary = run_writeback_lane(writeback_fact_store)
+        writeback_fact_part = writeback_fact_paths.paper_part.read_text(encoding="utf-8")
+        writeback_fact_main = writeback_fact_paths.paper_main.read_text(encoding="utf-8")
+        writeback_fact_namecert = writeback_fact_paths.paper_part.parent / "namecerts" / "h0_test.tex"
+        if writeback_fact_summary["namecerts_written"] != 1:
+            print(json.dumps(writeback_fact_summary, indent=2), file=sys.stderr)
+            return 1
+        if "Verified facts" not in writeback_fact_part or "size=13" not in writeback_fact_part or "lambda\\_M=0.675248" not in writeback_fact_part:
+            print(writeback_fact_part, file=sys.stderr)
+            return 1
+        if not writeback_fact_namecert.exists():
+            print(str(writeback_fact_namecert), file=sys.stderr)
+            return 1
+        writeback_fact_namecert_text = writeback_fact_namecert.read_text(encoding="utf-8")
+        if "NameCert chapter slug" not in writeback_fact_namecert_text or "Carrier" not in writeback_fact_namecert_text:
+            print(writeback_fact_namecert_text, file=sys.stderr)
+            return 1
+        if r"\input{parts/namecerts/h0_test}" not in writeback_fact_main:
+            print(writeback_fact_main, file=sys.stderr)
             return 1
 
         plan_phase_paths = _temp_paths(base / "plan_phase")
