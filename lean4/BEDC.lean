@@ -4916,6 +4916,7 @@ import BEDC.Derived.RealCauchyModulusUp.BoundedTailLedger
 import BEDC.Derived.RealCauchyModulusUp.Classifier
 import BEDC.Derived.RealCauchyModulusUp.CofinalRefinementHandoff
 import BEDC.Derived.RealCauchyModulusUp.FiniteModulusIndexInduction
+import BEDC.Derived.RealCauchyModulusUp.FiniteWindowTightening
 import BEDC.Derived.RealCauchyModulusUp.ObligationClosurePackage
 import BEDC.Derived.RealCauchyModulusUp.RegSeqRatClassifierDeterminacy
 import BEDC.Derived.RealCauchyModulusUp.RootUnblockScope
