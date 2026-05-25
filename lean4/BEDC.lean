@@ -3798,6 +3798,7 @@ import BEDC.Derived.LocatedLimitUp.TasteGate
 import BEDC.Derived.LocatedMetricUp
 import BEDC.Derived.LocatedMetricUp.TasteGate
 import BEDC.Derived.LocatedModulusCompletionUp
+import BEDC.Derived.LocatedMonotoneConvergenceUp
 import BEDC.Derived.LocatedRealComparisonUp.TasteGate
 import BEDC.Derived.LocatedRealFieldUp
 import BEDC.Derived.LocatedRealIntervalUp.TasteGate
@@ -5988,6 +5989,7 @@ import BEDC.Derived.UniformCauchyFilterUp.TasteGate
 import BEDC.Derived.UniformCauchyModulusUp.TasteGate
 import BEDC.Derived.UniformCauchySequenceUp.TasteGate
 import BEDC.Derived.UniformCauchySeriesUp.TasteGate
+import BEDC.Derived.UniformCauchySubsequenceUp.TasteGate
 import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
 import BEDC.Derived.UniformCompletionMonadUp
 import BEDC.Derived.UniformCompletionSeparationKernelUp
