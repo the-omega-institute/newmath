@@ -474,27 +474,31 @@ def run_plan_lane(store: BioRealityStore) -> dict[str, Any]:
         statuses = {str(run.get("status") or "") for run in recent}
         if not statuses <= stuck_statuses:
             continue
-        failed_checks = [_failed_check_name(run) for run in recent]
-        if not failed_checks[0] or any(check != failed_checks[0] for check in failed_checks):
-            continue
         claim_id = claim_id_by_experiment.get(experiment_id) or str(recent[0].get("claim_id") or "")
         claim = claim_by_id.get(claim_id, {})
         if not claim_id or str(claim.get("status") or "") == "passed":
             continue
         if ("claim_redesign_proposed", experiment_id) in open_event_keys:
             continue
-        check_name = failed_checks[0]
+        failed_checks = [_failed_check_name(run) for run in recent if _failed_check_name(run)]
+        check_name = failed_checks[0] if failed_checks else ""
+        distinct_checks = sorted(set(failed_checks))
+        reason = (
+            f"experiment {experiment_id} status failed in last 3 runs; "
+            f"failed checks observed: {', '.join(distinct_checks) or 'unspecified'}"
+        )
         new_events.append(
             agent_bus._event(
                 "claim_redesign_proposed",
                 "bio-Plan",
                 "experiment",
                 experiment_id,
-                f"experiment {experiment_id} has failed with same check {check_name} in last 3 runs",
+                reason,
                 {
                     "experiment_id": experiment_id,
                     "claim_id": claim_id,
                     "failed_check": check_name,
+                    "failed_checks_distinct": distinct_checks,
                     "recent_runs": [_brief_run(run) for run in recent],
                 },
             )
