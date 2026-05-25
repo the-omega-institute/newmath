@@ -216,6 +216,46 @@ Apply the derivative norm ledger. It places norm and Hilbert-facing magnitude re
 The excluded analytic objects are absent from the carrier, classifier, weak-derivative ledger, and derivative norm ledger. Coordinate exhaustion therefore blocks distributional duals, Lebesgue completion, quotient equality, density, compact embedding, trace rows, and selected representatives from entering the exported root package.
 \end{proof}
 
+\begin{definition}[Sobolev finite-window carrier]
+\label{def:sobolev-finite-window-carrier}
+A finite-window $\SobolevUp$ carrier is a displayed $\BHist$ packet
+$$
+W=(D,M,V,L,G,T,H,C,P,N)
+$$
+over the following rows:
+\begin{enumerate}
+\item $D$ is the $\RealUp$ domain row for the finite scalar observation window.
+\item $M$ is the $\MetricSpaceUp$ or $\CompleteMetricUp$ base row attached to the same window.
+\item $V$ is the $\NormUp$ or $\HilbertUp$ codomain row through which function and weak-gradient magnitudes are read.
+\item $L$ is the $\IntegralUp$ magnitude row for the displayed function and weak-gradient observations.
+\item $G$ is the $\DerivativeUp$ weak-derivative ledger row, containing only the finitely inspected test routes and their responses.
+\item $T$ is the transport ledger for weak-derivative rows, recording how each displayed test route is moved under the local classifier.
+\item $H$ records componentwise $\hsame$ comparison for $D,M,V,L,G,T,P,N$.
+\item $C$ records displayed $\Cont$ replay from a Sobolev read through the finite window into $D,M,V,L,G,T,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\SobolevUp$, $\RealUp$, $\MetricSpaceUp$, $\CompleteMetricUp$, $\NormUp$, $\HilbertUp$, $\IntegralUp$, $\DerivativeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SobolevUp}$ row for this finite window.
+\end{enumerate}
+The finite-window classifier compares accepted packets only through these rows. It does not compare ambient Hilbert completions, quotient function classes, measure-theoretic representatives, host equality of functions, or selected extensions beyond the displayed weak-derivative tests.
+\end{definition}
+
+\begin{theorem}[Sobolev completion-boundary nonescape]
+\label{thm:sobolev-completion-boundary-nonescape}
+Every completion-facing read of a finite-window $\SobolevUp$ carrier $W=(D,M,V,L,G,T,H,C,P,N)$ is confined to
+$$
+D,M,V,L,G,T,H,C,P,N .
+$$
+In particular, a consumer may read $\RealUp$, $\MetricSpaceUp$, $\CompleteMetricUp$, $\NormUp$, $\HilbertUp$, $\IntegralUp$, $\DerivativeUp$, weak-derivative transport, replay, provenance, and local naming only through the displayed finite-window rows. It cannot export ambient Hilbert completion, quotient functions, measure-theoretic choice, host equality outside the displayed tests, density of smooth functions, compact embedding, trace theory, or a selected representative.
+\end{theorem}
+\begin{proof}
+Project the finite-window carrier of \autoref{def:sobolev-finite-window-carrier}. Its analytic rows are exactly $D,M,V,L,G,T$, and its structural rows are exactly $H,C,P,N$.
+
+Read a completion-facing request through the replay row $C$. The route first reaches the $\RealUp$ domain row and metric or complete-metric base row, then the norm or Hilbert codomain row, and only then the integral magnitude and derivative test rows.
+
+The transport ledger $T$ and componentwise $\hsame$ row $H$ move only those displayed weak-derivative rows. They do not add a quotient class, a measure-completion selector, or equality of host functions.
+
+Finally $P$ and $N$ record provenance and local naming for the same finite window. Since the excluded analytic objects are absent from the carrier inventory and from the replay route, no completion-facing consumer can export them from this packet.
+\end{proof}
+
 \begin{theorem}[Sobolev Hilbert completion descent]
 \label{thm:sobolev-hilbert-completion-descent}
 Any $\HilbertUp$, $\MetricSpaceUp$, $\CompleteMetricUp$, PDE, variational, or completion-facing consumer of a $\SobolevUp$ packet descends to the carrier rows of \autoref{thm:sobolev-bhist-carrier-scope} before it may cite weak-derivative data. The descent route passes through the displayed $\RealUp$ domain row, the metric or complete-metric base row, the codomain norm or Hilbert row, the $\IntegralUp$ magnitude ledger, the $\DerivativeUp$ weak-gradient row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence. It supplies no completed Sobolev space, distributional dual, quotient function equality, density theorem, compact embedding, trace row, or selected representative.
