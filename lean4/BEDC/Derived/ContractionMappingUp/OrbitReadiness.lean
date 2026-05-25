@@ -140,6 +140,57 @@ theorem ContractionMappingCarrier_complete_metric_handoff [AskSetup] [PackageSet
       graphReadUnary, modulusReadUnary, completeReadUnary, metricRoute, graphRoute,
       modulusRoute, completeRoute, provenancePkg, completePkg⟩
 
+theorem ContractionMappingCarrier_complete_metric_regular_cauchy_handoff
+    [AskSetup] [PackageSetup]
+    {X d T G lambda M I H C P N x0 iterates replay bound tolerance tailBound exportRead
+      metricRead graphRead modulusRead completeRead handoffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContractionMappingCarrier X d T G lambda M I H C P N bundle pkg →
+      UnaryHistory x0 →
+        UnaryHistory iterates →
+          Cont x0 iterates replay →
+            Cont replay lambda bound →
+              Cont bound tolerance I →
+                Cont I M tailBound →
+                  Cont tailBound H exportRead →
+                    Cont X d metricRead →
+                      Cont T G graphRead →
+                        Cont lambda M modulusRead →
+                          Cont metricRead graphRead completeRead →
+                            Cont exportRead completeRead handoffRead →
+                              PkgSig bundle handoffRead pkg →
+                                UnaryHistory exportRead ∧ UnaryHistory completeRead ∧
+                                  UnaryHistory handoffRead ∧ Cont tailBound H exportRead ∧
+                                    Cont metricRead graphRead completeRead ∧
+                                      Cont exportRead completeRead handoffRead ∧
+                                        PkgSig bundle P pkg ∧
+                                          PkgSig bundle handoffRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig
+  intro carrier x0Unary iteratesUnary orbitReplay boundReplay toleranceRoute tailRoute
+    exportRoute metricRoute graphRoute modulusRoute completeRoute handoffRoute handoffPkg
+  obtain ⟨XUnary, dUnary, TUnary, GUnary, lambdaUnary, MUnary, IUnary, HUnary,
+    _CUnary, _PUnary, _NUnary, provenancePkg⟩ := carrier
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed x0Unary iteratesUnary orbitReplay
+  have boundUnary : UnaryHistory bound :=
+    unary_cont_closed replayUnary lambdaUnary boundReplay
+  have tailBoundUnary : UnaryHistory tailBound :=
+    unary_cont_closed IUnary MUnary tailRoute
+  have exportReadUnary : UnaryHistory exportRead :=
+    unary_cont_closed tailBoundUnary HUnary exportRoute
+  have metricReadUnary : UnaryHistory metricRead :=
+    unary_cont_closed XUnary dUnary metricRoute
+  have graphReadUnary : UnaryHistory graphRead :=
+    unary_cont_closed TUnary GUnary graphRoute
+  have _modulusReadUnary : UnaryHistory modulusRead :=
+    unary_cont_closed lambdaUnary MUnary modulusRoute
+  have completeReadUnary : UnaryHistory completeRead :=
+    unary_cont_closed metricReadUnary graphReadUnary completeRoute
+  have handoffReadUnary : UnaryHistory handoffRead :=
+    unary_cont_closed exportReadUnary completeReadUnary handoffRoute
+  exact
+    ⟨exportReadUnary, completeReadUnary, handoffReadUnary, exportRoute, completeRoute,
+      handoffRoute, provenancePkg, handoffPkg⟩
 def ContractionMappingOrbitLedger
     (x0 iterates boundPower tolerance adjacentReplay tailReplay : BHist) : Prop :=
   -- BEDC touchpoint anchor: BHist Cont UnaryHistory
