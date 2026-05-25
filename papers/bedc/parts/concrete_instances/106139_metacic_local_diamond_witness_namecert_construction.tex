@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICLocalDiamondWitnessUp$}
+\label{ch:concrete-instances-metacic-local-diamond-witness-namecert}
+\origin{ai}
+
+The $\MetaCICLocalDiamondWitnessUp$ packet realizes the local-peak witness surface of \autoref{ch:metacic-confluence-audit-map} as finite BEDC confluence data. It sits beside the confluence audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}, the critical-path carrier of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the subject-reduction discharge socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, and the typed reduction trace of \autoref{ch:concrete-instances-typed-example-reduction-trace-namecert}. The packet names local peaks and candidate joins; it does not promote the conditional substitution boundary into a closed MetaCIC confluence theorem.
+
+\falsifiablePrediction{Every accepted local-diamond witness has peak, left-step, right-step, candidate-join, closedness, transport, continuation, provenance, and naming rows.}
+
+\independenceWitness{metacic-confluence-audit-packet, metacic-critical-path, subject-reduction-discharge-socket, metacic-subject-reduction-trace: the confluence audit packet records the global boundary without a per-peak witness carrier; the critical-path packet records priority and dependency pressure without candidate joins; the subject-reduction discharge socket records typing-side hypotheses without confluence joins; and the subject-reduction trace records reduction evidence without a local-diamond peak certificate. None is bijective to $\MetaCICLocalDiamondWitnessUp$.}
+
+\begin{definition}[MetaCIC local-diamond witness carrier]
+\label{def:metacic-local-diamond-witness-carrier}
+A $\MetaCICLocalDiamondWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(K,L,R,J,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the peak row, naming the source term and the two outgoing MetaCIC reduction requests that form the local peak.
+\item $L$ is the left-step row, recording the displayed one-step or parallel-step evidence for the left branch.
+\item $R$ is the right-step row, recording the displayed one-step or parallel-step evidence for the right branch.
+\item $J$ is the candidate-join row, listing the proposed common reduct together with the two displayed route requests into it.
+\item $B$ is the closedness and boundary row, recording whether the witness is closed, normal-source, atom-source, or substitution-boundary conditional according to the confluence audit map.
+\item $H$ records componentwise $\hsame$ transport for the peak, branch steps, candidate join, closedness boundary, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the peak through the two branch rows, then the candidate join, then the closedness boundary.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICLocalDiamondWitnessUp$, the MetaCIC confluence audit map, $\MetaCICConfluenceAuditPacketUp$, $\MetaCICCriticalPathUp$, $\SubjectReductionDischargeSocketUp$, $\TypedExampleReductionTraceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICLocalDiamondWitnessUp}$ row.
+\end{enumerate}
+The carrier exports no arbitrary closed Church--Rosser theorem, no proof of $\mathrm{BetaParallelSubstitutionCompatibility}$, no proof of $\mathrm{BetaParallelDiamondClosed}$, no subject-reduction theorem, and no host quotient equality of terms.
+\end{definition}
+
+\begin{theorem}[MetaCIC local-diamond witness NameCert obligations]
+\label{thm:metacic-local-diamond-witness-namecert-obligations}
+For every accepted $\MetaCICLocalDiamondWitnessUp$ carrier $W=(K,L,R,J,B,H,C,P,N)$, the local $\NameCert_{\MetaCICLocalDiamondWitnessUp}$ surface consists exactly of peak admission, left-step evidence, right-step evidence, candidate-join evidence, closedness and boundary classification, componentwise transport, displayed continuation replay, provenance, and local naming.
+
+The Lean TasteGate follow-up must provide $\mathrm{Nontrivial}$ and $\mathrm{FieldFaithful}$ instances for the same carrier surface, so the witness cannot be collapsed to an empty marker and cannot hide a missing peak, branch, join, boundary, transport, replay, provenance, or naming coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-local-diamond-witness-carrier}. The peak row $K$ names the source and the two outgoing reduction requests, while $L$ and $R$ record the displayed branch evidence.
+
+The join and boundary rows are then read in order. Row $J$ supplies the candidate common reduct and the route requests into it; row $B$ classifies the witness as closed, normal-source, atom-source, or substitution-boundary conditional.
+
+The structural rows $H,C,P,N$ preserve and name that local peak route. Since the carrier contains no arbitrary closed Church--Rosser theorem, no substitution-compatibility proof, no closed parallel-diamond proof, no subject-reduction theorem, and no quotient equality of terms, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\closureat{MetaCICLocalDiamondWitnessUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICLocalDiamondWitnessUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-local-diamond-witness-carrier} and \autoref{thm:metacic-local-diamond-witness-namecert-obligations} seed the finite local-diamond witness packet over peaks, branch steps, candidate joins, closedness boundaries, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary closed Church--Rosser, BetaParallelSubstitutionCompatibility, BetaParallelDiamondClosed, subject reduction, quotient equality of terms, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, peak exposure, left-step and right-step evidence, candidate-join exactness, boundary classification, TasteGate nontriviality, FieldFaithful coverage, transport, replay, provenance, and local naming.}
+  \constructivestory{A $\MetaCICLocalDiamondWitnessUp$ packet is generated from a local peak row, left-step row, right-step row, candidate-join row, closedness and boundary row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
