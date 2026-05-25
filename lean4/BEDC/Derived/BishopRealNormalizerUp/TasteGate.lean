@@ -138,6 +138,18 @@ private theorem bishopRealNormalizerToEventFlow_injective
     (Eq.trans (BishopRealNormalizerTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (BishopRealNormalizerTasteGate_single_carrier_alignment_round_trip y)))
 
+private theorem bishopRealNormalizer_field_faithful :
+    ∀ x y : BishopRealNormalizerUp, bishopRealNormalizerFields x = bishopRealNormalizerFields y →
+      x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk S₁ M₁ D₁ Q₁ E₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk S₂ M₂ D₂ Q₂ E₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
+
 instance bishopRealNormalizerBHistCarrier : BHistCarrier BishopRealNormalizerUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := bishopRealNormalizerToEventFlow
@@ -154,22 +166,43 @@ instance bishopRealNormalizerChapterTasteGate :
     intro x y hxy heq
     exact hxy (bishopRealNormalizerToEventFlow_injective heq)
 
-theorem BishopRealNormalizerTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      bishopRealNormalizerDecodeBHist (bishopRealNormalizerEncodeBHist h) = h) ∧
-      (∀ x : BishopRealNormalizerUp,
-        bishopRealNormalizerFromEventFlow (bishopRealNormalizerToEventFlow x) = some x) ∧
-        (∀ x y : BishopRealNormalizerUp,
-          bishopRealNormalizerToEventFlow x = bishopRealNormalizerToEventFlow y → x = y) ∧
-          bishopRealNormalizerEncodeBHist BHist.Empty = ([] : List BMark) := by
+instance bishopRealNormalizerFieldFaithful : FieldFaithful BishopRealNormalizerUp where
   -- BEDC touchpoint anchor: BHist BMark
+  fields := bishopRealNormalizerFields
+  field_faithful := bishopRealNormalizer_field_faithful
+
+instance bishopRealNormalizerNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial BishopRealNormalizerUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨BishopRealNormalizerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      BishopRealNormalizerUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+theorem BishopRealNormalizerTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate BishopRealNormalizerUp) ∧
+      Nonempty (FieldFaithful BishopRealNormalizerUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial BishopRealNormalizerUp) ∧
+          (∀ h : BHist,
+            bishopRealNormalizerDecodeBHist (bishopRealNormalizerEncodeBHist h) = h) ∧
+            (∀ x : BishopRealNormalizerUp,
+              bishopRealNormalizerFromEventFlow (bishopRealNormalizerToEventFlow x) = some x) ∧
+              bishopRealNormalizerEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   constructor
-  · exact BishopRealNormalizerTasteGate_single_carrier_alignment_decode
-  constructor
-  · exact BishopRealNormalizerTasteGate_single_carrier_alignment_round_trip
-  constructor
-  · intro x y heq
-    exact bishopRealNormalizerToEventFlow_injective heq
-  · rfl
+  · exact ⟨bishopRealNormalizerChapterTasteGate⟩
+  · constructor
+    · exact ⟨bishopRealNormalizerFieldFaithful⟩
+    · constructor
+      · exact ⟨bishopRealNormalizerNontrivial⟩
+      · constructor
+        · exact BishopRealNormalizerTasteGate_single_carrier_alignment_decode
+        · constructor
+          · exact BishopRealNormalizerTasteGate_single_carrier_alignment_round_trip
+          · rfl
 
 end BEDC.Derived.BishopRealNormalizerUp
