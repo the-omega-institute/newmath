@@ -1579,6 +1579,7 @@ import BEDC.Derived.ClosedBoundedIntervalNetUp.CellCenterReadback
 import BEDC.Derived.ClosedBoundedIntervalNetUp.CompactUniformRoute
 import BEDC.Derived.ClosedBoundedIntervalNetUp.FiniteMeshCoverage
 import BEDC.Derived.ClosedBoundedIntervalNetUp.LocatedEndpointStability
+import BEDC.Derived.ClosedBoundedIntervalNetUp.MeshRefinementFusion
 import BEDC.Derived.ClosedBoundedIntervalNetUp.PublicEnvelope
 import BEDC.Derived.ClosedBoundedIntervalNetUp.PublicFiniteNetExport
 import BEDC.Derived.ClosedBoundedIntervalNetUp.RegSeqRatWindowExactness
@@ -2844,6 +2845,7 @@ import BEDC.Derived.EmptyFableMachineUp.Ledger
 import BEDC.Derived.EmptyFableMachineUp.TasteGate
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.EmptyUp.TasteGate
+import BEDC.Derived.EngelExpansionUp.TasteGate
 import BEDC.Derived.EnrichedCatUp
 import BEDC.Derived.EntanglementUp
 import BEDC.Derived.EntourageBaseUp.TasteGate
@@ -2853,6 +2855,7 @@ import BEDC.Derived.EpistemicWitnessUp.TasteGate
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.EquicontinuityFamilyUp
 import BEDC.Derived.EquicontinuityFamilyUp.TasteGate
+import BEDC.Derived.EquicontinuousCompletionUp.TasteGate
 import BEDC.Derived.EquivCatUp
 import BEDC.Derived.ErgodicUp
 import BEDC.Derived.ErrorCodeUp
@@ -3367,6 +3370,7 @@ import BEDC.Derived.GapFailureBridgeAuditUp.NameCertObligations
 import BEDC.Derived.GapFailureBridgeAuditUp.TasteGate
 import BEDC.Derived.GapSocketBoundaryUp.TasteGate
 import BEDC.Derived.GaugeIntegralUp
+import BEDC.Derived.GaugeIntegralUp.TasteGate
 import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeneratorClosureUp
 import BEDC.Derived.GeneratorContinuationAuditUp.TasteGate
