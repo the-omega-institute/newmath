@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyCompletionStabilityUp$}
+\label{ch:concrete-instances-regular-cauchy-completion-stability-namecert}
+\origin{human}
+
+Following the Bishop--Bridges constructive-completion treatment, the $\RegularCauchyCompletionStabilityUp$ packet records the finite stability surface by which a regular rational Cauchy name, its finite stream windows, dyadic tolerance ledger, terminal real seal, and completion-witness row remain attached to one completion route. It sits after the regular rational sequence interface of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream-window naming surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion witness boundary of \autoref{ch:concrete-instances-cauchy-completeness-witness-namecert}. The packet names finite stability and idempotence-boundary data for the displayed route; it does not assert ambient $\RealUp$ completeness, quotient equality of streams, selected limits, countable choice, or an external completion theorem.
+
+\begin{definition}[Regular Cauchy completion stability carrier]
+\label{def:regular-cauchy-completion-stability-carrier}
+A $\RegularCauchyCompletionStabilityUp$ carrier is a finite $\BHist$ packet
+$$
+S=(Q,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\RegSeqRatUp$ source row, carrying the regular rational Cauchy name and its finite tolerance schedule.
+\item $W$ is the $\StreamNameUp$ window row that selects the finite source observations inspected by the completion route.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic radii and comparison rows used to certify regularity on the selected windows.
+\item $R$ is the $\RealUp$ seal row reached from the regular sequence, stream windows, and dyadic tolerance ledger.
+\item $E$ is the $\CauchyCompletenessWitnessUp$ row, exposing only the displayed completion-witness surface attached to $Q,W,D,R$.
+\item $H$ records componentwise $\hsame$ transport for the regular sequence, stream windows, dyadic ledger, real seal, completion witness, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from $Q$ through $W,D,R,E$ and back to the local naming row.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyCompletionStabilityUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyCompletenessWitnessUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyCompletionStabilityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,W,D,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, a chosen limit representative, ambient completeness of $\RealUp$, countable choice, trichotomy, or a second completion route.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy completion stability NameCert obligations]
+\label{thm:regular-cauchy-completion-stability-namecert-obligations}
+For every accepted $\RegularCauchyCompletionStabilityUp$ carrier $S=(Q,W,D,R,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyCompletionStabilityUp}$ surface consists exactly of carrier admission for the displayed rows; regular-source exposure through $Q$; finite window selection through $W$; dyadic tolerance accounting through $D$; real-seal confinement through $R$; completion-witness attachment through $E$; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-completion-stability-carrier}. The accepted packet displays exactly the regular rational source, the finite window schedule, the dyadic tolerance ledger, the terminal real seal, and the completion-witness row.
+
+The stability route is read in source order. The row $Q$ supplies the regular Cauchy name, $W$ selects the finite observations that a consumer may inspect, and $D$ records the dyadic tolerance comparisons visible on those observations.
+
+The rows $R$ and $E$ then bind the completion-facing read. The real seal $R$ is reached only after $Q,W,D$ have been displayed, and the completion witness $E$ attaches to that same route rather than to an external completeness principle.
+
+Finally $H,C,P,N$ transport, replay, source, and name the route. Since no coordinate stores quotient stream equality, a chosen limit representative, ambient $\RealUp$ completeness, countable choice, trichotomy, or a second completion route, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy completion idempotence boundary]
+\label{thm:regular-cauchy-completion-stability-idempotence-boundary}
+Every completion-facing consumer of an accepted $\RegularCauchyCompletionStabilityUp$ carrier factors through the finite route
+$$
+\RegSeqRatUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp \longmapsto \CauchyCompletenessWitnessUp .
+$$
+If the consumer asks to complete a route already sealed by $R$ and witnessed by $E$, the packet can only replay the same displayed rows $Q,W,D,R,E,H,C,P,N$. It cannot introduce a quotient of streams, a selected representative of the limit, a second real seal, or an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with a completion-facing read of the carrier. By \autoref{def:regular-cauchy-completion-stability-carrier}, the only source of regular Cauchy data is $Q$, and every finite observation passes through the stream window row $W$ and dyadic tolerance ledger $D$.
+
+The completion read reaches $R$ and $E$ only along this route. Thus the real seal and the completion witness are already attached to the finite regular-source path before any consumer receives the packet.
+
+For a second completion request, replay $C$ and transport along $H$. The replay has no coordinate that could manufacture a quotient stream, chosen limit, second real seal, or ambient completeness proof, so the request remains on $Q,W,D,R,E,H,C,P,N$.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyCompletionStabilityUp$ consumer that exports a completion witness without first displaying the RegSeqRat source, StreamName windows, DyadicRatCore tolerance ledger, and RealUp seal refutes the carrier surface.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, real, cauchy-completeness-witness: these sibling chapters supply regular schedules, finite windows, dyadic tolerance rows, real seals, and completion witnesses separately, while this packet binds them into the finite stability carrier $S=(Q,W,D,R,E,H,C,P,N)$.}
+
+\closureat{RegularCauchyCompletionStabilityUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyCompletionStabilityUp}
+  \constructivestory{A $\RegularCauchyCompletionStabilityUp$ packet is generated from a RegSeqRat source row, StreamName finite windows, a DyadicRatCore tolerance ledger, a RealUp seal, a CauchyCompletenessWitness row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-completion-stability-carrier}, \autoref{thm:regular-cauchy-completion-stability-namecert-obligations}, and \autoref{thm:regular-cauchy-completion-stability-idempotence-boundary} seed the finite regular-Cauchy completion stability surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ambient $\RealUp$ completeness, quotient stream equality, selected limits, countable choice, trichotomy, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, regular-source exposure, finite-window selection, dyadic tolerance accounting, real-seal confinement, completion-witness attachment, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyCompletionStabilityUp.}
+\end{closurestatus}
