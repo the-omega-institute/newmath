@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailBoundUp$}
+\label{ch:concrete-instances-regular-cauchy-tail-bound-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyTailBoundUp$ packet records the finite tail estimate used when a regular rational Cauchy name is read as a completion-facing real datum. It consumes the observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic radius ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the bounded Cauchy sequence route of \autoref{ch:concrete-instances-cauchy-sequence-bounded-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite tail-bound witness for completion and Real sealing; it is not a proof of ambient Real completeness, quotient equality, countable choice, or trichotomy.
+
+\begin{definition}[Regular Cauchy tail-bound carrier]
+\label{def:regular-cauchy-tail-bound-carrier}
+A $\RegularCauchyTailBoundUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,R,D,N,T_0,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ observation row, displaying the finite stream windows from which the tail request is read.
+\item $R$ is the $\RegSeqRatUp$ readback row, repacking those windows as regular rational Cauchy data.
+\item $D$ is the $\DyadicRatCoreUp$ radius ledger, recording the dyadic tolerance and comparison rows used by the tail estimate.
+\item $N$ is the unary tail-index row, naming the finite stage after which the displayed radius is to be enforced.
+\item $T_0$ is the later-index comparison row, recording the finite comparisons that put every displayed later observation beyond $N$ and inside the dyadic radius from $D$.
+\item $H$ records componentwise $\hsame$ transport for the stream, regular readback, dyadic radius, tail index, later-index comparison, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tail request through
+$$
+S,R,D,N,T_0 \longmapsto H,P,L .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTailBoundUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchySequenceBoundedUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\RegularCauchyTailBoundUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,R,D,N,T_0,H,C,P,L$. It contains no coordinate for a quotient completion equality, selected limit, countable-choice sequence, trichotomy decision, or ambient completeness theorem.
+\end{definition}
+
+\begin{definition}[Regular Cauchy tail-bound classifier]
+\label{def:regular-cauchy-tail-bound-classifier}
+Two accepted $\RegularCauchyTailBoundUp$ carriers
+$$
+T=(S,R,D,N,T_0,H,C,P,L)
+$$
+and
+$$
+T'=(S',R',D',N',T_0',H',C',P',L')
+$$
+are classified together exactly when the displayed $\hsame$ rows transport $S$ to $S'$, $R$ to $R'$, $D$ to $D'$, $N$ to $N'$, and $T_0$ to $T_0'$, and when the displayed $\Cont$ rows replay the same stream-to-readback-to-radius-to-tail-index route on both packets. The classifier has no coordinate for host real equality, completion quotient equality, selected representatives, or order trichotomy.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tail-bound NameCert obligations]
+\label{thm:regular-cauchy-tail-bound-namecert-obligations}
+For every accepted $\RegularCauchyTailBoundUp$ carrier
+$$
+T=(S,R,D,N,T_0,H,C,P,L),
+$$
+the local $\NameCert_{\RegularCauchyTailBoundUp}$ surface consists exactly of carrier admission for the displayed rows, StreamName observation exposure through $S$, RegSeqRat readback exposure through $R$, dyadic radius accounting through $D$, unary tail-index exposure through $N$, later-index comparison through $T_0$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-bound-carrier}. The accepted packet displays the stream observation row, regular rational readback row, dyadic radius ledger, unary tail index, later-index comparison row, transport row, replay row, provenance row, and local name.
+
+The tail estimate is read in order. A consumer first opens $S$ and $R$, then reads the dyadic tolerance in $D$, and only then consumes the finite index row $N$ and the later-index comparisons in $T_0$.
+
+The structural rows preserve that route. The $\hsame$ and $\Cont$ rows transport and replay the same finite observations, while $P$ and $L$ source and name the packet. Since no coordinate stores ambient Real completeness, quotient equality, countable choice, selected limits, or trichotomy, those principles are outside the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-bound completion handoff]
+\label{thm:regular-cauchy-tail-bound-completion-handoff}
+Every $\RealUp$, regular-completion, or bounded-Cauchy consumer of an accepted $\RegularCauchyTailBoundUp$ packet must read the finite route
+$$
+\StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \CauchySequenceBoundedUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The handoff supplies a displayed tail-bound packet to completion-facing chapters, but it does not export ambient completeness, countable choice, quotient equality of Real names, selected representatives, or trichotomy.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-tail-bound-namecert-obligations}. It forces every tail-bound read through $S,R,D,N,T_0$ before the structural rows can be consumed.
+
+The completion-facing route is finite. Stream windows are repacked as regular rational readback, the dyadic row supplies the radius, and the unary index plus later-index comparisons form the displayed tail witness.
+
+Finally inspect the missing coordinates of the carrier and classifier. They preserve the finite route under transport and replay, but they contain no selected limit, quotient equality, countable-choice selector, trichotomy row, or ambient completeness principle. Thus downstream Real and completion packets receive only the finite tail-bound handoff.
+\end{proof}
+
+\closureat{RegularCauchyTailBoundUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTailBoundUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-bound-carrier}, \autoref{def:regular-cauchy-tail-bound-classifier}, \autoref{thm:regular-cauchy-tail-bound-namecert-obligations}, and \autoref{thm:regular-cauchy-tail-bound-completion-handoff} seed the finite regular-Cauchy tail-bound packet over stream observations, regular rational readback, dyadic radii, unary tail indices, later-index comparisons, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Real completeness, countable choice, quotient equality, trichotomy, selected limits, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier preservation, tail-index exposure, later-index comparison, dyadic-radius accounting, replay stability, and ledger nonescape for BEDC.Derived.RegularCauchyTailBoundUp.}
+  \constructivestory{A $\RegularCauchyTailBoundUp$ packet is generated from one StreamName observation row, one RegSeqRat readback row, one DyadicRatCore radius ledger, one unary tail-index row, one later-index comparison row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
