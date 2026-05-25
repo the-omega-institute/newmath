@@ -279,6 +279,31 @@ theorem BoundedVariationPartitionLedger_refinement_monotonicity [AskSetup] [Pack
     unary_cont_closed edgeUnary' refinementUnary edgeRefinementVariation'
   exact ⟨sameVariation, edgeUnary', variationUnary', provenancePkg⟩
 
+theorem BoundedVariationPartitionLedger_endpoint_transport_scope [AskSetup] [PackageSetup]
+    {interval partition edge endpoint dyadic variation refinement transport route provenance
+      nameCert endpoint' edge' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedVariationPartitionLedger interval partition edge endpoint dyadic variation refinement
+        transport route provenance nameCert bundle pkg ->
+      hsame endpoint endpoint' ->
+        Cont endpoint' dyadic edge' ->
+          UnaryHistory endpoint' ∧ UnaryHistory edge' ∧ hsame edge edge' ∧
+            PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro ledger sameEndpoint endpointDyadicEdge'
+  obtain ⟨_intervalUnary, _partitionUnary, _edgeUnary, endpointUnary, dyadicUnary,
+    _variationUnary, _refinementUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _nameCertUnary, _intervalPartitionEndpoint, endpointDyadicEdge, _edgeRefinementVariation,
+    _variationTransportRoute, _routeProvenanceNameCert, _variationSameAppend,
+    provenancePkg⟩ := ledger
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_transport endpointUnary sameEndpoint
+  have edgeUnary' : UnaryHistory edge' :=
+    unary_cont_closed endpointUnary' dyadicUnary endpointDyadicEdge'
+  have sameEdge : hsame edge edge' :=
+    cont_respects_hsame sameEndpoint (hsame_refl dyadic) endpointDyadicEdge endpointDyadicEdge'
+  exact ⟨endpointUnary', edgeUnary', sameEdge, provenancePkg⟩
+
 theorem BoundedVariationCarrier_cauchy_consumer_boundary [AskSetup] [PackageSetup]
     {interval partition endpoint dyadic variation refinement transport route provenance nameCert
       edgeRead cauchyRead : BHist}
