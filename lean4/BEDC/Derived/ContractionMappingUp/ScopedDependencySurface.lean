@@ -54,4 +54,33 @@ theorem ContractionMappingCarrier_scoped_dependency_surface [AskSetup] [PackageS
       modulusReadUnary, completeReadUnary, sealReadUnary, metricRoute, graphRoute,
       modulusRoute, completeRoute, sealRoute, provenancePkg, sealPkg⟩
 
+theorem ContractionMappingCarrier_completion_readiness_scope [AskSetup] [PackageSetup]
+    {X d T G lambda M I H C P N x0 iterates boundPower tolerance adjacentReplay tailReplay
+      completeRead tailRead readinessRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContractionMappingCarrier X d T G lambda M I H C P N bundle pkg →
+      ContractionMappingOrbitLedger x0 iterates boundPower tolerance adjacentReplay tailReplay →
+        Cont I M completeRead →
+          Cont completeRead C tailRead →
+            Cont tailRead P readinessRead →
+              PkgSig bundle readinessRead pkg →
+                UnaryHistory I ∧ UnaryHistory M ∧ UnaryHistory completeRead ∧
+                  UnaryHistory tailRead ∧ UnaryHistory readinessRead ∧
+                    Cont I M completeRead ∧ Cont completeRead C tailRead ∧
+                      Cont tailRead P readinessRead ∧ PkgSig bundle P pkg ∧
+                        PkgSig bundle readinessRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig
+  intro carrier _orbit completeRoute tailRoute readinessRoute readinessPkg
+  obtain ⟨_XUnary, _dUnary, _TUnary, _GUnary, _lambdaUnary, MUnary, IUnary, _HUnary,
+    CUnary, PUnary, _NUnary, provenancePkg⟩ := carrier
+  have completeReadUnary : UnaryHistory completeRead :=
+    unary_cont_closed IUnary MUnary completeRoute
+  have tailReadUnary : UnaryHistory tailRead :=
+    unary_cont_closed completeReadUnary CUnary tailRoute
+  have readinessReadUnary : UnaryHistory readinessRead :=
+    unary_cont_closed tailReadUnary PUnary readinessRoute
+  exact
+    ⟨IUnary, MUnary, completeReadUnary, tailReadUnary, readinessReadUnary,
+      completeRoute, tailRoute, readinessRoute, provenancePkg, readinessPkg⟩
+
 end BEDC.Derived.ContractionMappingUp

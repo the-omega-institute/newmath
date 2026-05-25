@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\BrouwerDegreeUp$}
+\label{ch:concrete-instances-brouwer-degree-namecert}
+\origin{human}
+
+Following Brouwer and standard constructive degree-theory presentations, the $\BrouwerDegreeUp$ packet records the finite boundary ledger by which a displayed continuous map on a compact domain is read as an integer degree certificate. It sits between the circle boundary surface of \autoref{ch:concrete-instances-s1-namecert}, the compact-domain ledger of \autoref{ch:concrete-instances-compact-namecert}, the graph and modulus rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the chain-boundary route of \autoref{ch:concrete-instances-homology-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names degree data only as finite $\BHist$ rows; it does not claim the classical Brouwer fixed point theorem, host topological degree, selected preimages, quotient homology classes, or ambient compactness.
+
+\begin{definition}[Brouwer degree carrier]
+\label{def:brouwer-degree-carrier}
+A $\BrouwerDegreeUp$ carrier is a finite $\BHist$ packet
+$$
+D=(K,B,F,O,I,H,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact-domain row, read through the finite compact or compact-metric certificate surface.
+\item $B$ is the boundary row, with its $\SOneUp$ orientation circle ledger and the displayed boundary inclusion into $K$.
+\item $F$ is the $\ContinuousMapUp$ row whose graph, modulus, and boundary restriction are visible to the packet.
+\item $O$ is the orientation ledger, recording the finite sign, face-order, or winding-window data used by the boundary read.
+\item $I$ is the integer-degree readback row, storing the displayed $\mathbb{Z}$-valued degree output and its finite comparison classifier.
+\item $H$ is the $\HomologyUp$ boundary row, exposing the finite chain-boundary or cycle-class route consumed by the degree readback.
+\item $T$ is the componentwise $\hsame$ transport row for the compact-domain, boundary, continuous-map, orientation, integer-readback, and homology-boundary rows.
+\item $C$ is the displayed $\Cont$ replay from $K,B,F,O,H$ to the integer readback row $I$ and then to the local naming row.
+\item $P$ is the $\Pkg$ provenance over $\BrouwerDegreeUp$, $\CompactUp$, $\SOneUp$, $\ContinuousMapUp$, $\HomologyUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BrouwerDegreeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,B,F,O,I,H,T,C,P,N$. It has no coordinate for a host degree function, selected zeros or preimages, quotient homology classes, open-cover compactness, or a Brouwer fixed-point conclusion.
+\end{definition}
+
+\begin{theorem}[Brouwer degree NameCert obligations]
+\label{thm:brouwer-degree-namecert-obligations}
+For every accepted $\BrouwerDegreeUp$ carrier
+$$
+D=(K,B,F,O,I,H,T,C,P,N),
+$$
+the local $\NameCert_{\BrouwerDegreeUp}$ surface consists exactly of carrier admission for the compact-domain row $K$, boundary and $\SOneUp$ row $B$, continuous-map row $F$, orientation ledger $O$, integer-degree readback $I$, homology boundary row $H$, componentwise $\hsame$ transport $T$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local naming row $N$. Every degree consumer must read the boundary, orientation, and homology rows before the integer row is exported.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The compact-domain row $K$, boundary row $B$, and continuous-map row $F$ are the only geometric inputs, and each is already a displayed finite BEDC row.
+
+The degree-specific data are $O,I,H$. The orientation ledger $O$ supplies the finite boundary orientation, the homology boundary row $H$ supplies the finite chain-boundary route, and the integer row $I$ is read only after those two rows and the continuous-map boundary restriction have been displayed.
+
+The structural rows $T,C,P,N$ transport, replay, source, and name that same route. Since no carrier coordinate stores host topological degree, selected preimages, quotient homology classes, open-cover compactness, or fixed-point existence, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Brouwer degree boundary handoff]
+\label{thm:brouwer-degree-boundary-handoff}
+Every boundary-facing degree read from an accepted $\BrouwerDegreeUp$ carrier factors through
+$$
+K,B,F,O,H\longmapsto I\longmapsto T,C,P,N .
+$$
+Thus the compact domain, boundary $\SOneUp$ row, continuous-map restriction, orientation ledger, and homology boundary row are displayed before the integer-degree readback can be transported or named.
+
+The handoff exports only this finite boundary route. It does not assert the Brouwer fixed point theorem, a host topological-degree functor, selected zeros, selected preimages, quotient homology classes, or ambient compactness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:brouwer-degree-namecert-obligations}. They place the compact-domain, boundary, continuous-map, orientation, and homology rows before the integer readback row.
+
+The boundary handoff is therefore forced through $K,B,F,O,H$. The row $B$ supplies the $\SOneUp$ boundary ledger, $F$ supplies the displayed map restriction, $O$ records the orientation data, and $H$ records the homology boundary route consumed by the integer row $I$.
+
+Finally replay the structural rows $T,C,P,N$. These rows preserve and name the same finite route, so the exported degree surface has no additional coordinate for host degree theory, fixed-point existence, selected preimages, quotient homology, or ambient compactness.
+\end{proof}
+
+\falsifiablePrediction{A $\BrouwerDegreeUp$ consumer that exports an integer degree without reading the boundary row $B$, orientation ledger $O$, and homology boundary row $H$ refutes the carrier surface.}
+
+\independenceWitness{s1, compact, continuousmap, homology, real: the sibling chapters supply boundary circles, compact rows, graph and modulus rows, chain-boundary routes, and real seals separately, while this chapter binds those rows into the finite degree readback packet $D=(K,B,F,O,I,H,T,C,P,N)$.}
+
+\closureat{BrouwerDegreeUp}{seedStr}
+
+\begin{closurestatus}{\BrouwerDegreeUp}
+  \constructivestory{A $\BrouwerDegreeUp$ packet is generated from a compact-domain row, boundary and SOne row, ContinuousMap row, orientation ledger, integer-degree readback, Homology boundary row, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:brouwer-degree-carrier}, \autoref{thm:brouwer-degree-namecert-obligations}, and \autoref{thm:brouwer-degree-boundary-handoff} seed the finite compact-domain, boundary, continuous-map, orientation, homology-boundary, integer-readback, transport, replay, provenance, and local naming surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim the Brouwer fixed point theorem, host topological degree, selected zeros, selected preimages, quotient homology classes, open-cover compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundary and orientation exactness, continuous-map restriction stability, homology boundary handoff, integer readback stability, transport, replay, provenance, and local naming for BEDC.Derived.BrouwerDegreeUp.}
+\end{closurestatus}

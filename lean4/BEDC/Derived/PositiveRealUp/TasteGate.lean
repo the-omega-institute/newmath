@@ -303,4 +303,15 @@ theorem PositiveRealCarrier_regseqrat_window_positivity_scope
     ⟨windowReadUnary, windowRoute, hsame_refl R,
       PositiveRealNameCert_obligations (PositiveRealUp.mk R A D W Q H C P N)⟩
 
+theorem PositiveRealCarrier_apartness_radius_transport
+    {R A D W Q H C P N transportedRadius : BHist} :
+    PositiveRealCarrier R A D W Q H C P N ->
+      hsame D transportedRadius ->
+        UnaryHistory transportedRadius ∧ hsame D transportedRadius ∧ hsame R R := by
+  -- BEDC touchpoint anchor: BHist hsame UnaryHistory
+  intro carrier sameRadius
+  obtain ⟨_realUnary, _apartnessUnary, radiusUnary, _windowUnary, _readbackUnary,
+    _handoffUnary, _replayUnary, _pkgUnary, _nameUnary⟩ := carrier
+  exact ⟨unary_transport radiusUnary sameRadius, sameRadius, hsame_refl R⟩
+
 end BEDC.Derived.PositiveRealUp
