@@ -50,6 +50,20 @@ The refusal coordinate $R$ records the missing promotion from bounded comparison
 Finally use the structural rows. The $\hsame$ and $\Cont$ routes in $H,C$ replay the same finite comparison route, while $P,N$ only record provenance and local naming. None of these rows adds a quotient equality, host evaluator, or global normalisation endpoint.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidable boundary refusal exactness]
+\label{thm:metacic-decidable-boundary-refusal-exactness}
+For every accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, the refusal row $R$ is exact: it records precisely the absence of a standalone $\mathsf{ClosedAt}$ decider and an unrestricted closed beta-conversion oracle, while the finite rows $T,S,B,F,H,C,P,N$ remain available for checker reads, structural equality reads, bounded comparison, finished-normal side conditions, componentwise transport, displayed replay, provenance, and local naming. The refusal row exports no fuel-erased normalization theorem and no quotient equality over represented terms.
+\end{theorem}
+\begin{proof}
+Project the refusal coordinate $R$ from the carrier of \autoref{def:metacic-decidable-boundary-carrier}. The carrier text gives $R$ exactly the two refusal duties: no standalone $\mathsf{ClosedAt}$ decision theorem and no global closed beta-conversion decider.
+
+Apply \autoref{thm:metacic-decidable-boundary-namecert-obligations}. It keeps $R$ inside the same finite NameCert surface as the positive rows $T,S,B,F,H,C,P,N$, so the refusal does not erase the bounded checker or comparison services already displayed by the carrier.
+
+Now use \autoref{thm:metacic-decidable-boundary-bounded-comparison-nonescape}. The bounded comparison row $B$ can be read only with the finished-normal side-condition row $F$, and that read cannot be exported as a global conversion procedure.
+
+Therefore the boundary is exact. Consumers may use the finite displayed rows, but they cannot obtain fuel-erased normalization or quotient equality from $R$ or from any structural replay of the packet.
+\end{proof}
+
 \begin{theorem}[MetaCIC decidable boundary sibling provenance]
 \label{thm:metacic-decidable-boundary-sibling-provenance}
 The provenance row $P$ places $\MetaCICDecidableBoundaryUp$ between the audit map of \autoref{ch:metacic-decidable-audit-map}, the normal false exclusion packet of \autoref{ch:concrete-instances-normalfalseexclusion-namecert}, the closed-normal confluence seal of \autoref{ch:concrete-instances-closednormalconfluenceseal-namecert}, and the subject-reduction obstruction packet of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}. Agreement on $H,C,P,N$ preserves only finite route and naming data among those chapters; it does not identify their theorem rows or discharge their missing global endpoints.
@@ -103,7 +117,7 @@ The provenance theorem accounts for the remaining sibling references. They expla
 \begin{closurestatus}{\MetaCICDecidableBoundaryUp}
   \constructivestory{A $\MetaCICDecidableBoundaryUp$ packet is generated from inferTypeCtx checking, checkSameTerm structural equality, bounded normal comparison, finished-normal side conditions, refusal rows for ClosedAt and global beta conversion, componentwise transport, continuation routes, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-decidable-boundary-carrier}, \autoref{thm:metacic-decidable-boundary-namecert-obligations}, \autoref{thm:metacic-decidable-boundary-bounded-comparison-nonescape}, \autoref{thm:metacic-decidable-boundary-sibling-provenance}, \autoref{thm:metacic-decidable-boundary-window-totality}, \autoref{thm:metacic-decidable-boundary-classifier-stability}, and \autoref{thm:metacic-decidable-boundary-ledger-exactness} bind the finite checker, bounded-comparison, refusal, provenance, and local naming surface.}
+  \scopeclosed{\autoref{def:metacic-decidable-boundary-carrier}, \autoref{thm:metacic-decidable-boundary-namecert-obligations}, \autoref{thm:metacic-decidable-boundary-bounded-comparison-nonescape}, \autoref{thm:metacic-decidable-boundary-refusal-exactness}, \autoref{thm:metacic-decidable-boundary-sibling-provenance}, \autoref{thm:metacic-decidable-boundary-window-totality}, \autoref{thm:metacic-decidable-boundary-classifier-stability}, and \autoref{thm:metacic-decidable-boundary-ledger-exactness} bind the finite checker, bounded-comparison, refusal, provenance, and local naming surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
