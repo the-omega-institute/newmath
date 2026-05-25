@@ -186,6 +186,39 @@ Apply the partial-sum majorant readback theorem, \autoref{thm:real-power-series-
 Use the majorant-route totality theorem above to identify the only possible shapes of $M$: $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, or $\RegularCauchyRootTestUp$. Finally apply \autoref{thm:real-power-series-nonescape}; since no other convergence or stream coordinate exists in the carrier, the budget cannot escape into the excluded host or choice principles.
 \end{proof}
 
+\begin{theorem}[Real power series majorant exhaustion]\label{thm:realpowerseries-majorant-exhaustion}
+Every accepted $\RealPowerSeriesUp$ convergence read must choose exactly one of the $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, or $\RegularCauchyRootTestUp$ majorant rows before the endpoint seal $E$ is available. The choice is read as the displayed row $M$ of the carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, and no convergence read may bypass $M$ by using a host convergence theorem, selected infinite sum, analytic continuation, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-power-series-carrier}. Its only convergence-test coordinate is $M$, and the definition restricts $M$ to the M-test, ratio-test, or root-test routes.
+
+Apply \autoref{thm:real-power-series-majorant-route-totality}. It places every exported convergence evidence inside that selected row rather than in a detached theorem of host analysis.
+
+Finally use \autoref{thm:real-power-series-majorant-regseqrat-budget}. The endpoint-facing route reaches $E$ only after $S$ has passed through $M$, so the selected majorant row is exhausted before the endpoint seal is read.
+\end{proof}
+
+\begin{theorem}[Real power series radius-source compatibility]\label{thm:realpowerseries-radius-source-compatibility}
+For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, the radius row $R$, coefficient $\StreamNameUp$ windows inside $W$, and $\RealSeriesUp$ partial-sum row $S$ share the same $\BHist$ source route. A consumer that reads any one of these rows must preserve the common carrier source through $H,C,P,N$ before it can reach the selected majorant row $M$ or the endpoint seal $E$.
+\end{theorem}
+\begin{proof}
+Start with the coefficient-window obligation of \autoref{thm:realpowerseries-coefficient-window-obligation}. The coefficient row $A$, radius row $R$, window row $W$, and partial-sum row $S$ are projected from one accepted packet.
+
+Apply the radius-window handoff of \autoref{thm:real-power-series-radius-window-handoff}. It gives a single route from $A,Z,X,R$ through $W$ and $S$ before any majorant data can be consumed.
+
+The rows $H,C,P,N$ then preserve, replay, source, and name that same route. Hence a radius read, coefficient-window read, or partial-sum read cannot switch to another $\BHist$ source before reaching $M$ or $E$.
+\end{proof}
+
+\begin{theorem}[Real power series endpoint nonescape triad]\label{thm:realpowerseries-endpoint-nonescape-triad}
+For every accepted $\RealPowerSeriesUp$ carrier, the endpoint seal $E$ cannot export any of the following three objects: a selected infinite sum, host analytic continuation, or ambient $\RealUp$ completeness. Each endpoint-facing read remains confined to the displayed route through $A,Z,X,R,W,S,M,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:real-power-series-endpoint-seal-factorization}. It places the endpoint seal after the coefficient, center, argument, radius, window, partial-sum, and majorant rows, with $H,C,P,N$ attached to the same packet.
+
+Apply \autoref{thm:real-power-series-nonescape}. The carrier has no coordinate for selected infinite sums, analytic continuation, or ambient completeness, and the endpoint-facing route introduces no additional row.
+
+Therefore the three excluded objects cannot be exported by $E$. The endpoint seal remains the packet-local $\RealUp$ read produced by the displayed majorant route.
+\end{proof}
+
 \begin{theorem}[Real power series CauchyProduct coefficient budget]
 \label{thm:real-power-series-cauchy-product-coefficient-budget}
 Every endpoint-facing product or convolution read from an accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$ must first expose the coefficient row $A$, center row $Z$, argument row $X$, radius row $R$, finite window row $W$, partial-sum row $S$, and selected majorant row $M$. Only after those rows are displayed may the read consume the $\CauchyProductUp$ budget route named by \autoref{thm:cauchy-product-root-budget-product-lock}, \autoref{thm:cauchy-product-source-window-budget-compatibility}, and \autoref{thm:cauchy-product-regseqrat-product-budget-exhaustion}; the endpoint seal $E$ is exported only after that product-budget route has been read. The carrier exports no selected infinite sums, quotient function spaces, host analytic continuation, host multiplication primitive, or ambient $\RealUp$ completeness witness.
