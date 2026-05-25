@@ -41,6 +41,48 @@ The subsequence rows close the analytic surface. The extraction row $R$ is the m
 Finally the structural rows $H,C,P,N$ transport, replay, source, and name only these displayed rows. No additional NameCert obligation remains outside the listed finite ledger.
 \end{proof}
 
+\begin{theorem}[Bolzano--Weierstrass finite subsequence obligations]
+\label{thm:bolzano-weierstrass-finite-subsequence-obligations}
+For an accepted $\BolzanoWeierstrassUp$ carrier $B=(S,K,R,Q,E,H,C,P,N)$, finite subsequence extraction is an obligation over the displayed rows $S,K,R,Q,H,C,P,N$. The row $K$ supplies finite $\ClosedBoundedIntervalNetUp$ selections, the row $R$ records the $\RegularCauchySubsequenceUp$ monotone-cofinal schedule, the row $Q$ reads the selected windows through $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$, and the terminal $\RealUp$ seal remains downstream of those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bolzano-weierstrass-carrier}. The bounded source $S$ and interval-net row $K$ are visible before any subsequence schedule or real cluster seal is consumed.
+
+Apply \autoref{thm:bolzano-weierstrass-namecert-obligations}. It identifies $K$ as the finite $\ClosedBoundedIntervalNetUp$ source, $R$ as the $\RegularCauchySubsequenceUp$ extraction row, and $Q$ as the $\RegSeqRatUp$ readback row over finite stream windows and dyadic tolerances.
+
+Transport and replay through $H$ and $C$, then source and name the same route through $P$ and $N$. The extraction therefore uses only finite interval-net selection, monotone-cofinal scheduling, regular rational readback, $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerances, and the downstream $\RealUp$ seal; it does not claim open-cover compactness or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Bolzano--Weierstrass interval nesting route]
+\label{thm:bolzano-weierstrass-interval-nesting-route}
+For an accepted $\BolzanoWeierstrassUp$ carrier $B=(S,K,R,Q,E,H,C,P,N)$, nested dyadic-window retention is read only through the finite $\ClosedBoundedIntervalNetUp$ row $K$ before the $\RegularCauchySubsequenceUp$ row $R$ is consumed. Later retained windows refine earlier retained windows inside the same interval-net route, and the selected windows are then exposed to $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ without importing open-cover compactness, quotient stream equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:bolzano-weierstrass-namecert-obligations}. It places finite interval-net admission through $K$ before monotone-cofinal regular-subsequence extraction through $R$ and regular rational readback through $Q$.
+
+At each inspected depth, the retained dyadic window is a displayed child of the same $\ClosedBoundedIntervalNetUp$ route. The transport row $H$ carries the source window and interval row together, while the replay row $C$ records the containment and dyadic tolerance facts used by the next retained window.
+
+Only after that nesting route is displayed may $R$ append the next monotone-cofinal index. The readback row $Q$ then exposes the same retained windows through $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$, so no open-cover compactness or ambient $\RealUp$ completeness row enters the route.
+\end{proof}
+
+\begin{theorem}[Bolzano--Weierstrass RegSeqRat handoff]
+\label{thm:bolzano-weierstrass-regseqrat-handoff}
+For an accepted $\BolzanoWeierstrassUp$ carrier $B=(S,K,R,Q,E,H,C,P,N)$, every $\RealUp$ cluster handoff factors through the $\RegSeqRatUp$ row $Q$ after finite interval selection and regular-subsequence scheduling have been displayed. The consumer route is
+$$
+\ClosedBoundedIntervalNetUp \longmapsto \RegularCauchySubsequenceUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+It exports a finite regular-rational handoff, not a host completeness point, selected cluster limit, open-cover compactness theorem, or quotient equality of streams.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:bolzano-weierstrass-finite-subsequence-obligations} to expose finite interval-net selection, the regular-subsequence schedule, and the regular rational readback before the terminal Real seal.
+
+Then use \autoref{thm:bolzano-weierstrass-interval-nesting-route}. The retained windows form a nested dyadic route inside $K$, and the row $R$ records the monotone-cofinal schedule attached to those windows.
+
+Now read $Q$. Its $\RegSeqRatUp$ surface receives exactly the $\StreamNameUp$ windows and $\DyadicRatCoreUp$ tolerances already displayed by $K$ and $R$. The row $E$ may be consumed only after this handoff, and $H,C,P,N$ preserve the same route.
+
+Thus the cluster-facing output is a finite $\RegSeqRatUp$ to $\RealUp$ handoff. No ambient completeness, selected limit, open-cover compactness, or quotient stream equality is available from the carrier.
+\end{proof}
+
 \begin{theorem}[Bolzano--Weierstrass root interval-tree obligation]
 \label{thm:bolzano-weierstrass-root-interval-tree-obligation}
 For an accepted $\BolzanoWeierstrassUp$ carrier $B=(S,K,R,Q,E,H,C,P,N)$, the root interval-tree obligation sends every bounded real sequence read through the finite $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ route
