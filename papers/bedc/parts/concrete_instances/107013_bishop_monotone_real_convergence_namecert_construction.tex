@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\BishopMonotoneRealConvergenceUp$}
+\label{ch:concrete-instances-bishop-monotone-real-convergence-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive monotone convergence argument, the $\BishopMonotoneRealConvergenceUp$ packet records the finite route from a bounded monotone real sequence to a located-supremum handoff and a terminal $\RealUp$ seal. It sits beside the located monotone convergence route of \autoref{ch:concrete-instances-located-monotone-convergence-namecert}, the Bishop monotone limit packet of \autoref{ch:concrete-instances-bishop-monotone-real-limit-namecert}, the monotone sequence convergence surface of \autoref{ch:concrete-instances-monotone-sequence-convergence-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names the bounded monotone case only; it does not assert arbitrary Real completeness, trichotomy, selected suprema outside the displayed located row, countable choice, or quotient-stream equality.
+
+\begin{definition}[BishopMonotoneRealConvergence carrier]
+\label{def:bishop-monotone-real-convergence-carrier}
+A $\BishopMonotoneRealConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,B,O,L,W,Q,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the bounded monotone $\RealUp$ sequence row, recording the source sequence, monotonicity direction, and the displayed upper or lower bound.
+\item $B$ is the boundedness ledger that exposes the finite bound witnesses used by the monotone route.
+\item $O$ is the order-comparison ledger that records the finite monotonicity reads consumed before any limit row is available.
+\item $L$ is the $\LocatedSupremumUp$ handoff row attached to the bounded monotone sequence data.
+\item $W$ is the $\StreamNameUp$ window family through which source entries, bound witnesses, and located-supremum approximants are inspected.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the finite windows in $W$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row that records the requested precision and the dyadic comparison budget.
+\item $E$ is the $\RealUp$ seal row reached after $L,W,Q,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the sequence, bound, order, located-supremum, window, readback, tolerance, and real-seal rows.
+\item $C$ records displayed $\Cont$ replay from bounded monotone data through the located-supremum handoff and the regular rational readback to the terminal real seal.
+\item $P$ is the $\Pkg$ provenance over $\BishopMonotoneRealConvergenceUp$, $\LocatedMonotoneConvergenceUp$, $\BishopMonotoneRealLimitUp$, $\MonotoneSequenceConvergenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopMonotoneRealConvergenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,B,O,L,W,Q,D,E,H,C,P,N$. It has no coordinate for arbitrary Cauchy completeness, open-cover compactness, trichotomy of real order, quotient stream equality, selected host suprema, or countable choice.
+\end{definition}
+
+\begin{theorem}[BishopMonotoneRealConvergence NameCert obligations]
+\label{thm:bishop-monotone-real-convergence-namecert-obligations}
+For every accepted $\BishopMonotoneRealConvergenceUp$ carrier $M=(S,B,O,L,W,Q,D,E,H,C,P,N)$, the local $\NameCert_{\BishopMonotoneRealConvergenceUp}$ surface consists exactly of bounded monotone sequence exposure, bound-ledger exposure, monotonicity-read exposure, located-supremum handoff, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance accounting, $\RealUp$ seal routing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+
+A consumer may read the convergence row only after $S,B,O,L,W,Q,D$ have been displayed. The exported real seal is therefore the finite bounded-monotone route through located supremum and regular rational readback, not an ambient completeness theorem for arbitrary $\RealUp$ data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-monotone-real-convergence-carrier}. The rows $S,B,O$ expose the bounded monotone source data before any limit-facing row is available.
+
+The row $L$ supplies the located-supremum handoff. The finite windows $W$, regular readback $Q$, and dyadic tolerance ledger $D$ then turn the located handoff into the displayed sequence of rational observations consumed by the terminal seal.
+
+Finally $E,H,C,P,N$ preserve the same route. Since the carrier has no coordinate for arbitrary Cauchy completeness, order trichotomy, quotient streams, selected host suprema, or countable choice, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[BishopMonotoneRealConvergence located supremum route]
+\label{thm:bishop-monotone-real-convergence-located-supremum-route}
+Every $\RealUp$ limit read exported by an accepted $\BishopMonotoneRealConvergenceUp$ packet factors through the displayed located-supremum row $L$ and the finite readback route
+$$
+S,B,O \longmapsto L \longmapsto W,Q,D \longmapsto E,H,C,P,N .
+$$
+Thus the bounded monotone convergence claim is a finite NameCert route from monotone source data to a located supremum and then to a $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Read the route rows in order. The source sequence $S$, boundedness row $B$, and order ledger $O$ provide the only monotone data available to the packet.
+
+The located-supremum handoff $L$ is therefore the unique route by which a limit candidate enters the certificate. The window, readback, and tolerance rows $W,Q,D$ inspect that handoff at finite precision before the real seal $E$ can be consumed.
+
+Transport, replay, provenance, and local naming are supplied by $H,C,P,N$ over the same displayed rows. Hence an exported limit read cannot bypass $L$ or import an ambient completeness principle outside the finite packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted bounded monotone convergence read factors through a displayed located-supremum row before any RealUp seal is exported.}
+
+\independenceWitness{located-monotone-convergence, bishop-monotone-real-limit, monotone-sequence-convergence, streamname, regseqrat, dyadicratcore, real: $\BishopMonotoneRealConvergenceUp$ is not bijective to any listed sibling because it jointly carries bounded monotone source data, bound and order ledgers, a located-supremum handoff, finite windows, regular rational readback, dyadic tolerance accounting, RealUp sealing, transport, replay, provenance, and local naming.}
+
+\begin{closurestatus}{\BishopMonotoneRealConvergenceUp}
+  \constructivestory{A $\BishopMonotoneRealConvergenceUp$ packet is generated from bounded monotone RealUp sequence data, a boundedness ledger, monotonicity reads, a LocatedSupremum handoff, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance accounting, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-monotone-real-convergence-carrier}, \autoref{thm:bishop-monotone-real-convergence-namecert-obligations}, and \autoref{thm:bishop-monotone-real-convergence-located-supremum-route} seed the bounded monotone Real convergence NameCert route through located supremum and finite regular-rational readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary RealUp completeness, order trichotomy, open-cover compactness, quotient stream equality, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded monotone source exposure, located-supremum handoff exactness, finite-window readback, dyadic tolerance accounting, RealUp seal routing, and TasteGate nontriviality with field faithfulness.}
+\end{closurestatus}
