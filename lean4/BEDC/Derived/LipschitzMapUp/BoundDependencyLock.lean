@@ -32,4 +32,30 @@ theorem LipschitzMapCarrier_bound_dependency_lock [AskSetup] [PackageSetup]
     ⟨sourceUnary, targetUnary, boundUnary, graphUnary, modulusUnary, consumerUnary,
       graphBoundModulus, boundModulusConsumer, provenancePkg, consumerPkg⟩
 
+theorem LipschitzMapCarrier_transported_bound_dependency_lock [AskSetup] [PackageSetup]
+    {source target bound graph modulus transports routes provenance localCert source' target'
+      bound' graph' modulus' consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LipschitzMapCarrier source target bound graph modulus transports routes provenance localCert
+        bundle pkg →
+      hsame source source' →
+        hsame target target' →
+          hsame bound bound' →
+            hsame graph graph' →
+              Cont graph' bound' modulus' →
+                Cont bound' modulus' consumer →
+                  PkgSig bundle consumer pkg →
+                    UnaryHistory source' ∧ UnaryHistory target' ∧ UnaryHistory bound' ∧
+                      UnaryHistory graph' ∧ UnaryHistory modulus' ∧ UnaryHistory consumer ∧
+                        Cont graph' bound' modulus' ∧ Cont bound' modulus' consumer ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameSource sameTarget sameBound sameGraph modulusCont'
+    boundModulusConsumer consumerPkg
+  have transported :=
+    LipschitzMapCarrier_bound_transport carrier sameSource sameTarget sameBound sameGraph
+      modulusCont'
+  exact
+    LipschitzMapCarrier_bound_dependency_lock transported.left boundModulusConsumer consumerPkg
+
 end BEDC.Derived.LipschitzMapUp

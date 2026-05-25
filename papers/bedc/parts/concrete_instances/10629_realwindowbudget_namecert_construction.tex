@@ -93,31 +93,7 @@ Now apply selector stability and the Real-completion handoff, \autoref{thm:real-
 \end{proof}
 \leanchecked{BEDC.Derived.RealWindowBudgetUp.RealWindowBudgetCarrier\_finite\_route\_visibility}
 
-\begin{theorem}[Real-window budget finite-tail-filter handoff]
-\label{thm:real-window-budget-finite-tail-filter-handoff}
-Let $W=(Q,V,D,R,S,B,O,H,C,P,N)$ be an accepted $\RealWindowBudgetUp$ packet whose
-finite route is consumed as a cofinal-tail Real or Completion budget. The
-consumer reads the same $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and
-$\RealUp$ faces through the displayed $\FiniteTailFilterUp$ packet of
-\autoref{ch:concrete-instances-finite-tail-filter-namecert}; for a regular
-Cauchy tail source, the read also factors through
-\autoref{ch:concrete-instances-regular-cauchy-tail-filter-namecert}. No detached
-finite observation budget, private tail window, separate dyadic ledger, or
-ambient completion seal is exported.
-\end{theorem}
-\begin{proof}
-Start with finite-route visibility and the Real-completion handoff,
-\autoref{thm:real-window-budget-finite-route-visibility} and
-\autoref{thm:real-window-budget-real-completion-handoff}. They identify every Real
-or Completion read of $W$ with the displayed $Q,V,D,R,S,B,O,H,C,P,N$ route.
-
-Now apply tail-window exactness and Real-seal handoff for $\FiniteTailFilterUp$,
-\autoref{thm:finite-tail-filter-tail-window-exactness} and
-\autoref{thm:finite-tail-filter-real-seal-handoff}. These bind the shared stream
-window, dyadic ledger, regular readback, and Real seal to the same cofinal-tail
-packet. For regular Cauchy sources, compose with
-\autoref{thm:regular-cauchy-tail-filter-real-seal-handoff}.
-\end{proof}
+\input{parts/concrete_instances/10629a_realwindowbudget_finite_tail_filter_handoff}
 
 \begin{theorem}[Real-window budget carrier admission obligation]
 \label{thm:real-window-budget-carrier-admission-obligation}
