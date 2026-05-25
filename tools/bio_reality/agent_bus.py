@@ -315,19 +315,35 @@ def _active_task_key(task: dict[str, Any]) -> tuple[str, str, str]:
 
 def plan_agent_tasks(events: list[dict[str, Any]], existing_tasks: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
     tasks: list[dict[str, Any]] = []
-    active_task_statuses = {"queued", "in_flight", "completed"}
-    active_task_keys = {
-        _active_task_key(task)
-        for task in (existing_tasks or [])
-        if str(task.get("status") or "queued") in active_task_statuses and str(task.get("stable_event_key") or "")
-    }
+    # Planner actions are allowed to retry after a completed round because the
+    # planner reads current state each time and the prompt forbids goalpost
+    # shifts. Other agent actions treat "completed" as terminal to avoid
+    # re-editing scripts that are already passing.
+    planner_actions = {"redesign_stuck_claim", "draft_next_phase_claim_and_experiment"}
+    strict_statuses = {"queued", "in_flight", "completed"}
+    relaxed_statuses = {"queued", "in_flight"}
+    strict_keys: set[tuple[str, str, str]] = set()
+    relaxed_keys: set[tuple[str, str, str]] = set()
+    for task in existing_tasks or []:
+        if not str(task.get("stable_event_key") or ""):
+            continue
+        status = str(task.get("status") or "queued")
+        key = _active_task_key(task)
+        if status in strict_statuses:
+            strict_keys.add(key)
+        if status in relaxed_statuses:
+            relaxed_keys.add(key)
 
     def append_task(event: dict[str, Any], agent_id: str, action: str, priority: int) -> None:
         stable_key = _event_stable_key(event)
-        if (agent_id, action, stable_key) in active_task_keys:
+        key = (agent_id, action, stable_key)
+        guard = relaxed_keys if action in planner_actions else strict_keys
+        if key in guard:
             return
         task = _task_for_event(event, agent_id, action, priority)
-        active_task_keys.add(_active_task_key(task))
+        new_key = _active_task_key(task)
+        strict_keys.add(new_key)
+        relaxed_keys.add(new_key)
         tasks.append(task)
 
     for event in events:
