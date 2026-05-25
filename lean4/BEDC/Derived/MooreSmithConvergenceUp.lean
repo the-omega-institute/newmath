@@ -56,4 +56,29 @@ theorem MooreSmithConvergencePacket_uniform_handoff [AskSetup] [PackageSetup]
     ⟨dUnary, vUnary, uUnary, cUnary, bUnary, rUnary, boundaryUnary, dvu, ucb,
       boundaryRoute, pPkg⟩
 
+theorem MooreSmithConvergencePacket_completion_boundary [AskSetup] [PackageSetup]
+    {D V U C B R L H K P N boundaryRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MooreSmithConvergencePacket D V U C B R L H K P N bundle pkg ->
+      Cont B R boundaryRead ->
+        Cont boundaryRead L realRead ->
+          PkgSig bundle realRead pkg ->
+            UnaryHistory D ∧ UnaryHistory V ∧ UnaryHistory U ∧ UnaryHistory C ∧
+              UnaryHistory B ∧ UnaryHistory R ∧ UnaryHistory L ∧
+                UnaryHistory boundaryRead ∧ UnaryHistory realRead ∧ Cont D V U ∧
+                  Cont U C B ∧ Cont B R boundaryRead ∧
+                    Cont boundaryRead L realRead ∧ PkgSig bundle P pkg ∧
+                      PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro packet boundaryRoute realRoute realPkg
+  obtain ⟨dUnary, vUnary, uUnary, cUnary, bUnary, rUnary, lUnary, _hUnary,
+    _kUnary, _nUnary, dvu, ucb, _brl, pPkg⟩ := packet
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed bUnary rUnary boundaryRoute
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed boundaryUnary lUnary realRoute
+  exact
+    ⟨dUnary, vUnary, uUnary, cUnary, bUnary, rUnary, lUnary, boundaryUnary,
+      realUnary, dvu, ucb, boundaryRoute, realRoute, pPkg, realPkg⟩
+
 end BEDC.Derived.MooreSmithConvergenceUp
