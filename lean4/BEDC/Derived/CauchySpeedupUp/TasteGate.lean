@@ -232,3 +232,12 @@ theorem CauchySpeedupTasteGate_single_carrier_alignment :
       CauchySpeedupTasteGate_single_carrier_alignment_round_trip, rfl⟩
 
 end BEDC.Derived.CauchySpeedupUp.TasteGate
+
+namespace BEDC.Derived.CauchySpeedupUp
+
+theorem CauchySpeedupTasteGate_single_carrier_alignment :
+    Nonempty (BEDC.Meta.TasteGate.ChapterTasteGate CauchySpeedupUp) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact ⟨TasteGate.cauchySpeedupChapterTasteGate⟩
+
+end BEDC.Derived.CauchySpeedupUp
