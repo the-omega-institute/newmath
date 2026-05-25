@@ -1314,7 +1314,6 @@ import BEDC.Derived.CauchyProductUp.RootSelectorLedgerExactness
 import BEDC.Derived.CauchyProductUp.RootSelectorRealSealExhaustion
 import BEDC.Derived.CauchyProductUp.RootSeriesHandoffExhaustion
 import BEDC.Derived.CauchyProductUp.RootSharedWindowProductClassifier
-import BEDC.Derived.CauchyProductUp.RootSourceAdmission
 import BEDC.Derived.CauchyProductUp.RootSourceWindowAdmission
 import BEDC.Derived.CauchyProductUp.RootUnblockCertificate
 import BEDC.Derived.CauchyProductUp.RootWindowFactorization
@@ -2834,6 +2833,7 @@ import BEDC.Derived.FableMachineClockUp.TasteGate
 import BEDC.Derived.FactorUp
 import BEDC.Derived.FailureCertificateUp.TasteGate
 import BEDC.Derived.FanBarRouteUp.TasteGate
+import BEDC.Derived.FanSpaceUp.TasteGate
 import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FanTheoremUp.TasteGate
 import BEDC.Derived.FareySequenceUp.TasteGate
@@ -4046,7 +4046,6 @@ import BEDC.Derived.MetricCompletionUp.CompletionConsumerTotality
 import BEDC.Derived.MetricCompletionUp.HandoffRoutes
 import BEDC.Derived.MetricCompletionUp.NameCertObligations
 import BEDC.Derived.MetricCompletionUp.ReadbackLedger
-import BEDC.Derived.MetricCompletionUp.RealSealScopeLock
 import BEDC.Derived.MetricCompletionUp.SeparatedLimit
 import BEDC.Derived.MetricCompletionUp.TasteGate
 import BEDC.Derived.MetricCompletionUp.UniformCompletionHandoff
