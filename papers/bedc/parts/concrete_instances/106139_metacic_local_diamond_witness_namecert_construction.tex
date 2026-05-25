@@ -55,6 +55,20 @@ Reading $J$ therefore occurs inside that listed route. The peak row $K$ fixes th
 The structural rows $H,C,P,N$ only transport, replay, record provenance for, and locally name the same packet. Since the carrier has no coordinate for a closed Church--Rosser theorem, substitution compatibility, a closed parallel diamond, subject reduction, or quotient equality, the candidate join cannot export any of those objects.
 \end{proof}
 
+\begin{theorem}[MetaCIC local-diamond closedness-boundary classification]
+\label{thm:metacic-local-diamond-witness-closedness-boundary-classification}
+For every accepted $\MetaCICLocalDiamondWitnessUp$ carrier $W=(K,L,R,J,B,H,C,P,N)$, the boundary row $B$ must be displayed before any consumer reads the candidate-join row $J$. The displayed row classifies the witness as closed, normal-source, atom-source, or substitution-boundary conditional, and the later join read may only be interpreted inside that classification.
+
+Consequently a local-diamond witness cannot turn a candidate join into arbitrary closed Church--Rosser, $\mathrm{BetaParallelSubstitutionCompatibility}$, $\mathrm{BetaParallelDiamondClosed}$, subject reduction, or quotient equality of terms.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-local-diamond-witness-carrier}. The carrier lists $B$ as the closedness and boundary row, while \autoref{thm:metacic-local-diamond-witness-candidate-join-exactness} already requires $J$ to be read only after the peak, branch, and boundary rows have been displayed.
+
+Read $B$ before $J$. Its alternatives are closed, normal-source, atom-source, and substitution-boundary conditional, so the candidate common reduct in $J$ is consumed only under the exposed boundary case.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same classification. Since no row contains a closed Church--Rosser theorem, substitution compatibility, a closed parallel diamond, subject reduction, or quotient equality of terms, the candidate join remains a classified local witness rather than a global confluence claim.
+\end{proof}
+
 \closureat{MetaCICLocalDiamondWitnessUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICLocalDiamondWitnessUp}
