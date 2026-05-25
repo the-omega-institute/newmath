@@ -276,6 +276,34 @@ theorem ContractionMappingCarrier_tail_bound_extraction [AskSetup] [PackageSetup
     ⟨lambdaUnary, boundPowerUnary, toleranceUnary, tailBoundUnary, tailRoute,
       provenancePkg, tailPkg⟩
 
+theorem ContractionMappingCarrier_banach_handoff [AskSetup] [PackageSetup]
+    {X d T G lambda M I H C P N x0 iterates boundPower tolerance adjacentReplay tailReplay
+      completeRead banachRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContractionMappingCarrier X d T G lambda M I H C P N bundle pkg →
+      ContractionMappingOrbitLedger x0 iterates boundPower tolerance adjacentReplay
+        tailReplay →
+        Cont I M completeRead →
+          Cont completeRead P banachRead →
+            PkgSig bundle banachRead pkg →
+              UnaryHistory X ∧ UnaryHistory I ∧ UnaryHistory x0 ∧ UnaryHistory iterates ∧
+                UnaryHistory completeRead ∧ UnaryHistory banachRead ∧ Cont I M completeRead ∧
+                  Cont completeRead P banachRead ∧ PkgSig bundle P pkg ∧
+                    PkgSig bundle banachRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig
+  intro carrier orbit completeRoute banachRoute banachPkg
+  obtain ⟨XUnary, _dUnary, _TUnary, _GUnary, _lambdaUnary, MUnary, IUnary, _HUnary,
+    _CUnary, PUnary, _NUnary, provenancePkg⟩ := carrier
+  obtain ⟨x0Unary, iteratesUnary, _boundPowerUnary, _toleranceUnary, _adjacentRoute,
+    _tailRoute⟩ := orbit
+  have completeUnary : UnaryHistory completeRead :=
+    unary_cont_closed IUnary MUnary completeRoute
+  have banachUnary : UnaryHistory banachRead :=
+    unary_cont_closed completeUnary PUnary banachRoute
+  exact
+    ⟨XUnary, IUnary, x0Unary, iteratesUnary, completeUnary, banachUnary, completeRoute,
+      banachRoute, provenancePkg, banachPkg⟩
+
 theorem ContractionMappingCarrier_picard_step_contraction [AskSetup] [PackageSetup]
     {X d T G lambda M I H C P N x y tx ty sourceDistance targetDistance comparisonRead
       unitBound : BHist}

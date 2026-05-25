@@ -129,6 +129,36 @@ the obstruction, but it cannot convert the obstruction into the closed
 substitution premise demanded by the closed diamond route.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit closed-face obligations]
+\label{thm:metacic-confluence-audit-closed-face-obligations}
+Let $A=(D,C,N,A_0,S,R,H,T,P,L)$ be an accepted
+$\MetaCICConfluenceAuditPacketUp$ carrier. Any closed-face confluence consumer
+that cites the closed diamond route must first expose the hypotheses
+$\mathsf{ClosedAt}\ 0\ a$ and $\mathsf{ClosedAt}\ 1\ b$, the
+substitution-boundary row $S$, the componentwise transport row $H$, the replay
+row $T$, the provenance row $P$, and the local name row $L$. The citation is a
+read of the displayed closed-face boundary only; it is not a proof of full
+substitution compatibility, arbitrary subject reduction, or unrestricted
+Church--Rosser.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through
+\autoref{def:metacic-confluence-audit-packet-carrier}. The rows available to a
+closed-face consumer are displayed coordinates of the same finite packet, so
+the substitution boundary is read as $S$ and any transported reading is routed
+through $H,T,P,L$.
+
+Apply
+\autoref{thm:metacic-confluence-audit-packet-closed-substitution-boundary}.
+It confines the face to the hypotheses $\mathsf{ClosedAt}\ 0\ a$ and
+$\mathsf{ClosedAt}\ 1\ b$ before the closed diamond route may be cited.
+
+The remaining rows do not add a stronger metatheorem. The carrier has no
+coordinate for full substitution compatibility, arbitrary subject reduction,
+or unrestricted Church--Rosser, so the consumer obligation is exactly the
+displayed closed-face exposure and not a promotion beyond it.
+\end{proof}
+
 \begin{theorem}[MetaCIC confluence audit closed-face decider boundary]
 \label{thm:metacic-confluence-audit-closed-face-decider-boundary}
 Any finite decider row for the closed substitution face of an accepted
