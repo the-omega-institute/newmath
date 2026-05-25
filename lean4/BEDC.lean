@@ -5659,6 +5659,7 @@ import BEDC.Derived.SingletonSource
 import BEDC.Derived.SliceCategoryUp
 import BEDC.Derived.SmugglingPatternClassifierUp.TasteGate
 import BEDC.Derived.SobolevUp
+import BEDC.Derived.SobolevUp.TasteGate
 import BEDC.Derived.SocketKindClassifierUp.NameCertObligations
 import BEDC.Derived.SocketKindClassifierUp.StdBridge
 import BEDC.Derived.SocketKindClassifierUp.TasteGate
