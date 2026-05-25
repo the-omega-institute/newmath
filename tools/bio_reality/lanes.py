@@ -563,6 +563,46 @@ def _write_claims_document(path: Path, document: dict[str, Any]) -> None:
     path.write_text(json.dumps(document, indent=2, ensure_ascii=False, sort_keys=False) + "\n", encoding="utf-8")
 
 
+def _experiment_changed_since_last_history(
+    claim: dict[str, Any],
+    experiment: dict[str, Any],
+    repo_root: Path,
+    experiments_registry: Path,
+) -> bool:
+    """Return True if the experiment script or its registry entry has been
+    modified after the most recent claim.history timestamp. Used to promote
+    a failed/error claim back to needs_rerun when bio-planner reshapes the
+    experiment."""
+    from datetime import datetime
+    history = claim.get("history")
+    if not isinstance(history, list) or not history:
+        return False
+    last = history[-1] if isinstance(history[-1], dict) else None
+    if not last:
+        return False
+    last_ts_text = str(last.get("ts") or "")
+    if not last_ts_text:
+        return False
+    try:
+        last_ts = datetime.fromisoformat(last_ts_text).timestamp()
+    except ValueError:
+        return False
+    script_path = experiment.get("script_path")
+    candidates: list[Path] = []
+    if isinstance(script_path, str) and script_path:
+        candidates.append(repo_root / script_path)
+    if experiments_registry.exists():
+        candidates.append(experiments_registry)
+    for path in candidates:
+        try:
+            mtime = path.stat().st_mtime
+        except OSError:
+            continue
+        if mtime > last_ts + 0.5:
+            return True
+    return False
+
+
 def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
     claims_document = _load_claims_document(store.paths.claims_registry)
     experiments_document = _load_experiments_document(store.paths.experiments_registry)
@@ -592,10 +632,17 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
 
     for claim in claims:
         status = str(claim.get("status") or "open")
-        if status not in {"open", "needs_rerun"}:
-            continue
         experiment_id = str(claim.get("experiment_id") or "")
         experiment = experiment_by_id.get(experiment_id)
+        if status not in {"open", "needs_rerun"}:
+            if status in {"failed", "error"} and experiment is not None and _experiment_changed_since_last_history(claim, experiment, repo_root, store.paths.experiments_registry):
+                claim["status"] = "needs_rerun"
+                status = "needs_rerun"
+                history = claim.setdefault("history", [])
+                if isinstance(history, list):
+                    history.append(_history_entry("needs_rerun", "experiment script or acceptance changed since last run"))
+            else:
+                continue
         if experiment is None:
             continue
         dependencies = [str(item) for item in claim.get("depends_on", []) if isinstance(item, str)]
