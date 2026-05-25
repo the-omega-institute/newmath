@@ -461,6 +461,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootTotalityStrictObstruction
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootUnblockCarrierAdmission
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootUnblockLedgerNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RouteAuthorization
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RouteAuthorizationObstructionLocality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RoutePackDownstreamCoverage
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RoutePackExactness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RouteRefusal
@@ -2370,6 +2371,7 @@ import BEDC.Derived.DecimalExpansionUp.TasteGate
 import BEDC.Derived.DecimalNormalityUp.TasteGate
 import BEDC.Derived.DecimalRealUp.TasteGate
 import BEDC.Derived.DedekindCauchyComparisonUp.TasteGate
+import BEDC.Derived.DedekindCauchySandwichUp.TasteGate
 import BEDC.Derived.DedekindCutCauchyBoundaryUp.TasteGate
 import BEDC.Derived.DedekindCutUp
 import BEDC.Derived.DedekindCutUp.TasteGate
@@ -3084,6 +3086,7 @@ import BEDC.Derived.FiniteEpsilonWitnessUp.TasteGate
 import BEDC.Derived.FiniteErrorBudgetUp
 import BEDC.Derived.FiniteErrorBudgetUp.StdBridge
 import BEDC.Derived.FiniteErrorBudgetUp.TasteGate
+import BEDC.Derived.FiniteGroupRepresentationUp.TasteGate
 import BEDC.Derived.FiniteHistLocalityPacketUp.TasteGate
 import BEDC.Derived.FiniteIntersectionPropertyUp.TasteGate
 import BEDC.Derived.FiniteKernelCategoryUp.Carrier
@@ -3098,10 +3101,12 @@ import BEDC.Derived.FiniteLebesgueNumberUp.CompactContinuousUnblock
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactMetricHandoffExactness
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactRadiusBridge
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactUniformChoiceRefusal
+import BEDC.Derived.FiniteLebesgueNumberUp.ConsumerNonescapeTriad
 import BEDC.Derived.FiniteLebesgueNumberUp.ContinuousMapUniformRouteRow
 import BEDC.Derived.FiniteLebesgueNumberUp.Core
 import BEDC.Derived.FiniteLebesgueNumberUp.CoverShrinkageStability
 import BEDC.Derived.FiniteLebesgueNumberUp.DyadicCoverCellSelection
+import BEDC.Derived.FiniteLebesgueNumberUp.DyadicCoverRealRoute
 import BEDC.Derived.FiniteLebesgueNumberUp.DyadicCoverUniformModulusHandoff
 import BEDC.Derived.FiniteLebesgueNumberUp.FiniteRadiusNonchoice
 import BEDC.Derived.FiniteLebesgueNumberUp.L10PhaseConsumerReadiness
@@ -3299,6 +3304,7 @@ import BEDC.Derived.ForbiddenAxiomAncestryUp
 import BEDC.Derived.ForbiddenAxiomAncestryUp.RefusalDeterminacy
 import BEDC.Derived.ForbiddenAxiomAncestryUp.TasteGate
 import BEDC.Derived.ForceInterHistRelationUp.TasteGate
+import BEDC.Derived.FormalBallCompletionUp.TasteGate
 import BEDC.Derived.FormalConstantEmpiricalValueBoundaryUp.TasteGate
 import BEDC.Derived.FormalTargetDependencyAuditUp.TasteGate
 import BEDC.Derived.ForwardBindingGapLedgerUp.TasteGate
@@ -3822,6 +3828,7 @@ import BEDC.Derived.LipschitzMapUp.BoundDependencyLock
 import BEDC.Derived.LipschitzMapUp.CommonBoundCompletionRoute
 import BEDC.Derived.LipschitzMapUp.CompleteMetricRegularSealBoundary
 import BEDC.Derived.LipschitzMapUp.ScopedModulusRoute
+import BEDC.Derived.LipschitzMapUp.SeparatedCompletionNonescape
 import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.BoolReadback
