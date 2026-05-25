@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RiemannStieltjesUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -162,5 +165,23 @@ theorem RiemannStieltjesUpTasteGate_single_carrier_alignment :
       RiemannStieltjesUpTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq => RiemannStieltjesUpTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
+
+theorem RiemannStieltjesCarrier_regulated_integral_handoff
+    {F A T S I E H C P N : BHist} :
+    UnaryHistory F → UnaryHistory A → Cont F A T → UnaryHistory S → Cont T S I →
+      UnaryHistory E → Cont I E N →
+        riemannStieltjesToEventFlow (RiemannStieltjesUp.mk F A T S I E H C P N) =
+          (riemannStieltjesFields (RiemannStieltjesUp.mk F A T S I E H C P N)).map
+            riemannStieltjesEncodeBHist ∧
+          UnaryHistory T ∧ UnaryHistory I ∧ UnaryHistory N := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro integrandUnary integratorUnary taggedRoute stepUnary handoffRoute endpointUnary terminalRoute
+  have taggedUnary : UnaryHistory T :=
+    unary_cont_closed integrandUnary integratorUnary taggedRoute
+  have handoffUnary : UnaryHistory I :=
+    unary_cont_closed taggedUnary stepUnary handoffRoute
+  have terminalUnary : UnaryHistory N :=
+    unary_cont_closed handoffUnary endpointUnary terminalRoute
+  exact ⟨rfl, taggedUnary, handoffUnary, terminalUnary⟩
 
 end BEDC.Derived.RiemannStieltjesUp
