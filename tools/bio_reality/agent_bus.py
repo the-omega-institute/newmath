@@ -62,6 +62,16 @@ AGENTS = {
         ],
         "mission": "implement or repair BioReality experiment scripts that produce a single JSON result with checks and status",
     },
+    "bio-planner": {
+        "lane": "bio-R",
+        "writes": [
+            "tools/bio_reality/registries/claims.json",
+            "tools/bio_reality/registries/experiments.json",
+            "tools/bio_reality/experiments/run_*.py",
+            "tools/bio_reality/data/*.json",
+        ],
+        "mission": "decompose passed BioReality content into next-step BEDC claim and experiment skeletons, or redesign stuck claims with stronger statistics",
+    },
 }
 
 
@@ -338,6 +348,10 @@ def plan_agent_tasks(events: list[dict[str, Any]], existing_tasks: list[dict[str
             append_task(event, "bio-experimentalist", "repair_experiment_script", 98)
         elif kind == "data_contact_needed":
             append_task(event, "bio-experimentalist", "add_data_manifest", 96)
+        elif kind == "phase_advance_proposed":
+            append_task(event, "bio-planner", "draft_next_phase_claim_and_experiment", 70)
+        elif kind == "claim_redesign_proposed":
+            append_task(event, "bio-planner", "redesign_stuck_claim", 75)
     tasks.sort(key=_status_sort)
     return _dedup(tasks, "task_id")
 
@@ -399,6 +413,52 @@ def render_prompt(event: dict[str, Any], agent_id: str, action: str) -> str:
             'Step 0d. After repair, run the script again and confirm it now produces status="passed". If the failure is theoretically real and not a script bug, Do NOT fake passed: leave it failed and instead propose adding a new experiment with a different statistic; in this case write a notes file tools/bio_reality/state/proposed_experiments/<id>.md describing what new experiment should be added, but you yourself may not add it.',
             "",
             "You may only edit script files matching tools/bio_reality/experiments/run_*.py or data files under tools/bio_reality/data/. The script must end by printing a single-line JSON to stdout with fields experiment_id, claim_id, status, checks, result, started_at, completed_at. Python 3 stdlib only.",
+        ]
+    elif agent_id == "bio-planner":
+        extra_rules = [
+            "",
+            "PLANNING DISCIPLINE (hard rules for bio-planner):",
+            "",
+            "- BEDC five-tuple is mandatory for every new conjecture: carrier,",
+            "  distinctions (list, non-empty), readback, internal_structure (list,",
+            '  must not be just ["none"] when bedc_* evidence is claimed),',
+            "  forbidden_claims (list, must name what the new claim does NOT cover).",
+            "",
+            "- depends_on must list ONLY claim_ids that currently have status",
+            '  "passed" in claims.json. Never list a "failed" / "open" / "needs_data"',
+            "  claim as a dependency.",
+            "",
+            "- Layer monotonicity: a new claim's claimed_layer must be the next",
+            "  layer in dna_to_protein_ladder.json (e.g. orf_eligibility may be",
+            "  drafted only after all code_read claims are passed). Never skip",
+            "  layers.",
+            "",
+            "- Phase monotonicity: do not add a phase 2 claim while any phase 1",
+            "  claim is still failed or open. Do not add a phase 3 claim while any",
+            "  phase 2 claim is still failed or open.",
+            "",
+            "- When drafting a new experiment script, the script must be a real",
+            "  Python 3 stdlib computation. Emit single-line JSON on stdout. Return",
+            '  status="needs_data" if external data is unavailable; never return',
+            '  status="passed" without computation.',
+            "",
+            "- When redesigning a stuck claim: ANALYZE first (read the most recent",
+            "  experiment_runs for that experiment_id, identify which check is",
+            "  failing and why), then propose a STRONGER statistic (larger N,",
+            "  alternative null, different significance test) - never weaken the acceptance",
+            "  to make a failing claim pass. If you cannot find a",
+            "  scientifically stronger test, write a single-paragraph rationale to",
+            "  tools/bio_reality/state/proposed_experiments/<claim_id>.md and DO",
+            "  NOT modify the claim.",
+            "",
+            '- Do not delete or modify any claim with status "passed".',
+            '- Do not modify claims.json claim definitions (statement, depends_on,',
+            '  experiment_id) for claims currently status="failed" - only allowed',
+            "  to (a) leave them, (b) propose a new sibling claim, (c) propose a",
+            "  new acceptance criterion in registries/experiments.json that the",
+            "  experiment must now satisfy.",
+            "- All edits must be atomic and pass the BioReality self-tests before",
+            "  you finish.",
         ]
     return "\n".join(
         [
@@ -984,6 +1044,33 @@ def self_test() -> int:
         ):
             print(json.dumps(priority_tasks, indent=2), file=sys.stderr)
             return 1
+        planner_tasks = plan_agent_tasks(
+            [
+                _event("phase_advance_proposed", "bio-Plan", "phase", "1", "phase passed", {}),
+                _event("claim_redesign_proposed", "bio-Plan", "experiment", "x", "stuck check", {}),
+            ]
+        )
+        planner_by_action = {
+            str(task.get("action") or ""): task
+            for task in planner_tasks
+        }
+        if (
+            planner_by_action.get("draft_next_phase_claim_and_experiment", {}).get("agent_id") != "bio-planner"
+            or int(planner_by_action.get("draft_next_phase_claim_and_experiment", {}).get("priority") or 0) != 70
+            or planner_by_action.get("redesign_stuck_claim", {}).get("agent_id") != "bio-planner"
+            or int(planner_by_action.get("redesign_stuck_claim", {}).get("priority") or 0) != 75
+        ):
+            print(json.dumps(planner_tasks, indent=2), file=sys.stderr)
+            return 1
+        planner_prompt = render_prompt(
+            _event("phase_advance_proposed", "bio-Plan", "phase", "1", "phase passed", {}),
+            "bio-planner",
+            "draft_next_phase_claim_and_experiment",
+        )
+        for required_text in ("PLANNING DISCIPLINE", "depends_on must list ONLY", "never weaken the acceptance"):
+            if required_text not in planner_prompt:
+                print(json.dumps({"missing": required_text, "prompt": planner_prompt}, indent=2), file=sys.stderr)
+                return 1
         stable_event = _event("experiment_failed", "bio-X", "experiment", "same-experiment", "failed", {})
         in_flight = _task_for_event(stable_event, "bio-experimentalist", "repair_experiment_script", 98)
         in_flight["status"] = "in_flight"

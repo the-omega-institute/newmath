@@ -361,6 +361,158 @@ def _load_experiments_document(path: Path) -> dict[str, Any]:
     return data
 
 
+def _open_event_keys(events: list[dict[str, Any]]) -> set[tuple[str, str]]:
+    return {
+        (str(event.get("event_kind") or ""), str(event.get("subject_id") or ""))
+        for event in events
+        if str(event.get("status") or "open") == "open"
+    }
+
+
+def _failed_check_name(run: dict[str, Any]) -> str:
+    checks = run.get("checks")
+    if not isinstance(checks, list):
+        return ""
+    for check in checks:
+        if not isinstance(check, dict):
+            continue
+        if check.get("passed") is False:
+            name = str(check.get("name") or "")
+            if name:
+                return name
+    return ""
+
+
+def _brief_run(record: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "experiment_run_id": record.get("experiment_run_id"),
+        "completed_at": record.get("completed_at"),
+        "status": record.get("status"),
+        "failed_check": _failed_check_name(record),
+    }
+
+
+def _experiment_claim_index(claims: list[dict[str, Any]], experiments: list[dict[str, Any]]) -> dict[str, str]:
+    claim_by_experiment = {
+        str(claim.get("experiment_id") or ""): str(claim.get("claim_id") or "")
+        for claim in claims
+        if claim.get("experiment_id") and claim.get("claim_id")
+    }
+    for experiment in experiments:
+        experiment_id = str(experiment.get("experiment_id") or "")
+        claim_id = str(experiment.get("claim_id") or "")
+        if experiment_id and claim_id:
+            claim_by_experiment[experiment_id] = claim_id
+    return claim_by_experiment
+
+
+def run_plan_lane(store: BioRealityStore) -> dict[str, Any]:
+    """Detect phase-advance and stuck-claim signals, emit events for bio-R."""
+    claims_document = _load_claims_document(store.paths.claims_registry)
+    experiments_document = _load_experiments_document(store.paths.experiments_registry)
+    claims = [
+        item
+        for item in claims_document.get("claims", [])
+        if isinstance(item, dict) and str(item.get("hypothesis_level") or "") != "meta"
+    ]
+    experiments = [item for item in experiments_document.get("experiments", []) if isinstance(item, dict)]
+    existing_events = store.load_events()
+    open_event_keys = _open_event_keys(existing_events)
+    new_events: list[dict[str, Any]] = []
+    phases_passed: list[int] = []
+
+    claims_by_phase: dict[int, list[dict[str, Any]]] = {}
+    for claim in claims:
+        phase_value = claim.get("phase")
+        try:
+            phase = int(phase_value)
+        except (TypeError, ValueError):
+            continue
+        claims_by_phase.setdefault(phase, []).append(claim)
+
+    for phase in sorted(claims_by_phase):
+        group = claims_by_phase[phase]
+        if not group or not all(str(claim.get("status") or "") == "passed" for claim in group):
+            continue
+        phases_passed.append(phase)
+        if ("phase_advance_proposed", str(phase)) in open_event_keys:
+            continue
+        new_events.append(
+            agent_bus._event(
+                "phase_advance_proposed",
+                "bio-Plan",
+                "phase",
+                str(phase),
+                f"all {len(group)} claim(s) at phase {phase} passed; propose next phase",
+                {"phase": phase, "passed_claims": [str(claim.get("claim_id") or "") for claim in group]},
+            )
+        )
+        open_event_keys.add(("phase_advance_proposed", str(phase)))
+
+    claim_by_id = {
+        str(claim.get("claim_id") or ""): claim
+        for claim in claims
+        if claim.get("claim_id")
+    }
+    claim_id_by_experiment = _experiment_claim_index(claims, experiments)
+    runs_by_experiment: dict[str, list[dict[str, Any]]] = {}
+    for run in read_jsonl(store.paths.experiment_runs):
+        experiment_id = str(run.get("experiment_id") or "")
+        if experiment_id:
+            runs_by_experiment.setdefault(experiment_id, []).append(run)
+
+    stuck_statuses = {"failed", "error", "timeout"}
+    for experiment_id in sorted(runs_by_experiment):
+        runs = sorted(
+            runs_by_experiment[experiment_id],
+            key=lambda record: str(record.get("completed_at") or record.get("started_at") or ""),
+            reverse=True,
+        )
+        recent = runs[:3]
+        if len(recent) < 3:
+            continue
+        statuses = {str(run.get("status") or "") for run in recent}
+        if not statuses <= stuck_statuses:
+            continue
+        failed_checks = [_failed_check_name(run) for run in recent]
+        if not failed_checks[0] or any(check != failed_checks[0] for check in failed_checks):
+            continue
+        claim_id = claim_id_by_experiment.get(experiment_id) or str(recent[0].get("claim_id") or "")
+        claim = claim_by_id.get(claim_id, {})
+        if not claim_id or str(claim.get("status") or "") == "passed":
+            continue
+        if ("claim_redesign_proposed", experiment_id) in open_event_keys:
+            continue
+        check_name = failed_checks[0]
+        new_events.append(
+            agent_bus._event(
+                "claim_redesign_proposed",
+                "bio-Plan",
+                "experiment",
+                experiment_id,
+                f"experiment {experiment_id} has failed with same check {check_name} in last 3 runs",
+                {
+                    "experiment_id": experiment_id,
+                    "claim_id": claim_id,
+                    "failed_check": check_name,
+                    "recent_runs": [_brief_run(run) for run in recent],
+                },
+            )
+        )
+        open_event_keys.add(("claim_redesign_proposed", experiment_id))
+
+    phase_advance_events = sum(1 for event in new_events if event.get("event_kind") == "phase_advance_proposed")
+    stuck_redesign_events = sum(1 for event in new_events if event.get("event_kind") == "claim_redesign_proposed")
+    merged = agent_bus._dedup(existing_events + new_events, "event_id")
+    store.write_events(merged)
+    return {
+        "lane": "bio-Plan",
+        "phase_advance_events": phase_advance_events,
+        "stuck_redesign_events": stuck_redesign_events,
+        "phases_passed": phases_passed,
+    }
+
+
 def _history_entry(status: str, reason: str, **extra: Any) -> dict[str, Any]:
     entry = {"ts": now_iso(), "status": status, "reason": reason}
     entry.update(extra)
@@ -1276,6 +1428,109 @@ def self_test() -> int:
         updated_claims = json.loads(execute_paths.claims_registry.read_text(encoding="utf-8"))["claims"]
         if execute_summary["error_this_cycle"] != 1 or updated_claims[0].get("status") != "error":
             print(json.dumps({"summary": execute_summary, "claims": updated_claims}, indent=2), file=sys.stderr)
+            return 1
+
+        plan_phase_paths = _temp_paths(base / "plan_phase")
+        plan_phase_paths.claims_registry.parent.mkdir(parents=True, exist_ok=True)
+        plan_phase_paths.claims_registry.write_text(
+            json.dumps(
+                {
+                    "version": "bio-reality-claims-v1",
+                    "claims": [
+                        {"claim_id": "phase.one.a", "hypothesis_level": "H0", "phase": 1, "status": "passed"},
+                        {"claim_id": "phase.one.b", "hypothesis_level": "H1", "phase": 1, "status": "passed"},
+                        {"claim_id": "phase.one.c", "hypothesis_level": "H2", "phase": 1, "status": "passed"},
+                        {"claim_id": "self.claim", "hypothesis_level": "meta", "phase": 1, "status": "open"},
+                    ],
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+        plan_phase_paths.experiments_registry.parent.mkdir(parents=True, exist_ok=True)
+        plan_phase_paths.experiments_registry.write_text(
+            json.dumps({"version": "bio-reality-experiments-v1", "experiments": []}, indent=2),
+            encoding="utf-8",
+        )
+        plan_phase_store = BioRealityStore(plan_phase_paths)
+        plan_phase_summary = run_plan_lane(plan_phase_store)
+        plan_phase_events = plan_phase_store.load_events()
+        if plan_phase_summary["phase_advance_events"] != 1:
+            print(json.dumps({"summary": plan_phase_summary, "events": plan_phase_events}, indent=2), file=sys.stderr)
+            return 1
+        if not any(event.get("event_kind") == "phase_advance_proposed" and event.get("subject_id") == "1" for event in plan_phase_events):
+            print(json.dumps(plan_phase_events, indent=2), file=sys.stderr)
+            return 1
+        plan_phase_repeat = run_plan_lane(plan_phase_store)
+        if plan_phase_repeat["phase_advance_events"] != 0:
+            print(json.dumps({"summary": plan_phase_repeat, "events": plan_phase_store.load_events()}, indent=2), file=sys.stderr)
+            return 1
+
+        stuck_paths = _temp_paths(base / "plan_stuck")
+        stuck_paths.claims_registry.parent.mkdir(parents=True, exist_ok=True)
+        stuck_paths.claims_registry.write_text(
+            json.dumps(
+                {
+                    "version": "bio-reality-claims-v1",
+                    "claims": [
+                        {
+                            "claim_id": "stuck.claim",
+                            "hypothesis_level": "H1",
+                            "phase": 1,
+                            "status": "failed",
+                            "experiment_id": "x",
+                        }
+                    ],
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+        stuck_paths.experiments_registry.parent.mkdir(parents=True, exist_ok=True)
+        stuck_paths.experiments_registry.write_text(
+            json.dumps(
+                {
+                    "version": "bio-reality-experiments-v1",
+                    "experiments": [{"experiment_id": "x", "claim_id": "stuck.claim"}],
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+        write_jsonl(
+            stuck_paths.experiment_runs,
+            [
+                {
+                    "experiment_id": "x",
+                    "claim_id": "stuck.claim",
+                    "status": "failed",
+                    "checks": [{"name": "check_y", "passed": False}],
+                    "completed_at": "2026-05-25T00:00:01+00:00",
+                },
+                {
+                    "experiment_id": "x",
+                    "claim_id": "stuck.claim",
+                    "status": "failed",
+                    "checks": [{"name": "check_y", "passed": False}],
+                    "completed_at": "2026-05-25T00:00:02+00:00",
+                },
+                {
+                    "experiment_id": "x",
+                    "claim_id": "stuck.claim",
+                    "status": "failed",
+                    "checks": [{"name": "check_y", "passed": False}],
+                    "completed_at": "2026-05-25T00:00:03+00:00",
+                },
+            ],
+        )
+        stuck_store = BioRealityStore(stuck_paths)
+        stuck_summary = run_plan_lane(stuck_store)
+        stuck_events = stuck_store.load_events()
+        if stuck_summary["stuck_redesign_events"] != 1:
+            print(json.dumps({"summary": stuck_summary, "events": stuck_events}, indent=2), file=sys.stderr)
+            return 1
+        if not any(event.get("event_kind") == "claim_redesign_proposed" and event.get("subject_id") == "x" for event in stuck_events):
+            print(json.dumps(stuck_events, indent=2), file=sys.stderr)
             return 1
     print("[bio-reality-lanes] self-test ok")
     return 0
