@@ -645,3 +645,46 @@ countable choice, and fused completion witness are not consumer coordinates on
 this terminal route. Therefore the two implications above form the exact
 four-face exit status equivalence.
 \end{proof}
+
+\begin{theorem}[StreamName terminal fusion support minimality]
+\label{thm:streamname-terminal-fusion-support-minimality}
+Let $\mathcal W$ be an accepted terminal fused StreamName packet. Deleting any
+one roadmap face
+$$
+\StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+or any one displayed support row
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+destroys the accepted terminal packet. Equivalently, no proper subpacket of
+these four faces and five support rows carries the same terminal
+$\PhaseRealCompletionExitUp$ consumer readback.
+
+There is no replacement row for the missing support: quotient stream equality,
+selected limits, countable choice, a metric-completeness row, and bridge rows
+are outside the accepted terminal surface.
+\end{theorem}
+\begin{proof}
+The terminal-window fusion theorem
+\autoref{thm:streamname-real-completion-terminal-window-fusion} constructs the
+accepted packet from exactly the four Real-completion faces and the displayed
+support rows. Thus each listed coordinate is part of the packet admitted by the
+terminal fusion surface.
+
+Finite-request section exactness,
+\autoref{thm:streamname-terminal-fusion-finite-request-section-exactness},
+shows that each terminal request is read through the displayed finite section,
+so deleting one face or support row removes a row needed by some accepted
+finite request. Source exhaustion,
+\autoref{thm:streamname-terminal-window-fusion-source-exhaustion}, then rules
+out any additional StreamName-side coordinate from filling the gap.
+
+Finally apply the four-face exit status equivalence
+\autoref{thm:streamname-terminal-fusion-four-face-exit-status-equivalence}.
+The terminal consumer status is exactly the equality class of the four roadmap
+faces, the same-route exact-boundary face, and the displayed support rows. A
+proper subpacket therefore cannot have the same accepted terminal status, and
+the excluded quotient, choice, metric-completeness, and bridge coordinates
+cannot provide a substitute.
+\end{proof}
