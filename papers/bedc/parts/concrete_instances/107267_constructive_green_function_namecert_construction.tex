@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveGreenFunctionUp$}
+\label{ch:concrete-instances-constructive-green-function-namecert}
+\origin{human}
+
+Following Courant--Hilbert and Evans, the $\ConstructiveGreenFunctionUp$ packet records a finite boundary-kernel object for Dirichlet-style Green data without importing host harmonic-function equality or analytic completion. It sits beside the positive boundary kernel of \autoref{ch:concrete-instances-poisson-kernel-namecert}, the finite PDE relation rows of \autoref{ch:concrete-instances-pde-namecert}, the weak-trace surface of \autoref{ch:concrete-instances-sobolev-namecert}, and the metric carrier of \autoref{ch:concrete-instances-metric-namecert}. The packet names only displayed domain, boundary, relation, trace, distance, transport, replay, provenance, and local naming rows.
+
+\begin{definition}[ConstructiveGreenFunction carrier]
+\label{def:constructive-green-function-carrier}
+A $\ConstructiveGreenFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+G=(D,B,R,K,S,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the domain row, recording the finite carrier of interior observations and the boundary-access ledger used by the Dirichlet request.
+\item $B$ is the boundary row, recording the named boundary samples and their finite incidence relation with the domain row.
+\item $R$ is the $\PdeUp$ relation row, recording the elliptic or boundary-value relation through displayed derivative and boundary-data rows.
+\item $K$ is the $\PoissonKernelUp$ comparison row, exposing the positive boundary-kernel corridor used when the Green packet is compared with a Poisson--Dirichlet read.
+\item $S$ is the $\SobolevUp$ trace row, recording the weak-trace and integrability data consumed by boundary-facing PDE requests.
+\item $M$ is the $\MetricUp$ distance row, recording the displayed interior-to-boundary distance, diagonal refusal, and comparison ledger.
+\item $H$ records componentwise $\hsame$ transport for the domain, boundary, PDE relation, Poisson comparison, Sobolev trace, metric distance, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a boundary-kernel request through $D,B,R,K,S,M,H,P,N$ in that order.
+\item $P$ is the $\Pkg$ provenance over $\ConstructiveGreenFunctionUp$, $\PoissonKernelUp$, $\PdeUp$, $\SobolevUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConstructiveGreenFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host harmonic-function equality, analytic Green operators, quotient boundary functions, selected fundamental solutions, countable choice, or completed solution spaces.
+\end{definition}
+
+\begin{theorem}[ConstructiveGreenFunction NameCert obligations]
+\label{thm:constructive-green-function-namecert-obligations}
+For every accepted $\ConstructiveGreenFunctionUp$ carrier $G=(D,B,R,K,S,M,H,C,P,N)$, the local $\NameCert_{\ConstructiveGreenFunctionUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the domain row, boundary row, PDE relation row, Poisson-kernel comparison row, Sobolev trace row, metric distance row, componentwise transport, displayed replay, provenance, and local naming row;
+\item boundary-kernel exactness, requiring every Green read to fix $D$ and $B$ before it may inspect either the PDE relation row $R$ or the Poisson comparison row $K$;
+\item trace compatibility, requiring the Sobolev trace row $S$ to consume the same boundary samples as $B$ and the same PDE relation endpoints as $R$;
+\item metric separation, requiring the distance row $M$ to be the only source for interior-to-boundary distance comparisons and diagonal refusals;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the ordered route $D,B,R,K,S,M$ under componentwise $\hsame$ and displayed continuation;
+\item provenance and name exhaustion, requiring $P$ and $N$ to export no host harmonic-function equality, analytic completion, quotient boundary function, selected fundamental solution, countable-choice selector, or completed solution space.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:constructive-green-function-carrier}. The displayed tuple exposes exactly the domain, boundary, PDE relation, Poisson comparison, Sobolev trace, metric distance, transport, replay, provenance, and local naming rows.
+
+For boundary-kernel exactness, replay a request through $C$. The request first fixes the domain row $D$ and boundary row $B$; only then can it inspect the PDE relation row $R$ or the Poisson comparison row $K$.
+
+Trace compatibility is read from $B,R,S$. The Sobolev trace row consumes the same boundary samples and the same derivative or relation endpoints already displayed by the PDE row, so it does not introduce a separate host trace operator.
+
+Metric separation is the role of $M$. Interior-to-boundary comparisons and diagonal refusals are read from the displayed distance row before any downstream Green or Dirichlet consumer can cite them.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. The excluded analytic and choice-theoretic objects are absent from the carrier inventory, so the local certificate cannot export them.
+\end{proof}
+
+\begin{theorem}[ConstructiveGreenFunction Poisson--Dirichlet handoff]
+\label{thm:constructive-green-function-poisson-dirichlet-handoff}
+Every Poisson--Dirichlet consumer of an accepted $\ConstructiveGreenFunctionUp$ carrier factors through the finite route
+$$
+\MetricUp \longmapsto \PdeUp \longmapsto \SobolevUp \longmapsto \PoissonKernelUp .
+$$
+The route first reads the displayed distance and boundary incidence rows, then the PDE relation row, then the Sobolev trace row, and only then the Poisson-kernel comparison. It exports no host harmonic-function equality, analytic completion, quotient boundary function, selected Green operator, countable-choice selector, or completed solution space.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $G=(D,B,R,K,S,M,H,C,P,N)$. Carrier projection exposes $M$ as the only metric distance source and exposes $D,B$ as the only domain and boundary incidence rows.
+
+Replay the continuation row $C$. A Dirichlet request reads the displayed distance and boundary data before it reaches the PDE relation row $R$, so the relation is consumed as finite BEDC data rather than as a host differential equation.
+
+The Sobolev trace row $S$ is then read over the same boundary samples and relation endpoints. This supplies the trace-facing ledger needed by the boundary consumer without adding a completed Sobolev quotient or selected representative.
+
+Only after this trace route is fixed can the Poisson comparison row $K$ be inspected. Transport through $H$ and provenance through $P,N$ preserve that ordered route, and the excluded analytic objects are not coordinates of the carrier.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ConstructiveGreenFunctionUp$ boundary-kernel read factors through domain rows, boundary rows, PDE relation rows, PoissonKernel comparison, Sobolev trace data, MetricUp distance rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{poisson-kernel, pde, sobolev, metric: $\ConstructiveGreenFunctionUp$ is not bijective to any listed sibling because it jointly carries domain and boundary rows, PDE relation rows, Poisson comparison, Sobolev trace data, metric distance rows, transport, replay, provenance, and local naming.}
+
+\closureat{ConstructiveGreenFunctionUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveGreenFunctionUp}
+  \constructivestory{A $\ConstructiveGreenFunctionUp$ packet is generated from domain and boundary rows, PDE relation rows, PoissonKernel comparison, Sobolev trace data, MetricUp distance rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-green-function-carrier}, \autoref{thm:constructive-green-function-namecert-obligations}, and \autoref{thm:constructive-green-function-poisson-dirichlet-handoff} seed the finite boundary-kernel certificate surface linking Poisson kernels, PDE relations, Sobolev trace data, and metric rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host harmonic-function equality, analytic Green operators, quotient boundary functions, selected fundamental solutions, countable choice, completed solution spaces, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundary-kernel exactness, trace compatibility, metric separation, Poisson--Dirichlet handoff, transport, replay, provenance, and local naming for BEDC.Derived.ConstructiveGreenFunctionUp.}
+\end{closurestatus}
