@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRealLocatorPointwiseInductionUp$}
+\label{ch:concrete-instances-cauchy-real-locator-pointwise-induction-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the
+$\CauchyRealLocatorPointwiseInductionUp$ packet records the finite-window
+induction route used by Cauchy real locators. It is a sibling of the locator
+surface of \autoref{ch:concrete-instances-cauchy-real-locator-namecert} and
+the finite schedule discipline of
+\autoref{ch:concrete-instances-streamname-namecert}: a pointwise induction
+step opens one displayed stream window, reads its dyadic tolerance ledger,
+passes through the regular rational readback, and returns to the same
+Real-facing locator seal. The packet is not an induction principle over all
+host streams, a quotient-real equality theorem, a countable-choice selector,
+or an ambient completeness assertion.
+
+\begin{definition}[Cauchy real locator pointwise induction carrier]
+\label{def:cauchy-real-locator-pointwise-induction-carrier}
+A $\CauchyRealLocatorPointwiseInductionUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,W,D,Q,R,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the source $\CauchyRealLocatorUp$ row, carrying the locator
+modulus, finite-window, dyadic, regular-rational, and Real seal data.
+\item $W$ is the $\StreamNameUp$ pointwise window row selected for the current
+locator request.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used to compare the pointwise
+window with the requested side test.
+\item $Q$ is the $\RegSeqRatUp$ readback row exposed after the window and
+dyadic tolerance have been displayed.
+\item $R$ is the terminal $\RealUp$ locator seal reached by the pointwise
+readback.
+\item $B$ is the finite induction-branch ledger, recording the base window and
+successor-window handoff over the displayed rows $W,D,Q,R$.
+\item $H$ records componentwise $\hsame$ transport for the locator source,
+window, dyadic tolerance, regular readback, Real seal, branch ledger, replay,
+provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for each pointwise induction step.
+\item $P$ is the $\Pkg$ provenance over $\CauchyRealLocatorUp$,
+$\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local
+$\NameCert_{\CauchyRealLocatorPointwiseInductionUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through these displayed rows. It
+has no coordinate for host stream induction, quotient stream equality, selected
+limits, countable choice, trichotomy, open-cover compactness, or ambient
+$\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy real locator pointwise window induction]
+\label{thm:cauchy-real-locator-pointwise-window-induction}
+For every accepted $\CauchyRealLocatorPointwiseInductionUp$ carrier
+$$
+I=(L,W,D,Q,R,B,H,C,P,N),
+$$
+each pointwise locator step factors through the finite route
+$$
+L \longmapsto W,D \longmapsto Q \longmapsto R \longmapsto B,H,C,P,N .
+$$
+The base and successor cases of the induction ledger $B$ may inspect only the
+displayed $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance,
+$\RegSeqRatUp$ readback, and $\RealUp$ locator seal supplied by the same
+$\CauchyRealLocatorUp$ source row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The source row $L$ is the only Cauchy real
+locator coordinate, so every pointwise step begins by reading the displayed
+locator packet of \autoref{ch:concrete-instances-cauchy-real-locator-namecert}.
+
+The induction window is then opened through $W$. The dyadic tolerance row $D$
+is the only comparison surface attached to that window, and the regular
+rational readback $Q$ is available only after the window and dyadic rows have
+been displayed.
+
+The terminal read reaches $R$ and is then recorded by the branch ledger $B$.
+The base branch and each successor branch therefore preserve the same finite
+route rather than selecting a host stream representative.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since
+the carrier contains no row for host stream induction, quotient stream
+equality, selected limits, countable choice, trichotomy, open-cover
+compactness, or ambient completeness, the displayed route exhausts the
+pointwise induction surface.
+\end{proof}
+
+\closureat{CauchyRealLocatorPointwiseInductionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRealLocatorPointwiseInductionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-real-locator-pointwise-induction-carrier} and \autoref{thm:cauchy-real-locator-pointwise-window-induction} seed the finite pointwise induction route over CauchyRealLocator, StreamName, DyadicRatCore, RegSeqRat, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host stream induction, quotient stream equality, selected limits, countable choice, trichotomy, open-cover compactness, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window induction, dyadic tolerance compatibility, RegSeqRat readback, Real seal ordering, and local NameCert registration for BEDC.Derived.CauchyRealLocatorPointwiseInductionUp.}
+  \constructivestory{A $\CauchyRealLocatorPointwiseInductionUp$ packet is generated from a CauchyRealLocator source row, one StreamName pointwise window, a DyadicRatCore tolerance ledger, a RegSeqRat readback row, a RealUp locator seal, a finite induction-branch ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
