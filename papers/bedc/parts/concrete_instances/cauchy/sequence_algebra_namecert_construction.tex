@@ -53,6 +53,18 @@ Dyadic-budget exactness and operation-route separation are read from $D,A,M$. Th
 Finally, the Real seal and structural rows close the finite route. The seal $S$ is downstream of the operation readback, while $H,C,P,N$ only transport, replay, package, and name the displayed rows. The excluded quotient, host arithmetic, selected-limit, choice, trichotomy, and ambient-completeness data have no carrier coordinate.
 \end{proof}
 
+\begin{theorem}[CauchySequenceAlgebra Real-field handoff]
+\label{thm:cauchy-sequence-algebra-real-field-handoff}
+Every $\RealUp$ or $\CauchyRealFieldUp$ consumer of an accepted $\CauchySequenceAlgebraUp$ binary algebra read reaches field-facing data only through the two $\RegSeqRatUp$ source rows, the synchronized $\StreamNameUp$ window row, the $\DyadicRatCoreUp$ operation-budget row, the $\RegularCauchyAdditionUp$ and $\RegularCauchyProductUp$ routes, and the terminal $\RealUp$ seal. In particular the handoff exports regular Cauchy addition and multiplication readbacks before the final Real seal, and it exports no quotient stream, host real arithmetic, selected limit, trichotomy, countable-choice datum, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-sequence-algebra-carrier}. The only field-facing source data are the two regular rational Cauchy rows $X,Y$, the synchronized window $W$, and the dyadic operation budget $D$.
+
+Read the operation rows before the final Real seal. The addition route is $A$, the product route is $M$, and both routes consume the same source, window, and budget rows named in \autoref{thm:cauchy-sequence-algebra-namecert-obligations}.
+
+The terminal consumer then reads $S$ only after one of those operation routes has produced its $\RegSeqRatUp$ readback. Transport, replay, provenance, and local naming in $H,C,P,N$ preserve that route. Since the carrier has no coordinate for quotient streams, host arithmetic, selected limits, trichotomy, countable choice, or ambient completeness, no Real-field handoff can export any of those objects.
+\end{proof}
+
 \begin{theorem}[CauchySequenceAlgebra operation route]
 \label{thm:cauchy-sequence-algebra-operation-route}
 Every $\RegularCauchyAdditionUp$, $\RegularCauchyProductUp$, $\RealUp$, or $\CauchyRealFieldUp$ consumer of an accepted $\CauchySequenceAlgebraUp$ carrier reads binary algebra data only through the displayed route
@@ -85,7 +97,7 @@ The structural rows preserve only that route. Componentwise $\hsame$ transport a
 
 \begin{closurestatus}{\CauchySequenceAlgebraUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-sequence-algebra-carrier}, \autoref{thm:cauchy-sequence-algebra-namecert-obligations}, \autoref{thm:cauchy-sequence-algebra-operation-route}, and \autoref{thm:cauchy-sequence-algebra-route-nonescape} seed the finite binary algebra route over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyAdditionUp$, $\RegularCauchyProductUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \scopeclosed{\autoref{def:cauchy-sequence-algebra-carrier}, \autoref{thm:cauchy-sequence-algebra-namecert-obligations}, \autoref{thm:cauchy-sequence-algebra-real-field-handoff}, \autoref{thm:cauchy-sequence-algebra-operation-route}, and \autoref{thm:cauchy-sequence-algebra-route-nonescape} seed the finite binary algebra route over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyAdditionUp$, $\RegularCauchyProductUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient Cauchy classes, host real operations, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
