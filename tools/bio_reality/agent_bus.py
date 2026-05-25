@@ -123,8 +123,17 @@ def _dedup(records: list[dict[str, Any]], key: str) -> list[dict[str, Any]]:
             continue
         previous_status = str(previous.get("status") or "open")
         current_status = str(normalized.get("status") or "open")
+        terminal_statuses = {"consumed", "archived"}
+        # When the previous record reached a terminal state and the current
+        # record is a fresh open signal (new event_id), keep both. The new
+        # emission represents a re-detected condition that should drive a new
+        # downstream task; merging would silently swallow it.
+        if previous_status in terminal_statuses and current_status == "open":
+            by_stable_key[stable_key] = normalized
+            out.append(normalized)
+            continue
         keep_status = previous_status
-        if status_rank.get(current_status, 2) > status_rank.get(previous_status, 2):
+        if status_rank.get(current_status, 0) > status_rank.get(previous_status, 0):
             keep_status = current_status
         created_values = [str(item.get("created_at") or "") for item in (previous, normalized) if item.get("created_at")]
         merged = dict(previous)
@@ -923,13 +932,28 @@ def self_test() -> int:
         duplicate_b["created_at"] = "2026-05-25T00:00:01+00:00"
         duplicate_b["status"] = "open"
         duplicate_events = _dedup([duplicate_a, duplicate_b], "event_id")
+        # When the previous event with the same stable_event_key is in a
+        # terminal state and the current is a fresh open signal, both must
+        # survive so the new emission can drive a downstream task.
         if (
-            len(duplicate_events) != 1
-            or duplicate_events[0].get("created_at") != duplicate_a["created_at"]
-            or duplicate_events[0].get("reason") != "new reason"
+            len(duplicate_events) != 2
             or duplicate_events[0].get("status") != "consumed"
+            or duplicate_events[1].get("status") != "open"
+            or duplicate_events[1].get("reason") != "new reason"
         ):
             print(json.dumps(duplicate_events, indent=2), file=sys.stderr)
+            return 1
+        # When both records share status "open", the merge still collapses to
+        # a single event keeping the newer reason.
+        open_a = dict(duplicate_a, status="open", event_id="event.same.open.a")
+        open_b = dict(duplicate_b, status="open", event_id="event.same.open.b")
+        merged_open = _dedup([open_a, open_b], "event_id")
+        if (
+            len(merged_open) != 1
+            or merged_open[0].get("status") != "open"
+            or merged_open[0].get("reason") != "new reason"
+        ):
+            print(json.dumps(merged_open, indent=2), file=sys.stderr)
             return 1
         filter_paths = BioRealityPaths(
             root=SCRIPT_DIR,
