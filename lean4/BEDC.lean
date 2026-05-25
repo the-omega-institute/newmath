@@ -1040,6 +1040,7 @@ import BEDC.Derived.CauchyFilterBaseUp.TasteGate
 import BEDC.Derived.CauchyFilterClusterUp.TasteGate
 import BEDC.Derived.CauchyFilterLimitUp
 import BEDC.Derived.CauchyFilterLimitUp.TasteGate
+import BEDC.Derived.CauchyFilterMeetUp
 import BEDC.Derived.CauchyFilterMeetUp.TasteGate
 import BEDC.Derived.CauchyFilterNetCorrespondenceUp.TasteGate
 import BEDC.Derived.CauchyFilterUp
@@ -2745,6 +2746,7 @@ import BEDC.Derived.DyadicStepFunctionUp.CommonRefinementRealRegseq
 import BEDC.Derived.DyadicStepFunctionUp.PublicRoute
 import BEDC.Derived.DyadicStepFunctionUp.RealSealPublicBoundary
 import BEDC.Derived.DyadicStepFunctionUp.RefinementLedgerScope
+import BEDC.Derived.DyadicStepFunctionUp.ScopeExport
 import BEDC.Derived.DyadicStepFunctionUp.ScopeTransportPackage
 import BEDC.Derived.DyadicStepFunctionUp.ScopedObligationPackage
 import BEDC.Derived.DyadicStepFunctionUp.ScopedWindowPackage
