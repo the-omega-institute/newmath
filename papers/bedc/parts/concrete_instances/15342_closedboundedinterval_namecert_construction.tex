@@ -183,6 +183,46 @@ A dyadic-net consumer may refine the interval only through the dyadic ledger $D$
 Transport and replay preserve the same route. Since $H,C,P,N$ only carry componentwise $\hsame$, displayed $\Cont$, provenance, and local naming for the listed rows, no dyadic-net read can add an open cover, selected mesh point, quotient equality, trichotomy decision, choice schedule, or ambient completeness coordinate.
 \end{proof}
 
+\begin{theorem}[Closed bounded interval containment-ledger obligations]
+\label{thm:closed-bounded-interval-containment-ledger-obligations}
+Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ be an accepted $\ClosedBoundedIntervalUp$ carrier. Every containment-ledger obligation for $I$ is a $\BHist$ obligation over the displayed endpoint rows $L,U$, endpoint-order row $O$, rational and dyadic containment rows $Q,D$, componentwise $\hsame$ row $H$, displayed $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert_{\ClosedBoundedIntervalUp}$ row $N$. The ledger must preserve endpoint order before rational or dyadic containment is exported, and it cannot read host interval sets, quotient real equality, trichotomy, selected points, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-bounded-interval-carrier} and the classifier of \autoref{def:closed-bounded-interval-classifier}. The displayed endpoint rows, order row, containment ledgers, transport, replay, provenance, and local name are exactly $L,U,O,Q,D,H,C,P,N$.
+
+Apply source nonescape, finite-cover nonescape, and endpoint-order transport. Theorems~\ref{thm:closed-bounded-interval-source-nonescape}, \ref{thm:closed-bounded-interval-finite-cover-nonescape}, and \ref{thm:closed-bounded-interval-endpoint-order-transport} force every containment read to keep $O$ upstream of $Q$ and $D$ and to pass through the displayed $\hsame$ and $\Cont$ rows.
+
+Finally use the dyadic-net obligations of \autoref{thm:closed-bounded-interval-dyadic-net-obligations}. They place every dyadic or located refinement inside the same $\BHist$ packet, while $P$ and $N$ only source and name that route. Thus no excluded host object is introduced by the containment ledger.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval finite-window transport obligations]
+\label{thm:closed-bounded-interval-finite-window-transport-obligations}
+Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ and $I'=(L',U',O',Q',D',S',R',E',H',C',P',N')$ be accepted $\ClosedBoundedIntervalUp$ carriers classified together. Every finite-window transport obligation from $I$ to $I'$ is a $\BHist$ transport obligation that carries $S,R,E$ to $S',R',E'$ only after $L,U,O,Q,D$ have been transported to $L',U',O',Q',D'$ through the displayed $\hsame$ row $H$ and replayed by the displayed $\Cont$ row $C$. The transported window remains sourced by $\Pkg$ provenance and named by $\NameCert$, not by host equality of intervals or selected representatives.
+\end{theorem}
+\begin{proof}
+Start with source transport. Theorem~\ref{thm:closed-bounded-interval-source-transport} says that a transported source window carries lower endpoint, upper endpoint, endpoint order, containment, window, readback, and seal rows componentwise before any downstream consumer reads them.
+
+Use located endpoint readback and finite-cover nonescape. Theorems~\ref{thm:closed-bounded-interval-located-endpoint-readback} and \ref{thm:closed-bounded-interval-finite-cover-nonescape} identify $S,R,E$ as downstream finite windows over the same endpoint and containment route, so their transport cannot be separated from $L,U,O,Q,D$.
+
+The nested compactness handoff and dyadic-net obligations preserve the same route for later consumers. Theorems~\ref{thm:closed-bounded-interval-nested-compactness-handoff} and \ref{thm:closed-bounded-interval-dyadic-net-obligations} keep the finite-window rows inside the displayed $\BHist$ packet, with $P,N$ recording provenance and local naming only.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval consumer nonescape obligations]
+\label{thm:closed-bounded-interval-consumer-nonescape-obligations}
+Every interval-net, located-cover, nested-compactness, finite-window, or uniform-modulus consumer of an accepted $\ClosedBoundedIntervalUp$ carrier factors its $\BHist$ read through
+$$
+L,U,O,Q,D,S,R,E,H,C,P,N .
+$$
+The consumer therefore sees $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\ClosedBoundedIntervalUp}$ naming for the displayed carrier rows before it sees any downstream conclusion. It cannot escape to open-cover compactness, selected subcovers, selected points, quotient real equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First project the carrier and source nonescape route. The carrier definition and \autoref{thm:closed-bounded-interval-source-nonescape} expose only $L,U,O,Q,D,S,R,E,H,C,P,N$ to endpoint-source consumers.
+
+Next compose the finite-cover, located-cover, endpoint-order, and dyadic-net obligations. Theorems~\ref{thm:closed-bounded-interval-finite-cover-nonescape}, \ref{thm:closed-bounded-interval-located-cover-handoff}, \ref{thm:closed-bounded-interval-endpoint-order-transport}, and \ref{thm:closed-bounded-interval-dyadic-net-obligations} keep every net or cover read downstream of the same displayed endpoint, containment, window, readback, and seal rows.
+
+Finally apply nested compactness and compactness consumer boundary. Theorems~\ref{thm:closed-bounded-interval-nested-compactness-handoff} and \ref{thm:closed-bounded-interval-compactness-consumer-boundary} show that later compactness-facing consumers inherit the same finite packet. Since the packet contains no open-cover compactness theorem, selected object, quotient equality, trichotomy decision, countable-choice row, or ambient completeness row, the consumer obligations are nonescaping.
+\end{proof}
+
 \begin{theorem}[Closed bounded interval located-cover handoff]
 \label{thm:closed-bounded-interval-located-cover-handoff}
 Every located-cover consumer of an accepted $\ClosedBoundedIntervalUp$ carrier factors through the displayed route

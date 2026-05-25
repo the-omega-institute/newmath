@@ -11,3 +11,15 @@ Tagged alternatives are then supplied by the $\SumUp$ sibling. The pair carrier 
 
 Finally the finite spine route is supplied by $\ListUp$. Componentwise transport, continuation replay, provenance, and the local $\NameCert$ row preserve the same finite sibling surface, so the product carrier exports no hidden pairing oracle.
 \end{proof}
+
+\begin{theorem}[Prod sibling carrier route obligation scope]
+\label{thm:prod-sibling-carrier-route-obligation-scope}
+Any accepted $\ProdUp$ sibling route consumes $\BoolUp$ endpoint discrimination, $\SumUp$ tagged alternatives, and $\ListUp$ finite spine routing only through the product carrier ledger, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The dependency route is therefore pinned to \autoref{ch:concrete-instances-bool-namecert}, \autoref{ch:concrete-instances-sum-namecert}, and \autoref{ch:concrete-instances-list-namecert}; it cannot split those sibling rows into host projections, unrecorded case analysis, or an external pairing oracle.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:prod-sibling-carrier-route}. It already reads the endpoint, alternative, and spine dependencies as displayed finite-data rows inside the accepted product carrier.
+
+The obligation scope is obtained by naming the same structural rows. The product ledger stores the dependency consumption, componentwise $\hsame$ transport carries it across equivalent pair carriers, $\Cont$ replay preserves the route, $\Pkg$ records the provenance, and the local $\NameCert$ row names the whole package.
+
+Thus the Bool, Sum, and List dependencies remain sibling rows of the product certificate. Since no host projection or external pairing coordinate is present, every accepted route factors through the displayed carrier ledger.
+\end{proof}
