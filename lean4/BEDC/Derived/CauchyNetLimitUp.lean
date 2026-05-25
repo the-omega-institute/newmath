@@ -195,6 +195,36 @@ theorem CauchyNetLimitCarrier_admission
     ⟨kUnary, wUnary, rUnary, dUnary, aUnary, requestUnary, windowUnary,
       readbackUnary, sealUnary, requestRoute, windowRoute, readbackRoute, sealRoute⟩
 
+theorem CauchyNetLimitCarrier_dyadic_tolerance_handoff
+    {K W R D A windowRead readbackRead toleranceRead sealRead : BHist} :
+    Cont K W windowRead ->
+      Cont windowRead R readbackRead ->
+        Cont readbackRead D toleranceRead ->
+          Cont toleranceRead A sealRead ->
+            UnaryHistory K ->
+              UnaryHistory W ->
+                UnaryHistory R ->
+                  UnaryHistory D ->
+                    UnaryHistory A ->
+                      UnaryHistory windowRead ∧ UnaryHistory readbackRead ∧
+                        UnaryHistory toleranceRead ∧ UnaryHistory sealRead ∧
+                          Cont K W windowRead ∧ Cont windowRead R readbackRead ∧
+                            Cont readbackRead D toleranceRead ∧ Cont toleranceRead A sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro windowRoute readbackRoute toleranceRoute sealRoute
+  intro kUnary wUnary rUnary dUnary aUnary
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed kUnary wUnary windowRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed windowUnary rUnary readbackRoute
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed readbackUnary dUnary toleranceRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed toleranceUnary aUnary sealRoute
+  exact
+    ⟨windowUnary, readbackUnary, toleranceUnary, sealUnary, windowRoute, readbackRoute,
+      toleranceRoute, sealRoute⟩
+
 theorem CauchyNetLimitCarrier_directed_window_obligations
     {K W R D windowRead readbackRead toleranceRead : BHist} :
     Cont K W windowRead →

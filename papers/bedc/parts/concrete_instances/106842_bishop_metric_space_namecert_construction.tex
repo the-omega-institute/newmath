@@ -59,6 +59,54 @@ The stream and regular rational rows $S,R$ provide the finite observation route 
 The rows $A,H,C,P,N$ preserve the same route under apartness handoff, componentwise transport, replay, provenance, and local naming. A claim using quotient completion, selected limits, host equality of points, compactness, total boundedness, or ambient completeness has no carrier coordinate and leaves the packet.
 \end{proof}
 
+\begin{theorem}[Bishop metric-space distance-window exactness]
+\label{thm:bishop-metric-space-distance-window-exactness}
+Let $M=(X,D,S,R,A,H,C,P,N)$ be an accepted $\BishopMetricSpaceUp$ packet. Every accepted read of a distance row factors through the displayed route
+$$
+D \longmapsto S \longmapsto R \longmapsto \RealUp .
+$$
+Thus the distance consumed by a $\RealUp$-facing or completion-facing reader is the finite StreamName window and RegSeqRat readback of $D$, not a host-valued metric function or an ambient distance oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-metric-space-carrier}. The row $D$ is present only as the displayed metric-distance row, while $S$ and $R$ are the StreamName and RegSeqRat rows attached to that distance.
+
+Apply \autoref{thm:bishop-metric-space-namecert-obligations}. Its local certificate surface lists distance rows, finite stream windows, regular rational readbacks, transport, replay, provenance, and local naming as the exact obligations for accepted packets.
+
+Finally use \autoref{thm:bishop-metric-space-located-cauchy-route}. Any Real-facing or completion-facing read must pass through the same $S,R$ windows before it reaches a Real consumer, so no host-valued metric function can replace the displayed route.
+\end{proof}
+
+\begin{theorem}[Bishop metric-space apartness handoff]
+\label{thm:bishop-metric-space-apartness-handoff}
+Let $M=(X,D,S,R,A,H,C,P,N)$ be an accepted $\BishopMetricSpaceUp$ packet. Apartness can be exported from $M$ only through the displayed positive-distance row $A$, and only after the same distance-window route
+$$
+D \longmapsto S \longmapsto R
+$$
+has supplied the positive separation read. The handoff cannot be replaced by host inequality of points or by an apartness predicate detached from the displayed distance data.
+\end{theorem}
+\begin{proof}
+Read the carrier in \autoref{def:bishop-metric-space-carrier}. The row $A$ is the only MetricApartness handoff coordinate, and the carrier contains no separate host point-equality or host inequality field.
+
+Apply \autoref{thm:bishop-metric-space-namecert-obligations}. The certificate surface makes the apartness row optional and ties it to positive-distance evidence transported with the same componentwise rows $H$ and $C$.
+
+Use \autoref{thm:bishop-metric-space-located-cauchy-route} to identify the upstream read. Since every completion-facing distance claim goes through $D,S,R$ before the structural rows, the exported apartness handoff is exactly the displayed row $A$ downstream of those windows.
+\end{proof}
+
+\begin{theorem}[Bishop metric-space Real-seal nonescape]
+\label{thm:bishop-metric-space-real-seal-nonescape}
+Let $M=(X,D,S,R,A,H,C,P,N)$ be an accepted $\BishopMetricSpaceUp$ packet. Every Real-facing consumer of a distance row receives only the finite route
+$$
+D \longmapsto S \longmapsto R \longmapsto \RealUp
+$$
+together with the structural rows $A,H,C,P,N$ when they are displayed. The packet exports no quotient completion, selected limit, host point equality, total boundedness, compactness, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:bishop-metric-space-carrier}. The accepted packet exposes point names, a distance row, finite windows, regular readbacks, optional apartness, transport, replay, provenance, and local naming, and it has no coordinate for the excluded objects.
+
+Apply \autoref{thm:bishop-metric-space-namecert-obligations}. The local NameCert admits exactly those displayed rows and refuses host-valued distance functions, quotient completion data, selected limits, compactness, total boundedness, and ambient completeness.
+
+Apply \autoref{thm:bishop-metric-space-located-cauchy-route}. The Real-facing read stays on the finite StreamName and RegSeqRat path before it reaches the seal, so the consumer cannot escape into any object outside the displayed packet.
+\end{proof}
+
 \closureat{BishopMetricSpaceUp}{seedStr}
 
 \begin{closurestatus}{\BishopMetricSpaceUp}
