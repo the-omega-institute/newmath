@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.HeatEquationFiniteStencilUp
@@ -10,9 +11,9 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive HeatEquationFiniteStencilUp : Type where
-  | mk :
-      (sourceWindow timeStep spatialStencil boundary finiteReplay realSeal hsameTransport
-        contReplay provenance localCert : BHist) →
+  | mk
+      (sourceWindow timeStep spatialStencil boundary replay realSeal transport continuation
+        provenance name : BHist) :
       HeatEquationFiniteStencilUp
   deriving DecidableEq
 
@@ -28,146 +29,138 @@ def heatEquationFiniteStencilDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (heatEquationFiniteStencilDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (heatEquationFiniteStencilDecodeBHist tail)
 
-private theorem heatEquationFiniteStencil_decode_encode_bhist :
+private theorem heatEquationFiniteStencil_decode_encode :
     ∀ h : BHist,
       heatEquationFiniteStencilDecodeBHist (heatEquationFiniteStencilEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def heatEquationFiniteStencilFields : HeatEquationFiniteStencilUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | HeatEquationFiniteStencilUp.mk sourceWindow timeStep spatialStencil boundary finiteReplay
-      realSeal hsameTransport contReplay provenance localCert =>
-      [sourceWindow, timeStep, spatialStencil, boundary, finiteReplay, realSeal,
-        hsameTransport, contReplay, provenance, localCert]
+  | HeatEquationFiniteStencilUp.mk sourceWindow timeStep spatialStencil boundary replay realSeal
+      transport continuation provenance name =>
+      [sourceWindow, timeStep, spatialStencil, boundary, replay, realSeal, transport,
+        continuation, provenance, name]
 
 def heatEquationFiniteStencilToEventFlow : HeatEquationFiniteStencilUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
   fun x => (heatEquationFiniteStencilFields x).map heatEquationFiniteStencilEncodeBHist
 
-def heatEquationFiniteStencilFromEventFlow : EventFlow → Option HeatEquationFiniteStencilUp
+def heatEquationFiniteStencilFromEventFlow : EventFlow → Option HeatEquationFiniteStencilUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | sourceWindow :: rest0 =>
-      match rest0 with
+  fun flow =>
+    match flow with
+    | [] => none
+    | sourceWindow :: rest1 =>
+      match rest1 with
       | [] => none
-      | timeStep :: rest1 =>
-          match rest1 with
+      | timeStep :: rest2 =>
+        match rest2 with
+        | [] => none
+        | spatialStencil :: rest3 =>
+          match rest3 with
           | [] => none
-          | spatialStencil :: rest2 =>
-              match rest2 with
+          | boundary :: rest4 =>
+            match rest4 with
+            | [] => none
+            | replay :: rest5 =>
+              match rest5 with
               | [] => none
-              | boundary :: rest3 =>
-                  match rest3 with
+              | realSeal :: rest6 =>
+                match rest6 with
+                | [] => none
+                | transport :: rest7 =>
+                  match rest7 with
                   | [] => none
-                  | finiteReplay :: rest4 =>
-                      match rest4 with
+                  | continuation :: rest8 =>
+                    match rest8 with
+                    | [] => none
+                    | provenance :: rest9 =>
+                      match rest9 with
                       | [] => none
-                      | realSeal :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | hsameTransport :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | contReplay :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | provenance :: rest8 =>
-                                      match rest8 with
-                                      | [] => none
-                                      | localCert :: rest9 =>
-                                          match rest9 with
-                                          | [] =>
-                                              some
-                                                (HeatEquationFiniteStencilUp.mk
-                                                  (heatEquationFiniteStencilDecodeBHist
-                                                    sourceWindow)
-                                                  (heatEquationFiniteStencilDecodeBHist
-                                                    timeStep)
-                                                  (heatEquationFiniteStencilDecodeBHist
-                                                    spatialStencil)
-                                                  (heatEquationFiniteStencilDecodeBHist
-                                                    boundary)
-                                                  (heatEquationFiniteStencilDecodeBHist
-                                                    finiteReplay)
-                                                  (heatEquationFiniteStencilDecodeBHist
-                                                    realSeal)
-                                                  (heatEquationFiniteStencilDecodeBHist
-                                                    hsameTransport)
-                                                  (heatEquationFiniteStencilDecodeBHist
-                                                    contReplay)
-                                                  (heatEquationFiniteStencilDecodeBHist
-                                                    provenance)
-                                                  (heatEquationFiniteStencilDecodeBHist
-                                                    localCert))
-                                          | _ :: _ => none
+                      | name :: rest10 =>
+                        match rest10 with
+                        | [] =>
+                          some
+                            (HeatEquationFiniteStencilUp.mk
+                              (heatEquationFiniteStencilDecodeBHist sourceWindow)
+                              (heatEquationFiniteStencilDecodeBHist timeStep)
+                              (heatEquationFiniteStencilDecodeBHist spatialStencil)
+                              (heatEquationFiniteStencilDecodeBHist boundary)
+                              (heatEquationFiniteStencilDecodeBHist replay)
+                              (heatEquationFiniteStencilDecodeBHist realSeal)
+                              (heatEquationFiniteStencilDecodeBHist transport)
+                              (heatEquationFiniteStencilDecodeBHist continuation)
+                              (heatEquationFiniteStencilDecodeBHist provenance)
+                              (heatEquationFiniteStencilDecodeBHist name))
+                        | _ :: _ => none
 
 private theorem heatEquationFiniteStencil_round_trip :
     ∀ x : HeatEquationFiniteStencilUp,
       heatEquationFiniteStencilFromEventFlow (heatEquationFiniteStencilToEventFlow x) =
         some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
-  cases x with
-  | mk sourceWindow timeStep spatialStencil boundary finiteReplay realSeal hsameTransport
-      contReplay provenance localCert =>
+  intro token
+  cases token with
+  | mk sourceWindow timeStep spatialStencil boundary replay realSeal transport continuation
+      provenance name =>
       change
         some
-          (HeatEquationFiniteStencilUp.mk
-            (heatEquationFiniteStencilDecodeBHist
-              (heatEquationFiniteStencilEncodeBHist sourceWindow))
-            (heatEquationFiniteStencilDecodeBHist
-              (heatEquationFiniteStencilEncodeBHist timeStep))
-            (heatEquationFiniteStencilDecodeBHist
-              (heatEquationFiniteStencilEncodeBHist spatialStencil))
-            (heatEquationFiniteStencilDecodeBHist
-              (heatEquationFiniteStencilEncodeBHist boundary))
-            (heatEquationFiniteStencilDecodeBHist
-              (heatEquationFiniteStencilEncodeBHist finiteReplay))
-            (heatEquationFiniteStencilDecodeBHist
-              (heatEquationFiniteStencilEncodeBHist realSeal))
-            (heatEquationFiniteStencilDecodeBHist
-              (heatEquationFiniteStencilEncodeBHist hsameTransport))
-            (heatEquationFiniteStencilDecodeBHist
-              (heatEquationFiniteStencilEncodeBHist contReplay))
-            (heatEquationFiniteStencilDecodeBHist
-              (heatEquationFiniteStencilEncodeBHist provenance))
-            (heatEquationFiniteStencilDecodeBHist
-              (heatEquationFiniteStencilEncodeBHist localCert))) =
+            (HeatEquationFiniteStencilUp.mk
+              (heatEquationFiniteStencilDecodeBHist
+                (heatEquationFiniteStencilEncodeBHist sourceWindow))
+              (heatEquationFiniteStencilDecodeBHist
+                (heatEquationFiniteStencilEncodeBHist timeStep))
+              (heatEquationFiniteStencilDecodeBHist
+                (heatEquationFiniteStencilEncodeBHist spatialStencil))
+              (heatEquationFiniteStencilDecodeBHist
+                (heatEquationFiniteStencilEncodeBHist boundary))
+              (heatEquationFiniteStencilDecodeBHist
+                (heatEquationFiniteStencilEncodeBHist replay))
+              (heatEquationFiniteStencilDecodeBHist
+                (heatEquationFiniteStencilEncodeBHist realSeal))
+              (heatEquationFiniteStencilDecodeBHist
+                (heatEquationFiniteStencilEncodeBHist transport))
+              (heatEquationFiniteStencilDecodeBHist
+                (heatEquationFiniteStencilEncodeBHist continuation))
+              (heatEquationFiniteStencilDecodeBHist
+                (heatEquationFiniteStencilEncodeBHist provenance))
+              (heatEquationFiniteStencilDecodeBHist
+                (heatEquationFiniteStencilEncodeBHist name))) =
           some
-            (HeatEquationFiniteStencilUp.mk sourceWindow timeStep spatialStencil boundary
-              finiteReplay realSeal hsameTransport contReplay provenance localCert)
-      rw [heatEquationFiniteStencil_decode_encode_bhist sourceWindow,
-        heatEquationFiniteStencil_decode_encode_bhist timeStep,
-        heatEquationFiniteStencil_decode_encode_bhist spatialStencil,
-        heatEquationFiniteStencil_decode_encode_bhist boundary,
-        heatEquationFiniteStencil_decode_encode_bhist finiteReplay,
-        heatEquationFiniteStencil_decode_encode_bhist realSeal,
-        heatEquationFiniteStencil_decode_encode_bhist hsameTransport,
-        heatEquationFiniteStencil_decode_encode_bhist contReplay,
-        heatEquationFiniteStencil_decode_encode_bhist provenance,
-        heatEquationFiniteStencil_decode_encode_bhist localCert]
+            (HeatEquationFiniteStencilUp.mk sourceWindow timeStep spatialStencil boundary replay
+              realSeal transport continuation provenance name)
+      rw [heatEquationFiniteStencil_decode_encode sourceWindow,
+        heatEquationFiniteStencil_decode_encode timeStep,
+        heatEquationFiniteStencil_decode_encode spatialStencil,
+        heatEquationFiniteStencil_decode_encode boundary,
+        heatEquationFiniteStencil_decode_encode replay,
+        heatEquationFiniteStencil_decode_encode realSeal,
+        heatEquationFiniteStencil_decode_encode transport,
+        heatEquationFiniteStencil_decode_encode continuation,
+        heatEquationFiniteStencil_decode_encode provenance,
+        heatEquationFiniteStencil_decode_encode name]
 
 private theorem heatEquationFiniteStencilToEventFlow_injective
     {x y : HeatEquationFiniteStencilUp} :
     heatEquationFiniteStencilToEventFlow x = heatEquationFiniteStencilToEventFlow y →
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro heq
-  have hread :
-      heatEquationFiniteStencilFromEventFlow (heatEquationFiniteStencilToEventFlow x) =
-        heatEquationFiniteStencilFromEventFlow (heatEquationFiniteStencilToEventFlow y) :=
-    congrArg heatEquationFiniteStencilFromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (heatEquationFiniteStencil_round_trip x).symm
-      (Eq.trans hread (heatEquationFiniteStencil_round_trip y)))
+  intro hxy
+  have optionEq : some x = some y := by
+    calc
+      some x =
+          heatEquationFiniteStencilFromEventFlow (heatEquationFiniteStencilToEventFlow x) :=
+        (heatEquationFiniteStencil_round_trip x).symm
+      _ = heatEquationFiniteStencilFromEventFlow (heatEquationFiniteStencilToEventFlow y) :=
+        congrArg heatEquationFiniteStencilFromEventFlow hxy
+      _ = some y := heatEquationFiniteStencil_round_trip y
+  cases optionEq
+  rfl
 
 private theorem heatEquationFiniteStencil_fields_faithful :
     ∀ x y : HeatEquationFiniteStencilUp,
@@ -175,31 +168,31 @@ private theorem heatEquationFiniteStencil_fields_faithful :
   -- BEDC touchpoint anchor: BHist BMark
   intro x y h
   cases x with
-  | mk sourceWindow₁ timeStep₁ spatialStencil₁ boundary₁ finiteReplay₁ realSeal₁
-      hsameTransport₁ contReplay₁ provenance₁ localCert₁ =>
+  | mk sourceWindow₁ timeStep₁ spatialStencil₁ boundary₁ replay₁ realSeal₁ transport₁
+      continuation₁ provenance₁ name₁ =>
       cases y with
-      | mk sourceWindow₂ timeStep₂ spatialStencil₂ boundary₂ finiteReplay₂ realSeal₂
-          hsameTransport₂ contReplay₂ provenance₂ localCert₂ =>
+      | mk sourceWindow₂ timeStep₂ spatialStencil₂ boundary₂ replay₂ realSeal₂ transport₂
+          continuation₂ provenance₂ name₂ =>
           injection h with hSourceWindow rest₁
           injection rest₁ with hTimeStep rest₂
           injection rest₂ with hSpatialStencil rest₃
           injection rest₃ with hBoundary rest₄
-          injection rest₄ with hFiniteReplay rest₅
+          injection rest₄ with hReplay rest₅
           injection rest₅ with hRealSeal rest₆
-          injection rest₆ with hHsameTransport rest₇
-          injection rest₇ with hContReplay rest₈
+          injection rest₆ with hTransport rest₇
+          injection rest₇ with hContinuation rest₈
           injection rest₈ with hProvenance rest₉
-          injection rest₉ with hLocalCert _
+          injection rest₉ with hName _
           cases hSourceWindow
           cases hTimeStep
           cases hSpatialStencil
           cases hBoundary
-          cases hFiniteReplay
+          cases hReplay
           cases hRealSeal
-          cases hHsameTransport
-          cases hContReplay
+          cases hTransport
+          cases hContinuation
           cases hProvenance
-          cases hLocalCert
+          cases hName
           rfl
 
 instance heatEquationFiniteStencilBHistCarrier : BHistCarrier HeatEquationFiniteStencilUp where
@@ -212,9 +205,8 @@ instance heatEquationFiniteStencilChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      heatEquationFiniteStencilFromEventFlow (heatEquationFiniteStencilToEventFlow x) =
-        some x
+    change heatEquationFiniteStencilFromEventFlow (heatEquationFiniteStencilToEventFlow x) =
+      some x
     exact heatEquationFiniteStencil_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -237,7 +229,10 @@ instance heatEquationFiniteStencilNontrivial : BEDC.Meta.TasteGate.Nontrivial
         intro h
         cases h⟩
 
-namespace TasteGate
+def HeatEquationFiniteStencilTasteGate_single_carrier_alignment_taste_gate :
+    ChapterTasteGate HeatEquationFiniteStencilUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  heatEquationFiniteStencilChapterTasteGate
 
 theorem HeatEquationFiniteStencilTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate HeatEquationFiniteStencilUp) ∧
@@ -259,13 +254,11 @@ theorem HeatEquationFiniteStencilTasteGate_single_carrier_alignment :
     ⟨Nonempty.intro heatEquationFiniteStencilChapterTasteGate,
       Nonempty.intro heatEquationFiniteStencilFieldFaithful,
       Nonempty.intro heatEquationFiniteStencilNontrivial,
-      heatEquationFiniteStencil_decode_encode_bhist,
+      heatEquationFiniteStencil_decode_encode,
       heatEquationFiniteStencil_round_trip,
       (by
         intro x y heq
         exact heatEquationFiniteStencilToEventFlow_injective heq),
       rfl⟩
-
-end TasteGate
 
 end BEDC.Derived.HeatEquationFiniteStencilUp
