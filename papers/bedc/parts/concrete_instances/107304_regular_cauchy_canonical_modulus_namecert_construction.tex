@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyCanonicalModulusUp$}
+\label{ch:concrete-instances-regular-cauchy-canonical-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy reals, the $\RegularCauchyCanonicalModulusUp$ packet records the finite naming surface for the canonical modulus read from a regular rational Cauchy presentation. It sits after the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window rows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence carrier of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names the displayed modulus object needed by the L10 RegSeqRat-to-Real route without importing an ambient Cauchy-search principle.
+
+\begin{definition}[Regular Cauchy canonical modulus carrier]
+\label{def:regular-cauchy-canonical-modulus-carrier}
+A $\RegularCauchyCanonicalModulusUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,S,R,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row naming dyadic radii, denominator windows, and scale comparison data.
+\item $S$ is the $\StreamNameUp$ finite-window row carrying the observed rational stream windows.
+\item $R$ is the $\RegSeqRatUp$ regularity row recording the Cauchy bound read from the same windows.
+\item $Q$ is the canonical modulus row, assigning to each displayed tolerance scale the finite window at which the regularity row certifies stability.
+\item $E$ is the $\RealUp$ endpoint seal reached by the regular rational presentation.
+\item $H$ records componentwise $\hsame$ transport for the dyadic, stream, regularity, modulus, endpoint, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a modulus request through $D,S,R,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyCanonicalModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyCanonicalModulusUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for unbounded search over Cauchy witnesses, quotient equality of real presentations, countable choice, a selected limit outside $E$, or a host completeness theorem.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy canonical modulus NameCert obligations]
+\label{thm:regular-cauchy-canonical-modulus-namecert-obligations}
+For the carrier of \autoref{def:regular-cauchy-canonical-modulus-carrier}, the local $\NameCert_{\RegularCauchyCanonicalModulusUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the dyadic tolerance row $D$, stream-window row $S$, regular rational row $R$, canonical modulus row $Q$, real endpoint row $E$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$;
+\item canonical-modulus exactness, requiring each tolerance scale read from $D$ to be assigned by $Q$ to a finite stream window already present in $S$ and certified by the $\RegSeqRatUp$ row $R$;
+\item classifier stability, requiring two accepted packets to compare only through componentwise $\hsame$ transport of $D,S,R,Q,E,P,N$;
+\item endpoint nonescape, requiring every $\RealUp$ consumer to reach $E$ only after the displayed dyadic, stream, regularity, and modulus rows have been read;
+\item provenance and naming exactness, requiring $P$ and $N$ to record the same finite RegSeqRat-to-Real route.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet $K=(D,S,R,Q,E,H,C,P,N)$. Each row is finite $\BHist$ data, and no row names an ambient search operator.
+
+Canonical-modulus exactness reads $Q$ against the tolerance row $D$ and stream row $S$. The regularity row $R$ supplies the bounded Cauchy witness for the displayed finite window, so the modulus is canonical only relative to those already named rows.
+
+For classifier stability, compare accepted packets componentwise through $H$. The dyadic, stream, regularity, modulus, endpoint, provenance, and local naming rows are transported together, and replay through $C$ preserves the same route.
+
+Finally inspect a $\RealUp$ consumer. It can reach the endpoint row $E$ only through $D,S,R,Q$ and the structural rows $H,C,P,N$, so quotient equality, countable choice, unbounded search, and host completeness are outside the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy canonical modulus RegSeqRat handoff]
+\label{thm:regular-cauchy-canonical-modulus-regseqrat-handoff}
+Every accepted $\RegSeqRatUp$-to-$\RealUp$ read that cites a $\RegularCauchyCanonicalModulusUp$ carrier factors through the finite route
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RegularCauchyCanonicalModulusUp \longmapsto \RealUp .
+$$
+The handoff first reads dyadic tolerance scales, then finite stream windows, then the regular rational Cauchy row, then the canonical modulus row, and only then the real endpoint seal. It supplies no independent limit selector, no quotient equality of presentations, no unbounded Cauchy-search oracle, and no ambient real-completeness argument.
+\end{theorem}
+\begin{proof}
+Start with a RegSeqRat-to-Real consumer. The carrier forces the request to read $D$ and $S$ before the regularity row $R$ can be interpreted, because the Cauchy bound is attached to dyadic scales and finite stream windows.
+
+Next read the canonical modulus row $Q$. Its entries are finite assignments from displayed tolerance scales to displayed windows, with $R$ certifying regularity on those windows.
+
+The endpoint row $E$ is then reached only through the same finite route. The structural rows $H,C,P,N$ transport, replay, source, and name that route, so no absent search, quotient, selector, or completion principle can be exported by the handoff.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyCanonicalModulusUp$ read factors through displayed DyadicRatCoreUp tolerance rows, StreamName finite windows, RegSeqRat regularity rows, a canonical modulus row, a RealUp endpoint seal, hsame transport, Cont replay, Pkg provenance, and local NameCert evidence.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: $\RegularCauchyCanonicalModulusUp$ is not bijective to any listed sibling because it jointly carries dyadic tolerance scales, finite stream windows, regular rational Cauchy bounds, a canonical modulus assignment, endpoint sealing, transport, replay, provenance, and local naming.}
+
+\closureat{RegularCauchyCanonicalModulusUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyCanonicalModulusUp}
+  \constructivestory{A $\RegularCauchyCanonicalModulusUp$ packet is generated from dyadic tolerance scales, finite StreamName windows, RegSeqRat regularity rows, a canonical modulus assignment, a RealUp endpoint seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-canonical-modulus-carrier}, \autoref{thm:regular-cauchy-canonical-modulus-namecert-obligations}, and \autoref{thm:regular-cauchy-canonical-modulus-regseqrat-handoff} seed the finite canonical-modulus route from RegSeqRat data to the Real endpoint seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient equality of real presentations, countable choice, unbounded Cauchy search, selected limits, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, canonical-modulus exactness, classifier stability, endpoint nonescape, and RegSeqRat handoff for the displayed packet.}
+\end{closurestatus}
