@@ -1,31 +1,16 @@
-import BEDC.FKernel.Ask
-import BEDC.FKernel.Bundle
-import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
-import BEDC.FKernel.NameCert
-import BEDC.FKernel.Package
-import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LLPOBoundaryUp
 
-open BEDC.FKernel.Ask
-open BEDC.FKernel.Bundle
-open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
-open BEDC.FKernel.NameCert
-open BEDC.FKernel.Package
-open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive LLPOBoundaryUp : Type where
-  | mk
-      (leftZero rightZero schedule readback dyadic realSeal refusal transport replay
-        provenance nameRow : BHist) : LLPOBoundaryUp
-  deriving DecidableEq
+  | mk (Z0 Z1 S R D E W H C P N : BHist) : LLPOBoundaryUp
 
 def llpoBoundaryEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -39,7 +24,7 @@ def llpoBoundaryDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (llpoBoundaryDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (llpoBoundaryDecodeBHist tail)
 
-private theorem llpoBoundaryDecode_encode_bhist :
+private theorem LLPOBoundaryTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist, llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -48,74 +33,105 @@ private theorem llpoBoundaryDecode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def llpoBoundaryFields : LLPOBoundaryUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | LLPOBoundaryUp.mk leftZero rightZero schedule readback dyadic realSeal refusal transport
-      replay provenance nameRow =>
-      [leftZero, rightZero, schedule, readback, dyadic, realSeal, refusal, transport, replay,
-        provenance, nameRow]
-
 def llpoBoundaryToEventFlow : LLPOBoundaryUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (llpoBoundaryFields x).map llpoBoundaryEncodeBHist
+  | LLPOBoundaryUp.mk Z0 Z1 S R D E W H C P N =>
+      [llpoBoundaryEncodeBHist Z0,
+        llpoBoundaryEncodeBHist Z1,
+        llpoBoundaryEncodeBHist S,
+        llpoBoundaryEncodeBHist R,
+        llpoBoundaryEncodeBHist D,
+        llpoBoundaryEncodeBHist E,
+        llpoBoundaryEncodeBHist W,
+        llpoBoundaryEncodeBHist H,
+        llpoBoundaryEncodeBHist C,
+        llpoBoundaryEncodeBHist P,
+        llpoBoundaryEncodeBHist N]
 
-private def llpoBoundaryEventAt : Nat → EventFlow → RawEvent
+def llpoBoundaryFromEventFlow : EventFlow → Option LLPOBoundaryUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => llpoBoundaryEventAt index rest
+  | [] => none
+  | Z0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | Z1 :: rest1 =>
+          match rest1 with
+          | [] => none
+          | S :: rest2 =>
+              match rest2 with
+              | [] => none
+              | R :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | D :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | E :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | W :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | H :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | C :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | P :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | N :: rest10 =>
+                                              match rest10 with
+                                              | [] =>
+                                                  some
+                                                    (LLPOBoundaryUp.mk
+                                                      (llpoBoundaryDecodeBHist Z0)
+                                                      (llpoBoundaryDecodeBHist Z1)
+                                                      (llpoBoundaryDecodeBHist S)
+                                                      (llpoBoundaryDecodeBHist R)
+                                                      (llpoBoundaryDecodeBHist D)
+                                                      (llpoBoundaryDecodeBHist E)
+                                                      (llpoBoundaryDecodeBHist W)
+                                                      (llpoBoundaryDecodeBHist H)
+                                                      (llpoBoundaryDecodeBHist C)
+                                                      (llpoBoundaryDecodeBHist P)
+                                                      (llpoBoundaryDecodeBHist N))
+                                              | _extra :: _rest => none
 
-def llpoBoundaryFromEventFlow (ef : EventFlow) : Option LLPOBoundaryUp :=
+private theorem llpoBoundary_round_trip :
+    ∀ x : LLPOBoundaryUp,
+      llpoBoundaryFromEventFlow (llpoBoundaryToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (LLPOBoundaryUp.mk
-      (llpoBoundaryDecodeBHist (llpoBoundaryEventAt 0 ef))
-      (llpoBoundaryDecodeBHist (llpoBoundaryEventAt 1 ef))
-      (llpoBoundaryDecodeBHist (llpoBoundaryEventAt 2 ef))
-      (llpoBoundaryDecodeBHist (llpoBoundaryEventAt 3 ef))
-      (llpoBoundaryDecodeBHist (llpoBoundaryEventAt 4 ef))
-      (llpoBoundaryDecodeBHist (llpoBoundaryEventAt 5 ef))
-      (llpoBoundaryDecodeBHist (llpoBoundaryEventAt 6 ef))
-      (llpoBoundaryDecodeBHist (llpoBoundaryEventAt 7 ef))
-      (llpoBoundaryDecodeBHist (llpoBoundaryEventAt 8 ef))
-      (llpoBoundaryDecodeBHist (llpoBoundaryEventAt 9 ef))
-      (llpoBoundaryDecodeBHist (llpoBoundaryEventAt 10 ef)))
-
-private theorem llpoBoundary_round_trip (x : LLPOBoundaryUp) :
-    llpoBoundaryFromEventFlow (llpoBoundaryToEventFlow x) = some x := by
-  -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
-  | mk leftZero rightZero schedule readback dyadic realSeal refusal transport replay
-      provenance nameRow =>
+  | mk Z0 Z1 S R D E W H C P N =>
       change
         some
           (LLPOBoundaryUp.mk
-            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist leftZero))
-            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist rightZero))
-            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist schedule))
-            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist readback))
-            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist dyadic))
-            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist realSeal))
-            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist refusal))
-            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist transport))
-            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist replay))
-            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist provenance))
-            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist nameRow))) =
-          some
-            (LLPOBoundaryUp.mk leftZero rightZero schedule readback dyadic realSeal refusal
-              transport replay provenance nameRow)
-      rw [llpoBoundaryDecode_encode_bhist leftZero,
-        llpoBoundaryDecode_encode_bhist rightZero,
-        llpoBoundaryDecode_encode_bhist schedule,
-        llpoBoundaryDecode_encode_bhist readback,
-        llpoBoundaryDecode_encode_bhist dyadic,
-        llpoBoundaryDecode_encode_bhist realSeal,
-        llpoBoundaryDecode_encode_bhist refusal,
-        llpoBoundaryDecode_encode_bhist transport,
-        llpoBoundaryDecode_encode_bhist replay,
-        llpoBoundaryDecode_encode_bhist provenance,
-        llpoBoundaryDecode_encode_bhist nameRow]
+            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist Z0))
+            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist Z1))
+            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist S))
+            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist R))
+            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist D))
+            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist E))
+            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist W))
+            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist H))
+            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist C))
+            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist P))
+            (llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist N))) =
+          some (LLPOBoundaryUp.mk Z0 Z1 S R D E W H C P N)
+      rw [LLPOBoundaryTasteGate_single_carrier_alignment_decode Z0,
+        LLPOBoundaryTasteGate_single_carrier_alignment_decode Z1,
+        LLPOBoundaryTasteGate_single_carrier_alignment_decode S,
+        LLPOBoundaryTasteGate_single_carrier_alignment_decode R,
+        LLPOBoundaryTasteGate_single_carrier_alignment_decode D,
+        LLPOBoundaryTasteGate_single_carrier_alignment_decode E,
+        LLPOBoundaryTasteGate_single_carrier_alignment_decode W,
+        LLPOBoundaryTasteGate_single_carrier_alignment_decode H,
+        LLPOBoundaryTasteGate_single_carrier_alignment_decode C,
+        LLPOBoundaryTasteGate_single_carrier_alignment_decode P,
+        LLPOBoundaryTasteGate_single_carrier_alignment_decode N]
 
 private theorem llpoBoundaryToEventFlow_injective {x y : LLPOBoundaryUp} :
     llpoBoundaryToEventFlow x = llpoBoundaryToEventFlow y → x = y := by
@@ -144,78 +160,20 @@ instance llpoBoundaryChapterTasteGate : ChapterTasteGate LLPOBoundaryUp where
     intro x y hxy heq
     exact hxy (llpoBoundaryToEventFlow_injective heq)
 
-instance llpoBoundaryNontrivial : Nontrivial LLPOBoundaryUp where
+def taste_gate : ChapterTasteGate LLPOBoundaryUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨LLPOBoundaryUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      LLPOBoundaryUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
+  llpoBoundaryChapterTasteGate
 
-def LLPOBoundaryCarrier [AskSetup] [PackageSetup]
-    (leftZero rightZero schedule readback dyadic realSeal refusal transport replay provenance
-      nameRow : BHist)
-    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  UnaryHistory leftZero ∧ UnaryHistory rightZero ∧ UnaryHistory schedule ∧
-    UnaryHistory readback ∧ UnaryHistory dyadic ∧ UnaryHistory realSeal ∧
-      UnaryHistory refusal ∧ UnaryHistory transport ∧ UnaryHistory replay ∧
-        UnaryHistory provenance ∧ UnaryHistory nameRow ∧ Cont schedule readback dyadic ∧
-          Cont dyadic realSeal refusal ∧ Cont transport replay provenance ∧
-            PkgSig bundle provenance pkg ∧ PkgSig bundle nameRow pkg ∧ hsame nameRow refusal
-
-theorem LLPOBoundaryCarrier_namecert_obligations [AskSetup] [PackageSetup]
-    {leftZero rightZero schedule readback dyadic realSeal refusal transport replay provenance
-      nameRow : BHist}
-    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    LLPOBoundaryCarrier leftZero rightZero schedule readback dyadic realSeal refusal transport
-        replay provenance nameRow bundle pkg ->
-      Cont schedule readback dyadic ->
-        Cont dyadic realSeal refusal ->
-          PkgSig bundle nameRow pkg ->
-            SemanticNameCert
-              (fun row : BHist =>
-                LLPOBoundaryCarrier leftZero rightZero schedule readback dyadic realSeal
-                    refusal transport replay provenance nameRow bundle pkg ∧
-                  hsame row nameRow)
-              (fun row : BHist => hsame row nameRow ∧ UnaryHistory row)
-              (fun row : BHist => hsame row refusal ∧ PkgSig bundle nameRow pkg)
-              hsame := by
-  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg SemanticNameCert
-  intro carrier _scheduleReadbackDyadic _dyadicRealRefusal namePkg
-  have carrierPacket :
-      LLPOBoundaryCarrier leftZero rightZero schedule readback dyadic realSeal refusal
-        transport replay provenance nameRow bundle pkg :=
-    carrier
-  obtain ⟨_leftUnary, _rightUnary, _scheduleUnary, _readbackUnary, _dyadicUnary,
-    _realUnary, _refusalUnary, _transportUnary, _replayUnary, _provenanceUnary, nameUnary,
-    _scheduleReadbackDyadic, _dyadicRealRefusal, _transportReplayProvenance,
-    _provenancePkg, _namePkg, sameNameRefusal⟩ := carrier
-  exact {
-    core := {
-      carrier_inhabited := by
-        exact Exists.intro nameRow (And.intro carrierPacket (hsame_refl nameRow))
-      equiv_refl := by
-        intro row _source
-        exact hsame_refl row
-      equiv_symm := by
-        intro _row _other sameRows
-        exact hsame_symm sameRows
-      equiv_trans := by
-        intro _row _middle _other sameLeft sameRight
-        exact hsame_trans sameLeft sameRight
-      carrier_respects_equiv := by
-        intro _row _other sameRows source
-        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
-    }
-    pattern_sound := by
-      intro _row source
-      exact And.intro source.right (unary_transport nameUnary (hsame_symm source.right))
-    ledger_sound := by
-      intro _row source
-      exact And.intro (hsame_trans source.right sameNameRefusal) namePkg
-  }
+theorem LLPOBoundaryTasteGate_single_carrier_alignment :
+    (∀ h : BHist, llpoBoundaryDecodeBHist (llpoBoundaryEncodeBHist h) = h) ∧
+      Nonempty (BHistCarrier LLPOBoundaryUp) ∧
+        Nonempty (ChapterTasteGate LLPOBoundaryUp) ∧
+          llpoBoundaryEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨LLPOBoundaryTasteGate_single_carrier_alignment_decode,
+      ⟨llpoBoundaryBHistCarrier⟩,
+      ⟨llpoBoundaryChapterTasteGate⟩,
+      rfl⟩
 
 end BEDC.Derived.LLPOBoundaryUp
