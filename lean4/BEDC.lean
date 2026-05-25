@@ -441,6 +441,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootRouteStrictObstruction
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootSignatureRowTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootSignatureTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootSource
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootTotalityStrictObstruction
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootUnblockCarrierAdmission
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootUnblockLedgerNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RouteAuthorization
@@ -4442,6 +4443,7 @@ import BEDC.Derived.PadicUp.AppendCommutation
 import BEDC.Derived.PadicUp.AppendUnitLeft
 import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.PaperLeanDriftWitnessUp
+import BEDC.Derived.ParacompactUp.TasteGate
 import BEDC.Derived.ParallelConfluenceAuditUp.TasteGate
 import BEDC.Derived.PartitionUp
 import BEDC.Derived.PdeUp
@@ -5303,6 +5305,7 @@ import BEDC.Derived.ReviewAcceptanceGateUp.TasteGate
 import BEDC.Derived.RiccatiUp
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
+import BEDC.Derived.RiemannIntegrabilityCriterionUp.TasteGate
 import BEDC.Derived.RiemannRearrangementUp
 import BEDC.Derived.RiemannStieltjesUp.TasteGate
 import BEDC.Derived.RiemannianMetricUp
