@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\LocatedUpperBoundUp$}
+\label{ch:concrete-instances-located-upper-bound-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\LocatedUpperBoundUp$ packet isolates the finite upper-bound witness that a Real or Completion consumer may inspect before any least-upper-bound or completeness principle is available. It sits over the located-cut surface of \autoref{ch:concrete-instances-locatedcut-namecert}, the located-real surface of \autoref{ch:concrete-instances-locatedreal-namecert}, the comparison discipline of \autoref{ch:concrete-instances-bishoprealcomparison-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the downstream located-supremum consumer of \autoref{ch:concrete-instances-locatedsupremum-namecert}. The chapter names upper-bound data as a reusable NameCert surface, rather than keeping it only as an internal row of the supremum packet.
+
+\begin{definition}[LocatedUpperBound carrier]
+\label{def:located-upper-bound-carrier}
+A $\LocatedUpperBoundUp$ carrier is a finite $\BHist$ packet
+$$
+B=(F,U,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the located family row, read through either a $\LocatedCutUp$ or $\LocatedRealUp$ surface.
+\item $U$ is the upper-bound ledger row. It records the displayed bound name, the comparison windows that certify the source family lies below that bound, and the dyadic tolerances attached to those comparisons.
+\item $W$ is the $\StreamNameUp$ request schedule listing the finite windows inspected by the upper-bound ledger.
+\item $R$ is the $\RegSeqRatUp$ readback row used by the bound name and by every comparison window.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the located source, upper-bound ledger, finite windows, and regular readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $F,U,W,R,E$ and for the structural replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an upper-bound request through $F,U,W,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedUpperBoundUp$, $\LocatedCutUp$, $\LocatedRealUp$, $\BishopRealComparisonUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedUpperBoundUp}$ row.
+\end{enumerate}
+The carrier predicate asserts that these rows form one finite upper-bound surface. It contains no lower-approximation ledger, selected supremum, trichotomy row, quotient-cut carrier, host real equality test, countable-choice schedule, ambient $\RealUp$ completeness theorem, Lean verification, or bridge credential.
+\end{definition}
+
+\begin{definition}[LocatedUpperBound classifier]
+\label{def:located-upper-bound-classifier}
+The $\LocatedUpperBoundUp$ classifier accepts exactly those finite packets $B=(F,U,W,R,E,H,C,P,N)$ whose upper-bound reads pass through the displayed source row $F$, comparison ledger $U$, finite request schedule $W$, regular rational readback $R$, and terminal real-name seal $E$. Classifier sameness is componentwise sameness of these rows through $H$ and replay through $C$; no consumer-facing classifier may identify two packets by host real equality, quotient-cut equality, trichotomy, a selected supremum, countable choice, or an ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[LocatedUpperBound NameCert obligations]
+\label{thm:located-upper-bound-namecert-obligations}
+For every accepted $\LocatedUpperBoundUp$ carrier $B=(F,U,W,R,E,H,C,P,N)$, the local $\NameCert_{\LocatedUpperBoundUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the located source, upper-bound ledger, stream schedule, regular rational readback, terminal real seal, transport, replay, provenance, and local naming rows;
+\item classifier stability, requiring upper-bound sameness to be componentwise transport of $F,U,W,R,E$ through the displayed $\hsame$ and $\Cont$ routes;
+\item source coverage, requiring every bounded source read to pass through the located-cut or located-real surface named by $F$;
+\item comparison exactness, requiring every upper-bound assertion to pass through the $\BishopRealComparisonUp$ discipline named by $U$ at a finite window listed in $W$;
+\item regular readback compatibility, requiring the bound name and each comparison window to use the same $\RegSeqRatUp$ readback route before the $\RealUp$ seal is exposed;
+\item non-escape, excluding lower-approximation cofinality, selected suprema, trichotomy, quotient cuts, host real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, and bridge checking as local data.
+\end{enumerate}
+No upper-bound obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-upper-bound-carrier}. The analytic rows are precisely the source row $F$, upper-bound ledger $U$, finite window row $W$, regular readback row $R$, and terminal real seal $E$.
+
+Classifier stability is componentwise. The rows $H$ and $C$ transport and replay the five analytic rows, while $P$ and $N$ source and name the same displayed packet.
+
+Source coverage follows by reading $F$ through the located-cut and located-real sibling surfaces. Comparison exactness follows by reading $U$ through the Bishop-style comparison row at a window listed in $W$.
+
+The readback row $R$ is shared by the bound name and every comparison window before the seal $E$ is exposed. Since no remaining coordinate contains lower-approximation cofinality, selected suprema, trichotomy, quotient cuts, host equality, countable choice, ambient completeness, Lean verification, or bridge data, the listed rows exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[LocatedUpperBound real seal handoff]
+\label{thm:located-upper-bound-real-seal-handoff}
+Every $\RealUp$-facing consumer of an accepted $\LocatedUpperBoundUp$ carrier receives the finite route
+$$
+F,U,W,R \longmapsto E \longmapsto H,C,P,N .
+$$
+The handoff first exposes the located source, upper-bound comparison ledger, finite request schedule, and regular rational readback. Only after those rows are displayed does it expose the terminal $\RealUp$ seal and the structural transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $B=(F,U,W,R,E,H,C,P,N)$. By \autoref{thm:located-upper-bound-namecert-obligations}, any Real-facing consumer must read the source row, comparison ledger, finite window schedule, and regular readback before the real seal is available.
+
+The source row $F$ supplies the located-cut or located-real family interface. The ledger $U$ supplies the upper-bound comparison rows through the Bishop-style comparison discipline, and $W$ records the finite windows inspected for those comparisons.
+
+The readback row $R$ is the sole route into regular rational real-name data, and $E$ is the only terminal real seal exposed by the carrier. Repacking through $H,C,P,N$ preserves this order of disclosure.
+
+Because the carrier has no lower-approximation coordinate, selected supremum, trichotomy row, quotient-cut carrier, host equality test, countable-choice schedule, ambient completeness theorem, or bridge data, the displayed route exhausts every $\RealUp$-facing handoff.
+\end{proof}
+
+\begin{theorem}[LocatedUpperBound supremum route]
+\label{thm:located-upper-bound-supremum-route}
+Every $\LocatedSupremumUp$ consumer of an accepted $\LocatedUpperBoundUp$ carrier may use the packet only as the upstream upper-bound face. The consumer receives $F,U,W,R,E,H,C,P,N$ as the finite upper-bound witness, while lower-approximation cofinality, selected supremum data, and completion-facing least-upper-bound closure remain obligations of the downstream $\LocatedSupremumUp$ packet.
+\end{theorem}
+\begin{proof}
+Inspect the carrier $B=(F,U,W,R,E,H,C,P,N)$. Its only order-facing analytic row is the upper-bound ledger $U$, and that row is tied to the located source $F$, the finite windows $W$, the regular readback $R$, and the real seal $E$.
+
+Apply \autoref{thm:located-upper-bound-real-seal-handoff}. It shows that any real-facing read exported from the upper-bound packet reaches $E$ only through the displayed upper-bound route.
+
+The downstream supremum packet in \autoref{ch:concrete-instances-locatedsupremum-namecert} additionally requires lower-approximation and cofinality rows. Those rows are absent from \autoref{def:located-upper-bound-carrier}, so a $\LocatedSupremumUp$ consumer can read this packet only as its reusable upstream upper-bound witness.
+\end{proof}
+
+\closureat{LocatedUpperBoundUp}{seedStr}
+
+\begin{closurestatus}{\LocatedUpperBoundUp}
+  \constructivestory{A $\LocatedUpperBoundUp$ packet is generated from a located source row, an upper-bound comparison ledger, a StreamName finite-window schedule, a RegSeqRat readback row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-upper-bound-carrier}, \autoref{def:located-upper-bound-classifier}, \autoref{thm:located-upper-bound-namecert-obligations}, \autoref{thm:located-upper-bound-real-seal-handoff}, and \autoref{thm:located-upper-bound-supremum-route} seed the reusable upper-bound witness for L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected suprema, trichotomy, quotient cuts, host real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, source coverage, comparison exactness, regular readback compatibility, Real seal handoff, supremum routing, transport stability, replay stability, and provenance exhaustion for BEDC.Derived.LocatedUpperBoundUp.}
+\end{closurestatus}
