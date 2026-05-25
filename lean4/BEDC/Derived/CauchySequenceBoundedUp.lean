@@ -64,4 +64,49 @@ theorem CauchySequenceBoundedCarrier_ledger_nonescape [AskSetup] [PackageSetup]
       toleranceBoundReadback, provenanceTransportName, boundTransportLedger, ledgerRouteEscaped,
       namePkg, escapedPkg⟩
 
+theorem CauchySequenceBoundedCarrier_scoped_dependency_surface [AskSetup] [PackageSetup]
+    {schedule modulus tolerance readback realSeal bound transport route provenance name ledgerRead
+      escapedRead sealedConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySequenceBoundedCarrier schedule modulus tolerance readback realSeal bound transport
+        route provenance name bundle pkg ->
+      UnaryHistory transport ->
+        Cont bound transport ledgerRead ->
+          Cont ledgerRead route escapedRead ->
+            Cont escapedRead realSeal sealedConsumer ->
+              PkgSig bundle sealedConsumer pkg ->
+                UnaryHistory schedule ∧ UnaryHistory modulus ∧ UnaryHistory tolerance ∧
+                  UnaryHistory bound ∧ UnaryHistory transport ∧ UnaryHistory route ∧
+                    UnaryHistory provenance ∧ UnaryHistory ledgerRead ∧
+                      UnaryHistory escapedRead ∧ UnaryHistory sealedConsumer ∧
+                        Cont schedule modulus tolerance ∧ Cont tolerance bound readback ∧
+                          Cont readback route realSeal ∧ Cont provenance transport name ∧
+                            Cont bound transport ledgerRead ∧
+                              Cont ledgerRead route escapedRead ∧
+                                Cont escapedRead realSeal sealedConsumer ∧
+                                  PkgSig bundle name pkg ∧
+                                    PkgSig bundle sealedConsumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier transportUnary boundTransportLedger ledgerRouteEscaped escapedSealConsumer
+    sealedConsumerPkg
+  obtain ⟨scheduleUnary, modulusUnary, toleranceUnary, boundUnary, routeUnary,
+    provenanceUnary, scheduleModulusTolerance, toleranceBoundReadback, readbackRouteSeal,
+    provenanceTransportName, namePkg⟩ := carrier
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed toleranceUnary boundUnary toleranceBoundReadback
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed readbackUnary routeUnary readbackRouteSeal
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed boundUnary transportUnary boundTransportLedger
+  have escapedReadUnary : UnaryHistory escapedRead :=
+    unary_cont_closed ledgerReadUnary routeUnary ledgerRouteEscaped
+  have sealedConsumerUnary : UnaryHistory sealedConsumer :=
+    unary_cont_closed escapedReadUnary realSealUnary escapedSealConsumer
+  exact
+    ⟨scheduleUnary, modulusUnary, toleranceUnary, boundUnary, transportUnary, routeUnary,
+      provenanceUnary, ledgerReadUnary, escapedReadUnary, sealedConsumerUnary,
+      scheduleModulusTolerance, toleranceBoundReadback, readbackRouteSeal,
+      provenanceTransportName, boundTransportLedger, ledgerRouteEscaped, escapedSealConsumer,
+      namePkg, sealedConsumerPkg⟩
+
 end BEDC.Derived.CauchySequenceBoundedUp
