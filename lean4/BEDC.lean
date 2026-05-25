@@ -1266,6 +1266,7 @@ import BEDC.Derived.CauchyProductUp.CommutedBudgetRoute
 import BEDC.Derived.CauchyProductUp.L10DependencyLattice
 import BEDC.Derived.CauchyProductUp.LimitSealSiblingDependency
 import BEDC.Derived.CauchyProductUp.PairedWindowLedgerClassifier
+import BEDC.Derived.CauchyProductUp.PairedWindowSourceAdmission
 import BEDC.Derived.CauchyProductUp.ProductSealNonescape
 import BEDC.Derived.CauchyProductUp.PublicInterfaceExport
 import BEDC.Derived.CauchyProductUp.RadiusBudgetConservation
@@ -5302,7 +5303,6 @@ import BEDC.Derived.ReviewAcceptanceGateUp.TasteGate
 import BEDC.Derived.RiccatiUp
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
-import BEDC.Derived.RiemannIntegrabilityCriterionUp.TasteGate
 import BEDC.Derived.RiemannRearrangementUp
 import BEDC.Derived.RiemannStieltjesUp.TasteGate
 import BEDC.Derived.RiemannianMetricUp
