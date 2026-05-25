@@ -114,4 +114,44 @@ theorem BoundedNormalEqualityCheckerCarrier_finished_soundness_boundary [AskSetu
     ⟨normalLeftUnary, normalRightUnary, equalityUnary, equalityReadUnary, finishedReadUnary,
       equalityRoute, equalityReadRoute, finishedReadRoute, equalityReadSame, provenancePkg⟩
 
+theorem BoundedNormalEqualityCheckerCarrier_classifier_stability_row [AskSetup]
+    [PackageSetup]
+    {left right fuel normalLeft normalRight equality witness closed transport route provenance
+      nameCert leftRead rightRead fuelRead normalLeftRead normalRightRead equalityRead witnessRead
+      closedRead nameCertRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedNormalEqualityCheckerCarrier left right fuel normalLeft normalRight equality witness
+        closed transport route provenance nameCert bundle pkg ->
+      hsame leftRead left ->
+        hsame rightRead right ->
+          hsame fuelRead fuel ->
+            hsame normalLeftRead normalLeft ->
+              hsame normalRightRead normalRight ->
+                hsame equalityRead equality ->
+                  hsame witnessRead witness ->
+                    hsame closedRead closed ->
+                      hsame nameCertRead nameCert ->
+                        UnaryHistory leftRead ∧ UnaryHistory rightRead ∧
+                          UnaryHistory fuelRead ∧ UnaryHistory normalLeftRead ∧
+                            UnaryHistory normalRightRead ∧ UnaryHistory equalityRead ∧
+                              UnaryHistory witnessRead ∧ UnaryHistory closedRead ∧
+                                UnaryHistory nameCertRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame UnaryHistory
+  intro carrier leftSame rightSame fuelSame normalLeftSame normalRightSame equalitySame
+    witnessSame closedSame nameCertSame
+  obtain ⟨leftUnary, rightUnary, fuelUnary, normalLeftUnary, normalRightUnary,
+    equalityUnary, witnessUnary, closedUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    nameCertUnary, _leftRoute, _rightRoute, _equalityRoute, provenancePkg, _nameCertPkg⟩ :=
+    carrier
+  exact
+    ⟨unary_transport leftUnary (hsame_symm leftSame),
+      unary_transport rightUnary (hsame_symm rightSame),
+      unary_transport fuelUnary (hsame_symm fuelSame),
+      unary_transport normalLeftUnary (hsame_symm normalLeftSame),
+      unary_transport normalRightUnary (hsame_symm normalRightSame),
+      unary_transport equalityUnary (hsame_symm equalitySame),
+      unary_transport witnessUnary (hsame_symm witnessSame),
+      unary_transport closedUnary (hsame_symm closedSame),
+      unary_transport nameCertUnary (hsame_symm nameCertSame), provenancePkg⟩
+
 end BEDC.Derived.BoundedNormalEqualityCheckerUp

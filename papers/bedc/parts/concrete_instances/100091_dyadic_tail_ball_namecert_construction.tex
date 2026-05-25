@@ -109,6 +109,24 @@ The refinement hypothesis replaces $D,F$ by $D',F'$ without changing the ball co
 It remains to check that the refined packet exports only the same public route. This is exactly the late-window stability statement of \autoref{thm:dyadic-tail-ball-window-stability}: the refined rows $H',C',P',N'$ transport, replay, source, and name the packet without adding quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient Real completeness.
 \end{proof}
 
+\begin{theorem}[DyadicTailBall radius monotonicity]
+\label{thm:dyadic-tail-ball-radius-monotonicity}
+Let $T=(B,D,F,R,H,C,P,N)$ be an accepted $\DyadicTailBallUp$ packet. Suppose $B'$ is obtained from the dyadic-ball row $B$ by replacing the displayed radius row with a smaller displayed radius, while preserving the same center row, the same shared tail-bound ledger $D$, and the same $\RealCauchyCriterionUp$ consumer row $R$. If the refined containment ledger still receives the late-tail observations admitted through $F$, then the refined packet factors through the same route
+$$
+\DyadicTailBoundUp \longmapsto \RegularCauchyTailFilterUp \longmapsto \DyadicBallUp \longmapsto \RealCauchyCriterionUp .
+$$
+Thus radius refinement is a finite containment-refinement read, not a new convergence principle, quotient stream, selected limit, host real equality, trichotomy, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The only proposed change is the dyadic-ball radius coordinate inside $B$; the tail-bound ledger $D$, the regular late-tail route $F$, and the Real Cauchy criterion consumer $R$ are shared.
+
+Use the displayed radius refinement to form $B'$. Since the refined radius is smaller and the late-tail observations are assumed to enter the refined containment ledger, every containment read that reaches $B'$ still arrives from the same $D,F$ route.
+
+Apply \autoref{thm:dyadic-tail-ball-monotone-inclusion}. It identifies the accepted containment reads after the radius replacement with reads through the same dyadic-ball containment row and the same downstream consumer boundary.
+
+Finally, invoke late-window stability from \autoref{thm:dyadic-tail-ball-window-stability}. The structural rows transport, replay, source, and name the refined packet without adding quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient Real completeness.
+\end{proof}
+
 \begin{theorem}[Dyadic tail ball RealEquality consumer]
 \label{thm:dyadic-tail-ball-real-equality-consumer}
 Let $T=(B,D,F,R,H,C,P,N)$ be an accepted $\DyadicTailBallUp$ packet. Suppose the packet is presented as a monotone late-tail ball route in which the finite tail window accepted by the $\DyadicTailBallUp$ carrier is the same displayed $\StreamNameUp$ window used by two regular-rational readbacks. Then $T$ supplies exactly the dyadic tolerance ledger consumed by a $\RealEqualityUp$ classifier row over those two readbacks.

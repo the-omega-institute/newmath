@@ -73,4 +73,25 @@ theorem MetricClosedBallCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact source
   }
 
+theorem MetricClosedBallCarrier_metricball_boundary_handoff [AskSetup] [PackageSetup]
+    {X d c r rho m H C P N strict openRoute zMembership zNameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricClosedBallCarrier X d c r rho m H C P N bundle pkg ->
+      Cont m strict openRoute ->
+        hsame openRoute (append m strict) ∧
+          (hsame m (BHist.e0 zMembership) -> False) ∧
+            (hsame N (BHist.e0 zNameCert) -> False) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg UnaryHistory
+  intro carrier strictBoundary
+  obtain ⟨_XUnary, _dUnary, _cUnary, _rUnary, _rhoUnary, mUnary, _HUnary,
+    _CUnary, _PUnary, NUnary, _sourceRoute, _carrierMembership, _nameRoute,
+    _carrierMembershipSame, _pkgSig⟩ := carrier
+  constructor
+  · exact strictBoundary
+  constructor
+  · intro membershipZero
+    exact unary_no_zero_extension (unary_transport mUnary membershipZero)
+  · intro nameCertZero
+    exact unary_no_zero_extension (unary_transport NUnary nameCertZero)
+
 end BEDC.Derived.MetricClosedBallUp
