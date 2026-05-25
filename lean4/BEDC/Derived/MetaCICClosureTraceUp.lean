@@ -36,4 +36,27 @@ theorem MetaCICClosureTraceCarrier_substitution_shift_generator_package
     pkgSig⟩ := carrier
   exact ⟨SUnary, UUnary, VUnary, GUnary, shiftSubstitution, generatorPackage, pkgSig⟩
 
+theorem MetaCICClosureTraceCarrier_beta_star_preservation_readback
+    [AskSetup] [PackageSetup] {S U V B R G K H C P N betaRead routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ->
+      Cont B R betaRead ->
+        Cont betaRead C routeRead ->
+          hsame betaRead R ->
+            UnaryHistory B ∧ UnaryHistory R ∧ UnaryHistory betaRead ∧
+              UnaryHistory routeRead ∧ Cont B R betaRead ∧ Cont betaRead C routeRead ∧
+                hsame betaRead R ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier betaReadRoute routeReadRoute betaReadSame
+  obtain ⟨_SUnary, _UUnary, _VUnary, BUnary, RUnary, _GUnary, _KUnary, _HUnary,
+    CUnary, _PUnary, _NUnary, _shiftSubstitution, _generatorPackage, _betaRoute, pkgSig⟩ :=
+    carrier
+  have betaReadUnary : UnaryHistory betaRead :=
+    unary_cont_closed BUnary RUnary betaReadRoute
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed betaReadUnary CUnary routeReadRoute
+  exact
+    ⟨BUnary, RUnary, betaReadUnary, routeReadUnary, betaReadRoute, routeReadRoute,
+      betaReadSame, pkgSig⟩
+
 end BEDC.Derived.MetaCICClosureTraceUp

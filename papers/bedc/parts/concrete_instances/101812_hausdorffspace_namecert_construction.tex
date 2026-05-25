@@ -74,6 +74,22 @@ The distance value is visible only through the $\RealUp$ seal $E$. Positivity th
 The handoff then lands in $U,V,D$. These rows are already topology rows in the carrier: $U$ and $V$ are open neighborhoods of $x$ and $y$, and $D$ is their disjointness ledger. Componentwise transport and replay through $H,C$ preserve this factorization for downstream consumers.
 \end{proof}
 
+\begin{theorem}[HausdorffSpace open-neighborhood classifier transport]
+\label{thm:hausdorff-space-open-neighborhood-classifier-transport}
+Let
+$$
+S=(T,x,y,U,V,D,M,E,H,C,P,N)
+$$
+be an accepted $\HausdorffSpaceUp$ carrier. Transporting any accepted separated-neighborhood read along the componentwise row $H$ preserves the topology source $T$, point rows $x,y$, open-neighborhood rows $U,V$, disjointness ledger $D$, optional metric row $M$, and optional $\RealUp$ seal row $E$. Consequently the transported classifier still reads separation through the same displayed open-neighborhood and disjointness rows, and it cannot replace the read by quotient point equality, selected representatives, host point apartness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hausdorff-space-carrier}. The only classifier-visible topology data are $T,x,y,U,V,D$, with optional metric and real handoff rows $M,E$ attached to the same packet.
+
+Use the NameCert obligation rows of \autoref{thm:hausdorff-space-namecert-obligations}. They require classifier transport to preserve $T,x,y,U,V,D$ through the componentwise $\hsame$ row $H$, and require metric-generated reads to return through $M,E$ before yielding the same neighborhood rows.
+
+The replay row $C$ then repeats the displayed route from the point-pair comparison to $U,V,D$. Since the carrier has no coordinate for quotient point equality, selected representatives, host point apartness, or ambient completeness, transport cannot create one for the classifier to read.
+\end{proof}
+
 \begin{theorem}[HausdorffSpace Real seal nonescape]
 \label{thm:hausdorff-space-realseal-nonescape}
 Every completion-facing or Real-facing consumer of an accepted $\HausdorffSpaceUp$ carrier
