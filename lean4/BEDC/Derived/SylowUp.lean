@@ -108,4 +108,37 @@ theorem SylowCarrier_namecert_obligations [AskSetup] [PackageSetup]
     ⟨cert, groupUnary, subgroupUnary, primeUnary, exponentUnary, coverageUnary, actionUnary,
       transportUnary, consumerUnary, provenancePkg⟩
 
+theorem SylowCarrier_conjugacy_transport [AskSetup] [PackageSetup]
+    {groupRow subgroupRow subgroupRow' primeRow exponentRow coverageRow coverageRow' actionRow
+      actionRow' transportRow transportRow' consumerRow consumerRow' hsameRow hsameRow'
+      provenance provenance' localCert localCert' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SylowCarrier groupRow subgroupRow primeRow exponentRow coverageRow actionRow transportRow
+        consumerRow hsameRow provenance localCert bundle pkg →
+      SylowCarrier groupRow subgroupRow' primeRow exponentRow coverageRow' actionRow'
+          transportRow' consumerRow' hsameRow' provenance' localCert' bundle pkg →
+        hsame coverageRow coverageRow' →
+          hsame actionRow actionRow' →
+            hsame transportRow transportRow' ∧ UnaryHistory transportRow ∧
+              UnaryHistory transportRow' ∧ Cont coverageRow actionRow transportRow ∧
+                Cont coverageRow' actionRow' transportRow' := by
+  -- BEDC touchpoint anchor: BHist hsame UnaryHistory Cont ProbeBundle Pkg
+  intro carrier carrier' sameCoverage sameAction
+  obtain ⟨_groupUnary, _subgroupUnary, _primeUnary, _exponentUnary, _coverageUnary,
+    _actionUnary, transportUnary, _consumerUnary, _hsameUnary, _provenanceUnary,
+    _localCertUnary, _coverageRoute, transportRoute, _consumerRoute,
+    _sameConsumerProvenance, _sameHsameProvenance, _provenancePkg,
+    _localCertPkg⟩ := carrier
+  obtain ⟨_groupUnary', _subgroupUnary', _primeUnary', _exponentUnary', coverageUnary',
+    actionUnary', transportUnary', _consumerUnary', _hsameUnary', _provenanceUnary',
+    _localCertUnary', _coverageRoute', transportRoute', _consumerRoute',
+    _sameConsumerProvenance', _sameHsameProvenance', _provenancePkg',
+    _localCertPkg'⟩ := carrier'
+  cases sameCoverage
+  cases sameAction
+  have sameTransport : hsame transportRow transportRow' :=
+    transportRoute.trans transportRoute'.symm
+  exact
+    ⟨sameTransport, transportUnary, transportUnary', transportRoute, transportRoute'⟩
+
 end BEDC.Derived.SylowUp
