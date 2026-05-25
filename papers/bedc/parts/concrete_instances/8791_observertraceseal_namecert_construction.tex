@@ -63,19 +63,35 @@ Now attach the seal row $R$. The refusal ledger is part of the same accepted pac
 
 The seal row plus the no-subject refusal ledger prevents a bijection to any sibling carrier. $\ObserverHistIdentityUp$ supplies identity comparison without a sealed trace row, $\ObserverKernelTraceUp$ supplies trace exposure without the extra seal obligation, $\ObserverDistinctionTraceUp$ orders distinction steps without bounded trace readback, $\BoundedUniversalTraceUp$ supplies a fuel-indexed trace without observer-history identity, and $\FiniteTraceEvaluatorUp$ supplies finite evaluation without the no-subject seal.
 
+\begin{theorem}[ObserverTraceSeal public export]
+\label{thm:observer-trace-seal-public-export}
+Every public export of an accepted $\ObserverTraceSealUp$ packet is exactly the displayed observer row, trace row, observation row, no-subject seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row
+$$
+O,T,A,R,H,C,P,N .
+$$
+The export contains no observer-substance carrier, detached trace owner, host equality of observers, quotient observer identity, hidden subject row, or evaluator graph outside the sealed packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:observer-trace-seal-carrier}. Its rows are exactly the observer row $O$, trace row $T$, observation row $A$, seal and no-subject refusal row $R$, transport $H$, replay $C$, provenance $P$, and local naming row $N$.
+
+Apply the NameCert obligations of \autoref{thm:observer-trace-seal-namecert-obligations}. They force every accepted public read through carrier admission, observer and trace exposure, no-subject refusal, transport, replay, provenance, and local naming before the trace can be exported.
+
+Finally use \autoref{thm:observer-trace-seal-non-subject-nonescape}. The absent observer-substance, detached owner, host equality, quotient identity, hidden subject, and external evaluator graph have no coordinate in the carrier, so the public export is exactly the displayed finite surface.
+\end{proof}
+
 \closureat{ObserverTraceSealUp}{seedStr}
 \closureat{ObserverTraceSealUp}{obligationStr}[BEDC.Derived.ObserverTraceSealUp.ObserverTraceSealUp\_taste\_gate\_boundary]
-\closureat{ObserverTraceSealUp}{scopedStr}[BEDC.Derived.ObserverTraceSealUp.ObserverTraceSealUp\_taste\_gate\_boundary]
+\closureat{ObserverTraceSealUp}{publicStr}[BEDC.Derived.ObserverTraceSealUp.ObserverTraceSealUp\_taste\_gate\_boundary]
 
 \begin{closurestatus}{\ObserverTraceSealUp}
   \constructivestory{An $\ObserverTraceSealUp$ packet is generated from an observer row, trace row, observation row, seal and no-subject refusal ledger, componentwise hsame transport, displayed Cont routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:observer-trace-seal-carrier}, \autoref{thm:observer-trace-seal-namecert-obligations}, and \autoref{thm:observer-trace-seal-non-subject-nonescape} specify the finite sealed trace packet and its no-subject boundary.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:observer-trace-seal-carrier}, \autoref{thm:observer-trace-seal-namecert-obligations}, \autoref{thm:observer-trace-seal-non-subject-nonescape}, and \autoref{thm:observer-trace-seal-public-export} specify the finite sealed trace packet, its no-subject boundary, and its public export surface.}
   \formalstatus{\axiomCleanV}
   \leanchecked{BEDC.Derived.ObserverTraceSealUp.taste\_gate}
   \leantarget{BEDC.Derived.ObserverTraceSealUp.ObserverTraceSealUp\_taste\_gate\_boundary}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, a host observer model, quotient observer identity, detached trace ownership, or evaluator graph semantics.}
-  \upgradepath{Public closure requires a bridge-facing consumer surface for the same displayed observer, trace, seal, transport, replay, provenance, and local naming rows.}
+  \upgradepath{Bridge closure requires a bridge-facing consumer surface for the same displayed observer, trace, seal, transport, replay, provenance, and local naming rows.}
 \end{closurestatus}
