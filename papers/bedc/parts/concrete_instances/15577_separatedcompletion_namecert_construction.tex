@@ -125,6 +125,24 @@ The transport and replay rows $H,R,T$ can move this boundary componentwise, but 
 Therefore every public uniqueness export is the local $U$ boundary over $M,D,C,Z$. The excluded quotient, representative, host-equality, choice, Real-completeness, and hidden-complete-space objects are absent from the carrier and cannot be exported.
 \end{proof}
 
+\begin{theorem}[SeparatedCompletion dense uniqueness interface]
+\label{thm:separatedcompletion-dense-uniqueness-interface}
+Let
+$$
+S=(M,D,C,Z,U,H,R,T,P,N)
+\quad\text{and}\quad
+S'=(M,D,C,Z,U',H',R',T',P,N')
+$$
+be accepted $\SeparatedCompletionUp$ carriers with the same dense-source route $M,D,C$ and the same zero-distance separated classifier $Z$. Then any completion-facing comparison between their exports exposes the same limit-uniqueness boundary through $U,U'$ together with the displayed transport and replay rows. It exports no quotient representative, no selected completion point, no host equality of completed points, no countable-choice schedule, and no ambient $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Use the dense factorization of \autoref{thm:separated-completion-dense-factorization}. Every completion-facing read of either packet first passes through the shared source metric, dense embedding, and completion handoff rows $M,D,C$.
+
+Use the zero-distance factorization of \autoref{thm:separatedcompletion-zero-distance-factorization}. Since the separated classifier row $Z$ is also shared, the comparison is read as zero-distance evidence over the same finite route rather than as host equality of completed points.
+
+Apply the limit-uniqueness export of \autoref{thm:separatedcompletion-limit-uniqueness-export} to both packets. The only remaining uniqueness data are $U,U'$ and the displayed transport and replay rows $H,R,T$ and $H',R',T'$. The carrier has no quotient representative, selected completion point, choice schedule, or ambient completeness coordinate, so the dense uniqueness interface exports exactly that local boundary.
+\end{proof}
+
 \begin{theorem}[SeparatedCompletion non-escape]
 \label{thm:separated-completion-nonescape}
 Every accepted $\SeparatedCompletionUp$ carrier exports only the rows
@@ -143,7 +161,7 @@ The uniqueness boundary of \autoref{thm:separated-completion-uniqueness-boundary
 
 \begin{closurestatus}{\SeparatedCompletionUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:separated-completion-carrier}, \autoref{thm:separated-completion-namecert-obligations}, \autoref{thm:separated-completion-dense-factorization}, \autoref{thm:separated-completion-uniqueness-boundary}, \autoref{thm:separatedcompletion-cauchy-equivalence-source}, \autoref{thm:separatedcompletion-zero-distance-factorization}, \autoref{thm:separatedcompletion-limit-uniqueness-export}, and \autoref{thm:separated-completion-nonescape} seed the general separated-completion interface over finite source metric, dense embedding, completion handoff, separated classifier, uniqueness boundary, transport, replay, provenance, and local naming rows.}
+  \scopeclosed{\autoref{def:separated-completion-carrier}, \autoref{thm:separated-completion-namecert-obligations}, \autoref{thm:separated-completion-dense-factorization}, \autoref{thm:separated-completion-uniqueness-boundary}, \autoref{thm:separatedcompletion-cauchy-equivalence-source}, \autoref{thm:separatedcompletion-zero-distance-factorization}, \autoref{thm:separatedcompletion-limit-uniqueness-export}, \autoref{thm:separatedcompletion-dense-uniqueness-interface}, and \autoref{thm:separated-completion-nonescape} seed the general separated-completion interface over finite source metric, dense embedding, completion handoff, separated classifier, uniqueness boundary, transport, replay, provenance, and local naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient completions, selected representatives, host equality of completed points, countable choice, ambient $\RealUp$ completeness, hidden complete metric spaces, Lean verification, or bridge checking.}
