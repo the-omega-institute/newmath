@@ -85,6 +85,26 @@ The readback rows $R$ and $L$ are later than $B$. They expose regular rational a
 The carrier omits selected completion points, quotient nets, global completeness, and host-level equality of boundary points. Hence the completion boundary exported by $M$ is exactly the finite Moore--Smith convergence boundary named by the same packet.
 \end{proof}
 
+\begin{theorem}[Moore--Smith convergence obligation exhaustion]
+\label{thm:moore-smith-convergence-obligation-exhaustion}
+For every accepted $\MooreSmithConvergenceUp$ carrier $M=(D,V,U,C,B,R,L,H,K,P,N)$, every consumer-visible convergence read is exhausted by the displayed rows
+$$
+D,V,U,C,B,R,L,H,K,P,N .
+$$
+The rows are, respectively, the directed index window, value window, uniform entourage, $\CauchyNetUp$ tail, completion boundary, $\RegSeqRatUp$ readback, $\RealUp$ readback, componentwise transport, replay, provenance, and local $\NameCert$. Quotient nets, selected limits, cofinal choice, and ambient completeness have no coordinate in the accepted packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:moore-smith-convergence-carrier}. The tuple exposes exactly the directed index window $D$, value window $V$, uniform entourage row $U$, Cauchy tail row $C$, completion boundary row $B$, readback rows $R$ and $L$, transport row $H$, replay row $K$, provenance row $P$, and local name row $N$.
+
+Apply the NameCert obligations of \autoref{thm:moore-smith-convergence-namecert-obligations}. They account for carrier admission, directed-tail coverage, net-value exposure, Cauchy compatibility, completion-boundary exposure, and ledger non-escape using only those projected rows.
+
+Next apply the uniform handoff of \autoref{thm:moore-smith-convergence-uniform-handoff}. It forces every uniform-facing convergence read through $D$, $U$, $V$, $C$, and $B$ before any boundary information is available.
+
+Finally apply the completion boundary theorem \autoref{thm:moore-smith-convergence-completion-boundary}. It places the $\RegSeqRatUp$ and $\RealUp$ readbacks downstream of $B$ and prevents them from reading an independent completion object.
+
+The excluded data have no projected coordinate. There is no row for a quotient net, selected limit, cofinal choice operator, or ambient completeness theorem, so ledger non-escape records such requests outside the packet rather than exporting them as convergence evidence.
+\end{proof}
+
 \closureat{MooreSmithConvergenceUp}{seedStr}
 
 \begin{closurestatus}{\MooreSmithConvergenceUp}
