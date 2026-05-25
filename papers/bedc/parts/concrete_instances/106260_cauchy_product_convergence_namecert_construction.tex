@@ -69,6 +69,16 @@ The readback stage is $R,W$. The regular rational row and stream-name row use th
 Finally the seal stage is $E,H,C,Q,N$. The $\RealUp$ seal is reached only after the readback rows, and the structural rows transport, replay, package, and name the same finite route.
 \end{proof}
 
+\begin{theorem}[Cauchy product convergence tail-budget fusion]
+\label{thm:cauchy-product-convergence-tail-budget-fusion}
+Every accepted $\CauchyProductConvergenceUp$ tail-control row that consumes a $\MertensCauchyProductTheoremUp$ surface factors through \autoref{ch:concrete-instances-mertens-cauchy-product-theorem-namecert} before the $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RealUp$ seal rows are read. In the carrier $K=(A,B,P,T,R,D,W,E,H,C,Q,N)$, the theorem packet is consumed by the source-window and tail-control stage $A,B,P,T$, while $R,D,W,E$ only read the resulting finite product route.
+\end{theorem}
+\begin{proof}
+Start with the carrier route of \autoref{thm:cauchy-product-convergence-tail-handoff}. Its first stage consumes $A,B,P,T$, and the provenance row $Q$ already names $\MertensCauchyProductTheoremUp$ among the package sources.
+
+The readback rows $R,D,W,E$ occur only after this stage. Therefore a consumer cannot read regular rational, dyadic, stream-name, or Real-seal data for the product tail until the Mertens theorem packet has fixed the finite product-window surface.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\CauchyProductConvergenceUp$ consumer that reaches a terminal $\RealUp$ seal while omitting a source row, product window, tail-control row, DyadicRatCore tolerance ledger, RegSeqRat readback, StreamName window, transport row, replay row, provenance row, or local naming row refutes the packet.}
 
 \closureat{CauchyProductConvergenceUp}{seedStr}
