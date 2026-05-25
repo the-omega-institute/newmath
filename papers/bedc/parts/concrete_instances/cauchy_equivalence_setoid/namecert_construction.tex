@@ -94,6 +94,20 @@ Use \autoref{thm:cauchy-equivalence-setoid-classifier-laws} for the setoid tests
 The Real seal row $E$ is downstream of the displayed classifier route, and $C,P,N$ only replay, source, and name that route. Therefore the local NameCert surface is exhausted by the listed obligations and cannot export any of the excluded completion or equality objects.
 \end{proof}
 
+\begin{theorem}[CauchyEquivalenceSetoid RealEquality consumer route]
+\label{thm:cauchy-equivalence-setoid-real-equality-consumer-route}
+Every $\RealEqualityUp$ consumer of an accepted $\CauchyEquivalenceSetoidUp$ packet $Q=(S_0,S_1,R_0,R_1,D,T,E,H,C,P,N)$ must read the two $\StreamNameUp$ windows $S_0,S_1$, the two $\RegSeqRatUp$ readbacks $R_0,R_1$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the setoid-test row $T$, the $\RealUp$ seal boundary $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$ before it reaches the $\RealEqualityUp$ classifier boundary of \autoref{ch:concrete-instances-real-equality-namecert}. The consumer route has no coordinate for quotient stream equality, host real equality, selected limits, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-equivalence-setoid-carrier}. The visible inputs are exactly the two stream windows, two regular-rational readbacks, one dyadic ledger, the setoid-test row, the real seal, and the structural support rows.
+
+Apply the classifier laws of \autoref{thm:cauchy-equivalence-setoid-classifier-laws}. They require every reflexive, symmetric, or transitive setoid read to remain a finite test over $S_0,S_1,R_0,R_1,D$ before the seal row is consumed.
+
+Use \autoref{thm:cauchy-equivalence-setoid-transport} for the componentwise handoff and \autoref{thm:cauchy-equivalence-setoid-namecert-surface} for local certification. The rows $H,C,P,N$ transport, replay, source, and name the same route, while $E$ remains the downstream $\RealUp$ boundary feeding the $\RealEqualityUp$ classifier.
+
+Since the accepted packet lists no quotient, host-equality, selected-limit, choice, or ambient-completeness coordinate, a $\RealEqualityUp$ consumer can inspect only the displayed finite route before reaching the sibling equality classifier.
+\end{proof}
+
 \begin{theorem}[CauchyEquivalenceSetoid downstream equality dependency]
 \label{thm:cauchy-equivalence-setoid-downstream-equality-dependency}
 Let $Q=(S_0,S_1,R_0,R_1,D,T,E,H,C,P,N)$ be an accepted $\CauchyEquivalenceSetoidUp$ carrier. Every $\RealClassifier$ or $\MetricCompletionUp$ equality-facing consumer of $Q$ reads the setoid surface only through the route
@@ -108,6 +122,22 @@ Start from the NameCert surface of \autoref{thm:cauchy-equivalence-setoid-namece
 Use \autoref{thm:cauchy-equivalence-setoid-classifier-laws} for the finite equality tests stored in $T$. Reflexivity, symmetry, and transitivity therefore remain classifier rows over the same windows, readback rows, and dyadic tolerance ledger rather than a detached host equality.
 
 Use \autoref{thm:cauchy-equivalence-setoid-transport} for the componentwise handoff to downstream readers. The sibling dependency paragraph below the surface theorem places this same route next to the StreamName, RegSeqRat, DyadicRatCore, and Real chapters, so a $\RealClassifier$ or $\MetricCompletionUp$ consumer receives only the routed packet $S_0,S_1,R_0,R_1,D,T,E,H,C,P,N$ before any completion-facing read.
+\end{proof}
+
+\begin{theorem}[CauchyEquivalenceSetoid tail transitivity]
+\label{thm:cauchy-equivalence-setoid-tail-transitivity}
+Let accepted $\CauchyEquivalenceSetoidUp$ tests share compatible $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, and $\DyadicRatCoreUp$ tolerance ledgers through the displayed classifier row $T$. Any downstream $\RealClassifier$ or $\MetricCompletionUp$ equality-facing read receives the composed finite route
+$$
+S_0,S_1 \longmapsto R_0,R_1 \longmapsto D \longmapsto T \longmapsto E \longmapsto H,C,P,N
+$$
+before any seal boundary is available. The composition is a finite classifier route through $S_0,S_1,R_0,R_1,D,T,E,H,C,P,N$, not quotient stream equality, host real equality, a selected limit, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Use the classifier laws of \autoref{thm:cauchy-equivalence-setoid-classifier-laws}. The transitivity row in $T$ concatenates compatible finite comparison witnesses through the shared middle readback side, and the dyadic refinement rows in $D$ discharge the resulting tolerance request.
+
+Next apply the transport theorem \autoref{thm:cauchy-equivalence-setoid-transport}. It keeps the two stream windows, the two regular-rational readbacks, the dyadic ledger, the classifier row, and the seal row componentwise stable under $\hsame$ handoff.
+
+Finally use the downstream equality dependency theorem. It orders every $\RealClassifier$ or $\MetricCompletionUp$ equality-facing read through the displayed stream, readback, dyadic, classifier, seal, transport, replay, provenance, and naming rows before any completion-facing boundary is reached. The carrier has no coordinate for quotient equality or host selection principles, so the composed tail-transitivity read remains inside the finite route.
 \end{proof}
 
 The setoid-test row is consumed through the finite-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal $\RealUp$ seal boundary of \autoref{ch:concrete-instances-real-namecert}. Downstream Cauchy locatedness and selection-free real consumers therefore read the equality-facing classifier through those concrete sibling edges rather than through a detached kernel-only equality object.

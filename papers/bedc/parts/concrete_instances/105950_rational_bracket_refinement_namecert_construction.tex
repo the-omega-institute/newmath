@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RationalBracketRefinementUp$}
+\label{ch:concrete-instances-rational-bracket-refinement-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RationalBracketRefinementUp$ packet records the finite rational operation that tightens a displayed bracket after a dyadic tolerance request and before the terminal $\RealUp$ seal is read. It sits over the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the finite bracketing surface of \autoref{ch:concrete-instances-finite-bracketing-interval-namecert}, and the Archimedean approximation boundary of \autoref{ch:concrete-instances-archimedeanapproximation-namecert}. The packet names refinement as finite rational bracket data; it is not a host-order trichotomy principle, a quotient-real equality test, a selected limiting interval, or a completeness theorem.
+
+\begin{definition}[RationalBracketRefinement carrier]
+\label{def:rational-bracket-refinement-carrier}
+A $\RationalBracketRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+R=(B,\epsilon,L,U,L',U',W,G,A,E,H,C,P,N)
+$$
+with the following rows:
+\begin{itemize}
+\item $B$ is the incoming $\FiniteBracketingIntervalUp$ bracket row.
+\item $\epsilon$ is the $\DyadicRatCoreUp$ tolerance row that controls the requested rational refinement scale.
+\item $L,U$ are the incoming rational endpoint rows and $L',U'$ are the displayed refined rational endpoint rows.
+\item $W$ is the $\StreamNameUp$ finite observation window used to inspect the named object.
+\item $G$ is the $\RegSeqRatUp$ readback row extracted from $W$.
+\item $A$ is the $\ArchimedeanApproximationUp$ row that supplies the finite bound and scale comparison used by the refinement.
+\item $E$ is the terminal $\RealUp$ seal reached only after the refined bracket has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the bracket, tolerance, endpoint, window, readback, approximation, real seal, replay, provenance, and local name.
+\item $C$ is the displayed $\Cont$ replay row for the same finite route.
+\item $P$ is the $\Pkg$ provenance over $\RationalBracketRefinementUp$, $\FiniteBracketingIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\ArchimedeanApproximationUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RationalBracketRefinementUp}$ row.
+\end{itemize}
+The carrier accepts only packets in which the refined endpoints are read after the tolerance row and before the real seal, using the same finite window, regular rational readback, and Archimedean approximation rows.
+\end{definition}
+
+\begin{theorem}[RationalBracketRefinement NameCert obligations]
+\label{thm:rational-bracket-refinement-namecert-obligations}
+For every accepted $\RationalBracketRefinementUp$ carrier
+$$
+R=(B,\epsilon,L,U,L',U',W,G,A,E,H,C,P,N),
+$$
+the local $\NameCert_{\RationalBracketRefinementUp}$ surface consists exactly of carrier admission for the incoming $\FiniteBracketingIntervalUp$ bracket, $\DyadicRatCoreUp$ tolerance, incoming and refined rational endpoint rows, $\StreamNameUp$ finite window, $\RegSeqRatUp$ readback, $\ArchimedeanApproximationUp$ scale row, $\RealUp$ terminal seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No obligation may read host real order, quotient equality of real names, trichotomy, selected infinite refinement, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:rational-bracket-refinement-carrier}. The rows $B,\epsilon,L,U,L',U',W,G,A,E,H,C,P,N$ are the entire inventory available to the local certificate.
+
+The bracket row $B$ supplies the incoming endpoint surface, and the dyadic tolerance row $\epsilon$ fixes the finite refinement scale. The refined endpoint rows $L',U'$ are therefore checked against displayed rational and dyadic data, not against a host real-order oracle.
+
+The window row $W$ and the readback row $G$ keep the inspected object on the $\StreamNameUp$ and $\RegSeqRatUp$ route. The Archimedean approximation row $A$ supplies the finite scale handoff, and the real seal $E$ is available only after those rows have been displayed.
+
+Transport, replay, provenance, and local naming are the remaining structural rows $H,C,P,N$. Since the carrier has no coordinate for trichotomy, quotient equality, selected infinite refinement, or completeness, none of those principles can enter the local $\NameCert$ obligations.
+\end{proof}
+
+\begin{theorem}[RationalBracketRefinement L10 handoff]
+\label{thm:rational-bracket-refinement-l10-handoff}
+Every Real-facing or Completion-facing consumer of an accepted $\RationalBracketRefinementUp$ packet reaches the refined rational bracket only through the finite route
+$$
+\FiniteBracketingIntervalUp,\ \DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \ArchimedeanApproximationUp \longmapsto \RealUp .
+$$
+The handoff displays the incoming bracket, the dyadic tolerance, the regular rational readback, and the Archimedean scale row before the terminal $\RealUp$ seal is exported.
+\end{theorem}
+\begin{proof}
+Begin with a consumer requesting a refined bracket for a displayed real name. The incoming bracket row $B$ and the dyadic tolerance row $\epsilon$ are read first, so the refinement request has a finite endpoint surface and a finite scale.
+
+Next open the finite window $W$ and its regular rational readback $G$. These rows keep the computation on the StreamName and RegSeqRat route before any Real-facing consumer can inspect the terminal seal.
+
+The Archimedean approximation row $A$ binds the bound and scale data to the same finite packet, and the refined endpoint rows $L',U'$ are then available as rational bracket data. The real seal $E$ is exported only after this displayed route has been traversed.
+
+Because the route never introduces host order, quotient equality, selected limiting intervals, or completeness, the handoff exports only the finite rational bracket refinement surface named by the carrier.
+\end{proof}
+
+\closureat{RationalBracketRefinementUp}{seedStr}
+
+\begin{closurestatus}{\RationalBracketRefinementUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-bracket-refinement-carrier}, \autoref{thm:rational-bracket-refinement-namecert-obligations}, and \autoref{thm:rational-bracket-refinement-l10-handoff} seed the finite rational bracket refinement route over finite brackets, dyadic tolerance, incoming and refined rational endpoint rows, StreamName windows, RegSeqRat readback, Archimedean approximation, Real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real order, quotient real equality, trichotomy, selected infinite refinement, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance routing, endpoint refinement exactness, StreamName window exposure, RegSeqRat readback, Archimedean scale handoff, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RationalBracketRefinementUp.}
+  \constructivestory{A $\RationalBracketRefinementUp$ packet is generated from an incoming FiniteBracketingInterval bracket row, DyadicRatCore tolerance row, incoming and refined rational endpoint rows, StreamName finite observation windows, RegSeqRat readback, ArchimedeanApproximation scale data, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
