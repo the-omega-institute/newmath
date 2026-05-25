@@ -162,6 +162,39 @@ private theorem heatEquationFiniteStencilToEventFlow_injective
   cases optionEq
   rfl
 
+private theorem heatEquationFiniteStencil_fields_faithful :
+    ∀ x y : HeatEquationFiniteStencilUp,
+      heatEquationFiniteStencilFields x = heatEquationFiniteStencilFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk sourceWindow₁ timeStep₁ spatialStencil₁ boundary₁ replay₁ realSeal₁ transport₁
+      continuation₁ provenance₁ name₁ =>
+      cases y with
+      | mk sourceWindow₂ timeStep₂ spatialStencil₂ boundary₂ replay₂ realSeal₂ transport₂
+          continuation₂ provenance₂ name₂ =>
+          injection h with hSourceWindow rest₁
+          injection rest₁ with hTimeStep rest₂
+          injection rest₂ with hSpatialStencil rest₃
+          injection rest₃ with hBoundary rest₄
+          injection rest₄ with hReplay rest₅
+          injection rest₅ with hRealSeal rest₆
+          injection rest₆ with hTransport rest₇
+          injection rest₇ with hContinuation rest₈
+          injection rest₈ with hProvenance rest₉
+          injection rest₉ with hName _
+          cases hSourceWindow
+          cases hTimeStep
+          cases hSpatialStencil
+          cases hBoundary
+          cases hReplay
+          cases hRealSeal
+          cases hTransport
+          cases hContinuation
+          cases hProvenance
+          cases hName
+          rfl
+
 instance heatEquationFiniteStencilBHistCarrier : BHistCarrier HeatEquationFiniteStencilUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := heatEquationFiniteStencilToEventFlow
@@ -179,37 +212,53 @@ instance heatEquationFiniteStencilChapterTasteGate :
     intro x y hxy heq
     exact hxy (heatEquationFiniteStencilToEventFlow_injective heq)
 
+instance heatEquationFiniteStencilFieldFaithful : FieldFaithful HeatEquationFiniteStencilUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := heatEquationFiniteStencilFields
+  field_faithful := heatEquationFiniteStencil_fields_faithful
+
+instance heatEquationFiniteStencilNontrivial : BEDC.Meta.TasteGate.Nontrivial
+    HeatEquationFiniteStencilUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨HeatEquationFiniteStencilUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      HeatEquationFiniteStencilUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def HeatEquationFiniteStencilTasteGate_single_carrier_alignment_taste_gate :
     ChapterTasteGate HeatEquationFiniteStencilUp :=
   -- BEDC touchpoint anchor: BHist BMark
   heatEquationFiniteStencilChapterTasteGate
 
 theorem HeatEquationFiniteStencilTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
-      heatEquationFiniteStencilDecodeBHist (heatEquationFiniteStencilEncodeBHist h) = h) ∧
-      (∀ x : HeatEquationFiniteStencilUp,
-        heatEquationFiniteStencilFromEventFlow (heatEquationFiniteStencilToEventFlow x) =
-          some x) ∧
-        (∀ x y : HeatEquationFiniteStencilUp,
-          heatEquationFiniteStencilToEventFlow x = heatEquationFiniteStencilToEventFlow y ->
-            x = y) ∧
-          heatEquationFiniteStencilEncodeBHist BHist.Empty = ([] : List BMark) := by
+    Nonempty (ChapterTasteGate HeatEquationFiniteStencilUp) ∧
+      Nonempty (FieldFaithful HeatEquationFiniteStencilUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial HeatEquationFiniteStencilUp) ∧
+          (∀ h : BHist,
+            heatEquationFiniteStencilDecodeBHist (heatEquationFiniteStencilEncodeBHist h) =
+              h) ∧
+            (∀ x : HeatEquationFiniteStencilUp,
+              heatEquationFiniteStencilFromEventFlow (heatEquationFiniteStencilToEventFlow x) =
+                some x) ∧
+              (∀ x y : HeatEquationFiniteStencilUp,
+                heatEquationFiniteStencilToEventFlow x =
+                    heatEquationFiniteStencilToEventFlow y →
+                  x = y) ∧
+                heatEquationFiniteStencilEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact heatEquationFiniteStencil_decode_encode
-  constructor
-  · exact heatEquationFiniteStencil_round_trip
-  constructor
-  · intro x y hxy
-    have optionEq : some x = some y := by
-      calc
-        some x = heatEquationFiniteStencilFromEventFlow (heatEquationFiniteStencilToEventFlow x) :=
-          (heatEquationFiniteStencil_round_trip x).symm
-        _ = heatEquationFiniteStencilFromEventFlow (heatEquationFiniteStencilToEventFlow y) :=
-          congrArg heatEquationFiniteStencilFromEventFlow hxy
-        _ = some y := heatEquationFiniteStencil_round_trip y
-    cases optionEq
-    rfl
-  · rfl
+  exact
+    ⟨Nonempty.intro heatEquationFiniteStencilChapterTasteGate,
+      Nonempty.intro heatEquationFiniteStencilFieldFaithful,
+      Nonempty.intro heatEquationFiniteStencilNontrivial,
+      heatEquationFiniteStencil_decode_encode,
+      heatEquationFiniteStencil_round_trip,
+      (by
+        intro x y heq
+        exact heatEquationFiniteStencilToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.HeatEquationFiniteStencilUp

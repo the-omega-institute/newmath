@@ -1309,6 +1309,7 @@ import BEDC.Derived.CauchyProductUp.L10DependencyLattice
 import BEDC.Derived.CauchyProductUp.LimitSealSelectorCoherence
 import BEDC.Derived.CauchyProductUp.LimitSealSiblingDependency
 import BEDC.Derived.CauchyProductUp.PairedWindowLedgerClassifier
+import BEDC.Derived.CauchyProductUp.PairedWindowRegularityExhaustion
 import BEDC.Derived.CauchyProductUp.PairedWindowSourceAdmission
 import BEDC.Derived.CauchyProductUp.ProductObservationSealObligations
 import BEDC.Derived.CauchyProductUp.ProductSealNonescape
@@ -1322,6 +1323,8 @@ import BEDC.Derived.CauchyProductUp.RealAlgOrderRootHandoff
 import BEDC.Derived.CauchyProductUp.RealBudgetSealBoundary
 import BEDC.Derived.CauchyProductUp.RealClassifierObligation
 import BEDC.Derived.CauchyProductUp.RealRegSeqRatStreamNameHandoff
+import BEDC.Derived.CauchyProductUp.RealSealBudgetGate
+import BEDC.Derived.CauchyProductUp.RealSealConsumerExhaustion
 import BEDC.Derived.CauchyProductUp.RealSealMultiplicationNonescape
 import BEDC.Derived.CauchyProductUp.RealSealRootSurface
 import BEDC.Derived.CauchyProductUp.RealSealRootUnblockSurface
@@ -1382,6 +1385,7 @@ import BEDC.Derived.CauchyProductUp.StreamnameRegseqratSourceLock
 import BEDC.Derived.CauchyProductUp.TailFusionBudgetRoute
 import BEDC.Derived.CauchyProductUp.TasteGate
 import BEDC.Derived.CauchyProductUp.WindowBudgetNameCertLedger
+import BEDC.Derived.CauchyProductUp.WindowProductNonescape
 import BEDC.Derived.CauchyProductUp.WindowProductReadback
 import BEDC.Derived.CauchyQuotientBoundaryUp
 import BEDC.Derived.CauchyQuotientBoundaryUp.TasteGate
@@ -1455,6 +1459,7 @@ import BEDC.Derived.CauchyTailModulusSealUp.ThresholdReadback
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TasteGate
 import BEDC.Derived.CauchyTailWitnessEnvelopeUp.TasteGate
 import BEDC.Derived.CauchyTightnessUp.TasteGate
+import BEDC.Derived.CauchyUniformContinuityPrincipleUp.TasteGate
 import BEDC.Derived.CauchyUniformNetUp.TasteGate
 import BEDC.Derived.CauchyWindowTransducerUp.NameCertObligations
 import BEDC.Derived.CauchyWindowTransducerUp.StdBridge
@@ -3536,6 +3541,7 @@ import BEDC.Derived.HausdorffCompletionUp.SeparatedReflection
 import BEDC.Derived.HausdorffCompletionUp.StandardBridge
 import BEDC.Derived.HausdorffCompletionUp.UniformConsumerPackage
 import BEDC.Derived.HausdorffSpaceUp.TasteGate
+import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HellySelectionUp.TasteGate
 import BEDC.Derived.HilbertCubeUp.TasteGate
 import BEDC.Derived.HilbertUp
@@ -5659,7 +5665,6 @@ import BEDC.Derived.SingletonSource
 import BEDC.Derived.SliceCategoryUp
 import BEDC.Derived.SmugglingPatternClassifierUp.TasteGate
 import BEDC.Derived.SobolevUp
-import BEDC.Derived.SobolevUp.TasteGate
 import BEDC.Derived.SocketKindClassifierUp.NameCertObligations
 import BEDC.Derived.SocketKindClassifierUp.StdBridge
 import BEDC.Derived.SocketKindClassifierUp.TasteGate
