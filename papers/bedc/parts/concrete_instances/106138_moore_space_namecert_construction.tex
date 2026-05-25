@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\MooreSpaceUp$}
+\label{ch:concrete-instances-moore-space-namecert}
+\origin{human}
+
+Following R. L. Moore and the standard developable-space formulation, the $\MooreSpaceUp$ packet records a topology equipped with a countable development as finite BEDC carrier data. It sits beside the topology carrier of \autoref{ch:concrete-instances-topology-namecert}, the metric-space distance surface of \autoref{ch:concrete-instances-metric-namecert}, and the entourage-style neighbour rows of \autoref{ch:concrete-instances-quasi-uniform-space-namecert}. The point of the packet is not to infer a metric or a cover-selection theorem; it is to expose the neighbourhood classifiers, development rows, star-refinement witnesses, transport, replay, provenance, and local naming rows that make the Moore-space name usable by downstream topology consumers.
+
+\begin{definition}[Moore space carrier]
+\label{def:moore-space-carrier}
+A $\MooreSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+M=(T,N,D,S,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ carrier row, exposing the point carrier, finite open-row classifier, finite-meet row, arbitrary-union interface as recorded BEDC cover data, and membership transport surface.
+\item $N$ is the neighbourhood classifier row. It records when a displayed open row surrounds a point and when one neighbourhood row refines another around the same point.
+\item $D$ is the countable development row, storing a finite name for each development level together with the pointwise neighbourhood request that the level is meant to answer.
+\item $S$ is the star-refinement witness row. For each accepted point-neighbourhood request, it records a development level whose displayed star around the point refines the requested neighbourhood row.
+\item $H$ records componentwise $\hsame$ transport for the topology, neighbourhood, development, star-refinement, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a point-neighbourhood request through $T$, then $N$, then the development row $D$, then the star-refinement row $S$.
+\item $P$ is the $\Pkg$ provenance over $\MooreSpaceUp$, $\TopologyUp$, $\MetricSpaceUp$, $\QuasiUniformSpaceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\MooreSpaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a metric selector, paracompact refinement, choice-selected open cover, open-cover compactness theorem, or host topological equality.
+\end{definition}
+
+\begin{theorem}[Moore space NameCert obligations]
+\label{thm:moore-space-namecert-obligations}
+For every accepted $\MooreSpaceUp$ carrier $M=(T,N,D,S,H,C,P,L)$, the local $\NameCert_{\MooreSpaceUp}$ surface consists exactly of carrier admission, topology exposure, neighbourhood classification, countable-development rows, star-refinement witnesses, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming.
+
+Every Moore-space consumer reads neighbourhood information through the finite route
+$$
+\TopologyUp \longmapsto N \longmapsto D \longmapsto S \longmapsto \NameCert_{\MooreSpaceUp}.
+$$
+The route may compare with metric and quasi-uniform neighbours only through the displayed $\MetricSpaceUp$ and $\QuasiUniformSpaceUp$ provenance rows; it exports no metrization theorem, no paracompactness theorem, no choice-selected cover, and no open-cover compactness conclusion.
+\end{theorem}
+\begin{proof}
+Project the accepted packet of \autoref{def:moore-space-carrier}. The topology row $T$ supplies the open-row carrier and membership surface, while $N$ is the only row that may classify neighbourhoods around a displayed point.
+
+The development data is then forced through $D$ and $S$. Row $D$ lists the countable development levels, and row $S$ records the local star-refinement witness that answers a point-neighbourhood request.
+
+The structural rows $H,C,P,L$ preserve, replay, cite, and name that route. Since the carrier contains no metric selector, paracompact refinement, choice-selected cover, open-cover compactness theorem, or host equality row, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\closureat{MooreSpaceUp}{seedStr}
+
+\begin{closurestatus}{\MooreSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:moore-space-carrier} and \autoref{thm:moore-space-namecert-obligations} seed the finite developable-topology packet over topology rows, neighbourhood classifiers, countable development rows, star-refinement witnesses, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close metrization, paracompactness, choice-selected covers, open-cover compactness, host topological equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, topology exposure, neighbourhood classification, development-level indexing, star-refinement exactness, componentwise transport, displayed replay, provenance, and local naming.}
+  \constructivestory{A $\MooreSpaceUp$ packet is generated from a topology carrier, neighbourhood classifier, countable development rows, star-refinement witnesses, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
