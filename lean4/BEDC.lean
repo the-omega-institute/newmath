@@ -981,6 +981,7 @@ import BEDC.Derived.CauchyCompletionFunctorUp.SelectorBudgetDeterminacy
 import BEDC.Derived.CauchyCompletionFunctorUp.TailBudgetCoherenceFactorization
 import BEDC.Derived.CauchyCompletionFunctorUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorialityUp.TasteGate
+import BEDC.Derived.CauchyCompletionIsometryUp.TasteGate
 import BEDC.Derived.CauchyCompletionKleisliUp.TasteGate
 import BEDC.Derived.CauchyCompletionLiftUp
 import BEDC.Derived.CauchyCompletionMonadUp
@@ -3104,6 +3105,7 @@ import BEDC.Derived.FiniteBracketingIntervalUp.TasteGate
 import BEDC.Derived.FiniteBranchingCauchyTreeUp.TasteGate
 import BEDC.Derived.FiniteCauchyApproximationUp
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
+import BEDC.Derived.FiniteChoiceUp.TasteGate
 import BEDC.Derived.FiniteEpsilonNetUp.TasteGate
 import BEDC.Derived.FiniteEpsilonWitnessUp.TasteGate
 import BEDC.Derived.FiniteErrorBudgetUp
