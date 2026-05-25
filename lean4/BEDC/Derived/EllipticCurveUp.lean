@@ -1,3 +1,4 @@
+import BEDC.Derived.CritStripUp
 import BEDC.Derived.FieldUp
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
@@ -14,6 +15,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Derived.CritStripUp
 open BEDC.Derived.FieldUp
 
 theorem EllipticCurveCarrierPacket_field_source_obligation [AskSetup] [PackageSetup]
@@ -387,5 +389,35 @@ theorem EllipticCurveCarrierPacket_basepoint_readback_obligation
     ⟨stability.left, stability.left.right.right.right.left, stability.right,
       sourceRows.right.right.right.right.left,
       sourceRows.right.right.right.right.right.left⟩
+
+theorem EllipticCurveUp_StdBridge [AskSetup] [PackageSetup]
+    {field projective coeffs cubic smooth basePoint fieldLedger projectiveLedger provenance
+      scalarLedger incidence : BHist} :
+    EllipticCurveCarrierPacket field projective coeffs cubic smooth basePoint fieldLedger
+        projectiveLedger provenance ->
+      UnaryHistory cubic ->
+        UnaryHistory smooth ->
+          Cont fieldLedger projectiveLedger scalarLedger ->
+            Cont cubic basePoint incidence ->
+              crit_strip_semantic_name_certificate.core =
+                  crit_strip_semantic_name_certificate.core ∨
+                (UnaryHistory scalarLedger ∧ UnaryHistory incidence ∧
+                  hsame scalarLedger (append fieldLedger projectiveLedger) ∧
+                    hsame incidence (append cubic basePoint) ∧
+                      hsame projectiveLedger (append coeffs cubic) ∧
+                        hsame provenance (append smooth basePoint)) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro packet cubicUnary smoothUnary scalarLedgerCont incidenceCont
+  have coefficientRows :=
+    EllipticCurveCarrierPacket_weierstrass_coefficient_ledger packet cubicUnary smoothUnary
+      scalarLedgerCont
+  have incidenceRows :=
+    EllipticCurveCarrierPacket_basepoint_incidence_exactness packet cubicUnary smoothUnary
+      incidenceCont
+  exact Or.inr
+    ⟨coefficientRows.right.right.right.left, incidenceRows.right.left,
+      coefficientRows.right.right.right.right.right.left, incidenceRows.right.right.left,
+      coefficientRows.right.right.right.right.left,
+      coefficientRows.right.right.right.right.right.right⟩
 
 end BEDC.Derived.EllipticCurveUp
