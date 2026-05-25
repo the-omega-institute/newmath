@@ -64,3 +64,19 @@ By \autoref{thm:authorized-generator-recursor-substitution-handoff-nonescape}, e
 
 Now suppose the cited obstruction is read as more than a block on the named converse or reuse route. A global impossibility reading would require a coordinate ranging over recursors outside the accepted packet; a host-theorem reading would require a host recursion, equality, or substitution principle; and a hidden-validation reading would require an external certificate not carried by $N$ or the displayed provenance row $P$. Each required coordinate is absent from the route authorized by \autoref{thm:authorized-generator-recursor-route-authorization} and is expressly excluded from the substitution handoff by \autoref{thm:authorized-generator-recursor-substitution-handoff-nonescape}. Therefore the obstruction remains strict and local: it rejects the unlisted converse or reuse request and asserts nothing beyond the displayed packet.
 \end{proof}
+
+\begin{theorem}[AuthorizedGeneratorRecursor route-authorization output envelope]
+\label{thm:authorized-generator-recursor-route-authorization-output-envelope}
+For every accepted $\AuthorizedGeneratorRecursorUp$ packet
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N),
+$$
+every public output-envelope read factors through route authorization, output ledger exactness, and substitution handoff nonescape over the displayed rows $I,E,M,B,D,O,A,H,C,P,G,N$. The envelope exposes no hidden recursor, proof generator, external axiom channel, unrestricted substitution calculus, host equality, or off-packet certificate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:authorized-generator-recursor-route-authorization}. It fixes the only public recursor route at the carrier rows $I,E,M,B,D,O,A,H,C,P,G,N$.
+
+Next use \autoref{thm:authorized-generator-recursor-output-ledger-exactness}. The output row $O$ is read only through the same route, so an output envelope cannot detach a generated value from the displayed branch, descent, audit, transport, replay, provenance, and naming rows.
+
+Finally apply \autoref{thm:authorized-generator-recursor-substitution-handoff-nonescape}. Any substitution-facing consumer receives the closed-boundary handoff through $G$ and the same packet surface, with every hidden recursor, proof generator, external axiom channel, unrestricted substitution calculus, host equality, and off-packet certificate excluded by coordinate exhaustion.
+\end{proof}
