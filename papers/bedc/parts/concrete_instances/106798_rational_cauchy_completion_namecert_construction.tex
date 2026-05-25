@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\RationalCauchyCompletionUp$}
+\label{ch:concrete-instances-rational-cauchy-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RationalCauchyCompletionUp$ packet records the rational Cauchy completion route as finite regular-name data rather than as a quotient of rational sequences or a selected ambient limit. It sits between the rational source of \autoref{ch:concrete-instances-rat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives the L10 completion route a concrete carrier before later formalization reads it as a derived Lean surface.
+
+\begin{definition}[Rational Cauchy completion carrier]
+\label{def:rational-cauchy-completion-carrier}
+A $\RationalCauchyCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(Q,D,S,R,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\RatUp$ source row, recording the rational endpoints and rational difference witnesses supplied to the completion route.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording finite dyadic radii, slack comparisons, and tolerance budgets.
+\item $S$ is the $\StreamNameUp$ finite-window row, recording inspected requests and omitted-tail boundaries for the source rational stream.
+\item $R$ is the $\RegSeqRatUp$ readback row, exposing the regular rational name produced by the displayed windows and tolerances.
+\item $M$ is the explicit Cauchy-modulus row, a finite schedule assigning every requested tolerance a displayed tail threshold.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $Q,D,S,R,M$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the rational source, dyadic tolerance, stream window, regular readback, modulus, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a completion request through $Q,D,S,R,M,E$.
+\item $P$ records $\Pkg$ provenance over $\RationalCauchyCompletionUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RationalCauchyCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,D,S,R,M,E,H,C,P,N$. It has no coordinate for quotient sequence equality, selected representatives, countable choice, detached limits, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Rational Cauchy completion NameCert obligations]
+\label{thm:rational-cauchy-completion-namecert-obligations}
+For every accepted $\RationalCauchyCompletionUp$ carrier $K=(Q,D,S,R,M,E,H,C,P,N)$, the local $\NameCert_{\RationalCauchyCompletionUp}$ surface consists exactly of carrier admission for the displayed packet, rational-source exposure through $Q$, dyadic tolerance exposure through $D$, finite-window exposure through $S$, regular readback through $R$, explicit Cauchy-modulus control through $M$, terminal Real sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is coordinate projection from \autoref{def:rational-cauchy-completion-carrier}. The accepted packet exposes the rational source, dyadic tolerance ledger, finite stream window, regular rational readback, explicit modulus, terminal Real seal, transport, replay, provenance, and local naming rows.
+
+The analytic route is fixed by $Q,D,S,R,M,E$. The source row $Q$ supplies rational endpoints, $D$ supplies dyadic tolerance comparisons, $S$ exposes only finite observations, $R$ records the regular rational readback, $M$ binds each requested tolerance to a displayed tail threshold, and $E$ seals the resulting Real-facing read.
+
+The structural rows $H,C,P,N$ preserve that same route under transport, replay, provenance, and naming. Since the carrier has no coordinate for quotient sequence equality, selected representatives, countable choice, detached limits, host real equality, or ambient $\RealUp$ completeness, those objects cannot belong to the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Rational Cauchy completion diagonal seal handoff]
+\label{thm:rational-cauchy-completion-diagonal-seal-handoff}
+Every diagonal completion read from a $\RationalCauchyCompletionUp$ packet to a $\RealUp$ consumer factors through the same finite route
+$$
+\RatUp \longrightarrow \DyadicRatCoreUp \longrightarrow \StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp .
+$$
+The explicit modulus row $M$ is the only row that may choose tail thresholds for the diagonal, and the terminal seal $E$ exports only the regular rational readback named by $R$.
+\end{theorem}
+\begin{proof}
+Start with a Real-facing diagonal read. The carrier definition places the terminal seal in coordinate $E$, and $E$ is downstream of the source, tolerance, stream, readback, and modulus rows.
+
+Trace the read backward. A diagonal tolerance request is served by $M$, interpreted through the dyadic row $D$, inspected through the finite-window row $S$, and returned as the regular rational readback $R$ from the rational source $Q$.
+
+Finally $H,C,P,N$ transport, replay, package, and name the same displayed route. There is no separate coordinate for a selected limit, quotient stream equality, countable choice schedule, or host real equality, so every accepted diagonal handoff reaches $\RealUp$ only through $Q,D,S,R,M,E$.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RationalCauchyCompletionUp$ Real-facing read factors through a Rat source row, DyadicRatCore tolerance row, StreamName finite-window row, RegSeqRat readback row, explicit Cauchy-modulus row, terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+
+\independenceWitness{rat, dyadicratcore, streamname, regseqrat, real: no listed sibling supplies the whole packet $K=(Q,D,S,R,M,E,H,C,P,N)$, because the completion carrier binds source rationals, dyadic tolerances, finite windows, regular readback, explicit modulus, terminal sealing, transport, replay, provenance, and local naming in one finite route.}
+
+\closureat{RationalCauchyCompletionUp}{seedStr}
+
+\begin{closurestatus}{\RationalCauchyCompletionUp}
+  \constructivestory{A $\RationalCauchyCompletionUp$ packet is generated from a Rat source row, DyadicRatCore tolerance row, StreamName finite-window row, RegSeqRat readback row, explicit Cauchy modulus, terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-cauchy-completion-carrier}, \autoref{thm:rational-cauchy-completion-namecert-obligations}, and \autoref{thm:rational-cauchy-completion-diagonal-seal-handoff} seed the rational Cauchy completion route from rational source data to the Real seal through finite tolerance, window, readback, modulus, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient sequence equality, selected representatives, countable choice, detached limits, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, dyadic tolerance exposure, finite-window exposure, regular readback, explicit modulus control, Real-seal handoff, and non-escape rows for the displayed rational Cauchy completion packet.}
+\end{closurestatus}

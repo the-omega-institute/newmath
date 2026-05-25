@@ -1,4 +1,6 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
+import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package.Core
 import BEDC.Meta.TasteGate
@@ -33,13 +35,13 @@ def RationalNestedIntervalLimitNameCertSurface [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
   hsame I I ∧ hsame W W ∧ hsame E E ∧ hsame R R ∧ hsame S S ∧
     hsame H H ∧ hsame C C ∧ hsame P P ∧ hsame N N ∧
-        SemanticNameCert
-          (fun row : BHist => hsame row S ∧ hsame row row)
-          (fun row : BHist =>
-            hsame row S ∧ hsame I I ∧ hsame W W ∧ hsame E E ∧ hsame R R)
-          (fun row : BHist => hsame row S ∧ hsame H H ∧ hsame C C ∧
-            hsame P P ∧ hsame N N)
-          hsame
+      SemanticNameCert
+        (fun row : BHist => hsame row S ∧ hsame row row)
+        (fun row : BHist =>
+          hsame row S ∧ hsame I I ∧ hsame W W ∧ hsame E E ∧ hsame R R)
+        (fun row : BHist => hsame row S ∧ hsame H H ∧ hsame C C ∧
+          hsame P P ∧ hsame N N)
+        hsame
 
 def rationalNestedIntervalLimitEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark

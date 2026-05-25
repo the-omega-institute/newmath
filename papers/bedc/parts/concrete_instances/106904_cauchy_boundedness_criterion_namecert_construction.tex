@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\CauchyBoundednessCriterionUp$}
+\label{ch:concrete-instances-cauchy-boundedness-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyBoundednessCriterionUp$ packet records the finite criterion by which a displayed regular Cauchy source carries a boundedness ledger before it is sealed as a Real-completion object. It sits beside the regular rational name surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the bounded regular Cauchy route of \autoref{ch:concrete-instances-bounded-regular-cauchy-namecert}, and the $\RealUp$ seal boundary of \autoref{ch:concrete-instances-real-namecert}. The packet supplies an L10 completion-facing boundedness criterion; it is not a quotient stream, not a selected limit, not countable choice, not trichotomy, and not ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy boundedness criterion carrier]
+\label{def:cauchy-boundedness-criterion-carrier}
+A $\CauchyBoundednessCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,B,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the Cauchy source row, naming the regular rational sequence whose finite observations are admitted by the packet.
+\item $B$ is the boundedness ledger, recording the displayed initial bound, tail bound, and comparison rows that make the source a $\BoundedRegularCauchyUp$ object.
+\item $W$ is the $\StreamNameUp$ finite-window row used to inspect the source at the requested precision and tail threshold.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same finite window and boundedness ledger.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the precision budget, bound comparison, and tail estimate consumed by the readback.
+\item $E$ is the $\RealUp$ seal row available only after $S,B,W,R,D$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the Cauchy source, boundedness ledger, window row, readback row, dyadic tolerance row, Real seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a bounded Cauchy request through $S,B,W,R,D,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyBoundednessCriterionUp$, $\BoundedRegularCauchyUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyBoundednessCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,B,W,R,D,E,H,C,P,N$. It has no coordinate for quotient-stream equality, a selected Real limit, countable choice, trichotomy, a host supremum, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy boundedness criterion NameCert obligations]
+\label{thm:cauchy-boundedness-criterion-namecert-obligations}
+For every accepted $\CauchyBoundednessCriterionUp$ carrier
+$$
+K=(S,B,W,R,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyBoundednessCriterionUp}$ surface consists exactly of carrier admission for the Cauchy source row $S$, boundedness ledger $B$, $\StreamNameUp$ finite-window row $W$, $\RegSeqRatUp$ readback row $R$, $\DyadicRatCoreUp$ tolerance row $D$, $\RealUp$ seal row $E$, componentwise transport $H$, displayed replay $C$, package provenance $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-boundedness-criterion-carrier}. The analytic rows are the source $S$, boundedness ledger $B$, window row $W$, readback row $R$, dyadic tolerance row $D$, and Real seal $E$.
+
+The boundedness obligation is read only from $B$ together with the dyadic row $D$. The ledger records the displayed bound comparisons and tail estimates, while $D$ records the precision budget consumed by those comparisons.
+
+The regular readback is downstream of the same finite window. Thus $R$ is a $\RegSeqRatUp$ row obtained through $W,B,D$, not a host sequence, quotient stream, selected limit, or completeness argument.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since the carrier has no coordinate for countable choice, trichotomy, host suprema, quotient-stream equality, selected Real limits, or ambient $\RealUp$ completeness, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy boundedness criterion Real-completion handoff]
+\label{thm:cauchy-boundedness-criterion-real-completion-handoff}
+Every $\RealUp$-facing completion read exported by an accepted $\CauchyBoundednessCriterionUp$ packet factors through
+$$
+S \longmapsto B \longmapsto W,D \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently a completion consumer may use the displayed Cauchy source, boundedness ledger, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance row, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal, and local structural rows, but it receives no quotient-stream equality, selected limit, countable choice, trichotomy, host supremum, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the displayed source $S$. The source is admissible for the packet only as a Cauchy row whose boundedness information is supplied by the ledger $B$.
+
+The finite observation then passes through $W$ and $D$. The row $W$ exposes the inspected stream window, while $D$ supplies the dyadic tolerance and bound-comparison budget for the same request.
+
+Only after those rows have been displayed does the packet expose $R$ and then $E$. The row $R$ is the regular rational readback, and $E$ is the terminal Real seal served by that readback.
+
+The structural rows $H,C,P,N$ preserve the same dependency order under transport, replay, provenance, and local naming. Since none of the excluded objects occurs in the carrier, no completion-facing read can bypass the bounded finite route.
+\end{proof}
+
+\closureat{CauchyBoundednessCriterionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyBoundednessCriterionUp}
+  \constructivestory{A $\CauchyBoundednessCriterionUp$ packet is generated from a Cauchy source row, a boundedness ledger, a StreamName finite-window row, a RegSeqRat readback row, a DyadicRatCore tolerance row, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-boundedness-criterion-carrier}, \autoref{thm:cauchy-boundedness-criterion-namecert-obligations}, and \autoref{thm:cauchy-boundedness-criterion-real-completion-handoff} seed the finite boundedness criterion for regular Cauchy sources and Real-completion handoffs.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient-stream equality, selected Real limits, countable choice, trichotomy, host suprema, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundedness-ledger exactness, StreamName window admission, DyadicRatCore tolerance readback, RegSeqRat handoff, Real seal confinement, transport stability, continuation replay, and provenance non-escape for BEDC.Derived.CauchyBoundednessCriterionUp.}
+\end{closurestatus}

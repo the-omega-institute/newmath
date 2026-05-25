@@ -1,12 +1,19 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package.Core
 import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RiemannStieltjesUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
@@ -183,5 +190,40 @@ theorem RiemannStieltjesCarrier_regulated_integral_handoff
   have terminalUnary : UnaryHistory N :=
     unary_cont_closed handoffUnary endpointUnary terminalRoute
   exact ⟨rfl, taggedUnary, handoffUnary, terminalUnary⟩
+
+def RiemannStieltjesCarrier [AskSetup] [PackageSetup]
+    (regulated variation tagged step handoff sealRow transportRow replayRow provenance nameRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  UnaryHistory regulated ∧ UnaryHistory variation ∧ UnaryHistory tagged ∧
+    UnaryHistory step ∧ UnaryHistory handoff ∧ UnaryHistory sealRow ∧
+      UnaryHistory transportRow ∧ UnaryHistory replayRow ∧ UnaryHistory provenance ∧
+        Cont regulated variation tagged ∧ Cont tagged step handoff ∧
+          Cont handoff sealRow replayRow ∧ PkgSig bundle nameRow pkg
+
+theorem RiemannStieltjesCarrier_darboux_mesh_refinement [AskSetup] [PackageSetup]
+    {regulated variation tagged step handoff sealRow transportRow replayRow provenance nameRow
+      mesh refinedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RiemannStieltjesCarrier regulated variation tagged step handoff sealRow transportRow replayRow
+      provenance nameRow bundle pkg ->
+      Cont tagged step mesh ->
+        Cont mesh handoff refinedEndpoint ->
+          UnaryHistory regulated ∧ UnaryHistory variation ∧ UnaryHistory tagged ∧
+            UnaryHistory step ∧ UnaryHistory handoff ∧ UnaryHistory mesh ∧
+              UnaryHistory refinedEndpoint ∧ Cont tagged step mesh ∧
+                Cont mesh handoff refinedEndpoint ∧ PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier meshRoute refinedEndpointRoute
+  obtain ⟨regulatedUnary, variationUnary, taggedUnary, stepUnary, handoffUnary,
+    _sealUnary, _transportUnary, _replayUnary, _provenanceUnary, _regulatedTaggedRoute,
+    _handoffRoute, _replayRoute, namePkg⟩ := carrier
+  have meshUnary : UnaryHistory mesh :=
+    unary_cont_closed taggedUnary stepUnary meshRoute
+  have refinedEndpointUnary : UnaryHistory refinedEndpoint :=
+    unary_cont_closed meshUnary handoffUnary refinedEndpointRoute
+  exact
+    ⟨regulatedUnary, variationUnary, taggedUnary, stepUnary, handoffUnary, meshUnary,
+      refinedEndpointUnary, meshRoute, refinedEndpointRoute, namePkg⟩
 
 end BEDC.Derived.RiemannStieltjesUp

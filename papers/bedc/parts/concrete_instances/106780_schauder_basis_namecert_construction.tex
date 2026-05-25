@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\SchauderBasisUp$}
+\label{ch:concrete-instances-schauder-basis-namecert}
+\origin{human}
+
+Following Schauder and the Banach-space basis tradition, the $\SchauderBasisUp$ packet records a sequence of named basis vectors together with finite coordinate projections and partial-sum controls. It sits over the linear carrier of \autoref{ch:concrete-instances-vecspace-namecert}, the norm row of \autoref{ch:concrete-instances-norm-namecert}, the Banach-space completion surface of \autoref{ch:concrete-instances-banach-namecert}, the finite-window route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives basis expansions a finite NameCert surface before any coordinate functional or projection budget is consumed.
+
+\begin{definition}[Schauder basis carrier]
+\label{def:schauder-basis-carrier}
+A $\SchauderBasisUp$ carrier is a finite $\BHist$ packet
+$$
+K=(V,Nrm,B,C,S,E,R,H,T,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the $\VecSpaceUp$ row naming the vector-space carrier, addition, scalar action, zero vector, and finite linear-combination syntax.
+\item $Nrm$ is the $\NormUp$ row naming the norm, triangle budget, scalar-compatibility budget, and zero-detection surface.
+\item $B$ is the basis-vector stream row, a $\StreamNameUp$ finite-window record whose inspected entries name the vectors $b_0,b_1,\ldots$ available to the packet.
+\item $C$ is the coordinate-readback row, recording finite coordinate requests and their $\RegSeqRatUp$ rational names.
+\item $S$ is the partial-sum row, recording finite sums $\sum_{i<n} c_i b_i$ together with the requested truncation index.
+\item $E$ is the error-control row, a $\RealUp$-facing norm estimate for the tail between the named vector and the displayed partial sum.
+\item $R$ is the reconstruction row, recording that each accepted vector read is recovered through the displayed partial sums and tail estimates.
+\item $H$ records componentwise $\hsame$ transport for the vector, norm, basis stream, coordinate, partial-sum, error, reconstruction, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from a coordinate request through $B,C,S,E,R$.
+\item $P$ records $\Pkg$ provenance over $\SchauderBasisUp$, $\BanachUp$, $\VecSpaceUp$, $\NormUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\SchauderBasisUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $V,Nrm,B,C,S,E,R,H,T,P,L$. It has no coordinate for a Hamel basis choice, an arbitrary linear functional, a detached coefficient oracle, ambient compactness, countable choice, or a global unconditional-basis assertion.
+\end{definition}
+
+\begin{theorem}[Schauder basis NameCert obligations]
+\label{thm:schauder-basis-namecert-obligations}
+For every accepted $\SchauderBasisUp$ carrier $K=(V,Nrm,B,C,S,E,R,H,T,P,L)$, the local $\NameCert_{\SchauderBasisUp}$ surface consists exactly of carrier admission for the displayed packet, vector-space exposure through $V$, norm exposure through $Nrm$, basis-stream exposure through $B$, coordinate readback through $C$, partial-sum exposure through $S$, tail-error control through $E$, reconstruction through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $T$, $\Pkg$ provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Carrier admission is coordinate projection from \autoref{def:schauder-basis-carrier}. The accepted packet exposes the vector-space carrier, norm row, basis-vector stream, coordinate readback, partial sums, tail-error estimates, reconstruction row, transport, replay, provenance, and local naming.
+
+The analytic route is fixed by $V,Nrm,B,C,S,E,R$. The vector row supplies the finite linear-combination syntax, the norm row supplies the tail metric, the basis stream supplies inspected vectors, the coordinate row supplies rational names, the partial-sum row supplies the finite approximants, the error row supplies the Real-facing tail estimate, and the reconstruction row binds those finite approximants to the named vector.
+
+The structural rows $H,T,P,L$ preserve that same route under transport, replay, provenance, and naming. Since the carrier has no coordinate for a Hamel basis choice, detached coefficient oracle, arbitrary functional, compactness substitute, countable-choice schedule, or unconditional-basis assertion, those objects cannot belong to the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Schauder basis coordinate-projection handoff]
+\label{thm:schauder-basis-coordinate-projection-handoff}
+Every coordinate-projection consumer of an accepted $\SchauderBasisUp$ packet must read the projection through the basis stream $B$, coordinate row $C$, partial-sum row $S$, tail-error row $E$, reconstruction row $R$, replay row $T$, provenance row $P$, and local name $L$. The handoff exports finite coordinate projections and norm-controlled partial sums, but it exports no standalone bounded linear functional, no choice of representatives outside the displayed stream, and no unconditional convergence claim.
+\end{theorem}
+\begin{proof}
+Start with a coordinate-projection request. The carrier definition places the visible projection data in $B,C,S,E,R$: the basis vectors are inspected through the stream row, coordinates are read through regular rational names, partial sums are formed in the vector-space row, and the tail is measured by the norm and Real-facing estimate.
+
+Next use the replay and provenance rows. The replay row $T$ requires the consumer to traverse the displayed coordinate and partial-sum route, while $P$ records that the route belongs to the $\SchauderBasisUp$ packet and its Banach-space dependencies.
+
+Finally the local name $L$ certifies only that displayed route. Because the packet has no coordinate for arbitrary functionals, detached coefficient selection, ambient compactness, or unconditional convergence, a coordinate-projection consumer receives only the finite projection handoff governed by $B,C,S,E,R,T,P,L$.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SchauderBasisUp$ coordinate-projection export factors through a VecSpace carrier row, Norm row, StreamName basis-vector window, RegSeqRat coordinate readback, finite partial-sum row, Real tail estimate, reconstruction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+
+\independenceWitness{banach, vecspace, norm, streamname, regseqrat, real: no listed sibling supplies the whole packet $K=(V,Nrm,B,C,S,E,R,H,T,P,L)$, because the Schauder basis carrier binds linear syntax, norm control, basis windows, rational coordinate readback, finite partial sums, tail estimates, reconstruction, transport, replay, provenance, and local naming in one finite route.}
+
+\closureat{SchauderBasisUp}{seedStr}
+
+\begin{closurestatus}{\SchauderBasisUp}
+  \constructivestory{A $\SchauderBasisUp$ packet is generated from a vector-space row, norm row, basis-vector StreamName window, RegSeqRat coordinate readback, finite partial-sum row, Real tail estimate, reconstruction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:schauder-basis-carrier}, \autoref{thm:schauder-basis-namecert-obligations}, and \autoref{thm:schauder-basis-coordinate-projection-handoff} seed the Schauder basis route from Banach-space carrier data to finite coordinate projections and norm-controlled partial sums.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Hamel bases, arbitrary linear functionals, detached coefficient oracles, ambient compactness, countable choice, unconditional convergence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, basis-window exposure, coordinate-readback exactness, partial-sum control, tail-error control, reconstruction, projection handoff, and non-escape rows for the displayed Schauder basis packet.}
+\end{closurestatus}
