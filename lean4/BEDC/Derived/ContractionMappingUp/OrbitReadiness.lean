@@ -276,4 +276,52 @@ theorem ContractionMappingCarrier_tail_bound_extraction [AskSetup] [PackageSetup
     ⟨lambdaUnary, boundPowerUnary, toleranceUnary, tailBoundUnary, tailRoute,
       provenancePkg, tailPkg⟩
 
+theorem ContractionMappingCarrier_picard_step_contraction [AskSetup] [PackageSetup]
+    {X d T G lambda M I H C P N x y tx ty sourceDistance targetDistance comparisonRead
+      unitBound : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContractionMappingCarrier X d T G lambda M I H C P N bundle pkg →
+      UnaryHistory x →
+        UnaryHistory y →
+          Cont T x tx →
+            Cont T y ty →
+              Cont d (append x y) sourceDistance →
+                Cont d (append tx ty) targetDistance →
+                  Cont targetDistance lambda comparisonRead →
+                    Cont lambda M unitBound →
+                      PkgSig bundle comparisonRead pkg →
+                        UnaryHistory tx ∧ UnaryHistory ty ∧ UnaryHistory sourceDistance ∧
+                          UnaryHistory targetDistance ∧ UnaryHistory comparisonRead ∧
+                            UnaryHistory unitBound ∧ Cont T x tx ∧ Cont T y ty ∧
+                              Cont d (append x y) sourceDistance ∧
+                                Cont d (append tx ty) targetDistance ∧
+                                  Cont targetDistance lambda comparisonRead ∧
+                                    Cont lambda M unitBound ∧ PkgSig bundle P pkg ∧
+                                      PkgSig bundle comparisonRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig
+  intro carrier xUnary yUnary txRoute tyRoute sourceRoute targetRoute comparisonRoute
+    unitRoute comparisonPkg
+  obtain ⟨_XUnary, dUnary, TUnary, _GUnary, lambdaUnary, MUnary, _IUnary, _HUnary,
+    _CUnary, _PUnary, _NUnary, provenancePkg⟩ := carrier
+  have txUnary : UnaryHistory tx :=
+    unary_cont_closed TUnary xUnary txRoute
+  have tyUnary : UnaryHistory ty :=
+    unary_cont_closed TUnary yUnary tyRoute
+  have xyUnary : UnaryHistory (append x y) :=
+    unary_append_closed xUnary yUnary
+  have txtyUnary : UnaryHistory (append tx ty) :=
+    unary_append_closed txUnary tyUnary
+  have sourceDistanceUnary : UnaryHistory sourceDistance :=
+    unary_cont_closed dUnary xyUnary sourceRoute
+  have targetDistanceUnary : UnaryHistory targetDistance :=
+    unary_cont_closed dUnary txtyUnary targetRoute
+  have comparisonReadUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed targetDistanceUnary lambdaUnary comparisonRoute
+  have unitBoundUnary : UnaryHistory unitBound :=
+    unary_cont_closed lambdaUnary MUnary unitRoute
+  exact
+    ⟨txUnary, tyUnary, sourceDistanceUnary, targetDistanceUnary, comparisonReadUnary,
+      unitBoundUnary, txRoute, tyRoute, sourceRoute, targetRoute, comparisonRoute,
+      unitRoute, provenancePkg, comparisonPkg⟩
+
 end BEDC.Derived.ContractionMappingUp

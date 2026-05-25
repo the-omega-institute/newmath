@@ -1,0 +1,11 @@
+\begin{theorem}[FieldExt field and vector-space sibling dependency]
+\label{thm:fieldext-field-vecspace-sibling-dependency}
+Every accepted $\FieldExtUp$ carrier read must pass through the displayed base $\FieldUp$ row, the displayed extension $\FieldUp$ row, the embedding row between them, and the $\VecSpaceUp$ scalar-action row before any extension consumer reads the local $\NameCert_{\FieldExtUp}$ surface. The field endpoints are the substantive algebraic dependencies of \autoref{ch:concrete-instances-field-namecert}, and the scalar-action row is the substantive vector-space dependency of \autoref{ch:concrete-instances-vecspace-namecert}. A consumer that reads the extension as an ambient tower while omitting one of these rows is not reading the accepted $\FieldExtUp$ packet.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier rows. The base and extension endpoints are both $\FieldUp$ rows, and the embedding row is typed between those endpoints, so its exactness cannot be read before both field tables are present.
+
+The scalar-action coordinate is then read as a $\VecSpaceUp$ row over the base field. It supplies the module-facing action consumed by extension consumers, while the embedding row supplies the endpoint comparison consumed by field consumers.
+
+The local $\NameCert_{\FieldExtUp}$ row is reached only after those four sibling rows are displayed. Thus the read route is the base field, extension field, embedding, vector-space action, and local naming ledger, with no coordinate for an undisplayed host-field tower.
+\end{proof}
