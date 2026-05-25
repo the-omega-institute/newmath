@@ -78,6 +78,20 @@ The refusal row $R$ is read before the packet is exported through $H,C,P,N$. It 
 Thus the packet preserves the audit-map split: positive typing and syntax equality are read directly from checker rows, while beta conversion remains bounded and hypothesis-indexed.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidable typing coverage frontier]
+\label{thm:metacic-decidable-typing-coverage-frontier}
+Every accepted $\MetaCICDecidableTypingFrontierUp$ packet exports exactly the positive checker rows \texttt{inferTypeCtx}, \texttt{checkSameTerm}, and \texttt{Term.eq}. It exports \texttt{decideClosedBetaConv} only through the bounded normal-equality row carrying displayed fuel, bounded normalizer outputs, and finished-normalization hypotheses. Therefore any consumer claiming global normalization, subject reduction, confluence, arbitrary closedness decidability, unrestricted beta-conversion, or quotient equality must leave this packet.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier $F=(I,S,Q,B,R,H,C,P,N)$ from \autoref{def:metacic-decidable-typing-frontier-carrier}. The projected positive checker rows are exactly $I,S,Q$, corresponding to \texttt{inferTypeCtx}, \texttt{checkSameTerm}, and \texttt{Term.eq}.
+
+Use \autoref{thm:metacic-decidable-typing-frontier-namecert-obligations}. It identifies the local NameCert obligations with the displayed checker rows, bounded normal-equality row, refusal row, and structural rows, with no hidden coordinate for stronger metatheory.
+
+Apply \autoref{thm:metacic-decidable-typing-frontier-audit-split}. The only route to \texttt{decideClosedBetaConv} passes through $B$, where the fuel, bounded outputs, and finished-normalization hypotheses are part of the exported row.
+
+Finally apply \autoref{thm:metacic-decidable-typing-frontier-nonescape}. The refusal row $R$ blocks global normalization, subject reduction, confluence, arbitrary closedness decidability, unrestricted beta-conversion, and quotient equality from being read as packet exports.
+\end{proof}
+
 \closureat{MetaCICDecidableTypingFrontierUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICDecidableTypingFrontierUp}
