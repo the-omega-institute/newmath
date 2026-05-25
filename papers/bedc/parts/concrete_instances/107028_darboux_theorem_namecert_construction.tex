@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\DarbouxTheoremUp$}
+\label{ch:concrete-instances-darboux-theorem-namecert}
+\origin{human}
+
+Following Darboux and Bishop--Bridges constructive analysis, the $\DarbouxTheoremUp$ packet records the theorem route saying that a displayed continuous real map on a displayed interval has the Darboux property. It sits over the graph-and-modulus surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the constructive finite bisection route of \autoref{ch:concrete-instances-intermediate-value-bisection-namecert}, the target-value handoff of \autoref{ch:concrete-instances-darboux-property-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter packages Darboux's theorem as finite NameCert data rather than as host continuity semantics, a selected intermediate point, quotient real equality, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Darboux theorem carrier]
+\label{def:darboux-theorem-carrier}
+A $\DarbouxTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+T=(F,I,A,B,Y,S,D,R,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\ContinuousMapUp$ row carrying the displayed graph, pointwise modulus, and continuity budget for the real-valued map.
+\item $I$ is the interval endpoint row, exposing the lower and upper endpoint reads and their orientation data.
+\item $A$ and $B$ are the endpoint value rows obtained from $F$ at the two endpoint rows of $I$.
+\item $Y$ is the target-value row displayed between the endpoint value rows.
+\item $S$ is the endpoint-side exposure row, recording which finite residual comparisons place $Y$ between $A$ and $B$.
+\item $D$ is the $\IntermediateValueBisectionUp$ schedule that retains branches whose residual comparisons still bracket $Y$.
+\item $R$ is the $\DarbouxPropertyUp$ handoff row reached after the bisection schedule has produced the retained target-value route.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the retained windows and requested dyadic tolerances.
+\item $E$ is the $\RealUp$ seal available to theorem consumers only after $D,R,Q$ have been read.
+\item $H$ stores componentwise $\hsame$ transport for the map, interval, endpoint values, target value, endpoint-side exposure, bisection schedule, property handoff, regular readback, real seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a Darboux-theorem request through $F,I,A,B,Y,S,D,R,Q,E$.
+\item $P$ is the $\Pkg$ provenance over $\DarbouxTheoremUp$, $\ContinuousMapUp$, $\IntermediateValueBisectionUp$, $\DarbouxPropertyUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DarbouxTheoremUp}$ row.
+\end{enumerate}
+The classifier compares accepted theorem packets only through $F,I,A,B,Y,S,D,R,Q,E,H,C,P,N$. It has no coordinate for host real equality, quotient real equality, a selected intermediate point, real trichotomy, open-cover compactness, semantic continuity outside $F$, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Darboux theorem NameCert obligations]
+\label{thm:darboux-theorem-namecert-obligations}
+For every accepted $\DarbouxTheoremUp$ carrier $T=(F,I,A,B,Y,S,D,R,Q,E,H,C,P,N)$, the local $\NameCert_{\DarbouxTheoremUp}$ surface consists exactly of carrier admission through the displayed packet of \autoref{def:darboux-theorem-carrier}, endpoint-side exposure through $I,A,B,Y,S$, bisection exactness through $D$, Darboux-property handoff through $R$, Real-seal readback through $Q,E$, componentwise transport through $H$, displayed continuation replay through $C$, provenance through $P$, local naming through $N$, and non-escape from host real equality, quotient real equality, selected intermediate points, trichotomy, open-cover compactness, semantic continuity outside $F$, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:darboux-theorem-carrier}. The continuous-map row $F$ and interval row $I$ expose the only theorem source data, while $A,B,Y,S$ expose the finite endpoint-side comparisons for the requested target value.
+
+The bisection schedule is the row $D$. It is the only branch-retention route in the packet, so every accepted theorem read must pass through the finite $\IntermediateValueBisectionUp$ schedule before a target-value handoff is visible.
+
+The property handoff is then the row $R$, and the Real-facing readback is $Q,E$. The row $Q$ supplies the $\RegSeqRatUp$ readback against the $\DyadicRatCoreUp$ tolerance data named by provenance, and $E$ is the terminal $\RealUp$ seal.
+
+Finally $H,C,P,N$ transport, replay, source, and name exactly those rows. Since the carrier has no coordinate for host equality, quotient equality, a selected intermediate point, trichotomy, open-cover compactness, semantic continuity outside $F$, or ambient Real completeness, none of those objects can appear in the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Darboux theorem bisection route]
+\label{thm:darboux-theorem-bisection-route}
+Every accepted theorem read of a $\DarbouxTheoremUp$ carrier factors through the finite route
+$$
+\ContinuousMapUp,\ \IntermediateValueBisectionUp,\ \DarbouxPropertyUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+In particular, the read first consumes the displayed map, endpoint rows, target-value row, and endpoint-side exposure; then the finite bisection schedule; then the Darboux-property handoff; then the regular rational and dyadic readback; and only then the $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $T=(F,I,A,B,Y,S,D,R,Q,E,H,C,P,N)$. The continuation row $C$ exposes theorem reads only through the map, interval, endpoint value, target value, and endpoint-side rows before any Real-facing seal is available.
+
+The finite bisection route is forced by $D$. The carrier contains no alternate theorem coordinate between the endpoint-side exposure $S$ and the Darboux-property handoff $R$, so a consumer cannot bypass $\IntermediateValueBisectionUp$ by appealing to host connectedness or semantic continuity.
+
+After the bisection schedule, the theorem read reaches $R$ as the $\DarbouxPropertyUp$ handoff. The retained windows are then read through $Q$ using the dyadic tolerance surface named in $P$, and the terminal read reaches $E$ as the $\RealUp$ seal.
+
+The rows $H,C,P,N$ keep this route stable under transport, replay, provenance, and local naming. Thus every accepted theorem read factors through the displayed finite bisection schedule before the Real seal, with the excluded host and completeness objects remaining outside the certificate.
+\end{proof}
+
+\closureat{DarbouxTheoremUp}{seedStr}
+
+\begin{closurestatus}{\DarbouxTheoremUp}
+  \constructivestory{A $\DarbouxTheoremUp$ packet is generated from a ContinuousMap row, interval endpoint rows, endpoint value rows, a target-value row, endpoint-side exposure, an IntermediateValueBisection schedule, a DarbouxProperty handoff, RegSeqRat readback, a DyadicRatCore tolerance surface, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:darboux-theorem-carrier}, \autoref{thm:darboux-theorem-namecert-obligations}, and \autoref{thm:darboux-theorem-bisection-route} seed Darboux's theorem as a finite bisection route from displayed endpoint-side exposure to DarbouxProperty handoff and Real-seal readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real equality, quotient real equality, selected intermediate points, trichotomy, open-cover compactness, semantic continuity outside the displayed ContinuousMap row, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-side exposure, bisection exactness, DarbouxProperty handoff, Real-seal readback, transport and replay stability, provenance exhaustion, and non-escape for BEDC.Derived.DarbouxTheoremUp.}
+\end{closurestatus}
