@@ -130,6 +130,39 @@ completion representative, the dense handoff can export only the displayed
 stream-name and regular-readback data.
 \end{proof}
 
+\begin{theorem}[Polish-space observation-ledger exhaustion]
+\label{thm:polish-space-observation-ledger-exhaustion}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. Every
+$\MetricSpaceUp$, $\CompleteMetricUp$, $\SeparableMetricUp$, $\StreamNameUp$,
+and $\RegSeqRatUp$ consumer read from $P$ factors through the finite
+observation ledger $W$ together with the componentwise $\hsame$ rows $H$, the
+displayed $\Cont$ replay rows $C$, the $\Pkg$ provenance row $G$, and the local
+$\NameCert$ row $N$. In particular, dense-schedule reads and completion reads
+cannot bypass $W$: the rows $D$ and $K$ are consumable only after the finite
+stream windows in $S$ and regular rational readbacks in $R$ have been displayed
+inside the observation ledger.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier as $P=(M,K,D,S,R,W,H,C,G,N)$. The projection
+exposes the metric row, complete-metric handoff, separable-metric dense
+schedule, stream-name schedule, regular rational readback, observation ledger,
+transport, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:polish-space-namecert-obligations}. Its exactness row
+identifies $W$ as the only source of metric-radius checks, Cauchy-window
+requests, dense-name inspections, and regular rational readbacks.
+
+A dense-schedule consumer reaches $D$ only through an index displayed by $S$
+and an observation recorded in $W$. A completion consumer reaches $K$ only
+after its Cauchy-window request has been recorded in the same ledger. In both
+cases the inspected value is read back through $R$ before the metric,
+completion, or separability row is consumed.
+
+The remaining rows $H,C,G,N$ transport, replay, source, and name this finite
+route. Since the carrier has no coordinate outside the displayed ledger route,
+no consumer of $M,K,D,S,$ or $R$ can bypass $W$.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\PolishSpaceUp$ consumer that reaches a
 $\SeparableMetricUp$, $\CompleteMetricUp$, or $\MetricSpaceUp$ row without
 reading the displayed $\StreamNameUp$ schedule, finite observation ledger,
@@ -148,7 +181,7 @@ route with transport, replay, provenance, and local naming.}
 \begin{closurestatus}{\PolishSpaceUp}
   \constructivestory{A $\PolishSpaceUp$ packet is generated from a $\MetricSpaceUp$ carrier, a $\CompleteMetricUp$ handoff, a $\SeparableMetricUp$ countable dense schedule, $\StreamNameUp$ finite windows, $\RegSeqRatUp$ regular rational readbacks, an observation ledger, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:polish-space-carrier}, \autoref{thm:polish-space-namecert-obligations}, and \autoref{thm:polish-space-streamname-countable-dense-handoff} seed the L10 complete-separable metric synthesis route over $\MetricSpaceUp$, $\CompleteMetricUp$, $\SeparableMetricUp$, $\StreamNameUp$, and $\RegSeqRatUp$.}
+  \scopeclosed{\autoref{def:polish-space-carrier}, \autoref{thm:polish-space-namecert-obligations}, \autoref{thm:polish-space-streamname-countable-dense-handoff}, and \autoref{thm:polish-space-observation-ledger-exhaustion} seed the L10 complete-separable metric synthesis route over $\MetricSpaceUp$, $\CompleteMetricUp$, $\SeparableMetricUp$, $\StreamNameUp$, and $\RegSeqRatUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim choice-selected dense points, quotient completion equality, arbitrary open-cover compactness, host set equality, Lean verification, or bridge checking.}
