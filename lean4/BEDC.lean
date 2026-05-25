@@ -406,6 +406,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RealSealRouteNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RecursionChannelRefusal
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RegSeqRatRealSealOutputExhaustion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAdmissionDownstreamCoverage
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAdmissionPublicExport
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditBoundaryExposure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditHandoffLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootAuditLedgerExactness
@@ -2720,6 +2721,7 @@ import BEDC.Derived.DomainTruthCertificateUp.SiblingIndependence
 import BEDC.Derived.DomainTruthCertificateUp.TasteGate
 import BEDC.Derived.DoubleCauchyDiagonalUp.TasteGate
 import BEDC.Derived.DoubleLimitInterchangeUp.TasteGate
+import BEDC.Derived.DoublingMetricUp.TasteGate
 import BEDC.Derived.DyadicAbsoluteValueUp
 import BEDC.Derived.DyadicApproximationUp
 import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
@@ -5474,6 +5476,7 @@ import BEDC.Derived.RolleTheoremUp.TasteGate
 import BEDC.Derived.RolleUp.TasteGate
 import BEDC.Derived.RootSystemUp
 import BEDC.Derived.RootSystemUp.TasteGate
+import BEDC.Derived.RoundedCauchyFilterUp.TasteGate
 import BEDC.Derived.RoundedDyadicLocatorUp.TasteGate
 import BEDC.Derived.RoundedIdealCompletionUp.TasteGate
 import BEDC.Derived.RoundedIntervalUp
