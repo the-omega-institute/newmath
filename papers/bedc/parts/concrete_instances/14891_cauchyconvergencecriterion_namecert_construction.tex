@@ -240,14 +240,31 @@ The compatible boundary reads identify the remaining endpoint. By \autoref{thm:c
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_ledger\_classifier\_exactness}
 
+\begin{theorem}[Cauchy convergence criterion obligation closure upgrade]
+\label{thm:cauchy-convergence-criterion-obligation-closure-upgrade}
+For every accepted $\CauchyConvergenceCriterionUp$ carrier $G=(S,M,D,R,E,H,C,P,N)$, the carrier admission, finite-window classification, modulus stability, $\RegSeqRatUp$ handoff, $\RealUp$ seal nonescape, and ledger exhaustion rows listed in \autoref{thm:cauchy-convergence-criterion-namecert-obligations} form the full obligation surface of the chapter. Every convergence-facing read must pass through the displayed $\StreamNameUp$ schedule, $\CauchyModulusUp$ threshold row, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row, with no quotient stream, selected host limit, ambient completeness, trichotomy, or open-cover compactness coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-convergence-criterion-namecert-obligations}. It enumerates the six obligation rows and states that no obligation is stored outside the displayed carrier coordinates.
+
+The Real-facing side is controlled by \autoref{thm:cauchy-convergence-criterion-real-seal-handoff}. It forces every seal read through $S,M,D,R,E,H,C,P,N$ and refuses a detached Real endpoint.
+
+The boundary comparison is controlled by \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy}. Compatible reads over the same displayed schedule, handoff, dyadic ledger, seal boundary, transport, replay, provenance, and naming rows determine the same seal route.
+
+Zero-difference and source coverage are supplied by \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization} and \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion}. The former keeps comparison reads inside the same finite packet, and the latter exhausts every Real- or limit-seal-facing read by $S,M,D,R$ before $E$.
+
+Together these theorems account for carrier admission, window coverage, threshold stability, regular handoff, Real-seal nonescape, and ledger exhaustion. Since the carrier has no additional coordinate, the chapter reaches obligation closure exactly over the displayed packet.
+\end{proof}
+
 \closureat{CauchyConvergenceCriterionUp}{seedStr}
+\closureat{CauchyConvergenceCriterionUp}{obligationStr}
 
 \begin{closurestatus}{\CauchyConvergenceCriterionUp}
   \constructivestory{A $\CauchyConvergenceCriterionUp$ packet is generated from a finite $\StreamNameUp$ schedule, a $\CauchyModulusUp$ threshold row, a $\DyadicRatCoreUp$ tolerance ledger, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-convergence-criterion-carrier}, \autoref{thm:cauchy-convergence-criterion-namecert-obligations}, \autoref{thm:cauchy-convergence-criterion-real-seal-handoff}, \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy}, \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization}, \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion}, \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage}, and \autoref{thm:cauchy-convergence-criterion-ledger-classifier-exactness} seed the finite convergence-criterion route from StreamName windows through Cauchy modulus and dyadic ledger rows to the RegSeqRat handoff, CauchyLimitSeal route, NullSequence zero-difference package, and Real seal.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:cauchy-convergence-criterion-carrier}, \autoref{thm:cauchy-convergence-criterion-namecert-obligations}, \autoref{thm:cauchy-convergence-criterion-real-seal-handoff}, \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy}, \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization}, \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion}, \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage}, \autoref{thm:cauchy-convergence-criterion-ledger-classifier-exactness}, and \autoref{thm:cauchy-convergence-criterion-obligation-closure-upgrade} close the finite convergence-criterion obligation route from StreamName windows through Cauchy modulus and dyadic ledger rows to the RegSeqRat handoff, CauchyLimitSeal route, NullSequence zero-difference package, and Real seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close ambient completeness, quotient-stream equality, selected host limits, trichotomy, open-cover compactness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, finite-window classification, modulus stability, RegSeqRat handoff, Real-seal nonescape, and ledger exhaustion for the same displayed packet.}
+  \upgradepath{Scoped closure requires checked dependency routing for the same StreamName, CauchyModulus, DyadicRatCore, RegSeqRat, Real seal, transport, replay, provenance, and local NameCert packet.}
 \end{closurestatus}
