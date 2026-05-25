@@ -333,6 +333,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.GapBoundaryTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GeneratorNormalizationReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerAdmission
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerAuthorization
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerAuthorizationStrictObstruction
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerRouteTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundRouteRefusalSurface
@@ -436,6 +437,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputRouteReadiness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputRouteSaturation
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootOutputTotalityLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootReadinessExhaustion
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootRouteStrictObstruction
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootSignatureRowTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootSignatureTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.RootSource
@@ -5318,6 +5320,7 @@ import BEDC.Derived.RootSystemUp
 import BEDC.Derived.RootSystemUp.TasteGate
 import BEDC.Derived.RoundedIdealCompletionUp.TasteGate
 import BEDC.Derived.RoundedIntervalUp
+import BEDC.Derived.RoundedIntervalUp.TasteGate
 import BEDC.Derived.RuleOneTenGliderCatalogUp.TasteGate
 import BEDC.Derived.RuntimeBoundaryAuditUp.TasteGate
 import BEDC.Derived.RuntimeCandidateBoundaryUp.TasteGate
