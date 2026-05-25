@@ -39,6 +39,7 @@ class BioRealityPaths:
     keep_lane_state: Path = SCRIPT_DIR / "state" / "keep_lane.json"
     namecert_proposals_dir: Path = SCRIPT_DIR / "state" / "namecert_proposals"
     namecert_lane_log: Path = SCRIPT_DIR / "state" / "namecert_lane.log"
+    bedc_writeback_log: Path = SCRIPT_DIR / "state" / "bedc_writeback.log"
     sync_lane_state: Path = SCRIPT_DIR / "state" / "sync_lane.json"
     sync_lane_log: Path = SCRIPT_DIR / "state" / "sync_lane.log"
     loning_intelligence: Path = SCRIPT_DIR / "state" / "loning_intelligence.jsonl"

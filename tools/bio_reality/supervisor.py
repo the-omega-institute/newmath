@@ -81,6 +81,9 @@ def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_disp
     def writeback_paper() -> dict[str, object]:
         return lanes.run_writeback_lane(store)
 
+    def bedc_writeback() -> dict[str, object]:
+        return lanes.run_bedc_writeback_lane(store)
+
     def quality_hardening() -> dict[str, object]:
         return lanes.run_quality_lane(store)
 
@@ -101,6 +104,7 @@ def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_disp
             LoopUnit("bio_Plan_phase_and_stuck", plan_phase_and_stuck),
             LoopUnit("bio_R_agent_dispatch", agent_dispatch),
             LoopUnit("bio_W_writeback_paper", writeback_paper),
+            LoopUnit("bio_B_bedc_writeback", bedc_writeback),
             LoopUnit("bio_Q_quality_hardening", quality_hardening),
             LoopUnit("bio_A_assimilate_signals", assimilate_signals),
             LoopUnit("bio_K_keep_and_push", keep_and_push),
