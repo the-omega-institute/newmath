@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\SetLikeUp$}
+\label{ch:concrete-instances-setlike-namecert}
+\origin{human}
+
+Following Russell and Bourbaki-style set-membership grounding, the $\SetLikeUp$ packet records the finite BEDC carrier by which membership, subset implication, restricted comprehension, and extensional boundary reads are exposed without importing an ambient powerset, host quotient, or impredicative universe. It sits before the displayed family discipline of \autoref{ch:concrete-instances-typelike-namecert}, the syntactic carrier of \autoref{ch:concrete-instances-firstorder-namecert}, and the satisfaction carrier of \autoref{ch:concrete-instances-modeltheory-namecert}. The packet names only finite membership source, classifier, implication, bounded comprehension, extensionality boundary, transport, replay, provenance, and local naming rows.
+
+\begin{definition}[SetLike carrier]
+\label{def:setlike-carrier}
+A $\SetLikeUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M,Q,I,R,E,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $M$ is the membership-source row, naming the finite source from which element and set-read markers are admitted;
+\item $Q$ is the classifier row for displayed membership decisions and membership-compatible reads;
+\item $I$ is the subset-implication row, recording finite implications from one membership classifier to another;
+\item $R$ is the restricted-comprehension row, admitting only classifiers already routed through $M,Q,I$;
+\item $E$ is the extensionality-boundary ledger, recording when two displayed set rows may be compared by the carried membership classifier;
+\item $H$ records componentwise $\hsame$ transport for $M,Q,I,R,E$ together with the structural rows;
+\item $C$ records $\Cont$ replay through which a consumer reads membership source, classifier, subset implication, restricted comprehension, and extensionality boundary data;
+\item $P$ is the $\Pkg$ provenance over $\SetLikeUp$, $\TypeLikeUp$, $\FirstOrderUp$, $\ModelTheoryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\SetLikeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an ambient powerset, unrestricted separation, quotient equality of sets, selected representatives, global choice of elements, or a host universe of all sets.
+\end{definition}
+
+\begin{theorem}[SetLike NameCert obligations]
+\label{thm:setlike-namecert-obligations}
+For every accepted $\SetLikeUp$ carrier
+$$
+S=(M,Q,I,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\SetLikeUp}$ surface consists exactly of carrier admission for $S$, membership-source admission through $M$, classifier exposure through $Q$, subset-implication exposure through $I$, restricted-comprehension exposure through $R$, extensionality-boundary exposure through $E$, componentwise $\hsame$ stability through $H$, $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:setlike-carrier}. The membership source $M$ and classifier $Q$ provide the only entry points for element-in-set reads.
+
+The subset row $I$ records implication between displayed classifiers, while the restricted-comprehension row $R$ may bind only predicates already exposed through the same membership source and classifier route. The extensionality row $E$ records the comparison boundary for displayed set rows; it does not identify host sets outside the packet.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no further coordinate is present, the NameCert obligations cannot require unrestricted separation, ambient powersets, quotient equality of sets, selected representatives, global element choice, or a universe of all sets.
+\end{proof}
+
+\begin{theorem}[SetLike membership route]
+\label{thm:setlike-membership-route}
+Every downstream consumer of an accepted $\SetLikeUp$ packet that reads membership, subset implication, restricted comprehension, or extensional comparison must factor through the finite route
+$$
+M,Q,I,R,E \longmapsto H,C,P,N .
+$$
+Consequently sibling reads by $\TypeLikeUp$, $\FirstOrderUp$, or $\ModelTheoryUp$ may use $\SetLikeUp$ only through the carried membership route, and cannot replace it by an ambient powerset, unrestricted comprehension principle, host quotient of sets, or external satisfaction relation.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $S=(M,Q,I,R,E,H,C,P,N)$. A membership consumer can reach an element-in-set assertion only by reading the source row $M$ and the classifier row $Q$.
+
+Subset and comprehension reads then remain inside the same boundary. The row $I$ supplies finite implication between displayed membership classifiers, and $R$ admits restricted comprehension only when the classifier has already passed through $M,Q,I$.
+
+Extensional reads are likewise bounded. The row $E$ permits comparison only through the displayed membership classifier, so it does not introduce quotient equality or an ambient host set identity.
+
+Finally replay the structural rows. The rows $H,C,P,N$ preserve, replay, source, and name the same finite route, while $\TypeLikeUp$, $\FirstOrderUp$, and $\ModelTheoryUp$ can cite the packet only through $P$ and $C$. No sibling read therefore bypasses $M,Q,I,R,E$.
+\end{proof}
+
+\falsifiablePrediction{A consumer that claims a $\SetLikeUp$ membership, subset, restricted-comprehension, or extensionality read while omitting the membership source, classifier, subset implication, restricted comprehension, extensionality boundary, $\hsame$, $\Cont$, $\Pkg$, or local $\NameCert$ rows refutes the carrier of \autoref{def:setlike-carrier}.}
+
+\independenceWitness{typelike, firstorder, modeltheory: $\SetLikeUp$ is not bijective to any listed sibling because it carries membership source, classifier, subset implication, restricted comprehension, extensionality boundary, componentwise transport, continuation replay, provenance, and local NameCert rows. TypeLikeUp adds displayed indexed fibers beyond membership; FirstOrderUp adds syntax and deduction rows without membership-source extensionality; ModelTheoryUp adds satisfaction over FirstOrderUp without a general finite membership carrier.}
+
+\closureat{SetLikeUp}{seedStr}
+
+\begin{closurestatus}{\SetLikeUp}
+  \constructivestory{A $\SetLikeUp$ packet is generated from a finite membership source, classifier row, subset implication row, restricted-comprehension row, extensionality-boundary ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:setlike-carrier}, \autoref{thm:setlike-namecert-obligations}, and \autoref{thm:setlike-membership-route} seed the finite membership carrier used by sibling typed, syntactic, and satisfaction packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim an ambient powerset, unrestricted separation, quotient equality of sets, selected representatives, global choice of elements, Lean verification, bridge checking, or a host universe of all sets.}
+  \upgradepath{Obligation closure requires checked carrier admission, membership classifier routing, subset implication, restricted comprehension, extensionality boundary, and sibling-consumer nonescape for BEDC.Derived.SetLikeUp.}
+\end{closurestatus}

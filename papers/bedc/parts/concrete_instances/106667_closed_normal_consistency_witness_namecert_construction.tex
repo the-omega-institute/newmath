@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\ClosedNormalConsistencyWitnessUp$}
+\label{ch:concrete-instances-closed-normal-consistency-witness-namecert}
+\origin{human}
+
+The $\ClosedNormalConsistencyWitnessUp$ packet follows the proof-theoretic normal-form consistency tradition for typed calculi: a closed term displayed at the internal false encoding cannot simultaneously be a beta-strong normal endpoint. In BEDC form, this is not a full closed-consistency claim. It is a finite witness package for the exact closed-normal boundary of \autoref{ch:closed-normal-consistency-main-result}, sitting beside the closed-normal canonicity packet of \autoref{ch:concrete-instances-closednormalcanonicity-namecert}, the endpoint ledger of \autoref{ch:concrete-instances-closednormalendpointledger-namecert}, and the $Z$-normal predicate packet of \autoref{ch:concrete-instances-znormal-namecert}.
+
+\begin{definition}[ClosedNormalConsistencyWitness carrier]\label{def:closed-normal-consistency-witness-carrier}
+A $\ClosedNormalConsistencyWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(T,F,L,B,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the MetaCIC term row, displaying the closed proof candidate under audit;
+\item $F$ is the internal false-encoding row, naming the target type at which the term is displayed;
+\item $L$ is the empty-context typing ledger for the judgement that $T$ has type $F$;
+\item $B$ is the beta-strong endpoint row, recording that the displayed term is already at the normal-form boundary;
+\item $E$ is the closedness row, recording that the term has no external context dependency;
+\item $R$ is the false-exclusion witness row read from the closed-normal consistency theorem;
+\item $H$ records componentwise $\hsame$ transport for $T,F,L,B,E,R$ and the structural rows;
+\item $C$ records displayed $\Cont$ replay from typing and closedness through beta-strong endpoint evidence to false exclusion;
+\item $P$ is the $\Pkg$ provenance over MetaCIC typing, closedness, beta-strong endpoint, false encoding, transport, replay, and naming rows;
+\item $N$ is the local $\NameCert_{\ClosedNormalConsistencyWitnessUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose visible coordinates are $T,F,L,B,E,R,H,C,P,N$. It contains no subject-reduction transport, no full closed-consistency theorem, no Church--Rosser quotient, no normalization theorem for all closed terms, and no host proof of arbitrary false exclusion.
+\end{definition}
+
+\begin{theorem}[ClosedNormalConsistencyWitness NameCert obligations]\label{thm:closed-normal-consistency-witness-namecert-obligations}
+For the carrier of \autoref{def:closed-normal-consistency-witness-carrier}, the local $\NameCert_{\ClosedNormalConsistencyWitnessUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission: every accepted object exposes the displayed packet $W=(T,F,L,B,E,R,H,C,P,N)$;
+\item false typing exposure: the typing ledger $L$ displays the empty-context judgement that the term row $T$ has the false-encoding type row $F$;
+\item normal endpoint exposure: the rows $B$ and $E$ display beta-strong endpoint evidence and closedness before false exclusion is read;
+\item false-exclusion exactness: the row $R$ is available only after $T,F,L,B,E$ have been displayed together;
+\item ledger exhaustion: $H,C,P,N$ preserve, replay, source, and name that route without adding full closed consistency, subject reduction, Church--Rosser transport, or global normalization.
+\end{enumerate}
+Consequently the certificate names the closed-normal false-exclusion witness and no stronger consistency principle.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple. The only term row is $T$, the only false-encoding row is $F$, and the only typing ledger is $L$.
+
+The normal endpoint is part of the input, not a theorem extracted from arbitrary closed typing. Rows $B$ and $E$ display beta-strong normality and closedness before the false-exclusion witness can be read.
+
+The false-exclusion row $R$ is therefore exactly the closed-normal consistency route. It consumes the typing, closedness, and beta-strong evidence together, matching the boundary stated in \autoref{ch:closed-normal-consistency-main-result}.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the packet has no subject-reduction, Church--Rosser, global-normalization, or full-consistency coordinate, none of those stronger principles can be exported by the certificate.
+\end{proof}
+
+\begin{theorem}[ClosedNormalConsistencyWitness false-exclusion factorization]\label{thm:closed-normal-consistency-witness-false-exclusion-factorization}
+Every accepted $\ClosedNormalConsistencyWitnessUp$ consumer of false exclusion factors through
+$$
+T,F \longmapsto L \longmapsto E \longmapsto B \longmapsto R \longmapsto H,C,P,N.
+$$
+The route reads the term and false-encoding rows, exposes empty-context typing, checks closedness, checks beta-strong endpoint evidence, and only then exports the false-exclusion witness. It does not infer full closed consistency, arbitrary subject-reduction transport, Church--Rosser conversion, quotient equality of proofs, or normalization for all closed terms.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:closed-normal-consistency-witness-namecert-obligations}. The false typing exposure clause places the term and false encoding behind $T,F,L$.
+
+Next the normal endpoint exposure clause places the closedness and beta-strong rows before any contradiction is read. This mirrors the main-result boundary: closed and typed alone are not enough for the present packet.
+
+The row $R$ is then the only false-exclusion coordinate. It is reached after the typing, closedness, and beta-strong rows have all been displayed.
+
+The structural rows $H,C,P,N$ preserve and name this route. The missing stronger principles have no carrier coordinate, so the exported witness remains closed-normal rather than full closed consistency.
+\end{proof}
+
+\closureat{ClosedNormalConsistencyWitnessUp}{seedStr}
+
+\begin{closurestatus}{\ClosedNormalConsistencyWitnessUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-normal-consistency-witness-carrier}, \autoref{thm:closed-normal-consistency-witness-namecert-obligations}, and \autoref{thm:closed-normal-consistency-witness-false-exclusion-factorization} seed the closed-normal false-exclusion route through MetaCIC term display, false typing, closedness, beta-strong endpoint evidence, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full closed consistency, subject reduction, Church--Rosser conversion, quotient equality of proofs, global normalization for all closed terms, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, false typing exposure, closedness and beta-strong endpoint exactness, false-exclusion factorization, nonescape ledgers, classifier transport, and provenance/name exhaustion for BEDC.Derived.ClosedNormalConsistencyWitnessUp.}
+  \constructivestory{A $\ClosedNormalConsistencyWitnessUp$ packet is generated from a MetaCIC term row, an internal false-encoding row, an empty-context typing ledger, a closedness row, a beta-strong endpoint row, a false-exclusion witness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

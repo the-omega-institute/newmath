@@ -1,11 +1,18 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SierpinskiSpaceUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -173,5 +180,31 @@ theorem SierpinskiSpaceTasteGate_single_carrier_alignment :
       sierpinskiSpace_round_trip,
       (fun _ _ heq => sierpinskiSpaceToEventFlow_injective heq),
       rfl⟩
+
+def SierpinskiSpaceCarrier [AskSetup] [PackageSetup]
+    (truth openRow window transport replay provenance localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  UnaryHistory truth ∧ UnaryHistory openRow ∧ UnaryHistory window ∧
+    UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+      UnaryHistory localName ∧ Cont truth openRow window ∧
+        Cont window transport replay ∧ PkgSig bundle provenance pkg ∧
+          PkgSig bundle localName pkg
+
+theorem SierpinskiSpaceCarrier_open_set_classifier [AskSetup] [PackageSetup]
+    {truth openRow window transport replay provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SierpinskiSpaceCarrier truth openRow window transport replay provenance localName bundle pkg →
+      UnaryHistory truth ∧ UnaryHistory openRow ∧ UnaryHistory window ∧
+        UnaryHistory replay ∧ Cont truth openRow window ∧ Cont window transport replay ∧
+          PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier
+  obtain ⟨truthUnary, openUnary, windowUnary, _transportUnary, replayUnary,
+    _provenanceUnary, _localNameUnary, truthOpenWindow, windowTransportReplay,
+    provenanceSig, localNameSig⟩ := carrier
+  exact
+    ⟨truthUnary, openUnary, windowUnary, replayUnary, truthOpenWindow,
+      windowTransportReplay, provenanceSig, localNameSig⟩
 
 end BEDC.Derived.SierpinskiSpaceUp

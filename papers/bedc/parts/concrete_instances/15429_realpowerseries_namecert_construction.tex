@@ -51,6 +51,18 @@ The finite windows $W$ and partial sums $S$ mediate every read from $R$ to conve
 The allowed shapes of $M$ are the named M-test, ratio-test, and root-test routes. Since $H,C,P,N$ only preserve the same carrier, the radius obligation cannot escape into analytic continuation, quotient function values, selected sums, countable choice, or ambient $\RealUp$ completeness.
 \end{proof}
 
+\begin{theorem}[Real power series obligation scope]
+\label{thm:real-power-series-obligation-scope}
+For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, coefficient data are exposed only through the $\FormalPowerSeriesUp$ or $\StreamNameUp$ windows in $A$ and $W$, radius data only through the displayed $\ConvergenceRadiusUp$ or subradius row $R$, partial sums only through the $\RealSeriesUp$ row $S$, convergence justification only through the selected $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, or $\RegularCauchyRootTestUp$ majorant row $M$, and terminal output only through the $\RealUp$ seal $E$ after the $\DyadicRatCoreUp$ and $\RegSeqRatUp$ readbacks named by $W,S,M$ have been consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-power-series-carrier}. Its coefficient-facing coordinates are $A$ and the finite windows $W$, its radius coordinate is $R$, its partial-sum coordinate is $S$, its convergence coordinate is $M$, and its terminal row is $E$.
+
+Apply \autoref{thm:realpowerseries-coefficient-window-obligation} to force coefficient and formal-series reads through $A$ and $W$. Apply \autoref{thm:realpowerseries-majorant-radius-obligation} to place radius reads before the partial-sum and majorant rows. Apply \autoref{thm:realpowerseries-terminal-real-seal-obligation} to place the endpoint seal after the dyadic and regular-rational readbacks.
+
+The structural rows $H,C,P,N$ only transport, replay, source, and name the same route. Since the carrier has no coordinate for analytic continuation, quotient function spaces, selected sums, countable choice, or ambient $\RealUp$ completeness, row exhaustion excludes each of those objects from the accepted obligation scope.
+\end{proof}
+
 \begin{theorem}[Real power series terminal Real seal obligation]
 \label{thm:realpowerseries-terminal-real-seal-obligation}
 For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, the terminal $\RealUp$ seal $E$ is available only after the coefficient or $\FormalPowerSeriesUp$ row $A$, center and argument $\RealUp$ rows $Z,X$, radius row $R$, finite $\StreamNameUp$ windows $W$, $\RegSeqRatUp$ and $\DyadicRatCoreUp$ tolerance readbacks, $\RealSeriesUp$ partial sums $S$, and M-test or ratio/root-test majorant row $M$ have been read. The seal is transported, replayed, sourced, and named only by $H,C,P,N$.
@@ -125,6 +137,42 @@ Start from the partial-sum clause of \autoref{def:real-power-series-carrier}. Th
 Apply \autoref{thm:real-power-series-radius-window-handoff}. The endpoint-facing path from $S$ must pass through $M$, where the selected M-test, ratio-test, or root-test route is displayed.
 
 Finally use \autoref{thm:real-power-series-nonescape}. The carrier exports the finite majorant readback and the endpoint seal, not a host infinite series object, selected sum, or completeness theorem.
+\end{proof}
+
+\begin{theorem}[Real power series radius-majorant coverage]
+\label{thm:real-power-series-radius-majorant-coverage}
+For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, the radius and majorant coverage surface is exactly the route through the coefficient-window obligation, majorant-radius obligation, terminal $\RealUp$ seal obligation, radius-window handoff, and partial-sum majorant readback rows. Endpoint convergence is visible only through $\RealSeriesUp$, $\WeierstrassMTestUp$ or the ratio/root-test rows, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Project the carrier $K$. The coefficient row $A$, radius row $R$, finite windows $W$, partial sums $S$, selected majorant row $M$, and endpoint seal $E$ are the only analytic-facing coordinates.
+
+Apply the coefficient-window obligation, the majorant-radius obligation, and the terminal seal obligation. These rows place all coefficient reads, radius reads, and endpoint reads inside $A,R,W,S,M,E$ with the same structural rows $H,C,P,N$.
+
+Use the radius-window handoff and partial-sum majorant readback to identify the route from finite windows to convergence evidence. The allowed endpoint evidence is therefore exhausted by the named BEDC rows, and no analytic continuation, host infinite sum, or $\RealUp$ completeness coordinate is introduced.
+\end{proof}
+
+\begin{theorem}[Real power series stream-window convergence route]
+\label{thm:real-power-series-stream-window-convergence-route}
+Every convergence-facing read from an accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$ must first expose the finite $\StreamNameUp$ windows $W$ for coefficients, point readbacks, powers, and partial sums before it can consume the selected majorant row $M$ or the endpoint seal $E$. The route may pass through $\RealSeriesUp$, $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, $\RegularCauchyRootTestUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$, but it cannot bypass $W$ by using a host convergence theorem or a selected infinite sum.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:realpowerseries-coefficient-window-obligation}. It forces coefficient and formal-series access through the finite window row $W$ before any partial-sum row is available.
+
+Apply \autoref{thm:real-power-series-radius-window-handoff}. The handoff places $W$ before $S$, then $S$ before $M$, and finally $M$ before the endpoint seal $E$.
+
+The partial-sum majorant readback keeps the convergence witness inside the displayed majorant route. Since the carrier contains no host convergence theorem or selected sum coordinate, every convergence-facing read preserves the stream-window route.
+\end{proof}
+
+\begin{theorem}[Real power series RegSeqRat endpoint handoff]
+\label{thm:real-power-series-regseqrat-endpoint-handoff}
+For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, the $\RegSeqRatUp$-facing endpoint handoff is read only after the coefficient windows, radius row, partial-sum row, and majorant route have been displayed. The handoff may cite $\RealSeriesUp$, $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, $\RegularCauchyRootTestUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$ through $W,S,M,E,H,C,P,N$, and it exports no analytic continuation, host infinite sum, quotient function space, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:real-power-series-majorant-regseqrat-budget}. It already identifies the $\RegSeqRatUp$-facing budget as the route from $A,Z,X,R$ through $W,S,M,E$.
+
+The radius-majorant coverage theorem above ties that budget to the coefficient-window, majorant-radius, terminal seal, radius-window, and partial-sum readback rows. Thus endpoint-facing $\RegSeqRatUp$ data are visible only after the finite radius and majorant surface has been read.
+
+Finally apply \autoref{thm:real-power-series-nonescape}. The endpoint handoff remains inside $K$ and its structural rows, so no excluded analytic or completeness object can be exported.
 \end{proof}
 
 \begin{theorem}[Real power series endpoint-seal factorization]\label{thm:real-power-series-endpoint-seal-factorization}
