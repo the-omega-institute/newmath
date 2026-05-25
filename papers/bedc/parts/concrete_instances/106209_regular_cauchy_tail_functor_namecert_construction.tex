@@ -57,12 +57,28 @@ For composition, the row $K$ records the two shifts and their displayed sum. The
 The terminal row $E$ seals only this displayed route. The structural rows $H,C,P,N$ preserve that route under transport, replay, provenance, and naming, and they do not add quotient, selection, choice, host-equality, or completeness coordinates.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy tail-functor window composition]
+\label{thm:regular-cauchy-tail-functor-window-composition}
+Let $F=(R,W,D,I,K,J,E,H,C,P,N)$ be an accepted $\RegularCauchyTailFunctorUp$ packet. For any two displayed tail shifts $k$ and $\ell$ recorded by $K$, their composed tail read is the same finite-window route obtained by rereading the $\StreamNameUp$ schedule $W$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the $\RegularCauchyShiftUp$ handoff row $J$ for the displayed shift $k+\ell$. The $\RealUp$ seal $E$ is reached only after that $k+\ell$ handoff, so the packet exports no quotient-stream equality, host sequence equality, selected limit, countable-choice selector, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:regular-cauchy-tail-functor-carrier}. The rows $R,W,D,K,J,E,H,C,P,N$ are the only rows visible to a composed-tail request, with $K$ naming the two displayed shifts and their displayed sum.
+
+Use \autoref{thm:regular-cauchy-tail-functor-namecert-obligations} to read the local certificate obligations. The window data are reread from $W$, the tolerance checks from $D$, and the finite-tail handoff from $J$; the structural rows only transport and replay these displayed rows.
+
+Apply \autoref{thm:regular-cauchy-tail-functor-identity-composition} to route every Real-facing consumer through
+$$
+\RegSeqRatUp \longrightarrow \StreamNameUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RegularCauchyShiftUp \longrightarrow \RealUp .
+$$
+Because $E$ is downstream of the displayed $k+\ell$ handoff, none of the refused quotient, host-equality, selection, choice, or completeness objects can be exported by the packet.
+\end{proof}
+
 \closureat{RegularCauchyTailFunctorUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyTailFunctorUp}
   \constructivestory{A $\RegularCauchyTailFunctorUp$ packet is generated from a RegSeqRat source row, StreamName schedule rows, a DyadicRatCore tolerance ledger, identity-tail and composable-tail rows, RegularCauchyShift handoff rows, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-tail-functor-carrier}, \autoref{thm:regular-cauchy-tail-functor-namecert-obligations}, and \autoref{thm:regular-cauchy-tail-functor-identity-composition} seed the finite tail-functor route over StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, RegularCauchyShiftUp, RealUp, and local NameCert rows.}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-functor-carrier}, \autoref{thm:regular-cauchy-tail-functor-namecert-obligations}, \autoref{thm:regular-cauchy-tail-functor-identity-composition}, and \autoref{thm:regular-cauchy-tail-functor-window-composition} seed the finite tail-functor route over StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, RegularCauchyShiftUp, RealUp, and local NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient stream equality, selected limits, countable-choice tail selectors, host sequence equality, ambient completeness, Lean verification, or bridge checking.}
