@@ -479,6 +479,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.SubstitutionHandoffNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.SubstitutionMembraneLock
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TasteGate
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalAuditNameCertNonescape
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalAuthorizeStrictObstruction
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalAuthorizedOutputCover
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalBranchDescentExactness
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.TerminalBranchLedgerLock
@@ -1580,6 +1581,7 @@ import BEDC.Derived.CertifiedPhysicalTruthUp
 import BEDC.Derived.CertifiedPhysicalTruthUp.TasteGate
 import BEDC.Derived.CertifiedUseProcessUp.TasteGate
 import BEDC.Derived.CesaroConvergenceUp.TasteGate
+import BEDC.Derived.ChainConnectedMetricUp.TasteGate
 import BEDC.Derived.CharacterTheoryUp
 import BEDC.Derived.ChebyshevPolynomialUp.TasteGate
 import BEDC.Derived.ChernWeilUp
@@ -5979,6 +5981,7 @@ import BEDC.Derived.TopologyUp.StdBridge
 import BEDC.Derived.ToposUp
 import BEDC.Derived.ToposUp.NameCertObligationSurface
 import BEDC.Derived.TotalHostFuelHandoffUp.TasteGate
+import BEDC.Derived.TotallyBoundedMetricUp.TasteGate
 import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.TotallyBoundedUp.TasteGate
 import BEDC.Derived.TowerEndpointReflectionUp.TasteGate
