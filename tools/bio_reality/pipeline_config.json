@@ -99,5 +99,41 @@
     "require_nested_loop_checkpointing": true,
     "block_mechanism_claims_without_mechanism_bridge": true,
     "block_total_biology_claims": true
+  },
+  "keep_lane": {
+    "enabled": true,
+    "branch": "feat/bio-reality-deepening",
+    "remote": "origin",
+    "include_paths": [
+      "tools/bio_reality/*.py",
+      "tools/bio_reality/*.json",
+      "tools/bio_reality/*.md",
+      "tools/bio_reality/experiments/*.py",
+      "tools/bio_reality/experiments/__init__.py",
+      "tools/bio_reality/registries/*.json",
+      "tools/bio_reality/registries/__init__.py",
+      "tools/bio_reality/data/*.json",
+      "tools/bio_reality/data/*.py",
+      "tools/bio_reality/vision/*.md",
+      "papers/bio_reality/*.tex",
+      "papers/bio_reality/Makefile",
+      "papers/bio_reality/parts/*.tex"
+    ],
+    "exclude_paths": [
+      "tools/bio_reality/state/*",
+      "tools/bio_reality/out/*",
+      "tools/bio_reality/inbox/*",
+      "tools/bio_reality/cache/*",
+      "tools/bio_reality/vision/ledger/*",
+      "tools/bio_reality/vision/index.md"
+    ],
+    "pre_commit_gates": [
+      ["python3", "-m", "py_compile", "tools/bio_reality/agent_bus.py", "tools/bio_reality/lanes.py", "tools/bio_reality/supervisor.py", "tools/bio_reality/store.py", "tools/bio_reality/deepening_gates.py", "tools/bio_reality/bio_reality_loop.py", "tools/bio_reality/vision_intake.py", "tools/bio_reality/signal_assimilator.py", "tools/bio_reality/framework.py"],
+      ["python3", "tools/bio_reality/deepening_gates.py", "--self-test"],
+      ["python3", "tools/bio_reality/agent_bus.py", "--self-test"],
+      ["python3", "tools/bio_reality/lanes.py", "--self-test"]
+    ],
+    "min_seconds_between_pushes": 60,
+    "max_push_retries": 2
   }
 }

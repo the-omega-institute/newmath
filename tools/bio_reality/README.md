@@ -116,13 +116,21 @@ into this directory.
 - `bio-A` is the assimilation lane. It summarizes blocked packets, task
   pressure, review readiness, and packet targets into local signals that can
   harden the next cycle.
+- `bio-K` is the keep lane. It runs at the end of every cycle, filters
+  the working tree against an include/exclude glob list in
+  `pipeline_config.json`, runs pre-commit gates, then commits and
+  pushes useful spec changes to `origin/feat/bio-reality-deepening`.
+  Runtime drift under `state/`, `out/`, `inbox/`, `cache/` is excluded.
+  The lane never force-pushes and never commits when local is behind
+  remote.
 
 The supervisor runs these lanes as restartable loop units. Each unit has an
 independent checkpoint in `tools/bio_reality/state/loop_state.json`, and
 failures are localized to the failing unit. No lane merges branches, writes to
-the BEDC paper pipeline, edits Lean files, pushes remote refs, or turns
-un-gated signals into biological conclusions. The only durable paper write
-authority in this pipeline is the BioReality paper surface named above.
+the BEDC paper pipeline, edits Lean files, or turns un-gated signals into
+biological conclusions. Only `bio-K` may push remote refs, and only after its
+filter and gate sequence passes. The only durable paper write authority in this
+pipeline is the BioReality paper surface named above.
 
 This matches the useful part of the loning automation pattern: a long-lived
 vision or goal is scanned into concrete targets; gates decide whether the target

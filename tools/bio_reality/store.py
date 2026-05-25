@@ -35,6 +35,8 @@ class BioRealityPaths:
     claims_registry: Path = SCRIPT_DIR / "registries" / "claims.json"
     experiments_registry: Path = SCRIPT_DIR / "registries" / "experiments.json"
     experiment_runs: Path = SCRIPT_DIR / "state" / "experiment_runs.jsonl"
+    keep_lane_log: Path = SCRIPT_DIR / "state" / "keep_lane.log"
+    keep_lane_state: Path = SCRIPT_DIR / "state" / "keep_lane.json"
     experiments_dir: Path = SCRIPT_DIR / "experiments"
     data_dir: Path = SCRIPT_DIR / "data"
     vision_dir: Path = SCRIPT_DIR / "vision"

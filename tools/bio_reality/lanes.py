@@ -4,10 +4,13 @@
 from __future__ import annotations
 
 import argparse
+import fnmatch
 import hashlib
 import json
+import subprocess
 import sys
 import tempfile
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -31,6 +34,7 @@ except ModuleNotFoundError:  # pragma: no cover
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 DOMAIN_PROFILE = SCRIPT_DIR / "dna_to_protein_ladder.json"
+PIPELINE_CONFIG = SCRIPT_DIR / "pipeline_config.json"
 
 
 def now_iso() -> str:
@@ -532,6 +536,261 @@ def run_assimilation_lane(paths: BioRealityPaths) -> dict[str, Any]:
     return signals
 
 
+def _load_keep_lane_config() -> dict[str, Any]:
+    data = json.loads(PIPELINE_CONFIG.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        return {}
+    config = data.get("keep_lane")
+    return config if isinstance(config, dict) else {}
+
+
+def _run_command(repo_root: Path, cmd: list[str], *, timeout: float = 60.0) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        cmd,
+        cwd=repo_root,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        timeout=timeout,
+        check=False,
+    )
+
+
+def _append_keep_log(store: BioRealityStore, event: str, details: dict[str, Any]) -> None:
+    record = {"ts": now_iso(), "event": event, "details": details}
+    try:
+        store.paths.keep_lane_log.parent.mkdir(parents=True, exist_ok=True)
+        with store.paths.keep_lane_log.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
+    except OSError:
+        return
+
+
+def _git_status_porcelain(repo_root: Path) -> list[tuple[str, str]]:
+    result = _run_command(repo_root, ["git", "status", "--porcelain"])
+    if result.returncode != 0:
+        raise RuntimeError((result.stderr or result.stdout or "git status failed").strip())
+    changed: list[tuple[str, str]] = []
+    for line in result.stdout.splitlines():
+        if len(line) < 4:
+            continue
+        status_code = line[:2]
+        path = line[3:]
+        if " -> " in path:
+            path = path.rsplit(" -> ", 1)[1]
+        if path:
+            changed.append((status_code, path))
+    return changed
+
+
+def _filter_paths(
+    changed: list[tuple[str, str]],
+    include_paths: list[str],
+    exclude_paths: list[str],
+) -> tuple[list[str], list[str]]:
+    selected: list[str] = []
+    dropped: list[str] = []
+    seen: set[str] = set()
+    for _status_code, path in changed:
+        included = any(fnmatch.fnmatch(path, pattern) for pattern in include_paths)
+        excluded = any(fnmatch.fnmatch(path, pattern) for pattern in exclude_paths)
+        if included and not excluded:
+            if path not in seen:
+                selected.append(path)
+                seen.add(path)
+        else:
+            dropped.append(path)
+    return selected, dropped
+
+
+def _read_json_object(path: Path) -> dict[str, Any]:
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def _keep_lane_recently_pushed(store: BioRealityStore, min_seconds: float) -> tuple[bool, float]:
+    state = _read_json_object(store.paths.keep_lane_state)
+    last_push_ts = float(state.get("last_push_ts") or 0.0)
+    age = time.time() - last_push_ts if last_push_ts else min_seconds + 1.0
+    return last_push_ts > 0 and age < min_seconds, age
+
+
+def _run_keep_gates(store: BioRealityStore, repo_root: Path, gates: list[Any]) -> tuple[bool, list[str] | None]:
+    for gate in gates:
+        if not isinstance(gate, list) or not all(isinstance(item, str) for item in gate):
+            _append_keep_log(store, "gate_invalid", {"gate": gate})
+            return False, [str(gate)]
+        try:
+            result = _run_command(repo_root, gate, timeout=60.0)
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            _append_keep_log(store, "gate_error", {"gate": gate, "error": str(exc)})
+            return False, gate
+        if result.returncode != 0:
+            _append_keep_log(
+                store,
+                "gate_failure",
+                {
+                    "gate": gate,
+                    "returncode": result.returncode,
+                    "stdout_tail": result.stdout[-2000:],
+                    "stderr_tail": result.stderr[-2000:],
+                },
+            )
+            return False, gate
+    return True, None
+
+
+def _remote_behind_count(repo_root: Path, remote: str, branch: str) -> int:
+    fetch = _run_command(repo_root, ["git", "fetch", remote, branch], timeout=60.0)
+    if fetch.returncode != 0:
+        raise RuntimeError((fetch.stderr or fetch.stdout or "git fetch failed").strip())
+    compare_ref = f"{remote}/{branch}"
+    counts = _run_command(repo_root, ["git", "rev-list", "--left-right", "--count", f"HEAD...{compare_ref}"], timeout=60.0)
+    if counts.returncode != 0:
+        raise RuntimeError((counts.stderr or counts.stdout or "git rev-list failed").strip())
+    parts = counts.stdout.strip().split()
+    if len(parts) != 2:
+        raise RuntimeError(f"unexpected rev-list output: {counts.stdout.strip()}")
+    return int(parts[1])
+
+
+def _keep_lane_commit_message(store: BioRealityStore, selected: list[str]) -> str:
+    loop_state = _read_json_object(store.paths.root / "state" / "loop_state.json")
+    loops = loop_state.get("loops") if isinstance(loop_state.get("loops"), dict) else {}
+    bio_x = loops.get("bio_X_execute_experiments", {}) if isinstance(loops, dict) else {}
+    bio_x_summary = bio_x.get("last_summary") if isinstance(bio_x, dict) and isinstance(bio_x.get("last_summary"), dict) else {}
+    claims = _load_claims_document(store.paths.claims_registry).get("claims", [])
+    claim_states = _claim_state_counts([item for item in claims if isinstance(item, dict)]) if isinstance(claims, list) else {}
+    title = f"BioReality cycle {now_iso()}: {len(selected)} file(s)"
+    body = [
+        "",
+        "Selected files:",
+        *[f"- {path}" for path in selected],
+        "",
+        f"loop_last_attempt_ts: {bio_x.get('last_attempt_ts') if isinstance(bio_x, dict) else ''}",
+        f"claim_states: {json.dumps(claim_states, sort_keys=True)}",
+        "bio_X: "
+        + json.dumps(
+            {
+                "executed": bio_x_summary.get("executed", 0),
+                "passed_this_cycle": bio_x_summary.get("passed_this_cycle", 0),
+                "failed_this_cycle": bio_x_summary.get("failed_this_cycle", 0),
+            },
+            sort_keys=True,
+        ),
+    ]
+    return title + "\n" + "\n".join(body)
+
+
+def run_keep_lane(store: BioRealityStore) -> dict[str, Any]:
+    try:
+        config = _load_keep_lane_config()
+    except (OSError, json.JSONDecodeError) as exc:
+        _append_keep_log(store, "config_error", {"error": str(exc)})
+        return {"lane": "bio-K", "error": "config error"}
+    if not config.get("enabled"):
+        return {"lane": "bio-K", "skipped": "disabled"}
+
+    repo_root = store.paths.root.parent.parent
+    try:
+        changed = _git_status_porcelain(repo_root)
+    except (OSError, RuntimeError) as exc:
+        _append_keep_log(store, "git_status_error", {"error": str(exc)})
+        return {"lane": "bio-K", "error": "git status failed"}
+    if not changed:
+        return {"lane": "bio-K", "skipped": "no changes"}
+
+    include_paths = [str(item) for item in config.get("include_paths", []) if isinstance(item, str)]
+    exclude_paths = [str(item) for item in config.get("exclude_paths", []) if isinstance(item, str)]
+    selected, dropped = _filter_paths(changed, include_paths, exclude_paths)
+    if not selected:
+        return {"lane": "bio-K", "skipped": "no useful changes", "dropped": len(dropped)}
+
+    min_seconds = float(config.get("min_seconds_between_pushes") or 0.0)
+    try:
+        too_soon, age = _keep_lane_recently_pushed(store, min_seconds)
+    except (OSError, ValueError) as exc:
+        _append_keep_log(store, "state_read_error", {"error": str(exc)})
+        return {"lane": "bio-K", "error": "state read failed"}
+    if too_soon:
+        return {"lane": "bio-K", "skipped": "recent push", "age_seconds": round(age, 3), "files": len(selected), "dropped": len(dropped)}
+
+    gates = config.get("pre_commit_gates", [])
+    ok, failed_gate = _run_keep_gates(store, repo_root, gates if isinstance(gates, list) else [])
+    if not ok:
+        return {"lane": "bio-K", "skipped": "gate failure", "failed_gate": failed_gate, "files": len(selected), "dropped": len(dropped)}
+
+    remote = str(config.get("remote") or "origin")
+    branch = str(config.get("branch") or "feat/bio-reality-deepening")
+    try:
+        behind = _remote_behind_count(repo_root, remote, branch)
+    except (OSError, RuntimeError, ValueError) as exc:
+        _append_keep_log(store, "remote_check_error", {"remote": remote, "branch": branch, "error": str(exc)})
+        return {"lane": "bio-K", "error": "remote check failed", "files": len(selected), "dropped": len(dropped)}
+    if behind > 0:
+        _append_keep_log(store, "behind_remote", {"remote": remote, "branch": branch, "behind": behind, "selected": selected})
+        return {"lane": "bio-K", "skipped": "behind remote", "behind": behind, "files": len(selected), "dropped": len(dropped)}
+
+    try:
+        add = _run_command(repo_root, ["git", "add", "--", *selected], timeout=60.0)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        _append_keep_log(store, "git_add_error", {"error": str(exc), "selected": selected})
+        return {"lane": "bio-K", "error": "git add failed", "files": len(selected), "dropped": len(dropped)}
+    if add.returncode != 0:
+        _append_keep_log(store, "git_add_failure", {"returncode": add.returncode, "stderr": add.stderr[-2000:], "selected": selected})
+        return {"lane": "bio-K", "error": "git add failed", "files": len(selected), "dropped": len(dropped)}
+
+    message = _keep_lane_commit_message(store, selected)
+    try:
+        commit = _run_command(repo_root, ["git", "commit", "-m", message], timeout=60.0)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        _append_keep_log(store, "git_commit_error", {"error": str(exc), "selected": selected})
+        return {"lane": "bio-K", "error": "git commit failed", "files": len(selected), "dropped": len(dropped)}
+    if commit.returncode != 0:
+        _append_keep_log(store, "git_commit_failure", {"returncode": commit.returncode, "stdout": commit.stdout[-2000:], "stderr": commit.stderr[-2000:]})
+        return {"lane": "bio-K", "error": "git commit failed", "files": len(selected), "dropped": len(dropped)}
+
+    try:
+        sha_result = _run_command(repo_root, ["git", "rev-parse", "HEAD"], timeout=60.0)
+        commit_sha = sha_result.stdout.strip() if sha_result.returncode == 0 else ""
+    except (OSError, subprocess.TimeoutExpired):
+        commit_sha = ""
+    retries = int(config.get("max_push_retries") or 0)
+    push_ok = False
+    last_push_error = ""
+    for attempt in range(retries + 1):
+        try:
+            push = _run_command(repo_root, ["git", "push", remote, f"HEAD:{branch}"], timeout=60.0)
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            last_push_error = str(exc)
+            push = None
+        if push is None:
+            if attempt < retries:
+                time.sleep(float(2 ** attempt))
+            continue
+        if push.returncode == 0:
+            push_ok = True
+            break
+        last_push_error = (push.stderr or push.stdout or "git push failed").strip()
+        if attempt < retries:
+            time.sleep(float(2 ** attempt))
+    if not push_ok:
+        _append_keep_log(store, "git_push_failure", {"remote": remote, "branch": branch, "error": last_push_error[-2000:], "commit_sha": commit_sha})
+        return {"lane": "bio-K", "error": "git push failed", "files": len(selected), "dropped": len(dropped), "commit_sha": commit_sha}
+
+    state = {"last_push_ts": time.time(), "last_commit_sha": commit_sha, "last_pushed_files": selected}
+    try:
+        store.paths.keep_lane_state.parent.mkdir(parents=True, exist_ok=True)
+        store.paths.keep_lane_state.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    except OSError as exc:
+        _append_keep_log(store, "state_write_error", {"error": str(exc), "commit_sha": commit_sha})
+        return {"lane": "bio-K", "error": "state write failed", "files": len(selected), "dropped": len(dropped), "commit_sha": commit_sha, "pushed": True}
+    return {"lane": "bio-K", "committed": True, "files": len(selected), "dropped": len(dropped), "commit_sha": commit_sha, "pushed": True}
+
+
 def _tex_escape(value: Any) -> str:
     text = str(value)
     replacements = {
@@ -851,6 +1110,25 @@ def self_test() -> int:
             return 1
         if quality_summary["agent_reviews"] == 0:
             print(json.dumps(quality_summary, indent=2), file=sys.stderr)
+            return 1
+        keep_config = _load_keep_lane_config()
+        if keep_config.get("enabled") is not True:
+            print(json.dumps(keep_config, indent=2), file=sys.stderr)
+            return 1
+        keep_selected, keep_dropped = _filter_paths(
+            [
+                (" M", "tools/bio_reality/state/foo.jsonl"),
+                (" M", "tools/bio_reality/experiments/run_X.py"),
+                ("??", "tools/bio_reality/vision/index.md"),
+            ],
+            [str(item) for item in keep_config.get("include_paths", []) if isinstance(item, str)],
+            [str(item) for item in keep_config.get("exclude_paths", []) if isinstance(item, str)],
+        )
+        if keep_selected != ["tools/bio_reality/experiments/run_X.py"]:
+            print(json.dumps({"selected": keep_selected, "dropped": keep_dropped}, indent=2), file=sys.stderr)
+            return 1
+        if "tools/bio_reality/state/foo.jsonl" not in keep_dropped:
+            print(json.dumps({"selected": keep_selected, "dropped": keep_dropped}, indent=2), file=sys.stderr)
             return 1
 
         promote_paths = _temp_paths(base / "promote")

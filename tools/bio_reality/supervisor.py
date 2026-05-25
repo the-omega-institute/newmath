@@ -78,6 +78,9 @@ def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_disp
     def assimilate_signals() -> dict[str, object]:
         return lanes.run_assimilation_lane(paths)
 
+    def keep_and_push() -> dict[str, object]:
+        return lanes.run_keep_lane(store)
+
     return NestedLoopRunner(
         [
             LoopUnit("bio_P_packet_targets", packet_targets),
@@ -88,6 +91,7 @@ def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_disp
             LoopUnit("bio_W_writeback_paper", writeback_paper),
             LoopUnit("bio_Q_quality_hardening", quality_hardening),
             LoopUnit("bio_A_assimilate_signals", assimilate_signals),
+            LoopUnit("bio_K_keep_and_push", keep_and_push),
         ],
         LoopState(STATE_DIR / "loop_state.json"),
     )
