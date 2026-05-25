@@ -48,6 +48,24 @@ The convergence-facing handoff comes last. The $\CauchyConvergenceModulusUp$ row
 Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since the excluded quotient, choice, trichotomy, representative-selection, and ambient-completeness coordinates do not occur in the carrier, they cannot occur among the local NameCert obligations.
 \end{proof}
 
+\begin{theorem}[MonotoneBoundedSequence scheduled-window factorization]
+\label{thm:monotone-bounded-sequence-scheduled-window-factorization}
+Let
+$$
+M=(S,W,R,O,B,T,H,C,P,N)
+$$
+be an accepted $\MonotoneBoundedSequenceUp$ carrier. Every consumer that reads the monotonicity ledger $O$, boundedness ledger $B$, and $\CauchyConvergenceModulusUp$ row $T$ must factor those reads through the same $\RealSequenceSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ schedule $S,W,R$ before any $\LocatedSupremumUp$ or $\LocatedMonotoneConvergenceUp$ read is exposed. The factorization exports one displayed finite sequence schedule, not quotient limits, selected representatives, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:monotone-bounded-sequence-carrier}. The rows $S,W,R$ are the only sequence-value route available to the packet: $S$ lists the source rows, $W$ records the finite stream windows, and $R$ ties those windows to the real readback surface.
+
+Apply \autoref{thm:monotone-bounded-sequence-namecert-obligations}. It forces the order-facing rows to consume the same source schedule, so $O$ cannot compare a different sequence surface and $B$ cannot introduce a second boundedness schedule.
+
+The modulus row $T$ is downstream of that shared route. Reading it as a $\CauchyConvergenceModulusUp$ handoff therefore uses the same RealSequenceSpace, StreamName, RegSeqRat, and Real rows before any located-supremum or located-monotone-convergence consumer is allowed to inspect the packet.
+
+Since the carrier has no coordinate for quotient limits, selected representatives, countable choice, trichotomy, or ambient real completeness, the shared-window route cannot export any of those objects.
+\end{proof}
+
 \begin{theorem}[MonotoneBoundedSequence finite limit boundary]
 \label{thm:monotone-bounded-sequence-finite-limit-boundary}
 Let
