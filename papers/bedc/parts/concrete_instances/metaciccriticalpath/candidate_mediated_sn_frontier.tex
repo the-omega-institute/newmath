@@ -121,3 +121,28 @@ Use the candidate-mediated SN discharge row and discharge-socket induction, \aut
 
 Finally apply the candidate-normalization budget theorem, \autoref{thm:metacic-critical-path-candidate-normalization-budget}. Its budget is exactly the displayed SN-facing surface plus the four L10 faces. Since that inventory omits a closed subject-reduction row, the replay can feed only the permitted consumers; it cannot erase $O$, fill $D$, or export full confluence or global beta-conversion decidability.
 \end{proof}
+
+\begin{theorem}[MetaCIC candidate-mediated subject-reduction boundary]
+\label{thm:metacic-critical-path-candidate-mediated-sn-subject-reduction-boundary}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any candidate-mediated replay over $S,N,U,H,C,P,L$ and the four L10 faces
+$$
+\DyadicRatCoreUp,\qquad
+\StreamNameUp,\qquad
+\RegSeqRatUp,\qquad
+\RealUp
+$$
+preserves the visible obstruction row $O$ and the discharge socket $D$. The replay cannot be read as closed subject reduction unless the packet separately displays a subject-reduction row; candidate-mediated strong normalization, confluence-facing replay, and decidability-facing replay do not fill that row by themselves.
+\end{theorem}
+\begin{proof}
+Begin with the candidate-mediated frontier of \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. It confines the SN-facing read to the displayed frontier rows and keeps $O,D$ visible to the enclosing packet.
+
+Use the handshake theorem, \autoref{thm:metacic-critical-path-sn-confluence-decidability-handshake}, to pass from candidate-mediated normalization to confluence-facing or decidability-facing replay. The handoff reads $S,N,U,H,C,P,L$ and the four L10 faces, but it does not add a closed subject-reduction coordinate.
+
+Apply the discharge-row and socket-induction theorems, \autoref{thm:metacic-critical-path-candidate-mediated-sn-discharge-row} and \autoref{thm:metacic-critical-path-discharge-socket-induction}. They preserve the obstruction row and keep the discharge socket unfilled while finite frontier rows are consumed.
+
+Finally use \autoref{thm:metacic-critical-path-candidate-normalization-budget} and \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}. The budget is exhausted by the displayed replay route and the four source faces, so any closed subject-reduction conclusion must come from a separate displayed row. Without that row, the boundary remains exactly $O,D$ plus the finite replay surface.
+\end{proof}
