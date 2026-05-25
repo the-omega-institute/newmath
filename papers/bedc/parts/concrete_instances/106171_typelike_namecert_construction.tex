@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\TypeLikeUp$}
+\label{ch:concrete-instances-typelike-namecert}
+\origin{human}
+
+Following Martin-Lof type theory, categorical families, and displayed fibrations, the $\TypeLikeUp$ packet records the carrier-plus-classifier-plus-transport interface used when BEDC data are read as typed families rather than as an unindexed host universe. It sits beside the membership discipline of $\SetLikeUp$, the syntactic carrier of \autoref{ch:concrete-instances-firstorder-namecert}, and the satisfaction carrier of \autoref{ch:concrete-instances-modeltheory-namecert}. The packet names only displayed classifier families, fiber rows, classifier transport, componentwise history transport, continuation replay, package provenance, and local naming; it does not introduce a universe hierarchy, quotient type equality, impredicative comprehension, host isomorphism of types, or an external category of families.
+
+\begin{definition}[TypeLike carrier]
+\label{def:typelike-carrier}
+A $\TypeLikeUp$ carrier is a finite $\BHist$ packet
+$$
+T=(B,F,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the displayed base classifier family row, read as BEDC classifier data rather than as a host universe;
+\item $F$ is the fiber-carrier row assigning to each accepted base entry a finite displayed fiber packet;
+\item $Q$ is the classifier row for fiber membership, endpoint equality, and family-compatible reads;
+\item $E$ is the extensionality and endpoint-exactness ledger, recording which displayed fiber endpoints may be identified under the classifier;
+\item $H$ records componentwise $\hsame$ transport for $B,F,Q,E$ together with replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay through which a consumer reads a base classifier, a fiber carrier, a classifier row, and an endpoint-exactness ledger;
+\item $P$ is the $\Pkg$ provenance over $\TypeLikeUp$, $\SetLikeUp$, $\FirstOrderUp$, $\ModelTheoryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\TypeLikeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an ambient type universe, quotient identity, selected representative, host-level equivalence of categories, or a comprehension rule not already displayed by $B,F,Q,E,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[TypeLike NameCert obligations]
+\label{thm:typelike-namecert-obligations}
+For every accepted $\TypeLikeUp$ carrier
+$$
+T=(B,F,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\TypeLikeUp}$ surface consists exactly of carrier admission for $T$, base-family classifier admission through $B$, fiber-carrier admission through $F$, classifier exposure through $Q$, endpoint-exactness exposure through $E$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:typelike-carrier}. Its base side is the displayed classifier family $B$, while its fiber side is the finite carrier row $F$ indexed by accepted base entries.
+
+The classifier row $Q$ supplies the only family-compatible membership and endpoint reads. The exactness row $E$ records when two displayed endpoints may be identified by that classifier, so endpoint equality is a carried ledger row rather than host type equality.
+
+The structural rows $H,C,P,N$ preserve and expose the same packet. Since no further coordinate is present, the NameCert obligations cannot ask for an ambient universe, quotient identity, selected representative, categorical equivalence, or external comprehension rule.
+\end{proof}
+
+\begin{theorem}[TypeLike classifier transport]
+\label{thm:typelike-classifier-transport}
+Every downstream consumer of an accepted $\TypeLikeUp$ packet that transports a fiber endpoint must factor through the finite route
+$$
+B,F,Q,E \longmapsto H,C,P,N .
+$$
+Consequently the transported endpoint remains inside the displayed classifier family and cannot be replaced by host equality of types, an untracked equivalence of fibers, or a SetLike, FirstOrder, or ModelTheory read that bypasses the carried classifier row.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $T=(B,F,Q,E,H,C,P,N)$. A consumer can reach a fiber endpoint only after reading the base classifier $B$ and the indexed fiber carrier $F$.
+
+The classifier row $Q$ fixes the admissible endpoint comparison, and $E$ records the exact endpoint ledger for that comparison. Transport therefore has to preserve both the base-family row and the fiber classifier row.
+
+The rows $H,C,P,N$ then move, replay, source, and name the same finite route. Reads inherited from $\SetLikeUp$, $\FirstOrderUp$, or $\ModelTheoryUp$ may be cited only through the package provenance $P$ and the displayed continuation $C$, so no sibling can supply a bypass around $B,F,Q,E$.
+\end{proof}
+
+\falsifiablePrediction{A consumer that claims a $\TypeLikeUp$ endpoint transport while omitting the base classifier row, fiber-carrier row, classifier row, endpoint-exactness ledger, $\hsame$, $\Cont$, $\Pkg$, or local $\NameCert$ rows refutes the carrier of \autoref{def:typelike-carrier}.}
+
+\independenceWitness{setlike, firstorder, modeltheory: $\TypeLikeUp$ is not bijective to any listed sibling because it jointly carries a displayed base classifier family, indexed fiber carrier, classifier row, endpoint-exactness ledger, componentwise transport, continuation replay, provenance, and local NameCert row. SetLikeUp has membership without indexed fiber transport; FirstOrderUp has syntax and deduction rows without the carrier family; ModelTheoryUp has satisfaction rows over FirstOrderUp without a general classifier-family transport interface.}
+
+\closureat{TypeLikeUp}{seedStr}
+
+\begin{closurestatus}{\TypeLikeUp}
+  \constructivestory{A $\TypeLikeUp$ packet is generated from a displayed base classifier family, indexed fiber carrier rows, a family-compatible classifier row, endpoint-exactness ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:typelike-carrier}, \autoref{thm:typelike-namecert-obligations}, and \autoref{thm:typelike-classifier-transport} seed the carrier-plus-classifier-plus-transport interface over displayed BEDC classifier families.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a universe hierarchy, quotient type equality, impredicative comprehension, host isomorphism of types, Lean verification, bridge checking, or an external category of families.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, endpoint exactness, and sibling-consumer nonescape for BEDC.Derived.TypeLikeUp.}
+\end{closurestatus}
