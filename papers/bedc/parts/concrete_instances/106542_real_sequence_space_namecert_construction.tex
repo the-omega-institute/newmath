@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\RealSequenceSpaceUp$}
+\label{ch:concrete-instances-real-sequence-space-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive treatment of sequences of real numbers, the $\RealSequenceSpaceUp$ packet records a real-valued sequence carrier as finite BEDC route data rather than as a quotient of streams or a completed function space. It sits between the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational names of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite real-name boundary of \autoref{ch:concrete-instances-real-namecert}, and the Cauchy convergence handoff of \autoref{ch:concrete-instances-cauchy-convergence-criterion-namecert}.
+
+\begin{definition}[RealSequenceSpace carrier]
+\label{def:real-sequence-space-carrier}
+A $\RealSequenceSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,R,D,E,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ schedule naming the finite sequence windows visible to the carrier.
+\item $R$ is the $\RegSeqRatUp$ row supplying regular rational names for the inspected real-valued coordinates.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to those inspected coordinates.
+\item $E$ is the $\RealUp$ seal row reached only after the scheduled regular rows and dyadic tolerances have been displayed.
+\item $K$ is the $\CauchyConvergenceCriterionUp$ handoff row for consumers that ask for Cauchy behavior of the displayed real-valued sequence.
+\item $H$ records componentwise $\hsame$ transport for the stream schedule, regular names, dyadic ledger, Real seal, Cauchy handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each finite window request through $S,R,D,E,K$.
+\item $P$ is the $\Pkg$ provenance over $\RealSequenceSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyConvergenceCriterionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealSequenceSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these finite rows. It has no coordinate for quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[RealSequenceSpace NameCert obligations]
+\label{thm:real-sequence-space-namecert-obligations}
+For every accepted $\RealSequenceSpaceUp$ carrier $Q=(S,R,D,E,K,H,C,P,N)$, the local $\NameCert_{\RealSequenceSpaceUp}$ surface consists exactly of finite $\BHist$ packet rows over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\CauchyConvergenceCriterionUp$:
+\begin{enumerate}
+\item carrier admission for the displayed stream schedule, regular rational coordinate names, dyadic tolerance ledger, Real seal, Cauchy-criterion handoff, transport, replay, provenance, and local name;
+\item finite-window classification, requiring every coordinate read to pass through the $\StreamNameUp$ row $S$;
+\item regular-coordinate admission, requiring the $\RegSeqRatUp$ row $R$ to be read only at windows named by $S$;
+\item tolerance admission, requiring the $\DyadicRatCoreUp$ row $D$ to accompany every displayed regular coordinate request;
+\item Real-seal ordering, requiring the $\RealUp$ row $E$ to be downstream of $S,R,D$;
+\item Cauchy-handoff ordering, requiring the $\CauchyConvergenceCriterionUp$ row $K$ to consume only the same displayed $S,R,D,E$ route;
+\item transport and replay stability through $H,C,P,N$.
+\end{enumerate}
+No obligation supplies quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-sequence-space-carrier}. The packet exposes only the stream schedule, regular rational coordinate rows, dyadic tolerance ledger, Real seal, Cauchy-criterion handoff, and structural rows.
+
+The finite-window obligations are then forced. A coordinate read has no source except $S$, the regular name row $R$ is read only at those windows, and the dyadic ledger $D$ records the tolerance data attached to the same request.
+
+The Real and Cauchy rows are downstream. The seal $E$ is reached only after the displayed $S,R,D$ route, and the handoff $K$ reuses that same route when a Cauchy-facing consumer reads the sequence.
+
+Finally the rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier definition contains none of the excluded host-side data, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[RealSequenceSpace Cauchy criterion handoff]
+\label{thm:real-sequence-space-cauchy-criterion-handoff}
+Every $\CauchyConvergenceCriterionUp$ consumer of an accepted $\RealSequenceSpaceUp$ carrier $Q=(S,R,D,E,K,H,C,P,N)$ reads a finite $\BHist$ packet route over
+$$
+\StreamNameUp,\qquad
+\RegSeqRatUp,\qquad
+\DyadicRatCoreUp,\qquad
+\RealUp,\qquad
+\CauchyConvergenceCriterionUp
+$$
+in the ordered form
+$$
+S \longrightarrow R \longrightarrow D \longrightarrow E \longrightarrow K .
+$$
+Thus a convergence-facing read may inspect only scheduled finite windows, regular rational coordinate rows, dyadic tolerance rows, the finite Real seal, and the displayed Cauchy handoff. It cannot extract quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient Real completeness from the sequence-space packet.
+\end{theorem}
+\begin{proof}
+Start from an accepted convergence-facing read. By \autoref{thm:real-sequence-space-namecert-obligations}, the read first enters the finite $\StreamNameUp$ schedule and then the corresponding $\RegSeqRatUp$ coordinate rows.
+
+The tolerance and seal rows are fixed by the same packet. The $\DyadicRatCoreUp$ ledger $D$ records the precision budget for the inspected coordinates, and the $\RealUp$ seal $E$ is downstream of $S,R,D$.
+
+The $\CauchyConvergenceCriterionUp$ row $K$ consumes only that displayed route. The structural rows $H,C,P,N$ preserve and name the same finite packet, so no quotient-stream representative, selected limit, countable-choice family, trichotomy branch, host real equality, or ambient completeness theorem is available to the consumer.
+\end{proof}
+
+\closureat{RealSequenceSpaceUp}{seedStr}
+
+\begin{closurestatus}{\RealSequenceSpaceUp}
+  \constructivestory{A $\RealSequenceSpaceUp$ packet is generated from a finite $\StreamNameUp$ schedule, $\RegSeqRatUp$ coordinate rows, a $\DyadicRatCoreUp$ tolerance ledger, a $\RealUp$ seal row, a $\CauchyConvergenceCriterionUp$ handoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-sequence-space-carrier}, \autoref{thm:real-sequence-space-namecert-obligations}, and \autoref{thm:real-sequence-space-cauchy-criterion-handoff} seed the real-valued sequence-space carrier over finite StreamName, RegSeqRat, DyadicRatCore, Real, and Cauchy convergence rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient streams, selected limits, countable choice, trichotomy, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window classification, regular-coordinate admission, dyadic tolerance admission, Real-seal ordering, Cauchy-handoff ordering, and transport stability for the same displayed packet.}
+\end{closurestatus}

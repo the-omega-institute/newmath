@@ -68,4 +68,41 @@ theorem ContractionMappingCarrier_tail_modulus_readiness [AskSetup] [PackageSetu
     ⟨MUnary, IUnary, replayUnary, tailUnary, modulusReplay, tailRoute, provenancePkg,
       tailPkg⟩
 
+theorem ContractionMappingCarrier_regular_cauchy_modulus_export [AskSetup] [PackageSetup]
+    {X d T G lambda M I H C P N x0 iterates replay bound tolerance tailBound
+      exportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContractionMappingCarrier X d T G lambda M I H C P N bundle pkg →
+      UnaryHistory x0 →
+        UnaryHistory iterates →
+          Cont x0 iterates replay →
+            Cont replay lambda bound →
+              Cont bound tolerance I →
+                Cont I M tailBound →
+                  Cont tailBound H exportRead →
+                    PkgSig bundle exportRead pkg →
+                      UnaryHistory X ∧ UnaryHistory lambda ∧ UnaryHistory replay ∧
+                        UnaryHistory bound ∧ UnaryHistory tailBound ∧
+                          UnaryHistory exportRead ∧ Cont x0 iterates replay ∧
+                            Cont replay lambda bound ∧ Cont bound tolerance I ∧
+                              Cont I M tailBound ∧ Cont tailBound H exportRead ∧
+                                PkgSig bundle P pkg ∧ PkgSig bundle exportRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig
+  intro carrier x0Unary iteratesUnary orbitReplay boundReplay toleranceRoute
+    tailRoute exportRoute exportPkg
+  obtain ⟨XUnary, _dUnary, _TUnary, _GUnary, lambdaUnary, MUnary, IUnary, HUnary,
+    _CUnary, _PUnary, _NUnary, provenancePkg⟩ := carrier
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed x0Unary iteratesUnary orbitReplay
+  have boundUnary : UnaryHistory bound :=
+    unary_cont_closed replayUnary lambdaUnary boundReplay
+  have tailBoundUnary : UnaryHistory tailBound :=
+    unary_cont_closed IUnary MUnary tailRoute
+  have exportReadUnary : UnaryHistory exportRead :=
+    unary_cont_closed tailBoundUnary HUnary exportRoute
+  exact
+    ⟨XUnary, lambdaUnary, replayUnary, boundUnary, tailBoundUnary, exportReadUnary,
+      orbitReplay, boundReplay, toleranceRoute, tailRoute, exportRoute, provenancePkg,
+      exportPkg⟩
+
 end BEDC.Derived.ContractionMappingUp
