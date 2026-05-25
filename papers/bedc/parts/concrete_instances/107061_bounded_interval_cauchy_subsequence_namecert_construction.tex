@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\BoundedIntervalCauchySubsequenceUp$}
+\label{ch:concrete-instances-bounded-interval-cauchy-subsequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\BoundedIntervalCauchySubsequenceUp$ packet records a finite-window substitute for the bounded-interval subsequence argument used by completion-facing real analysis. It sits after the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the interval projection route of \autoref{ch:concrete-instances-bounded-interval-projection-namecert}, and the cofinal regular-Cauchy subsequence route of \autoref{ch:concrete-instances-regular-cauchy-subsequence-stability-namecert}. The packet names the data needed by $\RealUp$ and completion consumers to inspect a bounded interval source through explicit finite windows; it does not assert full Bolzano--Weierstrass, Heine--Borel, open-cover compactness, trichotomy, or a choice-selected infinite subsequence.
+
+\begin{definition}[Bounded interval Cauchy subsequence carrier]
+\label{def:bounded-interval-cauchy-subsequence-carrier}
+A $\BoundedIntervalCauchySubsequenceUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,S,W,D,T,Q,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the closed bounded interval row, including endpoint $\RealUp$ seals and the finite interval projection surface.
+\item $S$ is the source bounded sequence row, read only through displayed $\StreamNameUp$ observation windows.
+\item $W$ is the finite window ledger listing the inspected source positions, endpoint windows, and selected comparison windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger containing the mesh radius, endpoint comparisons, pairwise distance bounds, and late-window budgets used by the extraction route.
+\item $T$ is the monotone cofinal schedule row naming how each selected window is reached from an inspected finite source window.
+\item $Q$ is the $\RegSeqRatUp$ handoff row obtained from the displayed windows, dyadic ledger, and schedule.
+\item $E$ is the $\RegularCauchySubsequenceStabilityUp$ row recording that the selected finite windows remain a regular Cauchy readback surface.
+\item $R$ is the terminal $\RealUp$ seal row available only after the interval, window, dyadic, schedule, regular-readback, and subsequence-stability rows have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for $I,S,W,D,T,Q,E,R,C,P,N$.
+\item $C$ stores displayed $\Cont$ replay of the extraction route
+$$
+I,S \longmapsto W,D,T \longmapsto Q,E \longmapsto R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BoundedIntervalCauchySubsequenceUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BoundedIntervalProjectionUp$, $\RegularCauchySubsequenceStabilityUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedIntervalCauchySubsequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,S,W,D,T,Q,E,R,H,C,P,N$. It has no coordinate for an ambient compactness theorem, open-cover subcover, host trichotomy, quotient stream equality, selected representatives, countable choice, or an unrecorded $\RealUp$ completeness principle.
+\end{definition}
+
+\begin{theorem}[Bounded interval Cauchy subsequence NameCert obligations]
+\label{thm:bounded-interval-cauchy-subsequence-namecert-obligations}
+For every accepted $\BoundedIntervalCauchySubsequenceUp$ carrier
+$$
+K=(I,S,W,D,T,Q,E,R,H,C,P,N),
+$$
+the local $\NameCert_{\BoundedIntervalCauchySubsequenceUp}$ surface consists exactly of carrier admission for the bounded interval row $I$, source sequence row $S$, finite stream-window ledger $W$, dyadic tolerance ledger $D$, monotone cofinal schedule $T$, regular rational handoff $Q$, subsequence-stability row $E$, terminal real seal $R$, componentwise transport $H$, continuation replay $C$, package provenance $P$, and local naming row $N$.
+
+The obligation surface also includes classifier stability under the same displayed rows, dyadic tolerance exactness through $D$, finite-window visibility through $W$, cofinal schedule replay through $T$, $\RegSeqRatUp$ handoff through $Q$, $\RealUp$ seal nonescape through $R$, and provenance visibility through $P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bounded-interval-cauchy-subsequence-carrier}. The projection exposes exactly the interval, source, window, dyadic, schedule, readback, subsequence-stability, seal, transport, replay, provenance, and naming rows listed in the statement.
+
+The classifier is componentwise on those rows. Hence any accepted comparison must preserve the same bounded interval row, the same finite source-window surface, the same dyadic ledger, and the same schedule route before it reaches the regular-readback and real-seal rows.
+
+The nonescape clauses follow from the absence of further coordinates in the carrier. There is no slot for open-cover compactness, host trichotomy, quotient stream equality, countable choice, selected representatives, or an ambient completeness principle, so no local $\NameCert$ consumer can read such data from the packet.
+\end{proof}
+
+\begin{theorem}[Bounded interval dyadic window extraction]
+\label{thm:bounded-interval-cauchy-subsequence-dyadic-window-extraction}
+Let
+$$
+K=(I,S,W,D,T,Q,E,R,H,C,P,N)
+$$
+be an accepted $\BoundedIntervalCauchySubsequenceUp$ carrier. Every finite extraction read from $K$ factors through the displayed dyadic ledger $D$ and the finite $\StreamNameUp$ window ledger $W$ before it may consume the monotone cofinal schedule $T$ or the $\RegSeqRatUp$ handoff $Q$.
+
+Consequently each selected comparison window is certified by endpoint interval data from $I$, inspected source windows from $S$, dyadic radii and pairwise bounds from $D$, and replay data from $C$, rather than by a hidden infinite subsequence, trichotomy decision, open cover, quotient stream, or choice principle.
+\end{theorem}
+\begin{proof}
+Start with an accepted extraction read and project the carrier. The only rows that mention finite observations are $W$ and $D$: $W$ lists the inspected source and endpoint windows, while $D$ records the mesh radius, endpoint comparisons, pairwise distance bounds, and late-window budgets attached to those observations.
+
+The schedule row $T$ is downstream from those finite ledgers. It records which displayed windows are reused along a monotone cofinal route; it does not add a new source of observations or a selection functional outside the packet.
+
+The regular handoff row $Q$ consumes $W,D,T$ together with the interval source $I,S$. Replaying the route through $C$ therefore forces every extraction read to pass through the finite dyadic-window data before any subsequence or regular Cauchy surface is available.
+
+The forbidden principles have no carrier coordinate. Since the read has already exhausted the displayed rows, no infinite choice-selected subsequence, host trichotomy, open-cover compactness, quotient stream equality, or ambient completeness proof can be exported by the extraction route.
+\end{proof}
+
+\begin{theorem}[Bounded interval Cauchy subsequence Real-seal handoff]
+\label{thm:bounded-interval-cauchy-subsequence-real-seal-handoff}
+Every $\RealUp$-facing consumer of an accepted $\BoundedIntervalCauchySubsequenceUp$ packet must read the route
+$$
+I,S \longmapsto W,D,T \longmapsto Q,E \longmapsto R
+$$
+before consuming the terminal seal row $R$. Thus the handoff to $\RealUp$ and completion consumers is a finite BEDC route through bounded-interval endpoint data, stream windows, dyadic tolerances, a cofinal schedule, regular rational readback, subsequence stability, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row.
+
+The handoff does not close full Bolzano--Weierstrass, Heine--Borel, open-cover compactness, trichotomy, quotient stream equality, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The terminal seal $R$ is downstream from the interval and source rows $I,S$, the finite ledgers $W,D$, the schedule row $T$, the regular handoff $Q$, and the subsequence-stability row $E$.
+
+Use \autoref{thm:bounded-interval-cauchy-subsequence-dyadic-window-extraction} to bind the extraction stage to $W$ and $D$. This ensures that the cofinal schedule and regular handoff are read only after the finite window and dyadic tolerance rows have been displayed.
+
+The transport and replay rows $H,C$ preserve the same ordered route, while $P,N$ record provenance and the local naming surface. A $\RealUp$ consumer can therefore consume $R$ only as the final row of that route.
+
+The carrier contains no coordinate for the excluded compactness or choice principles. The theorem is therefore a finite-window handoff to Real and completion work, not a claim of unrestricted subsequence compactness or open-cover compactness for closed intervals.
+\end{proof}
+
+\closureat{BoundedIntervalCauchySubsequenceUp}{seedStr}
+
+\begin{closurestatus}{\BoundedIntervalCauchySubsequenceUp}
+  \constructivestory{A $\BoundedIntervalCauchySubsequenceUp$ packet is generated from a bounded interval row, a source sequence row, finite StreamName windows, a DyadicRatCore tolerance ledger, a monotone cofinal schedule, RegSeqRat readback, RegularCauchySubsequenceStability handoff, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-interval-cauchy-subsequence-carrier}, \autoref{thm:bounded-interval-cauchy-subsequence-namecert-obligations}, \autoref{thm:bounded-interval-cauchy-subsequence-dyadic-window-extraction}, and \autoref{thm:bounded-interval-cauchy-subsequence-real-seal-handoff} seed the finite-window bounded-interval subsequence packet over displayed Real, RegSeqRat, StreamName, DyadicRatCore, BoundedIntervalProjection, and RegularCauchySubsequenceStability rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim full Bolzano--Weierstrass, Heine--Borel, open-cover compactness, trichotomy, quotient stream equality, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, dyadic window extraction, cofinal schedule replay, RegSeqRat handoff, Real-seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.BoundedIntervalCauchySubsequenceUp.}
+\end{closurestatus}
