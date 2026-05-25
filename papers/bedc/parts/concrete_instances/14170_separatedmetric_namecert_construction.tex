@@ -45,6 +45,7 @@ For an accepted $\SeparatedMetricUp$ carrier $S=(X,D,Z,L_0,L_1,E,H,C,P,N)$, the 
 \item ledger visibility, stating that the packet exports no quotient metric space, no host equality, no trichotomy, no open-cover compactness, and no $\RealUp$ completeness theorem.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.SeparatedMetricUp.SeparatedMetricPacket\_semantic\_name\_certificate}
 \begin{proof}
 Carrier admission is the finite tuple of \autoref{def:separatedmetric-carrier}. Every row named in the obligation list is visible in $S$, and no extra equality or compactness row is available to a consumer.
 
@@ -765,27 +766,7 @@ Apply \autoref{thm:separated-metric-cauchy-completion-readback}. Any completion-
 
 The nonescape claim follows because every permitted classifier read is already accounted for by the finite carrier rows, while host equality, quotient equality, selected representatives, trichotomy, open-cover compactness, and ambient $\RealUp$ completeness have no row to transport, replay, source, or name.
 \end{proof}
-\begin{theorem}[SeparatedMetric root distance-completion row exhaustion]
-\label{thm:separatedmetric-root-distance-completion-row-exhaustion}
-For every accepted $\SeparatedMetricUp$ zero-distance carrier $S=\mathsf{SepZero}(X,D,Z,E,L,H,C,P,N)$, the zero-distance and completion-equivalence obligations are exhausted by the rows $X,D,Z,E,L,H,C,P,N$ together with \autoref{thm:separatedmetric-root-zero-distance-dependency}, \autoref{thm:separatedmetric-root-completion-limit-handoff}, and \autoref{thm:separatedmetric-root-classifier-nonescape}.
-\end{theorem}
-\begin{proof}
-Project $S$. The cited root theorems first expose $X,D,Z$, then route completion-facing reads through $E,L$, and finally refuse every classifier read not carried by $H,C,P,N$.
-\end{proof}
-\begin{theorem}[SeparatedMetric Real-seal classifier transport budget]
-\label{thm:separatedmetric-real-seal-classifier-transport-budget}
-Every Real-seal classifier transport from an accepted carrier $S=\mathsf{SepZero}(X,D,Z,E,L,H,C,P,N)$ must consume the zero-distance row $D$, the completion handoff rows $E,L$, and the structural budget $H,C,P,N$ before any separated classifier export is available.
-\end{theorem}
-\begin{proof}
-Apply \autoref{thm:separatedmetric-root-completion-limit-handoff} to place completion reads behind $E,L$ and \autoref{thm:separatedmetric-root-classifier-nonescape} to keep the classifier behind $X,D,Z,H,C,P,N$.
-\end{proof}
-\begin{theorem}[SeparatedMetric NameCert consumer row coverage]
-\label{thm:separatedmetric-namecert-consumer-row-coverage}
-Every accepted $\NameCert_{\SeparatedMetricUp}$ consumer row for $S=\mathsf{SepZero}(X,D,Z,E,L,H,C,P,N)$ is covered by the zero-distance route, the completion-equivalence route, or the classifier nonescape route, and no consumer row can be sourced from host equality, quotient equality, selected representatives, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness.
-\end{theorem}
-\begin{proof}
-Use \autoref{thm:separatedmetric-root-distance-completion-row-exhaustion}. Its row exhaustion combines the zero-distance dependency, completion-limit handoff, and classifier nonescape statements, leaving no carrier coordinate for the excluded consumers.
-\end{proof}
+\input{parts/concrete_instances/separatedmetric/namecert_consumer_coverage}
 
 \input{parts/concrete_instances/separatedmetric/root_obligation_basis}
 
