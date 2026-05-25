@@ -73,6 +73,28 @@ The tolerance and seal rows are fixed by the same packet. The $\DyadicRatCoreUp$
 The $\CauchyConvergenceCriterionUp$ row $K$ consumes only that displayed route. The structural rows $H,C,P,N$ preserve and name the same finite packet, so no quotient-stream representative, selected limit, countable-choice family, trichotomy branch, host real equality, or ambient completeness theorem is available to the consumer.
 \end{proof}
 
+\begin{theorem}[RealSequenceSpace finite-window classifier determinacy]
+\label{thm:real-sequence-space-finite-window-classifier-determinacy}
+Let
+$$
+Q=(S,R,D,E,K,H,C,P,N)
+\qquad\text{and}\qquad
+Q'=(S',R',D',E',K',H',C',P',N')
+$$
+be accepted $\RealSequenceSpaceUp$ carriers. If $Q$ and $Q'$ display the same $\StreamNameUp$ schedule, the same $\RegSeqRatUp$ coordinate rows, the same $\DyadicRatCoreUp$ tolerance ledger, the same $\RealUp$ seal, the same $\CauchyConvergenceCriterionUp$ handoff, and componentwise matching $\hsame$ and $\Cont$ rows, then their public classifier reads are the same. Conversely, any public classifier disagreement between $Q$ and $Q'$ must occur in one of those displayed finite rows; it cannot be hidden in quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{def:real-sequence-space-carrier}. The only classifier coordinates exposed by either packet are the stream schedule, regular rational coordinate rows, dyadic tolerance ledger, Real seal, Cauchy handoff, transport, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:real-sequence-space-namecert-obligations} to both packets. The theorem fixes the ordering of finite-window admission, regular-coordinate admission, tolerance admission, Real-seal ordering, Cauchy-handoff ordering, and transport stability, so matching displayed rows force matching public reads at every permitted coordinate.
+
+It remains to exclude hidden disagreement. By \autoref{thm:real-sequence-space-cauchy-criterion-handoff}, every convergence-facing read factors through the same ordered route
+$$
+S \longrightarrow R \longrightarrow D \longrightarrow E \longrightarrow K .
+$$
+Thus no quotient stream, selected limit, countable-choice family, trichotomy branch, host real equality, or ambient completeness theorem can supply an additional classifier coordinate. Any disagreement must therefore be visible in one of the displayed finite rows.
+\end{proof}
+
 \closureat{RealSequenceSpaceUp}{seedStr}
 
 \begin{closurestatus}{\RealSequenceSpaceUp}
