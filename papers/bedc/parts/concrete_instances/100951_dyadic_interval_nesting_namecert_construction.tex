@@ -63,12 +63,29 @@ The schedule row $S$ then fixes the finite interval windows available to the con
 The rows $H,C,P,N$ transport, replay, source, and name this route. They do not add quotient equality, host equality, choice, a selected limit, or completeness, so every regular-name and real-name consumer remains inside the displayed chain.
 \end{proof}
 
+\begin{theorem}[DyadicIntervalNesting width monotonicity]\label{thm:dyadic-interval-nesting-width-monotonicity}
+Let
+$$
+J=(D,S,R,E,I,H,C,P,N)
+$$
+be an accepted $\DyadicIntervalNestingUp$ carrier. When a later interval-prefix window is read from the same $\NestedDyadicIntervalUp$ row $I$, the dyadic width ledger in $D$ is no larger than the earlier displayed width, and the $\RegSeqRatUp$ handoff $R$ remains downstream of that monotone ledger. The route uses only $I,D,S,R,E$ and introduces no completed intersection, host real equality, selected limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the nested-chain row $I$. It is the only carrier row that names the finite decreasing interval chain and its adjacent refinement relation, so a later interval-prefix window must be a later displayed read of the same sibling row.
+
+Read the dyadic ledger $D$. Its endpoint and width comparison entries record the earlier and later displayed widths, and the later prefix is admitted only through the refinement data supplied by $I$.
+
+Apply \autoref{thm:dyadic-interval-nesting-regular-name-route}. Every regular-name consumer reads the nested row, then the dyadic endpoint and width ledger, then the scheduled finite windows before reaching the RegSeqRat handoff.
+
+Thus the later width is no larger than the earlier displayed width inside the dyadic ledger, and $R$ remains downstream of that monotone ledger. The seal row $E$ is reached only after this route, so the argument never uses a completed intersection or host real equality.
+\end{proof}
+
 \closureat{DyadicIntervalNestingUp}{seedStr}
 
 \begin{closurestatus}{\DyadicIntervalNestingUp}
   \constructivestory{A $\DyadicIntervalNestingUp$ packet is generated from a finite NestedDyadicInterval row, DyadicRatCore endpoint and width ledgers, StreamName windows, a RegSeqRat handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:dyadic-interval-nesting-carrier}, \autoref{thm:dyadic-interval-nesting-namecert-obligations}, and \autoref{thm:dyadic-interval-nesting-regular-name-route} seed the finite dyadic interval nesting route from endpoint ledgers and scheduled windows to regular rational readback and the RealUp seal.}
+  \scopeclosed{\autoref{def:dyadic-interval-nesting-carrier}, \autoref{thm:dyadic-interval-nesting-namecert-obligations}, \autoref{thm:dyadic-interval-nesting-regular-name-route}, and \autoref{thm:dyadic-interval-nesting-width-monotonicity} seed the finite dyadic interval nesting route from endpoint ledgers and scheduled windows to regular rational readback and the RealUp seal.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.DyadicIntervalNestingUp.DyadicIntervalNestingTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
