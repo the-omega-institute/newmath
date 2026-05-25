@@ -747,6 +747,14 @@ def _load_keep_lane_config() -> dict[str, Any]:
     return config if isinstance(config, dict) else {}
 
 
+def _load_sync_lane_config() -> dict[str, Any]:
+    data = json.loads(PIPELINE_CONFIG.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        return {}
+    config = data.get("sync_lane")
+    return config if isinstance(config, dict) else {}
+
+
 def _run_command(repo_root: Path, cmd: list[str], *, timeout: float = 60.0) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         cmd,
@@ -759,6 +767,16 @@ def _run_command(repo_root: Path, cmd: list[str], *, timeout: float = 60.0) -> s
     )
 
 
+def _append_sync_log(store: BioRealityStore, event: str, details: dict[str, Any]) -> None:
+    record = {"ts": now_iso(), "event": event, "details": details}
+    try:
+        store.paths.sync_lane_log.parent.mkdir(parents=True, exist_ok=True)
+        with store.paths.sync_lane_log.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
+    except OSError:
+        return
+
+
 def _append_keep_log(store: BioRealityStore, event: str, details: dict[str, Any]) -> None:
     record = {"ts": now_iso(), "event": event, "details": details}
     try:
@@ -767,6 +785,78 @@ def _append_keep_log(store: BioRealityStore, event: str, details: dict[str, Any]
             handle.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
     except OSError:
         return
+
+
+def _write_sync_state(store: BioRealityStore, state: dict[str, Any]) -> None:
+    store.paths.sync_lane_state.parent.mkdir(parents=True, exist_ok=True)
+    store.paths.sync_lane_state.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def _sync_commit_range(last_synced_sha: str, remote: str, branch: str) -> str:
+    compare_ref = f"{remote}/{branch}"
+    return f"{last_synced_sha}..{compare_ref}" if last_synced_sha else f"HEAD..{compare_ref}"
+
+
+def _parse_sync_git_log(output: str) -> list[dict[str, Any]]:
+    commits: list[dict[str, Any]] = []
+    current: dict[str, Any] | None = None
+    for raw_line in output.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        maybe_sha, sep, subject = line.partition("|")
+        if sep and len(maybe_sha) == 40 and all(char in "0123456789abcdefABCDEF" for char in maybe_sha):
+            current = {"sha": maybe_sha, "subject": subject, "files": []}
+            commits.append(current)
+            continue
+        if current is not None:
+            files = current.setdefault("files", [])
+            if isinstance(files, list):
+                files.append(line)
+    return commits
+
+
+def _sync_match_commit(
+    commit: dict[str, Any],
+    keywords: list[str],
+    path_prefixes: list[str],
+) -> dict[str, Any] | None:
+    files = [str(item) for item in commit.get("files", []) if isinstance(item, str)]
+    lowered_keywords = [(keyword, keyword.lower()) for keyword in keywords if keyword]
+    matched_keywords: list[str] = []
+    matched_paths: list[str] = []
+    for path in files:
+        path_lower = path.lower()
+        for original, lowered in lowered_keywords:
+            if lowered in path_lower and original not in matched_keywords:
+                matched_keywords.append(original)
+        for prefix in path_prefixes:
+            if path.startswith(prefix) or fnmatch.fnmatch(path, f"{prefix}*"):
+                if prefix not in matched_paths:
+                    matched_paths.append(prefix)
+    if not matched_keywords and not matched_paths:
+        return None
+    return {
+        "ts": now_iso(),
+        "loning_commit_sha": str(commit.get("sha") or ""),
+        "subject": str(commit.get("subject") or ""),
+        "files_changed": files,
+        "matched_keywords": matched_keywords,
+        "matched_paths": matched_paths,
+    }
+
+
+def _sync_intelligence_records(
+    commits: list[dict[str, Any]],
+    keywords: list[str],
+    path_prefixes: list[str],
+) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
+    for commit in commits:
+        record = _sync_match_commit(commit, keywords, path_prefixes)
+        if record is not None:
+            records.append(record)
+    return records
 
 
 def _git_status_porcelain(repo_root: Path) -> list[tuple[str, str]]:
@@ -812,6 +902,172 @@ def _read_json_object(path: Path) -> dict[str, Any]:
     except (OSError, json.JSONDecodeError):
         return {}
     return data if isinstance(data, dict) else {}
+
+
+def _rev_list_ahead_behind(repo_root: Path, compare_ref: str) -> tuple[int, int]:
+    counts = _run_command(repo_root, ["git", "rev-list", "--left-right", "--count", f"HEAD...{compare_ref}"], timeout=60.0)
+    if counts.returncode != 0:
+        raise RuntimeError((counts.stderr or counts.stdout or "git rev-list failed").strip())
+    parts = counts.stdout.strip().split()
+    if len(parts) != 2:
+        raise RuntimeError(f"unexpected rev-list output: {counts.stdout.strip()}")
+    return int(parts[0]), int(parts[1])
+
+
+def run_sync_lane(store: BioRealityStore) -> dict[str, Any]:
+    """Fetch origin/auto-dev, extract Loning's recent biology-related work, attempt fast-forward / no-ff merge."""
+    try:
+        config = _load_sync_lane_config()
+    except (OSError, json.JSONDecodeError) as exc:
+        _append_sync_log(store, "config_error", {"error": str(exc)})
+        return {"lane": "bio-S", "error": "config_error"}
+    if not config.get("enabled"):
+        return {"lane": "bio-S", "skipped": "disabled"}
+
+    state = _read_json_object(store.paths.sync_lane_state)
+    now_ts = time.time()
+    min_seconds = float(config.get("min_seconds_between_syncs") or 0.0)
+    last_fetch_ts = float(state.get("last_fetch_ts") or 0.0)
+    if last_fetch_ts and now_ts - last_fetch_ts < min_seconds:
+        return {"lane": "bio-S", "skipped": "throttled", "age_seconds": round(now_ts - last_fetch_ts, 3)}
+
+    repo_root = SCRIPT_DIR.parent.parent
+    remote = str(config.get("remote") or "origin")
+    branch = str(config.get("upstream_branch") or "auto-dev")
+    compare_ref = f"{remote}/{branch}"
+    fetch_timeout = float(config.get("fetch_timeout_seconds") or 60.0)
+    max_commits = max(1, int(config.get("max_commits_per_sync") or 50))
+    last_synced_sha = str(state.get("last_synced_sha") or "")
+
+    try:
+        fetch = _run_command(repo_root, ["git", "fetch", remote, branch], timeout=fetch_timeout)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        _append_sync_log(store, "fetch_failed", {"remote": remote, "branch": branch, "error": str(exc)})
+        return {"lane": "bio-S", "error": "fetch_failed", "detail": str(exc)}
+    if fetch.returncode != 0:
+        detail = (fetch.stderr or fetch.stdout or "git fetch failed").strip()
+        _append_sync_log(store, "fetch_failed", {"remote": remote, "branch": branch, "returncode": fetch.returncode, "detail": detail[-2000:]})
+        return {"lane": "bio-S", "error": "fetch_failed", "detail": detail[-500:]}
+
+    try:
+        rev_parse = _run_command(repo_root, ["git", "rev-parse", compare_ref], timeout=30.0)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        _append_sync_log(store, "rev_parse_failed", {"ref": compare_ref, "error": str(exc)})
+        return {"lane": "bio-S", "error": "rev_parse_failed", "detail": str(exc)}
+    if rev_parse.returncode != 0:
+        detail = (rev_parse.stderr or rev_parse.stdout or "git rev-parse failed").strip()
+        _append_sync_log(store, "rev_parse_failed", {"ref": compare_ref, "returncode": rev_parse.returncode, "detail": detail[-2000:]})
+        return {"lane": "bio-S", "error": "rev_parse_failed", "detail": detail[-500:]}
+    upstream_sha = rev_parse.stdout.strip()
+
+    working_tree_clean = False
+    try:
+        working_tree_clean = not _git_status_porcelain(repo_root)
+    except (OSError, RuntimeError) as exc:
+        _append_sync_log(store, "git_status_error", {"error": str(exc)})
+
+    if upstream_sha == last_synced_sha and working_tree_clean:
+        new_state = dict(state)
+        new_state.update({"last_fetch_ts": now_ts, "last_synced_sha": upstream_sha, "last_intelligence_count": 0})
+        try:
+            _write_sync_state(store, new_state)
+        except OSError as exc:
+            _append_sync_log(store, "state_write_failed", {"error": str(exc), "upstream_sha": upstream_sha})
+        return {"lane": "bio-S", "skipped": "already current", "last_synced_sha": upstream_sha}
+
+    ahead_before_sync = 0
+    behind_before_sync = 0
+    try:
+        ahead_before_sync, behind_before_sync = _rev_list_ahead_behind(repo_root, compare_ref)
+    except (OSError, RuntimeError, ValueError) as exc:
+        _append_sync_log(store, "rev_list_failed", {"ref": compare_ref, "error": str(exc)})
+
+    commit_range = _sync_commit_range(last_synced_sha, remote, branch)
+    try:
+        log_result = _run_command(
+            repo_root,
+            ["git", "log", f"-n{max_commits}", "--name-only", "--format=%H|%s", commit_range],
+            timeout=60.0,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        _append_sync_log(store, "git_log_failed", {"range": commit_range, "error": str(exc)})
+        commits: list[dict[str, Any]] = []
+    else:
+        if log_result.returncode == 0:
+            commits = _parse_sync_git_log(log_result.stdout)
+        else:
+            detail = (log_result.stderr or log_result.stdout or "git log failed").strip()
+            _append_sync_log(store, "git_log_failed", {"range": commit_range, "returncode": log_result.returncode, "detail": detail[-2000:]})
+            commits = []
+
+    keywords = [str(item) for item in config.get("intelligence_keywords", []) if isinstance(item, str)]
+    path_prefixes = [str(item) for item in config.get("intelligence_paths", []) if isinstance(item, str)]
+    records = _sync_intelligence_records(commits, keywords, path_prefixes)
+    try:
+        append_jsonl(store.paths.loning_intelligence, records)
+    except OSError as exc:
+        _append_sync_log(store, "intelligence_write_failed", {"error": str(exc), "records": len(records)})
+        records = []
+
+    merge_attempted = False
+    merge_status = "skipped"
+    merge_sha = ""
+    if behind_before_sync > 0:
+        merge_attempted = True
+        try:
+            merge = _run_command(repo_root, ["git", "merge", "--no-ff", "-m", f"Sync auto-dev {upstream_sha[:12]}", compare_ref], timeout=300.0)
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            merge_status = "conflict_aborted"
+            _append_sync_log(store, "merge_error", {"ref": compare_ref, "error": str(exc)})
+            try:
+                _run_command(repo_root, ["git", "merge", "--abort"], timeout=60.0)
+            except (OSError, subprocess.TimeoutExpired) as abort_exc:
+                _append_sync_log(store, "merge_abort_failed", {"error": str(abort_exc)})
+        else:
+            if merge.returncode == 0:
+                merge_status = "ok"
+                try:
+                    head = _run_command(repo_root, ["git", "rev-parse", "HEAD"], timeout=30.0)
+                    merge_sha = head.stdout.strip() if head.returncode == 0 else ""
+                except (OSError, subprocess.TimeoutExpired):
+                    merge_sha = ""
+                _append_sync_log(store, "merge_ok", {"ref": compare_ref, "merge_sha": merge_sha, "upstream_sha": upstream_sha})
+            else:
+                merge_status = "conflict_aborted"
+                detail = (merge.stderr or merge.stdout or "git merge failed").strip()
+                _append_sync_log(store, "merge_conflict_aborted", {"ref": compare_ref, "returncode": merge.returncode, "detail": detail[-2000:]})
+                abort = _run_command(repo_root, ["git", "merge", "--abort"], timeout=60.0)
+                if abort.returncode != 0:
+                    abort_detail = (abort.stderr or abort.stdout or "git merge --abort failed").strip()
+                    _append_sync_log(store, "merge_abort_failed", {"returncode": abort.returncode, "detail": abort_detail[-2000:]})
+
+    new_state = dict(state)
+    new_state.update(
+        {
+            "last_fetch_ts": now_ts,
+            "last_synced_sha": upstream_sha,
+            "last_intelligence_count": len(records),
+        }
+    )
+    if merge_sha:
+        new_state["last_merge_sha"] = merge_sha
+    try:
+        _write_sync_state(store, new_state)
+    except OSError as exc:
+        _append_sync_log(store, "state_write_failed", {"error": str(exc), "upstream_sha": upstream_sha})
+
+    return {
+        "lane": "bio-S",
+        "fetched": True,
+        "behind_before_sync": behind_before_sync,
+        "ahead_before_sync": ahead_before_sync,
+        "interesting_commits": len(records),
+        "intelligence_records_appended": len(records),
+        "merge_attempted": merge_attempted,
+        "merge_status": merge_status,
+        "merge_sha": merge_sha,
+        "last_synced_sha": upstream_sha,
+    }
 
 
 def _keep_lane_recently_pushed(store: BioRealityStore, min_seconds: float) -> tuple[bool, float]:
@@ -1055,6 +1311,9 @@ def _temp_paths(base: Path) -> BioRealityPaths:
         claims_registry=base / "claims.json",
         experiments_registry=base / "experiments.json",
         experiment_runs=base / "experiment_runs.jsonl",
+        sync_lane_state=base / "sync_lane.json",
+        sync_lane_log=base / "sync_lane.log",
+        loning_intelligence=base / "loning_intelligence.jsonl",
         experiments_dir=base / "experiments",
         data_dir=base / "data",
         vision_dir=base / "vision",
@@ -1259,6 +1518,61 @@ def self_test() -> int:
     with tempfile.TemporaryDirectory(prefix="bio-reality-lanes-") as tmp:
         base = Path(tmp)
         paths = _temp_paths(base)
+        disabled_config_path = base / "disabled_pipeline_config.json"
+        disabled_config_path.write_text(json.dumps({"sync_lane": {"enabled": False}}, indent=2), encoding="utf-8")
+        original_pipeline_config = PIPELINE_CONFIG
+        globals()["PIPELINE_CONFIG"] = disabled_config_path
+        try:
+            disabled_summary = run_sync_lane(BioRealityStore(paths))
+        finally:
+            globals()["PIPELINE_CONFIG"] = original_pipeline_config
+        if disabled_summary != {"lane": "bio-S", "skipped": "disabled"}:
+            print(json.dumps(disabled_summary, indent=2), file=sys.stderr)
+            return 1
+
+        log_output = "\n".join(
+            [
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa|Add codon science note",
+                "papers/bedc/parts/visions/philosophy/science/codon_window.tex",
+                "lean4/BEDC/Derived/Genetic/StopCodon.lean",
+                "",
+                "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb|Adjust unrelated prose",
+                "docs/roadmap.txt",
+                "",
+                "cccccccccccccccccccccccccccccccccccccccc|Protein path only",
+                "papers/bedc/parts/concrete_instances/protein/namecert_construction.tex",
+            ]
+        )
+        parsed_commits = _parse_sync_git_log(log_output)
+        if len(parsed_commits) != 3 or parsed_commits[0]["files"] != [
+            "papers/bedc/parts/visions/philosophy/science/codon_window.tex",
+            "lean4/BEDC/Derived/Genetic/StopCodon.lean",
+        ]:
+            print(json.dumps(parsed_commits, indent=2), file=sys.stderr)
+            return 1
+        records = _sync_intelligence_records(
+            parsed_commits,
+            ["codon", "genetic", "amino", "bio", "protein", "dna", "rna", "translation", "ribosom", "nucleotide", "tRNA"],
+            [
+                "papers/bedc/parts/visions/philosophy/science/",
+                "papers/bedc/parts/concrete_instances/",
+                "lean4/BEDC/Derived/",
+            ],
+        )
+        if len(records) != 2:
+            print(json.dumps(records, indent=2), file=sys.stderr)
+            return 1
+        first_record = records[0]
+        if first_record["loning_commit_sha"] != "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa":
+            print(json.dumps(first_record, indent=2), file=sys.stderr)
+            return 1
+        if "codon" not in first_record["matched_keywords"] or "genetic" not in first_record["matched_keywords"]:
+            print(json.dumps(first_record, indent=2), file=sys.stderr)
+            return 1
+        if "papers/bedc/parts/visions/philosophy/science/" not in first_record["matched_paths"]:
+            print(json.dumps(first_record, indent=2), file=sys.stderr)
+            return 1
+
         paths.vision_dir.mkdir(parents=True)
         (paths.vision_dir / "dna-to-protein-boundary.md").write_text(
             "\n".join(

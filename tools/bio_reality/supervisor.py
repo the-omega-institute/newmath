@@ -54,6 +54,9 @@ def should_stop() -> bool:
 def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_dispatch: int = 1) -> NestedLoopRunner:
     store = BioRealityStore(paths)
 
+    def sync_auto_dev() -> dict[str, object]:
+        return lanes.run_sync_lane(store)
+
     def packet_targets() -> dict[str, object]:
         return lanes.run_packet_lane(store)
 
@@ -86,6 +89,7 @@ def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_disp
 
     return NestedLoopRunner(
         [
+            LoopUnit("bio_S_sync_auto_dev", sync_auto_dev),
             LoopUnit("bio_P_packet_targets", packet_targets),
             LoopUnit("bio_V_vision_intake", vision_intake),
             LoopUnit("bio_G_gate_and_plan", gate_and_plan),
