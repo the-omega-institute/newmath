@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\BoundedIntervalProjectionUp$}
+\label{ch:concrete-instances-bounded-interval-projection-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive real analysis, the $\BoundedIntervalProjectionUp$ packet records the finite data needed to project a displayed real-name input into a displayed closed bounded interval. It sits after the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the endpoint interval packet of \autoref{ch:concrete-instances-real-bounded-interval-namecert}, the clamp route of \autoref{thm:real-clamping-cauchy-stability}, and the located interval surface of \autoref{ch:concrete-instances-located-real-interval-namecert}. The packet gives bounded-subsequence, interval-trapping, and completion-facing consumers a named projection object; it is not host trichotomy, not quotient equality, not a selected limit, and not ambient $\RealUp$ completeness.
+
+\begin{definition}[Bounded interval projection carrier]
+\label{def:bounded-interval-projection-carrier}
+A $\BoundedIntervalProjectionUp$ carrier is a finite $\BHist$ packet
+$$
+B=(X,L,U,D,W,R,I,C,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\RealUp$ row whose projected value is being named.
+\item $L$ and $U$ are the lower and upper endpoint $\RealUp$ rows of the closed bounded interval.
+\item $D$ is the $\DyadicRatCoreUp$ endpoint-order and tolerance ledger used to compare finite reads of $X,L,U$.
+\item $W$ is the $\StreamNameUp$ finite-window surface for the source and endpoint names.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those finite windows.
+\item $I$ is the $\LocatedRealIntervalUp$ row tying the endpoint seals, dyadic order ledger, and locatedness data to the interval surface.
+\item $C$ is the $\RealClampingUp$ row naming the constructive clamp of $X$ against the displayed interval.
+\item $H$ stores componentwise $\hsame$ transport for the source, endpoints, tolerance ledger, windows, readback, interval, clamp, replay, provenance, and naming rows.
+\item $T$ stores displayed $\Cont$ replay of the projection route through $X,L,U,D,W,R,I,C,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BoundedIntervalProjectionUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealBoundedIntervalUp$, $\RealClampingUp$, $\LocatedRealIntervalUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedIntervalProjectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,L,U,D,W,R,I,C,H,T,P,N$. It has no coordinate for host trichotomy, quotient equality of real names, selected limits, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bounded interval projection NameCert obligations]
+\label{thm:bounded-interval-projection-namecert-obligations}
+For every accepted $\BoundedIntervalProjectionUp$ carrier
+$$
+B=(X,L,U,D,W,R,I,C,H,T,P,N),
+$$
+the local $\NameCert_{\BoundedIntervalProjectionUp}$ surface consists exactly of carrier admission for the source $\RealUp$ row $X$, endpoint rows $L,U$, dyadic endpoint-order and tolerance ledger $D$, finite stream windows $W$, regular rational readback $R$, located interval row $I$, constructive clamping row $C$, componentwise transport $H$, displayed replay $T$, package provenance $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-interval-projection-carrier}. The projection exposes exactly the source real row, endpoint rows, dyadic tolerance ledger, finite windows, regular readback, located interval row, clamp row, and structural rows.
+
+The interval boundary is read through the $\RealBoundedIntervalUp$ and $\LocatedRealIntervalUp$ surfaces. Thus endpoint order, locatedness, and finite bracket information are visible before any projection output is named.
+
+The projection value is read through $C$. By the $\RealClampingUp$ route cited above, the clamp consumes the same source, endpoints, dyadic tolerance ledger, stream windows, regular readback, and located interval row, so it introduces no host comparison oracle or hidden limit selector.
+
+Finally $H,T,P,N$ transport, replay, source, and name that same route. Since the carrier has no coordinate for host trichotomy, quotient equality, selected limits, or ambient $\RealUp$ completeness, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Bounded interval projection clamping stability]
+\label{thm:bounded-interval-projection-clamping-stability}
+Let
+$$
+B=(X,L,U,D,W,R,I,C,H,T,P,N)
+$$
+be an accepted $\BoundedIntervalProjectionUp$ carrier. Any componentwise $\hsame$ transport of the source row, endpoint rows, dyadic ledger, stream windows, regular readback, and located interval row transports the clamp row $C$ to the same $\BoundedIntervalProjectionUp$ output surface. Consequently bounded-subsequence and interval-trapping consumers read a stable closed-interval projection through the displayed rows, not through quotient equality, selected limits, host trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier and its finite interval boundary. The rows $L,U,D,W,R,I$ display the endpoint seals, dyadic tolerance comparisons, finite windows, regular rational readback, and located interval data used by the clamp.
+
+Apply the clamp stability route of \autoref{thm:real-clamping-cauchy-stability}. It states that the clamped value is stable under the displayed finite Cauchy readback and transport rows, so the projection output is determined by the same rows already present in $B$.
+
+The transport row $H$ and replay row $T$ preserve that route for the local packet. Provenance and naming through $P,N$ then repack the result as a $\NameCert_{\BoundedIntervalProjectionUp}$ surface.
+
+There is no further coordinate in \autoref{def:bounded-interval-projection-carrier} from which a host comparison, quotient real equality, selected limit, or ambient completeness principle could be read. Thus clamping stability is exactly stability of the displayed finite projection packet.
+\end{proof}
+
+\closureat{BoundedIntervalProjectionUp}{seedStr}
+
+\begin{closurestatus}{\BoundedIntervalProjectionUp}
+  \constructivestory{A $\BoundedIntervalProjectionUp$ packet is generated from a source RealUp row, two endpoint RealUp rows, a DyadicRatCore tolerance ledger, StreamName finite windows, RegSeqRat readback, a LocatedRealInterval row, a RealClamping row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-interval-projection-carrier}, \autoref{thm:bounded-interval-projection-namecert-obligations}, and \autoref{thm:bounded-interval-projection-clamping-stability} seed the finite closed-interval projection route over $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealBoundedIntervalUp$, $\RealClampingUp$, and $\LocatedRealIntervalUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host trichotomy, quotient equality of real names, selected limits, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-order evidence, finite-window readback, located interval handoff, clamping stability, transport, replay, provenance, and local naming for BEDC.Derived.BoundedIntervalProjectionUp.}
+\end{closurestatus}
