@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICDependentCodomainStabilityBoundaryUp$}
+\label{ch:concrete-instances-metacic-dependent-codomain-stability-boundary-namecert}
+\origin{ai}
+
+The $\MetaCICDependentCodomainStabilityBoundaryUp$ packet realizes the dependent-codomain barrier of \autoref{subsec:metacic-open-problems-dependent-codomain} as finite NameCert data. It reads the inversion boundary of \autoref{ch:concrete-instances-dependentcodomaininversionboundary-namecert}, the closure-preservation packet of \autoref{ch:concrete-instances-dependent-codomain-closure-preservation-namecert}, the subject-reduction boundary of \autoref{ch:concrete-instances-metacic-subject-reduction-boundary-namecert}, and the closed-normal consistency boundary of \autoref{ch:concrete-instances-closed-normal-consistency-boundary-namecert}. The packet names the stability row required before a dependent-codomain application branch can be routed to subject reduction; it does not assert unconditional subject reduction.
+
+\begin{definition}[MetaCIC dependent-codomain stability boundary carrier]
+\label{def:metacic-dependent-codomain-stability-boundary-carrier}
+A $\MetaCICDependentCodomainStabilityBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,D,R,I,V,Q,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the application-argument reduction row whose codomain may observe the reducing argument.
+\item $D$ is the dependent-codomain readback row, displaying the pre-step and post-step codomain observations.
+\item $R$ is the subject-reduction discharge request row that asks for the application branch of the MetaCIC interface.
+\item $I$ is the dependent-codomain inversion-boundary row.
+\item $V$ is the closure-preservation transport row available before typing preservation is requested.
+\item $Q$ is the obstruction row recording that subject reduction is unavailable unless the dependent-codomain stability row is supplied.
+\item $L$ is the stability ledger: it records the exact row that a later setup instance must fill to make the dependent codomain readback stable under the application-argument step.
+\item $H$ records componentwise $\hsame$ transport for application, codomain readback, discharge request, inversion, closure-preservation, obstruction, stability-ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the MetaCIC open-problem boundary through $A,D,R,I,V,Q,L,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICDependentCodomainStabilityBoundaryUp$, $\DependentCodomainInversionBoundaryUp$, $\DependentCodomainClosurePreservationUp$, $\MetaCICSubjectReductionBoundaryUp$, $\ClosedNormalConsistencyBoundaryUp$, $\SubjectReductionDischargeBundle$, $\SubjectReductionSetup$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICDependentCodomainStabilityBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $A,D,R,I,V,Q,L,H,C,P,N$. It has no coordinate for unconditional subject reduction, conversion completeness, closed consistency, ambient normalization, or a hidden setup instance.
+\end{definition}
+
+\begin{theorem}[MetaCIC dependent-codomain stability boundary obligations]
+\label{thm:metacic-dependent-codomain-stability-boundary-obligations}
+For an accepted $\MetaCICDependentCodomainStabilityBoundaryUp$ carrier $S=(A,D,R,I,V,Q,L,H,C,P,N)$, the local $\NameCert_{\MetaCICDependentCodomainStabilityBoundaryUp}$ surface consists exactly of application-argument reduction admission, dependent-codomain readback visibility, subject-reduction discharge-request visibility, inversion-boundary routing, closure-preservation transport, obstruction recording, stability-ledger exactness, componentwise transport, displayed replay, provenance, and local naming. A downstream Lean follow-up must supply the corresponding `Nontrivial` and `FieldFaithful` instances before this boundary can be consumed as a checked discharge row.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $A,D,R,I,V,Q,L,H,C,P,N$ are the only displayed coordinates, so the local NameCert obligations are their admission, compatibility, and replay checks.
+
+The codomain-sensitive part is $A,D,R$. These rows record that the reduction branch is an application-argument branch and that the codomain readback can observe the reducing argument before the subject-reduction request is made.
+
+The boundary part is $I,V,Q,L$. The inversion row and closure-preservation row provide the available finite data, the obstruction row records why they are insufficient by themselves, and the stability ledger names the missing row rather than discharging it.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. The required Lean `Nontrivial` and `FieldFaithful` instances belong to the later setup route because no hidden instance coordinate occurs in this carrier.
+\end{proof}
+
+\begin{theorem}[MetaCIC dependent-codomain stability handoff]
+\label{thm:metacic-dependent-codomain-stability-boundary-handoff}
+Every subject-reduction-facing read of an accepted $\MetaCICDependentCodomainStabilityBoundaryUp$ carrier factors through the finite route
+$$
+\DependentCodomainInversionBoundaryUp,\ \DependentCodomainClosurePreservationUp,\ \MetaCICSubjectReductionBoundaryUp,\ \ClosedNormalConsistencyBoundaryUp,\ L,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The handoff exposes the stability ledger that a later setup instance must fill. It does not turn the dependent-codomain application case into unconditional subject reduction and does not promote closed-normal consistency to full closed consistency.
+\end{theorem}
+\begin{proof}
+Begin with $A,D,R$. The read is subject-reduction-facing only because it has first displayed the application-argument step, the dependent-codomain readback, and the discharge request.
+
+Next consume $I,V,Q$. The inversion boundary and closure-preservation packet give the available codomain and closedness data, while the obstruction row records that this data does not yet type the post-step codomain.
+
+The ledger $L$ is then the only exported positive handoff. It names the dependent-codomain stability row that a later setup instance must supply, including the instance obligations recorded in the carrier theorem.
+
+Finally $H,C,P,N$ replay the route without adding theorem strength. Thus a consumer receives a precise boundary packet and a setup-facing row, not an unconditional subject-reduction theorem.
+\end{proof}
+
+\falsifiablePrediction{Any $\MetaCICDependentCodomainStabilityBoundaryUp$ packet lacking the dependent-codomain stability row $L$ cannot discharge the application-argument branch of subject reduction through the displayed MetaCIC discharge interface.}
+
+\independenceWitness{dependentcodomaininversionboundary, dependentcodomainclosurepreservation, metacicsubjectreductionboundary, closed-normal-consistency-boundary, metacic-open-problems: none is bijective with $\MetaCICDependentCodomainStabilityBoundaryUp$ because this packet jointly stores application-argument reduction, dependent codomain readback, discharge request, inversion boundary, closure-preservation transport, obstruction row, stability ledger, transport, replay, provenance, and local naming.}
+
+\closureat{MetaCICDependentCodomainStabilityBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICDependentCodomainStabilityBoundaryUp}
+  \constructivestory{A $\MetaCICDependentCodomainStabilityBoundaryUp$ packet is generated from application-argument reduction, dependent-codomain readback, subject-reduction discharge request, inversion-boundary, closure-preservation, obstruction, stability-ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-dependent-codomain-stability-boundary-carrier}, \autoref{thm:metacic-dependent-codomain-stability-boundary-obligations}, and \autoref{thm:metacic-dependent-codomain-stability-boundary-handoff} seed the finite dependent-codomain stability boundary packet for MetaCIC subject-reduction consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim unconditional subject reduction, conversion completeness, full closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked application-argument admission, dependent-codomain readback visibility, inversion-boundary routing, closure-preservation transport, obstruction recording, stability-ledger exactness, and the required setup instances for BEDC.Derived.MetaCICDependentCodomainStabilityBoundaryUp.}
+\end{closurestatus}
