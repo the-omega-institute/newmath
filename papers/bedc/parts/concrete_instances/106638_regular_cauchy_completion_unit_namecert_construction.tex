@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyCompletionUnitUp$}
+\label{ch:concrete-instances-regular-cauchy-completion-unit-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive completion, the $\RegularCauchyCompletionUnitUp$ packet records the unit route from displayed regular Cauchy source data into the completion-facing seal. It sits between the regular-name source of \autoref{ch:concrete-instances-regularcauchyname-namecert}, the unit map of \autoref{ch:concrete-instances-cauchycompletionunit-namecert}, the monadic completion surface of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, and the real completion boundary of \autoref{ch:concrete-instances-real-cauchy-completion-namecert}. Its finite reads pass through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ as exposed in \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet names the source-to-completion unit as finite BEDC data; it is not quotient completion equality, a selected Cauchy representative, countable choice, or ambient completeness of $\RealUp$.
+
+\begin{definition}[RegularCauchyCompletionUnit carrier]
+\label{def:regular-cauchy-completion-unit-carrier}
+A $\RegularCauchyCompletionUnitUp$ carrier is a finite $\BHist$ packet
+$$
+U=(G,R,S,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the source row, read either as a $\RegularCauchyNameUp$ packet or as the $\RegSeqRatUp$ regular rational Cauchy row already visible to a completion consumer.
+\item $R$ is the unit-admission row stating that the displayed source row is admitted as the unit image before any completion-facing seal is consumed.
+\item $S$ is the finite family of $\StreamNameUp$ windows through which the source row is inspected.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to those source windows and precision requests.
+\item $E$ is the $\RealCauchyCompletionUp$ or $\RealUp$ seal handoff reached only after $G,R,S,D$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the source, unit-admission row, stream windows, dyadic tolerance ledger, seal handoff, continuation, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from source inspection through unit admission, finite windows, tolerance readback, and seal handoff.
+\item $P$ records $\Pkg$ provenance over $\RegularCauchyCompletionUnitUp$, $\RegularCauchyNameUp$, $\CauchyCompletionUnitUp$, $\CauchyCompletionMonadUp$, $\RealCauchyCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyCompletionUnitUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient completion equality, a selected regular-Cauchy representative, countable-choice schedules, host sequence equality, an ambient completion theorem, or $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RegularCauchyCompletionUnit NameCert obligations]
+\label{thm:regular-cauchy-completion-unit-namecert-obligations}
+For an accepted $\RegularCauchyCompletionUnitUp$ carrier $U=(G,R,S,D,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyCompletionUnitUp}$ surface consists exactly of source admission through $G$, unit-route admission through $R$, finite $\StreamNameUp$ window exposure through $S$, $\DyadicRatCoreUp$ tolerance readback through $D$, $\RealCauchyCompletionUp$ or $\RealUp$ seal handoff through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-completion-unit-carrier}. Its displayed source row is $G$, and the unit-admission row is $R$.
+
+The finite observation surface is $S,D$. The stream windows expose only scheduled source reads, and the dyadic ledger records only the tolerance data needed before completion-facing consumption.
+
+The seal handoff $E$ is downstream of those rows. The structural rows $H,C,P,N$ transport, replay, source, and name the same route, so the local certificate is exhausted by the listed fields.
+\end{proof}
+
+\begin{theorem}[RegularCauchyCompletionUnit seal handoff]
+\label{thm:regular-cauchy-completion-unit-seal-handoff}
+Every $\RealCauchyCompletionUp$, $\CauchyCompletionUnitUp$, $\CauchyCompletionMonadUp$, or $\RealUp$ consumer of an accepted $\RegularCauchyCompletionUnitUp$ packet reaches the seal row $E$ only through the route
+$$
+G\longmapsto R\longmapsto S\longmapsto D\longmapsto E
+$$
+together with $H,C,P,N$. Thus the unit image is consumed as displayed regular Cauchy source data with finite windows and dyadic tolerance readback, not as a quotient class or selected completion representative.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing consumer. By the carrier definition, the only source row available to the consumer is $G$, and the only unit-admission row is $R$.
+
+The consumer must next pass through the finite windows $S$ and the dyadic tolerance ledger $D$. These rows are the displayed readback route inherited from the regular-name and regular-rational source surfaces.
+
+Only after that route is available can $E$ be read. The rows $H,C,P,N$ attach transport, replay, provenance, and local naming to the same route, so the seal handoff is the displayed unit route and not a hidden completion object.
+\end{proof}
+
+\begin{theorem}[RegularCauchyCompletionUnit non-escape]
+\label{thm:regular-cauchy-completion-unit-nonescape}
+No accepted $\RegularCauchyCompletionUnitUp$ packet exports data outside $G,R,S,D,E,H,C,P,N$. In particular, it cannot be used to recover quotient completion equality, a selected regular-Cauchy representative, countable-choice schedules, host sequence equality, an ambient completion theorem, analytic closure of the monad, or completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier. The source, unit-admission, window, tolerance, seal, transport, replay, provenance, and local-name rows are the only fields.
+
+Apply \autoref{thm:regular-cauchy-completion-unit-namecert-obligations}. Every accepted obligation is a projection of those rows or a structural transport, replay, provenance, or naming row for them.
+
+Finally use \autoref{thm:regular-cauchy-completion-unit-seal-handoff}. All completion-facing consumers pass through $G,R,S,D,E,H,C,P,N$, so no excluded quotient, choice, host, monadic closure, or completeness object can be exported.
+\end{proof}
+
+\begin{closurestatus}{\RegularCauchyCompletionUnitUp}
+  \constructivestory{A $\RegularCauchyCompletionUnitUp$ packet is generated from a RegularCauchyName or RegSeqRat source row, unit admission, finite StreamName windows, a DyadicRatCore tolerance ledger, a RealCauchyCompletion or RealUp seal handoff, componentwise transport, displayed replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-completion-unit-carrier}, \autoref{thm:regular-cauchy-completion-unit-namecert-obligations}, \autoref{thm:regular-cauchy-completion-unit-seal-handoff}, and \autoref{thm:regular-cauchy-completion-unit-nonescape} seed the finite source-to-completion unit route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, quotient completion equality, selected representatives, countable choice, host sequence equality, monadic analytic closure, ambient completion, or $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, unit-route admission, finite window exposure, dyadic tolerance readback, seal handoff, transport stability, provenance, and non-escape for the displayed packet.}
+\end{closurestatus}

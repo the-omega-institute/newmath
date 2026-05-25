@@ -52,6 +52,7 @@ d(T(x),T(y))\leq \lambda\, d(x,y),
 $$
 with the strict unit-bound row of $\lambda$ retained as part of the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContractionMappingUp.ContractionMappingCarrier\_picard\_step\_contraction}
 \begin{proof}
 Read the self-map coordinate $T$ and graph coordinate $G$. They provide finite application rows for $x\mapsto T(x)$ and $y\mapsto T(y)$ inside the same metric carrier $X$.
 
@@ -93,6 +94,7 @@ The ledger rows $B,R,W$ then record only finite replay data: bound powers, dyadi
 \label{thm:contraction-mapping-banach-handoff}
 Every $\BanachFixedPointUp$ consumer of an accepted $\ContractionMappingUp$ carrier receives the finite Cauchy-orbit ledger of \autoref{def:contraction-mapping-cauchy-orbit-ledger} together with a separate $\CompleteMetricUp$ row. The handoff exports the displayed Picard iterates, dyadic tolerances, rational bound powers, graph reads, and finite Cauchy comparison route; it does not export a selected fixed point, a completed orbit endpoint, host fixed-point equality, quotient equality of maps, or ambient completeness from the contraction packet alone.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContractionMappingUp.ContractionMappingCarrier\_banach\_handoff}
 \begin{proof}
 Begin with the complete-metric handoff of \autoref{thm:contraction-mapping-complete-metric-handoff}. It makes the metric carrier, graph-exact self-map, rational contraction ledger, induced modulus, and Picard one-step route visible, but it explicitly does not supply completeness as a contraction-packet coordinate.
 
@@ -116,6 +118,7 @@ The Picard-facing part is supplied by \autoref{thm:contraction-mapping-picard-st
 
 Completeness is not a coordinate of the contraction packet. A $\CompleteMetricUp$ handoff therefore requires a separate complete-metric row, and a $\BanachFixedPointUp$ endpoint route requires the later Picard, modulus, completion, and seal rows named in its own carrier. The contraction packet contributes only the map-level surface displayed here.
 \end{proof}
+\leanchecked{BEDC.Derived.ContractionMappingUp.ContractionMappingCarrier\_complete\_metric\_handoff}
 
 \begin{theorem}[ContractionMapping tail-modulus readiness]
 \label{thm:contraction-mapping-tail-modulus-readiness}
@@ -143,6 +146,7 @@ where $Q$ records the finite tail-bound thresholds extracted from $B,R,W$ and pr
 \label{thm:contraction-mapping-tail-bound-extraction}
 For every accepted $\ContractionMappingUp$ carrier $K$ and finite Cauchy-orbit ledger $O$, the tail-modulus readiness row of \autoref{thm:contraction-mapping-tail-modulus-readiness} determines a finite extraction row $Q$ whose entries are read only from the Picard-step contraction route, the Cauchy-orbit contractivity ledger, the rational bound powers, and the dyadic tail tolerance rows. No extraction step reads a selected fixed point or a completed limit.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContractionMappingUp.ContractionMappingCarrier\_tail\_bound\_extraction}
 \begin{proof}
 Project the carrier and the orbit ledger. The only contraction comparison is the Picard-step route of \autoref{thm:contraction-mapping-picard-step-contraction}, and the only iterated replay is the Cauchy-orbit contractivity statement of \autoref{thm:contraction-mapping-cauchy-orbit-contractivity}.
 
@@ -210,6 +214,7 @@ Induct over the common finite window. The base row is the shared start. At the s
 
 The $\PicardContractionUp$ route $I$ is the stored one-step replay for each adjacent pair. Transport by $H$ and continuation by $C$ preserve those rows componentwise, so the two finite windows remain classifier-stable without producing any completed orbit or fixed-point endpoint.
 \end{proof}
+\leanchecked{BEDC.Derived.ContractionMappingUp.ContractionMappingCarrier\_orbit\_uniqueness\_window}
 
 \begin{theorem}[ContractionMapping fixed-point tail seal]
 \label{thm:contraction-mapping-fixed-point-tail-seal}
@@ -249,6 +254,7 @@ It is read through the carrier rows $X,d,T,G,\lambda,M,I,H,C,P,N$ and the orbit 
 \label{thm:contraction-mapping-scoped-dependency-surface}
 Every accepted $\ContractionMappingUp$ read factors through the scoped source stack of \autoref{def:contraction-mapping-scoped-source-stack}. In particular, any Picard, Banach, complete-metric, or regular-Cauchy consumer can inspect only the displayed $\MetricUp$, $\LipschitzMapUp$, $\PicardContractionUp$, $\CompleteMetricUp$, $\RegSeqRatUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and $\NameCert$ rows before it uses its own downstream endpoint discipline.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContractionMappingUp.ContractionMappingCarrier\_scoped\_dependency\_surface}
 \begin{proof}
 Project the carrier and the finite orbit rows. The carrier supplies the metric, graph, contraction bound, induced modulus, Picard route, transport, replay, provenance, and naming coordinates, while the orbit and threshold rows supply only finite Picard tail data.
 

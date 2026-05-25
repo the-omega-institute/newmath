@@ -343,6 +343,12 @@ def verify_local_ci() -> tuple[bool, str | None]:
     Returns (False, error_tail) on the first failed step and (True, None)
     when all checks pass.
     """
+    # Timeouts bumped 2026-05-25: previous 180s/240s were too tight under
+    # system high load (40+ worktrees, concurrent lake builds, fseventsd
+    # churn). Observed: 3 consecutive LOCAL_CI_FAILED_AFTER_HEAL alerts in
+    # 2h because axiom-purity --strict timed out at 240s — falsely
+    # reverting otherwise-good codex heal commits. Local benchmarks show
+    # axiom-purity normally 3-5 min under load; audit 1-3 min.
     checks = [
         ("papers/bedc make check", ["make", "check"], REPO_ROOT / "papers" / "bedc", 600),
         ("lean4 lake build", ["lake", "build"], REPO_ROOT / "lean4", 600),
@@ -350,13 +356,13 @@ def verify_local_ci() -> tuple[bool, str | None]:
             "bedc_ci audit",
             ["python3", "lean4/scripts/bedc_ci.py", "audit"],
             REPO_ROOT,
-            180,
+            300,
         ),
         (
             "bedc_ci axiom-purity --strict",
             ["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"],
             REPO_ROOT,
-            240,
+            600,
         ),
     ]
     for name, cmd, cwd, timeout in checks:
