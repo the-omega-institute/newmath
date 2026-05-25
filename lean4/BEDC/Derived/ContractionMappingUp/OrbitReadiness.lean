@@ -219,4 +219,28 @@ theorem ContractionMappingCarrier_fixed_point_readiness [AskSetup] [PackageSetup
   exact
     ⟨⟨carrierSurface, orbitSurface, completeMetricRoute, provenancePkg, cert⟩, provenancePkg⟩
 
+theorem ContractionMappingCarrier_tail_bound_extraction [AskSetup] [PackageSetup]
+    {X d T G lambda M I H C P N x0 iterates boundPower tolerance adjacentReplay
+      tailReplay tailBound : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContractionMappingCarrier X d T G lambda M I H C P N bundle pkg →
+      ContractionMappingOrbitLedger x0 iterates boundPower tolerance adjacentReplay
+        tailReplay →
+        Cont boundPower tolerance tailBound →
+          PkgSig bundle tailBound pkg →
+            UnaryHistory lambda ∧ UnaryHistory boundPower ∧ UnaryHistory tolerance ∧
+              UnaryHistory tailBound ∧ Cont boundPower tolerance tailBound ∧
+                PkgSig bundle P pkg ∧ PkgSig bundle tailBound pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig
+  intro carrier orbit tailRoute tailPkg
+  obtain ⟨_XUnary, _dUnary, _TUnary, _GUnary, lambdaUnary, _MUnary, _IUnary, _HUnary,
+    _CUnary, _PUnary, _NUnary, provenancePkg⟩ := carrier
+  obtain ⟨_x0Unary, _iteratesUnary, boundPowerUnary, toleranceUnary, _adjacentRoute,
+    _tailReplayRoute⟩ := orbit
+  have tailBoundUnary : UnaryHistory tailBound :=
+    unary_cont_closed boundPowerUnary toleranceUnary tailRoute
+  exact
+    ⟨lambdaUnary, boundPowerUnary, toleranceUnary, tailBoundUnary, tailRoute,
+      provenancePkg, tailPkg⟩
+
 end BEDC.Derived.ContractionMappingUp
