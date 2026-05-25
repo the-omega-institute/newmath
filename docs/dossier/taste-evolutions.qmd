@@ -20,19 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-05-24T20:59:33Z
+> 最后刷新: 2026-05-25T01:00:27Z
 
-**Daemon 状态**: monitor (monitor cycle 56, adjust_since_research 3, round_counter 15219, last_adjust rule_evolution_skipped_or_failed)
+**Daemon 状态**: monitor (monitor cycle 57, adjust_since_research 3, round_counter 15679, last_adjust rule_evolution_skipped_or_failed)
 
-**待处理 queue** (398 条 finding):
-- isolated_theorem: 364 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
-- low_entropy_template: 32 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
+**待处理 queue** (407 条 finding):
+- isolated_theorem: 372 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
+- low_entropy_template: 33 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
 - missing_origin: 2 条; 代表样本 `dyadic`, `cauchy_completion_idempotent`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 125 次
-- TASTE ALERT category=low_entropy_template: 9 次
-- TASTE ALERT category=cycle_exception: 2 次
+- TASTE ALERT category=isolated_theorem: 185 次
+- TASTE ALERT category=low_entropy_template: 11 次
+- TASTE ALERT category=cycle_exception: 4 次
 - TASTE ALERT category=resolution_dossier_push_failed: 2 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
@@ -172,6 +172,8 @@ to case-by-case judgment.
 - 2026-05-24T18:15:20Z: `resolved` `add_downstream_user` for `BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_namecert_obligation_certificate` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_namecert_obligation_certificate:e21c0c1b`). Rationale: The certificate is not a trivial wrapper: it constructs the local LipschitzMap SemanticNameCert surface and exports the carrier's unary, continuation, and package rows. I added a sibling completion-facing handoff theorem that explicitly consumes this certificate together with the common-bound completion route, so the local NameCert obligation now feeds a downstream completion consumer. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-05-24T20:57:20Z: `resolved` `add_downstream_user` for `BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_contraction_threshold_handoff` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_contraction_threshold_handoff:e21c0c1b`). Rationale: The target carries real LipschitzMap BEDC content: it exposes the contraction-threshold route from the bound ledger through a handoff row, and the paper has a primary marker for it. It was isolated because the adjacent stronger threshold factorization reproved the same handoff surface instead of consuming it. I added a sibling downstream theorem, LipschitzMapCarrier_contraction_threshold_certified_handoff, which uses the flagged theorem directly and upgrades its output into a SemanticNameCert-certified handoff surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-05-25T01:00:13Z: `resolved` `delete_theorem` for `BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_composite_bound_routing` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.LipschitzMapUp.LipschitzMapCarrier_composite_bound_routing:e21c0c1b`). Rationale: The target had no downstream Lean consumer: exact full-target grep found no references, and unqualified search showed only the declaration plus the paper marker. Its content was already subsumed by the stronger sibling theorem `LipschitzMapCarrier_composition_boundary`, which proves the same composite graph/modulus routing while also carrying the certificate and remaining route data, so keeping the isolated theorem only duplicated a staging fragment. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
