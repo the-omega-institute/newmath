@@ -152,6 +152,18 @@ Use observer handoff and carrier scope next. \autoref{thm:local-clock-budget-obs
 Finally apply classifier stability and ledger boundary. \autoref{thm:local-clock-budget-classifier-stability} preserves the packet under recorded transport and replay, and \autoref{thm:local-clock-budget-ledger-boundary} excludes global clocks, host time parameters, inter-history synchronization coordinates, limit schedulers, and observer-substance from the public export.
 \end{proof}
 
+\begin{theorem}[Local clock budget mature treatment]
+\label{thm:local-clock-budget-mature-treatment}
+The $\LocalClockBudgetUp$ public export consumes exactly the finite local-window budget needed by the observer-history identity of \autoref{ch:concrete-instances-observerhistoryidentity-namecert}, the observer locality cell of \autoref{ch:concrete-instances-observer-locality-cell-namecert}, the observer subject boundary of \autoref{ch:concrete-instances-observersubjectboundary-namecert}, and the observer distinction trace of \autoref{ch:concrete-instances-observer-distinction-trace-namecert}. Each consumer reads only the displayed rows $H,T,W,B,L,Q,P,N$, so the shared observer route has no remaining paper-side clock coordinate, host time parameter, inter-history synchronization value, hidden limit schedule, or observer-substance outside $\Hist$.
+\end{theorem}
+\begin{proof}
+Start with the public export theorem. \autoref{thm:local-clock-budget-public-export} gives the downstream surface as the finite packet $H,T,W,B,L,Q,P,N$.
+
+The four observer-facing consumers named in the statement use the same packet from different boundaries. The observer-history identity reads the history row and local stream, the locality cell reads the selected finite windows, the subject boundary reads the budgeted handoff, and the distinction trace reads the ledger boundary.
+
+Apply the carrier scope, classifier stability, and ledger boundary theorems. These force all four reads through the same local-window packet and exclude every global or host-side clock coordinate. Thus the finite local-window budget is exhausted at the mature paper surface.
+\end{proof}
+
 \closureat{LocalClockBudgetUp}{seedStr}
 \closureat{LocalClockBudgetUp}{obligationStr}
 \closureat{LocalClockBudgetUp}{scopedStr}
@@ -160,8 +172,8 @@ Finally apply classifier stability and ledger boundary. \autoref{thm:local-clock
 
 \begin{closurestatus}{\LocalClockBudgetUp}
   \constructivestory{A $\LocalClockBudgetUp$ packet is generated from one observed $\Hist$ row, its finite local $\Cont$ stream, finite step-window rows, a unary budget row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:local-clock-budget-carrier}, \autoref{thm:local-clock-budget-carrier-scope}, \autoref{thm:local-clock-budget-classifier-stability}, \autoref{thm:local-clock-budget-ledger-boundary}, \autoref{thm:local-clock-budget-observer-handoff}, and \autoref{thm:local-clock-budget-public-export} close the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and exported public packet for the finite local-clock-budget surface.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:local-clock-budget-carrier}, \autoref{thm:local-clock-budget-carrier-scope}, \autoref{thm:local-clock-budget-classifier-stability}, \autoref{thm:local-clock-budget-ledger-boundary}, \autoref{thm:local-clock-budget-observer-handoff}, \autoref{thm:local-clock-budget-public-export}, and \autoref{thm:local-clock-budget-mature-treatment} close the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, exported public packet, and observer-facing local-window budget for the finite local-clock-budget surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \notclaimed{This chapter does not close global clocks, synchronized time across distinct histories, host time parameters, hidden limit schedules, observer-substance beyond $\Hist$, Lean verification, or bridge checking.}
