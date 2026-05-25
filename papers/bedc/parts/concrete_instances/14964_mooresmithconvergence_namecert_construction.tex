@@ -137,6 +137,7 @@ The replay row $K'$ records the same accepted route in the primed packet after t
 \label{thm:moore-smith-convergence-completion-readback-exactness}
 For every accepted $\MooreSmithConvergenceUp$ carrier $M=(D,V,U,C,B,R,L,H,K,P,N)$, any $\RegSeqRatUp$ or $\RealUp$ readback exported by $R$ or $L$ is downstream of the displayed completion-boundary row $B$, and $B$ is downstream of the directed window, net-value, entourage, and Cauchy-tail rows $D,V,U,C$. Thus completion-facing readback is exact for the finite packet: it cannot read a selected limit, a quotient of nets, an ambient completeness theorem, or host equality of completion points.
 \end{theorem}
+\leanchecked{BEDC.Derived.MooreSmithConvergenceUp.MooreSmithConvergencePacket\_completion\_readback\_exactness}
 \begin{proof}
 Start with a readback request for $R$ or $L$. The carrier places both rows after the completion-boundary coordinate $B$.
 
@@ -155,6 +156,20 @@ Inspect the carrier rows in \autoref{def:moore-smith-convergence-carrier}. They 
 Apply the ledger non-escape clause of \autoref{thm:moore-smith-convergence-namecert-obligations}. A request without a displayed tail witness or boundary row is not exported as convergence data.
 
 The named excluded objects have no coordinate in $M$. Consequently the local name row cannot certify them, and the packet refuses the request rather than treating it as Moore--Smith convergence evidence.
+\end{proof}
+
+\begin{theorem}[Moore--Smith directed-window obligation]
+\label{thm:moore-smith-directed-window-obligation}
+Every accepted Moore--Smith convergence read exposes the directed-set row $D$, tail-window schedule $V$, net-value row $U$, Cauchy compatibility row $C$, completion-boundary row $B$, transport row $H$, replay row $K$, provenance row $P$, and local $\NameCert$ row $N$ before any completion consumer sees a limit candidate. The read exports no cofinal choice, quotient nets, selected limits, host equality of completion points, or global completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:moore-smith-convergence-carrier}. Its convergence-facing route displays exactly the directed-set, tail-window, net-value, Cauchy compatibility, completion-boundary, readback, transport, replay, provenance, and local naming rows.
+
+Use the uniform handoff of \autoref{thm:moore-smith-convergence-uniform-handoff} and the completion boundary of \autoref{thm:moore-smith-convergence-completion-boundary}. These force the directed window, net-value row, entourage or Cauchy compatibility evidence, and completion-boundary row to appear before any completion-facing readback.
+
+The boundary scope of \autoref{thm:moore-smith-convergence-boundary-scope} and the obligation exhaustion theorem \autoref{thm:moore-smith-convergence-obligation-exhaustion} identify the permitted rows as the displayed packet rows. The directed-window stability theorem \autoref{thm:moore-smith-convergence-directed-window-stability} then shows that transport preserves the same finite route through $H$ and $K$.
+
+Finally apply completion readback exactness from \autoref{thm:moore-smith-convergence-completion-readback-exactness} and ledger refusal from \autoref{thm:moore-smith-convergence-ledger-refusal}. Cofinal choice, quotient nets, selected limits, host equality of completion points, and global completeness have no carrier coordinate, so they cannot be exposed before or after the completion consumer sees the finite boundary row.
 \end{proof}
 
 \closureat{MooreSmithConvergenceUp}{seedStr}

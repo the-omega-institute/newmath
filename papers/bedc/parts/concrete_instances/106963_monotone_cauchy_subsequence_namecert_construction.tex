@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\MonotoneCauchySubsequenceUp$}
+\label{ch:concrete-instances-monotone-cauchy-subsequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\MonotoneCauchySubsequenceUp$ packet records the finite surface by which a monotone source sequence exposes a Cauchy subsequence route without exporting a selected limit or quotient stream. It sits after the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, the monotone bounded source packet of \autoref{ch:concrete-instances-monotone-bounded-sequence-namecert}, and the subsequence-stability handoff of \autoref{ch:concrete-instances-regular-cauchy-subsequence-stability-namecert}. The packet names the extraction surface available to Real and Completion consumers; it has no coordinate for a quotient stream, selected limit, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[MonotoneCauchySubsequence carrier]
+\label{def:monotone-cauchy-subsequence-carrier}
+A $\MonotoneCauchySubsequenceUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,I,M,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source monotone sequence row, read through the $\MonotoneBoundedSequenceUp$ and $\StreamNameUp$ surfaces before any subsequence request is consumed.
+\item $I$ is the monotone index row. It records the finite increasing index schedule used to inspect subsequence windows.
+\item $M$ is the modulus and tail row. It records the finite tail threshold requested by a Cauchy read and the matching source windows opened by $I$.
+\item $D$ is the $\DyadicRatCoreUp$ budget row carrying the dyadic tolerance and refinement data for the source and subsequence windows.
+\item $R$ is the $\RegSeqRatUp$ readback row for the selected windows after the index and dyadic budget rows have been displayed.
+\item $E$ is the $\RealUp$ seal row reached only after $S,I,M,D,R$ have been read.
+\item $H$ records componentwise $\hsame$ transport for the source sequence, index schedule, modulus and tail row, dyadic budget, readback, Real seal, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from a subsequence Cauchy request through $S,I,M,D,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MonotoneCauchySubsequenceUp$, $\MonotoneBoundedSequenceUp$, $\RegularCauchySubsequenceStabilityUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MonotoneCauchySubsequenceUp}$ row.
+\end{enumerate}
+The carrier exports only the finite subsequence extraction packet. It exports no quotient stream, selected limit, countable choice, trichotomy branch, or ambient $\RealUp$ completeness theorem.
+\end{definition}
+
+\begin{definition}[MonotoneCauchySubsequence classifier]
+\label{def:monotone-cauchy-subsequence-classifier}
+Two accepted $\MonotoneCauchySubsequenceUp$ carriers
+$$
+Q=(S,I,M,D,R,E,H,C,P,N)
+$$
+and
+$$
+Q'=(S',I',M',D',R',E',H',C',P',N')
+$$
+are classified together exactly when the displayed $\hsame$ rows transport $S$ to $S'$, $I$ to $I'$, $M$ to $M'$, $D$ to $D'$, $R$ to $R'$, and $E$ to $E'$, and the displayed $\Cont$ rows replay the same route from the monotone source through index schedule, tail modulus, dyadic budget, regular readback, and Real seal. The classifier has no coordinate for host sequence equality, quotient stream equality, a selected infinite subsequence, a selected limit, countable choice, trichotomy, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[MonotoneCauchySubsequence NameCert obligations]
+\label{thm:monotone-cauchy-subsequence-namecert-obligations}
+For every accepted $\MonotoneCauchySubsequenceUp$ carrier
+$$
+Q=(S,I,M,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\MonotoneCauchySubsequenceUp}$ surface consists exactly of carrier admission for the source monotone sequence row, monotone index row, modulus and tail row, dyadic budget row, regular rational readback, Real seal, componentwise transport, replay, provenance, and local naming. Every subsequence Cauchy read must display $S,I,M,D,R$ before $E$ is available, and $H,C,P,N$ only preserve that route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:monotone-cauchy-subsequence-carrier}. The displayed analytic rows are $S,I,M,D,R,E$, and the structural rows are $H,C,P,N$.
+
+The source row $S$ is read through the monotone bounded sequence surface, while $I$ records the increasing index schedule. A Cauchy request can therefore inspect a subsequence window only after the source schedule and the selected index row have both been displayed.
+
+The modulus and budget rows come next. The row $M$ supplies the finite tail threshold, and $D$ supplies the dyadic tolerance and refinement budget for the same source and subsequence windows.
+
+The readback and seal rows are downstream. The $\RegSeqRatUp$ row $R$ reads the scheduled windows after the index and dyadic budget have been displayed, and the $\RealUp$ row $E$ seals only that finite route. Transport, replay, provenance, and local naming preserve the same coordinates, so the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MonotoneCauchySubsequence RegSeqRat handoff]
+\label{thm:monotone-cauchy-subsequence-regseqrat-handoff}
+Every accepted $\MonotoneCauchySubsequenceUp$ carrier $Q=(S,I,M,D,R,E,H,C,P,N)$ hands a subsequence Cauchy read to $\RegSeqRatUp$ only through the finite route
+$$
+S,I \longmapsto M,D \longmapsto R \longmapsto E,H,C,P,N .
+$$
+The handoff composes the source monotone bounded sequence route with the stability surface of \autoref{ch:concrete-instances-regular-cauchy-subsequence-stability-namecert}; it does not export a quotient stream, a selected host limit, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier and classifier. They force every subsequence read to preserve the source sequence row, monotone index schedule, modulus and tail row, dyadic budget, readback, and seal by componentwise transport and displayed replay.
+
+Apply \autoref{thm:monotone-cauchy-subsequence-namecert-obligations}. It places the $\RegSeqRatUp$ row $R$ after $S,I,M,D$, so the regular rational readback cannot be detached from the selected source windows or the dyadic tolerance ledger.
+
+Finally use the sibling stability route of \autoref{ch:concrete-instances-regular-cauchy-subsequence-stability-namecert}. That route preserves regular Cauchy readback under monotone cofinal subsequence schedules. The present packet supplies the corresponding $S,I,M,D,R,E,H,C,P,N$ rows, and no excluded quotient, selector, choice, trichotomy, or completeness coordinate is available.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MonotoneCauchySubsequenceUp$ consumer that reaches $\RegSeqRatUp$ or $\RealUp$ must display the monotone source row, increasing index row, modulus and tail row, dyadic budget, regular readback, Real seal, transport, replay, provenance, and local NameCert row first.}
+
+\independenceWitness{monotoneboundedsequence, regularcauchysubsequencestability, regseqrat, streamname, dyadicratcore, real: $\MonotoneCauchySubsequenceUp$ is not bijective to any listed sibling because it jointly carries the source monotone sequence, increasing index schedule, modulus and tail row, dyadic budget, readback, Real seal, transport, replay, provenance, and local naming rows.}
+
+\closureat{MonotoneCauchySubsequenceUp}{seedStr}
+
+\begin{closurestatus}{\MonotoneCauchySubsequenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:monotone-cauchy-subsequence-carrier}, \autoref{def:monotone-cauchy-subsequence-classifier}, \autoref{thm:monotone-cauchy-subsequence-namecert-obligations}, and \autoref{thm:monotone-cauchy-subsequence-regseqrat-handoff} seed the finite extraction surface for monotone Cauchy subsequence reads over source sequence, index, modulus, dyadic budget, readback, Real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier admission, classifier preservation, monotone index exactness, dyadic budget transport, RegSeqRat handoff, Real seal nonescape, provenance, and local naming for BEDC.Derived.MonotoneCauchySubsequenceUp.}
+  \constructivestory{A $\MonotoneCauchySubsequenceUp$ packet is generated from a monotone source sequence row, increasing index row, modulus and tail row, dyadic budget, RegSeqRat readback, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
