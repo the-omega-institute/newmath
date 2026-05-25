@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\BoundedMonotoneSubsequenceUp$}
+\label{ch:concrete-instances-bounded-monotone-subsequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\BoundedMonotoneSubsequenceUp$ packet records the finite subsequence bridge from a bounded real sequence display toward regular-Cauchy extraction. It sits between the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream schedule of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the bounded regular Cauchy route of \autoref{ch:concrete-instances-bounded-regular-cauchy-subsequence-namecert}, the bounded interval route of \autoref{ch:concrete-instances-bounded-interval-cauchy-subsequence-namecert}, and the diagonal extraction route of \autoref{ch:concrete-instances-diagonal-cauchy-subsequence-namecert}. The packet names the monotone-window surface used by Bolzano-Weierstrass-style arguments; it does not select an infinite subsequence or assert classical compactness.
+
+\begin{definition}[Bounded monotone subsequence carrier]
+\label{def:bounded-monotone-subsequence-carrier}
+A $\BoundedMonotoneSubsequenceUp$ carrier is a finite $\BHist$ packet
+$$
+X=(S,D,I,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ schedule exposing the finite sequence windows available to the packet.
+\item $D$ is the $\DyadicRatCoreUp$ ledger recording the dyadic tolerances and rational comparisons used inside the windows.
+\item $I$ is the bounded interval row naming the finite lower and upper barriers consumed by the monotone-window read.
+\item $W$ is the monotone-window ledger, consisting of a finite subsequence index list, a direction tag, and the displayed comparisons proving monotonicity inside the named window.
+\item $R$ is the $\RegSeqRatUp$ handoff row reached from $S,D,I,W$.
+\item $E$ is the $\RealUp$ seal row reached only after the regular-rational handoff has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the schedule, dyadic ledger, interval bounds, monotone window, regular handoff, Real seal, continuation, provenance, and local name rows.
+\item $C$ records displayed $\Cont$ replay from finite window requests through the dyadic ledger, interval bounds, monotone window, regular-rational handoff, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\BoundedMonotoneSubsequenceUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedMonotoneSubsequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,D,I,W,R,E,H,C,P,N$. It has no coordinate for a chosen infinite subsequence, quotient real equality, trichotomy, countable choice, full Bolzano-Weierstrass compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bounded monotone subsequence monotone-window preservation]
+\label{thm:bounded-monotone-subsequence-monotone-window}
+For an accepted $\BoundedMonotoneSubsequenceUp$ carrier $X=(S,D,I,W,R,E,H,C,P,N)$, every subsequence read exposed by the packet preserves the displayed monotone-window ledger $W$ under the componentwise transport $H$ and replay row $C$. The read first consumes the finite stream schedule $S$, the dyadic comparison ledger $D$, and the interval bound row $I$; only then may it read the monotone direction and finite subsequence list stored in $W$.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The stream schedule $S$ is the only source of sequence observations, while $D$ and $I$ are the only rows that record the comparison scale and bounded interval data used by the window.
+
+The monotone-window row $W$ is therefore downstream of $S,D,I$. A consumer that asks for an increasing or decreasing window must read the finite index list and direction tag from $W$, and the displayed comparisons in $D$ certify the order relation inside the named interval row.
+
+Transport and replay do not add another source. The row $H$ preserves the same displayed coordinates componentwise, and $C$ replays the request path through the same windows and comparisons. Since the carrier has no coordinate for a chosen infinite subsequence, trichotomy, countable choice, or ambient completeness, the monotone-window surface is exactly the finite one stored in $W$.
+\end{proof}
+
+\begin{theorem}[Bounded monotone subsequence regular-Cauchy handoff]
+\label{thm:bounded-monotone-subsequence-regular-cauchy-handoff}
+Every regular-Cauchy consumer of an accepted $\BoundedMonotoneSubsequenceUp$ carrier factors through the displayed route
+$$
+S\longmapsto D\longmapsto I\longmapsto W\longmapsto R\longmapsto E
+$$
+together with $H,C,P,N$. The handoff can be consumed by the bounded regular Cauchy, bounded interval, and diagonal Cauchy subsequence packets, but it does not identify quotient real representatives, choose an infinite subsequence, or assert $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a regular-Cauchy read. Carrier admission gives the finite schedule $S$, the dyadic ledger $D$, the bounded interval row $I$, and the monotone-window row $W$ as the only pre-handoff data.
+
+Apply the monotone-window preservation theorem. The consumer cannot read $R$ until the finite monotone comparisons in $W$ have been displayed over the same $S,D,I$ rows.
+
+The regular-rational row $R$ is then the unique handoff available to the downstream Cauchy packets, and the Real seal row $E$ is downstream of that handoff. The structural rows $H,C,P,N$ preserve, replay, source, and name the same route. Hence bounded regular Cauchy, bounded interval, and diagonal Cauchy consumers may reuse the finite handoff, but no quotient equality, choice-selected infinite subsequence, or ambient completeness principle is exported.
+\end{proof}
+
+\begin{theorem}[Bounded monotone subsequence NameCert obligations]
+\label{thm:bounded-monotone-subsequence-namecert-obligations}
+For every accepted $\BoundedMonotoneSubsequenceUp$ carrier $X=(S,D,I,W,R,E,H,C,P,N)$, the local $\NameCert_{\BoundedMonotoneSubsequenceUp}$ surface consists exactly of carrier admission, finite-window classification, dyadic comparison coverage, bounded-interval nonescape, monotone-window preservation, regular-Cauchy handoff, Real-seal nonescape, and provenance replay through $H,C,P,N$.
+
+No obligation row is stored outside the displayed carrier, and no exported read depends on full Bolzano-Weierstrass, chosen infinite subsequences, quotient real equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission projects the tuple $S,D,I,W,R,E,H,C,P,N$. The finite-window classifier reads $S$, the dyadic comparison coverage reads $D$, and bounded-interval nonescape reads $I$ before any subsequence-facing row is available.
+
+Monotone-window preservation is supplied by \autoref{thm:bounded-monotone-subsequence-monotone-window}. It makes $W$ the finite source of the direction tag, subsequence index list, and displayed monotone comparisons.
+
+Regular-Cauchy and Real-facing obligations are supplied by \autoref{thm:bounded-monotone-subsequence-regular-cauchy-handoff}. The regular-rational row $R$ and Real seal row $E$ remain downstream of the same finite window data.
+
+The structural rows close the surface. The transport $H$, replay $C$, provenance $P$, and local name $N$ preserve and source the displayed route, and the carrier contains no coordinate for the excluded classical or ambient-completeness principles. Therefore the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\closureat{BoundedMonotoneSubsequenceUp}{seedStr}
+
+\begin{closurestatus}{\BoundedMonotoneSubsequenceUp}
+  \constructivestory{A $\BoundedMonotoneSubsequenceUp$ packet is generated from a StreamName schedule, a DyadicRatCore comparison ledger, bounded interval rows, a finite monotone-window ledger, a RegSeqRat handoff, a RealUp seal, componentwise transport, continuation replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-monotone-subsequence-carrier}, \autoref{thm:bounded-monotone-subsequence-monotone-window}, \autoref{thm:bounded-monotone-subsequence-regular-cauchy-handoff}, and \autoref{thm:bounded-monotone-subsequence-namecert-obligations} name the finite monotone-window bridge from bounded real sequence data to regular-Cauchy extraction.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full Bolzano-Weierstrass, chosen infinite subsequences, quotient real equality, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier, monotone-window, regular-Cauchy handoff, Real-seal, transport, replay, provenance, and local NameCert rows for the same finite packet.}
+\end{closurestatus}
