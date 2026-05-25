@@ -3,6 +3,7 @@ import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package.Core
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DirectedSetUp
@@ -14,6 +15,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -197,5 +199,40 @@ theorem DirectedSet_cauchynet_index_handoff_certificate [AskSetup] [PackageSetup
         exact ⟨source.left, pkgSig⟩
     }
   exact ⟨cert, ⟨cauchyWindow, cauchyRoute⟩, ⟨limitRead, limitRoute⟩⟩
+
+def DirectedSetPacket [AskSetup] [PackageSetup]
+    (I Le W U H C P N : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  UnaryHistory I ∧ UnaryHistory Le ∧ UnaryHistory W ∧ UnaryHistory U ∧
+    (∀ {window witness : BHist}, Cont W window witness → UnaryHistory window) ∧
+      UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory N ∧ Cont W U H ∧
+        Cont H C N ∧ PkgSig bundle P pkg
+
+theorem DirectedSetPacket_finite_upper_window_stability [AskSetup] [PackageSetup]
+    {I Le W U H C P N retainedWindow retainedWitness retainedReplay : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DirectedSetPacket I Le W U H C P N bundle pkg →
+      Cont W retainedWindow retainedWitness →
+        Cont retainedWitness H retainedReplay →
+          PkgSig bundle retainedReplay pkg →
+            UnaryHistory I ∧ UnaryHistory Le ∧ UnaryHistory W ∧ UnaryHistory U ∧
+              UnaryHistory retainedWindow ∧ UnaryHistory retainedWitness ∧
+                UnaryHistory retainedReplay ∧ Cont W retainedWindow retainedWitness ∧
+                  Cont retainedWitness H retainedReplay ∧ PkgSig bundle P pkg ∧
+                    PkgSig bundle retainedReplay pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro packet retainedRoute replayRoute replayPkg
+  obtain ⟨iUnary, leUnary, wUnary, uUnary, windowUnary, hUnary, _cUnary, _nUnary,
+    _wuh, _hcn, pPkg⟩ := packet
+  have retainedWindowUnary : UnaryHistory retainedWindow :=
+    windowUnary retainedRoute
+  have retainedWitnessUnary : UnaryHistory retainedWitness :=
+    unary_cont_closed wUnary retainedWindowUnary retainedRoute
+  have replayUnary : UnaryHistory retainedReplay :=
+    unary_cont_closed retainedWitnessUnary hUnary replayRoute
+  exact
+    ⟨iUnary, leUnary, wUnary, uUnary, retainedWindowUnary, retainedWitnessUnary,
+      replayUnary, retainedRoute, replayRoute, pPkg, replayPkg⟩
 
 end BEDC.Derived.DirectedSetUp
