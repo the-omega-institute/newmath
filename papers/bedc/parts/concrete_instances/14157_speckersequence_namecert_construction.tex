@@ -220,10 +220,28 @@ Apply \autoref{thm:specker-sequence-regular-cauchy-obligation}. The regular-Cauc
 Finally apply \autoref{thm:specker-sequence-no-choice-boundary}. Transport and replay preserve the same finite obligation surface and introduce no countable-choice, trichotomy, Dedekind-cut, or selected-limit row.
 \end{proof}
 
+\begin{theorem}[SpeckerSequence scoped kernel route]
+\label{thm:speckersequence-scoped-kernel-route}
+Every accepted $\SpeckerSequenceUp$ packet route through
+$$
+R,W,D,M,B,E,H,C,P,N
+$$
+is scoped by the finite kernel rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$. The no-choice and non-located-supremum exclusions follow from the absence of rows for countable-choice selectors, located supremum witnesses, trichotomy branches, Dedekind cuts, and host-selected limiting reals, not from external prose.
+\end{theorem}
+\begin{proof}
+Start with carrier exposure. The accepted packet exposes only the regular rational source row $R$, finite window row $W$, dyadic ledger $D$, monotone ledger $M$, boundedness ledger $B$, finite Real seal $E$, and structural rows $H,C,P,N$.
+
+Use finite-stage induction and the monotone bounded ledger. Every inspected prefix is read through $R,W,D,M,B$ before any Real-facing seal is available, so the route remains inside the displayed $\BHist$ packet and its componentwise $\hsame$ and $\Cont$ rows.
+
+Apply the no-choice boundary. Since no row records a countable selector, a trichotomy branch, a Dedekind cut, or a chosen limiting real, none of those data can be recovered by replaying $H,C,P,N$.
+
+Finally use the $\RealUp$ seal nonescape theorem. The seal row $E$ exports only the finite-window Real-facing readback, and therefore the scoped route through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$ is exhaustive for the packet.
+\end{proof}
+
 \begin{closurestatus}{\SpeckerSequenceUp}
   \constructivestory{A $\SpeckerSequenceUp$ packet is generated from a $\RegSeqRatUp$ computable rational source, a $\StreamNameUp$ finite-window schedule, $\DyadicRatCoreUp$ tolerance and bound rows, a monotone ledger, a boundedness ledger, a finite $\RealUp$ seal boundary, componentwise transport, continuation replay, package provenance, and local naming.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:speckersequence-carrier}, \autoref{thm:speckersequence-carrier-exposure}, \autoref{thm:speckersequence-classifier-transport}, \autoref{thm:speckersequence-monotone-bounded-ledger}, \autoref{thm:speckersequence-finite-stage-induction}, \autoref{thm:speckersequence-nonlocated-supremum-boundary}, \autoref{thm:specker-sequence-located-supremum-refusal}, \autoref{thm:specker-sequence-located-supremum-consumer-boundary}, \autoref{thm:speckersequence-realup-seal-nonescape}, \autoref{def:specker-sequence-obligation-surface}, \autoref{thm:specker-sequence-regular-cauchy-obligation}, \autoref{thm:specker-sequence-no-choice-boundary}, \autoref{thm:specker-sequence-real-handoff}, \autoref{thm:specker-sequence-obligation-route}, and \autoref{thm:specker-sequence-regular-readback-scope} declare the finite Specker-sequence carrier, transport, monotone bounded ledger, finite-stage induction route, non-located supremum boundary, located-supremum refusal, located-supremum consumer boundary, RealUp seal non-escape surface, obligation surface, regular-Cauchy obligation, no-choice boundary, Real handoff, obligation route, and regular readback scope.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:speckersequence-carrier}, \autoref{thm:speckersequence-carrier-exposure}, \autoref{thm:speckersequence-classifier-transport}, \autoref{thm:speckersequence-monotone-bounded-ledger}, \autoref{thm:speckersequence-finite-stage-induction}, \autoref{thm:speckersequence-nonlocated-supremum-boundary}, \autoref{thm:specker-sequence-located-supremum-refusal}, \autoref{thm:specker-sequence-located-supremum-consumer-boundary}, \autoref{thm:speckersequence-realup-seal-nonescape}, \autoref{def:specker-sequence-obligation-surface}, \autoref{thm:specker-sequence-regular-cauchy-obligation}, \autoref{thm:specker-sequence-no-choice-boundary}, \autoref{thm:specker-sequence-real-handoff}, \autoref{thm:specker-sequence-obligation-route}, \autoref{thm:specker-sequence-regular-readback-scope}, and \autoref{thm:speckersequence-scoped-kernel-route} declare the finite Specker-sequence carrier, transport, monotone bounded ledger, finite-stage induction route, non-located supremum boundary, located-supremum refusal, located-supremum consumer boundary, RealUp seal non-escape surface, obligation surface, regular-Cauchy obligation, no-choice boundary, Real handoff, obligation route, regular readback scope, and scoped kernel route.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.SpeckerSequenceUp.SpeckerSequenceCarrier\_exposure}
   \bridgestatus{none}
