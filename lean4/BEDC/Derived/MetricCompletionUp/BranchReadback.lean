@@ -165,6 +165,36 @@ theorem MetricCompletion_obligation_uniform_handoff [AskSetup] [PackageSetup]
     ⟨cert, sourceUnary, selectedUnary, branchReadUnary, readbackUnary, separatedUnary,
       replayUnary, uniformUnary, replayRoute, uniformRoute⟩
 
+theorem MetricCompletion_branch_conversion_refusal [AskSetup] [PackageSetup]
+    {source filterBranch netBranch readback separated transport replay provenance localCert
+      filterRead netRead mixedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricCompletionCarrier source filterBranch netBranch readback separated transport replay
+        provenance localCert bundle pkg ->
+      Cont filterBranch readback filterRead ->
+        Cont netBranch readback netRead ->
+          Cont filterRead netRead mixedRead ->
+            PkgSig bundle mixedRead pkg ->
+              UnaryHistory filterBranch ∧ UnaryHistory netBranch ∧ UnaryHistory filterRead ∧
+                UnaryHistory netRead ∧ UnaryHistory mixedRead ∧
+                  Cont filterBranch readback filterRead ∧ Cont netBranch readback netRead ∧
+                    Cont filterRead netRead mixedRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle mixedRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier filterRoute netRoute mixedRoute mixedPkg
+  obtain ⟨_sourceUnary, filterUnary, netUnary, readbackUnary, _separatedUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _localCertUnary, _replayRoute,
+    _transportSame, provenancePkg, _localCertPkg⟩ := carrier
+  have filterReadUnary : UnaryHistory filterRead :=
+    unary_cont_closed filterUnary readbackUnary filterRoute
+  have netReadUnary : UnaryHistory netRead :=
+    unary_cont_closed netUnary readbackUnary netRoute
+  have mixedReadUnary : UnaryHistory mixedRead :=
+    unary_cont_closed filterReadUnary netReadUnary mixedRoute
+  exact
+    ⟨filterUnary, netUnary, filterReadUnary, netReadUnary, mixedReadUnary, filterRoute,
+      netRoute, mixedRoute, provenancePkg, mixedPkg⟩
+
 end BEDC.Derived.MetricCompletionUp.BranchReadback
 
 namespace BEDC.Derived.MetricCompletionUp
