@@ -38,4 +38,22 @@ theorem MooreSmithConvergencePacket_namecert_obligations [AskSetup] [PackageSetu
     ⟨dUnary, vUnary, uUnary, cUnary, bUnary, rUnary, lUnary, dvu, ucb, brl,
       pPkg⟩
 
+theorem MooreSmithConvergencePacket_uniform_handoff [AskSetup] [PackageSetup]
+    {D V U C B R L H K P N boundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MooreSmithConvergencePacket D V U C B R L H K P N bundle pkg →
+      Cont B R boundaryRead →
+        UnaryHistory D ∧ UnaryHistory V ∧ UnaryHistory U ∧ UnaryHistory C ∧
+          UnaryHistory B ∧ UnaryHistory R ∧ UnaryHistory boundaryRead ∧ Cont D V U ∧
+            Cont U C B ∧ Cont B R boundaryRead ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro packet boundaryRoute
+  obtain ⟨dUnary, vUnary, uUnary, cUnary, bUnary, rUnary, _lUnary, _hUnary,
+    _kUnary, _nUnary, dvu, ucb, _brl, pPkg⟩ := packet
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed bUnary rUnary boundaryRoute
+  exact
+    ⟨dUnary, vUnary, uUnary, cUnary, bUnary, rUnary, boundaryUnary, dvu, ucb,
+      boundaryRoute, pPkg⟩
+
 end BEDC.Derived.MooreSmithConvergenceUp
