@@ -173,6 +173,50 @@
           "self_check"
         ]
       }
+    },
+    {
+      "experiment_id": "null_model_aa_class_preserving",
+      "script_path": "tools/bio_reality/experiments/run_null_model_aa_class_preserving.py",
+      "claim_id": "h0.null.model.aa_class_preserving",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 600,
+      "acceptance": {
+        "required_checks": [
+          "p_value_aa_class_lower_tail_significant",
+          "p_value_aa_class_exact_shape_significant"
+        ]
+      }
+    },
+    {
+      "experiment_id": "leave_one_code_out_by_family",
+      "script_path": "tools/bio_reality/experiments/run_leave_one_code_out_by_family.py",
+      "claim_id": "h1.leave_one_code_out.by_family",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "family_hit_rate_above_baseline"
+        ]
+      }
+    },
+    {
+      "experiment_id": "leave_one_codon_out_module",
+      "script_path": "tools/bio_reality/experiments/run_leave_one_codon_out_module.py",
+      "claim_id": "h1.leave_one_codon_out.module_classification",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "module_classification_complete",
+          "every_module_has_predictable_or_boundary"
+        ]
+      }
     }
   ]
 }
