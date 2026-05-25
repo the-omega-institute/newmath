@@ -70,6 +70,22 @@ The classifier $C$ exports only the candidates that survive those displayed rows
 Since no global normalization theorem, global confluence theorem, unrestricted redex selector, quotient syntax object, host evaluator soundness proof, or completed MetaCIC model appears in the carrier, the reducer-facing read cannot escape the finite frontier.
 \end{proof}
 
+\begin{theorem}[MetaCIC redex-choice frontier candidate-boundary exhaustion]
+\label{thm:metacic-redex-choice-frontier-candidate-boundary-exhaustion}
+For every accepted $\MetacicRedexChoiceFrontierUp$ carrier
+$$
+R=(A,N,F,D,B,H,K,L,C,P,Q),
+$$
+each exported candidate choice is exhausted by the displayed $A,N,F,D,C$ rows before replay, provenance, transport, TasteGate preparation, and local naming are read through $B,H,K,L,P,Q$. No accepted route can import global normalization, global confluence, unrestricted redex selection, quotient syntax, host evaluator soundness, or completed MetaCIC semantics.
+\end{theorem}
+\begin{proof}
+Begin with the candidate-choice classifier $C$. By \autoref{def:metacic-redex-choice-frontier-carrier}, it exports only choices whose redex row $A$, normalization-frontier row $N$, confluence-audit row $F$, and decidable-boundary row $D$ are already displayed.
+
+Apply the nonescape theorem \autoref{thm:metacic-redex-choice-frontier-nonescape}. After $A,N,F,D$ and $C$ have been consumed, replay and provenance can only preserve the same finite route through $B,H,K,L,P,Q$.
+
+The refused global objects have no carrier coordinate. Thus the boundary is exhausted at the candidate-mediated finite rows and remains separate from global normalization, global confluence, unrestricted redex selection, quotient syntax, host evaluator soundness, and completed MetaCIC semantics.
+\end{proof}
+
 \falsifiablePrediction{A $\MetacicRedexChoiceFrontierUp$ reducer-facing read factors through displayed MetaCIC redex rows, normalization-frontier traces, confluence-audit fork rows, decidable-boundary classifiers, candidate-choice rows, BHist replay, hsame transport, Cont replay, Pkg provenance, TasteGate boundary rows, and local NameCert data.}
 
 \independenceWitness{metacic-redex, metacic-normalization-frontier, metacic-confluence-audit, metacic-decidable-boundary: $\MetacicRedexChoiceFrontierUp$ is not bijective to any listed anchor because it jointly carries candidate-choice classification, shared redex-boundary routing, Nontrivial and FieldFaithful TasteGate boundaries, replay, transport, provenance, and local naming.}
@@ -79,7 +95,7 @@ Since no global normalization theorem, global confluence theorem, unrestricted r
 \begin{closurestatus}{\MetacicRedexChoiceFrontierUp}
   \constructivestory{A $\MetacicRedexChoiceFrontierUp$ packet is generated from MetaCIC redex rows, normalization-frontier rows, confluence-audit rows, decidable-boundary rows, BHist replay, componentwise hsame transport, displayed Cont replay, Pkg provenance, a candidate-choice classifier, Nontrivial and FieldFaithful TasteGate boundary rows, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-redex-choice-frontier-carrier}, \autoref{thm:metacic-redex-choice-frontier-namecert-obligations}, and \autoref{thm:metacic-redex-choice-frontier-nonescape} seed the finite candidate-mediated redex-choice frontier for MetaCIC audit maps.}
+  \scopeclosed{\autoref{def:metacic-redex-choice-frontier-carrier}, \autoref{thm:metacic-redex-choice-frontier-namecert-obligations}, \autoref{thm:metacic-redex-choice-frontier-nonescape}, and \autoref{thm:metacic-redex-choice-frontier-candidate-boundary-exhaustion} seed the finite candidate-mediated redex-choice frontier for MetaCIC audit maps.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close global normalization, global confluence, unrestricted redex selection, subject reduction for all terms, quotient syntax, host evaluator soundness, a completed MetaCIC model, Lean verification, or bridge checking.}
