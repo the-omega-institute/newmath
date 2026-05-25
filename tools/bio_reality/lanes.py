@@ -1472,7 +1472,25 @@ def run_keep_lane(store: BioRealityStore) -> dict[str, Any]:
     exclude_paths = [str(item) for item in config.get("exclude_paths", []) if isinstance(item, str)]
     selected, dropped = _filter_paths(changed, include_paths, exclude_paths)
     if not selected:
-        return {"lane": "bio-K", "skipped": "no useful changes", "dropped": len(dropped)}
+        # Working tree has changes but they're all filtered out by exclude
+        # rules (runtime drift). Still push any local commits ahead of remote
+        # so bio-S merge commits and other off-lane commits don't accumulate.
+        try:
+            ahead = _local_ahead_count(repo_root, remote_default, branch_default)
+        except (OSError, RuntimeError, ValueError) as exc:
+            _append_keep_log(store, "ahead_check_error_after_drop", {"error": str(exc), "dropped": len(dropped)})
+            return {"lane": "bio-K", "skipped": "no useful changes", "dropped": len(dropped), "ahead_check_error": True}
+        if ahead <= 0:
+            return {"lane": "bio-K", "skipped": "no useful changes", "dropped": len(dropped)}
+        try:
+            push_ok, push_detail = _push_ahead_only(store, repo_root, remote_default, branch_default)
+        except (OSError, subprocess.TimeoutExpired, RuntimeError) as exc:
+            _append_keep_log(store, "ahead_push_error_after_drop", {"error": str(exc), "ahead": ahead})
+            return {"lane": "bio-K", "skipped": "no useful changes", "dropped": len(dropped), "ahead": ahead, "push_error": str(exc)}
+        if push_ok:
+            return {"lane": "bio-K", "pushed_ahead": ahead, "no_local_commit": True, "dropped": len(dropped)}
+        _append_keep_log(store, "ahead_push_failure_after_drop", {"ahead": ahead, "detail": push_detail})
+        return {"lane": "bio-K", "skipped": "ahead_push_failed", "ahead": ahead, "detail": push_detail, "dropped": len(dropped)}
 
     min_seconds = float(config.get("min_seconds_between_pushes") or 0.0)
     try:
