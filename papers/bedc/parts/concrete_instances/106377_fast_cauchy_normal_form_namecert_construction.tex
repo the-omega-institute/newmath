@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\FastCauchyNormalFormUp$}
+\label{ch:concrete-instances-fast-cauchy-normal-form-namecert}
+\origin{human}
+
+Bishop--Bridges constructive Cauchy completion treats a real number as regular approximation data rather than as a quotient object selected by an ambient limit operation. The $\FastCauchyNormalFormUp$ packet records the finite normal-form surface by which dyadic rational cores, finite stream names, regular rational sequences, terminal Real rows, and Cauchy-rate comparisons are read as one L10 completion-facing NameCert object. It is not quotient real equality, selected representative choice, countable choice, trichotomy, or an ambient completeness oracle.
+
+\begin{definition}[Real fast Cauchy normal-form carrier]
+\label{def:real-fast-cauchy-normal-form-carrier}
+A $\FastCauchyNormalFormUp$ carrier is a finite $\BHist$ packet
+$$
+F=(D,S,R,E,C,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ dyadic tolerance row, carrying the finite endpoint, radius, distance, and budget data used by the normal form.
+\item $S$ is the $\StreamNameUp$ finite-window row, recording the inspected stream observations and the omitted-tail ledger.
+\item $R$ is the $\RegSeqRatUp$ regular rational sequence row whose modulus is being normalized.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $D,S,R$ have been displayed.
+\item $C$ is the $\CauchyRateComparisonUp$ row comparing the displayed regular sequence against the fast dyadic rate demanded by the packet.
+\item $H$ records componentwise $\hsame$ transport for dyadic tolerance, stream window, regular-sequence, Real-seal, Cauchy-rate, replay, provenance, and local naming rows.
+\item $Q$ records displayed $\Cont$ replay from a fast-normal-form request through $D,S,R,E,C$.
+\item $P$ is the $\Pkg$ provenance over $\FastCauchyNormalFormUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyRateComparisonUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FastCauchyNormalFormUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,R,E,C,H,Q,P,N$ and their displayed replay route. It has no coordinate for quotient real equality, selected representatives, detached limit choice, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Real fast Cauchy normal-form NameCert obligations]
+\label{thm:real-fast-cauchy-normal-form-namecert-obligations}
+For every accepted $\FastCauchyNormalFormUp$ carrier $F=(D,S,R,E,C,H,Q,P,N)$, the local $\NameCert_{\FastCauchyNormalFormUp}$ surface consists exactly of carrier admission for the displayed finite packet, classifier stability under componentwise $\hsame$, dyadic tolerance nonescape through $D$, finite-window exposure through $S$, regular-sequence admission through $R$, terminal seal routing through $E$, fast-rate comparison through $C$, displayed replay through $Q$, provenance through $P$, and local naming through $N$.
+
+Every completion-facing consumer that treats a regular rational sequence as fast-normalized must read the finite route
+$$
+\DyadicRatCoreUp \longrightarrow \StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp \longrightarrow \CauchyRateComparisonUp
+$$
+before exporting any normal-form row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-fast-cauchy-normal-form-carrier}. The accepted packet exposes only the dyadic tolerance row, finite stream window, regular rational sequence, terminal Real seal, Cauchy-rate comparison, transport, replay, provenance, and local naming rows.
+
+The analytic route is forced by $D,S,R,E,C$. The dyadic ledger supplies the displayed tolerance budgets, the stream row records the finite observations, the regular sequence row supplies the Cauchy data, the Real row seals only that displayed route, and the comparison row checks the fast rate against those same finite rows.
+
+The structural rows $H,Q,P,N$ preserve this route under componentwise transport and replay. Since no accepted coordinate stores quotient real equality, a selected representative, detached limit choice, countable choice, trichotomy, or ambient completeness, none of those objects belongs to the NameCert obligation surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FastCauchyNormalFormUp$ consumer that claims fast Cauchy normal form must exhibit the dyadic tolerance row, finite stream window, regular rational sequence row, terminal Real seal row, Cauchy-rate comparison row, componentwise transport, displayed replay, provenance, and local naming row. A consumer omitting dyadicratcore, streamname, regseqrat, real, cauchyratecomparison, or namecert sibling slugs refutes the packet.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, cauchyratecomparison: no listed sibling supplies the whole packet $F=(D,S,R,E,C,H,Q,P,N)$, because each sibling contributes only tolerances, finite observations, regular sequence data, terminal sealing, or rate comparison while this chapter binds all five analytic faces as one finite normal-form certificate.}
+
+\closureat{FastCauchyNormalFormUp}{seedStr}
+
+\begin{closurestatus}{\FastCauchyNormalFormUp}
+  \constructivestory{A $\FastCauchyNormalFormUp$ packet is generated from a DyadicRatCore tolerance ledger, StreamName finite windows, RegSeqRat regular-sequence data, a terminal RealUp seal, a CauchyRateComparison row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-fast-cauchy-normal-form-carrier} and \autoref{thm:real-fast-cauchy-normal-form-namecert-obligations} seed the finite fast Cauchy normal-form route over dyadic tolerance data, finite stream names, regular rational sequences, terminal Real sealing, Cauchy-rate comparison, transport, replay, provenance, and local NameCert data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, selected representatives, detached limit choice, countable choice, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, dyadic tolerance nonescape, finite-window exposure, regular-sequence admission, terminal-seal routing, fast-rate comparison, and FieldFaithful FastCauchyNormalFormUp for BEDC.Derived.FastCauchyNormalFormUp.}
+\end{closurestatus}
