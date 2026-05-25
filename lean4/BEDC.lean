@@ -336,6 +336,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerAuthorization
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundCompilerRouteTotality
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundRouteRefusalSurface
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundedAcceptanceStrictObstruction
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.GroundedAcceptanceSurface
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.HiddenGeneratorExclusion
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.HostKernelHandoff
@@ -641,6 +642,7 @@ import BEDC.Derived.BoundaryAdmissionDecisionUp.TasteGate
 import BEDC.Derived.BoundaryGateUp.TasteGate
 import BEDC.Derived.BoundedBetaComparisonUp.TasteGate
 import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
+import BEDC.Derived.BoundedFunctionFamilyUp.TasteGate
 import BEDC.Derived.BoundedLinearOperatorUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BudgetCofinalReadback
