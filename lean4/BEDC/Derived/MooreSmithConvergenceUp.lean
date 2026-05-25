@@ -166,4 +166,31 @@ theorem MooreSmithConvergencePacket_directed_window_stability [AskSetup] [Packag
     ⟨directedSame, directedUnary, directedUnary', directedRoute, directedRoute',
       provenancePkg, directedReadPkg⟩
 
+theorem MooreSmithConvergencePacket_completion_readback_exactness [AskSetup] [PackageSetup]
+    {D V U C B R L H K P N boundaryRead realReadback exportedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MooreSmithConvergencePacket D V U C B R L H K P N bundle pkg →
+      Cont B R boundaryRead →
+        Cont boundaryRead L realReadback →
+          Cont realReadback H exportedRead →
+            PkgSig bundle exportedRead pkg →
+              UnaryHistory boundaryRead ∧ UnaryHistory realReadback ∧
+                UnaryHistory exportedRead ∧ Cont B R boundaryRead ∧
+                  Cont boundaryRead L realReadback ∧
+                    Cont realReadback H exportedRead ∧ PkgSig bundle P pkg ∧
+                      PkgSig bundle exportedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro packet boundaryRoute readbackRoute exportedRoute exportedPkg
+  obtain ⟨_dUnary, _vUnary, _uUnary, _cUnary, bUnary, rUnary, lUnary, hUnary,
+    _kUnary, _nUnary, _dvu, _ucb, _brl, provenancePkg⟩ := packet
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed bUnary rUnary boundaryRoute
+  have readbackUnary : UnaryHistory realReadback :=
+    unary_cont_closed boundaryUnary lUnary readbackRoute
+  have exportedUnary : UnaryHistory exportedRead :=
+    unary_cont_closed readbackUnary hUnary exportedRoute
+  exact
+    ⟨boundaryUnary, readbackUnary, exportedUnary, boundaryRoute, readbackRoute,
+      exportedRoute, provenancePkg, exportedPkg⟩
+
 end BEDC.Derived.MooreSmithConvergenceUp
