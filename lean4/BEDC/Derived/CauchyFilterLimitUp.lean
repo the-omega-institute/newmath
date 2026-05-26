@@ -69,4 +69,30 @@ theorem CauchyFilterLimitCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact sourceRow
   }
 
+theorem CauchyFilterLimitCarrier_regular_seal_handoff [AskSetup] [PackageSetup]
+    {basis filter window readback tolerance sealRow transport route provenance name consumerRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterLimitCarrier basis filter window readback tolerance sealRow transport route
+        provenance name bundle pkg ->
+      Cont sealRow name consumerRead ->
+        UnaryHistory basis ∧ UnaryHistory filter ∧ UnaryHistory window ∧
+          UnaryHistory readback ∧ UnaryHistory tolerance ∧ UnaryHistory sealRow ∧
+            UnaryHistory name ∧ UnaryHistory consumerRead ∧ Cont basis filter window ∧
+              Cont window readback tolerance ∧ Cont tolerance sealRow transport ∧
+                Cont sealRow name consumerRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier sealNameConsumer
+  obtain ⟨basisUnary, filterUnary, windowUnary, readbackUnary, toleranceUnary,
+    sealRowUnary, _transportUnary, _routeUnary, _provenanceUnary, nameUnary,
+    basisFilterWindow, windowReadbackTolerance, toleranceSealTransport,
+    _transportRouteProvenance, _sealProvenanceName, provenancePkg, namePkg⟩ := carrier
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed sealRowUnary nameUnary sealNameConsumer
+  exact
+    ⟨basisUnary, filterUnary, windowUnary, readbackUnary, toleranceUnary, sealRowUnary,
+      nameUnary, consumerReadUnary, basisFilterWindow, windowReadbackTolerance,
+      toleranceSealTransport, sealNameConsumer, provenancePkg, namePkg⟩
+
 end BEDC.Derived.CauchyFilterLimitUp

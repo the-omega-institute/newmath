@@ -60,8 +60,6 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          fetch-depth: 0
 
       - name: Detect changed files
         id: detect
@@ -80,6 +78,9 @@ jobs:
             echo "- run PDF validation: \`${{ steps.detect.outputs.tex }}\`"
             echo "- run Lean4 validation: \`${{ steps.detect.outputs.lean4 }}\`"
           } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Check workflow checkout safety
+        run: python3 tools/check_workflow_checkout_safety.py
 
   build_pdf:
     name: Build main.pdf

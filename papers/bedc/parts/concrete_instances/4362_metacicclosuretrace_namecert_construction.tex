@@ -142,6 +142,7 @@ Now apply \autoref{thm:metacicclosuretrace-kernel-ledger-boundary}. The row $K$ 
 
 Finally apply \autoref{thm:metacicclosuretrace-namecert-obligations}. The rows $H,C,P,N$ provide componentwise transport, replay, provenance, and local naming for the same finite packet. Since no carrier coordinate stores typing, conversion, confluence, normalization, subject reduction, or kernel soundness, the forwarder exports exactly the listed obligation-closure surface.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICClosureTraceUp.MetaCICClosureTraceCarrier\_obligation\_closure\_forwarder}
 
 \begin{theorem}[MetaCICClosureTrace obligation-closure upgrade]
 \label{thm:metacicclosuretrace-obligation-closure-upgrade}
@@ -168,6 +169,7 @@ S,U,V,G \longmapsto B,R \longmapsto K \longmapsto H,C,P,N .
 $$
 The first stage is the substitution-and-shift generator package, the second stage is the beta-star closedness chain, the third stage is the kernel ledger for accepted ClosurePreservation declarations, and the final stage is componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming. The frontier exports only finite \texttt{ClosedAt} preservation for the displayed trace; it exports no hidden subject-reduction hypothesis, no host reduction equality, no unrestricted strong-normalization principle, and no confluence statement outside the finite candidate trace.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICClosureTraceUp.MetaCICClosureTraceCarrier\_candidate\_frontier}
 \begin{proof}
 Start with the generator side. The substitution-shift generator package identifies $S,U,V,G$ as the complete closedness-generator surface for shift and substitution reads, while the closed-substitution route forces any closed-substitution consumer to pass through those rows before using the ledger.
 
@@ -182,6 +184,7 @@ Finally package the route through the obligation-closure theorem. The rows $H,C,
 \label{thm:metacicclosuretrace-candidate-mediated-closedness-ledger}
 Every downstream closedness consumer of an accepted $\MetaCICClosureTraceUp$ packet $T=(S,U,V,B,R,G,K,H,C,P,N)$ must read the candidate-mediated route in the order $S,U,V,G$, then $B,R$, then $K$, then $H,C,P,N$. The exported ledger is only a finite \texttt{ClosedAt} preservation route through substitution, shift, beta-step, finite beta-chain, kernel acceptance accounting, transport, replay, provenance, and local naming. It exports no subject reduction, no confluence, no normalization, no conversion theorem, no host reduction equality, and no kernel soundness.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICClosureTraceUp.MetaCICClosureTraceCarrier\_candidate\_mediated\_closedness\_ledger}
 \begin{proof}
 First read the substitution-shift generator package. It identifies $S,U,V,G$ as the finite candidate generator surface through which closed-substitution and shift reads enter the packet.
 

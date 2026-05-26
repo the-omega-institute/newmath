@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\HahnBanachUp$}
+\label{ch:concrete-instances-hahn-banach-namecert}
+\origin{human}
+
+Following Hahn and Banach, Bourbaki, and Bishop-style constructive functional analysis, the $\HahnBanachUp$ packet records the finite BEDC surface for bounded scalar functional extension rows. It sits beside the normed-space and Banach rows of \autoref{ch:concrete-instances-normedspace-namecert} and \autoref{ch:concrete-instances-banach-namecert}, the dual carrier of \autoref{ch:concrete-instances-banach-dual-namecert}, the bounded-operator row of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the functional-analysis boundary of \autoref{ch:concrete-instances-functionalanalysis-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names a displayed finite extension ledger only; it is not the unrestricted classical Hahn--Banach theorem.
+
+\begin{definition}[Hahn--Banach extension carrier]
+\label{def:hahn-banach-carrier}
+A $\HahnBanachUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,B,D,F,E,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the ambient $\NormedSpaceUp$ or $\BanachUp$ row on which the extension is read.
+\item $B$ is the displayed subspace row, including the finite incidence data saying which inspected vectors lie in the subspace.
+\item $D$ is the $\BanachDualUp$ and $\BoundedLinearOperatorUp$ row for the bounded scalar functional on $B$.
+\item $F$ is the $\FunctionalAnalysisUp$ context row that records the local functional-analysis consumer boundary.
+\item $E$ is the extension row, displaying the scalar functional on the inspected ambient vectors and its agreement with $D$ on the subspace row.
+\item $L$ is the norm-bound ledger, comparing the displayed bound for $D$ with the displayed bound for $E$ through $\RealUp$ endpoints.
+\item $H$ records componentwise $\hsame$ transport for $X,B,D,F,E,L,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from ambient-space reads through the subspace, bounded-functional, extension, and norm-bound rows.
+\item $P$ is the $\Pkg$ provenance over $\HahnBanachUp$, $\NormedSpaceUp$, $\BanachUp$, $\BanachDualUp$, $\BoundedLinearOperatorUp$, $\FunctionalAnalysisUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HahnBanachUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient dual spaces, selected extensions, ultrafilter arguments, countable choice, Zorn maximality, or unrestricted ambient extension.
+\end{definition}
+
+\begin{theorem}[Hahn--Banach NameCert obligations]
+\label{thm:hahn-banach-namecert-obligations}
+For every accepted $\HahnBanachUp$ carrier $K=(X,B,D,F,E,L,H,C,P,N)$, the local $\NameCert_{\HahnBanachUp}$ surface consists exactly of ambient normed or Banach admission, displayed subspace admission, bounded scalar functional admission, local functional-analysis context, extension-row agreement, norm-bound ledger exactness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No extension obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:hahn-banach-carrier}. The rows $X,B,D,F,E,L,H,C,P,N$ are the full public inventory.
+
+The bounded-functional read starts at the subspace row $B$ and the scalar-functional row $D$. The extension row $E$ can be inspected only with the same ambient row $X$ and the same subspace incidence data.
+
+The norm-bound ledger is $L$. It compares the displayed bound for $D$ with the displayed bound for $E$ through $\RealUp$ endpoints, while $H,C,P,N$ only transport, replay, source, and name the same route.
+
+Thus the NameCert obligations are exactly the listed finite rows. The unrestricted theorem, quotient duals, selected extensions, ultrafilter arguments, and choice principles have no carrier coordinate.
+\end{proof}
+
+\begin{theorem}[Hahn--Banach bounded functional extension route]
+\label{thm:hahn-banach-bounded-functional-extension-route}
+Every bounded scalar functional extension read of an accepted $\HahnBanachUp$ carrier factors through the finite route
+$$
+\NormedSpaceUp,\ \BanachUp,\ \BanachDualUp,\ \BoundedLinearOperatorUp,\ \FunctionalAnalysisUp,\ \RealUp .
+$$
+The route first fixes the ambient and subspace rows, then reads the bounded scalar functional, then reads the displayed extension row and the norm-bound ledger, and only then exposes transport, replay, provenance, and local naming. It exports no unrestricted classical Hahn--Banach theorem, quotient dual space, selected extension, ultrafilter argument, countable choice, or detached extension principle.
+\end{theorem}
+\begin{proof}
+Let $K=(X,B,D,F,E,L,H,C,P,N)$ be accepted. The carrier projection gives the ambient row $X$, the subspace row $B$, the bounded scalar functional row $D$, the functional-analysis context row $F$, and the extension row $E$.
+
+The public extension route reads $X$ and $B$ before $D$. Only then can the consumer inspect $E$, because agreement with the original functional is meaningful only over the displayed subspace incidence row.
+
+The norm-bound ledger $L$ is read after the two functional rows. It records the displayed $\RealUp$ comparison between the original bound and the extension bound, so the consumer receives a finite bound ledger rather than an ambient domination theorem.
+
+Finally $H,C,P,N$ preserve this finite route. Since no row names quotient dual spaces, selected extensions, ultrafilter arguments, countable choice, or unrestricted Hahn--Banach extension, none of those objects can be exported by the accepted packet.
+\end{proof}
+
+\falsifiablePrediction{Dropping the norm-bound ledger $L$ makes \autoref{thm:hahn-banach-bounded-functional-extension-route} false: a consumer could no longer distinguish a bounded extension row from an unbounded displayed scalar assignment.}
+
+\independenceWitness{normedspace, banach, banachdual, boundedlinearoperator, functionalanalysis, real: $\HahnBanachUp$ is not bijective to any listed sibling because it jointly carries ambient space, subspace incidence, bounded scalar functional, extension agreement, norm-bound ledger, transport, replay, provenance, and local naming rows.}
+
+\closureat{HahnBanachUp}{seedStr}
+
+\begin{closurestatus}{\HahnBanachUp}
+  \constructivestory{A $\HahnBanachUp$ packet is generated from an ambient NormedSpaceUp or BanachUp row, a displayed subspace row, a BanachDualUp and BoundedLinearOperatorUp bounded scalar functional row, a FunctionalAnalysisUp context row, an extension row, a RealUp norm-bound ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hahn-banach-carrier}, \autoref{thm:hahn-banach-namecert-obligations}, and \autoref{thm:hahn-banach-bounded-functional-extension-route} seed the finite bounded scalar functional extension packet over normed-space, Banach, dual, bounded-operator, functional-analysis, Real, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim the unrestricted classical Hahn--Banach theorem, quotient dual spaces, selected extensions, ultrafilter arguments, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, subspace incidence, bounded scalar functional transport, extension agreement, norm-bound exactness, non-escape, replay, provenance, and local naming for BEDC.Derived.HahnBanachUp.}
+\end{closurestatus}

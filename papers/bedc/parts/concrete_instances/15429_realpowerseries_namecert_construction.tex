@@ -75,6 +75,7 @@ Finally apply \autoref{thm:realpowerseries-terminal-real-seal-obligation}. The t
 \label{thm:real-power-series-obligation-scope}
 For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, coefficient data are exposed only through the $\FormalPowerSeriesUp$ or $\StreamNameUp$ windows in $A$ and $W$, radius data only through the displayed $\ConvergenceRadiusUp$ or subradius row $R$, partial sums only through the $\RealSeriesUp$ row $S$, convergence justification only through the selected $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, or $\RegularCauchyRootTestUp$ majorant row $M$, and terminal output only through the $\RealUp$ seal $E$ after the $\DyadicRatCoreUp$ and $\RegSeqRatUp$ readbacks named by $W,S,M$ have been consumed.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealPowerSeriesUp.RealPowerSeriesObligationScope}
 \begin{proof}
 Project the carrier of \autoref{def:real-power-series-carrier}. Its coefficient-facing coordinates are $A$ and the finite windows $W$, its radius coordinate is $R$, its partial-sum coordinate is $S$, its convergence coordinate is $M$, and its terminal row is $E$.
 
@@ -87,6 +88,7 @@ The structural rows $H,C,P,N$ only transport, replay, source, and name the same 
 \label{thm:realpowerseries-terminal-real-seal-obligation}
 For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, the terminal $\RealUp$ seal $E$ is available only after the coefficient or $\FormalPowerSeriesUp$ row $A$, center and argument $\RealUp$ rows $Z,X$, radius row $R$, finite $\StreamNameUp$ windows $W$, $\RegSeqRatUp$ and $\DyadicRatCoreUp$ tolerance readbacks, $\RealSeriesUp$ partial sums $S$, and M-test or ratio/root-test majorant row $M$ have been read. The seal is transported, replayed, sourced, and named only by $H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealPowerSeriesUp.RealPowerSeriesCarrier\_terminal\_real\_seal\_obligation}
 \begin{proof}
 Read the endpoint clause in the carrier. The row $E$ is produced only after the displayed windows, partial sums, radius row, and majorant route have been assembled.
 
@@ -137,6 +139,7 @@ A subcenter is therefore visible only as data already admitted by $R$ and inspec
 
 The partial-sum and majorant rows $S,M$ consume that displayed window before the endpoint seal $E$ is available. The structural rows $H,C,P,N$ transport, replay, source, and name the same packet, so no host analytic continuation or infinite coefficient selection is introduced.
 \end{proof}
+\leanchecked{BEDC.Derived.RealPowerSeriesUp.RealPowerSeriesCarrier\_coefficient\_shift\_route}
 
 \begin{theorem}[Real power series Cauchy-product radius budget]\label{thm:real-power-series-cauchy-product-radius-budget}
 For an accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, every product of accepted partial-sum windows must consume the displayed $\CauchyProductUp$ budget inside $S$ before it reaches the endpoint seal $E$. The product route remains bounded by the same $A,Z,X,R,W,S,M,H,C,P,N$ rows and cannot pass directly from two host sums to an endpoint value.
@@ -148,6 +151,7 @@ The Cauchy-product budget is therefore a finite ledger inside the partial-sum ro
 
 Only after that majorant route is consumed may the endpoint seal $E$ be read. Thus the product construction has no coordinate for multiplying selected infinite sums, appealing to host convergence, or bypassing the displayed radius budget.
 \end{proof}
+\leanchecked{BEDC.Derived.RealPowerSeriesUp.RealPowerSeriesCarrier\_cauchy\_product\_radius\_budget}
 
 \begin{theorem}[Real power series majorant consumer coverage]\label{thm:real-power-series-majorant-consumer-coverage}
 Every convergence-facing consumer of an accepted $\RealPowerSeriesUp$ carrier must select exactly one displayed majorant route from $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, or $\RegularCauchyRootTestUp$ at row $M$ before reading $E$. A consumer that uses host analytic continuation, a selected infinite sum, or an unstated completeness theorem is not a $\RealPowerSeriesUp$ consumer of the displayed packet.
@@ -256,6 +260,7 @@ The formal series and convergence-radius rows remain named inputs to the packet,
 
 Finally read $H,C,P,N$. These rows preserve, replay, source, and name the same displayed data, so none of the excluded analytic or choice principles can escape through the accepted classifier.
 \end{proof}
+\leanchecked{BEDC.Derived.RealPowerSeriesUp.RealPowerSeriesCarrier\_nonescape}
 
 \begin{theorem}[Real power series coefficient-window ledger]\label{thm:real-power-series-coefficient-window-ledger}
 Every coefficient-facing or $\FormalPowerSeriesUp$ read from an accepted $\RealPowerSeriesUp$ carrier must pass through $A$ and then through the finite window row $W$ before it can contribute to the partial-sum row $S$. Thus coefficients reach endpoint-facing evidence only as displayed stream windows, center-readbacks, argument-readbacks, powers of $X-Z$, and inspected polynomial sums.
@@ -500,6 +505,7 @@ Finally use \autoref{thm:real-power-series-nonescape}. Since host multiplication
 \label{thm:real-power-series-product-endpoint-nonescape}
 For every accepted $\RealPowerSeriesUp$ packet $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, the terminal $\RealUp$ seal for a power-series evaluation is downstream of the $\CauchyProductUp$ product route together with $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealSeriesUp$, $\WeierstrassMTestUp$, ratio-test, and root-test majorant rows. The endpoint cannot escape from that route to host analytic continuation, quotient function equality, selected infinite sums, host multiplication, countable choice, or ambient real completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealPowerSeriesUp.RealPowerSeriesCarrier\_product\_endpoint\_nonescape}
 \begin{proof}
 Begin with \autoref{thm:real-power-series-product-coefficient-window-lock}. It places every product coefficient read on the route through $A,W,S,M$ and the CauchyProduct product surface before the endpoint seal is available.
 

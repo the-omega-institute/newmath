@@ -67,6 +67,7 @@ Finally, non-escape follows from the absence of any further classifier coordinat
 \label{thm:normal-space-open-separation-route}
 Every separation read exported by an accepted $\NormalSpaceUp$ packet factors through the displayed closed-pair row and the two open-neighborhood rows before the local naming row can be inspected.
 \end{theorem}
+\leanchecked{BEDC.Derived.NormalSpaceUp.NormalSpacePacket\_open\_separation\_route}
 \begin{proof}
 Begin with a separation request for the displayed normal-space surface. Carrier admission exposes the topology source $T$, but it exports no local normal-space name before the closed-set witnesses are read.
 
@@ -77,10 +78,39 @@ Only after $F_0,F_1,D$ have been displayed may the request inspect the open-neig
 The replay and transport rows then carry this same factorization to the local naming row $L$. Thus every exported separation read passes through the displayed closed pair and the two separating open-neighborhood rows before local naming.
 \end{proof}
 
+\begin{theorem}[Normal space closed-pair stability]
+\label{thm:normal-space-closed-pair-stability}
+For every accepted $\NormalSpaceUp$ carrier $N=(T,F_0,F_1,D,U_0,U_1,H,K,P,L)$, componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the closed-pair and separating-open route. The transported packet still reads $F_0,F_1$ over the transported topology source, still reads $D$ as the disjointness ledger for that displayed pair, still reads $U_0,U_1$ as the separating open-neighborhood rows, and still reaches the local name only after those rows have been replayed.
+\end{theorem}
+\leanchecked{BEDC.Derived.NormalSpaceUp.NormalSpacePacket\_closed\_pair\_stability}
+\begin{proof}
+Project the carrier of \autoref{def:normal-space-carrier}. The closed-pair rows, disjointness ledger, separating open-neighborhood rows, componentwise transport row, and replay row are all explicit coordinates of the accepted packet.
+
+Apply the open-separation route \autoref{thm:normal-space-open-separation-route}. It fixes the order in which a separation read reaches local naming: first the topology source and closed pair, then the disjointness ledger, then the two open-neighborhood rows.
+
+The transport row $H$ moves those displayed coordinates componentwise, while the replay row $K$ replays the same finite route after transport. Since no carrier coordinate stores a selected complement, external closed-set predicate, or host powerset, stability can preserve only the displayed closed-pair and separating-open rows.
+\end{proof}
+
+\begin{theorem}[Normal space cozero-Urysohn handoff]
+\label{thm:normal-space-cozero-urysohn-handoff}
+Every $\CozeroSetUp$ or $\UrysohnLemmaUp$ consumer of an accepted $\NormalSpaceUp$ packet can read only the displayed topology source, closed-pair rows $F_0,F_1$, disjointness ledger $D$, separating open-neighborhood rows $U_0,U_1$, componentwise transport, displayed replay, provenance, and local naming. Such a consumer receives no selected complement, host powerset, choice-selected separating function, detached cozero predicate, or ambient classical separation principle from the normal-space packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.NormalSpaceUp.NormalSpacePacket\_cozero\_urysohn\_handoff}
+\begin{proof}
+Start with the NameCert obligation surface of \autoref{thm:normal-space-namecert-obligations}. It exposes closed-pair data, open-separation exactness, transport, replay, provenance, local naming, and the Urysohn handoff discipline as displayed rows.
+
+Use \autoref{thm:normal-space-open-separation-route} and \autoref{thm:normal-space-closed-pair-stability}. These force downstream reads to pass through the same closed-pair, disjointness, and separating-open rows even after componentwise transport and replay.
+
+A $\CozeroSetUp$ consumer may therefore read only the positive-open boundary already contained in those displayed open-neighborhood rows. A $\UrysohnLemmaUp$ consumer may read the same closed-pair and open-neighborhood route, but it must supply any separating-function certificate separately.
+
+The carrier contains no coordinate for selected complements, host powersets, choice-selected functions, detached cozero predicates, or classical separation principles. Hence neither downstream consumer can obtain those data from the $\NormalSpaceUp$ packet.
+\end{proof}
+
 \begin{theorem}[Normal space closed-pair transport]
 \label{thm:normal-space-closed-pair-transport}
 For every accepted $\NormalSpaceUp$ carrier $N=(T,F_0,F_1,D,U_0,U_1,H,K,P,L)$, componentwise $\hsame$ transport preserves the displayed closed-pair surface. A transported separation read still exposes $F_0$ and $F_1$ over the same topology source $T$, and the transported disjointness row is the image of the displayed ledger $D$ rather than an external closed-set predicate or complement choice.
 \end{theorem}
+\leanchecked{BEDC.Derived.NormalSpaceUp.NormalSpacePacket\_closed\_pair\_transport}
 \begin{proof}
 Project the finite rows from \autoref{def:normal-space-carrier}. The carrier stores $T,F_0,F_1,D$ before the open-neighborhood rows and before the local naming row.
 
@@ -93,6 +123,7 @@ Finally apply the route theorem \autoref{thm:normal-space-open-separation-route}
 \label{thm:normal-space-open-neighborhood-stability}
 For every accepted $\NormalSpaceUp$ carrier $N=(T,F_0,F_1,D,U_0,U_1,H,K,P,L)$, the separating open-neighborhood rows remain stable under the same componentwise transport. The transported rows $U_0$ and $U_1$ still contain the transported closed witnesses, still carry the packet's own disjointness read, and still precede every inspection of the local naming row $L$.
 \end{theorem}
+\leanchecked{BEDC.Derived.NormalSpaceUp.NormalSpacePacket\_open\_neighborhood\_stability}
 \begin{proof}
 The NameCert obligation surface in \autoref{thm:normal-space-namecert-obligations} identifies open-separation exactness as a displayed row, not as an ambient theorem about normal spaces. Thus $U_0$ and $U_1$ store the two containment reads and the open-neighborhood disjointness read inside the carrier.
 
@@ -120,6 +151,7 @@ Only after that read does the packet expose $U_0$ and $U_1$. Those rows are prec
 
 The structural rows $H,K,P,L$ preserve and name this route. Because the carrier has no coordinate for a selected separating function, a host powerset of opens, excluded middle, or a classical separation principle outside the displayed rows, the Urysohn-facing consumer receives only the stated finite handoff.
 \end{proof}
+\leanchecked{BEDC.Derived.NormalSpaceUp.NormalSpacePacket\_urysohn\_handoff}
 
 \begin{theorem}[Normal space topology-consumer boundary]
 \label{thm:normal-space-topology-consumer-boundary}
@@ -131,6 +163,30 @@ Start with the carrier projection of \autoref{def:normal-space-carrier}. The acc
 The obligation theorem \autoref{thm:normal-space-namecert-obligations} says that all local normal-space obligations are exhausted by carrier admission, closed-pair exposure, open-separation exactness, transport, replay, provenance, local naming, and non-escape. The closed-pair transport theorem and the open-neighborhood stability theorem keep those same rows stable under componentwise $\hsame$ transport.
 
 It remains only to rule out extra topology principles. The open-separation route \autoref{thm:normal-space-open-separation-route} exposes no coordinate beyond the displayed rows, so no consumer can read Urysohn, Tietze, paracompact, selected-complement, excluded-middle, or open-cover compactness data from this packet.
+\end{proof}
+
+\begin{theorem}[Normal space Tietze extension refusal]
+\label{thm:normal-space-tietze-extension-refusal}
+Every accepted $\NormalSpaceUp$ packet exposes only the displayed topology source, closed-pair rows, disjointness ledger, and two separating open-neighborhood rows, together with componentwise transport, replay, provenance, and local naming. It does not expose a continuous extension row, a selected function, a host powerset of closed or open sets, a Tietze extension theorem, or any choice-selected extension datum.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:normal-space-carrier}. Its public rows are the topology source, the two closed-set witnesses, the disjointness ledger, the separating open-neighborhood pair, and the structural rows.
+
+Apply \autoref{thm:normal-space-namecert-obligations} and \autoref{thm:normal-space-open-separation-route}. These identify the local obligation surface with closed-pair exposure and open-separation exactness, not with extension of functions.
+
+Use \autoref{thm:normal-space-open-neighborhood-stability} and \autoref{thm:normal-space-topology-consumer-boundary}. Stability preserves only the displayed open-neighborhood route, while the topology boundary refuses Urysohn functions, Tietze extension data, host powersets, selected complements, excluded middle, and open-cover compactness. Hence no Tietze extension row is exported by the packet.
+\end{proof}
+
+\begin{theorem}[Normal space Urysohn lemma consumer exactness]
+\label{thm:normal-space-urysohn-lemma-consumer-exactness}
+An $\UrysohnLemmaUp$ consumer of an accepted $\NormalSpaceUp$ packet may read the displayed closed pair $F_0,F_1$, disjointness ledger $D$, and separating open-neighborhood rows $U_0,U_1$ through \autoref{thm:normal-space-urysohn-handoff}. It must supply any separating-function certificate separately; the normal-space packet itself exports no choice-selected function, host powerset, excluded-middle branch, Tietze extension datum, or classical separation principle beyond those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:normal-space-carrier}. The Urysohn-facing data available to a consumer are exactly the topology source, the closed pair, the disjointness ledger, the open-neighborhood pair, and the structural rows.
+
+Apply \autoref{thm:normal-space-urysohn-handoff}. The handoff lets the consumer read the displayed closed pair and separating open neighborhoods, but it names no separating function row.
+
+The exactness of that boundary is fixed by \autoref{thm:normal-space-open-separation-route}, \autoref{thm:normal-space-open-neighborhood-stability}, and \autoref{thm:normal-space-topology-consumer-boundary}. These results keep the consumer on the displayed normal-space route and exclude host powersets, selected functions, Tietze data, excluded middle, and classical separation principles not present in the carrier.
 \end{proof}
 
 \closureat{NormalSpaceUp}{seedStr}
