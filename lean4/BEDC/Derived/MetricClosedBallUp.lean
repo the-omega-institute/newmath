@@ -117,6 +117,40 @@ theorem MetricClosedBallCarrier_radius_classifier_stability [AskSetup] [PackageS
     cont_respects_hsame sameDistance sameCenter membershipRoute transportedMembership
   exact ⟨membershipStable, rhoUnary, rhoUnary', pkgSig⟩
 
+theorem MetricClosedBallCarrier_boundary_classifier_transport [AskSetup] [PackageSetup]
+    {X d c r rho m H C P N X' d' c' r' rho' m' H' C' P' N' boundary boundary' :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricClosedBallCarrier X d c r rho m H C P N bundle pkg ->
+      MetricClosedBallCarrier X' d' c' r' rho' m' H' C' P' N' bundle pkg ->
+        hsame d d' ->
+          hsame c c' ->
+            hsame rho rho' ->
+              Cont d c m ->
+                Cont d' c' m' ->
+                  Cont m rho boundary ->
+                    Cont m' rho' boundary' ->
+                      hsame m m' ∧ hsame boundary boundary' ∧ UnaryHistory boundary ∧
+                        UnaryHistory boundary' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier carrier' sameDistance sameCenter sameRadius membershipRoute
+    transportedMembership boundaryRoute transportedBoundary
+  obtain ⟨_XUnary, _dUnary, _cUnary, _rUnary, rhoUnary, mUnary, _HUnary, _CUnary,
+    _PUnary, _NUnary, _sourceRoute, _carrierMembership, _nameRoute,
+    _membershipSame, _pkgSig⟩ := carrier
+  obtain ⟨_XUnary', _dUnary', _cUnary', _rUnary', rhoUnary', mUnary', _HUnary',
+    _CUnary', _PUnary', _NUnary', _sourceRoute', _carrierMembership',
+    _nameRoute', _membershipSame', _pkgSig'⟩ := carrier'
+  have membershipStable : hsame m m' :=
+    cont_respects_hsame sameDistance sameCenter membershipRoute transportedMembership
+  have boundaryStable : hsame boundary boundary' :=
+    cont_respects_hsame membershipStable sameRadius boundaryRoute transportedBoundary
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed mUnary rhoUnary boundaryRoute
+  have transportedBoundaryUnary : UnaryHistory boundary' :=
+    unary_cont_closed mUnary' rhoUnary' transportedBoundary
+  exact ⟨membershipStable, boundaryStable, boundaryUnary, transportedBoundaryUnary⟩
+
 theorem MetricClosedBallCarrier_realalgorder_boundary [AskSetup] [PackageSetup]
     {X d c r rho m H C P N boundaryRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
