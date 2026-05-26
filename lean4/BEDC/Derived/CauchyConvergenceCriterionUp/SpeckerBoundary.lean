@@ -78,4 +78,34 @@ theorem CauchyConvergenceCriterionCarrier_specker_boundary [AskSetup] [PackageSe
     ⟨cert, scheduleUnary, modulusUnary, dyadicUnary, handoffUnary, sealUnary, speckerUnary,
       locatedUnary, provenancePkg⟩
 
+theorem CauchyConvergenceCriterionCarrier_located_modulus_frontier [AskSetup]
+    [PackageSetup]
+    {schedule modulus dyadic handoff sealRow transportRow route provenance localCert locatedRead
+      speckerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyConvergenceCriterionCarrier schedule modulus dyadic handoff sealRow transportRow
+        route provenance localCert bundle pkg →
+      Cont schedule modulus locatedRead →
+        Cont handoff route speckerRead →
+          PkgSig bundle locatedRead pkg →
+            hsame locatedRead dyadic ∧ UnaryHistory locatedRead ∧
+              UnaryHistory speckerRead ∧ Cont schedule modulus locatedRead ∧
+                Cont handoff route speckerRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle locatedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame
+  intro carrier locatedRoute speckerRoute locatedPkg
+  obtain ⟨scheduleUnary, modulusUnary, _dyadicUnary, handoffUnary, _sealUnary,
+    _transportUnary, routeUnary, _provenanceUnary, _localCertUnary, scheduleModulusDyadic,
+    _dyadicHandoffSeal, _sealTransportRoute, _routeProvenanceLocal, _sameSealHandoff,
+    _sameSealProvenance, provenancePkg⟩ := carrier
+  have sameLocatedDyadic : hsame locatedRead dyadic :=
+    cont_deterministic locatedRoute scheduleModulusDyadic
+  have locatedUnary : UnaryHistory locatedRead :=
+    unary_cont_closed scheduleUnary modulusUnary locatedRoute
+  have speckerUnary : UnaryHistory speckerRead :=
+    unary_cont_closed handoffUnary routeUnary speckerRoute
+  exact
+    ⟨sameLocatedDyadic, locatedUnary, speckerUnary, locatedRoute, speckerRoute,
+      provenancePkg, locatedPkg⟩
+
 end BEDC.Derived.CauchyConvergenceCriterionUp
