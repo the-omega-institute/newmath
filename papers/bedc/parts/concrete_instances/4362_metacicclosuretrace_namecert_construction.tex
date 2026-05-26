@@ -127,6 +127,20 @@ Now use the local NameCert obligations. They account for carrier admission, Clos
 Finally use the kernel-ledger boundary. The ledger row $K$ remains acceptance accounting for displayed ClosurePreservation declarations and is not a semantic premise for stronger MetaCIC results. Since the carrier has no row for typing preservation, confluence, normalization, subject reduction, conversion soundness, or kernel soundness, the listed rows exhaust the obligation-closure package.
 \end{proof}
 
+\begin{theorem}[MetaCICClosureTrace obligation-closure forwarder]
+\label{thm:metacicclosuretrace-obligation-closure-forwarder}
+For every accepted $\MetaCICClosureTraceUp$ carrier $T=(S,U,V,B,R,G,K,H,C,P,N)$, the rows $S,U,V,B,R,G,K,H,C,P,N$ jointly form the obligation-closure surface exported to closure-preservation consumers. The exported surface consists only of shift closedness, variable-substitution closedness, full-substitution closedness, one-step beta closedness, finite beta-chain closedness, generator readback, kernel-trace ledger accounting, componentwise transport, replay, provenance, and local naming. It refuses typing preservation, conversion, confluence, normalization, subject reduction, and hidden kernel soundness.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:metacicclosuretrace-substitution-shift-generator-package}. It identifies $S,U,V,G$ as the displayed generator package for shift and substitution closedness.
+
+Next apply \autoref{thm:metacicclosuretrace-beta-star-preservation-readback}. It identifies $B,R$ as the one-step and finite beta-chain closedness readback route and keeps that readback at \texttt{ClosedAt} preservation.
+
+Now apply \autoref{thm:metacicclosuretrace-kernel-ledger-boundary}. The row $K$ remains only an acceptance ledger for displayed ClosurePreservation declarations, not a hidden semantic premise.
+
+Finally apply \autoref{thm:metacicclosuretrace-namecert-obligations}. The rows $H,C,P,N$ provide componentwise transport, replay, provenance, and local naming for the same finite packet. Since no carrier coordinate stores typing, conversion, confluence, normalization, subject reduction, or kernel soundness, the forwarder exports exactly the listed obligation-closure surface.
+\end{proof}
+
 \begin{theorem}[MetaCICClosureTrace obligation-closure upgrade]
 \label{thm:metacicclosuretrace-obligation-closure-upgrade}
 The substitution-shift generator package of \autoref{thm:metacicclosuretrace-substitution-shift-generator-package}, beta-star preservation readback of \autoref{thm:metacicclosuretrace-beta-star-preservation-readback}, NameCert obligations of \autoref{thm:metacicclosuretrace-namecert-obligations}, kernel-ledger boundary of \autoref{thm:metacicclosuretrace-kernel-ledger-boundary}, and candidate frontier of \autoref{thm:metacic-closure-trace-candidate-frontier} jointly form the obligationClosure package for $\MetaCICClosureTraceUp$. The package exports only finite \texttt{ClosedAt} preservation across shift, substitution, beta-step, finite beta-chain, generator readback, kernel-ledger accounting, transport, replay, provenance, and local naming. It exports no typing theorem, confluence theorem, normalization theorem, subject-reduction theorem, conversion-soundness theorem, or kernel-soundness theorem.
