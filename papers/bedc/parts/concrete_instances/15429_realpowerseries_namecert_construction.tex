@@ -27,6 +27,67 @@ with the following displayed rows:
 The classifier compares accepted packets only through $A,Z,X,R,W,S,M,E,H,C,P,N$. It has no coordinate for host analytic continuation, quotient function spaces, selected infinite sums, countable-choice selectors, or ambient $\RealUp$ completeness.
 \end{definition}
 
+\begin{definition}[Real power series obligation carrier]
+\label{def:real-power-series-obligation-carrier}
+A $\RealPowerSeriesUp$ obligation carrier over a finite evaluation request is a displayed subpacket
+$$
+O=(A,R,B,U,T,V,Q,E,H,C,P,N)
+$$
+inside the carrier of \autoref{def:real-power-series-carrier}. The rows have the following meanings:
+\begin{enumerate}
+\item $A$ is the finite coefficient-window row read from the coefficient stream or $\FormalPowerSeriesUp$ surface.
+\item $R$ is the displayed convergence-radius or subradius row, with only the finite comparison budget needed by the request.
+\item $B$ is the $\CauchyProductUp$ product ledger for the coefficient windows used to multiply finite polynomial truncations.
+\item $U$ is the selected $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, or $\RegularCauchyRootTestUp$ handoff row used to justify the radius read.
+\item $T$ is the $\StreamNameUp$ family of coefficient, power, product, and partial-sum windows.
+\item $V$ is the $\RegSeqRatUp$ readback row for the inspected partial sums and endpoint budgets.
+\item $Q$ is the $\RealSeriesUp$ partial-sum row obtained from $A,B,T,V$.
+\item $E$ is the terminal $\RealUp$ seal, available only after $A,R,B,U,T,V,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for all analytic rows and the structural rows.
+\item $C$ records displayed $\Cont$ replay from coefficient windows to products, from products to partial sums, from radius data to the selected test handoff, and from those rows to the terminal seal.
+\item $P$ is the $\Pkg$ provenance over $\RealPowerSeriesUp$, $\ConvergenceRadiusUp$, $\CauchyProductUp$, $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, $\RegularCauchyRootTestUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealSeriesUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealPowerSeriesUp}$ obligation row.
+\end{enumerate}
+The classifier for obligation carriers compares only $A,R,B,U,T,V,Q,E,H,C,P,N$. It has no coordinate for analytic continuation, host infinite sums, quotient series equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Real power series radius obligation]
+\label{thm:real-power-series-radius-obligation}
+For every accepted $\RealPowerSeriesUp$ obligation carrier $O=(A,R,B,U,T,V,Q,E,H,C,P,N)$, a convergence-radius read reaches the terminal $\RealUp$ seal only through the finite route
+$$
+A,R \longmapsto T \longmapsto Q \longmapsto U \longmapsto V \longmapsto E
+$$
+together with $H,C,P,N$. The radius row $R$ supplies a displayed radius or subradius budget; the selected test row $U$ supplies only M-test, ratio-test, or root-test evidence over finite $\StreamNameUp$, $\RegSeqRatUp$, and $\RealSeriesUp$ windows.
+\end{theorem}
+\begin{proof}
+Project the obligation carrier of \autoref{def:real-power-series-obligation-carrier}. The radius-facing rows before the endpoint are exactly the coefficient window $A$, radius row $R$, stream windows $T$, partial-sum row $Q$, selected test row $U$, and regular rational readback $V$.
+
+Read $R$ only as displayed radius or subradius data. The row $T$ supplies the finite coefficient, power, and partial-sum windows needed to test the radius claim, while $Q$ records the inspected $\RealSeriesUp$ partial sums.
+
+The selected test row $U$ is the only convergence justification. It may cite $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, or $\RegularCauchyRootTestUp$, and its endpoint-facing output is read through $V$ before $E$ is available.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the obligation carrier contains no field for analytic continuation, host infinite sums, selected limits, quotient equality, countable choice, or ambient completeness, the radius obligation is confined to the displayed rows.
+\end{proof}
+
+\begin{theorem}[Real power series Cauchy-product handoff]
+\label{thm:real-power-series-cauchy-product-handoff}
+For every accepted $\RealPowerSeriesUp$ obligation carrier $O=(A,R,B,U,T,V,Q,E,H,C,P,N)$, every endpoint-facing product of coefficient windows must pass through the $\CauchyProductUp$ row $B$ before it can be read as a $\RealSeriesUp$ partial-sum row or a terminal $\RealUp$ seal. The product handoff is the finite route
+$$
+A \longmapsto B \longmapsto T \longmapsto Q \longmapsto V \longmapsto E
+$$
+with the same radius row $R$, selected test row $U$, transport, replay, provenance, and local NameCert rows retained.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealPowerSeriesUp.RealPowerSeriesCarrier\_cauchy\_product\_handoff}
+\begin{proof}
+Begin with the coefficient-window row $A$. A product consumer may inspect only the finite coefficient windows displayed in the obligation carrier, so it has no direct route to a host multiplication of infinite series.
+
+The row $B$ is the unique $\CauchyProductUp$ ledger for those coefficient windows. Reading $B$ fixes the finite convolution budget before the stream windows $T$ and the $\RealSeriesUp$ partial-sum row $Q$ can be consumed.
+
+The readback row $V$ then turns the displayed partial sums and product budget into regular rational endpoint data, and the terminal seal $E$ is downstream of that readback. The radius row $R$ and selected test row $U$ remain in the same packet, so the product handoff also preserves the convergence budget used by the endpoint read.
+
+The structural rows $H,C,P,N$ carry only componentwise transport, replay, provenance, and local naming. Because the carrier has no field for host products, quotient series equality, selected infinite sums, analytic continuation, countable choice, or ambient $\RealUp$ completeness, the Cauchy-product route is exactly the finite handoff displayed above.
+\end{proof}
+
 \begin{theorem}[Real power series coefficient-window obligation]
 \label{thm:realpowerseries-coefficient-window-obligation}
 For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, the coefficient and $\FormalPowerSeriesUp$ obligation is exactly the route from $A$ through the finite $\StreamNameUp$ windows in $W$ into the partial-sum row $S$. The route retains the center and argument $\RealUp$ rows $Z,X$, the displayed radius or subradius row $R$, $\RegSeqRatUp$ readback budgets, $\DyadicRatCoreUp$ tolerance rows, $\RealSeriesUp$ partial sums, componentwise transport $H$, replay $C$, provenance $P$, and local $\NameCert_{\RealPowerSeriesUp}$ row $N$.
@@ -350,6 +411,7 @@ Now use the CauchyProduct budget route. The root budget product lock, source-win
 
 Finally return to the endpoint seal $E$ through the structural rows $H,C,P,N$. Since neither the power-series carrier nor the CauchyProduct budget route contains a coordinate for selected infinite sums, quotient function spaces, host analytic continuation, host multiplication, or ambient completeness, none of those objects can be exported with the endpoint seal.
 \end{proof}
+\leanchecked{BEDC.Derived.RealPowerSeriesUp.RealPowerSeriesCarrier\_cauchy\_product\_coefficient\_budget}
 
 \begin{theorem}[Real power series endpoint-seal scope]\label{thm:real-power-series-endpoint-seal-scope}
 The endpoint row $E$ of an accepted $\RealPowerSeriesUp$ carrier is scoped only after the displayed route through $A,Z,X,R,W,S,M,H,C,P,N$. It exports no host analytic continuation, quotient function space, selected infinite sum, countable choice, or ambient $\RealUp$ completeness principle.
@@ -484,6 +546,7 @@ The endpoint seal $E$ remains downstream by \autoref{thm:realpowerseries-root-ra
 \label{thm:real-power-series-endpoint-cauchy-budget}
 For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, endpoint evaluation is routed through $\StreamNameUp$ windows, $\RegSeqRatUp$ readback budgets, $\DyadicRatCoreUp$ tolerance rows, and the terminal $\RealUp$ seal rows before it can be exported. The route exports no selected infinite sum, quotient function space, analytic continuation, countable choice, or ambient $\RealUp$ completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealPowerSeriesUp.RealPowerSeriesCarrier\_endpoint\_cauchy\_budget}
 \begin{proof}
 Read the endpoint side through \autoref{thm:real-power-series-regseqrat-endpoint-handoff}. It forces every $\RegSeqRatUp$-facing endpoint handoff to consume the finite windows, regular-rational budgets, dyadic tolerances, partial-sum rows, selected majorant rows, and terminal seal as one packet route.
 
