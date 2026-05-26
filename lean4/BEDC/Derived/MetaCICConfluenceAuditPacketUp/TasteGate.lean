@@ -282,6 +282,9 @@ instance metaCICConfluenceAuditPacketChapterTasteGate :
     intro x y hxy heq
     exact hxy (metaCICConfluenceAuditPacketToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate MetaCICConfluenceAuditPacketUp :=
+  metaCICConfluenceAuditPacketChapterTasteGate
+
 instance metaCICConfluenceAuditPacketFieldFaithful :
     FieldFaithful MetaCICConfluenceAuditPacketUp where
   -- BEDC touchpoint anchor: BHist BMark
