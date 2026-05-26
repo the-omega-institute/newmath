@@ -168,6 +168,32 @@ theorem BoundedNormalEqualityCheckerCarrier_consumer_nonescape [AskSetup] [Packa
       equalityReadUnary, finishedReadUnary, equalityRoute, equalityReadRoute,
       finishedReadRoute, provenancePkg, nameCertPkg⟩
 
+theorem BoundedNormalEqualityCheckerCarrier_obligation_package [AskSetup] [PackageSetup]
+    {left right fuel normalLeft normalRight equality witness closed transport route provenance
+      nameCert packageRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedNormalEqualityCheckerCarrier left right fuel normalLeft normalRight equality witness
+        closed transport route provenance nameCert bundle pkg →
+      Cont transport route packageRead →
+        UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory fuel ∧
+          UnaryHistory normalLeft ∧ UnaryHistory normalRight ∧ UnaryHistory equality ∧
+            UnaryHistory witness ∧ UnaryHistory closed ∧ UnaryHistory transport ∧
+              UnaryHistory route ∧ UnaryHistory packageRead ∧ Cont left fuel normalLeft ∧
+                Cont right fuel normalRight ∧ Cont normalLeft normalRight equality ∧
+                  Cont transport route packageRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro carrier transportRoutePackage
+  obtain ⟨leftUnary, rightUnary, fuelUnary, normalLeftUnary, normalRightUnary, equalityUnary,
+    witnessUnary, closedUnary, transportUnary, routeUnary, _provenanceUnary, _nameCertUnary,
+    leftRoute, rightRoute, equalityRoute, provenancePkg, nameCertPkg⟩ := carrier
+  have packageUnary : UnaryHistory packageRead :=
+    unary_cont_closed transportUnary routeUnary transportRoutePackage
+  exact
+    ⟨leftUnary, rightUnary, fuelUnary, normalLeftUnary, normalRightUnary, equalityUnary,
+      witnessUnary, closedUnary, transportUnary, routeUnary, packageUnary, leftRoute, rightRoute,
+      equalityRoute, transportRoutePackage, provenancePkg, nameCertPkg⟩
+
 theorem BoundedNormalEqualityCheckerCarrier_classifier_stability_row [AskSetup]
     [PackageSetup]
     {left right fuel normalLeft normalRight equality witness closed transport route provenance
