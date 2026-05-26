@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\ContinuousSupNormUp$}
+\label{ch:concrete-instances-continuous-supnorm-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Kelley, the $\ContinuousSupNormUp$ packet records the compact-source uniform metric for bounded continuous real-valued functions as finite BEDC data. It reads the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the continuous-map row of \autoref{ch:concrete-instances-continuousmap-namecert}, the real-valued uniform Cauchy route of \autoref{ch:concrete-instances-real-function-uniform-cauchy-namecert}, the uniform-limit metric handoff of \autoref{ch:concrete-instances-uniform-limit-metric-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite sup-norm surface needed by compact continuous-function consumers without importing a completed function space, host function equality, or a global supremum operator outside the displayed ledger.
+
+\begin{definition}[Continuous sup-norm carrier]
+\label{def:continuous-supnorm-carrier}
+A $\ContinuousSupNormUp$ carrier is a finite $\BHist$ packet
+$$
+S=(K,F,R,O,M,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact metric source row, read through the $\CompactMetricUp$ packet.
+\item $F$ is the $\ContinuousMapUp$ row for a real-valued function on $K$.
+\item $R$ is the pointwise $\RealUp$ difference and absolute-value seal for inspected source windows.
+\item $O$ is the finite oscillation ledger, recording the inspected cover cells, source windows, and value-oscillation bounds.
+\item $M$ is the displayed modulus row that transports continuous-map control from source-window refinement to real-value tolerance.
+\item $B$ is the supremum-bound witness, recording a finite bound row for the displayed oscillation and pointwise-difference ledger.
+\item $H$ records componentwise $\hsame$ transport for the compact source, continuous-map row, Real difference row, oscillation ledger, modulus row, bound witness, replay row, provenance, and local name.
+\item $C$ records the displayed $\Cont$ replay route from a sup-norm request through $K,F,R,O,M,B,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CompactMetricUp$, $\ContinuousMapUp$, $\RealFunctionUniformCauchyUp$, $\UniformLimitMetricUp$, $\RealUp$, $\FiniteOscillationPartitionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ContinuousSupNormUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by the displayed compact source, continuous-map row, pointwise Real difference row, finite oscillation and modulus ledgers, supremum-bound witness, structural transport, replay, provenance, and local naming. It has no coordinate for a completed Banach space, quotient equality of functions, an ambient supremum over all host points, a choice-selected extremal point, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Continuous sup-norm Cauchy control]
+\label{thm:continuous-supnorm-cauchy-control}
+Every accepted $\ContinuousSupNormUp$ carrier $S=(K,F,R,O,M,B,H,C,P,N)$ that is read as a sup-norm Cauchy row supplies uniform finite-window Cauchy control over the compact source. For each displayed tolerance request, the accepted read factors through the finite route
+$$
+K,F \longmapsto O,M \longmapsto R,B \longmapsto H,C,P,N .
+$$
+Thus every inspected pair of function rows is controlled by the same compact-source window ledger and the same RealUp difference-and-bound witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:continuous-supnorm-carrier}. The compact source $K$ and continuous-map row $F$ determine which source windows and pointwise Real reads can be inspected.
+
+The finite oscillation row $O$ and modulus row $M$ then give a single finite window ledger for the tolerance request. The Real difference row $R$ and supremum-bound witness $B$ read all inspected pointwise differences through that ledger.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same route. Since no carrier coordinate stores host function equality, a completed function space, or an ambient supremum operator, the Cauchy control available to a consumer is exactly the displayed uniform finite-window control.
+\end{proof}
+
+\begin{theorem}[Continuous sup-norm uniform-limit handoff]
+\label{thm:continuous-supnorm-uniform-limit-handoff}
+Every $\ContinuousSupNormUp$ Cauchy-control read accepted by $S=(K,F,R,O,M,B,H,C,P,N)$ may be handed to the $\UniformLimitMetricUp$ packet only through the displayed compact source, continuous-map row, finite oscillation and modulus ledgers, RealUp pointwise-difference seal, supremum-bound witness, componentwise transport, replay, provenance, and local naming rows. The handoff exports no additional completeness, quotient-function equality, or selected limit object.
+\end{theorem}
+\begin{proof}
+Begin with the Cauchy-control route of \autoref{thm:continuous-supnorm-cauchy-control}. It exposes the compact source and continuous-map row before the oscillation, modulus, Real difference, and bound rows are consumed.
+
+The $\UniformLimitMetricUp$ consumer can therefore read only the finite route already present in $K,F,O,M,R,B,H,C,P,N$. The package provenance $P$ records the connection with $\RealFunctionUniformCauchyUp$ and $\UniformLimitMetricUp$, while $N$ names only the local sup-norm packet.
+
+There is no remaining coordinate for a host completion theorem, a quotient of functions, or a choice-selected limiting function. Hence the handoff is exactly the finite BEDC route displayed by the carrier.
+\end{proof}
+
+\closureat{ContinuousSupNormUp}{seedStr}
+
+\begin{closurestatus}{\ContinuousSupNormUp}
+  \constructivestory{A $\ContinuousSupNormUp$ packet is generated from a compact metric source, continuous-map row, pointwise RealUp difference seal, finite oscillation and modulus ledgers, supremum-bound witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:continuous-supnorm-carrier}, \autoref{thm:continuous-supnorm-cauchy-control}, and \autoref{thm:continuous-supnorm-uniform-limit-handoff} seed the compact-source sup-norm carrier, Cauchy-control route, and uniform-limit handoff for bounded continuous real-valued functions.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Banach-space completeness, quotient equality of functions, host supremum existence, selected limit functions, Lean verification, or bridge checking for $\ContinuousSupNormUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite oscillation coverage, modulus transport, RealUp difference sealing, supremum-bound exactness, Cauchy-control routing, uniform-limit handoff, replay stability, and ledger non-escape for BEDC.Derived.ContinuousSupNormUp.}
+\end{closurestatus}

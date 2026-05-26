@@ -151,4 +151,40 @@ theorem CauchySpaceCarrier_completion_handoff_obligation
     ⟨fUnary, uUnary, rUnary, tUnary, consumerUnary, transportRow, filterRoute,
       consumerRoute⟩
 
+theorem CauchySpaceCarrier_precompletion_nonescape_obligation
+    {F U R Q T H C P N handoff consumer : BHist} :
+    CauchySpaceCarrier F U R Q T H C P N ->
+      Cont R Q handoff ->
+        Cont handoff T consumer ->
+          UnaryHistory R ∧ UnaryHistory Q ∧ UnaryHistory T ∧ UnaryHistory handoff ∧
+            UnaryHistory consumer ∧ Cont R Q handoff ∧ Cont handoff T consumer ∧
+              hsame H (append F U) := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro carrier handoffRoute consumerRoute
+  obtain ⟨_fUnary, _uUnary, rUnary, qUnary, tUnary, _hUnary, _cUnary, _pUnary,
+    _nUnary, transportRow, _filterRoute, _nameRoute⟩ := carrier
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed rUnary qUnary handoffRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed handoffUnary tUnary consumerRoute
+  exact
+    ⟨rUnary, qUnary, tUnary, handoffUnary, consumerUnary, handoffRoute, consumerRoute,
+      transportRow⟩
+
+theorem CauchySpaceCarrier_regular_name_handoff_obligation {F U R Q T H C P N consumer : BHist} :
+    CauchySpaceCarrier F U R Q T H C P N ->
+      Cont R Q consumer ->
+        UnaryHistory F ∧ UnaryHistory U ∧ UnaryHistory R ∧ UnaryHistory Q ∧
+          UnaryHistory consumer ∧ Cont F U R ∧ Cont R Q consumer ∧
+            hsame H (append F U) := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro carrier consumerRoute
+  obtain ⟨fUnary, uUnary, rUnary, qUnary, _tUnary, _hUnary, _cUnary, _pUnary, _nUnary,
+    transportRow, filterRoute, _nameRoute⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed rUnary qUnary consumerRoute
+  exact
+    ⟨fUnary, uUnary, rUnary, qUnary, consumerUnary, filterRoute, consumerRoute,
+      transportRow⟩
+
 end BEDC.Derived.CauchySpaceUp

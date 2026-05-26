@@ -106,6 +106,44 @@ theorem RealSequenceLimit_regular_tail_scope_lock [AskSetup] [PackageSetup]
       exportedUnary, tailWindowRoute, tailReadRoute, tailSealRoute, exportRoute,
       provenancePkg, exportedPkg⟩
 
+theorem RealSequenceLimitBridgeSurface [AskSetup] [PackageSetup]
+    {sequenceRow limitRow windowSchedule dyadicLedger classifierRow transport route provenance
+      name criterionTail regularTail equivalenceRead bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealSequenceLimitCarrier sequenceRow limitRow windowSchedule dyadicLedger classifierRow
+        transport route provenance name bundle pkg ->
+      Cont classifierRow windowSchedule criterionTail ->
+        Cont criterionTail route regularTail ->
+          Cont regularTail transport equivalenceRead ->
+            Cont equivalenceRead name bridgeRead ->
+              PkgSig bundle bridgeRead pkg ->
+                UnaryHistory classifierRow ∧ UnaryHistory criterionTail ∧
+                  UnaryHistory regularTail ∧ UnaryHistory equivalenceRead ∧
+                    UnaryHistory bridgeRead ∧ Cont classifierRow windowSchedule criterionTail ∧
+                      Cont criterionTail route regularTail ∧
+                        Cont regularTail transport equivalenceRead ∧
+                          Cont equivalenceRead name bridgeRead ∧ PkgSig bundle provenance pkg ∧
+                            PkgSig bundle bridgeRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier classifierCriterion criterionRegular regularEquivalence equivalenceBridge
+    bridgePkg
+  rcases carrier with
+    ⟨_sequenceUnary, _limitUnary, windowUnary, _dyadicUnary, classifierUnary,
+      transportUnary, routeUnary, _provenanceUnary, nameUnary, _sequenceRoute,
+      _classifierRoute, _transportSame, _routeSame, provenancePkg, _namePkg⟩
+  have criterionTailUnary : UnaryHistory criterionTail :=
+    unary_cont_closed classifierUnary windowUnary classifierCriterion
+  have regularTailUnary : UnaryHistory regularTail :=
+    unary_cont_closed criterionTailUnary routeUnary criterionRegular
+  have equivalenceReadUnary : UnaryHistory equivalenceRead :=
+    unary_cont_closed regularTailUnary transportUnary regularEquivalence
+  have bridgeReadUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed equivalenceReadUnary nameUnary equivalenceBridge
+  exact
+    ⟨classifierUnary, criterionTailUnary, regularTailUnary, equivalenceReadUnary,
+      bridgeReadUnary, classifierCriterion, criterionRegular, regularEquivalence,
+      equivalenceBridge, provenancePkg, bridgePkg⟩
+
 theorem RealSequenceLimitSqueezeHandoff [AskSetup] [PackageSetup]
     {lowerSeq middleSeq upperSeq limitRow lowerWindow middleWindow upperWindow lowerDyadic
       middleDyadic upperDyadic lowerClassifier middleClassifier upperClassifier lowerTransport

@@ -74,4 +74,48 @@ theorem RealPowerSeriesCarrier_coefficient_window_transport [AskSetup] [PackageS
     ⟨AUnary, WUnary, SUnary, coeffReadUnary, partialReadUnary, coeffRoute,
       partialRoute, coeffSame, pkgSig⟩
 
+theorem RealPowerSeriesCarrier_majorant_regseqrat_budget [AskSetup] [PackageSetup]
+    {A Z X R W S M E H C P N regBudget endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ->
+      Cont S M regBudget ->
+        Cont regBudget E endpointRead ->
+          PkgSig bundle regBudget pkg ->
+            PkgSig bundle endpointRead pkg ->
+              UnaryHistory A ∧ UnaryHistory R ∧ UnaryHistory W ∧ UnaryHistory S ∧
+                UnaryHistory M ∧ UnaryHistory E ∧ UnaryHistory regBudget ∧
+                  UnaryHistory endpointRead ∧ Cont A W S ∧ Cont R S M ∧
+                    Cont S M regBudget ∧ Cont regBudget E endpointRead ∧
+                      PkgSig bundle P pkg ∧ PkgSig bundle regBudget pkg ∧
+                        PkgSig bundle endpointRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier budgetRoute endpointRoute budgetPkg endpointPkg
+  obtain ⟨AUnary, _ZUnary, _XUnary, RUnary, WUnary, SUnary, MUnary, EUnary,
+    _HUnary, _CUnary, _PUnary, _NUnary, coefficientWindow, radiusMajorant,
+    _majorantEndpoint, pkgSig⟩ := carrier
+  have budgetUnary : UnaryHistory regBudget :=
+    unary_cont_closed SUnary MUnary budgetRoute
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed budgetUnary EUnary endpointRoute
+  exact
+    ⟨AUnary, RUnary, WUnary, SUnary, MUnary, EUnary, budgetUnary, endpointUnary,
+      coefficientWindow, radiusMajorant, budgetRoute, endpointRoute, pkgSig, budgetPkg,
+      endpointPkg⟩
+
+theorem RealPowerSeriesCarrier_partial_sum_majorant_readback [AskSetup] [PackageSetup]
+    {A Z X R W S M E H C P N readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ->
+      Cont S M readback ->
+        UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory readback ∧ Cont S M readback ∧
+          Cont R S M ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier readbackRoute
+  obtain ⟨_AUnary, _ZUnary, _XUnary, _RUnary, _WUnary, SUnary, MUnary, _EUnary,
+    _HUnary, _CUnary, _PUnary, _NUnary, _coefficientWindow, radiusMajorant,
+    _majorantEndpoint, pkgSig⟩ := carrier
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed SUnary MUnary readbackRoute
+  exact ⟨SUnary, MUnary, readbackUnary, readbackRoute, radiusMajorant, pkgSig⟩
+
 end BEDC.Derived.RealPowerSeriesUp
