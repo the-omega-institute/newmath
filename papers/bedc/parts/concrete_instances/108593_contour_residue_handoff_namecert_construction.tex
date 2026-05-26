@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\ContourResidueHandoffUp$}
+\label{ch:concrete-instances-contour-residue-handoff-namecert}
+\origin{human}
+
+Following Cauchy's residue calculus, the $\ContourResidueHandoffUp$ packet records the finite consumer boundary at which a contour-integral operation may be read as residue-facing data. It sits after the contour operation surface of \autoref{ch:concrete-instances-contourintegraloperation-namecert}, the operation socket of \autoref{ch:concrete-instances-contourintegralsocket-namecert}, the holomorphic input boundary of \autoref{ch:concrete-instances-holomorphic-namecert}, and the residue packet of \autoref{ch:concrete-instances-residue-namecert}. The packet exposes piecewise-linear contour rows, holomorphic rows, operation-law ledgers, residue rows, and non-escape rows as one finite handoff; it does not introduce a host contour homology theorem, analytic-continuation oracle, or global residue theorem.
+
+\begin{definition}[Contour-residue handoff carrier]
+\label{def:contour-residue-handoff-carrier}
+A $\ContourResidueHandoffUp$ carrier is a finite $\BHist$ packet
+$$
+R=(G,F,O,S,Z,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the piecewise-linear contour row read by the contour operation surface;
+\item $F$ is the $\HolomorphicUp$ source row on the displayed contour domain away from the residue locus;
+\item $O$ is the $\ContourIntegralOperationUp$ row, including the Riemann-sum ledger, output row, and operation-law boundary;
+\item $S$ is the $\ContourIntegralSocketUp$ row through which contour-operation consumers read $G,F,O$;
+\item $Z$ is the $\ResidueUp$ row naming the local residue datum consumed by the handoff;
+\item $B$ is the boundary row recording that residue-facing reads require the displayed contour, holomorphic, socket, operation, and residue rows, and that no off-packet analytic theorem is exported;
+\item $H$ is componentwise $\hsame$ transport for $G,F,O,S,Z,B$ together with replay, provenance, and local naming;
+\item $C$ is the displayed $\Cont$ replay route from a residue handoff request through $G,F,O,S,Z,B,H,P,N$;
+\item $P$ is $\Pkg$ provenance over $\ContourResidueHandoffUp$, $\ContourIntegralOperationUp$, $\ContourIntegralSocketUp$, $\HolomorphicUp$, $\ResidueUp$, piecewise-linear contour rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ContourResidueHandoffUp}$ row.
+\end{enumerate}
+The classifier accepts only packets with these displayed rows. It has no coordinate for contour homology, global residue summation, meromorphic continuation, quotient path equality, or an analytic oracle outside the contour-operation packet.
+\end{definition}
+
+\begin{theorem}[Contour-residue handoff NameCert obligations]
+\label{thm:contour-residue-handoff-namecert-obligations}
+For the carrier of \autoref{def:contour-residue-handoff-carrier}, the local $\NameCert_{\ContourResidueHandoffUp}$ surface consists exactly of carrier admission, PL-contour exposure, holomorphic source exposure, contour-operation exposure, contour-socket consumer routing, residue-row exposure, boundary non-escape, componentwise transport, displayed replay, provenance, and local naming. A residue-facing consumer receives no contour homology theorem, global residue theorem, quotient path equality, or analytic-continuation oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier. The contour row $G$, holomorphic row $F$, operation row $O$, socket row $S$, and residue row $Z$ are the only analytic data visible to the local certificate.
+
+The boundary row $B$ records which residue-facing reads may be consumed from those displayed rows. A request for a global residue theorem, contour homology invariant, quotient path equality, or analytic-continuation oracle has no coordinate in the packet and is therefore refused.
+
+The transport, replay, provenance, and local naming rows $H,C,P,N$ preserve this same finite inventory. Hence the NameCert obligations are exhausted by the displayed handoff rows.
+\end{proof}
+
+\begin{theorem}[Contour-residue handoff boundary]
+\label{thm:contour-residue-handoff-boundary}
+Let $R=(G,F,O,S,Z,B,H,C,P,N)$ be an accepted $\ContourResidueHandoffUp$ carrier. Every residue-facing consumer of the contour operation must first factor through the displayed $\ContourIntegralOperationUp$ row $O$, the $\ContourIntegralSocketUp$ row $S$, the $\HolomorphicUp$ source row $F$, the PL-contour row $G$, and the $\ResidueUp$ row $Z$. The handoff exports only the displayed residue boundary and does not create a global residue theorem, contour deformation theorem, or off-packet meromorphic continuation principle.
+\end{theorem}
+\begin{proof}
+Read the contour operation through $O$ and the socket through $S$. These rows expose the piecewise-linear contour, holomorphic input, Riemann-sum and operation-law ledgers, output row, transport, and replay routes before any residue-facing request is considered.
+
+The residue row $Z$ is then consumed through the same route, with $B$ recording the precise boundary between displayed residue data and unavailable global analytic consequences. Thus a consumer can read a local handoff but cannot infer contour homology, deformation invariance, or a global residue sum.
+
+Finally, componentwise $\hsame$ transport and $\Cont$ replay keep $G,F,O,S,Z,B$ attached to the same provenance and local NameCert rows. The absence of any additional analytic coordinate prevents the handoff from exporting off-packet meromorphic continuation or quotient path equality.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\ContourResidueHandoffUp$ consumer is refuted if it exports residue-facing contour data while omitting the displayed PL-contour row, holomorphic row, contour-operation row, contour-socket row, residue row, boundary row, transport, replay, provenance, or local NameCert row.}
+
+\independenceWitness{contourintegraloperation, contourintegralsocket, holomorphic, residue: none is bijective to $\ContourResidueHandoffUp$ because this packet jointly carries the contour row, holomorphic source, contour-operation ledger, socket consumer route, residue row, non-escape boundary, transport, replay, provenance, and local naming. The operation and socket packets lack the residue handoff row; the holomorphic packet lacks contour output and residue data; the residue packet lacks contour-operation routing.}
+
+\closureat{ContourResidueHandoffUp}{seedStr}
+
+\begin{closurestatus}{\ContourResidueHandoffUp}
+  \constructivestory{A $\ContourResidueHandoffUp$ packet is generated from a piecewise-linear contour row, holomorphic source row, contour-integral operation row, contour-integral socket row, residue row, boundary non-escape row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:contour-residue-handoff-carrier}, \autoref{thm:contour-residue-handoff-namecert-obligations}, and \autoref{thm:contour-residue-handoff-boundary} seed the contour-residue handoff carrier, obligation surface, and residue-facing consumer boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, contour homology, deformation invariance, the global residue theorem, meromorphic continuation, or quotient path equality for $\ContourResidueHandoffUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, contour-operation exposure, socket routing, residue-row handoff, boundary non-escape, replay stability, provenance exactness, and TasteGate instances for BEDC.Derived.ContourResidueHandoffUp.}
+\end{closurestatus}

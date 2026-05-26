@@ -1,0 +1,158 @@
+\begin{theorem}[Minimal trigger sphere]
+\label{thm:philosophy-minimal-trigger-sphere}
+Let
+$$
+  A=\{S_{1},\ldots,S_{m}\}
+  \subseteq 2^{\Omega}\setminus\{\varnothing\}
+$$
+be a quotient-level minimal full trigger. Put
+$$
+  F_{i}=\Omega\setminus S_{i}.
+$$
+Then the support nerve
+$$
+  N_{A}=\bigcup_{i=1}^{m}2^{F_{i}}
+$$
+is homotopy equivalent to $S^{m-2}$. Equivalently,
+$$
+  \widetilde{H}_{m-2}(N_{A};k)\cong k.
+$$
+\end{theorem}
+\begin{proof}
+The full-trigger condition gives
+$$
+  \bigcup_{i=1}^{m}S_{i}=\Omega.
+$$
+Taking complements,
+$$
+  \bigcap_{i=1}^{m}F_{i}
+  =
+  \varnothing.
+$$
+Minimality says that every proper subfamily fails to cover $\Omega$.
+Thus, for every proper $I\subsetneq\{1,\ldots,m\}$,
+$$
+  \bigcap_{i\in I}F_{i}\neq\varnothing.
+$$
+The cover of $N_{A}$ by the simplices $2^{F_{i}}$ therefore has nerve
+$\partial\Delta^{m-1}$. Every nonempty intersection of these simplices
+is again a simplex, hence contractible. The nerve theorem gives
+$$
+  N_{A}\simeq\partial\Delta^{m-1}\simeq S^{m-2}.
+$$
+\end{proof}
+
+\begin{theorem}[Sphere core converse]
+\label{thm:philosophy-sphere-core-converse}
+Let $A=\{S_{1},\ldots,S_{m}\}$ and $F_{i}=\Omega\setminus S_{i}$. If
+the cover of $N_{A}$ by the $m$ simplices $2^{F_{i}}$ has nerve
+$\partial\Delta^{m-1}$, then $A$ is a quotient-level minimal full
+trigger.
+\end{theorem}
+\begin{proof}
+The nerve condition says that every proper intersection
+$\bigcap_{i\in I}F_{i}$ is nonempty, while the full intersection
+$\bigcap_{i=1}^{m}F_{i}$ is empty. Taking complements gives
+$$
+  \bigcup_{i=1}^{m}S_{i}=\Omega,
+$$
+and, for every proper $I$,
+$$
+  \bigcup_{i\in I}S_{i}\neq\Omega.
+$$
+This is precisely the minimal full-trigger condition.
+\end{proof}
+
+\begin{corollary}[Minimal triggers are minimal homology cores]
+\label{cor:philosophy-minimal-triggers-homology-cores}
+At quotient level, a size-$m$ minimal full trigger is the same support
+data as a minimal support-nerve core of type $S^{m-2}$:
+$$
+\begin{array}{c|c|c}
+  \text{trigger size} & \text{reduced homology} & \text{sphere}\\
+  \hline
+  1 & \widetilde{H}_{-1} & S^{-1}\\
+  2 & \widetilde{H}_{0} & S^{0}\\
+  3 & \widetilde{H}_{1} & S^{1}\\
+  4 & \widetilde{H}_{2} & S^{2}.
+\end{array}
+$$
+\end{corollary}
+\begin{proof}
+Apply
+\autoref{thm:philosophy-minimal-trigger-sphere} and
+\autoref{thm:philosophy-sphere-core-converse}.
+\end{proof}
+
+\begin{theorem}[Minimal trigger homology core counts]
+\label{thm:philosophy-minimal-trigger-homology-core-counts}
+For $\Omega=\{s_{1},f_{1},s_{2},f_{2}\}$, the quotient-level minimal
+homology cores have counts
+$$
+\begin{array}{c|r|c|r}
+  \text{trigger size} & \text{quotient count} & \text{sphere} & \text{codon count}\\
+  \hline
+  1 & 1 & S^{-1} & 2\\
+  2 & 25 & S^{0} & 100\\
+  3 & 22 & S^{1} & 176\\
+  4 & 1 & S^{2} & 16.
+\end{array}
+$$
+Thus the quotient-level polynomial is
+$$
+  z+25z^{2}+22z^{3}+z^{4},
+$$
+and the codon-level polynomial is
+$$
+  2z+100z^{2}+176z^{3}+16z^{4}.
+$$
+\end{theorem}
+\begin{proof}
+The quotient-level counts are the minimal full-trigger counts of
+\autoref{thm:philosophy-minimal-trigger-support-types}. The sphere type
+is supplied by \autoref{cor:philosophy-minimal-triggers-homology-cores}.
+At codon level, each support in a size-$m$ quotient trigger has two
+$f_{3}$-lifts, so the quotient count is multiplied by $2^{m}$.
+\end{proof}
+
+\begin{corollary}[Lowest Hochster witnesses]
+\label{cor:philosophy-lowest-hochster-witnesses}
+The minimal full triggers are the lowest-degree Hochster witnesses on
+the four diagonal series:
+$$
+\begin{array}{c|c|c|r}
+  \text{series} & \text{homology} & \text{minimal trigger degree} & \text{lowest coefficient}\\
+  \hline
+  B_{-1} & \widetilde{H}_{-1} & 1 & 2\\
+  B_{0} & \widetilde{H}_{0} & 2 & 100\\
+  B_{1} & \widetilde{H}_{1} & 3 & 176\\
+  B_{2} & \widetilde{H}_{2} & 4 & 16.
+\end{array}
+$$
+\end{corollary}
+\begin{proof}
+By Hochster's formula, the diagonal $B_{q}$ records induced support
+nerves with nonzero $\widetilde{H}_{q}$. By
+\autoref{cor:philosophy-minimal-triggers-homology-cores}, a
+size-$m$ minimal trigger contributes in degree $q=m-2$. Its codon-level
+lift multiplicity is the lowest codon degree on that diagonal. The
+coefficients are exactly the codon counts in
+\autoref{thm:philosophy-minimal-trigger-homology-core-counts}.
+\end{proof}
+
+\begin{corollary}[Energy-minimal subclass]
+\label{cor:philosophy-energy-minimal-homology-core-subclass}
+The energy-minimal triggers are the partition subclass of the minimal
+homology cores. At quotient level there are $15$ such cores, while all
+minimal homology cores number $49$; at codon level the corresponding
+counts are $94$ and $294$.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:philosophy-trigger-energy-partition-criterion},
+energy minimality imposes that the supports form a set partition of
+$\Omega$. This is stronger than the minimal full-trigger condition used
+in \autoref{thm:philosophy-minimal-trigger-sphere}; it selects the
+partition cores among all minimal support-nerve sphere cores. The counts
+are those of \autoref{thm:philosophy-energy-minimal-trigger-counts} and
+\autoref{thm:philosophy-minimal-trigger-homology-core-counts}.
+\end{proof}
