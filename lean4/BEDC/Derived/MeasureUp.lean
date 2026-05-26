@@ -443,6 +443,37 @@ theorem MeasureMeasurableInclusion_monotone
     cont_result_hsame_transport valueRow sameSumTotal
   exact Exists.intro valueGap (And.intro valueGapUnary valueRowAtTotal)
 
+theorem MeasureNamecertObligationPackage
+    {event diff union endpoint valueEvent valueDiff valueUnion valueSum total unit base gap
+      valueBase valueGap valueTotal inclusionSum : BHist} :
+    MeasureZeroBHistClassifier event BHist.Empty ->
+    MeasureZeroBHistClassifier diff BHist.Empty ->
+    Cont event diff union -> Cont union BHist.Empty endpoint -> hsame valueEvent event ->
+    hsame valueDiff diff -> hsame valueUnion endpoint -> Cont valueEvent valueDiff valueSum ->
+    hsame total unit -> hsame unit BHist.Empty -> UnaryHistory valueGap ->
+    Cont base gap valueTotal -> hsame valueBase base -> hsame valueGap gap ->
+    Cont valueBase valueGap inclusionSum -> hsame inclusionSum valueTotal ->
+    SemanticNameCert MeasureZeroBHistCarrier MeasureZeroBHistCarrier MeasureZeroBHistCarrier
+        MeasureZeroBHistClassifier ∧
+      MeasureZeroBHistClassifier valueSum valueUnion ∧
+        MeasureZeroBHistClassifier endpoint BHist.Empty ∧
+          MeasureZeroBHistClassifier total unit ∧ PreorderPrefixLE valueBase valueTotal := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  intro eventClassified diffClassified unionRow endpointRow sameValueEvent sameValueDiff
+    sameValueUnion valueRow sameTotalUnit unitEmpty valueGapUnary baseGapTotal sameValueBase
+    sameValueGap valueInclusionRow sameInclusionTotal
+  have additiveRows :
+      MeasureZeroBHistClassifier valueSum valueUnion ∧
+        MeasureZeroBHistClassifier endpoint BHist.Empty ∧ hsame endpoint union :=
+    MeasureRelativeDifference_additivity eventClassified diffClassified unionRow endpointRow
+      sameValueEvent sameValueDiff sameValueUnion valueRow
+  have inclusionMonotone : PreorderPrefixLE valueBase valueTotal :=
+    MeasureMeasurableInclusion_monotone valueGapUnary baseGapTotal sameValueBase sameValueGap
+      (hsame_refl valueTotal) valueInclusionRow sameInclusionTotal
+  exact
+    ⟨MeasureZeroBHist_semantic_name_certificate, additiveRows.left, additiveRows.right.left,
+      ⟨hsame_trans sameTotalUnit unitEmpty, unitEmpty, sameTotalUnit⟩, inclusionMonotone⟩
+
 theorem MeasureFunctionalAnalysisConsumer_rows
     {base gap total valueBase valueGap valueTotal valueSum event diff union valueEvent valueDiff
       valueUnion valueEventDiff : BHist} :
