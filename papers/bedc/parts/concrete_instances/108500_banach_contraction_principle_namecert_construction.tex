@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\BanachContractionPrincipleUp$}
+\label{ch:concrete-instances-banach-contraction-principle-namecert}
+\origin{human}
+
+Following Banach's fixed-point theorem and Bishop--Bridges constructive
+analysis, the $\BanachContractionPrincipleUp$ packet records a fixed-point
+route only when the complete metric carrier, the contractive map, the
+iteration schedule, and the Cauchy handoff are all explicit finite rows. It
+sits downstream of the complete metric carrier of
+\autoref{ch:concrete-instances-completemetric-namecert}, the contractive map
+packet of \autoref{ch:concrete-instances-contractive-map-namecert}, the fixed
+point iteration route of
+\autoref{ch:concrete-instances-fixed-point-iteration-namecert}, the Cauchy
+completion reflector of
+\autoref{ch:concrete-instances-cauchycompletionreflector-namecert}, and the
+real-number ground of \autoref{ch:concrete-instances-real-namecert}. The
+certificate therefore consumes existing completion data; it does not assert
+ambient completeness, global choice, or an unrecorded limit operator.
+
+\begin{definition}[Banach contraction principle carrier]
+\label{def:banach-contraction-principle-carrier}
+A $\BanachContractionPrincipleUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,F,I,Q,E,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the complete metric row, naming the metric carrier and the completeness seal used by the argument;
+\item $F$ is the contraction map row, including the displayed modulus witness and its compatibility with the metric row;
+\item $I$ is the iteration schedule row, recording the initial point and the successive iterates read by the construction;
+\item $Q$ is the Cauchy witness row for the iteration sequence;
+\item $E$ is the endpoint seal row, identifying the completed endpoint supplied by the complete metric data;
+\item $U$ is the uniqueness row, binding any second fixed endpoint back to the same contraction ledger;
+\item $H$ records componentwise $\hsame$ transports for $M,F,I,Q,E,U$ together with continuation, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ replay routes by which the contraction ledger, the Cauchy witness, the endpoint seal, and uniqueness row are read;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\CompleteMetricUp$, $\ContractiveMapUp$, $\FixedPointIterationUp$, $\CauchyCompletionReflectorUp$, and $\RealUp$ rows;
+\item $N$ is the local $\NameCert_{\BanachContractionPrincipleUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets with these ten displayed rows. It has
+no coordinate for an arbitrary choice of fixed point, an ambient completeness
+claim outside $M$, a hidden contraction constant, or a limit witness that does
+not pass through $Q$ and $E$.
+\end{definition}
+
+\begin{theorem}[Banach contraction principle NameCert obligations]
+\label{thm:banach-contraction-principle-namecert-obligations}
+For the carrier of
+\autoref{def:banach-contraction-principle-carrier}, the local
+$\NameCert_{\BanachContractionPrincipleUp}$ surface consists exactly of five
+finite obligations:
+\begin{enumerate}
+\item carrier admission for $B=(M,F,I,Q,E,U,H,C,P,N)$;
+\item contraction ledger exposure, requiring every use of the map row $F$ to read the displayed contraction data against $M$;
+\item Cauchy-iteration handoff, requiring the iteration schedule $I$ to produce the witness row $Q$ before an endpoint is read;
+\item complete-metric seal, requiring the endpoint row $E$ to be supplied by the completeness data in $M$ rather than by an ambient choice operator;
+\item uniqueness nonescape, requiring every competing fixed endpoint to factor through $U,H,C,P,N$ with no off-packet fixed-point row.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed packet. The rows
+$M,F,I,Q,E,U,H,C,P,N$ are the full inventory made available to the local
+certificate.
+
+The contraction ledger is read through $F$ against the metric data in $M$.
+Thus a contraction claim with a hidden modulus or a different metric carrier
+has no row in the packet.
+
+The iteration schedule then hands off to the Cauchy witness row. The endpoint
+seal can be read only after $Q$ is present and the complete metric data in $M$
+supplies the endpoint row $E$.
+
+Finally, uniqueness is confined to $U$ and the replay rows $H,C,P,N$. A second
+fixed endpoint that escapes these rows would require an additional carrier
+coordinate, which the classifier does not provide.
+\end{proof}
+
+\begin{closurestatus}{\BanachContractionPrincipleUp}
+  \constructivestory{A $\BanachContractionPrincipleUp$ packet is generated from a complete metric row, a displayed contraction map, an iteration schedule, a Cauchy witness, an endpoint seal, a uniqueness row, componentwise transports, replay routes, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:banach-contraction-principle-carrier} and \autoref{thm:banach-contraction-principle-namecert-obligations} bind the finite carrier and its five local certificate obligations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, a standard bridge, global fixed-point choice, nonconstructive compactness, or completeness outside the displayed metric row.}
+  \upgradepath{A Lean carrier and obligation theorem for the displayed route would raise the verification axis while preserving the paper carrier boundary.}
+\end{closurestatus}
