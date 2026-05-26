@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\SternBrocotContinuedFractionBridgeUp$}
+\label{ch:concrete-instances-stern-brocot-continued-fraction-bridge-namecert}
+\origin{human}
+
+Following Khinchin's continued fractions and Hardy--Wright's Stern--Brocot/Farey treatment, the $\SternBrocotContinuedFractionBridgeUp$ packet records the finite bridge by which Stern--Brocot interval refinement and continued-fraction convergent readback expose the same rational-approximation route before any $\RealUp$ completion-facing consumer reads it. It sits over the finite tree surface of \autoref{ch:concrete-instances-stern-brocot-namecert}, the bracketing approximation route of \autoref{ch:concrete-instances-stern-brocot-approximation-namecert}, the continued-fraction carrier of \autoref{ch:concrete-instances-continuedfraction-namecert}, the convergent row surface of \autoref{ch:concrete-instances-continued-fraction-convergents-namecert}, the Farey-neighbor sequence route of \autoref{ch:concrete-instances-farey-sequence-namecert}, the rational source of \autoref{ch:concrete-instances-rat-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite NameCert handoff for the L10 rational-approximation lattice; it does not use quotient rational equality, selected representatives, host enumeration, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Stern--Brocot continued-fraction bridge carrier]
+\label{def:stern-brocot-continued-fraction-bridge-carrier}
+A $\SternBrocotContinuedFractionBridgeUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,A,F,Q,V,I,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\SternBrocotUp$ tree row, including the finite address, boundary, mediant, and Farey-neighbor ledger read by the bridge.
+\item $A$ is the $\SternBrocotApproximationUp$ bracket row, exposing the same inspected rational interval as a finite approximation surface.
+\item $F$ is the $\FareySequenceUp$ handoff row, recording the adjacent determinant-one boundary sequence used to compare tree intervals with continued-fraction cylinders.
+\item $Q$ is the $\ContinuedFractionUp$ partial-quotient spine row, restricted to the finite prefix inspected by the bridge.
+\item $V$ is the $\ContinuedFractionConvergentsUp$ convergent row, including the numerator, denominator, normalized rational, dyadic error, and Real-facing handoff rows of the inspected prefix.
+\item $I$ is the rational-interval comparison ledger, read through $\RatUp$ rows and the displayed determinant-one adjacency data rather than through host rational equality.
+\item $W$ is the finite window row scheduling the Stern--Brocot branch, Farey sequence, partial-quotient prefix, and convergent observations.
+\item $R$ is the $\RegSeqRatUp$ readback row built from the shared rational interval and convergent data.
+\item $E$ is the terminal $\RealUp$ seal reached only after $S,A,F,Q,V,I,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the tree, approximation, Farey, continued-fraction, convergent, rational-comparison, window, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a bridge request through Stern--Brocot boundary inspection, Farey adjacency, continued-fraction prefix inspection, convergent readback, regular rational handoff, and the terminal Real seal.
+\item $P$ is the $\Pkg$ provenance over $\SternBrocotContinuedFractionBridgeUp$, $\SternBrocotUp$, $\SternBrocotApproximationUp$, $\ContinuedFractionUp$, $\ContinuedFractionConvergentsUp$, $\FareySequenceUp$, $\RatUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SternBrocotContinuedFractionBridgeUp}$ row.
+\end{enumerate}
+The classifier compares accepted bridge packets only through $S,A,F,Q,V,I,W,R,E,H,C,P,N$. The carrier has no coordinate for quotient rational equality, selected representatives, host enumeration, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Stern--Brocot continued-fraction NameCert obligations]
+\label{thm:stern-brocot-continued-fraction-namecert-obligations}
+For every accepted $\SternBrocotContinuedFractionBridgeUp$ carrier
+$$
+B=(S,A,F,Q,V,I,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\SternBrocotContinuedFractionBridgeUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the Stern--Brocot tree row, bracketing approximation row, Farey-sequence handoff, continued-fraction prefix row, convergent row, rational-interval ledger, finite window row, regular rational readback, Real seal, transport, replay, provenance, and local naming rows;
+\item interval-prefix compatibility, requiring the Stern--Brocot branch in $S$ and the continued-fraction prefix in $Q$ to inspect the same displayed rational interval through $F$ and $I$;
+\item convergent handoff, requiring every rational convergent row in $V$ to be read through the $\RatUp$ and $\RegSeqRatUp$ route before the terminal seal $E$ is consumed;
+\item approximation bridge discipline, requiring the bracketing row $A$ and the Farey handoff $F$ to mediate between Stern--Brocot intervals and continued-fraction convergents as finite $\BHist$ rows;
+\item componentwise transport, displayed replay, package provenance, and local naming, requiring $H,C,P,N$ to preserve the same bridge packet under $\hsame$ transport and $\Cont$ replay;
+\item refusal of quotient rational equality, selected representatives, host enumeration, countable choice, trichotomy, and ambient $\RealUp$ completeness as bridge data.
+\end{enumerate}
+No local bridge obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:stern-brocot-continued-fraction-bridge-carrier}. The accepted tuple exposes exactly the tree, approximation, Farey, continued-fraction, convergent, rational-comparison, window, readback, seal, transport, replay, provenance, and local naming rows listed in the statement.
+
+Interval-prefix compatibility is read through $S,F,Q,I$. The Stern--Brocot side supplies a finite branch and boundary pair, the Farey side supplies determinant-one adjacency, the continued-fraction side supplies the inspected partial-quotient prefix, and the rational ledger $I$ records that these rows refer to the same displayed rational interval.
+
+The convergent handoff is downstream of $V,W,R,E$. A consumer first reads the scheduled finite convergent window, then the regular rational readback $R$, and only then reaches the Real seal $E$.
+
+The approximation bridge is finite because $A$ and $F$ are displayed rows. They mediate from rational bracketing and Farey adjacency to the continued-fraction convergent route without importing a host enumeration of rationals or a selected representative.
+
+Finally $H,C,P,N$ transport, replay, package, and name the same packet. Since the carrier inventory contains no quotient rational equality, selected representative, host enumeration, choice, trichotomy, or ambient Real-completeness coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Stern--Brocot continued-fraction Farey handoff]
+\label{thm:stern-brocot-continued-fraction-farey-handoff}
+Let $B=(S,A,F,Q,V,I,W,R,E,H,C,P,N)$ be an accepted $\SternBrocotContinuedFractionBridgeUp$ packet. Every bridge-facing read from a Stern--Brocot interval to a continued-fraction convergent factors through the finite route
+$$
+\SternBrocotUp \longmapsto \SternBrocotApproximationUp \longmapsto \FareySequenceUp \longmapsto \ContinuedFractionUp \longmapsto \ContinuedFractionConvergentsUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The Farey handoff $F$ is the only adjacency surface in the route, and the rational comparison ledger $I$ is read as displayed $\RatUp$ data. Thus the bridge exports a Real-facing regular-rational handoff while refusing quotient rational equality, selected representatives, host enumeration, countable choice, trichotomy, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the Stern--Brocot side. The row $S$ exposes only a finite tree address, boundary rows, a mediant row, and a Farey-neighbor ledger, while $A$ records the corresponding bracketing approximation surface.
+
+Next read the Farey handoff $F$. It supplies determinant-one adjacency for the displayed interval boundary, so the bridge compares the tree interval with the continued-fraction cylinder through finite Farey data rather than through a host enumeration of rational numbers.
+
+The continued-fraction side then reads $Q$ and $V$. The prefix row $Q$ names the finite partial quotients under inspection, and the convergent row $V$ names the numerator, denominator, normalized rational, dyadic error, and regular handoff data for that prefix.
+
+Finally read $W,R,E,H,C,P,N$. The finite window row schedules the common observation, $R$ carries the $\RegSeqRatUp$ readback, $E$ is terminal for the Real-facing route, and the structural rows preserve and name the same packet. The carrier has no coordinate for quotient rational equality, selected representatives, host enumeration, choice, trichotomy, or ambient completeness, so none is exported by the handoff.
+\end{proof}
+
+\closureat{SternBrocotContinuedFractionBridgeUp}{seedStr}
+\begin{closurestatus}{\SternBrocotContinuedFractionBridgeUp}
+  \constructivestory{A $\SternBrocotContinuedFractionBridgeUp$ packet is generated from a Stern--Brocot tree row, a bracketing approximation row, a Farey adjacency handoff, a continued-fraction prefix row, a convergent row, a displayed rational-interval ledger, finite observation windows, regular rational readback, a Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stern-brocot-continued-fraction-bridge-carrier}, \autoref{thm:stern-brocot-continued-fraction-namecert-obligations}, and \autoref{thm:stern-brocot-continued-fraction-farey-handoff} seed the finite bridge from Stern--Brocot interval refinement to continued-fraction convergent readback and Real-facing regular rational handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient rational equality, selected representatives, host enumeration, countable choice, trichotomy, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, interval-prefix compatibility, convergent handoff, Farey mediation, transport, replay, provenance, and local naming for the same bridge packet.}
+\end{closurestatus}
