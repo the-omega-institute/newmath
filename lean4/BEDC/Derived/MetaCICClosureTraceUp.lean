@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -82,5 +84,50 @@ theorem MetaCICClosureTraceCarrier_closed_substitution_route
   exact
     ⟨SUnary, VUnary, BUnary, closedSubstUnary, closedRouteUnary, shiftSubstitution,
       closedSubstRoute, closedRouteRoute, pkgSig, closedRoutePkg⟩
+
+theorem MetaCICClosureTraceCarrier_namecert_obligations
+    [AskSetup] [PackageSetup] {S U V B R G K H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ∧ hsame row N)
+        (fun row : BHist =>
+          hsame row N ∧ Cont S U V ∧ Cont V G K ∧ Cont B R C)
+        (fun row : BHist => hsame row N ∧ PkgSig bundle P pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert AskSetup PackageSetup PkgSig
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro N ⟨carrier, hsame_refl N⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      obtain
+        ⟨_SUnary, _UUnary, _VUnary, _BUnary, _RUnary, _GUnary, _KUnary, _HUnary,
+          _CUnary, _PUnary, _NUnary, shiftSubstitution, generatorPackage, betaRoute,
+          _pkgSig⟩ := source.left
+      exact ⟨source.right, shiftSubstitution, generatorPackage, betaRoute⟩
+    ledger_sound := by
+      intro _row source
+      obtain
+        ⟨_SUnary, _UUnary, _VUnary, _BUnary, _RUnary, _GUnary, _KUnary, _HUnary,
+          _CUnary, _PUnary, _NUnary, _shiftSubstitution, _generatorPackage, _betaRoute,
+          pkgSig⟩ := source.left
+      exact ⟨source.right, pkgSig⟩
+  }
 
 end BEDC.Derived.MetaCICClosureTraceUp

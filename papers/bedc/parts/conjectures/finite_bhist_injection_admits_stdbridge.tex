@@ -208,6 +208,18 @@ Apply \autoref{thm:finite-bhist-injection-regular-recognizer-weakening} and \aut
 Therefore a counter-boundary must keep all five displayed recognizer rows present and then locate the obstruction in the recognizer-to-carrier map itself. Missing acceptance, extraction, readback, transport, or taste-gate data only shows that the boundary has not been reached.
 \end{proof}
 
+\begin{theorem}[Finite BHist injection recognizer-row refutation test]
+\label{thm:finite-bhist-injection-recognizer-row-refutation-test}
+A valid refutation of \autoref{conj:finite-bhist-injection-recognizer-to-carrier} must first display the seven recognizer landing rows: recognizer acceptance through $\GroundCompilerRecognizerFlowUp$, generated-recognizer mediation, certificate-gate admission, finite tuple extraction through $\FiniteReflectionTupleUp$, $\BHist$ component readback, componentwise $\hsame$ and $\NameCert$ transport, and the $\ChapterTasteGate$ row. Only after those rows are present may a negative result exhibit an obstruction after componentwise NameCert transport. A route missing one of the seven rows is a non-instance of the weakened conjecture surface, not a refutation of the weakened conjecture.
+\end{theorem}
+\begin{proof}
+Start with the recognizer counter-boundary, \autoref{thm:finite-bhist-injection-recognizer-counter-boundary}. It already separates missing recognizer, extraction, readback, transport, and taste-gate data from an obstruction that remains after the recognizer route has reached the carrier-facing surface.
+
+Use the kernel row restatement, \autoref{thm:finite-bhist-injection-kernel-row-restatement}, together with the closed landing test, \autoref{prop:finite-bhist-injection-recognizer-closed-landing-test}. These results identify the seven landing rows as the finite BEDC-kernel surface for the weakened recognizer-side test.
+
+Finally apply the status sharpness theorem, \autoref{thm:finite-bhist-injection-recognizer-status-sharpness}. After the seven rows are displayed, the remaining open issue is recognizer-to-carrier construction after componentwise NameCert transport. Therefore a negative result before the seven-row landing surface is only failure to enter the test, while a valid refutation must locate a post-transport carrier obstruction.
+\end{proof}
+
 \begin{theorem}[Finite BHist injection recognizer-to-tuple landing surface]
 \label{thm:finite-bhist-injection-recognizer-to-tuple-landing-surface}
 Any recognizer-side strengthening of \autoref{conj:finite-bhist-injection-admits-stdbridge} must land in the existing $\FiniteReflectionTupleUp$ surface of \autoref{ch:concrete-instances-finitereflectiontuple-namecert}. Before it can be compared with the fixed finite tuple route, it must pass through the $\GroundCompilerRecognizerFlowUp$ acceptance row of \autoref{ch:concrete-instances-groundcompilerrecognizerflow-namecert}, the generated-recognizer row, the certificate-gate row, the finite tuple-image row, the readback row, componentwise $\hsame$ and $\NameCert$ transport, and the $\ChapterTasteGate$ row. This is not a $\StdBridge$ construction and not a recognizer-to-carrier construction; it only sharpens the remaining boundary.
