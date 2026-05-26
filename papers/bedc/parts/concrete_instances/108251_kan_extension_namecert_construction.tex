@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\KanExtensionUp$}
+\label{ch:concrete-instances-kan-extension-namecert}
+\origin{human}
+
+Following Mac Lane's formulation of Kan extensions as universal arrows along a functor, the $\KanExtensionUp$ packet reconstructs the usual left and right extension interface as finite BEDC certificate data. It depends on the certified category, functor, and natural-transformation surfaces of \autoref{ch:concrete-instances-category-namecert}, \autoref{ch:concrete-instances-functor-namecert}, and \autoref{ch:concrete-instances-nattrans-namecert}; it also reads the triangle-comparison discipline of \autoref{ch:concrete-instances-adjunction-namecert} and the cocone comparison rows of \autoref{ch:concrete-instances-catcolimit-namecert}. The chapter does not import an external functor category. It names the finite rows required for a displayed extension object, its comparison natural transformation, and its universal factorization route.
+
+\begin{definition}[Kan extension carrier]
+\label{def:kan-extension-carrier}
+A $\KanExtensionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(C,D,E,J,F,L,\eta,U,V,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C,D,E$ are $\CategoryUp$ certificate rows for the source, target, and codomain categories;
+\item $J:C\to D$, $F:C\to E$, and $L:D\to E$ are $\FunctorUp$ rows whose object and morphism maps are already certified by the corresponding category classifiers;
+\item $\eta:F\Rightarrow L\circ J$ is the displayed $\NatTransUp$ comparison row;
+\item $U$ is the universal comparison row: for every displayed $\FunctorUp$ row $M:D\to E$ and $\NatTransUp$ row $\alpha:F\Rightarrow M\circ J$, it supplies the candidate mediating $\NatTransUp$ row $\overline{\alpha}:L\Rightarrow M$;
+\item $V$ is the uniqueness row: two mediating rows with the same composite comparison are identified only by the displayed natural-transformation classifier;
+\item $H$ records componentwise $\hsame$ transport for categories, functors, comparison transformations, mediating transformations, and uniqueness witnesses;
+\item $R$ records displayed $\Cont$ replay from $\alpha$ to $\overline{\alpha}$ and from the composite $\overline{\alpha}\circ J$ back to $\alpha$;
+\item $P$ records $\Pkg$ provenance over the $\CategoryUp$, $\FunctorUp$, $\NatTransUp$, $\AdjunctionUp$, $\CatColimitUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\KanExtensionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host functor equality, quotient natural-transformation equality, an external functor category, or an uncategorified universal property outside these displayed rows.
+\end{definition}
+
+\begin{theorem}[Kan extension NameCert obligations]
+\label{thm:kan-extension-namecert-obligations}
+For the carrier of \autoref{def:kan-extension-carrier}, the local $\NameCert_{\KanExtensionUp}$ surface consists exactly of the category rows $C,D,E$, functor rows $J,F,L$, comparison row $\eta$, universal comparison row $U$, uniqueness row $V$, componentwise transport row $H$, continuation replay row $R$, provenance row $P$, and local naming row $N$. Any accepted $\KanExtensionUp$ read must expose those rows before it may be used as a left or right Kan-extension certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The rows $C,D,E$ license the three category classifiers, while $J,F,L$ license the functor data and $\eta$ supplies the displayed natural-transformation comparison.
+
+Read the universal data next. The row $U$ provides the mediating transformation for each displayed comparison $\alpha$, and $V$ constrains any two mediating rows by the $\NatTransUp$ classifier rather than by host equality.
+
+Finally attach the structural rows. The row $H$ transports all displayed components by $\hsame$, $R$ replays the comparison route through $\Cont$, $P$ records the sibling certificate provenance, and $N$ names the packet. Since no other coordinate is present, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Kan extension universal route]
+\label{thm:kan-extension-universal-route}
+Every accepted $\KanExtensionUp$ universal comparison factors through the displayed route
+$$
+(C,D,E,J,F,L,\eta),\alpha \longmapsto \overline{\alpha},\overline{\alpha}\circ J \sim \alpha
+$$
+using only $U,V,H,R,P,N$. The $\AdjunctionUp$ and $\CatColimitUp$ siblings may supply triangle-shaped and cocone-shaped comparison patterns, but neither sibling replaces the displayed $\FunctorUp$ and $\NatTransUp$ rows by an external universal-property assertion.
+\end{theorem}
+\begin{proof}
+Begin with a displayed comparison $\alpha:F\Rightarrow M\circ J$. By \autoref{def:kan-extension-carrier}, the only row that can produce a mediator is $U$, and the mediator it returns is a $\NatTransUp$ row $\overline{\alpha}:L\Rightarrow M$ over the already certified functors.
+
+Use the uniqueness row to keep the route internal. The row $V$ compares mediating transformations through the natural-transformation classifier, while $H$ transports the category, functor, and transformation rows componentwise. This prevents the factorization from becoming a host-level equality claim.
+
+The remaining rows preserve the same route. The continuation row $R$ replays the composite comparison, $P$ records its category-theory provenance through the cited siblings, and $N$ names the packet. Hence the universal route is read as finite NameCert data, not as an untracked functor-category theorem.
+\end{proof}
+
+\closureat{KanExtensionUp}{seedStr}
+\closureat{KanExtensionUp}{obligationStr}
+
+\begin{closurestatus}{\KanExtensionUp}
+  \constructivestory{A $\KanExtensionUp$ packet is generated from category rows, functor rows, a comparison natural transformation, universal and uniqueness rows, componentwise transport, continuation replay, provenance, and a local NameCert row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:kan-extension-carrier}, \autoref{thm:kan-extension-namecert-obligations}, and \autoref{thm:kan-extension-universal-route} bind the displayed Kan-extension carrier, obligation surface, and universal route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close external functor-category existence, quotient natural-transformation equality, arbitrary pointwise Kan-extension computation, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires a Lean carrier theorem that binds the universal comparison rows to an explicit kernel scope.}
+\end{closurestatus}
