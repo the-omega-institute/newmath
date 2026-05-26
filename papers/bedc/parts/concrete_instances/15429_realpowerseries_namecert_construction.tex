@@ -52,6 +52,24 @@ The finite windows $W$ and partial sums $S$ mediate every read from $R$ to conve
 The allowed shapes of $M$ are the named M-test, ratio-test, and root-test routes. Since $H,C,P,N$ only preserve the same carrier, the radius obligation cannot escape into analytic continuation, quotient function values, selected sums, countable choice, or ambient $\RealUp$ completeness.
 \end{proof}
 
+\begin{theorem}[Real power series radius-window obligation basis]
+\label{thm:realpowerseries-radius-window-obligation-basis}
+For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, the radius row $R$ is usable by convergence consumers only after the coefficient stream row $A$, center and argument rows $Z,X$, finite $\StreamNameUp$ windows $W$, partial-sum row $S$, and selected majorant row $M$ have been displayed. The basis row is the finite route
+$$
+A,Z,X,R\longmapsto W\longmapsto S\longmapsto M\longmapsto E
+$$
+with the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H,C,P,N$. It may cite $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealSeriesUp$, and $\RealUp$ only through those displayed rows.
+\end{theorem}
+\begin{proof}
+First expose the coefficient and point windows. By \autoref{thm:realpowerseries-coefficient-window-obligation}, the coefficient stream row $A$ and the center and argument rows $Z,X$ reach a partial-sum consumer only through the finite $\StreamNameUp$ windows $W$.
+
+Next read the radius and majorant surface. By \autoref{thm:realpowerseries-majorant-radius-obligation}, the radius row $R$ is not independently consumable; it must pass through $W,S,M$, where $S$ is the finite $\RealSeriesUp$ partial-sum row and $M$ is the selected majorant row.
+
+The handoff is fixed by \autoref{thm:real-power-series-radius-window-handoff}. It gives the displayed route from $A,Z,X,R$ through $W,S,M$ before the endpoint seal $E$ and preserves the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally apply \autoref{thm:realpowerseries-terminal-real-seal-obligation}. The terminal $\RealUp$ seal and the $\RegSeqRatUp$ and $\DyadicRatCoreUp$ readbacks are available only along that finite route, so a convergence consumer cannot read $R$ by host convergence, selected infinite sums, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[Real power series obligation scope]
 \label{thm:real-power-series-obligation-scope}
 For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, coefficient data are exposed only through the $\FormalPowerSeriesUp$ or $\StreamNameUp$ windows in $A$ and $W$, radius data only through the displayed $\ConvergenceRadiusUp$ or subradius row $R$, partial sums only through the $\RealSeriesUp$ row $S$, convergence justification only through the selected $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, or $\RegularCauchyRootTestUp$ majorant row $M$, and terminal output only through the $\RealUp$ seal $E$ after the $\DyadicRatCoreUp$ and $\RegSeqRatUp$ readbacks named by $W,S,M$ have been consumed.
@@ -342,6 +360,50 @@ The coefficient-window obligation of \autoref{thm:real-power-series-coefficient-
 Use \autoref{thm:real-power-series-majorant-route-totality} to bind convergence evidence to the selected majorant row $M$. Then \autoref{thm:real-power-series-endpoint-seal-factorization} makes the endpoint seal $E$ downstream of the same coefficient, center, argument, radius, window, partial-sum, and majorant route.
 
 Finally apply \autoref{thm:realpowerseries-root-endpoint-nonescape}. The forbidden objects have no row in the carrier, so an evaluation consumer has already exhausted every permitted read once it has traversed $A,Z,X,R,W,S,M,E,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Real power series radius-majorant public export]
+\label{thm:real-power-series-radius-majorant-public-export}
+For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, the public radius-majorant evaluation surface is the route obtained by composing the coefficient-window ledger, radius-majorant coverage, CauchyProduct coefficient-budget, RegSeqRat endpoint handoff, and endpoint nonescape rows. A downstream consumer may cite $R$ as public radius evidence only along
+$$
+A,Z,X,R \longmapsto W \longmapsto S \longmapsto M \longmapsto E \longmapsto H,C,P,N,
+$$
+with product and convolution reads passing through the $\CauchyProductUp$ budget cited by \autoref{thm:real-power-series-cauchy-product-coefficient-budget}. The export contains no host convergence theorem, selected infinite sum, analytic continuation, quotient function space, host multiplication primitive, countable-choice selector, or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Project the local carrier. The carrier projection exposes $A,Z,X,R,W,S,M,E,H,C,P,N$ as the only rows available to a public evaluation read.
+
+Apply \autoref{thm:real-power-series-coefficient-window-ledger} to place coefficient access inside $A$ and $W$. Then use \autoref{thm:real-power-series-radius-majorant-coverage} to bind the radius row $R$ to the finite window, partial-sum, selected majorant, and endpoint rows.
+
+Next apply \autoref{thm:real-power-series-cauchy-product-coefficient-budget}. Product and convolution consumers may use only the displayed CauchyProduct source windows, dyadic budget rows, product row, budget ledger, and classifier route before returning to the power-series endpoint.
+
+Finally use \autoref{thm:real-power-series-regseqrat-endpoint-handoff} and \autoref{thm:real-power-series-nonescape}. These rows put the $\RegSeqRatUp$ endpoint handoff and the Real seal boundary inside the same finite packet, so the listed excluded host and choice objects cannot be exported.
+\end{proof}
+
+\begin{theorem}[Real power series RegSeqRat evaluation handoff]
+\label{thm:real-power-series-regseqrat-evaluation-handoff}
+For every accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, every evaluation read handed to a $\RegSeqRatUp$ or $\RealUp$ endpoint consumer factors through the coefficient-window ledger, the radius-majorant public export of \autoref{thm:real-power-series-radius-majorant-public-export}, the CauchyProduct coefficient-budget route, and the endpoint seal boundary. The handoff is therefore a finite route from coefficient windows and radius evidence to regular-rational endpoint readback; it does not export host analytic continuation, quotient function-space equality, selected infinite sums, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:real-power-series-radius-majorant-public-export}. It already composes the carrier projection, coefficient-window ledger, radius-majorant coverage, CauchyProduct budget route, RegSeqRat endpoint handoff, and Real seal boundary into one public evaluation surface.
+
+Read the $\RegSeqRatUp$ endpoint side through \autoref{thm:real-power-series-regseqrat-endpoint-handoff}. This forces endpoint-facing regular-rational data to wait until $A,Z,X,R,W,S,M,E,H,C,P,N$ have all been displayed.
+
+Use \autoref{thm:real-power-series-cauchy-product-coefficient-budget} for product-sensitive evaluations. The product budget remains downstream of the same coefficient, radius, window, partial-sum, and selected-majorant rows, so it cannot introduce a host multiplication primitive or a separate coefficient source.
+
+Finally apply \autoref{thm:real-power-series-endpoint-seal-scope} and \autoref{thm:real-power-series-nonescape}. The endpoint seal is packet-local and the excluded analytic, quotient, choice, and ambient-completeness objects have no carrier coordinate.
+\end{proof}
+
+\begin{theorem}[Real power series root-unblock obligation surface]
+\label{thm:real-power-series-root-unblock-obligation-surface}
+Every accepted $\RealPowerSeriesUp$ packet exposes exactly the finite coefficient stream row, the $\CauchyProductUp$ multiplication ledger, the $\ConvergenceRadiusUp$ radius row, the $\RealSeriesUp$ summation row, the $\RegSeqRatUp$ and $\StreamNameUp$ finite-window reads, the $\WeierstrassMTestUp$ bound row, and the local $\NameCert$ route before any real-valued power-series consumer can inspect convergence. This surface is routed through \autoref{ch:concrete-instances-cauchyproduct-namecert}, \autoref{ch:concrete-instances-convergence-radius-namecert}, \autoref{ch:concrete-instances-realseries-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, and \autoref{ch:concrete-instances-weierstrassmtest-namecert}; it exports no analytic continuation, global holomorphicity, open-disk completeness, or host real equality.
+\end{theorem}
+\begin{proof}
+Project the carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$ of \autoref{def:real-power-series-carrier}. The coefficient stream is read through $A$ and $W$, the radius data through $R$, the finite summation data through $S$, the selected majorant data through $M$, and the endpoint through $E$.
+
+Use \autoref{thm:real-power-series-radius-majorant-public-export}. It composes the coefficient-window ledger, radius-majorant coverage, CauchyProduct coefficient budget, RegSeqRat endpoint handoff, and endpoint nonescape rows into one consumer-facing route. The cited CauchyProduct sibling supplies the multiplication ledger, while the ConvergenceRadius, RealSeries, RegSeqRat, StreamName, and WeierstrassMTest siblings supply the named rows consumed by that route.
+
+Finally apply \autoref{thm:real-power-series-regseqrat-evaluation-handoff}. A real-valued endpoint consumer must pass through the same finite rows before convergence can be inspected. Since the carrier and the cited sibling routes have no coordinates for analytic continuation, global holomorphicity, open-disk completeness, or host real equality, those claims are refused at this obligation surface.
 \end{proof}
 
 \falsifiablePrediction{Every $\RealPowerSeriesUp$ endpoint-facing read factors through a coefficient or FormalPowerSeries row, center Real row, argument Real row, displayed radius or subradius row, finite StreamName windows, partial-sum RealSeries row, majorant data from M-test or ratio/root-test rows, endpoint Real seal, transport, continuation, provenance, and local naming.}

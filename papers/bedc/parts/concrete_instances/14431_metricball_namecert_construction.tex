@@ -26,11 +26,13 @@ with the following displayed rows:
 \end{enumerate}
 The accepted carrier contains no ambient powerset coordinate, no unindexed open predicate, no quotient equality test on points or radii, and no generated topology closure field.
 \end{definition}
+\leanchecked{BEDC.Derived.MetricBallUp.MetricBallTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[MetricBall NameCert obligations]
 \label{thm:metric-ball-namecert-obligations}
 For an accepted packet $B=(X,d,c,r,\rho,m,H,C,P,N)$, the local $\NameCert_{\MetricBallUp}$ obligation surface consists exactly of carrier admission, classifier transport, radius positivity stability, membership transport, finite refinement and intersection readiness, and ledger non-escape for the displayed rows $X,d,c,r,\rho,m,H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetricBallUp.MetricBallCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission reads $X$ as the metric carrier and $d$ as the distance witness over that carrier. The center row $c$ and radius row $r$ are admitted only relative to those source rows, and $\rho$ supplies the displayed positive-radius ledger.
 
@@ -96,13 +98,37 @@ For a topology consumer, use \autoref{thm:metric-ball-topology-handoff}. The sin
 
 For a bounded-set consumer, use \autoref{thm:metric-ball-boundedset-containment-route}. The containment ledger likewise reads the transported center, radius, positive-radius ledger, and comparison row before it can serve the downstream $\BoundedSetUp$ membership request. Thus both sibling consumers receive the same transported positive-radius route, with the metric and real dependency anchors still visible.
 \end{proof}
+\leanchecked{BEDC.Derived.MetricBallUp.MetricBallCarrier\_positive\_radius\_transport}
+
+\begin{theorem}[MetricBall finite-intersection readiness]
+\label{thm:metric-ball-finite-intersection-readiness}
+Let
+$$
+B_0=(X,d,c_0,r_0,\rho_0,m_0,H_0,C_0,P_0,N_0)
+$$
+and
+$$
+B_1=(X,d,c_1,r_1,\rho_1,m_1,H_1,C_1,P_1,N_1)
+$$
+be accepted $\MetricBallUp$ packets over the same $\MetricSpaceUp$ row. If their center, radius, positive-radius, and membership rows have been transported componentwise, then $\TopologyUp$ may read the pair as a finite-intersection request only through the displayed rows $X,d,c_i,r_i,\rho_i,m_i,H_i,C_i,P_i,N_i$, the ordered-real positive-radius ledgers $\rho_i$, and the singleton-ball indexed-open route of \autoref{def:metric-finite-ball-indexed-topology}. The request has no coordinate for host powersets, selected radii, compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metric-ball-namecert-obligations} to each packet. It exposes the carrier, distance witness, center, radius, positive-radius ledger, membership comparison, transport, replay, provenance, and local name as the only available rows.
+
+Apply \autoref{thm:metric-ball-refinement-obligations}. The finite-base row is already constrained to the topology singleton-ball index, while the bounded-set row remains a separate containment route and supplies no host subset.
+
+Use \autoref{thm:metric-ball-topology-handoff} for the topology consumer. Each singleton-ball datum enters $\TopologyUp$ through the indexed-open route of \autoref{def:metric-finite-ball-indexed-topology}, so the intersection request is a finite request over two displayed singleton-ball indices rather than a powerset operation.
+
+Finally apply \autoref{thm:metric-ball-positive-radius-transport} to both packets. The transported rows keep $c_i,r_i,\rho_i,m_i$ together through the ordered-real ledger, so no selected radius, compactness proof, or ambient $\RealUp$ completeness principle can be read from the finite-intersection request.
+\end{proof}
+\leanchecked{BEDC.Derived.MetricBallUp.MetricBallCarrier\_finite\_intersection\_readiness}
 
 \begin{closurestatus}{\MetricBallUp}
   \constructivestory{A $\MetricBallUp$ packet is generated from a MetricSpace carrier row, a MetricDistanceWitness row, a center row, a RatUp or RealUp positive-radius row, a membership comparison row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metric-ball-carrier}, \autoref{thm:metric-ball-namecert-obligations}, \autoref{thm:metric-ball-topology-handoff}, \autoref{thm:metric-ball-boundedset-containment-route}, and \autoref{thm:metric-ball-positive-radius-transport} bind the finite center-radius ball seed used by metric-generated topology and bounded-set containment.}
+  \scopeclosed{\autoref{def:metric-ball-carrier}, \autoref{thm:metric-ball-namecert-obligations}, \autoref{thm:metric-ball-topology-handoff}, \autoref{thm:metric-ball-boundedset-containment-route}, \autoref{thm:metric-ball-positive-radius-transport}, and \autoref{thm:metric-ball-finite-intersection-readiness} bind the finite center-radius ball seed used by metric-generated topology, finite-intersection requests, and bounded-set containment.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim a full metric topology, arbitrary generated-open closure, compactness, continuity, quotient equality for metric points, or a standard bridge.}
-  \upgradepath{Formal verification can encode carrier admission, metric membership transport, positive-radius stability, finite-base handoff, and ledger exactness for BEDC.Derived.MetricBallUp.}
+  \upgradepath{Formal verification can encode carrier admission, metric membership transport, positive-radius stability, finite-base handoff, finite-intersection readiness, and ledger exactness for BEDC.Derived.MetricBallUp.}
 \end{closurestatus}
