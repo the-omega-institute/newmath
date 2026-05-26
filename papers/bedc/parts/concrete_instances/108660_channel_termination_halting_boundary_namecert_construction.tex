@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\ChannelTerminationHaltingBoundaryUp$}
+\label{ch:concrete-instances-channel-termination-halting-boundary-namecert}
+\origin{ai}
+
+The $\ChannelTerminationHaltingBoundaryUp$ packet realizes the channel boundary of \autoref{ch:visions-channel-termination-vs-halting-boundary} as finite BEDC NameCert data. It records source-event rows, legal channel-event rows, terminator-position rows, decoder-state rows, halting-boundary refusal rows, trace rows, transport, replay, provenance, and local naming in one displayed packet. The point of the packet is the stratum separation: a legal channel event can end locally, while certificate-level halting remains a refusal boundary rather than a global total classifier.
+
+\begin{definition}[ChannelTerminationHaltingBoundary carrier]
+\label{def:channel-termination-halting-boundary-carrier}
+A $\ChannelTerminationHaltingBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,E,B,D,L,R,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source-event row, naming the inspected finite binary source word and the source-layer reading of its glyphs.
+\item $E$ is the legal channel-event row, recording the encoded body over fragments $0$ and $10$ together with the displayed channel terminator $11$.
+\item $B$ is the body-safety row, recording that the encoded body contains no adjacent $11$ before the terminator row is exposed.
+\item $D$ is the decoder-state row, naming the left-to-right scan, the first displayed $11$, and the recovered source event.
+\item $L$ is the legal-channel-event classifier row, accepting only event reads that pass through $S,E,B,D$ before any boundary claim is made.
+\item $R$ is the halting-boundary refusal row. It records that local event termination is not a total classifier for arbitrary $\NameCert$ continuation chains.
+\item $F$ is the finite trace row, carrying the prompt-response and bounded evaluator evidence used to display the refusal without solving certificate-level halting.
+\item $H$ records componentwise $\hsame$ transport for source events, legal channel events, body safety, decoder state, classifier exposure, refusal, trace evidence, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from each boundary-facing request through $S,E,B,D,L,R,F,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ChannelTerminationHaltingBoundaryUp$, haltingdistinction, haltingdistinctiontrace, promptresponsetrace, finitetraceevaluator, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ChannelTerminationHaltingBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,E,B,D,L,R,F,H,C,P,N$. It has no coordinate for a bare bitstream parser, a host global halting oracle, an unrestricted evaluator, a certificate-of-certificates total classifier, or a meta-stop proof.
+\end{definition}
+
+\begin{theorem}[ChannelTerminationHaltingBoundary NameCert obligations]
+\label{thm:channel-termination-halting-boundary-namecert-obligations}
+For every accepted $\ChannelTerminationHaltingBoundaryUp$ carrier
+$$
+T=(S,E,B,D,L,R,F,H,C,P,N),
+$$
+the local $\NameCert_{\ChannelTerminationHaltingBoundaryUp}$ surface consists exactly of carrier admission for the displayed packet; source-event exposure through $S$; legal channel-event exposure through $E$; body-safety exposure through $B$; decoder-state exposure through $D$; legal-channel-event classification through $L$; halting-boundary refusal through $R$; finite trace evidence through $F$; componentwise transport through $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$.
+
+No obligation is discharged by a bare bitstream parser, a host global halting oracle, an unrestricted evaluator, a total certificate-level halting classifier, or a meta-stop proof.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:channel-termination-halting-boundary-carrier}. The accepted packet displays exactly the source event, legal channel event, body-safety, decoder-state, classifier, refusal, trace, and structural rows.
+
+The local channel obligations are exhausted by $S,E,B,D,L$. The source row names the event being encoded, the legal channel-event row displays the body and terminator, the body-safety row excludes an earlier terminator pattern, and the decoder-state row reads the first $11$ as the local endpoint.
+
+The halting-boundary obligation is exhausted by $R$ and $F$. The refusal row states that the local endpoint is not a certificate-level total halting classifier, while the finite trace row records only bounded evidence around prompt-response and evaluator routes.
+
+Finally $H,C,P,N$ transport, replay, source, and name that same finite route. Since the carrier has no coordinate for a global halting oracle or meta-stop proof, no local $\NameCert_{\ChannelTerminationHaltingBoundaryUp}$ obligation can export one.
+\end{proof}
+
+\begin{theorem}[ChannelTerminationHaltingBoundary refusal factorization]
+\label{thm:channel-termination-halting-boundary-refusal-factorization}
+Every accepted $\ChannelTerminationHaltingBoundaryUp$ packet factors local event termination through the displayed legal-channel-event route
+$$
+S,E,B,D,L \longmapsto R,F,H,C,P,N
+$$
+before any halting-boundary refusal row is exposed. Thus a consumer may read the first channel-level $11$ as a local event endpoint only after the legal body and decoder rows have been displayed, and it may read the halting-boundary refusal only as the downstream statement that this local endpoint is not a certificate-level total halting classifier.
+\end{theorem}
+\begin{proof}
+Start with an accepted boundary-facing consumer. By \autoref{def:channel-termination-halting-boundary-carrier}, the only event-termination coordinates are $S,E,B,D,L$, so the consumer cannot reach the refusal row until the legal channel-event route is already displayed.
+
+Apply \autoref{thm:channel-termination-halting-boundary-namecert-obligations}. It binds body safety, first-terminator decoding, and legal-channel classification to the same finite packet before $R$ and $F$ can be read.
+
+The refusal row then has only one role: it separates the local event endpoint from certificate-level halting. The finite trace row may record bounded prompt-response or evaluator evidence, but the packet has no coordinate for an unrestricted evaluator, a host global halting oracle, or a meta-stop proof. Therefore the refusal factors through the legal-channel-event route rather than replacing it.
+\end{proof}
+
+\falsifiablePrediction{Every accepted packet factors local event termination through a displayed legal-channel-event row before any halting-boundary refusal row is exposed.}
+
+\independenceWitness{haltingdistinction, haltingdistinctiontrace, promptresponsetrace, finitetraceevaluator: these siblings either classify halting obstruction or trace evaluation, while this packet has the additional legal-channel terminator row and therefore is not bijective to any of them.}
+
+The Lean TasteGate namespace $\mathsf{BEDC.Derived.ChannelTerminationHaltingBoundaryUp.TasteGate}$ must provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for this finite carrier.
+
+\closureat{ChannelTerminationHaltingBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\ChannelTerminationHaltingBoundaryUp}
+  \constructivestory{A $\ChannelTerminationHaltingBoundaryUp$ packet is generated from source-event rows, legal channel-event rows, body-safety rows, decoder-state rows, legal-channel classifiers, halting-boundary refusal rows, finite trace evidence, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:channel-termination-halting-boundary-carrier}, \autoref{thm:channel-termination-halting-boundary-namecert-obligations}, and \autoref{thm:channel-termination-halting-boundary-refusal-factorization} seed the finite local-channel boundary separating event termination from certificate-level halting refusal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted halting classification, host global halting oracles, bare bitstream parsing, meta-stop proofs, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, legal channel-event exposure, body-safety exposure, decoder-state exposure, local termination factorization, halting-boundary refusal, finite trace evidence, transport, replay, provenance, and local naming for BEDC.Derived.ChannelTerminationHaltingBoundaryUp.}
+\end{closurestatus}
