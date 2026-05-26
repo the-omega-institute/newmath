@@ -10,6 +10,17 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def FiniteLebesgueNumberRealCompletionTerminalRadiusLedger [AskSetup] [PackageSetup]
+    (cover window radius mesh stream regular real compact uniform transport route provenance
+      nameRow : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig
+  FiniteLebesgueNumberCarrier cover window radius mesh transport route provenance nameRow
+      bundle pkg ∧
+    Cont window radius stream ∧ Cont stream mesh regular ∧ Cont regular route real ∧
+      Cont real nameRow compact ∧ Cont compact uniform route ∧
+        PkgSig bundle compact pkg ∧ PkgSig bundle uniform pkg
+
 theorem FiniteLebesgueNumberRealCompletionTerminalRadiusExhaustion [AskSetup] [PackageSetup]
     {cover window radius mesh transport route provenance nameRow terminalWindow terminalMesh
       terminalReal consumerRead : BHist}
