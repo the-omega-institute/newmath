@@ -2902,6 +2902,7 @@ import BEDC.Derived.DyadicCoverUp.LedgerNonescape
 import BEDC.Derived.DyadicCoverUp.RealEnvelopeCoverageExactness
 import BEDC.Derived.DyadicCoverUp.RefinementWitnessExhaustion
 import BEDC.Derived.DyadicCoverUp.TotalBoundedRadiusLedger
+import BEDC.Derived.DyadicDivisionUp
 import BEDC.Derived.DyadicEmbeddingUniquenessUp.TasteGate
 import BEDC.Derived.DyadicEmbeddingUp
 import BEDC.Derived.DyadicEmbeddingUp.TasteGate
@@ -6708,6 +6709,7 @@ import BEDC.Derived.ZnormalUp.NameCertObligationSurface
 import BEDC.Derived.ZnormalUp.NamecertLedgerExhaustion
 import BEDC.Derived.ZnormalUp.NoDivergenceOracleLedger
 import BEDC.Derived.ZnormalUp.NormalFormConsumerBoundary
+import BEDC.Derived.ZnormalUp.NormalFormLedgerRow
 import BEDC.Derived.ZnormalUp.NormalFormReadinessSupportTotality
 import BEDC.Derived.ZnormalUp.NormalOutputBoundary
 import BEDC.Derived.ZnormalUp.NormalOutputRootNonescape
