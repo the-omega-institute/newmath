@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\CounterfactualOutcomeUp$}
+\label{ch:concrete-instances-counterfactual-outcome-namecert}
+\origin{human}
+
+Following Pearl, Causality, 2009, the $\CounterfactualOutcomeUp$ packet records paired factual and counterfactual outcome reads as finite causal-inference NameCert data. It sits beside the intervention calculus of \autoref{ch:concrete-instances-do-calculus-namecert}, the intervention-row packet of \autoref{ch:concrete-instances-causal-intervention-namecert}, the probability-space carrier of \autoref{ch:concrete-instances-probspace-namecert}, the distribution handoff of \autoref{ch:concrete-instances-distribution-namecert}, and the Bayesian conditioning route of \autoref{ch:concrete-instances-bayesian-namecert}. The packet gives causal consumers a selected counterfactual-outcome surface without weakening the explicit non-claim boundary of $\DoCalculusUp$.
+
+\begin{definition}[Counterfactual outcome carrier]
+\label{def:counterfactual-outcome-carrier}
+A $\CounterfactualOutcomeUp$ carrier is a finite $\BHist$ packet
+$$
+C=(U,I,Y_f,Y_{cf},M,R,H,D,E,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the finite unit row, naming the observational unit and the displayed covariate cells opened by the counterfactual query.
+\item $I$ is the intervention row inherited from the $\CausalInterventionUp$ route. It records the do-row, intervention target, and intervention value that may be inspected by the counterfactual read.
+\item $Y_f$ is the factual outcome row observed for $U$ before the counterfactual branch is exported.
+\item $Y_{cf}$ is the counterfactual outcome row selected under $I$ for the same unit row $U$.
+\item $M$ is the modified-distribution row, read through the $\DoCalculusUp$, $\ProbSpaceUp$, $\DistributionUp$, and $\BayesianUp$ siblings before any expectation or probability export.
+\item $R$ is the consistency row requiring factual and counterfactual reads to agree on the factual branch selected by the displayed intervention route.
+\item $H$ records componentwise $\hsame$ transport for units, interventions, factual outcomes, counterfactual outcomes, modified distributions, consistency rows, distribution exports, expectation rows, replay rows, provenance rows, and local naming rows.
+\item $D$ is the distribution handoff row. It exposes only the finite probability surface displayed by $M$ and does not store hidden-world measures.
+\item $E$ is the expectation and export row for finite counterfactual queries.
+\item $T$ records displayed $\Cont$ replay of the route
+$$
+U,I,Y_f,Y_{cf},M,R \longmapsto D,E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CounterfactualOutcomeUp$, $\DoCalculusUp$, $\CausalInterventionUp$, $\ProbSpaceUp$, $\DistributionUp$, $\BayesianUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CounterfactualOutcomeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $U,I,Y_f,Y_{cf},M,R,H,D,E,T,P,N$. It has no coordinate for hidden structural equations, cross-world equality outside the displayed consistency row, selected counterfactual universes, host structural causal models, or ambient probability semantics.
+\end{definition}
+
+\begin{theorem}[Counterfactual outcome NameCert obligations]
+\label{thm:counterfactual-outcome-namecert-obligations}
+For every accepted $\CounterfactualOutcomeUp$ carrier
+$$
+C=(U,I,Y_f,Y_{cf},M,R,H,D,E,T,P,N),
+$$
+the local $\NameCert_{\CounterfactualOutcomeUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite unit row, intervention row, factual outcome row, counterfactual outcome row, modified-distribution row, consistency row, transport, distribution handoff, expectation and export row, replay, provenance, and local naming row;
+\item intervention anchoring, requiring every counterfactual read $Y_{cf}$ to cite the displayed $I$ row and the same unit row $U$ before any export through $D$ or $E$;
+\item factual and counterfactual consistency, requiring $R$ to bind the factual branch of $Y_{cf}$ to the observed $Y_f$ without adding cross-world equality outside the carrier;
+\item probability handoff, requiring $M,D,E$ to pass through the displayed $\ProbSpaceUp$, $\DistributionUp$, and $\BayesianUp$ routes before any finite probability or expectation read is available;
+\item non-escape from hidden worlds, host structural causal models, and selected counterfactual universes, requiring $H,T,P,N$ to preserve only the displayed rows and to export no unlisted causal semantics.
+\end{enumerate}
+No counterfactual-outcome obligation is stored outside these rows.
+\end{theorem}
+
+\begin{proof}
+Project the accepted carrier $C=(U,I,Y_f,Y_{cf},M,R,H,D,E,T,P,N)$. Carrier admission exposes exactly the finite unit, intervention, factual outcome, counterfactual outcome, modified-distribution, consistency, transport, distribution, export, replay, provenance, and naming rows.
+
+The counterfactual branch is anchored before it is exported. The row $I$ supplies the intervention target and value, while $U$ supplies the unit row shared by $Y_f$ and $Y_{cf}$.
+
+Consistency is then read through $R$. This row identifies the factual branch of the counterfactual read with the observed factual outcome, but it does not create an unconstrained cross-world equality or a hidden structural equation.
+
+The probability-facing rows are downstream. The modified distribution $M$, distribution handoff $D$, and expectation row $E$ are available only along the displayed probability, distribution, and Bayesian routes.
+
+Finally $H,T,P,N$ transport, replay, source, and name the same finite surface. Since no carrier coordinate stores hidden worlds, a host structural causal model, or a selected counterfactual universe, none can escape through the local NameCert.
+\end{proof}
+
+\falsifiablePrediction{Every $\CounterfactualOutcomeUp$ counterfactual-facing read factors through a finite unit row, a displayed intervention row, factual and counterfactual outcome rows, a modified-distribution row, a consistency row, componentwise hsame transport, distribution and expectation handoff rows, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{do-calculus, causal-intervention, probspace, distribution, bayesian: $\CounterfactualOutcomeUp$ is not bijective to any listed sibling because it jointly carries paired factual and counterfactual outcomes for a unit, a displayed intervention anchor, a modified-distribution handoff, a consistency row, finite probability and expectation export, transport, replay, provenance, and local naming.}
+
+\closureat{CounterfactualOutcomeUp}{seedStr}
+
+\begin{closurestatus}{\CounterfactualOutcomeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:counterfactual-outcome-carrier} and \autoref{thm:counterfactual-outcome-namecert-obligations} seed the finite counterfactual-outcome route over unit, intervention, factual outcome, counterfactual outcome, modified-distribution, consistency, distribution, expectation, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close hidden structural equations, host structural causal models, selected counterfactual universes, cross-world equality outside the displayed consistency row, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, intervention anchoring, factual and counterfactual consistency, probability handoff, non-escape from hidden worlds, transport, replay, provenance, and local naming for BEDC.Derived.CounterfactualOutcomeUp.}
+  \constructivestory{A $\CounterfactualOutcomeUp$ packet is generated from a finite unit row, a displayed intervention row, factual and counterfactual outcome rows, a modified-distribution row, a consistency row, componentwise hsame transport, distribution and expectation handoff rows, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
