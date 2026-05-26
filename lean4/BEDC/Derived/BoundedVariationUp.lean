@@ -278,6 +278,37 @@ def BoundedVariationPartitionLedger [AskSetup] [PackageSetup]
             Cont variation transport route ∧ Cont route provenance nameCert ∧
               hsame variation (append edge refinement) ∧ PkgSig bundle provenance pkg
 
+theorem BoundedVariationPartitionLedger_jordan_finite_split_scope [AskSetup] [PackageSetup]
+    {interval partition edge endpoint dyadic variation refinement transport route provenance
+      nameCert positiveEdge negativeEdge positiveRead negativeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedVariationPartitionLedger interval partition edge endpoint dyadic variation refinement
+        transport route provenance nameCert bundle pkg ->
+      UnaryHistory positiveEdge ->
+        UnaryHistory negativeEdge ->
+          Cont edge positiveEdge positiveRead ->
+            Cont edge negativeEdge negativeRead ->
+              PkgSig bundle positiveRead pkg ->
+                PkgSig bundle negativeRead pkg ->
+                  UnaryHistory edge ∧ UnaryHistory positiveRead ∧ UnaryHistory negativeRead ∧
+                    hsame variation (append edge refinement) ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle positiveRead pkg ∧ PkgSig bundle negativeRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro ledger positiveEdgeUnary negativeEdgeUnary positiveReadRoute negativeReadRoute
+    positivePkg negativePkg
+  obtain ⟨_intervalUnary, _partitionUnary, edgeUnary, _endpointUnary, _dyadicUnary,
+    _variationUnary, _refinementUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _nameCertUnary, _intervalPartitionEndpoint, _endpointDyadicEdge, _edgeRefinementVariation,
+    _variationTransportRoute, _routeProvenanceNameCert, variationSameAppend, provenancePkg⟩ :=
+      ledger
+  have positiveReadUnary : UnaryHistory positiveRead :=
+    unary_cont_closed edgeUnary positiveEdgeUnary positiveReadRoute
+  have negativeReadUnary : UnaryHistory negativeRead :=
+    unary_cont_closed edgeUnary negativeEdgeUnary negativeReadRoute
+  exact
+    ⟨edgeUnary, positiveReadUnary, negativeReadUnary, variationSameAppend, provenancePkg,
+      positivePkg, negativePkg⟩
+
 theorem BoundedVariationPartitionLedger_refinement_monotonicity [AskSetup] [PackageSetup]
     {interval partition edge endpoint dyadic variation refinement transport route provenance
       nameCert partition' edge' variation' : BHist}
