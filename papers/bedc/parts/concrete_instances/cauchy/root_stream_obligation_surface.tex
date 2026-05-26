@@ -1,0 +1,44 @@
+\begin{definition}[Sequence Cauchy root observation carrier]
+\label{def:sequence-cauchy-root-observation-carrier}
+For the root $\CauchyUp$ sequence route, a finite observation carrier is a $\BHist$ packet
+$$
+O=(S,R,D,H,C,P,N)
+$$
+where $S$ is the $\StreamNameUp$ finite observation row of \autoref{ch:concrete-instances-streamname-namecert}, $R$ is the $\RegSeqRatUp$ readback row of \autoref{ch:concrete-instances-regseqrat-namecert}, $D$ is the $\DyadicRatCoreUp$ tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and $H,C,P,N$ are respectively componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. The carrier has no quotient sequence coordinate, host-sequence equality coordinate, selected limit, or ambient completion proof.
+\end{definition}
+
+\begin{theorem}[Sequence Cauchy root stream obligation]
+\label{thm:sequence-cauchy-root-stream-obligation}
+Every accepted root $\CauchyUp$ sequence route factors through the finite observation carrier of \autoref{def:sequence-cauchy-root-observation-carrier}. Its local obligation surface consists of StreamName window exposure, RegSeqRat readback exposure, DyadicRatCore tolerance accounting, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Read the root stream carrier of \autoref{def:cauchy-root-stream-carrier}. Its stream row supplies the finite observation windows and its witness ledger supplies only displayed comparisons.
+
+Route those windows through \autoref{ch:concrete-instances-streamname-namecert}, then through the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and finally through the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}. These three rows are exactly $S,R,D$ in the observation carrier.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no quotient or host-sequence equality coordinate, every accepted Cauchy read remains inside the displayed NameCert surface.
+\end{proof}
+
+\begin{theorem}[Sequence Cauchy hsame-stable tail classifier]
+\label{thm:sequence-cauchy-hsame-stable-tail-classifier}
+Let $O=(S,R,D,H,C,P,N)$ be an accepted sequence Cauchy root observation carrier. Any tail classifier read transported by $H$ preserves the same StreamName window row $S$, the same RegSeqRat readback row $R$, and the same DyadicRatCore tolerance ledger $D$. Consequently the transported tail classifier remains a root $\CauchyUp$ read and cannot introduce quotient sequence equality, host-sequence equality, selected limits, or ambient completion.
+\end{theorem}
+\begin{proof}
+Project the carrier $O$. The tail classifier has access only to $S,R,D,H,C,P,N$, and $H$ is declared componentwise over exactly those rows.
+
+Transporting a tail read by $H$ therefore replaces no observation row by an external sequence and adds no equality oracle. The StreamName, RegSeqRat, and DyadicRatCore rows stay visible before the classifier verdict is read.
+
+The transported classifier is then repacked with the same provenance and local naming rows. This is the root Cauchy tail surface, not a quotient or host-sequence equality claim.
+\end{proof}
+
+\begin{theorem}[Sequence Cauchy Cont-stable replay ledger]
+\label{thm:sequence-cauchy-cont-stable-replay-ledger}
+For every accepted sequence Cauchy root observation carrier $O=(S,R,D,H,C,P,N)$, each displayed $\Cont$ replay of a Cauchy request must read $S$, then $R$, then $D$, and then the structural rows $H,P,N$. The replay ledger is therefore stable under finite-window refinement and remains a finite NameCert ledger for StreamName, RegSeqRat, and DyadicRatCore data.
+\end{theorem}
+\begin{proof}
+Start with a displayed replay row $C$. By the carrier surface, $C$ is a replay through the finite observation carrier and not through an ambient sequence object.
+
+The replay order exposes the StreamName window before the regular rational readback and the dyadic tolerance ledger. A finite-window refinement may restrict $S$, but the refined route still factors through the corresponding $R$ and $D$ rows.
+
+Finally the replay is named by $P,N$ and transported by $H$. The ledger remains finite because every replayed request is read through displayed windows and tolerance rows rather than through quotient or host-sequence equality.
+\end{proof}

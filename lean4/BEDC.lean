@@ -4210,6 +4210,7 @@ import BEDC.Derived.MetaCICIdentityBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICIdentityUp.TasteGate
 import BEDC.Derived.MetaCICNormalAuditSocketUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationBudgetUp.TasteGate
+import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.KernelScope
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.RouteCoverage
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationFrontierUp.AuditSealConsumerRoute
@@ -4330,6 +4331,7 @@ import BEDC.Derived.MetricCompletionUp.BranchScope
 import BEDC.Derived.MetricCompletionUp.BridgeSurfaceLock
 import BEDC.Derived.MetricCompletionUp.CarrierAdmission
 import BEDC.Derived.MetricCompletionUp.CauchyEvidenceHandoff
+import BEDC.Derived.MetricCompletionUp.CauchyFilterCarrierAdmission
 import BEDC.Derived.MetricCompletionUp.CauchyFilterLimitFactorization
 import BEDC.Derived.MetricCompletionUp.CauchyFilterNetSeal
 import BEDC.Derived.MetricCompletionUp.ClassifierStability
@@ -4349,6 +4351,7 @@ import BEDC.Derived.MetricCompletionUp.RootObligationLedger
 import BEDC.Derived.MetricCompletionUp.RootObligationLedgerWitness
 import BEDC.Derived.MetricCompletionUp.RootObligations
 import BEDC.Derived.MetricCompletionUp.ScopedDependencyPackage
+import BEDC.Derived.MetricCompletionUp.ScopedReadbackScope
 import BEDC.Derived.MetricCompletionUp.SeparatedBranchReadback
 import BEDC.Derived.MetricCompletionUp.SeparatedLimit
 import BEDC.Derived.MetricCompletionUp.SourceSeparatedScope
