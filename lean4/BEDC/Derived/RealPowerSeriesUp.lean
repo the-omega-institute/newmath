@@ -118,4 +118,46 @@ theorem RealPowerSeriesCarrier_partial_sum_majorant_readback [AskSetup] [Package
     unary_cont_closed SUnary MUnary readbackRoute
   exact ⟨SUnary, MUnary, readbackUnary, readbackRoute, radiusMajorant, pkgSig⟩
 
+theorem RealPowerSeriesCarrier_radius_source_compatibility [AskSetup] [PackageSetup]
+    {A Z X R W S M E H C P N radiusRead sourceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ->
+      hsame radiusRead R ->
+        hsame sourceRead A ->
+          UnaryHistory radiusRead ∧ UnaryHistory sourceRead ∧ Cont A W S ∧
+            Cont R S M ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg UnaryHistory
+  intro carrier radiusSame sourceSame
+  obtain ⟨AUnary, _ZUnary, _XUnary, RUnary, _WUnary, _SUnary, _MUnary, _EUnary,
+    _HUnary, _CUnary, _PUnary, _NUnary, coefficientWindow, radiusMajorant,
+    _majorantEndpoint, pkgSig⟩ := carrier
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_transport RUnary (hsame_symm radiusSame)
+  have sourceReadUnary : UnaryHistory sourceRead :=
+    unary_transport AUnary (hsame_symm sourceSame)
+  exact ⟨radiusReadUnary, sourceReadUnary, coefficientWindow, radiusMajorant, pkgSig⟩
+
+theorem RealPowerSeriesCarrier_terminal_real_seal_obligation [AskSetup] [PackageSetup]
+    {A Z X R W S M E H C P N terminalSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ->
+      Cont E C terminalSeal ->
+        PkgSig bundle terminalSeal pkg ->
+          UnaryHistory A ∧ UnaryHistory Z ∧ UnaryHistory X ∧ UnaryHistory R ∧
+            UnaryHistory W ∧ UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory E ∧
+              UnaryHistory C ∧ UnaryHistory terminalSeal ∧ Cont A W S ∧
+                Cont R S M ∧ Cont M E C ∧ Cont E C terminalSeal ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle terminalSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier terminalRoute terminalPkg
+  obtain ⟨AUnary, ZUnary, XUnary, RUnary, WUnary, SUnary, MUnary, EUnary,
+    _HUnary, CUnary, _PUnary, _NUnary, coefficientWindow, radiusMajorant,
+    majorantEndpoint, pkgSig⟩ := carrier
+  have terminalUnary : UnaryHistory terminalSeal :=
+    unary_cont_closed EUnary CUnary terminalRoute
+  exact
+    ⟨AUnary, ZUnary, XUnary, RUnary, WUnary, SUnary, MUnary, EUnary, CUnary,
+      terminalUnary, coefficientWindow, radiusMajorant, majorantEndpoint, terminalRoute,
+      pkgSig, terminalPkg⟩
+
 end BEDC.Derived.RealPowerSeriesUp

@@ -130,6 +130,50 @@ theorem MetaCICClosureTraceCarrier_namecert_obligations
       exact ⟨source.right, pkgSig⟩
   }
 
+theorem MetaCICClosureTraceCarrier_kernel_ledger_semantic_name_certificate
+    [AskSetup] [PackageSetup] {S U V B R G K H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ∧ hsame row K)
+        (fun row : BHist => hsame row K ∧ Cont S U V ∧ Cont B R C)
+        (fun row : BHist => hsame row K ∧ PkgSig bundle P pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert AskSetup PackageSetup PkgSig
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro K ⟨carrier, hsame_refl K⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      obtain
+        ⟨_SUnary, _UUnary, _VUnary, _BUnary, _RUnary, _GUnary, _KUnary, _HUnary,
+          _CUnary, _PUnary, _NUnary, shiftSubstitution, _generatorPackage, betaRoute,
+          _pkgSig⟩ := source.left
+      exact ⟨source.right, shiftSubstitution, betaRoute⟩
+    ledger_sound := by
+      intro _row source
+      obtain
+        ⟨_SUnary, _UUnary, _VUnary, _BUnary, _RUnary, _GUnary, _KUnary, _HUnary,
+          _CUnary, _PUnary, _NUnary, _shiftSubstitution, _generatorPackage, _betaRoute,
+          pkgSig⟩ := source.left
+      exact ⟨source.right, pkgSig⟩
+  }
+
 theorem MetaCICClosureTraceCarrier_substitution_beta_chain_boundary
     [AskSetup] [PackageSetup] {S U V B R G K H C P N substRead betaRead combinedRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -192,5 +236,38 @@ theorem MetaCICClosureTraceCarrier_obligation_closure_package
       closedSubstUnary, closedRouteUnary, shiftSubstitution, generatorPackage,
       betaReadRoute, routeReadRoute, closedSubstRoute, closedRouteRoute, pkgSig,
       routeReadPkg, closedRoutePkg⟩
+
+theorem MetaCICClosureTraceCarrier_candidate_frontier
+    [AskSetup] [PackageSetup] {S U V B R G K H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ->
+      exists generatorRead : BHist, exists betaRead : BHist, exists frontierRead : BHist,
+        UnaryHistory generatorRead ∧ UnaryHistory betaRead ∧ UnaryHistory frontierRead ∧
+          hsame generatorRead (append (append S U) G) ∧
+            hsame betaRead (append B R) ∧
+              hsame frontierRead (append (append generatorRead betaRead) K) ∧
+                Cont S U V ∧ Cont V G K ∧ Cont B R C ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg UnaryHistory
+  intro carrier
+  obtain ⟨SUnary, UUnary, _VUnary, BUnary, RUnary, GUnary, KUnary, _HUnary,
+    _CUnary, _PUnary, _NUnary, shiftSubstitution, generatorPackage, betaRoute, pkgSig⟩ :=
+      carrier
+  let generatorRead := append (append S U) G
+  let betaRead := append B R
+  let frontierRead := append (append generatorRead betaRead) K
+  have SUUnary : UnaryHistory (append S U) :=
+    unary_append_closed SUnary UUnary
+  have generatorUnary : UnaryHistory generatorRead :=
+    unary_append_closed SUUnary GUnary
+  have betaUnary : UnaryHistory betaRead :=
+    unary_append_closed BUnary RUnary
+  have generatorBetaUnary : UnaryHistory (append generatorRead betaRead) :=
+    unary_append_closed generatorUnary betaUnary
+  have frontierUnary : UnaryHistory frontierRead :=
+    unary_append_closed generatorBetaUnary KUnary
+  exact
+    ⟨generatorRead, betaRead, frontierRead, generatorUnary, betaUnary, frontierUnary,
+      hsame_refl generatorRead, hsame_refl betaRead, hsame_refl frontierRead,
+      shiftSubstitution, generatorPackage, betaRoute, pkgSig⟩
 
 end BEDC.Derived.MetaCICClosureTraceUp

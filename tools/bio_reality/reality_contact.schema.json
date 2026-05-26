@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-omega-institute.github.io/newmath/schemas/bio-reality/reality-contact.schema.json",
+  "title": "BioReality contact packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contact_id",
+    "source_kind",
+    "source_ref",
+    "source_snapshot",
+    "observed_fact",
+    "resolution",
+    "known_noise_or_bias",
+    "can_test",
+    "cannot_test",
+    "null_reason"
+  ],
+  "properties": {
+    "contact_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._:-]*$"
+    },
+    "source_kind": {
+      "type": "string",
+      "enum": [
+        "genetic_code_table",
+        "sequence_database",
+        "transcript_evidence",
+        "protein_measurement",
+        "structure_experiment",
+        "structure_prediction",
+        "physical_assay",
+        "functional_assay",
+        "phenotype_assay",
+        "curated_annotation",
+        "manual_observation"
+      ]
+    },
+    "source_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_snapshot": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed_fact": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resolution": {
+      "type": "string",
+      "minLength": 1
+    },
+    "known_noise_or_bias": {
+      "type": "string"
+    },
+    "can_test": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "cannot_test": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "null_reason": {
+      "type": "string"
+    }
+  }
+}

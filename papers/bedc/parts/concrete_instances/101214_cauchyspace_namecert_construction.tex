@@ -177,6 +177,7 @@ L=(F_0,F_1,U_0,R_0,T_0,H_0,C_0,P_0,N_0)
 $$
 inside an accepted carrier $S=(F,U,R,Q,T,H,C,P,N)$ such that $F_0$ lists the local $\CauchyFilterUp$ requests, $F_1$ lists their finite meet and tail-stability witnesses, $U_0$ lists the matching $\UniformSpaceUp$ entourage requests, $R_0$ is the $\RegSeqRatUp$ readback row generated from those local requests, $T_0$ is the $\RealUp$ and $\UniformCompletionUp$ consumer handoff, $H_0$ records componentwise $\hsame$ transport for all displayed rows, $C_0$ records the $\Cont$ replay route, $P_0$ records $\Pkg$ provenance, and $N_0$ is the local $\NameCert_{\CauchySpaceUp}$ row.
 \end{definition}
+\leandef{BEDC.Derived.CauchySpaceUp.CauchySpaceLocalFilterCarrier}
 
 \begin{theorem}[CauchySpace RegSeqRat uniform obligation]
 \label{thm:cauchyspace-regseqrat-uniform-obligation}
@@ -252,6 +253,27 @@ Apply \autoref{thm:cauchyspace-completion-handoff-obligation} for the handoff in
 The excluded principles are absent from the carrier and from the three cited routes. Hence every downstream Cauchy-completion consumer sees only the displayed finite obligation surface before any completion boundary is read.
 \end{proof}
 \leanchecked{BEDC.Derived.CauchySpaceUp.CauchySpaceCarrier\_obligation\_coverage\_route}
+
+\begin{theorem}[CauchySpace precompletion factorization]
+\label{thm:cauchyspace-precompletion-factorization}
+For every accepted $\CauchySpaceUp$ local carrier $L=(F_0,F_1,U_0,R_0,T_0,H_0,C_0,P_0,N_0)$ of \autoref{def:cauchyspace-local-filter-carrier}, every $\RealUp$ completion consumer factors through the displayed precompletion route
+$$
+\CauchyFilterUp \longmapsto \UniformSpaceUp \longmapsto \RegSeqRatUp \longmapsto \CauchyPrecompletionUp
+$$
+before it can read $T_0,H_0,C_0,P_0,N_0$. Concretely, the consumer first exposes the filter rows $F_0,F_1$, then the uniform-entourage row $U_0$, then the regular rational name row $R_0$, then the $\CauchyPrecompletionUp$ handoff inside $T_0$, and only afterward the $\RealUp$ completion boundary inside the same row.
+
+The factorization exports no quotient completion, selected representatives, countable choice, host real equality, ambient $\RealUp$ completeness, or bridge credential.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchySpaceUp.CauchySpaceLocalFilterCarrier\_precompletion\_factorization}
+\begin{proof}
+Project the local carrier. Its public rows are ordered as $F_0,F_1$ for the $\CauchyFilterUp$ surface, $U_0$ for the $\UniformSpaceUp$ surface, $R_0$ for the $\RegSeqRatUp$ regular-name readback, and $T_0$ for the precompletion and Real completion consumer handoff.
+
+Apply \autoref{thm:cauchyspace-filter-uniform-completion-nonescape}. It keeps every completion-facing read downstream of the shared Cauchy-filter and uniform-entourage surface and prevents a direct jump to a completed host object.
+
+Apply \autoref{thm:cauchyspace-regseqrat-uniform-obligation}. The regular rational readback $R_0$ is generated from $F_0,F_1,U_0$ under the componentwise transport and displayed replay rows, so the readback cannot be replaced by a selected representative.
+
+Finally apply \autoref{thm:cauchyspace-completion-handoff-obligation} and \autoref{thm:cauchyspace-obligation-coverage-route}. The handoff row $T_0$ exposes the $\CauchyPrecompletionUp$ boundary before the $\RealUp$ consumer boundary, while $H_0,C_0,P_0,N_0$ transport, replay, source, and name the same finite route. Hence quotient completion, selected representatives, countable choice, host equality, ambient completeness, and bridge credentials remain outside the carrier.
+\end{proof}
 
 \closureat{CauchySpaceUp}{seedStr}
 
