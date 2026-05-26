@@ -76,6 +76,9 @@ jobs:
             echo "- run Lean4 validation: \`${{ steps.detect.outputs.lean4 }}\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Check workflow checkout safety
+        run: python3 tools/check_workflow_checkout_safety.py
+
   build_pdf:
     name: Build main.pdf
     needs: detect_changes
