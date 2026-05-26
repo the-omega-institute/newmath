@@ -462,4 +462,38 @@ theorem BoundedVariationCarrier_cauchy_consumer_boundary [AskSetup] [PackageSetu
       endpointDyadicEdgeRead, variationRefinementCauchy, variationSame, provenancePkg,
       cauchyPkg⟩
 
+theorem BoundedVariationPartitionLedger_regular_cauchy_filter_handoff [AskSetup]
+    [PackageSetup]
+    {interval partition edge endpoint dyadic variation refinement transport route provenance
+      nameCert filterMeet regularRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedVariationPartitionLedger interval partition edge endpoint dyadic variation refinement
+        transport route provenance nameCert bundle pkg ->
+      Cont endpoint transport filterMeet ->
+        Cont filterMeet route regularRead ->
+          Cont regularRead nameCert sealRead ->
+            PkgSig bundle sealRead pkg ->
+              UnaryHistory endpoint ∧ UnaryHistory transport ∧ UnaryHistory route ∧
+                UnaryHistory filterMeet ∧ UnaryHistory regularRead ∧ UnaryHistory sealRead ∧
+                  Cont endpoint transport filterMeet ∧ Cont filterMeet route regularRead ∧
+                    Cont regularRead nameCert sealRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro ledger endpointTransportFilter filterRouteRegular regularNameCertSeal sealPkg
+  obtain ⟨_intervalUnary, _partitionUnary, _edgeUnary, endpointUnary, _dyadicUnary,
+    _variationUnary, _refinementUnary, transportUnary, routeUnary, _provenanceUnary,
+    nameCertUnary, _intervalPartitionEndpoint, _endpointDyadicEdge, _edgeRefinementVariation,
+    _variationTransportRoute, _routeProvenanceNameCert, _variationSameAppend,
+    provenancePkg⟩ := ledger
+  have filterMeetUnary : UnaryHistory filterMeet :=
+    unary_cont_closed endpointUnary transportUnary endpointTransportFilter
+  have regularReadUnary : UnaryHistory regularRead :=
+    unary_cont_closed filterMeetUnary routeUnary filterRouteRegular
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularReadUnary nameCertUnary regularNameCertSeal
+  exact
+    ⟨endpointUnary, transportUnary, routeUnary, filterMeetUnary, regularReadUnary,
+      sealReadUnary, endpointTransportFilter, filterRouteRegular, regularNameCertSeal,
+      provenancePkg, sealPkg⟩
+
 end BEDC.Derived.BoundedVariationUp
