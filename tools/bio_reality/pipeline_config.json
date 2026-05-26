@@ -62,6 +62,15 @@
       "loop_name": "bio_W_writeback_paper",
       "role": "standalone BioReality paper writeback from gate-passed research memory",
       "durable_write_allowed": true,
+      "codex_writer": {
+        "enabled": true,
+        "max_retries": 2,
+        "timeout": 600,
+        "log_dir": "tools/bio_reality/state/writeback_codex_logs",
+        "min_audit_score": 7,
+        "min_used_fact_ids": 2,
+        "corrective_retry": true
+      },
       "durable_write_scope": [
         "papers/bio_reality/main.tex",
         "papers/bio_reality/parts/codon_window_reality_boundary.tex"

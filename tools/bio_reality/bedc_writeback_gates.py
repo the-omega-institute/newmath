@@ -26,9 +26,15 @@ LEAN_MARKER_RE = re.compile(
     r"\\(?:leanstmt|leantarget|leanchecked|leanvariant|leandef|leansorryd)\{"
 )
 GENERIC_TEMPLATE_PHRASES = [
+    "BEDC 5-tuple",
+    "cannot-claim boundary records",
+    "carrier reads back to observable data by following",
+    "finite reality-bound seed witness",
     "finite reality-bound seed witness for the claim",
     "finite, reality-bound seed witness for the claim",
     "finite reality-bound seed witness for claim",
+    "TasteGate-style separation",
+    "polynomial witness slot",
 ]
 
 
@@ -187,6 +193,55 @@ def generic_prose_detector(text: str, used_fact_ids: list[str] | None, min_used_
     return issues
 
 
+def _verified_fact_numeric_strings(verified_facts: dict[str, Any]) -> set[str]:
+    numbers: set[str] = set()
+
+    def visit(value: Any) -> None:
+        if isinstance(value, bool):
+            return
+        if isinstance(value, int):
+            numbers.add(str(value))
+            return
+        if isinstance(value, float):
+            numbers.add(f"{value:.6g}")
+            numbers.add(str(value))
+            return
+        if isinstance(value, str):
+            for match in re.finditer(r"(?<![A-Za-z0-9_.-])-?\d+(?:\.\d+)?(?:e[+-]?\d+)?(?![A-Za-z0-9_.-])", value, re.IGNORECASE):
+                numbers.add(match.group(0))
+            return
+        if isinstance(value, dict):
+            for child in value.values():
+                visit(child)
+            return
+        if isinstance(value, list):
+            for child in value:
+                visit(child)
+
+    visit(verified_facts)
+    return {number for number in numbers if number}
+
+
+def check_namecert_generic_prose(chapter_text: str, verified_facts: dict[str, Any], claim_id: str) -> tuple[bool, str]:
+    issues: list[str] = []
+    lowered = re.sub(r"\s+", " ", chapter_text.lower())
+    for phrase in GENERIC_TEMPLATE_PHRASES:
+        if phrase.lower() in lowered:
+            issues.append(f"generic template phrase detected for {claim_id}: {phrase}")
+    if len(chapter_text.strip()) < 1500:
+        issues.append(f"chapter for {claim_id} is below 1500 characters")
+    number_hits = [
+        number
+        for number in sorted(_verified_fact_numeric_strings(verified_facts), key=lambda item: (-len(item), item))
+        if number in chapter_text
+    ]
+    if len(set(number_hits)) < 2:
+        issues.append(
+            f"chapter for {claim_id} cites {len(set(number_hits))} concrete numeric verified fact(s), required 2"
+        )
+    return (not issues, "; ".join(issues))
+
+
 def validate_hub_text(text: str) -> list[str]:
     issues: list[str] = []
     issues.extend(line_count_le_800(text))
@@ -305,6 +360,25 @@ def self_test() -> int:
                 + "The carrier stays at code-read scope and blocks translation promotion. " * 30,
                 ["codon_count", "row_count", "lambda_M"],
             ),
+            None,
+        ),
+        (
+            "check_namecert_generic_prose_blocks_phrase",
+            not check_namecert_generic_prose(
+                "This BEDC 5-tuple has 64 and 13. " + "Grounded sentence. " * 120,
+                {"values": {"codons": 64, "rows": 13}},
+                "h0.fixture",
+            )[0],
+            None,
+        ),
+        (
+            "check_namecert_generic_prose_pass",
+            check_namecert_generic_prose(
+                "This BioReality packet cites 64 codons and a row count of 13 while keeping the claim at code-read scope. "
+                + "It records a local finite observation without promoting translation, folding, physical admissibility, or biological function. " * 80,
+                {"values": {"codons": 64, "rows": 13}},
+                "h0.fixture",
+            )[0],
             None,
         ),
     ]

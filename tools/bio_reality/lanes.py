@@ -1018,6 +1018,18 @@ def _load_bedc_writeback_config() -> dict[str, Any]:
     return config if isinstance(config, dict) else {}
 
 
+def _load_writeback_lane_config() -> dict[str, Any]:
+    data = json.loads(PIPELINE_CONFIG.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        return {}
+    lanes = data.get("lanes")
+    if isinstance(lanes, list):
+        for lane in lanes:
+            if isinstance(lane, dict) and lane.get("lane") == "bio-W":
+                return lane
+    return {}
+
+
 def _run_command(repo_root: Path, cmd: list[str], *, timeout: float = 60.0) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         cmd,
@@ -1733,6 +1745,303 @@ def _render_verified_facts(conjecture: dict[str, Any]) -> list[str]:
     return lines
 
 
+def _bio_w_codex_writer_config(config: dict[str, Any]) -> dict[str, Any]:
+    raw = config.get("codex_writer")
+    writer = raw if isinstance(raw, dict) else {}
+    return {
+        "enabled": bool(writer.get("enabled", True)),
+        "max_retries": max(1, int(writer.get("max_retries", 2))),
+        "timeout_seconds": max(1, int(writer.get("timeout_seconds", writer.get("timeout", 600)))),
+        "log_dir": str(writer.get("log_dir", "tools/bio_reality/state/writeback_codex_logs")),
+        "min_audit_score": int(writer.get("min_audit_score", 7)),
+        "min_used_fact_ids": max(0, int(writer.get("min_used_fact_ids", 2))),
+        "corrective_retry_on_gate_failure": bool(
+            writer.get("corrective_retry_on_gate_failure", writer.get("corrective_retry", True))
+        ),
+    }
+
+
+def _verified_facts_for_claim(conjecture: dict[str, Any], claim_id: str) -> dict[str, Any]:
+    verified_facts = conjecture.get("verified_facts")
+    if not isinstance(verified_facts, dict):
+        return {}
+    claim_facts = verified_facts.get(claim_id)
+    return claim_facts if isinstance(claim_facts, dict) else {}
+
+
+def _all_verified_facts(conjecture: dict[str, Any]) -> dict[str, Any]:
+    verified_facts = conjecture.get("verified_facts")
+    return verified_facts if isinstance(verified_facts, dict) else {}
+
+
+def _linked_records_for_conjecture(
+    conjecture: dict[str, Any],
+    contacts_by_id: dict[str, dict[str, Any]],
+    probes_by_id: dict[str, dict[str, Any]],
+    mismatches_by_probe: dict[str, list[dict[str, Any]]],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    contact_refs = [str(item) for item in conjecture.get("reality_contact_refs", []) if isinstance(item, str)]
+    probe_refs = [str(item) for item in conjecture.get("probe_refs", []) if isinstance(item, str)]
+    linked_contacts = [contacts_by_id[ref] for ref in contact_refs if ref in contacts_by_id]
+    linked_probes = [probes_by_id[ref] for ref in probe_refs if ref in probes_by_id]
+    linked_mismatches = [
+        mismatch
+        for probe_ref in probe_refs
+        for mismatch in mismatches_by_probe.get(probe_ref, [])
+    ]
+    return linked_contacts, linked_probes, linked_mismatches
+
+
+def _extract_codex_event_text(stdout: str) -> str:
+    texts: list[str] = []
+    for line in stdout.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        try:
+            event = json.loads(stripped)
+        except json.JSONDecodeError:
+            texts.append(stripped)
+            continue
+        if not isinstance(event, dict):
+            continue
+        for key in ("text", "message", "content"):
+            value = event.get(key)
+            if isinstance(value, str) and value.strip():
+                texts.append(value)
+        item = event.get("item")
+        if isinstance(item, dict):
+            content = item.get("content")
+            if isinstance(content, list):
+                for part in content:
+                    if isinstance(part, dict):
+                        value = part.get("text")
+                        if isinstance(value, str) and value.strip():
+                            texts.append(value)
+            elif isinstance(content, str) and content.strip():
+                texts.append(content)
+        delta = event.get("delta")
+        if isinstance(delta, str) and delta.strip():
+            texts.append(delta)
+    return texts[-1] if texts else stdout
+
+
+def _extract_json_object_from_text(text: str) -> dict[str, Any] | None:
+    fence_matches = list(re.finditer(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.DOTALL | re.IGNORECASE))
+    candidates = [match.group(1) for match in fence_matches]
+    stripped = text.strip()
+    if stripped:
+        candidates.append(stripped)
+    first = stripped.find("{")
+    last = stripped.rfind("}")
+    if first != -1 and last != -1 and last > first:
+        candidates.append(stripped[first : last + 1])
+    for candidate in reversed(candidates):
+        try:
+            parsed = json.loads(candidate)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(parsed, dict):
+            return parsed
+    return None
+
+
+def _parse_bio_w_codex_json(stdout: str) -> dict[str, Any] | None:
+    parsed = _extract_json_object_from_text(_extract_codex_event_text(stdout))
+    if not isinstance(parsed, dict):
+        return None
+    required = ["verdict", "audit_score", "used_fact_ids", "chapter_content", "risk_notes", "missing_data_notes"]
+    if any(field not in parsed for field in required):
+        return None
+    if parsed.get("verdict") not in {"ready", "needs_more_data", "skip"}:
+        return None
+    try:
+        audit_score = int(parsed.get("audit_score"))
+    except (TypeError, ValueError):
+        return None
+    if audit_score < 0 or audit_score > 10:
+        return None
+    if not isinstance(parsed.get("used_fact_ids"), list) or not all(isinstance(item, str) for item in parsed["used_fact_ids"]):
+        return None
+    if not isinstance(parsed.get("chapter_content"), str):
+        return None
+    if not isinstance(parsed.get("risk_notes"), str) or not isinstance(parsed.get("missing_data_notes"), str):
+        return None
+    parsed["audit_score"] = audit_score
+    return parsed
+
+
+def _run_bio_w_codex(prompt: str, repo_root: Path, timeout_seconds: int) -> dict[str, Any] | None:
+    try:
+        completed = subprocess.run(
+            [
+                "codex",
+                "exec",
+                "--dangerously-bypass-approvals-and-sandbox",
+                "--sandbox",
+                "read-only",
+                "--json",
+                "-C",
+                str(repo_root),
+                "-",
+            ],
+            input=prompt,
+            text=True,
+            capture_output=True,
+            timeout=timeout_seconds,
+            check=False,
+        )
+    except (subprocess.TimeoutExpired, OSError):
+        return None
+    if completed.returncode != 0:
+        return None
+    return _parse_bio_w_codex_json(completed.stdout or "")
+
+
+def _write_bio_w_codex_log(
+    repo_root: Path,
+    log_dir: str | Path,
+    task_id: str,
+    prompt: str,
+    parsed: dict[str, Any] | None,
+) -> None:
+    path = Path(log_dir)
+    if not path.is_absolute():
+        path = repo_root / path
+    try:
+        path.mkdir(parents=True, exist_ok=True)
+        (path / f"{task_id}.prompt.txt").write_text(prompt, encoding="utf-8")
+        (path / f"{task_id}.parsed.json").write_text(
+            json.dumps(parsed or {"status": "none"}, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+    except OSError:
+        return
+
+
+def _bio_w_author_prompt(
+    *,
+    mode: str,
+    claim_id: str,
+    slug: str,
+    verified_facts: dict[str, Any],
+    conjecture: dict[str, Any],
+    contacts: list[dict[str, Any]],
+    probes: list[dict[str, Any]],
+    mismatches: list[dict[str, Any]],
+    corrective_feedback: list[str] | None = None,
+) -> str:
+    payload = {
+        "mode": mode,
+        "claim_id": claim_id,
+        "slug": slug,
+        "verified_facts": verified_facts,
+        "conjecture": conjecture,
+        "contacts": contacts,
+        "probes": probes,
+        "mismatches": mismatches,
+    }
+    lines = [
+        "You are writing English mathematical TeX for the standalone BioReality paper.",
+        "Return only one JSON object, preferably inside a ```json code block. Do not write files.",
+        "",
+        "# Finite-row data",
+        "```json",
+        json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True),
+        "```",
+        "",
+        "# Hard constraints",
+        r"- chapter_content must be complete TeX prose with \subsection, \label, and \paragraph{...} structure.",
+        r"- Include \origin{ai}; BioReality chapters are ai-discovered vision-level records.",
+        "- Use concrete finite-row numbers from verified_facts: R lists, M lists, lambda values, p-values, module classification, hit_rate, row counts, and related scalar data when present.",
+        "- Do not write placeholders or generic template prose.",
+        r"- Do not use cross-paper or cross-chapter \autoref references; keep the chapter self-contained.",
+        r"- Do not write Lean macros such as \leanchecked, \leanstmt, \leandef, \leanvariant, \leansorryd, or \leantarget.",
+        r"- Math style: inline math is $...$; display math is $$\begin{aligned}...\end{aligned}$$. Do not use \[...\], equation, align, or eqnarray.",
+        "- State the cannot-claim boundary locally: no translation, folding, physical admissibility, function, mechanism, or universality follows unless a separate contact supplies it.",
+        "- The prose must be chapter-specific and at least 1500 characters when verdict is ready.",
+        "",
+    ]
+    if corrective_feedback:
+        lines.extend(["# Corrective feedback"])
+        for issue in corrective_feedback:
+            lines.append(f"- {issue}")
+        lines.append("")
+    lines.extend(
+        [
+            "# Output schema",
+            "{",
+            '  "verdict": "ready" | "needs_more_data" | "skip",',
+            '  "audit_score": 0-10,',
+            '  "used_fact_ids": ["verified_facts keys actually cited"],',
+            '  "chapter_content": "complete TeX section text",',
+            '  "risk_notes": "short risk note",',
+            '  "missing_data_notes": "empty string or specific missing finite-row data"',
+            "}",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def render_namecert_with_codex(
+    claim_id: str,
+    slug: str,
+    verified_facts: dict[str, Any],
+    conjecture: dict[str, Any],
+    contacts: list[dict[str, Any]],
+    probes: list[dict[str, Any]],
+    mismatches: list[dict[str, Any]],
+    repo_root: Path,
+    *,
+    timeout_seconds: int = 600,
+    corrective_feedback: list[str] | None = None,
+    log_dir: str | Path = "tools/bio_reality/state/writeback_codex_logs",
+) -> dict[str, Any] | None:
+    prompt = _bio_w_author_prompt(
+        mode="namecert",
+        claim_id=claim_id,
+        slug=slug,
+        verified_facts=verified_facts,
+        conjecture=conjecture,
+        contacts=contacts,
+        probes=probes,
+        mismatches=mismatches,
+        corrective_feedback=corrective_feedback,
+    )
+    parsed = _run_bio_w_codex(prompt, repo_root, timeout_seconds)
+    _write_bio_w_codex_log(repo_root, log_dir, _safe_task_id(f"namecert-{claim_id}"), prompt, parsed)
+    return parsed
+
+
+def render_conjecture_with_codex(
+    conjecture: dict[str, Any],
+    verified_facts: dict[str, Any],
+    contacts: list[dict[str, Any]],
+    probes: list[dict[str, Any]],
+    mismatches: list[dict[str, Any]],
+    repo_root: Path,
+    *,
+    timeout_seconds: int = 600,
+    corrective_feedback: list[str] | None = None,
+    log_dir: str | Path = "tools/bio_reality/state/writeback_codex_logs",
+) -> dict[str, Any] | None:
+    conjecture_id = str(conjecture.get("conjecture_id") or "unnamed")
+    prompt = _bio_w_author_prompt(
+        mode="conjecture",
+        claim_id=conjecture_id,
+        slug=re.sub(r"[^a-z0-9]+", "-", conjecture_id.lower()).strip("-") or "conjecture",
+        verified_facts=verified_facts,
+        conjecture=conjecture,
+        contacts=contacts,
+        probes=probes,
+        mismatches=mismatches,
+        corrective_feedback=corrective_feedback,
+    )
+    parsed = _run_bio_w_codex(prompt, repo_root, timeout_seconds)
+    _write_bio_w_codex_log(repo_root, log_dir, _safe_task_id(f"conjecture-{conjecture_id}"), prompt, parsed)
+    return parsed
+
+
 def _namecert_slug(markdown_path: Path) -> str:
     slug = re.sub(r"[^a-z0-9]+", "_", markdown_path.stem.lower()).strip("_")
     return slug or "namecert"
@@ -1865,7 +2174,74 @@ def _render_conjecture_section(
     return lines
 
 
-def _write_namecert_proposals(paths: BioRealityPaths) -> list[str]:
+def _codex_chapter_gate_issues(
+    codex_result: dict[str, Any],
+    verified_facts: dict[str, Any],
+    claim_id: str,
+    writer_config: dict[str, Any],
+) -> list[str]:
+    issues: list[str] = []
+    if codex_result.get("verdict") != "ready":
+        issues.append(f"codex verdict {codex_result.get('verdict')}")
+    audit_score = int(codex_result.get("audit_score") or 0)
+    if audit_score < int(writer_config["min_audit_score"]):
+        issues.append(f"audit_score {audit_score} below required {writer_config['min_audit_score']}")
+    used_fact_ids = [str(item) for item in codex_result.get("used_fact_ids", []) if isinstance(item, str) and item.strip()]
+    if len(used_fact_ids) < int(writer_config["min_used_fact_ids"]):
+        issues.append(f"used_fact_ids {len(used_fact_ids)} below required {writer_config['min_used_fact_ids']}")
+    chapter_text = str(codex_result.get("chapter_content") or "")
+    gate_ok, gate_reason = bedc_writeback_gates.check_namecert_generic_prose(chapter_text, verified_facts, claim_id)
+    if not gate_ok:
+        issues.append(gate_reason)
+    if r"\origin{ai}" not in chapter_text:
+        issues.append(r"chapter missing \origin{ai}")
+    if r"\autoref{" in chapter_text:
+        issues.append(r"chapter contains forbidden \autoref")
+    issues.extend(bedc_writeback_gates.no_top_level_math_envs(chapter_text))
+    issues.extend(bedc_writeback_gates.no_naked_leanstmt(chapter_text))
+    return issues
+
+
+def _codex_written_content(
+    render_func: Any,
+    render_args: tuple[Any, ...],
+    verified_facts: dict[str, Any],
+    claim_id: str,
+    repo_root: Path,
+    writer_config: dict[str, Any],
+) -> str | None:
+    corrective_feedback: list[str] | None = None
+    if not writer_config["enabled"] or not verified_facts:
+        return None
+    for _attempt_index in range(1, int(writer_config["max_retries"]) + 1):
+        codex_result = render_func(
+            *render_args,
+            repo_root,
+            timeout_seconds=int(writer_config["timeout_seconds"]),
+            corrective_feedback=corrective_feedback,
+            log_dir=str(writer_config["log_dir"]),
+        )
+        if codex_result is None:
+            corrective_feedback = ["codex invocation failed or returned unparsable output"]
+            continue
+        issues = _codex_chapter_gate_issues(codex_result, verified_facts, claim_id, writer_config)
+        if not issues:
+            return str(codex_result.get("chapter_content") or "")
+        if not writer_config["corrective_retry_on_gate_failure"]:
+            break
+        corrective_feedback = issues
+    return None
+
+
+def _write_namecert_proposals(
+    paths: BioRealityPaths,
+    conjectures: list[dict[str, Any]],
+    contacts_by_id: dict[str, dict[str, Any]],
+    probes_by_id: dict[str, dict[str, Any]],
+    mismatches_by_probe: dict[str, list[dict[str, Any]]],
+    repo_root: Path,
+    writer_config: dict[str, Any],
+) -> list[str]:
     proposals_dir = paths.namecert_proposals_dir
     namecerts_dir = paths.paper_part.parent / "namecerts"
     markdown_paths = sorted(proposals_dir.glob("*.md")) if proposals_dir.exists() else []
@@ -1882,12 +2258,32 @@ def _write_namecert_proposals(paths: BioRealityPaths) -> list[str]:
             slug = f"{original_slug}_{suffix}"
             suffix += 1
         used_slugs.add(slug)
-        (namecerts_dir / f"{slug}.tex").write_text(_render_namecert_proposal(markdown_path, slug), encoding="utf-8")
+        claim_id = _namecert_claim_id(markdown_path)
+        conjecture = _linked_conjecture_for_claim(conjectures, claim_id) or {}
+        linked_contacts, linked_probes, linked_mismatches = _linked_records_for_conjecture(
+            conjecture,
+            contacts_by_id,
+            probes_by_id,
+            mismatches_by_probe,
+        )
+        verified_facts = _verified_facts_for_claim(conjecture, claim_id)
+        codex_text = _codex_written_content(
+            render_namecert_with_codex,
+            (claim_id, slug, verified_facts, conjecture, linked_contacts, linked_probes, linked_mismatches),
+            verified_facts,
+            claim_id,
+            repo_root,
+            writer_config,
+        )
+        text = codex_text if codex_text else _render_namecert_proposal(markdown_path, slug)
+        (namecerts_dir / f"{slug}.tex").write_text(text, encoding="utf-8")
         slugs.append(slug)
     return slugs
 
 
 def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
+    writer_config = _bio_w_codex_writer_config(_load_writeback_lane_config())
+    repo_root = store.paths.root.parent.parent
     conjectures = _passed_conjectures(store)
     contacts = store.load_contacts()
     probes = store.load_probes()
@@ -1909,7 +2305,26 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
         "",
     ]
     for conjecture in conjectures:
-        part_lines.extend(_render_conjecture_section(conjecture, contacts_by_id, probes_by_id, mismatches_by_probe))
+        linked_contacts, linked_probes, linked_mismatches = _linked_records_for_conjecture(
+            conjecture,
+            contacts_by_id,
+            probes_by_id,
+            mismatches_by_probe,
+        )
+        verified_facts = _all_verified_facts(conjecture)
+        conjecture_id = str(conjecture.get("conjecture_id") or "unnamed")
+        codex_text = _codex_written_content(
+            render_conjecture_with_codex,
+            (conjecture, verified_facts, linked_contacts, linked_probes, linked_mismatches),
+            verified_facts,
+            conjecture_id,
+            repo_root,
+            writer_config,
+        )
+        if codex_text:
+            part_lines.extend([codex_text.rstrip(), ""])
+        else:
+            part_lines.extend(_render_conjecture_section(conjecture, contacts_by_id, probes_by_id, mismatches_by_probe))
     if not conjectures:
         part_lines.extend(["No conjecture has passed the BioReality gates.", ""])
 
@@ -1917,7 +2332,15 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
     paths.paper_main.parent.mkdir(parents=True, exist_ok=True)
     paths.paper_part.parent.mkdir(parents=True, exist_ok=True)
     paths.paper_part.write_text("\n".join(part_lines), encoding="utf-8")
-    namecert_slugs = _write_namecert_proposals(paths)
+    namecert_slugs = _write_namecert_proposals(
+        paths,
+        conjectures,
+        contacts_by_id,
+        probes_by_id,
+        mismatches_by_probe,
+        repo_root,
+        writer_config,
+    )
     paths.paper_main.write_text(_render_paper_main(paths, namecert_slugs), encoding="utf-8")
     return {
         "lane": "bio-W",
@@ -2585,6 +3008,11 @@ def self_test() -> int:
     with tempfile.TemporaryDirectory(prefix="bio-reality-lanes-") as tmp:
         base = Path(tmp)
         paths = _temp_paths(base)
+        writeback_disabled_config_path = base / "writeback_disabled_pipeline_config.json"
+        writeback_disabled_config_path.write_text(
+            json.dumps({"lanes": [{"lane": "bio-W", "codex_writer": {"enabled": False}}]}, indent=2),
+            encoding="utf-8",
+        )
         disabled_config_path = base / "disabled_pipeline_config.json"
         disabled_config_path.write_text(json.dumps({"sync_lane": {"enabled": False}}, indent=2), encoding="utf-8")
         original_pipeline_config = PIPELINE_CONFIG
@@ -2667,7 +3095,12 @@ def self_test() -> int:
         packet_summary = run_packet_lane(store)
         gate_summary = run_gate_lane(store)
         agent_summary = run_agent_lane(store, execute_codex=False)
-        writeback_summary = run_writeback_lane(store)
+        original_pipeline_config = PIPELINE_CONFIG
+        globals()["PIPELINE_CONFIG"] = writeback_disabled_config_path
+        try:
+            writeback_summary = run_writeback_lane(store)
+        finally:
+            globals()["PIPELINE_CONFIG"] = original_pipeline_config
         quality_summary = run_quality_lane(store)
         signals = run_assimilation_lane(paths)
         targets = read_jsonl(paths.packet_targets)
@@ -3103,6 +3536,312 @@ def self_test() -> int:
             print(json.dumps(bedc_codex_gate, indent=2), file=sys.stderr)
             return 1
 
+        parse_fixture = {
+            "verdict": "ready",
+            "audit_score": 9,
+            "used_fact_ids": ["values.size", "values.lambda_M"],
+            "chapter_content": r"\subsection{NameCert: h0.test}\label{sec:namecert-h0-test}\origin{ai}" + "\n"
+            + (
+                r"\paragraph{Grounded record.} The packet cites 13 rows and lambda 0.675248 while keeping the result at code-read scope. "
+                "It refuses translation, folding, physical admissibility, function, mechanism, and universality without a separate contact. "
+            )
+            * 20,
+            "risk_notes": "",
+            "missing_data_notes": "",
+        }
+        event_stdout = json.dumps(
+            {
+                "type": "agent_message",
+                "item": {
+                    "content": [
+                        {
+                            "type": "output_text",
+                            "text": "```json\n" + json.dumps(parse_fixture) + "\n```",
+                        }
+                    ]
+                },
+            }
+        )
+        if _parse_bio_w_codex_json(event_stdout) != parse_fixture:
+            print(event_stdout, file=sys.stderr)
+            return 1
+
+        bio_w_codex_paths = _temp_paths(base / "bio_w_codex")
+        bio_w_codex_paths.namecert_proposals_dir.mkdir(parents=True, exist_ok=True)
+        bio_w_config_path = base / "bio_w_codex_pipeline_config.json"
+        bio_w_config_path.write_text(
+            json.dumps(
+                {
+                    "lanes": [
+                        {
+                            "lane": "bio-W",
+                            "codex_writer": {
+                                "enabled": True,
+                                "max_retries": 2,
+                                "timeout": 600,
+                                "log_dir": str(base / "bio_w_codex_logs"),
+                                "min_audit_score": 7,
+                                "min_used_fact_ids": 2,
+                                "corrective_retry": True,
+                            },
+                        }
+                    ]
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+        write_jsonl(
+            bio_w_codex_paths.conjectures,
+            [
+                {
+                    "conjecture_id": "test.codon.codex",
+                    "biological_object": "codon table",
+                    "informal_statement": "codex-authored codon median packet",
+                    "bedc_minimal_form": {
+                        "carrier": "codon carrier",
+                        "distinctions": ["codons in R", "codons in M"],
+                        "readback": "observable codon table",
+                        "internal_structure": ["closure"],
+                    },
+                    "claimed_layer": "code_read",
+                    "evidence_basis": ["external_reality", "bedc_coordinate", "derived_probe"],
+                    "reality_contact_refs": ["curated.standard.code.table"],
+                    "probe_refs": ["codon.codex.probe"],
+                    "forbidden_claims": ["translation realisation"],
+                    "null_reason": "",
+                    "verified_facts": {
+                        "h0.codex": {
+                            "values": {"size": 13, "lambda_M": 0.675248},
+                        }
+                    },
+                }
+            ],
+        )
+        write_jsonl(
+            bio_w_codex_paths.contacts,
+            [
+                {
+                    "contact_id": "curated.standard.code.table",
+                    "source_kind": "genetic_code_table",
+                    "source_ref": "fixture",
+                    "source_snapshot": "fixture",
+                    "observed_fact": "curated code table",
+                    "resolution": "code readback",
+                    "known_noise_or_bias": "fixture only",
+                    "can_test": ["code_read"],
+                    "cannot_test": ["translation"],
+                    "null_reason": "",
+                }
+            ],
+        )
+        write_jsonl(
+            bio_w_codex_paths.probes,
+            [
+                {
+                    "probe_id": "codon.codex.probe",
+                    "conjecture_ref": "test.codon.codex",
+                    "probe_kind": "boundary_mismatch",
+                    "derived_from": ["bedc_coordinate"],
+                    "test_statement": "codex probe",
+                    "support_condition": "passed run",
+                    "break_condition": "failed run",
+                    "required_contacts": ["curated.standard.code.table"],
+                    "forbidden_interpretations": ["codex probe does not prove translation"],
+                    "null_reason": "",
+                }
+            ],
+        )
+        write_jsonl(
+            bio_w_codex_paths.mismatches,
+            [
+                {
+                    "mismatch_id": "codon.codex.aligned",
+                    "probe_ref": "codon.codex.probe",
+                    "contact_ref": "curated.standard.code.table",
+                    "status": "aligned",
+                    "mismatch_kind": "none",
+                    "observed_delta": "none",
+                    "refinement_pressure": "none",
+                    "blocked_claims": ["translation"],
+                    "null_reason": "",
+                }
+            ],
+        )
+        (bio_w_codex_paths.namecert_proposals_dir / "h0.codex.md").write_text(
+            "# NameCert proposal for h0.codex\n",
+            encoding="utf-8",
+        )
+        original_render_namecert_with_codex = render_namecert_with_codex
+        original_render_conjecture_with_codex = render_conjecture_with_codex
+
+        def _bio_w_mock_result(chapter_id: str) -> dict[str, Any]:
+            return {
+                "verdict": "ready",
+                "audit_score": 9,
+                "used_fact_ids": ["values.size", "values.lambda_M"],
+                "chapter_content": rf"\subsection{{{chapter_id}}}" + "\n"
+                + rf"\label{{sec:{re.sub(r'[^a-z0-9]+', '-', chapter_id.lower()).strip('-')}}}" + "\n"
+                + r"\origin{ai}"
+                + "\n\n"
+                + (
+                    r"\paragraph{Grounded finite rows.} This codex-authored BioReality record cites 13 rows and lambda 0.675248 from the verified facts. "
+                    "The chapter keeps those numbers at the code-read layer and refuses translation, folding, physical admissibility, function, mechanism, and universality without a separate contact. "
+                    "The local carrier is read as a finite paper witness rather than a biological mechanism. "
+                )
+                * 12,
+                "risk_notes": "",
+                "missing_data_notes": "",
+            }
+
+        def _mock_render_namecert_with_codex(
+            claim_id: str,
+            slug: str,
+            verified_facts: dict[str, Any],
+            conjecture: dict[str, Any],
+            contacts: list[dict[str, Any]],
+            probes: list[dict[str, Any]],
+            mismatches: list[dict[str, Any]],
+            repo_root: Path,
+            *,
+            timeout_seconds: int = 600,
+            corrective_feedback: list[str] | None = None,
+            log_dir: str | Path = "tools/bio_reality/state/writeback_codex_logs",
+        ) -> dict[str, Any] | None:
+            _ = (slug, verified_facts, conjecture, contacts, probes, mismatches, repo_root, timeout_seconds, corrective_feedback, log_dir)
+            return _bio_w_mock_result(f"NameCert: {claim_id}")
+
+        def _mock_render_conjecture_with_codex(
+            conjecture: dict[str, Any],
+            verified_facts: dict[str, Any],
+            contacts: list[dict[str, Any]],
+            probes: list[dict[str, Any]],
+            mismatches: list[dict[str, Any]],
+            repo_root: Path,
+            *,
+            timeout_seconds: int = 600,
+            corrective_feedback: list[str] | None = None,
+            log_dir: str | Path = "tools/bio_reality/state/writeback_codex_logs",
+        ) -> dict[str, Any] | None:
+            _ = (verified_facts, contacts, probes, mismatches, repo_root, timeout_seconds, corrective_feedback, log_dir)
+            return _bio_w_mock_result(str(conjecture.get("conjecture_id") or "unnamed"))
+
+        original_pipeline_config = PIPELINE_CONFIG
+        globals()["PIPELINE_CONFIG"] = bio_w_config_path
+        globals()["render_namecert_with_codex"] = _mock_render_namecert_with_codex
+        globals()["render_conjecture_with_codex"] = _mock_render_conjecture_with_codex
+        try:
+            bio_w_codex_summary = run_writeback_lane(BioRealityStore(bio_w_codex_paths))
+        finally:
+            globals()["render_namecert_with_codex"] = original_render_namecert_with_codex
+            globals()["render_conjecture_with_codex"] = original_render_conjecture_with_codex
+            globals()["PIPELINE_CONFIG"] = original_pipeline_config
+        bio_w_part = bio_w_codex_paths.paper_part.read_text(encoding="utf-8")
+        bio_w_namecert = bio_w_codex_paths.paper_part.parent / "namecerts" / "h0_codex.tex"
+        if bio_w_codex_summary["namecerts_written"] != 1 or not bio_w_namecert.exists():
+            print(json.dumps(bio_w_codex_summary, indent=2), file=sys.stderr)
+            return 1
+        if "codex-authored BioReality record cites 13 rows and lambda 0.675248" not in bio_w_part:
+            print(bio_w_part, file=sys.stderr)
+            return 1
+        if "NameCert: h0.codex" not in bio_w_namecert.read_text(encoding="utf-8"):
+            print(bio_w_namecert.read_text(encoding="utf-8"), file=sys.stderr)
+            return 1
+
+        bio_w_fallback_paths = _temp_paths(base / "bio_w_fallback")
+        bio_w_fallback_paths.namecert_proposals_dir.mkdir(parents=True, exist_ok=True)
+        write_jsonl(
+            bio_w_fallback_paths.conjectures,
+            [
+                {
+                    "conjecture_id": "fallback.codon",
+                    "biological_object": "codon table",
+                    "informal_statement": "fallback packet",
+                    "bedc_minimal_form": {"carrier": "codon carrier"},
+                    "claimed_layer": "code_read",
+                    "evidence_basis": ["external_reality"],
+                    "reality_contact_refs": ["curated.standard.code.table"],
+                    "probe_refs": ["codon.fallback.probe"],
+                    "forbidden_claims": ["translation realisation"],
+                    "null_reason": "",
+                    "verified_facts": {"h0.fallback": {"values": {"size": 13, "lambda_M": 0.675248}}},
+                }
+            ],
+        )
+        write_jsonl(
+            bio_w_fallback_paths.contacts,
+            [
+                {
+                    "contact_id": "curated.standard.code.table",
+                    "source_kind": "genetic_code_table",
+                    "source_ref": "fixture",
+                    "source_snapshot": "fixture",
+                    "observed_fact": "curated code table",
+                    "resolution": "code readback",
+                    "known_noise_or_bias": "fixture only",
+                    "can_test": ["code_read"],
+                    "cannot_test": ["translation"],
+                    "null_reason": "",
+                }
+            ],
+        )
+        write_jsonl(
+            bio_w_fallback_paths.probes,
+            [
+                {
+                    "probe_id": "codon.fallback.probe",
+                    "conjecture_ref": "fallback.codon",
+                    "probe_kind": "boundary_mismatch",
+                    "derived_from": ["bedc_coordinate"],
+                    "test_statement": "fallback probe",
+                    "support_condition": "passed run",
+                    "break_condition": "failed run",
+                    "required_contacts": ["curated.standard.code.table"],
+                    "forbidden_interpretations": ["fallback probe does not prove translation"],
+                    "null_reason": "",
+                }
+            ],
+        )
+        write_jsonl(
+            bio_w_fallback_paths.mismatches,
+            [
+                {
+                    "mismatch_id": "codon.fallback.aligned",
+                    "probe_ref": "codon.fallback.probe",
+                    "contact_ref": "curated.standard.code.table",
+                    "status": "aligned",
+                    "mismatch_kind": "none",
+                    "observed_delta": "none",
+                    "refinement_pressure": "none",
+                    "blocked_claims": ["translation"],
+                    "null_reason": "",
+                }
+            ],
+        )
+        (bio_w_fallback_paths.namecert_proposals_dir / "h0.fallback.md").write_text(
+            "\n".join(["# NameCert proposal", "## 1. Loning-format chapter slug", "Fallback slug.", "## 2. Carrier", "Fallback carrier."]),
+            encoding="utf-8",
+        )
+        original_render_namecert_with_codex = render_namecert_with_codex
+        original_render_conjecture_with_codex = render_conjecture_with_codex
+        original_pipeline_config = PIPELINE_CONFIG
+        globals()["PIPELINE_CONFIG"] = bio_w_config_path
+        globals()["render_namecert_with_codex"] = lambda *args, **kwargs: None
+        globals()["render_conjecture_with_codex"] = lambda *args, **kwargs: None
+        try:
+            fallback_summary = run_writeback_lane(BioRealityStore(bio_w_fallback_paths))
+        finally:
+            globals()["render_namecert_with_codex"] = original_render_namecert_with_codex
+            globals()["render_conjecture_with_codex"] = original_render_conjecture_with_codex
+            globals()["PIPELINE_CONFIG"] = original_pipeline_config
+        fallback_namecert = bio_w_fallback_paths.paper_part.parent / "namecerts" / "h0_fallback.tex"
+        if fallback_summary["namecerts_written"] != 1 or not fallback_namecert.exists():
+            print(json.dumps(fallback_summary, indent=2), file=sys.stderr)
+            return 1
+        if "NameCert chapter slug" not in fallback_namecert.read_text(encoding="utf-8"):
+            print(fallback_namecert.read_text(encoding="utf-8"), file=sys.stderr)
+            return 1
+
         promote_paths = _temp_paths(base / "promote")
         promote_store = BioRealityStore(promote_paths)
         promote_store.write_conjectures(
@@ -3365,7 +4104,12 @@ def self_test() -> int:
             ],
         )
         writeback_empty_fact_store = BioRealityStore(writeback_empty_fact_paths)
-        writeback_empty_fact_summary = run_writeback_lane(writeback_empty_fact_store)
+        original_pipeline_config = PIPELINE_CONFIG
+        globals()["PIPELINE_CONFIG"] = writeback_disabled_config_path
+        try:
+            writeback_empty_fact_summary = run_writeback_lane(writeback_empty_fact_store)
+        finally:
+            globals()["PIPELINE_CONFIG"] = original_pipeline_config
         writeback_empty_fact_part = writeback_empty_fact_paths.paper_part.read_text(encoding="utf-8")
         if writeback_empty_fact_summary["written_conjectures"] != 1:
             print(json.dumps(writeback_empty_fact_summary, indent=2), file=sys.stderr)
@@ -3467,7 +4211,12 @@ def self_test() -> int:
             encoding="utf-8",
         )
         writeback_fact_store = BioRealityStore(writeback_fact_paths)
-        writeback_fact_summary = run_writeback_lane(writeback_fact_store)
+        original_pipeline_config = PIPELINE_CONFIG
+        globals()["PIPELINE_CONFIG"] = writeback_disabled_config_path
+        try:
+            writeback_fact_summary = run_writeback_lane(writeback_fact_store)
+        finally:
+            globals()["PIPELINE_CONFIG"] = original_pipeline_config
         writeback_fact_part = writeback_fact_paths.paper_part.read_text(encoding="utf-8")
         writeback_fact_main = writeback_fact_paths.paper_main.read_text(encoding="utf-8")
         writeback_fact_namecert = writeback_fact_paths.paper_part.parent / "namecerts" / "h0_test.tex"
