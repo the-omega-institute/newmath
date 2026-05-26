@@ -58,11 +58,6 @@ jobs:
       tex: ${{ steps.detect.outputs.tex }}
       lean4: ${{ steps.detect.outputs.lean4 }}
     steps:
-      - name: Check out repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          fetch-depth: 0
-
       - name: Detect changed files
         id: detect
         run: |
