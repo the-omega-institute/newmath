@@ -1469,6 +1469,7 @@ import BEDC.Derived.CauchySpeedupUp
 import BEDC.Derived.CauchySpeedupUp.TasteGate
 import BEDC.Derived.CauchySubsequenceExtractionUp.TasteGate
 import BEDC.Derived.CauchyTailBasisUp.TasteGate
+import BEDC.Derived.CauchyTailBoundUp.TasteGate
 import BEDC.Derived.CauchyTailComparisonUp
 import BEDC.Derived.CauchyTailComparisonUp.TasteGate
 import BEDC.Derived.CauchyTailConsensusUp.TasteGate
@@ -3827,6 +3828,7 @@ import BEDC.Derived.KroneckerApproximationUp.TasteGate
 import BEDC.Derived.KroneckerLemmaUp.TasteGate
 import BEDC.Derived.KummerTestUp.TasteGate
 import BEDC.Derived.KuratowskiCompletionNaturalityUp
+import BEDC.Derived.KuratowskiCompletionUp.TasteGate
 import BEDC.Derived.KuratowskiEmbeddingUp.TasteGate
 import BEDC.Derived.LFunctionUp
 import BEDC.Derived.LLPOBoundaryUp.TasteGate
