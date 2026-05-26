@@ -1,0 +1,15 @@
+\begin{theorem}[Closed-term substitution boundary MetaCIC consumer nonescape]
+\label{thm:closed-term-substitution-boundary-metacic-consumer-nonescape}
+Every MetaCIC confluence or subject-reduction consumer of an accepted $\ClosedTermSubstitutionBoundaryUp$ packet must read the source closedness row, value closedness row, shift boundary row, substitution boundary row, finite ledger, audit row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before citing the boundary. The consumer-facing route is confined to
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
+$$
+It supplies no full subject-reduction theorem, compiler correctness theorem, host substitution semantics, selected term representative, or unregistered free-variable data.
+\end{theorem}
+\begin{proof}
+Start from source and value closedness admission. By \autoref{thm:closed-term-substitution-boundary-source-closedness-admission} and \autoref{thm:closed-term-substitution-boundary-value-closedness-admission}, the rows $C_{\mathsf{src}}$ and $C_{\mathsf{val}}$ are displayed before either operation row can serve a downstream consumer.
+
+Next apply substitution-row exactness. The theorem \autoref{thm:closed-term-substitution-boundary-substitution-row-exactness} forces the substitution boundary row $R$ to remain attached to the same source row, value row, depth row, and closedness witnesses, while the shift row $Q$ stays inside the same operation surface.
+
+Finally use ledger non-escape, together with the route-saturation package. The rows $L,A,H,C,P,N$ record the closedness and operation reads, transport them componentwise, replay them through displayed continuation, and name the local boundary. By \autoref{thm:closed-term-substitution-boundary-ledger-non-escape} and \autoref{thm:closed-term-substitution-boundary-route-saturation}, a MetaCIC confluence or subject-reduction consumer receives only that finite packet and no host substitution semantics, compiler correctness theorem, full subject-reduction theorem, selected representative, or unregistered free-variable data.
+\end{proof}
