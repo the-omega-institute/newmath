@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\BoundedResidualSubstitutionFrontierUp$}
+\label{ch:concrete-instances-bounded-residual-substitution-frontier-namecert}
+\origin{ai}
+
+The $\BoundedResidualSubstitutionFrontierUp$ packet realizes the bounded redex-frontier route needed by the MetaCIC confluence open problem of \autoref{sec:metacic-open-problems-confluence}. It sits beside the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, the closed parallel-diamond premise ledger of \autoref{ch:concrete-instances-closed-parallel-diamond-premise-ledger-namecert}, the local diamond witness of \autoref{ch:concrete-instances-metacic-local-diamond-witness-namecert}, and the critical-pair boundary of \autoref{ch:concrete-instances-metacic-confluence-critical-pair-boundary-namecert}. The packet records a finite bounded route for residual substitution without converting that route into full closed confluence.
+
+\falsifiablePrediction{Any claimed full parallel diamond for MetaCIC closed terms that bypasses the displayed $\BoundedResidualSubstitutionFrontierUp$ route through finite redex-frontier rows, residual-route rows, bounded checker rows, local joins, obstruction retention, transport, replay, provenance, and local NameCert data fails the packet boundary.}
+
+\independenceWitness{metacic-residual-substitution-boundary, closed-parallel-diamond-premise-ledger, metacic-local-diamond-witness, metacic-confluence-critical-pair-boundary: none is bijective to $\BoundedResidualSubstitutionFrontierUp$ because this packet jointly carries bounded redex-frontier data, residual-route accounting, bounded checking, local joins, obstruction retention, transport, replay, provenance, and local naming as one finite frontier.}
+
+\begin{definition}[Bounded residual substitution frontier carrier]
+\label{def:bounded-residual-substitution-frontier-carrier}
+A $\BoundedResidualSubstitutionFrontierUp$ carrier is a finite $\BHist$ packet
+$$
+F=(R,S,B,J,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the finite redex-frontier row, listing the inspected beta-redex positions and their bounded residual descendants.
+\item $S$ is the residual-route row, recording the displayed substitution route and binder-depth ledger for the bounded window.
+\item $B$ is the bounded checker row, reading only finite closedness, variable-escape, and branch-compatibility checks.
+\item $J$ is the local join row, storing the common-reduct candidate produced inside the bounded frontier.
+\item $O$ is the obstruction row, retaining the absent endpoints: full $\mathsf{BetaParallelSubstitutionCompatibility}$, premise-free closed parallel diamond, arbitrary closed Church--Rosser, and unchecked subject-reduction discharge.
+\item $H$ records componentwise $\hsame$ transport for the redex frontier, residual route, bounded checker, local join, obstruction, replay, provenance, and local name rows.
+\item $C$ records displayed $\Cont$ replay from a confluence-frontier request through $R,S,B,J,O,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BoundedResidualSubstitutionFrontierUp$, $\MetaCICResidualSubstitutionBoundaryUp$, $\ClosedParallelDiamondPremiseLedgerUp$, $\MetaCICLocalDiamondWitnessUp$, $\MetaCICConfluenceCriticalPairBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedResidualSubstitutionFrontierUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows. It has no coordinate for full closed confluence, unrestricted residual-substitution compatibility, a hidden substitution theorem, evaluator equality, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[Bounded residual substitution frontier obligations]
+\label{thm:bounded-residual-substitution-frontier-obligations}
+For every accepted $\BoundedResidualSubstitutionFrontierUp$ carrier $F=(R,S,B,J,O,H,C,P,N)$, the local $\NameCert_{\BoundedResidualSubstitutionFrontierUp}$ surface consists exactly of finite redex-frontier exposure through $R$, residual-route exposure through $S$, bounded checking through $B$, local join exposure through $J$, obstruction retention through $O$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+
+The confluence-facing read is finite:
+$$
+R,S,B \longmapsto J,O \longmapsto H,C,P,N .
+$$
+It does not escape to full closed confluence; any consumer still sees the residual-substitution and closed parallel-diamond premise boundaries as displayed inputs.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-residual-substitution-frontier-carrier}. The rows $R,S,B,J,O,H,C,P,N$ are the whole packet, so every local obligation is read from one displayed coordinate.
+
+The bounded route begins with $R,S,B$. The redex-frontier row lists the inspected positions, the residual-route row records the substitution accounting, and the bounded checker row verifies only the finite window available to the packet.
+
+The local join row $J$ is therefore downstream of bounded evidence. The obstruction row $O$ records that full substitution compatibility, a premise-free closed parallel diamond, arbitrary closed Church--Rosser, and unchecked subject-reduction discharge are not exported.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier contains no coordinate for a global confluence theorem or hidden substitution theorem, the displayed obligations cannot escape their bounded frontier.
+\end{proof}
+
+\closureat{BoundedResidualSubstitutionFrontierUp}{seedStr}
+
+\begin{closurestatus}{\BoundedResidualSubstitutionFrontierUp}
+  \constructivestory{A $\BoundedResidualSubstitutionFrontierUp$ packet is generated from finite redex-frontier rows, residual-route accounting, bounded checker rows, local joins, obstruction retention, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-residual-substitution-frontier-carrier} and \autoref{thm:bounded-residual-substitution-frontier-obligations} seed the finite bounded residual-substitution frontier for MetaCIC confluence consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full BetaParallelSubstitutionCompatibility, premise-free closed parallel diamond, arbitrary closed Church--Rosser, subject-reduction discharge, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, redex-frontier coverage, residual-route exactness, bounded-checker soundness, local-join exposure, obstruction retention, transport stability, replay stability, provenance exhaustion, and Nontrivial and FieldFaithful TasteGate instances for BEDC.Derived.BoundedResidualSubstitutionFrontierUp.}
+\end{closurestatus}
