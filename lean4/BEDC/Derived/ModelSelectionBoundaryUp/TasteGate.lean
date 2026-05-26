@@ -248,3 +248,10 @@ theorem ModelSelectionBoundary_defeat_surface {M S F D L T P N : BHist} :
   · exact hsame_refl N
 
 end BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
+
+namespace BEDC.Derived.ModelSelectionBoundaryUp
+
+def taste_gate :=
+  TasteGate.taste_gate
+
+end BEDC.Derived.ModelSelectionBoundaryUp
