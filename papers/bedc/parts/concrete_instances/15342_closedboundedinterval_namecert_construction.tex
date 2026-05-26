@@ -45,12 +45,25 @@ are classified together exactly when the displayed $\hsame$ rows transport $L$ t
 \label{thm:closed-bounded-interval-namecert-obligations}
 For the carrier of \autoref{def:closed-bounded-interval-carrier}, the local $\NameCert_{\ClosedBoundedIntervalUp}$ surface consists exactly of carrier admission for $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$; endpoint admission for $L$ and $U$ through $\LocatedIntervalUp$; endpoint-order admission through $O$; rational and dyadic containment admission through $Q$ and $D$; StreamName and RegSeqRat readback through $S$ and $R$; RealUp sealing through $E$; classifier preservation under the componentwise $\hsame$ rows of $H$; displayed $\Cont$ replay through $C$; provenance through $P$; and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedboundedintervalUp.ClosedBoundedIntervalPacket\_semantic\_name\_certificate}
 \begin{proof}
 Project the carrier. Its endpoint rows $L$ and $U$, order row $O$, containment ledgers $Q$ and $D$, window row $S$, readback row $R$, seal row $E$, transport row $H$, replay row $C$, provenance row $P$, and local name $N$ are visible coordinates of one finite packet.
 
 Endpoint and containment admission are read before the Real seal. The rational and dyadic ledgers are attached to the same lower and upper located endpoints and to the same endpoint-order row, so a containment consumer cannot replace the packet by a host interval or by an unrecorded order decision.
 
 The structural rows close the naming surface. The componentwise $\hsame$ transports and displayed $\Cont$ routes preserve exactly the rows listed in the carrier, and the $\Pkg$ and $\NameCert$ rows name that finite route without adding any hidden selector, quotient equality, trichotomy, or completeness datum.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval root obligation spine]
+\label{thm:closed-bounded-interval-root-obligation-spine}
+Every downstream $\ClosedBoundedIntervalUp$ consumer must read three root obligations through the existing carrier rows: endpoint-order exposure through $L,U,O$, containment-ledger exposure through $Q,D$, and $\StreamNameUp/\RegSeqRatUp/\RealUp$ seal handoff through $S,R,E$. These obligations are transported only by $H$, replayed only by $C$, recorded only by $P$, and named only by $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier. The carrier of \autoref{def:closed-bounded-interval-carrier} supplies the endpoint, containment, schedule, readback, seal, transport, replay, provenance, and local naming rows, while \autoref{def:closed-bounded-interval-classifier} preserves those rows componentwise.
+
+Apply the NameCert obligations of \autoref{thm:closed-bounded-interval-namecert-obligations}. They expose endpoint order through $O$, containment through $Q,D$, and the StreamName, RegSeqRat, and Real seal handoff through $S,R,E$.
+
+The source nonescape and finite-net source theorems then keep interval-net, compactness-facing, and uniform-modulus consumers on the same root spine. Thus the downstream route cannot replace the endpoint order, containment ledger, or seal handoff by a host interval, selected subcover, quotient equality, or ambient completeness row.
 \end{proof}
 
 \begin{theorem}[Closed bounded interval carrier gate]
