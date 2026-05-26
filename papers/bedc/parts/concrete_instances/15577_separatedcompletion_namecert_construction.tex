@@ -225,6 +225,48 @@ Apply the limit-uniqueness export of \autoref{thm:separatedcompletion-limit-uniq
 The provenance and local naming rows $P,N$ attach the boundary to $\Pkg$ and $\NameCert$ data. Because the carrier contains no quotient-completion, selected-representative, host-equality, choice, or ambient-completeness coordinate, a $\CauchyCompletionReflectorUp$ or $\CompletionUniversalPropertyUp$ consumer receives only the displayed finite route.
 \end{proof}
 
+\begin{theorem}[SeparatedCompletion dense replay scope]
+\label{thm:separatedcompletion-dense-replay-scope}
+For every accepted $\SeparatedCompletionUp$ carrier $S=(M,D,C,Z,U,H,R,T,P,N)$, every completion-facing read exposes the source metric row $M$, dense embedding row $D$, and completion handoff row $C$ before the separated classifier $Z$, uniqueness boundary $U$, transport row $H$, replay row $R$, route ledger $T$, provenance row $P$, or local naming row $N$ is consumed. Thus dense replay is a finite $M,D,C$ prefix over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data, not a selected representative or quotient-completion read.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:separated-completion-carrier}. The rows $M,D,C$ are the only source metric, dense embedding, and completion handoff coordinates.
+
+Apply dense factorization, \autoref{thm:separated-completion-dense-factorization}. It places every completion-facing consumer read on the route $M,D\mapsto C$ before the separated classifier and uniqueness boundary are available.
+
+Then use the choice-free source route, \autoref{thm:separatedcompletion-choice-free-source-route}. The structural rows $H,R,T,P,N$ preserve the same ordered route and do not introduce a choice coordinate, quotient completion, selected representative, or host equality of completed points.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion separated classifier scope]
+\label{thm:separatedcompletion-separated-classifier-scope}
+For every accepted $\SeparatedCompletionUp$ carrier $S=(M,D,C,Z,U,H,R,T,P,N)$, zero-distance classification through $Z$ is the only separated equality route after the dense completion handoff $M,D,C$ has been displayed. Any completion-facing equality read that bypasses $Z$ leaves the $\NameCert_{\SeparatedCompletionUp}$ surface and cannot be recovered from $U,H,R,T,P,N$ alone.
+\end{theorem}
+\begin{proof}
+Read the dense prefix first. By \autoref{thm:separatedcompletion-dense-replay-scope}, a completion-facing equality read has already exposed $M,D,C$ before it reaches any separated comparison row.
+
+Now apply zero-distance factorization, \autoref{thm:separatedcompletion-zero-distance-factorization}. The classifier row $Z$ reads equality as displayed zero-distance evidence over the $\MetricCompletionUp$, $\SeparatedMetricUp$, $\RegSeqRatUp$, and $\RealUp$ route, rather than as host equality or quotient completion equality.
+
+Finally apply source-comparison exhaustion, \autoref{thm:separatedcompletion-source-comparison-exhaustion}. The uniqueness, transport, replay, provenance, and naming rows preserve a comparison once $Z$ is present, but none of them supplies an alternate separated equality route.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion obligation closure package]
+\label{thm:separatedcompletion-obligation-closure-package}
+The accepted $\SeparatedCompletionUp$ carrier
+$$
+S=(M,D,C,Z,U,H,R,T,P,N)
+$$
+supports an obligationClosure package whose finite boundary is exactly dense factorization, zero-distance factorization, source-comparison exhaustion, the choice-free source route, the filtered limit boundary, and the completion-reflector handoff. The package closes the paper-side obligation surface over the displayed rows and refuses quotient completions, selected representatives, host equality of completed points, countable choice, ambient $\RealUp$ completeness, and hidden complete metric spaces.
+\end{theorem}
+\begin{proof}
+Build the source prefix from dense factorization, \autoref{thm:separated-completion-dense-factorization}, and dense replay scope, \autoref{thm:separatedcompletion-dense-replay-scope}. These results force every completion-facing read through $M,D,C$.
+
+Build the classifier boundary from zero-distance factorization, \autoref{thm:separatedcompletion-zero-distance-factorization}, and separated classifier scope, \autoref{thm:separatedcompletion-separated-classifier-scope}. They make $Z$ the only separated equality route after the dense completion handoff.
+
+Add the comparison and source routes from \autoref{thm:separatedcompletion-source-comparison-exhaustion} and \autoref{thm:separatedcompletion-choice-free-source-route}. These theorems keep all comparison data in displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally attach the filtered limit boundary, \autoref{thm:separatedcompletion-filtered-limit-boundary}, and the completion-reflector handoff, \autoref{thm:separatedcompletion-completion-reflector-handoff}. The resulting package contains no coordinate for quotient completions, selected representatives, host equality, countable choice, ambient Real completeness, or hidden complete metric spaces, so the obligation surface is closed at the paper level.
+\end{proof}
+
 \begin{closurestatus}{\SeparatedCompletionUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:separated-completion-carrier}, \autoref{thm:separated-completion-namecert-obligations}, \autoref{thm:separated-completion-dense-factorization}, \autoref{thm:separated-completion-uniqueness-boundary}, \autoref{thm:separatedcompletion-cauchy-equivalence-source}, \autoref{thm:separatedcompletion-zero-distance-factorization}, \autoref{thm:separatedcompletion-limit-uniqueness-export}, \autoref{thm:separatedcompletion-dense-uniqueness-interface}, \autoref{thm:separatedcompletion-source-comparison-exhaustion}, and \autoref{thm:separated-completion-nonescape} seed the general separated-completion interface over finite source metric, dense embedding, completion handoff, separated classifier, uniqueness boundary, transport, replay, provenance, and local naming rows.}
