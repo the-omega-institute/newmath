@@ -78,4 +78,32 @@ theorem GoursatCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact ⟨source.right, provenancePkg⟩
   }
 
+theorem GoursatCarrier_triangle_integral_boundary [AskSetup] [PackageSetup]
+    {triangle holomorphic edge subdivision mesh cancel replay provenance localName exported
+      integralRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GoursatCarrier triangle holomorphic edge subdivision mesh cancel replay provenance localName
+        exported bundle pkg ->
+      Cont subdivision mesh integralRead ->
+        PkgSig bundle integralRead pkg ->
+          UnaryHistory triangle ∧ UnaryHistory holomorphic ∧ UnaryHistory edge ∧
+            UnaryHistory subdivision ∧ UnaryHistory mesh ∧ UnaryHistory cancel ∧
+              UnaryHistory integralRead ∧ Cont triangle holomorphic edge ∧
+                Cont edge subdivision mesh ∧ Cont subdivision mesh integralRead ∧
+                  Cont mesh cancel replay ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle integralRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier integralRoute integralPkg
+  obtain
+    ⟨triangleUnary, holomorphicUnary, edgeUnary, subdivisionUnary, meshUnary, cancelUnary,
+      _replayUnary, _provenanceUnary, _localNameUnary, _exportedUnary, triangleEdgeRoute,
+      subdivisionMeshRoute, replayRoute, _localRoute, _exportedRoute, provenancePkg,
+      _localNamePkg⟩ := carrier
+  have integralUnary : UnaryHistory integralRead :=
+    unary_cont_closed subdivisionUnary meshUnary integralRoute
+  exact
+    ⟨triangleUnary, holomorphicUnary, edgeUnary, subdivisionUnary, meshUnary, cancelUnary,
+      integralUnary, triangleEdgeRoute, subdivisionMeshRoute, integralRoute, replayRoute,
+      provenancePkg, integralPkg⟩
+
 end BEDC.Derived.GoursatUp
