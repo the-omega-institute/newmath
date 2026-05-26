@@ -635,6 +635,39 @@ Apply \autoref{thm:closed-bounded-interval-root-net-readiness} for finite-net re
 Finally use \autoref{thm:closed-bounded-interval-root-unblock-obligations}. The structural rows $H,C,P,N$ carry the source across transport, replay, provenance, and local naming, so each downstream route factors through the same source packet and cannot replace it by host compactness data.
 \end{proof}
 
+\begin{definition}[Closed bounded interval scoped source map]
+\label{def:closed-bounded-interval-scoped-source-map}
+The scoped source map for an accepted $\ClosedBoundedIntervalUp$ carrier is the finite packet
+$$
+\Sigma_I=(L,U,O,Q,D,S,R,E,H,C,P,N).
+$$
+Here $L$ and $U$ are the lower and upper endpoint rows, $O$ is the endpoint-order row, $Q$ and $D$ are the rational and dyadic containment ledgers, $S$ is the finite $\StreamNameUp$ window, $R$ is the $\RegSeqRatUp$ readback, $E$ is the terminal $\RealUp$ seal, $H$ is componentwise $\hsame$ transport, $C$ is displayed $\Cont$ replay, $P$ is $\Pkg$ provenance, and $N$ is the local $\NameCert_{\ClosedBoundedIntervalUp}$ row. The map has no coordinate for open-cover compactness, trichotomy, selected interval points, quotient equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Closed bounded interval scoped kernel surface]
+\label{thm:closed-bounded-interval-scoped-kernel-surface}
+Every scoped consumer of an accepted $\ClosedBoundedIntervalUp$ carrier reads only the kernel rows displayed by \autoref{def:closed-bounded-interval-scoped-source-map}: endpoint rows, endpoint order, rational and dyadic containment ledgers, StreamName window, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier onto $\Sigma_I$. The carrier definition supplies exactly the endpoint rows $L,U$, the order row $O$, containment ledgers $Q,D$, window and readback rows $S,R$, seal row $E$, and structural rows $H,C,P,N$.
+
+Any scoped consumer enters through the same projection. If it reads an endpoint, containment fact, dyadic cell, regular rational readback, or terminal Real seal, that read is one of the displayed coordinates of $\Sigma_I$.
+
+Transport and replay do not add a new interval coordinate. They preserve the displayed source rows through $H$ and $C$, while $P$ and $N$ record provenance and local naming. Hence every scoped consumer stays on the listed kernel surface.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval net consumer readiness]
+\label{thm:closed-bounded-interval-net-consumer-readiness}
+Closed-bounded-interval net, uniform-modulus, and nested-compactness consumers become ready only through the displayed source map $\Sigma_I$ of \autoref{def:closed-bounded-interval-scoped-source-map}. They may add mesh, modulus, nesting, or compact-uniform rows after reading $\Sigma_I$, but they cannot become ready through open-cover compactness, trichotomy, selected points, quotient equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the scoped kernel surface. \autoref{thm:closed-bounded-interval-scoped-kernel-surface} forces every accepted source read through $L,U,O,Q,D,S,R,E,H,C,P,N$.
+
+For net consumers, the mesh rows are downstream of the endpoint and containment rows. For uniform-modulus consumers, the modulus rows are downstream of the same dyadic containment and StreamName window. For nested-compactness consumers, each nested window is downstream of the endpoint-order row and the displayed readback route.
+
+The excluded principles are not coordinates of $\Sigma_I$. Therefore readiness is exactly the displayed source-map route followed by consumer-specific rows, not a route through open-cover compactness, trichotomy, selected points, quotient equality, or ambient completeness.
+\end{proof}
+
 \closureat{ClosedBoundedIntervalUp}{seedStr}
 
 \begin{closurestatus}{\ClosedBoundedIntervalUp}
