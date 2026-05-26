@@ -192,6 +192,38 @@ Add real-transport nonescape, \autoref{thm:cauchy-completion-reflector-real-tran
 Finally attach the naturality square, \autoref{thm:cauchy-completion-reflector-naturality-square}. Both legs end in the same displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, so the package closes the paper-side reflector obligation surface while refusing quotient completions, selected limits, host equality, countable choice, ambient completeness, and detached Real completeness.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionReflector reflection scope]
+\label{thm:cauchy-completion-reflector-reflection-scope}
+Let $K=(S,M,U,Q,I,E,R,T,H,C,P,N)$ be an accepted $\CauchyCompletionReflectorUp$ carrier. Every reflection consumer must read the reflection row $R$ only after the displayed route
+$$
+S\longmapsto U\longmapsto M\longmapsto Q\longmapsto I\longmapsto E\longmapsto T
+$$
+has been exposed. Thus $R$ is a scoped reflector row over the already displayed source, unit, completion object, counit, idempotent replay, extension, and local real-name transport rows, not an independent host-level reflection or quotient-completion classifier.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:cauchy-completion-reflector-carrier}. The only reflection coordinate in the packet is the displayed row $R$, and it sits beside the rows $S,M,U,Q,I,E,T,H,C,P,N$.
+
+Use the unit-counit obligation of \autoref{thm:cauchy-completion-reflector-unit-counit-obligation}. It forces public completion-facing reads through $S,U,M$ and already completed or real-sealed reads through $Q,T$ before any downstream reflector row is consumed.
+
+Use the idempotent-extension obligation of \autoref{thm:cauchy-completion-reflector-idempotent-extension-obligation}. The row $I$ replays repeated completion over the same route, and the row $E$ is the extension surface read before reflection consumption.
+
+Finally apply real-transport nonescape and the naturality square, \autoref{thm:cauchy-completion-reflector-real-transport-nonescape} and \autoref{thm:cauchy-completion-reflector-naturality-square}. They keep $T,H,C,P,N$ on the same displayed route, so $R$ cannot be read as an independent quotient, selected-limit, host-equality, choice, ambient-completeness, or detached-real-completeness assertion.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionReflector obligation triple]
+\label{thm:cauchy-completion-reflector-obligation-triple}
+For every accepted $\CauchyCompletionReflectorUp$ carrier $K=(S,M,U,Q,I,E,R,T,H,C,P,N)$, the unit row $U$, counit row $Q$, and idempotent replay row $I$ are the three obligatory reflector faces before any universal-property or reflection consumer may read $E$ or $R$. The triple is carried over the same $S,M,T,H,C,P,N$ structural surface and exports no second completion carrier, quotient completion equality, selected limit, host equality, countable choice, ambient completeness, or detached $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission comes from \autoref{def:cauchy-completion-reflector-carrier}. The unit, counit, and idempotent rows are visible as $U,Q,I$ in the same finite packet.
+
+The unit-counit obligation theorem places $U$ and $Q$ before public completion and return consumption. The unit face admits $S$ to $M$, and the counit face returns already completed or real-sealed reads through the local transport row $T$.
+
+The idempotent-extension obligation theorem places $I$ over that same route. A repeated completion pass therefore reuses the displayed completion-object row rather than introducing a second carrier.
+
+The real-transport nonescape theorem and naturality square keep $T,H,C,P,N$ attached to the same triple. Consequently the extension row $E$ and reflection row $R$ are read only after $U,Q,I$ have been exposed, and the excluded quotient, selection, host-equality, choice, ambient-completeness, and detached-real-completeness data remain outside the packet.
+\end{proof}
+
 \begin{closurestatus}{\CauchyCompletionReflectorUp}
   \constructivestory{A $\CauchyCompletionReflectorUp$ packet is generated from a displayed source row, a completion-object row, unit admission, counit return, idempotent replay, universal-property extension, completion reflection, local StreamName-RegSeqRat-DyadicRatCore-Real transport, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
