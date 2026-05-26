@@ -4839,6 +4839,7 @@ import BEDC.Derived.PrimeUp.ZeroHeadedComponent
 import BEDC.Derived.PrimitiveDistinctionLedgerUp.NameCertObligations
 import BEDC.Derived.PrimitiveDistinctionLedgerUp.TasteGate
 import BEDC.Derived.PrimitiveRecursionUp.TasteGate
+import BEDC.Derived.PringsheimPositiveRealSeriesUp.TasteGate
 import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ProdUp.ComponentwiseRefinement
