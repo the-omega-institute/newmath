@@ -4212,6 +4212,7 @@ import BEDC.Derived.MetaCICIdentityBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICIdentityUp.TasteGate
 import BEDC.Derived.MetaCICNormalAuditSocketUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationBudgetUp.TasteGate
+import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.KernelScope
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.RouteCoverage
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationFrontierUp.AuditSealConsumerRoute
@@ -4360,6 +4361,7 @@ import BEDC.Derived.MetricCompletionUp.TasteGate
 import BEDC.Derived.MetricCompletionUp.UniformCompletionHandoff
 import BEDC.Derived.MetricCompletionUp.UniformSealFactorization
 import BEDC.Derived.MetricCompletionUp.UniformSourceLock
+import BEDC.Derived.MetricEntourageUp
 import BEDC.Derived.MetricProjectionUp
 import BEDC.Derived.MetricProjectionUp.TasteGate
 import BEDC.Derived.MetricSpaceCompactContinuitySourceLockUp.TasteGate
