@@ -20,7 +20,7 @@ import re
 import subprocess
 import sys
 from collections import Counter, defaultdict, deque
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -1345,7 +1345,7 @@ def main() -> int:
     total_thms = sum(r["theorems"] for r in region_thms.values())
     valid_region_ids = {n["id"] for n in deps["nodes"]}
     status = {
-        "generated_at": datetime.utcnow().isoformat() + "Z",
+        "generated_at": datetime.now(timezone.utc).replace(tzinfo=None).isoformat() + "Z",
         "total_theorems": total_thms,
         "daily_activity": activity,
         "critical_path": [
