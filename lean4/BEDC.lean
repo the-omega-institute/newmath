@@ -3401,6 +3401,7 @@ import BEDC.Derived.FiniteTraceGapSocketUp.TasteGate
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteWindowEnvelopeUp.TasteGate
+import BEDC.Derived.FiniteWindowPullbackUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSealAuditUp.RefusalTransport
 import BEDC.Derived.FiniteWindowRealSealAuditUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSeparationUp.NameCertSurface
@@ -6523,6 +6524,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.EtaDenominatorBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.EtaFunctionalRouteCoverage
 import BEDC.Derived.ZetaContinuationWitnessUp.EtaPoleFunctionalCoverage
 import BEDC.Derived.ZetaContinuationWitnessUp.FormalTargetLedger
+import BEDC.Derived.ZetaContinuationWitnessUp.FunctionalBoundaryScopedExactness
 import BEDC.Derived.ZetaContinuationWitnessUp.FunctionalFactorNonescape
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaBoundaryPublicExport
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaBoundaryPublicLedger
