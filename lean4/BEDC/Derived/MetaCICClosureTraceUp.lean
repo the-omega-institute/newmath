@@ -155,4 +155,42 @@ theorem MetaCICClosureTraceCarrier_substitution_beta_chain_boundary
     ⟨substUnary, betaUnary, combinedUnary, shiftSubstitution, betaCarrierRoute,
       combinedRoute, pkgSig⟩
 
+theorem MetaCICClosureTraceCarrier_obligation_closure_package
+    [AskSetup] [PackageSetup]
+    {S U V B R G K H C P N betaRead routeRead closedSubst closedRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ->
+      Cont B R betaRead ->
+        Cont betaRead C routeRead ->
+          Cont S V closedSubst ->
+            Cont closedSubst B closedRoute ->
+              PkgSig bundle routeRead pkg ->
+                PkgSig bundle closedRoute pkg ->
+                  UnaryHistory S ∧ UnaryHistory U ∧ UnaryHistory V ∧ UnaryHistory B ∧
+                    UnaryHistory R ∧ UnaryHistory betaRead ∧ UnaryHistory routeRead ∧
+                      UnaryHistory closedSubst ∧ UnaryHistory closedRoute ∧ Cont S U V ∧
+                        Cont V G K ∧ Cont B R betaRead ∧ Cont betaRead C routeRead ∧
+                          Cont S V closedSubst ∧ Cont closedSubst B closedRoute ∧
+                            PkgSig bundle P pkg ∧ PkgSig bundle routeRead pkg ∧
+                              PkgSig bundle closedRoute pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier betaReadRoute routeReadRoute closedSubstRoute closedRouteRoute routeReadPkg
+    closedRoutePkg
+  obtain ⟨SUnary, UUnary, VUnary, BUnary, RUnary, _GUnary, _KUnary, _HUnary,
+    CUnary, _PUnary, _NUnary, shiftSubstitution, generatorPackage, _betaRoute, pkgSig⟩ :=
+      carrier
+  have betaReadUnary : UnaryHistory betaRead :=
+    unary_cont_closed BUnary RUnary betaReadRoute
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed betaReadUnary CUnary routeReadRoute
+  have closedSubstUnary : UnaryHistory closedSubst :=
+    unary_cont_closed SUnary VUnary closedSubstRoute
+  have closedRouteUnary : UnaryHistory closedRoute :=
+    unary_cont_closed closedSubstUnary BUnary closedRouteRoute
+  exact
+    ⟨SUnary, UUnary, VUnary, BUnary, RUnary, betaReadUnary, routeReadUnary,
+      closedSubstUnary, closedRouteUnary, shiftSubstitution, generatorPackage,
+      betaReadRoute, routeReadRoute, closedSubstRoute, closedRouteRoute, pkgSig,
+      routeReadPkg, closedRoutePkg⟩
+
 end BEDC.Derived.MetaCICClosureTraceUp
