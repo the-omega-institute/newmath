@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\RealSpectrumUp$}
+\label{ch:concrete-instances-real-spectrum-namecert}
+\origin{human}
+
+Following the classical Banach-algebra spectrum tradition of Gelfand theory, the $\RealSpectrumUp$ packet records the finite BEDC surface by which a real Banach-algebra element is tested against displayed real scalar windows, resolvent-boundary rows, and spectral-radius estimates without importing a host spectrum. It is a spectral neighbour of the L10 real and completion frontier: it reads the complete normed algebra surface of \autoref{ch:concrete-instances-banachalgebra-namecert}, the power-growth boundary of \autoref{ch:concrete-instances-spectral-radius-namecert}, the bounded-operator route of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the real seal of \autoref{ch:concrete-instances-real-namecert}, the regular-rational classifier of \autoref{ch:concrete-instances-regseqrat-namecert}, and the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}.
+
+\begin{definition}[Real spectrum carrier]
+\label{def:real-spectrum-carrier}
+A $\RealSpectrumUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,a,U,R,B,W,Q,E,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\BanachAlgebraUp$ source row carrying multiplication, norm, completion, product control, transport, replay, provenance, and local naming.
+\item $a$ is the carried algebra element whose real spectral behaviour is inspected.
+\item $U$ is the $\BoundedLinearOperatorUp$ or algebra-action row used when the element is read through a bounded operator surface.
+\item $R$ is the $\RealUp$ scalar seal row. It admits only displayed real scalars, not a completed host scalar field.
+\item $B$ is the $\RegSeqRatUp$ readback row for real scalar windows. It records the regular rational classifier data used to compare a scalar probe with the element.
+\item $W$ is the $\StreamNameUp$ spectral-window observation row. It names the finite list of scalar probes, operator-power requests, and resolvent-boundary tests that are actually displayed.
+\item $Q$ is the resolvent-boundary test row. For each displayed scalar window it records the local multiplication and inverse-check surface, together with a refusal row when the inverse evidence is not displayed.
+\item $E$ is the $\SpectralRadiusUp$ estimate row. It reads only the power-window and norm-growth estimates supplied by the spectral-radius packet.
+\item $G$ is the real-spectrum readback row. It classifies a displayed scalar as admitted, refused, or boundary-facing only through $R,B,W,Q,E$.
+\item $H$ records componentwise $\hsame$ transport for the Banach-algebra source, carried element, bounded-operator row, real seal, regular-rational readback, stream windows, resolvent tests, spectral-radius estimates, readback, and structural rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+\BanachAlgebraUp,\BoundedLinearOperatorUp,\StreamNameUp,\RegSeqRatUp,\RealUp,\SpectralRadiusUp
+\longmapsto \RealSpectrumUp .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RealSpectrumUp$, $\BanachAlgebraUp$, $\SpectralRadiusUp$, $\BoundedLinearOperatorUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealSpectrumUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these rows. Its classifier compares accepted packets only through $A,a,U,R,B,W,Q,E,G,H,C,P,N$ and has no coordinate for a host spectrum, maximal ideals, Gelfand transform, spectral theorem, quotient completion, selected approximate eigenvectors, trichotomy over real scalars, or countable choice.
+\end{definition}
+
+\begin{theorem}[Real spectrum NameCert obligations]
+\label{thm:real-spectrum-namecert-obligations}
+For an accepted $\RealSpectrumUp$ carrier
+$$
+S=(A,a,U,R,B,W,Q,E,G,H,C,P,N),
+$$
+the local $\NameCert_{\RealSpectrumUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the Banach-algebra source, carried element, bounded-operator read, real seal, regular-rational readback, stream-window observations, resolvent-boundary tests, spectral-radius estimates, readback, transport, replay, provenance, and local naming row;
+\item scalar-window compatibility, requiring every scalar probe in $W$ to read its $\RealUp$ seal through $R$ and its $\RegSeqRatUp$ classifier through $B$ before the probe can enter a resolvent test;
+\item resolvent-boundary locality, requiring $Q$ to display the multiplication and inverse-check rows used by each accepted scalar test and to record refusal when those rows are absent;
+\item spectral-radius estimate discipline, requiring $E$ to use only the power-window and norm-growth rows already certified by $\SpectralRadiusUp$;
+\item classifier transport, requiring $H$ and $C$ to preserve the scalar windows, resolvent tests, radius estimates, real seal, regular-rational readback, bounded-operator row, provenance, and local naming componentwise.
+\end{enumerate}
+No NameCert obligation is stored outside these rows. In particular, the packet exports no completed host spectrum, no maximal ideal space, no Gelfand-transform equality, no spectral theorem, no quotient completion, no selected approximate eigenvector, no trichotomy row, and no countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:real-spectrum-carrier}. The accepted packet exposes exactly the Banach-algebra source, carried element, bounded-operator read, real seal, regular-rational classifier, stream-window observations, resolvent tests, spectral-radius estimates, readback, transport, replay, provenance, and local naming rows.
+
+Scalar-window compatibility uses $R,B,W$. Each scalar probe is first a displayed stream-window request, then a regular-rational readback, and only then a real-seal read. Thus a scalar cannot enter the spectrum packet as an ambient real number detached from the displayed L10 rows.
+
+Resolvent locality is the row $Q$. It names the local multiplication and inverse-check evidence used by each displayed test, and it records refusal when the evidence is absent. The row therefore supplies a boundary test rather than a host inverse or a completed spectrum.
+
+The radius estimate discipline is the row $E$. It imports only the finite power-window and norm-growth surface already exposed by $\SpectralRadiusUp$, so no limit over all powers or selected approximate eigenvector is introduced.
+
+Finally $H,C,P,N$ transport, replay, source, and name only the listed coordinates. Since the excluded spectral and choice-theoretic objects have no coordinate in the carrier, they cannot appear as local NameCert obligations.
+\end{proof}
+
+\closureat{RealSpectrumUp}{seedStr}
+
+\begin{closurestatus}{\RealSpectrumUp}
+  \constructivestory{A $\RealSpectrumUp$ packet is generated from a BanachAlgebraUp source, a carried element, a BoundedLinearOperatorUp read, RealUp scalar seals, RegSeqRatUp readback rows, StreamNameUp spectral windows, resolvent-boundary tests, SpectralRadiusUp estimates, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-spectrum-carrier} and \autoref{thm:real-spectrum-namecert-obligations} seed the finite real-spectrum route over BanachAlgebraUp, SpectralRadiusUp, BoundedLinearOperatorUp, RealUp, RegSeqRatUp, StreamNameUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a host spectrum, maximal ideal space, Gelfand representation, spectral theorem, quotient completion, selected approximate eigenvectors, real trichotomy, choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, scalar-window compatibility, resolvent-boundary locality, spectral-radius estimate discipline, classifier transport, and consumer non-escape for BEDC.Derived.RealSpectrumUp.}
+\end{closurestatus}
