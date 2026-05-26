@@ -281,6 +281,56 @@ Apply \autoref{thm:cauchy-filter-completion-window-tolerance-exactness} and \aut
 These three routes cover the carrier side, the tolerance ledger side, and the terminal refusal side of the same packet. Since the carrier definition and NameCert obligations expose no additional coordinate, the local certificate consumes no row outside $C,W,T,R,L,H,K,P,N$.
 \end{proof}
 
+\begin{theorem}[CauchyFilterCompletion Real seal choice-free tail totality]
+\label{thm:cauchy-filter-completion-real-seal-choice-free-tail-totality}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier. Every completion read that reaches the terminal $\RealUp$ seal $L$ has a displayed tail route
+$$
+C_{\FilterBaseUp},C_{\CauchyFilterUp} \longmapsto W,T,R \longmapsto L \longmapsto H,K,P,N .
+$$
+The route is total for accepted reads and uses no quotient filter, selected limit, countable-choice selector, host real equality, ambient completeness theorem, or detached completion carrier.
+\end{theorem}
+\begin{proof}
+Begin with the filterbase handoff of \autoref{thm:cauchy-filter-completion-filterbase-handoff}. It forces the accepted completion read to consume the displayed $\FilterBaseUp/\CauchyFilterUp$ source behind $C$ before any window, tolerance, readback, or seal row is available.
+
+Next apply \autoref{thm:cauchy-filter-completion-window-tolerance-exactness}. The window row $W$ and dyadic ledger $T$ determine the regular readback $R$ before the terminal seal can be inspected.
+
+Finally use \autoref{thm:cauchy-filter-completion-real-seal-handoff} and \autoref{thm:cauchy-filter-completion-quotient-nonescape}. The seal row $L$ is downstream of $C,W,T,R$, and the refused quotient, selector, choice, equality, completeness, and detached-completion objects have no coordinate inside $F$.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion window Real seal determinacy]
+\label{thm:cauchy-filter-completion-window-real-seal-determinacy}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier. If two completion-facing consumers read the same displayed filter source $C$, the same window family $W$, and the same dyadic tolerance ledger $T$, then any accepted terminal $\RealUp$ seal read from $F$ is determined by the same regular readback row $R$ and the same structural route through $L,H,K,P,N$.
+
+Thus no consumer may replace the displayed window route by a second Real seal, a selected limit, quotient-filter equality, countable choice, host equality, ambient completeness, or detached uniform-completion object.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The rows $C,W,T,R,L,H,K,P,N$ are the only coordinates available to either consumer.
+
+Use \autoref{thm:cauchy-filter-completion-filterbase-window-exactness}. Matching $C,W,T$ fixes the filterbase-to-window route and ties every accepted readback in $R$ to the displayed dyadic ledger.
+
+Apply \autoref{thm:cauchy-filter-completion-real-seal-refusal}. Once $R$ is fixed, the terminal seal row $L$ is consumed only through the same finite route and cannot be replaced by a selected limit, quotient equality, choice, host equality, ambient completeness, or detached completion row.
+
+The structural rows preserve this determinacy. Transport $H$, replay $K$, provenance $P$, and local naming $N$ record the same route for both consumers.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion uniform provenance exhaustion]
+\label{thm:cauchy-filter-completion-uniform-provenance-exhaustion}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier. The $\UniformCompletionUp$ occurrence in the packet is exhausted by the provenance row $P$ and the displayed route
+$$
+C,W,T,R \longmapsto L \longmapsto H,K,P,N .
+$$
+It contributes no additional uniform-completion carrier, quotient filter, selected limit, countable-choice selector, host equality, ambient completeness theorem, or Real seal outside the rows of $F$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cauchy-filter-completion-uniform-handoff}. It places the uniform-completion surface at provenance level and keeps the completion-facing read on the finite route through $C,W,T,R,L,H,K,P,N$.
+
+Apply \autoref{thm:cauchy-filter-completion-uniform-reflection-nonescape}. Any uniform reflection is confined to $P$ and cannot split off a second completion object.
+
+Use \autoref{thm:cauchy-filter-completion-carrier-ledger-package}. The carrier admission and ledger refusal rows already exhaust the accepted NameCert surface, while the quotient nonescape theorem rules out the remaining forbidden exits.
+
+Therefore uniform provenance is not an extra source of completion data. It is exactly the package row naming the same Real-seal tail route.
+\end{proof}
+
 \begin{closurestatus}{\CauchyFilterCompletionUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:cauchy-filter-completion-carrier}, \autoref{thm:cauchy-filter-completion-namecert-obligations}, \autoref{thm:cauchy-filter-completion-real-seal-handoff}, and \autoref{thm:cauchy-filter-completion-located-uniform-gluing} seed the finite Cauchy-filter completion boundary between saturated filter data, located-filter reads, uniform-filter handoffs, and the downstream $\RealUp$ seal.}
