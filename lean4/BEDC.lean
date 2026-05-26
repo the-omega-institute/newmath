@@ -1707,6 +1707,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecognizerLandingSurface
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorAuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorGeneratorScopeLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorHandoff
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditGate
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootClosednessBudgetExhaustion
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootClosednessGate
@@ -1953,6 +1954,7 @@ import BEDC.Derived.CompressionDescentAuditUp.TasteGate
 import BEDC.Derived.CompressionLedgerFunctorUp.TasteGate
 import BEDC.Derived.ComputableRealUp
 import BEDC.Derived.ComputableUp
+import BEDC.Derived.ConcaveModulusUp.TasteGate
 import BEDC.Derived.ConceptRegistryObligationUp.TasteGate
 import BEDC.Derived.ConceptRegistrySurfaceUp.TasteGate
 import BEDC.Derived.CondExpUp
