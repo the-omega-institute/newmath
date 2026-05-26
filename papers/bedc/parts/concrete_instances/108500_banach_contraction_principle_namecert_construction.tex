@@ -74,6 +74,18 @@ fixed endpoint that escapes these rows would require an additional carrier
 coordinate, which the classifier does not provide.
 \end{proof}
 
+\begin{theorem}[Banach contraction endpoint uniqueness]
+\label{thm:banach-contraction-principle-endpoint-uniqueness}
+Let $B=(M,F,I,Q,E,U,H,C,P,N)$ and $B'=(M,F,I,Q,E',U',H',C',P',N')$ be accepted $\BanachContractionPrincipleUp$ packets over the same complete metric row $M$, contraction row $F$, iteration schedule $I$, and Cauchy witness row $Q$. If the endpoint seals $E$ and $E'$ are transported through the displayed uniqueness rows $U$ and $U'$, then the metric carrier named by $M$ classifies the two endpoint seals together. The conclusion exposes endpoint uniqueness only along the displayed contraction ledger; it does not select a fixed point outside the packet.
+\end{theorem}
+\begin{proof}
+Project both carriers to the shared rows $M,F,I,Q$. The contraction ledger exposure forces every fixed-point read to use the same metric carrier, the same contractive map row, and the same iteration schedule before any endpoint seal can be inspected.
+
+The Cauchy witness row $Q$ then supplies the common route into the complete metric row $M$. Both endpoint seals $E$ and $E'$ are therefore read as completions of the displayed iteration data rather than as independently selected fixed points.
+
+Apply the uniqueness rows $U$ and $U'$ through their componentwise transports and replay routes. The rows $H,C,P,N$ and $H',C',P',N'$ keep the two endpoint reads on the same local NameCert surface, so the metric classifier of $M$ identifies the endpoint seals. Since the carriers have no coordinate for an off-packet fixed point, no such point is exported.
+\end{proof}
+
 \begin{closurestatus}{\BanachContractionPrincipleUp}
   \constructivestory{A $\BanachContractionPrincipleUp$ packet is generated from a complete metric row, a displayed contraction map, an iteration schedule, a Cauchy witness, an endpoint seal, a uniqueness row, componentwise transports, replay routes, provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
