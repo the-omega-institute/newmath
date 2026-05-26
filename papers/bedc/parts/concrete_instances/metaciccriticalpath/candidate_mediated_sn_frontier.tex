@@ -211,3 +211,28 @@ Apply the discharge-row and socket-induction theorems, \autoref{thm:metacic-crit
 
 Finally use \autoref{thm:metacic-critical-path-candidate-normalization-budget} and \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}. The budget is exhausted by the displayed replay route and the four source faces, so any closed subject-reduction conclusion must come from a separate displayed row. Without that row, the boundary remains exactly $O,D$ plus the finite replay surface.
 \end{proof}
+
+\begin{theorem}[MetaCIC candidate-mediated SN frontier discharge coverage]
+\label{thm:metacic-critical-path-candidate-mediated-sn-frontier-discharge-coverage}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Every finite consumer replay through rows $S,N,U,H,C,P,L$ and the L10 faces
+$$
+\DyadicRatCoreUp,\qquad
+\StreamNameUp,\qquad
+\RegSeqRatUp,\qquad
+\RealUp
+$$
+either preserves the displayed discharge socket $D$ or cites an explicit subject-reduction row outside the candidate-mediated frontier. Candidate-mediated strong normalization, confluence-facing replay, decidability-facing replay, and L10 readback do not by themselves discharge $D$.
+\end{theorem}
+\begin{proof}
+Start with the candidate-mediated SN frontier theorem, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. It places the replay on $S,N,U,D,H,C,P,L$ together with the four L10 faces and keeps the obstruction and discharge rows visible.
+
+Apply the discharge-row theorem and discharge-socket induction, \autoref{thm:metacic-critical-path-candidate-mediated-sn-discharge-row} and \autoref{thm:metacic-critical-path-discharge-socket-induction}. These results preserve the socket while each finite consumer row is replayed.
+
+Use the candidate-normalization budget and socket-exhaustion theorems, \autoref{thm:metacic-critical-path-candidate-normalization-budget} and \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}. They show that the consumer surface is exhausted by $S,N,U,H,C,P,L$ and the four L10 faces, with no hidden subject-reduction coordinate.
+
+Finally invoke the subject-reduction boundary, \autoref{thm:metacic-critical-path-candidate-mediated-sn-subject-reduction-boundary}. It is exactly the alternative in the statement: either the replay keeps $D$ displayed, or a separate subject-reduction row outside the candidate-mediated frontier must be cited.
+\end{proof}

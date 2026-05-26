@@ -61,6 +61,18 @@ Now take a recognizer input with acceptance, generated-recognizer mediation, cer
 Therefore the fixed tuple route is unavailable. The missing readback keeps the packet outside the weakened fixed-tuple test, so it cannot be used as either a negative instance of that route or a positive bridge comparison.
 \end{proof}
 
+\begin{theorem}[Finite BHist injection readback refutation]
+\label{thm:finite-bhist-injection-readback-refutation}
+Mode: refute. A recognizer-side packet with recognizer acceptance, generated-recognizer mediation, certificate-gate admission, and finite tuple extraction, but with no $\BHist$ component readback row, refutes only the stronger omitted-readback landing variant. It is not a counterexample to the weakened fixed-tuple conjecture of \autoref{conj:finite-bhist-injection-admits-stdbridge} and not a counterexample to the seven-row landing test of \autoref{conj:finite-bhist-injection-recognizer-to-carrier}.
+\end{theorem}
+\begin{proof}
+Read the seven-row landing list in \autoref{conj:finite-bhist-injection-recognizer-to-carrier}. The fifth row is explicit $\BHist$ component readback, and the sixth row transports $\hsame$ and $\NameCert$ data through those displayed component reads.
+
+Apply \autoref{thm:finite-bhist-injection-recognizer-to-carrier-sharp-obstruction}. A packet without component readback has reached only the recognizer pre-landing surface, so it has not entered the weakened fixed-tuple route and cannot count as a negative instance of that route.
+
+Thus the packet refutes the overstrong landing form that omits readback from the recognizer-side requirements. The weakened conjecture remains unchanged because its test surface still requires the readback row before any fixed-tuple or carrier-facing obstruction is evaluated.
+\end{proof}
+
 \begin{theorem}[Finite BHist injection recognizer landing sharpener]
 \label{thm:finite-bhist-injection-recognizer-landing-sharpener}
 Any recognizer-side attempt to inspect the fixed tuple route of \autoref{conj:finite-bhist-injection-recognizer-to-carrier} must first display recognizer acceptance, generated-recognizer mediation, certificate-gate admission, finite tuple extraction, $\BHist$ component readback, componentwise $\hsame$ and $\NameCert$ transport, and $\ChapterTasteGate$. These rows are a recognizer landing boundary only: they do not supply a $\StdBridge$ theorem, do not construct a recognizer-to-carrier map, and do not assert arbitrary regular-language carrier claims.
