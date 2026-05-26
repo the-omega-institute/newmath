@@ -4249,6 +4249,7 @@ import BEDC.Derived.MetricCompletionUp.PublicExportSurface
 import BEDC.Derived.MetricCompletionUp.ReadbackLedger
 import BEDC.Derived.MetricCompletionUp.RealSealNonescape
 import BEDC.Derived.MetricCompletionUp.RealSealScopeLock
+import BEDC.Derived.MetricCompletionUp.RegularCauchyReadback
 import BEDC.Derived.MetricCompletionUp.RootObligationCarrierWitness
 import BEDC.Derived.MetricCompletionUp.RootObligationClassifierWitness
 import BEDC.Derived.MetricCompletionUp.RootObligationLedgerWitness
@@ -4257,6 +4258,7 @@ import BEDC.Derived.MetricCompletionUp.SeparatedLimit
 import BEDC.Derived.MetricCompletionUp.SourceSeparatedScope
 import BEDC.Derived.MetricCompletionUp.TasteGate
 import BEDC.Derived.MetricCompletionUp.UniformCompletionHandoff
+import BEDC.Derived.MetricCompletionUp.UniformSealFactorization
 import BEDC.Derived.MetricCompletionUp.UniformSourceLock
 import BEDC.Derived.MetricProjectionUp
 import BEDC.Derived.MetricProjectionUp.TasteGate
@@ -5023,6 +5025,7 @@ import BEDC.Derived.RealConvergenceRateUp.TasteGate
 import BEDC.Derived.RealDiagonalCompletionUp
 import BEDC.Derived.RealDiagonalCompletionUp.TasteGate
 import BEDC.Derived.RealDiagonalMeshBudgetUp
+import BEDC.Derived.RealDiagonalNonSurjectionUp
 import BEDC.Derived.RealDiagonalRegularitySealUp.TasteGate
 import BEDC.Derived.RealDiagonalWindowCoverageUp
 import BEDC.Derived.RealDyadicEmbeddingUp.TasteGate
@@ -5458,6 +5461,7 @@ import BEDC.Derived.RegularCauchySequenceUp
 import BEDC.Derived.RegularCauchySequentialCompletenessUp.TasteGate
 import BEDC.Derived.RegularCauchyShiftUp.TasteGate
 import BEDC.Derived.RegularCauchyShuffleUp.TasteGate
+import BEDC.Derived.RegularCauchySpreadUp.TasteGate
 import BEDC.Derived.RegularCauchySquareRootUp.TasteGate
 import BEDC.Derived.RegularCauchySquareUp.TasteGate
 import BEDC.Derived.RegularCauchySqueezeUp.TasteGate
