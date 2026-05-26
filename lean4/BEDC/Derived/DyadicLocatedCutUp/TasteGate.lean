@@ -147,6 +147,33 @@ instance dyadicLocatedCutChapterTasteGate :
     intro x y hxy heq
     exact hxy (dyadicLocatedCutToEventFlow_injective heq)
 
+instance dyadicLocatedCutFieldFaithful :
+    FieldFaithful BEDC.Derived.DyadicLocatedCutUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := dyadicLocatedCutFields
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y h
+    cases x with
+    | mk L₁ U₁ G₁ W₁ R₁ E₁ H₁ C₁ P₁ N₁ =>
+        cases y with
+        | mk L₂ U₂ G₂ W₂ R₂ E₂ H₂ C₂ P₂ N₂ =>
+            simp only [dyadicLocatedCutFields] at h
+            cases h
+            rfl
+
+instance dyadicLocatedCutNontrivial :
+    Nontrivial BEDC.Derived.DyadicLocatedCutUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨BEDC.Derived.DyadicLocatedCutUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      BEDC.Derived.DyadicLocatedCutUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 def taste_gate : ChapterTasteGate BEDC.Derived.DyadicLocatedCutUp :=
   -- BEDC touchpoint anchor: BHist BMark
   dyadicLocatedCutChapterTasteGate
@@ -167,5 +194,25 @@ theorem DyadicLocatedCutTasteGate_single_carrier_alignment :
   · intro x y heq
     exact dyadicLocatedCutToEventFlow_injective heq
   · rfl
+
+namespace TasteGate
+
+theorem DyadicLocatedCutTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate BEDC.Derived.DyadicLocatedCutUp) ∧
+      Nonempty (FieldFaithful BEDC.Derived.DyadicLocatedCutUp) ∧
+        Nonempty (Nontrivial BEDC.Derived.DyadicLocatedCutUp) ∧
+          (∀ h : BHist, dyadicLocatedCutDecodeBHist (dyadicLocatedCutEncodeBHist h) = h) ∧
+            dyadicLocatedCutDecodeBHist
+                (dyadicLocatedCutEncodeBHist (BHist.e0 BHist.Empty)) =
+              BHist.e0 BHist.Empty := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨⟨dyadicLocatedCutChapterTasteGate⟩, ⟨dyadicLocatedCutFieldFaithful⟩,
+      ⟨dyadicLocatedCutNontrivial⟩,
+      DyadicLocatedCutTasteGate_single_carrier_alignment_decode_encode,
+      DyadicLocatedCutTasteGate_single_carrier_alignment_decode_encode
+        (BHist.e0 BHist.Empty)⟩
+
+end TasteGate
 
 end BEDC.Derived.DyadicLocatedCutUp
