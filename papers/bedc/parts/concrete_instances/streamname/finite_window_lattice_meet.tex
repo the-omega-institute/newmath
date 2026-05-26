@@ -96,6 +96,57 @@ packet. The displayed coordinates of $\mathcal M$ therefore exhaust every
 consumer read.
 \end{proof}
 
+\begin{theorem}[StreamName finite-window lattice meet associativity]
+\label{thm:streamname-finite-window-lattice-meet-associativity}
+Let $\mathcal W_A,\mathcal W_B,\mathcal W_C$ be accepted finite-window
+$\StreamNameUp$ packages over displayed source maps. Suppose that
+$\mathcal M_{AB}$, $\mathcal M_{BC}$, $\mathcal M_{(AB)C}$, and
+$\mathcal M_{A(BC)}$ are accepted StreamName finite-window lattice meet
+packets whose common selected observations are read on the same finite
+$\mathsf{ProbeBundle}$ after reassociating the three local
+$\NameCert_{\StreamNameUp}$ rows. Then the two iterated meet packets
+$\mathcal M_{(AB)C}$ and $\mathcal M_{A(BC)}$ expose the same common
+observation surface.
+
+More precisely, reassociation changes only the bracketing of the three local
+$\NameCert_{\StreamNameUp}$ rows. The selected rational classifier rows,
+$\mathsf{ProbeBundle}$ rows, $\mathsf{InBundle}$ membership rows,
+$\mathsf{UnaryHistory}$ observation rows, dyadic ledger rows, componentwise
+$\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the
+RegSeqRat and finite-window RealUp handoff rows are unchanged. Neither
+iterated meet exports quotient stream equality, host index equality, selected
+limits, host real equality, ambient completeness, or any consumer-visible row
+outside the finite StreamName, RegSeqRat, and RealUp ledger surfaces.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-finite-window-lattice-meet-exhaustion} to
+$\mathcal M_{AB}$ and $\mathcal M_{BC}$. Each binary meet is exhausted by its
+selected rational classifier, probe-bundle, membership, unary-history,
+dyadic, transport, continuation, provenance, and local naming rows.
+
+Apply the same exhaustion theorem to the two iterated packets
+$\mathcal M_{(AB)C}$ and $\mathcal M_{A(BC)}$. By hypothesis these packets
+read the same finite $\mathsf{ProbeBundle}$ after reassociating the local
+NameCert rows, so the classifier, membership, unary-history, dyadic,
+transport, continuation, provenance, RegSeqRat, and finite-window RealUp
+handoff rows are the same displayed rows on both sides.
+
+It remains to compare the local naming coordinates. Use
+\autoref{lem:streamname-finite-window-lattice-meet-symmetry} to commute the
+binary meet packets inside either bracketing until the three local
+$\NameCert_{\StreamNameUp}$ rows are read in the chosen reassociated order.
+Symmetry fixes $Q,B,I,U,D,H,C,P$ and exchanges only already displayed local
+naming rows, so no downstream consumer receives a new row during the
+reassociation.
+
+The exhaustion theorem now applies once more to the reassociated iterated
+surface. Since every RegSeqRat or finite-window RealUp consumer is confined
+to the displayed finite rows, and those rows agree for
+$\mathcal M_{(AB)C}$ and $\mathcal M_{A(BC)}$, the two iterated meets expose
+the same common observation surface and no excluded quotient, host, limit,
+real-equality, completeness, or hidden consumer coordinate.
+\end{proof}
+
 \begin{lemma}[StreamName finite-window lattice meet symmetry]
 \label{lem:streamname-finite-window-lattice-meet-symmetry}
 Let $\mathcal W_L$ and $\mathcal W_R$ be accepted finite-window
