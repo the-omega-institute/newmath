@@ -1,15 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.HausdorffSpaceUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -173,6 +181,54 @@ theorem HausdorffSpaceTasteGate_single_carrier_alignment :
       HausdorffSpaceTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq => HausdorffSpaceTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
+
+def HausdorffSpaceCarrier [AskSetup] [PackageSetup]
+    (T x y U V D M E H C P N : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory T ∧ UnaryHistory x ∧ UnaryHistory y ∧ UnaryHistory U ∧
+    UnaryHistory V ∧ UnaryHistory D ∧ UnaryHistory M ∧ UnaryHistory E ∧
+      UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
+        Cont T x H ∧ Cont H y C ∧ Cont U V D ∧ Cont M E C ∧
+          PkgSig bundle P pkg
+
+theorem HausdorffSpaceCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {T x y U V D M E H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HausdorffSpaceCarrier T x y U V D M E H C P N bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          HausdorffSpaceCarrier T x y U V D M E H C P N bundle pkg ∧ hsame row N)
+        (fun row : BHist =>
+          HausdorffSpaceCarrier T x y U V D M E H C P N bundle pkg ∧ hsame row N)
+        (fun row : BHist =>
+          HausdorffSpaceCarrier T x y U V D M E H C P N bundle pkg ∧ hsame row N)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont UnaryHistory
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro N (And.intro carrier (hsame_refl N))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 theorem HausdorffSpaceNameCert_obligations
     {T x y U V D M E H C P N separation metricRoute realSealRoute : BHist}
