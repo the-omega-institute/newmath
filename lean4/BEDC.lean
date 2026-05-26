@@ -998,6 +998,7 @@ import BEDC.Derived.CauchyChoiceBoundaryUp.NoChoiceNonescape
 import BEDC.Derived.CauchyChoiceBoundaryUp.StdBridge
 import BEDC.Derived.CauchyChoiceBoundaryUp.TasteGate
 import BEDC.Derived.CauchyCompactUp.TasteGate
+import BEDC.Derived.CauchyCompleteOrderedFieldUniquenessUp.TasteGate
 import BEDC.Derived.CauchyCompletenessModulusUp.TasteGate
 import BEDC.Derived.CauchyCompletionAdjunctionUp.TasteGate
 import BEDC.Derived.CauchyCompletionAssociativityUp
@@ -1895,6 +1896,7 @@ import BEDC.Derived.CompactUniformContinuityUp.StandardBridgeObligationPackage
 import BEDC.Derived.CompactUniformContinuityUp.UniformPrecisionConsumerRoute
 import BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp
 import BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp.TasteGate
+import BEDC.Derived.CompactUniformFiniteNetRealizationUp.TasteGate
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.CommonPrecision
 import BEDC.Derived.CompactUp.CompletePackage
@@ -4212,6 +4214,7 @@ import BEDC.Derived.MetaCICIdentityBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICIdentityUp.TasteGate
 import BEDC.Derived.MetaCICNormalAuditSocketUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationBudgetUp.TasteGate
+import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.KernelScope
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.RouteCoverage
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationFrontierUp.AuditSealConsumerRoute
@@ -5616,6 +5619,7 @@ import BEDC.Derived.RegularCauchyTailCertificateUp.SelectorCoverage
 import BEDC.Derived.RegularCauchyTailCertificateUp.TasteGate
 import BEDC.Derived.RegularCauchyTailComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyTailCompositionUp.TasteGate
+import BEDC.Derived.RegularCauchyTailEnvelopeUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEstimateUp.TasteGate
 import BEDC.Derived.RegularCauchyTailFiberUp
 import BEDC.Derived.RegularCauchyTailFiberUp.CompletionHandoffScope
