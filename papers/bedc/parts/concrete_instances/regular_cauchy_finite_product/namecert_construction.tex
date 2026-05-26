@@ -106,6 +106,20 @@ The transport and replay rows $H$ and $C$ preserve this order. They can move or 
 The provenance and local naming rows $Q$ and $N$ cite the same dependencies. Since the carrier has no coordinate for a host finite product, quotient stream equality, selected limit, trichotomy, or ambient completeness theorem, the $\RealUp$ seal cannot export any of them.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy finite product projection roundtrip]
+\label{thm:regular-cauchy-finite-product-projection-roundtrip}
+For every accepted $\RegularCauchyFiniteProductUp$ carrier $K=(I,S,W,D,P,R,E,H,C,Q,N)$, any left or right projection read consumed by $\RegularCauchyProductProjectionUp$ factors back through the same finite index row $I$, source family $S$, synchronized window family $W$, dyadic observations $D$, product-budget ledger $P$, and final readback $R$. The projection packet may expose component readbacks, but it cannot introduce a host product, selected component representative, or quotient stream equality.
+\end{theorem}
+\begin{proof}
+Begin with an accepted finite-product carrier $K=(I,S,W,D,P,R,E,H,C,Q,N)$ and a projection read consumed by \autoref{ch:concrete-instances-regular-cauchy-product-projection-namecert}. The projection can name a left or right component only after it names the product packet from which that component is read.
+
+Apply the tail-budget theorem \autoref{thm:regular-cauchy-finite-product-tail-budget}. The product-facing read factors through $I,S,W,D,P,R$ before any $\RealUp$ seal or component-facing export is available.
+
+Apply budget associativity from \autoref{thm:regular-cauchy-finite-product-budget-associativity}. Regrouping the binary fold may expose the component position needed by the projection packet, but it preserves the same synchronized windows, dyadic observations, product-budget ledger, final readback, and seal route.
+
+Finally use the Real seal non-escape theorem \autoref{thm:regular-cauchy-finite-product-real-seal-nonescape}. The projection packet may expose component readbacks downstream of the displayed finite product route, but no host product, selected component representative, or quotient stream equality is present in the carrier.
+\end{proof}
+
 \falsifiablePrediction{Every $\RegularCauchyFiniteProductUp$ product-facing read factors through a finite unary index row, component RegSeqRat sources, synchronized StreamName windows, DyadicRatCore observations, a finite product-budget ledger, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{regseqrat, streamname, dyadicratcore, real, regularcauchyproduct, cauchyproduct: $\RegularCauchyFiniteProductUp$ is not bijective to any listed sibling because it jointly carries a finite unary product index, synchronized multi-source windows, dyadic product-budget accounting, final RegSeqRat readback, RealUp sealing, transport, continuation, provenance, and local naming.}
