@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\MetricSequentialCompletionUp$}
+\label{ch:concrete-instances-metric-sequential-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Kelley, the $\MetricSequentialCompletionUp$ packet records the finite interface where sequential completion data is read through a metric-completion surface without quotient streams, selected limits, countable choice, or ambient $\RealUp$ completeness. It sits between the sequential route of \autoref{ch:concrete-instances-sequential-completion-namecert}, the metric-completion boundary of \autoref{ch:concrete-instances-metriccompletion-namecert}, the complete-metric handoff of \autoref{ch:concrete-instances-completemetric-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a completion-facing route over displayed rows only; it does not identify Cauchy sequences by a host quotient or choose completed representatives.
+
+\begin{definition}[MetricSequentialCompletion carrier]
+\label{def:metric-sequential-completion-carrier}
+A $\MetricSequentialCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(Q,M,C,W,T,R,E,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\SequentialCompletionUp$ source row naming the sequential completion request.
+\item $M$ is the $\MetricCompletionUp$ row through which completion-facing consumers read the metric boundary.
+\item $C$ is the $\CompleteMetricUp$ handoff row exposed only after the sequential and metric rows are displayed.
+\item $W$ is the finite $\StreamNameUp$ window family used to inspect the sequential source.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the same windows.
+\item $R$ is the $\RegSeqRatUp$ readback row produced from $W$ and $T$.
+\item $E$ is the terminal $\RealUp$ seal row reached after $Q,M,C,W,T,R$.
+\item $H$ records componentwise $\hsame$ transport for the sequential, metric, complete, window, tolerance, readback, seal, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from the sequential request through the metric-completion boundary, complete-metric handoff, finite windows, dyadic tolerance, regular readback, and real seal.
+\item $P$ is the $\Pkg$ provenance over $\MetricSequentialCompletionUp$, $\SequentialCompletionUp$, $\MetricCompletionUp$, $\CompleteMetricUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetricSequentialCompletionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, selected sequence limits, countable-choice selectors, host equality of completed points, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[MetricSequentialCompletion NameCert obligations]
+\label{thm:metric-sequential-completion-namecert-obligations}
+For every accepted $\MetricSequentialCompletionUp$ carrier $S=(Q,M,C,W,T,R,E,H,K,P,N)$, the local $\NameCert_{\MetricSequentialCompletionUp}$ surface consists exactly of sequential-source admission through $Q$, metric-completion admission through $M$, complete-metric handoff through $C$, finite-window exposure through $W$, dyadic tolerance exactness through $T$, regular rational readback through $R$, real-name seal handoff through $E$, and structural transport, replay, provenance, and local naming through $H,K,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-sequential-completion-carrier}. The accepted rows display the sequential source, metric completion row, complete-metric handoff, finite windows, dyadic tolerance ledger, regular readback, terminal real seal, and structural rows.
+
+The completion side is exhausted by $Q,M,C$. A consumer first reads the sequential request, then the metric-completion boundary, and only then the complete-metric handoff.
+
+The real-name side is exhausted by $W,T,R,E$. The finite window family determines the dyadic tolerance reads, the tolerance ledger determines the regular rational readback, and the real seal remains downstream of that readback.
+
+Transport, replay, provenance, and local naming preserve this route. Since no other coordinate is present, quotient streams, selected limits, countable choice, host equality, and ambient completeness cannot enter the local certificate surface.
+\end{proof}
+
+\begin{theorem}[MetricSequentialCompletion RegSeqRat handoff]
+\label{thm:metric-sequential-completion-regseqrat-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\MetricSequentialCompletionUp$ carrier reads the same finite route
+$$
+\SequentialCompletionUp,\ \MetricCompletionUp,\ \CompleteMetricUp,\ \StreamNameUp,\ \DyadicRatCoreUp
+\longmapsto
+\RegSeqRatUp
+\longmapsto
+\RealUp .
+$$
+The handoff sends sequential completion data to regular rational readback through displayed stream windows and dyadic tolerances; it does not use quotient streams, selected limits, countable choice, host equality, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:metric-sequential-completion-namecert-obligations}. It fixes the local certificate surface at the rows $Q,M,C,W,T,R,E,H,K,P,N$.
+
+Read the sequential and metric rows first. The packet admits the sequential request through $Q$, the metric-completion boundary through $M$, and the complete-metric handoff through $C$ before a readback row can be inspected.
+
+Now read the finite windows and tolerances. The rows $W$ and $T$ determine the regular rational row $R$, and the real-name seal $E$ is downstream of $R$.
+
+The structural rows keep the same handoff. Componentwise transport, displayed replay, provenance, and local naming record only this route, so the excluded quotient, selector, choice, host-equality, and completeness data remain outside the packet.
+\end{proof}
+
+\closureat{MetricSequentialCompletionUp}{seedStr}
+
+\begin{closurestatus}{\MetricSequentialCompletionUp}
+  \constructivestory{A $\MetricSequentialCompletionUp$ packet is generated from SequentialCompletionUp source rows, MetricCompletionUp boundary rows, CompleteMetricUp handoff rows, StreamName window rows, DyadicRatCore tolerance rows, RegSeqRat readback rows, RealUp seal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-sequential-completion-carrier}, \autoref{thm:metric-sequential-completion-namecert-obligations}, and \autoref{thm:metric-sequential-completion-regseqrat-handoff} seed the finite route from sequential completion and metric completion rows through stream windows, dyadic tolerances, regular rational readback, and the real-name seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable-choice selectors, host equality of completed points, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, sequential-source exposure, metric-completion admission, complete-metric handoff, window and tolerance routing, regular rational readback, real-name seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.MetricSequentialCompletionUp.}
+\end{closurestatus}
