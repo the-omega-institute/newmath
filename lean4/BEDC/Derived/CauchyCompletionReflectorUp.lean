@@ -209,4 +209,34 @@ theorem CauchyCompletionReflectorPacket_idempotent_extension_obligation
   exact ⟨idempotentUnary, extensionUnary, reflectionUnary, transportUnary, reflectedUnary,
     idempotentExtensionCont, reflectedCont, exportedPkg, reflectedPkg⟩
 
+theorem CauchyCompletionReflectorPacket_naturality_square [AskSetup] [PackageSetup]
+    {source completionObject unit counit idempotent extension reflection transport
+      componentTransport replay provenance localName exported leftRead rightRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionReflectorPacket source completionObject unit counit idempotent extension
+        reflection transport componentTransport replay provenance localName exported bundle pkg →
+      Cont unit extension leftRead →
+        Cont transport counit rightRead →
+          PkgSig bundle leftRead pkg →
+            PkgSig bundle rightRead pkg →
+              UnaryHistory leftRead ∧ UnaryHistory rightRead ∧
+                Cont unit extension leftRead ∧ Cont transport counit rightRead ∧
+                  Cont source unit completionObject ∧ Cont completionObject counit transport ∧
+                    Cont idempotent extension reflection ∧ PkgSig bundle exported pkg ∧
+                      PkgSig bundle leftRead pkg ∧ PkgSig bundle rightRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro packet leftRoute rightRoute leftPkg rightPkg
+  rcases packet with
+    ⟨_sourceUnary, _completionUnary, unitUnary, counitUnary, _idempotentUnary,
+      extensionUnary, _reflectionUnary, transportUnary, _componentTransportUnary,
+      _replayUnary, _provenanceUnary, _localNameUnary, _exportedUnary, sourceUnitCont,
+      completionCounitCont, idempotentExtensionCont, _componentReplayCont,
+      _provenanceNameCont, exportedPkg⟩
+  have leftUnary : UnaryHistory leftRead :=
+    unary_cont_closed unitUnary extensionUnary leftRoute
+  have rightUnary : UnaryHistory rightRead :=
+    unary_cont_closed transportUnary counitUnary rightRoute
+  exact ⟨leftUnary, rightUnary, leftRoute, rightRoute, sourceUnitCont, completionCounitCont,
+    idempotentExtensionCont, exportedPkg, leftPkg, rightPkg⟩
+
 end BEDC.Derived.CauchyCompletionReflectorUp
