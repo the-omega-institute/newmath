@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\FrechetCauchyCriterionUp$}
+\label{ch:concrete-instances-frechet-cauchy-criterion-namecert}
+\origin{human}
+
+Following Frechet and Bishop--Bridges constructive analysis, the $\FrechetCauchyCriterionUp$ packet records the finite criterion surface identifying convergence of a displayed real sequence with the Cauchy tail condition. It sits after the Real seal of \autoref{ch:concrete-instances-real-namecert}, the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the Real Cauchy criterion surface of \autoref{ch:concrete-instances-real-cauchy-criterion-namecert}, and the sequence-limit interface of \autoref{ch:concrete-instances-real-sequence-limit-namecert}. The packet exposes a choice-free equivalence route between a displayed limit row and a displayed Cauchy-tail row; it does not import quotient streams, countable choice, host real equality, or an ambient completeness theorem.
+
+\begin{definition}[Frechet Cauchy criterion carrier]
+\label{def:frechet-cauchy-criterion-carrier}
+A $\FrechetCauchyCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(R,S,Q,D,K,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RealUp$ source row naming the real surface on which the sequence and candidate limit are displayed.
+\item $S$ is the $\StreamNameUp$ finite-window schedule for source entries, candidate-limit reads, and late-tail comparisons.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the windows in $S$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the requested radii and the dyadic budgets used for both convergence and tail comparisons.
+\item $K$ is the $\RealCauchyCriterionUp$ row naming the accepted Cauchy-tail certificate for the displayed sequence.
+\item $L$ is the $\RealSequenceLimitUp$ row naming the accepted sequence-to-limit certificate over the same real source, windows, readbacks, and tolerances.
+\item $H$ records componentwise $\hsame$ transport for $R,S,Q,D,K,L$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through sequence windows, regular readback, dyadic budgets, Cauchy-tail admission, and sequence-limit admission.
+\item $P$ is the $\Pkg$ provenance over $\FrechetCauchyCriterionUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealCauchyCriterionUp$, $\RealSequenceLimitUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FrechetCauchyCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,S,Q,D,K,L,H,C,P,N$. It has no coordinate for quotient stream equality, a selected subsequence, countable choice, host real equality, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Frechet Cauchy criterion NameCert obligations]
+\label{thm:frechet-cauchy-criterion-namecert-obligations}
+For an accepted $\FrechetCauchyCriterionUp$ carrier $F=(R,S,Q,D,K,L,H,C,P,N)$, the local $\NameCert_{\FrechetCauchyCriterionUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed Real source, finite windows, regular rational readback, dyadic tolerance ledger, Cauchy-tail row, sequence-limit row, transport, replay, provenance, and local naming;
+\item tail-to-limit compatibility, requiring the $\RealCauchyCriterionUp$ row $K$ and the $\RealSequenceLimitUp$ row $L$ to use the same $R,S,Q,D$ route before either certificate is consumed;
+\item eventual-tail exactness, requiring each tolerance request to be represented by a displayed late window and dyadic budget in $S,Q,D$;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the same route under componentwise $\hsame$ comparison;
+\item ledger non-escape, refusing quotient streams, selected representatives, countable-choice selectors, host real equality, and ambient Real completeness.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:frechet-cauchy-criterion-carrier}. The tuple exposes exactly the Real source, finite windows, readbacks, dyadic tolerances, Cauchy-tail certificate, sequence-limit certificate, and structural rows.
+
+The compatibility row reads $K$ and $L$ only after $R,S,Q,D$ have been displayed. Thus the Cauchy-tail side and the convergence side compare the same sequence observations and the same dyadic tolerance ledger.
+
+Eventual-tail exactness is finite. Each accepted tolerance request is represented by a late window in $S$, regular rational data in $Q$, and a dyadic budget in $D$, so no hidden selector over tail positions is introduced.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since the excluded objects are not carrier coordinates, the local NameCert surface is exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[Frechet Cauchy criterion eventual-tail exactness]
+\label{thm:frechet-cauchy-criterion-eventual-tail-exactness}
+Let $F=(R,S,Q,D,K,L,H,C,P,N)$ be an accepted $\FrechetCauchyCriterionUp$ carrier. A convergence-facing read through $L$ and a Cauchy-tail-facing read through $K$ consume the same finite tail route
+$$
+R,S,Q,D \longmapsto K,L \longmapsto H,C,P,N .
+$$
+For every displayed tolerance request, the route supplies a late finite window, a regular rational readback, and a dyadic comparison budget before either the limit certificate or the Cauchy-tail certificate can be exported.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The source and observation rows $R,S,Q,D$ precede both certificate rows $K$ and $L$.
+
+Read the Cauchy-tail certificate $K$ through \autoref{ch:concrete-instances-real-cauchy-criterion-namecert}. Its accepted route already requires finite StreamName windows, RegSeqRat readbacks, and DyadicRatCore tolerance data before the Cauchy criterion is exposed.
+
+Read the sequence-limit certificate $L$ through \autoref{ch:concrete-instances-real-sequence-limit-namecert}. Its accepted route uses the same kind of finite tail-window schedule and dyadic ledger before any Real seal is consumed.
+
+The Frechet packet identifies those routes at the displayed rows $R,S,Q,D$ and then preserves them with $H,C,P,N$. Hence the eventual-tail data are exact inside the packet and cannot be replaced by a detached sequence observation.
+\end{proof}
+
+\begin{theorem}[Frechet Cauchy criterion Real seal nonescape]
+\label{thm:frechet-cauchy-criterion-real-seal-nonescape}
+Every Real-facing consumer of an accepted $\FrechetCauchyCriterionUp$ carrier $F=(R,S,Q,D,K,L,H,C,P,N)$ is confined to the displayed route from the Real source through the finite windows, regular readback, dyadic tolerance ledger, Cauchy-tail row, sequence-limit row, and structural rows. The consumer cannot escape into quotient streams, a selected limit representative, countable choice, host real equality, or an ambient Real completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only Real-facing rows are the source row $R$ and the sequence-limit row $L$, and both are attached to the finite observation and tolerance rows $S,Q,D$.
+
+Use \autoref{thm:frechet-cauchy-criterion-namecert-obligations}. The ledger non-escape obligation refuses quotient streams, selected representatives, choice, host equality, and ambient completeness as exported coordinates.
+
+Use \autoref{thm:frechet-cauchy-criterion-eventual-tail-exactness} to fix the terminal route. Since $K$ and $L$ are consumed only through the same displayed tail data and the structural rows preserve that route, no Real-facing consumer can introduce an additional seal or completion principle outside $R,S,Q,D,K,L,H,C,P,N$.
+\end{proof}
+
+\closureat{FrechetCauchyCriterionUp}{seedStr}
+
+\begin{closurestatus}{\FrechetCauchyCriterionUp}
+  \constructivestory{A $\FrechetCauchyCriterionUp$ packet is generated from a RealUp source row, StreamName finite windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a RealCauchyCriterion row, a RealSequenceLimit row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:frechet-cauchy-criterion-carrier}, \autoref{thm:frechet-cauchy-criterion-namecert-obligations}, \autoref{thm:frechet-cauchy-criterion-eventual-tail-exactness}, and \autoref{thm:frechet-cauchy-criterion-real-seal-nonescape} seed the finite equivalence surface between convergence and Cauchy-tail data for real sequences.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, countable choice, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tail-to-limit compatibility, eventual-tail exactness, transport stability, replay stability, provenance exhaustion, and Real seal nonescape for BEDC.Derived.FrechetCauchyCriterionUp.}
+\end{closurestatus}

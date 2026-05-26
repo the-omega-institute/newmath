@@ -4,6 +4,8 @@
 
 The $\GreedySpectralClosureUp$ packet realizes the block-optimal spectral closure route of \autoref{thm:philosophy-block-optimal-budget-frustrated-spectral-closure} as finite BEDC NameCert data. It reads the active codon support, fixed-budget spectral frontiers, anchor and median layers, and symmetric inactive completion from the DNA-window spectral closure vision, then records only the finite trigger-spectrum rows needed by downstream finite-window and trigger-algebra consumers.
 
+The trigger-spectrum route consumes the finite observation discipline of \autoref{ch:concrete-instances-finitewindowobserver-namecert}, the boolean trigger rows of \autoref{ch:concrete-instances-boolean-trigger-lattice-namecert}, the window-coverage trigger algebra of \autoref{ch:concrete-instances-window-coverage-trigger-algebra-namecert}, and the stabilization surface of \autoref{ch:concrete-instances-spectral-stabilization-namecert}. Thus the packet is not a kernel-only spectral table: its support, trigger, and layered-closure rows are read as sibling finite-window and trigger-algebra data before the local $\NameCert$ row can be consumed.
+
 \begin{definition}[Greedy spectral closure carrier]
 \label{def:greedy-spectral-closure-carrier}
 A $\GreedySpectralClosureUp$ carrier is a finite $\BHist$ packet
@@ -56,6 +58,22 @@ Read the rows $A,M,T$ next. They name the anchor block, median block, and termin
 The table and layered rows $R,L$ identify the route as block-optimal and budget-frustrated. They do not change the packet into a global optimizer, because the carrier stores only the displayed values and multiplicities.
 
 Finally $H,C,P,N$ transport, replay, source, and name the same route. The absent host objects listed in the statement are not coordinates of the carrier and cannot be exported by a consumer read.
+\end{proof}
+
+\begin{theorem}[Greedy spectral closure sibling trigger route]
+\label{thm:greedy-spectral-closure-sibling-trigger-route}
+Let $G=(S,A,M,T,R,L,H,C,P,N)$ be an accepted $\GreedySpectralClosureUp$ carrier. Every trigger-spectrum consumer of $G$ first reads the finite-window observer, boolean trigger lattice, window-coverage trigger algebra, and spectral-stabilization sibling rows recorded in $P$ before it consumes the displayed rows
+$$
+S,A,M,T,R,L,H,C,P,N .
+$$
+Consequently the packet cannot be consumed as an isolated spectral kernel detached from finite observation, trigger algebra, coverage, or stabilization surfaces.
+\end{theorem}
+\begin{proof}
+Project the provenance row $P$ in \autoref{def:greedy-spectral-closure-carrier}. It names $\FiniteWindowObserverUp$, $\BooleanTriggerLatticeUp$, $\WindowCoverageTriggerAlgebraUp$, and $\SpectralStabilizationUp$ as part of the same accepted packet source.
+
+The finite-window observer fixes the public observation row from which the active support $S$ is read. The boolean trigger lattice and window-coverage trigger algebra then supply the trigger rows against which the anchor, median, and terminal rows $A,M,T$ are interpreted.
+
+Only after those sibling rows are in place can the displayed spectral table and layered-closure rows $R,L$ be consumed. The structural rows $H,C,P,N$ transport, replay, source, and name that route, so no consumer can bypass the sibling finite-window and trigger-algebra surfaces while still reading $G$ as an accepted $\GreedySpectralClosureUp$ packet.
 \end{proof}
 
 \falsifiablePrediction{An accepted $\GreedySpectralClosureUp$ trigger-spectrum read is refuted if the anchor block, median block, terminal singleton, displayed spectral table, layered-closure row, transport, replay, provenance, or local naming can be removed while preserving the same packet claim.}

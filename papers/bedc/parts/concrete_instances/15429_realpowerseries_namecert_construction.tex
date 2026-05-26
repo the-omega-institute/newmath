@@ -394,6 +394,18 @@ Use \autoref{thm:real-power-series-cauchy-product-coefficient-budget} for produc
 Finally apply \autoref{thm:real-power-series-endpoint-seal-scope} and \autoref{thm:real-power-series-nonescape}. The endpoint seal is packet-local and the excluded analytic, quotient, choice, and ambient-completeness objects have no carrier coordinate.
 \end{proof}
 
+\begin{theorem}[Real power series root-unblock obligation surface]
+\label{thm:real-power-series-root-unblock-obligation-surface}
+Every accepted $\RealPowerSeriesUp$ packet exposes exactly the finite coefficient stream row, the $\CauchyProductUp$ multiplication ledger, the $\ConvergenceRadiusUp$ radius row, the $\RealSeriesUp$ summation row, the $\RegSeqRatUp$ and $\StreamNameUp$ finite-window reads, the $\WeierstrassMTestUp$ bound row, and the local $\NameCert$ route before any real-valued power-series consumer can inspect convergence. This surface is routed through \autoref{ch:concrete-instances-cauchyproduct-namecert}, \autoref{ch:concrete-instances-convergence-radius-namecert}, \autoref{ch:concrete-instances-realseries-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, and \autoref{ch:concrete-instances-weierstrassmtest-namecert}; it exports no analytic continuation, global holomorphicity, open-disk completeness, or host real equality.
+\end{theorem}
+\begin{proof}
+Project the carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$ of \autoref{def:real-power-series-carrier}. The coefficient stream is read through $A$ and $W$, the radius data through $R$, the finite summation data through $S$, the selected majorant data through $M$, and the endpoint through $E$.
+
+Use \autoref{thm:real-power-series-radius-majorant-public-export}. It composes the coefficient-window ledger, radius-majorant coverage, CauchyProduct coefficient budget, RegSeqRat endpoint handoff, and endpoint nonescape rows into one consumer-facing route. The cited CauchyProduct sibling supplies the multiplication ledger, while the ConvergenceRadius, RealSeries, RegSeqRat, StreamName, and WeierstrassMTest siblings supply the named rows consumed by that route.
+
+Finally apply \autoref{thm:real-power-series-regseqrat-evaluation-handoff}. A real-valued endpoint consumer must pass through the same finite rows before convergence can be inspected. Since the carrier and the cited sibling routes have no coordinates for analytic continuation, global holomorphicity, open-disk completeness, or host real equality, those claims are refused at this obligation surface.
+\end{proof}
+
 \falsifiablePrediction{Every $\RealPowerSeriesUp$ endpoint-facing read factors through a coefficient or FormalPowerSeries row, center Real row, argument Real row, displayed radius or subradius row, finite StreamName windows, partial-sum RealSeries row, majorant data from M-test or ratio/root-test rows, endpoint Real seal, transport, continuation, provenance, and local naming.}
 
 \independenceWitness{realseries, weierstrass-mtest, regular-cauchy-ratio-test, regular-cauchy-root-test, formalpowerseries, convergence-radius, real, regseqrat, streamname, dyadicratcore: $\RealPowerSeriesUp$ is not bijective to any listed sibling because it jointly carries coefficient-stream access, center and argument Real rows, displayed radius windows, finite polynomial partial sums, selected majorant routes, endpoint sealing, transport, continuation, provenance, and local naming.}
