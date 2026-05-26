@@ -860,6 +860,7 @@ import BEDC.Derived.BoundedVariationCompletionUp
 import BEDC.Derived.BoundedVariationUp
 import BEDC.Derived.BoundedVariationUp.CauchyConsumerBoundary
 import BEDC.Derived.BoundedVariationUp.RealDependencyScope
+import BEDC.Derived.BoundedVariationUp.RefinementLedgerScope
 import BEDC.Derived.BoundedVariationUp.TasteGate
 import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BraidGroupUp
@@ -3918,6 +3919,7 @@ import BEDC.Derived.LayeredRelationDisplayUp.TasteGate
 import BEDC.Derived.LayeredRelationFailureBoundaryUp.TasteGate
 import BEDC.Derived.LayeredRelationGateUp.TasteGate
 import BEDC.Derived.LayeredRelationSiteUp.TasteGate
+import BEDC.Derived.LengthSpaceUp.TasteGate
 import BEDC.Derived.LesserLimitedOmniscienceUp
 import BEDC.Derived.LesserLimitedOmniscienceUp.TasteGate
 import BEDC.Derived.LeviCivitaConnectionUp.TasteGate
@@ -5056,6 +5058,7 @@ import BEDC.Derived.RealCompletionExactBoundaryUp.TerminalNormalFormAbsorption
 import BEDC.Derived.RealCompletionExactBoundaryUp.TerminalRoutePullback
 import BEDC.Derived.RealCompletionExactBoundaryUp.TerminalSealDeterminacy
 import BEDC.Derived.RealCompletionFiniteRouteUp.TasteGate
+import BEDC.Derived.RealCompletionFunctorUp.TasteGate
 import BEDC.Derived.RealCompletionReflectionUp
 import BEDC.Derived.RealCompletionReflectionUp.TasteGate
 import BEDC.Derived.RealCompletionRouteAuditUp.TasteGate
@@ -5119,6 +5122,7 @@ import BEDC.Derived.RealSequenceAlgebraUp.TasteGate
 import BEDC.Derived.RealSequenceClusterPointUp.TasteGate
 import BEDC.Derived.RealSequenceLimitUp
 import BEDC.Derived.RealSequenceLimitUp.BoundedSourceHandoff
+import BEDC.Derived.RealSequenceLimitUp.CauchyModulusExtraction
 import BEDC.Derived.RealSequenceLimitUp.CauchyModulusHandoff
 import BEDC.Derived.RealSequenceLimitUp.ClassifierStability
 import BEDC.Derived.RealSequenceLimitUp.DiagonalWindowUniqueness
@@ -6494,6 +6498,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripRouteSeparation
 import BEDC.Derived.ZetaContinuationWitnessUp.CriticalStripTotalLedger
 import BEDC.Derived.ZetaContinuationWitnessUp.EtaDenominatorBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.EtaFunctionalRouteCoverage
+import BEDC.Derived.ZetaContinuationWitnessUp.EtaPoleFunctionalCoverage
 import BEDC.Derived.ZetaContinuationWitnessUp.FormalTargetLedger
 import BEDC.Derived.ZetaContinuationWitnessUp.FunctionalFactorNonescape
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaBoundaryPublicExport
