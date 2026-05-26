@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\FiniteRelationUp$}
+\label{ch:concrete-instances-finite-relation-namecert}
+
+\origin{human}
+
+Following Tarski-style relation algebra and finite relational semantics, the $\FiniteRelationUp$ packet records a finite binary relation as displayed BEDC pair rows rather than as a host predicate, quotient graph, or finite map with discarded duplicate rows.
+
+\section{Finite-relation source}
+\label{sec:finite-relation-source}
+
+\begin{definition}[FiniteRelationUp carrier]
+\label{def:finite-relation-carrier}
+A $\FiniteRelationUp$ carrier from a displayed left surface to a displayed right surface is a finite $\ListUp$ spine of $\ProdUp$ pair rows. Each row has first component a left $\BHist$ witness and second component a right $\BHist$ witness, with both components read through their local classifiers and package provenance.
+
+Membership in the relation is exact display membership in the spine: a pair $(a,b)$ is accepted precisely when some product-coded row in the spine has left component classified with $a$ and right component classified with $b$. The domain support is the $\FinSetUp$ enumeration obtained by projecting the left components of all rows, and the range support is the $\FinSetUp$ enumeration obtained by projecting the right components. Repeated rows and repeated component classes remain visible ledger entries; unlike $\FiniteMapUp$ lookup in \autoref{ch:concrete-instances-finitemap-namecert}, no first-hit rule suppresses later rows and no functionality condition is imposed.
+\end{definition}
+
+\begin{theorem}[FiniteRelationUp NameCert obligations]
+\label{thm:finite-relation-namecert-obligations}
+The $\NameCert_{\FiniteRelationUp}$ obligation surface consists of seven rows:
+\begin{enumerate}
+  \item the finite $\ListUp$ carrier of $\ProdUp$ pair rows from \autoref{def:finite-relation-carrier};
+  \item membership exactness for displayed pair membership;
+  \item domain and range support projections through $\FinSetUp$;
+  \item classifier transport for both components and for the pair-row membership classifier;
+  \item replay through the displayed $\Cont$ route;
+  \item source provenance through the recorded $\mathsf{Pkg}$ and $\BHist$ rows;
+  \item local naming of the finite relation packet as a $\NameCert$ row.
+\end{enumerate}
+Together these rows expose a non-functional finite relation surface whose consumers may cite \autoref{ch:concrete-instances-list-namecert}, \autoref{ch:concrete-instances-prod-namecert}, \autoref{ch:concrete-instances-bool-namecert}, \autoref{ch:concrete-instances-option-namecert}, \autoref{ch:concrete-instances-finset-namecert}, and \autoref{ch:concrete-instances-finitemap-namecert} without importing host relation equality.
+\end{theorem}
+\begin{proof}
+Project the displayed relation spine. The carrier row is the finite $\ListUp$ object, while each member row is a $\ProdUp$ pair whose two components retain their component classifiers and provenance.
+
+Membership exactness is immediate from spine membership: a consumer can accept a pair only by pointing to a displayed row and transporting both components along their classifiers. Domain and range support are obtained by component projection followed by the finite-set enumeration interface, so repeated component classes remain ledger-visible.
+
+Replay and provenance are inherited rowwise. The $\Cont$ route replays the same inspected product row, the $\mathsf{Pkg}$ row names the source packet, and the $\BHist$ entries identify the displayed component histories. These rows give the local naming certificate without requiring functionality or quotienting duplicate rows.
+\end{proof}
+
+\begin{theorem}[FiniteRelationUp image and preimage route]
+\label{thm:finite-relation-image-preimage-route}
+Every public image or preimage read of an accepted $\FiniteRelationUp$ packet factors only through the displayed finite-data rows named in \autoref{thm:finite-relation-namecert-obligations}. An image read starts from a displayed left witness, scans the $\ListUp$ spine of $\ProdUp$ rows, tests component membership through the left classifier, and exports the corresponding right witnesses through a $\FinSetUp$ range-support row. A preimage read is the symmetric route through the right classifier and left support row.
+
+The route may use $\BoolUp$ as a finite discriminator for visible classifier outcomes and $\OptionUp$ as an optional read witness for single-row consumers, but it never turns the relation into a $\FiniteMapUp$ first-hit lookup. All exported facts pass through $\ListUp$, $\ProdUp$, $\BoolUp$, $\OptionUp$, $\FinSetUp$, $\BHist$, $\hsame$, $\Cont$, $\mathsf{Pkg}$, and the local $\NameCert_{\FiniteRelationUp}$ rows.
+\end{theorem}
+\begin{proof}
+For an image read, inspect the relation spine in order. Each accepted row is a displayed product row, so the left component can be compared with the queried witness through the component classifier and transported along $\hsame$ when the classifier accepts.
+
+The accepted right components are collected as a finite support enumeration. The same construction with left and right interchanged gives the preimage route. The boolean and optional witnesses are only visible finite-data control rows for the scan; they do not choose a hidden branch or collapse the relation to a function.
+
+Thus every consumer-visible output is a projection of displayed pair rows, replayed by $\Cont$ and named by $\mathsf{Pkg}$ provenance under the relation certificate. No image or preimage read can bypass the finite spine or import host relational semantics.
+\end{proof}
+
+\begin{closurestatus}{\FiniteRelationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The chapter fixes the finite relation carrier, membership exactness surface, and image/preimage dependency route as paper-side obligations.}
+  \constructivestory{A finite relation is built by displaying a finite list spine of product-coded rows and projecting membership, domain support, and range support from that spine.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{No Lean target, relational algebra operations, transitive closure, graph reachability, or category hom-relation bridge is claimed here.}
+  \upgradepath{Formalize the finite spine carrier and membership classifier as $BEDC.Derived.FiniteRelationUp$, then discharge the NameCert obligation surface.}
+\end{closurestatus}
