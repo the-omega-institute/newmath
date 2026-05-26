@@ -2971,6 +2971,7 @@ import BEDC.Derived.DyadicStepFunctionUp.WindowCarrier
 import BEDC.Derived.DyadicSubdivisionUp
 import BEDC.Derived.DyadicSubdivisionUp.TasteGate
 import BEDC.Derived.DyadicSupremumUp.TasteGate
+import BEDC.Derived.DyadicTailBallUp.RadiusMonotonicity
 import BEDC.Derived.DyadicTailBallUp.TasteGate
 import BEDC.Derived.DyadicTailBallUp.WindowStability
 import BEDC.Derived.DyadicTailBoundUp
@@ -3923,6 +3924,7 @@ import BEDC.Derived.KleeneTreeUp.TasteGate
 import BEDC.Derived.KleisliTraceUp.TasteGate
 import BEDC.Derived.KnotUp
 import BEDC.Derived.KolmogorovUp
+import BEDC.Derived.KonigLemmaUp.TasteGate
 import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.KreiselLacombeShoenfieldUp.TasteGate
 import BEDC.Derived.KroneckerApproximationUp.TasteGate
