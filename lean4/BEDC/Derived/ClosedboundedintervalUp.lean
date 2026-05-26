@@ -73,4 +73,43 @@ theorem ClosedBoundedIntervalPacket_semantic_name_certificate [AskSetup] [Packag
       exact source
   }
 
+theorem ClosedBoundedIntervalPacket_endpoint_transport [AskSetup] [PackageSetup]
+    {lower upper order rational dyadic stream readback sealRow transport replay provenance
+      localName exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    (packet : ClosedBoundedIntervalPacket lower upper order rational dyadic stream readback
+      sealRow transport replay provenance localName exported bundle pkg)
+    {lower' upper' order' : BHist}
+    (hl : hsame lower lower') (hu : hsame upper upper')
+    (horder' : Cont lower' upper' order') : hsame order order' := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg
+  cases hl
+  cases hu
+  exact
+    packet.right.right.right.right.right.right.right.right.right.right.right.right.right.left.trans
+      horder'.symm
+
+theorem ClosedBoundedIntervalPacket_root_source_split [AskSetup] [PackageSetup]
+    {lower upper order rational dyadic stream readback sealRow transport replay provenance
+      localName exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    (packet : ClosedBoundedIntervalPacket lower upper order rational dyadic stream readback
+      sealRow transport replay provenance localName exported bundle pkg) :
+    hsame dyadic (append (append lower upper) rational) ∧
+      hsame sealRow (append stream readback) ∧
+        hsame exported (append (append transport replay) localName) := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg
+  constructor
+  · exact
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left.trans
+        (congrArg (fun row : BHist => append row rational)
+          packet.right.right.right.right.right.right.right.right.right.right.right.right.right.left)
+  · constructor
+    · exact
+        packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+    · exact
+        packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left.trans
+          (congrArg (fun row : BHist => append row localName)
+            packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left)
+
 end BEDC.Derived.ClosedboundedintervalUp
