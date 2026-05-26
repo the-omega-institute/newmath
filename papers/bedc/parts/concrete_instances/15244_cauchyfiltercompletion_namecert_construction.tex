@@ -415,6 +415,42 @@ Apply \autoref{thm:cauchy-filter-completion-real-seal-refusal} and \autoref{thm:
 Finally preserve the route through $H,K,P,N$. These rows transport, replay, source, and name only the already displayed basis data, so every accepted completion read is exhausted by the listed basis.
 \end{proof}
 
+\begin{theorem}[CauchyFilterCompletion observation base]
+\label{thm:cauchy-filter-completion-observation-base}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier. Every accepted completion read starts from the displayed $\CauchyFilterUp$ source row $C$ before it may inspect any $\StreamNameUp$ window in $W$, any $\DyadicRatCoreUp$ tolerance in $T$, any $\RegSeqRatUp$ readback in $R$, or any terminal $\RealUp$ seal in $L$. The structural rows $H,K,P,N$ preserve that source order rather than supplying a second observation base.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cauchy-filter-completion-filterbase-handoff}. It places every accepted completion read behind the displayed $\FilterBaseUp/\CauchyFilterUp$ route contained in $C$ before any finite window or tolerance row is available.
+
+Use \autoref{thm:cauchy-filter-completion-window-tolerance-exactness}. Once the source row has been exposed, the stream windows $W$ and dyadic tolerances $T$ determine the regular readback row $R$ inside the same carrier.
+
+Apply \autoref{thm:cauchy-filter-completion-real-seal-basis-exhaustion}. The terminal seal and the structural rows remain downstream of the same basis, so no completion read can begin from a detached window, readback, host equality, selected limit, quotient filter, choice principle, or ambient completeness theorem.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion located-uniform basis]
+\label{thm:cauchy-filter-completion-located-uniform-basis}
+Located-filter and uniform-filter consumers of an accepted $\CauchyFilterCompletionUp$ carrier share exactly the same basis rows $C,W,T,R,L,H,K,P,N$. A located read and a uniform read may emphasize different consumer boundaries, but both must pass through the displayed Cauchy-filter source, finite stream windows, dyadic tolerance ledger, regular rational readback, terminal Real seal, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:cauchy-filter-completion-located-uniform-gluing}. It states that located-facing and uniform-facing reads are glued along the same finite completion route rather than by a second completion carrier.
+
+Next apply \autoref{thm:cauchy-filter-completion-uniform-handoff}. Uniform provenance is recorded through $P$ while the read remains on $C,W,T,R,L,H,K,N$; it does not create a detached uniform source.
+
+Finally use \autoref{thm:cauchy-filter-completion-real-seal-basis-exhaustion}. The shared basis exhausts both consumers, and quotient filters, selected limits, host equality, choice, ambient completeness, and detached completion data are absent from every row.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion completion scope]
+\label{thm:cauchy-filter-completion-completion-scope}
+The $\CauchyFilterCompletionUp$ packet closes only the finite completion route displayed by $C,W,T,R,L,H,K,P,N$. It supplies a named route from Cauchy-filter observations through finite stream windows, dyadic tolerances, regular rational readback, and a Real seal, but it refuses quotient filters, selected limits, host equality, countable choice, ambient completeness, and any completion object not displayed by the carrier.
+\end{theorem}
+\begin{proof}
+Project the local NameCert surface with \autoref{thm:cauchy-filter-completion-namecert-obligations}. The carrier rows account for source admission, window exposure, tolerance exactness, completion handoff, transport, replay, provenance, and local naming.
+
+Use the observation base theorem \autoref{thm:cauchy-filter-completion-observation-base} and the located-uniform basis theorem \autoref{thm:cauchy-filter-completion-located-uniform-basis}. Together they show that all completion-facing consumers start from the same source row and share the same displayed basis through located and uniform reads.
+
+Close the scope with \autoref{thm:cauchy-filter-completion-quotient-nonescape}. The refused quotient, selector, host-equality, choice, ambient-completeness, and detached-completion objects have no carrier coordinate, so the packet closes exactly the finite route it displays.
+\end{proof}
+
 \begin{closurestatus}{\CauchyFilterCompletionUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:cauchy-filter-completion-carrier}, \autoref{thm:cauchy-filter-completion-namecert-obligations}, \autoref{thm:cauchy-filter-completion-real-seal-handoff}, and \autoref{thm:cauchy-filter-completion-located-uniform-gluing} seed the finite Cauchy-filter completion boundary between saturated filter data, located-filter reads, uniform-filter handoffs, and the downstream $\RealUp$ seal.}
