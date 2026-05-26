@@ -1385,6 +1385,7 @@ import BEDC.Derived.CauchyProductUp.RootDownstreamUnblock
 import BEDC.Derived.CauchyProductUp.RootDownstreamUnblockSurface
 import BEDC.Derived.CauchyProductUp.RootFactorSourceExhaustion
 import BEDC.Derived.CauchyProductUp.RootObligationPackage
+import BEDC.Derived.CauchyProductUp.RootObservationBudgetTotality
 import BEDC.Derived.CauchyProductUp.RootProductObservationRoute
 import BEDC.Derived.CauchyProductUp.RootRealSealConsumerBoundary
 import BEDC.Derived.CauchyProductUp.RootRealSealObligations
