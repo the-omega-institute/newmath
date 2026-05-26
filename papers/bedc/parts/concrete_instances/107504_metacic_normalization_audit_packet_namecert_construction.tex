@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICNormalizationAuditPacketUp$}
+\label{ch:concrete-instances-metacic-normalization-audit-packet-namecert}
+\origin{ai}
+
+The $\MetaCICNormalizationAuditPacketUp$ packet realizes the candidate-mediated strong-normalization surface of \autoref{ch:metacic-normalization-audit-map} as finite NameCert data. It sits beside the normalization audit packet of \autoref{ch:concrete-instances-metacicnormalizationaudit-namecert}, the critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the candidate-evidence strong-normalization route of \autoref{ch:concrete-instances-candidate-evidence-sn-route-namecert}, and the typed-normalization audit of \autoref{ch:concrete-instances-metacic-typed-normalization-audit-namecert}. The packet names the closed typed term row, candidate or candidate-set evidence, candidate-to-SN projection, no-infinite-reduction projection, application and Pi adequacy rows, refusal frontier, transport, replay, provenance, and local naming rows needed before a public SN read may be cited. It does not assert unconditional closed-term normalization, evidence-free strong normalization, unrestricted subject reduction, global confluence, quotient syntax equality, host evaluation soundness, or completed closed consistency.
+
+\begin{definition}[MetaCIC normalization audit packet carrier]
+\label{def:metacic-normalization-audit-packet-carrier}
+A $\MetaCICNormalizationAuditPacketUp$ carrier is a finite $\BHist$ packet
+$$
+M=(T,K,A,S,I,P,F,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed typed term row, exposing the term, type, empty-context read, and closedness data.
+\item $K$ is the candidate-evidence row, carrying $\mathsf{Candidate}$, closed-candidate, or candidate-set membership evidence for the displayed term.
+\item $A$ is the application adequacy row, recording the function-side Pi evidence, argument evidence, and application-candidate handoff used when the term route contains an application.
+\item $S$ is the strong-normalization projection row, reading SN only through the candidate or candidate-set evidence displayed in $K$.
+\item $I$ is the no-infinite-reduction row, projecting the same candidate-mediated SN evidence to the absence of infinite reduction chains.
+\item $P$ is the Pi-candidate adequacy row, recording the Pi route used by dependent function cases without replacing $K$.
+\item $F$ is the normalization-frontier refusal row, kept visible whenever a requested citation would erase candidate evidence, subject-reduction boundaries, or confluence boundaries.
+\item $H$ records componentwise $\hsame$ transport for the closed typed term, candidate evidence, application adequacy, SN projection, no-infinite-reduction projection, Pi adequacy, frontier, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a normalization-audit request through $T,K,A,S,I,P,F,H,G,N$.
+\item $G$ is the $\Pkg$ provenance over $\MetaCICNormalizationAuditPacketUp$, \autoref{ch:metacic-normalization-audit-map}, $\MetacicNormalizationAuditUp$, $\MetaCICCriticalPathUp$, $\MetaCICNormalizationFrontierUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICNormalizationAuditPacketUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,K,A,S,I,P,F,H,C,G,N$. No row stores a theorem that every closed typed MetaCIC term normalizes without candidate or candidate-set evidence.
+\end{definition}
+
+\begin{theorem}[MetaCIC normalization audit packet NameCert obligations]
+\label{thm:metacic-normalization-audit-packet-namecert-obligations}
+For the carrier of \autoref{def:metacic-normalization-audit-packet-carrier}, the local $\NameCert_{\MetaCICNormalizationAuditPacketUp}$ surface consists exactly of carrier admission for $M=(T,K,A,S,I,P,F,H,C,G,N)$, closed typed term admission through $T$, candidate or candidate-set evidence admission through $K$, application adequacy through $A$, candidate-mediated SN projection through $S$, no-infinite-reduction projection through $I$, Pi-candidate adequacy through $P$, frontier retention through $F$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $G$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only term source is $T$, and the only evidence source for a public SN read is the candidate row $K$.
+
+Read $A$ and $P$ as adequacy rows for application and Pi cases. They refine the same candidate-mediated route and do not create an evidence-free normalization source.
+
+The SN row $S$ is downstream of $K$. The no-infinite-reduction row $I$ is downstream of $S$, so absence of infinite reduction chains is cited only through the same candidate or candidate-set evidence.
+
+The frontier row $F$ records requests that would erase the evidence boundary. Transport, replay, provenance, and local naming through $H,C,G,N$ preserve these rows without adding subject reduction, confluence, quotient syntax equality, host evaluator soundness, or closed consistency.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization audit packet candidate handoff]
+\label{thm:metacic-normalization-audit-packet-candidate-handoff}
+Every public strong-normalization or no-infinite-reduction read from an accepted $\MetaCICNormalizationAuditPacketUp$ carrier factors through the finite route
+$$
+T \longmapsto K \longmapsto (A,P) \longmapsto S \longmapsto I \longmapsto F .
+$$
+In particular, a public SN read must pass through candidate or candidate-set evidence before the closed typed term can be read as strongly normalizing, and the exported packet is not an unconditional normalization theorem for all closed typed MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Start with a public SN request. The term row $T$ displays the closed typed term, but the carrier does not allow $T$ alone to be read as normalized.
+
+The request must next pass through $K$. Candidate, closed-candidate, or candidate-set evidence is the only input accepted by the projection row $S$, while $A$ and $P$ supply only the application and Pi adequacy data required by that same route.
+
+The no-infinite-reduction row $I$ reuses the output of $S$. If a consumer asks for evidence-free normalization, unrestricted subject reduction, global confluence, quotient syntax equality, host evaluation soundness, or closed consistency, the frontier row $F$ keeps that request outside the packet.
+
+Thus the handoff exports candidate-mediated SN and no-infinite-reduction evidence, not a theorem that every closed typed MetaCIC term normalizes without the displayed candidate or candidate-set rows.
+\end{proof}
+
+\falsifiablePrediction{Every public strong-normalization or no-infinite-reduction read of a $\MetaCICNormalizationAuditPacketUp$ carrier factors through closed typed term data, candidate or candidate-set evidence, application and Pi adequacy rows, candidate-mediated SN projection, no-infinite-reduction projection, frontier retention, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert evidence.}
+
+\independenceWitness{metacicconfluenceauditpacket, metaciccriticalpath, metacicnormalizationfrontier, closedtermsubstitutionboundary: $\MetaCICNormalizationAuditPacketUp$ is not bijective to any listed sibling because it jointly carries closed typed term data, candidate or candidate-set evidence, application and Pi adequacy rows, candidate-mediated SN projection, no-infinite-reduction projection, frontier retention, transport, replay, provenance, and local naming as one audit carrier.}
+
+\closureat{MetaCICNormalizationAuditPacketUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICNormalizationAuditPacketUp}
+  \constructivestory{A $\MetaCICNormalizationAuditPacketUp$ packet is generated from a closed typed term row, candidate or candidate-set evidence, application and Pi adequacy rows, candidate-mediated strong-normalization projection, no-infinite-reduction projection, frontier retention, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-normalization-audit-packet-carrier}, \autoref{thm:metacic-normalization-audit-packet-namecert-obligations}, and \autoref{thm:metacic-normalization-audit-packet-candidate-handoff} seed the finite candidate-mediated normalization audit packet for public SN and no-infinite-reduction reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, unconditional closed-term normalization, evidence-free strong normalization, unrestricted subject reduction, global confluence, quotient syntax equality, host evaluation soundness, or completed closed consistency.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate-evidence exactness, application and Pi adequacy routing, SN projection, no-infinite-reduction projection, frontier retention, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICNormalizationAuditPacketUp.}
+\end{closurestatus}
