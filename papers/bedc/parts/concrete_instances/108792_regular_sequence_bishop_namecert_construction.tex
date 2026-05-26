@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\RegularSequenceBishopUp$}
+\label{ch:concrete-instances-regular-sequence-bishop-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularSequenceBishopUp$ packet records the regular-sequence presentation of a constructive real as finite NameCert data. It reads finite observations through \autoref{ch:concrete-instances-streamname-namecert}, measures tolerances through \autoref{ch:concrete-instances-dyadicratcore-namecert}, passes rational readback through \autoref{ch:concrete-instances-regseqrat-namecert}, remains compatible with the Cauchy surface of \autoref{ch:concrete-instances-cauchy-namecert}, and reaches the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet is induction-facing: it exposes bounded finite windows and dyadic tolerance ledgers before any $\RealUp$ seal is consumed, and it does not quotient streams, select a host limit, invoke countable choice, or assume ambient Real completeness.
+
+\begin{definition}[Bishop regular-sequence carrier]
+\label{def:regular-sequence-bishop-carrier}
+A $\RegularSequenceBishopUp$ carrier is a finite $\BHist$ packet
+$$
+B=(W,D,Q,R,N)
+$$
+with the following five displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ finite-window row, naming the bounded stream segment inspected at a requested precision.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the positive dyadic scale, comparison cells, and slack ledger used to compare the window.
+\item $Q$ is the $\RegSeqRatUp$ readback row, turning the inspected window and tolerance ledger into regular rational sequence evidence.
+\item $R$ is the $\RealUp$ seal row, exposed only after $W,D,Q$ have been displayed.
+\item $N$ is the local structural row, bundling componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RegularSequenceBishopUp}$ naming row for the same packet.
+\end{enumerate}
+The classifier compares accepted packets only through $W,D,Q,R,N$. It has no coordinate for quotient stream equality, host real equality, a selected limit, countable choice, trichotomy, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Bishop regular-sequence NameCert obligations]
+\label{thm:regular-sequence-bishop-namecert-obligations}
+For every accepted $\RegularSequenceBishopUp$ carrier $B=(W,D,Q,R,N)$, the local $\NameCert_{\RegularSequenceBishopUp}$ surface consists exactly of five obligation rows: finite $\StreamNameUp$ window exposure through $W$; dyadic tolerance and comparison exposure through $D$; $\RegSeqRatUp$ regular readback through $Q$; downstream $\RealUp$ seal handoff through $R$; and local transport, replay, provenance, and naming through $N$. Every Real and Completion consumer must read
+$$
+W,D \longmapsto Q \longmapsto R \longmapsto N
+$$
+before treating the packet as a Bishop-style regular sequence.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:regular-sequence-bishop-carrier}. The visible coordinates are exactly $W,D,Q,R,N$, and the classifier contains no further row.
+
+The window and tolerance part is read first. The row $W$ supplies only a finite $\StreamNameUp$ observation, while $D$ supplies the dyadic precision and comparison ledger attached to that observation.
+
+The regular rational handoff is then forced through $Q$. Since $Q$ is the only row that converts the window and tolerance data into $\RegSeqRatUp$ evidence, no host stream quotient or selected limit can enter the local surface.
+
+Finally $R$ and $N$ deliver the Real-facing boundary and the structural NameCert support for the same displayed route. The absence of coordinates for quotient equality, host real equality, countable choice, trichotomy, or ambient completeness gives the stated exhaustiveness.
+\end{proof}
+
+\begin{theorem}[Bishop regular-sequence induction window]
+\label{thm:regular-sequence-bishop-induction-window}
+Let $B=(W,D,Q,R,N)$ be an accepted $\RegularSequenceBishopUp$ carrier. Any induction over the regular-sequence presentation may inspect only finite $\StreamNameUp$ windows from $W$, compare them through the dyadic ledger $D$, and pass the resulting rational data through the $\RegSeqRatUp$ row $Q$ before the $\RealUp$ seal row $R$ is consumed. The induction route is therefore
+$$
+W,D \longmapsto Q \longmapsto R \longmapsto N .
+$$
+It does not decide quotient equality of streams, choose a host limit, use countable choice, or appeal to ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the carrier projection in \autoref{def:regular-sequence-bishop-carrier}. An induction step can open the finite window row $W$ and the tolerance row $D$, because those are the only displayed sources available before any rational readback.
+
+The step then passes through $Q$. This row is the sole $\RegSeqRatUp$ readback coordinate, so every induction witness remains tied to finite windows and dyadic tolerances rather than to quotient representatives or chosen limits.
+
+Only after that readback may the route consume $R$, and $N$ preserves the same route by transport, replay, provenance, and local naming. Thus the induction window is finite and Bishop-style, with the excluded nonconstructive and completeness coordinates absent from the carrier.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularSequenceBishopUp$ read used by a Real and Completion consumer displays one finite $\StreamNameUp$ window row, one $\DyadicRatCoreUp$ tolerance row, one $\RegSeqRatUp$ readback row, one downstream $\RealUp$ seal row, and one local structural NameCert row before it is treated as a regular-sequence presentation.}
+
+\independenceWitness{streamname, dyadicratcore, regseqrat, cauchy, real: $\RegularSequenceBishopUp$ is not bijective to any listed sibling because it binds finite stream windows, dyadic tolerance comparisons, regular rational readback, a Real-facing seal, and local NameCert structure into one induction-facing packet.}
+
+\closureat{RegularSequenceBishopUp}{seedStr}
+
+\begin{closurestatus}{\RegularSequenceBishopUp}
+  \constructivestory{A $\RegularSequenceBishopUp$ packet is generated from a StreamName finite-window row, a DyadicRatCore tolerance row, a RegSeqRat readback row, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-sequence-bishop-carrier}, \autoref{thm:regular-sequence-bishop-namecert-obligations}, and \autoref{thm:regular-sequence-bishop-induction-window} seed the Bishop-style regular-sequence route over StreamName, DyadicRatCore, RegSeqRat, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, host real equality, selected limits, countable choice, trichotomy, Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exposure, dyadic tolerance exposure, RegSeqRat readback, Real seal ordering, transport, replay, provenance, local naming, and induction-window nonescape for BEDC.Derived.RegularSequenceBishopUp.}
+\end{closurestatus}
