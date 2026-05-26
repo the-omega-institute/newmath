@@ -47,7 +47,6 @@
   const SCRIPT_VERSION = "bio-1.0";
   const BIOREALITY_CHAT_HOME = "https://chatgpt.com/";
   const BIOREALITY_PROJECT_PREFIX = "";
-  const BIOREALITY_CHAT_HOME = BIOREALITY_CHAT_HOME;
 
   function isInsideBioRealityChat() {
     return ["chatgpt.com", "chat.openai.com"].includes(window.location.hostname);
