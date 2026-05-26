@@ -50,6 +50,39 @@ If a competing accepted packet beats the selected row, the defeat must be visibl
 When the defeat is hidden or erased, the claimed selection asks the packet to export a winning status without the displayed boundary rows that make the comparison auditable. Such a route is not an accepted $\ModelSelectionBoundaryUp$ read.
 \end{proof}
 
+\begin{definition}[ModelSelectionBoundary obligation carrier]
+\label{def:modelselectionboundary-obligation-carrier}
+A $\ModelSelectionBoundaryUp$ obligation carrier is a finite $\BHist$ packet
+$$
+O=(B,F,D,L,A,S,T,P,N)
+$$
+where $B$ is an accepted $\ModelSelectionBoundaryUp$ carrier, $F$ is its comparative fit ledger, $D$ is its defeat surface, $L$ is its selection ledger, $A$ is the audit route through \autoref{ch:concrete-instances-open-fit-packet-namecert}, \autoref{ch:concrete-instances-reality-constrained-model-audit-namecert}, \autoref{ch:concrete-instances-reality-constrained-signature-fit-namecert}, \autoref{ch:concrete-instances-realityconstrainedsynthesisseal-namecert}, and \autoref{ch:concrete-instances-physical-truth-certificate-namecert}, $S$ is the corresponding TasteGate alignment row, $T$ is componentwise $\hsame$ transport, $P$ is $\Pkg$ provenance, and $N$ is the local $\NameCert$ row. The carrier has no coordinate for a hidden model oracle, probability semantics, host truth predicate, or final winner outside the displayed finite family.
+\end{definition}
+
+\begin{theorem}[ModelSelectionBoundary NameCert obligations]
+\label{thm:modelselectionboundary-namecert-obligations}
+For every accepted obligation carrier $O=(B,F,D,L,A,S,T,P,N)$, the $\ModelSelectionBoundaryUp$ NameCert obligation surface consists exactly of the fit ledger, defeat surface, selection ledger, sibling audit route, TasteGate alignment row, componentwise transport, package provenance, and local naming displayed in $O$. The selected model remains a current finite winner only relative to those rows.
+\end{theorem}
+\begin{proof}
+Project the obligation carrier. The rows $F,D,L$ are inherited from the existing fit-ledger and defeat-surface theorems, so selection is exposed as a ledgered finite comparison rather than as an oracle.
+
+The sibling audit route $A$ forces every selection read through open-fit, model-audit, signature-fit, synthesis-seal, and truth-certificate surfaces. The TasteGate row $S$ promotes that finite route only as single-carrier alignment, not as probability semantics or host truth.
+
+Finally $T,P,N$ preserve, source, and name the same displayed rows. Since the carrier contains no hidden oracle, final winner outside the candidate family, probability space, or host truth predicate, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[ModelSelectionBoundary audit scope]
+\label{thm:modelselectionboundary-audit-scope}
+Every audit of a $\ModelSelectionBoundaryUp$ selection is limited to the displayed candidate family, observed signatures, fit ledger, defeat surface, selection ledger, sibling audit route, and TasteGate alignment row. A later observation may defeat the current winner by adding a visible row to $D$ and $L$, but the packet never exports a host-level final model order, probability semantics, or truth predicate.
+\end{theorem}
+\begin{proof}
+Read the audit rows in order. The candidate family and observed signatures determine which finite rows are under comparison, while $F$ records the current selection and losing accepted rows.
+
+The defeat and ledger rows $D,L$ are the only places where a later observation, mismatch, audit failure, domain exit, or ledger conflict can overturn the selection. If such a row is absent, the packet records only the current finite winner; if it is present, the winner is visibly defeated.
+
+The sibling audit route and TasteGate alignment row keep the promotion local to displayed BEDC data. They do not add probability semantics, a host truth predicate, or a final model order, so the audit scope is exactly the finite surface stated above.
+\end{proof}
+
 \falsifiablePrediction{A selected model packet is refuted whenever its displayed fit row is beaten by a competing accepted packet while the defeat surface is hidden or erased.}
 
 \independenceWitness{openfitpacket, realityconstrainedmodelaudit, realityconstrainedsignaturefit, realityconstrainedsynthesisseal, physicaltruthcertificate: none is bijective because each supplies one fit, audit, signature, synthesis, or truth-certificate face, while ModelSelectionBoundaryUp carries the comparative candidate family, selected row, losing rows, finite defeat surface, ledger, transport, and no-final-oracle refusal together.}
