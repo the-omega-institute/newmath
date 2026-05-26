@@ -158,6 +158,27 @@ theorem SobolevCarrier_integral_derivative_source_package [AskSetup] [PackageSet
       unary_append_closed domainMagnitudeUnary gradientUnary, hsame_refl _, domainBaseCodomain,
       codomainMagnitudeGradient, gradientTransportsRoutes, provenancePkg⟩
 
+theorem SobolevCarrier_root_unblock_certificate [AskSetup] [PackageSetup]
+    {domain base codomain magnitude gradient transports routes provenance localCert rootRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SobolevCarrier domain base codomain magnitude gradient transports routes provenance
+        localCert bundle pkg ->
+      Cont gradient provenance rootRead ->
+        UnaryHistory rootRead ∧ Cont domain base codomain ∧
+          Cont codomain magnitude gradient ∧ Cont gradient transports routes ∧
+            Cont routes provenance localCert ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier gradientProvenanceRoot
+  obtain ⟨_domainUnary, _baseUnary, _codomainUnary, _magnitudeUnary, gradientUnary,
+    _transportsUnary, _routesUnary, provenanceUnary, _localCertUnary, domainBaseCodomain,
+    codomainMagnitudeGradient, gradientTransportsRoutes, routesProvenanceLocalCert,
+    provenancePkg⟩ := carrier
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed gradientUnary provenanceUnary gradientProvenanceRoot
+  exact
+    ⟨rootUnary, domainBaseCodomain, codomainMagnitudeGradient, gradientTransportsRoutes,
+      routesProvenanceLocalCert, provenancePkg⟩
+
 theorem SobolevCarrier_weak_derivative_carrier_transport [AskSetup] [PackageSetup]
     {domain base codomain magnitude gradient transports routes provenance localCert
       domain' base' codomain' magnitude' gradient' transports' routes' provenance' localCert' :
