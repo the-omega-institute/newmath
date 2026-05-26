@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\IntervalCoverRefinementTreeUp$}
+\label{ch:concrete-instances-interval-cover-refinement-tree-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\IntervalCoverRefinementTreeUp$ packet records a finite dyadic refinement-tree certificate for closed bounded interval cover work. It sits between the dyadic cover rows of \autoref{ch:concrete-instances-dyadic-interval-cover-namecert}, the finite comparison surface of \autoref{ch:concrete-instances-finite-cover-refinement-namecert}, and the endpoint-and-containment packet of \autoref{ch:concrete-instances-closedboundedinterval-namecert}. The packet names the tree of displayed subdivisions and retained cover leaves; it is not open-cover compactness, a host subcover selector, a selected Lebesgue number, quotient equality of real names, or countable choice.
+
+\begin{definition}[Interval cover refinement tree carrier]
+\label{def:interval-cover-refinement-tree-carrier}
+An $\IntervalCoverRefinementTreeUp$ carrier is a finite $\BHist$ packet
+$$
+T=(I,D,R,M,L,E,W,Q,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\ClosedBoundedIntervalUp$ source row, naming the lower endpoint, upper endpoint, endpoint-order, containment, StreamName, RegSeqRat, and Real-seal data being covered.
+\item $D$ is the $\DyadicIntervalCoverUp$ cover row whose finite dyadic endpoints and membership rows are inspected by the tree.
+\item $R$ is the $\FiniteCoverRefinementUp$ comparison row that records how a retained child cover refines its parent cover entry.
+\item $M$ is the finite mesh-depth ledger, listing the dyadic scale used at each visited tree node.
+\item $L$ is the finite leaf row. Each leaf records a dyadic subinterval, its parent node, and the displayed cover member that contains it at the tolerance named by $M$.
+\item $E$ is the edge row, recording the binary split relation between a node and its two dyadic children, together with the inherited endpoint-containment witnesses.
+\item $W$ is the $\StreamNameUp$ finite-window row used to inspect the interval endpoints and cover endpoints at the mesh scales named by $M$.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the same endpoint and cover windows.
+\item $A$ is the visible $\RealUp$ seal row reached only through $I,W,Q$ and the displayed dyadic cover data.
+\item $H$ stores componentwise $\hsame$ transport for interval, cover, refinement, mesh, leaf, edge, window, readback, seal, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from closed interval containment to dyadic subdivision, from subdivision to cover membership, from membership to refinement comparison, and from windows to the visible Real seal.
+\item $P$ is the $\Pkg$ provenance over $\IntervalCoverRefinementTreeUp$, $\ClosedBoundedIntervalUp$, $\DyadicIntervalCoverUp$, $\FiniteCoverRefinementUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\IntervalCoverRefinementTreeUp}$ row.
+\end{enumerate}
+The accepted carrier is only the finite tree packet displayed above. It contains no arbitrary open cover, no host finite-subcover selector, no selected point of the interval, no selected Lebesgue number, no quotient equality of real names, no countable-choice functional, and no ambient $\RealUp$ completeness coordinate.
+\end{definition}
+
+\begin{theorem}[Interval cover refinement tree NameCert obligations]
+\label{thm:interval-cover-refinement-tree-namecert-obligations}
+For an accepted packet $T=(I,D,R,M,L,E,W,Q,A,H,C,P,N)$, the local $\NameCert_{\IntervalCoverRefinementTreeUp}$ obligations are exhausted by closed bounded interval admission through $I$, dyadic cover admission through $D$, finite refinement admission through $R$, mesh-depth admission through $M$, leaf and edge admission through $L$ and $E$, finite-window readback through $W$ and $Q$, Real sealing through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier row by row. The interval source is exactly the $\ClosedBoundedIntervalUp$ packet $I$, the cover source is exactly the $\DyadicIntervalCoverUp$ packet $D$, and the comparison source is exactly the $\FiniteCoverRefinementUp$ packet $R$.
+
+The tree rows add only finite subdivision data. The mesh ledger $M$, leaves $L$, and edges $E$ list the visited nodes, their dyadic children, and the retained cover members, so every local admission check is a finite projection from the displayed $\BHist$ packet.
+
+The endpoint and cover reads remain on the displayed route. The $\StreamNameUp$ row $W$, $\RegSeqRatUp$ row $Q$, and $\RealUp$ seal $A$ are replayed by $C$ and transported by $H$. Since the packet has no row for an arbitrary open cover, selected subcover, selected point, Lebesgue number choice, quotient equality, or completeness principle, no such datum can enter the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Dyadic subcover route]
+\label{thm:interval-cover-refinement-tree-dyadic-subcover-route}
+Every retained subcover read exported by an accepted $\IntervalCoverRefinementTreeUp$ packet factors through the finite route
+$$
+I\longmapsto D\longmapsto R\longmapsto M\longmapsto L\longmapsto E\longmapsto(W,Q,A,H,C,P,N).
+$$
+In particular, a consumer may inspect only the dyadic child intervals, the finite leaf-cover assignments, the displayed refinement comparison rows, and the finite endpoint windows named in the carrier.
+\end{theorem}
+\begin{proof}
+Start from the closed interval row $I$. It supplies the endpoint and containment surface before any cover or tree row is inspected.
+
+Next read the dyadic cover and refinement rows. The cover packet $D$ lists the available dyadic cover members, and the refinement packet $R$ records how a child cover assignment is compared with a parent cover assignment. The mesh, leaf, and edge rows $M,L,E$ then expose the finite tree spine on which these comparisons are made.
+
+Finally pass through the structural rows. Transport $H$, replay $C$, provenance $P$, and local name $N$ preserve the same finite route, while $W,Q,A$ keep all endpoint reads behind finite StreamName, RegSeqRat, and Real-seal rows. No additional subcover or compactness object is available.
+\end{proof}
+
+\begin{theorem}[Choice-free nonescape]
+\label{thm:interval-cover-refinement-tree-choice-free-nonescape}
+An $\IntervalCoverRefinementTreeUp$ consumer cannot escape the finite refinement tree by invoking open-cover compactness, a host finite-subcover selector, a selected Lebesgue number, quotient equality of real names, a chosen point in the interval, countable choice, or ambient $\RealUp$ completeness. Every accepted read is determined by the finite rows $I,D,R,M,L,E,W,Q,A,H,C,P,N$ and their displayed $\hsame$ and $\Cont$ routes.
+\end{theorem}
+\begin{proof}
+The carrier definition lists every coordinate of the packet. The analytic coordinates are $I,D,R,M,L,E,W,Q,A$, and the structural coordinates are $H,C,P,N$.
+
+Apply the NameCert obligation theorem. It makes those rows the whole local naming surface and gives no replay path to an arbitrary open cover, host subcover selector, selected Lebesgue number, quotient equality, or completeness coordinate.
+
+The dyadic subcover route supplies the consumer-facing consequence. Any accepted read must pass through the same finite interval, cover, refinement, tree, window, readback, and seal rows, so choice-based or host-level data cannot affect the result.
+\end{proof}
+
+\begin{closurestatus}{\IntervalCoverRefinementTreeUp}
+  \constructivestory{An $\IntervalCoverRefinementTreeUp$ packet is generated from a ClosedBoundedIntervalUp source row, a DyadicIntervalCoverUp cover row, a FiniteCoverRefinementUp comparison row, finite mesh-depth, leaf, and edge rows, StreamName windows, RegSeqRat readbacks, a Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:interval-cover-refinement-tree-carrier}, \autoref{thm:interval-cover-refinement-tree-namecert-obligations}, \autoref{thm:interval-cover-refinement-tree-dyadic-subcover-route}, and \autoref{thm:interval-cover-refinement-tree-choice-free-nonescape} bind the finite dyadic refinement-tree seed over closed bounded interval covers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, Heine--Borel compactness, selected subcovers, selected Lebesgue numbers, quotient real equality, countable choice, Real completeness, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic leaf coverage, refinement transport, Real-seal nonescape, and tree-ledger exactness for the displayed packet.}
+\end{closurestatus}
