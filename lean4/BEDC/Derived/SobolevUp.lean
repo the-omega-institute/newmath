@@ -158,4 +158,53 @@ theorem SobolevCarrier_integral_derivative_source_package [AskSetup] [PackageSet
       unary_append_closed domainMagnitudeUnary gradientUnary, hsame_refl _, domainBaseCodomain,
       codomainMagnitudeGradient, gradientTransportsRoutes, provenancePkg⟩
 
+theorem SobolevCarrier_weak_derivative_carrier_transport [AskSetup] [PackageSetup]
+    {domain base codomain magnitude gradient transports routes provenance localCert
+      domain' base' codomain' magnitude' gradient' transports' routes' provenance' localCert' :
+        BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SobolevCarrier domain base codomain magnitude gradient transports routes provenance
+        localCert bundle pkg ->
+      SobolevCarrier domain' base' codomain' magnitude' gradient' transports' routes'
+        provenance' localCert' bundle pkg ->
+        hsame domain domain' ->
+          hsame magnitude magnitude' ->
+            hsame gradient gradient' ->
+              exists sourceRead : BHist, exists targetRead : BHist,
+                UnaryHistory sourceRead ∧ UnaryHistory targetRead ∧ hsame sourceRead targetRead ∧
+                  hsame sourceRead (append (append domain magnitude) gradient) ∧
+                    hsame targetRead (append (append domain' magnitude') gradient') ∧
+                      Cont domain base codomain ∧ Cont codomain magnitude gradient ∧
+                        Cont domain' base' codomain' ∧
+                          Cont codomain' magnitude' gradient' ∧
+                            PkgSig bundle provenance pkg ∧ PkgSig bundle provenance' pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg UnaryHistory
+  intro carrier carrier' sameDomain sameMagnitude sameGradient
+  obtain ⟨domainUnary, _baseUnary, _codomainUnary, magnitudeUnary, gradientUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _localCertUnary, domainBaseCodomain,
+    codomainMagnitudeGradient, _gradientTransportsRoutes, _routesProvenanceLocalCert,
+    provenancePkg⟩ := carrier
+  obtain ⟨domainUnary', _baseUnary', _codomainUnary', magnitudeUnary', gradientUnary',
+    _transportsUnary', _routesUnary', _provenanceUnary', _localCertUnary',
+    domainBaseCodomain', codomainMagnitudeGradient', _gradientTransportsRoutes',
+    _routesProvenanceLocalCert', provenancePkg'⟩ := carrier'
+  let sourceRead := append (append domain magnitude) gradient
+  let targetRead := append (append domain' magnitude') gradient'
+  have domainMagnitudeUnary : UnaryHistory (append domain magnitude) :=
+    unary_append_closed domainUnary magnitudeUnary
+  have domainMagnitudeUnary' : UnaryHistory (append domain' magnitude') :=
+    unary_append_closed domainUnary' magnitudeUnary'
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_append_closed domainMagnitudeUnary gradientUnary
+  have targetUnary : UnaryHistory targetRead :=
+    unary_append_closed domainMagnitudeUnary' gradientUnary'
+  cases sameDomain
+  cases sameMagnitude
+  cases sameGradient
+  exact
+    ⟨sourceRead, targetRead, sourceUnary, targetUnary, hsame_refl sourceRead,
+      hsame_refl sourceRead, hsame_refl targetRead, domainBaseCodomain,
+      codomainMagnitudeGradient, domainBaseCodomain', codomainMagnitudeGradient',
+      provenancePkg, provenancePkg'⟩
+
 end BEDC.Derived.SobolevUp
