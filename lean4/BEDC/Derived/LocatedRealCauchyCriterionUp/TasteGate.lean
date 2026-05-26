@@ -13,20 +13,20 @@ inductive LocatedRealCauchyCriterionUp : Type where
   | mk (L S R D Q E H C P N : BHist) : LocatedRealCauchyCriterionUp
   deriving DecidableEq
 
-def locatedRealCauchyCriterionEncodeBHist : BHist → RawEvent
+def locatedRealCauchyCriterionEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: locatedRealCauchyCriterionEncodeBHist h
   | BHist.e1 h => BMark.b1 :: locatedRealCauchyCriterionEncodeBHist h
 
-def locatedRealCauchyCriterionDecodeBHist : RawEvent → BHist
+def locatedRealCauchyCriterionDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (locatedRealCauchyCriterionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (locatedRealCauchyCriterionDecodeBHist tail)
 
 private theorem LocatedRealCauchyCriterionTasteGate_single_carrier_alignment_decode_encode :
-    ∀ h : BHist,
+    forall h : BHist,
       locatedRealCauchyCriterionDecodeBHist
           (locatedRealCauchyCriterionEncodeBHist h) =
         h := by
@@ -38,16 +38,16 @@ private theorem LocatedRealCauchyCriterionTasteGate_single_carrier_alignment_dec
   | e1 h ih => exact congrArg BHist.e1 ih
 
 def locatedRealCauchyCriterionFields :
-    LocatedRealCauchyCriterionUp → List BHist
+    LocatedRealCauchyCriterionUp -> List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | LocatedRealCauchyCriterionUp.mk L S R D Q E H C P N => [L, S, R, D, Q, E, H, C, P, N]
 
 def locatedRealCauchyCriterionToEventFlow :
-    LocatedRealCauchyCriterionUp → EventFlow
+    LocatedRealCauchyCriterionUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => locatedRealCauchyCriterionFields x |>.map locatedRealCauchyCriterionEncodeBHist
 
-private def locatedRealCauchyCriterionRawAt : Nat → EventFlow → RawEvent
+private def locatedRealCauchyCriterionRawAt : Nat -> EventFlow -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | 0, [] => []
   | 0, event :: _ => event
@@ -55,7 +55,7 @@ private def locatedRealCauchyCriterionRawAt : Nat → EventFlow → RawEvent
   | Nat.succ n, _ :: rest => locatedRealCauchyCriterionRawAt n rest
 
 def locatedRealCauchyCriterionFromEventFlow :
-    EventFlow → Option LocatedRealCauchyCriterionUp
+    EventFlow -> Option LocatedRealCauchyCriterionUp
   -- BEDC touchpoint anchor: BHist BMark
   | flow =>
       some
@@ -117,7 +117,7 @@ private theorem LocatedRealCauchyCriterionTasteGate_single_carrier_alignment_rou
 private theorem LocatedRealCauchyCriterionTasteGate_single_carrier_alignment_injective
     {x y : LocatedRealCauchyCriterionUp} :
     locatedRealCauchyCriterionToEventFlow x =
-        locatedRealCauchyCriterionToEventFlow y →
+        locatedRealCauchyCriterionToEventFlow y ->
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -134,8 +134,8 @@ private theorem LocatedRealCauchyCriterionTasteGate_single_carrier_alignment_inj
         (LocatedRealCauchyCriterionTasteGate_single_carrier_alignment_round_trip y)))
 
 private theorem LocatedRealCauchyCriterionTasteGate_single_carrier_alignment_fields :
-    ∀ x y : LocatedRealCauchyCriterionUp,
-      locatedRealCauchyCriterionFields x = locatedRealCauchyCriterionFields y →
+    forall x y : LocatedRealCauchyCriterionUp,
+      locatedRealCauchyCriterionFields x = locatedRealCauchyCriterionFields y ->
         x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields

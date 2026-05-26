@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\OscillationFunctionUp$}
+\label{ch:concrete-instances-oscillation-function-namecert}
+\origin{human}
+
+Following Baire's function hierarchy and Bishop--Bridges constructive analysis, the $\OscillationFunctionUp$ packet records the finite oscillation certificate associated to a pointwise real-valued limit. It sits after the pointwise-limit route of \autoref{ch:concrete-instances-pointwise-limit-namecert}, the Baire-one consumer surface of \autoref{ch:concrete-instances-baireonefunction-namecert}, the Dini-continuity consumer surface of \autoref{ch:concrete-instances-dini-continuity-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed oscillation windows and value-readback rows; it does not import a host function space, quotient real equality, a selected supremum, or ambient completeness of $\RealUp$.
+
+\begin{definition}[OscillationFunction carrier]
+\label{def:oscillation-function-carrier}
+An $\OscillationFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+O=(P,B,D,S,R,V,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the $\PointwiseLimitUp$ source row whose displayed point-index and approximant-window route is being inspected.
+\item $B$ is the $\BaireOneFunctionUp$ consumer row receiving the oscillation certificate as Baire-one boundary data.
+\item $D$ is the $\DiniContinuityUp$ consumer row that may read the same finite oscillation windows before any uniform-modulus handoff.
+\item $S$ is the $\StreamNameUp$ schedule selecting the finitely many source neighbourhoods and approximant windows used by the oscillation request.
+\item $R$ is the $\RegSeqRatUp$ readback row for the selected value differences and tolerance comparisons.
+\item $V$ is the terminal $\RealUp$ oscillation-value seal reached only after $P,B,D,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the pointwise-limit, Baire-one, Dini-continuity, schedule, readback, value-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an oscillation request through the pointwise-limit windows, the Baire-one and Dini consumer rows, the stream schedule, the regular rational readback, and the RealUp seal.
+\item $K$ is the $\Pkg$ provenance over $\OscillationFunctionUp$, $\PointwiseLimitUp$, $\BaireOneFunctionUp$, $\DiniContinuityUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\OscillationFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host oscillation function, quotient real equality, a selected supremum over all neighbourhoods, an ambient Baire-one theorem, or completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[OscillationFunction NameCert obligations]
+\label{thm:oscillation-function-namecert-obligations}
+For every accepted $\OscillationFunctionUp$ carrier $O=(P,B,D,S,R,V,H,C,K,N)$, the local $\NameCert_{\OscillationFunctionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the pointwise-limit source, Baire-one consumer, Dini-continuity consumer, stream schedule, regular rational readback, RealUp oscillation seal, transport, replay, provenance, and local naming row;
+\item pointwise-window exposure, requiring every oscillation request to read the $\PointwiseLimitUp$ route of \autoref{ch:concrete-instances-pointwise-limit-namecert} before any value-difference comparison is inspected;
+\item consumer compatibility, requiring the $\BaireOneFunctionUp$ and $\DiniContinuityUp$ rows to consume the same displayed windows and not a second host function-space object;
+\item Real-seal exactness, requiring the oscillation value row $V$ to be downstream of $P,B,D,S,R$ and transported only by $H$ and $C$;
+\item nonescape from host oscillation functions, quotient real equality, selected suprema, ambient Baire-one representation theorems, unrestricted Dini compactness, and completeness of $\RealUp$.
+\end{enumerate}
+No NameCert obligation is stored outside $P,B,D,S,R,V,H,C,K,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:oscillation-function-carrier}. The accepted packet exposes exactly the pointwise-limit source row, the Baire-one and Dini consumer rows, the finite stream schedule, the regular rational readback, the RealUp value seal, transport, replay, provenance, and local naming.
+
+The pointwise-window exposure follows from the source row $P$. The route cited in \autoref{ch:concrete-instances-pointwise-limit-namecert} already displays the point-index, approximant windows, regular rational readback, and RealUp value seal before a pointwise value can be consumed.
+
+Consumer compatibility is then read through $B$ and $D$. Both rows are coordinates of the same packet, so the Baire-one and Dini-facing consumers receive the finite schedule $S$ and readback $R$ already attached to $P$ rather than an external function-space witness.
+
+Finally the seal row $V$ is downstream of this route. Componentwise transport by $H$ and replay by $C$ preserve only the displayed rows, while $K$ and $N$ carry provenance and local naming. Since the excluded objects are not coordinates of the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[OscillationFunction pointwise readback]
+\label{thm:oscillation-function-pointwise-readback}
+Every $\RealUp$ oscillation-value read exported by an accepted $\OscillationFunctionUp$ carrier factors through the displayed route
+$$
+\PointwiseLimitUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+as recorded by $P,S,R,V$. The readback may be consumed by the $\BaireOneFunctionUp$ and $\DiniContinuityUp$ rows $B,D$, but it cannot bypass the pointwise-limit route by reading a host oscillation function, quotient real equality, selected neighbourhood supremum, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a consumer request for $V$. By the carrier definition, $V$ is reached only after the pointwise-limit source $P$, the finite schedule $S$, and the regular rational readback $R$ have been displayed.
+
+Apply the pointwise-limit Real-seal handoff from \autoref{ch:concrete-instances-pointwise-limit-namecert}. It supplies the route from displayed source requests and approximant windows to a terminal RealUp value seal, and the oscillation packet reuses that route for finite value-difference comparisons.
+
+The Baire-one and Dini rows are downstream consumers of the same readback. Transport through $H$ and replay through $C$ do not add a host function coordinate or a selected supremum row, so every oscillation-value read remains confined to $P,S,R,V$ and the visible package rows.
+\end{proof}
+
+\begin{theorem}[OscillationFunction Baire-one handoff]
+\label{thm:oscillation-function-baireone-handoff}
+Every $\BaireOneFunctionUp$-facing consumer of an accepted $\OscillationFunctionUp$ packet must read the pointwise-limit source $P$, the Baire-one row $B$, the Dini-continuity row $D$, the stream schedule $S$, the regular rational readback $R$, the RealUp oscillation seal $V$, and the structural rows $H,C,K,N$ before any Baire-one oscillation boundary is public. Thus the handoff is a finite NameCert route over the rows displayed in \autoref{def:oscillation-function-carrier}, not a representation theorem about an ambient space of functions.
+\end{theorem}
+\begin{proof}
+Read the obligation surface of \autoref{thm:oscillation-function-namecert-obligations}. It places the Baire-one consumer row behind the same pointwise-window exposure and Real-seal exactness rows used by the oscillation value.
+
+Use the Baire-one packet of \autoref{ch:concrete-instances-baireonefunction-namecert}. Its public pointwise-limit ledger accepts displayed continuous approximant windows and regular rational readbacks, not a host function-space quotient. The oscillation carrier supplies those rows through $P,S,R,V$.
+
+The Dini row $D$ records the companion compact-modulus consumer boundary, but it is still downstream of the same displayed schedule. Since $H,C,K,N$ transport, replay, source, and name only that finite route, the Baire-one handoff exports no ambient representation theorem.
+\end{proof}
+
+\closureat{OscillationFunctionUp}{seedStr}
+
+\begin{closurestatus}{\OscillationFunctionUp}
+  \constructivestory{An $\OscillationFunctionUp$ packet is generated from a PointwiseLimitUp source row, BaireOneFunctionUp and DiniContinuityUp consumer rows, StreamName schedules, RegSeqRat readbacks, a RealUp oscillation-value seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:oscillation-function-carrier}, \autoref{thm:oscillation-function-namecert-obligations}, \autoref{thm:oscillation-function-pointwise-readback}, and \autoref{thm:oscillation-function-baireone-handoff} seed the finite oscillation certificate over pointwise-limit windows and Baire-one consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host oscillation functions, quotient real equality, selected suprema, ambient Baire-one representation, unrestricted Dini compactness, completeness of $\RealUp$, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, pointwise-window exposure, consumer compatibility, Real-seal exactness, and nonescape for BEDC.Derived.OscillationFunctionUp.}
+\end{closurestatus}

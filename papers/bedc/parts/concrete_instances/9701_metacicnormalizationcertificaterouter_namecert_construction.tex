@@ -58,6 +58,62 @@ Now inspect the sibling rows. $\MetaCICNormalizationFrontierUp$ supplies the can
 The structural rows cannot change that dependency. Transport, replay, provenance, and local naming preserve the already displayed route, so a closed-term normalization request with no candidate, closed-candidate, or candidate-set evidence has no carrier coordinate from which to read $S$.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization certificate router candidate determinacy]
+\label{thm:metacic-normalization-certificate-router-candidate-determinacy}
+For an accepted $\MetaCICNormalizationCertificateRouterUp$ carrier, the strong-normalization readback row $S$ is determined by the displayed candidate, closed-candidate, or candidate-set evidence in $K$. The closed projection, Pi and application adequacy, generator, compiler, acceptance, transport, replay, provenance, and local naming rows may preserve and route that evidence, but they do not create a second source for $S$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-normalization-certificate-router-carrier}. The row $K$ is the only carrier coordinate containing candidate, closed-candidate, or candidate-set evidence, and $S$ is declared as the readback row downstream of it.
+
+Apply the obligation surface and closed-read refusal theorems. Theorem~\ref{thm:metacic-normalization-certificate-router-obligation-surface} lists $K$ before the strong-normalization readback, and \autoref{thm:metacic-normalization-certificate-router-closed-read-refusal} refuses any closed read lacking such evidence.
+
+The Lean TasteGate marker attached to the obligation surface records the single-carrier alignment for the same router. Thus the paper route and the checked carrier site agree that $S$ has no evidence-free source outside $K$.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization certificate router adequacy chain]
+\label{thm:metacic-normalization-certificate-router-adequacy-chain}
+The Pi and application adequacy rows $P$ of an accepted $\MetaCICNormalizationCertificateRouterUp$ carrier can route only evidence already admitted by $K$. They cannot turn function, argument, application, generator, compiler, or kernel-acceptance rows into evidence-free normalization reads.
+\end{theorem}
+\begin{proof}
+Read the candidate row first. By \autoref{def:metacic-normalization-certificate-router-carrier}, the adequacy row $P$ is a consumer of the displayed candidate-evidence row $K$, not a replacement for it.
+
+Apply candidate determinacy. Theorem~\ref{thm:metacic-normalization-certificate-router-candidate-determinacy} pins the strong-normalization readback $S$ to evidence in $K$, so adequacy can only preserve and transmit that already displayed evidence.
+
+Now compare with the sibling separation theorem. Theorem~\ref{thm:metacic-normalization-certificate-router-sibling-separation} separates this router from the frontier, closed-substitution, generator, compiler-flow, and kernel-acceptance siblings, so none of those rows can be treated as an independent normalization source.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization certificate router projection coverage]
+\label{thm:metacic-normalization-certificate-router-projection-coverage}
+The closed-term projection row $D$ of an accepted $\MetaCICNormalizationCertificateRouterUp$ carrier covers exactly the displayed $\ClosedTermSubstitutionBoundaryUp$ consumer route. It projects candidate-mediated normalization evidence into the closed-term boundary and exposes no additional closed-term normalization principle outside the rows admitted by $K$ and routed by $P$.
+\end{theorem}
+\begin{proof}
+Project the carrier row $D$. In \autoref{def:metacic-normalization-certificate-router-carrier}, $D$ is the closed-term projection row consumed through $\ClosedTermSubstitutionBoundaryUp$.
+
+Use the obligation surface. Theorem~\ref{thm:metacic-normalization-certificate-router-obligation-surface} places $D$ beside the candidate-evidence row $K$ and adequacy row $P$, so the projection is a consumer route rather than a new source of evidence.
+
+Apply closed-read refusal and sibling separation. Theorem~\ref{thm:metacic-normalization-certificate-router-closed-read-refusal} blocks any closed read without evidence in $K$, and \autoref{thm:metacic-normalization-certificate-router-sibling-separation} prevents collapsing the router to the closed-substitution sibling alone. Hence $D$ covers exactly the displayed closed-term substitution boundary route.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization certificate router route coverage]
+\label{thm:metacic-normalization-certificate-router-route-coverage}
+For an admitted $\MetaCICNormalizationCertificateRouterUp$ read, strong-normalization output is reachable only through the ordered finite route
+$$
+A,K,S,P,D,U,G,L,H,C,Q,N.
+$$
+Here $K$ supplies candidate, closed-candidate, or candidate-set evidence; $D$ supplies the closed projection; $U$ supplies authorized generation; $G$ supplies compiler recognition; and $L$ supplies kernel inductive acceptance. No sibling row replaces $K$ by an evidence-free normalization theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-normalization-certificate-router-carrier}. The row inventory is exactly $A,K,S,P,D,U,G,L,H,C,Q,N$, with $S$ downstream of $K$ rather than a standalone normalization fact.
+
+Use the obligation-surface theorem, \autoref{thm:metacic-normalization-certificate-router-obligation-surface}, to exhaust the rows. It places candidate-evidence admission in $K$, Pi and application adequacy in $P$, the closed projection in $D$, authorized generation in $U$, compiler recognition in $G$, and kernel inductive acceptance in $L$.
+
+Now apply closed-read refusal, \autoref{thm:metacic-normalization-certificate-router-closed-read-refusal}. A closed-term normalization read without candidate, closed-candidate, or candidate-set evidence has no route to $S$.
+
+Finally compare the sibling rows. $\ClosedTermSubstitutionBoundaryUp$, $\AuthorizedGeneratorRecursorUp$, $\GroundCompilerRecognizerFlowUp$, and $\KernelInductiveAcceptanceUp$ contribute projection, generation, compiler, and acceptance evidence respectively, but none is the candidate-evidence row $K$. Transport, replay, provenance, and naming preserve the same ordered route, so the admitted read cannot bypass $K$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICNormalizationCertificateRouterUp.MetaCICNormalizationCertificateRouterRouteCoverage}
+\leanchecked{BEDC.Derived.MetaCICNormalizationCertificateRouterUp.MetaCICNormalizationCertificateRouterPacket\_route\_coverage}
+
 \begin{theorem}[MetaCIC normalization certificate router sibling separation]
 \label{thm:metacic-normalization-certificate-router-sibling-separation}
 The $\MetaCICNormalizationCertificateRouterUp$ carrier is not bijective, row for row, with any one of $\MetaCICNormalizationFrontierUp$, $\ClosedTermSubstitutionBoundaryUp$, $\AuthorizedGeneratorRecursorUp$, $\GroundCompilerRecognizerFlowUp$, or $\KernelInductiveAcceptanceUp$. A bijection preserving local NameCert obligations would have to preserve simultaneous candidate evidence, closed projection, Pi and application adequacy, authorized generator handoff, compiler recognition, kernel acceptance, and no-infinite-reduction routing, and no listed sibling carries that whole surface.
@@ -69,6 +125,41 @@ Compare next with $\ClosedTermSubstitutionBoundaryUp$ and $\AuthorizedGeneratorR
 
 Finally compare with $\GroundCompilerRecognizerFlowUp$ and $\KernelInductiveAcceptanceUp$. Those rows record compiler-flow and inductive-acceptance surfaces, not the simultaneous normalization evidence router. Since each sibling omits at least one of $K,S,P,D,U,G,L$, no row-preserving bijection can preserve the router obligations.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICNormalizationCertificateRouterUp.MetaCICNormalizationCertificateRouter\_sibling\_separation}
+
+\begin{theorem}[MetaCIC normalization certificate router obligation package]
+\label{thm:metacic-normalization-certificate-router-obligation-closure-package}
+For every accepted $\MetaCICNormalizationCertificateRouterUp$ carrier
+$$
+R=(A,K,S,P,D,U,G,L,H,C,Q,N),
+$$
+the obligation package exposed by $R$ consists exactly of the audit anchor $A$, candidate-evidence row $K$, strong-normalization readback row $S$, Pi and application adequacy row $P$, closed-term projection row $D$, authorized generator handoff row $U$, compiler recognizer row $G$, kernel inductive-acceptance row $L$, componentwise transport row $H$, displayed replay row $C$, provenance row $Q$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates in the order displayed by \autoref{def:metacic-normalization-certificate-router-carrier}. The rows $A,K,S,P,D,U,G,L$ provide the audit anchor, evidence, readback, adequacy, projection, generator, compiler, and acceptance obligations.
+
+The structural rows then close the package. Transport through $H$ is componentwise, replay through $C$ follows the displayed route, provenance through $Q$ records the sibling certificates named at the start of the chapter, and $N$ supplies the local NameCert row. Since no further coordinate is present, the listed rows are the complete obligation package.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization certificate router generator-compiler route]
+\label{thm:metacic-normalization-certificate-router-generator-compiler-route}
+Every generator-to-compiler read exported by an accepted $\MetaCICNormalizationCertificateRouterUp$ carrier factors through the authorized generator handoff $U$, the compiler recognizer row $G$, the kernel inductive-acceptance row $L$, componentwise transport $H$, displayed replay $C$, provenance $Q$, and local naming $N$. It cannot be read as an evidence-free normalization theorem, a host compiler assertion, or a route that bypasses the candidate evidence $K$.
+\end{theorem}
+\begin{proof}
+First inspect the producer rows. The authorized generator handoff is the row $U$, while the compiler recognizer handoff is the row $G$; both are visible only as coordinates of the same finite carrier that also displays $K$ and $S$.
+
+Next attach the acceptance and structural rows. The row $L$ records kernel inductive acceptance, and $H,C,Q,N$ preserve, replay, source, and name the same route. Thus any generator-to-compiler read remains inside the displayed packet and has no coordinate from which to extract evidence-free normalization or a detached host compiler claim.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization certificate router inductive acceptance scope]
+\label{thm:metacic-normalization-certificate-router-inductive-acceptance-scope}
+The inductive-acceptance contribution of an accepted $\MetaCICNormalizationCertificateRouterUp$ carrier is scoped to the displayed $L$ row together with the audit anchor $A$, candidate evidence $K$, closed projection $D$, generator handoff $U$, compiler recognizer row $G$, transport $H$, replay $C$, provenance $Q$, and local naming $N$. It does not close global MetaCIC normalization, quotient reduction equality, host normalization, or unconditional closed-term normalization outside that finite route.
+\end{theorem}
+\begin{proof}
+Read the scope from the sibling dependencies. $\KernelInductiveAcceptanceUp$ contributes the row $L$, while $\MetaCICNormalizationFrontierUp$, $\ClosedTermSubstitutionBoundaryUp$, $\AuthorizedGeneratorRecursorUp$, and $\GroundCompilerRecognizerFlowUp$ contribute the candidate, closed-projection, generator, and compiler-facing rows named in the chapter introduction.
+
+The router preserves those rows as one finite packet. Componentwise transport, displayed replay, provenance, and local naming do not add a global normalization coordinate, so the inductive-acceptance read remains scoped to the displayed route and refuses the excluded host and quotient claims.
+\end{proof}
 
 \falsifiablePrediction{A closed-term normalization read is refused unless candidate, closed-candidate, or candidate-set evidence is present on the displayed route.}
 
@@ -77,14 +168,16 @@ Finally compare with $\GroundCompilerRecognizerFlowUp$ and $\KernelInductiveAcce
 The Lean TasteGate site for $\MetaCICNormalizationCertificateRouterUp$ must provide explicit $\Nontrivial\ \MetaCICNormalizationCertificateRouterUp$ and $\FieldFaithful\ \MetaCICNormalizationCertificateRouterUp$ instances. These instances preserve candidate evidence, closed projection, Pi and application adequacy, authorized generator handoff, compiler recognition, kernel acceptance, route replay, provenance, and local naming as distinguishable fields.
 
 \closureat{MetaCICNormalizationCertificateRouterUp}{seedStr}
+\closureat{MetaCICNormalizationCertificateRouterUp}{obligationStr}[BEDC.Derived.MetaCICNormalizationCertificateRouterUp.MetaCICNormalizationCertificateRouterUp\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\MetaCICNormalizationCertificateRouterUp}
   \constructivestory{A $\MetaCICNormalizationCertificateRouterUp$ packet is generated from an audit-map anchor, candidate evidence, strong-normalization readback, Pi and application adequacy, closed-term projection, authorized generator handoff, compiler recognition, kernel inductive acceptance, componentwise transport, displayed replay, provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-normalization-certificate-router-carrier}, \autoref{thm:metacic-normalization-certificate-router-obligation-surface}, \autoref{thm:metacic-normalization-certificate-router-closed-read-refusal}, and \autoref{thm:metacic-normalization-certificate-router-sibling-separation} bind candidate-mediated normalization reads as a finite router surface.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:metacic-normalization-certificate-router-carrier}, \autoref{thm:metacic-normalization-certificate-router-obligation-surface}, \autoref{thm:metacic-normalization-certificate-router-closed-read-refusal}, \autoref{thm:metacic-normalization-certificate-router-sibling-separation}, \autoref{thm:metacic-normalization-certificate-router-obligation-closure-package}, \autoref{thm:metacic-normalization-certificate-router-generator-compiler-route}, and \autoref{thm:metacic-normalization-certificate-router-inductive-acceptance-scope} bind candidate-mediated normalization reads as a finite router obligation surface.}
+  \leanchecked{BEDC.Derived.MetaCICNormalizationCertificateRouterUp.taste\_gate}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close evidence-free strong normalization, unconditional application normalization, host normalization, quotient reduction equality, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, route refusal, sibling separation, TasteGate nontriviality, and field-faithfulness for the displayed router rows.}
+  \upgradepath{Scoped closure requires binding these obligation rows to explicit kernel scope.}
 \end{closurestatus}
