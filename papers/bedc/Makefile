@@ -5,6 +5,8 @@ precheck: warn
 	@bash scripts/check_math_env.sh
 	@python3 scripts/check_marker_uniqueness.py
 	@python3 scripts/check_naming.py
+	@python3 scripts/check_up_macros.py
+	@python3 scripts/check_text_macro_underscores.py
 	@python3 scripts/check_external_provenance.py
 	@python3 ../../lean4/scripts/bedc_ci.py audit
 # Hard gate (was warn-only): convention checks for parts/concrete_instances/.
