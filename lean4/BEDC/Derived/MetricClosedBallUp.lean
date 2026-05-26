@@ -94,4 +94,49 @@ theorem MetricClosedBallCarrier_metricball_boundary_handoff [AskSetup] [PackageS
   · intro nameCertZero
     exact unary_no_zero_extension (unary_transport NUnary nameCertZero)
 
+theorem MetricClosedBallCarrier_radius_classifier_stability [AskSetup] [PackageSetup]
+    {X d c r rho m H C P N X' d' c' r' rho' m' H' C' P' N' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricClosedBallCarrier X d c r rho m H C P N bundle pkg ->
+      MetricClosedBallCarrier X' d' c' r' rho' m' H' C' P' N' bundle pkg ->
+        hsame d d' ->
+          hsame c c' ->
+            hsame rho rho' ->
+              Cont d' c' m' ->
+                hsame m m' ∧ UnaryHistory rho ∧ UnaryHistory rho' ∧
+                  PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier carrier' sameDistance sameCenter _sameRadiusLedger transportedMembership
+  obtain ⟨_XUnary, _dUnary, _cUnary, _rUnary, rhoUnary, _mUnary, _HUnary, _CUnary,
+    _PUnary, _NUnary, _sourceRoute, membershipRoute, _nameRoute, _membershipSame,
+    pkgSig⟩ := carrier
+  obtain ⟨_XUnary', _dUnary', _cUnary', _rUnary', rhoUnary', _mUnary', _HUnary',
+    _CUnary', _PUnary', _NUnary', _sourceRoute', _membershipRoute', _nameRoute',
+    _membershipSame', _pkgSig'⟩ := carrier'
+  have membershipStable : hsame m m' :=
+    cont_respects_hsame sameDistance sameCenter membershipRoute transportedMembership
+  exact ⟨membershipStable, rhoUnary, rhoUnary', pkgSig⟩
+
+theorem MetricClosedBallCarrier_realalgorder_boundary [AskSetup] [PackageSetup]
+    {X d c r rho m H C P N boundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricClosedBallCarrier X d c r rho m H C P N bundle pkg ->
+      Cont d c m ->
+        Cont m rho boundaryRead ->
+          PkgSig bundle boundaryRead pkg ->
+            UnaryHistory X ∧ UnaryHistory d ∧ UnaryHistory c ∧ UnaryHistory r ∧
+              UnaryHistory rho ∧ UnaryHistory m ∧ UnaryHistory boundaryRead ∧
+                Cont d c m ∧ Cont m rho boundaryRead ∧ hsame m (append d c) ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle boundaryRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier membershipRoute boundaryRoute boundaryPkg
+  obtain ⟨xUnary, dUnary, cUnary, rUnary, rhoUnary, mUnary, _HUnary, _CUnary,
+    _PUnary, _NUnary, _sourceRoute, _carrierMembership, _nameRoute,
+    membershipSame, provenancePkg⟩ := carrier
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed mUnary rhoUnary boundaryRoute
+  exact
+    ⟨xUnary, dUnary, cUnary, rUnary, rhoUnary, mUnary, boundaryUnary,
+      membershipRoute, boundaryRoute, membershipSame, provenancePkg, boundaryPkg⟩
+
 end BEDC.Derived.MetricClosedBallUp

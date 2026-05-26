@@ -83,9 +83,21 @@ jobs:
 
       - name: Upload main.pdf artifact
         if: ${{ inputs.upload_artifact }}
+        id: upload_pdf
+        continue-on-error: true
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: ${{ inputs.artifact_name }}
           path: papers/bedc/${{ steps.package_pdf.outputs.pdf_name }}
           if-no-files-found: error
           retention-days: ${{ inputs.artifact_retention_days }}
+
+      - name: Retry main.pdf artifact upload
+        if: ${{ inputs.upload_artifact && steps.upload_pdf.outcome == 'failure' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ${{ inputs.artifact_name }}
+          path: papers/bedc/${{ steps.package_pdf.outputs.pdf_name }}
+          if-no-files-found: error
+          retention-days: ${{ inputs.artifact_retention_days }}
+          overwrite: true

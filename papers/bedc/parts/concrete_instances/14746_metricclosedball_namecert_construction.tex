@@ -82,6 +82,7 @@ Now replay the closed-membership route. The row $C$ reads distance evaluation fi
 
 For strict-boundary consumers, the positive-radius data remain a separate part of $\rho$. Thus the same transport preserves the closed non-strict classifier and, when present, the positive-radius handoff required before the request can pass to $\MetricBallUp$.
 \end{proof}
+\leanchecked{BEDC.Derived.MetricClosedBallUp.MetricClosedBallCarrier\_radius\_classifier\_stability}
 
 \begin{theorem}[MetricClosedBall RealAlgOrder boundary]
 \label{thm:metricclosedball-realalgorder-boundary}
@@ -96,13 +97,28 @@ If a strict comparison is requested, the packet must use the separate positive-r
 
 Thus every RealAlgOrder-facing read is either the displayed non-strict comparison row $m$ or the explicit $\MetricBallUp$ strict-boundary handoff. No host closed subset, topology closure, quotient point equality, compactness witness, or generated-open field is exported.
 \end{proof}
+\leanchecked{BEDC.Derived.MetricClosedBallUp.MetricClosedBallCarrier\_realalgorder\_boundary}
+
+\begin{theorem}[MetricClosedBall boundary classifier transport]
+\label{thm:metricclosedball-boundary-classifier-transport}
+Let $Q=(X,d,c,r,\rho,m,H,C,P,N)$ and $Q'=(X',d',c',r',\rho',m',H',C',P',N')$ be accepted $\MetricClosedBallUp$ packets whose carrier, distance, center, radius, and radius-ledger rows are classified componentwise by the displayed $\hsame$ data. Then the boundary row $m$ carrying $d(c,x)\leq_{\mathsf R}r$ transports through $H$ and replays through $C$ to the boundary row $m'$ carrying $d'(c',x')\leq_{\mathsf R}r'$. The transport introduces no topology closure, compactness witness, quotient point equality, or ambient subset data.
+\end{theorem}
+\begin{proof}
+Project the two packets. The only rows that can affect the closed boundary classifier are the metric carrier, distance witness, center, radius, radius ledger, membership row, and their transport and continuation data.
+
+Use the classifier definition from \autoref{def:metric-closed-ball-carrier}. The row $m$ is precisely the non-strict comparison $d(c,x)\leq_{\mathsf R}r$, and the corresponding row in $Q'$ is $m'$.
+
+Apply radius classifier stability from \autoref{thm:metricclosedball-radius-classifier-stability}. The componentwise $\hsame$ data preserve the radius ledger and the comparison row under transport.
+
+Finally replay the RealAlgOrder boundary route of \autoref{thm:metricclosedball-realalgorder-boundary}. Since the carrier inventory has no topology-closure, compactness, quotient-point, or ambient-subset coordinate, the transported classifier remains exactly the displayed closed-boundary row.
+\end{proof}
 
 \closureat{MetricClosedBallUp}{obligationStr}
 
 \begin{closurestatus}{\MetricClosedBallUp}
   \constructivestory{A $\MetricClosedBallUp$ packet is generated from a MetricSpace carrier row, a MetricDistanceWitness row, a center row, a RatUp or RealUp radius row, a nonnegative radius ledger with optional positive-radius handoff data, a closed-membership comparison row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:metric-closed-ball-carrier}, \autoref{thm:metric-closed-ball-namecert-obligations}, \autoref{thm:metric-closed-ball-metricball-boundary-handoff}, \autoref{thm:metricclosedball-carrier-obligations}, \autoref{thm:metricclosedball-radius-classifier-stability}, and \autoref{thm:metricclosedball-realalgorder-boundary} bind the finite non-strict center-radius ball obligation surface and its strict-boundary handoff to $\MetricBallUp$.}
+  \scopeclosed{\autoref{def:metric-closed-ball-carrier}, \autoref{thm:metric-closed-ball-namecert-obligations}, \autoref{thm:metric-closed-ball-metricball-boundary-handoff}, \autoref{thm:metricclosedball-carrier-obligations}, \autoref{thm:metricclosedball-radius-classifier-stability}, \autoref{thm:metricclosedball-realalgorder-boundary}, and \autoref{thm:metricclosedball-boundary-classifier-transport} bind the finite non-strict center-radius ball obligation surface and its strict-boundary handoff to $\MetricBallUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim compactness, full metric topology, topology closure, quotient equality for metric points or radii, ambient subsets, Lean verification, or bridge checking.}
