@@ -1782,6 +1782,7 @@ import BEDC.Derived.ClosureStatusReferenceUp.TasteGate
 import BEDC.Derived.ClosureUniversalityQuadrantUp.TasteGate
 import BEDC.Derived.ClosureWitnessLedgerUp
 import BEDC.Derived.CodonSixBitWindowUp.TasteGate
+import BEDC.Derived.CodonTransitionMatrixUp.TasteGate
 import BEDC.Derived.CodonWindowSpectralInverseUp.TasteGate
 import BEDC.Derived.CofibrantReplacementUp
 import BEDC.Derived.CofinalDiagonalSealUp.TasteGate
@@ -1833,6 +1834,7 @@ import BEDC.Derived.CompactIntervalLocatorUp.TasteGate
 import BEDC.Derived.CompactLebesgueUniformHandoffUp.TasteGate
 import BEDC.Derived.CompactMetricCompletionUp.TasteGate
 import BEDC.Derived.CompactMetricProductUp.TasteGate
+import BEDC.Derived.CompactMetricSubspaceUp.TasteGate
 import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.CompactMetricUp.DownstreamConsumptionBridge
 import BEDC.Derived.CompactMetricUp.TasteGate
@@ -3546,6 +3548,7 @@ import BEDC.Derived.GoedelIncompletenessUp
 import BEDC.Derived.GoldenMeanShiftUp
 import BEDC.Derived.GoldenMeanShiftUp.PrefixTransportScope
 import BEDC.Derived.GoldenMeanShiftUp.TasteGate
+import BEDC.Derived.GoursatUp
 import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GramSchmidtUp.TasteGate
 import BEDC.Derived.GraphUp
@@ -4321,6 +4324,7 @@ import BEDC.Derived.MetricCompletionUp.BranchExhaustion
 import BEDC.Derived.MetricCompletionUp.BranchReadback
 import BEDC.Derived.MetricCompletionUp.BranchScope
 import BEDC.Derived.MetricCompletionUp.BridgeSurfaceLock
+import BEDC.Derived.MetricCompletionUp.CarrierAdmission
 import BEDC.Derived.MetricCompletionUp.CauchyEvidenceHandoff
 import BEDC.Derived.MetricCompletionUp.CauchyFilterLimitFactorization
 import BEDC.Derived.MetricCompletionUp.CauchyFilterNetSeal
@@ -4329,6 +4333,7 @@ import BEDC.Derived.MetricCompletionUp.Compatibility
 import BEDC.Derived.MetricCompletionUp.CompletionConsumerTotality
 import BEDC.Derived.MetricCompletionUp.HandoffRoutes
 import BEDC.Derived.MetricCompletionUp.NameCertObligations
+import BEDC.Derived.MetricCompletionUp.NoAmbientCompletionScope
 import BEDC.Derived.MetricCompletionUp.PublicExportSurface
 import BEDC.Derived.MetricCompletionUp.ReadbackLedger
 import BEDC.Derived.MetricCompletionUp.RealSealNonescape
