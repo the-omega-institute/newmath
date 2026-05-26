@@ -1945,6 +1945,65 @@ def _mapping_records(config: dict[str, Any]) -> list[dict[str, Any]]:
     return [item for item in mappings if isinstance(item, dict)]
 
 
+def _markdown_section(text: str, heading_re: str) -> str:
+    lines = text.splitlines()
+    start: int | None = None
+    for index, line in enumerate(lines):
+        if re.match(heading_re, line.strip()):
+            start = index + 1
+            break
+    if start is None:
+        return ""
+    section_lines: list[str] = []
+    for line in lines[start:]:
+        if re.match(r"^##\s+", line.strip()):
+            break
+        section_lines.append(line)
+    return "\n".join(section_lines).strip()
+
+
+def _first_markdown_paragraph(text: str) -> str:
+    paragraphs = [part.strip() for part in re.split(r"\n\s*\n", text) if part.strip()]
+    return paragraphs[0] if paragraphs else ""
+
+
+def _auto_discovered_bedc_mappings(proposal_dir: Path, mapped_claim_ids: set[str]) -> list[dict[str, Any]]:
+    if not proposal_dir.exists():
+        return []
+    derived: list[dict[str, Any]] = []
+    for proposal_path in sorted(proposal_dir.glob("*.md"), key=lambda path: path.stem):
+        if not proposal_path.is_file():
+            continue
+        claim_id = proposal_path.stem
+        if claim_id == "self.claim" or claim_id in mapped_claim_ids:
+            continue
+        try:
+            proposal_text = proposal_path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        slug_section = _markdown_section(proposal_text, r"^##\s+1\.\s+Loning-format chapter slug\s*$")
+        carrier_section = _markdown_section(proposal_text, r"^##\s+2\.\s+Carrier\s*$")
+        slug_match = re.search(
+            r"(\d{4,6}_[a-z0-9_]+_namecert_construction)",
+            _first_markdown_paragraph(slug_section),
+        )
+        carrier_match = re.search(r"\b(BioReality\w+|RealityBound\w+|Empirical\w+|Curated\w+)\b", carrier_section)
+        if not slug_match or not carrier_match:
+            continue
+        proposed_slug = slug_match.group(1)
+        carrier_name = carrier_match.group(1)
+        derived.append(
+            {
+                "claim_id": claim_id,
+                "hub_filename": f"{proposed_slug}.tex",
+                "subdir_slug": proposed_slug.rsplit("_namecert_construction", 1)[0],
+                "carrier_name": carrier_name.rstrip("Up"),
+                "natural_language": f"the finite reality-bound seed witness for {claim_id}",
+            }
+        )
+    return derived
+
+
 def _repo_path(value: Any, repo_root: Path) -> Path:
     text = str(value or "")
     path = Path(text)
@@ -2100,9 +2159,15 @@ def run_bedc_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
     attempted = 0
     written = 0
     blocked_by_gate = 0
+    auto_discovered_written = 0
     issues_summary: list[dict[str, Any]] = []
+    config_mappings = _mapping_records(config)
+    mapped_claim_ids = {str(mapping.get("claim_id") or "") for mapping in config_mappings}
+    auto_mappings = _auto_discovered_bedc_mappings(proposal_dir, mapped_claim_ids)
+    mapping_queue: list[tuple[str, dict[str, Any]]] = [("config", mapping) for mapping in config_mappings]
+    mapping_queue.extend(("auto", mapping) for mapping in auto_mappings)
 
-    for mapping in _mapping_records(config):
+    for mapping_source, mapping in mapping_queue:
         if written >= max_writebacks:
             break
         claim_id = str(mapping.get("claim_id") or "")
@@ -2142,12 +2207,16 @@ def run_bedc_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
             "written",
             {"claim_id": claim_id, "hub_filename": hub_filename, "subdir_slug": subdir_slug},
         )
+        if mapping_source == "auto":
+            auto_discovered_written += 1
 
     return {
         "lane": "bio-B",
         "attempted": attempted,
         "written": written,
         "blocked_by_gate": blocked_by_gate,
+        "auto_discovered_candidates": len(auto_mappings),
+        "auto_discovered_written": auto_discovered_written,
         "issues_summary": issues_summary,
     }
 
@@ -2433,6 +2502,83 @@ def self_test() -> int:
         )
         if not bedc_gate["passed"]:
             print(json.dumps(bedc_gate, indent=2), file=sys.stderr)
+            return 1
+
+        bedc_auto_paths = _temp_paths(base / "bedc_auto")
+        bedc_auto_paths.namecert_proposals_dir.mkdir(parents=True, exist_ok=True)
+        bedc_auto_target_dir = base / "bedc_auto_target" / "concrete_instances"
+        bedc_auto_aggregator = base / "bedc_auto_target" / "bio_reality_module.tex"
+        bedc_auto_mappings = [
+            {
+                "claim_id": "mapped.claim",
+                "hub_filename": "14120_bioreality_mapped_seed_namecert_construction.tex",
+                "subdir_slug": "bioreality_mapped_seed",
+                "carrier_name": "BioRealityMappedSeed",
+                "natural_language": "the finite reality-bound mapped seed witness",
+            }
+        ]
+        bedc_auto_config_path = base / "bedc_auto_pipeline_config.json"
+        bedc_auto_config_path.write_text(
+            json.dumps(
+                {
+                    "bedc_writeback": {
+                        "enabled": True,
+                        "target_concrete_instances_dir": str(bedc_auto_target_dir),
+                        "module_aggregator": str(bedc_auto_aggregator),
+                        "max_writebacks_per_cycle": 2,
+                        "claim_to_chapter_mapping": bedc_auto_mappings,
+                    }
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+        (bedc_auto_paths.namecert_proposals_dir / "mapped.claim.md").write_text(
+            "\n".join(
+                [
+                    "# NameCert proposal for mapped.claim",
+                    "",
+                    "Mapped proposal body.",
+                ]
+            ),
+            encoding="utf-8",
+        )
+        (bedc_auto_paths.namecert_proposals_dir / "extra.md").write_text(
+            "\n".join(
+                [
+                    "# NameCert proposal for extra",
+                    "",
+                    "## 1. Loning-format chapter slug",
+                    "",
+                    "Proposed chapter slug: 14121_bioreality_extra_seed_namecert_construction.",
+                    "",
+                    "## 2. Carrier",
+                    "",
+                    "Carrier: BioRealityExtraSeedUp.",
+                ]
+            ),
+            encoding="utf-8",
+        )
+        original_pipeline_config = PIPELINE_CONFIG
+        globals()["PIPELINE_CONFIG"] = bedc_auto_config_path
+        try:
+            bedc_auto_summary = run_bedc_writeback_lane(BioRealityStore(bedc_auto_paths))
+        finally:
+            globals()["PIPELINE_CONFIG"] = original_pipeline_config
+        if bedc_auto_summary["written"] != 2 or bedc_auto_summary["auto_discovered_written"] != 1:
+            print(json.dumps(bedc_auto_summary, indent=2), file=sys.stderr)
+            return 1
+        bedc_auto_hub = bedc_auto_target_dir / "14121_bioreality_extra_seed_namecert_construction.tex"
+        bedc_auto_spine = bedc_auto_target_dir / "14121_bioreality_extra_seed" / "namecert_construction.tex"
+        if not bedc_auto_hub.exists() or not bedc_auto_spine.exists():
+            print(json.dumps({"hub": str(bedc_auto_hub), "spine": str(bedc_auto_spine)}, indent=2), file=sys.stderr)
+            return 1
+        bedc_auto_gate = bedc_writeback_gates.validate_chapter_pair(
+            bedc_auto_hub.read_text(encoding="utf-8"),
+            bedc_auto_spine.read_text(encoding="utf-8"),
+        )
+        if not bedc_auto_gate["passed"]:
+            print(json.dumps(bedc_auto_gate, indent=2), file=sys.stderr)
             return 1
 
         promote_paths = _temp_paths(base / "promote")
