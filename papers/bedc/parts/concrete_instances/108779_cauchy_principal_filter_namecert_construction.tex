@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\CauchyPrincipalFilterUp$}
+\label{ch:concrete-instances-cauchy-principal-filter-namecert}
+\origin{human}
+
+Following Kelley and Bourbaki, the $\CauchyPrincipalFilterUp$ packet records the principal-filter specialization used by Cauchy-filter and completion routes. It sits between the Cauchy-filter surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the uniform-space entourage discipline of \autoref{ch:concrete-instances-uniformspace-namecert}, and the uniform-completion boundary of \autoref{ch:concrete-instances-uniformcompletion-namecert}. The packet names the finite principal row that a completion consumer may inspect; it does not turn principal filters into quotient filters, selected limits, host equality, or ambient completeness.
+
+\begin{definition}[CauchyPrincipalFilter carrier]
+\label{def:cauchy-principal-filter-carrier}
+A $\CauchyPrincipalFilterUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+Q=(A,G,F,U,B,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the displayed center row naming the source point or finite address from which the principal filter is generated.
+\item $G$ is the neighbourhood and filter-base row: it lists the finite neighbourhood requests, the principal generator containing $A$, and the basis refinement witnesses accepted by the packet.
+\item $F$ is the $\CauchyFilterUp$ handoff row, recording that the principal filter request is read as a Cauchy-filter request only through the displayed generator and basis witnesses.
+\item $U$ is the $\UniformSpaceUp$ boundary row exposing the entourages through which the principal request is tested.
+\item $B$ is the $\UniformCompletionUp$ boundary row reached after $A,G,F$, and $U$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the center, generator, Cauchy-filter handoff, uniform entourage, and completion-boundary rows.
+\item $K$ records the displayed $\Cont$ replay from the center row through neighbourhood requests, filter-base refinement, Cauchy-filter handoff, uniform-space testing, and completion-boundary readback.
+\item $P$ is the $\Pkg$ provenance over $\CauchyPrincipalFilterUp$, $\CauchyFilterUp$, $\UniformSpaceUp$, $\UniformCompletionUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyPrincipalFilterUp}$ row.
+\end{enumerate}
+The carrier compares two accepted packets only by replaying the displayed rows $A,G,F,U,B,H,K,P,N$. It has no coordinate for quotient-filter equality, selected limits, ultrafilter extension, host equality of completion points, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[CauchyPrincipalFilter NameCert obligations]
+\label{thm:cauchy-principal-filter-namecert-obligations}
+For every accepted $\CauchyPrincipalFilterUp$ carrier $Q=(A,G,F,U,B,H,K,P,N)$, the local $\NameCert_{\CauchyPrincipalFilterUp}$ surface consists exactly of center admission through $A$, principal neighbourhood and filter-base admission through $G$, Cauchy-filter handoff through $F$, uniform-space testing through $U$, uniform-completion boundary exposure through $B$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $K$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-principal-filter-carrier}. The rows $A,G,F,U,B,H,K,P,N$ are the complete finite packet exposed to a consumer.
+
+Read the principal-filter route in order. The center row $A$ supplies the displayed generator, while $G$ records the neighbourhood and filter-base witnesses through which the principal request is admitted.
+
+Next follow the completion-facing handoff. The Cauchy-filter row $F$ is available only after the generator and basis data have been displayed, and the uniform-space row $U$ is the only entourage-testing surface used before a completion boundary is read.
+
+Finally, $B,H,K,P$, and $N$ supply boundary exposure, transport, replay, provenance, and local naming for the same rows. Since no coordinate stores quotient-filter equality, selected limits, ultrafilter extension, host equality, countable choice, or ambient completeness, no additional NameCert obligation can be exported from the packet.
+\end{proof}
+
+\begin{theorem}[CauchyPrincipalFilter convergence handoff]
+\label{thm:cauchy-principal-filter-convergence-handoff}
+Every convergence-facing read exported by an accepted $\CauchyPrincipalFilterUp$ carrier first exposes the displayed center row $A$, the neighbourhood and filter-base row $G$, the $\CauchyFilterUp$ handoff row $F$, and the $\UniformSpaceUp$ entourage row $U$ before it reaches the $\UniformCompletionUp$ boundary row $B$. Thus the packet supplies a finite principal-filter route into Cauchy-filter and completion consumers without selecting a limit or quotienting filters.
+\end{theorem}
+\begin{proof}
+Start with a convergence-facing consumer. The carrier has exactly one source coordinate for the principal filter, namely the displayed center row $A$.
+
+The neighbourhood row $G$ then exposes the finite generator and basis refinement witnesses. A request that lacks those displayed witnesses has no route into the accepted packet.
+
+The handoff row $F$ places the request on the sibling $\CauchyFilterUp$ surface, and the uniform row $U$ records the only entourages that the completion route may inspect. The boundary row $B$ is therefore downstream of the finite principal-filter data rather than an independent completion object.
+
+The transport, replay, provenance, and local naming rows $H,K,P,N$ preserve only this route. Quotient filters, selected limits, host equality of completion points, countable choice, and ambient completeness remain outside the packet.
+\end{proof}
+
+\closureat{CauchyPrincipalFilterUp}{seedStr}
+
+\begin{closurestatus}{\CauchyPrincipalFilterUp}
+  \constructivestory{A $\CauchyPrincipalFilterUp$ packet is generated from a displayed center row, neighbourhood and filter-base row, $\CauchyFilterUp$ handoff, $\UniformSpaceUp$ entourage boundary, $\UniformCompletionUp$ completion boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-principal-filter-carrier}, \autoref{thm:cauchy-principal-filter-namecert-obligations}, and \autoref{thm:cauchy-principal-filter-convergence-handoff} seed the finite principal-filter route from a displayed center through Cauchy-filter and uniform-completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient-filter equality, selected limits, ultrafilter extension, host equality of completion points, countable choice, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, principal generator exposure, filter-base refinement, Cauchy-filter handoff, uniform entourage testing, completion-boundary exposure, replay, provenance, and non-escape for the same finite packet.}
+\end{closurestatus}
