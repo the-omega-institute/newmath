@@ -112,4 +112,32 @@ theorem ClosedBoundedIntervalPacket_root_source_split [AskSetup] [PackageSetup]
           (congrArg (fun row : BHist => append row localName)
             packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left)
 
+theorem ClosedBoundedIntervalPacket_endpoint_containment_route [AskSetup] [PackageSetup]
+    {lower upper order rational dyadic stream readback sealRow transport replay provenance
+      localName exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    (packet : ClosedBoundedIntervalPacket lower upper order rational dyadic stream readback
+      sealRow transport replay provenance localName exported bundle pkg)
+    {containmentRead finiteNet : BHist} (containmentUnary : UnaryHistory containmentRead)
+    (netRoute : Cont dyadic containmentRead finiteNet) :
+    hsame order (append lower upper) ∧ hsame dyadic (append (append lower upper) rational) ∧
+      UnaryHistory finiteNet ∧ PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg PkgSig UnaryHistory
+  constructor
+  · exact packet.right.right.right.right.right.right.right.right.right.right.right.right.right.left
+  · constructor
+    · exact
+        packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left.trans
+          (congrArg (fun row : BHist => append row rational)
+            packet.right.right.right.right.right.right.right.right.right.right.right.right.right.left)
+    · constructor
+      · exact
+          unary_cont_closed
+            packet.right.right.right.right.left
+            containmentUnary
+            netRoute
+      · exact
+          ⟨packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left,
+            packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.ClosedboundedintervalUp
