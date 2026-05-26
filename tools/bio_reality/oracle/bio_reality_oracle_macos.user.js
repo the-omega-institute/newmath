@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BioReality Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bio-reality
-// @version      1.4
+// @version      1.5
 // @description  BioReality-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bio_reality_oracle_server.py on :8769.
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -56,9 +56,9 @@
   const STABLE_CHECKS = 3;
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
-  const NO_OUTPUT_IDLE_TIMEOUT = 420000;
+  const NO_OUTPUT_IDLE_TIMEOUT = 1800000;
   const REFILL_NO_OUTPUT_IDLE_TIMEOUT = 1800000;
-  const SCRIPT_VERSION = "bio-1.4";
+  const SCRIPT_VERSION = "bio-1.5";
   const BIOREALITY_PROJECT_PREFIX = "/g/g-p-6a098a6e69688191a6afd91978c585ef-ge-ben-ha-gen-zhi-lu";
   const BIOREALITY_CHAT_HOME = `https://chatgpt.com${BIOREALITY_PROJECT_PREFIX}/project`;
 
