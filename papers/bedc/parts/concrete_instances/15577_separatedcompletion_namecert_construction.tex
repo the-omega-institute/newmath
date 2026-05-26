@@ -193,6 +193,52 @@ Apply the zero-distance factorization of \autoref{thm:separatedcompletion-zero-d
 The structural support rows are exactly $H,R,T,P,N$: componentwise $\hsame$ transport, displayed $\Cont$ replay, route preservation, $\Pkg$ provenance, and local $\NameCert$ admission. Since the carrier contains no choice, quotient completion, selected-representative, or host-equality coordinate, the source route is choice-free.
 \end{proof}
 
+\begin{theorem}[SeparatedCompletion regular-Cauchy source route]
+\label{thm:separatedcompletion-regular-cauchy-source-route}
+Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. Every regular-Cauchy source read used by the separated-completion boundary factors through the displayed source metric row $M$, dense embedding row $D$, completion handoff row $C$, and separated classifier row $Z$ before the uniqueness row $U$ and the structural rows $H,R,T,P,N$ are consumed. The route may use the dense factorization of \autoref{thm:separated-completion-dense-factorization}, the zero-distance factorization of \autoref{thm:separatedcompletion-zero-distance-factorization}, and the source-comparison exhaustion of \autoref{thm:separatedcompletion-source-comparison-exhaustion}, but it cannot add quotient completions, selected representatives, host equality of completed points, countable choice, ambient $\RealUp$ completeness, or hidden complete metric spaces.
+\end{theorem}
+\begin{proof}
+Start with carrier admission. The visible rows are exactly $M,D,C,Z,U,H,R,T,P,N$, so any regular-Cauchy source read must begin inside the displayed carrier inventory.
+
+Apply dense factorization, \autoref{thm:separated-completion-dense-factorization}. It fixes $M,D$ as the source prefix and $C$ as the completion handoff reached from that prefix.
+
+Apply zero-distance factorization, \autoref{thm:separatedcompletion-zero-distance-factorization}. The separated classifier row $Z$ reads equality through zero-distance evidence over the same handoff, not through host equality of completed points.
+
+Finally use source-comparison exhaustion, \autoref{thm:separatedcompletion-source-comparison-exhaustion}. It leaves only $U,H,R,T,P,N$ as the downstream uniqueness, transport, replay, route, provenance, and naming rows, and the excluded completion and choice objects have no coordinate in the carrier.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion Hausdorff uniqueness route]
+\label{thm:separatedcompletion-hausdorff-uniqueness-route}
+For accepted $\SeparatedCompletionUp$ carriers over displayed rows $M,D,C,Z,U,H,R,T,P,N$, every Hausdorff-style uniqueness read is exhausted by the dense source route $M,D,C$, the zero-distance separated classifier $Z$, the uniqueness boundary $U$, and the transport, replay, route, provenance, and local naming rows $H,R,T,P,N$. The read is a local separated-completion boundary over the theorems \autoref{thm:separated-completion-dense-factorization}, \autoref{thm:separatedcompletion-zero-distance-factorization}, and \autoref{thm:separatedcompletion-source-comparison-exhaustion}; it is not a quotient completion, a selected representative, host equality of completed points, countable choice, ambient $\RealUp$ completeness, or a hidden complete metric space.
+\end{theorem}
+\begin{proof}
+Read the dense source route first. By \autoref{thm:separated-completion-dense-factorization}, a uniqueness consumer must pass through $M,D,C$ before reaching any separated classifier or uniqueness row.
+
+Read the separated classifier next. By \autoref{thm:separatedcompletion-zero-distance-factorization}, $Z$ supplies the zero-distance route that replaces host equality inside the accepted packet.
+
+The Hausdorff-style uniqueness boundary is then the local row $U$ together with the structural rows $H,R,T,P,N$. These rows transport, replay, preserve, source, and name the same displayed route.
+
+Source-comparison exhaustion, \autoref{thm:separatedcompletion-source-comparison-exhaustion}, closes the comparison surface. Since quotient completions, selected representatives, host equality, countable choice, ambient $\RealUp$ completeness, and hidden complete metric spaces are absent from $M,D,C,Z,U,H,R,T,P,N$, they cannot enter the uniqueness read.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion metric-completion handoff]
+\label{thm:separatedcompletion-metric-completion-handoff}
+Every metric-completion handoff exported by an accepted $\SeparatedCompletionUp$ carrier factors through the displayed rows
+$$
+M,D,C,Z,U,H,R,T,P,N .
+$$
+The handoff uses the dense route of \autoref{thm:separated-completion-dense-factorization}, the zero-distance route of \autoref{thm:separatedcompletion-zero-distance-factorization}, and the exhausted comparison surface of \autoref{thm:separatedcompletion-source-comparison-exhaustion}. It exports no quotient completion, selected representative, host equality of completed points, countable choice, ambient $\RealUp$ completeness, or hidden complete metric space.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The metric-completion source row $M$, dense embedding row $D$, and completion handoff row $C$ form the only displayed metric-completion prefix.
+
+Use \autoref{thm:separated-completion-dense-factorization}. It sends every completion-facing handoff through $M,D,C$ before any separated or uniqueness boundary is available.
+
+Use \autoref{thm:separatedcompletion-zero-distance-factorization}. The row $Z$ is the separated comparison route available after the completion handoff, and it is finite zero-distance evidence rather than host equality.
+
+Use \autoref{thm:separatedcompletion-source-comparison-exhaustion}. The remaining rows $U,H,R,T,P,N$ exhaust the uniqueness, transport, replay, route, provenance, and naming surface. Because the carrier has no quotient-completion, selected-representative, host-equality, choice, Real-completeness, or hidden-complete-space coordinate, the metric-completion handoff exports only the displayed finite route.
+\end{proof}
+
 \begin{theorem}[SeparatedCompletion filtered limit boundary]
 \label{thm:separatedcompletion-filtered-limit-boundary}
 For an accepted $\SeparatedCompletionUp$ carrier $S=(M,D,C,Z,U,H,R,T,P,N)$, every filtered limit-boundary read is exhausted by the Cauchy-equivalence source rows displayed by $M,D,C$, the zero-distance separated classifier row $Z$, the local uniqueness row $U$, and the transport and replay rows $H,R,T$. It exports no additional limit selector, quotient class, host equality, countable-choice schedule, or ambient $\RealUp$ completeness row.
