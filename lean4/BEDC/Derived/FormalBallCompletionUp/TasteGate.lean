@@ -1,5 +1,10 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FormalBallCompletionUp
@@ -248,3 +253,47 @@ theorem FormalBallCompletionTasteGate_single_carrier_alignment :
           · rfl
 
 end BEDC.Derived.FormalBallCompletionUp
+
+namespace BEDC.Derived.FormalBallUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def FormalBallCarrier [AskSetup] [PackageSetup]
+    (metric radius dyadic window transport replay provenance nameCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  UnaryHistory metric ∧ UnaryHistory radius ∧ UnaryHistory dyadic ∧
+    UnaryHistory window ∧ UnaryHistory transport ∧ UnaryHistory replay ∧
+      UnaryHistory provenance ∧ UnaryHistory nameCert ∧ Cont metric radius dyadic ∧
+        Cont dyadic window replay ∧ Cont transport replay provenance ∧
+          PkgSig bundle provenance pkg
+
+theorem FormalBallCarrier_completion_dependency_scope [AskSetup] [PackageSetup]
+    {metric radius dyadic window transport replay provenance nameCert completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FormalBallCarrier metric radius dyadic window transport replay provenance nameCert bundle
+        pkg ->
+      Cont metric radius dyadic ->
+        Cont dyadic window completionRead ->
+          PkgSig bundle completionRead pkg ->
+            UnaryHistory metric ∧ UnaryHistory radius ∧ UnaryHistory dyadic ∧
+              UnaryHistory window ∧ UnaryHistory completionRead ∧ Cont metric radius dyadic ∧
+                Cont dyadic window completionRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier metricRadiusDyadic dyadicWindowCompletion completionPkg
+  obtain ⟨metricUnary, radiusUnary, dyadicUnary, windowUnary, _transportUnary,
+    _replayUnary, _provenanceUnary, _nameCertUnary, _metricRadius, _dyadicWindowReplay,
+    _transportReplay, provenancePkg⟩ := carrier
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed dyadicUnary windowUnary dyadicWindowCompletion
+  exact
+    ⟨metricUnary, radiusUnary, dyadicUnary, windowUnary, completionUnary,
+      metricRadiusDyadic, dyadicWindowCompletion, provenancePkg, completionPkg⟩
+
+end BEDC.Derived.FormalBallUp
