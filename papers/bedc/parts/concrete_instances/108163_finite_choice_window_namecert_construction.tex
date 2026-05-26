@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\FiniteChoiceWindowUp$}
+\label{ch:concrete-instances-finite-choice-window-namecert}
+\origin{human}
+
+Following Bishop--Bridges finite choice discipline, the $\FiniteChoiceWindowUp$ packet records only those selections whose request set is already displayed as a finite unary-indexed spine. It sits between the finite observation gateway of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}; it supplies the L10 StreamName and RegSeqRat route with a finite section, not a countable-choice principle or a selected limiting object.
+
+\begin{definition}[Finite choice window carrier]
+\label{def:finite-choice-window-carrier}
+A $\FiniteChoiceWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(I,A,S,D,R,H,C,P,N)
+$$
+with the following rows.
+\begin{enumerate}
+\item $I$ is a displayed unary index spine naming the finite request positions.
+\item $A$ is the finite candidate-row ledger, with one nonempty candidate list attached to each position of $I$.
+\item $S$ is the selected finite-section row, containing exactly one selected candidate for each displayed position of $I$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row that bounds the request.
+\item $R$ is the $\RegSeqRatUp$ classifier and readback row consumed at the selected finite section.
+\item $H,C,P,N$ are respectively the componentwise $\hsame$ transport row, displayed $\Cont$ replay row, $\Pkg$ provenance row, and local $\NameCert_{\FiniteChoiceWindowUp}$ row.
+\end{enumerate}
+The classifier reads only $I,A,S,D,R,H,C,P,N$. It has no coordinate for countable choice, dependent choice, selected limits, quotient stream equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite choice window NameCert surface]
+\label{thm:finite-choice-window-namecert-surface}
+For every accepted $\FiniteChoiceWindowUp$ carrier $W=(I,A,S,D,R,H,C,P,N)$, the local $\NameCert_{\FiniteChoiceWindowUp}$ surface consists exactly of five obligation families:
+\begin{enumerate}
+\item carrier admission for the unary index spine $I$ and the candidate-row ledger $A$;
+\item finite-section exactness, saying that $S$ selects one displayed candidate for each displayed position and no undisplayed position;
+\item tolerance compatibility with the $\DyadicRatCoreUp$ row $D$ and the $\StreamNameUp$ finite window that consumes the section;
+\item $\RegSeqRatUp$ classifier and readback routing through $R$ after the selected finite section is fixed;
+\item structural support through $H,C,P,N$, together with refusal of countable choice, dependent choice, selected limits, quotient stream equality, and ambient $\RealUp$ completeness.
+\end{enumerate}
+These obligations are precisely the finite window surface needed by the L10 route through $\StreamNameUp$ and $\RegSeqRatUp$.
+\end{theorem}
+\begin{proof}
+Induct on the displayed unary index spine $I$. In the empty case, the candidate ledger and selected section are empty, and the carrier is admitted by the displayed transport, replay, provenance, and local naming rows.
+
+For the successor step, assume the obligation surface has been built for the preceding finite spine. The next displayed position contributes one finite nonempty candidate list and one selected row. Adjoin that selected row to the finite section, transport it by $H$, replay the local route by $C$, and record its provenance in $P$ and $N$.
+
+The dyadic tolerance row $D$ is stable under this finite adjoining step because the $\DyadicRatCoreUp$ ledger is read at the displayed request positions. The $\StreamNameUp$ consumer sees the resulting finite section as a finite observation window, and the $\RegSeqRatUp$ consumer reads $R$ only after that window has been fixed.
+
+No limiting step is used in the induction. Since every constructor step consumes one displayed list row and one displayed selected row, the proof never forms a countable-choice schedule, a dependent-choice chain, a selected limit, a quotient stream equality, or an ambient $\RealUp$ completeness witness.
+\end{proof}
+
+\closureat{FiniteChoiceWindowUp}{seedStr}
+
+\begin{closurestatus}{\FiniteChoiceWindowUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-choice-window-carrier} and \autoref{thm:finite-choice-window-namecert-surface} seed the finite unary-indexed candidate carrier and its five NameCert obligation families for the L10 StreamName and RegSeqRat route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim countable choice, dependent choice, selected limits, quotient stream equality, Lean verification, bridge checking, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-section exactness, dyadic tolerance compatibility, StreamName window routing, RegSeqRat readback routing, and support-row refusal for the same finite packet.}
+  \constructivestory{A $\FiniteChoiceWindowUp$ packet is generated from a displayed unary index spine, finite candidate rows, selected finite-section rows, a DyadicRatCore tolerance ledger, RegSeqRat readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
