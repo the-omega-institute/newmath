@@ -62,6 +62,15 @@ AGENTS = {
         ],
         "mission": "implement or repair BioReality experiment scripts that produce a single JSON result with checks and status",
     },
+    "bio-data-fetcher": {
+        "lane": "bio-R",
+        "writes": [
+            "tools/bio_reality/data/*.json",
+            "tools/bio_reality/data/*.py",
+            "tools/bio_reality/data/manifests/*.json",
+        ],
+        "mission": "fetch curated public biological reality data (NCBI / UniProt / Ensembl / RefSeq / EBI) via urllib.request, store as versioned JSON under tools/bio_reality/data/ with provenance, never write paper or experiment scripts",
+    },
     "bio-planner": {
         "lane": "bio-R",
         "writes": [
@@ -379,7 +388,7 @@ def plan_agent_tasks(events: list[dict[str, Any]], existing_tasks: list[dict[str
         elif kind in {"experiment_failed", "experiment_error"}:
             append_task(event, "bio-experimentalist", "repair_experiment_script", 98)
         elif kind == "data_contact_needed":
-            append_task(event, "bio-experimentalist", "add_data_manifest", 96)
+            append_task(event, "bio-data-fetcher", "fetch_curated_external_data", 96)
         elif kind == "phase_advance_proposed":
             append_task(event, "bio-planner", "draft_next_phase_claim_and_experiment", 70)
         elif kind == "claim_redesign_proposed":
@@ -447,6 +456,58 @@ def render_prompt(event: dict[str, Any], agent_id: str, action: str) -> str:
             'Step 0d. After repair, run the script again and confirm it now produces status="passed". If the failure is theoretically real and not a script bug, Do NOT fake passed: leave it failed and instead propose adding a new experiment with a different statistic; in this case write a notes file tools/bio_reality/state/proposed_experiments/<id>.md describing what new experiment should be added, but you yourself may not add it.',
             "",
             "You may only edit script files matching tools/bio_reality/experiments/run_*.py or data files under tools/bio_reality/data/. The script must end by printing a single-line JSON to stdout with fields experiment_id, claim_id, status, checks, result, started_at, completed_at. Python 3 stdlib only.",
+        ]
+    elif agent_id == "bio-data-fetcher":
+        extra_rules = [
+            "",
+            "DATA FETCHER DISCIPLINE (hard rules for bio-data-fetcher):",
+            "",
+            "Allowed sources (公开 stable curated 生物数据库, no scraping):",
+            "- https://www.ncbi.nlm.nih.gov/...  (CDS, RefSeq, transl_table)",
+            "- https://eutils.ncbi.nlm.nih.gov/entrez/eutils/...  (E-utilities REST API)",
+            "- https://rest.uniprot.org/...  (UniProt REST)",
+            "- https://rest.ensembl.org/...  (Ensembl REST)",
+            "- https://gtrnadb.ucsc.edu/...  (tRNA reference)",
+            "- https://www.ebi.ac.uk/ena/browser/...  (ENA stable accessions)",
+            "",
+            "Forbidden sources:",
+            "- arxiv.org, wikipedia.org, biorxiv.org, github.com (preprint / wiki / source repos)",
+            "- Any URL behind authentication",
+            "- Any URL that requires JavaScript rendering",
+            "- Scraping HTML pages instead of REST/JSON endpoints",
+            "",
+            "Mandatory provenance for every fetched file:",
+            "1. Save raw data to tools/bio_reality/data/<source_name>_<accession_or_id>.json",
+            "2. Compute sha256 of the raw response bytes",
+            "3. Save provenance to tools/bio_reality/data/manifests/<same_basename>.json with:",
+            "   {",
+            '     "fetched_at": "<iso-utc>",',
+            '     "source_url": "<the exact URL queried>",',
+            '     "source_name": "ncbi|uniprot|ensembl|gtrnadb|ena",',
+            '     "accession_or_id": "<...>",',
+            '     "sha256": "<hex>",',
+            '     "byte_size": <int>,',
+            '     "fetched_by": "bio-data-fetcher",',
+            '     "intended_claim_id": "<claim_id from event>"',
+            "   }",
+            "4. Reject and abort fetch if response is HTML (Content-Type starts with text/html)",
+            "5. Reject and abort fetch if response > 50 MB",
+            '6. Use urllib.request with timeout=60s. Set User-Agent to "BioReality-data-fetcher/1.0 (mailto:omega@example.invalid)"',
+            "",
+            "Mandatory pre-fetch steps:",
+            "- Inspect the event payload to learn which claim's needs_data triggered this. Read tools/bio_reality/registries/claims.json and find the claim. Read its experiment_id, then read tools/bio_reality/registries/experiments.json to find the experiment's required_data list.",
+            "- For each missing file in required_data, decide which curated source provides it. If you cannot map a required_data file to a curated stable URL, do NOT fabricate data. Instead write a one-paragraph rationale to tools/bio_reality/state/proposed_data_sources/<claim_id>.md describing what source would be needed.",
+            "",
+            "Mandatory post-fetch steps:",
+            "- Re-run the claim's experiment via python3 <script_path>. If it now status=passed or status=failed (not needs_data), the fetch is successful.",
+            "- If it still status=needs_data, undo the fetch (delete the json files) and write a diagnosis to state/proposed_data_sources/<claim_id>.md.",
+            "",
+            "Strict no-go:",
+            "- Never write any .py file outside tools/bio_reality/data/",
+            "- Never modify experiment scripts (that is bio-experimentalist's job)",
+            "- Never modify claims.json or experiments.json (that is bio-planner's job)",
+            "- Never write Lean code (Lean is handled by a separate downstream pipeline)",
+            "- Never commit; the orchestrator owns commits",
         ]
     elif agent_id == "bio-planner":
         extra_rules = [
@@ -1178,6 +1239,47 @@ def self_test() -> int:
         ):
             print(json.dumps(planner_tasks, indent=2), file=sys.stderr)
             return 1
+        data_fetch_tasks = plan_agent_tasks(
+            [
+                _event(
+                    "data_contact_needed",
+                    "bio-X",
+                    "experiment",
+                    "self_experiment",
+                    "experiment needs data: self.claim",
+                    {"claim_id": "self.claim", "experiment_id": "self_experiment", "status": "needs_data"},
+                )
+            ]
+        )
+        data_fetch_task = next((task for task in data_fetch_tasks if task.get("agent_id") == "bio-data-fetcher"), {})
+        if (
+            data_fetch_task.get("action") != "fetch_curated_external_data"
+            or int(data_fetch_task.get("priority") or 0) != 96
+        ):
+            print(json.dumps(data_fetch_tasks, indent=2), file=sys.stderr)
+            return 1
+        data_fetch_prompt = render_prompt(
+            _event(
+                "data_contact_needed",
+                "bio-X",
+                "experiment",
+                "self_experiment",
+                "experiment needs data: self.claim",
+                {"claim_id": "self.claim", "experiment_id": "self_experiment", "status": "needs_data"},
+            ),
+            "bio-data-fetcher",
+            "fetch_curated_external_data",
+        )
+        for required_text in (
+            "DATA FETCHER DISCIPLINE",
+            "Allowed sources",
+            "Mandatory provenance",
+            "Never write Lean code",
+            "Reject and abort fetch if response is HTML",
+        ):
+            if required_text not in data_fetch_prompt:
+                print(json.dumps({"missing": required_text, "prompt": data_fetch_prompt}, indent=2), file=sys.stderr)
+                return 1
         planner_prompt = render_prompt(
             _event("phase_advance_proposed", "bio-Plan", "phase", "1", "phase passed", {}),
             "bio-planner",
