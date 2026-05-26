@@ -203,6 +203,24 @@ There is no coordinate for full substitution compatibility, subject reduction,
 global $\beta$-conversion decidability, or arbitrary closed Church--Rosser.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit closed-diamond candidate exhaustion]
+\label{thm:metacic-confluence-audit-closed-diamond-candidate-exhaustion}
+Let $A=(D,C,N,A_0,S,R,H,T,P,L)$ be an accepted $\MetaCICConfluenceAuditPacketUp$ carrier. Any closed-diamond candidate read of $A$ is exhausted by the rows
+$$
+D,C,N,A_0,S,R,H,T,P,L
+$$
+together with the displayed $\mathsf{ClosedAt}$ hypotheses attached to the closed substitution face. The candidate read may consume the conditional diamond row, closed star handoff, normal-fragment rows, source-shape row, substitution-boundary row, subject-reduction separation row, transport, replay, provenance, and local naming, but it cannot be promoted to $\mathsf{BetaParallelSubstitutionCompatibility}$, $\mathsf{BetaParallelDiamondClosed}$, arbitrary subject reduction, or unrestricted closed Church--Rosser.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:metacic-confluence-audit-packet-carrier}. A closed-diamond candidate can read only the displayed packet rows $D,C,N,A_0,S,R,H,T,P,L$.
+
+Apply the conditional boundary of \autoref{thm:metacic-confluence-audit-packet-conditional-boundary}. This keeps the diamond candidate tied to the conditional bridge rows $D,C$ rather than turning it into an unconditional closed parallel diamond.
+
+Next apply the closed substitution boundary of \autoref{thm:metacic-confluence-audit-packet-closed-substitution-boundary} and the closed-face decider boundary of \autoref{thm:metacic-confluence-audit-closed-face-decider-boundary}. These force any closed-face use through $S,H,T,P,L$ and the displayed $\mathsf{ClosedAt}$ hypotheses.
+
+Finally use the subject-reduction separation and packet nonescape boundaries. The row $R$ remains a separation row, while $N,A_0$ supply only the named normal and source-shape fragments. Since no carrier coordinate names full substitution compatibility, a closed parallel diamond theorem, arbitrary subject reduction, or unrestricted closed Church--Rosser, the listed rows exhaust the candidate read.
+\end{proof}
+
 \begin{theorem}[MetaCIC confluence audit packet subject-reduction separation]
 \label{thm:metacic-confluence-audit-packet-subject-reduction-separation}
 The subject-reduction separation row $R$ of an accepted
