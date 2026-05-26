@@ -182,6 +182,20 @@ Apply the componentwise $\hsame$ transport rows. They carry the prefix, gap, ret
 Now use the displayed $\Cont$ replay rows. The same prefix requests replay through the same gap checks and retained interval rows before the endpoint ledger is consumed. Therefore $D'$ is admitted exactly when it continues the transported retained route, and it determines the same endpoint path for the downstream $\RegSeqRatUp$ and $\RealUp$ reads.
 \end{proof}
 
+\begin{theorem}[Cantor set middle-third window exhaustion]
+\label{thm:cantor-set-middle-third-window-exhaustion}
+For every accepted $\CantorSetUp$ carrier $C=(T,G,I,D,R,E,H,K,P,N)$, every membership-facing read of the middle-third construction is exhausted by the displayed ternary prefix window $T$, deleted-gap ledger $G$, retained nested-interval handoff $I$, endpoint ledger $D$, $\RealUp$ handoff rows $R,E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $K$, $\Pkg$ provenance $P$, and local $\NameCert_{\CantorSetUp}$ row $N$. No membership read may add a host powerset, quotient real equality, selected infinite branch, open-cover compactness theorem, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Induct on the displayed ternary prefix window $T$. The empty window reads only the initial retained interval, and \autoref{thm:cantor-set-ternary-prefix-classifier} places that read before any deleted-gap ledger, endpoint ledger, or Real seal is available.
+
+For the induction step, append one retained left-third or right-third symbol to the finite window. The prefix classifier again reads the appended symbol as a retained-third decision, while \autoref{thm:cantor-set-prefix-gap-separation} forces the corresponding deleted-middle exclusion to pass through the finite gap ledger $G$.
+
+The retained interval is then handed to $I$ by \autoref{thm:cantor-set-nested-interval-handoff}. Endpoint compatibility is preserved by \autoref{thm:cantor-set-endpoint-ledger-stability}, so the endpoint row $D$ continues to determine the same retained endpoint route for the downstream regular-rational and Real-facing rows.
+
+Finally apply \autoref{thm:cantor-set-real-seal-nonescape}. The rows $R,E,H,K,P,N$ seal, transport, replay, source, and name exactly the finite route already constructed by the induction. Since the carrier has no coordinate outside those rows, the displayed middle-third window exhausts every membership-facing read.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\CantorSetUp$ real-facing read factors through the displayed ternary-prefix ledger, deleted-middle interval ledger, retained nested-interval row, endpoint ledger, regular-rational handoff, and $\RealUp$ seal before the set membership surface is consumed.}
 
 \independenceWitness{nestedinterval, dyadicinterval, regseqrat, real, cantorspace: $\CantorSetUp$ is not bijective to any listed sibling because it jointly carries a ternary retained-prefix ledger, deleted-middle gap ledger, retained nested interval row, endpoint compatibility row, regular-rational handoff, real seal, transport, continuation replay, provenance, and local naming.}
