@@ -112,4 +112,38 @@ theorem ClosedBoundedIntervalPacket_root_source_split [AskSetup] [PackageSetup]
           (congrArg (fun row : BHist => append row localName)
             packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left)
 
+theorem ClosedBoundedIntervalPacket_root_obligation_spine [AskSetup] [PackageSetup]
+    {lower upper order rational dyadic stream readback sealRow transport replay provenance
+      localName exported endpointSource containmentSource sealSource : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClosedBoundedIntervalPacket lower upper order rational dyadic stream readback sealRow
+        transport replay provenance localName exported bundle pkg ->
+      Cont lower upper endpointSource ->
+        Cont rational dyadic containmentSource ->
+          Cont stream readback sealSource ->
+            PkgSig bundle endpointSource pkg ->
+              PkgSig bundle containmentSource pkg ->
+                PkgSig bundle sealSource pkg ->
+                  UnaryHistory endpointSource ∧ UnaryHistory containmentSource ∧
+                    UnaryHistory sealSource ∧ Cont lower upper endpointSource ∧
+                      Cont rational dyadic containmentSource ∧ Cont stream readback sealSource ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle endpointSource pkg ∧
+                          PkgSig bundle containmentSource pkg ∧ PkgSig bundle sealSource pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro packet endpointRoute containmentRoute sealRoute endpointPkg containmentPkg sealPkg
+  obtain ⟨lowerUnary, upperUnary, _orderUnary, rationalUnary, dyadicUnary, streamUnary,
+    readbackUnary, _sealRowUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _exportedUnary, _carrierEndpointRoute, _carrierContainmentRoute,
+    _carrierSealRoute, _carrierReplayRoute, _carrierNameRoute, provenancePkg, _localNamePkg⟩ :=
+      packet
+  have endpointUnary : UnaryHistory endpointSource :=
+    unary_cont_closed lowerUnary upperUnary endpointRoute
+  have containmentUnary : UnaryHistory containmentSource :=
+    unary_cont_closed rationalUnary dyadicUnary containmentRoute
+  have sealUnary : UnaryHistory sealSource :=
+    unary_cont_closed streamUnary readbackUnary sealRoute
+  exact
+    ⟨endpointUnary, containmentUnary, sealUnary, endpointRoute, containmentRoute, sealRoute,
+      provenancePkg, endpointPkg, containmentPkg, sealPkg⟩
+
 end BEDC.Derived.ClosedboundedintervalUp
