@@ -113,6 +113,46 @@ Use the carrier row $R$ for monotone-cofinal reindexing and $Q$ for the regular 
 Finally use $H,C,P,N$ to transport, replay, source, and name the route. Because the subsequence is read from retained finite windows and regular rational schedules, no external selector or ambient completeness object is available.
 \end{proof}
 
+\begin{definition}[Bolzano--Weierstrass finite monotone-subsequence window]
+\label{def:bolzano-weierstrass-monotone-subsequence-window}
+For an accepted $\BolzanoWeierstrassUp$ carrier $B=(S,K,R,Q,E,H,C,P,N)$, a finite monotone-subsequence window is the displayed BEDC row obtained by pairing:
+\begin{enumerate}
+\item the retained closed bounded interval rows of $K$, read as finite $\ClosedBoundedIntervalNetUp$ cells over the bounded source windows of $S$;
+\item the monotone-cofinal reindexing ledger of $R$, read as the $\RegularCauchySubsequenceUp$ schedule that keeps the retained rows in increasing subsequence order;
+\item the $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ readback rows of $Q$ attached to the same retained windows;
+\item the transport, replay, provenance, and local naming rows $H,C,P,N$.
+\end{enumerate}
+The window has no coordinate for a selected infinite subsequence, quotient real equality, host open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bolzano--Weierstrass monotone window regularity]
+\label{thm:bolzano-weierstrass-monotone-window-regularity}
+Every finite monotone-subsequence window of an accepted $\BolzanoWeierstrassUp$ carrier is a regular BEDC readback surface. Its retained interval rows are read through the same $\StreamNameUp$ schedule, $\DyadicRatCoreUp$ mesh bounds, and $\RegSeqRatUp$ rational readback that already occur in $S,K,R,Q,H,C,P,N$.
+
+Consequently regularity is witnessed by the displayed finite windows and monotone-cofinal ledger, not by an external selector, a quotient stream, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:bolzano-weierstrass-monotone-subsequence-window}. The retained interval rows come from $K$, and the only admitted order on them is the monotone-cofinal schedule recorded by $R$.
+
+Read the retained rows through $Q$. The $\StreamNameUp$ coordinate supplies the finite window schedule, the $\DyadicRatCoreUp$ coordinate supplies the dyadic mesh and containment bounds, and the $\RegSeqRatUp$ coordinate supplies the regular rational readback.
+
+Finally transport the same rows through $H,C,P,N$. Since every regularity datum has already been displayed before the $\RealUp$ seal is inspected, the theorem proves regularity of the finite window surface rather than a host-level subsequence choice principle.
+\end{proof}
+
+\begin{theorem}[Bolzano--Weierstrass closed-interval cluster handoff]
+\label{thm:bolzano-weierstrass-closed-interval-cluster-handoff}
+For an accepted $\BolzanoWeierstrassUp$ carrier $B=(S,K,R,Q,E,H,C,P,N)$, every cluster handoff to $\RealUp$ factors through a finite monotone-subsequence window. The route first reads retained $\ClosedBoundedIntervalNetUp$ rows from $K$, then the monotone-cofinal $\RegularCauchySubsequenceUp$ ledger from $R$, then the $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ readback rows from $Q$, and only then reaches the seal row $E$.
+
+The handoff exports no open-cover compactness, selected subsequence choice, quotient real equality, or ambient $\RealUp$ completeness. It reaches $\RealUp$ only through the finite retained rows and their displayed transport, replay, provenance, and local $\NameCert$ coordinates.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:bolzano-weierstrass-root-interval-tree-obligation} to obtain the finite retained interval tree and bounded source windows. These rows are the only interval data exposed by $K$.
+
+Use \autoref{thm:bolzano-weierstrass-root-subsequence-extraction-obligation} to read the monotone-cofinal schedule through $R$ and the regular rational surface through $Q$. The preceding regularity theorem identifies that surface as the finite monotone-subsequence window.
+
+Only after these rows are displayed may the cluster row $E$ be consumed. The support rows $H,C,P,N$ preserve the same route, so the cluster handoff remains a finite closed-interval derivation surface and never becomes an open-cover or ambient-completeness assertion.
+\end{proof}
+
 \begin{theorem}[Bolzano--Weierstrass root Real-seal obligation]
 \label{thm:bolzano-weierstrass-root-real-seal-obligation}
 Every $\RealUp$ cluster endpoint exposed by an accepted $\BolzanoWeierstrassUp$ carrier is routed through the root interval-tree obligation and the root subsequence extraction obligation before the seal row $E$ is read. The cluster endpoint is therefore a displayed Real seal over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, not a host-level completeness point.
