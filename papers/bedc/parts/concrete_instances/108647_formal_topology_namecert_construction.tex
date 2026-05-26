@@ -1,0 +1,54 @@
+\chapter{A Concrete Naming Certificate for $\FormalTopologyUp$}
+\label{ch:concrete-instances-formal-topology-namecert}
+\origin{human}
+
+Following Vickers formal topology and Bishop--Bridges constructive completion, the $\FormalTopologyUp$ packet records a cover-and-refinement presentation whose finite BEDC rows connect formal-ball neighbourhoods to rounded ideal completion without importing quotient opens, selected points, choice, or ambient completeness. It sits between the formal-ball carrier of \autoref{ch:concrete-instances-formalball-namecert}, the rounded ideal completion route of \autoref{ch:concrete-instances-rounded-ideal-completion-namecert}, the metric source of \autoref{ch:concrete-instances-metric-namecert}, the dyadic radius ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}.
+
+\begin{definition}[FormalTopology carrier]
+\label{def:formal-topology-carrier}
+A $\FormalTopologyUp$ carrier is a finite $\BHist$ packet
+$$
+T=(M,B,U,R,D,S,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricSpaceUp$ source row whose point histories and distance witnesses are used by every formal-ball centre.
+\item $B$ is the finite $\FormalBallUp$ neighbourhood row over $M$, carrying centres, positive radii, and the local ball classifier.
+\item $U$ is the finite cover/refinement ledger: every cover request names finitely many displayed formal-ball neighbourhoods and every refinement request records the source and target neighbourhood rows it compares.
+\item $R$ is the rounded-neighbourhood row, recording smaller formal-ball witnesses for accepted basic neighbourhoods.
+\item $D$ is the $\DyadicRatCoreUp$ radius-comparison ledger for strict radius shrinkage, overlap budgets, and refinement inequalities.
+\item $S$ is the $\StreamNameUp$ finite-window row used to inspect centre observations, cover requests, and rounded-ideal membership windows.
+\item $I$ is the $\RoundedIdealCompletionUp$ handoff row, exposing only rounded directed formal-ball membership data to completion-facing consumers.
+\item $H$ records componentwise $\hsame$ transport for metric rows, formal-ball neighbourhoods, cover/refinement ledgers, dyadic comparisons, stream windows, rounded-ideal handoff rows, replay rows, provenance rows, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from finite cover requests through refinement, roundedness, radius comparison, and rounded-ideal completion handoff.
+\item $P$ is the $\Pkg$ provenance over $\FormalTopologyUp$, $\FormalBallUp$, $\RoundedIdealCompletionUp$, $\MetricSpaceUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FormalTopologyUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for open-cover compactness, quotient opens, selected points, countable choice, host topological equality, or ambient metric completeness.
+\end{definition}
+
+\begin{theorem}[FormalTopology cover stability]
+\label{thm:formal-topology-cover-stability}
+For an accepted $\FormalTopologyUp$ carrier $T=(M,B,U,R,D,S,I,H,C,P,N)$, every finite cover or refinement read factors through the same displayed route
+$$
+M,B \longmapsto U,R,D,S \longmapsto H,C,P,N .
+$$
+Componentwise $\hsame$ transport through $H$ preserves the cover ledger, the rounded-neighbourhood witnesses, the dyadic radius comparisons, the stream windows, and the local naming row. No transported read may replace the finite cover ledger by a quotient-open classifier, a selected point, a choice function, an open-cover compactness principle, or an ambient completeness theorem.
+\end{theorem}
+
+\begin{theorem}[FormalTopology rounded-ideal handoff]
+\label{thm:formal-topology-rounded-ideal-handoff}
+Let $T=(M,B,U,R,D,S,I,H,C,P,N)$ be an accepted $\FormalTopologyUp$ carrier. Every completion-facing consumer of its neighbourhood data must pass through the rounded-ideal row $I$ after the formal-ball neighbourhoods $B$, the cover/refinement ledger $U$, the roundedness row $R$, the dyadic comparison ledger $D$, and the stream-window row $S$ have been displayed.
+
+Thus the handoff to \autoref{ch:concrete-instances-rounded-ideal-completion-namecert} exports a finite rounded directed formal-ball surface and exports no quotient open, selected limit point, countable-choice schedule, host topological equality, open-cover compactness proof, or ambient complete-space coordinate.
+\end{theorem}
+
+\begin{closurestatus}{\FormalTopologyUp}
+  \constructivestory{A $\FormalTopologyUp$ packet is generated from a MetricSpace source row, finite FormalBall neighbourhoods, a cover/refinement ledger, rounded-neighbourhood witnesses, DyadicRatCore radius comparisons, StreamName windows, rounded-ideal completion handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:formal-topology-carrier}, \autoref{thm:formal-topology-cover-stability}, and \autoref{thm:formal-topology-rounded-ideal-handoff} seed the finite formal-topology cover/refinement route from formal-ball neighbourhoods to rounded ideal completion.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, quotient opens, selected points, choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cover/refinement stability, dyadic radius comparison, StreamName replay, rounded-ideal handoff, transport, provenance, local naming, and ledger non-escape for the same packet.}
+\end{closurestatus}
