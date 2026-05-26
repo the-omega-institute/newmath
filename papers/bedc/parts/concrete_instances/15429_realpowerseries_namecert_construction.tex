@@ -122,6 +122,43 @@ The selected windows $W$ expose only the coefficients, real-point readbacks, pow
 The majorant row $M$ is then the only route from the finite partial sums to endpoint convergence data. Reading $E$ and the structural rows $H,C,P,N$ therefore hands off a finite radius-window certificate and no host convergence theorem.
 \end{proof}
 
+\begin{theorem}[Real power series coefficient-shift route]\label{thm:real-power-series-coefficient-shift-route}
+Let $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$ be an accepted $\RealPowerSeriesUp$ carrier. Shifting the center row $Z$ to any displayed subcenter admitted by the finite radius-window row $R$ preserves coefficient reads only along
+$$
+A,Z,X,R \longmapsto W \longmapsto S \longmapsto M \longmapsto E
+$$
+together with $H,C,P,N$. The shifted read may reindex a displayed finite coefficient window, but it cannot import an ambient Taylor expansion, a chosen analytic continuation, or an infinite coefficient selector.
+\end{theorem}
+\begin{proof}
+Begin with the radius-window handoff of \autoref{thm:real-power-series-radius-window-handoff}. It places every endpoint-facing read after the coefficient, center, argument, and radius rows $A,Z,X,R$.
+
+A subcenter is therefore visible only as data already admitted by $R$ and inspected through the finite window row $W$. Reindexing coefficients changes the window read, not the carrier route.
+
+The partial-sum and majorant rows $S,M$ consume that displayed window before the endpoint seal $E$ is available. The structural rows $H,C,P,N$ transport, replay, source, and name the same packet, so no host analytic continuation or infinite coefficient selection is introduced.
+\end{proof}
+
+\begin{theorem}[Real power series Cauchy-product radius budget]\label{thm:real-power-series-cauchy-product-radius-budget}
+For an accepted $\RealPowerSeriesUp$ carrier $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, every product of accepted partial-sum windows must consume the displayed $\CauchyProductUp$ budget inside $S$ before it reaches the endpoint seal $E$. The product route remains bounded by the same $A,Z,X,R,W,S,M,H,C,P,N$ rows and cannot pass directly from two host sums to an endpoint value.
+\end{theorem}
+\begin{proof}
+Read the product request as a consumer of the partial-sum row $S$. By \autoref{thm:real-power-series-radius-window-handoff}, $S$ is reached only after the coefficient, center, argument, radius, and finite-window rows have been displayed.
+
+The Cauchy-product budget is therefore a finite ledger inside the partial-sum route. It pairs only accepted windows already exposed by $W$ and then hands the resulting product window to the majorant row $M$.
+
+Only after that majorant route is consumed may the endpoint seal $E$ be read. Thus the product construction has no coordinate for multiplying selected infinite sums, appealing to host convergence, or bypassing the displayed radius budget.
+\end{proof}
+
+\begin{theorem}[Real power series majorant consumer coverage]\label{thm:real-power-series-majorant-consumer-coverage}
+Every convergence-facing consumer of an accepted $\RealPowerSeriesUp$ carrier must select exactly one displayed majorant route from $\WeierstrassMTestUp$, $\RegularCauchyRatioTestUp$, or $\RegularCauchyRootTestUp$ at row $M$ before reading $E$. A consumer that uses host analytic continuation, a selected infinite sum, or an unstated completeness theorem is not a $\RealPowerSeriesUp$ consumer of the displayed packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-power-series-radius-window-handoff}. The endpoint-facing path passes through $S$ and then through $M$, so convergence data is visible only at the majorant row.
+
+The carrier description gives three displayed majorant routes at $M$: the M-test route, the ratio-test route, and the root-test route. Choosing more than one route would be additional data, while choosing none would leave no convergence-facing coordinate before $E$.
+
+The endpoint seal consumes exactly the selected route. Host analytic continuation, selected infinite sums, and ambient completeness are absent from the carrier and are refused by the finite-window boundary.
+\end{proof}
+
 \begin{theorem}[Real power series coefficient-window transport]\label{thm:real-power-series-coefficient-window-transport}
 Let $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$ be an accepted $\RealPowerSeriesUp$ carrier. Any coefficient-window consumer transported along $H$ and replayed along $C$ reaches the partial-sum row $S$ only through the displayed coefficient row $A$ and the finite window row $W$. The transported read preserves the same center row $Z$, argument row $X$, radius row $R$, majorant row $M$, endpoint seal $E$, provenance $P$, and local naming $N$.
 \end{theorem}
