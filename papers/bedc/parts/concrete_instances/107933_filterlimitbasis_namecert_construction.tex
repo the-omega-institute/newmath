@@ -65,6 +65,22 @@ Replay the displayed continuation row $C$. The request consumes $Q$ and $F$, the
 The structural rows do not create an additional completion object. Transport through $H$, provenance through $P$, and local naming through $N$ record the same finite route, so every $\CauchyFilterCompletionUp$ or $\RealUp$ consumer receives only that route.
 \end{proof}
 
+\begin{theorem}[FilterLimitBasis Real handoff stability]
+\label{thm:filter-limit-basis-real-handoff-stability}
+Let $B=(Q,F,L,W,R,D,E,H,C,P,N)$ be an accepted $\FilterLimitBasisUp$ carrier. Componentwise transport of the displayed rows $Q,F,L,W,R,D,E,H,C,P,N$ preserves the terminal $\RealUp$ handoff of \autoref{thm:filter-limit-basis-cauchyfiltercompletion-handoff}. In particular, any transported completion-facing or Real-facing read still factors through the same finite route
+$$
+Q,F,L,W,R,D \longmapsto E \longmapsto H,C,P,N
+$$
+and cannot create quotient filters, selected limits, ultrafilters, countable-choice schedules, host filter equality, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition \autoref{def:filter-limit-basis-carrier}. Its visible rows are exactly $Q,F,L,W,R,D,E,H,C,P,N$, and the transport row $H$ is componentwise over those rows rather than over an ambient filter quotient or a selected limit.
+
+Apply the NameCert obligations of \autoref{thm:filter-limit-basis-namecert-obligations}. They require completion-basis exposure through $Q,F$, limit compatibility through $L,W,R,D$, Real handoff through $E$, and structural replay through $H,C,P,N$.
+
+Finally use the handoff theorem \autoref{thm:filter-limit-basis-cauchyfiltercompletion-handoff}. Since the transported packet has the same displayed coordinates and no additional carrier row, the terminal $\RealUp$ handoff remains downstream of $Q,F,L,W,R,D$ and cannot acquire quotient filters, selected limits, ultrafilters, countable-choice schedules, host equality, or ambient completeness.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\FilterLimitBasisUp$ read is refuted if a $\CauchyFilterCompletionUp$ or $\RealUp$ consumer reaches the terminal seal without displaying the Cauchy-filter completion row, Cauchy-filter row, Cauchy-filter limit row, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, transport, replay, provenance, and local naming.}
 
 \independenceWitness{cauchyfiltercompletion, cauchyfilter, cauchyfilterlimit, streamname, regseqrat, dyadicratcore, real: none alone is bijective with $\FilterLimitBasisUp$ because the packet jointly records completion-boundary, saturated-filter, limit-boundary, finite-window, readback, tolerance, seal, transport, replay, provenance, and local NameCert rows.}
