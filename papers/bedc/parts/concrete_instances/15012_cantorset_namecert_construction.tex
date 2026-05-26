@@ -45,6 +45,50 @@ Endpoint compatibility is checked by $D$. This ledger exposes the same retained 
 Finally, $R$ and $E$ are downstream readback and seal rows. The transport, continuation, provenance, and naming rows $H,K,P,N$ preserve the same finite route, and no carrier coordinate supplies open-cover compactness, host powersets, quotient real equality, a selected infinite branch, or ambient real completeness.
 \end{proof}
 
+\begin{theorem}[Cantor set prefix-gap separation]
+\label{thm:cantor-set-prefix-gap-separation}
+For every accepted $\CantorSetUp$ carrier $C=(T,G,I,D,R,E,H,K,P,N)$, a retained-prefix read from $T$ excludes each displayed deleted-middle gap row in $G$ before any $\RealUp$ seal is consumed. The exclusion is witnessed inside the route
+$$
+T \longmapsto G \longmapsto I \longmapsto D
+$$
+through the retained $\NestedIntervalUp$ row and the endpoint ledger, and it has no access to host powersets, quotient real equality, selected infinite branches, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cantor-set-carrier}. The prefix ledger $T$ names only retained left and right thirds, while the deleted-middle ledger $G$ is the unique row where excluded middle-third intervals are displayed.
+
+The retained interval row $I$ is read before the endpoint row $D$ and before the Real seal $E$. Thus a prefix request must first compare its retained interval with the displayed gap ledger, using the same $\NestedIntervalUp$ containment route and the same dyadic or rational endpoint ledger.
+
+The structural rows $H,K,P,N$ preserve this route under $\hsame$ transport and $\Cont$ replay. Since the carrier has no host powerset, quotient real equality, selected branch, compactness, or completeness coordinate, a retained-prefix read can exclude only the displayed gap rows before it reaches the seal.
+\end{proof}
+
+\begin{theorem}[Cantor set Real seal nonescape]
+\label{thm:cantor-set-real-seal-nonescape}
+For every accepted $\CantorSetUp$ carrier $C=(T,G,I,D,R,E,H,K,P,N)$, every $\RealUp$-facing read factors through the finite route
+$$
+T \longmapsto G \longmapsto I \longmapsto D \longmapsto R \longmapsto E
+$$
+with the same transport, replay, provenance, and local name rows $H,K,P,N$. No Real-facing consumer can bypass the retained-prefix ledger, deleted-gap ledger, nested interval row, endpoint ledger, regular-rational handoff, or local NameCert surface.
+\end{theorem}
+\begin{proof}
+Start from a Real-facing read. By \autoref{def:cantor-set-carrier}, the seal coordinate $E$ is downstream of the ternary prefix, gap ledger, retained interval, endpoint ledger, and regular-rational handoff.
+
+Use \autoref{thm:cantor-set-namecert-obligations}. Its deleted-middle exclusion, nested-interval containment, endpoint compatibility, and Real seal handoff rows require the consumer to traverse $T,G,I,D,R$ before $E$ is visible.
+
+Finally read the structural coordinates. The rows $H,K,P,N$ preserve and name the same finite route, and there is no coordinate from which a consumer could construct a bypassing seal, host subset equality, selected infinite branch, or ambient completeness proof.
+\end{proof}
+
+\begin{theorem}[Cantor set endpoint-ledger stability]
+\label{thm:cantor-set-endpoint-ledger-stability}
+Let $C=(T,G,I,D,R,E,H,K,P,N)$ and $C'=(T',G',I',D',R',E',H',K',P',N')$ be accepted $\CantorSetUp$ carriers whose prefix, gap, retained-interval, regular-rational, seal, provenance, and local naming rows are related by the componentwise $\hsame$ transports stored in $H$ and $H'$, and whose displayed continuations replay the same retained-prefix requests through $K$ and $K'$. If the endpoint ledger $D$ is admitted for $C$, then the transported endpoint ledger $D'$ is admitted for $C'$ and determines the same retained endpoint route for Real-facing reads.
+\end{theorem}
+\begin{proof}
+Project the endpoint row. In an accepted carrier, $D$ is not a free interval datum; it is read after the retained prefix $T$, the displayed deleted-gap ledger $G$, and the retained $\NestedIntervalUp$ row $I$.
+
+Apply the componentwise $\hsame$ transport rows. They carry the prefix, gap, retained interval, endpoint, regular handoff, seal, provenance, and local name rows together, so the endpoint ledger cannot be transported without preserving the retained interval route that generated it.
+
+Now use the displayed $\Cont$ replay rows. The same prefix requests replay through the same gap checks and retained interval rows before the endpoint ledger is consumed. Therefore $D'$ is admitted exactly when it continues the transported retained route, and it determines the same endpoint path for the downstream $\RegSeqRatUp$ and $\RealUp$ reads.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\CantorSetUp$ real-facing read factors through the displayed ternary-prefix ledger, deleted-middle interval ledger, retained nested-interval row, endpoint ledger, regular-rational handoff, and $\RealUp$ seal before the set membership surface is consumed.}
 
 \independenceWitness{nestedinterval, dyadicinterval, regseqrat, real, cantorspace: $\CantorSetUp$ is not bijective to any listed sibling because it jointly carries a ternary retained-prefix ledger, deleted-middle gap ledger, retained nested interval row, endpoint compatibility row, regular-rational handoff, real seal, transport, continuation replay, provenance, and local naming.}
