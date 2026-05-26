@@ -1,0 +1,11 @@
+\begin{theorem}[StreamName finite-window intersection]
+\label{thm:streamname-finite-window-intersection}
+Let $A$ and $B$ be accepted finite $\StreamNameUp$ windows over the same source request. Then the lattice-meet rows and common-refinement rows display an intersection window $A \cap B$ whose visible surface consists exactly of the shared request classifier, the common finite observation cells, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback row, the finite $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. Later $\RegSeqRatUp$ and $\RealUp$ seal consumers may inspect only this displayed intersection route.
+\end{theorem}
+\begin{proof}
+Apply the finite-window lattice meet theorem \autoref{thm:streamname-finite-window-lattice-meet-exhaustion}. It supplies one shared finite packet for the two accepted windows over the same request, with classifier, observation, dyadic, transport, replay, provenance, and local naming rows exposed objectwise.
+
+Next use \autoref{thm:streamname-real-regseqrat-seal-common-refinement}. The RegSeqRat readback and Real seal rows are read through the common refinement of the selected StreamName windows, so the downstream consumer sees the meet packet rather than either original window in isolation.
+
+The intersection route is therefore the only route visible to later RegSeqRat and Real-facing consumers. Since the carrier exposes no quotient stream equality, selected limit, host real equality, or ambient completeness coordinate, no other intersection witness can be inspected by those consumers.
+\end{proof}

@@ -137,4 +137,25 @@ theorem SobolevCarrier_completion_boundary [AskSetup] [PackageSetup]
       codomainMagnitudeGradient, gradientTransportsRoutes, routesProvenanceLocalCert,
       provenancePkg⟩
 
+theorem SobolevCarrier_integral_derivative_source_package [AskSetup] [PackageSetup]
+    {domain base codomain magnitude gradient transports routes provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SobolevCarrier domain base codomain magnitude gradient transports routes provenance
+        localCert bundle pkg ->
+      exists analyticRoute : BHist,
+        UnaryHistory analyticRoute ∧ hsame analyticRoute (append (append domain magnitude) gradient) ∧
+          Cont domain base codomain ∧ Cont codomain magnitude gradient ∧
+            Cont gradient transports routes ∧ PkgSig bundle provenance pkg := by
+  intro carrier
+  obtain ⟨domainUnary, _baseUnary, _codomainUnary, magnitudeUnary, gradientUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _localCertUnary, domainBaseCodomain,
+    codomainMagnitudeGradient, gradientTransportsRoutes, _routesProvenanceLocalCert,
+    provenancePkg⟩ := carrier
+  have domainMagnitudeUnary : UnaryHistory (append domain magnitude) :=
+    unary_append_closed domainUnary magnitudeUnary
+  exact
+    ⟨append (append domain magnitude) gradient,
+      unary_append_closed domainMagnitudeUnary gradientUnary, hsame_refl _, domainBaseCodomain,
+      codomainMagnitudeGradient, gradientTransportsRoutes, provenancePkg⟩
+
 end BEDC.Derived.SobolevUp
