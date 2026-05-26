@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         BioReality Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bio-reality
-// @version      1.7
-// @description  BioReality-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bio_reality_oracle_server.py on :8769.
+// @version      2.0
+// @description  BioReality-pipeline ChatGPT bridge bio-2.0 with automath-stable waiting and BEDC project/PDF routing. Talks to bio_reality_oracle_server.py on :8769.
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
 // @grant        GM_xmlhttpRequest
@@ -10,26 +10,14 @@
 // @grant        GM_getValue
 // @connect      localhost
 // @connect      127.0.0.1
-// @run-at       document-idle
+// @run-at       document-start
 // @noframes
 // ==/UserScript==
-
-// FORKED FROM: tools/chatgpt-oracle/chatgpt_oracle_macos.user.js v4.10
-// Differences (search "BioReality ADD" / "BioReality CHANGE" comments):
-//   - SERVER port 8769 (paper oracle is 8765, run side by side)
-//   - All GM_setValue keys namespaced under "bio_*" (no clash)
-//   - URL flag is ?bio=N (paper uses ?oracle=N)
-//   - Panel branding distinct (green/teal, "[bio]" prefix)
-//   - Task payload may carry conversation_url + is_followup → navigate to
-//     the existing ChatGPT chat URL first, then post follow-up there
-//   - After response, captures window.location.href and POSTs as chatgpt_url
-//     so the server pins the conversation_id ↔ chat URL for future turns
 
 (function () {
   "use strict";
 
-  // DIAGNOSTIC: prove the IIFE entered (visible in browser console even before panel)
-  try { console.log("[bio] userscript IIFE entered, version bio-1.3"); } catch {}
+  try { console.log("[bio] userscript IIFE entered, version bio-2.0"); } catch {}
 
   try {
     if (window.top !== window.self) {
@@ -50,19 +38,18 @@
   }
   try { console.log("[bio] passed early-return gates, pathname=", window.location.pathname); } catch {}
 
-  // BioReality CHANGE
   const SERVER = "http://127.0.0.1:8769";
   const POLL_INTERVAL = 30000;
   const STABLE_CHECKS = 3;
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
-  const NO_OUTPUT_IDLE_TIMEOUT = 7200000;
-  const REFILL_NO_OUTPUT_IDLE_TIMEOUT = 7200000;
-  const SCRIPT_VERSION = "bio-1.7";
+  const DEFAULT_MIN_RESPONSE_LENGTH = 1000;
+  const REQUIRE_FOREGROUND_TO_CLAIM = false;
+  const SCRIPT_VERSION = "bio-2.0";
   const BIOREALITY_PROJECT_PREFIX = "/g/g-p-6a098a6e69688191a6afd91978c585ef-ge-ben-ha-gen-zhi-lu";
-  const BIOREALITY_CHAT_HOME = `https://chatgpt.com${BIOREALITY_PROJECT_PREFIX}/project`;
+  const BIOREALITY_PROJECT_HOME = `https://chatgpt.com${BIOREALITY_PROJECT_PREFIX}/project`;
 
-  function isInsideBioRealityChat() {
+  function isInsideBioRealityProject() {
     return window.location.pathname.startsWith(BIOREALITY_PROJECT_PREFIX);
   }
 
@@ -71,22 +58,44 @@
     return m ? m[1] : "";
   }
 
-  function projectEntryUrl() {
-    const flag = bioFlagFromUrl();
-    return `${BIOREALITY_CHAT_HOME}${flag ? `?bio=${encodeURIComponent(flag)}` : ""}`;
+  function projectEntryUrl(flag = bioFlagFromUrl()) {
+    return `${BIOREALITY_PROJECT_HOME}${flag ? `?bio=${encodeURIComponent(flag)}` : ""}`;
   }
 
+  function detectAgentId() {
+    const urlParam = new URLSearchParams(window.location.search).get("bio");
+    if (urlParam) {
+      const id = `bio_${urlParam}`;
+      try { sessionStorage.setItem("bio_agent_id", id); } catch {}
+      return id;
+    }
+    try {
+      const navEntries = performance.getEntriesByType("navigation");
+      if (navEntries.length > 0) {
+        const origUrl = new URL(navEntries[0].name);
+        const origParam = origUrl.searchParams.get("bio");
+        if (origParam) {
+          const id = `bio_${origParam}`;
+          try { sessionStorage.setItem("bio_agent_id", id); } catch {}
+          return id;
+        }
+      }
+    } catch {}
+    try {
+      return sessionStorage.getItem("bio_agent_id") || "";
+    } catch { return ""; }
+  }
+
+  const AGENT_ID = detectAgentId();
+  if (!AGENT_ID) return;
+
   let busy = false;
-  // BioReality CHANGE: per-tab active flag via sessionStorage (NOT GM_setValue,
-  // which is cross-tab and caused new ChatGPT windows the user opens for
-  // personal use to inherit ACTIVE state and start stealing tasks).
-  // Each tab now opts in independently by a ?bio= URL or dashboard toggle.
   let active = (() => {
     const urlOptIn = window.location.search.includes("bio=");
     try {
       if (urlOptIn) sessionStorage.setItem("bio_active", "1");
       const storedActive = sessionStorage.getItem("bio_active") === "1";
-      return storedActive && (urlOptIn || isInsideBioRealityChat());
+      return storedActive && (urlOptIn || isInsideBioRealityProject());
     } catch {
       return urlOptIn;
     }
@@ -110,7 +119,7 @@
     updatePanel();
   }
 
-  // ── Status panel (BioReality CHANGE: distinct color/branding) ──────────
+  // ── Status panel ─────────────────────────────────────────────────────
   let panel = null;
   function ensurePanel() {
     if (panel && document.body.contains(panel)) return;
@@ -193,18 +202,16 @@
     return new Promise((r) => setTimeout(r, ms));
   }
 
+  function foregroundState() {
+    return `visibility=${document.visibilityState}, focus=${document.hasFocus()}`;
+  }
+
+  function isForegroundReady() {
+    if (!REQUIRE_FOREGROUND_TO_CLAIM) return true;
+    return document.visibilityState === "visible" && document.hasFocus();
+  }
+
   // ── Persistent task state (survives page navigation) ─────────────────
-  // BioReality CHANGE: keys namespaced under bio_*
-  // BioReality ADD: in_flight_task_id tracks the currently-being-processed
-  // task across full page reloads (ChatGPT 5.5 does full reload on first
-  // /c/<uuid> redirect, dropping in-memory busy state). With in_flight set,
-  // a re-entry of processTask while on the original /c/<uuid> page resumes
-  // waitForResponse() instead of re-navigating + re-entering the prompt.
-  // BioReality FIX (cross-tab contamination): all task-state keys are now scoped
-  // by agentId() via tabSet/tabGet (defined below alongside agentId). This
-  // prevents tab A's saveTaskState from overwriting tab B's, which had
-  // caused B-10/B-11 mid-flight prompt swaps and two tabs racing onto the
-  // same /c/<uuid>.
   function saveTaskState(task) {
     tabSet("current_task", JSON.stringify(task));
     tabSet("task_phase", "pending");
@@ -247,7 +254,7 @@
     return ts ? (Date.now() - ts) : 0;
   }
 
-  // ── DOM helpers (verbatim from paper oracle v4.10) ───────────────────
+  // ── DOM helpers ──────────────────────────────────────────────────────
 
   function findPromptInput() {
     for (const sel of [
@@ -446,13 +453,6 @@
     return msgs.length === 0;
   }
 
-  // BioReality: hard-pin the project prefix. If a tab somehow ends up on a
-  // bare /c/<id> URL (ChatGPT occasionally drops the /g/g-p-… prefix
-  // mid-session — observed empirically), every URL the userscript
-  // captures or hands back to the server must reassert this prefix so
-  // the project's PDF context isn't silently lost.
-  // Force a /c/<id> URL into the BioReality project namespace. Idempotent: a
-  // URL already in /g/g-p-…/c/<id> form is returned unchanged.
   function pinToProject(url) {
     if (!url) return url;
     try {
@@ -473,9 +473,6 @@
     }
   }
 
-  // BioReality ADD: detect if current page is a /c/<id> conversation. Always
-  // returns a project-pinned URL so the server doesn't store a bare
-  // /c/<id> that would later leak the tab out of the project.
   function currentChatUrl() {
     const href = window.location.href;
     if (/\/c\/[a-f0-9-]{6,}/.test(href)) {
@@ -484,10 +481,6 @@
     return "";
   }
 
-  // If we've drifted out of the project (URL is /c/<id> with no /g/g-p-…
-  // prefix), redirect ourselves back into the project namespace before
-  // doing anything that depends on PDF context. Returns true if we
-  // navigated (caller should bail out and let the page reload).
   function ensureInProject() {
     const href = window.location.href;
     if (!/\/c\/[a-f0-9-]{6,}/.test(href)) return false;
@@ -501,9 +494,6 @@
     return false;
   }
 
-  // BioReality ADD: ChatGPT 5.5 redirects /?bio=1 → /c/<latest>, so URL
-  // navigation to fresh chat fails. Click the in-page "New Chat" button instead;
-  // this is an SPA transition the app handles cleanly.
   function findNewChatButton() {
     for (const sel of [
       "button[data-testid='new-chat-button']",
@@ -627,10 +617,6 @@
       if (btn && !btn.disabled) {
         const tid = btn.getAttribute("data-testid");
         const lbl = btn.getAttribute("aria-label");
-        // BioReality FIX: snapshot assistant message count IMMEDIATELY before send,
-        // so waitForResponse can require count strict-increase. This is the
-        // structural fix for oracle_duplicate_response (turn N captures
-        // turn N-1's content because DOM still has prior turns visible).
         const pre = snapshotAssistantCount();
         log(`Send button found (testid=${tid}, label=${lbl}), pre-send assistant count=${pre}, clicking ONCE...`);
         btn.click();
@@ -683,18 +669,11 @@
     return false;
   }
 
-  // ── Response extraction (verbatim from paper oracle v4.10) ───────────
+  // ── Response extraction ──────────────────────────────────────────────
   let sentPromptText = "";
   let postSendLines = new Set();
   let lastBottomScrollAt = 0;
   let lastBottomScrollLogAt = 0;
-  // BioReality FIX: snapshot of `[data-message-author-role='assistant']` COUNT
-  // taken immediately before we hit Send. waitForResponse waits until the
-  // count strictly increases, then captures only the NEW last assistant
-  // message. Without this, follow-up turns can return turn N-1's text
-  // because the multi-strategy fallbacks in extractResponseText see prior
-  // assistant messages still in DOM and pick one of them as "stable".
-  // Root cause of the historical oracle_duplicate_response failure cluster.
   let preSubmitAssistantCount = 0;
   function snapshotAssistantCount() {
     try {
@@ -714,10 +693,6 @@
     }
   }
 
-  // BioReality FIX: ChatGPT can virtualize / lazily mount the latest assistant
-  // turn unless the conversation viewport is near the bottom. Keep extraction
-  // pinned to the newest rendered turn without weakening the count/stability
-  // gates below.
   function scrollConversationToBottom(reason = "", force = false) {
     const now = Date.now();
     if (!force && now - lastBottomScrollAt < 5000) return false;
@@ -843,10 +818,6 @@
     /^(拒绝非必要|Reject non-essential|接受所有|Accept all)/,
     /^See Cookie Preferences/,
   ];
-  // BioReality FIX 2026-04-30: SSR markers were being matched against the WHOLE
-  // extracted response, causing any review that contained those strings (e.g.
-  // a critique of our own code) to be rejected forever. Now: cleanText strips
-  // SSR boot lines first, isSSRGarbage only fires for SHORT responses.
   const SSR_GARBAGE_RE = /window\.__oai_log|window\.__oai_SSR|requestAnimationFrame/;
   const SSR_LINE_RE = /window\.__oai_(log|SSR)\s*[=(]|requestAnimationFrame\s*\(/;
 
@@ -930,13 +901,39 @@
     return (clone.innerText || "").trim();
   }
 
+  function stripSSRGarbage(text) {
+    if (!text) return text;
+    return text
+      .replace(/I?window\.__oai_logHTML\?[^)]*\)\s*/g, "")
+      .replace(/window\.__oai_SSR_HTML\s*=\s*window\.__oai_SSR_HTML\s*\|\|\s*Date\.now\(\)\s*;?\s*/g, "")
+      .replace(/requestAnimationFrame\(\(function\(\)\{[^}]*\}\)\)\s*/g, "")
+      .replace(/window\.__oai_logTTI\?[^)]*\)\s*/g, "")
+      .replace(/window\.__oai_SSR_TTI\s*=\s*window\.__oai_SSR_TTI\s*\|\|\s*Date\.now\(\)\s*;?\s*/g, "")
+      .replace(/ChatGPT said:/g, "")
+      .trim();
+  }
+
+  function isSSROnly(text) {
+    if (!text || text.length < 10) return false;
+    const stripped = stripSSRGarbage(text);
+    const lines = stripped.split("\n").filter(l => {
+      const t = l.trim();
+      return t.length > 0 && !isChromeLine(t) && !isSsrLine(t);
+    });
+    return lines.join("").trim().length < 20;
+  }
+
+  function stripThinkingPreamble(t) {
+    return t
+      .replace(/^ChatGPT said:\s*/i, "")
+      .replace(/^I'm (?:checking|looking|searching|thinking|analyzing)[^.]*\.\s*/i, "")
+      .replace(/^Thought for \d+[sm]\s*\d*[sm]?\s*/i, "")
+      .trim();
+  }
+
   function isSSRGarbage(text) {
     if (!text || text.length < 10) return false;
-    // BioReality FIX: only flag short responses that are dominated by SSR
-    // boot markers. A long response (>= 500 chars) that happens to contain
-    // "window.__oai_log" inside a code block or critique is NOT garbage.
     if (text.length >= 500) return false;
-    // Short response: check for multiple SSR markers OR very high JS density.
     const ssrHits = (text.match(/window\.__oai_/g) || []).length;
     if (ssrHits >= 2) return true;
     const jsRatio = (text.match(/[{}();=]/g) || []).length / text.length;
@@ -944,15 +941,11 @@
     return false;
   }
 
-  // BioReality ADD: dedicated extraction targeting only assistant-role DOM.
-  // For re_extract mode we know the conversation has at least one assistant
-  // turn we want; this skips the heuristic gauntlet and goes straight to it.
   function extractAssistantOnly() {
     const main = document.querySelector("main");
     if (!main) return "";
     const els = main.querySelectorAll("[data-message-author-role='assistant']");
     if (els.length === 0) return "";
-    // Walk from last to first; pick the largest substantive one
     const candidates = [];
     for (let i = els.length - 1; i >= 0; i--) {
       const text = cleanText(extractTextWithMath(els[i]));
@@ -961,7 +954,6 @@
       }
     }
     if (candidates.length === 0) return "";
-    // Return the LAST (most recent) one
     candidates.sort((a, b) => b.idx - a.idx);
     return candidates[0].text;
   }
@@ -970,6 +962,16 @@
     const main = document.querySelector("main");
     if (!main) return "";
     const fullText = extractTextWithMath(main);
+
+    const assistantEls = main.querySelectorAll("[data-message-author-role='assistant']");
+    for (let i = assistantEls.length - 1; i >= 0; i--) {
+      const text = stripThinkingPreamble(cleanText(stripSSRGarbage(extractTextWithMath(assistantEls[i]))));
+      if (text.length < 200) continue;
+      if (looksLikePromptEcho(text)) continue;
+      if (!hasPostSendNovelContent(text)) continue;
+      if (isSSROnly(text)) continue;
+      return text;
+    }
 
     if (sentPromptText.length > 500) {
       const tailAnchor = sentPromptText.slice(-100).trim();
@@ -1073,8 +1075,7 @@
     // Text-layer probe for ChatGPT 5.5 Pro reasoning indicators that don't
     // expose stable class hooks. The page text contains these literals while
     // the Pro reasoner is still thinking and before the visible answer
-    // streams in. Without this fallback the userscript trips on "Pro thinking"
-    // pages that look stable but are mid-generation. (Fix: T-20 Turn 2.)
+    // streams in.
     try {
       const main = document.querySelector("main");
       if (!main) return false;
@@ -1093,7 +1094,7 @@
     return false;
   }
 
-  async function waitForResponse(task_id, noOutputIdleTimeout = NO_OUTPUT_IDLE_TIMEOUT) {
+  async function waitForResponse(task_id, minResponseLength = DEFAULT_MIN_RESPONSE_LENGTH) {
     log(`Waiting for ChatGPT response (pre-send assistant count was ${preSubmitAssistantCount})...`);
     const startTime = Date.now();
     let lastResponseText = "";
@@ -1106,10 +1107,6 @@
       await sleep(STABLE_INTERVAL);
       scrollConversationToBottom("wait");
       await sleep(500);
-      // BioReality FIX: require strict count increase before trusting any
-      // extractResponseText output. Without this, the multi-strategy
-      // fallback can return prior-turn text that happens to be "stable"
-      // because no new generation has rendered yet.
       const curCount = newAssistantCount();
       let responseText = (curCount > preSubmitAssistantCount)
         ? extractAssistantOnly()    // count increased: take the LAST assistant message only
@@ -1153,32 +1150,26 @@
         lastLogTime = elapsed;
         log(`Wait: ${elapsed}s, extracted=${responseText.length}, page=${mainLen}, stable=${stableCount}, gen=${generating}, url=${window.location.href.slice(-30)}`);
       }
-      if (
-        !generating &&
-        responseText.length < 5 &&
-        Date.now() - startTime >= noOutputIdleTimeout
-      ) {
-        throw new Error(
-          `No assistant output after ${Math.floor(noOutputIdleTimeout / 1000)}s ` +
-          `(page=${mainLen}, url=${window.location.href.slice(-60)})`
-        );
-      }
       if (responseText.length >= 5) {
         if (looksLikePromptEcho(responseText)) {
           if (stableCount === 0) log(`Prompt echo detected (${responseText.length} chars) — waiting`);
           stableCount = 0; lastResponseText = ""; lastStableKey = ""; continue;
         }
         if (isSSRGarbage(responseText)) {
-          if (stableCount === 0) log(`SSR garbage detected — page hydrating, waiting`);
-          stableCount = 0; lastResponseText = ""; lastStableKey = ""; continue;
+          responseText = stripSSRGarbage(responseText);
+          if (isSSROnly(responseText)) {
+            if (stableCount === 0) log(`SSR-only content (${responseText.length} chars) — page hydrating, waiting`);
+            stableCount = 0; lastResponseText = ""; lastStableKey = ""; continue;
+          }
+          log(`Stripped SSR fragments, ${responseText.length} chars remain`);
         }
         const stableKey = stableResponseKey(responseText);
         if (stableKey === lastStableKey) {
           stableCount++;
           lastResponseText = responseText;
           let minChecks;
-          if (responseText.length >= 2000) minChecks = STABLE_CHECKS;
-          else if (responseText.length >= 200) minChecks = STABLE_CHECKS + 2;
+          if (responseText.length >= 5000) minChecks = STABLE_CHECKS;
+          else if (responseText.length >= minResponseLength) minChecks = STABLE_CHECKS + 2;
           else minChecks = STABLE_CHECKS * 3;
           const stableEnough = stableCount >= minChecks && !generating;
           const stableOverride = stableCount >= minChecks + 3;
@@ -1195,33 +1186,28 @@
         stableCount = 0;
       }
     }
+    const timeoutNote = `\n\n[TIMEOUT after ${Math.floor(MAX_WAIT / 1000)}s; returning the latest stable partial response.]`;
     log(`TIMEOUT (${MAX_WAIT/1000}s), returning partial: ${lastResponseText.length} chars`);
-    return lastResponseText;
+    return lastResponseText ? `${lastResponseText}${timeoutNote}` : timeoutNote.trim();
   }
 
-  // ── Process a task (BioReality ADD: multi-turn navigation + reload-safe) ─
+  // ── Process a task ───────────────────────────────────────────────────
   async function processTask(task) {
-    const { task_id, prompt, conversation_url, is_followup, conversation_id, re_extract, pdf_base64, pdf_name, tag } = task;
-    const noOutputIdleTimeout = (tag === "bio-deep-board-refill")
-      ? REFILL_NO_OUTPUT_IDLE_TIMEOUT
-      : NO_OUTPUT_IDLE_TIMEOUT;
+    const { task_id, prompt, conversation_url, is_followup, conversation_id, re_extract, pdf_base64, pdf_name, min_response_length } = task;
+    const minResponseLength = Number.isFinite(Number(min_response_length))
+      ? Number(min_response_length)
+      : DEFAULT_MIN_RESPONSE_LENGTH;
     busy = true;
     updatePanel();
 
-    if (!isInsideBioRealityChat()) {
+    if (!isInsideBioRealityProject()) {
       navigateTaskBackToProject(task, "outside project before task");
       return;
     }
 
-    // BioReality ADD: re_extract mode. Server says "this conversation already
-    // has the response we want — just navigate there and extract the latest
-    // assistant message, do not enter or send anything". Used to recover
-    // from earlier extraction failures (SSR false-positive, premature timeout).
     if (re_extract) {
       log(`=== Task: ${task_id} [RE-EXTRACT] conv=${(conversation_id || "").slice(0, 12)} ===`);
       try {
-        // BioReality FIX: re-pin server-provided URL into the project namespace
-        // in case it was stored as a bare /c/<id> from a drifted session.
         const pinnedConv = pinToProject(conversation_url);
         if (pinnedConv && !window.location.href.startsWith(pinnedConv)) {
           tabSet("navigating", true);
@@ -1239,9 +1225,6 @@
         scrollConversationToBottom("re-extract", true);
         await sleep(1000);
         if (prompt) setSentPrompt(prompt);
-        // BioReality ADD: try dedicated assistant-only extraction first (bypasses
-        // heuristics that can fall to prompt echo when sentPromptText isn't
-        // perfectly aligned). Fall back to extractResponseText if none found.
         let response = extractAssistantOnly();
         if (!response || response.length < 100) {
           log(`re-extract: assistant-only got ${response?.length || 0} chars; falling back to extractResponseText`);
@@ -1278,17 +1261,6 @@
       return;
     }
 
-    // BioReality ADD: re-entry guard. If this same task_id is in flight and we
-    // are currently on a /c/<uuid> page (= ChatGPT already accepted our first
-    // prompt and started generating), DO NOT re-enter the prompt. Just resume
-    // waitForResponse. ChatGPT 5.5 triggers a full page reload when the URL
-    // first changes from chatgpt.com/ to chatgpt.com/c/<uuid>, which loses
-    // our in-memory state but the in-flight task survives. The guard applies
-    // to follow-up tasks too: long Pro reasoning turns (>30 min) inside an
-    // existing /c/<uuid> page can trigger DOM remount / focus reset, which
-    // re-enters processTask. Without including follow-ups, the same prompt
-    // gets submitted twice and the polite restatement overwrites the real
-    // long response captured by the extractor.
     const onConvPage = /\/c\/[a-f0-9-]{6,}/.test(window.location.href);
     if (getInFlightTaskId() === task_id && onConvPage) {
       log(`=== Task: ${task_id} [RESUMING on existing chat ${currentChatUrl().slice(-40)}] ===`);
@@ -1299,7 +1271,7 @@
       await sleep(500);
       capturePostSendState();
       try {
-        const response = await waitForResponse(task_id, noOutputIdleTimeout);
+        const response = await waitForResponse(task_id, minResponseLength);
         if (!response || response.length < 5) {
           throw new Error(`Resumed wait got no response (${response?.length || 0} chars)`);
         }
@@ -1333,24 +1305,11 @@
     log(`=== Task: ${task_id} ${is_followup ? "[FOLLOW-UP]" : "[NEW]"} conv=${(conversation_id || "").slice(0, 12)} ===`);
 
     try {
-      // BioReality ADD: navigation logic — three cases
-      // (a) follow-up + conversation_url provided + we are NOT on it → navigate there
-      // (b) new task + we're not on a fresh chat page → navigate to fresh chat
-      // (c) otherwise stay where we are
-      //
-      // BioReality FIX: pin any server-provided conversation_url into the BioReality
-      // project namespace before deciding to navigate. Sessions stored
-      // before v1.17 may carry bare /c/<id> URLs (drifted out of project)
-      // — navigating there would lose PDF context for the rest of the
-      // session. pinToProject is idempotent so already-pinned URLs are
-      // unchanged.
       const targetUrl = (is_followup && conversation_url) ? pinToProject(conversation_url) : null;
       const needNavToConv = targetUrl && !window.location.href.startsWith(targetUrl);
       const needNavToFresh = !targetUrl && !isOnNewChatPage();
 
       if (needNavToFresh) {
-        // BioReality ADD: prefer in-page "New Chat" button click (SPA, no
-        // redirect), fall back to URL navigation only if no button found.
         log(`Need fresh chat. Current URL: ${window.location.href.slice(-60)}`);
         const ok = await clickNewChatButton();
         if (ok) {
@@ -1364,25 +1323,11 @@
           setTaskPhase("navigating");
           busy = false;
           updatePanel();
-          // BioReality FIX: if we're inside a ChatGPT Project (URL like
-          // /g/g-p-XXXXXX-name/c/<uuid>), fall back to the project's
-          // root URL so we DON'T leave the Project (which would lose
-          // the project-attached PDF and any project-wide instructions).
-          // Outside a Project, fall back to chatgpt.com root with the
-          // tab's bio=N flag pinned.
-          //
-          // BioReality FIX (cross-tab id corruption): the bio flag MUST come
-          // from agentId() (which is pinned in sessionStorage on the
-          // tab's first load). Reading it from window.location.search
-          // here is wrong — after ChatGPT redirects /project?bio=N to
-          // /project/c/<uuid>, the URL has no query string, and the
-          // previous default-of-"1" caused bio_3 to navigate to
-          // ?bio=1 and steal bio_1's identity in subsequent tasks.
           const m = window.location.pathname.match(/^(\/g\/g-p-[a-zA-Z0-9_-]+)/);
           const aid = agentId();
           const flagMatch = aid.match(/^bio_(\d+)$/);
           const bioFlag = flagMatch ? flagMatch[1] : "1";
-          const fallbackUrl = `${BIOREALITY_CHAT_HOME}${bioFlag ? `?bio=${encodeURIComponent(bioFlag)}` : ""}`;
+          const fallbackUrl = `${BIOREALITY_PROJECT_HOME}${bioFlag ? `?bio=${encodeURIComponent(bioFlag)}` : ""}`;
           log(`fallback URL: ${fallbackUrl} (agentId=${aid})`);
           window.location.href = fallbackUrl;
           return;
@@ -1399,17 +1344,17 @@
         return;
       }
 
-      if (!isInsideBioRealityChat()) {
+      if (!isInsideBioRealityProject()) {
         navigateTaskBackToProject(task, "navigation left project");
         return;
       }
 
       // ACK
+      if (!isForegroundReady()) {
+        log(`Foreground gate not ready (${foregroundState()})`);
+      }
       try { await serverPost("/ack", { task_id, agent_id: agentId() }); } catch {}
       setTaskPhase("processing");
-      // BioReality ADD: mark this task in-flight BEFORE we send. Also save the
-      // task body so a full reload mid-flight can read prompt back without
-      // hitting the server queue (which would trigger needNavToFresh again).
       setInFlightTaskId(task_id);
       saveTaskState(task);
 
@@ -1429,12 +1374,6 @@
       }
       log(`Page ready (${is_followup ? "existing conv" : "fresh chat"}) after ${retries}s`);
 
-      // BioReality ADD: PDF attach BEFORE prompt entry, only on first turn of a
-      // fresh conversation (non-followup) AND only if server provided pdf_base64.
-      // Follow-up turns inherit the PDF from earlier turns via conversation
-      // memory, so re-uploading is wasted work. If user is using a ChatGPT
-      // Project with main.pdf attached at project level, server typically
-      // wouldn't send pdf_base64 at all (Project provides PDF context auto).
       if (!is_followup && pdf_base64) {
         try {
           const ok = await uploadPDF(pdf_base64, pdf_name || "main.pdf");
@@ -1492,13 +1431,12 @@
       scrollConversationToBottom("post-send", true);
       await sleep(500);
       capturePostSendState();
-      const response = await waitForResponse(task_id, noOutputIdleTimeout);
+      const response = await waitForResponse(task_id, minResponseLength);
 
       if (!response || response.length < 5) {
         throw new Error(`Response too short or empty (${response?.length || 0} chars)`);
       }
 
-      // BioReality ADD: capture chat URL for the server to pin to conversation_id
       const chatUrl = currentChatUrl();
       log(`Chat URL captured: ${chatUrl.slice(-50) || "(none)"}`);
 
@@ -1511,7 +1449,7 @@
       });
       log(`DONE: ${task_id} (${response.length} chars)`);
       clearTaskState();
-      setInFlightTaskId("");  // BioReality ADD
+      setInFlightTaskId("");
     } catch (err) {
       log(`ERROR: ${err.message}`);
       try {
@@ -1522,33 +1460,19 @@
         });
       } catch {}
       clearTaskState();
-      setInFlightTaskId("");  // BioReality ADD
+      setInFlightTaskId("");
     } finally {
       busy = false;
       updatePanel();
     }
   }
 
-  // BioReality ADD: agent_id is PER-TAB, not per-script.
-  // GM_setValue is shared across all tabs that have this userscript installed,
-  // so persisting agent_id there causes multiple tabs to share an identity and
-  // the server dispatches the same task to all of them concurrently. Use
-  // sessionStorage (per-tab) instead, fall back to window.name + URL flag.
-  //
-  // BioReality FIX (cross-tab contamination): agentId is now PINNED on first call
-  // and reused for the lifetime of this tab. Previously, a `?bio=N` flag
-  // returned `bio_N` only while the URL had the flag; once ChatGPT
-  // redirected /?bio=N → /c/<uuid> the URL lost the flag and agentId
-  // started returning a NEW random sessionStorage id. So a tab's identity
-  // changed mid-task, and worse, the per-tab GM_setValue namespace also
-  // changed (see tabSet/tabGet below). Pinning to sessionStorage on the
-  // very first call gives every tab a stable identity for its full session.
   function agentId() {
     try {
-      // URL flag is authoritative when present: overwrite any stale stored
-      // value (e.g. left over from a prior userscript version that randomized
-      // here). After ChatGPT redirects /?bio=N → /c/<uuid> the URL flag is
-      // gone, but the sessionStorage value we just wrote keeps the tab pinned.
+      if (AGENT_ID) {
+        sessionStorage.setItem("bio_agent_id", AGENT_ID);
+        return AGENT_ID;
+      }
       const m = window.location.search.match(/[?&]bio=([^&]+)/);
       if (m) {
         const id = `bio_${m[1]}`;
@@ -1572,12 +1496,6 @@
     }
   }
 
-  // BioReality FIX: per-tab namespace for GM_setValue / GM_getValue. GM storage
-  // is shared across ALL tabs running the userscript, so two tabs writing
-  // `bio_current_task` simultaneously will trample each other (observed
-  // as B-10/B-11 cross-contamination, and as two tabs landing on the same
-  // /c/<uuid> after racing GM writes). Scoping every key by agentId()
-  // gives each tab its own private namespace.
   function tabSet(k, v) { return GM_setValue(`${agentId()}_${k}`, v); }
   function tabGet(k, d) { return GM_getValue(`${agentId()}_${k}`, d); }
 
@@ -1588,7 +1506,7 @@
 
   function projectEntryUrlForAgent() {
     const flag = bioFlagForAgent();
-    return `${BIOREALITY_CHAT_HOME}${flag ? `?bio=${encodeURIComponent(flag)}` : ""}`;
+    return `${BIOREALITY_PROJECT_HOME}${flag ? `?bio=${encodeURIComponent(flag)}` : ""}`;
   }
 
   function navigateTaskBackToProject(task, reason) {
@@ -1608,12 +1526,12 @@
 
   // ── Main loop ────────────────────────────────────────────────────────
   function _readActive() {
-    try { return sessionStorage.getItem("bio_active") === "1" && isInsideBioRealityChat(); }
+    try { return sessionStorage.getItem("bio_active") === "1" && isInsideBioRealityProject(); }
     catch { return false; }
   }
 
   function enforceProjectBeforePolling() {
-    if (isInsideBioRealityChat()) return false;
+    if (isInsideBioRealityProject()) return false;
     if (window.location.search.includes("bio=")) {
       const target = projectEntryUrl();
       log(`BioReality chat required; navigating to ${target}`);
@@ -1641,10 +1559,6 @@
             if (!_readActive()) {
               log("Task available but PAUSED — skipping");
             } else {
-              // BioReality ADD: if we already had an in-flight task and the
-              // server is handing us the SAME task_id (which it does because
-              // pending_tasks idempotency), processTask's resume guard will
-              // pick up where we left off rather than restart.
               await processTask(task);
             }
           }
@@ -1673,7 +1587,7 @@
       catch { return false; }
     })();
 
-    if (urlHasFlag && !isInsideBioRealityChat()) {
+    if (urlHasFlag && !isInsideBioRealityProject()) {
       const target = projectEntryUrl();
       log(`BioReality chat required; navigating to ${target}`);
       window.location.href = target;
@@ -1682,20 +1596,12 @@
 
     if ((inFlightId || storedActive) && ensureInProject()) return;
 
-    // BioReality ADD: if we have an in-flight task that's clearly stuck (>3h),
-    // give up — server's task_timeout (4h) hasn't kicked in yet but we don't
-    // want to deadlock. Clear flags; pollLoop will get next task.
     if (inFlightId && inFlightAgeMin > 180) {
       log(`Stale in-flight ${inFlightId} (${inFlightAgeMin}m old) — clearing`);
       setInFlightTaskId("");
       clearTaskState();
     }
 
-    // BioReality ADD: full-page-reload landing on /c/<uuid> with an in-flight
-    // task means ChatGPT redirected us mid-task. The next pollLoop cycle
-    // will receive the same task from the server (pending_tasks idempotency)
-    // and processTask's RESUMING branch will take over. Self-report the URL
-    // so the server can pin it to the conversation_id for future re-extracts.
     if (inFlightId && /\/c\/[a-f0-9-]/.test(window.location.href)) {
       log(`Detected mid-task reload on /c/<uuid>; in-flight=${inFlightId} (${inFlightAgeMin}m). pollLoop will resume.`);
       try {
