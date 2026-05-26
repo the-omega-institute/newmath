@@ -2498,6 +2498,7 @@ import BEDC.Derived.DecimalRealUp.TasteGate
 import BEDC.Derived.DedekindCauchyComparisonUp.TasteGate
 import BEDC.Derived.DedekindCauchySandwichUp.TasteGate
 import BEDC.Derived.DedekindCutCauchyBoundaryUp.TasteGate
+import BEDC.Derived.DedekindCutCompletionUp.TasteGate
 import BEDC.Derived.DedekindCutUp
 import BEDC.Derived.DedekindCutUp.TasteGate
 import BEDC.Derived.DedekindMacNeilleCompletionUp.TasteGate
@@ -4338,6 +4339,7 @@ import BEDC.Derived.MetricClosedBallUp
 import BEDC.Derived.MetricClosedBallUp.CenterTransportScope
 import BEDC.Derived.MetricClosedBallUp.TasteGate
 import BEDC.Derived.MetricCompletionReflectorUp
+import BEDC.Derived.MetricCompletionReflectorUp.TasteGate
 import BEDC.Derived.MetricCompletionUniquenessUp.TasteGate
 import BEDC.Derived.MetricCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.MetricCompletionUp.BranchCoverage
@@ -5473,6 +5475,7 @@ import BEDC.Derived.RegularCauchyAffineCombinationUp.TasteGate
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyApartnessOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyAverageUp
+import BEDC.Derived.RegularCauchyAverageUp.TasteGate
 import BEDC.Derived.RegularCauchyBallUp.TasteGate
 import BEDC.Derived.RegularCauchyCancellationUp.TasteGate
 import BEDC.Derived.RegularCauchyCategoryUp.TasteGate
@@ -5771,6 +5774,8 @@ import BEDC.Derived.S1Up.StandardBridge
 import BEDC.Derived.S1Up.StandardTopologicalBridgeBoundary
 import BEDC.Derived.S1Up.StandardTopologicalCircleAcceptance
 import BEDC.Derived.S1Up.VisibleSourceUnitEquationPackage
+import BEDC.Derived.SamuelCompletionUp
+import BEDC.Derived.SamuelCompletionUp.TasteGate
 import BEDC.Derived.SchauderFixedPointUp.TasteGate
 import BEDC.Derived.SchemeUp
 import BEDC.Derived.SchwarzReflectionRouteUp.TasteGate
@@ -5797,6 +5802,7 @@ import BEDC.Derived.SeparableCompletionUp.TasteGate
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeparableMetricUp.TasteGate
 import BEDC.Derived.SeparatedCompletionReflectorUp
+import BEDC.Derived.SeparatedCompletionReflectorUp.TasteGate
 import BEDC.Derived.SeparatedCompletionUp
 import BEDC.Derived.SeparatedLimitUniquenessUp.TasteGate
 import BEDC.Derived.SeparatedMetricReflectionUp.TasteGate
