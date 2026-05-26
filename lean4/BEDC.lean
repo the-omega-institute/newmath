@@ -3175,6 +3175,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.CompactCoverSelectionRow
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactMetricHandoffExactness
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactNetSelectorFactorization
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactRadiusBridge
+import BEDC.Derived.FiniteLebesgueNumberUp.CompactRouteDyadicModulusPackage
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactUniformChoiceRefusal
 import BEDC.Derived.FiniteLebesgueNumberUp.ConsumerNonescapeTriad
 import BEDC.Derived.FiniteLebesgueNumberUp.ContinuousMapUniformRouteRow
@@ -3597,6 +3598,7 @@ import BEDC.Derived.HausdorffCompletionUp.EntourageFilterCoherence
 import BEDC.Derived.HausdorffCompletionUp.SeparatedReflection
 import BEDC.Derived.HausdorffCompletionUp.StandardBridge
 import BEDC.Derived.HausdorffCompletionUp.UniformConsumerPackage
+import BEDC.Derived.HausdorffSpaceUp.ClassifierSeparationRoute
 import BEDC.Derived.HausdorffSpaceUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HellySelectionUp.TasteGate
@@ -4229,6 +4231,7 @@ import BEDC.Derived.MetricBallUp.FiniteIntersectionReadiness
 import BEDC.Derived.MetricBallUp.NameCertObligations
 import BEDC.Derived.MetricBallUp.PositiveRadiusTransport
 import BEDC.Derived.MetricBallUp.RefinementObligations
+import BEDC.Derived.MetricBallUp.RegSeqRatRealWindowBoundary
 import BEDC.Derived.MetricBallUp.TasteGate
 import BEDC.Derived.MetricBallUp.TopologyHandoff
 import BEDC.Derived.MetricClosedBallUp
@@ -5023,6 +5026,7 @@ import BEDC.Derived.RealConvergenceRateUp.TasteGate
 import BEDC.Derived.RealDiagonalCompletionUp
 import BEDC.Derived.RealDiagonalCompletionUp.TasteGate
 import BEDC.Derived.RealDiagonalMeshBudgetUp
+import BEDC.Derived.RealDiagonalNonSurjectionUp
 import BEDC.Derived.RealDiagonalRegularitySealUp.TasteGate
 import BEDC.Derived.RealDiagonalWindowCoverageUp
 import BEDC.Derived.RealDyadicEmbeddingUp.TasteGate
@@ -5099,6 +5103,7 @@ import BEDC.Derived.RealSeriesUp.EndpointReadback
 import BEDC.Derived.RealSeriesUp.RootCauchyProductBudget
 import BEDC.Derived.RealSeriesUp.RootTailFactorization
 import BEDC.Derived.RealSeriesUp.TasteGate
+import BEDC.Derived.RealSpectrumUp
 import BEDC.Derived.RealTailAgreementSealUp.DyadicWindowExactness
 import BEDC.Derived.RealTailAgreementSealUp.RealCompletionHandoff
 import BEDC.Derived.RealTailAgreementSealUp.RootBudget
@@ -6483,6 +6488,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.SourceRouteScopedTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.SourceScopedReadback
 import BEDC.Derived.ZetaContinuationWitnessUp.TasteGate
 import BEDC.Derived.ZetaContinuationWitnessUp.TrivialZeroLedgerNonescape
+import BEDC.Derived.ZetaContinuationWitnessUp.WitnessCarrierObligation
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroConsumerHandoff
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroConsumerSourceReadiness
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingPublicFactorization
