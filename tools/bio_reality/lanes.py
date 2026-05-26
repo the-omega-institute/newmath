@@ -544,17 +544,35 @@ def _bio_g_initial_prompt(store: BioRealityStore, candidate: dict[str, Any]) -> 
     return claim_id, prompt
 
 
+def _select_bio_g_rotation_candidate(gate_results: list[dict[str, Any]], lane_state: dict[str, Any]) -> dict[str, Any] | None:
+    passed = [
+        result for result in gate_results
+        if isinstance(result, dict) and str(result.get("gate_status") or "") == "gate_passed"
+    ]
+    if not passed:
+        return None
+    consulted = lane_state.get("consulted_claim_ids") if isinstance(lane_state.get("consulted_claim_ids"), dict) else {}
+    def sort_key(result: dict[str, Any]) -> tuple[str, str]:
+        cid = str(result.get("claim_id") or result.get("packet_id") or "")
+        return (str(consulted.get(cid) or ""), cid)
+    return sorted(passed, key=sort_key)[0]
+
+
 def _maybe_run_bio_g_oracle(store: BioRealityStore) -> dict[str, Any]:
     config = _load_oracle_integration_config()
     lane_config = config.get("bio_g") if isinstance(config.get("bio_g"), dict) else {}
     if not config.get("enabled", False) or not lane_config.get("enabled", False):
         return _oracle_skip("disabled")
     gate_results = read_jsonl(store.paths.gate_results)
-    candidate = _select_bio_g_oracle_candidate(gate_results)
-    if candidate is None:
-        return _oracle_skip("no_candidate")
     state = _read_oracle_state(store)
     lane_state = state.get("bio-G") if isinstance(state.get("bio-G"), dict) else {}
+    candidate = _select_bio_g_oracle_candidate(gate_results)
+    rotation_used = False
+    if candidate is None:
+        candidate = _select_bio_g_rotation_candidate(gate_results, lane_state)
+        rotation_used = candidate is not None
+    if candidate is None:
+        return _oracle_skip("no_candidate")
     min_seconds = float(lane_config.get("min_seconds_between_consultations") or 0)
     last_at = _parse_iso_seconds(lane_state.get("last_consulted_at"))
     if min_seconds > 0 and last_at > 0 and time.time() - last_at < min_seconds:
@@ -580,10 +598,13 @@ def _maybe_run_bio_g_oracle(store: BioRealityStore) -> dict[str, Any]:
         codex_judge_timeout=int(lane_config.get("codex_judge_timeout_seconds") or 240),
     )
     lane_state.update({"last_consulted_at": now_iso(), "last_topic": topic, "last_claim_id": claim_id})
+    consulted_map = lane_state.get("consulted_claim_ids") if isinstance(lane_state.get("consulted_claim_ids"), dict) else {}
+    consulted_map[claim_id] = now_iso()
+    lane_state["consulted_claim_ids"] = consulted_map
     state["bio-G"] = lane_state
     _write_oracle_state(store, state)
-    _append_oracle_event(store, "bio-G", topic, result, intended_claim_id=claim_id)
-    return {"oracle_consultations": 1, "oracle_turns_total": _turn_count(result), "oracle_skipped_reason": ""}
+    _append_oracle_event(store, "bio-G", topic, result, intended_claim_id=claim_id, reason=("rotation_deep_review" if rotation_used else ""))
+    return {"oracle_consultations": 1, "oracle_turns_total": _turn_count(result), "oracle_skipped_reason": "", "oracle_rotation_used": rotation_used}
 
 
 def _load_claims_document(path: Path) -> dict[str, Any]:
@@ -2362,6 +2383,71 @@ def _bio_w_author_prompt(
     return "\n".join(lines)
 
 
+def _bio_w_cache_paths(repo_root: Path, log_dir: str | Path, task_id: str) -> tuple[Path, Path]:
+    base = Path(log_dir)
+    if not base.is_absolute():
+        base = repo_root / base
+    return base / f"{task_id}.input.sha256", base / f"{task_id}.cached_chapter.tex"
+
+
+def _bio_w_cached_render(
+    repo_root: Path,
+    log_dir: str | Path,
+    task_id: str,
+    prompt: str,
+    corrective_feedback: list[str] | None,
+) -> dict[str, Any] | None:
+    # Skip cache when corrective feedback is present — caller wants a fresh attempt with feedback applied.
+    if corrective_feedback:
+        return None
+    hash_path, chapter_path = _bio_w_cache_paths(repo_root, log_dir, task_id)
+    if not hash_path.exists() or not chapter_path.exists():
+        return None
+    try:
+        stored_hash = hash_path.read_text(encoding="utf-8").strip()
+    except OSError:
+        return None
+    current_hash = hashlib.sha256(prompt.encode("utf-8")).hexdigest()
+    if stored_hash != current_hash:
+        return None
+    try:
+        cached = chapter_path.read_text(encoding="utf-8")
+    except OSError:
+        return None
+    if not cached.strip():
+        return None
+    return {
+        "verdict": "ready",
+        "audit_score": 10,
+        "used_fact_ids": ["cached"],
+        "chapter_content": cached,
+        "risk_notes": "",
+        "missing_data_notes": "",
+        "cache_hit": True,
+    }
+
+
+def _bio_w_persist_cache(
+    repo_root: Path,
+    log_dir: str | Path,
+    task_id: str,
+    prompt: str,
+    parsed: dict[str, Any] | None,
+) -> None:
+    if not isinstance(parsed, dict) or parsed.get("verdict") != "ready":
+        return
+    chapter_text = str(parsed.get("chapter_content") or "")
+    if not chapter_text.strip():
+        return
+    hash_path, chapter_path = _bio_w_cache_paths(repo_root, log_dir, task_id)
+    try:
+        hash_path.parent.mkdir(parents=True, exist_ok=True)
+        hash_path.write_text(hashlib.sha256(prompt.encode("utf-8")).hexdigest(), encoding="utf-8")
+        chapter_path.write_text(chapter_text, encoding="utf-8")
+    except OSError:
+        return
+
+
 def render_namecert_with_codex(
     claim_id: str,
     slug: str,
@@ -2387,8 +2473,13 @@ def render_namecert_with_codex(
         mismatches=mismatches,
         corrective_feedback=corrective_feedback,
     )
+    task_id = _safe_task_id(f"namecert-{claim_id}")
+    cached = _bio_w_cached_render(repo_root, log_dir, task_id, prompt, corrective_feedback)
+    if cached is not None:
+        return cached
     parsed, raw_stdout, raw_stderr = _run_bio_w_codex(prompt, repo_root, timeout_seconds)
-    _write_bio_w_codex_log(repo_root, log_dir, _safe_task_id(f"namecert-{claim_id}"), prompt, parsed, raw_stdout, raw_stderr)
+    _write_bio_w_codex_log(repo_root, log_dir, task_id, prompt, parsed, raw_stdout, raw_stderr)
+    _bio_w_persist_cache(repo_root, log_dir, task_id, prompt, parsed)
     return parsed
 
 
@@ -2416,8 +2507,13 @@ def render_conjecture_with_codex(
         mismatches=mismatches,
         corrective_feedback=corrective_feedback,
     )
+    task_id = _safe_task_id(f"conjecture-{conjecture_id}")
+    cached = _bio_w_cached_render(repo_root, log_dir, task_id, prompt, corrective_feedback)
+    if cached is not None:
+        return cached
     parsed, raw_stdout, raw_stderr = _run_bio_w_codex(prompt, repo_root, timeout_seconds)
-    _write_bio_w_codex_log(repo_root, log_dir, _safe_task_id(f"conjecture-{conjecture_id}"), prompt, parsed, raw_stdout, raw_stderr)
+    _write_bio_w_codex_log(repo_root, log_dir, task_id, prompt, parsed, raw_stdout, raw_stderr)
+    _bio_w_persist_cache(repo_root, log_dir, task_id, prompt, parsed)
     return parsed
 
 
