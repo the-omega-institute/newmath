@@ -255,4 +255,75 @@ theorem SobolevCarrier_derivative_norm_ledger [AskSetup] [PackageSetup]
       normGradientSame, domainBaseCodomain, normRoute, codomainMagnitudeGradient,
       provenancePkg⟩
 
+theorem SobolevCarrier_energy_window [AskSetup] [PackageSetup]
+    {domain base codomain magnitude gradient transports routes provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SobolevCarrier domain base codomain magnitude gradient transports routes provenance
+        localCert bundle pkg ->
+      exists energyRead : BHist,
+        UnaryHistory energyRead ∧
+          hsame energyRead (append (append (append (append domain magnitude) gradient)
+            transports) provenance) ∧
+            Cont domain base codomain ∧ Cont codomain magnitude gradient ∧
+              Cont gradient transports routes ∧ Cont routes provenance localCert ∧
+                PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg UnaryHistory
+  intro carrier
+  obtain ⟨domainUnary, _baseUnary, _codomainUnary, magnitudeUnary, gradientUnary,
+    transportsUnary, _routesUnary, provenanceUnary, _localCertUnary, domainBaseCodomain,
+    codomainMagnitudeGradient, gradientTransportsRoutes, routesProvenanceLocalCert,
+    provenancePkg⟩ := carrier
+  let energyRead := append (append (append (append domain magnitude) gradient) transports)
+    provenance
+  have domainMagnitudeUnary : UnaryHistory (append domain magnitude) :=
+    unary_append_closed domainUnary magnitudeUnary
+  have domainMagnitudeGradientUnary : UnaryHistory (append (append domain magnitude) gradient) :=
+    unary_append_closed domainMagnitudeUnary gradientUnary
+  have domainMagnitudeGradientTransportsUnary :
+      UnaryHistory (append (append (append domain magnitude) gradient) transports) :=
+    unary_append_closed domainMagnitudeGradientUnary transportsUnary
+  have energyUnary : UnaryHistory energyRead :=
+    unary_append_closed domainMagnitudeGradientTransportsUnary provenanceUnary
+  exact
+    ⟨energyRead, energyUnary, hsame_refl energyRead, domainBaseCodomain,
+      codomainMagnitudeGradient, gradientTransportsRoutes, routesProvenanceLocalCert,
+      provenancePkg⟩
+
+def SobolevFiniteWindowCarrier [AskSetup] [PackageSetup]
+    (domain base codomain magnitude gradient trace transports provenance localCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory domain ∧ UnaryHistory base ∧ UnaryHistory codomain ∧
+    UnaryHistory magnitude ∧ UnaryHistory gradient ∧ UnaryHistory trace ∧
+      UnaryHistory transports ∧ UnaryHistory provenance ∧ UnaryHistory localCert ∧
+        Cont domain base codomain ∧ Cont codomain magnitude gradient ∧
+          Cont gradient trace transports ∧ PkgSig bundle provenance pkg
+
+theorem SobolevFiniteWindowCarrier_completion_boundary_nonescape [AskSetup] [PackageSetup]
+    {domain base codomain magnitude gradient trace transports provenance localCert
+      completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SobolevFiniteWindowCarrier domain base codomain magnitude gradient trace transports
+        provenance localCert bundle pkg ->
+      Cont trace localCert completionRead ->
+        PkgSig bundle completionRead pkg ->
+          UnaryHistory domain ∧ UnaryHistory base ∧ UnaryHistory codomain ∧
+            UnaryHistory magnitude ∧ UnaryHistory gradient ∧ UnaryHistory trace ∧
+              UnaryHistory transports ∧ UnaryHistory provenance ∧ UnaryHistory localCert ∧
+                UnaryHistory completionRead ∧ Cont domain base codomain ∧
+                  Cont codomain magnitude gradient ∧ Cont gradient trace transports ∧
+                    Cont trace localCert completionRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier traceLocalCompletion completionPkg
+  obtain ⟨domainUnary, baseUnary, codomainUnary, magnitudeUnary, gradientUnary, traceUnary,
+    transportsUnary, provenanceUnary, localCertUnary, domainBaseCodomain,
+    codomainMagnitudeGradient, gradientTraceTransports, provenancePkg⟩ := carrier
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed traceUnary localCertUnary traceLocalCompletion
+  exact
+    ⟨domainUnary, baseUnary, codomainUnary, magnitudeUnary, gradientUnary, traceUnary,
+      transportsUnary, provenanceUnary, localCertUnary, completionUnary, domainBaseCodomain,
+      codomainMagnitudeGradient, gradientTraceTransports, traceLocalCompletion, provenancePkg,
+      completionPkg⟩
+
 end BEDC.Derived.SobolevUp

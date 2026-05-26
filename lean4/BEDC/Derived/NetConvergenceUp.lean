@@ -102,4 +102,22 @@ theorem NetConvergenceCarrier_cauchy_filter_handoff {D T E A F S R L H C P M
         realLedger.right.right.right.left, realLedger.right.right.right.right.left,
         realLedger.right.right.right.right.right, fields⟩⟩
 
+theorem NetConvergenceCarrier_moore_smith_dependency
+    {D T E A F S R L H C P M sourceRead filterRead realRead : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M ->
+      Cont D A sourceRead ->
+        Cont sourceRead F filterRead ->
+          Cont filterRead L realRead ->
+            hsame D D ∧ hsame A A ∧ hsame F F ∧ hsame L L ∧
+              Cont D A sourceRead ∧ Cont sourceRead F filterRead ∧
+                Cont filterRead L realRead ∧
+                  netConvergenceFields (NetConvergenceUp.mk D T E A F S R L H C P M) =
+                    [D, T, E, A, F, S, R, L, H, C, P, M] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  intro carrier sourceRoute filterRoute realRoute
+  obtain ⟨sameD, _sameT, _sameE, sameA, sameF, _sameS, _sameR, sameL, _sameH,
+    _sameC, _sameP, _sameM, fields⟩ := carrier
+  exact
+    ⟨sameD, sameA, sameF, sameL, sourceRoute, filterRoute, realRoute, fields⟩
+
 end BEDC.Derived.NetConvergenceUp
