@@ -155,4 +155,72 @@ theorem BoundedSetCarrier_finite_net_consumer_boundary [AskSetup] [PackageSetup]
   }
   exact ⟨cert, finiteNetUnary, ballReplayFinite, provenancePkg, finiteNetPkg⟩
 
+theorem BoundedSetCarrier_obligation_closure_rows [AskSetup] [PackageSetup]
+    {X S center radius ball transport replay provenance nameRow memberRead ballRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedSetCarrier X S center radius ball transport replay provenance nameRow bundle pkg ->
+      Cont S center memberRead ->
+        Cont memberRead radius ballRead ->
+          PkgSig bundle ballRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row ballRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row X ∨ hsame row S ∨ hsame row center ∨ hsame row radius ∨
+                    hsame row ball ∨ hsame row ballRead ∨ Cont S center memberRead ∨
+                      Cont memberRead radius ballRead)
+                (fun row : BHist =>
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle nameRow pkg ∧
+                    PkgSig bundle ballRead pkg ∧ hsame row ballRead)
+                hsame ∧
+              UnaryHistory X ∧ UnaryHistory S ∧ UnaryHistory radius ∧ UnaryHistory ballRead ∧
+                Cont S center memberRead ∧ Cont memberRead radius ballRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier subsetCenter memberRadius ballPkg
+  obtain ⟨xUnary, sUnary, centerUnary, radiusUnary, _ballUnary, _transportUnary,
+    _replayUnary, _provenanceUnary, _nameUnary, _carrierMemberRoute, _carrierBallRoute,
+    provenancePkg, namePkg⟩ := carrier
+  have memberUnary : UnaryHistory memberRead :=
+    unary_cont_closed sUnary centerUnary subsetCenter
+  have ballReadUnary : UnaryHistory ballRead :=
+    unary_cont_closed memberUnary radiusUnary memberRadius
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row ballRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row S ∨ hsame row center ∨ hsame row radius ∨
+              hsame row ball ∨ hsame row ballRead ∨ Cont S center memberRead ∨
+                Cont memberRead radius ballRead)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg ∧ PkgSig bundle nameRow pkg ∧
+              PkgSig bundle ballRead pkg ∧ hsame row ballRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro ballRead ⟨hsame_refl ballRead, ballReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        have otherSame : hsame other ballRead :=
+          hsame_trans (hsame_symm sameRows) source.left
+        have otherUnary : UnaryHistory other :=
+          unary_transport source.right sameRows
+        exact ⟨otherSame, otherUnary⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, namePkg, ballPkg, source.left⟩
+  }
+  exact
+    ⟨cert, xUnary, sUnary, radiusUnary, ballReadUnary, subsetCenter, memberRadius⟩
+
 end BEDC.Derived.BoundedSetUp
