@@ -4,10 +4,12 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import json
 import socket
 import sys
 import time
+from pathlib import Path
 from typing import Any, Callable
 from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin
@@ -59,6 +61,8 @@ def submit_query(
     *,
     intended_claim_id: str = "",
     intended_lane: str = "",
+    pdf_base64: str = "",
+    pdf_name: str = "",
     server_url: str = DEFAULT_SERVER_URL,
     timeout_seconds: int = 60,
 ) -> str:
@@ -70,10 +74,42 @@ def submit_query(
         "intended_lane": intended_lane,
         "tag": intended_claim_id or intended_lane or "bio-oracle-query",
     }
+    if pdf_base64:
+        payload["pdf_base64"] = pdf_base64
+        payload["pdf_name"] = pdf_name or "main.pdf"
     data = _request_json("POST", server_url, "/tasks", payload, timeout_seconds)
     if data.get("status") == "error":
         return ""
     return str(data.get("task_id") or "")
+
+
+_PDF_CACHE: dict[str, Any] = {"path": None, "mtime": None, "b64": None, "name": None}
+
+
+def encode_pdf_for_attach(pdf_path: str | Path | None = None) -> tuple[str, str]:
+    """Return (base64, filename) ready to attach to submit_query. Empty strings
+    if pdf_path is None or file missing. Caches across calls, re-reads on mtime change."""
+    if pdf_path is None:
+        return ("", "")
+    p = Path(pdf_path)
+    if not p.exists():
+        return ("", "")
+    try:
+        st = p.stat()
+    except OSError:
+        return ("", "")
+    if (
+        _PDF_CACHE["path"] == str(p)
+        and _PDF_CACHE["mtime"] == st.st_mtime
+        and _PDF_CACHE["b64"]
+    ):
+        return (_PDF_CACHE["b64"], _PDF_CACHE["name"])
+    try:
+        b64 = base64.b64encode(p.read_bytes()).decode("ascii")
+    except OSError:
+        return ("", "")
+    _PDF_CACHE.update({"path": str(p), "mtime": st.st_mtime, "b64": b64, "name": p.name})
+    return (b64, p.name)
 
 
 def continue_query(
@@ -147,6 +183,8 @@ def run_session(
     max_turns: int = 20,
     intended_claim_id: str = "",
     intended_lane: str = "",
+    pdf_base64: str = "",
+    pdf_name: str = "",
     server_url: str = DEFAULT_SERVER_URL,
     poll_timeout: int = 600,
     poll_interval: float = 5.0,
@@ -184,6 +222,8 @@ def run_session(
                     current_prompt,
                     intended_claim_id=intended_claim_id,
                     intended_lane=intended_lane,
+                    pdf_base64=pdf_base64,
+                    pdf_name=pdf_name,
                     server_url=server_url,
                 )
             else:
