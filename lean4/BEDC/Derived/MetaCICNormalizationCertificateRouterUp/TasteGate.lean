@@ -232,6 +232,9 @@ instance metaCICNormalizationCertificateRouterChapterTasteGate :
     intro x y hxy heq
     exact hxy (metaCICNormalizationCertificateRouterToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate MetaCICNormalizationCertificateRouterUp :=
+  metaCICNormalizationCertificateRouterChapterTasteGate
+
 instance metaCICNormalizationCertificateRouterFieldFaithful :
     FieldFaithful MetaCICNormalizationCertificateRouterUp where
   -- BEDC touchpoint anchor: BHist BMark
