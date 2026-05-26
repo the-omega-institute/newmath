@@ -114,6 +114,18 @@ Finally compare the sibling rows. $\ClosedTermSubstitutionBoundaryUp$, $\Authori
 \leanchecked{BEDC.Derived.MetaCICNormalizationCertificateRouterUp.MetaCICNormalizationCertificateRouterRouteCoverage}
 \leanchecked{BEDC.Derived.MetaCICNormalizationCertificateRouterUp.MetaCICNormalizationCertificateRouterPacket\_route\_coverage}
 
+\begin{theorem}[MetaCIC normalization certificate router kernel scope]
+\label{thm:metacic-normalization-certificate-router-kernel-scope}
+Every accepted $\MetaCICNormalizationCertificateRouterUp$ read must expose the audit anchor $A$, candidate evidence $K$, strong-normalization readback $S$, Pi and application adequacy $P$, closed projection $D$, authorized generator $U$, compiler recognizer $G$, inductive acceptance $L$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $Q$, and local $\NameCert$ row $N$ before any normalization output is read. Thus the router is scoped to the finite kernel packet carried by $A,K,S,P,D,U,G,L,H,C,Q,N$, not to a host normalization principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-normalization-certificate-router-carrier}. Its displayed rows are exactly $A,K,S,P,D,U,G,L,H,C,Q,N$, and the strong-normalization readback row $S$ is downstream of the candidate-evidence row $K$.
+
+Apply route coverage. Theorem~\ref{thm:metacic-normalization-certificate-router-route-coverage} orders every admitted normalization output through the displayed route, while \autoref{thm:metacic-normalization-certificate-router-generator-compiler-route} keeps the generator and compiler recognizer rows inside the same packet.
+
+Finally use the inductive-acceptance scope theorem. It binds the $L$ row to the audit anchor, candidate evidence, closed projection, generator, compiler, transport, replay, provenance, and local naming rows. Hence no normalization output can be read before the finite kernel-scope surface is displayed.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization certificate router sibling separation]
 \label{thm:metacic-normalization-certificate-router-sibling-separation}
 The $\MetaCICNormalizationCertificateRouterUp$ carrier is not bijective, row for row, with any one of $\MetaCICNormalizationFrontierUp$, $\ClosedTermSubstitutionBoundaryUp$, $\AuthorizedGeneratorRecursorUp$, $\GroundCompilerRecognizerFlowUp$, or $\KernelInductiveAcceptanceUp$. A bijection preserving local NameCert obligations would have to preserve simultaneous candidate evidence, closed projection, Pi and application adequacy, authorized generator handoff, compiler recognition, kernel acceptance, and no-infinite-reduction routing, and no listed sibling carries that whole surface.
