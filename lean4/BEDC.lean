@@ -1478,6 +1478,7 @@ import BEDC.Derived.CauchyRealApartnessUp
 import BEDC.Derived.CauchyRealApartnessUp.TasteGate
 import BEDC.Derived.CauchyRealCompletionInterfaceUp.TasteGate
 import BEDC.Derived.CauchyRealFieldUp.TasteGate
+import BEDC.Derived.CauchyRealLocatedOrderTestUp.TasteGate
 import BEDC.Derived.CauchyRealOrderUp
 import BEDC.Derived.CauchyRealOrderUp.TasteGate
 import BEDC.Derived.CauchyRealOrderedFieldUp.TasteGate
@@ -1944,6 +1945,7 @@ import BEDC.Derived.CompletionExtensionUniquenessUp.TasteGate
 import BEDC.Derived.CompletionExtractorUp
 import BEDC.Derived.CompletionExtractorUp.TasteGate
 import BEDC.Derived.CompletionFunctorUp
+import BEDC.Derived.CompletionPreservesSeparableUp.TasteGate
 import BEDC.Derived.CompletionReflectionUp
 import BEDC.Derived.CompletionReflectionUp.TasteGate
 import BEDC.Derived.CompletionUniquenessUp
@@ -4078,6 +4080,7 @@ import BEDC.Derived.LocatedIntervalUp.RealStreamBracketCorrespondence
 import BEDC.Derived.LocatedIntervalUp.StdBridge
 import BEDC.Derived.LocatedIntervalUp.TasteGate
 import BEDC.Derived.LocatedLimitUp.TasteGate
+import BEDC.Derived.LocatedMetricCompletionUp.TasteGate
 import BEDC.Derived.LocatedMetricUp
 import BEDC.Derived.LocatedMetricUp.TasteGate
 import BEDC.Derived.LocatedModulusCompletionUp
@@ -4336,6 +4339,7 @@ import BEDC.Derived.MetricCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.MetricCompletionUp.BranchCoverage
 import BEDC.Derived.MetricCompletionUp.BranchDeterminacy
 import BEDC.Derived.MetricCompletionUp.BranchExhaustion
+import BEDC.Derived.MetricCompletionUp.BranchInterfaceScope
 import BEDC.Derived.MetricCompletionUp.BranchReadback
 import BEDC.Derived.MetricCompletionUp.BranchScope
 import BEDC.Derived.MetricCompletionUp.BridgeSurfaceLock
@@ -4344,6 +4348,7 @@ import BEDC.Derived.MetricCompletionUp.CauchyEvidenceHandoff
 import BEDC.Derived.MetricCompletionUp.CauchyFilterCarrierAdmission
 import BEDC.Derived.MetricCompletionUp.CauchyFilterLimitFactorization
 import BEDC.Derived.MetricCompletionUp.CauchyFilterNetSeal
+import BEDC.Derived.MetricCompletionUp.ClassifierRoute
 import BEDC.Derived.MetricCompletionUp.ClassifierStability
 import BEDC.Derived.MetricCompletionUp.Compatibility
 import BEDC.Derived.MetricCompletionUp.CompletionConsumerTotality
@@ -4369,6 +4374,7 @@ import BEDC.Derived.MetricCompletionUp.TasteGate
 import BEDC.Derived.MetricCompletionUp.UniformCompletionHandoff
 import BEDC.Derived.MetricCompletionUp.UniformSealFactorization
 import BEDC.Derived.MetricCompletionUp.UniformSourceLock
+import BEDC.Derived.MetricEntourageUp
 import BEDC.Derived.MetricProjectionUp
 import BEDC.Derived.MetricProjectionUp.TasteGate
 import BEDC.Derived.MetricSpaceCompactContinuitySourceLockUp.TasteGate
