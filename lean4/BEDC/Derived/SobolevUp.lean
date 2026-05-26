@@ -289,6 +289,33 @@ theorem SobolevCarrier_energy_window [AskSetup] [PackageSetup]
       codomainMagnitudeGradient, gradientTransportsRoutes, routesProvenanceLocalCert,
       provenancePkg⟩
 
+theorem SobolevCarrier_weak_gradient_consumer_boundary [AskSetup] [PackageSetup]
+    {domain base codomain magnitude gradient transports routes provenance localCert
+      consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SobolevCarrier domain base codomain magnitude gradient transports routes provenance
+        localCert bundle pkg ->
+      Cont gradient transports consumerRead ->
+        PkgSig bundle consumerRead pkg ->
+          UnaryHistory domain ∧ UnaryHistory base ∧ UnaryHistory codomain ∧
+            UnaryHistory magnitude ∧ UnaryHistory gradient ∧ UnaryHistory transports ∧
+              UnaryHistory consumerRead ∧ Cont domain base codomain ∧
+                Cont codomain magnitude gradient ∧ Cont gradient transports consumerRead ∧
+                  Cont gradient transports routes ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier gradientTransportConsumer consumerPkg
+  obtain ⟨domainUnary, baseUnary, codomainUnary, magnitudeUnary, gradientUnary,
+    transportsUnary, _routesUnary, _provenanceUnary, _localCertUnary, domainBaseCodomain,
+    codomainMagnitudeGradient, gradientTransportRoutes, _routesProvenanceLocalCert,
+    provenancePkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed gradientUnary transportsUnary gradientTransportConsumer
+  exact
+    ⟨domainUnary, baseUnary, codomainUnary, magnitudeUnary, gradientUnary, transportsUnary,
+      consumerUnary, domainBaseCodomain, codomainMagnitudeGradient, gradientTransportConsumer,
+      gradientTransportRoutes, provenancePkg, consumerPkg⟩
+
 def SobolevFiniteWindowCarrier [AskSetup] [PackageSetup]
     (domain base codomain magnitude gradient trace transports provenance localCert : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
