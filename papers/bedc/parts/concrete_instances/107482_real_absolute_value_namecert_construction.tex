@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\RealAbsoluteValueUp$}
+\label{ch:concrete-instances-real-absolute-value-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive absolute value for real names, the $\RealAbsoluteValueUp$ packet records absolute value as a finite NameCert read over the current L10 $\RealUp$ construction. It seals the dyadic endpoint of \autoref{ch:concrete-instances-dyadicabsolutevalue-namecert} into regular real-name data without importing host real equality, trichotomy, or an ambient ordered-field object.
+
+\begin{definition}[Real absolute-value carrier]
+\label{def:real-absolute-value-carrier}
+A $\RealAbsoluteValueUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,R,\delta,D,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ schedule row naming the finite read windows used to inspect the real name.
+\item $R$ is the $\RegSeqRat$ regular-name row for the input real, including the rational approximants and regularity ledger.
+\item $\delta$ is the $\DyadicRatCore$ tolerance row used to choose dyadic approximants at each displayed window.
+\item $D$ is the $\DyadicAbsoluteValueUp$ endpoint readback row, applying dyadic absolute value to the inspected dyadic cores.
+\item $M$ is the $\CauchyModulusUp$ stability budget that bounds the replay of the endpoint readback across later windows.
+\item $E$ is the $\RealUp$ seal row that packages the resulting regular absolute-value name.
+\item $H$ records componentwise $\hsame$ transport for the schedule, regular-name data, dyadic tolerance, dyadic endpoint readback, modulus budget, and real seal.
+\item $C$ records the $\Cont$ replay routes from schedule inspection through dyadic readback to the sealed regular real name.
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\RegSeqRat$, $\DyadicRatCore$, $\DyadicAbsoluteValueUp$, $\CauchyModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RealAbsoluteValueUp}$ row.
+\end{enumerate}
+The accepted carrier contains no host real equality test, no trichotomy branch, no order-completion shortcut, no RealAlgOrder completion claim, and no absolute-value operation detached from the displayed regular-name and dyadic endpoint rows.
+\end{definition}
+
+\begin{theorem}[Real absolute-value NameCert obligations]
+\label{thm:real-absolute-value-namecert-obligations}
+For an accepted packet $A=(S,R,\delta,D,M,E,H,C,P,N)$, the local $\NameCert_{\RealAbsoluteValueUp}$ obligation surface consists exactly of carrier admission, dyadic absolute-value stability, regular-sequence seal compatibility, triangle nonescape, and ledger exactness for the displayed rows $S,R,\delta,D,M,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission reads the schedule, regular-name data, dyadic tolerance, dyadic endpoint readback, stability budget, and real seal from the finite packet. The support rows $H,C,P,N$ transport, replay, package, and name exactly those displayed rows.
+
+Dyadic absolute-value stability is local to $D$ and $\delta$. The endpoint readback uses the dyadic absolute-value packet, while the tolerance row fixes the finite accuracy at which the dyadic core is inspected.
+
+Regular-sequence seal compatibility is supplied by $M$ and $E$. The modulus budget records enough stability to replay the endpoint readback across later windows, and the $\RealUp$ seal packages the resulting regular name without adding a host real comparison.
+
+Ledger exactness follows by projection from the carrier. Every exported read is one of $S,R,\delta,D,M,E,H,C,P,N$, so no trichotomy branch, order-completion shortcut, or RealAlgOrder completion field can be recovered from the packet.
+\end{proof}
+
+\begin{theorem}[Real absolute-value triangle nonescape]
+\label{thm:real-absolute-value-triangle-nonescape}
+Every triangle-facing consumer of an accepted $\RealAbsoluteValueUp$ packet reads only the regular-name seal $E$ together with its schedule, dyadic tolerance, dyadic endpoint readback, modulus budget, componentwise transport, continuation replay, package provenance, and local naming rows. The packet therefore exposes the triangle surface as a stability obligation over regular real names and dyadic absolute-value readback, not as host real order, trichotomy, or a completed $\RealAlgOrderUp$ structure.
+\end{theorem}
+\begin{proof}
+Start with the carrier rows of \autoref{def:real-absolute-value-carrier}. The only endpoint operation is the dyadic readback $D$, and the only real-facing result is the $\RealUp$ seal $E$.
+
+The triangle-facing route must use the schedule and tolerance rows to compare finite read windows, then use $M$ to replay the resulting regular-name stability. Transport by $H$ and replay by $C$ keep the route tied to those same displayed rows.
+
+Package provenance $P$ and local naming $N$ identify the output as the $\RealAbsoluteValueUp$ surface. Since the carrier has no host real equality test, no trichotomy coordinate, and no RealAlgOrder completion field, a triangle consumer cannot escape the regular-name and dyadic-readback ledger.
+\end{proof}
+
+\closureat{RealAbsoluteValueUp}{seedStr}
+
+\begin{closurestatus}{\RealAbsoluteValueUp}
+  \constructivestory{A $\RealAbsoluteValueUp$ packet is generated from a StreamName schedule, RegSeqRat regular-name data, DyadicRatCore tolerance, DyadicAbsoluteValue endpoint readback, CauchyModulus stability budget, a RealUp seal, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-absolute-value-carrier}, \autoref{thm:real-absolute-value-namecert-obligations}, and \autoref{thm:real-absolute-value-triangle-nonescape} bind the seed carrier, obligation surface, and triangle-facing nonescape boundary for constructive real absolute value.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close RealAlgOrderUp completion, host real equality, trichotomy, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification can encode the carrier admission, dyadic absolute-value stability, regular-sequence seal compatibility, triangle nonescape, and ledger exactness surface for BEDC.Derived.RealAbsoluteValueUp.}
+\end{closurestatus}
