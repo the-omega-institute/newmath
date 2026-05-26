@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\LocatedSequenceUp$}
+\label{ch:concrete-instances-locatedsequence-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\LocatedSequenceUp$ packet records the finite surface by which a sequence is read through located windows before it is consumed as regular rational, located real, or real-facing data. It sits after the finite stream observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the located-real boundary of \autoref{ch:concrete-instances-locatedreal-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter isolates the generic located-sequence carrier used by later completion and compact-uniform-continuity routes; it does not choose a quotient stream, a selected limit, a trichotomy decision, countable choice, or ambient real completeness.
+
+\begin{definition}[Located sequence carrier]
+\label{def:located-sequence-carrier}
+A $\LocatedSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,R,D,L,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ row, exposing exactly the finite sequence windows that may be inspected by a consumer.
+\item $R$ is the $\RegSeqRatUp$ readback row, repacking the inspected stream windows as regular rational sequence data.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used when located windows are compared, tightened, or handed to a modulus consumer.
+\item $L$ is the $\LocatedRealUp$ window row, recording the located interval or ball evidence available at the displayed sequence indices.
+\item $Q$ is the $\RealUp$ seal row reached only after the stream, regular rational, dyadic, and located-real rows have been projected.
+\item $H$ records componentwise $\hsame$ transport for stream windows, regular rational readback, dyadic tolerances, located-real windows, real seals, continuation, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a finite sequence request through
+$$
+S,D,L \longmapsto R \longmapsto Q .
+$$
+\item $P$ is the $\Pkg$ provenance over $\LocatedSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\LocatedRealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedSequenceUp}$ row.
+\end{enumerate}
+The classifier accepts only packets in which the displayed stream windows, dyadic tolerance budgets, located-real windows, regular rational readback, and real seal describe one finite route. It has no coordinate for quotient streams, selected representatives, host real equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located sequence NameCert obligations]
+\label{thm:located-sequence-namecert-obligations}
+For every accepted $\LocatedSequenceUp$ carrier $A=(S,R,D,L,Q,H,C,P,N)$, the local $\NameCert_{\LocatedSequenceUp}$ surface consists exactly of stream-window admission, regular rational readback, dyadic tolerance accounting, located-real window coverage, real-seal routing, componentwise transport, continuation replay, package provenance, and local naming through the rows $S,R,D,L,Q,H,C,P,N$. Consumers from $\LocatedSequenceModulusUp$, $\LocatedSequenceLimitUp$, $\RegSeqRatUp$, $\LocatedRealUp$, and $\RealUp$ may read the packet only through those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-sequence-carrier}. The sequence is visible only through $S$, and every tolerance-facing comparison is visible only through the dyadic row $D$ and the located-real row $L$.
+
+The readback row $R$ repacks the same inspected windows as $\RegSeqRatUp$ data. The real seal $Q$ is downstream of $S,D,L,R$, so a real-facing consumer reaches it only after replaying the displayed located route.
+
+Transport, replay, provenance, and local naming are supplied by $H,C,P,N$. Since the carrier has no coordinate for quotient streams, selected representatives, host equality, trichotomy, countable choice, or ambient completeness, the listed NameCert rows are exhaustive.
+\end{proof}
+
+\begin{theorem}[Located sequence regular rational readback]
+\label{thm:located-sequence-regseqrat-readback}
+Every $\RegSeqRatUp$, $\LocatedRealUp$, or $\RealUp$ consumer of an accepted $\LocatedSequenceUp$ carrier must read
+$$
+S,D,L \longmapsto R \longmapsto Q \longmapsto H,C,P,N .
+$$
+Thus regular rational readback is a displayed finite route from stream windows and located dyadic tolerances to the real seal, not a selected quotient stream, not host real equality, not a trichotomy principle, and not ambient real completeness.
+\end{theorem}
+\begin{proof}
+Begin with a consumer request for regular rational or real-facing data. The packet exposes sequence observations only through $S$, and each located precision request is accounted for by $D$ and $L$.
+
+The row $R$ is the only $\RegSeqRatUp$ readback surface. Therefore a located-real or real-facing consumer reaches the terminal seal $Q$ only after the finite route through $S,D,L,R$ has been displayed.
+
+The structural rows $H,C,P,N$ preserve that route by transport, replay, source, and local naming. No excluded analytic object is present in the tuple, so no downstream consumer can extract one from the packet.
+\end{proof}
+
+\closureat{LocatedSequenceUp}{seedStr}
+
+\begin{closurestatus}{\LocatedSequenceUp}
+  \constructivestory{A $\LocatedSequenceUp$ packet is generated from StreamName windows, RegSeqRat readback, DyadicRatCore tolerances, LocatedReal windows, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-sequence-carrier}, \autoref{thm:located-sequence-namecert-obligations}, and \autoref{thm:located-sequence-regseqrat-readback} seed the finite located-sequence surface for the L10 StreamName-to-RegSeqRat-to-Real route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected representatives, host real equality, trichotomy, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, stream-window coverage, dyadic tolerance accounting, located-real window stability, RegSeqRat readback, Real seal routing, transport, replay, provenance, and local naming for BEDC.Derived.LocatedSequenceUp.}
+\end{closurestatus}
