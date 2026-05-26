@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\CauchySchlomilchCondensationUp$}
+\label{ch:concrete-instances-cauchy-schlomilch-condensation-namecert}
+\origin{human}
+
+Following Knopp and Hardy on condensation tests for positive series, the $\CauchySchlomilchCondensationUp$ packet records the finite comparison route between a monotone nonnegative series and its Schlomilch-block condensation. It sits beside the dyadic block discipline of \autoref{ch:concrete-instances-condensationtailselector-namecert}, the integral comparison surface of \autoref{ch:concrete-instances-cauchy-integral-test-namecert}, and the real series endpoint route of \autoref{ch:concrete-instances-realseries-namecert}. The packet names block maps, block masses, monotonicity windows, tail comparisons, and endpoint seals as finite NameCert data; it does not assert an unrestricted host convergence theorem or choose an infinite sum.
+
+\begin{definition}[CauchySchlomilchCondensation carrier]
+\label{def:cauchy-schlomilch-condensation-carrier}
+A $\CauchySchlomilchCondensationUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,M,B,Q,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the nonnegative real-series row, including the inspected finite coefficient window and the displayed monotonicity direction.
+\item $M$ is the monotone tail row certifying that later blocks may be bounded by their boundary terms.
+\item $B$ is the Schlomilch block-index row, listing the increasing block cut points and their finite gap sizes.
+\item $Q$ is the block-mass comparison row, recording the finite inequalities between original tails and condensed block terms.
+\item $T$ is the tail-transfer row that routes convergence or divergence reads through the displayed block comparison.
+\item $E$ is the terminal $\RealUp$ or $\RealSeriesUp$ endpoint seal reached only after $A,M,B,Q,T$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for series rows, monotonicity rows, block ledgers, tail transfers, endpoint seals, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a tail request through the monotone series row, Schlomilch block ledger, comparison row, tail transfer, and endpoint seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchySchlomilchCondensationUp$, $\RealSeriesUp$, $\CauchyCondensationTestUp$, $\CauchyIntegralTestUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySchlomilchCondensationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a nonmonotone rearrangement, an unstated analytic integral, a selected infinite sum, quotient real equality, or a convergence claim outside the displayed Schlomilch blocks.
+\end{definition}
+
+\begin{theorem}[CauchySchlomilchCondensation NameCert obligations]
+\label{thm:cauchy-schlomilch-condensation-namecert-obligations}
+For every accepted $\CauchySchlomilchCondensationUp$ carrier $S=(A,M,B,Q,T,E,H,C,P,N)$, the local $\NameCert_{\CauchySchlomilchCondensationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the nonnegative series row, monotone tail row, block-index ledger, block-mass comparison, tail-transfer row, endpoint seal, transport, replay, provenance, and local naming;
+\item monotone tail discipline, requiring $M$ before any block comparison row can be consumed;
+\item Schlomilch block exactness, requiring $B$ and $Q$ to name the same finite cut points and gap sizes;
+\item condensation handoff, requiring every convergence-facing or divergence-facing tail read to pass through $T$ before reaching $E$;
+\item sibling compatibility, allowing dyadic Cauchy condensation and integral-test rows to be read only as named comparison siblings, not as hidden analytic premises;
+\item ledger non-escape, excluding nonmonotone rearrangement, selected infinite sums, detached integral estimates, quotient real equality, and ambient completeness.
+\end{enumerate}
+No condensation obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-schlomilch-condensation-carrier}. The rows $A,M,B,Q,T,E,H,C,P,N$ are the only displayed coordinates of the accepted packet.
+
+Read the tail discipline first. The monotone row $M$ governs the series row $A$ before the Schlomilch cut points $B$ and block comparisons $Q$ are exposed, so the block ledger cannot be detached from the source tail.
+
+Next apply the tail-transfer row $T$. It is the unique route from the displayed block comparison to the endpoint seal $E$, while $H,C,P,N$ transport, replay, source, and name the same packet. Since no excluded analytic or quotient coordinate appears in the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{A candidate packet with Schlomilch cut points but no monotone tail row is rejected by the $\CauchySchlomilchCondensationUp$ carrier.}
+
+\independenceWitness{condensationtailselector, cauchy-integral-test, realseries, regseqrat, streamname: none is bijective to $\CauchySchlomilchCondensationUp$ because this packet jointly carries monotone source-series rows, Schlomilch block cut points, block-mass comparisons, tail-transfer rows, endpoint seals, transport, replay, provenance, and local naming.}
+
+\closureat{CauchySchlomilchCondensationUp}{seedStr}
+
+\begin{closurestatus}{\CauchySchlomilchCondensationUp}
+  \constructivestory{A $\CauchySchlomilchCondensationUp$ packet is generated from a monotone nonnegative series row, Schlomilch block-index ledger, block-mass comparison, tail-transfer row, endpoint seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-schlomilch-condensation-carrier} and \autoref{thm:cauchy-schlomilch-condensation-namecert-obligations} seed the finite Schlomilch condensation packet over monotone tails, block ledgers, comparison rows, and endpoint seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, nonmonotone rearrangement, selected infinite sums, host integral estimates, quotient real equality, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, monotone tail discipline, Schlomilch block exactness, condensation handoff, sibling compatibility, and ledger non-escape for BEDC.Derived.CauchySchlomilchCondensationUp.}
+\end{closurestatus}
