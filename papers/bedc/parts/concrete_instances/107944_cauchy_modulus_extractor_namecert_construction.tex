@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\CauchyModulusExtractorUp$}
+\label{ch:concrete-instances-cauchy-modulus-extractor-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\CauchyModulusExtractorUp$ packet records the finite operation that reads an accepted effective Cauchy sequence and exposes the explicit modulus row required by regular-Cauchy and real-completion consumers. It sits over the source certificate of \autoref{ch:concrete-instances-effective-cauchy-sequence-namecert}, the fast-threshold selector of \autoref{ch:concrete-instances-fast-cauchy-modulus-namecert}, the ordinary modulus schedule of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the finite-window service of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback boundary of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a displayed extraction route from explicit Cauchy evidence to a Real-facing handoff; it is not quotient stream equality, a host-selected limit, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+
+\begin{definition}[Cauchy modulus extractor carrier]\label{def:cauchy-modulus-extractor-carrier}
+A $\CauchyModulusExtractorUp$ carrier is a finite $\BHist$ packet
+$$
+X=(E,F,M,S,D,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the accepted $\EffectiveCauchySequenceUp$ source row whose explicit-modulus coordinate is to be read.
+\item $F$ is the $\FastCauchyModulusUp$ threshold row used when the consumer requests a fast or doubled-window presentation of the same precision query.
+\item $M$ is the extracted $\CauchyModulusUp$ row, displayed before any finite stream window or regular rational readback is consumed.
+\item $S$ is the $\StreamNameUp$ finite-window row opened at the stage selected from $M$ and, when needed, refined by $F$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the precision query, slack rows, comparison budgets, and tolerance conversions attached to the extracted stage.
+\item $Q$ is the precision-query row whose requested tolerance is routed through $E,F,M,S,D$.
+\item $R$ is the $\RegSeqRatUp$ and $\RealUp$ handoff row exposed only after the source, extractor, finite-window, and dyadic rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, fast selector, extracted modulus, finite window, dyadic ledger, query, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a regular-Cauchy or Real-facing request through $E,F,M,S,D,Q,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusExtractorUp$, $\EffectiveCauchySequenceUp$, $\FastCauchyModulusUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyModulusExtractorUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite explicit-modulus extraction packet. It has no coordinate for quotient stream equality, host-selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Cauchy modulus extractor NameCert obligations]\label{thm:cauchy-modulus-extractor-namecert-obligations}
+For every accepted $\CauchyModulusExtractorUp$ carrier $X=(E,F,M,S,D,Q,R,H,C,P,N)$, the local $\NameCert_{\CauchyModulusExtractorUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed effective Cauchy source, fast threshold selector, extracted modulus, finite stream window, dyadic tolerance ledger, precision query, regular and Real handoff, transport, replay, provenance, and local naming rows;
+\item source exposure, requiring the $\EffectiveCauchySequenceUp$ row $E$ to be read before $M$ is exported;
+\item modulus extraction, requiring $M$ to be the explicit $\CauchyModulusUp$ row exposed from $E$ for the same precision query $Q$;
+\item threshold compatibility, requiring $F$ to refine only the same selected threshold row, either directly or through the doubled-window route;
+\item finite-window and dyadic accounting, requiring $S$ and $D$ to be downstream of $M$ and $F$ before any $\RegSeqRatUp$ or $\RealUp$ read is consumed;
+\item handoff nonescape, requiring $R$ to expose only the regular rational readback or Real seal certified by $E,F,M,S,D,Q$;
+\item componentwise transport, displayed replay, provenance, and local naming for the same displayed rows through $H,C,P,N$.
+\end{enumerate}
+No extractor obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-modulus-extractor-carrier}. The accepted packet displays exactly the source effective Cauchy row, the fast selector, the extracted modulus, finite windows, the dyadic ledger, the precision query, the regular and Real handoff, and the structural rows.
+
+Source exposure uses \autoref{thm:effective-cauchy-sequence-namecert-obligations}. The explicit modulus row is part of the accepted $\EffectiveCauchySequenceUp$ carrier surface, so an extractor cannot export $M$ before it has read the source row $E$.
+
+Threshold compatibility is supplied by \autoref{thm:fast-cauchy-modulus-threshold-dichotomy} and \autoref{thm:fast-cauchy-modulus-window-exactness}. The row $F$ selects the direct fast threshold or the doubled-window threshold for the same query $Q$, and it creates no third selector coordinate.
+
+The finite-window and dyadic rows then follow \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-dyadicratcore-namecert}. The handoff row $R$ is downstream of that route, while $H,C,P,N$ transport, replay, package, and name the same rows. Hence the listed obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus extractor stage determinacy]\label{thm:cauchy-modulus-extractor-stage-determinacy}
+Let $X=(E,F,M,S,D,Q,R,H,C,P,N)$ be an accepted $\CauchyModulusExtractorUp$ carrier. For the displayed precision query $Q$, every inspected $\StreamNameUp$ window row $S$ is opened at the stage determined by the extracted $\CauchyModulusUp$ row $M$ together with the fast-threshold row $F$. Thus two accepted reads with the same transported $E,F,M,Q,H,C,P,N$ rows cannot diverge on the stage used by $S$ or on the dyadic tolerance ledger $D$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only coordinates that mention stage selection are $E,F,M,Q$ together with the downstream window and ledger rows $S,D$.
+
+The source theorem \autoref{thm:effective-cauchy-sequence-regseqrat-handoff} places every regular rational read behind the explicit modulus row carried by $E$. The extractor reads that row as $M$ for the same query $Q$.
+
+The fast-modulus theorems \autoref{thm:fast-cauchy-modulus-threshold-dichotomy} and \autoref{thm:fast-cauchy-modulus-window-exactness} then determine whether the direct threshold or doubled threshold is used, and identify the corresponding $S$ and $D$ rows.
+
+Since the carrier has no additional selector coordinate, transported agreement of $E,F,M,Q,H,C,P,N$ forces the same selected stage, the same finite window, and the same dyadic ledger.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus extractor Real handoff nonescape]\label{thm:cauchy-modulus-extractor-real-handoff-nonescape}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\CauchyModulusExtractorUp$ carrier $X=(E,F,M,S,D,Q,R,H,C,P,N)$ must first read the finite route
+$$
+E \longmapsto M,F,Q \longmapsto S,D \longmapsto R \longmapsto H,C,P,N .
+$$
+Consequently the handoff exports no quotient stream equality, host-selected limit, countable-choice schedule, trichotomy principle, ambient $\RealUp$ completeness theorem, hidden stream read, Lean verification row, or bridge datum.
+\end{theorem}
+\begin{proof}
+Start from a regular-Cauchy or Real-facing consumer. The carrier definition exposes the handoff only as the row $R$, downstream of $E,F,M,S,D,Q$.
+
+Apply \autoref{thm:effective-cauchy-sequence-real-seal-boundary}. The effective source row $E$ permits a Real-facing read only after its explicit modulus, finite windows, dyadic ledger, and regular rational handoff have been displayed.
+
+Apply \autoref{thm:cauchy-modulus-extractor-stage-determinacy}. The extractor route fixes the stage row used by $S$ and the tolerance account stored in $D$ before the handoff row is consumed.
+
+The structural rows $H,C,P,N$ preserve that route and contain no excluded analytic or verification coordinate. Therefore the regular-rational or Real handoff cannot escape the displayed extraction packet.
+\end{proof}
+
+\falsifiablePrediction{Every $\CauchyModulusExtractorUp$ regular or Real-facing read factors through an EffectiveCauchySequence source row, an extracted CauchyModulus row, a FastCauchyModulus threshold row, finite StreamName windows, a DyadicRatCore tolerance ledger, a RegSeqRat and RealUp handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{effective-cauchy-sequence, fast-cauchy-modulus, cauchymodulus, streamname, dyadicratcore, regseqrat, real: $\CauchyModulusExtractorUp$ is not bijective to any listed sibling because it jointly carries the source effective-Cauchy row, extracted modulus, fast threshold selector, finite window, dyadic ledger, regular and Real handoff, transport, replay, provenance, and local naming.}
+
+\closureat{CauchyModulusExtractorUp}{seedStr}
+
+\begin{closurestatus}{\CauchyModulusExtractorUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-extractor-carrier}, \autoref{thm:cauchy-modulus-extractor-namecert-obligations}, \autoref{thm:cauchy-modulus-extractor-stage-determinacy}, and \autoref{thm:cauchy-modulus-extractor-real-handoff-nonescape} seed the finite explicit-modulus extraction route from $\EffectiveCauchySequenceUp$ through $\FastCauchyModulusUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, host-selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source exposure, modulus extraction, threshold compatibility, finite-window and dyadic accounting, handoff nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyModulusExtractorUp.}
+  \constructivestory{A $\CauchyModulusExtractorUp$ packet is generated from an EffectiveCauchySequence source row, a FastCauchyModulus threshold row, an extracted CauchyModulus row, finite StreamName windows, a DyadicRatCore tolerance ledger, a precision query, a RegSeqRat and RealUp handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
