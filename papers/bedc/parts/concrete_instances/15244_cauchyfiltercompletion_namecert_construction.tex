@@ -372,6 +372,46 @@ Apply \autoref{thm:cauchy-filter-completion-namecert-obligations}. Carrier admis
 Use \autoref{thm:cauchy-filter-completion-carrier-ledger-package}. The filterbase-totality, window-tolerance exactness, and Real-seal refusal routes cover the root handoff, while $H,K,P,N$ provide only transport, replay, provenance, and local naming.
 \end{proof}
 
+\begin{theorem}[CauchyFilterCompletion root filterbase admission]
+\label{thm:cauchy-filter-completion-root-filterbase-admission}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier. The root obligation surface admits a completion request only when the finite $\BHist$ rows behind $C$ display both the $\FilterBaseUp$ admission data and the saturated $\CauchyFilterUp$ source before any $\StreamNameUp$ window in $W$, $\RegSeqRatUp$ readback in $R$, or terminal $\RealUp$ seal in $L$ is consumed. The admission route is transported only by the componentwise $\hsame$ rows in $H$, replayed only by the displayed $\Cont$ rows in $K$, and named only by the local $\NameCert_{\CauchyFilterCompletionUp}$ row $N$ together with provenance $P$.
+\end{theorem}
+\begin{proof}
+Project the carrier and the root obligation surface. The source coordinate $C$ is the only row from which a filterbase-facing completion request can enter the packet, and the finite $\BHist$ data displayed there supplies the $\FilterBaseUp/\CauchyFilterUp$ admission route.
+
+The observation rows are downstream. A consumer reaches $W$, $R$, or $L$ only after the source row has been admitted, and the tolerance ledger $T$ remains attached to the same finite window route.
+
+The structural rows do not add another admission channel. Componentwise $\hsame$ transport in $H$, displayed $\Cont$ replay in $K$, provenance in $P$, and local $\NameCert$ naming in $N$ preserve the same finite route, so detached filterbases, selected limits, and ambient completeness have no admitted coordinate.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion root uniform-filter readback]
+\label{thm:cauchy-filter-completion-root-uniform-filter-readback}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier. Any $\UniformCauchyFilterUp$ consumer reading the root completion surface receives its regular readback only through the finite route
+$$
+\FilterBaseUp,\CauchyFilterUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+as displayed by $C,W,R,L$ and the finite $\BHist$ rows of the packet. The readback is preserved by $\hsame$ transport in $H$, by $\Cont$ replay in $K$, and by the $\Pkg/\NameCert$ rows $P,N$; it cannot be replaced by a quotient filter, detached uniform-filter object, selected limit, host equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with a uniform-filter consumer. Once it cites the accepted $\CauchyFilterCompletionUp$ packet, the only available uniform-facing data are the provenance row $P$ and the displayed route through $C,W,T,R,L,H,K,N$.
+
+Read the finite source and window rows. The $\FilterBaseUp/\CauchyFilterUp$ source is exposed through $C$, the finite $\StreamNameUp$ observations are exposed through $W$, and the $\RegSeqRatUp$ readback $R$ is consumed before the terminal $\RealUp$ seal $L$.
+
+Finally apply the structural rows. The componentwise $\hsame$ row $H$ transports the same source, window, readback, and seal coordinates; the $\Cont$ row $K$ replays only that route; and $P,N$ source and name it. Thus the uniform-filter readback has no coordinate for any detached or choice-based completion object.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion root Real-seal no-choice]
+\label{thm:cauchy-filter-completion-root-real-seal-no-choice}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier. The terminal $\RealUp$ seal row $L$ is a no-choice exit from the root obligation surface: every accepted read of $L$ passes through finite $\BHist$ rows for $\FilterBaseUp$, $\CauchyFilterUp$, $\UniformCauchyFilterUp$ provenance, $\StreamNameUp$ windows, and $\RegSeqRatUp$ readback, then through componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming. No selected filter limit, quotient-filter representative, host real equality, countable-choice selector, or ambient $\RealUp$ completeness theorem is available after the seal is reached.
+\end{theorem}
+\begin{proof}
+Project the terminal seal coordinate. The row $L$ occurs only in the accepted tuple $F=(C,W,T,R,L,H,K,P,N)$, downstream of the filter source, finite windows, dyadic tolerance ledger, and regular readback.
+
+Use the filterbase admission and uniform-filter readback routes. They place the $\FilterBaseUp/\CauchyFilterUp$ source, $\UniformCauchyFilterUp$ provenance, $\StreamNameUp$ windows, and $\RegSeqRatUp$ readback before any Real-seal consumer may inspect $L$.
+
+The no-choice conclusion follows from carrier exhaustion. The rows $H,K,P,N$ only transport, replay, source, and name the finite $\BHist$ route, so no selected limit, quotient representative, host equality, countable-choice functional, or ambient completeness theorem can be read after the seal.
+\end{proof}
+
 \begin{theorem}[CauchyFilterCompletion regular readback totality]
 \label{thm:cauchy-filter-completion-regular-readback-totality}
 Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier. Every accepted completion read that reaches the terminal $\RealUp$ seal $L$ must consume a $\RegSeqRatUp$ readback row $R$ produced from the same $\StreamNameUp$ windows $W$ and $\DyadicRatCoreUp$ tolerance ledger $T$ behind the $\CauchyFilterUp$ source $C$. The readback route is total inside the tuple and cannot be replaced by a detached stream, free dyadic tolerance, quotient filter, selected limit, host equality, countable choice, or ambient completeness row.
