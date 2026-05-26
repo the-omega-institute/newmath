@@ -203,6 +203,28 @@ There is no coordinate for full substitution compatibility, subject reduction,
 global $\beta$-conversion decidability, or arbitrary closed Church--Rosser.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit redex boundary]
+\label{thm:metacic-confluence-audit-redex-boundary}
+Let
+$$
+A=(D,C,N,A_0,S,R,H,T,P,L)
+$$
+be an accepted $\MetaCICConfluenceAuditPacketUp$ carrier. Any redex-boundary consumer of $A$ can read only the rows
+$$
+D,C,N,A_0,S,R,H,T,P,L
+$$
+together with the closed-face hypotheses used by \autoref{thm:metacic-confluence-audit-packet-closed-substitution-boundary} and \autoref{thm:metacic-confluence-audit-closed-face-decider-boundary}. That read cannot be promoted to unrestricted substitution compatibility, subject reduction, or closed Church--Rosser.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-confluence-audit-packet-carrier}. A redex-boundary consumer sees exactly the displayed packet rows $D,C,N,A_0,S,R,H,T,P,L$.
+
+Apply the conditional boundary. Theorem~\ref{thm:metacic-confluence-audit-packet-conditional-boundary} keeps $D,C$ as conditional bridge rows rather than unrestricted substitution compatibility or a closed parallel diamond theorem.
+
+Apply the closed-substitution and closed-face boundaries. Theorem~\ref{thm:metacic-confluence-audit-packet-closed-substitution-boundary} supplies the closed-face hypotheses, and \autoref{thm:metacic-confluence-audit-closed-face-decider-boundary} keeps finite closed-face decisions inside $S,H,T,P,L$.
+
+The remaining rows do not add a stronger metatheorem. The normal-fragment, source-shape, subject-reduction separation, transport, replay, provenance, and local naming rows are finite audit data, so the redex-boundary read remains a boundary lemma and not a verification claim for substitution compatibility, subject reduction, or closed Church--Rosser.
+\end{proof}
+
 \begin{theorem}[MetaCIC confluence audit closed-diamond candidate exhaustion]
 \label{thm:metacic-confluence-audit-closed-diamond-candidate-exhaustion}
 Let $A=(D,C,N,A_0,S,R,H,T,P,L)$ be an accepted $\MetaCICConfluenceAuditPacketUp$ carrier. Any closed-diamond candidate read of $A$ is exhausted by the rows
