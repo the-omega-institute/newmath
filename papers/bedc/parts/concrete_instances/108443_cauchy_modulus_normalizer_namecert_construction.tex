@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\CauchyModulusNormalizerUp$}
+\label{ch:concrete-instances-cauchy-modulus-normalizer-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis with explicit Cauchy moduli, the $\CauchyModulusNormalizerUp$ packet records the finite route by which a displayed Cauchy threshold schedule is normalized before StreamName, RegSeqRat, DyadicRatCore, and RealUp seal consumers may read it. It sits next to the fast Cauchy criterion of \autoref{ch:concrete-instances-fast-cauchy-criterion-namecert}, the monotone normalization surface of \autoref{ch:concrete-instances-cauchy-modulus-monotone-normalization-namecert}, the StreamName carrier of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite normalizer certificate for Real and Completion routes; it is not Real completeness, quotient completion, quotient stream equality, a selected limit, countable choice, trichotomy, host real equality, or a standard bridge.
+
+\begin{definition}[Cauchy modulus normalizer carrier]
+\label{def:cauchy-modulus-normalizer-carrier}
+A $\CauchyModulusNormalizerUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(X,M,F,D,W,Q,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source row, read through a $\FastCauchyCriterionUp$, $\StreamNameUp$, or $\RegSeqRatUp$ Cauchy-window surface.
+\item $M$ is the input Cauchy modulus row, assigning displayed tail thresholds to requested dyadic tolerances.
+\item $F$ is the finite normalization table, recording prefix maxima or equivalent displayed threshold joins for the finitely many tighter requests visible to the packet.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for precision requests, slack conversions, and positivity checks consumed by $M$ and $F$.
+\item $W$ is the $\StreamNameUp$ observation-window row available after the normalized threshold has been displayed.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the rational observations exposed on $W$.
+\item $S$ is the normalized Cauchy-window seal row saying that the readback admitted after $F$ is already admitted by the input modulus row $M$ at the requested tolerance.
+\item $R$ is the terminal $\RealUp$ seal row, reachable only after $X,M,F,D,W,Q,S$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, input modulus, normalization table, dyadic ledger, windows, readback, Cauchy-window seal, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through $X,M,D,F,W,Q,S,R$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusNormalizerUp$, $\FastCauchyCriterionUp$, $\CauchyModulusMonotoneNormalizationUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyModulusNormalizerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,M,F,D,W,Q,S,R,H,C,P,N$. It has no coordinate for Real completeness, quotient completion, quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Cauchy modulus normalizer NameCert obligations]
+\label{thm:cauchy-modulus-normalizer-namecert-obligations}
+For every accepted $\CauchyModulusNormalizerUp$ carrier
+$$
+Z=(X,M,F,D,W,Q,S,R,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyModulusNormalizerUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source, input modulus, finite normalization table, dyadic tolerance ledger, StreamName windows, RegSeqRat readback, Cauchy-window seal, Real seal, transport, replay, provenance, and local naming rows;
+\item modulus-source exposure, requiring the source row $X$ and input modulus row $M$ to be displayed before the normalizer table $F$ is read;
+\item finite normalization exactness, requiring $F$ to read only finitely many tolerance requests from $D$ and threshold rows from $M$;
+\item window-readback order, requiring StreamName windows, RegSeqRat readback, and the Real seal to appear downstream of the normalized threshold route as $W,Q,S,R$;
+\item non-escape, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed normalizer rows and to export no Real completeness, quotient completion, quotient stream equality, selected limit, countable choice, trichotomy, host real equality, or bridge datum.
+\end{enumerate}
+No Cauchy-modulus-normalizer obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-modulus-normalizer-carrier}. The accepted packet exposes the source row, input modulus, finite normalization table, dyadic tolerance ledger, stream windows, rational readback, Cauchy-window seal, Real seal, and structural rows as one finite carrier.
+
+Modulus-source exposure is the order of the displayed packet. A consumer cannot inspect $F$ until the source row $X$, input threshold schedule $M$, and dyadic tolerance ledger $D$ have fixed the finite requests being normalized.
+
+Finite normalization exactness is finite because $F$ reads only the displayed tolerance requests in $D$ and their corresponding thresholds in $M$. This is the same constructive modulus-normalization discipline used by the monotone normalization packet, but here it is packaged as the normalizer boundary immediately before downstream window reads.
+
+The window-readback order follows from the coordinates $W,Q,S,R$. StreamName observations are read after the normalized threshold, RegSeqRat readback records the rational observations, the Cauchy-window seal $S$ checks preservation against $M$, and the terminal Real seal $R$ is downstream of those rows.
+
+Finally, $H,C,P,N$ preserve, replay, source, and name the same finite route. Since the carrier has no coordinate for Real completeness, quotient completion, quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or bridge data, none of those objects can become a local NameCert obligation.
+\end{proof}
+
+\falsifiablePrediction{Every $\CauchyModulusNormalizerUp$ consumer read factors through a source row, an input Cauchy modulus row, a finite normalization table, a DyadicRatCore tolerance ledger, StreamName windows, RegSeqRat readback, a Cauchy-window seal, a RealUp seal, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{fastcauchycriterion, cauchymodulusmonotonenormalization, streamname, regseqrat, dyadicratcore, real: none is bijective to $\CauchyModulusNormalizerUp$ because this packet jointly carries the source, input modulus, finite normalization table, dyadic tolerance ledger, StreamName windows, RegSeqRat readback, Cauchy-window preservation seal, Real seal, transport, replay, provenance, and local naming.}
+
+\closureat{CauchyModulusNormalizerUp}{seedStr}
+
+\begin{closurestatus}{\CauchyModulusNormalizerUp}
+  \constructivestory{A $\CauchyModulusNormalizerUp$ packet is generated from a Cauchy-window source row, an input Cauchy modulus row, a finite normalization table, DyadicRatCore tolerances, StreamName windows, RegSeqRat readback, a preservation seal, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-normalizer-carrier} and \autoref{thm:cauchy-modulus-normalizer-namecert-obligations} seed the finite modulus-normalizer packet used before StreamName, RegSeqRat, DyadicRatCore, and RealUp seal reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Real completeness, quotient completion, quotient stream equality, selected limits, countable choice, trichotomy, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus-source exposure, finite normalization exactness, window-readback order, non-escape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyModulusNormalizerUp.}
+\end{closurestatus}
