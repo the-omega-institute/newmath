@@ -56,6 +56,28 @@ Next read $T$ and $B$. The closed typed term row and beta-closure row attach the
 Finally read $E,N,R,C,P,L$. The strong-normalization export and no-infinite projection are downstream of the candidate-set source, while transport, replay, provenance, and local naming preserve that order. Since the carrier has no coordinate for candidate-free strong normalization, closed subject reduction, global confluence, host evaluator normalization, quotient conversion equality, or a proof-producing oracle, no consumer can escape the displayed route.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate-set SN export factorization]
+\label{thm:metacic-candidate-set-sn-handoff-export-factorization}
+For every accepted $\MetaCICCandidateSetSNHandoffUp$ carrier
+$$
+H=(A,S,T,B,E,N,R,C,P,L),
+$$
+each strong-normalization export row factors through the displayed order
+$$
+A \longmapsto S \longmapsto T \longmapsto B \longmapsto E \longmapsto N \longmapsto R \longmapsto C \longmapsto P \longmapsto L .
+$$
+Thus the export is mediated first by Candidate evidence, then CandidateSet membership, closed typed term evidence, beta-closure stability, strong-normalization export, no-infinite projection, transport, replay, provenance, and local NameCert rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:metacic-candidate-set-sn-handoff-carrier}. The rows are displayed as $A,S,T,B,E,N,R,C,P,L$, and the local classifier compares accepted packets only through those coordinates.
+
+The candidate-mediated source is $A$ followed by $S$. The closed typed term row $T$ and beta-closure stability row $B$ can be read only as part of the same finite CandidateSet handoff.
+
+The export itself is then $E$, with $N$ only as the no-infinite-reduction projection from that export. The nonescape theorem \autoref{thm:metacic-candidate-set-sn-export-nonescape} rules out a candidate-free or host-oracle route for these public reads.
+
+Finally the structural rows $R,C,P,L$ transport, replay, source, and name the same route. This gives the stated factorization and keeps the strong-normalization export inside the local NameCert surface.
+\end{proof}
+
 \falsifiablePrediction{A closed typed term read that reaches $\MetaCICCandidateSetSNHandoffUp$ strong-normalization export without displaying CandidateSet membership, closed typed term evidence, beta-closure stability, and the SN export row fails the carrier surface.}
 
 \independenceWitness{metaciccriticalpath, closedtermsubstitutionboundary, finitetraceevaluator, kernelcategory, haltingdistinction: none is bijective because $\MetaCICCandidateSetSNHandoffUp$ binds Candidate evidence, CandidateSet membership, closed typed term evidence, beta closure, SN export, no-infinite projection, transport, replay, provenance, and local NameCert rows in one finite handoff packet.}
@@ -67,7 +89,7 @@ The Lean follow-up is \texttt{BEDC.Derived.MetaCICCandidateSetSNHandoffUp}. Its 
 \begin{closurestatus}{\MetaCICCandidateSetSNHandoffUp}
   \constructivestory{A $\MetaCICCandidateSetSNHandoffUp$ packet is generated from Candidate evidence, CandidateSet membership, closed typed term evidence, beta-closure evidence, strong-normalization export, no-infinite-reduction projection, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-candidate-set-sn-handoff-carrier}, \autoref{thm:metacic-candidate-set-sn-handoff-obligations}, and \autoref{thm:metacic-candidate-set-sn-export-nonescape} seed the finite candidate-set strong-normalization handoff surface.}
+  \scopeclosed{\autoref{def:metacic-candidate-set-sn-handoff-carrier}, \autoref{thm:metacic-candidate-set-sn-handoff-obligations}, \autoref{thm:metacic-candidate-set-sn-export-nonescape}, and \autoref{thm:metacic-candidate-set-sn-handoff-export-factorization} seed the finite candidate-set strong-normalization handoff surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close unconditional MetaCIC strong normalization, closed subject reduction, global confluence, host evaluator normalization, quotient conversion equality, Lean verification, or bridge checking.}
