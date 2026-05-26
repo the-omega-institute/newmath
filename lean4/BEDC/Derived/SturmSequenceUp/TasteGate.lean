@@ -3,7 +3,7 @@ import BEDC.FKernel.Mark
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.SturmSequenceUp
+namespace BEDC.Derived.SturmSequenceUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -26,7 +26,7 @@ def sturmSequenceDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (sturmSequenceDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (sturmSequenceDecodeBHist tail)
 
-private theorem SturmSequenceTasteGate_single_carrier_alignment_decode_encode :
+private theorem SturmSequenceTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist, sturmSequenceDecodeBHist (sturmSequenceEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -39,36 +39,35 @@ def sturmSequenceFields : SturmSequenceUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | SturmSequenceUp.mk P D Q E V B W R H C K N => [P, D, Q, E, V, B, W, R, H, C, K, N]
 
-def sturmSequenceToEventFlow : SturmSequenceUp → EventFlow
+def sturmSequenceToEventFlow : SturmSequenceUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (sturmSequenceFields x).map sturmSequenceEncodeBHist
+  fun x => (sturmSequenceFields x).map sturmSequenceEncodeBHist
 
-private def sturmSequenceEventAt : Nat → EventFlow → RawEvent
+private def SturmSequenceTasteGate_single_carrier_alignment_eventAt :
+    Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => sturmSequenceEventAt index rest
-
-def sturmSequenceDecodeFields (ef : EventFlow) : SturmSequenceUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  SturmSequenceUp.mk
-    (sturmSequenceDecodeBHist (sturmSequenceEventAt 0 ef))
-    (sturmSequenceDecodeBHist (sturmSequenceEventAt 1 ef))
-    (sturmSequenceDecodeBHist (sturmSequenceEventAt 2 ef))
-    (sturmSequenceDecodeBHist (sturmSequenceEventAt 3 ef))
-    (sturmSequenceDecodeBHist (sturmSequenceEventAt 4 ef))
-    (sturmSequenceDecodeBHist (sturmSequenceEventAt 5 ef))
-    (sturmSequenceDecodeBHist (sturmSequenceEventAt 6 ef))
-    (sturmSequenceDecodeBHist (sturmSequenceEventAt 7 ef))
-    (sturmSequenceDecodeBHist (sturmSequenceEventAt 8 ef))
-    (sturmSequenceDecodeBHist (sturmSequenceEventAt 9 ef))
-    (sturmSequenceDecodeBHist (sturmSequenceEventAt 10 ef))
-    (sturmSequenceDecodeBHist (sturmSequenceEventAt 11 ef))
+  | Nat.succ index, _event :: rest =>
+      SturmSequenceTasteGate_single_carrier_alignment_eventAt index rest
 
 def sturmSequenceFromEventFlow (ef : EventFlow) : Option SturmSequenceUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  some (sturmSequenceDecodeFields ef)
+  some
+    (SturmSequenceUp.mk
+      (sturmSequenceDecodeBHist (SturmSequenceTasteGate_single_carrier_alignment_eventAt 0 ef))
+      (sturmSequenceDecodeBHist (SturmSequenceTasteGate_single_carrier_alignment_eventAt 1 ef))
+      (sturmSequenceDecodeBHist (SturmSequenceTasteGate_single_carrier_alignment_eventAt 2 ef))
+      (sturmSequenceDecodeBHist (SturmSequenceTasteGate_single_carrier_alignment_eventAt 3 ef))
+      (sturmSequenceDecodeBHist (SturmSequenceTasteGate_single_carrier_alignment_eventAt 4 ef))
+      (sturmSequenceDecodeBHist (SturmSequenceTasteGate_single_carrier_alignment_eventAt 5 ef))
+      (sturmSequenceDecodeBHist (SturmSequenceTasteGate_single_carrier_alignment_eventAt 6 ef))
+      (sturmSequenceDecodeBHist (SturmSequenceTasteGate_single_carrier_alignment_eventAt 7 ef))
+      (sturmSequenceDecodeBHist (SturmSequenceTasteGate_single_carrier_alignment_eventAt 8 ef))
+      (sturmSequenceDecodeBHist (SturmSequenceTasteGate_single_carrier_alignment_eventAt 9 ef))
+      (sturmSequenceDecodeBHist (SturmSequenceTasteGate_single_carrier_alignment_eventAt 10 ef))
+      (sturmSequenceDecodeBHist (SturmSequenceTasteGate_single_carrier_alignment_eventAt 11 ef)))
 
 private theorem SturmSequenceTasteGate_single_carrier_alignment_round_trip
     (x : SturmSequenceUp) :
@@ -78,34 +77,34 @@ private theorem SturmSequenceTasteGate_single_carrier_alignment_round_trip
   | mk P D Q E V B W R H C K N =>
       change
         some
-          (SturmSequenceUp.mk
-            (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist P))
-            (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist D))
-            (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist Q))
-            (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist E))
-            (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist V))
-            (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist B))
-            (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist W))
-            (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist R))
-            (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist H))
-            (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist C))
-            (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist K))
-            (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist N))) =
+            (SturmSequenceUp.mk
+              (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist P))
+              (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist D))
+              (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist Q))
+              (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist E))
+              (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist V))
+              (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist B))
+              (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist W))
+              (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist R))
+              (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist H))
+              (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist C))
+              (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist K))
+              (sturmSequenceDecodeBHist (sturmSequenceEncodeBHist N))) =
           some (SturmSequenceUp.mk P D Q E V B W R H C K N)
-      rw [SturmSequenceTasteGate_single_carrier_alignment_decode_encode P,
-        SturmSequenceTasteGate_single_carrier_alignment_decode_encode D,
-        SturmSequenceTasteGate_single_carrier_alignment_decode_encode Q,
-        SturmSequenceTasteGate_single_carrier_alignment_decode_encode E,
-        SturmSequenceTasteGate_single_carrier_alignment_decode_encode V,
-        SturmSequenceTasteGate_single_carrier_alignment_decode_encode B,
-        SturmSequenceTasteGate_single_carrier_alignment_decode_encode W,
-        SturmSequenceTasteGate_single_carrier_alignment_decode_encode R,
-        SturmSequenceTasteGate_single_carrier_alignment_decode_encode H,
-        SturmSequenceTasteGate_single_carrier_alignment_decode_encode C,
-        SturmSequenceTasteGate_single_carrier_alignment_decode_encode K,
-        SturmSequenceTasteGate_single_carrier_alignment_decode_encode N]
+      rw [SturmSequenceTasteGate_single_carrier_alignment_decode P,
+        SturmSequenceTasteGate_single_carrier_alignment_decode D,
+        SturmSequenceTasteGate_single_carrier_alignment_decode Q,
+        SturmSequenceTasteGate_single_carrier_alignment_decode E,
+        SturmSequenceTasteGate_single_carrier_alignment_decode V,
+        SturmSequenceTasteGate_single_carrier_alignment_decode B,
+        SturmSequenceTasteGate_single_carrier_alignment_decode W,
+        SturmSequenceTasteGate_single_carrier_alignment_decode R,
+        SturmSequenceTasteGate_single_carrier_alignment_decode H,
+        SturmSequenceTasteGate_single_carrier_alignment_decode C,
+        SturmSequenceTasteGate_single_carrier_alignment_decode K,
+        SturmSequenceTasteGate_single_carrier_alignment_decode N]
 
-private theorem SturmSequenceTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem SturmSequenceTasteGate_single_carrier_alignment_injective
     {x y : SturmSequenceUp} :
     sturmSequenceToEventFlow x = sturmSequenceToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -115,9 +114,9 @@ private theorem SturmSequenceTasteGate_single_carrier_alignment_toEventFlow_inje
         sturmSequenceFromEventFlow (sturmSequenceToEventFlow y) :=
     congrArg sturmSequenceFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (SturmSequenceTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (SturmSequenceTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans
+      (SturmSequenceTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (SturmSequenceTasteGate_single_carrier_alignment_round_trip y)))
 
 instance sturmSequenceBHistCarrier : BHistCarrier SturmSequenceUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -132,23 +131,20 @@ instance sturmSequenceChapterTasteGate : ChapterTasteGate SturmSequenceUp where
     exact SturmSequenceTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (SturmSequenceTasteGate_single_carrier_alignment_toEventFlow_injective heq)
-
-def taste_gate : ChapterTasteGate SturmSequenceUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  sturmSequenceChapterTasteGate
+    exact hxy (SturmSequenceTasteGate_single_carrier_alignment_injective heq)
 
 theorem SturmSequenceTasteGate_single_carrier_alignment :
     (∀ h : BHist, sturmSequenceDecodeBHist (sturmSequenceEncodeBHist h) = h) ∧
-      (∀ x : SturmSequenceUp, sturmSequenceFromEventFlow (sturmSequenceToEventFlow x) = some x) ∧
+      (∀ x : SturmSequenceUp,
+        sturmSequenceFromEventFlow (sturmSequenceToEventFlow x) = some x) ∧
         (∀ x y : SturmSequenceUp,
           sturmSequenceToEventFlow x = sturmSequenceToEventFlow y → x = y) ∧
           sturmSequenceEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨SturmSequenceTasteGate_single_carrier_alignment_decode_encode,
+    ⟨SturmSequenceTasteGate_single_carrier_alignment_decode,
       SturmSequenceTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq => SturmSequenceTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      (fun _ _ heq => SturmSequenceTasteGate_single_carrier_alignment_injective heq),
       rfl⟩
 
-end BEDC.Derived.SturmSequenceUp
+end BEDC.Derived.SturmSequenceUp.TasteGate
