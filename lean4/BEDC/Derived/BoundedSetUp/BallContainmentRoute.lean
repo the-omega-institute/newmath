@@ -97,6 +97,26 @@ theorem BoundedSetCarrier_real_bound_nonescape [AskSetup] [PackageSetup]
     provenancePkg, namePkg⟩ := carrier
   exact ⟨radiusUnary, carrierBoundRoute, provenancePkg, namePkg⟩
 
+theorem BoundedSetCarrier_real_order_radius_obligation [AskSetup] [PackageSetup]
+    {X S center radius ball transport replay provenance nameRow radiusRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedSetCarrier X S center radius ball transport replay provenance nameRow bundle pkg ->
+      Cont center radius radiusRead ->
+        PkgSig bundle radiusRead pkg ->
+          UnaryHistory center ∧ UnaryHistory radius ∧ UnaryHistory radiusRead ∧
+            Cont center radius radiusRead ∧ Cont transport radius replay ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle radiusRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier centerRadius radiusReadPkg
+  obtain ⟨_xUnary, _sUnary, centerUnary, radiusUnary, _ballUnary, _transportUnary,
+    _replayUnary, _provenanceUnary, _nameUnary, _carrierMemberRoute, carrierBoundRoute,
+    provenancePkg, _namePkg⟩ := carrier
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_cont_closed centerUnary radiusUnary centerRadius
+  exact
+    ⟨centerUnary, radiusUnary, radiusReadUnary, centerRadius, carrierBoundRoute,
+      provenancePkg, radiusReadPkg⟩
+
 theorem BoundedSetCarrier_finite_net_consumer_boundary [AskSetup] [PackageSetup]
     {X S center radius ball transport replay provenance nameRow finiteNetRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
