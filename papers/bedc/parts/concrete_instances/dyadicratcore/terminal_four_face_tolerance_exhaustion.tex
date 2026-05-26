@@ -210,3 +210,23 @@ The remaining faces are then read back from the same public packet. Use \autoref
 
 Finally apply the non-export clauses from the exhaustion, projection, initiality, confluence, and finite-cover descent results. Quotient rational equality, quotient stream equality, selected limits, countable choice, metric completeness, bridge rows, aggregate formalstatus rows, and ambient $\RealUp$ completeness are not terminal normal-form coordinates. The equality therefore recovers exactly the listed rows and no hidden completion, choice, bridge, or aggregate-status data.
 \end{proof}
+
+\begin{theorem}[DyadicRatCore terminal four-face support]
+\label{thm:dyadicratcore-terminal-four-face-support}
+An accepted L10 terminal route has a public tolerance read exactly when it displays the $\DyadicRatCoreUp$ tolerance ledger, the $\StreamNameUp$ finite window, the $\RegSeqRatUp$ classifier and readback rows, the local $\RealUp$ seal row, and the shared support
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Deleting any one of those four faces or any displayed support row prevents the public tolerance read.
+
+No quotient rational equality, quotient stream equality, selected limit, countable-choice row, metric-completeness row, bridge row, aggregate formalstatus row, or ambient $\RealUp$ completeness can replace a missing face or support row.
+\end{theorem}
+\begin{proof}
+First combine \autoref{thm:dyadicratcore-terminal-four-face-tolerance-exhaustion} with \autoref{thm:dyadicratcore-terminal-tolerance-finite-support-readback}. These theorems identify every public tolerance read with the DyadicRatCore ledger, the StreamName finite window, the RegSeqRat readback surface, the local Real seal, and the displayed support rows.
+
+For sufficiency, use \autoref{thm:dyadicratcore-terminal-four-face-normal-form-uniqueness}. Once the four faces and support rows are present, the terminal normal form is fixed, so the public tolerance read is the one read from that finite packet.
+
+For necessity, delete one listed face or support row. If the deleted row is part of the DyadicRatCore ledger or the shared support, \autoref{thm:dyadicratcore-terminal-tolerance-support-minimality} blocks the read. If the deleted row is the StreamName, RegSeqRat, or Real face, \autoref{thm:streamname-open-phase-four-face-ledger-exactness}, \autoref{thm:regseqrat-real-terminal-four-face-exactness}, and \autoref{thm:real-l10-finite-window-witness-determinacy} remove the corresponding downstream route.
+
+Finally apply the projection and minimality clauses, \autoref{thm:dyadicratcore-terminal-four-face-tolerance-projection} and \autoref{thm:dyadicratcore-terminal-tolerance-facewise-support-minimality}. They leave no replacement coordinate outside the displayed finite packet. Hence quotient rational equality, quotient stream equality, selected limits, countable choice, metric completeness, bridge rows, aggregate status rows, and ambient $\RealUp$ completeness cannot restore the public read after a face or support row is absent.
+\end{proof}
