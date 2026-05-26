@@ -2115,6 +2115,215 @@ def _render_bedc_spine(mapping: dict[str, Any], proposal_text: str, conjecture: 
     )
 
 
+def _bedc_codex_writer_config(config: dict[str, Any]) -> dict[str, Any]:
+    raw = config.get("codex_writer")
+    writer = raw if isinstance(raw, dict) else {}
+    return {
+        "enabled": bool(writer.get("enabled", True)),
+        "max_retries": max(1, int(writer.get("max_retries", config.get("codex_max_retries") or 2))),
+        "timeout_seconds": max(1, int(writer.get("timeout_seconds", config.get("codex_timeout_seconds") or 600))),
+        "log_dir": str(writer.get("log_dir", config.get("codex_log_dir") or "tools/bio_reality/state/bedc_writeback_logs")),
+        "min_audit_score": int(writer.get("min_audit_score", config.get("min_audit_score") or 7)),
+        "min_used_fact_ids": max(0, int(writer.get("min_used_fact_ids", config.get("min_used_fact_ids") or 3))),
+        "corrective_retry_on_gate_failure": bool(writer.get("corrective_retry_on_gate_failure", True)),
+    }
+
+
+def _safe_task_id(value: str) -> str:
+    safe = re.sub(r"[^A-Za-z0-9_.-]+", "_", value).strip("._")
+    return safe or "unnamed"
+
+
+def _tail_text(value: str, limit: int = 4000) -> str:
+    return value[-limit:] if len(value) > limit else value
+
+
+def _codex_author_prompt(
+    target: dict[str, Any],
+    verified_facts: dict[str, Any],
+    corrective_feedback: list[str] | None = None,
+) -> str:
+    claim_id = str(target.get("claim_id") or "")
+    carrier_name = re.sub(r"Up$", "", str(target.get("carrier_name") or ""))
+    subdir_slug = str(target.get("subdir_slug") or "")
+    hub_filename = str(target.get("hub_filename") or "")
+    facts_json = json.dumps(verified_facts, ensure_ascii=False, indent=2, sort_keys=True)
+    lines = [
+        "你是 BioReality NameCert chapter author. 你只写 LaTeX content, 不直接写文件.",
+        "",
+        "# Target",
+        f"claim_id: {claim_id}",
+        f"carrier_name: {carrier_name}",
+        f"subdir_slug: {subdir_slug}",
+        f"hub_filename: {hub_filename}",
+        "",
+        "# Verified facts (硬数据, 不许造数, 不许超出此范围)",
+        "```json",
+        facts_json,
+        "```",
+        "",
+        "# BEDC self-contained 硬约束",
+        r"- 不写 \autoref 引其它 chapter",
+        r"- 不写 Lean 宏 (\leanchecked / \leanstmt / \leandef / \leanvariant / \leansorryd / \leantarget)",
+        "- 不写 file path / URL / experiment_run_id 字面值在 kernel prose 里 (这些只能在 bridge/provenance 字段)",
+        r"- 数学环境: 行内 $...$, 展示 $$\begin{aligned}$$ / $$\begin{gathered}$$, **禁** \begin{equation} / align / eqnarray / \[...\]",
+        r"- \FooUp 类宏在 text-mode 参数必须 $...$ 包裹",
+        "- spine <= 800 行",
+        r"- hub <= 15 行, 仅 \input + orienting prose, 无 theorem env, 无 closurestatus",
+        "- 完整 closurestatus block (constructivestory / theoryclosure / scopeclosed / formalstatus / bridgestatus / notclaimed / upgradepath) 全 7 字段非空",
+        "",
+        "# 必须章节特定差异化 (反对 generic template)",
+        "- 章节正文必须明确点名 verified_facts 中至少 3 个具体数字 / row count / witness name / codon list / p-value",
+        '- output JSON 的 used_fact_ids 字段必须列出实际引用了哪些 verified_facts key (e.g. ["M_codons", "lambda_M", "p_exact", ...])',
+        '- 不许写"finite reality-bound seed witness for the claim X"这种 generic 套话',
+        "",
+    ]
+    if corrective_feedback:
+        lines.extend(
+            [
+                "# Corrective retry feedback",
+                "上一轮没有通过 gate. 这轮必须修正以下问题, 仍然只返回 schema 要求的单一 JSON object:",
+            ]
+        )
+        for issue in corrective_feedback:
+            lines.append(f"- {issue}")
+        lines.append("")
+    lines.extend(
+        [
+            "# Output schema (返回 单一 JSON object, 在 stdout 最后一非空行)",
+            "{",
+            '  "verdict": "ready" | "needs_more_facts" | "abort",',
+            '  "audit_score": 0-10 (自评章节质量),',
+            '  "used_fact_ids": ["..."],',
+            '  "hub_content": "<完整 LaTeX hub 内容 <=15 行>",',
+            '  "spine_content": "<完整 LaTeX spine 内容 <=800 行>",',
+            '  "risk_notes": "可选诊断"',
+            "}",
+            "",
+            'verdict="needs_more_facts" 表示 verified_facts 不足以写出 chapter-specific prose, 拒绝 hallucinate.',
+            'verdict="abort" 表示 prompt 内有冲突 / 无法满足约束.',
+            'verdict="ready" 表示 hub_content + spine_content 已生成可写.',
+            "",
+            "audit_score < 7 时, caller 把 used_fact_ids 数 / 不足之处反馈喂下一轮 retry.",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def _parse_codex_author_json(stdout: str) -> dict[str, Any]:
+    nonempty = [line.strip() for line in stdout.splitlines() if line.strip()]
+    if not nonempty:
+        return {"status": "error", "error_kind": "empty_stdout"}
+    try:
+        parsed = json.loads(nonempty[-1])
+    except json.JSONDecodeError as exc:
+        return {"status": "error", "error_kind": "non_json_output", "error": str(exc)}
+    if not isinstance(parsed, dict):
+        return {"status": "error", "error_kind": "schema_invalid", "error": "top-level output is not an object"}
+    required = ["verdict", "audit_score", "used_fact_ids", "hub_content", "spine_content", "risk_notes"]
+    missing = [field for field in required if field not in parsed]
+    if missing:
+        return {"status": "error", "error_kind": "schema_invalid", "error": f"missing field(s): {', '.join(missing)}", "parsed": parsed}
+    if parsed.get("verdict") not in {"ready", "needs_more_facts", "abort"}:
+        return {"status": "error", "error_kind": "schema_invalid", "error": "invalid verdict", "parsed": parsed}
+    try:
+        audit_score = int(parsed.get("audit_score"))
+    except (TypeError, ValueError):
+        return {"status": "error", "error_kind": "schema_invalid", "error": "audit_score is not an integer", "parsed": parsed}
+    if audit_score < 0 or audit_score > 10:
+        return {"status": "error", "error_kind": "schema_invalid", "error": "audit_score outside 0-10", "parsed": parsed}
+    if not isinstance(parsed.get("used_fact_ids"), list) or not all(isinstance(item, str) for item in parsed["used_fact_ids"]):
+        return {"status": "error", "error_kind": "schema_invalid", "error": "used_fact_ids must be a string list", "parsed": parsed}
+    if not isinstance(parsed.get("hub_content"), str) or not isinstance(parsed.get("spine_content"), str):
+        return {"status": "error", "error_kind": "schema_invalid", "error": "hub_content and spine_content must be strings", "parsed": parsed}
+    if not isinstance(parsed.get("risk_notes"), str):
+        return {"status": "error", "error_kind": "schema_invalid", "error": "risk_notes must be a string", "parsed": parsed}
+    parsed["audit_score"] = audit_score
+    parsed["status"] = "ok"
+    return parsed
+
+
+def _write_codex_author_logs(log_dir: Path, task_id: str, prompt: str, raw: str, parsed: dict[str, Any]) -> None:
+    try:
+        log_dir.mkdir(parents=True, exist_ok=True)
+        (log_dir / f"{task_id}.prompt.txt").write_text(prompt, encoding="utf-8")
+        (log_dir / f"{task_id}.raw.txt").write_text(raw, encoding="utf-8")
+        (log_dir / f"{task_id}.parsed.txt").write_text(json.dumps(parsed, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    except OSError:
+        return
+
+
+def render_chapter_with_codex(
+    target: dict[str, Any],
+    verified_facts: dict[str, Any],
+    repo_root: Path,
+    *,
+    timeout_seconds: int = 600,
+    log_dir: str | Path = "tools/bio_reality/state/bedc_writeback_logs",
+    corrective_feedback: list[str] | None = None,
+) -> dict[str, Any]:
+    prompt = _codex_author_prompt(target, verified_facts, corrective_feedback=corrective_feedback)
+    claim_id = str(target.get("claim_id") or "unnamed")
+    attempt = str(target.get("_codex_attempt") or "1")
+    task_id = _safe_task_id(f"{claim_id}.attempt-{attempt}")
+    log_path = Path(log_dir)
+    if not log_path.is_absolute():
+        log_path = repo_root / log_path
+    raw_stdout = ""
+    raw_stderr = ""
+    try:
+        completed = subprocess.run(
+            [
+                "codex",
+                "exec",
+                "--dangerously-bypass-approvals-and-sandbox",
+                "--sandbox",
+                "read-only",
+                "--json",
+                "-C",
+                str(repo_root),
+                "-",
+            ],
+            input=prompt,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=timeout_seconds,
+            check=False,
+        )
+        raw_stdout = completed.stdout or ""
+        raw_stderr = completed.stderr or ""
+    except subprocess.TimeoutExpired as exc:
+        raw_stdout = exc.stdout if isinstance(exc.stdout, str) else ""
+        raw_stderr = exc.stderr if isinstance(exc.stderr, str) else ""
+        parsed = {
+            "status": "error",
+            "error_kind": "timeout",
+            "raw_stdout_tail": _tail_text(raw_stdout),
+            "raw_stderr_tail": _tail_text(raw_stderr),
+        }
+        _write_codex_author_logs(log_path, task_id, prompt, raw_stdout + "\n--- STDERR ---\n" + raw_stderr, parsed)
+        return parsed
+    except OSError as exc:
+        parsed = {
+            "status": "error",
+            "error_kind": "exec_failed",
+            "error": str(exc),
+            "raw_stdout_tail": "",
+            "raw_stderr_tail": "",
+        }
+        _write_codex_author_logs(log_path, task_id, prompt, "", parsed)
+        return parsed
+
+    parsed = _parse_codex_author_json(raw_stdout)
+    if parsed.get("status") == "error":
+        parsed["raw_stdout_tail"] = _tail_text(raw_stdout)
+        parsed["raw_stderr_tail"] = _tail_text(raw_stderr)
+    raw = raw_stdout + "\n--- STDERR ---\n" + raw_stderr
+    _write_codex_author_logs(log_path, task_id, prompt, raw, parsed)
+    return parsed
+
+
 def _linked_conjecture_for_claim(conjectures: list[dict[str, Any]], claim_id: str) -> dict[str, Any] | None:
     for conjecture in conjectures:
         if str(conjecture.get("conjecture_id") or "") == claim_id:
@@ -2161,6 +2370,7 @@ def run_bedc_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
     target_dir = _repo_path(config.get("target_concrete_instances_dir"), repo_root)
     aggregator = _repo_path(config.get("module_aggregator"), repo_root)
     max_writebacks = max(1, int(config.get("max_writebacks_per_cycle") or 1))
+    writer_config = _bedc_codex_writer_config(config)
     conjectures = store.load_conjectures()
     proposal_dir = store.paths.namecert_proposals_dir
     attempted = 0
@@ -2197,9 +2407,101 @@ def run_bedc_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
         attempted += 1
         proposal_text = proposal_path.read_text(encoding="utf-8")
         conjecture = _linked_conjecture_for_claim(conjectures, claim_id)
-        hub_text = _render_bedc_hub(mapping)
-        spine_text = _render_bedc_spine(mapping, proposal_text, conjecture)
-        gate_result = bedc_writeback_gates.validate_chapter_pair(hub_text, spine_text)
+        verified_facts: dict[str, Any] = {}
+        if conjecture:
+            raw_verified = conjecture.get("verified_facts")
+            if isinstance(raw_verified, dict):
+                claim_facts = raw_verified.get(claim_id)
+                if isinstance(claim_facts, dict):
+                    verified_facts = claim_facts
+        hub_text = ""
+        spine_text = ""
+        used_fact_ids: list[str] | None = None
+        gate_result: dict[str, Any] | None = None
+        codex_blocked = False
+        if writer_config["enabled"]:
+            if not verified_facts:
+                blocked_by_gate += 1
+                issue_record = {"claim_id": claim_id, "issues": ["no_verified_facts"]}
+                issues_summary.append(issue_record)
+                _append_bedc_writeback_log(store, "no_verified_facts", issue_record)
+                continue
+            corrective_feedback: list[str] | None = None
+            for attempt_index in range(1, int(writer_config["max_retries"]) + 1):
+                codex_target = dict(mapping)
+                codex_target["_codex_attempt"] = attempt_index
+                codex_result = render_chapter_with_codex(
+                    codex_target,
+                    verified_facts,
+                    repo_root,
+                    timeout_seconds=int(writer_config["timeout_seconds"]),
+                    log_dir=str(writer_config["log_dir"]),
+                    corrective_feedback=corrective_feedback,
+                )
+                if codex_result.get("status") != "ok":
+                    corrective_feedback = [str(codex_result.get("error_kind") or "codex output failed schema validation")]
+                    _append_bedc_writeback_log(
+                        store,
+                        "codex_writer_error",
+                        {
+                            "claim_id": claim_id,
+                            "attempt": attempt_index,
+                            "error_kind": codex_result.get("error_kind"),
+                            "raw_stdout_tail": codex_result.get("raw_stdout_tail", ""),
+                            "raw_stderr_tail": codex_result.get("raw_stderr_tail", ""),
+                        },
+                    )
+                    continue
+                if codex_result.get("verdict") != "ready":
+                    codex_blocked = True
+                    issue_record = {
+                        "claim_id": claim_id,
+                        "issues": [f"codex verdict {codex_result.get('verdict')}"],
+                        "risk_notes": codex_result.get("risk_notes", ""),
+                    }
+                    issues_summary.append(issue_record)
+                    _append_bedc_writeback_log(store, "codex_writer_blocked", issue_record)
+                    break
+                used_fact_ids = [str(item) for item in codex_result.get("used_fact_ids", []) if isinstance(item, str)]
+                audit_score = int(codex_result.get("audit_score") or 0)
+                hub_text = str(codex_result.get("hub_content") or "")
+                spine_text = str(codex_result.get("spine_content") or "")
+                candidate_issues: list[str] = []
+                if audit_score < int(writer_config["min_audit_score"]):
+                    candidate_issues.append(
+                        f"audit_score {audit_score} below required {writer_config['min_audit_score']}"
+                    )
+                gate_result = bedc_writeback_gates.validate_chapter_pair(
+                    hub_text,
+                    spine_text,
+                    used_fact_ids,
+                    int(writer_config["min_used_fact_ids"]),
+                )
+                candidate_issues.extend(str(issue) for issue in gate_result["issues"])
+                if not candidate_issues:
+                    break
+                if attempt_index >= int(writer_config["max_retries"]) or not writer_config["corrective_retry_on_gate_failure"]:
+                    gate_result = dict(gate_result)
+                    gate_result["issues"] = candidate_issues
+                    break
+                corrective_feedback = candidate_issues
+            else:
+                gate_result = None
+            if codex_blocked:
+                blocked_by_gate += 1
+                continue
+        if not hub_text or not spine_text:
+            hub_text = _render_bedc_hub(mapping)
+            spine_text = _render_bedc_spine(mapping, proposal_text, conjecture)
+            used_fact_ids = None
+            gate_result = bedc_writeback_gates.validate_chapter_pair(hub_text, spine_text)
+        elif gate_result is None:
+            gate_result = bedc_writeback_gates.validate_chapter_pair(
+                hub_text,
+                spine_text,
+                used_fact_ids,
+                int(writer_config["min_used_fact_ids"]) if writer_config["enabled"] else 0,
+            )
         if not gate_result["passed"]:
             blocked_by_gate += 1
             issue_record = {"claim_id": claim_id, "issues": gate_result["issues"]}
@@ -2464,6 +2766,7 @@ def self_test() -> int:
                         "target_concrete_instances_dir": str(bedc_target_dir),
                         "module_aggregator": str(bedc_aggregator),
                         "max_writebacks_per_cycle": 1,
+                        "codex_writer": {"enabled": False},
                         "claim_to_chapter_mapping": bedc_mappings,
                     }
                 },
@@ -2539,6 +2842,7 @@ def self_test() -> int:
                         "target_concrete_instances_dir": str(bedc_auto_target_dir),
                         "module_aggregator": str(bedc_auto_aggregator),
                         "max_writebacks_per_cycle": 2,
+                        "codex_writer": {"enabled": False},
                         "claim_to_chapter_mapping": bedc_auto_mappings,
                     }
                 },
@@ -2621,6 +2925,7 @@ def self_test() -> int:
                         "target_concrete_instances_dir": str(bedc_skip_target_dir),
                         "module_aggregator": str(bedc_skip_aggregator),
                         "max_writebacks_per_cycle": 2,
+                        "codex_writer": {"enabled": False},
                         "skip_claim_ids": ["mapped.claim", "blocked.auto"],
                         "claim_to_chapter_mapping": bedc_auto_mappings,
                     }
@@ -2647,6 +2952,155 @@ def self_test() -> int:
             return 1
         if (bedc_skip_target_dir / "14122_bioreality_blocked_seed_namecert_construction.tex").exists():
             print(json.dumps(bedc_skip_summary, indent=2), file=sys.stderr)
+            return 1
+
+        bedc_codex_paths = _temp_paths(base / "bedc_codex")
+        bedc_codex_paths.namecert_proposals_dir.mkdir(parents=True, exist_ok=True)
+        bedc_codex_claim_id = "h0.author.writer"
+        bedc_codex_target_dir = base / "bedc_author_target" / "concrete_instances"
+        bedc_codex_aggregator = base / "bedc_author_target" / "bio_reality_module.tex"
+        bedc_codex_mapping = {
+            "claim_id": bedc_codex_claim_id,
+            "hub_filename": "14130_bioreality_author_writer_namecert_construction.tex",
+            "subdir_slug": "bioreality_author_writer",
+            "carrier_name": "BioRealityAuthorWriter",
+            "natural_language": "the authored fixture packet",
+        }
+        bedc_codex_config_path = base / "bedc_author_pipeline_config.json"
+        bedc_codex_config_path.write_text(
+            json.dumps(
+                {
+                    "bedc_writeback": {
+                        "enabled": True,
+                        "target_concrete_instances_dir": str(bedc_codex_target_dir),
+                        "module_aggregator": str(bedc_codex_aggregator),
+                        "max_writebacks_per_cycle": 1,
+                        "codex_writer": {
+                            "enabled": True,
+                            "max_retries": 2,
+                            "timeout_seconds": 600,
+                            "log_dir": str(base / "bedc_author_logs"),
+                            "min_audit_score": 7,
+                            "min_used_fact_ids": 3,
+                            "corrective_retry_on_gate_failure": True,
+                        },
+                        "claim_to_chapter_mapping": [bedc_codex_mapping],
+                    }
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+        (bedc_codex_paths.namecert_proposals_dir / f"{bedc_codex_claim_id}.md").write_text(
+            "# NameCert proposal for h0.author.writer\n",
+            encoding="utf-8",
+        )
+        write_jsonl(
+            bedc_codex_paths.conjectures,
+            [
+                {
+                    "conjecture_id": "author.writer.fixture",
+                    "linked_claim_ids": [bedc_codex_claim_id],
+                    "verified_facts": {
+                        bedc_codex_claim_id: {
+                            "x": 64,
+                            "y": 13,
+                            "z": 0.675248,
+                        }
+                    },
+                }
+            ],
+        )
+        original_render_chapter_with_codex = render_chapter_with_codex
+
+        def _mock_render_chapter_with_codex(
+            target: dict[str, Any],
+            verified_facts: dict[str, Any],
+            repo_root: Path,
+            *,
+            timeout_seconds: int = 600,
+            log_dir: str | Path = "tools/bio_reality/state/bedc_writeback_logs",
+            corrective_feedback: list[str] | None = None,
+        ) -> dict[str, Any]:
+            _ = (verified_facts, repo_root, timeout_seconds, log_dir, corrective_feedback)
+            carrier = str(target.get("carrier_name") or "BioRealityAuthorWriter")
+            slug = str(target.get("subdir_slug") or "bioreality_author_writer")
+            return {
+                "status": "ok",
+                "verdict": "ready",
+                "audit_score": 9,
+                "used_fact_ids": ["x", "y", "z"],
+                "hub_content": "\n".join(
+                    [
+                        "% BioReality author fixture hub.",
+                        rf"\input{{parts/concrete_instances/{slug}/namecert_construction}}",
+                        "",
+                    ]
+                ),
+                "spine_content": "\n".join(
+                    [
+                        rf"\chapter{{A Concrete Naming Certificate for $\{carrier}Up$}}",
+                        rf"\label{{ch:concrete-instances-{slug}-namecert}}",
+                        r"\origin{ai}",
+                        "",
+                        "This authored fixture records 64 codon coordinates, a row count of 13, and a lambda value of 0.675248. "
+                        "The packet also names witness x, witness y, and witness z as the three verified fact keys consumed by this chapter. "
+                        "It stays self-contained and does not cite another chapter, path, URL, run identifier, or Lean marker. "
+                        "The prose is deliberately thick enough to be a NameCert packet: it separates code-layer readback from translation, folding, physical admissibility, function, and universality. "
+                        "It treats the three values only as finite audit data for a naming certificate, not as a biological mechanism. "
+                        "A reader can inspect the carrier without importing another chapter because every operational boundary is stated locally. "
+                        "The code-read contact is a bridge boundary, while the BEDC kernel prose names only the finite coordinate surface. "
+                        "No external file path is written into the packet body. "
+                        "The fixture repeats the three grounded observations in prose: 64 coordinates, 13 rows, and lambda 0.675248. "
+                        "That repetition is intentional for the gate fixture, because it demonstrates that the author path consumes verified facts instead of returning a generic template. "
+                        "The chapter refuses all higher-layer promotions unless a separate reality contact is supplied.",
+                        "",
+                        rf"\paragraph{{Carrier.}} $\{carrier}Up$ is the local BEDC packet name for this author fixture.",
+                        "",
+                        rf"\falsifiablePrediction{{A $\{carrier}Up$ packet cannot export translation, folding, physical admissibility, function, or universality from 64 coordinates, 13 rows, or lambda 0.675248 alone.}}",
+                        "",
+                        rf"\independenceWitness{{The $\{carrier}Up$ carrier records only the local coordinate and audit surface named by x, y, and z.}}",
+                        "",
+                        rf"\closureat{{{carrier}Up}}{{seedStr}}",
+                        rf"\begin{{closurestatus}}{{\{carrier}Up}}",
+                        r"  \constructivestory{The packet records 64 coordinates, 13 rows, and lambda 0.675248 as finite code-read audit data.}",
+                        r"  \theoryclosure{\seedClosure}",
+                        r"  \scopeclosed{Code-layer readback for the three consumed fixture facts only.}",
+                        r"  \formalstatus{\unformalizedV}",
+                        r"  \bridgestatus{paperBridge}",
+                        r"  \notclaimed{No translation, folding, physical admissibility, function, mechanism, universality, or cross-layer biological consequence is closed.}",
+                        r"  \upgradepath{Attach a separate testable reality contact before promoting any higher biological layer.}",
+                        r"\end{closurestatus}",
+                        "",
+                    ]
+                ),
+                "risk_notes": "",
+            }
+
+        original_pipeline_config = PIPELINE_CONFIG
+        globals()["PIPELINE_CONFIG"] = bedc_codex_config_path
+        globals()["render_chapter_with_codex"] = _mock_render_chapter_with_codex
+        try:
+            bedc_codex_summary = run_bedc_writeback_lane(BioRealityStore(bedc_codex_paths))
+        finally:
+            globals()["render_chapter_with_codex"] = original_render_chapter_with_codex
+            globals()["PIPELINE_CONFIG"] = original_pipeline_config
+        if bedc_codex_summary["written"] != 1 or bedc_codex_summary["blocked_by_gate"] != 0:
+            print(json.dumps(bedc_codex_summary, indent=2), file=sys.stderr)
+            return 1
+        bedc_codex_hub = bedc_codex_target_dir / bedc_codex_mapping["hub_filename"]
+        bedc_codex_spine = bedc_codex_target_dir / bedc_codex_mapping["subdir_slug"] / "namecert_construction.tex"
+        if not bedc_codex_hub.exists() or not bedc_codex_spine.exists():
+            print(json.dumps({"hub": str(bedc_codex_hub), "spine": str(bedc_codex_spine)}, indent=2), file=sys.stderr)
+            return 1
+        bedc_codex_gate = bedc_writeback_gates.validate_chapter_pair(
+            bedc_codex_hub.read_text(encoding="utf-8"),
+            bedc_codex_spine.read_text(encoding="utf-8"),
+            ["x", "y", "z"],
+            3,
+        )
+        if not bedc_codex_gate["passed"]:
+            print(json.dumps(bedc_codex_gate, indent=2), file=sys.stderr)
             return 1
 
         promote_paths = _temp_paths(base / "promote")

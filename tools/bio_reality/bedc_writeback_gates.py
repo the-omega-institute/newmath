@@ -25,6 +25,11 @@ EXTERNAL_BODY_RE = re.compile(
 LEAN_MARKER_RE = re.compile(
     r"\\(?:leanstmt|leantarget|leanchecked|leanvariant|leandef|leansorryd)\{"
 )
+GENERIC_TEMPLATE_PHRASES = [
+    "finite reality-bound seed witness for the claim",
+    "finite, reality-bound seed witness for the claim",
+    "finite reality-bound seed witness for claim",
+]
 
 
 def _nonblank_line_count(text: str) -> int:
@@ -168,6 +173,20 @@ def no_naked_leanstmt(text: str) -> list[str]:
     return []
 
 
+def generic_prose_detector(text: str, used_fact_ids: list[str] | None, min_used_fact_ids: int = 3) -> list[str]:
+    issues: list[str] = []
+    fact_count = len([item for item in (used_fact_ids or []) if isinstance(item, str) and item.strip()])
+    if fact_count < min_used_fact_ids:
+        issues.append(f"chapter does not consume enough verified_facts; got {fact_count}, required {min_used_fact_ids}")
+    lowered = re.sub(r"\s+", " ", text.lower())
+    for phrase in GENERIC_TEMPLATE_PHRASES:
+        if phrase in lowered:
+            issues.append(f"generic template phrase detected: {phrase}")
+    if len(text.strip()) < 1500:
+        issues.append("spine too thin to constitute a NameCert packet")
+    return issues
+
+
 def validate_hub_text(text: str) -> list[str]:
     issues: list[str] = []
     issues.extend(line_count_le_800(text))
@@ -192,10 +211,21 @@ def validate_spine_text(text: str) -> list[str]:
     return issues
 
 
-def validate_chapter_pair(hub_text: str, spine_text: str) -> dict[str, Any]:
+def validate_chapter_pair(
+    hub_text: str,
+    spine_text: str,
+    used_fact_ids: list[str] | None = None,
+    min_used_fact_ids: int = 0,
+) -> dict[str, Any]:
     hub_issues = [f"hub: {issue}" for issue in validate_hub_text(hub_text)]
     spine_issues = [f"spine: {issue}" for issue in validate_spine_text(spine_text)]
-    issues = hub_issues + spine_issues
+    generic_issues: list[str] = []
+    if used_fact_ids is not None or min_used_fact_ids > 0:
+        generic_issues = [
+            f"spine: {issue}"
+            for issue in generic_prose_detector(spine_text, used_fact_ids, min_used_fact_ids=min_used_fact_ids)
+        ]
+    issues = hub_issues + spine_issues + generic_issues
     return {
         "passed": not issues,
         "issues": issues,
@@ -223,7 +253,13 @@ def _valid_spine() -> str:
             r"\label{ch:concrete-instances-bioreality-test-namecert}",
             r"\origin{ai}",
             "",
-            "This BioReality NameCert packet records a finite seed witness.",
+            "This BioReality NameCert packet records a bounded code-layer naming certificate. "
+            "The packet is intentionally narrow: it keeps a curated code-row contact outside the BEDC kernel while recording only the internal naming surface needed for a finite coordinate reading. "
+            "The text mentions three concrete fixture observations: 64 codon coordinates, 3 stop labels, and 1 carrier name reserved for this test packet. "
+            "Those quantities are not treated as biochemical mechanisms; they are finite audit data for a name certificate that remains at the code-read layer. "
+            "A second fixture sentence records that the carrier has 2 bookkeeping roles, coordinate display and closure bookkeeping, and that 0 claims about folding or function are made. "
+            "A third fixture sentence records 5 excluded promotions: translation, folding, physical admissibility, function, and universality. "
+            "Together these sentences make the packet thick enough for the writeback gate while preserving the self-contained boundary required of a concrete instance chapter.",
             "",
             r"\paragraph{Carrier.} $\BioRealityTestUp$ is the BEDC packet name.",
             "",
@@ -257,6 +293,20 @@ def self_test() -> int:
         ("closurestatus_complete", bool(closurestatus_complete(r"\begin{closurestatus}{\FooUp}\formalstatus{}\end{closurestatus}")), None),
         ("origin_ai_has_falsifiable_and_independence", bool(origin_ai_has_falsifiable_and_independence(r"\origin{ai}")), None),
         ("no_naked_leanstmt", bool(no_naked_leanstmt(r"\leanstmt{BEDC.X}")), None),
+        (
+            "generic_prose_detector_phrase",
+            bool(generic_prose_detector("A finite reality-bound seed witness for the claim appears here." + "x" * 1500, ["a", "b", "c"])),
+            None,
+        ),
+        (
+            "generic_prose_detector_pass",
+            not generic_prose_detector(
+                "This grounded packet cites 64 codons, row count 13, lambda 0.675248, and p-value 0.031. "
+                + "The carrier stays at code-read scope and blocks translation promotion. " * 30,
+                ["codon_count", "row_count", "lambda_M"],
+            ),
+            None,
+        ),
     ]
     for name, ok, detail in checks:
         if not ok:
