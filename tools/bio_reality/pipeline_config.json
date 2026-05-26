@@ -265,5 +265,25 @@
     "min_seconds_between_queries": 30,
     "max_query_chars": 4000,
     "max_result_wait_seconds": 600
+  },
+  "oracle_integration": {
+    "enabled": true,
+    "server_url": "http://127.0.0.1:8769",
+    "pdf_attach_path": "papers/bio_reality/main.pdf",
+    "persist_dir": "tools/bio_reality/state/oracle_sessions",
+    "bio_g": {
+      "enabled": true,
+      "max_turns": 10,
+      "min_seconds_between_consultations": 1800,
+      "codex_judge_timeout_seconds": 240,
+      "poll_timeout_seconds": 600
+    },
+    "bio_plan": {
+      "enabled": true,
+      "max_turns": 12,
+      "min_cycles_between_consultations": 5,
+      "codex_judge_timeout_seconds": 240,
+      "poll_timeout_seconds": 600
+    }
   }
 }
