@@ -500,6 +500,47 @@ The nonescape claim follows from the carrier inventory. Neither \autoref{def:clo
 Transport and replay rows do not add analytic data. They only preserve the displayed route already used by \autoref{ch:concrete-instances-realcauchymodulus-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. Hence every accepted modulus read remains inside $L,U,O,D,S,R,E,M$.
 \end{proof}
 
+\begin{definition}[Closed bounded interval density ledger]
+\label{def:closed-bounded-interval-density-ledger}
+For an accepted $\ClosedBoundedIntervalUp$ carrier $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$, the root density ledger is the finite $\BHist$ packet
+$$
+\Delta_I=(L,U,O,Q,D,S,R,E,H,C,P,N)
+$$
+read as the source for dyadic mesh cells and interval-net consumers. The rows $L,U,O$ fix the endpoint route, $Q$ records rational containment tests, $D$ records finite dyadic mesh cells and dyadic containment comparisons, $S$ records the $\StreamNameUp$ finite windows, $R$ records the $\RegSeqRatUp$ readbacks, $E$ records the $\RealUp$ endpoint seals, and $H,C,P,N$ record transport, replay, provenance, and local naming for the same endpoint-and-containment surface.
+\end{definition}
+
+\begin{theorem}[Closed bounded interval density readback]
+\label{thm:closed-bounded-interval-density-readback}
+Every density or interval-net readback admitted by an accepted $\ClosedBoundedIntervalUp$ carrier factors through the root density ledger
+$$
+L,U,O,Q,D,S,R,E,H,C,P,N .
+$$
+In particular, dyadic mesh cells and rational containment tests are read after the endpoint route $L,U,O$, the finite observation windows and regular rational readbacks are read after $Q,D$, and the endpoint seals are read through the terminal $\RealUp$ row $E$ with transport, replay, provenance, and local naming carried by $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the density ledger. Its coordinates are exactly the endpoint rows, rational and dyadic containment rows, finite windows, regular rational readbacks, endpoint seals, and structural rows already present in the carrier.
+
+Apply the existing source and compact-uniform package theorems. The finite-net source theorem places $L,U,O,Q,D$ before any mesh consumer, while the compact-uniform source package keeps $S,R,E,H,C,P,N$ attached to the same endpoint-and-containment route.
+
+Thus density readback cannot start from a free mesh. It must pass through $L,U,O,Q,D,S,R,E,H,C,P,N$, so every downstream interval-net or uniform-modulus consumer receives dyadic density data only as a readback of the root endpoint ledger.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval net-unblock package]
+\label{thm:closed-bounded-interval-net-unblock-package}
+Every $\ClosedBoundedIntervalNetUp$, finite-cover, nested-window, and uniform-modulus consumer of an accepted $\ClosedBoundedIntervalUp$ carrier must obtain its interval source from \autoref{def:closed-bounded-interval-density-ledger}. No such consumer can bypass the root endpoint-and-containment package
+$$
+L,U,O,Q,D,S,R,E,H,C,P,N
+$$
+or replace it by a host interval set, an open-cover compactness object, selected subcover, selected point, quotient real equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the density readback theorem. It identifies $L,U,O,Q,D,S,R,E,H,C,P,N$ as the complete source route for dyadic mesh cells, rational containment tests, StreamName windows, RegSeqRat readbacks, and Real endpoint seals.
+
+Now compare the downstream consumers. Closed bounded interval nets, finite-cover windows, nested-window compactness, and uniform-modulus handoffs all use the same endpoint rows, containment rows, windows, readbacks, and seals before adding their own consumer rows.
+
+The non-bypass claim follows from the carrier inventory. Since the root density ledger contains no host interval set, open-cover compactness object, selected subcover, selected point, quotient equality, trichotomy decision, choice selector, or ambient completeness datum, no downstream consumer can obtain one without leaving the displayed $\ClosedBoundedIntervalUp$ package.
+\end{proof}
+
 \closureat{ClosedBoundedIntervalUp}{seedStr}
 
 \begin{closurestatus}{\ClosedBoundedIntervalUp}
