@@ -84,4 +84,17 @@ theorem BoundedSetCarrier_ball_containment_route [AskSetup] [PackageSetup]
   }
   exact ⟨cert, memberUnary, ballReadUnary, subsetCenter, memberRadius, ballPkg⟩
 
+theorem BoundedSetCarrier_real_bound_nonescape [AskSetup] [PackageSetup]
+    {X S center radius ball transport replay provenance nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedSetCarrier X S center radius ball transport replay provenance nameRow bundle pkg ->
+      UnaryHistory radius ∧ Cont transport radius replay ∧ PkgSig bundle provenance pkg ∧
+        PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier
+  obtain ⟨_xUnary, _sUnary, _centerUnary, radiusUnary, _ballUnary, _transportUnary,
+    _replayUnary, _provenanceUnary, _nameUnary, _carrierMemberRoute, carrierBoundRoute,
+    provenancePkg, namePkg⟩ := carrier
+  exact ⟨radiusUnary, carrierBoundRoute, provenancePkg, namePkg⟩
+
 end BEDC.Derived.BoundedSetUp
