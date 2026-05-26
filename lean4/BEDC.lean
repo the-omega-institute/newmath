@@ -4175,6 +4175,7 @@ import BEDC.Derived.MetaCICIdentityBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICIdentityUp.TasteGate
 import BEDC.Derived.MetaCICNormalAuditSocketUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationBudgetUp.TasteGate
+import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.RouteCoverage
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationFrontierUp.AuditSealConsumerRoute
 import BEDC.Derived.MetaCICNormalizationFrontierUp.BoundaryDisjointness
@@ -5719,6 +5720,7 @@ import BEDC.Derived.SeparatedMetricUp.CarrierBoundary
 import BEDC.Derived.SeparatedMetricUp.CompletionLimitUniquenessRoute
 import BEDC.Derived.SeparatedMetricUp.RealCompletionConsumerBoundary
 import BEDC.Derived.SeparatedMetricUp.TasteGate
+import BEDC.Derived.SeparatedMetricUp.ZeroDistanceConsumerExactness
 import BEDC.Derived.SeparatedQuotientMetricUp
 import BEDC.Derived.SeparatedQuotientMetricUp.TasteGate
 import BEDC.Derived.SeparatedUniformSpaceUp.TasteGate
