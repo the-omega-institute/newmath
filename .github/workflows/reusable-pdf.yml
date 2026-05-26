@@ -40,10 +40,14 @@ jobs:
         working-directory: papers/bedc
     steps:
       - name: Check out repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          ref: ${{ inputs.checkout_ref != '' && inputs.checkout_ref || github.sha }}
-          fetch-depth: 0
+        working-directory: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          ref="${{ inputs.checkout_ref != '' && inputs.checkout_ref || github.sha }}"
+          git init "$GITHUB_WORKSPACE"
+          git -C "$GITHUB_WORKSPACE" remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git -C "$GITHUB_WORKSPACE" fetch --no-tags --depth=1 origin "$ref"
+          git -C "$GITHUB_WORKSPACE" checkout --force FETCH_HEAD
 
       - name: Allow git metadata access in container
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
