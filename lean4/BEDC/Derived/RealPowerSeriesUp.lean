@@ -118,4 +118,23 @@ theorem RealPowerSeriesCarrier_partial_sum_majorant_readback [AskSetup] [Package
     unary_cont_closed SUnary MUnary readbackRoute
   exact ⟨SUnary, MUnary, readbackUnary, readbackRoute, radiusMajorant, pkgSig⟩
 
+theorem RealPowerSeriesCarrier_radius_source_compatibility [AskSetup] [PackageSetup]
+    {A Z X R W S M E H C P N radiusRead sourceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ->
+      hsame radiusRead R ->
+        hsame sourceRead A ->
+          UnaryHistory radiusRead ∧ UnaryHistory sourceRead ∧ Cont A W S ∧
+            Cont R S M ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg UnaryHistory
+  intro carrier radiusSame sourceSame
+  obtain ⟨AUnary, _ZUnary, _XUnary, RUnary, _WUnary, _SUnary, _MUnary, _EUnary,
+    _HUnary, _CUnary, _PUnary, _NUnary, coefficientWindow, radiusMajorant,
+    _majorantEndpoint, pkgSig⟩ := carrier
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_transport RUnary (hsame_symm radiusSame)
+  have sourceReadUnary : UnaryHistory sourceRead :=
+    unary_transport AUnary (hsame_symm sourceSame)
+  exact ⟨radiusReadUnary, sourceReadUnary, coefficientWindow, radiusMajorant, pkgSig⟩
+
 end BEDC.Derived.RealPowerSeriesUp
