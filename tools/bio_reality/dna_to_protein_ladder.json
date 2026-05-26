@@ -1,0 +1,43 @@
+{
+  "profile_id": "dna_to_protein_realization",
+  "layers": [
+    {
+      "layer": "code_read",
+      "allowed_claim": "A codon stream is read under a named genetic-code table.",
+      "forbidden_claim": "Codon assignment alone establishes protein realization."
+    },
+    {
+      "layer": "orf_eligibility",
+      "allowed_claim": "A sequence window is eligible as an ORF candidate under stated context.",
+      "forbidden_claim": "ORF eligibility establishes expression."
+    },
+    {
+      "layer": "translation_realization",
+      "allowed_claim": "A chain has translation or protein-level evidence under stated context.",
+      "forbidden_claim": "A translated chain establishes folded structure."
+    },
+    {
+      "layer": "structural_order",
+      "allowed_claim": "A chain or region has order, disorder, or ensemble evidence.",
+      "forbidden_claim": "Structural order establishes physical admissibility or function."
+    },
+    {
+      "layer": "physical_admissibility",
+      "allowed_claim": "A structural state is not excluded by stated physical evidence.",
+      "forbidden_claim": "Physical admissibility establishes biological function."
+    },
+    {
+      "layer": "function_realization",
+      "allowed_claim": "A state has functional evidence in a stated assay context.",
+      "forbidden_claim": "Functional evidence establishes universal mechanism."
+    }
+  ],
+  "layer_descriptions": {
+    "code_read": "codon-to-label readback at the standard genetic code",
+    "orf_eligibility": "open-reading-frame eligibility from start/stop codon enumeration",
+    "translation_realization": "ribosome-mediated polypeptide synthesis from mRNA",
+    "structural_order": "folded protein tertiary structure under physiological conditions",
+    "physical_admissibility": "thermodynamic and kinetic admissibility of the folded form",
+    "function_realization": "in-vivo or in-vitro functional assay outcome of the protein"
+  }
+}
