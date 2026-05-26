@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\HausdorffUniformSpaceUp$}
+\label{ch:concrete-instances-hausdorff-uniform-space-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley uniform spaces, the $\HausdorffUniformSpaceUp$ packet names the separated uniform interface that lies between the entourage carrier of \autoref{ch:concrete-instances-uniformspace-namecert} and the separated boundary already exposed by \autoref{ch:concrete-instances-separated-uniform-space-namecert}. It also gives the Hausdorff-reflection route of \autoref{ch:concrete-instances-hausdorff-reflection-namecert} a finite NameCert surface before any completion-facing consumer reads quotient points, host equality, or selected representatives.
+
+\begin{definition}[Hausdorff uniform space carrier]
+\label{def:hausdorff-uniform-space-carrier}
+A $\HausdorffUniformSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+H=(U,S,R,A,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the $\UniformSpaceUp$ entourage row, including the finite diagonal, inverse, refinement, and composition data exposed by the source uniformity.
+\item $S$ is the $\SeparatedUniformSpaceUp$ classifier row, recording when two displayed points are separated by the available entourage observations.
+\item $R$ is the $\HausdorffReflectionUp$ route row, naming the quotient-free reflection boundary as a consumer of $U$ and $S$.
+\item $A$ is the antisymmetry ledger row, requiring indistinguishable point-pair reads to be identified only through the displayed separated classifier.
+\item $T$ records componentwise $\hsame$ transport for $U,S,R,A,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from uniform, separated, and Hausdorff-reflection consumers through the same finite route.
+\item $P$ is the $\Pkg$ provenance over $\HausdorffUniformSpaceUp$, $\UniformSpaceUp$, $\SeparatedUniformSpaceUp$, $\HausdorffReflectionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HausdorffUniformSpaceUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one separated uniform-space packet. It contains no coordinate for quotient points, host equality of points, a completion object, selected representatives, countable choice, or ambient set-theoretic separation.
+\end{definition}
+
+\begin{theorem}[Hausdorff uniform space NameCert obligations]
+\label{thm:hausdorff-uniform-space-namecert-obligations}
+For an accepted $\HausdorffUniformSpaceUp$ carrier $H=(U,S,R,A,T,C,P,N)$, the local $\NameCert_{\HausdorffUniformSpaceUp}$ surface consists exactly of the following obligations:
+\begin{enumerate}
+\item carrier admission for the displayed uniform entourage row, separated classifier row, Hausdorff-reflection route row, antisymmetry ledger row, transport row, replay row, provenance row, and local naming row;
+\item uniform-source exactness, requiring every separated or Hausdorff-reflection read to begin with the finite entourage data in $U$;
+\item separated-classifier stability, requiring $S$ and $A$ to compare point-pair reads only through displayed uniform observations;
+\item reflection non-escape, requiring $R$ to expose the Hausdorff boundary without adding quotient points, host equality, selected representatives, or completion coordinates;
+\item transport, replay, provenance, and local-naming stability for the same displayed row order.
+\end{enumerate}
+No Hausdorff uniform-space obligation is stored outside $U,S,R,A,T,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:hausdorff-uniform-space-carrier}. The projected coordinates are exactly the uniform row $U$, separated classifier row $S$, Hausdorff-reflection route $R$, antisymmetry ledger $A$, and structural rows $T,C,P,N$.
+
+Uniform-source exactness follows by reading every separated and reflection-facing consumer through the same finite entourage surface used by \autoref{ch:concrete-instances-uniformspace-namecert}. The separated row $S$ and antisymmetry ledger $A$ add only classifier evidence on top of those entourage observations.
+
+Reflection non-escape is the role of $R$. It may cite the separated packet of \autoref{ch:concrete-instances-separated-uniform-space-namecert} and the reflection boundary of \autoref{ch:concrete-instances-hausdorff-reflection-namecert}, but it receives no quotient point, host equality, selected representative, completion object, or ambient separation principle.
+
+The transport and replay rows $T$ and $C$ preserve that same route. Since $P$ and $N$ package and name only the displayed carrier rows, every excluded object remains outside the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HausdorffUniformSpaceUp$ consumer reads a $\UniformSpaceUp$ entourage row, a $\SeparatedUniformSpaceUp$ classifier row, and a $\HausdorffReflectionUp$ route row before citing Hausdorff uniform separation.}
+
+\independenceWitness{uniformspace, separateduniformspace, hausdorffreflection: $\HausdorffUniformSpaceUp$ is not bijective to any listed sibling because it jointly carries the entourage source, separated classifier, Hausdorff-reflection route, antisymmetry ledger, transport, replay, provenance, and local NameCert rows as one finite interface.}
+
+\closureat{HausdorffUniformSpaceUp}{seedStr}
+\begin{closurestatus}{\HausdorffUniformSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hausdorff-uniform-space-carrier} and \autoref{thm:hausdorff-uniform-space-namecert-obligations} seed the separated uniform-space packet over displayed entourage, separated classifier, Hausdorff-reflection route, antisymmetry, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, quotient point construction, host equality, selected representatives, completion existence, countable choice, or ambient set-theoretic separation.}
+  \upgradepath{Obligation closure requires checked carrier admission, uniform-source exactness, separated-classifier stability, reflection non-escape, transport and replay stability, and ledger non-escape for BEDC.Derived.HausdorffUniformSpaceUp.}
+  \constructivestory{A $\HausdorffUniformSpaceUp$ packet is generated from UniformSpace entourage data, SeparatedUniformSpace classifier data, a HausdorffReflection route, an antisymmetry ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
