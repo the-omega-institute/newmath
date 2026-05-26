@@ -330,4 +330,32 @@ theorem NormalSpacePacket_open_neighborhood_stability [AskSetup] [PackageSetup]
       stabilityRoute,
       packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right⟩
 
+theorem NormalSpacePacket_cozero_urysohn_handoff [AskSetup] [PackageSetup]
+    {topology closedLeft closedRight disjoint openLeft openRight transport replay provenance
+      localName exported handoff consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NormalSpacePacket topology closedLeft closedRight disjoint openLeft openRight transport
+        replay provenance localName exported bundle pkg →
+      Cont openLeft openRight handoff →
+        Cont handoff replay consumer →
+          PkgSig bundle exported pkg →
+            UnaryHistory handoff ∧ UnaryHistory consumer ∧ Cont openLeft openRight handoff ∧
+              Cont handoff replay consumer ∧ PkgSig bundle localName pkg ∧
+                PkgSig bundle exported pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro packet openHandoff consumerRoute exportedPkg
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed packet.right.right.right.right.left
+      packet.right.right.right.right.right.left openHandoff
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed handoffUnary packet.right.right.right.right.right.right.right.left
+      consumerRoute
+  exact
+    ⟨handoffUnary,
+      consumerUnary,
+      openHandoff,
+      consumerRoute,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right,
+      exportedPkg⟩
+
 end BEDC.Derived.NormalSpaceUp
