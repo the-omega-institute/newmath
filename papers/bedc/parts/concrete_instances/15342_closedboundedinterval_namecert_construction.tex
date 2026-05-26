@@ -412,6 +412,43 @@ Finally add the uniform readback surface. The dyadic containment totality theore
 
 \independenceWitness{locatedinterval, closedboundedintervalnet, closedboundedintervaluniformmodulus, real: $\ClosedBoundedIntervalUp$ is not bijective to any listed sibling because it jointly carries lower and upper located endpoints, endpoint order, rational and dyadic containment ledgers, finite readback windows, a RealUp seal, transport, replay, provenance, and local naming.}
 
+\begin{definition}[Closed bounded interval constructive source]
+\label{def:closed-bounded-interval-constructive-source}
+A constructive source for a $\ClosedBoundedIntervalUp$ packet is a finite $\BHist$ source
+$$
+J=(L,U,O,Q,D,S,R,E,H,C,P,N)
+$$
+where $L$ and $U$ are located endpoint rows, $O$ records the endpoint order, $Q$ and $D$ record rational and dyadic containment ledgers, $S$ is the $\StreamNameUp$ finite-window row, $R$ is the $\RegSeqRatUp$ readback row, $E$ is the $\RealUp$ seal row, $H$ is the componentwise $\hsame$ transport row, $C$ is the displayed $\Cont$ replay row, $P$ is the $\Pkg$ provenance row, and $N$ is the local $\NameCert_{\ClosedBoundedIntervalUp}$ row. The source has no coordinate for open-cover compactness, selected subcovers, selected points, quotient real equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Closed bounded interval constructive carrier]
+\label{thm:closed-bounded-interval-constructive-carrier}
+Every constructive source $J=(L,U,O,Q,D,S,R,E,H,C,P,N)$ for $\ClosedBoundedIntervalUp$ exposes exactly the root carrier rows of \autoref{def:closed-bounded-interval-carrier}: located lower endpoint, located upper endpoint, endpoint order, rational containment, dyadic containment, StreamName window, RegSeqRat readback, Real seal, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the source of \autoref{def:closed-bounded-interval-constructive-source}. Its coordinates are precisely the rows $L,U,O,Q,D,S,R,E,H,C,P,N$.
+
+Compare with the carrier definition. The root carrier of \autoref{def:closed-bounded-interval-carrier} has the same endpoint, containment, finite-window, readback, seal, transport, replay, provenance, and naming rows, and no additional coordinate is available to a carrier projection.
+
+The excluded host objects are absent from the source and from the carrier. Therefore the constructive source exposes exactly the root carrier rows and cannot extend them by compactness, choice, quotient equality, trichotomy, or ambient completeness data.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval constructive handoff]
+\label{thm:closed-bounded-interval-constructive-handoff}
+Every net, nested-window, finite-cover, located-cover, and uniform-modulus consumer of a $\ClosedBoundedIntervalUp$ constructive source factors through
+$$
+L,U,O,Q,D,S,R,E,H,C,P,N.
+$$
+The factorization first reads located endpoints and endpoint order, then rational and dyadic containment, then finite windows, RegSeqRat readback, the Real seal, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Begin with the root carrier route. By \autoref{thm:closed-bounded-interval-constructive-carrier}, any consumer of the constructive source can project only $L,U,O,Q,D,S,R,E,H,C,P,N$.
+
+Net and finite-cover consumers use the containment ledgers. The finite-net source, consumer nonescape obligations, dyadic containment totality, and located-cover handoff force such reads through $L,U,O,Q,D$ before they reach $S,R,E$.
+
+Nested-window and uniform-modulus consumers use the same readback route. The nested compactness handoff and compact-uniform source package keep $S,R,E,H,C,P,N$ attached to the endpoint and containment rows, so these consumers cannot bypass the displayed source.
+\end{proof}
+
 \closureat{ClosedBoundedIntervalUp}{seedStr}
 
 \begin{closurestatus}{\ClosedBoundedIntervalUp}
