@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\ContractiveMapUp$}
+\label{ch:concrete-instances-contractive-map-namecert}
+\origin{human}
+
+Following Banach and Bishop--Bridges constructive analysis, the $\ContractiveMapUp$ packet records a displayed contraction between metric carriers as finite NameCert data. It sits over the source and target metric rows of \autoref{ch:concrete-instances-metricspace-namecert}, the complete-metric consumer boundary of \autoref{ch:concrete-instances-completemetric-namecert}, the tolerance export surface of \autoref{ch:concrete-instances-uniformmodulus-namecert}, the endpoint discipline of \autoref{ch:concrete-instances-banach-fixed-point-namecert}, and the finite orbit route of \autoref{ch:concrete-instances-picard-iteration-namecert}. The packet names the map-level shrink surface that Banach and Picard consumers can inspect before any fixed point, completed limit, quotient equality, or host function extensionality is available.
+
+\begin{definition}[Contractive map carrier]
+\label{def:contractive-map-carrier}
+A $\ContractiveMapUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,Y,f,k,D,G,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricSpaceUp$ row and $Y$ is the target $\MetricSpaceUp$ row.
+\item $f$ is the finite map-code row from carried source histories to carried target histories.
+\item $k$ is the contraction-constant row, with displayed nonnegativity and strict unit-bound evidence.
+\item $D$ is the metric-distance witness row recording source-distance and target-distance requests for the accepted map reads.
+\item $G$ is the graph row witnessing that every accepted application of $f$ is a finite BEDC graph read.
+\item $S$ is the shrink ledger recording each displayed comparison
+$$
+d_Y(f(x),f(y))\leq k\,d_X(x,y)
+$$
+for source histories carried by $X$ and graph reads carried by $G$.
+\item $H$ records componentwise $\hsame$ transport for the source and target metric rows, map-code row, contraction constant, distance witnesses, graph row, shrink ledger, continuation rows, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from source metric requests through $f,k,D,G,S$ to target metric responses, uniform-modulus handoff, Picard iteration reads, and fixed-point consumers.
+\item $P$ is the $\Pkg$ provenance over $\ContractiveMapUp$, $\MetricSpaceUp$, $\CompleteMetricUp$, $\UniformModulusUp$, $\BanachFixedPointUp$, $\PicardIterationUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ContractiveMapUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a selected fixed point, a completed Picard limit, quotient equality of maps, host function extensionality, ambient completeness, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Contractive map NameCert obligations]
+\label{thm:contractive-map-namecert-obligations}
+For every accepted $\ContractiveMapUp$ carrier $K=(X,Y,f,k,D,G,S,H,C,P,N)$, the local $\NameCert_{\ContractiveMapUp}$ surface consists exactly of source and target metric exposure, map-code admission, contraction-constant exactness, distance-witness exposure, graph replay, shrink-ledger replay, componentwise transport, displayed continuation, package provenance, and local naming through the rows $X,Y,f,k,D,G,S,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The analytic rows are precisely the source metric $X$, target metric $Y$, map code $f$, contraction constant $k$, distance witnesses $D$, graph row $G$, and shrink ledger $S$.
+
+The contraction obligation is replayed from the same rows. A target-distance read must pass through $G$, use the distance witnesses in $D$, and cite the comparison stored in $S$ against the same constant row $k$.
+
+The structural rows preserve that packet and add no analytic coordinate. Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ keep the displayed route intact, so the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Contractive map Picard consumer handoff]
+\label{thm:contractive-map-picard-consumer-handoff}
+Every $\PicardIterationUp$ or $\BanachFixedPointUp$ consumer of an accepted $\ContractiveMapUp$ carrier receives contraction evidence only through
+$$
+X,Y,f,k,D,G,S,H,C,P,N.
+$$
+The handoff exports metric-distance shrink replay and the strict unit-bound row for $k$; it does not export fixed-point existence, complete-metric convergence, quotient equality of maps, a selected endpoint, or host function extensionality.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:contractive-map-namecert-obligations}. They make the shrink ledger $S$ the only row that can justify a Picard or Banach contraction read.
+
+A Picard consumer therefore reads the graph row $G$, the distance witnesses $D$, and the contraction constant $k$ before it can replay a one-step or finite-orbit shrink comparison. The continuation row $C$ transports this order to uniform-modulus, iteration, and fixed-point consumers without adding a limit point.
+
+Completeness and endpoint selection remain outside the packet. A Banach consumer must attach its own complete-metric and endpoint rows, while the $\ContractiveMapUp$ handoff supplies only the finite map-level shrink data.
+\end{proof}
+
+\closureat{ContractiveMapUp}{seedStr}
+
+\begin{closurestatus}{\ContractiveMapUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:contractive-map-carrier}, \autoref{thm:contractive-map-namecert-obligations}, and \autoref{thm:contractive-map-picard-consumer-handoff} seed the finite contraction-map surface for metric, graph, constant, shrink-ledger, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not assert fixed-point existence, complete-metric convergence, quotient equality of maps, selected endpoints, Lean verification, axiom-clean audit, or bridge checking for $\ContractiveMapUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, contraction-constant exactness, graph replay, distance-witness exposure, shrink-ledger replay, Picard handoff, and field faithfulness for $X,Y,f,k,D,G,S,H,C,P,N$.}
+  \constructivestory{A $\ContractiveMapUp$ packet is generated from source and target metric rows, a finite map-code row, a contraction constant below one, metric-distance witnesses, a graph row, a shrink ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
