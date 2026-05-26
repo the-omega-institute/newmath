@@ -195,6 +195,24 @@ Now read the kernel boundary. The kernel-ledger boundary keeps $K$ as acceptance
 Finally package the route through the obligation-closure theorem. The rows $H,C,P,N$ provide transport, replay, provenance, and naming for the same finite packet. Since the carrier has no coordinate for host reduction equality, unrestricted strong normalization, full confluence, subject reduction, typing preservation, conversion soundness, or kernel soundness, every such consumer remains on the displayed candidate frontier.
 \end{proof}
 
+\begin{theorem}[MetaCICClosureTrace scoped confluence audit route]
+\label{thm:metacic-confluence-audit-scoped-obligation-route}
+Every candidate-mediated normalization consumer of an accepted $\MetaCICClosureTraceUp$ packet may pass the closedness-preservation rows
+$$
+S,U,V,B,R,G,K,H,C,P,N
+$$
+into a confluence-facing, conversion-facing, or strong-normalization-facing route only as scoped \texttt{ClosedAt} evidence over the displayed carrier of \autoref{def:metacicclosuretrace-carrier}. Any strong-normalization, confluence, subject-reduction, or conversion-soundness conclusion must be imported from the candidate frontier or router packet rather than from $\MetaCICClosureTraceUp$ itself.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:metacicclosuretrace-carrier}. Its rows are closedness-preservation rows, generator rows, kernel-ledger accounting, transport, replay, provenance, and local naming; none is a typing, confluence, subject-reduction, conversion-soundness, or normalization coordinate.
+
+Apply the obligation-closure package of \autoref{thm:metacicclosuretrace-obligation-closure-package}. It packages the substitution, shift, beta-step, finite beta-chain, NameCert, kernel-ledger, transport, replay, provenance, and naming rows as a finite \texttt{ClosedAt} surface.
+
+Now use the candidate frontier of \autoref{thm:metacic-closure-trace-candidate-frontier}. The frontier orders the same rows as the route through which normalization-facing, confluence-facing, and conversion-facing consumers may read the packet, and the checked TasteGate marker records that the carrier alignment has only this single displayed field surface.
+
+Therefore a consumer may forward the closure trace as scoped \texttt{ClosedAt} evidence, but any strong-normalization, confluence, subject-reduction, or conversion-soundness theorem must arrive from the candidate frontier or router packet. The closure trace preserves closedness; it does not create the stronger MetaCIC conclusion.
+\end{proof}
+
 \begin{theorem}[MetaCICClosureTrace candidate-mediated closedness ledger]
 \label{thm:metacicclosuretrace-candidate-mediated-closedness-ledger}
 Every downstream closedness consumer of an accepted $\MetaCICClosureTraceUp$ packet $T=(S,U,V,B,R,G,K,H,C,P,N)$ must read the candidate-mediated route in the order $S,U,V,G$, then $B,R$, then $K$, then $H,C,P,N$. The exported ledger is only a finite \texttt{ClosedAt} preservation route through substitution, shift, beta-step, finite beta-chain, kernel acceptance accounting, transport, replay, provenance, and local naming. It exports no subject reduction, no confluence, no normalization, no conversion theorem, no host reduction equality, and no kernel soundness.
@@ -208,6 +226,18 @@ Next use the closed-substitution route and beta-star preservation readback. The 
 Now apply the kernel ledger boundary. The row $K$ records accepted ClosurePreservation declarations and their dependency ledger only as accounting, not as a hidden semantic proof of subject reduction, confluence, normalization, conversion, host reduction equality, or kernel soundness.
 
 Finally apply the candidate frontier nonescape route. The rows $H,C,P,N$ transport, replay, source, and name the same finite packet, so the candidate-mediated ledger exports only \texttt{ClosedAt} preservation for the displayed trace.
+\end{proof}
+
+\begin{theorem}[MetaCICClosureTrace candidate closure forwarding]
+\label{thm:metacicclosuretrace-candidate-closure-forwarding}
+Any candidate-mediated consumer forwarding $\MetaCICClosureTraceUp$ rows into normalization, confluence, subject-reduction, or conversion packets may forward only the displayed \texttt{ClosedAt} preservation rows $S,U,V,B,R,G,K,H,C,P,N$ of an accepted carrier $T=(S,U,V,B,R,G,K,H,C,P,N)$. Strong-normalization, confluence, subject-reduction, and conversion-soundness conclusions must be supplied by the downstream candidate packet; $\MetaCICClosureTraceUp$ contributes no such conclusion by itself.
+\end{theorem}
+\begin{proof}
+First use the substitution-shift generator package of \autoref{thm:metacicclosuretrace-substitution-shift-generator-package}. It identifies $S,U,V,G$ as generator rows for closedness preservation, not as typing, reduction, or conversion evidence.
+
+Next apply the beta-star preservation readback and the kernel-ledger boundary. The rows $B,R$ replay beta-step and finite-chain closedness preservation, while $K$ records kernel acceptance accounting only inside the same \texttt{ClosedAt} ledger.
+
+Finally apply the candidate-mediated closedness ledger of \autoref{thm:metacicclosuretrace-candidate-mediated-closedness-ledger}. Row exhaustion leaves $H,C,P,N$ as transport, replay, provenance, and local naming support, so any stronger normalization, confluence, subject-reduction, or conversion-soundness theorem must enter from the downstream candidate packet.
 \end{proof}
 
 \closureat{MetaCICClosureTraceUp}{seedStr}

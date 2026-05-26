@@ -74,6 +74,32 @@ fixed endpoint that escapes these rows would require an additional carrier
 coordinate, which the classifier does not provide.
 \end{proof}
 
+\begin{theorem}[Banach contraction endpoint uniqueness]
+\label{thm:banach-contraction-principle-endpoint-uniqueness}
+Let $B=(M,F,I,Q,E,U,H,C,P,N)$ and $B'=(M,F,I,Q,E',U',H',C',P',N')$ be accepted $\BanachContractionPrincipleUp$ packets over the same complete metric row $M$, contraction row $F$, iteration schedule $I$, and Cauchy witness row $Q$. If the endpoint seals $E$ and $E'$ are transported through the displayed uniqueness rows $U$ and $U'$, then the metric carrier named by $M$ classifies the two endpoint seals together. The conclusion exposes endpoint uniqueness only along the displayed contraction ledger; it does not select a fixed point outside the packet.
+\end{theorem}
+\begin{proof}
+Project both carriers to the shared rows $M,F,I,Q$. The contraction ledger exposure forces every fixed-point read to use the same metric carrier, the same contractive map row, and the same iteration schedule before any endpoint seal can be inspected.
+
+The Cauchy witness row $Q$ then supplies the common route into the complete metric row $M$. Both endpoint seals $E$ and $E'$ are therefore read as completions of the displayed iteration data rather than as independently selected fixed points.
+
+Apply the uniqueness rows $U$ and $U'$ through their componentwise transports and replay routes. The rows $H,C,P,N$ and $H',C',P',N'$ keep the two endpoint reads on the same local NameCert surface, so the metric classifier of $M$ identifies the endpoint seals. Since the carriers have no coordinate for an off-packet fixed point, no such point is exported.
+\end{proof}
+
+\begin{theorem}[Banach contraction iteration Cauchy handoff]
+\label{thm:banach-contraction-principle-iteration-cauchy-handoff}
+Every accepted $\BanachContractionPrincipleUp$ carrier $B=(M,F,I,Q,E,U,H,C,P,N)$ routes its displayed fixed-point iteration through the Cauchy tail row $Q$ before the completion reflector reads the endpoint seal $E$. The rows named by $P$ may expose $\FixedPointIterationUp$ and $\CauchyCompletionReflectorUp$ consumers only after the contraction ledger $F$, iteration schedule $I$, and Cauchy witness $Q$ have been displayed. Thus the packet exports a completion-facing endpoint handoff, not a chosen fixed point, a hidden limit operator, a global choice rule, or completeness outside the metric row $M$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The definition places the complete metric row $M$, contraction row $F$, iteration schedule $I$, Cauchy witness $Q$, and endpoint seal $E$ in a fixed displayed order.
+
+First read $F$ and $I$. The contraction ledger determines the successive iterate route, while the iteration schedule records the finite prefix and successor replay used by downstream fixed-point consumers.
+
+Next read $Q$. This is the only Cauchy tail row in the carrier, so the completion reflector cannot receive an endpoint request until the iteration has been certified as Cauchy through the displayed row.
+
+Finally replay the completion-facing handoff through $E,H,C,P,N$. Since no carrier coordinate stores a chosen endpoint or an ambient completeness witness, the exported endpoint is exactly the reflector output attached to the displayed Cauchy tail.
+\end{proof}
+
 \begin{closurestatus}{\BanachContractionPrincipleUp}
   \constructivestory{A $\BanachContractionPrincipleUp$ packet is generated from a complete metric row, a displayed contraction map, an iteration schedule, a Cauchy witness, an endpoint seal, a uniqueness row, componentwise transports, replay routes, provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}

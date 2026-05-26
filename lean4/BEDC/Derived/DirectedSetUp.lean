@@ -2,6 +2,13 @@ import BEDC.Derived.DirectedSetUp.TasteGate
 
 namespace BEDC.Derived.DirectedSetUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
 theorem DirectedSetCarrier_fields_faithful :
     ∀ x y : DirectedSetUp, directedSetFields x = directedSetFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -12,5 +19,32 @@ theorem DirectedSetCarrier_fields_faithful :
       | mk I2 Le2 W2 U2 H2 C2 P2 N2 =>
           cases hfields
           rfl
+
+theorem DirectedSetCarrier_preorder_stability_obligation [AskSetup] [PackageSetup]
+    {I Le W U H C P N comparisonRead transportedRead replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DirectedSetPacket I Le W U H C P N bundle pkg →
+      Cont I Le comparisonRead →
+        Cont comparisonRead H transportedRead →
+          Cont transportedRead C replayRead →
+            PkgSig bundle replayRead pkg →
+              UnaryHistory I ∧ UnaryHistory Le ∧ UnaryHistory comparisonRead ∧
+                UnaryHistory transportedRead ∧ UnaryHistory replayRead ∧
+                  Cont I Le comparisonRead ∧ Cont comparisonRead H transportedRead ∧
+                    Cont transportedRead C replayRead ∧ PkgSig bundle P pkg ∧
+                      PkgSig bundle replayRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro packet comparisonRoute transportRoute replayRoute replayPkg
+  obtain ⟨iUnary, leUnary, _wUnary, _uUnary, _windowUnary, hUnary, cUnary, _nUnary,
+    _wuh, _hcn, pPkg⟩ := packet
+  have comparisonUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed iUnary leUnary comparisonRoute
+  have transportedUnary : UnaryHistory transportedRead :=
+    unary_cont_closed comparisonUnary hUnary transportRoute
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed transportedUnary cUnary replayRoute
+  exact
+    ⟨iUnary, leUnary, comparisonUnary, transportedUnary, replayUnary, comparisonRoute,
+      transportRoute, replayRoute, pPkg, replayPkg⟩
 
 end BEDC.Derived.DirectedSetUp
