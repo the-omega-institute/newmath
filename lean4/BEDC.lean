@@ -651,6 +651,7 @@ import BEDC.Derived.BishopFanModulusUp
 import BEDC.Derived.BishopFanModulusUp.TasteGate
 import BEDC.Derived.BishopIntervalCompactUp.TasteGate
 import BEDC.Derived.BishopIntervalCompletionUp.TasteGate
+import BEDC.Derived.BishopIntervalHalvingUp.TasteGate
 import BEDC.Derived.BishopIntervalNestLimitUp.TasteGate
 import BEDC.Derived.BishopLocatedCauchyRealUp.TasteGate
 import BEDC.Derived.BishopModulusProductClosureUp.TasteGate
@@ -1002,6 +1003,7 @@ import BEDC.Derived.CauchyCompletionFunctorUp.TailBudgetCoherenceFactorization
 import BEDC.Derived.CauchyCompletionFunctorUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorialityUp.TasteGate
 import BEDC.Derived.CauchyCompletionIsometryUp.TasteGate
+import BEDC.Derived.CauchyCompletionKleisliAdjunctionUp.TasteGate
 import BEDC.Derived.CauchyCompletionKleisliUp.TasteGate
 import BEDC.Derived.CauchyCompletionLiftUp
 import BEDC.Derived.CauchyCompletionLiftUp.TasteGate
@@ -1028,6 +1030,7 @@ import BEDC.Derived.CauchyContinuousExtensionUp.UniquenessLedger
 import BEDC.Derived.CauchyContinuousImageUp.TasteGate
 import BEDC.Derived.CauchyContinuousMapUp
 import BEDC.Derived.CauchyControlSequenceUp.TasteGate
+import BEDC.Derived.CauchyConvergenceCriterionUp.KernelDependencyScope
 import BEDC.Derived.CauchyConvergenceCriterionUp.LedgerClassifier
 import BEDC.Derived.CauchyConvergenceCriterionUp.NameCert
 import BEDC.Derived.CauchyConvergenceCriterionUp.NullSequence
@@ -1356,6 +1359,8 @@ import BEDC.Derived.CauchyProductUp.RealAlgOrderProductObservationExport
 import BEDC.Derived.CauchyProductUp.RealAlgOrderRootHandoff
 import BEDC.Derived.CauchyProductUp.RealBudgetSealBoundary
 import BEDC.Derived.CauchyProductUp.RealClassifierObligation
+import BEDC.Derived.CauchyProductUp.RealCompletenessDiagonalSealRoute
+import BEDC.Derived.CauchyProductUp.RealMultiplicationSealHandoff
 import BEDC.Derived.CauchyProductUp.RealRegSeqRatStreamNameHandoff
 import BEDC.Derived.CauchyProductUp.RealSealBudgetGate
 import BEDC.Derived.CauchyProductUp.RealSealConsumerExhaustion
@@ -1415,6 +1420,7 @@ import BEDC.Derived.CauchyProductUp.SharedSelectorRealSealStability
 import BEDC.Derived.CauchyProductUp.SharedSelectorRegseqratRealSealCommutation
 import BEDC.Derived.CauchyProductUp.SharedTailBudgetConsumer
 import BEDC.Derived.CauchyProductUp.SharedTailSelectorFactorization
+import BEDC.Derived.CauchyProductUp.SharedWindowRootStrictObstruction
 import BEDC.Derived.CauchyProductUp.SourceBudgetConsumerLock
 import BEDC.Derived.CauchyProductUp.SourceWindowSealConsumerExactness
 import BEDC.Derived.CauchyProductUp.SourceWindowTailAgreement
@@ -3612,6 +3618,8 @@ import BEDC.Derived.HausdorffCompletionUp.StandardBridge
 import BEDC.Derived.HausdorffCompletionUp.UniformConsumerPackage
 import BEDC.Derived.HausdorffSpaceUp.ClassifierSeparationRoute
 import BEDC.Derived.HausdorffSpaceUp.DiagonalNonescape
+import BEDC.Derived.HausdorffSpaceUp.OpenNeighborhoodTransport
+import BEDC.Derived.HausdorffSpaceUp.PointSeparationChoicefree
 import BEDC.Derived.HausdorffSpaceUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HellySelectionUp.TasteGate
@@ -4260,6 +4268,8 @@ import BEDC.Derived.MetricCompletionUp.BranchDeterminacy
 import BEDC.Derived.MetricCompletionUp.BranchExhaustion
 import BEDC.Derived.MetricCompletionUp.BranchReadback
 import BEDC.Derived.MetricCompletionUp.BranchScope
+import BEDC.Derived.MetricCompletionUp.CauchyEvidenceHandoff
+import BEDC.Derived.MetricCompletionUp.CauchyFilterNetSeal
 import BEDC.Derived.MetricCompletionUp.ClassifierStability
 import BEDC.Derived.MetricCompletionUp.Compatibility
 import BEDC.Derived.MetricCompletionUp.CompletionConsumerTotality
@@ -5411,6 +5421,7 @@ import BEDC.Derived.RegularCauchyFamilyUp
 import BEDC.Derived.RegularCauchyFamilyUp.TasteGate
 import BEDC.Derived.RegularCauchyFieldDistributivityUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterUp
+import BEDC.Derived.RegularCauchyFilterUp.TailStability
 import BEDC.Derived.RegularCauchyFilterUp.TasteGate
 import BEDC.Derived.RegularCauchyFiniteObservationRouteUp.TasteGate
 import BEDC.Derived.RegularCauchyFiniteProductUp
@@ -5917,6 +5928,7 @@ import BEDC.Derived.StreamNameUp.SynchronizedWindowUnion
 import BEDC.Derived.StreamNameUp.TailWindowRealUpBoundary
 import BEDC.Derived.StructuralAdjacencyUp.TasteGate
 import BEDC.Derived.SturmRootIsolationUp.TasteGate
+import BEDC.Derived.SturmSequenceUp.TasteGate
 import BEDC.Derived.SubgroupUp
 import BEDC.Derived.SubgroupUp.AppendE1UnitKernelUnary
 import BEDC.Derived.SubgroupUp.IntersectionClassifierClosure
