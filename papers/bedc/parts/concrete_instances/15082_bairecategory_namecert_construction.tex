@@ -222,6 +222,22 @@ Extend $T$ by this displayed successor data. The extension is finite and recorde
 Finally use the structural rows $H,C,P,N$ to transport and name the result. Since the carrier lacks coordinates for a selector, host intersection, or ambient real completeness theorem, the induction remains a finite refinement of the accepted $\BaireCategoryUp$ packet.
 \end{proof}
 
+\begin{theorem}[BaireCategory ProbeBundle dense-open induction]
+\label{thm:bairecategory-probebundle-dense-open-induction}
+Let $Q=(B,M,D,O,R,T,H,C,P,N)$ be an accepted $\BaireCategoryUp$ carrier. The finite dense-open schedule in $D$ is consumed by induction over the displayed ProbeBundle schedule: the base read uses the $\BaireSpaceUp$ prefix row $B$ and the $\CompleteMetricUp/\MetricUp$ ball classifier in $M$, while each successor read consumes the next dense-open row through $O$ and $R$ before extending the $\StreamNameUp/\RegSeqRatUp/\RealUp$ thread $T$.
+
+The induction is exactly the carrier, finite meet, and refinement-thread surface of \autoref{def:baire-category-carrier}, \autoref{thm:baire-category-finite-meet-density-handoff}, and \autoref{thm:baire-category-probebundle-refinement-induction}. It does not assert the full classical Baire theorem, countable choice, a host intersection point, open-cover compactness, ambient completeness, or a separate completeness theorem for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:baire-category-carrier}. The rows available for the schedule are $B,M,D,O,R,T,H,C,P,N$, with $B$ supplying the $\BaireSpaceUp$ prefix, $M$ supplying the $\CompleteMetricUp/\MetricUp$ source, and $T$ holding the terminal $\StreamNameUp/\RegSeqRatUp/\RealUp$ handoff.
+
+For the base stage, read the initial displayed ball from $B$ and the metric ball classifier in $M$. No dense-open choice is made at this stage; the packet has only the displayed predecessor ball and its metric source.
+
+For a successor stage, apply \autoref{thm:baire-category-finite-meet-density-handoff}. The next dense-open entry of $D$ is read against the predecessor ball in $O$, and the refinement row $R$ records the smaller successor ball, positive-radius comparison, and metric-distance witnesses.
+
+Finally apply \autoref{thm:baire-category-probebundle-refinement-induction}. The displayed successor data extend the finite thread $T$, and the structural rows $H,C,P,N$ transport, replay, source, and name the same packet. Since no carrier row stores countable choice, a host intersection point, open-cover compactness, ambient completeness, or a separate $\RealUp$ completeness theorem, the induction remains the finite dense-open ProbeBundle schedule claimed above.
+\end{proof}
+
 \begin{theorem}[BaireCategory refinement-schedule obligation]
 \label{thm:bairecategory-refinement-schedule-obligation}
 Let $Q=(B,M,D,O,R,T,H,C,P,N)$ be an accepted $\BaireCategoryUp$ carrier. The dense-open schedule row $D$, open ledger $O$, refinement row $R$, and Cauchy thread $T$ form the complete finite refinement surface of $Q$. Every complete-metric limit read and every terminal $\RegSeqRatUp/\RealUp$ handoff must pass through $D,O,R,T$ before it can consume the $\CompleteMetricUp$ row $M$ or the structural rows $H,C,P,N$.

@@ -199,4 +199,25 @@ theorem MetricClosedBallCarrier_realalgorder_boundary [AskSetup] [PackageSetup]
     ⟨xUnary, dUnary, cUnary, rUnary, rhoUnary, mUnary, boundaryUnary,
       membershipRoute, boundaryRoute, membershipSame, provenancePkg, boundaryPkg⟩
 
+theorem MetricClosedBallCarrier_radius_source_scope [AskSetup] [PackageSetup]
+    {X d c r rho m H C P N radiusRead zRadiusRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricClosedBallCarrier X d c r rho m H C P N bundle pkg ->
+      Cont r rho radiusRead ->
+        PkgSig bundle radiusRead pkg ->
+          UnaryHistory r ∧ UnaryHistory rho ∧ UnaryHistory radiusRead ∧
+            Cont r rho radiusRead ∧ PkgSig bundle P pkg ∧
+              PkgSig bundle radiusRead pkg ∧
+                (hsame radiusRead (BHist.e0 zRadiusRead) -> False) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier radiusRoute radiusPkg
+  obtain ⟨_xUnary, _dUnary, _cUnary, rUnary, rhoUnary, _mUnary, _hUnary,
+    _cSupportUnary, _pUnary, _nUnary, _sourceRoute, _membershipRoute, _nameRoute,
+    _membershipSame, provenancePkg⟩ := carrier
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed rUnary rhoUnary radiusRoute
+  refine ⟨rUnary, rhoUnary, radiusUnary, radiusRoute, provenancePkg, radiusPkg, ?_⟩
+  intro radiusZero
+  exact unary_no_zero_extension (unary_transport radiusUnary radiusZero)
+
 end BEDC.Derived.MetricClosedBallUp
