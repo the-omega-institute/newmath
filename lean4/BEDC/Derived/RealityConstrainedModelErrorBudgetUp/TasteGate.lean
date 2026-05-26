@@ -394,4 +394,37 @@ theorem RealityConstrainedModelErrorBudgetCarrier_observation_window_exactness
       sourceWindowUnary, mismatchRouteUnary, failureRouteUnary, sourceWindowExact,
       mismatchRouteExact⟩
 
+theorem RealityConstrainedModelErrorBudgetCarrier_failure_visibility
+    {S E O M F H C P N mismatchRoute failureRoute auditRoute : BHist} :
+    Cont E O mismatchRoute ->
+      Cont mismatchRoute F failureRoute ->
+        Cont failureRoute P auditRoute ->
+          UnaryHistory E ->
+            UnaryHistory O ->
+              UnaryHistory F ->
+                UnaryHistory P ->
+                  (∃ packet : RealityConstrainedModelErrorBudgetUp,
+                      packet = RealityConstrainedModelErrorBudgetUp.mk S E O M F H C P N) ∧
+                    UnaryHistory failureRoute ∧ UnaryHistory auditRoute ∧
+                      hsame failureRoute (append mismatchRoute F) ∧
+                        hsame auditRoute (append failureRoute P) := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory append hsame
+  intro mismatchRouteCont failureRouteCont auditRouteCont budgetUnary observationUnary
+    failureUnary provenanceUnary
+  have mismatchRouteUnary : UnaryHistory mismatchRoute :=
+    unary_cont_closed budgetUnary observationUnary mismatchRouteCont
+  have failureRouteUnary : UnaryHistory failureRoute :=
+    unary_cont_closed mismatchRouteUnary failureUnary failureRouteCont
+  have auditRouteUnary : UnaryHistory auditRoute :=
+    unary_cont_closed failureRouteUnary provenanceUnary auditRouteCont
+  have failureRouteExact : hsame failureRoute (append mismatchRoute F) := by
+    cases failureRouteCont
+    exact hsame_refl _
+  have auditRouteExact : hsame auditRoute (append failureRoute P) := by
+    cases auditRouteCont
+    exact hsame_refl _
+  exact
+    ⟨Exists.intro (RealityConstrainedModelErrorBudgetUp.mk S E O M F H C P N) rfl,
+      failureRouteUnary, auditRouteUnary, failureRouteExact, auditRouteExact⟩
+
 end BEDC.Derived.RealityConstrainedModelErrorBudgetUp
