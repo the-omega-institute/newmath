@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.FirstCountableSpaceUp.TasteGate
+namespace BEDC.Derived.FirstCountableSpaceUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,7 +10,6 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive FirstCountableSpaceUp : Type where
-  -- BEDC touchpoint anchor: BHist BMark
   | mk (X T M L D S R H C P N : BHist) : FirstCountableSpaceUp
   deriving DecidableEq
 
@@ -26,7 +25,7 @@ def firstCountableSpaceDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (firstCountableSpaceDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (firstCountableSpaceDecodeBHist tail)
 
-private theorem FirstCountableSpaceTasteGate_single_carrier_alignment_decode_encode :
+private theorem FirstCountableSpaceTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist, firstCountableSpaceDecodeBHist (firstCountableSpaceEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -39,37 +38,38 @@ def firstCountableSpaceFields : FirstCountableSpaceUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | FirstCountableSpaceUp.mk X T M L D S R H C P N => [X, T, M, L, D, S, R, H, C, P, N]
 
-def firstCountableSpaceToEventFlow : FirstCountableSpaceUp → EventFlow
+def firstCountableSpaceToEventFlow : FirstCountableSpaceUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (firstCountableSpaceFields x).map firstCountableSpaceEncodeBHist
+  fun x => (firstCountableSpaceFields x).map firstCountableSpaceEncodeBHist
 
-private def firstCountableSpaceEventAt : Nat → EventFlow → RawEvent
+private def firstCountableSpaceEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => firstCountableSpaceEventAt index rest
+  | Nat.succ index, _event :: rest => firstCountableSpaceEventAtDefault index rest
 
 def firstCountableSpaceFromEventFlow (ef : EventFlow) : Option FirstCountableSpaceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (FirstCountableSpaceUp.mk
-      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAt 0 ef))
-      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAt 1 ef))
-      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAt 2 ef))
-      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAt 3 ef))
-      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAt 4 ef))
-      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAt 5 ef))
-      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAt 6 ef))
-      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAt 7 ef))
-      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAt 8 ef))
-      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAt 9 ef))
-      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAt 10 ef)))
+      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAtDefault 0 ef))
+      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAtDefault 1 ef))
+      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAtDefault 2 ef))
+      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAtDefault 3 ef))
+      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAtDefault 4 ef))
+      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAtDefault 5 ef))
+      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAtDefault 6 ef))
+      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAtDefault 7 ef))
+      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAtDefault 8 ef))
+      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAtDefault 9 ef))
+      (firstCountableSpaceDecodeBHist (firstCountableSpaceEventAtDefault 10 ef)))
 
-private theorem FirstCountableSpaceTasteGate_single_carrier_alignment_round_trip
-    (x : FirstCountableSpaceUp) :
-    firstCountableSpaceFromEventFlow (firstCountableSpaceToEventFlow x) = some x := by
+private theorem FirstCountableSpaceTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : FirstCountableSpaceUp,
+      firstCountableSpaceFromEventFlow (firstCountableSpaceToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk X T M L D S R H C P N =>
       change
@@ -87,17 +87,17 @@ private theorem FirstCountableSpaceTasteGate_single_carrier_alignment_round_trip
             (firstCountableSpaceDecodeBHist (firstCountableSpaceEncodeBHist P))
             (firstCountableSpaceDecodeBHist (firstCountableSpaceEncodeBHist N))) =
           some (FirstCountableSpaceUp.mk X T M L D S R H C P N)
-      rw [FirstCountableSpaceTasteGate_single_carrier_alignment_decode_encode X,
-        FirstCountableSpaceTasteGate_single_carrier_alignment_decode_encode T,
-        FirstCountableSpaceTasteGate_single_carrier_alignment_decode_encode M,
-        FirstCountableSpaceTasteGate_single_carrier_alignment_decode_encode L,
-        FirstCountableSpaceTasteGate_single_carrier_alignment_decode_encode D,
-        FirstCountableSpaceTasteGate_single_carrier_alignment_decode_encode S,
-        FirstCountableSpaceTasteGate_single_carrier_alignment_decode_encode R,
-        FirstCountableSpaceTasteGate_single_carrier_alignment_decode_encode H,
-        FirstCountableSpaceTasteGate_single_carrier_alignment_decode_encode C,
-        FirstCountableSpaceTasteGate_single_carrier_alignment_decode_encode P,
-        FirstCountableSpaceTasteGate_single_carrier_alignment_decode_encode N]
+      rw [FirstCountableSpaceTasteGate_single_carrier_alignment_decode X,
+        FirstCountableSpaceTasteGate_single_carrier_alignment_decode T,
+        FirstCountableSpaceTasteGate_single_carrier_alignment_decode M,
+        FirstCountableSpaceTasteGate_single_carrier_alignment_decode L,
+        FirstCountableSpaceTasteGate_single_carrier_alignment_decode D,
+        FirstCountableSpaceTasteGate_single_carrier_alignment_decode S,
+        FirstCountableSpaceTasteGate_single_carrier_alignment_decode R,
+        FirstCountableSpaceTasteGate_single_carrier_alignment_decode H,
+        FirstCountableSpaceTasteGate_single_carrier_alignment_decode C,
+        FirstCountableSpaceTasteGate_single_carrier_alignment_decode P,
+        FirstCountableSpaceTasteGate_single_carrier_alignment_decode N]
 
 private theorem FirstCountableSpaceTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : FirstCountableSpaceUp} :
@@ -109,18 +109,19 @@ private theorem FirstCountableSpaceTasteGate_single_carrier_alignment_toEventFlo
         firstCountableSpaceFromEventFlow (firstCountableSpaceToEventFlow y) :=
     congrArg firstCountableSpaceFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (FirstCountableSpaceTasteGate_single_carrier_alignment_round_trip x).symm
+    (Eq.trans
+      (FirstCountableSpaceTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (FirstCountableSpaceTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem FirstCountableSpaceTasteGate_single_carrier_alignment_fields_faithful :
-    ∀ x y : FirstCountableSpaceUp,
-      firstCountableSpaceFields x = firstCountableSpaceFields y → x = y := by
+private theorem FirstCountableSpaceTasteGate_single_carrier_alignment_fields :
+    ∀ x y : FirstCountableSpaceUp, firstCountableSpaceFields x = firstCountableSpaceFields y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk X₁ T₁ M₁ L₁ D₁ S₁ R₁ H₁ C₁ P₁ N₁ =>
+  | mk X1 T1 M1 L1 D1 S1 R1 H1 C1 P1 N1 =>
       cases y with
-      | mk X₂ T₂ M₂ L₂ D₂ S₂ R₂ H₂ C₂ P₂ N₂ =>
+      | mk X2 T2 M2 L2 D2 S2 R2 H2 C2 P2 N2 =>
           cases hfields
           rfl
 
@@ -129,8 +130,7 @@ instance firstCountableSpaceBHistCarrier : BHistCarrier FirstCountableSpaceUp wh
   toEventFlow := firstCountableSpaceToEventFlow
   fromEventFlow := firstCountableSpaceFromEventFlow
 
-instance firstCountableSpaceChapterTasteGate :
-    ChapterTasteGate FirstCountableSpaceUp where
+instance firstCountableSpaceChapterTasteGate : ChapterTasteGate FirstCountableSpaceUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -143,44 +143,25 @@ instance firstCountableSpaceChapterTasteGate :
 instance firstCountableSpaceFieldFaithful : FieldFaithful FirstCountableSpaceUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := firstCountableSpaceFields
-  field_faithful := FirstCountableSpaceTasteGate_single_carrier_alignment_fields_faithful
-
-instance firstCountableSpaceNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial FirstCountableSpaceUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨FirstCountableSpaceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      FirstCountableSpaceUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
+  field_faithful := FirstCountableSpaceTasteGate_single_carrier_alignment_fields
 
 def taste_gate : ChapterTasteGate FirstCountableSpaceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   firstCountableSpaceChapterTasteGate
 
 theorem FirstCountableSpaceTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate FirstCountableSpaceUp) ∧
-      Nonempty (FieldFaithful FirstCountableSpaceUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial FirstCountableSpaceUp) ∧
-          (∀ h : BHist,
-            firstCountableSpaceDecodeBHist (firstCountableSpaceEncodeBHist h) = h) ∧
-            (∀ x : FirstCountableSpaceUp,
-              firstCountableSpaceFromEventFlow (firstCountableSpaceToEventFlow x) = some x) ∧
-              (∀ x y : FirstCountableSpaceUp,
-                firstCountableSpaceToEventFlow x = firstCountableSpaceToEventFlow y → x = y) ∧
-                firstCountableSpaceEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+    (∀ h : BHist, firstCountableSpaceDecodeBHist (firstCountableSpaceEncodeBHist h) = h) ∧
+      (∀ x : FirstCountableSpaceUp,
+        firstCountableSpaceFromEventFlow (firstCountableSpaceToEventFlow x) = some x) ∧
+        (∀ x y : FirstCountableSpaceUp,
+          firstCountableSpaceToEventFlow x = firstCountableSpaceToEventFlow y → x = y) ∧
+          firstCountableSpaceEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
   exact
-    ⟨⟨firstCountableSpaceChapterTasteGate⟩,
-      ⟨firstCountableSpaceFieldFaithful⟩,
-      ⟨firstCountableSpaceNontrivial⟩,
-      FirstCountableSpaceTasteGate_single_carrier_alignment_decode_encode,
+    ⟨FirstCountableSpaceTasteGate_single_carrier_alignment_decode,
       FirstCountableSpaceTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        FirstCountableSpaceTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      (fun _ _ heq => FirstCountableSpaceTasteGate_single_carrier_alignment_toEventFlow_injective
+        heq),
       rfl⟩
 
-end BEDC.Derived.FirstCountableSpaceUp.TasteGate
+end BEDC.Derived.FirstCountableSpaceUp
