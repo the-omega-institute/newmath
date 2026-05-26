@@ -436,6 +436,24 @@ Next apply the real seal factorization package of \autoref{thm:located-cut-real-
 Finally use seal-boundary exactness from \autoref{thm:located-cut-seal-boundary-exactness}. The seal row $S$ is terminal for this displayed route, so no later consumer can replace the route by a quotient cut, selected supremum, host equality, trichotomy, ambient completeness principle, or choice field.
 \end{proof}
 
+\begin{theorem}[LocatedCut bridge boundary package]
+\label{thm:located-cut-bridge-boundary-package}
+For every accepted $\LocatedCutUp$ packet, the bridge boundary to the $\RealUp$ seal factors through exactly the displayed route
+$$
+(D^{-},D^{+}) \longrightarrow W \longrightarrow R \longrightarrow S \longrightarrow H,C,P,N .
+$$
+Here $D^{-}$ and $D^{+}$ are the lower and upper dyadic ledgers, $W$ is the common $\StreamNameUp$ window row, $R$ is the $\RegSeqRatUp$ handoff row, $S$ is the $\RealUp$ seal row, and $H,C,P,N$ are the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\LocatedCutUp}$ rows. The bridge boundary exports no quotient cut, selected supremum, host equality, trichotomy, ambient completeness, or $\mathsf{Classical.choice}$ datum.
+\end{theorem}
+\begin{proof}
+Start with located-window exactness and paired ledger coherence, \autoref{thm:located-cut-located-window-exactness} and \autoref{thm:located-cut-ledger-pair-coherence}. They keep every visible precision attached to a finite lower-upper dyadic pair in the same displayed packet.
+
+Use common-window refinement and window handoff totality. The dyadic pair is read through one $\StreamNameUp$ window row $W$, and that window reaches the $\RegSeqRatUp$ handoff row $R$ without adding a quotient cut or selected supremum.
+
+Apply the regular Cauchy bridge source and Real seal bridge exactness, \autoref{thm:located-cut-regular-cauchy-bridge-source} and \autoref{thm:located-cut-real-seal-bridge-exactness}. These place the bridge source on the route from $(D^{-},D^{+})$ through $W$ and $R$ to the $\RealUp$ seal row $S$.
+
+Finally attach the structural rows $H,C,P,N$. Seal-boundary exactness and the public NameCert export keep those rows on the same finite route, so no quotient cut, selected supremum, host equality, trichotomy, ambient completeness, or classical choice field can be read from the bridge boundary.
+\end{proof}
+
 \closureat{LocatedCutUp}{seedStr}
 \closureat{LocatedCutUp}{obligationStr}
 \closureat{LocatedCutUp}{scopedStr}
@@ -443,8 +461,8 @@ Finally use seal-boundary exactness from \autoref{thm:located-cut-seal-boundary-
 
 \begin{closurestatus}{\LocatedCutUp}
   \constructivestory{A $\LocatedCutUp$ packet is generated from lower and upper dyadic interval ledgers, located $\StreamNameUp$ precision windows, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal-facing row, displayed transport and continuation rows, package provenance, and local naming.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:located-cut-public-namecert-export} binds the scoped package and seal factorization rows as the public $\NameCert_{\LocatedCutUp}$ export for located-real consumers.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:located-cut-public-namecert-export} binds the scoped package and seal factorization rows as the public $\NameCert_{\LocatedCutUp}$ export, and \autoref{thm:located-cut-bridge-boundary-package} binds the bridge boundary through lower and upper dyadic ledgers, StreamName windows, RegSeqRat handoff, Real seal, hsame, Cont, Pkg, and NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
