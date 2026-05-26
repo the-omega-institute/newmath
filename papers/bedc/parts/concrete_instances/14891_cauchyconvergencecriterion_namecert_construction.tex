@@ -275,6 +275,30 @@ Zero-difference and source coverage are supplied by \autoref{thm:cauchy-converge
 Together these theorems account for carrier admission, window coverage, threshold stability, regular handoff, Real-seal nonescape, and ledger exhaustion. Since the carrier has no additional coordinate, the chapter reaches obligation closure exactly over the displayed packet.
 \end{proof}
 
+\begin{theorem}[Cauchy convergence criterion regular-tail window]
+\label{thm:cauchy-convergence-criterion-regular-tail-window}
+For every accepted $\CauchyConvergenceCriterionUp$ carrier $G=(S,M,D,R,E,H,C,P,N)$, the first criterion read opens the regular-tail window only through the displayed $\StreamNameUp$ schedule $S$, $\CauchyModulusUp$ threshold row $M$, $\DyadicRatCoreUp$ tolerance ledger $D$, and $\RegSeqRatUp$ handoff $R$. In particular, every tail-diameter request must expose the dyadic modulus rows $M,D$ before the regular rational row $R$ or the terminal seal row $E$ can be consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. A criterion read has no stream observation outside $S$, no threshold source outside $M$, and no tolerance ledger outside $D$.
+
+Apply \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage}. Each finite window accepted by the classifier has its matching threshold and dyadic tolerance row in the same packet, so the regular-tail request is already inside $S,M,D$ before any handoff is read.
+
+Now use \autoref{thm:cauchy-convergence-criterion-tail-diameter-scope}. Tail-diameter data pass through $S,M,D,R$ before $E$ is available. The structural rows $H,C,P,N$ preserve and name that route, so the first criterion read opens exactly the displayed regular-tail window and dyadic modulus rows.
+\end{proof}
+
+\begin{theorem}[Cauchy convergence criterion Real seal route]
+\label{thm:cauchy-convergence-criterion-real-seal-route}
+For every accepted $\CauchyConvergenceCriterionUp$ carrier $G=(S,M,D,R,E,H,C,P,N)$, the terminal $\RealUp$ seal is available only after the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, and $\NullSequenceUp$ rows used by the criterion have been displayed. The seal read therefore factors through the source schedule, dyadic tolerance ledger, modulus threshold, regular rational handoff, zero-difference comparison route when present, and the structural rows $H,C,P,N$ before it reaches $E$.
+\end{theorem}
+\begin{proof}
+Start with the source and modulus rows. By \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion}, every Real-facing read must pass through $S,M,D,R$ before the seal row $E$ is visible.
+
+The dyadic and regular parts remain displayed. \autoref{thm:cauchy-convergence-criterion-regular-tail-window} forces the first regular-tail read through the $\StreamNameUp$ schedule, $\CauchyModulusUp$ threshold, $\DyadicRatCoreUp$ ledger, and $\RegSeqRatUp$ handoff, so the seal cannot bypass those rows.
+
+For zero-difference comparisons, apply \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization}. The $\NullSequenceUp$ route uses the same $S,M,D,R,E,H,C,P,N$ packet before any $\CauchyLimitSealUp$ boundary consumes the comparison. Finally \autoref{thm:cauchy-convergence-criterion-real-seal-handoff} identifies $E$ as the downstream $\RealUp$ seal, with no detached endpoint or ambient completeness coordinate.
+\end{proof}
+
 \begin{theorem}[Cauchy convergence criterion scope window]
 \label{thm:cauchy-convergence-criterion-scope-window}
 For every accepted $\CauchyConvergenceCriterionUp$ carrier $G=(S,M,D,R,E,H,C,P,N)$, the convergence criterion's window-threshold and tail-diameter reads are scoped by the displayed $\StreamNameUp$ schedule $S$, $\RegSeqRatUp$ handoff $R$, $\DyadicRatCoreUp$ ledger $D$, $\NullSequenceUp$ zero-difference factorization, and $\RealUp$ seal row $E$. A consumer must traverse
