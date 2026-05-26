@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\UniformContinuityCompositionUp$}
+\label{ch:concrete-instances-uniform-continuity-composition-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive uniformly continuous maps, the $\UniformContinuityCompositionUp$ packet records the finite route by which the composite of two uniformly continuous maps receives a displayed modulus. It sits after the continuous-map carrier of \autoref{ch:concrete-instances-continuousmap-namecert}, the uniform-modulus surface of \autoref{ch:concrete-instances-uniformmodulus-namecert}, the metric-space route of \autoref{ch:concrete-instances-metric-namecert}, the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet supplies downstream compact-uniform-continuity and completion-extension certificates with a reusable finite composition certificate; it does not import a host function space, selected moduli, quotient equality of maps, countable choice, or ambient completeness.
+
+\begin{definition}[Uniform continuity composition carrier]
+\label{def:uniform-continuity-composition-carrier}
+A $\UniformContinuityCompositionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,Y,Z,F,G,M_F,M_G,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X,Y,Z$ are the source, middle, and target $\MetricSpaceUp$ rows. They provide the only metric contexts in which the two maps and the composite are read.
+\item $F$ is the first $\ContinuousMapUp$ row, displayed from $X$ to $Y$.
+\item $G$ is the second $\ContinuousMapUp$ row, displayed from $Y$ to $Z$.
+\item $M_F$ is the $\UniformModulusUp$ row for $F$, reading target tolerances in $Y$ and returning source tolerances in $X$.
+\item $M_G$ is the $\UniformModulusUp$ row for $G$, reading target tolerances in $Z$ and returning middle tolerances in $Y$.
+\item $M$ is the composed modulus row. A requested tolerance in $Z$ is first sent to $M_G$, and the resulting tolerance in $Y$ is then sent to $M_F$.
+\item $H$ records componentwise $\hsame$ transport for the metric, map, modulus, composite-modulus, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a composite-map request through $G$, $M_G$, $F$, $M_F$, and the composed modulus row $M$.
+\item $P$ is the $\Pkg$ provenance over $\UniformContinuityCompositionUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\MetricSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformContinuityCompositionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,Y,Z,F,G,M_F,M_G,M,H,C,P,N$. It has no coordinate for host-level function equality, selected moduli, a quotient function space, countable choice, an ambient completion theorem, or hidden real equality.
+\end{definition}
+
+\begin{theorem}[Uniform continuity composition NameCert obligations]
+\label{thm:uniform-continuity-composition-namecert-obligations}
+For every accepted $\UniformContinuityCompositionUp$ carrier
+$$
+K=(X,Y,Z,F,G,M_F,M_G,M,H,C,P,N),
+$$
+the local $\NameCert_{\UniformContinuityCompositionUp}$ surface consists exactly of the following obligation families:
+\begin{enumerate}
+\item metric-context admission for $X,Y,Z$;
+\item continuous-map admission for $F:X\to Y$ and $G:Y\to Z$ through the displayed $\ContinuousMapUp$ rows;
+\item modulus admission for $M_F$ and $M_G$ through the displayed $\UniformModulusUp$ rows;
+\item composed-modulus exactness for $M$, requiring each target tolerance in $Z$ to be routed first through $M_G$ and then through $M_F$;
+\item componentwise transport, displayed replay, provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+Consequently the accepted packet exports the constructive composition law for uniformly continuous maps only as finite BEDC data over the displayed rows. It does not export host-level function equality, selected moduli, quotient function spaces, countable choice, ambient completion, or hidden real equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-continuity-composition-carrier}. The visible rows are exactly the three metric contexts, the two continuous maps, the two input moduli, the composed modulus, and the structural rows $H,C,P,N$.
+
+The map side is read first. The rows $F$ and $G$ are continuous-map packets over the displayed metric contexts $X,Y,Z$, so a composite request has no map coordinate except the ordered route $X \xrightarrow{F} Y \xrightarrow{G} Z$.
+
+The modulus side is downstream from the requested target tolerance. The row $M_G$ converts a $Z$-tolerance into a $Y$-tolerance, and $M_F$ converts that $Y$-tolerance into an $X$-tolerance. The row $M$ records exactly this two-stage route.
+
+Finally, $H,C,P,N$ preserve componentwise comparison, replay the displayed request route, record provenance, and name the local certificate. Since the excluded analytic objects are not coordinates of $K$, the five listed obligation families exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Uniform continuity composition modulus factorization]
+\label{thm:uniform-continuity-composition-modulus-factorization}
+Every composed-modulus read accepted by a $\UniformContinuityCompositionUp$ carrier factors through the displayed route
+$$
+\MetricSpaceUp(X,Y,Z),\quad
+\ContinuousMapUp(F),\quad
+\UniformModulusUp(M_F),\quad
+\ContinuousMapUp(G),\quad
+\UniformModulusUp(M_G),\quad
+\StreamNameUp,\quad
+\RegSeqRatUp,\quad
+\RealUp .
+$$
+Equivalently, a consumer that asks for a modulus of $G\circ F$ must first read the target tolerance through the $G$-modulus, then read the resulting middle tolerance through the $F$-modulus, and only then may expose the composite row $M$ through $H,C,P,N$. No separate host composition theorem, selected modulus, quotient map equality, countable-choice selector, or ambient completeness coordinate is exported by the packet.
+\end{theorem}
+\begin{proof}
+Begin with a consumer request for a modulus of the composite. Carrier admission supplies the metric contexts $X,Y,Z$ and the two displayed map rows $F,G$, so the request is already confined to the finite route through the two continuous-map packets.
+
+Read the second modulus before the first. A target tolerance for the composite is a $Z$-side request, so $M_G$ is the first modulus row that can answer it. The answer is a displayed $Y$-side tolerance, not a selected global modulus or a host theorem.
+
+Now read $M_F$. The $Y$-side tolerance returned by $M_G$ becomes the input request for the first map, and $M_F$ returns the source tolerance in $X$. The composite row $M$ is exact because it stores no further tolerance coordinate beyond this two-step read.
+
+The stream, regular-rational, and real rows appear only as observation and seal rows for the same finite route. The structural rows $H,C,P,N$ transport, replay, source, and name that route, so there is no insertion point for quotient map equality, a choice-selected modulus, or an ambient completeness principle.
+\end{proof}
+
+\closureat{UniformContinuityCompositionUp}{seedStr}
+
+\begin{closurestatus}{\UniformContinuityCompositionUp}
+  \constructivestory{A $\UniformContinuityCompositionUp$ packet is generated from source, middle, and target MetricSpace rows, two ContinuousMap rows, two UniformModulus rows, a composed modulus row, StreamName and RegSeqRat observation rows, a RealUp seal boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-continuity-composition-carrier}, \autoref{thm:uniform-continuity-composition-namecert-obligations}, and \autoref{thm:uniform-continuity-composition-modulus-factorization} seed the finite constructive composition route over ContinuousMap, UniformModulus, MetricSpace, StreamName, RegSeqRat, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, host-level function equality, selected moduli, quotient function spaces, countable choice, ambient completion, or hidden real equality.}
+  \upgradepath{Obligation closure requires checked metric-context admission, continuous-map admission, modulus admission, composed-modulus exactness, observation routing, RealUp seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.UniformContinuityCompositionUp.}
+\end{closurestatus}
