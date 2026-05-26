@@ -360,4 +360,72 @@ theorem RegularCauchyFilterCarrier_basis_witness_admission [AskSetup] [PackageSe
   }
   exact ⟨cert, basisUnary, baseTail, tailDyadic, dyadicMeet, basisPkg⟩
 
+theorem RegularCauchyFilterCarrier_tail_basis_exhaustion [AskSetup] [PackageSetup]
+    {B T D M basisRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory B ->
+      UnaryHistory T ->
+        UnaryHistory D ->
+          UnaryHistory M ->
+            Cont B T (append B T) ->
+              Cont T D (append T D) ->
+                Cont (append T D) M basisRead ->
+                  PkgSig bundle basisRead pkg ->
+                    UnaryHistory (append B T) ∧ UnaryHistory (append T D) ∧
+                      UnaryHistory basisRead ∧ Cont B T (append B T) ∧
+                        Cont T D (append T D) ∧ Cont (append T D) M basisRead ∧
+                          PkgSig bundle basisRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro bUnary tUnary dUnary mUnary baseTail tailDyadic dyadicMeet basisPkg
+  have baseTailUnary : UnaryHistory (append B T) :=
+    unary_cont_closed bUnary tUnary baseTail
+  have tailDyadicUnary : UnaryHistory (append T D) :=
+    unary_cont_closed tUnary dUnary tailDyadic
+  have basisUnary : UnaryHistory basisRead :=
+    unary_cont_closed tailDyadicUnary mUnary dyadicMeet
+  exact
+    ⟨baseTailUnary, tailDyadicUnary, basisUnary, baseTail, tailDyadic, dyadicMeet,
+      basisPkg⟩
+
+theorem RegularCauchyFilterCarrier_directed_tail_closure [AskSetup] [PackageSetup]
+    (B R T D M E H C P N : BHist) :
+    regularCauchyFilterFromEventFlow
+          (regularCauchyFilterToEventFlow (RegularCauchyFilterUp.mk B R T D M E H C P N)) =
+        some (RegularCauchyFilterUp.mk B R T D M E H C P N) ∧
+      Cont T D (append T D) ∧
+      Cont D M (append D M) ∧
+      Cont M R (append M R) ∧
+      Cont R E (append R E) ∧
+      hsame H H ∧
+      hsame C C ∧
+      hsame P P ∧
+      hsame N N := by
+  -- BEDC touchpoint anchor: BHist BMark hsame Cont
+  have hdecode :
+      ∀ h : BHist, regularCauchyFilterDecodeBHist (regularCauchyFilterEncodeBHist h) = h := by
+    intro h
+    induction h with
+    | Empty => rfl
+    | e0 h ih => exact congrArg BHist.e0 ih
+    | e1 h ih => exact congrArg BHist.e1 ih
+  constructor
+  · rw [regularCauchyFilterToEventFlow, regularCauchyFilterFromEventFlow,
+      hdecode B, hdecode R, hdecode T, hdecode D, hdecode M, hdecode E,
+      hdecode H, hdecode C, hdecode P, hdecode N]
+  · constructor
+    · rfl
+    · constructor
+      · rfl
+      · constructor
+        · rfl
+        · constructor
+          · rfl
+          · constructor
+            · rfl
+            · constructor
+              · rfl
+              · constructor
+                · rfl
+                · rfl
+
 end BEDC.Derived.RegularCauchyFilterUp
