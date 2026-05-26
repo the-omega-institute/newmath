@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICConfluenceResidualCheckerUp$}
+\label{ch:concrete-instances-metacic-confluence-residual-checker-namecert}
+\origin{ai}
+
+The $\MetaCICConfluenceResidualCheckerUp$ packet realizes the substitution-sensitive confluence frontier of \autoref{ch:metacic-confluence-audit-map} as finite checker data. It sits beside the substitution-boundary packet of \autoref{ch:concrete-instances-metacic-confluence-substitution-boundary-namecert}, the bounded residual frontier of \autoref{ch:concrete-instances-bounded-residual-substitution-frontier-namecert}, the critical-pair boundary of \autoref{ch:concrete-instances-metacic-confluence-critical-pair-boundary-namecert}, and the local diamond witness of \autoref{ch:concrete-instances-metacic-local-diamond-witness-namecert}. The packet records which typed windows, redex frontiers, local joins, obstruction rows, and replay routes have actually been checked before a confluence consumer may cite the conditional handoff.
+
+\falsifiablePrediction{A MetaCIC confluence read that treats a residual-substitution peak as checked while omitting the finite typed-window, redex-frontier, bounded-checker, local-join, obstruction, transport, replay, provenance, and local NameCert rows refutes $\MetaCICConfluenceResidualCheckerUp$.}
+
+\independenceWitness{metacic-confluence-substitution-boundary, bounded-residual-substitution-frontier, metacic-confluence-critical-pair-boundary, metacic-local-diamond-witness: none is bijective to $\MetaCICConfluenceResidualCheckerUp$ because the checker packet jointly carries typed windows, redex frontiers, bounded checker outcomes, local joins, obstruction retention, transport, replay, provenance, and local naming as one finite confluence frontier.}
+
+\begin{definition}[MetaCIC confluence residual-checker carrier]
+\label{def:metacic-confluence-residual-checker-carrier}
+A $\MetaCICConfluenceResidualCheckerUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(T,R,B,J,O,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed-window row containing the source term, the two parallel reducts, the residual substitution window, and the candidate common reduct.
+\item $R$ is the redex-frontier row, listing the inspected beta positions, binder depths, residual descendants, and free-variable exposure checks.
+\item $B$ is the bounded-checker row, recording the finite closedness, substitution-support, variable-escape, and branch-compatibility checks.
+\item $J$ is the local-join row, storing the finite replay path to the candidate common reduct when the checker accepts.
+\item $O$ is the obstruction row, naming the still-visible endpoints: unrestricted substitution compatibility, premise-free closed parallel diamond, arbitrary closed Church--Rosser, subject-reduction discharge, evaluator equality, and kernel consistency.
+\item $S$ is the checker-status row, recording whether the inspected residual window is accepted, rejected, or left at the named obstruction boundary.
+\item $H$ records componentwise $\hsame$ transport for typed windows, redex frontiers, bounded checks, local joins, obstruction rows, checker status, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a confluence-frontier query through $T,R,B,J,O,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICConfluenceResidualCheckerUp$, $\MetaCICConfluenceSubstitutionBoundaryUp$, $\BoundedResidualSubstitutionFrontierUp$, $\MetaCICConfluenceCriticalPairBoundaryUp$, $\MetaCICLocalDiamondWitnessUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICConfluenceResidualCheckerUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It contains no coordinate for full confluence, unrestricted residual-substitution compatibility, hidden conversion, evaluator equality, subject reduction, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC confluence residual-checker obligations]
+\label{thm:metacic-confluence-residual-checker-obligations}
+For every accepted $\MetaCICConfluenceResidualCheckerUp$ carrier $Q=(T,R,B,J,O,S,H,C,P,N)$, the local $\NameCert_{\MetaCICConfluenceResidualCheckerUp}$ surface consists exactly of typed-window exposure through $T$, redex-frontier exposure through $R$, bounded checking through $B$, local-join exposure through $J$, obstruction retention through $O$, checker-status exposure through $S$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-confluence-residual-checker-carrier}. The rows $T,R,B,J,O,S$ are the checker-facing data, and the rows $H,C,P,N$ are the structural certificate data.
+
+The checker begins at $T$ and $R$. These rows display the finite typed peak, the residual substitution window, the inspected redex positions, binder-depth ledger, and free-variable exposure checks.
+
+The row $B$ records the bounded decision surface, while $J$ records only the local candidate join made available by that bounded surface. The checker-status row $S$ separates accepted windows, rejected windows, and windows that remain at the named substitution obstruction.
+
+The obstruction row $O$ prevents the bounded read from being cited as global confluence. Transport, replay, provenance, and local naming preserve the same finite packet, and no hidden conversion, evaluator equality, subject reduction, or kernel-consistency coordinate is present.
+\end{proof}
+
+\begin{theorem}[MetaCIC confluence residual-checker handoff]
+\label{thm:metacic-confluence-residual-checker-handoff}
+Every confluence-audit consumer of an accepted $\MetaCICConfluenceResidualCheckerUp$ carrier factors through the finite route
+$$
+T,R,B \longmapsto J,S,O \longmapsto H,C,P,N .
+$$
+The route may hand off a checked residual window to the substitution-boundary, bounded-frontier, critical-pair, and local-diamond packets named above, but it does not supply unrestricted substitution compatibility, a premise-free closed parallel diamond, arbitrary closed Church--Rosser, subject-reduction discharge, evaluator equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+First read the finite window. The rows $T$ and $R$ expose the typed peak, residual substitution window, redex frontier, binder-depth ledger, and free-variable checks.
+
+Next apply the bounded checker row $B$. If the finite checks accept, the local join row $J$ and checker-status row $S$ expose the handoff; if they reject or stop at the boundary, $S$ and $O$ keep the obstruction visible.
+
+Finally route the handoff through $H,C,P,N$. These rows transport, replay, source, and name the same finite packet, and the provenance row points only to the substitution-boundary, bounded-frontier, critical-pair, and local-diamond packets.
+
+The carrier therefore has no path to a global confluence theorem or hidden substitution theorem. Lean follow-up requires $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for \texttt{BEDC.Derived.MetaCICConfluenceResidualCheckerUp} at exactly this displayed carrier surface.
+\end{proof}
+
+\closureat{MetaCICConfluenceResidualCheckerUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICConfluenceResidualCheckerUp}
+  \constructivestory{A $\MetaCICConfluenceResidualCheckerUp$ packet is generated from typed-window rows, redex-frontier rows, bounded-checker rows, local joins, checker-status rows, obstruction rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-confluence-residual-checker-carrier}, \autoref{thm:metacic-confluence-residual-checker-obligations}, and \autoref{thm:metacic-confluence-residual-checker-handoff} seed the finite residual-substitution checker packet for MetaCIC confluence consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted substitution compatibility, premise-free closed parallel diamond, arbitrary closed Church--Rosser, subject-reduction discharge, evaluator equality, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, typed-window exposure, redex-frontier coverage, bounded-checker exactness, local-join exposure, checker-status determinacy, obstruction retention, transport stability, replay stability, provenance exhaustion, and Nontrivial and FieldFaithful TasteGate instances for BEDC.Derived.MetaCICConfluenceResidualCheckerUp.}
+\end{closurestatus}
