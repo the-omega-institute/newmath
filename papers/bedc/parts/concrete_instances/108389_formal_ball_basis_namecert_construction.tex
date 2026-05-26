@@ -60,6 +60,20 @@ The provenance row names $\MetricCompletionUp$ only as a downstream consumer of 
 Transport and replay through $H$ and $C$ preserve the route, while $P$ and $N$ only source and name it. The excluded compactness, quotient-ball, selected-centre, selected-limit, and ambient-completeness objects are absent from the carrier.
 \end{proof}
 
+\begin{theorem}[Formal-ball basis Cauchy-filter refinement]
+\label{thm:formal-ball-basis-cauchy-filter-refinement}
+Every $\CauchyFilterUp$ or $\CauchyFilterCompletionUp$ consumer of an accepted $\FormalBallBasisUp$ packet must read the metric row $X,d$, the centre schedule $c$, the dyadic and real radius ledger $r$, the incidence row $I$, and the refinement row $R$ before completion-facing data is available. The consumer route factors through $\FormalBallUp$ and $\MetricCompletionUp$ using only $H,C,P,N$ for transport, replay, provenance, and local naming, and it receives no quotient filter, selected limit, countable-choice schedule, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $B=(X,d,c,r,I,R,H,C,P,N)$ of \autoref{def:formal-ball-basis-carrier}. The NameCert obligations of \autoref{thm:formal-ball-basis-namecert-obligations} expose the metric row, centre schedule, radius ledger, incidence row, and finite refinement row as the whole basis surface.
+
+The Cauchy-filter consumer therefore starts from the same displayed ball data as the metric-completion consumer. The formal-ball incidence row $I$ names the inspected balls, and the refinement row $R$ supplies the finite containment and radius-shrink reads before any completion-facing handoff can be consumed.
+
+Now route through the existing handoff of \autoref{thm:formal-ball-basis-metric-completion-handoff}. The rows $H,C,P,N$ preserve and name the route from metric data through $\FormalBallUp$ into $\MetricCompletionUp$, so a $\CauchyFilterUp$ or $\CauchyFilterCompletionUp$ reader receives the finite formal-ball refinement corridor rather than a quotient filter or a chosen limit.
+
+Since the carrier has no coordinate for quotient filters, selected Cauchy limits, countable choice, or ambient completeness, those objects cannot be exported by the refinement read.
+\end{proof}
+
 \falsifiablePrediction{If a completion-facing read uses a formal-ball basis without displaying the metric row, centre schedule, dyadic or real radius ledger, incidence row, and refinement row, it is not a $\FormalBallBasisUp$ packet.}
 
 \independenceWitness{Nearest siblings: formalball, metriccompletion, bishopregularcauchycompletion, cauchyfiltercompletioncriterion, dyadicratcore; FormalBallBasisUp is not bijective to them because it binds a finite centre-radius basis and refinement row between metric balls and completion consumers.}
