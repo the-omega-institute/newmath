@@ -75,6 +75,7 @@ The classifier has no generator for comparing arbitrary beta-conversion
 classes, no generator for choosing a fuel that finishes all closed terms, and
 no generator for replacing structural \texttt{Term.eq} by host equality.
 \end{definition}
+\leandef{BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerClassifier}
 
 \begin{definition}[BoundedNormalEqualityChecker route preorder]
 \label{def:bounded-normal-equality-checker-route-preorder}
@@ -82,6 +83,7 @@ For accepted $\BoundedNormalEqualityCheckerUp$ checker packets, the route preord
 
 The preorder has no carrier-level equivalence generator beyond those concrete rows: it compares bounded normal-equality checker data only through the false-proof exclusion, fuel, classifier, confluence-normal fragment, transport, replay, provenance, and local naming rows already present in accepted packets.
 \end{definition}
+\leandef{BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerRoutePreorder}
 
 \begin{theorem}[BoundedNormalEqualityChecker NameCert obligations]
 \label{thm:bounded-normal-equality-checker-namecert-obligations}
@@ -195,6 +197,7 @@ Q^+=(L,R,F^+,N^+_L,N^+_R,E^+,W^+,C^+,H^+,K^+,P^+,A^+)
 $$
 be accepted $\BoundedNormalEqualityCheckerUp$ packets whose displayed inputs are the same and whose second fuel row $F^+$ extends the displayed unary fuel row $F$. Increasing the displayed fuel may extend the bounded normalizer output route only through the same input rows, structural equality readback row, finished witness rows, closedness rows, componentwise transports, displayed replay, provenance, and local naming rows. It does not create a fuel-erased normalizer, a global termination theorem, an arbitrary beta-conversion decider, or a host equality oracle.
 \end{theorem}
+\leanchecked{BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier\_fuel\_monotonicity}
 \begin{proof}
 Project both packets through \autoref{def:bounded-normal-equality-checker-carrier}. The only rows that differ are the displayed fuel, bounded output, equality readback, finished witness, closedness, transport, replay, provenance, and local naming rows; the input rows remain $L$ and $R$.
 

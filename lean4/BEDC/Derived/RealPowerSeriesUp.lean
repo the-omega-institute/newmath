@@ -104,6 +104,31 @@ theorem RealPowerSeriesCarrier_majorant_regseqrat_budget [AskSetup] [PackageSetu
       coefficientWindow, radiusMajorant, budgetRoute, endpointRoute, pkgSig, budgetPkg,
       endpointPkg⟩
 
+theorem RealPowerSeriesCarrier_regseqrat_endpoint_handoff [AskSetup] [PackageSetup]
+    {A Z X R W S M E H C P N regBudget endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ->
+      Cont S M regBudget ->
+        Cont regBudget E endpointRead ->
+          PkgSig bundle endpointRead pkg ->
+            UnaryHistory A ∧ UnaryHistory R ∧ UnaryHistory W ∧ UnaryHistory S ∧
+              UnaryHistory M ∧ UnaryHistory E ∧ UnaryHistory regBudget ∧
+                UnaryHistory endpointRead ∧ Cont A W S ∧ Cont R S M ∧
+                  Cont S M regBudget ∧ Cont regBudget E endpointRead ∧
+                    PkgSig bundle P pkg ∧ PkgSig bundle endpointRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier budgetRoute endpointRoute endpointPkg
+  obtain ⟨AUnary, _ZUnary, _XUnary, RUnary, WUnary, SUnary, MUnary, EUnary,
+    _HUnary, _CUnary, _PUnary, _NUnary, coefficientWindow, radiusMajorant,
+    _majorantEndpoint, pkgSig⟩ := carrier
+  have budgetUnary : UnaryHistory regBudget :=
+    unary_cont_closed SUnary MUnary budgetRoute
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed budgetUnary EUnary endpointRoute
+  exact
+    ⟨AUnary, RUnary, WUnary, SUnary, MUnary, EUnary, budgetUnary, endpointUnary,
+      coefficientWindow, radiusMajorant, budgetRoute, endpointRoute, pkgSig, endpointPkg⟩
+
 theorem RealPowerSeriesCarrier_partial_sum_majorant_readback [AskSetup] [PackageSetup]
     {A Z X R W S M E H C P N readback : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -281,6 +306,91 @@ theorem RealPowerSeriesCarrier_cauchy_product_radius_budget [AskSetup] [PackageS
     ⟨WUnary, SUnary, productWindowUnary, productMajorantUnary, productEndpointUnary,
       coefficientWindow, productRoute, majorantRoute, endpointRoute, pkgSig, endpointPkg⟩
 
+theorem RealPowerSeriesCarrier_stream_window_convergence_route [AskSetup] [PackageSetup]
+    {A Z X R W S M E H C P N convergenceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ->
+      Cont W S convergenceRead ->
+        PkgSig bundle convergenceRead pkg ->
+          UnaryHistory W ∧ UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory E ∧
+            UnaryHistory convergenceRead ∧ Cont A W S ∧ Cont W S convergenceRead ∧
+              Cont R S M ∧ Cont M E C ∧ PkgSig bundle P pkg ∧
+                PkgSig bundle convergenceRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier convergenceRoute convergencePkg
+  obtain ⟨_AUnary, _ZUnary, _XUnary, _RUnary, WUnary, SUnary, MUnary, EUnary,
+    _HUnary, _CUnary, _PUnary, _NUnary, coefficientWindow, radiusMajorant,
+    majorantEndpoint, pkgSig⟩ := carrier
+  have convergenceUnary : UnaryHistory convergenceRead :=
+    unary_cont_closed WUnary SUnary convergenceRoute
+  exact
+    ⟨WUnary, SUnary, MUnary, EUnary, convergenceUnary, coefficientWindow,
+      convergenceRoute, radiusMajorant, majorantEndpoint, pkgSig, convergencePkg⟩
+theorem RealPowerSeriesCarrier_product_endpoint_nonescape [AskSetup] [PackageSetup]
+    {A Z X R W S M E H C P N productRead endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ->
+      Cont S M productRead ->
+        Cont productRead E endpointRead ->
+          PkgSig bundle endpointRead pkg ->
+            SemanticNameCert
+                (fun row : BHist =>
+                  RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ∧
+                    hsame row endpointRead)
+                (fun row : BHist =>
+                  hsame row A ∨ hsame row W ∨ hsame row S ∨ hsame row M ∨
+                    hsame row E ∨ hsame row productRead ∨ hsame row endpointRead)
+                (fun row : BHist => UnaryHistory row ∧ PkgSig bundle endpointRead pkg)
+                hsame ∧
+              UnaryHistory productRead ∧ UnaryHistory endpointRead ∧ Cont S M productRead ∧
+                Cont productRead E endpointRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier productRoute endpointRoute endpointPkg
+  have carrierPacket : RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg :=
+    carrier
+  obtain ⟨AUnary, _ZUnary, _XUnary, _RUnary, WUnary, SUnary, MUnary, EUnary,
+    _HUnary, _CUnary, _PUnary, _NUnary, _coefficientWindow, _radiusMajorant,
+    _majorantEndpoint, _pkgSig⟩ := carrier
+  have productUnary : UnaryHistory productRead :=
+    unary_cont_closed SUnary MUnary productRoute
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed productUnary EUnary endpointRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ∧
+              hsame row endpointRead)
+          (fun row : BHist =>
+            hsame row A ∨ hsame row W ∨ hsame row S ∨ hsame row M ∨
+              hsame row E ∨ hsame row productRead ∨ hsame row endpointRead)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle endpointRead pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro endpointRead
+          ⟨carrierPacket, hsame_refl endpointRead⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact ⟨sourceRow.left, hsame_trans (hsame_symm sameRows) sourceRow.right⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.right)))))
+      ledger_sound := by
+        intro row sourceRow
+        exact ⟨unary_transport endpointUnary (hsame_symm sourceRow.right), endpointPkg⟩
+    }
+  exact ⟨cert, productUnary, endpointUnary, productRoute, endpointRoute⟩
+
 theorem RealPowerSeriesObligationScope [AskSetup] [PackageSetup]
     {A Z X R W S M E H C P N radiusRead endpointRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -343,5 +453,33 @@ theorem RealPowerSeriesObligationScope [AskSetup] [PackageSetup]
   exact
     ⟨cert, radiusReadUnary, endpointUnary, coefficientWindow, radiusMajorant,
       endpointRoute, pkgSig, endpointPkg⟩
+
+theorem RealPowerSeriesCarrier_radius_subwindow_monotonicity [AskSetup] [PackageSetup]
+    {A Z X R W S M E H C P N subwindow narrowedMajorant narrowedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ->
+      hsame subwindow R ->
+        Cont subwindow S narrowedMajorant ->
+          Cont narrowedMajorant E narrowedEndpoint ->
+            PkgSig bundle narrowedEndpoint pkg ->
+              UnaryHistory subwindow ∧ UnaryHistory narrowedMajorant ∧
+                UnaryHistory narrowedEndpoint ∧ Cont A W S ∧
+                  Cont subwindow S narrowedMajorant ∧
+                    Cont narrowedMajorant E narrowedEndpoint ∧ PkgSig bundle P pkg ∧
+                      PkgSig bundle narrowedEndpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier subwindowSame majorantRoute endpointRoute endpointPkg
+  obtain ⟨_AUnary, _ZUnary, _XUnary, RUnary, _WUnary, SUnary, _MUnary, EUnary,
+    _HUnary, _CUnary, _PUnary, _NUnary, coefficientWindow, _radiusMajorant,
+    _majorantEndpoint, pkgSig⟩ := carrier
+  have subwindowUnary : UnaryHistory subwindow :=
+    unary_transport RUnary (hsame_symm subwindowSame)
+  have narrowedMajorantUnary : UnaryHistory narrowedMajorant :=
+    unary_cont_closed subwindowUnary SUnary majorantRoute
+  have narrowedEndpointUnary : UnaryHistory narrowedEndpoint :=
+    unary_cont_closed narrowedMajorantUnary EUnary endpointRoute
+  exact
+    ⟨subwindowUnary, narrowedMajorantUnary, narrowedEndpointUnary, coefficientWindow,
+      majorantRoute, endpointRoute, pkgSig, endpointPkg⟩
 
 end BEDC.Derived.RealPowerSeriesUp

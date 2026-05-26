@@ -109,6 +109,37 @@ theorem BinaryExpansionPacket_real_readback_boundary [AskSetup] [PackageSetup]
       realReadUnary, windowsDigitsApproximation, approximationRegularRealSeal,
       regularRealSealRead, provenancePkg, realReadPkg⟩
 
+theorem BinaryExpansionPacket_real_seal_prefix_coherence [AskSetup] [PackageSetup]
+    {digits windows approximation regular realSeal transport route provenance nameCert
+      prefixRead regularRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinaryExpansionPacket digits windows approximation regular realSeal transport route provenance
+        nameCert bundle pkg →
+      Cont windows digits prefixRead →
+        Cont prefixRead regular regularRead →
+          Cont regularRead realSeal sealRead →
+            PkgSig bundle sealRead pkg →
+              UnaryHistory windows ∧ UnaryHistory digits ∧ UnaryHistory prefixRead ∧
+                UnaryHistory regularRead ∧ UnaryHistory realSeal ∧ UnaryHistory sealRead ∧
+                  Cont windows digits prefixRead ∧ Cont prefixRead regular regularRead ∧
+                    Cont regularRead realSeal sealRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet windowsDigitsPrefix prefixRegularRead regularReadSeal sealReadPkg
+  obtain ⟨digitsUnary, windowsUnary, _approximationUnary, regularUnary, realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary, _windowsDigitsApproximation,
+    _approximationRegularRealSeal, _transportRouteProvenance, provenancePkg⟩ := packet
+  have prefixReadUnary : UnaryHistory prefixRead :=
+    unary_cont_closed windowsUnary digitsUnary windowsDigitsPrefix
+  have regularReadUnary : UnaryHistory regularRead :=
+    unary_cont_closed prefixReadUnary regularUnary prefixRegularRead
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularReadUnary realSealUnary regularReadSeal
+  exact
+    ⟨windowsUnary, digitsUnary, prefixReadUnary, regularReadUnary, realSealUnary,
+      sealReadUnary, windowsDigitsPrefix, prefixRegularRead, regularReadSeal, provenancePkg,
+      sealReadPkg⟩
+
 theorem BinaryExpansionPacket_dyadic_ledger_exhaustion [AskSetup] [PackageSetup]
     {digits windows approximation regular realSeal transport route provenance nameCert
       dyadicRead : BHist}
@@ -323,5 +354,63 @@ theorem BinaryExpansionPacket_dyadic_window_public_readiness [AskSetup] [Package
       exact ⟨provenancePkg, publicPkg⟩
   }
   exact ⟨cert, windowReadUnary, dyadicWindowUnary, publicReadUnary⟩
+
+theorem BinaryExpansionPacket_prefix_refinement_real_seal_determinacy [AskSetup]
+    [PackageSetup]
+    {digits windows approximation regular realSeal transport route provenance nameCert digits'
+      windows' approximation' regular' realSeal' commonWindow transportedDigits
+      transportedApproximation leftSealRead rightSealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinaryExpansionPacket digits windows approximation regular realSeal transport route provenance
+        nameCert bundle pkg →
+      BinaryExpansionPacket digits' windows' approximation' regular' realSeal' transport route
+        provenance nameCert bundle pkg →
+        hsame commonWindow windows →
+          hsame commonWindow windows' →
+            hsame transportedDigits digits →
+              hsame transportedDigits digits' →
+                Cont commonWindow transportedDigits transportedApproximation →
+                  Cont transportedApproximation regular leftSealRead →
+                    Cont transportedApproximation regular' rightSealRead →
+                      PkgSig bundle leftSealRead pkg →
+                        PkgSig bundle rightSealRead pkg →
+                          hsame approximation transportedApproximation ∧
+                            hsame approximation' transportedApproximation ∧
+                              UnaryHistory leftSealRead ∧ UnaryHistory rightSealRead ∧
+                                Cont transportedApproximation regular leftSealRead ∧
+                                  Cont transportedApproximation regular' rightSealRead ∧
+                                    PkgSig bundle leftSealRead pkg ∧
+                                      PkgSig bundle rightSealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  intro packet packet' sameCommonWindow sameCommonWindow' sameTransportedDigits
+    sameTransportedDigits' commonTransportedApprox leftSealRoute rightSealRoute leftSealPkg
+    rightSealPkg
+  obtain ⟨_digitsUnary, _windowsUnary, approximationUnary, regularUnary, _realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary, windowsDigitsApproximation,
+    _approximationRegularRealSeal, _transportRouteProvenance, _provenancePkg⟩ := packet
+  obtain ⟨_digitsUnary', _windowsUnary', approximationUnary', regularUnary', _realSealUnary',
+    _transportUnary', _routeUnary', _provenanceUnary', _nameCertUnary',
+    windowsDigitsApproximation', _approximationRegularRealSeal',
+    _transportRouteProvenance', _provenancePkg'⟩ := packet'
+  have sameWindows : hsame windows commonWindow := hsame_symm sameCommonWindow
+  have sameDigits : hsame digits transportedDigits := hsame_symm sameTransportedDigits
+  have sameWindows' : hsame windows' commonWindow := hsame_symm sameCommonWindow'
+  have sameDigits' : hsame digits' transportedDigits := hsame_symm sameTransportedDigits'
+  have sameApproximation : hsame approximation transportedApproximation :=
+    cont_respects_hsame sameWindows sameDigits windowsDigitsApproximation commonTransportedApprox
+  have sameApproximation' : hsame approximation' transportedApproximation :=
+    cont_respects_hsame sameWindows' sameDigits' windowsDigitsApproximation'
+      commonTransportedApprox
+  have transportedApproximationUnary : UnaryHistory transportedApproximation :=
+    unary_transport approximationUnary sameApproximation
+  have transportedApproximationUnary' : UnaryHistory transportedApproximation :=
+    unary_transport approximationUnary' sameApproximation'
+  have leftSealUnary : UnaryHistory leftSealRead :=
+    unary_cont_closed transportedApproximationUnary regularUnary leftSealRoute
+  have rightSealUnary : UnaryHistory rightSealRead :=
+    unary_cont_closed transportedApproximationUnary' regularUnary' rightSealRoute
+  exact
+    ⟨sameApproximation, sameApproximation', leftSealUnary, rightSealUnary, leftSealRoute,
+      rightSealRoute, leftSealPkg, rightSealPkg⟩
 
 end BEDC.Derived.BinaryExpansionUp
