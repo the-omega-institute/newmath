@@ -237,4 +237,37 @@ theorem MetaCICClosureTraceCarrier_obligation_closure_package
       betaReadRoute, routeReadRoute, closedSubstRoute, closedRouteRoute, pkgSig,
       routeReadPkg, closedRoutePkg⟩
 
+theorem MetaCICClosureTraceCarrier_candidate_frontier
+    [AskSetup] [PackageSetup] {S U V B R G K H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ->
+      exists generatorRead : BHist, exists betaRead : BHist, exists frontierRead : BHist,
+        UnaryHistory generatorRead ∧ UnaryHistory betaRead ∧ UnaryHistory frontierRead ∧
+          hsame generatorRead (append (append S U) G) ∧
+            hsame betaRead (append B R) ∧
+              hsame frontierRead (append (append generatorRead betaRead) K) ∧
+                Cont S U V ∧ Cont V G K ∧ Cont B R C ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg UnaryHistory
+  intro carrier
+  obtain ⟨SUnary, UUnary, _VUnary, BUnary, RUnary, GUnary, KUnary, _HUnary,
+    _CUnary, _PUnary, _NUnary, shiftSubstitution, generatorPackage, betaRoute, pkgSig⟩ :=
+      carrier
+  let generatorRead := append (append S U) G
+  let betaRead := append B R
+  let frontierRead := append (append generatorRead betaRead) K
+  have SUUnary : UnaryHistory (append S U) :=
+    unary_append_closed SUnary UUnary
+  have generatorUnary : UnaryHistory generatorRead :=
+    unary_append_closed SUUnary GUnary
+  have betaUnary : UnaryHistory betaRead :=
+    unary_append_closed BUnary RUnary
+  have generatorBetaUnary : UnaryHistory (append generatorRead betaRead) :=
+    unary_append_closed generatorUnary betaUnary
+  have frontierUnary : UnaryHistory frontierRead :=
+    unary_append_closed generatorBetaUnary KUnary
+  exact
+    ⟨generatorRead, betaRead, frontierRead, generatorUnary, betaUnary, frontierUnary,
+      hsame_refl generatorRead, hsame_refl betaRead, hsame_refl frontierRead,
+      shiftSubstitution, generatorPackage, betaRoute, pkgSig⟩
+
 end BEDC.Derived.MetaCICClosureTraceUp
