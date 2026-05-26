@@ -697,6 +697,20 @@ Use the interval-net obligation and the root obligation package. Together they b
 Finally read the Real seal $E$. Since $E$ is downstream of $Q$ in the displayed route, the seal is regular by the carried readback rows and not by a host completeness or selection principle.
 \end{proof}
 
+\begin{theorem}[Bolzano--Weierstrass closed-interval cluster export]
+\label{thm:bolzano-weierstrass-closed-interval-cluster-export}
+An accepted $\BolzanoWeierstrassUp$ packet exports a closed-interval cluster candidate only through the bounded-sequence admission row $S$, the closed interval net row $K$, the regular subsequence extraction row $R$, the $\RegSeqRatUp$ readback row $Q$, and the terminal $\RealUp$ seal $E$, with $H,C,P,N$ transporting, replaying, sourcing, and naming the same route. The export refuses arbitrary subsequence choice, open-cover compactness, quotient stream equality, selected least cluster points, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with bounded-source factorization and bounded-sequence admission. These rows fix $S$ as the only source of sequence data and force every cluster-facing read to pass through the displayed bounded source.
+
+Next apply finite interval-tree induction and retained-cell monotonicity. The closed interval net row $K$ supplies the retained cells and their finite refinement route, so the packet cannot switch to an open-cover compactness proof or a detached interval net.
+
+Use cofinal-window extraction and the regular cluster seal. The extraction row $R$ reads retained windows through $K$, the readback row $Q$ records the corresponding $\RegSeqRatUp$ data, and the seal row $E$ exports only that regular readback as $\RealUp$ cluster evidence.
+
+Finally apply cluster-seal nonescape. The structural rows $H,C,P,N$ preserve and name the same packet, and no carrier row remains from which arbitrary subsequence choice, quotient equality, least-cluster selection, or ambient completeness could be projected.
+\end{proof}
+
 \begin{theorem}[Bolzano--Weierstrass cluster-seal nonescape]
 \label{thm:bolzano-weierstrass-cluster-seal-nonescape}
 For every accepted $\BolzanoWeierstrassUp$ packet $B=(S,K,R,Q,E,H,C,P,N)$ carrying the bounded-sequence admission and regular cluster-seal rows, any cluster-facing consumer remains inside the displayed surface
