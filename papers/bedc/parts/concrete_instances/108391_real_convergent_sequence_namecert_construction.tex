@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\RealConvergentSequenceUp$}
+\label{ch:concrete-instances-real-convergent-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RealConvergentSequenceUp$ packet records displayed convergence of a real sequence to a named $\RealUp$ limit as finite NameCert data. It adjoins the L10 Real and completion route by sitting over the $\DyadicRatCoreUp$ tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the real sequence limit laws of \autoref{ch:concrete-instances-real-sequence-limit-laws-namecert}, and the Cauchy convergence criterion surface of \autoref{ch:concrete-instances-cauchy-convergence-criterion-namecert}. The packet separates convergence evidence from Cauchy completeness: it names a displayed source sequence, a displayed limit row, and the finite tolerance route witnessing convergence, but it does not assert that every Cauchy stream converges.
+
+\begin{definition}[Real convergent sequence carrier]\label{def:real-convergent-sequence-carrier}
+A $\RealConvergentSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+C=(S,L,D,M,W,R,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the sequence-source row, exposing the real-sequence index discipline, the finite observation requests, and the source-side $\StreamNameUp$ handles.
+\item $L$ is the candidate $\RealUp$ limit row, carrying the named real limit, its terminal real-name seal, and the limit-side $\StreamNameUp$ handles.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the requested tolerance, the comparison tolerance, and the finite split budget used by each convergence read.
+\item $M$ is the regular-Cauchy modulus row, storing the tail threshold assigned to each dyadic tolerance request before any consumer reads the convergence classifier.
+\item $W$ is the paired $\StreamNameUp$ window row for source observations after the threshold and for the candidate-limit windows used in the same request.
+\item $R$ is the $\RegSeqRatUp$ readback row for the source windows, limit windows, and tolerance comparisons opened by $W$ and $D$.
+\item $H$ records componentwise $\hsame$ transport for the source row, candidate limit, dyadic ledger, regular-Cauchy modulus, windows, readback, replay row, provenance row, and local naming row.
+\item $K$ records displayed $\Cont$ replay from a convergence query through the dyadic tolerance request, the regular-Cauchy threshold, the selected windows, the rational readback, and the candidate $\RealUp$ limit row.
+\item $P$ is the $\Pkg$ provenance over $\RealConvergentSequenceUp$, $\RealSequenceLimitUp$, $\RealSequenceLimitLawsUp$, $\CauchyConvergenceCriterionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealConvergentSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,L,D,M,W,R,H,K,P,N$. It has no coordinate for Cauchy completeness, selected limits for arbitrary Cauchy streams, quotient-stream equality, countable choice, trichotomy, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Real convergent sequence NameCert obligations]\label{thm:real-convergent-sequence-namecert-obligations}
+For every accepted $\RealConvergentSequenceUp$ carrier
+$$
+C=(S,L,D,M,W,R,H,K,P,N),
+$$
+the local $\NameCert_{\RealConvergentSequenceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source sequence row, candidate $\RealUp$ limit, dyadic tolerance ledger, regular-Cauchy modulus, finite windows, regular rational readback, transport, replay, provenance, and local naming rows;
+\item source-limit exposure, requiring $S$ and $L$ to be the only source of the displayed sequence and the displayed limit used by the convergence classifier;
+\item tolerance and modulus exactness, requiring every convergence request to read its dyadic tolerance from $D$ and its tail threshold from $M$ before any source observation is compared with the limit;
+\item window and readback alignment, requiring $W$ and $R$ to expose only the source windows and limit windows selected by the same tolerance request;
+\item limit-law compatibility, requiring uses of real sequence limit laws to consume only the displayed rows $S,L,D,M,W,R$ and never a second limit surface;
+\item Cauchy-criterion boundary, requiring any later Cauchy consumer to receive convergence evidence as input rather than a completeness principle;
+\item componentwise transport, displayed replay, provenance, and local naming through $H,K,P,N$;
+\item refusal of Cauchy completeness, arbitrary limit selection, quotient-stream equality, countable choice, trichotomy, Lean verification, and bridge checking as local certificate data.
+\end{enumerate}
+No real-convergent-sequence obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-convergent-sequence-carrier}. Its visible coordinates are the source sequence row $S$, candidate limit row $L$, dyadic tolerance ledger $D$, regular-Cauchy modulus $M$, window row $W$, readback row $R$, and structural rows $H,K,P,N$.
+
+The convergence request first reads $D$ and $M$. The dyadic row fixes the requested tolerance and comparison budget, while the modulus row fixes the tail threshold for source observations.
+
+The selected observations are then opened through $W$ and $R$. The same tolerance request chooses both the source windows and the candidate-limit windows, and the regular rational row reads back only those scheduled observations.
+
+Limit-law compatibility follows because every law-facing read has access only to $S,L,D,M,W,R$ before the structural rows. A second limit surface or host equality proof is not a carrier coordinate.
+
+Finally, $H,K,P,N$ transport, replay, record, and name the same finite route. Since the excluded principles do not occur as carrier coordinates, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Real convergent sequence L10 route]\label{thm:real-convergent-sequence-l10-route}
+Every accepted $\RealConvergentSequenceUp$ carrier $C=(S,L,D,M,W,R,H,K,P,N)$ presents convergence evidence through the finite route
+$$
+S,L \longmapsto D \longmapsto M \longmapsto W \longmapsto R \longmapsto H,K,P,N .
+$$
+Any Cauchy convergence criterion consumer downstream of $C$ receives only the displayed source sequence, candidate $\RealUp$ limit, dyadic tolerance ledger, regular-Cauchy threshold, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Start with a downstream consumer. The carrier has no direct completeness coordinate, so the consumer must read the displayed convergence data from $S$ and $L$.
+
+The tolerance request then passes through $D$ and $M$. These rows determine the comparison budget and the tail threshold before any observation window is opened.
+
+The windows and rational observations are supplied by $W$ and $R$. They expose only the scheduled source and candidate-limit data selected by the same request.
+
+The structural rows $H,K,P,N$ preserve the route for transport, replay, provenance, and naming. Thus every downstream criterion-facing read factors through the displayed finite route and cannot export Cauchy completeness, selected arbitrary limits, quotient-stream equality, countable choice, trichotomy, Lean evidence, or bridge data.
+\end{proof}
+
+\falsifiablePrediction{Every $\RealConvergentSequenceUp$ consumer read factors through a displayed source sequence, candidate $\RealUp$ limit, $\DyadicRatCoreUp$ tolerance ledger, regular-Cauchy modulus, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, real-sequence-limit-laws, cauchy-convergence-criterion: $\RealConvergentSequenceUp$ is not bijective to any listed sibling because it jointly carries a source sequence, candidate Real limit, dyadic tolerance ledger, regular-Cauchy modulus, scheduled source-and-limit windows, regular rational readback, transport, replay, provenance, and a local NameCert row.}
+
+\closureat{RealConvergentSequenceUp}{seedStr}
+
+\begin{closurestatus}{\RealConvergentSequenceUp}
+  \constructivestory{A $\RealConvergentSequenceUp$ packet is generated from a displayed source sequence, a candidate RealUp limit, a DyadicRatCore tolerance ledger, a regular-Cauchy modulus, StreamName windows, RegSeqRat readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-convergent-sequence-carrier}, \autoref{thm:real-convergent-sequence-namecert-obligations}, and \autoref{thm:real-convergent-sequence-l10-route} seed the finite route from displayed real-sequence convergence evidence to later Cauchy-criterion consumption without asserting completeness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Cauchy completeness, selected limits for arbitrary Cauchy streams, quotient-stream equality, countable choice, trichotomy, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-limit exposure, tolerance and modulus exactness, window and readback alignment, limit-law compatibility, Cauchy-criterion boundary, transport, replay, provenance, and local naming for BEDC.Derived.RealConvergentSequenceUp.}
+\end{closurestatus}
