@@ -50,4 +50,28 @@ theorem RealPowerSeriesCarrier_radius_window_handoff [AskSetup] [PackageSetup]
     ⟨AUnary, WUnary, SUnary, RUnary, MUnary, EUnary, CUnary, coefficientWindow,
       radiusMajorant, majorantEndpoint, pkgSig⟩
 
+theorem RealPowerSeriesCarrier_coefficient_window_transport [AskSetup] [PackageSetup]
+    {A Z X R W S M E H C P N coeffRead partialRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ->
+      Cont A W coeffRead ->
+        Cont coeffRead S partialRead ->
+          hsame coeffRead W ->
+            UnaryHistory A ∧ UnaryHistory W ∧ UnaryHistory S ∧
+              UnaryHistory coeffRead ∧ UnaryHistory partialRead ∧
+                Cont A W coeffRead ∧ Cont coeffRead S partialRead ∧
+                  hsame coeffRead W ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier coeffRoute partialRoute coeffSame
+  obtain ⟨AUnary, _ZUnary, _XUnary, _RUnary, WUnary, SUnary, _MUnary, _EUnary,
+    _HUnary, _CUnary, _PUnary, _NUnary, _coefficientWindow, _radiusMajorant,
+    _majorantEndpoint, pkgSig⟩ := carrier
+  have coeffReadUnary : UnaryHistory coeffRead :=
+    unary_cont_closed AUnary WUnary coeffRoute
+  have partialReadUnary : UnaryHistory partialRead :=
+    unary_cont_closed coeffReadUnary SUnary partialRoute
+  exact
+    ⟨AUnary, WUnary, SUnary, coeffReadUnary, partialReadUnary, coeffRoute,
+      partialRoute, coeffSame, pkgSig⟩
+
 end BEDC.Derived.RealPowerSeriesUp
