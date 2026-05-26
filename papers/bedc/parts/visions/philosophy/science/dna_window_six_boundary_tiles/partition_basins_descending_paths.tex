@@ -1,0 +1,155 @@
+\begin{definition}[Partition core]
+\label{def:philosophy-partition-core}
+Let $A$ be a minimal full trigger. A partition core of $A$ is a
+partition trigger $P$ obtained from $A$ by a maximal sequence of
+defect-lowering moves.
+\end{definition}
+
+\begin{theorem}[Core count of a trigger]
+\label{thm:philosophy-trigger-core-count}
+If $A$ has shared-coordinate row sets $R_{a}$, then the number of
+partition cores below $A$ is
+$$
+  N_{\mathrm{core}}(A)
+  =
+  \prod_{a\in H}|R_{a}|.
+$$
+\end{theorem}
+\begin{proof}
+To obtain a terminal partition, each shared coordinate $a$ must be
+assigned to exactly one of the supports in $R_{a}$. The choices for
+distinct shared coordinates are independent.
+\end{proof}
+
+\begin{theorem}[Basin size of a partition core]
+\label{thm:philosophy-partition-basin-size}
+Let $P=\{P_{1},\ldots,P_{m}\}$ be a quotient-level partition trigger
+with block sizes $s_{i}=|P_{i}|$. The number of minimal triggers for
+which $P$ is a partition core is
+$$
+  B(P)
+  =
+  \prod_{i=1}^{m}
+  \left(
+    (2^{m-1})^{s_{i}}
+    -
+    (2^{m-1}-1)^{s_{i}}
+  \right).
+$$
+\end{theorem}
+\begin{proof}
+For a coordinate $a\in P_{i}$, a trigger above $P$ must keep $a$ in row
+$i$ and may additionally place it in any subset of the other $m-1$
+rows. Thus $a$ has $2^{m-1}$ decoration choices. To preserve the
+private-coordinate condition for row $i$, at least one coordinate in
+$P_{i}$ must choose no additional row. Hence the number of legal
+decorations for block $P_{i}$ is
+$$
+  (2^{m-1})^{s_{i}}-(2^{m-1}-1)^{s_{i}}.
+$$
+Multiplying over blocks gives the formula.
+\end{proof}
+
+\begin{corollary}[Partition basin table]
+\label{cor:philosophy-partition-basin-table}
+For four trigger coordinates, the quotient partition basins are
+$$
+\begin{array}{c|r|r|r}
+  \text{partition type} & \text{quotient partitions} & B(P) & \text{incidence}\\
+  \hline
+  4 & 1 & 1 & 1\\
+  3+1 & 4 & 7 & 28\\
+  2+2 & 3 & 9 & 27\\
+  2+1+1 & 6 & 7 & 42\\
+  1+1+1+1 & 1 & 1 & 1.
+\end{array}
+$$
+The quotient incidence total is $99$. At codon level the corresponding
+incidence counts are
+$$
+  2,\quad112,\quad108,\quad336,\quad16,
+$$
+which sum to $574$.
+\end{corollary}
+\begin{proof}
+Evaluate \autoref{thm:philosophy-partition-basin-size} on the five
+partition types of a four-element set. At codon level, a partition with
+$m$ blocks has $2^{m}$ lift choices.
+\end{proof}
+
+\begin{corollary}[Balanced basin maximum]
+\label{cor:philosophy-balanced-basin-maximum}
+Among quotient partition types, the largest basin per partition core is
+the balanced type $2+2$, with basin size $9$.
+\end{corollary}
+\begin{proof}
+The basin sizes in \autoref{cor:philosophy-partition-basin-table} are
+$1,7,9,7,1$, so the maximum occurs at type $2+2$.
+\end{proof}
+
+\begin{theorem}[Descending path count]
+\label{thm:philosophy-descending-path-count}
+For a minimal full trigger $A$, the number of maximal descending paths
+from $A$ to the partition skeleton is
+$$
+  N_{\mathrm{path}}(A)
+  =
+  \delta(A)!
+  \prod_{a\in H}|R_{a}|.
+$$
+\end{theorem}
+\begin{proof}
+Fix a partition core below $A$. The multiset of duplicate incidences to
+be removed has cardinality $\delta(A)$, and any ordering of these
+removals gives a valid decreasing path to that fixed core. Hence each
+core receives $\delta(A)!$ paths. Multiplying by
+\autoref{thm:philosophy-trigger-core-count} gives the formula.
+\end{proof}
+
+\begin{theorem}[Total descending paths]
+\label{thm:philosophy-total-descending-paths}
+The quotient-level defect flow has $135$ maximal descending paths to the
+partition skeleton. The codon-level defect flow has $766$ maximal
+descending paths.
+\end{theorem}
+\begin{proof}
+By quotient orbit type, the path contributions are
+$$
+\begin{array}{c|r|r|r}
+  \text{normal form} & \text{quotient count} & \text{paths per trigger} & \text{contribution}\\
+  \hline
+  \{1234\} & 1 & 1 & 1\\
+  \{1,234\} & 4 & 1 & 4\\
+  \{12,34\} & 3 & 1 & 3\\
+  \{12,234\} & 12 & 2 & 24\\
+  \{123,124\} & 6 & 8 & 48\\
+  \{1,2,34\} & 6 & 1 & 6\\
+  \{1,24,34\} & 12 & 2 & 24\\
+  \{14,24,34\} & 4 & 6 & 24\\
+  \{1,2,3,4\} & 1 & 1 & 1.
+\end{array}
+$$
+These contributions sum to $135$. Multiplying the same paths-per-trigger
+values by codon counts gives codon contributions
+$$
+  2,16,12,96,192,48,192,192,16,
+$$
+which sum to $766$.
+\end{proof}
+
+\begin{theorem}[Partition basin theorem]
+\label{thm:philosophy-partition-basin-theorem}
+The partition skeleton is an attracting incidence geometry for the
+post-$M^{\star}$ minimal trigger system. The trigger--partition
+correspondence has $99$ quotient-level incidences and $574$ codon-level
+incidences, and the defect flow has $135$ quotient-level and $766$
+codon-level maximal descending paths to this skeleton.
+\end{theorem}
+\begin{proof}
+The incidence totals are
+\autoref{thm:philosophy-partition-core-incidence} and
+\autoref{cor:philosophy-partition-basin-table}. The descending path
+totals are \autoref{thm:philosophy-total-descending-paths}. Since a
+trigger can have more than one partition core, the basin relation is a
+correspondence rather than a function.
+\end{proof}

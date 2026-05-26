@@ -131,6 +131,33 @@ $\mathsf{Nontrivial}$ instance by exhibiting two distinct finite packets with
 different accepted checker rows, and a $\mathsf{FieldFaithful}$ instance whose
 projections recover $S,G,R,A,D,H,C,P,N$ from the carrier.
 
+\begin{theorem}[InscriptionRouteAudit mature consumer surface]
+\label{thm:inscription-route-audit-mature-consumer-surface}
+Downstream public consumers of $\InscriptionRouteAuditUp$ read only the
+visible gap row $G$, named route row $R$, accepted checker row $A$, downstream
+consumer row $D$, componentwise transport row $H$, replay route row $C$,
+provenance row $P$, and local NameCert row $N$. No mature public read may
+inspect a private motive, hidden checker, unchecked route, or host process
+trace outside the displayed carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:inscription-route-audit-carrier}. The
+consumer-facing rows are exactly $G,R,A,D,H,C,P,N$ after the prior source
+scope has supplied the visible records.
+
+The NameCert obligations in
+\autoref{thm:inscription-route-audit-namecert-obligations} require the named
+route to pass through the accepted checker row and require the downstream
+consumer row to factor through that checker. The falsifiable prediction in
+\autoref{thm:inscription-route-audit-falsifiable-prediction} gives the same
+consumer boundary as a public read discipline.
+
+The independence witness in
+\autoref{thm:inscription-route-audit-independence-witness} excludes a sibling
+carrier bijection that would supply the missing private or host-side rows.
+Hence the displayed rows are the mature consumer surface.
+\end{proof}
+
 \closureat{InscriptionRouteAuditUp}{seedStr}
 \closureat{InscriptionRouteAuditUp}{obligationStr}[BEDC.Derived.InscriptionRouteAuditUp.TasteGate.InscriptionRouteAuditTasteGate\_single\_carrier\_alignment]
 \closureat{InscriptionRouteAuditUp}{scopedStr}[BEDC.Derived.InscriptionRouteAuditUp.TasteGate.InscriptionRouteAuditTasteGate\_single\_carrier\_alignment]
@@ -138,12 +165,12 @@ projections recover $S,G,R,A,D,H,C,P,N$ from the carrier.
 
 \begin{closurestatus}{\InscriptionRouteAuditUp}
   \constructivestory{An $\InscriptionRouteAuditUp$ packet is generated from prior source scope, a visible gap, a named route, an accepted checker row, a downstream consumer row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:inscription-route-audit-carrier}, \autoref{thm:inscription-route-audit-namecert-obligations}, \autoref{thm:inscription-route-audit-falsifiable-prediction}, \autoref{thm:inscription-route-audit-independence-witness}, and \leanchecked{BEDC.Derived.InscriptionRouteAuditUp.taste\_gate} bind the visible gap-to-accepted-route audit packet and its downstream consumer boundary.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:inscription-route-audit-carrier}, \autoref{thm:inscription-route-audit-namecert-obligations}, \autoref{thm:inscription-route-audit-falsifiable-prediction}, \autoref{thm:inscription-route-audit-independence-witness}, \autoref{thm:inscription-route-audit-mature-consumer-surface}, and \leanchecked{BEDC.Derived.InscriptionRouteAuditUp.taste\_gate} bind the visible gap-to-accepted-route audit packet and its downstream consumer boundary.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.InscriptionRouteAuditUp.TasteGate.InscriptionRouteAuditTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, private agency, host process traces, unchecked routes, downstream rights outside the displayed consumer row, or a completed ontology of inscription events.}
-  \upgradepath{Mature closure requires downstream public consumers of the displayed bridge surface.}
+  \upgradepath{The public consumer surface is recorded; no further paper-theory grade remains for this carrier.}
 \end{closurestatus}
