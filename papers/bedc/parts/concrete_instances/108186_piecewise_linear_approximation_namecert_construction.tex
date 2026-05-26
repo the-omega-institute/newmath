@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\PiecewiseLinearApproximationUp$}
+\label{ch:concrete-instances-piecewise-linear-approximation-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\PiecewiseLinearApproximationUp$ packet records polygonal approximation over a closed bounded interval as finite NameCert rows. It starts from the $\ClosedBoundedIntervalUp$ source of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, reads a $\UniformPartitionUp$ or $\DyadicPartitionUp$ mesh through \autoref{ch:concrete-instances-uniform-partition-namecert} and \autoref{ch:concrete-instances-dyadic-partition-namecert}, compares its cell ledger with the $\DyadicStepApproximationUp$ route of \autoref{ch:concrete-instances-dyadic-step-approximation-namecert}, and hands terminal endpoint and value reads to $\ContinuousMapUp$, $\RealUp$, and $\DyadicRatCoreUp$ consumers through \autoref{ch:concrete-instances-continuousmap-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{ch:concrete-instances-dyadicratcore-namecert}. The certificate names the finite affine-cell surface only; it does not introduce a host function space, selected uniform limit, quotient equality of functions, open-cover compactness, or ambient real completeness.
+
+\begin{definition}[PiecewiseLinearApproximation carrier]
+\label{def:piecewise-linear-approximation-carrier}
+A $\PiecewiseLinearApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+L=(I,M,E,A,D,F,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\ClosedBoundedIntervalUp$ source row, displaying the two endpoint $\RealUp$ names and the bounded interval window being approximated.
+\item $M$ is a $\UniformPartitionUp$ or $\DyadicPartitionUp$ mesh row, including the ordered cell boundary ledger, the positive mesh-width row, and the endpoint-coverage route.
+\item $E$ is the finite endpoint-value ledger, recording one $\RealUp$ value row at every displayed mesh boundary.
+\item $A$ is the affine cell ledger: for each adjacent mesh cell it records the two endpoint-value rows, the affine interpolation route between them, and the cell-local evaluation window.
+\item $D$ is the $\DyadicRatCoreUp$ slope and error ledger, recording dyadic slope brackets, cell-width witnesses, tolerance requests, and the displayed error budget used by downstream approximation consumers.
+\item $F$ is the $\ContinuousMapUp$ handoff row, exposing the polygonal route only after $I,M,E,A,D$ have been displayed.
+\item $T$ is the comparison row with $\DyadicStepApproximationUp$, reading the same mesh cells and tolerance requests as a step-surface neighbour without identifying the affine ledger with a step ledger.
+\item $H$ records componentwise $\hsame$ transport for the interval source, mesh, endpoint values, affine cell rows, dyadic slope and error ledger, continuous-map handoff, step-neighbour row, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+I,M,E,A,D \longmapsto F,T \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\PiecewiseLinearApproximationUp$, $\ClosedBoundedIntervalUp$, $\UniformPartitionUp$, $\DyadicPartitionUp$, $\DyadicStepApproximationUp$, $\ContinuousMapUp$, $\RealUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\PiecewiseLinearApproximationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows and their displayed transports. It has no coordinate for a host function graph, quotient equality of maps, selected limiting function, compactness theorem, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[PiecewiseLinearApproximation NameCert obligations]
+\label{thm:piecewise-linear-approximation-namecert-obligations}
+For every accepted $\PiecewiseLinearApproximationUp$ carrier
+$$
+L=(I,M,E,A,D,F,T,H,C,P,N),
+$$
+the local $\NameCert_{\PiecewiseLinearApproximationUp}$ surface consists exactly of interval-source admission through $I$, mesh coverage through $M$, endpoint-value display through $E$, affine cell exactness through $A$, dyadic slope and error accounting through $D$, continuous-map handoff through $F$, step-surface comparison through $T$, componentwise transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$. No obligation may read a host function space, selected uniform limit, quotient map equality, open-cover compactness, countable choice, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:piecewise-linear-approximation-carrier}. The accepted packet displays the closed bounded interval, mesh, endpoint values, affine cell rows, dyadic slope and error ledger, and structural rows before any continuous-map or step-neighbour consumer sees the approximation.
+
+The mesh rows are finite. The $\UniformPartitionUp$ or $\DyadicPartitionUp$ row supplies the ordered cells, endpoint coverage, and positive width witnesses, while the $\ClosedBoundedIntervalUp$ row fixes the source window. Thus every affine cell row is attached to a displayed source cell rather than to an ambient interval object.
+
+The affine rows and dyadic ledger exhaust the approximation data. Each cell read factors through its two endpoint $\RealUp$ values and the $\DyadicRatCoreUp$ slope and error ledger before the $\ContinuousMapUp$ handoff row is available.
+
+Finally $H,C,P,N$ transport, replay, source, and name only this finite packet. Since no further carrier coordinate remains, the excluded host-function, quotient, limit, compactness, choice, and completeness objects cannot become local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[PiecewiseLinearApproximation uniform handoff]
+\label{thm:piecewise-linear-approximation-uniform-handoff}
+Every $\ContinuousMapUp$, $\DyadicStepApproximationUp$, $\RealUp$, or $\DyadicRatCoreUp$ consumer of an accepted $\PiecewiseLinearApproximationUp$ packet receives only the finite route
+$$
+\ClosedBoundedIntervalUp,\ \UniformPartitionUp\ {\rm or}\ \DyadicPartitionUp,\ {\rm endpoint}\ \RealUp\ {\rm rows},\ {\rm affine\ cells},\ \DyadicRatCoreUp\ {\rm ledger}
+\longmapsto
+\ContinuousMapUp,\ \DyadicStepApproximationUp,\ H,C,P,N .
+$$
+The consumer may inspect the polygonal approximation as a finite uniform or dyadic mesh surface, but it cannot bypass that route to obtain a host continuous function, selected uniform limit, quotient function equality, open-cover compactness, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The terminal consumers see $F$ or $T$ only after $I,M,E,A,D$ have been displayed.
+
+For the continuous-map handoff, the row $F$ reads the same endpoint values, affine cell routes, and dyadic error ledger. It therefore exports a polygonal route over the visible mesh, not a host function graph.
+
+For the step-surface neighbour, the row $T$ shares the mesh and tolerance requests with $\DyadicStepApproximationUp$ while preserving the affine cell ledger as a separate displayed row. Hence the handoff can compare approximation ledgers without collapsing them into quotient equality of functions.
+
+The remaining rows $H,C,P,N$ only transport and replay the same finite data. No hidden limit, compactness, choice, completeness, or host-map coordinate is present for a consumer to read.
+\end{proof}
+
+\closureat{PiecewiseLinearApproximationUp}{seedStr}
+
+\begin{closurestatus}{\PiecewiseLinearApproximationUp}
+  \constructivestory{A $\PiecewiseLinearApproximationUp$ packet is generated from a ClosedBoundedInterval source row, a UniformPartition or DyadicPartition mesh row, endpoint RealUp value rows, affine cell rows, a DyadicRatCore slope and error ledger, a ContinuousMap handoff row, a DyadicStepApproximation neighbour row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:piecewise-linear-approximation-carrier}, \autoref{thm:piecewise-linear-approximation-namecert-obligations}, and \autoref{thm:piecewise-linear-approximation-uniform-handoff} seed the finite polygonal approximation surface over closed bounded interval, mesh, endpoint-value, affine-cell, dyadic-ledger, and continuous-map handoff rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, selected uniform limits, quotient function equality, open-cover compactness, countable choice, host function spaces, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, mesh coverage, endpoint-value display, affine cell exactness, dyadic slope and error accounting, continuous-map handoff, step-neighbour comparison, transport, replay, provenance, and local naming for BEDC.Derived.PiecewiseLinearApproximationUp.}
+\end{closurestatus}
