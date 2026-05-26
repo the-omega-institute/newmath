@@ -121,10 +121,41 @@ excluded objects are not carrier coordinates, so no consumer of the packet can
 obtain them from this readback boundary.
 \end{proof}
 
+\begin{theorem}[DecimalExpansion RegSeqRat handoff]\label{thm:decimal-expansion-regseqrat-handoff}
+Every accepted $\DecimalExpansionUp$ packet routes finite decimal digit rows
+through rational place-value rows and dyadic comparison rows before reaching
+the $\RegSeqRatUp$ handoff and terminal $\RealUp$ seal. The route is exhausted
+by the displayed coordinates
+$$
+D,W,V,Q,R,E,H,C,P,N
+$$
+of \autoref{def:decimal-expansion-carrier}. In particular, the packet exports
+no quotient real, endpoint representative, trichotomy row, selected decimal
+stream, or $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:decimal-expansion-carrier}. The finite
+digit ledger $D$ is read together with the finite decimal-place windows $W$,
+and the place-value row $V$ evaluates exactly those inspected prefixes as
+rational base-ten sums.
+
+Apply the NameCert obligations of
+\autoref{thm:decimal-expansion-namecert-obligations}. Carrier admission and
+classifier transport keep $D,W,V$ attached to the same dyadic and rational
+comparison row $Q$, while ledger exhaustion prevents a consumer from bypassing
+the displayed handoff surface.
+
+Finally apply the RealUp readback boundary of
+\autoref{thm:decimal-expansion-real-readback-boundary}. The regular handoff
+row $R$ is reached only after the digit, window, place-value, and dyadic rows
+are displayed, and the terminal seal row $E$ remains downstream of $R$ with
+the structural rows $H,C,P,N$ preserving the same route.
+\end{proof}
+
 \begin{closurestatus}{\DecimalExpansionUp}
   \constructivestory{A $\DecimalExpansionUp$ packet is generated from finite decimal digit rows, decimal-place windows, rational place-value rows, dyadic/rational comparison rows, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:decimal-expansion-carrier}, \autoref{thm:decimal-expansion-namecert-obligations}, and \autoref{thm:decimal-expansion-real-readback-boundary} seed the finite decimal-prefix readback surface into $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \scopeclosed{\autoref{def:decimal-expansion-carrier}, \autoref{thm:decimal-expansion-namecert-obligations}, \autoref{thm:decimal-expansion-real-readback-boundary}, and \autoref{thm:decimal-expansion-regseqrat-handoff} seed the finite decimal-prefix readback surface into $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Dedekind cuts, quotient reals, endpoint uniqueness, trichotomy, selected representatives, RealUp completeness, or a standard bridge.}
