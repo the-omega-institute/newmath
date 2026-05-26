@@ -403,4 +403,45 @@ theorem ContractionMappingCarrier_picard_step_contraction [AskSetup] [PackageSet
       unitBoundUnary, txRoute, tyRoute, sourceRoute, targetRoute, comparisonRoute,
       unitRoute, provenancePkg, comparisonPkg⟩
 
+theorem ContractionMappingCarrier_picard_regular_cauchy_uniqueness
+    [AskSetup] [PackageSetup]
+    {X d T G lambda M I H C P N x0 iterates boundPower tolerance adjacentReplay
+      tailReplay x0' iterates' boundPower' tolerance' adjacentReplay' tailReplay'
+      commonWindow tailBound exportRead exportRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContractionMappingCarrier X d T G lambda M I H C P N bundle pkg →
+      ContractionMappingOrbitLedger x0 iterates boundPower tolerance adjacentReplay
+        tailReplay →
+        ContractionMappingOrbitLedger x0' iterates' boundPower' tolerance'
+          adjacentReplay' tailReplay' →
+          hsame x0 x0' →
+            hsame iterates iterates' →
+              Cont x0 iterates commonWindow →
+                Cont I M tailBound →
+                  Cont tailBound H exportRead →
+                    Cont tailBound H exportRead' →
+                      PkgSig bundle exportRead pkg →
+                        PkgSig bundle exportRead' pkg →
+                          UnaryHistory commonWindow ∧ UnaryHistory exportRead ∧
+                            UnaryHistory exportRead' ∧ hsame exportRead exportRead' ∧
+                              PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory hsame Cont ProbeBundle Pkg PkgSig
+  intro carrier orbit _orbit' _sameStart _sameIterates commonRoute tailRoute exportRoute
+    exportRoute' _exportPkg _exportPkg'
+  obtain ⟨_XUnary, _dUnary, _TUnary, _GUnary, _lambdaUnary, MUnary, IUnary, HUnary,
+    _CUnary, _PUnary, _NUnary, provenancePkg⟩ := carrier
+  obtain ⟨x0Unary, iteratesUnary, _boundPowerUnary, _toleranceUnary, _adjacentRoute,
+    _tailReplayRoute⟩ := orbit
+  have commonUnary : UnaryHistory commonWindow :=
+    unary_cont_closed x0Unary iteratesUnary commonRoute
+  have tailBoundUnary : UnaryHistory tailBound :=
+    unary_cont_closed IUnary MUnary tailRoute
+  have exportUnary : UnaryHistory exportRead :=
+    unary_cont_closed tailBoundUnary HUnary exportRoute
+  have exportUnary' : UnaryHistory exportRead' :=
+    unary_cont_closed tailBoundUnary HUnary exportRoute'
+  have sameExport : hsame exportRead exportRead' :=
+    cont_deterministic exportRoute exportRoute'
+  exact ⟨commonUnary, exportUnary, exportUnary', sameExport, provenancePkg⟩
+
 end BEDC.Derived.ContractionMappingUp
