@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\NeumannSeriesUp$}
+\label{ch:concrete-instances-neumann-series-namecert}
+\origin{human}
+
+Following Banach algebra treatments of Neumann series, the $\NeumannSeriesUp$ packet records the finite inverse-series certificate by which a norm-small operator or algebra element exposes partial sums, residual checks, and inverse-readback rows before any host inverse selector is available. It sits beside the Banach-algebra source of \autoref{ch:concrete-instances-banachalgebra-namecert}, the bounded-operator route of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the scalar norm-bound surface of \autoref{ch:concrete-instances-operator-norm-namecert}, the resolvent identity packet of \autoref{ch:concrete-instances-resolvent-identity-namecert}, and the spectral-radius boundary of \autoref{ch:concrete-instances-spectral-radius-namecert}. The packet names a finite inverse route: it does not select a completed inverse from the host, assert a completed spectrum, or import a quotient equality of operators.
+
+\begin{definition}[Neumann inverse-series carrier]
+\label{def:neumann-series-carrier}
+A $\NeumannSeriesUp$ carrier is a finite $\BHist$ packet
+$$
+N=(A,T,K,W,S,Q,R,E,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\BanachAlgebraUp$ source row, carrying multiplication, unit, norm, completeness, product-control, and local naming data.
+\item $T$ is the $\BoundedLinearOperatorUp$ or algebra-action row whose smallness is being inspected.
+\item $K$ is the norm-smallness ledger, read through $\OperatorNormUp$ or the Banach-algebra norm, recording the displayed bound below the unit row.
+\item $W$ is the finite partial-sum window for the inspected powers $1,T,T^2,\ldots,T^m$.
+\item $S$ is the finite sum row naming the displayed Neumann partial sums and their multiplication order.
+\item $Q$ is the residual row, recording the left and right error checks for $(1-T)S_m$ and $S_m(1-T)$ inside the same algebra surface.
+\item $R$ is the inverse-check row saying which residual bounds are strong enough for an inverse-facing consumer to read the packet.
+\item $E$ is the $\RegSeqRatUp$ and $\RealUp$ readback row for rational norm bounds, tail estimates, and terminal real seals.
+\item $H$ records componentwise $\hsame$ transport for $A,T,K,W,S,Q,R,E$.
+\item $C$ records displayed $\Cont$ replay from the smallness request through the finite partial-sum and residual rows.
+\item $P$ is the $\Pkg$ provenance over $\NeumannSeriesUp$, $\BanachAlgebraUp$, $\BoundedLinearOperatorUp$, $\OperatorNormUp$, $\RegSeqRatUp$, $\RealUp$, $\ResolventIdentityUp$, $\SpectralRadiusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\NeumannSeriesUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host-chosen inverse, completed resolvent set, completed spectrum, spectral theorem, quotient operator equality, selected approximate eigenvectors, or countable choice.
+\end{definition}
+
+\begin{theorem}[Neumann series NameCert obligations]
+\label{thm:neumann-series-namecert-obligations}
+For every accepted $\NeumannSeriesUp$ carrier $N=(A,T,K,W,S,Q,R,E,H,C,P,L)$, the local $\NameCert_{\NeumannSeriesUp}$ surface consists exactly of carrier admission for the Banach-algebra source, bounded-operator or algebra-action row, norm-smallness ledger, finite power window, finite partial sums, residual checks, inverse-check row, rational and real readback, transport, replay, provenance, and local naming. Every inverse-facing consumer must read those rows before using the inverse-series conclusion.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:neumann-series-carrier}. The algebra source $A$ and operator row $T$ are the only endpoints on which multiplication and powers may be read.
+
+The smallness and finite-sum rows are $K,W,S$. The norm-smallness ledger is displayed before any partial sum is public, and the finite power window fixes the product order used by the sum row.
+
+The residual and readback rows are $Q,R,E$. They expose the left and right inverse checks and the rational-to-real tail estimates before a consumer may treat the packet as an inverse route.
+
+Finally, $H,C,P,L$ transport, replay, source, and name the same finite packet. Since no carrier coordinate stores a host inverse, completed resolvent set, completed spectrum, quotient equality, or choice schedule, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Neumann inverse route]
+\label{thm:neumann-series-inverse-route}
+Every resolvent, spectral-radius, or inverse-operator consumer of an accepted $\NeumannSeriesUp$ packet factors through the finite route
+$$
+\BanachAlgebraUp,\BoundedLinearOperatorUp,\OperatorNormUp
+\longmapsto
+K,W,S,Q,R,E
+\longmapsto
+H,C,P,L .
+$$
+Thus a downstream read receives a norm-smallness ledger, finite partial-sum windows, residual and inverse-check rows, rational and real readback, transport, replay, provenance, and local naming before it may cite an inverse-series conclusion.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $N=(A,T,K,W,S,Q,R,E,H,C,P,L)$. The Banach-algebra and bounded-operator rows fix the multiplication, unit, action, and norm-bound surface.
+
+The route then passes through $K,W,S$. These rows expose the smallness bound, the inspected powers, and the finite partial sums; no completed infinite sum is available at this stage.
+
+The inverse-facing part is $Q,R,E$. The residual row records the two-sided error checks, the inverse-check row states which displayed residual bound is consumed, and the readback row seals the rational tail estimates as real data.
+
+The structural rows $H,C,P,L$ preserve this route for \autoref{ch:concrete-instances-resolvent-identity-namecert} and \autoref{ch:concrete-instances-spectral-radius-namecert} consumers. Because the packet lacks host inverse, completed spectrum, quotient equality, and choice coordinates, every such consumer factors through the displayed inverse-series route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\NeumannSeriesUp$ inverse-facing read exposes BanachAlgebra, BoundedLinearOperator, norm-smallness, finite partial-sum, residual, inverse-check, RegSeqRat, Real, hsame, Cont, Pkg, and local NameCert rows before citing the inverse-series conclusion.}
+
+\independenceWitness{banachalgebra, boundedlinearoperator, operatornorm, resolvent-identity, spectral-radius: $\NeumannSeriesUp$ is not bijective to any listed sibling because it jointly carries norm-smallness, finite power windows, partial sums, residual checks, inverse-readback rows, rational and real tail seals, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{NeumannSeriesUp}{seedStr}
+
+\begin{closurestatus}{\NeumannSeriesUp}
+  \constructivestory{A $\NeumannSeriesUp$ packet is generated from a BanachAlgebraUp source row, a BoundedLinearOperatorUp or algebra-action row, a norm-smallness ledger, finite partial-sum windows, residual and inverse-check rows, RegSeqRat and Real readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:neumann-series-carrier}, \autoref{thm:neumann-series-namecert-obligations}, and \autoref{thm:neumann-series-inverse-route} seed the finite Neumann inverse-series route consumed by resolvent, spectral, and inverse-operator packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, a completed inverse operator, a completed resolvent set, a completed spectrum, quotient operator equality, selected approximate eigenvectors, or countable choice.}
+  \upgradepath{Obligation closure requires checked carrier admission, norm-smallness exactness, partial-sum window stability, residual readback, inverse-check exactness, rational and real tail sealing, transport and replay stability, and consumer nonescape for BEDC.Derived.NeumannSeriesUp.}
+\end{closurestatus}

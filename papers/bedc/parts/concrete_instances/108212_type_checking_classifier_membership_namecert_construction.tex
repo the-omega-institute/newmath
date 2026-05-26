@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\TypeCheckingClassifierMembershipUp$}
+\label{ch:concrete-instances-type-checking-classifier-membership-namecert}
+\origin{ai}
+
+The $\TypeCheckingClassifierMembershipUp$ packet realizes the type-checking-as-classifier-membership vision of \autoref{ch:visions-type-checking-as-classifier-membership} as a finite NameCert carrier. It reads the classifier-membership packet of \autoref{ch:concrete-instances-typeclassifiermembership-namecert}, the typing classifier of \autoref{ch:concrete-instances-classifiertyping-namecert}, the subject-reduction surface of \autoref{ch:concrete-instances-subjectreduction-namecert}, the derivation trace of \autoref{ch:concrete-instances-typecheckingderivationtrace-namecert}, and the proof-erasure route of \autoref{ch:concrete-instances-prooftermerasuretrace-namecert}. The packet records membership, derivation, preservation, and erasure rows together; it does not export a host type checker, semantic conversion oracle, quotient equality of terms, hidden proof object, or ambient normalization theorem.
+
+\begin{definition}[TypeCheckingClassifierMembership carrier]
+\label{def:type-checking-classifier-membership-carrier}
+A $\TypeCheckingClassifierMembershipUp$ carrier is a finite $\BHist$ packet
+$$
+M=(T,J,E,D,S,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the term-history row whose membership is being checked.
+\item $J$ is the finite typing-judgment ledger, read through $\ClassifierTypingUp$.
+\item $E$ is the $\Ext$ classifier-membership row, read through $\TypeClassifierMembershipUp$.
+\item $D$ is the derivation trace row, read through $\TypeCheckingDerivationTraceUp$.
+\item $S$ is the subject-reduction row, recording the displayed preservation handoff into $\SubjectReductionUp$.
+\item $Q$ is the proof-erasure row, read through $\ProofTermErasureTraceUp$ and separating public erased terms from proof evidence.
+\item $H$ records componentwise $\hsame$ transport for the term, judgment, membership, derivation, preservation, erasure, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a type-checking request through classifier membership, derivation trace, subject reduction, and erasure readback.
+\item $P$ is the $\Pkg$ provenance over $\TypeCheckingClassifierMembershipUp$, $\TypeClassifierMembershipUp$, $\ClassifierTypingUp$, $\SubjectReductionUp$, $\TypeCheckingDerivationTraceUp$, $\ProofTermErasureTraceUp$, $\BHist$, $\Ext$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\TypeCheckingClassifierMembershipUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host type checker, hidden conversion relation, semantic equality of terms, quotient term representative, proof object outside the erasure row, or global normalization theorem.
+\end{definition}
+
+\begin{theorem}[TypeCheckingClassifierMembership NameCert obligations]
+\label{thm:type-checking-classifier-membership-namecert-obligations}
+For every accepted $\TypeCheckingClassifierMembershipUp$ carrier $M=(T,J,E,D,S,Q,H,C,P,N)$, the local $\NameCert_{\TypeCheckingClassifierMembershipUp}$ surface is exhausted by term-row admission, typing-ledger admission, $\Ext$ membership exposure, derivation-trace exposure, subject-reduction handoff, proof-erasure separation, componentwise transport, displayed replay, provenance, and local naming. No accepted consumer may replace those rows by host type checking, hidden conversion, semantic equality of terms, quotient representatives, proof objects outside $Q$, or ambient normalization.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:type-checking-classifier-membership-carrier}. The rows $T,J,E$ expose the term, finite typing ledger, and $\Ext$ membership surface used by the classifier-membership read.
+
+The derivation and preservation rows are also displayed. The row $D$ records the finite type-checking derivation trace, and $S$ records the subject-reduction handoff that may be consumed only through the visible preservation boundary.
+
+The erasure row $Q$ separates proof evidence from public erased terms. It supplies the proof-term erasure trace without adding a proof object outside the packet.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same rows. Since the excluded host checker, conversion oracle, semantic equality, quotient representative, hidden proof object, and normalization theorem have no coordinate in the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[TypeCheckingClassifierMembership subject-reduction handoff]
+\label{thm:type-checking-classifier-membership-subject-reduction-handoff}
+Every subject-reduction read exported by an accepted $\TypeCheckingClassifierMembershipUp$ packet factors through the displayed route
+$$
+\TypeClassifierMembershipUp \longmapsto \ClassifierTypingUp \longmapsto \TypeCheckingDerivationTraceUp \longmapsto \SubjectReductionUp \longmapsto \ProofTermErasureTraceUp
+$$
+as recorded by $E,J,D,S,Q$. The handoff preserves classifier membership and public erasure through $H,C,P,N$, and it exports no host typing judgment, hidden conversion relation, semantic equality of terms, quotient term representative, proof object outside $Q$, or ambient normalization theorem.
+\end{theorem}
+\begin{proof}
+Begin with the membership row $E$ and the typing ledger $J$. The type-classifier membership and classifier-typing siblings already route type membership through finite $\Ext$, $\Cont$, $\SigRel$, and NameCert data.
+
+Next read the derivation trace $D$. It records the rule ledger and continuation route used by the type-checking run, so the preservation request reaches $\SubjectReductionUp$ only through the displayed trace.
+
+The subject-reduction row $S$ is therefore a handoff, not a hidden theorem. The proof-erasure row $Q$ records which public erased data may be read after preservation while keeping proof evidence inside the trace boundary.
+
+Transport and replay through $H,C,P,N$ preserve this route. Therefore a consumer receives exactly classifier membership, derivation trace, preservation handoff, and erasure separation, with no host typing judgment or normalization oracle.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\TypeCheckingClassifierMembershipUp$ packet is refuted if a subject-reduction consumer reaches $S$ without the membership row $E$, derivation trace $D$, proof-erasure row $Q$, and structural route $H,C,P,N$.}
+
+\independenceWitness{TypeClassifierMembership, ClassifierTyping, SubjectReduction, TypeCheckingDerivationTrace, ProofTermErasureTrace: none is bijective with $\TypeCheckingClassifierMembershipUp$ because the packet jointly carries term rows, typing ledgers, Ext membership, derivation traces, subject-reduction handoff, proof-erasure separation, transport, replay, provenance, and local naming.}
+
+\closureat{TypeCheckingClassifierMembershipUp}{seedStr}
+
+\begin{closurestatus}{\TypeCheckingClassifierMembershipUp}
+  \constructivestory{A $\TypeCheckingClassifierMembershipUp$ packet is generated from a term-history row, finite typing ledger, Ext membership row, derivation trace, subject-reduction handoff, proof-erasure row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:type-checking-classifier-membership-carrier}, \autoref{thm:type-checking-classifier-membership-namecert-obligations}, and \autoref{thm:type-checking-classifier-membership-subject-reduction-handoff} seed the finite type-checking classifier-membership packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host type checking, hidden conversion, semantic equality of terms, quotient term representatives, proof objects outside erasure rows, global normalization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked term-row admission, typing-ledger admission, Ext membership exposure, derivation-trace exposure, subject-reduction handoff, proof-erasure separation, and structural transport for BEDC.Derived.TypeCheckingClassifierMembershipUp.}
+\end{closurestatus}

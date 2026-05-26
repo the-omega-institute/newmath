@@ -1,12 +1,20 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BaireCategoryUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -166,5 +174,58 @@ theorem BaireCategoryTasteGate_single_carrier_alignment :
   exact
     ⟨⟨baireCategoryBHistCarrier⟩, ⟨baireCategoryChapterTasteGate⟩,
       BaireCategoryTasteGate_single_carrier_alignment_decode_encode, rfl⟩
+
+theorem BaireCategoryCompleteMetricObligationSurface [AskSetup] [PackageSetup]
+    {B M D O R T H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory M →
+      PkgSig bundle P pkg →
+        baireCategoryFields (BaireCategoryUp.mk B M D O R T H C P N) =
+            [B, M, D, O, R, T, H, C, P, N] ∧
+          SemanticNameCert
+              (fun row : BHist => hsame row M ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row B ∨ hsame row M ∨ hsame row D ∨ hsame row O ∨
+                  hsame row R ∨ hsame row T ∨ hsame row H ∨ hsame row C ∨
+                    hsame row P ∨ hsame row N)
+              (fun row : BHist => PkgSig bundle P pkg ∧ (hsame row M ∨ hsame row T))
+              hsame ∧
+            Nonempty (ChapterTasteGate BaireCategoryUp) := by
+  -- BEDC touchpoint anchor: BHist hsame ProbeBundle PkgSig SemanticNameCert ChapterTasteGate
+  intro metricUnary packageP
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row M ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row M ∨ hsame row D ∨ hsame row O ∨
+              hsame row R ∨ hsame row T ∨ hsame row H ∨ hsame row C ∨
+                hsame row P ∨ hsame row N)
+          (fun row : BHist => PkgSig bundle P pkg ∧ (hsame row M ∨ hsame row T))
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro M ⟨hsame_refl M, metricUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inl source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨packageP, Or.inl source.left⟩
+  }
+  exact ⟨rfl, cert, ⟨baireCategoryChapterTasteGate⟩⟩
 
 end BEDC.Derived.BaireCategoryUp

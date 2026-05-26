@@ -737,13 +737,26 @@ If the shared face asks for closed-face coverage, both rows are classified by th
 The classifier theorem lists no fifth family and the deciding rows for the four families are fixed by the common carrier read. Hence the two failed rows receive the same obstruction classification. This proves determinacy only for the displayed candidate obstruction surface, not global confluence, subject reduction, full substitution compatibility, or Church--Rosser.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit scoped kernel route]
+\label{thm:metacic-confluence-audit-packet-scoped-kernel-route}
+Let $A=(D,C,N,A_0,S,R,H,T,P,L)$ be an accepted $\MetaCICConfluenceAuditPacketUp$ carrier. Before any confluence consumer can read $A$ as a packet, the kernel-visible read exposes the diamond row $D$, the closed-star row $C$, the normal-form row $N$, the atom-fragment row $A_0$, the componentwise $\hsame$ transport row $H$, the displayed $\Cont$ replay row $T$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\MetaCICConfluenceAuditPacketUp}$ row $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-confluence-audit-packet-carrier}. The only confluence-facing rows available to the consumer are the displayed audit rows $D,C,N,A_0$ together with the transport, replay, provenance, and naming rows $H,T,P,L$.
+
+The substitution-boundary row $S$ and subject-reduction separation row $R$ remain boundary data. They can route later checks, but they are not read as global strong normalization, unrestricted confluence, full substitution compatibility, or arbitrary subject reduction.
+
+Thus the scoped kernel route is exhausted by carrier-row projection. Any confluence consumer that has not read $D,C,N,A_0,H,T,P,L$ has not yet read the finite audit packet itself.
+\end{proof}
+
 \input{parts/concrete_instances/metacicconfluenceauditpacket/confluence_audit_obligations.tex}
 
 \closureat{MetaCICConfluenceAuditPacketUp}{seedStr}
+\closureat{MetaCICConfluenceAuditPacketUp}{obligationStr}[BEDC.Derived.MetaCICConfluenceAuditPacketUp.taste\_gate]
 
 \begin{closurestatus}{\MetaCICConfluenceAuditPacketUp}
   \constructivestory{A $\MetaCICConfluenceAuditPacketUp$ packet is generated from conditional confluence bridges, unconditional closed-normal and atom fragments, a substitution-compatibility boundary row, a subject-reduction separation row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:metacic-confluence-audit-packet-carrier}, \autoref{thm:metacic-confluence-audit-packet-namecert-obligations}, \autoref{thm:metacic-confluence-audit-packet-conditional-boundary}, \autoref{thm:metacic-confluence-audit-packet-closed-substitution-boundary}, \autoref{thm:metacic-confluence-audit-packet-subject-reduction-separation}, \autoref{thm:metacic-confluence-audit-packet-nonescape}, and \autoref{thm:metacic-confluence-audit-packet-obligation-closure-package} bind the confluence audit-map boundary as a finite NameCert obligation surface.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.MetaCICConfluenceAuditPacketUp.MetaCICConfluenceAuditPacketTasteGate\_single\_carrier\_alignment}

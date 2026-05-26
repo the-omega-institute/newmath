@@ -27,6 +27,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier exports no open cover, hidden selector for a point in the interval, quotient real equality, trichotomy row, or completeness datum. Its public object is the finite endpoint-and-containment packet $I$.
 \end{definition}
+\leanchecked{BEDC.Derived.ClosedBoundedIntervalUp.ClosedBoundedIntervalTasteGate\_single\_carrier\_alignment}
 
 \begin{definition}[Closed bounded interval classifier]
 \label{def:closed-bounded-interval-classifier}
@@ -45,12 +46,25 @@ are classified together exactly when the displayed $\hsame$ rows transport $L$ t
 \label{thm:closed-bounded-interval-namecert-obligations}
 For the carrier of \autoref{def:closed-bounded-interval-carrier}, the local $\NameCert_{\ClosedBoundedIntervalUp}$ surface consists exactly of carrier admission for $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$; endpoint admission for $L$ and $U$ through $\LocatedIntervalUp$; endpoint-order admission through $O$; rational and dyadic containment admission through $Q$ and $D$; StreamName and RegSeqRat readback through $S$ and $R$; RealUp sealing through $E$; classifier preservation under the componentwise $\hsame$ rows of $H$; displayed $\Cont$ replay through $C$; provenance through $P$; and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedboundedintervalUp.ClosedBoundedIntervalPacket\_semantic\_name\_certificate}
 \begin{proof}
 Project the carrier. Its endpoint rows $L$ and $U$, order row $O$, containment ledgers $Q$ and $D$, window row $S$, readback row $R$, seal row $E$, transport row $H$, replay row $C$, provenance row $P$, and local name $N$ are visible coordinates of one finite packet.
 
 Endpoint and containment admission are read before the Real seal. The rational and dyadic ledgers are attached to the same lower and upper located endpoints and to the same endpoint-order row, so a containment consumer cannot replace the packet by a host interval or by an unrecorded order decision.
 
 The structural rows close the naming surface. The componentwise $\hsame$ transports and displayed $\Cont$ routes preserve exactly the rows listed in the carrier, and the $\Pkg$ and $\NameCert$ rows name that finite route without adding any hidden selector, quotient equality, trichotomy, or completeness datum.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval root obligation spine]
+\label{thm:closed-bounded-interval-root-obligation-spine}
+Every downstream $\ClosedBoundedIntervalUp$ consumer must read three root obligations through the existing carrier rows: endpoint-order exposure through $L,U,O$, containment-ledger exposure through $Q,D$, and $\StreamNameUp/\RegSeqRatUp/\RealUp$ seal handoff through $S,R,E$. These obligations are transported only by $H$, replayed only by $C$, recorded only by $P$, and named only by $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier. The carrier of \autoref{def:closed-bounded-interval-carrier} supplies the endpoint, containment, schedule, readback, seal, transport, replay, provenance, and local naming rows, while \autoref{def:closed-bounded-interval-classifier} preserves those rows componentwise.
+
+Apply the NameCert obligations of \autoref{thm:closed-bounded-interval-namecert-obligations}. They expose endpoint order through $O$, containment through $Q,D$, and the StreamName, RegSeqRat, and Real seal handoff through $S,R,E$.
+
+The source nonescape and finite-net source theorems then keep interval-net, compactness-facing, and uniform-modulus consumers on the same root spine. Thus the downstream route cannot replace the endpoint order, containment ledger, or seal handoff by a host interval, selected subcover, quotient equality, or ambient completeness row.
 \end{proof}
 
 \begin{theorem}[Closed bounded interval carrier gate]
@@ -129,6 +143,8 @@ Use the existing source-window theorem. By \autoref{def:closed-bounded-interval-
 
 The non-escape conclusion follows from \autoref{thm:closed-bounded-interval-source-nonescape}. Since the carrier and source route contain no selected point, quotient equality, trichotomy row, selected subcover, or ambient completeness coordinate, the Real-seal handoff cannot export any of them.
 \end{proof}
+
+\input{parts/concrete_instances/closedboundedinterval/root_source_obligations}
 
 \begin{definition}[Closed bounded interval source window]
 \label{def:closed-bounded-interval-source-window}
@@ -644,106 +660,6 @@ Apply the source nonescape and finite-cover nonescape boundaries already establi
 
 The finite-net consumer can therefore add mesh centers and coverage rows only after the source package has been displayed. The replay and provenance rows $H,C,P,N$ carry exactly that source into the consumer, so net readiness is the endpoint-and-containment package rather than an independent mesh object.
 \end{proof}
-
-\begin{theorem}[Closed bounded interval root unblock obligations]
-\label{thm:closed-bounded-interval-root-unblock-obligations}
-The root obligations exposed by an accepted $\ClosedBoundedIntervalUp$ packet are endpoint admission, endpoint-order transport, rational containment exposure, dyadic containment exposure, $\StreamNameUp$ readback, $\RegSeqRatUp$ readback, $\RealUp$ seal nonescape, transport, replay, provenance, and local $\NameCert$ naming. Any downstream finite-net, located-cover, nested-window, or compact-uniform route must discharge those obligations before adding its own consumer rows.
-\end{theorem}
-\begin{proof}
-Read the NameCert obligation theorem and the endpoint-order transport theorem. Together they make endpoint admission and endpoint-order transport part of the local $\ClosedBoundedIntervalUp$ surface.
-
-Read the density ledger and density readback theorems. They expose rational containment, dyadic containment, StreamName windows, RegSeqRat readbacks, and Real endpoint seals as rows of the same source package.
-
-Apply source readback stability and the compact-uniform source package. Transport, replay, provenance, and local naming do not create additional interval data; they preserve the displayed package until the finite-net or compact-uniform consumer adds its own rows.
-
-Thus the root obligations are exactly the listed rows. A downstream consumer that omits any one of them has not received an accepted $\ClosedBoundedIntervalUp$ source.
-\end{proof}
-
-\begin{theorem}[Closed bounded interval downstream coverage surface]
-\label{thm:closed-bounded-interval-downstream-coverage-surface}
-Every downstream located-cover, nested-window, finite-net, and compact-uniform consumer of an accepted $\ClosedBoundedIntervalUp$ carrier factors through the same source packet
-$$
-L,U,O,Q,D,S,R,E,H,C,P,N.
-$$
-The consumer may refine that packet by adding cover, nesting, mesh, modulus, or continuity rows, but the source interval itself remains the displayed carrier rather than an open-cover compactness object or host real interval.
-\end{theorem}
-\begin{proof}
-Begin with \autoref{thm:closed-bounded-interval-root-consumer-obligations}. It places every net, uniform-modulus, located-cover, nested-window, and compactness-facing consumer behind the same root rows.
-
-Apply \autoref{thm:closed-bounded-interval-root-net-readiness} for finite-net reads and the compactness consumer boundary for compact-uniform reads. Both routes require $L,U,O,Q,D,S,R,E$ before consumer-specific cover, net, or modulus rows are inspected.
-
-Finally use \autoref{thm:closed-bounded-interval-root-unblock-obligations}. The structural rows $H,C,P,N$ carry the source across transport, replay, provenance, and local naming, so each downstream route factors through the same source packet and cannot replace it by host compactness data.
-\end{proof}
-
-\begin{theorem}[Closed bounded interval finite-cover window exactness]
-\label{thm:closed-bounded-interval-finite-cover-window-exactness}
-Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ be an accepted $\ClosedBoundedIntervalUp$ carrier. Every $\ClosedBoundedIntervalNetUp$ finite-cover window read must expose exactly the source rows $L,U,O,Q,D,S,R,E,H,C,P,N$ before any mesh center, cover cell, or refinement row is read. In particular, \autoref{def:closed-bounded-interval-finite-cover-window}, \autoref{thm:closed-bounded-interval-source-cover-boundary}, and \autoref{thm:closed-bounded-interval-downstream-coverage-surface} make the finite-cover window an exact downstream read of the root packet, not a separate open-cover compactness object.
-\end{theorem}
-\begin{proof}
-Project the accepted carrier and the finite-cover window. The root rows $L,U,O,Q,D,S,R,E$ supply endpoints, order, containment, StreamName scheduling, RegSeqRat readback, and the terminal Real seal before a finite-cover consumer can inspect its own rows.
-
-Apply the source-window exhaustion and downstream coverage surface. These theorems force every interval-net and located-cover read through the same displayed source packet, so the finite-cover window cannot omit any of $L,U,O,Q,D,S,R,E,H,C,P,N$.
-
-The structural rows finish the exactness claim. Transport by $H$, replay by $C$, provenance by $P$, and local naming by $N$ preserve the source packet without adding selected subcovers, host compactness, quotient real equality, trichotomy, or ambient completeness.
-\end{proof}
-
-\begin{theorem}[Closed bounded interval nested-window factorization]
-\label{thm:closed-bounded-interval-nested-window-factorization}
-Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ be an accepted $\ClosedBoundedIntervalUp$ carrier. Every $\NestedIntervalCompactnessUp$ nested-window consumer factors through the displayed root route $L,U,O,Q,D,S,R,E,H,C,P,N$ before it reads a retained nested prefix, compactness ledger, or real-seal boundary. The factorization is the composition of \autoref{thm:closed-bounded-interval-nested-compactness-handoff}, \autoref{thm:closed-bounded-interval-root-unblock-obligations}, and \autoref{thm:closed-bounded-interval-downstream-coverage-surface}.
-\end{theorem}
-\begin{proof}
-Start with the nested compactness handoff. It already places the nested-window consumer downstream of the endpoint-order row, rational and dyadic containment ledgers, StreamName window, RegSeqRat readback, and RealUp seal.
-
-Use the root unblock obligations. They add the required transport, replay, provenance, and local naming rows $H,C,P,N$ to the endpoint and readback route, so the nested consumer receives a complete $\ClosedBoundedIntervalUp$ source packet.
-
-Finally apply the downstream coverage surface. The nested prefix may refine the displayed interval rows, but it cannot replace them by selected endpoints, quotient equality, trichotomy, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
-\end{proof}
-
-\begin{theorem}[Closed bounded interval uniform-modulus source]
-\label{thm:closed-bounded-interval-uniform-modulus-source}
-Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ be an accepted $\ClosedBoundedIntervalUp$ carrier. Every $\ClosedBoundedIntervalUniformModulusUp$ consumer obtains its interval source from the rows $L,U,O,Q,D,S,R,E,H,C,P,N$ before reading any modulus, compact-uniform, or Heine--Cantor-style row. The source is therefore the displayed package of \autoref{thm:closed-bounded-interval-source-obligation-package}, \autoref{thm:closed-bounded-interval-compact-uniform-source-package}, and \autoref{thm:closed-bounded-interval-downstream-coverage-surface}, not an ambient compact interval theorem.
-\end{theorem}
-\begin{proof}
-Read the source obligation package first. It identifies $L,U,O,Q,D,S,R,E,H,C,P,N$ as the lower endpoint, upper endpoint, order, containment, window, readback, seal, transport, replay, provenance, and naming rows available to interval consumers.
-
-Apply the compact-uniform source package. A uniform-modulus consumer may add modulus and compact-uniform rows only after the displayed endpoint, containment, StreamName, RegSeqRat, and Real-seal route has been consumed.
-
-The downstream coverage surface keeps the consumer inside that package. Since no row of $I$ names open-cover compactness, selected subcovers, quotient real equality, trichotomy, or ambient completeness, the uniform-modulus source is exactly the finite root packet.
-\end{proof}
-
-\begin{definition}[Closed bounded interval scoped source map]
-\label{def:closed-bounded-interval-scoped-source-map}
-The scoped source map for an accepted $\ClosedBoundedIntervalUp$ carrier is the finite packet
-$$
-\Sigma_I=(L,U,O,Q,D,S,R,E,H,C,P,N).
-$$
-Here $L$ and $U$ are the lower and upper endpoint rows, $O$ is the endpoint-order row, $Q$ and $D$ are the rational and dyadic containment ledgers, $S$ is the finite $\StreamNameUp$ window, $R$ is the $\RegSeqRatUp$ readback, $E$ is the terminal $\RealUp$ seal, $H$ is componentwise $\hsame$ transport, $C$ is displayed $\Cont$ replay, $P$ is $\Pkg$ provenance, and $N$ is the local $\NameCert_{\ClosedBoundedIntervalUp}$ row. The map has no coordinate for open-cover compactness, trichotomy, selected interval points, quotient equality, or ambient $\RealUp$ completeness.
-\end{definition}
-
-\begin{theorem}[Closed bounded interval scoped kernel surface]
-\label{thm:closed-bounded-interval-scoped-kernel-surface}
-Every scoped consumer of an accepted $\ClosedBoundedIntervalUp$ carrier reads only the kernel rows displayed by \autoref{def:closed-bounded-interval-scoped-source-map}: endpoint rows, endpoint order, rational and dyadic containment ledgers, StreamName window, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming.
-\end{theorem}
-\begin{proof}
-Project the accepted carrier onto $\Sigma_I$. The carrier definition supplies exactly the endpoint rows $L,U$, the order row $O$, containment ledgers $Q,D$, window and readback rows $S,R$, seal row $E$, and structural rows $H,C,P,N$.
-
-Any scoped consumer enters through the same projection. If it reads an endpoint, containment fact, dyadic cell, regular rational readback, or terminal Real seal, that read is one of the displayed coordinates of $\Sigma_I$.
-
-Transport and replay do not add a new interval coordinate. They preserve the displayed source rows through $H$ and $C$, while $P$ and $N$ record provenance and local naming. Hence every scoped consumer stays on the listed kernel surface.
-\end{proof}
-
-\begin{theorem}[Closed bounded interval net consumer readiness]
-\label{thm:closed-bounded-interval-net-consumer-readiness}
-Closed-bounded-interval net, uniform-modulus, and nested-compactness consumers become ready only through the displayed source map $\Sigma_I$ of \autoref{def:closed-bounded-interval-scoped-source-map}. They may add mesh, modulus, nesting, or compact-uniform rows after reading $\Sigma_I$, but they cannot become ready through open-cover compactness, trichotomy, selected points, quotient equality, or ambient $\RealUp$ completeness.
-\end{theorem}
-\begin{proof}
-Begin with the scoped kernel surface. \autoref{thm:closed-bounded-interval-scoped-kernel-surface} forces every accepted source read through $L,U,O,Q,D,S,R,E,H,C,P,N$.
-
-For net consumers, the mesh rows are downstream of the endpoint and containment rows. For uniform-modulus consumers, the modulus rows are downstream of the same dyadic containment and StreamName window. For nested-compactness consumers, each nested window is downstream of the endpoint-order row and the displayed readback route.
-
-The excluded principles are not coordinates of $\Sigma_I$. Therefore readiness is exactly the displayed source-map route followed by consumer-specific rows, not a route through open-cover compactness, trichotomy, selected points, quotient equality, or ambient completeness.
-\end{proof}
-
 \closureat{ClosedBoundedIntervalUp}{seedStr}
 
 \begin{closurestatus}{\ClosedBoundedIntervalUp}
