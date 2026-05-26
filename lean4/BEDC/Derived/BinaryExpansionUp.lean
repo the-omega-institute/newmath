@@ -220,4 +220,82 @@ theorem BinaryExpansionPacket_namecert_obligations [AskSetup] [PackageSetup]
       exact ⟨provenancePkg, provenanceUnary, nameCertUnary⟩
   }
 
+theorem BinaryExpansionPacket_dyadic_window_public_readiness [AskSetup] [PackageSetup]
+    {digits windows approximation regular realSeal transport route provenance nameCert windowRead
+      dyadicWindow publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinaryExpansionPacket digits windows approximation regular realSeal transport route provenance
+        nameCert bundle pkg →
+      Cont windows digits windowRead →
+        Cont windowRead approximation dyadicWindow →
+          Cont dyadicWindow regular publicRead →
+            PkgSig bundle publicRead pkg →
+              SemanticNameCert
+                  (fun row : BHist =>
+                    hsame row windowRead ∨ hsame row dyadicWindow ∨ hsame row publicRead)
+                  (fun row : BHist => UnaryHistory row)
+                  (fun _row : BHist =>
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle publicRead pkg)
+                  hsame ∧
+                UnaryHistory windowRead ∧ UnaryHistory dyadicWindow ∧
+                  UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro packet windowsDigitsRead windowApproximationRead dyadicRegularPublic publicPkg
+  obtain ⟨digitsUnary, windowsUnary, approximationUnary, regularUnary, _realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary, _windowsDigitsApproximation,
+    _approximationRegularRealSeal, _transportRouteProvenance, provenancePkg⟩ := packet
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed windowsUnary digitsUnary windowsDigitsRead
+  have dyadicWindowUnary : UnaryHistory dyadicWindow :=
+    unary_cont_closed windowReadUnary approximationUnary windowApproximationRead
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed dyadicWindowUnary regularUnary dyadicRegularPublic
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row windowRead ∨ hsame row dyadicWindow ∨ hsame row publicRead)
+        (fun row : BHist => UnaryHistory row)
+        (fun _row : BHist => PkgSig bundle provenance pkg ∧ PkgSig bundle publicRead pkg)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro publicRead (Or.inr (Or.inr (hsame_refl publicRead)))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        cases source with
+        | inl sameWindow =>
+            exact Or.inl (hsame_trans (hsame_symm sameRows) sameWindow)
+        | inr tail =>
+            cases tail with
+            | inl sameDyadic =>
+                exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameDyadic))
+            | inr samePublic =>
+                exact Or.inr (Or.inr (hsame_trans (hsame_symm sameRows) samePublic))
+    }
+    pattern_sound := by
+      intro _row source
+      cases source with
+      | inl sameWindow =>
+          exact unary_transport windowReadUnary (hsame_symm sameWindow)
+      | inr tail =>
+          cases tail with
+          | inl sameDyadic =>
+              exact unary_transport dyadicWindowUnary (hsame_symm sameDyadic)
+          | inr samePublic =>
+              exact unary_transport publicReadUnary (hsame_symm samePublic)
+    ledger_sound := by
+      intro _row _source
+      exact ⟨provenancePkg, publicPkg⟩
+  }
+  exact ⟨cert, windowReadUnary, dyadicWindowUnary, publicReadUnary⟩
+
 end BEDC.Derived.BinaryExpansionUp
