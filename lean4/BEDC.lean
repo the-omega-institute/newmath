@@ -4099,6 +4099,7 @@ import BEDC.Derived.LocatedRealSequenceUp.TasteGate
 import BEDC.Derived.LocatedRealTailEnvelopeUp.TasteGate
 import BEDC.Derived.LocatedRealUp
 import BEDC.Derived.LocatedRealUp.ScopeRealSealConsumer
+import BEDC.Derived.LocatedRegSeqRatUp
 import BEDC.Derived.LocatedRegularizationUp.TasteGate
 import BEDC.Derived.LocatedSequenceModulusUp.TasteGate
 import BEDC.Derived.LocatedSpaceUp.TasteGate
