@@ -656,6 +656,7 @@ import BEDC.Derived.BishopRealComparisonUp
 import BEDC.Derived.BishopRealComparisonUp.CauchyDedekindBoundary
 import BEDC.Derived.BishopRealComparisonUp.TasteGate
 import BEDC.Derived.BishopRealLineInterfaceUp
+import BEDC.Derived.BishopRealLineInterfaceUp.TasteGate
 import BEDC.Derived.BishopRealNormalizerUp.TasteGate
 import BEDC.Derived.BishopRealUniformCompletionUp.TasteGate
 import BEDC.Derived.BishopRealUp
@@ -2925,6 +2926,7 @@ import BEDC.Derived.ErrorCodeUp
 import BEDC.Derived.EstimatorUp
 import BEDC.Derived.EudoxusRealUp
 import BEDC.Derived.EulerLagrangeUp
+import BEDC.Derived.EulerMaclaurinUp.TasteGate
 import BEDC.Derived.EulerPolygonUp.TasteGate
 import BEDC.Derived.EvenOddCauchyCriterionUp.Route
 import BEDC.Derived.EvenOddCauchyCriterionUp.TasteGate
@@ -3973,6 +3975,7 @@ import BEDC.Derived.LocatedMonotoneConvergenceUp
 import BEDC.Derived.LocatedPositiveRealUp.TasteGate
 import BEDC.Derived.LocatedRealComparisonUp.TasteGate
 import BEDC.Derived.LocatedRealFieldUp
+import BEDC.Derived.LocatedRealFieldUp.TasteGate
 import BEDC.Derived.LocatedRealIntervalUp.TasteGate
 import BEDC.Derived.LocatedRealNestedIntervalsUp.TasteGate
 import BEDC.Derived.LocatedRealSequenceUp.TasteGate
@@ -4404,6 +4407,7 @@ import BEDC.Derived.NestedIntervalIntersectionUp
 import BEDC.Derived.NestedIntervalIntersectionUp.TasteGate
 import BEDC.Derived.NestedIntervalRealUp.TasteGate
 import BEDC.Derived.NestedIntervalUp
+import BEDC.Derived.NetConvergenceUp
 import BEDC.Derived.NetConvergenceUp.TasteGate
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.NewtonIterationUp
