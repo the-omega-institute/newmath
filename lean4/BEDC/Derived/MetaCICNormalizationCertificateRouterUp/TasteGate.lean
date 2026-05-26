@@ -401,4 +401,35 @@ theorem MetaCICNormalizationCertificateRouter_sibling_separation [AskSetup] [Pac
       closedReadUnary, generatorReadUnary, compilerReadUnary, acceptanceReadUnary,
       closedReadExact, generatorReadExact, compilerReadExact, acceptanceReadExact, pkgSig⟩
 
+theorem MetaCICNormalizationCertificateRouterPacket_route_coverage [AskSetup]
+    [PackageSetup]
+    {audit candidate strongNorm piApp closedProjection generator compiler kernelAccept transport
+      replay provenance localName routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICNormalizationCertificateRouterPacket audit candidate strongNorm piApp
+        closedProjection generator compiler kernelAccept transport replay provenance localName
+        bundle pkg ->
+      Cont provenance localName routeRead ->
+        UnaryHistory audit ∧ UnaryHistory candidate ∧ UnaryHistory strongNorm ∧
+          UnaryHistory piApp ∧ UnaryHistory closedProjection ∧ UnaryHistory generator ∧
+            UnaryHistory compiler ∧ UnaryHistory kernelAccept ∧ UnaryHistory transport ∧
+              UnaryHistory replay ∧ UnaryHistory provenance ∧ UnaryHistory localName ∧
+                UnaryHistory routeRead ∧ Cont candidate strongNorm piApp ∧
+                  Cont piApp closedProjection transport ∧
+                    Cont generator compiler kernelAccept ∧ Cont transport replay provenance ∧
+                      Cont provenance localName routeRead ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro packet provenanceLocalRoute
+  obtain ⟨auditUnary, candidateUnary, strongNormUnary, piAppUnary, closedProjectionUnary,
+    generatorUnary, compilerUnary, kernelAcceptUnary, transportUnary, replayUnary,
+    provenanceUnary, localNameUnary, candidateStrongNorm, piAppProjection,
+    generatorCompiler, transportReplay, pkgSig⟩ := packet
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed provenanceUnary localNameUnary provenanceLocalRoute
+  exact
+    ⟨auditUnary, candidateUnary, strongNormUnary, piAppUnary, closedProjectionUnary,
+      generatorUnary, compilerUnary, kernelAcceptUnary, transportUnary, replayUnary,
+      provenanceUnary, localNameUnary, routeReadUnary, candidateStrongNorm,
+      piAppProjection, generatorCompiler, transportReplay, provenanceLocalRoute, pkgSig⟩
+
 end BEDC.Derived.MetaCICNormalizationCertificateRouterUp
