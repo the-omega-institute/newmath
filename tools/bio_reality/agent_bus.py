@@ -91,6 +91,26 @@ AGENTS = {
 }
 
 
+ORACLE_ESCALATION_RULES = [
+    "",
+    "ORACLE ESCALATION (optional, last resort):",
+    "- If after careful analysis you cannot decide between two BEDC-consistent options",
+    "  for decomposing a stable BioReality finding, or you cannot identify a stronger",
+    "  null model that respects the existing acceptance criteria, you may consult",
+    "  the BioReality oracle via:",
+    '    python3 tools/bio_reality/oracle/oracle_client.py --query "<concise question>" \\',
+    "      --intended-claim <claim_id>",
+    "- The oracle responds with text reasoning from a ChatGPT thread. Treat the",
+    "  response as advisory, not authoritative. You must still verify any",
+    "  proposed change passes the existing deterministic gates.",
+    "- Do NOT use oracle for: trivial questions, basic Python syntax, anything you",
+    "  can solve with stdlib + the prompt context. Oracle is for BEDC reasoning",
+    "  forks and cross-layer concept questions only.",
+    "- Oracle responses must not be cited inside paper kernel content. They live",
+    "  in proposal markdown notes or commit messages.",
+]
+
+
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
@@ -569,6 +589,7 @@ def render_prompt(event: dict[str, Any], agent_id: str, action: str) -> str:
             "  experiment must now satisfy.",
             "- All edits must be atomic and pass the BioReality self-tests before",
             "  you finish.",
+            *ORACLE_ESCALATION_RULES,
         ]
     elif agent_id == "bio-namer":
         extra_rules = [
@@ -636,6 +657,7 @@ def render_prompt(event: dict[str, Any], agent_id: str, action: str) -> str:
             "",
             "Step 4. After writing the proposal, print a one-line completion summary to",
             "  stdout listing the proposal path and the proposed slug.",
+            *ORACLE_ESCALATION_RULES,
         ]
     return "\n".join(
         [
@@ -1301,7 +1323,12 @@ def self_test() -> int:
             "bio-planner",
             "draft_next_phase_claim_and_experiment",
         )
-        for required_text in ("PLANNING DISCIPLINE", "depends_on must list ONLY", "never weaken the acceptance"):
+        for required_text in (
+            "PLANNING DISCIPLINE",
+            "depends_on must list ONLY",
+            "never weaken the acceptance",
+            "ORACLE ESCALATION",
+        ):
             if required_text not in planner_prompt:
                 print(json.dumps({"missing": required_text, "prompt": planner_prompt}, indent=2), file=sys.stderr)
                 return 1
@@ -1333,11 +1360,21 @@ def self_test() -> int:
             "bio-namer",
             "draft_namecert_proposal",
         )
-        for required_text in ("NAMECERT PROPOSAL DISCIPLINE", "BioReality or RealityBound", "vision-level scientific-model bridge"):
+        for required_text in (
+            "NAMECERT PROPOSAL DISCIPLINE",
+            "BioReality or RealityBound",
+            "vision-level scientific-model bridge",
+            "ORACLE ESCALATION",
+        ):
             if required_text not in namer_prompt:
                 print(json.dumps({"missing": required_text, "prompt": namer_prompt}, indent=2), file=sys.stderr)
                 return 1
         stable_event = _event("experiment_failed", "bio-X", "experiment", "same-experiment", "failed", {})
+        for mechanical_agent in ("bio-experimentalist", "bio-data-fetcher", "bio-gate-curator", "bio-researcher"):
+            mechanical_prompt = render_prompt(stable_event, mechanical_agent, "self_test_action")
+            if "ORACLE ESCALATION" in mechanical_prompt:
+                print(json.dumps({"unexpected_oracle": mechanical_agent}, indent=2), file=sys.stderr)
+                return 1
         in_flight = _task_for_event(stable_event, "bio-experimentalist", "repair_experiment_script", 98)
         in_flight["status"] = "in_flight"
         repeat_event = _event(
