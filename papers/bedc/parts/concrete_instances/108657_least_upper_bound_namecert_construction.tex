@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\LeastUpperBoundUp$}
+\label{ch:concrete-instances-least-upper-bound-namecert}
+\origin{human}
+
+Following Bishop and Bridges-style constructive order analysis, the $\LeastUpperBoundUp$ packet records the located least-upper-bound surface needed by Real and Completion consumers before any ambient completeness theorem is available. It sits over the located upper-bound packet of \autoref{ch:concrete-instances-located-upper-bound-namecert}, the located-supremum packet of \autoref{ch:concrete-instances-locatedsupremum-namecert}, the dyadic supremum packet of \autoref{ch:concrete-instances-dyadic-supremum-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The certificate is a finite boundary for bounded-source, upper-bound, and lower-approximation reads; it is not a quotient-real construction, a selected supremum, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[LeastUpperBound carrier]
+\label{def:least-upper-bound-carrier}
+A $\LeastUpperBoundUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,U,A,L,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the bounded source row, naming the finite family observations and the bound discipline consumed by the located upper-bound surface.
+\item $U$ is the upper-bound witness row, recording the inspected comparison witnesses that keep the displayed source below the proposed bound surface.
+\item $A$ is the lower-approximation and cofinality row, recording the finite witnesses demanded by the consumer below the same bound surface.
+\item $L$ is the $\LocatedSupremumUp$ handoff row, binding the source, upper-bound, and lower-approximation reads to the located-supremum packet.
+\item $D$ is the $\DyadicSupremumUp$ handoff row, recording the dyadic upper-bound and lower-approximation surface used by finite tolerance consumers.
+\item $E$ is the terminal $\RealUp$ seal, reached only after $S,U,A,L,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the bounded source, upper-bound witness, lower-approximation row, located-supremum handoff, dyadic-supremum handoff, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each least-upper-bound request through $S,U,A,L,D,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LeastUpperBoundUp$, $\LocatedUpperBoundUp$, $\LocatedSupremumUp$, $\DyadicSupremumUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LeastUpperBoundUp}$ row.
+\end{enumerate}
+The accepted carrier stores no ambient completeness coordinate, quotient cut, selected supremum, trichotomy oracle, host real equality test, or countable-choice selector.
+\end{definition}
+
+\begin{theorem}[LeastUpperBound NameCert obligations]
+\label{thm:least-upper-bound-namecert-obligations}
+For every accepted $\LeastUpperBoundUp$ carrier $B=(S,U,A,L,D,E,H,C,P,N)$, the local $\NameCert_{\LeastUpperBoundUp}$ surface consists exactly of carrier admission, bounded-source exposure, upper-bound witness exposure, lower-approximation cofinality, located-supremum handoff, dyadic-supremum handoff, terminal Real seal, componentwise transport, displayed continuation replay, package provenance, and local naming. Every least-upper-bound-facing consumer reads only the displayed route
+$$
+S,U,A\longmapsto L,D\longmapsto E\longmapsto H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:least-upper-bound-carrier}. The analytic rows are the bounded source $S$, the upper-bound witness $U$, the lower-approximation row $A$, the located-supremum handoff $L$, the dyadic-supremum handoff $D$, and the terminal Real seal $E$.
+
+The upper side of the request is read through $S$ and $U$. The lower side is read through $A$, and the cofinality claim is accepted only for the displayed approximation witnesses demanded by the consumer.
+
+The handoff rows $L$ and $D$ bind those two sides to the existing located-supremum and dyadic-supremum surfaces before the Real seal can be inspected. The structural rows $H,C,P,N$ only transport, replay, source, and name that finite route.
+
+Since the carrier has no coordinate for quotient cuts, selected suprema, countable choice, trichotomy, host real equality, or ambient order completeness, no local NameCert obligation can export one of those principles.
+\end{proof}
+
+\begin{theorem}[LeastUpperBound located-supremum handoff]
+\label{thm:least-upper-bound-located-supremum-handoff}
+Every Real or Completion consumer of an accepted $\LeastUpperBoundUp$ packet must first expose the bounded source row $S$, the upper-bound witness row $U$, the lower-approximation row $A$, the $\LocatedSupremumUp$ handoff row $L$, and the $\DyadicSupremumUp$ handoff row $D$ before reading the terminal $\RealUp$ seal $E$. The handoff exports only the finite least-upper-bound packet $S,U,A,L,D,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with a consumer that reaches the Real-facing boundary of the packet. By \autoref{def:least-upper-bound-carrier}, the only terminal Real coordinate is $E$, and it is downstream of the bounded source, upper-bound, lower-approximation, located-supremum, and dyadic-supremum rows.
+
+Apply \autoref{thm:least-upper-bound-namecert-obligations}. It forces every least-upper-bound-facing read through the route from $S,U,A$ to $L,D$ and then to $E,H,C,P,N$.
+
+The located-supremum row keeps the upper and lower sides under the constructive located-supremum surface, while the dyadic-supremum row records the finite tolerance-facing boundary. Thus a Real or Completion consumer receives the displayed packet only, with no quotient-real construction, selected supremum, countable-choice selector, trichotomy split, host equality test, or ambient $\RealUp$ completeness theorem.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\LeastUpperBoundUp$ consumer that reaches a $\RealUp$ or completion-facing read without first displaying the bounded source row, upper-bound witness row, lower-approximation row, $\LocatedSupremumUp$ handoff, and $\DyadicSupremumUp$ handoff refutes the carrier surface.}
+
+\independenceWitness{located upper bound, located supremum, dyadic supremum, and Real seal: no listed sibling supplies the whole $\LeastUpperBoundUp$ packet, because each sibling contributes upper-bound discipline, located cofinality, dyadic tolerance data, or a terminal seal while this chapter binds all rows with transport, replay, provenance, and local naming.}
+
+\closureat{LeastUpperBoundUp}{seedStr}
+
+\begin{closurestatus}{\LeastUpperBoundUp}
+  \constructivestory{A $\LeastUpperBoundUp$ packet is generated from a bounded source row, an upper-bound witness row, a lower-approximation cofinality row, LocatedSupremum and DyadicSupremum handoff rows, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:least-upper-bound-carrier}, \autoref{thm:least-upper-bound-namecert-obligations}, and \autoref{thm:least-upper-bound-located-supremum-handoff} seed the finite located least-upper-bound boundary needed by Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient real construction, selected suprema, countable choice, trichotomy, host real equality, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, upper-bound witness exposure, lower-approximation cofinality, located-supremum handoff, dyadic-supremum handoff, RealUp seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.LeastUpperBoundUp.}
+\end{closurestatus}
