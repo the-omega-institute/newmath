@@ -324,11 +324,53 @@ theorem NormalSpacePacket_open_neighborhood_stability [AskSetup] [PackageSetup]
   have stabilityUnary : UnaryHistory stabilityRead :=
     unary_cont_closed openLeftUnary openRightUnary stabilityRoute
   exact
-    ⟨openLeftUnary,
-      openRightUnary,
-      stabilityUnary,
-      stabilityRoute,
-      packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right⟩
+      ⟨openLeftUnary,
+        openRightUnary,
+        stabilityUnary,
+        stabilityRoute,
+        packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right⟩
+
+theorem NormalSpacePacket_urysohn_handoff [AskSetup] [PackageSetup]
+    {topology closedLeft closedRight disjoint openLeft openRight transport replay provenance
+      localName exported separationRead urysohnRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NormalSpacePacket topology closedLeft closedRight disjoint openLeft openRight transport
+        replay provenance localName exported bundle pkg ->
+      Cont disjoint transport separationRead ->
+        Cont separationRead exported urysohnRead ->
+          PkgSig bundle exported pkg ->
+            UnaryHistory topology ∧ UnaryHistory closedLeft ∧ UnaryHistory closedRight ∧
+              UnaryHistory disjoint ∧ UnaryHistory openLeft ∧ UnaryHistory openRight ∧
+                UnaryHistory separationRead ∧ UnaryHistory urysohnRead ∧
+                  Cont closedLeft closedRight disjoint ∧ Cont openLeft openRight transport ∧
+                    Cont disjoint transport separationRead ∧
+                      Cont separationRead exported urysohnRead ∧
+                        Cont provenance localName exported ∧ PkgSig bundle localName pkg ∧
+                          PkgSig bundle exported pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro packet separationRoute urysohnRoute exportedPkg
+  have separationUnary : UnaryHistory separationRead :=
+    unary_cont_closed packet.right.right.right.left
+      packet.right.right.right.right.right.right.left separationRoute
+  have urysohnUnary : UnaryHistory urysohnRead :=
+    unary_cont_closed separationUnary packet.right.right.right.right.right.right.right.right.right.right.left
+      urysohnRoute
+  exact
+    ⟨packet.left,
+      packet.right.left,
+      packet.right.right.left,
+      packet.right.right.right.left,
+      packet.right.right.right.right.left,
+      packet.right.right.right.right.right.left,
+      separationUnary,
+      urysohnUnary,
+      packet.right.right.right.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      separationRoute,
+      urysohnRoute,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right,
+      exportedPkg⟩
 
 theorem NormalSpacePacket_cozero_urysohn_handoff [AskSetup] [PackageSetup]
     {topology closedLeft closedRight disjoint openLeft openRight transport replay provenance
