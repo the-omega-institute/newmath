@@ -255,6 +255,30 @@ theorem SobolevCarrier_derivative_norm_ledger [AskSetup] [PackageSetup]
       normGradientSame, domainBaseCodomain, normRoute, codomainMagnitudeGradient,
       provenancePkg⟩
 
+theorem SobolevCarrier_weak_gradient_energy_carrier [AskSetup] [PackageSetup]
+    {domain base codomain magnitude gradient transports routes provenance localCert
+      energyRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SobolevCarrier domain base codomain magnitude gradient transports routes provenance
+        localCert bundle pkg ->
+      Cont magnitude gradient energyRead ->
+        UnaryHistory magnitude ∧ UnaryHistory gradient ∧ UnaryHistory energyRead ∧
+          hsame energyRead (append magnitude gradient) ∧ Cont codomain magnitude gradient ∧
+            Cont magnitude gradient energyRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg UnaryHistory
+  intro carrier magnitudeGradientEnergy
+  obtain ⟨_domainUnary, _baseUnary, _codomainUnary, magnitudeUnary, gradientUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _localCertUnary, _domainBaseCodomain,
+    codomainMagnitudeGradient, _gradientTransportsRoutes, _routesProvenanceLocalCert,
+    provenancePkg⟩ := carrier
+  have energyUnary : UnaryHistory energyRead :=
+    unary_cont_closed magnitudeUnary gradientUnary magnitudeGradientEnergy
+  have energyAsAppend : hsame energyRead (append magnitude gradient) :=
+    magnitudeGradientEnergy
+  exact
+    ⟨magnitudeUnary, gradientUnary, energyUnary, energyAsAppend, codomainMagnitudeGradient,
+      magnitudeGradientEnergy, provenancePkg⟩
+
 theorem SobolevCarrier_integral_derivative_handoff [AskSetup] [PackageSetup]
     {domain base codomain magnitude gradient transports routes provenance localCert handoffRead :
       BHist}
