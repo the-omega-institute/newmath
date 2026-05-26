@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\BanachLatticeUp$}
+\label{ch:concrete-instances-banach-lattice-namecert}
+\origin{human}
+
+Following Kantorovich and Schaefer on Banach lattices, the $\BanachLatticeUp$ packet records the finite BEDC naming surface for a vector lattice whose normed carrier is Cauchy-complete and whose positive cone remains visible to norm-facing consumers. It strengthens the ordered vector-lattice surface of \autoref{ch:concrete-instances-riesz-space-namecert} by adding the Banach-space completeness rows of \autoref{ch:concrete-instances-banach-namecert}, while still reading the norm row of \autoref{ch:concrete-instances-norm-namecert}, the join-meet lattice row of \autoref{ch:concrete-instances-lattice-namecert}, and the vector-space carrier of \autoref{ch:concrete-instances-vecspace-namecert}. The packet supplies finite vector-lattice, norm, positive-cone, and Cauchy-completeness rows; it does not supply Hahn-Banach separation, Dedekind completeness, selected suprema, quotient function spaces, or a host order-completion principle.
+
+\begin{definition}[BanachLattice carrier]
+\label{def:banach-lattice-carrier}
+A $\BanachLatticeUp$ carrier is a finite $\BHist$ packet
+$$
+B=(R,A,N,P,M,H,C,S)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RieszSpaceUp$ row, carrying the common vector endpoint, real scalar endpoint, lattice join and meet operations, positive and negative part ledgers, and vector-lattice classifier.
+\item $A$ is the $\BanachUp$ row over the same vector endpoint and normed metric surface, exposing the Cauchy-completeness witness through finite regular-Cauchy and limit-seal rows.
+\item $N$ is the $\NormUp$ compatibility row tying the norm used by $A$ to the lattice decomposition and positive-cone rows visible in $R$.
+\item $P$ is the positive-cone monotonicity row. It records that positive part, negative part, cone membership, and order comparison are read before norm or completeness consumers inspect the packet.
+\item $M$ is the Cauchy-completeness ledger. It records the finite regular-Cauchy windows, modulus or metric-control rows, and terminal Banach seal used by downstream complete normed-lattice consumers.
+\item $H$ records componentwise $\hsame$ transport for the Riesz-space row, Banach row, norm compatibility row, positive-cone row, completeness ledger, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a Banach-lattice request through $R,A,N,P,M,H$ and back to the same finite ordered complete-normed surface.
+\item $S$ is the $\Pkg$ provenance and local $\NameCert_{\BanachLatticeUp}$ row over $\BanachLatticeUp$, $\RieszSpaceUp$, $\BanachUp$, $\NormUp$, $\LatticeUp$, $\VecSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for Hahn-Banach separation, Dedekind completeness, selected suprema, quotient function spaces, pointwise function models, countable choice, or ambient host order equality.
+\end{definition}
+
+\begin{theorem}[BanachLattice NameCert obligations]
+\label{thm:banach-lattice-namecert-obligations}
+For every accepted $\BanachLatticeUp$ carrier $B=(R,A,N,P,M,H,C,S)$, the local $\NameCert_{\BanachLatticeUp}$ surface consists exactly of carrier admission, vector-lattice row compatibility, norm compatibility, positive-cone exposure, Cauchy-completeness ledger exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. A downstream consumer may read the common vector endpoint, the lattice join and meet rows, the norm row, the positive-cone ledger, and the finite Banach completeness route, but it receives no Hahn-Banach functional, no Dedekind-complete lattice envelope, no selected supremum, and no quotient function-space representation.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:banach-lattice-carrier}. The tuple displays exactly the Riesz-space row $R$, Banach row $A$, norm row $N$, positive-cone row $P$, completeness ledger $M$, and structural rows $H,C,S$.
+
+The vector-lattice obligations are read through $R$. This fixes the vector endpoint, scalar endpoint, join and meet operations, order comparisons, and positive and negative part ledgers before any Banach-facing row is consumed.
+
+The norm and completeness obligations are finite rows. The norm row $N$ ties the Banach metric used by $A$ to the lattice decomposition data in $R$, and the ledger $M$ records the regular-Cauchy windows and terminal completeness seal exposed by the Banach row.
+
+Finally $H,C,S$ transport, replay, source, and name only those displayed coordinates. Since the carrier contains no coordinate for Hahn-Banach separation, Dedekind completeness, selected suprema, quotient function spaces, or host order equality, none of those objects can be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[BanachLattice classifier stability]
+\label{thm:banach-lattice-classifier-stability}
+If two accepted $\BanachLatticeUp$ packets are related by the classifier, then their Riesz-space rows, Banach completeness rows, norm compatibility rows, positive-cone rows, and Cauchy-completeness ledgers are related by the componentwise $\hsame$ transport recorded in $H$. Consequently every norm-facing, order-facing, or completeness-facing read factors through the displayed finite ledger and never through a host order equality, selected supremum, or hidden quotient carrier.
+\end{theorem}
+\begin{proof}
+Unfold the classifier of \autoref{def:banach-lattice-carrier}. Its comparison coordinates are exactly $R,A,N,P,M,H,C,S$.
+
+The Riesz-space component transports the vector, lattice, and positive-part rows. The Banach component transports the normed metric and Cauchy-completeness rows over the same carried endpoint.
+
+The norm compatibility and positive-cone rows then move along those transported coordinates. The completeness ledger $M$ remains attached to the transported Banach row, so no accepted read can replace it by a selected supremum, quotient function-space equality, or host order construction.
+\end{proof}
+
+\begin{theorem}[BanachLattice Riesz-Banach handoff]
+\label{thm:banach-lattice-riesz-banach-handoff}
+Every accepted $\BanachLatticeUp$ packet supplies a finite handoff
+$$
+\RieszSpaceUp,\quad \BanachUp,\quad \NormUp,\quad \LatticeUp,\quad \VecSpaceUp
+$$
+in which vector-lattice and positive-cone data are read before the Banach completeness ledger is consumed. The handoff exports the ordered complete normed carrier as NameCert data only through $R,A,N,P,M,H,C,S$.
+\end{theorem}
+\begin{proof}
+Read the handoff from the carrier. The row $R$ supplies the $\RieszSpaceUp$ surface over the vector-space and lattice rows, while $N$ repeats the norm compatibility needed by the Banach-facing route.
+
+Next read $A$ and $M$. These rows expose the Cauchy-complete normed carrier and the finite regular-Cauchy ledger without adding a supremum selector, Hahn-Banach functional, or quotient function model.
+
+The positive-cone row $P$ binds the order-facing part of the route to the same vector endpoint before $H,C,S$ transport, replay, source, and name it. Thus the Riesz-space and Banach-space surfaces meet only through the displayed finite packet.
+\end{proof}
+
+\closureat{BanachLatticeUp}{seedStr}
+
+\begin{closurestatus}{\BanachLatticeUp}
+  \constructivestory{A $\BanachLatticeUp$ packet is generated from a Riesz-space row, a Banach completeness row, norm compatibility data, positive-cone data, a Cauchy-completeness ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:banach-lattice-carrier}, \autoref{thm:banach-lattice-namecert-obligations}, \autoref{thm:banach-lattice-classifier-stability}, and \autoref{thm:banach-lattice-riesz-banach-handoff} seed the finite ordered complete normed-lattice certificate over RieszSpaceUp, BanachUp, NormUp, LatticeUp, VecSpaceUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Hahn-Banach separation, Dedekind completeness, selected suprema, quotient function spaces, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, vector-lattice compatibility, norm compatibility, positive-cone exposure, Cauchy-completeness ledger exposure, transport, replay, provenance, and local naming for BEDC.Derived.BanachLatticeUp.}
+\end{closurestatus}

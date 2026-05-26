@@ -449,6 +449,57 @@ Net and finite-cover consumers use the containment ledgers. The finite-net sourc
 Nested-window and uniform-modulus consumers use the same readback route. The nested compactness handoff and compact-uniform source package keep $S,R,E,H,C,P,N$ attached to the endpoint and containment rows, so these consumers cannot bypass the displayed source.
 \end{proof}
 
+\begin{definition}[Closed bounded interval Cauchy modulus window]
+\label{def:closed-bounded-interval-cauchy-modulus-window}
+A Cauchy-modulus window for a $\ClosedBoundedIntervalUp$ constructive source is the finite subpacket
+$$
+W_{\mathsf{mod}}=(L,U,O,D,S,R,E,M)
+$$
+where $L$ and $U$ are the located endpoint rows, $O$ is the endpoint-order row, $D$ is the dyadic containment and tolerance ledger, $S$ is the $\StreamNameUp$ finite-window row, $R$ is the $\RegSeqRatUp$ readback row, $E$ is the terminal $\RealUp$ seal row, and $M$ is the $\RealCauchyModulusUp$ consumer slot. The window exposes endpoint order, dyadic containment, finite StreamName windows, RegSeqRat readback, and the RealCauchyModulus-facing slot before any compactness, net, or uniform-modulus consumer may inspect the interval packet.
+\end{definition}
+
+\begin{theorem}[Closed bounded interval modulus window transport]
+\label{thm:closed-bounded-interval-modulus-window-transport}
+Every classifier transport of a $\ClosedBoundedIntervalUp$ constructive source preserves the Cauchy-modulus window $W_{\mathsf{mod}}=(L,U,O,D,S,R,E,M)$ componentwise. In particular, the transported packet keeps the same endpoint-order row, dyadic containment ledger, finite $\StreamNameUp$ window row, $\RegSeqRatUp$ readback row, terminal $\RealUp$ seal row, and $\RealCauchyModulusUp$ consumer slot.
+\end{theorem}
+\begin{proof}
+Project the source of \autoref{def:closed-bounded-interval-constructive-source}. The rows $L,U,O,D,S,R,E$ are already displayed as part of the constructive source, and \autoref{def:closed-bounded-interval-cauchy-modulus-window} only repackages them with the modulus consumer slot $M$.
+
+Apply endpoint classifier stability to $L,U,O$. The transport cannot alter the lower endpoint, upper endpoint, or endpoint-order route before the containment rows are read.
+
+Apply dyadic containment totality and the compact-uniform source package to $D,S,R,E$. These results keep the dyadic ledger attached to the same finite StreamName window, RegSeqRat readback, and Real seal.
+
+Finally route the preserved rows to the $\RealCauchyModulusUp$ surface of \autoref{ch:concrete-instances-realcauchymodulus-namecert}. Since the modulus slot reads only $D,S,R,E$ and the endpoint-order rows already transported above, it is preserved componentwise as part of the same finite window.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval RealCauchyModulus handoff]
+\label{thm:closed-bounded-interval-real-cauchy-modulus-handoff}
+Every $\RealCauchyModulusUp$ consumer of an accepted $\ClosedBoundedIntervalUp$ constructive source receives its precision data through the finite route
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+after reading the endpoint order and containment rows $L,U,O,D$. The handoff supplies the modulus consumer with dyadic tolerance data, finite observation windows, regular rational readback, and the Real seal, but not open-cover compactness, selected subcovers, quotient real equality, trichotomy, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start from the window of \autoref{def:closed-bounded-interval-cauchy-modulus-window}. The endpoint rows $L,U$ and the order row $O$ are read before the dyadic ledger $D$, so the consumer receives a bounded interval request rather than a detached Real name.
+
+The dyadic row $D$ supplies the tolerance and containment data through \autoref{ch:concrete-instances-dyadicratcore-namecert}. The StreamName and RegSeqRat rows $S,R$ then provide the finite observation window and regular rational readback through \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}.
+
+The terminal seal $E$ is read only after that route reaches \autoref{ch:concrete-instances-real-namecert}. The $\RealCauchyModulusUp$ consumer of \autoref{ch:concrete-instances-realcauchymodulus-namecert} therefore receives the displayed tolerance, window, readback, and seal data without gaining any excluded compactness or choice principle.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval Cauchy modulus nonescape]
+\label{thm:closed-bounded-interval-cauchy-modulus-nonescape}
+No $\RealCauchyModulusUp$ read admitted by a $\ClosedBoundedIntervalUp$ Cauchy-modulus window can bypass endpoint order, dyadic containment, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and the terminal $\RealUp$ seal. Equivalently, every accepted modulus read factors through $L,U,O,D,S,R,E,M$ and cannot introduce open-cover compactness, selected points, quotient real equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:closed-bounded-interval-real-cauchy-modulus-handoff}. It fixes the RealCauchyModulus-facing route through endpoint order, dyadic tolerance and containment, finite StreamName windows, RegSeqRat readback, and the Real seal.
+
+The nonescape claim follows from the carrier inventory. Neither \autoref{def:closed-bounded-interval-carrier} nor \autoref{def:closed-bounded-interval-cauchy-modulus-window} contains a coordinate for open-cover compactness, selected points, quotient real equality, trichotomy, countable choice, or ambient Real completeness.
+
+Transport and replay rows do not add analytic data. They only preserve the displayed route already used by \autoref{ch:concrete-instances-realcauchymodulus-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. Hence every accepted modulus read remains inside $L,U,O,D,S,R,E,M$.
+\end{proof}
+
 \closureat{ClosedBoundedIntervalUp}{seedStr}
 
 \begin{closurestatus}{\ClosedBoundedIntervalUp}
