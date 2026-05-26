@@ -4989,6 +4989,7 @@ import BEDC.Derived.RealConvergenceRateUp.TasteGate
 import BEDC.Derived.RealDiagonalCompletionUp
 import BEDC.Derived.RealDiagonalCompletionUp.TasteGate
 import BEDC.Derived.RealDiagonalMeshBudgetUp
+import BEDC.Derived.RealDiagonalNonSurjectionUp
 import BEDC.Derived.RealDiagonalRegularitySealUp.TasteGate
 import BEDC.Derived.RealDiagonalWindowCoverageUp
 import BEDC.Derived.RealDyadicEmbeddingUp.TasteGate
@@ -5821,6 +5822,7 @@ import BEDC.Derived.StreamNameUp.FiniteSectionClassifierDeterminacy
 import BEDC.Derived.StreamNameUp.FiniteSectionPullbackExactness
 import BEDC.Derived.StreamNameUp.FiniteSectionRealRegSeqDyadicLock
 import BEDC.Derived.StreamNameUp.FiniteWindowEndpoint
+import BEDC.Derived.StreamNameUp.FiniteWindowLatticeMeet
 import BEDC.Derived.StreamNameUp.FiniteWindowStructural
 import BEDC.Derived.StreamNameUp.ObservationEndpointPackage
 import BEDC.Derived.StreamNameUp.OpenPhaseExitBoundary
