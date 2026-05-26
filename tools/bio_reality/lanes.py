@@ -1811,6 +1811,9 @@ def _extract_codex_event_text(stdout: str) -> str:
                 texts.append(value)
         item = event.get("item")
         if isinstance(item, dict):
+            item_text = item.get("text")
+            if isinstance(item_text, str) and item_text.strip():
+                texts.append(item_text)
             content = item.get("content")
             if isinstance(content, list):
                 for part in content:
@@ -1871,7 +1874,7 @@ def _parse_bio_w_codex_json(stdout: str) -> dict[str, Any] | None:
     return parsed
 
 
-def _run_bio_w_codex(prompt: str, repo_root: Path, timeout_seconds: int) -> dict[str, Any] | None:
+def _run_bio_w_codex(prompt: str, repo_root: Path, timeout_seconds: int) -> tuple[dict[str, Any] | None, str, str]:
     try:
         completed = subprocess.run(
             [
@@ -1891,11 +1894,11 @@ def _run_bio_w_codex(prompt: str, repo_root: Path, timeout_seconds: int) -> dict
             timeout=timeout_seconds,
             check=False,
         )
-    except (subprocess.TimeoutExpired, OSError):
-        return None
+    except (subprocess.TimeoutExpired, OSError) as exc:
+        return None, "", f"subprocess_error: {exc}"
     if completed.returncode != 0:
-        return None
-    return _parse_bio_w_codex_json(completed.stdout or "")
+        return None, completed.stdout or "", completed.stderr or ""
+    return _parse_bio_w_codex_json(completed.stdout or ""), completed.stdout or "", completed.stderr or ""
 
 
 def _write_bio_w_codex_log(
@@ -1904,6 +1907,8 @@ def _write_bio_w_codex_log(
     task_id: str,
     prompt: str,
     parsed: dict[str, Any] | None,
+    raw_stdout: str = "",
+    raw_stderr: str = "",
 ) -> None:
     path = Path(log_dir)
     if not path.is_absolute():
@@ -1915,6 +1920,10 @@ def _write_bio_w_codex_log(
             json.dumps(parsed or {"status": "none"}, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
             encoding="utf-8",
         )
+        if raw_stdout:
+            (path / f"{task_id}.raw.txt").write_text(raw_stdout, encoding="utf-8")
+        if raw_stderr:
+            (path / f"{task_id}.stderr.txt").write_text(raw_stderr, encoding="utf-8")
     except OSError:
         return
 
@@ -2008,8 +2017,8 @@ def render_namecert_with_codex(
         mismatches=mismatches,
         corrective_feedback=corrective_feedback,
     )
-    parsed = _run_bio_w_codex(prompt, repo_root, timeout_seconds)
-    _write_bio_w_codex_log(repo_root, log_dir, _safe_task_id(f"namecert-{claim_id}"), prompt, parsed)
+    parsed, raw_stdout, raw_stderr = _run_bio_w_codex(prompt, repo_root, timeout_seconds)
+    _write_bio_w_codex_log(repo_root, log_dir, _safe_task_id(f"namecert-{claim_id}"), prompt, parsed, raw_stdout, raw_stderr)
     return parsed
 
 
@@ -2037,8 +2046,8 @@ def render_conjecture_with_codex(
         mismatches=mismatches,
         corrective_feedback=corrective_feedback,
     )
-    parsed = _run_bio_w_codex(prompt, repo_root, timeout_seconds)
-    _write_bio_w_codex_log(repo_root, log_dir, _safe_task_id(f"conjecture-{conjecture_id}"), prompt, parsed)
+    parsed, raw_stdout, raw_stderr = _run_bio_w_codex(prompt, repo_root, timeout_seconds)
+    _write_bio_w_codex_log(repo_root, log_dir, _safe_task_id(f"conjecture-{conjecture_id}"), prompt, parsed, raw_stdout, raw_stderr)
     return parsed
 
 
@@ -2637,10 +2646,32 @@ def _parse_codex_author_json(stdout: str) -> dict[str, Any]:
     nonempty = [line.strip() for line in stdout.splitlines() if line.strip()]
     if not nonempty:
         return {"status": "error", "error_kind": "empty_stdout"}
-    try:
-        parsed = json.loads(nonempty[-1])
-    except json.JSONDecodeError as exc:
-        return {"status": "error", "error_kind": "non_json_output", "error": str(exc)}
+    agent_text = _extract_codex_event_text(stdout)
+    candidates: list[str] = []
+    if agent_text and agent_text != stdout:
+        candidates.append(agent_text)
+        fence_matches = list(re.finditer(r"```(?:json)?\s*(\{.*?\})\s*```", agent_text, re.DOTALL | re.IGNORECASE))
+        candidates.extend(match.group(1) for match in fence_matches)
+        first = agent_text.find("{")
+        last = agent_text.rfind("}")
+        if first != -1 and last != -1 and last > first:
+            candidates.append(agent_text[first : last + 1])
+    candidates.append(nonempty[-1])
+    parsed = None
+    last_error: str = ""
+    for candidate in candidates:
+        try:
+            obj = json.loads(candidate)
+        except json.JSONDecodeError as exc:
+            last_error = str(exc)
+            continue
+        if isinstance(obj, dict) and "verdict" in obj:
+            parsed = obj
+            break
+        if isinstance(obj, dict) and parsed is None:
+            parsed = obj
+    if parsed is None:
+        return {"status": "error", "error_kind": "non_json_output", "error": last_error or "no JSON object found"}
     if not isinstance(parsed, dict):
         return {"status": "error", "error_kind": "schema_invalid", "error": "top-level output is not an object"}
     required = ["verdict", "audit_score", "used_fact_ids", "hub_content", "spine_content", "risk_notes"]
