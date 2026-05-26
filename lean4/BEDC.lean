@@ -2474,6 +2474,7 @@ import BEDC.Derived.CurvatureUp.VisibleInputExhaustion
 import BEDC.Derived.CutRegularizationUp.TasteGate
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.CyclotomicUp.SplittingPolynomial
+import BEDC.Derived.DarbouxContinuityUp.TasteGate
 import BEDC.Derived.DarbouxIntegralUp
 import BEDC.Derived.DarbouxIntegralUp.TasteGate
 import BEDC.Derived.DarbouxSumUp.TasteGate
@@ -4502,6 +4503,7 @@ import BEDC.Derived.MonotoneSequenceConvergenceUp.TasteGate
 import BEDC.Derived.MonotoneSubsequenceTheoremUp.TasteGate
 import BEDC.Derived.MonotoneSubsequenceUp.TasteGate
 import BEDC.Derived.MooreOsgoodUp.TasteGate
+import BEDC.Derived.MooreSmithCompletionUp.TasteGate
 import BEDC.Derived.MooreSmithConvergenceUp
 import BEDC.Derived.MooreSmithConvergenceUp.LedgerRefusal
 import BEDC.Derived.MulUp.TasteGate
@@ -5070,6 +5072,7 @@ import BEDC.Derived.RealAnalyticUp.CosEmpty
 import BEDC.Derived.RealApartnessCompletionUp.TasteGate
 import BEDC.Derived.RealApartnessOrderBridgeUp.TasteGate
 import BEDC.Derived.RealApproximationEnvelopeUp
+import BEDC.Derived.RealApproximationSchemeUp.TasteGate
 import BEDC.Derived.RealArchimedeanPropertyUp.TasteGate
 import BEDC.Derived.RealBaireCylinderUp.TasteGate
 import BEDC.Derived.RealBallUp
