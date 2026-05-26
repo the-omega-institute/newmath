@@ -237,6 +237,7 @@ import BEDC.Derived.ApproximationTowerResidueUp.TasteGate
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.ArchimedeanBracketUp.TasteGate
 import BEDC.Derived.ArchimedeanModulusUp.NameCertObligations
+import BEDC.Derived.ArchimedeanModulusUp.TasteGate
 import BEDC.Derived.ArchimedeanOrderedFieldUp.TasteGate
 import BEDC.Derived.ArchimedeanRealUp
 import BEDC.Derived.ArchimedeanRealUp.BudgetedCauchyBound
@@ -4198,6 +4199,7 @@ import BEDC.Derived.MetricBallUp.NameCertObligations
 import BEDC.Derived.MetricBallUp.PositiveRadiusTransport
 import BEDC.Derived.MetricBallUp.RefinementObligations
 import BEDC.Derived.MetricBallUp.TasteGate
+import BEDC.Derived.MetricBallUp.TopologyHandoff
 import BEDC.Derived.MetricClosedBallUp
 import BEDC.Derived.MetricClosedBallUp.TasteGate
 import BEDC.Derived.MetricCompletionReflectorUp
@@ -4404,6 +4406,7 @@ import BEDC.Derived.NestedIntervalIntersectionUp
 import BEDC.Derived.NestedIntervalIntersectionUp.TasteGate
 import BEDC.Derived.NestedIntervalRealUp.TasteGate
 import BEDC.Derived.NestedIntervalUp
+import BEDC.Derived.NetConvergenceUp
 import BEDC.Derived.NetConvergenceUp.TasteGate
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.NewtonIterationUp
@@ -4937,6 +4940,7 @@ import BEDC.Derived.RealCauchyModulusUp.ObligationClosurePackage
 import BEDC.Derived.RealCauchyModulusUp.RegSeqRatClassifierDeterminacy
 import BEDC.Derived.RealCauchyModulusUp.RootUnblockScope
 import BEDC.Derived.RealCauchyModulusUp.SealAdmission
+import BEDC.Derived.RealCauchyModulusUp.TailCoherenceCompletenessHandoff
 import BEDC.Derived.RealCauchyModulusUp.TailHandoff
 import BEDC.Derived.RealCauchyModulusUp.TasteGate
 import BEDC.Derived.RealCauchyModulusUp.ThresholdWindowTotality
