@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\FiniteDimensionalHahnBanachSeparationUp$}
+\label{ch:concrete-instances-finite-dimensional-hahn-banach-separation-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and finite-dimensional separation theory, the $\FiniteDimensionalHahnBanachSeparationUp$ packet records the finite certificate surface for a separating affine functional between a located point and a displayed convex set in a finite-dimensional normed vector space. It consumes the vector-space row of \autoref{ch:concrete-instances-vecspace-namecert}, the linear-map row of \autoref{ch:concrete-instances-linearmap-namecert}, the finite norm row used by \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the real-name row of \autoref{ch:concrete-instances-real-namecert}, the located comparison row of \autoref{ch:concrete-instances-located-real-comparison-namecert}, and the convex-set row of \autoref{ch:concrete-instances-convexset-namecert}. The packet is deliberately finite-dimensional: it names coefficient rows and located comparisons only for the displayed finite basis window, and it has no coordinate for full Hahn--Banach extension, choice-selected duals, or ambient weak-star compactness.
+
+\begin{definition}[Finite-dimensional Hahn--Banach separation carrier]
+\label{def:finite-dimensional-hahn-banach-separation-carrier}
+A $\FiniteDimensionalHahnBanachSeparationUp$ carrier is a finite $\BHist$ packet
+$$
+S=(V,B,L,N,R,Q,C,E,H,T,P,M)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the finite $\VecSpaceUp$ source row, including the finite coordinate window on which every vector read is performed;
+\item $B$ is the finite basis and coefficient-admission ledger, recording that each inspected vector is read by finitely many scalar coordinates;
+\item $L$ is the $\LinearMapUp$ row for the separating functional, displayed by its finite coefficient list on $B$;
+\item $N$ is the $\NormUp$ row used only to bound the coefficient list and the finite vector reads;
+\item $R$ is the $\RealUp$ endpoint ledger for scalar evaluations and thresholds;
+\item $Q$ is the $\LocatedRealComparisonUp$ row deciding the displayed scalar inequality with located slack;
+\item $C$ is the $\ConvexSetUp$ row for the accepted convex-set membership and convex-combination reads;
+\item $E$ is the exact separation row, containing the point-side and set-side evaluation endpoints and their located comparison;
+\item $H$ records componentwise $\hsame$ transport for $V,B,L,N,R,Q,C,E,P,M$;
+\item $T$ records displayed $\Cont$ replay through the finite coordinate, functional, comparison, convex-set, and exactness rows;
+\item $P$ is the $\Pkg$ provenance over $\FiniteDimensionalHahnBanachSeparationUp$, $\VecSpaceUp$, $\LinearMapUp$, $\NormUp$, $\RealUp$, $\LocatedRealComparisonUp$, $\ConvexSetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $M$ is the local $\NameCert_{\FiniteDimensionalHahnBanachSeparationUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through the displayed finite rows. It has no coordinate for an arbitrary extension of a functional, a selected quotient dual, a Zorn-style maximal sublinear extension, weak-star compactness, or an infinite family of separating hyperplanes.
+\end{definition}
+
+\begin{theorem}[Finite coefficient admission]
+\label{thm:finite-dimensional-hahn-banach-separation-coefficient-admission}
+For every accepted $\FiniteDimensionalHahnBanachSeparationUp$ carrier $S=(V,B,L,N,R,Q,C,E,H,T,P,M)$, every read of the separating functional factors through the finite coefficient ledger $B$, the $\LinearMapUp$ row $L$, the norm row $N$, and the scalar endpoint ledger $R$. A consumer may inspect only the finitely displayed coefficient list on the finite $\VecSpaceUp$ window; it may not replace that list by a host dual-space element or by a choice-selected functional.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The vector data are read through $V$ and the coefficient window $B$, while the functional row is $L$ and the scalar endpoints are $R$.
+
+The norm row $N$ bounds only those displayed coefficient and vector reads. Transport and replay through $H,T,P,M$ preserve the same finite list, so no additional coordinate can introduce a host dual element.
+
+Thus coefficient admission is finite-row admission. The accepted packet exports the displayed list and its NameCert routes, not an unrestricted dual object or a choice-selected functional.
+\end{proof}
+
+\begin{theorem}[Separating inequality exactness]
+\label{thm:finite-dimensional-hahn-banach-separation-inequality-exactness}
+For every accepted $\FiniteDimensionalHahnBanachSeparationUp$ carrier $S=(V,B,L,N,R,Q,C,E,H,T,P,M)$, the separating inequality is exactly the row $E$ read through the $\RealUp$ endpoints in $R$, the $\LocatedRealComparisonUp$ comparison row $Q$, and the $\ConvexSetUp$ membership row $C$. Consequently any downstream convex-analysis consumer receives a located scalar comparison between the point-side evaluation and the set-side bound, not an ambient separation theorem.
+\end{theorem}
+\begin{proof}
+Read the exactness row $E$. Its scalar endpoints are supplied by $R$, and the comparison between them is supplied by $Q$.
+
+The convex side is constrained by $C$: membership and convex-combination reads of the displayed set pass through the finite convex-set row before the set-side bound can be cited. The functional values used by both sides still pass through $B,L,N$ from \autoref{thm:finite-dimensional-hahn-banach-separation-coefficient-admission}.
+
+Therefore the public inequality is the located comparison stored in $E$ over the displayed finite rows. No consumer can cite a stronger ambient separating-hyperplane principle from this packet.
+\end{proof}
+
+\begin{theorem}[No escape to full Hahn--Banach choice]
+\label{thm:finite-dimensional-hahn-banach-separation-no-full-choice-escape}
+An accepted $\FiniteDimensionalHahnBanachSeparationUp$ carrier exports no full Hahn--Banach extension principle, no Zorn-style maximal extension, no selected quotient dual, no weak-star compactness object, and no infinite separating family. Every exported read factors through the finite vector-space window, coefficient ledger, linear-map row, norm row, real endpoint ledger, located comparison row, convex-set row, exactness row, componentwise transport, displayed replay, provenance, and local NameCert rows.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. They are exactly $V,B,L,N,R,Q,C,E,H,T,P,M$, so every accepted read is a projection of one of those rows or a replay through the structural rows.
+
+The rows $B,L,N,R,Q,C,E$ are finite-dimensional and located: coefficients are listed on the finite basis window, scalar endpoints are displayed as $\RealUp$ rows, and the separation statement is a $\LocatedRealComparisonUp$ row.
+
+The excluded principles require coordinates not present in the carrier. Since there is no row for arbitrary extension, maximality, quotient dual selection, weak-star compactness, or an infinite family, those principles cannot be exported by the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Dropping the coefficient ledger $B$ makes \autoref{thm:finite-dimensional-hahn-banach-separation-coefficient-admission} false: a consumer could no longer distinguish a displayed finite functional from an ambient host dual element.}
+
+\independenceWitness{vecspace, linearmap, norm, real, locatedrealcomparison, convexset: none is bijective with $\FiniteDimensionalHahnBanachSeparationUp$ because this carrier alone binds the finite vector-space window, coefficient ledger, linear functional, norm bound, scalar endpoints, located comparison, convex-set membership, and exact separation row into one NameCert packet.}
+
+\closureat{FiniteDimensionalHahnBanachSeparationUp}{seedStr}
+
+\begin{closurestatus}{\FiniteDimensionalHahnBanachSeparationUp}
+  \constructivestory{A $\FiniteDimensionalHahnBanachSeparationUp$ packet is generated from a finite VecSpaceUp coordinate window, a finite coefficient ledger, a LinearMapUp separating functional row, a NormUp bound row, RealUp scalar endpoints, a LocatedRealComparisonUp inequality row, a ConvexSetUp membership row, separating exactness data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-dimensional-hahn-banach-separation-carrier}, \autoref{thm:finite-dimensional-hahn-banach-separation-coefficient-admission}, \autoref{thm:finite-dimensional-hahn-banach-separation-inequality-exactness}, and \autoref{thm:finite-dimensional-hahn-banach-separation-no-full-choice-escape} seed the finite-dimensional separation packet over VecSpaceUp, LinearMapUp, NormUp, RealUp, LocatedRealComparisonUp, ConvexSetUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim full Hahn--Banach extension, Zorn maximality, selected quotient duals, weak-star compactness, infinite separating families, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite coefficient transport, separating inequality exactness, convex-set readback, classifier stability, and non-escape for BEDC.Derived.FiniteDimensionalHahnBanachSeparationUp.}
+\end{closurestatus}
