@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\BoundaryPressureLedgerUp$}
+\label{ch:concrete-instances-boundary-pressure-ledger-namecert}
+\origin{ai}
+
+The $\BoundaryPressureLedgerUp$ packet realizes the outer-boundary degree and pressure rows of \autoref{def:philosophy-outer-reassignment-boundary}, \autoref{thm:philosophy-highest-pressure-inactive-boundary-codons}, and \autoref{thm:philosophy-boundary-class-pressure} as finite BEDC NameCert data. It sits after the median-closure carrier of \autoref{ch:concrete-instances-median-closure-namecert}, the six-boundary trigger coverage route of \autoref{ch:concrete-instances-six-boundary-tile-coverage-namecert}, the boundary-trigger closure packet of \autoref{ch:concrete-instances-dna-boundary-trigger-closure-namecert}, and the coverage algebra of \autoref{ch:concrete-instances-window-coverage-trigger-algebra-namecert}. The packet records pressure rows for inactive boundary codons before any trigger or class-pressure consumer may use them; it is not a biological stochastic model, an empirical fitness claim, a hidden codon table, or an unrestricted boundary enumerator.
+
+\begin{definition}[Boundary-pressure ledger carrier]
+\label{def:boundary-pressure-ledger-carrier}
+A $\BoundaryPressureLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,O,D,P,A,K,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the reassigned support row naming the displayed $13$-codon support $\mathcal{R}$.
+\item $O$ is the outer-boundary row, listing exactly the inactive codons at Hamming distance one from $\mathcal{R}$.
+\item $D$ is the boundary-degree ledger, recording $d_{\partial}(z)$ for each displayed boundary codon $z$.
+\item $P$ is the boundary-pressure ledger, recording $P_{\partial}(z)$ from the displayed support-neighbor weights.
+\item $A$ is the aggregate class-pressure row, grouping boundary codons by standard-code class while preserving degree and pressure totals.
+\item $K$ is the high-pressure corner row naming the inactive envelope corners and the first completion frontier consumed by boundary-closure readers.
+\item $H$ records componentwise $\hsame$ transport for support, outer-boundary, degree, pressure, aggregate, corner, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a boundary-pressure request through $S,O,D,P,A,K,H,Q,N$.
+\item $Q$ is the $\Pkg$ provenance over $\BoundaryPressureLedgerUp$, $\MedianClosureUp$, $\SixBoundaryTileCoverageUp$, $\DnaBoundaryTriggerClosureUp$, $\WindowCoverageTriggerAlgebraUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundaryPressureLedgerUp}$ row.
+\end{enumerate}
+The carrier accepts pressure reads only through $S,O,D,P,A,K,H,C,Q,N$. It has no coordinate for a pressure-row bypass, hidden biological semantics, stochastic selection dynamics, empirical likelihood, or a boundary row outside the displayed finite ledger.
+\end{definition}
+
+\begin{theorem}[Boundary-pressure ledger NameCert obligations]
+\label{thm:boundary-pressure-ledger-namecert-obligations}
+For every accepted $\BoundaryPressureLedgerUp$ carrier $B=(S,O,D,P,A,K,H,C,Q,N)$, the local $\NameCert_{\BoundaryPressureLedgerUp}$ surface consists exactly of support admission through $S$, outer-boundary exposure through $O$, degree-ledger exactness through $D$, pressure-ledger exactness through $P$, class-pressure aggregation through $A$, inactive-corner and completion-frontier readback through $K$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $Q$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:boundary-pressure-ledger-carrier}. Its visible pressure data are exactly the rows $S,O,D,P,A,K,H,C,Q,N$.
+
+The source support and boundary rows are finite. The row $S$ names the reassigned support, and $O$ lists the inactive codons at Hamming distance one from that support.
+
+The degree and pressure rows are downstream of the same source. The row $D$ counts displayed support neighbors for each boundary codon, while $P$ sums the displayed support-neighbor weights. The aggregate row $A$ groups those same entries by class without changing their provenance.
+
+The corner, transport, replay, provenance, and naming rows preserve the ledger. Because no coordinate bypasses $D$ and $P$, a consumer cannot obtain pressure data from hidden biological semantics, stochastic selection dynamics, empirical likelihood, or an unrestricted boundary enumerator.
+\end{proof}
+
+\begin{theorem}[Boundary-pressure trigger handoff]
+\label{thm:boundary-pressure-ledger-trigger-handoff}
+Every boundary-trigger or class-pressure consumer of an accepted $\BoundaryPressureLedgerUp$ packet factors through
+$$
+S \longmapsto O \longmapsto D \longmapsto P \longmapsto A \longmapsto K \longmapsto H,C,Q,N .
+$$
+In particular, any consumer preserving $\MedianClosureUp$, $\SixBoundaryTileCoverageUp$, $\DnaBoundaryTriggerClosureUp$, and $\WindowCoverageTriggerAlgebraUp$ provenance must read the degree and pressure ledgers before it can use high-pressure inactive boundary codons.
+\end{theorem}
+\begin{proof}
+Begin with a boundary-trigger request. The provenance row $Q$ names the median-closure and boundary-trigger siblings, but the request cannot read those siblings as pressure rows unless the local support row $S$ and outer-boundary row $O$ have first been displayed.
+
+The pressure data then pass through $D$ and $P$. Degree is counted from displayed support neighbors, and pressure is the displayed weighted sum over the same neighbor relation.
+
+The aggregate and corner rows are read only after the degree and pressure ledger. The row $A$ groups class totals, while $K$ names the inactive envelope corners and completion-frontier entries consumed by boundary-closure readers.
+
+Finally $H,C,Q,N$ transport, replay, source, and name the same finite route. Thus a pressure-row bypass would refute the packet: it would use high-pressure boundary data without passing through the displayed degree and pressure ledgers.
+\end{proof}
+
+\falsifiablePrediction{A pressure-row bypass refutes $\BoundaryPressureLedgerUp$: any accepted boundary-trigger consumer that reaches high-pressure inactive codons without first reading $S,O,D,P,A,K,H,C,Q,N$ is outside the packet.}
+
+\independenceWitness{median-closure, six-boundary-tile-coverage, dna-boundary-trigger-closure, window-coverage-trigger-algebra: $\BoundaryPressureLedgerUp$ is not bijective to any listed sibling because it jointly carries the outer-boundary row, degree ledger, pressure ledger, class aggregation, inactive-corner frontier, transport, replay, provenance, and local naming.}
+
+The Lean TasteGate route for \texttt{BEDC.Derived.BoundaryPressureLedgerUp.TasteGate} must provide explicit $\Nontrivial\ \BoundaryPressureLedgerUp$ and $\FieldFaithful\ \BoundaryPressureLedgerUp$ instances preserving $S,O,D,P,A,K,H,C,Q,N$ as separate displayed fields.
+
+\closureat{BoundaryPressureLedgerUp}{seedStr}
+
+\begin{closurestatus}{\BoundaryPressureLedgerUp}
+  \constructivestory{A $\BoundaryPressureLedgerUp$ packet is generated from a reassigned support row, an outer-boundary row, boundary-degree and boundary-pressure ledgers, class-pressure aggregation, inactive-corner frontier rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:boundary-pressure-ledger-carrier}, \autoref{thm:boundary-pressure-ledger-namecert-obligations}, and \autoref{thm:boundary-pressure-ledger-trigger-handoff} seed the finite pressure-ledger route for DNA boundary-trigger consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, biological stochastic semantics, empirical likelihood, hidden codon semantics, unrestricted boundary enumeration, or pressure-row bypasses.}
+  \upgradepath{Obligation closure requires checked support admission, outer-boundary exposure, degree-ledger exactness, pressure-ledger exactness, class aggregation, trigger handoff, Nontrivial BoundaryPressureLedgerUp, and FieldFaithful BoundaryPressureLedgerUp for BEDC.Derived.BoundaryPressureLedgerUp.}
+\end{closurestatus}

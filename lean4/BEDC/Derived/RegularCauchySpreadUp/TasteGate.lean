@@ -37,6 +37,11 @@ private theorem regularCauchySpreadDecode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
+def RegularCauchySpreadTasteGate_single_carrier_alignment_fields :
+    RegularCauchySpreadUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | RegularCauchySpreadUp.mk S W T R L H C P N => [S, W, T, R, L, H, C, P, N]
+
 def regularCauchySpreadToEventFlow : RegularCauchySpreadUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | RegularCauchySpreadUp.mk S W T R L H C P N =>
@@ -135,6 +140,20 @@ private theorem regularCauchySpreadToEventFlow_injective {x y : RegularCauchySpr
     (Eq.trans (regularCauchySpread_round_trip x).symm
       (Eq.trans hread (regularCauchySpread_round_trip y)))
 
+private theorem regularCauchySpread_fields_faithful :
+    ∀ x y : RegularCauchySpreadUp,
+      RegularCauchySpreadTasteGate_single_carrier_alignment_fields x =
+          RegularCauchySpreadTasteGate_single_carrier_alignment_fields y →
+        x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk S₁ W₁ T₁ R₁ L₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk S₂ W₂ T₂ R₂ L₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
+
 instance regularCauchySpreadBHistCarrier : BHistCarrier RegularCauchySpreadUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := regularCauchySpreadToEventFlow
@@ -149,6 +168,11 @@ instance regularCauchySpreadChapterTasteGate : ChapterTasteGate RegularCauchySpr
   layer_separation := by
     intro x y hxy heq
     exact hxy (regularCauchySpreadToEventFlow_injective heq)
+
+instance regularCauchySpreadFieldFaithful : FieldFaithful RegularCauchySpreadUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := RegularCauchySpreadTasteGate_single_carrier_alignment_fields
+  field_faithful := regularCauchySpread_fields_faithful
 
 instance regularCauchySpreadNontrivial : Nontrivial RegularCauchySpreadUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -165,16 +189,41 @@ def taste_gate : ChapterTasteGate RegularCauchySpreadUp :=
   -- BEDC touchpoint anchor: BHist BMark
   regularCauchySpreadChapterTasteGate
 
+def RegularCauchySpreadTasteGate_single_carrier_alignment_taste_gate :
+    ChapterTasteGate RegularCauchySpreadUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  regularCauchySpreadChapterTasteGate
+
 theorem RegularCauchySpreadTasteGate_single_carrier_alignment :
-    (forall h : BHist, regularCauchySpreadDecodeBHist (regularCauchySpreadEncodeBHist h) = h) ∧
-      (forall x : RegularCauchySpreadUp,
+    (∀ h : BHist, regularCauchySpreadDecodeBHist (regularCauchySpreadEncodeBHist h) = h) ∧
+      (∀ x : RegularCauchySpreadUp,
         regularCauchySpreadFromEventFlow (regularCauchySpreadToEventFlow x) = some x) ∧
-        (forall x y : RegularCauchySpreadUp,
-          regularCauchySpreadToEventFlow x = regularCauchySpreadToEventFlow y -> x = y) ∧
-          regularCauchySpreadEncodeBHist BHist.Empty = ([] : List BMark) := by
+        (∀ x y : RegularCauchySpreadUp,
+          regularCauchySpreadToEventFlow x = regularCauchySpreadToEventFlow y → x = y) ∧
+          RegularCauchySpreadTasteGate_single_carrier_alignment_fields
+              (RegularCauchySpreadUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+            [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+              BHist.Empty, BHist.Empty, BHist.Empty] ∧
+            regularCauchySpreadEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
     ⟨regularCauchySpreadDecode_encode_bhist, regularCauchySpread_round_trip,
-      (fun _ _ heq => regularCauchySpreadToEventFlow_injective heq), rfl⟩
+      (fun _ _ heq => regularCauchySpreadToEventFlow_injective heq), rfl, rfl⟩
+
+namespace TasteGate
+
+theorem RegularCauchySpreadTasteGate_single_carrier_alignment :
+    (∀ h : BHist, regularCauchySpreadDecodeBHist (regularCauchySpreadEncodeBHist h) = h) ∧
+      RegularCauchySpreadTasteGate_single_carrier_alignment_fields
+          (RegularCauchySpreadUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+        [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+          BHist.Empty, BHist.Empty, BHist.Empty] ∧
+      regularCauchySpreadEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact ⟨regularCauchySpreadDecode_encode_bhist, rfl, rfl⟩
+
+end TasteGate
 
 end BEDC.Derived.RegularCauchySpreadUp
