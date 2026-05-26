@@ -255,6 +255,28 @@ theorem SobolevCarrier_derivative_norm_ledger [AskSetup] [PackageSetup]
       normGradientSame, domainBaseCodomain, normRoute, codomainMagnitudeGradient,
       provenancePkg⟩
 
+theorem SobolevCarrier_integral_derivative_handoff [AskSetup] [PackageSetup]
+    {domain base codomain magnitude gradient transports routes provenance localCert handoffRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SobolevCarrier domain base codomain magnitude gradient transports routes provenance
+        localCert bundle pkg →
+      Cont gradient localCert handoffRead →
+        UnaryHistory handoffRead ∧ Cont domain base codomain ∧
+          Cont codomain magnitude gradient ∧ Cont gradient localCert handoffRead ∧
+            PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier gradientLocalCertHandoff
+  obtain ⟨_domainUnary, _baseUnary, _codomainUnary, _magnitudeUnary, gradientUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, localCertUnary, domainBaseCodomain,
+    codomainMagnitudeGradient, _gradientTransportsRoutes, _routesProvenanceLocalCert,
+    provenancePkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed gradientUnary localCertUnary gradientLocalCertHandoff
+  exact
+    ⟨handoffUnary, domainBaseCodomain, codomainMagnitudeGradient, gradientLocalCertHandoff,
+      provenancePkg⟩
+
 theorem SobolevCarrier_energy_window [AskSetup] [PackageSetup]
     {domain base codomain magnitude gradient transports routes provenance localCert : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -288,6 +310,33 @@ theorem SobolevCarrier_energy_window [AskSetup] [PackageSetup]
     ⟨energyRead, energyUnary, hsame_refl energyRead, domainBaseCodomain,
       codomainMagnitudeGradient, gradientTransportsRoutes, routesProvenanceLocalCert,
       provenancePkg⟩
+
+theorem SobolevCarrier_weak_gradient_consumer_boundary [AskSetup] [PackageSetup]
+    {domain base codomain magnitude gradient transports routes provenance localCert
+      consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SobolevCarrier domain base codomain magnitude gradient transports routes provenance
+        localCert bundle pkg ->
+      Cont gradient transports consumerRead ->
+        PkgSig bundle consumerRead pkg ->
+          UnaryHistory domain ∧ UnaryHistory base ∧ UnaryHistory codomain ∧
+            UnaryHistory magnitude ∧ UnaryHistory gradient ∧ UnaryHistory transports ∧
+              UnaryHistory consumerRead ∧ Cont domain base codomain ∧
+                Cont codomain magnitude gradient ∧ Cont gradient transports consumerRead ∧
+                  Cont gradient transports routes ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier gradientTransportConsumer consumerPkg
+  obtain ⟨domainUnary, baseUnary, codomainUnary, magnitudeUnary, gradientUnary,
+    transportsUnary, _routesUnary, _provenanceUnary, _localCertUnary, domainBaseCodomain,
+    codomainMagnitudeGradient, gradientTransportRoutes, _routesProvenanceLocalCert,
+    provenancePkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed gradientUnary transportsUnary gradientTransportConsumer
+  exact
+    ⟨domainUnary, baseUnary, codomainUnary, magnitudeUnary, gradientUnary, transportsUnary,
+      consumerUnary, domainBaseCodomain, codomainMagnitudeGradient, gradientTransportConsumer,
+      gradientTransportRoutes, provenancePkg, consumerPkg⟩
 
 def SobolevFiniteWindowCarrier [AskSetup] [PackageSetup]
     (domain base codomain magnitude gradient trace transports provenance localCert : BHist)
