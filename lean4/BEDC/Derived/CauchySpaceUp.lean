@@ -133,4 +133,22 @@ theorem CauchySpaceCarrier_regseqrat_uniform_obligation
     ⟨fUnary, uUnary, rUnary, replayUnary, namedUnary, replaySame, transportRow,
       replayRoute, namedRoute⟩
 
+theorem CauchySpaceCarrier_completion_handoff_obligation
+    {F0 F1 U0 R0 T0 H0 C0 P0 N0 consumer : BHist} :
+    CauchySpaceCarrier F0 U0 R0 F1 T0 H0 C0 P0 N0 ->
+      Cont F0 U0 R0 ->
+        Cont R0 T0 consumer ->
+          UnaryHistory F0 ∧ UnaryHistory U0 ∧ UnaryHistory R0 ∧ UnaryHistory T0 ∧
+            UnaryHistory consumer ∧ hsame H0 (append F0 U0) ∧ Cont F0 U0 R0 ∧
+              Cont R0 T0 consumer := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro carrier filterRoute consumerRoute
+  obtain ⟨fUnary, uUnary, rUnary, _qUnary, tUnary, _hUnary, _cUnary, _pUnary, _nUnary,
+    transportRow, _carrierFilterRoute, _carrierNameRoute⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed rUnary tUnary consumerRoute
+  exact
+    ⟨fUnary, uUnary, rUnary, tUnary, consumerUnary, transportRow, filterRoute,
+      consumerRoute⟩
+
 end BEDC.Derived.CauchySpaceUp
