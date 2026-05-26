@@ -4400,6 +4400,7 @@ import BEDC.Derived.NestedIntervalIntersectionUp
 import BEDC.Derived.NestedIntervalIntersectionUp.TasteGate
 import BEDC.Derived.NestedIntervalRealUp.TasteGate
 import BEDC.Derived.NestedIntervalUp
+import BEDC.Derived.NetConvergenceUp
 import BEDC.Derived.NetConvergenceUp.TasteGate
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.NewtonIterationUp
@@ -5328,6 +5329,7 @@ import BEDC.Derived.RegularCauchyDiagonalUp.SelectorWindowFunctoriality
 import BEDC.Derived.RegularCauchyDiagonalUp.StandardBridgeSource
 import BEDC.Derived.RegularCauchyDiagonalUp.StationaryFamilyExhaustion
 import BEDC.Derived.RegularCauchyDiagonalUp.TasteGate
+import BEDC.Derived.RegularCauchyDiagonalWindowUp
 import BEDC.Derived.RegularCauchyDifferenceUp
 import BEDC.Derived.RegularCauchyDistanceUp.TasteGate
 import BEDC.Derived.RegularCauchyDivisionUp.TasteGate
