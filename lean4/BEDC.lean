@@ -1041,6 +1041,7 @@ import BEDC.Derived.CauchyConvergenceCriterionUp.RealSealHandoff
 import BEDC.Derived.CauchyConvergenceCriterionUp.RealSealRoute
 import BEDC.Derived.CauchyConvergenceCriterionUp.RegularTailWindow
 import BEDC.Derived.CauchyConvergenceCriterionUp.ScopeWindow
+import BEDC.Derived.CauchyConvergenceCriterionUp.ScopedReadbackStrengthening
 import BEDC.Derived.CauchyConvergenceCriterionUp.SourceTriadExhaustion
 import BEDC.Derived.CauchyConvergenceCriterionUp.SpeckerBoundary
 import BEDC.Derived.CauchyConvergenceCriterionUp.TailDiameterScope
@@ -4267,7 +4268,6 @@ import BEDC.Derived.MetricBallUp.RegSeqRatRealWindowBoundary
 import BEDC.Derived.MetricBallUp.TasteGate
 import BEDC.Derived.MetricBallUp.TopologyHandoff
 import BEDC.Derived.MetricClosedBallUp
-import BEDC.Derived.MetricClosedBallUp.CenterTransportScope
 import BEDC.Derived.MetricClosedBallUp.TasteGate
 import BEDC.Derived.MetricCompletionReflectorUp
 import BEDC.Derived.MetricCompletionUniquenessUp.TasteGate
@@ -4839,6 +4839,7 @@ import BEDC.Derived.PrimeUp.ZeroHeadedComponent
 import BEDC.Derived.PrimitiveDistinctionLedgerUp.NameCertObligations
 import BEDC.Derived.PrimitiveDistinctionLedgerUp.TasteGate
 import BEDC.Derived.PrimitiveRecursionUp.TasteGate
+import BEDC.Derived.PringsheimPositiveRealSeriesUp.TasteGate
 import BEDC.Derived.ProbSpaceUp
 import BEDC.Derived.ProdUp
 import BEDC.Derived.ProdUp.ComponentwiseRefinement

@@ -136,6 +136,38 @@ theorem BoundedNormalEqualityCheckerCarrier_finished_soundness_boundary [AskSetu
     ⟨normalLeftUnary, normalRightUnary, equalityUnary, equalityReadUnary, finishedReadUnary,
       equalityRoute, equalityReadRoute, finishedReadRoute, equalityReadSame, provenancePkg⟩
 
+theorem BoundedNormalEqualityCheckerCarrier_consumer_nonescape [AskSetup] [PackageSetup]
+    {left right fuel normalLeft normalRight equality witness closed transport route provenance
+      nameCert equalityRead finishedRead localRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedNormalEqualityCheckerCarrier left right fuel normalLeft normalRight equality witness
+        closed transport route provenance nameCert bundle pkg ->
+      Cont normalLeft normalRight equalityRead ->
+        Cont equalityRead witness finishedRead ->
+          hsame localRead nameCert ->
+            UnaryHistory localRead ->
+              UnaryHistory left ∧ UnaryHistory right ∧ UnaryHistory fuel ∧
+                UnaryHistory normalLeft ∧ UnaryHistory normalRight ∧ UnaryHistory equality ∧
+                  UnaryHistory equalityRead ∧ UnaryHistory finishedRead ∧
+                    Cont normalLeft normalRight equality ∧
+                      Cont normalLeft normalRight equalityRead ∧
+                        Cont equalityRead witness finishedRead ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory PkgSig
+  intro carrier equalityReadRoute finishedReadRoute _localSame _localUnary
+  obtain ⟨leftUnary, rightUnary, fuelUnary, normalLeftUnary, normalRightUnary, equalityUnary,
+    witnessUnary, _closedUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _nameCertUnary, _leftRoute, _rightRoute, equalityRoute, provenancePkg, nameCertPkg⟩ :=
+      carrier
+  have equalityReadUnary : UnaryHistory equalityRead :=
+    unary_cont_closed normalLeftUnary normalRightUnary equalityReadRoute
+  have finishedReadUnary : UnaryHistory finishedRead :=
+    unary_cont_closed equalityReadUnary witnessUnary finishedReadRoute
+  exact
+    ⟨leftUnary, rightUnary, fuelUnary, normalLeftUnary, normalRightUnary, equalityUnary,
+      equalityReadUnary, finishedReadUnary, equalityRoute, equalityReadRoute,
+      finishedReadRoute, provenancePkg, nameCertPkg⟩
+
 theorem BoundedNormalEqualityCheckerCarrier_classifier_stability_row [AskSetup]
     [PackageSetup]
     {left right fuel normalLeft normalRight equality witness closed transport route provenance
