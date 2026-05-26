@@ -212,6 +212,42 @@ append ledger, so the finite-word operation remains the concrete
 $\mathsf{BHist}$ instance rather than an abstract group law.
 \end{proof}
 
+\begin{theorem}[Group finite-word Cont associativity lock]
+\label{thm:group-finite-word-cont-associativity-lock}
+For the finite-word $\GroupUp$ history instance of
+\autoref{def:group-finite-word-history-instance}, the associativity route for
+the product is the displayed $\Cont$ replay over $\mathsf{BHist}$ word rows.
+Thus the two parenthesized products
+$$
+\mathsf{mul}_{\mathrm{word}}(\mathsf{mul}_{\mathrm{word}}(u,v),w)
+\quad\hbox{and}\quad
+\mathsf{mul}_{\mathrm{word}}(u,\mathsf{mul}_{\mathrm{word}}(v,w))
+$$
+are compared as the same ordered continuation spine. The lock is inherited
+from the kernel continuation associativity route and the finite list-spine
+append ledger; it is not supplied by an abstract $\mathsf{mul}$ parameter.
+\end{theorem}
+\begin{proof}
+Unfold the finite-word carrier rows. Each carried word is a finite ordered list
+of singleton $\mathsf{BHist}$ endpoints, and the product is concatenation with
+the displayed append ledger.
+
+Compare the two parenthesized products by reading the same three blocks
+$u,v,w$ through the continuation spine. The left parenthesization first replays
+the route for $u$ followed by $v$ and then appends $w$; the right
+parenthesization first replays $v$ followed by $w$ and then prefixes $u$.
+
+The kernel $\Cont$ associativity route identifies these as one ordered replay
+of the same finite rows. The displayed transport rows keep the component
+classifiers fixed while the list-spine append ledger changes only the
+parentheses.
+
+Finally pass the replayed spine through the $\GroupUp$ classifier of
+\autoref{def:group-finite-word-history-instance}. Since every endpoint remains
+a singleton $\mathsf{BHist}$ row, the associativity lock is a concrete
+continuation fact and not a parameter-echo group schema.
+\end{proof}
+
 \begin{theorem}[Group finite-word inverse boundary]
 \label{thm:group-finite-word-inverse-boundary}
 For every carried finite-word history $w$, the reversed componentwise singleton

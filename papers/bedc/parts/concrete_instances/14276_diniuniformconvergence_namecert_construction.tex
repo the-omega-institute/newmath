@@ -73,6 +73,31 @@ Transport stability uses $H$ componentwise and then replays the same finite rout
 Exactness and the ledger clause follow from the same inventory. A uniform-limit-facing consumer receives the finite modulus route over $T,M,W,R,E$ together with provenance and local naming; the carrier exposes no other route by which an unrestricted classical Dini theorem could enter.
 \end{proof}
 
+\begin{definition}[DiniUniformConvergence certificate route]
+\label{def:dini-uniform-convergence-certificate-route}
+For an accepted $\DiniUniformConvergenceUp$ carrier
+$$
+D=(K,T,F,M,W,R,E,H,C,P,N),
+$$
+the finite certificate route is the ordered path
+$$
+K,T,F,M,W,R,E,H,C,P,N.
+$$
+This is the only accepted route from compact-domain data and finite windows to a $\UniformLimitUp$-facing modulus surface.
+\end{definition}
+
+\begin{theorem}[DiniUniformConvergence compact-window exactness]
+\label{thm:dini-uniform-convergence-compact-window-exactness}
+For every accepted $\DiniUniformConvergenceUp$ carrier $D=(K,T,F,M,W,R,E,H,C,P,N)$, every uniform-modulus export factors through the compact metric row $K$, the totally bounded finite-net row $T$, the continuous-map family row $F$, the stream-window row $W$, the $\RegSeqRatUp$ readback row $R$, and the terminal $\RealUp$ seal row $E$ before any $\UniformLimitUp$-facing row is read.
+\end{theorem}
+\begin{proof}
+Project the carrier and the route named in \autoref{def:dini-uniform-convergence-certificate-route}. The compact-domain coordinate is $K$, the finite-net coordinate is $T$, and the inspected family of continuous maps is stored in $F$.
+
+Apply \autoref{thm:diniuniformconvergence-uniform-modulus-extraction}. Its extracted modulus reads the finite net, the dyadic schedule, the inspected stream windows, the regular rational readback, and the displayed Real seals.
+
+The exactness statement records the same dependency order for any $\UniformLimitUp$-facing consumer. Such a consumer can read a modulus only after the compact row $K$, finite net $T$, family rows $F$, windows $W$, readback $R$, and seal $E$ have been displayed, and the remaining rows $H,C,P,N$ only transport, replay, source, and name that finite route.
+\end{proof}
+
 \begin{closurestatus}{\DiniUniformConvergenceUp}
   \constructivestory{A $\DiniUniformConvergenceUp$ packet is generated from compact-metric domain data, total-bounded finite nets, monotone ContinuousMapUp family rows, dyadic modulus schedules, StreamName windows, RegSeqRat readbacks, RealUp seals, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
