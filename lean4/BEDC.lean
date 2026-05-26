@@ -2882,6 +2882,7 @@ import BEDC.Derived.DyadicIntervalUp.PublicBridge
 import BEDC.Derived.DyadicIntervalUp.RegularWindowBridgeBoundary
 import BEDC.Derived.DyadicLipschitzModulusUp.TasteGate
 import BEDC.Derived.DyadicLocatedCutUp
+import BEDC.Derived.DyadicLocatedCutUp.KernelCarrier
 import BEDC.Derived.DyadicLocatedCutUp.TasteGate
 import BEDC.Derived.DyadicMaxUp.TasteGate
 import BEDC.Derived.DyadicMeshUp
@@ -5851,6 +5852,7 @@ import BEDC.Derived.SmugglingPatternClassifierUp.TasteGate
 import BEDC.Derived.SobolevUp
 import BEDC.Derived.SobolevUp.IntegralMagnitudeLedgerStability
 import BEDC.Derived.SobolevUp.TasteGate
+import BEDC.Derived.SobolevUp.WeakDerivativeRoute
 import BEDC.Derived.SocketKindClassifierUp.NameCertObligations
 import BEDC.Derived.SocketKindClassifierUp.StdBridge
 import BEDC.Derived.SocketKindClassifierUp.TasteGate
