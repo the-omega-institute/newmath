@@ -1,0 +1,77 @@
+\providecommand{\CauchyCompletionRegularSequenceUp}{\mathsf{CauchyCompletionRegularSequence}^{\uparrow}}
+
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionRegularSequenceUp$}
+\label{ch:concrete-instances-cauchy-completion-regular-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive Cauchy completion, the $\CauchyCompletionRegularSequenceUp$ packet records the handoff from regular Cauchy rational names to completion-facing and Real-facing consumers as finite BEDC data. It sits after the regular rational name surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the equality discipline of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert}, the metric completion carrier of \autoref{ch:concrete-instances-metriccompletion-namecert}, and the uniform completion boundary of \autoref{ch:concrete-instances-uniformcompletion-namecert}, and before the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the completion handoff without forming quotient classes of regular sequences, selecting limits, invoking countable choice, importing ambient completeness, or using $\RealUp$ completeness as an input.
+
+\begin{definition}[CauchyCompletionRegularSequence carrier]
+\label{def:cauchy-completion-regular-sequence-carrier}
+A $\CauchyCompletionRegularSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(R,E,M,U,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ regular Cauchy rational name row.
+\item $E$ is the $\CauchyEquivalenceSetoidUp$ comparison row, recording only the displayed equality discipline available between regular Cauchy names.
+\item $M$ is the $\MetricCompletionUp$ handoff row reached from the same regular name and comparison data.
+\item $U$ is the $\UniformCompletionUp$ handoff row for consumers that read the completion through uniform-tail data.
+\item $S$ is the terminal $\RealUp$ seal row, available only after $R,E,M,U$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the regular name, comparison, completion handoff, uniform handoff, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a completion-facing request through $R,E,M,U$ and then to the seal row $S$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionRegularSequenceUp$, $\RegSeqRatUp$, $\CauchyEquivalenceSetoidUp$, $\MetricCompletionUp$, $\UniformCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionRegularSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,E,M,U,S,H,C,P,N$. It has no coordinate for quotient regular sequences, chosen representatives, selected limits, countable choice, ambient metric or uniform completeness, or $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CauchyCompletionRegularSequence NameCert obligations]
+\label{thm:cauchy-completion-regular-sequence-namecert-obligations}
+For every accepted $\CauchyCompletionRegularSequenceUp$ carrier $Q=(R,E,M,U,S,H,C,P,N)$, the local $\NameCert_{\CauchyCompletionRegularSequenceUp}$ surface consists exactly of the finite obligations of carrier admission for the displayed rows; regular-name exposure through $R$; comparison exposure through $E$; metric-completion handoff through $M$; uniform-completion handoff through $U$; Real seal nonescape through $S$; componentwise transport through $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$.
+
+No obligation row is discharged by quotient equality, a selected limit, countable-choice data, ambient completeness, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-completion-regular-sequence-carrier}. The accepted tuple displays the regular name, comparison, metric-completion handoff, uniform-completion handoff, Real seal, transport, replay, provenance, and local name.
+
+The regular-sequence side is exhausted by $R$ and $E$. The row $R$ supplies the regular rational name, and $E$ supplies the displayed Cauchy-equivalence setoid comparison before any completion handoff is visible.
+
+The completion-facing side is exhausted by $M$ and $U$. A metric-completion consumer reads $M$, and a uniform-completion consumer reads $U$, but both rows are downstream from the same regular name and comparison rows.
+
+Finally $S,H,C,P,N$ seal, transport, replay, source, and name the same finite route. Since the carrier has no quotient, chosen-representative, selected-limit, choice, or ambient-completeness coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionRegularSequence Real seal handoff]
+\label{thm:cauchy-completion-regular-sequence-real-seal-handoff}
+Every $\MetricCompletionUp$, $\UniformCompletionUp$, or $\RealUp$ consumer of an accepted $\CauchyCompletionRegularSequenceUp$ carrier factors through the finite route
+$$
+\RegSeqRatUp \longmapsto \CauchyEquivalenceSetoidUp \longmapsto
+\MetricCompletionUp,\ \UniformCompletionUp \longmapsto \RealUp .
+$$
+Thus the terminal seal is read only after the regular Cauchy name, displayed equivalence data, and completion handoff rows have been exposed, and it exports no quotient class, selected limit, countable choice, ambient completeness, or $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start from an accepted consumer read of $Q$. Carrier projection opens $R$ and $E$ before any completion-facing row can be consumed.
+
+If the consumer is metric-facing, it next reads $M$; if it is uniform-facing, it next reads $U$. In both cases the route still passes through the same regular name and comparison rows, so neither handoff introduces a quotient class or a selected representative.
+
+The seal row $S$ is downstream from those handoff rows. Componentwise transport and displayed replay through $H$ and $C$ preserve the route, while $P$ and $N$ attach provenance and local naming. The excluded objects are absent from the carrier, so no consumer can recover them from the handoff.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyCompletionRegularSequenceUp$ completion-facing read factors through RegSeqRat, CauchyEquivalenceSetoid, MetricCompletion, UniformCompletion, Real seal, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+
+\independenceWitness{regseqrat, cauchy-equivalence-setoid, metriccompletion, uniformcompletion, real: $\CauchyCompletionRegularSequenceUp$ is not bijective to any listed sibling because it jointly binds the regular name, displayed equivalence comparison, two completion handoff rows, terminal Real seal, transport, replay, provenance, and local naming.}
+
+\closureat{CauchyCompletionRegularSequenceUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionRegularSequenceUp}
+  \constructivestory{A $\CauchyCompletionRegularSequenceUp$ packet is generated from a RegSeqRat regular Cauchy name row, a CauchyEquivalenceSetoid comparison row, MetricCompletion and UniformCompletion handoff rows, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-regular-sequence-carrier}, \autoref{thm:cauchy-completion-regular-sequence-namecert-obligations}, and \autoref{thm:cauchy-completion-regular-sequence-real-seal-handoff} seed the finite regular-sequence completion handoff from RegSeqRat and CauchyEquivalenceSetoid data through MetricCompletion and UniformCompletion rows to the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient regular sequences, selected limits, countable choice, ambient metric or uniform completeness, RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, regular-name exposure, equivalence comparison exposure, metric-completion and uniform-completion handoff exactness, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyCompletionRegularSequenceUp.}
+\end{closurestatus}
