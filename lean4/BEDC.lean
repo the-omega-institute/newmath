@@ -1034,6 +1034,7 @@ import BEDC.Derived.CauchyContinuousExtensionUp.UniquenessLedger
 import BEDC.Derived.CauchyContinuousImageUp.TasteGate
 import BEDC.Derived.CauchyContinuousMapUp
 import BEDC.Derived.CauchyControlSequenceUp.TasteGate
+import BEDC.Derived.CauchyConvergenceCriterionUp.CofinalModulusExtraction
 import BEDC.Derived.CauchyConvergenceCriterionUp.KernelDependencyScope
 import BEDC.Derived.CauchyConvergenceCriterionUp.LedgerClassifier
 import BEDC.Derived.CauchyConvergenceCriterionUp.NameCert
@@ -4287,6 +4288,7 @@ import BEDC.Derived.MetricCompletionUp.BranchDeterminacy
 import BEDC.Derived.MetricCompletionUp.BranchExhaustion
 import BEDC.Derived.MetricCompletionUp.BranchReadback
 import BEDC.Derived.MetricCompletionUp.BranchScope
+import BEDC.Derived.MetricCompletionUp.BridgeSurfaceLock
 import BEDC.Derived.MetricCompletionUp.CauchyEvidenceHandoff
 import BEDC.Derived.MetricCompletionUp.CauchyFilterNetSeal
 import BEDC.Derived.MetricCompletionUp.ClassifierStability
@@ -4303,6 +4305,7 @@ import BEDC.Derived.MetricCompletionUp.RootObligationCarrierWitness
 import BEDC.Derived.MetricCompletionUp.RootObligationClassifierWitness
 import BEDC.Derived.MetricCompletionUp.RootObligationLedgerWitness
 import BEDC.Derived.MetricCompletionUp.ScopedDependencyPackage
+import BEDC.Derived.MetricCompletionUp.SeparatedBranchReadback
 import BEDC.Derived.MetricCompletionUp.SeparatedLimit
 import BEDC.Derived.MetricCompletionUp.SourceSeparatedScope
 import BEDC.Derived.MetricCompletionUp.TasteGate
