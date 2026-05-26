@@ -544,18 +544,44 @@ def _bio_g_initial_prompt(store: BioRealityStore, candidate: dict[str, Any]) -> 
     return claim_id, prompt
 
 
-def _select_bio_g_rotation_candidate(gate_results: list[dict[str, Any]], lane_state: dict[str, Any]) -> dict[str, Any] | None:
-    passed = [
-        result for result in gate_results
-        if isinstance(result, dict) and str(result.get("gate_status") or "") == "gate_passed"
-    ]
-    if not passed:
+def _select_bio_g_rotation_candidate(
+    gate_results: list[dict[str, Any]],
+    lane_state: dict[str, Any],
+    store: BioRealityStore | None = None,
+) -> dict[str, Any] | None:
+    # Only rotate through conjecture packets — mismatch/probe gate_results carry no BEDC
+    # minimal form, so asking ChatGPT to deep-review them produces an empty-prompt session
+    # that simply burns the poll timeout. Also require the linked conjecture to expose at
+    # least a carrier so the review has something concrete to anchor on.
+    eligible: list[dict[str, Any]] = []
+    conjectures_by_id: dict[str, dict[str, Any]] = {}
+    if store is not None:
+        for c in store.load_conjectures():
+            cid = str(c.get("conjecture_id") or "")
+            if cid:
+                conjectures_by_id[cid] = c
+    for result in gate_results:
+        if not isinstance(result, dict):
+            continue
+        if str(result.get("gate_status") or "") != "gate_passed":
+            continue
+        if str(result.get("packet_kind") or "") != "conjecture":
+            continue
+        packet_id = str(result.get("claim_id") or result.get("packet_id") or "")
+        if not packet_id:
+            continue
+        conjecture = conjectures_by_id.get(packet_id, {})
+        form = conjecture.get("bedc_minimal_form") if isinstance(conjecture.get("bedc_minimal_form"), dict) else {}
+        if not form.get("carrier"):
+            continue
+        eligible.append(result)
+    if not eligible:
         return None
     consulted = lane_state.get("consulted_claim_ids") if isinstance(lane_state.get("consulted_claim_ids"), dict) else {}
     def sort_key(result: dict[str, Any]) -> tuple[str, str]:
         cid = str(result.get("claim_id") or result.get("packet_id") or "")
         return (str(consulted.get(cid) or ""), cid)
-    return sorted(passed, key=sort_key)[0]
+    return sorted(eligible, key=sort_key)[0]
 
 
 def _maybe_run_bio_g_oracle(store: BioRealityStore) -> dict[str, Any]:
@@ -569,7 +595,7 @@ def _maybe_run_bio_g_oracle(store: BioRealityStore) -> dict[str, Any]:
     candidate = _select_bio_g_oracle_candidate(gate_results)
     rotation_used = False
     if candidate is None:
-        candidate = _select_bio_g_rotation_candidate(gate_results, lane_state)
+        candidate = _select_bio_g_rotation_candidate(gate_results, lane_state, store)
         rotation_used = candidate is not None
     if candidate is None:
         return _oracle_skip("no_candidate")
