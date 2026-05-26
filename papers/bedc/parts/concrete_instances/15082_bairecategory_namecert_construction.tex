@@ -373,6 +373,54 @@ the accepted reads are exactly the displayed rows
 $B,M,D,O,R,T,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[BaireCategory finite-schedule choice-free induction]
+\label{thm:baire-category-finite-schedule-choice-free-induction}
+Let $Q=(B,M,D,O,R,T,H,C,P,N)$ be an accepted $\BaireCategoryUp$ carrier. Every dense-open schedule read in $Q$ is handled by finite induction over the displayed row $D$: the base stage reads the prefix and complete-metric rows $B,M$, and each successor stage consumes the next dense-open entry through $D,O,R$ before extending the Cauchy thread $T$.
+
+The induction uses the finite meet density handoff, the complete-metric dense thread, ProbeBundle refinement induction, dense-open schedule scope, and countable-choice refusal already displayed by the packet. It exports no countable-choice selector, host intersection, open-cover compactness theorem, ambient completeness theorem, or $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the finite schedule row $D$. In the base stage, the prefix packet $B$ and complete-metric row $M$ supply the initial displayed ball and metric classifier.
+
+At a successor stage, apply the finite meet density handoff of \autoref{thm:baire-category-finite-meet-density-handoff}. The next dense-open row is read against the predecessor ball already recorded in $O$, and the refinement row $R$ records the smaller successor ball and its positive-radius data.
+
+Use the ProbeBundle refinement induction of \autoref{thm:baire-category-probebundle-refinement-induction} to extend the displayed thread $T$. The complete-metric dense thread of \autoref{thm:baire-category-complete-metric-dense-thread} then keeps the terminal handoff attached to $M$ and $T$.
+
+Finally apply dense-open schedule scope and countable-choice refusal, \autoref{thm:baire-category-dense-open-schedule-scope} and \autoref{thm:baire-category-countable-choice-refusal}. The carrier never leaves the finite rows $B,M,D,O,R,T,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[BaireCategory nested-ball thread totality]
+\label{thm:baire-category-nested-ball-thread-totality}
+Let $Q=(B,M,D,O,R,T,H,C,P,N)$ be an accepted $\BaireCategoryUp$ carrier. Every accepted finite-schedule dense-open read determines a nested-ball thread inside $T$, and every terminal $\RegSeqRatUp/\RealUp$ handoff from that read passes through
+$$
+B,M,D,O,R \longmapsto T \longmapsto H,C,P,N .
+$$
+No terminal read may bypass the displayed thread by using a host intersection point, a countable-choice sequence of centers, an open-cover compactness theorem, ambient completeness, or completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:baire-category-complete-metric-thread-extraction}. The finite schedule in $D$, the open ledger $O$, and the refinement row $R$ determine the displayed nested-ball Cauchy thread $T$.
+
+Apply \autoref{thm:baire-category-finite-schedule-choice-free-induction}. The induction over $D$ accounts for the base and each successor refinement without selecting data outside the packet.
+
+Now consume the complete-metric row through \autoref{thm:baire-category-complete-metric-dense-thread}. The terminal regular-rational and real-name reads are attached to the same thread $T$ and the same structural rows $H,C,P,N$.
+
+The refusal clauses close the boundary. By \autoref{thm:baire-category-countable-choice-refusal}, the carrier has no coordinate for a host intersection, choice sequence, compactness theorem, ambient completeness, or $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[BaireCategory meagre boundary refusal]
+\label{thm:baire-category-meagre-boundary-refusal}
+Let $Q=(B,M,D,O,R,T,H,C,P,N)$ be an accepted $\BaireCategoryUp$ carrier. A meagre-boundary consumer may read only the negative boundary supplied by the dense-open schedule and refinement rows. It cannot convert the packet into a full classical Baire theorem, a countable intersection object, an open-cover compactness principle, a countable-choice selector, ambient completeness, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier surface. The only rows available for dense-open and meagre-boundary reasoning are $D,O,R,T$ together with the prefix, metric, transport, replay, provenance, and local naming rows.
+
+Use \autoref{thm:baire-category-dense-open-thread-obligations}. The dense-open thread obligations include ledger refusal of countable choice, host set intersection, open-cover compactness, ambient completeness, and completeness of $\RealUp$.
+
+Apply \autoref{thm:baire-category-nested-ball-thread-totality}. Any positive terminal read remains attached to the nested-ball thread rather than to a host intersection point.
+
+Thus the meagre-boundary consumer receives only a refusal boundary over the finite schedule. It has no carrier coordinate that could supply the full classical Baire conclusion or any of the excluded principles.
+\end{proof}
+
 \begin{closurestatus}{\BaireCategoryUp}
   \constructivestory{A $\BaireCategoryUp$ packet is generated from a $\BaireSpaceUp$ prefix packet, $\CompleteMetricUp$ row, finite dense-open schedule, open-row ledger, refinement row, Cauchy thread, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
