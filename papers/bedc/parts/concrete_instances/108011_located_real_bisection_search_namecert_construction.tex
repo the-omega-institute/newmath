@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRealBisectionSearchUp$}
+\label{ch:concrete-instances-located-real-bisection-search-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\LocatedRealBisectionSearchUp$ packet records the finite search surface obtained by iterating bisection over a located real interval while keeping every branch, sign read, and retained window visible. It sits after the real-name surface of \autoref{ch:concrete-instances-real-namecert}, the located interval carrier of \autoref{ch:concrete-instances-located-real-interval-namecert}, the located bisection route of \autoref{ch:concrete-instances-located-interval-bisection-namecert}, the finite bracketing interval packet of \autoref{ch:concrete-instances-finite-bracketing-interval-namecert}, and the dyadic intermediate-value packet of \autoref{ch:concrete-instances-dyadic-intermediate-value-namecert}. The packet names a bounded bisection search, not a host interval equality, not trichotomy on arbitrary reals, not choice of a hidden root, and not ambient completeness.
+
+\begin{definition}[Located real bisection-search carrier]
+\label{def:located-real-bisection-search-carrier}
+A $\LocatedRealBisectionSearchUp$ carrier is a finite $\BHist$ packet
+$$
+S=(I,B,F,D,Q,W,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\LocatedRealIntervalUp$ source row, exposing lower and upper $\RealUp$ endpoint names, a locatedness modulus, and the inspected finite interval budget.
+\item $B$ is the $\LocatedIntervalBisectionUp$ branch route, recording the requested finite bisection depth and the retained child at each stage.
+\item $F$ is the $\FiniteBracketingIntervalUp$ bracket row, preserving the displayed sign or locator bracket for the retained interval.
+\item $D$ is the $\DyadicIntermediateValueUp$ dyadic sign-read row used by the bounded search.
+\item $Q$ is the query row, recording the finite search request, target tolerance, and admissible stopping condition.
+\item $W$ is the retained-window ledger, listing the lower and upper windows produced by the bounded branch sequence.
+\item $R$ is the $\RealUp$-facing seal row reached only after $I,B,F,D,Q,W$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for the source, branch, bracket, dyadic read, query, window, and seal rows.
+\item $C$ records displayed $\Cont$ replay from a search request through finite bisection, bracket preservation, dyadic sign readback, retained-window exposure, and Real-facing seal.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealBisectionSearchUp$, $\LocatedRealIntervalUp$, $\LocatedIntervalBisectionUp$, $\FiniteBracketingIntervalUp$, $\DyadicIntermediateValueUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedRealBisectionSearchUp}$ row.
+\end{enumerate}
+The carrier predicate compares accepted packets only through $I,B,F,D,Q,W,R,H,C,P,N$. It has no coordinate for host interval equality, trichotomy, countable choice, selected quotient representatives, ambient $\RealUp$ completeness, or a hidden root witness.
+\end{definition}
+
+\begin{theorem}[Located real bisection-search NameCert obligations]
+\label{thm:located-real-bisection-search-namecert-obligations}
+For every accepted $\LocatedRealBisectionSearchUp$ carrier $S=(I,B,F,D,Q,W,R,H,C,P,N)$, the local $\NameCert_{\LocatedRealBisectionSearchUp}$ surface consists exactly of carrier admission for the displayed rows, located-source exposure through $I$, finite bisection exposure through $B$, bracket preservation through $F$, dyadic sign readback through $D$, bounded query admission through $Q$, retained-window exposure through $W$, Real-facing seal routing through $R$, componentwise transport through $H$, continuation replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-real-bisection-search-carrier}. The accepted packet contains only the displayed rows, so carrier admission fixes the source interval, branch route, bracket row, dyadic sign readback, query, retained windows, seal, and structural data before any consumer reads the search.
+
+The analytic part of the route is finite. The located source is $I$, the bisection route is $B$, the bracket row is $F$, and the dyadic sign-read row is $D$. The query row $Q$ fixes the bounded stopping condition, while $W$ records only the retained windows produced by those rows.
+
+Finally read $R,H,C,P,N$. These rows seal the route toward $\RealUp$, transport the displayed data componentwise, replay the same finite request, record provenance, and name the packet. Since no carrier coordinate stores host equality, trichotomy, choice, ambient completeness, or a hidden root witness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Located real bisection-search finite route]
+\label{thm:located-real-bisection-search-finite-route}
+Every $\RealUp$ or interval-search consumer of an accepted $\LocatedRealBisectionSearchUp$ packet factors through the finite route
+$$
+\LocatedRealIntervalUp \longmapsto \LocatedIntervalBisectionUp \longmapsto \FiniteBracketingIntervalUp \longmapsto \DyadicIntermediateValueUp \longmapsto R,H,C,P,N .
+$$
+The consumer receives only the bounded branch ledger, preserved bracket, dyadic sign reads, retained windows, Real-facing seal, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Begin with the source row. A search request first reads $I$, so the packet cannot replace the located real interval by an ambient host interval.
+
+Next read the finite search rows $B,F,D,Q,W$. They record the branch sequence, bracket preservation, dyadic sign readback, bounded stopping request, and retained windows. No row in this stage selects an infinite limit or an unbounded root.
+
+The final route through $R,H,C,P,N$ preserves the same finite ledger for downstream real and interval-search consumers. Because the carrier has no coordinate for host interval equality, trichotomy, quotient-real representatives, countable choice, ambient completeness, or hidden root selection, every such consumer remains on the displayed finite route.
+\end{proof}
+
+\closureat{LocatedRealBisectionSearchUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRealBisectionSearchUp}
+  \constructivestory{A $\LocatedRealBisectionSearchUp$ packet is generated from a located real interval source row, located bisection branch route, finite bracketing row, dyadic sign readback, bounded query row, retained-window ledger, Real-facing seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-real-bisection-search-carrier}, \autoref{thm:located-real-bisection-search-namecert-obligations}, and \autoref{thm:located-real-bisection-search-finite-route} seed the finite bisection-search packet over located real interval, finite bracket, dyadic sign, retained-window, and Real-facing rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host interval equality, real trichotomy, countable choice, selected quotient representatives, ambient RealUp completeness, hidden root selection, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source exposure, branch-route exactness, bracket preservation, dyadic sign readback, retained-window routing, RealUp seal nonescape, and local naming for BEDC.Derived.LocatedRealBisectionSearchUp.}
+\end{closurestatus}
