@@ -854,6 +854,7 @@ import BEDC.Derived.BoundedRegularCauchyUp.TasteGate
 import BEDC.Derived.BoundedSetUp.BallContainmentRoute
 import BEDC.Derived.BoundedSetUp.BallRadiusLedgerFactorization
 import BEDC.Derived.BoundedSetUp.CompletionNonescape
+import BEDC.Derived.BoundedSetUp.DiameterConsumerBoundary
 import BEDC.Derived.BoundedSetUp.NameCertLedgerNonescape
 import BEDC.Derived.BoundedSetUp.SubsetBallReplayStability
 import BEDC.Derived.BoundedSetUp.TasteGate
@@ -1051,6 +1052,7 @@ import BEDC.Derived.CauchyConvergenceCriterionUp.RealSealRoute
 import BEDC.Derived.CauchyConvergenceCriterionUp.RegularTailCoverage
 import BEDC.Derived.CauchyConvergenceCriterionUp.RegularTailWindow
 import BEDC.Derived.CauchyConvergenceCriterionUp.ScopeWindow
+import BEDC.Derived.CauchyConvergenceCriterionUp.ScopedClosure
 import BEDC.Derived.CauchyConvergenceCriterionUp.ScopedReadbackStrengthening
 import BEDC.Derived.CauchyConvergenceCriterionUp.SourceTriadExhaustion
 import BEDC.Derived.CauchyConvergenceCriterionUp.SpeckerBoundary
