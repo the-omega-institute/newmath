@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BioReality Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bio-reality
-// @version      1.0
+// @version      1.4
 // @description  BioReality-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bio_reality_oracle_server.py on :8769.
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -28,28 +28,42 @@
 (function () {
   "use strict";
 
+  // DIAGNOSTIC: prove the IIFE entered (visible in browser console even before panel)
+  try { console.log("[bio] userscript IIFE entered, version bio-1.3"); } catch {}
+
   try {
-    if (window.top !== window.self) return;
+    if (window.top !== window.self) {
+      try { console.log("[bio] exit: in iframe (top!=self)"); } catch {}
+      return;
+    }
   } catch {
+    try { console.log("[bio] exit: window.top access threw"); } catch {}
     return;
   }
-  if (window.location.pathname.startsWith("/backend-api/")) return;
-  if (window.location.href.includes("/sentinel/")) return;
+  if (window.location.pathname.startsWith("/backend-api/")) {
+    try { console.log("[bio] exit: backend-api path"); } catch {}
+    return;
+  }
+  if (window.location.href.includes("/sentinel/")) {
+    try { console.log("[bio] exit: sentinel path"); } catch {}
+    return;
+  }
+  try { console.log("[bio] passed early-return gates, pathname=", window.location.pathname); } catch {}
 
   // BioReality CHANGE
-  const SERVER = "http://localhost:8769";
+  const SERVER = "http://127.0.0.1:8769";
   const POLL_INTERVAL = 30000;
   const STABLE_CHECKS = 3;
   const STABLE_INTERVAL = 60000;
   const MAX_WAIT = 7200000;
   const NO_OUTPUT_IDLE_TIMEOUT = 420000;
   const REFILL_NO_OUTPUT_IDLE_TIMEOUT = 1800000;
-  const SCRIPT_VERSION = "bio-1.0";
-  const BIOREALITY_CHAT_HOME = "https://chatgpt.com/";
-  const BIOREALITY_PROJECT_PREFIX = "";
+  const SCRIPT_VERSION = "bio-1.4";
+  const BIOREALITY_PROJECT_PREFIX = "/g/g-p-6a098a6e69688191a6afd91978c585ef-ge-ben-ha-gen-zhi-lu";
+  const BIOREALITY_CHAT_HOME = `https://chatgpt.com${BIOREALITY_PROJECT_PREFIX}/project`;
 
   function isInsideBioRealityChat() {
-    return ["chatgpt.com", "chat.openai.com"].includes(window.location.hostname);
+    return window.location.pathname.startsWith(BIOREALITY_PROJECT_PREFIX);
   }
 
   function bioFlagFromUrl() {
@@ -1368,7 +1382,7 @@
           const aid = agentId();
           const flagMatch = aid.match(/^bio_(\d+)$/);
           const bioFlag = flagMatch ? flagMatch[1] : "1";
-          const fallbackUrl = `${BIOREALITY_CHAT_HOME}?bio=${bioFlag}`;
+          const fallbackUrl = `${BIOREALITY_CHAT_HOME}${bioFlag ? `?bio=${encodeURIComponent(bioFlag)}` : ""}`;
           log(`fallback URL: ${fallbackUrl} (agentId=${aid})`);
           window.location.href = fallbackUrl;
           return;
@@ -1573,7 +1587,8 @@
   }
 
   function projectEntryUrlForAgent() {
-    return `${BIOREALITY_CHAT_HOME}?bio=${encodeURIComponent(bioFlagForAgent())}`;
+    const flag = bioFlagForAgent();
+    return `${BIOREALITY_CHAT_HOME}${flag ? `?bio=${encodeURIComponent(flag)}` : ""}`;
   }
 
   function navigateTaskBackToProject(task, reason) {
