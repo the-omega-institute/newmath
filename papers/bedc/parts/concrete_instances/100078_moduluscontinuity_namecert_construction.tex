@@ -98,6 +98,37 @@ The structural rows add no new primitive. The $\BHist$, $\hsame$, $\Cont$, $\Pkg
 \end{proof}
 \leanchecked{BEDC.Derived.ModulusContinuityUp.ModulusContinuityCompositionRoute}
 
+\begin{theorem}[Modulus-continuity double-composition route]
+\label{thm:modulus-continuity-double-composition-route}
+Let
+$$
+M_f=(G_f,S_f,K_f,D_f,Q_f,R_f,H_f,C_f,P_f,N_f),
+$$
+$$
+M_g=(G_g,S_g,K_g,D_g,Q_g,R_g,H_g,C_g,P_g,N_g),
+$$
+and
+$$
+M_h=(G_h,S_h,K_h,D_h,Q_h,R_h,H_h,C_h,P_h,N_h)
+$$
+be accepted $\ModulusContinuityUp$ carriers whose target and source surfaces match consecutively. Then every target tolerance request for the triple composed Real or Completion consumer factors through the finite concatenated route
+$$
+D_h \to K_h \to S_h \to G_h \to Q_h \to
+D_g \to K_g \to S_g \to G_g \to Q_g \to
+D_f \to K_f \to S_f \to G_f \to Q_f \to R_f .
+$$
+The route uses only the displayed $\ContinuousMapUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the three carriers.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:modulus-continuity-composition-route} first to $M_g$ and $M_h$. The outer tolerance request is routed through $D_h,K_h,S_h,G_h,Q_h$ and then through the matched surface of $M_g$.
+
+Apply the same composition route to the resulting matched surface and $M_f$. The second handoff extends the displayed route through $D_g,K_g,S_g,G_g,Q_g$ and then through $D_f,K_f,S_f,G_f,Q_f,R_f$.
+
+Use \autoref{thm:modulus-continuity-real-completion-handoff} at both matched surfaces. The handoff theorem prevents either match from becoming a detached continuity oracle, an ambient completeness row, or a selected Real limit; each match is read only through the displayed carrier rows.
+
+The structural rows only transport and source the same finite route. Componentwise $\hsame$, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows concatenate the three packet routes without adding any object beyond the displayed modulus-continuity inventories.
+\end{proof}
+
 \begin{theorem}[Modulus-continuity composition non-escape]
 \label{thm:modulus-continuity-composition-non-escape}
 Under the hypotheses of \autoref{thm:modulus-continuity-composition-route}, the composed Real or Completion consumer exports no open-cover compactness, selected limit, quotient stream equality, host real equality, detached continuity oracle, or ambient $\RealUp$ completeness. Every exported read is confined to the displayed rows of $M_f$ and $M_g$ and their concatenated finite tolerance-to-window route.
