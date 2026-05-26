@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\ConcaveModulusUp$}
+\label{ch:concrete-instances-concave-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive moduli of continuity, the $\ConcaveModulusUp$ packet records the finite normalization surface at which a positive tolerance schedule is replaced by a monotone midpoint-concave modulus before Real or Completion consumers inspect it. It sits on the rational and dyadic tolerance rows of \autoref{ch:concrete-instances-rat-namecert} and \autoref{ch:concrete-instances-dyadicratcore-namecert}, the explicit uniform-modulus surface of \autoref{ch:concrete-instances-uniform-continuity-modulus-namecert}, the located-uniform-continuity handoff of \autoref{ch:concrete-instances-located-uniform-continuity-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a constructive normalization object; it does not choose a modulus from a host theorem, assert real completeness, or import quotient equality of functions.
+
+\begin{definition}[Concave modulus carrier]
+\label{def:concave-modulus-carrier}
+A $\ConcaveModulusUp$ carrier is a finite $\BHist$ packet
+$$
+K=(Q,D,M,J,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the positive $\RatUp$ tolerance row. It names the rational tolerance requests and records the finite order in which a consumer may inspect them.
+\item $D$ is the positive $\DyadicRatCoreUp$ tolerance row attached to the same requests, giving the dyadic scale at which Real and Completion routes read the modulus.
+\item $M$ is the monotone modulus row. It records that weaker tolerance requests are served by no stronger source radius than the displayed stronger requests.
+\item $J$ is the midpoint-concavity row. It records the finite Jensen midpoint comparisons used by the normalization route before any subadditivity consumer may read the packet.
+\item $S$ is the subadditive handoff row. It exposes the normalized modulus as the public row consumed by $\UniformContinuityModulusUp$ and $\LocatedUniformContinuityUp$ certificates.
+\item $H$ stores componentwise $\hsame$ transport for the rational tolerance, dyadic tolerance, monotone modulus, midpoint-concavity, subadditive handoff, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a modulus-normalization request through $Q,D,M,J,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ConcaveModulusUp$, $\RatUp$, $\DyadicRatCoreUp$, $\UniformContinuityModulusUp$, $\LocatedUniformContinuityUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ConcaveModulusUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a choice-selected modulus, host continuity theorem, quotient function equality, real trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Concave modulus NameCert obligations]
+\label{thm:concave-modulus-namecert-obligations}
+For every accepted $\ConcaveModulusUp$ carrier
+$$
+K=(Q,D,M,J,S,H,C,P,N),
+$$
+the local $\NameCert_{\ConcaveModulusUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the positive rational tolerance, positive dyadic tolerance, monotone modulus, midpoint-concavity, subadditive handoff, transport, replay, provenance, and local naming rows;
+\item tolerance exposure, requiring every normalization request to read $Q$ and $D$ before it reads any modulus row;
+\item monotonicity discipline, requiring $M$ to preserve the displayed order of tolerance requests without choosing a new host-scale modulus;
+\item midpoint-concavity discipline, requiring $J$ to supply the finite midpoint comparisons used by the subadditive handoff;
+\item non-escape, requiring $S,H,C,P,N$ to export only the displayed normalized modulus route and no choice-selected modulus, quotient function equality, trichotomy, ambient completeness, Lean verification, or bridge checking.
+\end{enumerate}
+No $\ConcaveModulusUp$ obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:concave-modulus-carrier}. The tuple lists exactly the positive rational tolerance, dyadic tolerance, monotone modulus, midpoint-concavity, subadditive handoff, and structural rows.
+
+Tolerance exposure is forced by the order of $Q$ and $D$. A consumer cannot inspect the normalized modulus before the positive rational request and dyadic scale have been displayed as finite packet data.
+
+The monotone and midpoint-concavity obligations are the rows $M$ and $J$. They are read before the public handoff row $S$, so the handoff is a displayed normalization route rather than a host theorem about all moduli.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite rows. Since the carrier contains no coordinate for a selected modulus, quotient function equality, trichotomy, ambient completeness, Lean verification, or bridge checking, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Concave modulus subadditive handoff]
+\label{thm:concave-modulus-subadditive-handoff}
+Every $\UniformContinuityModulusUp$ or $\LocatedUniformContinuityUp$ consumer of an accepted $\ConcaveModulusUp$ packet must read the finite route
+$$
+\RatUp \longrightarrow \DyadicRatCoreUp \longrightarrow \ConcaveModulusUp \longrightarrow \UniformContinuityModulusUp \longrightarrow \LocatedUniformContinuityUp
+$$
+through the displayed rows $Q,D,M,J,S,H,C,P,N$. The subadditive handoff row $S$ is available only after the positive tolerance rows, monotone modulus row, and midpoint-concavity row have been displayed. The route exports no choice-selected modulus, host continuity theorem, quotient equality of functions, trichotomy, or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $K=(Q,D,M,J,S,H,C,P,N)$. Projection exposes the tolerance rows $Q,D$ before any modulus-normalization row is consumed.
+
+Read the monotone row $M$ and midpoint-concavity row $J$. These rows are finite packet data, so the consumer receives the normalization discipline as displayed comparisons rather than as a global host theorem.
+
+The handoff row $S$ is downstream of those rows. A $\UniformContinuityModulusUp$ consumer reads $S$ as its public tolerance-to-radius surface, and a $\LocatedUniformContinuityUp$ consumer reads the same handoff only after its located source and modulus routes have been displayed.
+
+The remaining rows $H,C,P,N$ preserve componentwise transport, replay, provenance, and naming for this route. Since no listed row contains a selected modulus, quotient function equality, trichotomy, or ambient completeness coordinate, the subadditive handoff exports none of them.
+\end{proof}
+
+\closureat{ConcaveModulusUp}{seedStr}
+
+\begin{closurestatus}{\ConcaveModulusUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:concave-modulus-carrier}, \autoref{thm:concave-modulus-namecert-obligations}, and \autoref{thm:concave-modulus-subadditive-handoff} seed the finite constructive normalization route from positive rational and dyadic tolerances through monotone midpoint-concave modulus rows into uniform-continuity consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a choice-selected modulus, host continuity theorem, quotient function equality, real trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, positive tolerance exposure, monotone modulus discipline, midpoint-concavity rows, subadditive handoff, transport, replay, provenance, and local naming for BEDC.Derived.ConcaveModulusUp.}
+  \constructivestory{A $\ConcaveModulusUp$ packet is generated from positive RatUp tolerance rows, positive DyadicRatCoreUp tolerance rows, monotone modulus rows, midpoint-concavity rows, a subadditive handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
