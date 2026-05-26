@@ -3250,6 +3250,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.RadiusWindowAdmission
 import BEDC.Derived.FiniteLebesgueNumberUp.RealPhaseSourceExhaustion
 import BEDC.Derived.FiniteLebesgueNumberUp.RealSourceNonchoice
 import BEDC.Derived.FiniteLebesgueNumberUp.RootCompactConsumerNonchoice
+import BEDC.Derived.FiniteLebesgueNumberUp.RootCoverageLedger
 import BEDC.Derived.FiniteLebesgueNumberUp.RootDyadicRadiusObligation
 import BEDC.Derived.FiniteLebesgueNumberUp.RootRadiusCoherencePackage
 import BEDC.Derived.FiniteLebesgueNumberUp.RootRadiusWindowConsumerExactness
@@ -5056,6 +5057,7 @@ import BEDC.Derived.RealCompletionExactBoundaryUp.TerminalNormalFormAbsorption
 import BEDC.Derived.RealCompletionExactBoundaryUp.TerminalRoutePullback
 import BEDC.Derived.RealCompletionExactBoundaryUp.TerminalSealDeterminacy
 import BEDC.Derived.RealCompletionFiniteRouteUp.TasteGate
+import BEDC.Derived.RealCompletionFunctorUp.TasteGate
 import BEDC.Derived.RealCompletionReflectionUp
 import BEDC.Derived.RealCompletionReflectionUp.TasteGate
 import BEDC.Derived.RealCompletionRouteAuditUp.TasteGate
