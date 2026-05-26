@@ -239,4 +239,32 @@ theorem CauchySpaceCarrier_namecert_ledger {F0 F1 U0 R0 T0 H0 C0 P0 N0 ledger : 
     ⟨fUnary, uUnary, rUnary, tUnary, ledgerUnary, pUnary, namedUnary,
       transportRow, filterRoute, ledgerRoute, nameRoute⟩
 
+theorem CauchySpaceCarrier_obligation_coverage_route
+    {F0 F1 U0 R0 T0 H0 C0 P0 N0 regular completion ledger : BHist} :
+    CauchySpaceCarrier F0 U0 R0 F1 T0 H0 C0 P0 N0 ->
+      Cont F0 U0 R0 ->
+        Cont R0 F1 regular ->
+          Cont R0 T0 completion ->
+            Cont completion P0 ledger ->
+              UnaryHistory F0 ∧ UnaryHistory F1 ∧ UnaryHistory U0 ∧
+                UnaryHistory R0 ∧ UnaryHistory T0 ∧ UnaryHistory regular ∧
+                  UnaryHistory completion ∧ UnaryHistory ledger ∧ UnaryHistory P0 ∧
+                    UnaryHistory N0 ∧ hsame H0 (append F0 U0) ∧ Cont F0 U0 R0 ∧
+                      Cont R0 F1 regular ∧ Cont R0 T0 completion ∧
+                        Cont completion P0 ledger := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  intro carrier filterRoute regularRoute completionRoute ledgerRoute
+  obtain ⟨fUnary, uUnary, rUnary, f1Unary, tUnary, _hUnary, _cUnary, pUnary, nUnary,
+    transportRow, _carrierFilterRoute, _carrierNameRoute⟩ := carrier
+  have regularUnary : UnaryHistory regular :=
+    unary_cont_closed rUnary f1Unary regularRoute
+  have completionUnary : UnaryHistory completion :=
+    unary_cont_closed rUnary tUnary completionRoute
+  have ledgerUnary : UnaryHistory ledger :=
+    unary_cont_closed completionUnary pUnary ledgerRoute
+  exact
+    ⟨fUnary, f1Unary, uUnary, rUnary, tUnary, regularUnary, completionUnary,
+      ledgerUnary, pUnary, nUnary, transportRow, filterRoute, regularRoute,
+      completionRoute, ledgerRoute⟩
+
 end BEDC.Derived.CauchySpaceUp
