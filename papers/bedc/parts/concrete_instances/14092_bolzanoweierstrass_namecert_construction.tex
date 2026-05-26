@@ -647,6 +647,52 @@ Next combine the root subsequence extraction obligation with the RegSeqRat clust
 Finally apply the Real cluster seal and finite cluster-retention ledger. The terminal row $E$ is reached only after the displayed regular package, while $H,C,P,N$ preserve and name the same packet. Therefore the root obligation package is exactly $S,K,R,Q,E,H,C,P,N$ with the stated refusals.
 \end{proof}
 
+\begin{theorem}[Bolzano--Weierstrass bounded-sequence admission]
+\label{thm:bolzano-weierstrass-bounded-sequence-admission}
+Let $B=(S,K,R,Q,E,H,C,P,N)$ be an accepted $\BolzanoWeierstrassUp$ packet carrying the root obligation package of \autoref{thm:bolzano-weierstrass-root-obligation-package}. The bounded source row $S$ is admitted only as the source surface for the same interval-net row $K$, regular-subsequence row $R$, $\RegSeqRatUp$ readback row $Q$, and $\RealUp$ cluster seal $E$. In particular, the bounded source is read through $S,K,H,C,P,N$ before the rows $R,Q,E$ are exposed, and it cannot be replaced by a detached host sequence, an arbitrary subsequence selector, or an ambient completeness assumption.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:bolzano-weierstrass-namecert-obligations}. It identifies $S$ as the bounded sequence admission row and places it inside the carrier together with $K,R,Q,E,H,C,P,N$.
+
+Apply \autoref{thm:bolzano-weierstrass-finite-subsequence-obligations} and \autoref{thm:bolzano-weierstrass-interval-net-obligation}. These force the interval-net row $K$ and the regular-subsequence row $R$ to consume the same bounded source windows rather than a second sequence source.
+
+Finally use \autoref{thm:bolzano-weierstrass-root-obligation-package}. The structural rows $H,C,P,N$ bind the bounded source to the later readback and Real seal, so no detached host sequence or completeness principle is exported.
+\end{proof}
+
+\begin{theorem}[Bolzano--Weierstrass regular cluster seal]
+\label{thm:bolzano-weierstrass-regular-cluster-seal}
+Let $B=(S,K,R,Q,E,H,C,P,N)$ be an accepted $\BolzanoWeierstrassUp$ packet whose bounded-sequence admission row and root obligation package are displayed. The cluster seal $E$ is regular only through the route
+$$
+S,K,R,Q,E,H,C,P,N .
+$$
+The row $R$ reads retained finite windows from $S$ through $K$, the row $Q$ reads the same windows as $\RegSeqRatUp$ data, and the row $E$ seals only that regular readback as $\RealUp$ data. No cluster seal is available from a second bounded source, a detached interval net, quotient stream equality, selected subsequence choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with bounded-sequence admission. It fixes the source row $S$ as the only bounded real-sequence surface available to the cluster route.
+
+Use \autoref{thm:bolzano-weierstrass-regseqrat-handoff}. The handoff places the retained windows behind $K$ and $R$ before $Q$ reads them as regular rational data.
+
+Use the interval-net obligation and the root obligation package. Together they bind $K,R,Q$ to the same support rows $H,C,P,N$.
+
+Finally read the Real seal $E$. Since $E$ is downstream of $Q$ in the displayed route, the seal is regular by the carried readback rows and not by a host completeness or selection principle.
+\end{proof}
+
+\begin{theorem}[Bolzano--Weierstrass cluster-seal nonescape]
+\label{thm:bolzano-weierstrass-cluster-seal-nonescape}
+For every accepted $\BolzanoWeierstrassUp$ packet $B=(S,K,R,Q,E,H,C,P,N)$ carrying the bounded-sequence admission and regular cluster-seal rows, any cluster-facing consumer remains inside the displayed surface
+$$
+S,K,R,Q,E,H,C,P,N .
+$$
+The consumer may read a bounded source window, a retained interval-net cell, a regular-subsequence ledger, a $\RegSeqRatUp$ readback row, and the terminal $\RealUp$ seal, but it cannot escape to an unlisted source row, an unlisted interval net, a selected least cluster point, quotient real equality, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:bolzano-weierstrass-bounded-sequence-admission}. It fixes $S$ and $K$ as the source and interval-net surface for the cluster route.
+
+Apply \autoref{thm:bolzano-weierstrass-regular-cluster-seal}. It fixes $R,Q,E$ as the regular-subsequence, regular readback, and Real-seal surface downstream of those rows.
+
+The support rows $H,C,P,N$ are the only transport, replay, provenance, and local naming coordinates in the carrier of \autoref{def:bolzano-weierstrass-carrier}. Therefore every cluster-facing read remains inside $S,K,R,Q,E,H,C,P,N$, and the refused host-level objects have no row from which they can be projected.
+\end{proof}
+
 \begin{theorem}[Bolzano--Weierstrass retained-window refinement]
 \label{thm:bolzano-weierstrass-window-retention-refinement}
 Let $B=(S,K,R,Q,E,H,C,P,N)$ be an accepted $\BolzanoWeierstrassUp$ packet carrying the root obligation package of \autoref{thm:bolzano-weierstrass-root-obligation-package}. Every retained dyadic interval cell used by the cluster route is read through
