@@ -95,6 +95,240 @@ unrestricted and contribute $(1+x)^{22}$. In Hochster's formula,
 $\widetilde{H}_{2}$ appears when $j-i-1=2$, namely $i=j-3$.
 \end{proof}
 
+\begin{definition}[Hochster diagonal series]
+\label{def:philosophy-hochster-diagonal-series}
+For $q=-1,0,1,2$, define
+$$
+  B_{q}(x)
+  =
+  \sum_{j}\beta_{j-q-1,j}(k[\mathcal{B}])x^{j}.
+$$
+\end{definition}
+
+\begin{theorem}[Complete Hochster diagonal series]
+\label{thm:philosophy-complete-hochster-diagonal-series}
+The four Hochster diagonal generating functions are
+$$
+  B_{-1}(x)=(1+x)^{2},
+$$
+$$
+  B_{0}(x)=x^{2}(x+1)^{2}(x+2)^{2}P_{0}(x),
+$$
+where
+$$
+\begin{aligned}
+  P_{0}(x)=&
+  4x^{12}+48x^{11}+268x^{10}+920x^{9}+2167x^{8}\\
+  &+3704x^{7}+4736x^{6}+4592x^{5}+3373x^{4}\\
+  &+1844x^{3}+720x^{2}+184x+25,
+\end{aligned}
+$$
+$$
+  B_{1}(x)=x^{3}(x+1)^{10}(x+2)^{3}P_{1}(x),
+$$
+where
+$$
+\begin{aligned}
+  P_{1}(x)=&
+  6x^{10}+60x^{9}+278x^{8}+784x^{7}+1491x^{6}\\
+  &+2002x^{5}+1928x^{4}+1320x^{3}+617x^{2}\\
+  &+178x+22,
+\end{aligned}
+$$
+and
+$$
+  B_{2}(x)=x^{4}(x+1)^{22}(x+2)^{4}.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate support-type subsets
+$$
+  A\subseteq 2^{\Omega}\setminus\{\varnothing\}.
+$$
+Each chosen support type has two codon lifts, so its nonempty lift
+selection contributes $(1+x)^{2}-1=2x+x^{2}$. For each $A$, form the
+four-vertex nerve $N_{A}$ as in
+\autoref{def:philosophy-induced-blocker-nerve}. Hochster's formula
+therefore gives
+$$
+  B_{q}(x)
+  =
+  \sum_{A}
+  \dim_{k}\widetilde{H}_{q}(N_{A};k)
+  (2x+x^{2})^{|A|}.
+$$
+There are only $2^{15}$ support-type subsets. Computing the reduced
+homology of their four-vertex nerves gives the displayed factorizations.
+\end{proof}
+
+\begin{corollary}[Diagonal masses]
+\label{cor:philosophy-hochster-diagonal-masses}
+Evaluating the four diagonal series at $x=1$ gives
+$$
+\begin{array}{c|r|r}
+  q & j-i=q+1 & B_{q}(1)\\
+  \hline
+  -1 & 0 & 4\\
+  0 & 1 & 813060\\
+  1 & 2 & 240150528\\
+  2 & 3 & 339738624.
+\end{array}
+$$
+\end{corollary}
+\begin{proof}
+Substitute $x=1$ in
+\autoref{thm:philosophy-complete-hochster-diagonal-series}.
+\end{proof}
+
+\begin{corollary}[Low-degree diagonal entries]
+\label{cor:philosophy-low-degree-diagonal-entries}
+The first terms of the two middle diagonals are
+$$
+\begin{array}{c|r}
+  j & \beta_{j-1,j}\\
+  \hline
+  2 & 100\\
+  3 & 1036\\
+  4 & 5413\\
+  5 & 18558\\
+  6 & 46109\\
+  7 & 87320\\
+  8 & 129681\\
+  9 & 153426\\
+  10 & 145609
+\end{array}
+$$
+and
+$$
+\begin{array}{c|r}
+  j & \beta_{j-2,j}\\
+  \hline
+  3 & 176\\
+  4 & 3448\\
+  5 & 32004\\
+  6 & 188174\\
+  7 & 789384\\
+  8 & 2519871\\
+  9 & 6368866\\
+  10 & 13082137.
+\end{array}
+$$
+\end{corollary}
+\begin{proof}
+These are the coefficients of $B_{0}(x)$ and $B_{1}(x)$ in
+\autoref{thm:philosophy-complete-hochster-diagonal-series}.
+\end{proof}
+
+\begin{definition}[Support-level Betti polynomials]
+\label{def:philosophy-support-level-betti-polynomials}
+Let
+$$
+  \mathcal{S}=2^{\Omega}\setminus\{\varnothing\}.
+$$
+For $A\subseteq\mathcal{S}$, define the support nerve
+$$
+  N_{A}
+  =
+  \bigcup_{S\in A}2^{\Omega\setminus S}.
+$$
+For $q=-1,0,1,2$, set
+$$
+  Q_{q}(z)
+  =
+  \sum_{A\subseteq\mathcal{S}}
+  \dim_{k}\widetilde{H}_{q}(N_{A};k)z^{|A|}.
+$$
+\end{definition}
+
+\begin{theorem}[Support-level Betti polynomials]
+\label{thm:philosophy-support-level-betti-polynomials}
+The support-level Hochster polynomials are
+$$
+  Q_{-1}(z)=1+z,
+$$
+$$
+  Q_{0}(z)
+  =
+  z^{2}(1+z)
+  \left(
+  4z^{6}+28z^{5}+87z^{4}+152z^{3}
+  +157z^{2}+92z+25
+  \right),
+$$
+$$
+  Q_{1}(z)
+  =
+  z^{3}(1+z)^{5}
+  \left(
+  6z^{5}+38z^{4}+99z^{3}+132z^{2}+89z+22
+  \right),
+$$
+and
+$$
+  Q_{2}(z)=z^{4}(1+z)^{11}.
+$$
+\end{theorem}
+\begin{proof}
+Enumerate the $2^{15}$ subsets of the support-type set
+$\mathcal{S}$. For each $A$, the nerve is the four-vertex complex
+$N_{A}$. Computing its reduced homology and summing by $|A|$ gives the
+four displayed polynomials. The highest polynomial has the direct
+form $Q_{2}(z)=z^{4}(1+z)^{11}$ because $\widetilde{H}_{2}$ occurs
+exactly when the four singleton supports are present, while the other
+$11$ support types are unrestricted.
+\end{proof}
+
+\begin{theorem}[Support-lift Betti transform]
+\label{thm:philosophy-support-lift-betti-transform}
+If each support type has $\ell$ lifts, then the lifted Hochster
+diagonal series is
+$$
+  B_{q}^{(\ell)}(x)
+  =
+  Q_{q}\left((1+x)^{\ell}-1\right).
+$$
+In the codon case $\ell=2$, so
+$$
+  B_{q}(x)=Q_{q}(2x+x^{2}).
+$$
+\end{theorem}
+\begin{proof}
+For a fixed support type, either no lift is chosen, or a nonempty
+subset of its $\ell$ lifts is chosen. The nonempty choice generating
+function is $(1+x)^{\ell}-1$. If the support-type set is $A$, its lift
+contribution is therefore $\left((1+x)^{\ell}-1\right)^{|A|}$, while
+the homology factor is $\dim\widetilde{H}_{q}(N_{A})$. Summing over
+$A$ gives the formula.
+\end{proof}
+
+\begin{corollary}[Codon support-lift compression]
+\label{cor:philosophy-codon-support-lift-compression}
+The complete $30$-variable Betti table of $k[\mathcal{B}]$ is
+determined by the four support-level polynomials
+$$
+  Q_{-1},\ Q_{0},\ Q_{1},\ Q_{2}
+$$
+and the substitution
+$$
+  z\mapsto (1+x)^{2}-1=2x+x^{2}.
+$$
+Equivalently,
+$$
+  30\text{-variable Betti data}
+  \longrightarrow
+  15\text{-support-type nerves}
+  \longrightarrow
+  4\text{ support polynomials}.
+$$
+\end{corollary}
+\begin{proof}
+The four codon-level diagonal series are
+\autoref{thm:philosophy-complete-hochster-diagonal-series}. By
+\autoref{thm:philosophy-support-lift-betti-transform}, each is obtained
+from the corresponding support-level polynomial by the codon
+substitution $z=2x+x^{2}$.
+\end{proof}
+
 \begin{corollary}[Top Betti strand values]
 \label{cor:philosophy-top-betti-strand-values}
 The nonzero values of the top strand are
@@ -217,7 +451,12 @@ blocker complex has the homology of a four-coordinate nerve $N_{W}$.
 Therefore the Betti table of $k[\mathcal{B}]$ is governed by the nerve
 homology degrees $\widetilde{H}_{-1},\widetilde{H}_{0},
 \widetilde{H}_{1},\widetilde{H}_{2}$, has regularity $3$, has
-projective dimension $27$, and has depth $3$. Its top strand is
+projective dimension $27$, and has depth $3$. The four Hochster
+diagonal generating functions are those of
+\autoref{thm:philosophy-complete-hochster-diagonal-series}, and they
+are obtained from the support-level polynomials of
+\autoref{thm:philosophy-support-level-betti-polynomials} by the
+substitution $z=2x+x^{2}$. In particular, its top strand is
 $$
   \beta_{j-3,j}
   =
@@ -229,8 +468,12 @@ The nerve reduction is
 \autoref{thm:philosophy-hochster-nerve-reduction}. The homology range
 and regularity are
 \autoref{cor:philosophy-hochster-homology-range}. The top strand is
-\autoref{thm:philosophy-top-betti-strand}. The projective dimension
-and depth are \autoref{thm:philosophy-blocker-depth-regularity}.
+\autoref{thm:philosophy-top-betti-strand}, and the four diagonal
+series are \autoref{thm:philosophy-complete-hochster-diagonal-series}.
+The support-lift compression is
+\autoref{thm:philosophy-support-lift-betti-transform}.
+The projective dimension and depth are
+\autoref{thm:philosophy-blocker-depth-regularity}.
 \end{proof}
 
 \concretizedIn{ch:concrete-instances-hochster-nerve-betti-reduction-namecert}{Hochster nerve Betti reduction is realized as finite support, nerve-face, homology-range, Betti-strand, and ledger NameCert rows.}
