@@ -1,0 +1,174 @@
+\begin{definition}[Codon-level lift orbit]
+\label{def:philosophy-codon-level-lift-orbit}
+Let $A=\{S_{1},\ldots,S_{m}\}$ be a quotient-level minimal full trigger.
+The codon-level lift fiber over $A$ is $\{0,1\}^{m}$. The natural
+symmetry group is
+$$
+  G=S_{4}\times C_{2}^{(f_{3})},
+$$
+where $S_{4}$ permutes the four trigger coordinates and $C_{2}^{(f_{3})}$
+acts on a lift vector by global complement
+$$
+  \epsilon\longmapsto 1-\epsilon.
+$$
+For a fixed support family $A$, let $\operatorname{Aut}(A)$ be the
+coordinate stabilizer of $A$, acting on the $m$ support rows. The
+lift-orbit set over $A$ is
+$$
+  \{0,1\}^{m}/(\operatorname{Aut}(A)\times C_{2}^{(f_{3})}).
+$$
+\end{definition}
+
+\begin{theorem}[Codon-level lift-orbit classification]
+\label{thm:philosophy-codon-level-lift-orbit-classification}
+Under the action of $S_{4}\times C_{2}^{(f_{3})}$, the $294$
+codon-level minimal full triggers split into $20$ orbit types.
+\end{theorem}
+\begin{proof}
+The quotient-level support families split into the nine orbit types of
+\autoref{thm:philosophy-nine-orbit-minimal-trigger-classification}.
+For each representative $A$, the remaining problem is the binary
+coloring quotient
+$$
+  \{0,1\}^{|A|}/(\operatorname{Aut}(A)\times C_{2}^{(f_{3})}).
+$$
+Computing these nine finite quotients gives the orbit counts
+$$
+\begin{array}{c|r|r}
+  \text{support normal form} & \text{quotient count} & \text{lift orbits}\\
+  \hline
+  \{1234\} & 1 & 1\\
+  \{1,234\} & 4 & 2\\
+  \{12,34\} & 3 & 2\\
+  \{12,234\} & 12 & 2\\
+  \{123,124\} & 6 & 2\\
+  \{1,2,34\} & 6 & 3\\
+  \{1,24,34\} & 12 & 3\\
+  \{14,24,34\} & 4 & 2\\
+  \{1,2,3,4\} & 1 & 3.
+\end{array}
+$$
+The sum of the lift-orbit counts is
+$$
+  1+2+2+2+2+3+3+2+3=20.
+$$
+\end{proof}
+
+\begin{theorem}[Lift-orbit table]
+\label{thm:philosophy-codon-level-lift-orbit-table}
+The codon-level orbit types are exactly the rows in the following table:
+$$
+\begin{array}{c|c|r}
+  \text{support normal form} & \text{lift pattern} & \text{codon orbit size}\\
+  \hline
+  \{1234\} & 0/1 & 2\\
+  \{1,234\} & \text{same} & 8\\
+  \{1,234\} & \text{opposite} & 8\\
+  \{12,34\} & \text{same} & 6\\
+  \{12,34\} & \text{opposite} & 6\\
+  \{12,234\} & \text{same} & 24\\
+  \{12,234\} & \text{opposite} & 24\\
+  \{123,124\} & \text{same} & 12\\
+  \{123,124\} & \text{opposite} & 12\\
+  \{1,2,34\} & \text{all same} & 12\\
+  \{1,2,34\} & \text{pair same, block opposite} & 12\\
+  \{1,2,34\} & \text{singleton split} & 24\\
+  \{1,24,34\} & \text{all same} & 24\\
+  \{1,24,34\} & \text{shared-pair same, singleton opposite} & 24\\
+  \{1,24,34\} & \text{shared-pair split} & 48\\
+  \{14,24,34\} & \text{all same} & 8\\
+  \{14,24,34\} & \text{mixed} & 24\\
+  \{1,2,3,4\} & \text{all same} & 2\\
+  \{1,2,3,4\} & \text{one-vs-three} & 8\\
+  \{1,2,3,4\} & \text{two-vs-two} & 6.
+\end{array}
+$$
+The orbit sizes add to $294$.
+\end{theorem}
+\begin{proof}
+For each support normal form, the row stabilizer
+$\operatorname{Aut}(A)$ acts on binary lift vectors, while
+$C_{2}^{(f_{3})}$ identifies a vector with its complement. The $m=1$
+fiber has one orbit. For $m=2$, the complement quotient leaves the same
+and opposite lift patterns. For the type $\{1,2,34\}$, the two
+singleton rows may be exchanged, giving the three patterns displayed in
+the table. For the type $\{1,24,34\}$, the two shared-pair rows may be
+exchanged, giving the analogous three patterns. For the type
+$\{14,24,34\}$, the three rows are symmetric, so the nonconstant
+patterns form one orbit. For $\{1,2,3,4\}$, the four rows are symmetric,
+and complement identifies weights $w$ and $4-w$, leaving the three
+classes $0/4$, $1/3$, and $2/2$. Multiplying each lift-orbit size by the
+number of quotient triggers in its support orbit gives the displayed
+codon orbit sizes.
+\end{proof}
+
+\begin{theorem}[Burnside lift-orbit formula]
+\label{thm:philosophy-burnside-lift-orbit-formula}
+For a quotient-level minimal trigger $A$, let $\Gamma=\operatorname{Aut}(A)$.
+If $c(\gamma)$ is the number of cycles of the row permutation $\gamma$,
+then the number of lift orbits over $A$ is
+$$
+  N_{\mathrm{lift}}(A)
+  =
+  \frac{1}{2|\Gamma|}
+  \sum_{\gamma\in\Gamma}
+  \left(
+    2^{c(\gamma)}
+    +
+    \mathbf{1}_{\mathrm{even}}(\gamma)2^{c(\gamma)}
+  \right),
+$$
+where $\mathbf{1}_{\mathrm{even}}(\gamma)=1$ exactly when every cycle of
+$\gamma$ has even length.
+\end{theorem}
+\begin{proof}
+Burnside's lemma applies to the action of
+$\Gamma\times C_{2}^{(f_{3})}$ on $\{0,1\}^{m}$. A row permutation
+$\gamma$ fixes $2^{c(\gamma)}$ binary strings. The complemented element
+$\tau\gamma$ fixes the solutions of $\epsilon=1-\gamma\epsilon$.
+Along a cycle, such assignments exist exactly for even cycle length,
+and then contribute two assignments per cycle. Hence the complemented
+fixed-point term is $2^{c(\gamma)}$ when all cycles are even and zero
+otherwise.
+\end{proof}
+
+\begin{definition}[Lift imbalance]
+\label{def:philosophy-lift-imbalance}
+For a lift vector $\epsilon\in\{0,1\}^{m}$, define
+$$
+  b(\epsilon)
+  =
+  \min\{w(\epsilon),m-w(\epsilon)\},
+$$
+where $w(\epsilon)$ is its Hamming weight.
+\end{definition}
+
+\begin{theorem}[Codon-level minimal trigger orbit theorem]
+\label{thm:philosophy-codon-level-minimal-trigger-orbit-theorem}
+The post-$M^{\star}$ codon-level minimal trigger space is the
+$f_{3}$-lift hypercube bundle
+$$
+  \mathcal{T}_{c}
+  =
+  Q_{1}
+  \sqcup
+  25Q_{2}
+  \sqcup
+  22Q_{3}
+  \sqcup
+  Q_{4},
+$$
+and its natural $S_{4}\times C_{2}^{(f_{3})}$ quotient has $20$ orbit
+types. Each orbit type is determined by a support normal form together
+with a lift coloring orbit modulo support automorphisms and global
+$f_{3}$ complement.
+\end{theorem}
+\begin{proof}
+The bundle decomposition is
+\autoref{thm:philosophy-minimal-trigger-lift-bundle-decomposition}. The
+support orbit types are supplied by
+\autoref{thm:philosophy-nine-orbit-minimal-trigger-classification}. The
+lift-coloring quotient and the count of $20$ orbit types are
+\autoref{thm:philosophy-codon-level-lift-orbit-classification} and
+\autoref{thm:philosophy-codon-level-lift-orbit-table}.
+\end{proof}
