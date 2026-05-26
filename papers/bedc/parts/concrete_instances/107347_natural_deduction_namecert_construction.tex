@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\NaturalDeductionUp$}
+\label{ch:concrete-instances-natural-deduction-namecert}
+\origin{human}
+
+Following Gentzen and Prawitz, the $\NaturalDeductionUp$ packet records a finite proof-tree calculus whose rows expose assumptions, rule applications, discharge, conclusion readback, and proof-term boundary data without importing host proof equality. It sits beside the syntax-and-deduction surface of \autoref{ch:concrete-instances-firstorder-namecert}, the proof-term carrier of \autoref{ch:concrete-instances-lambdacalc-namecert}, the bounded computation packet of \autoref{ch:concrete-instances-computable-namecert}, and the run-trace surface of \autoref{ch:concrete-instances-turingmachine-namecert}. The packet is a finite NameCert neighbour: it names proof-tree evidence, but it does not identify proofs by normalization, beta equality, semantic validity, or machine execution.
+
+\begin{definition}[NaturalDeduction carrier]
+\label{def:natural-deduction-carrier}
+A $\NaturalDeductionUp$ carrier is a finite proof-tree $\BHist$ packet
+$$
+D=(A,R,S,Q,B,T,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the assumption row, listing the open formula endpoints admitted at the leaves;
+\item $R$ is the rule row, recording introduction, elimination, weakening, and structural rule instances as finite local steps;
+\item $S$ is the discharge schedule, pairing discharged assumption occurrences with the rule rows that close them;
+\item $Q$ is the conclusion row, exposing the formula endpoint read at the root of the tree;
+\item $B$ is the proof-term boundary row, recording when a proof tree may be compared with a $\LambdaCalcUp$ term without quotienting proof identity;
+\item $T$ is the transport row, comparing proof-tree nodes only by displayed $\hsame$ routes over formula, assumption, rule, discharge, and conclusion rows;
+\item $H$ records componentwise $\hsame$ stability for the assumption, rule, discharge, conclusion, proof-term boundary, transport, replay, provenance, and local name rows;
+\item $K$ records $\Cont$ replay from assumptions through rule rows and discharge rows to the conclusion and proof-term boundary;
+\item $P$ is the $\Pkg$ provenance over $\FirstOrderUp$, $\LambdaCalcUp$, $\ComputableUp$, $\TuringMachineUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\NaturalDeductionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host proof equality, global proof normalization, semantic validity, executable machine trace, selected proof representative, or quotient proof identity.
+\end{definition}
+
+\begin{theorem}[NaturalDeduction NameCert obligations]
+\label{thm:natural-deduction-namecert-obligations}
+For the carrier of \autoref{def:natural-deduction-carrier}, the local $\NameCert_{\NaturalDeductionUp}$ surface consists exactly of carrier admission for $D=(A,R,S,Q,B,T,H,K,P,N)$, assumption exposure through $A$, rule-step exposure through $R$, discharge exposure through $S$, conclusion readback through $Q$, proof-term boundary exposure through $B$, transport through $T$, componentwise $\hsame$ stability through $H$, $\Cont$ replay through $K$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier of \autoref{def:natural-deduction-carrier}. The rows $A,R,S,Q,B,T,H,K,P,N$ are the only coordinates from which the local certificate may read proof-tree data.
+
+The proof-tree content is exposed by the assumption, rule, discharge, and conclusion rows. A consumer can inspect open hypotheses, local rule instances, discharged occurrences, and the root conclusion, but those reads remain inside the finite tree packet.
+
+The proof-term boundary row is separate from proof identity. It records the visible point at which a $\LambdaCalcUp$ term may be compared with a tree boundary, while forbidding any quotient that identifies proof trees by normalization or beta equality.
+
+The structural rows then provide transport, replay, provenance, and naming. Since the carrier contains no further field, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[NaturalDeduction FirstOrder consumer route]
+\label{thm:natural-deduction-firstorder-consumer-route}
+Every $\FirstOrderUp$ consumer of an accepted $\NaturalDeductionUp$ packet reads only the displayed formula endpoints, assumption rows, rule rows, discharge schedule, conclusion row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row of \autoref{def:natural-deduction-carrier}. It cannot replace the proof-tree route by host syntax equality, semantic validity, model-theoretic completeness, or an external proof checker.
+\end{theorem}
+\begin{proof}
+Start with a $\FirstOrderUp$ read of the accepted carrier $D$. The package row $P$ names $\FirstOrderUp$ as the syntax and formula source, so the formula endpoints available to the consumer are exactly the endpoints carried by the assumption and conclusion rows.
+
+Rule and discharge reads pass through $R$ and $S$. These rows record finite local proof steps and the assumptions closed by those steps; they do not add a semantic model, a completeness theorem, or a host proof oracle.
+
+Finally replay $T,H,K,P,N$. Transport and continuation preserve the same displayed proof-tree rows, and the local name row registers that route as the $\NaturalDeductionUp$ certificate. No external proof checker has a coordinate from which it could be projected.
+\end{proof}
+
+\begin{theorem}[NaturalDeduction LambdaCalc proof-term boundary]
+\label{thm:natural-deduction-lambdacalc-proof-term-boundary}
+The $\LambdaCalcUp$ comparison surface of an accepted $\NaturalDeductionUp$ packet is exactly the proof-term boundary row $B$ together with the assumption, rule, discharge, conclusion, transport, replay, provenance, and local naming rows of \autoref{def:natural-deduction-carrier}. It supplies a boundary for Curry--Howard-style comparison, but it does not identify natural-deduction proof trees with lambda terms, alpha classes, beta-normal forms, or machine traces.
+\end{theorem}
+\begin{proof}
+Read the boundary row $B$ from the carrier. Its purpose is to name the visible point where a proof tree may be compared with the $\LambdaCalcUp$ term surface.
+
+The comparison still depends on the proof-tree rows. The assumption row $A$, rule row $R$, discharge row $S$, and conclusion row $Q$ determine which proof boundary is being compared, while $T,H,K$ preserve and replay those rows componentwise.
+
+The provenance row $P$ may cite $\LambdaCalcUp$, $\ComputableUp$, and $\TuringMachineUp$ as nearby surfaces. This citation does not add alpha quotienting, beta-normal equality, host program equality, or a machine run trace to the natural-deduction packet.
+
+Thus the chapter supplies a boundary for proof-term comparison only. Any stronger identification would require a separate carrier coordinate, and none is present in \autoref{def:natural-deduction-carrier}.
+\end{proof}
+
+\falsifiablePrediction{If a proof-tree packet claims $\NaturalDeductionUp$ acceptance while omitting assumption rows, rule rows, discharge schedule, conclusion readback, proof-term boundary, transport, replay, provenance, or local NameCert rows, it refutes the carrier of \autoref{def:natural-deduction-carrier}.}
+
+\independenceWitness{firstorder, lambdacalc, computable, turingmachine: $\NaturalDeductionUp$ is not bijective to any listed sibling because it carries assumption rows, rule rows, discharge schedule, conclusion readback, and a proof-term boundary as a single proof-tree certificate. FirstOrderUp carries syntax and deduction endpoints without the separate proof-term boundary; LambdaCalcUp carries terms and beta-substitution ledgers without discharged proof assumptions; ComputableUp and TuringMachineUp carry bounded computation and run traces rather than finite proof-tree discharge.}
+
+\closureat{NaturalDeductionUp}{seedStr}
+
+\begin{closurestatus}{\NaturalDeductionUp}
+  \constructivestory{A $\NaturalDeductionUp$ packet is generated from assumption rows, local rule rows, a discharge schedule, a conclusion row, a proof-term boundary row, transport, componentwise hsame stability, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:natural-deduction-carrier}, \autoref{thm:natural-deduction-namecert-obligations}, \autoref{thm:natural-deduction-firstorder-consumer-route}, and \autoref{thm:natural-deduction-lambdacalc-proof-term-boundary} seed the finite proof-tree carrier and its consumer boundaries.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host proof equality, global proof normalization, semantic validity, Curry--Howard equivalence, alpha quotienting, beta-normal equality, Lean verification, bridge checking, or executable machine-trace identity for $\NaturalDeductionUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, proof-tree rule routing, discharge exactness, FirstOrder consumer nonescape, and LambdaCalc proof-term boundary coverage for BEDC.Derived.NaturalDeductionUp.}
+\end{closurestatus}

@@ -59,10 +59,50 @@ Thus the handoff is exact at the boundary: strict consumers use $\MetricBallUp$,
 \end{proof}
 \leanchecked{BEDC.Derived.MetricClosedBallUp.MetricClosedBallCarrier\_metricball\_boundary\_handoff}
 
+\begin{theorem}[MetricClosedBall carrier obligations]
+\label{thm:metricclosedball-carrier-obligations}
+For an accepted $\MetricClosedBallUp$ packet $Q=(X,d,c,r,\rho,m,H,C,P,N)$, carrier admission is exactly the simultaneous admission of the $\MetricSpaceUp$ row $X$, the $\mathsf{MetricDistanceWitness}$ row $d$, the center row $c$, the radius row $r$, the nonnegative radius ledger $\rho$, the closed-membership comparison row $m$, and the support rows $H,C,P,N$. The packet exports no ambient closed subset, topology-closure predicate, compactness witness, quotient point equality, quotient radius equality, or generated-open field.
+\end{theorem}
+\begin{proof}
+Read the carrier tuple of \autoref{def:metric-closed-ball-carrier}. The rows $X,d,c,r,\rho,m$ are the only mathematical rows admitted before the structural rows appear.
+
+The support rows do not add a second carrier. The row $H$ transports those displayed coordinates, $C$ replays their distance and comparison route, $P$ records the named provenance, and $N$ gives the local certificate name.
+
+Since no tuple coordinate stores an ambient subset, closure predicate, compactness object, quotient equality test, or generated-open field, none of those objects can be projected from an accepted packet.
+\end{proof}
+
+\begin{theorem}[MetricClosedBall radius classifier stability]
+\label{thm:metricclosedball-radius-classifier-stability}
+Let $Q=(X,d,c,r,\rho,m,H,C,P,N)$ and $Q'=(X',d',c',r',\rho',m',H',C',P',N')$ be accepted $\MetricClosedBallUp$ packets whose carrier, distance, center, radius, and radius-ledger rows are paired by the displayed componentwise $\hsame$ data in $H$ and $H'$. Then the closed-membership classifier transported by $H$ and replayed by $C$ carries the non-strict comparison row $d(c,x)\leq_{\mathsf R}r$ to the corresponding row $d'(c',x')\leq_{\mathsf R}r'$. The transport preserves the radius nonnegativity ledger and the optional positive-radius handoff data used by $\MetricBallUp$.
+\end{theorem}
+\begin{proof}
+Start from the displayed $\hsame$ rows. They pair the metric carrier, distance witness, center, radius, and radius ledger componentwise, so the radius classifier is not transported by a host equality of reals or by a quotient radius comparison.
+
+Now replay the closed-membership route. The row $C$ reads distance evaluation first and then the non-strict ordered-real comparison in $m$, so transporting $d,c,r,\rho$ transports the comparison row itself.
+
+For strict-boundary consumers, the positive-radius data remain a separate part of $\rho$. Thus the same transport preserves the closed non-strict classifier and, when present, the positive-radius handoff required before the request can pass to $\MetricBallUp$.
+\end{proof}
+
+\begin{theorem}[MetricClosedBall RealAlgOrder boundary]
+\label{thm:metricclosedball-realalgorder-boundary}
+Every $\RealAlgOrderUp$ boundary read made by an accepted $\MetricClosedBallUp$ packet factors through the displayed distance witness $d$, the $\RealUp$ or $\RatUp$ radius row $r$, the radius ledger $\rho$, and the closed-membership comparison row $m$. If a downstream consumer asks for a strict boundary comparison, the route first passes through the $\MetricBallUp$ handoff of \autoref{thm:metric-closed-ball-metricball-boundary-handoff}; otherwise it remains the non-strict RealAlgOrder comparison $d(c,x)\leq_{\mathsf R}r$ carried by $m$.
+\end{theorem}
+\begin{proof}
+Inspect the comparison coordinates of $Q$. The distance side is the $\RealUp$-valued witness row $d$, the radius side is $r$, and the admissible radius facts are exactly those recorded in $\rho$.
+
+The non-strict order read is $m$. It routes the displayed distance value and displayed radius through the RealAlgOrder or Rat-order rows named by $P$, then returns the membership classifier $d(c,x)\leq_{\mathsf R}r$.
+
+If a strict comparison is requested, the packet must use the separate positive-radius and strict-membership data described in \autoref{thm:metric-closed-ball-metricball-boundary-handoff}. That request therefore factors through $\MetricBallUp$ and does not create a second closed-ball boundary.
+
+Thus every RealAlgOrder-facing read is either the displayed non-strict comparison row $m$ or the explicit $\MetricBallUp$ strict-boundary handoff. No host closed subset, topology closure, quotient point equality, compactness witness, or generated-open field is exported.
+\end{proof}
+
+\closureat{MetricClosedBallUp}{obligationStr}
+
 \begin{closurestatus}{\MetricClosedBallUp}
   \constructivestory{A $\MetricClosedBallUp$ packet is generated from a MetricSpace carrier row, a MetricDistanceWitness row, a center row, a RatUp or RealUp radius row, a nonnegative radius ledger with optional positive-radius handoff data, a closed-membership comparison row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metric-closed-ball-carrier}, \autoref{thm:metric-closed-ball-namecert-obligations}, and \autoref{thm:metric-closed-ball-metricball-boundary-handoff} bind the finite non-strict center-radius ball seed and its strict-boundary handoff to $\MetricBallUp$.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:metric-closed-ball-carrier}, \autoref{thm:metric-closed-ball-namecert-obligations}, \autoref{thm:metric-closed-ball-metricball-boundary-handoff}, \autoref{thm:metricclosedball-carrier-obligations}, \autoref{thm:metricclosedball-radius-classifier-stability}, and \autoref{thm:metricclosedball-realalgorder-boundary} bind the finite non-strict center-radius ball obligation surface and its strict-boundary handoff to $\MetricBallUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim compactness, full metric topology, topology closure, quotient equality for metric points or radii, ambient subsets, Lean verification, or bridge checking.}

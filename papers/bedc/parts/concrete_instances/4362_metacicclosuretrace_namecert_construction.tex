@@ -45,6 +45,7 @@ Finally inspect $H,C,P,N$. Transport and continuation replay preserve the displa
 \label{thm:metacicclosuretrace-closed-substitution-route}
 Every closed-substitution consumer of an accepted $\MetaCICClosureTraceUp$ carrier $T=(S,U,V,B,R,G,K,H,C,P,N)$ must read the shift row $S$, the variable-substitution row $U$, the full-substitution row $V$, the generator row $G$, and the kernel-acceptance row $K$ before exporting closedness preservation. The route exports only the closure-preservation boundary for closed substitution; it exports no typing, conversion, confluence, normalization, subject-reduction, or kernel-soundness conclusion.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICClosureTraceUp.MetaCICClosureTraceCarrier\_closed\_substitution\_route}
 \begin{proof}
 Project the displayed carrier $T$. The rows $S,U,V,G,K$ are separate coordinates, so a closed-substitution consumer can identify the shift, variable-substitution, full-substitution, generator, and acceptance ledger data before any beta-chain or continuation row is inspected.
 
@@ -108,6 +109,20 @@ Project the row $K$ from the carrier. By \autoref{thm:metacicclosuretrace-namece
 The substitution and beta routes do not enlarge that ledger. The route of \autoref{thm:metacicclosuretrace-closed-substitution-route} reads $K$ after $S,U,V,G$, while \autoref{thm:metacicclosuretrace-beta-star-preservation-readback} reads $K$ only as acceptance evidence for the beta-chain closedness row.
 
 Thus $K$ remains a ledger coordinate rather than a semantic kernel premise. The stronger objects named in the statement are absent from \autoref{def:metacicclosuretrace-carrier}, so no accepted consumer can recover them from the packet.
+\end{proof}
+
+\begin{theorem}[MetaCICClosureTrace obligation-closure package]
+\label{thm:metacicclosuretrace-obligation-closure-package}
+The substitution-shift generator package of \autoref{thm:metacicclosuretrace-substitution-shift-generator-package}, the beta-star preservation readback of \autoref{thm:metacicclosuretrace-beta-star-preservation-readback}, the local NameCert obligations of \autoref{thm:metacicclosuretrace-namecert-obligations}, and the kernel-ledger boundary of \autoref{thm:metacicclosuretrace-kernel-ledger-boundary} jointly exhaust the obligation-closure surface for the $\MetaCICClosureTraceUp$ packet. The package exposes only shift, substitution, beta-step, finite beta-chain closedness, generator readback, kernel acceptance ledger, transport, replay, provenance, and local naming; it exports no typing preservation, confluence, normalization, subject reduction, conversion soundness, or kernel soundness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacicclosuretrace-carrier}. The rows $S,U,V,G$ are the substitution and shift generator package, while $B,R$ are the one-step beta and finite beta-chain closedness rows.
+
+Apply the substitution-shift generator theorem to bind $S,U,V,G$ as the complete closedness-generator surface. Apply the beta-star readback theorem to bind $B,R$ as the only finite beta-chain read available to downstream consumers.
+
+Now use the local NameCert obligations. They account for carrier admission, ClosurePreservation theorem rows, generator readback, kernel-trace accounting, componentwise transport, continuation replay, provenance, and local naming.
+
+Finally use the kernel-ledger boundary. The ledger row $K$ remains acceptance accounting for displayed ClosurePreservation declarations and is not a semantic premise for stronger MetaCIC results. Since the carrier has no row for typing preservation, confluence, normalization, subject reduction, conversion soundness, or kernel soundness, the listed rows exhaust the obligation-closure package.
 \end{proof}
 
 \closureat{MetaCICClosureTraceUp}{seedStr}
