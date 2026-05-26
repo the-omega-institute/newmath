@@ -134,6 +134,32 @@ theorem BinaryExpansionPacket_dyadic_ledger_exhaustion [AskSetup] [PackageSetup]
       dyadicReadUnary, windowsDigitsApproximation, approximationRegularRealSeal,
       digitsWindowsRead, provenancePkg, dyadicReadPkg⟩
 
+theorem BinaryExpansionPacket_scoped_dependency_factorization [AskSetup] [PackageSetup]
+    {digits windows approximation regular realSeal transport route provenance nameCert
+      scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinaryExpansionPacket digits windows approximation regular realSeal transport route provenance
+        nameCert bundle pkg →
+      Cont windows approximation scopedRead →
+        PkgSig bundle scopedRead pkg →
+          UnaryHistory digits ∧ UnaryHistory windows ∧ UnaryHistory approximation ∧
+            UnaryHistory regular ∧ UnaryHistory realSeal ∧ UnaryHistory scopedRead ∧
+              Cont windows digits approximation ∧ Cont approximation regular realSeal ∧
+                Cont windows approximation scopedRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle scopedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet windowsApproximationScoped scopedReadPkg
+  obtain ⟨digitsUnary, windowsUnary, approximationUnary, regularUnary, realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary,
+    windowsDigitsApproximation, approximationRegularRealSeal, _transportRouteProvenance,
+    provenancePkg⟩ := packet
+  have scopedReadUnary : UnaryHistory scopedRead :=
+    unary_cont_closed windowsUnary approximationUnary windowsApproximationScoped
+  exact
+    ⟨digitsUnary, windowsUnary, approximationUnary, regularUnary, realSealUnary,
+      scopedReadUnary, windowsDigitsApproximation, approximationRegularRealSeal,
+      windowsApproximationScoped, provenancePkg, scopedReadPkg⟩
+
 theorem BinaryExpansionPacket_prefix_tail_radius_monotonicity [AskSetup] [PackageSetup]
     {digits windows approximation regular realSeal transport route provenance nameCert prefixRow
       extendedPrefix tailRoute oldRadius newRadius : BHist}
