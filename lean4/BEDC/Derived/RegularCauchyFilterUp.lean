@@ -360,6 +360,33 @@ theorem RegularCauchyFilterCarrier_basis_witness_admission [AskSetup] [PackageSe
   }
   exact ⟨cert, basisUnary, baseTail, tailDyadic, dyadicMeet, basisPkg⟩
 
+theorem RegularCauchyFilterCarrier_tail_basis_exhaustion [AskSetup] [PackageSetup]
+    {B T D M basisRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory B ->
+      UnaryHistory T ->
+        UnaryHistory D ->
+          UnaryHistory M ->
+            Cont B T (append B T) ->
+              Cont T D (append T D) ->
+                Cont (append T D) M basisRead ->
+                  PkgSig bundle basisRead pkg ->
+                    UnaryHistory (append B T) ∧ UnaryHistory (append T D) ∧
+                      UnaryHistory basisRead ∧ Cont B T (append B T) ∧
+                        Cont T D (append T D) ∧ Cont (append T D) M basisRead ∧
+                          PkgSig bundle basisRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro bUnary tUnary dUnary mUnary baseTail tailDyadic dyadicMeet basisPkg
+  have baseTailUnary : UnaryHistory (append B T) :=
+    unary_cont_closed bUnary tUnary baseTail
+  have tailDyadicUnary : UnaryHistory (append T D) :=
+    unary_cont_closed tUnary dUnary tailDyadic
+  have basisUnary : UnaryHistory basisRead :=
+    unary_cont_closed tailDyadicUnary mUnary dyadicMeet
+  exact
+    ⟨baseTailUnary, tailDyadicUnary, basisUnary, baseTail, tailDyadic, dyadicMeet,
+      basisPkg⟩
+
 theorem RegularCauchyFilterCarrier_directed_tail_closure [AskSetup] [PackageSetup]
     (B R T D M E H C P N : BHist) :
     regularCauchyFilterFromEventFlow
