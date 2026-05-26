@@ -109,6 +109,37 @@ theorem BinaryExpansionPacket_real_readback_boundary [AskSetup] [PackageSetup]
       realReadUnary, windowsDigitsApproximation, approximationRegularRealSeal,
       regularRealSealRead, provenancePkg, realReadPkg⟩
 
+theorem BinaryExpansionPacket_real_seal_prefix_coherence [AskSetup] [PackageSetup]
+    {digits windows approximation regular realSeal transport route provenance nameCert
+      prefixRead regularRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinaryExpansionPacket digits windows approximation regular realSeal transport route provenance
+        nameCert bundle pkg →
+      Cont windows digits prefixRead →
+        Cont prefixRead regular regularRead →
+          Cont regularRead realSeal sealRead →
+            PkgSig bundle sealRead pkg →
+              UnaryHistory windows ∧ UnaryHistory digits ∧ UnaryHistory prefixRead ∧
+                UnaryHistory regularRead ∧ UnaryHistory realSeal ∧ UnaryHistory sealRead ∧
+                  Cont windows digits prefixRead ∧ Cont prefixRead regular regularRead ∧
+                    Cont regularRead realSeal sealRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet windowsDigitsPrefix prefixRegularRead regularReadSeal sealReadPkg
+  obtain ⟨digitsUnary, windowsUnary, _approximationUnary, regularUnary, realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary, _windowsDigitsApproximation,
+    _approximationRegularRealSeal, _transportRouteProvenance, provenancePkg⟩ := packet
+  have prefixReadUnary : UnaryHistory prefixRead :=
+    unary_cont_closed windowsUnary digitsUnary windowsDigitsPrefix
+  have regularReadUnary : UnaryHistory regularRead :=
+    unary_cont_closed prefixReadUnary regularUnary prefixRegularRead
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularReadUnary realSealUnary regularReadSeal
+  exact
+    ⟨windowsUnary, digitsUnary, prefixReadUnary, regularReadUnary, realSealUnary,
+      sealReadUnary, windowsDigitsPrefix, prefixRegularRead, regularReadSeal, provenancePkg,
+      sealReadPkg⟩
+
 theorem BinaryExpansionPacket_dyadic_ledger_exhaustion [AskSetup] [PackageSetup]
     {digits windows approximation regular realSeal transport route provenance nameCert
       dyadicRead : BHist}

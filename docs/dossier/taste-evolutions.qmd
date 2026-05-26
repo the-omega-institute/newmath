@@ -20,22 +20,23 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-05-26T14:40:06Z
+> 最后刷新: 2026-05-26T17:21:24Z
 
-**Daemon 状态**: monitor (monitor cycle 73, adjust_since_research 3, round_counter 19158, last_adjust rule_evolution_skipped_or_failed)
+**Daemon 状态**: monitor (monitor cycle 74, adjust_since_research 3, round_counter 19415, last_adjust rule_evolution_skipped_or_failed)
 
-**待处理 queue** (785 条 finding):
-- isolated_theorem: 536 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
+**待处理 queue** (795 条 finding):
+- isolated_theorem: 546 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
 - unauthorized_capstone: 209 条; 代表样本 `00_concrete_instance_macros`, `prod`, `kleene_tree`
 - low_entropy_template: 38 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
 - missing_origin: 2 条; 代表样本 `dyadic`, `cauchy_completion_idempotent`
 
 **最近 alert 概览** (24h 内):
 - TASTE ALERT category=unauthorized_capstone: 612 次
-- TASTE ALERT category=isolated_theorem: 473 次
-- TASTE ALERT category=low_entropy_template: 31 次
-- TASTE ALERT category=cycle_exception: 5 次
+- TASTE ALERT category=isolated_theorem: 485 次
+- TASTE ALERT category=low_entropy_template: 34 次
+- TASTE ALERT category=cycle_exception: 6 次
 - TASTE ALERT category=dossier_snapshot_push_failed: 1 次
+- TASTE ALERT category=resolution_dossier_commit_failed: 1 次
 - TASTE ALERT category=resolution_json_parse_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
@@ -185,6 +186,8 @@ to case-by-case judgment.
 - 2026-05-25T07:48:45Z: `resolved` `add_downstream_user` for `BEDC.Derived.KernelAcceptanceWitnessUp.KernelAcceptanceWitnessTasteGate_single_carrier_alignment` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.KernelAcceptanceWitnessUp.KernelAcceptanceWitnessTasteGate_single_carrier_alignment:6b802eb5`). Rationale: The target is not a vacuous wrapper: it exposes the KernelAcceptanceWitness BHist codec, EventFlow round trip, injectivity, and empty-history encoding used by the chapter as its carrier alignment target. Repo search showed it had no Lean downstream consumer, only paper markers, so I added a sibling audit-witness consumer theorem that explicitly uses this alignment while also exporting the audit carrier's accepted and ledger routes. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-05-25T23:32:36Z: `resolved` `add_downstream_user` for `BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_namecert_obligations:235aebaa`). Rationale: The target is not a disposable wrapper: it constructs the local SemanticNameCert surface for the bounded normal-equality checker and is the paper's NameCert obligations marker. Grep showed no prior Lean downstream user, so I added a substantive consumer theorem that invokes this target and projects its pattern and ledger soundness into a concrete local read boundary, then marked the paper's ledger exactness theorem against that new Lean target. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-05-26T17:21:11Z: `resolved` `leave_with_rationale` for `BEDC.Derived.ZetaContinuationApplicationUp.ZetaContinuationApplicationCarrier_public_export_surface` (flag `isolated_theorem`, finding `isolated_theorem:zetacontinuationapplication:BEDC.Derived.ZetaContinuationApplicationUp.ZetaContinuationApplicationCarrier_public_export_surface:25a7af79`). Rationale: The theorem is not a staging-only True wrapper: it constructs a SemanticNameCert for the public export surface from the carrier, Cont routes, UnaryHistory closure, hsame transport, and PkgSig evidence, matching the chapter's public export surface claim. I attempted to add a downstream bridge-consumer theorem, but the required lake build failed on BEDC.Derived.ZetaContinuationApplicationUp.BridgeConsumerBoundary, so I reverted the attempted edit and leave the theorem in place with this gate failure recorded. Gate results: lake_build=Some required targets logged failures: - BEDC.Derived.ZetaContinuationApplicationUp.BridgeConsumerBoundary error: build failed, audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 
