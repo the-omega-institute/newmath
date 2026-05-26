@@ -1003,6 +1003,7 @@ import BEDC.Derived.CauchyCompletionFunctorUp.TailBudgetCoherenceFactorization
 import BEDC.Derived.CauchyCompletionFunctorUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorialityUp.TasteGate
 import BEDC.Derived.CauchyCompletionIsometryUp.TasteGate
+import BEDC.Derived.CauchyCompletionKleisliAdjunctionUp.TasteGate
 import BEDC.Derived.CauchyCompletionKleisliUp.TasteGate
 import BEDC.Derived.CauchyCompletionLiftUp
 import BEDC.Derived.CauchyCompletionLiftUp.TasteGate
@@ -3617,6 +3618,7 @@ import BEDC.Derived.HausdorffCompletionUp.StandardBridge
 import BEDC.Derived.HausdorffCompletionUp.UniformConsumerPackage
 import BEDC.Derived.HausdorffSpaceUp.ClassifierSeparationRoute
 import BEDC.Derived.HausdorffSpaceUp.DiagonalNonescape
+import BEDC.Derived.HausdorffSpaceUp.OpenNeighborhoodTransport
 import BEDC.Derived.HausdorffSpaceUp.PointSeparationChoicefree
 import BEDC.Derived.HausdorffSpaceUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
