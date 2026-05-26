@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-channel-termination-halting-boundary-namecert}
 \origin{ai}
 
-The $\ChannelTerminationHaltingBoundaryUp$ packet realizes the channel boundary of \autoref{ch:visions-channel-termination-vs-halting-boundary} as finite BEDC NameCert data. It records source-event rows, legal channel-event rows, terminator-position rows, decoder-state rows, halting-boundary refusal rows, trace rows, transport, replay, provenance, and local naming in one displayed packet. The point of the packet is the stratum separation: a legal channel event can end locally, while certificate-level halting remains a refusal boundary rather than a global total classifier.
+The $\ChannelTerminationHaltingBoundaryUp$ packet realizes the channel boundary of \autoref{ch:visions-channel-termination-vs-halting-boundary} as finite BEDC NameCert data. It records source-event rows, legal channel-event rows, terminator-position rows, decoder-state rows, halting-boundary refusal rows, trace rows, transport, replay, provenance, and local naming in one displayed packet. The packet reads local event termination through the bounded evaluator and finite trace rows of \autoref{ch:concrete-instances-finitetraceevaluator-namecert} before refusing certificate-level halting. The point of the packet is the stratum separation: a legal channel event can end locally, while certificate-level halting remains a refusal boundary rather than a global total classifier.
 
 \begin{definition}[ChannelTerminationHaltingBoundary carrier]
 \label{def:channel-termination-halting-boundary-carrier}
