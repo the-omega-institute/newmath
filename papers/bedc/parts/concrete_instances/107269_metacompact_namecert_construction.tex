@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\MetacompactUp$}
+\label{ch:concrete-instances-metacompact-namecert}
+\origin{human}
+
+Following Morita and Kelley general topology, the $\MetacompactUp$ packet records the point-finite refinement surface between paracompact locally finite refinement, Moore-space developments, and star-refinement cover ledgers. It sits after the paracompact cover surface of \autoref{ch:concrete-instances-paracompact-namecert}, beside the developable-neighbourhood rows of \autoref{ch:concrete-instances-moore-space-namecert}, and before the uniform star-refinement handoff of \autoref{ch:concrete-instances-star-refinement-uniform-cover-namecert}. The packet names only a displayed open-cover request, a point-finite open refinement, and the ledgers that certify coverage and point incidence; it does not choose arbitrary subcovers, infer local finiteness, or import compactness.
+
+\begin{definition}[Metacompact open-cover carrier]
+\label{def:metacompact-open-cover-carrier}
+A $\MetacompactUp$ carrier is a finite $\BHist$ packet
+$$
+M=(T,O,R,Q,I,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row containing the open predicates, point observations, and neighbourhood classifier used by the packet.
+\item $O$ is the open-cover request row, listing the displayed cover cells and the pointwise coverage ledger for $T$.
+\item $R$ is the open-refinement row, listing the displayed refinement cells and their containment witnesses back into cells of $O$.
+\item $Q$ is the point-finite incidence row, recording for each displayed point observation the finite list of refinement cells that contain it.
+\item $I$ is the coverage-and-incidence exactness row, requiring every point covered by $O$ to be covered by a refinement cell and requiring every incidence read to be one of the finite entries in $Q$.
+\item $S$ is the sibling handoff row to the $\ParacompactUp$, $\MooreSpaceUp$, and $\StarRefinementUniformCoverUp$ cover ledgers.
+\item $H$ records componentwise $\hsame$ transport for $T,O,R,Q,I,S,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from an open-cover request through refinement, point-finite incidence, sibling handoff, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\MetacompactUp$, $\TopologyUp$, $\ParacompactUp$, $\MooreSpaceUp$, $\StarRefinementUniformCoverUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetacompactUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for selected subcovers, locally finite partitions, metric development extraction, uniform-star generation, or ambient compactness.
+\end{definition}
+
+\begin{definition}[Metacompact classifier]
+\label{def:metacompact-classifier}
+The $\MetacompactUp$ classifier accepts exactly those displayed packets $M=(T,O,R,Q,I,S,H,C,P,N)$ whose refinement row $R$ is open in $T$, whose containment ledger maps each refinement cell into a displayed cell of $O$, whose coverage ledger in $I$ covers the same point observations as $O$, and whose incidence row $Q$ displays a finite list of refinement cells at each point observation. A classifier read is rejected if it asks for a subcover selection, a locally finite refinement, a Moore development, a uniform star refinement, or a compactness principle not present among $T,O,R,Q,I,S,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Metacompact carrier admission]
+\label{thm:metacompact-carrier-admission}
+For every accepted $\MetacompactUp$ packet $M=(T,O,R,Q,I,S,H,C,P,N)$, carrier admission exposes exactly the topology source, open-cover request, open-refinement row, point-finite incidence row, coverage-and-incidence exactness row, sibling handoff row, transport, replay, provenance, and local naming rows of \autoref{def:metacompact-open-cover-carrier}.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The tuple lists $T,O,R,Q,I,S,H,C,P,N$ and no further coordinate.
+
+The classifier of \autoref{def:metacompact-classifier} accepts only packets that read refinement, containment, coverage, point-finite incidence, sibling handoff, transport, replay, provenance, and local naming through those coordinates. Therefore carrier admission is the displayed finite packet itself.
+\end{proof}
+
+\begin{theorem}[Metacompact point-finite refinement exactness]
+\label{thm:metacompact-point-finite-refinement-exactness}
+For every accepted $\MetacompactUp$ packet $M=(T,O,R,Q,I,S,H,C,P,N)$, the row $R$ is an open refinement of the request row $O$, and the row $Q$ is a point-finite incidence ledger for $R$. Every displayed point covered by $O$ is covered by at least one row of $R$, and every refinement cell containing that point appears in the finite list recorded by $Q$.
+\end{theorem}
+\begin{proof}
+Use the refinement part of the classifier. It requires the cells of $R$ to be open in $T$ and to carry containment witnesses into the displayed cover cells of $O$.
+
+Use the exactness row $I$ next. It links coverage by $O$ to coverage by $R$ and restricts incidence reads to the finite lists displayed in $Q$.
+
+Thus the point-finite refinement is not inferred from a choice principle. It is stored as the finite incidence ledger attached to the accepted packet.
+\end{proof}
+
+\begin{theorem}[Metacompact sibling cover handoff]
+\label{thm:metacompact-sibling-cover-handoff}
+Every cover-refinement consumer of an accepted $\MetacompactUp$ packet factors through the sibling handoff row $S$ before citing $\ParacompactUp$, $\MooreSpaceUp$, or $\StarRefinementUniformCoverUp$. The handoff may compare locally finite, development, and star-refinement ledgers with the point-finite row $Q$, but it cannot promote the metacompact packet to any of those stronger cover principles.
+\end{theorem}
+\begin{proof}
+Read the sibling coordinate $S$ in the carrier. It is the only row that mentions the paracompact, Moore-space, and star-refinement neighbours.
+
+The refinement and incidence rows remain $R,Q,I$. Comparing them with sibling cover ledgers does not add locally finite partitions, countable developments, or uniform-star generation to the packet.
+
+Therefore any downstream citation of the neighbours passes through $S$ as a handoff and returns to the same point-finite refinement surface.
+\end{proof}
+
+\begin{theorem}[Metacompact transport stability]
+\label{thm:metacompact-transport-stability}
+Transporting an accepted $\MetacompactUp$ read along $H$ preserves the topology source $T$, open-cover request $O$, refinement row $R$, point-finite incidence row $Q$, exactness row $I$, sibling handoff $S$, replay row $C$, provenance $P$, and local naming row $N$. The transported classifier still reads only the displayed point-finite refinement packet.
+\end{theorem}
+\begin{proof}
+The row $H$ is componentwise by definition of the carrier. It transports the same open-cover request, refinement cells, point-finite incidence lists, exactness row, and sibling handoff.
+
+The classifier has no alternate coordinate for cover selection or compactness. After transport, the accepted read is still checked by the same rows $T,O,R,Q,I,S,C,P,N$ and by no hidden cover operation.
+\end{proof}
+
+\begin{theorem}[Metacompact nonescape]
+\label{thm:metacompact-nonescape}
+No consumer of an accepted $\MetacompactUp$ packet can read selected subcovers, locally finite partitions of unity, Moore developments, uniform star-refinement generation, ambient compactness, or standard bridge data from the packet. All consumer reads are confined to $T,O,R,Q,I,S,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The only cover-theoretic data are the open-cover request $O$, open refinement $R$, point-finite incidence row $Q$, exactness row $I$, and sibling handoff $S$.
+
+Transport, replay, provenance, and naming do not add cover choices. They preserve and expose the same finite rows already present in the carrier.
+
+The excluded stronger objects have no projection from $T,O,R,Q,I,S,H,C,P,N$, so a consumer cannot extract them from the accepted packet.
+\end{proof}
+
+\closureat{MetacompactUp}{seedStr}
+
+\begin{closurestatus}{\MetacompactUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacompact-open-cover-carrier}, \autoref{def:metacompact-classifier}, and \autoref{thm:metacompact-point-finite-refinement-exactness} seed the finite point-finite open-refinement packet over topology source, open-cover request, refinement, incidence, exactness, sibling handoff, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected subcovers, local finiteness, partitions of unity, Moore-space development extraction, uniform star-refinement generation, Lean verification, or standard bridge closure.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exactness, point-finite refinement exactness, sibling cover handoff, transport stability, and nonescape for BEDC.Derived.MetacompactUp.}
+  \constructivestory{A $\MetacompactUp$ packet is generated from a topology source row, open-cover request row, open-refinement row, point-finite incidence ledger, coverage-and-incidence exactness row, sibling cover handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

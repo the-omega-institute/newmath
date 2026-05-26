@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\RegularModulusUp$}
+\label{ch:concrete-instances-regular-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularModulusUp$ packet records the explicit modulus row carried by a regular Cauchy rational name before any $\RealUp$ or completion-facing consumer reads the terminal seal. It sits between the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the regular Cauchy naming surface of \autoref{ch:concrete-instances-regularcauchyname-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is the finite modulus object consumed by Real and Completion routes; it does not choose limits, quotient streams, or host real equality.
+
+\begin{definition}[Regular modulus carrier]
+\label{def:regular-modulus-carrier}
+A $\RegularModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,\mu,D,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source regular Cauchy row whose rational windows are already admitted through $\RegSeqRatUp$ and $\StreamNameUp$.
+\item $\mu$ is the unary modulus row assigning, to each displayed precision request, a finite stream-window bound for the source row.
+\item $D$ is the dyadic tolerance ledger translating precision requests into $\DyadicRatCoreUp$ radii and comparison budgets.
+\item $W$ is the finite window route showing that the window selected by $\mu$ is sufficient for the requested tolerance.
+\item $H$ records componentwise $\hsame$ transport for the source row, modulus row, dyadic ledger, finite window route, continuation replay, package provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from a precision request through $S,\mu,D,W,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularModulusUp$, $\RegularCauchyNameUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularModulusUp}$ row.
+\end{enumerate}
+The classifier accepts a packet only when the modulus row, dyadic tolerance ledger, and finite window route are displayed for the same source regular Cauchy row. It has no coordinate for a selected limit, quotient stream equality, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular modulus NameCert obligations]
+\label{thm:regular-modulus-namecert-obligations}
+For every accepted $\RegularModulusUp$ carrier $M=(S,\mu,D,W,H,C,P,N)$, the local $\NameCert_{\RegularModulusUp}$ surface consists exactly of source regular Cauchy admission, unary modulus display, dyadic tolerance translation, finite window sufficiency, componentwise transport, continuation replay, package provenance, and local naming through the rows $S,\mu,D,W,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-modulus-carrier}. The source row $S$ is the only regular Cauchy data exposed by the packet, and the row $\mu$ is the only modulus coordinate attached to that source.
+
+The dyadic ledger $D$ translates each precision request into the tolerance language used by \autoref{ch:concrete-instances-dyadicratcore-namecert}. The window route $W$ then records that the bound supplied by $\mu$ is sufficient for the inspected $\StreamNameUp$ windows and the $\RegSeqRatUp$ readback.
+
+Finally $H,C,P,N$ preserve, replay, source, and name the same displayed rows. Since selected limits, quotient streams, host real equality, countable choice, and ambient completeness have no carrier coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular modulus RegSeqRat handoff]
+\label{thm:regular-modulus-regseqrat-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\RegularModulusUp$ packet must read the source regular Cauchy row through
+$$
+S,\mu,D,W \longmapsto H,C,P,N
+$$
+before the regular-rational readback or terminal real-name seal is consumed. Thus the modulus is a displayed finite BEDC row on the Real and Completion route, not a hidden choice of limit, quotient representative, or host equality witness.
+\end{theorem}
+\begin{proof}
+Start with a consumer request for regular-rational or real-name data. The packet exposes the source only as $S$, so the consumer must read the unary modulus row $\mu$ and the dyadic tolerance ledger $D$ before it can identify a sufficient finite window.
+
+The row $W$ supplies that finite window route. It is already tied to the $\StreamNameUp$ and $\RegSeqRatUp$ surfaces named in the provenance row, and it reaches the $\RealUp$ seal only after the displayed tolerance check has been replayed.
+
+Transport, replay, provenance, and local naming are supplied by $H,C,P,N$. No excluded limit, quotient, host-equality, choice, or ambient-completeness coordinate is available, so every handoff remains on the stated finite route.
+\end{proof}
+
+\closureat{RegularModulusUp}{seedStr}
+
+\begin{closurestatus}{\RegularModulusUp}
+  \constructivestory{A $\RegularModulusUp$ packet is generated from a source regular Cauchy row, a unary modulus row, a dyadic tolerance ledger, a finite window route, componentwise transport, displayed continuation replay, package provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-modulus-carrier}, \autoref{thm:regular-modulus-namecert-obligations}, and \autoref{thm:regular-modulus-regseqrat-handoff} seed the finite modulus surface for regular Cauchy rational names on the Real and Completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not assert completeness, choice of limits, quotient streams, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus sufficiency, RegSeqRat handoff, Real seal routing, transport, replay, provenance, and local naming for BEDC.Derived.RegularModulusUp.}
+\end{closurestatus}

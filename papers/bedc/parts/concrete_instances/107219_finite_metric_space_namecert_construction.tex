@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\FiniteMetricSpaceUp$}
+\label{ch:concrete-instances-finite-metric-space-namecert}
+\origin{human}
+
+Following Burago--Burago--Ivanov and Gromov on finite metric spaces as completely displayed distance data, the $\FiniteMetricSpaceUp$ packet records a metric carrier whose public observations are a finite point row and a finite distance table. It sits over the $\MetricSpaceUp$ surface of \autoref{ch:concrete-instances-metric-namecert}, the finite-net and total-bounded handoff of \autoref{ch:concrete-instances-finite-epsilon-net-namecert} and \autoref{ch:concrete-instances-totallybounded-namecert}, and the compact-metric consumer boundary of \autoref{ch:concrete-instances-compactmetric-namecert}. The packet names finite metric data without importing host finite sets, quotient point equality, selected centers, open-cover compactness, or ambient completion.
+
+\begin{definition}[Finite metric space carrier]
+\label{def:finite-metric-space-carrier}
+A $\FiniteMetricSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,D,T,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is a finite point row, recorded as a closed $\mathsf{ProbeBundle}$ with point histories and membership witnesses for every public point read.
+\item $D$ is the finite distance-table row, assigning each displayed ordered pair of point histories a $\RealUp$ distance witness.
+\item $T$ is the metric-law ledger for the displayed table: zero diagonal, symmetry, triangle-budget rows, and positive-separation rows are read only as finite table entries.
+\item $B$ is the finite-net and boundedness handoff row. For each displayed positive tolerance it reuses the point row $X$ as the center bundle and exposes the coverage route consumed by $\FiniteEpsilonNetUp$, $\TotallyBoundedUp$, and $\CompactMetricUp$.
+\item $H$ records componentwise $\hsame$ transport for the point row, distance table, metric-law ledger, finite-net handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from point membership reads to distance-table reads, from distance-table reads to metric-law checks, and from the finite point row to finite-net and compact-metric consumers.
+\item $P$ is the $\Pkg$ provenance over $\FiniteMetricSpaceUp$, $\MetricSpaceUp$, $\FiniteEpsilonNetUp$, $\TotallyBoundedUp$, $\CompactMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteMetricSpaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host finite set, powerset membership, quotient point equality, selected nearest-point search, open-cover compactness, or ambient completion.
+\end{definition}
+
+\begin{theorem}[Finite metric space NameCert obligation surface]
+\label{thm:finite-metric-space-namecert-obligation-surface}
+For every accepted $\FiniteMetricSpaceUp$ carrier $F=(X,D,T,B,H,C,P,N)$, the local $\NameCert_{\FiniteMetricSpaceUp}$ surface consists exactly of carrier admission for the finite point row, distance table, metric-law ledger, finite-net handoff, componentwise transport, displayed replay, provenance, and local naming rows; distance readback through $D$; metric compatibility through $T$; finite-net and compact-metric handoff through $B$; and nonescape from host finite sets, powerset membership, quotient point equality, selected nearest-point search, open-cover compactness, and ambient completion.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-metric-space-carrier}. The displayed tuple exposes the point bundle, distance table, metric-law ledger, finite-net handoff, and the structural rows $H,C,P,N$.
+
+The distance readback is table-local. Every distance observation names two point histories from $X$ and then reads the corresponding entry of $D$, while $T$ supplies the finite metric-law rows attached to those entries.
+
+The finite-net handoff is the row $B$. It reuses the same point row as the center bundle and sends the resulting coverage data to finite-net, total-bounded, and compact-metric consumers through the displayed replay route.
+
+No excluded object is a coordinate of the carrier. Thus the local certificate exports only the displayed finite metric route and its structural transport, replay, provenance, and naming rows.
+\end{proof}
+
+\begin{theorem}[Finite metric space distance-table boundary]
+\label{thm:finite-metric-space-distance-table-boundary}
+Every $\MetricSpaceUp$, $\FiniteEpsilonNetUp$, $\TotallyBoundedUp$, or $\CompactMetricUp$ consumer of an accepted $\FiniteMetricSpaceUp$ packet reads metric information only through
+$$
+X \longmapsto D \longmapsto T \longmapsto B .
+$$
+The consumer receives a finite point bundle, a displayed distance table, the metric-law ledger for that table, and the finite-net handoff generated from the same point bundle. It receives no host finite-set equality, ambient enumeration principle, selected nearest point, external compactness theorem, quotient completion, or hidden completion carrier.
+\end{theorem}
+\begin{proof}
+Begin with a consumer request for metric or compact-metric data. The only public points are the histories displayed in $X$, and every distance read is routed through the table row $D$.
+
+The metric-space laws are then read from $T$. Since $T$ is attached to the same table entries, a consumer cannot replace the displayed table by a host metric or by a quotient comparison on points.
+
+For finite-net and compact-metric use, the handoff row $B$ supplies the center bundle and coverage route from $X$. The replay row $C$ preserves the order from point membership to distance-table read to metric-law check to finite-net export.
+
+The remaining rows transport, source, and name this same route. Because no carrier coordinate stores a host finite set, selected nearest point, external compactness theorem, quotient completion, or hidden completion carrier, every consumer boundary is exhausted by $X,D,T,B$ together with $H,C,P,N$.
+\end{proof}
+
+\begin{closurestatus}{\FiniteMetricSpaceUp}
+  \constructivestory{A $\FiniteMetricSpaceUp$ packet is generated from a finite point row, a displayed Real-valued distance table, finite metric-law rows, a finite-net and compact-metric handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-metric-space-carrier}, \autoref{thm:finite-metric-space-namecert-obligation-surface}, and \autoref{thm:finite-metric-space-distance-table-boundary} seed the finite distance-table packet and its finite-net, total-bounded, and compact-metric consumer boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host finite sets, quotient point equality, nearest-point selection, open-cover compactness, ambient completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, table-local metric-law exactness, finite-net handoff stability, compact-metric boundary nonescape, and provenance exhaustion for BEDC.Derived.FiniteMetricSpaceUp.}
+\end{closurestatus}
