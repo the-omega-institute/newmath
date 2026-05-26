@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\SequentialCompletenessCriterionUp$}
+\label{ch:concrete-instances-sequential-completeness-criterion-namecert}
+\origin{human}
+
+Following Bishop--Bridges and Kelley, the $\SequentialCompletenessCriterionUp$ packet records the finite criterion by which sequence completion evidence is read as real sequential completeness data. It sits after the sequence-completion surfaces of \autoref{ch:concrete-instances-sequential-completion-namecert} and \autoref{ch:concrete-instances-cauchy-sequence-completion-namecert}, reads the real-facing seal of \autoref{ch:concrete-instances-real-sequential-completeness-namecert}, and keeps the metric criterion aligned with \autoref{ch:concrete-instances-sequentiallycompletemetric-namecert}.
+
+\begin{definition}[SequentialCompletenessCriterion carrier]
+\label{def:sequential-completeness-criterion-carrier}
+A $\SequentialCompletenessCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,C,R,M,W,G,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\SequentialCompletionUp$ row naming the displayed sequence-completion interface consumed by the criterion.
+\item $C$ is the $\CauchySequenceCompletionUp$ row naming the regular Cauchy sequence completion route available to the same finite packet.
+\item $R$ is the $\RealSequentialCompletenessUp$ row, exposed only after the sequence-completion and Cauchy-sequence completion rows have been displayed.
+\item $M$ is the $\SequentiallyCompleteMetricUp$ row, recording the metric criterion surface through which later metric consumers read sequential completeness.
+\item $W$ is the $\StreamNameUp$ finite-window row for the sequence observations inspected by the criterion.
+\item $G$ is the $\RegSeqRatUp$ readback row attached to the displayed stream windows and Cauchy schedules.
+\item $E$ is the $\RealUp$ seal row reached from the regular readback and real sequential completeness rows.
+\item $H$ records componentwise $\hsame$ transport for $S,C,R,M,W,G,E$.
+\item $T$ records displayed $\Cont$ replay from sequence windows through Cauchy completion, metric criterion data, regular readback, and the real seal.
+\item $P$ is the $\Pkg$ provenance over $\SequentialCompletenessCriterionUp$, $\SequentialCompletionUp$, $\CauchySequenceCompletionUp$, $\RealSequentialCompletenessUp$, $\SequentiallyCompleteMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SequentialCompletenessCriterionUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite criterion packet. It has no coordinate for quotient completion, countable choice, host equality of sequences or completion points, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[SequentialCompletenessCriterion NameCert obligations]
+\label{thm:sequential-completeness-criterion-namecert-obligations}
+For every accepted $\SequentialCompletenessCriterionUp$ carrier $Q=(S,C,R,M,W,G,E,H,T,P,N)$, the local $\NameCert_{\SequentialCompletenessCriterionUp}$ surface consists exactly of carrier admission for the sequence-completion row, Cauchy-sequence completion row, real sequential-completeness row, sequentially complete metric row, stream-window row, regular readback row, real seal row, componentwise transport, displayed replay, provenance, and local naming. Any real sequential-completeness consumer must read
+$$
+S,C,W,G,R,M,E,H,T,P,N
+$$
+before it can export a criterion result, and the export contains no quotient completion, countable choice, host equality, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sequential-completeness-criterion-carrier}. The rows $S,C,R,M,W,G,E,H,T,P,N$ are the only rows available to a consumer of the local name.
+
+The sequence-facing part of the criterion is supplied by $S$ and $C$. The finite observation schedule is supplied by $W$, and the regular rational readback is supplied by $G$. Thus the criterion never begins from a host sequence or from a quotient completion object.
+
+The real-facing part is then forced through $R,M,E$. The real sequential-completeness row and the sequentially complete metric row name the criterion surface, while the $\RealUp$ seal can be read only after the displayed regular readback route has been consumed.
+
+Finally $H,T,P,N$ transport, replay, source, and name the same finite route. Since the packet contains no row for countable choice, host equality, open-cover compactness, quotient completion, or ambient real completeness, the listed rows exhaust the local $\NameCert$ obligations.
+\end{proof}
+
+\closureat{SequentialCompletenessCriterionUp}{seedStr}
+
+\begin{closurestatus}{\SequentialCompletenessCriterionUp}
+  \constructivestory{A $\SequentialCompletenessCriterionUp$ packet is generated from a $\SequentialCompletionUp$ row, a $\CauchySequenceCompletionUp$ row, a $\RealSequentialCompletenessUp$ row, a $\SequentiallyCompleteMetricUp$ row, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequential-completeness-criterion-carrier} and \autoref{thm:sequential-completeness-criterion-namecert-obligations} seed the finite criterion surface connecting sequence completion, Cauchy sequence completion, metric sequential completeness, regular readback, and real sequential completeness.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient completion, countable choice, host equality, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, sequence-completion handoff, Cauchy-sequence completion readback, metric criterion exposure, real seal nonescape, transport, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}
