@@ -1490,6 +1490,7 @@ import BEDC.Derived.CauchySequenceBoundedUp
 import BEDC.Derived.CauchySequenceBoundedUp.TasteGate
 import BEDC.Derived.CauchySequenceEquivalenceUp
 import BEDC.Derived.CauchySequenceEquivalenceUp.TasteGate
+import BEDC.Derived.CauchySequenceFieldUp.TasteGate
 import BEDC.Derived.CauchySequenceSpaceUp
 import BEDC.Derived.CauchySequenceSpaceUp.FiniteSectionPullbackCorrespondence
 import BEDC.Derived.CauchySequenceSpaceUp.KernelScopePacket
@@ -4181,6 +4182,7 @@ import BEDC.Derived.MetaCICConfluenceAuditPacketUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceAuditUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceCriticalPairBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPathUp
+import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityHandoffExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketTotality
 import BEDC.Derived.MetaCICCriticalPathUp.DownstreamReadinessBoundary
@@ -5552,6 +5554,7 @@ import BEDC.Derived.RegularCauchyReverseTriangleUp.TasteGate
 import BEDC.Derived.RegularCauchyScalarUp.RealHandoff
 import BEDC.Derived.RegularCauchyScalarUp.TasteGate
 import BEDC.Derived.RegularCauchyScaleUp
+import BEDC.Derived.RegularCauchyScaleUp.ObligationScopePackage
 import BEDC.Derived.RegularCauchyScaleUp.ScopedClosureRoute
 import BEDC.Derived.RegularCauchyScaleUp.ScopedRealConsumerBoundary
 import BEDC.Derived.RegularCauchyScaleUp.UnitScalarBoundary
@@ -6529,6 +6532,7 @@ import BEDC.Derived.ZetaContinuationApplicationUp.RootNonEscape
 import BEDC.Derived.ZetaContinuationApplicationUp.RootObligationReadiness
 import BEDC.Derived.ZetaContinuationApplicationUp.RootObligations
 import BEDC.Derived.ZetaContinuationApplicationUp.RootReplayNonescape
+import BEDC.Derived.ZetaContinuationApplicationUp.RootSourceLock
 import BEDC.Derived.ZetaContinuationApplicationUp.RowInventoryCoverage
 import BEDC.Derived.ZetaContinuationApplicationUp.SourceLockTriadSeparation
 import BEDC.Derived.ZetaContinuationApplicationUp.SourceRouteExactness
