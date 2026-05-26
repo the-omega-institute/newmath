@@ -1945,6 +1945,13 @@ def _mapping_records(config: dict[str, Any]) -> list[dict[str, Any]]:
     return [item for item in mappings if isinstance(item, dict)]
 
 
+def _skip_claim_ids(config: dict[str, Any]) -> set[str]:
+    raw = config.get("skip_claim_ids")
+    if not isinstance(raw, list):
+        return set()
+    return {str(item) for item in raw if str(item)}
+
+
 def _markdown_section(text: str, heading_re: str) -> str:
     lines = text.splitlines()
     start: int | None = None
@@ -2162,15 +2169,20 @@ def run_bedc_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
     auto_discovered_written = 0
     issues_summary: list[dict[str, Any]] = []
     config_mappings = _mapping_records(config)
+    skipped_claim_ids = _skip_claim_ids(config)
     mapped_claim_ids = {str(mapping.get("claim_id") or "") for mapping in config_mappings}
     auto_mappings = _auto_discovered_bedc_mappings(proposal_dir, mapped_claim_ids)
     mapping_queue: list[tuple[str, dict[str, Any]]] = [("config", mapping) for mapping in config_mappings]
     mapping_queue.extend(("auto", mapping) for mapping in auto_mappings)
+    skipped_by_dedup = 0
 
     for mapping_source, mapping in mapping_queue:
         if written >= max_writebacks:
             break
         claim_id = str(mapping.get("claim_id") or "")
+        if claim_id in skipped_claim_ids:
+            skipped_by_dedup += 1
+            continue
         hub_filename = str(mapping.get("hub_filename") or "")
         subdir_slug = str(mapping.get("subdir_slug") or "")
         if not claim_id or not hub_filename or not subdir_slug:
@@ -2217,6 +2229,7 @@ def run_bedc_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
         "blocked_by_gate": blocked_by_gate,
         "auto_discovered_candidates": len(auto_mappings),
         "auto_discovered_written": auto_discovered_written,
+        "skipped_by_dedup": skipped_by_dedup,
         "issues_summary": issues_summary,
     }
 
@@ -2579,6 +2592,61 @@ def self_test() -> int:
         )
         if not bedc_auto_gate["passed"]:
             print(json.dumps(bedc_auto_gate, indent=2), file=sys.stderr)
+            return 1
+
+        (bedc_auto_paths.namecert_proposals_dir / "blocked.auto.md").write_text(
+            "\n".join(
+                [
+                    "# NameCert proposal for blocked.auto",
+                    "",
+                    "## 1. Loning-format chapter slug",
+                    "",
+                    "Proposed chapter slug: 14122_bioreality_blocked_seed_namecert_construction.",
+                    "",
+                    "## 2. Carrier",
+                    "",
+                    "Carrier: BioRealityBlockedSeedUp.",
+                ]
+            ),
+            encoding="utf-8",
+        )
+        bedc_skip_config_path = base / "bedc_skip_pipeline_config.json"
+        bedc_skip_target_dir = base / "bedc_skip_target" / "concrete_instances"
+        bedc_skip_aggregator = base / "bedc_skip_target" / "bio_reality_module.tex"
+        bedc_skip_config_path.write_text(
+            json.dumps(
+                {
+                    "bedc_writeback": {
+                        "enabled": True,
+                        "target_concrete_instances_dir": str(bedc_skip_target_dir),
+                        "module_aggregator": str(bedc_skip_aggregator),
+                        "max_writebacks_per_cycle": 2,
+                        "skip_claim_ids": ["mapped.claim", "blocked.auto"],
+                        "claim_to_chapter_mapping": bedc_auto_mappings,
+                    }
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+        original_pipeline_config = PIPELINE_CONFIG
+        globals()["PIPELINE_CONFIG"] = bedc_skip_config_path
+        try:
+            bedc_skip_summary = run_bedc_writeback_lane(BioRealityStore(bedc_auto_paths))
+        finally:
+            globals()["PIPELINE_CONFIG"] = original_pipeline_config
+        if (
+            bedc_skip_summary["written"] != 1
+            or bedc_skip_summary["auto_discovered_written"] != 1
+            or bedc_skip_summary["skipped_by_dedup"] != 2
+        ):
+            print(json.dumps(bedc_skip_summary, indent=2), file=sys.stderr)
+            return 1
+        if (bedc_skip_target_dir / "14120_bioreality_mapped_seed_namecert_construction.tex").exists():
+            print(json.dumps(bedc_skip_summary, indent=2), file=sys.stderr)
+            return 1
+        if (bedc_skip_target_dir / "14122_bioreality_blocked_seed_namecert_construction.tex").exists():
+            print(json.dumps(bedc_skip_summary, indent=2), file=sys.stderr)
             return 1
 
         promote_paths = _temp_paths(base / "promote")

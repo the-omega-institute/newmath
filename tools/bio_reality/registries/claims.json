@@ -211,6 +211,38 @@
             "passed": 1,
             "failed": 1
           }
+        },
+        {
+          "ts": "2026-05-25T17:21:45+00:00",
+          "status": "needs_rerun",
+          "reason": "experiment script or acceptance changed since last run"
+        },
+        {
+          "ts": "2026-05-25T17:22:28+00:00",
+          "status": "failed",
+          "reason": "experiment result",
+          "experiment_run_id": "f4f95769bf15",
+          "checks": {
+            "total": 2,
+            "passed": 1,
+            "failed": 1
+          }
+        },
+        {
+          "ts": "2026-05-25T17:33:59+00:00",
+          "status": "needs_rerun",
+          "reason": "experiment script or acceptance changed since last run"
+        },
+        {
+          "ts": "2026-05-25T17:34:30+00:00",
+          "status": "failed",
+          "reason": "experiment result",
+          "experiment_run_id": "6f66c1abe71a",
+          "checks": {
+            "total": 2,
+            "passed": 1,
+            "failed": 1
+          }
         }
       ]
     },
@@ -320,9 +352,22 @@
       "depends_on": [
         "h0.M.equals.WNR.CUN"
       ],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "null_model_aa_class_preserving",
-      "history": []
+      "history": [
+        {
+          "ts": "2026-05-25T17:22:30+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "e8d5de747a0c",
+          "checks": {
+            "total": 2,
+            "passed": 2,
+            "failed": 0
+          }
+        }
+      ],
+      "linked_conjecture_id": "codon.window6.local.tile.boundary"
     },
     {
       "claim_id": "h1.leave_one_code_out.by_family",
@@ -332,9 +377,22 @@
       "depends_on": [
         "h1.leave.one.code.out"
       ],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "leave_one_code_out_by_family",
-      "history": []
+      "history": [
+        {
+          "ts": "2026-05-25T17:22:30+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "7dda978c6c97",
+          "checks": {
+            "total": 1,
+            "passed": 1,
+            "failed": 0
+          }
+        }
+      ],
+      "linked_conjecture_id": "codon.window6.local.tile.boundary"
     },
     {
       "claim_id": "h1.leave_one_codon_out.module_classification",
@@ -344,9 +402,72 @@
       "depends_on": [
         "h1.leave.one.codon.out"
       ],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "leave_one_codon_out_module",
-      "history": []
+      "history": [
+        {
+          "ts": "2026-05-25T17:22:30+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "bbe8a4d0455b",
+          "checks": {
+            "total": 2,
+            "passed": 2,
+            "failed": 0
+          }
+        }
+      ],
+      "linked_conjecture_id": "codon.window6.local.tile.boundary"
+    },
+    {
+      "claim_id": "h2.orf.start_stop.window_eligibility",
+      "hypothesis_level": "H2",
+      "phase": 3,
+      "claimed_layer": "orf_eligibility",
+      "statement": "Externally supplied nucleotide windows can be classified for ORF eligibility by explicit start/stop codon enumeration under named NCBI genetic-code tables",
+      "bedc_five_tuple": {
+        "carrier": "finite records (window_id, genetic_code_table_id, nucleotide_sequence, frame_offset) supplied by external curated ORF-window data",
+        "distinctions": [
+          "window_id",
+          "genetic_code_table_id",
+          "frame_offset",
+          "start_codon_hit",
+          "in_frame_stop_hit",
+          "terminal_stop_hit",
+          "ambiguous_base_flag"
+        ],
+        "readback": "For each externally supplied window, read codon triples in the declared frame under the named NCBI code table and report ORF eligibility as a finite start/stop enumeration result.",
+        "internal_structure": [
+          "codon_stream_partition",
+          "named_code_table_readback",
+          "start_stop_event_table",
+          "finite_eligibility_classifier"
+        ],
+        "forbidden_claims": [
+          "Does not assert ribosome-mediated translation.",
+          "Does not assert protein structure, physical admissibility, biological function, or universal mechanism.",
+          "Does not infer ORF eligibility from codon/window geometry alone without external window data.",
+          "Does not classify windows outside the supplied external dataset."
+        ]
+      },
+      "depends_on": [
+        "h0.null.model.aa_class_preserving",
+        "h1.leave_one_code_out.by_family",
+        "h1.leave_one_codon_out.module_classification"
+      ],
+      "status": "needs_data",
+      "experiment_id": "orf_start_stop_window_eligibility",
+      "history": [
+        {
+          "ts": "2026-05-25T17:34:30+00:00",
+          "status": "needs_data",
+          "reason": "missing required_data",
+          "missing_data": [
+            "tools/bio_reality/data/orf_window_dataset.json"
+          ]
+        }
+      ],
+      "linked_conjecture_id": "orf_eligibility.seed.boundary"
     }
   ]
 }

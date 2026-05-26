@@ -217,6 +217,23 @@
           "every_module_has_predictable_or_boundary"
         ]
       }
+    },
+    {
+      "experiment_id": "orf_start_stop_window_eligibility",
+      "script_path": "tools/bio_reality/experiments/run_orf_start_stop_window_eligibility.py",
+      "claim_id": "h2.orf.start_stop.window_eligibility",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json",
+        "tools/bio_reality/data/orf_window_dataset.json"
+      ],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "external_window_dataset_loaded",
+          "all_windows_classified_by_start_stop_enumeration",
+          "no_geometry_to_translation_promotion"
+        ]
+      }
     }
   ]
 }
