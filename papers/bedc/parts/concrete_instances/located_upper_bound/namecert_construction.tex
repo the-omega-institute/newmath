@@ -83,6 +83,24 @@ Apply \autoref{thm:located-upper-bound-real-seal-handoff}. It shows that any rea
 The downstream supremum packet in \autoref{ch:concrete-instances-locatedsupremum-namecert} additionally requires lower-approximation and cofinality rows. Those rows are absent from \autoref{def:located-upper-bound-carrier}, so a $\LocatedSupremumUp$ consumer can read this packet only as its reusable upstream upper-bound witness.
 \end{proof}
 
+\begin{theorem}[LocatedUpperBound real-certificate route]
+\label{thm:located-upper-bound-real-certificate-route}
+Every accepted $\LocatedUpperBoundUp$ packet exposes its Real-facing certificate only along the finite route from the located source row, upper-bound comparison ledger, $\StreamNameUp$ request schedule, $\RegSeqRatUp$ readback, and terminal $\RealUp$ seal. This route is stable under the displayed $\hsame$ transports and $\Cont$ replay rows, and no Real-facing consumer can read the certificate before those rows have been displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-upper-bound-carrier}. Its Real-facing analytic rows are exactly the located source $F$, upper-bound comparison ledger $U$, finite request schedule $W$, regular rational readback $R$, and terminal real seal $E$.
+
+Apply \autoref{thm:located-upper-bound-namecert-obligations}. Carrier admission, source coverage, comparison exactness, and regular readback compatibility require every upper-bound certificate read to pass through those five analytic rows before the structural rows are consumed.
+
+Now apply \autoref{thm:located-upper-bound-real-seal-handoff}. It identifies the displayed route
+$$
+F,U,W,R \longmapsto E \longmapsto H,C,P,N
+$$
+as the only Real-facing handoff exported by the packet.
+
+The transport row $H$ and continuation row $C$ are componentwise rows of the same carrier, so they preserve and replay the route rather than adding a second certificate source. Since the carrier has no selected supremum, lower-approximation ledger, quotient-cut equality, host real equality, countable-choice schedule, ambient completeness theorem, Lean verification row, or bridge credential, the stated route exhausts the reusable Real-facing certificate.
+\end{proof}
+
 \closureat{LocatedUpperBoundUp}{seedStr}
 
 \begin{closurestatus}{\LocatedUpperBoundUp}
