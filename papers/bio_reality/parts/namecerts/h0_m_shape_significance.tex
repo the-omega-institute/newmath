@@ -1,31 +1,69 @@
-\subsection{NameCert: h0.M.shape.significance}
-\label{sec:namecert-h0_m_shape_significance}
-\noindent\textit{Proposed by bio-namer; review status: draft.}
+\subsection{Window-Six Codon Tile Boundary}\label{sec:codon-window-local-tile-boundary}
+\origin{ai}
 
-\paragraph{NameCert chapter slug.}
-Proposed slug: `14103\_bioreality\_q\_six\_median\_shape\_significance\_namecert\_construction`. The concept is BioReality-namespaced and avoids Loning-occupied names such as `Codon64`, `Q\_6`, `M\textasciicircum{}star`, `StopCodonZeckendorfSuffix`, support nerve, trigger lattice, and reassignment spectrum.
+\paragraph{Finite carrier and readback contact.}
+This record treats the standard-code codon table as a finite readback problem over the six-bit codon cube $Q_6$.  The carrier is not asserted to be a biological mechanism; it is the finite coordinate display on which codon labels can be compared.  The reality contact is the curated standard genetic-code table, used only as a codon-to-label bridge.  Thus the admissible observation is code-layer readback: each codon is assigned an amino-acid label or a stop label.  The contact does not observe translation realization, folded protein structure, physical admissibility, biological function, or any universal mechanism.
 
-\paragraph{Carrier.}
-Carrier name: `BioRealityQSixMedianShapeSignificance`. BEDC 5-tuple: `(carrier, distinctions, internal\_shape\_packet, external\_reality\_bridge, cannot\_claim\_boundary)`, where the carrier is a finite window-six codon-coordinate shape-significance packet; distinctions separate the experiment's reassignment-support, median-closure, comparator-shape, exact-match witness, and high-overlap witness slots; internal\_shape\_packet records only BEDC coordinate, closure, quotient, and spectrum-compatible bookkeeping; external\_reality\_bridge points to curated biological tables and reproducible experiment runs; and cannot\_claim\_boundary prevents codon/window geometry from being promoted to translation, folding, physical admissibility, function, mechanism, or global biological law.
+\paragraph{Boundary row.}
+The distinguished boundary row $R$ has cardinality $13$.  In the verified finite row it is exactly
+$$
+\begin{aligned}
+R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
+\end{aligned}
+$$
+The punctured-cube check gives the same list and records the face-count vector
+$$
+\begin{aligned}
+f(R)=(13,16,4).
+\end{aligned}
+$$
+This is the local tile datum: thirteen codons form the row, with sixteen one-dimensional incidences and four two-dimensional faces in the tested cube display.  The point of the row is not that biology must obey this geometry.  The point is narrower: after the standard-code labels are read back into the six-bit coordinate display, this finite row is the observed boundary object whose shape can be tested against null rows.
 
-\paragraph{Distinctions.}
-- Codons treated by the experiment as members of the reassignment-support input `R`. - Codons treated by the experiment as members of the median-closure output `M`. - Codons treated by the experiment as members of the named comparator shape `WNR union CUN`. - The experiment's distinction between an exact shape match and a high-overlap shape witness under the position-preserving null. - The linked conjecture's six-bit codon display, local tile face, singleton label corner, and three-point label class distinctions. - The bridge distinction between curated code-label readback and internal BEDC coordinate, closure, quotient, and spectrum structure.
+\paragraph{Shape significance.}
+The shape test for the corresponding $M$-tile used $N=2000$ sampled null rows with seed $42$.  The run required $57377$ distinct-sample attempts and recorded $55377$ duplicate retries, so the null draw was visibly constrained by the finite state space.  Among the $2000$ null rows there was $1$ exact shape match and $25$ rows with Jaccard score at least $0.9$.  The resulting empirical probabilities were
+$$
+\begin{aligned}
+p_{\mathrm{exact}}&=0.0005,\\
+p_{J\ge 0.9}&=0.0125.
+\end{aligned}
+$$
+The finite-row record therefore supports a local statement: the observed $M$-shape is uncommon under the sampled coordinate null, both at exact shape equality and at high Jaccard overlap.  The amino-acid-class-preserving null gives a compatible check.  In that run, again with $N=2000$ and seed $42$, the observed $M$ size was $20$, the exact match count was $0$, and only $7$ null rows lay in the lower tail at or below the observed $M$ size.  The recorded probabilities were
+$$
+\begin{aligned}
+p_{\mathrm{aa\ class,exact}}&=0.0,\\
+p_{\mathrm{aa\ class,lower\ tail}}&=0.0035.
+\end{aligned}
+$$
+No list of the members of $M$ is part of this finite row; only its recorded size, shape-match counts, and null probabilities are used here.
 
-\paragraph{Readback.}
-The carrier reads back to observable data by following the `curated.standard.code.table` reality contact, the linked conjecture `codon.window6.local.tile.boundary`, and the latest passed `null\_model\_shape` run for `h0.M.shape.significance`. The readback surface is an experiment/provenance pointer into curated code-table comparison and reproducible null-model shape testing; the carrier itself records separated shape-witness fields and their readback boundary, not a biological mechanism.
+\paragraph{Spectral check.}
+The same local object has a finite spectral readout.  The recorded values are
+$$
+\begin{aligned}
+\lambda_M&=0.6752479308830213,\\
+\lambda_R&=0.4758352843197002,\\
+\mu&=3.051487585298128.
+\end{aligned}
+$$
+The cubic or radial polynomial residual was $-6.224354365258478\times 10^{-12}$, and the spectral-radius value in tolerance was $0.6752479308830213$.  This numerical residual is small enough to function as a finite consistency check on the coordinate computation, not as an independent biological law.  The spectrum is attached to the displayed coordinate object and the curated label readback; it is not evidence of folding, biochemical feasibility, translation dynamics, or organismal function.
 
-\paragraph{Internal newmath/BEDC derivation.}
-The internal content is a pure BEDC finite-coordinate packet: a BioReality-namespaced window-six carrier, a reassignment-support slot, a median-closure slot, a comparator-shape slot, quotient-compatible exact and high-overlap witness slots, and a TasteGate-style separation between internal coordinate structure and external readback. No curated genetic-code entry, codon list, support size, null-model sample count, p-value, match count, random seed, translation table row, empirical frequency, or statistical conclusion is a kernel fact. Such values remain bridge and provenance fields supplied by section 6.
+\paragraph{Leave-one-code-out behavior.}
+The leave-one-code-out probe evaluated $23$ code tables and $63$ total targets.  The baseline hit rate was $0.19821739130434785$.  The hit rate inside $M-T$ was $0.9365079365079365$, while the hit rate inside $M-T$ plus the boundary was $0.9841269841269841$.  The reported hit rate above baseline was also $0.9841269841269841$.  By family, the row records $5$ families: alternative yeast at $0.8333333333333334$, bacterial plastid at $1.0$, candidate other at $1.0$, mitochondrial at $1.0$, and nuclear ciliate at $1.0$.  These numbers say that the local tile and boundary are strong code-read predictors in the tested finite family split.  They do not say that the tile performs translation or explains why any organism realizes a code.
 
-\paragraph{External reality sources.}
-- Curated genetic-code source pointer: `tools/bio\_reality/data/ncbi\_genetic\_codes.json` and reality contact `curated.standard.code.table`. - Conjecture pointer: `tools/bio\_reality/inbox/conjectures.jsonl` record `codon.window6.local.tile.boundary`. - Claim pointer: `tools/bio\_reality/registries/claims.json` record `h0.M.shape.significance`. - Experiment provenance pointer: `tools/bio\_reality/state/experiment\_runs.jsonl` latest passed `experiment\_run\_id` `0b267c88f8e4` for `null\_model\_shape`. - Gate/probe boundary pointer: probe `codon.local.tile.no.global.law` and contact `curated.standard.code.table`. - Statistical witness pointer: the exact-shape and high-overlap witnesses are recorded by claim/run reference in the latest passed experiment run and linked conjecture; those witnesses remain external bridge/provenance fields and are not imported into this carrier.
+\paragraph{Leave-one-codon-out behavior and modules.}
+The leave-one-codon-out probe recorded $0$ anchors, $5$ boundary codons, $8$ predictable codons, closure coverage high at $8$, and recovery rate $1.0$.  The module classification is complete: $R$ has size $13$, all $13$ row codons are assigned, and there are no extra module codons, no missing row codons, and no unassigned codons.  The assigned modules are
+$$
+\begin{aligned}
+\mathrm{agr}&=\{\mathrm{AGA},\mathrm{AGG}\},\\
+\mathrm{ar\_lys}&=\{\mathrm{AAA}\},\\
+\mathrm{cun}&=\{\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}\},\\
+\mathrm{ile\_met}&=\{\mathrm{AUA}\},\\
+\mathrm{ssn}&=\{\mathrm{UCA},\mathrm{UUA}\},\\
+\mathrm{stop\_trp}&=\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
+\end{aligned}
+$$
+Every module therefore has a predictable-or-boundary witness in the finite classification.  This is the strongest local form of the claim: the row decomposes into named codon modules whose members are completely accounted for by the tested boundary and prediction categories.
 
-\paragraph{Cannot-claim boundary.}
-- This chapter does not claim biological-code necessity. - This chapter does not claim that window-six geometry realizes translation. - This chapter does not claim that median closure realizes translation. - This chapter does not claim that a statistically rare shape is a translation classifier. - This chapter does not claim folded protein structure, physical admissibility, biological function, or universal mechanism. - This chapter does not claim that a curated table row, codon list, support size, null-model sample count, p-value, match count, random seed, or statistical witness is a BEDC kernel fact. - This chapter does not claim that local codon-tile geometry is a global biological law. - This chapter does not claim evolution, causality, biochemical mechanism, or biological universality from the median-shape significance packet.
-
-\paragraph{Bridge disclaimer.}
-This proposal is a vision-level scientific-model bridge for a stable BioReality median-shape significance claim. It is not a CheckedCert claim about molecular biology, and it does not turn a BEDC window-six coordinate, a local codon tile, a median-closure shape, or a null-model statistical witness into translation realization, folded structure, physical admissibility, function realization, biological-code necessity, or a universal biological law; those require separate external reality contacts.
-
-\paragraph{Lean target sketch (statement-only).}
-`BEDC.Derived.BioRealityQSixMedianShapeSignificanceUp.TasteGate` carrier alignment, with curated-table, experiment-run, and statistical-witness evidence represented only as bridge/provenance fields.
-
+\paragraph{Local verdict and cannot-claim boundary.}
+The finite evidence supports a code-read claim for the standard-code table: in the six-bit codon display, the curated labels expose a local boundary-tile structure with a thirteen-codon row, punctured-cube face vector $(13,16,4)$, uncommon shape statistics, a stable spectral readout, high leave-one-code-out recovery, and complete module coverage.  The claim stops exactly there.  A local codon tile is not a global biological law.  Window-six geometry alone is not translation, folded structure, structural order, physical admissibility, biological function, mechanism, or universality.  Amino-acid label-sequence readback is still only label readback.  Any stronger biological conclusion requires a separate higher-layer contact, such as a translation experiment, a structure contact, a physical-admissibility assay, or a function measurement.
