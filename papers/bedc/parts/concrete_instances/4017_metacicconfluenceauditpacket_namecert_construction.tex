@@ -195,6 +195,20 @@ or unrestricted Church--Rosser, so the consumer obligation is exactly the
 displayed closed-face exposure and not a promotion beyond it.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit closed-face row separation]
+\label{thm:metacic-confluence-audit-closed-face-row-separation}
+Let $A=(D,C,N,A_0,S,R,H,T,P,L)$ be an accepted $\MetaCICConfluenceAuditPacketUp$ carrier. Even when the closed-face hypotheses $\mathsf{ClosedAt}\ 0\ a$ and $\mathsf{ClosedAt}\ 1\ b$ are displayed, the substitution-boundary row $S$ and subject-reduction separation row $R$ remain boundary and handoff rows. They may route a closed-face confluence consumer, but they cannot be cited as $\mathsf{BetaParallelSubstitutionCompatibility}$, $\mathsf{BetaParallelDiamondClosed}$, subject reduction, or unrestricted Church--Rosser.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:metacic-confluence-audit-packet-carrier}. The substitution data are named by $S$, the subject-reduction boundary is named by $R$, and the closed-face route is read through the displayed rows $D,C,N,A_0$ together with $H,T,P,L$.
+
+Apply \autoref{thm:metacic-confluence-audit-packet-conditional-boundary} and \autoref{thm:metacic-confluence-audit-packet-closed-substitution-boundary}. These theorems keep the conditional confluence rows and closed substitution row tied to displayed hypotheses rather than promoting them to unrestricted substitution compatibility or a closed diamond theorem.
+
+Use \autoref{thm:metacic-confluence-audit-closed-face-coverage} and \autoref{thm:metacic-confluence-audit-residual-substitution-determinacy}. Coverage exposes only the finite closed face, while determinacy keeps the residual-substitution read at the row level once the closed-face hypotheses are fixed.
+
+Finally apply \autoref{thm:metacic-confluence-audit-closed-face-obligations}. The closed-face consumer must pass through $S,R,H,T,P,L$ as boundary data, and no carrier coordinate supplies the excluded global metatheorems.
+\end{proof}
+
 \begin{theorem}[MetaCIC confluence audit obligation scope upgrade]
 \label{thm:metacic-confluence-audit-obligation-scope-upgrade}
 Let $A=(D,C,N,A_0,S,R,H,T,P,L)$ be an accepted
