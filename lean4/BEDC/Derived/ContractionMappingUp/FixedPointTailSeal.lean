@@ -77,4 +77,51 @@ theorem ContractionMappingCarrier_fixed_point_tail_seal [AskSetup] [PackageSetup
   }
   exact ⟨cert, tailUnary, sealUnary, tailRoute, sealRoute⟩
 
+theorem ContractionMappingCarrier_complete_metric_consumer_package
+    [AskSetup] [PackageSetup]
+    {X d T G lambda M I H C P N x0 iterates boundPower tolerance adjacentReplay tailReplay
+      completeMetricRead tailRead sealRead commonWindow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContractionMappingCarrier X d T G lambda M I H C P N bundle pkg →
+      ContractionMappingOrbitLedger x0 iterates boundPower tolerance adjacentReplay
+        tailReplay →
+        Cont I M completeMetricRead →
+          Cont completeMetricRead C tailRead →
+            Cont tailRead P sealRead →
+              Cont x0 iterates commonWindow →
+                PkgSig bundle sealRead pkg →
+                  PkgSig bundle commonWindow pkg →
+                    ContractionMappingFixedPointReadiness X d T G lambda M I H C P N x0
+                        iterates boundPower tolerance adjacentReplay tailReplay
+                        completeMetricRead bundle pkg ∧
+                      UnaryHistory tailRead ∧ UnaryHistory sealRead ∧
+                        UnaryHistory commonWindow ∧ Cont completeMetricRead C tailRead ∧
+                          Cont tailRead P sealRead ∧ Cont x0 iterates commonWindow ∧
+                            PkgSig bundle P pkg ∧ PkgSig bundle sealRead pkg ∧
+                              PkgSig bundle commonWindow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro hCarrier hOrbit completeRoute tailRoute sealRoute commonRoute sealPkg commonPkg
+  have carrierSurface := hCarrier
+  have orbitSurface := hOrbit
+  obtain ⟨_XUnary, _dUnary, _TUnary, _GUnary, _lambdaUnary, MUnary, IUnary, _HUnary,
+    CUnary, PUnary, _NUnary, _provenancePkg⟩ := hCarrier
+  obtain ⟨x0Unary, iteratesUnary, _boundPowerUnary, _toleranceUnary, _adjacentRoute,
+    _tailReplayRoute⟩ := hOrbit
+  have fixedReadiness :
+      ContractionMappingFixedPointReadiness X d T G lambda M I H C P N x0 iterates
+          boundPower tolerance adjacentReplay tailReplay completeMetricRead bundle pkg ∧
+        PkgSig bundle P pkg :=
+    ContractionMappingCarrier_fixed_point_readiness carrierSurface orbitSurface completeRoute
+  have completeMetricUnary : UnaryHistory completeMetricRead :=
+    unary_cont_closed IUnary MUnary completeRoute
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed completeMetricUnary CUnary tailRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed tailUnary PUnary sealRoute
+  have commonUnary : UnaryHistory commonWindow :=
+    unary_cont_closed x0Unary iteratesUnary commonRoute
+  exact
+    ⟨fixedReadiness.left, tailUnary, sealUnary, commonUnary, tailRoute, sealRoute,
+      commonRoute, fixedReadiness.right, sealPkg, commonPkg⟩
+
 end BEDC.Derived.ContractionMappingUp
