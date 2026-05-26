@@ -32,9 +32,10 @@ jobs:
         run: |
           set -euo pipefail
           repository="${{ inputs.checkout_repository != '' && inputs.checkout_repository || github.repository }}"
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git init "$GITHUB_WORKSPACE"
           git -C "$GITHUB_WORKSPACE" remote add origin "https://github.com/${repository}.git"
-          git -C "$GITHUB_WORKSPACE" fetch --no-tags --depth=1 origin "${{ inputs.checkout_ref }}"
+          git -C "$GITHUB_WORKSPACE" fetch --no-tags --depth=2 origin "${{ inputs.checkout_ref }}"
           git -C "$GITHUB_WORKSPACE" checkout --force FETCH_HEAD
 
       - name: Set up Quarto
