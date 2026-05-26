@@ -49,6 +49,35 @@ theorem BoundedVariationCarrier_variation_ledger_exactness [AskSetup] [PackageSe
     unary_cont_closed variationUnary refinementUnary sumReadRow
   exact ⟨edgeReadUnary, sumReadUnary, variationSame, pkgSig⟩
 
+theorem BoundedVariationCarrier_partition_scope_binding [AskSetup] [PackageSetup]
+    {interval partition endpoint dyadic variation refinement transport route provenance nameCert
+      edgeRead sumRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedVariationCarrier interval partition endpoint dyadic variation refinement transport route
+        provenance nameCert bundle pkg ->
+      Cont endpoint dyadic edgeRead ->
+        Cont variation refinement sumRead ->
+          UnaryHistory interval ∧ UnaryHistory partition ∧ UnaryHistory endpoint ∧
+            UnaryHistory dyadic ∧ UnaryHistory variation ∧ UnaryHistory refinement ∧
+              UnaryHistory edgeRead ∧ UnaryHistory sumRead ∧
+                Cont interval partition endpoint ∧ Cont endpoint dyadic edgeRead ∧
+                  Cont variation refinement sumRead ∧
+                    hsame variation (append partition dyadic) ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier edgeReadRow sumReadRow
+  obtain ⟨intervalUnary, partitionUnary, endpointUnary, dyadicUnary, variationUnary,
+    refinementUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary,
+    intervalPartitionEndpoint, _endpointDyadicTransport, _partitionDyadicVariation,
+    _variationRefinementRoute, _routeProvenanceNameCert, variationSame, pkgSig⟩ := carrier
+  have edgeReadUnary : UnaryHistory edgeRead :=
+    unary_cont_closed endpointUnary dyadicUnary edgeReadRow
+  have sumReadUnary : UnaryHistory sumRead :=
+    unary_cont_closed variationUnary refinementUnary sumReadRow
+  exact
+    ⟨intervalUnary, partitionUnary, endpointUnary, dyadicUnary, variationUnary,
+      refinementUnary, edgeReadUnary, sumReadUnary, intervalPartitionEndpoint, edgeReadRow,
+      sumReadRow, variationSame, pkgSig⟩
+
 theorem BoundedVariationCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {interval partition endpoint dyadic variation refinement transport route provenance
       nameCert : BHist}

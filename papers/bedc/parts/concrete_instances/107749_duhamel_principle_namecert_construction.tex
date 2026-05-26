@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\DuhamelPrincipleUp$}
+\label{ch:concrete-instances-duhamel-principle-namecert}
+\origin{human}
+
+Following Pazy's semigroup treatment of evolution equations and Evans' variation-of-constants discussion for forced linear problems, the $\DuhamelPrincipleUp$ packet records the finite BEDC route by which a homogeneous evolution row, a forcing row, and an integral convolution row are read as one solution handoff. It sits after the real-time surface of \autoref{ch:concrete-instances-real-namecert}, the integration interface of \autoref{ch:concrete-instances-integral-namecert}, the ODE local-flow source of \autoref{ch:concrete-instances-ode-namecert}, the dynamical-system flow packet of \autoref{ch:concrete-instances-dynsystem-namecert}, and the semigroup associativity surface of \autoref{ch:concrete-instances-semigroup-namecert}. The carrier names the forcing route; it does not assert a host solution operator, classical existence theorem, quotient trajectory equality, or choice-selected mild solution.
+
+\begin{definition}[DuhamelPrinciple carrier]
+\label{def:duhamel-principle-carrier}
+A $\DuhamelPrincipleUp$ carrier is a finite $\BHist$ packet
+$$
+D=(T,E,F,G,I,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\RealUp$ time-window row, including the initial time, endpoint time, and inspected finite subintervals.
+\item $E$ is the homogeneous evolution row, read as an $\OdeUp$ local-flow or $\DynSystemUp$ flow packet and constrained by the $\SemigroupUp$ composition ledger.
+\item $F$ is the forcing-data row, recording the displayed inhomogeneous source samples and their $\RealUp$ readbacks.
+\item $G$ is the propagator action row, pairing each displayed forcing sample with the elapsed-time evolution row that carries it toward the endpoint.
+\item $I$ is the $\IntegralUp$ convolution row over the finite time window, with its partition, approximation, and endpoint ledgers visible as integral data.
+\item $S$ is the solution readback row, exposing the homogeneous contribution and the integral forcing contribution as the endpoint history inspected by downstream consumers.
+\item $H$ records componentwise $\hsame$ transport for time windows, evolution rows, forcing rows, propagator rows, integral rows, solution readbacks, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a Duhamel request through $T,E,F,G,I,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\DuhamelPrincipleUp$, $\RealUp$, $\OdeUp$, $\DynSystemUp$, $\SemigroupUp$, $\IntegralUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DuhamelPrincipleUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,E,F,G,I,S,H,C,P,N$. It has no coordinate for a host semigroup on a completed function space, an unobserved Bochner integral, a selected solution operator, classical choice, quotient trajectory equality, or global well-posedness.
+\end{definition}
+
+\begin{theorem}[DuhamelPrinciple NameCert obligations]
+\label{thm:duhamel-principle-namecert-obligations}
+For every accepted $\DuhamelPrincipleUp$ carrier $D=(T,E,F,G,I,S,H,C,P,N)$, the local $\NameCert_{\DuhamelPrincipleUp}$ obligation surface consists exactly of real-time window admission, homogeneous evolution readback, forcing-data admission, propagator action exposure, $\IntegralUp$ convolution readback, endpoint solution readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through the displayed rows.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The time row $T$ fixes the inspected interval before the evolution, forcing, or convolution rows are read. The homogeneous row $E$ is already a named ODE or dynamical-system flow route, and its semigroup composition behavior is visible only through the displayed $\SemigroupUp$ ledger.
+
+Read the forcing and propagator rows next. The row $F$ supplies the inhomogeneous samples and real readbacks, while $G$ records how the displayed evolution row carries each sample toward the endpoint. No host trajectory space is introduced at this stage.
+
+The integral row $I$ is then the only source of convolution data. Its partition, approximation, and endpoint ledgers are inherited from $\IntegralUp$, and the solution row $S$ may inspect only the homogeneous contribution together with that displayed convolution endpoint.
+
+Finally use $H$ and $C$ to transport and replay the same finite rows, and use $P$ and $N$ for provenance and local naming. Since all excluded analytic objects lack carrier coordinates, they cannot enter the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[DuhamelPrinciple forcing route]
+\label{thm:duhamel-principle-forcing-route}
+Every downstream $\OdeUp$, $\DynSystemUp$, stability, or PDE consumer of an accepted $\DuhamelPrincipleUp$ packet reads the inhomogeneous contribution through the finite route
+$$
+T,E,F,G\longmapsto I\longmapsto S\longmapsto H,C,P,N.
+$$
+Thus the forced endpoint is available only as homogeneous evolution plus the displayed $\IntegralUp$ convolution of forcing data against the propagator row. The route exports no host solution operator, unbounded semigroup theorem, chosen mild solution, quotient trajectory equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with a forcing-facing consumer. The real-time row $T$ and the homogeneous evolution row $E$ determine the displayed elapsed-time cells and the semigroup-style composition ledger available to the packet.
+
+Read $F$ and $G$ after that boundary is fixed. The forcing samples are paired with visible propagator action rows, so the consumer sees only finitely displayed source observations and their transported endpoint contributions.
+
+The convolution is then read from $I$. This invokes the $\IntegralUp$ carrier and ledger discipline over the same time window, so partitions and approximations remain integral rows rather than hidden choices.
+
+The endpoint row $S$ repacks the homogeneous part and the forcing convolution as the public readback. Transport, replay, provenance, and naming are supplied by $H,C,P,N$, which preserve the same route and leave every absent analytic object outside the carrier.
+\end{proof}
+
+\closureat{DuhamelPrincipleUp}{seedStr}
+
+\begin{closurestatus}{\DuhamelPrincipleUp}
+  \constructivestory{A $\DuhamelPrincipleUp$ packet is generated from a RealUp time window, homogeneous ODE or DynSystem evolution row, Semigroup composition ledger, forcing-data row, propagator action row, IntegralUp convolution row, solution readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:duhamel-principle-carrier}, \autoref{thm:duhamel-principle-namecert-obligations}, and \autoref{thm:duhamel-principle-forcing-route} seed the finite variation-of-constants carrier, obligation surface, and forcing route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host solution operators, unbounded semigroup theorems, chosen mild solutions, quotient trajectory equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, forcing-route exactness, IntegralUp convolution readback, evolution transport stability, solution nonescape, and TasteGate field faithfulness for BEDC.Derived.DuhamelPrincipleUp.}
+\end{closurestatus}
