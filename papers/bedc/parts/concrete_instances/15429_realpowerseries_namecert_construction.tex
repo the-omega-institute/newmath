@@ -443,6 +443,32 @@ Use \autoref{thm:real-power-series-endpoint-seal-factorization}. The endpoint se
 Finally apply \autoref{thm:real-power-series-nonescape}. The excluded analytic, quotient, choice, and ambient-completeness objects are not carrier fields and cannot be exported by endpoint evaluation.
 \end{proof}
 
+\begin{theorem}[Real power series product coefficient-window lock]
+\label{thm:real-power-series-product-coefficient-window-lock}
+For every accepted $\RealPowerSeriesUp$ packet $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, every coefficient product read used for powers of $X-Z$ must pass through the coefficient row $A$, the finite $\StreamNameUp$ windows in $W$, the finite partial-sum row $S$, the selected majorant row $M$, and the $\CauchyProductUp$ product route cited by the provenance row $P$. Such a read cannot use host multiplication, quotient functions, selected infinite sums, or ambient $\RealUp$ completeness outside the displayed carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-power-series-carrier}. Coefficient access is stored in $A$, and the finite windows for coefficient, point, power, and partial-sum reads are stored in $W$ before $S$ or $M$ can be consumed.
+
+Apply \autoref{thm:real-power-series-coefficient-window-ledger} and \autoref{thm:real-power-series-cauchy-product-coefficient-budget}. These theorems route product-sensitive coefficient reads through the displayed coefficient windows, partial-sum row, selected majorant row, and CauchyProduct source windows before returning to the power-series packet.
+
+Finally use \autoref{thm:real-power-series-nonescape}. Since host multiplication, quotient function spaces, selected infinite sums, and ambient completeness are not carrier fields, the coefficient product read remains locked to the finite product route.
+\end{proof}
+
+\begin{theorem}[Real power series product endpoint nonescape]
+\label{thm:real-power-series-product-endpoint-nonescape}
+For every accepted $\RealPowerSeriesUp$ packet $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$, the terminal $\RealUp$ seal for a power-series evaluation is downstream of the $\CauchyProductUp$ product route together with $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealSeriesUp$, $\WeierstrassMTestUp$, ratio-test, and root-test majorant rows. The endpoint cannot escape from that route to host analytic continuation, quotient function equality, selected infinite sums, host multiplication, countable choice, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:real-power-series-product-coefficient-window-lock}. It places every product coefficient read on the route through $A,W,S,M$ and the CauchyProduct product surface before the endpoint seal is available.
+
+Use \autoref{thm:real-power-series-radius-majorant-public-export}. That theorem composes the coefficient-window ledger, radius-majorant coverage, CauchyProduct coefficient budget, RegSeqRat endpoint handoff, and endpoint nonescape rows into the public evaluation surface.
+
+Now apply \autoref{thm:real-power-series-endpoint-cauchy-budget}. The endpoint seal is read through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, partial sums, selected majorants, and the terminal $\RealUp$ seal. The majorant row may be supplied by $\WeierstrassMTestUp$, ratio-test, or root-test evidence, but it remains a displayed row of $M$.
+
+The excluded analytic, quotient, multiplication, choice, and ambient-completeness objects have no carrier coordinate. Thus the terminal endpoint remains downstream of the product and regular-rational route.
+\end{proof}
+
 \falsifiablePrediction{Every $\RealPowerSeriesUp$ endpoint-facing read factors through a coefficient or FormalPowerSeries row, center Real row, argument Real row, displayed radius or subradius row, finite StreamName windows, partial-sum RealSeries row, majorant data from M-test or ratio/root-test rows, endpoint Real seal, transport, continuation, provenance, and local naming.}
 
 \independenceWitness{realseries, weierstrass-mtest, regular-cauchy-ratio-test, regular-cauchy-root-test, formalpowerseries, convergence-radius, real, regseqrat, streamname, dyadicratcore: $\RealPowerSeriesUp$ is not bijective to any listed sibling because it jointly carries coefficient-stream access, center and argument Real rows, displayed radius windows, finite polynomial partial sums, selected majorant routes, endpoint sealing, transport, continuation, provenance, and local naming.}
