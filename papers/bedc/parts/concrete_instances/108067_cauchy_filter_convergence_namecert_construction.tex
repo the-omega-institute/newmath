@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\CauchyFilterConvergenceUp$}
+\label{ch:concrete-instances-cauchy-filter-convergence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, and the Bourbaki--Kelley language of filters, the $\CauchyFilterConvergenceUp$ packet records the finite route by which displayed Cauchy-filter data reaches a named limit boundary. It sits after the Cauchy-filter surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the regular-filter handoff of \autoref{ch:concrete-instances-regularcauchyfilter-namecert}, the uniform-window discipline of \autoref{ch:concrete-instances-uniform-cauchy-filter-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names convergence as a displayed BEDC route; it does not form a quotient of filters, choose a host limit, use countable choice, identify host real equality, or appeal to ambient completeness.
+
+\begin{definition}[CauchyFilterConvergence carrier]
+\label{def:cauchy-filter-convergence-carrier}
+A $\CauchyFilterConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+L=(F,B,M,S,D,R,E,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the source $\CauchyFilterUp$ row, including displayed base packets, late-set witnesses, refinement routes, and Cauchy evidence.
+\item $B$ is the $\CauchyFilterBasisUp$ factorization row exposed by the same source filter data.
+\item $M$ is the directed meet row that names common refinements for requested filter tails.
+\item $S$ is the $\StreamNameUp$ finite-window schedule read from the filter tails.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to those windows and refinements.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained after the stream windows and dyadic rows have been displayed.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $F,B,M,S,D,R$ have been read.
+\item $W$ is the convergence witness row, recording that every accepted neighbourhood read of $E$ pulls back to a displayed tail of $F$ through $B,M,S,D,R$.
+\item $H$ records componentwise $\hsame$ transport for all displayed rows.
+\item $C$ records the displayed $\Cont$ replay from filter requests to basis tails, from tails to stream windows, from dyadic tolerances to regular rational readback, and from readback to the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyFilterConvergenceUp$, $\CauchyFilterUp$, $\CauchyFilterBasisUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyFilterConvergenceUp}$ row.
+\end{enumerate}
+The carrier exposes convergence only through these rows. It has no coordinate for quotient filters, selected representatives, host equality of limits, countable-choice selectors, hidden cofinal tails, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[CauchyFilterConvergence NameCert obligations]
+\label{thm:cauchy-filter-convergence-namecert-obligations}
+For every accepted $\CauchyFilterConvergenceUp$ carrier $L=(F,B,M,S,D,R,E,W,H,C,P,N)$, the local $\NameCert_{\CauchyFilterConvergenceUp}$ surface consists exactly of carrier admission, CauchyFilter source exposure through $F$, basis factorization through $B$, directed tail refinement through $M$, StreamName window exposure through $S$, DyadicRatCore tolerance exactness through $D$, RegSeqRat readback through $R$, Real seal handoff through $E$, convergence pullback through $W$, and structural transport, replay, provenance, and local naming through $H,C,P,N$.
+
+No obligation may be discharged by quotient-filter equality, a selected host limit, countable choice, host real equality, a hidden cofinal tail, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-filter-convergence-carrier}. The rows $F,B,M,S,D,R,E,W,H,C,P,N$ are the only coordinates visible to the local certificate surface.
+
+The source and basis side is finite. The Cauchy-filter row $F$ supplies the displayed base packets and Cauchy evidence, while $B$ and $M$ expose the basis factorization and common directed refinements before any stream or real-facing read is available.
+
+The readback side is ordered by the displayed route. The schedule $S$ lists the finite windows, $D$ attaches dyadic tolerances to the same windows, $R$ reads regular rational data from them, and $E$ is downstream from that readback.
+
+Finally, the convergence witness $W$ records only the pullback of Real-neighbourhood requests along the displayed route, and $H,C,P,N$ transport, replay, source, and name the same data. Since the carrier contains none of the excluded coordinates, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[CauchyFilterConvergence limit route]
+\label{thm:cauchy-filter-convergence-limit-route}
+Let $L=(F,B,M,S,D,R,E,W,H,C,P,N)$ be an accepted $\CauchyFilterConvergenceUp$ carrier. Every Real-facing convergence read factors through
+$$
+\CauchyFilterUp \longmapsto \CauchyFilterBasisUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+Concretely, the read starts at the displayed Cauchy-filter row $F$, passes through the basis and directed-meet rows $B,M$, reads finite windows and tolerances through $S,D$, obtains the regular rational row $R$, reaches the Real seal $E$, and verifies convergence by pulling Real-neighbourhood requests back through $W$. The route exports no quotient filter, selected limit, countable-choice selector, host real equality, hidden cofinal tail, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing convergence read of $L$. The Real seal coordinate is $E$, and by the carrier definition $E$ is downstream from the source Cauchy-filter row, basis row, directed meet row, window schedule, dyadic ledger, and regular rational readback.
+
+Use the basis and meet rows first. The rows $B$ and $M$ expose the finite CauchyFilterBasis route over $F$, so every requested convergence tail is a displayed row rather than an external cofinal family.
+
+Next read the sequential data. The stream schedule $S$ and dyadic ledger $D$ determine the regular rational readback $R$, which is the only route from the filter-side packet to the Real seal.
+
+The convergence witness $W$ closes the route by pulling each accepted neighbourhood request of $E$ back to the displayed filter tail. The structural rows $H,C,P,N$ preserve that same route, and the absent quotient, choice, host-equality, hidden-tail, and completeness coordinates cannot be exported by any consumer.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyFilterConvergenceUp$ convergence read factors through $\CauchyFilterUp$, $\CauchyFilterBasisUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, terminal $\RealUp$ sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\closureat{CauchyFilterConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\CauchyFilterConvergenceUp}
+  \constructivestory{A $\CauchyFilterConvergenceUp$ packet is generated from a CauchyFilterUp row, a CauchyFilterBasisUp factorization row, a directed meet row, StreamName windows, a DyadicRatCore tolerance ledger, RegSeqRat readback, a RealUp seal, a convergence pullback witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-filter-convergence-carrier}, \autoref{thm:cauchy-filter-convergence-namecert-obligations}, and \autoref{thm:cauchy-filter-convergence-limit-route} seed the constructive filter-to-limit route over CauchyFilterUp, CauchyFilterBasisUp, StreamNameUp, DyadicRatCoreUp, RegSeqRatUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, quotient filters, selected host limits, countable choice, host real equality, hidden cofinal tails, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, basis factorization, directed meet exposure, RegSeqRat readback, Real seal nonescape, convergence pullback, and TasteGate field faithfulness for BEDC.Derived.CauchyFilterConvergenceUp.}
+\end{closurestatus}
