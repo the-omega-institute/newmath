@@ -265,4 +265,29 @@ theorem NormalSpacePacket_closed_pair_transport [AskSetup] [PackageSetup]
       packet.right.right.right.right.right.right.right.right.right.right.right.right.left,
       packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right⟩
 
+theorem NormalSpacePacket_open_neighborhood_stability [AskSetup] [PackageSetup]
+    {topology closedLeft closedRight disjoint openLeft openRight transport replay provenance
+      localName exported openLeft' openRight' stabilityRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NormalSpacePacket topology closedLeft closedRight disjoint openLeft openRight transport
+        replay provenance localName exported bundle pkg ->
+      hsame openLeft openLeft' -> hsame openRight openRight' ->
+        Cont openLeft' openRight' stabilityRead ->
+          UnaryHistory openLeft' ∧ UnaryHistory openRight' ∧ UnaryHistory stabilityRead ∧
+            Cont openLeft' openRight' stabilityRead ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame
+  intro packet sameOpenLeft sameOpenRight stabilityRoute
+  have openLeftUnary : UnaryHistory openLeft' :=
+    unary_transport packet.right.right.right.right.left sameOpenLeft
+  have openRightUnary : UnaryHistory openRight' :=
+    unary_transport packet.right.right.right.right.right.left sameOpenRight
+  have stabilityUnary : UnaryHistory stabilityRead :=
+    unary_cont_closed openLeftUnary openRightUnary stabilityRoute
+  exact
+    ⟨openLeftUnary,
+      openRightUnary,
+      stabilityUnary,
+      stabilityRoute,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right⟩
+
 end BEDC.Derived.NormalSpaceUp
