@@ -413,4 +413,35 @@ theorem BinaryExpansionPacket_prefix_refinement_real_seal_determinacy [AskSetup]
     ⟨sameApproximation, sameApproximation', leftSealUnary, rightSealUnary, leftSealRoute,
       rightSealRoute, leftSealPkg, rightSealPkg⟩
 
+theorem BinaryExpansionPacket_cauchy_modulus_handoff [AskSetup] [PackageSetup]
+    {digits windows approximation regular realSeal transport route provenance nameCert
+      modulusRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinaryExpansionPacket digits windows approximation regular realSeal transport route provenance
+        nameCert bundle pkg ->
+      Cont windows approximation modulusRead ->
+        Cont modulusRead realSeal sealRead ->
+          PkgSig bundle modulusRead pkg ->
+            PkgSig bundle sealRead pkg ->
+              UnaryHistory digits ∧ UnaryHistory windows ∧ UnaryHistory approximation ∧
+                UnaryHistory regular ∧ UnaryHistory realSeal ∧ UnaryHistory modulusRead ∧
+                  UnaryHistory sealRead ∧ Cont windows digits approximation ∧
+                    Cont approximation regular realSeal ∧
+                      Cont windows approximation modulusRead ∧
+                        Cont modulusRead realSeal sealRead ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle modulusRead pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet modulusRoute sealRoute modulusPkg sealPkg
+  obtain ⟨digitsUnary, windowsUnary, approximationUnary, regularUnary, realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary, windowsDigits,
+    approximationRegular, _transportRoute, provenancePkg⟩ := packet
+  have modulusUnary : UnaryHistory modulusRead :=
+    unary_cont_closed windowsUnary approximationUnary modulusRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed modulusUnary realSealUnary sealRoute
+  exact
+    ⟨digitsUnary, windowsUnary, approximationUnary, regularUnary, realSealUnary,
+      modulusUnary, sealUnary, windowsDigits, approximationRegular, modulusRoute, sealRoute,
+      provenancePkg, modulusPkg, sealPkg⟩
+
 end BEDC.Derived.BinaryExpansionUp

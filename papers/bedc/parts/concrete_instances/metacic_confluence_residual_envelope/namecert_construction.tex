@@ -47,6 +47,20 @@ The supporting rows $F,U,Z$ then separate bounded computation, neutral-spine cas
 Finally $H,C,P,N$ transport, replay, source, and name the same finite surface. Since no remaining coordinate contains an unconditional substitution-compatibility or closed-diamond proof, the packet certifies only the residual-envelope boundary and not the endpoint theorem.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence residual envelope checker-status determinacy]
+\label{thm:metacic-confluence-residual-envelope-checker-status-determinacy}
+For every accepted $\MetaCICConfluenceResidualEnvelopeUp$ carrier $E=(T,R,S,B,J,O,F,U,Z,H,C,P,N)$, any confluence consumer that reads the bounded checker status $B$ must read exactly one of the displayed accepted, rejected, or obstruction alternatives supplied by the residual-checker route. The later rows $J,O,F,U,Z,H,C,P,N$ cannot change that status and cannot turn it into unconditional $\mathrm{BetaParallelDiamondClosed}$.
+\end{theorem}
+\begin{proof}
+Project the carrier $E=(T,R,S,B,J,O,F,U,Z,H,C,P,N)$ of \autoref{def:metacic-confluence-residual-envelope-carrier}. The checker status is the single row $B$, inherited from the residual-checker route of \autoref{ch:concrete-instances-metacic-confluence-residual-checker-namecert}.
+
+The residual-checker route separates accepted, rejected, and obstruction status as displayed finite alternatives. Reading $B$ therefore exposes one of those alternatives before the envelope rows $J,O,F,U,Z,H,C,P,N$ are inspected.
+
+The obstruction row $O$ retains the named residual-substitution obstruction rather than erasing it. The rows $F,U,Z$ separate bounded computation, neutral-spine reads, and normalization budgets from the checker status, so they cannot promote a bounded status read into an endpoint confluence theorem.
+
+Finally $H,C,P,N$ transport, replay, source, and name only the displayed carrier rows. Because no later row contains an unconditional $\mathrm{BetaParallelDiamondClosed}$ coordinate, the checker status remains the one supplied by $B$.
+\end{proof}
+
 \begin{theorem}[MetaCIC confluence residual envelope neutral-spine separation]
 \label{thm:metacic-confluence-residual-envelope-neutral-spine-separation}
 Any conditional confluence consumer that attempts to promote a neutral-spine read $U$ into a beta residual branch must also display the residual-frontier row $R$, substitution-boundary row $S$, checker row $B$, local join row $J$, fuel trace $F$, and normalization budget $Z$. Without those rows, the accepted $\MetaCICConfluenceResidualEnvelopeUp$ packet exports only a neutral case and no beta branch.
