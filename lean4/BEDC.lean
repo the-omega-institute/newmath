@@ -4306,6 +4306,7 @@ import BEDC.Derived.MetricCompletionUp.BranchReadback
 import BEDC.Derived.MetricCompletionUp.BranchScope
 import BEDC.Derived.MetricCompletionUp.BridgeSurfaceLock
 import BEDC.Derived.MetricCompletionUp.CauchyEvidenceHandoff
+import BEDC.Derived.MetricCompletionUp.CauchyFilterLimitFactorization
 import BEDC.Derived.MetricCompletionUp.CauchyFilterNetSeal
 import BEDC.Derived.MetricCompletionUp.ClassifierStability
 import BEDC.Derived.MetricCompletionUp.Compatibility
@@ -4319,6 +4320,7 @@ import BEDC.Derived.MetricCompletionUp.RealSealScopeLock
 import BEDC.Derived.MetricCompletionUp.RegularCauchyReadback
 import BEDC.Derived.MetricCompletionUp.RootObligationCarrierWitness
 import BEDC.Derived.MetricCompletionUp.RootObligationClassifierWitness
+import BEDC.Derived.MetricCompletionUp.RootObligationLedger
 import BEDC.Derived.MetricCompletionUp.RootObligationLedgerWitness
 import BEDC.Derived.MetricCompletionUp.RootObligations
 import BEDC.Derived.MetricCompletionUp.ScopedDependencyPackage
@@ -5854,6 +5856,7 @@ import BEDC.Derived.SignedDigitStreamUp.PrefixStability
 import BEDC.Derived.SignedDigitStreamUp.PrefixTruncation
 import BEDC.Derived.SignedDigitStreamUp.Tail
 import BEDC.Derived.SignedDigitStreamUp.WindowBridge
+import BEDC.Derived.SignedDistanceUp.TasteGate
 import BEDC.Derived.SignedDyadicNormalFormUp.TasteGate
 import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.SimplicialSetUp
