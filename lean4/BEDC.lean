@@ -3422,6 +3422,7 @@ import BEDC.Derived.FiniteTailFilterUp.TasteGate
 import BEDC.Derived.FiniteTailFilterUp.TerminalLeanTargetSurface
 import BEDC.Derived.FiniteTraceEvaluatorUp.BoundedTraceCoverage
 import BEDC.Derived.FiniteTraceEvaluatorUp.NameCertObligations
+import BEDC.Derived.FiniteTraceEvaluatorUp.RootExactnessSurface
 import BEDC.Derived.FiniteTraceEvaluatorUp.TasteGate
 import BEDC.Derived.FiniteTraceGapSocketUp.ReplayRoutePackage
 import BEDC.Derived.FiniteTraceGapSocketUp.TasteGate
@@ -4212,6 +4213,7 @@ import BEDC.Derived.MetaCICIdentityBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICIdentityUp.TasteGate
 import BEDC.Derived.MetaCICNormalAuditSocketUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationBudgetUp.TasteGate
+import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.KernelScope
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.RouteCoverage
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationFrontierUp.AuditSealConsumerRoute
@@ -6110,6 +6112,7 @@ import BEDC.Derived.TailCofinalityScheduleUp.WindowSealFactorization
 import BEDC.Derived.TailCompatibleCauchySectionUp.TasteGate
 import BEDC.Derived.TailModulusAlignmentUp.TasteGate
 import BEDC.Derived.TannakaKreinUp
+import BEDC.Derived.TanneryTheoremUp
 import BEDC.Derived.TarskiTruthRefusalUp.TasteGate
 import BEDC.Derived.TasteGateAdmissionUp.TasteGate
 import BEDC.Derived.TasteGateAuditTraceUp.TasteGate
