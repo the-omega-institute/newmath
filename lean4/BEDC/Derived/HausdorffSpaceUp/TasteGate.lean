@@ -1,11 +1,15 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.HausdorffSpaceUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -169,5 +173,54 @@ theorem HausdorffSpaceTasteGate_single_carrier_alignment :
       HausdorffSpaceTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq => HausdorffSpaceTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
+
+theorem HausdorffSpaceNameCert_obligations
+    {T x y U V D M E H C P N separation metricRoute realSealRoute : BHist}
+    (openRoute : Cont T U C) (disjointRoute : Cont V D separation)
+    (metricHandoff : Cont M E metricRoute)
+    (sealHandoff : Cont metricRoute separation realSealRoute) :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row T ∧
+          ∃ packet : HausdorffSpaceUp,
+            packet = HausdorffSpaceUp.mk T x y U V D M E H C P N)
+      (fun row : BHist =>
+        Cont T U C ∧ Cont V D separation ∧ hsame row T ∧ hsame U U ∧ hsame V V ∧
+          hsame D D)
+      (fun row : BHist =>
+        Cont M E metricRoute ∧ Cont metricRoute separation realSealRoute ∧ hsame row T ∧
+          hsame P P ∧ hsame N N)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro T
+          ⟨hsame_refl T,
+            Exists.intro (HausdorffSpaceUp.mk T x y U V D M E H C P N) rfl⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        ⟨openRoute, disjointRoute, source.left, hsame_refl U, hsame_refl V, hsame_refl D⟩
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨metricHandoff, sealHandoff, source.left, hsame_refl P, hsame_refl N⟩
+  }
 
 end BEDC.Derived.HausdorffSpaceUp
