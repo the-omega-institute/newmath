@@ -125,6 +125,23 @@ Now use the local NameCert obligations. They account for carrier admission, Clos
 Finally use the kernel-ledger boundary. The ledger row $K$ remains acceptance accounting for displayed ClosurePreservation declarations and is not a semantic premise for stronger MetaCIC results. Since the carrier has no row for typing preservation, confluence, normalization, subject reduction, conversion soundness, or kernel soundness, the listed rows exhaust the obligation-closure package.
 \end{proof}
 
+\begin{theorem}[MetaCICClosureTrace obligation-closure upgrade]
+\label{thm:metacicclosuretrace-obligation-closure-upgrade}
+The substitution-shift generator package of \autoref{thm:metacicclosuretrace-substitution-shift-generator-package}, beta-star preservation readback of \autoref{thm:metacicclosuretrace-beta-star-preservation-readback}, NameCert obligations of \autoref{thm:metacicclosuretrace-namecert-obligations}, kernel-ledger boundary of \autoref{thm:metacicclosuretrace-kernel-ledger-boundary}, and candidate frontier of \autoref{thm:metacic-closure-trace-candidate-frontier} jointly form the obligationClosure package for $\MetaCICClosureTraceUp$. The package exports only finite \texttt{ClosedAt} preservation across shift, substitution, beta-step, finite beta-chain, generator readback, kernel-ledger accounting, transport, replay, provenance, and local naming. It exports no typing theorem, confluence theorem, normalization theorem, subject-reduction theorem, conversion-soundness theorem, or kernel-soundness theorem.
+\end{theorem}
+\begin{proof}
+Begin with the generator package. The substitution-shift theorem identifies $S,U,V,G$ as the complete closedness-generator surface for shift and substitution reads.
+
+Attach the beta route next. The beta-star preservation readback identifies $B,R$ as the displayed one-step and finite-chain closedness rows, and the NameCert obligations bind those rows to carrier admission, transport, replay, provenance, and local naming.
+
+Use the kernel-ledger boundary to keep $K$ as acceptance accounting for ClosurePreservation declarations rather than as a hidden semantic premise. The candidate-frontier theorem then orders the whole route as
+$$
+S,U,V,G \longmapsto B,R \longmapsto K \longmapsto H,C,P,N .
+$$
+
+Thus the combined package reaches obligationClosure for the paper packet by preserving only \texttt{ClosedAt}. Since no carrier row stores typing, confluence, normalization, subject reduction, conversion soundness, or kernel soundness, none of those stronger claims is exported.
+\end{proof}
+
 \begin{theorem}[MetaCICClosureTrace candidate frontier]
 \label{thm:metacic-closure-trace-candidate-frontier}
 Every normalization-facing, confluence-facing, or conversion-facing read of an accepted $\MetaCICClosureTraceUp$ packet must pass through the displayed candidate frontier
