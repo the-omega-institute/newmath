@@ -1325,7 +1325,13 @@ function renderCy() {
     boxSelectionEnabled: false,
     wheelSensitivity: 0.6,
     autoungrabify: true,
-    minZoom: 0.05,
+    // Floor low enough to fit the whole graph: the baked layout spans
+    // ~145k px tall, so fit-to-view lands around 0.005. A 0.05 floor
+    // clamped fit ~9x too far in (the overview became a vertical sliver
+    // of a graph that no longer fits the viewport as the node count grew).
+    // Keep headroom below the fit zoom so the full map stays reachable as
+    // the project keeps adding regions.
+    minZoom: 0.002,
     maxZoom: 4,
   });
   setupZoomControls();
