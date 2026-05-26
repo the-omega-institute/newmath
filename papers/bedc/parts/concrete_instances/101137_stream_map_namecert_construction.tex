@@ -86,6 +86,18 @@ Now read the tolerance and tail rows. The ledger $D$ records the dyadic budgets 
 Therefore agreement on $S,F,T,W,D$ fixes the classifier-facing handoff $Q$ before the terminal Real seal is available. Since no quotient-stream coordinate or selected-limit coordinate appears in the carrier, there is no second tail-window handoff for the consumer to select.
 \end{proof}
 
+\begin{theorem}[Stream map tail-ledger nonescape]
+\label{thm:stream-map-tail-ledger-nonescape}
+For an accepted $\StreamMapUp$ carrier $M=(S,T,F,W,Q,D,R,H,C,P,N)$, any consumer that reads the regular rational handoff $Q$, the dyadic tolerance ledger $D$, or the terminal $\RealUp$ seal $R$ must first read the same finite route $S,F,T,W$. The structural rows $H,C,P,N$ preserve only that displayed route and cannot introduce quotient stream equality, host function extensionality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:stream-map-finite-window-functoriality}. Every finite-window consumer reaches $S,F,T,W$ before the downstream rows $Q,D,$ or $R$ are available, so a tail-facing read cannot bypass the displayed source window, point-map row, target window, or output-window row.
+
+Apply \autoref{thm:stream-map-tail-window-determinacy}. Once two tail-facing reads agree on $S,F,T,W,D$, the exposed regular rational handoff $Q$ is fixed before the terminal Real seal is read.
+
+It remains to inspect the structural rows. The rows $H,C,P,N$ transport, replay, cite provenance, and name the same finite route; none stores a quotient-stream comparison, host-function extensionality proof, selected-limit witness, countable-choice selector, or ambient Real-completeness principle. Thus every tail-ledger consumer remains inside the displayed StreamMap ledger.
+\end{proof}
+
 \begin{theorem}[Stream map NameCert obligation surface]
 \label{thm:stream-map-namecert-obligation-surface}
 For every accepted $\StreamMapUp$ carrier
@@ -119,7 +131,7 @@ Finally, ledger non-escape is exhausted by $D,R,H,C,P,N$. These rows record tole
 
 \begin{closurestatus}{\StreamMapUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:stream-map-carrier}, \autoref{thm:stream-map-pointwise-stability}, \autoref{thm:stream-map-finite-window-functoriality}, \autoref{thm:stream-map-composition-window-route}, and \autoref{thm:stream-map-namecert-obligation-surface} seed the finite L10 pointwise map route for certified countable names through StreamName, RegSeqRat, DyadicRatCore, Real, transport, replay, provenance, and local NameCert rows.}
+  \scopeclosed{\autoref{def:stream-map-carrier}, \autoref{thm:stream-map-pointwise-stability}, \autoref{thm:stream-map-finite-window-functoriality}, \autoref{thm:stream-map-composition-window-route}, \autoref{thm:stream-map-tail-window-determinacy}, \autoref{thm:stream-map-tail-ledger-nonescape}, and \autoref{thm:stream-map-namecert-obligation-surface} seed the finite L10 pointwise map route for certified countable names through StreamName, RegSeqRat, DyadicRatCore, Real, transport, replay, provenance, and local NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, host function extensionality, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
