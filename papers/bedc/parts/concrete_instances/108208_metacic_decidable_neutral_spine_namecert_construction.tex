@@ -47,6 +47,18 @@ Read the bounded comparison row $Q$ together with the boundary row $B$. The comp
 If $B$ is absent from the consumer route, the refusal row $R$ is the only admissible export beyond the bounded checker answer. The transport and replay rows keep this refusal attached to the same typed neutral spine, so no external normalizer or semantic equality proof can enter through provenance.
 \end{proof}
 
+\begin{theorem}[Neutral-spine fuel monotonicity]
+\label{thm:metacic-decidable-neutral-spine-fuel-monotonicity}
+Let $S=(T,E,Q,B,R,H,C,P,N)$ be an accepted $\MetaCICDecidableNeutralSpineUp$ carrier whose bounded normal comparison row $Q$ records a checker-local answer at fuel $k$. If a displayed extension of the same fuel trace reaches fuel $k'$ while preserving the typing frontier, same-term row, endpoint-boundary row, refusal row, componentwise transport, replay, provenance, and local naming rows $T,E,B,R,H,C,P,N$, then the extended comparison consumer remains inside the same checker-local answer/refusal boundary. It does not export public conversion decidability, strong normalization, confluence, subject reduction, or a semantic equality oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier and the displayed fuel trace from the bounded comparison row $Q$. The extension to $k'$ is admissible only because it preserves the already displayed typing frontier and same-term rows $T,E$ together with the same endpoint-boundary row $B$.
+
+The refusal row $R$ remains attached to the extended trace. Thus increasing the inspected fuel may refine the checker-local comparison row, but it still leaves any request for public conversion outside the displayed endpoint evidence.
+
+Finally, replay the extended row through $C$ and transport the unchanged coordinates componentwise through $H$. The provenance and local naming rows $P,N$ identify the result as the same finite neutral-spine packet, so no global conversion theorem or off-packet normalizer is made available.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\MetaCICDecidableNeutralSpineUp$ consumer is refuted if it exports neutral-spine conversion while omitting the displayed typing-frontier row, same-term row, bounded normal-equality row, boundary row, refusal row, transport, replay, provenance, or local NameCert row.}
 
 \independenceWitness{boundednormalequalitychecker, metacicdecidableboundary, metacicdecidabilitywitness, metacic-decidable-typing-frontier: no listed sibling is bijective to $\MetaCICDecidableNeutralSpineUp$ because this packet jointly carries the typed neutral-spine frontier, structural same-term row, bounded normal comparison, endpoint-boundary refusal, transport, replay, provenance, and local naming in one carrier. The bounded checker lacks the typed frontier and refusal packet; the boundary packet lacks the same-term spine; the witness packet records typing and conversion evidence without owning the neutral-spine route; the typing frontier lacks the bounded normal comparison boundary.}
