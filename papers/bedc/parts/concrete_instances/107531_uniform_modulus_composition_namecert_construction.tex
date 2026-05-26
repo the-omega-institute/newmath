@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\UniformModulusCompositionUp$}
+\label{ch:concrete-instances-uniform-modulus-composition-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\UniformModulusCompositionUp$ packet records the finite bookkeeping needed to compose displayed uniform moduli for map-level continuity before a continuous-map or completion-facing consumer reads the result. It sits beside the map carrier of \autoref{ch:concrete-instances-continuousmap-namecert}, the modulus surface of \autoref{ch:concrete-instances-uniform-continuity-modulus-namecert}, the Cauchy budget composition of \autoref{ch:concrete-instances-cauchy-modulus-composition-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names only the displayed composition route for uniform-modulus rows; it is not a quotient stream, not a selected limit, not host real equality, not trichotomy, not ambient Real completeness, and not a bridge assertion.
+
+\begin{definition}[Uniform modulus composition carrier]
+\label{def:uniform-modulus-composition-carrier}
+A $\UniformModulusCompositionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,G,M_F,M_G,B,W,D,R,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $F$ and $G$ are composable $\ContinuousMapUp$ rows, with $G$ read after the codomain row exported by $F$.
+\item $M_F$ and $M_G$ are the displayed $\UniformContinuityModulusUp$ rows for $F$ and $G$.
+\item $B$ is the composed uniform-budget row. It first reads the precision request through $M_G$, then uses the resulting domain tolerance as the request for $M_F$, and stores the single source tolerance supplied to the composite map.
+\item $W$ is the $\StreamNameUp$ window route through which the composed budget may inspect only displayed finite observations.
+\item $D$ is the dyadic or rational tolerance ledger naming every radius comparison used by the two modulus lookups.
+\item $R$ is the $\RegSeqRatUp$ readback row that receives the composed source tolerance after $W$ and $D$ have been replayed.
+\item $E$ is the $\RealUp$ route row that may be read only after the regular-rational handoff has consumed the same composed budget.
+\item $H$ records componentwise $\hsame$ transport for $F,G,M_F,M_G,B,W,D,R,E$, the continuation row, the provenance row, and the local naming row.
+\item $C$ records displayed $\Cont$ replay from a requested output tolerance through $M_G$, $M_F$, the composed budget $B$, stream windows $W$, dyadic or rational tolerances $D$, the RegSeqRat handoff $R$, and the Real route $E$.
+\item $P$ is the $\Pkg$ provenance over $\ContinuousMapUp$, $\UniformContinuityModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformModulusCompositionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, selected limits, host real equality, trichotomy, ambient completeness of $\RealUp$, or standard bridge data.
+\end{definition}
+
+\begin{theorem}[Uniform modulus composition NameCert obligations]
+\label{thm:uniform-modulus-composition-namecert-obligations}
+For every accepted $\UniformModulusCompositionUp$ carrier $K=(F,G,M_F,M_G,B,W,D,R,E,H,C,P,N)$, the local $\NameCert_{\UniformModulusCompositionUp}$ surface consists exactly of carrier admission for the two composable map rows, admission of their displayed uniform-modulus rows, budget composition through $M_G$ then $M_F$, window and tolerance exposure through $W$ and $D$, RegSeqRat and Real handoff through $R$ and $E$, componentwise transport stability through $H$, continuation replay through $C$, package provenance through $P$, and local naming through $N$. No obligation row stores a quotient stream, selected limit, host equality of reals or maps, trichotomy, ambient completeness principle, or standard bridge claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-modulus-composition-carrier}. The tuple displays exactly the two continuous-map rows, their uniform-modulus rows, the composed budget, finite-window route, tolerance ledger, RegSeqRat handoff, Real route, transport, continuation, provenance, and naming row.
+
+The composition order is fixed by $B$. An output tolerance for the composite is first read through $M_G$ because $G$ controls the second map. The tolerance exposed by that read is then passed to $M_F$, and the resulting source tolerance is stored as one composed budget row.
+
+The consumer route is ordered by $C$. Before any regular-rational or Real-facing read can consume the composed budget, it must replay the finite windows $W$ and the tolerance ledger $D$.
+
+Transport stability is componentwise. The row $H$ replaces only displayed rows by $\hsame$-classified rows and replays the same continuation order, so it cannot introduce a new equality principle.
+
+The carrier contains no quotient-stream, selected-limit, host-equality, trichotomy, completeness, or bridge coordinate. The listed rows therefore exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Uniform modulus composition Real route]
+\label{thm:uniform-modulus-composition-real-route}
+Let $K=(F,G,M_F,M_G,B,W,D,R,E,H,C,P,N)$ be an accepted $\UniformModulusCompositionUp$ carrier. Every Real-facing read of the composite map reaches the $\RealUp$ route only after the composed uniform budget has passed through the two map rows, the two displayed uniform-modulus rows, the StreamName windows, the tolerance ledger, and the RegSeqRat handoff. The exported surface contains no quotient stream, selected limit, host real equality, trichotomy, ambient Real completeness assertion, or standard bridge claim.
+\end{theorem}
+\begin{proof}
+The Real route row $E$ is displayed in the carrier, but its accessibility is ordered by $C$. A Real-facing read must therefore replay $F,G,M_G,M_F,B,W,D,R$ before $E$ is available.
+
+The replay keeps the composed modulus finite. The two source map rows supply the composability context, $M_G$ and $M_F$ supply the only tolerance lookups, $W$ supplies the only stream-window route, $D$ supplies the only tolerance ledger, and $R$ supplies the only regular rational handoff.
+
+The support rows $H,P,N$ name and transport that same finite packet. They cannot introduce quotient streams, selected limits, host equality, trichotomy, ambient completeness, or bridge data, because none of those data appear in the carrier.
+\end{proof}
+
+\begin{closurestatus}{\UniformModulusCompositionUp}
+  \constructivestory{A $\UniformModulusCompositionUp$ packet is generated from two composable ContinuousMap rows, two UniformContinuityModulus rows, a composed uniform-budget row, a StreamName window route, a tolerance ledger, a RegSeqRat handoff, a RealUp route, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-modulus-composition-carrier}, \autoref{thm:uniform-modulus-composition-namecert-obligations}, and \autoref{thm:uniform-modulus-composition-real-route} seed the finite map-level route that composes displayed uniform moduli before RegSeqRat and Real consumers read them.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, budget composition, window and tolerance exposure, RegSeqRat handoff, Real route nonescape, and transport stability for BEDC.Derived.UniformModulusCompositionUp.}
+\end{closurestatus}
