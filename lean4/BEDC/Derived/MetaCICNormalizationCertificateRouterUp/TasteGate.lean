@@ -352,4 +352,53 @@ theorem MetaCICNormalizationCertificateRouterClosedReadRefusal [AskSetup] [Packa
     unary_cont_closed candidateUnary closedProjectionUnary closedRoute
   exact ⟨candidateUnary, closedProjectionUnary, closedReadUnary, closedRoute, pkgSig⟩
 
+theorem MetaCICNormalizationCertificateRouter_sibling_separation [AskSetup] [PackageSetup]
+    {audit candidate strongNorm piApp closedProjection generator compiler kernelAccept transport
+      replay provenance localName closedRead generatorRead compilerRead acceptanceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICNormalizationCertificateRouterPacket audit candidate strongNorm piApp closedProjection
+        generator compiler kernelAccept transport replay provenance localName bundle pkg ->
+      Cont candidate closedProjection closedRead ->
+        Cont candidate generator generatorRead ->
+          Cont candidate compiler compilerRead ->
+            Cont candidate kernelAccept acceptanceRead ->
+              UnaryHistory candidate ∧ UnaryHistory closedProjection ∧ UnaryHistory generator ∧
+                UnaryHistory compiler ∧ UnaryHistory kernelAccept ∧ UnaryHistory closedRead ∧
+                  UnaryHistory generatorRead ∧ UnaryHistory compilerRead ∧
+                    UnaryHistory acceptanceRead ∧ hsame closedRead (append candidate closedProjection) ∧
+                      hsame generatorRead (append candidate generator) ∧
+                        hsame compilerRead (append candidate compiler) ∧
+                          hsame acceptanceRead (append candidate kernelAccept) ∧
+                            PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame append
+  intro packet closedRoute generatorRoute compilerRoute acceptanceRoute
+  obtain ⟨_auditUnary, candidateUnary, _strongNormUnary, _piAppUnary, closedProjectionUnary,
+    generatorUnary, compilerUnary, kernelAcceptUnary, _transportUnary, _replayUnary,
+    _provenanceUnary, _localNameUnary, _candidateStrongNorm, _piAppProjection,
+    _producerAcceptance, _transportReplay, pkgSig⟩ := packet
+  have closedReadUnary : UnaryHistory closedRead :=
+    unary_cont_closed candidateUnary closedProjectionUnary closedRoute
+  have generatorReadUnary : UnaryHistory generatorRead :=
+    unary_cont_closed candidateUnary generatorUnary generatorRoute
+  have compilerReadUnary : UnaryHistory compilerRead :=
+    unary_cont_closed candidateUnary compilerUnary compilerRoute
+  have acceptanceReadUnary : UnaryHistory acceptanceRead :=
+    unary_cont_closed candidateUnary kernelAcceptUnary acceptanceRoute
+  have closedReadExact : hsame closedRead (append candidate closedProjection) := by
+    cases closedRoute
+    exact hsame_refl _
+  have generatorReadExact : hsame generatorRead (append candidate generator) := by
+    cases generatorRoute
+    exact hsame_refl _
+  have compilerReadExact : hsame compilerRead (append candidate compiler) := by
+    cases compilerRoute
+    exact hsame_refl _
+  have acceptanceReadExact : hsame acceptanceRead (append candidate kernelAccept) := by
+    cases acceptanceRoute
+    exact hsame_refl _
+  exact
+    ⟨candidateUnary, closedProjectionUnary, generatorUnary, compilerUnary, kernelAcceptUnary,
+      closedReadUnary, generatorReadUnary, compilerReadUnary, acceptanceReadUnary,
+      closedReadExact, generatorReadExact, compilerReadExact, acceptanceReadExact, pkgSig⟩
+
 end BEDC.Derived.MetaCICNormalizationCertificateRouterUp

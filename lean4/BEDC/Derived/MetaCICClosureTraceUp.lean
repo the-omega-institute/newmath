@@ -130,4 +130,111 @@ theorem MetaCICClosureTraceCarrier_namecert_obligations
       exact ⟨source.right, pkgSig⟩
   }
 
+theorem MetaCICClosureTraceCarrier_kernel_ledger_semantic_name_certificate
+    [AskSetup] [PackageSetup] {S U V B R G K H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ∧ hsame row K)
+        (fun row : BHist => hsame row K ∧ Cont S U V ∧ Cont B R C)
+        (fun row : BHist => hsame row K ∧ PkgSig bundle P pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert AskSetup PackageSetup PkgSig
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro K ⟨carrier, hsame_refl K⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      obtain
+        ⟨_SUnary, _UUnary, _VUnary, _BUnary, _RUnary, _GUnary, _KUnary, _HUnary,
+          _CUnary, _PUnary, _NUnary, shiftSubstitution, _generatorPackage, betaRoute,
+          _pkgSig⟩ := source.left
+      exact ⟨source.right, shiftSubstitution, betaRoute⟩
+    ledger_sound := by
+      intro _row source
+      obtain
+        ⟨_SUnary, _UUnary, _VUnary, _BUnary, _RUnary, _GUnary, _KUnary, _HUnary,
+          _CUnary, _PUnary, _NUnary, _shiftSubstitution, _generatorPackage, _betaRoute,
+          pkgSig⟩ := source.left
+      exact ⟨source.right, pkgSig⟩
+  }
+
+theorem MetaCICClosureTraceCarrier_substitution_beta_chain_boundary
+    [AskSetup] [PackageSetup] {S U V B R G K H C P N substRead betaRead combinedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ->
+      Cont S V substRead ->
+        Cont B R betaRead ->
+          Cont substRead betaRead combinedRead ->
+            UnaryHistory substRead ∧ UnaryHistory betaRead ∧
+              UnaryHistory combinedRead ∧ Cont S U V ∧ Cont B R C ∧
+                Cont substRead betaRead combinedRead ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier substRoute betaRoute combinedRoute
+  obtain ⟨SUnary, _UUnary, VUnary, BUnary, RUnary, _GUnary, _KUnary, _HUnary,
+    _CUnary, _PUnary, _NUnary, shiftSubstitution, _generatorPackage, betaCarrierRoute,
+    pkgSig⟩ := carrier
+  have substUnary : UnaryHistory substRead :=
+    unary_cont_closed SUnary VUnary substRoute
+  have betaUnary : UnaryHistory betaRead :=
+    unary_cont_closed BUnary RUnary betaRoute
+  have combinedUnary : UnaryHistory combinedRead :=
+    unary_cont_closed substUnary betaUnary combinedRoute
+  exact
+    ⟨substUnary, betaUnary, combinedUnary, shiftSubstitution, betaCarrierRoute,
+      combinedRoute, pkgSig⟩
+
+theorem MetaCICClosureTraceCarrier_obligation_closure_package
+    [AskSetup] [PackageSetup]
+    {S U V B R G K H C P N betaRead routeRead closedSubst closedRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ->
+      Cont B R betaRead ->
+        Cont betaRead C routeRead ->
+          Cont S V closedSubst ->
+            Cont closedSubst B closedRoute ->
+              PkgSig bundle routeRead pkg ->
+                PkgSig bundle closedRoute pkg ->
+                  UnaryHistory S ∧ UnaryHistory U ∧ UnaryHistory V ∧ UnaryHistory B ∧
+                    UnaryHistory R ∧ UnaryHistory betaRead ∧ UnaryHistory routeRead ∧
+                      UnaryHistory closedSubst ∧ UnaryHistory closedRoute ∧ Cont S U V ∧
+                        Cont V G K ∧ Cont B R betaRead ∧ Cont betaRead C routeRead ∧
+                          Cont S V closedSubst ∧ Cont closedSubst B closedRoute ∧
+                            PkgSig bundle P pkg ∧ PkgSig bundle routeRead pkg ∧
+                              PkgSig bundle closedRoute pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier betaReadRoute routeReadRoute closedSubstRoute closedRouteRoute routeReadPkg
+    closedRoutePkg
+  obtain ⟨SUnary, UUnary, VUnary, BUnary, RUnary, _GUnary, _KUnary, _HUnary,
+    CUnary, _PUnary, _NUnary, shiftSubstitution, generatorPackage, _betaRoute, pkgSig⟩ :=
+      carrier
+  have betaReadUnary : UnaryHistory betaRead :=
+    unary_cont_closed BUnary RUnary betaReadRoute
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed betaReadUnary CUnary routeReadRoute
+  have closedSubstUnary : UnaryHistory closedSubst :=
+    unary_cont_closed SUnary VUnary closedSubstRoute
+  have closedRouteUnary : UnaryHistory closedRoute :=
+    unary_cont_closed closedSubstUnary BUnary closedRouteRoute
+  exact
+    ⟨SUnary, UUnary, VUnary, BUnary, RUnary, betaReadUnary, routeReadUnary,
+      closedSubstUnary, closedRouteUnary, shiftSubstitution, generatorPackage,
+      betaReadRoute, routeReadRoute, closedSubstRoute, closedRouteRoute, pkgSig,
+      routeReadPkg, closedRoutePkg⟩
+
 end BEDC.Derived.MetaCICClosureTraceUp

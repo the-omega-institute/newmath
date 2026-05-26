@@ -297,6 +297,26 @@ theorem RegularCauchyFilterCarrier_tail_window_exactness [AskSetup] [PackageSetu
               · rfl
               · rfl
 
+theorem RegularCauchyFilterCarrier_ledger [AskSetup] [PackageSetup]
+    {B R T D M E H C P N ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory B -> UnaryHistory T -> UnaryHistory D -> UnaryHistory M ->
+      UnaryHistory R -> UnaryHistory E -> Cont B T (append B T) ->
+        Cont T D (append T D) -> Cont D M (append D M) ->
+          Cont M R (append M R) -> Cont R E ledgerRead ->
+            PkgSig bundle ledgerRead pkg ->
+              UnaryHistory ledgerRead ∧ Cont B T (append B T) ∧
+                Cont T D (append T D) ∧ Cont D M (append D M) ∧
+                  Cont M R (append M R) ∧ Cont R E ledgerRead ∧
+                    PkgSig bundle ledgerRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro _bUnary _tUnary _dUnary _mUnary rUnary eUnary baseTail tailDyadic
+    dyadicMeet meetRead readSeal ledgerPkg
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed rUnary eUnary readSeal
+  exact
+    ⟨ledgerUnary, baseTail, tailDyadic, dyadicMeet, meetRead, readSeal, ledgerPkg⟩
+
 theorem RegularCauchyFilterCarrier_basis_witness_admission [AskSetup] [PackageSetup]
     {B R T D M E H C P N basisRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -510,5 +530,46 @@ theorem RegularCauchyFilterCarrier_regseqrat_window_exposure [AskSetup] [Package
       exact ⟨readbackPkg, source.left⟩
   }
   exact ⟨roundTrip, cert, readbackUnary, readbackRoute, readbackPkg⟩
+
+theorem RegularCauchyFilterCarrier_window_pullback [AskSetup] [PackageSetup]
+    {B R T D M E H C P N windowRead basisRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory T -> UnaryHistory D -> UnaryHistory M -> UnaryHistory R ->
+      UnaryHistory E -> Cont T D windowRead -> Cont windowRead M basisRead ->
+        Cont basisRead R realRead -> PkgSig bundle realRead pkg ->
+          regularCauchyFilterFromEventFlow
+              (regularCauchyFilterToEventFlow
+                (RegularCauchyFilterUp.mk B R T D M E H C P N)) =
+            some (RegularCauchyFilterUp.mk B R T D M E H C P N) ∧
+            UnaryHistory windowRead ∧ UnaryHistory basisRead ∧
+              UnaryHistory realRead ∧ Cont T D windowRead ∧
+                Cont windowRead M basisRead ∧ Cont basisRead R realRead ∧
+                  PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro tUnary dUnary mUnary rUnary _eUnary windowRoute basisRoute realRoute realPkg
+  have hdecode :
+      ∀ h : BHist, regularCauchyFilterDecodeBHist (regularCauchyFilterEncodeBHist h) = h := by
+    intro h
+    induction h with
+    | Empty => rfl
+    | e0 h ih => exact congrArg BHist.e0 ih
+    | e1 h ih => exact congrArg BHist.e1 ih
+  have roundTrip :
+      regularCauchyFilterFromEventFlow
+          (regularCauchyFilterToEventFlow
+            (RegularCauchyFilterUp.mk B R T D M E H C P N)) =
+        some (RegularCauchyFilterUp.mk B R T D M E H C P N) := by
+    rw [regularCauchyFilterToEventFlow, regularCauchyFilterFromEventFlow,
+      hdecode B, hdecode R, hdecode T, hdecode D, hdecode M, hdecode E,
+      hdecode H, hdecode C, hdecode P, hdecode N]
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed tUnary dUnary windowRoute
+  have basisUnary : UnaryHistory basisRead :=
+    unary_cont_closed windowUnary mUnary basisRoute
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed basisUnary rUnary realRoute
+  exact
+    ⟨roundTrip, windowUnary, basisUnary, realUnary, windowRoute, basisRoute, realRoute,
+      realPkg⟩
 
 end BEDC.Derived.RegularCauchyFilterUp

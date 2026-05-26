@@ -51,6 +51,23 @@ Next use root-output totality and output provenance coverage. They keep L10-faci
 Thus the ledger exported to $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and completion-facing consumers is finite and local to the packet. Completion objects, real-completeness data, quotient completion equality, selected limits, and host completeness proofs are not rows of $R$, so they cannot escape from the ledger.
 \end{proof}
 
+\begin{theorem}[AuthorizedGeneratorRecursor L10 readiness closure]
+\label{thm:authorized-generator-recursor-l10-readiness-closure}
+Let
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be an accepted $\AuthorizedGeneratorRecursorUp$ packet. If the L10 source triad, consumer handoff, and ledger non-escape rows are displayed, then $R$ exports exactly the readiness surface required by $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and the MetaCIC normalization boundary: finite reads through $I,E,M,B,D,O,A,H,C,P,G,N$, componentwise $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ transport, and the boundary refusal row $G$. It exports no global recursion theorem, host induction principle, hidden completion selector, selected real witness, quotient stream equality, or proof-producing channel outside the displayed packet.
+\end{theorem}
+\begin{proof}
+First cite the L10 source triad, \autoref{thm:authorized-generator-recursor-l10-open-phase-source-triad}. It identifies the rows available to $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and completion-facing readers before any consumer may treat the recursor output as a source.
+
+Next apply the consumer handoff theorem, \autoref{thm:authorized-generator-recursor-open-phase-consumer-handoff}. It keeps the output row $O$ attached to $A,H,C,P,G,N$ when a Real, completion, or normalization-boundary consumer specializes the finite route.
+
+Finally apply ledger non-escape, \autoref{thm:authorized-generator-recursor-open-phase-ledger-nonescape}. The audit and boundary rows exhaust the exported ledger, so the readiness surface is exactly the displayed finite packet with its $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ access. A global recursion theorem, host induction principle, hidden completion selector, selected real witness, quotient stream equality, or external proof-producing channel would require an additional coordinate not present in $R$.
+\end{proof}
+\leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorL10ReadinessClosure}
+
 \begin{corollary}[AuthorizedGeneratorRecursor L10 source-triad strict obstruction]
 \label{cor:authorized-generator-recursor-l10-source-triad-strict-obstruction}
 Let

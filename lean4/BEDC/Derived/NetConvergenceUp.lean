@@ -60,4 +60,64 @@ theorem NetConvergenceNameCert_obligations {D T E A F S R L H C P M : BHist}
           hsame_refl M⟩
   }
 
+theorem NetConvergenceCarrier_cauchy_filter_handoff {D T E A F S R L H C P M
+    handoffRead realRead : BHist}
+    (carrier : NetConvergenceCarrier D T E A F S R L H C P M)
+    (tailRoute : Cont D T E)
+    (filterRoute : Cont E F S)
+    (realRoute : Cont S R L)
+    (handoffSame : hsame handoffRead D)
+    (realSame : hsame realRead D) :
+    (Cont D T E ∧ Cont E F S ∧ hsame handoffRead D) ∧
+      (Cont S R L ∧ hsame realRead D ∧ hsame H H ∧ hsame C C ∧ hsame P P ∧
+        hsame M M ∧
+        netConvergenceFields (NetConvergenceUp.mk D T E A F S R L H C P M) =
+          [D, T, E, A, F, S, R, L, H, C, P, M]) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  have fields :
+      netConvergenceFields (NetConvergenceUp.mk D T E A F S R L H C P M) =
+        [D, T, E, A, F, S, R, L, H, C, P, M] :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right.right
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row D ∧
+            netConvergenceFields (NetConvergenceUp.mk D T E A F S R L H C P M) =
+              [D, T, E, A, F, S, R, L, H, C, P, M])
+        (fun row : BHist => hsame row D ∧ Cont D T E ∧ Cont E F S)
+        (fun row : BHist =>
+          Cont S R L ∧ hsame row D ∧ hsame H H ∧ hsame C C ∧ hsame P P ∧
+            hsame M M)
+        hsame :=
+    NetConvergenceNameCert_obligations carrier tailRoute filterRoute realRoute
+  have handoffPattern : hsame handoffRead D ∧ Cont D T E ∧ Cont E F S :=
+    cert.pattern_sound ⟨handoffSame, fields⟩
+  have realLedger :
+      Cont S R L ∧ hsame realRead D ∧ hsame H H ∧ hsame C C ∧ hsame P P ∧
+        hsame M M :=
+    cert.ledger_sound ⟨realSame, fields⟩
+  exact
+    ⟨⟨handoffPattern.right.left, handoffPattern.right.right, handoffPattern.left⟩,
+      ⟨realLedger.left, realLedger.right.left, realLedger.right.right.left,
+        realLedger.right.right.right.left, realLedger.right.right.right.right.left,
+        realLedger.right.right.right.right.right, fields⟩⟩
+
+theorem NetConvergenceCarrier_moore_smith_dependency
+    {D T E A F S R L H C P M sourceRead filterRead realRead : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M ->
+      Cont D A sourceRead ->
+        Cont sourceRead F filterRead ->
+          Cont filterRead L realRead ->
+            hsame D D ∧ hsame A A ∧ hsame F F ∧ hsame L L ∧
+              Cont D A sourceRead ∧ Cont sourceRead F filterRead ∧
+                Cont filterRead L realRead ∧
+                  netConvergenceFields (NetConvergenceUp.mk D T E A F S R L H C P M) =
+                    [D, T, E, A, F, S, R, L, H, C, P, M] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  intro carrier sourceRoute filterRoute realRoute
+  obtain ⟨sameD, _sameT, _sameE, sameA, sameF, _sameS, _sameR, sameL, _sameH,
+    _sameC, _sameP, _sameM, fields⟩ := carrier
+  exact
+    ⟨sameD, sameA, sameF, sameL, sourceRoute, filterRoute, realRoute, fields⟩
+
 end BEDC.Derived.NetConvergenceUp
