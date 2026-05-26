@@ -1,16 +1,22 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealityConstrainedModelErrorBudgetUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -426,5 +432,38 @@ theorem RealityConstrainedModelErrorBudgetCarrier_failure_visibility
   exact
     ⟨Exists.intro (RealityConstrainedModelErrorBudgetUp.mk S E O M F H C P N) rfl,
       failureRouteUnary, auditRouteUnary, failureRouteExact, auditRouteExact⟩
+
+def RealityConstrainedModelErrorBudgetCarrier [AskSetup] [PackageSetup]
+    (source budget window mismatch failure transport route provenance localCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory source ∧ UnaryHistory budget ∧ UnaryHistory window ∧
+    UnaryHistory mismatch ∧ UnaryHistory failure ∧ UnaryHistory transport ∧
+      UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory localCert ∧
+        Cont source budget window ∧ Cont window mismatch failure ∧
+          PkgSig bundle provenance pkg
+
+theorem RealityConstrainedModelErrorBudgetCarrier_nonescape [AskSetup] [PackageSetup]
+    {source budget window mismatch failure transport route provenance localCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealityConstrainedModelErrorBudgetCarrier source budget window mismatch failure transport
+        route provenance localCert bundle pkg ->
+      Cont mismatch failure consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory source ∧ UnaryHistory budget ∧ UnaryHistory window ∧
+            UnaryHistory mismatch ∧ UnaryHistory failure ∧ UnaryHistory consumer ∧
+              Cont source budget window ∧ Cont window mismatch failure ∧
+                Cont mismatch failure consumer ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig UnaryHistory
+  intro carrier mismatchFailureConsumer consumerPkg
+  obtain ⟨sourceUnary, budgetUnary, windowUnary, mismatchUnary, failureUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, sourceBudgetWindow,
+    windowMismatchFailure, provenancePkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed mismatchUnary failureUnary mismatchFailureConsumer
+  exact
+    ⟨sourceUnary, budgetUnary, windowUnary, mismatchUnary, failureUnary, consumerUnary,
+      sourceBudgetWindow, windowMismatchFailure, mismatchFailureConsumer, provenancePkg,
+      consumerPkg⟩
 
 end BEDC.Derived.RealityConstrainedModelErrorBudgetUp
