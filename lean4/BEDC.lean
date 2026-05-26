@@ -6530,6 +6530,7 @@ import BEDC.Derived.ZetaContinuationApplicationUp.EtaFactorization
 import BEDC.Derived.ZetaContinuationApplicationUp.FunctionalRowTotality
 import BEDC.Derived.ZetaContinuationApplicationUp.GammaEtaHandoff
 import BEDC.Derived.ZetaContinuationApplicationUp.GammaHorizonBoundary
+import BEDC.Derived.ZetaContinuationApplicationUp.LedgerNonescape
 import BEDC.Derived.ZetaContinuationApplicationUp.NonEscape
 import BEDC.Derived.ZetaContinuationApplicationUp.PoleZeroLedgerSeparation
 import BEDC.Derived.ZetaContinuationApplicationUp.PrimitiveScopePackage
