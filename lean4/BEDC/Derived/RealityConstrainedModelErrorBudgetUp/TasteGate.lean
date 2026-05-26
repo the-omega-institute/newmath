@@ -1,11 +1,15 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealityConstrainedModelErrorBudgetUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -301,5 +305,55 @@ theorem RealityConstrainedModelErrorBudgetTasteGate_single_carrier_alignment :
       realityConstrainedModelErrorBudget_round_trip,
       (fun _ _ heq => realityConstrainedModelErrorBudgetToEventFlow_injective heq),
       rfl⟩
+
+theorem RealityConstrainedModelErrorBudgetNameCert_obligations
+    {S E O M F H C P N sourceWindow mismatchRoute failureRoute auditRoute : BHist}
+    (windowRoute : Cont S O sourceWindow) (mismatchLedger : Cont E O mismatchRoute)
+    (failureLedger : Cont mismatchRoute F failureRoute)
+    (auditReplay : Cont failureRoute P auditRoute) :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row S ∧
+          ∃ packet : RealityConstrainedModelErrorBudgetUp,
+            packet = RealityConstrainedModelErrorBudgetUp.mk S E O M F H C P N)
+      (fun row : BHist =>
+        Cont S O sourceWindow ∧ Cont E O mismatchRoute ∧ hsame row S ∧ hsame M M ∧
+          hsame F F)
+      (fun row : BHist =>
+        Cont mismatchRoute F failureRoute ∧ Cont failureRoute P auditRoute ∧
+          hsame row S ∧ hsame H H ∧ hsame C C ∧ hsame N N)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert FieldFaithful
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro S
+          ⟨hsame_refl S,
+            Exists.intro
+              (RealityConstrainedModelErrorBudgetUp.mk S E O M F H C P N) rfl⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        ⟨windowRoute, mismatchLedger, source.left, hsame_refl M, hsame_refl F⟩
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨failureLedger, auditReplay, source.left, hsame_refl H, hsame_refl C, hsame_refl N⟩
+  }
 
 end BEDC.Derived.RealityConstrainedModelErrorBudgetUp
