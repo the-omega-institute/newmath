@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\SchwarzLemmaUp$}
+\label{ch:concrete-instances-schwarz-lemma-namecert}
+\origin{human}
+
+Following Schwarz and Ahlfors, the $\SchwarzLemmaUp$ packet names the unit-disk Schwarz lemma as finite BEDC certificate data. It consumes the holomorphic-disk source interface of \autoref{ch:concrete-instances-holomorphic-namecert}, the coordinate and boundary rows of \autoref{ch:concrete-instances-unitdisk-namecert}, the complex carrier of \autoref{ch:concrete-instances-complex-namecert}, and the contraction handoff of \autoref{ch:concrete-instances-schwarz-pick-disk-contraction-namecert}. The packet records the pointed disk map, the zero-fixing row, the unit-bound row, the modulus comparison ledger, transport, provenance, and local NameCert rows; it is not a host theorem about arbitrary analytic continuation or a completed complex function space.
+
+\begin{definition}[Schwarz lemma carrier]
+\label{def:schwarz-lemma-carrier}
+A $\SchwarzLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+L=(H,D,Z,B,M,R,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the $\HolomorphicUp$ row naming the disk-local complex map over the $\ComplexUp$ carrier.
+\item $D$ is the $\UnitDiskUp$ source and target disk-coordinate row for the displayed input and output points.
+\item $Z$ is the zero-fixing row recording that the displayed map sends the named disk origin to the named disk origin.
+\item $B$ is the unit-bound row recording that displayed disk inputs are routed to displayed disk outputs.
+\item $M$ is the modulus-comparison row recording the Schwarz-lemma read $|f(z)|\leq |z|$ on the displayed disk point and the boundary equality refusal attached to the same row.
+\item $R$ is the route row through $\HolomorphicUp$, $\ComplexUp$, $\UnitDiskUp$, and the local modulus ledger.
+\item $T$ stores componentwise $\hsame$ and displayed $\Cont$ transport for the holomorphic map row, disk-coordinate row, zero-fixing row, unit-bound row, modulus-comparison row, and route row.
+\item $P$ is the $\Pkg$ provenance over $\SchwarzLemmaUp$, $\HolomorphicUp$, $\ComplexUp$, $\UnitDiskUp$, $\SchwarzPickDiskContractionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SchwarzLemmaUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $H,D,Z,B,M,R,T,P,N$. It has no coordinate for a host identity theorem, Riemann mapping theorem, unlogged analytic continuation, completed function-space equality, or selected boundary extremal map.
+\end{definition}
+
+\begin{theorem}[Schwarz lemma NameCert obligations]
+\label{thm:schwarz-lemma-namecert-obligations}
+For every accepted $\SchwarzLemmaUp$ carrier
+$$
+L=(H,D,Z,B,M,R,T,P,N),
+$$
+the local $\NameCert_{\SchwarzLemmaUp}$ surface consists of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed holomorphic disk map, disk coordinates, zero-fixing row, unit-bound row, modulus-comparison row, route row, transport rows, provenance, and local name;
+\item classifier stability under componentwise $\hsame$ and displayed $\Cont$ transport of exactly those rows;
+\item zero-fixing exactness, requiring the Schwarz-lemma read to pass through $Z$ before any modulus comparison is exported;
+\item disk-bound exactness, requiring every input-output read to pass through the $\UnitDiskUp$ coordinate and unit-bound rows before the local name is consumed;
+\item nonescape for the identity theorem, Riemann mapping, host analytic continuation, completed complex function-space equality, and selected boundary extremal maps.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:schwarz-lemma-carrier}. The tuple exposes the holomorphic source row, disk-coordinate row, zero-fixing row, unit-bound row, modulus-comparison ledger, route, transport, provenance, and local name as one finite packet.
+
+Classifier stability is componentwise. A transported packet may compare the same displayed rows after $\hsame$ and $\Cont$ replay, but it cannot keep the modulus comparison while dropping the zero-fixing or unit-bound rows.
+
+Zero-fixing and disk-bound exactness follow from the route row $R$. The modulus comparison row $M$ is read only after $H,D,Z,B$ have been displayed, so a consumer cannot use it as an arbitrary disk-map contraction theorem.
+
+The nonescape clauses are read from the carrier inventory. Since no row stores a host identity theorem, Riemann mapping theorem, analytic-continuation principle, completed function-space equality, or selected boundary extremal map, the local NameCert cannot export one.
+\end{proof}
+
+\begin{theorem}[Schwarz lemma disk-contraction handoff]
+\label{thm:schwarz-lemma-disk-contraction-handoff}
+Every disk-contraction consumer of an accepted $\SchwarzLemmaUp$ packet factors through the ordered route
+$$
+\HolomorphicUp \longrightarrow \ComplexUp \longrightarrow \UnitDiskUp \longrightarrow \SchwarzLemmaUp \longrightarrow \SchwarzPickDiskContractionUp.
+$$
+The handoff supplies only the displayed holomorphic disk-map row, zero-fixing row, unit-bound row, modulus-comparison row, transport, provenance, and local NameCert data. It supplies no full complex analytic identity theorem, Riemann mapping theorem, host analytic continuation principle, or ambient completed function-space equality.
+\end{theorem}
+\begin{proof}
+Start with the holomorphic source row $H$ over the complex carrier and the disk-coordinate row $D$. These rows are the only source of the displayed map and input-output points available to the handoff.
+
+The zero-fixing row $Z$ and unit-bound row $B$ then restrict the read to the pointed disk situation. The modulus-comparison row $M$ records the Schwarz-lemma inequality only for that displayed route.
+
+Finally pass the same rows through $R,T,P,N$ and into the $\SchwarzPickDiskContractionUp$ consumer. The downstream contraction packet can read the displayed disk contraction, but no coordinate in $L$ adds identity-theorem reasoning, Riemann mapping, host analytic continuation, or ambient function-space equality.
+\end{proof}
+
+\falsifiablePrediction{If a purported SchwarzLemmaUp packet exports a modulus comparison without displaying the zero-fixing row and the UnitDisk route, it is not a $\SchwarzLemmaUp$ carrier.}
+
+\independenceWitness{holomorphic, complex, unitdisk, schwarz-pick-disk-contraction: the packet is not bijective to any one sibling because it binds the zero-fixing and unit-bound rows to a local modulus-comparison NameCert before the disk-contraction handoff.}
+
+\closureat{SchwarzLemmaUp}{seedStr}
+
+\begin{closurestatus}{\SchwarzLemmaUp}
+  \constructivestory{A $\SchwarzLemmaUp$ packet is generated from a holomorphic disk-map row, complex carrier row, UnitDisk coordinate row, zero-fixing row, unit-bound row, modulus-comparison row, route row, transport, provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:schwarz-lemma-carrier}, \autoref{thm:schwarz-lemma-namecert-obligations}, and \autoref{thm:schwarz-lemma-disk-contraction-handoff} seed the pointed disk-map carrier, NameCert obligations, and disk-contraction handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a full complex analytic identity theorem, Riemann mapping theorem, host analytic continuation principle, Lean verification, or bridge checking for $\SchwarzLemmaUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, zero-fixing exactness, unit-bound exactness, modulus comparison, route preservation, transport stability, provenance, and local naming for BEDC.Derived.SchwarzLemmaUp.}
+\end{closurestatus}
