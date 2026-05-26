@@ -1834,6 +1834,7 @@ import BEDC.Derived.CompactIntervalLocatorUp.TasteGate
 import BEDC.Derived.CompactLebesgueUniformHandoffUp.TasteGate
 import BEDC.Derived.CompactMetricCompletionUp.TasteGate
 import BEDC.Derived.CompactMetricProductUp.TasteGate
+import BEDC.Derived.CompactMetricSubspaceUp.TasteGate
 import BEDC.Derived.CompactMetricUp
 import BEDC.Derived.CompactMetricUp.DownstreamConsumptionBridge
 import BEDC.Derived.CompactMetricUp.TasteGate
@@ -2207,6 +2208,7 @@ import BEDC.Derived.ContourReversalLedgerUp.TasteGate
 import BEDC.Derived.ContourSumWindowUp.TasteGate
 import BEDC.Derived.ContractionMappingUp.FixedPointTailSeal
 import BEDC.Derived.ContractionMappingUp.OrbitReadiness
+import BEDC.Derived.ContractionMappingUp.RegularCauchyModulusSurface
 import BEDC.Derived.ContractionMappingUp.ScopedDependencySurface
 import BEDC.Derived.ContractionMappingUp.TasteGate
 import BEDC.Derived.ControlControllabilityUp
@@ -2965,6 +2967,7 @@ import BEDC.Derived.DyadicToleranceScaleUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.WindowHandoff
 import BEDC.Derived.DyadicValuationUp
+import BEDC.Derived.DyadicValuationUp.TasteGate
 import BEDC.Derived.DyadicWindowSealUp.TasteGate
 import BEDC.Derived.DynSystemUp
 import BEDC.Derived.EffectiveCauchySequenceUp
@@ -4323,6 +4326,7 @@ import BEDC.Derived.MetricCompletionUp.BranchExhaustion
 import BEDC.Derived.MetricCompletionUp.BranchReadback
 import BEDC.Derived.MetricCompletionUp.BranchScope
 import BEDC.Derived.MetricCompletionUp.BridgeSurfaceLock
+import BEDC.Derived.MetricCompletionUp.CarrierAdmission
 import BEDC.Derived.MetricCompletionUp.CauchyEvidenceHandoff
 import BEDC.Derived.MetricCompletionUp.CauchyFilterLimitFactorization
 import BEDC.Derived.MetricCompletionUp.CauchyFilterNetSeal
@@ -4331,6 +4335,7 @@ import BEDC.Derived.MetricCompletionUp.Compatibility
 import BEDC.Derived.MetricCompletionUp.CompletionConsumerTotality
 import BEDC.Derived.MetricCompletionUp.HandoffRoutes
 import BEDC.Derived.MetricCompletionUp.NameCertObligations
+import BEDC.Derived.MetricCompletionUp.NoAmbientCompletionScope
 import BEDC.Derived.MetricCompletionUp.PublicExportSurface
 import BEDC.Derived.MetricCompletionUp.ReadbackLedger
 import BEDC.Derived.MetricCompletionUp.RealSealNonescape
@@ -4548,6 +4553,7 @@ import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.NormUp
 import BEDC.Derived.NormalFormConsistencySealUp
 import BEDC.Derived.NormalSpaceUp.TasteGate
+import BEDC.Derived.NormalSpaceUp.TopologyConsumerBoundary
 import BEDC.Derived.NormedSpaceUp.TasteGate
 import BEDC.Derived.NuclearUp
 import BEDC.Derived.NullSequenceUp
