@@ -55,12 +55,30 @@ The regular rational readback row $R$ is the only bridge from the inspected wind
 The rows $H,C,P,N$ transport, replay, source, and name the same route. No excluded analytic object is present in the tuple, so no downstream consumer can extract one from the packet.
 \end{proof}
 
+\begin{theorem}[Located sequence limit window uniqueness]
+\label{thm:located-sequence-limit-window-uniqueness}
+Let
+$$
+L=(S,W,R,E,H,C,P,N)
+\quad\hbox{and}\quad
+L'=(S',W',R',E',H',C',P',N')
+$$
+be accepted $\LocatedSequenceLimitUp$ packets. If they expose the same source $\StreamNameUp$ row, $\RegSeqRatUp$ readback, $\RealUp$ seal, located-window ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row, then they determine the same finite located-limit route. In particular, there are not two different accepted finite L10 windows for the same located request.
+\end{theorem}
+\begin{proof}
+Project both packets through the carrier definition \autoref{def:located-sequence-limit-carrier}. The hypotheses identify the only visible source row $S$, the only located-window ledger $W$, and the only regular readback row $R$ available to either packet.
+
+Apply the NameCert obligation theorem \autoref{thm:located-sequence-limit-namecert-obligations}. It states that all accepted located-limit data are exhausted by the displayed rows $S,W,R,E,H,C,P,N$, so the two packets have no additional coordinate on which their finite routes could diverge.
+
+Finally use the Real seal nonescape theorem \autoref{thm:located-sequence-limit-real-seal-nonescape}. The terminal seal is reached only through the same stream, located-window, and readback route, and the carrier contains no selected quotient representative, ambient completeness proof, trichotomy oracle, or countable-choice schedule. Thus the accepted packets determine one finite located-limit route.
+\end{proof}
+
 \closureat{LocatedSequenceLimitUp}{seedStr}
 
 \begin{closurestatus}{\LocatedSequenceLimitUp}
   \constructivestory{A $\LocatedSequenceLimitUp$ packet is generated from StreamName observations, located finite-window tolerance data, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:located-sequence-limit-carrier}, \autoref{thm:located-sequence-limit-namecert-obligations}, and \autoref{thm:located-sequence-limit-real-seal-nonescape} seed the finite located sequence-limit surface for the L10 StreamName-to-RegSeqRat-to-Real route.}
+  \scopeclosed{\autoref{def:located-sequence-limit-carrier}, \autoref{thm:located-sequence-limit-namecert-obligations}, \autoref{thm:located-sequence-limit-real-seal-nonescape}, and \autoref{thm:located-sequence-limit-window-uniqueness} seed the finite located sequence-limit surface for the L10 StreamName-to-RegSeqRat-to-Real route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completions, selected representatives, host real equality, trichotomy, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}

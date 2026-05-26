@@ -1,0 +1,11 @@
+\begin{theorem}[RegSeqRat tail-budget fusion]
+\label{thm:regseqrat-tail-budget-fusion}
+Let $B_0$ and $B_1$ be compatible finite $\RegSeqRatUp$ tail-budget rows sharing the same $\StreamNameUp$ schedule, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and terminal $\RealUp$ seal. Then $B_0$ and $B_1$ fuse to one terminal budget route whose visible surface is the shared StreamName schedule, dyadic tolerance ledger, RegSeqRat readback, Real seal, transport, replay, provenance, and local $\NameCert$ rows. The theory-status and bridge-status axes remain objectwise rows of that terminal route.
+\end{theorem}
+\begin{proof}
+Start from the common-tail cocycle descent theorem \autoref{thm:regseqrat-common-tail-triple-overlap-cocycle}. It identifies compatible finite tail windows on common overlaps, so the two budget rows can be compared through the same StreamName schedule and dyadic tolerance ledger.
+
+Apply the tail-budget handoff theorem \autoref{thm:regseqrat-tail-budget-meet-handoff}. The shared schedule, tolerance ledger, and RegSeqRat readback are therefore read before the terminal Real seal, and the displayed $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows preserve the same finite route.
+
+The fused route is terminal because every Real-facing budget consumer has already passed through the common-tail descent and the meet handoff. Since status and bridge data are carried only as displayed objectwise rows, the fusion does not identify axes globally, add quotient streams, select limits, invoke countable choice, or import ambient completeness.
+\end{proof}
