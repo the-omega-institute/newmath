@@ -81,6 +81,20 @@ The completion-facing route then passes through $D,W,R,E$. The dyadic tolerance 
 The structural rows $H,C,P,N$ preserve this ordered handoff for downstream consumers. Since the packet contains no open-cover, quotient, choice, or ambient-completeness coordinate, no stronger compactness principle is exported.
 \end{proof}
 
+\begin{theorem}[Bishop compact interval completion readback]
+\label{thm:bishop-compact-interval-completion-readback}
+Any completion-facing read from an accepted $\BishopCompactIntervalUp$ packet reaches $\RealUp$ only through $\ClosedBoundedIntervalUp$, $\LocatedRealIntervalUp$, $\ClosedBoundedIntervalCompactUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows. The readback exposes the closed-bounded interval source, located endpoint route, finite compact-interval coverage, dyadic tolerance ledger, finite stream windows, regular rational readback, Real sealing, transport, replay, provenance, and local naming, but it cannot be read as ambient $\RealUp$ completeness, selected subcover compactness, quotient endpoint equality, countable choice, or an unrestricted host limit.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-compact-interval-carrier}. Its only completion-facing rows are $I,L,F,D,W,R,E,H,C,P,N$.
+
+Apply \autoref{thm:bishop-compact-interval-namecert-obligations}. The obligation surface fixes interval-source compatibility through $I,L$, finite-net admission through $F$, and dyadic-window exactness through $D,W,R$ before the Real seal can be consumed.
+
+Apply \autoref{thm:bishop-compact-interval-finite-net-handoff}. The theorem orders the same rows as the public finite route from closed-bounded and located interval data to finite-net coverage, dyadic tolerance, stream windows, regular readback, and terminal Real sealing.
+
+Thus a completion consumer can read $\RealUp$ only at the end of the displayed handoff. Since the carrier has no open-cover, selected-subcover, quotient, choice, or ambient-completeness coordinate, the readback cannot export any of those stronger objects.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\BishopCompactIntervalUp$ completion-facing read passes through ClosedBoundedIntervalUp, LocatedRealIntervalUp, ClosedBoundedIntervalCompactUp, DyadicRatCoreUp, StreamNameUp, RegSeqRatUp, RealUp, transport, replay, provenance, and local naming rows before any endpoint or finite-net output is visible.}
 
 \independenceWitness{closedboundedinterval, located-real-interval, closed-bounded-interval-compact, streamname, regseqrat, dyadicratcore, real: $\BishopCompactIntervalUp$ is not bijective to any listed sibling because it jointly carries closed-bounded interval data, located endpoint reads, finite compact-interval coverage, dyadic tolerance, finite windows, regular readback, terminal Real sealing, transport, replay, provenance, and local naming.}
