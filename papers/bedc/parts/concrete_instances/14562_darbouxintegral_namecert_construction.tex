@@ -51,6 +51,42 @@ Refinement stability is read through the common-refinement machinery already exp
 The Darboux-sum and gap rows are then inspected as ledger coordinates. Since every downstream handoff to $\RegSeqRatUp$, $\RealUp$, or $\IntegralUp$ passes through $G$ and $R$, the excluded host data have no carrier coordinate or continuation route.
 \end{proof}
 
+\begin{theorem}[Darboux partition carrier admission]
+\label{thm:darboux-integral-partition-carrier-admission}
+Let $D=(P,U,L,SU,SL,G,R,H,C,N)$ be an accepted $\DarbouxIntegralUp$ carrier. A Darboux-integral read is admitted only when the finite $\BHist$ partition row $P$ displays a closed interval source, a bounded real function row, the cell ledger used by the upper and lower step approximants, and the local $\NameCert_{\DarbouxIntegralUp}$ carrier row. The admission route is transported by the componentwise $\hsame$ rows in $H$, replayed by $C$, and sourced by the $\Pkg$ provenance inside $N$; it does not introduce Lebesgue measure, choice-selected partitions, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:darboux-integral-carrier}. The partition row $P$ is the only source row from which cells can be read, and the upper and lower approximants $U,L$ are downstream of that same finite ledger.
+
+Use the carrier obligations of \autoref{thm:darboux-integral-namecert-obligations}. Carrier habitation and refinement-stable classification require the closed interval source, bounded real function row, partition cells, and local NameCert row to be read before any sum or gap row is consumed.
+
+The structural rows preserve admission. Componentwise $\hsame$ transport in $H$, finite $\Cont$ replay in $C$, and provenance through $N$ keep the read on the displayed packet, so no measure object, selected partition family, or ambient completeness coordinate is admitted.
+\end{proof}
+
+\begin{theorem}[Darboux upper-lower sum ledger]
+\label{thm:darboux-integral-upper-lower-sum-ledger}
+For every accepted $\DarbouxIntegralUp$ carrier $D=(P,U,L,SU,SL,G,R,H,C,N)$, the upper and lower sum rows $SU$ and $SL$ are computed from the displayed partition row $P$, the upper and lower $\DyadicStepFunctionUp$ rows $U,L$, and the carried Rational and Real sum ledgers. Componentwise $\hsame$ transport preserves the same cell list and value reads before the gap row $G$ is inspected, and $\Cont$ replay exposes no host Riemann-sum oracle or choice-selected tags.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:darboux-integral-partition-carrier-admission}. The accepted read has already displayed the closed interval source, bounded function row, and finite partition ledger.
+
+Compute the two sums by replaying $C$ on the displayed cells. The upper row $SU$ reads only the carried upper step values in $U$, and the lower row $SL$ reads only the carried lower step values in $L$.
+
+Transport through $H$ keeps the partition cells and value rows aligned. The Rational and Real sum ledgers are therefore the finite ledgers already present in the packet, not a host summation oracle, a tagged Riemann sum, or a measure-completion read.
+\end{proof}
+
+\begin{theorem}[Darboux Cauchy gap nonescape]
+\label{thm:darboux-integral-cauchy-gap-nonescape}
+Let $D=(P,U,L,SU,SL,G,R,H,C,N)$ be an accepted $\DarbouxIntegralUp$ carrier. Any Cauchy-facing or $\IntegralUp$ consumer that reads the gap row $G$ must first consume the partition admission route and the upper/lower sum ledger, then read the $\RegSeqRatUp/\RealUp$ handoff row $R$ through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ surface. The gap cannot escape to Lebesgue measure, choice-selected partitions, quotient function equality, host completeness, or a detached real sequence.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:darboux-integral-partition-carrier-admission}. It places the gap consumer behind the displayed partition row, closed interval source, bounded function row, and local carrier admission.
+
+Apply \autoref{thm:darboux-integral-upper-lower-sum-ledger}. The gap row $G$ compares the finite upper and lower sum ledgers $SU,SL$ after their common partition and value rows have been read.
+
+Finally inspect the handoff row $R$. The $\RegSeqRatUp$ and $\RealUp$ reads are downstream of $G$ and are transported, replayed, sourced, and named by $H,C,N$. Since the carrier has no coordinate for measure completion, selected partitions, quotient function equality, ambient completeness, or detached real sequences, the Cauchy gap cannot leave the displayed packet.
+\end{proof}
+
 \begin{theorem}[Darboux upper-lower sum gap]
 \label{thm:darboux-integral-upper-lower-sum-gap}
 For accepted $\DarbouxIntegralUp$ packets with displayed common refinement of their partition rows, transporting to that refinement preserves the visible upper/lower sum gap recorded by $G$. The transported packet computes $SU$ and $SL$ only from displayed refined cells and carried values, and the gap comparison never introduces a selected tag, quotient function, or measure completion.
