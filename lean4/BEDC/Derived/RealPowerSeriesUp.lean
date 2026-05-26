@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -159,5 +161,67 @@ theorem RealPowerSeriesCarrier_terminal_real_seal_obligation [AskSetup] [Package
     ⟨AUnary, ZUnary, XUnary, RUnary, WUnary, SUnary, MUnary, EUnary, CUnary,
       terminalUnary, coefficientWindow, radiusMajorant, majorantEndpoint, terminalRoute,
       pkgSig, terminalPkg⟩
+
+theorem RealPowerSeriesCarrier_nonescape [AskSetup] [PackageSetup]
+    {A Z X R W S M E H C P N endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ->
+      Cont S M endpointRead ->
+        PkgSig bundle endpointRead pkg ->
+          SemanticNameCert
+              (fun row : BHist =>
+                RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ∧
+                  hsame row endpointRead)
+              (fun row : BHist =>
+                hsame row A ∨ hsame row W ∨ hsame row S ∨ hsame row M ∨
+                  hsame row E ∨ hsame row endpointRead)
+              (fun row : BHist => UnaryHistory row ∧ PkgSig bundle endpointRead pkg)
+              hsame ∧
+            UnaryHistory A ∧ UnaryHistory W ∧ UnaryHistory S ∧ UnaryHistory M ∧
+              UnaryHistory E ∧ UnaryHistory endpointRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier endpointRoute endpointPkg
+  have carrierPacket : RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg :=
+    carrier
+  obtain ⟨AUnary, _ZUnary, _XUnary, _RUnary, WUnary, SUnary, MUnary, EUnary,
+    _HUnary, _CUnary, _PUnary, _NUnary, _coefficientWindow, _radiusMajorant,
+    _majorantEndpoint, _pkgSig⟩ := carrier
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed SUnary MUnary endpointRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ∧
+              hsame row endpointRead)
+          (fun row : BHist =>
+            hsame row A ∨ hsame row W ∨ hsame row S ∨ hsame row M ∨
+              hsame row E ∨ hsame row endpointRead)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle endpointRead pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro endpointRead
+          ⟨carrierPacket, hsame_refl endpointRead⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact ⟨sourceRow.left, hsame_trans (hsame_symm sameRows) sourceRow.right⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.right))))
+      ledger_sound := by
+        intro row sourceRow
+        exact ⟨unary_transport endpointUnary (hsame_symm sourceRow.right), endpointPkg⟩
+    }
+  exact ⟨cert, AUnary, WUnary, SUnary, MUnary, EUnary, endpointUnary⟩
 
 end BEDC.Derived.RealPowerSeriesUp
