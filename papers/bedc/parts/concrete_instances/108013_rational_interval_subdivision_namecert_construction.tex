@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\RationalIntervalSubdivisionUp$}
+\label{ch:concrete-instances-rational-interval-subdivision-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RationalIntervalSubdivisionUp$ packet records the finite subdivision of a rational interval into ordered rational subintervals while keeping the endpoint, mesh, and handoff rows visible. It sits after the rational interval carrier of \autoref{ch:concrete-instances-rationalinterval-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the closed bounded interval surface of \autoref{ch:concrete-instances-closedboundedinterval-namecert}. The packet names a finite rational partition and its local certificate rows; it is not an open-cover compactness principle, a choice of refinement from an infinite family, quotient interval equality, or ambient completeness.
+
+\begin{definition}[Rational interval subdivision carrier]
+\label{def:rational-interval-subdivision-carrier}
+A $\RationalIntervalSubdivisionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(I,E,D,M,W,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the source $\RationalIntervalUp$ row, exposing rational endpoints $a\leq b$ and the interval-order classifier.
+\item $E$ is the finite ordered endpoint list $a=x_0\leq x_1\leq \cdots \leq x_m=b$.
+\item $D$ is the $\DyadicRatCoreUp$ mesh ledger, recording the dyadic radii, width comparisons, and refinement rows used to bound each adjacent interval.
+\item $M$ is the mesh row assigning to each adjacent pair $(x_i,x_{i+1})$ its dyadic width certificate.
+\item $W$ is the componentwise window row exposing the subinterval sequence $( [x_i,x_{i+1}] )_{i<m}$ through the same finite endpoint list.
+\item $K$ is the $\ClosedBoundedIntervalUp$ handoff row, reached only after $I,E,D,M,W$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source interval, endpoints, dyadic mesh, subinterval windows, closed-interval handoff, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a subdivision request through endpoint inspection, dyadic mesh checking, subinterval-window exposure, and closed-interval handoff.
+\item $P$ is the $\Pkg$ provenance over $\RationalIntervalSubdivisionUp$, $\RationalIntervalUp$, $\DyadicRatCoreUp$, $\ClosedBoundedIntervalUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RationalIntervalSubdivisionUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through $I,E,D,M,W,K,H,C,P,N$. It has no coordinate for open-cover compactness, infinite refinement choice, quotient interval equality, selected real representatives, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Rational interval subdivision NameCert obligations]
+\label{thm:rational-interval-subdivision-namecert-obligations}
+For every accepted $\RationalIntervalSubdivisionUp$ carrier $S=(I,E,D,M,W,K,H,C,P,N)$, the local $\NameCert_{\RationalIntervalSubdivisionUp}$ surface consists exactly of source-interval exposure through $I$, finite ordered endpoint admission through $E$, dyadic mesh exactness through $D$, adjacent-width certification through $M$, subinterval-window exposure through $W$, closed bounded interval handoff through $K$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rational-interval-subdivision-carrier}. The accepted packet exposes one rational source interval, one finite ordered endpoint list, one dyadic mesh ledger, one adjacent-width row, one subinterval-window row, one closed-interval handoff, and the structural rows.
+
+The subdivision data are finite. The row $I$ supplies the enclosing rational interval, while $E$ lists every endpoint used by the subdivision. The dyadic ledger $D$ and mesh row $M$ check only adjacent pairs from this list, so no open cover, infinite refinement, or selected limiting partition enters the packet.
+
+The consumer-facing handoff is then forced through $W$ and $K$. The row $W$ exposes the subinterval windows componentwise, and $K$ packages the same rows for closed bounded interval consumers. Finally $H,C,P,N$ transport, replay, source, and name exactly this displayed surface. Since the carrier has no other coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Rational interval subdivision closed-interval handoff]
+\label{thm:rational-interval-subdivision-closed-interval-handoff}
+Every $\ClosedBoundedIntervalUp$ or finite-net consumer of an accepted $\RationalIntervalSubdivisionUp$ packet factors through the displayed finite route
+$$
+\RationalIntervalUp \longmapsto \DyadicRatCoreUp \longmapsto \ClosedBoundedIntervalUp .
+$$
+Concretely, the consumer receives the source rational interval row, the ordered rational endpoint list, the dyadic mesh ledger, the adjacent-width row, the componentwise subinterval windows, the closed-interval handoff, transport, replay, provenance, and local naming. It receives no open-cover compactness witness, choice-selected refinement, quotient interval equality, selected real representative, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $S=(I,E,D,M,W,K,H,C,P,N)$. Any subdivision read first inspects $I$ and $E$, so the enclosing rational interval and every subdivision endpoint are part of the displayed packet before a consumer can read a subinterval.
+
+Next the read passes through $D$ and $M$. These rows certify the dyadic mesh and the adjacent rational widths componentwise; they do not select a refinement from an infinite family and they do not invoke open-cover compactness.
+
+The finite-net or closed-interval consumer can then read $W$ and $K$. The row $W$ lists the component subinterval windows, and $K$ is exactly the closed bounded interval handoff built from those finite rows. The structural rows $H,C,P,N$ preserve this same route under $\hsame$ transport and $\Cont$ replay, so the consumer has no route to quotient interval equality, selected real representatives, choice, or ambient completeness beyond the displayed packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RationalIntervalSubdivisionUp$ consumer that reaches a $\ClosedBoundedIntervalUp$ handoff or finite-net read without first inspecting the source $\RationalIntervalUp$ row, ordered rational endpoint list, $\DyadicRatCoreUp$ mesh ledger, componentwise subinterval windows, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row is outside the packet.}
+
+\independenceWitness{rationalinterval, dyadicratcore, closedboundedinterval: $\RationalIntervalSubdivisionUp$ is not bijective to any listed sibling because it jointly carries a source rational interval, a finite ordered endpoint list, dyadic mesh certificates, componentwise subinterval windows, a closed-interval handoff, transport, replay, provenance, and local naming.}
+
+\closureat{RationalIntervalSubdivisionUp}{seedStr}
+
+\begin{closurestatus}{\RationalIntervalSubdivisionUp}
+  \constructivestory{A $\RationalIntervalSubdivisionUp$ packet is generated from a RationalInterval source row, finite ordered rational endpoints, a DyadicRatCore mesh ledger, adjacent-width rows, componentwise subinterval windows, a ClosedBoundedInterval handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-interval-subdivision-carrier}, \autoref{thm:rational-interval-subdivision-namecert-obligations}, and \autoref{thm:rational-interval-subdivision-closed-interval-handoff} seed the finite rational subdivision route from rational interval rows through dyadic mesh data to closed bounded interval consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, open-cover compactness, infinite refinement choice, quotient interval equality, selected real representatives, finite-net compactness, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked source interval exposure, endpoint ordering, dyadic mesh exactness, subinterval-window routing, closed bounded interval handoff, transport, replay, provenance, and local naming for BEDC.Derived.RationalIntervalSubdivisionUp.}
+\end{closurestatus}
