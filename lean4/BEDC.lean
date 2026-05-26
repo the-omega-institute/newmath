@@ -47,6 +47,7 @@ import BEDC.Derived.AffineVarUp.TasteGate
 import BEDC.Derived.AitkenDeltaSquaredUp.TasteGate
 import BEDC.Derived.AlexanderDualTriggerAlgebraUp.TasteGate
 import BEDC.Derived.AlexandroffCompactificationUp.TasteGate
+import BEDC.Derived.AlexandrovCompactificationUp.TasteGate
 import BEDC.Derived.AlgClosureUp
 import BEDC.Derived.AlgClosureUp.TasteGate
 import BEDC.Derived.AllowedProofAuditUp.TasteGate
@@ -5095,6 +5096,7 @@ import BEDC.Derived.RealTailAgreementTransitivityUp.TasteGate
 import BEDC.Derived.RealUniformEmbeddingUp
 import BEDC.Derived.RealUniformEmbeddingUp.TasteGate
 import BEDC.Derived.RealUniformEntourageBaseUp.TasteGate
+import BEDC.Derived.RealUniformEntourageRefinementUp.TasteGate
 import BEDC.Derived.RealUniformStructureUp
 import BEDC.Derived.RealUniformStructureUp.TasteGate
 import BEDC.Derived.RealUp

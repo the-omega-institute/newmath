@@ -102,4 +102,20 @@ theorem RealPowerSeriesCarrier_majorant_regseqrat_budget [AskSetup] [PackageSetu
       coefficientWindow, radiusMajorant, budgetRoute, endpointRoute, pkgSig, budgetPkg,
       endpointPkg⟩
 
+theorem RealPowerSeriesCarrier_partial_sum_majorant_readback [AskSetup] [PackageSetup]
+    {A Z X R W S M E H C P N readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ->
+      Cont S M readback ->
+        UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory readback ∧ Cont S M readback ∧
+          Cont R S M ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier readbackRoute
+  obtain ⟨_AUnary, _ZUnary, _XUnary, _RUnary, _WUnary, SUnary, MUnary, _EUnary,
+    _HUnary, _CUnary, _PUnary, _NUnary, _coefficientWindow, radiusMajorant,
+    _majorantEndpoint, pkgSig⟩ := carrier
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed SUnary MUnary readbackRoute
+  exact ⟨SUnary, MUnary, readbackUnary, readbackRoute, radiusMajorant, pkgSig⟩
+
 end BEDC.Derived.RealPowerSeriesUp
