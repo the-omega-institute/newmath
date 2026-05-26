@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionMonadLawUp$}
+\label{ch:concrete-instances-cauchy-completion-monad-law-namecert}
+\origin{human}
+
+Following Mac Lane's monad-law ledger and Bishop--Bridges constructive completion, the $\CauchyCompletionMonadLawUp$ packet records the finite BEDC rows by which the Cauchy-completion transformer exposes its unit and associativity laws. It reads the completion monad of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the unit route of \autoref{ch:concrete-instances-cauchycompletionunit-namecert}, the bind ledger of \autoref{ch:concrete-instances-cauchy-completion-bind-namecert}, the idempotence packet of \autoref{ch:concrete-instances-completion-idempotence-namecert}, and the real-and-completion readbacks of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The chapter names a law surface for finite completion packets only; it does not assert quotient completion equality, selected limits, host equality of completed objects, countable choice, or ambient completeness of $\RealUp$.
+
+\begin{definition}[CauchyCompletionMonadLaw carrier]
+\label{def:cauchy-completion-monad-law-carrier}
+A $\CauchyCompletionMonadLawUp$ carrier is a finite $\BHist$ packet
+$$
+L=(M,U,I,B,S,D,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\CauchyCompletionMonadUp$ finite completion transformer row.
+\item $U$ is the $\CauchyCompletionUnitUp$ source-admission row for constant and displayed regular-rational inputs.
+\item $I$ is the $\CompletionIdempotenceUp$ row recording right-unit reuse of already completed names.
+\item $B$ is the bind-association ledger data supplied by the $\CauchyCompletionBindUp$ schedule route.
+\item $S$ is the $\StreamNameUp$ finite-window readback shared by the unit, bind, and idempotence rows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and observation ledger read by those windows.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback before any terminal $\RealUp$ seal is consumed.
+\item $H$ is the componentwise $\hsame$ transport row for the monad, unit, idempotence, bind, stream, dyadic, and regular-rational rows.
+\item $C$ is the displayed $\Cont$ replay row forcing every law-facing consumer through $M,U,I,B,S,D,R,H$ in that order.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionMonadLawUp$, $\CauchyCompletionMonadUp$, $\CauchyCompletionUnitUp$, $\CompletionIdempotenceUp$, $\CauchyCompletionBindUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionMonadLawUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows and never through quotient completions, selected representatives, host equality, or an ambient limit object.
+\end{definition}
+
+\begin{theorem}[CauchyCompletionMonadLaw NameCert obligations]
+\label{thm:cauchy-completion-monad-law-namecert-obligations}
+For every accepted $\CauchyCompletionMonadLawUp$ carrier $L=(M,U,I,B,S,D,R,H,C,P,N)$, the local $\NameCert_{\CauchyCompletionMonadLawUp}$ surface consists exactly of these rows:
+\begin{enumerate}
+\item carrier admission for the monad transformer, unit admission, idempotence reuse, bind-association ledger, stream windows, dyadic observations, regular-rational readback, componentwise transport, replay, provenance, and local name;
+\item left-unit exactness, requiring a unit-fed bind read to return through the same displayed $S,D,R$ route before the $\RealUp$ seal is visible;
+\item right-unit and idempotence exactness, requiring a completed read followed by the unit/idempotence route to reuse the same $M,I,S,D,R$ rows;
+\item associativity exactness, requiring the two two-step bind bracketings to expose the same $B,S,D,R,H,C,P,N$ ledger;
+\item classifier transport for all law rows by componentwise $\hsame$ and displayed $\Cont$ replay;
+\item non-escape of quotient completion classes, selected representatives, selected limits, host equality, countable choice, hidden stream witnesses, or ambient $\RealUp$ completeness.
+\end{enumerate}
+No monad-law obligation is stored outside this finite carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-monad-law-carrier}. Carrier admission and classifier transport are exactly the displayed rows $M,U,I,B,S,D,R,H,C,P,N$.
+
+For the unit rows, read $U$ before any bind or terminal seal. The left-unit route passes from $U$ through the shared stream, dyadic, and regular-rational readback rows $S,D,R$, while the right-unit route reads $I$ as the idempotence reuse of the same completion-facing data.
+
+For associativity, use the bind ledger $B$ together with $H$ and $C$. Both bracketings must be replayed through the same displayed schedule, finite windows, dyadic observations, and regular-rational readback before the provenance and local naming rows are consumed.
+
+The non-escape clause follows by exhaustion. The carrier has no coordinate for quotient completion classes, selected representatives, selected limits, host equality, countable choice, hidden stream witnesses, or ambient completeness, so none of those objects can be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMonadLaw unit-associativity boundary]
+\label{thm:cauchy-completion-monad-law-unit-associativity-boundary}
+Every $\RealUp$-facing consumer of an accepted $\CauchyCompletionMonadLawUp$ packet reads the unit rows and the associativity rows through the finite carrier $L=(M,U,I,B,S,D,R,H,C,P,N)$. In particular, left-unit, right-unit, idempotence, and associativity claims reach $\RealUp$ only after the $\CauchyCompletionMonadUp$, $\CauchyCompletionUnitUp$, $\CompletionIdempotenceUp$, $\CauchyCompletionBindUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ rows have been displayed. No quotient completion, selected limit, host equality, hidden stream representative, or ambient completeness datum is available as a second route.
+\end{theorem}
+\begin{proof}
+Start from a $\RealUp$-facing read. By \autoref{thm:cauchy-completion-monad-law-namecert-obligations}, the read must first pass through carrier admission and then through the law row relevant to the requested unit or associativity claim.
+
+For left-unit and right-unit reads, the route is forced through $U$ and $I$ respectively, with $S,D,R$ supplying the finite stream, dyadic, and regular-rational readbacks before any terminal real seal can be inspected.
+
+For associativity reads, the route is forced through the bind-association ledger $B$. The replay row $C$ and transport row $H$ keep the two bracketings on the same displayed schedule, window, observation, and readback surface.
+
+Thus every real-facing law consumer uses the finite packet rows $M,U,I,B,S,D,R,H,C,P,N$. Since the packet contains no second coordinate for quotient completion, selected limits, host equality, hidden representatives, or ambient completeness, those objects cannot serve as alternate witnesses for the monad laws.
+\end{proof}
+
+\closureat{CauchyCompletionMonadLawUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionMonadLawUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-monad-law-carrier}, \autoref{thm:cauchy-completion-monad-law-namecert-obligations}, and \autoref{thm:cauchy-completion-monad-law-unit-associativity-boundary} seed the finite completion-monad law carrier over monad, unit, idempotence, bind, stream, dyadic, regular-rational, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, standard bridge checking, quotient completion equality, selected representatives, selected limits, host equality of completed objects, countable choice, hidden stream witnesses, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, left-unit exactness, right-unit and idempotence exactness, associativity exactness, classifier transport, and non-escape for BEDC.Derived.CauchyCompletionMonadLawUp.}
+  \constructivestory{A $\CauchyCompletionMonadLawUp$ packet is generated from a CauchyCompletionMonad row, CauchyCompletionUnit row, CompletionIdempotence row, CauchyCompletionBind ledger, StreamName windows, DyadicRatCore observations, RegSeqRat readback, componentwise transport, displayed replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
