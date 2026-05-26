@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.BishopCauchyLimitCriterionUp.TasteGate
+namespace BEDC.Derived.BishopCauchyLimitCriterionUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,10 +25,10 @@ def bishopCauchyLimitCriterionDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (bishopCauchyLimitCriterionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (bishopCauchyLimitCriterionDecodeBHist tail)
 
-private theorem BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_decode :
+private theorem bishopCauchyLimitCriterion_decode_encode_bhist :
     ∀ h : BHist,
-      bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEncodeBHist h) =
-        h := by
+      bishopCauchyLimitCriterionDecodeBHist
+        (bishopCauchyLimitCriterionEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -36,44 +36,43 @@ private theorem BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_dec
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def bishopCauchyLimitCriterionFields :
-    BishopCauchyLimitCriterionUp → List BHist
+def bishopCauchyLimitCriterionFields : BishopCauchyLimitCriterionUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | BishopCauchyLimitCriterionUp.mk S R D M F E H C P N => [S, R, D, M, F, E, H, C, P, N]
 
-def bishopCauchyLimitCriterionToEventFlow :
-    BishopCauchyLimitCriterionUp → EventFlow :=
+def bishopCauchyLimitCriterionToEventFlow : BishopCauchyLimitCriterionUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
   fun x => (bishopCauchyLimitCriterionFields x).map bishopCauchyLimitCriterionEncodeBHist
 
-private def bishopCauchyLimitCriterionEventAt : Nat → EventFlow → RawEvent
+private def bishopCauchyLimitCriterionEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => bishopCauchyLimitCriterionEventAt index rest
+  | Nat.succ index, _event :: rest => bishopCauchyLimitCriterionEventAtDefault index rest
 
 def bishopCauchyLimitCriterionFromEventFlow
     (ef : EventFlow) : Option BishopCauchyLimitCriterionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (BishopCauchyLimitCriterionUp.mk
-      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAt 0 ef))
-      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAt 1 ef))
-      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAt 2 ef))
-      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAt 3 ef))
-      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAt 4 ef))
-      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAt 5 ef))
-      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAt 6 ef))
-      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAt 7 ef))
-      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAt 8 ef))
-      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAt 9 ef)))
+      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAtDefault 0 ef))
+      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAtDefault 1 ef))
+      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAtDefault 2 ef))
+      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAtDefault 3 ef))
+      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAtDefault 4 ef))
+      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAtDefault 5 ef))
+      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAtDefault 6 ef))
+      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAtDefault 7 ef))
+      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAtDefault 8 ef))
+      (bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEventAtDefault 9 ef)))
 
-private theorem BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_round_trip
-    (x : BishopCauchyLimitCriterionUp) :
-    bishopCauchyLimitCriterionFromEventFlow (bishopCauchyLimitCriterionToEventFlow x) =
-      some x := by
+private theorem bishopCauchyLimitCriterion_round_trip :
+    ∀ x : BishopCauchyLimitCriterionUp,
+      bishopCauchyLimitCriterionFromEventFlow
+        (bishopCauchyLimitCriterionToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk S R D M F E H C P N =>
       change
@@ -100,44 +99,32 @@ private theorem BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_rou
             (bishopCauchyLimitCriterionDecodeBHist
               (bishopCauchyLimitCriterionEncodeBHist N))) =
           some (BishopCauchyLimitCriterionUp.mk S R D M F E H C P N)
-      rw [BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_decode S,
-        BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_decode R,
-        BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_decode D,
-        BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_decode M,
-        BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_decode F,
-        BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_decode E,
-        BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_decode H,
-        BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_decode C,
-        BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_decode P,
-        BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_decode N]
+      rw [bishopCauchyLimitCriterion_decode_encode_bhist S,
+        bishopCauchyLimitCriterion_decode_encode_bhist R,
+        bishopCauchyLimitCriterion_decode_encode_bhist D,
+        bishopCauchyLimitCriterion_decode_encode_bhist M,
+        bishopCauchyLimitCriterion_decode_encode_bhist F,
+        bishopCauchyLimitCriterion_decode_encode_bhist E,
+        bishopCauchyLimitCriterion_decode_encode_bhist H,
+        bishopCauchyLimitCriterion_decode_encode_bhist C,
+        bishopCauchyLimitCriterion_decode_encode_bhist P,
+        bishopCauchyLimitCriterion_decode_encode_bhist N]
 
-private theorem BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem bishopCauchyLimitCriterionToEventFlow_injective
     {x y : BishopCauchyLimitCriterionUp} :
     bishopCauchyLimitCriterionToEventFlow x = bishopCauchyLimitCriterionToEventFlow y →
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      bishopCauchyLimitCriterionFromEventFlow (bishopCauchyLimitCriterionToEventFlow x) =
-        bishopCauchyLimitCriterionFromEventFlow (bishopCauchyLimitCriterionToEventFlow y) :=
+      bishopCauchyLimitCriterionFromEventFlow
+          (bishopCauchyLimitCriterionToEventFlow x) =
+        bishopCauchyLimitCriterionFromEventFlow
+          (bishopCauchyLimitCriterionToEventFlow y) :=
     congrArg bishopCauchyLimitCriterionFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_round_trip y)))
-
-private theorem BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_fields :
-    ∀ x y : BishopCauchyLimitCriterionUp,
-      bishopCauchyLimitCriterionFields x = bishopCauchyLimitCriterionFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk S1 R1 D1 M1 F1 E1 H1 C1 P1 N1 =>
-      cases y with
-      | mk S2 R2 D2 M2 F2 E2 H2 C2 P2 N2 =>
-          cases hfields
-          rfl
+    (Eq.trans (bishopCauchyLimitCriterion_round_trip x).symm
+      (Eq.trans hread (bishopCauchyLimitCriterion_round_trip y)))
 
 instance bishopCauchyLimitCriterionBHistCarrier :
     BHistCarrier BishopCauchyLimitCriterionUp where
@@ -151,51 +138,33 @@ instance bishopCauchyLimitCriterionChapterTasteGate :
   round_trip := by
     intro x
     change
-      bishopCauchyLimitCriterionFromEventFlow (bishopCauchyLimitCriterionToEventFlow x) =
-        some x
-    exact BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_round_trip x
+      bishopCauchyLimitCriterionFromEventFlow
+        (bishopCauchyLimitCriterionToEventFlow x) = some x
+    exact bishopCauchyLimitCriterion_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy
-      (BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (bishopCauchyLimitCriterionToEventFlow_injective heq)
 
-instance bishopCauchyLimitCriterionFieldFaithful :
-    FieldFaithful BishopCauchyLimitCriterionUp where
+def taste_gate : ChapterTasteGate BishopCauchyLimitCriterionUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fields := bishopCauchyLimitCriterionFields
-  field_faithful := BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_fields
-
-instance bishopCauchyLimitCriterionNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial BishopCauchyLimitCriterionUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨BishopCauchyLimitCriterionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      BishopCauchyLimitCriterionUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
+  bishopCauchyLimitCriterionChapterTasteGate
 
 theorem BishopCauchyLimitCriterionTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate BishopCauchyLimitCriterionUp) ∧
-      Nonempty (FieldFaithful BishopCauchyLimitCriterionUp) ∧
-      Nonempty (BEDC.Meta.TasteGate.Nontrivial BishopCauchyLimitCriterionUp) ∧
-      (∀ h : BHist,
-        bishopCauchyLimitCriterionDecodeBHist (bishopCauchyLimitCriterionEncodeBHist h) =
-          h) ∧
+    (∀ h : BHist,
+      bishopCauchyLimitCriterionDecodeBHist
+        (bishopCauchyLimitCriterionEncodeBHist h) = h) ∧
       (∀ x : BishopCauchyLimitCriterionUp,
         bishopCauchyLimitCriterionFromEventFlow
-            (bishopCauchyLimitCriterionToEventFlow x) =
-          some x) ∧
-      bishopCauchyLimitCriterionEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+          (bishopCauchyLimitCriterionToEventFlow x) = some x) ∧
+        (∀ x y : BishopCauchyLimitCriterionUp,
+          bishopCauchyLimitCriterionToEventFlow x =
+            bishopCauchyLimitCriterionToEventFlow y → x = y) ∧
+          bishopCauchyLimitCriterionEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨⟨bishopCauchyLimitCriterionChapterTasteGate⟩,
-      ⟨bishopCauchyLimitCriterionFieldFaithful⟩,
-      ⟨bishopCauchyLimitCriterionNontrivial⟩,
-      BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_decode,
-      BishopCauchyLimitCriterionTasteGate_single_carrier_alignment_round_trip,
+    ⟨bishopCauchyLimitCriterion_decode_encode_bhist,
+      bishopCauchyLimitCriterion_round_trip,
+      (fun _ _ heq => bishopCauchyLimitCriterionToEventFlow_injective heq),
       rfl⟩
 
-end BEDC.Derived.BishopCauchyLimitCriterionUp.TasteGate
+end BEDC.Derived.BishopCauchyLimitCriterionUp

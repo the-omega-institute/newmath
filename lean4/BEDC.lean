@@ -1683,6 +1683,7 @@ import BEDC.Derived.ClosedBoundedIntervalNetUp.ScopeLedger
 import BEDC.Derived.ClosedBoundedIntervalNetUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalUniformModulusUp.HeineCantorRoute
 import BEDC.Derived.ClosedBoundedIntervalUniformModulusUp.TasteGate
+import BEDC.Derived.ClosedBoundedIntervalUp.TasteGate
 import BEDC.Derived.ClosedConsistencyAssemblyUp.TasteGate
 import BEDC.Derived.ClosedConsistencyGapUp.TasteGate
 import BEDC.Derived.ClosedGenerationRefusalUp.TasteGate
@@ -6509,6 +6510,7 @@ import BEDC.Derived.ZetaContinuationApplicationUp.EtaFactorization
 import BEDC.Derived.ZetaContinuationApplicationUp.FunctionalRowTotality
 import BEDC.Derived.ZetaContinuationApplicationUp.GammaEtaHandoff
 import BEDC.Derived.ZetaContinuationApplicationUp.GammaHorizonBoundary
+import BEDC.Derived.ZetaContinuationApplicationUp.NonEscape
 import BEDC.Derived.ZetaContinuationApplicationUp.PoleZeroLedgerSeparation
 import BEDC.Derived.ZetaContinuationApplicationUp.PrimitiveScopePackage
 import BEDC.Derived.ZetaContinuationApplicationUp.PublicExportSurface
@@ -6516,6 +6518,7 @@ import BEDC.Derived.ZetaContinuationApplicationUp.PublicNonescapePackage
 import BEDC.Derived.ZetaContinuationApplicationUp.RootBoundaryTriad
 import BEDC.Derived.ZetaContinuationApplicationUp.RootConsumerExactness
 import BEDC.Derived.ZetaContinuationApplicationUp.RootFunctionalRowReadiness
+import BEDC.Derived.ZetaContinuationApplicationUp.RootGammaHandoffReadiness
 import BEDC.Derived.ZetaContinuationApplicationUp.RootGammaOperationHandoff
 import BEDC.Derived.ZetaContinuationApplicationUp.RootLedgerBoundary
 import BEDC.Derived.ZetaContinuationApplicationUp.RootNamecertObligationSurface
@@ -6565,6 +6568,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.GammaHorizonConsumerRow
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaHorizonNonescapeRow
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaPublicBoundaryLock
 import BEDC.Derived.ZetaContinuationWitnessUp.LedgerBoundary
+import BEDC.Derived.ZetaContinuationWitnessUp.LocalNameCertScopedPackage
 import BEDC.Derived.ZetaContinuationWitnessUp.NameCertObligationSurface
 import BEDC.Derived.ZetaContinuationWitnessUp.NameCertPackage
 import BEDC.Derived.ZetaContinuationWitnessUp.NoRhNonescape
