@@ -308,6 +308,46 @@ Use \autoref{thm:bounded-set-closure-obligation-envelope}. It identifies the sam
 Finally apply \autoref{thm:bounded-set-radius-classifier-stability}. The located ball and radius data remain classifier reads through $r$ and $B$, so selected diameters, suprema, compactness, finite nets, trichotomy, and ambient completeness have no carrier coordinate.
 \end{proof}
 
+\begin{theorem}[BoundedSet obligation carrier admission]
+\label{thm:boundedset-obligation-carrier}
+For every accepted $\BoundedSetUp$ packet $Q=(X,S,c,r,B,H,C,P,N)$, obligation-level carrier admission is rowwise over the displayed metric carrier $X$, subset classifier $S$, center or witness $c$, real or rational bound row $r$, ball-containment ledger $B$, componentwise transport $H$, replay row $C$, package provenance $P$, and local name $N$. No obligation consumer may admit the packet from an ambient host subset, a hidden supremum, a selected finite net, compactness, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-set-carrier}. The displayed rows $X,S,c,r,B,H,C,P,N$ are the whole packet, so carrier admission is obtained by checking those coordinates and no external host-set predicate.
+
+Use \autoref{thm:bounded-set-namecert-obligations}. Its carrier-admission clause already lists the metric, classifier, center or witness, bound, containment, transport, replay, provenance, and local naming rows as the local $\NameCert_{\BoundedSetUp}$ surface.
+
+Finally apply \autoref{thm:bounded-set-closure-obligation-envelope}. The envelope sends diameter, uniform, and completion-facing consumers through the same rows. Since compactness, finite-net selection, trichotomy, suprema, and ambient Real completeness do not occur in the carrier, they cannot be added at the obligation-admission boundary.
+\end{proof}
+
+\begin{theorem}[BoundedSet obligation classifier transport]
+\label{thm:boundedset-obligation-classifier}
+For every accepted $\BoundedSetUp$ carrier $Q=(X,S,c,r,B,H,C,P,N)$, subset-classifier transport at obligation level is exactly the componentwise $\hsame$ movement of $S$ along the same $X,c,r,B$ rows. A transported membership read remains a bounded-subset read only when it replays through $H$ and $C$ to the displayed ball-containment ledger; it cannot be replaced by an unrecorded host predicate, a new radius classifier, a selected maximum, or a completion-side subset equality.
+\end{theorem}
+\begin{proof}
+Start with the subset classifier row $S$ in \autoref{def:bounded-set-carrier}. The row classifies accepted membership reads over the displayed metric carrier $X$, not over an ambient host set.
+
+Apply \autoref{thm:bounded-set-ball-containment-route}. Any membership read must pass from $X,S$ to $c,r$ and then to the ledger $B$ before the structural rows are used.
+
+Use \autoref{thm:bounded-set-radius-classifier-stability}. It fixes the radius classifier along the comparison row $r$ and containment ledger $B$. Therefore $H$ and $C$ may transport and replay only the same classifier route, and no selected maximum, replacement predicate, or completion equality can enter the transported obligation.
+\end{proof}
+
+\begin{theorem}[BoundedSet obligation ledger nonescape]
+\label{thm:boundedset-obligation-ledger}
+For every accepted $\BoundedSetUp$ carrier $Q=(X,S,c,r,B,H,C,P,N)$, the obligation ledger for ball containment and real bounds is the finite route
+$$
+X,S,c,r,B \longmapsto H,C,P,N .
+$$
+The row $B$ records containment in the displayed metric ball and the row $r$ records the real or rational bound through $\RealAlgOrderUp$ or $\RealUp$; together they supply boundedness to $\MetricDiameterUp$, finite-net, precompactness, and completion-facing consumers without exporting least bounds, compactness, open-cover compactness, trichotomy, quotient equality, or host Real completeness.
+\end{theorem}
+\begin{proof}
+First read the containment side. By \autoref{thm:bounded-set-ball-containment-route}, membership data must pass through $X,S,c,r,B$ before boundedness is available to a consumer.
+
+Next read the bound side. The real-bound nonescape theorem confines $r$ to the displayed $\RealAlgOrderUp$ or $\RealUp$ comparison route and prevents a supremum, selected maximum, trichotomy proof, or completeness theorem from being inferred.
+
+Finally combine the consumer handoff theorems. The diameter handoff, completion nonescape, closure-obligation envelope, and located-diameter readback all reuse the same $H,C,P,N$ structural rows. Thus metric diameter, finite-net, precompactness, and completion consumers receive the ball-containment and bound ledger only as finite boundedness evidence, not as stronger compactness or completeness data.
+\end{proof}
+
 \closureat{BoundedSetUp}{seedStr}
 
 \begin{closurestatus}{\BoundedSetUp}
