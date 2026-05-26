@@ -15,8 +15,8 @@ Wraps `oracle_client.py --loop` and adds:
   6. Tab health: alert when queue_waiting_for_browser_agent stays stuck.
   7. Auto-commit: detect changes in papers/bedc/parts/ and BOARD.md, push.
   8. Loning watch: fetch-and-report remote pipeline/closure discipline changes.
-  9. Claude progress review (tier 3): periodic claude -p over the state +
-     server snapshot, with recommend_probe / recommend_curator auto-applied.
+  9. PI progress review: periodic pipeline-state review, with
+     recommend_probe / recommend_curator auto-applied.
 
 Stop the supervisor by creating tools/bedc-deep/.stop or sending SIGINT.
 On exit, the inner oracle_client is killed cleanly via SIGTERM.
@@ -50,8 +50,12 @@ ORACLE_CLIENT = SCRIPT_DIR / "oracle_client.py"
 AUTO_DISCOVERY = SCRIPT_DIR / "auto_discovery.py"
 LONING_WATCH = SCRIPT_DIR / "loning_watch.py"
 LONING_ASSIMILATOR = SCRIPT_DIR / "loning_assimilator.py"
+PLAIN_MATH_REVIEW = SCRIPT_DIR / "plain_math_review.py"
+RESEARCH_CANDIDATE_LANE = SCRIPT_DIR / "research_candidate_lane.py"
 
 DEFAULT_PARALLEL = 3
+DEFAULT_CODEX_PARALLEL = 6
+DEFAULT_ORACLE_PARALLEL = 2
 DEFAULT_POLL_INTERVAL = 60
 DEFAULT_LOW_WATER = 3
 DEFAULT_PROBE_COOLDOWN_HOURS = 6
@@ -60,9 +64,17 @@ DEFAULT_PAPER_REVIEW_COOLDOWN_HOURS = 3
 DEFAULT_CURATOR_COOLDOWN_HOURS = 12
 DEFAULT_CLAUDE_REVIEW_HOURS = 6
 DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS = 0.5
+DEFAULT_RESEARCH_LANE_COOLDOWN_HOURS = 1.0
+DEFAULT_ORACLE_REFILL_RESEARCH_GRACE_MINUTES = 20.0
+DEFAULT_DEV_SYNC_COOLDOWN_MINUTES = 15
+DEFAULT_DEV_SYNC_ENABLED = True
+DEFAULT_DEV_SYNC_TIMEOUT_SECONDS = 600
+STARTUP_DEV_SYNC_TIMEOUT_SECONDS = 120
+ORPHAN_PID_REUSE_GRACE_S = 6 * 3600
 DEFAULT_LONING_WATCH_MINUTES = 15
 DEFAULT_INNER_RESTART_BACKOFF_S = 30
 DEFAULT_ALLOW_LEAN_ADJACENT_DISCOVERY = False
+DEFAULT_ALLOW_ORACLE_CANDIDATE_GENERATION = False
 TAB_STUCK_THRESHOLD_S = 300
 ZERO_EXTRACTION_ALERT_COOLDOWN_S = 600
 ZERO_EXTRACTION_HANG_SECONDS = 900
@@ -110,6 +122,28 @@ def assert_required_branch() -> bool:
         )
         return False
     return True
+
+
+def assert_required_branch_quiet() -> bool:
+    result = subprocess.run(
+        ["git", "branch", "--show-current"],
+        cwd=str(REPO_ROOT),
+        capture_output=True,
+        text=True,
+    )
+    return result.returncode == 0 and result.stdout.strip() == REQUIRED_BRANCH
+
+
+def pid_alive(pid: int) -> bool:
+    try:
+        os.kill(pid, 0)
+        return True
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    except OSError:
+        return False
 
 
 def _write_network_resume_checkpoint(kind: str, branch: str, reason: str,
@@ -218,6 +252,49 @@ def board_completed_count() -> int:
     return sum(1 for p in STATE_DIR.glob("*.json"))
 
 
+def supervisor_status_snapshot() -> dict:
+    targets = _load_board_targets()
+    active: list[dict] = []
+    for t in targets.values():
+        final_state = STATE_DIR / f"{t.slug}.json"
+        marker = STATE_DIR / t.slug / ".in_progress"
+        pending = STATE_DIR / t.slug / ".oracle_pending"
+        if final_state.exists():
+            continue
+        rec = {
+            "target_id": t.target_id,
+            "title": t.title,
+            "slug": t.slug,
+            "in_progress": marker.exists(),
+            "oracle_pending": pending.exists(),
+        }
+        if marker.exists():
+            try:
+                content = marker.read_text(encoding="utf-8").strip()
+                age = int(time.time() - marker.stat().st_mtime)
+            except OSError:
+                content = ""
+                age = -1
+            m = re.match(r"pid=(\d+)", content)
+            pid = int(m.group(1)) if m else 0
+            claim_pid_alive = pid_alive(pid) if pid else False
+            rec.update({
+                "claim": content,
+                "claim_age_seconds": age,
+                "claim_pid_alive": claim_pid_alive,
+                "stale_claim": (not claim_pid_alive) or age > ORPHAN_PID_REUSE_GRACE_S,
+            })
+        active.append(rec)
+    return {
+        "branch_ok": assert_required_branch_quiet(),
+        "stop_file": STOP_FILE.exists(),
+        "server_alive": server_alive(timeout=1),
+        "unfinished_unclaimed": board_unfinished_count(),
+        "completed_state_files": board_completed_count(),
+        "active_targets": active,
+    }
+
+
 def queue_stuck_too_long(threshold_seconds: int) -> bool:
     s = server_status()
     if s.get("diagnosis") != "queue_waiting_for_browser_agent":
@@ -283,6 +360,66 @@ def candidate_inbox_health() -> dict:
         return candidate_inbox.stats(since_hours=2)
     except Exception as exc:
         return {"error": str(exc)}
+
+
+NON_MATERIAL_REFINEMENT_REASON_RE = re.compile(
+    r"predicted_line_cap_overflow|duplicate_title|structural_title|"
+    r"missing_title|missing_claim|claim_too_short|"
+    r"forbidden_axis_or_marker_candidate|conjecture_fallback_not_board_lane|"
+    r"non_paper_local_input|inspiration_only_not_board_landing|"
+    r"external_signal_landing_reject",
+    re.IGNORECASE,
+)
+
+
+def candidate_inbox_has_refinement_backlog(inbox_health: dict) -> bool:
+    """True when local candidate supply still has material to re-read.
+
+    A low-water supervisor should first spend this backlog through
+    plain_math_review/research_candidate_lane before asking the oracle for a
+    fresh BOARD refill. This is a scheduling preference only; final BOARD
+    admission still goes through board_spawn and writeback gates.
+    """
+    by_event = inbox_health.get("by_event") or {}
+    for key in ("pre_gate_hold", "held_for_refinement"):
+        try:
+            if int(by_event.get(key) or 0) > 0:
+                break
+        except (TypeError, ValueError):
+            continue
+    else:
+        return False
+    reasons = inbox_health.get("refinement_reasons") or []
+    material_seen = False
+    for rec in reasons:
+        reason = str((rec or {}).get("reason") or "")
+        try:
+            count = int((rec or {}).get("count") or 0)
+        except (TypeError, ValueError):
+            count = 0
+        if count <= 0:
+            continue
+        if NON_MATERIAL_REFINEMENT_REASON_RE.search(reason):
+            continue
+        material_seen = True
+        break
+    return material_seen
+
+
+def should_defer_oracle_refill_for_research(
+    *,
+    research_lane_triggered: bool,
+    inbox_health: dict,
+    since_research_lane_m: float,
+    grace_minutes: float,
+) -> tuple[bool, str]:
+    if research_lane_triggered:
+        return True, "local_research_lane_triggered"
+    if not candidate_inbox_has_refinement_backlog(inbox_health):
+        return False, "no_material_refinement_backlog"
+    if since_research_lane_m < grace_minutes:
+        return True, "material_refinement_backlog_within_grace"
+    return False, "material_refinement_backlog_grace_elapsed"
 
 
 def candidate_inbox_source_age_summary(inbox_health: dict) -> str:
@@ -473,11 +610,11 @@ def spawn_inner(parallel: int, *, pipeline_version: str = "v2",
                 oracle_parallel: int = 0) -> subprocess.Popen:
     """Spawn the inner --loop. Two modes:
 
-    Two-pool mode (preferred): pass codex_parallel + oracle_parallel.
+    Two-pool mode: pass codex_parallel + oracle_parallel.
       - codex pool runs codex_track at high concurrency (no tab dependency).
       - oracle pool drains `.oracle_pending` markers, capped at active tabs.
-    Single-pool legacy mode: pass `parallel` only (codex+oracle in one
-    worker, capped at tabs).
+    Single-pool compatibility mode: pass `parallel` only (codex first, oracle
+    fallback in the same worker, capped at tabs).
 
     Active-tab clamp applies to oracle_parallel (or to single-pool parallel)
     so the oracle path never exceeds available browser agents.
@@ -599,9 +736,48 @@ def stop_inner(inner: subprocess.Popen, grace_seconds: int = 30) -> None:
 DEV_SYNC_RESOLVER = SCRIPT_DIR / "dev_sync_resolver.py"
 
 
-def git_sync_dev() -> bool:
-    """Disabled upstream merge hook for the paper-native BEDC supervisor."""
-    supervisor_log("git_sync_dev: disabled for paper-native BEDC supervisor")
+def git_sync_dev(*, timeout_seconds: int = DEFAULT_DEV_SYNC_TIMEOUT_SECONDS, label: str = "") -> bool:
+    """Synchronize BEDC with the shared auto-dev integration branch.
+
+    Sync is required so this branch does not duplicate work already produced
+    by auto-dev/loning.  Safety lives in dev_sync_resolver's path protection,
+    conflict handling, and post-merge gates, not in disabling sync.
+    """
+    proc = subprocess.Popen(
+        ["python3", str(DEV_SYNC_RESOLVER)],
+        cwd=str(REPO_ROOT),
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        start_new_session=True,
+    )
+    try:
+        stdout, stderr = proc.communicate(timeout=timeout_seconds)
+    except subprocess.TimeoutExpired:
+        try:
+            os.killpg(proc.pid, signal.SIGTERM)
+        except (ProcessLookupError, PermissionError):
+            pass
+        try:
+            stdout, stderr = proc.communicate(timeout=10)
+        except subprocess.TimeoutExpired:
+            try:
+                os.killpg(proc.pid, signal.SIGKILL)
+            except (ProcessLookupError, PermissionError):
+                pass
+            stdout, stderr = "", ""
+        suffix = f" ({label})" if label else ""
+        supervisor_log(
+            f"git_sync_dev{suffix}: timeout after {timeout_seconds}s; deferred to next supervisor tick"
+        )
+        return False
+    output = (stdout or stderr or "").strip()
+    summary = " ".join(output.split())[:500]
+    suffix = f" ({label})" if label else ""
+    if proc.returncode == 0:
+        supervisor_log(f"git_sync_dev{suffix}: ok {summary}")
+        return True
+    supervisor_log(f"git_sync_dev{suffix}: blocked rc={proc.returncode} {summary}")
     return False
 
 
@@ -703,6 +879,49 @@ def trigger_oracle_board_refill() -> None:
             "ignoring stale refill circuit breaker for this run"
         )
         cmd.append("--ignore-refill-circuit-breaker")
+    elif status.get("project_active_poll_agents"):
+        supervisor_log(
+            "oracle_board_refill: BEDC project tab polling but no "
+            "conversation tab dispatch-ready; allowing queued refill"
+        )
+        cmd.append("--allow-queue-without-tabs")
+    with open(log_path, "ab") as logf:
+        subprocess.Popen(
+            cmd,
+            cwd=str(REPO_ROOT),
+            stdout=logf,
+            stderr=subprocess.STDOUT,
+            start_new_session=True,
+        )
+
+
+def trigger_research_lane_refinement() -> None:
+    """Run local wide-in/strict-out candidate refinement.
+
+    This is the non-oracle local research lane: first audit old/new supply
+    through plain philosophy/plain math readings, then let research_candidate_lane
+    append only ready packets through board_spawn's normal gates.  It never
+    writes paper text directly.
+    """
+    supervisor_log("triggering plain_math_review + research_candidate_lane")
+    run_id = _now_tag_safe()
+    log_path = SUPERVISOR_LOG_DIR / f"research_lane_{run_id}.log"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    cmd = [
+        "python3",
+        "-c",
+        (
+            "import subprocess, sys; "
+            f"cmds = [[sys.executable, {str(PLAIN_MATH_REVIEW)!r}, '--limit', '80'], "
+            f"[sys.executable, {str(RESEARCH_CANDIDATE_LANE)!r}, '--limit', '24', '--append']]; "
+            "rc = 0\n"
+            "for cmd in cmds:\n"
+            "    print('+', ' '.join(cmd), flush=True)\n"
+            "    p = subprocess.run(cmd)\n"
+            "    rc = rc or p.returncode\n"
+            "sys.exit(rc)\n"
+        ),
+    ]
     with open(log_path, "ab") as logf:
         subprocess.Popen(
             cmd,
@@ -750,7 +969,7 @@ def run_loning_watch() -> dict | None:
 
 
 def run_loning_assimilator() -> dict | None:
-    """Summarize loning watch output into local gate advice."""
+    """Summarize loning watch output into structured local pipeline signals."""
     try:
         proc = subprocess.run(
             ["python3", str(LONING_ASSIMILATOR)],
@@ -776,7 +995,7 @@ def run_loning_assimilator() -> dict | None:
         return None
     supervisor_log(
         f"loning_assimilator: relevant={data.get('relevant_commits')} "
-        f"advice={data.get('advice_count')}"
+        f"signals={data.get('signal_counts') or {}}"
     )
     return data
 
@@ -914,7 +1133,7 @@ def retry_pending_network_push() -> bool:
     if behind:
         reason = (
             f"branch is ahead={ahead} and behind={behind}; "
-            "auto-merge disabled for paper-native BEDC supervisor"
+            "sync resolver must integrate upstream before push"
         )
         _write_network_resume_checkpoint(
             "push_blocked_diverged",
@@ -924,6 +1143,7 @@ def retry_pending_network_push() -> bool:
             upstream=current_upstream(),
         )
         supervisor_log(f"network-resume: {reason}")
+        git_sync_dev()
         return False
     supervisor_log(f"network-resume: retrying push of {ahead} commit(s) on {branch}")
     push = _git(["push", "origin", branch], capture=False)
@@ -953,6 +1173,15 @@ def commit_and_push_if_changed() -> bool:
         pre_relation = ahead_behind_upstream()
         if pre_relation:
             pre_ahead, pre_behind = pre_relation
+            if pre_behind:
+                supervisor_log(
+                    "auto-commit: branch behind upstream; running sync before commit "
+                    f"(ahead={pre_ahead}, behind={pre_behind})"
+                )
+                git_sync_dev()
+                pre_relation = ahead_behind_upstream()
+                if pre_relation:
+                    pre_ahead, pre_behind = pre_relation
             if pre_ahead or pre_behind:
                 supervisor_log(
                     "auto-commit: skipped because branch is not aligned with upstream "
@@ -974,20 +1203,24 @@ def commit_and_push_if_changed() -> bool:
                 files.append(parts[1])
         if not files:
             return False
+        local_only_state_files = {
+            "tools/bedc-deep/BOARD.md",
+            "tools/bedc-deep/BOARD.completed.md",
+        }
         committable_files = [
             path for path in files
-            if path != "tools/bedc-deep/BOARD.md"
+            if path not in local_only_state_files
         ]
         if not committable_files:
             supervisor_log(
-                "auto-commit: skipped push for local-only BOARD.md queue state"
+                "auto-commit: skipped push for local-only BOARD state files"
             )
             return False
         skipped = len(files) - len(committable_files)
         if skipped:
             supervisor_log(
                 f"auto-commit: {len(committable_files)} committable changed files "
-                f"({skipped} local-only BOARD.md state file skipped)"
+                f"({skipped} local-only BOARD state file(s) skipped)"
             )
         else:
             supervisor_log(f"auto-commit: {len(committable_files)} changed files")
@@ -1004,9 +1237,10 @@ def commit_and_push_if_changed() -> bool:
             if behind:
                 reason = (
                     f"branch behind upstream by {behind}; "
-                    "auto-merge disabled for paper-native BEDC supervisor"
+                    "sync resolver must integrate upstream before push"
                 )
                 supervisor_log(f"auto-commit: {reason}")
+                git_sync_dev()
                 _write_network_resume_checkpoint(
                     "push_blocked_diverged",
                     branch,
@@ -1083,6 +1317,12 @@ def run_pi_review(supervisor_state: dict) -> dict | None:
                 applied.append(f"oracle_refill={args['oracle_refill_hours']}")
             except (TypeError, ValueError):
                 pass
+        if "allow_oracle_candidate_generation" in args:
+            supervisor_state["allow_oracle_candidate_generation"] = bool(args["allow_oracle_candidate_generation"])
+            applied.append(
+                "oracle_candidate_generation="
+                f"{'on' if supervisor_state['allow_oracle_candidate_generation'] else 'off'}"
+            )
         return ", ".join(applied) or "no recognized cooldown keys"
 
     callbacks = {
@@ -1110,10 +1350,10 @@ def run_pi_review(supervisor_state: dict) -> dict | None:
 def main() -> int:
     parser = argparse.ArgumentParser(description="BEDC bedc-deep supervisor")
     parser.add_argument("--parallel", type=int, default=DEFAULT_PARALLEL,
-                        help="Single-pool legacy mode: codex+oracle workers in one pool. Set this OR (--codex-parallel + --oracle-parallel), not both.")
-    parser.add_argument("--codex-parallel", type=int, default=0,
+                        help="Single-pool compatibility mode used only when both two-pool sizes are set to 0.")
+    parser.add_argument("--codex-parallel", type=int, default=DEFAULT_CODEX_PARALLEL,
                         help="Two-pool mode: codex_track workers (compute-bound, no tab dep). Recommended 6-8.")
-    parser.add_argument("--oracle-parallel", type=int, default=0,
+    parser.add_argument("--oracle-parallel", type=int, default=DEFAULT_ORACLE_PARALLEL,
                         help="Two-pool mode: oracle path workers (drains .oracle_pending, capped at active tabs). Recommended 3.")
     parser.add_argument("--poll-interval", type=int, default=DEFAULT_POLL_INTERVAL)
     parser.add_argument("--low-water", type=int, default=DEFAULT_LOW_WATER)
@@ -1127,8 +1367,24 @@ def main() -> int:
     parser.add_argument("--curator-cooldown-hours", type=float, default=DEFAULT_CURATOR_COOLDOWN_HOURS)
     parser.add_argument("--claude-review-hours", type=float, default=DEFAULT_CLAUDE_REVIEW_HOURS)
     parser.add_argument("--oracle-refill-cooldown-hours", type=float, default=DEFAULT_ORACLE_REFILL_COOLDOWN_HOURS,
-                        help="Cooldown between oracle_board_refill runs. Triggered alongside probe when BOARD is low water; "
-                             "leverages project-attached PDF for deeper candidate suggestions.")
+                        help="Cooldown between oracle_board_refill runs when --allow-oracle-candidate-generation "
+                             "is set. Default supervisor operation skips oracle BOARD refill and keeps "
+                             "Codex, bridge, and deterministic local lanes primary.")
+    parser.add_argument("--research-lane-cooldown-hours", type=float, default=DEFAULT_RESEARCH_LANE_COOLDOWN_HOURS,
+                        help="Cooldown between local plain-review + research-candidate refinement runs. "
+                             "This wide-in/strict-out lane does not write paper text directly.")
+    parser.add_argument("--oracle-refill-research-grace-minutes", type=float,
+                        default=DEFAULT_ORACLE_REFILL_RESEARCH_GRACE_MINUTES,
+                        help="When BOARD is low-water, defer oracle_board_refill for this many minutes after "
+                             "a local research-lane run if the candidate inbox still has refinement backlog. "
+                             "This keeps the pipeline reasoning over existing candidates before requesting more.")
+    parser.add_argument("--allow-oracle-candidate-generation", action="store_true",
+                        default=DEFAULT_ALLOW_ORACLE_CANDIDATE_GENERATION,
+                        help="Opt in to oracle_board_refill as a BOARD candidate generator. Default off so "
+                             "Codex, bridge, and deterministic local lanes remain the routine BOARD supply; "
+                             "oracle workers still drain explicit escalation tasks.")
+    parser.add_argument("--dev-sync-cooldown-minutes", type=float, default=DEFAULT_DEV_SYNC_COOLDOWN_MINUTES,
+                        help="Cooldown between BEDC sync attempts from origin/auto-dev through dev_sync_resolver.")
     parser.add_argument("--loning-watch-minutes", type=float, default=DEFAULT_LONING_WATCH_MINUTES,
                         help="Cooldown between fetch-and-report checks of loning-side integration branches.")
     parser.add_argument("--no-loning-watch", action="store_true",
@@ -1149,9 +1405,12 @@ def main() -> int:
                              "Set to e.g. 'papers/bedc/main.pdf' to enable userscript-side upload.")
     parser.add_argument("--no-auto-commit", action="store_true")
     parser.add_argument("--dev-sync", action="store_true",
-                        help="Opt in to upstream integration sync before discovery triggers.")
+                        default=DEFAULT_DEV_SYNC_ENABLED,
+                        help="Enable BEDC sync from origin/auto-dev. Default on so the BEDC branch stays joined to the shared integration trunk.")
     parser.add_argument("--no-dev-sync", action="store_true",
-                        help="Deprecated compatibility flag; dev sync is disabled unless --dev-sync is set.")
+                        help="Disable BEDC sync from origin/auto-dev.")
+    parser.add_argument("--status-once", action="store_true",
+                        help="Print a local JSON status snapshot and exit without starting networked workers.")
     parser.add_argument("--allow-lean-adjacent-discovery", action="store_true",
                         default=DEFAULT_ALLOW_LEAN_ADJACENT_DISCOVERY,
                         help="Opt in to legacy auto_discovery probe/curriculum/curator triggers. "
@@ -1160,6 +1419,9 @@ def main() -> int:
     args = parser.parse_args()
 
     SUPERVISOR_LOG_DIR.mkdir(parents=True, exist_ok=True)
+    if args.status_once:
+        print(json.dumps(supervisor_status_snapshot(), indent=2, ensure_ascii=False))
+        return 0
     if STOP_FILE.exists():
         supervisor_log(f"STOP_FILE present; supervisor not starting: {STOP_FILE}")
         return 0
@@ -1174,12 +1436,13 @@ def main() -> int:
         f"claude_review={'off' if args.no_claude_review else 'on'}, "
         f"auto_commit={'off' if args.no_auto_commit else 'on'}, "
         f"dev_sync={'on' if dev_sync_enabled else 'off'}, "
-        f"lean_adjacent_discovery={'on' if args.allow_lean_adjacent_discovery else 'off'})"
+        f"lean_adjacent_discovery={'on' if args.allow_lean_adjacent_discovery else 'off'}, "
+        f"oracle_candidate_generation={'on' if args.allow_oracle_candidate_generation else 'off'})"
     )
 
     if dev_sync_enabled:
         try:
-            git_sync_dev()
+            git_sync_dev(timeout_seconds=STARTUP_DEV_SYNC_TIMEOUT_SECONDS, label="startup")
         except Exception as exc:
             supervisor_log(f"git_sync_dev startup error: {exc}")
 
@@ -1188,8 +1451,10 @@ def main() -> int:
     last_curator_ts = 0.0
     last_claude_review_ts = 0.0
     last_oracle_refill_ts = 0.0
+    last_research_lane_ts = 0.0
     last_paper_review_ts = 0.0
     last_loning_watch_ts = 0.0
+    last_dev_sync_ts = 0.0
     last_completed_count = board_completed_count()
     last_tab_alert_ts = 0.0
     last_zero_extract_alert_ts = 0.0
@@ -1204,9 +1469,12 @@ def main() -> int:
         "curator_cooldown_hours": args.curator_cooldown_hours,
         "pi_cooldown_hours": args.claude_review_hours,
         "oracle_refill_cooldown_hours": args.oracle_refill_cooldown_hours,
+        "research_lane_cooldown_hours": args.research_lane_cooldown_hours,
+        "oracle_refill_research_grace_minutes": args.oracle_refill_research_grace_minutes,
         "pipeline_version": args.pipeline_version,
         "attach_pdf": args.attach_pdf,
         "allow_lean_adjacent_discovery": args.allow_lean_adjacent_discovery,
+        "allow_oracle_candidate_generation": args.allow_oracle_candidate_generation,
     }
 
     try:
@@ -1214,6 +1482,10 @@ def main() -> int:
             if not assert_required_branch():
                 break
             ensure_server()
+
+            if dev_sync_enabled and (_now() - last_dev_sync_ts) / 60.0 >= args.dev_sync_cooldown_minutes:
+                git_sync_dev()
+                last_dev_sync_ts = _now()
 
             cleaned = stale_cleanup()
             if cleaned:
@@ -1249,7 +1521,10 @@ def main() -> int:
             since_probe_h = (_now() - last_probe_ts) / 3600.0
             since_curriculum_h = (_now() - last_curriculum_ts) / 3600.0
             since_oracle_refill_h = (_now() - last_oracle_refill_ts) / 3600.0
+            since_research_lane_h = (_now() - last_research_lane_ts) / 3600.0
             since_paper_review_h = (_now() - last_paper_review_ts) / 3600.0
+            inbox_health = candidate_inbox_health()
+            research_lane_triggered = False
             allow_lean_adjacent_discovery = bool(
                 supervisor_state.get("allow_lean_adjacent_discovery", False)
             )
@@ -1261,8 +1536,8 @@ def main() -> int:
                     supervisor_log(
                         "BOARD low water: skipped auto_discovery probe "
                         "because paper-native supervisor defaults forbid "
-                        "Lean-adjacent discovery; oracle_board_refill and "
-                        "paper_review remain enabled"
+                        "Lean-adjacent discovery; paper_review, research_lane, "
+                        "and bridge/local intake remain enabled"
                     )
                 last_probe_ts = _now()
             if unfinished < args.low_water and since_curriculum_h > supervisor_state["curriculum_cooldown_hours"]:
@@ -1276,14 +1551,62 @@ def main() -> int:
                         "discovery"
                     )
                 last_curriculum_ts = _now()
+            if unfinished < args.low_water and since_research_lane_h > supervisor_state["research_lane_cooldown_hours"]:
+                supervisor_log(f"BOARD low water (unfinished={unfinished}) → research_lane_refinement")
+                trigger_research_lane_refinement()
+                last_research_lane_ts = _now()
+                research_lane_triggered = True
             if unfinished < args.low_water and since_paper_review_h > supervisor_state["paper_review_cooldown_hours"]:
                 supervisor_log(f"BOARD low water (unfinished={unfinished}) → paper_review")
                 trigger_paper_review(no_dev_sync=no_dev_sync)
                 last_paper_review_ts = _now()
             if unfinished < args.low_water and since_oracle_refill_h > supervisor_state["oracle_refill_cooldown_hours"]:
-                supervisor_log(f"BOARD low water (unfinished={unfinished}) → oracle_board_refill")
-                trigger_oracle_board_refill()
-                last_oracle_refill_ts = _now()
+                allow_oracle_candidate_generation = bool(
+                    supervisor_state.get("allow_oracle_candidate_generation", False)
+                )
+                if not allow_oracle_candidate_generation:
+                    supervisor_log(
+                        f"BOARD low water (unfinished={unfinished}) → skipped oracle_board_refill; "
+                        "oracle candidate generation is disabled by default, while "
+                        "Codex, bridge, and deterministic local lanes remain primary"
+                    )
+                    last_oracle_refill_ts = _now()
+                else:
+                    grace_minutes = float(supervisor_state.get("oracle_refill_research_grace_minutes", args.oracle_refill_research_grace_minutes))
+                    since_research_lane_m = (_now() - last_research_lane_ts) / 60.0 if last_research_lane_ts else 999999.0
+                    defer_refill, defer_reason = should_defer_oracle_refill_for_research(
+                        research_lane_triggered=research_lane_triggered,
+                        inbox_health=inbox_health,
+                        since_research_lane_m=since_research_lane_m,
+                        grace_minutes=grace_minutes,
+                    )
+                    if defer_refill and defer_reason == "local_research_lane_triggered":
+                        supervisor_log(
+                            f"BOARD low water (unfinished={unfinished}) → deferred oracle_board_refill; "
+                            "local research lane triggered first"
+                        )
+                    elif defer_refill:
+                        supervisor_log(
+                            f"BOARD low water (unfinished={unfinished}) → deferred oracle_board_refill; "
+                            f"candidate refinement backlog present; local lanes must drain/refine it before oracle refill "
+                            f"(research_lane ran {since_research_lane_m:.1f}m ago; legacy grace={grace_minutes:.1f}m)"
+                        )
+                    else:
+                        if defer_reason == "material_refinement_backlog_grace_elapsed":
+                            supervisor_log(
+                                f"BOARD low water (unfinished={unfinished}) → oracle_board_refill; "
+                                f"candidate refinement grace elapsed "
+                                f"(research_lane ran {since_research_lane_m:.1f}m ago; grace={grace_minutes:.1f}m)"
+                            )
+                        elif defer_reason == "no_material_refinement_backlog":
+                            supervisor_log(
+                                f"BOARD low water (unfinished={unfinished}) → oracle_board_refill; "
+                                "no material candidate refinement backlog"
+                            )
+                        else:
+                            supervisor_log(f"BOARD low water (unfinished={unfinished}) → oracle_board_refill")
+                        trigger_oracle_board_refill()
+                        last_oracle_refill_ts = _now()
 
             done_now = board_completed_count()
             since_curator_h = (_now() - last_curator_ts) / 3600.0
@@ -1328,7 +1651,6 @@ def main() -> int:
                 )
                 last_zero_extract_alert_ts = _now()
 
-            inbox_health = candidate_inbox_health()
             latest_age = inbox_health.get("latest_event_age_seconds")
             try:
                 latest_age_s = int(latest_age)

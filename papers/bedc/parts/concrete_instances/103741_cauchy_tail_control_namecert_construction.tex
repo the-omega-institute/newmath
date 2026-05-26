@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\CauchyTailControlUp$}
+\label{ch:concrete-instances-cauchy-tail-control-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyTailControlUp$ packet records the finite threshold surface by which a regular Cauchy name answers a requested tail tolerance before any Real or Completion consumer reads the result. It sits over the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence route of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion boundary of \autoref{ch:concrete-instances-metriccompletion-namecert}. The packet is the finite tail-threshold control interface for regular Cauchy names; it does not assert a selected limit, quotient equality of names, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[CauchyTailControl carrier]
+\label{def:cauchy-tail-control-carrier}
+A $\CauchyTailControlUp$ carrier is a finite $\BHist$ packet
+$$
+T=(Q,W,D,B,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the finite precision-request row. It records the displayed tolerance request whose tail threshold is being certified.
+\item $W$ is the $\StreamNameUp$ window row opened for that request. It records the finite observations available before the threshold is accepted.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger. It stores the dyadic radius, comparison rows, slack budget, and denominator discipline used by the tail check.
+\item $B$ is the tail-threshold row. It records the finite bound after which every displayed pair of regular rational reads is controlled by the tolerance in $D$.
+\item $R$ is the $\RegSeqRatUp$ handoff row. It reads the windows and dyadic ledger under the same threshold row before a regular Cauchy name can be exported.
+\item $E$ is the terminal $\RealUp$ or completion-facing seal. It is available only after $Q,W,D,B,R$ have displayed the precision request, windows, tolerance ledger, tail threshold, and regular handoff.
+\item $H$ records componentwise $\hsame$ transport for the request, window, tolerance, threshold, handoff, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each precision request through $Q,W,D,B,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyTailControlUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\MetricCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyTailControlUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,W,D,B,R,E,H,C,P,N$. It has no coordinate for a chosen limit, quotient equality of streams, countable choice, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CauchyTailControl NameCert obligations]
+\label{thm:cauchy-tail-control-namecert-obligations}
+For every accepted $\CauchyTailControlUp$ carrier $T=(Q,W,D,B,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyTailControlUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed precision request, finite stream window, dyadic tolerance ledger, tail-threshold row, regular rational handoff, terminal seal, and structural rows $H,C,P,N$;
+\item request exactness, requiring every tail-control read to expose $Q$ before any threshold or regular handoff row is available;
+\item window and tolerance accountability, requiring $W$ and $D$ to provide the inspected observations, dyadic radius, comparison rows, slack budget, and denominator discipline used by the threshold;
+\item tail-threshold exactness, requiring $B$ to name the finite bound after which the displayed regular rational reads are controlled by the requested tolerance;
+\item $\RegSeqRatUp$ handoff, requiring $R$ to consume the same $W,D,B$ rows before the terminal $\RealUp$ or completion-facing seal $E$ may be read;
+\item componentwise transport, displayed replay, provenance, and local naming for the same route through $H,C,P,N$.
+\end{enumerate}
+No CauchyTailControl obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $T=(Q,W,D,B,R,E,H,C,P,N)$. The carrier definition exposes exactly the request row, stream window, dyadic ledger, tail threshold, regular handoff, terminal seal, and structural rows.
+
+The request and window data are read first. The row $Q$ fixes the finite tolerance request, while $W$ supplies only the observations admitted for that request.
+
+The dyadic and threshold rows then determine the tail control. The row $D$ carries the radius, comparison, slack, and denominator data, and $B$ records the finite bound tied to that ledger.
+
+Finally $R,E,H,C,P,N$ hand off, seal, transport, replay, source, and name the same displayed route. Since the excluded limit, quotient, choice, order, and ambient-completeness objects are absent from the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CauchyTailControl RegSeqRat handoff]
+\label{thm:cauchy-tail-control-regseqrat-handoff}
+Let $T=(Q,W,D,B,R,E,H,C,P,N)$ be an accepted $\CauchyTailControlUp$ carrier. Every $\RegSeqRatUp$ or completion-facing consumer of the packet factors through the displayed tail-control route
+$$
+Q \longmapsto W \longmapsto D \longmapsto B \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the consumer receives a finite precision request, finite stream observations, dyadic tolerance arithmetic, an explicit tail threshold, regular rational readback, terminal sealing, transport, replay, provenance, and local naming before any Real or Completion datum is available. The route cannot use a selected limit, quotient equality of names, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a $\RegSeqRatUp$ or completion-facing read of $T$. By \autoref{def:cauchy-tail-control-carrier}, the read has no direct access to a limit, quotient, or ambient completion object; it can inspect only the displayed rows.
+
+The first part of the route is fixed by the request and observation rows. The request $Q$ names the tolerance, $W$ supplies the finite observations, and $D$ supplies the dyadic arithmetic used to compare the observed tail.
+
+The tail-control step is the row $B$. It binds the finite threshold to the same request, observations, and dyadic ledger, so the later regular handoff cannot be detached from the displayed tail budget.
+
+The row $R$ gives the regular rational readback only after $Q,W,D,B$ have been displayed, and $E,H,C,P,N$ seal, transport, replay, source, and name the same route. Therefore every accepted consumer factors through the displayed tail-control route and has no path to the excluded objects.
+\end{proof}
+
+\falsifiablePrediction{Every $\CauchyTailControlUp$ Real or Completion read factors through a precision request, StreamName finite windows, a DyadicRatCore tolerance ledger, an explicit tail threshold, RegSeqRat handoff, terminal sealing, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, metriccompletion: $\CauchyTailControlUp$ is not bijective to any listed sibling because it jointly carries the request row, observation window, dyadic tolerance ledger, tail-threshold row, regular handoff, terminal seal, transport, continuation, provenance, and local naming as one finite control packet.}
+
+\closureat{CauchyTailControlUp}{seedStr}
+
+\begin{closurestatus}{\CauchyTailControlUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-tail-control-carrier}, \autoref{thm:cauchy-tail-control-namecert-obligations}, and \autoref{thm:cauchy-tail-control-regseqrat-handoff} seed the finite tail-threshold control interface consumed by regular Cauchy names, Real seals, and MetricCompletion-facing readers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient equality of names, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, request exactness, StreamName window accountability, DyadicRatCore tolerance accountability, tail-threshold exactness, RegSeqRat handoff, terminal seal nonescape, and structural transport for BEDC.Derived.CauchyTailControlUp.}
+  \constructivestory{A $\CauchyTailControlUp$ packet is generated from a precision request, StreamName finite windows, a DyadicRatCore tolerance ledger, an explicit tail-threshold row, a RegSeqRat handoff, a RealUp or completion-facing seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

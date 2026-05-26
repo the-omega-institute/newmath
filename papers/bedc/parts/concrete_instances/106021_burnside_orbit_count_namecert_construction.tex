@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\BurnsideOrbitCountUp$}
+\label{ch:concrete-instances-burnside-orbit-count-namecert}
+\origin{human}
+
+Following Burnside and Pólya on finite group actions and orbit enumeration, the $\BurnsideOrbitCountUp$ packet records the finite ledger by which a displayed $\GroupUp$ action on a displayed $\FinSetUp$ carrier yields an orbit-count read from fixed-point rows. It sits between the group certificate of \autoref{ch:concrete-instances-group-namecert}, the finite-set certificate of \autoref{ch:concrete-instances-finset-namecert}, the character ledger of \autoref{ch:concrete-instances-charactertheory-namecert}, and the representation-ring surface of \autoref{ch:concrete-instances-representationring-namecert}. The packet names only the finite action and fixed-row accounting surface; it does not import quotient orbit sets, host cardinal arithmetic, complete character tables, or a representation category.
+
+\begin{definition}[Burnside orbit-count carrier]
+\label{def:burnside-orbit-count-carrier}
+A $\BurnsideOrbitCountUp$ carrier is a finite $\BHist$ packet
+$$
+B=(G,X,A,F,O,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the consumed $\NameCert_{\GroupUp}$ row for the finite group endpoint.
+\item $X$ is the consumed $\NameCert_{\FinSetUp}$ row for the acted-on finite carrier.
+\item $A$ is the displayed action ledger, read as finite $\Cont$ rows from $G$ and $X$ to the endpoint rows of $X$.
+\item $F$ is the fixed-point table whose row for $g$ lists exactly the displayed $x$-rows satisfying the action read $g\cdot x=x$ through the classifier of $X$.
+\item $O$ is the orbit ledger, listing carried orbit-name rows and the finite membership witnesses by which each displayed $x$-row is assigned to one orbit row.
+\item $M$ is the finite averaging ledger displaying the numerator rows $\sum_{g\in G}\#F_{g}$, the divisor row $\#G$, and the resulting orbit-count read.
+\item $H$ records componentwise $\hsame$ transport for the group, finite-set, action, fixed-point, orbit, averaging, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the group and finite-set rows through the action ledger into the fixed-point table, orbit ledger, and finite averaging row.
+\item $P$ is the $\Pkg$ provenance over $\BurnsideOrbitCountUp$, $\GroupUp$, $\FinSetUp$, $\CharacterTheoryUp$, $\RepresentationRingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BurnsideOrbitCountUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $G,X,A,F,O,M,H,C,P,N$. It has no coordinate for a quotient orbit carrier, a host set cardinal, a complex character table, an ambient representation ring, or a choice-selected orbit representative.
+\end{definition}
+
+\begin{theorem}[Burnside orbit-count NameCert obligations]
+\label{thm:burnside-orbit-count-namecert-obligations}
+For every accepted $\BurnsideOrbitCountUp$ carrier $B=(G,X,A,F,O,M,H,C,P,N)$, the local $\NameCert_{\BurnsideOrbitCountUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the consumed group row, consumed finite-set row, action ledger, fixed-point table, orbit ledger, averaging row, transport, replay, provenance, and local naming;
+\item action visibility, requiring every action read in $A$ to expose its group source in $G$ and its input and output rows in $X$;
+\item fixed-point visibility, requiring every row of $F$ to be witnessed by an action read in $A$ and a displayed classifier comparison in $X$;
+\item orbit-ledger stability, requiring $O$ to transport along the same $\hsame$ rows that transport $G$, $X$, $A$, and $F$;
+\item finite averaging exactness, requiring $M$ to consume only the displayed fixed-point rows and the displayed group-size divisor before exposing the orbit-count read.
+\end{enumerate}
+No Burnside orbit-count obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $G$ and $X$ supply the finite group source and finite acted-on carrier, and $A$ is the only row in which action endpoints are displayed.
+
+The fixed-point table $F$ is downstream of $A$ and the classifier of $X$. Thus a fixed-point read must show both the action result and the displayed comparison with the original $x$-row.
+
+The orbit ledger $O$ is then read as finite assignment data over the same $X$ rows. Its stability is exactly componentwise transport by $H$, because no separate quotient-orbit carrier is present.
+
+The averaging row $M$ consumes the displayed fixed-point rows and the displayed group-size divisor. The replay row $C$, provenance row $P$, and local naming row $N$ repack this data as the local NameCert surface, so no host cardinal, character table, representation ring, or selected representative becomes an additional obligation.
+\end{proof}
+
+\begin{theorem}[Burnside fixed-row handoff]
+\label{thm:burnside-orbit-count-fixed-row-handoff}
+Every orbit-count read exported by an accepted $\BurnsideOrbitCountUp$ carrier factors through the displayed route
+$$
+\GroupUp,\ \FinSetUp \longrightarrow \mathsf{ActionLedger} \longrightarrow \mathsf{FixedRowTable} \longrightarrow \mathsf{OrbitLedger} \longrightarrow \mathsf{FiniteAverage}.
+$$
+The handoff exposes the finite group row, finite-set row, action ledger, fixed-point table, orbit-ledger stability data, and finite averaging row before any orbit count is consumed. A consumer that omits one of those rows is outside the accepted carrier.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:burnside-orbit-count-carrier}. The first two coordinates bind the consumed $\GroupUp$ and $\FinSetUp$ rows, and the action coordinate $A$ records all displayed action reads.
+
+The fixed-row table $F$ can only be projected after those action reads are visible. Each fixed row is therefore a finite ledger row over $G$, $X$, and $A$, rather than a host fixed-point subset.
+
+The orbit ledger $O$ records the finite orbit-name assignments transported by $H$. The averaging ledger $M$ then reads the fixed rows and group-size divisor to expose the orbit-count row.
+
+Since $C$, $P$, and $N$ only replay, package, and name the same displayed route, every exported orbit count factors through the stated handoff. If any row in the route is absent, the packet has no coordinate from which the orbit-count read can be projected.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BurnsideOrbitCountUp$ consumer read factors through one $\GroupUp$ row, one $\FinSetUp$ row, one displayed action ledger, one fixed-point table, one orbit ledger, one finite averaging row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and the local NameCert row.}
+
+\independenceWitness{group, finset, character-theory, representation-ring: no listed sibling is bijective with $\BurnsideOrbitCountUp$ because the packet jointly carries action reads, fixed-point rows, orbit assignment rows, finite averaging data, transport, replay, provenance, and local naming.}
+
+\closureat{BurnsideOrbitCountUp}{seedStr}
+
+\begin{closurestatus}{\BurnsideOrbitCountUp}
+  \constructivestory{A $\BurnsideOrbitCountUp$ packet is generated from a consumed $\GroupUp$ row, a consumed $\FinSetUp$ row, a displayed finite action ledger, a fixed-point table, an orbit assignment ledger, a finite averaging row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:burnside-orbit-count-carrier}, \autoref{thm:burnside-orbit-count-namecert-obligations}, and \autoref{thm:burnside-orbit-count-fixed-row-handoff} seed the finite Burnside orbit-count packet over displayed group, finite-set, action, fixed-row, orbit-ledger, averaging, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient orbit carriers, host cardinal arithmetic, complete character theory, representation-ring computation, selected orbit representatives, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, action visibility, fixed-point visibility, orbit-ledger stability, finite averaging exactness, transport replay, provenance exhaustion, and TasteGate field faithfulness for BEDC.Derived.BurnsideOrbitCountUp.}
+\end{closurestatus}

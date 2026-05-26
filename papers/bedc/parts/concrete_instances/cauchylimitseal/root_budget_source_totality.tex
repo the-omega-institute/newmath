@@ -276,3 +276,23 @@ Now apply tail-schedule budget cofinality from \autoref{thm:cauchy-limit-seal-ta
 
 Attach terminality by \autoref{thm:cauchy-limit-seal-budget-real-tail-agreement-terminality}, then apply terminal route exhaustion from \autoref{thm:cauchy-limit-seal-terminal-route-exhaustion}. Since each stage consumes the same projected packet rows, every completion-facing consumer has no branch outside the displayed finite budget route.
 \end{proof}
+
+\begin{corollary}[CauchyLimitSeal budget window refusal is a strict local obstruction]
+\label{cor:cauchy-limit-seal-budget-window-refusal-local-obstruction}
+In the setting of \autoref{thm:cauchy-limit-seal-budget-root-source-totality}, the obstruction detected by \autoref{thm:cauchy-limit-seal-budget-window-source-refusal} is strictly local to the attempted reuse of the accepted budget route. More precisely, if a candidate consumer route presents a budget dyadic window not identified, in the transport sense of \autoref{thm:cauchy-limit-seal-common-window-transport}, with the scheduled seal-side $\StreamNameUp$ window, then that candidate is blocked only as a public $\RealObservationBudgetUp$-facing read of the named accepted $\CauchyLimitSealUp$ packet and of its displayed root-source surface
+$$
+X,S,D,G,E,T,P,N
+\quad\text{and}\quad
+E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B.
+$$
+The refusal cannot be reinterpreted as a global impossibility theorem about Cauchy limits, as a host theorem about real convergence, or as hidden external validation of an ambient completion principle. Every consumer-facing use must factor through the displayed seal rows, budget rows, the scheduled $\StreamNameUp$ window, and the $\DyadicRatCoreUp$ ledger transported through the displayed $\hsame$ and $\Cont$ rows in the sense of \autoref{thm:cauchy-limit-seal-common-window-transport} and \autoref{thm:regseqrat-finite-window-transport-closure}; any unlisted coordinate is rejected only for this named route.
+\end{corollary}
+\begin{proof}
+Start with root source totality from \autoref{thm:cauchy-limit-seal-budget-root-source-totality}. It identifies the complete source surface of every accepted $\RealObservationBudgetUp$-facing read through the packet: the only seal rows are $X,S,D,G,E,T,P,N$, and the only budget rows are $E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B$. In particular, a consumer-facing read has no hidden completion row, no quotient stream row, no selected limit row, no host real-equality row, no hidden family-limit row, and no ambient completeness row from which an additional source could be read.
+
+Next apply dyadic-window exactness from \autoref{thm:cauchy-limit-seal-root-dyadic-window-exactness}. The budget ledger $D_B$ is not an independent observation: it is the scheduled seal-side $\StreamNameUp$ window ledger already exposed by $D$, transported through the displayed $\hsame$ and $\Cont$ rows in the sense of the common-window transport theorem \autoref{thm:cauchy-limit-seal-common-window-transport} and the RegSeqRat finite-window transport closure \autoref{thm:regseqrat-finite-window-transport-closure}. Thus the only public window coordinate available to the budget route is the listed finite window coordinate.
+
+Now use the refusal theorem \autoref{thm:cauchy-limit-seal-budget-window-source-refusal}. A candidate route whose dyadic window is not identified with that scheduled seal-side window by the transport route of \autoref{thm:cauchy-limit-seal-common-window-transport} and \autoref{thm:regseqrat-finite-window-transport-closure} has no coordinate in the displayed seal and budget surface. Therefore it is refused as a public $\RealObservationBudgetUp$-facing read of this accepted $\CauchyLimitSealUp$ packet.
+
+This proves exactly the local obstruction. The argument never introduces a second packet, an ambient host convergence predicate, an external completeness principle, or a global countermodel. It only says that consumer-facing use of the named accepted route must pass through the displayed root-source rows and the displayed dyadic-window identification, so unlisted coordinates cannot be reused as public coordinates of that route.
+\end{proof}

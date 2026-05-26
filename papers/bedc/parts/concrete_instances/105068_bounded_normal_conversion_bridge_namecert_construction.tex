@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\BoundedNormalConversionBridgeUp$}
+\label{ch:concrete-instances-bounded-normal-conversion-bridge-namecert}
+\origin{ai}
+
+The $\BoundedNormalConversionBridgeUp$ packet realizes the endpoint bridge isolated by the MetaCIC decidability frontier in \autoref{ch:metacic-open-problems}. It sits between the bounded comparison boundary of \autoref{ch:concrete-instances-metacicdecidableboundary-namecert}, the candidate-mediated normalisation frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, and the closed-normal endpoint seal of \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}. The packet records how a bounded normal-output comparison may be consumed only after finished-normal evidence is displayed; it does not claim unrestricted closed beta-conversion decidability.
+
+\begin{definition}[Bounded normal conversion bridge carrier]
+\label{def:bounded-normal-conversion-bridge-carrier}
+A $\BoundedNormalConversionBridgeUp$ carrier is a finite $\BHist$ packet
+$$
+B=(D,F,O,E,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\MetaCICDecidableBoundaryUp$ row, exposing the bounded normal-equality checker and its refusal boundary.
+\item $F$ is the $\MetaCICNormalizationFrontierUp$ row, exposing the candidate-mediated route by which normal computation is allowed to reach a finished endpoint.
+\item $O$ is the bounded normal-output row, naming the finite fuel, closedness window, and two normalizer outputs inspected by the checker.
+\item $E$ is the finished-normal evidence row, requiring the compared outputs to be closed normal forms before conversion evidence is exported.
+\item $S$ is the $\NormalFormConsistencySealUp$ endpoint row, recording that the finished-normal endpoint can be consumed only at the normal-form boundary.
+\item $R$ is the refusal row, recording that a read bypassing either $O$ or $E$ is not a conversion bridge read.
+\item $H$ stores componentwise $\hsame$ transport for the decidability boundary, normalisation frontier, bounded output, finished evidence, normal-form seal, refusal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a conversion request through $D,F,O,E,S,R,H$ and back to the local certificate row.
+\item $P$ is the $\Pkg$ provenance over $\BoundedNormalConversionBridgeUp$, $\MetaCICDecidableBoundaryUp$, $\MetaCICNormalizationFrontierUp$, $\NormalFormConsistencySealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedNormalConversionBridgeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a global conversion decider, fuel-erased normalization, quotient equality over represented terms, host evaluator equality, unrestricted closedness decision, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Bounded normal conversion bridge NameCert obligations]
+\label{thm:bounded-normal-conversion-bridge-namecert-obligations}
+For every accepted $\BoundedNormalConversionBridgeUp$ carrier
+$$
+B=(D,F,O,E,S,R,H,C,P,N),
+$$
+the local $\NameCert_{\BoundedNormalConversionBridgeUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the decidability boundary, normalisation frontier, bounded normal-output row, finished-normal evidence row, endpoint seal, refusal row, transport, replay, provenance, and local naming;
+\item bounded-output visibility, requiring every conversion read to cite the finite output row $O$ before checker equality is consumed;
+\item finished-normal endpoint visibility, requiring $E$ to certify that the compared outputs are finished closed normal forms before the normal-form seal $S$ is read;
+\item frontier compatibility, requiring $D$ and $F$ to be read together so bounded decidability is not separated from the normalisation route that supplies its endpoint evidence;
+\item refusal stability, requiring $R$ to reject any read that bypasses bounded normal output or finished-normal evidence;
+\item structural stability, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed rows.
+\end{enumerate}
+No bounded normal conversion bridge obligation is stored outside $B$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-normal-conversion-bridge-carrier}. The tuple exposes the decidability boundary, normalisation frontier, bounded output, finished evidence, normal-form seal, refusal, and structural rows.
+
+The bounded-output and finished-endpoint obligations are the rows $O$ and $E$. A conversion request first fixes the finite normalizer outputs and then supplies evidence that those outputs are finished closed normal forms.
+
+The frontier compatibility obligation is stored in $D,F,S$. The bounded checker is read through the decidability boundary, the endpoint evidence is routed through the normalisation frontier, and the normal-form seal records the finished endpoint without creating a global conversion decision procedure.
+
+The refusal and structural rows $R,H,C,P,N$ preserve that order. Since the carrier contains no coordinate for fuel-erased normalization, quotient equality, host evaluator equality, unrestricted closedness decision, Lean verification, or bridge checking, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bounded normal conversion endpoint handoff]
+\label{thm:bounded-normal-conversion-endpoint-handoff}
+Every accepted $\BoundedNormalConversionBridgeUp$ conversion read factors through the finite route
+$$
+\MetaCICDecidableBoundaryUp \longrightarrow \MetaCICNormalizationFrontierUp \longrightarrow \NormalFormConsistencySealUp
+$$
+with bounded normal outputs and finished closed-normal evidence displayed before any conversion conclusion is exported.
+\end{theorem}
+\begin{proof}
+Let $B=(D,F,O,E,S,R,H,C,P,N)$ be an accepted carrier. Projection exposes $D,F,O,E,S,R,H,C,P,N$ as the only rows available to a conversion read.
+
+The row $O$ fixes the bounded normalizer outputs inspected by the decidability boundary $D$. The row $E$ then supplies the finished-normal evidence required before those outputs can be consumed as closed normal forms.
+
+The row $F$ supplies the normalisation-frontier route, and $S$ places the endpoint at the normal-form consistency seal. The refusal row $R$ rejects any path that omits $O$ or $E$, while $H,C,P,N$ preserve the same row order under transport, replay, provenance, and local naming.
+
+Thus the packet supplies an endpoint handoff from bounded normal comparison to finished normal forms, not a global conversion decider or a fuel-erased normalization theorem.
+\end{proof}
+
+\falsifiablePrediction{Any conversion read that bypasses either bounded normal output or finished-normal evidence refutes the $\BoundedNormalConversionBridgeUp$ carrier.}
+
+\independenceWitness{metacicdecidableboundary, metacicnormalizationfrontier, normalformconsistencyseal, subjectreductiondischargeledger, metacicconfluenceauditpacket: the bridge carrier is not bijective to any listed sibling because it binds bounded normal-output comparison, finished-normal evidence, endpoint sealing, refusal, transport, replay, provenance, and local naming in one conversion-facing packet.}
+
+The Lean TasteGate follow-up for this chapter must provide explicit $\mathsf{Nontrivial}\ \BoundedNormalConversionBridgeUp$ and $\mathsf{FieldFaithful}\ \BoundedNormalConversionBridgeUp$ instances preserving $D,F,O,E,S,R,H,C,P,N$ as separate displayed rows.
+
+\closureat{BoundedNormalConversionBridgeUp}{seedStr}
+\begin{closurestatus}{\BoundedNormalConversionBridgeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-normal-conversion-bridge-carrier}, \autoref{thm:bounded-normal-conversion-bridge-namecert-obligations}, and \autoref{thm:bounded-normal-conversion-endpoint-handoff} seed the bounded normal conversion bridge from decidability rows to finished normal-form endpoint evidence.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted closed beta-conversion decidability, fuel-erased normalization, quotient equality over represented terms, host evaluator equality, unrestricted closedness decision, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-output visibility, finished-normal endpoint visibility, frontier compatibility, refusal stability, TasteGate nontriviality, and field faithfulness for BEDC.Derived.BoundedNormalConversionBridgeUp.}
+  \constructivestory{A $\BoundedNormalConversionBridgeUp$ packet is generated from MetaCICDecidableBoundary, MetaCICNormalizationFrontier, bounded normal-output, finished-normal evidence, NormalFormConsistencySeal, refusal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

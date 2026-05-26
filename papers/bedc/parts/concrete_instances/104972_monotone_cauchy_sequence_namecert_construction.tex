@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\MonotoneCauchySequenceUp$}
+\label{ch:concrete-instances-monotone-cauchy-sequence-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\MonotoneCauchySequenceUp$ packet records the finite carrier surface for a monotone regular rational source whose tail windows are already prepared for constructive real completion. It sits between the $\RealUp$ rows of \autoref{ch:concrete-instances-real-namecert}, the regular sequence discipline of $\RegSeqRatUp$, the $\StreamNameUp$ window ledgers, the dyadic comparison rows of $\DyadicRatCoreUp$, and the limit-facing boundary of \autoref{ch:concrete-instances-real-sequence-limit-namecert}. The packet names the Cauchy tail surface available before a completion consumer asks for a completed real.
+
+\begin{definition}[MonotoneCauchySequence carrier]
+\label{def:monotone-cauchy-sequence-carrier}
+A $\MonotoneCauchySequenceUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,W,R,D,O,T,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ schedule for the inspected sequence windows.
+\item $W$ is the stream-window ledger recording the finite index intervals and tail requests visible to the packet.
+\item $R$ is the $\RegSeqRatUp$ readback row that ties each scheduled window to a regular rational approximation.
+\item $D$ is the $\DyadicRatCoreUp$ comparison row used to compare rational approximants inside common dyadic windows.
+\item $O$ is the monotonicity ledger, listing the finite comparison rows by which later inspected approximants do not move below earlier inspected approximants.
+\item $T$ is the tail-threshold row, assigning each requested precision a displayed tail window and dyadic comparison bound.
+\item $A$ is the $\RealUp$ seal row that exposes the regular Cauchy source to real-name consumers without choosing a host limit.
+\item $H$ records componentwise $\hsame$ transport for the stream schedule, window ledger, regular readback, dyadic comparisons, monotonicity ledger, tail threshold, real seal, replay route, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a convergence request through $S,W,R,D,O,T,A,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MonotoneCauchySequenceUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealSequenceLimitUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MonotoneCauchySequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through
+$$
+S,W,R,D,O,T,A,H,C,P,N.
+$$
+It has no coordinate for quotient streams, selected host limits, host real equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[MonotoneCauchySequence NameCert obligations]
+\label{thm:monotone-cauchy-sequence-namecert-obligations}
+For every accepted $\MonotoneCauchySequenceUp$ carrier
+$$
+M=(S,W,R,D,O,T,A,H,C,P,N),
+$$
+the local $\NameCert_{\MonotoneCauchySequenceUp}$ surface consists exactly of the finite rows for carrier admission, stream-window scheduling, regular rational readback, dyadic comparison, monotonicity-ledger admission, tail-threshold admission, $\RealUp$ sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Each obligation reads the same $\StreamNameUp$ windows and the same $\RegSeqRatUp$ source rows before the tail threshold or real seal is exposed. No obligation may appeal to quotient streams, selected host limits, host real equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:monotone-cauchy-sequence-carrier}. Carrier admission exposes precisely the rows $S,W,R,D,O,T,A,H,C,P,N$, so every inspected approximation is read as a scheduled regular rational row through the displayed stream windows.
+
+The order-facing and Cauchy-facing rows use the same source schedule. The monotonicity ledger $O$ compares only approximants exposed by $S,W,R,D$, while the tail-threshold row $T$ assigns each requested precision a finite window and dyadic comparison bound over the same readback surface.
+
+The real-facing seal comes after those rows. The $\RealUp$ seal $A$ may be exposed only from the regular rational source, dyadic comparison row, monotonicity ledger, and tail threshold already present in the carrier, and a $\RealSequenceLimitUp$ consumer can read only that displayed seal.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since the excluded quotient, host-limit, host-equality, choice, trichotomy, and ambient-completeness coordinates do not occur in the carrier, they cannot occur among the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MonotoneCauchySequence tail-window boundary]
+\label{thm:monotone-cauchy-sequence-tail-window}
+Let
+$$
+M=(S,W,R,D,O,T,A,H,C,P,N)
+$$
+be an accepted $\MonotoneCauchySequenceUp$ carrier. Every $\RealSequenceLimitUp$ or completion-facing consumer of $M$ must first read the $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ comparisons, monotonicity ledger, tail-threshold row, $\RealUp$ seal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ through the same finite surface. The consumer receives a monotone Cauchy tail-window route, not a quotient stream, selected host limit, host real equality, countable-choice tail, trichotomy decision, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with a limit-facing or completion-facing consumer. By \autoref{def:monotone-cauchy-sequence-carrier}, the only available sequence data are the scheduled $\StreamNameUp$ windows $S,W$, the regular rational readback row $R$, and the dyadic comparison row $D$.
+
+Apply \autoref{thm:monotone-cauchy-sequence-namecert-obligations}. The monotonicity ledger $O$ and tail-threshold row $T$ are attached to that same scheduled source surface, and the $\RealUp$ seal $A$ is available only after both the dyadic comparison and tail threshold have been displayed.
+
+The $\RealSequenceLimitUp$ route may therefore inspect a finite monotone Cauchy boundary before reaching any real-name consumer. A completion-facing route receives the same boundary through the real seal, not a completed quotient stream or selected host limit.
+
+The structural rows $H,C,P,N$ preserve this boundary under transport, replay, provenance, and naming. The absent quotient-stream, host-limit, host-equality, choice, trichotomy, and ambient-completeness coordinates remain absent for every downstream consumer.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MonotoneCauchySequenceUp$ consumer that claims access to a completion or limit boundary must display the StreamName windows, RegSeqRat readback, DyadicRatCore comparisons, monotonicity ledger, tail threshold, Real seal, hsame transport, Cont replay, Pkg provenance, and local NameCert before any RealSequenceLimit or completion read is inspected.}
+
+\independenceWitness{real, regseqrat, streamname, dyadicratcore, realsequencelimit: $\MonotoneCauchySequenceUp$ is not bijective to any listed sibling because it jointly carries monotonicity, regular rational readback, dyadic tail thresholds, and a real seal before any limit-facing consumer may read the source sequence.}
+
+\closureat{MonotoneCauchySequenceUp}{seedStr}
+
+\begin{closurestatus}{\MonotoneCauchySequenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:monotone-cauchy-sequence-carrier}, \autoref{thm:monotone-cauchy-sequence-namecert-obligations}, and \autoref{thm:monotone-cauchy-sequence-tail-window} seed the finite source carrier, local obligation surface, and tail-window boundary for monotone Cauchy sequences.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient streams, selected host limits, host real equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification can encode carrier admission, stream-window scheduling, regular readback, dyadic comparison, monotonicity-ledger admission, tail-threshold admission, real sealing, transport replay, provenance, and local naming for BEDC.Derived.MonotoneCauchySequenceUp.}
+  \constructivestory{A $\MonotoneCauchySequenceUp$ packet is generated from StreamName windows, RegSeqRat readback, DyadicRatCore comparisons, monotonicity and tail-threshold ledgers, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

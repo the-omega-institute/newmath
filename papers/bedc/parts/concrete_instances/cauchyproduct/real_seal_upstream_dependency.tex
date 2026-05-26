@@ -17,6 +17,25 @@ Apply the paired-window ledger classifier results \autoref{thm:cauchy-product-ro
 Finally use the root Real seal obligations and consumer exhaustion supplied by \autoref{thm:cauchy-product-root-real-seal-product-ledger}, \autoref{thm:cauchy-product-real-completion-consumer-lock}, and \autoref{thm:cauchy-product-root-phase-handoff}. The completion-facing consumer therefore reaches the $\RealUp$ seal only through the displayed upstream route and cannot import any excluded analytic object.
 \end{proof}
 
+\begin{theorem}[CauchyProduct Real seal budget factorization]
+\label{thm:cauchy-product-real-seal-upstream-budget-factorization}
+Every completion-facing product read of an accepted $\CauchyProductUp$ Real-seal packet factors through the paired $\StreamNameUp$ windows $W_X,W_Y$, the $\DyadicRatCoreUp$ observations $Q_X,Q_Y$, the product budget rows $M_X,M_Y,P,L$, the $\RegSeqRatUp$ classifier row $E$, the $\RealUp$ seal, and any accepted observation-budget rows when such rows are present. In displayed coordinates the factorization is exhausted by
+$$
+X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N
+$$
+together with those accepted budget rows. No quotient stream, selected product limit, host multiplication primitive, trichotomy row, independent real carrier, or ambient completeness row can bypass this finite factorization route.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_real\_seal\_upstream\_budget\_factorization}
+\begin{proof}
+First apply \autoref{thm:cauchy-product-real-seal-upstream-dependency}. It already places every completion-facing Real-seal read downstream of the paired StreamName windows, dyadic observations, product budget ledger, RegSeqRat classifier, Real seal surface, and accepted observation-budget rows when the consumer asks for such rows.
+
+Next use the Real--RegSeqRat--StreamName handoff of \autoref{thm:real-regseqrat-streamname-cauchyproduct-handoff}. That handoff identifies the same rows as the ordered visibility chain seen by Real-completion-facing consumers, so the factorization has the displayed source windows, observation rows, product rows, classifier row, transport rows, replay rows, ledger row, and local naming row as its whole public surface.
+
+Finally combine the local budget locks used in the upstream proof: \autoref{thm:cauchy-product-root-budget-product-lock}, \autoref{thm:cauchy-product-radius-budget-conservation}, and \autoref{thm:cauchy-product-budget-selector-distributive-lock}. These locks prevent a consumer from reading a product seal before the product budget rows and accepted observation-budget rows have been displayed.
+
+The cited upstream dependency and handoff theorems already exclude quotient streams, selected product limits, host multiplication primitives, trichotomy rows, independent real carriers, and ambient completeness data. Therefore no completion-facing product read can bypass the finite budget factorization route stated above.
+\end{proof}
+
 \begin{theorem}[Real RegSeqRat StreamName CauchyProduct handoff]
 \label{thm:real-regseqrat-streamname-cauchyproduct-handoff}
 An accepted $\CauchyProductUp$ route consumed by a Real-completion-facing chapter is equivalent, as a finite BEDC handoff surface, to the ordered visibility chain consisting of paired $\StreamNameUp$ windows, dyadic observations, the product budget ledger, the $\RegSeqRatUp$ classifier row, and the $\RealUp$ seal. In coordinates, the handoff surface is exhausted by
@@ -25,6 +44,7 @@ X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N
 $$
 together with the accepted observation-budget rows when a budget consumer asks for them. It exports no quotient stream, host multiplication primitive, trichotomy row, or ambient completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_real\_regseqrat\_streamname\_handoff}
 \begin{proof}
 First read the ordered source surface. The paired-window totality of \autoref{thm:cauchy-product-root-source-window-totality} forces the two source names $X,Y$ to be visible only through the paired $\StreamNameUp$ windows $W_X,W_Y$ before any product consumer can inspect the downstream rows.
 
@@ -37,6 +57,7 @@ Finally apply the upstream dependency theorem \autoref{thm:cauchy-product-real-s
 \label{thm:cauchy-product-limitseal-sibling-dependency}
 Every accepted $\CauchyProductUp$ Real-seal route that reaches the $\RealUp$ seal passes through the same finite rows consumed by the $\CauchyLimitSealUp$ compatibility boundary of \autoref{ch:concrete-instances-cauchylimitseal-namecert}: paired $\StreamNameUp$ windows, dyadic observations, the product budget ledger, the $\RegSeqRatUp$ classifier, transport rows, route rows, package provenance, and local $\NameCert$ rows. The sibling dependency supplies a horizontal handoff edge only; it imports no selected product limit, quotient stream, host multiplication primitive, or ambient completeness row.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_limitseal\_sibling\_dependency}
 \begin{proof}
 Begin with the upstream dependency theorem. It places every completion-facing Real-seal read of a $\CauchyProductUp$ packet on the paired windows, dyadic observations, product budget ledger, classifier row, and displayed structural rows before the $\RealUp$ seal is consumed.
 
@@ -63,6 +84,7 @@ without changing the product seal surface, and the route exports no host
 multiplication, quotient-stream product, selected limit, trichotomy row, or
 ambient completeness datum.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_shared\_selector\_real\_seal\_stability}
 \begin{proof}
 First apply the budget-selector distributive lock
 \autoref{thm:cauchy-product-budget-selector-distributive-lock}. It identifies
@@ -122,3 +144,41 @@ the same route for Real-seal and $\CauchyLimitSealUp$ consumers, with no host
 multiplication, quotient streams, selected limits, trichotomy, choice, or ambient
 completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_real\_seal\_selector\_coherence}
+
+\begin{theorem}[CauchyProduct limit-seal selector coherence]
+\label{thm:cauchy-product-limitseal-selector-coherence}
+Let an accepted $\CauchyProductUp$ packet reuse the same finite observation-budget selector for its Real-seal route and for the sibling route consumed through \autoref{ch:concrete-instances-cauchylimitseal-namecert}. Then the selector remains coherent on the displayed product route
+$$
+X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N
+$$
+and on the shared StreamName, dyadic, RegSeqRat, Real-boundary, transport, route, package, and local NameCert rows. The sibling edge adds no quotient stream, selected product limit, host multiplication coordinate, choice witness, or ambient completeness datum.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_limitseal\_selector\_coherence}
+\begin{proof}
+Read the Real-seal route through \autoref{thm:cauchy-product-real-seal-selector-coherence}. The selector already fixes the finite product-route surface for every Real-seal consumer that agrees on the public StreamName, dyadic, classifier, and Real-boundary rows.
+
+Now read the sibling consumer through \autoref{ch:concrete-instances-cauchylimitseal-namecert}. The CauchyLimitSeal boundary consumes the same finite stream windows, dyadic observations, regular classifier row, Real boundary, transports, routes, package provenance, and local naming rows.
+
+Thus the reused selector is not a new analytic coordinate. It is a shared finite witness for the same displayed product-route surface, and the sibling handoff cannot export quotient streams, selected product limits, host multiplication, choice, or ambient completeness because none of those rows is present in either route.
+\end{proof}
+
+\begin{lemma}[CauchyProduct Real seal selector minimal witness]
+\label{lem:cauchy-product-real-seal-selector-minimal-witness}
+For a completion-facing consumer of an accepted $\CauchyProductUp$ Real-seal packet, the local admission and consumption claim is witnessed by the single displayed product route
+$$
+X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N
+$$
+together with the shared $\FiniteObservationBudgetSelectorUp$ rows when the consumer asks for a selector. If a consumer presents a larger reading of the same Real-seal claim, then its accepted part factors through this displayed witness: the source admission uses only $X,Y,W_X,W_Y$, the budget and product admission uses only $M_X,M_Y,Q_X,Q_Y,P,L$, the classifier admission uses only $E$, and the seal consumption uses only $H,C,N$ with the displayed Real boundary. No unlisted quotient stream, selected product limit, host multiplication primitive, trichotomy row, independent real carrier, ambient choice object, or ambient completeness witness can serve as an additional admission coordinate.
+\end{lemma}
+\begin{proof}
+Start with the upstream dependency theorem \autoref{thm:cauchy-product-real-seal-upstream-dependency}. It states that every completion-facing Real-seal read first consumes the paired $\StreamNameUp$ windows, the $\DyadicRatCoreUp$ observations, the product budget ledger, the $\RegSeqRatUp$ classifier row, and the $\RealUp$ seal surface. In coordinates this is exactly the displayed packet, with accepted observation-budget rows only when a budget consumer asks for them.
+
+Now apply the shared-selector Real-seal stability theorem \autoref{thm:cauchy-product-shared-selector-real-seal-associativity}. When two accepted product packets read their factor windows through the same $\FiniteObservationBudgetSelectorUp$ route and agree on the public window, radius, classifier, and Real-boundary rows, every multiplication-facing Real-seal consumer reads the same finite product-route surface together with the shared selector rows. Thus selector reuse does not create a second product seal surface; it only names the finite selector rows already attached to the displayed route.
+
+Combine the two readings by sorting the consumer-facing coordinates by their role in the displayed packet. The source part is forced to factor through $X,Y,W_X,W_Y$ by the upstream source admission. The budget and product part is forced to factor through $M_X,M_Y,Q_X,Q_Y,P,L$ before the classifier is visible. The classifier part is forced to factor through $E$, and the final seal handoff is carried by $H,C,N$ together with the Real boundary already listed by the two cited theorems. The shared selector rows may be consumed as witness rows for the common observation-budget route, but they do not add any unlisted analytic object.
+
+Therefore any larger accepted reading has the same consumer-facing content after projection to the displayed product route and the shared selector rows. Since both cited theorems explicitly exclude quotient streams, selected limits, host multiplication primitives, trichotomy rows, independent real carriers, ambient choice objects, and ambient completeness witnesses from the exported route, none of those objects can be used as an additional admission or consumption coordinate.
+\end{proof}
+
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_real\_seal\_selector\_minimal\_witness}

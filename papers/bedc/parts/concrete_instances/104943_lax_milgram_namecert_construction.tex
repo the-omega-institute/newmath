@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\LaxMilgramUp$}
+\label{ch:concrete-instances-lax-milgram-namecert}
+\origin{human}
+
+Following Lax and Milgram and the variational treatment in Evans, the $\LaxMilgramUp$ packet records the finite BEDC surface for coercive variational solvability. It is read as a neighbour of the Hilbert and Sobolev certificates of \autoref{ch:concrete-instances-hilbert-namecert} and \autoref{ch:concrete-instances-sobolev-namecert}, with its pairing row anchored in the bilinear-form chapter \autoref{ch:concrete-instances-bilinform-namecert} and its bounded action surface anchored in \autoref{ch:concrete-instances-boundedlinearoperator-namecert}. The packet names only the displayed variational handoff; it does not add a choice-selected solution operator or an ambient PDE existence theorem.
+
+\begin{definition}[Lax-Milgram carrier]
+\label{def:lax-milgram-carrier}
+A $\LaxMilgramUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+K=(H,B,F,C,S,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the Hilbert/Sobolev domain row, read through the $\HilbertUp$ surface and, when a weak-form PDE consumer is present, through the $\SobolevUp$ weak-derivative ledger;
+\item $B$ is the $\BilinFormUp$ row naming the bilinear pairing together with its boundedness and coercivity evidence as finite classifier rows;
+\item $F$ is the bounded functional row, read through the same bounded-linear-operator surface used by $\BoundedLinearOperatorUp$ consumers;
+\item $C$ records the coercivity and boundedness constants as displayed ledger entries rather than as real-number selectors outside the packet;
+\item $S$ is the solution handoff row: it exposes the single variational response row certified by the equation $B(S,v)=F(v)$ for displayed test rows $v$ in $H$;
+\item $T$ stores the $\hsame$ transport and $\Cont$ replay rows for the domain, bilinear form, bounded functional, constants, and solution handoff;
+\item $P$ is the $\Pkg$ provenance over $\HilbertUp$, $\SobolevUp$, $\BilinFormUp$, $\BoundedLinearOperatorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\LaxMilgramUp}$ evidence.
+\end{enumerate}
+The carrier has no coordinate for a choice-selected global inverse, a quotient representative, a completed PDE solution space beyond the cited Sobolev row, or a host theorem asserting existence outside the displayed variational packet.
+\end{definition}
+
+\begin{theorem}[Lax-Milgram NameCert obligations]
+\label{thm:lax-milgram-namecert-obligations}
+The local $\NameCert_{\LaxMilgramUp}$ surface for the carrier of \autoref{def:lax-milgram-carrier} consists of exactly five finite obligations:
+\begin{enumerate}
+\item domain admission, requiring $H$ to be read through the displayed $\HilbertUp$ row and any weak-form consumer through the $\SobolevUp$ ledger;
+\item bilinear-form admission, requiring $B$ to expose only the $\BilinFormUp$ pairing row together with boundedness and coercivity ledger entries;
+\item functional admission, requiring $F$ to be read through the bounded functional surface supplied by $\BoundedLinearOperatorUp$;
+\item variational handoff exactness, requiring every solution-facing read to pass through $S$ and the displayed equation row $B(S,v)=F(v)$ for admitted test rows $v$;
+\item transport and replay stability, requiring $T,P,N$ to preserve the same domain, bilinear, functional, constant, and handoff rows under componentwise $\hsame$, displayed $\Cont$, provenance, and local naming.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The domain, bilinear form, functional, constant ledger, handoff, transport, provenance, and local naming evidence are the full visible inventory of $K$.
+
+Use the cited sibling certificates for each analytic dependency. The Hilbert and Sobolev rows supply the domain-facing reads, the bilinear-form row supplies the pairing and its boundedness/coercivity classifier, and the bounded-linear-operator surface supplies the functional row.
+
+Finally inspect a solution-facing consumer. It can reach only the handoff row $S$ and the displayed variational equation against admitted test rows. The transport, replay, provenance, and naming rows preserve that finite route and add no external selector.
+\end{proof}
+
+\begin{theorem}[Lax-Milgram variational handoff]
+\label{thm:lax-milgram-variational-handoff}
+Every PDE, Sobolev, Hilbert, or variational consumer of an accepted $\LaxMilgramUp$ packet receives only the displayed route
+$$
+H \longmapsto B \longmapsto F \longmapsto C \longmapsto S \longmapsto T,P,N .
+$$
+The consumer may use the certified variational response row and its equation against admitted test rows, but it receives no choice-selected solution operator, no quotient representative, no host inverse map, no ambient compactness principle, and no PDE solution space beyond the finite Sobolev or Hilbert rows already cited.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations. They force any consumer to read the domain, bilinear form, functional, constant ledger, and handoff rows in the order displayed by the carrier.
+
+The Sobolev and Hilbert dependencies identify the domain surface, while the bilinear-form and bounded-linear-operator dependencies identify the pairing and functional surfaces. These reads are certificate rows, not host analytic constructions.
+
+It remains to inspect the handoff. The row $S$ is available only as the variational response named by $B(S,v)=F(v)$ for displayed tests $v$. Since no other solution coordinate is present in the carrier, the listed selector, quotient, inverse, compactness, and ambient PDE objects cannot be exported.
+\end{proof}
+
+\begin{theorem}[Lax-Milgram energy-minimizer handoff]
+\label{thm:lax-milgram-energy-minimizer-handoff}
+An accepted $\LaxMilgramUp$ packet exposes its variational solution row as an energy-minimizer handoff only through the Hilbert/Sobolev domain row of \autoref{ch:concrete-instances-hilbert-namecert} and \autoref{ch:concrete-instances-sobolev-namecert}, the $\BilinFormUp$ coercive pairing row of \autoref{ch:concrete-instances-bilinform-namecert}, and the $\BoundedLinearOperatorUp$ functional row of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}. The handoff is the finite route
+$$
+H\longmapsto B\longmapsto F\longmapsto C\longmapsto S ,
+$$
+with $T,P,N$ preserving transport, replay, provenance, and local naming. It exports no selected inverse operator, no quotient representative of a solution class, and no ambient PDE existence theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lax-milgram-carrier}. The only domain coordinate is $H$, so an energy read starts from the Hilbert row and, for weak-form consumers, the Sobolev ledger named by the sibling chapters.
+
+The energy pairing is then forced through $B$ and $C$. The bilinear-form sibling supplies the coercive pairing row, while the constant ledger records the displayed boundedness and coercivity data. No inverse operator is stored in these rows.
+
+The forcing term is the row $F$ supplied through the bounded-linear-operator surface. The variational response row $S$ can therefore be read as an energy-minimizer handoff only after the domain, pairing, constant, and functional rows have been displayed.
+
+Finally $T,P,N$ transport, source, and name the same finite route. Since the carrier has no coordinate for a selected inverse operator, quotient representative, or ambient PDE existence theorem, none of those objects can be exported by the handoff.
+\end{proof}
+
+\closureat{LaxMilgramUp}{seedStr}
+
+\begin{closurestatus}{\LaxMilgramUp}
+  \constructivestory{A $\LaxMilgramUp$ packet is generated from a Hilbert or Sobolev domain row, a bilinear-form row with boundedness and coercivity ledgers, a bounded functional row, a solution handoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lax-milgram-carrier}, \autoref{thm:lax-milgram-namecert-obligations}, and \autoref{thm:lax-milgram-variational-handoff} seed the finite variational certificate surface consumed by Sobolev, Hilbert, PDE, and bounded-operator routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a choice-selected solution operator, quotient representative, host inverse map, ambient compactness principle, or full PDE existence theorem.}
+  \upgradepath{Obligation closure requires checked carrier admission, bilinear boundedness and coercivity rows, bounded functional admission, solution handoff exactness, transport, replay, provenance, and local naming for the displayed packet.}
+\end{closurestatus}

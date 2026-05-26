@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\DiagonalCauchySubsequenceUp$}
+\label{ch:concrete-instances-diagonal-cauchy-subsequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\DiagonalCauchySubsequenceUp$ packet records the constructive diagonal extraction of a regular Cauchy subsequence as finite BEDC NameCert data. It sits beside the stream-window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the subsequence and interleaving routes of \autoref{ch:concrete-instances-cauchy-subsequence-extraction-namecert} and \autoref{ch:concrete-instances-cauchy-interleaving-criterion-namecert}. The packet names a diagonal finite-window selector for one displayed family of tails; it is not host subsequence equality, a chosen limit, quotient equality of real names, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Diagonal Cauchy subsequence carrier]
+\label{def:diagonal-cauchy-subsequence-carrier}
+A $\DiagonalCauchySubsequenceUp$ carrier is a finite $\BHist$ packet
+$$
+D=(S,R,T,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite family of $\StreamNameUp$ schedules whose rows display the source sequence windows and the tail windows available to the diagonal construction;
+\item $R$ is the $\RegSeqRatUp$ readback ledger attached to the same source and tail schedules;
+\item $T$ is the Cauchy subsequence extraction row, recording the finite increasing-index and tail-request data consumed from the $\CauchySubsequenceExtractionUp$ and $\CauchyInterleavingCriterionUp$ sibling routes;
+\item $Q$ is the diagonal selector row, pairing each requested precision window with the subsequence tail whose regular rational readback is admitted for that window;
+\item $H$ records componentwise $\hsame$ transport for schedules, regular readbacks, extraction rows, diagonal selector rows, replay, provenance, and local naming;
+\item $C$ records displayed $\Cont$ replay from a diagonal request through $S,R,T,Q,H$ before any $\RealUp$ seal is readable;
+\item $P$ is the $\Pkg$ provenance over $\DiagonalCauchySubsequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchySubsequenceExtractionUp$, $\CauchyInterleavingCriterionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\DiagonalCauchySubsequenceUp}$ row.
+\end{enumerate}
+The carrier exports a finite diagonal extraction surface. It has no coordinate for host subsequence equality, selected limits, quotient equality of real names, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Diagonal Cauchy subsequence NameCert obligations]
+\label{thm:diagonal-cauchy-subsequence-namecert-obligations}
+For every accepted $\DiagonalCauchySubsequenceUp$ carrier $D=(S,R,T,Q,H,C,P,N)$, the local $\NameCert_{\DiagonalCauchySubsequenceUp}$ surface consists exactly of schedule admission for the $\StreamNameUp$ rows in $S$; regular rational readback admission through $R$; subsequence-extraction admission through $T$; diagonal selector exactness through $Q$; preservation under the componentwise $\hsame$ rows of $H$; displayed $\Cont$ replay through $C$; provenance through $P$; and local naming through $N$. These obligations keep the diagonal selector inside the finite schedule, readback, extraction, transport, replay, provenance, and naming rows.
+\end{theorem}
+\begin{proof}
+Project the carrier. The schedules, regular readbacks, extraction row, selector row, transports, replay, provenance, and local name are the only visible coordinates of $D$.
+
+Read the analytic rows in order. The $\StreamNameUp$ schedules in $S$ display the finite source and tail windows, $R$ supplies the regular rational readbacks for those windows, and $T$ records the subsequence extraction data supplied by the sibling subsequence and interleaving criteria.
+
+The diagonal row $Q$ is downstream of those reads. It may choose among displayed windows already admitted by $S,R,T$, but it has no socket for a host subsequence, a selected real limit, quotient equality, trichotomy, or ambient completeness.
+
+Finally use $H,C,P,N$. Transport and replay preserve the same finite rows, and the package and local certificate name that route without adding any external diagonal principle.
+\end{proof}
+
+\begin{theorem}[Diagonal Cauchy subsequence regularity]
+\label{thm:diagonal-cauchy-subsequence-regularity}
+For an accepted $\DiagonalCauchySubsequenceUp$ carrier $D=(S,R,T,Q,H,C,P,N)$, every diagonal read exported to a $\RegSeqRatUp$ or $\RealUp$ consumer preserves the regular Cauchy windows displayed by $S$ and $R$. The consumer route factors through
+$$
+\StreamNameUp,\ \RegSeqRatUp,\ \CauchySubsequenceExtractionUp,\ \CauchyInterleavingCriterionUp,\ Q,H,C,P,N .
+$$
+Consequently the packet cannot expose host subsequence equality, selected limits, quotient equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted diagonal read. The route must first inspect the finite schedules $S$ and the attached regular rational readbacks $R$, so the read is already tied to displayed $\StreamNameUp$ and $\RegSeqRatUp$ windows.
+
+Next inspect the subsequence and interleaving row $T$. It records only finite increasing-index and tail-window evidence from the sibling Cauchy routes, and the diagonal selector $Q$ can select only from those displayed rows.
+
+The structural rows preserve the same regular windows. Componentwise $\hsame$ transport and displayed $\Cont$ replay carry $S,R,T,Q$ together, while $P,N$ source and name the accepted packet. Since no excluded object is a coordinate of the carrier, no consumer can obtain host subsequence equality, a selected limit, quotient equality, trichotomy, or ambient $\RealUp$ completeness from the diagonal packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DiagonalCauchySubsequenceUp$ read factors through displayed StreamName schedules, RegSeqRat readbacks, a Cauchy subsequence extraction row, a diagonal selector row, hsame transport, Cont replay, Pkg provenance, and a local NameCert row before any RealUp seal is consumed.}
+
+\independenceWitness{streamname, regseqrat, real, cauchysubsequencecriterion, cauchy-interleaving-criterion: $\DiagonalCauchySubsequenceUp$ is not bijective to any listed sibling because it jointly carries source schedules, regular readbacks, extraction data, a diagonal selector, transport, replay, provenance, and local naming as one finite packet.}
+
+\closureat{DiagonalCauchySubsequenceUp}{seedStr}
+
+\begin{closurestatus}{\DiagonalCauchySubsequenceUp}
+  \constructivestory{A $\DiagonalCauchySubsequenceUp$ packet is generated from StreamName schedules, RegSeqRat readbacks, a Cauchy subsequence extraction row, a diagonal selector row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:diagonal-cauchy-subsequence-carrier}, \autoref{thm:diagonal-cauchy-subsequence-namecert-obligations}, and \autoref{thm:diagonal-cauchy-subsequence-regularity} seed the finite diagonal subsequence route through stream schedules, regular readbacks, and RealUp seal boundaries.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host subsequence equality, selected limits, quotient equality, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, diagonal selector exactness, regular-window preservation, non-escape, and bridge-facing consumer rows for BEDC.Derived.DiagonalCauchySubsequenceUp.}
+\end{closurestatus}

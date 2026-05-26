@@ -4,6 +4,8 @@
 
 Following Kleene's computability-theoretic tree counterexample tradition and Bishop--Bridges constructive analysis, the $\KleeneTreeUp$ packet records a decidable finite-prefix tree surface without turning that surface into an infinite path-selection principle. It sits between the binary prefix carrier of \autoref{ch:concrete-instances-cantorspace-namecert}, the finite-bar discipline of \autoref{ch:concrete-instances-fantheorem-namecert}, the window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real boundary of \autoref{ch:concrete-instances-real-namecert}. The chapter makes explicit that finite tree rows and stream-name windows are not countable choice, not a selected branch, not quotient stream equality, not $\RealUp$ completeness, and not open-cover compactness.
 
+The finite-prefix tree row is consumed through the $\CantorSpaceUp$ prefix carriers of \autoref{ch:concrete-instances-cantorspace-namecert}, the $\FanTheoremUp$ finite-bar discipline, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and the $\RealUp$ boundary before any obstruction row can be interpreted by a downstream consumer.
+
 \begin{definition}[Kleene tree carrier]
 \label{def:kleene-tree-carrier}
 A $\KleeneTreeUp$ carrier is a finite $\BHist$ packet
@@ -70,16 +72,46 @@ The obstruction row $O$ is downstream of the same finite traversal. It records t
 The structural rows $H,C,P,N$ preserve and name that route. Therefore the finite data may be reused by CantorSpace, FanTheorem, RegSeqRat, or Real-facing consumers only as finite prefix information, never as quotient stream equality, an open-cover compactness principle, or a completeness theorem for $\RealUp$.
 \end{proof}
 
+\begin{theorem}[Kleene tree prefix-induction closure]
+\label{thm:kleene-tree-prefix-induction-closure}
+Every accepted finite prefix-tree ledger in a $\KleeneTreeUp$ carrier is closed under displayed parent-prefix induction. Each accepted non-root listed word has its displayed parent in the $\ListUp$ prefix spine and its $\BoolUp$ node decision in the ledger, and $\hsame/\Cont$ replay preserves this finite closure without selecting an infinite branch. The induction uses only the $T,B,L,S,O,H,C,P,N$ carrier rows.
+\end{theorem}
+\begin{proof}
+Induct on the displayed prefix spine $L$ of \autoref{def:kleene-tree-carrier}. The root case is listed directly in the finite tree ledger $T$ and has its Bool decision in $B$, so no parent row is required.
+
+For a non-root listed word, the next row of $L$ displays its parent prefix. The induction hypothesis places that parent inside the same finite spine, while the corresponding row of $B$ records the accepted or refused node decision for the listed word.
+
+The StreamName schedule $S$ only chooses finite windows into this displayed spine. It cannot add a branch beyond the rows already present in $T,B,L$.
+
+Finally $H$ and $C$ transport and replay the same finite packet, while $P,N$ record provenance and local naming. Since the obstruction row $O$ remains part of the carrier, the prefix induction closes the finite ledger without selecting an infinite path or invoking countable choice.
+\end{proof}
+\leanchecked{BEDC.Derived.KleeneTreeUp.KleeneTreeCarrier\_prefix\_induction\_closure}
+
 \begin{theorem}[Kleene tree fan boundary]
 \label{thm:kleene-tree-fan-boundary}
 For every accepted $\KleeneTreeUp$ packet, any $\FanTheoremUp$ or $\CantorSpaceUp$ consumer sees only the finite rows $S,L,B,T,O,H,C,P,N$. The consumer may use finite-bar tests and finite prefix checks along those rows, but it receives no infinite branch, no branch selector, no countable-choice functional, no quotient stream equality, no open-cover compactness principle, and no $\RealUp$ completeness theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.KleeneTreeUp.KleeneTree\_fan\_boundary}
 \begin{proof}
 Project the carrier of \autoref{def:kleene-tree-carrier}. The displayed packet contains the finite StreamName schedule $S$, the List prefix spine $L$, the Bool node ledger $B$, the finite prefix-tree ledger $T$, the obstruction row $O$, and the structural rows $H,C,P,N$.
 
 Apply \autoref{thm:kleene-tree-namecert-obligations}. Prefix stability, window exactness, and traversal stability force every FanTheorem or CantorSpace read to remain inside the displayed finite rows.
 
 It remains to identify what cannot pass through that read. Apply \autoref{thm:kleene-tree-streamname-path-boundary}: the finite route is not a path selector, not a countable-choice functional, not quotient stream equality, not open-cover compactness, and not $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Kleene tree selector refusal]
+\label{thm:kleene-tree-selector-refusal}
+Every read from an accepted $\KleeneTreeUp$ packet into $\CauchySelectionFunctionUp$, $\ChoiceSequenceUp$, or $\SequentialCauchySelectorUp$ factors through the finite rows $S,L,B,T,O,H,C,P,N$. The read may reuse finite StreamName windows, finite prefix ledgers, and finite obstruction data, but it cannot produce a branch selector, a countable-choice functional, or a sequential Cauchy selector row. The obstruction is carried by the row $O$ together with the path and fan boundaries of \autoref{thm:kleene-tree-streamname-path-boundary} and \autoref{thm:kleene-tree-fan-boundary}.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:kleene-tree-carrier}. The only rows exposed to a selector-facing consumer are the finite StreamName schedule $S$, the prefix spine $L$, the Bool ledger $B$, the tree ledger $T$, the obstruction row $O$, and the structural rows $H,C,P,N$.
+
+Apply \autoref{thm:kleene-tree-streamname-path-boundary}. A read through $S,L,B,T$ supplies finite prefix information, not an infinite path, quotient stream equality, or a countable-choice functional.
+
+Apply \autoref{thm:kleene-tree-fan-boundary}. Any CantorSpace or FanTheorem-facing use of the same packet remains inside the finite rows and reaches the obstruction row before it can export a selector.
+
+The row $O$ explicitly denies a computable infinite branch, a selected path, and a branch-producing choice functional as packet coordinates. A sequential Cauchy selector row would require a finite request ledger of selected Cauchy answers, but the Kleene packet contains only tree-prefix and stream-window rows. Therefore no read into $\CauchySelectionFunctionUp$, $\ChoiceSequenceUp$, or $\SequentialCauchySelectorUp$ escapes the finite obstruction boundary.
 \end{proof}
 
 \begin{theorem}[Kleene tree Real-completion non-escape]
@@ -93,13 +125,14 @@ Now apply \autoref{thm:kleene-tree-streamname-path-boundary}. The route through 
 
 The obstruction row contains no selected Cantor point, no path-coded real, no open-cover compactness principle, and no $\RealUp$ completeness theorem. Thus a RegSeqRat or Real completion read cannot escape the finite StreamName boundary supplied by the Kleene tree packet.
 \end{proof}
+\leanchecked{BEDC.Derived.KleeneTreeUp.KleeneTreeRealCompletionNonescape}
 
 \closureat{KleeneTreeUp}{seedStr}
 
 \begin{closurestatus}{\KleeneTreeUp}
   \constructivestory{A $\KleeneTreeUp$ packet is generated from a finite binary prefix-tree ledger, a Bool decidable node ledger, a List prefix spine, a StreamName window schedule, an obstruction row, componentwise $\hsame$ transport, displayed $\Cont$ traversal, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:kleene-tree-carrier}, \autoref{thm:kleene-tree-namecert-obligations}, \autoref{thm:kleene-tree-streamname-path-boundary}, \autoref{thm:kleene-tree-fan-boundary}, and \autoref{thm:kleene-tree-real-completion-nonescape} seed the finite prefix-tree boundary separating StreamName, FanTheorem, CantorSpace, RegSeqRat, and Real-facing data from path-selection and completeness principles.}
+  \scopeclosed{\autoref{def:kleene-tree-carrier}, \autoref{thm:kleene-tree-namecert-obligations}, \autoref{thm:kleene-tree-streamname-path-boundary}, \autoref{thm:kleene-tree-fan-boundary}, \autoref{thm:kleene-tree-selector-refusal}, and \autoref{thm:kleene-tree-real-completion-nonescape} seed the finite prefix-tree boundary separating StreamName, FanTheorem, CantorSpace, selector-facing, RegSeqRat, and Real-facing data from path-selection and completeness principles.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim a computable infinite branch, selected Cantor point, quotient stream equality, countable choice, $\RealUp$ completeness, open-cover compactness, Lean verification, or bridge checking.}

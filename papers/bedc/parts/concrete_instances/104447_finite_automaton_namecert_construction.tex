@@ -1,0 +1,166 @@
+\chapter{A Concrete Naming Certificate for $\FiniteAutomatonUp$}
+\label{ch:concrete-instances-finite-automaton-namecert}
+\origin{human}
+
+Following Hopcroft and Ullman, the $\FiniteAutomatonUp$ packet records the
+finite control surface of a deterministic finite automaton as displayed BEDC
+data rather than as a quotient of accepted languages. It sits between the
+accepted-language export of
+\autoref{ch:concrete-instances-regularlanguage-namecert}, the finite
+word-spine constraints used by
+\autoref{ch:concrete-instances-context-free-pumping-lemma-namecert}, and the
+bounded transition-trace discipline of
+\autoref{ch:concrete-instances-turingmachine-namecert}.
+
+The packet is intentionally smaller than the language chapter and smaller than
+the machine chapter. It names one automaton presentation, one finite input
+window, one run trace, one endpoint classifier, and the transport and
+provenance rows needed by finite consumers.
+
+\begin{definition}[FiniteAutomaton carrier]
+\label{def:finite-automaton-carrier}
+A $\FiniteAutomatonUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+A=(Q,\Sigma,\delta,q_0,F,w,\rho,e,\chi,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is a finite state carrier row, read through the same finite-row
+discipline as the state component of
+\autoref{ch:concrete-instances-regularlanguage-namecert};
+\item $\Sigma$ is the alphabet-window row naming exactly the symbols inspected
+by the finite input word;
+\item $\delta$ is the transition table row whose displayed entries consume a
+state row and a symbol row and return the next state row;
+\item $q_0$ is the start-state row inside $Q$;
+\item $F$ is the accepting-state row inside $Q$;
+\item $w$ is the finite input window as a displayed word spine over $\Sigma$;
+\item $\rho$ is the run-trace ledger beginning at $q_0$ and reading $w$ one
+symbol at a time through $\delta$;
+\item $e$ is the endpoint row of $\rho$;
+\item $\chi$ is the classifier row saying that the endpoint is accepted exactly
+when $e$ is displayed inside $F$;
+\item $H$ stores componentwise $\hsame$ transports for the state carrier,
+alphabet window, transition table, input window, run trace, endpoint, and
+classifier rows;
+\item $C$ stores the $\Cont$ replay routes that let a consumer re-read the
+input window, the transition table entry used at each step, the run endpoint,
+and the classifier row;
+\item $P$ stores the $\Pkg$ provenance naming the finite-row, word-spine,
+regular-language, and Turing-machine comparison surfaces consumed by the
+packet;
+\item $N$ stores the local $\NameCert_{\FiniteAutomatonUp}$ rows.
+\end{enumerate}
+The carrier predicate is
+$\mathsf{FiniteAutomatonPacket}(A)$. It exports no nondeterministic branch
+choice, minimization quotient, regular-expression equivalence, host language
+set, infinite automaton, or unbounded computation trace.
+\end{definition}
+
+\begin{theorem}[FiniteAutomaton NameCert obligations]
+\label{thm:finite-automaton-namecert-obligations}
+For every accepted $\FiniteAutomatonUp$ carrier
+$$
+A=(Q,\Sigma,\delta,q_0,F,w,\rho,e,\chi,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteAutomatonUp}$ surface consists of carrier
+admission, deterministic transition replay, endpoint classifier stability,
+$\hsame$ transport, $\Cont$ replay, and $\Pkg$ provenance for the rows in
+\autoref{def:finite-automaton-carrier}. A consumer may project the finite
+state carrier, alphabet window, transition table, start state, accepting-state
+row, input window, run trace, endpoint, classifier, and local naming rows, but
+it obtains no language quotient, hidden recognizer state, minimization datum,
+regular-expression conversion, or unbounded machine trace.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $A$. The finite rows $Q,\Sigma,\delta,q_0,F,w$
+name the automaton presentation and the inspected input window, while
+$\rho,e,\chi$ name the run trace, endpoint, and acceptance classifier.
+
+Deterministic replay is obtained by reading the word spine in $w$. At the
+empty window the trace endpoint is the start-state row $q_0$. At a cons window,
+the displayed transition-table entry in $\delta$ supplies the unique next state
+row, and the $\Cont$ replay route passes the remaining window to the same
+ledger.
+
+Transport and provenance are exactly the rows $H,C,P,N$. Since those rows only
+compare and replay the displayed carrier coordinates, the certificate has no
+coordinate from which a quotient language, minimized automaton, hidden state,
+regular-expression conversion, or unbounded computation trace could be read.
+\end{proof}
+
+\begin{theorem}[FiniteAutomaton deterministic replay exactness]
+\label{thm:finite-automaton-deterministic-replay-exactness}
+Let $A=(Q,\Sigma,\delta,q_0,F,w,\rho,e,\chi,H,C,P,N)$ be an accepted
+$\FiniteAutomatonUp$ carrier. Every accepted replay of the run trace $\rho$
+factors through the displayed start-state row $q_0$, the finite input window
+$w$, the transition table $\delta$, the componentwise $\hsame$ rows $H$, the
+$\Cont$ replay rows $C$, and the same package provenance $P,N$. In particular,
+two replays with the same displayed rows have the same endpoint state and the
+same classifier row $\chi$.
+\end{theorem}
+\begin{proof}
+Induct on the displayed input window $w$. For the empty window, carrier
+admission identifies the run endpoint with $q_0$, and the classifier row reads
+only whether this displayed state lies in $F$.
+
+For a cons window, project the current state and head symbol. The transition
+table row has one displayed entry for that pair, so the next state of the
+replay is fixed. The $\Cont$ row then hands the tail window to the induction
+hypothesis with the transported state, transition, and classifier rows.
+
+The $\hsame$ and $\Pkg$ rows only preserve the same displayed coordinates.
+Therefore no alternate endpoint can be produced from minimization, a language
+quotient, a hidden recognizer state, or an external computation trace.
+\end{proof}
+
+\begin{theorem}[FiniteAutomaton regular-language consumer]
+\label{thm:finite-automaton-regular-language-consumer}
+Every public $\RegularLanguageUp$ consumer that reads a displayed deterministic
+finite-automaton presentation can factor its finite recognition read through a
+$\FiniteAutomatonUp$ packet with the same state carrier, alphabet window,
+transition table, input word, run trace, endpoint classifier, $\hsame$
+transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. The
+factorization preserves the accepted-word endpoint exposed by
+\autoref{ch:concrete-instances-regularlanguage-namecert} and remains below the
+bounded trace surface of
+\autoref{ch:concrete-instances-turingmachine-namecert}.
+
+The factorization does not assert that all presentations of a regular language
+are equivalent, does not minimize the automaton, and does not translate the
+packet into a context-free or Turing-machine object. The context-free pumping
+consumer in
+\autoref{ch:concrete-instances-context-free-pumping-lemma-namecert} may read
+only the finite word-window and replay rows displayed here.
+\end{theorem}
+\begin{proof}
+Begin with the public finite-automaton rows already exposed by the
+$\RegularLanguageUp$ consumer: finite alphabet, finite state carrier, start
+state, accepting-state row, transition table, input word, deterministic run,
+and accepted endpoint. These rows are exactly the first nine coordinates of
+\autoref{def:finite-automaton-carrier}.
+
+Next copy the consumer's visible transport, continuation, and provenance rows
+into $H,C,P,N$. The deterministic replay exactness theorem then identifies the
+accepted endpoint with the replay endpoint of the $\FiniteAutomatonUp$ packet.
+
+The resulting factorization is a projection to a smaller finite presentation.
+It therefore preserves the regular-language accepted-word endpoint while
+excluding minimization, language quotienting, context-free grammar conversion,
+and unbounded Turing-machine execution, none of which are carrier rows of
+$\FiniteAutomatonUp$.
+\end{proof}
+
+\closureat{FiniteAutomatonUp}{seedStr}
+\closureat{FiniteAutomatonUp}{obligationStr}
+
+\begin{closurestatus}{\FiniteAutomatonUp}
+  \constructivestory{A $\FiniteAutomatonUp$ packet is generated from finite state rows, an alphabet window, a transition table, a start-state row, an accepting-state row, a finite input window, a deterministic run trace, an endpoint classifier, componentwise $\hsame$ transports, $\Cont$ replay routes, $\Pkg$ provenance, and local $\NameCert$ rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:finite-automaton-carrier}, \autoref{thm:finite-automaton-namecert-obligations}, \autoref{thm:finite-automaton-deterministic-replay-exactness}, and \autoref{thm:finite-automaton-regular-language-consumer} bind the finite automaton carrier, local NameCert surface, deterministic replay route, and regular-language consumer factorization.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close minimization, regular-expression conversion, equivalence of all automaton presentations, nondeterministic branching, or machine-checked bridge evidence.}
+  \upgradepath{Scoped closure requires checked Lean rows for the carrier, deterministic replay exactness, and the regular-language consumer factorization.}
+\end{closurestatus}

@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyContinuousExtensionUp
@@ -7,6 +8,8 @@ namespace TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -202,6 +205,22 @@ theorem CauchyContinuousExtensionTasteGate_single_carrier_alignment :
   · intro x y heq
     exact cauchyContinuousExtensionToEventFlow_injective heq
   · rfl
+
+theorem CauchyContinuousExtensionCarrier_regular_source_handoff
+    {S W D F U L H C P N : BHist} :
+    UnaryHistory S → UnaryHistory W → UnaryHistory D → UnaryHistory F →
+      Cont S W D → Cont D F U →
+        cauchyContinuousExtensionFields
+            (CauchyContinuousExtensionUp.mk S W D F U L H C P N) =
+          [S, W, D, F, U, L, H, C, P, N] ∧
+          UnaryHistory U := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro sourceUnary windowUnary _dyadicUnary mapUnary sourceWindow extensionRoute
+  constructor
+  · rfl
+  · have dyadicFromRoute : UnaryHistory D :=
+      unary_cont_closed sourceUnary windowUnary sourceWindow
+    exact unary_cont_closed dyadicFromRoute mapUnary extensionRoute
 
 end TasteGate
 end BEDC.Derived.CauchyContinuousExtensionUp

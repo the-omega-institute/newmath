@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\FundamentalGroupUp$}
+\label{ch:concrete-instances-fundamental-group-namecert}
+\origin{human}
+
+Following Hatcher and Spanier on the fundamental group, the $\FundamentalGroupUp$ packet names the loop-composition group at a displayed basepoint by finite BEDC rows. It sits beside the homotopy surface of \autoref{ch:concrete-instances-homotopy-namecert}, the algebraic group surface of \autoref{ch:concrete-instances-group-namecert}, and the path-lifting surface of \autoref{ch:concrete-instances-covering-space-path-lifting-namecert}. The certificate records based loops, loop homotopies, concatenation, inverse, identity, and covering-lift handoff ledgers; it does not import quotient classes of loops or a host topological theorem.
+
+\begin{definition}[$\FundamentalGroupUp$ finite carrier]
+\label{def:fundamental-group-carrier}
+A $\FundamentalGroupUp$ carrier is a finite $\BHist$ packet
+$$
+\Pi=(X,x_0,L,Q,M,I,E,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the ambient topological source row and $x_0$ is the displayed basepoint row.
+\item $L$ is the finite based-loop row family. Each loop starts and ends at $x_0$ and is read through the path-facing part of $\HomotopyUp$.
+\item $Q$ is the loop-homotopy row family. It compares based loops by endpoint-fixed $\HomotopyUp$ certificates, not by an ambient quotient of maps.
+\item $M$ is the concatenation ledger. It records finite composable loop pairs, their concatenated loop row, and the endpoint-gluing readback.
+\item $I$ is the inverse ledger. It records the reversed loop row and the homotopy rows witnessing the two cancellation routes back to the identity loop row.
+\item $E$ is the identity loop row at $x_0$ and its left and right unit ledgers for $M$.
+\item $U$ is the covering-lift handoff row. It exposes exactly the based-loop data consumable by \autoref{ch:concrete-instances-covering-space-path-lifting-namecert}: base path, initial lift point request, lifted segment route, sheet classifier, and endpoint seal.
+\item $H$ records componentwise $\hsame$ transport for $X,x_0,L,Q,M,I,E,U,C,P,N$.
+\item $C$ records displayed $\Cont$ replay for loop readback, loop-homotopy readback, concatenation, inverse, identity, and covering-lift handoff rows.
+\item $P$ is the $\Pkg$ provenance over $\FundamentalGroupUp$, $\HomotopyUp$, $\GroupUp$, $\CoveringSpacePathLiftingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FundamentalGroupUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. Thus the group object is carried as a finite based-loop and homotopy ledger over $\BHist$, not as a quotient set of host loops.
+\end{definition}
+
+\begin{theorem}[$\FundamentalGroupUp$ NameCert obligations]
+\label{thm:fundamental-group-namecert-obligations}
+For every accepted $\FundamentalGroupUp$ carrier
+$$
+\Pi=(X,x_0,L,Q,M,I,E,U,H,C,P,N),
+$$
+the local $\NameCert_{\FundamentalGroupUp}$ surface consists exactly of carrier admission, basepoint admission, based-loop admission through $\HomotopyUp$, endpoint-fixed loop-homotopy comparison, concatenation ledger exactness, inverse ledger exactness, identity-loop exactness, covering-lift handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every $\GroupUp$ consumer can inspect $L,Q,M,I,E,H,C,P,N$ as the finite algebraic surface, while every covering consumer can inspect $U$ as the finite handoff route; neither consumer receives quotient classes of loops.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:fundamental-group-carrier}. The rows $X,x_0,L,Q,M,I,E,U,H,C,P,N$ already list the base space, basepoint, loops, homotopies, operations, transport, replay, provenance, and local naming data.
+
+The group obligation is read from $M,I,E$ over the classifier $Q$. Concatenation uses the finite endpoint-gluing row of $M$, inverse uses the reversed-loop row and cancellation ledgers of $I$, and the unit laws use $E$. Each comparison is routed through endpoint-fixed $\HomotopyUp$ rows, so the algebraic equality surface is the finite loop-homotopy classifier.
+
+The covering obligation is independent of any global universal cover. The handoff row $U$ exposes a based loop as the base path required by \autoref{ch:concrete-instances-covering-space-path-lifting-namecert}, together with exactly the initial lift request, lifted segment route, sheet classifier, and endpoint seal that a path-lifting packet can read.
+
+Since $H,C,P,N$ only transport, replay, source, and name the displayed rows, there is no remaining coordinate through which a downstream consumer could demand a host loop quotient, a completed path space, or an uncarried fundamental-group representation.
+\end{proof}
+
+\begin{theorem}[$\FundamentalGroupUp$ covering path route]
+\label{thm:fundamental-group-covering-path-route}
+Let $\Pi=(X,x_0,L,Q,M,I,E,U,H,C,P,N)$ be an accepted $\FundamentalGroupUp$ carrier. Any $\CoveringSpacePathLiftingUp$ consumer of a based loop from $\Pi$ factors through the handoff row $U$, the original based-loop row in $L$, the endpoint-fixed loop-homotopy classifier $Q$, the componentwise transport $H$, the displayed replay $C$, the provenance $P$, and the local name $N$. The consumer may observe the lifted endpoint seal and sheet-classifier route supplied by the covering packet, but it cannot replace the loop row by a quotient class or a fundamental-group representation.
+\end{theorem}
+\begin{proof}
+Choose an accepted based loop row from $L$. Its initial and final endpoint rows are both the displayed basepoint $x_0$, and its admissibility is already read through the $\HomotopyUp$ path surface.
+
+Project the handoff row $U$. By definition, $U$ contains the base-path presentation, the initial lift request, and the finite route slots consumed by $\CoveringSpacePathLiftingUp$. The path-lifting packet therefore receives the loop only as a carried base path with visible endpoint data.
+
+Transport along $H$ and replay along $C$. These rows preserve the same based-loop row, loop-homotopy comparison, provenance, and local name, so any covering endpoint seal remains tied to the finite packet $\Pi$.
+
+The route ends at the covering packet's own sheet classifier and endpoint seal. No step introduces a quotient of loops, a universal-cover action, or a host representation theorem; all handoff information is finite $\BHist$ data with $\NameCert$ provenance.
+\end{proof}
+
+\closureat{FundamentalGroupUp}{seedStr}
+
+\begin{closurestatus}{\FundamentalGroupUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fundamental-group-carrier}, \autoref{thm:fundamental-group-namecert-obligations}, and \autoref{thm:fundamental-group-covering-path-route} seed the finite basepoint, loop, loop-homotopy, concatenation, inverse, identity, covering-handoff, transport, replay, provenance, and local naming surface for the fundamental group.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close van Kampen theorems, monodromy representations, universal covers, quotient path spaces, host loop equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, based-loop admission, loop-homotopy comparison, operation ledgers, covering handoff, transport, replay, provenance, and local naming for BEDC.Derived.FundamentalGroupUp.}
+  \constructivestory{A $\FundamentalGroupUp$ packet is generated from a displayed basepoint, finite based-loop rows, endpoint-fixed loop-homotopy rows, concatenation, inverse, identity, covering-lift handoff, componentwise transport, displayed replay, package provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

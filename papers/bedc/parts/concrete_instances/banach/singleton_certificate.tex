@@ -144,3 +144,70 @@ are carried singleton histories in their respective witness rows. Applying
 carried limits collapses them to the singleton endpoint and repacks their
 $\hsame$ relation as $\rho_{\emp}(\ell_0,\ell_1)$.
 \end{proof}
+
+\begin{corollary}[Singleton empty-history Banach consumer determinacy]
+\label{cor:banach-singleton-empty-history-consumer-determinacy}
+For the concrete $\BanachUp$ object of
+\autoref{def:banach-singleton-empty-history-instance}, every accepted
+consumer-facing read of a singleton normed stream $s$ is determined by the
+finite rows
+$$
+A_{\emp},\ \rho_{\emp},\ \nu_{\emp},\ d_{\emp},\
+\mathsf{RealConstantHistoryClassifier}(-,0_{\Real}^{c}),\
+\mathsf{CompleteMetricLimitWitness}(C_{\emp},s,\mu,\ell,L).
+$$
+In particular, any two accepted choices of Banach limit route, vector normal
+form, distance normal form, or zero-exactness decision for the same displayed
+singleton stream have the same readback: the limit is classified with $\emp$ by
+$\rho_{\emp}$, every displayed distance is classified with
+$0_{\Real}^{c}$, and there is no accepted alternate hidden coordinate
+or duplicate classifier source for the consumer read.
+\end{corollary}
+\begin{proof}
+The local admission surface is fixed by
+\autoref{thm:banach-singleton-empty-history-namecert-obligations}. Its rows are
+exactly the singleton $\NormUp$ carrier and classifier, the norm-law and
+zero-exactness rows, the metric Cauchy-completeness row, and the ledger
+provenance inherited from the singleton norm certificate. Thus an accepted
+consumer read can project the displayed $A_{\emp}$ carrier, the
+$\rho_{\emp}$ vector classifier, the constant norm $\nu_{\emp}$, the constant
+metric $d_{\emp}$, the constant RealUp classifier at
+$0_{\Real}^{c}$, and the complete-metric limit-witness row. The
+certificate provides no separate coordinate for another point classifier,
+another metric classifier, or another source of limits.
+
+Consider first two accepted limit routes for the same stream $s$:
+$$
+\mathsf{CompleteMetricLimitWitness}(C_{\emp},s,\mu_0,\ell_0,L_0)
+\quad\text{and}\quad
+\mathsf{CompleteMetricLimitWitness}(C_{\emp},s,\mu_1,\ell_1,L_1).
+$$
+By \autoref{thm:banach-limit-classifier-uniqueness}, the two displayed limits
+are related by $\hsame(\ell_0,\ell_1)$ and hence by the singleton vector
+classifier $\rho_{\emp}(\ell_0,\ell_1)$. Since both limits are carried by their
+witness rows, \autoref{thm:singleton-empty-history-vecspace-endpoint-collapse}
+collapses each carried endpoint to the singleton endpoint $\emp$. Therefore
+the consumer-facing limit normal form is forced to be the same
+$\rho_{\emp}$-class of $\emp$.
+
+For the distance and exactness readbacks, unfold the concrete Banach object.
+By \autoref{thm:banach-singleton-empty-history-carrier-classifier}, every
+carried pair is $\rho_{\emp}$-classified and every displayed norm or metric
+endpoint is read by
+$\mathsf{RealConstantHistoryClassifier}$ at $0_{\Real}^{c}$. The metric
+compatibility theorem \autoref{thm:banach-norm-induced-metric-compatibility},
+read with the classifier-transport row \autoref{thm:banach-hsame-transport},
+identifies the empty-distance row with the same $\rho_{\emp}$ classifier, while
+\autoref{thm:singleton-empty-history-norm-zero-exactness} identifies the
+zero-norm exactness decision with $\rho_{\emp}(m,\emp)$ for every carried
+vector endpoint $m$. Hence the vector normal form, distance normal form, and
+zero-exactness decision all pass through the same singleton classifier and the
+same constant RealUp zero row.
+
+Combining these readings, any accepted consumer use factors through the listed
+finite route. A proposed alternate limit selector, hidden coordinate, or
+duplicate classifier source would have to supply a carrier, classifier,
+metric, or exactness row outside the rows fixed by
+\autoref{thm:banach-singleton-empty-history-namecert-obligations}; such a row
+is not part of the accepted singleton empty-history $\BanachUp$ surface.
+\end{proof}

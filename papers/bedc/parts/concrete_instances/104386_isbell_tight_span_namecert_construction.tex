@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\IsbellTightSpanUp$}
+\label{ch:concrete-instances-isbell-tight-span-namecert}
+\origin{human}
+
+Following Isbell's injective-envelope construction and the Lawvere metric-space reading, the $\IsbellTightSpanUp$ packet records a finite distance-envelope boundary for a displayed metric source. It sits after the metric observation rows of \autoref{ch:concrete-instances-metric-namecert}, beside the Yoneda profile route of \autoref{ch:concrete-instances-yoneda-completion-namecert}, and before the completion-facing handoff of \autoref{ch:concrete-instances-metriccompletion-namecert}. The packet names only finite extremal-distance rows, one-point extension witnesses, separated comparison, completion and Real readback, transport, replay, provenance, and local NameCert data; it does not assert a host injective hull, selected hyperconvex hull, quotient completion, or ambient $\RealUp$ completeness theorem.
+
+\begin{definition}[Isbell tight-span carrier]
+\label{def:isbell-tight-span-carrier}
+An $\IsbellTightSpanUp$ carrier is a finite $\BHist$ packet
+$$
+I=(M,F,E,O,S,Q,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricUp$ source row, including the finite point classifier and distance observations read from \autoref{ch:concrete-instances-metric-namecert}.
+\item $F$ is the finite distance-envelope row. It records the retained functions $f$ from displayed source points to displayed $\RealUp$ distance bounds, together with the inequalities $f(x)+f(y)\ge d(x,y)$ visible in the metric row.
+\item $E$ is the extremal-tightness row, listing the finite witnesses that no retained envelope coordinate can be lowered without breaking a displayed distance-envelope inequality.
+\item $O$ is the one-point extension witness row. It records finite extension tests saying that a candidate point joined to the source by the envelope distances preserves the metric triangle rows already displayed by $M$ and $F$.
+\item $S$ is the separated comparison row: two envelopes are compared only by their displayed distance rows and by the separated zero-distance test consumed by completion readers.
+\item $Q$ is the completion handoff row toward $\MetricCompletionUp$, read only after $M,F,E,O,S$ have been displayed.
+\item $L$ is the $\RealUp$ readback row for the retained envelope distances and separated comparison distances.
+\item $R$ stores the $\RegSeqRatUp$ and $\StreamNameUp$ windows used to read the displayed real distance rows.
+\item $H$ stores componentwise $\hsame$ transport for the metric source, envelope inequalities, extremal witnesses, one-point extension tests, separated comparison, completion handoff, Real readback, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from metric observations to envelope inequalities, from envelopes to one-point extension tests, and from separated comparison to completion and Real readback.
+\item $P$ is the $\Pkg$ provenance over $\IsbellTightSpanUp$, $\MetricUp$, $\MetricCompletionUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\IsbellTightSpanUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,F,E,O,S,Q,L,R,H,C,P,N$. It has no coordinate for a host injective envelope, a selected global hull point, a quotient completion, an open-cover compactness principle, countable choice, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Isbell tight-span NameCert obligations]
+\label{thm:isbell-tight-span-namecert-obligations}
+For every accepted $\IsbellTightSpanUp$ carrier $I=(M,F,E,O,S,Q,L,R,H,C,P,N)$, the local $\NameCert_{\IsbellTightSpanUp}$ surface consists exactly of carrier admission for the displayed metric source, finite distance-envelope inequalities, extremal-tightness witnesses, one-point extension witnesses, separated comparison, completion handoff, $\RealUp$ readback, $\RegSeqRatUp$ and $\StreamNameUp$ windows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every consumer of the packet must inspect these rows before treating the tight-span boundary as a completion neighbour.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:isbell-tight-span-carrier}. The metric source row $M$ and distance-envelope row $F$ are the only places where source distances and envelope inequalities are displayed.
+
+The extremal row $E$ and one-point extension row $O$ record the injective-envelope tests as finite witnesses. The separated comparison row $S$ and completion handoff row $Q$ are downstream of those witnesses, so a completion consumer cannot bypass them.
+
+Finally read $L,R,H,C,P,N$. These rows provide Real readback, finite regular and stream windows, transport, replay, provenance, and local naming for the same route. Since no other classifier coordinate exists, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Isbell tight-span metric handoff]
+\label{thm:isbell-tight-span-metric-handoff}
+Every $\MetricCompletionUp$ or $\RealUp$ read exported by an accepted $\IsbellTightSpanUp$ packet factors through
+$$
+\MetricUp\longmapsto F\longmapsto E\longmapsto O\longmapsto S\longmapsto Q,L,R\longmapsto H,C,P,N .
+$$
+Thus the packet supplies a finite injective-envelope boundary adjacent to metric completion: it keeps metric-source observations, envelope inequalities, one-point extension witnesses, separated comparison, completion readback, and Real readback visible, while exporting no host injective hull, selected limit, quotient completion, countable-choice selector, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the source metric row. The carrier allows a completion-facing read only after the finite distance-envelope inequalities in $F$ and extremal-tightness witnesses in $E$ have been displayed.
+
+Next read the one-point extension and separated comparison rows. The row $O$ records the finite triangle-preservation tests for adding an envelope point, and $S$ records the separated comparison used by completion consumers.
+
+The handoff rows $Q,L,R$ then expose only completion-facing and Real-facing readback for the same finite packet. Transport, replay, provenance, and local naming by $H,C,P,N$ preserve that route and do not add any selected hull point or ambient completeness witness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted IsbellTightSpanUp completion-facing read factors through finite distance-envelope inequalities and one-point extension witnesses before any MetricCompletionUp or RealUp readback is exposed.}
+
+\independenceWitness{metric, metriccompletion, yonedacompletion: IsbellTightSpanUp is not bijective to any listed sibling because it jointly carries distance-envelope inequalities, extremal-tightness witnesses, one-point extension tests, separated comparison, completion handoff, Real readback, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{IsbellTightSpanUp}{seedStr}
+
+\begin{closurestatus}{\IsbellTightSpanUp}
+  \constructivestory{An $\IsbellTightSpanUp$ packet is generated from a MetricUp source row, finite distance-envelope inequalities, extremal-tightness witnesses, one-point extension tests, separated comparison, MetricCompletionUp handoff, RealUp readback, RegSeqRat and StreamName windows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:isbell-tight-span-carrier}, \autoref{thm:isbell-tight-span-namecert-obligations}, and \autoref{thm:isbell-tight-span-metric-handoff} display the finite tight-span envelope route adjacent to metric completion.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host injective envelopes, selected hyperconvex hulls, quotient completion, countable choice, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires Lean carrier admission, distance-envelope inequalities, extremal witnesses, one-point extension tests, separated comparison, and completion handoff for BEDC.Derived.IsbellTightSpanUp.}
+\end{closurestatus}

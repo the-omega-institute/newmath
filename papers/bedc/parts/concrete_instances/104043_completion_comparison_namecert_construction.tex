@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\CompletionComparisonUp$}
+\label{ch:concrete-instances-completion-comparison-namecert}
+\origin{human}
+
+Following Bishop--Bridges metric completion and Kelley uniform-space completion, the $\CompletionComparisonUp$ packet records the finite comparison surface shared by metric, filter, net, regular-Cauchy, separated, and uniform completion presentations. It sits after the metric-completion carrier of \autoref{ch:concrete-instances-metriccompletion-namecert}, the Cauchy-filter carrier of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the Cauchy-net carrier of \autoref{ch:concrete-instances-cauchynet-namecert}, the regular-Cauchy comparison carrier of \autoref{def:regular-cauchy-comparison-carrier}, the separated-metric carrier of \autoref{ch:concrete-instances-separatedmetric-namecert}, and the uniform-completion carrier of \autoref{ch:concrete-instances-uniformcompletion-namecert}. The chapter gives downstream completion consumers one named comparison surface rather than requiring them to choose a quotient-completion presentation or a selected representative prose route.
+
+\begin{definition}[Completion comparison carrier]
+\label{def:completion-comparison-carrier}
+A $\CompletionComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+K=(M,F,T,R,S,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricCompletionUp$ source row, carrying the metric completion presentation before any comparison consumer reads a completion point.
+\item $F$ is the $\CauchyFilterUp$ source row, carrying the filter presentation over the same finite tolerance requests.
+\item $T$ is the $\CauchyNetUp$ source row, carrying the net presentation and its directed observation rows.
+\item $R$ is the $\RegularCauchyComparisonUp$ row, comparing the sequence-style regular Cauchy route with the filter and net routes through displayed tolerance windows.
+\item $S$ is the $\SeparatedMetricUp$ row used to make equality and uniqueness reads pass through separated comparison data rather than host equality.
+\item $U$ is the $\UniformCompletionUp$ row, recording the uniform completion presentation consumed by entourage-facing readers.
+\item $H$ records componentwise $\hsame$ transport for the metric, filter, net, regular-comparison, separated, uniform, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the comparison route
+$$
+M,F,T,R \longmapsto S,U \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CompletionComparisonUp$, $\MetricCompletionUp$, $\CauchyFilterUp$, $\CauchyNetUp$, $\RegularCauchyComparisonUp$, $\SeparatedMetricUp$, $\UniformCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CompletionComparisonUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient completion equality, selected representatives, choice of a convergent subnet, host equality of limits, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Completion comparison NameCert obligations]
+\label{thm:completion-comparison-namecert-obligations}
+For every accepted $\CompletionComparisonUp$ carrier $K=(M,F,T,R,S,U,H,C,P,N)$, the local $\NameCert_{\CompletionComparisonUp}$ surface consists exactly of carrier admission, metric completion source exposure, Cauchy-filter source exposure, Cauchy-net source exposure, regular-Cauchy comparison exposure, separated-metric equality routing, uniform-completion handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and non-escape of quotient completion equality, selected representatives, choice-selected subnets, host equality of limits, open-cover compactness, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:completion-comparison-carrier}. The accepted packet exposes exactly the metric row $M$, filter row $F$, net row $T$, regular comparison row $R$, separated row $S$, uniform row $U$, and structural rows $H,C,P,N$.
+
+The source presentations are read before any equality or uniqueness comparison. Rows $M,F,T,R$ keep metric, filter, net, and regular-Cauchy evidence inside the same finite packet, so a consumer cannot replace the displayed comparison by a quotient object or a selected representative.
+
+The separated and uniform rows then control the target-facing read. Row $S$ supplies the separated comparison boundary, and row $U$ supplies the uniform completion handoff. Rows $H,C,P,N$ transport, replay, source, and name the same finite route.
+
+Since the excluded host-side principles are absent from the carrier, every local obligation is one of the displayed rows.
+\end{proof}
+
+\begin{theorem}[Completion comparison filter-net correspondence]
+\label{thm:completion-comparison-filter-net-correspondence}
+Every filter-net completion read of an accepted $\CompletionComparisonUp$ packet factors through the displayed route
+$$
+\MetricCompletionUp,\ \CauchyFilterUp,\ \CauchyNetUp,\ \RegularCauchyComparisonUp,\ \SeparatedMetricUp,\ \UniformCompletionUp,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+In particular, a consumer comparing Cauchy filters with Cauchy nets must read the shared metric row, the regular-Cauchy comparison row, the separated-metric row, and the uniform-completion handoff from \autoref{def:completion-comparison-carrier}; it cannot import quotient equality of completions, a selected representative sequence, a choice-selected subnet, a host limit theorem, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $K=(M,F,T,R,S,U,H,C,P,N)$. The filter row $F$ and net row $T$ occur in the same packet as the metric row $M$, so their comparison begins from displayed finite completion data.
+
+The regular comparison row $R$ supplies the common tolerance-window route. The separated row $S$ is the only equality-facing component, and the uniform row $U$ is the only entourage-facing completion handoff.
+
+Finally $H,C,P,N$ preserve that route under transport, replay, provenance, and local naming. No extra completion object appears in $K$, so every filter-net read factors through the stated rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CompletionComparisonUp$ consumer comparing completion presentations factors through $\MetricCompletionUp$, $\CauchyFilterUp$, $\CauchyNetUp$, $\RegularCauchyComparisonUp$, $\SeparatedMetricUp$, $\UniformCompletionUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{metriccompletion, cauchyfilter, cauchynet, regularcauchycomparison, separatedmetric, uniformcompletion: $\CompletionComparisonUp$ is not bijective to any listed sibling because it jointly carries metric, filter, net, regular-Cauchy, separated, uniform, transport, replay, provenance, and local NameCert rows in one comparison packet.}
+
+\closureat{CompletionComparisonUp}{seedStr}
+
+\begin{closurestatus}{\CompletionComparisonUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:completion-comparison-carrier}, \autoref{thm:completion-comparison-namecert-obligations}, and \autoref{thm:completion-comparison-filter-net-correspondence} seed the finite comparison surface tying metric, filter, net, regular-Cauchy, separated, and uniform completion rows to one NameCert route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected representatives, choice-selected subnets, host limit equality, open-cover compactness, Lean verification, bridge checking, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-row exposure, filter-net correspondence, separated equality routing, uniform handoff, transport and replay stability, provenance non-escape, and TasteGate field faithfulness for BEDC.Derived.CompletionComparisonUp.}
+  \constructivestory{A $\CompletionComparisonUp$ packet is generated from metric completion, Cauchy-filter, Cauchy-net, regular-Cauchy comparison, separated-metric, uniform-completion, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

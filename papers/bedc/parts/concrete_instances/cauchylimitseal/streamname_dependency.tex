@@ -44,3 +44,45 @@ Apply the StreamName and RegularCauchyName lattice theorem \autoref{thm:cauchy-l
 Finally combine window factorization \autoref{thm:cauchy-limit-seal-window-factorization}, scheduled-window pullback \autoref{thm:cauchy-limit-seal-scheduled-window-pullback}, and non-escape \autoref{thm:cauchy-limit-seal-non-escape}. These local facts rule out a second schedule, quotient equality, selected host limit, host real equality, and ambient completeness as carrier exits, so the only $\RealUp$-facing terminal route is the displayed handoff through $S$, $X$, $D$, $G$, and $E$.
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyLimitSealUp.CauchyLimitSealCarrier\_streamname\_real\_terminal\_handoff}
+
+\begin{theorem}[CauchyLimitSeal StreamName bridge determinacy]
+\label{thm:cauchy-limit-seal-streamname-bridge-determinacy}
+For an accepted $\CauchyLimitSealUp$ carrier $L=(X,S,D,G,E,T,P,N)$, every consumer-facing route, transport, readback, or terminal handoff that reaches the sealed $\RealUp$ endpoint is determined by the displayed local rows
+$$
+S,\quad X,\quad D,\quad G,\quad T,\quad P,\quad N,\quad E.
+$$
+More precisely, the consumer first factors through the scheduled $\StreamNameUp$ window row $S$, then through the displayed $\RegSeqRatUp$ source row $X$, the matching $\DyadicRatCoreUp$ ledger $D$, the completion diagonal row $G$, and the transport row $T$ before the $\RealUp$ seal row $E$ is read; when the same use asks for public readback or certificate provenance, the only available readback coordinates are the displayed $P$ and $N$ rows on that route. No unlisted bridge coordinate, second schedule, quotient stream equality, selected host limit, host real equality, hidden tail witness, or ambient completeness datum is available to such a consumer.
+\end{theorem}
+\begin{proof}
+Begin with the StreamName dependency theorem \autoref{thm:streamname-cauchy-limit-seal-dependency}. It places every sealed-limit consumer read on the finite $\StreamNameUp$ window surface before the seal row is consumed, and in the carrier notation $L=(X,S,D,G,E,T,P,N)$ it identifies the mandatory initial route through $S$, the displayed source row $X$, the dyadic ledger $D$, and the transport route $T$.
+
+Apply the terminal handoff theorem \autoref{thm:cauchy-limit-seal-streamname-real-terminal-handoff}. This refines the same dependency route for $\RealUp$-facing consumers: after the scheduled row $S$ and the displayed source and ledger rows $X$ and $D$, the read must pass through the diagonal row $G$ before it reaches the seal row $E$. Thus any route or handoff reaching the terminal real endpoint has the same ordered local support and cannot choose a different endpoint path.
+
+For transport and readback uses, use the public route packet and public route boundary, \autoref{def:cauchy-limit-seal-public-route-packet} and \autoref{thm:cauchy-limit-seal-public-route-boundary}. They restrict the public consumer surface to the displayed carrier rows and their visible transport, package, and naming data. Hence a transport use is read from $T$ on the route already forced through $S,X,D,G,E$, while any public readback or certificate provenance can only use the displayed $P$ and $N$ rows attached to that same packet.
+
+Finally apply non-escape from \autoref{thm:cauchy-limit-seal-non-escape}. Since the accepted carrier contains no coordinate for a second schedule, quotient stream equality, selected host limit, host real equality, hidden tail witness, or ambient completeness datum, none of those entries can be supplied after the consumer has reached the public boundary. The local rows listed above therefore exhaust the possible consumer-facing bridge uses, and every unlisted bridge coordinate remains unavailable.
+\end{proof}
+
+\begin{corollary}[CauchyLimitSeal StreamName dependency determinacy]
+\label{cor:cauchy-limit-seal-streamname-dependency-determinacy}
+Let $L=(X,S,D,G,E,T,P,N)$ be an accepted $\CauchyLimitSealUp$ carrier, and fix the local rows named by the $\StreamNameUp$ dependency route: the scheduled window row $S$, the displayed $\RegSeqRatUp$ source row $X$, the matching $\DyadicRatCoreUp$ ledger $D$, the completion diagonal row $G$, the transport ledger $T$, the provenance row $P$, the local $\NameCert$ row $N$, and the sealed $\RealUp$ endpoint $E$. Then every accepted consumer-facing use of the $\CauchyLimitSealUp$--$\StreamNameUp$ dependency, whether it asks for a route, a transport, a readback, a finite normal form, or an exactness decision, is determined by those rows.
+
+Equivalently, the only consumer-visible route is the displayed finite route
+$$
+S \to X \to D \to G \to T \to E,
+$$
+with public readback and certificate provenance read only from $P$ and $N$. No accepted use can choose an alternate hidden coordinate, a second scheduled window, a duplicate classifier source, a quotient stream equality, a selected host limit, a host real equality, a hidden tail witness, or an ambient completeness datum.
+\end{corollary}
+\begin{proof}
+Start with the $\StreamNameUp$ dependency theorem \autoref{thm:streamname-cauchy-limit-seal-dependency}. It forces every sealed-limit consumer read to enter through the finite $\StreamNameUp$ window surface before the seal is consumed. In the displayed carrier notation this fixes the initial dependency rows: the schedule row $S$, its $\RegSeqRatUp$ source row $X$, the matching $\DyadicRatCoreUp$ ledger $D$, and the transport row $T$.
+
+Now apply the bridge determinacy theorem \autoref{thm:cauchy-limit-seal-streamname-bridge-determinacy}. That theorem identifies every consumer-facing route, transport, readback, and terminal handoff reaching the sealed $\RealUp$ endpoint with the local rows
+$$
+S,\quad X,\quad D,\quad G,\quad T,\quad P,\quad N,\quad E.
+$$
+Thus once the dependency rows cited in the statement are fixed, the bridge has no remaining degree of freedom from which a second route or a second public readback could be selected.
+
+The finite normal form is the same route read as a packet normal form. The scheduled window in $S$ names the consumer window; $X$ supplies the regular source row; $D$ supplies the dyadic observation ledger; $G$ supplies the completion diagonal; $T$ supplies the visible $\BHist$, $\hsame$, and $\Cont$ transport; $E$ is the sealed endpoint; and $P,N$ supply the $\Pkg$ provenance and local $\NameCert$ readback. Since all of these rows are already fixed, a normal-form request must return that packet and cannot duplicate the classifier source in a second coordinate.
+
+For exactness decisions, the same argument applies at the public boundary. Exactness is consumer-facing only through the accepted route to the sealed endpoint, and \autoref{thm:cauchy-limit-seal-streamname-bridge-determinacy} confines that route to the displayed local rows. The non-escape clauses cited there rule out quotient stream equality, selected host limits, host real equality, hidden tail witnesses, and ambient completeness data. Therefore any accepted exactness decision is read from the fixed finite route and its $P,N$ certificate rows, with no alternate hidden coordinate or duplicate classifier source available.
+\end{proof}

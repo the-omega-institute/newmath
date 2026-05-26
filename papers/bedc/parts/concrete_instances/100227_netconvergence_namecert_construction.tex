@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-netconvergence-namecert}
 \origin{human}
 
-Following Bishop--Bridges constructive analysis and Kelley-style convergence of nets, the $\NetConvergenceUp$ packet names only the finite directed-tail evidence a completion-facing consumer can inspect. It sits between the directed-window surface of \autoref{ch:concrete-instances-cauchynet-namecert}, the finite filterbase handoff of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the entourage discipline of \autoref{ch:concrete-instances-uniformspace-namecert}, and the L10 real-and-completion route of \autoref{sec:roadmap-l10-construction-order}. The packet is a convergence interface for Real and completion arguments; it is not a selected limit, a quotient of nets, or an ambient completeness theorem.
+Following Bishop--Bridges constructive analysis and Kelley-style convergence of nets, the $\NetConvergenceUp$ packet names only the finite directed-tail evidence a completion-facing consumer can inspect. It sits between the Moore--Smith net carrier of \autoref{ch:concrete-instances-moore-smith-net-namecert}, the directed-window surface of \autoref{ch:concrete-instances-cauchynet-namecert}, the finite filterbase handoff of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the entourage discipline of \autoref{ch:concrete-instances-uniformspace-namecert}, and the L10 real-and-completion route of \autoref{sec:roadmap-l10-construction-order}. The Moore--Smith net row supplies the directed-tail and value-window route that this convergence interface consumes before filter and Real handoff rows are read. The packet is a convergence interface for Real and completion arguments; it is not a selected limit, a quotient of nets, or an ambient completeness theorem.
 
 \begin{definition}[Net convergence carrier]
 \label{def:net-convergence-carrier}
@@ -42,6 +42,7 @@ For an accepted carrier $N=(D,T,E,A,F,S,R,L,H,C,P,M)$ of \autoref{def:net-conver
 \item componentwise transport, continuation replay, package provenance, and local naming through $H,C,P,M$.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.NetConvergenceUp.NetConvergenceNameCert\_obligations}
 \begin{proof}
 Project the accepted packet of \autoref{def:net-convergence-carrier}. The analytic coordinates are $D,T,E,A,F,S,R,L$, and the structural coordinates are $H,C,P,M$.
 
@@ -51,6 +52,19 @@ The optional source row does not add a second convergence surface. If $A$ is pre
 
 The downstream routes are likewise fixed by visible rows. The Cauchy-filter consumer reads $F$, while Real-facing consumers read $S$ and $R$ before reaching the seal $L$. Transport, replay, provenance, and naming are componentwise through $H,C,P,M$, so the listed rows exhaust the local naming surface.
 \end{proof}
+
+\begin{theorem}[Moore--Smith dependency for net convergence]
+\label{thm:net-convergence-moore-smith-dependency}
+Every $\NetConvergenceUp$ consumer that is sourced from a $\MooreSmithNetUp$ packet reads the Moore--Smith directed-index row, value-window row, and finite tail ledger before it reads the $\CauchyFilterUp$ handoff row or the $\RealUp$ seal row. The dependency is confined to displayed finite directed-tail evidence and does not introduce selected subnets, cofinal choice, quotient nets, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Use the Moore--Smith net obligations of \autoref{thm:moore-smith-net-namecert-obligations}. They expose directed indices, value windows, and tail requests as the finite packet consumed by convergence-side readers.
+
+Now apply the NetConvergence carrier discipline of \autoref{def:net-convergence-carrier}. The optional source row $A$ can contribute source-net material only through the same directed window, tail ledger, and entourage rows $D,T,E$.
+
+The downstream rows are read after that directed-tail route. The $\CauchyFilterUp$ handoff row $F$ and the $\RealUp$ seal row $L$ therefore consume displayed Moore--Smith evidence only through the accepted $\NetConvergenceUp$ packet, leaving no coordinate for a selected subnet, cofinal-choice operator, quotient net, or ambient completeness theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier\_moore\_smith\_dependency}
 
 \begin{theorem}[Net convergence CauchyFilter handoff]
 \label{thm:net-convergence-cauchy-filter-handoff}
@@ -69,6 +83,7 @@ For a Real-facing read, the packet must continue through $S$ and $R$ before reac
 
 There is no remaining coordinate in $N$ for a selected limit point, a quotient of nets, a countable-choice selector, or an ambient completeness theorem. Consequently the handoff is determined by the displayed route through $D,T,E,F,S,R,L$.
 \end{proof}
+\leanchecked{BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier\_cauchy\_filter\_handoff}
 
 \begin{closurestatus}{\NetConvergenceUp}
   \constructivestory{A $\NetConvergenceUp$ packet is generated from a directed-index window, a tail-neighbourhood ledger, a UniformSpace entourage row, an optional CauchyNet source row, a CauchyFilter handoff row, StreamName windows, RegSeqRat readback, a Real seal boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}

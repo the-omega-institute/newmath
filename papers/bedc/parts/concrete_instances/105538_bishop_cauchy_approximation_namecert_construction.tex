@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchyApproximationUp$}
+\label{ch:concrete-instances-bishop-cauchy-approximation-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopCauchyApproximationUp$ packet names the finite approximation surface by which a regular Cauchy rational source answers a Real-facing precision request. It sits between the regular rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation interface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}, and the finite approximation service of \autoref{ch:concrete-instances-finite-cauchy-approximation-namecert}. The packet is the L10 human-origin approximation row used by Real and Completion consumers before any quotient stream, selected limit, countable choice, trichotomy, host equality, or ambient completeness principle is available.
+
+\begin{definition}[Bishop Cauchy approximation source]
+\label{def:bishop-cauchy-approximation-source}
+A $\BishopCauchyApproximationUp$ source is a finite $\BHist$ packet
+$$
+A=(R,n,W,D,V,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ source row whose regular rational name supplies the Cauchy data.
+\item $n$ is the unary precision request row. It records the requested approximation depth before any finite window is opened.
+\item $W$ is the $\StreamNameUp$ finite-window row inspected at precision $n$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the same request and window.
+\item $V$ is the displayed approximation value row read from $R$ through $W$ and checked against $D$.
+\item $E$ is the terminal $\RealUp$ seal handoff. It can be consumed only after $R,n,W,D,V$ have all been displayed.
+\item $H$ stores componentwise $\hsame$ transports for the source, request, window, tolerance, value, seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a Real-facing approximation read through $R,n,W,D,V$ and into the seal row $E$.
+\item $P$ is the $\Pkg$ provenance over $\BishopCauchyApproximationUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\FiniteCauchyApproximationUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopCauchyApproximationUp}$ row.
+\end{enumerate}
+The local classifier compares two sources only through the displayed rows $R,n,W,D,V,E,H,C,P,N$. It has no coordinate for a quotient stream, selected limit, host equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop Cauchy approximation window handoff]
+\label{thm:bishop-cauchy-approximation-window-handoff}
+Let
+$$
+A=(R,n,W,D,V,E,H,C,P,N)
+$$
+be an accepted $\BishopCauchyApproximationUp$ source. Every $\RealUp$-facing approximation read of $A$ passes through, in order, the $\RegSeqRatUp$ source row $R$, the unary precision request $n$, the finite $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the displayed approximation value $V$, and the terminal $\RealUp$ seal handoff $E$, with componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ support supplied by $H,C,P,N$. The read exports no quotient stream, selected limit, host equality, countable-choice selector, trichotomy row, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Project the source through \autoref{def:bishop-cauchy-approximation-source}. The only analytic rows visible to a Real-facing consumer are $R,n,W,D,V,E$, while $H,C,P,N$ supply transport, replay, provenance, and local naming.
+
+The regular source row is read first. It presents the $\RegSeqRatUp$ Cauchy data as finite packet data, so the consumer has not yet received a Real value, quotient stream, or selected limit.
+
+The precision request and finite window then determine the inspected observation. The row $n$ fixes the requested depth, $W$ opens the corresponding finite $\StreamNameUp$ segment, and $D$ records the dyadic tolerance ledger attached to that same finite request.
+
+The displayed value row $V$ is therefore read only after the source, request, window, and tolerance rows are all present. The terminal row $E$ seals the result as Real-facing data, and the support rows $H,C,P,N$ replay exactly that route.
+
+Finally compare with the sibling service of \autoref{ch:concrete-instances-finite-cauchy-approximation-namecert}. Both packets use the same regular-source, finite-window, dyadic-ledger, and Real-seal order. Since neither route contains a coordinate for quotient streams, selected limits, host equality, countable choice, trichotomy, or ambient $\RealUp$ completeness, no such datum can be exported by the Bishop approximation handoff.
+\end{proof}
+
+\begin{closurestatus}{\BishopCauchyApproximationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-cauchy-approximation-source} and \autoref{thm:bishop-cauchy-approximation-window-handoff} seed the L10 Bishop approximation route from $\RegSeqRatUp$ through $\StreamNameUp$, $\DyadicRatCoreUp$, $\FiniteCauchyApproximationUp$, and the terminal $\RealUp$ seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient streams, selected limits, host equality, countable choice, trichotomy, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, precision-window handoff, dyadic tolerance exactness, RealUp seal nonescape, and finite approximation compatibility for BEDC.Derived.BishopCauchyApproximationUp.}
+  \constructivestory{A $\BishopCauchyApproximationUp$ packet is generated from a RegSeqRat source row, unary precision request, StreamName finite window, DyadicRatCore tolerance ledger, displayed approximation value, RealUp seal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

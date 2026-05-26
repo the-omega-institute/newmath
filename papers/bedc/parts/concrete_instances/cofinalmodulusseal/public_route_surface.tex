@@ -559,3 +559,21 @@ Now apply \autoref{thm:cofinal-modulus-seal-primitive-route-exhaustion}. It keep
 
 Finally use the checked StdBridge row recorded by \texttt{BEDC.Derived.CofinalModulusSealUp.CofinalModulusSealUp\_StdBridge}. The bridge row supplies the acceptance-bridge witness for the public surface, while the exclusions above keep the mature package finite and do not add Real completeness.
 \end{proof}
+
+\begin{corollary}[Cofinal modulus seal window-lock strict obstruction]
+\label{cor:cofinal-modulus-seal-window-lock-strict-obstruction}
+Suppose a public $\CofinalModulusSealUp$ consumer displays a failure, refusal, separation, or countermodel against a route that tries to reuse the window lock outside the rows
+$$
+B,M,W,T,D,R,L,E,H,C,P,N.
+$$
+Then the obstruction is strict and local: it blocks only the named converse or reuse route that omits, detaches, or replaces one of the displayed cofinal source, window, readback, Real-handoff, transport, replay, provenance, or local naming rows. It is not a global impossibility result, a host-completeness theorem, or hidden external validation of an undisplayed completion principle.
+\end{corollary}
+\begin{proof}
+Start with \autoref{thm:cofinal-modulus-seal-lean-frontier-readiness}. It identifies the rows that any formal or consumer-facing reading must preserve: $B,M,W$ remain the common cofinal source for $T,D,R,L,E$, and $H,C,P,N$ remain support rows that do not introduce countable choice, quotient equality, selected limits, hidden $\StreamNameUp$ selectors, or ambient Real completeness.
+
+Apply \autoref{thm:cofinal-modulus-seal-completion-scope-factorization}. Every completion-facing scope exported by the packet factors through exactly the displayed row sequence $B,M,W,T,D,R,L,E,H,C,P,N$. Hence a consumer-facing obstruction can only be evaluated against a route coordinate in that finite factorization or against an attempted reuse that bypasses it.
+
+Now inspect the possible reuse attempts. If the attempted route detaches the window, replaces the cofinal source, skips $T,D,R,L,E$, or reads support from outside $H,C,P,N$, the obstruction blocks precisely that omitted or replaced coordinate. If the attempted route asks for quotient equality, a selected host limit, countable choice, hidden StreamName selection, ambient Real completeness, or an undisplayed completion seal, the Lean-frontier boundary says that no such coordinate belongs to the packet. In both cases the displayed row blocks only the attempted converse or reuse route.
+
+The same factorization also prevents a stronger reinterpretation. Since every public completion-facing use has already been forced through the finite route, the obstruction has no remaining coordinate from which to assert a global impossibility theorem, no host-completeness premise from which to prove a host result, and no external validation row hidden behind the window lock. Thus the window-lock obstruction is strict, local, and exhausted by the displayed carrier surface.
+\end{proof}

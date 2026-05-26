@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\LandauSymbolUp$}
+\label{ch:concrete-instances-landau-symbol-namecert}
+\origin{human}
+
+Following Landau and Hardy, the $\LandauSymbolUp$ packet records eventual finite-threshold comparison as BEDC data rather than as host asymptotic notation. It sits over the finite window service of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the modulus-controlled real-name route of \autoref{ch:concrete-instances-realcauchymodulus-namecert}. The packet gives Real and Completion consumers a named threshold comparison row without importing limit notation, quotient streams, selected tails, trichotomy, or ambient completeness.
+
+\begin{definition}[Landau symbol carrier]
+\label{def:landau-symbol-carrier}
+A $\LandauSymbolUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,T,W,B,Q,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the source $\StreamNameUp$ row naming the inspected stream family and the finite windows used to read the candidate function.
+\item $T$ is the comparison $\StreamNameUp$ row naming the matching finite windows for the bounding stream.
+\item $W$ is the threshold witness row, consisting of one displayed unary threshold and the proof ledger that every accepted tail request is beyond it.
+\item $B$ is the eventual-bound ledger, recording the displayed finite comparison between the two streams for all windows admitted after $W$.
+\item $Q$ is the $\RegSeqRatUp$ handoff row through which both stream reads enter regular rational comparison.
+\item $E$ is the $\RealUp$ seal row exposed only after the source stream, comparison stream, threshold witness, eventual-bound ledger, and RegSeqRat handoff have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source stream, comparison stream, threshold witness, eventual-bound ledger, RegSeqRat handoff, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Landau comparison request through $S,T,W,B,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LandauSymbolUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RealCauchyModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LandauSymbolUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,T,W,B,Q,E,H,C,P,N$. It has no coordinate for a host limit, quotient stream equality, selected infinite tail, external asymptotic notation, trichotomy of completed reals, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Landau symbol NameCert obligations]
+\label{thm:landau-symbol-namecert-obligations}
+For every accepted $\LandauSymbolUp$ carrier $L=(S,T,W,B,Q,E,H,C,P,N)$, the local $\NameCert_{\LandauSymbolUp}$ surface consists exactly of carrier admission, threshold monotonicity, eventual-bound exactness, RegSeqRat and Real handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Threshold monotonicity says that every later finite window served by the source and comparison streams remains beyond the displayed threshold $W$. Eventual-bound exactness says that the bound read by a consumer is precisely the comparison ledger $B$ after the route
+$$
+S,T,W \longmapsto B \longmapsto Q \longmapsto E
+$$
+has been displayed. Ledger non-escape excludes host limit notation, quotient stream equality, selected tails, trichotomy, and ambient completeness from the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:landau-symbol-carrier}. The two stream rows $S,T$ supply the only observable source and comparison windows, and $W$ is the only threshold coordinate.
+
+The eventual comparison is read through $B$. Threshold monotonicity is the row condition that a later accepted request still factors through the same displayed threshold, so no separate tail selector can enter the route.
+
+The handoff rows $Q$ and $E$ place the comparison inside RegSeqRat readback before any Real-facing consumer sees a seal. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route, so there is no coordinate from which host asymptotic notation, quotient stream equality, selected tails, trichotomy, or ambient completeness can be exported.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LandauSymbolUp$ Real-facing consumer factors through displayed source and comparison $\StreamNameUp$ windows, one threshold witness, one eventual-bound ledger, $\RegSeqRatUp$ readback, $\RealUp$ sealing, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before it may use the comparison as asymptotic evidence.}
+
+\independenceWitness{streamname, regseqrat, real, realcauchymodulus: no listed sibling is bijective to $\LandauSymbolUp$, because the siblings respectively supply finite windows, regular rational readback, terminal real sealing, or modulus-controlled real-name service, while this packet uniquely binds two stream rows to one finite threshold and one eventual-bound ledger.}
+
+\closureat{LandauSymbolUp}{seedStr}
+
+\begin{closurestatus}{\LandauSymbolUp}
+  \constructivestory{A $\LandauSymbolUp$ packet is generated from source and comparison StreamName rows, a threshold witness, an eventual-bound ledger, RegSeqRat handoff, Real sealing, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:landau-symbol-carrier} and \autoref{thm:landau-symbol-namecert-obligations} seed the finite threshold-comparison carrier over StreamName, RegSeqRat, Real, and RealCauchyModulus rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host asymptotic notation, quotient stream equality, selected infinite tails, trichotomy, Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, threshold monotonicity, eventual-bound exactness, RegSeqRat and Real handoff, structural transport, and ledger non-escape for BEDC.Derived.LandauSymbolUp.}
+\end{closurestatus}

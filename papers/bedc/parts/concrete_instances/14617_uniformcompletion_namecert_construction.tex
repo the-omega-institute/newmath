@@ -109,12 +109,241 @@ preserve this order because they are componentwise rows over the same finite
 packet.
 \end{proof}
 
+\begin{theorem}[UniformCompletion directed-net witness extraction]
+\label{thm:uniform-completion-directed-net-witness}
+For an accepted $\UniformCompletionUp$ carrier $(F,D,U,E,H,C,P,N)$, every
+directed witness consumed by a completion-facing route is extracted from the
+displayed $\CauchyNetUp$ row $D$ after the Cauchy-filter row $F$ has fixed the
+request. The witness is therefore a finite directed-net subwindow, not a
+selected limit, quotient representative, or ambient complete-uniform-space
+point.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:uniform-completion-carrier}. The
+Cauchy-filter row $F$ names the completion request, and the only directed row
+available to answer it is $D$.
+
+The existing factorization route of
+\autoref{thm:uniform-completion-cauchy-filter-factorization} already forces
+completion-facing consumers to read $F$ and $D$ before extension or Real handoff
+data. Thus a directed witness is obtained by inspecting the finite subwindow
+stored in $D$.
+
+The remaining rows $U,E,H,C,P,N$ transport, replay, source, classify, and name
+the same packet. Since none of them stores a selected limit, quotient
+representative, or ambient point, the extracted witness cannot escape the
+displayed directed-net row.
+\end{proof}
+\leanchecked{BEDC.Derived.UniformCompletionUp.TasteGate.UniformCompletion\_directed\_net\_witness\_certificate}
+
+\begin{theorem}[UniformCompletion universal-extension uniqueness]
+\label{thm:uniform-completion-universal-extension-uniqueness}
+For an accepted $\UniformCompletionUp$ carrier $(F,D,U,E,H,C,P,N)$, any two
+displayed extension routes that read the same $\RegSeqRatUp$ handoff data and
+the same $\RealUp$ seal data agree under the classifier row $E$. The comparison
+passes through the $\CompletionUniversalPropertyUp$ row $U$ and the displayed
+classifier, and it adds no parameter-transport equivalence or host equality of
+completion objects.
+\end{theorem}
+\begin{proof}
+Read both extension routes through the same accepted packet. By
+\autoref{thm:uniform-completion-cauchy-filter-factorization}, both routes
+first consume $F$ and $D$, so their completion-facing source data are already
+the displayed Cauchy-filter and directed-net rows.
+
+The universal-extension coordinate is $U$. When the two routes present the
+same RegSeqRat and Real seal rows, $U$ supplies the common extension surface
+attached to those rows, and $E$ is the only classifier coordinate allowed to
+compare the two reads.
+
+Componentwise transport and replay through $H$ and $C$ preserve the same
+classifier input, while $P$ and $N$ source and name only the displayed packet.
+Therefore agreement is a classifier agreement under $E$, not an added
+parameter-transport equivalence or host completion equality.
+\end{proof}
+\leanchecked{BEDC.Derived.UniformCompletionUp.TasteGate.UniformCompletion\_universal\_extension\_uniqueness}
+
+\begin{theorem}[UniformCompletion ledger non-escape]
+\label{thm:uniform-completion-ledger-nonescape}
+Every $\UniformCompletionUp$ consumer read factors through the displayed rows
+$$
+F,D,U,E,H,C,P,N .
+$$
+In particular, the read enters through the Cauchy-filter and Cauchy-net rows,
+continues through universal-extension and classifier rows, and is preserved by
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data only. It exports no
+quotient completion, selected representative, ambient complete uniform space,
+open-cover compactness principle, or choice principle.
+\end{theorem}
+\begin{proof}
+Start with a consumer read of the accepted carrier. Projection gives exactly
+the rows $F,D,U,E,H,C,P,N$.
+
+The factorization theorem forces the analytic part of the read through $F$ and
+$D$ before any extension or Real-facing handoff is visible. The directed witness
+extraction row then remains inside the displayed Cauchy-net evidence.
+
+The rows $U$ and $E$ are the only extension and classifier rows. The structural
+rows $H,C,P,N$ preserve, replay, source, and name those same coordinates, and
+the carrier contains no further ledger entry.
+
+Thus every consumer read factors through the displayed BHist, transport,
+continuation, provenance, and naming rows, and none of the excluded quotient,
+selection, ambient-completeness, open-cover, or choice data can be exported.
+\end{proof}
+\leanchecked{BEDC.Derived.UniformCompletionUp.TasteGate.UniformCompletion\_ledger\_nonescape}
+
+\begin{theorem}[UniformCompletion filter-net obligations]
+\label{thm:uniform-completion-filter-net-obligations}
+An accepted $\UniformCompletionUp$ carrier exposes exactly the $\CauchyFilterUp$, $\CauchyNetUp$, $\CompletionUniversalPropertyUp$, $\RealUp$, $\RegSeqRatUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows needed for carrier admission and filter-to-net factorization. Carrier admission reads the packet as $(F,D,U,E,H,C,P,N)$, the filter row $F$ fixes the completion-facing request, the directed-net row $D$ supplies the finite witness route for that request, and the universal, Real, and RegSeqRat rows are readable only after $F$ and $D$ have been displayed.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:uniform-completion-carrier}. The displayed coordinates already list the Cauchy-filter row $F$, the Cauchy-net row $D$, the universal-property row $U$, the classifier row $E$, and the structural rows $H,C,P,N$.
+
+The filter-to-net factorization is the local route from $F$ to $D$. The filter row fixes the finite request and the directed-net row provides the corresponding finite witness, so the construction has no place to read a selected limit or a quotient completion object.
+
+The RegSeqRat and Real handoff data are named in the provenance row $P$ and replayed by $C$ after $F,D,U,E$ have been fixed. Componentwise $\hsame$ transport through $H$ preserves the same displayed rows, and the local $\NameCert$ row $N$ admits exactly this packet.
+\end{proof}
+\leanchecked{BEDC.Derived.UniformCompletionUp.UniformCompletion\_filter\_net\_obligations}
+
+\begin{theorem}[UniformCompletion filter-net exactness]
+\label{thm:uniformcompletion-filter-net-exactness}
+Every accepted $\UniformCompletionUp$ packet routes a completion request through the Cauchy-filter row $F$ and then through the Cauchy-net row $D$ before any universal-extension or classifier read reaches $U$ or $E$. In carrier notation, the only accepted completion-facing order is
+$$
+F \longmapsto D \longmapsto U,E \longmapsto H,C,P,N .
+$$
+Thus the packet exposes filter data, directed finite witness data, extension comparison, transport, replay, provenance, and local naming, with no bypass through quotient completion, selected representatives, ambient complete uniform spaces, open-cover compactness, or choice.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $(F,D,U,E,H,C,P,N)$ from \autoref{def:uniform-completion-carrier}. The carrier projection gives the only displayed coordinates available to a completion-facing request.
+
+Apply \autoref{thm:uniform-completion-filter-net-obligations}. It fixes the filter row $F$ as the request boundary and the directed-net row $D$ as the finite witness route for that request.
+
+The universal and classifier rows are downstream of that boundary. The structural rows $H,C,P,N$ transport, replay, source, and name the same route, so no excluded completion object has a coordinate from which to enter.
+\end{proof}
+\leanchecked{BEDC.Derived.UniformCompletionUp.TasteGate.UniformCompletion\_filter\_net\_exactness}
+
+\begin{theorem}[UniformCompletion directed subwindow extraction]
+\label{thm:uniformcompletion-directed-subwindow-extraction}
+For every accepted $\UniformCompletionUp$ carrier $(F,D,U,E,H,C,P,N)$, each directed witness used by a completion consumer is a finite $\CauchyNetUp$ subwindow extracted after the $\CauchyFilterUp$ row $F$ fixes the request. The extraction route is confined to
+$$
+F \longmapsto D \longmapsto H,C,P,N ,
+$$
+and the universal row $U$ may read the extracted witness only after this route is displayed.
+\end{theorem}
+\begin{proof}
+Begin with the finite request fixed by $F$. By \autoref{thm:uniform-completion-filter-net-obligations}, the directed witness is supplied by the row $D$ for that same request, not by an ambient net chosen outside the packet.
+
+Use \autoref{thm:uniform-completion-directed-net-witness}. The witness row is the displayed Cauchy-net evidence available to the packet, so any subwindow extracted for a consumer remains a finite subwindow of $D$.
+
+The transport, replay, provenance, and naming rows preserve that extracted row. Since $U$ is read only after the filter-net witness is displayed, universal extension cannot introduce a separate directed object.
+\end{proof}
+\leanchecked{BEDC.Derived.UniformCompletionUp.TasteGate.UniformCompletion\_directed\_subwindow\_extraction}
+
+\begin{theorem}[UniformCompletion universal extension scope]
+\label{thm:uniformcompletion-universal-extension-scope}
+Every extension comparison exported by an accepted $\UniformCompletionUp$ carrier is confined to the universal-extension row $U$ and the classifier row $E$ after the filter-net boundary has been displayed. Equivalently, any such comparison factors as
+$$
+F,D \longmapsto U,E \longmapsto H,C,P,N ,
+$$
+with $\RegSeqRatUp$ and $\RealUp$ handoffs readable only as provenance downstream of that route.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:uniformcompletion-filter-net-exactness}. It places all extension consumers behind the displayed filter row $F$ and directed-net row $D$.
+
+Next apply \autoref{thm:uniform-completion-universal-extension-uniqueness}. The comparison itself is carried by the universal-extension row and read through the classifier row, so the comparison surface is $U,E$.
+
+Finally use \autoref{thm:uniform-completion-universal-ledger-nonescape}. The structural rows preserve the same route, and downstream RegSeqRat or Real handoffs are provenance reads rather than additional universal-extension coordinates.
+\end{proof}
+\leanchecked{BEDC.Derived.UniformCompletionUp.TasteGate.UniformCompletion\_extension\_comparison\_certificate}
+
+\begin{theorem}[UniformCompletion universal ledger non-escape]
+\label{thm:uniform-completion-universal-ledger-nonescape}
+Any universal-extension read of an accepted $\UniformCompletionUp$ packet factors through the displayed universal-extension uniqueness row and gains no host quotient, selected limit, choice, or ambient completeness coordinate. The only extension comparison route is
+$$
+F,D \longmapsto U,E \longmapsto H,C,P,N ,
+$$
+so a consumer may compare extension reads only through $U$ and the displayed classifier row $E$.
+\end{theorem}
+\begin{proof}
+Begin with a universal-extension read. By \autoref{thm:uniform-completion-cauchy-filter-factorization}, the read first passes through the Cauchy-filter row $F$ and the directed-net witness row $D$.
+
+The universal ledger is then $U$, with comparison confined to the classifier row $E$. This is exactly the uniqueness route stated in \autoref{thm:uniform-completion-universal-extension-uniqueness}.
+
+Finally $H$ and $C$ transport and replay the same finite rows, while $P$ and $N$ source and name the packet. None of those structural rows contains a quotient completion, selected limit, choice principle, or ambient completeness coordinate.
+\end{proof}
+\leanchecked{BEDC.Derived.UniformCompletionUp.TasteGate.UniformCompletion\_universal\_ledger\_nonescape}
+
+\begin{theorem}[UniformCompletion Real-RegSeqRat handoff]
+\label{thm:uniform-completion-real-regseqrat-handoff}
+Every $\RealUp$-facing consumer of an accepted $\UniformCompletionUp$ packet reads the completion seal through $\RegSeqRatUp$ and the displayed Cauchy filter and Cauchy net rows. The consumer route is therefore confined to the finite chain
+$$
+F,D \longmapsto \RegSeqRatUp \longmapsto \RealUp \longmapsto H,C,P,N
+$$
+named by the carrier provenance, not to a host completed-real object or a selected representative.
+\end{theorem}
+\begin{proof}
+Project the packet and read its provenance row $P$. The only Real-facing source named there passes through the displayed Cauchy-filter row $F$, the Cauchy-net row $D$, the regular rational handoff, and the terminal Real seal.
+
+The already established filter-net obligations force $F$ and $D$ to be consumed before the RegSeqRat and Real rows are public. Thus a Real-facing consumer cannot bypass the finite filter and net witness route.
+
+Transport through $H$ and replay through $C$ are componentwise over the same rows, and $N$ only names that local packet. Consequently the handoff exports no host completed-real object, selected representative, quotient stream, choice principle, or ambient completeness premise.
+\end{proof}
+\leanchecked{BEDC.Derived.UniformCompletionUp.TasteGate.UniformCompletion\_real\_regseqrat\_handoff}
+
+\begin{theorem}[UniformCompletion scope lock]
+\label{thm:uniform-completion-scope-lock}
+The $\UniformCompletionUp$ filter-net obligations are scoped exactly by the $\CauchyFilterUp$ row $F$, the $\CauchyNetUp$ row $D$, the $\CompletionUniversalPropertyUp$ row $U$, the $\RegSeqRatUp$ and $\RealUp$ handoff rows named by $P$, and the structural rows $H,C,P,N$ for $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Within that scope there is no quotient completion, selected representative, ambient complete uniform space, open-cover compactness principle, or choice coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:uniform-completion-filter-net-obligations}. It identifies carrier admission and filter-to-net factorization with the finite rows $F,D,U,E,H,C,P,N$, and it places the RegSeqRat and Real handoff data after the Cauchy-filter and Cauchy-net rows.
+
+Apply \autoref{thm:uniform-completion-universal-ledger-nonescape}. The universal-extension comparison route is confined to
+$$
+F,D \longmapsto U,E \longmapsto H,C,P,N .
+$$
+Thus the extension ledger can compare displayed reads only through the universal-property row and the classifier row.
+
+Finally apply \autoref{thm:uniform-completion-real-regseqrat-handoff}. The Real-facing route remains a finite RegSeqRat-to-Real handoff named by the provenance row, with transport and replay preserving the same carrier coordinates. The listed quotient, representative-selection, ambient-completeness, compactness, and choice data are outside the carrier and outside every continuation route.
+\end{proof}
+\leanchecked{BEDC.Derived.UniformCompletionUp.TasteGate.UniformCompletion\_extension\_scope\_regseqrat\_handoff}
+
+\begin{theorem}[UniformCompletion bridge-route interface]
+\label{thm:uniform-completion-bridge-route}
+Every completion-facing read of an accepted $\UniformCompletionUp$ carrier factors through the displayed $\UniformSpaceUp$, $\CauchyFilterUp$, $\CauchyNetUp$, $\CompletionUniversalPropertyUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows named by the carrier and its provenance route. The bridge route therefore exposes only finite entourage requests, Cauchy-filter data, directed-net witnesses, universal-extension comparison, stream windows, regular rational readback, Real handoff data, componentwise transport, displayed continuation, provenance, and local naming. It exports no quotient completion, selected representative, ambient complete uniform space, open-cover compactness principle, or choice principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformCompletionUp.TasteGate.UniformCompletion\_bridge\_route}
+\begin{proof}
+Begin with the accepted carrier of \autoref{def:uniform-completion-carrier}. The completion-facing route first reads the Cauchy-filter row $F$ and the directed-net witness row $D$, and these rows are interpreted over the displayed uniform-space entourage surface named by the surrounding completion route.
+
+The extension comparison then passes through $U$ and $E$. The stream, regular rational, and Real-facing handoff rows are reachable only through the provenance route already used by \autoref{thm:uniform-completion-real-regseqrat-handoff}, so the read cannot bypass the displayed finite rows.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since none of these coordinates stores a quotient completion, selected representative, ambient complete uniform space, open-cover compactness principle, or choice principle, the bridge-route interface is exhausted by the stated rows.
+\end{proof}
+
+\begin{theorem}[UniformCompletion public factorization]
+\label{thm:uniformcompletion-public-factorization}
+Every public $\UniformCompletionUp$ consumer factors through the same finite completion route: the $\CauchyFilterUp$ evidence row $F$, the $\CauchyNetUp$ witness row $D$, the $\CompletionUniversalPropertyUp$ extension row $U$, the $\RegSeqRatUp$ readback row named by provenance, the $\RealUp$ seal, the supporting $\BHist$ packet, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The public route exports no quotient completion equality, no selected representative, no countable-choice schedule, no host equality of completed objects, and no ambient $\RealUp$ completeness claim.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformCompletionUp.TasteGate.UniformCompletion\_public\_factorization}
+\begin{proof}
+Start with the public consumer and apply \autoref{thm:uniform-completion-cauchy-filter-factorization}. The consumer first reaches the Cauchy-filter row $F$ and the directed-net row $D$, before any extension or real handoff data is visible.
+
+Next apply \autoref{thm:uniform-completion-directed-net-witness} and \autoref{thm:uniform-completion-universal-extension-uniqueness}. The directed evidence is extracted from $D$, while extension comparisons pass through $U$ and the classifier row $E$ rather than through a selected limit or host equality.
+
+Now use \autoref{thm:uniform-completion-real-regseqrat-handoff}. Real-facing reads pass through the $\RegSeqRatUp$ handoff and the $\RealUp$ seal after the filter and net rows have fixed the completion-facing source data.
+
+Finally apply \autoref{thm:uniform-completion-scope-lock}. The structural rows $H,C,P,N$ supply the $\BHist$ support, componentwise $\hsame$ transport, $\Cont$ replay, provenance, and local naming for exactly that route, while the quotient, representative-selection, choice, host-equality, and ambient-completeness coordinates remain outside the packet.
+\end{proof}
+
+\closureat{UniformCompletionUp}{bridgedStr}
+
 \begin{closurestatus}{\UniformCompletionUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:uniform-completion-carrier}, \autoref{thm:uniform-completion-namecert-obligation-surface}, and \autoref{thm:uniform-completion-cauchy-filter-factorization} seed the finite uniform-completion packet over Cauchy-filter, Cauchy-net, universal-property, RegSeqRat, and Real rows.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:uniform-completion-carrier}, \autoref{thm:uniform-completion-namecert-obligation-surface}, \autoref{thm:uniform-completion-cauchy-filter-factorization}, \autoref{thm:uniform-completion-directed-net-witness}, \autoref{thm:uniform-completion-universal-extension-uniqueness}, \autoref{thm:uniform-completion-ledger-nonescape}, \autoref{thm:uniform-completion-filter-net-obligations}, \autoref{thm:uniform-completion-universal-ledger-nonescape}, \autoref{thm:uniform-completion-real-regseqrat-handoff}, \autoref{thm:uniform-completion-scope-lock}, \autoref{thm:uniformcompletion-public-factorization}, and \autoref{thm:uniform-completion-bridge-route} close the mature paper package: local obligation surface, scoped filter-net boundary, and paper bridge route for carrier admission, filter-net factorization, directed-net witness extraction, universal-extension uniqueness, Real-RegSeqRat handoff, and ledger non-escape.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{The chapter does not close quotient completions, selected representatives, ambient complete uniform spaces, open-cover compactness, or choice principles.}
-  \upgradepath{The next step is obligationClosure: carrier admission, Cauchy-filter factorization, directed-net witness extraction, universal-extension uniqueness, and ledger non-escape must be discharged as local rows.}
+  \upgradepath{The remaining work is formal-axis alignment of the mature paper package with a canonical Lean target and bridge-ready TasteGate surface for BEDC.Derived.UniformCompletionUp.}
   \constructivestory{The construction starts from displayed Cauchy-filter and directed Cauchy-net rows, then routes finite completion consumers through CompletionUniversalProperty, RegSeqRat, and Real handoff data without adding quotient or choice principles.}
 \end{closurestatus}

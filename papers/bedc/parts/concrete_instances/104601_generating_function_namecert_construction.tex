@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\GeneratingFunctionUp$}
+\label{ch:concrete-instances-generating-function-namecert}
+\origin{human}
+
+Following Wilf and Stanley, a $\GeneratingFunctionUp$ packet records a sequence by its coefficient stream and the finite algebraic windows through which coefficient extraction is read. It sits after the unary index discipline of \autoref{ch:concrete-instances-nat-namecert}, the finite spine discipline of \autoref{ch:concrete-instances-list-namecert}, the stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the real-series carrier of \autoref{ch:concrete-instances-realseries-namecert}, and the coefficient-and-radius surface of \autoref{ch:concrete-instances-realpowerseries-namecert}. The packet is a traditional finite-combinatorics object in BEDC form: it exports coefficient readback and Cauchy-product handoff, not host analytic convergence or equality of functions.
+
+\begin{definition}[GeneratingFunction carrier]
+\label{def:generating-function-carrier}
+A $\GeneratingFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,W,Q,L,Pd,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the coefficient source row, indexed through $\NatUp$ and exposed only by finite $\StreamNameUp$ windows.
+\item $W$ is the coefficient-window ledger, listing the finite prefixes and requested coefficient indices visible to the packet.
+\item $Q$ is the coefficient readback row, turning each displayed window into a $\RegSeqRatUp$ or finite combinatorial count row before any series consumer reads it.
+\item $L$ is the finite $\ListUp$ polynomial-prefix row, carrying the inspected initial polynomial truncations and their coefficient positions.
+\item $Pd$ is the coefficientwise classifier row for equality-facing reads of displayed prefixes.
+\item $M$ is the product handoff row, exposing the Cauchy convolution window used by $\CauchySeriesProductUp$ and $\RealPowerSeriesUp$ consumers.
+\item $H$ stores componentwise $\hsame$ transport for coefficient source, windows, readbacks, finite prefixes, classifier rows, product handoff, replay, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ replay from a coefficient request through the stream window, readback, polynomial prefix, classifier, and product-handoff rows.
+\item $P$ is the $\Pkg$ provenance over $\GeneratingFunctionUp$, $\NatUp$, $\ListUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealSeriesUp$, $\CauchySeriesProductUp$, $\RealPowerSeriesUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\GeneratingFunctionUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a host analytic function, quotient series equality, selected convergence radius, countable-choice coefficient family, or ambient $\RealUp$ completeness theorem.
+\end{definition}
+
+\begin{theorem}[GeneratingFunction NameCert obligations]
+\label{thm:generating-function-namecert-obligations}
+For every accepted $\GeneratingFunctionUp$ carrier $K=(A,W,Q,L,Pd,M,H,C,P,N)$, the local $\NameCert_{\GeneratingFunctionUp}$ surface consists exactly of five finite rows: carrier admission for the displayed coefficient packet; coefficient-window readback through $A,W,Q,L$; coefficientwise classifier stability through $Pd,H,C$; Cauchy and product handoff through $M$; and ledger refusal for host functions, quotient series equality, analytic convergence, selected radii, countable choice, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:generating-function-carrier}. The accepted packet exposes only coefficient source, finite windows, readback rows, list-polynomial prefixes, classifier data, product handoff, transport, replay, provenance, and naming rows.
+
+The coefficient-window readback is finite. A consumer first reads a $\NatUp$ index request, then uses $W$ to select a finite $\StreamNameUp$ window, $Q$ to read the coefficient data, and $L$ to place the result in the displayed polynomial prefix.
+
+Classifier stability is componentwise. The row $Pd$ compares displayed prefixes only after the same windows and readbacks have been transported by $H$ and replayed by $C$.
+
+The Cauchy/product handoff is the row $M$. It exports exactly the finite convolution window needed by product and power-series consumers, so no host function equality, quotient series equality, analytic convergence theorem, selected radius, countable-choice family, or ambient completeness row enters the certificate.
+\end{proof}
+
+\begin{theorem}[GeneratingFunction coefficient readback]
+\label{thm:generating-function-coefficient-readback}
+Every coefficient-facing consumer of an accepted $\GeneratingFunctionUp$ packet factors through
+$$
+\NatUp,\ A \longmapsto W \longmapsto Q,L \longmapsto Pd,H,C,P,N .
+$$
+If the consumer asks for a product coefficient, the route additionally passes through the finite convolution ledger $M$ before any $\CauchySeriesProductUp$ or $\RealPowerSeriesUp$ handoff is visible. Thus the public readback is a finite coefficient-window certificate, not a host function evaluation, quotient equality of formal series, analytic convergence claim, selected infinite sum, or ambient $\RealUp$ completeness route.
+\end{theorem}
+\begin{proof}
+Begin with a displayed coefficient request. The only available index route is the $\NatUp$ row named in the provenance, and the only available coefficient source is $A$.
+
+The request then opens the selected finite window $W$. The readback row $Q$ supplies the coefficient data, and the list-polynomial row $L$ places the coefficient in a finite prefix rather than in an infinite host series.
+
+For product-facing reads, use $M$ after the same window and readback rows. The convolution comparison is therefore a displayed finite ledger handed to $\CauchySeriesProductUp$ or $\RealPowerSeriesUp$, not an equality of analytic functions.
+
+The remaining rows $Pd,H,C,P,N$ preserve and name this route. Since the carrier has no coordinate for host function evaluation, quotient series equality, analytic convergence, selected infinite sums, countable choice, or ambient completeness, every coefficient read is exhausted by the displayed finite packet.
+\end{proof}
+
+\closureat{GeneratingFunctionUp}{seedStr}
+
+\begin{closurestatus}{\GeneratingFunctionUp}
+  \constructivestory{A $\GeneratingFunctionUp$ packet is generated from a Nat-indexed coefficient source, finite StreamName coefficient windows, RegSeqRat or finite-count readbacks, List polynomial prefixes, a coefficientwise classifier, a Cauchy-product handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:generating-function-carrier}, \autoref{thm:generating-function-namecert-obligations}, and \autoref{thm:generating-function-coefficient-readback} seed the finite coefficient-window certificate for generating functions and their product-facing handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host analytic functions, quotient series equality, analytic convergence, selected radii, selected infinite sums, countable choice, Lean verification, bridge checking, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, coefficient-window readback, coefficientwise classifier stability, Cauchy/product handoff, and ledger refusal for BEDC.Derived.GeneratingFunctionUp.}
+\end{closurestatus}

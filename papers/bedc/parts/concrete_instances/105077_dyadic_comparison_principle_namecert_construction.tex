@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\DyadicComparisonPrincipleUp$}
+\label{ch:concrete-instances-dyadic-comparison-principle-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\DyadicComparisonPrincipleUp$ packet records the finite comparison step used when two displayed dyadic or regular-rational windows must be compared before the terminal real seal is consumed. It sits over the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the Bishop-style real comparison surface of \autoref{ch:concrete-instances-bishoprealcomparison-namecert}. The packet names only a finite dyadic comparison surface; it is not real trichotomy, quotient-real equality, a selected limit, countable choice, or ambient completeness for $\RealUp$.
+
+\begin{definition}[DyadicComparisonPrinciple carrier]
+\label{def:dyadic-comparison-principle-carrier}
+A $\DyadicComparisonPrincipleUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D_0,D_1,W,R,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D_0$ and $D_1$ are the two $\DyadicRatCoreUp$ endpoint rows whose dyadic numerators, scales, tolerance ledgers, and descent witnesses are being compared.
+\item $W$ is the shared $\StreamNameUp$ window schedule recording which finite observation windows of the two names are inspected.
+\item $R$ is the $\RegSeqRatUp$ readback row that turns the scheduled windows into regular rational observations without selecting quotient representatives.
+\item $O$ is the finite comparison outcome row. It records one displayed dyadic relation among the inspected rows, or a displayed overlap certificate when the current window is not yet separating.
+\item $H$ records componentwise $\hsame$ transports for $D_0,D_1,W,R$, and $O$.
+\item $C$ records the displayed $\Cont$ replay routes by which downstream consumers inspect the two dyadic rows, the shared window, the regular-rational readback, and the finite comparison outcome.
+\item $P$ is the $\Pkg$ provenance over $\DyadicComparisonPrincipleUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BishopRealComparisonUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\DyadicComparisonPrincipleUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for global real trichotomy, quotient-real equality, a selected limit, countable choice, a host order decision procedure, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[DyadicComparisonPrinciple NameCert obligations]
+\label{thm:dyadic-comparison-principle-namecert-obligations}
+For every accepted $\DyadicComparisonPrincipleUp$ carrier $K=(D_0,D_1,W,R,O,H,C,P,N)$, the local $\NameCert_{\DyadicComparisonPrincipleUp}$ surface consists exactly of carrier admission for the two dyadic rows, shared finite window schedule, regular-rational readback, finite comparison outcome, componentwise transport, displayed continuation replay, provenance, and local naming rows.
+
+Every $\RealUp$-facing or $\BishopRealComparisonUp$-facing consumer of this packet must therefore pass through the displayed route
+$$
+D_0,D_1\longmapsto W\longmapsto R\longmapsto O\longmapsto H,C,P,N
+$$
+before it can read a dyadic comparison. The route exports no real trichotomy, no quotient equality of real names, no selected limit, no countable-choice schedule, and no ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-comparison-principle-carrier}. The analytic rows are exactly the two dyadic endpoints, the shared finite window schedule, the regular-rational readback, and the finite outcome row.
+
+Read the comparison in route order. The dyadic endpoint rows supply the tolerance ledgers, the window schedule names the finite observations, and the regular-rational row supplies the readback surface on which the outcome row is meaningful.
+
+The transport and replay rows preserve those displayed coordinates componentwise. Provenance and local naming then source the same finite packet for downstream $\RealUp$ and $\BishopRealComparisonUp$ consumers.
+
+The excluded principles are absent from the carrier. Since no coordinate stores quotient equality, trichotomy, a selected limit, countable choice, a host decision procedure, or ambient completeness, none of them can be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[DyadicComparisonPrinciple trichotomy refusal]
+\label{thm:dyadic-comparison-principle-trichotomy-refusal}
+An accepted $\DyadicComparisonPrincipleUp$ packet exports finite dyadic comparison data only through $D_0,D_1,W,R,O,H,C,P,N$. In particular, the outcome row $O$ may name a displayed separating relation or an overlap certificate for the inspected window, but it does not decide a global trichotomy for arbitrary $\RealUp$ names, identify quotient real equality, choose a limit representative, provide countable choice, or close ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the finite outcome row $O$. Its inputs are the two dyadic rows and the shared finite window route named by $W$ and $R$, so it is a statement about the inspected window rather than about all real-name extensions.
+
+Use \autoref{thm:dyadic-comparison-principle-namecert-obligations}. Every consumer read of the outcome must pass through the displayed carrier rows before reaching any $\RealUp$ or $\BishopRealComparisonUp$-facing surface.
+
+The packet therefore separates finite dyadic comparison from global order structure. Quotient real equality, selected limits, countable choice, host trichotomy, and real completeness have no row in the carrier and cannot be recovered from the provenance or local naming data.
+\end{proof}
+
+\closureat{DyadicComparisonPrincipleUp}{seedStr}
+
+\begin{closurestatus}{\DyadicComparisonPrincipleUp}
+  \constructivestory{A $\DyadicComparisonPrincipleUp$ packet is generated from two displayed DyadicRatCoreUp rows, a shared StreamName finite-window schedule, a RegSeqRat readback row, a finite comparison outcome or overlap certificate, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-comparison-principle-carrier}, \autoref{thm:dyadic-comparison-principle-namecert-obligations}, and \autoref{thm:dyadic-comparison-principle-trichotomy-refusal} define the finite dyadic comparison packet and its trichotomy refusal boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, global real trichotomy, quotient-real equality, selected limits, countable choice, host order decision procedures, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite outcome transport, Real-facing handoff, BishopRealComparison-facing handoff, and non-escape theorems over BEDC.Derived.DyadicComparisonPrincipleUp.}
+\end{closurestatus}

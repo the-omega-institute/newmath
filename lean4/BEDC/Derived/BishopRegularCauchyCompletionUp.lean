@@ -61,4 +61,40 @@ theorem BishopRegularCauchyCompletionCarrier_common_tail_modulus_stability [AskS
       regularReadUnary, sealReadUnary, tailCommon, commonObservations, observationsRegularity,
       regularitySeal, provenancePkg, sealPkg⟩
 
+theorem BishopRegularCauchyCompletionCarrier_seal_stability [AskSetup] [PackageSetup]
+    {endpoint observations regularity tailModulus commonTail transport replay provenance
+      localName toleranceRead windowRead regularRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BishopRegularCauchyCompletionCarrier endpoint observations regularity tailModulus
+        commonTail transport replay provenance localName bundle pkg →
+      Cont tailModulus commonTail toleranceRead →
+        Cont toleranceRead observations windowRead →
+          Cont windowRead regularity regularRead →
+            Cont regularRead endpoint sealRead →
+              PkgSig bundle sealRead pkg →
+                UnaryHistory endpoint ∧ UnaryHistory observations ∧ UnaryHistory regularity ∧
+                  UnaryHistory tailModulus ∧ UnaryHistory commonTail ∧ UnaryHistory sealRead ∧
+                    Cont tailModulus commonTail toleranceRead ∧
+                      Cont toleranceRead observations windowRead ∧
+                        Cont windowRead regularity regularRead ∧
+                          Cont regularRead endpoint sealRead ∧ PkgSig bundle provenance pkg ∧
+                            PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier tailCommon commonObservations observationsRegularity regularitySeal sealPkg
+  obtain ⟨endpointUnary, observationsUnary, regularityUnary, tailModulusUnary,
+    commonTailUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    provenancePkg, _localNamePkg⟩ := carrier
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed tailModulusUnary commonTailUnary tailCommon
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed toleranceReadUnary observationsUnary commonObservations
+  have regularReadUnary : UnaryHistory regularRead :=
+    unary_cont_closed windowReadUnary regularityUnary observationsRegularity
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularReadUnary endpointUnary regularitySeal
+  exact
+    ⟨endpointUnary, observationsUnary, regularityUnary, tailModulusUnary, commonTailUnary,
+      sealReadUnary, tailCommon, commonObservations, observationsRegularity, regularitySeal,
+      provenancePkg, sealPkg⟩
+
 end BEDC.Derived.BishopRegularCauchyCompletionUp

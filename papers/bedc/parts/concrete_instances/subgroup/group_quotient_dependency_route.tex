@@ -1,0 +1,13 @@
+\begin{theorem}[Subgroup group quotient dependency route]
+\label{thm:subgroup-group-quotient-dependency-route}
+Every accepted $\SubgroupUp$ packet reads its ambient carrier, operation, unit, inverse, and closure rows through the $\GroupUp$ surface of \autoref{ch:concrete-instances-group-namecert} and the operation-unit inheritance route of \autoref{ch:concrete-instances-monoid-namecert}. Any quotient-facing consumer must then route the restricted classifier through \autoref{ch:concrete-instances-quotientgroup-namecert}, rather than treating subgroup data as a kernel-only record detached from the ambient algebra.
+\end{theorem}
+\begin{proof}
+Start with an accepted subgroup packet. Its carrier is a carried subset of an ambient algebraic source, so the operation, unit, inverse, and closure rows are readable only after the $\GroupUp$ carrier and operation surface has been displayed.
+
+The operation and unit rows retain the monoid layer. Associativity, unit compatibility, and product closure are inherited through the $\MonoidUp$ route before inverse and subgroup-specific closure rows are inspected.
+
+For quotient-facing reads, the restricted classifier is not enough by itself. The consumer must expose the $\QuotientGroupUp$ route so that endpoint membership, quotient classifier stability, multiplication compatibility, and representative independence are read as quotient-group rows over the displayed subgroup packet.
+
+Thus the substantive dependency route is $\GroupUp$ and $\MonoidUp$ for ambient algebra, followed by $\QuotientGroupUp$ for quotient consumers. The subgroup packet is not a kernel-only object and does not export quotient structure without that route.
+\end{proof}

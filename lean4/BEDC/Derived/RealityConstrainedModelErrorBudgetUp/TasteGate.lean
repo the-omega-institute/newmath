@@ -1,11 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealityConstrainedModelErrorBudgetUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -301,5 +313,204 @@ theorem RealityConstrainedModelErrorBudgetTasteGate_single_carrier_alignment :
       realityConstrainedModelErrorBudget_round_trip,
       (fun _ _ heq => realityConstrainedModelErrorBudgetToEventFlow_injective heq),
       rfl⟩
+
+theorem RealityConstrainedModelErrorBudgetNameCert_obligations
+    {S E O M F H C P N sourceWindow mismatchRoute failureRoute auditRoute : BHist}
+    (windowRoute : Cont S O sourceWindow) (mismatchLedger : Cont E O mismatchRoute)
+    (failureLedger : Cont mismatchRoute F failureRoute)
+    (auditReplay : Cont failureRoute P auditRoute) :
+    SemanticNameCert
+      (fun row : BHist =>
+        hsame row S ∧
+          ∃ packet : RealityConstrainedModelErrorBudgetUp,
+            packet = RealityConstrainedModelErrorBudgetUp.mk S E O M F H C P N)
+      (fun row : BHist =>
+        Cont S O sourceWindow ∧ Cont E O mismatchRoute ∧ hsame row S ∧ hsame M M ∧
+          hsame F F)
+      (fun row : BHist =>
+        Cont mismatchRoute F failureRoute ∧ Cont failureRoute P auditRoute ∧
+          hsame row S ∧ hsame H H ∧ hsame C C ∧ hsame N N)
+      hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert FieldFaithful
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro S
+          ⟨hsame_refl S,
+            Exists.intro
+              (RealityConstrainedModelErrorBudgetUp.mk S E O M F H C P N) rfl⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        ⟨windowRoute, mismatchLedger, source.left, hsame_refl M, hsame_refl F⟩
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨failureLedger, auditReplay, source.left, hsame_refl H, hsame_refl C, hsame_refl N⟩
+  }
+
+theorem RealityConstrainedModelErrorBudgetCarrier_observation_window_exactness
+    {S E O M F H C P N sourceWindow mismatchRoute failureRoute : BHist} :
+    Cont S O sourceWindow ->
+      Cont E O mismatchRoute ->
+        Cont mismatchRoute F failureRoute ->
+          UnaryHistory S ->
+            UnaryHistory E ->
+              UnaryHistory O ->
+                UnaryHistory F ->
+                  (exists packet : RealityConstrainedModelErrorBudgetUp,
+                      packet = RealityConstrainedModelErrorBudgetUp.mk S E O M F H C P N) ∧
+                    UnaryHistory sourceWindow ∧
+                      UnaryHistory mismatchRoute ∧
+                        UnaryHistory failureRoute ∧
+                          hsame sourceWindow (append S O) ∧
+                            hsame mismatchRoute (append E O) := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory append hsame
+  intro sourceRoute mismatchRouteCont failureRouteCont sourceUnary budgetUnary observationUnary
+    failureUnary
+  have sourceWindowUnary : UnaryHistory sourceWindow :=
+    unary_cont_closed sourceUnary observationUnary sourceRoute
+  have mismatchRouteUnary : UnaryHistory mismatchRoute :=
+    unary_cont_closed budgetUnary observationUnary mismatchRouteCont
+  have failureRouteUnary : UnaryHistory failureRoute :=
+    unary_cont_closed mismatchRouteUnary failureUnary failureRouteCont
+  have sourceWindowExact : hsame sourceWindow (append S O) := by
+    cases sourceRoute
+    exact hsame_refl _
+  have mismatchRouteExact : hsame mismatchRoute (append E O) := by
+    cases mismatchRouteCont
+    exact hsame_refl _
+  exact
+    ⟨Exists.intro (RealityConstrainedModelErrorBudgetUp.mk S E O M F H C P N) rfl,
+      sourceWindowUnary, mismatchRouteUnary, failureRouteUnary, sourceWindowExact,
+      mismatchRouteExact⟩
+
+theorem RealityConstrainedModelErrorBudgetCarrier_failure_visibility
+    {S E O M F H C P N mismatchRoute failureRoute auditRoute : BHist} :
+    Cont E O mismatchRoute ->
+      Cont mismatchRoute F failureRoute ->
+        Cont failureRoute P auditRoute ->
+          UnaryHistory E ->
+            UnaryHistory O ->
+              UnaryHistory F ->
+                UnaryHistory P ->
+                  (∃ packet : RealityConstrainedModelErrorBudgetUp,
+                      packet = RealityConstrainedModelErrorBudgetUp.mk S E O M F H C P N) ∧
+                    UnaryHistory failureRoute ∧ UnaryHistory auditRoute ∧
+                      hsame failureRoute (append mismatchRoute F) ∧
+                        hsame auditRoute (append failureRoute P) := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory append hsame
+  intro mismatchRouteCont failureRouteCont auditRouteCont budgetUnary observationUnary
+    failureUnary provenanceUnary
+  have mismatchRouteUnary : UnaryHistory mismatchRoute :=
+    unary_cont_closed budgetUnary observationUnary mismatchRouteCont
+  have failureRouteUnary : UnaryHistory failureRoute :=
+    unary_cont_closed mismatchRouteUnary failureUnary failureRouteCont
+  have auditRouteUnary : UnaryHistory auditRoute :=
+    unary_cont_closed failureRouteUnary provenanceUnary auditRouteCont
+  have failureRouteExact : hsame failureRoute (append mismatchRoute F) := by
+    cases failureRouteCont
+    exact hsame_refl _
+  have auditRouteExact : hsame auditRoute (append failureRoute P) := by
+    cases auditRouteCont
+    exact hsame_refl _
+  exact
+    ⟨Exists.intro (RealityConstrainedModelErrorBudgetUp.mk S E O M F H C P N) rfl,
+      failureRouteUnary, auditRouteUnary, failureRouteExact, auditRouteExact⟩
+
+theorem RealityConstrainedModelErrorBudgetCarrier_selection_handoff
+    {S E O M F H C P N sourceWindow mismatchRoute failureRoute selectionRead : BHist} :
+    Cont S O sourceWindow ->
+      Cont E O mismatchRoute ->
+        Cont mismatchRoute F failureRoute ->
+          Cont M F selectionRead ->
+            UnaryHistory S ->
+              UnaryHistory E ->
+                UnaryHistory O ->
+                  UnaryHistory M ->
+                    UnaryHistory F ->
+                      (∃ packet : RealityConstrainedModelErrorBudgetUp,
+                          packet = RealityConstrainedModelErrorBudgetUp.mk S E O M F H C P N) ∧
+                        UnaryHistory sourceWindow ∧ UnaryHistory mismatchRoute ∧
+                          UnaryHistory failureRoute ∧ UnaryHistory selectionRead ∧
+                            hsame sourceWindow (append S O) ∧
+                              hsame mismatchRoute (append E O) ∧
+                                hsame failureRoute (append mismatchRoute F) ∧
+                                  hsame selectionRead (append M F) := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory append hsame
+  intro sourceRoute mismatchRouteCont failureRouteCont selectionRoute sourceUnary budgetUnary
+    observationUnary modelUnary failureUnary
+  have sourceWindowUnary : UnaryHistory sourceWindow :=
+    unary_cont_closed sourceUnary observationUnary sourceRoute
+  have mismatchRouteUnary : UnaryHistory mismatchRoute :=
+    unary_cont_closed budgetUnary observationUnary mismatchRouteCont
+  have failureRouteUnary : UnaryHistory failureRoute :=
+    unary_cont_closed mismatchRouteUnary failureUnary failureRouteCont
+  have selectionReadUnary : UnaryHistory selectionRead :=
+    unary_cont_closed modelUnary failureUnary selectionRoute
+  have sourceWindowExact : hsame sourceWindow (append S O) := by
+    cases sourceRoute
+    exact hsame_refl _
+  have mismatchRouteExact : hsame mismatchRoute (append E O) := by
+    cases mismatchRouteCont
+    exact hsame_refl _
+  have failureRouteExact : hsame failureRoute (append mismatchRoute F) := by
+    cases failureRouteCont
+    exact hsame_refl _
+  have selectionReadExact : hsame selectionRead (append M F) := by
+    cases selectionRoute
+    exact hsame_refl _
+  exact
+    ⟨Exists.intro (RealityConstrainedModelErrorBudgetUp.mk S E O M F H C P N) rfl,
+      sourceWindowUnary, mismatchRouteUnary, failureRouteUnary, selectionReadUnary,
+      sourceWindowExact, mismatchRouteExact, failureRouteExact, selectionReadExact⟩
+
+def RealityConstrainedModelErrorBudgetCarrier [AskSetup] [PackageSetup]
+    (source budget window mismatch failure transport route provenance localCert : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory source ∧ UnaryHistory budget ∧ UnaryHistory window ∧
+    UnaryHistory mismatch ∧ UnaryHistory failure ∧ UnaryHistory transport ∧
+      UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory localCert ∧
+        Cont source budget window ∧ Cont window mismatch failure ∧
+          PkgSig bundle provenance pkg
+
+theorem RealityConstrainedModelErrorBudgetCarrier_nonescape [AskSetup] [PackageSetup]
+    {source budget window mismatch failure transport route provenance localCert consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealityConstrainedModelErrorBudgetCarrier source budget window mismatch failure transport
+        route provenance localCert bundle pkg ->
+      Cont mismatch failure consumer ->
+        PkgSig bundle consumer pkg ->
+          UnaryHistory source ∧ UnaryHistory budget ∧ UnaryHistory window ∧
+            UnaryHistory mismatch ∧ UnaryHistory failure ∧ UnaryHistory consumer ∧
+              Cont source budget window ∧ Cont window mismatch failure ∧
+                Cont mismatch failure consumer ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig UnaryHistory
+  intro carrier mismatchFailureConsumer consumerPkg
+  obtain ⟨sourceUnary, budgetUnary, windowUnary, mismatchUnary, failureUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, sourceBudgetWindow,
+    windowMismatchFailure, provenancePkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed mismatchUnary failureUnary mismatchFailureConsumer
+  exact
+    ⟨sourceUnary, budgetUnary, windowUnary, mismatchUnary, failureUnary, consumerUnary,
+      sourceBudgetWindow, windowMismatchFailure, mismatchFailureConsumer, provenancePkg,
+      consumerPkg⟩
 
 end BEDC.Derived.RealityConstrainedModelErrorBudgetUp

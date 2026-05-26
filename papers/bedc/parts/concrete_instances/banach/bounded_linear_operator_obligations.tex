@@ -580,3 +580,86 @@ $$
 \mathsf{BanachBLOp}(C,C,\operatorname{id}_C,1_{\RealUp},\mathcal{I}_C).
 $$
 \end{proof}
+
+\begin{lemma}[Banach bounded linear operator Cauchy bridge determinacy]
+\label{lem:banach-bounded-linear-operator-cauchy-bridge-determinacy}
+Let $C,D$ be $\BanachUp$ candidates and let
+$\mathsf{BanachBLOp}(C,D,T,K,\Lambda)$ be carried. For every regular Cauchy
+$\StreamNameUp$ stream $(X,\mu):\mathbb{N}\to C_V$ over the source distance
+$d_C$, the consumer-facing bridge from the source stream to the transported
+stream $T\circ X$ over $d_D$ is determined by the following displayed rows:
+the source endpoint rows for $X_n$, the target endpoint rows for $T(X_n)$ in
+$\Lambda$, the classifier-respect row of
+\autoref{def:banach-bounded-linear-operator-carrier}, the norm-induced
+distance rows of \autoref{thm:banach-metric-induced-by-norm}, the RealUp
+non-negativity and bound-comparison rows for $K$, the source modulus row
+$\mu$, the source Cauchy row, and the Lipschitz row of
+\autoref{thm:banach-bounded-linear-operator-lipschitz}. Consequently every
+accepted route, transport, readback, or handoff used by a downstream consumer
+of \autoref{thm:banach-bounded-linear-operator-cauchy-transport} factors
+through those rows. No further coordinate is available for a hidden inverse
+operator, an ambient compactness principle, a selected limit, a quotient stream
+equality, a host continuity theorem, or a detached tolerance selector.
+\end{lemma}
+\begin{proof}
+Unfold the transported-stream theorem
+\autoref{thm:banach-bounded-linear-operator-cauchy-transport}. Its first public
+row is the observation row for the target stream. For each carried source
+endpoint $X_n$, the operator ledger $\Lambda$ supplies the target endpoint row
+for $T(X_n)$. If a consumer changes a displayed source representative, the
+source stream identification passes to the target stream identification by the
+observation-stability clause of
+\autoref{thm:banach-bounded-linear-operator-cauchy-transport}; that theorem
+consumes exactly the classifier-respect row named in
+\autoref{def:banach-bounded-linear-operator-carrier}.
+
+The distance readback is also fixed. By
+\autoref{thm:banach-metric-induced-by-norm}, the source and target distances
+are read as the norm rows
+$$
+d_C(X_m,X_n)=\nu_C(X_m-_C X_n)
+$$
+and
+$$
+d_D(TX_m,TX_n)=\nu_D(TX_m-_D TX_n).
+$$
+Apply \autoref{thm:banach-bounded-linear-operator-lipschitz}. In its adjacent
+Lipschitz transport step, the additive compatibility row of
+\autoref{def:banach-bounded-linear-operator-carrier} identifies the target
+difference with the displayed endpoint $T(X_m-_C X_n)$ under the target vector
+classifier, and the norm-transport row used by
+\autoref{thm:banach-bounded-linear-operator-lipschitz} moves the target norm
+across that classifier comparison. The theorem then gives the unique metric
+handoff exposed by the packet:
+$$
+d_D(TX_m,TX_n)\le K\cdot d_C(X_m,X_n).
+$$
+
+Now fix a requested positive target tolerance. The Cauchy-transport theorem
+uses only the RealUp order and multiplication rows for the displayed bound
+$K$ to choose a source tolerance whose product with $K$ is below the requested
+target tolerance. It then feeds that source tolerance into the displayed source
+modulus $\mu$. For all indices beyond the returned bound, the source Cauchy
+row gives the source distance estimate; composing it with the Lipschitz row
+and the chosen RealUp comparison gives the target Cauchy estimate. Thus the
+consumer handoff is exactly the chain
+$$
+\mu
+\quad\longrightarrow\quad
+ d_C(X_m,X_n)
+\quad\longrightarrow\quad
+ K\cdot d_C(X_m,X_n)
+\quad\longrightarrow\quad
+ d_D(TX_m,TX_n).
+$$
+
+Every row used in this chain has already been named in the carrier, the
+norm-induced metric theorem, the Lipschitz theorem, or the Cauchy-transport
+theorem. The accepted packet has no field naming an inverse operator, a compact
+subcover, a target limit choice, a quotient equality between streams, an
+external continuity theorem, or a tolerance selector detached from the RealUp
+bound comparison. Such a request therefore has no source coordinate in the
+Banach bounded-linear-operator bridge. Hence every accepted consumer-facing
+route factors through the listed local rows, and every other bridge coordinate
+remains outside the displayed packet.
+\end{proof}

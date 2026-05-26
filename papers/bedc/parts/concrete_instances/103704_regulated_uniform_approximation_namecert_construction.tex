@@ -1,0 +1,112 @@
+\chapter{A Concrete Naming Certificate for $\RegulatedUniformApproximationUp$}
+\label{ch:concrete-instances-regulated-uniform-approximation-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RegulatedUniformApproximationUp$ packet separates the finite step-schedule data used to approximate a regulated function uniformly from the later integration interface. It sits between the regulated-function surface of \autoref{ch:concrete-instances-regulatedrealfunction-namecert}, the dyadic step-function rows of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}, the uniform-limit route of \autoref{ch:concrete-instances-uniformlimit-namecert}, the closed interval domain of \autoref{ch:concrete-instances-closed-unit-interval-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. Its role is to expose a finite approximation route, not to assert integration, host function-space equality, or ambient completeness.
+
+\begin{definition}[Regulated uniform approximation carrier]
+\label{def:regulated-uniform-approximation-carrier}
+A $\RegulatedUniformApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+R=(I,A,T,U,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\ClosedUnitIntervalUp$ domain row, including the interval endpoints and order data consumed by the approximation schedule;
+\item $A$ is the finite $\DyadicStepFunctionUp$ step ledger, recording the displayed step partitions, carried values, and dyadic tolerances;
+\item $T$ is the uniform tail schedule, naming the finite threshold and tolerance comparisons used to read the approximation as a uniform route;
+\item $U$ is the $\UniformLimitUp$ handoff row that consumes $A$ and $T$ before any later regulated-function or integration-facing consumer sees the packet;
+\item $E$ is the $\RealUp$ seal row read through the regular rational windows and $\RegSeqRatUp$ readback data attached to the displayed step values;
+\item $H$ stores componentwise $\hsame$ transports for the interval, step ledger, uniform schedule, uniform-limit route, real seal, provenance, and local name;
+\item $C$ stores the displayed $\Cont$ replay routes from a domain request through the selected step row, the uniform schedule, the handoff row, and the real seal;
+\item $P$ is the $\Pkg$ provenance over $\RegulatedUniformApproximationUp$, $\RegulatedRealFunctionUp$, $\DyadicStepFunctionUp$, $\UniformLimitUp$, $\ClosedUnitIntervalUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegulatedUniformApproximationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a Darboux sum, Riemann sum, regulated integral, quotient of functions, open-cover compactness proof, selected real representative, or ambient $\RealUp$ completeness principle.
+\end{definition}
+
+\begin{theorem}[Regulated uniform approximation NameCert obligations]
+\label{thm:regulated-uniform-approximation-namecert-obligations}
+For every accepted $\RegulatedUniformApproximationUp$ packet $R=(I,A,T,U,E,H,C,P,N)$, the local $\NameCert_{\RegulatedUniformApproximationUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed interval, step ledger, uniform schedule, handoff route, real seal, transport, replay, provenance, and local name;
+\item step-ledger exactness, requiring every approximation read to use the $\DyadicStepFunctionUp$ rows in $A$ over the $\ClosedUnitIntervalUp$ row $I$;
+\item uniform approximation stability, requiring the tail schedule $T$ to control all later step reads at the displayed tolerance;
+\item $\UniformLimitUp$ handoff, requiring every regulated-function or integration-facing consumer to factor through $U$ before reaching the real seal row $E$;
+\item real-seal non-escape, requiring every terminal read to pass through the $\RegSeqRatUp$ readback and $\RealUp$ seal data displayed by $E$.
+\end{enumerate}
+No local obligation is stored outside those five rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regulated-uniform-approximation-carrier}. The accepted packet exposes only the rows $I,A,T,U,E,H,C,P,N$.
+
+The step-ledger row is governed by $I$ and $A$. A domain read first enters the closed interval row and then selects one of the displayed dyadic step-function rows; there is no host function value outside this finite ledger.
+
+The uniform side is governed by $T$ and $U$. The tail schedule records the common tolerance route, and the uniform-limit handoff consumes that schedule before any downstream consumer reaches $E$.
+
+The remaining rows transport, replay, source, and name the same packet. Since no coordinate stores integration, function quotients, compactness, selected representatives, or ambient completeness, no NameCert obligation can export them.
+\end{proof}
+
+\begin{theorem}[Regulated uniform approximation step-ledger exactness]
+\label{thm:regulated-uniform-approximation-step-ledger-exactness}
+Every approximation read of an accepted $\RegulatedUniformApproximationUp$ packet factors through the $\ClosedUnitIntervalUp$ row $I$ and one displayed $\DyadicStepFunctionUp$ row in the ledger $A$. The read obtains its partition, carried value, and dyadic tolerance data from that finite row, not from a host function-space representative.
+\end{theorem}
+\begin{proof}
+Read the carrier definition. The only approximation coordinate is $A$, and it is scoped by the interval row $I$.
+
+The continuation row $C$ sends a domain request to $I$ before selecting a step row in $A$. Componentwise transport in $H$ preserves the same interval and selected step row under classifier comparison.
+
+Thus an approximation read has no route around $I$ and $A$. Any value or tolerance not displayed by the selected dyadic step-function row is outside the accepted packet.
+\end{proof}
+
+\begin{theorem}[Regulated uniform approximation stability]
+\label{thm:regulated-uniform-approximation-uniform-stability}
+If two accepted reads of a $\RegulatedUniformApproximationUp$ packet use step rows past the threshold named by the uniform tail schedule $T$, then their comparison is routed through the same displayed tolerance schedule and the same $\UniformLimitUp$ handoff row $U$. The stability claim is therefore a finite schedule claim over $A,T,U$, not an ambient completeness claim about all real-valued functions.
+\end{theorem}
+\begin{proof}
+Start with the schedule row $T$. It is the only coordinate that names common thresholds for the step ledger $A$.
+
+The handoff row $U$ consumes exactly that schedule as a uniform-limit route. Therefore any comparison of sufficiently late displayed steps must be replayed through $T$ and then through $U$.
+
+The carrier omits ambient function-space limits and completeness data. Stability is consequently confined to the displayed schedule and its uniform-limit handoff.
+\end{proof}
+
+\begin{theorem}[Regulated uniform approximation UniformLimit handoff]
+\label{thm:regulated-uniform-approximation-uniform-limit-handoff}
+Every later $\RegulatedRealFunctionUp$ consumer, and every later integration-facing consumer that reads this packet through a regulated-function surface, must factor through
+$$
+I,A,T \longmapsto U \longmapsto E .
+$$
+The handoff supplies the closed interval row, dyadic step ledger, uniform schedule, $\UniformLimitUp$ route, and terminal $\RealUp$ seal, but it supplies no Darboux, Riemann, or regulated-integral row.
+\end{theorem}
+\begin{proof}
+Use step-ledger exactness to place every approximation read at $I$ and $A$. Use uniform approximation stability to place every sufficiently late comparison at $T$ and $U$.
+
+The carrier then exposes $E$ only after the handoff through $U$. Structural rows $H,C,P,N$ preserve that same route under transport, replay, provenance, and local naming.
+
+Because no integration coordinate occurs in $R=(I,A,T,U,E,H,C,P,N)$, downstream integration chapters may consume this handoff as input data but cannot read integration as part of the approximation packet itself.
+\end{proof}
+
+\begin{theorem}[Regulated uniform approximation real-seal nonescape]
+\label{thm:regulated-uniform-approximation-nonescape}
+Every $\RealUp$-facing read of an accepted $\RegulatedUniformApproximationUp$ packet reaches the terminal seal only through the displayed $\RegSeqRatUp$ readback data attached to $E$ after the interval, step-ledger, uniform schedule, and $\UniformLimitUp$ rows have been read. It exports no selected real representative, quotient function equality, countable-choice schedule, integration row, open-cover compactness row, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only terminal real-facing coordinate is $E$, and its provenance row records the regular rational readback and real seal dependency rather than a host real value.
+
+The preceding theorems force every read of $E$ to pass through $I,A,T$ and $U$. The structural rows do not add analytic content; they transport, replay, source, and name the same finite packet.
+
+Therefore any route requiring selected representatives, quotient equality, choice, integration, compactness, or ambient completeness has no coordinate in the accepted carrier and is rejected at the NameCert surface.
+\end{proof}
+
+\closureat{RegulatedUniformApproximationUp}{seedStr}
+
+\begin{closurestatus}{\RegulatedUniformApproximationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regulated-uniform-approximation-carrier}, \autoref{thm:regulated-uniform-approximation-namecert-obligations}, \autoref{thm:regulated-uniform-approximation-step-ledger-exactness}, \autoref{thm:regulated-uniform-approximation-uniform-stability}, \autoref{thm:regulated-uniform-approximation-uniform-limit-handoff}, and \autoref{thm:regulated-uniform-approximation-nonescape} seed the finite step-schedule approximation surface over interval, dyadic step, uniform tail, uniform-limit, and real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Darboux integration, Riemann integration, regulated integrals, host function-space equality, open-cover compactness, selected real representatives, countable choice, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, step-ledger exactness, uniform approximation stability, UniformLimit handoff, Real-seal non-escape, and field faithfulness for the same packet.}
+  \constructivestory{A $\RegulatedUniformApproximationUp$ packet is generated from a ClosedUnitInterval domain row, a finite DyadicStepFunction step ledger, a uniform tail schedule, a UniformLimit route, RegSeqRat readback and Real seal data, componentwise transport, displayed continuation replay, package provenance, and local naming.}
+\end{closurestatus}

@@ -374,3 +374,52 @@ these two history equalities gives the two carrier witnesses, and transitivity
 of \(\HSame\) identifies \(left\) and \(right\).
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_identity\_square\_closed}
+
+\begin{corollary}[Category hom carrier composition right-factor endpoint consumer determinacy]
+\label{cor:category-hom-carrier-comp-right-factor-endpoint-consumer-determinacy}
+For the unary-continuation category, fix a displayed composite surface with a
+left hom-carrier $f:a\to b$, a right hom-carrier $g:b\to c$, a composite
+hom-carrier $fg:a\to c$, and the continuation row $\ContR(f,g,fg)$. Suppose a
+consumer-facing use of the same composite also displays the right-factor row
+$\ContR(f,g',fg)$ with a hom-carrier $g':b'\to c$, and the left-factor row
+$\ContR(f',g,fg)$ with a hom-carrier $f':a'\to b$. Then the consumer cannot
+choose an alternate endpoint source, alternate right-factor endpoint, alternate
+left-factor history, or alternate right-factor history:
+$$
+\HSame(a,a')\wedge\HSame(b,b')\wedge\HSame(f,f')\wedge\HSame(g,g').
+$$
+Consequently every accepted route, normal-form read, or exactness decision for
+this displayed composition factors through the listed $\mathsf{CategoryHomCarrier}$
+and $\ContR$ rows; there is no hidden coordinate and no duplicate classifier
+source for the right-factor endpoint.
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:category-comp-right-factor-endpoint-deterministic} to the
+left hom-carrier $f:a\to b$, the common displayed composite
+$fg:a\to c$, the rows $\ContR(f,g,fg)$ and $\ContR(f,g',fg)$, and the displayed
+right-factor carrier $g':b'\to c$. This gives
+$$
+\HSame(b,b')\wedge\HSame(g,g').
+$$
+Apply \autoref{thm:category-hom-carrier-comp-left-factor-source-deterministic}
+to the right hom-carrier $g:b\to c$, the same displayed composite
+$fg:a\to c$, the rows $\ContR(f,g,fg)$ and $\ContR(f',g,fg)$, and the displayed
+left-factor carrier $f':a'\to b$. This gives
+$$
+\HSame(a,a')\wedge\HSame(f,f').
+$$
+Combining these two conjunctions identifies exactly the source endpoint, the
+middle endpoint, and the two factor histories used by the consumer-facing
+factorization.
+
+The cited theorems already perform the only permitted readbacks: right-factor
+recovery from the composite carrier, left-factor recovery from the composite
+carrier, cancellation of the displayed continuation tails, history-same
+transport of the recovered carrier, and endpoint determinacy against the
+consumer-displayed carrier. A route, normal-form read, or exactness decision
+that keeps the listed rows fixed but chooses a different endpoint or factor
+history would contradict one of these two determinacy conclusions. Hence the
+consumer surface is exhausted by the displayed hom-carrier and continuation
+rows, with no further coordinate from which an alternate classifier source
+could be read.
+\end{proof}

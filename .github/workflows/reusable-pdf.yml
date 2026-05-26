@@ -40,13 +40,15 @@ jobs:
         working-directory: papers/bedc
     steps:
       - name: Check out repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          ref: ${{ inputs.checkout_ref != '' && inputs.checkout_ref || github.sha }}
-          fetch-depth: 0
-
-      - name: Allow git metadata access in container
-        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+        working-directory: ${{ github.workspace }}
+        run: |
+          set -euo pipefail
+          ref="${{ inputs.checkout_ref != '' && inputs.checkout_ref || github.sha }}"
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git init "$GITHUB_WORKSPACE"
+          git -C "$GITHUB_WORKSPACE" remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git -C "$GITHUB_WORKSPACE" fetch --no-tags --depth=2 origin "$ref"
+          git -C "$GITHUB_WORKSPACE" checkout --force FETCH_HEAD
 
       - name: Restore LaTeX aux cache
         uses: actions/cache@v4
@@ -83,9 +85,21 @@ jobs:
 
       - name: Upload main.pdf artifact
         if: ${{ inputs.upload_artifact }}
+        id: upload_pdf
+        continue-on-error: true
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: ${{ inputs.artifact_name }}
           path: papers/bedc/${{ steps.package_pdf.outputs.pdf_name }}
           if-no-files-found: error
           retention-days: ${{ inputs.artifact_retention_days }}
+
+      - name: Retry main.pdf artifact upload
+        if: ${{ inputs.upload_artifact && steps.upload_pdf.outcome == 'failure' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ${{ inputs.artifact_name }}
+          path: papers/bedc/${{ steps.package_pdf.outputs.pdf_name }}
+          if-no-files-found: error
+          retention-days: ${{ inputs.artifact_retention_days }}
+          overwrite: true

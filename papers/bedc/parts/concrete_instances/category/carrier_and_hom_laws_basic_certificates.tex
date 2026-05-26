@@ -159,3 +159,127 @@ classifier proof.
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_tail\_semanticNameCert}
 
 Per-object certificate: traditional target category identity laws; BEDC source $\mathsf{CategoryHomCarrier}$ plus $\Cont$; carrier $\mathsf{BHist}$ hom witnesses; classifier $\hsame$; stability obligation two-sided identity under morphism classifier; ledger the empty-composition ledgers; core theorem list entry two-sided identity; exactness predicate sameness with the original morphism; standard bridge deferred; status $\mathsf{ProofTarget}$.
+
+\begin{lemma}[Category hom identity semantic name certificate bridge determinacy]
+\label{lem:category-hom-identity-semantic-namecert-bridge-determinacy}
+Let $a$ be a unary object history, and consider the identity hom-carrier naming
+surface of \autoref{thm:category-hom-carrier-identity-semantic-namecert}. Any
+consumer-facing use of this identity surface as a route, transport, readback, or
+handoff factors through the following displayed local rows: the identity
+hom-carrier predicate $f\mapsto\mathsf{CategoryHomCarrier}(a,a,f)$, the
+classifier row $\hsame$, carrier transport for
+$\mathsf{CategoryHomCarrier}$, and the continuation-source certificate row of
+\autoref{thm:continuation-morphism-source-semantic-namecert} applied to the
+continuation morphism encoded by the identity carrier. Thus an accepted consumer
+cannot obtain a primitive host identity arrow, a second morphism classifier, an
+off-carrier readback, a detached continuation source, or any unlisted bridge
+coordinate from the identity name certificate.
+\end{lemma}
+\begin{proof}
+The identity certificate of
+\autoref{thm:category-hom-carrier-identity-semantic-namecert} names exactly one
+source, pattern, and ledger predicate, namely
+$f\mapsto\mathsf{CategoryHomCarrier}(a,a,f)$, and it names exactly one
+classifier, namely $\hsame$. Therefore every route that reads the identity
+surface first lands in the displayed hom-carrier predicate over the fixed
+endpoints $(a,a)$. The identity witness itself is the empty history supplied by
+\autoref{thm:category-hom-carrier-empty-identity}, so the route has no separate
+host identity coordinate beyond the BEDC carrier row.
+
+A transport use is fixed by the same certificate. If the displayed morphism
+history is changed only by $\hsame$, then
+\autoref{thm:category-hom-carrier-hsame-transport} rebuilds the transported
+hom-carrier witness over the same identity endpoints. This is the full
+transport surface of the identity name certificate: the certificate has no
+second classifier and no independent transport predicate outside
+$\mathsf{CategoryHomCarrier}$ and $\hsame$.
+
+A readback or handoff to continuation data also remains local. By the
+hom-carrier and continuation-morphism tail correspondence of
+\autoref{thm:category-hom-carrier-continuation-morphism-tail-correspondence}, a
+read of $\mathsf{CategoryHomCarrier}(a,a,f)$ is exactly a unary endpoint and
+unary tail presentation of a continuation morphism $m:\mathsf{ContinuationMorphism}(a,a)$
+whose displayed tail is classified with $f$. Applying
+\autoref{thm:continuation-morphism-source-semantic-namecert} to this displayed
+continuation morphism shows that a consumer may read or transport the source
+only through the source predicate
+$src\mapsto\mathsf{Nonempty}(\mathsf{ContinuationMorphism}(src,a))$ and its
+same classifier $\hsame$. Hence the continuation handoff is not an additional
+bridge coordinate; it is the source row already determined by the identity
+hom-carrier readback.
+
+The listed rows exhaust the consumer-facing bridge. Routes are the fixed
+identity hom-carrier predicate, transports are the $\hsame$ hom-carrier
+transports, readbacks are the hom-carrier-to-continuation tail correspondence,
+and continuation handoffs are the continuation-source semantic certificate for
+the resulting morphism. Since none of these rows contains a primitive host
+identity arrow, a second morphism classifier, an off-carrier readback, a
+detached continuation source, or an extra bridge field, such a coordinate has no
+row through which an accepted consumer could read the identity semantic name
+certificate.
+\end{proof}
+
+\begin{corollary}[Category hom identity semantic name certificate consumer determinacy]
+\label{cor:category-hom-identity-semantic-namecert-consumer-determinacy}
+Let $a$ be a unary object history, and fix the identity hom-carrier semantic
+name certificate of \autoref{thm:category-hom-carrier-identity-semantic-namecert}.
+Once the displayed identity rows are fixed, every accepted consumer-facing use
+of this surface as a finite route, transport, readback normal form, or exactness
+decision is determined by the same local data:
+$$
+\begin{gathered}
+f\mapsto\mathsf{CategoryHomCarrier}(a,a,f),\qquad
+\hsame,\\
+\text{hom-carrier transport across }\hsame,\qquad
+\text{the continuation-source row reached from the hom-carrier readback.}
+\end{gathered}
+$$
+Thus two accepted consumers over these rows cannot choose different identity
+routes, different morphism classifiers, different readback normal forms, or
+different exactness decisions. Any proposed primitive host identity arrow,
+off-carrier coordinate, detached continuation source, unlisted bridge row, or
+duplicate classifier source is outside the accepted identity semantic name
+surface.
+\end{corollary}
+\begin{proof}
+The identity certificate in
+\autoref{thm:category-hom-carrier-identity-semantic-namecert} fixes the
+semantic name surface before any consumer reads it. Its source, pattern, and
+ledger predicates are all the single predicate
+$f\mapsto\mathsf{CategoryHomCarrier}(a,a,f)$, and its classifier is the single
+history classifier $\hsame$. Therefore a consumer route has no independent
+choice of carrier predicate or classifier: reading the identity name means
+reading the displayed hom-carrier predicate over the fixed endpoints $(a,a)$.
+
+Apply
+\autoref{lem:category-hom-identity-semantic-namecert-bridge-determinacy}. It
+states that every accepted route, transport, readback, or handoff through this
+identity surface factors through exactly the displayed local rows: the identity
+hom-carrier predicate, the classifier $\hsame$, hom-carrier transport for
+$\mathsf{CategoryHomCarrier}$, and the continuation-source certificate obtained
+from the continuation morphism encoded by the identity carrier. Hence the
+consumer-facing finite route is not a further datum; it is the ordered use of
+those rows.
+
+The same factorization fixes the normal-form and exactness readings. A
+transport read can only be the $\hsame$ hom-carrier transport over the fixed
+identity endpoints. A readback can only pass through the hom-carrier to
+continuation-tail correspondence named in the bridge-determinacy lemma, and its
+continuation handoff can only use the continuation-source semantic certificate
+for the resulting morphism. Consequently an exactness decision about the
+identity name is a decision about membership in the displayed hom-carrier row
+and its $\hsame$ readback, not a decision supplied by a second host arrow,
+second classifier, or detached continuation coordinate.
+
+Suppose two accepted consumers over the fixed rows produced different identity
+routes, different readback normal forms, or different exactness decisions. The
+difference would have to enter through a row not among the identity
+hom-carrier predicate, $\hsame$, the hom-carrier transport row, or the
+continuation-source row reached from the readback. But the bridge-determinacy
+lemma excludes exactly those unlisted coordinates: primitive host identity
+arrows, second morphism classifiers, off-carrier readbacks, detached
+continuation sources, and extra bridge fields have no exported row in the
+identity semantic name certificate. Thus every accepted consumer over the fixed
+rows determines the same chapter-named finite route, normal-form readback, and
+exactness decision.
+\end{proof}

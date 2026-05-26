@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\CauchyInterleavingCriterionUp$}
+\label{ch:concrete-instances-cauchy-interleaving-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\CauchyInterleavingCriterionUp$ packet records the finite criterion by which two regular-Cauchy views may be interleaved before a completion-facing consumer reads either view. It sits over the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, the subsequence criterion of \autoref{ch:concrete-instances-cauchy-subsequence-criterion-namecert}, and the product interleaving route of \autoref{ch:concrete-instances-cauchy-interleaving-product-namecert}. The packet is a displayed interleaving criterion for completion consumers; it is not a quotient stream, not a choice-selected limit, and not an ambient completeness coordinate.
+
+\begin{definition}[Cauchy interleaving criterion carrier]
+\label{def:cauchy-interleaving-criterion-carrier}
+A $\CauchyInterleavingCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+I=(S_0,S_1,D_0,D_1,T,W,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_0$ and $S_1$ are the two $\StreamNameUp$ finite-window rows whose observations are to be interleaved.
+\item $D_0$ and $D_1$ are the $\DyadicRatCoreUp$ tolerance ledgers attached to the two windows.
+\item $T$ is the finite selector schedule recording which side is read at each displayed stage.
+\item $W$ is the common window-extraction row obtained from the two scheduled sources and their dyadic ledgers.
+\item $Q$ is the $\RegSeqRatUp$ readback row reconstructed from the extracted interleaving windows.
+\item $E$ is the downstream $\RealUp$ seal boundary available only after $S_0,S_1,D_0,D_1,T,W,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two stream windows, two dyadic ledgers, selector schedule, extracted window, readback row, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the same interleaving route.
+\item $P$ is the $\Pkg$ provenance over $\CauchyInterleavingCriterionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyInterleavingCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows and their replay paths. It has no coordinate for quotient streams, selected host limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy interleaving criterion NameCert obligations]
+\label{thm:cauchy-interleaving-criterion-namecert-obligations}
+For every accepted $\CauchyInterleavingCriterionUp$ carrier $I=(S_0,S_1,D_0,D_1,T,W,Q,E,H,C,P,N)$, the local $\NameCert_{\CauchyInterleavingCriterionUp}$ surface consists exactly of carrier admission, two-sided finite-window exposure, two dyadic tolerance ledgers, finite selector admission, common window extraction, regular readback handoff, Real-seal boundary exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. Every $\BishopCompletionCriterionUp$ or $\RegularCauchyCompletionUniversalUp$ consumer reads only this displayed route and receives no quotient stream, selected representative, host convergence predicate, countable-choice selector, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-interleaving-criterion-carrier}. The rows $S_0,S_1,D_0,D_1,T,W,Q,E,H,C,P,N$ are the complete displayed packet.
+
+The analytic rows first expose the two finite stream windows and their dyadic tolerance ledgers. The selector schedule $T$ then chooses the displayed side at each stage, and the common extraction row $W$ records the finite window actually read by the interleaving consumer.
+
+The regular readback $Q$ and Real seal $E$ are downstream of that extracted route. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite criterion, so no quotient stream or choice-selected limit can enter the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy interleaving criterion window extraction]
+\label{thm:cauchy-interleaving-criterion-window-extraction}
+Every accepted $\CauchyInterleavingCriterionUp$ packet admits a finite window extraction route
+$$
+(S_0,S_1,D_0,D_1,T)\longmapsto W\longmapsto Q\longmapsto E\longmapsto(H,C,P,N).
+$$
+The extracted window $W$ is read from the two displayed $\StreamNameUp$ rows using only the two $\DyadicRatCoreUp$ ledgers and the finite selector schedule $T$. Hence downstream $\RealUp$, $\BishopCompletionCriterionUp$, and regular-Cauchy completion consumers cannot replace the route by a quotient of streams, a selected limit, or an ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:cauchy-interleaving-criterion-namecert-obligations}. They force both source windows and both dyadic ledgers to be visible before the selector schedule can be consumed.
+
+The selector schedule is finite, so each displayed stage chooses one of the two already exposed windows. The common extraction row $W$ records exactly those finite choices, and the regular readback row $Q$ is reached only after $W$ has been displayed.
+
+Finally the Real seal and structural rows replay the same route. Because the carrier has no coordinate for quotient streams, selected representatives, countable choice, host real equality, or ambient completeness, a completion-facing consumer receives only the finite extraction route shown above.
+\end{proof}
+
+\closureat{CauchyInterleavingCriterionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyInterleavingCriterionUp}
+  \constructivestory{A $\CauchyInterleavingCriterionUp$ packet is generated from two StreamName finite-window rows, two DyadicRatCore tolerance ledgers, a finite selector schedule, an extracted interleaving window, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-interleaving-criterion-carrier}, \autoref{thm:cauchy-interleaving-criterion-namecert-obligations}, and \autoref{thm:cauchy-interleaving-criterion-window-extraction} seed the finite interleaving criterion route for L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, quotient-stream equality, selected limits, countable choice, host real equality, ambient Real completeness, or a completed-real binary operation.}
+  \upgradepath{Obligation closure requires carrier admission, selector-window coverage, dyadic ledger compatibility, regular readback handoff, Real-seal nonescape, and TasteGate field faithfulness for BEDC.Derived.CauchyInterleavingCriterionUp.}
+\end{closurestatus}

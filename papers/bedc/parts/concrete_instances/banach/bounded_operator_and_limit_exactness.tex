@@ -102,3 +102,65 @@ complete-metric stability theorem keeps the regular Cauchy and convergence
 fields aligned with those rows. Repacking the fields gives the preserved
 Banach complete-metric witness package.
 \end{proof}
+
+\begin{corollary}[Banach zero-distance exactness determinacy]
+\label{cor:banach-zero-distance-exactness-determinacy}
+Let $X$ be a concrete Banach carrier, and let $s$ be a regular Cauchy
+$\StreamNameUp$ stream over the norm-induced metric. Suppose two accepted
+consumer rows for the same stream expose displayed limit packages
+$$
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu_0,\ell_0,L_0)
+\quad\text{and}\quad
+\mathsf{CompleteMetricLimitWitness}(X,s,\mu_1,\ell_1,L_1),
+$$
+and suppose their advertised exactness decisions are displayed by Banach
+norm-distance rows
+$$
+\mathsf{BanachMetricWitness}_X(L_0,z_0,d_0)
+\quad\text{and}\quad
+\mathsf{BanachMetricWitness}_X(L_1,z_1,d_1)
+$$
+whose $\RealUp$ endpoints are both classified with the zero real endpoint.
+Then the Banach point classifier identifies $z_0$ and $z_1$. Consequently any
+accepted consumer-facing use of the Banach zero-distance exactness decision for
+this stream factors through the same visible finite route: the stream row, the
+modulus row, the displayed limit row, the norm-induced distance row, and the
+$\RealUp$ zero endpoint. No additional coordinate, anonymous metric row, or
+second classifier source can change the exactness decision named by the
+chapter.
+\end{corollary}
+\begin{proof}
+First apply \autoref{thm:banach-limit-uniqueness} to the two displayed
+complete-metric limit witnesses for the same regular Cauchy stream $s$. It
+returns a Banach point-classifier comparison between the carried limit
+histories $L_0$ and $L_1$. This comparison is read in the classifier fixed
+by \autoref{def:banach-concrete-carrier}, so it is a comparison at the same
+Banach surface as the consumer rows.
+
+Next apply \autoref{thm:banach-norm-distance-zero-exactness} to the first
+advertised exactness row. The row
+$\mathsf{BanachMetricWitness}_X(L_0,z_0,d_0)$ is a norm-induced Banach
+distance row, and the displayed $\RealUp$ zero classification of $d_0$ turns it
+into a Banach point-classifier comparison between $L_0$ and $z_0$. Applying
+the same theorem to
+$\mathsf{BanachMetricWitness}_X(L_1,z_1,d_1)$ gives a Banach
+point-classifier comparison between $L_1$ and $z_1$.
+
+Compose these three classifier comparisons, using symmetry for the comparison
+between $L_0$ and $z_0$ if the classifier is read in the opposite direction.
+The result identifies $z_0$ and $z_1$ in the Banach point classifier. Thus two
+accepted consumer decisions over the same stream cannot diverge after their
+visible rows are fixed.
+
+It remains only to exclude a hidden source of the decision. By
+\autoref{def:completemetric-limit-witness}, an accepted limit package exposes
+exactly the stream, modulus, carried limit, threshold, metric-distance, and
+$\RatUp$ comparison ledgers. By \autoref{def:banach-concrete-carrier}, the
+Banach metric row is the norm-induced row
+$\mathsf{BanachMetricWitness}_X$, and by
+\autoref{thm:banach-norm-distance-zero-exactness} the zero endpoint is read
+back through the Banach point classifier. Hence every accepted use has already
+passed through the listed rows, and replacing them by an unlisted coordinate or
+duplicate classifier would no longer be a use of the displayed Banach
+zero-distance exactness interface.
+\end{proof}

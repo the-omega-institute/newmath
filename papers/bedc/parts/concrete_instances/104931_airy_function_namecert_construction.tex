@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\AiryFunctionUp$}
+\label{ch:concrete-instances-airy-function-namecert}
+\origin{human}
+
+Following Airy and Olver on the classical Airy differential equation, the $\AiryFunctionUp$ packet records the finite certificate route by which Airy-function reads are named through a displayed scalar ODE, coefficient recurrences, real-series windows, and terminal real-name seals. It consumes the real endpoint discipline of \autoref{ch:concrete-instances-real-namecert}, the finite partial-sum and tail surface of \autoref{ch:concrete-instances-realseries-namecert}, the ODE source of \autoref{ch:concrete-instances-ode-namecert}, and the Picard local-flow route of \autoref{ch:concrete-instances-picard-lindelof-namecert}. The packet is not a host entire-function primitive, an asymptotic expansion theorem, a selected global solution object, or an ambient analytic-completeness claim.
+
+\begin{definition}[Airy function carrier]
+\label{def:airy-function-carrier}
+An $\AiryFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+A=(D,I,K,T,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the scalar ODE row for the Airy equation $y''-xy=0$, read through the local $\OdeUp$ source and its displayed derivative, vector-field, and state-window ledgers.
+\item $I$ is the initial-data row. It records the chosen Airy branch by finitely displayed values for $y(0)$ and $y'(0)$, including the branch tags that distinguish the standard $\operatorname{Ai}$ and $\operatorname{Bi}$ reads when such a distinction is requested.
+\item $K$ is the coefficient-recurrence row. It records the finite recurrence ledger by which coefficient windows for the Airy power series are generated from $D$ and $I$.
+\item $T$ is the $\RealSeriesUp$ term-stream row, listing the finite partial-sum windows, tail requests, and shared threshold rows used by the requested Airy read.
+\item $S$ is the local Picard or ODE nonescape row, ensuring that the inspected series and flow windows stay inside the displayed scalar state window supplied by $\PicardLindelofUp$.
+\item $R$ is the $\RegSeqRatUp$ readback row for coefficients, partial sums, initial values, and endpoint requests.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the ODE, initial-data, recurrence, series, nonescape, and readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the ODE row, initial data, recurrence ledger, series windows, nonescape row, readbacks, Real seal, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from an Airy request through the ODE row, initial data, coefficient recurrence, real-series windows, Picard nonescape, regular readbacks, and the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\AiryFunctionUp$, $\OdeUp$, $\PicardLindelofUp$, $\RealSeriesUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AiryFunctionUp}$ row.
+\end{enumerate}
+The carrier exports only this finite route. It has no coordinate for a host entire function, global analytic continuation, asymptotic sector decomposition, selected zero set, quotient function equality, or ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Airy function NameCert obligations]
+\label{thm:airy-function-namecert-obligations}
+For every accepted $\AiryFunctionUp$ carrier $A=(D,I,K,T,S,R,E,H,C,P,N)$, the local $\NameCert_{\AiryFunctionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed ODE, initial-data, recurrence, real-series, nonescape, readback, Real-seal, transport, replay, provenance, and local naming rows;
+\item ODE compatibility, requiring $D$ to be the only scalar Airy equation row read by the packet;
+\item initial-data compatibility, requiring $I$ to supply the branch-determining values consumed by the recurrence ledger;
+\item recurrence exactness, requiring $K$ to generate every inspected coefficient window from $D$ and $I$ before any series read is exposed;
+\item real-series visibility, requiring $T$ to expose partial sums, tail thresholds, and endpoint requests only through the $\RealSeriesUp$ surface;
+\item local-flow nonescape, requiring $S$ to bind the inspected ODE and series windows to the Picard local-flow route;
+\item endpoint sealing, requiring $R$ and $E$ to read every requested coefficient, partial sum, and Airy endpoint through $\RegSeqRatUp$ and $\RealUp$ rows;
+\item structural preservation, requiring $H,C,P,N$ to transport, replay, source, and name exactly the displayed rows and no external analytic object.
+\end{enumerate}
+No Airy-function obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:airy-function-carrier}. The ODE row $D$ and initial-data row $I$ are visible before any recurrence or series row can be inspected, so the requested branch is fixed inside the packet.
+
+The coefficient and series obligations are then finite ledger checks. The recurrence row $K$ supplies the inspected coefficient windows, and the $\RealSeriesUp$ row $T$ supplies only the partial sums, tail thresholds, and endpoint requests listed in the packet.
+
+The local-flow and endpoint rows close the analytic route. The nonescape row $S$ keeps the inspected windows inside the displayed Picard or ODE state window, while $R$ and $E$ provide regular rational readback and the terminal real-name seal.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite data. Since the carrier has no coordinate for a host entire function, asymptotic sector, selected zero set, quotient function equality, or ambient completeness theorem, the local NameCert surface has no obligation row for such an object.
+\end{proof}
+
+\begin{theorem}[Airy function real-series handoff]
+\label{thm:airy-function-real-series-handoff}
+Every Real-facing read from an accepted $\AiryFunctionUp$ carrier factors through
+$$
+D,I \longmapsto K \longmapsto T,S \longmapsto R,E \longmapsto H,C,P,N .
+$$
+Thus a consumer receives the displayed Airy ODE row, branch initial data, coefficient recurrence ledger, finite real-series windows, local nonescape row, regular readback, and terminal real seal, but receives no host entire-function primitive or global analytic continuation datum.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $A=(D,I,K,T,S,R,E,H,C,P,N)$. The only ODE and branch data available to a consumer are $D$ and $I$, so a Real-facing read begins at the displayed Airy equation and its carried initial values.
+
+The recurrence row $K$ is the next forced coordinate. It generates the inspected coefficient windows from the ODE and branch data before the $\RealSeriesUp$ row $T$ exposes partial sums or tail thresholds.
+
+The nonescape and endpoint rows are downstream. The row $S$ keeps the displayed series and local-flow windows inside the accepted ODE route, and $R,E$ provide the regular readback and terminal $\RealUp$ seal.
+
+The structural rows $H,C,P,N$ preserve and name only that route. Hence the handoff cannot introduce a host entire function, a global continuation object, an asymptotic sector decomposition, a selected zero set, or quotient function equality.
+\end{proof}
+
+\falsifiablePrediction{Every $\AiryFunctionUp$ read factors through one displayed Airy ODE row, one branch initial-data row, one coefficient-recurrence ledger, one $\RealSeriesUp$ partial-sum and tail surface, one Picard nonescape row, one $\RegSeqRatUp$ readback row, one $\RealUp$ endpoint seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+
+\independenceWitness{real, realseries, ode, picard-lindelof: $\AiryFunctionUp$ is not bijective to any listed sibling because it jointly carries an Airy ODE row, branch initial data, coefficient recurrence, real-series windows, local-flow nonescape, regular readback, Real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{AiryFunctionUp}{seedStr}
+
+\begin{closurestatus}{\AiryFunctionUp}
+  \constructivestory{An $\AiryFunctionUp$ packet is generated from a displayed Airy ODE row, branch initial data, coefficient-recurrence ledger, RealSeriesUp partial-sum and tail rows, Picard nonescape data, RegSeqRat readbacks, RealUp endpoint seals, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:airy-function-carrier}, \autoref{thm:airy-function-namecert-obligations}, and \autoref{thm:airy-function-real-series-handoff} seed the finite Airy-function certificate surface over displayed ODE, branch, recurrence, series, nonescape, readback, and real endpoint rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host entire functions, global analytic continuation, asymptotic expansions, selected zero sets, quotient function equality, ambient analytic completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, ODE compatibility, branch-data compatibility, recurrence exactness, real-series visibility, nonescape, endpoint sealing, and structural preservation for BEDC.Derived.AiryFunctionUp.}
+\end{closurestatus}

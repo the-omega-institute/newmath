@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\CauchyLocatednessUp$}
+\label{ch:concrete-instances-cauchy-locatedness-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyLocatednessUp$ packet records locatedness as finite witness data for regular Cauchy real names. It sits over the regular rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the quotient-respecting comparison discipline of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert}. The packet exposes locatedness witnesses without replacing them by Dedekind cuts, host real equality, selected limits, countable choice, trichotomy, or ambient completeness.
+
+\begin{definition}[Cauchy locatedness carrier]
+\label{def:cauchy-locatedness-carrier}
+A $\CauchyLocatednessUp$ carrier is a finite $\BHist$ packet
+$$
+L=(R,W,D,Q,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the regular Cauchy source row, read as a $\RegSeqRatUp$ name before any $\RealUp$ consumer receives a sealed real-name boundary.
+\item $W$ is the finite observation window row, a $\StreamNameUp$ schedule selecting the inspected Cauchy stages, rational intervals, and comparison requests.
+\item $D$ is the dyadic tolerance request row, carried by $\DyadicRatCoreUp$ and recording the requested scale, positive margin, endpoint enclosure, and exhausted window ledger.
+\item $Q$ is the Cauchy-equivalence comparison row, tying the witness to the $\CauchyEquivalenceSetoidUp$ surface so equivalent regular Cauchy names replay the same finite locatedness route.
+\item $V$ is the displayed located witness row. For each requested dyadic tolerance and rational test window, it records the finite inside-or-apart evidence available from $R,W,D,Q$.
+\item $H$ records componentwise $\hsame$ transport for the regular source, stream windows, dyadic request, equivalence comparison, located witness, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from $R,W,D$ into $Q$, from $Q$ into the witness row $V$, and from $V$ into the terminal $\RealUp$ readback boundary.
+\item $P$ is the $\Pkg$ provenance over $\CauchyLocatednessUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyEquivalenceSetoidUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyLocatednessUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $R,W,D,Q,V,H,C,P,N$. It has no coordinate for Dedekind cuts, host real equality, selected limits, countable choice, trichotomy, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy locatedness window stability]
+\label{thm:cauchy-locatedness-window-stability}
+Let $L=(R,W,D,Q,V,H,C,P,N)$ be an accepted $\CauchyLocatednessUp$ carrier. If a consumer refines the displayed $\StreamNameUp$ observation window while preserving the same dyadic tolerance request and Cauchy-equivalence comparison row, then the located witness row replays through $H$ and $C$ to the same local $\NameCert_{\CauchyLocatednessUp}$ surface. The refined read exposes only the regular Cauchy source, finite windows, dyadic request, equivalence comparison, displayed located witness, and structural rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only rows available to a window-refining consumer are the regular source $R$, stream-window schedule $W$, dyadic request $D$, equivalence comparison $Q$, located witness $V$, and structural rows $H,C,P,N$.
+
+Refining the observation window changes only which finite prefix of $W$ is inspected. The dyadic request row $D$ and equivalence comparison row $Q$ remain the same request data, so the witness row $V$ is read by replaying the displayed route rather than by selecting a new real representative.
+
+Componentwise $\hsame$ in $H$ transports the source, window, dyadic, comparison, and witness rows. The $\Cont$ row $C$ then replays the route from $R,W,D$ into $Q$ and from $Q$ into $V$ before any terminal $\RealUp$ read is exposed.
+
+Thus the refined read has the same local NameCert surface. Since no carrier coordinate stores host equality, Dedekind cuts, selected limits, countable choice, trichotomy, or completeness, window refinement cannot introduce any of those objects.
+\end{proof}
+
+\begin{theorem}[Cauchy locatedness NameCert obligation]
+\label{thm:cauchy-locatedness-namecert-obligation}
+For every accepted $\CauchyLocatednessUp$ carrier $L=(R,W,D,Q,V,H,C,P,N)$, the local $\NameCert_{\CauchyLocatednessUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the regular Cauchy source row, finite observation windows, dyadic tolerance request, Cauchy-equivalence comparison row, located witness row, transport, replay, provenance, and local naming row;
+\item witness exactness, requiring $V$ to read only the displayed $R,W,D,Q$ route and to return finite inside-or-apart evidence for the requested dyadic tolerance;
+\item equivalence stability, requiring $Q$ to keep equivalent regular Cauchy names on the same locatedness route before the terminal $\RealUp$ boundary is read;
+\item window stability, requiring refinements of $W$ to replay through $H$ and $C$ as in \autoref{thm:cauchy-locatedness-window-stability};
+\item ledger exhaustion, excluding Dedekind cuts, host real equality, selected limits, countable choice, trichotomy, and ambient completeness.
+\end{enumerate}
+No locatedness obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier $L$. The projection exposes exactly the regular Cauchy source, finite window schedule, dyadic request ledger, equivalence comparison, located witness, componentwise transport, continuation replay, provenance, and local naming row.
+
+The witness obligation is finite. The row $V$ consumes the displayed source, windows, dyadic tolerance, and equivalence comparison, then records the inside-or-apart evidence visible at that request.
+
+The equivalence obligation is carried by $Q$. It prevents a consumer from changing the locatedness witness by switching to an equivalent regular Cauchy name outside the displayed comparison route.
+
+The stability obligation is \autoref{thm:cauchy-locatedness-window-stability}. Window refinements replay through the same transport and continuation rows, so the local NameCert surface remains the one named by $N$.
+
+Finally, $P$ records only the listed sibling certificates and $N$ names only this packet. Since the carrier has no other coordinate, the five obligations exhaust the local $\NameCert_{\CauchyLocatednessUp}$ surface.
+\end{proof}
+
+\closureat{CauchyLocatednessUp}{seedStr}
+
+\begin{closurestatus}{\CauchyLocatednessUp}
+  \constructivestory{A $\CauchyLocatednessUp$ packet is generated from a regular Cauchy source row, finite StreamName observation windows, a DyadicRatCore tolerance request, a CauchyEquivalenceSetoid comparison row, a displayed located witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-locatedness-carrier}, \autoref{thm:cauchy-locatedness-window-stability}, and \autoref{thm:cauchy-locatedness-namecert-obligation} seed the finite locatedness witness packet for regular Cauchy real names over RegSeqRat, StreamName, DyadicRatCore, RealUp, and CauchyEquivalenceSetoid rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Dedekind cuts, host real equality, selected limits, countable choice, trichotomy, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires a Lean declaration for BEDC.Derived.CauchyLocatednessUp covering the nine-row carrier, window stability, and local NameCert obligations.}
+\end{closurestatus}

@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchyCriterionUp$}
+\label{ch:concrete-instances-bishop-cauchy-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopCauchyCriterionUp$ packet records the finite criterion by which a real-facing sequence displays Cauchy control before any completion seal is consumed. It sits over the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion criterion route of \autoref{ch:concrete-instances-cauchycompletioncriterion-namecert}. The packet names the criterion as finite BEDC NameCert data; it is not a proof of ambient $\RealUp$ completeness, a quotient-stream equality theorem, a selected limit, or a host Cauchy completion object.
+
+\begin{definition}[Bishop Cauchy criterion carrier]
+\label{def:bishop-cauchy-criterion-carrier}
+A $\BishopCauchyCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+B=(D,S,R,E,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic radii, comparison budgets, and slack entries used by the criterion.
+\item $S$ is the $\StreamNameUp$ window row, listing the finite source windows inspected at the displayed tolerance requests.
+\item $R$ is the $\RegSeqRatUp$ regularity handoff row, assembled from the stream windows and dyadic tolerances.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $D,S,R$ have been displayed.
+\item $K$ is the $\CauchyCompletionCriterionUp$ dependency row, recording that the criterion can be consumed by completion-facing packets without exporting completion itself.
+\item $H$ records componentwise $\hsame$ transport for the tolerance, window, regularity, seal, and dependency rows.
+\item $C$ records displayed $\Cont$ replay through the same finite criterion route.
+\item $P$ is the $\Pkg$ provenance over $\BishopCauchyCriterionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyCompletionCriterionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BishopCauchyCriterionUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through $D,S,R,E,K,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop Cauchy criterion NameCert obligations]
+\label{thm:bishop-cauchy-criterion-namecert-obligations}
+For every accepted $\BishopCauchyCriterionUp$ carrier $B=(D,S,R,E,K,H,C,P,N)$, the local $\NameCert_{\BishopCauchyCriterionUp}$ surface consists exactly of carrier admission, DyadicRatCore tolerance exposure, StreamName finite-window exposure, RegSeqRat regularity handoff, Real seal exposure, CauchyCompletionCriterion dependency exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-cauchy-criterion-carrier}. The analytic route is exactly the tolerance row $D$, the stream-window row $S$, the regularity handoff $R$, the terminal seal $E$, and the completion-criterion dependency $K$.
+
+The dyadic and stream rows supply the finite Cauchy evidence. The regularity handoff then repacks those finite observations through $\RegSeqRatUp$ before a $\RealUp$ seal is available.
+
+The dependency row $K$ records the only completion-facing use of the criterion. It points to the displayed $\CauchyCompletionCriterionUp$ surface without adding a completion object or an ambient completeness theorem.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same rows. Since no other coordinate is present, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy criterion completion route]
+\label{thm:bishop-cauchy-criterion-completion-route}
+Every completion-facing consumer of an accepted $\BishopCauchyCriterionUp$ carrier factors through the finite route
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp \longmapsto \CauchyCompletionCriterionUp
+$$
+together with $H,C,P,N$. Consequently the consumer receives dyadic tolerances, finite stream windows, regular rational readback, a terminal real seal, and the named completion criterion dependency, but it receives no selected limit, quotient stream, countable-choice schedule, trichotomy row, or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Start with a completion-facing read of $B$. The only tolerance and observation rows are $D$ and $S$, so the read must expose the dyadic budgets and stream windows before any regularity handoff can occur.
+
+The row $R$ supplies the regular rational readback, and $E$ supplies the terminal real seal. Thus the real-facing part is downstream of the displayed finite Cauchy observations.
+
+The row $K$ is the sole completion criterion dependency. It permits the packet to be consumed by the Cauchy-completion criterion route, while the absence of quotient, selected-limit, and ambient-completeness coordinates prevents any stronger export.
+\end{proof}
+
+\closureat{BishopCauchyCriterionUp}{seedStr}
+
+\begin{closurestatus}{\BishopCauchyCriterionUp}
+  \constructivestory{A $\BishopCauchyCriterionUp$ packet is generated from DyadicRatCore tolerances, StreamName finite windows, RegSeqRat regularity readback, a Real seal, a CauchyCompletionCriterion dependency row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-cauchy-criterion-carrier}, \autoref{thm:bishop-cauchy-criterion-namecert-obligations}, and \autoref{thm:bishop-cauchy-criterion-completion-route} seed the finite Bishop Cauchy criterion route for the L10 Real and Completion surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient streams, countable choice, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance exposure, window exposure, regularity handoff, Real seal non-escape, completion-criterion dependency preservation, transport stability, replay stability, provenance, and local naming.}
+\end{closurestatus}

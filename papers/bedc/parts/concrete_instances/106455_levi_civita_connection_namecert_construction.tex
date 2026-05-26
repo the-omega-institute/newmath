@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\LeviCivitaConnectionUp$}
+\label{ch:concrete-instances-levi-civita-connection-namecert}
+\origin{human}
+
+Following Kobayashi and Nomizu, the $\LeviCivitaConnectionUp$ packet records the finite NameCert surface that ties a Riemannian metric to the unique torsion-free metric-compatible connection visible to curvature consumers. It is grounded in the source-fibre metric packet of \autoref{ch:concrete-instances-riemannianmetric-namecert}, the connection packet of \autoref{ch:concrete-instances-connection-namecert}, and the curvature boundary surface of \autoref{ch:concrete-instances-curvature-namecert}. The packet exports only displayed rows and certificate ledgers; it does not import an ambient smooth connection operator, coordinate Christoffel symbols, or a host-level uniqueness theorem.
+
+\begin{definition}[Levi-Civita connection carrier]
+\label{def:levi-civita-connection-carrier}
+A $\LeviCivitaConnectionUp$ carrier is a finite $\BHist$ packet
+$$
+L=(G,C,T,M,R,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\RiemannianMetricUp$ row whose source-fibre surface supplies the metric data on the displayed tangent fibres.
+\item $C$ is the $\ConnectionUp$ row carrying the base, fibre, section, tangent-direction, derivative endpoint, and connection provenance visible to the packet.
+\item $T$ is the torsion-free boundary row, recording that the two displayed tangent-direction orders have no residual antisymmetric endpoint outside the connection ledger.
+\item $M$ is the metric-compatibility row, recording that the connection derivative preserves the displayed $\RiemannianMetricUp$ inner-product row along the inspected tangent window.
+\item $R$ is the $\CurvatureUp$ compatibility row, exposing the curvature boundary obtained from the connection row after the torsion-free and metric-compatibility rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $G,C,T,M,R$ and their dependency rows.
+\item $K$ records the displayed $\Cont$ replay from the metric row and connection row through torsion-free verification, metric compatibility, and curvature compatibility.
+\item $P$ is the $\Pkg$ provenance over $\LeviCivitaConnectionUp$, $\RiemannianMetricUp$, $\ConnectionUp$, $\CurvatureUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LeviCivitaConnectionUp}$ row.
+\end{enumerate}
+The carrier therefore packages a displayed Riemannian metric together with a displayed connection whose torsion-free, metric-compatible, and curvature-facing rows are all visible in the same finite certificate. It does not contain a coordinate formula for Christoffel symbols, a selected smooth atlas, a global geodesic theorem, or a host-level equality between possible connections.
+\end{definition}
+\leanchecked{BEDC.Derived.LeviCivitaConnectionUp.LeviCivitaConnectionTasteGate\_single\_carrier\_alignment\_decode\_encode}
+
+\begin{theorem}[Levi-Civita connection NameCert obligations]
+\label{thm:levi-civita-connection-namecert-obligations}
+For an accepted $\LeviCivitaConnectionUp$ carrier $L=(G,C,T,M,R,H,K,P,N)$, the local $\NameCert_{\LeviCivitaConnectionUp}$ surface is exhausted by the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed metric and connection rows $G$ and $C$;
+\item torsion-free exposure for the boundary row $T$;
+\item metric-compatibility exposure for the row $M$;
+\item curvature-facing compatibility for the row $R$;
+\item componentwise transport for $G,C,T,M,R$ through $H$;
+\item replay exactness for the route recorded by $K$;
+\item provenance and local naming through $P$ and $N$.
+\end{enumerate}
+No obligation asks for an unlogged covariant derivative, a coordinate chart calculation, a selected geodesic flow, or a host-level uniqueness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:levi-civita-connection-carrier}. The rows $G$ and $C$ are the only metric and connection sources available to the local certificate, and their dependency surfaces are already the public rows of $\RiemannianMetricUp$ and $\ConnectionUp$.
+
+The torsion-free and metric-compatibility clauses are the two displayed boundary rows $T$ and $M$. They are read after the connection row has exposed tangent-direction and derivative-endpoint data and after the metric row has exposed the fibrewise inner-product surface.
+
+The curvature-facing clause is exactly $R$. It can be consumed only after the connection and compatibility rows have been replayed by $K$, so the downstream $\CurvatureUp$ read receives a finite boundary route rather than a detached tensor object.
+
+Transport and replay exactness are then componentwise projections from $H$ and $K$. The package row $P$ and local name row $N$ repack these rows as the whole local NameCert surface, leaving no coordinate for the excluded ambient objects.
+\end{proof}
+
+\begin{theorem}[Levi-Civita connection curvature compatibility]
+\label{thm:levi-civita-connection-curvature-compatibility}
+Every $\CurvatureUp$ consumer of an accepted $\LeviCivitaConnectionUp$ carrier reads curvature through the finite route
+$$
+G \longmapsto C \longmapsto T \longmapsto M \longmapsto R .
+$$
+Thus the curvature row is downstream of the displayed $\RiemannianMetricUp$ metric packet, the displayed $\ConnectionUp$ derivative packet, the torsion-free boundary, and the metric-compatibility row. It cannot be read as an independent coordinate curvature tensor, a host connection form, or a curvature object detached from the metric-compatible connection certificate.
+\end{theorem}
+\begin{proof}
+Start with a curvature-facing request. The carrier has only one curvature coordinate, namely $R$, and $R$ is declared as a compatibility row over the displayed connection row $C$.
+
+The connection row $C$ is not detached from the metric. The torsion-free row $T$ and metric-compatibility row $M$ sit between $C$ and $R$ in the replay row $K$, while $G$ supplies the metric source that $M$ preserves.
+
+Apply the connection curvature-boundary surface from \autoref{thm:connection-curvature-boundary-obligation} and the curvature source obligations of \autoref{ch:concrete-instances-curvature-namecert}. These existing rows explain how a connection boundary becomes consumable by $\CurvatureUp$.
+
+Repacking the projected rows gives the displayed route $G \mapsto C \mapsto T \mapsto M \mapsto R$. Since no coordinate curvature tensor, host connection form, or detached curvature object appears in the carrier, no such object is exported to the consumer.
+\end{proof}
+
+\closureat{LeviCivitaConnectionUp}{seedStr}
+
+\begin{closurestatus}{\LeviCivitaConnectionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:levi-civita-connection-carrier}, \autoref{thm:levi-civita-connection-namecert-obligations}, and \autoref{thm:levi-civita-connection-curvature-compatibility} seed the displayed metric-compatible torsion-free connection route from $\RiemannianMetricUp$ and $\ConnectionUp$ rows through torsion-free, metric-compatible, curvature-facing, transport, replay, provenance, and local naming boundaries over $\CurvatureUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close coordinate Christoffel symbols or formulae, selected smooth atlases, global geodesic theorems or flows, host-level connection uniqueness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, torsion-free exposure, metric-compatibility exposure, curvature-facing compatibility, transport, replay, provenance, and local naming for BEDC.Derived.LeviCivitaConnectionUp.}
+  \constructivestory{A $\LeviCivitaConnectionUp$ packet is generated from displayed Riemannian metric and connection rows, torsion-free and metric-compatibility boundary rows, a curvature-facing compatibility row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\JensenInequalityUp$}
+\label{ch:concrete-instances-jensen-inequality-namecert}
+\origin{human}
+
+Following Jensen and Hardy--Littlewood--Polya, the $\JensenInequalityUp$ packet records the finite convex-combination route by which a convex function row, finitely many affine weights, and displayed real comparisons produce the Jensen inequality surface. It sits over the feasible affine spine of \autoref{ch:concrete-instances-convexset-namecert}, the vector carrier of \autoref{ch:concrete-instances-vecspace-namecert}, the scalar and comparison rows of \autoref{ch:concrete-instances-real-namecert}, the rational coefficient source of \autoref{ch:concrete-instances-rat-namecert}, and the endpoint comparison discipline of \autoref{ch:concrete-instances-real-min-max-namecert}. The packet names the finite certificate route for Jensen-style convex analysis; it does not assert host convex functions, quotient equality of real names, ambient completeness, or a global optimization principle.
+
+\begin{definition}[Jensen inequality carrier]
+\label{def:jensen-inequality-carrier}
+A $\JensenInequalityUp$ carrier is a finite $\BHist$ packet
+$$
+J=(F,W,A,X,Y,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the convex-function source row, recording the displayed domain, codomain, convexity ledger, and function-read route.
+\item $W$ is the finite affine-weight row, recording the rational coefficients, nonnegative coefficient checks, and finite-sum-to-one row read through $\RatUp$.
+\item $A$ is the affine-spine row, recording the $\ConvexSetUp$ route that keeps the weighted point inside the displayed convex carrier.
+\item $X$ is the finite input-family row, recording the finitely many points consumed by the affine spine and their $\VecSpaceUp$ source reads.
+\item $Y$ is the convex-image row, recording the finite image reads $F(x_i)$ and the weighted image expression.
+\item $R$ is the $\RealUp$ comparison row, recording the displayed inequality between the function value at the affine point and the weighted image expression.
+\item $Q$ is the $\RealMinMaxUp$ endpoint row, recording the comparison and bounding data used when a consumer reads the displayed inequality.
+\item $H$ records componentwise $\hsame$ transport for $F,W,A,X,Y,R,Q$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from the source rows through the affine spine, comparison rows, endpoint row, provenance, and local name.
+\item $P$ is the $\Pkg$ provenance over $\JensenInequalityUp$, $\ConvexSetUp$, $\RealUp$, $\RatUp$, $\VecSpaceUp$, $\RealMinMaxUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\JensenInequalityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,W,A,X,Y,R,Q,H,C,P,N$. It has no coordinate for a host convex function, quotient equality of functions or real names, a selected supremum, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Jensen inequality NameCert obligations]
+\label{thm:jensen-inequality-namecert-obligations}
+For every accepted $\JensenInequalityUp$ carrier $J=(F,W,A,X,Y,R,Q,H,C,P,N)$, the local $\NameCert_{\JensenInequalityUp}$ surface consists exactly of carrier admission for the convex-function row, affine-weight row, affine-spine row, input-family row, image row, real-comparison row, endpoint row, structural rows $H,C,P$, and local naming row $N$; nonnegative rational coefficient accountability through $W$; convex-set affine-spine accountability through $A$; real comparison exactness through $R,Q$; and componentwise transport, replay, provenance, and naming for the same route.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $J=(F,W,A,X,Y,R,Q,H,C,P,N)$. The carrier definition exposes exactly the convex-function source, affine weights, affine spine, input family, image family, comparison, endpoint, transport, replay, provenance, and naming rows.
+
+The coefficient and affine-spine rows are read before the inequality row. Thus $W$ supplies the nonnegative rational coefficients and finite sum row, while $A$ supplies the displayed $\ConvexSetUp$ route that keeps the affine point in the accepted carrier.
+
+The image and comparison rows then record the Jensen surface. The rows $Y,R,Q$ carry the function images, real comparison, and endpoint comparison data, and $H,C,P,N$ preserve and name that route. Since the excluded host convex-function and quotient-equality objects are absent from the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Jensen inequality affine-spine route]
+\label{thm:jensen-inequality-affine-spine-route}
+Every accepted $\JensenInequalityUp$ carrier routes its displayed inequality through
+$$
+W,X \longmapsto A \longmapsto F,Y \longmapsto R,Q \longmapsto H,C,P,N .
+$$
+Consequently a consumer must read the finite rational weights, input family, $\ConvexSetUp$ affine-spine data, convex-function source row, finite image row, $\RealUp$ comparison row, $\RealMinMaxUp$ endpoint row, componentwise transport, replay, provenance, and local naming before it can cite the Jensen inequality surface.
+\end{theorem}
+\begin{proof}
+Start with a consumer read of the inequality. By \autoref{def:jensen-inequality-carrier}, the only affine-combination data are the coefficient row $W$, input-family row $X$, and affine-spine row $A$.
+
+The convex-function and image rows are downstream of that affine route. The row $F$ supplies the convexity ledger, and $Y$ supplies the displayed image family over the same finite weights.
+
+Finally the comparison rows $R,Q$ expose the real inequality only after those source rows have been displayed. The structural rows $H,C,P,N$ transport, replay, source, and name the same route, so no consumer can bypass the affine spine by invoking an ambient convex-function theorem.
+\end{proof}
+
+\begin{theorem}[Jensen inequality public export]
+\label{thm:jensen-inequality-public-export}
+The public export of an accepted $\JensenInequalityUp$ packet is exactly the finite row family $F,W,A,X,Y,R,Q,H,C,P,N$ and the dependency reads through $\ConvexSetUp$, $\RealUp$, $\RatUp$, $\VecSpaceUp$, and $\RealMinMaxUp$. It exports no host convex function, quotient real equality, selected representative of a real value, open-cover compactness, countable choice, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:jensen-inequality-namecert-obligations} to identify the local NameCert surface. It lists the carrier rows and structural rows as the complete obligation family.
+
+Then use \autoref{thm:jensen-inequality-affine-spine-route}. It orders every consumer read through the rational weights, vector inputs, convex-set affine spine, convex-function source, image family, real comparison, endpoint comparison, transport, replay, provenance, and local naming rows.
+
+Combining the obligation surface with the ordered route leaves precisely the listed public export. The absent host objects have no carrier coordinate and therefore cannot be exported by the packet.
+\end{proof}
+
+\falsifiablePrediction{Every $\JensenInequalityUp$ consumer reads a convex-function source row, finite rational nonnegative weights, a ConvexSet affine-spine row, vector input rows, Real comparison rows, RealMinMax endpoint rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before the Jensen inequality surface is public.}
+
+\independenceWitness{convexset, real, rat, vecspace, realminmax: $\JensenInequalityUp$ is not bijective to any listed sibling because it jointly carries convex-function source, finite affine weights, affine-spine membership, image rows, comparison rows, endpoint rows, transport, replay, provenance, and local NameCert data as one finite inequality packet.}
+
+\closureat{JensenInequalityUp}{seedStr}
+
+\begin{closurestatus}{\JensenInequalityUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:jensen-inequality-carrier}, \autoref{thm:jensen-inequality-namecert-obligations}, \autoref{thm:jensen-inequality-affine-spine-route}, and \autoref{thm:jensen-inequality-public-export} seed the finite Jensen inequality route over convex-function, affine-weight, ConvexSet, VecSpace, Real, Rat, and RealMinMax rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host convex functions, quotient equality of real names or functions, selected extrema, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite affine-weight accountability, ConvexSet affine-spine exactness, Real comparison nonescape, endpoint comparison handoff, and public export scope for BEDC.Derived.JensenInequalityUp.}
+  \constructivestory{A $\JensenInequalityUp$ packet is generated from a convex-function source row, finite rational affine weights, a ConvexSet affine-spine row, VecSpace input rows, finite image rows, Real comparison rows, RealMinMax endpoint rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

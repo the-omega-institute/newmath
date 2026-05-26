@@ -422,3 +422,121 @@ Continuation result respect for $\hsame$, applied to the two displayed
 continuations with right tail $g$, yields $\HSame(result,fg)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.category\_cont\_middle\_identity\_tail\_result}
+
+\begin{lemma}[Category hom carrier right-append fixed identity bridge determinacy]
+\label{lem:category-hom-carrier-right-append-fixed-identity-bridge-determinacy}
+For the unary-continuation category, fix a displayed hom carrier
+$\mathsf{CategoryHomCarrier}(a,b,f)$ and, for $g:\BHist$ and $fg:\BHist$,
+a fixed right-append comparison displayed by
+$$
+\ContR(f,g,fg)\wedge\HSame(fg,g).
+$$
+Suppose the same consumer-facing surface is handed through the displayed
+left-right identity rows
+$\mathsf{CategoryHomCarrier}(a,a,id_A)$,
+$\mathsf{CategoryHomCarrier}(b,b,id_B)$,
+$\ContR(id_A,f,left)$, and $\ContR(left,id_B,result)$. Then the bridge is
+classified by exactly the local fixed-identity and public-readback rows:
+$$
+\HSame(f,\emp)\wedge\HSame(a,b)\wedge
+\mathsf{CategoryHomCarrier}(a,b,result)\wedge
+\forall h,\,
+\mathsf{CategoryHomCarrier}(a,b,h)\Rightarrow\HSame(result,h).
+$$
+Consequently every accepted route, transport, readback, or handoff for this
+right-append fixed identity factors through the displayed
+$\mathsf{CategoryHomCarrier}$ rows, the two identity-continuation rows, the
+fixed append comparison, and the public readback classifier. No unlisted bridge
+coordinate supplies an alternate tail, endpoint, transported carrier, or public
+morphism read.
+\end{lemma}
+\begin{proof}
+Apply \autoref{thm:category-hom-carrier-right-append-fixed-identity} to the
+displayed carrier $\mathsf{CategoryHomCarrier}(a,b,f)$ and the fixed comparison
+represented by $\ContR(f,g,fg)$ together with $\HSame(fg,g)$. The forward
+implication gives
+$$
+\HSame(f,\emp)\wedge\HSame(a,b).
+$$
+These are the only fixed-append data exported by the local theorem: the
+morphism tail is empty and the two endpoints are history-same.
+
+Next apply \autoref{thm:category-comp-left-right-identity-public-readback} to
+$\mathsf{CategoryHomCarrier}(a,a,id_A)$,
+$\mathsf{CategoryHomCarrier}(a,b,f)$,
+$\mathsf{CategoryHomCarrier}(b,b,id_B)$,
+$\ContR(id_A,f,left)$, and $\ContR(left,id_B,result)$. It supplies the displayed
+carrier for the handoff result and the public readback clause
+$$
+\mathsf{CategoryHomCarrier}(a,b,result)\wedge
+\forall h,\,
+\mathsf{CategoryHomCarrier}(a,b,h)\Rightarrow\HSame(result,h).
+$$
+Combining this conjunction with the fixed-append conclusion gives the displayed
+classification.
+
+The factorization claim follows from the two cited rows. A route to the fixed
+identity must first use the right-append comparison and therefore lands in
+$\HSame(f,\emp)\wedge\HSame(a,b)$. By
+\autoref{thm:category-hom-carrier-hsame-transport}, a transport use can only
+move the displayed hom carrier along those $\hsame$ comparisons. A readback or
+handoff through the identity bridge is then exactly the public readback clause
+above: it classifies $result$ against every displayed hom carrier over the same
+endpoints, including the original carrier $f$. Since the hypotheses list no
+further carrier, continuation, classifier, or endpoint row, an alleged alternate
+tail, endpoint, transported carrier, or public morphism read has no local
+coordinate through which an accepted consumer could obtain it.
+\end{proof}
+
+\begin{corollary}[Category hom carrier right-append fixed identity consumer determinacy]
+\label{cor:category-hom-carrier-right-append-fixed-identity-consumer-determinacy}
+For the unary-continuation category, fix
+$\mathsf{CategoryHomCarrier}(a,b,f)$ and a displayed fixed right-append row
+$$
+\ContR(f,g,fg)\wedge\HSame(fg,g).
+$$
+Suppose the same consumer-facing identity surface also displays
+$\mathsf{CategoryHomCarrier}(a,a,id_A)$,
+$\mathsf{CategoryHomCarrier}(b,b,id_B)$,
+$\ContR(id_A,f,left)$, and $\ContR(left,id_B,result)$. Then every displayed
+consumer candidate $h$ over the same endpoints is forced to the chapter's
+fixed identity route and public normal form:
+$$
+\mathsf{CategoryHomCarrier}(a,b,h)
+\Longrightarrow
+\HSame(f,\emp)\wedge\HSame(a,b)\wedge\HSame(result,h).
+$$
+Thus the accepted exactness decision is the pair
+$\HSame(f,\emp)\wedge\HSame(a,b)$, and the accepted public readback is the
+single $\hsame$-class of $result$ among displayed hom carriers from $a$ to $b$.
+No hidden coordinate can supply a nonempty tail decision, a different endpoint
+classifier, or a duplicate public classifier source for this right-append fixed
+identity surface.
+\end{corollary}
+\begin{proof}
+Apply
+\autoref{lem:category-hom-carrier-right-append-fixed-identity-bridge-determinacy}
+to the displayed hom carrier, the fixed right-append row, and the four identity
+surface rows. It gives
+$$
+\HSame(f,\emp)\wedge\HSame(a,b)\wedge
+\mathsf{CategoryHomCarrier}(a,b,result)\wedge
+\forall k,\,
+\mathsf{CategoryHomCarrier}(a,b,k)\Rightarrow\HSame(result,k).
+$$
+For the chosen consumer candidate $h$, instantiate the universal readback
+clause with its displayed carrier row $\mathsf{CategoryHomCarrier}(a,b,h)$.
+This yields $\HSame(result,h)$, while the first two conjuncts give the fixed
+identity decision $\HSame(f,\emp)\wedge\HSame(a,b)$.
+
+The content of that decision is exactly the one supplied by
+\autoref{thm:category-hom-carrier-right-append-fixed-identity}: the fixed
+right-append comparison is accepted precisely through the empty-tail condition
+on $f$ together with the endpoint classifier $\HSame(a,b)$. The bridge
+determinacy lemma then routes every public handoff through the displayed
+identity rows and the universal readback classifier for $result$. Hence any
+accepted route, normal-form read, or exactness decision using the same surface
+must factor through these listed rows; an unlisted tail, endpoint, or public
+classifier coordinate has no displayed carrier or continuation row from which it
+could be read.
+\end{proof}

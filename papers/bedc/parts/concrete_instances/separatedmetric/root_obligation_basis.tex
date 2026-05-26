@@ -1,0 +1,59 @@
+\begin{definition}[SeparatedMetric root obligation basis]
+\label{def:separatedmetric-root-obligation-basis}
+Let $S=(X,D,Z,L_0,L_1,E,H,C,P,N)$ be an accepted $\SeparatedMetricUp$ packet. Its root obligation basis is the finite $\BHist$-anchored row package consisting of:
+\begin{enumerate}
+\item carrier admission of $X,D,Z,L_0,L_1,E,H,C,P,N$ as the only displayed rows of the packet;
+\item classifier transport through the stored $\MetricUp$ source, $\RealUp$ zero-distance reading, componentwise $\hsame$ transport, and displayed $\Cont$ replay;
+\item completion handoff from $L_0,L_1$ through $\CompleteMetricUp$ and the $\CauchySequenceEquivalenceUp$ route $E$ before any separated classifier export;
+\item provenance and local naming through $P,N$ for downstream L10 completion consumers.
+\end{enumerate}
+The basis exports no host equality, quotient equality, selected representative, countable choice, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness row.
+\end{definition}
+
+\begin{theorem}[SeparatedMetric root carrier admission]
+\label{thm:separatedmetric-root-carrier-admission}
+For every accepted $\SeparatedMetricUp$ packet $S=(X,D,Z,L_0,L_1,E,H,C,P,N)$, the root-facing carrier admitted to a downstream completion consumer is exactly the $\BHist$ package displayed in \autoref{def:separatedmetric-root-obligation-basis}. In particular, the consumer may project the rows $X,D,Z,L_0,L_1,E,H,C,P,N$, and it may not project any additional row for host equality, quotient equality, selected representatives, countable choice, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:separatedmetric-carrier} together with the local obligation surface of \autoref{thm:separatedmetric-namecert-obligations}. These rows display the metric source, zero-distance reading, separation classifier, two completion-limit entries, regular Cauchy equivalence route, transport, replay, provenance, and local naming.
+
+The later zero-distance and completion-readback theorems use only those coordinates. Since the displayed carrier contains no coordinate for the excluded host or quotient principles, a root consumer has no additional row to project.
+\end{proof}
+
+\begin{theorem}[SeparatedMetric root classifier transport]
+\label{thm:separatedmetric-root-classifier-transport}
+Let $S=(X,D,Z,L_0,L_1,E,H,C,P,N)$ be an accepted $\SeparatedMetricUp$ packet. Every root classifier transport exported from $S$ factors through the displayed $\MetricUp$ row $X$, the $\RealUp$ zero-distance row $D$, the separated classifier row $Z$, componentwise $\hsame$ transport $H$, and displayed $\Cont$ replay $C$, with provenance and naming supplied by $P,N$. The transport remains a $\BHist$-anchored classifier route and does not become host point equality, quotient equality, a selected representative, or trichotomy of real distances.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:separatedmetric-zero-distance-transport}. It already requires the zero-distance evidence to start in the $\MetricUp$ distance row, pass through the $\RealUp$ zero-distance reading, and reach the classifier only through the separation row.
+
+Apply the classifier stability and nonescape rows, \autoref{thm:separatedmetric-classifier-stability-row} and \autoref{thm:separatedmetric-root-classifier-nonescape}. These rows keep transport componentwise through $H$ and replay it through $C$, while $P,N$ source and name the same finite route.
+
+Thus the transported classifier remains the displayed $\SeparatedMetricUp$ route. No excluded equality or order principle is present in the carrier, so none can be exported by the transport.
+\end{proof}
+
+\begin{theorem}[SeparatedMetric root completion handoff]
+\label{thm:separatedmetric-root-completion-handoff}
+Let $S=(X,D,Z,L_0,L_1,E,H,C,P,N)$ be an accepted $\SeparatedMetricUp$ packet. Every root completion-limit read of $S$ must hand $L_0$ and $L_1$ through $\CompleteMetricUp$ compatibility and the $\CauchySequenceEquivalenceUp$ route $E$ before it may use $D$ and $Z$ to export a separated classifier. The handoff is a finite $\BHist$ route through $X,D,Z,L_0,L_1,E,H,C,P,N$, not a read from ambient completion equality or a selected limit.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:separatedmetric-completion-compatibility-scope}. It places every comparison of the two completion-limit rows behind the displayed equivalence route $E$ before any zero-distance classifier read can occur.
+
+Then apply \autoref{thm:separatedmetric-root-completion-limit-handoff}. The theorem identifies the completion-facing rows, metric source, zero-distance witness, transport, replay, provenance, and naming as the complete route for a completion-limit classifier export.
+
+The handoff therefore stays inside the finite carrier rows. Ambient completion equality, selected representatives, and choice principles are absent from $S$, so they cannot supply a competing completion read.
+\end{proof}
+
+\begin{theorem}[SeparatedMetric root obligation basis]
+\label{thm:separatedmetric-root-obligation-basis}
+The root obligation basis of \autoref{def:separatedmetric-root-obligation-basis} is sufficient for every downstream L10 completion consumer that asks a $\SeparatedMetricUp$ packet for carrier admission, classifier transport, or completion-limit uniqueness. Such a consumer can read the required rows by applying \autoref{thm:separatedmetric-root-carrier-admission}, \autoref{thm:separatedmetric-root-classifier-transport}, and \autoref{thm:separatedmetric-root-completion-handoff}, and every read remains confined to the $\BHist$ package $X,D,Z,L_0,L_1,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+First read carrier admission from \autoref{thm:separatedmetric-root-carrier-admission}. This gives the downstream consumer exactly the displayed rows of the accepted packet and refuses every host, quotient, choice, trichotomy, compactness, or ambient completeness row.
+
+For classifier requests, use \autoref{thm:separatedmetric-root-classifier-transport}. It transports the zero-distance classifier only through $\MetricUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data already present in the carrier.
+
+For completion-limit uniqueness requests, use \autoref{thm:separatedmetric-root-completion-handoff}. It sends the two completion rows through $\CompleteMetricUp$ compatibility and $\CauchySequenceEquivalenceUp$ before the zero-distance classifier is exported.
+
+These three projections cover the root-facing requests named in the definition, so the L10 consumer receives an obligation basis rather than a stronger equality or completion principle.
+\end{proof}

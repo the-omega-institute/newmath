@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\ClosedBoundedSequenceUp$}
+\label{ch:concrete-instances-closed-bounded-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\ClosedBoundedSequenceUp$ packet records a bounded real sequence as finite BEDC source rows rather than as a completed sequence space or a compactness theorem. It is the bounded-sequence neighbour of the closed interval carrier in \autoref{ch:concrete-instances-closedboundedinterval-namecert} and the Bolzano--Weierstrass route of \autoref{ch:concrete-instances-bolzanoweierstrass-namecert}. The carrier exposes only the finite bound interval row, the sequence windows read through \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readbacks of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic bound ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, transport, replay, provenance, and local naming.
+
+\begin{definition}[Closed bounded sequence carrier]
+\label{def:closed-bounded-sequence-carrier}
+A $\ClosedBoundedSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(I,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the bound interval row, read through the $\ClosedBoundedIntervalUp$ certificate of \autoref{ch:concrete-instances-closedboundedinterval-namecert};
+\item $W$ is the finite family of $\StreamNameUp$ windows inspecting the requested sequence coordinates;
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same coordinate windows;
+\item $D$ is the $\DyadicRatCoreUp$ ledger recording dyadic lower and upper bound comparisons against the interval row $I$;
+\item $E$ is the $\RealUp$ seal row for each inspected coordinate, reached only after $I,W,R,D$ have been displayed;
+\item $H$ records componentwise $\hsame$ transport of the interval, window, readback, dyadic, and seal rows;
+\item $C$ records displayed $\Cont$ replay from interval bounds through finite sequence windows and coordinate seals;
+\item $P$ is the $\Pkg$ provenance over $\ClosedBoundedSequenceUp$, $\ClosedBoundedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ClosedBoundedSequenceUp}$ row.
+\end{enumerate}
+The carrier exports no general sequential compactness principle, no countable choice selector, no selected convergent subsequence, and no ambient space of all bounded sequences. Its public object is the finite bounded-coordinate packet $B$.
+\end{definition}
+
+\begin{theorem}[Closed bounded sequence NameCert obligations]
+\label{thm:closed-bounded-sequence-namecert-obligations}
+For the carrier of \autoref{def:closed-bounded-sequence-carrier}, the local $\NameCert_{\ClosedBoundedSequenceUp}$ surface consists exactly of carrier admission for $B=(I,W,R,D,E,H,C,P,N)$; bound-interval admission through $\ClosedBoundedIntervalUp$; coordinate-window admission through $\StreamNameUp$; regular rational readback through $\RegSeqRatUp$; dyadic containment of every inspected coordinate through $\DyadicRatCoreUp$; terminal coordinate sealing through $\RealUp$; classifier preservation under $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. Its interval row, coordinate-window rows, readback rows, dyadic bound ledger, Real seals, transport, replay, provenance, and local name are visible coordinates of one finite packet.
+
+Read the bound before the coordinate seals. The $\ClosedBoundedIntervalUp$ row supplies the lower endpoint, upper endpoint, endpoint order, and containment ledgers, while $W,R,D$ inspect only finitely many sequence coordinates against that same interval.
+
+The structural rows close the naming surface. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve exactly the listed rows, and the provenance and local naming rows source that finite route without adding sequential compactness, a choice-selected subsequence, or an ambient sequence-space object.
+\end{proof}
+
+\begin{theorem}[Closed bounded sequence Cauchy-subsequence window]
+\label{thm:closed-bounded-sequence-cauchy-subsequence-window}
+Every $\BolzanoWeierstrassUp$ or Cauchy-subsequence consumer of an accepted $\ClosedBoundedSequenceUp$ carrier must read the finite route
+$$
+\ClosedBoundedIntervalUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \DyadicRatCoreUp,\quad \RealUp
+$$
+through the displayed rows $I,W,R,D,E,H,C,P,N$. The route supplies bounded coordinate windows and dyadic containment readbacks, but it does not supply general sequential compactness, countable choice, a selected convergent subsequence, or an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory. The only sequence-facing rows are the finite windows $W$, regular rational readbacks $R$, dyadic bound ledger $D$, and coordinate seals $E$, all attached to the bound interval row $I$.
+
+Next route the downstream consumer through the same rows. A $\BolzanoWeierstrassUp$ or Cauchy-subsequence consumer can request a bounded-coordinate window, but the request is replayed by $C$ only after $I,W,R,D,E$ have been transported by $H$ and sourced by $P,N$.
+
+The excluded principles are not carrier coordinates. Since the packet contains no selector for an infinite subsequence, no global compactness row, no countable choice row, and no ambient complete sequence space, the consumer receives only the displayed finite bounded-window route.
+\end{proof}
+
+\falsifiablePrediction{Every $\BolzanoWeierstrassUp$ or Cauchy-subsequence read of a $\ClosedBoundedSequenceUp$ packet factors through a bound interval row, finite StreamName coordinate windows, RegSeqRat readbacks, a DyadicRatCore bound ledger, RealUp coordinate seals, transport, replay, provenance, and local naming.}
+
+\independenceWitness{closedboundedinterval, bolzanoweierstrass, streamname, regseqrat, dyadicratcore, real: $\ClosedBoundedSequenceUp$ is not bijective to any listed sibling because it jointly carries a bounded sequence source, finite coordinate windows, dyadic bound readbacks, coordinate seals, and a consumer-facing bounded-window route.}
+
+\closureat{ClosedBoundedSequenceUp}{seedStr}
+
+\begin{closurestatus}{\ClosedBoundedSequenceUp}
+  \constructivestory{A $\ClosedBoundedSequenceUp$ packet is generated from a closed bounded interval row, finite sequence windows, regular rational readbacks, dyadic bound comparisons, RealUp coordinate seals, hsame transports, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-bounded-sequence-carrier}, \autoref{thm:closed-bounded-sequence-namecert-obligations}, and \autoref{thm:closed-bounded-sequence-cauchy-subsequence-window} bind the finite bounded-coordinate carrier before Bolzano--Weierstrass and Cauchy-subsequence consumers add their own extraction rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, general sequential compactness, countable choice, selected convergent subsequences, or ambient sequence-space completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier preservation, bound-readback, and Cauchy-subsequence handoff for BEDC.Derived.ClosedBoundedSequenceUp.}
+\end{closurestatus}

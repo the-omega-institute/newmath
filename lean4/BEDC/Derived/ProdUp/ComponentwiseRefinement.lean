@@ -568,4 +568,32 @@ theorem ProdUp_StdBridge {Left Right : BHist -> Prop}
                     And.intro componentClassifier
                       (And.intro envelopeClassifier componentRel)
 
+theorem ProdPublicFiniteDataExitPackage
+    {Left Right : BHist -> Prop} {LeftEq RightEq : BHist -> BHist -> Prop}
+    (leftCert : NameCert Left LeftEq) (rightCert : NameCert Right RightEq)
+    (coherent : ProdPairRepCoherent Left Right LeftEq RightEq)
+    (left_sound : ∀ {x y : BHist}, LeftEq x y -> hsame x y)
+    (right_sound : ∀ {x y : BHist}, RightEq x y -> hsame x y) {h k : BHist} :
+    SemanticNameCert (ProdHistoryCarrier Left Right) (ProdHistoryCarrier Left Right)
+        (ProdDisplayedPairLedger Left Right)
+        (ProdComponentHistoryClassifier Left Right LeftEq RightEq) ∧
+      (ProdComponentHistoryClassifier Left Right LeftEq RightEq h k ->
+        ProdDisplayedPairLedger Left Right h ∧ ProdDisplayedPairLedger Left Right k ∧
+          ProdHistoryClassifier Left Right h k) := by
+  -- BEDC touchpoint anchor: BHist NameCert SemanticNameCert hsame Cont
+  constructor
+  · exact
+      ProdComponentHistoryClassifier_displayed_ledger_semantic_name_certificate
+        leftCert rightCert coherent
+  · intro classifier
+    have endpoints := ProdComponentHistoryClassifier_endpoint_carriers classifier
+    have descent :=
+      ProdComponentHistoryClassifier_descends_to_envelope
+        left_sound right_sound classifier
+    constructor
+    · exact (ProdPairRep_coverage (Left := Left) (Right := Right) (h := h)).mp endpoints.left
+    · constructor
+      · exact (ProdPairRep_coverage (Left := Left) (Right := Right) (h := k)).mp endpoints.right
+      · exact descent
+
 end BEDC.Derived.ProdUp

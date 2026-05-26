@@ -1,0 +1,11 @@
+\begin{theorem}[ProdUp BHist pair projection determinacy]
+\label{thm:prod-bhist-pair-projection-determinacy}
+For every accepted $\ProdUp$ public pair read, the $\BHist$ projection is determined by the two displayed component rows together with the product component ledger, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\ProdUp}$ row. The finite-data siblings of \autoref{ch:concrete-instances-bool-namecert}, \autoref{ch:concrete-instances-sum-namecert}, and \autoref{ch:concrete-instances-list-namecert} may consume the read only after those product rows have fixed the two projections. Thus the product packet cannot export a tag-only $\SumUp$ branch, optional none row, or $\ListUp$ spine without passing through the corresponding sibling $\NameCert$ surface.
+\end{theorem}
+\begin{proof}
+Start from the product componentwise interface. The accepted pair read exposes two component rows and the displayed product ledger before any finite-data consumer receives a public projection.
+
+The Bool sibling supplies only endpoint discrimination for the product route, while the Sum and List siblings supply branch and spine consumers after the component rows have been named. Their $\NameCert$ surfaces therefore consume already displayed product projections; they do not replace the pair by a detached sum tag, absent option row, or list spine.
+
+Transport through $\hsame$, replay through $\Cont$, provenance through $\Pkg$, and the local $\NameCert_{\ProdUp}$ row preserve the same two projections. Hence the public $\BHist$ read is determined by the product component rows and has no independent finite-data export outside the sibling certificates.
+\end{proof}

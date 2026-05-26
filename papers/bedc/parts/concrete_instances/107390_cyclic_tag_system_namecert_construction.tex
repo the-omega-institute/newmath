@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\CyclicTagSystemUp$}
+\label{ch:concrete-instances-cyclic-tag-system-namecert}
+\origin{human}
+
+Following Cook 2004 and Neary--Woods 2007, the $\CyclicTagSystemUp$ packet records cyclic tag systems as finite step-indexed rewriting data between the machine surface of \autoref{ch:concrete-instances-turingmachine-namecert}, the finite Rule 110 glider-catalog surface of \autoref{ch:concrete-instances-rule110glidercatalog-namecert}, and the total-language boundary of \autoref{ch:visions-strong-normalization-vs-turing-completeness}. The packet names the alphabet, cyclic production list, deletion number, inspected tape window, bounded fuel evaluator, and Rule 110 handoff as displayed $\BHist$ rows. It does not import a partial halting function, an unbounded convergence theorem, a host evaluator, or Cook universality as a hidden coordinate.
+
+\begin{definition}[Cyclic tag system carrier]
+\label{def:cyclic-tag-system-carrier}
+A $\CyclicTagSystemUp$ carrier is a finite $\BHist$ packet
+$$
+T=(A,P,D,W,F,R,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the finite alphabet row, including the distinguished blank or empty-word convention used by the inspected packet.
+\item $P$ is the cyclic production-list row, exposing the finite list of appendants and the current production index as BEDC data.
+\item $D$ is the deletion-number row, recording the positive deletion budget used by each accepted step.
+\item $W$ is the tape-window state row, containing only the displayed prefix, suffix guard, current word window, and step-index ledger.
+\item $F$ is the bounded fuel evaluator row, naming the finite replay of at most the displayed fuel many cyclic-tag steps.
+\item $R$ is the Rule 110 handoff row, read through the glider-catalog and cellular rows when a bounded cyclic-tag trace is presented to a Rule 110 consumer.
+\item $H$ records componentwise $\hsame$ transport for alphabet, production-list, deletion, tape-window, fuel, handoff, provenance, and local naming rows.
+\item $C$ records the displayed $\Cont$ replay from alphabet and production reads to one-step tape updates, from tape updates to bounded fuel evaluation, and from the bounded trace to the Rule 110 handoff row.
+\item $Q$ is the $\Pkg$ provenance over $\CyclicTagSystemUp$, $\TuringMachineUp$, $\RuleOneTenGliderCatalogUp$, $\CellularAutomatonUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CyclicTagSystemUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through the rows $A,P,D,W,F,R,H,C,Q,N$. It has no coordinate for a host partial function, an unbounded halting predicate, an infinite tape quotient, a complete Rule 110 orbit, or a detached universality theorem.
+\end{definition}
+
+\begin{theorem}[Cyclic tag system step-indexed Rule 110 handoff]
+\label{thm:cyclic-tag-system-step-indexed-rule110-handoff}
+For every accepted $\CyclicTagSystemUp$ carrier $T=(A,P,D,W,F,R,H,C,Q,N)$, every finite fuel read factors through the cyclic-tag evaluator rows $A,P,D,W,F$ before any Rule 110 orbit claim is exported through $R$. The handoff may cite the $\TuringMachineUp$ source surface, the $\RuleOneTenGliderCatalogUp$ finite catalog surface, and the $\CellularAutomatonUp$ closed-observation route only after the bounded cyclic-tag replay has been displayed. Thus a Rule 110-facing consumer receives a finite step-indexed handoff and receives no halting decision, unbounded convergence theorem, host partial evaluator, or full universality proof.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The alphabet row $A$, production-list row $P$, deletion-number row $D$, and tape-window row $W$ are the only inputs from which a cyclic-tag step can be read.
+
+The bounded evaluator row $F$ is downstream of those rows. A fuel-indexed request must therefore replay the displayed one-step cyclic-tag updates before it can ask for any substrate-facing handoff.
+
+The Rule 110 handoff row $R$ is read only after $F$. At that point the consumer may cite the Turing-machine source chapter, the finite Rule 110 glider-catalog chapter, and the cellular closed-observation route, but only as sibling certificate surfaces attached to the displayed bounded replay.
+
+Finally inspect $H,C,Q,N$. These rows transport, replay, source, and name the same bounded route. Since the carrier has no coordinate for halting, unbounded convergence, host partiality, or a complete universality proof, none of those objects can be exported with the Rule 110-facing handoff.
+\end{proof}
+
+\falsifiablePrediction{Every $\CyclicTagSystemUp$ Rule 110-facing read first exposes a finite alphabet row, cyclic production-list row, deletion-number row, tape-window row, bounded fuel evaluator row, transport row, continuation route, provenance row, and local naming row.}
+
+\independenceWitness{turingmachine, rule110glidercatalog, cellularautomaton: $\CyclicTagSystemUp$ is not bijective to any listed sibling because it carries cyclic production-list and deletion-number rows together with a bounded tape-window evaluator before the Rule 110 handoff.}
+
+\closureat{CyclicTagSystemUp}{seedStr}
+
+\begin{closurestatus}{\CyclicTagSystemUp}
+  \constructivestory{A $\CyclicTagSystemUp$ packet is generated from a finite alphabet row, cyclic production-list row, deletion-number row, tape-window state row, bounded fuel evaluator row, Rule 110 handoff row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cyclic-tag-system-carrier} and \autoref{thm:cyclic-tag-system-step-indexed-rule110-handoff} seed the finite cyclic-tag route between total BEDC step-indexing, $\TuringMachineUp$, and the Rule 110 glider-catalog surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close halting, unbounded convergence, host partiality, full universality, global Rule 110 orbit classification, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cyclic production-list replay, deletion-step exactness, bounded fuel evaluation, Rule 110 handoff nonescape, provenance, and local NameCert rows for the same packet.}
+\end{closurestatus}

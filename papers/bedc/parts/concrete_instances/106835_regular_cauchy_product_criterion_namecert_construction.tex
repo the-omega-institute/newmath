@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyProductCriterionUp$}
+\label{ch:concrete-instances-regular-cauchy-product-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\RegularCauchyProductCriterionUp$ packet isolates the finite sufficiency criterion by which two regular rational Cauchy source rows produce a product read suitable for the $\CauchyProductCriterionUp$ surface. It sits between the pointwise regular product carrier of \autoref{ch:concrete-instances-regularcauchyproduct-namecert} and the synchronized product criterion of \autoref{ch:concrete-instances-cauchy-product-criterion-namecert}. The chapter records the L10 Real and Completion handoff as finite NameCert data, not as host multiplication of completed reals, quotient equality of streams, a selected product limit, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy product criterion carrier]
+\label{def:regular-cauchy-product-criterion-carrier}
+A $\RegularCauchyProductCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(A,B,W_A,W_B,D,P,K,R,E,H,C,L,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two $\RegSeqRatUp$ source rows whose scheduled rational observations supply the regular Cauchy inputs.
+\item $W_A$ and $W_B$ are synchronized $\StreamNameUp$ window rows for the same precision request and product observation index.
+\item $D$ is the $\DyadicRatCoreUp$ product-budget row, recording input tolerances, visible endpoint magnitude bounds, cross-error terms, and the output tolerance assigned to the product read.
+\item $P$ is the $\RegularCauchyProductUp$ route row, read only after $A,B,W_A,W_B,D$ have been displayed.
+\item $K$ is the $\CauchyProductCriterionUp$ sufficiency row, certifying that the displayed product route is adequate for the downstream criterion.
+\item $R$ is the $\RegSeqRatUp$ readback row produced by the route $P$ under the budget $D$ and criterion row $K$.
+\item $E$ is the $\RealUp$ seal row, consumed only after the regular-rational readback $R$ has been displayed.
+\item $H$ records componentwise $\hsame$ transport for $A,B,W_A,W_B,D,P,K,R,E,C,L,N$ and the local packet shape.
+\item $C$ records displayed $\Cont$ replay from the two source rows through the synchronized windows, dyadic product budget, regular product route, criterion row, readback row, and real seal.
+\item $L$ is the $\Pkg$ provenance over $\RegularCauchyProductCriterionUp$, $\RegularCauchyProductUp$, $\CauchyProductCriterionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyProductCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,B,W_A,W_B,D,P,K,R,E,H,C,L,N$. It has no coordinate for host multiplication of completed reals, quotient stream equality, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy product criterion NameCert obligations]
+\label{thm:regular-cauchy-product-criterion-namecert-obligations}
+For an accepted $\RegularCauchyProductCriterionUp$ carrier $Q=(A,B,W_A,W_B,D,P,K,R,E,H,C,L,N)$, the local $\NameCert_{\RegularCauchyProductCriterionUp}$ obligations are exactly carrier admission for the two $\RegSeqRatUp$ source rows, synchronized $\StreamNameUp$ windows, dyadic product-budget exactness, the $\RegularCauchyProductUp$ route, the $\CauchyProductCriterionUp$ sufficiency row, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise transport through $H$, displayed continuation replay through $C$, provenance through $L$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-product-criterion-carrier}. The displayed packet lists the two source rows, synchronized windows, dyadic budget, product route, criterion row, readback row, real seal, and structural rows.
+
+The source and window obligations are read from $A,B,W_A,W_B$. These rows display the regular rational inputs and the shared product window before any product observation reaches the criterion.
+
+The dyadic product-budget obligation is the row $D$. It records finite tolerance and magnitude data, so the route $P$ is a budgeted regular Cauchy product route rather than host multiplication of completed real names.
+
+The rows $K,R,E$ are the downstream sufficiency, regular-rational, and real-seal boundaries. Transport through $H$, replay through $C$, provenance through $L$, and local naming through $N$ preserve the same route and introduce no additional coordinate.
+
+Thus the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy product criterion window-budget exactness]
+\label{thm:regular-cauchy-product-criterion-window-budget-exactness}
+For an accepted $\RegularCauchyProductCriterionUp$ carrier, the synchronized source windows $W_A,W_B$ and the dyadic row $D$ determine the product-budget data consumed by the $\RegularCauchyProductUp$ route $P$ and the $\CauchyProductCriterionUp$ row $K$. Every downstream $\RegSeqRatUp$ readback of the product factors through
+$$
+A,B\longmapsto W_A,W_B\longmapsto D\longmapsto P\longmapsto K\longmapsto R .
+$$
+No additional budget rule is read from a quotient stream, a selected product limit, countable choice, trichotomy, host real multiplication, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the two regular rational source rows through the synchronized windows. The rows $W_A$ and $W_B$ expose the finite observations used by the product request at the same displayed precision.
+
+The row $D$ is the only dyadic product-budget row in the packet. It supplies the tolerance and endpoint-bound data consumed by the regular product route $P$.
+
+The sufficiency row $K$ then certifies that the displayed route is acceptable for the Cauchy product criterion. Since the readback row $R$ occurs only after $P$ and $K$, every regular-rational product read factors through the displayed chain.
+
+The carrier has no coordinate for any excluded budget source, so the budget exactness is internal to the finite packet.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy product criterion Real seal non-escape]
+\label{thm:regular-cauchy-product-criterion-real-seal-nonescape}
+Every $\RealUp$ seal read of an accepted $\RegularCauchyProductCriterionUp$ carrier factors through the two $\RegSeqRatUp$ sources, synchronized $\StreamNameUp$ windows, the $\DyadicRatCoreUp$ product-budget row, the $\RegularCauchyProductUp$ route, the $\CauchyProductCriterionUp$ sufficiency row, the $\RegSeqRatUp$ readback row, the displayed $\hsame$ transports, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RegularCauchyProductCriterionUp}$ row. Hence the terminal seal is a finite product-sufficiency object, not host multiplication, quotient stream equality, a selected limit, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The real-facing consumer can read only $E$ as the terminal $\RealUp$ seal row. In the carrier, $E$ is downstream of $R$, and $R$ is downstream of the criterion route through $P$ and $K$.
+
+Apply the window-budget exactness theorem. It places the readback route on the finite chain from the two source rows through the synchronized windows, dyadic product budget, product route, criterion row, and regular-rational readback.
+
+The structural rows $H,C,L,N$ preserve that same chain under transport, replay, provenance, and local naming. They do not add a second source for the real seal.
+
+Therefore every terminal read remains inside the displayed finite criterion, and the excluded host, quotient, selector, choice, order, and completeness routes cannot be exported.
+\end{proof}
+
+\closureat{RegularCauchyProductCriterionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyProductCriterionUp}
+  \constructivestory{A $\RegularCauchyProductCriterionUp$ packet is generated from two RegSeqRat source rows, synchronized StreamName windows, a DyadicRatCore product budget, a RegularCauchyProduct route, a CauchyProductCriterion sufficiency row, a RegSeqRat readback row, a RealUp seal row, componentwise transport, displayed continuation replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-product-criterion-carrier}, \autoref{thm:regular-cauchy-product-criterion-namecert-obligations}, \autoref{thm:regular-cauchy-product-criterion-window-budget-exactness}, and \autoref{thm:regular-cauchy-product-criterion-real-seal-nonescape} seed the finite L10 product-sufficiency object between RegularCauchyProduct and CauchyProductCriterion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host multiplication of completed reals, quotient streams, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, synchronized-window admission, dyadic product-budget exactness, RegularCauchyProduct routing, CauchyProductCriterion sufficiency, RegSeqRat readback, Real seal handoff, transport stability, continuation replay, and provenance non-escape for BEDC.Derived.RegularCauchyProductCriterionUp.}
+\end{closurestatus}

@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\FiniteTraceInductionGapUp$}
+\label{ch:concrete-instances-finite-trace-induction-gap-namecert}
+\origin{human}
+
+Following the Bishop and Brouwer distinction between finite verification and an induction schema, the $\FiniteTraceInductionGapUp$ packet records the finite-observation side of \autoref{def:transcendental-input-finite-trace} and the non-internal-induction boundary of \autoref{thm:transcendental-input-no-internal-induction}. It sits beside the finite-trace GAP socket of \autoref{ch:concrete-instances-finite-trace-gap-socket-namecert}, the transcendental induction socket of \autoref{ch:concrete-instances-transcendentalinductionsocket-namecert}, and the closed-observation ledger of \autoref{ch:concrete-instances-closedobservationsystem-namecert}. The packet names a finite verification trace together with the GAP socket exposed by any attempted universal closure; it does not install a substrate-internal universal quantifier, dependent induction schema, host recursor, or future-observation oracle.
+
+\begin{definition}[Finite trace induction gap carrier]
+\label{def:finite-trace-induction-gap-carrier}
+A $\FiniteTraceInductionGapUp$ carrier is a finite $\BHist$ packet
+$$
+G=(T,O,A,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the finite verification trace row, listing only the observed indices and their closed-generation witness records.
+\item $O$ is the observed predicate row, storing the finite family of predicate reads actually checked by the trace.
+\item $A$ is the attempted induction-closure row, naming the requested passage from the finite trace to a universal claim without admitting the passage as a carrier coordinate.
+\item $Q$ is the GAP socket row exposed when $A$ asks for substrate-internal induction beyond the displayed trace.
+\item $H$ records componentwise $\hsame$ transport for the finite trace, observed predicate rows, attempted closure row, GAP socket, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each observed predicate read through $T,O,A,Q,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteTraceInductionGapUp$, $\FiniteTraceGapSocketUp$, $\TranscendentalInductionSocketUp$, $\ClosedObservationSystemUp$, $\BHist$, $\Gap$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteTraceInductionGapUp}$ row.
+\end{enumerate}
+The classifier accepts only packets whose finite trace, observed predicate rows, attempted induction-closure row, GAP socket, transport, replay, provenance, and local naming are all displayed. It has no coordinate for a universal quantifier over unobserved indices, a substrate-internal induction schema, a host dependent recursor, an infinite observation ledger, or a future-observation oracle.
+\end{definition}
+
+\begin{theorem}[Finite trace induction gap NameCert obligations]
+\label{thm:finite-trace-induction-gap-namecert-obligations}
+For every accepted $\FiniteTraceInductionGapUp$ carrier $G=(T,O,A,Q,H,C,P,N)$, the local $\NameCert_{\FiniteTraceInductionGapUp}$ surface consists exactly of carrier admission for the finite trace row, observed predicate rows, attempted induction-closure row, GAP socket row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Any consumer that asks for induction closure must expose $A$ and then consume $Q$ as a GAP socket; no substrate-internal universal statement is exported by the packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The projection exposes the finite trace $T$, the observed predicate rows $O$, the attempted closure row $A$, the GAP socket $Q$, and the structural rows $H,C,P,N$.
+
+Read the induction request through $A$. If the consumer stays within the finite trace, it can use only the displayed rows $T$ and $O$. If it asks for all unobserved indices, the next displayed row is the GAP socket $Q$, not a universal witness.
+
+The transport and replay rows preserve that boundary. Since no universal quantifier, dependent induction schema, host recursor, infinite ledger, or future-observation oracle is a coordinate of $G$, the local NameCert obligations are exhausted by the finite trace and GAP route.
+\end{proof}
+
+\begin{theorem}[Finite trace induction gap non-escape]
+\label{thm:finite-trace-induction-gap-nonescape}
+Every induction-facing consumer of an accepted $\FiniteTraceInductionGapUp$ packet factors through
+$$
+T \longmapsto O \longmapsto A \longmapsto Q \longmapsto H,C,P,N .
+$$
+Thus the consumer may read the observed finite trace and the displayed predicate witnesses, but any attempted export of a universal induction claim reaches only the GAP socket. The packet exports no substrate-internal universal quantifier, no closed dependent recursor, no infinite observation object, and no promise over future observations.
+\end{theorem}
+\begin{proof}
+Start with the carrier rows of \autoref{def:finite-trace-induction-gap-carrier}. The trace row $T$ and observed predicate row $O$ give exactly the finite witness records already present in the closed observational system.
+
+The attempted closure row $A$ names the requested induction passage. It is deliberately followed by the GAP socket row $Q$, so a consumer that asks for unobserved indices receives a visible boundary rather than a hidden induction rule.
+
+Finally replay and transport the same route through $C$ and $H$, then read provenance and local naming through $P,N$. The excluded universal, recursor, infinite-ledger, and future-observation objects are absent from the carrier, so the displayed GAP route is exhaustive.
+\end{proof}
+
+\closureat{FiniteTraceInductionGapUp}{seedStr}
+
+\begin{closurestatus}{\FiniteTraceInductionGapUp}
+  \constructivestory{A $\FiniteTraceInductionGapUp$ packet is generated from a finite verification trace, observed predicate rows, an attempted induction-closure row, a GAP socket, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-trace-induction-gap-carrier}, \autoref{thm:finite-trace-induction-gap-namecert-obligations}, and \autoref{thm:finite-trace-induction-gap-nonescape} seed the finite verification trace and induction-GAP boundary for closed observational systems.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a substrate-internal universal quantifier, dependent induction schema, host recursor, infinite observation ledger, future-observation oracle, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-trace visibility, observed-predicate stability, induction-GAP routing, non-escape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteTraceInductionGapUp.}
+\end{closurestatus}

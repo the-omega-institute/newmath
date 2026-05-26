@@ -1,0 +1,180 @@
+\chapter{A Concrete Naming Certificate for $\ProperMapUp$}
+\label{ch:concrete-instances-proper-map-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on proper maps between locally controlled metric
+spaces, the $\ProperMapUp$ packet records the constructive boundary where a
+continuous map is certified by finite compact-preimage evidence. It consumes
+the metric rows of \autoref{ch:concrete-instances-metric-namecert}, the graph
+and modulus rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the
+compact metric evidence of \autoref{ch:concrete-instances-compactmetric-namecert},
+the completion-facing handoff of
+\autoref{ch:concrete-instances-metriccompletion-namecert}, and the terminal
+real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet
+names the proper-map interface as finite BEDC evidence rather than as host
+topological prose.
+
+\begin{definition}[Proper map carrier]
+\label{def:proper-map-carrier}
+A $\ProperMapUp$ carrier is a finite $\BHist$ packet
+$$
+M=(X,Y,F,K,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ is the certified source metric row, read through the $\MetricUp$
+carrier, classifier, distance ledger, and local naming surface;
+\item $Y$ is the certified target metric row, read through the same metric
+certificate discipline;
+\item $F$ is the $\ContinuousMapUp$ graph and modulus row from $X$ to $Y$,
+including the finite graph ledger and the modulus route exposed to consumers;
+\item $K$ is the compact-preimage witness row, assigning each displayed compact
+metric target window to a displayed compact source window before any downstream
+consumer reads the preimage;
+\item $E$ is the $\MetricCompletionUp$ handoff row, recording that completion
+consumers may read the properness boundary only after the compact-preimage row
+and the continuous-map row have been replayed;
+\item $H$ is the componentwise $\hsame$ transport row for $X,Y,F,K,E$;
+\item $C$ is the displayed $\Cont$ replay route for accepted proper-map reads;
+\item $P$ is the $\Pkg$ provenance over $\ProperMapUp$, $\MetricUp$,
+$\ContinuousMapUp$, $\CompactMetricUp$, $\MetricCompletionUp$, $\RealUp$,
+$\BHist$, $\hsame$, $\Cont$, and the local naming row;
+\item $N$ is the local $\NameCert_{\ProperMapUp}$ row.
+\end{enumerate}
+The carrier imports no open-cover compactness, no host function equality, no
+quotient completion, no countable choice, and no ambient $\RealUp$
+completeness.
+\end{definition}
+
+\begin{definition}[Proper map classifier]
+\label{def:proper-map-classifier}
+Two accepted $\ProperMapUp$ carriers
+$$
+M=(X,Y,F,K,E,H,C,P,N)
+\quad\hbox{and}\quad
+M'=(X',Y',F',K',E',H',C',P',N')
+$$
+are classified as the same local proper-map datum exactly when the source
+metric rows, target metric rows, continuous-map graph and modulus rows,
+compact-preimage witness rows, and completion handoff rows are componentwise
+identified by the displayed $\hsame$ transports and replay through the same
+properness route. The classifier compares only these finite rows. It does not
+compare host functions, quotient completions, open-cover compactness proofs, or
+ambient real-completeness witnesses.
+\end{definition}
+
+\begin{theorem}[Proper map NameCert obligations]
+\label{thm:proper-map-namecert-obligations}
+For every accepted $\ProperMapUp$ carrier $M=(X,Y,F,K,E,H,C,P,N)$, the local
+$\NameCert_{\ProperMapUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed source and target metric rows,
+continuous-map graph and modulus row, compact-preimage witness row,
+completion handoff row, transports, replay route, provenance, and local naming;
+\item classifier transport for the same displayed source, target, map,
+compact-preimage, and completion rows under $\hsame$;
+\item compact-preimage stability, requiring every target compact-window read to
+be routed through $K$ before a source compact-window witness is exposed;
+\item completion handoff compatibility, requiring every completion-facing
+consumer to replay $F$ and $K$ before reading the row $E$;
+\item non-escape, excluding open-cover compactness, host function equality,
+quotient completion, countable choice, and ambient $\RealUp$ completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:proper-map-carrier}. The rows
+$X,Y,F,K,E,H,C,P,N$ are exactly the displayed packet coordinates available to
+the local certificate.
+
+Classifier transport is componentwise. The row $H$ transports the metric rows,
+the continuous-map graph and modulus row, the compact-preimage witness row, and
+the completion handoff row without adding any host map equality or quotient
+completion comparison.
+
+Compact-preimage stability is the obligation carried by $K$. A target compact
+window can be used by a consumer only after $K$ has displayed the matching
+source compact window, so the route is finite and certificate-local.
+
+Completion handoff compatibility follows from the placement of $E$. The handoff
+row is downstream of the continuous-map and compact-preimage rows; replay
+through $C$ must therefore pass through $F$ and $K$ before a completion-facing
+consumer can read $E$.
+
+The refusal clause is an inventory check on the packet. None of the nine rows
+stores open-cover compactness, host function equality, quotient completion,
+countable choice, or ambient real completeness, so the local certificate exports
+none of those principles.
+\end{proof}
+
+\begin{theorem}[Proper map compact-preimage boundary]
+\label{thm:proper-map-compact-preimage-boundary}
+Every public compact-preimage read of an accepted $\ProperMapUp$ packet factors
+through the row $K$ between the target $\CompactMetricUp$ evidence and the
+source $\CompactMetricUp$ evidence. The route may inspect the metric rows
+$X,Y$ and the continuous-map row $F$, then it must replay $K,H,C,P,N$ before it
+exports a compact source-window witness. No public read may replace this route
+by open-cover compactness, a host inverse image, a selected finite subcover, or
+ambient real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the target compact-window request. The request is meaningful only
+relative to the target metric row $Y$ and the continuous-map row $F$.
+
+Apply the compact-preimage row $K$. It is the only coordinate that connects a
+target compact-window read to a source compact-window witness, and it is stored
+inside the finite packet.
+
+Replay the result through $H,C,P,N$. These rows transport the displayed metric,
+map, and compact-preimage data, record the continuation route, and preserve the
+local provenance and naming boundary.
+
+Since the exported source witness is obtained entirely from these packet rows,
+there is no access to open-cover compactness, a host inverse image, a selected
+finite subcover, or ambient real completeness.
+\end{proof}
+
+\begin{theorem}[Proper map completion handoff]
+\label{thm:proper-map-completion-handoff}
+Every completion-facing consumer of an accepted $\ProperMapUp$ packet reaches
+the $\MetricCompletionUp$ row $E$ only after reading the source and target
+metric rows, the $\ContinuousMapUp$ graph and modulus row, and the
+compact-preimage witness row. Thus properness is handed to completion arguments
+as finite BEDC evidence rather than as quotient completion, host function
+equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the packet order in \autoref{def:proper-map-carrier}. The completion
+handoff row $E$ is placed after $X,Y,F,K$ and before the transport, replay,
+provenance, and local name rows.
+
+A completion-facing consumer therefore reaches $E$ only through the replay
+route $C$ after the continuous-map row $F$ and the compact-preimage row $K$ have
+been displayed. The transports $H$ keep the source, target, map, preimage, and
+handoff rows aligned under $\hsame$.
+
+The handoff is consequently a finite BEDC route. It carries no quotient
+completion constructor, no host function equality row, no countable-choice
+selector, and no ambient $\RealUp$ completeness principle.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\ProperMapUp$ consumer that reads a
+$\MetricCompletionUp$ handoff or compact source-window witness without first
+reading the displayed $X,Y,F,K$ rows refutes the carrier surface.}
+
+\independenceWitness{metric, continuousmap, compactmetric, metriccompletion,
+real: none is bijective to $\ProperMapUp$ because this packet jointly carries
+source and target metric rows, a continuous-map graph and modulus row, a
+compact-preimage witness row, a completion handoff row, transport, replay,
+provenance, and local naming.}
+
+\closureat{ProperMapUp}{seedStr}
+
+\begin{closurestatus}{\ProperMapUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:proper-map-carrier}, \autoref{def:proper-map-classifier}, \autoref{thm:proper-map-namecert-obligations}, \autoref{thm:proper-map-compact-preimage-boundary}, and \autoref{thm:proper-map-completion-handoff} seed the finite proper-map certificate over metric rows, continuous-map rows, compact-preimage evidence, completion handoff, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, host function equality, quotient completion, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, compact-preimage stability, completion handoff compatibility, and ledger non-escape for BEDC.Derived.ProperMapUp.}
+  \constructivestory{A $\ProperMapUp$ packet is generated from source and target metric rows, a ContinuousMapUp graph and modulus row, a compact-preimage witness row, a MetricCompletionUp handoff row, componentwise hsame transport, Cont replay, provenance, and local naming.}
+\end{closurestatus}

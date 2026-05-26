@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\MichaelSelectionUp$}
+\label{ch:concrete-instances-michael-selection-namecert}
+\origin{human}
+
+Following Michael's selection theorem in the paracompact closed-convex reading, the $\MichaelSelectionUp$ packet records the finite BEDC surface by which a lower-semicontinuous closed-convex value assignment exports local continuous selection data. It sits over the paracompact cover ledger of \autoref{ch:concrete-instances-paracompact-namecert}, the lower-semicontinuous epigraph and value-row surface of \autoref{ch:concrete-instances-lowersemicontinuous-namecert}, the convex target rows of \autoref{ch:concrete-instances-convexset-namecert}, the continuous-map handoff of \autoref{ch:concrete-instances-continuousmap-namecert}, and the metric observation boundary of \autoref{ch:concrete-instances-metric-namecert}. The packet names only a finite selection-surface ledger: domain cover and paracompact refinement rows, lower-semicontinuous closed-convex value rows, local finite selection rows, continuous-map handoff, componentwise transport, replay, provenance, and local naming. It does not import an arbitrary choice function, a host global selector, quotient equality of maps, Banach-space completeness, or ambient point-set topology.
+
+\begin{definition}[Michael selection carrier]
+\label{def:michael-selection-carrier}
+A $\MichaelSelectionUp$ carrier is a finite $\BHist$ packet
+$$
+M=(D,V,K,L,S,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the domain row carrying the $\ParacompactUp$ cover and refinement ledger used by the selection surface.
+\item $V$ is the value-assignment row read through $\LowerSemicontinuousUp$, exposing finite lower-semicontinuity windows for the closed-valued relation.
+\item $K$ is the closed-convex target row, read through $\ConvexSetUp$ together with the metric observation rows used by the target carrier.
+\item $L$ is the local finite selection ledger, matching each displayed cover cell from $D$ with a value row from $V$ and a convex target witness from $K$.
+\item $S$ is the finite stitching row that records compatibility of the local selection ledger on displayed cover refinements.
+\item $F$ is the $\ContinuousMapUp$ handoff row exported only after $D,V,K,L,S$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the domain, value, convex-target, local selection, stitching, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+D,V,K,L,S \longmapsto F \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\MichaelSelectionUp$, $\ParacompactUp$, $\LowerSemicontinuousUp$, $\ConvexSetUp$, $\ContinuousMapUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MichaelSelectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,V,K,L,S,F,H,C,P,N$. It has no coordinate for an arbitrary selector, a host-level partition of unity, quotient equality of continuous maps, global choice over all fibres, ambient Banach completeness, or point-set topological semantics.
+\end{definition}
+
+\begin{theorem}[Michael selection NameCert obligations]
+\label{thm:michael-selection-namecert-obligations}
+For every accepted $\MichaelSelectionUp$ carrier $M=(D,V,K,L,S,F,H,C,P,N)$, the local $\NameCert_{\MichaelSelectionUp}$ surface consists exactly of carrier admission, paracompact domain-cover exposure through $D$, lower-semicontinuous closed-value exposure through $V$, closed-convex target exposure through $K$, local finite selection ledger exposure through $L$, displayed stitching through $S$, continuous-map handoff through $F$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, local naming through $N$, and non-escape from arbitrary choice, host selectors, quotient map equality, ambient Banach completeness, and point-set topological semantics.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:michael-selection-carrier}. The rows $D,V,K,L,S,F,H,C,P,N$ are the whole packet, so carrier admission and the visible obligation rows are read directly from the displayed tuple.
+
+The analytic surface is the finite route $D,V,K,L,S$. The paracompact row supplies the cover and refinement ledger, the lower-semicontinuous row supplies value-window exposure, the convex row supplies closed-convex target witnesses, and the local ledger records the finite selection data over displayed cover cells.
+
+Only after those rows are present may the continuous-map row $F$ be read. The structural rows $H,C,P,N$ transport, replay, source, and name the same route, so the excluded choice and host-topology principles have no carrier coordinate and cannot be obtained from the local NameCert.
+\end{proof}
+
+\begin{theorem}[Michael selection continuous handoff boundary]
+\label{thm:michael-selection-continuous-handoff-boundary}
+Every continuous-map consumer of an accepted $\MichaelSelectionUp$ packet must read the finite route
+$$
+\ParacompactUp,\ \LowerSemicontinuousUp,\ \ConvexSetUp,\ \ContinuousMapUp,\ \MetricUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The $\ContinuousMapUp$ handoff is terminal for the packet: it is reached only after the paracompact cover row, lower-semicontinuous closed-convex value row, local finite selection ledger, and stitching row have been displayed.
+\end{theorem}
+\begin{proof}
+Inspect the carrier order in \autoref{def:michael-selection-carrier}. The continuous-map row $F$ occurs downstream of the domain, value, convex-target, local selection, and stitching rows.
+
+The NameCert obligations of \autoref{thm:michael-selection-namecert-obligations} identify those rows as the public selection surface. A consumer therefore cannot cite $F$ without also exposing $D,V,K,L,S$ and the structural rows $H,C,P,N$.
+
+The absent coordinates are exactly the host selector and choice principles excluded by the carrier. Hence the handoff exports a finite BEDC selection surface rather than an arbitrary global selection theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MichaelSelectionUp$ continuous-map read factors through a displayed $\ParacompactUp$ domain cover row, $\LowerSemicontinuousUp$ closed-value row, $\ConvexSetUp$ target row, local finite selection ledger, stitching row, terminal $\ContinuousMapUp$ handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{paracompact, lowersemicontinuous, convexset, continuousmap, metric: $\MichaelSelectionUp$ is not bijective to any listed sibling because it binds domain cover refinement, lower-semicontinuous closed-convex values, local finite selection rows, stitching, continuous-map export, transport, replay, provenance, and local NameCert rows into one packet.}
+
+\closureat{MichaelSelectionUp}{seedStr}
+
+\begin{closurestatus}{\MichaelSelectionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:michael-selection-carrier}, \autoref{thm:michael-selection-namecert-obligations}, and \autoref{thm:michael-selection-continuous-handoff-boundary} seed the finite Michael selection surface over paracompact cover rows, lower-semicontinuous closed-convex value rows, local finite selection rows, stitching, continuous-map handoff, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary selection, host partition-of-unity construction, quotient map equality, ambient Banach completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, paracompact cover exposure, lower-semicontinuous closed-convex value exposure, finite selection-ledger exactness, continuous-map handoff boundary, transport and replay stability, provenance exhaustion, and TasteGate field faithfulness for BEDC.Derived.MichaelSelectionUp.}
+  \constructivestory{A $\MichaelSelectionUp$ packet is generated from a paracompact domain cover row, a lower-semicontinuous closed-value row, a closed-convex target row, local finite selection rows, stitching rows, a continuous-map handoff, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+\end{closurestatus}

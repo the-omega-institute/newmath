@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyLimitSelectorUp$}
+\label{ch:concrete-instances-regular-cauchy-limit-selector-namecert}
+\origin{human}
+
+Following Bishop--Bridges regular Cauchy constructions, the $\RegularCauchyLimitSelectorUp$ packet records the finite diagonal selector surface used by the Real and Completion route before a terminal limit representative is sealed. It sits over the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the diagonal-limit representative boundary of \autoref{ch:concrete-instances-diagonallimitrepresentative-namecert}. The packet names only a finite selector schedule, readback windows, tolerance rows, transport, replay, provenance, and local naming data; it does not export countable choice, host limits, quotient-stream equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy limit selector carrier]
+\label{def:regular-cauchy-limit-selector-carrier}
+A $\RegularCauchyLimitSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the selector schedule row, listing the finite diagonal stages and the requested precision levels.
+\item $W$ is the $\StreamNameUp$ window row naming the inspected source entries at each stage of $A$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row that records the dyadic error budget attached to the selected stages.
+\item $R$ is the $\RegSeqRatUp$ readback row that turns the selected stream windows and dyadic tolerances into regular rational observations.
+\item $E$ is the $\RealUp$ seal row exposed only after the selector schedule, stream windows, dyadic tolerances, and regular rational readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $A,W,D,R,E$ and for the replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite limit request through
+$$
+A,W,D,R \longmapsto E \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyLimitSelectorUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyLimitSelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,W,D,R,E,H,C,P,N$. The carrier has no coordinate for countable choice, selected host limits, quotient equality of stream names, hidden tail schedules, ambient $\RealUp$ completeness, Lean verification, or bridge credentials.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy limit selector NameCert obligations]
+\label{thm:regular-cauchy-limit-selector-namecert-obligations}
+For every accepted $\RegularCauchyLimitSelectorUp$ carrier $S=(A,W,D,R,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyLimitSelectorUp}$ surface consists exactly of carrier admission for the selector schedule, $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance row, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row. Every Real or Completion consumer of the selector reads the diagonal-limit handoff through these rows before using the representative surface of \autoref{ch:concrete-instances-diagonallimitrepresentative-namecert}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-limit-selector-carrier}. The analytic rows are exactly the selector schedule $A$, finite stream window $W$, dyadic tolerance row $D$, regular rational readback $R$, and terminal seal $E$.
+
+The selector route is finite. A consumer first reads the stages in $A$, then inspects only the windows named by $W$, then checks the dyadic tolerances recorded in $D$ before any regular rational readback is available.
+
+The readback row $R$ is the only route from selected finite windows to the terminal seal $E$. Thus the Real-facing endpoint is reached through $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ data before it can be consumed by the diagonal-limit representative boundary.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same rows. Since the carrier contains no coordinate for countable choice, selected host limits, quotient-stream equality, hidden tail schedules, ambient Real completeness, Lean verification, or bridge checking, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\closureat{RegularCauchyLimitSelectorUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyLimitSelectorUp}
+  \constructivestory{A $\RegularCauchyLimitSelectorUp$ packet is generated from a finite selector schedule, StreamName windows, DyadicRatCore tolerance rows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-limit-selector-carrier} and \autoref{thm:regular-cauchy-limit-selector-namecert-obligations} seed the finite diagonal selector packet consumed by Real and Completion routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, host limits, quotient-stream equality, hidden tail schedules, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, selector schedule exactness, StreamName window exposure, DyadicRatCore tolerance stability, RegSeqRat readback, RealUp sealing, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyLimitSelectorUp.}
+\end{closurestatus}

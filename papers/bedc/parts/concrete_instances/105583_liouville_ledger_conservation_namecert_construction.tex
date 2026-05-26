@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\LiouvilleLedgerConservationUp$}
+\label{ch:concrete-instances-liouville-ledger-conservation-namecert}
+\origin{ai}
+
+The $\LiouvilleLedgerConservationUp$ packet realizes the reversible phase-transport conservation row of \autoref{prin:hyperbolic-liouville-ledger-conservation} as finite NameCert data. It sits between the complex-history surface of \autoref{ch:concrete-instances-complex-namecert}, the phase-transport carrier of \autoref{ch:concrete-instances-poincare-disk-phase-transport-namecert}, the metric readback of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, and the expansion ledger of \autoref{ch:concrete-instances-hyperbolic-expansion-ledger-namecert}. The packet records conservation only as auditable preservation of source, transport, classifier, and $\mathsf{GAP}$ provenance rows; it does not assert a completed symplectic manifold, a global Hamiltonian flow, a host Liouville measure, or an ambient unitary group.
+
+\falsifiablePrediction{Any accepted $\LiouvilleLedgerConservationUp$ route preserves source, transport, classifier, and $\mathsf{GAP}$ provenance rows before a conserved phase read is exported.}
+
+\independenceWitness{complex, unitarygroup, dynsystem, poincare-disk-phase-transport, hyperbolic-metric: the ledger-conservation packet is not bijective to these siblings because it records reversible preservation of finite source, route, classifier, and $\mathsf{GAP}$ provenance rows rather than a complex carrier, ambient unitary group, dynamical system, disk-transport chart, or metric tensor alone.}
+
+\begin{definition}[Liouville ledger-conservation carrier]
+\label{def:liouville-ledger-conservation-carrier}
+A $\LiouvilleLedgerConservationUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,T,K,G,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source phase-surface row, carrying the finite visible histories whose distinctions must remain readable.
+\item $T$ is the reversible transport row, read through the local phase-transport surface and recording the forward and return continuations as displayed data.
+\item $K$ is the classifier-preservation row, requiring the transported surface to preserve the classifier readout attached to $S$.
+\item $G$ is the $\mathsf{GAP}$ provenance row, recording that residues, exits, and unresolved boundary data remain ledger-visible after transport.
+\item $Q$ is the conserved phase-read row. It is exposed only after $S,T,K,G$ have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for source, reversible transport, classifier preservation, $\mathsf{GAP}$ provenance, conserved read, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a conservation request through $S,T,K,G,Q,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LiouvilleLedgerConservationUp$, $\PoincareDiskPhaseTransportUp$, $\HyperbolicMetricUp$, $\HyperbolicExpansionLedgerUp$, $\ComplexUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LiouvilleLedgerConservationUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose conserved phase read $Q$ is downstream of source exposure, reversible transport, classifier preservation, and $\mathsf{GAP}$ provenance. It has no coordinate for host measure theory, a symplectic manifold, an ambient Hilbert space, a hidden unitary operator, or a global dynamical-system solution.
+\end{definition}
+
+\begin{theorem}[Liouville ledger-conservation NameCert obligations]
+\label{thm:liouville-ledger-conservation-namecert-obligations}
+For every accepted $\LiouvilleLedgerConservationUp$ carrier
+$$
+L=(S,T,K,G,Q,H,C,P,N),
+$$
+the local $\NameCert_{\LiouvilleLedgerConservationUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier exposure for the source phase surface, reversible transport, classifier preservation, $\mathsf{GAP}$ provenance, conserved phase read, transport, replay, package provenance, and local naming rows;
+\item source preservation, requiring every conserved read to keep the displayed source distinctions of $S$ visible after transport;
+\item route reversibility, requiring $T$ to expose both the forward and return transport rows before conservation is read;
+\item classifier preservation, requiring $K$ to certify the transported classifier readout before $Q$ is exported;
+\item $\mathsf{GAP}$ ledger preservation, requiring $G$ to keep residue and boundary provenance visible rather than erasing it into the conserved read;
+\item structural non-escape, requiring $H,C,P,N$ to preserve and name the same packet without adding an ambient unitary group, host Hamiltonian flow, completed phase volume, or hidden global state.
+\end{enumerate}
+Future Lean \texttt{TasteGate.lean} will provide explicit \texttt{Nontrivial LiouvilleLedgerConservationUp} and \texttt{FieldFaithful LiouvilleLedgerConservationUp} instances so the accepted conservation packet remains distinct from refused routes and faithful reads preserve all displayed rows.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:liouville-ledger-conservation-carrier}. The displayed packet contains exactly the source, reversible transport, classifier, $\mathsf{GAP}$ provenance, conserved read, and structural rows.
+
+Source preservation and route reversibility are enforced before any conserved read is available. The row $Q$ is downstream of $S$ and $T$, so a consumer cannot export conservation after forgetting either the source distinctions or the return route.
+
+Classifier and $\mathsf{GAP}$ preservation are separate rows. The classifier row $K$ records preservation of the readout, while $G$ keeps residues and boundary provenance visible as provenance rather than absorbing them into the phase read.
+
+The structural rows then confine the packet. Componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming preserve only $S,T,K,G,Q$ and add no coordinate for the excluded host structures.
+\end{proof}
+
+\begin{theorem}[Liouville ledger-conservation export discipline]
+\label{thm:liouville-ledger-conservation-export-discipline}
+Every accepted $\LiouvilleLedgerConservationUp$ route exports a conserved phase read only along
+$$
+S,T,K,G \longmapsto Q \longmapsto H,C,P,N .
+$$
+Consequently a downstream consumer receives source exposure, reversible transport, classifier preservation, $\mathsf{GAP}$ provenance, the conserved read, transport, replay, package provenance, and local naming, and receives no host Liouville measure, ambient unitary operator, global dynamical system, completed symplectic phase space, or hidden state.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier $L=(S,T,K,G,Q,H,C,P,N)$. The only conservation-facing row is $Q$, and it is displayed after the source, transport, classifier, and $\mathsf{GAP}$ rows.
+
+Replay through $C$ preserves that order. A downstream conservation request must pass through $S,T,K,G$ before it can read $Q$, so the conserved phase read remains tied to visible source distinctions, route data, classifier preservation, and boundary provenance.
+
+The structural rows authenticate only that finite route. Since the carrier has no host-measure, unitary-operator, global-dynamics, symplectic-manifold, or hidden-state coordinate, none of those structures can be exported from the packet.
+\end{proof}
+
+\closureat{LiouvilleLedgerConservationUp}{seedStr}
+
+\begin{closurestatus}{\LiouvilleLedgerConservationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:liouville-ledger-conservation-carrier}, \autoref{thm:liouville-ledger-conservation-namecert-obligations}, and \autoref{thm:liouville-ledger-conservation-export-discipline} seed the finite reversible ledger-conservation surface over source, transport, classifier, $\mathsf{GAP}$ provenance, conserved-read, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host Liouville measure theory, ambient unitary dynamics, completed symplectic geometry, global Hamiltonian flow, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, source preservation, reversible transport, classifier preservation, $\mathsf{GAP}$ ledger preservation, export discipline, Nontrivial LiouvilleLedgerConservationUp, and FieldFaithful LiouvilleLedgerConservationUp.}
+  \constructivestory{A $\LiouvilleLedgerConservationUp$ packet is generated from finite source phase-surface rows, reversible transport rows, classifier-preservation rows, $\mathsf{GAP}$ provenance rows, a conserved phase-read row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

@@ -319,3 +319,73 @@ The precision continuation $\Cont(\varepsilon,\delta,\theta)$ is exactly the BED
 For the BEDC witness clause, \autoref{def:compact-net-two-step-factor} repackages the two displayed compact-net witnesses as the two-step factor. Applying \autoref{thm:compact-net-witness-prefixed-composite-closed} with empty visible prefix composes the two precision ledgers through $\Cont(\varepsilon,\delta,\theta)$ and returns $\mathsf{CompactNetWitness}(c,\theta,m)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetTwoStepFactor\_gluing\_package}
+
+\begin{corollary}[Prefixed composite compact net witness closure determinacy]
+\label{cor:compact-net-witness-prefixed-composite-closure-determinacy}
+For histories $p,c,\epsilon,\eta,\theta,n,n',m$, assume the fixed local rows
+$$
+\UnaryHistory(p),\quad
+\UnaryHistory(\epsilon),\quad
+\UnaryHistory(\eta),\quad
+\Cont(\epsilon,\eta,\theta),
+$$
+and the displayed two-step compact-net route
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,n)
+\quad\hbox{and}\quad
+\mathsf{CompactNetWitness}(n,\eta,m).
+$$
+If another consumer-facing use of the same closure packet presents a middle
+history $n'$ with
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,n')
+\quad\hbox{and}\quad
+\mathsf{CompactNetWitness}(n',\eta,m),
+$$
+then the closure packet has the same accepted exactness row
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\theta,p\cdot m)
+$$
+and the two proposed middle routes determine the same chapter normal form:
+$$
+\hsame(n,n').
+$$
+Consequently an accepted use of these fixed rows cannot choose an unlisted
+middle coordinate, a second finite route, or a duplicate classifier source for
+the closed prefixed composite witness.
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:compact-net-witness-prefixed-composite-closed} to the unary
+prefix row, the two displayed compact-net witnesses, and the continuation row
+$\Cont(\epsilon,\eta,\theta)$. This gives the closed prefixed composite witness
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\theta,p\cdot m).
+$$
+Now apply
+\autoref{thm:compact-net-witness-prefixed-composite-middle-deterministic-factorization}
+to this closed witness. The theorem factors every accepted use of the closed
+row through the displayed middle factorization rows for the fixed
+$\epsilon,\eta,\theta$ packet, and its determinacy clause compares any two
+such displayed middle histories.
+
+The original route through $n$ is one displayed middle factorization, because
+it carries
+$$
+\mathsf{CompactNetWitness}(c,\epsilon,n)
+\quad\hbox{and}\quad
+\mathsf{CompactNetWitness}(n,\eta,m).
+$$
+The consumer route through $n'$ is another displayed middle factorization over
+the same center, first precision, second precision, and endpoint, by the two
+assumed rows for $n'$. The determinacy clause of
+\autoref{thm:compact-net-witness-prefixed-composite-middle-deterministic-factorization},
+read through the continuation transport row of \autoref{thm:cont-hsame-transport},
+therefore identifies the two middle histories by the chapter classifier,
+namely $\hsame(n,n')$.
+
+Thus the finite route is fixed up to $\hsame$, the normal-form endpoint remains
+the displayed $m$, and the exactness decision is exactly the closed witness
+produced by the prefixed composite closure theorem. There is no remaining
+accepted coordinate from which a consumer can read a different middle route or
+name a separate classifier source.
+\end{proof}

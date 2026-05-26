@@ -1,0 +1,23 @@
+\begin{theorem}[Cyclotomic Galois root dependency link]
+\label{thm:cyclotomic-galois-root-dependency-link}
+Let
+$$
+\mathcal{C}_{\zeta}=(\mathcal{N},n,p,\mathcal{S},\zeta,\alpha,\lambda,\rho)
+$$
+be an accepted $\CyclotomicUp$ carrier. Any Galois-extension dependency read that exports this root-of-unity packet as a cyclotomic $\NameCert$ must consume the $\FieldExtUp$ and $\SplittingFieldUp$ sibling carriers through the polynomial-root and factorization rows $p,\mathcal{S},\zeta,\alpha$, and must consume the $\GaloisExtUp$ and $\GaloisGroupUp$ sibling carriers through the automorphism-action rows supplied by \autoref{ch:concrete-instances-galoisext-namecert} and \autoref{ch:concrete-instances-galoisgroup-namecert}. The cyclotomic side contributes the endpoint and factorization surface of \autoref{def:cyclotomic-root-carrier}, while the Galois side contributes normality, separability, base-fixing, and automorphism-action rows before the local $\NameCert_{\CyclotomicUp}$ export is read.
+
+Thus the dependency lattice for a Galois-facing cyclotomic read is
+$$
+\FieldExtUp,\ \SplittingFieldUp,\ \GaloisExtUp,\ \GaloisGroupUp,\ \CyclotomicUp,
+$$
+with the root data routed through $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\Pkg$ rows. The route exports no quotient of roots, no host field equality, no ambient automorphism set, and no class-field or Iwasawa datum from the cyclotomic certificate alone.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier by \autoref{def:cyclotomic-root-carrier}. The cyclotomic rows available before naming are exactly the NumField source, exponent, polynomial ledger, SplittingField source, primitive-root endpoint, root-acceptance continuation, base comparison, and package provenance.
+
+Use \autoref{thm:cyclotomic-polynomial-ledger-exactness}, \autoref{thm:cyclotomic-primitive-root-endpoint-determinacy}, and \autoref{thm:cyclotomic-factorization-ledger-exactness}. These identify the polynomial-root and factorization rows as the only cyclotomic data that can be offered to a Galois-extension consumer.
+
+The automorphism information is then read from the sibling Galois certificates, not manufactured by the cyclotomic carrier. The Galois-extension chapter supplies the normal and separable extension surface over $\FieldExtUp$, while the Galois-group chapter supplies the base-fixing automorphism-action rows over that extension.
+
+Finally apply \autoref{thm:cyclotomic-galois-action-boundary} and \autoref{thm:cyclotomic-galois-action-namecert-boundary}. They keep every Galois-facing cyclotomic read inside endpoint and factorization transport, so the combined lattice can export a cyclotomic NameCert only after the FieldExt, SplittingField, GaloisExt, and GaloisGroup sibling rows have supplied their own dependency data.
+\end{proof}

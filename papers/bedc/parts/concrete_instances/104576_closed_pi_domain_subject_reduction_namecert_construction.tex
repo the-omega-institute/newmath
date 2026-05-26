@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\ClosedPiDomainSubjectReductionUp$}
+\label{ch:concrete-instances-closed-pi-domain-subject-reduction-namecert}
+\origin{ai}
+
+The $\ClosedPiDomainSubjectReductionUp$ packet realizes the Pi-domain branch of the closed MetaCIC subject-reduction frontier as a finite NameCert carrier. It sits beside the four-row discharge socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, the discharge ledger of \autoref{ch:concrete-instances-subjectreductiondischargeledger-namecert}, the beta-substitution packet of \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}, the closed substitution boundary of \autoref{ch:concrete-instances-closed-substitution-boundary-namecert}, and the typed beta congruence trigger of \autoref{ch:concrete-instances-typedbetacongruencetrigger-namecert}. The packet names the Pi-domain obligation as displayed closed term data; it does not export an unconditional closed subject-reduction theorem.
+
+\begin{definition}[ClosedPiDomainSubjectReduction carrier]
+\label{def:closed-pi-domain-subject-reduction-carrier}
+A $\ClosedPiDomainSubjectReductionUp$ carrier is a finite $\BHist$ packet
+$$
+P=(T,D,D',C,Y,Z,B,H,R,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the displayed closed Pi term row, naming the source term $\Pi D.\,C$ and its closed context boundary.
+\item $D$ is the original domain row, carrying the domain annotation inspected before the congruence step.
+\item $D'$ is the reduced domain row reached by the displayed beta step from $D$.
+\item $C$ is the codomain row, read under the binder induced by the displayed domain.
+\item $Y$ is the typing row, recording the source typing judgement for $\Pi D.\,C$ and the target typing judgement demanded for $\Pi D'.\,C$.
+\item $Z$ is the closedness row, requiring the Pi term, original domain, reduced domain, and codomain reads to remain inside the same closed MetaCIC boundary.
+\item $B$ is the beta-step and typed congruence row, consuming the displayed Pi-domain beta step and the trigger surface of \autoref{ch:concrete-instances-typedbetacongruencetrigger-namecert}.
+\item $H$ records componentwise $\hsame$ transport for $T,D,D',C,Y,Z,B,R,Q,N$.
+\item $R$ records displayed $\Cont$ replay from the source Pi term through the domain step, typing row, closedness row, and subject-reduction handoff.
+\item $Q$ is the $\Pkg$ provenance over \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, \autoref{ch:concrete-instances-subjectreductiondischargeledger-namecert}, \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}, \autoref{ch:concrete-instances-closed-substitution-boundary-namecert}, \autoref{ch:concrete-instances-typedbetacongruencetrigger-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ClosedPiDomainSubjectReductionUp}$ row.
+\end{enumerate}
+The classifier accepts only packets displaying the closed Pi term, both domain rows, the codomain row, the typing row, the closedness row, the Pi-domain beta step, transport, replay, provenance, and local naming. It has no coordinate for a blanket closed subject-reduction theorem, a host conversion rule, erased derivation semantics, quotient syntax equality, or an untracked binder context.
+\end{definition}
+
+\begin{theorem}[ClosedPiDomainSubjectReduction obligations]
+\label{thm:closed-pi-domain-subject-reduction-obligations}
+For every accepted $\ClosedPiDomainSubjectReductionUp$ carrier $P=(T,D,D',C,Y,Z,B,H,R,Q,N)$, the local $\NameCert_{\ClosedPiDomainSubjectReductionUp}$ surface consists exactly of carrier admission for the displayed closed Pi term, original domain, reduced domain, codomain, typing row, closedness row, beta-step row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The Pi-domain preservation read is accepted only when $B$ displays the domain beta step and $Y,Z$ display the corresponding typing and closedness rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-pi-domain-subject-reduction-carrier}. The rows $T,D,D',C$ display the Pi term and the two domain readings, while $Y$ and $Z$ display the typing and closedness boundaries attached to the same context.
+
+The beta-step row $B$ is then read as the Pi-domain congruence trigger. It is not interchangeable with the beta-substitution row, the application-argument row, or the lambda-domain row of the subject-reduction socket, because the target branch changes the displayed Pi domain while preserving the codomain under the induced binder.
+
+The structural rows $H,R,Q,N$ transport, replay, source, and name only that finite packet. Since no row stores a host conversion rule, erased derivation semantics, quotient syntax equality, or a closed subject-reduction theorem, the displayed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[ClosedPiDomainSubjectReduction handoff]
+\label{thm:closed-pi-domain-subject-reduction-handoff}
+Every subject-reduction discharge ledger read that consumes the Pi-domain branch from an accepted $\ClosedPiDomainSubjectReductionUp$ packet factors through the displayed route
+$$
+\Pi D.\,C,\ D,\ D',\ C,\ Y,\ Z,\ B,\ H,\ R,\ Q,\ N .
+$$
+The handoff supplies the Pi-domain obligation row to the subject-reduction discharge socket and ledger; it does not supply the beta-substitution row, application-argument row, lambda-domain row, or an unconditional closed subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Start with a subject-reduction consumer of the Pi-domain branch. The socket and ledger chapters, \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert} and \autoref{ch:concrete-instances-subjectreductiondischargeledger-namecert}, require a distinct Pi-domain row before the parameterised subject-reduction route can be read.
+
+The present carrier supplies that row only through $T,D,D',C,Y,Z,B$. These rows display the source Pi term, the original and reduced domains, the codomain, the typing judgement, the closedness boundary, and the beta-step trigger.
+
+Finally $H,R,Q,N$ preserve and name the same finite handoff. The beta-substitution preservation packet, closed substitution boundary, and typed beta congruence trigger remain sibling inputs rather than hidden substitute proofs, so the handoff is exactly the Pi-domain row and nothing stronger.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\ClosedPiDomainSubjectReductionUp$ consumer reaching a subject-reduction conclusion without the displayed Pi-domain beta step and typing row refutes the carrier.}
+
+\independenceWitness{metacic-subject-reduction-obligation, betasubstitutionpreservation, closedsubstitutionboundary, typedbetacongruencetrigger: none is bijective with $\ClosedPiDomainSubjectReductionUp$ because this packet jointly carries the closed Pi term, original domain, reduced domain, codomain, typing row, closedness row, Pi-domain beta step, transport, replay, provenance, and local naming.}
+
+The Lean TasteGate file for $\ClosedPiDomainSubjectReductionUp$ must provide explicit $\mathsf{Nontrivial}\ \ClosedPiDomainSubjectReductionUp$ and $\mathsf{FieldFaithful}\ \ClosedPiDomainSubjectReductionUp$ instances preserving $T,D,D',C,Y,Z,B,H,R,Q,N$ as distinct rows.
+
+\closureat{ClosedPiDomainSubjectReductionUp}{seedStr}
+
+\begin{closurestatus}{\ClosedPiDomainSubjectReductionUp}
+  \constructivestory{A $\ClosedPiDomainSubjectReductionUp$ packet is generated from a closed Pi term row, original domain row, reduced domain row, codomain row, typing row, closedness row, beta-step row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-pi-domain-subject-reduction-carrier}, \autoref{thm:closed-pi-domain-subject-reduction-obligations}, and \autoref{thm:closed-pi-domain-subject-reduction-handoff} seed the finite Pi-domain subject-reduction obligation packet for the closed MetaCIC discharge route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close beta-substitution preservation, application-argument stability, lambda-domain preservation, unconditional closed subject reduction, host conversion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Pi-domain beta-step exactness, typing-row exposure, closedness-row exposure, subject-reduction ledger handoff, and TasteGate field faithfulness for BEDC.Derived.ClosedPiDomainSubjectReductionUp.}
+\end{closurestatus}

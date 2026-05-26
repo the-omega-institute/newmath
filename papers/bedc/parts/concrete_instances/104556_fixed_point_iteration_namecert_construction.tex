@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\FixedPointIterationUp$}
+\label{ch:concrete-instances-fixed-point-iteration-namecert}
+\origin{human}
+
+Following Banach's fixed-point iteration and Bishop--Bridges constructive analysis, the $\FixedPointIterationUp$ packet records the finite orbit ledger read between the contraction-map surface of \autoref{ch:concrete-instances-contractionmapping-namecert}, the one-step Picard route of \autoref{ch:concrete-instances-picardcontraction-namecert}, the complete-metric handoff of \autoref{ch:concrete-instances-completemetric-namecert}, the metric source of \autoref{ch:concrete-instances-metric-namecert}, and the endpoint fixed-point certificate of \autoref{ch:concrete-instances-banach-fixed-point-namecert}. The packet names displayed iterate rows, residual budgets, transport, continuation, provenance, and local naming before any completed endpoint row is consumed.
+
+\begin{definition}[FixedPointIteration carrier]
+\label{def:fixed-point-iteration-carrier}
+A $\FixedPointIterationUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,d,T,x_0,I,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\MetricUp$ source row carrying the admitted point classifier for the iteration domain.
+\item $d$ is the distance row used to read finite adjacent-iterate distances inside $X$.
+\item $T$ is the self-map graph row supplied by the $\ContractionMappingUp$ surface and read one application at a time.
+\item $x_0$ is the initial-point row from which the finite orbit is generated.
+\item $I$ is the finite iterate ledger, listing displayed rows $x_0,x_1,\ldots,x_n$ with application witnesses that each $x_{k+1}$ is read from $T$ at $x_k$.
+\item $R$ is the residual budget row, recording the finite distance and contraction-ratio estimates available for the displayed orbit window.
+\item $H$ records componentwise $\hsame$ transport for the metric source, distance row, self-map graph, initial point, iterate ledger, residual budget, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for extending a finite orbit window by one certified application row and for handing the finite residual rows to completion-facing consumers.
+\item $P$ is the $\Pkg$ provenance over $\FixedPointIterationUp$, $\MetricUp$, $\ContractionMappingUp$, $\PicardContractionUp$, $\CompleteMetricUp$, $\BanachFixedPointUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FixedPointIterationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a selected fixed point, a completed limit, host function equality, or ambient completeness outside the displayed completion handoff.
+\end{definition}
+
+\begin{theorem}[FixedPointIteration NameCert obligations]
+\label{thm:fixed-point-iteration-namecert-obligations}
+For an accepted $\FixedPointIterationUp$ carrier $Q=(X,d,T,x_0,I,R,H,C,P,N)$, the local $\NameCert_{\FixedPointIterationUp}$ surface consists exactly of carrier admission, initial-point admission, self-map graph readability, finite iterate-ledger formation, residual-budget exposure, componentwise transport, continuation replay, package provenance stability, and local naming for the carrier of \autoref{def:fixed-point-iteration-carrier}. No obligation is stored outside those displayed rows.
+\end{theorem}
+\begin{proof}
+Carrier admission projects the rows $X,d,T,x_0,I,R,H,C,P,N$ from the finite packet. The initial-point and self-map obligations read $x_0$ and $T$ against the metric-source classifier before any iterate is formed.
+
+The iterate-ledger obligation then checks each displayed application row in $I$. The residual-budget obligation reads only the finite adjacent-distance and contraction-ratio rows in $R$, so it does not require a completed limit object.
+
+Transport and replay are supplied by $H$ and $C$, while $P$ and $N$ record provenance and local naming. Since the carrier has no other coordinate, the public NameCert surface is exactly the listed finite iteration-orbit surface.
+\end{proof}
+
+\begin{theorem}[FixedPointIteration residual budget]
+\label{thm:fixed-point-iteration-residual-budget}
+Every accepted $\FixedPointIterationUp$ carrier exposes a residual budget only for the displayed finite orbit window $I$. The row $R$ may be consumed as finite evidence for adjacent-distance control, tail-radius comparison over the displayed window, and contraction-ratio bookkeeping, but it is not a completed Cauchy sequence, not a selected endpoint, and not a proof of host fixed-point equality.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:fixed-point-iteration-carrier}. The only residual coordinate is $R$, and it is attached to the finite iterate ledger $I$ rather than to an infinite sequence object.
+
+Read the contraction source through \autoref{ch:concrete-instances-contractionmapping-namecert} and the one-step route through \autoref{ch:concrete-instances-picardcontraction-namecert}. These surfaces supply adjacent application and distance comparisons for displayed rows only.
+
+Thus a consumer may use $R$ as finite residual bookkeeping for the orbit window. Any completed endpoint, Cauchy-limit object, or fixed-point equality must be supplied by a separate completion or fixed-point packet.
+\end{proof}
+
+\begin{theorem}[FixedPointIteration complete-metric handoff]
+\label{thm:fixed-point-iteration-complete-metric-handoff}
+Every $\CompleteMetricUp$ or $\BanachFixedPointUp$ consumer of a $\FixedPointIterationUp$ packet must pass through the finite route
+$$
+X,d,T,x_0,I,R \longmapsto H,C,P,N .
+$$
+The iteration packet supplies the orbit and residual rows consumed by completion-facing certificates, but the limit witness, endpoint seal, and classifier-fixed endpoint row remain outside $\FixedPointIterationUp$ until the complete-metric and Banach fixed-point packets provide them.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier. The metric source $X$, distance row $d$, self-map row $T$, and initial point $x_0$ generate only the displayed ledger $I$ and residual row $R$.
+
+The continuation row $C$ replays this finite route for a completion-facing consumer, and the transport row $H$ preserves the same componentwise readings under the packet classifier. The provenance and naming rows $P,N$ record that this route is the one exported by the packet.
+
+Completeness and endpoint fixedness are therefore not read from $\FixedPointIterationUp$. They enter only when a $\CompleteMetricUp$ or $\BanachFixedPointUp$ packet consumes the displayed finite orbit and supplies its own limit or endpoint rows.
+\end{proof}
+
+\closureat{FixedPointIterationUp}{seedStr}
+
+\begin{closurestatus}{\FixedPointIterationUp}
+  \constructivestory{A $\FixedPointIterationUp$ packet is generated from a MetricUp source row, a distance row, a ContractionMapping self-map graph, an initial point, a finite iterate ledger, a residual budget, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fixed-point-iteration-carrier}, \autoref{thm:fixed-point-iteration-namecert-obligations}, \autoref{thm:fixed-point-iteration-residual-budget}, and \autoref{thm:fixed-point-iteration-complete-metric-handoff} seed the finite iteration-orbit packet over metric, contraction-map, Picard-step, complete-metric, fixed-point, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected fixed points, completed limits, host fixed-point equality, ambient completeness outside the carried handoff, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, iterate-ledger formation, residual-budget exposure, completion handoff, transport stability, replay stability, provenance stability, and local naming for BEDC.Derived.FixedPointIterationUp.}
+\end{closurestatus}

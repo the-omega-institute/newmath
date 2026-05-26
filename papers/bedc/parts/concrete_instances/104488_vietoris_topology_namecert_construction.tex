@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\VietorisTopologyUp$}
+\label{ch:concrete-instances-vietoris-topology-namecert}
+\origin{human}
+
+Following Vietoris and Kelley, the $\VietorisTopologyUp$ packet records the finite subbasic-hit and subbasic-miss topology read on compact-subset names. It sits over the compact-subset surface of \autoref{ch:concrete-instances-hyperspace-namecert}, the finite-net distance route of \autoref{ch:concrete-instances-hausdorff-metric-namecert}, the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, and the ambient topology carrier of \autoref{ch:concrete-instances-topology-namecert}. The packet names the lower-hit and upper-miss generators as BEDC rows; it is not a host powerset topology, not subset equality, not a choice-selected point, and not open-cover compactness.
+
+\begin{definition}[Vietoris topology carrier]
+\label{def:vietoris-topology-carrier}
+A $\VietorisTopologyUp$ carrier is a finite $\BHist$ packet
+$$
+V=(H,K,L,U,M,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the $\HyperspaceUp$ source row, recording the compact-subset naming surface and the finite Hausdorff-distance ledger through which compact-subset requests are read.
+\item $K$ is the compact-subset row over the displayed $\CompactMetricUp$ source, including the finite subset-net schedules and nonempty compact-subset admission data that the hyperspace route exposes.
+\item $L$ is the lower-hit row. It records subbasic generators of the form ``the compact-subset name hits a displayed open row'' through finite witness windows routed by $H$ and $K$.
+\item $U$ is the upper-miss row. It records subbasic generators of the form ``the compact-subset name is covered by a displayed open row'' through finite miss certificates and compact-metric net checks.
+\item $M$ is the metric and finite-net compatibility row, comparing the lower-hit and upper-miss requests with the $\HausdorffMetricUp$ finite-net distance route and the $\CompactMetricUp$ source schedules.
+\item $T$ is the topology transport row from the displayed subbasic hit and miss generators into the ambient $\TopologyUp$ carrier.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+H,K,L,U,M \longmapsto T .
+$$
+\item $P$ is the $\Pkg$ provenance over $\VietorisTopologyUp$, $\HyperspaceUp$, $\HausdorffMetricUp$, $\CompactMetricUp$, $\TopologyUp$, $\ProbeBundle$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\VietorisTopologyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $H,K,L,U,M,T,C,P,N$. It has no coordinate for host subset equality, choice-selected points, open-cover compactness, quotient compacta, or ambient powerset topology.
+\end{definition}
+
+\begin{theorem}[VietorisTopologyUp NameCert obligations]
+\label{thm:vietoris-topology-namecert-obligations}
+For every accepted $\VietorisTopologyUp$ carrier
+$$
+V=(H,K,L,U,M,T,C,P,N),
+$$
+the local $\NameCert_{\VietorisTopologyUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the hyperspace source, compact-subset row, lower-hit row, upper-miss row, finite-net compatibility row, topology transport row, replay row, provenance row, and local naming row;
+\item lower-hit exactness, requiring every hit generator in $L$ to be read through the displayed hyperspace and compact-subset rows before a witness window is exposed;
+\item upper-miss exactness, requiring every miss generator in $U$ to be read through the same compact-metric net schedules before a cover read is exposed;
+\item finite-net compatibility, requiring $M$ to preserve the HausdorffMetric and CompactMetric tolerance ledgers attached to the hit and miss rows;
+\item $\hsame$ and $\Cont$ transport, requiring $T$ and $C$ to carry the subbasic rows into $\TopologyUp$ without adding a hidden classifier surface;
+\item ledger nonescape through $P$ and $N$, excluding host subset equality, choice-selected points, open-cover compactness, quotient compacta, and ambient powerset topology.
+\end{enumerate}
+No Vietoris topology obligation is stored outside these rows.
+\end{theorem}
+
+\closureat{VietorisTopologyUp}{seedStr}
+
+\begin{closurestatus}{\VietorisTopologyUp}
+  \constructivestory{A $\VietorisTopologyUp$ packet is generated from a HyperspaceUp source, compact-subset rows, lower-hit generators, upper-miss generators, HausdorffMetric and CompactMetric finite-net compatibility, topology transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:vietoris-topology-carrier} and \autoref{thm:vietoris-topology-namecert-obligations} seed the finite lower-hit and upper-miss topology surface over hyperspace, HausdorffMetric, CompactMetric, and Topology rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host subset equality, choice-selected points, open-cover compactness, quotient compacta, ambient powerset topology, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, lower-hit exactness, upper-miss exactness, finite-net compatibility, topology transport, replay, provenance, local naming, and ledger nonescape for BEDC.Derived.VietorisTopologyUp.}
+\end{closurestatus}

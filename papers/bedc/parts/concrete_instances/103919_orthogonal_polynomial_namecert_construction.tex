@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\OrthogonalPolynomialUp$}
+\label{ch:concrete-instances-orthogonal-polynomial-namecert}
+\origin{human}
+
+Following Szego and Chihara on orthogonal polynomials, the $\OrthogonalPolynomialUp$ packet records the finite recurrence and moment ledgers by which a displayed polynomial family is named without passing through a host function space. It consumes the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the real endpoint discipline of \autoref{ch:concrete-instances-real-namecert}, the finite matrix and linear-map rows of \autoref{ch:concrete-instances-matrix-namecert} and \autoref{ch:concrete-instances-linearmap-namecert}, and the coefficient-energy boundary of \autoref{ch:concrete-instances-parseval-namecert}. Sturm-style sign and root ledgers from \autoref{ch:concrete-instances-sturm-sequence-namecert} may be cited by consumers that need interval localization, but the present packet names only the recurrence, moment, and normalization surface.
+
+\begin{definition}[Orthogonal polynomial carrier]
+\label{def:orthogonal-polynomial-carrier}
+An $\OrthogonalPolynomialUp$ carrier is a finite $\BHist$ packet
+$$
+O=(F,M,R,N,Z,E,H,C,P,A)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the polynomial-family row, listing finitely many $\PolynomialUp$ rows $p_0,\ldots,p_k$ with degree, coefficient, and leading-coefficient witnesses.
+\item $M$ is the moment and inner-product ledger. It records the finite moment rows read by every displayed product $p_i p_j$ and the classifier row saying which inner products classify as zero or as the displayed norm value.
+\item $R$ is the three-term recurrence row, displaying the coefficients $a_n,b_n,c_n$ and the finite polynomial equality ledger for $p_{n+1}=(a_n x+b_n)p_n-c_n p_{n-1}$ at each accepted index.
+\item $N$ is the normalization row, exposing norm-squared entries, nonzero leading rows, and the scaling witnesses used when a normalized family is requested.
+\item $Z$ is the finite Gram or Jacobi matrix row through which matrix and linear-map consumers read recurrence coefficients.
+\item $E$ is the $\RealUp$ endpoint seal row for coefficient, moment, norm, and recurrence-coefficient entries.
+\item $H$ records componentwise $\hsame$ transport for polynomial rows, moment ledgers, recurrence rows, normalization rows, matrix rows, endpoint seals, continuation rows, provenance, and naming.
+\item $C$ records displayed $\Cont$ replay from coefficient inspection through moment evaluation, recurrence playback, normalization readback, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\OrthogonalPolynomialUp$, $\PolynomialUp$, $\RealUp$, $\MatrixUp$, $\LinearMapUp$, $\ParsevalUp$, $\SturmSequenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $A$ is the local $\NameCert_{\OrthogonalPolynomialUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host measure space, quotient polynomial ring, selected infinite limit, complete function space, or ambient spectral theorem.
+\end{definition}
+
+\begin{theorem}[Orthogonal polynomial NameCert obligations]
+\label{thm:orthogonal-polynomial-namecert-obligations}
+For every accepted $\OrthogonalPolynomialUp$ carrier $O=(F,M,R,N,Z,E,H,C,P,A)$, the local $\NameCert_{\OrthogonalPolynomialUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the polynomial-family, moment, recurrence, normalization, matrix, endpoint-seal, transport, replay, provenance, and local naming rows;
+\item polynomial-source compatibility, requiring every recurrence and moment read to use only the $\PolynomialUp$ rows listed in $F$;
+\item moment-ledger exactness, requiring each displayed inner product in $M$ to name its finite moment rows and its resulting $\RealUp$ value;
+\item orthogonality exactness, requiring the zero inner-product rows in $M$ to be the only exported orthogonality witnesses;
+\item normalization exactness, requiring $N$ to display every norm, nonzero leading row, and scaling witness consumed by a normalized read;
+\item recurrence exactness, requiring $R$ to display each recurrence coefficient and the polynomial equality ledger that reconstructs the next family row from the previous two rows;
+\item matrix and handoff visibility, requiring $Z$ to expose the finite Jacobi or Gram row consumed by $\MatrixUp$, $\LinearMapUp$, $\ParsevalUp$, or $\SturmSequenceUp$ consumers without adding an external operator;
+\item ledger preservation, requiring $H,C,P,A$ to preserve exactly the displayed rows under componentwise transport, continuation replay, package provenance, and local naming.
+\end{enumerate}
+No orthogonal-polynomial obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:orthogonal-polynomial-carrier}. The family row $F$ supplies the only polynomials that can be inspected, and the moment ledger $M$ supplies the only inner-product values attached to products of those rows.
+
+The orthogonality and normalization obligations are then finite ledger checks. A zero inner-product claim must point to the appropriate row of $M$, while a normalized read must pass through the norm and scaling witnesses displayed by $N$.
+
+The recurrence obligation is likewise internal to $R$. Each accepted step lists its coefficients and the polynomial equality ledger reconstructing $p_{n+1}$ from $p_n$ and $p_{n-1}$, so no quotient polynomial equality or host function-space equality is available.
+
+Finally, $Z$ exposes the finite matrix row used by linear-algebra, Parseval, or Sturm consumers, and $H,C,P,A$ transport, replay, source, and name the same rows. These projections exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Orthogonal polynomial three-term recurrence handoff]
+\label{thm:orthogonal-polynomial-three-term-recurrence-handoff}
+Every recurrence claim exported by an accepted $\OrthogonalPolynomialUp$ packet factors through the displayed route
+$$
+F,M,N \longmapsto R,Z,E \longmapsto H,C,P,A .
+$$
+Thus a downstream spectral approximation or finite Jacobi-matrix consumer receives the polynomial family, moment ledger, normalization rows, recurrence coefficients, matrix readback, and endpoint seals, but receives no host function-space equality, no quotient polynomial object, and no selected infinite limiting family.
+\end{theorem}
+\begin{proof}
+Read the recurrence row $R$ in index order. Each entry names the preceding two polynomial rows from $F$, the displayed coefficients, and the equality ledger that constructs the next polynomial row.
+
+The moment and normalization rows $M,N$ provide the orthogonality and scaling side conditions needed to treat the recurrence as the orthogonal-polynomial recurrence rather than as an arbitrary polynomial recursion. The endpoint row $E$ seals the real coefficient and moment reads before they leave the packet.
+
+The matrix row $Z$ repacks the same coefficients as a finite Gram or Jacobi row for $\MatrixUp$ and $\LinearMapUp$ consumers, while $\ParsevalUp$ and $\SturmSequenceUp$ consumers can inspect only the displayed coefficient-energy or sign ledgers sourced from those same rows.
+
+Since $H,C,P,A$ preserve and name no data beyond $F,M,R,N,Z,E$, every exported handoff factors through the displayed route and cannot appeal to a host function space, quotient polynomial equality, or a selected limit.
+\end{proof}
+
+\falsifiablePrediction{Every $\OrthogonalPolynomialUp$ read factors through one polynomial-family row, one moment and inner-product ledger, one three-term recurrence row, one normalization row, one finite Gram or Jacobi matrix row, one $\RealUp$ endpoint-seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+
+\independenceWitness{polynomial, real, matrix, linearmap, parseval, sturmsequence: $\OrthogonalPolynomialUp$ is not bijective to any listed sibling because it jointly carries the finite polynomial family, moment ledger, recurrence coefficients, normalization rows, and Jacobi or Gram readback as one NameCert packet.}
+
+\closureat{OrthogonalPolynomialUp}{seedStr}
+
+\begin{closurestatus}{\OrthogonalPolynomialUp}
+  \constructivestory{An $\OrthogonalPolynomialUp$ packet is generated from a finite PolynomialUp family, moment and inner-product ledger, three-term recurrence ledger, normalization rows, finite Gram or Jacobi matrix readback, RealUp endpoint seals, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:orthogonal-polynomial-carrier}, \autoref{thm:orthogonal-polynomial-namecert-obligations}, and \autoref{thm:orthogonal-polynomial-three-term-recurrence-handoff} seed the finite orthogonal-polynomial certificate surface over displayed polynomial, moment, recurrence, normalization, matrix, and real endpoint rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host measure spaces, infinite orthogonal systems, quotient polynomial equality, complete function-space equality, selected limits, spectral approximation theorems, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, moment-ledger exactness, recurrence playback, normalization exactness, matrix handoff, endpoint sealing, and TasteGate field faithfulness for BEDC.Derived.OrthogonalPolynomialUp.}
+\end{closurestatus}

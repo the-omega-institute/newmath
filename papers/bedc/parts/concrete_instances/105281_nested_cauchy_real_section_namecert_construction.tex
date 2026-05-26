@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\NestedCauchyRealSectionUp$}
+\label{ch:concrete-instances-nested-cauchy-real-section-namecert}
+\origin{human}
+
+Bishop--Bridges constructive analysis treats nested Cauchy sections as finite approximation data before any completed real object is read. The $\NestedCauchyRealSectionUp$ packet names that Real and Completion phase surface over the nested-interval carrier of \autoref{ch:concrete-instances-nestedinterval-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It packages nested Cauchy section data for downstream completion consumers without asserting completeness of $\RealUp$.
+
+\begin{definition}[Nested Cauchy real section carrier]
+\label{def:nested-cauchy-real-section-carrier}
+A $\NestedCauchyRealSectionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(I,T,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the nested interval row, containing the finite interval chain, endpoint order data, and the diameter bounds consumed from \autoref{ch:concrete-instances-nestedinterval-namecert}.
+\item $T$ is the cofinal tail-window row, assigning each requested tolerance a finite interval index and the later windows through which the section may be inspected.
+\item $W$ is the $\StreamNameUp$ observation row, exposing only finite stream windows before any regular rational readback is available.
+\item $R$ is the $\RegSeqRatUp$ row reached from the stream windows and the nested interval endpoints.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording dyadic comparison budgets for endpoint width, tail inclusion, and section readback.
+\item $E$ is the terminal $\RealUp$ seal row exposed only after $I,T,W,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for nested intervals, tail windows, stream observations, regular readback, dyadic tolerance ledgers, Real seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a Real or Completion request through $T,D,W,R,I$ and then into the displayed $\RealUp$ seal.
+\item $P$ is the $\Pkg$ provenance over $\NestedCauchyRealSectionUp$, $\NestedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\NestedCauchyRealSectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,T,W,R,D,E,H,C,P,N$. The carrier has no coordinate for quotient stream equality, selected limits, countable choice, host real equality, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Nested Cauchy real section NameCert obligations]
+\label{thm:nested-cauchy-real-section-namecert-obligations}
+For every accepted $\NestedCauchyRealSectionUp$ carrier $S=(I,T,W,R,D,E,H,C,P,N)$, the local $\NameCert_{\NestedCauchyRealSectionUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the nested interval row, cofinal tail windows, finite stream observations, regular rational readback, dyadic tolerance ledger, Real seal, transport, replay, provenance, and local naming rows;
+\item tail-window exactness, requiring every Real or Completion tolerance request to expose $T$ before reading $W,R,D$;
+\item nested-interval compatibility, requiring the interval chain $I$ and dyadic ledger $D$ to control endpoint width, tail inclusion, and section readback;
+\item Real-seal handoff, requiring the terminal $\RealUp$ row $E$ to be read only after $I,T,W,R,D$ have been displayed;
+\item ledger non-escape, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed packet and to export no quotient stream, selected limit, countable choice, host real equality, or ambient Real completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:nested-cauchy-real-section-carrier}. The tuple displays the nested intervals, tail windows, stream windows, regular readback, dyadic ledger, Real seal, and structural rows.
+
+Tail-window exactness follows from the placement of $T$. A tolerance request reaches finite observations and regular readback only through the displayed cofinal window, so no off-packet schedule can be used.
+
+Nested-interval compatibility is the joint route through $I$ and $D$. The interval chain supplies the nested endpoint data, while the dyadic ledger supplies the width and comparison budgets.
+
+The Real seal is downstream of those rows. The replay row $C$ reaches $E$ only after $I,T,W,R,D$ are visible, and $H,P,N$ preserve and name that same route.
+
+The excluded objects are absent from the carrier. Hence quotient streams, selected limits, countable choice, host real equality, and ambient Real completeness cannot appear as local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Nested Cauchy real section Real-completion handoff]
+\label{thm:nested-cauchy-real-section-real-completion-handoff}
+Every completion-facing read of an accepted $\NestedCauchyRealSectionUp$ carrier factors through the $\NestedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows before it exposes the local section certificate. The handoff exports finite interval, tolerance, observation, regular-readback, and Real-seal data, and exports no quotient stream, selected limit, countable choice, host real equality, or ambient Real completeness theorem.
+\end{theorem}
+\begin{proof}
+Start from an accepted packet $S=(I,T,W,R,D,E,H,C,P,N)$. Projection gives the nested interval row $I$, cofinal tail row $T$, finite stream observations $W$, regular rational readback $R$, dyadic tolerance ledger $D$, terminal Real seal $E$, and structural rows.
+
+A completion-facing tolerance request is replayed through $C$. The replay fixes the tail window $T$, reads dyadic budgets from $D$, opens the stream window $W$, obtains regular rational readback from $R$, and checks the nested interval row $I$ before exposing the Real seal $E$.
+
+The structural rows add no external completion principle. They transport, replay, source, and name the same finite rows, so the read cannot export a quotient stream, a selected limit, countable choice, host real equality, or ambient completeness of $\RealUp$.
+\end{proof}
+
+\begin{theorem}[Nested Cauchy real section choice-free Real seal]
+\label{thm:real-regular-cauchy-seal-choice-free}
+Every accepted $\NestedCauchyRealSectionUp$ packet exposes its terminal $\RealUp$ seal only through the displayed nested interval, cofinal tail-window row, finite $\StreamNameUp$ observation row, $\RegSeqRatUp$ readback, and $\DyadicRatCoreUp$ tolerance rows. The exported Real-facing boundary contains no quotient stream, selected limit, countable-choice row, host real equality, or ambient Real-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple $S=(I,T,W,R,D,E,H,C,P,N)$ of \autoref{def:nested-cauchy-real-section-carrier}. The terminal Real seal is the row $E$, and the rows available before it are exactly the nested interval row $I$, cofinal tail-window row $T$, finite observation row $W$, regular rational readback row $R$, and dyadic tolerance ledger $D$.
+
+Apply the Real-completion handoff theorem. It forces every completion-facing read to pass through $I,T,W,R,D$ before exposing the local section certificate and the terminal Real seal.
+
+The refused objects are absent from the carrier definition. Since no coordinate names a quotient stream, selected limit, countable-choice row, host real equality, or ambient Real-completeness theorem, the seal exported by $E$ is choice-free in exactly the displayed packet sense.
+\end{proof}
+
+\closureat{NestedCauchyRealSectionUp}{seedStr}
+
+\begin{closurestatus}{\NestedCauchyRealSectionUp}
+  \constructivestory{A $\NestedCauchyRealSectionUp$ packet is generated from nested interval rows, cofinal tail windows, finite $\StreamNameUp$ observations, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledgers, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:nested-cauchy-real-section-carrier}, \autoref{thm:nested-cauchy-real-section-namecert-obligations}, and \autoref{thm:nested-cauchy-real-section-real-completion-handoff} seed the finite nested Cauchy section handoff surface for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient streams, selected limits, countable choice, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tail-window exactness, nested-interval compatibility, dyadic tolerance stability, regular rational readback, Real-seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.NestedCauchyRealSectionUp.}
+\end{closurestatus}

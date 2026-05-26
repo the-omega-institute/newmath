@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletenessWitnessUp$}
+\label{ch:concrete-instances-cauchy-completeness-witness-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\CauchyCompletenessWitnessUp$ packet records the finite witness by which regular Cauchy data, finite stream windows, dyadic tolerance rows, a completeness modulus, and a terminal Real seal are read as one completion-facing surface. It sits after the regular rational sequence surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-name discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal Real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the Cauchy completeness modulus packet of \autoref{ch:concrete-instances-cauchy-completeness-modulus-namecert}. The packet names the L10 completion witness between regular Cauchy data and the $\RealUp$ seal; it is not quotient stream equality, a selected host limit, countable choice, trichotomy, or ambient Real completeness.
+
+\begin{definition}[Cauchy completeness witness carrier]
+\label{def:cauchy-completeness-witness-carrier}
+A $\CauchyCompletenessWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(R,S,D,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row whose Cauchy data is being witnessed.
+\item $S$ is the $\StreamNameUp$ finite-window row recording the inspected stream observations used by the witness.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger that records the dyadic budgets attached to those windows.
+\item $M$ is the $\CauchyCompletenessModulusUp$ row that bounds the tail-coherence demands accepted by the witness.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $R,S,D,M$ have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for the regular readback, finite windows, dyadic ledger, completeness modulus, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a completion-witness request through $R,S,D,M,E$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletenessWitnessUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyCompletenessModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletenessWitnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,S,D,M,E,H,C,P,N$ and their displayed replay path. It has no coordinate for quotient stream equality, selected representatives, host-limit choice, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy completeness witness NameCert obligations]
+\label{thm:cauchy-completeness-witness-namecert-obligations}
+For every accepted $\CauchyCompletenessWitnessUp$ carrier $W=(R,S,D,M,E,H,C,P,N)$, the local $\NameCert_{\CauchyCompletenessWitnessUp}$ surface consists exactly of carrier admission for the displayed finite packet, classifier stability under componentwise $\hsame$, witness-to-seal routing through the completeness modulus and terminal Real row, ledger nonescape for dyadic tolerance data, and sibling dependency routing through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyCompletenessModulusUp$, and $\RealUp$.
+
+Every completion-facing consumer must read the route
+$$
+R\longmapsto S\longmapsto D\longmapsto M\longmapsto E\longmapsto H,C,P,N
+$$
+before treating the regular Cauchy data as sealed by a completion witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completeness-witness-carrier}. The accepted packet exposes only the regular readback row, finite stream windows, dyadic tolerance ledger, completeness modulus, terminal Real seal, transport, replay, provenance, and local naming rows.
+
+Carrier admission and classifier stability are componentwise. The rows $R,S,D,M,E$ are compared only by the displayed $\hsame$ transports in $H$, and the replay row $C$ preserves the same order of inspection for any accepted completion-witness request.
+
+The witness-to-seal route is forced by $M$ and $E$. The completeness modulus bounds the tail-coherence demand before the Real seal is consumed, while the dyadic ledger $D$ has already exhausted the tolerance data that could otherwise be mistaken for a detached limit choice.
+
+Finally $P$ and $N$ record sibling dependency routing and the local certificate name. Since the carrier contains no quotient stream equality, selected representative, host-limit operator, countable-choice schedule, trichotomy row, or ambient completeness coordinate, none of those objects belongs to the NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Cauchy completeness witness Real seal route]
+\label{thm:cauchy-completeness-witness-real-seal-route}
+Every completion-seal read of an accepted $\CauchyCompletenessWitnessUp$ packet factors through the displayed finite witness rows $R,S,D,M,E,H,C,P,N$. In particular, a $\RealUp$ consumer must first read the $\RegSeqRatUp$ regular rational data, the $\StreamNameUp$ finite-window evidence, the $\DyadicRatCoreUp$ tolerance ledger, and the $\CauchyCompletenessModulusUp$ tail-control row before it reaches the terminal seal $E$.
+
+The route exports a completion witness for displayed regular Cauchy data. It does not export quotient stream equality, a selected host limit, countable choice, trichotomy, a detached Real seal, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start with a consumer that reads a completion seal. The only Real-facing terminal coordinate in the carrier is $E$, and $E$ appears after the readback, finite-window, dyadic-ledger, and completeness-modulus rows.
+
+The consumer must therefore pass through $R,S,D,M$. These rows provide the regular Cauchy data, the finite observations, the tolerance budget, and the tail-control witness needed before the Real seal can be named.
+
+The support rows $H,C,P,N$ transport, replay, source, and locally certify that same finite route. They can preserve the displayed witness, but they cannot introduce quotient equality, selected limits, countable choice, trichotomy, detached Real seals, or ambient completeness because no such coordinate is present in the accepted packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyCompletenessWitnessUp$ consumer that reaches a terminal $\RealUp$ seal while omitting the regular rational readback, finite stream windows, dyadic tolerance ledger, completeness modulus, transport, replay, provenance, or local naming row refutes the packet.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, cauchy-completeness-modulus, real: no listed sibling supplies the whole witness packet $W=(R,S,D,M,E,H,C,P,N)$, because each sibling contributes only readback, windows, tolerances, tail control, or the terminal seal while this chapter binds all five analytic faces as one finite completion witness.}
+
+\closureat{CauchyCompletenessWitnessUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletenessWitnessUp}
+  \constructivestory{A $\CauchyCompletenessWitnessUp$ packet is generated from a RegSeqRat regular readback row, StreamName finite windows, a DyadicRatCore tolerance ledger, a CauchyCompletenessModulus tail-control row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completeness-witness-carrier}, \autoref{thm:cauchy-completeness-witness-namecert-obligations}, and \autoref{thm:cauchy-completeness-witness-real-seal-route} seed the finite completion-witness route over regular rational readback, stream windows, dyadic tolerances, completeness modulus data, Real sealing, transport, replay, provenance, and local NameCert data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected host limits, countable choice, trichotomy, detached Real seals, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, witness-to-seal routing, ledger nonescape, sibling dependency routing, and Real-seal factorization for BEDC.Derived.CauchyCompletenessWitnessUp.}
+\end{closurestatus}

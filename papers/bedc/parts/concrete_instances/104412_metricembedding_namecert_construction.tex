@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\MetricEmbeddingUp$}
+\label{ch:concrete-instances-metricembedding-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on metric embeddings, the $\MetricEmbeddingUp$ packet records finite control data for an injective metric-route interface without requiring equality of all distances. It sits between the metric source of \autoref{ch:concrete-instances-metric-namecert}, the graph and replay surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the separation consumer of \autoref{ch:concrete-instances-separatedmetric-namecert}, and the stricter distance-equality interface of \autoref{ch:concrete-instances-isometric-embedding-namecert}. The packet is weaker than $\IsometricEmbeddingUp$: it exposes displayed graph-distance control and separated-completion handoff rows, but it does not certify distance preservation, quotient completion classes, selected representatives, or host function equality.
+
+\begin{definition}[MetricEmbedding carrier]
+\label{def:metric-embedding-carrier}
+A $\MetricEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+E=(X,Y,F,D,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricSpaceUp$ carrier and classifier row;
+\item $Y$ is the target $\MetricSpaceUp$ carrier and classifier row;
+\item $F$ is the finite graph row displaying the source-to-target relation used by consumers;
+\item $D$ is the graph-distance control row, recording source distance reads, target distance reads, and the permitted control comparison between them;
+\item $R$ is the $\RealUp$ tolerance and distance-read seal attached to the comparisons in $D$;
+\item $S$ is the separated-metric handoff row for consumers that need point separation after reading the graph;
+\item $H$ stores componentwise $\hsame$ transports for $X,Y,F,D,R,S$ and for the structural rows below;
+\item $C$ stores the displayed $\Cont$ replay from source metric reads to graph reads, target metric reads, distance-control reads, and separated-consumer reads;
+\item $P$ is the $\Pkg$ provenance over $\MetricSpaceUp$, $\ContinuousMapUp$, $\SeparatedMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\MetricEmbeddingUp}$ row.
+\end{enumerate}
+The carrier contains no host function object, no quotient map, no selected completion representative, no ambient completion theorem, and no $\IsometricEmbeddingUp$ distance-equality certificate.
+\end{definition}
+
+\begin{theorem}[MetricEmbedding carrier and classifier obligations]
+\label{thm:metric-embedding-carrier-classifier-obligations}
+For every accepted $\MetricEmbeddingUp$ carrier $E=(X,Y,F,D,R,S,H,C,P,N)$, the local carrier and classifier surface consists exactly of the displayed ten-row packet. Carrier admission reads the source metric row, target metric row, graph row, graph-distance control row, real-distance seal, separated handoff, transport, replay, provenance, and local naming rows. Classifier transport compares accepted packets componentwise through the $\MetricSpaceUp$, $\ContinuousMapUp$, $\SeparatedMetricUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surfaces, and it has no coordinate for host function equality, quotient maps, selected representatives, or isometric distance equality.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The accepted packet exposes exactly $X,Y,F,D,R,S,H,C,P,N$, so carrier admission is the finite $\BHist$ row inventory and not an external embedding object.
+
+Classifier transport is componentwise on the same rows. The source and target metric classifiers compare $X$ and $Y$, the continuous-map graph surface compares $F$, the distance-control and real-seal rows compare $D$ and $R$, and the separated handoff compares $S$ only after the graph and metric rows have been displayed.
+
+The structural rows do not add analytic coordinates. They transport, replay, package, and name the same packet, so host functions, quotient maps, selected completion representatives, and the stricter $\IsometricEmbeddingUp$ equality surface cannot be read from this carrier.
+\end{proof}
+
+\begin{theorem}[MetricEmbedding graph-distance control]
+\label{thm:metric-embedding-graph-distance-control}
+Let $E=(X,Y,F,D,R,S,H,C,P,N)$ be an accepted $\MetricEmbeddingUp$ packet. Every distance-control request first reads a source metric observation in $X$, then the displayed graph row $F$, then the target metric observation in $Y$, and only then the comparison row $D$ with its $\RealUp$ seal $R$. The request receives the named graph-distance control data, not an isometric equality of source and target distances and not a detached continuous map.
+\end{theorem}
+\begin{proof}
+Start with a distance-control request. Carrier projection forces the request to pass through the source metric row $X$ and the graph row $F$ before it can identify the corresponding target metric row $Y$.
+
+Read the comparison row $D$ only after those observations have been displayed. The seal $R$ records the finite real-distance and tolerance data attached to this comparison, while $H$ and $C$ keep the source, graph, target, and real rows aligned.
+
+The packet has no coordinate asserting equality of all source and target distances. Therefore the exported datum is the displayed graph-distance control route, weaker than the $\IsometricEmbeddingUp$ distance-equality surface and independent of any host-level continuous map object.
+\end{proof}
+
+\begin{theorem}[MetricEmbedding separated-completion handoff]
+\label{thm:metric-embedding-separated-completion-handoff}
+Every $\SeparatedMetricUp$ or completion-facing consumer of an accepted $\MetricEmbeddingUp$ packet factors through
+$$
+X \longmapsto F \longmapsto Y \longmapsto D \longmapsto R \longmapsto S
+$$
+with the stored transport, replay, provenance, and local naming rows. The handoff may use graph-distance control to supply separated metric data, but it does not export quotient completion classes, selected representatives, ambient completion existence, or isometric distance preservation.
+\end{theorem}
+\begin{proof}
+Project the separated handoff row $S$. It is downstream from the displayed source metric row, graph row, target metric row, graph-distance control row, and real seal, so a separated consumer cannot read it before those rows have been exhibited.
+
+Apply the graph-distance control theorem. The route to $S$ uses the finite comparison data $D,R$ attached to graph observations, not a host function and not an isometric equality certificate.
+
+Finally read the structural rows $H,C,P,N$. They record transport, continuation replay, provenance, and local naming for the same displayed packet. Since quotient completion classes, selected representatives, ambient completion theorems, and isometric preservation are absent from the carrier, separated-completion consumers receive only the finite handoff route above.
+\end{proof}
+
+\closureat{MetricEmbeddingUp}{seedStr}
+
+\begin{closurestatus}{\MetricEmbeddingUp}
+  \constructivestory{A $\MetricEmbeddingUp$ packet is generated from displayed source and target metric rows, a graph row, a graph-distance control row, a RealUp seal, a separated-metric handoff row, componentwise transport, displayed replay, package provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope records the finite carrier, componentwise classifier, graph-distance control route, and separated-completion handoff for metric embeddings weaker than isometric embeddings.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function equality, quotient completion classes, selected representatives, ambient completion existence, isometric distance preservation, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, graph-distance control, separated-metric handoff, and non-escape for the same finite packet.}
+\end{closurestatus}

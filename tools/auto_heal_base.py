@@ -343,6 +343,12 @@ def verify_local_ci() -> tuple[bool, str | None]:
     Returns (False, error_tail) on the first failed step and (True, None)
     when all checks pass.
     """
+    # Timeouts bumped 2026-05-25: previous 180s/240s were too tight under
+    # system high load (40+ worktrees, concurrent lake builds, fseventsd
+    # churn). Observed: 3 consecutive LOCAL_CI_FAILED_AFTER_HEAL alerts in
+    # 2h because axiom-purity --strict timed out at 240s — falsely
+    # reverting otherwise-good codex heal commits. Local benchmarks show
+    # axiom-purity normally 3-5 min under load; audit 1-3 min.
     checks = [
         ("papers/bedc make check", ["make", "check"], REPO_ROOT / "papers" / "bedc", 600),
         ("lean4 lake build", ["lake", "build"], REPO_ROOT / "lean4", 600),
@@ -350,13 +356,13 @@ def verify_local_ci() -> tuple[bool, str | None]:
             "bedc_ci audit",
             ["python3", "lean4/scripts/bedc_ci.py", "audit"],
             REPO_ROOT,
-            180,
+            300,
         ),
         (
             "bedc_ci axiom-purity --strict",
             ["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"],
             REPO_ROOT,
-            240,
+            600,
         ),
     ]
     for name, cmd, cwd, timeout in checks:
@@ -874,49 +880,66 @@ def _mark_ci_seen(run_id: int) -> None:
 
 
 def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
-    """Query GitHub Actions for recently-failed workflow runs on BASE_BRANCH.
+    """Query GitHub Actions for recently-failed workflow runs on BASE_BRANCH
+    AND the sibling `auto-dev` branch (which receives every codex-auto-dev
+    sync from sync_with_auto_dev.py — CI primarily runs there because
+    `auto-dev` is the durable upstream branch with cache + permissions).
 
-    Returns a list of {run_id, workflow, name, created_at} dicts ordered
-    newest-first. Empty if `gh` CLI is unavailable, no runs in the window
-    failed, or any query error occurred (auto_heal stays passive).
+    Returns a list of {run_id, workflow, name, created_at, branch} dicts
+    ordered newest-first. Empty if `gh` CLI is unavailable, no runs in
+    the window failed, or any query error occurred (auto_heal stays
+    passive).
     """
     if not shutil.which("gh"):
         return []
-    try:
-        r = run([
-            "gh", "run", "list",
-            "--branch", BASE_BRANCH,
-            "--limit", "20",
-            "--json", "status,conclusion,name,workflowName,databaseId,createdAt",
-        ], check=False, capture=True, timeout=60)
-    except Exception:
-        return []
-    if r.returncode != 0:
-        return []
-    try:
-        rows = json.loads(r.stdout or "[]")
-    except Exception:
-        return []
-    cutoff = time.time() - window_minutes * 60
+    # Probe both branches: codex-auto-dev (integration) + auto-dev (CI host).
+    # bidirectional sync means a fix on codex-auto-dev reaches auto-dev
+    # within 10 min, so healing either side is equivalent.
+    branches_to_probe = [BASE_BRANCH, "auto-dev"]
     failures: list[dict] = []
-    for row in rows:
-        if row.get("status") != "completed":
-            continue
-        if row.get("conclusion") != "failure":
-            continue
-        ts = row.get("createdAt", "")
+    cutoff = time.time() - window_minutes * 60
+    for branch in branches_to_probe:
         try:
-            t = time.mktime(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
+            r = run([
+                "gh", "run", "list",
+                "--branch", branch,
+                "--limit", "20",
+                "--json", "status,conclusion,name,workflowName,databaseId,createdAt",
+            ], check=False, capture=True, timeout=60)
         except Exception:
-            t = time.time()
-        if t < cutoff:
             continue
-        failures.append({
-            "run_id": int(row.get("databaseId", 0)),
-            "workflow": row.get("workflowName", "?"),
-            "name": row.get("name", "?"),
-            "created_at": ts,
-        })
+        if r.returncode != 0:
+            continue
+        try:
+            rows = json.loads(r.stdout or "[]")
+        except Exception:
+            continue
+        for row in rows:
+            if row.get("status") != "completed":
+                continue
+            if row.get("conclusion") != "failure":
+                continue
+            ts = row.get("createdAt", "")
+            # GitHub Actions createdAt is UTC ISO ("YYYY-MM-DDTHH:MM:SSZ").
+            # time.mktime interprets strptime() output as LOCAL time, so a
+            # UTC 07:21 timestamp was being treated as local 07:21 — which
+            # in CST/UTC+8 sits 8h in the past and falls outside any
+            # reasonable cutoff window, silently dropping every failure.
+            # Use calendar.timegm to parse the UTC timestamp correctly.
+            import calendar as _calendar
+            try:
+                t = _calendar.timegm(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
+            except Exception:
+                t = time.time()
+            if t < cutoff:
+                continue
+            failures.append({
+                "run_id": int(row.get("databaseId", 0)),
+                "workflow": row.get("workflowName", "?"),
+                "name": row.get("name", "?"),
+                "created_at": ts,
+                "branch": branch,
+            })
     return failures
 
 

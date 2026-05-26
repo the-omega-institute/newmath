@@ -345,3 +345,22 @@ Now return through the decompiler side by \autoref{thm:certificate-compiler-kern
 Finally compose the route and remove intermediate package cuts. The composition exactness theorem, \autoref{thm:certificate-compiler-route-composition-exactness}, keeps identity, binary, and triple composites on the displayed rows, while ledger cut elimination, \autoref{thm:certificate-compiler-ledger-cut-elimination}, permits only cuts preserving those endpoint and composite rows. Thus the endpoint, KernelMorphism, and decompiler legs form a finite roundtrip with no hidden host compiler semantics.
 \end{proof}
 \leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_endpoint\_kernelmorphism\_roundtrip}
+
+\begin{corollary}[CertificateCompiler target endpoint consumer determinacy]
+\label{cor:certificate-compiler-target-endpoint-consumer-determinacy}
+Let
+$$
+K=(S,T,G,E,C,H,P,N)
+$$
+be an accepted $\CertificateCompilerUp$ packet. Fix the consumer-visible rows cited by \autoref{thm:certificate-compiler-endpoint-route-determinacy-envelope}: the source row $S$, target row $T$, compiler graph $G$, target landing row $E$, continuation row $C$, classifier transport row $H$, package provenance row $P$, local naming row $N$, and, when a composite is requested, the displayed identity, binary, or triple-composite ledger rows over the same surface. Then any accepted consumer-facing use of $K$ must select the same finite endpoint route, the same composite normal form, or the same classifier-exactness decision named by the $\CertificateCompilerUp$ chapter. It cannot select an alternate hidden coordinate, a second source classifier row, host compiler semantics, optimiser correctness, ambient program equality, or unrecorded target behavior.
+\end{corollary}
+\begin{proof}
+First apply \autoref{thm:certificate-compiler-target-endpoint-route}. It exhausts every target arrival by the finite $\BHist$ route through the displayed source naming row, graph row, target landing row, classifier transport row, continuation row, package provenance row, and local naming row. Thus a consumer that asks for the target endpoint has no endpoint coordinate beyond $S,G,E,H,C,P,N$.
+
+Next apply \autoref{thm:certificate-compiler-endpoint-route-determinacy-envelope}. It says that accepted endpoint routes and accepted identity, binary, and triple-composite routes are all determined by the same displayed finite surface $S,T,G,E,C,H,P,N$. Hence fixing the cited local rows also fixes the composite normal form available to a consumer: the identity normal form is the diagonal row, a binary normal form is the displayed two-packet composite through the shared middle landing, and a triple normal form is the displayed three-edge ledger with its two middle landing rows.
+
+It remains to rule out duplicate classifier sources and alternate exactness decisions. By \autoref{thm:certificate-compiler-edge-classifier-exactness}, an accepted classifier decision reads the source classifier row in $S$, lands through $E$, transports through the componentwise $\hsame$ row $H$, and follows the paired $\Cont$ routes in $C$. With $S,E,H,C$ fixed, there is no second classifier-facing source from which a different decision could be accepted.
+
+Finally use \autoref{thm:certificate-compiler-finite-route-non-escape}. The accepted carrier exports no host compiler semantics, optimiser correctness theorem, ambient program equality, or unrecorded target behavior. Any consumer-facing use that agrees on the displayed rows therefore factors through the same finite route surface and must return the same endpoint route, composite normal form, or classifier-exactness decision named above.
+\end{proof}
+\leanchecked{BEDC.Derived.CertificateCompilerUp.CertificateCompilerCarrier\_target\_endpoint\_consumer\_determinacy}

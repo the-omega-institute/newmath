@@ -396,3 +396,66 @@ right-tail comparisons, then compare it with $right'$ by continuation result
 determinacy to identify $c$ and $c'$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_same\_left\_tail\_factorization\_deterministic}
+
+\begin{corollary}[Category hom-carrier endpoint-cycle empty determinacy]
+\label{cor:category-hom-carrier-comp-endpoint-cycle-empty-determinacy}
+For the unary-continuation category, suppose $\ContR(f,g,fg)$ and suppose $fg$
+is displayed as a hom-carrier from $a$ to $c$. Let $m$ denote the displayed
+canonical middle history obtained as the append of $a$ and $f$. If the composite
+endpoints close, $\hsame(a,c)$, then the consumer-facing use of this endpoint
+cycle is determined by the finite empty-tail packet. Concretely, for any
+proposed middle object $b'$ and right factor $g'$ with $f$ displayed as a
+hom-carrier from $a$ to $b'$, the right-factor admission decision is exactly
+$$
+\mathsf{CategoryHomCarrier}(b',c,g')
+\Longleftrightarrow
+\ContR(f,g',fg).
+$$
+When these equivalent conditions are satisfied, the proposed factorization has
+the same canonical middle coordinate and the same empty normal form:
+$$
+\HSame(b',m)\wedge
+\HSame(f,\emp)\wedge
+\HSame(g,\emp)\wedge
+\HSame(g',\emp)\wedge
+\HSame(fg,\emp).
+$$
+Thus no accepted public read supplies an alternate hidden coordinate, duplicate
+right-factor classifier source, or nonempty composite normal form outside the
+rows named in the chapter.
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:category-hom-carrier-comp-canonical-middle-iff} to the
+displayed composite carrier and the continuation row $\ContR(f,g,fg)$. With
+$m$ as the displayed canonical append history, this reads the composite through
+$m$ and supplies the two canonical factors
+$$
+\mathsf{CategoryHomCarrier}(a,m,f)
+\quad\text{and}\quad
+\mathsf{CategoryHomCarrier}(m,c,g).
+$$
+The endpoint-cycle hypothesis $\hsame(a,c)$ now puts these factors under
+\autoref{thm:category-hom-carrier-comp-endpoint-cycle-tails-empty}, so
+$\HSame(f,\emp)$, $\HSame(g,\emp)$, and $\HSame(fg,\emp)$ are forced.
+
+Fix a proposed middle object $b'$ and right factor $g'$ with
+$\mathsf{CategoryHomCarrier}(a,b',f)$. The displayed composite carrier from
+$a$ to $c$ and \autoref{thm:category-hom-carrier-comp-right-factor-iff} give
+exactly the advertised right-factor decision
+$\mathsf{CategoryHomCarrier}(b',c,g')\Longleftrightarrow\ContR(f,g',fg)$.
+Hence an accepted presentation has both the carrier row for $g'$ and the
+continuation row $\ContR(f,g',fg)$.
+
+Compare this accepted presentation with the canonical one. The two continuation
+rows $\ContR(f,g,fg)$ and $\ContR(f,g',fg)$ share the left factor $f$ and the
+composite result $fg$, so finite-kernel left cancellation, as used in
+\autoref{thm:category-hom-carrier-comp-right-factor-public-readback}, supplies
+$\HSame(g,g')$. Apply
+\autoref{thm:category-hom-carrier-hsame-transport} to the accepted carrier
+$b'\to c$ across this morphism comparison, holding the target endpoint fixed,
+and compare the transported carrier with the canonical carrier $m\to c$ by
+\autoref{thm:category-hom-carrier-source-deterministic}. This gives
+$\HSame(b',m)$. Finally, transitivity with the already forced comparison
+$\HSame(g,\emp)$ gives $\HSame(g',\emp)$. The only remaining composite normal
+form is therefore the empty one already read from the endpoint cycle.
+\end{proof}

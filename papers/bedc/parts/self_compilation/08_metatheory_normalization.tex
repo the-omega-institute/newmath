@@ -93,6 +93,22 @@ at every subsequent represented term. They do not assert progress, uniqueness
 of normal forms, confluence for all represented terms, or strong
 normalization.
 
+\begin{theorem}[Bounded normalization trace closure]
+\label{thm:metacic-bounded-normalization-trace-closure}
+Let $t$ be a represented MetaCIC term closed at index $n$. If a bounded evaluator run displays a finite beta trace
+$$
+t \to^{*} t'
+$$
+from $t$ to $t'$, interpreted as a \texttt{BEDC.MetaCIC.BetaStarStep} witness, then $t'$ is closed at the same index $n$. The statement does not assert progress, fuel sufficiency, unique normal form, confluence, or strong normalization.
+\end{theorem}
+\begin{proof}
+Read the evaluator output only through the displayed finite \texttt{BetaStarStep} trace. The initial hypothesis supplies \texttt{ClosedAt} $n$ $t$, and the trace supplies the finite chain from $t$ to $t'$.
+
+Apply \texttt{betaStarStep\_preserves\_closed}. Its reflexive case returns the original closedness proof, and its step case uses \texttt{betaStep\_preserves\_closed} before applying the induction hypothesis to the remaining finite trace.
+
+No claim about the evaluator's fuel budget or global reduction behavior enters the argument. The theorem records only preservation of closedness along the finite trace that is actually displayed.
+\end{proof}
+
 \subsection{Strong Normalization}
 \label{subsec:metacic-strong-normalization-open}
 

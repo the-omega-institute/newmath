@@ -1,0 +1,52 @@
+\chapter{A Concrete Naming Certificate for $\NoetherianRingUp$}
+\label{ch:concrete-instances-noetherian-ring-namecert}
+\origin{human}
+
+Following Emmy Noether's ascending-chain formulation, the $\NoetherianRingUp$ packet records finite ideal-chain stabilization data over a commutative-ring source and an ideal source. In BEDC form it sits after $\NameCert_{\CommRingUp}$ (\autoref{ch:concrete-instances-commring-namecert}) and $\NameCert_{\IdealUp}$ (\autoref{ch:concrete-instances-ideal-namecert}), supplies a reusable finitary algebra row for the reduction surface of \autoref{ch:concrete-instances-groebner-basis-namecert}, and exposes the Noetherian component later consumed by \autoref{ch:concrete-instances-dedekind-namecert}.
+
+\section{Carrier definition}
+\label{sec:noetherian-ring-carrier}
+
+\begin{definition}[Noetherian ring carrier]\label{def:noetherian-ring-carrier}
+A $\NoetherianRingUp$ carrier is a finite $\BHist$ packet
+$$
+\begin{gathered}
+\mathsf{NoethRing}(C,I,A,G,H,Q,P,N).
+\end{gathered}
+$$
+The row $C$ is the $\CommRingUp$ source surface. The row $I$ is the $\IdealUp$ source surface over the same classifier. The row $A$ is the ascending-chain stabilization witness: every displayed chain of ideal rows over $C$ and $I$ carries a finite stage after which all later ideal endpoints classify with that stage. The row $G$ is the finite-generator witness used by algebraic consumers that read Noetherianity through finitely generated ideal data. The row $H$ is componentwise $\hsame$ transport for the commutative-ring, ideal, stabilization, and generator rows. The row $Q$ is displayed $\Cont$ replay for the chain and generator certificates. The row $P$ is $\Pkg$ provenance, and $N$ is the local $\NameCert_{\NoetherianRingUp}$ naming row.
+\end{definition}
+
+\begin{theorem}[Noetherian ring NameCert obligations]\label{thm:noetherian-ring-namecert-obligations}
+For an accepted $\NoetherianRingUp$ carrier $\mathsf{NoethRing}(C,I,A,G,H,Q,P,N)$, the local $\NameCert_{\NoetherianRingUp}$ surface consists exactly of carrier admission for the eight displayed rows, source compatibility with $\CommRingUp$ and $\IdealUp$, finite stabilization access through $A$, finite-generator access through $G$, componentwise classifier transport through $H$, displayed continuation replay through $Q$, provenance non-escape through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the eight rows of \autoref{def:noetherian-ring-carrier}. The source rows $C$ and $I$ fix the shared commutative-ring and ideal classifier before any chain is inspected.
+
+The stabilization row $A$ and generator row $G$ are then read over that classifier. Componentwise transport $H$ carries each displayed row through $\hsame$, while $Q$ replays the corresponding continuations without replacing the source surface.
+
+Finally, $P$ and $N$ repack the same finite inventory as the local naming certificate. No quotient ideal space, maximal ideal selection, or Hilbert basis proof is introduced by this packet.
+\end{proof}
+
+\begin{theorem}[Noetherian ascending-chain stability]\label{thm:noetherian-ring-ascending-chain-stability}
+Let $\mathsf{NoethRing}(C,I,A,G,H,Q,P,N)$ be an accepted $\NoetherianRingUp$ carrier. For every displayed ascending chain of ideal rows over the shared $\CommRingUp$ and $\IdealUp$ classifier, the witness $A$ supplies a finite stabilization stage, and $H$ transports that stabilization along the same classifier. Thus any downstream consumer may use $\NoetherianRingUp$ as a finite ideal-chain certificate without re-proving stabilization inside its own packet.
+\end{theorem}
+\begin{proof}
+Begin with the source compatibility rows from \autoref{thm:noetherian-ring-namecert-obligations}. They force the chain to be read over the commutative-ring and ideal classifier already present in $C$ and $I$.
+
+Apply the stabilization witness $A$ to obtain a finite stage for the displayed chain. If the accepted packet is transported through a classified replacement, use the componentwise transport row $H$ to move both the chain entries and the stabilization witness through the shared classifier.
+
+The transported stage remains a stage for the same finite chain surface because $Q$ replays only the displayed continuation data and $P$ prevents provenance escape. The conclusion is therefore a reusable finite ideal-chain certificate for later algebra chapters.
+\end{proof}
+
+\closureat{NoetherianRingUp}{seedStr}
+
+\begin{closurestatus}{\NoetherianRingUp}
+  \constructivestory{A $\NoetherianRingUp$ packet is generated from a $\CommRingUp$ source, an $\IdealUp$ source over the same classifier, an ascending-chain stabilization witness, a finite-generator witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:noetherian-ring-carrier}, \autoref{thm:noetherian-ring-namecert-obligations}, and \autoref{thm:noetherian-ring-ascending-chain-stability} seed the finite ideal-chain stabilization interface over CommRingUp, IdealUp, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient ideal spaces, maximal ideal choice, Hilbert basis proof, or standard bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source compatibility, finite stabilization access, finite-generator access, componentwise transport, provenance non-escape, and local NameCert exactness for BEDC.Derived.NoetherianRingUp.}
+\end{closurestatus}

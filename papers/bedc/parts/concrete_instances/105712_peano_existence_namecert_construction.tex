@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\PeanoExistenceUp$}
+\label{ch:concrete-instances-peano-existence-namecert}
+\origin{human}
+
+Following Peano and Bishop and Bridges, the $\PeanoExistenceUp$ packet records constructive local ODE existence data without uniqueness as finite NameCert rows. It consumes the real endpoint discipline of \autoref{ch:concrete-instances-real-namecert}, the continuous vector-field surface of \autoref{ch:concrete-instances-continuousmap-namecert}, and the displayed ODE source of \autoref{ch:concrete-instances-ode-namecert}. The packet names an interval-window, vector-field, Euler-polygon, and compact-containment route; it does not name a Lipschitz modulus, a unique flow, a maximal solution, host compactness, or a choice-selected path.
+
+\begin{definition}[Peano existence carrier]
+\label{def:peano-existence-carrier}
+A $\PeanoExistenceUp$ carrier is a finite $\BHist$ packet
+$$
+P=(I,V,W,E,Q,M,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the interval source row, binding the initial time, initial state, local radius, and finite rational time window through the $\OdeUp$ source surface.
+\item $V$ is the $\ContinuousMapUp$ vector-field row, read on the displayed time-state window and classified only through its continuous-map graph and modulus ledgers.
+\item $W$ is the closed $\RealUp$ interval and state-window row that bounds the Euler-polygon construction before any solution read is exported.
+\item $E$ is the finite Euler polygon approximation ledger, including step windows, endpoint approximants, and local slope reads from $V$.
+\item $Q$ is the compact-containment row, recording that every displayed polygon segment remains in the certified window $W$.
+\item $M$ is the modulus row used to compare nearby polygon windows and to pass from finite polygon data to a Cauchy-style local solution row.
+\item $H$ records componentwise $\hsame$ transport for interval sources, vector-field rows, real windows, polygon ledgers, containment rows, modulus rows, replay rows, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from the ODE request through $I,V,W,E,Q,M$.
+\item $G$ is the $\Pkg$ provenance over $\PeanoExistenceUp$, $\OdeUp$, $\ContinuousMapUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PeanoExistenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It contains no coordinate for uniqueness, Lipschitz dependence, a selected maximal solution, ambient host compactness, or a choice principle.
+\end{definition}
+
+\begin{theorem}[Peano existence NameCert obligations]
+\label{thm:peano-existence-namecert-obligations}
+For every accepted $\PeanoExistenceUp$ carrier
+$$
+P=(I,V,W,E,Q,M,H,C,G,N),
+$$
+the local $\NameCert_{\PeanoExistenceUp}$ surface consists exactly of carrier admission for the interval source row, continuous vector-field row, real closed window row, Euler polygon approximation ledger, compact-containment row, modulus row, componentwise transport, displayed continuation replay, package provenance, and local naming. Every local existence read is therefore routed through $I,V,W,E,Q,M,H,C,G,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:peano-existence-carrier}. The interval source $I$ fixes the ODE request, $V$ supplies the displayed continuous vector-field read, and $W$ supplies the real closed window in which the construction is inspected.
+
+The approximation content is carried by $E,Q,M$. Euler polygons in $E$ provide finite stepwise approximants, $Q$ keeps every inspected polygon segment inside the recorded window, and $M$ gives the finite comparison ledger needed for a Cauchy-style local solution read.
+
+The structural rows $H,C,G,N$ transport, replay, package, and name exactly that finite route. Since the carrier has no coordinate for uniqueness, Lipschitz dependence, maximal-extension selection, host compactness, or choice, the NameCert surface cannot export any of those objects.
+\end{proof}
+
+\closureat{PeanoExistenceUp}{seedStr}
+
+\begin{closurestatus}{\PeanoExistenceUp}
+  \constructivestory{A $\PeanoExistenceUp$ packet is generated from an $\OdeUp$ interval source row, a $\ContinuousMapUp$ vector-field row, a closed $\RealUp$ time-state window, Euler polygon approximation ledgers, compact-containment and modulus rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:peano-existence-carrier} and \autoref{thm:peano-existence-namecert-obligations} seed the constructive local existence packet over displayed ODE, continuous-map, real-window, Euler-polygon, containment, modulus, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim uniqueness, Lipschitz dependence, selected maximal solutions, host compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Euler-polygon approximation readback, compact-containment exactness, modulus handoff, consumer nonescape, and a Lean carrier/obligation formalization for BEDC.Derived.PeanoExistenceUp.}
+\end{closurestatus}

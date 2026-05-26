@@ -46,3 +46,173 @@ machine-checked standard bridge in this chapter.
   \notclaimed{Full boolean algebra or proposition theory: boolean operations, eliminators, decidable predicates, truth-table completeness, and logic connectives as BEDC primitives.}
   \upgradepath{No further formal-axis upgrade remains for this bridge-checked chapter.}
 \end{closurestatus}
+
+\begin{lemma}[Bool finite-data classifier alignment boundary]
+\label{lem:bool-finite-data-classifier-alignment-boundary}
+For histories $h,k:\BHist$, the classifier side of the Bool finite-data
+bridge interface has the following exact alignment boundary:
+$$
+  \mathsf{BoolHistoryClassifier}(h,k)
+  \quad\Longleftrightarrow\quad
+  \exists v,w:\BMark,\
+    \mathsf{BoolSourceSpec}(v)
+    \land
+    \mathsf{BoolSourceSpec}(w)
+    \land
+    \hsame(h,\mathsf{BoolEndpoint}(v))
+    \land
+    \hsame(k,\mathsf{BoolEndpoint}(w))
+    \land
+    \msame(v,w).
+$$
+Under this equivalence, the transported displayed rows are precisely the two
+endpoint readback rows
+$\hsame(h,\mathsf{BoolEndpoint}(v))$ and
+$\hsame(k,\mathsf{BoolEndpoint}(w))$, together with the mark-comparison row
+$\msame(v,w)$. The retained certificate rows are precisely the source,
+pattern, and ledger rows of \autoref{def:bool-history-semantic-fields}, all
+read as $\mathsf{BoolHistoryCarrier}$. Every row outside the interface listed
+in \autoref{thm:bool-finite-data-bridge-interface} is forgotten by this
+alignment boundary; in particular, it exports no host proposition, decidable
+predicate, eliminator, truth-table-completeness row, payload carrier, payload
+classifier, or option-packaging row.
+\end{lemma}
+\begin{proof}
+The displayed equivalence is exactly
+\autoref{thm:bool-source-qualified-classifier-readback-exactness}. Its forward
+direction says that a classifier comparison between $h$ and $k$ exposes only
+source-qualified endpoint marks $v,w$, the two endpoint readback rows, and the
+mark comparison $\msame(v,w)$. Its reverse direction says that those rows are
+already sufficient to rebuild the Bool history classifier comparison, so no
+additional classifier coordinate is consumed.
+
+By \autoref{def:bool-endpoint-bridge}, the endpoint map has only the two
+visible target rows $\mathsf{BoolEndpoint}(\bzero)=\emp$ and
+$\mathsf{BoolEndpoint}(\bone)=\Eone(\emp)$. Endpoint coverage in
+\autoref{thm:bool-history-carrier-endpoint-coverage} supplies no third
+readback case, and constructor separation in
+\autoref{thm:bool-history-classifier-constructor-separation} prevents the two
+constructor rows from being identified by the classifier. Thus the readback
+part of the boundary transports exactly the displayed endpoint rows and their
+$\msame$ comparison.
+
+The certificate part is fixed by \autoref{def:bool-history-semantic-fields}:
+source, pattern, and ledger are all the same predicate
+$\mathsf{BoolHistoryCarrier}$. The public semantic certificate in
+\autoref{thm:bool-concrete-semantic-namecert} therefore retains only the
+carrier-classifier ledger named in \autoref{thm:bool-finite-data-bridge-interface}.
+Finally, \autoref{thm:bool-public-surface-no-hidden-leakage} rules out host
+propositions, decidable predicates, eliminators, and truth-table completeness,
+and the finite-data interface list contains no payload carrier, payload
+classifier, or option-packaging row. Those nonlisted rows are therefore
+forgotten rather than transported.
+\end{proof}
+
+\begin{lemma}[Bool finite-data domain-codomain mirror boundary]
+\label{lem:bool-finite-data-domain-codomain-mirror-boundary}
+In the finite-data bridge interface of \autoref{thm:bool-finite-data-bridge-interface}, the codomain-facing Bool read is the endpoint mirror of the domain-facing carrier read. Concretely, every public codomain read of the standard two-endpoint Bool surface is forced through one of the two rows
+$\mathsf{BoolEndpoint}(\bzero)=\emp$ or $\mathsf{BoolEndpoint}(\bone)=\Eone(\emp)$, and every such endpoint row is already a domain-side $\mathsf{BoolHistoryCarrier}$ row. Its observation, result, termination, and certificate data are therefore exactly the endpoint exactness row, endpoint coverage row, classifier endpoint exactness row, constructor separation row, semantic field row, and concrete semantic certificate row cited in \autoref{thm:bool-finite-data-bridge-interface}. There is no separate codomain carrier, codomain classifier, or codomain certificate row in this Bool finite-data bridge.
+\end{lemma}
+\begin{proof}
+Start with a public codomain read of the standard two-endpoint Bool surface. By \autoref{def:bool-public-endpoint-constructors}, the only public constructors of that surface are the two endpoint rows $\mathsf{BoolEndpoint}(\bzero)=\emp$ and $\mathsf{BoolEndpoint}(\bone)=\Eone(\emp)$. The readback theorem \autoref{thm:bool-public-constructor-case-readback} says that every public endpoint read is classified by exactly one of those rows, and that agreement of such rows is exactly mark agreement through $\msame$.
+
+Each of the two displayed endpoint rows is also a carrier row on the domain side. This is precisely the reverse direction of \autoref{thm:bool-history-carrier-endpoint-coverage}: an endpoint witness $\hsame(h,\mathsf{BoolEndpoint}(v))$ repacks as $\mathsf{BoolHistoryCarrier}(h)$. The agreement comparison is not a codomain-specific classifier, because \autoref{thm:bool-endpoint-bridge-exactness} identifies endpoint agreement with $\msame$ on the underlying marks, while \autoref{thm:bool-history-classifier-endpoint-exactness} and \autoref{thm:bool-history-classifier-constructor-separation} say that the history classifier has exactly the two endpoint classes and cannot mix them.
+
+It remains to identify the certificate side. The semantic fields in \autoref{def:bool-history-semantic-fields} read source, pattern, and ledger all as $\mathsf{BoolHistoryCarrier}$, and \autoref{thm:bool-concrete-semantic-namecert} supplies the public semantic certificate for that same carrier and classifier. Thus reversing attention from the domain read to the codomain read only renames the endpoint row being inspected. It does not create any extra carrier, classifier, ledger, result, termination, or certificate row beyond the finite packet already listed in \autoref{thm:bool-finite-data-bridge-interface}.
+\end{proof}
+
+\begin{lemma}[Bool finite-data substrate bisimulation boundary]
+\label{lem:bool-finite-data-substrate-bisimulation-boundary}
+Let $\mathsf{Sub}$ be one of the substrate read names
+$\mathsf{Rule110}$, $\mathsf{Cellular}$, $\mathsf{Binary}$,
+$\mathsf{FKernel}$, or raw $\BHist$. Within the finite-data bridge interface of
+\autoref{thm:bool-finite-data-bridge-interface}, a consumer-facing read from
+$\mathsf{Sub}$ into $\BoolUp$ has only the following BEDC-local relation
+certificate. Its source is the named substrate read $\mathsf{Sub}$, its target
+is the Bool finite-data packet, its direction is
+$$
+  \mathsf{Sub}\text{-read}
+  \longrightarrow
+  \text{displayed endpoint readback rows}
+  \longrightarrow
+  \BoolUp\text{-consumer},
+$$
+and its relation kind is substrate mirror with bisimulation comparison on the
+two endpoint observations. Concretely, for histories $h,k:\BHist$ the observable
+comparison must factor through displayed marks $v,w:\BMark$ as
+$$
+\begin{aligned}
+&\mathsf{BoolSourceSpec}(v)
+\land
+\mathsf{BoolSourceSpec}(w)
+\land
+\hsame(h,\mathsf{BoolEndpoint}(v))
+\land
+\hsame(k,\mathsf{BoolEndpoint}(w))
+\land
+\msame(v,w),
+\end{aligned}
+$$
+and this displayed relation is equivalent to
+$\mathsf{BoolHistoryClassifier}(h,k)$. The retained certificate rows are
+precisely $\mathsf{BoolHistoryCarrier}$, $\mathsf{BoolHistoryClassifier}$,
+$\mathsf{BoolHistoryCarrier}$ as source, pattern, and ledger, and the semantic
+certificate of \autoref{thm:bool-concrete-semantic-namecert}. No accepted read
+may replace this mirror certificate by definitional equality between
+$\mathsf{Sub}$ and $\BoolUp$, by equality between a host substrate and the Bool
+carrier, or by an unlisted Rule110 state, cellular clock, cellular neighborhood,
+external binary trace, FKernel extension, FKernel continuation, FKernel package,
+FKernel gap, or raw $\BHist$ constructor coordinate.
+\end{lemma}
+\begin{proof}
+The finite-data interface is already enumerated in
+\autoref{thm:bool-finite-data-bridge-interface}. Its rows are endpoint bridge
+exactness, endpoint coverage, classifier endpoint exactness, constructor
+separation, the semantic fields, and the concrete semantic certificate. Thus a
+substrate-facing consumer has no independent row from which to read a Rule110
+state, a cellular clock or neighborhood, an external binary trace, an FKernel
+extension, continuation, package, or gap coordinate, or a raw constructor
+identity for $\BHist$.
+
+The endpoint part of the certificate is forced by \autoref{def:bool-endpoint-bridge}:
+the only displayed target rows are
+$\mathsf{BoolEndpoint}(\bzero)=\emp$ and
+$\mathsf{BoolEndpoint}(\bone)=\Eone(\emp)$. Endpoint coverage in
+\autoref{thm:bool-history-carrier-endpoint-coverage} says that every Bool
+history carrier read reaches one of those endpoint rows, and constructor
+separation prevents the two endpoint rows from being collapsed by the Bool
+classifier.
+
+The comparison part is exactly the boundary in
+\autoref{lem:bool-finite-data-classifier-alignment-boundary}. Its forward
+direction reads any $\mathsf{BoolHistoryClassifier}(h,k)$ comparison as
+source-qualified marks $v,w$, two endpoint readback rows
+$\hsame(h,\mathsf{BoolEndpoint}(v))$ and
+$\hsame(k,\mathsf{BoolEndpoint}(w))$, and the mark comparison $\msame(v,w)$.
+Its reverse direction rebuilds the Bool history classifier from precisely
+those rows. Hence the displayed endpoint observations are preserved and
+reflected by the same finite comparison row; this is a bisimulation boundary on
+the local Bool observations, not a definitional equality boundary between
+substrates.
+
+The direction and mirror reading are fixed by
+\autoref{lem:bool-finite-data-domain-codomain-mirror-boundary}: a codomain-facing
+Bool read is the endpoint mirror of the domain-facing carrier read. Therefore a
+substrate read can be consumed only after it has been projected to the endpoint
+readback packet and then read through the Bool carrier and classifier rows. The
+semantic side contributes no extra substrate coordinate, because
+\autoref{def:bool-history-semantic-fields} reads source, pattern, and ledger all
+as $\mathsf{BoolHistoryCarrier}$, and
+\autoref{thm:bool-concrete-semantic-namecert} certifies that same carrier and
+classifier.
+
+Finally, \autoref{thm:bool-public-surface-no-hidden-leakage} excludes host
+propositions, decidable predicates, eliminators, and truth-table completeness,
+and the finite interface list contains none of the substrate-specific rows
+named in the statement. A receiving gate that re-reads the displayed rows must
+therefore reject any unlisted host or source coordinate. What remains is exactly
+the finite substrate mirror certificate above: source named by the incoming
+substrate read, target named by the Bool finite-data packet, direction through
+the displayed endpoint rows, and bisimulation comparison given by $\msame$ under
+the Bool history classifier.
+\end{proof}

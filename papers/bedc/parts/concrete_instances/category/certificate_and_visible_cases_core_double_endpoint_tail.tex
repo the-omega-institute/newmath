@@ -122,3 +122,65 @@ comparison builds the empty-tail displayed morphism, and continuation-morphism
 tail determinacy identifies it with $m$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e0\_target\_tail\_empty\_iff}
+
+\begin{corollary}[Continuation morphism zero-headed endpoints consumer determinacy]
+\label{cor:continuation-morphism-e0-source-e0-target-consumer-determinacy}
+For histories $a,r,k,l:\BHist$ and continuation morphisms
+$m,n:\mathsf{ContinuationMorphism}(\Ezero(a),\Ezero(r))$, suppose a
+consumer-facing use fixes the zero-headed visible-tail row for $m$:
+$$
+\HSame(\mathsf{tail}(m),\Ezero(k)).
+$$
+If another accepted consumer-facing use of the same zero-headed endpoint packet
+reads a zero-headed tail row for $n$,
+$$
+\HSame(\mathsf{tail}(n),\Ezero(l)),
+$$
+then the visible payload coordinate and the zero-tail exactness decision are
+determined:
+$$
+\HSame(k,l)
+\quad\text{and}\quad
+\bigl(\ContR(\Ezero(a),k,r)\Longleftrightarrow\ContR(\Ezero(a),l,r)\bigr).
+$$
+Consequently, after the endpoint rows and one zero-headed tail row are fixed,
+every accepted route, normal-form read, or exactness decision for this packet
+uses the same zero-tail payload up to $\HSame$. The only displayed branch that
+carries no payload is the empty-tail endpoint-collapse row of
+\autoref{thm:continuation-morphism-e0-source-e0-target-tail-cases}; there is no
+accepted one-headed tail, hidden coordinate, or duplicate classifier source.
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:continuation-morphism-e0-source-e0-target-tail-cases} to a
+continuation morphism
+$x:\mathsf{ContinuationMorphism}(\Ezero(a),\Ezero(r))$. The consumer-visible
+tail surface is exhausted by the two displayed rows
+$$
+\mathsf{tail}(x)=\emp\land\HSame(a,r)
+\quad\text{or}\quad
+\exists q:\BHist.\;\mathsf{tail}(x)=\Ezero(q)\land
+\ContR(\Ezero(a),q,r).
+$$
+Thus a payload-bearing read over these endpoints must be a zero-headed read,
+and its payload is the only coordinate exposed by the case split.
+
+For the two accepted uses in the statement, both reads are zero-headed. Applying
+\autoref{thm:continuation-morphism-e0-source-e0-target-tail-core-deterministic}
+to the two displayed tail classifications gives $\HSame(k,l)$. The zero-tail
+exactness row of
+\autoref{thm:continuation-morphism-e0-source-e0-target-tail-e0-iff} reads the
+first displayed classification as exactly $\ContR(\Ezero(a),k,r)$ and the second
+as exactly $\ContR(\Ezero(a),l,r)$. By the continuation history-sameness
+transport theorem \autoref{thm:cont-hsame-transport}, transport along
+$\HSame(k,l)$ identifies these two continuation payload decisions, giving the
+displayed equivalence.
+
+It remains only to rule out alternate consumer coordinates. A one-headed tail
+proposal is refused by
+\autoref{prop:category-continuation-e0-e0-tail-e1-absurd}. A second zero-headed
+proposal is another instance of the same core-determinacy theorem and is
+therefore $\HSame$ to $k$. An empty-tail proposal is the endpoint-collapse row
+listed by the case theorem and carries no payload coordinate at all. Hence the
+accepted consumer surface is exhausted by the empty row and the unique
+zero-headed payload row named in the chapter.
+\end{proof}

@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\PartitionOfUnityUp$}
+\label{ch:concrete-instances-partition-of-unity-namecert}
+\origin{human}
+
+Following Kelley and Bourbaki on partitions of unity, the $\PartitionOfUnityUp$ packet records the finite BEDC surface by which a displayed locally finite open cover receives compatible bump rows and finite-support weight rows. It sits over the topological source of \autoref{ch:concrete-instances-topology-namecert}, the support-window discipline of \autoref{ch:concrete-instances-locallycompact-namecert}, the refinement ledger of \autoref{ch:concrete-instances-paracompact-namecert}, the chart-facing consumer surface of \autoref{ch:concrete-instances-manifold-namecert}, and the separation-function route of \autoref{ch:concrete-instances-urysohn-lemma-namecert}. The packet names only displayed finite rows for local-to-global gluing; it does not select arbitrary host functions, assert compactness of open covers, or identify analytic functions extensionally.
+
+\begin{definition}[Partition of unity carrier]
+\label{def:partition-of-unity-carrier}
+A $\PartitionOfUnityUp$ carrier is a finite $\BHist$ packet
+$$
+U=(T,L,Q,R,W,F,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row, exposing the open-set operations and point-neighborhood reads on which all cover and support data are interpreted.
+\item $L$ is the $\LocallyCompactUp$ support-window row, recording the compactly supported local windows used by each bump row without exporting an open-cover compactness principle.
+\item $Q$ is the $\ParacompactUp$ locally finite cover ledger, including the displayed refinement cells, finite neighborhood witnesses, and assignment back to the original open-cover request.
+\item $R$ is the $\UrysohnLemmaUp$ bump-row ledger, recording the separation-compatible construction of each nonnegative bump row inside the support window supplied by $L$ and the locally finite cell supplied by $Q$.
+\item $W$ is the finite-support weight row, listing the finitely many bump rows visible at each displayed point-neighborhood read.
+\item $F$ is the displayed sum-to-one row, recording that the finitely supported weight rows add to the unit row on the covered region.
+\item $S$ is the manifold-facing handoff row, exposing exactly the partition rows consumable by $\ManifoldUp$ chart gluing and by local-to-global analysis packets.
+\item $H$ records componentwise $\hsame$ transport for the topology source, support windows, locally finite cover ledger, bump rows, weight rows, sum row, manifold handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a partition request through $T,L,Q,R,W,F,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\PartitionOfUnityUp$, $\TopologyUp$, $\LocallyCompactUp$, $\ParacompactUp$, $\UrysohnLemmaUp$, $\ManifoldUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PartitionOfUnityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host-selected function family, arbitrary subcover selection, open-cover compactness theorem, unlogged chart choice, or extensional equality of analytic functions.
+\end{definition}
+
+\begin{theorem}[Partition of unity NameCert obligations]
+\label{thm:partition-of-unity-namecert-obligations}
+For every accepted $\PartitionOfUnityUp$ carrier
+$$
+U=(T,L,Q,R,W,F,S,H,C,P,N),
+$$
+the local $\NameCert_{\PartitionOfUnityUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the topology source, support windows, locally finite cover ledger, bump-row ledger, finite-support weights, sum-to-one row, manifold handoff, transport, replay, provenance, and local naming;
+\item support-window exactness, requiring every bump row to read its support through the displayed $\LocallyCompactUp$ row $L$ and not through a host compactness claim;
+\item locally finite cover exactness, requiring every weight row in $W$ to be indexed only by the refinement cells and finite neighborhood witnesses displayed by $Q$;
+\item Urysohn-compatible bump exactness, requiring every bump row in $R$ to pass through the $\UrysohnLemmaUp$ separation-function route before it can contribute to a weight row;
+\item finite-support and sum exactness, requiring $W$ and $F$ to display the finite set of nonzero weights at each point-neighborhood read and the corresponding sum-to-one row;
+\item manifold handoff exactness, requiring $S$ to export only the rows $T,L,Q,R,W,F,H,C,P,N$ needed by $\ManifoldUp$ chart gluing and local-to-global consumers;
+\item $\hsame$, $\Cont$, and $\Pkg$ stability, requiring componentwise transport, displayed replay, and provenance to preserve exactly the listed rows.
+\end{enumerate}
+No local partition-of-unity obligation is stored outside these seven rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:partition-of-unity-carrier}. The accepted tuple displays exactly the topology source, local compact support windows, paracompact locally finite ledger, Urysohn-compatible bump rows, finite-support weights, sum row, manifold handoff, transport, replay, provenance, and local naming.
+
+Support-window exactness is read from $L$, while locally finite cover exactness is read from $Q$. The row $L$ supplies only the compactly supported local windows already displayed in the packet, and $Q$ supplies only the refinement cells, assignments, and finite neighborhood witnesses of the paracompact ledger.
+
+The bump-row gate is $R$. Each bump row is admitted through the $\UrysohnLemmaUp$ separation-function route, so a weight row cannot be introduced by selecting an arbitrary host function.
+
+The weight and sum gates are $W$ and $F$. The row $W$ lists the finite set of nonzero weights visible at each displayed neighborhood read, and $F$ records the displayed sum-to-one row over that finite support.
+
+Finally, $S,H,C,P,N$ only hand off, transport, replay, source, and name the same finite packet. Thus a manifold or local-to-global consumer can read the partition surface without receiving a host-selected function family, arbitrary subcover, open-cover compactness theorem, unlogged chart choice, or extensional equality of analytic functions.
+\end{proof}
+
+\closureat{PartitionOfUnityUp}{seedStr}
+
+\begin{closurestatus}{\PartitionOfUnityUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:partition-of-unity-carrier} and \autoref{thm:partition-of-unity-namecert-obligations} seed the finite topology, local compactness, paracompact refinement, Urysohn bump, weight, sum-to-one, manifold handoff, transport, replay, provenance, and local naming surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host-selected function families, arbitrary subcover selection, open-cover compactness, analytic function extensionality, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, support-window exactness, locally finite cover exactness, Urysohn-compatible bump exactness, finite-support sum exactness, manifold handoff exactness, transport stability, replay stability, and non-escape proofs for BEDC.Derived.PartitionOfUnityUp.}
+  \constructivestory{A $\PartitionOfUnityUp$ packet is generated from a $\TopologyUp$ source row, $\LocallyCompactUp$ support windows, a $\ParacompactUp$ locally finite cover ledger, $\UrysohnLemmaUp$ bump rows, finite-support weights, a displayed sum-to-one row, a $\ManifoldUp$ handoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

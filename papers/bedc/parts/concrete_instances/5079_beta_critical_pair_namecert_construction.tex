@@ -51,6 +51,18 @@ The join endpoint is exactly the row $J$. Since $J$ is a displayed coordinate, l
 Finally read the boundary row $B$. It records the non-escape side of the carrier and prevents any consumer from replacing the local common-reduct witness by subject reduction, global confluence, normalization, conversion typing, or host evaluation.
 \end{proof}
 
+\begin{theorem}[Beta critical-pair local-join route]
+\label{thm:beta-critical-pair-local-join-route}
+Every beta-audit consumer reading a $\BetaCriticalPairUp$ packet must pass through the shared overlap row $O$, both branch rows $L,R$, the displayed common-reduct witness $J$, and the non-escape boundary $B$ before any local-join conclusion is available. The route realizes the finite local-overlap and common-reduct surface of \autoref{ch:metacic-beta-audit-map} and is constrained by \autoref{thm:beta-critical-pair-namecert-obligations} and \autoref{thm:beta-critical-pair-local-join-boundary}.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:beta-critical-pair-namecert-obligations}. They expose the shared overlap row $O$, the left and right branch readbacks $L,R$, the common-reduct witness $J$, and the local boundary row $B$ as distinct displayed coordinates of the same carrier.
+
+Apply \autoref{thm:beta-critical-pair-local-join-boundary}. It permits a local join only through the branch rows and the common-reduct row, while $B$ blocks rereading that local fact as subject reduction, closed Church--Rosser, normalization, conversion typing, or global confluence.
+
+The beta audit map of \autoref{ch:metacic-beta-audit-map} is therefore reached through the finite route $O,L,R,J,B$ and the structural rows $H,C,P,N$. No consumer can obtain a local-join conclusion from the packet before those overlap, branch, witness, and boundary rows have been displayed.
+\end{proof}
+
 \falsifiablePrediction{If a BetaCriticalPairUp packet has no displayed common-reduct row, then no local-join consumer can read a joined endpoint from the packet.}
 
 \independenceWitness{closednormalroutecertificate, literalastequalityboundary, metacicidentity, selftheoryreflectionloop: the carrier has two reduction branches plus a common-reduct witness, while these siblings respectively carry normal-route, literal equality, identity, or reflection-loop rows and admit no bijection preserving both branch rows and the join row.}
@@ -65,7 +77,6 @@ The Lean TasteGate obligation surface for this carrier requires a non-singleton 
   \scopeclosed{\autoref{def:beta-critical-pair-carrier}, \autoref{thm:beta-critical-pair-namecert-obligations}, and \autoref{thm:beta-critical-pair-local-join-boundary} bind the finite local-overlap carrier, the two branch readbacks, the common-reduct witness, and the consumer boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
   \notclaimed{This chapter does not close subject reduction, closed Church--Rosser, global confluence, normalization, conversion typing, Lean verification, or bridge checking.}
   \upgradepath{Obligation closure requires checked carrier admission, branch readback exactness, common-reduct witness readback, local non-escape, route replay, provenance, local naming, and the Nontrivial and FieldFaithful TasteGate instances for the same finite carrier.}
 \end{closurestatus}

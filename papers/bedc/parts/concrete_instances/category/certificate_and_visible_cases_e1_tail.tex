@@ -59,3 +59,149 @@ through the one constructor and compare it with the record continuation by
 left cancellation.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e1\_source\_e1\_target\_tail\_e1\_iff}
+
+\begin{lemma}[Continuation morphism one-headed endpoints bridge determinacy]
+\label{lem:continuation-morphism-e1-source-e1-target-bridge-determinacy}
+For histories $a,r:\BHist$ and a continuation morphism
+$m:\mathsf{ContinuationMorphism}(\Eone(a),\Eone(r))$, the consumer-facing
+bridge surface of $m$ is exhausted by the empty endpoint-collapse row and the
+one-headed payload-continuation row:
+$$
+\bigl(\mathsf{tail}(m)=\emp\land\HSame(a,r)\bigr)
+\lor
+\exists k:\BHist.\;
+\mathsf{tail}(m)=\Eone(k)\land\ContR(\Eone(a),k,r).
+$$
+Every zero-headed bridge coordinate is unavailable:
+$$
+\forall q:\BHist,\;
+\HSame(\mathsf{tail}(m),\Ezero(q))\to\mathsf{False}.
+$$
+Consequently any accepted route, transport, readback, or handoff for this
+one-headed endpoint packet factors either through the empty endpoint-collapse
+row or through the one-headed payload-continuation row; no unlisted bridge
+coordinate supplies a zero-headed tail, detached payload route, or alternate
+bridge read.
+\end{lemma}
+\begin{proof}
+Apply \autoref{thm:continuation-morphism-e1-source-e1-target-tail-cases} to
+$m$. The first branch is exactly the empty endpoint-collapse row
+$$
+\mathsf{tail}(m)=\emp\land\HSame(a,r).
+$$
+It carries no payload coordinate, so any consumer use that reaches this branch
+has only the endpoint transport supplied by $\HSame(a,r)$.
+
+The second branch supplies a history $k:\BHist$ with
+$$
+\mathsf{tail}(m)=\Eone(k)\land\ContR(\Eone(a),k,r).
+$$
+This is the only payload-bearing local row exposed by the split, and its route
+data is exactly the continuation ledger $\ContR(\Eone(a),k,r)$.
+
+For zero-headed coordinates, fix $q:\BHist$. The refusal theorem
+\autoref{thm:continuation-morphism-e1-source-e1-target-tail-e0-absurd} gives
+$$
+\HSame(\mathsf{tail}(m),\Ezero(q))\to\mathsf{False}.
+$$
+Thus a purported zero-headed route cannot be a consumer-facing bridge row for
+the same packet.
+
+These clauses exhaust the bridge surface. A route or readback that asks for the
+displayed tail first passes through the case split, hence lands in one of the
+two rows above. A transport in the empty row can only use the exposed endpoint
+classifier, while a handoff in the visible row can only use the exposed
+one-headed payload and its continuation ledger. The zero-headed coordinate is
+refused by the absurd row, and the case split displays no further branch.
+Therefore an unlisted bridge coordinate has no local row through which a
+consumer could obtain a tail, payload, route, transport, readback, or handoff.
+\end{proof}
+
+\begin{corollary}[Continuation morphism one-headed endpoints consumer determinacy]
+\label{cor:continuation-morphism-e1-source-e1-target-consumer-determinacy}
+For histories $a,r:\BHist$ and a continuation morphism
+$m:\mathsf{ContinuationMorphism}(\Eone(a),\Eone(r))$, once the two rows
+exposed in \autoref{lem:continuation-morphism-e1-source-e1-target-bridge-determinacy}
+are fixed, every accepted consumer-facing use of the same one-headed endpoint
+packet is determined by the displayed finite split of
+\autoref{thm:continuation-morphism-e1-source-e1-target-tail-cases}. Its normal
+form is either the empty endpoint-collapse row
+$$
+\mathsf{tail}(m)=\emp\land\HSame(a,r),
+$$
+or a one-headed payload-continuation row
+$$
+\mathsf{tail}(m)=\Eone(k)\land\ContR(\Eone(a),k,r)
+$$
+for a displayed payload $k:\BHist$. A zero-headed normal form is impossible:
+$$
+\forall q:\BHist,\;
+\HSame(\mathsf{tail}(m),\Ezero(q))\to\mathsf{False}.
+$$
+If two accepted one-headed uses expose payloads $k,k':\BHist$ with
+$$
+\mathsf{tail}(m)=\Eone(k)\land\ContR(\Eone(a),k,r)
+$$
+and
+$$
+\mathsf{tail}(m)=\Eone(k')\land\ContR(\Eone(a),k',r),
+$$
+then constructor injectivity gives the payload classifier $\HSame(k,k')$, and
+both exactness decisions are the continuation rows displayed by the same tail
+case. Consequently every accepted route, normal-form read, classifier
+comparison, handoff, or exactness decision for $m$ factors through the empty
+endpoint-collapse row or through that displayed one-headed
+payload-continuation row; no alternate hidden coordinate, zero-headed route,
+detached exactness decision, or duplicate classifier source is exported by this
+chapter surface.
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:continuation-morphism-e1-source-e1-target-tail-cases} to
+$m$. The first branch gives exactly the empty endpoint-collapse row
+$$
+\mathsf{tail}(m)=\emp\land\HSame(a,r),
+$$
+so a consumer that reads the empty normal form obtains only the endpoint
+classifier already displayed in that row. There is no payload coordinate in
+this branch, hence no separate route or exactness decision can be selected
+there.
+
+In the second branch, the case split supplies a displayed payload $k:\BHist$
+with
+$$
+\mathsf{tail}(m)=\Eone(k)\land\ContR(\Eone(a),k,r).
+$$
+Thus the one-headed normal form and the exactness decision are carried by the
+same row: the payload is the one occurring in the displayed tail, and the
+available continuation decision is precisely $\ContR(\Eone(a),k,r)$.
+
+The bridge determinacy lemma
+\autoref{lem:continuation-morphism-e1-source-e1-target-bridge-determinacy}
+adds the consumer-surface exhaustion. It states that every route, classifier
+comparison, readback, or handoff for the packet factors through one of these
+two rows and that every zero-headed coordinate is refused. Hence for each
+$q:\BHist$,
+$$
+\HSame(\mathsf{tail}(m),\Ezero(q))\to\mathsf{False},
+$$
+so a zero-headed normal form cannot be an accepted consumer route for the same
+morphism.
+
+It remains to compare two accepted one-headed reads. Suppose they expose
+payloads $k$ and $k'$ through the two displayed one-headed rows. Both rows name
+the same tail of the same morphism $m$, so the equalities
+$\mathsf{tail}(m)=\Eone(k)$ and $\mathsf{tail}(m)=\Eone(k')$ make the two
+one-headed tail displays the same displayed normal form. Constructor
+injectivity for the one-headed history constructor gives $\HSame(k,k')$. The
+continuation data attached to the two reads are therefore exactly the
+continuation rows already displayed in the two tail cases, not an additional
+source of exactness data.
+
+The cited bridge lemma exposes no branch beyond the empty endpoint-collapse row
+and the one-headed payload-continuation row, while the tail case theorem gives
+no further normal form for the one-headed endpoint packet. Therefore every
+accepted consumer-facing use of $m$ chooses the same finite route determined by
+those displayed rows, and an unlisted coordinate has no local row from which to
+supply a hidden tail, alternate normal form, detached exactness decision, or
+duplicate classifier source.
+\end{proof}

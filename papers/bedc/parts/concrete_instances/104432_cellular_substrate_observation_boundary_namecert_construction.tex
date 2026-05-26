@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\CellularSubstrateObservationBoundaryUp$}
+\label{ch:concrete-instances-cellular-substrate-observation-boundary-namecert}
+\origin{ai}
+
+The $\CellularSubstrateObservationBoundaryUp$ packet realizes the observation-boundary route implicit in \autoref{ch:visions-cellular-automaton-substrate-reading} as finite NameCert data. It sits between the cellular trust substrate of \autoref{ch:concrete-instances-cellular-trust-substrate-namecert}, the cellular rule and orbit carrier of \autoref{ch:concrete-instances-cellularautomaton-namecert}, the bounded trace boundary of \autoref{ch:concrete-instances-bounded-universal-trace-namecert}, the local read cell of \autoref{ch:concrete-instances-localitycell-namecert}, and the continuation automaton surface of \autoref{ch:concrete-instances-continuationautomaton-namecert}. Its distinguishing datum is the finite boundary at which a local rule, a bounded orbit window, a manifest row, and an audit replay jointly authorize an observation.
+
+\falsifiablePrediction{Removing either the local-rule row or the boundary-manifest row breaks accepted observation replay: without the local rule two windows with different update tables can share the same text observation, and without the manifest the audit route has no finite boundary against which to replay the observation.}
+
+\independenceWitness{cellulartrustsubstrate, cellularautomaton, boundeduniversaltrace, localitycell, continuationautomaton: none is bijective to $\CellularSubstrateObservationBoundaryUp$ because each omits at least one of the joint boundary ingredients: local transition table, bounded orbit window, boundary manifest, accepted observation row, or audit replay route.}
+
+\begin{definition}[Cellular substrate observation-boundary carrier]
+\label{def:cellular-substrate-observation-boundary-carrier}
+A $\CellularSubstrateObservationBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+O=(R,W,M,B,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the local cellular rule row, including alphabet, neighbourhood arity, boundary convention, and complete transition table.
+\item $W$ is the bounded orbit-window row, including the initial configuration, finite time interval, displayed cell coordinates, and trace bounds.
+\item $M$ is the boundary-manifest row recording the accepted observation fields, replay bounds, text schema, and local read discipline.
+\item $B$ is the accepted observation-boundary row, pairing the displayed local cells with the manifest fields and the orbit-window coordinates they are allowed to inspect.
+\item $A$ is the audit-replay row, replaying each boundary read from $R$ through $W$ and checking it against $M$ and $B$.
+\item $H$ records componentwise $\hsame$ transport for the local rule, orbit window, manifest, boundary row, audit replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through
+$$
+R,W,M,B \longmapsto A .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CellularSubstrateObservationBoundaryUp$, $\CellularTrustSubstrateUp$, $\CellularAutomatonUp$, $\BoundedUniversalTraceUp$, $\LocalityCellUp$, $\ContinuationAutomatonUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CellularSubstrateObservationBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an unbounded orbit, hidden update table, host evaluator identity, detached manifest schema, quotient stream equality, or an all-time induction principle.
+\end{definition}
+
+\begin{theorem}[Cellular trust substrate vision route]
+\label{thm:cellular-trust-substrate-substrate-vision-route}
+For every accepted $\CellularSubstrateObservationBoundaryUp$ carrier
+$$
+O=(R,W,M,B,A,H,C,P,N),
+$$
+the local $\NameCert_{\CellularSubstrateObservationBoundaryUp}$ surface gives a finite route from a local rule and bounded orbit window to a trusted observation boundary. A consumer receives exactly the local-rule row $R$, bounded orbit-window row $W$, boundary-manifest row $M$, accepted observation-boundary row $B$, audit-replay row $A$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming row $N$, and receives no unbounded orbit, hidden update table, detached manifest, host evaluator, quotient stream, or all-time induction principle.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cellular-substrate-observation-boundary-carrier}. The packet displays the local rule, orbit window, manifest, boundary row, audit replay, transport, continuation, provenance, and naming rows as its complete coordinate list.
+
+The finite route starts at $R$ and $W$. The rule row supplies the transition table and boundary convention, while the orbit-window row fixes the initial configuration, time interval, and cell coordinates that may be inspected.
+
+The observation boundary is then exposed by $M$ and $B$. The manifest states the accepted schema and replay bounds, and the boundary row ties each observation field to the local cells and orbit coordinates it is allowed to read.
+
+The audit replay $A$ checks the route back through $R,W,M,B$. Componentwise transport through $H$ and displayed replay through $C$ preserve the same boundary route under accepted comparison.
+
+Finally $P$ and $N$ source and name only this displayed packet. Since no row carries an unbounded orbit, hidden update table, detached manifest, host evaluator, quotient stream, or all-time induction principle, the trusted observation boundary is exactly the finite NameCert route stated above.
+\end{proof}
+
+\closureat{CellularSubstrateObservationBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\CellularSubstrateObservationBoundaryUp}
+  \constructivestory{A $\CellularSubstrateObservationBoundaryUp$ packet is generated from a local cellular rule, bounded orbit window, boundary manifest, accepted observation-boundary row, audit replay, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cellular-substrate-observation-boundary-carrier} and \autoref{thm:cellular-trust-substrate-substrate-vision-route} seed the finite route from local rule and bounded orbit window to a trusted observation boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Rule 110 universality, host evaluator correctness, quotient streams, cellular completeness, all-time induction, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, local-rule accountability, bounded orbit-window exactness, manifest-boundary replay, and provenance/name exhaustion for BEDC.Derived.CellularSubstrateObservationBoundaryUp; Lean follow-up must provide Nontrivial and FieldFaithful TasteGate instances.}
+\end{closurestatus}

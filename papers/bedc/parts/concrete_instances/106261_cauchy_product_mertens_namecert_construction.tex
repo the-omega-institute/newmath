@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\CauchyProductMertensUp$}
+\label{ch:concrete-instances-cauchy-product-mertens-namecert}
+\origin{human}
+
+Following Mertens and Bishop--Bridges constructive analysis, the $\CauchyProductMertensUp$ packet records the finite theorem row that mediates between the displayed Mertens Cauchy product theorem of \autoref{ch:concrete-instances-mertens-cauchy-product-theorem-namecert} and the product-convergence seal of \autoref{ch:concrete-instances-cauchy-product-convergence-namecert}. It sits over the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-window route of \autoref{ch:concrete-instances-streamname-namecert}, the completion witness of \autoref{ch:concrete-instances-cauchy-completeness-witness-namecert}, and the terminal Real naming surface of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Cauchy product Mertens carrier]
+\label{def:cauchy-product-mertens-carrier}
+A $\CauchyProductMertensUp$ carrier is a finite $\BHist$ packet
+$$
+M=(A,B,W,T,R,D,S,E,H,C,Q,N)
+$$
+whose rows record two displayed regular Cauchy or summable source names $A,B$, a finite convolution-window row $W$, a Mertens tail-budget row $T$, a $\RegSeqRatUp$ readback row $R$, a $\DyadicRatCoreUp$ tolerance row $D$, a $\StreamNameUp$ window row $S$, a $\CauchyCompletenessWitnessUp$ handoff row $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $Q$, and the local $\NameCert_{\CauchyProductMertensUp}$ row $N$. The carrier predicate asserts that all rows belong to one finite product-theorem history from the Mertens theorem packet to the later convergence packet; it contains no coordinate for quotient streams, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy product Mertens NameCert obligations]
+\label{thm:cauchy-product-mertens-namecert-obligations}
+For every accepted $\CauchyProductMertensUp$ carrier $M=(A,B,W,T,R,D,S,E,H,C,Q,N)$, the local $\NameCert_{\CauchyProductMertensUp}$ surface consists exactly of carrier admission for those twelve rows, Mertens-window compatibility between $A,B,W,T$, $\RegSeqRatUp$ readback through $R$, $\DyadicRatCoreUp$ tolerance routing through $D$, $\StreamNameUp$ exposure through $S$, completion handoff through $E$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and refusal of any consumer that omits one of these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:cauchy-product-mertens-carrier}. The source, window, and tail rows $A,B,W,T$ expose exactly the Mertens theorem surface needed before product convergence can be read.
+
+The readback rows $R,D,S,E$ then carry the same finite window through regular rational, dyadic, stream-name, and completion-witness routes. The structural rows $H,C,Q,N$ transport, replay, source, and name that route.
+
+Since the carrier has no quotient-stream, selected-limit, choice, trichotomy, or ambient completeness coordinate, the displayed list exhausts the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy product Mertens tail-budget handoff]
+\label{thm:cauchy-product-mertens-tail-budget-handoff}
+Every accepted $\CauchyProductMertensUp$ tail-budget row that can be consumed by $\CauchyProductConvergenceUp$ first factors through the finite route
+$$
+A,B \longmapsto W,T \longmapsto R,D,S,E \longmapsto H,C,Q,N .
+$$
+Thus the Mertens product theorem packet is read before the $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\CauchyCompletenessWitnessUp$, and $\RealUp$ seal rows of the convergence route are consumed.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $M=(A,B,W,T,R,D,S,E,H,C,Q,N)$. The only rows that expose the product theorem surface are $A,B,W,T$, so a convergence-facing tail read begins with those coordinates.
+
+The readback stage is then forced through $R,D,S,E$. These rows encode the same finite window as regular rational, dyadic tolerance, stream-window, and completion-witness data.
+
+Finally $H,C,Q,N$ provide transport, replay, provenance, and local naming. No other coordinate can supply a tail-budget handoff to the convergence packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyProductMertensUp$ consumer that reaches a product-convergence tail handoff while omitting a source row, convolution window, Mertens tail row, RegSeqRat readback, DyadicRatCore tolerance ledger, StreamName window, CauchyCompletenessWitness handoff, transport row, replay row, provenance row, or local naming row refutes the packet.}
+
+\closureat{CauchyProductMertensUp}{seedStr}
+
+\begin{closurestatus}{\CauchyProductMertensUp}
+  \constructivestory{A $\CauchyProductMertensUp$ packet is generated from two source regular Cauchy or summable rows, a finite convolution window, a Mertens tail-budget row, RegSeqRat readback, DyadicRatCore tolerance routing, StreamName exposure, CauchyCompletenessWitness handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-product-mertens-carrier}, \autoref{thm:cauchy-product-mertens-namecert-obligations}, and \autoref{thm:cauchy-product-mertens-tail-budget-handoff} seed the finite Mertens product-theorem route from source rows and tail budgets to readback, stream, completion, and convergence-facing rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, Mertens-window compatibility, RegSeqRat readback, DyadicRatCore tolerance routing, StreamName exposure, CauchyCompletenessWitness handoff, transport, replay, provenance, and local naming for BEDC.Derived.CauchyProductMertensUp.}
+\end{closurestatus}

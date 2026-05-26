@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\UniformBoundednessPrincipleUp$}
+\label{ch:concrete-instances-uniform-boundedness-principle-namecert}
+\origin{human}
+
+Following Banach and Steinhaus, the $\UniformBoundednessPrincipleUp$ packet records the finite NameCert surface by which a pointwise bounded family of bounded linear operators exposes one uniform operator-norm ledger. It sits over the Banach source row of \autoref{ch:concrete-instances-banach-namecert}, the bounded-operator family surface of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the scalar and norm rows of \autoref{ch:concrete-instances-real-namecert} and \autoref{ch:concrete-instances-normed-real-line-namecert}, and the finite observation discipline already used by Banach-facing consumer packets.
+
+\begin{definition}[Uniform boundedness principle carrier]
+\label{def:uniform-boundedness-principle-carrier}
+A $\UniformBoundednessPrincipleUp$ carrier is a finite $\BHist$ packet
+$$
+U=(B,F,W,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BanachUp$ source row, including the normed-space and complete-metric observations used by the operator family.
+\item $F$ is the finite family row of $\BoundedLinearOperatorUp$ packets over the same Banach source and displayed target Banach rows.
+\item $W$ is the pointwise boundedness window ledger: every inspected source endpoint and every inspected operator row has a displayed $\RealUp$ bound read through the family surface.
+\item $L$ is the single uniform norm-bound ledger, read through $\RealUp$ and $\NormedRealLineUp$, and attached to the same family row $F$.
+\item $R$ records the Banach source rows, bounded-linear-operator rows, pointwise windows, and uniform bound as one route rather than as unrelated observations.
+\item $H$ records componentwise $\hsame$ transport for $B,F,W,L,R,P,N$.
+\item $C$ records displayed $\Cont$ replays from Banach source reads to operator-family reads, from pointwise boundedness windows to the uniform norm-bound ledger, and from the Real-facing bound to the local certificate.
+\item $P$ is the $\Pkg$ provenance over $\UniformBoundednessPrincipleUp$, $\BanachUp$, $\BoundedLinearOperatorUp$, $\RealUp$, $\NormedRealLineUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\UniformBoundednessPrincipleUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,F,W,L,R,H,C,P,N$. It has no coordinate for an arbitrary family of host operators, a selected point outside the displayed windows, a quotient equality of functions, countable choice, or an ambient completeness theorem beyond the Banach row already carried in $B$.
+\end{definition}
+
+\begin{theorem}[Uniform boundedness NameCert obligations]
+\label{thm:uniform-boundedness-principle-namecert-obligations}
+For every accepted $\UniformBoundednessPrincipleUp$ carrier $U=(B,F,W,L,R,H,C,P,N)$, the local $\NameCert_{\UniformBoundednessPrincipleUp}$ surface consists exactly of carrier admission for the Banach source, bounded-operator family, pointwise boundedness windows, uniform norm-bound ledger, route row, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming; source lock between the Banach row and every operator-family member; pointwise-window exhaustion through $W$; uniform-bound exactness through $L$; and non-escape from host operator families, uninspected points, quotient function equality, countable choice, and ambient completeness outside $B$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-boundedness-principle-carrier}. The rows $B,F,W,L,R,H,C,P,N$ are the whole packet, so each local obligation is read from the displayed tuple.
+
+The source lock is the route row $R$. It ties the $\BanachUp$ source used by $F$ to the pointwise boundedness windows in $W$ and to the uniform norm-bound ledger $L$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name this same route. Since the carrier has no coordinate for the excluded host principles, no accepted consumer can recover them from the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Uniform boundedness Banach handoff]
+\label{thm:uniform-boundedness-principle-banach-handoff}
+Every Banach-facing consumer of an accepted $\UniformBoundednessPrincipleUp$ carrier factors through the ordered route
+$$
+\BanachUp,\quad \BoundedLinearOperatorUp,\quad \RealUp,\quad \NormedRealLineUp,\quad \BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert .
+$$
+The exported datum is the uniform operator-norm ledger $L$ attached to the family row $F$, not a host-level Banach-Steinhaus theorem, an external operator-family selector, or an unrestricted completeness principle.
+\end{theorem}
+\begin{proof}
+Read the carrier order in \autoref{def:uniform-boundedness-principle-carrier}. A consumer first sees the Banach source $B$ and bounded-operator family $F$, then the pointwise boundedness windows $W$, and only then the uniform norm-bound ledger $L$.
+
+Apply the NameCert obligations of \autoref{thm:uniform-boundedness-principle-namecert-obligations}. They require the pointwise windows and uniform ledger to be tied by $R$ and transported only through $H,C,P,N$.
+
+Thus every downstream Banach read receives the displayed finite route and no additional host operator family, countable choice principle, quotient function equality, or ambient completeness row.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\UniformBoundednessPrincipleUp$ consumer must expose a $\BanachUp$ source row, a $\BoundedLinearOperatorUp$ family row, pointwise boundedness windows, one $\RealUp$ and $\NormedRealLineUp$ uniform norm-bound ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before the uniform bound is public.}
+
+\independenceWitness{banach, boundedlinearoperator, real, normed-real-line: $\UniformBoundednessPrincipleUp$ is not bijective to any listed sibling because it jointly binds a Banach source, a bounded-operator family, pointwise boundedness windows, a single uniform norm-bound ledger, route data, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{UniformBoundednessPrincipleUp}{seedStr}
+
+\begin{closurestatus}{\UniformBoundednessPrincipleUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-boundedness-principle-carrier}, \autoref{thm:uniform-boundedness-principle-namecert-obligations}, and \autoref{thm:uniform-boundedness-principle-banach-handoff} seed the finite Banach-Steinhaus route through Banach source rows, bounded-operator family rows, pointwise boundedness windows, and one uniform norm-bound ledger.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary host operator families, selected pointwise witnesses outside the displayed windows, quotient equality of maps, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source lock, pointwise-window exhaustion, uniform-bound exactness, Banach handoff boundary, transport and replay stability, provenance exhaustion, and TasteGate field faithfulness for BEDC.Derived.UniformBoundednessPrincipleUp.}
+  \constructivestory{A $\UniformBoundednessPrincipleUp$ packet is generated from a Banach source row, a bounded-linear-operator family row, pointwise boundedness windows, a uniform RealUp and NormedRealLine norm-bound ledger, a route row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+\end{closurestatus}

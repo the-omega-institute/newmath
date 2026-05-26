@@ -1,0 +1,113 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyCompletionReflectorUp$}
+\label{ch:concrete-instances-regular-cauchy-completion-reflector-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy completion and Bourbaki on reflective subobjects, the $\RegularCauchyCompletionReflectorUp$ packet records the RegSeqRat-specific completion reflector boundary as finite BEDC naming data. It sits after the finite observation rows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, the completed real-name surface of \autoref{ch:concrete-instances-real-cauchy-completion-namecert}, the monadic completion route of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the idempotence boundary of \autoref{ch:concrete-instances-completion-idempotence-namecert}, and the extension surface of \autoref{ch:concrete-instances-completionuniversalproperty-namecert}. The packet names only the finite reflector rows visible to RegSeqRat consumers; it does not identify quotient completions, select limits, assert host equality of completed objects, invoke countable choice, or claim ambient $\RealUp$ completeness.
+
+\begin{definition}[RegularCauchyCompletionReflector carrier]
+\label{def:regular-cauchy-completion-reflector-carrier}
+A $\RegularCauchyCompletionReflectorUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,Q,E,U,I,P,H,C,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row used to inspect the source regular Cauchy name and every completion-facing observation cut.
+\item $Q$ is the $\RegSeqRatUp$ source row, exposing the regular rational readback and its displayed tolerance discipline before completion is requested.
+\item $E$ is the $\RealCauchyCompletionUp$ completed real-name row reached from $S,Q$ through the displayed completion surface rather than through a host quotient carrier.
+\item $U$ is the $\CauchyCompletionMonadUp$ unit and bind route specialized to the same $S,Q,E$ rows.
+\item $I$ is the $\CompletionIdempotenceUp$ boundary row recording that a second completion pass reuses the same completed surface.
+\item $P$ is the $\CompletionUniversalPropertyUp$ extension row for consumers whose maps are read through the displayed regular Cauchy source and the same completed real-name row.
+\item $H$ records componentwise $\hsame$ transport for stream windows, regular rational readbacks, completed real-name rows, monad routes, idempotence boundaries, universal-property rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a RegSeqRat completion request through
+$$
+S,Q \longmapsto E \longmapsto U,I,P \longmapsto H,N .
+$$
+\item $N$ is the local $\NameCert_{\RegularCauchyCompletionReflectorUp}$ row, with provenance read from the displayed $\Pkg$ rows over $\RegularCauchyCompletionReflectorUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealCauchyCompletionUp$, $\CauchyCompletionMonadUp$, $\CompletionIdempotenceUp$, $\CompletionUniversalPropertyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\end{enumerate}
+The classifier compares accepted packets only through $S,Q,E,U,I,P,H,C,N$. It has no coordinate for quotient completion equality, selected limit representatives, host equality of completed objects, countable choice, detached $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[RegularCauchyCompletionReflector NameCert obligations]
+\label{thm:regular-cauchy-completion-reflector-namecert-obligations}
+For every accepted $\RegularCauchyCompletionReflectorUp$ carrier
+$$
+R=(S,Q,E,U,I,P,H,C,N),
+$$
+the local $\NameCert_{\RegularCauchyCompletionReflectorUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for stream windows, RegSeqRat readbacks, completed real-name rows, monad routes, idempotence boundaries, universal-property extension rows, transport, replay, provenance, and local naming;
+\item source regularity, requiring every completion-facing read to expose $S$ and $Q$ before $E$ is available;
+\item completion admission, requiring the completed row $E$ to be read through the displayed $\RealCauchyCompletionUp$ surface;
+\item monad handoff, requiring unit and bind consumers to use $U$ over the same $S,Q,E$ rows;
+\item idempotence stability, requiring repeated completion reads to reuse $I$ and the same completed row $E$;
+\item universal-property compatibility, requiring every extension consumer to read $P$ over the same source, completion, monad, and idempotence rows;
+\item nonescape, excluding quotient completions, selected limits, host equality, countable choice, detached $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The stream window row, regular rational readback row, completed real-name row, monad route, idempotence boundary, universal-property row, transport, replay, and local naming row are exactly the displayed coordinates of $R$.
+
+The source side is forced by $S$ and $Q$. A completion-facing consumer has no completed row to inspect until the finite StreamName windows and the RegSeqRat readback have been displayed.
+
+The completed row $E$ is then read through the RealCauchyCompletion surface. The monad row $U$, idempotence row $I$, and universal-property row $P$ all refer back to the same $S,Q,E$ route, so none of them can introduce a separate completion object.
+
+Finally $H,C,N$ preserve and name the same finite packet. Since the carrier has no coordinate for quotient completions, selected limits, host equality, countable choice, detached Real completeness, Lean verification, or bridge data, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[RegularCauchyCompletionReflector unit handoff]
+\label{thm:regular-cauchy-completion-reflector-unit-handoff}
+Let $R=(S,Q,E,U,I,P,H,C,N)$ be an accepted $\RegularCauchyCompletionReflectorUp$ carrier. Every unit-facing completion request factors through the finite route
+$$
+S\longmapsto Q\longmapsto E\longmapsto U\longmapsto H,C,N .
+$$
+The handoff copies the displayed RegSeqRat source into the completed real-name surface by finite windows and regular readbacks. It does not supply quotient stream equality, a selected limit, host equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the source rows. The finite windows in $S$ determine which parts of the regular rational source may be inspected, and $Q$ supplies the matching RegSeqRat readback.
+
+The completed row $E$ is downstream of those source rows. A unit-facing request therefore reaches completion only after the finite source route has been displayed.
+
+The monad row $U$ records the unit handoff on that same route, and $H,C,N$ transport, replay, and name it componentwise. No excluded host-side principle is available as a row of the packet.
+\end{proof}
+
+\begin{theorem}[RegularCauchyCompletionReflector idempotence boundary]
+\label{thm:regular-cauchy-completion-reflector-idempotence-boundary}
+For an accepted $\RegularCauchyCompletionReflectorUp$ carrier $R=(S,Q,E,U,I,P,H,C,N)$, a repeated completion read is classified by the same completed real-name row $E$ and the same idempotence boundary $I$. The second read may replay $S,Q,U,P,H,C,N$, but it has no independent completed carrier and no quotient equality coordinate.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates. The only completed real-name coordinate is $E$, and the only idempotence coordinate is $I$.
+
+A repeated completion request can therefore replay the source windows, RegSeqRat readbacks, monad handoff, universal-property row, transport, continuation, and local naming. It cannot branch to a second completed object because no such coordinate appears in $R$.
+
+Thus idempotence is a boundary on the displayed completion surface, not an assertion of host quotient equality or selected-limit equality.
+\end{proof}
+
+\begin{theorem}[RegularCauchyCompletionReflector ledger nonescape]
+\label{thm:regular-cauchy-completion-reflector-ledger-nonescape}
+Every downstream consumer of an accepted $\RegularCauchyCompletionReflectorUp$ packet reads the completion reflector through
+$$
+\StreamNameUp,\RegSeqRatUp \longmapsto \RealCauchyCompletionUp \longmapsto \CauchyCompletionMonadUp,\CompletionIdempotenceUp,\CompletionUniversalPropertyUp \longmapsto \hsame,\Cont,\NameCert .
+$$
+The ledger exposes no quotient completion, selected limit representative, host equality of completed objects, countable-choice schedule, detached $\RealUp$ completeness, Lean verification, or bridge-checking row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-completion-reflector-namecert-obligations}. The public read begins with $S,Q$, then reaches the completed real-name row $E$, and only then consumes the monad, idempotence, and universal-property rows $U,I,P$.
+
+The sibling chapters fix the same dependency route: \autoref{ch:concrete-instances-regseqrat-namecert} supplies the regular rational source, \autoref{ch:concrete-instances-real-cauchy-completion-namecert} supplies the completed real-name surface, and \autoref{ch:concrete-instances-cauchycompletionmonad-namecert} supplies the completion monad handoff.
+
+The structural rows $H,C,N$ preserve and name only that displayed route. Hence no refused host-side principle can escape through the local ledger.
+\end{proof}
+
+\closureat{RegularCauchyCompletionReflectorUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyCompletionReflectorUp}
+  \constructivestory{A $\RegularCauchyCompletionReflectorUp$ packet is generated from finite StreamName windows, RegSeqRat readbacks, a RealCauchyCompletion completed row, a CauchyCompletionMonad handoff, a CompletionIdempotence boundary, a CompletionUniversalProperty extension row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-completion-reflector-carrier}, \autoref{thm:regular-cauchy-completion-reflector-namecert-obligations}, \autoref{thm:regular-cauchy-completion-reflector-unit-handoff}, \autoref{thm:regular-cauchy-completion-reflector-idempotence-boundary}, and \autoref{thm:regular-cauchy-completion-reflector-ledger-nonescape} seed the RegSeqRat-specific completion reflector packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completions, selected limits, host equality of completed objects, countable choice, detached $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source regularity, completion admission, unit handoff, idempotence boundary, universal-property compatibility, ledger nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyCompletionReflectorUp.}
+\end{closurestatus}

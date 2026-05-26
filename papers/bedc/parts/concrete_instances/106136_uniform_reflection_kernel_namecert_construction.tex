@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\UniformReflectionKernelUp$}
+\label{ch:concrete-instances-uniform-reflection-kernel-namecert}
+\origin{human}
+
+Following Bourbaki's uniform structures and Kelley's separated uniform reflection, the $\UniformReflectionKernelUp$ packet records the finite indistinguishability kernel through which a uniform space becomes visible to separated and completion-facing consumers. It sits after the entourage rows of \autoref{ch:concrete-instances-uniformspace-namecert}, the displayed separated-uniform boundary of \autoref{ch:concrete-instances-separated-uniform-space-namecert}, the Hausdorff reflection route of \autoref{ch:concrete-instances-hausdorff-reflection-namecert}, and the completion-facing routes of \autoref{ch:concrete-instances-uniform-completion-monad-namecert} and \autoref{ch:concrete-instances-uniform-completion-separation-kernel-namecert}. The packet names the kernel boundary itself; it is not a quotient representative set, not host equality, not a selected completion limit, not Classical choice, and not ambient Real completeness.
+
+\begin{definition}[Uniform reflection kernel carrier]
+\label{def:uniform-reflection-kernel}
+A $\UniformReflectionKernelUp$ carrier is a finite $\BHist$ packet
+$$
+K=(U,K_0,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the $\UniformSpaceUp$ entourage row, exposing finite entourage membership, refinement, inverse, and composition data before any separated consumer is reached.
+\item $K_0$ is the indistinguishability-kernel row over the same entourage surface:
+$$
+x \equiv_{K_0} y
+\quad\Longleftrightarrow\quad
+\text{every displayed entourage row of }U\text{ admits }(x,y).
+$$
+\item $S$ is the separated handoff row, read as either the $\SeparatedUniformSpaceUp$ boundary or the $\HausdorffReflectionUp$ boundary according to the downstream consumer.
+\item $H$ records componentwise $\hsame$ transport for the uniform row, kernel row, separated or Hausdorff handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an entourage request through $U$, then $K_0$, then the separated or Hausdorff handoff $S$.
+\item $P$ is the $\Pkg$ provenance over $\UniformSpaceUp$, $\SeparatedUniformSpaceUp$, $\HausdorffReflectionUp$, $\UniformCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformReflectionKernelUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient representatives, host equality, selected completion limits, Classical choice, quotient stream equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Uniform reflection separated handoff]
+\label{thm:uniform-reflection-separated-handoff}
+Every separated or completion-facing consumer of an accepted $\UniformReflectionKernelUp$ carrier must pass through the finite route
+$$
+\UniformSpaceUp \longmapsto K_0 \longmapsto \SeparatedUniformSpaceUp,\HausdorffReflectionUp \longmapsto \UniformCompletionUp .
+$$
+The consumer first reads the displayed entourage rows, then the indistinguishability-kernel row, then the separated-uniform or Hausdorff-reflection boundary, and only then any completion-facing row. It cannot bypass the kernel through quotient representatives, host equality, selected limits, Classical choice, quotient stream equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-reflection-kernel}. The uniform source is row $U$, and the kernel row $K_0$ is attached to the same displayed entourage data.
+
+The separated handoff is row $S$. By construction, $S$ is available only after $U$ and $K_0$ have been replayed, so a $\SeparatedUniformSpaceUp$ or $\HausdorffReflectionUp$ consumer receives the finite kernel boundary rather than a host quotient.
+
+A completion-facing consumer can then read the $\UniformCompletionUp$ route only through that separated or Hausdorff boundary. The transport, replay, provenance, and local NameCert rows preserve this order, while the excluded quotient, representative, selector, choice, host-equality, and ambient-completeness objects are absent from the carrier.
+\end{proof}
+
+\closureat{UniformReflectionKernelUp}{seedStr}
+
+\begin{closurestatus}{\UniformReflectionKernelUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-reflection-kernel} and \autoref{thm:uniform-reflection-separated-handoff} seed the finite route from displayed uniform entourages through the indistinguishability kernel into separated, Hausdorff-reflection, and uniform-completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient representatives, host equality, selected limits, Classical choice, quotient stream equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, entourage exposure, kernel exactness, separated handoff, Hausdorff reflection handoff, completion nonescape, transport, replay, provenance, and local naming.}
+  \constructivestory{A $\UniformReflectionKernelUp$ packet is generated from UniformSpace entourage rows, an indistinguishability-kernel row, SeparatedUniformSpace or HausdorffReflection handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

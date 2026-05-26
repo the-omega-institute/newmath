@@ -40,3 +40,19 @@ Next use source/value admission and substitution-row exactness. By \autoref{thm:
 
 Finally apply \autoref{thm:closed-term-substitution-boundary-ledger-non-escape}, together with the consumer boundary supplied by \autoref{thm:closed-term-substitution-boundary-consumer-boundary}. The ledger and consumer rows contain no coordinate for free variables, host equality, unchecked compiler state, subject reduction, or host substitution semantics, so no consumer can recover those objects from the packet.
 \end{proof}
+
+\begin{corollary}[Closed-term substitution boundary strict local obstruction]
+\label{cor:closed-term-substitution-boundary-route-saturation-strict-obstruction}
+Let $O$ be a displayed failure, refusal, separation, or countermodel row cited against a named converse or reuse route for an accepted $\ClosedTermSubstitutionBoundaryUp$ packet. If the named route is consumer-facing, then $O$ is a strict local obstruction: it blocks only the attempted read that factors through
+$$
+T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N
+$$
+and then tries to omit, replace, detach, or bypass one of the displayed packet coordinates or one of the BEDC primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The same row cannot be reinterpreted as a global impossibility statement, host theorem, hidden external validation, host substitution semantics, host equality witness, unchecked compiler state, subject-reduction theorem, or unregistered free-variable route.
+\end{corollary}
+\begin{proof}
+By \autoref{thm:closed-term-substitution-boundary-route-saturation}, every accepted route of the packet is already exhausted by the displayed finite carrier rows and by the listed BEDC primitives. Thus a converse or reuse route has no independent entry point for a host substitution relation, host equality witness, unchecked compiler state, subject-reduction theorem, or unregistered free variable. Its consumer-facing content must first be a read of the term row, value row, inspected depth, source and value closedness rows, operation rows, finite ledger, audit row, componentwise transport, displayed continuation, package provenance, and local naming row.
+
+Now apply \autoref{thm:closed-term-substitution-boundary-consumer-nonescape}. A consumer cannot recover an unregistered free variable, host equality, unchecked compiler state, subject reduction, or host substitution semantics from those rows. Therefore any consumer-facing use of $O$ can reach only the named local route whose read has already factored through the displayed packet. If that route asks to omit, replace, detach, or bypass one of the listed coordinates, the row $O$ blocks that named attempt.
+
+The remaining interpretations ask for something outside the accepted route surface: a global impossibility statement, a host theorem, hidden external validation, host substitution semantics, host equality, unchecked compiler state, subject reduction, or an unregistered free-variable route. Route saturation supplies no coordinate for such a request, and consumer non-escape explicitly prevents recovering it from the packet. Hence $O$ has force only as the strict local obstruction to the named converse or reuse route, while every consumer read that stays inside the displayed rows remains a read of the accepted $\ClosedTermSubstitutionBoundaryUp$ packet.
+\end{proof}

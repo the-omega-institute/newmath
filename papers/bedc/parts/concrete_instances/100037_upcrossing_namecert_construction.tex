@@ -72,6 +72,46 @@ Thus the dependency route is exhausted by $\ProbSpaceUp$, $\RandomVarUp$, $\Cond
 \end{proof}
 \leanchecked{BEDC.Derived.UpcrossingUp.UpcrossingMartingaleRoute}
 
+\begin{theorem}[Upcrossing finite-ledger induction boundary]
+\label{thm:upcrossing-finite-ledger-induction-boundary}
+Every accepted $\UpcrossingUp$ carrier computes its completed crossing count by induction on the displayed finite alternating lower and upper decision ledger $(L,S)$. The induction preserves boundary endpoints, endpoint rows, bounded $\OptionalStoppingUp$ windows, and crossing-count rows under componentwise $\hsame$ transport. An empty ledger gives zero completed crossings; a lower row opens a pending crossing; an upper row after a pending lower row adds exactly one completed count; and every case remains inside the displayed $\MartingaleUp$, $\RandomVarUp$, $\CondExpUp$, $\OptionalStoppingUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Inspect the finite ledger $(L,S)$ in \autoref{def:upcrossing-carrier}. The empty ledger has no lower row and no upper row, so the completed crossing count is the displayed zero count.
+
+For the induction step with a lower row, the row is read from a displayed martingale endpoint against the boundary endpoint $a$. If no crossing is pending, the row opens one pending crossing and changes no completed count; if a pending crossing is already open, the finite state remains pending without exporting another object.
+
+For the induction step with an upper row after a pending lower row, the row is read from the displayed endpoint against $b$. The pending lower row and this upper row form one completed lower-to-upper pair, so the completed-count row adds exactly one.
+
+All transport is componentwise. The endpoint rows, boundary endpoints, stopped windows, decision rows, and crossing-count row are all coordinates of the same $\UpcrossingUp$ carrier, so $\hsame$ transport and $\Cont$ replay preserve the finite induction without adding an unbounded stopping theorem or a convergence principle.
+\end{proof}
+
+\begin{theorem}[Upcrossing inequality handoff to martingale convergence]
+\label{thm:upcrossing-inequality-martingale-convergence-handoff}
+Every accepted $\UpcrossingUp$ packet exports exactly the finite rows later consumed by a $\MartingaleConvergenceUp$ packet: displayed lower and upper $\RealUp$ boundary rows, finite martingale endpoint rows, lower and upper decision ledgers, bounded $\OptionalStoppingUp$ stopped-window rows, and the crossing-count ledger. The handoff is a finite dependency route, not a martingale convergence theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:upcrossing-carrier}. The boundary endpoints are $a$ and $b$, the finite martingale endpoint family is $V$, the lower and upper decision ledgers are $L$ and $S$, and the crossing-count read is computed from those displayed ledgers.
+
+Apply \autoref{thm:upcrossing-namecert-obligations}. The certificate surface exposes the boundary-decision stability, martingale-window handoff, and ledger exactness rows required by any downstream convergence-preparation packet.
+
+Apply \autoref{thm:upcrossing-martingale-route}. Every stopped-window read factors through the finite $\OptionalStoppingUp$ route over the consumed $\MartingaleUp$ packet, and no host stochastic process or limiting event is exported.
+
+Thus the only data passed to $\MartingaleConvergenceUp$ is the displayed finite upcrossing handoff. Since no convergence coordinate is present in the carrier, the theorem records a dependency route rather than a convergence result.
+\end{proof}
+
+\begin{theorem}[Upcrossing MartingaleConvergence consumer route]
+\label{thm:upcrossing-martingale-convergence-consumer}
+Every $\MartingaleConvergenceUp$ consumer of an accepted $\UpcrossingUp$ row, as named by \autoref{ch:concrete-instances-martingale-convergence-namecert}, must pass through the finite lower and upper decision ledgers, the bounded $\OptionalStoppingUp$ stopped-window rows, and the Doob-upcrossing handoff of \autoref{thm:upcrossing-inequality-martingale-convergence-handoff}. The consumer receives only displayed lower and upper $\RealUp$ boundary rows, finite martingale endpoint rows, lower and upper decision rows, bounded stopped-window routes, crossing-count data, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows; it receives no limiting event, almost-sure quotient, convergence theorem, unbounded stopping principle, or completed measure carrier.
+\end{theorem}
+\begin{proof}
+Project the accepted $\UpcrossingUp$ carrier. Its convergence-preparation data are the lower and upper boundary endpoints, finite martingale endpoint rows, lower and upper decision ledgers, and crossing-count row.
+
+Apply the martingale route and NameCert obligations. The stopped-window reads are bounded by the displayed $\OptionalStoppingUp$ rows, and the decision ledgers are transported only componentwise and replayed only through the displayed continuation routes.
+
+Finally use \autoref{thm:upcrossing-inequality-martingale-convergence-handoff}. The handoff identifies exactly the rows available to the downstream $\MartingaleConvergenceUp$ packet. Since those rows contain no limiting event or convergence coordinate, the consumer route is finite and no-escape rather than a convergence claim.
+\end{proof}
+
 \begin{theorem}[Upcrossing no-escape boundary]
 \label{thm:upcrossing-nonescape}
 The public boundary of $\UpcrossingUp$ exports only the finite crossing-count ledger for a displayed martingale window and fixed boundary pair $a<_R b$. It exports no martingale convergence theorem, no almost-sure quotient equality, no unbounded stopping principle, no measure completion, and no standard bridge beyond the finite rows explicitly carried by \autoref{def:upcrossing-carrier}.

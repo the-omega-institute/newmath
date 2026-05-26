@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\PoincareBoundaryFixedTransportUp$}
+\label{ch:concrete-instances-poincare-boundary-fixed-transport-namecert}
+\origin{ai}
+
+The $\PoincareBoundaryFixedTransportUp$ packet realizes the boundary-fixed disk transport reading of \autoref{def:hyperbolic-boundary-fixed-disk-transport} as finite disk-map, boundary, hyperbolic-metric, reversible-transport, provenance, refusal, and local naming rows. It sits after the disk-coordinate surface of \autoref{ch:concrete-instances-unitdisk-namecert}, the disk-phase transport packet of \autoref{ch:concrete-instances-poincare-disk-phase-transport-namecert}, the metric-read surface of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, and the geodesic far-end boundary of \autoref{ch:concrete-instances-hyperbolic-geodesic-boundary-namecert}. The chapter names a finite boundary-preserving transport object; it does not turn the Poincare disk into a host plane, identify ideal boundary points by quotient equality, choose a global geodesic representative, or assert physical observer motion.
+
+\begin{definition}[Poincare boundary-fixed transport carrier]
+\label{def:poincare-boundary-fixed-transport-carrier}
+A $\PoincareBoundaryFixedTransportUp$ carrier is a finite $\BHist$ packet
+$$
+B=(D,F,M,T,P,R,H,C,A,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\UnitDiskUp$ disk-map row, exposing the finite source and target disk-coordinate observations.
+\item $F$ is the boundary far-end row, recording the displayed $\HyperbolicGeodesicBoundaryUp$ far-end that must remain fixed by the transport.
+\item $M$ is the $\HyperbolicMetricUp$ metric-read row over the same disk-map data.
+\item $T$ is the reversible $\PoincareDiskPhaseTransportUp$ row carrying the phase-transport route between the displayed disk observations.
+\item $P$ is the provenance row tying $D,F,M,T$ to the hyperbolic phase vision and to the sibling UnitDisk, HyperbolicMetric, PoincareDiskPhaseTransport, and HyperbolicGeodesicBoundary packets.
+\item $R$ is the refusal row excluding host disk automorphisms, quotient ideal-boundary equality, selected geodesic representatives, physical observer motion, and global cosmological dynamics.
+\item $H$ records componentwise $\hsame$ transport for disk-map, boundary far-end, metric-read, reversible-transport, provenance, refusal, replay, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through disk-map admission, boundary far-end preservation, metric-read compatibility, reversible transport, provenance, and refusal.
+\item $A$ records the local transport audit row: every accepted replay must preserve the displayed boundary far-end while reading the same disk-map and metric rows.
+\item $N$ is the local $\NameCert_{\PoincareBoundaryFixedTransportUp}$ row.
+\end{enumerate}
+The carrier exports boundary-fixed disk transport only through $D,F,M,T,P,R,H,C,A,N$. It has no coordinate for a host-level disk automorphism, quotient boundary point, selected infinite geodesic, physical observer trajectory, or completed hyperbolic plane.
+\end{definition}
+
+\begin{theorem}[Poincare boundary-fixed transport NameCert obligations]
+\label{thm:poincare-boundary-fixed-transport-namecert-obligations}
+For every accepted $\PoincareBoundaryFixedTransportUp$ carrier
+$$
+B=(D,F,M,T,P,R,H,C,A,N),
+$$
+the local $\NameCert_{\PoincareBoundaryFixedTransportUp}$ surface consists exactly of disk-map admission, boundary far-end preservation, hyperbolic-metric read compatibility, reversible Poincare-disk transport, provenance, refusal exactness, componentwise $\hsame$ transport, displayed $\Cont$ replay, local transport audit, and local naming.
+
+Every accepted transport preserving the boundary far-end must factor through
+$$
+\UnitDiskUp,\ \HyperbolicGeodesicBoundaryUp,\ \HyperbolicMetricUp,\ \PoincareDiskPhaseTransportUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Disk-map admission is row $D$, the fixed far-end is row $F$, the metric read is row $M$, and the reversible disk transport is row $T$.
+
+The provenance and refusal rows $P,R$ bind these four rows to the sibling packets and exclude host-level automorphisms, quotient boundary equality, selected geodesics, physical observer motion, and global cosmology.
+
+Transport through $H$ and replay through $C$ preserve the same displayed route. The audit row $A$ checks that the far-end row $F$ is the same before and after the transport, and $N$ names the resulting packet. No further row remains, so the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\PoincareBoundaryFixedTransportUp$ transport preserving the boundary far-end factors through displayed $\UnitDiskUp$, $\HyperbolicMetricUp$, $\PoincareDiskPhaseTransportUp$, $\HyperbolicGeodesicBoundaryUp$, provenance, refusal, $\hsame$, $\Cont$, and local $\NameCert$ rows.}
+
+\independenceWitness{unitdisk, poincare-disk-phase-transport, hyperbolic-metric, hyperbolic-geodesic-boundary: the UnitDisk packet records disk coordinates without reversible transport or fixed far-end data, the Poincare disk phase-transport packet records reversible transport without fixed-boundary audit, the HyperbolicMetric packet records metric reads without transport preservation, and the HyperbolicGeodesicBoundary packet records far-end incidence without a disk-map transport replay. None is bijective to $\PoincareBoundaryFixedTransportUp$.}
+
+\closureat{PoincareBoundaryFixedTransportUp}{seedStr}
+
+\begin{closurestatus}{\PoincareBoundaryFixedTransportUp}
+  \constructivestory{A $\PoincareBoundaryFixedTransportUp$ packet is generated from UnitDisk disk-map rows, HyperbolicGeodesicBoundary far-end rows, HyperbolicMetric metric reads, PoincareDiskPhaseTransport reversible transport, provenance, refusal exactness, componentwise hsame transport, displayed Cont replay, local transport audit, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:poincare-boundary-fixed-transport-carrier} and \autoref{thm:poincare-boundary-fixed-transport-namecert-obligations} seed the finite boundary-fixed disk transport route over disk-map, boundary, metric, transport, provenance, refusal, replay, audit, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host disk automorphisms, quotient boundary equality, selected geodesic representatives, physical observer motion, global cosmological dynamics, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked disk-map admission, boundary far-end preservation, metric-read compatibility, reversible transport, provenance, refusal exactness, transport, replay, audit, and local naming for BEDC.Derived.PoincareBoundaryFixedTransportUp.}
+\end{closurestatus}

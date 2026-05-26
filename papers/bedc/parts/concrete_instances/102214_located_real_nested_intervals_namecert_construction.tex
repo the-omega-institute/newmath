@@ -63,6 +63,65 @@ The readback stage is $S,R$. The stream windows are taken from the retained endp
 Finally the seal stage is $E,H,C,P,N$. The $\RealUp$ seal is reached only after the regular readback, and the structural rows transport, replay, package, and name the same finite route. Since the carrier has no host intersection, quotient-representative selector, compactness, choice, or completeness coordinate, the displayed route is exhaustive.
 \end{proof}
 
+\begin{definition}[Located real nested intervals classifier]
+\label{def:located-real-nested-intervals-classifier}
+For an accepted $\LocatedRealNestedIntervalsUp$ carrier $Z=(I,B,M,D,J,S,R,E,H,C,P,N)$, the local classifier is the finite predicate that admits exactly the reads transported through the following rows:
+\begin{enumerate}
+\item the source transported located interval row $I$;
+\item the bisection branch row $B$ and midpoint row $M$;
+\item the diameter-budget row $D$ and nested-containment row $J$;
+\item the $\StreamNameUp$ row $S$ and $\RegSeqRatUp$ readback row $R$;
+\item the terminal $\RealUp$ seal $E$;
+\item the transport, replay, provenance, and local naming rows $H,C,P,N$.
+\end{enumerate}
+The classifier rejects every read that bypasses one of these rows or asks for a host interval intersection, a selected quotient representative, open-cover compactness, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located real nested intervals NameCert obligations]
+\label{thm:located-real-nested-intervals-namecert-obligations}
+For every accepted $\LocatedRealNestedIntervalsUp$ carrier $Z=(I,B,M,D,J,S,R,E,H,C,P,N)$, the local $\NameCert_{\LocatedRealNestedIntervalsUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the located interval row, bisection row, midpoint row, diameter budget, containment row, stream windows, regular readback, Real seal, transport, replay, provenance, and local naming;
+\item classifier stability under componentwise $\hsame$ transport of $I,B,M,D,J,S,R,E$;
+\item diameter contraction for every retained interval row exposed by $J$;
+\item nested containment from the source located interval through the retained branch and midpoint rows;
+\item $\StreamNameUp$ window exposure using only the retained endpoint windows fixed by $D,J$;
+\item $\RegSeqRatUp$ readback from the same retained windows;
+\item $\RealUp$ seal nonescape through $S,R,E$;
+\item displayed $\Cont$ replay and $\Pkg$ provenance for the whole route;
+\item ledger refusal for any consumer that omits a located interval row, bisection row, midpoint row, diameter budget, containment row, stream window, regular readback, Real seal, transport row, replay row, provenance row, or local naming row.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-real-nested-intervals-carrier}. This gives the displayed rows $I,B,M,D,J,S,R,E,H,C,P,N$ and no additional host-level intersection, quotient, compactness, choice, or completeness coordinate.
+
+The classifier is stable because \autoref{def:located-real-nested-intervals-classifier} is defined rowwise from the transported located interval, bisection, midpoint, diameter, containment, stream, readback, and seal rows. Componentwise $\hsame$ transport therefore preserves exactly the admitted reads.
+
+The diameter and containment obligations are the two gates of \autoref{thm:located-real-nested-intervals-diameter-contracts}. Every retained interval window downstream of $J$ first reads the budget row $D$, then the containment row $J$.
+
+The readback and seal obligations are chained through \autoref{thm:located-real-nested-intervals-point-name}. The route reaches $S,R$ only after $D,J$, and it reaches $E$ only after the StreamName and RegSeqRat rows have been displayed.
+
+Finally $H,C,P,N$ transport, replay, package, and name the same finite route. Any consumer missing one of the listed rows fails the local classifier and is refused by the NameCert ledger.
+\end{proof}
+
+\begin{theorem}[Located real nested intervals Real seal nonescape]
+\label{thm:located-real-nested-intervals-real-seal-nonescape}
+Every $\RealUp$-facing read accepted by the $\LocatedRealNestedIntervalsUp$ classifier passes through
+$$
+I,B,M,D,J,S,R,E,H,C,P,N .
+$$
+In particular, no accepted read reaches the terminal $\RealUp$ seal from a host interval-intersection object, a selected quotient representative, an open-cover compactness proof, a countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Let a read be accepted by the classifier of \autoref{def:located-real-nested-intervals-classifier}. By definition, the read is classified only when it is transported through the source located interval, bisection, midpoint, diameter-budget, containment, stream-window, regular-readback, Real-seal, transport, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:located-real-nested-intervals-diameter-contracts} to the retained interval stage. The read cannot reach $S$ before the contraction row $D$ and containment row $J$ have been displayed.
+
+Apply \autoref{thm:located-real-nested-intervals-point-name} to the terminal route. The read reaches $E$ only after $I,B,M,D,J,S,R$ and remains packaged by $H,C,P,N$.
+
+The carrier of \autoref{def:located-real-nested-intervals-carrier} contains no alternate coordinate for host intersection, quotient selection, compactness, choice, or completeness. Hence every accepted $\RealUp$-facing read is forced through the displayed finite route.
+\end{proof}
+
 \closureat{LocatedRealNestedIntervalsUp}{seedStr}
 
 \begin{closurestatus}{\LocatedRealNestedIntervalsUp}

@@ -1,0 +1,63 @@
+\begin{definition}[Cauchy root stream carrier]
+\label{def:cauchy-root-stream-carrier}
+A $\CauchyUp$ root stream carrier is a finite $\BHist$ packet
+$$
+Q=(S,T,M,W,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $S$ is the certified finite observation stream. It records only the visible request windows that a Cauchy consumer may inspect.
+\item $T$ is the tail-threshold row. It assigns each displayed precision request a later visible window of $S$.
+\item $M$ is the modulus row. It records the finite evidence that two observations past the displayed threshold meet the requested tolerance.
+\item $W$ is the witness ledger. It stores the accepted comparisons between observed entries, not a quotient class, selected limit, or ambient completeness theorem.
+\item $H$ is componentwise $\hsame$ transport for the stream, threshold, modulus, witness, replay, provenance, and naming rows.
+\item $C$ is displayed $\Cont$ replay from an admitted Cauchy request through $S,T,M,W,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyUp}$ row.
+\end{enumerate}
+The classifier compares accepted root stream packets only through the displayed tuple $S,T,M,W,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Cauchy root tail stability]
+\label{thm:cauchy-root-tail-stability}
+Let $Q=(S,T,M,W,H,C,P,N)$ be an accepted $\CauchyUp$ root stream carrier. Every $\hsame$ transport of $Q$ and every displayed $\Cont$ replay of a Cauchy request preserves the tail-threshold row $T$, the modulus row $M$, and the witness ledger $W$ as componentwise rows over the same finite observation stream $S$. Consequently a tail read transported or replayed from $Q$ remains a Cauchy root stream read, and it does not acquire a quotient stream equality, a selected limit, a choice schedule, or a host completeness assertion.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-root-stream-carrier}. The only rows available to a Cauchy request are the displayed stream window, tail threshold, modulus, witness ledger, transport, replay, provenance, and naming rows.
+
+The $\hsame$ row $H$ is componentwise by definition of the carrier surface. It transports $S,T,M,W,C,P,N$ as rows of the same packet, so it cannot introduce a second stream, an external representative, or an ambient equality oracle.
+
+The $\Cont$ row $C$ replays an admitted request through the displayed packet. Since the replay reads $T,M,W$ after $S$ and before $P,N$, the transported request still witnesses the same finite tail-stability surface.
+\end{proof}
+
+\begin{theorem}[Cauchy root NameCert obligation surface]
+\label{thm:cauchy-root-namecert-obligation-surface}
+For every accepted $\CauchyUp$ root stream carrier $Q=(S,T,M,W,H,C,P,N)$, the local $\NameCert_{\CauchyUp}$ obligation surface consists exactly of the following rows:
+\begin{enumerate}
+\item carrier admission for the finite observation stream $S$;
+\item classifier admission for the tail-threshold row $T$ and modulus row $M$;
+\item stability under componentwise $\hsame$ transport $H$ and displayed $\Cont$ replay $C$;
+\item comparison fidelity for the witness ledger $W$ against the displayed tolerance requests;
+\item provenance and local naming through $P$ and $N$.
+\end{enumerate}
+No obligation row certifies quotient streams, selected limits, countable choice, host real equality, or an ambient completion theorem.
+\end{theorem}
+\begin{proof}
+Read the eight rows of \autoref{def:cauchy-root-stream-carrier}. Carrier admission is the row $S$, while classifier admission is carried by the threshold and modulus rows $T,M$.
+
+Stability is supplied by the structural rows $H$ and $C$. These rows keep the request inside the displayed packet and force every transported or replayed tail read to pass through the same finite stream surface.
+
+The witness ledger $W$ supplies the comparison data for the displayed tolerance requests, and $P,N$ source and name the packet. Since no remaining coordinate exists, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy root completion consumer route]
+\label{thm:cauchy-root-completion-consumer-route}
+Every completion-facing consumer of an accepted $\CauchyUp$ root stream carrier first reads the finite stream row of \autoref{ch:concrete-instances-streamname-namecert}, then the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, then the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. Metric and uniform completion consumers may use the same displayed route only after those rows have exposed the tail threshold, modulus, and witness ledger of $Q$.
+\end{theorem}
+\begin{proof}
+Start with a completion-facing read from $Q$. The carrier projection exposes the finite stream row before any threshold, modulus, witness, or structural row can be consumed.
+
+The stream row is then read through the regular rational route. This is the point at which completion-facing consumers can inspect the finite rational data attached to the Cauchy window, while the Real seal remains downstream.
+
+Finally the terminal Real seal is consumed after the tail-threshold, modulus, and witness rows are visible. The route therefore reaches completion consumers through StreamName, RegSeqRat, and RealUp data, not through quotient completions or selected representatives.
+\end{proof}

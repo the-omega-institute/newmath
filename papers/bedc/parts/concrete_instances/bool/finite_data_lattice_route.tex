@@ -1,0 +1,26 @@
+\begin{theorem}[Bool finite-data lattice route]
+\label{thm:bool-finite-data-lattice-route}
+The $\BoolUp$ endpoint classifier supplies the binary tag row consumed by the
+constructor-disjointness surface of $\OptionUp$ in
+\autoref{ch:concrete-instances-option-namecert} and by the tagged-branch
+separation surface of $\SumUp$ in
+\autoref{ch:concrete-instances-sum-namecert}. Any finite-data consumer that
+passes through both sibling chapters reads the same two boolean endpoint rows
+before it distinguishes absent/present option branches or left/right sum
+branches.
+\end{theorem}
+\begin{proof}
+Project the $\BoolUp$ endpoint surface through
+\autoref{thm:bool-carrier-classifier-endpoint-exactness}. The only displayed
+tags are the empty endpoint and the one-step endpoint, and their classifier
+separation is fixed before any sibling payload row is inspected.
+
+The $\OptionUp$ consumer reads those tags as the absent/present discriminator,
+while the $\SumUp$ consumer reads them as the visible branch separator. In both
+cases the sibling chapter supplies its own payload or branch carrier after the
+boolean tag row has already selected the finite-data face.
+
+Thus the lattice route exports exactly the binary tag discipline supplied by
+$\BoolUp$. It does not add option payload equality, sum branch equality, or a
+host finite-type equality outside the displayed endpoint classifier.
+\end{proof}

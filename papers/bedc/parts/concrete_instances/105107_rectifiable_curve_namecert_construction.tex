@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\RectifiableCurveUp$}
+\label{ch:concrete-instances-rectifiable-curve-namecert}
+\origin{human}
+
+Following Burago--Burago--Ivanov metric geometry and Bishop--Bridges constructive analysis, the $\RectifiableCurveUp$ packet records rectifiability by finite partition-length ledgers over a displayed metric path. It consumes the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the continuous-path graph surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the dyadic length rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the finite variation boundary of \autoref{ch:concrete-instances-boundedvariation-namecert}. The packet names only the partition-level length certificate; it is not a completed path space, not an arclength supremum, and not quotient equality of curves.
+
+\begin{definition}[Rectifiable curve carrier]
+\label{def:rectifiable-curve-carrier}
+A $\RectifiableCurveUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,d,\gamma,I,\Pi,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X,d$ is the accepted $\MetricUp$ carrier and distance row.
+\item $\gamma$ is the $\ContinuousMapUp$ graph row for a path from the interval row $I$ into $X$.
+\item $I$ is the finite interval row supplying the ordered endpoint and subdivision domain.
+\item $\Pi$ is the ordered finite partition ledger over $I$, including adjacency and refinement witnesses.
+\item $L$ is the $\DyadicRatCoreUp$ edge-length sum row obtained by reading $d(\gamma(t_i),\gamma(t_{i+1}))$ on the displayed partition edges.
+\item $R$ is the common-refinement row comparing two displayed partition ledgers and their induced dyadic length sums.
+\item $H$ records componentwise $\hsame$ transport of the metric carrier, path graph, interval row, partition ledger, dyadic length sum, common-refinement row, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay for metric reads, path evaluation, interval subdivision, edge-distance readback, length summation, and refinement comparison.
+\item $P$ is the $\Pkg$ provenance row over $\RectifiableCurveUp$, $\MetricUp$, $\ContinuousMapUp$, $\RealUp$, $\DyadicRatCoreUp$, $\BoundedVariationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RectifiableCurveUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a supremum over all partitions, quotient equality of paths, completed path spaces, host arclength measures, or bridge evidence. Its public object is the finite partition-length route from $X,d,\gamma,I,\Pi,L,R$ through $H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Rectifiable curve NameCert obligations]
+\label{thm:rectifiable-curve-namecert-obligations}
+For the carrier of \autoref{def:rectifiable-curve-carrier}, the local $\NameCert_{\RectifiableCurveUp}$ surface consists of exactly five obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite packet $K=(X,d,\gamma,I,\Pi,L,R,H,C,P,N)$;
+\item common-refinement classification for displayed partition ledgers through $R$;
+\item dyadic edge-length exactness for the sum row $L$ over the adjacent edges of $\Pi$;
+\item componentwise $\hsame$ and $\Cont$ transport for metric reads, path graph reads, partition reads, edge-distance readbacks, and length-sum replay;
+\item exclusion of arclength suprema, quotient path equality, completed path spaces, and bridge evidence from the local certificate.
+\end{enumerate}
+Every metric, variation, or path-length consumer must therefore read rectifiability through the displayed finite partition row and its dyadic length ledger before any completion-facing object can be considered.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $X,d,\gamma,I,\Pi,L,R$ are the only geometric coordinates, while $H,C,P,N$ only transport, replay, source, and name that same finite packet.
+
+Read the partition route in order. The interval row $I$ supplies the ordered domain, the path graph $\gamma$ supplies endpoint reads in the metric carrier, and the partition ledger $\Pi$ lists the adjacent edge reads consumed by $L$.
+
+Common refinement is finite. The row $R$ compares two displayed partition ledgers by refinement witnesses and compares only their induced dyadic edge-length sums, so the classifier never ranges over all partitions.
+
+The structural rows preserve this boundary. Since no carrier coordinate names an arclength supremum, quotient path equality, completed path space, or bridge datum, the five listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\closureat{RectifiableCurveUp}{seedStr}
+
+\begin{closurestatus}{\RectifiableCurveUp}
+  \constructivestory{A $\RectifiableCurveUp$ packet is generated from a MetricUp carrier and distance row, a ContinuousMapUp path graph, a finite interval row, an ordered partition ledger, a DyadicRatCoreUp edge-length sum, a common-refinement row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rectifiable-curve-carrier} and \autoref{thm:rectifiable-curve-namecert-obligations} name the finite partition-length carrier and its five-row NameCert obligation surface over $\MetricUp$, $\ContinuousMapUp$, $\RealUp$, $\DyadicRatCoreUp$, and $\BoundedVariationUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim an arclength supremum, quotient equality of paths, completed path spaces, host measure construction, ambient metric completion, or bridge evidence.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-refinement classification, dyadic edge-length exactness, transport, replay, provenance, and ledger non-escape for BEDC.Derived.RectifiableCurveUp.}
+\end{closurestatus}

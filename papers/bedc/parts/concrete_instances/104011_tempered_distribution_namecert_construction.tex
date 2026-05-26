@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\TemperedDistributionUp$}
+\label{ch:concrete-instances-tempered-distribution-namecert}
+\origin{human}
+
+Following Schwartz and Gelfand--Shilov, the $\TemperedDistributionUp$ packet records the finite observable face of a tempered distribution as a continuous linear action on Schwartz-test windows. The chapter connects the distribution row of \autoref{ch:concrete-instances-distribution-namecert}, the finite Fourier observation surface of \autoref{ch:concrete-instances-fourier-namecert}, the weak-derivative route of \autoref{ch:concrete-instances-weak-derivative-namecert}, the Sobolev comparison surface of \autoref{ch:concrete-instances-sobolev-namecert}, and the terminal real readback of \autoref{ch:concrete-instances-real-namecert}. It names only the BEDC certificate surface for these finite rows; it does not import a completed Schwartz space, a host distribution equality relation, quotient dual spaces, or a global topological-vector-space completeness theorem.
+
+\section{Carrier definition}
+\label{sec:tempered-distribution-carrier}
+
+\begin{definition}[Tempered distribution carrier]
+\label{def:tempered-distribution-carrier}
+A $\TemperedDistributionUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+T=(S,G,A,F,W,Q,E,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite Schwartz-test window row. It records the named test functions visible to the packet, their finite derivative orders, polynomial weights, support windows when present, and the requested observation indices.
+\item $G$ is the polynomial-growth ledger. It records the displayed seminorm bounds used to admit each test row and each derivative row.
+\item $A$ is the $\DistributionUp$ action row. It records the finite list of test-window evaluations and their $\RealUp$ or $\RegSeqRatUp$ endpoints.
+\item $F$ is the $\FourierUp$ coefficient and test-transform row. It records finite transform observations for the same test windows and the coefficient windows consumed by Fourier-facing reads.
+\item $W$ is the $\WeakDerivativeUp$ and $\SobolevUp$ compatibility row. It records integration-by-parts signs, derivative-order shifts, and Sobolev-window comparisons that are explicitly displayed in the packet.
+\item $Q$ is the $\RegSeqRatUp$ readback row for rational approximation windows of the action and transform endpoints.
+\item $E$ is the terminal $\RealUp$ seal row reached by the displayed readback route.
+\item $L$ is the local classifier row. It admits two packets together exactly when their Schwartz-test windows, polynomial-growth ledgers, distribution-action rows, Fourier rows, weak-derivative and Sobolev rows, rational readbacks, and real seals match componentwise.
+\item $H$ records componentwise $\hsame$ transport for all visible rows.
+\item $C$ records displayed $\Cont$ replay from a tempered-distribution request through $S,G,A,F,W,Q,E,L,H$ in that order.
+\item $P$ is the $\Pkg$ provenance row over $\TemperedDistributionUp$, $\DistributionUp$, $\FourierUp$, $\WeakDerivativeUp$, $\SobolevUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TemperedDistributionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. No coordinate stores a completed Schwartz space, an unrestricted continuous dual, host equality of distributions, quotient test-function equality, selected representative, countable choice schedule, or ambient completeness principle.
+\end{definition}
+
+\section{The certificate}
+\label{sec:tempered-distribution-certificate}
+
+\begin{theorem}[Tempered distribution NameCert obligations]
+\label{thm:tempered-distribution-namecert-obligations}
+For every accepted $\TemperedDistributionUp$ carrier $T=(S,G,A,F,W,Q,E,L,H,C,P,N)$, the local $\NameCert_{\TemperedDistributionUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the Schwartz-test window, polynomial-growth ledger, distribution-action, Fourier, weak-derivative and Sobolev compatibility, rational readback, real seal, classifier, transport, replay, provenance, and local naming rows;
+\item action exactness, requiring every displayed evaluation of the distribution against a test window to pass through $A$ after the corresponding test row in $S$ and growth ledger in $G$ have been opened;
+\item polynomial-growth stability, requiring tightened derivative or weight requests to replay the same ledger $G$ before any action or transform endpoint is read;
+\item Fourier compatibility, requiring every finite transform or coefficient read to pass through $F$ and then through the same $Q,E$ readback route as the action row;
+\item weak-derivative and Sobolev compatibility, requiring every derivative-order shift, sign row, or Sobolev-window comparison to pass through $W$ before the packet is exported;
+\item componentwise $\hsame$, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ closure through $L,H,C,P,N$.
+\end{enumerate}
+No obligation outside these rows is part of the certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tempered-distribution-carrier}. The row inventory gives the whole finite packet, so carrier admission is exhausted by $S,G,A,F,W,Q,E,L,H,C,P,N$.
+
+The Schwartz-test row $S$ fixes which tests and derivative orders are visible. The growth ledger $G$ must be read before any action endpoint, because it is the row that admits the displayed seminorm and polynomial-weight data.
+
+The action row $A$ then supplies only finite evaluations against those admitted tests. The rational and real endpoints of those evaluations pass through $Q$ and $E$, so there is no detached real seal or host distribution value.
+
+The Fourier and derivative routes are likewise internal rows. The Fourier row $F$ records finite coefficient and test-transform observations, while $W$ records the weak-derivative signs and Sobolev-window comparisons. Transport, replay, provenance, and naming rows compare and repack the same data, and none of them adds a completed test-function space, unrestricted dual, quotient equality, selected representative, choice schedule, or ambient completeness theorem.
+\end{proof}
+
+\begin{theorem}[Tempered distribution Fourier handoff]
+\label{thm:tempered-distribution-fourier-handoff}
+Every accepted $\TemperedDistributionUp$ read exported to a Fourier-facing consumer factors through
+$$
+S,G,A\longmapsto F\longmapsto W,Q,E\longmapsto L,H,C,P,N .
+$$
+Thus the consumer receives the displayed Schwartz-test window, polynomial-growth ledger, distribution-action row, finite Fourier coefficient and test-transform row, weak-derivative and Sobolev compatibility row, rational readback, real seal, classifier, componentwise transport, replay, provenance, and local naming. It receives no completed Schwartz topology, host distribution equality, quotient dual object, selected representative, countable choice schedule, Plancherel theorem, inversion theorem, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with a Fourier-facing read. The test row $S$ and growth ledger $G$ must be visible before the packet can expose a distribution action, because the finite transform request is attached to the same admitted test windows.
+
+Read $A$ next. It supplies the finite action endpoints against the admitted tests and records the source $\DistributionUp$ route for those endpoints.
+
+The handoff to $F$ is then a finite-observation handoff: coefficient windows and test-transform rows are exposed as $\FourierUp$ packages, not as host transforms of a completed function space. The compatibility row $W$ records exactly the weak-derivative signs and Sobolev comparisons that are part of the same request.
+
+Finally $Q,E,L,H,C,P,N$ read back, compare, replay, source, and name the same route. Since none of these rows contains a completed Schwartz topology, host equality, quotient dual, selected representative, choice schedule, Plancherel theorem, inversion theorem, or ambient completeness witness, the Fourier consumer receives only the displayed finite certificate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\TemperedDistributionUp$ consumer that reaches a Fourier coefficient, weak-derivative sign, Sobolev comparison, or $\RealUp$ seal without first reading the finite Schwartz-test window and polynomial-growth ledger refutes the carrier surface.}
+
+\independenceWitness{distribution, fourier, weakderivative, sobolev, regseqrat, real: none is bijective to $\TemperedDistributionUp$ because this packet jointly carries finite Schwartz-test windows, polynomial-growth ledgers, distribution actions, Fourier coefficient and transform rows, weak-derivative and Sobolev compatibility rows, rational readbacks, real seals, classifier, transport, replay, provenance, and local naming.}
+
+\closureat{TemperedDistributionUp}{seedStr}
+
+\begin{closurestatus}{\TemperedDistributionUp}
+  \constructivestory{A $\TemperedDistributionUp$ packet is generated from finite Schwartz-test windows, polynomial-growth ledger rows, displayed $\DistributionUp$ actions, finite $\FourierUp$ coefficient and test-transform observations, $\WeakDerivativeUp$ and $\SobolevUp$ compatibility rows, $\RegSeqRatUp$ readbacks, a terminal $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tempered-distribution-carrier}, \autoref{thm:tempered-distribution-namecert-obligations}, and \autoref{thm:tempered-distribution-fourier-handoff} seed the finite tempered-distribution interface over Schwartz-test windows, polynomial-growth ledgers, distribution actions, Fourier observations, weak-derivative and Sobolev compatibility, rational readbacks, and real seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed Schwartz spaces, unrestricted continuous duals, quotient test-function equality, host distribution equality, selected representatives, countable choice, Plancherel, inversion, or ambient completeness.}
+  \upgradepath{A formal route can encode the finite carrier and prove the NameCert obligation surface and Fourier handoff theorem.}
+\end{closurestatus}

@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\SpectralRadiusUp$}
+\label{ch:concrete-instances-spectral-radius-namecert}
+\origin{human}
+
+Following Gelfand and standard Banach-algebra spectral theory, the $\SpectralRadiusUp$ packet records the finite BEDC surface by which a displayed Banach-algebra element exposes operator-power norm-growth rows and resolvent-test rows before any spectrum, maximal ideal space, or host algebra quotient is available. It is a textbook neighbour of the operator-algebra frontier: it reads the complete normed algebra carrier of \autoref{ch:concrete-instances-banachalgebra-namecert}, the bounded-operator route of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the public operator-norm carrier of \autoref{ch:concrete-instances-operator-norm-namecert} for $\OperatorNormUp$, the stability obligation of \autoref{thm:functionalanalysis-operator-norm-stability-obligation}, and the compact-operator dependency of \autoref{ch:concrete-instances-compactoperator-namecert}.
+
+\begin{definition}[Spectral radius carrier]
+\label{def:spectral-radius-carrier}
+A $\SpectralRadiusUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,a,W,Q,G,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\BanachAlgebraUp$ row carrying multiplication, norm, completion, product control, transport, replay, provenance, and local naming.
+\item $a$ is the carried algebra element whose powers are inspected.
+\item $W$ is the finite operator-power window. For each displayed natural index in the packet it records the product row for $a^n$ and the corresponding $\OperatorNormUp$ or algebra-norm endpoint.
+\item $Q$ is the norm-growth comparison ledger. It records the rational or $\RealUp$ bound rows used to compare the observed power norms with the requested growth threshold.
+\item $G$ is the Gelfand-style radius readback row. It is only a finite readback from the displayed windows $W$ and comparisons $Q$; it is not a limit of all powers.
+\item $E$ is the resolvent-test row. For a displayed scalar-window request it records the candidate inverse-check surface and the refusal row saying that no inverse is exported unless the local Banach-algebra ledger displays the needed multiplication and unit witnesses.
+\item $H$ records componentwise $\hsame$ transport for $A,a,W,Q,G,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+\BanachAlgebraUp,\BoundedLinearOperatorUp,\OperatorNormUp
+\longmapsto W,Q,G,E
+\longmapsto \SpectralRadiusUp .
+$$
+\item $P$ is the $\Pkg$ provenance over $\SpectralRadiusUp$, $\BanachAlgebraUp$, $\BoundedLinearOperatorUp$, $\OperatorNormUp$, $\CompactOperatorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SpectralRadiusUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these rows. Its classifier compares accepted packets only through the Banach-algebra source, the displayed element, the finite power-window rows, norm-growth comparisons, resolvent-test rows, transport, replay, provenance, and local naming. It has no coordinate for a completed spectrum, the Gelfand transform, maximal ideals, host operator equality, quotient completion, selected approximate eigenvectors, or choice.
+\end{definition}
+
+\begin{theorem}[Spectral radius NameCert obligations]
+\label{thm:spectral-radius-namecert-obligations}
+For an accepted $\SpectralRadiusUp$ carrier
+$$
+S=(A,a,W,Q,G,E,H,C,P,N),
+$$
+the local $\NameCert_{\SpectralRadiusUp}$ surface consists exactly of carrier admission, Banach-algebra source compatibility, finite power-window stability, norm-growth readback, resolvent-test boundary, classifier transport, continuation replay, provenance, and local naming. A downstream operator-algebra consumer may inspect the displayed power norms and the displayed resolvent-test outcomes, but it receives no completed spectrum, no spectral theorem, no compact-operator eigenvalue list, no maximal ideal space, and no host equality of operators.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:spectral-radius-carrier}. The first two rows fix the Banach-algebra source and the carried element, while $W,Q,G,E$ are the only analytic rows available to a consumer.
+
+Power-window stability is componentwise. Transport through $H$ moves each displayed power product and norm endpoint along the Banach-algebra classifier, and replay through $C$ returns to the same finite window before any radius readback is public.
+
+Norm-growth readback uses $Q$ and $G$. These rows compare only the displayed power norms already present in $W$ with the requested growth threshold. They do not quantify over all powers or select a host limit.
+
+The resolvent boundary is the row $E$. It records tests against displayed scalar windows and local inverse-check rows, but it cannot export an inverse or a spectrum unless those rows are already visible in the Banach-algebra ledger.
+
+Finally $P$ and $N$ name only this finite surface. The excluded spectral, representation-theoretic, quotient, choice, and host-equality objects have no coordinate in the packet, so they cannot be recovered by a downstream read.
+\end{proof}
+
+\begin{theorem}[Spectral radius resolvent boundary]
+\label{thm:spectral-radius-resolvent-boundary}
+Every resolvent-facing read of an accepted $\SpectralRadiusUp$ packet factors through the same displayed Banach-algebra source row $A$, carried element row $a$, finite power-window row $W$, norm-growth ledger $Q$, radius readback row $G$, resolvent-test row $E$, and structural rows $H,C,P,N$. In particular, a resolvent request cannot replace the finite readback by a completed spectrum, a Gelfand-transform equality, a compact-operator eigenvalue theorem, selected approximate eigenvectors, quotient completion equality, or countable choice.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet and the resolvent request. Carrier admission exposes $E$ only after the Banach-algebra row $A$, element row $a$, power windows $W$, and norm-growth ledger $Q$ have been displayed.
+
+The radius readback $G$ is therefore already tied to the finite windows. Any scalar test entering $E$ must use the same route through $C$ and the same componentwise transport through $H$.
+
+The sibling operator rows add no hidden coordinate. The bounded-operator surface supplies action and norm-bound ledgers, the operator-norm obligation supplies the scalar bound row, and the compact-operator chapter supplies only compactness schedules when separately present.
+
+Since the packet has no field for a completed spectrum, Gelfand transform, eigenvector selector, quotient equality, or choice schedule, the resolvent-facing read remains a boundary over the displayed finite rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SpectralRadiusUp$ resolvent-facing read exposes the Banach-algebra source, element row, finite power-window row, norm-growth ledger, radius readback row, resolvent-test row, componentwise transport, replay, provenance, and local naming before any spectral-radius conclusion is public.}
+
+\independenceWitness{banachalgebra, boundedlinearoperator, operatornorm, compactoperator: BanachAlgebraUp lacks the finite power-window and resolvent-test rows; BoundedLinearOperatorUp lacks the Banach-algebra product-power ledger; OperatorNormUp supplies scalar norm bounds without naming the radius packet; CompactOperatorUp supplies image-net schedules without the resolvent boundary.}
+
+\closureat{SpectralRadiusUp}{seedStr}
+
+\begin{closurestatus}{\SpectralRadiusUp}
+  \constructivestory{A $\SpectralRadiusUp$ packet is generated from a BanachAlgebraUp source, a carried element, finite operator-power norm-growth rows, a radius readback row, a resolvent-test row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:spectral-radius-carrier}, \autoref{thm:spectral-radius-namecert-obligations}, \autoref{thm:spectral-radius-resolvent-boundary}, the falsifiable prediction, and the independence witness seed the finite spectral-radius route over BanachAlgebraUp, BoundedLinearOperatorUp, OperatorNormUp, CompactOperatorUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim the spectral theorem, compact-operator eigenvalue decomposition, Gelfand representation, maximal ideal space, completed spectrum, quotient completion, selected approximate eigenvectors, choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite power-window stability, norm-growth readback, resolvent-test boundary, classifier transport, and consumer non-escape for BEDC.Derived.SpectralRadiusUp.}
+\end{closurestatus}

@@ -29,6 +29,7 @@ $$
 \end{enumerate}
 The carrier has no coordinate for quotient stream equality, host function extensionality, selected limits, differentiability, countable choice, trichotomy, ambient $\RealUp$ completeness, or a detached output seal.
 \end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyLipschitzMapUp.RegularCauchyLipschitzMapTasteGate\_single\_carrier\_alignment}
 
 \begin{definition}[Regular Cauchy Lipschitz map classifier]
 \label{def:regular-cauchy-lipschitz-map-classifier}
@@ -69,6 +70,28 @@ Use the obligation theorem \autoref{thm:regular-cauchy-lipschitz-map-namecert-ob
 The classifier definition \autoref{def:regular-cauchy-lipschitz-map-classifier} then transports accepted reads only by the componentwise $\hsame$ row and replays them only through the displayed $\Cont$ route. Thus a Real-facing consumer cannot replace the finite transport route by a host equality of functions or streams.
 
 Finally inspect the carrier definition. There is no coordinate for quotient stream equality, selected limits, host function extensionality, differentiability, countable choice, trichotomy, ambient Real completeness, or a second Real seal. A terminal read omitting one of the displayed transport rows is therefore not accepted by the local classifier.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy Lipschitz output classifier stability]
+\label{thm:regular-cauchy-lipschitz-map-output-classifier-stability}
+Let
+$$
+T=(L,R_{\mathrm{in}},W_{\mathrm{in}},W_{\mathrm{out}},D,R_{\mathrm{out}},E,H,C,P,N)
+$$
+and
+$$
+T'=(L',R'_{\mathrm{in}},W'_{\mathrm{in}},W'_{\mathrm{out}},D',R'_{\mathrm{out}},E',H',C',P',N')
+$$
+be accepted $\RegularCauchyLipschitzMapUp$ carriers. If the componentwise transport rows agree through $H$ on $L,R_{\mathrm{in}},W_{\mathrm{in}},W_{\mathrm{out}},D$, then the output rows $R_{\mathrm{out}}$ and $R'_{\mathrm{out}}$ agree under the $\RegSeqRatUp$ classifier before either terminal $\RealUp$ seal $E$ or $E'$ is read.
+\end{theorem}
+\begin{proof}
+Start from the classifier surface in \autoref{def:regular-cauchy-lipschitz-map-classifier}. It compares accepted carriers through componentwise $\hsame$ transport of the displayed source rows, so agreement through $H$ fixes the Lipschitz row, input regular name, both stream windows, and dyadic ledger.
+
+Replay the displayed continuation row $C$. Since $C$ reads output observations only after $L,R_{\mathrm{in}},W_{\mathrm{in}},W_{\mathrm{out}},D$, the same source rows force the same output regular readback route.
+
+The Lipschitz bound ledger $D$ supplies the bound-scaled tolerance conversion. With the same input windows and dyadic accounting, the output readings are compared by the $\RegSeqRatUp$ classifier at $R_{\mathrm{out}}$ and $R'_{\mathrm{out}}$.
+
+Only after that classifier agreement is visible may the terminal Real seals $E$ and $E'$ be exposed. Thus the stability claim concerns the output regular Cauchy readback itself, not a later quotient or selected real representative.
 \end{proof}
 
 \closureat{RegularCauchyLipschitzMapUp}{seedStr}

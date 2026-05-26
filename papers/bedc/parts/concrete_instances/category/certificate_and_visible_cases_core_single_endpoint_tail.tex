@@ -254,3 +254,28 @@ contradicting constructor disjointness.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_e0\_source\_e1\_target\_tail\_not\_empty}
 
+\begin{corollary}[Continuation morphism zero-headed source-tail determinacy]
+\label{cor:continuation-morphism-e1-source-e0-target-zero-tail-consumer-determinacy}
+For histories $a,r,k,l:\BHist$ and continuation morphisms
+$m,n:\mathsf{ContinuationMorphism}(\Eone(a),\Ezero(r))$, suppose the same
+consumer-facing endpoint packet displays two zero-headed source-tail reads
+$$
+\HSame(\mathsf{tail}(m),\Ezero(k))
+\quad\text{and}\quad
+\HSame(\mathsf{tail}(n),\Ezero(l)).
+$$
+Then the exposed zero-headed source coordinates are forced to agree:
+$$
+\HSame(k,l).
+$$
+Consequently the zero-headed source coordinate read from that endpoint packet
+is unique up to $\HSame$.
+\end{corollary}
+\begin{proof}
+Apply
+\autoref{thm:continuation-morphism-e1-source-e0-target-tail-core-deterministic}
+to the two endpoint morphisms $m$ and $n$ and to the two displayed zero-headed
+tail presentations. This identifies the exposed cores, giving $\HSame(k,l)$.
+Thus any consumer that tries to read the same endpoint packet through a second
+zero-headed source coordinate has only an $\HSame$-equivalent source.
+\end{proof}

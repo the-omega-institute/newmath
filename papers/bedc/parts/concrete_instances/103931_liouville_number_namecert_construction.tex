@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\LiouvilleNumberUp$}
+\label{ch:concrete-instances-liouville-number-namecert}
+\origin{human}
+
+Beginning from Liouville's rational-approximation construction, the $\LiouvilleNumberUp$ packet records a nontrivial $\RealUp$ name by finite approximation rows rather than by an ambient transcendence theorem. It reads rational approximants through the rational-approximation sibling \autoref{ch:concrete-instances-real-rational-approximation-namecert}, stores tolerance budgets in the $\DyadicRatCoreUp$ ledger, consumes finite $\StreamNameUp$ windows and $\RegSeqRatUp$ readback rows, and seals the resulting regular real name through \autoref{ch:concrete-instances-real-namecert}. The packet is a finite NameCert route for Liouville-style approximation data, not a proof of full transcendence theory, decimal expansion uniqueness, countable choice over approximants, or completeness of all $\RealUp$ streams.
+
+\begin{definition}[LiouvilleNumber carrier]
+\label{def:liouville-number-carrier}
+A $\LiouvilleNumberUp$ carrier is a finite $\BHist$ packet
+$$
+L=(Q,D,S,R,A,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the rational-approximant row: for each accepted finite precision request it displays the inspected rational approximant and the denominator-growth witness used by the Liouville construction.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic budgets against which the rational errors are compared.
+\item $S$ is the $\StreamNameUp$ finite-window schedule that lists exactly which approximant windows and tolerance windows are opened by the certificate.
+\item $R$ is the $\RegSeqRatUp$ readback row, turning the scheduled rational approximants into a regular rational sequence before any $\RealUp$ seal is consumed.
+\item $A$ is the Liouville approximation classifier, pairing each displayed denominator-growth row with the dyadic comparison that witnesses an error below the recorded budget.
+\item $E$ is the $\RealUp$ seal row, admitting the regular rational readback as the named real object after the finite approximation route has been checked.
+\item $H$ stores componentwise $\hsame$ transport for $Q,D,S,R,A,E$ and the local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a real-name request through the approximant row, tolerance ledger, finite window schedule, regular rational readback, approximation classifier, and real seal.
+\item $P$ is the $\Pkg$ provenance over $\LiouvilleNumberUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LiouvilleNumberUp}$ row.
+\end{enumerate}
+The carrier asserts only that these displayed rows form one Liouville-style real-name certificate. It has no coordinate for decimal expansion uniqueness, unbounded choice of approximants outside the displayed windows, a blanket irrationality theorem for all reals, a transcendence theorem, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[LiouvilleNumber NameCert obligations]
+\label{thm:liouville-number-namecert-obligations}
+For every accepted $\LiouvilleNumberUp$ carrier $L=(Q,D,S,R,A,E,H,C,P,N)$, the local $\NameCert_{\LiouvilleNumberUp}$ surface consists exactly of carrier admission, rational-approximant exposure through $Q$, dyadic tolerance comparison through $D$, finite window scheduling through $S$, regular rational readback through $R$, Liouville approximation classification through $A$, $\RealUp$ seal exposure through $E$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and ledger refusal for decimal uniqueness, unbounded choice, general irrationality, transcendence, and ambient real completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:liouville-number-carrier}. The accepted packet exposes exactly the rational approximant row, dyadic ledger, finite window schedule, regular rational readback, approximation classifier, real seal, transport, replay, provenance, and local naming rows.
+
+The approximation rows are finite because $Q$ and $S$ list only the inspected windows. Each accepted precision request is matched with the denominator-growth witness and error budget recorded in $D$ and $A$.
+
+The regular rational readback $R$ converts those scheduled approximants into the row consumed by the real-name surface. The handoff to $E$ therefore occurs only after the finite Liouville approximation route has been replayed.
+
+Rows $H,C,P,N$ transport, replay, source, and name the same packet. Since no other coordinate exists, the certificate cannot export decimal expansion uniqueness, an off-window choice function, a general irrationality theorem, a transcendence theorem, or ambient completeness of $\RealUp$.
+\end{proof}
+
+\begin{theorem}[LiouvilleNumber finite approximation handoff]
+\label{thm:liouville-number-finite-approximation-handoff}
+Every real-name consumer of an accepted $\LiouvilleNumberUp$ carrier factors through the finite route
+$$
+Q \longmapsto D \longmapsto S \longmapsto R \longmapsto A \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the packet supplies a Liouville-style $\RealUp$ object from rational approximants, dyadic tolerance budgets, finite stream windows, and regular rational readback, without claiming decimal expansion uniqueness, unbounded choice, transcendence, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $L=(Q,D,S,R,A,E,H,C,P,N)$. A real-name request must read the rational approximant row $Q$ and the dyadic budget row $D$ before it can inspect the window schedule $S$.
+
+The regular rational readback $R$ is then forced by the displayed windows. The classifier $A$ records the Liouville approximation inequality for the same inspected rows, so the real seal $E$ receives only finite approximation evidence.
+
+The transport, replay, provenance, and naming rows preserve that route. They add no coordinate for off-window choice, decimal uniqueness, transcendence, or a general completeness theorem, so every downstream consumer remains inside the finite NameCert packet.
+\end{proof}
+
+\closureat{LiouvilleNumberUp}{seedStr}
+
+\begin{closurestatus}{\LiouvilleNumberUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:liouville-number-carrier}, \autoref{thm:liouville-number-namecert-obligations}, and \autoref{thm:liouville-number-finite-approximation-handoff} seed the finite Liouville-style real-name certificate over rational approximants, dyadic tolerance budgets, finite StreamName windows, RegSeqRat readback, and the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, decimal expansion uniqueness, countable choice over approximants, a general irrationality theorem, transcendence, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, rational-approximant exposure, dyadic comparison exactness, finite window scheduling, regular rational readback, Real seal handoff, structural transport, replay, provenance, and nonescape for BEDC.Derived.LiouvilleNumberUp.}
+  \constructivestory{A $\LiouvilleNumberUp$ packet is generated from rational approximant rows, DyadicRatCore tolerance budgets, finite StreamName windows, RegSeqRat readbacks, a Real seal, componentwise hsame transport, displayed Cont replay, package provenance, and local NameCert evidence.}
+\end{closurestatus}

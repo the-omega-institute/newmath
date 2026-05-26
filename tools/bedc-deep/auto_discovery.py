@@ -3,11 +3,11 @@
 
 Modes:
   probe   — codex scans papers/bedc/parts + lean4/BEDC for structural gaps,
-            then claude reviews and filters; accepted candidates append to
+            then Codex reviews and filters; accepted candidates append to
             BOARD.md as new B-XX entries.
   curator — codex meta-review of completed-target transcripts + paper +
             BOARD progress; proposes under-represented directions, then
-            claude reviews and filters.
+            Codex reviews and filters.
   paper_review — paper-only referee audit over `papers/bedc/parts/`; kept
             candidates route through board_spawn before entering BOARD.
 
@@ -16,7 +16,7 @@ Discovery modes are invoked manually or by supervisor low-water refill. When
 landing-kind checks, pre-TasteGate admission, and logic_packet_gate apply before
 anything enters BOARD.md.
 
-Pattern matches the rest of bedc-deep: codex generates, claude gates.
+Pattern matches the rest of bedc-deep: Codex generates and gates.
 """
 
 from __future__ import annotations
@@ -34,7 +34,6 @@ import codex_orchestrator
 import killo_golden_writeback
 import board_spawn
 import board_context
-import loning_assimilator
 from locks import file_lock
 from oracle_client import (
     BOARD_PATH,
@@ -155,51 +154,29 @@ def _safe(text: str) -> str:
     return (text or "").replace("{", "{{").replace("}", "}}")
 
 
-def _run_claude_audit(template_path: Path, log_tag: str, **format_kwargs) -> tuple[bool, list[dict], list[dict], str]:
-    """Phase 1: claude does deep paper audit, returns candidates with evidence.
+def _run_codex_audit(template_path: Path, log_tag: str, **format_kwargs) -> tuple[bool, list[dict], list[dict], str]:
+    """Phase 1: Codex does deep paper audit, returns candidates with evidence.
 
     Returns (ok, candidates, rejected, error). Each candidate carries
     title / concrete_claim / local_inputs / fit_score / novelty / rationale.
-    rejected is the calibration list claude considered and dropped.
+    rejected is the calibration list Codex considered and dropped.
     """
     template = template_path.read_text(encoding="utf-8")
-    try:
-        loning_block = loning_assimilator.latest_prompt_block()
-    except Exception:
-        loning_block = ""
-    if loning_block:
-        template = template.rstrip() + "\n\n" + loning_block + "\n"
     safe_kwargs = {k: _safe(v) if isinstance(v, str) else v for k, v in format_kwargs.items()}
     prompt = template.format(**safe_kwargs)
-    ok, stdout, rc = killo_golden_writeback.claude_exec(prompt, timeout=PROBE_TIMEOUT, log_tag=log_tag)
-    if not ok:
-        fallback_ok, parsed, _fallback_stdout, fallback_error = killo_golden_writeback.codex_json_fallback(
-            prompt,
-            timeout=PROBE_TIMEOUT,
-            log_tag=log_tag,
-            role_note=(
-                "Claude is unavailable for this BEDC discovery audit. Run the "
-                "same paper-scan candidate discovery as a conservative Codex "
-                "fallback; prefer fewer, better-evidenced candidates."
-            ),
-        )
-        if not fallback_ok:
-            return (False, [], [], f"claude exec rc={rc}: {stdout[:400]}; codex fallback: {fallback_error[:400]}")
-    else:
-        parsed = _extract_json_object(stdout)
+    fallback_ok, parsed, _stdout, fallback_error = killo_golden_writeback.codex_json_fallback(
+        prompt,
+        timeout=PROBE_TIMEOUT,
+        log_tag=log_tag,
+        role_note=(
+            "Run this BEDC discovery audit as the primary Codex candidate "
+            "generation gate. Prefer fewer, better-evidenced candidates."
+        ),
+    )
+    if not fallback_ok:
+        return (False, [], [], f"codex discovery audit failed: {fallback_error[:400]}")
     if not parsed:
-        fallback_ok, parsed, _fallback_stdout, fallback_error = killo_golden_writeback.codex_json_fallback(
-            prompt,
-            timeout=PROBE_TIMEOUT,
-            log_tag=log_tag,
-            role_note=(
-                "Claude returned non-JSON for this BEDC discovery audit. Run "
-                "the same paper-scan candidate discovery as a conservative "
-                "Codex fallback; prefer fewer, better-evidenced candidates."
-            ),
-        )
-        if not fallback_ok:
-            return (False, [], [], f"claude output was not JSON; codex fallback: {fallback_error[:400]}")
+        return (False, [], [], "codex discovery audit output was not JSON")
     candidates = parsed.get("candidates") or []
     rejected = parsed.get("rejected") or []
     if not isinstance(candidates, list) or not isinstance(rejected, list):
@@ -208,7 +185,7 @@ def _run_claude_audit(template_path: Path, log_tag: str, **format_kwargs) -> tup
 
 
 def _run_codex_cross_check(candidates: list[dict], log_tag: str) -> tuple[bool, list[dict], str]:
-    """Phase 2: codex independently cross-checks claude's candidates.
+    """Phase 2: Codex independently cross-checks generated candidates.
 
     Returns (ok, decisions, error). decisions is a list of
     {title, verdict: keep|drop, reason}.
@@ -333,10 +310,10 @@ def _persist(mode: str, payload: dict) -> Path:
 def _run_two_stage(
     args: argparse.Namespace,
     mode: str,
-    claude_template: str,
-    **claude_kwargs,
+    codex_template: str,
+    **codex_kwargs,
 ) -> int:
-    """Adversarial two-stage discovery: claude generates with evidence, codex
+    """Adversarial two-stage discovery: Codex generates with evidence, Codex
     cross-checks independently, intersection lands on BOARD."""
     dev_sync_enabled = bool(getattr(args, "dev_sync", False)) and not bool(args.no_dev_sync)
     if dev_sync_enabled:
@@ -345,24 +322,24 @@ def _run_two_stage(
         except Exception as exc:
             print(f"[{mode}] sync_dev error (continuing): {exc}", flush=True)
 
-    print(f"[{mode}] phase 1: claude audit (deep paper scan with evidence)", flush=True)
-    ok, claude_candidates, claude_rejected, err = _run_claude_audit(
-        PROMPTS_DIR / claude_template,
-        f"{mode}_claude",
-        **claude_kwargs,
+    print(f"[{mode}] phase 1: codex audit (deep paper scan with evidence)", flush=True)
+    ok, codex_candidates, codex_rejected, err = _run_codex_audit(
+        PROMPTS_DIR / codex_template,
+        f"{mode}_codex_audit",
+        **codex_kwargs,
     )
     if not ok:
         print(f"[{mode}] phase 1 failed: {err}", flush=True)
-        _persist(mode, {"ok": False, "stage": "claude_audit", "error": err})
+        _persist(mode, {"ok": False, "stage": "codex_audit", "error": err})
         return 1
-    print(f"[{mode}] phase 1: {len(claude_candidates)} candidates, {len(claude_rejected)} self-rejected (calibration)", flush=True)
-    if not claude_candidates:
+    print(f"[{mode}] phase 1: {len(codex_candidates)} candidates, {len(codex_rejected)} self-rejected (calibration)", flush=True)
+    if not codex_candidates:
         print(f"[{mode}] phase 1 produced empty candidate list; skipping cross-check", flush=True)
         _persist(mode, {
             "ok": True,
             "ts": _now_iso(),
-            "claude_candidates": [],
-            "claude_rejected": claude_rejected,
+            "codex_candidates": [],
+            "codex_rejected": codex_rejected,
             "codex_decisions": [],
             "kept": [],
             "dropped_after_cross_check": [],
@@ -370,21 +347,27 @@ def _run_two_stage(
         return 0
 
     print(f"[{mode}] phase 2: codex adversarial cross-check", flush=True)
-    ok, decisions, err = _run_codex_cross_check(claude_candidates, f"{mode}_codex")
+    ok, decisions, err = _run_codex_cross_check(codex_candidates, f"{mode}_codex_cross_check")
     if not ok:
-        print(f"[{mode}] phase 2 failed: {err}; falling back to phase-1 candidates without cross-check", flush=True)
+        print(f"[{mode}] phase 2 failed: {err}; holding phase-1 candidates outside BOARD", flush=True)
         decisions = []
-        kept = claude_candidates
-        dropped = []
+        kept = []
+        dropped = [
+            {
+                "title": candidate.get("title"),
+                "reason": f"codex_cross_check_unavailable:{err}",
+            }
+            for candidate in codex_candidates
+        ]
     else:
-        kept, dropped = _intersect_keep(claude_candidates, decisions)
-    print(f"[{mode}] phase 2: kept {len(kept)} of {len(claude_candidates)} (codex dropped {len(dropped)})", flush=True)
+        kept, dropped = _intersect_keep(codex_candidates, decisions)
+    print(f"[{mode}] phase 2: kept {len(kept)} of {len(codex_candidates)} (codex dropped {len(dropped)})", flush=True)
 
     final_state: dict = {
         "ok": True,
         "ts": _now_iso(),
-        "claude_candidates": claude_candidates,
-        "claude_rejected": claude_rejected,
+        "codex_candidates": codex_candidates,
+        "codex_rejected": codex_rejected,
         "codex_decisions": decisions,
         "kept": kept,
         "dropped_after_cross_check": dropped,
@@ -437,7 +420,7 @@ def cmd_curriculum(args: argparse.Namespace) -> int:
     """Curriculum probe — find textbook-classical theorems missing from
     started chapters. Complements `probe` (which looks for internal
     symmetry gaps inside the existing paper topology). Same two-stage
-    flow: claude proposes, codex adversarially audits.
+    flow: Codex proposes, then Codex adversarially audits.
     """
     return _run_two_stage(
         args,
@@ -464,7 +447,7 @@ def cmd_paper_review(args: argparse.Namespace) -> int:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="BEDC auto-discovery: codex generates, claude gates")
+    parser = argparse.ArgumentParser(description="BEDC auto-discovery: Codex generates and gates")
     sub = parser.add_subparsers(dest="cmd", required=True)
 
     p_probe = sub.add_parser("probe", help="Static gap scan: definition-without-theorem, A→B without B→A, etc.")

@@ -39,6 +39,8 @@ For every accepted $\CauchyConvergenceCriterionUp$ carrier $G=(S,M,D,R,E,H,C,P,N
 \end{enumerate}
 No obligation is stored outside these rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionNameCertObligations}
+\leanvariant{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_namecert\_obligations}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-convergence-criterion-carrier}. Its visible coordinates are exactly the stream schedule, modulus, dyadic ledger, regular-rational handoff, Real seal, transport, continuation, provenance, and local naming rows.
 
@@ -57,6 +59,7 @@ S \longmapsto M \longmapsto D \longmapsto R \longmapsto E
 $$
 together with the stored $\hsame$ transport $H$, $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. Before reaching the $\RealUp$ seal, the read is compatible with the $\CauchyLimitSealUp$ boundary and exports no host completeness theorem, quotient stream, selected limit, trichotomy row, open-cover compactness row, or detached seal.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_real\_seal\_handoff}
 \begin{proof}
 Start with an accepted Real-facing convergence read. Carrier admission gives only the finite schedule $S$ as sequence data, so the read first factors through the displayed stream windows.
 
@@ -73,6 +76,7 @@ Let $G=(S,M,D,R,E,H,C,P,N)$ and $G'=(S,M,D,R,E',H,C,P,N)$ be accepted $\CauchyCo
 
 The comparison cannot introduce a detached seal, quotient stream, selected host limit, trichotomy row, open-cover compactness row, or ambient completeness coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_limit\_seal\_determinacy}
 \begin{proof}
 Apply \autoref{thm:cauchy-convergence-criterion-real-seal-handoff} to each Real-facing convergence read. Both reads are forced through the displayed finite route
 $$
@@ -91,6 +95,7 @@ Let $G=(S,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyConvergenceCriterionUp$ carri
 
 The displayed $\NullSequenceUp$ packet uses the same $\RegSeqRatUp$ difference row $R$, $\DyadicRatCoreUp$ tolerance ledger $D$, $\StreamNameUp$ window schedule $S$, $\CauchyModulusUp$ threshold row $M$, $\RealUp$ seal row $E$, and provenance rows $H,C,P,N$ already carried by $G$. No second stream representative, quotient stream, host limit, trichotomy row, choice principle, open-cover compactness object, or ambient completeness coordinate is introduced by this zero-difference handoff.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_nullsequence\_factorization}
 \begin{proof}
 Project the accepted carrier $G$. The coordinates $S,M,D,R$ give the finite tolerance-window route: stream observations are read only through $S$, tolerance requests are bounded by $M$, dyadic scales and comparisons are recorded by $D$, and the regular-rational comparison row is $R$.
 
@@ -111,6 +116,7 @@ before the $\RealUp$ seal row $E$ is available.
 
 The read has no bypass through quotient streams, host completeness, selected limits, trichotomy, or open-cover compactness. In particular, every convergence-facing consumer sees the stream schedule, modulus threshold row, dyadic tolerance ledger, and regular-rational handoff before it can consume a seal boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_source\_triad\_exhaustion}
 \begin{proof}
 Project the carrier in \autoref{def:cauchy-convergence-criterion-carrier}. The only sequence observations are the finite windows named by $S$, the only tolerance thresholds are carried by $M$, the only scale and comparison ledger is $D$, and the only regular-rational handoff is $R$.
 
@@ -125,6 +131,7 @@ The final exclusion is structural. The carrier definition contains no coordinate
 \label{thm:cauchy-convergence-criterion-window-threshold-coverage}
 Let $G=(S,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyConvergenceCriterionUp$ carrier. Every finite $\StreamNameUp$ window consumed by the convergence criterion has a matching $\CauchyModulusUp$ threshold in $M$ and a $\DyadicRatCoreUp$ tolerance row in $D$ in the same packet. Thus no unbounded stream read is accepted by the local classifier route.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionDyadicRoute\_determinacy}
 \begin{proof}
 Start from a finite window read admitted by the local classifier. By \autoref{def:cauchy-convergence-criterion-carrier}, the window can only come from the displayed $\StreamNameUp$ schedule $S$.
 
@@ -134,6 +141,155 @@ Apply \autoref{thm:cauchy-convergence-criterion-namecert-obligations}. Finite-wi
 
 The handoff and seal results do not add a stream source. By \autoref{thm:cauchy-convergence-criterion-real-seal-handoff} and \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization}, downstream $\RealUp$, $\CauchyLimitSealUp$, and zero-difference consumers reuse the same $S,M,D$ rows. Since the carrier has no unbounded stream coordinate, the classifier accepts only covered finite windows.
 \end{proof}
+
+\begin{theorem}[Cauchy convergence criterion tail-diameter scope]
+\label{thm:cauchy-convergence-criterion-tail-diameter-scope}
+Let $G=(S,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyConvergenceCriterionUp$ carrier. Every tail-diameter request consumed by a convergence-facing read factors through the same finite route
+$$
+S \longmapsto M \longmapsto D \longmapsto R
+$$
+before the $\RealUp$ seal row $E$ is available. The request is therefore scoped by the displayed $\StreamNameUp$ windows, $\CauchyModulusUp$ thresholds, $\DyadicRatCoreUp$ tolerance ledger, and $\RegSeqRatUp$ handoff of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{ch:concrete-instances-cauchylimitseal-namecert}; it does not introduce a second tail classifier, detached limit seal, or ambient completeness coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_tail\_diameter\_scope}
+\begin{proof}
+Project the accepted carrier. By \autoref{def:cauchy-convergence-criterion-carrier}, the only stream observations are the finite windows in $S$, the only thresholds are in $M$, the only tolerance ledger is $D$, and the only regular handoff is $R$.
+
+Apply \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage}. A tail-diameter request must be covered by a window and a matching threshold in the same packet, so the request cannot leave $S,M,D$ before the handoff row is formed.
+
+Now use \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion} and \autoref{thm:cauchy-convergence-criterion-real-seal-handoff}. These force every convergence-facing read through $S,M,D,R$ before $E$, while \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy} keeps the $\CauchyLimitSealUp$ consumer on the same finite boundary.
+\end{proof}
+
+\begin{theorem}[Cauchy convergence criterion scoped closure]\label{thm:cauchy-convergence-criterion-scoped-closure}
+Let $G=(S,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyConvergenceCriterionUp$ carrier. Every $\RealUp$-facing, $\CauchyLimitSealUp$-facing, or zero-difference convergence read of $G$ is scoped exactly by the displayed $\StreamNameUp$ schedule $S$, $\CauchyModulusUp$ threshold row $M$, $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$ handoff $R$, $\RealUp$ seal $E$, $\hsame$ transport $H$, $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$.
+
+Consequently such a read has no coordinate outside
+$$
+S,M,D,R,E,H,C,P,N
+$$
+and cannot introduce quotient streams, selected host limits, detached limit seals, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_scoped\_closure}
+\begin{proof}
+Start with the source rows. The source-triad exhaustion theorem, \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion}, forces every $\RealUp$- or $\CauchyLimitSealUp$-facing read through $S,M,D,R$ before $E$ is visible.
+
+The window and tail requirements stay on the same route. By \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage}, every finite stream window has its matching threshold and dyadic ledger inside the carrier, and by \autoref{thm:cauchy-convergence-criterion-tail-diameter-scope}, every tail-diameter request passes through $S,M,D,R$ before the seal.
+
+Zero-difference reads add no second source. The null-sequence scope theorem, \autoref{thm:cauchy-convergence-criterion-null-sequence-scope}, keeps comparison reads inside the same $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\CauchyLimitSealUp$ route.
+
+Finally read the structural rows. The carrier definition supplies only $H,C,P,N$ as transport, replay, provenance, and local naming data for this route. Since the listed theorems exhaust all Real-facing, limit-seal-facing, and zero-difference reads, the displayed rows $S,M,D,R,E,H,C,P,N$ are exactly the scope of the convergence criterion packet.
+\end{proof}
+
+\begin{theorem}[Cauchy convergence criterion null-sequence scope]
+\label{thm:cauchy-convergence-criterion-null-sequence-scope}
+Let $G=(S,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyConvergenceCriterionUp$ carrier. If a convergence-facing comparison is a zero-difference read, then the read uses the existing $\NullSequenceUp$ factorization route over $S,M,D,R,E,H,C,P,N$ and not a second stream representative. In particular, the zero-difference consumer remains inside the finite $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\CauchyLimitSealUp$ route recorded by the carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_null\_sequence\_scope}
+\begin{proof}
+Start from the zero-difference comparison. The carrier has one stream schedule $S$ and one regular-rational comparison row $R$, so there is no separate stream representative available for the comparison.
+
+Apply \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization}. The zero-difference read factors through the displayed $\NullSequenceUp$ packet using the same difference row $R$, tolerance ledger $D$, stream schedule $S$, threshold row $M$, Real seal row $E$, and structural rows $H,C,P,N$.
+
+Finally combine \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage} with \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy}. The finite window-threshold ledger and the limit-seal boundary are already fixed by the carrier, so the null-sequence route cannot introduce quotient streams, selected host limits, or a second pre-seal representation.
+\end{proof}
+
+\begin{theorem}[Cauchy convergence criterion regular-seal handoff]
+\label{thm:cauchy-convergence-criterion-regular-seal-handoff}
+Let $G=(S,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyConvergenceCriterionUp$ carrier. The $\RegSeqRatUp$ row $R$ is the unique pre-seal route available to any $\CauchyLimitSealUp$ consumer of $G$: every such consumer first reads the $\StreamNameUp$ windows $S$, $\CauchyModulusUp$ thresholds $M$, $\DyadicRatCoreUp$ ledger $D$, and then $R$, before it can consume the $\RealUp$ seal row $E$. The route is preserved by $H,C,P,N$ and contains no quotient-stream equality, selected host limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the consumer-facing rows of $G$. The regular-rational handoff coordinate is exactly $R$, and the seal row $E$ is downstream of it by \autoref{def:cauchy-convergence-criterion-carrier}.
+
+Apply \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion}. Every $\RealUp$- or $\CauchyLimitSealUp$-facing read must pass through the displayed source triad $S,M,D,R$ before any seal row is visible.
+
+The uniqueness claim follows from \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy}. Once the displayed $\StreamNameUp$ windows, $\RegSeqRatUp$ row, $\DyadicRatCoreUp$ ledger, $\RealUp$ seal boundary, transport, continuation, provenance, and name rows agree, no second seal route remains for the consumer. The structural rows $H,C,P,N$ only preserve and name this route.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_regular\_seal\_handoff}
+
+\begin{theorem}[Cauchy convergence criterion regular-tail coverage]
+\label{thm:cauchy-convergence-criterion-regular-tail-coverage}
+Every accepted $\CauchyConvergenceCriterionUp$ packet $G=(S,M,D,R,E,H,C,P,N)$ whose finite $\StreamNameUp$ windows and $\CauchyModulusUp$ row pass the displayed $\DyadicRatCoreUp$ threshold exposes a $\RegSeqRatUp$ tail handoff and a $\RealUp$ seal through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Concretely, each covered tolerance request first reads the windows in $S$, then the matching threshold in $M$, then the dyadic tolerance ledger $D$, then the regular tail row $R$, and only then the seal row $E$.
+
+The coverage route exports no quotient stream, selected tail representative, detached limit seal, host completeness theorem, trichotomy row, or open-cover compactness object.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_regular\_tail\_coverage}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-convergence-criterion-carrier}. The rows $S,M,D,R,E,H,C,P,N$ are the only visible rows of the accepted packet, so every tolerance request begins inside the same $\BHist$ packet and the same structural provenance.
+
+Apply \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage}. The finite $\StreamNameUp$ window consumed by the request has a matching $\CauchyModulusUp$ threshold in $M$ and a $\DyadicRatCoreUp$ tolerance row in $D$, so the request cannot read an unbounded stream or an unrecorded threshold.
+
+Next use \autoref{thm:cauchy-convergence-criterion-regular-seal-handoff}. Once the covered threshold has passed through $S,M,D$, the row $R$ is the unique pre-seal $\RegSeqRatUp$ route available to the $\CauchyLimitSealUp$ or $\RealUp$ consumer.
+
+Finally combine \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization} with \autoref{thm:cauchy-convergence-criterion-ledger-classifier-exactness}. Zero-difference comparisons remain inside the same null-sequence factorization, and compatible boundary reads determine the same classifier route through $H,C,P,N$. Hence the covered packet exposes the regular tail handoff and the Real seal through the same finite rows, with none of the excluded host-side data in scope.
+\end{proof}
+
+\begin{theorem}[Cauchy convergence criterion cofinal-modulus extraction]
+\label{thm:cauchy-convergence-criterion-cofinal-modulus-extraction}
+Every accepted $\CauchyConvergenceCriterionUp$ carrier $G=(S,M,D,R,E,H,C,P,N)$ determines a cofinal finite modulus route for convergence-facing reads. Any later tolerance request is first reduced to a displayed $\StreamNameUp$ window in $S$, then to the matching $\CauchyModulusUp$ threshold in $M$, then to the $\DyadicRatCoreUp$ ledger $D$, and then to the $\RegSeqRatUp$ row $R$ before the $\RealUp$ seal $E$ is consumed.
+
+The route exports no quotient stream, selected host limit, trichotomy branch, open-cover compactness object, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_cofinal\_modulus\_extraction}
+\begin{proof}
+Start with a later tolerance request. By \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage}, any accepted finite window is a displayed $\StreamNameUp$ row in $S$ with a matching $\CauchyModulusUp$ threshold in $M$ and a $\DyadicRatCoreUp$ tolerance row in $D$.
+
+Next apply \autoref{thm:cauchy-convergence-criterion-tail-diameter-scope}. Tail-diameter data cannot leave the displayed route; they pass through $S,M,D,R$ before the terminal seal row is available.
+
+Use \autoref{thm:cauchy-convergence-criterion-regular-seal-handoff}. The row $R$ is the unique pre-seal $\RegSeqRatUp$ handoff for the $\CauchyLimitSealUp$ or $\RealUp$ consumer, and the structural rows $H,C,P,N$ preserve that handoff.
+
+Finally apply \autoref{thm:cauchy-convergence-criterion-regular-tail-coverage}. It identifies the covered tolerance request with the same regular tail and Real seal route. Since the carrier has no coordinate for quotient streams, selected host limits, trichotomy, open-cover compactness, or ambient completeness, the cofinal modulus route exports none of them.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CofinalModulusExtraction.CauchyConvergenceCriterionCarrier\_cofinal\_modulus\_extraction}
+
+\begin{theorem}[Cauchy convergence criterion scoped readback strengthening]
+\label{thm:cauchy-convergence-criterion-scoped-readback-strengthening}
+Let $G=(S,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyConvergenceCriterionUp$ carrier. Every $\RealUp$-facing, $\CauchyLimitSealUp$-facing, $\NullSequenceUp$-facing, or regular-tail consumer of $G$ reads the same finite scope
+$$
+S,M,D,R,E,H,C,P,N.
+$$
+Thus the convergence criterion exposes no quotient stream, selected host limit, detached seal, trichotomy row, open-cover compactness row, or ambient completeness coordinate to any of these consumers.
+\end{theorem}
+\begin{proof}
+First read the Real and limit-seal consumers. The source-triad exhaustion theorem and the Real seal handoff theorem force such consumers through $S,M,D,R$ before $E$, while the limit-seal determinacy theorem keeps the $\CauchyLimitSealUp$ boundary on the same displayed rows.
+
+Next read the window and tail data. The window-threshold coverage theorem puts each finite $\StreamNameUp$ window together with its threshold and dyadic ledger inside $S,M,D$, and the tail-diameter scope theorem sends every tail-diameter request through $S,M,D,R$ before the seal row.
+
+For zero-difference and regular-tail consumers, use the null-sequence scope theorem, the regular-seal handoff theorem, and the regular-tail coverage theorem. These results keep $\NullSequenceUp$ factorization and regular-tail handoff inside the same $S,M,D,R,E$ route.
+
+Finally project the structural rows of the accepted carrier. The only remaining coordinates are $\hsame$ transport $H$, $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$, so every listed consumer reads exactly the displayed scope and none of the excluded host-side data.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_scoped\_readback\_strengthening}
+
+\begin{theorem}[Cauchy convergence criterion Specker boundary]
+\label{thm:cauchy-convergence-criterion-specker-boundary}
+Let $G=(S,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyConvergenceCriterionUp$ packet read through an accepted $\SpeckerSequenceUp$ carrier surface. The read exposes only finite $\StreamNameUp$ windows, $\CauchyModulusUp$ threshold rows, $\DyadicRatCoreUp$ tolerance rows, the $\RegSeqRatUp$ handoff, the $\RealUp$ seal, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows shared by the two packets.
+
+Consequently the criterion cannot yield a located supremum, ambient Real completeness, quotient stream, or selected host limit from the Specker read. Such a consumer must supply an additional located-modulus row outside the displayed $\CauchyConvergenceCriterionUp$ and $\SpeckerSequenceUp$ packets.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion}. Any $\RealUp$- or $\CauchyLimitSealUp$-facing read of $G$ is forced through the source triad $S,M,D,R$ before the seal row $E$ is visible.
+
+Next use \autoref{thm:cauchy-convergence-criterion-regular-tail-coverage}. The covered tolerance request exposes only the scheduled windows, matching threshold, dyadic ledger, regular tail row, seal row, and the structural rows $H,C,P,N$.
+
+Now read the same route through the Specker carrier surface. By \autoref{thm:speckersequence-carrier-exposure}, \autoref{thm:specker-sequence-regular-cauchy-obligation}, and \autoref{thm:speckersequence-realup-seal-nonescape}, the $\SpeckerSequenceUp$ packet supplies a finite regular-source and seal route but no located supremum coordinate, selected limit, quotient stream, countable-choice selector, trichotomy branch, or ambient completeness theorem.
+
+The remaining located-supremum claim therefore has no row to read. A downstream consumer that needs located convergence must add an external located-modulus row; it cannot recover that row from the displayed Cauchy criterion and Specker packets.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_specker\_boundary}
+
+\begin{theorem}[Cauchy convergence criterion located-modulus frontier]
+\label{thm:cauchy-convergence-criterion-located-modulus-frontier}
+Let $G=(S,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyConvergenceCriterionUp$ carrier. Any downstream consumer claiming located convergence from $G$ must display an additional $\LocatedRealUp$ or located-modulus row outside the carrier. The stored $\CauchyModulusUp$ thresholds, $\DyadicRatCoreUp$ ledger, $\SpeckerSequenceUp$ boundary read, $\StreamNameUp$ schedule, $\RegSeqRatUp$ handoff, and $\RealUp$ seal do not produce such a row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:cauchy-convergence-criterion-namecert-obligations}. The accepted packet exposes exactly the carrier rows $S,M,D,R,E,H,C,P,N$ and the listed stability, exactness, handoff, transport, replay, provenance, and local naming obligations.
+
+Next use \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion}. Every $\RealUp$- or $\CauchyLimitSealUp$-facing read passes through the source triad $S,M,D,R$ before the seal row is available, so the only tolerance data visible before the seal are the displayed $\CauchyModulusUp$ thresholds and $\DyadicRatCoreUp$ ledger.
+
+Now apply \autoref{thm:cauchy-convergence-criterion-specker-boundary}. Reading the same carrier through the $\SpeckerSequenceUp$ surface still exposes only finite stream windows, threshold rows, dyadic tolerance rows, regular rational handoff, terminal seal, and the structural rows; it does not expose a located supremum, selected host limit, quotient stream, or ambient completeness coordinate.
+
+Thus a located-convergence consumer has no carrier row from which to read locatedness. It must add a separate $\LocatedRealUp$ or located-modulus row, and that row lies outside the displayed $\CauchyConvergenceCriterionUp$ packet.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_located\_modulus\_frontier}
 
 \begin{theorem}[Cauchy convergence criterion ledger-classifier exactness]
 \label{thm:cauchy-convergence-criterion-ledger-classifier-exactness}
@@ -156,15 +312,118 @@ Next use \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage}. T
 
 The compatible boundary reads identify the remaining endpoint. By \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy}, compatible $\CauchyLimitSealUp$ boundaries over the same displayed schedule, handoff, dyadic ledger, seal boundary, transport, continuation, provenance, and name rows determine the same seal route. The Real handoff theorem supplies the corresponding $\RealUp$ route, and the NullSequence factorization theorem keeps zero-difference comparisons inside the same packet. Therefore the accepted carriers determine the same local classifier route.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_ledger\_classifier\_exactness}
+
+\begin{theorem}[Cauchy convergence criterion obligation closure upgrade]
+\label{thm:cauchy-convergence-criterion-obligation-closure-upgrade}
+For every accepted $\CauchyConvergenceCriterionUp$ carrier $G=(S,M,D,R,E,H,C,P,N)$, the carrier admission, finite-window classification, modulus stability, $\RegSeqRatUp$ handoff, $\RealUp$ seal nonescape, and ledger exhaustion rows listed in \autoref{thm:cauchy-convergence-criterion-namecert-obligations} form the full obligation surface of the chapter. Every convergence-facing read must pass through the displayed $\StreamNameUp$ schedule, $\CauchyModulusUp$ threshold row, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ handoff, $\RealUp$ seal row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row, with no quotient stream, selected host limit, ambient completeness, trichotomy, or open-cover compactness coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-convergence-criterion-namecert-obligations}. It enumerates the six obligation rows and states that no obligation is stored outside the displayed carrier coordinates.
+
+The Real-facing side is controlled by \autoref{thm:cauchy-convergence-criterion-real-seal-handoff}. It forces every seal read through $S,M,D,R,E,H,C,P,N$ and refuses a detached Real endpoint.
+
+The boundary comparison is controlled by \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy}. Compatible reads over the same displayed schedule, handoff, dyadic ledger, seal boundary, transport, replay, provenance, and naming rows determine the same seal route.
+
+Zero-difference and source coverage are supplied by \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization} and \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion}. The former keeps comparison reads inside the same finite packet, and the latter exhausts every Real- or limit-seal-facing read by $S,M,D,R$ before $E$.
+
+Together these theorems account for carrier admission, window coverage, threshold stability, regular handoff, Real-seal nonescape, and ledger exhaustion. Since the carrier has no additional coordinate, the chapter reaches obligation closure exactly over the displayed packet.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_obligation\_closure\_upgrade}
+
+\begin{theorem}[Cauchy convergence criterion regular-tail window]
+\label{thm:cauchy-convergence-criterion-regular-tail-window}
+For every accepted $\CauchyConvergenceCriterionUp$ carrier $G=(S,M,D,R,E,H,C,P,N)$, the first criterion read opens the regular-tail window only through the displayed $\StreamNameUp$ schedule $S$, $\CauchyModulusUp$ threshold row $M$, $\DyadicRatCoreUp$ tolerance ledger $D$, and $\RegSeqRatUp$ handoff $R$. In particular, every tail-diameter request must expose the dyadic modulus rows $M,D$ before the regular rational row $R$ or the terminal seal row $E$ can be consumed.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_regular\_tail\_window}
+\begin{proof}
+Project the carrier rows. A criterion read has no stream observation outside $S$, no threshold source outside $M$, and no tolerance ledger outside $D$.
+
+Apply \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage}. Each finite window accepted by the classifier has its matching threshold and dyadic tolerance row in the same packet, so the regular-tail request is already inside $S,M,D$ before any handoff is read.
+
+Now use \autoref{thm:cauchy-convergence-criterion-tail-diameter-scope}. Tail-diameter data pass through $S,M,D,R$ before $E$ is available. The structural rows $H,C,P,N$ preserve and name that route, so the first criterion read opens exactly the displayed regular-tail window and dyadic modulus rows.
+\end{proof}
+
+\begin{theorem}[Cauchy convergence criterion Real seal route]
+\label{thm:cauchy-convergence-criterion-real-seal-route}
+For every accepted $\CauchyConvergenceCriterionUp$ carrier $G=(S,M,D,R,E,H,C,P,N)$, the terminal $\RealUp$ seal is available only after the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, and $\NullSequenceUp$ rows used by the criterion have been displayed. The seal read therefore factors through the source schedule, dyadic tolerance ledger, modulus threshold, regular rational handoff, zero-difference comparison route when present, and the structural rows $H,C,P,N$ before it reaches $E$.
+\end{theorem}
+\begin{proof}
+Start with the source and modulus rows. By \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion}, every Real-facing read must pass through $S,M,D,R$ before the seal row $E$ is visible.
+
+The dyadic and regular parts remain displayed. \autoref{thm:cauchy-convergence-criterion-regular-tail-window} forces the first regular-tail read through the $\StreamNameUp$ schedule, $\CauchyModulusUp$ threshold, $\DyadicRatCoreUp$ ledger, and $\RegSeqRatUp$ handoff, so the seal cannot bypass those rows.
+
+For zero-difference comparisons, apply \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization}. The $\NullSequenceUp$ route uses the same $S,M,D,R,E,H,C,P,N$ packet before any $\CauchyLimitSealUp$ boundary consumes the comparison. Finally \autoref{thm:cauchy-convergence-criterion-real-seal-handoff} identifies $E$ as the downstream $\RealUp$ seal, with no detached endpoint or ambient completeness coordinate.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_real\_seal\_route}
+
+\begin{theorem}[Cauchy convergence criterion scope window]
+\label{thm:cauchy-convergence-criterion-scope-window}
+For every accepted $\CauchyConvergenceCriterionUp$ carrier $G=(S,M,D,R,E,H,C,P,N)$, the convergence criterion's window-threshold and tail-diameter reads are scoped by the displayed $\StreamNameUp$ schedule $S$, $\RegSeqRatUp$ handoff $R$, $\DyadicRatCoreUp$ ledger $D$, $\NullSequenceUp$ zero-difference factorization, and $\RealUp$ seal row $E$. A consumer must traverse
+$$
+S\longmapsto M\longmapsto D\longmapsto R\longmapsto E
+$$
+with $H,C,P,N$ before it can read a convergence boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The only windows are named by $S$, the only threshold row is $M$, the only dyadic tolerance ledger is $D$, and the only regular-rational handoff is $R$.
+
+Apply \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage} and \autoref{thm:cauchy-convergence-criterion-tail-diameter-scope}. These theorems force every finite window and tail-diameter request through $S,M,D,R$ before the seal row $E$ is available.
+
+Zero-difference and seal reads remain on the same route. By \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization}, any zero-difference comparison factors through the displayed $\NullSequenceUp$ packet; by \autoref{thm:cauchy-convergence-criterion-real-seal-handoff}, the $\RealUp$ consumer can only read the downstream seal row. The structural rows $H,C,P,N$ preserve and name that scope.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_scope\_window}
+
+\begin{theorem}[Cauchy convergence criterion kernel-dependency scope]
+\label{thm:cauchy-convergence-criterion-kernel-dependency-scope}
+Every exported read from an accepted $\CauchyConvergenceCriterionUp$ carrier depends only on $\BHist$, $\hsame$, displayed $\Cont$ replay, $\Pkg$ provenance, the local $\NameCert$ row, and the listed L10 dependencies $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\NullSequenceUp$, $\RealUp$, and $\CauchyLimitSealUp$. It does not depend on host limits, quotient equality, trichotomy, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The carrier definition exposes exactly $S,M,D,R,E,H,C,P,N$. Thus the kernel rows available to a consumer are the history packet, componentwise equality transport, continuation replay, provenance, and local naming row attached to those displayed dependencies.
+
+The obligation theorem and the source-triad exhaustion theorem account for carrier admission, finite-window classification, threshold stability, regular handoff, ledger exhaustion, and the pre-seal route. The null-sequence factorization and limit-seal determinacy theorems account for zero-difference and boundary comparisons without adding a new coordinate.
+
+Finally read the exclusions from the carrier surface. No row names a host limit, quotient equality, trichotomy branch, countable-choice selector, open-cover compactness object, or ambient completeness principle. Hence every exported criterion read is scoped by the stated kernel and L10 dependency rows.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_kernel\_dependency\_scope}
+
+\begin{theorem}[Cauchy convergence criterion modulus-tail lock]
+\label{thm:cauchy-convergence-criterion-modulus-tail-lock}
+Every accepted convergence-facing read whose null-difference row is certified must pass through the displayed $\StreamNameUp$ window, $\CauchyModulusUp$ threshold, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ handoff, $\NullSequenceUp$ factorization, and terminal $\RealUp$ seal before it may be consumed as a $\CauchyConvergenceCriterionUp$ criterion. The route admits no selected limits, quotient stream equality, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First read the window-threshold coverage row. It binds each finite $\StreamNameUp$ window to the matching $\CauchyModulusUp$ threshold and $\DyadicRatCoreUp$ tolerance ledger, so a convergence-facing request cannot reach the regular handoff before the modulus and dyadic rows have been displayed.
+
+Next use null-sequence factorization. A certified null-difference row is accepted only as a $\NullSequenceUp$ route over the same displayed window, threshold, dyadic tolerance, and regular-rational handoff rows.
+
+Finally apply the regular seal handoff and the kernel dependency scope. The terminal $\RealUp$ seal is reached only after the displayed $\RegSeqRatUp$ handoff and structural rows have replayed the same packet, and the kernel scope has no coordinate for selected limits, quotient stream equality, trichotomy, open-cover compactness, or ambient completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_modulus\_tail\_lock}
+
+\begin{theorem}[Cauchy convergence criterion scoped dependency package]
+\label{thm:cauchy-convergence-criterion-scoped-dependency-package}
+Every accepted $\CauchyConvergenceCriterionUp$ consumer factors through the displayed dependency package consisting of $\StreamNameUp$ windows, $\CauchyModulusUp$ thresholds, $\DyadicRatCoreUp$ tolerance ledgers, $\RegSeqRatUp$ handoff, $\CauchyLimitSealUp$ boundary rows, $\NullSequenceUp$ zero-difference packages, the terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The package contains no ambient completeness principle, quotient-stream equality, selected host limit, trichotomy branch, open-cover compactness argument, or external limit oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier $G=(S,M,D,R,E,H,C,P,N)$. The finite stream windows are stored in $S$, the threshold and modulus data in $M$, the dyadic tolerance ledger in $D$, and the regular-rational handoff in $R$.
+
+Apply \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage}, \autoref{thm:cauchy-convergence-criterion-ledger-classifier-exactness}, and \autoref{thm:cauchy-convergence-criterion-regular-tail-window}. These rows force every window, threshold, tolerance, and regular-tail read to remain inside the displayed $S,M,D,R$ package before the terminal seal is available.
+
+Next read the boundary comparisons. By \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy} and \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization}, any $\CauchyLimitSealUp$ or $\NullSequenceUp$ consumption is a downstream route over the same displayed windows, thresholds, dyadic ledgers, and handoff rows.
+
+Finally use \autoref{thm:cauchy-convergence-criterion-real-seal-route} and \autoref{thm:cauchy-convergence-criterion-kernel-dependency-scope}. The $\RealUp$ seal and the structural rows $H,C,P,N$ preserve and name precisely this dependency package. Since the carrier has no coordinate for ambient completeness, quotient-stream equality, selected host limits, trichotomy, open-cover compactness, or an external limit oracle, every accepted consumer is scoped by the stated route.
+\end{proof}
 
 \closureat{CauchyConvergenceCriterionUp}{seedStr}
+\closureat{CauchyConvergenceCriterionUp}{obligationStr}
+\closureat{CauchyConvergenceCriterionUp}{scopedStr}
 
 \begin{closurestatus}{\CauchyConvergenceCriterionUp}
   \constructivestory{A $\CauchyConvergenceCriterionUp$ packet is generated from a finite $\StreamNameUp$ schedule, a $\CauchyModulusUp$ threshold row, a $\DyadicRatCoreUp$ tolerance ledger, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-convergence-criterion-carrier}, \autoref{thm:cauchy-convergence-criterion-namecert-obligations}, \autoref{thm:cauchy-convergence-criterion-real-seal-handoff}, \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy}, \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization}, \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion}, \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage}, and \autoref{thm:cauchy-convergence-criterion-ledger-classifier-exactness} seed the finite convergence-criterion route from StreamName windows through Cauchy modulus and dyadic ledger rows to the RegSeqRat handoff, CauchyLimitSeal route, NullSequence zero-difference package, and Real seal.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cauchy-convergence-criterion-carrier}, \autoref{thm:cauchy-convergence-criterion-namecert-obligations}, \autoref{thm:cauchy-convergence-criterion-real-seal-handoff}, \autoref{thm:cauchy-convergence-criterion-limit-seal-determinacy}, \autoref{thm:cauchy-convergence-criterion-nullsequence-factorization}, \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion}, \autoref{thm:cauchy-convergence-criterion-window-threshold-coverage}, \autoref{thm:cauchy-convergence-criterion-ledger-classifier-exactness}, and \autoref{thm:cauchy-convergence-criterion-obligation-closure-upgrade} close the finite convergence-criterion obligation route from StreamName windows through Cauchy modulus and dyadic ledger rows to the RegSeqRat handoff, CauchyLimitSeal route, NullSequence zero-difference package, and Real seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close ambient completeness, quotient-stream equality, selected host limits, trichotomy, open-cover compactness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, finite-window classification, modulus stability, RegSeqRat handoff, Real-seal nonescape, and ledger exhaustion for the same displayed packet.}
+  \upgradepath{Scoped closure requires checked dependency routing for the same StreamName, CauchyModulus, DyadicRatCore, RegSeqRat, Real seal, transport, replay, provenance, and local NameCert packet.}
 \end{closurestatus}

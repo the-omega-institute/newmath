@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICClosurePreservationWitnessUp$}
+\label{ch:concrete-instances-metacic-closure-preservation-witness-namecert}
+\origin{human}
+
+Following Barendregt and Coquand-style metatheory, the $\MetaCICClosurePreservationWitnessUp$ packet records the finite BEDC witness surface by which MetaCIC closedness preservation is consumed before any subject-reduction theorem is claimed. It sits after the audit rows of \autoref{ch:concrete-instances-closurepreservationauditwitness-namecert}, the closure-trace packet of \autoref{ch:concrete-instances-metacicclosuretrace-namecert}, and the dependent-codomain transport packet of \autoref{ch:concrete-instances-dependent-codomain-closure-preservation-namecert}. The packet gives downstream closed-normal and subject-reduction routes a single human-lineage certificate for closedness preservation without treating closedness as typing preservation.
+
+\begin{definition}[MetaCIC closure-preservation witness carrier]
+\label{def:metacic-closure-preservation-witness-carrier}
+A $\MetaCICClosurePreservationWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(A,T,D,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\ClosurePreservationAuditWitnessUp$ row that names the shift, substitution, beta-step, and finite beta-chain closedness-preservation audit chain;
+\item $T$ is the $\MetaCICClosureTraceUp$ row that records the accepted closure-preservation theorem rows and their finite replay surface;
+\item $D$ is the $\DependentCodomainClosurePreservationUp$ row that exposes codomain closedness transport without discharging dependent-codomain inversion;
+\item $L$ is the ledger row stating that the witness is a closedness-preservation route, not a typing-preservation or subject-reduction route;
+\item $H$ records componentwise $\hsame$ transport for $A,T,D,L,P,N$;
+\item $C$ records displayed $\Cont$ replay routes from the witness to the audit, trace, and dependent-codomain rows;
+\item $P$ is the $\Pkg$ provenance over MetaCIC closure preservation, the three sibling packets, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\MetaCICClosurePreservationWitnessUp}$ row.
+\end{enumerate}
+The carrier contains no typing context, no conversion equality, no subject-reduction inhabitant, no normalization theorem, no confluence theorem, and no route from closedness preservation to closed consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC closure-preservation witness audit chain]
+\label{thm:metacic-closure-preservation-witness-audit-chain}
+For the carrier of \autoref{def:metacic-closure-preservation-witness-carrier}, every accepted witness read factors through the chain
+$$
+\ClosurePreservationAuditWitnessUp \longrightarrow
+\MetaCICClosureTraceUp \longrightarrow
+\DependentCodomainClosurePreservationUp.
+$$
+The first row supplies the closedness-preservation audit inventory, the second row supplies the finite accepted-declaration trace, and the third row supplies the dependent-codomain closedness transport boundary. The chain exports only closedness-preservation data and its displayed ledger.
+\end{theorem}
+\begin{proof}
+Project the carrier $W$. The first three rows are $A,T,D$, so any consumer reaches the audit witness, closure trace, and dependent-codomain transport surface before it can read the ledger.
+
+The audit row $A$ fixes the shift, substitution, beta-step, and beta-star closedness rows. The trace row $T$ records those rows as accepted MetaCIC closure-preservation declarations, while the dependent-codomain row $D$ records the codomain closedness transport boundary.
+
+Finally inspect $L,H,C,P,N$. The ledger marks the route as closedness-only, and the transport, replay, provenance, and local naming rows preserve only the displayed chain. No coordinate adds typing preservation or subject reduction, so the audit chain has exactly the stated scope.
+\end{proof}
+
+\begin{theorem}[MetaCIC closure-preservation witness non-escape]
+\label{thm:metacic-closure-preservation-witness-nonescape}
+Every public read of an accepted $\MetaCICClosurePreservationWitnessUp$ carrier remains inside
+$$
+A,T,D,L,H,C,P,N.
+$$
+A consumer may cite the $\ClosurePreservationAuditWitnessUp$ audit row, the $\MetaCICClosureTraceUp$ accepted trace row, the $\DependentCodomainClosurePreservationUp$ codomain-transport row, the closedness-only ledger, componentwise transports, displayed replay, provenance, and local naming. It cannot extract subject reduction, type preservation, conversion, confluence, normalization, closed consistency, or a hidden MetaCIC kernel soundness premise.
+\end{theorem}
+\begin{proof}
+Carrier projection leaves exactly the finite tuple $A,T,D,L,H,C,P,N$. The three witness rows are already named as closedness-preservation surfaces, and the ledger row records that no typing-preservation route is being exported.
+
+Replay through $C$ and transport through $H$ keep the same rows visible to downstream consumers. Provenance $P$ identifies the sibling packets and the MetaCIC closure-preservation route, while $N$ names the local certificate.
+
+For any stronger request, inspect the carrier inventory. There is no coordinate for typing contexts, conversion equality, confluence, normalization, closed consistency, or kernel soundness. Thus every public read remains confined to the displayed closedness-preservation witness.
+\end{proof}
+
+\closureat{MetaCICClosurePreservationWitnessUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICClosurePreservationWitnessUp}
+  \constructivestory{A $\MetaCICClosurePreservationWitnessUp$ packet is generated from the closure-preservation audit witness, MetaCIC closure trace, dependent-codomain closure-preservation transport row, closedness-only ledger, componentwise transports, displayed replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-closure-preservation-witness-carrier}, \autoref{thm:metacic-closure-preservation-witness-audit-chain}, and \autoref{thm:metacic-closure-preservation-witness-nonescape} bind the finite witness surface joining audit rows, accepted trace rows, and dependent-codomain closedness transport.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove subject reduction, typing preservation, dependent-codomain inversion, confluence, normalization, closed consistency, Lean verification of the witness packet, or a public schema bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, audit-chain exactness, dependent-codomain boundary preservation, closedness-only ledger exactness, provenance, local naming, and non-escape for the same finite witness packet.}
+\end{closurestatus}

@@ -328,4 +328,39 @@ theorem KernelAcceptanceWitnessLedgerPurity [AskSetup] [PackageSetup]
       unary_cont_closed packet.right.left packet.right.right.right.left purityCont,
       packet.right.right.right.right.right.right.left, purityCont, pkgSig⟩
 
+theorem KernelAcceptanceWitnessPublicExportPackage [AskSetup] [PackageSetup]
+    {generated accepted environmentLedger axiomQuery refusal transport routes provenance nameCert
+      acceptance publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KernelAcceptanceWitnessPacket generated accepted environmentLedger axiomQuery refusal
+        transport routes provenance nameCert acceptance bundle pkg ->
+      Cont acceptance refusal publicRead ->
+        PkgSig bundle publicRead pkg ->
+          UnaryHistory generated ∧ UnaryHistory accepted ∧ UnaryHistory environmentLedger ∧
+            UnaryHistory axiomQuery ∧ UnaryHistory refusal ∧ UnaryHistory publicRead ∧
+              Cont generated environmentLedger accepted ∧ Cont accepted axiomQuery transport ∧
+                Cont transport refusal routes ∧ Cont routes nameCert provenance ∧
+                  Cont provenance accepted acceptance ∧ Cont acceptance refusal publicRead ∧
+                    PkgSig bundle acceptance pkg ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet publicRoute publicPkg
+  obtain
+    ⟨generatedUnary, acceptedUnary, environmentUnary, axiomUnary, refusalUnary,
+      nameCertUnary, generatedAcceptedRoute, axiomTransportRoute, refusalRoute,
+      nameCertRoute, acceptanceRoute, acceptancePkg⟩ := packet
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed acceptedUnary axiomUnary axiomTransportRoute
+  have routesUnary : UnaryHistory routes :=
+    unary_cont_closed transportUnary refusalUnary refusalRoute
+  have provenanceUnary : UnaryHistory provenance :=
+    unary_cont_closed routesUnary nameCertUnary nameCertRoute
+  have acceptanceUnary : UnaryHistory acceptance :=
+    unary_cont_closed provenanceUnary acceptedUnary acceptanceRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed acceptanceUnary refusalUnary publicRoute
+  exact
+    ⟨generatedUnary, acceptedUnary, environmentUnary, axiomUnary, refusalUnary,
+      publicUnary, generatedAcceptedRoute, axiomTransportRoute, refusalRoute, nameCertRoute,
+      acceptanceRoute, publicRoute, acceptancePkg, publicPkg⟩
+
 end BEDC.Derived.KernelAcceptanceWitnessUp

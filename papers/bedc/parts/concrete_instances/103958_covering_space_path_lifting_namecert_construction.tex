@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\CoveringSpacePathLiftingUp$}
+\label{ch:concrete-instances-covering-space-path-lifting-namecert}
+\origin{human}
+
+Following Hatcher and Spanier on covering spaces, the $\CoveringSpacePathLiftingUp$ packet records the finite BEDC surface by which a displayed base path admits a lifted segment route once an initial point over the base endpoint is fixed. It sits over the homotopy path rows of \autoref{ch:concrete-instances-homotopy-namecert}, the circle source of \autoref{ch:concrete-instances-s1-namecert}, the indexed-open topology surface of \autoref{ch:concrete-instances-topology-namecert}, the continuous-map carrier of \autoref{ch:concrete-instances-continuousmap-namecert}, and the metric observation boundary of \autoref{ch:concrete-instances-metric-namecert}. The packet names path lifting as finite window and sheet data; it does not import a universal cover, monodromy action, quotient path space, chosen global sheet, or host uniqueness theorem.
+
+\begin{definition}[CoveringSpacePathLifting carrier]
+\label{def:covering-space-path-lifting-carrier}
+A $\CoveringSpacePathLiftingUp$ carrier is a finite $\BHist$ packet
+$$
+L=(\gamma,\pi,e_0,U,S,\Sigma,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\gamma$ is the base path row, read through $\HomotopyUp$ and the displayed $\SOneUp$ or interval endpoint surface when the path is closed or endpoint-parametrized.
+\item $\pi$ is the covering projection row, a $\ContinuousMapUp$ packet from a displayed total-space topology to the base $\TopologyUp$ row.
+\item $e_0$ is the initial lift point row, together with the endpoint comparison showing that $\pi(e_0)$ is the initial endpoint of $\gamma$ under the base classifier.
+\item $U$ is the evenly covered window ledger. Each base-path window carries a topology index, its lifted sheet window, and the local projection-readback row witnessing that the window is evenly covered.
+\item $S$ is the lifted segment ledger. It lists the finite lifted path segments, their endpoint gluing rows, and the $\Cont$ reads showing that their projection follows the corresponding base-path windows.
+\item $\Sigma$ is the sheet classifier. It compares lifted segments by the initial point, the evenly covered window row, and the segment gluing ledger, not by a host-level choice of sheet.
+\item $E$ is the endpoint seal. It records the final lifted endpoint after all segment windows have been glued and exposes only the projected endpoint comparison back to the base path.
+\item $H$ records componentwise $\hsame$ transport for the base path, projection, initial point, window ledger, lifted segment ledger, sheet classifier, endpoint seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a path-lifting request through $\gamma,\pi,e_0,U,S,\Sigma,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CoveringSpacePathLiftingUp$, $\HomotopyUp$, $\SOneUp$, $\TopologyUp$, $\ContinuousMapUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CoveringSpacePathLiftingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a universal covering space, a chosen global sheet, a completed path quotient, a monodromy action, a fundamental-group representation, or a host uniqueness principle.
+\end{definition}
+
+\begin{theorem}[CoveringSpacePathLifting NameCert obligations]
+\label{thm:covering-space-path-lifting-namecert-obligations}
+For every accepted $\CoveringSpacePathLiftingUp$ carrier
+$$
+L=(\gamma,\pi,e_0,U,S,\Sigma,E,H,C,P,N),
+$$
+the local $\NameCert_{\CoveringSpacePathLiftingUp}$ surface consists exactly of carrier admission, base-path admission through $\HomotopyUp$, covering-projection admission through $\ContinuousMapUp$ over $\TopologyUp$, initial endpoint exactness, evenly covered window exactness, lifted segment gluing, sheet-classifier stability, endpoint seal readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every path-lifting consumer can inspect $\gamma,\pi,e_0,U,S,\Sigma,E,H,C,P,N$, but cannot replace them by a universal cover, host path quotient, selected global sheet, monodromy action, or fundamental-group representation.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:covering-space-path-lifting-carrier}. The accepted tuple displays the base path, covering projection, initial lift point, evenly covered windows, lifted segment ledger, sheet classifier, endpoint seal, transport, replay, provenance, and local naming rows.
+
+The base and projection obligations are inherited by reading $\gamma$ through $\HomotopyUp$ and $\pi$ through $\ContinuousMapUp$ over the displayed $\TopologyUp$ rows. The metric observation boundary may be used only as the finite $\MetricUp$ readback already named in the provenance row.
+
+Initial endpoint exactness, window exactness, and segment gluing are the roles of $e_0,U,S$. Each lifted segment is attached to a visible evenly covered window, and the gluing row records the next endpoint before the following window is consumed.
+
+The sheet classifier and endpoint seal are then inventory checks on $\Sigma$ and $E$. Since $H,C,P,N$ only transport, replay, source, and name the same finite rows, the local certificate has no remaining place to store a universal cover, global sheet selector, quotient path, monodromy action, or fundamental-group representation.
+\end{proof}
+
+\begin{theorem}[CoveringSpacePathLifting unique lift route]
+\label{thm:covering-space-path-lifting-unique-lift-route}
+Let $L=(\gamma,\pi,e_0,U,S,\Sigma,E,H,C,P,N)$ and $L'=(\gamma,\pi,e_0,U,S',\Sigma',E',H',C',P',N')$ be accepted $\CoveringSpacePathLiftingUp$ packets with the same displayed base path, covering projection, initial lift point, and evenly covered window ledger. If the lifted segment ledgers are both admitted by the same sheet classifier route over $U$, then every endpoint and intermediate segment read of $L$ and $L'$ factors through the same finite route
+$$
+\gamma,\ \pi,\ e_0,\ U,\ \Sigma,\ E,\ H,\ C,\ P,\ N .
+$$
+Thus uniqueness of the lift is recorded as sheet-classifier determinacy over the displayed window ledger, not as host path equality or a selected global sheet.
+\end{theorem}
+\begin{proof}
+Start with the common rows $\gamma,\pi,e_0,U$. They fix the base path, the projection surface, the initial lifted endpoint, and the sequence of evenly covered windows visible to both packets.
+
+Read the first lifted segment through the sheet classifier. Because both packets use the same initial lift point and the same first evenly covered window, $\Sigma$ admits only the displayed segment row compatible with the local projection readback.
+
+Proceed along the finite lifted segment ledger. At each next window, the previous endpoint is already sealed by the gluing row, so the same sheet-classifier route determines the next segment read. This is a finite induction over the listed windows of $U$, not an appeal to a completed path space.
+
+The final endpoint rows $E$ and $E'$ are therefore read through the same sequence of segment and sheet rows. Replaying and transporting by $H,C,P,N$ preserves that route and exports no global sheet selector, quotient path equality, monodromy action, or fundamental-group representation.
+\end{proof}
+
+\closureat{CoveringSpacePathLiftingUp}{seedStr}
+
+\begin{closurestatus}{\CoveringSpacePathLiftingUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:covering-space-path-lifting-carrier}, \autoref{thm:covering-space-path-lifting-namecert-obligations}, and \autoref{thm:covering-space-path-lifting-unique-lift-route} seed the finite base-path, covering-projection, evenly covered window, lifted segment, sheet-classifier, and endpoint-seal surface for path lifting.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close universal covers, monodromy actions, fundamental-group representations, host path quotients, selected global sheets, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window exactness, lifted segment gluing, sheet-classifier determinacy, endpoint seal readback, transport, replay, provenance, and local naming for BEDC.Derived.CoveringSpacePathLiftingUp.}
+  \constructivestory{A $\CoveringSpacePathLiftingUp$ packet is generated from a base path, a covering projection, an initial lifted point, evenly covered base windows, lifted segment rows, a sheet classifier, an endpoint seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

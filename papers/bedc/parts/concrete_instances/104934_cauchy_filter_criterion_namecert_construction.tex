@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\CauchyFilterCriterionUp$}
+\label{ch:concrete-instances-cauchy-filter-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyFilterCriterionUp$ packet records the finite criterion by which a displayed filter base becomes acceptable Cauchy-filter data for the L10 completion route. It sits after the finite $\FilterBaseUp$ interface of \autoref{ch:concrete-instances-filterbase-namecert}, the Cauchy-filter surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, and the completion-facing routes of \autoref{ch:concrete-instances-metriccompletion-namecert} and \autoref{ch:concrete-instances-uniformcompletion-namecert}; it never replaces them by quotient filters, choice-selected limits, or host completeness.
+
+\begin{definition}[Cauchy filter criterion carrier]
+\label{def:cauchy-filter-criterion-carrier}
+A $\CauchyFilterCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B,K,M,U,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\FilterBaseUp$ row naming the finite base packets and directed-refinement witnesses that may be inspected by a completion consumer.
+\item $K$ is the $\CauchyFilterUp$ row recording that the displayed base is Cauchy only through finite entourage or ball requests.
+\item $M$ is the $\MetricCompletionUp$ handoff row reached only after $B,K,W,R,D,E$ have been displayed.
+\item $U$ is the $\UniformCompletionUp$ handoff row exposing the same Cauchy-filter route to entourage-facing completion consumers.
+\item $W$ is the $\StreamNameUp$ finite-window family used when the criterion is read sequentially.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the sequential windows and tolerance requests.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger that bounds every displayed Cauchy request.
+\item $E$ is the $\RealUp$ terminal seal read by real-name consumers after the filter, window, regular-rational, and dyadic rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the filter-base, Cauchy-filter, completion, sequential, tolerance, real-seal, and structural rows.
+\item $C$ records displayed $\Cont$ replay from a filter-base request through Cauchy-filter evidence, sequential readback, tolerance accounting, completion handoff, and real sealing.
+\item $P$ is the $\Pkg$ provenance over $\CauchyFilterCriterionUp$, $\FilterBaseUp$, $\CauchyFilterUp$, $\MetricCompletionUp$, $\UniformCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyFilterCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,K,M,U,W,R,D,E,H,C,P,N$. There is no coordinate for quotient filter equality, selected representatives, countable choice, host-side limits, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy filter criterion NameCert obligations]
+\label{thm:cauchy-filter-criterion-namecert-obligations}
+For the carrier of \autoref{def:cauchy-filter-criterion-carrier}, the local $\NameCert_{\CauchyFilterCriterionUp}$ surface consists exactly of carrier exposure for $F$, finite filter-base exposure through $B$, Cauchy-filter exposure through $K$, metric-completion handoff through $M$, uniform-completion handoff through $U$, sequential window exposure through $W$, regular rational readback through $R$, dyadic tolerance exposure through $D$, real-name sealing through $E$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed packet $F=(B,K,M,U,W,R,D,E,H,C,P,N)$. The base row $B$ supplies only the finite directed interface of \autoref{ch:concrete-instances-filterbase-namecert}, and the Cauchy row $K$ reads that interface before any completion-facing coordinate is visible.
+
+The sequential rows then bind the criterion to the real-name route. The window row $W$, regular readback row $R$, and dyadic tolerance row $D$ are displayed before the real seal $E$ or either completion handoff can be consumed.
+
+Finally the structural rows $H,C,P,N$ transport, replay, source, and name exactly these coordinates. Since quotient filters, selected representatives, countable choice, host limits, and ambient completeness are not rows of the carrier, no further NameCert obligation remains.
+\end{proof}
+
+\begin{theorem}[Cauchy filter criterion real-completion handoff]
+\label{thm:cauchy-filter-criterion-real-completion-handoff}
+Every $\RealUp$, $\MetricCompletionUp$, or $\UniformCompletionUp$ consumer of an accepted $\CauchyFilterCriterionUp$ carrier must pass through
+$$
+\FilterBaseUp,\ \CauchyFilterUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \RealUp
+$$
+in the displayed carrier order before reading the completion handoff rows $M$ or $U$. The handoff supplies a finite Cauchy-filter criterion for the completion route; it does not supply quotient filters, choice-selected limits, selected representatives, countable choice, host completeness, or an ambient real-limit operator.
+\end{theorem}
+\begin{proof}
+Start with the finite base route. The consumer first reads $B$ and can narrow requests only through the displayed directed-refinement surface supplied by \autoref{thm:filter-base-cauchyfilter-handoff}.
+
+Next read the Cauchy and sequential rows. The row $K$ witnesses the Cauchy-filter condition over the same base, while $W,R,D$ translate inspected requests into finite windows, regular rational readback, and dyadic tolerance accounting.
+
+The terminal seal and completion handoffs are downstream of those rows. Thus $E,M,U$ can only expose the real-name and completion-facing boundaries after the displayed filter-base criterion has been replayed by $C$ and transported by $H$.
+
+No excluded principle is carried by $P$ or $N$. The packet therefore feeds the L10 real and completion route without quotient filters, selected limits, countable choice, host completeness, or a hidden ambient limit object.
+\end{proof}
+
+\closureat{CauchyFilterCriterionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyFilterCriterionUp}
+  \constructivestory{A $\CauchyFilterCriterionUp$ packet is generated from a FilterBaseUp row, a CauchyFilterUp row, MetricCompletionUp and UniformCompletionUp handoff rows, StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-filter-criterion-carrier}, \autoref{thm:cauchy-filter-criterion-namecert-obligations}, and \autoref{thm:cauchy-filter-criterion-real-completion-handoff} seed the finite criterion by which a displayed FilterBase and CauchyFilter route may feed Real, MetricCompletion, and UniformCompletion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient filters, choice-selected limits, selected representatives, countable choice, host completeness, Lean verification, bridge checking, or an ambient real-limit operator.}
+  \upgradepath{Obligation closure requires checked carrier exposure, Cauchy-filter criterion exposure, completion handoff nonescape, real-seal readiness, and ledger-refusal proofs for BEDC.Derived.CauchyFilterCriterionUp.}
+\end{closurestatus}

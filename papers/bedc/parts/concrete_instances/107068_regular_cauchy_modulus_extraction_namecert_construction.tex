@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyModulusExtractionUp$}
+\label{ch:concrete-instances-regular-cauchy-modulus-extraction-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyModulusExtractionUp$ packet records the finite route by which a regular Cauchy rational stream exposes a modulus schedule before a $\RealUp$ or completion-facing consumer reads the name. It sits over the $\StreamNameUp$ window surface of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ readback row of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\DyadicRatCoreUp$ tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the $\DyadicCauchyTailEnvelopeUp$ tail-bound route of \autoref{ch:concrete-instances-dyadic-cauchy-tail-envelope-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The certificate makes the modulus extraction visible as finite NameCert data rather than as a prose appeal to a completed Cauchy object.
+
+\begin{definition}[Regular Cauchy modulus extraction carrier]
+\label{def:regular-cauchy-modulus-extraction-carrier}
+A $\RegularCauchyModulusExtractionUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,R,D,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ window row opened by the regular Cauchy source and by each downstream precision request.
+\item $R$ is the $\RegSeqRatUp$ readback row, binding displayed stream windows to rational observations.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, carrying dyadic radii, comparison cells, half-radius splits, and endpoint observations.
+\item $T$ is the $\DyadicCauchyTailEnvelopeUp$ row, displaying the tail bound that makes the requested dyadic scale stable after a finite stage.
+\item $E$ is the extracted modulus schedule, assigning each displayed tolerance request to the finite stage justified by $S,R,D,T$.
+\item $H$ records componentwise $\hsame$ transport for the window, readback, tolerance, tail-envelope, schedule, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,R,D,T \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyModulusExtractionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\DyadicCauchyTailEnvelopeUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyModulusExtractionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,D,T,E,H,C,P,N$. It has no coordinate for selected limits, quotient equality of streams, countable choice, trichotomy, ambient $\RealUp$ completeness, or a modulus schedule chosen outside the displayed tail-envelope route.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy modulus extraction NameCert obligations]
+\label{thm:regular-cauchy-modulus-extraction-namecert-obligations}
+For every accepted $\RegularCauchyModulusExtractionUp$ carrier
+$$
+M=(S,R,D,T,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyModulusExtractionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the StreamName windows, RegSeqRat readback, DyadicRatCore tolerances, DyadicCauchyTailEnvelope bound, extracted schedule, componentwise transport, continuation replay, provenance, and local naming rows;
+\item readback exactness, requiring $R$ to read only rational observations displayed in $S$ and tolerance data displayed in $D$;
+\item tail-bound exposure, requiring $T$ to be the only row that certifies a stable tail after a finite stage for the requested dyadic scale;
+\item modulus extraction exactness, requiring $E$ to be computed from the displayed route $S,R,D,T$ and from no detached selector;
+\item structural stability, requiring $H,C,P,N$ to transport, replay, source, and name only the same displayed route.
+\end{enumerate}
+No $\RegularCauchyModulusExtractionUp$ NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-modulus-extraction-carrier}. The accepted packet displays exactly the window, readback, tolerance, tail-envelope, extracted schedule, transport, replay, provenance, and local naming rows.
+
+Readback exactness is controlled by $S,R,D$. The regular rational observations are available only through displayed stream windows and displayed dyadic tolerance cells.
+
+Tail-bound exposure is the role of $T$. It records the finite tail envelope attached to the same dyadic scale, so the packet has no independent convergence oracle.
+
+The extracted schedule $E$ is downstream of $S,R,D,T$. A consumer can therefore read a modulus only as the displayed finite schedule justified by the tail envelope.
+
+Finally, $H,C,P,N$ preserve the same route under transport, replay, provenance, and local naming. Since no remaining coordinate stores a selected limit, quotient equality, outside schedule, trichotomy, or ambient Real-completeness principle, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus extraction tail-bound route]
+\label{thm:regular-cauchy-modulus-extraction-tail-bound-route}
+Let
+$$
+M=(S,R,D,T,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyModulusExtractionUp$ carrier. Every $\RealUp$, $\MetricCompletionUp$, or $\CompleteMetricUp$ consumer that reads a modulus from $M$ must factor through the finite tail-bound route
+$$
+S,R,D \longmapsto T \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the consumer receives a displayed StreamName window row, RegSeqRat rational readback, DyadicRatCore tolerance ledger, DyadicCauchyTailEnvelope bound, extracted schedule, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ data, and receives no quotient stream equality, selected limit, trichotomy, countable choice, host real equality, ambient $\RealUp$ completeness, or bridge credential.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier and project the rows $S,R,D,T,E,H,C,P,N$. The only observation surface before a modulus is read is the displayed window, readback, and dyadic tolerance route.
+
+The tail-bound row $T$ is then read at the same dyadic scale. It supplies the finite stage after which the displayed rational tail is stable for the request.
+
+The extracted schedule $E$ is downstream of that tail-bound row. Thus any modulus read by a Real or completion consumer is the schedule justified by $S,R,D,T$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same route. Because the carrier has no coordinate for the excluded equality, selection, order, choice, completeness, or bridge objects, every such consumer factors through the displayed tail-bound route.
+\end{proof}
+
+\closureat{RegularCauchyModulusExtractionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyModulusExtractionUp}
+  \constructivestory{A $\RegularCauchyModulusExtractionUp$ packet is generated from a StreamName window row, RegSeqRat readback row, DyadicRatCore tolerance row, DyadicCauchyTailEnvelope bound row, extracted modulus schedule, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-modulus-extraction-carrier}, \autoref{thm:regular-cauchy-modulus-extraction-namecert-obligations}, and \autoref{thm:regular-cauchy-modulus-extraction-tail-bound-route} seed the finite modulus-extraction route from regular Cauchy readbacks through dyadic tail envelopes and displayed schedules.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient equality of Cauchy streams, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, readback exactness, tail-bound exposure, modulus extraction exactness, and structural stability for BEDC.Derived.RegularCauchyModulusExtractionUp.}
+\end{closurestatus}

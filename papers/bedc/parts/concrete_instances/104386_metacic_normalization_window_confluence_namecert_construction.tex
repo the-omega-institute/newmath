@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICNormalizationWindowConfluenceUp$}
+\label{ch:concrete-instances-metacic-normalization-window-confluence-namecert}
+\origin{ai}
+
+The $\MetaCICNormalizationWindowConfluenceUp$ packet realizes the candidate-mediated normalization-window and confluence-boundary branch of \autoref{ch:metacic-normalization-audit-map} as finite NameCert data. It consumes the candidate-mediated strong-normalization boundary of \autoref{ch:concrete-instances-candidate-sn-confluence-boundary-namecert} and the local critical-pair boundary of \autoref{ch:concrete-instances-metacic-confluence-critical-pair-boundary-namecert} before exporting its normalization-window confluence boundary. It packages candidate evidence, closed-candidate evidence, candidate-set rows, Pi and application adequacy rows, typed example reduction traces, closed-normal rows, transport, replay, provenance, and local naming before any consumer treats a MetaCIC normalization read as accepted. The packet is not a global strong-normalization theorem, not a closed confluence theorem, and not a subject-reduction closure theorem.
+
+The packet also consumes the confluence-audit boundary of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}, the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, and the bridge surface of \autoref{ch:concrete-instances-metacic-normalization-confluence-bridge-namecert}. These siblings provide the conditional confluence rows, candidate-mediated normalization frontier, and bridge-facing nonescape boundary that this chapter packages into one finite normalization-window carrier.
+
+\begin{definition}[MetaCIC normalization-window confluence carrier]
+\label{def:metacic-normalization-window-confluence-carrier}
+A $\MetaCICNormalizationWindowConfluenceUp$ carrier is a finite $\BHist$ packet
+$$
+M=(T,R,K,Q,S,A,B,D,E,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed MetaCIC term-window row naming the finite expression and context fragment being audited.
+\item $R$ is the typed reduction-trace row, read through the local typed-example reduction surface.
+\item $K$ is the candidate-evidence row for the audited term window.
+\item $Q$ is the closed-candidate evidence row for closed subwindows.
+\item $S$ is the candidate-set membership row.
+\item $A$ is the Pi-adequacy row for dependent function windows.
+\item $B$ is the application-adequacy row for application windows.
+\item $D$ is the closed-normal row reached after the accepted candidate-mediated route.
+\item $E$ is the confluence-boundary row, recording the refusal to promote local window agreement to global closed confluence.
+\item $Z$ is the decidable-boundary row, storing the exact finite boundary at which beta-step inspection is admitted.
+\item $H$ records componentwise $\hsame$ transport for term windows, traces, candidate rows, adequacy rows, closed-normal rows, boundary rows, replay, provenance, and naming.
+\item $C$ records displayed $\Cont$ replay from a normalization-window request through $T,R,K,Q,S,A,B,D,E,Z$ in that order.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICNormalizationWindowConfluenceUp$, candidate evidence, closed-candidate evidence, candidate sets, Pi adequacy, application adequacy, typed example reduction traces, closed-normal rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICNormalizationWindowConfluenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,R,K,Q,S,A,B,D,E,Z,H,C,P,N$. It has no coordinate for global subject reduction, global strong normalization, global confluence, proof irrelevance, host conversion equality, or a closed consistency theorem.
+\end{definition}
+
+\begin{theorem}[MetaCIC normalization-window confluence NameCert obligations]
+\label{thm:metacic-normalization-window-confluence-namecert-obligations}
+For every accepted $\MetaCICNormalizationWindowConfluenceUp$ carrier $M=(T,R,K,Q,S,A,B,D,E,Z,H,C,P,N)$, the local $\NameCert_{\MetaCICNormalizationWindowConfluenceUp}$ surface consists exactly of carrier admission for the typed term window, typed reduction trace, candidate evidence, closed-candidate evidence, candidate-set membership, Pi adequacy, application adequacy, closed-normal row, confluence-boundary row, decidable beta-step boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Lean TasteGate work for this packet must supply Nontrivial and FieldFaithful instances for the carrier rows and classifier projections before any bridge-checked reading is available.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The typed expression and reduction rows are $T,R$, the candidate-mediated normalization rows are $K,Q,S,A,B,D$, and the boundary rows are $E,Z$.
+
+Carrier admission first checks the candidate evidence consumed by the read. Closed subwindows must pass through $Q$, candidate-set membership through $S$, Pi windows through $A$, and application windows through $B$ before the closed-normal row $D$ is exposed.
+
+Transport is componentwise through $H$. It preserves each candidate, adequacy, closed-normal, and boundary row without replacing them by host conversion equality or a global confluence premise.
+
+Replay through $C$ fixes the order of inspection, while $P,N$ source and name the packet. The TasteGate burden is therefore precise: Nontrivial and FieldFaithful instances must witness that these displayed rows are not collapsed by the classifier or by the public carrier surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization-window confluence nonescape]
+\label{thm:metacic-normalization-window-confluence-nonescape}
+Every accepted $\MetaCICNormalizationWindowConfluenceUp$ read factors through candidate evidence, closed-candidate evidence, candidate-set membership, Pi adequacy, application adequacy, and closed-normal rows before the confluence-boundary row may be consumed. Consequently the packet exports no global strong-normalization theorem, no global confluence theorem, no subject-reduction closure theorem, no proof-irrelevance principle, no host conversion equality, and no closed consistency theorem.
+\end{theorem}
+\begin{proof}
+Begin with a normalization-window request. The trace row $R$ can be inspected only after the typed term window $T$ is fixed.
+
+The request then enters the candidate-mediated route. Candidate evidence $K$, closed-candidate evidence $Q$, candidate-set membership $S$, Pi adequacy $A$, and application adequacy $B$ are read before the closed-normal row $D$.
+
+Only after that route is displayed may the confluence-boundary row $E$ and the decidable beta-step boundary $Z$ be consumed. Componentwise transport, continuation replay, provenance, and naming preserve the same finite row order.
+
+Since the carrier has no field for global subject reduction, global strong normalization, global confluence, proof irrelevance, host conversion equality, or closed consistency, no accepted read can escape to those principles.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetaCICNormalizationWindowConfluenceUp$ read factors through candidate evidence, closed-candidate evidence, candidate-set membership, Pi adequacy, application adequacy, and closed-normal rows before any confluence-boundary row is consumed.}
+
+\independenceWitness{metacicconfluenceauditpacket, metacicnormalizationfrontier, typed-example-reduction-trace, metacicdecidableboundary, betastepboundary: none is bijective to $\MetaCICNormalizationWindowConfluenceUp$ because this packet jointly carries typed term windows, reduction traces, candidate rows, closed-candidate rows, candidate-set rows, Pi and application adequacy, closed-normal rows, confluence and beta-step boundaries, transport, replay, provenance, and local naming.}
+
+\closureat{MetaCICNormalizationWindowConfluenceUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICNormalizationWindowConfluenceUp}
+  \constructivestory{A $\MetaCICNormalizationWindowConfluenceUp$ packet is generated from a typed term window, typed reduction trace, candidate evidence, closed-candidate evidence, candidate-set membership, Pi adequacy, application adequacy, closed-normal rows, confluence-boundary rows, beta-step boundary rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-normalization-window-confluence-carrier}, \autoref{thm:metacic-normalization-window-confluence-namecert-obligations}, and \autoref{thm:metacic-normalization-window-confluence-nonescape} seed the finite candidate-mediated normalization-window and confluence-boundary carrier.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global strong normalization, global confluence, subject reduction, proof irrelevance, host conversion equality, closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate route exactness, Pi and application adequacy preservation, closed-normal routing, confluence-boundary non-escape, beta-step boundary exactness, and TasteGate Nontrivial and FieldFaithful instances for BEDC.Derived.MetaCICNormalizationWindowConfluenceUp.}
+\end{closurestatus}

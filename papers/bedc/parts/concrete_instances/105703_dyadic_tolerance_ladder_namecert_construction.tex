@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\DyadicToleranceLadderUp$}
+\label{ch:concrete-instances-dyadic-tolerance-ladder-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive use of rational tolerances, the $\DyadicToleranceLadderUp$ packet records the finite ladder of dyadic requests used by Real and Completion consumers before any completed real object is exposed. It sits on the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite request-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the tail-budget packet of \autoref{ch:concrete-instances-dyadictailbound-namecert}. The packet gives downstream Real and Completion chapters one reusable source object for the tolerances $2^{-n}$, their halving route, and their finite handoff to regular-rational windows.
+
+\begin{definition}[DyadicToleranceLadder carrier]
+\label{def:dyadic-tolerance-ladder-carrier}
+A $\DyadicToleranceLadderUp$ carrier is a finite $\BHist$ packet
+$$
+L=(D,S,Q,E,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ endpoint row, recording dyadic numerators, denominators, comparison rows, and the visible tolerance term $2^{-n}$.
+\item $S$ is the $\StreamNameUp$ request-window row, recording the finite list of precision indices at which a consumer asks for tolerances.
+\item $Q$ is the $\RegSeqRatUp$ regular-rational window row, recording the rational readback surface that consumes the requested dyadic tolerances.
+\item $E$ is the $\RealUp$ seal boundary row, recording only the terminal handoff at which the tolerance ladder can be read by a real-facing consumer.
+\item $T$ is the $\DyadicTailBoundUp$ row, recording the finite tail-budget comparison that treats successive ladder entries as shrinking tolerance requests.
+\item $H$ records componentwise $\hsame$ transport for the dyadic endpoint, window, regular-rational, real-seal, tail-bound, continuation, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ routes from dyadic endpoints through finite windows, regular-rational readback, tail-bound comparisons, and the real-seal boundary.
+\item $P$ is the $\Pkg$ provenance over $\DyadicToleranceLadderUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicTailBoundUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicToleranceLadderUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,Q,E,T,H,C,P,N$. It has no coordinate for quotient stream equality, trichotomy on real names, selected limits, countable-choice schedules, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[DyadicToleranceLadder NameCert obligations]
+\label{thm:dyadic-tolerance-ladder-namecert-obligations}
+For every accepted $\DyadicToleranceLadderUp$ carrier
+$$
+L=(D,S,Q,E,T,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicToleranceLadderUp}$ surface consists exactly of carrier exposure for the dyadic endpoint row $D$, finite request-window row $S$, regular-rational readback row $Q$, real-seal boundary $E$, tail-bound comparison row $T$, componentwise transport row $H$, continuation row $C$, package provenance row $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:dyadic-tolerance-ladder-carrier}. Each row named in the statement is one coordinate of the finite packet, and the definition lists no hidden coordinate for a completed real object.
+
+The dyadic endpoint and request-window obligations are $D$ and $S$. The regular-rational readback and real-facing boundary obligations are $Q$ and $E$, while the shrinking tolerance budget is the row $T$.
+
+Transport, replay, provenance, and local naming are supplied by $H,C,P,N$. Repacking these rows gives the displayed $\NameCert_{\DyadicToleranceLadderUp}$ surface, with quotient stream equality, trichotomy, selected limits, countable choice, and ambient $\RealUp$ completeness outside the packet.
+\end{proof}
+
+\begin{theorem}[DyadicToleranceLadder monotone halving]
+\label{thm:dyadic-tolerance-ladder-monotone-halving}
+Let $L=(D,S,Q,E,T,H,C,P,N)$ be an accepted $\DyadicToleranceLadderUp$ carrier. If two requested indices $m,n$ are both displayed in the finite $\StreamNameUp$ window $S$ and $m$ is the successor request after $n$, then the tolerance read from $D$ at $m$ is routed through the same dyadic endpoint row as one halving of the tolerance read at $n$, and the comparison is consumed by $T$ before $Q$ or $E$ can export the request.
+\end{theorem}
+\begin{proof}
+The only dyadic endpoint row in the carrier is $D$, so both displayed requests are read from the same dyadic arithmetic surface. The successor relation is visible only as part of the finite window $S$, not as an external sequence choice.
+
+The halving comparison is the role of the tail-bound row $T$. It consumes the two displayed endpoint reads before the regular-rational window $Q$ is opened, so the comparison cannot be replaced by an unrecorded real-order argument.
+
+After $T$ records the comparison, the readback row $Q$ and the seal boundary $E$ may consume the tolerance request. The route therefore remains a finite ladder through $D,S,T,Q,E,H,C,P,N$, and it exports no quotient stream equality, trichotomy, selected limit, countable-choice schedule, or ambient completeness theorem.
+\end{proof}
+
+\closureat{DyadicToleranceLadderUp}{seedStr}
+
+\begin{closurestatus}{\DyadicToleranceLadderUp}
+  \constructivestory{A $\DyadicToleranceLadderUp$ packet is generated from dyadic endpoint rows, finite StreamName request windows, RegSeqRat readback windows, Real seal boundaries, DyadicTailBound comparison rows, componentwise transports, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-tolerance-ladder-carrier}, \autoref{thm:dyadic-tolerance-ladder-namecert-obligations}, and \autoref{thm:dyadic-tolerance-ladder-monotone-halving} bind the finite dyadic tolerance ladder, its local NameCert surface, and its monotone halving route for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not prove $\RealUp$ completeness, quotient stream equality, trichotomy, selected limits, countable choice, or a public standard bridge.}
+  \upgradepath{Scoped closure requires Lean encoding of the carrier, the local NameCert obligation surface, and the monotone halving route over the displayed dyadic and regular-rational rows.}
+\end{closurestatus}

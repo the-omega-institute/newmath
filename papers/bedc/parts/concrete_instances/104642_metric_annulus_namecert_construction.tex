@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for $\MetricAnnulusUp$}
+\label{ch:concrete-instances-metric-annulus-namecert}
+\origin{human}
+
+Following Kelley on metric neighbourhoods and Bishop--Bridges constructive metric spaces, the $\MetricAnnulusUp$ packet records the shell between an inner exclusion radius and an outer containment radius as finite BEDC certificate data. It sits over the metric source of \autoref{ch:concrete-instances-metric-namecert}, the metric-ball surface of \autoref{ch:concrete-instances-metricball-namecert}, the open-ball exclusion route of \autoref{ch:concrete-instances-open-ball-namecert}, the closed-ball containment route of \autoref{ch:concrete-instances-metricclosedball-namecert}, and the real-name radius seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a metric shell neighbourhood certificate, not a host subset, not quotient point equality, not a selected-radius principle, not compactness, and not $\RealUp$ completeness.
+
+\begin{definition}[MetricAnnulus carrier]
+\label{def:metric-annulus-carrier}
+A $\MetricAnnulusUp$ carrier is a finite $\BHist$ packet
+$$
+K=(M,c,r_0,r_1,O,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricUp$ source row naming the finite distance-comparison surface.
+\item $c$ is the centre row, read only through the same metric source.
+\item $r_0$ is the inner radius row, exposed as a positive or nonnegative $\RealUp$ radius seal according to the local metric-ball convention.
+\item $r_1$ is the outer radius row, exposed through the same $\RealUp$ radius discipline.
+\item $O$ is the $\OpenBallUp$ exclusion row, recording that points in the shell are outside the displayed inner open ball around $c$ with radius $r_0$.
+\item $B$ is the $\MetricClosedBallUp$ containment row, recording that points in the shell remain inside the displayed closed ball around $c$ with radius $r_1$.
+\item $H$ records componentwise $\hsame$ transport for the metric source, centre, two radius rows, open-ball exclusion row, closed-ball containment row, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a shell-membership request through the radius-order check, the open-ball exclusion test, and the closed-ball containment test.
+\item $P$ is the $\Pkg$ provenance over $\MetricAnnulusUp$, $\MetricUp$, $\MetricBallUp$, $\OpenBallUp$, $\MetricClosedBallUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetricAnnulusUp}$ row.
+\end{enumerate}
+The carrier accepts only packets whose metric source, centre, inner radius, outer radius, exclusion row, containment row, transport, replay, provenance, and local name are all displayed in the same finite ledger.
+\end{definition}
+
+\begin{theorem}[MetricAnnulus NameCert obligations]
+\label{thm:metric-annulus-namecert-obligations}
+For every accepted $\MetricAnnulusUp$ carrier $K=(M,c,r_0,r_1,O,B,H,C,P,N)$, the local $\NameCert_{\MetricAnnulusUp}$ surface consists exactly of carrier admission for the displayed metric source and centre, visibility of the ordered inner and outer radius rows, inner-boundary exclusion through the $\OpenBallUp$ row, outer-boundary containment through the $\MetricClosedBallUp$ row, classifier transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. Every shell-neighbourhood read is confined to those rows and cannot open a host subset, quotient point equality, selected-radius choice, compactness principle, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the displayed rows $M,c,r_0,r_1,O,B,H,C,P,N$. The metric source and centre are the only source coordinates, and the two radius rows are the only numerical boundary coordinates available to a shell read.
+
+The inner boundary is read through $O$: a point must avoid the displayed open ball around $c$ at radius $r_0$. The outer boundary is read through $B$: the same point remains inside the displayed metric closed ball around $c$ at radius $r_1$.
+
+The transport row $H$ and replay row $C$ keep the classifier and continuation route componentwise on this packet. The provenance and local name rows $P,N$ then certify that every later consumer reaches the shell only through the metric source, centre, radius rows, exclusion row, and containment row already displayed.
+
+Since the carrier has no field for a host subset, quotient equality on points, a selected-radius operator, compactness data, or a completeness theorem for $\RealUp$, the ledger cannot escape to those principles.
+\end{proof}
+
+\closureat{MetricAnnulusUp}{seedStr}
+
+\begin{closurestatus}{\MetricAnnulusUp}
+  \constructivestory{A $\MetricAnnulusUp$ packet is generated from a Metric source row, a centre row, inner and outer Real radius rows, an OpenBall exclusion row, a MetricClosedBall containment row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-annulus-carrier} and \autoref{thm:metric-annulus-namecert-obligations} seed the finite metric shell certificate for displayed inner exclusion and outer containment reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host subsets, quotient point equality, selected radii, compactness, theorem-level Lean verification, bridge checking, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, radius-order visibility, inner-boundary exclusion, outer-boundary containment, classifier transport, Cont replay, Pkg provenance, and ledger nonescape for BEDC.Derived.MetricAnnulusUp.}
+\end{closurestatus}

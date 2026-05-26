@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\CertificateMachineUp$}
+\label{ch:concrete-instances-certificate-machine-namecert}
+\origin{ai}
+
+The $\CertificateMachineUp$ packet realizes the certificate-machine branch of \autoref{subsec:philosophy-certificate-machine-allegory-branch} as finite BEDC carrier data. It names the surface on which a machine-like object is admitted only through a finite kernel row, accepted-observation rows, branch-refusal rows, audit replay, provenance, and local NameCert evidence. The packet is not an ordinary Turing-machine identity claim, not a semantic truth oracle, not a host execution trace, and not a replacement for the kernel and NameCert obligations it records.
+
+\begin{definition}[CertificateMachine carrier]
+\label{def:certificate-machine-carrier}
+A $\CertificateMachineUp$ carrier is a finite $\BHist$ packet
+$$
+M=(K,O,B,A,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the finite certificate-kernel row. It lists the admitted constructors, candidate rows, acceptance stamps, and refusal slots visible to this machine surface.
+\item $O$ is the accepted-observation row, recording the finite observations the machine has admitted as certificate-bearing rows.
+\item $B$ is the branch-refusal row, recording rejected or unlicensed branches together with the local reason each branch cannot be read as accepted data.
+\item $A$ is the audit-replay row, recording the finite replay route from generated candidate through accepted observation or branch refusal.
+\item $R$ is the replay-result row, naming the public result that may be consumed after the audit replay finishes.
+\item $S$ is the soundness-boundary row saying that the machine exports certificate acceptance and refusal data, not a host truth predicate or an external operational semantics.
+\item $H$ records componentwise $\hsame$ transport for $K,O,B,A,R,S,P,N$.
+\item $C$ records displayed $\Cont$ replay from kernel row to observation or refusal row, from that row to audit replay, and from audit replay to the public result.
+\item $P$ is the $\Pkg$ provenance over $\CertificateMachineUp$, finite certificate kernels, accepted observations, branch refusals, audit replay, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CertificateMachineUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,O,B,A,R,S,H,C,P,N$. It has no coordinate for host machine equality, ordinary Turing-machine identity, semantic truth, unbounded execution logs, unlicensed branch acceptance, or external proof authority.
+\end{definition}
+
+\begin{theorem}[CertificateMachine NameCert obligations]
+\label{thm:certificate-machine-namecert-obligations}
+For every accepted $\CertificateMachineUp$ carrier
+$$
+M=(K,O,B,A,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\CertificateMachineUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item kernel admission, requiring every candidate, constructor, acceptance stamp, and refusal slot to pass through $K$;
+\item accepted-observation exactness, requiring every admitted observation to be one of the rows displayed in $O$;
+\item branch-refusal exactness, requiring every rejected branch read to pass through $B$ with its local refusal reason;
+\item audit-replay determinacy, requiring every public result to be replayed through $A$ before $R$ is consumed;
+\item soundness-boundary non-escape, requiring $S$ to exclude semantic truth, ordinary Turing-machine identity, host execution logs, and external proof authority;
+\item transport, continuation, provenance, and local naming stability through $H,C,P,N$.
+\end{enumerate}
+Lean follow-up must provide $\mathsf{Nontrivial}(\CertificateMachineUp)$ and $\mathsf{FieldFaithful}(\CertificateMachineUp)$ instances before the object may be consumed as a nondegenerate field-facing certificate machine.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:certificate-machine-carrier}. The only kernel coordinate is $K$, so every candidate and acceptance stamp begins from that finite certificate-kernel row.
+
+Accepted observations and refusals then split through $O$ and $B$. The accepted side records only admitted observation rows, while the refusal side records branch-local reasons for rejection.
+
+The audit route passes through $A$ before the public result $R$ is available. Thus a consumer cannot bypass replay by citing a host execution log or an unbounded operational trace.
+
+Finally $S,H,C,P,N$ bind the boundary, transport the same rows, replay the displayed route, record provenance, and name the local certificate. Since no coordinate adds semantic truth, ordinary Turing-machine identity, unlicensed branch acceptance, or external proof authority, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[CertificateMachine audit-replay non-escape]
+\label{thm:certificate-machine-audit-replay-nonescape}
+Every public read of an accepted $\CertificateMachineUp$ carrier factors through
+$$
+K,O,B,A,R,S,H,C,P,N .
+$$
+An accepted observation reaches the public result only by the route $K,O,A,R$, and a rejected branch reaches the public refusal surface only by the route $K,B,A,R$. Both routes keep the soundness boundary $S$ visible and preserve the same transport, continuation, provenance, and local naming rows. No read exports host machine equality, semantic truth, unbounded execution, unlicensed branch acceptance, or an external proof oracle.
+\end{theorem}
+\begin{proof}
+Start from the displayed carrier $M$. There are exactly two observation-facing routes after the kernel row: the accepted-observation row $O$ and the branch-refusal row $B$.
+
+In the accepted case, continuation replay through $C$ sends $K$ and $O$ into the audit row $A$ before the public result $R$ can be read. In the refusal case, the same replay discipline sends $K$ and $B$ into $A$ before the refusal result is visible.
+
+The soundness boundary $S$ is carried with both routes. It excludes the stronger readings that would identify the packet with an ordinary Turing machine, a semantic truth oracle, a host execution log, or an external proof source.
+
+The remaining rows $H,P,N$ only transport, source, and name the packet. Hence every public read remains inside the displayed finite surface.
+\end{proof}
+
+\begin{theorem}[CertificateMachine branch-refusal determinacy]
+\label{thm:certificate-machine-branch-refusal-determinacy}
+Let $M=(K,O,B,A,R,S,H,C,P,N)$ be an accepted $\CertificateMachineUp$ packet. Every refused branch of $M$ is determined by the finite kernel row $K$, the branch-refusal row $B$, the audit-replay row $A$, and the soundness-boundary row $S$. Before the refused branch can be consumed as a MetaCIC audit row, its read must pass through the accepted-kernel surface of \autoref{ch:concrete-instances-kernelacceptancewitness-namecert}, the axiom-query ledger of \autoref{ch:concrete-instances-axiomqueryledger-namecert}, and the closed-generator audit surface of \autoref{ch:concrete-instances-closedgeneratoraudit-namecert}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:certificate-machine-carrier}. The refusal side has only the kernel row $K$, the branch-refusal row $B$, the audit replay row $A$, and the soundness boundary $S$ before the public result row can be read.
+
+Apply audit-replay non-escape, \autoref{thm:certificate-machine-audit-replay-nonescape}. A rejected branch reaches the public refusal surface only by the route $K,B,A,R$, with $S$ still visible as the boundary against host truth, unbounded execution, and external proof authority.
+
+The MetaCIC sibling lattice supplies the concrete audit route for those rows. Kernel admission is read through \autoref{ch:concrete-instances-kernelacceptancewitness-namecert}, proof-supply cleanliness through \autoref{ch:concrete-instances-axiomqueryledger-namecert}, and closed-generator replay through \autoref{ch:concrete-instances-closedgeneratoraudit-namecert}.
+
+Thus the refused branch is determined by the displayed finite rows of the same packet and by the named sibling ledgers. No separate kernel-only or host-execution route can consume it as a MetaCIC audit row.
+\end{proof}
+
+\falsifiablePrediction{Every $\CertificateMachineUp$ read factors through one finite certificate-kernel row, one accepted-observation row or one branch-refusal row, one audit-replay row, one replay-result row, one soundness-boundary row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{kernelacceptancewitness, axiomqueryledger, inscriptionevent, observerfilter, closedgeneratoraudit: $\CertificateMachineUp$ is not bijective to any listed sibling because it jointly carries kernel admission, accepted observations, branch refusals, audit replay, result exposure, and soundness-boundary refusal as one finite machine packet.}
+
+\closureat{CertificateMachineUp}{seedStr}
+
+\begin{closurestatus}{\CertificateMachineUp}
+  \constructivestory{A $\CertificateMachineUp$ packet is generated from a finite certificate-kernel row, accepted-observation rows, branch-refusal rows, audit replay, replay result exposure, a soundness-boundary ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:certificate-machine-carrier}, \autoref{thm:certificate-machine-namecert-obligations}, and \autoref{thm:certificate-machine-audit-replay-nonescape} seed the finite machine surface over certificate kernels, accepted observations, branch refusals, audit replay, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim ordinary Turing-machine identity, semantic truth, host execution semantics, unbounded trace replay, unlicensed branch acceptance, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, kernel exactness, accepted-observation exactness, branch-refusal exactness, audit-replay determinacy, soundness-boundary non-escape, transport stability, replay stability, and the $\mathsf{Nontrivial}(\CertificateMachineUp)$ and $\mathsf{FieldFaithful}(\CertificateMachineUp)$ Lean instances for BEDC.Derived.CertificateMachineUp.}
+\end{closurestatus}

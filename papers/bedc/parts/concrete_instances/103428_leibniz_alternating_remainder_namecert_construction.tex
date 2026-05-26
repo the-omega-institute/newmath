@@ -1,0 +1,120 @@
+\chapter{A Concrete Naming Certificate for $\LeibnizAlternatingRemainderUp$}
+\label{ch:concrete-instances-leibniz-alternating-remainder-namecert}
+\origin{human}
+
+Following Leibniz and Bishop--Bridges constructive alternating-series analysis, the $\LeibnizAlternatingRemainderUp$ packet records the finite route by which an alternating real series exposes a next-term remainder budget before any completion-facing consumer may read a regular rational handoff or a real seal. It sits after the finite partial-sum surface of $\RealSeriesUp$ in \autoref{ch:concrete-instances-realseries-namecert}, the convergence-test route of $\AlternatingSeriesTestUp$ in \autoref{ch:concrete-instances-alternating-series-test-namecert}, the null-tail surface of $\NullSequenceUp$ in \autoref{ch:concrete-instances-nullsequence-namecert}, the finite observation windows of $\StreamNameUp$ in \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of $\RegSeqRatUp$ in \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of $\DyadicRatCoreUp$ in \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. It also names the finite completion-facing row used by the local Leibniz streams of $\RealAnalyticUp$ in \autoref{ch:concrete-instances-real-analytic-namecert}: the analytic chapter may display unary Leibniz partial sums, while this packet isolates the remainder certificate consumed by Real and Completion routes.
+
+\begin{definition}[Leibniz alternating remainder carrier]
+\label{def:leibniz-alternating-remainder-carrier}
+A $\LeibnizAlternatingRemainderUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,\Sigma,M,T,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\RealSeriesUp$ source row. It exposes the real-valued summand stream and the displayed partial sums only through the finite series surface already named for real series.
+\item $\Sigma$ is the alternating-sign ledger. It records the parity row assigning the sign of every inspected summand and the adjacent partial-sum direction used by the remainder estimate.
+\item $M$ is the monotone null-tail row. It records nonnegative magnitude reads, the displayed monotonicity comparisons on the inspected tail, and the $\NullSequenceUp$ request ensuring that the next omitted magnitude can be made smaller than any requested dyadic tolerance.
+\item $T$ is the $\AlternatingSeriesTestUp$ handoff row. It records that the displayed source, sign ledger, monotone magnitude row, and tail schedule are accepted by the alternating-series-test surface before any remainder read is exported.
+\item $D$ is the $\DyadicRatCoreUp$ remainder-budget ledger. For each precision request it records the dyadic tolerance, the selected cutoff, the next omitted magnitude, and the finite comparison certifying that the remainder budget is bounded by that next magnitude.
+\item $W$ is the $\StreamNameUp$ window family for summands, signs, magnitudes, partial sums, next omitted terms, dyadic comparisons, and endpoint-facing reads.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same windows and dyadic remainder budgets.
+\item $E$ is the $\RealUp$ seal row reached only after $S,\Sigma,M,T,D,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, sign ledger, monotone null-tail row, alternating-test handoff, dyadic budget, stream windows, regular readback, real seal, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,\Sigma,M,T,D,W \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\LeibnizAlternatingRemainderUp$, $\RealSeriesUp$, $\AlternatingSeriesTestUp$, $\NullSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\RealAnalyticUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LeibnizAlternatingRemainderUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,\Sigma,M,T,D,W,R,E,H,C,P,N$. It has no coordinate for a selected infinite sum, quotient stream equality, host real equality, countable choice, trichotomy outside the displayed dyadic comparisons, ambient $\RealUp$ completeness, or an analytic endpoint not routed through the listed rows.
+\end{definition}
+
+\begin{theorem}[Leibniz alternating remainder NameCert obligations]
+\label{thm:leibniz-alternating-remainder-namecert-obligations}
+For every accepted $\LeibnizAlternatingRemainderUp$ carrier
+$$
+L=(S,\Sigma,M,T,D,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\LeibnizAlternatingRemainderUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the twelve displayed rows;
+\item $\RealSeriesUp$ source exposure, requiring every summand and partial-sum read to pass through $S$;
+\item alternating-sign exposure, requiring $\Sigma$ to bind every inspected partial-sum step to its finite parity row;
+\item monotone null-tail exactness, requiring $M$ to display the nonnegative magnitude row, the observed monotone comparisons, and the $\NullSequenceUp$ tail request used by the remainder budget;
+\item alternating-test compatibility, requiring $T$ to consume only $S,\Sigma,M$ and the displayed tail schedule;
+\item dyadic remainder-budget exactness, requiring $D$ to pair every requested tolerance with a cutoff, next omitted magnitude, and comparison row;
+\item finite-window and regular-readback compatibility, requiring $W$ and $R$ to expose the same summand, partial-sum, omitted-term, and budget data;
+\item $\RealUp$ seal non-escape, requiring $E$ to remain downstream of $S,\Sigma,M,T,D,W,R$;
+\item componentwise transport, displayed replay, provenance, and local naming for the same route through $H,C,P,N$.
+\end{enumerate}
+No Leibniz remainder obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $L=(S,\Sigma,M,T,D,W,R,E,H,C,P,N)$. The carrier exposes exactly the source, sign, magnitude, alternating-test, dyadic-budget, window, readback, seal, and structural rows.
+
+The source and sign obligations come first. The row $S$ provides only finite $\RealSeriesUp$ term and partial-sum observations, while $\Sigma$ attaches each inspected summand to the parity ledger used by the alternating partial sums.
+
+The tail obligations are finite. The row $M$ displays the nonnegative magnitude reads, their monotone comparisons on the inspected tail, and the null-sequence request. The handoff row $T$ then records that these displayed rows enter the $\AlternatingSeriesTestUp$ surface.
+
+The remainder budget is fixed by $D$. For each requested tolerance, $D$ names a cutoff and the next omitted magnitude, and it records the dyadic comparison that bounds the remainder by that displayed magnitude. The rows $W$ and $R$ expose the same finite observations as stream windows and regular rational readback.
+
+Finally $E,H,C,P,N$ seal, transport, replay, source, and name that route. Since no excluded object occurs as a carrier coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Leibniz alternating remainder tail bound]
+\label{thm:leibniz-alternating-remainder-tail-bound}
+For every accepted $\LeibnizAlternatingRemainderUp$ carrier
+$$
+L=(S,\Sigma,M,T,D,W,R,E,H,C,P,N),
+$$
+each endpoint-facing remainder request factors through the finite route
+$$
+S,\Sigma,M,T \longmapsto D,W \longmapsto R .
+$$
+The dyadic row $D$ therefore binds the absolute remainder budget to the next omitted displayed magnitude read from $M$, and the regular readback $R$ may be consumed only after the same cutoff, sign ledger, monotone null-tail row, and stream window have been displayed.
+\end{theorem}
+\begin{proof}
+Begin with an endpoint-facing remainder request. The carrier first exposes the real-series source $S$ and the alternating-sign ledger $\Sigma$, so the request sees only displayed summands and their finite parity data.
+
+Read the monotone null-tail row $M$ and the alternating-test handoff $T$. These rows provide the displayed nonnegative magnitudes, the observed decrease comparisons, the null-tail request, and the test compatibility needed for the selected cutoff.
+
+The dyadic ledger $D$ then pairs the requested tolerance with that cutoff and the next omitted magnitude. Because the monotone tail and alternating sign have already been displayed, the classical Leibniz estimate is represented here as a finite BEDC comparison row rather than as an external convergence theorem.
+
+The rows $W$ and $R$ expose the same observations as finite windows and regular rational readback. Thus the readback cannot bypass the source, sign, null-tail, test, or budget rows while still serving the remainder request.
+\end{proof}
+
+\begin{theorem}[Leibniz alternating remainder Real-seal boundary]
+\label{thm:leibniz-alternating-remainder-real-seal-boundary}
+Every $\RealUp$ or $\RealAnalyticUp$-facing read from an accepted $\LeibnizAlternatingRemainderUp$ carrier reaches its terminal seal only through
+$$
+S,\Sigma,M,T,D,W,R \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the packet exports a finite remainder certificate for Real and Completion consumers, including the local Leibniz stream rows used by $\RealAnalyticUp$, but it exports no selected infinite sum, quotient stream equality, host real equality, countable-choice selector, unrestricted trichotomy, ambient $\RealUp$ completeness theorem, or analytic endpoint detached from the displayed remainder route.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:leibniz-alternating-remainder-tail-bound} to place every remainder request behind the source, sign, monotone null-tail, alternating-test, dyadic-budget, window, and regular-readback rows.
+
+The terminal row $E$ is a $\RealUp$ seal for that already displayed route. It is not a selected value of an infinite alternating sum, and it does not assert host completeness for arbitrary real streams.
+
+For a $\RealAnalyticUp$ consumer, the same boundary applies. The analytic chapter may read unary Leibniz partial-sum rows, but the completion-facing endpoint must still pass through the displayed remainder budget and regular readback before it reaches $E$.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name the same route. Since the carrier has no coordinate for the excluded principles or for a detached analytic endpoint, none can escape through the seal boundary.
+\end{proof}
+
+\falsifiablePrediction{Every $\LeibnizAlternatingRemainderUp$ endpoint-facing read factors through a RealSeriesUp source, alternating-sign ledger, monotone NullSequenceUp tail row, AlternatingSeriesTestUp handoff, DyadicRatCoreUp remainder budget, StreamNameUp windows, RegSeqRatUp readback, RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{realseries, alternating-series-test, nullsequence, streamname, regseqrat, dyadicratcore, real, real-analytic: $\LeibnizAlternatingRemainderUp$ is not bijective to any listed sibling because it jointly carries the next-omitted-term remainder budget, alternating parity, monotone null-tail schedule, regular readback, Real sealing, analytic-stream consumer boundary, transport, replay, provenance, and local naming.}
+
+\closureat{LeibnizAlternatingRemainderUp}{seedStr}
+
+\begin{closurestatus}{\LeibnizAlternatingRemainderUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:leibniz-alternating-remainder-carrier}, \autoref{thm:leibniz-alternating-remainder-namecert-obligations}, \autoref{thm:leibniz-alternating-remainder-tail-bound}, and \autoref{thm:leibniz-alternating-remainder-real-seal-boundary} seed the finite Leibniz alternating-remainder certificate surface from displayed real-series partial sums and monotone null tails through dyadic next-omitted-term budgets to regular readback and RealUp sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected infinite sums, quotient stream equality, host real equality, countable choice, unrestricted trichotomy, ambient $\RealUp$ completeness, detached analytic endpoints, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, sign-ledger exactness, monotone null-tail exactness, dyadic next-omitted-term budget stability, RegSeqRat readback, Real seal non-escape, analytic-stream boundary compatibility, transport, replay, provenance, and local naming for BEDC.Derived.LeibnizAlternatingRemainderUp.}
+  \constructivestory{A $\LeibnizAlternatingRemainderUp$ packet is generated from a RealSeriesUp source, alternating-sign ledger, monotone NullSequenceUp tail row, AlternatingSeriesTestUp handoff, DyadicRatCoreUp remainder budget, StreamNameUp windows, RegSeqRatUp readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

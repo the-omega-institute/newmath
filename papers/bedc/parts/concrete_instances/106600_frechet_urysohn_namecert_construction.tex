@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\FrechetUrysohnUp$}
+\label{ch:concrete-instances-frechet-urysohn-namecert}
+\origin{human}
+
+Following Frechet and Urysohn's sequential analysis of closure in topology, the $\FrechetUrysohnUp$ packet records the finite data by which a point is certified as sequentially reachable from a displayed subset rather than assuming an ambient topological closure operator. It sits between the finite real-valued sequence surface of \autoref{ch:concrete-instances-real-sequence-space-namecert}, the sequential compactness packet of \autoref{ch:concrete-instances-sequentialcompact-namecert}, and the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}.
+
+\begin{definition}[Frechet-Urysohn carrier]
+\label{def:frechet-urysohn-carrier}
+A $\FrechetUrysohnUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(T,S,W,R,A,X,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the topology carrier row, containing the named point, the displayed subset, and the finite neighborhood probes used by the closure read.
+\item $S$ is the sequence-space row over $\RealSequenceSpaceUp$, recording the accepted real-valued or chart-valued sequence route used to approach the named point.
+\item $W$ is the $\StreamNameUp$ window schedule for the finite initial segments and tail windows visible to the classifier.
+\item $R$ is the $\RealUp$ seal row attached to the coordinate reads that witness convergence through $S$ and $W$.
+\item $A$ is the closure-witness row, displaying that every inspected tail window lies in the named subset and that the limit read is the named point.
+\item $X$ is the transport row for the topology probes, sequence-space rows, StreamName windows, Real seal, closure witness, replay, provenance, and local naming data.
+\item $H$ records componentwise $\hsame$ transport along the same displayed rows.
+\item $C$ records displayed $\Cont$ replay from a closure request through $T,S,W,R,A,X$.
+\item $P$ is the $\Pkg$ provenance over $\FrechetUrysohnUp$, $\RealSequenceSpaceUp$, $\SequentialCompactUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FrechetUrysohnUp}$ row.
+\end{enumerate}
+The classifier has no coordinate for arbitrary nets, choice-selected sequences, host closure equality, excluded middle over neighborhoods, or an ambient compactness theorem.
+\end{definition}
+
+\begin{theorem}[Frechet-Urysohn NameCert obligations]
+\label{thm:frechet-urysohn-namecert-obligations}
+For every accepted $\FrechetUrysohnUp$ carrier $Q=(T,S,W,R,A,X,H,C,P,N)$, the local $\NameCert_{\FrechetUrysohnUp}$ surface consists exactly of finite $\BHist$ rows for topology admission, sequence-space admission, StreamName windowing, Real-seal ordering, closure-witness display, transport, replay, provenance, and local naming. Every sequential-closure classifier read must pass through $T,S,W,R,A,X,H,C,P,N$ in that order, and any disagreement between two accepted packets must be visible in one of those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:frechet-urysohn-carrier}. The packet exposes the topology row, the real sequence-space row, the finite StreamName windows, the Real seal, and the closure-witness row before any structural replay is available.
+
+The NameCert obligations are therefore row-local. Topology admission is read from $T$, the sequence route from $S$, the finite windows from $W$, the coordinate seal from $R$, and the sequential closure witness from $A$.
+
+The structural rows $X,H,C,P,N$ then transport, compare, replay, source, and name the same finite packet. Since the carrier contains none of the excluded host-side coordinates, a classifier disagreement cannot be hidden outside the displayed rows.
+\end{proof}
+
+\begin{theorem}[Frechet-Urysohn sequential closure handoff]
+\label{thm:frechet-urysohn-sequential-closure-handoff}
+Every consumer that reads a point as belonging to the sequential closure of a displayed subset through an accepted $\FrechetUrysohnUp$ carrier factors through
+$$
+\RealSequenceSpaceUp,\qquad
+\SequentialCompactUp,\qquad
+\StreamNameUp,\qquad
+\RealUp
+$$
+and then through the closure-witness row $A$. The handoff exports only the finite sequence windows, the accepted sequence-space route, the Real seal, and the displayed tail-in-subset witness; it does not export arbitrary nets, countable choice, host closure equality, or ambient topological compactness.
+\end{theorem}
+\begin{proof}
+Start with an accepted sequential-closure read. By \autoref{thm:frechet-urysohn-namecert-obligations}, the read first enters the topology row $T$ and then the sequence-space row $S$ with its displayed StreamName window schedule $W$.
+
+The Real seal $R$ and the closure-witness row $A$ are downstream of the same sequence route. The witness can therefore certify only the inspected tail windows and the displayed limit read named by the packet.
+
+The sequential compactness reference is consumed as a finite comparison boundary rather than as an ambient compactness theorem. The structural rows $X,H,C,P,N$ preserve this same route, so the consumer receives a sequential handoff but no hidden net, selected sequence, host equality, or external closure principle.
+\end{proof}
+
+\closureat{FrechetUrysohnUp}{seedStr}
+
+\begin{closurestatus}{\FrechetUrysohnUp}
+  \constructivestory{A $\FrechetUrysohnUp$ packet is generated from a topology carrier row, a real sequence-space row, StreamName windows, a Real seal, a closure-witness row, transport, componentwise hsame rows, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:frechet-urysohn-carrier}, \autoref{thm:frechet-urysohn-namecert-obligations}, and \autoref{thm:frechet-urysohn-sequential-closure-handoff} seed the sequential-closure carrier over finite topology, sequence-space, window, Real, and witness rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary nets, countable choice, host closure equality, excluded middle over neighborhoods, ambient compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, sequence-space admission, finite-window ordering, Real-seal ordering, closure-witness display, and transport stability for the same packet.}
+\end{closurestatus}

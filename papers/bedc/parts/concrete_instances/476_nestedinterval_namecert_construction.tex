@@ -329,6 +329,20 @@ outside \autoref{def:nestedinterval-finite-carrier}, and no such coordinate is
 present.
 \end{proof}
 
+\begin{theorem}[NestedInterval Real seal nonselection]
+\label{thm:nested-interval-real-seal-nonselection}
+Every $\RealUp$-facing read of an accepted $\NestedIntervalUp$ packet factors through finite dyadic interval rows, unary prefix data, $\StreamNameUp$ windows, $\RegSeqRatUp$ reads, and the $\RealUp$ seal boundary. More precisely, the read is contained in the public finite-window boundary of \autoref{thm:nestedinterval-public-window-boundary} and the seal-facing route of \autoref{thm:nestedinterval-real-seal-boundary}.
+
+Consequently the packet cannot export a chosen intersection point, a host real intersection, a quotient representative, compactness data, Heine--Borel data, or a choice operator.
+\end{theorem}
+\begin{proof}
+Start with the public finite-window boundary of \autoref{thm:nestedinterval-public-window-boundary}. It lists the only consumer-visible rows: dyadic endpoint rows, endpoint-order rows, width rows, adjacent inclusion rows, schedule rows, regular-rational handoff rows, seal-facing rows, transport rows, provenance rows, and name-certificate rows.
+
+Apply \autoref{thm:nestedinterval-real-seal-boundary}. The $\RealUp$ seal can be reached only from the displayed finite endpoint, width, inclusion, schedule, and $\RegSeqRatUp$ rows already present in that public boundary.
+
+The carrier therefore exposes finite windows and seal rows, not a point selected from an infinite intersection. A host real intersection, quotient representative, compactness datum, Heine--Borel datum, or choice operator would require an additional coordinate outside the displayed finite-row boundary.
+\end{proof}
+
 \closureat{NestedIntervalUp}{seedStr}
 \closureat{NestedIntervalUp}{scopedStr}
 \closureat{NestedIntervalUp}{publicStr}

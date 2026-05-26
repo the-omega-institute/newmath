@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\BorelSetUp$}
+\label{ch:concrete-instances-borel-set-namecert}
+\origin{human}
+
+Following Bourbaki and Bishop--Bridges topology, the $\BorelSetUp$ packet names the finite boundary by which a topological or metric real-facing source exposes a generated set predicate without importing measure theory. It sits after the open-neighbourhood interface of \autoref{ch:concrete-instances-topology-namecert}, the metric source of \autoref{ch:concrete-instances-metric-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the finite observation route of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet records generator admission, finite constructor replay, and sibling provenance; it does not claim a measure, sigma-additivity, choice-selected codes, or classical completeness of the full Borel hierarchy.
+
+\begin{definition}[Borel set carrier]
+\label{def:borel-set-carrier}
+A $\BorelSetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(X,O,M,G,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source-space row read either through the $\TopologyUp$ interface of \autoref{ch:concrete-instances-topology-namecert} or through a metric presentation supplied by \autoref{ch:concrete-instances-metric-namecert}.
+\item $O$ is the open-generator ledger naming basic open rows visible to the source topology.
+\item $M$ is the real-facing membership query surface, routed through $\RealUp$ names from \autoref{ch:concrete-instances-real-namecert} when the source is a real or metric-real object.
+\item $G$ is the finite generator tree recording the displayed complements, finite unions, and finite intersections that the current consumer is allowed to replay.
+\item $R$ is the readback row tying finite membership observations to $\StreamNameUp$ windows and $\RegSeqRatUp$ regular rational names through \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}.
+\item $H$ stores componentwise $\hsame$ transport for the source, generator, membership, readback, continuation, provenance, and local naming rows.
+\item $C$ stores the displayed $\Cont$ replay from a source query through open generators, finite constructor rows, and readback rows.
+\item $P$ is the $\Pkg$ provenance over $\TopologyUp$, $\MetricUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BorelSetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,O,M,G,R,H,C,P,N$. It has no coordinate for measure values, countable additivity, a choice-selected code for an arbitrary hierarchy branch, or a completed classical Borel universe.
+\end{definition}
+
+\begin{theorem}[Borel set NameCert obligations]
+\label{thm:borel-set-namecert-obligations}
+For the carrier of \autoref{def:borel-set-carrier}, the local $\NameCert_{\BorelSetUp}$ surface consists exactly of source-space admission, open-generator admission, real-facing membership queries when the source is real or metric-real, finite generator-tree replay, StreamName and RegSeqRat readback, componentwise transport, displayed continuation replay, package provenance, and local naming. Every accepted Borel-set query must read the source topology or metric row before it reads $O,G,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier $B=(X,O,M,G,R,H,C,P,N)$. The source row $X$ and open-generator ledger $O$ are the only rows that introduce topological information.
+
+Read the finite constructor tree. Complements, finite unions, and finite intersections are replayed only through $G$, and the membership-facing observations are tied to $M$ and $R$ before a consumer can compare two packets.
+
+The structural rows add no measure-theoretic content. The rows $H,C,P,N$ transport, replay, source, and name the displayed route, so the listed rows exhaust the seed NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Borel set generator stability]
+\label{thm:borel-set-generator-stability}
+Let $B=(X,O,M,G,R,H,C,P,N)$ and
+$$
+B'=(X',O',M',G',R',H',C',P',N')
+$$
+be accepted $\BorelSetUp$ carriers. If the displayed source row, open-generator ledger, finite generator tree, membership surface, and readback row agree componentwise through the packet's $\hsame$ rows, then every topology-facing, metric-facing, or real-facing consumer sees the same generated set boundary from $B$ and $B'$. The comparison uses only the rows $X,O,M,G,R,H,C,P,N$ and $X',O',M',G',R',H',C',P',N'$.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations. Any consumer read first passes through the source-space row and open-generator ledger, then through the finite generator tree and readback rows.
+
+Apply the displayed componentwise transports. The hypotheses identify the rows that determine the generator route, while $H',C',P',N'$ preserve, replay, source, and name the same finite route for $B'$.
+
+Thus the consumer-visible boundary is stable under the stated transport. No measure value, countable-additivity proof, hierarchy-completeness object, or choice-selected branch can refine the comparison, because none is a coordinate of either carrier.
+\end{proof}
+
+\falsifiablePrediction{A $\BorelSetUp$ consumer that reaches a measure value, a countable-additivity row, or a choice-selected hierarchy code from the displayed packet refutes the carrier surface.}
+
+\independenceWitness{topology, metric, real, streamname, regseqrat: no listed sibling supplies the whole nine-row packet $B=(X,O,M,G,R,H,C,P,N)$, because each sibling contributes only source topology, metric control, real-name sealing, finite observation, or rational readback data while this chapter binds the generated-set boundary with transport, replay, provenance, and local naming.}
+
+\begin{closurestatus}{\BorelSetUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:borel-set-carrier}, \autoref{thm:borel-set-namecert-obligations}, and \autoref{thm:borel-set-generator-stability} seed the finite generated-set boundary over topology, metric, real-name, StreamName, RegSeqRat, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure theory, sigma-additivity, countable choice, choice-selected Borel codes, classical hierarchy completeness, open-cover compactness, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, generator stability, readback preservation, transport, and ledger-refusal proofs for BEDC.Derived.BorelSetUp.}
+  \constructivestory{A $\BorelSetUp$ packet is generated from a topology or metric source row, an open-generator ledger, real-facing membership reads, a finite generator tree, StreamName and RegSeqRat readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

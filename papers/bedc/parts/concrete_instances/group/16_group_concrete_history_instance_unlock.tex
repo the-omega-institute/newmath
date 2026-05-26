@@ -38,6 +38,57 @@ Apply \autoref{thm:concrete-history-monoid-laws}. The associativity, left-unit, 
 Finally use \autoref{thm:group-singleton-empty-history-laws}. The singleton carrier restriction and the constant empty inverse row provide exactly the inverse closure and inverse laws. No additional host group carrier, operation table, or classifier is imported, so the concrete $\GroupUp$ instance refines the $\MonoidUp$ unary append NameCert.
 \end{proof}
 
+\begin{definition}[Group unary Cont concrete carrier]
+\label{def:group-unary-cont-concrete-carrier}
+The $\GroupUp$ unary $\Cont$ concrete carrier is the $\mathsf{UnaryHistory}$
+append surface of \autoref{def:concrete-history-monoid-instance} restricted by
+the singleton empty-history carrier of
+\autoref{def:group-concrete-history-instance}. Its carried endpoints are
+unary $\mathsf{BHist}$ values $h$ with $A_{\emp}(h)$, its product row is
+$$
+\mathsf{mul}_{\emp}(h,k):=\mathsf{append}(h,k),
+$$
+equivalently displayed by $\Cont(h,k,\mathsf{append}(h,k))$, and its unit row
+is the empty endpoint $\emp$. The classifier is the inherited
+$\mathsf{MonoidHistoryClassifier}(\mathsf{UnaryHistory})$ together with the
+singleton $\hsame$ restriction to $\emp$. Thus the carrier names the concrete
+append-and-empty operation surface consumed by the $\GroupUp$ singleton
+instance, not an abstract group parameter.
+\end{definition}
+
+\begin{theorem}[Group unary Cont concrete monoid handoff]
+\label{thm:group-unary-cont-concrete-monoid}
+Every multiplication and unit read of the concrete $\GroupUp$ history instance
+of \autoref{def:group-concrete-history-instance} factors through the unary
+$\Cont$ carrier of \autoref{def:group-unary-cont-concrete-carrier}. In
+particular, the $\GroupUp$ singleton packet reads multiplication as the
+$\mathsf{UnaryHistory}$ append row, reads the unit as $\emp$, and obtains
+closure, associativity, left unit, right unit, and multiplication congruence
+from \autoref{thm:concrete-history-monoid-laws} before it adds the constant
+empty inverse rows of \autoref{thm:group-singleton-empty-history-laws}.
+\end{theorem}
+\begin{proof}
+Project the concrete group instance. Its multiplication is
+$\mathsf{append}$, its unit is $\emp$, and its carried endpoints are singleton
+empty-history endpoints inside the unary $\mathsf{BHist}$ surface.
+
+Apply \autoref{thm:concrete-history-monoid-laws}. The unary append carrier
+supplies closure, associativity, both empty-unit laws, and multiplication
+congruence for exactly the same $\Cont$ product and unit rows.
+
+Now restrict those rows along
+\autoref{def:group-unary-cont-concrete-carrier}. The singleton carrier only
+adds the requirement that the endpoints classify with $\emp$; it does not
+replace append, the unit, or the monoid classifier by a separate algebraic
+operation.
+
+Finally apply \autoref{thm:group-singleton-empty-history-laws}. The only
+additional group data are inverse closure and the two inverse laws for the
+constant empty inverse row. Therefore the concrete $\GroupUp$ multiplication
+and unit handoff is the unary $\Cont$ monoid surface followed by singleton
+inverse packaging.
+\end{proof}
+
 \begin{theorem}[Group concrete inverse surface]
 \label{thm:group-concrete-inverse-surface}
 For the concrete $\GroupUp$ history instance of
@@ -159,6 +210,42 @@ component endpoint governed by
 surface of \autoref{thm:group-concrete-instance-schema-unlock} supplies the same
 append ledger, so the finite-word operation remains the concrete
 $\mathsf{BHist}$ instance rather than an abstract group law.
+\end{proof}
+
+\begin{theorem}[Group finite-word Cont associativity lock]
+\label{thm:group-finite-word-cont-associativity-lock}
+For the finite-word $\GroupUp$ history instance of
+\autoref{def:group-finite-word-history-instance}, the associativity route for
+the product is the displayed $\Cont$ replay over $\mathsf{BHist}$ word rows.
+Thus the two parenthesized products
+$$
+\mathsf{mul}_{\mathrm{word}}(\mathsf{mul}_{\mathrm{word}}(u,v),w)
+\quad\hbox{and}\quad
+\mathsf{mul}_{\mathrm{word}}(u,\mathsf{mul}_{\mathrm{word}}(v,w))
+$$
+are compared as the same ordered continuation spine. The lock is inherited
+from the kernel continuation associativity route and the finite list-spine
+append ledger; it is not supplied by an abstract $\mathsf{mul}$ parameter.
+\end{theorem}
+\begin{proof}
+Unfold the finite-word carrier rows. Each carried word is a finite ordered list
+of singleton $\mathsf{BHist}$ endpoints, and the product is concatenation with
+the displayed append ledger.
+
+Compare the two parenthesized products by reading the same three blocks
+$u,v,w$ through the continuation spine. The left parenthesization first replays
+the route for $u$ followed by $v$ and then appends $w$; the right
+parenthesization first replays $v$ followed by $w$ and then prefixes $u$.
+
+The kernel $\Cont$ associativity route identifies these as one ordered replay
+of the same finite rows. The displayed transport rows keep the component
+classifiers fixed while the list-spine append ledger changes only the
+parentheses.
+
+Finally pass the replayed spine through the $\GroupUp$ classifier of
+\autoref{def:group-finite-word-history-instance}. Since every endpoint remains
+a singleton $\mathsf{BHist}$ row, the associativity lock is a concrete
+continuation fact and not a parameter-echo group schema.
 \end{proof}
 
 \begin{theorem}[Group finite-word inverse boundary]

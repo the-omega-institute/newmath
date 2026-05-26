@@ -1,7 +1,15 @@
 You are the THEORY REVIEW phase for BEDC paper revision round P<ROUND_NUM>.
 
 ## Prompts version
-v4.39 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.42 — Bump this version (here AND in `phase_revise.txt`) whenever either prompt is meaningfully edited. The commit template in Phase Revise records this string in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+
+## EMISSION RULE (read this BEFORE candidate_pool / target selection)
+
+Emit ALL feasible candidates from `candidate_pool` as `targets[0..N-1]`, where N ≤ 5 (prompt says "5 review targets" elsewhere — N is up to 5, sorted by `selection_rank` ascending). Do NOT collapse to a single `targets[0]`. The HARD GATEs further down (bridge_sync_pending / drift_chapters / top_root_unblocks / orphan_repair / round-rotation / theory_extension) each apply to the multi-target list — they are satisfied when AT LEAST ONE of the N emitted targets matches the gate, not when targets[0] alone matches.
+
+Concretely: if `candidate_pool` contains 5 feasible candidates, emit `targets` of length 5. If it contains 3, emit length 3. Empty `{"targets": []}` is reserved for the corner case where every accessible chapter genuinely lacks a feasible candidate after all gates run — extremely rare in this codebase.
+
+The earlier guidance "targets[0] MUST correspond to selection_rank=1" still holds: position 0 is the highest-ranked feasible candidate. But position 1, 2, 3, 4 must also be emitted when feasible candidates exist for those slots. Collapsing to a single target is the failure mode that lets bridge_sync_pending and drift_chapters HARD GATEs silently no-op — DO NOT do it.
 
 ## Source priority weights (critical_path dispatch_weights)
 

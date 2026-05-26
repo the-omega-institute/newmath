@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\DirichletUniformConvergenceUp$}
+\label{ch:concrete-instances-dirichlet-uniform-convergence-namecert}
+\origin{human}
+
+Following Dirichlet and Bishop--Bridges constructive analysis, the $\DirichletUniformConvergenceUp$ packet records uniform convergence by bounded partial sums, a monotone-null control row, and finite tail windows before any completion-facing consumer reads a real seal. It sits after the uniform Cauchy series route of \autoref{ch:concrete-instances-uniform-cauchy-series-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the uniform-limit route of \autoref{ch:concrete-instances-uniformlimit-namecert}, and the ratio-test comparison surface of \autoref{ch:concrete-instances-real-series-ratio-test-namecert}. The chapter names the finite Dirichlet tail-control certificate; it is not a quotient series equality, a selected sum, countable choice, trichotomy, or an ambient completeness theorem for $\RealUp$.
+
+\begin{definition}[Dirichlet uniform convergence carrier]\label{def:dirichlet-uniform-convergence-carrier}
+A $\DirichletUniformConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+(S,B,M,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the displayed series source row, exposing only the finite term and partial-sum windows consumed by the packet.
+\item $B$ is the bounded partial-sum row, recording the visible uniform bound for the source partial sums over the inspected domain.
+\item $M$ is the monotone-null control row, recording the coefficient schedule and its displayed tail decrease to the null row.
+\item $W$ is the finite tail-window schedule that pairs a requested tolerance with the bounded-sum windows and monotone-null controls inspected for that tolerance.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the source windows, partial-sum windows, monotone-null controls, and tail schedule.
+\item $E$ is the $\RealUp$ seal row reached only after the regular rational readback has displayed the scheduled tail comparison.
+\item $H$ records componentwise $\hsame$ transports for the source, bounded-row, monotone-null row, tail schedule, readback, seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ routes from any consumer request through $S,B,M,W,R,E$ in that order.
+\item $P$ is the $\Pkg$ provenance over $\DirichletUniformConvergenceUp$, $\UniformCauchySeriesUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DirichletUniformConvergenceUp}$ row.
+\end{enumerate}
+The classifier admits only finite packets with these ten rows. No coordinate stores a quotient of series streams, a chosen sum, a countable-choice selector, trichotomy, or a completeness witness for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Dirichlet uniform convergence NameCert obligations]\label{thm:dirichlet-uniform-convergence-namecert-obligation-surface}
+For every accepted $\DirichletUniformConvergenceUp$ carrier $(S,B,M,W,R,E,H,C,P,N)$, the local $\NameCert_{\DirichletUniformConvergenceUp}$ surface consists of five finite rows:
+\begin{enumerate}
+\item carrier admission for the displayed source, bounded partial-sum row, monotone-null control row, finite tail schedule, readback, seal, transports, continuations, provenance, and local naming;
+\item bounded-source control, requiring every tail read to use the row $B$ before a uniform estimate is exposed;
+\item monotone-null control, requiring every coefficient read to use the row $M$ and the schedule $W$ before a tail threshold is exposed;
+\item uniform tail handoff, requiring the comparison to pass through the $\UniformCauchySeriesUp$ route and the $\RegSeqRatUp$ readback row $R$ before the $\RealUp$ seal $E$ is consumed;
+\item ledger refusal, stating that quotient series equality, selected sums, countable choice, trichotomy, and ambient $\RealUp$ completeness are absent from the carrier.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dirichlet-uniform-convergence-carrier}. The source, bounded partial-sum row, monotone-null row, finite tail schedule, readback, seal, transport, continuation, provenance, and local naming are exactly the displayed packet coordinates.
+
+The bounded-source row is read before any tail estimate because $B$ is the only coordinate that records a uniform partial-sum bound. The monotone-null row is read before any coefficient estimate because $M$ is the only coordinate that records the displayed null-control schedule.
+
+The schedule $W$ binds these two rows to one finite tail request. A downstream consumer therefore reaches the uniform Cauchy series surface of \autoref{ch:concrete-instances-uniform-cauchy-series-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real seal of \autoref{ch:concrete-instances-real-namecert} only through the listed route.
+
+The refusal row is an inventory check on the carrier. Since none of the ten coordinates is a quotient series equality, selected sum, countable-choice selector, trichotomy row, or ambient completeness witness, the local certificate exports none of those principles.
+\end{proof}
+
+\begin{theorem}[Dirichlet uniform tail stability]\label{thm:dirichlet-uniform-convergence-tail-stability}
+Let $(S,B,M,W,R,E,H,C,P,N)$ be an accepted $\DirichletUniformConvergenceUp$ carrier. The bounded partial-sum row $B$ and monotone-null row $M$ transported by the componentwise $\hsame$ ledger $H$ and replayed by the displayed $\Cont$ routes $C$ induce the same uniform tail ledger $W$ before any $\RegSeqRatUp$ readback or $\RealUp$ seal is consumed.
+\end{theorem}
+\begin{proof}
+Start with a consumer read of a uniform tail comparison. By \autoref{def:dirichlet-uniform-convergence-carrier}, the only available bounded partial-sum data are in $B$, and the only available monotone-null data are in $M$.
+
+Apply the obligation surface of \autoref{thm:dirichlet-uniform-convergence-namecert-obligation-surface}. It requires both rows to be read through the finite schedule $W$ before the regular rational readback $R$ or the real seal $E$ can be reached.
+
+The transport row $H$ is componentwise, so it carries the displayed source, bounded row, monotone-null row, and schedule without changing which tail windows are named. The continuation row $C$ replays the same ordered route from source through $B,M,W,R,E$.
+
+Thus transported and replayed consumers inspect the same bounded-partial-sum and monotone-null data at the same scheduled tail windows. The tail ledger is stable under the displayed $\hsame$ and $\Cont$ rows, and no quotient series equality, selected sum, countable-choice selector, trichotomy row, or ambient $\RealUp$ completeness coordinate can intervene.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\DirichletUniformConvergenceUp$ consumer that reaches a $\RegSeqRatUp$ readback, $\RealUp$ seal, or $\UniformLimitUp$ handoff without first reading the source row, bounded partial-sum row, monotone-null row, and finite tail schedule refutes the carrier surface.}
+
+\independenceWitness{uniform-cauchy-series, real, regseqrat, uniformlimit, real-series-ratio-test: none is bijective to $\DirichletUniformConvergenceUp$ because this packet jointly carries a series source, bounded partial sums, monotone-null controls, one finite tail schedule, regular readback, real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{DirichletUniformConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\DirichletUniformConvergenceUp}
+  \constructivestory{A $\DirichletUniformConvergenceUp$ packet is generated from a displayed series source, bounded partial-sum row, monotone-null control row, finite tail-window schedule, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dirichlet-uniform-convergence-carrier}, \autoref{thm:dirichlet-uniform-convergence-namecert-obligation-surface}, and \autoref{thm:dirichlet-uniform-convergence-tail-stability} seed the finite Dirichlet uniform convergence tail-control surface over $\UniformCauchySeriesUp$, $\RegSeqRatUp$, $\RealUp$, and $\UniformLimitUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient series equality, selected sums, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the ten-row carrier and prove carrier admission, bounded-source control, monotone-null control, uniform tail handoff, and ledger refusal for the same finite packet.}
+\end{closurestatus}

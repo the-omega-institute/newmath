@@ -423,3 +423,64 @@ capstone supplies the limit construction consumed by the complete-metric
 side, so all fields of the $\NameCert_{\BanachUp}$ obligation package are
 accounted for constructively.
 \end{proof}
+
+\begin{theorem}[Banach norm-completeness downstream coverage]
+\label{thm:banach-norm-completeness-downstream-coverage}
+For any $\BanachUp$ candidate of
+\autoref{def:banach-complete-normed-carrier}, every accepted local consumer of
+the norm-induced metric completeness surface is exhausted by the displayed
+finite alternatives in this chapter. A consumer read must factor through one of
+the following rows: the norm-induced distance row $d_\nu(x,y)=\nu(x-_V y)$ of
+\autoref{thm:banach-metric-induced-by-norm}, the classifier transport row of
+\autoref{thm:banach-classifier-transport-obligation}, the regular Cauchy
+completion row of \autoref{thm:banach-regular-cauchy-completion-obligation},
+the zero-sequence anchor of
+\autoref{thm:banach-zero-sequence-limit-obligation}, or the assembled
+NameCert ledger of \autoref{thm:banach-certificate-obligation-assembly}. Thus
+all consumer-visible data are carried endpoints, norm-distance histories,
+regular Cauchy moduli, convergence moduli, limit endpoints, uniqueness up to
+$\sim_V$, and the ledger rows recording the norm and rational-bound reads. A
+quotient vector equality, host limit, detached RealUp completion selector,
+ambient compactness coordinate, countable choice selector, or unlisted metric
+coordinate is not exported by the $\BanachUp$ packet.
+\end{theorem}
+\begin{proof}
+Start with an accepted local consumer of the norm-induced completeness
+surface. Since the packet is the one assembled in
+\autoref{thm:banach-certificate-obligation-assembly}, the consumer can inspect
+only the fields named there: carrier $C_V$, classifier $\sim_V$, induced
+metric witness $d_\nu$, stability rows for $\nu$ and $d_\nu$, the ledger of
+orm provenance and regular Cauchy moduli, and the supplied completion
+operation with uniqueness up to $\sim_V$.
+
+If the consumer reads a distance, the only available distance coordinate is
+$d_\nu(x,y)=\nu(x-_V y)$. The metric obligations of
+\autoref{thm:banach-metric-induced-by-norm} show that this is a legitimate
+$\MetricSpaceUp$ row, and
+\autoref{thm:banach-classifier-transport-obligation} shows that changing
+representatives can only transport the same norm value and the same induced
+distance through the vector classifier. Hence a distance-facing consumer
+cannot introduce a second metric, a quotient distance, or a host-level
+endpoint comparison.
+
+If the consumer reads a convergence claim, its input is a regular Cauchy
+sequence for $d_\nu$. The completion row of
+\autoref{thm:banach-regular-cauchy-completion-obligation} is then the sole
+route: it returns the carried endpoint $\lim_\nu(X,\mu)$, an explicit
+convergence modulus, the ledger entries recording the modulus calls and the
+norm rows used to read the distances, and uniqueness of any competing endpoint
+up to $\sim_V$. The zero-sequence case of
+\autoref{thm:banach-zero-sequence-limit-obligation} is the corresponding
+anchored alternative when the stream is constant at $0_V$; it supplies no
+additional route beyond the same completion and uniqueness rows.
+
+These cases exhaust the assembly theorem. The stability branch is exactly
+classifier transport, the metric branch is exactly the norm-induced distance,
+the completion branch is exactly the regular Cauchy limit row, and the anchored
+branch is the constant-zero instance of that completion row. All remaining
+entries of the packet are ledger entries recording which norm, modulus,
+tolerance, and rational-bound rows were consumed. Since the carrier definition
+and assembly theorem list no coordinate for quotient vector equality, host
+limits, detached RealUp completion selectors, compactness, choice, or any
+extra metric, any route requiring one of those data is outside the BEDC packet.
+\end{proof}

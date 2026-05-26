@@ -98,20 +98,38 @@ The socket and $\Gap$ portion is supplied by $G,S,T$, the public event portion b
 Thus any read formerly expressible as $O,S,A,G,H,C,P,N$ is read inside the canonical rows. Observation, socket, actuality, gap, transport, continuation, provenance, and naming are accounted for by $H,G,S,T,I,L,R,C,P,N$, with no additional exported theorem or hidden supply surface.
 \end{proof}
 
+\begin{theorem}[InscriptionPoint bridge-facing preservation]
+\label{thm:inscription-point-bridge-facing-preservation}
+The standard bridge-facing read of an accepted $\InscriptionPointUp$ carrier preserves exactly
+$$
+H,G,S,T,I,L,R,C,P,N
+$$
+through the existing finite gap, supply-ledger, induction-handoff, and inscription-event rows. The bridge-facing surface has no additional coordinate beyond the carrier of \autoref{def:inscription-point-carrier}, the NameCert obligations of \autoref{thm:inscription-point-namecert-obligations}, the gap handoff of \autoref{thm:inscription-point-gap-handoff}, the non-escape boundary of \autoref{thm:inscription-point-non-escape}, and the canonical-carrier socket surface of \autoref{thm:inscription-point-socket-surface-merged-into-canonical-carrier}.
+\end{theorem}
+\begin{proof}
+The carrier definition fixes $H,G,S,T,I,L,R,C,P,N$ as the only displayed rows. The finite gap, supply ledger, induction handoff, and inscription event are not reconstructed by a bridge read; they are the existing coordinates $G,S,T,I$.
+
+The NameCert obligations preserve the same tuple under classifier, exactness, transport, continuation, provenance, and local naming reads. Gap handoff then forces every consumer route through $G,S,T,I$ before the local $\NameCert$ row is consumed.
+
+The non-escape and canonical-carrier socket theorems remove the remaining alternatives. Since the packet has no hidden supply rule, far-end predicate, private subject primitive, selected witness, quotient equality, or completed supply coordinate, a bridge-facing read can only preserve the displayed rows already present in $H,G,S,T,I,L,R,C,P,N$.
+\end{proof}
+
 \closureat{InscriptionPointUp}{seedStr}
 \closureat{InscriptionPointUp}{obligationStr}[BEDC.Derived.InscriptionPointUp.InscriptionPointTasteGate\_single\_carrier\_alignment]
 \closureat{InscriptionPointUp}{scopedStr}[BEDC.Derived.InscriptionPointUp.InscriptionPointTasteGate\_single\_carrier\_alignment]
 \closureat{InscriptionPointUp}{publicStr}[BEDC.Derived.InscriptionPointUp.InscriptionPointTasteGate\_single\_carrier\_alignment]
+\closureat{InscriptionPointUp}{bridgedStr}[BEDC.Derived.InscriptionPointUp.InscriptionPointTasteGate\_single\_carrier\_alignment]
+\closureat{InscriptionPointUp}{matureStr}[BEDC.Derived.InscriptionPointUp.InscriptionPointTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\InscriptionPointUp}
   \constructivestory{An $\InscriptionPointUp$ packet is generated from one accepted $\BHist$ row, a finite trace gap socket, a supply-socket ledger row, a transcendental-induction handoff row, an inscription-event row, a local ledger, componentwise $\hsame$ transport, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:inscription-point-carrier}, \autoref{thm:inscription-point-namecert-obligations}, \autoref{thm:inscription-point-gap-handoff}, \autoref{thm:inscription-point-non-escape}, and \autoref{thm:inscription-point-socket-surface-merged-into-canonical-carrier} bind the finite inscription-point carrier, classifier, gap handoff, non-escape surface, finite packet boundary, and public export surface.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.InscriptionPointUp.InscriptionPointTasteGate\_single\_carrier\_alignment}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
   \leanchecked{BEDC.Derived.InscriptionPointUp.taste\_gate}
   \notclaimed{This chapter does not close bridge checking, a substrate-internal supply rule, private subject primitive, hidden source selector, global observer frame, positive far-end predicate, or standard bridge for $\InscriptionPointUp$.}
-  \upgradepath{The next paper-axis step is a bridge theorem preserving $H,G,S,T,I,L,R,C,P,N$ through a standard bridge.}
+  \upgradepath{No further paper-axis closure grade remains; only bridge checking remains on the formal and bridge axes.}
 \end{closurestatus}

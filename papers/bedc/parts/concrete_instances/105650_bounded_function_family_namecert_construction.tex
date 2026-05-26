@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\BoundedFunctionFamilyUp$}
+\label{ch:concrete-instances-bounded-function-family-namecert}
+\origin{human}
+
+Following the bounded-family usage standard in Kelley, \emph{General Topology}, and Bourbaki-style analysis, the $\BoundedFunctionFamilyUp$ packet records the finite BEDC surface for a family of continuous maps whose displayed values are controlled by pointwise real bounds and a sup-norm ledger. It sits between the compact-continuity route of \autoref{ch:concrete-instances-compactmetric-namecert}, the equicontinuity family surface of \autoref{ch:concrete-instances-equicontinuityfamily-namecert}, the Arzela--Ascoli packet of \autoref{ch:concrete-instances-arzelaascoli-namecert}, and the real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The carrier is a finite $\BHist$ packet over $\ContinuousMapUp$ rows, a $\CompactMetricUp$ source row, a $\CompleteMetricUp$ target row, pointwise $\RealUp$ bound rows, a displayed sup-norm ledger, $\hsame$, $\Cont$, $\Pkg$, and a local $\NameCert$ row.
+
+\begin{definition}[Bounded function-family carrier]
+\label{def:bounded-function-family-carrier}
+A $\BoundedFunctionFamilyUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,Y,I,M,B,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the compact metric source row, read through the $\CompactMetricUp$ surface of \autoref{ch:concrete-instances-compactmetric-namecert};
+\item $Y$ is the complete metric target row, supplying only the displayed target metric and completion-facing name data;
+\item $I$ is the finite family-index row naming the inspected family members;
+\item $M$ is the finite list of $\ContinuousMapUp$ rows, one for each displayed family member from $X$ into $Y$;
+\item $B$ is the pointwise $\RealUp$ bound ledger, recording for each displayed index and inspected source window the real-name bound read from the value row;
+\item $U$ is the displayed sup-norm ledger, obtained by comparing the value-distance rows against the finite pointwise bound surface and not by selecting an ambient supremum;
+\item $H$ stores componentwise $\hsame$ transport for the source, target, index, map, pointwise-bound, sup-norm, provenance, and name rows;
+\item $C$ stores the displayed $\Cont$ replay from compact source inspection through continuous-map values, pointwise real bounds, and the sup-norm ledger;
+\item $P$ is the $\Pkg$ provenance over $\CompactMetricUp$, $\CompleteMetricUp$, $\ContinuousMapUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\BoundedFunctionFamilyUp}$ row.
+\end{enumerate}
+The carrier has no row for an open-cover compactness principle, an ambient function-space topology, a selected supremum, quotient real equality, or a choice-selected subsequence.
+\end{definition}
+\leandef{BEDC.Derived.BoundedFunctionFamilyUp.BoundedFunctionFamilyCarrier}
+\leanchecked{BEDC.Derived.BoundedFunctionFamilyUp.BoundedFunctionFamilyUpTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Bounded function-family NameCert obligations]
+\label{thm:bounded-function-family-namecert-obligations}
+For the carrier of \autoref{def:bounded-function-family-carrier}, the local $\NameCert_{\BoundedFunctionFamilyUp}$ surface consists exactly of carrier admission for $F=(X,Y,I,M,B,U,H,C,P,N)$, compact-source readback through $X$, complete-target readback through $Y$, finite index admission through $I$, continuous-map readback through $M$, pointwise $\RealUp$ bound readback through $B$, displayed sup-norm ledger readback through $U$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and terminal naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier row by row. The source row $X$ is read through the compact metric certificate, while $Y$ supplies only the complete metric target surface needed by the displayed value distances.
+
+The finite index row $I$ then bounds the family members that can be inspected. Each inspected member is read through a corresponding $\ContinuousMapUp$ row in $M$, so no ambient function-space topology is introduced.
+
+The pointwise bound row $B$ and the sup-norm ledger $U$ are downstream of the map rows. They compare displayed real-name value distances and record the bound ledger as finite data; they do not choose a supremum in the host real line and do not identify quotient real representatives.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite surface. Since no other coordinate occurs in $F$, these rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Bounded function-family sup-norm route]
+\label{thm:bounded-function-family-sup-norm-route}
+Every accepted $\BoundedFunctionFamilyUp$ packet exports its sup-norm ledger only through
+$$
+X,Y,I,M,B,U,H,C,P,N.
+$$
+A consumer first reads the compact source row, complete target row, finite family-index row, and displayed continuous-map rows; only then may it read the pointwise $\RealUp$ bound rows and the finite sup-norm ledger. The route exports no open-cover compactness theorem, ambient function-space topology, selected supremum, quotient real equality, or choice-selected subsequence.
+\end{theorem}
+\leanchecked{BEDC.Derived.BoundedFunctionFamilyUp.BoundedFunctionFamilyCarrier\_sup\_norm\_route}
+\begin{proof}
+Start with the source and target rows. The $\CompactMetricUp$ row $X$ supplies the inspected source windows, and the $\CompleteMetricUp$ row $Y$ supplies the target metric surface without importing a function-space object.
+
+Next read the finite family data. The index row $I$ lists the family members available to the packet, and $M$ attaches each listed member to a displayed $\ContinuousMapUp$ row.
+
+The pointwise real bounds in $B$ are then read against those map values. The sup-norm ledger $U$ is a finite comparison ledger over the displayed values and bounds, so it can be replayed by $C$ and transported by $H$ without selecting an ambient supremum.
+
+The provenance and local name rows $P,N$ close the packet. Because the carrier contains no open-cover, ambient topology, quotient equality, or subsequence-selector coordinate, the listed rows exhaust every sup-norm read available to downstream Arzela--Ascoli and equicontinuity consumers.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\BoundedFunctionFamilyUp$ consumer that reads a sup-norm ledger without the displayed finite family-index row, continuous-map rows, pointwise $\RealUp$ bound rows, and structural $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows refutes the carrier surface.}
+
+\independenceWitness{compactmetric, equicontinuityfamily, arzelaascoli, real: no listed sibling jointly carries the compact source, complete target, finite continuous-map family, pointwise real-bound ledger, displayed sup-norm route, transport, replay, provenance, and local name rows of $F=(X,Y,I,M,B,U,H,C,P,N)$.}
+
+\closureat{BoundedFunctionFamilyUp}{seedStr}
+
+\begin{closurestatus}{\BoundedFunctionFamilyUp}
+  \constructivestory{A $\BoundedFunctionFamilyUp$ packet is generated from a compact metric source row, complete metric target row, finite family-index row, continuous-map rows, pointwise RealUp bound rows, displayed sup-norm ledger, componentwise hsame transports, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-function-family-carrier}, \autoref{thm:bounded-function-family-namecert-obligations}, and \autoref{thm:bounded-function-family-sup-norm-route} bind the finite bounded-family carrier and its displayed sup-norm ledger route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, ambient function-space topology, selected suprema, quotient real equality, choice-selected subsequences, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, continuous-map readback, pointwise bound exactness, displayed sup-norm replay, structural transport, provenance, and local naming for BEDC.Derived.BoundedFunctionFamilyUp.}
+\end{closurestatus}

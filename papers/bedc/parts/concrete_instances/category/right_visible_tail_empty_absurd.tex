@@ -93,3 +93,162 @@ to be $\emp$. This contradicts constructor separation for either
 $\mathsf{e0}(m)$ or $\mathsf{e1}(m)$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_left\_visible\_tail\_empty\_absurd}
+
+\begin{lemma}[Continuation morphism composite right visible bridge determinacy]
+\label{lem:continuation-morphism-comp-right-visible-bridge-determinacy}
+For histories $a,b,c,m$, let $left$ and $right$ be continuation morphisms from
+$a$ to $b$ and from $b$ to $c$, respectively. Choose local history witnesses
+$z,o,r_0,r_1,q$ such that $z$ is the zero-headed history with payload $m$, $o$
+is the one-headed history with payload $m$, $r_0$ names the zero-headed right
+displayed tail of $right$, $r_1$ names the one-headed right displayed tail of
+$right$, and $q$ names the displayed tail of the composite $left\circ right$.
+The consumer-facing surface for a composite whose right displayed tail is
+visible is determined by the following finite local rows:
+$$
+\begin{gathered}
+\hsame(r_0,z)
+\Longrightarrow
+\hsame(q,\emp)
+\Longrightarrow \bot,\\
+\hsame(r_1,o)
+\Longrightarrow
+\hsame(q,\emp)
+\Longrightarrow \bot,\\
+\hsame(r_1,o)
+\Longrightarrow
+\hsame(c,\emp)
+\Longrightarrow \bot.
+\end{gathered}
+$$
+Consequently every consumer-facing use of the composite-tail empty coordinate
+is certified by either the zero-headed or one-headed composite-tail refusal row
+of \autoref{thm:continuation-morphism-comp-right-visible-tail-empty-absurd},
+and the one-headed target case is certified by
+\autoref{thm:continuation-morphism-right-visible-tail-target-not-empty}. No
+consumer-facing bridge coordinate is available for a detached empty composite
+tail, a detached empty target, a hidden payload classifier, an independent
+left-tail inspection, host equality of composites, or an off-packet boundary.
+\end{lemma}
+\begin{proof}
+The visible right-tail packet has two displayed constructor branches, and the
+chosen witnesses expose those branches as bound history names. In the
+zero-headed branch, the available row is
+$$
+\hsame(r_0,z).
+$$
+The first projection of
+\autoref{thm:continuation-morphism-comp-right-visible-tail-empty-absurd}, read
+with witness $r_0$ for the right displayed tail, witness $z$ for its
+zero-headed shape, and witness $q$ for the composite displayed tail, is exactly
+the refusal
+$$
+\hsame(q,\emp)
+\Longrightarrow \bot.
+$$
+Thus any consumer use that tries to consume the zero-headed right-tail branch as
+an empty composite tail is blocked by that local refusal. The row exposes no
+target-empty conclusion and no additional payload coordinate.
+
+In the one-headed branch, the available row is
+$$
+\hsame(r_1,o).
+$$
+The second projection of
+\autoref{thm:continuation-morphism-comp-right-visible-tail-empty-absurd}, read
+with witness $r_1$ for the right displayed tail, witness $o$ for its
+one-headed shape, and witness $q$ for the composite displayed tail, is exactly
+the composite-tail refusal
+$$
+\hsame(q,\emp)
+\Longrightarrow \bot,
+$$
+so every consumer use of the one-headed branch as a composite-tail empty claim
+is blocked by that row. The same one-headed right-tail row is also the exact
+input of
+\autoref{thm:continuation-morphism-right-visible-tail-target-not-empty}, which
+produces the target-empty refusal
+$$
+\hsame(c,\emp)
+\Longrightarrow \bot.
+$$
+Thus every one-headed target-empty claim is blocked by the cited
+target-not-empty row.
+
+These three implications exhaust the bridge surface named by the local rows.
+The first two rows cover all visible right-tail cases leading to the
+composite-tail empty obstruction, and the third row covers the only target-empty
+obstruction available from the one-headed right-tail branch. None of the cited
+rows has a premise or conclusion mentioning a detached empty composite-tail
+coordinate, a detached empty target coordinate, a hidden payload classifier, an
+independent left-tail inspection, host equality of composites, or an off-packet
+boundary. Such a coordinate therefore has no local row through which a consumer
+can read the composite right-visible bridge.
+\end{proof}
+
+\begin{corollary}[Continuation morphism composite right visible consumer determinacy]
+\label{cor:continuation-morphism-comp-right-visible-consumer-determinacy}
+For histories $a,b,c,m$, let $left$ and $right$ be continuation morphisms from
+$a$ to $b$ and from $b$ to $c$, respectively. Choose local history witnesses
+$z,o,r_0,r_1,q$ as in
+\autoref{lem:continuation-morphism-comp-right-visible-bridge-determinacy}. Once
+the right-visible local rows
+$$
+\begin{gathered}
+\hsame(r_0,z)
+\Longrightarrow
+\hsame(q,\emp)
+\Longrightarrow \bot,\\
+\hsame(r_1,o)
+\Longrightarrow
+\hsame(q,\emp)
+\Longrightarrow \bot,\\
+\hsame(r_1,o)
+\Longrightarrow
+\hsame(c,\emp)
+\Longrightarrow \bot
+\end{gathered}
+$$
+are fixed, every accepted consumer-facing use of the composite right-visible
+surface has the same chapter-named finite data. A composite-tail empty use must
+factor through the zero-headed or one-headed refusal supplied by
+\autoref{thm:continuation-morphism-comp-right-visible-tail-empty-absurd}; a
+one-headed target-empty use must factor through
+\autoref{thm:continuation-morphism-right-visible-tail-target-not-empty}; and
+any normal form or exactness decision exposed to a consumer is one of those
+three displayed refusals. Thus two accepted consumers over the same fixed rows
+cannot choose different finite routes, different right-visible normal forms, or
+different exactness decisions, and no accepted use can introduce a detached
+empty composite tail, detached empty target, alternate hidden coordinate,
+duplicate classifier source, independent left-tail inspection, host equality of
+composites, or off-packet boundary.
+\end{corollary}
+\begin{proof}
+Apply
+\autoref{lem:continuation-morphism-comp-right-visible-bridge-determinacy}. The
+lemma lists the complete consumer-facing bridge surface for a composite whose
+right displayed tail is visible. Its first two rows are exactly the
+zero-headed and one-headed routes from a right-tail constructor row to the
+refusal of $\hsame(q,\emp)$, and those two routes are the two projections of
+\autoref{thm:continuation-morphism-comp-right-visible-tail-empty-absurd}. Hence
+any accepted consumer use that asks for an empty composite-tail coordinate has
+one of these two finite routes as its normal form.
+
+The same bridge determinacy lemma also identifies the only target-empty route
+available from the visible right-tail packet. It is the one-headed row
+$\hsame(r_1,o)$ followed by
+\autoref{thm:continuation-morphism-right-visible-tail-target-not-empty}, which
+refuses $\hsame(c,\emp)$. With the three displayed rows fixed, this fixes the
+one-headed target-empty exactness decision as the third displayed refusal, and
+there is no separate target-empty route in the zero-headed branch.
+
+It remains to rule out competing consumer choices. The cited determinacy lemma
+states that the bridge exports no detached empty composite-tail coordinate, no
+detached empty target coordinate, no hidden payload classifier, no independent
+left-tail inspection, no host equality of composites, and no off-packet
+boundary. A duplicate classifier source or any further hidden coordinate would
+therefore have to be an additional row outside the three displayed refusals.
+Such a row is not a premise or conclusion of the local bridge surface and has
+no factor through the cited tail-empty or target-not-empty theorems. It is
+therefore not an accepted route, normal form, or exactness decision for this
+composite right-visible surface.
+\end{proof}

@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\RealUniformCauchyNameUp$}
+\label{ch:concrete-instances-real-uniform-cauchy-name-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RealUniformCauchyNameUp$ packet records a regular Cauchy real name together with the finite modulus route that makes its requested tolerances inspectable. It sits between the $\StreamNameUp$ window interface of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\DyadicRatCoreUp$ tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the $\RealCauchyModulusUp$ schedule of \autoref{ch:concrete-instances-realcauchymodulus-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives completion and rate-extraction consumers a named real-name surface without importing host limits, quotient streams, selected representatives, or ambient completeness.
+
+\begin{definition}[RealUniformCauchyName carrier]
+\label{def:real-uniform-cauchy-name-carrier}
+A $\RealUniformCauchyNameUp$ carrier is a finite $\BHist$ packet
+$$
+U=(S,R,M,Q,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite $\StreamNameUp$ window family selected for the requested precision levels.
+\item $R$ is the $\RegSeqRatUp$ readback row for those windows, exposing the rational approximants and their regularity checks.
+\item $M$ is the $\CauchyModulusUp$ schedule row, recording the finite threshold chosen for each visible dyadic tolerance request.
+\item $Q$ is the $\RealCauchyModulusUp$ route that attaches the schedule $M$ to the real-name readback rather than to a host modulus function.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, listing the inspected dyadic radii, comparison budgets, and refinement rows used by $S,R,M,Q$.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the stream windows, regular readbacks, modulus schedules, and dyadic ledger have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the window, readback, modulus, tolerance, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through $S,R,M,Q,D,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RealUniformCauchyNameUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\RealCauchyModulusUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealUniformCauchyNameUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by componentwise displayed transport through these rows. It has no coordinate for quotient stream equality, host sequence limits, countable-choice schedules, selected representatives, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RealUniformCauchyName NameCert obligations]
+\label{thm:real-uniform-cauchy-name-namecert-obligations}
+For every accepted $\RealUniformCauchyNameUp$ carrier $U=(S,R,M,Q,D,E,H,C,P,N)$, the local $\NameCert_{\RealUniformCauchyNameUp}$ surface consists exactly of carrier admission for the ten displayed rows, finite $\StreamNameUp$ window access through $S$, regular rational readback through $R$, $\CauchyModulusUp$ schedule exposure through $M$, $\RealCauchyModulusUp$ schedule-to-real-name routing through $Q$, $\DyadicRatCoreUp$ tolerance accounting through $D$, terminal $\RealUp$ sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-uniform-cauchy-name-carrier}. The only rows available to the local naming surface are $S,R,M,Q,D,E,H,C,P,N$, so carrier admission supplies precisely the window, readback, modulus, tolerance, seal, transport, replay, provenance, and naming data.
+
+The modulus route is split into $M$ and $Q$. The row $M$ records the finite threshold schedule for visible dyadic requests, while $Q$ attaches that schedule to the real-name readback. Thus the route names a displayed Cauchy real name rather than a host modulus function.
+
+Transport by $H$ is componentwise, and replay by $C$ follows the same displayed tolerance route. Since $P,N$ source and name only this packet, no quotient stream, selected representative, countable-choice schedule, or ambient completeness datum is available to the NameCert surface.
+\end{proof}
+
+\begin{theorem}[RealUniformCauchyName seal nonescape]
+\label{thm:real-uniform-cauchy-name-seal-nonescape}
+Every terminal $\RealUp$ seal read from an accepted $\RealUniformCauchyNameUp$ carrier factors through the ordered route
+$$
+S\longmapsto R\longmapsto M\longmapsto Q\longmapsto D\longmapsto E
+$$
+together with $H,C,P,N$. Consequently a completion or rate-extraction consumer may read the named real only through displayed $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\CauchyModulusUp$ and $\RealCauchyModulusUp$ schedules, the $\DyadicRatCoreUp$ tolerance ledger, and the local structural rows.
+\end{theorem}
+\begin{proof}
+Begin with a requested terminal seal. By \autoref{def:real-uniform-cauchy-name-carrier}, the request first exposes the selected finite windows $S$ and their regular rational readbacks $R$.
+
+The tolerance request is then governed by the schedule row $M$ and attached to the real-name route by $Q$. The dyadic ledger $D$ records the inspected radii and comparison budgets before the terminal seal $E$ is visible.
+
+Finally read the structural rows $H,C,P,N$. They transport, replay, source, and name the same finite route, so the consumer receives no host limit, quotient stream equality, countable-choice selector, selected representative, trichotomy, independent real value, or ambient $\RealUp$ completeness principle.
+\end{proof}
+
+\falsifiablePrediction{Every $\RealUniformCauchyNameUp$ seal read factors through StreamName finite windows, RegSeqRat readbacks, CauchyModulus and RealCauchyModulus schedules, a DyadicRatCore tolerance ledger, a RealUp seal row, componentwise transport, continuation replay, provenance, and local naming.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, realcauchymodulus, real: $\RealUniformCauchyNameUp$ is not bijective to any listed sibling because it jointly carries the finite window family, regular rational readback, explicit Cauchy schedule, Real-facing modulus route, dyadic tolerance ledger, terminal Real seal, transport, continuation, provenance, and local naming.}
+
+\closureat{RealUniformCauchyNameUp}{seedStr}
+
+\begin{closurestatus}{\RealUniformCauchyNameUp}
+  \constructivestory{A $\RealUniformCauchyNameUp$ packet is generated from StreamName finite windows, RegSeqRat readbacks, CauchyModulus and RealCauchyModulus schedules, a DyadicRatCore tolerance ledger, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-uniform-cauchy-name-carrier}, \autoref{thm:real-uniform-cauchy-name-namecert-obligations}, and \autoref{thm:real-uniform-cauchy-name-seal-nonescape} bind the finite regular Cauchy real-name certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, host sequence limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus-route exactness, tolerance-ledger accounting, componentwise classifier transport, and Real seal nonescape for BEDC.Derived.RealUniformCauchyNameUp.}
+\end{closurestatus}

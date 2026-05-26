@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\NoetherianModuleUp$}
+\label{ch:concrete-instances-noetherian-module-namecert}
+\origin{human}
+
+Following Emmy Noether and standard module theory, the $\NoetherianModuleUp$ packet records finite submodule-chain stabilization data over a displayed module source. In BEDC form it sits after $\NameCert_{\ModuleUp}$ (\autoref{ch:concrete-instances-module-namecert}), the commutative scalar source of $\NameCert_{\CommRingUp}$ (\autoref{ch:concrete-instances-commring-namecert}), the ideal-side Noetherian surface of $\NameCert_{\NoetherianRingUp}$ (\autoref{ch:concrete-instances-noetherian-ring-namecert}), and the ideal carrier of $\NameCert_{\IdealUp}$ (\autoref{ch:concrete-instances-ideal-namecert}). The packet supplies the module-side finite-chain row consumed by algebraic reduction and kernel-image arguments; it does not assert quotient-module classification, selected bases, maximal-submodule choice, or a host Noetherian theorem.
+
+\section{Carrier definition}
+\label{sec:noetherian-module-carrier}
+
+\begin{definition}[Noetherian module carrier]\label{def:noetherian-module-carrier}
+A $\NoetherianModuleUp$ carrier is a finite $\BHist$ packet
+$$
+\begin{gathered}
+\mathsf{NoethMod}(M,R,I,A,G,H,Q,P,N).
+\end{gathered}
+$$
+The row $M$ is the $\ModuleUp$ source surface. The row $R$ is the scalar $\CommRingUp$ source read from the module certificate. The row $I$ is the $\IdealUp$ comparison surface used when scalar-generated submodule rows are inspected. The row $A$ is the ascending-chain stabilization witness: every displayed chain of submodule rows over $M$ carries a finite stage after which all later submodule endpoints classify with that stage. The row $G$ is the finite-generator witness used by algebraic consumers that read the module through finitely generated submodule data. The row $H$ is componentwise $\hsame$ transport for the module, scalar, ideal-comparison, stabilization, and generator rows. The row $Q$ is displayed $\Cont$ replay for the submodule-chain and generator certificates. The row $P$ is $\Pkg$ provenance, and $N$ is the local $\NameCert_{\NoetherianModuleUp}$ naming row.
+\end{definition}
+
+\begin{theorem}[Noetherian module NameCert obligations]\label{thm:noetherian-module-namecert-obligations}
+For an accepted $\NoetherianModuleUp$ carrier $\mathsf{NoethMod}(M,R,I,A,G,H,Q,P,N)$, the local $\NameCert_{\NoetherianModuleUp}$ surface consists exactly of carrier admission for the nine displayed rows, source compatibility with $\ModuleUp$, $\CommRingUp$, $\NoetherianRingUp$, and $\IdealUp$, finite submodule-chain stabilization access through $A$, finite-generator access through $G$, componentwise classifier transport through $H$, displayed continuation replay through $Q$, provenance non-escape through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the nine rows of \autoref{def:noetherian-module-carrier}. The module row $M$ fixes the additive carrier, scalar action, and module classifier before any submodule chain is inspected.
+
+The scalar and ideal comparison rows $R$ and $I$ bind the chain to the same commutative-ring and ideal surfaces used by \autoref{ch:concrete-instances-noetherian-ring-namecert}. Thus the $\NoetherianRingUp$ dependency supplies only the scalar-side finite-chain context; it does not replace the module chain by an ideal chain.
+
+The stabilization row $A$ and generator row $G$ are then read over the displayed module classifier. Componentwise transport $H$ carries the same rows through $\hsame$, while $Q$ replays only the displayed continuations.
+
+Finally, $P$ and $N$ repack this inventory as the local naming certificate. Since no quotient-module classifier, basis selector, maximal-submodule choice, or host Noetherian principle occurs in the carrier, none can occur among the local obligations.
+\end{proof}
+
+\begin{theorem}[Noetherian submodule-chain stability]\label{thm:noetherian-module-submodule-chain-stability}
+Let $\mathsf{NoethMod}(M,R,I,A,G,H,Q,P,N)$ be an accepted $\NoetherianModuleUp$ carrier. For every displayed ascending chain of submodule rows over the $\ModuleUp$ classifier of $M$, the witness $A$ supplies a finite stabilization stage, and $H$ transports that stabilization along the same classifier. Thus any downstream algebraic consumer may use $\NoetherianModuleUp$ as a finite submodule-chain certificate without importing quotient-module classification, selected bases, maximal-submodule choice, or a host Noetherian theorem.
+\end{theorem}
+\begin{proof}
+Begin with the source compatibility rows from \autoref{thm:noetherian-module-namecert-obligations}. They force the chain to be read over the module classifier already present in $M$, while $R$ and $I$ keep the scalar and ideal comparison surfaces visible.
+
+Apply the stabilization witness $A$ to the displayed submodule chain. The result is a finite stage inside the same module classifier, not an external quotient or selected basis.
+
+If the accepted packet is transported through a classified replacement, use the componentwise transport row $H$ to move the chain entries and the stabilization witness together. The replay row $Q$ preserves only the displayed continuation data, and the provenance row $P$ prevents an ambient Noetherian principle from entering the route.
+
+The transported stage is therefore a reusable finite submodule-chain certificate for later module consumers.
+\end{proof}
+
+\closureat{NoetherianModuleUp}{seedStr}
+
+\begin{closurestatus}{\NoetherianModuleUp}
+  \constructivestory{A $\NoetherianModuleUp$ packet is generated from a $\ModuleUp$ source, a scalar $\CommRingUp$ source, a $\NoetherianRingUp$ scalar-side chain context, an $\IdealUp$ comparison surface, a submodule-chain stabilization witness, a finite-generator witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:noetherian-module-carrier}, \autoref{thm:noetherian-module-namecert-obligations}, and \autoref{thm:noetherian-module-submodule-chain-stability} seed the finite submodule-chain stabilization interface over ModuleUp, NoetherianRingUp, CommRingUp, IdealUp, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient-module classification, selected bases, maximal-submodule choice, host Noetherian module theorems, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source compatibility, finite submodule-chain stabilization access, finite-generator access, componentwise transport, provenance non-escape, and local NameCert exactness for BEDC.Derived.NoetherianModuleUp.}
+\end{closurestatus}

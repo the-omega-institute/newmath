@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\ClosedIntervalApproximationUp$}
+\label{ch:concrete-instances-closed-interval-approximation-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\ClosedIntervalApproximationUp$ packet records the finite endpoint approximation surface for a closed real interval before any compactness or real-completeness principle is available. It sits after the endpoint carrier of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the finite net route of \autoref{ch:concrete-instances-closedboundedintervalnet-namecert}, the rational cover ledger of \autoref{ch:concrete-instances-rational-interval-cover-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is an endpoint-window approximation certificate over displayed rows, not Heine--Borel compactness, open-cover compactness, quotient real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Closed interval approximation carrier]
+\label{def:closed-interval-approximation-carrier}
+A $\ClosedIntervalApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+A=(I,K,Q,D,S,R,L,U,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the accepted closed bounded interval row whose lower and upper endpoint data are being approximated.
+\item $K$ is the $\ClosedBoundedIntervalNetUp$ row naming the finite mesh and cell route available over $I$.
+\item $Q$ is the $\RationalIntervalCoverUp$ ledger recording the rational endpoint windows and containment tests inspected by the approximation.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording dyadic radii, endpoint slack comparisons, and mesh refinements used by $K$ and $Q$.
+\item $S$ is the $\StreamNameUp$ finite-window row specifying which endpoint observations are inspected.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same endpoint windows and dyadic tolerance requests.
+\item $L$ and $U$ are the displayed lower and upper approximation rows delivered to Real and Completion consumers.
+\item $W$ is the window-coherence ledger saying that later endpoint windows refine the same $I,K,Q,D,S,R,L,U$ route.
+\item $H$ records componentwise $\hsame$ transport for the interval row, finite net row, rational cover ledger, dyadic tolerance ledger, stream window, regular readback, lower approximation, upper approximation, coherence ledger, continuation row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+I \longmapsto K \longmapsto Q,D \longmapsto S,R \longmapsto L,U,W .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ClosedIntervalApproximationUp$, $\ClosedBoundedIntervalUp$, $\ClosedBoundedIntervalNetUp$, $\RationalIntervalCoverUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClosedIntervalApproximationUp}$ row.
+\end{enumerate}
+The carrier predicate is exactly the assertion that these rows form one finite endpoint approximation packet. It has no coordinate for a host interval, a selected real endpoint, quotient real equality, trichotomy, an open-cover subcover, Heine--Borel compactness, or Real completeness.
+\end{definition}
+
+\begin{theorem}[Closed interval approximation NameCert obligations]
+\label{thm:closed-interval-approximation-namecert-obligations}
+For every accepted $\ClosedIntervalApproximationUp$ carrier
+$$
+A=(I,K,Q,D,S,R,L,U,W,H,C,P,N),
+$$
+the local $\NameCert_{\ClosedIntervalApproximationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the interval row, finite net row, rational cover ledger, dyadic tolerance ledger, stream window, regular readback, lower approximation, upper approximation, coherence, transport, replay, provenance, and local naming rows;
+\item endpoint source compatibility, requiring $K,Q,D,S,R$ to be read from the same accepted closed interval row $I$;
+\item rational and dyadic exactness, requiring $Q$ and $D$ to account for every endpoint containment, tolerance radius, and refinement used to compute $L$ and $U$;
+\item finite-window readback, requiring $S$ and $R$ to expose only the inspected endpoint windows before any $\RealUp$ seal is consumed;
+\item approximation coherence, requiring $W,H,C$ to preserve the same endpoint approximation route under later finite-window replay and componentwise transport;
+\item Real and Completion handoff, allowing downstream consumers to read $L$ and $U$ only through the displayed $I,K,Q,D,S,R,W$ route;
+\item boundary refusal, excluding Heine--Borel compactness, open-cover compactness, quotient real equality, host endpoint selection, trichotomy, and ambient $\RealUp$ completeness.
+\end{enumerate}
+No closed-interval approximation obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The projection exposes exactly the interval source, finite net, rational cover ledger, dyadic tolerance ledger, finite stream window, regular rational readback, lower and upper approximation rows, coherence ledger, transport, replay, provenance, and local naming.
+
+Endpoint source compatibility follows because $K,Q,D,S,R$ are coordinates of the same carrier and are all attached to $I$. A consumer cannot replace $I$ by a host interval or use a second endpoint source without leaving the displayed packet.
+
+Rational and dyadic exactness are the rows $Q$ and $D$. They account for the containment tests, dyadic radii, slack comparisons, and mesh refinements used by the lower and upper approximation rows, so no hidden precision source remains for $L$ or $U$.
+
+The finite-window readback is the route through $S$ and $R$. These rows expose only the inspected endpoint observations and their regular rational readbacks before a Real-facing consumer can read the approximation.
+
+Finally $W,H,C,P,N$ preserve and name the same route. Since no carrier coordinate stores a host interval, selected real endpoint, quotient real equality, trichotomy branch, open-cover subcover, Heine--Borel compactness theorem, or ambient completeness theorem, the local $\NameCert$ surface cannot export any of them.
+\end{proof}
+
+\begin{theorem}[Closed interval approximation Real-window handoff]
+\label{thm:closed-interval-approximation-real-window-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\ClosedIntervalApproximationUp$ carrier factors through the finite route
+$$
+\ClosedBoundedIntervalUp
+\longmapsto \ClosedBoundedIntervalNetUp
+\longmapsto \RationalIntervalCoverUp,\DyadicRatCoreUp
+\longmapsto \StreamNameUp,\RegSeqRatUp
+\longmapsto \RealUp .
+$$
+The consumer receives displayed lower and upper endpoint approximation rows with a coherence ledger, not a host closed interval, not quotient real equality, not a selected endpoint pair, not Heine--Borel or open-cover compactness, and not a completeness theorem for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $A=(I,K,Q,D,S,R,L,U,W,H,C,P,N)$. The only interval source visible to a consumer is $I$, and the only finite mesh source over it is $K$.
+
+The rational and dyadic stage is then forced. The ledger $Q$ supplies rational endpoint windows and containment tests, while $D$ supplies dyadic tolerances and refinement data attached to the same interval and mesh rows.
+
+The Real-facing stage passes through finite observations. The window row $S$ and readback row $R$ expose the inspected endpoint data before $L$ and $U$ are delivered as lower and upper approximation rows.
+
+The coherence and structural rows close the handoff. The row $W$ ties later windows to the same route, while $H,C,P,N$ transport, replay, source, and name it. Thus a Real or Completion consumer can read only the finite approximation route and cannot obtain host interval equality, selected endpoints, quotient real equality, trichotomy, compactness, or ambient completeness from this packet.
+\end{proof}
+
+\closureat{ClosedIntervalApproximationUp}{seedStr}
+
+\begin{closurestatus}{\ClosedIntervalApproximationUp}
+  \constructivestory{A $\ClosedIntervalApproximationUp$ packet is generated from a closed bounded interval row, a ClosedBoundedIntervalNet row, a RationalIntervalCover ledger, a DyadicRatCore tolerance ledger, StreamName windows, RegSeqRat readback, lower and upper approximation rows, a coherence ledger, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-interval-approximation-carrier}, \autoref{thm:closed-interval-approximation-namecert-obligations}, and \autoref{thm:closed-interval-approximation-real-window-handoff} seed the finite endpoint approximation surface over ClosedBoundedInterval, ClosedBoundedIntervalNet, RationalIntervalCover, DyadicRatCore, StreamName, RegSeqRat, and Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Heine--Borel compactness, open-cover compactness, quotient real equality, selected endpoints, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint source compatibility, rational and dyadic exactness, finite-window readback, approximation coherence, Real and Completion handoff, and boundary refusal for BEDC.Derived.ClosedIntervalApproximationUp.}
+\end{closurestatus}

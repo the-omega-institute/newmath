@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\GroundCompilerAuditRouteUp$}
+\label{ch:concrete-instances-groundcompiler-audit-route-namecert}
+\origin{ai}
+
+The $\GroundCompilerAuditRouteUp$ packet realizes the GroundCompiler audit-map boundary of \autoref{ch:bedc-groundcompiler-audit-map} as one finite route object. It sits beside the event-flow route of \autoref{ch:concrete-instances-groundcompilereventflowauditroute-namecert}, the audit-map family surface of \autoref{ch:concrete-instances-metacicauditmapfamily-namecert}, the local MetaCIC critical-pair boundary of \autoref{ch:concrete-instances-metacic-confluence-critical-pair-boundary-namecert}, and the finite-window pullback of \autoref{ch:concrete-instances-finite-window-pullback-namecert}. The packet stores the rows by which an audit consumer sees event flow, MetaCIC boundary references, no-hidden-input evidence, transport, replay, provenance, and local naming without treating a GroundCompiler report as a MetaCIC theorem.
+
+\falsifiablePrediction{Every theorem, generated recognizer, compiler report, or MetaCIC-facing export admitted by a $\GroundCompilerAuditRouteUp$ packet is accompanied by displayed event-flow, no-hidden-input, boundary, transport, replay, provenance, and local NameCert rows; no hidden input or MetaCIC theorem is exported without those rows.}
+
+\independenceWitness{Nearest siblings: groundcompilereventflowauditroute, metacicauditmapfamily, metacic-confluence-critical-pair-boundary, and finite-window-pullback. The audit-route packet is not bijective to any one sibling because it jointly carries event-flow routing, MetaCIC-boundary references, no-hidden-input separation, transport, replay, provenance, and local naming for one GroundCompiler export path.}
+
+\begin{definition}[GroundCompiler audit route carrier]
+\label{def:groundcompiler-audit-route-carrier}
+A $\GroundCompilerAuditRouteUp$ carrier is a finite $\BHist$ packet
+$$
+A=(E,M,B,Q,T,R,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the $\GroundCompilerEventFlowAuditRouteUp$ event-flow row, including the displayed channel, generated-recognizer, certificate-gate, and non-evidence boundary.
+\item $M$ is the $\MetaCICAuditMapFamilyUp$ boundary row naming which MetaCIC audit-map family entries are referenced by the GroundCompiler route.
+\item $B$ is the critical-pair boundary row, read through $\MetaCICConfluenceCriticalPairBoundaryUp$ when the route mentions confluence-facing MetaCIC data.
+\item $Q$ is the no-hidden-input row, stating that every accepted export path is sourced by displayed event-flow and channel rows rather than host compiler state, source prose, reports, metrics, or motifs.
+\item $T$ is the transport row connecting event-flow export names with the referenced MetaCIC boundary names without converting either side into the other.
+\item $R$ is the replay row for generated recognizer, certificate-gate, report-boundary, MetaCIC-boundary, and no-hidden-input reads.
+\item $V$ is the $\FiniteWindowPullbackUp$ local-window row used when an audit route reads a finite observation window before exposing a certificate-facing export.
+\item $H$ records componentwise $\hsame$ transport for event-flow, MetaCIC-family, critical-pair-boundary, no-hidden-input, route-transport, replay, finite-window, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from event-flow input through channel readback, generated-recognizer mediation, no-hidden-input separation, optional MetaCIC-boundary reference, finite-window pullback, and certificate-gate export.
+\item $P$ is the $\Pkg$ provenance over $\GroundCompilerAuditRouteUp$, $\GroundCompilerEventFlowAuditRouteUp$, $\MetaCICAuditMapFamilyUp$, $\MetaCICConfluenceCriticalPairBoundaryUp$, $\FiniteWindowPullbackUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\GroundCompilerAuditRouteUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for hidden compiler input, unchecked host reports, proof evidence extracted from prose, substitution of a GroundCompiler route for a MetaCIC theorem, or substitution of a MetaCIC theorem for a GroundCompiler certificate gate.
+\end{definition}
+
+\begin{theorem}[GroundCompiler audit route NameCert obligations]
+\label{thm:groundcompiler-audit-route-namecert-obligations}
+For every accepted $\GroundCompilerAuditRouteUp$ carrier $A=(E,M,B,Q,T,R,V,H,C,P,N)$, the local $\NameCert_{\GroundCompilerAuditRouteUp}$ surface consists exactly of carrier admission for the event-flow route, MetaCIC audit-map-family boundary, critical-pair boundary reference, no-hidden-input row, route-transport row, replay row, finite-window pullback row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+
+An accepted audit export may be consumed only through the displayed route
+$$
+E \longmapsto Q \longmapsto T,R \longmapsto M,B,V \longmapsto H,C,P,N .
+$$
+No GroundCompiler report, motif, metric, host compiler state, source prose, or MetaCIC theorem is exported outside that route.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:groundcompiler-audit-route-carrier}. The projection exposes exactly $E,M,B,Q,T,R,V,H,C,P,N$.
+
+The event-flow row $E$ is read before any export-facing boundary. The no-hidden-input row $Q$ then separates displayed channel readback from host compiler state, reports, metrics, motifs, and source prose.
+
+The transport and replay rows $T,R$ connect the GroundCompiler route to optional MetaCIC-family, critical-pair, and finite-window rows without replacing any one row by another. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite path.
+
+Since no carrier coordinate converts reports or MetaCIC boundary references into proof evidence, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[GroundCompiler audit route MetaCIC boundary]
+\label{thm:groundcompiler-audit-route-metacic-boundary}
+Let $A=(E,M,B,Q,T,R,V,H,C,P,N)$ be an accepted $\GroundCompilerAuditRouteUp$ carrier. Any consumer that reads a MetaCIC-facing reference from $A$ must first read the displayed GroundCompiler event-flow row $E$, the no-hidden-input row $Q$, and the route-transport row $T$; it then reads the $\MetaCICAuditMapFamilyUp$ row $M$ or the $\MetaCICConfluenceCriticalPairBoundaryUp$ row $B$ as a boundary reference only.
+
+Consequently the packet does not turn a GroundCompiler audit route into subject reduction, normalization, confluence, closed consistency, or arbitrary MetaCIC theorem export; it also does not turn a MetaCIC boundary reference into a GroundCompiler certificate-gate export without the displayed event-flow and no-hidden-input rows.
+\end{theorem}
+\begin{proof}
+Start with a MetaCIC-facing consumer of $A$. The carrier definition gives access to MetaCIC data only through $M$ and $B$.
+
+The NameCert obligations force the consumer to read $E,Q,T$ before those boundary rows. Thus the GroundCompiler event-flow source and no-hidden-input separation are already displayed when a MetaCIC reference is inspected.
+
+The replay row $R$ and structural rows $H,C,P,N$ preserve this ordering. They do not contain constructors for subject reduction, normalization, confluence, closed consistency, or arbitrary theorem export, and they do not replace the certificate gate of $E$ by the MetaCIC boundary rows $M$ or $B$.
+\end{proof}
+
+Future Lean TasteGate work for this packet must supply \texttt{Nontrivial GroundCompilerAuditRouteUp} and \texttt{FieldFaithful GroundCompilerAuditRouteUp} instances, so the event-flow, no-hidden-input, MetaCIC-boundary, finite-window, transport, replay, provenance, and local naming rows are checked as genuine carrier fields.
+
+\closureat{GroundCompilerAuditRouteUp}{seedStr}
+
+\begin{closurestatus}{\GroundCompilerAuditRouteUp}
+  \constructivestory{A $\GroundCompilerAuditRouteUp$ packet is generated from a GroundCompiler event-flow audit route, MetaCIC audit-map-family boundary row, critical-pair boundary row, no-hidden-input row, route-transport row, replay row, finite-window pullback row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:groundcompiler-audit-route-carrier}, \autoref{thm:groundcompiler-audit-route-namecert-obligations}, and \autoref{thm:groundcompiler-audit-route-metacic-boundary} seed the finite GroundCompiler audit route over event-flow, MetaCIC-boundary, no-hidden-input, transport, replay, finite-window, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close compiler correctness, proof reconstruction from reports or source prose, subject reduction, normalization, confluence, closed consistency, arbitrary MetaCIC theorem export, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, event-flow exposure, no-hidden-input separation, MetaCIC-boundary routing, finite-window routing, transport, replay, provenance, local naming, and TasteGate nontriviality and field faithfulness for BEDC.Derived.GroundCompilerAuditRouteUp.}
+\end{closurestatus}

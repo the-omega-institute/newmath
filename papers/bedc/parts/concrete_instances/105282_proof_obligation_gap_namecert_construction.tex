@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\ProofObligationGapUp$}
+\label{ch:concrete-instances-proof-obligation-gap-namecert}
+\origin{ai}
+
+The $\ProofObligationGapUp$ packet realizes the MetaCIC subject-reduction obstruction of \autoref{ch:metacic-open-problems} as finite NameCert data. Its carrier is narrower than a confluence, normalization, or conversion endpoint: it packages named obligation rows, obstruction rows, refusal rows, and downstream handoff rows so that a subject-reduction consumer must see the gap surface before it reads any obstruction as usable evidence.
+
+\falsifiablePrediction{Every accepted $\ProofObligationGapUp$ route exposes the named obligation row before any downstream subject-reduction or consistency consumer can read the obstruction.}
+
+\independenceWitness{metaciccriticalpath, metacicconfluenceauditpacket, normalformconsistencyseal, bounded-normal-conversion-bridge: the gap packet is not bijective to these siblings because it jointly carries named obligations, obstruction/refusal rows, and downstream handoff routes rather than a positive confluence, normalization, or conversion endpoint.}
+
+The $\ProofObligationGapUp$ carrier is read after the MetaCIC critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert} and before the bounded conversion boundary of \autoref{ch:concrete-instances-bounded-normal-conversion-bridge-namecert} can consume an obstruction row.
+
+\begin{definition}[Proof-obligation gap carrier]
+\label{def:proof-obligation-gap-carrier}
+A $\ProofObligationGapUp$ carrier is a finite $\BHist$ packet
+$$
+G=(O,B,R,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the named obligation row, carrying one of the four MetaCIC subject-reduction obligations isolated in \autoref{sec:metacic-open-problems-subject-reduction}.
+\item $B$ is the obstruction row, recording that the named obligation cannot be replaced by a blanket closed subject-reduction theorem at this boundary.
+\item $R$ is the refusal row, rejecting any route that tries to read the obstruction before the obligation name has been exposed.
+\item $M$ is the MetaCIC handoff row, routing accepted packets to downstream subject-reduction, consistency, critical-path, or audit consumers only after $O,B,R$ have been displayed together.
+\item $H$ records componentwise $\hsame$ transport for obligation, obstruction, refusal, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a downstream MetaCIC request through $O,B,R,M$.
+\item $P$ is the $\Pkg$ provenance over $\ProofObligationGapUp$, the MetaCIC open-problem frontier, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ProofObligationGapUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets where a named obligation row is paired with its obstruction and refusal rows before any MetaCIC handoff is available. It has no coordinate for positive confluence, normalization, bounded conversion, closed subject reduction, or a consistency seal.
+\end{definition}
+
+\begin{theorem}[Proof-obligation gap NameCert obligations]
+\label{thm:proof-obligation-gap-namecert-obligations}
+For every accepted $\ProofObligationGapUp$ carrier $G=(O,B,R,M,H,C,P,N)$, the local $\NameCert_{\ProofObligationGapUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the named obligation, obstruction, refusal, MetaCIC handoff, transport, replay, provenance, and local naming rows;
+\item obligation-first exposure, requiring $O$ to be visible before any downstream consumer reads $B$;
+\item refusal exactness, requiring $R$ to reject obstruction-only reads and three-row subject-reduction shortcuts;
+\item handoff confinement, requiring $M$ to route only the displayed $O,B,R$ surface to MetaCIC consumers;
+\item structural non-escape, requiring $H,C,P,N$ to preserve and name the same packet without exporting confluence, normalization, conversion, closed subject reduction, or consistency-seal evidence.
+\end{enumerate}
+Lean \texttt{TasteGate.lean} will include explicit \texttt{Nontrivial ProofObligationGapUp} and \texttt{FieldFaithful ProofObligationGapUp} instances so the accepted and refused surfaces remain distinct and the row order $O,B,R,M,H,C,P,N$ is preserved by faithful reads.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:proof-obligation-gap-carrier}. The accepted packet displays one named obligation row, one obstruction row, one refusal row, one handoff row, and the structural rows.
+
+Obligation-first exposure follows from the classifier. The obstruction row $B$ is accepted only together with the named obligation row $O$, so a downstream subject-reduction or consistency consumer cannot read $B$ as a standalone discharge.
+
+Refusal exactness is the role of $R$. It rejects routes that omit $O$, routes that treat the obstruction as a positive theorem, and routes that offer fewer than the named obligation surface required by \autoref{sec:metacic-open-problems-subject-reduction}.
+
+The handoff row $M$ then confines downstream reads to the displayed surface $O,B,R$. The structural rows $H,C,P,N$ transport, replay, source, and name that packet, and they add no coordinate for confluence, normalization, conversion, closed subject reduction, or a consistency seal.
+\end{proof}
+
+\begin{theorem}[Proof-obligation gap MetaCIC handoff]
+\label{thm:proof-obligation-gap-metacic-handoff}
+Every accepted $\ProofObligationGapUp$ handoff to a MetaCIC subject-reduction, consistency, critical-path, or audit consumer first exposes the named obligation row $O$, then the obstruction row $B$, then the refusal row $R$, and only then the handoff row $M$. Consequently the packet records the obstruction surface as a finite named gap and exports no positive confluence theorem, normalization endpoint, bounded conversion bridge, closed subject-reduction theorem, or consistency seal.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier $G=(O,B,R,M,H,C,P,N)$. The only consumer-facing handoff coordinate is $M$, and it is displayed after the named obligation, obstruction, and refusal rows.
+
+Replay through $C$ preserves that order. A downstream MetaCIC request must pass through $O,B,R$ before it can read $M$, so the obstruction is always seen together with the obligation name and the refusal boundary.
+
+The packet has no endpoint row for confluence, normalization, bounded conversion, closed subject reduction, or consistency sealing. Provenance and local naming therefore authenticate only the finite gap surface, not any positive theorem at those endpoints.
+\end{proof}
+
+\begin{theorem}[Proof-obligation gap MetaCIC sibling dependency]
+\label{thm:proof-obligation-gap-metacic-sibling-dependency}
+Every accepted $\ProofObligationGapUp$ packet consumed by a MetaCIC critical-path or bounded-normal-conversion consumer must cite the named obligation row before it can hand off to \autoref{ch:concrete-instances-metaciccriticalpath-namecert} or \autoref{ch:concrete-instances-bounded-normal-conversion-bridge-namecert}. This sibling dependency is substantive: those consumers can read the finite gap only after obligation-first exposure and refusal exactness, not as positive confluence evidence, normalization evidence, bounded-conversion evidence, or a closed subject-reduction endpoint.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier $G=(O,B,R,M,H,C,P,N)$. The named obligation row $O$ is displayed before the obstruction row $B$, the refusal row $R$, and the MetaCIC handoff row $M$.
+
+A critical-path consumer may therefore cite \autoref{ch:concrete-instances-metaciccriticalpath-namecert} only after reading $O$ together with the obstruction and refusal boundary. A bounded-normal-conversion consumer may likewise cite \autoref{ch:concrete-instances-bounded-normal-conversion-bridge-namecert} only after the same obligation-first exposure.
+
+The dependency is not a positive endpoint. The rows $B$ and $R$ record obstruction and refusal exactness, while $M,H,C,P,N$ preserve and name that finite gap surface. No row supplies confluence, normalization, bounded conversion, or closed subject reduction.
+\end{proof}
+
+\closureat{ProofObligationGapUp}{seedStr}
+
+\begin{closurestatus}{\ProofObligationGapUp}
+  \constructivestory{A $\ProofObligationGapUp$ packet is generated from named MetaCIC obligation rows, obstruction rows, refusal rows, downstream MetaCIC handoff rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:proof-obligation-gap-carrier}, \autoref{thm:proof-obligation-gap-namecert-obligations}, \autoref{thm:proof-obligation-gap-metacic-handoff}, and \autoref{thm:proof-obligation-gap-metacic-sibling-dependency} seed the finite proof-obligation gap surface for MetaCIC subject-reduction obstruction consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close positive confluence, normalization, bounded conversion, closed subject reduction, consistency sealing, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, obligation-first exposure, refusal exactness, MetaCIC handoff confinement, transport, replay, provenance, local naming, Nontrivial ProofObligationGapUp, and FieldFaithful ProofObligationGapUp.}
+\end{closurestatus}

@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\UniformConvergenceTestUp$}
+\label{ch:concrete-instances-uniform-convergence-test-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\UniformConvergenceTestUp$ packet records a uniform convergence test as finite shared-tail data over the $\RealSeriesUp$ and $\UniformCauchyCriterionUp$ rows. It sits between the finite partial-sum surface of \autoref{ch:concrete-instances-realseries-namecert}, the shared-threshold family criterion of \autoref{ch:concrete-instances-uniformcauchycriterion-namecert}, the optional majorant route of \autoref{ch:concrete-instances-weierstrassmtest-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the displayed shared-tail route; it is not pointwise-only convergence, a selected infinite sum, a quotient function space, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Uniform convergence test carrier]
+\label{def:uniform-convergence-test-carrier}
+A $\UniformConvergenceTestUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+U=(F,S,N,T,M,R,E,H,C,P,Q)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $F$ is the source family row naming the inspected functions, terms, or partial-sum windows only through the finite indices carried by the packet;
+\item $S$ is the $\RealSeriesUp$ or partial-sum series row whose displayed finite sums are the objects being tested;
+\item $N$ is the shared tail threshold row, one finite threshold surface read by all source-family windows under the requested dyadic tolerance;
+\item $T$ is the $\UniformCauchyCriterionUp$ row that records the uniform family comparison after $F,S,N$ have been fixed;
+\item $M$ is an optional $\WeierstrassMTestUp$ majorant row, absent when the test is supplied directly by $T$ and present only when a displayed majorant ledger produces the same shared threshold;
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the uniform tail data before any real-facing seal is exposed;
+\item $E$ is the $\RealUp$ seal row consumed by downstream Real or Completion routes after $R$ has been displayed;
+\item $H$ stores componentwise $\hsame$ transports for the source family, series row, shared threshold, uniform Cauchy row, optional majorant row, regular readback, real seal, continuation, provenance, and local naming rows;
+\item $C$ stores displayed $\Cont$ routes from source-family reads to series windows, from series windows to the shared threshold, from the threshold to the uniform Cauchy row, from the optional majorant to the same threshold, from uniform Cauchy data to regular readback, and from readback to the real seal;
+\item $P$ is the $\Pkg$ provenance over $\RealSeriesUp$, $\UniformCauchyCriterionUp$, $\WeierstrassMTestUp$, $\RegSeqRatUp$, $\RealUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $Q$ is the local $\NameCert_{\UniformConvergenceTestUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,S,N,T,M,R,E,H,C,P,Q$. It has no coordinate for pointwise-only convergence, selected infinite sums, quotient equality of function names, countable-choice schedules, or an ambient completeness theorem for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Uniform convergence test NameCert obligations]
+\label{thm:uniform-convergence-test-namecert-obligations}
+For every accepted $\UniformConvergenceTestUp$ carrier $U=(F,S,N,T,M,R,E,H,C,P,Q)$, the local $\NameCert_{\UniformConvergenceTestUp}$ surface consists exactly of carrier admission for the eleven displayed rows, source-family access through $F$, series-window access through $S$, shared tail thresholding through $N$, uniform Cauchy comparison through $T$, optional majorant transport through $M$, $\RegSeqRatUp$ readback through $R$, $\RealUp$ sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $Q$.
+
+The optional majorant row is not a second convergence proof. When present, it must route through the same shared threshold row $N$ and the same $\UniformCauchyCriterionUp$ row $T$ before $R$ or $E$ can be read.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-convergence-test-carrier}. The only source and series data visible to the classifier are $F$ and $S$, and the only uniform tail gate is the shared threshold row $N$.
+
+Read the uniform criterion next. The row $T$ consumes $F,S,N$ as one finite family comparison, while the optional row $M$ can contribute only by producing the same threshold surface through the Weierstrass majorant route.
+
+Finally read $R,E,H,C,P,Q$. The regular readback and real seal are downstream of the shared threshold and uniform criterion, and the structural rows transport, replay, source, and name exactly that route. Since no other carrier coordinate is present, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Uniform convergence test Cauchy handoff]
+\label{thm:uniform-convergence-test-cauchy-handoff}
+Every Real-facing or Completion-facing read from an accepted $\UniformConvergenceTestUp$ carrier factors through the finite route
+$$
+F \longmapsto S \longmapsto N \longmapsto T \longmapsto R \longmapsto E
+$$
+together with $H,C,P,Q$. If the optional majorant row $M$ is present, it is read before $T$ only to certify the same shared threshold $N$. Thus every consumer reaches $\RegSeqRatUp$ and $\RealUp$ through the uniform Cauchy handoff, not through a pointwise convergence predicate, selected infinite sum, quotient function space, countable-choice schedule, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Start with a consumer request for a real-facing limit or completion-facing seal. By \autoref{def:uniform-convergence-test-carrier}, the request first reads the source-family row $F$ and the displayed series or partial-sum row $S$.
+
+The shared threshold row $N$ is then the only tail gate available to the packet. Apply \autoref{thm:uniform-convergence-test-namecert-obligations}: the uniform criterion row $T$ consumes that threshold for all displayed family windows, and any majorant row $M$ must feed the same threshold before $T$ is accepted.
+
+The handoff to regular rational data is therefore forced through $R$. Only after $R$ is displayed may the route reach the $\RealUp$ seal $E$, with $H,C,P,Q$ preserving and naming the same finite packet. The excluded host objects are absent from the carrier, so no consumer can bypass the shared-threshold route.
+\end{proof}
+
+\closureat{UniformConvergenceTestUp}{seedStr}
+
+\begin{closurestatus}{\UniformConvergenceTestUp}
+  \constructivestory{A $\UniformConvergenceTestUp$ packet is generated from a source family row, a $\RealSeriesUp$ or partial-sum series row, one shared tail threshold, a $\UniformCauchyCriterionUp$ row, an optional $\WeierstrassMTestUp$ majorant row, a $\RegSeqRatUp$ readback, a $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-convergence-test-carrier}, \autoref{thm:uniform-convergence-test-namecert-obligations}, and \autoref{thm:uniform-convergence-test-cauchy-handoff} bind the finite shared-tail route used by RealSeries, UniformCauchyCriterion, optional WeierstrassMTest, RegSeqRat, and Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close pointwise-only convergence, selected infinite sums, quotient function spaces, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared-threshold exactness, optional majorant compatibility, RegSeqRat readback, Real seal handoff, and TasteGate field faithfulness for BEDC.Derived.UniformConvergenceTestUp.}
+\end{closurestatus}

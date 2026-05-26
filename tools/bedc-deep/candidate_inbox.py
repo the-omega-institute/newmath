@@ -13,7 +13,9 @@ from pathlib import Path
 from typing import Any
 
 import board_archive
+import candidate_substance
 import paper_index
+import verification_axis
 from dispatch_bedc_target import REPO_ROOT, SCRIPT_DIR
 from locks import file_lock
 
@@ -22,7 +24,8 @@ INBOX_PATH = SCRIPT_DIR / "state" / "candidate_inbox.jsonl"
 FORBIDDEN_AXIS_RE = re.compile(
     r"closurestatus|theoryclosure|formalstatus|leantarget|leanchecked|"
     r"leanvariant|leansorry|leanstmt|leandef|marker-only|verification-axis|"
-    r"chapter retirement",
+    r"chapter retirement|Lean[- ]target|lean4/|formal[- ]target|formal[- ]readiness|"
+    r"single[-_ ]carrier[-_ ]alignment|taste[-_ ]gate|BEDC\.Derived\.",
     re.IGNORECASE,
 )
 NEGATED_FORBIDDEN_AXIS_RE = re.compile(
@@ -55,12 +58,30 @@ INSPIRATION_ONLY_PATH_RE = re.compile(
     r"^papers/bedc/parts/(?:visions|conjectures)/",
     re.IGNORECASE,
 )
+REFINABLE_REASON_RE = re.compile(
+    r"missing_local_input|missing_local_inputs|no_indexed_safe_landing|"
+    r"hub_only_landing|inspiration_only_not_board_landing|"
+    r"logic_packet_gate:|missing_logic_budget|"
+    r"existence_missing_|bridge_missing_|equality_missing_|"
+    r"completion_missing_|external_signal_missing_landing_kind|"
+    r"external_signal_landing_reject|external_signal_missing_chapter_worthiness|"
+    r"too_weak|below_fit_threshold|below_novelty_threshold|"
+    r"predicted_label_collision|non_paper_local_input",
+    re.IGNORECASE,
+)
+HARD_REJECT_REASON_RE = re.compile(
+    r"duplicate_title|structural_title|missing_title|missing_claim|"
+    r"claim_too_short|forbidden_axis_or_marker_candidate|"
+    r"conjecture_fallback_not_board_lane",
+    re.IGNORECASE,
+)
 
 
 @dataclass
 class ScreenResult:
     accepted: list[dict[str, Any]] = field(default_factory=list)
     rejected: list[dict[str, Any]] = field(default_factory=list)
+    held: list[dict[str, Any]] = field(default_factory=list)
 
 
 def _now_iso() -> str:
@@ -86,6 +107,8 @@ def _claim(candidate: dict[str, Any]) -> str:
 
 def _has_forbidden_axis_marker(title: str, claim: str, rationale: str) -> bool:
     """Reject marker-axis targets without punishing negated evidence notes."""
+    if verification_axis.has_verification_axis_surface(" ".join([title, claim])):
+        return True
     if FORBIDDEN_AXIS_RE.search(" ".join([title, claim])):
         return True
     for segment in re.split(r"(?<=[.!?])\s+|\n+", rationale):
@@ -166,6 +189,15 @@ def _record(event: str, candidate: dict[str, Any], source: str, **extra: Any) ->
     with file_lock("candidate_inbox"):
         with INBOX_PATH.open("a", encoding="utf-8") as f:
             f.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
+
+
+def is_refinable_reason(reason: str) -> bool:
+    reason = str(reason or "")
+    if not reason:
+        return False
+    if HARD_REJECT_REASON_RE.search(reason):
+        return False
+    return bool(REFINABLE_REASON_RE.search(reason))
 
 
 def _paper_file_lookup() -> dict[str, dict[str, Any]]:
@@ -335,6 +367,9 @@ def _rejection_reason(
         return "conjecture_fallback_not_board_lane"
     if _has_forbidden_axis_marker(title, claim, rationale):
         return "forbidden_axis_or_marker_candidate"
+    substance_rejection = candidate_substance.substance_rejection(candidate)
+    if substance_rejection:
+        return substance_rejection
     landing_kind = str(candidate.get("landing_kind") or "").strip()
     haystack = " ".join([title, claim, rationale, str(candidate.get("chapter_worthiness") or "")])
     if EXTERNAL_SIGNAL_RE.search(haystack):
@@ -356,10 +391,6 @@ def _rejection_reason(
                 return "external_signal_new_chapter_not_allowed_on_board"
         elif any(p in {"papers/bedc/main.tex", "papers/bedc/preamble.tex"} for p in inputs):
             return "external_signal_existing_landing_main_or_preamble"
-    if _score(candidate, "fit_score") < fit_threshold:
-        return f"below_fit_threshold:{_score(candidate, 'fit_score')}"
-    if _score(candidate, "novelty") < novelty_threshold:
-        return f"below_novelty_threshold:{_score(candidate, 'novelty')}"
     if not inputs:
         return "missing_local_inputs"
 
@@ -416,6 +447,7 @@ def screen_candidates(
             continue
         cand = dict(raw)
         cand_source = str(cand.get("source") or source)
+        cand["source"] = cand_source
         cand["_candidate_id"] = _candidate_id(cand, cand_source)
         if "claim" not in cand and "concrete_claim" in cand:
             cand["claim"] = cand.get("concrete_claim")
@@ -433,9 +465,13 @@ def screen_candidates(
         )
         title_key = str(cand.get("title", "")).strip().lower()
         if reason:
-            rejected = {**cand, "source": cand_source, "reason": reason}
-            result.rejected.append(rejected)
-            _record("pre_gate_reject", rejected, cand_source, reason=reason)
+            blocked = {**cand, "source": cand_source, "reason": reason}
+            if is_refinable_reason(reason):
+                result.held.append(blocked)
+                _record("pre_gate_hold", blocked, cand_source, reason=reason)
+            else:
+                result.rejected.append(blocked)
+                _record("pre_gate_reject", blocked, cand_source, reason=reason)
             continue
         seen_titles.add(title_key)
         accepted = {**cand, "source": cand_source}
@@ -455,7 +491,8 @@ def record_rejections(candidates: list[dict[str, Any]], *, mode: str) -> None:
     for candidate in candidates:
         source = str(candidate.get("source") or mode)
         reason = str(candidate.get("reason") or candidate.get("verdict_reason") or "")
-        _record("rejected", candidate, source, reason=reason, mode=mode)
+        event = "held_for_refinement" if is_refinable_reason(reason) else "rejected"
+        _record(event, candidate, source, reason=reason, mode=mode)
 
 
 def _parse_record_ts(value: Any) -> datetime | None:
@@ -493,6 +530,7 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
         window_start = datetime.now(timezone.utc) - timedelta(hours=since_hours)
     by_event: dict[str, int] = {}
     by_rejection_reason: dict[str, int] = {}
+    by_refinement_reason: dict[str, int] = {}
     by_logic_packet_reason: dict[str, int] = {}
     by_current_logic_packet_reason: dict[str, int] = {}
     by_rejection_source: dict[str, int] = {}
@@ -546,6 +584,9 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
                 )
         event = str(rec.get("event") or "unknown")
         by_event[event] = by_event.get(event, 0) + 1
+        if event in {"pre_gate_hold", "held_for_refinement"}:
+            reason = str(rec.get("reason") or "").strip() or "unspecified"
+            by_refinement_reason[reason] = by_refinement_reason.get(reason, 0) + 1
         if event not in {"pre_gate_reject", "rejected"}:
             continue
         reason = str(rec.get("reason") or "").strip()
@@ -628,6 +669,7 @@ def stats(limit: int = 5000, *, since_hours: float = 0.0) -> dict[str, Any]:
         "latest_by_source_sampled": _latest_source_payload(latest_by_source_sampled),
         "by_event": dict(sorted(by_event.items())),
         "rejection_reasons": _top(by_rejection_reason),
+        "refinement_reasons": _top(by_refinement_reason),
         "rejection_sources": _top(by_rejection_source),
         "rejection_reasons_by_source": {
             source: _top(counts, n=10)

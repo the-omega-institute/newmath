@@ -70,3 +70,78 @@ locatedness classification witnessed by the original carrier is the same
 classification at the flattened endpoint.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactFiniteRefinementChain\_flattening\_located\_cont}
+
+\begin{corollary}[Prefixed composite compact net refinement readback determinacy]
+\label{cor:compact-net-witness-prefixed-composite-refinement-readback-determinacy}
+Fix histories $p,c,\epsilon,\eta,\eta',\theta,\theta',m$ and compact-refinement
+histories $subset$, $located$, $finite$, $intermediate$, $compact$,
+$midFinite$, $midCompact$, $finalFinite$, and $finalCompact$. Assume
+$\epsilon$, $\eta$, and $\eta'$ are unary histories and that the two prefixed
+composite compact-net uses expose exactly the continuation and witness rows
+$$
+\Cont(\epsilon,\eta,\theta),
+\qquad
+\Cont(\epsilon,\eta',\theta'),
+$$
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\theta,p\cdot m),
+\qquad
+\mathsf{CompactNetWitness}(p\cdot c,\theta',p\cdot m).
+$$
+Assume also that the finite compact-refinement packet exposes the carrier and
+two finite-refinement rows
+$$
+\mathsf{CompactWitnessCarrier}(subset,located,finite,intermediate,compact),
+$$
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,compact,midFinite,midCompact),
+\qquad
+\mathsf{CompactFiniteRefinementChain}(midFinite,midCompact,finalFinite,finalCompact).
+$$
+Then every consumer-facing use admitted by these rows has the same displayed
+readback data: the prefixed composite refinement route is $\eta$ up to
+$\hsame$, the finite route is the flattened chain
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,compact,finalFinite,finalCompact),
+$$
+the normal-form endpoint is the pair $(finalFinite,finalCompact)$, and the
+exactness decision is the carrier
+$$
+\mathsf{CompactWitnessCarrier}(subset,located,finalFinite,intermediate,finalCompact).
+$$
+Thus no accepted use can replace the refinement route by an alternate hidden
+coordinate or cite a duplicate classifier source for the finite endpoint.
+\end{corollary}
+\begin{proof}
+The two prefixed composite compact-net uses have the same visible prefix
+$p$, center $c$, and final net $m$. Their only difference is the refinement
+continuation row out of the fixed first precision $\epsilon$. Applying
+\autoref{thm:compact-net-witness-prefixed-composite-refinement-deterministic}
+to the four displayed prefixed composite rows gives
+$$
+\hsame(\eta,\eta').
+$$
+Therefore any admitted composite readback that uses the second refinement row
+names the same refinement route as the first one, up to the chapter classifier
+$\hsame$.
+
+For the finite compact-refinement part, apply
+\autoref{thm:compact-finite-refinement-flattening} to the displayed carrier and
+the two displayed finite-refinement chains. The result is exactly the single
+finite route from $(finite,compact)$ to $(finalFinite,finalCompact)$, together
+with the carrier at the same final endpoint:
+$$
+\mathsf{CompactFiniteRefinementChain}(finite,compact,finalFinite,finalCompact)
+$$
+and
+$$
+\mathsf{CompactWitnessCarrier}(subset,located,finalFinite,intermediate,finalCompact).
+$$
+The flattening theorem changes only the finite-net and compactness ledgers and
+keeps the same $subset$, $located$, and $intermediate$ classifier data. Hence
+the accepted use has no further coordinate from which to choose another route,
+normal form, or exactness source: the route is the flattened finite chain, the
+normal form is its displayed endpoint pair, and the exactness decision is the
+flattened carrier over that endpoint. Combining this with the prefixed
+composite determinacy proves the stated readback determinacy.
+\end{proof}

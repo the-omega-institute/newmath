@@ -57,6 +57,20 @@ The binder-facing coordinate is $B$. Its provenance points to \autoref{ch:concre
 The route row $K$ replays the context, substitution, closed-composition, generator, and binder reads. The componentwise transport and package rows $H$ and $P$ preserve that same finite route, so every binder-boundary access factors through the displayed rows.
 \end{proof}
 
+\begin{theorem}[Substitution context audit context admission]
+\label{thm:substitution-context-audit-context-admission}
+Let $Q=(X,S,U,M,G,B,E,H,K,P,N)$ be an accepted $\SubstitutionContextAuditUp$ carrier. Every context-indexed substitution read admits the source context only through the displayed context row $X$ together with $S,U,M,G,B,E,H,K,P,N$. A downstream subject-reduction consumer cannot replace $X$ by host context semantics, unrestricted weakening, semantic term equality, or a hidden dependent-typing bridge.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:substitution-context-audit-carrier}. The source context, binder depth, and visible substitution window are displayed in $X$, while $S,U,M,G$ record the shift, substitute, closed-composition, and generator-closure reads over that same context row.
+
+Apply \autoref{thm:substitution-context-audit-binder-route}. The binder-facing side of the read factors through $X,S,U,M,G,B$ and the replay route $K$, so binder admission is not supplied by an ambient context theory.
+
+The handoff, transport, package, and naming rows $E,H,P,N$ preserve the same displayed route for downstream subject-reduction consumers. Apply \autoref{thm:substitution-context-audit-nonescape} to exclude host substitution semantics, unrestricted commutation, semantic equality of terms, closed subject reduction, and hidden dependent-typing bridges.
+
+Therefore the only context admission surface available to the packet is $X$ together with the displayed finite rows $S,U,M,G,B,E,H,K,P,N$.
+\end{proof}
+
 \begin{theorem}[Substitution context audit non-escape]
 \label{thm:substitution-context-audit-nonescape}
 Every accepted $\SubstitutionContextAuditUp$ carrier exports substitution audit information only through

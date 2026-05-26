@@ -407,3 +407,270 @@ same production rows. Thus the prefix repacking is a genuine subledger carrier
 of the accepted packet, not a separate grammar, parse tree, host closure, or
 recognizer-completeness assertion.
 \end{proof}
+
+\begin{lemma}[ContextFreeGrammar BHist forgetful projection boundary]
+\label{lem:contextfreegrammar-bhist-forgetful-projection-boundary}
+Let
+$$
+G=(\Sigma,N,S,P,w,d,y,h,c,p,n)
+$$
+be an accepted $\ContextFreeGrammarUp$ packet, and put
+$$
+\partial_{\BHist}(G)=((\Sigma,N,S,w),(P,d,y),h,c,p,n).
+$$
+Every $\BHist$-level read of $G$ visible to $\RegularLanguageUp$ or
+$\TuringMachineUp$ consumers factors through $\partial_{\BHist}(G)$. The
+projection retains the target carrier rows $\Sigma,N,S,w$, the production and
+derivation ledger rows $P,d,y$, the classifier transports $h$, the
+continuation routes $c$, the provenance row $p$, and the local
+$\NameCert_{\ContextFreeGrammarUp}$ row $n$. It forgets only display labels
+outside those coordinates. In particular, the projection carries no ambiguity
+row, grammar-equivalence quotient, parse-tree semantics, pumping datum,
+Chomsky-normal-form witness, or recognizer-completeness coordinate.
+\end{lemma}
+\begin{proof}
+Project the accepted packet through
+\autoref{def:contextfreegrammar-bhist-carrier}. The carrier definition lists
+exactly the finite grammar rows $\Sigma,N,S$, the production ledger $P$, the
+terminal word row $w$, the derivation ledger $d$, the readback row $y$, the
+transport row $h$, the continuation row $c$, the provenance row $p$, and the
+local naming row $n$. The displayed projection $\partial_{\BHist}(G)$ keeps
+all rows that a $\BHist$ consumer can inspect after dropping the richer
+presentation labels.
+
+For production reads, apply
+\autoref{thm:contextfreegrammar-production-stability}. A production witness is
+already a row of $P$, and its transported left nonterminal, right-side
+$\ListUp$ word, terminal tags, and nonterminal tags are read only through the
+componentwise transports in $h$ and the route entries in $c$. Thus forgetting
+the surrounding presentation name does not remove any production coordinate
+available to the consumer.
+
+For derivation and yield reads, apply
+\autoref{thm:contextfreegrammar-derivation-concatenation},
+\autoref{thm:contextfreegrammar-yield-readback}, and
+\autoref{thm:contextfreegrammar-terminal-yield-window}. These results force a
+consumer derivation to pass through the finite ledger $d$, the same production
+ledger $P$, the terminal readback row $y$, and the $\ListUp$ terminal word row
+$w$, while preserving the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows. All of these rows are coordinates of
+$\partial_{\BHist}(G)$.
+
+The adjacent consumer chapters
+\autoref{ch:concrete-instances-regularlanguage-namecert} and
+\autoref{ch:concrete-instances-turingmachine-namecert} receive the grammar
+packet only through the consumer boundary described in
+\autoref{thm:contextfreegrammar-namecert-obligation-surface} and
+\autoref{thm:contextfreegrammar-regularlanguage-turingmachine-bridge-boundary}.
+That boundary exports precisely the displayed grammar and yield rows,
+transport rows, continuation routes, provenance, and local naming row retained
+by $\partial_{\BHist}(G)$.
+
+Finally, \autoref{thm:contextfreegrammar-consumer-boundary-determinacy} says
+that componentwise agreement on those retained rows forces the same
+$\RegularLanguageUp$ and $\TuringMachineUp$ consumer-visible boundary. Hence
+any row not present in $\partial_{\BHist}(G)$ cannot change a visible consumer
+read. Since the carrier has no coordinate for ambiguity, grammar equivalence,
+infinitary parse-tree semantics, pumping arguments, Chomsky normal form, or
+recognizer completeness, the forgetful projection cannot export any of those
+structures.
+\end{proof}
+
+\begin{lemma}[ContextFreeGrammar BHist classifier alignment boundary]
+\label{lem:contextfreegrammar-bhist-classifier-alignment-boundary}
+Let
+$$
+G=(\Sigma,N,S,P,w,d,y,h,c,p,n)
+$$
+and
+$$
+G'=(\Sigma',N',S',P',w',d',y',h',c',p',n')
+$$
+be accepted $\ContextFreeGrammarUp$ packets. Suppose the local packet
+classifier compares them through the displayed componentwise $\hsame$ rows on
+terminal alphabets, nonterminal carriers, start rows, production ledgers,
+terminal word rows, derivation ledgers, readback rows, continuation routes,
+package provenance, and local naming rows. Then every $\BHist$ classifier read
+of $G$ handed to a $\RegularLanguageUp$ or $\TuringMachineUp$ consumer
+transports exactly the following displayed rows:
+\begin{enumerate}
+\item the grammar carrier rows $\Sigma,N,S$ and their counterparts
+$\Sigma',N',S'$;
+\item each production row of $P$ to the corresponding production row of $P'$,
+with transported left nonterminal, terminal and nonterminal tags, and
+$\ListUp$ right side;
+\item each retained derivation row of $d$ to the corresponding derivation row
+of $d'$, with the same sentential-form endpoint comparison;
+\item the terminal yield row $w$, the readback row $y$, the transport rows
+$h$, continuation routes $c$, package provenance $p$, and local
+$\NameCert_{\ContextFreeGrammarUp}$ row $n$, together with their counterparts.
+\end{enumerate}
+The same read forgets every row outside this list. In particular, it does not
+supply a $\RegularLanguageUp$ state carrier, accepting-state carrier,
+transition table, deterministic run ledger, accepted endpoint, or a
+$\TuringMachineUp$ configuration trace, deterministic transition table,
+halted-repetition row, tape readback row, or bounded simulation row unless
+that row is separately displayed by the receiving consumer's own carrier.
+Thus the receiving classifier gate must re-read the grammar rows through
+\autoref{def:contextfreegrammar-bhist-carrier}; it cannot treat a copied
+source excerpt as an additional transported coordinate.
+\end{lemma}
+\begin{proof}
+Project both accepted packets through
+\autoref{def:contextfreegrammar-bhist-carrier}. The carrier definition lists
+only the finite terminal alphabet, nonterminal carrier, start row, production
+ledger, terminal word, derivation ledger, readback row, transport row,
+continuation row, provenance row, and local naming row. Hence a local
+classifier comparison between $G$ and $G'$ has no coordinate other than those
+listed rows.
+
+For production rows, apply
+\autoref{thm:contextfreegrammar-production-stability}. A production witness is
+a visible entry of $P$, and transport carries it to one visible entry of $P'$
+with the transported left nonterminal and transported $\ListUp$ right side.
+The same theorem preserves terminal and nonterminal tags and rules out any
+host production relation. Therefore the production part of the classifier
+alignment is exactly the rowwise movement from $P$ to $P'$.
+
+For derivation rows, apply
+\autoref{thm:contextfreegrammar-derivation-concatenation} to the displayed
+sentential-form endpoints and production witnesses. Every transported
+derivation step remains a finite ledger entry over the same transported
+production surface. Then apply
+\autoref{thm:contextfreegrammar-yield-readback} and
+\autoref{thm:contextfreegrammar-terminal-yield-window}. These force the
+consumer-visible terminal fringe to be the displayed $\ListUp$ word row $w$
+and its transported counterpart $w'$, read through $y,y'$ and the same
+$\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance.
+
+Now compare the receiving consumers. The $\RegularLanguageUp$ accepted-word
+classifier of \autoref{def:regularlanguage-classifier} is a classifier on a
+displayed finite-automaton packet: alphabet, state, transition, input-word,
+run, and accepting-endpoint rows. The grammar packet contributes only the
+terminal-yield word and the provenance route named by
+\autoref{thm:contextfreegrammar-regularlanguage-turingmachine-bridge-boundary};
+it does not contain the finite-automaton state, transition, run, or endpoint
+coordinates. Thus those rows cannot be transported from $G$ by the grammar
+classifier.
+
+Similarly,
+\autoref{thm:turingmachine-source-classifier-obligation} reads the
+$\TuringMachineUp$ source classifier from finite state and tape alphabets,
+unary time and head-position rows, a $\SeqUp$ configuration trace,
+deterministic transition data, and bounded $\ComputableUp$ trace rows. The
+context-free grammar carrier contains none of those machine-source
+coordinates. Its bridge contribution is only the displayed grammar and yield
+surface identified by
+\autoref{thm:contextfreegrammar-regularlanguage-turingmachine-bridge-boundary}.
+
+Finally apply
+\autoref{thm:contextfreegrammar-consumer-boundary-determinacy}. Componentwise
+agreement on the retained grammar, production, derivation, yield, transport,
+continuation, provenance, and local naming rows determines the same
+$\RegularLanguageUp$ and $\TuringMachineUp$ consumer-visible boundary. Since
+all other candidate rows are absent from
+\autoref{def:contextfreegrammar-bhist-carrier}, they are forgotten by the
+$\BHist$ classifier projection and cannot be recovered by quoting the source
+presentation rather than re-reading the displayed carrier rows.
+\end{proof}
+
+\begin{theorem}[ContextFreeGrammar displayed implication completion boundary]
+\label{thm:contextfreegrammar-displayed-implication-completion-boundary}
+Let
+$$
+G=(\Sigma,N,S,P,w,d,y,h,c,p,n)
+$$
+be an accepted $\ContextFreeGrammarUp$ packet. Every displayed forward
+classifier or readback implication named in the local grammar chapter is
+completed in exactly one of the following two ways.
+\begin{enumerate}
+\item Production transport is two-sided on the visible production rows. A
+production row transported from one accepted packet to a classified mate is read
+back as the same finite ledger position with transported left nonterminal,
+transported $\ListUp$ right side, and the same terminal and nonterminal tag
+rows.
+\item Derivation concatenation is two-sided only at a displayed split row. Two
+finite derivation segments concatenate through an $\hsame$ endpoint row, and a
+ledger with a displayed prefix--suffix split repacks its prefix as the carrier
+of \autoref{thm:contextfreegrammar-derivation-prefix-carrier}; no arbitrary
+factorization is inferred without such a split row.
+\item Yield readback is two-sided on the visible rows $S$, $P$, $d$, $y$, and
+$w$. An accepted yield read factors through those rows, and a finite derivation
+ledger ending in a terminal sentential form with readback row $y$ repacks as the
+same accepted yield read.
+\item Terminal-window, consumer-boundary, parse-tree-shaped, and forgetful
+$\BHist$ projection reads are one-way interpretation boundaries. They factor a
+consumer read through the displayed finite carrier, transport, continuation,
+provenance, and naming rows, but they do not reconstruct grammar equivalence,
+ambiguity, parsing completeness, pumping data, Chomsky normal form,
+infinitary parse-tree semantics, or recognizer completeness.
+\end{enumerate}
+Thus the chapter has no unrecorded reverse implication: each named forward
+surface either has its reverse on the same visible rows or is explicitly bounded
+as a one-way interpretation of the displayed $\BHist$ packet.
+\end{theorem}
+\begin{proof}
+Project $G$ through \autoref{def:contextfreegrammar-bhist-carrier}. The only
+available coordinates are the terminal alphabet row $\Sigma$, nonterminal
+carrier row $N$, start row $S$, finite production ledger $P$, terminal word row
+$w$, derivation ledger $d$, readback row $y$, transport row $h$, continuation
+row $c$, provenance row $p$, and local naming row $n$.
+
+For production rows, use
+\autoref{thm:contextfreegrammar-production-stability}. Its forward direction
+transports a displayed production row along the componentwise $\hsame$ rows in
+$h$. Its readback direction is the same finite ledger projection in the target
+packet. Since the carrier has no coordinate for a host production relation, the
+reverse can only return to the visible production row with the transported left
+nonterminal, transported $\ListUp$ right side, and preserved terminal and
+nonterminal tags.
+
+For derivation rows, use
+\autoref{thm:contextfreegrammar-derivation-concatenation} together with
+\autoref{thm:contextfreegrammar-derivation-prefix-carrier}. Concatenation gives
+the forward implication from two displayed segments and an $\hsame$ endpoint
+row to a finite derivation ledger over $P$. The reverse implication is available
+exactly when the ledger already displays a prefix--suffix split: the prefix
+repackages over the same start row, production ledger, restricted transports,
+restricted continuation routes, provenance, and local $\NameCert$ row. Without
+a displayed split row, there is no carrier coordinate naming an arbitrary
+factorization, so the reverse stops at this boundary.
+
+For yield rows, apply \autoref{thm:contextfreegrammar-yield-readback}. The
+forward implication factors an accepted terminal-yield read through the start
+row, finite production ledger, finite derivation ledger, terminal readback row,
+and $\ListUp$ word row. The converse in the same theorem starts from exactly
+those displayed rows and repacks them as the accepted yield read of the same
+packet. This is a genuine two-sided completion because both directions use the
+same visible rows $S$, $P$, $d$, $y$, and $w$.
+
+For selected terminal windows, use
+\autoref{thm:contextfreegrammar-terminal-yield-window}. It sends a displayed
+finite derivation window to terminal rows read through the same $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ provenance. The theorem also records
+the obstruction to reversal: a selected terminal row exposes no selected
+nonterminal production row as a terminal yield row. Thus terminal-window reading
+is a one-way interpretation unless the carrier already supplies the production
+and derivation window.
+
+For downstream consumers, use
+\autoref{thm:contextfreegrammar-namecert-obligation-surface},
+\autoref{thm:contextfreegrammar-regularlanguage-turingmachine-bridge-boundary},
+\autoref{thm:contextfreegrammar-consumer-boundary-determinacy},
+\autoref{thm:contextfreegrammar-parse-tree-derivation-boundary}, and
+\autoref{lem:contextfreegrammar-bhist-forgetful-projection-boundary}. These
+results all project the same displayed grammar and yield surface to
+$\RegularLanguageUp$ and $\TuringMachineUp$ readers. Determinacy says that
+componentwise agreement on the exported rows forces the same consumer-visible
+boundary, but none of those rows is a host language quotient, grammar
+comparison oracle, parse-tree semantics, pumping datum, Chomsky-normal-form
+witness, ambiguity classifier, or complete recognizer.
+
+The displayed implications have therefore been exhausted by the carrier rows.
+Production transport and yield readback have reverses on the same visible rows;
+derivation concatenation has a reverse only at displayed split rows; and the
+terminal-window, consumer-boundary, parse-tree-shaped, and forgetful $\BHist$
+reads are recorded as one-way interpretation boundaries. No further reverse
+implication can be formed inside the chapter without adding a coordinate absent
+from \autoref{def:contextfreegrammar-bhist-carrier}.
+\end{proof}

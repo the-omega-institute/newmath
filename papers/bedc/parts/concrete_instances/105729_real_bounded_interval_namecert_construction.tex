@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\RealBoundedIntervalUp$}
+\label{ch:concrete-instances-real-bounded-interval-namecert}
+\origin{human}
+
+Bishop--Bridges constructive real analysis treats a bounded interval by endpoint evidence and finite approximation data rather than by an ambient compact set. The $\RealBoundedIntervalUp$ packet records that endpoint interval as finite BEDC NameCert data over the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic endpoint-order ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the located endpoint route of \autoref{ch:concrete-instances-located-real-interval-namecert}, and the bracketing surface of \autoref{ch:concrete-instances-finite-bracketing-interval-namecert}. It names a closed finite endpoint packet for downstream Real and Completion consumers; it is not open-cover compactness, a Heine--Borel theorem, a selected point of the interval, a quotient interval, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Real bounded interval carrier]
+\label{def:real-bounded-interval-carrier}
+A $\RealBoundedIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,U,D,S,T,R,Q,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $U$ are the lower and upper endpoint $\RealUp$ seal rows.
+\item $D$ is the $\DyadicRatCoreUp$ endpoint-order ledger recording the displayed finite evidence that the lower endpoint precedes the upper endpoint at the requested tolerance.
+\item $S$ and $T$ are finite $\StreamNameUp$ windows through which the endpoint names are observed before any interval read is exported.
+\item $R$ is the $\RegSeqRatUp$ readback row for the paired endpoint windows.
+\item $Q$ is the $\LocatedRealIntervalUp$ row tying the endpoint seals, dyadic order ledger, and readback route to a located interval surface.
+\item $B$ is the $\FiniteBracketingIntervalUp$ row giving the finite bracket consumed by Real and Completion-facing readers.
+\item $H$ records componentwise $\hsame$ transport for endpoint seals, endpoint-order evidence, windows, readback, located interval, bracket, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a bounded-interval request through $L,U,D,S,T,R,Q,B,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RealBoundedIntervalUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\LocatedRealIntervalUp$, $\FiniteBracketingIntervalUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealBoundedIntervalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for open-cover compactness, Heine--Borel compactness, selected points, quotient intervals, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Real bounded interval NameCert obligations]
+\label{thm:real-bounded-interval-namecert-obligations}
+For every accepted $\RealBoundedIntervalUp$ carrier
+$$
+I=(L,U,D,S,T,R,Q,B,H,C,P,N),
+$$
+the local $\NameCert_{\RealBoundedIntervalUp}$ surface consists exactly of carrier admission for the two endpoint $\RealUp$ seals, $\DyadicRatCoreUp$ endpoint-order evidence, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\LocatedRealIntervalUp$ located endpoint row, $\FiniteBracketingIntervalUp$ bracket row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row.
+
+Every bounded-interval consumer must therefore read $L,U,D,S,T,R,Q,B,H,C,P,N$ in the displayed route, and no obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:real-bounded-interval-carrier}. The projection exposes exactly the two endpoint seals, the endpoint-order ledger, the two finite windows, readback, located interval, bracket, and structural rows.
+
+The endpoint-order obligation is read from $D$. The finite-window obligation is read from $S,T$, and the regular rational readback obligation is read from $R$ before either the located interval row $Q$ or the bracket row $B$ is available.
+
+Componentwise transport is supplied by $H$, and continuation replay is supplied by $C$. The provenance and local naming rows $P,N$ attach the same finite route to the packet, so there is no separate host interval, quotient interval, selected point, compactness, or completeness coordinate from which a consumer could read additional data.
+\end{proof}
+
+\begin{theorem}[Real bounded interval endpoint seal route]
+\label{thm:real-bounded-interval-endpoint-seal-route}
+Every endpoint read of an accepted $\RealBoundedIntervalUp$ packet factors through the paired $\RealUp$ seals $L,U$, the endpoint-order ledger $D$, the finite windows $S,T$, and the regular rational readback $R$ before the located interval row $Q$ and bracket row $B$ are consumed. The route exports no host real equality, quotient interval equality, selected endpoint representative, trichotomy row, open-cover compactness proof, Heine--Borel theorem, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with an endpoint-facing consumer and project the route $C$. The only endpoint rows are $L,U$, and the only order witness attached to them is the dyadic ledger $D$.
+
+The consumer then reads the finite windows $S,T$ and the regular rational readback $R$. Those rows provide the displayed approximation surface needed by the located interval and bracketing rows.
+
+Finally $Q$ and $B$ package the endpoint surface for interval readers. Since the carrier contains no host equality, quotient interval, selected representative, compactness theorem, or completeness coordinate, the endpoint seal route is exhaustive.
+\end{proof}
+
+\closureat{RealBoundedIntervalUp}{seedStr}
+
+\begin{closurestatus}{\RealBoundedIntervalUp}
+  \constructivestory{A $\RealBoundedIntervalUp$ packet is generated from two RealUp endpoint seals, a DyadicRatCore endpoint-order ledger, paired StreamName finite windows, RegSeqRat readback, LocatedRealInterval and FiniteBracketingInterval rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-bounded-interval-carrier}, \autoref{thm:real-bounded-interval-namecert-obligations}, and \autoref{thm:real-bounded-interval-endpoint-seal-route} seed the finite endpoint interval route over real seals, dyadic order evidence, finite windows, regular readback, located interval rows, and bracketing rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, Heine--Borel compactness, selected interval points, quotient intervals, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-order evidence, finite-window readback, located interval handoff, bracketing handoff, endpoint seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RealBoundedIntervalUp.}
+\end{closurestatus}

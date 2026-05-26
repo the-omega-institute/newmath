@@ -40,3 +40,121 @@ the canonical left-unit continuation $\ContR(\emp,c,c)$ by right cancellation
 identifies $a$ with $\emp$.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.ContinuationMorphism\_comp\_source\_empty\_tail\_target\_iff}
+
+\begin{lemma}[Continuation morphism composite endpoint cycle bridge determinacy]
+\label{lem:continuation-morphism-comp-endpoint-cycle-bridge-determinacy}
+For histories $a,b,c$, let $left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$ be continuation morphisms, and write
+$T=\mathsf{tail}(left\circ right)$ for the canonical composite displayed tail.
+The consumer-facing endpoint-cycle bridge for this composite is determined by
+exactly the two local rows
+$$
+\hsame(a,c)\Longleftrightarrow\hsame(T,\emp)
+$$
+and
+$$
+\hsame(a,\emp)\Longleftrightarrow\hsame(T,c).
+$$
+Thus every accepted route, transport, readback, or handoff through the composite
+endpoint-cycle surface factors through either
+\autoref{thm:continuation-morphism-comp-endpoint-cycle-tail-empty-iff} or
+\autoref{thm:continuation-morphism-comp-source-empty-tail-target-iff}, together
+with the stored composite continuation ledger $\ContR(a,T,c)$. No accepted
+consumer obtains an independent endpoint-cycle flag, an independent
+source-empty flag, a primitive host composite, a second tail classifier, or any
+bridge coordinate not listed by these two rows.
+\end{lemma}
+\begin{proof}
+The displayed composite contributes one tail coordinate, namely $T$, and one
+stored continuation ledger, namely $\ContR(a,T,c)$. The endpoint-cycle row of
+\autoref{thm:continuation-morphism-comp-endpoint-cycle-tail-empty-iff} says that
+reading the outer endpoint comparison $\hsame(a,c)$ is exactly the same
+consumer operation as reading the empty-tail comparison $\hsame(T,\emp)$. Hence
+a route that starts from endpoint closure factors by applying the forward
+implication of that row, while a route that starts from an empty composite tail
+factors by applying the reverse implication. A transport or handoff along this
+branch has no further datum: the stored ledger $\ContR(a,T,c)$ is transported
+across $\hsame(T,\emp)$ by \autoref{thm:cont-hsame-transport} to
+$\ContR(a,\emp,c)$, and determinacy against the right-unit continuation is
+precisely the reverse direction already recorded by the same row.
+
+The source-empty row of
+\autoref{thm:continuation-morphism-comp-source-empty-tail-target-iff} gives the
+second and only other consumer-facing comparison. Reading $\hsame(a,\emp)$ is
+exactly the same operation as reading the tail-target comparison
+$\hsame(T,c)$. Thus a source-empty route factors through the forward implication
+of that row, and a tail-target readback factors through the reverse implication.
+The corresponding handoff again uses only the stored composite ledger: transport
+$\ContR(a,T,c)$ along $\hsame(T,c)$ by \autoref{thm:cont-hsame-transport} to
+obtain $\ContR(a,c,c)$, then compare with the left-unit continuation as in the
+cited row.
+
+These two cases exhaust the bridge surface. The first row exposes the
+endpoint-cycle/empty-tail coordinate, and the second row exposes the
+source-empty/tail-target coordinate. Both use the same displayed tail $T$ and
+the same stored composite continuation ledger. None of the rows contains a
+primitive host composite, a second classifier for $T$, an endpoint-cycle flag
+separate from $\hsame(T,\emp)$, a source-empty flag separate from $\hsame(T,c)$,
+or any detached bridge coordinate. Therefore every accepted consumer-facing
+route, transport, readback, or handoff factors through the listed local rows,
+and unlisted bridge coordinates remain unavailable.
+\end{proof}
+
+\begin{corollary}[Continuation morphism composite endpoint cycle consumer determinacy]
+\label{cor:continuation-morphism-comp-endpoint-cycle-consumer-determinacy}
+For histories $a,b,c$, let $left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$ be continuation morphisms, and write
+$T=\mathsf{tail}(left\circ right)$ for the canonical composite displayed tail.
+Once the endpoint-cycle bridge rows of
+\autoref{lem:continuation-morphism-comp-endpoint-cycle-bridge-determinacy} are
+fixed, every accepted consumer-facing use of the composite endpoint-cycle
+surface has only the chapter-named finite route, normal-form read, and exactness
+decision:
+$$
+\begin{gathered}
+\hsame(a,c)\Longleftrightarrow\hsame(T,\emp),\\
+\hsame(a,\emp)\Longleftrightarrow\hsame(T,c).
+\end{gathered}
+$$
+Thus the endpoint-cycle decision is read through the empty-tail normal form
+$\hsame(T,\emp)$, the source-empty decision is read through the tail-target
+normal form $\hsame(T,c)$, and no accepted consumer can introduce an alternate
+hidden coordinate or a duplicate classifier source for the composite.
+\end{corollary}
+\begin{proof}
+By \autoref{lem:continuation-morphism-comp-endpoint-cycle-bridge-determinacy},
+the composite exposes exactly one displayed tail coordinate $T$ and one stored
+composite continuation ledger $\ContR(a,T,c)$ to the endpoint-cycle bridge. The
+same lemma lists the complete bridge interface as the two rows
+$\hsame(a,c)\Longleftrightarrow\hsame(T,\emp)$ and
+$\hsame(a,\emp)\Longleftrightarrow\hsame(T,c)$, and states that every accepted
+route, transport, readback, or handoff through the composite factors through
+one of those rows together with the stored ledger.
+
+The first row is the finite endpoint-cycle route. Its normal-form read is the
+empty-tail comparison $\hsame(T,\emp)$, and its exactness decision is precisely
+the equivalence with the outer endpoint comparison $\hsame(a,c)$ supplied by
+\autoref{thm:continuation-morphism-comp-endpoint-cycle-tail-empty-iff}. Hence
+two accepted consumers of the endpoint-cycle decision cannot disagree without
+leaving that row: both must read the same displayed tail $T$, transport the
+same ledger $\ContR(a,T,c)$, and decide the same comparison
+$\hsame(T,\emp)$.
+
+The second row is the finite source-empty route. By
+\autoref{thm:continuation-morphism-comp-source-empty-tail-target-iff}, its
+normal-form read is the tail-target comparison $\hsame(T,c)$, and its exactness
+decision is precisely the equivalence with $\hsame(a,\emp)$. Therefore any
+accepted consumer that claims a source-empty readback also factors through the
+same displayed tail $T$ and the same ledger $\ContR(a,T,c)$, with no second
+source from which the classifier could be recomputed.
+
+These two rows exhaust the bridge surface by
+\autoref{lem:continuation-morphism-comp-endpoint-cycle-bridge-determinacy}. A
+consumer-facing use that selects a finite route must select one of the two
+chapter routes; a use that selects a normal form must select either
+$\hsame(T,\emp)$ or $\hsame(T,c)$; and a use that selects an exactness decision
+must select the corresponding displayed equivalence. Since the bridge exports
+no primitive host composite, no second tail classifier, and no coordinate
+outside those rows, alternate hidden coordinates and duplicate classifier
+sources are not accepted.
+\end{proof}

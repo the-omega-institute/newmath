@@ -82,6 +82,11 @@ FAILURE_KINDS: dict[str, dict[str, Any]] = {
         "next_action": "skip",
         "mathematically_blocked": True,
     },
+    "weak_surface_target": {
+        "retry_budget": 0,
+        "next_action": "skip",
+        "mathematically_blocked": True,
+    },
     "posthoc_paper_covered": {
         "retry_budget": 0,
         "next_action": "skip",

@@ -11,9 +11,10 @@ content.
 
 ## Files
 
-- `bridge_manifest.schema.json` defines the JSONL record contract.
-- `bridge_manifest.jsonl` is the durable manifest. Each line is one auditable
-  source-to-destination record.
+- `bridge_manifest.schema.json` defines the local JSONL record contract.
+- `bridge_manifest.jsonl` is a generated local manifest. It is ignored by Git;
+  durable project decisions belong in reviewed Markdown ledgers and accepted
+  BEDC targets, not in runtime JSONL.
 - `bridge_sources.json` is the read-only scan configuration used to generate
   candidate packet records.
 - `scan_bridge_sources.py` observes configured paths and writes candidate JSONL.
@@ -34,8 +35,9 @@ content.
 - `validate_bridge_manifest.py` validates manifest or packet JSONL records.
 - `render_bridge_report.py` renders manifest or packet JSONL as Markdown for
   human and AI review.
-- `review_packets/` contains durable bridge review packets that may be cited
-  from BEDC BOARD entries. These are not runtime artifacts.
+- `review_packets/` contains durable bridge review packets for local review
+  memory. They are metadata/evidence surfaces only: they must not become BEDC
+  BOARD `local_inputs`, paper provenance, or theorem evidence.
 - `inbox/`, `out/`, `state/`, and `logs/` are runtime directories. Generated
   contents are ignored by Git and should not be uploaded.
 
@@ -198,14 +200,16 @@ Local runtime outputs:
 - `tools/automath_newmath_bridge/logs/bridge_supervisor.log`
 
 Those files are intentionally ignored. Durable project decisions belong in
-`bridge_manifest.jsonl`, not in runtime artifacts.
+reviewed Markdown ledgers and accepted BEDC targets, not in runtime JSONL
+artifacts.
 
-Durable BOARD review packets live under:
+Local BOARD review packets may be written under:
 
 - `tools/automath_newmath_bridge/review_packets/*.json`
 
-Those files are tracked because BEDC BOARD entries need stable `Local inputs`.
-They still do not authorize paper or Lean writes.
+Those files are ignored by Git. BEDC BOARD entries must carry BEDC-native
+source, review, and reject-if text directly; raw bridge packets do not authorize
+paper or Lean writes and must not be committed as stable local inputs.
 
 To persist "already seen" local state:
 
@@ -270,7 +274,7 @@ python3 tools/automath_newmath_bridge/scan_bridge_sources.py \
   --output tools/automath_newmath_bridge/out/bridge_candidates.jsonl
 ```
 
-Validate the durable manifest:
+Validate the ignored local manifest:
 
 ```bash
 python3 tools/automath_newmath_bridge/validate_bridge_manifest.py \

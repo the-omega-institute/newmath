@@ -55,12 +55,6 @@ except ModuleNotFoundError:  # pragma: no cover
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
     from logic_discipline import render_prompt_block
 
-try:
-    import loning_assimilator
-except ModuleNotFoundError:  # pragma: no cover
-    loning_assimilator = None
-
-
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parents[1]
 PROMPTS_DIR = SCRIPT_DIR / "prompts"
@@ -525,16 +519,10 @@ def build_refill_prompt(
     discipline = render_prompt_block(
         context="BEDC board refill; oracle may generate candidate targets only, while dedup, schema checks, paper coverage, and deterministic obligation splitting stay local.",
     )
-    loning_block = ""
-    if loning_assimilator is not None:
-        try:
-            loning_block = loning_assimilator.latest_prompt_block()
-        except Exception:
-            loning_block = ""
     prompt = template.format(
         board_content=_safe(board),
         paper_labels=_safe(paper_coverage),
-    ) + "\n\n" + discipline + "\n\n" + loning_block + "\n"
+    ) + "\n\n" + discipline + "\n"
     if ultra_refill:
         prompt += "\n\n" + ULTRA_REFILL_INSTRUCTION + "\n"
     elif micro_refill:

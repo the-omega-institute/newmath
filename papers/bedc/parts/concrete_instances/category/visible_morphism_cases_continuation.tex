@@ -472,3 +472,61 @@ equation, the three unary witnesses, and the one-step continuation rule rebuild
 the hom-carrier fields.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_e1\_source\_e1\_morphism\_target\_iff}
+
+\begin{corollary}[Continuation morphism composite visible tails consumer determinacy]
+\label{cor:continuation-morphism-composite-visible-tails-consumer-determinacy}
+For histories $a,b,c,k,l,m,l',m':\BHist$, let
+$left:\mathsf{ContinuationMorphism}(a,b)$ and
+$right:\mathsf{ContinuationMorphism}(b,c)$. Assume the fixed nonempty visible
+composite surface
+$$
+\begin{aligned}
+&\UnaryHistory(\mathsf{tail}(left))\land
+\UnaryHistory(\mathsf{tail}(right))\land
+\neg\HSame(\mathsf{tail}(left),\emp)\land
+\neg\HSame(\mathsf{tail}(right),\emp) \\
+&\quad\land\HSame(\mathsf{tail}(left\circ right),\Eone(k))\land
+\HSame(\mathsf{tail}(left),\Eone(l))\land
+\HSame(\mathsf{tail}(right),\Eone(m)) \\
+&\quad\land\ContR(\Eone(l),\Eone(m),\Eone(k)).
+\end{aligned}
+$$
+If another accepted consumer-facing use of the same composite surface reads the
+same composite payload through visible factor tails
+$$
+\HSame(\mathsf{tail}(left),\Eone(l'))\land
+\HSame(\mathsf{tail}(right),\Eone(m'))\land
+\ContR(\Eone(l'),\Eone(m'),\Eone(k)),
+$$
+then the consumer-visible factor route is determined:
+$$
+\HSame(l,l')\land\HSame(m,m').
+$$
+Consequently, once the displayed unary, nonempty, composite-tail, factor-tail,
+and boundary-continuation rows are fixed, every accepted route or one-headed
+normal-form read for the composite visible tails uses the same finite route
+through $l,m,k$ up to $\HSame$. There is no alternate hidden coordinate for the
+fixed displayed continuation surface.
+\end{corollary}
+\begin{proof}
+Apply
+\autoref{thm:continuation-morphism-comp-nonempty-e1-tail-factors-unique} to
+$left$, $right$, and the fixed unary, nonempty, and composite one-headed rows.
+It supplies the canonical visible factor pair for the composite tail and a
+universal comparison clause for any other pair of one-headed factor reads with
+the same boundary continuation. The fixed pair $l,m$ and the competing pair
+$l',m'$ both satisfy that clause: their tail classifications are the displayed
+factor-tail rows, and their boundary continuations are the two displayed
+$\ContR(\Eone(-),\Eone(-),\Eone(k))$ rows. Comparing each pair with the
+canonical pair gives internal sameness witnesses from the fixed pair to the
+canonical pair and from the competing pair to the canonical pair. The symmetry
+and transitivity clauses of \autoref{thm:history-sameness-equivalence} orient
+and compose these $\HSame$ witnesses inside the generated-history relation, so
+the two left payloads satisfy $\HSame(l,l')$ and the two right payloads satisfy
+$\HSame(m,m')$. This proves the displayed conjunction.
+
+The final consumer-facing sentence only restates this internally composed
+$\HSame$ comparison for any accepted route or one-headed normal-form read that
+keeps the same listed rows; it does not substitute host equality or add another
+coordinate.
+\end{proof}

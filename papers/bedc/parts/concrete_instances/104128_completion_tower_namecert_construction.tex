@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\CompletionTowerUp$}
+\label{ch:concrete-instances-completion-tower-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive completion and Kelley's separated uniform completion route, the $\CompletionTowerUp$ packet records the finite tower read in which a source metric is completed, read through a second completion request, and flattened by displayed idempotence rather than by quotient equality or selected representatives. It sits after the metric-completion surface of \autoref{ch:concrete-instances-metriccompletion-namecert}, the idempotent Cauchy-completion row of \autoref{ch:concrete-instances-cauchy-completion-idempotent-namecert}, the uniform-completion boundary of \autoref{ch:concrete-instances-uniformcompletion-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers a finite route for repeated completion reads without importing an ambient completed-object equality.
+
+\begin{definition}[Completion tower carrier]
+\label{def:completion-tower-carrier}
+A $\CompletionTowerUp$ carrier is a finite $\BHist$ packet
+$$
+T=(M,F,S,D,I,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the source metric row, carrying the displayed distance and tolerance requests before any completion consumer reads the tower.
+\item $F$ is the first $\MetricCompletionUp$ row produced from $M$.
+\item $S$ is the second completion-request row, recording the attempted completion of the already completed presentation.
+\item $D$ is the dense embedding row from the source metric into the first completion row.
+\item $I$ is the $\CauchyCompletionIdempotentUp$ flattening row, recording that the second completion request reuses the first completion surface.
+\item $Q$ is the $\SeparatedMetricUp$ comparison row, making equality-facing reads pass through separated data rather than host equality of completed points.
+\item $R$ is the regular readback and Real-facing route through $\UniformCompletionUp$, $\RegSeqRatUp$, and $\RealUp$.
+\item $H$ records componentwise $\hsame$ transport for the metric, completion, embedding, flattening, separated comparison, readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+M \longmapsto F \longmapsto S \longmapsto D,I,Q,R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CompletionTowerUp$, $\MetricCompletionUp$, $\CauchyCompletionIdempotentUp$, $\UniformCompletionUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CompletionTowerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient completion equality, selected representatives, countable choice, host equality of completed objects, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Completion tower NameCert obligations]
+\label{thm:completion-tower-namecert-obligations}
+For every accepted $\CompletionTowerUp$ carrier $T=(M,F,S,D,I,Q,R,H,C,P,N)$, the local $\NameCert_{\CompletionTowerUp}$ surface consists exactly of source metric exposure, first completion exposure, second completion-request exposure, dense embedding, idempotence flattening, separated comparison, regular and Real-facing readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and non-escape from quotient completion equality, selected representatives, countable choice, host equality, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:completion-tower-carrier}. The source metric row $M$, first completion row $F$, second completion-request row $S$, dense embedding row $D$, idempotence row $I$, separated comparison row $Q$, and readback row $R$ are the only analytic coordinates in the packet.
+
+The tower route is then read in order. The first completion consumer reads $F$ from $M$, the second request is displayed as $S$, and flattening is forced through $I$ rather than through an equality of completed objects. The dense embedding row $D$ and separated comparison row $Q$ keep source and equality-facing reads visible.
+
+Finally $H,C,P,N$ preserve the same finite route under transport, replay, provenance, and local naming. Since the excluded host-side principles are absent from the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Every accepted repeated-completion read factors through the source metric, first completion, second completion request, dense embedding, idempotence flattening, separated comparison, regular readback, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{metriccompletion, cauchy-completion-idempotent, uniformcompletion, regseqrat, real: $\CompletionTowerUp$ is not bijective to any one sibling because it jointly carries first completion, second completion request, dense embedding, flattening, separated comparison, readback, and local NameCert rows.}
+
+\closureat{CompletionTowerUp}{seedStr}
+
+\begin{closurestatus}{\CompletionTowerUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:completion-tower-carrier} and \autoref{thm:completion-tower-namecert-obligations} seed the finite repeated-completion tower surface over displayed metric, completion, dense-embedding, idempotence, separated-comparison, readback, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected representatives, countable choice, host equality of completed objects, Lean verification, bridge checking, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, repeated-completion flattening, dense-embedding routing, separated comparison, readback stability, transport and replay non-escape, and TasteGate field faithfulness for BEDC.Derived.CompletionTowerUp.}
+  \constructivestory{A $\CompletionTowerUp$ packet is generated from a source metric row, first completion row, second completion request, dense embedding, idempotence flattening, separated comparison, uniform and regular readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

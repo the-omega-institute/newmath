@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BEDC Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bedc
-// @version      1.20
+// @version      1.21
 // @description  BEDC-pipeline ChatGPT bridge with multi-turn follow-up support. Talks to bedc_oracle_server.py on :8767. Distinct from the paper-pipeline oracle (which is single-shot on :8765).
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -44,7 +44,7 @@
   const MAX_WAIT = 7200000;
   const NO_OUTPUT_IDLE_TIMEOUT = 420000;
   const REFILL_NO_OUTPUT_IDLE_TIMEOUT = 1800000;
-  const SCRIPT_VERSION = "bedc-1.20";
+  const SCRIPT_VERSION = "bedc-1.21";
   const BEDC_PROJECT_PREFIX = "/g/g-p-69f750c45b248191ac36b1cd6235f336-bedc";
   const BEDC_PROJECT_HOME = `https://chatgpt.com${BEDC_PROJECT_PREFIX}/project`;
 
@@ -671,6 +671,8 @@
   // ── Response extraction (verbatim from paper oracle v4.10) ───────────
   let sentPromptText = "";
   let postSendLines = new Set();
+  let lastBottomScrollAt = 0;
+  let lastBottomScrollLogAt = 0;
   // BEDC FIX: snapshot of `[data-message-author-role='assistant']` COUNT
   // taken immediately before we hit Send. waitForResponse waits until the
   // count strictly increases, then captures only the NEW last assistant
@@ -694,6 +696,64 @@
       return document.querySelectorAll("[data-message-author-role='assistant']").length;
     } catch {
       return 0;
+    }
+  }
+
+  // BEDC FIX: ChatGPT can virtualize / lazily mount the latest assistant
+  // turn unless the conversation viewport is near the bottom. Keep extraction
+  // pinned to the newest rendered turn without weakening the count/stability
+  // gates below.
+  function scrollConversationToBottom(reason = "", force = false) {
+    const now = Date.now();
+    if (!force && now - lastBottomScrollAt < 5000) return false;
+    lastBottomScrollAt = now;
+    try {
+      const main = document.querySelector("main");
+      const messageNodes = main
+        ? main.querySelectorAll("[data-message-author-role]")
+        : [];
+      const lastMessage = messageNodes.length ? messageNodes[messageNodes.length - 1] : null;
+      const scrollables = [
+        document.scrollingElement,
+        document.documentElement,
+        document.body,
+        main,
+      ];
+      if (main) {
+        for (const el of Array.from(main.querySelectorAll("div, section, article")).slice(-120)) {
+          try {
+            const style = window.getComputedStyle(el);
+            if (/(auto|scroll)/.test(style.overflowY || "")
+                && el.scrollHeight > el.clientHeight + 40) {
+              scrollables.push(el);
+            }
+          } catch {}
+        }
+      }
+      const seen = new Set();
+      for (const el of scrollables) {
+        if (!el || seen.has(el)) continue;
+        seen.add(el);
+        try { el.scrollTop = el.scrollHeight; } catch {}
+      }
+      try {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: "auto" });
+      } catch {
+        try { window.scrollTo(0, document.body.scrollHeight); } catch {}
+      }
+      try {
+        if (lastMessage) lastMessage.scrollIntoView({ block: "end", inline: "nearest", behavior: "auto" });
+      } catch {}
+      for (const el of seen) {
+        try { el.scrollTop = el.scrollHeight; } catch {}
+      }
+      if (now - lastBottomScrollLogAt >= 300000) {
+        lastBottomScrollLogAt = now;
+        log(`Viewport pinned to latest response${reason ? ` (${reason})` : ""}`);
+      }
+      return true;
+    } catch {
+      return false;
     }
   }
 
@@ -1029,14 +1089,21 @@
     let countIncreasedLogged = false;
     while (Date.now() - startTime < MAX_WAIT) {
       await sleep(STABLE_INTERVAL);
+      scrollConversationToBottom("wait");
+      await sleep(500);
       // BEDC FIX: require strict count increase before trusting any
       // extractResponseText output. Without this, the multi-strategy
       // fallback can return prior-turn text that happens to be "stable"
       // because no new generation has rendered yet.
       const curCount = newAssistantCount();
-      const responseText = (curCount > preSubmitAssistantCount)
+      let responseText = (curCount > preSubmitAssistantCount)
         ? extractAssistantOnly()    // count increased: take the LAST assistant message only
         : "";                       // count not yet increased: don't even consider stability
+      if (curCount > preSubmitAssistantCount && responseText.length < 5) {
+        scrollConversationToBottom("empty-after-count-increase", true);
+        await sleep(1000);
+        responseText = extractAssistantOnly();
+      }
       if (curCount > preSubmitAssistantCount && !countIncreasedLogged) {
         log(`new assistant message detected (count ${preSubmitAssistantCount} → ${curCount})`);
         countIncreasedLogged = true;
@@ -1154,6 +1221,8 @@
         }
         try { await serverPost("/ack", { task_id, agent_id: agentId() }); } catch {}
         await sleep(3000); // settle DOM
+        scrollConversationToBottom("re-extract", true);
+        await sleep(1000);
         if (prompt) setSentPrompt(prompt);
         // BEDC ADD: try dedicated assistant-only extraction first (bypasses
         // heuristics that can fall to prompt echo when sentPromptText isn't
@@ -1211,6 +1280,8 @@
       try { await serverPost("/ack", { task_id, agent_id: agentId() }); } catch {}
       setTaskPhase("processing");
       setSentPrompt(prompt);
+      scrollConversationToBottom("resume", true);
+      await sleep(500);
       capturePostSendState();
       try {
         const response = await waitForResponse(task_id, noOutputIdleTimeout);
@@ -1405,6 +1476,8 @@
       }
 
       await sleep(5000); // settle DOM
+      scrollConversationToBottom("post-send", true);
+      await sleep(500);
       capturePostSendState();
       const response = await waitForResponse(task_id, noOutputIdleTimeout);
 

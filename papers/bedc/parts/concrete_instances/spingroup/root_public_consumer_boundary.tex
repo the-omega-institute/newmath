@@ -177,3 +177,26 @@ row is one of the displayed coordinates. Because the packet has no coordinate
 for host orthogonal groups, matrix models, Clifford quotients, or standard
 bridges, none of those rows can be recovered by transport.
 \end{proof}
+
+\begin{lemma}[SpinGroup root local consumer downstream coverage]
+\label{lem:spingroup-root-local-consumer-downstream-coverage}
+Let $c$ be an accepted local consumer of the $\SpinGroupUp$ root $\BHist$ packet. Then the consumer read is exhausted by the finite rows already displayed in \autoref{def:spingroup-root-bhist-carrier} and \autoref{def:spingroup-root-public-consumer-boundary-packet}. More precisely, $c$ factors through one of the following local alternatives:
+\begin{enumerate}
+\item a $\NameCert_{\CliffordUp}$ or $\NameCert_{\GroupUp}$ source row covered by \autoref{thm:spingroup-root-carrier-source-scope};
+\item a unit, product, inverse, singleton $\GroupUp$, or even-parity $\UnaryHistory$ row covered by \autoref{thm:spingroup-root-ledger-exhaustion};
+\item a displayed $\Cont$, $\hsame$, or $\Pkg$ ledger coordinate of the root packet;
+\item a public coverage coordinate of \autoref{def:spingroup-root-public-consumer-boundary-packet}, as covered by \autoref{thm:spingroup-root-public-consumer-boundary-coverage} and \autoref{thm:spingroup-root-public-consumer-boundary-exhaustion}.
+\end{enumerate}
+Consequently every consumer request for a host orthogonal group, a Clifford quotient, a matrix model, an analytic covering datum, a connected-component predicate, or a bridge row has no accepted coordinate in the $\SpinGroupUp$ root $\BHist$ packet.
+\end{lemma}
+\begin{proof}
+Start with an accepted local consumer read. By \autoref{thm:spingroup-root-public-consumer-boundary-coverage}, the read projects to the finite boundary packet of \autoref{def:spingroup-root-public-consumer-boundary-packet}. The projected coordinate is therefore one of the displayed Clifford source, singleton $\GroupUp$, unit, product, inverse, even-parity $\UnaryHistory$, $\Cont$, $\hsame$, or $\Pkg$ rows.
+
+Apply \autoref{thm:spingroup-root-carrier-source-scope} to the source coordinates. It confines every source row of the root carrier to $\NameCert_{\CliffordUp}$ or $\NameCert_{\GroupUp}$ over the same unary group-law spine, so no third source can be read by the consumer.
+
+Apply \autoref{thm:spingroup-root-ledger-exhaustion} to the remaining ledger coordinates. It exhausts every finite ledger row exposed by the root carrier by the displayed $\BHist$ rows, $\Cont$ witnesses, $\hsame$ witnesses, the two $\NameCert$ source rows, and singleton $\UnaryHistory$ group-law rows. The unit case repacks through the displayed unit endpoint, while the product and inverse cases repack through the displayed transport rows already present in the same root packet.
+
+It remains only to check that no accepted local consumer is omitted. This is the converse direction of \autoref{thm:spingroup-root-public-consumer-boundary-exhaustion}: every row displayed by the boundary packet repacks as a public $\SpinGroupUp$ root consumer row, and every public root consumer row is one of those displayed rows. Thus the four alternatives in the statement cover all accepted local consumer reads.
+
+For the excluded requests, suppose a local consumer asks for a host orthogonal group, Clifford quotient, matrix model, analytic covering datum, connected-component predicate, or bridge row. Coverage would have to project that request to a coordinate of \autoref{def:spingroup-root-public-consumer-boundary-packet}. The definition has no such coordinate, \autoref{thm:spingroup-root-carrier-source-scope} admits no third source row, and \autoref{thm:spingroup-root-ledger-exhaustion} admits no ledger row beyond the displayed finite alternatives. Hence those requests remain outside the accepted $\SpinGroupUp$ root $\BHist$ packet.
+\end{proof}

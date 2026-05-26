@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\CauchySeriesProductUp$}
+\label{ch:concrete-instances-cauchy-series-product-namecert}
+\origin{human}
+
+Following Hardy and Knopp on products of series, the $\CauchySeriesProductUp$ packet records the constructive product route by which two accepted real-series source rows expose a Cauchy product only through finite convolution windows, tail budgets, regular rational readback, and a real seal. It consumes the finite partial-sum discipline of $\RealSeriesUp$ in \autoref{ch:concrete-instances-realseries-namecert}, the convolution ledger of $\CauchyConvolutionUp$ in \autoref{ch:concrete-instances-cauchyconvolution-namecert}, the fast product surface of $\FastSeriesProductUp$ in \autoref{ch:concrete-instances-fastseriesproduct-namecert}, the absolute convergence route of $\AbsoluteConvergenceUp$ in \autoref{ch:concrete-instances-absolute-convergence-namecert}, and the majorant tail accounting of $\CauchyMajorantSeriesUp$ in \autoref{ch:concrete-instances-cauchy-majorant-series-namecert}. The packet names the finite certificate by which a product series is admitted; it does not import a host theorem on Cauchy products, selected infinite sums, quotient equality of series, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy series product carrier]
+\label{def:cauchy-series-product-carrier}
+A $\CauchySeriesProductUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,T,C,B,M,R,E,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ and $T$ are the two $\RealSeriesUp$ source rows. They expose only inspected term windows, finite partial sums, and source tail requests already admitted by the real-series packet.
+\item $C$ is the finite $\CauchyConvolutionUp$ window row. It records the inspected convolution diagonals, product-prefix windows, and finite coefficient multiplications used by the current request.
+\item $B$ is the product-budget row. It is supplied either by the $\AbsoluteConvergenceUp$ route or by the $\CauchyMajorantSeriesUp$ route, and it records the displayed tail bounds needed to control the omitted convolution terms.
+\item $M$ is the $\FastSeriesProductUp$ handoff row. It repacks the displayed source windows and the convolution row as the finite product surface consumed by downstream readers.
+\item $R$ is the $\RegSeqRatUp$ readback row for the displayed product partial sums and for every source-window read used by $C$ and $M$.
+\item $E$ is the $\RealUp$ seal reached only after $S,T,C,B,M,R$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the two source rows, convolution windows, product budgets, fast-product handoff, regular readback, real seal, provenance, and local naming row.
+\item $P$ is the $\Pkg$ provenance over $\CauchySeriesProductUp$, $\RealSeriesUp$, $\CauchyConvolutionUp$, $\FastSeriesProductUp$, $\AbsoluteConvergenceUp$, $\CauchyMajorantSeriesUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySeriesProductUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,T,C,B,M,R,E,H,P,N$. It has no coordinate for a host Cauchy product theorem, an unbounded convolution sum, a selected real limit, quotient equality of series, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy series product NameCert obligations]
+\label{thm:cauchy-series-product-namecert-obligations}
+For every accepted $\CauchySeriesProductUp$ carrier $K=(S,T,C,B,M,R,E,H,P,N)$, the local $\NameCert_{\CauchySeriesProductUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two displayed $\RealSeriesUp$ source rows, finite convolution windows, product budgets, fast-product handoff, regular readback, real seal, transport, provenance, and local naming row;
+\item source-window exactness, requiring every product term inspected by $C$ to be read from the displayed finite windows of $S$ and $T$;
+\item convolution-window exactness, requiring every product-prefix row to pass through the finite $\CauchyConvolutionUp$ row $C$ before the fast-product handoff is exposed;
+\item tail-budget exactness, requiring each omitted convolution contribution to be bounded by the displayed $\AbsoluteConvergenceUp$ or $\CauchyMajorantSeriesUp$ budget row $B$;
+\item regular readback, requiring every product partial-sum read to pass through $R$ after $C,B,M$ have been displayed;
+\item Real-seal nonescape, requiring the endpoint row $E$ to remain downstream of the finite readback and to export no host product theorem, selected infinite sum, quotient equality, or ambient completeness;
+\item provenance and naming preservation, requiring $H,P,N$ to preserve the same finite route under transport, package sourcing, and local certificate comparison.
+\end{enumerate}
+No obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-series-product-carrier}. The two source rows $S,T$ expose only the finite real-series windows and partial-sum data named by the source packets, so the product certificate begins with displayed series data rather than a host infinite sequence.
+
+The convolution and product rows are then forced. The row $C$ records the finite Cauchy-convolution windows, and $M$ repacks those windows as the fast product handoff. Every inspected product term is therefore read through $S,T,C,M$.
+
+The tail budget is separate but still finite. The row $B$ supplies either an absolute-convergence budget or a majorant-series budget, so omitted convolution terms are controlled by displayed tail rows before any regular readback is exported.
+
+Finally the readback and seal close the route. The $\RegSeqRatUp$ row $R$ reads the product partial sums, the $\RealUp$ seal $E$ is downstream of that readback, and $H,P,N$ transport, source, and name the same packet. The listed rows therefore exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy series product RealSeries handoff]
+\label{thm:cauchy-series-product-realseries-handoff}
+Every endpoint-facing read from an accepted $\CauchySeriesProductUp$ carrier factors through the two source $\RealSeriesUp$ rows $S,T$, the finite $\CauchyConvolutionUp$ window row $C$, the displayed absolute or majorant tail budget $B$, the $\FastSeriesProductUp$ handoff row $M$, the $\RegSeqRatUp$ readback row $R$, the $\RealUp$ seal row $E$, and the structural rows $H,P,N$. A consumer receives no host multiplication theorem for series, no selected infinite convolution sum, no quotient equality of term streams, no countable-choice selector, and no ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with the source rows. The carrier admits only the two displayed $\RealSeriesUp$ packets, so every product read first chooses the finite source windows visible in $S$ and $T$.
+
+Next pass through the product route. The convolution row $C$ builds the inspected Cauchy-product windows, the budget row $B$ controls the omitted tails by absolute or majorant evidence, and the fast-product row $M$ records the finite handoff visible to downstream product consumers.
+
+Finally read the endpoint. The row $R$ supplies the regular rational readback of the displayed product partial sums, and $E$ is the only real-facing seal. Since the structural rows $H,P,N$ preserve this same route, the handoff cannot expose any unlisted analytic object.
+\end{proof}
+
+\closureat{CauchySeriesProductUp}{seedStr}
+
+\begin{closurestatus}{\CauchySeriesProductUp}
+  \constructivestory{A $\CauchySeriesProductUp$ packet is generated from two RealSeries source rows, finite convolution windows, an absolute or majorant tail budget, a FastSeriesProduct handoff, RegSeqRat readback, a RealUp seal, componentwise hsame transport, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-series-product-carrier}, \autoref{thm:cauchy-series-product-namecert-obligations}, and \autoref{thm:cauchy-series-product-realseries-handoff} seed the finite constructive product-of-series certificate from two RealSeries source rows through convolution windows, tail budgets, regular readback, and RealUp endpoint sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host Cauchy product theorems, selected infinite convolution sums, quotient equality of series, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-window exactness, convolution-window exactness, tail-budget exactness, regular readback, Real-seal nonescape, provenance preservation, and TasteGate field faithfulness for BEDC.Derived.CauchySeriesProductUp.}
+\end{closurestatus}

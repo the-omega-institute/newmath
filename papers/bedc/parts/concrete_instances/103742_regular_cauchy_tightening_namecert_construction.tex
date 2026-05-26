@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTighteningUp$}
+\label{ch:concrete-instances-regular-cauchy-tightening-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RegularCauchyTighteningUp$ packet records the finite operation that turns a regular Cauchy presentation toward an explicit fast schedule before any real-name or completion consumer reads it. It sits over the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the fast witness surface of \autoref{ch:concrete-instances-fast-cauchy-sequence-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite tightening interface: it does not assert quotient equality of streams, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy tightening carrier]
+\label{def:regular-cauchy-tightening-carrier}
+A $\RegularCauchyTighteningUp$ carrier is a finite $\BHist$ packet
+$$
+U=(D,S,R,F,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger. It stores the requested dyadic radius, comparison rows, denominator discipline, and slack budget available to the tightening test.
+\item $S$ is the $\StreamNameUp$ window row. It records the finite stream observations inspected before a tighter schedule is accepted.
+\item $R$ is the $\RegSeqRatUp$ regular Cauchy readback row. It exposes the regular rational presentation whose tolerance route is being tightened.
+\item $F$ is the $\FastCauchySequenceUp$ witness row. It records the explicit fast schedule exported after $D,S,R,T$ have been displayed.
+\item $T$ is the tightening-schedule row. It binds each displayed tolerance request to the stronger finite budget used by the fast witness.
+\item $H$ records componentwise $\hsame$ transport for the dyadic ledger, stream window, regular readback, fast witness, tightening schedule, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from $D,S,R,T$ to the fast witness row $F$ and then through $H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTighteningUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\FastCauchySequenceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyTighteningUp}$ row.
+\end{enumerate}
+The classifier compares accepted tightening packets only through $D,S,R,F,T,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tightening NameCert obligations]
+\label{thm:regular-cauchy-tightening-namecert-obligations}
+For every accepted $\RegularCauchyTighteningUp$ carrier $U=(D,S,R,F,T,H,C,P,N)$, the local $\NameCert_{\RegularCauchyTighteningUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the dyadic tolerance ledger, stream window, regular readback, fast witness, tightening schedule, transport, replay, provenance, and local naming rows;
+\item classifier stability under componentwise agreement on $D,S,R,F,T,H,C,P,N$;
+\item modulus tightening, requiring $T$ to bind every displayed tolerance request to a stronger finite budget over the same dyadic ledger and stream window;
+\item fast-regular handoff, requiring $F$ to be exported only after the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and tightening rows have been read;
+\item real-seal non-escape, requiring every $\RealUp$-facing read to pass through the finite packet without importing quotient equality, selected limits, countable choice, trichotomy, or ambient completeness.
+\end{enumerate}
+No RegularCauchyTightening obligation is stored outside $D,S,R,F,T,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $U=(D,S,R,F,T,H,C,P,N)$. The carrier definition exposes exactly the dyadic tolerance ledger, stream window, regular readback, fast witness, tightening schedule, and structural rows.
+
+Classifier stability is componentwise. Agreement of the displayed rows fixes the dyadic budget, visible observations, regular presentation, fast witness, schedule, transport, replay, provenance, and local naming data inspected by the classifier.
+
+The tightening obligation is the row $T$. It reads the tolerance information in $D$, the finite observations in $S$, and the regular Cauchy presentation in $R$, then supplies the stronger budget consumed by the fast witness row $F$.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since no excluded quotient, choice, order, limit-selection, or ambient-completeness coordinate appears in the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tightening fast-regular handoff]
+\label{thm:regular-cauchy-tightening-fast-regular-handoff}
+Let $U=(D,S,R,F,T,H,C,P,N)$ be an accepted $\RegularCauchyTighteningUp$ carrier. Every exported fast-regular witness factors through the displayed route
+$$
+D \longmapsto S \longmapsto R \longmapsto T \longmapsto F \longmapsto H,C,P,N .
+$$
+Consequently the exported witness can use only the $\DyadicRatCoreUp$ tolerance ledger, $\StreamNameUp$ finite window, $\RegSeqRatUp$ regular readback, and $\FastCauchySequenceUp$ witness rows displayed by the packet.
+\end{theorem}
+\begin{proof}
+Start with a consumer reading the fast witness coordinate. By \autoref{def:regular-cauchy-tightening-carrier}, the only fast Cauchy output row is $F$, and it is paired with the same dyadic, stream, regular, and tightening rows.
+
+The dyadic row $D$ supplies the tolerance arithmetic, $S$ supplies the finite window, and $R$ supplies the regular rational readback. The schedule row $T$ binds these three surfaces to the stronger budget demanded by the exported fast witness.
+
+The structural rows $H,C,P,N$ preserve the displayed route without introducing another source of fast witness data. Thus every accepted export factors through the named dyadic, stream, regular, tightening, and fast rows.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tightening real-seal boundary]
+\label{thm:regular-cauchy-tightening-real-seal-boundary}
+An accepted $\RegularCauchyTighteningUp$ packet cannot export quotient stream equality, selected limits, countable choice, trichotomy, or $\RealUp$ completeness. Any $\RealUp$-facing consumer receives only the finite dyadic ledger, stream window, regular readback, tightening schedule, fast witness, transport, replay, provenance, and local naming rows displayed in $D,S,R,F,T,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier of \autoref{def:regular-cauchy-tightening-carrier}. Its analytic coordinates are $D,S,R,F,T$, and its structural coordinates are $H,C,P,N$.
+
+None of these coordinates names a quotient on streams, a selected limit, a choice functional, a trichotomy principle, or a completeness theorem for $\RealUp$. The provenance row records the real-name seal only as a downstream boundary for the finite packet.
+
+Therefore a real-facing consumer can replay the displayed tightening route, but it cannot extract any of the excluded ambient principles from the packet.
+\end{proof}
+
+\falsifiablePrediction{Every $\RegularCauchyTighteningUp$ fast-regular export factors through a DyadicRatCore tolerance ledger, StreamName finite window, RegSeqRat regular readback, tightening schedule, FastCauchySequence witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, fastcauchysequence, real: $\RegularCauchyTighteningUp$ is not bijective to any listed sibling because it jointly carries the tolerance ledger, observation window, regular readback, explicit fast witness, tightening schedule, transport, continuation, provenance, and local naming as one finite packet.}
+
+\closureat{RegularCauchyTighteningUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTighteningUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tightening-carrier}, \autoref{thm:regular-cauchy-tightening-namecert-obligations}, \autoref{thm:regular-cauchy-tightening-fast-regular-handoff}, and \autoref{thm:regular-cauchy-tightening-real-seal-boundary} seed the finite tightening interface from regular Cauchy readback to explicit fast schedules.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ambient completeness, quotient reals, quotient stream equality, selected limits, countable choice, trichotomy, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, modulus tightening, fast-regular handoff, real-seal non-escape, and structural transport rows for BEDC.Derived.RegularCauchyTighteningUp.}
+  \constructivestory{A $\RegularCauchyTighteningUp$ packet is generated from a DyadicRatCore tolerance ledger, StreamName finite window, RegSeqRat regular readback, tightening schedule, FastCauchySequence witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+\end{closurestatus}

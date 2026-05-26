@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\MetricIdentificationUp$}
+\label{ch:concrete-instances-metricidentification-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on the identification of zero-distance points in a pseudometric space, the $\MetricIdentificationUp$ packet records the finite BEDC route from displayed pseudometric distance rows to a separated metric-facing classifier. It sits between the pseudometric and metric rows of \autoref{ch:concrete-instances-metric-namecert}, the zero-distance classifier boundary of \autoref{ch:concrete-instances-separatedmetric-namecert}, the completion consumer of \autoref{ch:concrete-instances-metriccompletion-namecert}, and the terminal real-distance seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the identification surface without forming quotient primitives, host equality classes, selected representatives, or ambient completion points.
+
+\begin{definition}[MetricIdentification carrier]
+\label{def:metric-identification-carrier}
+A $\MetricIdentificationUp$ carrier is a finite $\BHist$ packet
+$$
+I=(P,M,Z,S,C,T,R,H,K,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the $\PseudometricUp$ source row, exposing point histories, distance histories, and pseudometric comparison ledgers.
+\item $M$ is the $\MetricUp$ target row whose distance reads are allowed only after the identification classifier has accepted the source comparison.
+\item $Z$ is the $\RealUp$ zero-distance row, recording the displayed real-distance seal used to compare source points at distance zero.
+\item $S$ is the $\SeparatedMetricUp$ classifier handoff, requiring every equality-facing read to pass through the separated metric boundary.
+\item $C$ is the $\MetricCompletionUp$ consumer boundary, available only after $P,M,Z,S$ have displayed the finite identification route.
+\item $T$ records componentwise $\hsame$ transport for source points, distance rows, zero-distance witnesses, separated classifier rows, completion handoff rows, provenance rows, and local naming.
+\item $R$ records displayed $\Cont$ replay from a finite pseudometric comparison request through the zero-distance row and separated classifier to the metric and completion consumers.
+\item $H$ records the zero-distance history ledger: every accepted comparison supplies the same $\BHist$ source pair, the displayed real-distance row $Z$, and the classifier row by which the pair becomes identified for $S$.
+\item $K$ is the $\Pkg$ provenance over $\MetricIdentificationUp$, $\PseudometricUp$, $\MetricUp$, $\RealUp$, $\SeparatedMetricUp$, $\MetricCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $Q$ is the quotient-refusal ledger, stating that no primitive quotient object, host equality class, selected representative, or uninspected completion point is a carrier coordinate.
+\item $N$ is the local $\NameCert_{\MetricIdentificationUp}$ row.
+\end{enumerate}
+The classifier accepts exactly packets whose source pseudometric, target metric, zero-distance Real row, separated classifier handoff, completion boundary, transport, replay, zero-distance history ledger, provenance, refusal ledger, and local naming are displayed. It compares accepted packets through those rows and through no host quotient relation.
+\end{definition}
+
+\begin{theorem}[MetricIdentification NameCert obligations]
+\label{thm:metric-identification-namecert-obligations}
+For every accepted $\MetricIdentificationUp$ carrier $I=(P,M,Z,S,C,T,R,H,K,Q,N)$, the local $\NameCert_{\MetricIdentificationUp}$ surface consists exactly of carrier admission for the pseudometric source, metric target, Real zero-distance row, separated metric classifier handoff, metric-completion consumer boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, zero-distance history ledger, package provenance, quotient-refusal ledger, and local naming. Every public identification read must pass through the zero-distance history row $H$ and the separated classifier row $S$ before any metric or completion consumer can read it.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:metric-identification-carrier}. The displayed analytic rows are exactly $P,M,Z,S,C,H$, and the structural rows are exactly $T,R,K,Q,N$.
+
+The zero-distance comparison is therefore not a host equality assertion. It is the row $H$, read over the source pseudometric row $P$ and the Real seal $Z$, then transported through $T$ and replayed through $R$.
+
+The separated metric row $S$ is the first equality-facing consumer of that history. The metric row $M$ and completion boundary $C$ can only consume the result after $S$ has displayed the classifier handoff. Since $Q$ records the absence of quotient primitives, representatives, host equality classes, and uninspected completion points, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MetricIdentification completion handoff]
+\label{thm:metric-identification-completion-handoff}
+Every $\MetricCompletionUp$ consumer of an accepted $\MetricIdentificationUp$ packet reads zero-distance identification through
+$$
+\PseudometricUp,\quad \RealUp,\quad \SeparatedMetricUp,\quad \MetricUp,\quad \MetricCompletionUp .
+$$
+The handoff is a finite classifier route from source pseudometric distance rows to a separated metric boundary. It is not a quotient completion, not a selected representative scheme, and not host equality of carried points.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing read. The carrier exposes the completion boundary only as the row $C$, so the request must first inspect the pseudometric source $P$, the Real zero-distance row $Z$, and the zero-distance history ledger $H$.
+
+The separated classifier $S$ then supplies the equality-facing boundary. Only after that boundary is displayed can the metric row $M$ and completion boundary $C$ be consumed by the downstream route.
+
+The structural rows $T,R,K,N$ preserve the same displayed packet under transport, continuation replay, provenance, and naming. The refusal row $Q$ excludes quotient primitives and selected representatives, so the completion handoff is exactly the finite route shown above.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetricIdentificationUp$ completion-facing read must expose a $\PseudometricUp$ source row, a $\RealUp$ zero-distance row, a $\SeparatedMetricUp$ classifier handoff, a $\MetricUp$ target row, a $\MetricCompletionUp$ consumer boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, quotient-refusal data, and local naming.}
+
+\independenceWitness{pseudometric, metric, real, separatedmetric, metriccompletion: $\MetricIdentificationUp$ is not bijective to any listed sibling because it binds the zero-distance Real row and separated classifier handoff before the metric and completion consumers may read an identified source comparison.}
+
+\closureat{MetricIdentificationUp}{seedStr}
+
+\begin{closurestatus}{\MetricIdentificationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-identification-carrier}, \autoref{thm:metric-identification-namecert-obligations}, and \autoref{thm:metric-identification-completion-handoff} seed the zero-distance identification route from pseudometric rows to separated metric and completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient construction, selected representatives, host equality of points, completion existence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, zero-distance ledger exactness, separated classifier handoff, completion consumer nonescape, transport and replay stability, provenance exhaustion, quotient-refusal faithfulness, and TasteGate field faithfulness for BEDC.Derived.MetricIdentificationUp.}
+  \constructivestory{A $\MetricIdentificationUp$ packet is generated from a Pseudometric source row, a Metric target row, a Real zero-distance row, a SeparatedMetric classifier handoff, a MetricCompletion consumer boundary, componentwise hsame transport, displayed Cont replay, zero-distance history ledgers, Pkg provenance, quotient-refusal data, and a local NameCert row.}
+\end{closurestatus}

@@ -1,0 +1,109 @@
+\chapter{A Concrete Naming Certificate for $\SchwartzFunctionUp$}
+\label{ch:concrete-instances-schwartz-function-namecert}
+\origin{human}
+
+Following Schwartz and Gelfand--Shilov, the $\SchwartzFunctionUp$ packet records the finite test-function carrier that exposes rapidly decreasing smooth windows to Fourier and tempered-distribution consumers. It sits over the weak-derivative route of \autoref{ch:concrete-instances-weak-derivative-namecert}, the finite Fourier observation surface of \autoref{ch:concrete-instances-fourier-namecert}, the tempered-distribution handoff of \autoref{ch:concrete-instances-tempered-distribution-namecert}, the local support and gluing surface of \autoref{ch:concrete-instances-partition-of-unity-namecert}, and the scalar readback of \autoref{ch:concrete-instances-real-namecert}. The chapter names only the finite BEDC carrier for test windows, derivative orders, polynomial weights, Fourier-readiness rows, and real seals; it does not import a completed Schwartz topology, host smooth functions, unrestricted seminorm families, Plancherel, inversion, or quotient test-function equality.
+
+\section{Carrier definition}
+\label{sec:schwartz-function-carrier}
+
+\begin{definition}[Schwartz function carrier]
+\label{def:schwartz-function-carrier}
+A $\SchwartzFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(D,W,G,F,T,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the finite derivative-observation row. It records the named weak-derivative requests, multi-order labels, sign conventions, and local derivative windows read through \autoref{ch:concrete-instances-weak-derivative-namecert}.
+\item $W$ is the finite window row. It records the compact or bounded windows on which pointwise reads, derivative reads, and support restrictions are visible.
+\item $G$ is the polynomial-weight ledger. It records the displayed weight exponents and rational bounds certifying rapid decay for the derivative orders requested in $D$.
+\item $F$ is the Fourier-readiness row. It records the finite transform and coefficient windows exported to \autoref{ch:concrete-instances-fourier-namecert}.
+\item $T$ is the tempered-distribution test handoff row. It exports the test-window inventory consumed by \autoref{ch:concrete-instances-tempered-distribution-namecert}.
+\item $R$ is the scalar readback row through $\RegSeqRatUp$ and $\RealUp$, exposing only the finite rational and real endpoints needed by derivative, weight, and transform observations.
+\item $L$ is the local classifier row. It admits two packets together exactly when their derivative observations, windows, polynomial-weight ledgers, Fourier rows, tempered-distribution test rows, and scalar readbacks match componentwise.
+\item $H$ records componentwise $\hsame$ transport for all displayed rows.
+\item $C$ records displayed $\Cont$ replay from a Schwartz-test request through $D,W,G,F,T,R,L,H$ in that order.
+\item $P$ is the $\Pkg$ provenance over $\SchwartzFunctionUp$, $\WeakDerivativeUp$, $\FourierUp$, $\TemperedDistributionUp$, $\PartitionOfUnityUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SchwartzFunctionUp}$ row.
+\end{enumerate}
+The classifier compares only these finite rows. It has no coordinate for a completed Schwartz space, an infinite seminorm topology, host smooth-function equality, arbitrary support selection, countable choice, Plancherel, inversion, or quotient test-function equality.
+\end{definition}
+
+\section{The certificate}
+\label{sec:schwartz-function-certificate}
+
+\begin{theorem}[Schwartz function NameCert obligations]
+\label{thm:schwartz-function-namecert-obligations}
+For every accepted $\SchwartzFunctionUp$ carrier
+$$
+S=(D,W,G,F,T,R,L,H,C,P,N),
+$$
+the local $\NameCert_{\SchwartzFunctionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for derivative observations, local windows, polynomial-weight ledgers, Fourier-readiness rows, tempered-distribution test handoff rows, scalar readbacks, classifier, transport, replay, provenance, and local naming;
+\item derivative-window exactness, requiring every derivative read to pass through $D$ and $W$ before any weighted or Fourier-facing read is exposed;
+\item rapid-decay exactness, requiring every displayed polynomial-weight bound to be read from $G$ for a derivative order already named in $D$;
+\item Fourier-readiness exactness, requiring every finite transform or coefficient request to pass through $F$ and then through the same scalar readback row $R$;
+\item tempered-distribution test exactness, requiring every distribution-facing test row to pass through $T$ after the derivative and weight ledgers have been opened;
+\item $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ stability for the rows $D,W,G,F,T,R,L,H,C,P,N$.
+\end{enumerate}
+No obligation outside these rows is part of the certificate.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:schwartz-function-carrier}. The accepted tuple displays the derivative observations, local windows, polynomial-weight ledger, Fourier-readiness row, tempered-distribution test handoff, scalar readback, classifier, transport, replay, provenance, and local naming.
+
+The derivative gate is $D$ together with $W$. A consumer cannot ask for a weighted or transform observation until the finite derivative order and the window on which it is read have both been displayed.
+
+The rapid-decay gate is $G$. Its bounds are attached to the displayed derivative orders, so the proof uses no infinite seminorm family and no host smooth-function equality.
+
+The Fourier and distribution handoffs are $F$ and $T$. These rows export only the finite transform windows and test rows already admitted by $D,W,G$, and the endpoints pass through $R$ before any scalar seal is read. The remaining rows $L,H,C,P,N$ compare, transport, replay, source, and name the same finite inventory.
+\end{proof}
+
+\begin{theorem}[Schwartz function Fourier stability]
+\label{thm:schwartz-function-fourier-stability}
+Every accepted $\SchwartzFunctionUp$ packet exported to a Fourier-facing consumer factors through
+$$
+D,W,G\longmapsto F\longmapsto R\longmapsto L,H,C,P,N .
+$$
+Thus the consumer receives derivative windows, polynomial-weight ledgers, finite transform and coefficient windows, scalar readbacks, classifier, transport, replay, provenance, and local naming. It receives no completed Schwartz topology, Plancherel theorem, inversion theorem, quotient test-function equality, selected representative, countable choice, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with a Fourier-facing read. The derivative row $D$ and window row $W$ must be visible because each finite transform request is attached to a displayed test window and derivative order.
+
+Read the polynomial-weight ledger $G$ next. It is the only row that certifies the rapid-decay bound attached to the requested derivative order, so there is no appeal to an infinite seminorm topology.
+
+The handoff to $F$ is then finite. It records coefficient and transform windows consumable by \autoref{ch:concrete-instances-fourier-namecert}, and its scalar endpoints pass through $R$ before the classifier, transport, replay, provenance, and naming rows are read.
+\end{proof}
+
+\begin{theorem}[Schwartz function tempered-distribution handoff]
+\label{thm:schwartz-function-tempered-distribution-handoff}
+Every accepted $\SchwartzFunctionUp$ packet exported to a tempered-distribution consumer factors through the displayed derivative row, local window row, polynomial-weight ledger, test handoff row, scalar readback row, classifier, transport, replay, provenance, and local naming:
+$$
+D,W,G\longmapsto T\longmapsto R\longmapsto L,H,C,P,N .
+$$
+The tempered-distribution consumer therefore receives only the finite test-function rows required by \autoref{ch:concrete-instances-tempered-distribution-namecert}; it receives no completed test-function space, unrestricted continuous dual, quotient test-function equality, host distribution equality, selected representative, or countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:schwartz-function-carrier}. The distribution-facing handoff row $T$ is stored after the derivative, window, and polynomial-weight rows, so it cannot be read without those finite tests already being displayed.
+
+The scalar route remains $R$. It exposes only the rational and real endpoints needed by the finite test row and does not identify host functions or distributions.
+
+Finally $L,H,C,P,N$ repack the same data as a local NameCert surface. Because no row contains a completed Schwartz topology, unrestricted dual, quotient equality, selected representative, or choice schedule, the handoff is exactly the finite test carrier consumed by the tempered-distribution packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SchwartzFunctionUp$ consumer that reaches a Fourier window, tempered-distribution test row, weak-derivative observation, or $\RealUp$ scalar seal without first reading the derivative window and polynomial-weight ledger refutes the carrier surface.}
+
+\independenceWitness{weakderivative, fourier, tempereddistribution, partitionofunity, regseqrat, real: none is bijective to $\SchwartzFunctionUp$ because this packet jointly carries derivative observations, local windows, polynomial-weight ledgers, Fourier-readiness rows, tempered-distribution test handoff rows, scalar readbacks, classifier, transport, replay, provenance, and local naming.}
+
+\closureat{SchwartzFunctionUp}{seedStr}
+
+\begin{closurestatus}{\SchwartzFunctionUp}
+  \constructivestory{A $\SchwartzFunctionUp$ packet is generated from finite derivative-observation rows, local windows, polynomial-weight ledgers, Fourier-readiness rows, tempered-distribution test handoff rows, scalar readbacks through $\RegSeqRatUp$ and $\RealUp$, a local classifier, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:schwartz-function-carrier}, \autoref{thm:schwartz-function-namecert-obligations}, \autoref{thm:schwartz-function-fourier-stability}, and \autoref{thm:schwartz-function-tempered-distribution-handoff} seed the finite Schwartz-test carrier over derivative windows, polynomial-weight ledgers, Fourier-readiness rows, tempered-distribution handoff rows, scalar readbacks, classifier, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed Schwartz spaces, infinite seminorm topologies, host smooth-function equality, arbitrary support selection, quotient test-function equality, Plancherel, inversion, unrestricted continuous duals, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, derivative-window exactness, rapid-decay exactness, Fourier-readiness exactness, tempered-distribution test exactness, scalar readback stability, transport stability, replay stability, and non-escape proofs for BEDC.Derived.SchwartzFunctionUp.}
+\end{closurestatus}

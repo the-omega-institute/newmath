@@ -105,3 +105,104 @@ $\star$ is the unique standard point, the composite is the identity on the
 one-point complete normed vector space.
 \end{proof}
 \leanchecked{BEDC.Derived.BanachUp.BanachSingleton\_standard\_bridge\_roundtrip}
+
+\begin{lemma}[Singleton Banach standard bridge determinacy]
+\label{lem:banach-singleton-standard-bridge-determinacy}
+For the bridge surface of
+\autoref{def:banach-singleton-standard-bridge-surface}, every consumer-facing
+route, transport, readback, or limit handoff is determined by the displayed
+singleton rows. The BEDC-to-standard route factors through the singleton carrier
+$A_{\emp}$ and classifier $\rho_{\emp}$, the standard-to-BEDC readback factors
+through the selected endpoint $\emp$, the norm and metric transports factor
+through the constant RealUp zero endpoint, and every complete-metric handoff
+factors through the displayed
+$\mathsf{CompleteMetricLimitWitness}$ rows of
+\autoref{thm:banach-regular-cauchy-limit-witness}. No unlisted bridge
+coordinate supplies an additional carrier point, distance value, classifier, or
+limit datum.
+\end{lemma}
+\begin{proof}
+Unpack the bridge surface of
+\autoref{def:banach-singleton-standard-bridge-surface}. Its standard object is
+the one-point complete normed vector space $B_{\star}=\{\star\}$, and its BEDC
+object is the singleton empty-history carrier of
+\autoref{def:banach-singleton-empty-history-instance}. Hence a forward route
+has only one standard codomain point available. By
+\autoref{thm:banach-singleton-standard-bridge-soundness}, every carried BEDC
+singleton Banach row maps to that point $\star$, and the displayed source row is
+read through $A_{\emp}$ and $\rho_{\emp}$. Thus any accepted forward use factors
+through the same singleton carrier and classifier rows; there is no second
+standard endpoint through which it could factor.
+
+The readback side is equally fixed by the displayed bridge surface. The only
+standard point $\star$ is sent back to $\emp$, and the reverse ledger is stated
+there with the carrier, norm, metric, and limit data read through the singleton
+classifier. Since the reverse map has no other standard input and names no
+other BEDC endpoint, any consumer readback is the selected row $\emp$ together
+with its $\rho_{\emp}$ carrier comparison.
+
+For norm and metric transport, soundness identifies the norm of the displayed
+vector and every induced metric distance with the constant RealUp zero endpoint.
+This is precisely the local norm-induced metric route supplied by
+\autoref{thm:banach-norm-induced-metric-compatibility}: the singleton metric row
+is accepted on the same $\rho_{\emp}$ classifier row and is classified by the
+constant RealUp zero endpoint. Therefore a consumer cannot choose an anonymous
+distance coordinate or a second metric classifier; every distance read is the
+same zero row already present in the singleton Banach surface.
+
+It remains to check complete-metric handoff. Soundness sends every regular
+Cauchy stream to the constant standard limit $\star$, while
+\autoref{thm:banach-regular-cauchy-limit-witness} supplies the displayed
+$\mathsf{CompleteMetricLimitWitness}$ row whose selected limit, modulus history,
+and late-distance ledgers are singleton rows. Applying the bridge componentwise
+therefore leaves only that listed limit package: selected limit $\emp$ on the
+BEDC side, selected limit $\star$ on the standard side, empty singleton modulus,
+and late-distance rows classified by the constant RealUp zero endpoint. These
+are exactly the rows exposed in
+\autoref{def:banach-singleton-standard-bridge-surface} and used by
+\autoref{thm:banach-singleton-standard-bridge-soundness}. Since the surface
+lists no further carrier, transport, metric, or limit coordinate, any alleged
+unlisted bridge coordinate has no displayed row from which a consumer-facing use
+could be read.
+\end{proof}
+
+\begin{corollary}[Singleton Banach standard bridge consumer determinacy]
+\label{cor:banach-singleton-standard-bridge-consumer-determinacy}
+Fix the bridge surface of
+\autoref{def:banach-singleton-standard-bridge-surface}. Any accepted
+consumer use of the singleton Banach standard bridge has the same exposed
+finite decision as the chapter rows: a forward use chooses the singleton
+standard route, a readback use chooses the singleton BEDC endpoint route, a
+norm or metric use chooses the constant $\RealUp$ zero exactness row, and a
+complete-metric use chooses the displayed singleton limit-witness package. In
+particular, the bridge exports no hidden coordinate, no alternate normal form,
+and no duplicate classifier source for the singleton Banach object.
+\end{corollary}
+\begin{proof}
+The bridge surface in
+\autoref{def:banach-singleton-standard-bridge-surface} names all rows available
+to a consumer: the one-point standard comparison object, the singleton BEDC
+carrier and classifier, the constant $\RealUp$ zero norm and metric endpoints,
+and the displayed complete-metric limit-witness rows. Apply
+\autoref{lem:banach-singleton-standard-bridge-determinacy} to this fixed
+surface. It states that every consumer-facing route, transport, readback, or
+limit handoff factors through exactly those displayed singleton rows and that
+no unlisted bridge coordinate supplies an additional carrier point, distance
+value, classifier, or limit datum.
+
+Thus the forward route cannot select anything other than the singleton
+standard point named by the surface, and the readback route cannot select
+anything other than the singleton BEDC endpoint named by the surface. The norm
+and metric transports cannot introduce a second exactness decision, because
+the determinacy lemma forces them through the same constant $\RealUp$ zero row
+already exposed by the bridge definition. Likewise a complete-metric handoff
+cannot select a detached modulus, tail, late-distance, or limit coordinate:
+the only accepted package is the displayed singleton limit-witness package
+cited by the surface and by the determinacy lemma.
+
+These four cases exhaust the consumer-facing uses listed in the determinacy
+lemma. Therefore, once the bridge surface rows are fixed, every accepted
+consumer use picks the same finite route, readback normal form, or exactness
+decision named by the singleton Banach chapter, and there is no further hidden
+coordinate or duplicate classifier source.
+\end{proof}

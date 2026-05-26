@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\CauchyContinuityCalibrationUp$}
+\label{ch:concrete-instances-cauchy-continuity-calibration-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyContinuityCalibrationUp$ packet records the finite comparison by which Cauchy-name continuity data is calibrated against the tolerance-only uniform-modulus interface. It sits between the finite transformer surface of \autoref{ch:concrete-instances-cauchycontinuousmap-namecert}, the pointwise Cauchy-modulus schedule of \autoref{ch:concrete-instances-cauchymodulusofcontinuity-namecert}, the explicit uniform-modulus packet of \autoref{ch:concrete-instances-uniform-continuity-modulus-namecert}, the stream-name and regular-rational readback layers of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite calibration surface, not a host function on reals, quotient stream equality, compactness, or an ambient completeness theorem.
+
+\begin{definition}[CauchyContinuityCalibration carrier]
+\label{def:cauchy-continuity-calibration-carrier}
+A $\CauchyContinuityCalibrationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,M,U,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\CauchyContinuousMapUp$ transformer row that reads source Cauchy-name windows and produces the target Cauchy-name windows visible to the consumer.
+\item $M$ is the $\CauchyModulusOfContinuityUp$ row that sends each requested target tolerance to the finite source-window threshold used by $S$.
+\item $U$ is the $\UniformContinuityModulusUp$ comparison row, read only after the Cauchy tolerance route has displayed the same target tolerance and source radius as finite data.
+\item $W$ is the $\StreamNameUp$ window ledger containing the source windows inspected by $M$ and the target windows produced by $S$.
+\item $R$ is the $\RegSeqRatUp$ readback row for the source and target regular rational names exposed on $W$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the requested target tolerance, the source threshold supplied by $M$, and the comparison tolerance consumed by $U$.
+\item $E$ is the $\RealUp$ seal reached from the calibrated target readback after the stream, regular-rational, and dyadic rows have been replayed.
+\item $H$ records componentwise $\hsame$ transport for $S,M,U,W,R,D,E$ and for the support rows.
+\item $C$ records displayed $\Cont$ replay from a target tolerance request through $M$, the source windows $W$, the transformer row $S$, the readbacks $R$, the dyadic ledger $D$, the uniform comparison $U$, and the seal row $E$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyContinuityCalibrationUp$, $\CauchyContinuousMapUp$, $\CauchyModulusOfContinuityUp$, $\UniformContinuityModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyContinuityCalibrationUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by replaying these rows to a common Cauchy-name transformer, Cauchy-modulus schedule, uniform-modulus comparison, stream-window, regular-readback, dyadic-tolerance, and real-seal surface.
+\end{definition}
+
+\begin{theorem}[CauchyContinuityCalibration NameCert obligations]
+\label{thm:cauchy-continuity-calibration-namecert-obligations}
+For every accepted $\CauchyContinuityCalibrationUp$ carrier $K=(S,M,U,W,R,D,E,H,C,P,N)$, the local $\NameCert_{\CauchyContinuityCalibrationUp}$ surface consists exactly of six finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed Cauchy transformer, Cauchy-modulus schedule, uniform-modulus comparison, stream windows, regular-rational readbacks, dyadic tolerance ledger, real seal, transport, replay, provenance, and local naming rows;
+\item Cauchy-route exactness, requiring each target tolerance to pass through $M$ before any source window in $W$ is consumed by $S$;
+\item readback accountability, requiring the source-window and target-window reads to factor through $W,R,D$ before the seal row $E$ or the comparison row $U$ is available;
+\item uniform-comparison compatibility, requiring $U$ to read only the tolerance and radius already displayed by $M$ and $D$;
+\item componentwise transport and replay stability under $H$ and $C$ for the same displayed rows;
+\item ledger refusal, stating that host real functions, quotient streams, compactness selectors, selected limits, and ambient completeness are not carrier coordinates.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-continuity-calibration-carrier}. The projection exposes the transformer row $S$, the Cauchy-modulus row $M$, the uniform comparison $U$, the stream windows $W$, the readbacks $R$, the dyadic ledger $D$, the seal $E$, and the support rows $H,C,P,N$.
+
+The Cauchy route starts with a target tolerance. The schedule $M$ turns that request into a source-window threshold, and only then may the transformer row $S$ inspect the windows in $W$ and expose the target readback through $R$ and $D$.
+
+The uniform comparison is downstream of the same route. Since $U$ has no independent tolerance coordinate in the carrier, it can read only the tolerance and source radius already displayed by $M$ and $D$.
+
+Transport and replay preserve the row order. The $\hsame$ and $\Cont$ coordinates move and replay the same finite packet, while $P$ and $N$ only source and name it. The listed rows exhaust the carrier, so no host function, quotient stream, compactness selector, selected limit, or ambient completeness datum can be exported.
+\end{proof}
+
+\begin{theorem}[Cauchy continuity to uniform modulus bridge]
+\label{thm:cauchy-continuity-calibration-cauchy-uniform-bridge}
+Every accepted $\CauchyContinuityCalibrationUp$ carrier $K=(S,M,U,W,R,D,E,H,C,P,N)$ routes a target tolerance first through the Cauchy-modulus row $M$, reads the required source windows through $S,W,R,D$, and then compares the induced tolerance-only source-radius row with the $\UniformContinuityModulusUp$ row $U$. The resulting bridge exports a finite uniform-modulus consumer boundary while retaining the Cauchy-name transformer and real-seal rows as the only source of target readback evidence.
+\end{theorem}
+\begin{proof}
+Begin with the target tolerance stored in the dyadic ledger $D$. The row $M$ supplies the source-window threshold demanded by the Cauchy-name route, so the source observations are read through $W$ before $S$ can produce target windows.
+
+Readback then passes through $R$ and returns to $D$ for the tolerance comparison. This isolates the tolerance-only datum induced by the Cauchy route: a requested target tolerance together with the displayed source threshold that was sufficient for the transformer row.
+
+Compare that induced row with $U$. The uniform-modulus consumer sees the same target tolerance and source radius, but it does not receive the Cauchy-name windows except through the already displayed provenance of $M,S,W,R,D$.
+
+Finally replay $C$ and transport through $H$. The seal row $E$ remains downstream of the Cauchy readback, while $P,N$ bind the bridge as a finite NameCert surface. Thus the bridge connects Cauchy-name continuity to tolerance-only uniform-modulus consumers without adding a host function, quotient stream, compactness selector, selected limit, or completeness witness.
+\end{proof}
+
+\closureat{CauchyContinuityCalibrationUp}{seedStr}
+
+\begin{closurestatus}{\CauchyContinuityCalibrationUp}
+  \constructivestory{A $\CauchyContinuityCalibrationUp$ packet is generated from a CauchyContinuousMap transformer row, a CauchyModulusOfContinuity schedule, a UniformContinuityModulus comparison row, finite StreamName windows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a Real seal, componentwise hsame transport, Cont replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-continuity-calibration-carrier}, \autoref{thm:cauchy-continuity-calibration-namecert-obligations}, and \autoref{thm:cauchy-continuity-calibration-cauchy-uniform-bridge} seed the finite calibration route from Cauchy-name continuity data to tolerance-only uniform-modulus consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real functions, quotient stream equality, compactness, selected limits, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Cauchy-route exactness, readback accountability, uniform-comparison compatibility, transport and replay stability, and field faithfulness for BEDC.Derived.CauchyContinuityCalibrationUp.}
+\end{closurestatus}

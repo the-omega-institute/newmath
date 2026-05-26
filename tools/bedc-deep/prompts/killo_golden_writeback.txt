@@ -32,6 +32,11 @@ Hygiene checklist (all must pass):
     `\formalstatus`, `\leantarget`, `\bridgestatus`, `\notclaimed`,
     `\upgradepath`. This lane writes theorem-shaped content only.
 
+3c. No verification-axis prose as generated paper content: reject "Lean
+    target", "Lean-target", `lean4/`, `BEDC.Derived...`,
+    `single_carrier_alignment`, `taste_gate`, "formal target", or "formal
+    readiness". The writeback lane deepens BEDC-native theorem content only.
+
 4. At least one of: `\begin{{theorem}}`, `\begin{{lemma}}`,
    `\begin{{proposition}}`, `\begin{{definition}}`, `\begin{{corollary}}`,
    each with a `\label{{...}}`.
@@ -111,6 +116,33 @@ Hygiene checklist (all must pass):
     block must prove a concrete closure, inversion, coverage, determinacy,
     uniqueness, bridge, or obstruction claim about the target's BEDC object.
 
+18b. Minimality gate. One BOARD target may land exactly one body environment:
+     one `theorem`, `lemma`, `proposition`, `corollary`, or `definition`.
+     A tiny helper definition is only allowed when the target title itself
+     asks for that exact interface and the theorem cannot be stated without
+     it. Reject multi-surface bundles, three-proposition packets, classifier
+     series, forgetful/source-equivalence sequels, and substrate/mirror
+     repetitions that merely rename the same row pattern.
+
+18c. Closurestatus terminality. If the selected target file already contains
+     a `closurestatus` block at the append point, reject theorem-like content.
+     Stage 2 is append-only; it must not put mathematical body content after
+     the chapter status. Such content needs a routed insertion before the
+     status block or a split sibling handled outside this append lane.
+
+18d. Chapter/object locality. The source object of the claim must match the
+     target chapter. For example, a ContextFreeGrammar lemma cannot be
+     appended into a RegularLanguage file unless the statement is explicitly
+     a RegularLanguage receiving claim and the proof exhibits that receiving
+     map. Reject file/title mismatches rather than treating adjacent chapters
+     as interchangeable.
+
+18e. Substrate, mirror, bisimulation, classifier, and forgetful vocabulary
+     must carry an actual receiving carrier row map, displayed coordinate
+     map, finite classifier row, or explicit local reference that supplies
+     the receiving surface. Reject relation vocabulary used as generic
+     connective prose.
+
 19. Inline Lean snippets (if any) contain no `axiom`, no `sorry`, no
    `import Mathlib`.
 
@@ -126,7 +158,7 @@ b. Verify {target_tex_file} exists and is a concrete body file. If not,
    `papers/bedc/parts/conjectures/`; those are inspiration/review surfaces,
    not theorem writeback targets.
 c. Count current target file lines; estimate appended size; verify <= 800.
-d. Run all 20 hygiene items against the raw LaTeX. Use the granted tools
+d. Run all hygiene items against the raw LaTeX. Use the granted tools
    (Read / Grep / Glob / Bash(grep)) to verify autoref existence and to
    look up adjacent style for relation usage. The Python pre-scan has
    already populated "Blocking issues" with mechanically-detectable

@@ -53,3 +53,46 @@ that both hom-carriers use the same morphism history. Category hom-carrier
 source determinacy then identifies the two sources.
 \end{proof}
 \leanchecked{BEDC.Derived.CategoryUp.CategoryHomCarrier\_empty\_target\_morphism\_source\_deterministic}
+
+\begin{corollary}[Category empty-source swap consumer determinacy]
+\label{cor:category-empty-source-target-morphism-swap-consumer-determinacy}
+For histories $b,f,c,g:\BHist$, suppose an accepted empty-source hom-carrier
+fixes the target and morphism rows by
+$$
+\mathsf{CategoryHomCarrier}(\emp,b,f).
+$$
+If a consumer-facing use of the same packet reads the target row $b$ and the
+morphism row $f$ through empty-target hom-carriers,
+$$
+\mathsf{CategoryHomCarrier}(c,\emp,b)
+\quad\text{and}\quad
+\mathsf{CategoryHomCarrier}(g,\emp,f),
+$$
+then the two consumer source coordinates are forced to be the same:
+$$
+\HSame(c,g).
+$$
+Consequently the empty-source target--morphism swap of
+\autoref{thm:category-empty-source-target-morphism-swap} has only the finite
+route, normal-form read, and exactness decision already displayed by the
+chapter: an accepted consumer cannot introduce an alternate hidden coordinate
+or a duplicate classifier source for the swapped target and morphism fields.
+\end{corollary}
+\begin{proof}
+Apply \autoref{thm:category-empty-source-target-morphism-swap} to the displayed
+empty-source carrier. The same packet also admits the swapped read
+$$
+\mathsf{CategoryHomCarrier}(\emp,f,b).
+$$
+The empty-source exactness row used in that swap reads the original carrier as
+unary membership of $b$ together with the endpoint classifier $\HSame(f,b)$;
+by symmetry this gives $\HSame(b,f)$.
+Now apply \autoref{thm:category-empty-target-morphism-source-deterministic} to
+the two empty-target carriers
+$\mathsf{CategoryHomCarrier}(c,\emp,b)$ and
+$\mathsf{CategoryHomCarrier}(g,\emp,f)$, using $\HSame(b,f)$ as the morphism
+comparison. It identifies their source histories, giving $\HSame(c,g)$.
+Thus every accepted consumer read factors through the displayed empty-source
+swap row and the two empty-target readback rows; no unlisted coordinate remains
+from which a second source classifier could be read.
+\end{proof}

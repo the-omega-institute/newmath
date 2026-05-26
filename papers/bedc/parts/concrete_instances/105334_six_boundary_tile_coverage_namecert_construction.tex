@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\SixBoundaryTileCoverageUp$}
+\label{ch:concrete-instances-six-boundary-tile-coverage-namecert}
+\origin{ai}
+
+The $\SixBoundaryTileCoverageUp$ packet realizes the trigger-support and coverage-rank rows of \autoref{subsec:philosophy-dna-window-six-boundary-tiles} as finite BEDC NameCert data. It consumes the six-coordinate codon source of \autoref{ch:concrete-instances-codon-six-bit-window-namecert}, the boundary-tile classifier of \autoref{ch:concrete-instances-dna-window-six-boundary-tile-namecert}, the punctured support skeleton of \autoref{ch:concrete-instances-punctured-cube-skeleton-namecert}, and the inverse spectral route of \autoref{ch:concrete-instances-codon-window-spectral-inverse-namecert}. The packet records coverage witnesses for boundary-trigger rows; it is not a biological code table, a stochastic evolutionary model, a quotient codon space, or a hidden global semantics.
+
+\begin{definition}[Six boundary tile coverage carrier]
+\label{def:six-boundary-tile-coverage-carrier}
+A $\SixBoundaryTileCoverageUp$ carrier is a finite $\BHist$ packet
+$$
+K=(W,T,G,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\CodonSixBitWindowUp$ source-window row exposing the six bit coordinates on which trigger support is read;
+\item $T$ is the $\DnaWindowSixBoundaryTileUp$ boundary-tile row exposing the stop/Trp and Ile/Met boundary classifiers;
+\item $G$ is the $\PuncturedCubeSkeletonUp$ support graph row listing the puncture, bridge, CUN-square, and articulation rows used by coverage reads;
+\item $R$ is the coverage-rank row, recording which displayed boundary triggers cover which support faces and which rows remain uncovered;
+\item $A$ is the $\CodonWindowSpectralInverseUp$ inverse-spectral handoff row, used only after $W,T,G,R$ are displayed;
+\item $H$ records componentwise $\hsame$ transport for source windows, boundary tiles, support graph rows, coverage-rank rows, inverse-spectral handoff, replay, provenance, and local naming;
+\item $C$ records displayed $\Cont$ replay from a trigger-coverage request through $W,T,G,R,A,H$;
+\item $P$ is the $\Pkg$ provenance over $\SixBoundaryTileCoverageUp$, $\CodonSixBitWindowUp$, $\DnaWindowSixBoundaryTileUp$, $\PuncturedCubeSkeletonUp$, $\CodonWindowSpectralInverseUp$, the source vision of \autoref{subsec:philosophy-dna-window-six-boundary-tiles}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\SixBoundaryTileCoverageUp}$ row.
+\end{enumerate}
+The carrier accepts coverage only when every trigger read is exhausted by $W,T,G,R,A,H,C,P,N$. It has no coordinate for a hidden biological table, quotient codon equality, selected stochastic dynamics, or global semantic equivalence.
+\end{definition}
+
+\begin{theorem}[Six boundary tile coverage NameCert obligations]
+\label{thm:six-boundary-tile-coverage-obligations}
+For every accepted $\SixBoundaryTileCoverageUp$ carrier $K=(W,T,G,R,A,H,C,P,N)$, the local $\NameCert_{\SixBoundaryTileCoverageUp}$ surface consists exactly of six-bit source-window admission through $W$, boundary-tile admission through $T$, punctured-skeleton support admission through $G$, coverage-rank exactness through $R$, inverse-spectral handoff through $A$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $W,T,G,R,A,H,C,P,N$ list all source-window, boundary-tile, support-graph, coverage-rank, inverse-spectral, transport, replay, provenance, and naming data available to the packet.
+
+The trigger-support surface is finite. A coverage request first reads the six-coordinate source window $W$, then the boundary tile row $T$, and then the punctured support row $G$ before the rank ledger $R$ can be inspected.
+
+The inverse-spectral handoff $A$ is downstream of that support route. It may compare coverage rows with spectral inverse data, but it cannot replace them by a hidden code table or by stochastic semantics.
+
+Finally $H,C,P,N$ preserve and name the same finite route. Since every accepted coverage read is exhausted by those rows, no quotient codon space, selected dynamics, or global biological semantics is exported.
+\end{proof}
+
+\begin{theorem}[Six boundary tile trigger nonescape]
+\label{thm:six-boundary-tile-trigger-nonescape}
+Every accepted trigger-coverage read of a $\SixBoundaryTileCoverageUp$ packet factors through
+$$
+\CodonSixBitWindowUp,\ \DnaWindowSixBoundaryTileUp,\ \PuncturedCubeSkeletonUp,\ R,\ \CodonWindowSpectralInverseUp,\ H,C,P,N .
+$$
+In particular, a trigger coverage claim cannot escape the displayed six-coordinate source, boundary-tile classifier, punctured support graph, coverage-rank row, inverse-spectral handoff, componentwise transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Start with the source rows. The six-bit window $W$ exposes the coordinates on which a trigger is read, while $T$ restricts the trigger to the displayed boundary-tile classifier.
+
+Next read the support and rank rows. The punctured skeleton $G$ supplies the support faces, and $R$ records exactly which displayed triggers cover which faces. The spectral inverse row $A$ is only a handoff from this route, not an alternate coverage source.
+
+The structural rows close the route. Componentwise transport and replay preserve $W,T,G,R,A$ together, while provenance and local naming source the accepted packet. Thus a consumer cannot obtain a hidden biological table, quotient codon equality, selected stochastic dynamics, or global semantic equivalence from a trigger-coverage read.
+\end{proof}
+
+\falsifiablePrediction{A concrete trigger-coverage nonescape claim for $\SixBoundaryTileCoverageUp$ is that every accepted boundary-trigger read preserving $W,T,G,R,A,H,C,P,N$ remains inside the displayed six-coordinate source, boundary tile, punctured support graph, coverage-rank, and inverse-spectral route.}
+
+\independenceWitness{codon-six-bit-window, dna-window-six-boundary-tile, punctured-cube-skeleton, codon-window-spectral-inverse: $\SixBoundaryTileCoverageUp$ is not bijective to any listed sibling because it jointly carries trigger support, coverage rank, inverse-spectral handoff, transport, replay, provenance, and local naming.}
+
+The Lean TasteGate route for \texttt{BEDC.Derived.SixBoundaryTileCoverageUp.TasteGate} must provide explicit $\Nontrivial\ \SixBoundaryTileCoverageUp$ and $\FieldFaithful\ \SixBoundaryTileCoverageUp$ instances preserving $W,T,G,R,A,H,C,P,N$ as separate displayed fields.
+
+\closureat{SixBoundaryTileCoverageUp}{seedStr}
+
+\begin{closurestatus}{\SixBoundaryTileCoverageUp}
+  \constructivestory{A $\SixBoundaryTileCoverageUp$ packet is generated from codon six-bit windows, boundary-tile classifiers, punctured support skeleton rows, coverage-rank rows, inverse-spectral handoff, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:six-boundary-tile-coverage-carrier}, \autoref{thm:six-boundary-tile-coverage-obligations}, and \autoref{thm:six-boundary-tile-trigger-nonescape} seed the finite trigger-coverage packet over six-bit windows, boundary tiles, support skeletons, and spectral inverse rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close biological table identity, stochastic evolutionary modeling, quotient codon equality, global semantics, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, trigger-support exactness, coverage-rank nonescape, inverse-spectral handoff, Nontrivial SixBoundaryTileCoverageUp, and FieldFaithful SixBoundaryTileCoverageUp for BEDC.Derived.SixBoundaryTileCoverageUp.}
+\end{closurestatus}

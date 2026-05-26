@@ -129,6 +129,11 @@ I. No Lean markers (`\leanchecked`, `\leanvariant`, etc. — those land later).
 J. No `closurestatus` blocks, `\theoryclosure`, `\formalstatus`,
    `\leantarget`, or chapter-retirement prose. Those belong to the
    verification / gate lane, not B writeback.
+J2. No Lean-facing prose as mathematical content. Do not mention "Lean target",
+   "Lean-target", `lean4/`, `BEDC.Derived...`, `single_carrier_alignment`,
+   `taste_gate`, "formal target", or "formal readiness" in the LaTeX block.
+   If the BOARD target itself asks for that, return `verdict="escalate"` with
+   `invalid_verification_axis_surface`.
 K. No parameter-transport echo: avoid theorem statements whose only content
    is abstract carrier/classifier equivalence transporting fields. If the
    BOARD target itself reduces to that shape, return `verdict="escalate"`
@@ -139,7 +144,9 @@ Hard rejection tokens — `content` must NOT contain any of:
 "we extend", "we now revise", "patch", "increment", "new section",
 "新增", "修订", "本次", "本轮", "vNNN-", "legacy", "supersede",
 "previously", "Q.E.D.", "QED", "\qed", "\square", "closurestatus",
-"\theoryclosure", "\formalstatus", "\leantarget".
+"\theoryclosure", "\formalstatus", "\leantarget", "Lean target",
+"Lean-target", "lean4/", "BEDC.Derived", "single_carrier_alignment",
+"taste_gate", "formal target", "formal readiness".
 
 Convergence discipline:
 

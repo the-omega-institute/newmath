@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\CompletionUnitComparisonUp$}
+\label{ch:concrete-instances-completion-unit-comparison-namecert}
+\origin{human}
+
+Following Bourbaki and Bishop-style completion theory, the $\CompletionUnitComparisonUp$ packet records the finite route by which the Cauchy-completion unit is compared with the naturality and triangle-identity certificates that consume it. It sits after the unit packet of \autoref{ch:concrete-instances-cauchycompletionunit-namecert}, the triangle surface of \autoref{ch:concrete-instances-completion-unit-triangle-namecert}, and the naturality comparison of \autoref{ch:concrete-instances-cauchy-completion-comparison-naturality-namecert}. The chapter names a displayed comparison object for unit-facing completion reads; it does not import quotient completions, selected representatives, host equality of completed objects, countable choice, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Completion unit comparison carrier]
+\label{def:completion-unit-comparison-carrier}
+A $\CompletionUnitComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+U=(Q,N,T,S,R,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\CauchyCompletionUnitUp$ row exposing the source-to-completion unit used by the comparison.
+\item $N$ is the $\CauchyCompletionComparisonNaturalityUp$ row recording naturality compatibility for the same displayed unit.
+\item $T$ is the $\CompletionUnitTriangleUp$ row recording triangle-identity compatibility for the same unit-facing route.
+\item $S$ is the source-and-target ledger over the finite stream, regular-rational, dyadic-tolerance, and terminal Real rows read by the unit comparison.
+\item $R$ is the refusal row excluding quotient completion equality, selected representatives, host equality of completed carriers, countable-choice schedules, and ambient $\RealUp$ completeness.
+\item $H$ records componentwise $\hsame$ transport for unit, naturality, triangle, source-target, refusal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the unit row through naturality compatibility and triangle compatibility before any consumer reads the comparison.
+\item $P$ is the $\Pkg$ provenance over $\CompletionUnitComparisonUp$, $\CauchyCompletionUnitUp$, $\CauchyCompletionComparisonNaturalityUp$, $\CompletionUnitTriangleUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\CompletionUnitComparisonUp}$ row.
+\end{enumerate}
+The carrier compares only displayed completion-unit routes. It has no coordinate for host quotient completions, representative selection, equality of completed objects, choice principles, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Completion unit comparison NameCert obligations]
+\label{thm:completion-unit-comparison-namecert-obligations}
+For every accepted $\CompletionUnitComparisonUp$ carrier
+$$
+U=(Q,N,T,S,R,H,C,P,L),
+$$
+the local $\NameCert_{\CompletionUnitComparisonUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item unit-comparison exposure, requiring every comparison consumer to cite the displayed $\CauchyCompletionUnitUp$ row $Q$;
+\item naturality compatibility, requiring the comparison to pass through the $\CauchyCompletionComparisonNaturalityUp$ row $N$ for the same source and target data;
+\item triangle compatibility, requiring the comparison to pass through the $\CompletionUnitTriangleUp$ row $T$ before any completion-facing return is exported;
+\item transport and provenance stability, requiring $H,C,P,L$ to transport, replay, source, and name only the rows $Q,N,T,S,R$;
+\item refusal of host quotient completion, requiring the row $R$ to exclude quotient equality, selected representatives, host equality of completed carriers, countable-choice schedules, and ambient $\RealUp$ completeness.
+\end{enumerate}
+No unit-comparison obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The comparison-facing rows are $Q,N,T,S,R,H,C,P,L$.
+
+The unit row $Q$ supplies the only source-to-completion entry. Naturality compatibility must therefore read the same source and target data through $N$, and triangle compatibility must read the same unit-facing route through $T$.
+
+The transport, replay, provenance, and local naming rows $H,C,P,L$ preserve exactly this displayed route. Since the refusal row $R$ contains the only host-side exclusions and no quotient-completion coordinate appears in the carrier, the five listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CompletionUnitComparisonUp$ consumer factors through displayed $\CauchyCompletionUnitUp$, $\CauchyCompletionComparisonNaturalityUp$, $\CompletionUnitTriangleUp$, source-target ledger, refusal, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+
+\independenceWitness{cauchycompletionunit, cauchy-completion-comparison-naturality, completion-unit-triangle: the unit packet records source admission without the comparison route, the naturality packet records functorial compatibility without the triangle return, and the triangle packet records return compatibility without the naturality comparison. None is bijective to $\CompletionUnitComparisonUp$.}
+
+\closureat{CompletionUnitComparisonUp}{seedStr}
+
+\begin{closurestatus}{\CompletionUnitComparisonUp}
+  \constructivestory{A $\CompletionUnitComparisonUp$ packet is generated from a CauchyCompletionUnit row, CauchyCompletionComparisonNaturality row, CompletionUnitTriangle row, source-target ledger, refusal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:completion-unit-comparison-carrier} and \autoref{thm:completion-unit-comparison-namecert-obligations} seed the finite completion-unit comparison route over unit, naturality, triangle, transport, provenance, and refusal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completions, selected representatives, host equality of completed carriers, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked unit-comparison exposure, naturality compatibility, triangle compatibility, transport and provenance stability, and refusal exactness for BEDC.Derived.CompletionUnitComparisonUp.}
+\end{closurestatus}

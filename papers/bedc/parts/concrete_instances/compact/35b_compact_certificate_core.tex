@@ -568,3 +568,25 @@ $n$ and $n'$. With the center already common, compact-net precision
 determinacy under endpoint sameness identifies $\epsilon$ and $\epsilon'$.
 \end{proof}
 \leanchecked{BEDC.Derived.CompactUp.CompactNetWitness\_composite\_precision\_cont\_deterministic}
+
+\begin{corollary}[Compact source specification route determinacy]
+\label{cor:compact-source-specification-route-determinacy}
+Fix a consumer-facing $\CompactUp$ use whose source side is the compact source specification of \autoref{def:compact-source-specification}. For histories $p,c,\epsilon,n,n'$, suppose the displayed local rows are the same prefixed center, precision, continuation route, and compact-net result shape:
+$$
+\mathsf{CompactNetWitness}(p\cdot c,\epsilon,p\cdot n)
+\quad\text{and}\quad
+\mathsf{CompactNetWitness}(p\cdot c,\epsilon,p\cdot n').
+$$
+Then the unprefixed result rows selected by the two consumer uses are the same BEDC history:
+$$
+\hsame(n,n').
+$$
+Consequently every accepted consumer-facing use of the compact route, compact-net normal-form read, or exactness decision over these fixed source rows factors through the same finite route: the compact source row, the prefixed center row $p\cdot c$, the precision row $\epsilon$, the compact-net witness row, the continuation ledger $\ContR(p\cdot c,\epsilon,-)$, the result readback row $p\cdot n$, and the classifier row $\hsame$. There is no alternate hidden coordinate, second compact-net result source, or duplicate classifier source outside that displayed packet.
+\end{corollary}
+\begin{proof}
+The compact source specification of \autoref{def:compact-source-specification} supplies only the certified metric source together with the subset predicate over its carrier. In this certificate, a consumer-facing compact-net use therefore reaches the compact source through the displayed compact-net witness row and not through an additional selector, hidden coordinate, or external classifier source.
+
+The two displayed consumer uses have the same prefixed center $p\cdot c$ and the same precision $\epsilon$. Their only result rows are $p\cdot n$ and $p\cdot n'$, each carried by a compact-net witness over those fixed source rows. Thus they are exactly in the situation of \autoref{thm:compact-net-witness-prefixed-result-deterministic}. Applying that theorem gives $\hsame(n,n')$ after cancellation of the common prefix $p$.
+
+It remains to account for the named consumer readings. The route read is the prefixed center and precision route just used. A compact-net normal-form read is a readback of the same result row, and an exactness decision named in the chapter is a decision about the same compact-net witness packet. Since the source specification adds no further coordinate and the determinacy theorem has already identified any competing unprefixed result, every accepted use over the fixed rows factors through the listed finite route and the same $\hsame$ classifier row.
+\end{proof}

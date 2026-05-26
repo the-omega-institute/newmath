@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\PoincareInequalityUp$}
+\label{ch:concrete-instances-poincare-inequality-namecert}
+\origin{human}
+
+Following Poincare and Bishop--Bridges, the $\PoincareInequalityUp$ packet names the finite carrier surface by which a bounded-domain or zero-mean Sobolev read yields a norm-control estimate. It is a downstream consumer of the weak-derivative route in \autoref{ch:concrete-instances-sobolev-namecert}, the metric and real readback surfaces of \autoref{ch:concrete-instances-metric-namecert} and \autoref{ch:concrete-instances-real-namecert}, and the normed target ledger used by functional-analysis chapters.
+
+\begin{definition}[Poincare inequality carrier]
+\label{def:poincare-inequality-carrier}
+A $\PoincareInequalityUp$ carrier is a finite packet
+$$
+Q=(D,B,G,N,K,H,C,P,L)
+$$
+with the following displayed rows.
+\begin{enumerate}
+\item $D$ is the domain row, read through $\MetricUp$ and $\RealUp$, recording the bounded or otherwise admissible observation surface on which the inequality is asserted.
+\item $B$ is the boundary or zero-mean condition row. It records the displayed trace, anchored-boundary, or mean-zero constraint that prevents constant functions from escaping the estimate.
+\item $G$ is the gradient or derivative-energy row supplied by $\SobolevUp$, exposing the weak-gradient magnitude before any norm estimate is consumed.
+\item $N$ is the norm row, read through $\NormUp$ and the scalar $\RealUp$ seal, naming the measured size controlled by the gradient route.
+\item $K$ is the constant ledger. It records a finite Poincare constant, its dependency on the displayed domain and boundary rows, and the fact that no hidden compactness theorem or selected minimizer is imported.
+\item $H$ is componentwise $\hsame$ transport for $D,B,G,N,K$.
+\item $C$ is the displayed $\Cont$ replay that sends a Sobolev admissibility read through the boundary row, derivative-energy row, norm row, and constant ledger.
+\item $P$ is the $\Pkg$ provenance over $\PoincareInequalityUp$, $\SobolevUp$, $\NormUp$, $\MetricUp$, $\RealUp$, completion-facing rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\PoincareInequalityUp}$ row.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Poincare inequality NameCert obligations]
+\label{thm:poincare-inequality-namecert-obligations}
+For an accepted carrier $Q=(D,B,G,N,K,H,C,P,L)$, the local $\NameCert_{\PoincareInequalityUp}$ surface consists of five obligations.
+\begin{enumerate}
+\item Carrier admission displays the domain, boundary or zero-mean condition, Sobolev derivative-energy row, norm row, constant ledger, transports, replay, provenance, and local naming row.
+\item Sobolev dependency requires every derivative-energy read to factor through the $\SobolevUp$ weak-derivative packet of \autoref{ch:concrete-instances-sobolev-namecert}.
+\item Norm and scalar readback require the measured side of the estimate to pass through $\NormUp$, $\MetricUp$, and $\RealUp$ rows before any completion-facing consumer can read the bound.
+\item Constant-ledger exactness requires the Poincare constant to depend only on the displayed domain and boundary rows, not on a host compactness theorem, selected representative, quotient of functions, or hidden minimizer.
+\item Transport and replay preserve the same finite route under componentwise $\hsame$ and displayed $\Cont$ paths, including the completion-facing rows used by downstream metric or normed-space consumers.
+\end{enumerate}
+Thus the packet exports a finite NameCert route for the inequality estimate, not a full Sobolev embedding theorem, compactness principle, quotient function space, or host analytic proof.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The rows $D,B,G,N,K$ expose exactly the domain, boundary or zero-mean condition, derivative-energy source, norm target, and constant ledger needed for the estimate.
+
+The Sobolev dependency is read through $G$. Since $G$ is a displayed $\SobolevUp$ row, any weak-derivative or gradient-energy consumer must pass through the sibling certificate before the norm row is inspected.
+
+The norm and scalar readback are then forced through $N$ and the $\RealUp$ seal. The constant ledger $K$ records only the visible dependency on $D$ and $B$, so a hidden minimizer, compactness theorem, quotient representative, or selected function cannot enter the route.
+
+Finally $H,C,P,L$ repack the same finite path under transport, continuation replay, provenance, and local naming. The completion-facing rows stay downstream of the displayed domain, Sobolev, norm, and scalar evidence.
+\end{proof}
+
+\closureat{PoincareInequalityUp}{seedStr}
+
+\begin{closurestatus}{\PoincareInequalityUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:poincare-inequality-carrier} and \autoref{thm:poincare-inequality-namecert-obligations} seed the finite Poincare inequality route over $\SobolevUp$, $\NormUp$, $\MetricUp$, $\RealUp$, completion-facing rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.PoincareInequalityUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close compact Sobolev embedding, trace theory, quotient equality of functions, selected minimizers, host compactness, or bridge checking.}
+  \upgradepath{Obligation closure asks for checked carrier admission, Sobolev dependency, norm and scalar readback, constant-ledger exactness, componentwise transport, replay, provenance, and local naming.}
+  \constructivestory{A $\PoincareInequalityUp$ packet is generated from a displayed domain row, boundary or zero-mean row, Sobolev derivative-energy row, norm row, finite constant ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

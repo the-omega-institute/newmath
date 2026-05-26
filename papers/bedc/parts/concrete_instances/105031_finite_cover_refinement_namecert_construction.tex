@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\FiniteCoverRefinementUp$}
+\label{ch:concrete-instances-finite-cover-refinement-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\FiniteCoverRefinementUp$ packet records the constructive finite refinement step used by compact metric and completion-facing consumers when two displayed finite covers must be compared. It sits over the compact metric finite-net surface of \autoref{ch:concrete-instances-compactmetric-namecert}, the dyadic common-refinement ledger of \autoref{ch:concrete-instances-dyadic-cover-refinement-namecert}, and the finite real ball-cover surface of \autoref{ch:concrete-instances-finite-real-cover-namecert}. The packet names only a finite refinement route through displayed cover rows; it is not open-cover compactness, not a selected Lebesgue number, and not countable choice.
+
+\begin{definition}[Finite cover refinement carrier]
+\label{def:finite-cover-refinement-carrier}
+A $\FiniteCoverRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+R=(K,D,F,Q,U,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row whose finite-net and metric-distance data bound the cover comparison.
+\item $D$ is the $\DyadicCoverRefinementUp$ common-refinement ledger comparing the two dyadic cover presentations seen by the consumer.
+\item $F$ is the $\FiniteRealCoverUp$ row naming the finite real-ball cover, its coverage witnesses, and its refinement ledger.
+\item $Q$ is the $\RatUp$ tolerance row used to read radii and overlap bounds.
+\item $U$ is the finite $\mathsf{ProbeBundle}$ row listing the inspected centers, witnesses, and retained members.
+\item $W$ is the refinement witness row, pairing each retained probe with a member of the common finite refinement and recording the displayed inclusion or radius comparison.
+\item $H$ is the componentwise $\hsame$ transport row for the compact metric, dyadic refinement, finite real cover, rational tolerance, probe bundle, witness, provenance, and local naming coordinates.
+\item $C$ is the displayed $\Cont$ replay route for compact-metric reads, dyadic cover reads, finite real-cover reads, rational-radius reads, and refinement-witness reads.
+\item $P$ is the $\Pkg$ provenance over $\FiniteCoverRefinementUp$, $\CompactMetricUp$, $\DyadicCoverRefinementUp$, $\FiniteRealCoverUp$, $\RatUp$, $\mathsf{ProbeBundle}$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteCoverRefinementUp}$ evidence row.
+\end{enumerate}
+The carrier has no coordinate for an arbitrary open cover, a host finite-subcover selector, a selected Lebesgue number, a countable-choice sequence, quotient real equality, or ambient compactness.
+\end{definition}
+
+\begin{theorem}[Finite cover refinement NameCert obligations]
+\label{thm:finite-cover-refinement-namecert-obligations}
+For the carrier of \autoref{def:finite-cover-refinement-carrier}, the local $\NameCert_{\FiniteCoverRefinementUp}$ surface consists exactly of carrier admission for $R=(K,D,F,Q,U,W,H,C,P,N)$, compact-metric source exposure through $K$, dyadic common-refinement exposure through $D$, finite real-cover exposure through $F$, rational tolerance exposure through $Q$, finite probe-bundle exposure through $U$, refinement-witness exposure through $W$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+
+Every compact-metric, finite-real-cover, or completion-facing consumer of this packet must therefore read the displayed route
+$$
+K\longmapsto D\longmapsto F\longmapsto Q\longmapsto U\longmapsto W\longmapsto(H,C,P,N)
+$$
+before it can compare the two finite covers. The route exports no open-cover compactness theorem, no selected Lebesgue number, no countable-choice selector, no quotient representative, and no ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple. The rows $K,D,F,Q,U,W$ are the only analytic coordinates, and the rows $H,C,P,N$ transport, replay, source, and name that same finite packet.
+
+Read the dependency chain in order. The compact-metric row supplies the finite source data, the dyadic refinement row supplies the common-refinement ledger, the finite real-cover row supplies coverage witnesses, and the rational and probe rows expose the finite tolerance window in which $W$ is meaningful.
+
+The structural rows create no additional compactness principle. Since the carrier contains no arbitrary open cover, selected Lebesgue number, countable-choice sequence, quotient representative, or ambient completeness row, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finite cover refinement compact handoff]
+\label{thm:finite-cover-refinement-compact-handoff}
+Every $\CompactMetricUp$, $\FiniteRealCoverUp$, or regular-completion consumer citing an accepted $\FiniteCoverRefinementUp$ packet receives only the finite comparison route displayed in \autoref{thm:finite-cover-refinement-namecert-obligations}. In particular, the consumer may compare retained cover members and dyadic radius rows through $D,F,Q,U,W$, but it cannot replace that comparison by open-cover compactness, a selected Lebesgue number, countable choice, a host subcover selector, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligation theorem. It places every cover comparison on the displayed route from the compact metric source through the dyadic and finite real-cover rows.
+
+The witness row $W$ is meaningful only after $Q$ and $U$ have exposed the finite tolerance and probe rows. Componentwise transport and continuation replay preserve those coordinates without adding a second comparison route.
+
+The excluded objects are absent from the carrier, provenance, and local naming rows. Hence the compact-facing handoff is exactly the finite refinement packet.
+\end{proof}
+
+\begin{closurestatus}{\FiniteCoverRefinementUp}
+  \constructivestory{A $\FiniteCoverRefinementUp$ packet is generated from a CompactMetricUp source row, a DyadicCoverRefinementUp common-refinement ledger, a FiniteRealCoverUp coverage row, RatUp tolerance rows, finite ProbeBundle rows, a refinement witness, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-cover-refinement-carrier}, \autoref{thm:finite-cover-refinement-namecert-obligations}, and \autoref{thm:finite-cover-refinement-compact-handoff} define the finite refinement packet and its compact-facing handoff over displayed finite cover rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected Lebesgue numbers, countable choice, host subcover selection, quotient real equality, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-refinement witness exactness, finite-cover transport, compact-facing handoff, and ledger refusal for BEDC.Derived.FiniteCoverRefinementUp.}
+\end{closurestatus}

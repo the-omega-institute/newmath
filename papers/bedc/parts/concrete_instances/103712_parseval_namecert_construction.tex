@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\ParsevalUp$}
+\label{ch:concrete-instances-parseval-namecert}
+\origin{human}
+
+Following Parseval's identity in Fourier analysis, the $\ParsevalUp$ packet records only the finite energy-identity surface that can be inspected before any Plancherel, inversion, or convergence theorem is claimed. It sits over the finite Fourier observation layer of \autoref{ch:concrete-instances-fourier-namecert}, the circle source of \autoref{ch:concrete-instances-s1-namecert}, the pairing row of \autoref{ch:concrete-instances-innerproduct-namecert}, the integral energy row of \autoref{ch:concrete-instances-integral-namecert}, and the real seal of \autoref{ch:concrete-instances-real-namecert}. The certificate names the displayed equality between finite coefficient energy ledgers and finite integral-energy ledgers; it does not identify host functions or complete a quotient coefficient space.
+
+\begin{definition}[Parseval carrier]\label{def:parseval-carrier}
+A $\ParsevalUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,S,I,E,R,D,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\FourierUp$ coefficient-window row, listing the finite modes, coefficient probes, truncation window, and coefficient-energy sums under inspection.
+\item $S$ is the $\SOneUp$ source row, exposing only the circle phase samples and classifier data used by the Fourier observations.
+\item $I$ is the $\InnerProductUp$ pairing row, recording the finite pairing witnesses that compare coefficient rows and source rows.
+\item $E$ is the $\IntegralUp$ energy row, storing the displayed integral-energy observation paired with the same finite source window.
+\item $R$ is the $\RegSeqRatUp$ readback row for the coefficient-energy sums and the integral-energy observation.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for finite summation, pairing, integral readback, and energy-comparison tolerances.
+\item $L$ is the $\RealUp$ seal reached only after the Fourier window, circle source, inner-product pairing, integral-energy row, regular readback, and dyadic tolerance ledger have all been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the coefficient windows, circle source, pairing row, integral-energy row, readback row, tolerance ledger, real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from coefficient-window requests through $F,S,I,E,R,D$ and then to the $\RealUp$ seal $L$.
+\item $P$ is the $\Pkg$ provenance over $\ParsevalUp$, $\FourierUp$, $\SOneUp$, $\InnerProductUp$, $\IntegralUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ParsevalUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $F,S,I,E,R,D,L,H,C,P,N$. It has no coordinate for a host Fourier transform, completed Hilbert space, quotient coefficient class, selected limit, pointwise equality of functions, or ambient Plancherel theorem.
+\end{definition}
+
+\begin{theorem}[Parseval NameCert obligations]\label{thm:parseval-namecert-obligations}
+For every accepted $\ParsevalUp$ carrier $K=(F,S,I,E,R,D,L,H,C,P,N)$, the local $\NameCert_{\ParsevalUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed Fourier coefficient-window, $\SOneUp$ source, $\InnerProductUp$ pairing, $\IntegralUp$ energy, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance, $\RealUp$ seal, transport, replay, provenance, and local naming rows;
+\item coefficient-window exactness, requiring every coefficient-energy read to be attached to the modes and probes displayed in $F$ and to the source row $S$;
+\item finite partial-energy ledger accounting, requiring the coefficient-energy sum and the pairing witnesses in $I$ to be read before the integral row is compared;
+\item integral-energy handoff, requiring $E$ to consume the same finite source and pairing rows before any real-facing energy comparison reaches $L$;
+\item dyadic tolerance accounting, requiring $D$ to record the finite summation, pairing, integral readback, and comparison tolerances used by the energy identity surface;
+\item Real seal non-escape, requiring $L$ to seal only the displayed energy comparison and not a host function equality or completed norm equality;
+\item componentwise transport, displayed replay, package provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+These obligations certify only the finite Parseval energy-identity surface over the named source rows. They do not close Plancherel, inversion, convergence, Hilbert-space completeness, host function equality, quotient coefficient spaces, or Lean verification.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:parseval-carrier}. Carrier admission is exactly the finite inventory $F,S,I,E,R,D,L,H,C,P,N$, so no hidden analytic coordinate is available.
+
+Coefficient-window exactness is read from $F$ together with the $\SOneUp$ source row $S$. The pairing row $I$ and integral row $E$ then compare only the displayed finite energy observations, while $R$ and $D$ expose the regular readback and dyadic tolerance ledger used for that comparison.
+
+The $\RealUp$ seal $L$ is downstream of those rows. Thus the endpoint is a seal for the finite energy ledger, not a proof of host function equality, Hilbert-space completeness, or a quotient coefficient-space theorem.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. Since every readable coordinate has already been listed, the certificate cannot export Plancherel, inversion, convergence closure, or Lean verification.
+\end{proof}
+
+\falsifiablePrediction{Every $\ParsevalUp$ energy-facing read factors through Fourier coefficient windows, an SOne source row, an InnerProduct pairing row, an Integral energy row, RegSeqRat readback, a DyadicRatCore tolerance ledger, a Real seal, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{fourier, s1, innerproduct, integral, regseqrat, dyadicratcore, real: $\ParsevalUp$ is not bijective to any listed sibling because it jointly carries coefficient-energy windows, source rows, pairing witnesses, integral-energy observations, regular readbacks, dyadic tolerance accounting, real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{ParsevalUp}{seedStr}
+
+\begin{closurestatus}{\ParsevalUp}
+  \constructivestory{A $\ParsevalUp$ packet is generated from finite Fourier coefficient windows, a displayed $\SOneUp$ source row, an $\InnerProductUp$ pairing row, an $\IntegralUp$ energy row, $\RegSeqRatUp$ readback, a $\DyadicRatCoreUp$ tolerance ledger, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:parseval-carrier} and \autoref{thm:parseval-namecert-obligations} seed the finite Fourier energy-identity surface consumed by downstream Plancherel and inversion work.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Plancherel, inversion, convergence closure, Hilbert-space completeness, host function equality, quotient coefficient spaces, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, coefficient-window exactness, finite partial-energy ledger accounting, integral-energy handoff, dyadic tolerance accounting, Real seal non-escape, transport, replay, provenance, local naming, and TasteGate field faithfulness for BEDC.Derived.ParsevalUp.}
+\end{closurestatus}

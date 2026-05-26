@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\AffineContractionUp$}
+\label{ch:concrete-instances-affine-contraction-namecert}
+\origin{human}
+
+Following Banach and Bishop--Bridges constructive metric analysis, an $\AffineContractionUp$ packet names an affine self-map whose linear part carries a displayed contraction bound. It refines the map-level contraction surface of \autoref{ch:concrete-instances-contractionmapping-namecert}, reads its bounded-distance comparison through \autoref{ch:concrete-instances-lipschitzmap-namecert}, and hands Cauchy approximation data to \autoref{ch:concrete-instances-metriccompletion-namecert} and \autoref{ch:concrete-instances-uniformcompletion-namecert}. The packet records the affine decomposition and the contraction ledger without selecting a fixed point, assuming ambient completeness, or identifying host affine maps.
+
+\begin{definition}[AffineContraction carrier]
+\label{def:affine-contraction-carrier}
+An $\AffineContractionUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,d,V,+,0,L,b,T,G,\lambda,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X,d$ are the metric carrier and distance-read rows used by the contraction and completion consumers.
+\item $V,+,0$ are the affine-coordinate rows naming the carried additive chart in which the affine decomposition is read.
+\item $L$ is the linear-part graph row, with displayed application reads inside the same carried chart.
+\item $b$ is the translation row.
+\item $T$ is the affine self-map row, read only through the finite graph equation $T(x)=L(x)+b$.
+\item $G$ is the graph-exactness row tying each accepted read of $T$ to the displayed reads of $L$, $b$, and $+$.
+\item $\lambda$ is the rational contraction-bound ledger, with nonnegative and strict unit-bound rows for the linear part.
+\item $M$ is the induced Lipschitz and contraction-modulus row consumed by metric-completion and uniform-completion readers.
+\item $H$ stores componentwise $\hsame$ transport for the metric, affine-coordinate, linear-part, translation, self-map, graph, bound, modulus, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay for affine application, graph exactness, contraction-bound readback, modulus extraction, and completion-facing handoff.
+\item $P$ is the $\Pkg$ provenance over $\AffineContractionUp$, $\ContractionMappingUp$, $\LipschitzMapUp$, $\MetricCompletionUp$, $\UniformCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AffineContractionUp}$ row.
+\end{enumerate}
+The carrier exposes an affine contraction surface. It contains no coordinate for a selected fixed point, a completed endpoint, quotient equality of maps, ambient completeness, choice, or bridge checking.
+\end{definition}
+
+\begin{theorem}[AffineContraction NameCert obligations]
+\label{thm:affine-contraction-namecert-obligations}
+For an accepted $\AffineContractionUp$ carrier $A=(X,d,V,+,0,L,b,T,G,\lambda,M,H,C,P,N)$, the local $\NameCert_{\AffineContractionUp}$ surface consists of carrier admission, affine-coordinate visibility, linear-part graph visibility, translation visibility, self-map graph exactness, rational contraction-bound stability, induced Lipschitz-modulus visibility, metric-completion and uniform-completion handoff visibility, componentwise classifier transport, continuation replay, provenance, and local naming for the finite packet of \autoref{def:affine-contraction-carrier}.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple. The rows $X,d,V,+,0,L,b,T,G,\lambda,M,H,C,P,N$ are exactly the rows available to the local certificate.
+
+Affine-coordinate visibility reads the additive chart rows $V,+,0$. Linear-part and translation visibility then read $L$ and $b$ before the self-map row $T$ can be consumed.
+
+Graph exactness is the row $G$. It forces each accepted self-map application to replay through $L(x)$, $b$, and the displayed addition row, so the affine map is not identified by host function equality.
+
+The contraction-bound and modulus obligations are carried by $\lambda$ and $M$. Since $\lambda$ stores the strict unit-bound ledger for the linear part, the induced modulus is available to contraction and completion consumers without selecting a fixed point.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite packet. These rows export no ambient completeness proof, choice principle, endpoint seal, quotient equality, or bridge-checked standardization.
+\end{proof}
+
+\begin{theorem}[AffineContraction metric-completion handoff]
+\label{thm:affine-contraction-metric-completion-handoff}
+Every $\MetricCompletionUp$ or $\UniformCompletionUp$ consumer of an accepted $\AffineContractionUp$ carrier must pass through
+$$
+X,\ d,\ V,\ +,\ 0,\ L,\ b,\ T,\ G,\ \lambda,\ M,\ H,\ C,\ P,\ N .
+$$
+The handoff supplies a displayed affine self-map, graph-exact affine decomposition, rational contraction ledger, and induced modulus. It does not supply a selected fixed point, completed endpoint, quotient equality of affine maps, ambient completeness theorem, choice principle, or bridge-checked standard object.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:affine-contraction-carrier}. The only completion-facing rows are the metric rows $X,d$, the affine decomposition rows $V,+,0,L,b,T,G$, the contraction ledger $\lambda$, and the induced modulus row $M$.
+
+The graph row $G$ orders the affine read before any completion consumer sees the self-map. The consumer therefore receives a finite route from $x$ to $L(x)+b$, not a host affine function.
+
+The strict unit-bound row in $\lambda$ and the induced modulus row $M$ are the only contraction data exported to \autoref{ch:concrete-instances-metriccompletion-namecert} and \autoref{ch:concrete-instances-uniformcompletion-namecert}. A completion route may consume those rows to build Cauchy approximation data, but the endpoint seal and completeness proof remain outside this packet.
+
+Transport and replay are exhausted by $H$ and $C$, while $P$ and $N$ only record provenance and local naming. Thus the handoff is precisely the finite affine-contraction surface and cannot provide the excluded endpoint, quotient, choice, completeness, or bridge data.
+\end{proof}
+
+\closureat{AffineContractionUp}{seedStr}
+
+\begin{closurestatus}{\AffineContractionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:affine-contraction-carrier}, \autoref{thm:affine-contraction-namecert-obligations}, and \autoref{thm:affine-contraction-metric-completion-handoff} seed the affine contraction packet over affine decomposition, contraction ledger, and completion-facing modulus handoff rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected fixed points, completed endpoints, quotient equality of affine maps, ambient completeness, choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, affine-coordinate visibility, linear-part graph visibility, translation visibility, self-map graph exactness, rational bound stability, modulus visibility, completion handoff visibility, transport, replay, provenance, and local naming for BEDC.Derived.AffineContractionUp.}
+  \constructivestory{An $\AffineContractionUp$ packet is generated from a metric carrier, affine-coordinate rows, linear-part graph, translation row, affine self-map graph, rational contraction-bound ledger, induced modulus, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+\end{closurestatus}

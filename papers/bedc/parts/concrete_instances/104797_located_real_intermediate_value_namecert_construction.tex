@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRealIntermediateValueUp$}
+\label{ch:concrete-instances-located-real-intermediate-value-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\LocatedRealIntermediateValueUp$ packet records the finite route from located endpoint signs through dyadic bisection windows to the $\RealUp$ seal. It sits next to the sign-bracket certificate of \autoref{ch:concrete-instances-intermediatevalue-namecert} and the dyadic branch certificate of \autoref{ch:concrete-instances-dyadic-intermediate-value-namecert}, but it keeps the located real output as a sealed finite read rather than a selected root or a quotient real.
+
+The packet is an L10 Real and Completion neighbour. Its source cells are located interval endpoints, its branch rows are dyadic, and its consumer boundary is the same finite $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ route used by the regular-real seal.
+
+\begin{definition}[Located real intermediate-value carrier]
+\label{def:located-real-intermediate-value-carrier}
+A $\LocatedRealIntermediateValueUp$ carrier is a finite $\BHist$ packet
+$$
+L=(I,S,B,Q,W,R,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $I$ is the $\LocatedIntervalUp$ endpoint row, including the lower endpoint cell, upper endpoint cell, located interval comparison data, and the dyadic endpoint refinements consumed by the branch route;
+\item $S$ is the $\IntermediateValueUp$ sign ledger, recording the accepted negative-side and positive-side endpoint reads and the displayed midpoint sign rows carried along the route of \autoref{thm:intermediate-value-located-sign-window-exactness};
+\item $B$ is the $\DyadicIntermediateValueUp$ branch data, retaining the finite sequence of accepted dyadic child intervals and the sign boundary that travels with each branch row;
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance row whose radius and midpoint arithmetic determine the displayed stopping window;
+\item $W$ is the $\StreamNameUp$ window family opened for the retained endpoints and midpoint observations;
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same windows after $Q$ fixes the finite tolerance request;
+\item $E$ is the terminal $\RealUp$ seal row available only after $I,S,B,Q,W,R$ have been displayed;
+\item $H$ records componentwise $\hsame$ transport for the located interval, sign ledger, dyadic branch data, tolerance row, window rows, readback row, seal row, replay row, provenance row, and local naming row;
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+I,S \longmapsto B,Q \longmapsto W,R \longmapsto E ;
+$$
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealIntermediateValueUp$, $\LocatedIntervalUp$, $\IntermediateValueUp$, $\DyadicIntermediateValueUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\LocatedRealIntermediateValueUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these rows. It has no coordinate for a selected root, quotient real, real trichotomy decision, open-cover compactness argument, or ambient completeness principle for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Located real intermediate-value NameCert obligations]
+\label{thm:located-real-intermediate-value-namecert-obligations}
+For an accepted $\LocatedRealIntermediateValueUp$ carrier
+$$
+L=(I,S,B,Q,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedRealIntermediateValueUp}$ surface consists of carrier admission for the displayed located interval, sign ledger, dyadic branch, tolerance, window, readback, seal, transport, replay, provenance, and naming rows; sign-ledger visibility through $I$ and $S$; dyadic branch exactness through $B$ and $Q$; finite-window readback through $W$ and $R$; Real-seal exposure through $E$; and structural stability through $H,C,P,N$.
+
+Every obligation is internal to the displayed finite packet. In particular, the certificate cannot be discharged by selecting a root, passing to a quotient real, deciding trichotomy, invoking open-cover compactness, or using an ambient completeness theorem for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-real-intermediate-value-carrier}. The projection exposes exactly the located interval, sign, branch, tolerance, window, readback, seal, transport, replay, provenance, and local naming rows.
+
+Sign-ledger visibility follows by reading $S$ only over the located endpoint row $I$. The dyadic branch stage then reads $B$ together with the tolerance row $Q$, so each accepted child interval is tied to displayed midpoint arithmetic and a visible sign boundary.
+
+The finite-window stage reads $W$ and then $R$. The real-facing row $E$ is downstream of those windows, while $H,C,P,N$ transport, replay, source, and name the same route.
+
+Since none of the carrier coordinates stores a root selector, quotient-real equality, trichotomy oracle, compactness datum, or Real-completeness principle, none of these objects can serve as a local obligation.
+\end{proof}
+
+\begin{theorem}[Located real sign-branch route]
+\label{thm:located-real-intermediate-value-sign-branch-route}
+Every Real-facing read from an accepted $\LocatedRealIntermediateValueUp$ packet factors through
+$$
+\LocatedIntervalUp \longmapsto \IntermediateValueUp \longmapsto \DyadicIntermediateValueUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The route reads the located endpoint row $I$, the sign ledger $S$, the branch data $B$, the tolerance row $Q$, the windows $W$, the readback row $R$, and only then the seal row $E$, with $H,C,P,N$ preserving the same finite packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $L=(I,S,B,Q,W,R,E,H,C,P,N)$. The endpoint and sign stages are $I$ followed by $S$, so the read begins with located signs rather than a host predicate over all real points.
+
+Apply the dyadic bisection route of \autoref{thm:dyadic-intermediate-value-bisection-route}. The branch row $B$ and tolerance row $Q$ determine the finite child-interval route before any window data is consumed.
+
+Next read the finite windows and regular-rational readback. The rows $W$ and $R$ are upstream of the seal row $E$, so a Real-facing consumer reaches the seal only through the displayed finite route.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same route. Therefore no selected root, quotient real, real trichotomy decision, open-cover compactness argument, or ambient completeness principle can be exported by the packet.
+\end{proof}
+
+\closureat{LocatedRealIntermediateValueUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRealIntermediateValueUp}
+  \constructivestory{A $\LocatedRealIntermediateValueUp$ packet is generated from a $\LocatedIntervalUp$ endpoint row, an $\IntermediateValueUp$ sign ledger, a $\DyadicIntermediateValueUp$ branch row, a $\DyadicRatCoreUp$ tolerance row, finite $\StreamNameUp$ windows, a $\RegSeqRatUp$ readback row, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-real-intermediate-value-carrier}, \autoref{thm:located-real-intermediate-value-namecert-obligations}, and \autoref{thm:located-real-intermediate-value-sign-branch-route} seed the finite located-sign route from dyadic branch data to the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a selected root, quotient real, real trichotomy, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, sign-ledger visibility, dyadic branch exactness, finite-window readback, Real-seal exposure, transport and replay stability, and provenance exhaustion for BEDC.Derived.LocatedRealIntermediateValueUp.}
+\end{closurestatus}

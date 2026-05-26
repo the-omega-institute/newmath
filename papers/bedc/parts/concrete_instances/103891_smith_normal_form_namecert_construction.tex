@@ -1,0 +1,107 @@
+\chapter{A Concrete Naming Certificate for $\SmithNormalFormUp$}
+\label{ch:concrete-instances-smith-normal-form-namecert}
+\origin{human}
+
+Following Smith's determinantal reduction and Newman's normal-form treatment, the $\SmithNormalFormUp$ packet records the finite row-and-column certificate by which an integer or principal-ideal matrix is reduced to a displayed diagonal divisibility chain. It consumes the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the finite module-row discipline of \autoref{ch:concrete-instances-module-namecert}, the ideal membership surface of \autoref{ch:concrete-instances-ideal-namecert}, and the Dedekind-domain naming rows of \autoref{ch:concrete-instances-dedekind-namecert}. The chapter names a finite certificate for diagonal reduction and divisibility bookkeeping; it does not claim quotient-module classification, a choice-selected basis, a host principal-ideal-domain theorem, or equality outside displayed row and column operations.
+
+\begin{definition}[Smith normal form carrier]
+\label{def:smith-normal-form-carrier}
+A $\SmithNormalFormUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M,R,C,D,V,E,U,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the source matrix row, recording the finite matrix entries, row and column bounds, coefficient carrier, and matrix-operation ledger inherited from $\MatrixUp$.
+\item $R$ is the elementary row-operation trace. It lists each row swap, row scaling by a displayed unit, and row addition by a displayed multiple, together with the matrix row it transforms.
+\item $C$ is the elementary column-operation trace, with the same visible data for column swaps, unit scalings, and displayed multiple additions.
+\item $D$ is the diagonal readback row, listing the terminal diagonal entries and the zero-off-diagonal witnesses exposed after the combined $R,C$ trace.
+\item $V$ is the divisibility-chain row. It records, for every adjacent pair of nonzero diagonal entries, the displayed ideal-membership or divisibility witness that the earlier diagonal entry divides the later one.
+\item $E$ is the exactness row. It records that every intermediate matrix is obtained from the previous one by the displayed elementary operation and that the terminal readback is the matrix named by $D$.
+\item $U$ is the unit-and-ideal ledger, exposing the unit rows, principal ideal rows, and Dedekind-compatible ideal containment checks used by $R,C,V$.
+\item $H$ records componentwise $\hsame$ transport for matrix entries, row traces, column traces, diagonal readback, divisibility witnesses, exactness rows, unit and ideal ledgers, continuation rows, provenance, and naming.
+\item $T$ records displayed $\Cont$ replay from source matrix inspection through elementary-operation playback, diagonal readback, divisibility verification, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\SmithNormalFormUp$, $\MatrixUp$, $\ModuleUp$, $\IdealUp$, $\DedekindUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SmithNormalFormUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient modules, selected external bases, hidden principal ideal choices, ambient noetherian arguments, or host equality outside the displayed elementary-operation trace.
+\end{definition}
+
+\begin{definition}[Smith normal form classifier]
+\label{def:smith-normal-form-classifier}
+Two accepted $\SmithNormalFormUp$ packets
+$$
+S=(M,R,C,D,V,E,U,H,T,P,N)
+\quad\hbox{and}\quad
+S'=(M',R',C',D',V',E',U',H',T',P',N')
+$$
+are classifier-equivalent exactly when the eleven displayed rows match componentwise under the local $\hsame$ surface: the source matrices match through the same $\MatrixUp$ carrier, the elementary row and column traces match step by step, the terminal diagonal rows agree entrywise, the divisibility witnesses in $V,V'$ name the same adjacent divisibility obligations, the exactness and unit-ideal rows agree, and the transport, continuation, provenance, and naming rows replay the same finite data. The classifier ignores no additional ambient module quotient, selected basis, or external diagonal-form uniqueness theorem.
+\end{definition}
+
+\begin{theorem}[Smith normal form divisibility chain]
+\label{thm:smith-normal-form-divisibility-chain}
+For every accepted $\SmithNormalFormUp$ carrier $S=(M,R,C,D,V,E,U,H,T,P,N)$, any exported diagonal normal-form claim factors through the displayed divisibility route
+$$
+M,R,C \longmapsto D,E,U \longmapsto V,H,T,P,N .
+$$
+In particular, the claim that the diagonal entries form a Smith chain is readable only from the adjacent divisibility witnesses listed in $V$ and the unit-and-ideal ledger $U$.
+\end{theorem}
+\begin{proof}
+Open the carrier of \autoref{def:smith-normal-form-carrier}. The source matrix row $M$ and the elementary traces $R,C$ are the only rows that can produce a terminal matrix for this packet.
+
+The diagonal row $D$ is read only after the exactness row $E$ has replayed every elementary operation. The unit-and-ideal ledger $U$ supplies the visible unit rows and ideal-containment checks that justify the divisibility witnesses.
+
+Finally, $V$ lists the adjacent divisibility witnesses for the terminal diagonal entries. Since $H,T,P,N$ transport, replay, source, and name only those rows, any downstream Smith-chain claim must pass through the displayed route and cannot appeal to an external normal-form theorem.
+\end{proof}
+
+\begin{theorem}[Smith row-column equivalence]
+\label{thm:smith-normal-form-row-column-equivalence}
+For every accepted $\SmithNormalFormUp$ carrier $S=(M,R,C,D,V,E,U,H,T,P,N)$, the source matrix named by $M$ and the diagonal matrix named by $D$ are equivalent only by the finite row and column traces $R$ and $C$ together with the exactness row $E$. No quotient-module equality, selected basis identification, or ambient isomorphism theorem is exported by the packet.
+\end{theorem}
+\begin{proof}
+Read the elementary traces in order. Each row of $R$ and each row of $C$ names one displayed elementary operation and the matrix row it transforms, so the trace itself supplies the equivalence witness between successive matrices.
+
+The exactness row $E$ ties those local witnesses to the terminal diagonal readback $D$. Thus the only exported equivalence is the finite playback from $M$ through $R,C$ to $D$.
+
+The classifier of \autoref{def:smith-normal-form-classifier} compares the same rows componentwise. Therefore the packet has no remaining coordinate from which quotient-module equality, selected bases, or an ambient classification theorem could be read.
+\end{proof}
+
+\begin{theorem}[Smith normal form NameCert obligations]
+\label{thm:smith-normal-form-namecert-obligations}
+For every accepted $\SmithNormalFormUp$ carrier $S=(M,R,C,D,V,E,U,H,T,P,N)$, the local $\NameCert_{\SmithNormalFormUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source matrix, row trace, column trace, diagonal readback, divisibility witnesses, exactness row, unit-and-ideal ledger, transport, continuation, provenance, and local naming;
+\item matrix-source compatibility, requiring every entry read by $R,C,D,E,V,U$ to be supplied by the displayed $\MatrixUp$ source row $M$;
+\item elementary-operation exactness, requiring every row and column operation to name its source row, target row, coefficient or unit witness, and resulting matrix entry updates;
+\item diagonal readback exactness, requiring $D$ to expose every diagonal entry and every zero-off-diagonal witness after the finite trace;
+\item divisibility-chain exactness, requiring $V$ and $U$ to display the unit, ideal-membership, and containment evidence for each adjacent diagonal divisibility claim;
+\item module, ideal, and Dedekind provenance, requiring the finite rows used by $M,R,C,D,V,E,U$ to be sourced through the cited $\ModuleUp$, $\IdealUp$, and $\DedekindUp$ packets when those algebraic surfaces are invoked;
+\item ledger preservation, requiring $H,T,P,N$ to preserve exactly the displayed rows under componentwise transport, continuation replay, package provenance, and local naming.
+\end{enumerate}
+No Smith-normal-form obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. Carrier admission gives precisely $M,R,C,D,V,E,U,H,T,P,N$, so a local certificate cannot obtain extra data from a host module quotient, selected basis, or hidden principal-ideal argument.
+
+Matrix-source compatibility is forced because every row and column operation reads entries from $M$. Elementary-operation exactness is forced because $R$ and $C$ list each operation, its displayed coefficient or unit row, and the resulting matrix updates.
+
+The diagonal and divisibility obligations are then separate visible checks. The row $D$ exposes the terminal diagonal entries and zero-off-diagonal witnesses, while $V$ and $U$ expose adjacent divisibility, unit, and ideal-containment evidence.
+
+Finally, the provenance row $P$ records exactly which $\MatrixUp$, $\ModuleUp$, $\IdealUp$, and $\DedekindUp$ surfaces are being consumed. The structural rows $H,T,N$ transport, replay, and name the same finite packet. These rows exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every $\SmithNormalFormUp$ read factors through one $\MatrixUp$ source row, one elementary row-operation trace, one elementary column-operation trace, one diagonal readback row, one adjacent divisibility ledger, one exactness row, one unit-and-ideal ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+
+\independenceWitness{matrix, module, ideal, dedekind: $\SmithNormalFormUp$ is not bijective to any listed sibling because it jointly carries elementary row and column playback, diagonal readback, adjacent divisibility witnesses, and unit-and-ideal exactness as one finite NameCert packet.}
+
+\closureat{SmithNormalFormUp}{seedStr}
+
+\begin{closurestatus}{\SmithNormalFormUp}
+  \constructivestory{A $\SmithNormalFormUp$ packet is generated from a finite MatrixUp source row, elementary row and column traces, diagonal readback, adjacent divisibility witnesses, exactness rows, unit-and-ideal ledgers, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:smith-normal-form-carrier}, \autoref{def:smith-normal-form-classifier}, \autoref{thm:smith-normal-form-divisibility-chain}, \autoref{thm:smith-normal-form-row-column-equivalence}, and \autoref{thm:smith-normal-form-namecert-obligations} seed the finite Smith normal form certificate surface over displayed matrix, module, ideal, and Dedekind rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient-module classification, selected external bases, hidden principal-ideal choices, ambient noetherian arguments, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exactness, elementary-operation playback, diagonal readback exactness, divisibility-chain exactness, unit-and-ideal ledger preservation, and TasteGate field faithfulness for BEDC.Derived.SmithNormalFormUp.}
+\end{closurestatus}

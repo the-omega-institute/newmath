@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\OresmeHarmonicDivergenceUp$}
+\label{ch:concrete-instances-oresme-harmonic-divergence-namecert}
+\origin{human}
+
+Following Oresme and Bishop--Bridges constructive analysis, the $\OresmeHarmonicDivergenceUp$ packet names the dyadic-block lower-bound route for the harmonic series as finite BEDC data. It sits beside the divergence refusal surface of \autoref{ch:concrete-instances-series-divergence-test-namecert}, the positive condensation route of \autoref{ch:concrete-instances-cauchy-condensation-real-series-namecert}, the rational comparison source of \autoref{ch:concrete-instances-rat-namecert}, the dyadic arithmetic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback row of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The carrier records only displayed finite partial sums, dyadic block schedules, rational comparisons, tolerance ledgers, readback windows, transport, replay, provenance, and local naming.
+
+\begin{definition}[OresmeHarmonicDivergence carrier]
+\label{def:oresme-harmonic-divergence-carrier}
+An $\OresmeHarmonicDivergenceUp$ carrier is a finite $\BHist$ packet
+$$
+H=(S,B,Q,D,W,R,E,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the harmonic partial-sum row, exposing only finite sums of the displayed terms $1,1/2,1/3,\ldots$ through inspected windows.
+\item $B$ is the dyadic block schedule, listing the finite intervals $[2^k,2^{k+1})$ requested by the packet and the endpoints used by each partial-sum comparison.
+\item $Q$ is the $\RatUp$ comparison row, carrying the rational lower-bound entries used inside each displayed block.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording powers of two, reciprocal denominators, and the finite comparison budget used to show that each inspected block contributes at least $1/2$.
+\item $W$ is the $\StreamNameUp$ window row for the harmonic terms, block endpoints, rational comparisons, and partial-sum reads.
+\item $R$ is the $\RegSeqRatUp$ readback row for the displayed partial sums and block lower bounds.
+\item $E$ is the $\RealUp$ seal row reached only after $S,B,Q,D,W,R$ have been displayed.
+\item $T$ records componentwise $\hsame$ transport for the partial-sum row, block schedule, rational comparison row, dyadic ledger, stream windows, readback row, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a block request through the harmonic partial sums, dyadic schedule, rational comparison row, dyadic ledger, stream windows, readback row, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\OresmeHarmonicDivergenceUp$, $\SeriesDivergenceTestUp$, $\CauchyCondensationRealSeriesUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\OresmeHarmonicDivergenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,B,Q,D,W,R,E,T,C,P,N$. It has no coordinate for a host infinite sum, quotient series equality, countable-choice schedule, selected endpoint, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[OresmeHarmonicDivergence NameCert obligations]
+\label{thm:oresme-harmonic-divergence-namecert-obligations}
+For every accepted $\OresmeHarmonicDivergenceUp$ carrier $H=(S,B,Q,D,W,R,E,T,C,P,N)$, the local $\NameCert_{\OresmeHarmonicDivergenceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed harmonic partial-sum row, dyadic block schedule, rational comparison row, dyadic tolerance ledger, stream-window row, readback row, Real seal, transport, replay, provenance, and local naming rows;
+\item block schedule exactness, requiring $B$ to expose precisely the inspected finite intervals $[2^k,2^{k+1})$ and their partial-sum endpoints before any lower-bound comparison is read;
+\item rational lower-bound visibility, requiring $Q,D,W,R$ to display the finite comparison that every term in the inspected block is at least $1/2^{k+1}$ and that the whole block contributes at least $1/2$;
+\item $\RealUp$ seal nonescape, requiring $E$ to remain downstream of the displayed finite block route and to export no host infinite sum, quotient series equality, countable-choice schedule, selected endpoint, or ambient completeness principle;
+\item ledger exhaustion, requiring $T,C,P,N$ to transport, replay, source, and name the same finite route without adding unlisted analytic or choice data.
+\end{enumerate}
+No Oresme harmonic-divergence obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:oresme-harmonic-divergence-carrier}. The accepted packet exposes exactly the harmonic partial-sum row, the dyadic block schedule, the rational comparison row, the dyadic tolerance ledger, stream windows, readback, Real seal, and structural rows.
+
+The block schedule is finite. For each inspected $k$, the row $B$ gives the interval $[2^k,2^{k+1})$ and the partial-sum endpoints that the consumer may read from $S$.
+
+The lower-bound comparison is carried by $Q,D,W,R$. The schedule $W$ selects the finitely many terms in the displayed block, $Q$ supplies the rational comparison against $1/2^{k+1}$, $D$ records the dyadic denominator and tolerance budget, and $R$ reads back the block contribution.
+
+The Real-facing route is downstream of those rows. The seal $E$ can only be reached after the finite block comparison has passed through the displayed readback, while $T,C,P,N$ preserve and name the same route.
+
+Since a host infinite sum, quotient series equality, countable-choice schedule, selected endpoint, and ambient completeness are not coordinates of $H$, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Oresme dyadic block lower bound]
+\label{thm:oresme-harmonic-divergence-dyadic-block-lower-bound}
+Every accepted $\OresmeHarmonicDivergenceUp$ packet exports the finite lower-bound route for each displayed block $[2^k,2^{k+1})$ through
+$$
+S,B\longmapsto Q,D,W,R\longmapsto E,T,C,P,N .
+$$
+Thus the packet records the Oresme block fact that each inspected dyadic block contributes at least $1/2$ to the harmonic partial-sum row, while exporting no host infinite sum, quotient series equality, countable choice, selected endpoint, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with an accepted packet $H=(S,B,Q,D,W,R,E,T,C,P,N)$. A consumer requesting the block lower bound must first read the partial-sum row $S$ together with the dyadic block schedule $B$.
+
+For a displayed block $[2^k,2^{k+1})$, the window row $W$ exposes exactly the finitely many harmonic terms in that interval. The comparison row $Q$ and dyadic ledger $D$ show that every such term is bounded below by $1/2^{k+1}$.
+
+There are $2^k$ displayed terms in the block, so the same finite ledger records the rational lower bound $2^k/2^{k+1}=1/2$. The readback row $R$ attaches this lower bound to the corresponding block contribution of the partial-sum row.
+
+The seal row $E$ and the structural rows $T,C,P,N$ only carry this finite route forward. Because the carrier has no field for host infinite sums, quotient series equality, countable choice, selected endpoints, or ambient completeness, the exported statement is exactly the finite dyadic-block lower-bound route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\OresmeHarmonicDivergenceUp$ block read factors through the harmonic partial-sum row, dyadic block schedule, RatUp comparison row, DyadicRatCore tolerance ledger, StreamName window row, RegSeqRat readback row, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{series-divergence-test, cauchy-condensation-real-series, rat, dyadicratcore, streamname, regseqrat, real: $\OresmeHarmonicDivergenceUp$ is not bijective to any listed sibling because it jointly carries the harmonic partial-sum row, dyadic block schedule, RatUp comparison row, DyadicRatCore tolerance ledger, StreamName windows, RegSeqRat readback, RealUp seal, transport, replay, provenance, and local naming.}
+
+\closureat{OresmeHarmonicDivergenceUp}{seedStr}
+
+\begin{closurestatus}{\OresmeHarmonicDivergenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:oresme-harmonic-divergence-carrier}, \autoref{thm:oresme-harmonic-divergence-namecert-obligations}, and \autoref{thm:oresme-harmonic-divergence-dyadic-block-lower-bound} seed the finite Oresme dyadic-block lower-bound carrier for harmonic partial sums, rational comparisons, dyadic ledgers, stream windows, readback, Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host infinite sums, quotient series equality, countable choice, selected endpoints, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, block schedule exactness, rational lower-bound visibility, RealUp seal nonescape, ledger exhaustion, transport, replay, provenance, and local naming for BEDC.Derived.OresmeHarmonicDivergenceUp.}
+  \constructivestory{An $\OresmeHarmonicDivergenceUp$ packet is generated from a harmonic partial-sum row, a dyadic block schedule, RatUp comparison rows, a DyadicRatCore tolerance ledger, StreamName windows, RegSeqRat readbacks, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

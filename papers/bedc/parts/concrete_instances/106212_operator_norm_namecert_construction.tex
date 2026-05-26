@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\OperatorNormUp$}
+\label{ch:concrete-instances-operator-norm-namecert}
+\origin{human}
+
+Following Bishop's constructive normed-space practice and the bounded-operator presentations in Conway and Kreyszig, the $\OperatorNormUp$ packet records the public BEDC carrier by which a bounded linear operator exposes a nonnegative scalar bound, a norm-bound ledger, and the transport rows needed by downstream spectral, dual, and uniform-boundedness certificates. It is the named operator-norm surface over the bounded-linear-operator route of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the scalar endpoint discipline of \autoref{ch:concrete-instances-real-namecert}, and the functional-analysis stability obligation of \autoref{thm:functionalanalysis-operator-norm-stability-obligation}; it is not a host supremum construction, quotient operator equality, a Banach-completeness assertion, or a selected norm-attaining vector.
+
+\begin{definition}[OperatorNorm carrier]
+\label{def:operator-norm-carrier}
+An $\OperatorNormUp$ carrier is a finite $\BHist$ packet
+$$
+O=(T,K,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\BoundedLinearOperatorUp$ row naming the carried source endpoint, target endpoint, linear map code, boundedness witness, and source-target norm reads.
+\item $K$ is the $\RealUp$ nonnegative bound endpoint exposed as the operator-norm scalar boundary.
+\item $L$ is the norm-bound ledger, recording the input norm row, output norm row, scalar comparison row, and the local inequality route saying that the output norm is controlled by $K$ on carried source inputs.
+\item $H$ records componentwise $\hsame$ transport for the bounded-linear-operator row, the $\RealUp$ bound endpoint, the norm-bound ledger, the replay row, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a bounded-operator request through $T,K,L,H$ back to the same operator-norm surface.
+\item $P$ is the $\Pkg$ provenance over $\OperatorNormUp$, $\BoundedLinearOperatorUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\OperatorNormUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,K,L,H,C,P,N$. It has no coordinate for a host supremum over unit vectors, quotient equality of operators, norm-attainment choice, hidden Banach completeness, spectral-radius limits, or uniform-boundedness families.
+\end{definition}
+
+\begin{theorem}[OperatorNorm NameCert obligations]
+\label{thm:operator-norm-namecert-obligations}
+For every accepted $\OperatorNormUp$ carrier $O=(T,K,L,H,C,P,N)$, the local $\NameCert_{\OperatorNormUp}$ surface consists exactly of carrier admission, bounded-linear-operator source compatibility, nonnegative $\RealUp$ bound exposure, norm-bound ledger exactness, componentwise transport, continuation replay, provenance, local naming, and non-escape from the displayed scalar-bound surface. A downstream consumer may read the carried operator row, the displayed scalar bound, and the ledger showing where that bound is used, but it receives no host supremum, no quotient operator equality, no selected norm-attaining vector, no hidden completeness, and no spectral or uniform-boundedness conclusion.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:operator-norm-carrier}. The packet displays exactly the bounded-linear-operator row $T$, the nonnegative scalar endpoint $K$, the norm-bound ledger $L$, and the structural rows $H,C,P,N$.
+
+The bounded-operator source compatibility is inherited from the public bounded-linear-operator row. Thus a consumer sees the carried source and target endpoints, the map code, and the boundedness witness before it can inspect the scalar bound.
+
+The norm-bound surface is finite. The row $L$ records the input norm, output norm, scalar comparison, and local inequality route, while $K$ supplies the only Real-facing endpoint to which those comparisons may point.
+
+Finally $H,C,P,N$ transport, replay, source, and name only the displayed rows. Since the refused objects have no coordinate in $O$, the certificate cannot export a host supremum, quotient equality, selected norm-attainment data, hidden completeness, spectral-radius limits, or uniform-boundedness families.
+\end{proof}
+
+\begin{theorem}[OperatorNorm bound stability]
+\label{thm:operator-norm-bound-stability}
+If two accepted $\OperatorNormUp$ packets are related by the classifier, then they expose the same $\BoundedLinearOperatorUp$ source row, the same $\RealUp$ nonnegative bound endpoint, and the same norm-bound ledger up to the componentwise $\hsame$ transport row. Consequently every downstream use reads a transported scalar-bound certificate rather than a host-level equality of operators or norms.
+\end{theorem}
+\begin{proof}
+Unfold the classifier of \autoref{def:operator-norm-carrier}. Its comparison coordinates are exactly the bounded-linear-operator row, Real bound endpoint, norm-bound ledger, replay row, provenance row, and local naming row.
+
+The operator component transports through the inherited bounded-linear-operator classifier, while the scalar endpoint transports through the $\RealUp$ comparison component. The ledger component then moves the input-norm row, output-norm row, scalar comparison row, and inequality route together.
+
+Thus any downstream consumer receives the same public scalar-bound surface after transport. No step introduces a host equality of operators, a supremum equality of norms, or a quotient representative.
+\end{proof}
+
+\begin{theorem}[OperatorNorm non-escape boundary]
+\label{thm:operator-norm-nonescape-boundary}
+Every read of an accepted $\OperatorNormUp$ packet factors through the finite route
+$$
+\BoundedLinearOperatorUp,\RealUp
+\longmapsto T,K,L,H,C,P,N
+\longmapsto \OperatorNormUp .
+$$
+In particular, the packet cannot be used to recover a host supremum over all unit vectors, a norm-attainment selector, quotient operator equality, a Banach-completeness assertion, a spectral-radius theorem, or a uniform-boundedness principle.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $O=(T,K,L,H,C,P,N)$. Any read first exposes the bounded-linear-operator row $T$ and the scalar endpoint $K$, then reads the norm-bound ledger $L$ and structural rows.
+
+Replay through $C$ returns to the same finite route, and transport through $H$ is componentwise. The provenance and naming rows record only this displayed surface.
+
+The excluded analytic objects require coordinates not present in the carrier. Since no such coordinate can be manufactured by transport or replay, every accepted read remains inside the public operator-norm bound certificate.
+\end{proof}
+
+\closureat{OperatorNormUp}{seedStr}
+
+\begin{closurestatus}{\OperatorNormUp}
+  \constructivestory{An $\OperatorNormUp$ packet is generated from a bounded-linear-operator row, a nonnegative $\RealUp$ bound endpoint, a norm-bound ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:operator-norm-carrier}, \autoref{thm:operator-norm-namecert-obligations}, \autoref{thm:operator-norm-bound-stability}, and \autoref{thm:operator-norm-nonescape-boundary} seed the public scalar-bound certificate over BoundedLinearOperatorUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host supremum construction, quotient operator equality, norm-attainment choice, hidden Banach completeness, spectral-radius limits, uniform-boundedness families, Lean verification, or bridge checking.}
+  \upgradepath{Checked carrier admission and bound stability for BEDC.Derived.OperatorNormUp would upgrade the verification axis while preserving the displayed scalar-bound surface.}
+\end{closurestatus}

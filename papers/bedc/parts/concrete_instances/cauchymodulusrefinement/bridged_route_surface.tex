@@ -97,3 +97,26 @@ The sibling TailMeet root budget package and root seal exactness theorem, \autor
 
 Finally use the non-escape clauses already recorded by the bridge-surface proof. Since the absent coordinates are not exported by the TailMeet package or by the refinement packet, the displayed route is the unique normal form for Real and Completion seal consumers.
 \end{proof}
+
+\begin{corollary}[Cauchy modulus refinement bridged-route consumer determinacy]
+\label{cor:cauchy-modulus-refinement-bridged-route-consumer-determinacy}
+Let $R=(M_0,M_1,U,V,T,W,Q,E,H,C,P,N)$ be an accepted $\CauchyModulusRefinementUp$ packet, and fix the displayed bridge rows
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+Every accepted standard bridge consumer use of $R$ that reports a route selection, a normal-form readback, or an exactness decision for the refinement handoff reports the one named by the chapter: the route through $\CauchyModulusMeetUp$, $\CauchyModulusExtractionUp$, $\RegularCauchySelectorBudgetUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and the $\RealUp$ seal, stabilized by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. No hidden selector, quotient stream, second meet row, duplicate classifier source, selected host limit, host real equality, side-channel completion object, or ambient completeness coordinate can supply a different accepted route, normal form, or exactness decision.
+\end{corollary}
+\leanchecked{BEDC.Derived.CauchyModulusRefinementUp.CauchyModulusRefinementCarrier\_bridged\_route\_consumer\_determinacy}
+\begin{proof}
+Apply the bridged-route surface theorem, \autoref{thm:cauchy-modulus-refinement-bridged-route-surface}. It gives the consumer-facing inventory of an accepted bridge read: before any standard bridge consumer can use the refinement handoff, the read factors through the fixed public route
+$$
+M_0,M_1,U,V,T,W,Q,E,H,C,P,N.
+$$
+The same theorem identifies the sibling surfaces read along that route and excludes hidden selectors, quotient streams, selected host limits, host real equalities, second meet rows, side-channel completion objects, and ambient completeness coordinates.
+
+Now take two accepted standard bridge consumer uses of the fixed packet rows. One may be the chapter's displayed use and the other any consumer-facing use that claims a route selection, normal-form readback, or exactness decision. Since the rows are fixed, both expose the same $M_0,M_1,U,V,T,W,Q,E,H,C,P,N$ data. By bridged-route determinacy, \autoref{thm:cauchy-modulus-refinement-bridged-route-determinacy}, the two public bridge reads factor through the same sibling route and determine the same Real and Completion handoff surface under the componentwise $\hsame$ rows of $H$.
+
+A reported route selection is therefore the displayed factorization route. A reported normal-form readback is the same ordered read through the meet, extraction witness, selector budget, finite window, dyadic tolerance, regular readback, and Real seal rows. A reported exactness decision is the decision that the proposed consumer read is accepted exactly when it factors through those fixed rows and the structural rows $H,C,P,N$.
+
+It remains only to exclude duplicate sources for the same decision. Any such source is either one of the displayed rows, in which case it is already identified by the fixed route and the determinacy theorem, or it is an unlisted coordinate. The surface theorem rejects the unlisted case. Hence every accepted consumer use picks the same finite route, normal form, and exactness decision named by the chapter.
+\end{proof}

@@ -103,4 +103,34 @@ theorem SpeckerSequenceClassifier_transport [AskSetup] [PackageSetup]
       transportUnary', routeUnary', provenanceUnary', nameUnary', sourceWindowDyadic',
       dyadicMonotoneBounded', boundedRealRoute', provenancePkg'⟩
 
+theorem SpeckerSequence_monotone_bounded_ledger [AskSetup] [PackageSetup]
+    {regSource streamWindow dyadicLedger monotoneLedger boundedLedger realSeal transportRows
+      routeRows provenance nameRow sealRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SpeckerSequenceCarrier regSource streamWindow dyadicLedger monotoneLedger boundedLedger
+        realSeal transportRows routeRows provenance nameRow bundle pkg ->
+      Cont (append regSource streamWindow) dyadicLedger monotoneLedger ->
+        Cont monotoneLedger boundedLedger sealRoute ->
+          Cont sealRoute realSeal routeRows ->
+            PkgSig bundle sealRoute pkg ->
+              UnaryHistory regSource ∧ UnaryHistory streamWindow ∧
+                UnaryHistory dyadicLedger ∧ UnaryHistory monotoneLedger ∧
+                  UnaryHistory boundedLedger ∧ UnaryHistory realSeal ∧
+                    UnaryHistory sealRoute ∧ Cont regSource streamWindow dyadicLedger ∧
+                      Cont (append regSource streamWindow) dyadicLedger monotoneLedger ∧
+                        Cont monotoneLedger boundedLedger sealRoute ∧
+                          Cont sealRoute realSeal routeRows ∧ PkgSig bundle provenance pkg ∧
+                            PkgSig bundle sealRoute pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier sourceDyadicMonotone monotoneBoundedSeal sealRealRoute sealPkg
+  obtain ⟨regUnary, windowUnary, dyadicUnary, monotoneUnary, boundedUnary, realUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameUnary, sourceWindowDyadic,
+    _dyadicMonotoneBounded, _boundedRealRoute, provenancePkg⟩ := carrier
+  have sealUnary : UnaryHistory sealRoute :=
+    unary_cont_closed monotoneUnary boundedUnary monotoneBoundedSeal
+  exact
+    ⟨regUnary, windowUnary, dyadicUnary, monotoneUnary, boundedUnary, realUnary, sealUnary,
+      sourceWindowDyadic, sourceDyadicMonotone, monotoneBoundedSeal, sealRealRoute,
+      provenancePkg, sealPkg⟩
+
 end BEDC.Derived.SpeckerSequenceUp

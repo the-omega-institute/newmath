@@ -1,0 +1,46 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchyModulusEquivalenceUp$}
+\label{ch:concrete-instances-bishop-cauchy-modulus-equivalence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopCauchyModulusEquivalenceUp$ packet records the finite equivalence route between a displayed Bishop Cauchy criterion and a displayed dyadic modulus schedule before any completion-facing consumer can read a real seal. It sits after the criterion packet of \autoref{ch:concrete-instances-bishop-cauchy-criterion-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion criterion route of \autoref{ch:concrete-instances-cauchycompletioncriterion-namecert}. Its downstream completion consumer is the witness route of \autoref{ch:concrete-instances-cauchy-completeness-witness-namecert}; the packet does not export quotient streams, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop Cauchy modulus equivalence carrier]
+\label{def:bishop-cauchy-modulus-equivalence-carrier}
+A $\BishopCauchyModulusEquivalenceUp$ carrier is a finite $\BHist$ packet
+$$
+M=(Q,D,S,R,E,K,U,H,T,P,N)
+$$
+with displayed rows $Q$ for the $\BishopCauchyCriterionUp$ criterion, $D$ for the dyadic modulus schedule, $S$ for the finite $\StreamNameUp$ windows inspected by the schedule, $R$ for the $\RegSeqRatUp$ readback, $E$ for the terminal $\RealUp$ seal, $K$ for the $\CauchyCompletionCriterionUp$ dependency, $U$ for the criterion-to-modulus transport row, $H$ for componentwise $\hsame$ transport, $T$ for displayed $\Cont$ replay, $P$ for $\Pkg$ provenance, and $N$ for the local $\NameCert_{\BishopCauchyModulusEquivalenceUp}$ row. Accepted packets compare criterion and modulus data only through these rows.
+\end{definition}
+
+\begin{theorem}[Bishop Cauchy modulus equivalence NameCert obligations]
+\label{thm:bishop-cauchy-modulus-equivalence-namecert-obligations}
+For every accepted $\BishopCauchyModulusEquivalenceUp$ carrier $M=(Q,D,S,R,E,K,U,H,T,P,N)$, the local $\NameCert$ surface consists exactly of criterion-row admission, dyadic modulus exposure, stream-window exposure, regular rational readback, Real seal exposure, completion-criterion dependency exposure, criterion-to-modulus transport, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-cauchy-modulus-equivalence-carrier}. The analytic part is $Q,D,S,R,E,K,U$: the criterion row is read first, the dyadic modulus schedule and finite stream windows display the same Cauchy demand, and the regular rational readback reaches the Real seal only through that displayed route.
+
+The completion dependency is $K$, so completion-facing use remains a dependency row rather than a selected completion object. The structural rows $H,T,P,N$ transport, replay, source, and name exactly the same finite data, leaving no coordinate for quotient streams, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy modulus equivalence consumer route]
+\label{thm:bishop-cauchy-modulus-equivalence-consumer-route}
+Every consumer of an accepted $\BishopCauchyModulusEquivalenceUp$ carrier that claims a criterion/modulus handoff for L10 completion must factor through $\BishopCauchyCriterionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyCompletionCriterionUp$, and the downstream $\CauchyCompletenessWitnessUp$ route before the local $\NameCert$ row is exported.
+\end{theorem}
+\begin{proof}
+Begin with the criterion row $Q$ and the dyadic modulus row $D$. The stream windows $S$ and regular readback $R$ are the only rows that connect those two presentations to the terminal seal $E$, so a completion consumer cannot jump from a criterion statement to a Real-facing witness.
+
+The dependency row $K$ points to the completion criterion, and the witness consumer reads that dependency through the displayed L10 route. The rows $U,H,T,P,N$ then record the handoff, transport, replay, provenance, and name; no additional carrier coordinate supplies quotient equality, selected limits, or ambient completeness.
+\end{proof}
+
+\closureat{BishopCauchyModulusEquivalenceUp}{seedStr}
+
+\begin{closurestatus}{\BishopCauchyModulusEquivalenceUp}
+  \constructivestory{A $\BishopCauchyModulusEquivalenceUp$ packet is generated from a BishopCauchyCriterion row, a dyadic modulus row, StreamName finite windows, RegSeqRat readback, a Real seal, a CauchyCompletionCriterion dependency, criterion-to-modulus transport, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-cauchy-modulus-equivalence-carrier}, \autoref{thm:bishop-cauchy-modulus-equivalence-namecert-obligations}, and \autoref{thm:bishop-cauchy-modulus-equivalence-consumer-route} seed the finite criterion/modulus equivalence route for the L10 Real and Completion surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient streams, countable choice, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, criterion exposure, dyadic modulus exposure, stream-window exposure, regular readback, Real seal non-escape, completion-criterion dependency preservation, transport stability, replay stability, provenance, and local naming.}
+\end{closurestatus}

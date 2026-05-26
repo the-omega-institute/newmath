@@ -203,3 +203,59 @@ readback theorem then recovers empty $unit$ and $counit$ components and the
 endpoint prefix equality.
 \end{proof}
 \leanchecked{BEDC.Derived.AdjunctionUp.AdjunctionTriangleCarrier\_roundtrip\_total\_collapse}
+
+\begin{corollary}[Adjunction triangle empty-roundtrip consumer determinacy]
+\label{cor:adjunction-triangle-empty-roundtrip-consumer-determinacy}
+For histories $left$, $right$, $object$, $unit$, $counit$, $leftLeg$, and
+$rightLeg$, fix the displayed adjunction triangle row
+$$
+\mathsf{AdjunctionTriangleCarrier}(left,right,object,unit,counit,leftLeg,rightLeg)
+$$
+and the two empty roundtrip rows $\hsame(leftLeg,\emp)$ and
+$\hsame(rightLeg,\emp)$. In this corollary, an accepted empty-roundtrip
+consumer use means a use whose admission data are exactly these three local
+rows. Then every accepted empty-roundtrip consumer use has the same determined
+readback
+$$
+\begin{aligned}
+&\mathsf{AdjunctionTriangleCarrier}(left,right,object,unit,counit,leftLeg,rightLeg)
+\land \hsame(leftLeg,\emp)\land \hsame(rightLeg,\emp)\\
+&\qquad\Longrightarrow
+\hsame(unit,\emp)\land \hsame(counit,\emp)\land \hsame(left,right).
+\end{aligned}
+$$
+Consequently the finite consumer route is the carrier row, the two empty
+roundtrip rows, the component-exactness readback, and the prefix-determinacy
+readback. The exactness decision is the pair
+$\hsame(unit,\emp)$ and $\hsame(counit,\emp)$; the prefix decision is
+$\hsame(left,right)$; and the empty display normal form is
+$(left,left,object,\emp,\emp,\emp,\emp)$. No accepted use with the same fixed
+rows may choose a second component source, an alternate prefix coordinate, or a
+duplicate classifier source outside those displayed rows.
+\end{corollary}
+\begin{proof}
+Let an accepted empty-roundtrip consumer use be given. By its admission data it
+has the adjunction triangle carrier row and the two witnesses
+$\hsame(leftLeg,\emp)$ and $\hsame(rightLeg,\emp)$.
+
+Apply \autoref{thm:adjunction-triangle-roundtrip-empty-iff-components-empty} in
+the forward direction. This reads the two empty roundtrip rows back to the
+unique displayed component-exactness decision
+$\hsame(unit,\emp)\land\hsame(counit,\emp)$.
+
+Apply \autoref{thm:adjunction-empty-roundtrip-prefix-deterministic} to the same
+carrier row and the same two empty roundtrip rows. This reads the endpoint
+prefixes through the unique local prefix decision $\hsame(left,right)$.
+Together with the original empty witnesses for $leftLeg$ and $rightLeg$, these
+three conclusions classify the display by the tuple
+$(left,left,object,\emp,\emp,\emp,\emp)$.
+
+Every conclusion used by the consumer has therefore been obtained from the
+same three admission rows through the two cited local readback theorems. A
+purported alternate component source would have to bypass the component
+exactness readback; an alternate prefix coordinate would have to bypass prefix
+determinacy; and a duplicate classifier source would have to add a coordinate
+not present in the carrier row or in the two empty roundtrip rows. Such a row is
+not part of the accepted empty-roundtrip consumer use, so the displayed route,
+normal form, and exactness decision are determined.
+\end{proof}

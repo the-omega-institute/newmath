@@ -44,3 +44,20 @@ Use the route theorems to identify the allowed normal-form path. \autoref{thm:me
 
 Finally apply \autoref{thm:metacic-normalization-frontier-public-obligation-package} and \autoref{thm:metacic-normalization-frontier-closed-normal-route-boundary}. Their public and closed-normal surfaces expose only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates, so host normalization, quotient term equality, and hidden normalizers have no accepted route into the packet.
 \end{proof}
+
+\begin{theorem}[MetaCIC normalization frontier candidate confluence budget]
+\label{thm:metacic-normalization-frontier-candidate-confluence-budget}
+A confluence-facing consumer of an accepted $\MetaCICNormalizationFrontierUp$ packet may use the candidate rows $C,K$ only as candidate evidence until the finished-normal boundary is displayed. It may use the finished rows $E,N$ only after that boundary is visible through the same finite packet
+$$
+F=(C,K,E,N,S,H,R,P,L).
+$$
+The consumer cannot identify the candidate-evidence route with the finished-normal route, cannot erase the obstruction row $S$, and cannot import blanket strong normalization, subject reduction, host normalization, quotient term equality, or a hidden normalizer.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICNormalizationFrontierUp.MetaCICNormalizationFrontierCarrier\_candidate\_confluence\_budget}
+\begin{proof}
+Start with \autoref{thm:metacic-normalization-frontier-candidate-evidence-totality}. It confines candidate use to the displayed packet and makes $C,K$ candidate evidence rows rather than completed normal-form rows.
+
+Apply \autoref{thm:metacic-normalization-frontier-seal-boundary}. The seal row $S$ remains visible between candidate evidence and closed-normal consumption, and the finished rows $E,N$ become available only through the displayed boundary.
+
+Finally apply \autoref{thm:metacic-normalization-frontier-normal-route-nonescape}. Normal-form consumers remain inside $C,K,E,N,S,H,R,P,L$, so a confluence-facing consumer has no route that identifies candidate evidence with finished-normal evidence, erases $S$, or imports the excluded host normalization and quotient-equality principles.
+\end{proof}

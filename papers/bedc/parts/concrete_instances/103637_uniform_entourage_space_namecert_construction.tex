@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\UniformEntourageSpaceUp$}
+\label{ch:concrete-instances-uniform-entourage-space-namecert}
+\origin{human}
+
+Following Kelley and Bourbaki on uniform spaces as entourage systems, the $\UniformEntourageSpaceUp$ packet records the finite BEDC surface where diagonal, symmetry, refinement, and composition entourages are visible before any L10 completion consumer reads the route. It sits between the uniform-completion carrier of \autoref{ch:concrete-instances-uniformcompletion-namecert}, the Cauchy-entourage request layer of \autoref{ch:concrete-instances-cauchy-entourage-filter-namecert}, the real uniform structure of \autoref{ch:concrete-instances-real-uniform-structure-namecert}, and the metric completion boundary of \autoref{ch:concrete-instances-metriccompletion-namecert}. The packet names the entourage-side uniformity interface for completion handoff; it is not a quotient uniform space, a selected limit, an open-cover compactness theorem, countable choice, or ambient completeness.
+
+\begin{definition}[Uniform entourage-space carrier]
+\label{def:uniform-entourage-space-carrier}
+A $\UniformEntourageSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+U=(E,D,S,R,C,L,T,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the finite entourage-family row. It records the displayed binary neighborhoods used by every later Cauchy-entourage and completion-facing read.
+\item $D$ is the diagonal row, requiring each accepted entourage request to expose the finite diagonal witness it uses.
+\item $S$ is the symmetry row, recording the displayed reversal witness for the same entourage request.
+\item $R$ is the refinement row, recording how a smaller displayed entourage is chosen inside a larger displayed request without using a host filter quotient.
+\item $C$ is the composition row, recording the finite two-step entourage whose composite lies inside the requested entourage.
+\item $L$ is the L10 completion handoff row linking the displayed entourage data to $\UniformCompletionUp$, $\CauchyEntourageFilterUp$, $\RealUniformStructureUp$, and $\MetricCompletionUp$ consumers.
+\item $T$ records componentwise $\hsame$ transport for the entourage family, diagonal, symmetry, refinement, composition, handoff, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay of the route
+$$
+E,D,S,R,C \longmapsto L \longmapsto T,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\UniformEntourageSpaceUp$, $\UniformCompletionUp$, $\CauchyEntourageFilterUp$, $\RealUniformStructureUp$, $\MetricCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformEntourageSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed rows $E,D,S,R,C,L,T,K,P,N$. The carrier has no coordinate for quotient uniform spaces, selected limits, open-cover compactness, countable choice, host equality, ambient completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Uniform entourage-space NameCert obligations]
+\label{thm:uniform-entourage-space-namecert-obligations}
+For every accepted $\UniformEntourageSpaceUp$ carrier
+$$
+U=(E,D,S,R,C,L,T,K,P,N),
+$$
+the local $\NameCert_{\UniformEntourageSpaceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier exposure for the entourage family, diagonal, symmetry, refinement, composition, L10 handoff, transport, replay, provenance, and local naming rows;
+\item diagonal, symmetry, refinement, and composition exactness, requiring every uniformity read to remain inside the displayed rows $D,S,R,C$ attached to the same entourage-family row $E$;
+\item completion handoff, requiring each $\UniformCompletionUp$, $\CauchyEntourageFilterUp$, $\RealUniformStructureUp$, and $\MetricCompletionUp$ consumer named by $L$ or $P$ to read the displayed entourage route before any completion-facing boundary is available;
+\item transport and replay stability through componentwise $\hsame$ in $T$ and displayed $\Cont$ replay in $K$;
+\item provenance exhaustion, requiring $P$ and $N$ to export no quotient uniform space, selected limit, open-cover compactness theorem, countable-choice selector, host equality, ambient completeness, Lean verification, or bridge checking.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:uniform-entourage-space-carrier}. The projection exposes the entourage-family row, diagonal row, symmetry row, refinement row, composition row, L10 handoff, transport, replay, provenance, and local naming rows.
+
+The uniformity obligations are componentwise. Diagonal reads are confined to $D$, symmetry reads to $S$, refinement reads to $R$, and composition reads to $C$, all over the same displayed entourage family $E$.
+
+The completion handoff is the row $L$. A consumer for $\UniformCompletionUp$, $\CauchyEntourageFilterUp$, $\RealUniformStructureUp$, or $\MetricCompletionUp$ reaches the completion corridor only after the displayed route $E,D,S,R,C$ has been replayed.
+
+Finally $T,K,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no quotient, selected-limit, compactness, choice, host-equality, completeness, verification, or bridge coordinate, these rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Uniform entourage-space completion handoff]
+\label{thm:uniform-entourage-space-completion-handoff}
+Every L10 completion consumer of an accepted $\UniformEntourageSpaceUp$ carrier factors through the displayed route
+$$
+E,D,S,R,C \longmapsto L \longmapsto T,K,P,N .
+$$
+Thus the consumer first reads the finite entourage family together with its diagonal, symmetry, refinement, and composition witnesses, and only then reaches the completion-facing handoff row. No consumer receives a quotient uniform space, selected limit, open-cover compactness theorem, countable-choice selector, host equality, or ambient completeness principle from this packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $U=(E,D,S,R,C,L,T,K,P,N)$. The only uniformity data available to a consumer are the displayed entourage row and its four structural witnesses.
+
+The handoff row $L$ is downstream of those witnesses. It can name $\UniformCompletionUp$, $\CauchyEntourageFilterUp$, $\RealUniformStructureUp$, and $\MetricCompletionUp$ consumers only as readers of the already displayed entourage route.
+
+The structural rows preserve the same order. Componentwise $\hsame$ in $T$ and displayed $\Cont$ replay in $K$ cannot introduce a new quotient, selected-limit, compactness, choice, host-equality, or completeness coordinate.
+
+Therefore every completion-facing read factors through the stated finite route and remains an entourage-surface handoff rather than an ambient completion theorem.
+\end{proof}
+
+\closureat{UniformEntourageSpaceUp}{seedStr}
+
+\begin{closurestatus}{\UniformEntourageSpaceUp}
+  \constructivestory{A $\UniformEntourageSpaceUp$ packet is generated from a finite entourage-family row, diagonal row, symmetry row, refinement row, composition row, L10 completion handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-entourage-space-carrier}, \autoref{thm:uniform-entourage-space-namecert-obligations}, and \autoref{thm:uniform-entourage-space-completion-handoff} seed the Kelley--Bourbaki entourage surface feeding UniformCompletion, CauchyEntourageFilter, RealUniformStructure, and MetricCompletion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient uniform spaces, selected limits, open-cover compactness, countable choice, host equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, diagonal exactness, symmetry exactness, refinement exactness, composition exactness, completion handoff, transport, replay, provenance, and local naming for BEDC.Derived.UniformEntourageSpaceUp.}
+\end{closurestatus}

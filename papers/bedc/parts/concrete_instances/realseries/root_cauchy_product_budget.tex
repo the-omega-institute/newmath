@@ -1,0 +1,44 @@
+\begin{definition}[RealSeries root Cauchy-product consumer surface]\label{def:realseries-root-cauchy-product-consumer-surface}
+For an accepted $\RealSeriesUp$ carrier $K=(T,S,W,Q,D,M,E,H,C,P,N)$, the root Cauchy-product consumer surface is the finite $\BHist$ route
+$$
+\mathsf{RootProd}(T,S,W,Q,D,M,H,C,P,N)
+$$
+whose rows are exactly the term stream, partial-sum windows, selected $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, shared tail threshold, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\RealSeriesUp}$ naming. A $\CauchyProductUp$ consumer may read this surface before endpoint sealing, but it receives no host infinite sum, selected product value, quotient equality of series, countable-choice tail selector, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RealSeries root product tail budget]\label{thm:realseries-root-product-tail-budget}
+Every $\CauchyProductUp$ consumer of an accepted $\RealSeriesUp$ carrier first consumes the root Cauchy-product surface of \autoref{def:realseries-root-cauchy-product-consumer-surface}. Its tail request is therefore budgeted by the displayed route
+$$
+S \longrightarrow W \longrightarrow Q \longrightarrow D \longrightarrow M \longrightarrow H,C,P,N,
+$$
+where $S$ gives finite partial-sum windows, $W$ gives selected stream windows, $Q$ gives regular rational readback, $D$ gives dyadic tolerance accounting, and $M$ gives the shared tail threshold.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealseriesUp.RealSeriesRootProductTailBudget}
+\begin{proof}
+Project the carrier $K$. The product-facing rows visible before endpoint sealing are the finite partial-sum, window, readback, tolerance, threshold, transport, replay, provenance, and naming rows.
+
+Read the route in the order displayed in the statement. The $\RegSeqRatUp$ row cannot be inspected before the $\StreamNameUp$ windows are selected, and the shared threshold row cannot be inspected before the $\DyadicRatCoreUp$ tolerance ledger has named the requested budget.
+
+The structural rows $H,C,P,N$ preserve and name the same surface. Since no selected product value or host summation object is a carrier coordinate, the $\CauchyProductUp$ consumer receives only the finite tail budget.
+\end{proof}
+\leanchecked{BEDC.Derived.RealSeriesUp.RealSeriesRootProductTailBudget}
+
+\begin{theorem}[RealSeries partial-sum product route]\label{thm:realseries-partial-sum-product-route}
+For every accepted $\RealSeriesUp$ carrier, any product-facing read from partial-sum windows to a $\CauchyProductUp$ handoff factors through
+$$
+\mathsf{partial\mbox{-}sum\ windows}
+\longrightarrow \DyadicRatCoreUp
+\longrightarrow \RegSeqRatUp
+\longrightarrow \mathsf{shared\ tail\ threshold}
+\longrightarrow \CauchyProductUp .
+$$
+The route exposes finite window data, dyadic comparison radii, regular rational readback, the single shared tail threshold, and the local $\NameCert_{\RealSeriesUp}$ rows; it does not expose a second product criterion outside the displayed series packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealSeriesUp.RealSeriesPartialSumProductRoute}
+\begin{proof}
+Begin with the finite partial-sum windows in $S$. They are the only root rows that a product-facing consumer may treat as summation data.
+
+Use the dyadic ledger $D$ and regular readback row $Q$ to account for finite comparison radii and rational window values. The shared threshold $M$ is then the unique tail gate available to the consumer.
+
+Finally hand the result to the $\CauchyProductUp$ consumer through $H,C,P,N$. This is the same root surface named in \autoref{thm:realseries-root-product-tail-budget}, so no external product test, host infinite sum, or ambient completeness witness is exported.
+\end{proof}

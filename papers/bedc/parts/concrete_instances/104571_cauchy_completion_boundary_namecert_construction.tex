@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionBoundaryUp$}
+\label{ch:concrete-instances-cauchy-completion-boundary-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive completion and Kelley-style completion interfaces, the $\CauchyCompletionBoundaryUp$ packet records the finite handoff surface between metric-completion, uniform-completion, named-window, dyadic-tolerance, regular-readback, and Real-seal consumers. It sits over the metric completion route of \autoref{ch:concrete-instances-metriccompletion-namecert}, the uniform completion route of \autoref{ch:concrete-instances-uniformcompletion-namecert}, the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the completion boundary without importing quotient stream equality, selected limits, ambient completeness, countable choice, or host completion operators.
+
+\begin{definition}[Cauchy completion boundary carrier]
+\label{def:cauchy-completion-boundary-carrier}
+A $\CauchyCompletionBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,U,S,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricCompletionUp$ row naming the metric Cauchy completion request and its displayed finite source route.
+\item $U$ is the $\UniformCompletionUp$ row naming the uniform completion request and its entourage-facing handoff route.
+\item $S$ is the $\StreamNameUp$ finite-window row shared by the metric and uniform completion reads.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to budget Cauchy comparisons, entourage requests, and Real-facing seal reads.
+\item $R$ is the $\RegSeqRatUp$ readback row extracted from the same finite windows and dyadic tolerances.
+\item $E$ is the $\RealUp$ seal row, visible only after $M,U,S,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the metric-completion, uniform-completion, window, dyadic, readback, Real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a completion-facing read through $M,U,S,D,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionBoundaryUp$, $\MetricCompletionUp$, $\UniformCompletionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionBoundaryUp}$ row.
+\end{enumerate}
+The classifier accepts only packets whose metric-completion row, uniform-completion row, shared finite windows, dyadic tolerance ledger, regular readback, Real seal, transport, replay, provenance, and local naming are displayed in this order. It has no coordinate for quotient streams, selected representatives, selected limits, ambient completeness, countable choice, or host completion operators.
+\end{definition}
+
+\begin{theorem}[Cauchy completion boundary NameCert obligations]
+\label{thm:cauchy-completion-boundary-namecert-obligations}
+For every accepted $\CauchyCompletionBoundaryUp$ carrier $B=(M,U,S,D,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyCompletionBoundaryUp}$ surface consists exactly of carrier admission for the metric-completion row, uniform-completion row, shared finite-window row, dyadic tolerance ledger, regular rational readback, Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every completion-boundary read must consume the rows $M,U,S,D,R,E,H,C,P,N$ before it exports a Real-facing completion handoff, and no obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The projection exposes the metric-completion request, uniform-completion request, shared windows, dyadic tolerances, regular readback, Real seal, transport, replay, provenance, and local name as one finite packet.
+
+Read stability from the row order. A consumer that asks for a completion-facing handoff must pass through the shared $\StreamNameUp$ windows and $\DyadicRatCoreUp$ ledger before $R$ or $E$ can be inspected, so the metric and uniform routes cannot escape into a host completion object.
+
+Finally apply coordinate exhaustion. Quotient streams, selected representatives, selected limits, ambient completeness, countable choice, and host completion operators are not coordinates of $B$, and the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows preserve the displayed packet rather than adding new analytic data.
+\end{proof}
+
+\begin{theorem}[Cauchy completion boundary finite handoff]
+\label{thm:cauchy-completion-boundary-finite-handoff}
+Every $\MetricCompletionUp$, $\UniformCompletionUp$, or $\RealUp$ consumer citing an accepted $\CauchyCompletionBoundaryUp$ packet receives only the finite handoff
+$$
+M \longmapsto U \longmapsto S \longmapsto D \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+The handoff supplies the metric-completion route, uniform-completion route, StreamName windows, DyadicRatCore tolerances, RegSeqRat readback, RealUp seal, transport, replay, provenance, and local naming. It supplies no quotient stream equality, selected representative, selected limit, countable-choice schedule, ambient completeness theorem, or host completion operator.
+\end{theorem}
+\begin{proof}
+Begin with a consumer of the boundary packet. Carrier projection gives the rows $M,U,S,D,R,E,H,C,P,N$ and no other completion-facing coordinate.
+
+The shared observation route is finite. The row $S$ stores the inspected windows, $D$ stores the dyadic budget, $R$ stores the regular readback, and $E$ is terminal with respect to the displayed Real-facing seal.
+
+The structural rows then keep the same route under transport and replay. Since the excluded quotient, choice, limit, completeness, and host-completion objects are absent from the carrier, every exported handoff is exhausted by the displayed finite route.
+\end{proof}
+
+\closureat{CauchyCompletionBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionBoundaryUp}
+  \constructivestory{A $\CauchyCompletionBoundaryUp$ packet is generated from MetricCompletion and UniformCompletion rows, shared StreamName windows, a DyadicRatCore tolerance ledger, RegSeqRat readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-boundary-carrier}, \autoref{thm:cauchy-completion-boundary-namecert-obligations}, and \autoref{thm:cauchy-completion-boundary-finite-handoff} seed the finite completion-boundary handoff for MetricCompletion, UniformCompletion, and RealUp consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, selected limits, countable choice, ambient completion, host completion operators, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared-window discipline, dyadic tolerance routing, RegSeqRat readback, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyCompletionBoundaryUp.}
+\end{closurestatus}

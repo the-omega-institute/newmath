@@ -422,3 +422,43 @@ proof input.
   \notclaimed{Full $\NatUp$ arithmetic, recursion equations, cancellation, order compatibility, multiplication interaction, and machine-checked standard-bridge closure are outside this $\AddUp$ closure.}
   \upgradepath{no further upgrade --- chapter at top of formal axis}
 \end{closurestatus}
+
+\begin{proposition}[Zero-result continuation has no same-surface reverse]
+\label{prop:unary-zero-result-one-way-boundary}
+In the public $\AddUp$ surface of \autoref{thm:concrete-addup-namecert}, the displayed implication
+$$
+  \Unary(h)
+  \quad\text{and}\quad
+  \Unary(k)
+  \quad\text{and}\quad
+  \ContR(h,k,\Ezero(z))
+  \quad\Rightarrow\quad
+  \bot
+$$
+is a one-way interpretation boundary. More precisely, for fixed unary inputs $h$ and $k$, no same-surface reverse rule may use only the zero-result absence row to supply the missing zero-result continuation row
+$$
+  \neg\ContR(h,k,\Ezero(z))
+  \quad\Rightarrow\quad
+  \ContR(h,k,\Ezero(z)).
+$$
+Consequently the no-zero-result row cannot be completed into an equivalence row on the visible $\mathsf{AddSource}$, $\mathsf{AddPattern}$, $\mathsf{AddClassifier}$, or $\mathsf{AddLedger}$ surface.
+\end{proposition}
+\begin{proof}
+Assume $h$ and $k$ are unary histories. By \autoref{lem:unary-cont-e0-result-absurd}, every displayed continuation witness
+$$
+  \ContR(h,k,\Ezero(z))
+$$
+is impossible. Hence the zero-result absence row
+$$
+  \neg\ContR(h,k,\Ezero(z))
+$$
+is already forced by the unary source hypotheses.
+
+Suppose a same-surface reverse rule of the displayed form were available. Applying it to the absence row just obtained would produce a continuation witness
+$$
+  \ContR(h,k,\Ezero(z)).
+$$
+Applying \autoref{lem:unary-cont-e0-result-absurd} again to the same unary inputs and this witness gives a contradiction. Thus the reverse rule cannot coexist with the unary continuation calculus.
+
+The certificate rows in this chapter do not contain another route around this obstruction. By \autoref{def:additive-source-specification}, a source row for an additive output contains an actual continuation witness. By \autoref{def:additive-pattern-specification}, the pattern row is that continuation witness together with the unary input discipline. By \autoref{def:additive-stability-and-ledger-policy}, the ledger records the same witness rather than replacing it by an absence statement. Finally, \autoref{def:additive-classifier-specification} compares generated result histories only after a result has been generated. Therefore the absence of a zero-headed continuation is not a hidden source, pattern, classifier, or ledger witness for a zero-headed result; it is exactly the boundary excluding such a row.
+\end{proof}

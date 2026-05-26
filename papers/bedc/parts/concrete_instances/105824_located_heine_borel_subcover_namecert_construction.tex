@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\LocatedHeineBorelSubcoverUp$}
+\label{ch:concrete-instances-located-heine-borel-subcover-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive finite-subcover treatment for compact intervals, the $\LocatedHeineBorelSubcoverUp$ packet records the BEDC route that turns a located closed interval cover request into a displayed finite subcover through finite nets and positive-radius data. It sits over the located interval finite-net surface of \autoref{ch:concrete-instances-located-closed-interval-finite-net-namecert}, the compact-cover radius route of \autoref{ch:concrete-instances-lebesgue-number-lemma-namecert}, the finite-net interval-cover packet of \autoref{ch:concrete-instances-heine-borel-finite-net-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet names a located finite-subcover certificate; it does not claim unrestricted open-cover Heine--Borel compactness, selected subcovers from arbitrary covers, countable choice, quotient interval equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Located Heine--Borel subcover carrier]
+\label{def:located-heine-borel-subcover-carrier}
+A $\LocatedHeineBorelSubcoverUp$ carrier is a finite $\BHist$ packet
+$$
+S=(I,F,L,H,R,D,E,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the located closed interval source row, exposing endpoint names, endpoint order, and locatedness only as finite $\RealUp$ histories.
+\item $F$ is the $\LocatedClosedIntervalFiniteNetUp$ finite-net row, listing the mesh scale and finite interval net used by the cover request.
+\item $L$ is the $\LebesgueNumberLemmaUp$ positive-radius row attached to the displayed finite cover or pointwise radius family.
+\item $H$ is the $\HeineBorelFiniteNetUp$ sibling row that records the finite-net interval-cover route over the same interval, net, radius, dyadic, and real-seal data.
+\item $R$ is the retained-subcover row, listing exactly the finitely many cover witnesses selected by the displayed net and radius checks.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording mesh width, radius slack, endpoint containment, and finite neighborhood comparisons.
+\item $E$ is the terminal $\RealUp$ seal row for endpoint, radius, and coverage reads.
+\item $T$ records componentwise $\hsame$ transport for the interval source, finite-net row, radius row, finite-net sibling row, retained-subcover row, dyadic ledger, real seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a located cover request through $I,F,L,H,R,D,E,T,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedHeineBorelSubcoverUp$, $\LocatedClosedIntervalFiniteNetUp$, $\LebesgueNumberLemmaUp$, $\HeineBorelFiniteNetUp$, $\RealUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedHeineBorelSubcoverUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,F,L,H,R,D,E,T,C,P,N$. It has no coordinate for arbitrary open covers, unrestricted Heine--Borel compactness, selected subcover functionals, quotient interval representatives, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located Heine--Borel subcover NameCert obligations]
+\label{thm:located-heine-borel-subcover-namecert-obligations}
+For every accepted $\LocatedHeineBorelSubcoverUp$ carrier
+$$
+S=(I,F,L,H,R,D,E,T,C,P,N),
+$$
+the local $\NameCert_{\LocatedHeineBorelSubcoverUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the located interval source, finite-net row, positive-radius row, finite-net sibling row, retained-subcover row, dyadic ledger, real seal, transport, replay, provenance, and local naming rows;
+\item located interval exposure, requiring every cover request to display $I$ and the finite-net row $F$ before any retained cover witness is inspected;
+\item radius compatibility, requiring $L$ and $D$ to record the positive-radius and dyadic slack checks that allow listed net points to control nearby interval points;
+\item finite-subcover exactness, requiring $R$ to list only cover witnesses reached through the finite net, radius ledger, and $\HeineBorelFiniteNetUp$ sibling route;
+\item real-seal non-escape, requiring $E$ to be downstream of the located interval, finite-net, radius, retained-subcover, and dyadic rows;
+\item structural preservation through $T,C,P,N$ and refusal of arbitrary open-cover compactness, unrestricted Heine--Borel, selected subcover functionals, quotient interval representatives, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No located finite-subcover obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-heine-borel-subcover-carrier}. The analytic rows are exactly the located interval source $I$, finite-net row $F$, positive-radius row $L$, finite-net sibling row $H$, retained-subcover row $R$, dyadic ledger $D$, and terminal real seal $E$.
+
+The cover request first exposes $I$ and $F$. The packet therefore reads a located interval and a displayed finite net before it can inspect any cover witness, so the route cannot start from an arbitrary open-cover selector.
+
+The radius step is finite. The row $L$ supplies the positive radius ledger, while $D$ records the mesh-width and endpoint-slack comparisons that transfer a witness at a listed net point to nearby interval points.
+
+The retained row $R$ is downstream of $F,L,H,D$. Hence every retained cover witness is tied to the same finite-net route already named by \autoref{ch:concrete-instances-heine-borel-finite-net-namecert}, and the terminal seal $E$ is reached only after those finite checks have been displayed.
+
+Transport, replay, provenance, and local naming preserve this finite surface. Since the refused objects have no carrier coordinate, the local certificate exports only the located finite-subcover route.
+\end{proof}
+
+\begin{theorem}[Located Heine--Borel finite-net route]
+\label{thm:located-heine-borel-subcover-finite-net-route}
+Every located cover read from an accepted $\LocatedHeineBorelSubcoverUp$ packet factors through the finite route
+$$
+\LocatedClosedIntervalFiniteNetUp \longmapsto \LebesgueNumberLemmaUp \longmapsto \HeineBorelFiniteNetUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp .
+$$
+The exported object is the retained finite subcover row $R$ over $I,F,L,H,D,E,T,C,P,N$, not an unrestricted open-cover Heine--Borel principle.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $S=(I,F,L,H,R,D,E,T,C,P,N)$. The located interval and finite net are exposed by $I$ and $F$, the positive-radius ledger is $L$, and the already displayed finite-net cover route is $H$.
+
+The retained-subcover row $R$ may be read only after those rows. Its witnesses are checked by the dyadic ledger $D$ and then sealed by $E$, so the exported finite subcover is a displayed BEDC packet row rather than a host-level choice operation.
+
+Replay through $C$, transport through $T$, provenance through $P$, and naming through $N$ keep the same route. No arbitrary open cover, unrestricted compactness theorem, quotient interval representative, countable-choice row, or ambient completeness coordinate is available to bypass it.
+\end{proof}
+
+\closureat{LocatedHeineBorelSubcoverUp}{seedStr}
+
+\begin{closurestatus}{\LocatedHeineBorelSubcoverUp}
+  \constructivestory{A $\LocatedHeineBorelSubcoverUp$ packet is generated from a located closed interval source, a LocatedClosedIntervalFiniteNet row, a LebesgueNumberLemma positive-radius ledger, a HeineBorelFiniteNet sibling row, retained finite subcover witnesses, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-heine-borel-subcover-carrier}, \autoref{thm:located-heine-borel-subcover-namecert-obligations}, and \autoref{thm:located-heine-borel-subcover-finite-net-route} seed the located finite-subcover route over interval nets, positive-radius ledgers, finite-net cover rows, dyadic tolerances, and Real seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted open-cover Heine--Borel compactness, arbitrary subcover selection, countable choice, quotient interval equality, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located interval exposure, radius compatibility, finite-subcover exactness, real-seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.LocatedHeineBorelSubcoverUp.}
+\end{closurestatus}

@@ -19,11 +19,13 @@ Now add the finite approximation and observation-budget chapters. The accepted $
 
 The joined package is therefore a single route over the displayed kernel objects. Since every cited surface is finite and row-exhaustive, the assembled package exports only the listed product, finite-approximation, observation-budget, transport, continuation, provenance, and certificate rows.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_budget\_route\_package}
 
 \begin{theorem}[CauchyProduct componentwise window admission]
 \label{thm:cauchy-product-componentwise-window-admission}
 For an accepted $\CauchyProductUp$ packet $Z$, the left and right product windows are admitted componentwise through the displayed $\StreamNameUp$ rows $W_X,W_Y$ and the displayed $\RegSeqRatUp$ route to $E$ before any product seal is read. The admission proceeds through the finite window rows, dyadic rows, product row, product-radius ledger, $\hsame$ transports, $\Cont$ continuations, $\Pkg$ provenance, and local $\NameCert_{\CauchyProductUp}$ row, with the observation-budget rows attached only after the componentwise source windows have been exposed.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_componentwise\_window\_admission}
 \begin{proof}
 First read the source windows. The paired-window source admission of \autoref{thm:cauchy-product-paired-window-source-admission}, the StreamName handoff of \autoref{thm:cauchy-product-streamname-handoff}, and the root source window totality of \autoref{thm:cauchy-product-root-source-window-totality} expose $W_X,W_Y$ componentwise before the dyadic observations and product row are visible.
 
@@ -36,6 +38,7 @@ Finally attach the real-facing boundary. The Real seal root consumer boundary of
 \label{thm:cauchy-product-real-handoff-nonescape}
 Every $\RealUp$ or $\CauchyLimitSealUp$ consumer of the product budget route assembled in \autoref{thm:cauchy-product-budget-route-package} receives only the displayed product rows, finite-approximation rows, observation-budget rows, transport rows, continuation rows, provenance rows, and local $\NameCert$ rows. The handoff supplies no quotient stream, selected real value, host metric, host multiplication primitive, trichotomy row, independent real carrier, ambient completeness principle, or external Cauchy-limit principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_real\_handoff\_nonescape}
 \begin{proof}
 Start from the product non-escape rows. The window product nonescape of \autoref{thm:cauchy-product-window-product-nonescape}, the RegSeq seal non-escape of \autoref{thm:cauchy-product-regseq-seal-nonescape}, and the root completion non-escape of \autoref{thm:cauchy-product-root-completion-nonescape} rule out quotient streams, selected limits, host multiplication, independent real carriers, and ambient completeness inside the accepted $\CauchyProductUp$ packet.
 
@@ -48,10 +51,36 @@ Finally compose with the completion-facing sibling surfaces. The finite approxim
 \label{thm:cauchy-product-public-budget-route-export}
 Every public $\RealUp$, $\CauchyLimitSealUp$, or completion-facing read of an accepted $\CauchyProductUp$ budget route factors through the assembled $\CauchyProductUp$ rows, the $\FiniteCauchyApproximationUp$ packet, the $\RealObservationBudgetUp$ packet, and the $\CauchyLimitSealUp$ boundary named by \autoref{thm:cauchy-product-budget-route-package}, \autoref{thm:cauchy-product-componentwise-window-admission}, and \autoref{thm:cauchy-product-real-handoff-nonescape}. The public export supplies the finite product route and its admitted componentwise windows, but it exports no quotient stream, selected real value, host multiplication primitive, trichotomy row, or independent completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_public\_budget\_route\_export}
 \begin{proof}
 Use the budget route package first. \autoref{thm:cauchy-product-budget-route-package} assembles the product rows with the finite-approximation and observation-budget packets over the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ evidence.
 
 Next expose the componentwise admission surface. \autoref{thm:cauchy-product-componentwise-window-admission} forces the $\StreamNameUp$ rows and the $\RegSeqRatUp$ entry into the route before any product seal is read, so a public reader receives the product boundary through those displayed windows.
 
 Finally apply the handoff non-escape row. \autoref{thm:cauchy-product-real-handoff-nonescape} states that the $\RealUp$ and $\CauchyLimitSealUp$ consumers of the assembled route receive only the listed product, finite-approximation, observation-budget, transport, continuation, provenance, and certificate rows. The same exclusions rule out quotient streams, selected real values, host multiplication primitives, trichotomy rows, and independent completeness principles from the public export.
+\end{proof}
+
+\begin{corollary}[CauchyProduct budget route strict local obstruction]
+\label{cor:cauchy-product-budget-route-strict-obstruction}
+Let $Z=(X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N)$ be an accepted $\CauchyProductUp$ packet. Let $F=(R_F,n_F,k_F,W_F,D_F,E_F,S_F,H_F,C_F,P_F,N_F)$ be the accepted $\FiniteCauchyApproximationUp$ packet serving the same finite product read, and let $B=(E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B)$ be the accepted $\RealObservationBudgetUp$ packet on the same route. Suppose a displayed failure, refusal, separation, or countermodel row is cited against a named converse or reuse route for the product budget package of \autoref{thm:cauchy-product-budget-route-package}. Then that row is a strict local obstruction: it blocks only the named route whose consumer-facing read tries to omit, replace, detach, or bypass one of the displayed coordinates
+$$
+X,Y,W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,E,H,C,L,N,
+$$
+$$
+R_F,n_F,k_F,W_F,D_F,E_F,S_F,H_F,C_F,P_F,N_F,
+$$
+$$
+E_B,W_B,D_B,R_B,S_B,H_B,C_B,P_B,N_B,
+$$
+together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support rows. The same row cannot be reinterpreted as a global impossibility statement for $\CauchyProductUp$, as a host theorem about multiplication or completion, as an external validation channel, as a quotient-stream argument, as a selected real value, as a host metric, as a trichotomy row, as an independent real carrier, as an ambient completeness principle, or as an external Cauchy-limit principle.
+\end{corollary}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_budget\_route\_strict\_obstruction}
+\begin{proof}
+First apply the budget route package of \autoref{thm:cauchy-product-budget-route-package}. It assembles the accepted $\CauchyProductUp$ packet with the accepted finite-approximation and observation-budget packets into one finite product budget route. On the product side the route displays the source rows, paired windows, modulus rows, dyadic readbacks, product row, classifier row, real-seal support, transports, continuations, ledger, provenance, and local naming evidence. On the auxiliary sides it displays the finite approximation rows of $F$ and the observation-budget rows of $B$. Thus a consumer-facing converse or reuse route has no first read except through these displayed packet coordinates.
+
+Next apply the Real handoff non-escape theorem, \autoref{thm:cauchy-product-real-handoff-nonescape}. Every $\RealUp$ or $\CauchyLimitSealUp$ consumer of the assembled route receives only the displayed product rows, finite-approximation rows, observation-budget rows, transport rows, continuation rows, provenance rows, and local $\NameCert$ rows. In particular, quotient streams, selected real values, host metrics, host multiplication primitives, trichotomy rows, independent real carriers, ambient completeness principles, and external Cauchy-limit principles are not exported coordinates of the handoff.
+
+Now consider the cited failure, refusal, separation, or countermodel row. If the named converse or reuse route asks to omit, replace, detach, or bypass one of the displayed product, finite-approximation, observation-budget, transport, continuation, provenance, ledger, or local naming coordinates, the cited row blocks exactly that request at the challenged coordinate of the accepted package. If the route instead asks for a global impossibility statement, a host theorem, an external validation channel, a quotient stream, a selected real value, a host metric, a trichotomy row, an independent real carrier, an ambient completeness principle, or an external Cauchy-limit principle, \autoref{thm:cauchy-product-real-handoff-nonescape} gives no coordinate through which such a request can be read.
+
+Therefore every permitted consumer-facing use of the obstruction factors through the displayed finite route, and every unlisted coordinate is rejected as outside the accepted $\CauchyProductUp$ budget route package. The obstruction is strict and local to the named converse or reuse route, and it asserts nothing beyond the displayed package.
 \end{proof}

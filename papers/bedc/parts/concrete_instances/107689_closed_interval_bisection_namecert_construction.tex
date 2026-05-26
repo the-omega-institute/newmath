@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\ClosedIntervalBisectionUp$}
+\label{ch:concrete-instances-closed-interval-bisection-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\ClosedIntervalBisectionUp$ packet records constructive interval bisection over a located closed bounded interval by finite endpoint, midpoint, branch, and readback rows. It refines the closed bounded interval carrier of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the located bisection route of \autoref{ch:concrete-instances-located-interval-bisection-namecert}, the explicit interval split of \autoref{ch:concrete-instances-intervalbisection-namecert}, and the nested-route consumer of \autoref{ch:concrete-instances-located-real-nested-intervals-namecert}. Its completion-facing rows pass through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet supplies a closed-interval bisection surface for L10 Real and Completion arguments without importing open-cover compactness, real trichotomy, quotient real equality, selected infinite branches, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Closed interval bisection carrier]
+\label{def:closed-interval-bisection-carrier}
+A $\ClosedIntervalBisectionUp$ carrier is a finite $\BHist$ packet
+$$
+B=(I,L,M,D,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\ClosedBoundedIntervalUp$ source row, including lower and upper endpoint reads, endpoint order, rational containment, dyadic containment, finite windows, regular readback, and the terminal real-name seal of the source interval.
+\item $L$ is the located endpoint row. It records the endpoint-location evidence needed to decide which child interval is retained for the current finite request, without adding a trichotomy or host real comparison coordinate.
+\item $M$ is the midpoint row. It is computed from the displayed endpoint cells of $I$ and is read before the branch row is inspected.
+\item $D$ is the dyadic branch row. It records the left or right retained child, the parent-to-child containment witness, and the dyadic diameter budget for the current bisection request.
+\item $S$ is the $\StreamNameUp$ finite-window row for the parent endpoints, midpoint read, retained child endpoints, and branch ledger.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same finite windows and dyadic branch data.
+\item $E$ is the $\RealUp$ seal row reached only after $I,L,M,D,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the closed interval, located endpoint, midpoint, dyadic branch, finite windows, regular rational readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a closed-interval bisection request through $I,L,M,D,S,R,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\ClosedIntervalBisectionUp$, $\ClosedBoundedIntervalUp$, $\LocatedIntervalBisectionUp$, $\IntervalBisectionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClosedIntervalBisectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,L,M,D,S,R,E,H,C,P,N$. It has no coordinate for open-cover compactness, hidden endpoint choice, selected infinite branches, real trichotomy, quotient stream equality, quotient real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Closed interval bisection NameCert obligations]
+\label{thm:closed-interval-bisection-namecert-obligations}
+For every accepted $\ClosedIntervalBisectionUp$ carrier $B=(I,L,M,D,S,R,E,H,C,P,N)$, the local $\NameCert_{\ClosedIntervalBisectionUp}$ surface consists exactly of carrier admission for the displayed rows, closed-bounded interval exposure through $I$, located endpoint exposure through $L$, midpoint formation through $M$, dyadic branch and child-containment exposure through $D$, finite-window exposure through $S$, regular rational readback through $R$, terminal real sealing through $E$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:closed-interval-bisection-carrier}. The row $I$ supplies the only closed bounded interval source, while $L$ supplies the only located endpoint evidence available to the branch request.
+
+The midpoint and branch obligations are consecutive. The row $M$ is read from the displayed endpoint cells of $I$, and the dyadic branch row $D$ records the retained child interval only after that midpoint row is visible.
+
+The completion-facing obligations are downstream of the branch. The finite windows $S$ and regular rational readback $R$ consume the parent endpoints, midpoint, and retained child rows fixed by $I,L,M,D$, and the real seal $E$ is reached only after that readback route is displayed.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. Since none of the excluded host objects occurs as a carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Closed interval bisection branch nonescape]
+\label{thm:closed-interval-bisection-branch-nonescape}
+Every retained-branch read of an accepted $\ClosedIntervalBisectionUp$ carrier factors through the finite route
+$$
+\ClosedBoundedIntervalUp \longmapsto L,M,D \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+Thus the retained child interval is read from displayed closed-interval endpoints, located endpoint evidence, the midpoint row, and the dyadic branch ledger; it is not supplied by a hidden branch selector, a real trichotomy oracle, open-cover compactness, quotient real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the source row $I$. It fixes the closed bounded interval whose lower and upper endpoint data can be inspected by the branch request.
+
+Next read $L$ and $M$. The located endpoint row supplies only the displayed endpoint-location evidence for the current finite request, and the midpoint row supplies the child boundary computed from the same endpoint cells.
+
+The dyadic branch row $D$ is the only retained-child coordinate. It records the left or right child, the containment relation to the parent interval, and the dyadic diameter budget before any StreamName window is exposed.
+
+Finally $S,R,E,H,C,P,N$ read the retained child through finite windows, regular rational readback, real sealing, transport, replay, provenance, and local naming. No hidden selector, trichotomy oracle, compactness principle, quotient equality, choice schedule, or ambient completeness row is available in the carrier.
+\end{proof}
+
+\begin{theorem}[Closed interval bisection completion handoff]
+\label{thm:closed-interval-bisection-completion-handoff}
+Every $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, nested-interval, or compactness-facing consumer of an accepted $\ClosedIntervalBisectionUp$ packet must first read the closed source interval, located endpoint row, midpoint row, and dyadic branch row. The packet hands downstream consumers one displayed retained child route with transport, replay, provenance, and local naming; it does not hand them open-cover compactness, a completed branch, a selected real point, quotient equality of real names, or an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier $B=(I,L,M,D,S,R,E,H,C,P,N)$. The first four rows $I,L,M,D$ are the complete interval-bisection route: source interval, located endpoint evidence, midpoint, and retained dyadic branch.
+
+The readback rows are ordered after that route. A $\StreamNameUp$ consumer reads only the finite windows in $S$, a $\RegSeqRatUp$ consumer reads only the regular rational row $R$, and a $\RealUp$ consumer reaches the seal $E$ only after the same branch data has been displayed.
+
+Nested-interval and compactness-facing consumers receive the retained child through $H,C,P,N$. These structural rows preserve and replay the same packet; they do not introduce completed branches, selected points, quotient equality, open-cover compactness, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Closed interval bisection interval-modulus termination]
+\label{thm:closed-interval-bisection-interval-modulus-termination}
+An accepted $\ClosedIntervalBisectionUp$ carrier with a displayed unary history depth row $n$ exports a finite dyadic interval window at that depth. Its endpoint route is inherited from the $\ClosedBoundedIntervalUp$ row $I$, its branch row is inherited from the $\LocatedIntervalBisectionUp$ and $\IntervalBisectionUp$ rows $L,M,D$, and its $\StreamNameUp$--$\RegSeqRatUp$--$\RealUp$ seal handoff remains inside the displayed rows $S,R,E,H,C,P,N$. This is a finite modulus and termination row for the displayed depth, not open-cover compactness, trichotomy, a selected infinite branch, countable choice, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Induct on the displayed unary depth row. At depth zero, read the original closed bounded interval from $I$; its endpoint order, containment, finite window, regular readback, and real-name seal are exactly the source data already exposed by \autoref{def:closed-interval-bisection-carrier}.
+
+For the successor depth, apply the midpoint and retained-branch rows $M,D$. The located endpoint data in $L$ chooses only the displayed finite child, while $D$ transports endpoint order, containment, and the dyadic diameter budget from the parent to that child.
+
+Componentwise $\hsame$ transport in $H$ and displayed replay in $C$ keep the induction inside the same carrier. The completion handoff of \autoref{thm:closed-interval-bisection-completion-handoff} then composes $S,R,E$ after the current branch row, so the depth-$n$ window terminates as a finite row rather than as a hidden infinite branch or completeness principle.
+\end{proof}
+
+\falsifiablePrediction{Every $\ClosedIntervalBisectionUp$ consumer that omits the dyadic branch row loses the retained child interval before any RegSeqRat or Real seal can be read.}
+
+\independenceWitness{closedboundedinterval, located-interval-bisection, intervalbisection, located-real-nested-intervals, streamname, regseqrat, real: $\ClosedIntervalBisectionUp$ is not bijective to any listed sibling because it jointly carries a closed bounded interval source, located endpoint evidence, midpoint formation, a dyadic retained-branch ledger, finite windows, regular rational readback, a Real seal, transport, replay, provenance, and local naming.}
+
+\closureat{ClosedIntervalBisectionUp}{seedStr}
+
+\begin{closurestatus}{\ClosedIntervalBisectionUp}
+  \constructivestory{A $\ClosedIntervalBisectionUp$ packet is generated from a ClosedBoundedIntervalUp source row, located endpoint evidence, a midpoint row, a dyadic retained-branch row, StreamNameUp finite windows, RegSeqRatUp readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-interval-bisection-carrier}, \autoref{thm:closed-interval-bisection-namecert-obligations}, \autoref{thm:closed-interval-bisection-branch-nonescape}, and \autoref{thm:closed-interval-bisection-completion-handoff} seed the constructive closed-interval bisection route for L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, open-cover compactness, real trichotomy, quotient real equality, selected infinite branches, selected real points, countable choice, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, closed-interval exposure, located endpoint exposure, midpoint formation, dyadic branch exactness, StreamName window exposure, RegSeqRat readback, and Real seal nonescape for BEDC.Derived.ClosedIntervalBisectionUp.}
+\end{closurestatus}

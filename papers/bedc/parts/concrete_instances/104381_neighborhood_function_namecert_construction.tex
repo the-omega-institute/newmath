@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\NeighborhoodFunctionUp$}
+\label{ch:concrete-instances-neighborhood-function-namecert}
+\origin{human}
+
+Following Brouwer's neighbourhood-function analysis and Bishop-style constructive continuity, the $\NeighborhoodFunctionUp$ packet records the finite-observation interface by which a functional on choice or Cantor data is read through inspected prefixes before any fan-theorem or fan-functional consumer treats it as continuous. It sits between the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the binary-prefix surface of \autoref{ch:concrete-instances-cantorspace-namecert}, the bar and spread law rows of \autoref{ch:concrete-instances-fantheorem-namecert} and \autoref{ch:concrete-instances-spread-law-namecert}, and the modulus-facing handoff of \autoref{ch:concrete-instances-fanfunctional-namecert}. It also reads choice-sequence schedules through \autoref{ch:concrete-instances-choice-sequence-namecert}. The chapter names a finite NameCert carrier for neighbourhood-function reads; it does not admit host functions, external function extensionality, countable choice, selected infinite branches, or an ambient continuity theorem as primitive data.
+
+\begin{definition}[NeighborhoodFunction carrier]
+\label{def:neighborhood-function-carrier}
+A $\NeighborhoodFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+U=(W,B,A,V,O,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ finite-window schedule that records which prefixes are inspected.
+\item $B$ is the $\CantorSpaceUp$ or $\ChoiceSequenceUp$ prefix row read through the schedule $W$.
+\item $A$ is the $\SpreadLawUp$ admissibility row for the displayed prefixes.
+\item $V$ is the local value row, recording the first accepted value attached to an inspected prefix.
+\item $O$ is the bar-observation row consumed by $\FanTheoremUp$ and $\FanFunctionalUp$ handoffs.
+\item $L$ is the finite prefix ledger, storing only prefix extension, prefix agreement, and value-stability entries.
+\item $H$ records componentwise $\hsame$ transport for the schedule, prefix, spread-law, value, bar-observation, ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a neighbourhood request through $W,B,A,V,O,L$ in that order.
+\item $P$ is the $\Pkg$ provenance over $\NeighborhoodFunctionUp$, $\StreamNameUp$, $\CantorSpaceUp$, $\ChoiceSequenceUp$, $\SpreadLawUp$, $\FanTheoremUp$, $\FanFunctionalUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\NeighborhoodFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,B,A,V,O,L,H,C,P,N$. It has no coordinate for a host functional, an infinite branch selector, external function extensionality, a global continuity theorem, countable choice, or a completed function space.
+\end{definition}
+
+\begin{theorem}[NeighborhoodFunction NameCert obligations]
+\label{thm:neighborhood-function-namecert-obligations}
+For every accepted $\NeighborhoodFunctionUp$ carrier $U=(W,B,A,V,O,L,H,C,P,N)$, the local $\NameCert_{\NeighborhoodFunctionUp}$ surface consists exactly of carrier admission for the finite stream schedule, Cantor or choice-sequence prefix row, spread-law admissibility row, local value row, bar-observation row, finite prefix ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every accepted neighbourhood-function read must expose those rows before it may be consumed by $\FanTheoremUp$, $\FanFunctionalUp$, $\ChoiceSequenceUp$, $\SpreadLawUp$, or $\CantorSpaceUp$ siblings.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The visible analytic data are the stream schedule $W$, the displayed prefix row $B$, the spread-law row $A$, the local value row $V$, the bar-observation row $O$, and the prefix ledger $L$.
+
+Run finite prefix induction over the inspected $\StreamNameUp$ and $\CantorSpaceUp$ reads. The empty prefix exposes only the initial schedule and admissibility rows. The extension step appends one displayed prefix entry, checks admissibility through $A$, and records the first value row $V$ when the ledger permits it.
+
+Prefix agreement is transported by $H$. Componentwise $\hsame$ keeps the compared schedules, prefixes, admissibility rows, values, and bar observations aligned, while $C$ replays the same request order for downstream consumers.
+
+Finally $P,N$ source and name the packet. Since no host functional, infinite branch selector, external extensionality proof, countable-choice schedule, completed function space, or ambient continuity theorem appears in the tuple, the NameCert obligations are exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[NeighborhoodFunction fan-functional handoff]
+\label{thm:neighborhood-function-fan-functional-handoff}
+Every $\NeighborhoodFunctionUp$ handoff to $\FanFunctionalUp$ factors through the finite route
+$$
+\StreamNameUp,\ \CantorSpaceUp\ \text{or}\ \ChoiceSequenceUp,\ \SpreadLawUp,\ \FanTheoremUp,\ \FanFunctionalUp .
+$$
+The handoff reads only inspected prefixes, prefix agreement under $\hsame$, displayed continuation replay, $\Pkg$ provenance, and the local $\NameCert_{\NeighborhoodFunctionUp}$ ledger before the fan-functional consumer may ask for a modulus-facing value.
+\end{theorem}
+\begin{proof}
+Start with the finite schedule row $W$. A fan-functional request can inspect only the prefixes already exposed through $B$ and admitted by the spread-law row $A$.
+
+Apply finite prefix induction again. At each step, the ledger $L$ either records that no value has yet been exposed or records the first value row $V$ stable under the displayed prefix agreement.
+
+The bar-observation row $O$ is then the only handoff row available to the fan theorem and fan functional siblings. Transport through $H$ and replay through $C$ preserve the same prefix route, while $P,N$ provide the package and local naming ledger.
+
+Thus the handoff is finite-observation data. It does not export a host functional, selected infinite branch, external function extensionality proof, countable-choice schedule, completed function space, or unrecorded modulus.
+\end{proof}
+
+\closureat{NeighborhoodFunctionUp}{seedStr}
+
+\begin{closurestatus}{\NeighborhoodFunctionUp}
+  \constructivestory{A $\NeighborhoodFunctionUp$ packet is generated from a StreamName finite-window schedule, a CantorSpace or ChoiceSequence prefix row, a SpreadLaw admissibility row, a local value row, a FanTheorem bar-observation row, a finite prefix ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:neighborhood-function-carrier}, \autoref{thm:neighborhood-function-namecert-obligations}, and \autoref{thm:neighborhood-function-fan-functional-handoff} seed the finite neighbourhood-function interface for prefix-based fan and choice-sequence reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function extensionality, global continuity, selected infinite branches, countable choice, completed function spaces, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix-induction exactness, prefix-agreement transport, bar-observation routing, fan-functional handoff, and ledger non-escape for BEDC.Derived.NeighborhoodFunctionUp.}
+\end{closurestatus}

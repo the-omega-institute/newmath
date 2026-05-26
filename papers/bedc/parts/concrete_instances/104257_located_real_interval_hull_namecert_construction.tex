@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRealIntervalHullUp$}
+\label{ch:concrete-instances-located-real-interval-hull-namecert}
+\origin{human}
+
+Following Moore interval analysis and Bishop-style located real data, the $\LocatedRealIntervalHullUp$ packet names the finite hull read that encloses a displayed family of $\RealUp$ names by located lower and upper endpoint rows. It sits after the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation window of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the endpoint-ledger interface of \autoref{ch:concrete-instances-locatedinterval-namecert}, and the rational readback surface of \autoref{ch:concrete-instances-real-rational-approximation-namecert}. The packet records a finite enclosure hull for Real and Completion consumers; it does not choose representatives, quotient real equality, an ambient least interval, or completeness of $\RealUp$.
+
+\begin{definition}[Located real interval hull carrier]
+\label{def:located-real-interval-hull-carrier}
+A $\LocatedRealIntervalHullUp$ carrier is a finite $\BHist$ packet
+$$
+H=(R,S,Q,D,A,J,L,U,E,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the finite family of $\RealUp$ names whose common enclosure is being read.
+\item $S$ is the $\StreamNameUp$ window family opened for the displayed real names.
+\item $Q$ is the $\RegSeqRatUp$ readback family attached to those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare the readbacks at the requested precision.
+\item $A$ is the $\RealRationalApproximationUp$ row recording the rational approximants read from $Q$ under the tolerance ledger $D$.
+\item $J$ is the $\LocatedIntervalUp$ endpoint row whose displayed lower and upper bounds form the candidate hull.
+\item $L$ and $U$ are the lower and upper endpoint ledger rows read through $J$.
+\item $E$ is the enclosure ledger saying that every inspected approximation in $A$ lies between $L$ and $U$ with the displayed dyadic tolerance.
+\item $T$ records componentwise $\hsame$ transport for the real-name family, stream windows, regular readbacks, dyadic tolerance, rational approximants, located interval row, endpoint rows, enclosure ledger, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from a finite hull request through $R,S,Q,D,A,J,L,U,E,T,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealIntervalHullUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealRationalApproximationUp$, $\LocatedIntervalUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedRealIntervalHullUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by these displayed rows. It has no coordinate for a host least interval, selected real representatives, quotient equality of real names, trichotomy, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Located real interval hull NameCert obligations]
+\label{thm:located-real-interval-hull-namecert-obligations}
+For every accepted $\LocatedRealIntervalHullUp$ carrier $H=(R,S,Q,D,A,J,L,U,E,T,C,P,N)$, the local $\NameCert_{\LocatedRealIntervalHullUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed real-name family, stream windows, regular readbacks, dyadic tolerance, rational approximants, located interval, endpoint ledgers, enclosure ledger, transport, replay, provenance, and local naming rows;
+\item source compatibility, requiring $S,Q,D,A$ to be read from the same finite family of $\RealUp$ names named by $R$;
+\item endpoint admission, requiring $J,L,U$ to be displayed located-interval rows rather than host-selected endpoints;
+\item hull enclosure exactness, requiring $E$ to bind every inspected rational approximation in $A$ between $L$ and $U$ under the tolerance ledger $D$;
+\item replay stability, requiring $T$ and $C$ to preserve the same hull route under componentwise transport and later finite-window reads;
+\item ledger refusal, excluding host least intervals, selected representatives, quotient real equality, trichotomy, countable choice, and ambient $\RealUp$ completeness.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-real-interval-hull-carrier}. The projection exposes the real-name family, finite stream windows, regular rational readbacks, dyadic tolerance ledger, rational approximation row, located interval endpoint row, enclosure ledger, and the structural rows $T,C,P,N$.
+
+Source compatibility follows from the displayed route through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-rational-approximation-namecert}. The rows $S,Q,D,A$ are all attached to the same family $R$, so a consumer cannot insert a second real-name source.
+
+Endpoint admission is the row $J$ together with $L$ and $U$. These rows are the visible located interval endpoints supplied by \autoref{ch:concrete-instances-locatedinterval-namecert}, not host-selected real representatives.
+
+The hull enclosure clause is the ledger $E$. It compares only the displayed rational approximation rows against the displayed endpoint rows at the dyadic tolerance named by $D$.
+
+Finally $T,C,P,N$ transport, replay, source, and name the same route. Since the carrier has no coordinate for a host least interval, selected representatives, quotient real equality, trichotomy, countable choice, or ambient completeness, the local NameCert surface cannot export any of those objects.
+\end{proof}
+
+\begin{theorem}[Located real interval hull finite endpoint readback]
+\label{thm:located-real-interval-hull-finite-endpoint-readback}
+Every Real or Completion consumer of an accepted $\LocatedRealIntervalHullUp$ carrier factors through the finite endpoint route
+$$
+\RealUp \longmapsto \StreamNameUp,\RegSeqRatUp \longmapsto \DyadicRatCoreUp,\RealRationalApproximationUp \longmapsto \LocatedIntervalUp .
+$$
+The consumer receives the displayed lower and upper endpoint rows $L,U$ only together with the finite windows, readbacks, tolerance ledger, rational approximation row, enclosure ledger, transport, replay, provenance, and local naming data. It receives no quotient real equality, no selected representative family, no host least hull, and no completeness witness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $H=(R,S,Q,D,A,J,L,U,E,T,C,P,N)$. The only source of Real-facing data is the displayed family $R$, and the only observations opened from it are the finite windows $S$.
+
+The readback stage is $Q,D,A$. Regular rational rows are read through the windows, the dyadic ledger fixes the tolerance budget, and the rational approximation row records the inspected approximants.
+
+The endpoint stage is $J,L,U,E$. The located interval row supplies the lower and upper endpoint ledgers, and the enclosure ledger binds the approximants to those endpoints at the displayed tolerance.
+
+The structural rows then preserve the route. Componentwise transport, continuation replay, provenance, and the local NameCert row do not add another endpoint source, so every consumer receives exactly the finite endpoint readback surface and none of the excluded quotient, selection, host-hull, or completeness data.
+\end{proof}
+
+\closureat{LocatedRealIntervalHullUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRealIntervalHullUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-real-interval-hull-carrier}, \autoref{thm:located-real-interval-hull-namecert-obligations}, and \autoref{thm:located-real-interval-hull-finite-endpoint-readback} seed the finite located interval hull route over displayed $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealRationalApproximationUp$, and $\LocatedIntervalUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, selected representatives, host least intervals, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source compatibility, endpoint admission, hull enclosure exactness, replay stability, and ledger refusal for BEDC.Derived.LocatedRealIntervalHullUp.}
+  \constructivestory{A $\LocatedRealIntervalHullUp$ packet is generated from displayed RealUp names, StreamNameUp windows, RegSeqRatUp readbacks, a DyadicRatCoreUp tolerance ledger, a RealRationalApproximationUp approximation row, a LocatedIntervalUp endpoint row, lower and upper endpoint ledgers, an enclosure ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

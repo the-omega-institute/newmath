@@ -29,8 +29,8 @@ Your job: classify codex's attempt into one of four verdicts.
    more hygiene rules listed below. Fixable with one corrective retry by
    feeding `rejection_reasons` back to codex.
 3. `escalate` — proof is unsound, field citations point to non-existent
-   labels, content skirts the target, or codex declared NEEDS_DEEP. Send
-   to oracle Stage 1.
+   labels, content skirts the target, or codex declared NEEDS_DEEP after a
+   real local proof attempt. Send to oracle Stage 1.
 4. `accept_with_fixups` — proof is correct, field citations check out,
    but the rendered LaTeX has minor issues you fixed inline (whitespace,
    single typo). Provide cleaned content.
@@ -55,8 +55,8 @@ C. **On-topic**. Codex's proof must address the target's stated Problem
 
 D. **Hygiene** (these are corrective-retry fixable; verdict
    `reject_hygiene`):
-   - inline math via `$...$` (not `$...$`); display via `$$...$$`
-     (not `$$...$$`)
+   - inline math via `$...$` (not `\(...\)`); display via `$$...$$`
+     (not `\[...\]`)
    - bare typed-name macros (not `\mathsf{{X}}` when `\X` is in preamble)
    - no manual proof markers (`Q.E.D.`, `QED`, `\qed`, `\square`,
      "as required", "as desired") inside `\begin{{proof}} ... \end{{proof}}`
@@ -69,8 +69,10 @@ D. **Hygiene** (these are corrective-retry fixable; verdict
      `本轮`, `vNNN-`, etc.)
    - English LaTeX content only
 
-E. **Depth honesty**. If codex's `depth_self_assessment` is `"shallow"`
-   or codex's `verdict` is `"needs_deep"`, the verdict is `escalate`.
+E. **Depth honesty**. If codex's `depth_self_assessment` is `"shallow"`,
+   reject the output. If codex's `verdict` is `"needs_deep"`, the verdict is
+   `escalate` only when the reason names a concrete missing construction,
+   missing field, countermodel, induction principle, or failed proof step.
 
 F. **Anti-parameter-echo**. If the statement only transports an abstract
    carrier/classifier equivalence through fields, or repackages a

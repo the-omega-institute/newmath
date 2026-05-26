@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\RegularFilterRealizationUp$}
+\label{ch:concrete-instances-regular-filter-realization-namecert}
+\origin{human}
+
+Following Bishop and Bridges and the Bourbaki--Kelley filterbase terminology, the $\RegularFilterRealizationUp$ packet records the L10 finite route by which a displayed Cauchy filterbase is read as regular rational Cauchy data before a $\RealUp$ seal is admitted. It sits over the finite Cauchy filter surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the basis factorization of \autoref{ch:concrete-instances-cauchy-filter-basis-namecert}, the regular filter package of \autoref{ch:concrete-instances-regularcauchyfilter-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a realization boundary, not a completeness principle: it names the finite rows consumed by the route from Cauchy filters to $\RegSeqRatUp$ and $\RealUp$ seals without selecting quotient filters or host limits.
+
+\begin{definition}[RegularFilterRealization carrier]
+\label{def:regular-filter-realization-carrier}
+A $\RegularFilterRealizationUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B,A,G,S,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the source $\CauchyFilterUp$ finite-filterbase row, including its visible base packets, refinement relation, and Cauchy pressure ledger.
+\item $A$ is the $\CauchyFilterBasisUp$ factorization row that exposes the selected finite basis windows used by the realization.
+\item $G$ is the $\RegularCauchyFilterUp$ obligation package binding the filterbase, basis, stream, dyadic, regular readback, and seal rows into one route.
+\item $S$ is the $\StreamNameUp$ finite-window schedule opened by the basis and consumed by the regular readback.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the same windows, including endpoint and radius comparison rows.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from $A,S,D$ through the regular Cauchy filter package $G$.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $B,A,G,S,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $B,A,G,S,D,R,E$ and for the structural rows below.
+\item $C$ records the displayed $\Cont$ replay from filterbase refinements to basis windows, from windows and dyadic rows to the regular rational readback, and from the readback to the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularFilterRealizationUp$, $\CauchyFilterUp$, $\CauchyFilterBasisUp$, $\RegularCauchyFilterUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularFilterRealizationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these eleven coordinates and their displayed transports. It has no coordinate for quotient filters, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, or bridge checking.
+\end{definition}
+
+\begin{theorem}[RegularFilterRealization NameCert obligations]
+\label{thm:regular-filter-realization-namecert-obligations}
+For every accepted $\RegularFilterRealizationUp$ carrier $F=(B,A,G,S,D,R,E,H,C,P,N)$, the local $\NameCert_{\RegularFilterRealizationUp}$ surface consists exactly of:
+\begin{enumerate}
+\item CauchyFilter source exposure through $B$;
+\item CauchyFilterBasis factorization through $A$;
+\item RegularCauchyFilter obligation packaging through $G$;
+\item StreamName finite-window exposure through $S$;
+\item DyadicRatCore tolerance exactness through $D$;
+\item RegSeqRat readback through $R$;
+\item RealUp seal handoff through $E$;
+\item componentwise transport, displayed replay, provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No obligation is discharged by a quotient filter, a selected host limit, countable choice, host real equality, ambient $\RealUp$ completeness, or bridge checking.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-filter-realization-carrier}. The visible coordinates are precisely $B,A,G,S,D,R,E,H,C,P,N$, so every local obligation must be read from those rows.
+
+The source and basis side is finite. The row $B$ supplies the Cauchy filterbase data, while $A$ exposes the basis windows used by the realization. These rows place the construction in the same filterbase surface as \autoref{ch:concrete-instances-cauchyfilter-namecert} and its basis factorization.
+
+The regular readback is then forced through $G,S,D,R$. The package $G$ binds the RegularCauchyFilter route, $S$ lists the requested finite windows, $D$ records their dyadic tolerance ledger, and $R$ is the only regular rational readback row.
+
+Finally $E,H,C,P,N$ close the seal-facing certificate. Since the excluded quotient, choice, host-equality, completeness, and bridge coordinates are absent from the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[RegularFilterRealization RegSeqRat factorization]
+\label{thm:regular-filter-realization-regseqrat-factorization}
+Let $F=(B,A,G,S,D,R,E,H,C,P,N)$ be an accepted $\RegularFilterRealizationUp$ packet. Every $\RegSeqRatUp$ read exported by $F$ factors through the finite route
+$$
+\CauchyFilterUp \longmapsto \CauchyFilterBasisUp \longmapsto \RegularCauchyFilterUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp .
+$$
+Concretely, the read first exposes $B$, then the basis row $A$, then the obligation package $G$, then the finite windows $S$ and dyadic ledger $D$, and only then reaches the readback row $R$ through the recorded $H,C,P,N$ data. The factorization exports no quotient filter, selected limit, countable-choice selector, host real equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start from the only $\RegSeqRatUp$ coordinate in the carrier, namely $R$. By definition of $F$, this row is not stored independently of the filterbase data; it is downstream from $B,A,G,S,D$.
+
+The filterbase is first read through $B$, and the displayed basis windows are then read through $A$. The obligation package $G$ is the regular Cauchy filter row that ties those windows to the stream and dyadic data.
+
+The finite readback step uses $S$ and $D$. The schedule $S$ lists exactly the requested windows, and $D$ records the dyadic tolerance cells for those same windows. Thus the readback $R$ is determined by displayed regular data rather than by a host-selected limit.
+
+The remaining rows $H,C,P,N$ transport, replay, package, and name the same route. No carrier coordinate remains for quotient filters, choice, host real equality, or ambient completeness, so none can be exported by the factorization.
+\end{proof}
+
+\begin{theorem}[RegularFilterRealization Real seal handoff]
+\label{thm:regular-filter-realization-real-seal-handoff}
+Every $\RealUp$ consumer of an accepted $\RegularFilterRealizationUp$ packet factors through the $\RegSeqRatUp$ row named in \autoref{thm:regular-filter-realization-regseqrat-factorization}. The consumer may inspect the source filterbase $B$, the basis row $A$, the regular filter package $G$, the stream windows $S$, the dyadic ledger $D$, the regular readback $R$, and the structural rows $H,C,P,N$ before reading the seal $E$. It receives no quotient-filter equality, selected host limit, countable choice, host real equality, ambient $\RealUp$ completeness, or checked bridge credential from the packet.
+\end{theorem}
+\begin{proof}
+Project the seal row $E$ from the accepted carrier. The definition places $E$ after the source filterbase, basis factorization, regular filter package, window schedule, dyadic ledger, and regular rational readback.
+
+Apply \autoref{thm:regular-filter-realization-regseqrat-factorization} to the preceding readback. The Real-facing consumer must therefore pass through $R$, and $R$ itself has already passed through $B,A,G,S,D$.
+
+The structural rows do not add another seal route. They transport, replay, package, and name the same finite handoff. Since $E$ is the only $\RealUp$ coordinate and the excluded principles are absent from the carrier, every seal read factors through the stated finite route.
+\end{proof}
+
+\closureat{RegularFilterRealizationUp}{seedStr}
+
+\begin{closurestatus}{\RegularFilterRealizationUp}
+  \constructivestory{A $\RegularFilterRealizationUp$ packet is generated from a CauchyFilter finite-filterbase row, a CauchyFilterBasis factorization row, a RegularCauchyFilter obligation package, StreamName windows, a DyadicRatCore tolerance ledger, a RegSeqRat readback row, a RealUp seal row, componentwise transport, displayed replay, package provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-filter-realization-carrier}, \autoref{thm:regular-filter-realization-namecert-obligations}, \autoref{thm:regular-filter-realization-regseqrat-factorization}, and \autoref{thm:regular-filter-realization-real-seal-handoff} bind the finite realization route from Cauchy filters through basis windows and regular rational readback to the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not claim quotient filters, selected limits, countable choice, host real equality, ambient RealUp completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, CauchyFilter source exposure, CauchyFilterBasis factorization, RegularCauchyFilter package handoff, StreamName window exposure, DyadicRatCore tolerance exactness, RegSeqRat readback, and RealUp seal handoff for the same packet.}
+\end{closurestatus}

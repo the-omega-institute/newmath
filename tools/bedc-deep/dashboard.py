@@ -885,6 +885,7 @@ def render_board_spawn() -> str:
         ),
         (
             f"  outcome: accepted={data.get('accepted_count')} "
+            f"held={data.get('held_count', 0)} "
             f"rejected={data.get('rejected_count')} cheap_drops={data.get('cheap_drop_count')} "
             f"appended={len(appended)}"
         ),
@@ -934,11 +935,8 @@ def render_loning_assimilation() -> str:
             )
         if count_text:
             out.append(f"  signals: {count_text}")
-        advice = [str(item) for item in (rec.get("advice") or []) if str(item).strip()]
-        for item in advice[:3]:
-            out.append(f"  advice: {item}")
-        if len(advice) > 3:
-            out.append(f"  advice: ... {len(advice) - 3} more")
+        if rec.get("advice") or rec.get("prompt_block"):
+            out.append("  note: legacy advice fields ignored; only signal_counts are used")
         return "\n".join(out)
     return "  (no parseable loning assimilation records)"
 
@@ -1090,7 +1088,7 @@ def render_discovery_lane() -> str:
 
 
 def _read_research_latest_counts() -> dict[str, int]:
-    counts = {"packets": 0, "ready": 0, "blocked": 0, "oracle_recommended": 0}
+    counts = {"packets": 0, "ready": 0, "blocked": 0, "oracle_after_codex": 0}
     if not RESEARCH_CANDIDATES_LATEST.exists():
         return counts
     try:
@@ -1105,6 +1103,10 @@ def _read_research_latest_counts() -> dict[str, int]:
         if not match:
             continue
         key, value = match.groups()
+        if key == "oracle_recommended":
+            key = "oracle_after_codex"
+        elif key == "oracle_recommended_after_codex":
+            key = "oracle_after_codex"
         if key in counts:
             counts[key] = int(value)
     return counts
@@ -1165,7 +1167,7 @@ def render_research_candidate_lane() -> str:
     lines = [
         (
             f"  latest packets={counts['packets']} ready={counts['ready']} "
-            f"blocked={counts['blocked']} oracle_recommended={counts['oracle_recommended']}"
+            f"blocked={counts['blocked']} oracle_after_codex={counts['oracle_after_codex']}"
         )
     ]
     if counts["ready"] and profiles:
@@ -1189,7 +1191,8 @@ def render_research_candidate_lane() -> str:
     lines.append(
         (
             f"  last append: {age} ago ok={data.get('ok')} ready={data.get('ready_count')} "
-            f"accepted={data.get('accepted')} rejected={data.get('rejected')} "
+            f"accepted={data.get('accepted')} held={data.get('held', 0)} "
+            f"rejected={data.get('rejected')} "
             f"appended={len(appended)}"
         )
     )

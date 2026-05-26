@@ -136,3 +136,24 @@ The finite order is fixed by the apartness-budget theorem. \autoref{thm:bounded-
 Finally use envelope uniqueness. \autoref{thm:bounded-monotone-cauchy-witness-envelope-uniqueness} rules out a second pre-seal route for the same packet, and \autoref{thm:bounded-monotone-cauchy-witness-completion-observation-route} keeps the completion-facing read on the finite observation surface. Hence the two routes determine the same accepted envelope and cannot differ by any of the excluded completion or equality principles.
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_completion\_envelope\_determinacy}
+
+\begin{corollary}[Bounded monotone Cauchy witness tail envelope strict local obstruction]
+\label{cor:bounded-monotone-cauchy-witness-tail-envelope-strict-local-obstruction}
+Let $W=(S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N)$ be an accepted $\BoundedMonotoneCauchyWitnessUp$ packet, and let $E=(S,F,\sigma,\mu,\lambda,I,H,C,P,N)$ be its scheduled tail envelope. Any completion-facing use of the tail envelope factors through the displayed pre-seal rows
+$$
+S,F,\sigma,\mu,\lambda,I,H,C,P,N,
+$$
+then through the finite $\RealObservationBudgetUp$ route, the $\RegSeqRatUp$ handoff, the $\LocatedIntervalUp$ trap, and finally the $\RealUp$ seal row $Q$.
+
+Consequently the obstruction carried by the completion-consumer non-escape row is strict and local. It blocks exactly the attempted converse or reuse route that reads the finite tail envelope as a selected limit, quotient real equality, host real equality, trichotomy, ambient completeness, open-cover compactness, choice-like tail selector, or unlisted validation coordinate. It does not state a global impossibility theorem, does not supply a host-real theorem, and does not certify any external completion principle outside the displayed packet $S,F,\sigma,\mu,\lambda,I,Q,H,C,P,N$.
+\end{corollary}
+\leanchecked{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_tail\_envelope\_strict\_local\_obstruction}
+\begin{proof}
+Apply \autoref{thm:bounded-monotone-cauchy-witness-completion-consumer-nonescape}. It sends every completion-facing consumer of $W$ through the public envelope $E$, the finite observation route, the regular rational handoff, the located trap, and the seal row, and it explicitly excludes selected limits, quotient real equality, host real equality, trichotomy, ambient completeness, open-cover compactness, and choice-like tail selectors from the consumer surface.
+
+Apply \autoref{thm:bounded-monotone-cauchy-witness-completion-observation-route}. This fixes the order of any completion-facing observation: the rows $S,F,\sigma,\mu,\lambda,I,H,C,P,N$ are consumed before the finite observation route and before the seal row $Q$. Therefore a claimed converse or reuse route must either factor through those rows or ask for a coordinate not exported by the accepted packet.
+
+If the claimed route asks only for the listed rows, it is not obstructed by the non-escape conclusion; it is just the admitted local observation route. If it asks for a selected limit, an equality principle, trichotomy, completeness, compactness, a choice-like selector, or an external validation coordinate, then the request is rejected precisely because that coordinate is absent from the finite dependency surface. The rejection is therefore local to the named converse or reuse attempt.
+
+Nothing in the two cited theorems quantifies over all host real constructions, all completion theorems, or all external validation mechanisms. Their common conclusion is only that the accepted $\BoundedMonotoneCauchyWitnessUp$ packet exposes the displayed finite rows and no additional completion-facing coordinate. Hence the obstruction cannot be reinterpreted as a global impossibility, a host theorem, or a hidden external validation principle.
+\end{proof}

@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for $\CauchyChainCriterionUp$}
+\label{ch:concrete-instances-cauchy-chain-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyChainCriterionUp$ packet records the finite criterion surface by which a Cauchy-space consumer reads a chain of adjacent rational approximations before reaching a Real endpoint. It sits between the $\CauchySpaceUp$ interface of \autoref{ch:concrete-instances-cauchyspace-namecert}, the selected-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite chain criterion, not a quotient completion, selected limit, host equality, countable-choice schedule, or ambient completeness principle.
+
+\begin{definition}[CauchyChainCriterion carrier]
+\label{def:cauchy-chain-criterion-carrier}
+A $\CauchyChainCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,L,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\CauchySpaceUp$ route that admits the finite filter-uniform source read.
+\item $L$ is the finite chain-link ledger, listing adjacent approximation links and their requested tolerances.
+\item $W$ is the $\StreamNameUp$ window family from which each link endpoint is read.
+\item $R$ is the $\RegSeqRatUp$ readback row for the displayed windows and adjacent links.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger that records the finite sums and refinements needed along the chain.
+\item $E$ is the terminal $\RealUp$ seal reached only after $S,L,W,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, links, windows, readbacks, tolerance ledger, endpoint seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the Cauchy-space source through the chain links, selected windows, regular readbacks, dyadic tolerance ledger, and endpoint seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyChainCriterionUp$, $\CauchySpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyChainCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,L,W,R,D,E,H,C,P,N$. It has no coordinate for quotient completion, selected representatives, host real equality, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CauchyChainCriterion NameCert obligations]
+\label{thm:cauchy-chain-criterion-namecert-obligations}
+For every accepted $\CauchyChainCriterionUp$ carrier $K=(S,L,W,R,D,E,H,C,P,N)$, the local $\NameCert_{\CauchyChainCriterionUp}$ surface consists exactly of carrier admission, adjacent-link coverage through $L$, tail-chain transitivity through the displayed dyadic ledger $D$, $\RegSeqRatUp$ handoff through $R$, and non-escape for quotient completion, selected limits, host equality, countable choice, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-chain-criterion-carrier}. Carrier admission exposes the Cauchy-space source $S$, the link ledger $L$, the selected windows $W$, the regular readback $R$, the tolerance ledger $D$, and the endpoint seal $E$ as named finite rows.
+
+Adjacent-link coverage is read from $L$ and $W$: each link endpoint must be present in the selected window family before the corresponding regular rational readback may be inspected.
+
+Tail-chain transitivity is the displayed use of $D$. The dyadic ledger records the finite tolerance sums and refinements connecting successive links, so a tail-chain consumer receives a finite ledger rather than an external convergence theorem.
+
+The $\RegSeqRatUp$ handoff is forced through $R$ before the terminal $\RealUp$ seal $E$ can be read. The structural rows $H,C,P,N$ transport, replay, source, and name the same route, and the omitted host-side objects have no carrier coordinate.
+\end{proof}
+
+\closureat{CauchyChainCriterionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyChainCriterionUp}
+  \constructivestory{A $\CauchyChainCriterionUp$ packet is generated from a $\CauchySpaceUp$ source route, finite adjacent-link ledger, $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ tolerance ledger, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-chain-criterion-carrier} and \autoref{thm:cauchy-chain-criterion-namecert-obligations} seed the finite Cauchy-space chain criterion from $\CauchySpaceUp$ through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected representatives, host real equality, countable choice, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, adjacent-link coverage, tail-chain transitivity, regular-name handoff, endpoint-seal routing, and non-escape proofs for BEDC.Derived.CauchyChainCriterionUp.}
+\end{closurestatus}

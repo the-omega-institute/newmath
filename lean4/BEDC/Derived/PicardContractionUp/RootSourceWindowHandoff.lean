@@ -119,4 +119,50 @@ theorem PicardContractionRootSourceWindowPacket_downstream_handoff_exhaustion
       endpointTransportNewtonRead, endpointTransportRealRead, namePkg, rateSourcePkg,
       odeReadPkg, newtonReadPkg, realReadPkg⟩
 
+theorem PicardContractionRootSourceWindowPacket_determinacy [AskSetup] [PackageSetup]
+    {banach contraction lipschitz iterates modulus endpoint transport routes provenance name
+      request rateSource odeRead newtonRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PicardContractionRootSourceWindowPacket banach contraction lipschitz iterates modulus
+        endpoint transport routes provenance name request bundle pkg ->
+      Cont iterates modulus rateSource ->
+        Cont iterates endpoint odeRead ->
+          Cont endpoint transport newtonRead ->
+            Cont endpoint transport realRead ->
+              PkgSig bundle rateSource pkg ->
+                PkgSig bundle odeRead pkg ->
+                  PkgSig bundle newtonRead pkg ->
+                    PkgSig bundle realRead pkg ->
+                      UnaryHistory request /\ UnaryHistory rateSource /\
+                        UnaryHistory odeRead /\ UnaryHistory newtonRead /\
+                          UnaryHistory realRead /\ Cont iterates modulus rateSource /\
+                            Cont iterates endpoint odeRead /\
+                              Cont endpoint transport newtonRead /\
+                                Cont endpoint transport realRead /\ PkgSig bundle name pkg /\
+                                  PkgSig bundle rateSource pkg /\ PkgSig bundle odeRead pkg /\
+                                    PkgSig bundle newtonRead pkg /\
+                                      PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro rootPacket iteratesModulusRateSource iteratesEndpointOdeRead
+    endpointTransportNewtonRead endpointTransportRealRead rateSourcePkg odeReadPkg newtonReadPkg
+    realReadPkg
+  obtain ⟨picardPacket, requestUnary⟩ := rootPacket
+  obtain ⟨_banachUnary, _contractionUnary, _lipschitzUnary, iteratesUnary, modulusUnary,
+    endpointUnary, transportUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    _banachContractionLipschitz, _iteratesModulusEndpoint, _endpointTransportRoutes,
+    _routesProvenanceName, namePkg⟩ := picardPacket
+  have rateSourceUnary : UnaryHistory rateSource :=
+    unary_cont_closed iteratesUnary modulusUnary iteratesModulusRateSource
+  have odeReadUnary : UnaryHistory odeRead :=
+    unary_cont_closed iteratesUnary endpointUnary iteratesEndpointOdeRead
+  have newtonReadUnary : UnaryHistory newtonRead :=
+    unary_cont_closed endpointUnary transportUnary endpointTransportNewtonRead
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed endpointUnary transportUnary endpointTransportRealRead
+  exact
+    ⟨requestUnary, rateSourceUnary, odeReadUnary, newtonReadUnary, realReadUnary,
+      iteratesModulusRateSource, iteratesEndpointOdeRead, endpointTransportNewtonRead,
+      endpointTransportRealRead, namePkg, rateSourcePkg, odeReadPkg, newtonReadPkg,
+      realReadPkg⟩
+
 end BEDC.Derived.PicardContractionUp

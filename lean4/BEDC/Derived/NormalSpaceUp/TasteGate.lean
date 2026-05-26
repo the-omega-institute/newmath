@@ -1,11 +1,23 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.NormalSpaceUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -134,5 +146,258 @@ theorem NormalSpaceTasteGate_single_carrier_alignment :
       NormalSpaceTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq => NormalSpaceTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
+
+def NormalSpacePacket [AskSetup] [PackageSetup]
+    (topology closedLeft closedRight disjoint openLeft openRight transport replay provenance
+      localName exported : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame
+  UnaryHistory topology ∧ UnaryHistory closedLeft ∧ UnaryHistory closedRight ∧
+    UnaryHistory disjoint ∧ UnaryHistory openLeft ∧ UnaryHistory openRight ∧
+      UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+        UnaryHistory localName ∧ UnaryHistory exported ∧
+          Cont closedLeft closedRight disjoint ∧ Cont openLeft openRight transport ∧
+            Cont transport replay provenance ∧ Cont provenance localName exported ∧
+              PkgSig bundle localName pkg
+
+theorem NormalSpacePacket_semantic_name_certificate [AskSetup] [PackageSetup]
+    {topology closedLeft closedRight disjoint openLeft openRight transport replay provenance
+      localName exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NormalSpacePacket topology closedLeft closedRight disjoint openLeft openRight transport
+        replay provenance localName exported bundle pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          NormalSpacePacket topology closedLeft closedRight disjoint openLeft openRight
+            transport replay provenance localName exported bundle pkg ∧ hsame row localName)
+        (fun row : BHist =>
+          NormalSpacePacket topology closedLeft closedRight disjoint openLeft openRight
+            transport replay provenance localName exported bundle pkg ∧ hsame row localName)
+        (fun row : BHist =>
+          NormalSpacePacket topology closedLeft closedRight disjoint openLeft openRight
+            transport replay provenance localName exported bundle pkg ∧ hsame row localName)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame SemanticNameCert
+  intro packet
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro localName ⟨packet, hsame_refl localName⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+
+theorem NormalSpacePacket_open_separation_route [AskSetup] [PackageSetup]
+    {topology closedLeft closedRight disjoint openLeft openRight transport replay provenance
+      localName exported separationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NormalSpacePacket topology closedLeft closedRight disjoint openLeft openRight transport
+        replay provenance localName exported bundle pkg →
+      Cont disjoint transport separationRead →
+        PkgSig bundle exported pkg →
+          UnaryHistory topology ∧ UnaryHistory closedLeft ∧ UnaryHistory closedRight ∧
+            UnaryHistory disjoint ∧ UnaryHistory openLeft ∧ UnaryHistory openRight ∧
+              UnaryHistory separationRead ∧ Cont closedLeft closedRight disjoint ∧
+                Cont openLeft openRight transport ∧ Cont disjoint transport separationRead ∧
+                  Cont provenance localName exported ∧ PkgSig bundle localName pkg ∧
+                    PkgSig bundle exported pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro packet separationRoute exportedPkg
+  have separationUnary : UnaryHistory separationRead :=
+    unary_cont_closed packet.right.right.right.left
+      packet.right.right.right.right.right.right.left separationRoute
+  exact
+    ⟨packet.left,
+      packet.right.left,
+      packet.right.right.left,
+      packet.right.right.right.left,
+      packet.right.right.right.right.left,
+      packet.right.right.right.right.right.left,
+      separationUnary,
+      packet.right.right.right.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      separationRoute,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right,
+      exportedPkg⟩
+
+theorem NormalSpacePacket_closed_pair_transport [AskSetup] [PackageSetup]
+    {topology closedLeft closedRight disjoint openLeft openRight transport replay provenance
+      localName exported closedLeft' closedRight' disjoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NormalSpacePacket topology closedLeft closedRight disjoint openLeft openRight transport
+        replay provenance localName exported bundle pkg →
+      hsame closedLeft closedLeft' →
+        hsame closedRight closedRight' →
+          hsame disjoint disjoint' →
+            UnaryHistory closedLeft' ∧ UnaryHistory closedRight' ∧ UnaryHistory disjoint' ∧
+              Cont closedLeft closedRight disjoint ∧ Cont openLeft openRight transport ∧
+                PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame
+  intro packet sameClosedLeft sameClosedRight sameDisjoint
+  have closedLeftUnary : UnaryHistory closedLeft' :=
+    unary_transport packet.right.left sameClosedLeft
+  have closedRightUnary : UnaryHistory closedRight' :=
+    unary_transport packet.right.right.left sameClosedRight
+  have disjointUnary : UnaryHistory disjoint' :=
+    unary_transport packet.right.right.right.left sameDisjoint
+  exact
+    ⟨closedLeftUnary,
+      closedRightUnary,
+      disjointUnary,
+      packet.right.right.right.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right⟩
+
+theorem NormalSpacePacket_closed_pair_stability [AskSetup] [PackageSetup]
+    {topology closedLeft closedRight disjoint openLeft openRight transport replay provenance
+      localName exported transportedClosedLeft transportedClosedRight transportedDisjoint
+      replayedName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NormalSpacePacket topology closedLeft closedRight disjoint openLeft openRight transport
+        replay provenance localName exported bundle pkg →
+      hsame closedLeft transportedClosedLeft →
+        hsame closedRight transportedClosedRight →
+          hsame disjoint transportedDisjoint →
+            Cont transportedDisjoint replay replayedName →
+              PkgSig bundle replayedName pkg →
+                UnaryHistory topology ∧ UnaryHistory transportedClosedLeft ∧
+                  UnaryHistory transportedClosedRight ∧ UnaryHistory transportedDisjoint ∧
+                    UnaryHistory replayedName ∧ Cont closedLeft closedRight disjoint ∧
+                      Cont transportedDisjoint replay replayedName ∧
+                        Cont provenance localName exported ∧ PkgSig bundle localName pkg ∧
+                          PkgSig bundle replayedName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame
+  intro packet sameClosedLeft sameClosedRight sameDisjoint replayRoute replayPkg
+  have transported :
+      UnaryHistory transportedClosedLeft ∧ UnaryHistory transportedClosedRight ∧
+        UnaryHistory transportedDisjoint ∧ Cont closedLeft closedRight disjoint ∧
+          Cont openLeft openRight transport ∧ PkgSig bundle localName pkg :=
+    NormalSpacePacket_closed_pair_transport packet sameClosedLeft sameClosedRight sameDisjoint
+  have replayedUnary : UnaryHistory replayedName :=
+    unary_cont_closed transported.right.right.left
+      packet.right.right.right.right.right.right.right.left replayRoute
+  exact
+    ⟨packet.left,
+      transported.left,
+      transported.right.left,
+      transported.right.right.left,
+      replayedUnary,
+      transported.right.right.right.left,
+      replayRoute,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      transported.right.right.right.right.right,
+      replayPkg⟩
+
+theorem NormalSpacePacket_open_neighborhood_stability [AskSetup] [PackageSetup]
+    {topology closedLeft closedRight disjoint openLeft openRight transport replay provenance
+      localName exported openLeft' openRight' stabilityRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NormalSpacePacket topology closedLeft closedRight disjoint openLeft openRight transport
+        replay provenance localName exported bundle pkg ->
+      hsame openLeft openLeft' -> hsame openRight openRight' ->
+        Cont openLeft' openRight' stabilityRead ->
+          UnaryHistory openLeft' ∧ UnaryHistory openRight' ∧ UnaryHistory stabilityRead ∧
+            Cont openLeft' openRight' stabilityRead ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame
+  intro packet sameOpenLeft sameOpenRight stabilityRoute
+  have openLeftUnary : UnaryHistory openLeft' :=
+    unary_transport packet.right.right.right.right.left sameOpenLeft
+  have openRightUnary : UnaryHistory openRight' :=
+    unary_transport packet.right.right.right.right.right.left sameOpenRight
+  have stabilityUnary : UnaryHistory stabilityRead :=
+    unary_cont_closed openLeftUnary openRightUnary stabilityRoute
+  exact
+      ⟨openLeftUnary,
+        openRightUnary,
+        stabilityUnary,
+        stabilityRoute,
+        packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right⟩
+
+theorem NormalSpacePacket_urysohn_handoff [AskSetup] [PackageSetup]
+    {topology closedLeft closedRight disjoint openLeft openRight transport replay provenance
+      localName exported separationRead urysohnRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NormalSpacePacket topology closedLeft closedRight disjoint openLeft openRight transport
+        replay provenance localName exported bundle pkg ->
+      Cont disjoint transport separationRead ->
+        Cont separationRead exported urysohnRead ->
+          PkgSig bundle exported pkg ->
+            UnaryHistory topology ∧ UnaryHistory closedLeft ∧ UnaryHistory closedRight ∧
+              UnaryHistory disjoint ∧ UnaryHistory openLeft ∧ UnaryHistory openRight ∧
+                UnaryHistory separationRead ∧ UnaryHistory urysohnRead ∧
+                  Cont closedLeft closedRight disjoint ∧ Cont openLeft openRight transport ∧
+                    Cont disjoint transport separationRead ∧
+                      Cont separationRead exported urysohnRead ∧
+                        Cont provenance localName exported ∧ PkgSig bundle localName pkg ∧
+                          PkgSig bundle exported pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro packet separationRoute urysohnRoute exportedPkg
+  have separationUnary : UnaryHistory separationRead :=
+    unary_cont_closed packet.right.right.right.left
+      packet.right.right.right.right.right.right.left separationRoute
+  have urysohnUnary : UnaryHistory urysohnRead :=
+    unary_cont_closed separationUnary packet.right.right.right.right.right.right.right.right.right.right.left
+      urysohnRoute
+  exact
+    ⟨packet.left,
+      packet.right.left,
+      packet.right.right.left,
+      packet.right.right.right.left,
+      packet.right.right.right.right.left,
+      packet.right.right.right.right.right.left,
+      separationUnary,
+      urysohnUnary,
+      packet.right.right.right.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      separationRoute,
+      urysohnRoute,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right,
+      exportedPkg⟩
+
+theorem NormalSpacePacket_cozero_urysohn_handoff [AskSetup] [PackageSetup]
+    {topology closedLeft closedRight disjoint openLeft openRight transport replay provenance
+      localName exported handoff consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NormalSpacePacket topology closedLeft closedRight disjoint openLeft openRight transport
+        replay provenance localName exported bundle pkg →
+      Cont openLeft openRight handoff →
+        Cont handoff replay consumer →
+          PkgSig bundle exported pkg →
+            UnaryHistory handoff ∧ UnaryHistory consumer ∧ Cont openLeft openRight handoff ∧
+              Cont handoff replay consumer ∧ PkgSig bundle localName pkg ∧
+                PkgSig bundle exported pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro packet openHandoff consumerRoute exportedPkg
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed packet.right.right.right.right.left
+      packet.right.right.right.right.right.left openHandoff
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed handoffUnary packet.right.right.right.right.right.right.right.left
+      consumerRoute
+  exact
+    ⟨handoffUnary,
+      consumerUnary,
+      openHandoff,
+      consumerRoute,
+      packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right,
+      exportedPkg⟩
 
 end BEDC.Derived.NormalSpaceUp

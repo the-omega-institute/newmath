@@ -19,8 +19,9 @@ The bridge now has paired worktree branches:
 - NewMath: `bridge/newmath-automath-consumption`
 
 Both branches use the same manifest schema and local-only runtime directories.
-The durable manifest path is `tools/automath_newmath_bridge/bridge_manifest.jsonl`
-in each repo. NewMath remains an observed source through explicit refs such as
+The generated local manifest path is
+`tools/automath_newmath_bridge/bridge_manifest.jsonl` in each repo, and it is
+ignored by Git. NewMath remains an observed source through explicit refs such as
 `origin/auto-dev` and `origin/codex-auto-dev`; Automath remains an observed
 source through `origin/dev` and the Automath bridge worktree.
 
@@ -39,9 +40,9 @@ not be uploaded.
 
 | Direction | Source artifacts | Candidate destination use | Status |
 | --- | --- | --- | --- |
-| NewMath to Automath | BEDC proposal prompts, accepted proposals, seed-stubs, TasteGate witnesses, BEDC audit rules | Automath autoresearch proposal queues, paper/writeback gates, and durable bridge records | observed |
+| NewMath to Automath | BEDC proposal prompts, accepted proposals, seed-stubs, TasteGate witnesses, BEDC audit rules | Automath autoresearch proposal queues, paper/writeback gates, and local bridge runtime records | observed |
 | Automath to NewMath | Lean corpus inventory, paper claim targets, distillation lifecycle, dossier/publication slugs, audit failures | NewMath research-object source material, planning layer, and task generation candidates | candidate |
-| Bidirectional | Bridge manifest schema, bridge ledger, commit convention | Shared protocol if NewMath later chooses to mirror the manifest | candidate |
+| Bidirectional | Bridge manifest schema, local bridge runtime ledger, commit convention | Shared protocol if NewMath later chooses to mirror the manifest schema | candidate |
 
 ## Source and destination table
 
@@ -211,7 +212,7 @@ Automath source evidence
   -> bridge discovery
   -> bridge_synthesis readiness
   -> bridge_gates
-  -> tools/automath_newmath_bridge/review_packets/*.json
+  -> ignored local bridge review packet
   -> tools/bedc-deep/board_spawn.py
   -> tools/bedc-deep/BOARD.md
   -> merge back to bedc-claim-packet-pipeline when target is clean
@@ -272,7 +273,8 @@ Future agents should inspect commits touching this bridge by reading:
 
 1. The commit message Source block.
 2. The commit message Destination block.
-3. `tools/automath_newmath_bridge/bridge_manifest.jsonl`.
+3. The ignored local manifest at
+   `tools/automath_newmath_bridge/bridge_manifest.jsonl`, if present.
 4. Any generated packet under `tools/automath_newmath_bridge/out/`.
 5. This ledger.
 
