@@ -22,9 +22,10 @@ jobs:
         run: |
           set -euo pipefail
           ref="${{ inputs.checkout_ref != '' && inputs.checkout_ref || github.sha }}"
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git init "$GITHUB_WORKSPACE"
           git -C "$GITHUB_WORKSPACE" remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
-          git -C "$GITHUB_WORKSPACE" fetch --no-tags --depth=1 origin "$ref"
+          git -C "$GITHUB_WORKSPACE" fetch --no-tags --depth=2 origin "$ref"
           git -C "$GITHUB_WORKSPACE" checkout --force FETCH_HEAD
 
       - name: Restore Lean .lake cache

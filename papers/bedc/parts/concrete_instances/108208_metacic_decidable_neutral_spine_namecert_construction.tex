@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICDecidableNeutralSpineUp$}
+\label{ch:concrete-instances-metacic-decidable-neutral-spine-namecert}
+\origin{ai}
+
+The $\MetaCICDecidableNeutralSpineUp$ packet realizes the neutral-spine branch of the MetaCIC decidability audit map as finite BEDC data. It reads the bounded normal-equality checker of \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, the decidability boundary of \autoref{ch:concrete-instances-metacicdecidableboundary-namecert}, the witness surface of \autoref{ch:concrete-instances-metacicdecidabilitywitness-namecert}, the typing frontier of \autoref{ch:concrete-instances-metacic-decidable-typing-frontier-namecert}, and the fuel trace of \autoref{ch:concrete-instances-metacic-fuel-trace-namecert}. Its role is to expose a neutral-spine comparison route without promoting bounded computation to global conversion decidability.
+
+\begin{definition}[MetaCIC decidable neutral-spine carrier]
+\label{def:metacic-decidable-neutral-spine-carrier}
+A $\MetaCICDecidableNeutralSpineUp$ carrier is a finite packet
+$$
+S=(T,E,Q,B,R,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $T$ is the typing-checker frontier row, carrying the closed context, neutral head, spine arguments, and result type read by $\MetaCICDecidableTypingFrontierUp$.
+\item $E$ is the same-term row for structurally identical neutral heads and argument lists.
+\item $Q$ is the bounded normal comparison row supplied by $\BoundedNormalEqualityCheckerUp$.
+\item $B$ is the boundary row stating which finished-normal-form evidence would be needed to pass from bounded comparison to public conversion decidability.
+\item $R$ is the refusal row blocking any consumer that asks for unbounded beta-conversion, subject reduction, or strong-normalization evidence not displayed in $S$.
+\item $H$ is componentwise $\hsame$ transport for the typing, same-term, bounded-comparison, boundary, refusal, replay, provenance, and local-name rows.
+\item $C$ is the displayed $\Cont$ replay from a neutral-spine decidability request through $T,E,Q,B,R,H,P,N$.
+\item $P$ is $\Pkg$ provenance over the MetaCIC typing checker, $\BoundedNormalEqualityCheckerUp$, $\MetaCICDecidableBoundaryUp$, $\MetacicDecidabilityWitnessUp$, $\MetaCICDecidableTypingFrontierUp$, $\MetaCICFuelTraceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICDecidableNeutralSpineUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by these displayed rows. It has no coordinate for global conversion decidability, unrestricted normalization, subject reduction, confluence, or an external semantic equality oracle.
+\end{definition}
+
+\begin{theorem}[Neutral-spine NameCert obligations]
+\label{thm:metacic-decidable-neutral-spine-namecert-obligations}
+Every accepted $\MetaCICDecidableNeutralSpineUp$ carrier exposes the finite obligation surface consisting of typing-frontier exactness, same-term structural readback, bounded normal comparison, decidability-boundary refusal, componentwise transport, displayed replay, provenance, and local naming. A consumer of the packet receives no additional global conversion theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-decidable-neutral-spine-carrier}. The typing row $T$ fixes the closed neutral-spine boundary before any comparison row is read, and the same-term row $E$ records only structural agreement of the displayed neutral head and argument list.
+
+The bounded comparison row $Q$ is then interpreted through the boundary row $B$ and refusal row $R$. These rows expose exactly the finite checker result and the missing endpoint evidence; they do not add strong normalization, confluence, subject reduction, or unbounded conversion.
+
+Finally, $H,C,P,N$ preserve the same finite route under transport, replay, provenance, and local naming. Hence every accepted read of the packet is confined to the displayed NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Neutral-spine bounded-comparison boundary]
+\label{thm:metacic-decidable-neutral-spine-boundary}
+For any accepted $\MetaCICDecidableNeutralSpineUp$ carrier, the passage from a bounded normal-equality answer to a public neutral-spine conversion answer is admissible only when the finished-normal-form boundary named by $B$ is supplied inside the carrier route. Without that row, the packet exports a checker-local answer and a refusal, not global decidability.
+\end{theorem}
+\begin{proof}
+Read the bounded comparison row $Q$ together with the boundary row $B$. The comparison row supplies a finite result about the inspected normal forms, while $B$ records the exact endpoint evidence needed for public conversion.
+
+If $B$ is absent from the consumer route, the refusal row $R$ is the only admissible export beyond the bounded checker answer. The transport and replay rows keep this refusal attached to the same typed neutral spine, so no external normalizer or semantic equality proof can enter through provenance.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\MetaCICDecidableNeutralSpineUp$ consumer is refuted if it exports neutral-spine conversion while omitting the displayed typing-frontier row, same-term row, bounded normal-equality row, boundary row, refusal row, transport, replay, provenance, or local NameCert row.}
+
+\independenceWitness{boundednormalequalitychecker, metacicdecidableboundary, metacicdecidabilitywitness, metacic-decidable-typing-frontier: no listed sibling is bijective to $\MetaCICDecidableNeutralSpineUp$ because this packet jointly carries the typed neutral-spine frontier, structural same-term row, bounded normal comparison, endpoint-boundary refusal, transport, replay, provenance, and local naming in one carrier. The bounded checker lacks the typed frontier and refusal packet; the boundary packet lacks the same-term spine; the witness packet records typing and conversion evidence without owning the neutral-spine route; the typing frontier lacks the bounded normal comparison boundary.}
+
+Lean follow-up must provide Nontrivial and FieldFaithful TasteGate instances for the neutral-spine carrier before any bridge can upgrade the verification axis.
+
+\closureat{MetaCICDecidableNeutralSpineUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICDecidableNeutralSpineUp}
+  \constructivestory{A $\MetaCICDecidableNeutralSpineUp$ packet is generated from typing-checker frontier data, same-term neutral-spine readback, bounded normal comparison, endpoint-boundary refusal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-decidable-neutral-spine-carrier}, \autoref{thm:metacic-decidable-neutral-spine-namecert-obligations}, and \autoref{thm:metacic-decidable-neutral-spine-boundary} seed the neutral-spine decidability carrier, obligation surface, and bounded-comparison boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global conversion decidability, strong normalization, subject reduction, confluence, semantic equality, Lean verification, or bridge checking for $\MetaCICDecidableNeutralSpineUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, typing-frontier exactness, same-term readback, bounded normal-comparison soundness, endpoint-boundary refusal, replay stability, provenance non-escape, and TasteGate instances for BEDC.Derived.MetaCICDecidableNeutralSpineUp.}
+\end{closurestatus}
