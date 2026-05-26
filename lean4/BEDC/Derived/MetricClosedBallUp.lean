@@ -177,6 +177,44 @@ theorem MetricClosedBallCarrier_boundary_classifier_transport [AskSetup] [Packag
     unary_cont_closed mUnary' rhoUnary' transportedBoundary
   exact ⟨membershipStable, boundaryStable, boundaryUnary, transportedBoundaryUnary⟩
 
+theorem MetricClosedBallCarrier_center_transport_scope [AskSetup] [PackageSetup]
+    {X d c r rho m H C P N X' d' c' r' rho' m' H' C' P' N' boundary boundary'
+      centerRoute centerRoute' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricClosedBallCarrier X d c r rho m H C P N bundle pkg ->
+      MetricClosedBallCarrier X' d' c' r' rho' m' H' C' P' N' bundle pkg ->
+        hsame X X' ->
+          hsame c c' ->
+            Cont X c centerRoute ->
+              Cont X' c' centerRoute' ->
+                Cont m rho boundary ->
+                  Cont m' rho' boundary' ->
+                    hsame centerRoute centerRoute' ∧ UnaryHistory centerRoute ∧
+                      UnaryHistory centerRoute' ∧ UnaryHistory boundary ∧
+                        UnaryHistory boundary' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier carrier' sameSource sameCenter centerRead transportedCenterRead
+    boundaryRead transportedBoundaryRead
+  obtain ⟨xUnary, _dUnary, cUnary, _rUnary, rhoUnary, mUnary, _HUnary, _CUnary,
+    _PUnary, _NUnary, _sourceRoute, _carrierMembership, _nameRoute, _membershipSame,
+    _pkgSig⟩ := carrier
+  obtain ⟨xUnary', _dUnary', cUnary', _rUnary', rhoUnary', mUnary', _HUnary',
+    _CUnary', _PUnary', _NUnary', _sourceRoute', _carrierMembership', _nameRoute',
+    _membershipSame', _pkgSig'⟩ := carrier'
+  have centerStable : hsame centerRoute centerRoute' :=
+    cont_respects_hsame sameSource sameCenter centerRead transportedCenterRead
+  have centerUnary : UnaryHistory centerRoute :=
+    unary_cont_closed xUnary cUnary centerRead
+  have transportedCenterUnary : UnaryHistory centerRoute' :=
+    unary_cont_closed xUnary' cUnary' transportedCenterRead
+  have boundaryUnary : UnaryHistory boundary :=
+    unary_cont_closed mUnary rhoUnary boundaryRead
+  have transportedBoundaryUnary : UnaryHistory boundary' :=
+    unary_cont_closed mUnary' rhoUnary' transportedBoundaryRead
+  exact
+    ⟨centerStable, centerUnary, transportedCenterUnary, boundaryUnary,
+      transportedBoundaryUnary⟩
+
 theorem MetricClosedBallCarrier_realalgorder_boundary [AskSetup] [PackageSetup]
     {X d c r rho m H C P N boundaryRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
