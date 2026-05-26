@@ -258,4 +258,34 @@ theorem MetricClosedBallCarrier_radius_source_scope [AskSetup] [PackageSetup]
   intro radiusZero
   exact unary_no_zero_extension (unary_transport radiusUnary radiusZero)
 
+theorem MetricClosedBallCarrier_realalgorder_boundary_scope [AskSetup] [PackageSetup]
+    {X d c r rho m H C P N boundaryRead replayRead zReplay : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricClosedBallCarrier X d c r rho m H C P N bundle pkg ->
+      Cont d c m ->
+        Cont m rho boundaryRead ->
+          Cont boundaryRead C replayRead ->
+            PkgSig bundle replayRead pkg ->
+              UnaryHistory m ∧ UnaryHistory rho ∧ UnaryHistory boundaryRead ∧
+                UnaryHistory replayRead ∧ hsame m (append d c) ∧
+                  Cont m rho boundaryRead ∧ Cont boundaryRead C replayRead ∧
+                    PkgSig bundle P pkg ∧ PkgSig bundle replayRead pkg ∧
+                      (hsame replayRead (BHist.e0 zReplay) -> False) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier membershipRoute boundaryRoute replayRoute replayPkg
+  obtain ⟨_xUnary, _dUnary, _cUnary, _rUnary, rhoUnary, mUnary, _hUnary, cSupportUnary,
+    _pUnary, _nUnary, _sourceRoute, _carrierMembership, _nameRoute, membershipSame,
+    provenancePkg⟩ := carrier
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed mUnary rhoUnary boundaryRoute
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed boundaryUnary cSupportUnary replayRoute
+  have membershipScope : hsame m (append d c) :=
+    membershipRoute
+  refine
+    ⟨mUnary, rhoUnary, boundaryUnary, replayUnary, membershipScope, boundaryRoute, replayRoute,
+      provenancePkg, replayPkg, ?_⟩
+  intro replayZero
+  exact unary_no_zero_extension (unary_transport replayUnary replayZero)
+
 end BEDC.Derived.MetricClosedBallUp
