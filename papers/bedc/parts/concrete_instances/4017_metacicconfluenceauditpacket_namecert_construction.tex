@@ -719,6 +719,24 @@ If the read asks for closed-face coverage, apply the closed-face decider boundar
 The obstruction ledger lists no fifth face, and the four displayed faces use disjoint carrier rows for their deciding evidence. Hence the finite case split is exhaustive and assigns exactly one obstruction family to each failed confluence candidate row.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence audit candidate-obstruction determinacy]
+\label{thm:metacic-confluence-audit-candidate-obstruction-determinacy}
+Let two failed confluence candidate rows for a $\MetaCICConfluenceAuditPacketUp$ carrier read the same displayed carrier rows
+$$
+D,C,N,A_0,S,R,H,T,P,L
+$$
+and the same audit face. Then their obstruction classifications agree. The common family is substitution-boundary failure through $S$, residual critical-pair failure through $D,C,A_0$, closed-face coverage failure through $N,S,H,T,P,L$, or subject-reduction separation failure through $R$, according to the shared face named by the classifier.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metacic-confluence-audit-packet-candidate-obstruction-classifier} to both failed candidate rows. Since the carrier rows and the audit face are identical, both classifier reads enter the same displayed case split.
+
+If the shared face asks for substitution compatibility, both rows are classified by the $S$ boundary. If it asks for residual overlap data, both rows read the residual family over $D,C,A_0$.
+
+If the shared face asks for closed-face coverage, both rows are classified by the family over $N,S,H,T,P,L$. If it asks for subject reduction, both rows are classified by the $R$ separation family.
+
+The classifier theorem lists no fifth family and the deciding rows for the four families are fixed by the common carrier read. Hence the two failed rows receive the same obstruction classification. This proves determinacy only for the displayed candidate obstruction surface, not global confluence, subject reduction, full substitution compatibility, or Church--Rosser.
+\end{proof}
+
 \closureat{MetaCICConfluenceAuditPacketUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICConfluenceAuditPacketUp}
