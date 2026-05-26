@@ -385,6 +385,35 @@ theorem SobolevCarrier_weak_gradient_consumer_boundary [AskSetup] [PackageSetup]
       consumerUnary, domainBaseCodomain, codomainMagnitudeGradient, gradientTransportConsumer,
       gradientTransportRoutes, provenancePkg, consumerPkg⟩
 
+theorem SobolevCarrier_completion_metric_handoff [AskSetup] [PackageSetup]
+    {domain base codomain magnitude gradient transports routes provenance localCert metricRead
+      completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SobolevCarrier domain base codomain magnitude gradient transports routes provenance
+        localCert bundle pkg →
+      Cont base codomain metricRead →
+        Cont metricRead gradient completionRead →
+          PkgSig bundle completionRead pkg →
+            UnaryHistory metricRead ∧ UnaryHistory completionRead ∧
+              Cont domain base codomain ∧ Cont base codomain metricRead ∧
+                Cont metricRead gradient completionRead ∧ Cont codomain magnitude gradient ∧
+                  Cont gradient transports routes ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro carrier metricRoute completionRoute completionPkg
+  rcases carrier with
+    ⟨_domainUnary, baseUnary, codomainUnary, _magnitudeUnary, gradientUnary,
+      _transportsUnary, _routesUnary, _provenanceUnary, _localCertUnary, domainBaseCodomain,
+      codomainMagnitudeGradient, gradientTransportsRoutes, _routesProvenanceLocalCert,
+      provenancePkg⟩
+  have metricUnary : UnaryHistory metricRead :=
+    unary_cont_closed baseUnary codomainUnary metricRoute
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed metricUnary gradientUnary completionRoute
+  exact
+    ⟨metricUnary, completionUnary, domainBaseCodomain, metricRoute, completionRoute,
+      codomainMagnitudeGradient, gradientTransportsRoutes, provenancePkg, completionPkg⟩
+
 def SobolevFiniteWindowCarrier [AskSetup] [PackageSetup]
     (domain base codomain magnitude gradient trace transports provenance localCert : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=

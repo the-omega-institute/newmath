@@ -99,6 +99,22 @@ The remaining rows $H,K,P,N$ only transport, replay, source, and name this displ
 \end{proof}
 \leanchecked{BEDC.Derived.MooreSmithConvergenceUp.MooreSmithConvergencePacket\_boundary\_scope}
 
+\begin{theorem}[Moore--Smith convergence directed-window totality]
+\label{thm:mooresmith-convergence-directed-window-totality}
+For every accepted convergence read of a $\MooreSmithConvergenceUp$ carrier $M=(D,V,U,C,B,R,L,H,K,P,N)$, the read must first expose the directed index-window ledger $D$, the net-value window $V$, the entourage row $U$, the $\CauchyNetUp$ tail row $C$, and the boundary row $B$ before any $\RegSeqRatUp$ or $\RealUp$ readback is exported. The exposed route is total for the accepted directed-window packet, and it exports no quotient net, selected limit, cofinal choice, host equality of completion points, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:moore-smith-convergence-carrier}. The convergence-facing coordinates available before readback are exactly the directed ledger $D$, value window $V$, uniform entourage row $U$, Cauchy-tail row $C$, and boundary row $B$.
+
+Apply the NameCert obligations of \autoref{thm:moore-smith-convergence-namecert-obligations}. They force carrier admission, directed-tail coverage, net-value exposure, Cauchy compatibility, completion-boundary exposure, and ledger non-escape through the same displayed rows.
+
+Next use the uniform handoff of \autoref{thm:moore-smith-convergence-uniform-handoff}. Every uniform-facing request reaches the entourage and value data through $D,U,V$ and then passes through the Cauchy tail row $C$ before boundary data can be consumed.
+
+Apply the completion boundary theorem \autoref{thm:moore-smith-convergence-completion-boundary} and the boundary scope theorem \autoref{thm:moore-smith-convergence-boundary-scope}. These place every $\UniformCompletionUp$ or $\MetricCompletionUp$ read at $B$ and keep the $\RegSeqRatUp$ and $\RealUp$ readbacks downstream of that boundary row.
+
+The carrier has no coordinate for quotient nets, selected limits, cofinal choice, host equality, or ambient completeness. Thus the directed-window route $D,V,U,C,B$ is total for accepted convergence reads before $R$ or $L$ can be exported.
+\end{proof}
+
 \begin{theorem}[Moore--Smith convergence obligation exhaustion]
 \label{thm:moore-smith-convergence-obligation-exhaustion}
 For every accepted $\MooreSmithConvergenceUp$ carrier $M=(D,V,U,C,B,R,L,H,K,P,N)$, every consumer-visible convergence read is exhausted by the displayed rows
