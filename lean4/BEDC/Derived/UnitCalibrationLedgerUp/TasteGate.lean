@@ -279,6 +279,20 @@ def taste_gate : ChapterTasteGate UnitCalibrationLedgerUp :=
   -- BEDC touchpoint anchor: BHist BMark
   unitCalibrationLedgerChapterTasteGate
 
+theorem UnitCalibrationLedgerNumericValueNonescape
+    {m u c e i r d k h p n m' u' c' e' i' r' d' k' h' p' n' : BHist} :
+    unitCalibrationLedgerToEventFlow (UnitCalibrationLedgerUp.mk m u c e i r d k h p n) =
+      unitCalibrationLedgerToEventFlow (UnitCalibrationLedgerUp.mk m' u' c' e' i' r' d' k' h' p' n') →
+        u = u' ∧ c = c' ∧ e = e' ∧ i = i' ∧ r = r' := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  have hmk :
+      UnitCalibrationLedgerUp.mk m u c e i r d k h p n =
+        UnitCalibrationLedgerUp.mk m' u' c' e' i' r' d' k' h' p' n' :=
+    unitCalibrationLedgerToEventFlow_injective heq
+  injection hmk with _ hu hc he hi hr _ _ _ _ _
+  exact ⟨hu, hc, he, hi, hr⟩
+
 theorem UnitCalibrationLedgerTasteGate_single_carrier_alignment :
     (∀ h : BHist, unitCalibrationLedgerDecodeBHist (unitCalibrationLedgerEncodeBHist h) = h) ∧
       (∀ x : UnitCalibrationLedgerUp,
