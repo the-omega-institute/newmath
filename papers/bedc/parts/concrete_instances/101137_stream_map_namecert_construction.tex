@@ -72,6 +72,20 @@ Apply the same theorem to the second carrier with that intermediate window servi
 Thus the composed route is the concatenation of the two finite-window routes. It reaches the regular rational handoff, dyadic ledger, or Real seal only after the first source window, first point-map row, intermediate window, second point-map row, and final target window have all been displayed.
 \end{proof}
 
+\begin{theorem}[Stream map tail-window determinacy]
+\label{thm:stream-map-tail-window-determinacy}
+For an accepted $\StreamMapUp$ carrier $M=(S,T,F,W,Q,D,R,H,C,P,N)$, any $\RegSeqRatUp$ or $\RealUp$ consumer of the mapped stream must first read the same source $\StreamNameUp$ row $S$, point-map row $F$, target $\StreamNameUp$ row $T$, output-window row $W$, and $\DyadicRatCoreUp$ tolerance ledger $D$ fixed by the finite-window route. If two consumer reads agree on those rows, then they agree on the exposed tail-window handoff $Q$ before either terminal Real seal $R$ is read.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stream-map-carrier}. The rows $S,F,T,W$ are the finite map route, while $Q$ and $D$ are downstream rows attached to that same displayed route.
+
+Apply \autoref{thm:stream-map-finite-window-functoriality}. Every consumer read of the mapped stream factors through $S,F,T,W$ before it can inspect $Q,D,$ or $R$, so two reads agreeing on the source, point-map, target, and output-window rows have the same finite route.
+
+Now read the tolerance and tail rows. The ledger $D$ records the dyadic budgets for the same finite output observations, and the handoff row $Q$ is the regular rational tail read attached to those observations.
+
+Therefore agreement on $S,F,T,W,D$ fixes the classifier-facing handoff $Q$ before the terminal Real seal is available. Since no quotient-stream coordinate or selected-limit coordinate appears in the carrier, there is no second tail-window handoff for the consumer to select.
+\end{proof}
+
 \begin{theorem}[Stream map NameCert obligation surface]
 \label{thm:stream-map-namecert-obligation-surface}
 For every accepted $\StreamMapUp$ carrier
