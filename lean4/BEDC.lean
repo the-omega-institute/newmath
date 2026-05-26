@@ -4224,6 +4224,7 @@ import BEDC.Derived.MetaCICIdentityBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICIdentityUp.TasteGate
 import BEDC.Derived.MetaCICNormalAuditSocketUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationBudgetUp.TasteGate
+import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.AdequacyChain
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.KernelScope
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.RouteCoverage
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
@@ -5928,6 +5929,7 @@ import BEDC.Derived.SmythCompletionUp.TasteGate
 import BEDC.Derived.SobolevUp
 import BEDC.Derived.SobolevUp.IntegralMagnitudeLedgerStability
 import BEDC.Derived.SobolevUp.TasteGate
+import BEDC.Derived.SobolevUp.TestFunctionSource
 import BEDC.Derived.SobolevUp.WeakDerivativeRoute
 import BEDC.Derived.SocketKindClassifierUp.NameCertObligations
 import BEDC.Derived.SocketKindClassifierUp.StdBridge
