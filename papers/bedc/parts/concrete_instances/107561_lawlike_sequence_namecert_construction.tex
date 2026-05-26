@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\LawlikeSequenceUp$}
+\label{ch:concrete-instances-lawlike-sequence-namecert}
+\origin{human}
+
+Following Brouwer and Bishop-style constructive sequence analysis, the $\LawlikeSequenceUp$ packet records a sequence source whose future values are governed by a displayed finite rule rather than by a host infinite function. It sits between the finite-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}, the unfolding prefix surface of \autoref{ch:concrete-instances-choice-sequence-namecert}, and the finite observation boundary of \autoref{ch:concrete-instances-lawlesssequence-namecert}. The packet supplies a lawful finite-rule stream source for the L10 Real and Completion route while keeping quotient streams, countable choice, host equality, and selected Real limits outside the exported surface.
+
+\begin{definition}[Lawlike sequence carrier]
+\label{def:lawlike-sequence-carrier}
+A $\LawlikeSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+L=(R,W,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the finite rule row: a program, recurrence, primitive recursion table, or other finite calculation ledger whose admitted executions produce the inspected sequence values.
+\item $W$ is the $\StreamNameUp$ request-window row listing the finite prefixes and positions currently asked of the rule.
+\item $O$ is the observation row produced by executing $R$ on the requests in $W$; it records only the displayed output values and their finite calculation traces.
+\item $H$ records componentwise $\hsame$ transport for $R,W,O$ and for the structural rows that preserve the same displayed rule executions.
+\item $C$ records displayed $\Cont$ replay from a prefix request in $W$ through the finite rule row $R$ to the observation row $O$, and then to any downstream regular-rational or Real-facing read.
+\item $P$ is the $\Pkg$ provenance over $\LawlikeSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\ChoiceSequenceUp$, $\LawlessSequenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LawlikeSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,W,O,H,C,P,N$. It has no coordinate for a host total function $\NatUp \to \NatUp$, quotient stream equality, a countable-choice selector, host sequence equality, a selected Real limit, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{definition}[Lawlike sequence classifier]
+\label{def:lawlike-sequence-classifier}
+The local $\LawlikeSequenceUp$ classifier accepts two packets
+$$
+L=(R,W,O,H,C,P,N)
+\quad\hbox{and}\quad
+L'=(R',W',O',H',C',P',N')
+$$
+as the same lawlike sequence read precisely when the displayed rule rows are related by the local $\hsame$ transport, the request windows list the same finite positions, the observation rows agree on every requested position by replaying the displayed rule executions, and the continuation, provenance, and local NameCert rows preserve that same finite route. Agreement is therefore a finite-rule replay judgment over the current window, not equality of completed streams or equality of host functions.
+\end{definition}
+
+\begin{theorem}[Lawlike sequence NameCert obligations]
+\label{thm:lawlike-sequence-namecert-obligations}
+For every accepted $\LawlikeSequenceUp$ carrier $L=(R,W,O,H,C,P,N)$, the local $\NameCert_{\LawlikeSequenceUp}$ surface consists exactly of carrier admission for the finite rule row, request-window exposure through $W$, observation replay through $O$, classifier stability under componentwise $\hsame$ transport, displayed $\Cont$ replay of the same finite rule executions, package provenance through $P$, and local naming through $N$. No obligation row may be discharged by a host infinite function, a countable-choice selector, quotient stream equality, host sequence equality, a selected Real limit, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lawlike-sequence-carrier}. The only sequence source displayed to a consumer is the finite rule row $R$, and the only inspected arguments are the finite requests listed in $W$.
+
+For each request in $W$, replay the calculation trace stored in $O$. The replay is finite because $O$ stores only the values produced by executing the displayed rule on the displayed window, not an ambient total function.
+
+Transport stability is componentwise. The row $H$ compares rule rows, request windows, and observation rows by $\hsame$, while $C$ replays the same dependency order from requests through rule execution to downstream reads.
+
+Finally repack the route with $P$ and $N$. Since none of the carrier coordinates stores a completed stream, a choice selector, quotient equality, host sequence equality, selected limit, or ambient completeness principle, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Lawlike sequence StreamName handoff]
+\label{thm:lawlike-sequence-streamname-handoff}
+Every $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of an accepted $\LawlikeSequenceUp$ carrier receives the finite route
+$$
+R\longmapsto W\longmapsto O
+$$
+before any regular-rational readback or terminal Real seal can be consumed. The route presents lawlike sequence data as a displayed finite-rule stream source: $\StreamNameUp$ reads the request window, $\RegSeqRatUp$ may read only the observations already produced on that window, and $\RealUp$ may be reached only after that regular-rational handoff has been replayed through $H,C,P,N$. The handoff exports no host infinite function, countable-choice selector, quotient stream equality, host equality, selected Real limit, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Read the accepted carrier through \autoref{def:lawlike-sequence-carrier}. The first available sequence-facing row is the rule row $R$, and every downstream request must pass through the displayed finite window $W$.
+
+The observation row $O$ is then obtained by replaying the finite executions named by $R$ on the requests in $W$. A $\StreamNameUp$ consumer receives exactly that windowed read; it receives no tail values beyond the displayed requests.
+
+If a regular-rational or Real-facing consumer is present, its read is downstream of the same observation row. The $\RegSeqRatUp$ handoff can consume only the displayed observations, and the $\RealUp$ seal can be reached only after that handoff is replayed through $H,C,P,N$.
+
+Thus the lawful source is the finite-rule packet itself. The absent coordinates are exactly the data needed for a host infinite function, countable-choice selector, quotient stream equality, host equality, selected Real limit, or ambient Real completeness claim, so none of those objects can be exported by the handoff.
+\end{proof}
+
+\closureat{LawlikeSequenceUp}{seedStr}
+
+\begin{closurestatus}{\LawlikeSequenceUp}
+  \constructivestory{A $\LawlikeSequenceUp$ packet is generated from a finite rule row, StreamName request windows, observation rows produced by the rule on those windows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lawlike-sequence-carrier}, \autoref{def:lawlike-sequence-classifier}, \autoref{thm:lawlike-sequence-namecert-obligations}, and \autoref{thm:lawlike-sequence-streamname-handoff} seed the finite-rule stream source feeding StreamName, RegSeqRat, and Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ambient $\RealUp$ completeness, quotient streams, countable choice, host sequence equality, host function equality, selected Real limits, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-rule classifier stability, StreamName request-window exposure, RegSeqRat handoff exactness, Real seal nonescape, and refusal of host equality and choice for BEDC.Derived.LawlikeSequenceUp.}
+\end{closurestatus}
