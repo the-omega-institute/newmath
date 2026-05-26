@@ -1381,6 +1381,7 @@ import BEDC.Derived.CauchyProductUp.RealSealMultiplicationNonescape
 import BEDC.Derived.CauchyProductUp.RealSealRootSurface
 import BEDC.Derived.CauchyProductUp.RealSealRootUnblockSurface
 import BEDC.Derived.CauchyProductUp.RealSealSelector
+import BEDC.Derived.CauchyProductUp.RealSealUpstreamBudgetFactorization
 import BEDC.Derived.CauchyProductUp.RealSealUpstreamDependency
 import BEDC.Derived.CauchyProductUp.RealSeriesBudgetExhaustion
 import BEDC.Derived.CauchyProductUp.RealSeriesConsumerBoundary
@@ -3401,6 +3402,7 @@ import BEDC.Derived.FiniteTraceGapSocketUp.TasteGate
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteWindowEnvelopeUp.TasteGate
+import BEDC.Derived.FiniteWindowPullbackUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSealAuditUp.RefusalTransport
 import BEDC.Derived.FiniteWindowRealSealAuditUp.TasteGate
 import BEDC.Derived.FiniteWindowRealSeparationUp.NameCertSurface
@@ -5581,6 +5583,7 @@ import BEDC.Derived.RegularCauchyTailModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyTailMonotonicityUp.TasteGate
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSelectorUp
+import BEDC.Derived.RegularCauchyTailSubsequenceUp.TasteGate
 import BEDC.Derived.RegularCauchyTelescopingBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyTriangleBoundUp
 import BEDC.Derived.RegularCauchyTriangleBoundUp.TasteGate
@@ -6523,6 +6526,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.EtaDenominatorBoundary
 import BEDC.Derived.ZetaContinuationWitnessUp.EtaFunctionalRouteCoverage
 import BEDC.Derived.ZetaContinuationWitnessUp.EtaPoleFunctionalCoverage
 import BEDC.Derived.ZetaContinuationWitnessUp.FormalTargetLedger
+import BEDC.Derived.ZetaContinuationWitnessUp.FunctionalBoundaryScopedExactness
 import BEDC.Derived.ZetaContinuationWitnessUp.FunctionalFactorNonescape
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaBoundaryPublicExport
 import BEDC.Derived.ZetaContinuationWitnessUp.GammaBoundaryPublicLedger
