@@ -1342,6 +1342,7 @@ import BEDC.Derived.CauchyProductUp.PairedWindowRegularityExhaustion
 import BEDC.Derived.CauchyProductUp.PairedWindowSourceAdmission
 import BEDC.Derived.CauchyProductUp.ProductObservationSealObligations
 import BEDC.Derived.CauchyProductUp.ProductSealNonescape
+import BEDC.Derived.CauchyProductUp.ProductWindowConsumerHandoff
 import BEDC.Derived.CauchyProductUp.PublicInterfaceExport
 import BEDC.Derived.CauchyProductUp.PublicObservationBudgetExport
 import BEDC.Derived.CauchyProductUp.PublicRealSeriesBudgetExport
@@ -3545,6 +3546,7 @@ import BEDC.Derived.GroupUp.SuffixProductUnitSplit
 import BEDC.Derived.GroupUp.TerminalProduct
 import BEDC.Derived.GroupUp.UnaryAppendInverseObstruction
 import BEDC.Derived.GrzegorczykRealUp.TasteGate
+import BEDC.Derived.HadamardProductSeriesUp.TasteGate
 import BEDC.Derived.HaltedTmRoundTripUp.TasteGate
 import BEDC.Derived.HaltingDiagonalUp.FixedPointPackageRows
 import BEDC.Derived.HaltingDiagonalUp.TasteGate
@@ -3598,6 +3600,7 @@ import BEDC.Derived.HausdorffCompletionUp.EntourageFilterCoherence
 import BEDC.Derived.HausdorffCompletionUp.SeparatedReflection
 import BEDC.Derived.HausdorffCompletionUp.StandardBridge
 import BEDC.Derived.HausdorffCompletionUp.UniformConsumerPackage
+import BEDC.Derived.HausdorffSpaceUp.ClassifierSeparationRoute
 import BEDC.Derived.HausdorffSpaceUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HellySelectionUp.TasteGate
@@ -6487,6 +6490,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.SourceRouteScopedTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.SourceScopedReadback
 import BEDC.Derived.ZetaContinuationWitnessUp.TasteGate
 import BEDC.Derived.ZetaContinuationWitnessUp.TrivialZeroLedgerNonescape
+import BEDC.Derived.ZetaContinuationWitnessUp.WitnessCarrierObligation
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroConsumerHandoff
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroConsumerSourceReadiness
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingPublicFactorization
