@@ -228,4 +228,31 @@ theorem SobolevCarrier_weak_derivative_carrier_transport [AskSetup] [PackageSetu
       codomainMagnitudeGradient, domainBaseCodomain', codomainMagnitudeGradient',
       provenancePkg, provenancePkg'⟩
 
+theorem SobolevCarrier_derivative_norm_ledger [AskSetup] [PackageSetup]
+    {domain base codomain magnitude gradient transports routes provenance localCert
+      normRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SobolevCarrier domain base codomain magnitude gradient transports routes provenance
+        localCert bundle pkg ->
+      Cont codomain magnitude normRead ->
+        UnaryHistory domain ∧ UnaryHistory base ∧ UnaryHistory codomain ∧
+          UnaryHistory magnitude ∧ UnaryHistory gradient ∧ UnaryHistory normRead ∧
+            hsame normRead gradient ∧ Cont domain base codomain ∧
+              Cont codomain magnitude normRead ∧ Cont codomain magnitude gradient ∧
+                PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg UnaryHistory
+  intro carrier normRoute
+  obtain ⟨domainUnary, baseUnary, codomainUnary, magnitudeUnary, gradientUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _localCertUnary, domainBaseCodomain,
+    codomainMagnitudeGradient, _gradientTransportsRoutes, _routesProvenanceLocalCert,
+    provenancePkg⟩ := carrier
+  have normUnary : UnaryHistory normRead :=
+    unary_cont_closed codomainUnary magnitudeUnary normRoute
+  have normGradientSame : hsame normRead gradient :=
+    cont_deterministic normRoute codomainMagnitudeGradient
+  exact
+    ⟨domainUnary, baseUnary, codomainUnary, magnitudeUnary, gradientUnary, normUnary,
+      normGradientSame, domainBaseCodomain, normRoute, codomainMagnitudeGradient,
+      provenancePkg⟩
+
 end BEDC.Derived.SobolevUp

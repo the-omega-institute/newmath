@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\FubiniFiniteRectangleUp$}
+\label{ch:concrete-instances-fubini-finite-rectangle-namecert}
+\origin{human}
+
+Following Fubini and Bishop-style finite integration, the $\FubiniFiniteRectangleUp$ packet records a bounded finite-product rectangle computation as BEDC data before either iterated-integral route may be read. It sits over the measure row of \autoref{ch:concrete-instances-measure-namecert}, the integral row of \autoref{ch:concrete-instances-integral-namecert}, the product rows of \autoref{ch:concrete-instances-product-topology-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the Real seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names the finite rectangle surface only; it does not assert sigma-finite Fubini, Tonelli, quotient function equality, selected representatives, countable choice, or ambient measure completeness.
+
+\begin{definition}[Fubini finite rectangle carrier]
+\label{def:fubini-finite-rectangle-carrier}
+A $\FubiniFiniteRectangleUp$ carrier is a finite $\BHist$ packet
+$$
+F=(R,M,I,P,A,B,D,S,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the finite product-rectangle row, listing the source rectangles and their cell tags.
+\item $M$ is the $\MeasureUp$ row assigning the displayed finite measure data used by the cells of $R$.
+\item $I$ is the $\IntegralUp$ row for cellwise finite integration over the same rectangle table.
+\item $P$ is the $\ProductUp$ row tying the two coordinate directions to the same finite rectangle cells.
+\item $A$ is the first-then-second iterated-integral route, reading the first coordinate cells before folding the second coordinate.
+\item $B$ is the second-then-first iterated-integral route, reading the second coordinate cells before folding the first coordinate.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the common finite error budget used by both iterated routes.
+\item $S$ is the $\RegSeqRatUp$ regular rational readback row for the displayed finite sums.
+\item $E$ is the terminal $\RealUp$ seal reached only after $R,M,I,P,A,B,D,S$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for rectangle cells, measure rows, integral rows, product rows, both iterated routes, tolerance ledgers, rational readback, Real seal, replay, provenance, and naming.
+\item $C$ records displayed $\Cont$ replay from a finite-rectangle integration request through $R,M,I,P,A,B,D,S,E,H,Q,N$.
+\item $Q$ is the $\Pkg$ provenance over $\FubiniFiniteRectangleUp$, $\MeasureUp$, $\IntegralUp$, $\ProductUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FubiniFiniteRectangleUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,M,I,P,A,B,D,S,E,H,C,Q,N$. It has no coordinate for quotient function equality, selected representatives, countable choice, ambient completion of a measure space, or an infinite summability principle.
+\end{definition}
+
+\begin{theorem}[Fubini finite rectangle NameCert obligations]
+\label{thm:fubini-finite-rectangle-namecert-obligations}
+For every accepted $\FubiniFiniteRectangleUp$ carrier $F=(R,M,I,P,A,B,D,S,E,H,C,Q,N)$, the local $\NameCert_{\FubiniFiniteRectangleUp}$ surface is exhausted by the following obligations:
+\begin{enumerate}
+\item carrier admission: the accepted object is exactly the displayed packet $R,M,I,P,A,B,D,S,E,H,C,Q,N$;
+\item rectangle visibility: $R$ and $P$ display the finite product cells before either iterated route is read;
+\item measure and integral compatibility: $M$ and $I$ attach measure and integral rows to the same finite cell table;
+\item route symmetry: $A$ and $B$ read the same cells in opposite coordinate order and share the tolerance row $D$;
+\item rational readback: $S$ reads the finite sums produced by both routes through regular rational data;
+\item Real sealing: $E$ is reached only after both iterated routes, the dyadic ledger, and regular rational readback have been displayed;
+\item ledger nonescape: $H,C,Q,N$ export no sigma-finite theorem, Tonelli theorem, quotient function equality, selected representative, countable-choice schedule, ambient measure completeness, or bridge certificate.
+\end{enumerate}
+No local NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fubini-finite-rectangle-carrier}. The accepted rows are exactly $R,M,I,P,A,B,D,S,E,H,C,Q,N$, so carrier admission exposes a finite rectangle table, its measure and integral rows, two displayed iterated routes, a dyadic ledger, rational readback, a Real seal, and structural rows.
+
+The finite rectangle route starts with $R$ and $P$. These rows fix the cell table and the coordinate-product reading, so neither iterated route may introduce a new domain or a hidden product object.
+
+Next read $M,I,A,B,D,S$. The measure and integral rows are attached to the same finite cells. The two iterated routes fold those cells in opposite coordinate order, while the dyadic ledger and regular rational readback force both routes to use the same finite tolerance and sum data.
+
+Finally $E,H,C,Q,N$ seal and transport the same displayed computation. Since none of these rows adds sigma-finite measure structure, Tonelli data, quotient function equality, selected representatives, countable choice, ambient measure completeness, or a bridge certificate, the listed obligations exhaust the local surface.
+\end{proof}
+
+\begin{theorem}[Fubini finite rectangle iterated-integral nonescape]
+\label{thm:fubini-finite-rectangle-iterated-integral-nonescape}
+Every iterated-integral consumer of an accepted $\FubiniFiniteRectangleUp$ packet factors through
+$$
+R \longmapsto M \longmapsto I \longmapsto P \longmapsto A,B \longmapsto D \longmapsto S \longmapsto E \longmapsto H,C,Q,N .
+$$
+Thus a consumer may cite equality of the two finite rectangle reads only through the displayed cells, measure rows, integral rows, product row, both iterated routes, dyadic tolerance ledger, regular rational readback, Real seal, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. It obtains no sigma-finite Fubini theorem, Tonelli theorem, quotient function equality, selected representative, countable-choice schedule, or ambient measure-completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with an iterated-integral request. The finite rectangle row $R$ and product row $P$ identify the only cells and coordinate directions available to the request.
+
+The measure and integral rows $M$ and $I$ then bind the computation to that same table. The first-then-second route $A$ and second-then-first route $B$ are therefore two readings of the displayed finite cell data rather than appeals to an ambient product-measure theorem.
+
+The dyadic ledger $D$ and regular rational readback $S$ force both route totals through the same finite tolerance and sum surface. Only after those rows have been displayed may the terminal $\RealUp$ seal $E$ be consumed.
+
+The structural rows $H,C,Q,N$ transport and name the same finite route. Since the packet contains no row for sigma-finite Fubini, Tonelli, quotient function equality, selected representatives, countable choice, or ambient measure completeness, no iterated-integral consumer can obtain such data from the accepted carrier.
+\end{proof}
+
+\closureat{FubiniFiniteRectangleUp}{seedStr}
+
+\begin{closurestatus}{\FubiniFiniteRectangleUp}
+  \constructivestory{A $\FubiniFiniteRectangleUp$ packet is generated from finite product rectangle cells, displayed Measure and Integral rows, a Product row, first-then-second and second-then-first iterated routes, a DyadicRatCore tolerance ledger, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fubini-finite-rectangle-carrier}, \autoref{thm:fubini-finite-rectangle-namecert-obligations}, and \autoref{thm:fubini-finite-rectangle-iterated-integral-nonescape} seed the finite rectangle iterated-integral packet over displayed product cells and common tolerance readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close sigma-finite Fubini, Tonelli, quotient function equality, selected representatives, countable choice, ambient measure completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked rectangle visibility, measure-integral compatibility, route symmetry, regular rational readback, Real sealing, ledger nonescape, and local naming for BEDC.Derived.FubiniFiniteRectangleUp.}
+\end{closurestatus}
