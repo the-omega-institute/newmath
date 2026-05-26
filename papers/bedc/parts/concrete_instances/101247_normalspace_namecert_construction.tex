@@ -78,6 +78,32 @@ Only after $F_0,F_1,D$ have been displayed may the request inspect the open-neig
 The replay and transport rows then carry this same factorization to the local naming row $L$. Thus every exported separation read passes through the displayed closed pair and the two separating open-neighborhood rows before local naming.
 \end{proof}
 
+\begin{theorem}[Normal space closed-pair stability]
+\label{thm:normal-space-closed-pair-stability}
+For every accepted $\NormalSpaceUp$ carrier $N=(T,F_0,F_1,D,U_0,U_1,H,K,P,L)$, componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the closed-pair and separating-open route. The transported packet still reads $F_0,F_1$ over the transported topology source, still reads $D$ as the disjointness ledger for that displayed pair, still reads $U_0,U_1$ as the separating open-neighborhood rows, and still reaches the local name only after those rows have been replayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:normal-space-carrier}. The closed-pair rows, disjointness ledger, separating open-neighborhood rows, componentwise transport row, and replay row are all explicit coordinates of the accepted packet.
+
+Apply the open-separation route \autoref{thm:normal-space-open-separation-route}. It fixes the order in which a separation read reaches local naming: first the topology source and closed pair, then the disjointness ledger, then the two open-neighborhood rows.
+
+The transport row $H$ moves those displayed coordinates componentwise, while the replay row $K$ replays the same finite route after transport. Since no carrier coordinate stores a selected complement, external closed-set predicate, or host powerset, stability can preserve only the displayed closed-pair and separating-open rows.
+\end{proof}
+
+\begin{theorem}[Normal space cozero-Urysohn handoff]
+\label{thm:normal-space-cozero-urysohn-handoff}
+Every $\CozeroSetUp$ or $\UrysohnLemmaUp$ consumer of an accepted $\NormalSpaceUp$ packet can read only the displayed topology source, closed-pair rows $F_0,F_1$, disjointness ledger $D$, separating open-neighborhood rows $U_0,U_1$, componentwise transport, displayed replay, provenance, and local naming. Such a consumer receives no selected complement, host powerset, choice-selected separating function, detached cozero predicate, or ambient classical separation principle from the normal-space packet.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligation surface of \autoref{thm:normal-space-namecert-obligations}. It exposes closed-pair data, open-separation exactness, transport, replay, provenance, local naming, and the Urysohn handoff discipline as displayed rows.
+
+Use \autoref{thm:normal-space-open-separation-route} and \autoref{thm:normal-space-closed-pair-stability}. These force downstream reads to pass through the same closed-pair, disjointness, and separating-open rows even after componentwise transport and replay.
+
+A $\CozeroSetUp$ consumer may therefore read only the positive-open boundary already contained in those displayed open-neighborhood rows. A $\UrysohnLemmaUp$ consumer may read the same closed-pair and open-neighborhood route, but it must supply any separating-function certificate separately.
+
+The carrier contains no coordinate for selected complements, host powersets, choice-selected functions, detached cozero predicates, or classical separation principles. Hence neither downstream consumer can obtain those data from the $\NormalSpaceUp$ packet.
+\end{proof}
+
 \begin{theorem}[Normal space closed-pair transport]
 \label{thm:normal-space-closed-pair-transport}
 For every accepted $\NormalSpaceUp$ carrier $N=(T,F_0,F_1,D,U_0,U_1,H,K,P,L)$, componentwise $\hsame$ transport preserves the displayed closed-pair surface. A transported separation read still exposes $F_0$ and $F_1$ over the same topology source $T$, and the transported disjointness row is the image of the displayed ledger $D$ rather than an external closed-set predicate or complement choice.
