@@ -94,6 +94,19 @@ The public route first passes through the sibling observer surfaces. $\ObserverH
 Apply the temporal factorization, non-escape, and TasteGate rows already in this chapter. They keep growth, replay, transport, no-subject provenance, and local naming tied to the same finite packet, so a downstream observer-history consumer receives an ordered distinction-step trace rather than host observer identity, global time, or subject substance.
 \end{proof}
 
+\begin{theorem}[ObserverDistinctionTrace bridge surface]
+\label{thm:observer-distinction-trace-bridge-surface}
+Every public $\ObserverDistinctionTraceUp$ read bridges to the standard acceptance schema only through $\ObserverHistIdentityUp$, $\ObserverSubjectBoundaryUp$, $\HistTimeStreamUp$, $\LocalClockBudgetUp$, and the local rows $H,T,K,C,L,P,N$. The bridge exports no host observer identity, global time, observer-substance coordinate, or trace read outside the displayed $\Hist$ growth, $\Cont$ replay, componentwise $\hsame$ transport, no-subject provenance, and local naming surface.
+\end{theorem}
+\begin{proof}
+Start from the public route of \autoref{thm:observer-distinction-trace-public-route}. Its only public entry points are the observer-history identity sibling, the observer-subject boundary sibling, the Hist time-stream sibling, and the local clock-budget sibling.
+
+The local bridge rows are exactly $H,T,K,C,L,P,N$. The rows $H,T,K,C$ provide the displayed $\Hist$ source, ordered distinction steps, growth ledger, and continuation replay; $L,P,N$ provide transport, no-subject provenance, and local naming.
+
+The checked TasteGate and public-route targets record the same finite field faithfulness and public factorization:
+\texttt{BEDC.Derived.ObserverDistinctionTraceUp.taste\_gate} and \texttt{BEDC.Derived.ObserverDistinctionTraceUp.ObserverDistinctionTrace\_public\_route}. Therefore the acceptance bridge has no coordinate from which to recover host observer identity, global time, observer substance, or an off-packet trace value.
+\end{proof}
+
 \falsifiablePrediction{Any accepted ObserverDistinctionTraceUp trace factors through the displayed Hist and Cont rows and cannot export an observer-substance coordinate.}
 
 \independenceWitness{observerhistidentity, observersubjectboundary, histtimestream, localclockbudget: the packet records ordered distinction-step trace rows rather than identity comparison, subject-boundary exclusion alone, local time stream alone, or clock-budget rows.}
@@ -102,14 +115,15 @@ Apply the temporal factorization, non-escape, and TasteGate rows already in this
 \closureat{ObserverDistinctionTraceUp}{obligationStr}
 \closureat{ObserverDistinctionTraceUp}{scopedStr}[BEDC.Derived.ObserverDistinctionTraceUp.taste\_gate]
 \closureat{ObserverDistinctionTraceUp}{publicStr}[BEDC.Derived.ObserverDistinctionTraceUp.ObserverDistinctionTrace\_public\_route]
+\closureat{ObserverDistinctionTraceUp}{bridgedStr}[BEDC.Derived.ObserverDistinctionTraceUp.ObserverDistinctionTrace\_public\_route]
 
 \begin{closurestatus}{\ObserverDistinctionTraceUp}
   \constructivestory{An $\ObserverDistinctionTraceUp$ packet is generated from an observed Hist source row, an ordered finite distinction-step trace, a Hist growth ledger, displayed Cont routes, componentwise hsame transport, no-subject package provenance, and a local NameCert row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:observer-distinction-trace-carrier}, \autoref{thm:observer-distinction-trace-namecert-obligations}, \autoref{thm:observer-distinction-trace-temporal-factorization}, \autoref{thm:observer-distinction-trace-nonescape}, \autoref{thm:observer-distinction-trace-tastegate-obligation}, \autoref{thm:observer-distinction-trace-public-route}, \leanchecked{BEDC.Derived.ObserverDistinctionTraceUp.taste\_gate}, and \leanchecked{BEDC.Derived.ObserverDistinctionTraceUp.ObserverDistinctionTrace\_public\_route} bind the $\BHist$, $\Hist$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ dependency surface together with the observer-history identity sibling, subject-boundary sibling, local stream sibling, and public trace route.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:observer-distinction-trace-carrier}, \autoref{thm:observer-distinction-trace-namecert-obligations}, \autoref{thm:observer-distinction-trace-temporal-factorization}, \autoref{thm:observer-distinction-trace-nonescape}, \autoref{thm:observer-distinction-trace-tastegate-obligation}, \autoref{thm:observer-distinction-trace-public-route}, and \autoref{thm:observer-distinction-trace-bridge-surface} bind the $\BHist$, $\Hist$, $\Cont$, $\hsame$, $\Pkg$, and $\NameCert$ dependency surface together with the observer-history identity sibling, subject-boundary sibling, local stream sibling, public trace route, checked TasteGate and public-route targets, and standard acceptance bridge surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, host observer identity, global time, or an observer-substance behind the trace.}
-  \upgradepath{The next theory step is a bridge surface tying the public trace route to the standard acceptance schema without adding host observer identity, global time, or observer-substance data.}
+  \upgradepath{Lean verification and bridge checking can encode the displayed bridge surface without adding host observer identity, global time, or observer-substance data.}
 \end{closurestatus}
