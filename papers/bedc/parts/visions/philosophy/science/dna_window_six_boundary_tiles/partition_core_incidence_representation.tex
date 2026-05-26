@@ -1,0 +1,184 @@
+\begin{definition}[$S_{4}$ representation labels]
+\label{def:philosophy-partition-core-sfour-representation-labels}
+Let $S_{4}$ act on the trigger coordinate set
+$\Omega=\{s_{1},f_{1},s_{2},f_{2}\}$. Its irreducible real
+representations are denoted by
+$$
+\begin{array}{c|c}
+  \text{symbol} & \text{dimension}\\
+  \hline
+  \mathbf{1} & 1\\
+  \mathrm{sgn} & 1\\
+  V & 3\\
+  V\otimes\mathrm{sgn} & 3\\
+  W & 2.
+\end{array}
+$$
+Here $V$ is the standard representation and $W$ is the
+two-dimensional representation associated to the partition $2+2$.
+\end{definition}
+
+\begin{theorem}[Partition-core permutation modules]
+\label{thm:philosophy-partition-core-permutation-modules}
+The $S_{4}$ permutation representations on $m$-block partition cores are
+$$
+\begin{array}{c|c}
+  m & \mathbb{R}[\mathcal{P}_{m}]\\
+  \hline
+  1 & \mathbf{1}\\
+  2 & 2\mathbf{1}\oplus V\oplus W\\
+  3 & \mathbf{1}\oplus V\oplus W\\
+  4 & \mathbf{1}.
+\end{array}
+$$
+In particular, neither $\mathrm{sgn}$ nor $V\otimes\mathrm{sgn}$ appears
+on the partition-core side.
+\end{theorem}
+\begin{proof}
+Compute the permutation character by counting fixed set partitions in
+each conjugacy class of $S_{4}$ and decompose against the character table
+of \autoref{def:philosophy-partition-core-sfour-representation-labels}.
+For $m=2$, the partition cores split into the two orbits $3+1$ and
+$2+2$, giving two copies of the trivial representation. For $m=3$, all
+cores have type $2+1+1$, giving only one copy of the trivial
+representation.
+\end{proof}
+
+\begin{theorem}[Minimal-trigger permutation modules]
+\label{thm:philosophy-minimal-trigger-permutation-modules}
+The $S_{4}$ permutation representations on quotient-level size-$m$
+minimal full triggers are
+$$
+\begin{array}{c|c}
+  m & \mathbb{R}[\mathcal{T}_{m}]\\
+  \hline
+  1 & \mathbf{1}\\
+  2 & 4\mathbf{1}\oplus4V\oplus(V\otimes\mathrm{sgn})\oplus3W\\
+  3 & 3\mathbf{1}\oplus4V\oplus(V\otimes\mathrm{sgn})\oplus2W\\
+  4 & \mathbf{1}.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+For each conjugacy class of $S_{4}$, count the size-$m$ minimal full
+support families fixed by a representative coordinate permutation. The
+resulting permutation characters decompose against the same $S_{4}$
+character table. The dimensions are $1,25,22,1$, agreeing with
+\autoref{thm:philosophy-minimal-full-triggers}.
+\end{proof}
+
+\begin{theorem}[Incidence kernel representation]
+\label{thm:philosophy-partition-core-incidence-kernel-representation}
+The incidence map
+$$
+  I_{m}:\mathbb{R}[\mathcal{T}_{m}]
+  \longrightarrow
+  \mathbb{R}[\mathcal{P}_{m}]
+$$
+is $S_{4}$-equivariant. Its kernel representations are
+$$
+\begin{array}{c|c}
+  m & \ker I_{m}\\
+  \hline
+  1 & 0\\
+  2 & 2\mathbf{1}\oplus3V\oplus(V\otimes\mathrm{sgn})\oplus2W\\
+  3 & 2\mathbf{1}\oplus3V\oplus(V\otimes\mathrm{sgn})\oplus W\\
+  4 & 0.
+\end{array}
+$$
+Thus $V\otimes\mathrm{sgn}$ is entirely invisible to partition-core
+incidence.
+\end{theorem}
+\begin{proof}
+Equivariance follows because relabeling coordinates commutes with the
+condition $P\preceq A$. The image is the full partition-core module in
+each nonzero size layer by
+\autoref{thm:philosophy-partition-core-kernel-size-decomposition}; hence
+the kernel multiplicities are obtained by subtracting
+\autoref{thm:philosophy-partition-core-permutation-modules} from
+\autoref{thm:philosophy-minimal-trigger-permutation-modules}. Since
+$V\otimes\mathrm{sgn}$ does not occur on the partition side, every such
+trigger-side component lies in the kernel.
+\end{proof}
+
+\begin{theorem}[Representation meaning of the Gram spectra]
+\label{thm:philosophy-partition-core-gram-representation-spectrum}
+The spectra of the partition-core Gram kernels are the $S_{4}$ isotypic
+decomposition of the partition-core modules:
+$$
+\begin{array}{c|c|c}
+  m & \text{eigenvalue} & \text{representation}\\
+  \hline
+  2 & 22,\ 1 & \text{trivial two-plane}\\
+  2 & 7 & W\\
+  2 & 6 & V\\
+  3 & 15 & \mathbf{1}\\
+  3 & 7 & V\\
+  3 & 3 & W.
+\end{array}
+$$
+\end{theorem}
+\begin{proof}
+The kernels $K_{m}=I_{m}I_{m}^{\mathsf T}$ commute with the $S_{4}$ action
+on $\mathbb{R}[\mathcal{P}_{m}]$. By Schur's lemma, they act by scalars on
+each irreducible isotypic summand, except that repeated trivial summands
+may mix. For $m=2$, the two partition orbits $3+1$ and $2+2$ give a
+two-dimensional trivial sector whose eigenvalues are $22$ and $1$ by
+\autoref{thm:philosophy-two-block-partition-core-kernel-spectrum}; the
+$W$ and $V$ sectors carry eigenvalues $7$ and $6$. For $m=3$, there is
+only one trivial summand, and
+\autoref{thm:philosophy-three-block-partition-core-kernel-spectrum} gives
+the eigenvalues $15$, $7$, and $3$ on $\mathbf{1}$, $V$, and $W$.
+\end{proof}
+
+\begin{corollary}[Balanced bias and uniformity]
+\label{cor:philosophy-partition-core-representation-balanced-bias}
+The $m=2$ Perron vector favors $2+2$ partition cores over $3+1$ partition
+cores with relative weight $4/3:1$. The $m=3$ Perron vector is uniform.
+\end{corollary}
+\begin{proof}
+In the $m=2$ layer, the two copies of $\mathbf{1}$ mix across the two
+partition-core orbits; the Perron vector in
+\autoref{thm:philosophy-two-block-partition-core-kernel-spectrum} has
+relative weights $3+1:1$ and $2+2:4/3$. In the $m=3$ layer, the
+partition-core representation has a single trivial summand, so the Perron
+vector is the constant vector by
+\autoref{thm:philosophy-three-block-partition-core-kernel-spectrum}.
+\end{proof}
+
+\begin{theorem}[Representation-theoretic incidence theorem]
+\label{thm:philosophy-representation-theoretic-incidence-theorem}
+For the full quotient-level partition-core incidence map
+$$
+  I:\mathbb{R}[\mathcal{T}]\to\mathbb{R}[\mathcal{P}],
+$$
+the source, target, and kernel decompose as
+$$
+  \mathbb{R}[\mathcal{P}]
+  =
+  5\mathbf{1}\oplus2V\oplus2W,
+$$
+$$
+  \mathbb{R}[\mathcal{T}]
+  =
+  9\mathbf{1}\oplus8V\oplus2(V\otimes\mathrm{sgn})\oplus5W,
+$$
+and
+$$
+  \ker I
+  =
+  4\mathbf{1}\oplus6V\oplus2(V\otimes\mathrm{sgn})\oplus3W.
+$$
+The partition-basin spectra of
+\autoref{thm:philosophy-partition-core-incidence-kernel-theorem} are
+therefore representation-theoretic spectra.
+\end{theorem}
+\begin{proof}
+Sum the four size layers in
+\autoref{thm:philosophy-partition-core-permutation-modules},
+\autoref{thm:philosophy-minimal-trigger-permutation-modules}, and
+\autoref{thm:philosophy-partition-core-incidence-kernel-representation}.
+The dimensions are $15$, $49$, and $34$, with $49-15=34$. The spectral
+identification follows from
+\autoref{thm:philosophy-partition-core-gram-representation-spectrum}.
+\end{proof}
