@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\CellularOrbitSynchronizationUp$}
+\label{ch:concrete-instances-cellular-orbit-synchronization-namecert}
+\origin{ai}
+
+The $\CellularOrbitSynchronizationUp$ packet realizes the cellular carrier alternative of \autoref{ch:visions-cellular-substrate-as-carrier-alternative} as a finite paired-orbit synchronization surface. It consumes the observation-boundary route of \autoref{ch:concrete-instances-cellular-substrate-observation-boundary-namecert}, the classifier-boundary route of \autoref{ch:concrete-instances-cellular-substrate-classifier-boundary-namecert}, the paired audit coupling of \autoref{ch:concrete-instances-twinsubstrateauditcoupling-namecert}, and the twin-substrate bridge of \autoref{ch:concrete-instances-twinsubstratebridge-namecert}. The packet records two local orbit replays together with the classifier tag row that authorizes them as one closed substrate read.
+
+\begin{definition}[Cellular orbit synchronization carrier]
+\label{def:cellular-orbit-synchronization-carrier}
+A $\CellularOrbitSynchronizationUp$ carrier is a finite $\BHist$ packet
+$$
+S=(O_0,O_1,G,B,Q,A,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O_0$ and $O_1$ are paired local orbit replay rows, each giving a finite transition table, initial row, time window, spatial window, and replay ledger.
+\item $G$ is the classifier tag row that assigns both replayed windows to the same substrate observation family.
+\item $B$ is the $\CellularSubstrateObservationBoundaryUp$ boundary row recording the manifest and accepted observation windows used by the paired replay.
+\item $Q$ is the $\CellularSubstrateClassifierBoundaryUp$ row requiring the classifier tags to be displayed before either orbit read is exported.
+\item $A$ is the $\TwinSubstrateAuditCouplingUp$ row that records paired audit use without collapsing the two replay rows into a shared host orbit.
+\item $T$ is the $\TwinSubstrateBridgeUp$ row through which the paired read may be inspected by a bridge-facing consumer.
+\item $H$ records componentwise $\hsame$ transport for the two orbit replays, classifier tag, observation boundary, classifier boundary, audit coupling, twin-substrate bridge, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the paired local orbits through $G,B,Q,A,T,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CellularOrbitSynchronizationUp$, $\CellularSubstrateObservationBoundaryUp$, $\CellularSubstrateClassifierBoundaryUp$, $\TwinSubstrateAuditCouplingUp$, $\TwinSubstrateBridgeUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CellularOrbitSynchronizationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an unclassified orbit read, a detached host evaluator, an all-time induction principle, quotient stream equality, or an identification of the two substrate roles.
+\end{definition}
+
+\begin{theorem}[CellularOrbitSynchronization NameCert obligations]
+\label{thm:cellular-orbit-synchronization-namecert-obligations}
+For every accepted $\CellularOrbitSynchronizationUp$ carrier $S=(O_0,O_1,G,B,Q,A,T,H,C,P,N)$, the local $\NameCert_{\CellularOrbitSynchronizationUp}$ surface consists exactly of carrier admission for the paired orbit replays, classifier tag row, observation boundary, classifier boundary, audit coupling, twin-substrate bridge, componentwise transport, displayed continuation replay, package provenance, and local naming. Every synchronized substrate read factors through
+$$
+O_0,O_1 \longmapsto G \longmapsto B,Q \longmapsto A,T \longmapsto H,C,P,N .
+$$
+No synchronized orbit obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cellular-orbit-synchronization-carrier}. The accepted packet displays exactly the paired local orbit rows, classifier tag row, observation boundary, classifier boundary, audit coupling, bridge row, and structural rows.
+
+The classifier row is read before the boundary rows. Thus a pair of replay ledgers $O_0,O_1$ becomes a synchronized substrate read only when $G$ names the inspected pattern family and the rows $B,Q$ bind that tag to the observation and classifier boundaries.
+
+The audit and bridge rows preserve the paired reading without identifying the two replays. The row $A$ supplies paired audit coupling, $T$ supplies bridge-facing inspection, and $H,C,P,N$ transport, replay, source, and name only that finite packet. Therefore unclassified orbit reads, host evaluators, all-time induction, quotient streams, and substrate-role identifications cannot become NameCert obligations.
+\end{proof}
+
+\begin{theorem}[CellularOrbitSynchronization classifier-locked handoff]
+\label{thm:cellular-orbit-synchronization-classifier-locked-handoff}
+Every synchronized orbit read accepted by a $\CellularOrbitSynchronizationUp$ packet displays the classifier tag row $G$ before either paired orbit replay is exported through the observation boundary, classifier boundary, audit coupling, or twin-substrate bridge. A Lean follow-up for this carrier must supply $\Nontrivial$ and $\FieldFaithful$ instances in \texttt{lean4/BEDC/Derived/CellularOrbitSynchronizationUp/TasteGate.lean}.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The paired orbit rows $O_0,O_1$ are present, but they are not exported directly; they are routed through the classifier tag row $G$.
+
+Use the observation and classifier boundaries. The observation-boundary row $B$ fixes the manifest and local windows, while the classifier-boundary row $Q$ requires the pattern tag to be displayed for each observed window. Hence an orbit replay without $G$ has no accepted route to a synchronized read.
+
+The audit coupling and bridge rows are downstream. They consume the already tagged boundary packet, and the structural rows $H,C,P,N$ preserve the same finite route. Thus the classifier-locked handoff is the only exported synchronization surface.
+\end{proof}
+
+\falsifiablePrediction{Any synchronized orbit read that displays the paired local orbit replays but omits the classifier tag row $G$ is rejected by the $\CellularOrbitSynchronizationUp$ carrier.}
+
+\independenceWitness{cellular_substrate_observation_boundary, cellular_substrate_classifier_boundary, twinsubstrateauditcoupling, twinsubstratebridge: none is bijective to $\CellularOrbitSynchronizationUp$ because the synchronization packet uniquely binds paired local orbit replays, classifier-locked observation rows, paired audit coupling, bridge-facing inspection, transport, replay, provenance, and local naming in one finite carrier.}
+
+\closureat{CellularOrbitSynchronizationUp}{seedStr}
+
+\begin{closurestatus}{\CellularOrbitSynchronizationUp}
+  \constructivestory{A $\CellularOrbitSynchronizationUp$ packet is generated from paired local orbit replay rows, a classifier tag row, CellularSubstrateObservationBoundary and CellularSubstrateClassifierBoundary rows, TwinSubstrateAuditCoupling and TwinSubstrateBridge rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cellular-orbit-synchronization-carrier}, \autoref{thm:cellular-orbit-synchronization-namecert-obligations}, and \autoref{thm:cellular-orbit-synchronization-classifier-locked-handoff} seed the finite classifier-locked synchronization surface for paired local cellular orbit reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, all-time cellular induction, host evaluator correctness, quotient stream equality, or identification of the two substrate roles.}
+  \upgradepath{Obligation closure requires checked carrier admission, paired orbit replay exactness, classifier-tag exposure, observation-boundary and classifier-boundary handoff, audit coupling, bridge-facing inspection, transport, replay, provenance, and local naming for BEDC.Derived.CellularOrbitSynchronizationUp.}
+\end{closurestatus}
