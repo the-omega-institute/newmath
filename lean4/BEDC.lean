@@ -5411,6 +5411,7 @@ import BEDC.Derived.RegularCauchyApartnessOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyAverageUp
 import BEDC.Derived.RegularCauchyBallUp.TasteGate
 import BEDC.Derived.RegularCauchyCancellationUp.TasteGate
+import BEDC.Derived.RegularCauchyCategoryUp.TasteGate
 import BEDC.Derived.RegularCauchyClassifierNormalFormUp.TasteGate
 import BEDC.Derived.RegularCauchyCofinalLimitUp.TasteGate
 import BEDC.Derived.RegularCauchyCofinalSubsequenceUp.TasteGate
@@ -6709,6 +6710,7 @@ import BEDC.Derived.ZnormalUp.TotalHostNormalFormLedgerExhaustion
 import BEDC.Derived.ZnormalUp.TotalHostObligationPacket
 import BEDC.Derived.ZnormalUp.TotalHostReadbackDisplay
 import BEDC.Derived.ZnormalUp.TotalHostReadbackSeparation
+import BEDC.Derived.ZnormalUp.TotalHostRefusalExhaustion
 import BEDC.Derived.ZnormalUp.TotalHostRefusalNonescape
 import BEDC.Derived.ZnormalUp.TotalHostRefusalPackage
 import BEDC.Derived.ZnormalUp.TotalHostTerminalCarrierAdmission
