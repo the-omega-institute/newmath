@@ -224,4 +224,61 @@ theorem RealPowerSeriesCarrier_nonescape [AskSetup] [PackageSetup]
     }
   exact ⟨cert, AUnary, WUnary, SUnary, MUnary, EUnary, endpointUnary⟩
 
+theorem RealPowerSeriesCarrier_coefficient_shift_route [AskSetup] [PackageSetup]
+    {A Z X R W S M E H C P N shiftedWindow shiftedPartial shiftedMajorant : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ->
+      Cont Z R shiftedWindow ->
+        Cont shiftedWindow S shiftedPartial ->
+          Cont shiftedPartial M shiftedMajorant ->
+            UnaryHistory Z ∧ UnaryHistory R ∧ UnaryHistory shiftedWindow ∧
+              UnaryHistory shiftedPartial ∧ UnaryHistory shiftedMajorant ∧
+                Cont A W S ∧ Cont Z R shiftedWindow ∧
+                  Cont shiftedWindow S shiftedPartial ∧
+                    Cont shiftedPartial M shiftedMajorant ∧ Cont M E C ∧
+                      PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier windowRoute partialRoute majorantRoute
+  obtain ⟨_AUnary, ZUnary, _XUnary, RUnary, _WUnary, SUnary, MUnary, _EUnary,
+    _HUnary, _CUnary, _PUnary, _NUnary, coefficientWindow, _radiusMajorant,
+    majorantEndpoint, pkgSig⟩ := carrier
+  have shiftedWindowUnary : UnaryHistory shiftedWindow :=
+    unary_cont_closed ZUnary RUnary windowRoute
+  have shiftedPartialUnary : UnaryHistory shiftedPartial :=
+    unary_cont_closed shiftedWindowUnary SUnary partialRoute
+  have shiftedMajorantUnary : UnaryHistory shiftedMajorant :=
+    unary_cont_closed shiftedPartialUnary MUnary majorantRoute
+  exact
+    ⟨ZUnary, RUnary, shiftedWindowUnary, shiftedPartialUnary, shiftedMajorantUnary,
+      coefficientWindow, windowRoute, partialRoute, majorantRoute, majorantEndpoint, pkgSig⟩
+
+theorem RealPowerSeriesCarrier_cauchy_product_radius_budget [AskSetup] [PackageSetup]
+    {A Z X R W S M E H C P N productWindow productMajorant productEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ->
+      Cont W S productWindow ->
+        Cont productWindow M productMajorant ->
+          Cont productMajorant E productEndpoint ->
+            PkgSig bundle productEndpoint pkg ->
+              UnaryHistory W ∧ UnaryHistory S ∧ UnaryHistory productWindow ∧
+                UnaryHistory productMajorant ∧ UnaryHistory productEndpoint ∧
+                  Cont A W S ∧ Cont W S productWindow ∧
+                    Cont productWindow M productMajorant ∧
+                      Cont productMajorant E productEndpoint ∧
+                        PkgSig bundle P pkg ∧ PkgSig bundle productEndpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier productRoute majorantRoute endpointRoute endpointPkg
+  obtain ⟨_AUnary, _ZUnary, _XUnary, _RUnary, WUnary, SUnary, MUnary, EUnary,
+    _HUnary, _CUnary, _PUnary, _NUnary, coefficientWindow, _radiusMajorant,
+    _majorantEndpoint, pkgSig⟩ := carrier
+  have productWindowUnary : UnaryHistory productWindow :=
+    unary_cont_closed WUnary SUnary productRoute
+  have productMajorantUnary : UnaryHistory productMajorant :=
+    unary_cont_closed productWindowUnary MUnary majorantRoute
+  have productEndpointUnary : UnaryHistory productEndpoint :=
+    unary_cont_closed productMajorantUnary EUnary endpointRoute
+  exact
+    ⟨WUnary, SUnary, productWindowUnary, productMajorantUnary, productEndpointUnary,
+      coefficientWindow, productRoute, majorantRoute, endpointRoute, pkgSig, endpointPkg⟩
+
 end BEDC.Derived.RealPowerSeriesUp
