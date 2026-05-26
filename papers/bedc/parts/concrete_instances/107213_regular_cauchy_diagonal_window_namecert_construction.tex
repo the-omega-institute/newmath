@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyDiagonalWindowUp$}
+\label{ch:concrete-instances-regular-cauchy-diagonal-window-namecert}
+\origin{human}
+
+Following Bishop and Bridges on diagonal arguments in constructive analysis, the $\RegularCauchyDiagonalWindowUp$ packet names the finite window data that a Real or Completion route may inspect before it reads a diagonal regular Cauchy seal. It sits over the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, and the downstream diagonal extraction route of \autoref{ch:concrete-instances-regular-cauchy-diagonal-extraction-namecert}. The packet records the named diagonal-window boundary; it is not a quotient stream, not a selected limit, not countable choice, and not ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy diagonal window carrier]
+\label{def:regular-cauchy-diagonal-window-carrier}
+A $\RegularCauchyDiagonalWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(D,S,R,I,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row containing the requested dyadic radius, split-tolerance ledger, and comparison budget for the diagonal window.
+\item $S$ is the $\StreamNameUp$ finite stream-window row that displays the source entries available to the diagonal read.
+\item $R$ is the $\RegSeqRatUp$ regular readback row attached to the same window and tolerance budget.
+\item $I$ is the finite diagonal index schedule, recording only the named indices whose windows are inspected by the consumer.
+\item $E$ is the terminal $\RealUp$ seal reached after $D,S,R,I$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the dyadic tolerance, stream window, regular readback, diagonal index schedule, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a diagonal-window request through the tolerance row $D$, stream window $S$, regular readback $R$, index schedule $I$, and Real seal $E$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyDiagonalWindowUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyDiagonalWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,R,I,E,H,C,P,N$. It has no coordinate for quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy diagonal window obligations]
+\label{thm:regular-cauchy-diagonal-window-obligations}
+For every accepted $\RegularCauchyDiagonalWindowUp$ carrier $W=(D,S,R,I,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyDiagonalWindowUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the dyadic tolerance row, stream window, regular readback, diagonal index schedule, Real seal, transport, replay, provenance, and local naming row;
+\item diagonal-window visibility, requiring each consumer-facing diagonal request to read a displayed finite window before any Real seal is exposed;
+\item dyadic tolerance exactness, requiring the requested tolerance and every split tolerance to be read through $D$;
+\item regular readback compatibility, requiring the $\RegSeqRatUp$ row $R$ to consume the same finite window $S$ and diagonal schedule $I$ named by the carrier;
+\item Real-seal nonescape, requiring $E$ to appear only after $D,S,R,I$ have been transported through $H$ and replayed through $C$;
+\item transport, replay, provenance, and local naming for exactly the displayed rows $D,S,R,I,E,H,C,P,N$.
+\end{enumerate}
+No local NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-diagonal-window-carrier}. The accepted inventory is exactly the dyadic tolerance row $D$, stream window $S$, regular readback $R$, diagonal index schedule $I$, Real seal $E$, and the structural rows $H,C,P,N$.
+
+The diagonal-window obligation is therefore visible before the seal. A consumer request first reads the dyadic tolerance and split budget in $D$, then the finite stream window $S$, and then the regular rational readback $R$ attached to the displayed schedule $I$.
+
+The Real seal is downstream of that finite route. Componentwise $\hsame$ transport in $H$ preserves the displayed rows, and $\Cont$ replay in $C$ repeats the same ordered route before $E$ can be inspected.
+
+Finally, provenance and naming are exhausted by $P$ and $N$. Since the carrier has no coordinate for quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient Real completeness, no such obligation can be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal window nonescape]
+\label{thm:regular-cauchy-diagonal-window-nonescape}
+Every Real or Completion consumer of an accepted $\RegularCauchyDiagonalWindowUp$ carrier factors through the displayed route
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert
+$$
+together with the finite diagonal index schedule. The packet exports no quotient stream, selected limit, countable-choice schedule, trichotomy, host real equality, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $W=(D,S,R,I,E,H,C,P,N)$. The only tolerance source is $D$, the only finite source-window row is $S$, and the only regular rational readback row is $R$.
+
+The diagonal schedule $I$ is finite and displayed. It selects only the named window entries already present in $S$ and the tolerance budgets already present in $D$ before the readback reaches $R$.
+
+The terminal Real seal $E$ is reached only through the componentwise transport $H$ and displayed replay $C$. The provenance row $P$ and local naming row $N$ source exactly that route.
+
+Since the carrier inventory has no quotient-stream, selected-limit, countable-choice, trichotomy, host-equality, or ambient-completeness coordinate, every Real or Completion read remains inside the displayed finite diagonal-window packet.
+\end{proof}
+
+\falsifiablePrediction{Every $\RegularCauchyDiagonalWindowUp$ Real or Completion read factors through displayed DyadicRatCore, StreamName, RegSeqRat, RealUp, transport, replay, provenance, local naming, and finite diagonal-index rows before exposing a diagonal seal.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, regular-cauchy-diagonal-extraction: $\RegularCauchyDiagonalWindowUp$ is not bijective to any listed sibling because it jointly carries dyadic tolerance exactness, finite stream-window exposure, regular rational readback, a diagonal index schedule, and a Real seal in one finite window packet.}
+
+\closureat{RegularCauchyDiagonalWindowUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyDiagonalWindowUp}
+  \constructivestory{A $\RegularCauchyDiagonalWindowUp$ packet is generated from a DyadicRatCore tolerance row, a StreamName finite window, RegSeqRat readback, a finite diagonal index schedule, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-diagonal-window-carrier}, \autoref{thm:regular-cauchy-diagonal-window-obligations}, and \autoref{thm:regular-cauchy-diagonal-window-nonescape} seed the finite diagonal-window packet used by Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RegularCauchyDiagonalWindowUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, trichotomy, host real equality, ambient RealUp completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, diagonal-window visibility, dyadic tolerance exactness, regular readback compatibility, Real-seal exposure, and ledger nonescape for BEDC.Derived.RegularCauchyDiagonalWindowUp.}
+\end{closurestatus}
