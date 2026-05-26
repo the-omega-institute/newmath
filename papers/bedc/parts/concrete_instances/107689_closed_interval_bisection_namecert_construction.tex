@@ -71,6 +71,18 @@ The readback rows are ordered after that route. A $\StreamNameUp$ consumer reads
 Nested-interval and compactness-facing consumers receive the retained child through $H,C,P,N$. These structural rows preserve and replay the same packet; they do not introduce completed branches, selected points, quotient equality, open-cover compactness, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[Closed interval bisection interval-modulus termination]
+\label{thm:closed-interval-bisection-interval-modulus-termination}
+An accepted $\ClosedIntervalBisectionUp$ carrier with a displayed unary history depth row $n$ exports a finite dyadic interval window at that depth. Its endpoint route is inherited from the $\ClosedBoundedIntervalUp$ row $I$, its branch row is inherited from the $\LocatedIntervalBisectionUp$ and $\IntervalBisectionUp$ rows $L,M,D$, and its $\StreamNameUp$--$\RegSeqRatUp$--$\RealUp$ seal handoff remains inside the displayed rows $S,R,E,H,C,P,N$. This is a finite modulus and termination row for the displayed depth, not open-cover compactness, trichotomy, a selected infinite branch, countable choice, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Induct on the displayed unary depth row. At depth zero, read the original closed bounded interval from $I$; its endpoint order, containment, finite window, regular readback, and real-name seal are exactly the source data already exposed by \autoref{def:closed-interval-bisection-carrier}.
+
+For the successor depth, apply the midpoint and retained-branch rows $M,D$. The located endpoint data in $L$ chooses only the displayed finite child, while $D$ transports endpoint order, containment, and the dyadic diameter budget from the parent to that child.
+
+Componentwise $\hsame$ transport in $H$ and displayed replay in $C$ keep the induction inside the same carrier. The completion handoff of \autoref{thm:closed-interval-bisection-completion-handoff} then composes $S,R,E$ after the current branch row, so the depth-$n$ window terminates as a finite row rather than as a hidden infinite branch or completeness principle.
+\end{proof}
+
 \falsifiablePrediction{Every $\ClosedIntervalBisectionUp$ consumer that omits the dyadic branch row loses the retained child interval before any RegSeqRat or Real seal can be read.}
 
 \independenceWitness{closedboundedinterval, located-interval-bisection, intervalbisection, located-real-nested-intervals, streamname, regseqrat, real: $\ClosedIntervalBisectionUp$ is not bijective to any listed sibling because it jointly carries a closed bounded interval source, located endpoint evidence, midpoint formation, a dyadic retained-branch ledger, finite windows, regular rational readback, a Real seal, transport, replay, provenance, and local naming.}
