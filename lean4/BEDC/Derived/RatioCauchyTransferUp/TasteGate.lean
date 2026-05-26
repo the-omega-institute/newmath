@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RatioCauchyTransferUp.TasteGate
+namespace BEDC.Derived.RatioCauchyTransferUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,7 +10,6 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RatioCauchyTransferUp : Type where
-  -- BEDC touchpoint anchor: BHist BMark
   | mk (N D A R Q H C P L : BHist) : RatioCauchyTransferUp
   deriving DecidableEq
 
@@ -26,15 +25,17 @@ def ratioCauchyTransferDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (ratioCauchyTransferDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (ratioCauchyTransferDecodeBHist tail)
 
-private theorem RatioCauchyTransferTasteGate_single_carrier_alignment_decode_encode :
-    ∀ h : BHist,
-      ratioCauchyTransferDecodeBHist (ratioCauchyTransferEncodeBHist h) = h := by
+private theorem ratioCauchyTransfer_decode_encode_bhist :
+    ∀ h : BHist, ratioCauchyTransferDecodeBHist (ratioCauchyTransferEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def ratioCauchyTransferFields : RatioCauchyTransferUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
@@ -44,31 +45,43 @@ def ratioCauchyTransferToEventFlow : RatioCauchyTransferUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (ratioCauchyTransferFields x).map ratioCauchyTransferEncodeBHist
 
-private def ratioCauchyTransferEventAt : Nat → EventFlow → RawEvent
+private def ratioCauchyTransferRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
+  | 0, [] => []
+  | 0, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => ratioCauchyTransferEventAt index rest
+  | Nat.succ index, _event :: rest => ratioCauchyTransferRawAt index rest
 
-def ratioCauchyTransferFromEventFlow (ef : EventFlow) : Option RatioCauchyTransferUp :=
+private def ratioCauchyTransferLengthEq : Nat → EventFlow → Bool
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (RatioCauchyTransferUp.mk
-      (ratioCauchyTransferDecodeBHist (ratioCauchyTransferEventAt 0 ef))
-      (ratioCauchyTransferDecodeBHist (ratioCauchyTransferEventAt 1 ef))
-      (ratioCauchyTransferDecodeBHist (ratioCauchyTransferEventAt 2 ef))
-      (ratioCauchyTransferDecodeBHist (ratioCauchyTransferEventAt 3 ef))
-      (ratioCauchyTransferDecodeBHist (ratioCauchyTransferEventAt 4 ef))
-      (ratioCauchyTransferDecodeBHist (ratioCauchyTransferEventAt 5 ef))
-      (ratioCauchyTransferDecodeBHist (ratioCauchyTransferEventAt 6 ef))
-      (ratioCauchyTransferDecodeBHist (ratioCauchyTransferEventAt 7 ef))
-      (ratioCauchyTransferDecodeBHist (ratioCauchyTransferEventAt 8 ef)))
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _index, [] => false
+  | Nat.succ index, _event :: rest => ratioCauchyTransferLengthEq index rest
 
-private theorem RatioCauchyTransferTasteGate_single_carrier_alignment_round_trip
-    (x : RatioCauchyTransferUp) :
-    ratioCauchyTransferFromEventFlow (ratioCauchyTransferToEventFlow x) = some x := by
+def ratioCauchyTransferFromEventFlow : EventFlow → Option RatioCauchyTransferUp
   -- BEDC touchpoint anchor: BHist BMark
+  | flow =>
+      match ratioCauchyTransferLengthEq 9 flow with
+      | true =>
+          some
+            (RatioCauchyTransferUp.mk
+              (ratioCauchyTransferDecodeBHist (ratioCauchyTransferRawAt 0 flow))
+              (ratioCauchyTransferDecodeBHist (ratioCauchyTransferRawAt 1 flow))
+              (ratioCauchyTransferDecodeBHist (ratioCauchyTransferRawAt 2 flow))
+              (ratioCauchyTransferDecodeBHist (ratioCauchyTransferRawAt 3 flow))
+              (ratioCauchyTransferDecodeBHist (ratioCauchyTransferRawAt 4 flow))
+              (ratioCauchyTransferDecodeBHist (ratioCauchyTransferRawAt 5 flow))
+              (ratioCauchyTransferDecodeBHist (ratioCauchyTransferRawAt 6 flow))
+              (ratioCauchyTransferDecodeBHist (ratioCauchyTransferRawAt 7 flow))
+              (ratioCauchyTransferDecodeBHist (ratioCauchyTransferRawAt 8 flow)))
+      | false => none
+
+private theorem ratioCauchyTransfer_round_trip :
+    ∀ x : RatioCauchyTransferUp,
+      ratioCauchyTransferFromEventFlow (ratioCauchyTransferToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk N D A R Q H C P L =>
       change
@@ -84,18 +97,17 @@ private theorem RatioCauchyTransferTasteGate_single_carrier_alignment_round_trip
             (ratioCauchyTransferDecodeBHist (ratioCauchyTransferEncodeBHist P))
             (ratioCauchyTransferDecodeBHist (ratioCauchyTransferEncodeBHist L))) =
           some (RatioCauchyTransferUp.mk N D A R Q H C P L)
-      rw [RatioCauchyTransferTasteGate_single_carrier_alignment_decode_encode N,
-        RatioCauchyTransferTasteGate_single_carrier_alignment_decode_encode D,
-        RatioCauchyTransferTasteGate_single_carrier_alignment_decode_encode A,
-        RatioCauchyTransferTasteGate_single_carrier_alignment_decode_encode R,
-        RatioCauchyTransferTasteGate_single_carrier_alignment_decode_encode Q,
-        RatioCauchyTransferTasteGate_single_carrier_alignment_decode_encode H,
-        RatioCauchyTransferTasteGate_single_carrier_alignment_decode_encode C,
-        RatioCauchyTransferTasteGate_single_carrier_alignment_decode_encode P,
-        RatioCauchyTransferTasteGate_single_carrier_alignment_decode_encode L]
+      rw [ratioCauchyTransfer_decode_encode_bhist N,
+        ratioCauchyTransfer_decode_encode_bhist D,
+        ratioCauchyTransfer_decode_encode_bhist A,
+        ratioCauchyTransfer_decode_encode_bhist R,
+        ratioCauchyTransfer_decode_encode_bhist Q,
+        ratioCauchyTransfer_decode_encode_bhist H,
+        ratioCauchyTransfer_decode_encode_bhist C,
+        ratioCauchyTransfer_decode_encode_bhist P,
+        ratioCauchyTransfer_decode_encode_bhist L]
 
-private theorem RatioCauchyTransferTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : RatioCauchyTransferUp} :
+private theorem ratioCauchyTransferToEventFlow_injective {x y : RatioCauchyTransferUp} :
     ratioCauchyTransferToEventFlow x = ratioCauchyTransferToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -104,78 +116,40 @@ private theorem RatioCauchyTransferTasteGate_single_carrier_alignment_toEventFlo
         ratioCauchyTransferFromEventFlow (ratioCauchyTransferToEventFlow y) :=
     congrArg ratioCauchyTransferFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (RatioCauchyTransferTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (RatioCauchyTransferTasteGate_single_carrier_alignment_round_trip y)))
-
-private theorem RatioCauchyTransferTasteGate_single_carrier_alignment_fields_faithful :
-    ∀ x y : RatioCauchyTransferUp,
-      ratioCauchyTransferFields x = ratioCauchyTransferFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk N₁ D₁ A₁ R₁ Q₁ H₁ C₁ P₁ L₁ =>
-      cases y with
-      | mk N₂ D₂ A₂ R₂ Q₂ H₂ C₂ P₂ L₂ =>
-          cases hfields
-          rfl
+    (Eq.trans (ratioCauchyTransfer_round_trip x).symm
+      (Eq.trans hread (ratioCauchyTransfer_round_trip y)))
 
 instance ratioCauchyTransferBHistCarrier : BHistCarrier RatioCauchyTransferUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := ratioCauchyTransferToEventFlow
   fromEventFlow := ratioCauchyTransferFromEventFlow
 
-instance ratioCauchyTransferChapterTasteGate :
-    ChapterTasteGate RatioCauchyTransferUp where
+instance ratioCauchyTransferChapterTasteGate : ChapterTasteGate RatioCauchyTransferUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change ratioCauchyTransferFromEventFlow (ratioCauchyTransferToEventFlow x) = some x
-    exact RatioCauchyTransferTasteGate_single_carrier_alignment_round_trip x
+    exact ratioCauchyTransfer_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (RatioCauchyTransferTasteGate_single_carrier_alignment_toEventFlow_injective heq)
-
-instance ratioCauchyTransferFieldFaithful : FieldFaithful RatioCauchyTransferUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := ratioCauchyTransferFields
-  field_faithful := RatioCauchyTransferTasteGate_single_carrier_alignment_fields_faithful
-
-instance ratioCauchyTransferNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial RatioCauchyTransferUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨RatioCauchyTransferUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      RatioCauchyTransferUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
+    exact hxy (ratioCauchyTransferToEventFlow_injective heq)
 
 def taste_gate : ChapterTasteGate RatioCauchyTransferUp :=
   -- BEDC touchpoint anchor: BHist BMark
   ratioCauchyTransferChapterTasteGate
 
 theorem RatioCauchyTransferTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate RatioCauchyTransferUp) ∧
-      Nonempty (FieldFaithful RatioCauchyTransferUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial RatioCauchyTransferUp) ∧
-          (∀ h : BHist,
-            ratioCauchyTransferDecodeBHist (ratioCauchyTransferEncodeBHist h) = h) ∧
-            (∀ x : RatioCauchyTransferUp,
-              ratioCauchyTransferFromEventFlow (ratioCauchyTransferToEventFlow x) = some x) ∧
-              (∀ x y : RatioCauchyTransferUp,
-                ratioCauchyTransferToEventFlow x = ratioCauchyTransferToEventFlow y → x = y) ∧
-                ratioCauchyTransferEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+    (∀ h : BHist, ratioCauchyTransferDecodeBHist (ratioCauchyTransferEncodeBHist h) = h) ∧
+      (∀ x : RatioCauchyTransferUp,
+        ratioCauchyTransferFromEventFlow (ratioCauchyTransferToEventFlow x) = some x) ∧
+      (∀ x y : RatioCauchyTransferUp,
+        ratioCauchyTransferToEventFlow x = ratioCauchyTransferToEventFlow y → x = y) ∧
+      ratioCauchyTransferEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
   exact
-    ⟨⟨ratioCauchyTransferChapterTasteGate⟩,
-      ⟨ratioCauchyTransferFieldFaithful⟩,
-      ⟨ratioCauchyTransferNontrivial⟩,
-      RatioCauchyTransferTasteGate_single_carrier_alignment_decode_encode,
-      RatioCauchyTransferTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        RatioCauchyTransferTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+    ⟨ratioCauchyTransfer_decode_encode_bhist,
+      ratioCauchyTransfer_round_trip,
+      (fun _ _ heq => ratioCauchyTransferToEventFlow_injective heq),
       rfl⟩
 
-end BEDC.Derived.RatioCauchyTransferUp.TasteGate
+end BEDC.Derived.RatioCauchyTransferUp

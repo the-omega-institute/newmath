@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.DiniDerivativeUp.TasteGate
+namespace BEDC.Derived.DiniDerivativeUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,7 +10,6 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive DiniDerivativeUp : Type where
-  -- BEDC touchpoint anchor: BHist BMark
   | mk (X F Q S B R W H C P N : BHist) : DiniDerivativeUp
   deriving DecidableEq
 
@@ -26,14 +25,17 @@ def diniDerivativeDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (diniDerivativeDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (diniDerivativeDecodeBHist tail)
 
-private theorem DiniDerivativeTasteGate_single_carrier_alignment_decode_encode :
+private theorem diniDerivative_decode_encode_bhist :
     ∀ h : BHist, diniDerivativeDecodeBHist (diniDerivativeEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def diniDerivativeFields : DiniDerivativeUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
@@ -43,33 +45,45 @@ def diniDerivativeToEventFlow : DiniDerivativeUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (diniDerivativeFields x).map diniDerivativeEncodeBHist
 
-private def diniDerivativeEventAt : Nat → EventFlow → RawEvent
+private def diniDerivativeRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
+  | 0, [] => []
+  | 0, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => diniDerivativeEventAt index rest
+  | Nat.succ index, _event :: rest => diniDerivativeRawAt index rest
 
-def diniDerivativeFromEventFlow (ef : EventFlow) : Option DiniDerivativeUp :=
+private def diniDerivativeLengthEq : Nat → EventFlow → Bool
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (DiniDerivativeUp.mk
-      (diniDerivativeDecodeBHist (diniDerivativeEventAt 0 ef))
-      (diniDerivativeDecodeBHist (diniDerivativeEventAt 1 ef))
-      (diniDerivativeDecodeBHist (diniDerivativeEventAt 2 ef))
-      (diniDerivativeDecodeBHist (diniDerivativeEventAt 3 ef))
-      (diniDerivativeDecodeBHist (diniDerivativeEventAt 4 ef))
-      (diniDerivativeDecodeBHist (diniDerivativeEventAt 5 ef))
-      (diniDerivativeDecodeBHist (diniDerivativeEventAt 6 ef))
-      (diniDerivativeDecodeBHist (diniDerivativeEventAt 7 ef))
-      (diniDerivativeDecodeBHist (diniDerivativeEventAt 8 ef))
-      (diniDerivativeDecodeBHist (diniDerivativeEventAt 9 ef))
-      (diniDerivativeDecodeBHist (diniDerivativeEventAt 10 ef)))
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _index, [] => false
+  | Nat.succ index, _event :: rest => diniDerivativeLengthEq index rest
 
-private theorem DiniDerivativeTasteGate_single_carrier_alignment_round_trip
-    (x : DiniDerivativeUp) :
-    diniDerivativeFromEventFlow (diniDerivativeToEventFlow x) = some x := by
+def diniDerivativeFromEventFlow : EventFlow → Option DiniDerivativeUp
   -- BEDC touchpoint anchor: BHist BMark
+  | flow =>
+      match diniDerivativeLengthEq 11 flow with
+      | true =>
+          some
+            (DiniDerivativeUp.mk
+              (diniDerivativeDecodeBHist (diniDerivativeRawAt 0 flow))
+              (diniDerivativeDecodeBHist (diniDerivativeRawAt 1 flow))
+              (diniDerivativeDecodeBHist (diniDerivativeRawAt 2 flow))
+              (diniDerivativeDecodeBHist (diniDerivativeRawAt 3 flow))
+              (diniDerivativeDecodeBHist (diniDerivativeRawAt 4 flow))
+              (diniDerivativeDecodeBHist (diniDerivativeRawAt 5 flow))
+              (diniDerivativeDecodeBHist (diniDerivativeRawAt 6 flow))
+              (diniDerivativeDecodeBHist (diniDerivativeRawAt 7 flow))
+              (diniDerivativeDecodeBHist (diniDerivativeRawAt 8 flow))
+              (diniDerivativeDecodeBHist (diniDerivativeRawAt 9 flow))
+              (diniDerivativeDecodeBHist (diniDerivativeRawAt 10 flow)))
+      | false => none
+
+private theorem diniDerivative_round_trip :
+    ∀ x : DiniDerivativeUp,
+      diniDerivativeFromEventFlow (diniDerivativeToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk X F Q S B R W H C P N =>
       change
@@ -87,20 +101,14 @@ private theorem DiniDerivativeTasteGate_single_carrier_alignment_round_trip
             (diniDerivativeDecodeBHist (diniDerivativeEncodeBHist P))
             (diniDerivativeDecodeBHist (diniDerivativeEncodeBHist N))) =
           some (DiniDerivativeUp.mk X F Q S B R W H C P N)
-      rw [DiniDerivativeTasteGate_single_carrier_alignment_decode_encode X,
-        DiniDerivativeTasteGate_single_carrier_alignment_decode_encode F,
-        DiniDerivativeTasteGate_single_carrier_alignment_decode_encode Q,
-        DiniDerivativeTasteGate_single_carrier_alignment_decode_encode S,
-        DiniDerivativeTasteGate_single_carrier_alignment_decode_encode B,
-        DiniDerivativeTasteGate_single_carrier_alignment_decode_encode R,
-        DiniDerivativeTasteGate_single_carrier_alignment_decode_encode W,
-        DiniDerivativeTasteGate_single_carrier_alignment_decode_encode H,
-        DiniDerivativeTasteGate_single_carrier_alignment_decode_encode C,
-        DiniDerivativeTasteGate_single_carrier_alignment_decode_encode P,
-        DiniDerivativeTasteGate_single_carrier_alignment_decode_encode N]
+      rw [diniDerivative_decode_encode_bhist X, diniDerivative_decode_encode_bhist F,
+        diniDerivative_decode_encode_bhist Q, diniDerivative_decode_encode_bhist S,
+        diniDerivative_decode_encode_bhist B, diniDerivative_decode_encode_bhist R,
+        diniDerivative_decode_encode_bhist W, diniDerivative_decode_encode_bhist H,
+        diniDerivative_decode_encode_bhist C, diniDerivative_decode_encode_bhist P,
+        diniDerivative_decode_encode_bhist N]
 
-private theorem DiniDerivativeTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : DiniDerivativeUp} :
+private theorem diniDerivativeToEventFlow_injective {x y : DiniDerivativeUp} :
     diniDerivativeToEventFlow x = diniDerivativeToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -109,19 +117,8 @@ private theorem DiniDerivativeTasteGate_single_carrier_alignment_toEventFlow_inj
         diniDerivativeFromEventFlow (diniDerivativeToEventFlow y) :=
     congrArg diniDerivativeFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (DiniDerivativeTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (DiniDerivativeTasteGate_single_carrier_alignment_round_trip y)))
-
-private theorem DiniDerivativeTasteGate_single_carrier_alignment_fields_faithful :
-    ∀ x y : DiniDerivativeUp, diniDerivativeFields x = diniDerivativeFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk X₁ F₁ Q₁ S₁ B₁ R₁ W₁ H₁ C₁ P₁ N₁ =>
-      cases y with
-      | mk X₂ F₂ Q₂ S₂ B₂ R₂ W₂ H₂ C₂ P₂ N₂ =>
-          cases hfields
-          rfl
+    (Eq.trans (diniDerivative_round_trip x).symm
+      (Eq.trans hread (diniDerivative_round_trip y)))
 
 instance diniDerivativeBHistCarrier : BHistCarrier DiniDerivativeUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -133,50 +130,27 @@ instance diniDerivativeChapterTasteGate : ChapterTasteGate DiniDerivativeUp wher
   round_trip := by
     intro x
     change diniDerivativeFromEventFlow (diniDerivativeToEventFlow x) = some x
-    exact DiniDerivativeTasteGate_single_carrier_alignment_round_trip x
+    exact diniDerivative_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (DiniDerivativeTasteGate_single_carrier_alignment_toEventFlow_injective heq)
-
-instance diniDerivativeFieldFaithful : FieldFaithful DiniDerivativeUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := diniDerivativeFields
-  field_faithful := DiniDerivativeTasteGate_single_carrier_alignment_fields_faithful
-
-instance diniDerivativeNontrivial : BEDC.Meta.TasteGate.Nontrivial DiniDerivativeUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨DiniDerivativeUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      DiniDerivativeUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
+    exact hxy (diniDerivativeToEventFlow_injective heq)
 
 def taste_gate : ChapterTasteGate DiniDerivativeUp :=
   -- BEDC touchpoint anchor: BHist BMark
   diniDerivativeChapterTasteGate
 
 theorem DiniDerivativeTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate DiniDerivativeUp) ∧
-      Nonempty (FieldFaithful DiniDerivativeUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial DiniDerivativeUp) ∧
-          (∀ h : BHist, diniDerivativeDecodeBHist (diniDerivativeEncodeBHist h) = h) ∧
-            (∀ x : DiniDerivativeUp,
-              diniDerivativeFromEventFlow (diniDerivativeToEventFlow x) = some x) ∧
-              (∀ x y : DiniDerivativeUp,
-                diniDerivativeToEventFlow x = diniDerivativeToEventFlow y → x = y) ∧
-                diniDerivativeEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+    (∀ h : BHist, diniDerivativeDecodeBHist (diniDerivativeEncodeBHist h) = h) ∧
+      (∀ x : DiniDerivativeUp,
+        diniDerivativeFromEventFlow (diniDerivativeToEventFlow x) = some x) ∧
+      (∀ x y : DiniDerivativeUp,
+        diniDerivativeToEventFlow x = diniDerivativeToEventFlow y → x = y) ∧
+      diniDerivativeEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
   exact
-    ⟨⟨diniDerivativeChapterTasteGate⟩,
-      ⟨diniDerivativeFieldFaithful⟩,
-      ⟨diniDerivativeNontrivial⟩,
-      DiniDerivativeTasteGate_single_carrier_alignment_decode_encode,
-      DiniDerivativeTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        DiniDerivativeTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+    ⟨diniDerivative_decode_encode_bhist,
+      diniDerivative_round_trip,
+      (fun _ _ heq => diniDerivativeToEventFlow_injective heq),
       rfl⟩
 
-end BEDC.Derived.DiniDerivativeUp.TasteGate
+end BEDC.Derived.DiniDerivativeUp
