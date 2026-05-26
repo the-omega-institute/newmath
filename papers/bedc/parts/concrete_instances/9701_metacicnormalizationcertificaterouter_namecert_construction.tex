@@ -58,6 +58,42 @@ Now inspect the sibling rows. $\MetaCICNormalizationFrontierUp$ supplies the can
 The structural rows cannot change that dependency. Transport, replay, provenance, and local naming preserve the already displayed route, so a closed-term normalization request with no candidate, closed-candidate, or candidate-set evidence has no carrier coordinate from which to read $S$.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization certificate router candidate determinacy]
+\label{thm:metacic-normalization-certificate-router-candidate-determinacy}
+For an accepted $\MetaCICNormalizationCertificateRouterUp$ carrier, the strong-normalization readback row $S$ is determined by the displayed candidate, closed-candidate, or candidate-set evidence in $K$. The closed projection, Pi and application adequacy, generator, compiler, acceptance, transport, replay, provenance, and local naming rows may preserve and route that evidence, but they do not create a second source for $S$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-normalization-certificate-router-carrier}. The row $K$ is the only carrier coordinate containing candidate, closed-candidate, or candidate-set evidence, and $S$ is declared as the readback row downstream of it.
+
+Apply the obligation surface and closed-read refusal theorems. Theorem~\ref{thm:metacic-normalization-certificate-router-obligation-surface} lists $K$ before the strong-normalization readback, and \autoref{thm:metacic-normalization-certificate-router-closed-read-refusal} refuses any closed read lacking such evidence.
+
+The Lean TasteGate marker attached to the obligation surface records the single-carrier alignment for the same router. Thus the paper route and the checked carrier site agree that $S$ has no evidence-free source outside $K$.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization certificate router adequacy chain]
+\label{thm:metacic-normalization-certificate-router-adequacy-chain}
+The Pi and application adequacy rows $P$ of an accepted $\MetaCICNormalizationCertificateRouterUp$ carrier can route only evidence already admitted by $K$. They cannot turn function, argument, application, generator, compiler, or kernel-acceptance rows into evidence-free normalization reads.
+\end{theorem}
+\begin{proof}
+Read the candidate row first. By \autoref{def:metacic-normalization-certificate-router-carrier}, the adequacy row $P$ is a consumer of the displayed candidate-evidence row $K$, not a replacement for it.
+
+Apply candidate determinacy. Theorem~\ref{thm:metacic-normalization-certificate-router-candidate-determinacy} pins the strong-normalization readback $S$ to evidence in $K$, so adequacy can only preserve and transmit that already displayed evidence.
+
+Now compare with the sibling separation theorem. Theorem~\ref{thm:metacic-normalization-certificate-router-sibling-separation} separates this router from the frontier, closed-substitution, generator, compiler-flow, and kernel-acceptance siblings, so none of those rows can be treated as an independent normalization source.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization certificate router projection coverage]
+\label{thm:metacic-normalization-certificate-router-projection-coverage}
+The closed-term projection row $D$ of an accepted $\MetaCICNormalizationCertificateRouterUp$ carrier covers exactly the displayed $\ClosedTermSubstitutionBoundaryUp$ consumer route. It projects candidate-mediated normalization evidence into the closed-term boundary and exposes no additional closed-term normalization principle outside the rows admitted by $K$ and routed by $P$.
+\end{theorem}
+\begin{proof}
+Project the carrier row $D$. In \autoref{def:metacic-normalization-certificate-router-carrier}, $D$ is the closed-term projection row consumed through $\ClosedTermSubstitutionBoundaryUp$.
+
+Use the obligation surface. Theorem~\ref{thm:metacic-normalization-certificate-router-obligation-surface} places $D$ beside the candidate-evidence row $K$ and adequacy row $P$, so the projection is a consumer route rather than a new source of evidence.
+
+Apply closed-read refusal and sibling separation. Theorem~\ref{thm:metacic-normalization-certificate-router-closed-read-refusal} blocks any closed read without evidence in $K$, and \autoref{thm:metacic-normalization-certificate-router-sibling-separation} prevents collapsing the router to the closed-substitution sibling alone. Hence $D$ covers exactly the displayed closed-term substitution boundary route.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization certificate router route coverage]
 \label{thm:metacic-normalization-certificate-router-route-coverage}
 For an admitted $\MetaCICNormalizationCertificateRouterUp$ read, strong-normalization output is reachable only through the ordered finite route
@@ -75,6 +111,7 @@ Now apply closed-read refusal, \autoref{thm:metacic-normalization-certificate-ro
 
 Finally compare the sibling rows. $\ClosedTermSubstitutionBoundaryUp$, $\AuthorizedGeneratorRecursorUp$, $\GroundCompilerRecognizerFlowUp$, and $\KernelInductiveAcceptanceUp$ contribute projection, generation, compiler, and acceptance evidence respectively, but none is the candidate-evidence row $K$. Transport, replay, provenance, and naming preserve the same ordered route, so the admitted read cannot bypass $K$.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICNormalizationCertificateRouterUp.MetaCICNormalizationCertificateRouterPacket\_route\_coverage}
 
 \begin{theorem}[MetaCIC normalization certificate router sibling separation]
 \label{thm:metacic-normalization-certificate-router-sibling-separation}
