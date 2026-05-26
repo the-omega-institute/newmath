@@ -529,4 +529,37 @@ theorem RegularCauchyScaleCarrier_shared_tail_normalization [AskSetup] [PackageS
       provenanceNamecertEndpoint,
       endpointPkg⟩
 
+theorem RegularCauchyScaleCarrier_cofinal_budget_refinement [AskSetup] [PackageSetup]
+    {scalar source window scalarEndpoint sourceEndpoint scaledEndpoint budget readback sameRows
+      route provenance namecert endpoint refinedBudget refinedReadback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyScaleCarrier scalar source window scalarEndpoint sourceEndpoint scaledEndpoint
+        budget readback sameRows route provenance namecert endpoint bundle pkg ->
+      hsame refinedBudget budget ->
+        Cont scaledEndpoint refinedBudget refinedReadback ->
+          PkgSig bundle refinedReadback pkg ->
+            UnaryHistory scalar ∧ UnaryHistory source ∧ UnaryHistory window ∧
+              UnaryHistory scaledEndpoint ∧ UnaryHistory refinedBudget ∧
+                UnaryHistory refinedReadback ∧ Cont scalar window scalarEndpoint ∧
+                  Cont source window sourceEndpoint ∧
+                    Cont scalarEndpoint sourceEndpoint scaledEndpoint ∧
+                      Cont scaledEndpoint refinedBudget refinedReadback ∧
+                        hsame sameRows (append scalar source) ∧ PkgSig bundle endpoint pkg ∧
+                          PkgSig bundle refinedReadback pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameRefinedBudget refinedRoute refinedPkg
+  obtain ⟨scalarUnary, sourceUnary, windowUnary, _scalarEndpointUnary,
+    _sourceEndpointUnary, scaledEndpointUnary, budgetUnary, _readbackUnary, _sameRowsUnary,
+    _routeUnary, _provenanceUnary, _namecertUnary, _endpointUnary, scalarWindow,
+    sourceWindow, endpointsScaled, _scaledBudgetReadback, _readbackRouteProvenance,
+    _provenanceNamecertEndpoint, sameRowsAppend, endpointPkg⟩ := carrier
+  have refinedBudgetUnary : UnaryHistory refinedBudget :=
+    unary_transport budgetUnary (hsame_symm sameRefinedBudget)
+  have refinedReadbackUnary : UnaryHistory refinedReadback :=
+    unary_cont_closed scaledEndpointUnary refinedBudgetUnary refinedRoute
+  exact
+    ⟨scalarUnary, sourceUnary, windowUnary, scaledEndpointUnary, refinedBudgetUnary,
+      refinedReadbackUnary, scalarWindow, sourceWindow, endpointsScaled, refinedRoute,
+      sameRowsAppend, endpointPkg, refinedPkg⟩
+
 end BEDC.Derived.RegularCauchyScaleUp
