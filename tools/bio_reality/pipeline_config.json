@@ -1,0 +1,251 @@
+{
+  "pipeline_name": "bio_reality_deepening",
+  "default_conjectures": "tools/bio_reality/inbox/conjectures.jsonl",
+  "default_contacts": "tools/bio_reality/inbox/reality_contacts.jsonl",
+  "default_probes": "tools/bio_reality/inbox/probes.jsonl",
+  "default_mismatches": "tools/bio_reality/inbox/mismatches.jsonl",
+  "default_output": "tools/bio_reality/out/gate_results.jsonl",
+  "default_deepening_tasks": "tools/bio_reality/out/deepening_tasks.jsonl",
+  "default_review_queue": "tools/bio_reality/out/review_queue.jsonl",
+  "default_packet_targets": "tools/bio_reality/out/packet_targets.jsonl",
+  "default_events": "tools/bio_reality/out/events.jsonl",
+  "default_agent_tasks": "tools/bio_reality/out/agent_tasks.jsonl",
+  "default_agent_reviews": "tools/bio_reality/out/agent_reviews.jsonl",
+  "default_dispatch_results": "tools/bio_reality/out/dispatch_results.jsonl",
+  "default_hardening_targets": "tools/bio_reality/out/hardening_targets.jsonl",
+  "default_lane_dashboard": "tools/bio_reality/out/lane_dashboard.md",
+  "default_vision_dir": "tools/bio_reality/vision",
+  "default_vision_ledger": "tools/bio_reality/vision/ledger/intake_evaluations.jsonl",
+  "default_paper_main": "papers/bio_reality/main.tex",
+  "default_paper_part": "papers/bio_reality/parts/codon_window_reality_boundary.tex",
+  "default_signal_journal": "tools/bio_reality/state/bio_reality_signals.jsonl",
+  "default_signal_latest": "tools/bio_reality/state/bio_reality_signals_latest.md",
+  "default_loop_state": "tools/bio_reality/state/loop_state.json",
+  "runtime_paths_ignored_by_git": [
+    "tools/bio_reality/inbox/",
+    "tools/bio_reality/out/",
+    "tools/bio_reality/state/",
+    "tools/bio_reality/cache/"
+  ],
+  "domain_profiles": [
+    "dna_to_protein_realization"
+  ],
+  "lanes": [
+    {
+      "lane": "bio-P",
+      "loop_name": "bio_P_packet_targets",
+      "role": "self-iterating biological conjecture, probe, contact, and mismatch discovery",
+      "durable_write_allowed": false
+    },
+    {
+      "lane": "bio-V",
+      "loop_name": "bio_V_vision_intake",
+      "role": "scan user-authored BioReality vision files into event records",
+      "durable_write_allowed": false
+    },
+    {
+      "lane": "bio-G",
+      "loop_name": "bio_G_gate_and_plan",
+      "role": "deterministic reality-vs-BEDC boundary gates",
+      "durable_write_allowed": false
+    },
+    {
+      "lane": "bio-R",
+      "loop_name": "bio_R_agent_dispatch",
+      "role": "event-driven Codex agent planning for research-memory extension",
+      "durable_write_allowed": false,
+      "codex_execution_default": true,
+      "default_max_dispatch": 1
+    },
+    {
+      "lane": "bio-W",
+      "loop_name": "bio_W_writeback_paper",
+      "role": "standalone BioReality paper writeback from gate-passed research memory",
+      "durable_write_allowed": true,
+      "durable_write_scope": [
+        "papers/bio_reality/main.tex",
+        "papers/bio_reality/parts/codon_window_reality_boundary.tex"
+      ]
+    },
+    {
+      "lane": "bio-B",
+      "loop_name": "bio_B_bedc_writeback",
+      "role": "BEDC concrete-instances writeback from gate-passed BioReality NameCert proposals",
+      "durable_write_allowed": true,
+      "durable_write_scope": [
+        "papers/bedc/parts/concrete_instances/*bioreality*.tex",
+        "papers/bedc/parts/concrete_instances/*reality_bound*.tex",
+        "papers/bedc/parts/concrete_instances/bioreality_*/*.tex",
+        "papers/bedc/parts/concrete_instances/reality_bound_*/*.tex",
+        "papers/bedc/parts/bio_reality_module.tex"
+      ]
+    },
+    {
+      "lane": "bio-Q",
+      "loop_name": "bio_Q_quality_hardening",
+      "role": "convert agent reviews into gate and prompt hardening targets",
+      "durable_write_allowed": false
+    },
+    {
+      "lane": "bio-A",
+      "loop_name": "bio_A_assimilate_signals",
+      "role": "failure-pattern and scheduling-pressure assimilation for later gate hardening",
+      "durable_write_allowed": false
+    }
+  ],
+  "bootstrap_policy": {
+    "empty_memory_bootstrap": true,
+    "first_profile": "dna_to_protein_realization",
+    "pr220_alignment": [
+      "curated genetic-code tables are external reality contacts",
+      "codon cube and window-six geometry are internal coordinate surfaces",
+      "local tile structure cannot be promoted to global biological law",
+      "higher realization layers require separate reality contacts"
+    ]
+  },
+  "default_gate_policy": {
+    "require_forbidden_claims": true,
+    "require_reality_contact_separation": true,
+    "require_bedc_internal_structure_separation": true,
+    "require_falsifiable_probes": true,
+    "require_loop_task_planning": true,
+    "require_nested_loop_checkpointing": true,
+    "block_mechanism_claims_without_mechanism_bridge": true,
+    "block_total_biology_claims": true
+  },
+  "keep_lane": {
+    "enabled": true,
+    "branch": "feat/bio-reality-deepening",
+    "remote": "origin",
+    "include_paths": [
+      "tools/bio_reality/*.py",
+      "tools/bio_reality/*.json",
+      "tools/bio_reality/*.md",
+      "tools/bio_reality/experiments/*.py",
+      "tools/bio_reality/experiments/__init__.py",
+      "tools/bio_reality/registries/*.json",
+      "tools/bio_reality/registries/__init__.py",
+      "tools/bio_reality/data/*.json",
+      "tools/bio_reality/data/*.py",
+      "tools/bio_reality/vision/*.md",
+      "papers/bio_reality/*.tex",
+      "papers/bio_reality/Makefile",
+      "papers/bio_reality/parts/*.tex",
+      "papers/bio_reality/parts/namecerts/*.tex",
+      "papers/bedc/parts/concrete_instances/*bioreality*.tex",
+      "papers/bedc/parts/concrete_instances/*reality_bound*.tex",
+      "papers/bedc/parts/concrete_instances/bioreality_*/*.tex",
+      "papers/bedc/parts/concrete_instances/reality_bound_*/*.tex",
+      "papers/bedc/parts/bio_reality_module.tex"
+    ],
+    "exclude_paths": [
+      "tools/bio_reality/state/*",
+      "tools/bio_reality/out/*",
+      "tools/bio_reality/inbox/*",
+      "tools/bio_reality/cache/*",
+      "tools/bio_reality/vision/ledger/*",
+      "tools/bio_reality/vision/index.md",
+      "tools/bio_reality/registries/claims.json",
+      "tools/bio_reality/registries/experiments.json",
+      "tools/bio_reality/inbox/conjectures.jsonl",
+      "tools/bio_reality/inbox/reality_contacts.jsonl",
+      "tools/bio_reality/inbox/probes.jsonl",
+      "tools/bio_reality/inbox/mismatches.jsonl"
+    ],
+    "pre_commit_gates": [
+      ["python3", "-m", "py_compile", "tools/bio_reality/agent_bus.py", "tools/bio_reality/lanes.py", "tools/bio_reality/supervisor.py", "tools/bio_reality/store.py", "tools/bio_reality/deepening_gates.py", "tools/bio_reality/bio_reality_loop.py", "tools/bio_reality/vision_intake.py", "tools/bio_reality/signal_assimilator.py", "tools/bio_reality/framework.py"],
+      ["python3", "tools/bio_reality/deepening_gates.py", "--self-test"],
+      ["python3", "tools/bio_reality/agent_bus.py", "--self-test"],
+      ["python3", "tools/bio_reality/lanes.py", "--self-test"]
+    ],
+    "min_seconds_between_pushes": 60,
+    "max_push_retries": 2
+  },
+  "bedc_writeback": {
+    "enabled": true,
+    "target_concrete_instances_dir": "papers/bedc/parts/concrete_instances",
+    "module_aggregator": "papers/bedc/parts/bio_reality_module.tex",
+    "max_writebacks_per_cycle": 1,
+    "skip_claim_ids": [
+      "h0.M.equals.WNR.CUN",
+      "h0.M.shape.significance",
+      "h0.quotient.geometry",
+      "h0.R.cardinality.13",
+      "h0.spectrum",
+      "h0.R.punctured.cube",
+      "h0.R.motif.compression",
+      "h0.f3.saturation"
+    ],
+    "claim_to_chapter_mapping": [
+      {
+        "claim_id": "h0.M.equals.WNR.CUN",
+        "hub_filename": "14102_bioreality_q_six_median_closure_ledger_namecert_construction.tex",
+        "subdir_slug": "bioreality_q_six_median_closure_ledger",
+        "carrier_name": "BioRealityQSixMedianClosureLedger",
+        "natural_language": "the finite reality-bound median closure ledger for the standard-code reassignment support"
+      },
+      {
+        "claim_id": "h0.M.shape.significance",
+        "hub_filename": "14103_bioreality_q_six_median_shape_significance_namecert_construction.tex",
+        "subdir_slug": "bioreality_q_six_median_shape_significance",
+        "carrier_name": "BioRealityQSixMedianShapeSignificance",
+        "natural_language": "the finite reality-bound median-shape rarity packet under a curated standard-code bridge"
+      },
+      {
+        "claim_id": "h0.quotient.geometry",
+        "hub_filename": "14104_reality_bound_codon_topology_quotient_geometry_namecert_construction.tex",
+        "subdir_slug": "reality_bound_codon_topology_quotient_geometry",
+        "carrier_name": "RealityBoundCodonTopologyQuotientGeometry",
+        "natural_language": "the finite reality-bound quotient and product bookkeeping of the codon-coordinate cube"
+      },
+      {
+        "claim_id": "h0.R.cardinality.13",
+        "hub_filename": "14106_bioreality_q_six_reassigned_codon_ledger_namecert_construction.tex",
+        "subdir_slug": "bioreality_q_six_reassigned_codon_ledger",
+        "carrier_name": "BioRealityQSixReassignedCodonLedger",
+        "natural_language": "the finite reality-bound ledger for the standard-code reassigned-codon support under a curated bridge"
+      },
+      {
+        "claim_id": "h0.spectrum",
+        "hub_filename": "14107_bioreality_q_six_empirical_codon_spectrum_namecert_construction.tex",
+        "subdir_slug": "bioreality_q_six_empirical_codon_spectrum",
+        "carrier_name": "BioRealityQSixEmpiricalCodonSpectrum",
+        "natural_language": "the finite reality-bound spectral bookkeeping packet behind a curated standard-code bridge"
+      }
+    ]
+  },
+  "sync_lane": {
+    "enabled": true,
+    "remote": "origin",
+    "upstream_branch": "auto-dev",
+    "fetch_timeout_seconds": 60,
+    "merge_strategy": "no-ff",
+    "intelligence_keywords": [
+      "codon",
+      "genetic",
+      "amino",
+      "bio",
+      "protein",
+      "dna",
+      "rna",
+      "translation",
+      "ribosom",
+      "nucleotide",
+      "tRNA"
+    ],
+    "intelligence_paths": [
+      "papers/bedc/parts/visions/philosophy/science/",
+      "papers/bedc/parts/concrete_instances/",
+      "lean4/BEDC/Derived/"
+    ],
+    "max_commits_per_sync": 50,
+    "min_seconds_between_syncs": 300
+  },
+  "oracle": {
+    "enabled": true,
+    "server_url": "http://127.0.0.1:8769",
+    "min_seconds_between_queries": 30,
+    "max_query_chars": 4000,
+    "max_result_wait_seconds": 600
+  }
+}
