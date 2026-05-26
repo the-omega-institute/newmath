@@ -499,4 +499,34 @@ theorem RegularCauchyScaleCarrier_realup_seal_boundary [AskSetup] [PackageSetup]
     ⟨cert, readbackUnary, provenanceUnary, endpointUnary, realSealUnary, readbackRoute,
       provenanceNamecert, endpointReadbackSeal, endpointPkg, realSealPkg⟩
 
+theorem RegularCauchyScaleCarrier_shared_tail_normalization [AskSetup] [PackageSetup]
+    {scalar source window scalarEndpoint sourceEndpoint scaledEndpoint budget readback sameRows
+      route provenance namecert endpoint consumerLeft consumerRight : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyScaleCarrier scalar source window scalarEndpoint sourceEndpoint scaledEndpoint
+        budget readback sameRows route provenance namecert endpoint bundle pkg →
+      hsame consumerLeft readback →
+        hsame consumerRight readback →
+          UnaryHistory consumerLeft ∧ UnaryHistory consumerRight ∧
+            hsame consumerLeft consumerRight ∧ UnaryHistory readback ∧ UnaryHistory budget ∧
+              Cont scaledEndpoint budget readback ∧ Cont readback route provenance ∧
+                Cont provenance namecert endpoint ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier leftReadback rightReadback
+  obtain ⟨_scalarUnary, _sourceUnary, _windowUnary, _scalarEndpointUnary,
+    _sourceEndpointUnary, _scaledEndpointUnary, budgetUnary, readbackUnary, _sameRowsUnary,
+    _routeUnary, _provenanceUnary, _namecertUnary, _endpointUnary, _scalarWindow,
+    _sourceWindow, _endpointsScaled, scaledBudgetReadback, readbackRouteProvenance,
+    provenanceNamecertEndpoint, _sameRowsAppend, endpointPkg⟩ := carrier
+  exact
+    ⟨unary_transport readbackUnary (hsame_symm leftReadback),
+      unary_transport readbackUnary (hsame_symm rightReadback),
+      hsame_trans leftReadback (hsame_symm rightReadback),
+      readbackUnary,
+      budgetUnary,
+      scaledBudgetReadback,
+      readbackRouteProvenance,
+      provenanceNamecertEndpoint,
+      endpointPkg⟩
+
 end BEDC.Derived.RegularCauchyScaleUp
