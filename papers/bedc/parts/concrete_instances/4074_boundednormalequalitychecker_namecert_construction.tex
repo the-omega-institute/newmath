@@ -175,6 +175,28 @@ consumer from replacing the concrete route by host equality, quotient equality,
 fuel erasure, hidden termination, or an abstract source-equivalence transport.
 \end{proof}
 
+\begin{theorem}[BoundedNormalEqualityChecker fuel monotonicity boundary]
+\label{thm:bounded-normal-equality-checker-fuel-monotonicity}
+Let
+$$
+Q=(L,R,F,N_L,N_R,E,W,C,H,K,P,A)
+$$
+and
+$$
+Q^+=(L,R,F^+,N^+_L,N^+_R,E^+,W^+,C^+,H^+,K^+,P^+,A^+)
+$$
+be accepted $\BoundedNormalEqualityCheckerUp$ packets whose displayed inputs are the same and whose second fuel row $F^+$ extends the displayed unary fuel row $F$. Increasing the displayed fuel may extend the bounded normalizer output route only through the same input rows, structural equality readback row, finished witness rows, closedness rows, componentwise transports, displayed replay, provenance, and local naming rows. It does not create a fuel-erased normalizer, a global termination theorem, an arbitrary beta-conversion decider, or a host equality oracle.
+\end{theorem}
+\begin{proof}
+Project both packets through \autoref{def:bounded-normal-equality-checker-carrier}. The only rows that differ are the displayed fuel, bounded output, equality readback, finished witness, closedness, transport, replay, provenance, and local naming rows; the input rows remain $L$ and $R$.
+
+Use the classifier of \autoref{def:bounded-normal-equality-checker-classifier}. It compares fuel and output data componentwise, so a larger fuel row can only expose another bounded normalizer route over the same two input rows.
+
+Apply the finished soundness boundary of \autoref{thm:bounded-normal-equality-checker-finished-soundness-boundary}. Finished witnesses, when present, certify only the named outputs at the displayed fuel and do not prove that every closed term finishes at some fuel.
+
+Apply deterministic normal-form readback from \autoref{thm:bounded-normal-equality-checker-deterministic-normal-form-readback} and ledger exactness from \autoref{thm:bounded-normal-equality-checker-ledger-exactness-row}. The readback and every consumer route stay inside the displayed equality, closedness, transport, replay, provenance, and local naming rows, so fuel growth cannot erase the bound or become a host equality oracle.
+\end{proof}
+
 \begin{theorem}[BoundedNormalEqualityChecker consumer non-escape]
 \label{thm:bounded-normal-equality-checker-consumer-nonescape}
 Every consumer of an accepted $\BoundedNormalEqualityCheckerUp$ packet reads
