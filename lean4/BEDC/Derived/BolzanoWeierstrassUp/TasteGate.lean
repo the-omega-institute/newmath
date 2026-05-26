@@ -170,4 +170,118 @@ theorem BolzanoWeierstrassTasteGate_single_carrier_alignment :
       fun _ _ heq => BolzanoWeierstrassTasteGate_single_carrier_alignment_toEventFlow_injective heq,
       rfl⟩
 
+theorem BolzanoWeierstrass_tagged_fromEventFlow_exactness :
+    (∀ raw : List BMark, bolzanoWeierstrassEncodeBHist (bolzanoWeierstrassDecodeBHist raw) = raw) ∧
+      (∀ {flow : EventFlow} {x : BolzanoWeierstrassUp},
+        bolzanoWeierstrassFromEventFlow flow = some x →
+          (∃ rest : EventFlow, flow = [BMark.b1, BMark.b0, BMark.b1, BMark.b0] :: rest) →
+            bolzanoWeierstrassToEventFlow x = flow) := by
+  -- BEDC touchpoint anchor: BHist BMark EventFlow
+  have hraw :
+      ∀ raw : List BMark, bolzanoWeierstrassEncodeBHist (bolzanoWeierstrassDecodeBHist raw) = raw := by
+    intro raw
+    induction raw with
+    | nil => rfl
+    | cons head tail ih =>
+        cases head
+        · change BMark.b0 :: bolzanoWeierstrassEncodeBHist
+              (bolzanoWeierstrassDecodeBHist tail) = BMark.b0 :: tail
+          exact congrArg (fun row => BMark.b0 :: row) ih
+        · change BMark.b1 :: bolzanoWeierstrassEncodeBHist
+              (bolzanoWeierstrassDecodeBHist tail) = BMark.b1 :: tail
+          exact congrArg (fun row => BMark.b1 :: row) ih
+  constructor
+  · exact hraw
+  · intro flow x h htag
+    rcases htag with ⟨rest, hflow⟩
+    cases hflow
+    cases rest with
+    | nil =>
+        change none = some x at h
+        cases h
+    | cons S restS =>
+        cases restS with
+        | nil =>
+            change none = some x at h
+            cases h
+        | cons K restK =>
+            cases restK with
+            | nil =>
+                change none = some x at h
+                cases h
+            | cons R restR =>
+                cases restR with
+                | nil =>
+                    change none = some x at h
+                    cases h
+                | cons Q restQ =>
+                    cases restQ with
+                    | nil =>
+                        change none = some x at h
+                        cases h
+                    | cons E restE =>
+                        cases restE with
+                        | nil =>
+                            change none = some x at h
+                            cases h
+                        | cons H restH =>
+                            cases restH with
+                            | nil =>
+                                change none = some x at h
+                                cases h
+                            | cons C restC =>
+                                cases restC with
+                                | nil =>
+                                    change none = some x at h
+                                    cases h
+                                | cons P restP =>
+                                    cases restP with
+                                    | nil =>
+                                        change none = some x at h
+                                        cases h
+                                    | cons N restN =>
+                                        cases restN with
+                                        | nil =>
+                                            change
+                                              some
+                                                (BolzanoWeierstrassUp.mk
+                                                  (bolzanoWeierstrassDecodeBHist S)
+                                                  (bolzanoWeierstrassDecodeBHist K)
+                                                  (bolzanoWeierstrassDecodeBHist R)
+                                                  (bolzanoWeierstrassDecodeBHist Q)
+                                                  (bolzanoWeierstrassDecodeBHist E)
+                                                  (bolzanoWeierstrassDecodeBHist H)
+                                                  (bolzanoWeierstrassDecodeBHist C)
+                                                  (bolzanoWeierstrassDecodeBHist P)
+                                                  (bolzanoWeierstrassDecodeBHist N)) =
+                                                some x at h
+                                            cases h
+                                            change
+                                              [[BMark.b1, BMark.b0, BMark.b1, BMark.b0],
+                                                bolzanoWeierstrassEncodeBHist
+                                                  (bolzanoWeierstrassDecodeBHist S),
+                                                bolzanoWeierstrassEncodeBHist
+                                                  (bolzanoWeierstrassDecodeBHist K),
+                                                bolzanoWeierstrassEncodeBHist
+                                                  (bolzanoWeierstrassDecodeBHist R),
+                                                bolzanoWeierstrassEncodeBHist
+                                                  (bolzanoWeierstrassDecodeBHist Q),
+                                                bolzanoWeierstrassEncodeBHist
+                                                  (bolzanoWeierstrassDecodeBHist E),
+                                                bolzanoWeierstrassEncodeBHist
+                                                  (bolzanoWeierstrassDecodeBHist H),
+                                                bolzanoWeierstrassEncodeBHist
+                                                  (bolzanoWeierstrassDecodeBHist C),
+                                                bolzanoWeierstrassEncodeBHist
+                                                  (bolzanoWeierstrassDecodeBHist P),
+                                                bolzanoWeierstrassEncodeBHist
+                                                  (bolzanoWeierstrassDecodeBHist N)] =
+                                              [[BMark.b1, BMark.b0, BMark.b1, BMark.b0],
+                                                S, K, R, Q, E, H, C, P, N]
+                                            rw [hraw S, hraw K, hraw R, hraw Q, hraw E, hraw H,
+                                              hraw C, hraw P, hraw N]
+                                        | cons _ _ =>
+                                            change none = some x at h
+                                            cases h
+
 end BEDC.Derived.BolzanoWeierstrassUp
