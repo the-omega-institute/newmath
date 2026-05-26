@@ -120,6 +120,32 @@ Next apply \autoref{thm:real-separability-dyadic-rational-density-handoff}. The 
 Finally apply \autoref{thm:real-separability-finite-density-exhaustion}. The $\CountableDenseSubsetUp$ boundary receives exactly the finite rational family already routed through $Q,D,W,R,E,T,H,C,P,N$. Since the carrier and handoff theorems expose no host equality, quotient stream, trichotomy, selected dense point, or ambient completeness coordinate, the witness family exports none of them.
 \end{proof}
 
+\begin{theorem}[Real separability stream-window stability]
+\label{thm:real-separability-stream-window-stability}
+Let
+$$
+S=(Q,D,W,R,E,T,H,C,P,N)
+$$
+and
+$$
+S'=(Q',D',W',R',E',T',H',C',P',N')
+$$
+be accepted $\RealSeparabilityUp$ packets whose rational enumeration, dyadic tolerance, and finite stream-window rows are componentwise transported by displayed $\hsame$ data
+$$
+Q \hsame Q',\qquad D \hsame D',\qquad W \hsame W',
+$$
+and whose replay rows display the same $\Cont$ route from a Real-facing density request through those transported rows. Then the finite rational witness family determined by $S$ and the family determined by $S'$ are the same displayed density route. In particular, the RegSeqRat readback and terminal $\RealUp$ seal handoff agree as packet data, and no choice-selected dense point, host real equality, quotient stream equality, trichotomy row, or ambient completeness witness is introduced by replacing $S$ with $S'$.
+\end{theorem}
+\begin{proof}
+Project the two carriers. The hypotheses identify the only rows that index the finite rational witness family: the rational enumeration rows $Q,Q'$, the dyadic tolerance rows $D,D'$, and the StreamName windows $W,W'$.
+
+Apply \autoref{thm:real-separability-rational-dense-handoff} to both packets. Since the displayed $\Cont$ replay carries the same request through transported $Q,D,W$ rows, the inspected rational candidates are read along the same finite route before any RegSeqRat or Real seal row is visible.
+
+Apply \autoref{thm:real-separability-dyadic-rational-density-handoff}. The dyadic-density and rational-density surfaces attach to the transported tolerance and window rows, so the two packets expose the same dyadic-rational density witness route.
+
+Finally apply \autoref{thm:real-separability-dyadic-witness-family} and \autoref{thm:real-separability-finite-density-exhaustion}. The witness family is exhausted by the displayed route through $Q,D,W,R,E,T,H,C,P,N$ and the transported route through $Q',D',W',R',E',T',H',C',P',N'$, with no additional coordinate available for a selected dense point, host equality, quotient stream, trichotomy, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[Real separability finite-density exhaustion]
 \label{thm:real-separability-finite-density-exhaustion}
 Every admitted $\RealSeparabilityUp$ density read is exhausted by the displayed finite route
