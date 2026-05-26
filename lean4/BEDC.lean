@@ -4228,6 +4228,7 @@ import BEDC.Derived.MetricCompletionUp.HandoffRoutes
 import BEDC.Derived.MetricCompletionUp.NameCertObligations
 import BEDC.Derived.MetricCompletionUp.PublicExportSurface
 import BEDC.Derived.MetricCompletionUp.ReadbackLedger
+import BEDC.Derived.MetricCompletionUp.RealSealNonescape
 import BEDC.Derived.MetricCompletionUp.RealSealScopeLock
 import BEDC.Derived.MetricCompletionUp.RootObligationCarrierWitness
 import BEDC.Derived.MetricCompletionUp.RootObligationClassifierWitness
@@ -5247,6 +5248,7 @@ import BEDC.Derived.RealityConstrainedTruthCertUp.PublicExportBoundary
 import BEDC.Derived.RealityConstrainedTruthCertUp.RootCarrierObligation
 import BEDC.Derived.RealityConstrainedTruthCertUp.RootReadinessPacket
 import BEDC.Derived.RealityConstrainedTruthCertUp.RootTasteGateReadiness
+import BEDC.Derived.RealityConstrainedTruthCertUp.ScopedTasteGateRoute
 import BEDC.Derived.RealityConstrainedTruthCertUp.SiblingDependency
 import BEDC.Derived.RealityConstrainedTruthCertUp.SourceSignatureClassifierObligation
 import BEDC.Derived.RealityConstrainedTruthCertUp.StabilityDescentInvariantObligation
@@ -5609,7 +5611,6 @@ import BEDC.Derived.ScottRealUp.TasteGate
 import BEDC.Derived.SecondCountableUp
 import BEDC.Derived.SelectedTailSeedUp.TasteGate
 import BEDC.Derived.SelectionFreeCauchyRealUp
-import BEDC.Derived.SelectionFreeCauchyRealUp.TasteGate
 import BEDC.Derived.SelectorLedgerUp
 import BEDC.Derived.SelfReferenceTruthBranchUp.TasteGate
 import BEDC.Derived.SelfTheoryReflectionLoopUp.TasteGate
