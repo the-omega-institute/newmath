@@ -101,4 +101,80 @@ theorem StreamNameOpenPhaseFourObjectSufficiency [AskSetup] [PackageSetup]
     ⟨supportUnary, exitReadUnary, terminalUnary, streamDyadicSupport, regseqRealExit,
       supportExitTerminal, terminalPkg⟩
 
+theorem StreamNameRealCompletionExitCertificate [AskSetup] [PackageSetup]
+    {stream dyadic regseq real support exit terminal certificateRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory stream →
+      UnaryHistory dyadic →
+        UnaryHistory regseq →
+          UnaryHistory real →
+            Cont stream dyadic support →
+              Cont regseq real exit →
+                Cont support exit terminal →
+                  Cont terminal support certificateRead →
+                    PkgSig bundle terminal pkg →
+                      PkgSig bundle certificateRead pkg →
+                        SemanticNameCert
+                            (fun row : BHist => hsame row certificateRead ∧ UnaryHistory row)
+                            (fun row : BHist =>
+                              hsame row certificateRead ∧ Cont support exit terminal ∧
+                                Cont terminal support certificateRead)
+                            (fun row : BHist =>
+                              hsame row certificateRead ∧ PkgSig bundle certificateRead pkg)
+                            hsame ∧
+                          UnaryHistory support ∧ UnaryHistory exit ∧
+                            UnaryHistory terminal ∧ UnaryHistory certificateRead ∧
+                              Cont stream dyadic support ∧ Cont regseq real exit ∧
+                                Cont support exit terminal ∧ Cont terminal support certificateRead ∧
+                                  PkgSig bundle terminal pkg ∧
+                                    PkgSig bundle certificateRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro streamUnary dyadicUnary regseqUnary realUnary streamDyadicSupport regseqRealExit
+    supportExitTerminal terminalSupportCertificate terminalPkg certificatePkg
+  have supportUnary : UnaryHistory support :=
+    unary_cont_closed streamUnary dyadicUnary streamDyadicSupport
+  have exitUnary : UnaryHistory exit :=
+    unary_cont_closed regseqUnary realUnary regseqRealExit
+  have terminalUnary : UnaryHistory terminal :=
+    unary_cont_closed supportUnary exitUnary supportExitTerminal
+  have certificateUnary : UnaryHistory certificateRead :=
+    unary_cont_closed terminalUnary supportUnary terminalSupportCertificate
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row certificateRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row certificateRead ∧ Cont support exit terminal ∧
+            Cont terminal support certificateRead)
+        (fun row : BHist => hsame row certificateRead ∧ PkgSig bundle certificateRead pkg)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro certificateRead ⟨hsame_refl certificateRead, certificateUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨source.left, supportExitTerminal, terminalSupportCertificate⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, certificatePkg⟩
+  }
+  exact
+    ⟨cert, supportUnary, exitUnary, terminalUnary, certificateUnary, streamDyadicSupport,
+      regseqRealExit, supportExitTerminal, terminalSupportCertificate, terminalPkg,
+      certificatePkg⟩
+
 end BEDC.Derived.StreamNameUp
