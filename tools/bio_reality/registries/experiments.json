@@ -1,0 +1,239 @@
+{
+  "version": "bio-reality-experiments-v1",
+  "experiments": [
+    {
+      "experiment_id": "compute_R",
+      "script_path": "tools/bio_reality/experiments/run_compute_R.py",
+      "claim_id": "h0.R.cardinality.13",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "R_cardinality_equals_13"
+        ]
+      }
+    },
+    {
+      "experiment_id": "check_motif_compression",
+      "script_path": "tools/bio_reality/experiments/run_check_motif_compression.py",
+      "claim_id": "h0.R.motif.compression",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "R_equals_motif_union",
+          "no_extra",
+          "no_missing"
+        ]
+      }
+    },
+    {
+      "experiment_id": "check_punctured_cube",
+      "script_path": "tools/bio_reality/experiments/run_check_punctured_cube.py",
+      "claim_id": "h0.R.punctured.cube",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "R_equals_punctured_cube",
+          "f_vector_matches"
+        ]
+      }
+    },
+    {
+      "experiment_id": "check_M_equals_WNR_CUN",
+      "script_path": "tools/bio_reality/experiments/run_check_M_equals_WNR_CUN.py",
+      "claim_id": "h0.M.equals.WNR.CUN",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "M_equals_WNR_union_CUN",
+          "M_cardinality_equals_20"
+        ]
+      }
+    },
+    {
+      "experiment_id": "check_f3_saturation",
+      "script_path": "tools/bio_reality/experiments/run_check_f3_saturation.py",
+      "claim_id": "h0.f3.saturation",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "f3_boundary_is_zero"
+        ]
+      }
+    },
+    {
+      "experiment_id": "check_quotient_geometry",
+      "script_path": "tools/bio_reality/experiments/run_check_quotient_geometry.py",
+      "claim_id": "h0.quotient.geometry",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "M_is_product_decomposition"
+        ]
+      }
+    },
+    {
+      "experiment_id": "compute_spectrum",
+      "script_path": "tools/bio_reality/experiments/run_compute_spectrum.py",
+      "claim_id": "h0.spectrum",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "spectral_radius_in_tolerance",
+          "cubic_polynomial_satisfied"
+        ]
+      }
+    },
+    {
+      "experiment_id": "null_model_uniform",
+      "script_path": "tools/bio_reality/experiments/run_null_model_uniform.py",
+      "claim_id": "h0.null.model.significance",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 600,
+      "acceptance": {
+        "required_checks": [
+          "p_value_uniform_lower_tail_significant",
+          "p_value_position_preserving_lower_tail_significant"
+        ]
+      }
+    },
+    {
+      "experiment_id": "leave_one_code_out",
+      "script_path": "tools/bio_reality/experiments/run_leave_one_code_out.py",
+      "claim_id": "h1.leave.one.code.out",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "hit_rate_above_baseline"
+        ]
+      }
+    },
+    {
+      "experiment_id": "leave_one_codon_out",
+      "script_path": "tools/bio_reality/experiments/run_leave_one_codon_out.py",
+      "claim_id": "h1.leave.one.codon.out",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "recovery_rate_above_threshold",
+          "closure_coverage_high"
+        ]
+      }
+    },
+    {
+      "experiment_id": "null_model_shape",
+      "script_path": "tools/bio_reality/experiments/run_null_model_shape.py",
+      "claim_id": "h0.M.shape.significance",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 600,
+      "acceptance": {
+        "required_checks": [
+          "p_value_exact_shape_significant"
+        ]
+      }
+    },
+    {
+      "experiment_id": "self_experiment",
+      "script_path": "tools/bio_reality/experiments/run_self_experiment.py",
+      "claim_id": "self.claim",
+      "required_data": [],
+      "timeout_seconds": 180,
+      "acceptance": {
+        "required_checks": [
+          "self_check"
+        ]
+      }
+    },
+    {
+      "experiment_id": "null_model_aa_class_preserving",
+      "script_path": "tools/bio_reality/experiments/run_null_model_aa_class_preserving.py",
+      "claim_id": "h0.null.model.aa_class_preserving",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 600,
+      "acceptance": {
+        "required_checks": [
+          "p_value_aa_class_lower_tail_significant",
+          "p_value_aa_class_exact_shape_significant"
+        ]
+      }
+    },
+    {
+      "experiment_id": "leave_one_code_out_by_family",
+      "script_path": "tools/bio_reality/experiments/run_leave_one_code_out_by_family.py",
+      "claim_id": "h1.leave_one_code_out.by_family",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 300,
+      "acceptance": {
+        "required_checks": [
+          "family_hit_rate_above_baseline"
+        ]
+      }
+    },
+    {
+      "experiment_id": "leave_one_codon_out_module",
+      "script_path": "tools/bio_reality/experiments/run_leave_one_codon_out_module.py",
+      "claim_id": "h1.leave_one_codon_out.module_classification",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json"
+      ],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "module_classification_complete",
+          "every_module_has_predictable_or_boundary"
+        ]
+      }
+    },
+    {
+      "experiment_id": "orf_start_stop_window_eligibility",
+      "script_path": "tools/bio_reality/experiments/run_orf_start_stop_window_eligibility.py",
+      "claim_id": "h2.orf.start_stop.window_eligibility",
+      "required_data": [
+        "tools/bio_reality/data/ncbi_genetic_codes.json",
+        "tools/bio_reality/data/orf_window_dataset.json"
+      ],
+      "timeout_seconds": 120,
+      "acceptance": {
+        "required_checks": [
+          "external_window_dataset_loaded",
+          "all_windows_classified_by_start_stop_enumeration",
+          "no_geometry_to_translation_promotion"
+        ]
+      }
+    }
+  ]
+}
