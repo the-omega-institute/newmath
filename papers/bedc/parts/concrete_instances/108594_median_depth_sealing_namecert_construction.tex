@@ -63,27 +63,9 @@ The upstream rows $W,B,V,T,A$ determine the coordinate interpretation and bounda
 The structural rows $H,C,P,N$ preserve the same route. The exported consequence is the two-layer stabilization chain and no additional biological, stochastic, quotient, or hidden closure datum.
 \end{proof}
 
-\begin{theorem}[Median depth sealing trigger dependency]
-\label{thm:median-depth-sealing-trigger-dependency}
-Every accepted $\MedianDepthSealingUp$ read exposes the $\DnaBoundaryTriggerClosureUp$ row $T$ before the median-layer ledger $L$ and stabilization row $E$ are available. Consequently the median seal is read only after the boundary-trigger closure row has been displayed, and it cannot be interpreted as a hidden closure oracle, stochastic biological model, quotient codon semantics, or unbounded search procedure.
-\end{theorem}
-\begin{proof}
-Project the carrier
-$$
-M=(W,B,V,T,A,L,E,H,C,P,N)
-$$
-from \autoref{def:median-depth-sealing-carrier}. The trigger-closure coordinate $T$ is one of the source rows, while $L$ and $E$ are the later median-layer and stabilization rows.
-
-Apply \autoref{thm:median-depth-sealing-namecert-obligations}. The local NameCert surface lists boundary-trigger closure before median-layer ledger exactness and two-layer stabilization, so an accepted read must expose $T$ before it exposes $L$ or $E$.
-
-The replay row $C$ preserves the same route from codon-window inspection through boundary-tile coverage, trigger closure, alphabet readback, layer enumeration, and stabilization checking. Componentwise transport in $H$ cannot reorder those displayed rows.
-
-Thus the median seal is downstream of the boundary-trigger closure row. Since no carrier coordinate contains a hidden closure oracle, stochastic biological model, quotient codon semantics, or unbounded search procedure, no such object is exported by the trigger-dependent read.
-\end{proof}
-
 \falsifiablePrediction{Every accepted $\MedianDepthSealingUp$ consumer must expose the two-layer stabilization consequence: the first median layer adds exactly $\Delta_{1}$, the second layer adds exactly $\mathrm{ACG}$, and a further coordinatewise-median pass adds no codon.}
 
-\independenceWitness{dna-window-six-boundary-tile, six-boundary-tile-coverage, dna-boundary-trigger-closure, dna-four-phase-alphabet-bridge: none is bijective to $\MedianDepthSealingUp$ because the siblings respectively expose boundary classifiers, coverage rows, trigger closure, or alphabet readback, while the median-depth packet jointly carries the reassigned support, two median layers, sealing codon, stabilization check, transport, replay, provenance, and local naming.}
+\independenceWitness{dna\_window\_six\_boundary\_tile, six\_boundary\_tile\_coverage, dna\_boundary\_trigger\_closure, dna\_four\_phase\_alphabet\_bridge: none is bijective to $\MedianDepthSealingUp$ because the siblings respectively expose boundary classifiers, coverage rows, trigger closure, or alphabet readback, while the median-depth packet jointly carries the reassigned support, two median layers, sealing codon, stabilization check, transport, replay, provenance, and local naming.}
 
 The Lean TasteGate site for $\MedianDepthSealingUp$ must provide explicit $\Nontrivial\ \MedianDepthSealingUp$ and $\FieldFaithful\ \MedianDepthSealingUp$ instances. Nontriviality must distinguish the reassigned support from the sealed second layer, and field faithfulness must preserve $W,B,V,T,A,L,E,H,C,P,N$ as separate displayed rows.
 
