@@ -272,6 +272,20 @@ The remaining located-supremum claim therefore has no row to read. A downstream 
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyConvergenceCriterionUp.CauchyConvergenceCriterionCarrier\_specker\_boundary}
 
+\begin{theorem}[Cauchy convergence criterion located-modulus frontier]
+\label{thm:cauchy-convergence-criterion-located-modulus-frontier}
+Let $G=(S,M,D,R,E,H,C,P,N)$ be an accepted $\CauchyConvergenceCriterionUp$ carrier. Any downstream consumer claiming located convergence from $G$ must display an additional $\LocatedRealUp$ or located-modulus row outside the carrier. The stored $\CauchyModulusUp$ thresholds, $\DyadicRatCoreUp$ ledger, $\SpeckerSequenceUp$ boundary read, $\StreamNameUp$ schedule, $\RegSeqRatUp$ handoff, and $\RealUp$ seal do not produce such a row.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:cauchy-convergence-criterion-namecert-obligations}. The accepted packet exposes exactly the carrier rows $S,M,D,R,E,H,C,P,N$ and the listed stability, exactness, handoff, transport, replay, provenance, and local naming obligations.
+
+Next use \autoref{thm:cauchy-convergence-criterion-source-triad-exhaustion}. Every $\RealUp$- or $\CauchyLimitSealUp$-facing read passes through the source triad $S,M,D,R$ before the seal row is available, so the only tolerance data visible before the seal are the displayed $\CauchyModulusUp$ thresholds and $\DyadicRatCoreUp$ ledger.
+
+Now apply \autoref{thm:cauchy-convergence-criterion-specker-boundary}. Reading the same carrier through the $\SpeckerSequenceUp$ surface still exposes only finite stream windows, threshold rows, dyadic tolerance rows, regular rational handoff, terminal seal, and the structural rows; it does not expose a located supremum, selected host limit, quotient stream, or ambient completeness coordinate.
+
+Thus a located-convergence consumer has no carrier row from which to read locatedness. It must add a separate $\LocatedRealUp$ or located-modulus row, and that row lies outside the displayed $\CauchyConvergenceCriterionUp$ packet.
+\end{proof}
+
 \begin{theorem}[Cauchy convergence criterion ledger-classifier exactness]
 \label{thm:cauchy-convergence-criterion-ledger-classifier-exactness}
 Let
