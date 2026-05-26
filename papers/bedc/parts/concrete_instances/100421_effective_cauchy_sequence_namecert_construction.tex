@@ -85,6 +85,19 @@ The regular readback $Q$ then supplies the only route into the terminal seal of 
 Componentwise transport, replay, provenance, and local naming preserve the route. Hence every Real-facing read factors through the displayed source-to-seal boundary.
 \end{proof}
 
+\begin{theorem}[Effective Cauchy sequence extractor handoff]\label{thm:effective-cauchy-sequence-extractor-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\EffectiveCauchySequenceUp$ carrier $G=(S,M,W,D,Q,E,H,C,P,N)$ that reads through a $\CauchyModulusExtractorUp$ route must expose the explicit $\CauchyModulusUp$ row $M$ before any finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback, or $\RealUp$ seal row is consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:effective-cauchy-sequence-carrier}. The explicit modulus row $M$ is listed before the finite window row $W$, dyadic ledger $D$, regular readback $Q$, and terminal seal $E$.
+
+The NameCert obligations of \autoref{thm:effective-cauchy-sequence-namecert-obligations} require modulus exposure for every tolerance request. Thus a consumer routed through a $\CauchyModulusExtractorUp$ packet must read $M$ before it can open the corresponding finite StreamName window.
+
+The RegSeqRat handoff theorem \autoref{thm:effective-cauchy-sequence-regseqrat-handoff} then places $Q$ downstream of $S,M,W,D$. The Real seal boundary theorem \autoref{thm:effective-cauchy-sequence-real-seal-boundary} places $E$ downstream of the same route.
+
+Therefore the extractor handoff cannot consume a finite window, dyadic tolerance ledger, regular readback, or Real seal before the explicit Cauchy modulus row has been displayed.
+\end{proof}
+
 \begin{theorem}[Effective Cauchy sequence non-escape]\label{thm:effective-cauchy-sequence-nonescape}
 Let $G=(S,M,W,D,Q,E,H,C,P,N)$ be an accepted $\EffectiveCauchySequenceUp$ carrier. No consumer of $G$ can read quotient stream equality, a selected limit, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking from the packet unless that datum is already one of the displayed rows $S,M,W,D,Q,E,H,C,P,N$.
 \end{theorem}
