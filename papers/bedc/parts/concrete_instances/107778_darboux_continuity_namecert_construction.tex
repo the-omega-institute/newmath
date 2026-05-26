@@ -50,6 +50,30 @@ Next read the graph and crossing rows. The continuous-map row $G$ supplies the d
 Finally expose $D,R,E$ through the same route. The dyadic bracket ledger, regular readback, and Real seal are downstream of $I,G,V$, so a consumer cannot start from an ambient interval image or a completed real-value selection.
 \end{proof}
 
+\begin{theorem}[DarbouxContinuity graph exposure]
+\label{thm:darboux-continuity-graph-exposure}
+For every accepted $\DarbouxContinuityUp$ carrier $T=(I,G,V,D,R,E,H,C,P,N)$, the $\ContinuousMapUp$ graph row $G$ is exposed only after the $\ClosedBoundedIntervalUp$ source row $I$ has been displayed. Any crossing read through $V$ depends on that graph exposure and therefore cannot be read as an interval-image fact detached from the source interval and continuous-map graph.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:darboux-continuity-carrier}. The row $I$ is the source interval coordinate, and $G$ is explicitly described as the continuous-map graph row over that source.
+
+Now inspect the crossing row. The row $V$ records intermediate-value crossing data read through the graph row $G$, so a consumer of $V$ must have already displayed both the source interval row and the continuous graph row.
+
+The structural rows $H,C,P,N$ only transport, replay, source, and name this route. They add no detached image coordinate, so every accepted crossing read remains dependent on the $I$ then $G$ exposure order.
+\end{proof}
+
+\begin{theorem}[DarbouxContinuity Real-seal handoff]
+\label{thm:darboux-continuity-real-seal-handoff}
+For every accepted $\DarbouxContinuityUp$ carrier $T=(I,G,V,D,R,E,H,C,P,N)$, the $\RealUp$ row $E$ is terminal. It may be read only after the dyadic bracket ledger $D$ and the $\RegSeqRatUp$ readback row $R$ expose the bracketed endpoint, sample, and crossing observations used by the intermediate-value route.
+\end{theorem}
+\begin{proof}
+Project the analytic rows. The dyadic ledger $D$ stores the finite rational brackets, and the row $R$ is the regular rational readback for those bracketed observations.
+
+The seal row is downstream. In \autoref{def:darboux-continuity-carrier}, $E$ is exposed only after $I,G,V,D,R$ have been displayed, so the completed real-name read cannot precede the bracket ledger or its regular readback.
+
+Transport and replay preserve this terminal position. The rows $H,C,P,N$ can reread the same sealed route for a consumer, but they cannot supply an ambient Real value without the displayed dyadic and regular-rational handoff.
+\end{proof}
+
 \begin{theorem}[DarbouxContinuity non-escape]
 \label{thm:darboux-continuity-nonescape}
 Every accepted $\DarbouxContinuityUp$ packet exports only the finite rows
