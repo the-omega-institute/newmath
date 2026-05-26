@@ -59,4 +59,28 @@ theorem MetaCICClosureTraceCarrier_beta_star_preservation_readback
     ⟨BUnary, RUnary, betaReadUnary, routeReadUnary, betaReadRoute, routeReadRoute,
       betaReadSame, pkgSig⟩
 
+theorem MetaCICClosureTraceCarrier_closed_substitution_route
+    [AskSetup] [PackageSetup] {S U V B R G K H C P N closedSubst closedRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ->
+      Cont S V closedSubst ->
+        Cont closedSubst B closedRoute ->
+          PkgSig bundle closedRoute pkg ->
+            UnaryHistory S ∧ UnaryHistory V ∧ UnaryHistory B ∧
+              UnaryHistory closedSubst ∧ UnaryHistory closedRoute ∧ Cont S U V ∧
+                Cont S V closedSubst ∧ Cont closedSubst B closedRoute ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle closedRoute pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier closedSubstRoute closedRouteRoute closedRoutePkg
+  obtain ⟨SUnary, _UUnary, VUnary, BUnary, _RUnary, _GUnary, _KUnary, _HUnary,
+    _CUnary, _PUnary, _NUnary, shiftSubstitution, _generatorPackage, _betaRoute,
+    pkgSig⟩ := carrier
+  have closedSubstUnary : UnaryHistory closedSubst :=
+    unary_cont_closed SUnary VUnary closedSubstRoute
+  have closedRouteUnary : UnaryHistory closedRoute :=
+    unary_cont_closed closedSubstUnary BUnary closedRouteRoute
+  exact
+    ⟨SUnary, VUnary, BUnary, closedSubstUnary, closedRouteUnary, shiftSubstitution,
+      closedSubstRoute, closedRouteRoute, pkgSig, closedRoutePkg⟩
+
 end BEDC.Derived.MetaCICClosureTraceUp
