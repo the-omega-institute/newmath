@@ -304,6 +304,38 @@ theorem BoundedVariationPartitionLedger_endpoint_transport_scope [AskSetup] [Pac
     cont_respects_hsame sameEndpoint (hsame_refl dyadic) endpointDyadicEdge endpointDyadicEdge'
   exact ⟨endpointUnary', edgeUnary', sameEdge, provenancePkg⟩
 
+theorem BoundedVariationPartitionLedger_concatenation_ledger [AskSetup] [PackageSetup]
+    {interval0 partition0 edge0 endpoint0 dyadic0 variation0 refinement0 transport0 route0
+      provenance0 nameCert0 interval1 partition1 edge1 endpoint1 dyadic1 variation1 refinement1
+      transport1 route1 provenance1 nameCert1 variation01 route01 : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedVariationPartitionLedger interval0 partition0 edge0 endpoint0 dyadic0 variation0
+        refinement0 transport0 route0 provenance0 nameCert0 bundle pkg ->
+      BoundedVariationPartitionLedger interval1 partition1 edge1 endpoint1 dyadic1 variation1
+          refinement1 transport1 route1 provenance1 nameCert1 bundle pkg ->
+        hsame endpoint0 endpoint1 ->
+          Cont variation0 variation1 variation01 ->
+            Cont route0 route1 route01 ->
+              UnaryHistory variation01 ∧ UnaryHistory route01 ∧ hsame endpoint0 endpoint1 ∧
+                PkgSig bundle provenance0 pkg ∧ PkgSig bundle provenance1 pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro ledger0 ledger1 sameEndpoint variationConcat routeConcat
+  obtain ⟨_intervalUnary0, _partitionUnary0, _edgeUnary0, _endpointUnary0, _dyadicUnary0,
+    variationUnary0, _refinementUnary0, _transportUnary0, routeUnary0, _provenanceUnary0,
+    _nameCertUnary0, _intervalEndpoint0, _endpointDyadicEdge0, _edgeRefinementVariation0,
+    _variationTransportRoute0, _routeProvenanceNameCert0, _variationSameAppend0,
+    provenancePkg0⟩ := ledger0
+  obtain ⟨_intervalUnary1, _partitionUnary1, _edgeUnary1, _endpointUnary1, _dyadicUnary1,
+    variationUnary1, _refinementUnary1, _transportUnary1, routeUnary1, _provenanceUnary1,
+    _nameCertUnary1, _intervalEndpoint1, _endpointDyadicEdge1, _edgeRefinementVariation1,
+    _variationTransportRoute1, _routeProvenanceNameCert1, _variationSameAppend1,
+    provenancePkg1⟩ := ledger1
+  have variationUnary01 : UnaryHistory variation01 :=
+    unary_cont_closed variationUnary0 variationUnary1 variationConcat
+  have routeUnary01 : UnaryHistory route01 :=
+    unary_cont_closed routeUnary0 routeUnary1 routeConcat
+  exact ⟨variationUnary01, routeUnary01, sameEndpoint, provenancePkg0, provenancePkg1⟩
+
 theorem BoundedVariationCarrier_cauchy_consumer_boundary [AskSetup] [PackageSetup]
     {interval partition endpoint dyadic variation refinement transport route provenance nameCert
       edgeRead cauchyRead : BHist}
