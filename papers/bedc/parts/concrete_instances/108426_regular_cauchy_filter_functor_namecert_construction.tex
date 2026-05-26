@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyFilterFunctorUp$}
+\label{ch:concrete-instances-regular-cauchy-filter-functor-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy completion, Kelley on filters, and Mac Lane on functorial transport, the $\RegularCauchyFilterFunctorUp$ packet records the finite route that transports regular Cauchy filter data into stream-indexed real seals. It reads the regular filter surface of \autoref{ch:concrete-instances-regularcauchyfilter-namecert}, the Cauchy filter basis and saturation surfaces of \autoref{ch:concrete-instances-cauchy-filter-basis-namecert} and \autoref{ch:concrete-instances-cauchyfilter-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion-functor route of \autoref{ch:concrete-instances-cauchycompletionfunctor-namecert}. The packet names the transport surface only; it does not quotient filters, select limits, identify host real objects, or use ambient completeness.
+
+\begin{definition}[RegularCauchyFilterFunctor carrier]
+\label{def:regular-cauchy-filter-functor-carrier}
+A $\RegularCauchyFilterFunctorUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,B,W,D,R,E,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the regular Cauchy filter index row, reading the $\RegularCauchyFilterUp$ source packet and its displayed filter-indexed tail data.
+\item $B$ is the $\CauchyFilterUp$ basis row, including the finite basis and saturation route used before any stream window is inspected.
+\item $W$ is the $\StreamNameUp$ finite-window row listing the requested windows obtained from the filter-indexed source.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row attached to the same windows.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained after $W$ and $D$ are displayed.
+\item $E$ is the $\RealUp$ seal row reached only after the filter, window, tolerance, and readback rows have been replayed.
+\item $A$ is the functorial action ledger, recording source-map action on displayed filter indices and target-map action on the induced stream windows, readbacks, tolerances, and seals.
+\item $H$ records componentwise $\hsame$ transport for $I,B,W,D,R,E,A$ and for the structural rows below.
+\item $C$ records displayed $\Cont$ replay for the route from regular Cauchy filter indices through CauchyFilter basis data, StreamName windows, DyadicRatCore tolerances, RegSeqRat readback, Real seal, and action ledger.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyFilterFunctorUp$, $\RegularCauchyFilterUp$, $\CauchyFilterUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyCompletionFunctorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyFilterFunctorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,B,W,D,R,E,A,H,C,P,N$. There is no coordinate for quotient filters, selected representatives, host equality of filters, host equality of reals, countable choice, or detached completion points.
+\end{definition}
+
+\begin{theorem}[RegularCauchyFilterFunctor NameCert obligations]
+\label{thm:regular-cauchy-filter-functor-namecert-obligations}
+For every accepted $\RegularCauchyFilterFunctorUp$ carrier
+$$
+F=(I,B,W,D,R,E,A,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyFilterFunctorUp}$ surface consists exactly of carrier admission for the displayed packet; regular Cauchy filter source exposure through $I$; CauchyFilter basis and saturation exposure through $B$; finite-window exposure through $W$; dyadic tolerance exactness through $D$; regular-rational readback through $R$; Real seal handoff through $E$; functorial action bookkeeping through $A$; and structural transport, replay, provenance, and local naming through $H,C,P,N$. No obligation is discharged by quotienting filters, choosing representatives, identifying host real objects, or importing ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-filter-functor-carrier}. The accepted packet displays exactly the source index row, basis row, window row, tolerance row, readback row, seal row, action ledger, and structural rows.
+
+The source side is exhausted by $I$ and $B$. The regular Cauchy filter row supplies the filter-indexed tail data, while the CauchyFilter basis row supplies the finite basis and saturation surface before any stream-indexed consumer can inspect the packet.
+
+The target side is exhausted by $W,D,R,E$. The finite windows are read first, the dyadic tolerance ledger is attached to those windows, the RegSeqRat row reads back the regular rational data, and the Real seal remains downstream from the displayed route.
+
+The action and structural rows do not add hidden objects. The ledger $A$ records how displayed source-map action is replayed as target-map action on $W,D,R,E$, while $H,C,P,N$ transport, replay, package, and name the same finite surface. Hence the listed rows are the whole local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[RegularCauchyFilterFunctor filter-to-stream route]
+\label{thm:regular-cauchy-filter-functor-filter-to-stream-route}
+Every $\RealUp$ consumer of an accepted $\RegularCauchyFilterFunctorUp$ carrier factors through the finite route
+$$
+\RegularCauchyFilterUp \longmapsto \CauchyFilterUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+Concretely, the consumer reads $I$, then $B$, then $W$ and $D$, then $R$, then $E$, with the functorial action ledger $A$ and the structural rows $H,C,P,N$ preserving this order. No second real-facing route is available inside the carrier.
+\end{theorem}
+\begin{proof}
+Start with the Real-facing coordinate. The row $E$ is not detached from the packet; it is stored only after the source index, filter basis, finite windows, dyadic tolerances, and regular-rational readback have been displayed.
+
+Read the route in order. The source packet contributes $I$, the CauchyFilter basis and saturation data contribute $B$, the stream-indexed finite observations contribute $W$, the tolerance checks contribute $D$, and the regular-rational readback contributes $R$.
+
+Now inspect the action ledger. The row $A$ records that source-map action on filter indices is replayed on the displayed window, tolerance, readback, and seal rows, so the functorial transport does not introduce a selected limit or a host equality principle.
+
+Finally the transport, replay, provenance, and local naming rows certify the same route. Since the carrier has no other Real seal coordinate and no quotient-filter coordinate, every Real-facing consumer factors through the listed finite chain.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyFilterFunctorUp$ read is refuted if a RealUp seal is reached without displaying the RegularCauchyFilter, CauchyFilter, StreamName, DyadicRatCore, RegSeqRat, functorial action, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{regularcauchyfilter, cauchyfilter, streamname, regseqrat, dyadicratcore, real, and cauchycompletionfunctor: none is bijective to the functor packet because only $\RegularCauchyFilterFunctorUp$ records filter-index source action and stream-index target action together with one Real seal route.}
+
+\closureat{RegularCauchyFilterFunctorUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyFilterFunctorUp}
+  \constructivestory{A $\RegularCauchyFilterFunctorUp$ packet is generated from a regular Cauchy filter index row, CauchyFilter basis row, StreamName finite-window row, DyadicRatCore tolerance row, RegSeqRat readback row, RealUp seal row, functorial action ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-filter-functor-carrier}, \autoref{thm:regular-cauchy-filter-functor-namecert-obligations}, and \autoref{thm:regular-cauchy-filter-functor-filter-to-stream-route} seed the finite filter-indexed route from RegularCauchyFilter and CauchyFilter data through StreamName windows, DyadicRatCore tolerances, RegSeqRat readback, and RealUp seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, selected representatives, host equality of filters, host equality of reals, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, filter-index source exposure, CauchyFilter basis exposure, window and tolerance routing, RegSeqRat readback, Real seal handoff, functorial action, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyFilterFunctorUp.}
+\end{closurestatus}
