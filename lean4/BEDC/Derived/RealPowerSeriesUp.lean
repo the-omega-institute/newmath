@@ -429,4 +429,32 @@ theorem RealPowerSeriesObligationScope [AskSetup] [PackageSetup]
     ⟨cert, radiusReadUnary, endpointUnary, coefficientWindow, radiusMajorant,
       endpointRoute, pkgSig, endpointPkg⟩
 
+theorem RealPowerSeriesCarrier_radius_subwindow_monotonicity [AskSetup] [PackageSetup]
+    {A Z X R W S M E H C P N subwindow narrowedMajorant narrowedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ->
+      hsame subwindow R ->
+        Cont subwindow S narrowedMajorant ->
+          Cont narrowedMajorant E narrowedEndpoint ->
+            PkgSig bundle narrowedEndpoint pkg ->
+              UnaryHistory subwindow ∧ UnaryHistory narrowedMajorant ∧
+                UnaryHistory narrowedEndpoint ∧ Cont A W S ∧
+                  Cont subwindow S narrowedMajorant ∧
+                    Cont narrowedMajorant E narrowedEndpoint ∧ PkgSig bundle P pkg ∧
+                      PkgSig bundle narrowedEndpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier subwindowSame majorantRoute endpointRoute endpointPkg
+  obtain ⟨_AUnary, _ZUnary, _XUnary, RUnary, _WUnary, SUnary, _MUnary, EUnary,
+    _HUnary, _CUnary, _PUnary, _NUnary, coefficientWindow, _radiusMajorant,
+    _majorantEndpoint, pkgSig⟩ := carrier
+  have subwindowUnary : UnaryHistory subwindow :=
+    unary_transport RUnary (hsame_symm subwindowSame)
+  have narrowedMajorantUnary : UnaryHistory narrowedMajorant :=
+    unary_cont_closed subwindowUnary SUnary majorantRoute
+  have narrowedEndpointUnary : UnaryHistory narrowedEndpoint :=
+    unary_cont_closed narrowedMajorantUnary EUnary endpointRoute
+  exact
+    ⟨subwindowUnary, narrowedMajorantUnary, narrowedEndpointUnary, coefficientWindow,
+      majorantRoute, endpointRoute, pkgSig, endpointPkg⟩
+
 end BEDC.Derived.RealPowerSeriesUp
