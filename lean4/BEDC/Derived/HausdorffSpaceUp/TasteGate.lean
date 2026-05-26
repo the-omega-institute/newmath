@@ -230,6 +230,27 @@ theorem HausdorffSpaceCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact source
   }
 
+theorem HausdorffSpaceCarrier_metric_separation_handoff [AskSetup] [PackageSetup]
+    {T x y U V D M E H C P N metricReplay : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HausdorffSpaceCarrier T x y U V D M E H C P N bundle pkg ->
+      Cont M E metricReplay ->
+        UnaryHistory M ∧ UnaryHistory E ∧ UnaryHistory U ∧ UnaryHistory V ∧
+          UnaryHistory D ∧ UnaryHistory metricReplay ∧ Cont M E metricReplay := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier metricRoute
+  exact
+    ⟨carrier.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      carrier.right.right.right.right.right.left,
+      unary_cont_closed
+        carrier.right.right.right.right.right.right.left
+        carrier.right.right.right.right.right.right.right.left
+        metricRoute,
+      metricRoute⟩
+
 theorem HausdorffSpaceNameCert_obligations
     {T x y U V D M E H C P N separation metricRoute realSealRoute : BHist}
     (openRoute : Cont T U C) (disjointRoute : Cont V D separation)
