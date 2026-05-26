@@ -4404,6 +4404,7 @@ import BEDC.Derived.NestedIntervalIntersectionUp
 import BEDC.Derived.NestedIntervalIntersectionUp.TasteGate
 import BEDC.Derived.NestedIntervalRealUp.TasteGate
 import BEDC.Derived.NestedIntervalUp
+import BEDC.Derived.NetConvergenceUp
 import BEDC.Derived.NetConvergenceUp.TasteGate
 import BEDC.Derived.NetworkFlowUp
 import BEDC.Derived.NewtonIterationUp
@@ -5817,6 +5818,7 @@ import BEDC.Derived.StreamNameUp.FiniteSectionClassifierDeterminacy
 import BEDC.Derived.StreamNameUp.FiniteSectionPullbackExactness
 import BEDC.Derived.StreamNameUp.FiniteSectionRealRegSeqDyadicLock
 import BEDC.Derived.StreamNameUp.FiniteWindowEndpoint
+import BEDC.Derived.StreamNameUp.FiniteWindowLatticeMeet
 import BEDC.Derived.StreamNameUp.FiniteWindowStructural
 import BEDC.Derived.StreamNameUp.ObservationEndpointPackage
 import BEDC.Derived.StreamNameUp.OpenPhaseExitBoundary
