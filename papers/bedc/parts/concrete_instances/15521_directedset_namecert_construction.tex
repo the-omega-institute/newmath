@@ -87,6 +87,42 @@ Apply the obligation surface of \autoref{thm:directed-set-namecert-obligations}.
 \end{proof}
 \leanchecked{BEDC.Derived.DirectedSetUp.DirectedSetPacket\_finite\_upper\_window\_stability}
 
+\begin{theorem}[DirectedSet upper-window exhaustion]
+\label{thm:directed-set-upper-window-exhaustion}
+Let $D=(I,\preceq,W,U,H,C,P,N)$ be an accepted $\DirectedSetUp$ carrier. Any $\CauchyNetUp$, $\CauchyNetLimitUp$, or $\MooreSmithConvergenceUp$ consumer that reads a finite directed-window request from $D$ factors through the displayed rows
+$$
+I,\preceq,W,U,H,C,P,N .
+$$
+The consumer therefore cannot obtain a cofinal sequence, quotient index, total-order completion, infinite upper-bound selector, or choice function from the directed-window read.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:directed-set-carrier}. The only index addresses are the entries of $I$, the only comparisons are the displayed rows of $\preceq$, and the only finite requests are the windows named in $W$.
+
+Apply \autoref{thm:directed-set-namecert-obligations}. Its finite-window coverage and upper-window witnessing clauses force every accepted request to read its witness through $U$, while its transport and continuation clauses route every replay through $H$ and $C$.
+
+Now use \autoref{thm:directed-set-cauchynet-index-handoff} for $\CauchyNetUp$ and $\CauchyNetLimitUp$ consumers, and \autoref{thm:directed-set-finite-upper-window-stability} for retained Moore--Smith windows. These results identify the same finite upper-window route after restriction or handoff.
+
+Finally, $P$ and $N$ source and name only that route. Since the carrier and the cited obligations contain no row for a cofinal sequence, quotient index, total-order completion, infinite upper-bound selector, or choice function, no downstream consumer can extract one from the finite directed-window request.
+\end{proof}
+
+\begin{theorem}[DirectedSet obligation closure package]
+\label{thm:directed-set-obligation-closure-package}
+The accepted $\DirectedSetUp$ carrier
+$$
+D=(I,\preceq,W,U,H,C,P,N)
+$$
+supports an obligationClosure package whose finite boundary consists of carrier admission for the displayed rows, preorder readability through $\preceq$, finite-window coverage through $W$, upper-window witnessing through $U$, transport and $\Cont$ replay through $H,C$, retained-subledger stability, and non-escape from cofinal selectors, quotient indices, total-order completions, infinite upper-bound selection, and choice functions. Every $\CauchyNetUp$, $\CauchyNetLimitUp$, and $\MooreSmithConvergenceUp$ consumer of the package reads only this finite directed-window substrate.
+\end{theorem}
+\begin{proof}
+Begin with the carrier definition, \autoref{def:directed-set-carrier}. It supplies the finite index row, comparison row, finite-window row, upper-witness row, transport row, continuation row, provenance row, and local naming row.
+
+Apply the NameCert obligations of \autoref{thm:directed-set-namecert-obligations}. Carrier admission, preorder readability, finite-window coverage, upper-window witnessing, transport replay, continuation replay, and ledger non-escape are exactly the displayed obligations.
+
+Use the CauchyNet index handoff, \autoref{thm:directed-set-cauchynet-index-handoff}, to identify how $\CauchyNetUp$ and $\CauchyNetLimitUp$ consumers read the same route through $I,\preceq,W,U,H,C,P,N$.
+
+Use finite upper-window stability and upper-window exhaustion, \autoref{thm:directed-set-finite-upper-window-stability} and \autoref{thm:directed-set-upper-window-exhaustion}. These keep retained subledgers inside the same finite route and show that Moore--Smith and Cauchy-net consumers cannot extract cofinal selectors, quotient indices, total-order completions, infinite upper-bound selection, or choice functions.
+\end{proof}
+
 \closureat{DirectedSetUp}{seedStr}
 
 \begin{closurestatus}{\DirectedSetUp}

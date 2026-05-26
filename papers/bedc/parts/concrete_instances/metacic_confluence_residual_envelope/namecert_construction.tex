@@ -1,0 +1,62 @@
+\chapter{MetaCIC Confluence Residual Envelope NameCert Construction}
+\label{ch:concrete-instances-metacic-confluence-residual-envelope-namecert}
+\origin{ai}
+
+The $\MetaCICConfluenceResidualEnvelopeUp$ packet realizes the conditional residual-substitution boundary of \autoref{ch:metacic-confluence-audit-map} as finite MetaCIC NameCert data. It sits beside the substitution-boundary packet of \autoref{ch:concrete-instances-metacic-confluence-substitution-boundary-namecert}, the residual checker of \autoref{ch:concrete-instances-metacic-confluence-residual-checker-namecert}, the finite fuel trace of \autoref{ch:concrete-instances-metacic-fuel-trace-namecert}, the decidable neutral spine of \autoref{ch:concrete-instances-metacic-decidable-neutral-spine-namecert}, and the normalization evidence budget of \autoref{ch:concrete-instances-normalization-evidence-budget-namecert}. The envelope records which residual windows, substitution-boundary rows, checker rows, fuel traces, neutral-spine reads, and replay ledgers are visible before a consumer cites a conditional confluence handoff.
+
+\falsifiablePrediction{A certification route to $\mathrm{BetaParallelDiamondClosed}$ that omits the residual-envelope row refutes $\MetaCICConfluenceResidualEnvelopeUp$, because the conditional substitution boundary has then been consumed without displaying the finite residual window, substitution-boundary, checker, fuel, neutral-spine, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{metacic\_fuel\_trace, metacic\_decidable\_neutral\_spine, metacic\_confluence\_substitution\_boundary, normalization\_evidence\_budget: none is bijective to $\MetaCICConfluenceResidualEnvelopeUp$ because the envelope jointly records residual windows, substitution-boundary exposure, checker status, bounded fuel, neutral-spine reads, normalization-budget non-escape, transport, replay, provenance, and local naming as one confluence-boundary packet.}
+
+\begin{definition}[MetaCIC confluence residual envelope carrier]
+\label{def:metacic-confluence-residual-envelope-carrier}
+A $\MetaCICConfluenceResidualEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(T,R,S,B,J,O,F,U,Z,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $T$ is the typed-window row naming the MetaCIC source and target windows under inspection.
+\item $R$ is the residual-frontier row, recording the beta-redex residues whose join is conditional on substitution compatibility.
+\item $S$ is the $\MetaCICConfluenceSubstitutionBoundaryUp$ row exposed before any closed diamond handoff.
+\item $B$ is the bounded residual-checker row inherited from $\MetaCICConfluenceResidualCheckerUp$.
+\item $J$ is the local-join ledger for those residual windows.
+\item $O$ is the obstruction row retaining the named substitution-compatibility boundary.
+\item $F$ is the $\MetaCICFuelTraceUp$ bounded replay row.
+\item $U$ is the $\MetaCICDecidableNeutralSpineUp$ neutral-spine read used to prevent atom and neutral cases from being promoted to beta branches.
+\item $Z$ is the $\NormalizationEvidenceBudgetUp$ row, recording that normalization evidence may be inspected only as bounded finite evidence and not as global normalization.
+\item $H$ records componentwise $\hsame$ transport for typed windows, residual frontiers, substitution boundary, checker status, local joins, obstruction, fuel, neutral-spine, budget, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for conditional confluence requests through $T,R,S,B,J,O,F,U,Z,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICConfluenceResidualEnvelopeUp$, $\MetaCICConfluenceSubstitutionBoundaryUp$, $\MetaCICConfluenceResidualCheckerUp$, $\MetaCICFuelTraceUp$, $\MetaCICDecidableNeutralSpineUp$, $\NormalizationEvidenceBudgetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICConfluenceResidualEnvelopeUp}$ row.
+\end{enumerate}
+The classifier reads only $T,R,S,B,J,O,F,U,Z,H,C,P,N$. It has no coordinate for an unconditional $\mathrm{BetaParallelSubstitutionCompatibility}$ proof, an unconditional $\mathrm{BetaParallelDiamondClosed}$ proof, arbitrary closed Church--Rosser, erased substitution transport, or host syntax equality.
+\end{definition}
+
+\begin{theorem}[Residual envelope NameCert surface]
+\label{thm:metacic-confluence-residual-envelope-namecert-surface}
+For every accepted $\MetaCICConfluenceResidualEnvelopeUp$ carrier $E=(T,R,S,B,J,O,F,U,Z,H,C,P,N)$, the local $\NameCert_{\MetaCICConfluenceResidualEnvelopeUp}$ surface consists exactly of carrier admission, typed-window exposure, residual-frontier exposure, substitution-boundary exposure, bounded-checker status, local-join ledger exposure, obstruction retention, fuel-trace replay, neutral-spine separation, normalization-budget non-escape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-confluence-residual-envelope-carrier}. The only visible route to a conditional confluence read is the displayed tuple $T,R,S,B,J,O,F,U,Z,H,C,P,N$.
+
+The residual and substitution-sensitive rows $R,S,B,J,O$ are read before any closed-diamond handoff. Thus a consumer can see the residual frontier, the named substitution boundary, the bounded checker status, the local join ledger, and the obstruction row as finite data rather than as a hidden global proof.
+
+The supporting rows $F,U,Z$ then separate bounded computation, neutral-spine cases, and normalization evidence from the residual-substitution boundary. They keep fuel traces, neutral reads, and normalization budgets visible without converting them into global normalization or confluence.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite surface. Since no remaining coordinate contains an unconditional substitution-compatibility or closed-diamond proof, the packet certifies only the residual-envelope boundary and not the endpoint theorem.
+\end{proof}
+
+The Lean TasteGate site for $\MetaCICConfluenceResidualEnvelopeUp$ must provide explicit $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for this carrier surface. These instances must keep the residual windows, substitution boundary, checker status, local joins, obstruction row, fuel trace, neutral spine, normalization budget, transport, replay, provenance, and local naming distinguishable.
+
+\closureat{MetaCICConfluenceResidualEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICConfluenceResidualEnvelopeUp}
+  \constructivestory{A $\MetaCICConfluenceResidualEnvelopeUp$ packet is generated from typed windows, residual frontiers, a substitution-boundary row, bounded checker status, local joins, obstruction retention, bounded fuel traces, neutral-spine reads, normalization-budget rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-confluence-residual-envelope-carrier} and \autoref{thm:metacic-confluence-residual-envelope-namecert-surface} seed the residual-substitution confluence envelope over typed-window, residual-frontier, substitution-boundary, checker, local-join, obstruction, fuel, neutral-spine, budget, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim BetaParallelSubstitutionCompatibility, BetaParallelDiamondClosed, arbitrary closed Church--Rosser, global normalization, Lean verification, bridge checking, erased substitution transport, or host syntax equality.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual-frontier exposure, substitution-boundary exposure, bounded-checker status, local-join exposure, obstruction retention, fuel replay, neutral-spine separation, normalization-budget non-escape, Nontrivial and FieldFaithful TasteGate instances, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICConfluenceResidualEnvelopeUp.}
+\end{closurestatus}

@@ -79,4 +79,30 @@ theorem RealSequenceLimitModulusNameCertObligations [AskSetup] [PackageSetup]
       exact ⟨admittedPkg, source.right⟩
   }
 
+theorem RealSequenceLimitFiniteModulusCarrier_threshold_route [AskSetup] [PackageSetup]
+    {sequenceRow limitRow windowSchedule dyadicLedger classifierRow transport route provenance
+      name threshold admitted thresholdRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealSequenceLimitFiniteModulusCarrier sequenceRow limitRow windowSchedule dyadicLedger
+        classifierRow transport route provenance name threshold admitted bundle pkg ->
+      Cont admitted threshold thresholdRead ->
+        PkgSig bundle thresholdRead pkg ->
+          UnaryHistory threshold ∧ UnaryHistory admitted ∧ UnaryHistory thresholdRead ∧
+            Cont windowSchedule dyadicLedger threshold ∧ Cont threshold classifierRow admitted ∧
+              Cont admitted threshold thresholdRead ∧ PkgSig bundle admitted pkg ∧
+                PkgSig bundle thresholdRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier thresholdRoute thresholdReadPkg
+  have thresholdReadUnary : UnaryHistory thresholdRead :=
+    unary_cont_closed carrier.right.right.left carrier.right.left thresholdRoute
+  exact
+    ⟨carrier.right.left,
+      carrier.right.right.left,
+      thresholdReadUnary,
+      carrier.right.right.right.left,
+      carrier.right.right.right.right.left,
+      thresholdRoute,
+      carrier.right.right.right.right.right,
+      thresholdReadPkg⟩
+
 end BEDC.Derived.RealSequenceLimitUp

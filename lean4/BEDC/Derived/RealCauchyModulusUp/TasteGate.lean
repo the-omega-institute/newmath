@@ -271,6 +271,27 @@ def RealCauchyModulusCarrier [AskSetup] [PackageSetup]
               (fun row : BHist => UnaryHistory row ∧ PkgSig bundle provenance pkg)
               (fun row row' : BHist => hsame row row')
 
+theorem RealCauchyModulusCarrier_local_cert_ledger_transport [AskSetup] [PackageSetup]
+    {modulus windows dyadic readback sealRow transports routes provenance localCert row row' :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealCauchyModulusCarrier modulus windows dyadic readback sealRow transports routes provenance
+        localCert bundle pkg ->
+      hsame row localCert -> UnaryHistory row -> hsame row row' ->
+        UnaryHistory row' ∧ hsame row' localCert ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist hsame ProbeBundle Pkg PkgSig SemanticNameCert
+  intro carrier sameLocal rowUnary sameRow
+  obtain ⟨_modulusUnary, _windowsUnary, _dyadicUnary, _readbackUnary, _sealUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _localCertUnary, _modulusRoute,
+      _dyadicRoute, _sealRoute, _provenancePkg, localSemantic⟩ := carrier
+  have sourceRow : hsame row localCert ∧ UnaryHistory row := ⟨sameLocal, rowUnary⟩
+  have rowPatternLedger :
+      (UnaryHistory row' ∧ hsame row' localCert) ∧
+        (UnaryHistory row' ∧ PkgSig bundle provenance pkg) :=
+    semanticNameCert_pattern_ledger_transport localSemantic sameRow sourceRow
+  exact ⟨rowPatternLedger.left.left, rowPatternLedger.left.right,
+    rowPatternLedger.right.right⟩
+
 namespace TasteGate
 
 theorem RealCauchyModulusCarrier_window_modulus_route [AskSetup] [PackageSetup]
