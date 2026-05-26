@@ -67,6 +67,7 @@ Finally, non-escape follows from the absence of any further classifier coordinat
 \label{thm:normal-space-open-separation-route}
 Every separation read exported by an accepted $\NormalSpaceUp$ packet factors through the displayed closed-pair row and the two open-neighborhood rows before the local naming row can be inspected.
 \end{theorem}
+\leanchecked{BEDC.Derived.NormalSpaceUp.NormalSpacePacket\_open\_separation\_route}
 \begin{proof}
 Begin with a separation request for the displayed normal-space surface. Carrier admission exposes the topology source $T$, but it exports no local normal-space name before the closed-set witnesses are read.
 
@@ -81,6 +82,7 @@ The replay and transport rows then carry this same factorization to the local na
 \label{thm:normal-space-closed-pair-transport}
 For every accepted $\NormalSpaceUp$ carrier $N=(T,F_0,F_1,D,U_0,U_1,H,K,P,L)$, componentwise $\hsame$ transport preserves the displayed closed-pair surface. A transported separation read still exposes $F_0$ and $F_1$ over the same topology source $T$, and the transported disjointness row is the image of the displayed ledger $D$ rather than an external closed-set predicate or complement choice.
 \end{theorem}
+\leanchecked{BEDC.Derived.NormalSpaceUp.NormalSpacePacket\_closed\_pair\_transport}
 \begin{proof}
 Project the finite rows from \autoref{def:normal-space-carrier}. The carrier stores $T,F_0,F_1,D$ before the open-neighborhood rows and before the local naming row.
 
@@ -131,6 +133,30 @@ Start with the carrier projection of \autoref{def:normal-space-carrier}. The acc
 The obligation theorem \autoref{thm:normal-space-namecert-obligations} says that all local normal-space obligations are exhausted by carrier admission, closed-pair exposure, open-separation exactness, transport, replay, provenance, local naming, and non-escape. The closed-pair transport theorem and the open-neighborhood stability theorem keep those same rows stable under componentwise $\hsame$ transport.
 
 It remains only to rule out extra topology principles. The open-separation route \autoref{thm:normal-space-open-separation-route} exposes no coordinate beyond the displayed rows, so no consumer can read Urysohn, Tietze, paracompact, selected-complement, excluded-middle, or open-cover compactness data from this packet.
+\end{proof}
+
+\begin{theorem}[Normal space Tietze extension refusal]
+\label{thm:normal-space-tietze-extension-refusal}
+Every accepted $\NormalSpaceUp$ packet exposes only the displayed topology source, closed-pair rows, disjointness ledger, and two separating open-neighborhood rows, together with componentwise transport, replay, provenance, and local naming. It does not expose a continuous extension row, a selected function, a host powerset of closed or open sets, a Tietze extension theorem, or any choice-selected extension datum.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:normal-space-carrier}. Its public rows are the topology source, the two closed-set witnesses, the disjointness ledger, the separating open-neighborhood pair, and the structural rows.
+
+Apply \autoref{thm:normal-space-namecert-obligations} and \autoref{thm:normal-space-open-separation-route}. These identify the local obligation surface with closed-pair exposure and open-separation exactness, not with extension of functions.
+
+Use \autoref{thm:normal-space-open-neighborhood-stability} and \autoref{thm:normal-space-topology-consumer-boundary}. Stability preserves only the displayed open-neighborhood route, while the topology boundary refuses Urysohn functions, Tietze extension data, host powersets, selected complements, excluded middle, and open-cover compactness. Hence no Tietze extension row is exported by the packet.
+\end{proof}
+
+\begin{theorem}[Normal space Urysohn lemma consumer exactness]
+\label{thm:normal-space-urysohn-lemma-consumer-exactness}
+An $\UrysohnLemmaUp$ consumer of an accepted $\NormalSpaceUp$ packet may read the displayed closed pair $F_0,F_1$, disjointness ledger $D$, and separating open-neighborhood rows $U_0,U_1$ through \autoref{thm:normal-space-urysohn-handoff}. It must supply any separating-function certificate separately; the normal-space packet itself exports no choice-selected function, host powerset, excluded-middle branch, Tietze extension datum, or classical separation principle beyond those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:normal-space-carrier}. The Urysohn-facing data available to a consumer are exactly the topology source, the closed pair, the disjointness ledger, the open-neighborhood pair, and the structural rows.
+
+Apply \autoref{thm:normal-space-urysohn-handoff}. The handoff lets the consumer read the displayed closed pair and separating open neighborhoods, but it names no separating function row.
+
+The exactness of that boundary is fixed by \autoref{thm:normal-space-open-separation-route}, \autoref{thm:normal-space-open-neighborhood-stability}, and \autoref{thm:normal-space-topology-consumer-boundary}. These results keep the consumer on the displayed normal-space route and exclude host powersets, selected functions, Tietze data, excluded middle, and classical separation principles not present in the carrier.
 \end{proof}
 
 \closureat{NormalSpaceUp}{seedStr}

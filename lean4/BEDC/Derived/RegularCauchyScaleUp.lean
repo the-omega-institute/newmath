@@ -562,4 +562,33 @@ theorem RegularCauchyScaleCarrier_cofinal_budget_refinement [AskSetup] [PackageS
       refinedReadbackUnary, scalarWindow, sourceWindow, endpointsScaled, refinedRoute,
       sameRowsAppend, endpointPkg, refinedPkg⟩
 
+theorem RegularCauchyScaleCarrier_tail_window_carrier_obligation [AskSetup] [PackageSetup]
+    {scalar source window scalarEndpoint sourceEndpoint scaledEndpoint budget readback sameRows
+      route provenance namecert endpoint tailRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyScaleCarrier scalar source window scalarEndpoint sourceEndpoint scaledEndpoint
+        budget readback sameRows route provenance namecert endpoint bundle pkg ->
+      Cont budget readback tailRead ->
+        PkgSig bundle tailRead pkg ->
+          UnaryHistory scalar ∧ UnaryHistory source ∧ UnaryHistory window ∧
+            UnaryHistory scaledEndpoint ∧ UnaryHistory budget ∧ UnaryHistory readback ∧
+              UnaryHistory tailRead ∧ Cont scalar window scalarEndpoint ∧
+                Cont source window sourceEndpoint ∧
+                  Cont scalarEndpoint sourceEndpoint scaledEndpoint ∧
+                    Cont scaledEndpoint budget readback ∧ Cont budget readback tailRead ∧
+                      PkgSig bundle endpoint pkg ∧ PkgSig bundle tailRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier budgetReadbackTail tailPkg
+  obtain ⟨scalarUnary, sourceUnary, windowUnary, _scalarEndpointUnary,
+    _sourceEndpointUnary, scaledEndpointUnary, budgetUnary, readbackUnary, _sameRowsUnary,
+    _routeUnary, _provenanceUnary, _namecertUnary, _endpointUnary, scalarWindow,
+    sourceWindow, endpointsScaled, scaledBudgetReadback, _readbackRouteProvenance,
+    _provenanceNamecertEndpoint, _sameRowsAppend, endpointPkg⟩ := carrier
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed budgetUnary readbackUnary budgetReadbackTail
+  exact
+    ⟨scalarUnary, sourceUnary, windowUnary, scaledEndpointUnary, budgetUnary, readbackUnary,
+      tailUnary, scalarWindow, sourceWindow, endpointsScaled, scaledBudgetReadback,
+      budgetReadbackTail, endpointPkg, tailPkg⟩
+
 end BEDC.Derived.RegularCauchyScaleUp
