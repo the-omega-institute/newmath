@@ -1,0 +1,154 @@
+\begin{definition}[Partition basin defect polynomial]
+\label{def:philosophy-partition-basin-defect-polynomial}
+Let $P=\{P_{1},\ldots,P_{m}\}$ be a quotient-level partition core with
+block sizes $s_{i}=|P_{i}|$. Its basin defect polynomial is
+$$
+  \mathcal{B}_{P}(q)
+  =
+  \sum_{A:\,P\text{ is a core of }A}q^{\delta(A)}.
+$$
+\end{definition}
+
+\begin{theorem}[Partition basin polynomial]
+\label{thm:philosophy-partition-basin-polynomial}
+For a partition core with block sizes $(s_{1},\ldots,s_{m})$,
+$$
+  \mathcal{B}_{P}(q)
+  =
+  \prod_{i=1}^{m}
+  \left[
+    (1+q)^{(m-1)s_{i}}
+    -
+    \left((1+q)^{m-1}-1\right)^{s_{i}}
+  \right].
+$$
+\end{theorem}
+\begin{proof}
+For a coordinate in block $P_{i}$, the core row $i$ is fixed, while any
+subset of the other $m-1$ rows may be added. Choosing $r$ additional
+rows contributes $q^{r}$, so one coordinate contributes
+$(1+q)^{m-1}$. A block of size $s_{i}$ therefore has all decorations
+enumerated by $(1+q)^{(m-1)s_{i}}$. The private-coordinate condition
+excludes the case in which every coordinate of $P_{i}$ receives at
+least one additional row; that excluded polynomial is
+$((1+q)^{m-1}-1)^{s_{i}}$. Multiplying the legal block enumerators gives
+the displayed product.
+\end{proof}
+
+\begin{corollary}[Four-coordinate basin polynomials]
+\label{cor:philosophy-four-coordinate-basin-polynomials}
+For four trigger coordinates, the partition-type basin polynomials are
+$$
+\begin{array}{c|r|c|r}
+  \text{partition type} & \text{quotient partitions} & \mathcal{B}_{P}(q) & \mathcal{B}_{P}(1)\\
+  \hline
+  4 & 1 & 1 & 1\\
+  3+1 & 4 & 1+3q+3q^{2} & 7\\
+  2+2 & 3 & 1+4q+4q^{2} & 9\\
+  2+1+1 & 6 & 1+4q+2q^{2} & 7\\
+  1+1+1+1 & 1 & 1 & 1.
+\end{array}
+$$
+\end{corollary}
+\begin{proof}
+Substitute the five block-size types of a four-element set into
+\autoref{thm:philosophy-partition-basin-polynomial}.
+\end{proof}
+
+\begin{theorem}[Basin incidence polynomials]
+\label{thm:philosophy-basin-incidence-polynomials}
+The quotient-level trigger--partition incidence polynomial is
+$$
+  \mathcal{I}_{q}(q)
+  =
+  15+48q+36q^{2}.
+$$
+The codon-level incidence polynomial is
+$$
+  \mathcal{I}_{c}(q)
+  =
+  94+288q+192q^{2}.
+$$
+Thus $\mathcal{I}_{q}(1)=99$ and $\mathcal{I}_{c}(1)=574$.
+\end{theorem}
+\begin{proof}
+Sum the rows of
+\autoref{cor:philosophy-four-coordinate-basin-polynomials}, weighting
+by the number of quotient partitions of each type. For codon-level
+incidence, multiply a partition type with $m$ blocks by $2^{m}$ lift
+cores. This gives
+$$
+  2\cdot1
+  +
+  16(1+3q+3q^{2})
+  +
+  12(1+4q+4q^{2})
+$$
+$$
+  +
+  48(1+4q+2q^{2})
+  +
+  16\cdot1
+  =
+  94+288q+192q^{2}.
+$$
+\end{proof}
+
+\begin{theorem}[Descending path polynomials]
+\label{thm:philosophy-descending-path-polynomials}
+Weighting each defect-$\delta$ incidence by $\delta!$ gives
+$$
+  \mathcal{P}_{q}(q)
+  =
+  15+48q+72q^{2}
+$$
+and
+$$
+  \mathcal{P}_{c}(q)
+  =
+  94+288q+384q^{2}.
+$$
+Thus $\mathcal{P}_{q}(1)=135$ and $\mathcal{P}_{c}(1)=766$.
+\end{theorem}
+\begin{proof}
+For a fixed partition core below a trigger of defect $\delta$, the
+duplicate incidences may be removed in $\delta!$ orders by
+\autoref{thm:philosophy-descending-path-count}. Apply this factor to
+the coefficients of
+\autoref{thm:philosophy-basin-incidence-polynomials}.
+\end{proof}
+
+\begin{corollary}[Basin-size averages]
+\label{cor:philosophy-basin-size-averages}
+The codon-level partition skeleton has $94$ cores and total incidence
+$574$, so its average basin size is
+$$
+  \frac{574}{94}.
+$$
+The largest basin per core is the balanced type $2+2$, with size $9$.
+\end{corollary}
+\begin{proof}
+The average is total codon-level incidence divided by the number of
+codon-level partition cores. The maximum follows from
+\autoref{cor:philosophy-four-coordinate-basin-polynomials}.
+\end{proof}
+
+\begin{theorem}[Partition basin polynomial theorem]
+\label{thm:philosophy-partition-basin-polynomial-theorem}
+The defect-flow basins over the partition skeleton are completely
+enumerated by the product formula for $\mathcal{B}_{P}(q)$. In the
+codon case $(n,\ell)=(4,2)$, the total codon-level basin incidence and
+descending path polynomials are
+$$
+  \mathcal{I}_{c}(q)=94+288q+192q^{2},
+  \qquad
+  \mathcal{P}_{c}(q)=94+288q+384q^{2}.
+$$
+\end{theorem}
+\begin{proof}
+The product formula is
+\autoref{thm:philosophy-partition-basin-polynomial}. The codon-level
+specialization is
+\autoref{thm:philosophy-basin-incidence-polynomials} and
+\autoref{thm:philosophy-descending-path-polynomials}.
+\end{proof}

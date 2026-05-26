@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICStrongNormalizationBoundaryUp$}
+\label{ch:concrete-instances-metacic-strong-normalization-boundary-namecert}
+\origin{ai}
+
+The $\MetaCICStrongNormalizationBoundaryUp$ packet realizes the total-host and universal-substrate separation of \autoref{ch:visions-strong-normalization-vs-turing-completeness} as finite NameCert data. It sits between the neutral-spine comparison surface of \autoref{ch:concrete-instances-metacic-decidable-neutral-spine-namecert}, the bounded fuel trace of \autoref{ch:concrete-instances-metacic-fuel-trace-namecert}, the normal-form readback of \autoref{ch:concrete-instances-znormal-namecert}, the substrate trace boundary of \autoref{ch:concrete-instances-bounded-universal-trace-namecert}, and the total-host fuel discipline of \autoref{ch:concrete-instances-step-indexed-total-host-namecert}. The packet records the boundary at which host normalization evidence remains total while substrate universality remains fuel-indexed and external to the host evaluator.
+
+\begin{definition}[MetaCIC strong-normalization boundary carrier]
+\label{def:metacic-sn-boundary-carrier}
+A $\MetaCICStrongNormalizationBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,F,Z,U,T,R,H,C,P,N)
+$$
+with the following displayed rows.
+\begin{enumerate}
+  \item $S$ is the $\MetaCICDecidableNeutralSpineUp$ row carrying the typed neutral-spine comparison route.
+  \item $F$ is the $\MetaCICFuelTraceUp$ row carrying bounded normalizer fuel, endpoints, equality-check readback, and refusal data.
+  \item $Z$ is the $\ZNormalUp$ row carrying normal-form and total-host readback evidence.
+  \item $U$ is the $\BoundedUniversalTraceUp$ row carrying the fuel-indexed substrate trace.
+  \item $T$ is the $\StepIndexedTotalHostUp$ row carrying total-host fuel discipline and step-indexed readback.
+  \item $R$ is the refusal row stating that substrate universality is not re-exported as host nontermination or global conversion decidability.
+  \item $H$ records componentwise $\hsame$ transport for spine, fuel, normal-form, substrate-trace, total-host, and refusal rows.
+  \item $C$ records displayed $\Cont$ replay from total-host fuel through bounded trace and normal-form readback.
+  \item $P$ is the $\Pkg$ provenance over $\MetaCICStrongNormalizationBoundaryUp$, $\MetaCICDecidableNeutralSpineUp$, $\MetaCICFuelTraceUp$, $\ZNormalUp$, $\BoundedUniversalTraceUp$, $\StepIndexedTotalHostUp$, $\BHist$, $\hsame$, $\Cont$, and local naming rows.
+  \item $N$ is the local $\NameCert_{\MetaCICStrongNormalizationBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for host nontermination, global conversion decidability, an unbounded substrate run, a selected normalization proof, semantic equality, or a collapse of substrate universality into the total host.
+\end{definition}
+
+\begin{theorem}[MetaCIC strong-normalization boundary NameCert obligations]
+\label{thm:metacic-sn-boundary-namecert-obligations}
+For every accepted $\MetaCICStrongNormalizationBoundaryUp$ carrier $B=(S,F,Z,U,T,R,H,C,P,N)$, the local $\NameCert_{\MetaCICStrongNormalizationBoundaryUp}$ surface consists exactly of carrier admission for $B$, neutral-spine admission through $S$, fuel-trace admission through $F$, normal-form readback through $Z$, bounded substrate-trace admission through $U$, total-host fuel discipline through $T$, Turing-refusal exposure through $R$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-sn-boundary-carrier}. The host-facing rows are $S,F,Z,T$, the substrate-facing row is $U$, and the boundary refusal is $R$.
+
+Read the host rows first. The neutral-spine, fuel-trace, normal-form, and step-indexed total-host rows give only finite fuel, endpoint, and readback evidence.
+
+Read the substrate row through $U$ and then the refusal row $R$. Bounded substrate universality remains fuel-indexed, and the refusal row prevents that universality from becoming host nontermination or global conversion decidability.
+
+The rows $H,C,P,N$ transport, replay, source, and name the same boundary. Since the carrier contains no host nontermination, unbounded trace, selected normalization proof, semantic equality, or global conversion theorem, none of those objects is exported.
+\end{proof}
+
+\begin{theorem}[MetaCIC strong-normalization boundary Turing-refusal route]
+\label{thm:metacic-sn-boundary-turing-refusal-route}
+Every substrate-universality read of an accepted $\MetaCICStrongNormalizationBoundaryUp$ packet factors through the finite route
+$$
+\MetaCICDecidableNeutralSpineUp,\MetaCICFuelTraceUp,\ZNormalUp,\StepIndexedTotalHostUp \longmapsto \BoundedUniversalTraceUp \longmapsto R,H,C,P,N .
+$$
+Thus the packet preserves total-host normalization evidence while refusing to turn the bounded universal substrate trace into host nontermination, unbounded evaluation, or global conversion decidability.
+\end{theorem}
+\begin{proof}
+Begin with the host-facing coordinates $S,F,Z,T$ of \autoref{def:metacic-sn-boundary-carrier}. They expose only typed neutral-spine comparison, bounded normalizer fuel, normal-form readback, and step-indexed total-host rows.
+
+Move to the substrate coordinate $U$. It supplies a bounded universal trace as a finite row, not an unbounded run and not a host evaluator.
+
+Finally apply the refusal coordinate $R$ and preserve it through $H,C,P,N$. The refusal row is part of the same carrier, so any read that keeps substrate universality must also keep the boundary that blocks host nontermination and global conversion claims.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetaCICStrongNormalizationBoundaryUp$ packet displays neutral-spine, finite fuel, normal-form, bounded universal trace, step-indexed total-host, refusal, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before any consumer reads the total-host and universal-substrate boundary.}
+
+\independenceWitness{metacic-decidable-neutral-spine, metacic-fuel-trace, znormal, bounded-universal-trace, step-indexed-total-host: no listed sibling is bijective to $\MetaCICStrongNormalizationBoundaryUp$ because this packet jointly carries neutral-spine comparison, finite fuel trace, normal-form readback, bounded substrate trace, total-host fuel discipline, refusal, transport, replay, provenance, and local naming in one boundary carrier.}
+
+\closureat{MetaCICStrongNormalizationBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICStrongNormalizationBoundaryUp}
+  \constructivestory{A $\MetaCICStrongNormalizationBoundaryUp$ packet is generated from MetaCICDecidableNeutralSpineUp, MetaCICFuelTraceUp, ZNormalUp, BoundedUniversalTraceUp, and StepIndexedTotalHostUp rows, together with a Turing-refusal row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-sn-boundary-carrier}, \autoref{thm:metacic-sn-boundary-namecert-obligations}, and \autoref{thm:metacic-sn-boundary-turing-refusal-route} seed the finite MetaCIC boundary between total-host normalization evidence and bounded substrate universality.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host nontermination, unbounded substrate evaluation, global conversion decidability, semantic equality, Lean verification, bridge checking, or a collapse of substrate universality into total-host computation.}
+  \upgradepath{A formal route can encode the finite carrier, prove the NameCert obligation surface and Turing-refusal route, and add TasteGate Nontrivial and FieldFaithful instances.}
+\end{closurestatus}

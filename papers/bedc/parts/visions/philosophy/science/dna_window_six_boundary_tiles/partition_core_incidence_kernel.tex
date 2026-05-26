@@ -1,0 +1,205 @@
+\begin{definition}[Partition-core incidence kernel]
+\label{def:philosophy-partition-core-incidence-kernel}
+Let $\mathcal{P}_{m}$ be the set of $m$-block partition cores of
+$\Omega=\{1,2,3,4\}$, and let $\mathcal{T}_{m}$ be the quotient-level
+minimal full triggers of size $m$. For $P\in\mathcal{P}_{m}$ and
+$A\in\mathcal{T}_{m}$, write $P\preceq A$ when the blocks of $P$ can be
+matched to the supports of $A$ so that every block is contained in its
+matched support. Equivalently, $P$ is a partition core below $A$ in the
+defect-lowering flow.
+
+The incidence matrix is
+$$
+  I_{m}(P,A)
+  =
+  \begin{cases}
+    1,&P\preceq A,\\
+    0,&\text{otherwise},
+  \end{cases}
+$$
+and the partition-core Gram kernel is
+$$
+  K_{m}=I_{m}I_{m}^{\mathsf T}.
+$$
+Thus
+$$
+  K_{m}(P,Q)
+  =
+  |\{A\in\mathcal{T}_{m}:P\preceq A,\ Q\preceq A\}|.
+$$
+\end{definition}
+
+\begin{theorem}[Incidence decomposition by trigger size]
+\label{thm:philosophy-partition-core-kernel-size-decomposition}
+The quotient-level partition-core incidence relation decomposes over
+$m=1,2,3,4$ with rows
+$$
+\begin{array}{c|r|r|r}
+  m & |\mathcal{P}_{m}| & |\mathcal{T}_{m}| & \text{incidences}\\
+  \hline
+  1 & 1 & 1 & 1\\
+  2 & 7 & 25 & 55\\
+  3 & 6 & 22 & 42\\
+  4 & 1 & 1 & 1.
+\end{array}
+$$
+The incidence total is $99$.
+\end{theorem}
+\begin{proof}
+A size-$m$ trigger lowers only to an $m$-block partition core, so different
+values of $m$ do not interact. The row counts are obtained by enumerating
+the partition cores and the quotient-level minimal triggers of
+\autoref{thm:philosophy-minimal-full-triggers}, then applying
+\autoref{def:philosophy-partition-core-incidence-kernel}. The total
+$1+55+42+1=99$ agrees with
+\autoref{thm:philosophy-basin-incidence-polynomials}.
+\end{proof}
+
+\begin{theorem}[Two-block partition-core kernel]
+\label{thm:philosophy-two-block-partition-core-kernel}
+Order the two-block partition cores as
+$$
+  1|234,\quad 2|134,\quad 3|124,\quad 4|123,
+  \quad 12|34,\quad 13|24,\quad 14|23.
+$$
+Then
+$$
+K_{2}
+=
+\begin{pmatrix}
+7&1&1&1&3&3&3\\
+1&7&1&1&3&3&3\\
+1&1&7&1&3&3&3\\
+1&1&1&7&3&3&3\\
+3&3&3&3&9&2&2\\
+3&3&3&3&2&9&2\\
+3&3&3&3&2&2&9
+\end{pmatrix}.
+$$
+Equivalently,
+$$
+  K_{2}
+  =
+  \begin{pmatrix}
+    6I_{4}+J_{4} & 3J_{4,3}\\
+    3J_{3,4} & 7I_{3}+2J_{3}
+  \end{pmatrix}.
+$$
+\end{theorem}
+\begin{proof}
+The first four rows are the $3+1$ partition cores and the last three rows
+are the $2+2$ partition cores. Direct evaluation of
+$K_{2}(P,Q)=|\{A:P\preceq A,\ Q\preceq A\}|$ gives the displayed matrix.
+The block expression groups equal entries by the two partition types.
+\end{proof}
+
+\begin{theorem}[Spectrum of the two-block kernel]
+\label{thm:philosophy-two-block-partition-core-kernel-spectrum}
+The spectrum of $K_{2}$ is
+$$
+  22,\quad 7,7,\quad 6,6,6,\quad 1.
+$$
+The Perron eigenvector is constant on partition types, with relative
+weights
+$$
+  3+1:1,
+  \qquad
+  2+2:\frac{4}{3}.
+$$
+\end{theorem}
+\begin{proof}
+In the block form of
+\autoref{thm:philosophy-two-block-partition-core-kernel},
+$6I_{4}+J_{4}$ acts as $6$ on the three-dimensional subspace orthogonal
+to $\mathbf{1}_{4}$, while $7I_{3}+2J_{3}$ acts as $7$ on the
+two-dimensional subspace orthogonal to $\mathbf{1}_{3}$. The remaining
+two-dimensional quotient spanned by vectors constant on the $3+1$ and
+$2+2$ parts has eigenvalues $22$ and $1$. Solving the Perron equations on
+that quotient gives weight ratio $1:4/3$.
+\end{proof}
+
+\begin{theorem}[Three-block partition-core kernel]
+\label{thm:philosophy-three-block-partition-core-kernel}
+Order the three-block partition cores as
+$$
+  12|3|4,\quad 13|2|4,\quad 14|2|3,
+  \quad 23|1|4,\quad 24|1|3,\quad 34|1|2.
+$$
+Then
+$$
+K_{3}
+=
+\begin{pmatrix}
+7&2&2&2&2&0\\
+2&7&2&2&0&2\\
+2&2&7&0&2&2\\
+2&2&0&7&2&2\\
+2&0&2&2&7&2\\
+0&2&2&2&2&7
+\end{pmatrix}.
+$$
+Equivalently,
+$$
+  K_{3}=7I_{6}+2A(L(K_{4})),
+$$
+where the six partition cores are identified with the six edges of
+$K_{4}$.
+\end{theorem}
+\begin{proof}
+Each three-block core has type $2+1+1$. Two such cores share the
+off-diagonal value $2$ exactly when their two-element blocks share one
+coordinate, and share value $0$ when those two-element blocks are
+disjoint. This is precisely the adjacency relation in the line graph
+$L(K_{4})$, with diagonal basin size $7$.
+\end{proof}
+
+\begin{theorem}[Spectrum of the three-block kernel]
+\label{thm:philosophy-three-block-partition-core-kernel-spectrum}
+The spectrum of $K_{3}$ is
+$$
+  15,\quad 7,7,7,\quad 3,3.
+$$
+The Perron eigenvector is the constant vector.
+\end{theorem}
+\begin{proof}
+The line graph $L(K_{4})$ has adjacency spectrum
+$$
+  4,\quad 0,0,0,\quad -2,-2.
+$$
+Since $K_{3}=7I_{6}+2A(L(K_{4}))$, the eigenvalues are
+$7+2\cdot4=15$, $7+2\cdot0=7$ with multiplicity $3$, and
+$7+2(-2)=3$ with multiplicity $2$. The graph $L(K_{4})$ is regular, so
+the Perron eigenvector is constant.
+\end{proof}
+
+\begin{theorem}[Partition-core incidence kernel theorem]
+\label{thm:philosophy-partition-core-incidence-kernel-theorem}
+The partition skeleton of the post-$M^{\star}$ minimal trigger system
+carries a size-graded Gram kernel. Its nontrivial quotient-level spectra
+are
+$$
+  \operatorname{Spec}(K_{2})
+  =
+  \{22,7,7,6,6,6,1\},
+$$
+and
+$$
+  \operatorname{Spec}(K_{3})
+  =
+  \{15,7,7,7,3,3\}.
+$$
+At codon level the incidence counts are
+$$
+  2,\quad 220,\quad 336,\quad 16,
+$$
+which sum to $574$.
+\end{theorem}
+\begin{proof}
+The size decomposition is
+\autoref{thm:philosophy-partition-core-kernel-size-decomposition}. The
+two nontrivial spectra are
+\autoref{thm:philosophy-two-block-partition-core-kernel-spectrum} and
+\autoref{thm:philosophy-three-block-partition-core-kernel-spectrum}. A
+size-$m$ quotient incidence has $2^{m}$ codon lifts, giving
+$2\cdot1$, $4\cdot55$, $8\cdot42$, and $16\cdot1$.
+\end{proof}
