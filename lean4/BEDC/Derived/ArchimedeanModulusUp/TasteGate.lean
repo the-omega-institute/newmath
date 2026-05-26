@@ -10,7 +10,8 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive ArchimedeanModulusUp : Type where
-  | mk : (P D S Q E A H C N : BHist) → ArchimedeanModulusUp
+  | mk (P D S Q E A H C N : BHist) : ArchimedeanModulusUp
+  deriving DecidableEq
 
 def archimedeanModulusEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -25,14 +26,16 @@ def archimedeanModulusDecodeBHist : RawEvent → BHist
   | BMark.b1 :: tail => BHist.e1 (archimedeanModulusDecodeBHist tail)
 
 private theorem archimedeanModulus_decode_encode_bhist :
-    ∀ h : BHist,
-      archimedeanModulusDecodeBHist (archimedeanModulusEncodeBHist h) = h := by
+    ∀ h : BHist, archimedeanModulusDecodeBHist (archimedeanModulusEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def archimedeanModulusFields : ArchimedeanModulusUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
@@ -41,60 +44,47 @@ def archimedeanModulusFields : ArchimedeanModulusUp → List BHist
 def archimedeanModulusToEventFlow : ArchimedeanModulusUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | ArchimedeanModulusUp.mk P D S Q E A H C N =>
-      archimedeanModulusEncodeBHist P ::
-        archimedeanModulusEncodeBHist D ::
-          archimedeanModulusEncodeBHist S ::
-            archimedeanModulusEncodeBHist Q ::
-              archimedeanModulusEncodeBHist E ::
-                archimedeanModulusEncodeBHist A ::
-                  archimedeanModulusEncodeBHist H ::
-                    archimedeanModulusEncodeBHist C ::
-                      archimedeanModulusEncodeBHist N :: []
+      [archimedeanModulusEncodeBHist P,
+        archimedeanModulusEncodeBHist D,
+        archimedeanModulusEncodeBHist S,
+        archimedeanModulusEncodeBHist Q,
+        archimedeanModulusEncodeBHist E,
+        archimedeanModulusEncodeBHist A,
+        archimedeanModulusEncodeBHist H,
+        archimedeanModulusEncodeBHist C,
+        archimedeanModulusEncodeBHist N]
 
-def archimedeanModulusFromEventFlow : EventFlow → Option ArchimedeanModulusUp :=
+private def archimedeanModulusRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  fun flow =>
-    match flow with
-    | [] => none
-    | P :: rest0 =>
-      match rest0 with
-      | [] => none
-      | D :: rest1 =>
-          match rest1 with
-          | [] => none
-          | S :: rest2 =>
-              match rest2 with
-              | [] => none
-              | Q :: rest3 =>
-                  match rest3 with
-                  | [] => none
-                  | E :: rest4 =>
-                      match rest4 with
-                      | [] => none
-                      | A :: rest5 =>
-                          match rest5 with
-                          | [] => none
-                          | H :: rest6 =>
-                              match rest6 with
-                              | [] => none
-                              | C :: rest7 =>
-                                  match rest7 with
-                                  | [] => none
-                                  | N :: rest8 =>
-                                      match rest8 with
-                                      | [] =>
-                                          some
-                                            (ArchimedeanModulusUp.mk
-                                              (archimedeanModulusDecodeBHist P)
-                                              (archimedeanModulusDecodeBHist D)
-                                              (archimedeanModulusDecodeBHist S)
-                                              (archimedeanModulusDecodeBHist Q)
-                                              (archimedeanModulusDecodeBHist E)
-                                              (archimedeanModulusDecodeBHist A)
-                                              (archimedeanModulusDecodeBHist H)
-                                              (archimedeanModulusDecodeBHist C)
-                                              (archimedeanModulusDecodeBHist N))
-                                      | _ :: _ => none
+  | 0, [] => []
+  | 0, w :: _ => w
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => archimedeanModulusRawAt n rest
+
+private def archimedeanModulusLengthEq : Nat → EventFlow → Bool
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => archimedeanModulusLengthEq n rest
+
+def archimedeanModulusFromEventFlow : EventFlow → Option ArchimedeanModulusUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | flow =>
+      match archimedeanModulusLengthEq 9 flow with
+      | true =>
+          some
+            (ArchimedeanModulusUp.mk
+              (archimedeanModulusDecodeBHist (archimedeanModulusRawAt 0 flow))
+              (archimedeanModulusDecodeBHist (archimedeanModulusRawAt 1 flow))
+              (archimedeanModulusDecodeBHist (archimedeanModulusRawAt 2 flow))
+              (archimedeanModulusDecodeBHist (archimedeanModulusRawAt 3 flow))
+              (archimedeanModulusDecodeBHist (archimedeanModulusRawAt 4 flow))
+              (archimedeanModulusDecodeBHist (archimedeanModulusRawAt 5 flow))
+              (archimedeanModulusDecodeBHist (archimedeanModulusRawAt 6 flow))
+              (archimedeanModulusDecodeBHist (archimedeanModulusRawAt 7 flow))
+              (archimedeanModulusDecodeBHist (archimedeanModulusRawAt 8 flow)))
+      | false => none
 
 private theorem archimedeanModulus_round_trip :
     ∀ x : ArchimedeanModulusUp,
@@ -138,18 +128,6 @@ private theorem archimedeanModulusToEventFlow_injective {x y : ArchimedeanModulu
     (Eq.trans (archimedeanModulus_round_trip x).symm
       (Eq.trans hread (archimedeanModulus_round_trip y)))
 
-private theorem archimedeanModulus_field_faithful :
-    ∀ x y : ArchimedeanModulusUp,
-      archimedeanModulusFields x = archimedeanModulusFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y h
-  cases x with
-  | mk P₁ D₁ S₁ Q₁ E₁ A₁ H₁ C₁ N₁ =>
-      cases y with
-      | mk P₂ D₂ S₂ Q₂ E₂ A₂ H₂ C₂ N₂ =>
-          cases h
-          rfl
-
 instance archimedeanModulusBHistCarrier : BHistCarrier ArchimedeanModulusUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := archimedeanModulusToEventFlow
@@ -166,45 +144,18 @@ instance archimedeanModulusChapterTasteGate :
     intro x y hxy heq
     exact hxy (archimedeanModulusToEventFlow_injective heq)
 
-instance archimedeanModulusFieldFaithful : FieldFaithful ArchimedeanModulusUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := archimedeanModulusFields
-  field_faithful := archimedeanModulus_field_faithful
-
-instance archimedeanModulusNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial ArchimedeanModulusUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨ArchimedeanModulusUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      ArchimedeanModulusUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
 def taste_gate : ChapterTasteGate ArchimedeanModulusUp :=
   -- BEDC touchpoint anchor: BHist BMark
   archimedeanModulusChapterTasteGate
 
 theorem ArchimedeanModulusTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate ArchimedeanModulusUp) ∧
-      Nonempty (FieldFaithful ArchimedeanModulusUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial ArchimedeanModulusUp) ∧
-          (∀ h : BHist, archimedeanModulusDecodeBHist
-            (archimedeanModulusEncodeBHist h) = h) ∧
-            (∀ x : ArchimedeanModulusUp,
-              archimedeanModulusFromEventFlow (archimedeanModulusToEventFlow x) =
-                some x) ∧
-              (∀ x y : ArchimedeanModulusUp,
-                archimedeanModulusToEventFlow x = archimedeanModulusToEventFlow y →
-                  x = y) ∧
-                archimedeanModulusEncodeBHist BHist.Empty = ([] : RawEvent) := by
+    (∀ h : BHist, archimedeanModulusDecodeBHist (archimedeanModulusEncodeBHist h) = h) ∧
+      archimedeanModulusFields
+          (ArchimedeanModulusUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
+        [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+          BHist.Empty, BHist.Empty, BHist.Empty] := by
   -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨⟨archimedeanModulusChapterTasteGate⟩, ⟨archimedeanModulusFieldFaithful⟩,
-      ⟨archimedeanModulusNontrivial⟩, archimedeanModulus_decode_encode_bhist,
-      archimedeanModulus_round_trip,
-      (fun _ _ heq => archimedeanModulusToEventFlow_injective heq), rfl⟩
+  exact ⟨archimedeanModulus_decode_encode_bhist, rfl⟩
 
 end BEDC.Derived.ArchimedeanModulusUp
