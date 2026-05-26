@@ -1025,6 +1025,7 @@ import BEDC.Derived.CauchyConvergenceCriterionUp.NameCert
 import BEDC.Derived.CauchyConvergenceCriterionUp.NullSequence
 import BEDC.Derived.CauchyConvergenceCriterionUp.RealSealHandoff
 import BEDC.Derived.CauchyConvergenceCriterionUp.SourceTriadExhaustion
+import BEDC.Derived.CauchyConvergenceCriterionUp.SpeckerBoundary
 import BEDC.Derived.CauchyConvergenceCriterionUp.TailDiameterScope
 import BEDC.Derived.CauchyConvergenceCriterionUp.TasteGate
 import BEDC.Derived.CauchyConvergenceCriterionUp.WindowThreshold
@@ -1694,6 +1695,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootCompilerNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDepthValueLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootNamecertHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationTotality
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootSubstitutionScope
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootUnblockObligationPackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompilePublicPackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SelfCompileRoute
@@ -3718,6 +3720,7 @@ import BEDC.Derived.IntermediateValueUp.LocatedSignScope
 import BEDC.Derived.IntermediateValueUp.LocatedSignWindowExactness
 import BEDC.Derived.IntermediateValueUp.ObligationClosurePackage
 import BEDC.Derived.IntermediateValueUp.RealSealHandoff
+import BEDC.Derived.IntermediateValueUp.ScopedCarrierDependencyPackage
 import BEDC.Derived.IntermediateValueUp.SignBracketCarrier
 import BEDC.Derived.IntermediateValueUp.SignChangeLedger
 import BEDC.Derived.IntermediateValueUp.TasteGate
@@ -5413,6 +5416,7 @@ import BEDC.Derived.RegularCauchyReciprocalUp.TasteGate
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyReverseTriangleUp.TasteGate
 import BEDC.Derived.RegularCauchyScalarUp.RealHandoff
+import BEDC.Derived.RegularCauchyScalarUp.TasteGate
 import BEDC.Derived.RegularCauchyScaleUp
 import BEDC.Derived.RegularCauchySelectorBudgetUp
 import BEDC.Derived.RegularCauchySeparationUp.TasteGate
