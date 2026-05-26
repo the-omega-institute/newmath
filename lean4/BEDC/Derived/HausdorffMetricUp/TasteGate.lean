@@ -208,4 +208,10 @@ theorem HausdorffMetricUp_single_carrier_alignment :
   -- BEDC touchpoint anchor: BHist BMark
   exact ⟨HausdorffMetricUp_decode_encode, rfl⟩
 
+theorem HausdorffMetricTasteGate_single_carrier_alignment :
+    (∀ h : BHist, HausdorffMetricUp_decodeBHist (HausdorffMetricUp_encodeBHist h) = h) ∧
+      HausdorffMetricUp_encodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact ⟨HausdorffMetricUp_decode_encode, rfl⟩
+
 end BEDC.Derived.HausdorffMetricUp
