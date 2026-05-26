@@ -46,6 +46,7 @@ the local $\NameCert_{\HausdorffSpaceUp}$ surface consists exactly of the follow
 \end{enumerate}
 No HausdorffSpace obligation is stored outside these rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.HausdorffSpaceUp.HausdorffSpaceNameCert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:hausdorff-space-carrier}. The accepted tuple displays exactly the topology source, point pair, open-neighborhood rows, disjointness ledger, optional metric handoff, real seal, and structural rows.
 
@@ -57,6 +58,7 @@ Metric handoff uses only $M$ and $E$. A metric-generated read first exposes the 
 
 Finally inspect $P,N$. Provenance and local naming mention only the displayed rows, so topology, metric, real, and completion consumers have no coordinate from which to read quotient point equality, open-cover compactness, selected representatives, ambient completeness, or standard bridge closure.
 \end{proof}
+\leanchecked{BEDC.Derived.HausdorffSpaceUp.HausdorffSpaceCarrier\_namecert\_obligations}
 
 \begin{theorem}[HausdorffSpace metric separation handoff]
 \label{thm:hausdorff-space-metric-separation-handoff}
@@ -72,6 +74,55 @@ Read the metric-generated branch of the carrier. The row $M$ is attached to the 
 The distance value is visible only through the $\RealUp$ seal $E$. Positivity therefore supplies a finite separation budget for the neighborhood construction, not an external equality or apartness relation on host representatives.
 
 The handoff then lands in $U,V,D$. These rows are already topology rows in the carrier: $U$ and $V$ are open neighborhoods of $x$ and $y$, and $D$ is their disjointness ledger. Componentwise transport and replay through $H,C$ preserve this factorization for downstream consumers.
+\end{proof}
+\leanchecked{BEDC.Derived.HausdorffSpaceUp.HausdorffSpaceCarrier\_metric\_separation\_handoff}
+
+\begin{theorem}[HausdorffSpace classifier separation route]
+\label{thm:hausdorff-space-classifier-separation-route}
+Let
+$$
+S=(T,x,y,U,V,D,M,E,H,C,P,N)
+$$
+be an accepted $\HausdorffSpaceUp$ carrier. Every separated-point classifier read generated from the optional metric row $M$ factors through the $\MetricSpaceUp$ distance witness, the $\RealUp$ positive-distance seal $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and the local $\NameCert_{\HausdorffSpaceUp}$ row $N$ before it yields the open-neighborhood rows $U,V$ and disjointness ledger $D$. Thus metric classifier separation is a finite NameCert route over the displayed carrier rows, not a host apartness predicate on points.
+\end{theorem}
+\begin{proof}
+Start with a metric-generated classifier read. The only metric coordinate in the carrier is $M$, and it is attached to the same topology source $T$ and point-name rows $x,y$ as the displayed neighborhoods.
+
+The distance value and positivity evidence are exposed only through the $\RealUp$ seal $E$. The metric route therefore supplies a finite positive-distance budget, after which the packet returns to the topological output rows $U,V,D$.
+
+Transport and replay are restricted to $H$ and $C$. Provenance and local naming are restricted to $P$ and $N$, so the resulting classifier read has no access to host point apartness, selected representatives, quotient equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[HausdorffSpace diagonal nonescape]
+\label{thm:hausdorff-space-diagonal-nonescape}
+For an accepted $\HausdorffSpaceUp$ carrier
+$$
+S=(T,x,y,U,V,D,M,E,H,C,P,N),
+$$
+the diagonal equality boundary of the packet is exhausted by the displayed separation rows $T,x,y,U,V,D$ together with optional metric and real handoff rows $M,E$. A downstream topology, metric, or completion consumer cannot replace that boundary by host point equality, quotient topology equality, real trichotomy, open-cover compactness, selected representatives, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Inspect the carrier. The point names $x,y$ occur only as displayed rows inside the topology source $T$, and the separation output is the pair of open-neighborhood rows $U,V$ together with the disjointness ledger $D$.
+
+When the optional metric route is present, it passes through $M$ and the real seal $E$ before returning to the same topological rows. This adds a displayed positive-distance source for separation, but it does not add host equality, quotient equality, trichotomy, compactness, representatives, or completeness coordinates.
+
+The structural rows $H,C,P,N$ preserve and name only the displayed packet. Hence every consumer remains inside the finite diagonal boundary described by the carrier.
+\end{proof}
+
+\begin{theorem}[HausdorffSpace choice-free point separation]
+\label{thm:hausdorff-space-point-separation-choicefree}
+Let
+$$
+S=(T,x,y,U,V,D,M,E,H,C,P,N)
+$$
+be an accepted $\HausdorffSpaceUp$ carrier. If the optional metric row $M$ displays a positive-distance witness through the $\RealUp$ seal $E$, then the carrier produces the open-neighborhood rows $U,V$ and the disjointness ledger $D$ as the separatedness output. This construction does not select representatives, quotient points, host point equalities, or ambient completeness data.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:hausdorff-space-carrier}. The rows $x,y$ are displayed point names inside the topology source $T$, while $U,V,D$ are already the open-neighborhood and disjointness rows of the same packet.
+
+Use the NameCert obligations of \autoref{thm:hausdorff-space-namecert-obligations}. The metric handoff obligation requires every metric-generated read to pass through $M$ and the $\RealUp$ seal $E$ before it yields $U,V,D$.
+
+Apply the metric separation handoff of \autoref{thm:hausdorff-space-metric-separation-handoff}. A positive displayed distance supplies only the finite separation budget for the recorded open neighborhoods. Since the carrier has no coordinate for representatives, quotient point identity, host equality, or ambient completeness, none of those objects is selected or consumed.
 \end{proof}
 
 \begin{theorem}[HausdorffSpace open-neighborhood classifier transport]

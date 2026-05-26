@@ -28,6 +28,8 @@ The carrier has no coordinate for host real equality, a choice-selected dense po
 
 The sibling lattice route is explicit: $\RealSeparabilityUp$ consumes \autoref{ch:concrete-instances-dyadic-density-real-namecert} for the dyadic tolerance witness and \autoref{ch:concrete-instances-rational-density-real-namecert} for the rational interval witness before $\CountableDenseSubsetUp$ names the dense source. This places the separability packet downstream of the dyadic and rational density witnesses rather than treating density as a detached Real-side fact.
 
+The same dyadic tolerance witness and rational interval witness feed the finite precision requests of \autoref{ch:concrete-instances-realcauchymodulus-namecert}: a modulus consumer may read the dyadic tolerance row $D$ as its requested precision and the rational interval witness carried by $Q,T$ as the finite interval evidence before opening the StreamName and RegSeqRat rows.
+
 \begin{theorem}[Real separability NameCert obligations]
 \label{thm:real-separability-namecert-obligations}
 For every accepted $\RealSeparabilityUp$ carrier
@@ -116,6 +118,32 @@ Apply \autoref{thm:real-separability-rational-dense-handoff}. Each candidate rea
 Next apply \autoref{thm:real-separability-dyadic-rational-density-handoff}. The dyadic-density and rational-density witnesses attach the family to the same displayed route, so the candidate family is indexed by $D,W$ rather than by a choice function over Real balls.
 
 Finally apply \autoref{thm:real-separability-finite-density-exhaustion}. The $\CountableDenseSubsetUp$ boundary receives exactly the finite rational family already routed through $Q,D,W,R,E,T,H,C,P,N$. Since the carrier and handoff theorems expose no host equality, quotient stream, trichotomy, selected dense point, or ambient completeness coordinate, the witness family exports none of them.
+\end{proof}
+
+\begin{theorem}[Real separability stream-window stability]
+\label{thm:real-separability-stream-window-stability}
+Let
+$$
+S=(Q,D,W,R,E,T,H,C,P,N)
+$$
+and
+$$
+S'=(Q',D',W',R',E',T',H',C',P',N')
+$$
+be accepted $\RealSeparabilityUp$ packets whose rational enumeration, dyadic tolerance, and finite stream-window rows are componentwise transported by displayed $\hsame$ data
+$$
+Q \hsame Q',\qquad D \hsame D',\qquad W \hsame W',
+$$
+and whose replay rows display the same $\Cont$ route from a Real-facing density request through those transported rows. Then the finite rational witness family determined by $S$ and the family determined by $S'$ are the same displayed density route. In particular, the RegSeqRat readback and terminal $\RealUp$ seal handoff agree as packet data, and no choice-selected dense point, host real equality, quotient stream equality, trichotomy row, or ambient completeness witness is introduced by replacing $S$ with $S'$.
+\end{theorem}
+\begin{proof}
+Project the two carriers. The hypotheses identify the only rows that index the finite rational witness family: the rational enumeration rows $Q,Q'$, the dyadic tolerance rows $D,D'$, and the StreamName windows $W,W'$.
+
+Apply \autoref{thm:real-separability-rational-dense-handoff} to both packets. Since the displayed $\Cont$ replay carries the same request through transported $Q,D,W$ rows, the inspected rational candidates are read along the same finite route before any RegSeqRat or Real seal row is visible.
+
+Apply \autoref{thm:real-separability-dyadic-rational-density-handoff}. The dyadic-density and rational-density surfaces attach to the transported tolerance and window rows, so the two packets expose the same dyadic-rational density witness route.
+
+Finally apply \autoref{thm:real-separability-dyadic-witness-family} and \autoref{thm:real-separability-finite-density-exhaustion}. The witness family is exhausted by the displayed route through $Q,D,W,R,E,T,H,C,P,N$ and the transported route through $Q',D',W',R',E',T',H',C',P',N'$, with no additional coordinate available for a selected dense point, host equality, quotient stream, trichotomy, or ambient completeness.
 \end{proof}
 
 \begin{theorem}[Real separability finite-density exhaustion]

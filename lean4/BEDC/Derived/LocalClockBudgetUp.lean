@@ -282,4 +282,23 @@ theorem LocalClockBudgetCarrier_transport_window_surface
     exact ⟨streamRoute', windowRoute', hsame_refl B'⟩
   exact ⟨surface, sameH, sameT, sameW, sameB, sameQ, fields⟩
 
+theorem LocalClockBudgetMature_treatment
+    {H T W B L Q P N publicRead observerRead : BHist}
+    (carrier : LocalClockBudgetCarrier H T W B L Q P N)
+    (streamRoute : Cont BHist.Empty T H)
+    (windowRoute : Cont T W Q)
+    (publicRoute : Cont L Q publicRead)
+    (observerRoute : Cont Q P observerRead) :
+    LocalClockBudgetWindowSurface H T W B Q ∧ Cont L Q publicRead ∧
+      Cont Q P observerRead ∧ hsame H H ∧ hsame T T ∧ hsame W W ∧ hsame B B ∧
+        hsame L L ∧ hsame Q Q ∧ hsame P P ∧ hsame N N ∧
+          localClockBudgetFields (LocalClockBudgetUp.mk H T W B L Q P N) =
+            [H, T, W, B, L, Q, P, N] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  have total := LocalClockBudgetWindow_totality carrier streamRoute windowRoute
+  exact
+    ⟨total.left, publicRoute, observerRoute, hsame_refl H, hsame_refl T, hsame_refl W,
+      hsame_refl B, hsame_refl L, hsame_refl Q, hsame_refl P, hsame_refl N,
+      total.right⟩
+
 end BEDC.Derived.LocalClockBudgetUp

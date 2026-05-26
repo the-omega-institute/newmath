@@ -74,6 +74,23 @@ The dyadic part of the request is read next. The observation row $D$ supplies th
 Only after those rows are displayed can the final regular rational readback $R$ be consumed. The downstream rows $E,H,C,Q,N$ seal, transport, replay, source, and name the same route, so the finite product read cannot bypass the synchronized windows or the dyadic ledger.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy finite product budget associativity]\label{thm:regular-cauchy-finite-product-budget-associativity}
+Let
+$$
+K=(I,S,W,D,P,R,E,H,C,Q,N)
+$$
+be an accepted $\RegularCauchyFiniteProductUp$ carrier. Regrouping adjacent binary product folds in the displayed fold order preserves the same synchronized windows $W$, dyadic observations $D$, product-budget ledger $P$, final $\RegSeqRatUp$ readback $R$, and $\RealUp$ seal $E$. The regrouped read is a projection of the displayed fold rows of $K$, not an appeal to host associativity of finite products or quotient stream equality.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-finite-product-tail-budget}. Every finite product read from $K$ factors through the index and source rows, then through the synchronized windows, then through the dyadic observations and product-budget ledger, before reaching the final readback and seal.
+
+The carrier rows of \autoref{def:regular-cauchy-finite-product-carrier} identify where regrouping can be displayed. The finite unary index row $I$ names the fold order, while $W,D,P$ record the windows, observations, product schedule, radii, and slack cells used by that order.
+
+Regrouping adjacent binary product folds therefore changes only the displayed parenthesization inside the schedule already stored in $I$ and $P$. It does not create a second window family, a second dyadic observation row, a second product-budget ledger, or a second final readback.
+
+Since $R$ and $E$ are downstream of the fixed rows $W,D,P$, the regrouped read preserves the same final $\RegSeqRatUp$ readback and $\RealUp$ seal. The argument is projection from the accepted carrier, so no host finite-product operation or quotient stream equality is introduced.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy finite product Real seal non-escape]\label{thm:regular-cauchy-finite-product-real-seal-nonescape}
 For every accepted $\RegularCauchyFiniteProductUp$ carrier $K$, the $\RealUp$ seal row exposed by $K$ is a downstream seal for the displayed finite route
 $$
@@ -97,7 +114,7 @@ The provenance and local naming rows $Q$ and $N$ cite the same dependencies. Sin
 
 \begin{closurestatus}{\RegularCauchyFiniteProductUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-finite-product-carrier}, \autoref{thm:regular-cauchy-finite-product-namecert-obligations}, \autoref{thm:regular-cauchy-finite-product-tail-budget}, and \autoref{thm:regular-cauchy-finite-product-real-seal-nonescape} seed the finite product route from displayed regular Cauchy sources through synchronized windows, dyadic product budgets, final RegSeqRat readback, and RealUp sealing.}
+  \scopeclosed{\autoref{def:regular-cauchy-finite-product-carrier}, \autoref{thm:regular-cauchy-finite-product-namecert-obligations}, \autoref{thm:regular-cauchy-finite-product-tail-budget}, \autoref{thm:regular-cauchy-finite-product-budget-associativity}, and \autoref{thm:regular-cauchy-finite-product-real-seal-nonescape} seed the finite product route from displayed regular Cauchy sources through synchronized windows, dyadic product budgets, final RegSeqRat readback, and RealUp sealing.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.RegularCauchyFiniteProductUp}
   \bridgestatus{none}
