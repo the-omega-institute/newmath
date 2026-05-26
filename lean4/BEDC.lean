@@ -1034,6 +1034,7 @@ import BEDC.Derived.CauchyContinuousExtensionUp.UniquenessLedger
 import BEDC.Derived.CauchyContinuousImageUp.TasteGate
 import BEDC.Derived.CauchyContinuousMapUp
 import BEDC.Derived.CauchyControlSequenceUp.TasteGate
+import BEDC.Derived.CauchyConvergenceCriterionUp.CofinalModulusExtraction
 import BEDC.Derived.CauchyConvergenceCriterionUp.KernelDependencyScope
 import BEDC.Derived.CauchyConvergenceCriterionUp.LedgerClassifier
 import BEDC.Derived.CauchyConvergenceCriterionUp.NameCert
@@ -1041,7 +1042,6 @@ import BEDC.Derived.CauchyConvergenceCriterionUp.NullSequence
 import BEDC.Derived.CauchyConvergenceCriterionUp.ObligationClosure
 import BEDC.Derived.CauchyConvergenceCriterionUp.RealSealHandoff
 import BEDC.Derived.CauchyConvergenceCriterionUp.RealSealRoute
-import BEDC.Derived.CauchyConvergenceCriterionUp.RegularTailCoverage
 import BEDC.Derived.CauchyConvergenceCriterionUp.RegularTailWindow
 import BEDC.Derived.CauchyConvergenceCriterionUp.ScopeWindow
 import BEDC.Derived.CauchyConvergenceCriterionUp.ScopedReadbackStrengthening
@@ -3207,7 +3207,6 @@ import BEDC.Derived.FiniteLebesgueNumberUp.CompactNetSelectorFactorization
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactRadiusBridge
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactRouteDyadicModulusPackage
 import BEDC.Derived.FiniteLebesgueNumberUp.CompactUniformChoiceRefusal
-import BEDC.Derived.FiniteLebesgueNumberUp.CompactUniformHandoffScope
 import BEDC.Derived.FiniteLebesgueNumberUp.ConsumerNonescapeTriad
 import BEDC.Derived.FiniteLebesgueNumberUp.ContinuousMapUniformRouteRow
 import BEDC.Derived.FiniteLebesgueNumberUp.Core
@@ -3235,7 +3234,6 @@ import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealLocalRadiusDeterminacy
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadius
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusConsumerLedger
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusConsumerNonescape
-import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusWindowCarrier
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusWindowExitConsumerReadiness
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusWindowNoExtraSource
 import BEDC.Derived.FiniteLebesgueNumberUp.PhaseRealRadiusWindowSourceLock
