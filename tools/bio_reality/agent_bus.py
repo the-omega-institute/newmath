@@ -7,6 +7,7 @@ import argparse
 import fnmatch
 import hashlib
 import json
+import re
 import subprocess
 import sys
 import tempfile
@@ -88,6 +89,22 @@ AGENTS = {
         ],
         "mission": "translate a stable BioReality claim into a Loning-format NameCert proposal markdown with explicit external-reality fields and avoid Loning's already-occupied namespaces",
     },
+    "bio-oracle-consumer": {
+        "agent_id": "bio-oracle-consumer",
+        "description": "reads a finished oracle transcript and proposes downstream actions",
+        "lane": "bio-R",
+        "writes": [
+            "tools/bio_reality/registries/claims.json",
+            "tools/bio_reality/registries/experiments.json",
+            "tools/bio_reality/state/oracle_refinements/*.json",
+        ],
+        "mission": "read a finished oracle transcript and propose downstream actions",
+        "allowed_actions": [
+            "consume_oracle_plan_consultation",
+            "consume_oracle_gate_consultation",
+        ],
+        "default_priority": 70,
+    },
 }
 
 
@@ -134,6 +151,14 @@ def _event_stable_key(event: dict[str, Any]) -> str:
             str(event.get("subject_id") or ""),
         )
     )
+
+
+def _oracle_consumer_key(lane: str, topic: str) -> str:
+    return f"oracle_consumer_dispatched::{lane}::{topic}"
+
+
+def _oracle_consultation_subject_id(lane: str, topic: str) -> str:
+    return f"{lane}.{hashlib.sha256(topic.encode('utf-8')).hexdigest()[:12]}"
 
 
 def _dedup(records: list[dict[str, Any]], key: str) -> list[dict[str, Any]]:
@@ -242,6 +267,33 @@ def _read_claims_registry(path: Path) -> dict[str, dict[str, Any]]:
     }
 
 
+def _read_json_object(path: Path, fallback: dict[str, Any]) -> dict[str, Any]:
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return dict(fallback)
+    return data if isinstance(data, dict) else dict(fallback)
+
+
+def _write_json_object(path: Path, data: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, indent=2, ensure_ascii=False, sort_keys=False) + "\n", encoding="utf-8")
+
+
+def _load_claims_document(path: Path) -> dict[str, Any]:
+    data = _read_json_object(path, {"version": "bio-reality-claims-v1", "claims": []})
+    if not isinstance(data.get("claims"), list):
+        data["claims"] = []
+    return data
+
+
+def _load_experiments_document(path: Path) -> dict[str, Any]:
+    data = _read_json_object(path, {"version": "bio-reality-experiments-v1", "experiments": []})
+    if not isinstance(data.get("experiments"), list):
+        data["experiments"] = []
+    return data
+
+
 def _load_claims_registry(store: BioRealityStore) -> dict[str, dict[str, Any]]:
     default_path = (SCRIPT_DIR / "registries" / "claims.json").resolve()
     configured_path = store.paths.claims_registry.resolve()
@@ -269,6 +321,129 @@ def _latest_experiment_runs(records: list[dict[str, Any]]) -> list[dict[str, Any
             continue
         latest_by_experiment[experiment_id] = record
     return list(latest_by_experiment.values())
+
+
+def _oracle_sessions_dir(store: BioRealityStore) -> Path:
+    events_parent = store.paths.events.parent
+    if events_parent.name == "out":
+        return events_parent.parent / "state" / "oracle_sessions"
+    return events_parent / "state" / "oracle_sessions"
+
+
+def _oracle_refinements_dir(store: BioRealityStore) -> Path:
+    events_parent = store.paths.events.parent
+    if events_parent.name == "out":
+        return events_parent.parent / "state" / "oracle_refinements"
+    return events_parent / "state" / "oracle_refinements"
+
+
+def _safe_oracle_topic(value: str, *, max_len: int = 80) -> str:
+    slug = re.sub(r"[^A-Za-z0-9._-]+", "-", value.strip()).strip("-._")
+    return (slug or "oracle-topic")[:max_len]
+
+
+def _parse_oracle_jsonl_header(path: Path) -> dict[str, Any]:
+    try:
+        with path.open("r", encoding="utf-8") as handle:
+            for line in handle:
+                stripped = line.strip()
+                if not stripped:
+                    continue
+                data = json.loads(stripped)
+                return data if isinstance(data, dict) else {}
+    except (OSError, json.JSONDecodeError):
+        return {}
+    return {}
+
+
+def _resolve_oracle_transcript(event: dict[str, Any], store: BioRealityStore | None = None) -> tuple[Path | None, str]:
+    payload = event.get("payload") if isinstance(event.get("payload"), dict) else {}
+    repo_root = SCRIPT_DIR.parent.parent
+    lane = str(payload.get("lane") or event.get("source") or "")
+    topic = str(payload.get("topic") or "")
+    candidates: list[Path] = []
+    for key in ("transcript_md", "transcript_jsonl"):
+        value = payload.get(key)
+        if isinstance(value, str) and value:
+            path = Path(value)
+            candidates.append(path if path.is_absolute() else repo_root / path)
+    if lane and topic:
+        base = _oracle_sessions_dir(store) if store is not None else SCRIPT_DIR / "state" / "oracle_sessions"
+        lane_dir = base / lane
+        stem_suffix = f"__{_safe_oracle_topic(topic)}"
+        if lane_dir.exists():
+            for suffix in (".md", ".jsonl"):
+                matches = sorted(lane_dir.glob(f"*{stem_suffix}{suffix}"), reverse=True)
+                candidates.extend(matches)
+    for candidate in candidates:
+        if candidate.exists() and candidate.is_file():
+            try:
+                rel = candidate.relative_to(repo_root).as_posix()
+            except ValueError:
+                rel = str(candidate)
+            return candidate, rel
+    return None, ""
+
+
+def _backfill_oracle_consultation_events(store: BioRealityStore, events: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    sessions_dir = _oracle_sessions_dir(store)
+    if not sessions_dir.exists():
+        return events
+    existing_consumer_keys = {
+        str(event.get("stable_event_key") or "")
+        for event in events
+        if str(event.get("event_kind") or "") == "oracle_consumer_dispatched"
+    }
+    existing_open_oracle = {
+        _oracle_consumer_key(
+            str((event.get("payload") if isinstance(event.get("payload"), dict) else {}).get("lane") or event.get("source") or ""),
+            str((event.get("payload") if isinstance(event.get("payload"), dict) else {}).get("topic") or ""),
+        )
+        for event in events
+        if str(event.get("event_kind") or "") == "oracle_consultation_completed"
+        and str(event.get("status") or "open") == "open"
+    }
+    synthesized: list[dict[str, Any]] = []
+    for jsonl_path in sorted(sessions_dir.glob("*/*.jsonl")):
+        lane = jsonl_path.parent.name
+        header = _parse_oracle_jsonl_header(jsonl_path)
+        topic = str(header.get("topic") or "")
+        if not topic:
+            stem = jsonl_path.stem
+            topic = stem.split("__", 1)[1] if "__" in stem else stem
+        consumer_key = _oracle_consumer_key(lane, topic)
+        if consumer_key in existing_consumer_keys or consumer_key in existing_open_oracle:
+            continue
+        md_path = jsonl_path.with_suffix(".md")
+        payload = {
+            "lane": lane,
+            "topic": topic,
+            "intended_claim_id": str(header.get("intended_claim_id") or ""),
+            "conversation_id": header.get("conversation_id"),
+            "turns": int(header.get("turn_count") or 0),
+            "closed_reason": header.get("closed_reason"),
+            "max_turns_reached": header.get("max_turns_reached"),
+            "pdf_attached": bool(header.get("pdf_attached")),
+            "pdf_skipped_reason": header.get("pdf_skipped_reason") or "",
+            "judge_calls": int(header.get("judge_calls") or 0),
+            "transcript_jsonl": str(jsonl_path),
+            "transcript_md": str(md_path) if md_path.exists() else "",
+            "backfilled": True,
+        }
+        synthesized.append(
+            _event(
+                "oracle_consultation_completed",
+                lane,
+                "oracle_consultation",
+                _oracle_consultation_subject_id(lane, topic),
+                str(header.get("closed_reason") or "oracle consultation transcript backfilled"),
+                payload,
+            )
+        )
+        existing_open_oracle.add(consumer_key)
+    if not synthesized:
+        return events
+    return _dedup(events + synthesized, "event_id")
 
 
 def build_events(store: BioRealityStore) -> list[dict[str, Any]]:
@@ -321,7 +496,8 @@ def build_events(store: BioRealityStore) -> list[dict[str, Any]]:
                     result,
                 )
             )
-    return _dedup(events, "event_id")
+    events = _dedup(events, "event_id")
+    return _backfill_oracle_consultation_events(store, events)
 
 
 def _task_for_event(event: dict[str, Any], agent_id: str, action: str, priority: int) -> dict[str, Any]:
@@ -415,6 +591,12 @@ def plan_agent_tasks(events: list[dict[str, Any]], existing_tasks: list[dict[str
             append_task(event, "bio-planner", "redesign_stuck_claim", 75)
         elif kind == "namecert_proposal_needed":
             append_task(event, "bio-namer", "draft_namecert_proposal", 60)
+        elif kind == "oracle_consultation_completed":
+            source = str(event.get("source") or "")
+            if source == "bio-Plan":
+                append_task(event, "bio-oracle-consumer", "consume_oracle_plan_consultation", 70)
+            elif source == "bio-G":
+                append_task(event, "bio-oracle-consumer", "consume_oracle_gate_consultation", 70)
     tasks.sort(key=_status_sort)
     return _dedup(tasks, "task_id")
 
@@ -453,6 +635,77 @@ def render_prompt(event: dict[str, Any], agent_id: str, action: str) -> str:
     agent = AGENTS[agent_id]
     payload = json.dumps(event, ensure_ascii=False, sort_keys=True, indent=2)
     extra_rules: list[str] = []
+    if agent_id == "bio-oracle-consumer":
+        transcript_path, transcript_label = _resolve_oracle_transcript(event)
+        if transcript_path is not None:
+            try:
+                transcript_text = transcript_path.read_text(encoding="utf-8")
+            except OSError:
+                transcript_text = ""
+        else:
+            transcript_text = ""
+        if action == "consume_oracle_plan_consultation":
+            schema = {
+                "verdict": "proposed | needs_more_data | no_actionable_signal",
+                "next_experiment": {
+                    "claim_id": "...",
+                    "hypothesis_level": "H0|H1|H2|...",
+                    "statement": "...",
+                    "experiment_id": "...",
+                    "dependencies": ["..."],
+                    "rationale": "...",
+                },
+                "rationale": "...",
+                "risk_notes": "...",
+            }
+            target_lines = [
+                "Action target:",
+                "- Extract the SINGLE strongest next-experiment proposal from the multi-turn ChatGPT session.",
+                "- If the transcript does not support a concrete next experiment, use verdict no_actionable_signal or needs_more_data.",
+            ]
+        else:
+            schema = {
+                "verdict": "refinement_proposed | carrier_ok | needs_more_data",
+                "claim_id": "...",
+                "refinement_diff": [{"field": "...", "from": "...", "to": "...", "reason": "..."}],
+                "rationale": "...",
+                "risk_notes": "...",
+            }
+            target_lines = [
+                "Action target:",
+                "- Extract concrete refinement proposals for the reviewed claim's BEDC carrier.",
+                "- If the transcript does not support a concrete refinement, use verdict carrier_ok or needs_more_data.",
+            ]
+        return "\n".join(
+            [
+                "You are a BioReality oracle-consumer agent inside the newmath repository.",
+                f"Agent: {agent_id}",
+                f"Mission: {agent['mission']}",
+                f"Action: {action}",
+                "",
+                "Hard rules:",
+                "- Use information from the transcript only. Do not add facts from your own training or outside knowledge.",
+                "- Return exactly one JSON object matching the requested schema; no Markdown wrapper.",
+                "- Do not edit files, do not run network tools, do not call oracle, and do not call codex recursively.",
+                "- If the transcript is missing, empty, or inconclusive, return the non-actionable verdict for this action.",
+                "",
+                "Transcript path:",
+                transcript_label or "<not found>",
+                "",
+                "Original trigger event payload:",
+                payload,
+                "",
+                *target_lines,
+                "",
+                "Required JSON schema:",
+                json.dumps(schema, ensure_ascii=False, indent=2),
+                "",
+                "Transcript markdown or jsonl content follows verbatim:",
+                "```text",
+                transcript_text,
+                "```",
+            ]
+        )
     if agent_id == "bio-experimentalist":
         extra_rules = [
             "",
@@ -831,6 +1084,68 @@ def _append_stderr_tail(dispatch: dict[str, Any], message: str) -> None:
     dispatch["stderr_tail"] = combined[-2000:]
 
 
+def _extract_codex_event_text(stdout: str) -> str:
+    texts: list[str] = []
+    for line in stdout.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        try:
+            event = json.loads(stripped)
+        except json.JSONDecodeError:
+            texts.append(stripped)
+            continue
+        if not isinstance(event, dict):
+            continue
+        for key in ("text", "message", "content"):
+            value = event.get(key)
+            if isinstance(value, str) and value.strip():
+                texts.append(value)
+        item = event.get("item")
+        if isinstance(item, dict):
+            item_text = item.get("text")
+            if isinstance(item_text, str) and item_text.strip():
+                texts.append(item_text)
+            content = item.get("content")
+            if isinstance(content, list):
+                for part in content:
+                    if isinstance(part, dict):
+                        part_text = part.get("text")
+                        if isinstance(part_text, str) and part_text.strip():
+                            texts.append(part_text)
+            elif isinstance(content, str) and content.strip():
+                texts.append(content)
+        delta = event.get("delta")
+        if isinstance(delta, str) and delta.strip():
+            texts.append(delta)
+    return texts[-1] if texts else stdout
+
+
+def _extract_json_object_from_text(text: str) -> dict[str, Any] | None:
+    stripped = text.strip()
+    candidates: list[str] = []
+    for match in re.finditer(r"```(?:json)?\s*(\{.*?\})\s*```", stripped, re.DOTALL | re.IGNORECASE):
+        candidates.append(match.group(1))
+    if stripped:
+        candidates.append(stripped)
+    first = stripped.find("{")
+    last = stripped.rfind("}")
+    if first != -1 and last != -1 and last > first:
+        candidates.append(stripped[first : last + 1])
+    for candidate in reversed(candidates):
+        try:
+            parsed = json.loads(candidate)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(parsed, dict):
+            return parsed
+    return None
+
+
+def _parse_oracle_consumer_result(stdout: str) -> dict[str, Any] | None:
+    return _extract_json_object_from_text(_extract_codex_event_text(stdout or ""))
+
+
 def hardening_targets(reviews: list[dict[str, Any]]) -> list[dict[str, Any]]:
     targets: list[dict[str, Any]] = []
     for review in reviews:
@@ -861,6 +1176,53 @@ def dispatch_codex(task: dict[str, Any], *, execute: bool) -> dict[str, Any]:
     repo_root = SCRIPT_DIR.parent.parent
     allowed_writes = [str(path) for path in task.get("allowed_writes", []) if str(path)]
     before_status = _git_status(repo_root)
+    if task.get("agent_id") == "bio-oracle-consumer":
+        try:
+            result = subprocess.run(
+                [
+                    "codex",
+                    "exec",
+                    "--dangerously-bypass-approvals-and-sandbox",
+                    "--sandbox",
+                    "read-only",
+                    "--json",
+                    "-C",
+                    str(repo_root),
+                    "-",
+                ],
+                input=str(task.get("prompt") or ""),
+                text=True,
+                capture_output=True,
+                check=False,
+                timeout=3600,
+            )
+            parsed = _parse_oracle_consumer_result(result.stdout or "")
+            dispatch = {
+                "task_id": task["task_id"],
+                "dispatch_status": "completed" if result.returncode == 0 and parsed is not None else "failed",
+                "returncode": result.returncode,
+                "stdout_tail": result.stdout[-2000:],
+                "stderr_tail": result.stderr[-2000:],
+            }
+            if parsed is not None:
+                dispatch["result"] = parsed
+            else:
+                _append_stderr_tail(dispatch, "oracle consumer returned no parseable JSON object")
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            dispatch = {
+                "task_id": task["task_id"],
+                "dispatch_status": "failed",
+                "returncode": None,
+                "stdout_tail": "",
+                "stderr_tail": str(exc),
+            }
+        changed_paths = _paths_changed_since(before_status, _git_status(repo_root))
+        violations = [path for path in changed_paths if not _allowed_path(path, allowed_writes)]
+        if violations:
+            _revert_paths(repo_root, violations)
+            dispatch["dispatch_status"] = "write_path_violation"
+            _append_stderr_tail(dispatch, "write_path_violation: " + ", ".join(violations))
+        return dispatch
     with tempfile.NamedTemporaryFile("w", encoding="utf-8", suffix=".md", delete=False) as handle:
         handle.write(str(task.get("prompt") or ""))
         prompt_path = Path(handle.name)
@@ -927,6 +1289,231 @@ def dispatch_codex(task: dict[str, Any], *, execute: bool) -> dict[str, Any]:
     return dispatch
 
 
+def _next_phase_from_claims(claims: list[dict[str, Any]]) -> int:
+    phases: list[int] = []
+    for claim in claims:
+        try:
+            phases.append(int(claim.get("phase")))
+        except (TypeError, ValueError):
+            continue
+    return (max(phases) + 1) if phases else 1
+
+
+def _next_phase_for_oracle_proposal(event: dict[str, Any], claims: list[dict[str, Any]]) -> int:
+    payload = event.get("payload") if isinstance(event.get("payload"), dict) else {}
+    for value in (payload.get("phase"),):
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            continue
+    topic = str(payload.get("topic") or "")
+    match = re.search(r"\.phase\.([0-9]+)\.next(?:$|\.)", topic)
+    if match:
+        return int(match.group(1))
+    return _next_phase_from_claims(claims)
+
+
+def _append_or_replace_by_key(items: list[dict[str, Any]], key: str, item: dict[str, Any]) -> None:
+    value = str(item.get(key) or "")
+    for index, existing in enumerate(items):
+        if str(existing.get(key) or "") == value:
+            items[index] = {**existing, **item}
+            return
+    items.append(item)
+
+
+def _landing_log_event(task: dict[str, Any], event: dict[str, Any], verdict: str, reason: str, payload: dict[str, Any]) -> dict[str, Any]:
+    base = {
+        "task_id": task.get("task_id"),
+        "event_id": event.get("event_id"),
+        "verdict": verdict,
+        "reason": reason,
+    }
+    return {
+        "event_id": stable_id("event", {"event_kind": "oracle_consultation_reviewed", **base}),
+        "created_at": now_iso(),
+        "status": "consumed",
+        "stable_event_key": _stable_event_key("oracle_consultation_reviewed", "agent_task", str(task.get("task_id") or "")),
+        "event_kind": "oracle_consultation_reviewed",
+        "source": "bio-oracle-consumer",
+        "subject_kind": "agent_task",
+        "subject_id": str(task.get("task_id") or ""),
+        "reason": reason,
+        "payload": payload,
+    }
+
+
+def _apply_oracle_plan_landing(
+    store: BioRealityStore,
+    task: dict[str, Any],
+    event: dict[str, Any],
+    result: dict[str, Any],
+) -> dict[str, Any]:
+    verdict = str(result.get("verdict") or "")
+    if verdict != "proposed":
+        return {
+            "applied": False,
+            "event": _landing_log_event(task, event, verdict, "oracle plan consultation reviewed; no action taken", {"oracle_result": result}),
+        }
+    next_experiment = result.get("next_experiment") if isinstance(result.get("next_experiment"), dict) else {}
+    claim_id = str(next_experiment.get("claim_id") or "")
+    experiment_id = str(next_experiment.get("experiment_id") or "")
+    if not claim_id or not experiment_id:
+        return {
+            "applied": False,
+            "event": _landing_log_event(task, event, verdict, "oracle plan proposal missing claim_id or experiment_id", {"oracle_result": result}),
+        }
+    claims_document = _load_claims_document(store.paths.claims_registry)
+    experiments_document = _load_experiments_document(store.paths.experiments_registry)
+    claims = [item for item in claims_document.get("claims", []) if isinstance(item, dict)]
+    experiments = [item for item in experiments_document.get("experiments", []) if isinstance(item, dict)]
+    phase = _next_phase_for_oracle_proposal(event, claims)
+    claim_record = {
+        "claim_id": claim_id,
+        "hypothesis_level": str(next_experiment.get("hypothesis_level") or ""),
+        "phase": phase,
+        "statement": str(next_experiment.get("statement") or ""),
+        "depends_on": [str(item) for item in next_experiment.get("dependencies", []) if isinstance(item, str)],
+        "status": "open",
+        "experiment_id": experiment_id,
+        "history": [
+            {
+                "ts": now_iso(),
+                "status": "open",
+                "reason": "proposed_by_oracle",
+                "source_event_id": event.get("event_id"),
+            }
+        ],
+    }
+    experiment_record = {
+        **next_experiment,
+        "experiment_id": experiment_id,
+        "claim_id": claim_id,
+        "status": "proposed_by_oracle",
+        "proposal_rationale": str(next_experiment.get("rationale") or result.get("rationale") or ""),
+        "proposed_by": "bio-oracle-consumer",
+        "source_event_id": event.get("event_id"),
+        "created_at": now_iso(),
+    }
+    _append_or_replace_by_key(claims, "claim_id", claim_record)
+    _append_or_replace_by_key(experiments, "experiment_id", experiment_record)
+    claims_document["claims"] = claims
+    experiments_document["experiments"] = experiments
+    _write_json_object(store.paths.claims_registry, claims_document)
+    _write_json_object(store.paths.experiments_registry, experiments_document)
+    return {
+        "applied": True,
+        "event": _landing_log_event(
+            task,
+            event,
+            verdict,
+            "oracle plan consultation produced next experiment proposal",
+            {"claim_id": claim_id, "experiment_id": experiment_id, "oracle_result": result},
+        ),
+    }
+
+
+def _safe_file_token(value: str) -> str:
+    token = re.sub(r"[^A-Za-z0-9._-]+", "-", value.strip()).strip("-._")
+    return token or "claim"
+
+
+def _apply_oracle_gate_landing(
+    store: BioRealityStore,
+    task: dict[str, Any],
+    event: dict[str, Any],
+    result: dict[str, Any],
+) -> dict[str, Any]:
+    verdict = str(result.get("verdict") or "")
+    if verdict != "refinement_proposed":
+        return {
+            "applied": False,
+            "event": _landing_log_event(task, event, verdict, "oracle gate consultation reviewed; no action taken", {"oracle_result": result}),
+        }
+    payload = event.get("payload") if isinstance(event.get("payload"), dict) else {}
+    claim_id = str(result.get("claim_id") or payload.get("intended_claim_id") or event.get("subject_id") or "")
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    refinement = {
+        "created_at": now_iso(),
+        "claim_id": claim_id,
+        "source_event_id": event.get("event_id"),
+        "source_task_id": task.get("task_id"),
+        "refinement_diff": result.get("refinement_diff") if isinstance(result.get("refinement_diff"), list) else [],
+        "rationale": str(result.get("rationale") or ""),
+        "risk_notes": str(result.get("risk_notes") or ""),
+    }
+    path = _oracle_refinements_dir(store) / f"{_safe_file_token(claim_id)}__{timestamp}.json"
+    _write_json_object(path, refinement)
+    refinement_event = _event(
+        "oracle_refinement_proposed",
+        "bio-oracle-consumer",
+        "claim",
+        claim_id,
+        "oracle gate consultation proposed carrier refinement",
+        {"claim_id": claim_id, "refinement_path": str(path), "source_event_id": event.get("event_id")},
+    )
+    return {
+        "applied": True,
+        "event": refinement_event,
+        "review_event": _landing_log_event(
+            task,
+            event,
+            verdict,
+            "oracle gate consultation produced carrier refinement proposal",
+            {"claim_id": claim_id, "refinement_path": str(path), "oracle_result": result},
+        ),
+    }
+
+
+def apply_oracle_consumer_landings(
+    store: BioRealityStore,
+    events: list[dict[str, Any]],
+    tasks: list[dict[str, Any]],
+    dispatches: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    event_by_id = {str(event.get("event_id") or ""): event for event in events}
+    task_by_id = {str(task.get("task_id") or ""): task for task in tasks}
+    new_events: list[dict[str, Any]] = []
+    for dispatch in dispatches:
+        if str(dispatch.get("dispatch_status") or "") != "completed":
+            continue
+        task = task_by_id.get(str(dispatch.get("task_id") or ""))
+        if not task or str(task.get("agent_id") or "") != "bio-oracle-consumer":
+            continue
+        event = event_by_id.get(str(task.get("event_id") or ""))
+        result = dispatch.get("result") if isinstance(dispatch.get("result"), dict) else None
+        if event is None or result is None:
+            continue
+        consumer_event = {
+            "event_id": stable_id("event", {"event_kind": "oracle_consumer_dispatched", "task_id": task.get("task_id")}),
+            "created_at": now_iso(),
+            "status": "consumed",
+            "stable_event_key": _oracle_consumer_key(
+                str((event.get("payload") if isinstance(event.get("payload"), dict) else {}).get("lane") or event.get("source") or ""),
+                str((event.get("payload") if isinstance(event.get("payload"), dict) else {}).get("topic") or ""),
+            ),
+            "event_kind": "oracle_consumer_dispatched",
+            "source": "bio-oracle-consumer",
+            "subject_kind": "oracle_consultation",
+            "subject_id": str(event.get("subject_id") or ""),
+            "reason": "oracle consultation dispatched to consumer",
+            "payload": {"source_event_id": event.get("event_id"), "task_id": task.get("task_id"), "action": task.get("action")},
+        }
+        new_events.append(consumer_event)
+        action = str(task.get("action") or "")
+        if action == "consume_oracle_plan_consultation":
+            applied = _apply_oracle_plan_landing(store, task, event, result)
+        elif action == "consume_oracle_gate_consultation":
+            applied = _apply_oracle_gate_landing(store, task, event, result)
+        else:
+            continue
+        for key in ("event", "review_event"):
+            value = applied.get(key)
+            if isinstance(value, dict):
+                new_events.append(value)
+    return _dedup(events + new_events, "event_id")
+
+
 def apply_dispatch_lifecycle(
     events: list[dict[str, Any]],
     tasks: list[dict[str, Any]],
@@ -980,6 +1567,7 @@ def run_agent_lane(store: BioRealityStore, *, execute_codex: bool = True, max_di
         store.write_agent_tasks(tasks)
     dispatches = [dispatch_codex(task, execute=execute_codex) for task in selected]
     events, tasks = apply_dispatch_lifecycle(events, tasks, dispatches)
+    events = apply_oracle_consumer_landings(store, events, tasks, dispatches)
     reviews = _dedup(planned_reviews + reviews_from_dispatches(dispatches, tasks), "review_id")
     store.write_events(events)
     store.write_agent_tasks(tasks)
@@ -1295,6 +1883,35 @@ def self_test() -> int:
         ):
             print(json.dumps(data_fetch_tasks, indent=2), file=sys.stderr)
             return 1
+        oracle_plan_event = _event(
+            "oracle_consultation_completed",
+            "bio-Plan",
+            "oracle_consultation",
+            _oracle_consultation_subject_id("bio-Plan", "bio-Plan.phase.2.next"),
+            "oracle consultation completed",
+            {"lane": "bio-Plan", "topic": "bio-Plan.phase.2.next", "intended_claim_id": ""},
+        )
+        oracle_gate_event = _event(
+            "oracle_consultation_completed",
+            "bio-G",
+            "oracle_consultation",
+            _oracle_consultation_subject_id("bio-G", "bio-G.review.self.claim"),
+            "oracle consultation completed",
+            {"lane": "bio-G", "topic": "bio-G.review.self.claim", "intended_claim_id": "self.claim"},
+        )
+        oracle_tasks = plan_agent_tasks([oracle_plan_event, oracle_gate_event])
+        oracle_by_action = {
+            str(task.get("action") or ""): task
+            for task in oracle_tasks
+        }
+        if (
+            oracle_by_action.get("consume_oracle_plan_consultation", {}).get("agent_id") != "bio-oracle-consumer"
+            or int(oracle_by_action.get("consume_oracle_plan_consultation", {}).get("priority") or 0) != 70
+            or oracle_by_action.get("consume_oracle_gate_consultation", {}).get("agent_id") != "bio-oracle-consumer"
+            or int(oracle_by_action.get("consume_oracle_gate_consultation", {}).get("priority") or 0) != 70
+        ):
+            print(json.dumps(oracle_tasks, indent=2), file=sys.stderr)
+            return 1
         data_fetch_prompt = render_prompt(
             _event(
                 "data_contact_needed",
@@ -1393,6 +2010,225 @@ def self_test() -> int:
             if required_text not in prompt:
                 print(json.dumps({"missing": required_text, "prompt": prompt}, indent=2), file=sys.stderr)
                 return 1
+        oracle_base = base / "oracle_case"
+        oracle_paths = BioRealityPaths(
+            root=SCRIPT_DIR,
+            gate_results=oracle_base / "out" / "gate_results.jsonl",
+            deepening_tasks=oracle_base / "out" / "deepening_tasks.jsonl",
+            events=oracle_base / "out" / "events.jsonl",
+            agent_tasks=oracle_base / "out" / "agent_tasks.jsonl",
+            agent_reviews=oracle_base / "out" / "agent_reviews.jsonl",
+            agent_reviews_archive=oracle_base / "out" / "agent_reviews.archive.jsonl",
+            dispatch_results=oracle_base / "out" / "dispatch_results.jsonl",
+            dispatch_results_archive=oracle_base / "out" / "dispatch_results.archive.jsonl",
+            hardening_targets=oracle_base / "out" / "hardening_targets.jsonl",
+            claims_registry=oracle_base / "registries" / "claims.json",
+            experiments_registry=oracle_base / "registries" / "experiments.json",
+            experiment_runs=oracle_base / "state" / "experiment_runs.jsonl",
+        )
+        _write_json_object(
+            oracle_paths.claims_registry,
+            {
+                "version": "bio-reality-claims-v1",
+                "claims": [
+                    {
+                        "claim_id": "h0.seed",
+                        "hypothesis_level": "H0",
+                        "phase": 1,
+                        "statement": "seed claim",
+                        "depends_on": [],
+                        "status": "passed",
+                        "experiment_id": "seed_experiment",
+                    }
+                ],
+            },
+        )
+        _write_json_object(
+            oracle_paths.experiments_registry,
+            {
+                "version": "bio-reality-experiments-v1",
+                "experiments": [
+                    {
+                        "experiment_id": "seed_experiment",
+                        "claim_id": "h0.seed",
+                        "required_data": [],
+                    }
+                ],
+            },
+        )
+        oracle_store = BioRealityStore(oracle_paths)
+        session_dir = oracle_base / "state" / "oracle_sessions" / "bio-Plan"
+        session_dir.mkdir(parents=True, exist_ok=True)
+        topic = "bio-Plan.phase.2.next"
+        transcript_jsonl = session_dir / f"20260525T000000Z__{_safe_oracle_topic(topic)}.jsonl"
+        transcript_md = transcript_jsonl.with_suffix(".md")
+        write_jsonl(
+            transcript_jsonl,
+            [
+                {
+                    "record_kind": "session",
+                    "lane": "bio-Plan",
+                    "topic": topic,
+                    "conversation_id": "conv-self-test",
+                    "closed_reason": "done",
+                    "max_turns_reached": False,
+                    "turn_count": 1,
+                },
+                {
+                    "record_kind": "turn",
+                    "turn": 1,
+                    "prompt": "next experiment?",
+                    "result": {"response": "The strongest next experiment is h1.oracle.next."},
+                },
+            ],
+        )
+        transcript_md.write_text(
+            "\n".join(
+                [
+                    "# Oracle consultation: bio-Plan.phase.2.next",
+                    "",
+                    "Transcript says the strongest next experiment is h1.oracle.next.",
+                ]
+            ),
+            encoding="utf-8",
+        )
+        oracle_event = _event(
+            "oracle_consultation_completed",
+            "bio-Plan",
+            "oracle_consultation",
+            _oracle_consultation_subject_id("bio-Plan", topic),
+            "done",
+            {
+                "lane": "bio-Plan",
+                "topic": topic,
+                "intended_claim_id": "",
+                "conversation_id": "conv-self-test",
+                "turns": 1,
+                "closed_reason": "done",
+                "max_turns_reached": False,
+                "transcript_jsonl": str(transcript_jsonl),
+                "transcript_md": str(transcript_md),
+            },
+        )
+        oracle_store.write_events([oracle_event])
+        oracle_prompt = render_prompt(oracle_event, "bio-oracle-consumer", "consume_oracle_plan_consultation")
+        for required_text in (
+            "Use information from the transcript only",
+            "SINGLE strongest next-experiment proposal",
+            "h1.oracle.next",
+            "Required JSON schema",
+        ):
+            if required_text not in oracle_prompt:
+                print(json.dumps({"missing": required_text, "prompt": oracle_prompt}, indent=2), file=sys.stderr)
+                return 1
+        original_subprocess_run = subprocess.run
+
+        def fake_subprocess_run(*args: Any, **kwargs: Any) -> subprocess.CompletedProcess[str]:
+            cmd = args[0] if args else kwargs.get("args")
+            if isinstance(cmd, list) and cmd[:2] == ["codex", "exec"]:
+                if "--sandbox" not in cmd or "read-only" not in cmd or "--json" not in cmd or cmd[-1] != "-":
+                    return subprocess.CompletedProcess(cmd, 2, "", "bad codex invocation")
+                stdout = json.dumps(
+                    {
+                        "verdict": "proposed",
+                        "next_experiment": {
+                            "claim_id": "h1.oracle.next",
+                            "hypothesis_level": "H1",
+                            "statement": "Oracle transcript proposes a stronger phase-two measurement.",
+                            "experiment_id": "oracle_next_experiment",
+                            "dependencies": ["h0.seed"],
+                            "rationale": "Selected from transcript.",
+                        },
+                        "rationale": "Transcript-supported proposal.",
+                        "risk_notes": "self-test only",
+                    },
+                    ensure_ascii=False,
+                )
+                return subprocess.CompletedProcess(cmd, 0, stdout, "")
+            return original_subprocess_run(*args, **kwargs)
+
+        try:
+            subprocess.run = fake_subprocess_run
+            oracle_agent = run_agent_lane(oracle_store, execute_codex=True, max_dispatch=1)
+            oracle_tasks_after = oracle_store.load_agent_tasks()
+            oracle_task_after = next((task for task in oracle_tasks_after if task.get("agent_id") == "bio-oracle-consumer"), {})
+            claims_after = _load_claims_document(oracle_paths.claims_registry).get("claims", [])
+            experiments_after = _load_experiments_document(oracle_paths.experiments_registry).get("experiments", [])
+            events_after = oracle_store.load_events()
+            if (
+                oracle_agent.get("dispatch_completed") != 1
+                or oracle_task_after.get("action") != "consume_oracle_plan_consultation"
+                or oracle_task_after.get("status") != "completed"
+                or not any(isinstance(claim, dict) and claim.get("claim_id") == "h1.oracle.next" and claim.get("status") == "open" for claim in claims_after)
+                or not any(isinstance(experiment, dict) and experiment.get("experiment_id") == "oracle_next_experiment" and experiment.get("status") == "proposed_by_oracle" for experiment in experiments_after)
+                or not any(event.get("event_kind") == "oracle_consumer_dispatched" for event in events_after)
+                or next((event for event in events_after if event.get("event_id") == oracle_event.get("event_id")), {}).get("status") != "consumed"
+            ):
+                print(
+                    json.dumps(
+                        {
+                            "agent": oracle_agent,
+                            "tasks": oracle_tasks_after,
+                            "claims": claims_after,
+                            "experiments": experiments_after,
+                            "events": events_after,
+                        },
+                        indent=2,
+                        ensure_ascii=False,
+                    ),
+                    file=sys.stderr,
+                )
+                return 1
+            oracle_agent_repeat = run_agent_lane(oracle_store, execute_codex=True, max_dispatch=1)
+            repeat_tasks = oracle_store.load_agent_tasks()
+            consumer_tasks = [task for task in repeat_tasks if task.get("agent_id") == "bio-oracle-consumer"]
+            if oracle_agent_repeat.get("dispatches") != 0 or len(consumer_tasks) != 1:
+                print(json.dumps({"repeat": oracle_agent_repeat, "tasks": repeat_tasks}, indent=2), file=sys.stderr)
+                return 1
+        finally:
+            subprocess.run = original_subprocess_run
+        backfill_base = base / "oracle_backfill"
+        backfill_paths = BioRealityPaths(
+            root=SCRIPT_DIR,
+            gate_results=backfill_base / "out" / "gate_results.jsonl",
+            deepening_tasks=backfill_base / "out" / "deepening_tasks.jsonl",
+            events=backfill_base / "out" / "events.jsonl",
+            agent_tasks=backfill_base / "out" / "agent_tasks.jsonl",
+            agent_reviews=backfill_base / "out" / "agent_reviews.jsonl",
+            agent_reviews_archive=backfill_base / "out" / "agent_reviews.archive.jsonl",
+            dispatch_results=backfill_base / "out" / "dispatch_results.jsonl",
+            dispatch_results_archive=backfill_base / "out" / "dispatch_results.archive.jsonl",
+            hardening_targets=backfill_base / "out" / "hardening_targets.jsonl",
+            claims_registry=backfill_base / "claims.json",
+            experiments_registry=backfill_base / "experiments.json",
+            experiment_runs=backfill_base / "experiment_runs.jsonl",
+        )
+        backfill_session_dir = backfill_base / "state" / "oracle_sessions" / "bio-G"
+        backfill_session_dir.mkdir(parents=True, exist_ok=True)
+        backfill_topic = "bio-G.review.backfill.claim"
+        backfill_jsonl = backfill_session_dir / f"20260525T000001Z__{_safe_oracle_topic(backfill_topic)}.jsonl"
+        write_jsonl(
+            backfill_jsonl,
+            [
+                {
+                    "record_kind": "session",
+                    "lane": "bio-G",
+                    "topic": backfill_topic,
+                    "conversation_id": "conv-backfill",
+                    "closed_reason": "done",
+                    "turn_count": 1,
+                }
+            ],
+        )
+        backfilled_events = build_events(BioRealityStore(backfill_paths))
+        if not any(
+            event.get("event_kind") == "oracle_consultation_completed"
+            and event.get("source") == "bio-G"
+            and (event.get("payload") if isinstance(event.get("payload"), dict) else {}).get("backfilled") is True
+            for event in backfilled_events
+        ):
+            print(json.dumps(backfilled_events, indent=2), file=sys.stderr)
+            return 1
         experimentalist_task = next((task for task in store.load_agent_tasks() if task.get("agent_id") == "bio-experimentalist"), {})
         if experimentalist_task.get("action") != "repair_experiment_script":
             print(json.dumps(store.load_agent_tasks(), indent=2), file=sys.stderr)
