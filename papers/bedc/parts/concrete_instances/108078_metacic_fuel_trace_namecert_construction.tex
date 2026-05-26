@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICFuelTraceUp$}
+\label{ch:concrete-instances-metacic-fuel-trace-namecert}
+\origin{ai}
+
+The $\MetaCICFuelTraceUp$ packet realizes the bounded-normalizer side of \autoref{ch:metacic-decidable-audit-map} as finite NameCert data. It sits beside the decidable typing frontier of \autoref{ch:concrete-instances-metacic-decidable-typing-frontier-namecert}, the bounded normal-equality checker of \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, the MetaCIC decidability witness of \autoref{ch:concrete-instances-metacicdecidabilitywitness-namecert}, and the local diamond witness of \autoref{ch:concrete-instances-metacic-local-diamond-witness-namecert}. The packet names bounded normalizer fuel, finished-normalization evidence, equality-check rows, refusal rows, transport, replay, provenance, and local NameCert data without promoting bounded conversion into global normalization, subject reduction, confluence, or unrestricted beta-conversion decidability.
+
+\falsifiablePrediction{Every accepted $\MetaCICFuelTraceUp$ packet displays a finite fuel row, bounded normalizer input and output rows, finished-normalization evidence when available, a \texttt{Term.eq} or \texttt{checkSameTerm} equality-check row, a \texttt{decideClosedBetaConv} readback row, a refusal row for global conversion claims, componentwise transport, continuation replay, provenance, and local naming.}
+
+\independenceWitness{metacic-decidable-typing-frontier, bounded-normal-equality-checker, typed-normal-form-decider, metacicdecidableboundary, metacic-local-diamond-witness: the typing frontier records checker admission, the bounded-normal-equality checker records comparison exactness, the typed normal-form decider records typed endpoint conditions, the decidability boundary records broader refusal data, and the local diamond witness records join obligations. None supplies the finite fuel trace packet with both explicit fuel rows and replayable finished-normalization evidence.}
+
+\begin{definition}[MetaCIC fuel trace carrier]
+\label{def:metacic-fuel-trace-carrier}
+A $\MetaCICFuelTraceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(F,I,O,E,Q,B,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the bounded fuel row used by \texttt{normalizeBounded} and \texttt{decideClosedBetaConv}.
+\item $I$ records the represented closed-term inputs and the typing or closedness hypotheses that the decidability audit map allows this packet to consume.
+\item $O$ records the bounded normalizer outputs produced at fuel $F$.
+\item $E$ records finished-normalization evidence when the audit map supplies it, and records an explicit absent row when such evidence is not available.
+\item $Q$ is the structural equality-check row, read through \texttt{Term.eq} or \texttt{checkSameTerm} on the bounded outputs.
+\item $B$ is the \texttt{decideClosedBetaConv} readback row, interpreted only as bounded normal equality under the displayed fuel and endpoint evidence.
+\item $R$ is the refusal row excluding global normalization, subject reduction, confluence, arbitrary closedness decidability, unrestricted beta-conversion, and host quotient equality of terms.
+\item $H$ records componentwise $\hsame$ transport for the fuel, input, output, endpoint, equality-check, bounded-conversion, refusal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a decidability request through $F,I,O,E,Q,B,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICFuelTraceUp$, the MetaCIC decidability audit map, $\MetaCICDecidableTypingFrontierUp$, $\BoundedNormalEqualityCheckerUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICFuelTraceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a fuel-erased global normalizer, a subject-reduction theorem, a confluence theorem, an arbitrary closedness decider, unrestricted beta-conversion decidability, or host quotient equality of represented terms.
+\end{definition}
+
+\begin{theorem}[MetaCIC fuel trace NameCert obligations]
+\label{thm:metacic-fuel-trace-namecert-obligations}
+For every accepted $\MetaCICFuelTraceUp$ carrier $T=(F,I,O,E,Q,B,R,H,C,P,N)$, the local $\NameCert_{\MetaCICFuelTraceUp}$ surface consists exactly of fuel admission through $F$, represented-input admission through $I$, bounded normalizer output through $O$, finished-normalization evidence through $E$, structural equality checking through $Q$, bounded beta-conversion readback through $B$, refusal through $R$, componentwise transport through $H$, displayed continuation replay through $C$, provenance through $P$, and local naming through $N$.
+
+Later Lean TasteGate work in $\mathrm{BEDC.Derived.MetaCICFuelTraceUp.TasteGate}$ must provide $\mathrm{Nontrivial}$ and $\mathrm{FieldFaithful}$ instances for this carrier surface. These instances must show that the packet cannot collapse to an empty fuel marker and cannot hide a missing fuel, input, output, finished-normalization, equality-check, bounded-conversion, refusal, transport, replay, provenance, or naming row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-fuel-trace-carrier}. The computational side is $F,I,O$: a displayed fuel value, represented inputs, and the bounded normalizer outputs obtained at that fuel.
+
+Read $E$ before the conversion result. If finished-normalization evidence is available, it is displayed here; if not, the absent row keeps the bounded comparison from becoming a global normalization theorem.
+
+The equality rows $Q,B$ then compare only the bounded outputs. They are interpreted through the structural equality and \texttt{decideClosedBetaConv} rows named by the decidability audit map.
+
+The refusal row $R$ blocks global normalization, subject reduction, confluence, arbitrary closedness decidability, unrestricted beta-conversion, and host quotient equality. Finally $H,C,P,N$ transport, replay, record provenance for, and locally name the same fuel trace.
+\end{proof}
+
+\begin{theorem}[MetaCIC fuel trace bounded-conversion nonescape]
+\label{thm:metacic-fuel-trace-bounded-conversion-nonescape}
+Every consumer of an accepted $\MetaCICFuelTraceUp$ packet factors through the finite route
+$$
+F,I,O,E,Q,B \longmapsto R,H,C,P,N .
+$$
+The route exports bounded normalizer outputs, optional finished-normalization evidence, and bounded equality-check readback at the displayed fuel. It exports no fuel-erased global normalization theorem, no subject-reduction theorem, no confluence theorem, no arbitrary closedness decider, no unrestricted beta-conversion oracle, and no host quotient equality of represented terms.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $T=(F,I,O,E,Q,B,R,H,C,P,N)$. Rows $F,I,O$ expose the finite computation trace rather than a theorem about all possible fuels.
+
+The endpoint row $E$ is read before the equality-check rows. This preserves the distinction made in \autoref{ch:metacic-decidable-audit-map}: bounded normal equality becomes a finished-normal-form statement only when finished evidence is part of the packet.
+
+Rows $Q$ and $B$ compare the displayed bounded outputs. The refusal row $R$ is then read before transport, replay, provenance, and naming finish the packet.
+
+Because the carrier has no coordinate for stronger metatheory, no consumer can reinterpret the bounded fuel trace as global normalization, subject reduction, confluence, arbitrary closedness decidability, unrestricted beta-conversion, or quotient equality.
+\end{proof}
+
+\begin{theorem}[MetaCIC fuel trace audit scope]
+\label{thm:metacic-fuel-trace-audit-scope}
+The $\MetaCICFuelTraceUp$ packet concretizes the normal-equality edge of the decidability audit map at finite fuel. It may be consumed by typing-frontier and bounded-normal-equality chapters as a replayable trace of bounded normalizer computation and finished endpoint evidence, but it does not close the global MetaCIC normalization, confluence, subject-reduction, or closedness-decidability problems.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:metacic-fuel-trace-namecert-obligations} to identify the local rows. The packet contains exactly the finite fuel, input, output, endpoint, equality-check, bounded-conversion, refusal, and structural rows.
+
+For typing-frontier consumers, the input row $I$ and equality rows $Q,B$ align with the checked typing and structural equality surfaces, but the trace still carries a fixed fuel row $F$.
+
+For bounded-normal-equality consumers, the output and endpoint rows $O,E$ provide the replayable evidence required by finished-normalization consequences. They do not supply a fuel-erased endpoint theorem for all closed terms.
+
+The nonescape theorem \autoref{thm:metacic-fuel-trace-bounded-conversion-nonescape} then blocks the stronger global readings.
+\end{proof}
+
+\closureat{MetaCICFuelTraceUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICFuelTraceUp}
+  \constructivestory{A $\MetaCICFuelTraceUp$ packet is generated from bounded fuel, represented inputs, bounded normalizer outputs, finished-normalization evidence or its explicit absence, structural equality checks, bounded beta-conversion readback, refusal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-fuel-trace-carrier}, \autoref{thm:metacic-fuel-trace-namecert-obligations}, and \autoref{thm:metacic-fuel-trace-bounded-conversion-nonescape} seed the finite fuel-trace boundary for MetaCIC bounded normal equality.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global normalization, subject reduction, confluence, arbitrary closedness decidability, unrestricted beta-conversion, host quotient equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires carrier admission, fuel-output exactness, finished-normalization evidence handling, equality-check readback, bounded-conversion nonescape, TasteGate Nontrivial and FieldFaithful instances, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICFuelTraceUp.}
+\end{closurestatus}
