@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\CauchySchwarzEqualityUp$}
+\label{ch:concrete-instances-cauchy-schwarz-equality-namecert}
+\origin{human}
+
+Following Cauchy, Schwarz, and standard inner-product-space treatments of the equality case, the $\CauchySchwarzEqualityUp$ packet records the finite BEDC surface at which equality in Cauchy--Schwarz is available as a linear-dependence certificate. It sits over the inner-product source of \autoref{ch:concrete-instances-innerproduct-namecert}, the norm boundary of \autoref{ch:concrete-instances-norm-namecert}, and the finite Real inequality route of \autoref{ch:concrete-instances-cauchy-schwarz-real-namecert}. The packet names equality-case data as displayed rows; it is not a host vector equality theorem, quotient stream equality, ambient Hilbert-space statement, or selected scalar witness.
+
+\begin{definition}[CauchySchwarzEquality carrier]
+\label{def:cauchy-schwarz-equality-carrier}
+A $\CauchySchwarzEqualityUp$ carrier is a finite $\BHist$ packet
+$$
+E=(V,X,Y,I,A,B,C,L,D,Q,S,R,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the finite vector-source row shared with the inner-product and norm packets.
+\item $X$ and $Y$ are the two displayed vector rows whose equality-case boundary is inspected.
+\item $I$ is the $\InnerProductUp$ scalar read for $\langle X,Y\rangle$.
+\item $A$ and $B$ are the two $\NormUp$ square rows for $\|X\|^2$ and $\|Y\|^2$.
+\item $C$ is the $\CauchySchwarzRealUp$ inequality row that exposes the square comparison already sealed for Real consumers.
+\item $L$ is the linear-dependence ledger. It records a displayed scalar row, the finite scalar-action comparison between $X$ and $Y$, and the zero-vector boundary used when one norm row is null.
+\item $D$ is the equality-defect ledger, storing the displayed zero-defect read that identifies the equality boundary of the square comparison.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the scalar, norm, and defect observations.
+\item $S$ is the $\StreamNameUp$ finite-window row opened by the readback.
+\item $R$ is the terminal $\RealUp$ seal for the equality-case read.
+\item $H$ records componentwise $\hsame$ transport for vector rows, scalar reads, norm rows, inequality row, linear-dependence ledger, defect ledger, readback, windows, Real seal, replay, provenance, and local naming.
+\item $T$ records displayed $\Cont$ replay from an equality-case request through $V,X,Y,I,A,B,C,L,D,Q,S,R$ and back to the public certificate boundary.
+\item $P$ is the $\Pkg$ provenance over $\CauchySchwarzEqualityUp$, $\CauchySchwarzRealUp$, $\InnerProductUp$, $\NormUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySchwarzEqualityUp}$ row.
+\end{enumerate}
+The carrier predicate is exactly the assertion that these rows form one finite equality-case packet. It has no coordinate for host vector equality, quotient stream equality, ambient completeness, an infinite-dimensional Hilbert theorem, selected scalar choice, or bridge checking.
+\end{definition}
+
+\begin{theorem}[CauchySchwarzEquality NameCert obligations]
+\label{thm:cauchy-schwarz-equality-namecert-obligations}
+For every accepted $\CauchySchwarzEqualityUp$ carrier
+$$
+E=(V,X,Y,I,A,B,C,L,D,Q,S,R,H,T,P,N),
+$$
+the local $\NameCert_{\CauchySchwarzEqualityUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the vector source, two vector rows, inner-product read, norm-square rows, Cauchy--Schwarz inequality row, linear-dependence ledger, equality-defect ledger, readback, windows, Real seal, transport, replay, provenance, and local naming rows;
+\item equality-route exposure, requiring every equality-case read to pass through $I,A,B,C,D$ before the Real seal $R$ is available;
+\item linear-dependence exposure, requiring the row $L$ to display the scalar-action comparison and zero-vector boundary before the local name is exported;
+\item classifier transport, requiring $H$ and $T$ to preserve the same vector rows, scalar reads, inequality row, dependence ledger, defect ledger, readback, windows, and Real seal componentwise;
+\item non-escape, excluding host vector equality, quotient stream equality, ambient completeness, infinite-dimensional Hilbert semantics, selected scalar choice, and bridge checking.
+\end{enumerate}
+No equality-case obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic coordinates are the vector-source row $V$, the displayed vector rows $X,Y$, the inner-product row $I$, the norm-square rows $A,B$, the Cauchy--Schwarz row $C$, the dependence ledger $L$, the equality-defect ledger $D$, the readback rows $Q,S,R$, and the structural rows $H,T,P,N$.
+
+Carrier admission is exactly admission of those displayed coordinates. The local certificate has no further coordinate from which a host vector equality, quotient-stream representative, ambient Hilbert-space object, or selected scalar could be recovered.
+
+Equality-route exposure is forced by the placement of $C$ and $D$. The packet first reads the ordinary Cauchy--Schwarz square comparison, then reads the displayed zero-defect ledger, and only then seals the equality-case datum as Real-facing packet data.
+
+Linear-dependence exposure is the row $L$. It records the scalar-action comparison and the zero-vector boundary as finite data, so the equality case is exported as a dependence ledger rather than as an ambient vector-space equality theorem.
+
+Finally $H$ and $T$ provide componentwise transport and replay for the same rows, while $P$ and $N$ source and name the packet. Since no excluded analytic coordinate is present, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[CauchySchwarzEquality linear-dependence route]
+\label{thm:cauchy-schwarz-equality-linear-dependence-route}
+For every accepted $\CauchySchwarzEqualityUp$ carrier
+$$
+E=(V,X,Y,I,A,B,C,L,D,Q,S,R,H,T,P,N),
+$$
+every equality-case consumer receives the linear-dependence boundary only through the finite route
+$$
+V,X,Y \longmapsto I,A,B \longmapsto C,D \longmapsto L \longmapsto Q,S,R \longmapsto H,T,P,N .
+$$
+Thus equality in the Cauchy--Schwarz row is consumed as a displayed scalar-action ledger and zero-defect readback; it does not expose host vector equality, quotient stream equality, ambient completeness, an infinite-dimensional Hilbert theorem, selected scalar choice, or bridge checking.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The vector rows $V,X,Y$ and scalar rows $I,A,B$ are the only inputs from the inner-product and norm surfaces.
+
+Apply the finite inequality route supplied by \autoref{ch:concrete-instances-cauchy-schwarz-real-namecert}. The row $C$ exposes the square comparison already sealed for Real consumers, while $D$ records that the defect read is zero inside the displayed packet.
+
+Next read $L$. This is the only row carrying the scalar-action comparison and the zero-vector boundary, so the consumer obtains linear dependence from finite ledger data rather than from host vector equality.
+
+The readback route $Q,S,R$ then seals the same displayed equality-case datum for Real-facing consumers. The transport and replay rows $H,T$ preserve that order, and the provenance and naming rows $P,N$ add no analytic coordinate.
+
+Consequently the exported equality case is exactly the displayed route above. None of the excluded host or quotient objects can be read from the packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchySchwarzEqualityUp$ consumer must expose a CauchySchwarzRealUp inequality row, an equality-defect ledger, a linear-dependence ledger, RegSeqRat readback, StreamName windows, a RealUp seal, transport, replay, provenance, and local naming before the equality-case boundary is available.}
+
+\independenceWitness{innerproduct, norm, cauchy-schwarz-real: $\CauchySchwarzEqualityUp$ is not bijective to any listed sibling because it jointly carries the Cauchy--Schwarz inequality row, equality-defect ledger, displayed linear-dependence ledger, readback, seal, transport, replay, provenance, and local naming.}
+
+\closureat{CauchySchwarzEqualityUp}{seedStr}
+
+\begin{closurestatus}{\CauchySchwarzEqualityUp}
+  \constructivestory{A $\CauchySchwarzEqualityUp$ packet is generated from finite vector rows, an InnerProductUp scalar read, NormUp square rows, a CauchySchwarzRealUp inequality row, an equality-defect ledger, a linear-dependence ledger, RegSeqRat readback, StreamName windows, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-schwarz-equality-carrier}, \autoref{thm:cauchy-schwarz-equality-namecert-obligations}, and \autoref{thm:cauchy-schwarz-equality-linear-dependence-route} seed the finite equality-case carrier for displayed Cauchy--Schwarz Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host vector equality, quotient stream equality, ambient completeness, infinite-dimensional Hilbert semantics, selected scalar choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, equality-route exposure, linear-dependence exposure, classifier transport, non-escape, and TasteGate field faithfulness for BEDC.Derived.CauchySchwarzEqualityUp.}
+\end{closurestatus}
