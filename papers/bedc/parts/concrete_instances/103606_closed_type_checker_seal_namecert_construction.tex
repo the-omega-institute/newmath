@@ -83,6 +83,20 @@ Apply \autoref{thm:closed-type-checker-seal-bounded-endpoint-boundary}. The boun
 Since no coordinate names subject reduction, confluence, residual-substitution discharge, a hidden normalizer endpoint, or a host equality oracle, none of those objects can escape the seal.
 \end{proof}
 
+\begin{theorem}[Closed type-checker seal residual-substitution forward link]
+\label{thm:closed-type-checker-seal-residual-substitution-forward-link}
+Every accepted $\ClosedTypeCheckerSealUp$ packet that exports checked closed typing and bounded normal-equality data to a residual-substitution or confluence-facing consumer must pass through the displayed residual-substitution boundary and the finished-normalization row $R$. Without that row the packet cannot export subject reduction, confluence, residual-substitution discharge, unrestricted closed beta-conversion decidability, or global normalization.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:closed-type-checker-seal-carrier}. The checker-facing export is carried by $C,T,Q,E,N$, while the finished-normalization boundary is the separate row $R$ and the non-escape row is $O$.
+
+Apply \autoref{thm:closed-type-checker-seal-bounded-endpoint-boundary}. It permits bounded normal equality to become a finished-normal statement only when the witness row is displayed, so a consumer that omits $R$ receives checked typing and bounded comparison data but no normalization endpoint.
+
+Apply \autoref{thm:closed-type-checker-seal-nonescape}. The same carrier has no coordinate for subject reduction, confluence, residual-substitution discharge, unrestricted beta-conversion decidability, or global normalization.
+
+The residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert} is therefore the sibling route through which a confluence-facing consumer must pass before reading this seal as part of a residual-substitution argument. The seal forwards bounded checker data to that route; it does not replace the route by a global normalization theorem.
+\end{proof}
+
 \falsifiablePrediction{The seal has no carrier route exporting unrestricted closed beta-conversion decidability without a finished-normalization witness.}
 
 \independenceWitness{metacicdecidableboundary, metacicdecidableauditpacket, metacicdecidablecheckerseal, metacic-residual-substitution-boundary: the closed type-checker seal is not bijective to any listed sibling because it binds the closed input row, inferTypeCtxClosed exactness row, structural equality readback, bounded-normal row, finished-normalization boundary, and non-escape row in one finite carrier.}
