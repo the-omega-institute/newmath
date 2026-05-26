@@ -155,6 +155,33 @@ theorem CauchyCompletionReflectorPacket_unit_counit_route [AskSetup] [PackageSet
   exact ⟨sourceUnary, unitUnary, completionUnary, counitUnary, transportUnary, returnUnary,
     sourceUnitCont, completionCounitCont, returnCont, exportedPkg, returnPkg⟩
 
+theorem CauchyCompletionReflectorPacket_unit_counit_obligation [AskSetup] [PackageSetup]
+    {source completionObject unit counit idempotent extension reflection transport
+      componentTransport replay provenance localName exported returnRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionReflectorPacket source completionObject unit counit idempotent extension
+        reflection transport componentTransport replay provenance localName exported bundle pkg ->
+      Cont transport exported returnRead ->
+        PkgSig bundle returnRead pkg ->
+          UnaryHistory source ∧ UnaryHistory unit ∧ UnaryHistory completionObject ∧
+            UnaryHistory counit ∧ UnaryHistory transport ∧ UnaryHistory exported ∧
+              UnaryHistory returnRead ∧ Cont source unit completionObject ∧
+                Cont completionObject counit transport ∧ Cont transport exported returnRead ∧
+                  PkgSig bundle exported pkg ∧ PkgSig bundle returnRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory ProbeBundle Pkg PkgSig
+  intro packet returnCont returnPkg
+  rcases packet with
+    ⟨sourceUnary, completionUnary, unitUnary, counitUnary, _idempotentUnary,
+      _extensionUnary, _reflectionUnary, transportUnary, _componentTransportUnary,
+      _replayUnary, _provenanceUnary, _localNameUnary, exportedUnary, sourceUnitCont,
+      completionCounitCont, _idempotentExtensionCont, _componentReplayCont,
+      _provenanceNameCont, exportedPkg⟩
+  have returnUnary : UnaryHistory returnRead :=
+    unary_cont_closed transportUnary exportedUnary returnCont
+  exact ⟨sourceUnary, unitUnary, completionUnary, counitUnary, transportUnary,
+    exportedUnary, returnUnary, sourceUnitCont, completionCounitCont, returnCont,
+    exportedPkg, returnPkg⟩
+
 theorem CauchyCompletionReflectorPacket_idempotent_extension_obligation
     [AskSetup] [PackageSetup]
     {source completionObject unit counit idempotent extension reflection transport
