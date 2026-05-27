@@ -729,6 +729,7 @@ import BEDC.Derived.BoundaryGateUp.TasteGate
 import BEDC.Derived.BoundedBetaComparisonUp.TasteGate
 import BEDC.Derived.BoundedCauchyCoverUp.TasteGate
 import BEDC.Derived.BoundedFunctionFamilyUp
+import BEDC.Derived.BoundedFunctionFamilyUp.NameCertObligations
 import BEDC.Derived.BoundedFunctionFamilyUp.TasteGate
 import BEDC.Derived.BoundedLinearOperatorUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
@@ -895,9 +896,11 @@ import BEDC.Derived.BoundedRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.BoundedRegularCauchyUp.TasteGate
 import BEDC.Derived.BoundedSetUp.BallContainmentRoute
 import BEDC.Derived.BoundedSetUp.BallRadiusLedgerFactorization
+import BEDC.Derived.BoundedSetUp.ClosureObligationEnvelope
 import BEDC.Derived.BoundedSetUp.CompletionNonescape
 import BEDC.Derived.BoundedSetUp.DiameterConsumerBoundary
 import BEDC.Derived.BoundedSetUp.LocatedDiameterReadback
+import BEDC.Derived.BoundedSetUp.MetricBallContainmentDependency
 import BEDC.Derived.BoundedSetUp.MetricBallHandoff
 import BEDC.Derived.BoundedSetUp.NameCertLedgerNonescape
 import BEDC.Derived.BoundedSetUp.ObligationCarrierAdmission
@@ -2083,6 +2086,7 @@ import BEDC.Derived.CompressionDescentAuditUp.TasteGate
 import BEDC.Derived.CompressionLedgerFunctorUp.TasteGate
 import BEDC.Derived.ComputableRealUp
 import BEDC.Derived.ComputableUp
+import BEDC.Derived.ConcaveModulusUp.NameCertObligations
 import BEDC.Derived.ConcaveModulusUp.TasteGate
 import BEDC.Derived.ConceptRegistryObligationUp.TasteGate
 import BEDC.Derived.ConceptRegistrySurfaceUp.TasteGate
@@ -4325,6 +4329,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObligation
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNamingExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurface
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormPublicNonescape
+import BEDC.Derived.MetaCICCriticalPathUp.NormalFormReadbackBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormRouteCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionLedgerExhaustion
