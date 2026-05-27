@@ -491,6 +491,46 @@ accepted coordinate, so the displayed collection is the complete root
 total-host obligation package.
 \end{proof}
 
+\begin{theorem}[$\ZNormalUp$ root unary carry entry]
+\label{thm:znormal-root-unary-carry-entry}
+Every accepted $\ZNormalUp$ root packet that exposes a unary carry entry to a normal-form consumer must first route the typed endpoint row $T$, the finite fuel row $F$, and the terminal-normality row $V$ through the visible source package of \autoref{thm:znormal-root-visible-source-package}. The finite word row $K$ then reads the $\ZCarryUp$ sibling surface of \autoref{ch:concrete-instances-zcarry-namecert} before any consumer may use $K$ as carry evidence.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:znormal-root-visible-source-package}. It exposes the root packet as $T,F,V,K,R,H,C,P,N$ and gives the consumer no row outside the displayed carrier.
+
+Next apply \autoref{thm:znormal-root-normal-word-route-totality}. This forces normal-word consumption through the finite row $K$ after the typed endpoint, fuel, and terminal-normality rows are already visible.
+
+Finally use \autoref{thm:znormal-sibling-normalword-handoff}. The handoff reads $K$ through the Zeckendorf and $\ZCarryUp$ sibling surfaces, so unary carry entry reaches the root only through the displayed carry sibling and cannot supply host conversion, quotient computation, unrestricted evaluation, or a global normalizer.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root Zeckendorf handoff]
+\label{thm:znormal-root-zeckendorf-handoff}
+For every accepted $\ZNormalUp$ packet, the normal-word row $K$ may be consumed as Zeckendorf evidence only after the root visible source package has exposed $T,F,V,K,R,H,C,P,N$ and after the sibling handoff has routed $K$ through $\ZeckendorfNormalUp$ of \autoref{ch:concrete-instances-zeckendorf-normal-namecert} and $\ZCarryUp$ of \autoref{ch:concrete-instances-zcarry-namecert}. The terminal readback remains downstream of $R,H,C,P,N$ and exports no host normalizer.
+\end{theorem}
+\begin{proof}
+Project the visible source package by \autoref{thm:znormal-root-visible-source-package}. The packet exposes the typed endpoint, finite fuel, terminal-normality, normal-word, continuation, transport, replay, provenance, and naming rows as one root surface.
+
+Apply \autoref{thm:znormal-root-normal-word-route-totality} and \autoref{thm:znormal-sibling-normalword-handoff}. These results place the $K$ row on the finite ZeckendorfNormal and $\ZCarryUp$ sibling route before the local root consumer uses it.
+
+It remains to account for terminal readback. The continuation normal-word pullback of \autoref{thm:znormal-continuation-normal-word-pullback} binds $K$ and $R$ into the same transported route through $H,C,P,N$, so the Zeckendorf handoff cannot detach into host normalization, quotient computation, unrestricted evaluation, or divergence detection.
+\end{proof}
+
+\begin{theorem}[$\ZNormalUp$ root continuation trace boundary]
+\label{thm:znormal-root-continuation-trace-boundary}
+Let
+$$
+Z=(T,F,V,K,R,H,C,P,N)
+$$
+be an accepted $\ZNormalUp$ root packet. Every continuation-trace terminal readback must pass through $R,H,C,P,N$ after the visible source package and the normal-word route totality have exposed $T,F,V,K$. The boundary is the displayed root packet together with the finite continuation route; it is not a substrate halting row, divergence oracle, unrestricted evaluator, quotient normalizer, or global normalizer.
+\end{theorem}
+\begin{proof}
+Begin with the visible source package and normal-word route totality. \autoref{thm:znormal-root-visible-source-package} exposes $T,F,V,K,R,H,C,P,N$, while \autoref{thm:znormal-root-normal-word-route-totality} fixes the normal-word route through $K$ before readback.
+
+Now apply \autoref{thm:znormal-continuation-normal-word-pullback}. It pulls the normal-word row $K$ and continuation row $R$ onto the same transported and replayed route through $H,C,P,N$.
+
+Finally use the root total-host obligation package of \autoref{thm:znormal-root-total-host-obligation-package}. Since every root-facing total-host request must be discharged by the displayed packet or refused, the continuation trace boundary has no coordinate for substrate halting, divergence, unrestricted evaluation, quotient normalization, or global normalization.
+\end{proof}
+
 \begin{theorem}[$\ZNormalUp$ root terminal readback ledger totality]
 \label{thm:znormal-root-terminal-readback-ledger-totality}
 Every terminal readback consumer at the $\ZNormalUp$ root passes through
