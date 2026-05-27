@@ -120,6 +120,42 @@ no coordinate for quotient names, selected representatives, host real equality,
 completeness, or choice, no such route can be read by a consumer.
 \end{proof}
 
+\begin{theorem}[RepresentedSpace schedule representation exactness]
+\label{thm:representedspace-schedule-representation-exactness}
+Every target read from an accepted $\RepresentedSpaceUp$ carrier $R=(S,W,\rho,X,T,H,C,P,N)$ must expose the finite $\StreamNameUp$ schedule $W$ before the representation relation row $\rho$ can be used. The representation relation is therefore exact only as a displayed route from the inspected stream observations to the target row $X$, with $\Cont$ replay and $\Pkg$ provenance preserving that schedule.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:representedspace-carrier}. The representation relation $\rho$ is stored after the name carrier $S$ and the finite schedule $W$, so no target read can consume $\rho$ without first displaying the inspected stream positions and precision requests.
+
+Replay through $C$ preserves this order. The continuation row starts from the precision request, exposes the schedule, and only then reaches the representation relation and target row.
+
+Finally attach $P$ and $N$. Provenance and local naming source the same scheduled route, and the carrier has no coordinate for an unscheduled representation oracle.
+\end{proof}
+
+\begin{theorem}[RepresentedSpace classifier transport]
+\label{thm:representedspace-classifier-transport}
+Accepted $\RepresentedSpaceUp$ carrier sameness is transported componentwise through $S,W,\rho,X,T,H,C,P,N$. The transport compares the name carrier, schedule, representation relation, target row, classifier transport, structural replay, provenance, and local naming rows; it never appeals to host equality of names, target objects, real representatives, or quotient classes.
+\end{theorem}
+\begin{proof}
+Read the classifier row $T$ together with the transport data $H$. These rows compare accepted packets only after their displayed components have been moved to a common finite surface.
+
+The representation and target rows move with the same schedule. Thus $\rho$ and $X$ are compared only through the corresponding scheduled carrier rows, not by host equality.
+
+The structural rows $C,P,N$ then replay, source, and name the transported packet. Since no host equality, quotient class, or selected representative is present in the carrier, transport is exhausted by the listed components.
+\end{proof}
+
+\begin{theorem}[RepresentedSpace target seal nonescape]
+\label{thm:representedspace-target-seal-nonescape}
+Every $\RealUp$-facing target read from an accepted $\RepresentedSpaceUp$ packet must pass through $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The read cannot bypass the regular rational readback, dyadic tolerance ledger, terminal Real seal, componentwise transport, replay, provenance, or local naming evidence.
+\end{theorem}
+\begin{proof}
+Start with the target carrier $X$. In the real-facing case, the carrier definition routes $X$ through the regular rational readback surface, the dyadic tolerance ledger, and the terminal Real seal.
+
+Apply the schedule exactness theorem. The target read has already exposed the finite StreamName schedule before $\rho$ is consumed, so the analytic rows are downstream of a displayed name schedule rather than an ambient target object.
+
+Finally replay the structural rows $H,C,P,N$. They keep the read inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data. Coordinate exhaustion blocks any route that skips RegSeqRat, DyadicRatCore, the Real seal, transport, replay, provenance, or local naming.
+\end{proof}
+
 \begin{closurestatus}{\RepresentedSpaceUp}
   \constructivestory{A $\RepresentedSpaceUp$ packet is generated from a displayed name carrier, finite $\StreamNameUp$ schedule, representation relation, target carrier, classifier transport, componentwise $\hsame$ rows, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
