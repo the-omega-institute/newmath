@@ -876,6 +876,7 @@ import BEDC.Derived.BoundedSetUp.BallRadiusLedgerFactorization
 import BEDC.Derived.BoundedSetUp.CompletionNonescape
 import BEDC.Derived.BoundedSetUp.DiameterConsumerBoundary
 import BEDC.Derived.BoundedSetUp.NameCertLedgerNonescape
+import BEDC.Derived.BoundedSetUp.ObligationConsumerPackage
 import BEDC.Derived.BoundedSetUp.RadiusClassifierStability
 import BEDC.Derived.BoundedSetUp.RadiusLedger
 import BEDC.Derived.BoundedSetUp.SubsetBallReplayStability
@@ -1832,6 +1833,7 @@ import BEDC.Derived.CofinalTailBudgetUp.NameCertObligations
 import BEDC.Derived.CofinalTailBudgetUp.StdBridge
 import BEDC.Derived.CofinalTailBudgetUp.TasteGate
 import BEDC.Derived.CofinalTailEquivalenceUp.TasteGate
+import BEDC.Derived.CofinalTailMapUp.TasteGate
 import BEDC.Derived.CofinalWindowRealSealUp.NameCertObligations
 import BEDC.Derived.CofinalWindowRealSealUp.ObligationScope
 import BEDC.Derived.CofinalWindowRealSealUp.PublicCertificate
@@ -6213,6 +6215,8 @@ import BEDC.Derived.TailCompatibleCauchySectionUp.TasteGate
 import BEDC.Derived.TailModulusAlignmentUp.TasteGate
 import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.TanneryTheoremUp
+import BEDC.Derived.TanneryTheoremUp.NameCertObligations
+import BEDC.Derived.TanneryTheoremUp.TasteGate
 import BEDC.Derived.TarskiTruthRefusalUp.TasteGate
 import BEDC.Derived.TasteGateAdmissionUp.TasteGate
 import BEDC.Derived.TasteGateAuditTraceUp.TasteGate
@@ -6734,6 +6738,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.RootZeroLedgerTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.RouteCarrierAdmission
 import BEDC.Derived.ZetaContinuationWitnessUp.RouteClassifierStability
 import BEDC.Derived.ZetaContinuationWitnessUp.RouteStabilityBudget
+import BEDC.Derived.ZetaContinuationWitnessUp.ScopedRoutePackage
 import BEDC.Derived.ZetaContinuationWitnessUp.SourceLockCoverage
 import BEDC.Derived.ZetaContinuationWitnessUp.SourceLockTriad
 import BEDC.Derived.ZetaContinuationWitnessUp.SourceRouteScopedTotality
