@@ -44,11 +44,13 @@ Finally inspect $D,H,K,P,L$. The diagnostic row only records the concrete witnes
 \label{thm:failure-certificate-axis-separation}
 The $\FailureCertificateUp$ carrier is not bijective, under NameCert-row preservation, to $\AuditGateFailureWitnessUp$, $\RealityConstrainedFailureSurfaceUp$, $\RegistryExportConsistencyGateUp$, $\AxisZeckendorfCannotClaimUp$, or $\MachineInterfaceSocketUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.FailureCertificateUp.FailureCertificate\_axis\_separation}
 \begin{proof}
 Compare the displayed rows. $\AuditGateFailureWitnessUp$ supplies concrete audit failure evidence, $\RealityConstrainedFailureSurfaceUp$ supplies finite defeat surfaces, $\RegistryExportConsistencyGateUp$ supplies export consistency checks, $\AxisZeckendorfCannotClaimUp$ supplies refusal rows, and $\MachineInterfaceSocketUp$ supplies machine-facing target sockets.
 
 None of those siblings carries the joint two-axis gate-blocking row of $A$ together with $B$ for the same named claim, while also preserving $C,V,D,H,K,P,L$. A row-preserving bijection would have to preserve that joint failure-axis and blocked-gate pair, so no such bijection exists.
 \end{proof}
+\leanchecked{BEDC.Derived.FailureCertificateUp.FailureCertificate\_axis\_row\_separation}
 
 The Lean TasteGate file must provide explicit $\Nontrivial\ \FailureCertificateUp$ and $\FieldFaithful\ \FailureCertificateUp$ instances in \texttt{lean4/BEDC/Derived/FailureCertificateUp/TasteGate.lean}. The field-faithfulness witness must keep $N_0,C,V,A,B,D,H,K,P,L$ distinct so the failed-axis row and blocked-gate row cannot be merged.
 
