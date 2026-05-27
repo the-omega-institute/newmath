@@ -3934,6 +3934,7 @@ import BEDC.Derived.KroneckerApproximationUp.TasteGate
 import BEDC.Derived.KroneckerLemmaUp.TasteGate
 import BEDC.Derived.KummerTestUp.TasteGate
 import BEDC.Derived.KuratowskiCompletionNaturalityUp
+import BEDC.Derived.KuratowskiCompletionNaturalityUp.TasteGate
 import BEDC.Derived.KuratowskiCompletionUp.TasteGate
 import BEDC.Derived.KuratowskiEmbeddingUp.TasteGate
 import BEDC.Derived.LFunctionUp
@@ -4080,6 +4081,7 @@ import BEDC.Derived.LocatedCompactUp.TasteGate
 import BEDC.Derived.LocatedCompletionSealUp.TasteGate
 import BEDC.Derived.LocatedCutApproximationUp.TasteGate
 import BEDC.Derived.LocatedCutUp
+import BEDC.Derived.LocatedCutUp.BridgeBoundaryPackage
 import BEDC.Derived.LocatedCutUp.CarrierAlignment
 import BEDC.Derived.LocatedCutUp.PublicNameCertExport
 import BEDC.Derived.LocatedCutUp.RealSealBridgeExactness
@@ -6516,6 +6518,7 @@ import BEDC.Derived.UniformModulusUp.RootPublicRows
 import BEDC.Derived.UniformModulusUp.StdBridge
 import BEDC.Derived.UniformModulusUp.TasteGate
 import BEDC.Derived.UniformPartitionUp.TasteGate
+import BEDC.Derived.UniformReflectionKernelUp.TasteGate
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.UniqueChoicePrincipleUp.TasteGate
 import BEDC.Derived.UnitCalibrationLedgerUp.NameCertObligations
