@@ -68,6 +68,22 @@ Finally apply ledger non-escape, \autoref{thm:authorized-generator-recursor-open
 \end{proof}
 \leanchecked{BEDC.Derived.AuthorizedGeneratorRecursorUp.AuthorizedGeneratorRecursorL10ReadinessClosure}
 
+\begin{theorem}[AuthorizedGeneratorRecursor public L10 source handoff]
+\label{thm:authorized-generator-recursor-l10-public-source-handoff}
+Let
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be an accepted $\AuthorizedGeneratorRecursorUp$ packet whose L10 source triad, consumer handoff, and ledger non-escape rows are displayed. Then the public L10 source handoff exported to $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers is exactly the finite route through $I,E,M,B,D,O,A,H,C,P,G,N$ with $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ access. The exported handoff cannot be read as host choice, detached induction, selected real witness, quotient stream equality, or a proof-producing channel.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:authorized-generator-recursor-l10-open-phase-source-triad}. It identifies the public source rows available to the three L10 consumers and keeps the route inside the accepted packet.
+
+Next use \autoref{thm:authorized-generator-recursor-open-phase-consumer-handoff}. It preserves the output row $O$ together with $A,H,C,P,G,N$ when the route is specialized to $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$.
+
+Finally apply \autoref{thm:authorized-generator-recursor-open-phase-ledger-nonescape} and \autoref{thm:authorized-generator-recursor-l10-readiness-closure}. The ledger refusal and readiness closure leave only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface, so the excluded host-choice, detached-induction, selected-witness, quotient-equality, and proof-producing readings have no exported coordinate.
+\end{proof}
+
 \begin{corollary}[AuthorizedGeneratorRecursor L10 source-triad strict obstruction]
 \label{cor:authorized-generator-recursor-l10-source-triad-strict-obstruction}
 Let

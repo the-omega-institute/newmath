@@ -197,6 +197,7 @@ It remains to account for the route rows. Theorem~\ref{thm:metacic-normalization
 \label{thm:metacic-normalization-certificate-router-residual-determinacy}
 If two accepted $\MetaCICNormalizationCertificateRouterUp$ packets expose the same authorized-generator row $U$, closed-term substitution boundary $D$, normalization frontier rows $K,S,P$, and residual candidate rows carried by $K$, then every candidate-mediated normalization read selects the same displayed residual route up to the packet classifier. No hidden redex choice, host reduction equality, quotient reduction row, or evidence-free normalizer can separate the two reads.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICNormalizationCertificateRouterUp.MetaCICNormalizationCertificateRouterResidualDeterminacy}
 \begin{proof}
 Start with candidate determinacy. Theorem~\ref{thm:metacic-normalization-certificate-router-candidate-determinacy} determines the strong-normalization readback from the candidate evidence in $K$, and \autoref{thm:metacic-normalization-certificate-router-residual-candidate-coverage} requires every residual read to be mediated by that displayed evidence.
 
@@ -209,6 +210,7 @@ It remains only to exclude hidden selectors. The carrier has no coordinate for a
 \label{thm:metacic-normalization-certificate-router-residual-readback-boundary}
 Every residual readback consumed from an accepted $\MetaCICNormalizationCertificateRouterUp$ carrier must expose candidate evidence in $K$, closed projection through $D$, authorized generator evidence through $U$, compiler recognizer evidence through $G$, kernel acceptance through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $Q$, and the local $\NameCert$ row $N$ before any strong-normalization output in $S$ can be consumed. No residual readback can bypass those rows through a hidden redex selector, evidence-free normalizer, host reduction equality, or quotient reduction row.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICNormalizationCertificateRouterUp.MetaCICNormalizationCertificateRouterResidualReadbackBoundary}
 \begin{proof}
 Begin with the obligation surface and closed-read refusal. Theorem~\ref{thm:metacic-normalization-certificate-router-obligation-surface} lists candidate admission through $K$ before readback, and \autoref{thm:metacic-normalization-certificate-router-closed-read-refusal} rejects any closed normalization read without candidate, closed-candidate, or candidate-set evidence.
 
@@ -225,6 +227,7 @@ A,K,S,P,D,U,G,L,H,C,Q,N
 $$
 through candidate evidence, closed projection, authorized generator, compiler recognizer, kernel acceptance, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ before any normalization output is read. Thus the router binds normalization output to the BEDC kernel-facing surface and not to an evidence-free host normalizer.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICNormalizationCertificateRouterUp.MetaCICNormalizationCertificateRouterScopedKernelRoute}
 \begin{proof}
 Begin with the carrier and route coverage. The carrier definition displays $A,K,S,P,D,U,G,L,H,C,Q,N$, and Theorem~\ref{thm:metacic-normalization-certificate-router-route-coverage} orders any admitted strong-normalization output through that finite route.
 
@@ -297,6 +300,46 @@ Next use the producer and residual rows. The generator-compiler route, \autoref{
 Now apply the residual readback boundary and scoped kernel route. Theorem~\ref{thm:metacic-normalization-certificate-router-residual-readback-boundary} requires $K,D,U,G,L,H,C,Q,N$ before any residual readback can be consumed, and \autoref{thm:metacic-normalization-certificate-router-scoped-kernel-route} keeps the resulting normalization output kernel-facing.
 
 Finally invoke the public export and consumer boundary. Theorems~\ref{thm:metacic-normalization-certificate-router-public-export} and~\ref{thm:metacic-normalization-certificate-router-public-consumer-boundary} allow downstream reads only through the displayed public router surface. Therefore a candidate route that also names $\MetaCICResidualSubstitutionBoundaryUp$ and $\MetaCICConfluenceCriticalPairBoundaryUp$ must discharge those finite boundary rows before export, and no evidence-free strong normalization, host conversion equality, quotient reduction equality, or hidden confluence theorem has a carrier coordinate.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization certificate router frontier residual audit handoff]
+\label{thm:metacic-normalization-certificate-router-frontier-residual-audit-handoff}
+Let $R=(A,K,S,P,D,U,G,L,H,C,Q,N)$ be an accepted $\MetaCICNormalizationCertificateRouterUp$ carrier. Any public consumer that exports either no-infinite-reduction evidence or a critical-pair discharge from $R$ must first expose the audit anchor $A$, the candidate row $K$, the frontier row supplied by $\MetaCICNormalizationFrontierUp$, the residual-substitution boundary supplied by $\MetaCICResidualSubstitutionBoundaryUp$, the generator and compiler rows $U,G$, and the kernel-acceptance row $L$. Hence frontier evidence, residual-substitution evidence, and audit-map evidence form one candidate-mediated route before export; the router exports no evidence-free strong normalization, host conversion equality, quotient reduction equality, or hidden confluence theorem.
+\end{theorem}
+\begin{proof}
+Start with route coverage and the residual readback boundary. Theorem~\ref{thm:metacic-normalization-certificate-router-route-coverage} orders every accepted read through $A,K,S,P,D,U,G,L,H,C,Q,N$, while \autoref{thm:metacic-normalization-certificate-router-residual-readback-boundary} requires $K,D,U,G,L,H,C,Q,N$ before a residual readback is consumed.
+
+Next impose the public consumer boundary. Theorem~\ref{thm:metacic-normalization-certificate-router-public-consumer-boundary} keeps downstream reads on the same candidate-mediated public surface, and \autoref{thm:metacic-normalization-certificate-router-no-infinite-reduction-public-handoff} permits no-infinite-reduction export only through candidate, closed-candidate, or candidate-set evidence in $K$.
+
+Finally apply the critical-pair discharge. Theorem~\ref{thm:metacic-normalization-certificate-router-critical-pair-discharge} says that a route naming the frontier, residual-substitution, and confluence-critical-pair sibling rows must discharge those finite boundaries before public export. Combining these clauses forces any no-infinite-reduction or critical-pair consumer to pass through $A,K$, the frontier row, the residual-substitution boundary, $U,G$, and $L$ before export, with no carrier coordinate for evidence-free strong normalization, host conversion equality, quotient reduction equality, or hidden confluence.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization certificate router evidence adequacy lock]
+\label{thm:metacic-normalization-certificate-router-evidence-adequacy-lock}
+Let $R=(A,K,S,P,D,U,G,L,H,C,Q,N)$ be an accepted $\MetaCICNormalizationCertificateRouterUp$ carrier. Any accepted residual normalization read that uses the Pi and application adequacy row $P$ must first expose candidate, closed-candidate, or candidate-set evidence in $K$ before any row among $P,D,U,G,L,H,C,Q,N$ contributes to residual readback. In particular, no adequacy row by itself supplies strong-normalization output, no-infinite-reduction evidence, critical-pair discharge, or kernel-facing normalization export.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface and route coverage. Theorems~\ref{thm:metacic-normalization-certificate-router-obligation-surface} and~\ref{thm:metacic-normalization-certificate-router-route-coverage} display $A,K,S,P,D,U,G,L,H,C,Q,N$ as one ordered packet, so $P$ is not an independent adequacy oracle.
+
+Next apply candidate determinacy and the adequacy chain. Theorem~\ref{thm:metacic-normalization-certificate-router-candidate-determinacy} fixes the accepted candidate evidence in $K$, while \autoref{thm:metacic-normalization-certificate-router-adequacy-chain} reads Pi and application adequacy only through that candidate-mediated route.
+
+Residual coverage keeps the same boundary. The residual candidate coverage theorem forces candidate, closed-candidate, or candidate-set evidence in $K$ before $P,D,U,G,L$ contribute to a residual read, and \autoref{thm:metacic-normalization-certificate-router-residual-readback-boundary} extends the same requirement across $H,C,Q,N$ before readback.
+
+Finally attach the public residual handoff. Theorem~\ref{thm:metacic-normalization-certificate-router-frontier-residual-audit-handoff} requires the audit anchor, frontier row, residual-substitution boundary, generator, compiler, and kernel-acceptance rows to remain on the same candidate-mediated route. Therefore adequacy alone cannot supply strong-normalization output or any public normalization export.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization certificate router public adequacy]
+\label{thm:metacic-normalization-certificate-router-public-adequacy}
+Let $R=(A,K,S,P,D,U,G,L,H,C,Q,N)$ be an accepted $\MetaCICNormalizationCertificateRouterUp$ carrier. Suppose its public export surface, no-infinite-reduction handoff, critical-pair discharge, and frontier residual audit rows are all displayed. Then $R$ exports exactly the candidate-mediated normalization certificate surface needed by downstream MetaCIC consumers: the route through $A,K,S,P,D,U,G,L,H,C,Q,N$ together with the named frontier, residual-substitution, and confluence-critical-pair boundary rows. The adequacy claim does not assert a full strong-normalization theorem, global confluence, unrestricted substitution, host conversion equality, or quotient reduction equality.
+\end{theorem}
+\begin{proof}
+Start with the public export and consumer boundary. Theorems~\ref{thm:metacic-normalization-certificate-router-public-export} and~\ref{thm:metacic-normalization-certificate-router-public-consumer-boundary} identify the downstream surface as the ordered route through $A,K,S,P,D,U,G,L,H,C,Q,N$.
+
+Attach the no-infinite-reduction handoff. Theorem~\ref{thm:metacic-normalization-certificate-router-no-infinite-reduction-public-handoff} permits such evidence only through candidate, closed-candidate, or candidate-set evidence in $K$, so the public route remains candidate-mediated.
+
+Next attach the critical-pair and residual audit rows. Theorem~\ref{thm:metacic-normalization-certificate-router-critical-pair-discharge} discharges the displayed residual-substitution and confluence-critical-pair boundaries before export, and \autoref{thm:metacic-normalization-certificate-router-frontier-residual-audit-handoff} forces the audit anchor, frontier row, residual-substitution boundary, generator, compiler, and kernel-acceptance rows to be visible on the same route.
+
+The Lean TasteGate site named in this chapter records the single-carrier alignment for the origin-ai router surface. Therefore the public adequacy theorem packages the displayed exports for downstream consumers while refusing full strong normalization, global confluence, unrestricted substitution, host conversion equality, and quotient reduction equality.
 \end{proof}
 
 \falsifiablePrediction{A closed-term normalization read is refused unless candidate, closed-candidate, or candidate-set evidence is present on the displayed route.}
