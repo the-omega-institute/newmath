@@ -894,9 +894,11 @@ import BEDC.Derived.BoundedRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.BoundedRegularCauchyUp.TasteGate
 import BEDC.Derived.BoundedSetUp.BallContainmentRoute
 import BEDC.Derived.BoundedSetUp.BallRadiusLedgerFactorization
+import BEDC.Derived.BoundedSetUp.ClosureObligationEnvelope
 import BEDC.Derived.BoundedSetUp.CompletionNonescape
 import BEDC.Derived.BoundedSetUp.DiameterConsumerBoundary
 import BEDC.Derived.BoundedSetUp.LocatedDiameterReadback
+import BEDC.Derived.BoundedSetUp.MetricBallContainmentDependency
 import BEDC.Derived.BoundedSetUp.MetricBallHandoff
 import BEDC.Derived.BoundedSetUp.NameCertLedgerNonescape
 import BEDC.Derived.BoundedSetUp.ObligationCarrierAdmission
