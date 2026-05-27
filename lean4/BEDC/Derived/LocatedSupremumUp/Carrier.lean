@@ -21,7 +21,8 @@ def LocatedSupremumCarrier [AskSetup] [PackageSetup]
     (L U A W R E H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   -- BEDC touchpoint anchor: BHist BMark
   UnaryHistory R ∧ UnaryHistory A ∧ Cont R A E ∧ hsame L U ∧ UnaryHistory W ∧
-    Cont W R C ∧ hsame H (append C W) ∧ PkgSig bundle P pkg ∧ hsame N (append E H)
+    Cont W R C ∧ hsame H (append C W) ∧ PkgSig bundle P pkg ∧
+      hsame N (append E H) ∧ PkgSig bundle N pkg
 
 theorem LocatedSupremumCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
     {L U A W R E H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
