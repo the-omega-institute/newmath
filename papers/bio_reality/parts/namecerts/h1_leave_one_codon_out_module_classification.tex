@@ -1,5 +1,106 @@
-\subsection{NameCert: h1.leave\_one\_codon\_out.module\_classification}
-\label{sec:namecert-h1_leave_one_codon_out_module_classification}
+\chapter{Leave-One-Codon-Out Module Classification}\label{ch:biorality-leave-one-codon-out-module-classification}
 \origin{ai}
 
-This BioReality namecert is awaiting codex re-authoring. Most recent attempt failed the chapter hygiene gate; issues recorded: forbidden\_pattern: literal\_backslash\_n\_escape\_in\_tex. The committed registry record at \path{tools/bio\_reality/registries/claims.json} still tracks the underlying claim h1.leave\_one\_codon\_out.module\_classification and its experiment runs.
+\subsection{Finite codon window and code-layer contact}\label{sec:biorality-codon-window-contact}
+
+\paragraph{Claim.}
+This chapter records a finite-row BioReality claim about the standard-code codon table.  The carrier is the six-bit codon cube $Q_6$, read as the finite display of the $64$ codons through a binary window.  The relevant distinctions are the coordinate display, the local tile face, the singleton label corner, and the three-point label class.  The readback object is not a mechanism of translation; it is the curated standard-code label table, used only as an external contact for codon-to-label assignments.  The claim is that the leave-one-codon-out residues inside the distinguished region are completely classified by six finite modules, and that every module lies in the predictable-or-boundary part of the local codon tile.
+
+\paragraph{Reality contact.}
+The only external contact used here is a curated standard genetic-code table assigning codons to amino-acid or stop labels.  This contact has resolution ``codon label readback.''  It can test the code-read layer and local codon-tile label splits.  It cannot test translation realization, folded structure, physical admissibility, biological function, mechanism, or universality.  Thus the contact supports the finite label readback but blocks any promotion from a local codon tile to a global biological law.
+
+\subsection{Distinguished finite region}\label{sec:biorality-distinguished-region}
+
+\paragraph{Thirteen-row region.}
+The distinguished codon set $R$ has cardinality $13$.  The verified rows are
+$$
+\begin{aligned}
+R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
+\end{aligned}
+$$
+The same run verifies that $R$ is the punctured-cube region with face-vector
+$$
+\begin{aligned}
+(f_0,f_1,f_2)=(13,16,4).
+\end{aligned}
+$$
+The point of this number is local and finite: the region is a codon-window object with $13$ displayed rows, $16$ one-dimensional adjacencies, and $4$ two-dimensional tile faces.  No structural or biochemical interpretation follows from this face-vector alone.
+
+\paragraph{Spectral coordinates.}
+The associated finite spectral calculation reports
+$$
+\begin{aligned}
+\lambda_M&=0.6752479308830213,\\
+\lambda_R&=0.4758352843197002,\\
+\mu&=3.051487585298128.
+\end{aligned}
+$$
+The cubic radial polynomial residual is $-6.224354365258478\times 10^{-12}$, which is recorded as the same tolerance-level value for the cubic-polynomial and radial-polynomial checks.  These numbers are coordinate evidence for the finite tile calculation.  They are not evidence for translation, folding, physical admissibility, function, mechanism, or universality.
+
+\subsection{Null comparisons and finite significance}\label{sec:biorality-null-comparisons}
+
+\paragraph{Shape null.}
+A finite null comparison with $N=2000$ samples and seed $42$ observed one exact shape match.  The corresponding exact-shape probability was
+$$
+\begin{aligned}
+p_{\mathrm{exact}}=0.0005.
+\end{aligned}
+$$
+The same run used $57377$ distinct-sample attempts and incurred $55377$ duplicate retries.  At the looser threshold of Jaccard similarity at least $0.9$, there were $25$ matches, giving
+$$
+\begin{aligned}
+p_{\mathrm{Jaccard}\geq 0.9}=0.0125.
+\end{aligned}
+$$
+This supports the statement that the observed local shape is unusual under that finite sampling scheme.  It does not support a claim that DNA must obey this geometry as a biological necessity.
+
+\paragraph{Amino-acid-class-preserving null.}
+A second null comparison preserved amino-acid classes.  It also used $N=2000$ and seed $42$.  The observed $M$-region size was $20$.  No exact shape matches were observed, so the exact-shape empirical probability was recorded as $0.0$.  The lower-tail count at or below the observed $M$ size was $7$, yielding
+$$
+\begin{aligned}
+p_{\mathrm{lower\ tail}}=0.0035.
+\end{aligned}
+$$
+This is a stronger finite-row guard against the explanation that the local region is a generic consequence of preserving amino-acid classes.  The test is still code-layer evidence only; it does not observe a folded protein, a physical admissibility condition, or a realized function.
+
+\subsection{Leave-one-code and leave-one-codon behavior}\label{sec:biorality-leave-one-behavior}
+
+\paragraph{Leave-one-code-out readback.}
+The leave-one-code-out evaluation considered $23$ code tables and $63$ total targets.  The baseline hit rate was $0.19821739130434785$.  The observed hit rate above baseline was $0.9841269841269841$.  Inside $M-T$ the hit rate was $0.9365079365079365$, while inside $M-T$ plus the boundary it was $0.9841269841269841$.  The family-level readback split the tables into $5$ families.  The hit-rate-above-baseline values were $0.8333333333333334$ for the alternative-yeast family and $1.0$ for the bacterial-plastid, candidate-other, mitochondrial, and nuclear-ciliate families.
+
+\paragraph{Leave-one-codon-out recovery.}
+The leave-one-codon-out run records no anchors, $5$ boundary rows, $8$ high-coverage closure rows, and $8$ predictable rows.  The recovery rate is $1.0$, and the recovery-rate-above-threshold value is also $1.0$.  In this chapter the word ``predictable'' means predictable by the finite local codon-window procedure with the curated label table as contact.  It does not mean biologically generated, physically selected, translated in vivo, folded, functional, universal, or mechanistically necessary.
+
+\subsection{Module classification}\label{sec:biorality-module-classification}
+
+\paragraph{Complete assignment.}
+The module-classification run assigns all $13$ rows of $R$ and records no extra module codons, no missing rows, and no unassigned codons.  The six finite modules are
+$$
+\begin{aligned}
+\mathrm{agr}&=\{\mathrm{AGA},\mathrm{AGG}\},\\
+\mathrm{ar\_lys}&=\{\mathrm{AAA}\},\\
+\mathrm{cun}&=\{\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}\},\\
+\mathrm{ile\_met}&=\{\mathrm{AUA}\},\\
+\mathrm{ssn}&=\{\mathrm{UCA},\mathrm{UUA}\},\\
+\mathrm{stop\_trp}&=\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
+\end{aligned}
+$$
+The cardinality check is internal to the table:
+$$
+\begin{aligned}
+2+1+4+1+2+3=13=|R|.
+\end{aligned}
+$$
+Therefore the classification is finite-row complete: every codon in $R$ appears in exactly one displayed module, and the displayed modules account for all rows reported by the distinguished-region computation.
+
+\paragraph{Predictable-or-boundary status.}
+The classification is not merely a partition.  The verified record states that every module has predictable-or-boundary status: $\mathrm{agr}$, $\mathrm{ar\_lys}$, $\mathrm{cun}$, $\mathrm{ile\_met}$, $\mathrm{ssn}$, and $\mathrm{stop\_trp}$ each consist only of rows admitted by the local predictable-or-boundary test.  This is the chapter-level claim.  The data support the code-read statement that the local six-bit codon window exposes a structured boundary-tile split in the standard-code labels.
+
+\subsection{Cannot-claim boundary}\label{sec:biorality-cannot-claim-boundary}
+
+\paragraph{Locality.}
+The result is a local finite-row classification of standard-code labels.  It does not say that the codon table is globally forced by the six-bit cube.  It does not say that the local codon tile is a law of biology.  It does not supply a ribosomal translation contact, a protein-structure contact, a physical-admissibility contact, a biochemical-function contact, or a universal-mechanism contact.  Amino-acid label-sequence readback is still label readback; it is not folded protein structure.
+
+\paragraph{Admissible conclusion.}
+The admissible conclusion is therefore narrow and testable: in the curated standard-code table, the $13$-row region $R$ is a punctured-cube local tile whose six leave-one-codon-out modules completely cover $R$, and each module is recorded as predictable-or-boundary by the finite code-layer procedure.  The empirical comparisons give finite-row support for non-genericity under the sampled nulls, with $p_{\mathrm{exact}}=0.0005$, $p_{\mathrm{Jaccard}\geq0.9}=0.0125$, and $p_{\mathrm{lower\ tail}}=0.0035$.  Any stronger statement about translation, folding, physical admissibility, function, mechanism, or universality requires a separate reality contact not present in this chapter.
