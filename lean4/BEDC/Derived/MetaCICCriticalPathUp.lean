@@ -329,4 +329,35 @@ theorem MetaCICCriticalPathOpenPhaseSourceClosure [AskSetup] [PackageSetup]
   }
   exact ⟨cert, realSealPkg⟩
 
+theorem MetaCICCriticalPathCandidateMediatedSNRoute [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction unblock discharge handoff continuation provenance
+      localName dyadic stream regseq realSeal confluenceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathOpenPhaseSourceLedger strongNorm normalForm obstruction unblock
+        discharge handoff continuation provenance localName dyadic stream regseq realSeal
+        bundle pkg →
+      Cont continuation localName confluenceRead →
+        PkgSig bundle confluenceRead pkg →
+          UnaryHistory strongNorm ∧ UnaryHistory normalForm ∧ UnaryHistory obstruction ∧
+            UnaryHistory discharge ∧ UnaryHistory dyadic ∧ UnaryHistory stream ∧
+              UnaryHistory regseq ∧ UnaryHistory realSeal ∧ UnaryHistory confluenceRead ∧
+                Cont strongNorm normalForm continuation ∧
+                  Cont continuation localName confluenceRead ∧ PkgSig bundle realSeal pkg ∧
+                    PkgSig bundle confluenceRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro ledger continuationLocalNameRead confluenceReadPkg
+  obtain ⟨packet, dyadicUnary, streamUnary, regseqUnary, realSealUnary,
+    _dyadicStreamRegseq, _regseqRealSealHandoff, realSealPkg⟩ := ledger
+  obtain ⟨strongNormUnary, normalFormUnary, obstructionUnary, _unblockUnary,
+    dischargeUnary, _handoffUnary, _continuationUnary, _provenanceUnary, localNameUnary,
+    strongNormNormalFormContinuation, _unblockObstructionDischarge,
+    _handoffLocalName, _provenancePkg⟩ := packet
+  have confluenceReadUnary : UnaryHistory confluenceRead :=
+    unary_cont_closed _continuationUnary localNameUnary continuationLocalNameRead
+  exact
+    ⟨strongNormUnary, normalFormUnary, obstructionUnary, dischargeUnary, dyadicUnary,
+      streamUnary, regseqUnary, realSealUnary, confluenceReadUnary,
+      strongNormNormalFormContinuation, continuationLocalNameRead, realSealPkg,
+      confluenceReadPkg⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp
