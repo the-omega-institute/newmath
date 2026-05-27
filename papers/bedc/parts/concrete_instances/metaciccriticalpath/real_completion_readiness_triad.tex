@@ -37,3 +37,15 @@ Build the regular-rational side next. Theorem~\ref{thm:metacic-critical-path-reg
 
 Finally attach the Real-facing seal route. The Phase Real route budget, normal-form handoff, and obstruction ledger lock from Theorems~\ref{thm:metacic-critical-path-phase-real-route-budget},~\ref{thm:metacic-critical-path-phase-real-normal-form-handoff}, and~\ref{thm:metacic-critical-path-phase-real-obstruction-ledger-lock} keep the $\RealUp$ route downstream of the displayed packet while preserving $N,O,D,H,C,P,L$. With root consumer readiness from Theorem~\ref{thm:metacic-critical-path-root-unblock-consumer-readiness}, the resulting package is a finite root-unblock surface for Phase Real and Completion consumers, not a closure of any excluded metatheoretic or completion principle.
 \end{proof}
+
+\begin{theorem}[MetaCIC critical-path discharge-socket totality route]
+\label{thm:metacic-critical-path-discharge-socket-totality-route}
+Any Real-facing or Completion-facing consumer of an accepted $\MetaCICCriticalPathUp$ packet that reads the discharge-bundle socket must pass through the displayed rows $S,N,O,U,D,H,C,P,L$, the $\StreamNameUp$ source schedule, the $\RegSeqRatUp$ readback, and the $\RealUp$ seal readiness route. The route exposes socket totality as a finite displayed dependency. It does not discharge closed subject reduction, closed consistency, quotient stream equality, selected limits, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the three readiness surfaces in this child. Theorems~\ref{thm:metacic-critical-path-real-streamname-source-readiness}, \ref{thm:metacic-critical-path-regseqrat-readback-readiness}, and \ref{thm:metacic-critical-path-real-completion-readiness} force Real-facing and Completion-facing consumers to display the StreamName source row, the RegSeqRat readback row, and the Real seal route after the packet rows have been admitted.
+
+Next read the root-unblock route rows in the parent chapter. Theorems~\ref{thm:metacic-critical-path-root-unblock-carrier-readiness}, \ref{thm:metacic-critical-path-root-unblock-route-readiness}, and \ref{thm:metacic-critical-path-root-unblock-consumer-readiness} make $S,N,O,U,D,H,C,P,L$ the finite carrier, route, and consumer surface for the accepted packet.
+
+The discharge-bundle socket is therefore exposed only as the displayed row $D$ together with its transport, continuation, provenance, and local naming support. Since the readiness package and the root-unblock rows contain no coordinate for closed subject reduction, closed consistency, quotient stream equality, selected limits, or $\RealUp$ completeness, reading socket totality cannot discharge any of those excluded principles.
+\end{proof}

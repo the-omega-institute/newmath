@@ -89,4 +89,49 @@ theorem DirectedSetCarrier_cofinal_merge_obligation [AskSetup] [PackageSetup]
       replayUnary, firstRoute, secondRoute, mergeRoute, witnessRoute, replayRoute, pPkg,
       replayPkg⟩
 
+theorem DirectedSetPacket_upper_window_exhaustion [AskSetup] [PackageSetup]
+    {I Le W U H C P N request witness replay cauchyNet cauchyLimit mooreSmith : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DirectedSetPacket I Le W U H C P N bundle pkg →
+      Cont W request witness →
+        Cont witness H replay →
+          Cont replay C cauchyNet →
+            Cont replay C cauchyLimit →
+              Cont replay C mooreSmith →
+                PkgSig bundle replay pkg →
+                  PkgSig bundle cauchyNet pkg →
+                    PkgSig bundle cauchyLimit pkg →
+                      PkgSig bundle mooreSmith pkg →
+                        UnaryHistory request ∧ UnaryHistory witness ∧
+                          UnaryHistory replay ∧ UnaryHistory cauchyNet ∧
+                            UnaryHistory cauchyLimit ∧ UnaryHistory mooreSmith ∧
+                              Cont W request witness ∧ Cont witness H replay ∧
+                                Cont replay C cauchyNet ∧ Cont replay C cauchyLimit ∧
+                                  Cont replay C mooreSmith ∧ PkgSig bundle P pkg ∧
+                                    PkgSig bundle replay pkg ∧
+                                      PkgSig bundle cauchyNet pkg ∧
+                                        PkgSig bundle cauchyLimit pkg ∧
+                                          PkgSig bundle mooreSmith pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro packet requestRoute replayRoute cauchyNetRoute cauchyLimitRoute
+    mooreSmithRoute replayPkg cauchyNetPkg cauchyLimitPkg mooreSmithPkg
+  obtain ⟨_iUnary, _leUnary, wUnary, _uUnary, windowUnary, hUnary, cUnary, _nUnary,
+    _wuh, _hcn, pPkg⟩ := packet
+  have requestUnary : UnaryHistory request :=
+    windowUnary requestRoute
+  have witnessUnary : UnaryHistory witness :=
+    unary_cont_closed wUnary requestUnary requestRoute
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed witnessUnary hUnary replayRoute
+  have cauchyNetUnary : UnaryHistory cauchyNet :=
+    unary_cont_closed replayUnary cUnary cauchyNetRoute
+  have cauchyLimitUnary : UnaryHistory cauchyLimit :=
+    unary_cont_closed replayUnary cUnary cauchyLimitRoute
+  have mooreSmithUnary : UnaryHistory mooreSmith :=
+    unary_cont_closed replayUnary cUnary mooreSmithRoute
+  exact
+    ⟨requestUnary, witnessUnary, replayUnary, cauchyNetUnary, cauchyLimitUnary,
+      mooreSmithUnary, requestRoute, replayRoute, cauchyNetRoute, cauchyLimitRoute,
+      mooreSmithRoute, pPkg, replayPkg, cauchyNetPkg, cauchyLimitPkg, mooreSmithPkg⟩
+
 end BEDC.Derived.DirectedSetUp
