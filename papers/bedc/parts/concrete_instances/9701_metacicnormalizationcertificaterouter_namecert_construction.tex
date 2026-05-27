@@ -312,6 +312,20 @@ Next impose the public consumer boundary. Theorem~\ref{thm:metacic-normalization
 Finally apply the critical-pair discharge. Theorem~\ref{thm:metacic-normalization-certificate-router-critical-pair-discharge} says that a route naming the frontier, residual-substitution, and confluence-critical-pair sibling rows must discharge those finite boundaries before public export. Combining these clauses forces any no-infinite-reduction or critical-pair consumer to pass through $A,K$, the frontier row, the residual-substitution boundary, $U,G$, and $L$ before export, with no carrier coordinate for evidence-free strong normalization, host conversion equality, quotient reduction equality, or hidden confluence.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization certificate router evidence adequacy lock]
+\label{thm:metacic-normalization-certificate-router-evidence-adequacy-lock}
+Let $R=(A,K,S,P,D,U,G,L,H,C,Q,N)$ be an accepted $\MetaCICNormalizationCertificateRouterUp$ carrier. Any accepted residual normalization read that uses the Pi and application adequacy row $P$ must first expose candidate, closed-candidate, or candidate-set evidence in $K$ before any row among $P,D,U,G,L,H,C,Q,N$ contributes to residual readback. In particular, no adequacy row by itself supplies strong-normalization output, no-infinite-reduction evidence, critical-pair discharge, or kernel-facing normalization export.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface and route coverage. Theorems~\ref{thm:metacic-normalization-certificate-router-obligation-surface} and~\ref{thm:metacic-normalization-certificate-router-route-coverage} display $A,K,S,P,D,U,G,L,H,C,Q,N$ as one ordered packet, so $P$ is not an independent adequacy oracle.
+
+Next apply candidate determinacy and the adequacy chain. Theorem~\ref{thm:metacic-normalization-certificate-router-candidate-determinacy} fixes the accepted candidate evidence in $K$, while \autoref{thm:metacic-normalization-certificate-router-adequacy-chain} reads Pi and application adequacy only through that candidate-mediated route.
+
+Residual coverage keeps the same boundary. The residual candidate coverage theorem forces candidate, closed-candidate, or candidate-set evidence in $K$ before $P,D,U,G,L$ contribute to a residual read, and \autoref{thm:metacic-normalization-certificate-router-residual-readback-boundary} extends the same requirement across $H,C,Q,N$ before readback.
+
+Finally attach the public residual handoff. Theorem~\ref{thm:metacic-normalization-certificate-router-frontier-residual-audit-handoff} requires the audit anchor, frontier row, residual-substitution boundary, generator, compiler, and kernel-acceptance rows to remain on the same candidate-mediated route. Therefore adequacy alone cannot supply strong-normalization output or any public normalization export.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization certificate router public adequacy]
 \label{thm:metacic-normalization-certificate-router-public-adequacy}
 Let $R=(A,K,S,P,D,U,G,L,H,C,Q,N)$ be an accepted $\MetaCICNormalizationCertificateRouterUp$ carrier. Suppose its public export surface, no-infinite-reduction handoff, critical-pair discharge, and frontier residual audit rows are all displayed. Then $R$ exports exactly the candidate-mediated normalization certificate surface needed by downstream MetaCIC consumers: the route through $A,K,S,P,D,U,G,L,H,C,Q,N$ together with the named frontier, residual-substitution, and confluence-critical-pair boundary rows. The adequacy claim does not assert a full strong-normalization theorem, global confluence, unrestricted substitution, host conversion equality, or quotient reduction equality.
