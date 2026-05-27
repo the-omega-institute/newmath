@@ -156,6 +156,46 @@ Apply the schedule exactness theorem. The target read has already exposed the fi
 Finally replay the structural rows $H,C,P,N$. They keep the read inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data. Coordinate exhaustion blocks any route that skips RegSeqRat, DyadicRatCore, the Real seal, transport, replay, provenance, or local naming.
 \end{proof}
 
+\begin{theorem}[RepresentedSpace admissible name coverage]
+\label{thm:representedspace-admissible-name-coverage}
+Every admissible $\RepresentedSpaceUp$ name accepted by the displayed representation row is covered by the finite route
+$$
+S,W,\rho,X,T,H,C,P,N.
+$$
+In particular, the read starts with the $\StreamNameUp$ finite windows in $W$, passes through the $\RegSeqRatUp$ readback and $\RealUp$ seal exposed by the target row $X$, transports classifier data by the componentwise $\hsame$ rows in $H$, replays the requested observations by $C$, and ends in the $\Pkg$ provenance and local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:representedspace-carrier}. The admissible name is not a free stream; it is read through the displayed name carrier $S$ and finite schedule $W$, so the only inspected observations are the $\StreamNameUp$ windows stored in the packet.
+
+Use the representation relation row $\rho$ next. It is the sole route from those stream observations to the target row $X$, and the real-facing case of $X$ exposes the $\RegSeqRatUp$ readback and terminal $\RealUp$ seal before any consumer receives a target value.
+
+Finally transport and replay the route. The componentwise $\hsame$ rows in $H$ keep $S,W,\rho,X,T,C,P,N$ on the same finite comparison surface, while $C$ replays the inspected windows and $P,N$ source the resulting NameCert row. Thus every admissible name covered by the representation row is covered by the displayed finite route.
+\end{proof}
+
+\begin{theorem}[RepresentedSpace completion-boundary refusal]
+\label{thm:representedspace-completion-boundary-refusal}
+An accepted $\RepresentedSpaceUp$ packet does not by itself certify a completion boundary, a quotient completion, or a host-real representative. Any completion-facing consumer must first display the representation row, the $\StreamNameUp$ finite windows, the $\RegSeqRatUp$ readback path, the $\RealUp$ seal, the $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the same local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. They include a name carrier, finite windows, a representation row, a target row, classifier transport, structural transport, replay, provenance, and local naming, but no coordinate for a completed ambient space, quotient completion, or selected host-real representative.
+
+The refusal is stable under the analytic handoff. A completion-facing read still has to pass through $\rho$, the finite $\StreamNameUp$ schedule, the $\RegSeqRatUp$ readback exposed by $X$, and the terminal $\RealUp$ seal; none of those rows adds a completion object.
+
+It remains to check transport and provenance. The $\hsame$ rows, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ only preserve and source the displayed route. Since the packet never stores an additional completion boundary, the represented-space certificate refuses to export one.
+\end{proof}
+
+\begin{theorem}[RepresentedSpace realization transport]
+\label{thm:representedspace-realization-transport}
+If two accepted $\RepresentedSpaceUp$ packets compare by the displayed classifier, then every realized target read transported from the first packet to the second is transported through the same finite representation route: $\StreamNameUp$ windows, $\rho$, $\RegSeqRatUp$ readback, $\RealUp$ seal, $\hsame$ comparison, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming.
+\end{theorem}
+\begin{proof}
+Start from the classifier transport theorem. Equality of accepted packets is not host equality of names or targets; it is the componentwise $\hsame$ comparison of $S,W,\rho,X,T,H,C,P,N$ on a common finite surface.
+
+Transport the realized read along those rows. The finite $\StreamNameUp$ windows move with $W$, the representation relation moves with $\rho$, and the target read moves with $X$, where the real-facing route still passes through the $\RegSeqRatUp$ readback and $\RealUp$ seal.
+
+Finally replay the structural evidence on the second packet. The $\Cont$ row reproduces the same inspected windows, while $\Pkg$ provenance and the local $\NameCert$ row source the transported certificate. No unrecorded realization map, quotient equality, or host representative is introduced by the transport.
+\end{proof}
+
 \begin{closurestatus}{\RepresentedSpaceUp}
   \constructivestory{A $\RepresentedSpaceUp$ packet is generated from a displayed name carrier, finite $\StreamNameUp$ schedule, representation relation, target carrier, classifier transport, componentwise $\hsame$ rows, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
