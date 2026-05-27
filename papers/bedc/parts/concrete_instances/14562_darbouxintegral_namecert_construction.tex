@@ -113,6 +113,18 @@ Use \autoref{thm:darboux-integral-upper-lower-sum-gap} to route every consumer-v
 Finally pass the same rows to the $\IntegralUp$ consumer boundary. That boundary receives the partition, step-function, sum, gap, handoff, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows named by the packet, and no additional analytic surface is available.
 \end{proof}
 
+\begin{theorem}[Darboux public gap seal]
+\label{thm:darboux-integral-public-gap-seal}
+Every $\IntegralUp$-facing public read of an accepted $\DarbouxIntegralUp$ packet factors through the displayed $\PartitionUp$ row, $\DyadicStepFunctionUp$ upper and lower approximants, finite Darboux sum rows, gap ledger $G$, $\RegSeqRatUp$ handoff, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DarbouxIntegralUp}$ rows before any public integral seal is visible. No public gap seal exports a host integrand equality, measure completion, selected tag family, quotient function equality, detached real sequence, or ambient real-completeness witness.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:darboux-integral-namecert-obligations}. The carrier and obligation rows expose the partition, upper and lower step approximants, finite sums, gap ledger, handoff rows, structural transport, replay, provenance, and local naming as the whole public surface.
+
+Use \autoref{thm:darboux-integral-cauchy-gap-nonescape}. It places every Cauchy-facing or $\IntegralUp$-facing read of $G$ behind partition admission, the upper/lower sum ledger, and the $\RegSeqRatUp/\RealUp$ handoff through the same finite packet.
+
+Finally apply \autoref{thm:darboux-integral-real-handoff}. The consumer boundary receives exactly the partition, step-function, sum, gap, regular-rational, real-name, transport, replay, provenance, and local NameCert rows. Since the carrier has no coordinate for the excluded host data, the public integral seal can only be reached through those rows.
+\end{proof}
+
 \closureat{DarbouxIntegralUp}{scopedStr}[\autoref{thm:darboux-integral-real-handoff}]
 
 \begin{closurestatus}{\DarbouxIntegralUp}
