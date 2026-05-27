@@ -398,6 +398,209 @@ def main():
     else:
         sys.exit(2)
 
+    # Step 4: dev catch-up PR.
+    # When dev lags auto-dev by ≥1 day (or has diverged history),
+    # cut a branch from origin/auto-dev, open a PR targeting dev, and
+    # auto-merge once CI is green. Idempotent — skips when an existing
+    # open PR with the auto-sync label already covers this state.
+    if success and not args.no_push:
+        try:
+            sync_dev_catchup_pr()
+        except Exception as exc:
+            print(f"[sync] dev catch-up step failed (non-fatal): {exc}")
+
+
+PR_LABEL = "auto-dev-sync"
+PR_BRANCH_PREFIX = "auto-dev-sync"
+PR_AGE_THRESHOLD_HOURS = 24
+
+
+def _gh_available() -> bool:
+    return shutil.which("gh") is not None
+
+
+def _origin_commit_iso(ref: str) -> str | None:
+    try:
+        res = run(["git", "log", "-1", "--format=%aI", f"origin/{ref}"],
+                  capture=True, check=False)
+        if res.returncode != 0:
+            return None
+        return res.stdout.strip() or None
+    except Exception:
+        return None
+
+
+def _hours_since(iso_str: str) -> float | None:
+    """Return hours between iso_str (with timezone) and now (UTC)."""
+    try:
+        # python 3.11+ has datetime.fromisoformat that accepts trailing offsets.
+        # Older Pythons get a manual reparse via email.utils.
+        try:
+            from datetime import datetime, timezone
+            dt = datetime.fromisoformat(iso_str)
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+            from datetime import datetime as _dt
+            now = _dt.now(timezone.utc)
+            return (now - dt).total_seconds() / 3600.0
+        except Exception:
+            return None
+    except Exception:
+        return None
+
+
+def _existing_open_pr() -> dict | None:
+    """Return the first open PR base=dev with our auto-sync label, else None."""
+    try:
+        res = run(["gh", "pr", "list",
+                   "--base", UPSTREAM_BRANCH,
+                   "--state", "open",
+                   "--label", PR_LABEL,
+                   "--json", "number,headRefName,mergeable,statusCheckRollup,title",
+                   "--limit", "5"],
+                  capture=True, check=False)
+        if res.returncode != 0:
+            return None
+        import json as _json
+        rows = _json.loads(res.stdout or "[]")
+        return rows[0] if rows else None
+    except Exception:
+        return None
+
+
+def _all_checks_green(pr: dict) -> bool:
+    """Return True iff every required check passed and PR is mergeable."""
+    if pr.get("mergeable") != "MERGEABLE":
+        return False
+    rollup = pr.get("statusCheckRollup") or []
+    if not rollup:
+        return False
+    for check in rollup:
+        # GitHub API returns either CheckRun (with conclusion) or
+        # StatusContext (with state). Treat anything not in the success
+        # set as not-yet-green.
+        conclusion = check.get("conclusion") or check.get("state") or ""
+        if conclusion.upper() not in ("SUCCESS", "NEUTRAL", "SKIPPED"):
+            return False
+    return True
+
+
+def sync_dev_catchup_pr() -> None:
+    """Open / auto-merge a PR from a fresh auto-dev branch back into dev.
+
+    Trigger condition: origin/dev last commit older than threshold OR
+    auto-dev/dev histories have diverged (not a pure ff descendant).
+
+    Idempotent: at most one open PR with PR_LABEL exists at a time.
+    """
+    if not _gh_available():
+        print("[sync] dev-catchup: gh CLI missing; skipping")
+        return
+    if not has_remote_branch(UPSTREAM_BRANCH):
+        return
+
+    # Phase A: handle any existing open PR (merge if green, leave otherwise).
+    pr = _existing_open_pr()
+    if pr is not None:
+        if _all_checks_green(pr):
+            number = pr["number"]
+            head_ref = pr["headRefName"]
+            print(f"[sync] dev-catchup: PR #{number} all green; "
+                  f"auto-merging + deleting {head_ref}")
+            r = run(["gh", "pr", "merge", str(number),
+                     "--merge", "--delete-branch"],
+                    capture=True, check=False)
+            if r.returncode != 0:
+                print(f"[sync] dev-catchup: gh pr merge failed: "
+                      f"{(r.stdout or '') + (r.stderr or '')[:300]}")
+            else:
+                print(f"[sync] dev-catchup: PR #{number} merged "
+                      f"into {UPSTREAM_BRANCH}; branch {head_ref} deleted")
+        else:
+            print(f"[sync] dev-catchup: PR #{pr['number']} open; "
+                  f"checks not yet green — leaving in place")
+        return
+
+    # Phase B: no open PR. Check whether one is needed.
+    dev_iso = _origin_commit_iso(UPSTREAM_BRANCH)
+    age_hours = _hours_since(dev_iso) if dev_iso else None
+
+    # Divergence check: are there commits on auto-dev not on dev?
+    try:
+        ahead = run(
+            ["git", "rev-list", "--count",
+             f"origin/{UPSTREAM_BRANCH}..origin/{MIRROR_BRANCH}"],
+            capture=True, check=False).stdout.strip()
+        ahead_count = int(ahead) if ahead.isdigit() else 0
+    except Exception:
+        ahead_count = 0
+
+    needs_pr = False
+    reasons = []
+    if age_hours is not None and age_hours >= PR_AGE_THRESHOLD_HOURS:
+        needs_pr = True
+        reasons.append(f"dev last commit {age_hours:.1f}h ago "
+                       f"(threshold {PR_AGE_THRESHOLD_HOURS}h)")
+    if ahead_count > 0 and age_hours is not None and age_hours >= 6:
+        # Lower bar (6h) once divergence exists — still want to land
+        # large pipeline outputs before they grow into thousands of
+        # commits, even if dev is technically less than 1 day old.
+        if not needs_pr:
+            needs_pr = True
+        reasons.append(f"auto-dev ahead of dev by {ahead_count} commit(s)")
+
+    if not needs_pr:
+        return
+
+    # Phase C: create branch + PR.
+    import datetime as _dt
+    stamp = _dt.datetime.now(_dt.timezone.utc).strftime("%Y%m%d-%H%M")
+    branch = f"{PR_BRANCH_PREFIX}-{stamp}"
+    print(f"[sync] dev-catchup: opening PR — {'; '.join(reasons)}")
+    # Push origin/auto-dev as branch name (cheap — same SHA).
+    try:
+        run(["git", "fetch", "origin",
+             f"refs/heads/{MIRROR_BRANCH}:refs/remotes/origin/{MIRROR_BRANCH}"],
+            check=False, capture=True)
+        run(["git", "push", "origin",
+             f"refs/remotes/origin/{MIRROR_BRANCH}:refs/heads/{branch}"],
+            check=False, capture=True)
+    except Exception as exc:
+        print(f"[sync] dev-catchup: push branch {branch} failed: {exc}")
+        return
+
+    body = (
+        f"Automated catch-up PR from `{MIRROR_BRANCH}` to `{UPSTREAM_BRANCH}`.\n\n"
+        f"Trigger: {'; '.join(reasons)}.\n\n"
+        f"This PR is created by `tools/sync_with_auto_dev.py` and will be "
+        f"auto-merged once all required checks pass (subsequent sync cycle "
+        f"checks status; deletes the branch on merge). The pipeline mirrors "
+        f"`{UPSTREAM_BRANCH}` back into `{MIRROR_BRANCH}` continuously, so "
+        f"this only carries content that already lived on `{MIRROR_BRANCH}`."
+    )
+    title = f"Sync {MIRROR_BRANCH} → {UPSTREAM_BRANCH} ({stamp})"
+    cmd = ["gh", "pr", "create",
+           "--base", UPSTREAM_BRANCH,
+           "--head", branch,
+           "--title", title,
+           "--body", body,
+           "--label", PR_LABEL]
+    r = run(cmd, capture=True, check=False)
+    if r.returncode != 0:
+        # If the label doesn't exist yet, create it then retry once.
+        err = (r.stdout or "") + (r.stderr or "")
+        if "label" in err.lower() and "not found" in err.lower():
+            run(["gh", "label", "create", PR_LABEL,
+                 "--description", "Automated dev<-auto-dev sync PR",
+                 "--color", "0E8A16"],
+                check=False, capture=True)
+            r = run(cmd, capture=True, check=False)
+        if r.returncode != 0:
+            print(f"[sync] dev-catchup: gh pr create failed: "
+                  f"{((r.stdout or '') + (r.stderr or ''))[:400]}")
+            return
+    print(f"[sync] dev-catchup: opened PR via branch {branch}")
+
 
 if __name__ == "__main__":
     main()
