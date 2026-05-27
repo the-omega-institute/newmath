@@ -100,6 +100,24 @@ Next read $Q$. This is the only Cauchy tail row in the carrier, so the completio
 Finally replay the completion-facing handoff through $E,H,C,P,N$. Since no carrier coordinate stores a chosen endpoint or an ambient completeness witness, the exported endpoint is exactly the reflector output attached to the displayed Cauchy tail.
 \end{proof}
 
+\begin{theorem}[Banach contraction endpoint route]
+\label{thm:banach-contraction-principle-endpoint-route}
+Every accepted $\BanachContractionPrincipleUp$ endpoint read factors through $\CompleteMetricUp$, $\ContractiveMapUp$, $\FixedPointIterationUp$, $\CauchyCompletionReflectorUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows in the carrier order
+$$
+M,F,I,Q,E,U,H,C,P,N .
+$$
+The route exports no chosen endpoint, hidden limit operator, global choice rule, quotient completion equality, or completeness outside $M$.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:banach-contraction-principle-carrier}. The endpoint row $E$ is downstream of the complete metric row $M$, contraction map row $F$, iteration schedule $I$, and Cauchy witness $Q$.
+
+Apply \autoref{thm:banach-contraction-principle-namecert-obligations}. The NameCert surface requires carrier admission, contraction ledger exposure, Cauchy-iteration handoff, complete-metric seal, and uniqueness nonescape before a fixed-point endpoint can be read.
+
+Use \autoref{thm:banach-contraction-principle-endpoint-uniqueness} to keep any competing endpoint inside the displayed uniqueness row $U$. Then use \autoref{thm:banach-contraction-principle-iteration-cauchy-handoff} to route the displayed iteration through $Q$ before the completion reflector reads $E$.
+
+Finally $H,C,P,N$ provide transport, replay, provenance, and local naming over the same finite rows. Since the carrier has no coordinate for a chosen endpoint, hidden limit operator, global choice rule, quotient completion equality, or completeness outside $M$, the endpoint route is exactly the displayed carrier order.
+\end{proof}
+
 \begin{closurestatus}{\BanachContractionPrincipleUp}
   \constructivestory{A $\BanachContractionPrincipleUp$ packet is generated from a complete metric row, a displayed contraction map, an iteration schedule, a Cauchy witness, an endpoint seal, a uniqueness row, componentwise transports, replay routes, provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
