@@ -311,6 +311,34 @@ Use \autoref{thm:bounded-set-closure-obligation-envelope}. It identifies the sam
 Finally apply \autoref{thm:bounded-set-radius-classifier-stability}. The located ball and radius data remain classifier reads through $r$ and $B$, so selected diameters, suprema, compactness, finite nets, trichotomy, and ambient completeness have no carrier coordinate.
 \end{proof}
 
+\begin{theorem}[BoundedSet MetricBall containment dependency]
+\label{thm:bounded-set-metric-ball-containment}
+For every accepted $\BoundedSetUp$ carrier $Q=(X,S,c,r,B,H,C,P,N)$, the $\MetricBallUp$ containment dependency is an explicit L10 row: each accepted membership read of $S$ must pass through the displayed carrier coordinates $X,c,r$, the radius row $r$, and the subset-ball replay ledger $B,H,C,P,N$ before any boundedness claim is exported. Thus the packet supplies a dependency row for $\MetricBallUp$, $\MetricDiameterUp$, $\RealUp$, $\RealAlgOrderUp$, and $\UniformSpaceUp$ consumers, not a host-set containment fact.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier of \autoref{def:bounded-set-carrier}. The only rows available to a membership read are the metric carrier $X$, classifier $S$, center or witness $c$, radius row $r$, containment ledger $B$, and structural rows $H,C,P,N$.
+
+Apply \autoref{thm:bounded-set-ball-containment-route} and \autoref{thm:boundedset-metricball-carrier-obligation}. These force every accepted member of $S$ through the same $\MetricBallUp$ containment route before the read can be consumed as bounded-set data.
+
+Use \autoref{thm:bounded-set-radius-ledger} and \autoref{thm:bounded-set-subset-ball-replay-stability}. The radius row and replay row preserve the order from $X,S$ through $c,r,B$ and then through $H,C,P,N$.
+
+Finally invoke \autoref{thm:bounded-set-located-diameter-readback}. Located diameter and uniform-space consumers receive only that displayed ledger, so the containment dependency is an L10 row rather than an ambient host predicate.
+\end{proof}
+
+\begin{theorem}[BoundedSet Real radius ledger dependency]
+\label{thm:bounded-set-real-radius-ledger}
+For every accepted $\BoundedSetUp$ carrier $Q=(X,S,c,r,B,H,C,P,N)$, the radius read $r$ is ledger-controlled: it is read through the displayed $\RealAlgOrderUp$ or $\RealUp$ comparison surface and the $\MetricBallUp$ containment ledger before boundedness reaches a consumer. No consumer may replace $r$ by host real order, a selected supremum, trichotomy, compactness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the radius coordinate in \autoref{def:bounded-set-carrier}. The row $r$ is paired with the displayed center or witness $c$ and with the ball-containment ledger $B$, not with a host-order extremum.
+
+Apply \autoref{thm:boundedset-real-order-radius-obligation}. It requires the radius or bound row to be read through the displayed $\RealAlgOrderUp$ comparison surface before containment is available.
+
+Use \autoref{thm:bounded-set-radius-ledger} and \autoref{thm:bounded-set-radius-classifier-stability}. They keep the radius classifier on the finite ledger $X,S,c,r,B,H,C,P,N$ and prevent replacement by a selected maximum, supremum, host-order comparison, trichotomy decision, or ambient completeness argument.
+
+Finally apply \autoref{thm:bounded-set-located-diameter-readback}. A located-diameter or uniform-space consumer may use the ledger as bounded-diameter input, but it cannot read any stronger real-order object from the packet.
+\end{proof}
+
 \begin{theorem}[BoundedSet obligation carrier admission]
 \label{thm:boundedset-obligation-carrier}
 For every accepted $\BoundedSetUp$ packet $Q=(X,S,c,r,B,H,C,P,N)$, obligation-level carrier admission is rowwise over the displayed metric carrier $X$, subset classifier $S$, center or witness $c$, real or rational bound row $r$, ball-containment ledger $B$, componentwise transport $H$, replay row $C$, package provenance $P$, and local name $N$. No obligation consumer may admit the packet from an ambient host subset, a hidden supremum, a selected finite net, compactness, trichotomy, or ambient $\RealUp$ completeness.
