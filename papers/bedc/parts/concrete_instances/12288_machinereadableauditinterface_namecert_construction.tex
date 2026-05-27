@@ -105,6 +105,20 @@ If one of those rows is absent, disagrees with the claimed read, or marks the re
 
 The Lean follow-up must provide explicit $\Nontrivial\ \MachineReadableAuditInterfaceUp$ and $\FieldFaithful\ \MachineReadableAuditInterfaceUp$ instances in \texttt{lean4/BEDC/Derived/MachineReadableAuditInterfaceUp/TasteGate.lean}. The field-faithfulness witness must preserve $S,C,E,R,F,H,K,P,N$ as distinct rows before $\mathsf{BEDC.Derived.MachineReadableAuditInterfaceUp.taste\_gate}$ can be cited by a checked paper marker.
 
+\begin{theorem}[Machine-readable audit interface kernel scope]
+\label{thm:machine-readable-audit-interface-kernel-scope}
+Every accepted $\MachineReadableAuditInterfaceUp$ packet scopes its machine-readable report through the displayed schema row, checker row, export row, refusal row, report row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. No report row is theorem evidence unless the audit row is separately checked by the displayed checker and survives the refusal row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:machine-readable-audit-interface-carrier}. The tuple $A=(S,C,E,R,F,H,K,P,N)$ is the whole machine-readable audit interface, and \autoref{thm:machine-readable-audit-interface-field-coverage} identifies those rows as the complete local naming surface.
+
+Next apply \autoref{thm:machine-readable-audit-interface-obligation-basis}. Any accepted report read must pass through schema validation, checker verdict, export and refusal consistency, report non-evidence control, replay, provenance, and the local $\NameCert$ row before the machine consumer can read $F$.
+
+The non-evidence boundary is fixed by \autoref{thm:machine-readable-audit-interface-non-evidence-refusal}. The sibling-independence theorem blocks replacement by socket, formal-target, registry-export, consistency-gate, or compiler-audit packets, and \autoref{thm:machine-readable-audit-interface-falsifiable-prediction} rejects any read not backed by the displayed rows.
+
+Therefore the kernel route for the report is exactly the displayed route through $S,C,E,R,F,H,K,P,N$. A report row can be consumed as machine-readable audit data, but it is not theorem evidence unless the checker row separately accepts it and the refusal row does not mark that evidence claim as blocked.
+\end{proof}
+
 \closureat{MachineReadableAuditInterfaceUp}{seedStr}
 \closureat{MachineReadableAuditInterfaceUp}{obligationStr}
 
