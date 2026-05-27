@@ -1,0 +1,174 @@
+\chapter{A Concrete Naming Certificate for $\StreamNameModulusUp$}
+\label{ch:concrete-instances-streamname-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges, a constructive modulus is treated as displayed
+finite control on later observations rather than as a selected limit object.
+The $\StreamNameModulusUp$ packet sits between the stream-name observation
+surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic
+readback rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the
+regular rational consumer of \autoref{ch:concrete-instances-regseqrat-namecert},
+and the real-seal boundary of \autoref{ch:concrete-instances-real-namecert}.
+It records the finite witness by which a StreamName observation budget can be
+handed to RegSeqRat and Real consumers without claiming a completed stream
+quotient, a host-selected tail, or equality of real representatives.
+
+\begin{definition}[Stream-name modulus carrier]
+\label{def:streamname-modulus-carrier}
+A $\StreamNameModulusUp$ carrier is a finite $\BHist$ packet
+$$
+U=(S,D,R,E,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ source row, containing the requested stream
+name, observed positions, and local observation budget.
+\item $D$ is the $\DyadicRatCoreUp$ readback row for the inspected positions.
+\item $R$ is the $\RegSeqRatUp$ handoff row that receives the finite dyadic
+windows and their regularity ledger.
+\item $E$ is the $\RealUp$ seal-request row, recording only the downstream
+consumer boundary that may later consume $R$.
+\item $W$ is the modulus ledger: for each requested precision it displays a
+finite stream position, the associated dyadic readback, and the regular-rational
+handoff row visible at that position.
+\item $H$ records componentwise $\hsame$ transport for $S,D,R,E,W$ and the
+local certificate data.
+\item $C$ records displayed $\Cont$ replay from a precision request to the
+stream position, from that position to the dyadic readback, and from the
+readback to the RegSeqRat handoff.
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StreamNameModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these nine rows. It has
+no coordinate for a completed stream quotient, an ambient limit selector, a
+host real equality proof, or a tail chosen outside the displayed observation
+ledger.
+\end{definition}
+
+\begin{theorem}[Stream-name modulus pointwise stability]
+\label{thm:streamname-modulus-pointwise-stability}
+Let $U=(S,D,R,E,W,H,C,P,N)$ be an accepted $\StreamNameModulusUp$ carrier. If a
+downstream consumer transports the displayed stream, dyadic readback, RegSeqRat
+handoff, Real seal-request, and modulus ledger along the componentwise
+$\hsame$ rows in $H$, then each precision request reads the same finite
+position of $S$, the same dyadic row of $D$, and the same regular-rational
+handoff in $R$ after replay through $C$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:streamname-modulus-carrier}. The only
+precision-facing data are the rows $S,D,R,E,W$ together with transport,
+replay, provenance, and the local name.
+
+The modulus ledger $W$ binds each requested precision to one displayed stream
+position and one displayed dyadic readback. Componentwise transport through
+$H$ moves those rows together, so a transported request cannot alter the
+position without also altering the visible ledger row.
+
+Replay through $C$ reconstructs the same path from the precision request to
+$S$, then to $D$, then to $R$. The rows $P$ and $N$ only source and name this
+finite route; they do not add an external tail or equality proof.
+\end{proof}
+
+\begin{theorem}[Stream-name modulus RegSeqRat readiness]
+\label{thm:streamname-modulus-regseqrat-readiness}
+An accepted $\StreamNameModulusUp$ packet can be consumed by a
+$\RegSeqRatUp$ row only as the finite route
+$$
+S,D,W \longmapsto R
+$$
+together with $H,C,P,N$. The handoff supplies displayed stream positions,
+dyadic observations, and regularity ledger rows, but it does not supply a
+completed sequence quotient, a selected tail, a host convergence theorem, or a
+real-equality witness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection. The RegSeqRat row $R$ is not independent;
+it is stored beside the stream source $S$, dyadic readback $D$, and modulus
+ledger $W$.
+
+Use pointwise stability from
+\autoref{thm:streamname-modulus-pointwise-stability}. Every transported
+precision request still reaches $R$ through the same visible stream position
+and dyadic observation.
+
+The RegSeqRat consumer therefore receives only the displayed finite route and
+its support rows. Since the carrier has no coordinate for quotient sequences,
+selected tails, host convergence, or real equality, none of those objects can
+be exported at the RegSeqRat boundary.
+\end{proof}
+
+\begin{theorem}[Stream-name modulus Real handoff]
+\label{thm:streamname-modulus-real-handoff}
+A $\RealUp$ consumer of an accepted $\StreamNameModulusUp$ packet may import
+only the RegSeqRat-facing handoff $R$, the Real seal-request row $E$, and the
+finite stream/dyadic modulus route $S,D,W,H,C,P,N$. The packet therefore
+prepares a RealUp handoff by finite observed windows and regular rational
+rows, without asserting completeness of $\RealUp$, equality of Real
+representatives, or convergence outside the carried ledger.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:streamname-modulus-regseqrat-readiness}. It identifies
+$R$ as the only regular-rational object exported by the packet and forces the
+route through $S,D,W,H,C,P,N$.
+
+The Real-facing row $E$ records only that this regular-rational handoff is the
+object a Real consumer may later inspect. It is a seal-request row, not a proof
+of Real completeness or equality.
+
+Thus the Real consumer receives the same finite modulus route that the
+RegSeqRat consumer receives, together with the request row $E$. No ambient
+limit, quotient equality, or external convergence datum is available.
+\end{proof}
+
+\begin{theorem}[Stream-name modulus NameCert obligations]
+\label{thm:streamname-modulus-namecert-obligations}
+For every accepted $\StreamNameModulusUp$ carrier
+$U=(S,D,R,E,W,H,C,P,N)$, the local $\NameCert_{\StreamNameModulusUp}$ surface
+consists exactly of carrier admission, stream-position exposure, dyadic
+readback, RegSeqRat handoff, Real seal-request boundary, modulus-ledger
+exactness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$
+provenance, and local naming. Every obligation is discharged inside the
+displayed finite route and no obligation is stored outside $U$.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of the finite tuple in
+\autoref{def:streamname-modulus-carrier}. The rows $S,D,R,E,W$ expose the
+stream source, dyadic readback, regular-rational handoff, Real request, and
+modulus ledger.
+
+Pointwise stability supplies the transport obligation. Theorem~\ref{thm:streamname-modulus-pointwise-stability}
+keeps precision requests attached to the same displayed stream and dyadic
+rows under $\hsame$ movement.
+
+The RegSeqRat readiness and Real handoff theorems supply the consumer-facing
+obligations. They show that $R$ and $E$ can be read only through the carried
+finite route.
+
+Finally $C,P,N$ replay, source, and name the packet. Since no remaining carrier
+coordinate exists, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\StreamNameModulusUp$ consumer that reads
+a $\RegSeqRatUp$ or $\RealUp$ handoff without first exposing the displayed
+$\StreamNameUp$ positions, $\DyadicRatCoreUp$ readbacks, modulus ledger,
+componentwise $\hsame$ rows, $\Cont$ replay, $\Pkg$ provenance, and local
+$\NameCert$ row refutes the packet surface.}
+
+\independenceWitness{streamname, dyadicratcore, regseqrat, real: none of the
+listed sibling chapters supplies the whole modulus handoff
+$U=(S,D,R,E,W,H,C,P,N)$, because each sibling contributes only the source
+stream, dyadic readback, regular rational consumer, or Real seal boundary while
+this chapter binds them into one finite modulus route.}
+
+\closureat{StreamNameModulusUp}{seedStr}
+
+\begin{closurestatus}{\StreamNameModulusUp}
+  \constructivestory{A $\StreamNameModulusUp$ packet is generated from a $\StreamNameUp$ source row, $\DyadicRatCoreUp$ readbacks, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal-request row, a modulus ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:streamname-modulus-carrier}, \autoref{thm:streamname-modulus-pointwise-stability}, \autoref{thm:streamname-modulus-regseqrat-readiness}, \autoref{thm:streamname-modulus-real-handoff}, and \autoref{thm:streamname-modulus-namecert-obligations} seed the finite modulus handoff from $\StreamNameUp$ observations to $\RegSeqRatUp$ and $\RealUp$ consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a completed stream quotient, selected tails, host convergence, Real equality, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the displayed carrier and prove the finite modulus ledger, RegSeqRat readiness, and Real handoff obligations for BEDC.Derived.StreamNameModulusUp.}
+\end{closurestatus}
