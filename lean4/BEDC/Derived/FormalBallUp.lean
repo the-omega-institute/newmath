@@ -216,4 +216,28 @@ theorem FormalBallCarrier_rounded_basis_comparison [AskSetup] [PackageSetup]
     ⟨radiusUnary, dyadicUnary, windowUnary, basisUnary, comparedUnary, basisRoute,
       comparisonRoute, provenancePkg, comparedPkg⟩
 
+theorem FormalBallCarrier_completion_obligation_triad [AskSetup] [PackageSetup]
+    {M R D W H C P N basisRead completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FormalBallCarrier M R D W H C P N bundle pkg ->
+      Cont R D basisRead ->
+        Cont basisRead W completionRead ->
+          PkgSig bundle completionRead pkg ->
+            UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory D ∧ UnaryHistory W ∧
+              UnaryHistory basisRead ∧ UnaryHistory completionRead ∧
+                Cont R D basisRead ∧ Cont basisRead W completionRead ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: FormalBallCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier basisRoute completionRoute completionPkg
+  obtain ⟨metricUnary, radiusUnary, dyadicUnary, windowUnary, _transportUnary,
+    _replayUnary, _provenanceUnary, _nameCertUnary, _metricRadius, _dyadicWindowReplay,
+    _transportReplay, provenancePkg⟩ := carrier
+  have basisUnary : UnaryHistory basisRead :=
+    unary_cont_closed radiusUnary dyadicUnary basisRoute
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed basisUnary windowUnary completionRoute
+  exact
+    ⟨metricUnary, radiusUnary, dyadicUnary, windowUnary, basisUnary, completionUnary,
+      basisRoute, completionRoute, provenancePkg, completionPkg⟩
+
 end BEDC.Derived.FormalBallUp
