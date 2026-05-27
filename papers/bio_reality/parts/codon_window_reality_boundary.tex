@@ -3,90 +3,102 @@
 
 This section records gate-passed BioReality research memory. Its statements separate curated biological reality contacts from internal coordinate, closure, spectrum, and relation readings.
 
-\subsection{codon.window6.local.tile.boundary}
+\subsection{Window-Six Codon Coordinates and a Local Tile Boundary}\label{sec:codon-window6-local-tile-boundary}
+\origin{ai}
 
-\paragraph{Biological object.} standard-code codon table
+\paragraph{Finite carrier.}
+The carrier is the window-six codon cube $Q_6$, read as a six-bit display of the three nucleotide positions of a codon.  The reality contact used here is not a translation experiment, a folding experiment, or a biochemical mechanism.  It is the curated standard-code table, used only as a codon-label readback assigning each codon to an amino-acid or stop label.  Within that contact, the local tile record isolates a finite region $R$ of thirteen codons:
+$$
+\begin{aligned}
+R=\{&AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU,\\
+&UAA, UAG, UCA, UGA, UUA\}.
+\end{aligned}
+$$
+The verified row reports $|R|=13$.  The same row identifies this set with a punctured-cube shape having face-vector data $(13,16,4)$.  Thus the object under discussion is finite and local: a thirteen-vertex codon subset with sixteen one-dimensional faces and four two-dimensional faces inside the six-coordinate codon display.
 
-\paragraph{Current claim.} Window-six codon coordinates may expose local boundary-tile structure, but curated code labels remain external reality contacts.
+\paragraph{Shape and spectrum.}
+The tile is not introduced as an aesthetic pattern.  In the finite-row audit, the observed shape was compared against $N=2000$ sampled alternatives.  There was one exact shape match, giving $p_{\mathrm{exact}}=0.0005$, and twenty-five samples with Jaccard score at least $0.9$, giving $p_{J\geq 0.9}=0.0125$.  The sampling run required $57377$ distinct-sample attempts and encountered $55377$ duplicate retries with seed $42$, so the numerical claim is explicitly tied to a finite sampling protocol rather than to an asymptotic theorem.  The amino-acid-class-preserving null gives a separate check: with $N=2000$, the exact-match count is $0$, the lower-tail count at the observed size is $7$, the observed $M$ size is $20$, the exact-shape value is $0.0$, and the lower-tail value is $0.0035$.  The provided finite row gives the size of $M$ but not the codon membership list of $M$, so no membership claim about $M$ is made here.
 
-\paragraph{External reality input.}
-\textbf{curated.standard.code.table}. A curated standard-code table assigns codons to amino-acid or stop labels.
+The spectral row records three numerical quantities attached to the local geometry:
+$$
+\begin{aligned}
+\lambda_M &= 0.6752479308830213,\\
+\lambda_R &= 0.4758352843197002,\\
+\mu &= 3.051487585298128.
+\end{aligned}
+$$
+The reported radial-polynomial value, also listed as the cubic-polynomial residual, is $-6.224354365258478\times 10^{-12}$, which is numerically consistent with the stated spectral-radius tolerance for $\lambda_M$.  These numbers support a local finite-coordinate reading: the codon subset has a measured shape and spectrum, but those measurements are still properties of the code-layer display.
 
-Can test: code\_read; local codon tile label split. Cannot test: translation realization; structural order; physical admissibility; function realization.
+\paragraph{Leave-one readback.}
+Two finite leave-one records test how much of the local tile can be recovered from code-label context.  In the leave-one-code-out row, $23$ tables are evaluated against $63$ total targets.  The baseline hit rate is $0.19821739130434785$, while the hit rate above baseline is $0.9841269841269841$.  The hit rate inside $M\setminus T$ is $0.9365079365079365$, and the hit rate inside $M\setminus T$ plus the boundary is again $0.9841269841269841$.  In the leave-one-codon-out row, the anchor count is $0$, the boundary count is $5$, the high closure-coverage count is $8$, the predictable count is $8$, and the recovery rate is $1.0$.  The same row reports the recovery rate above threshold as $1.0$.  Thus the empirical signal is strongest as a local code-readback regularity: omitted codon or table entries can often be recovered relative to this finite boundary structure.
 
-\paragraph{Internal newmath/BEDC derivation.} Carrier: codon cube Q6. Distinctions: six-bit codon display; local tile face; singleton label corner; three-point label class. Readback: standard-code label table. Internal structure: coordinate; closure; spectrum; relation.
+\paragraph{Module decomposition.}
+The module classification accounts for all thirteen codons of $R$.  The assigned count is $13$, the reported $R$ size is $13$, and the audit lists no missing, extra, or unassigned codons.  The six modules are
+$$
+\begin{aligned}
+\mathrm{agr} &= \{AGA,AGG\},\\
+\mathrm{ar\_lys} &= \{AAA\},\\
+\mathrm{cun} &= \{CUA,CUC,CUG,CUU\},\\
+\mathrm{ile\_met} &= \{AUA\},\\
+\mathrm{ssn} &= \{UCA,UUA\},\\
+\mathrm{stop\_trp} &= \{UAA,UAG,UGA\}.
+\end{aligned}
+$$
+Every listed module has either predictable or boundary status.  The family-level leave-one-code-out row gives five families.  Their hit rates above baseline are $0.8333333333333334$ for alternative yeast, $1.0$ for bacterial plastid, $1.0$ for candidate other, $1.0$ for mitochondrial, and $1.0$ for nuclear ciliate.  These row counts and family rates make the tile boundary a concrete finite object rather than a merely verbal cluster.
 
-\paragraph{Falsifiable probes.}
-\textbf{codon.local.tile.no.global.law}. A local codon-tile pattern must stay at code\_read unless a separate higher-layer contact is supplied.
+\paragraph{Boundary of the claim.}
+The claim is deliberately limited.  The curated standard-code table supplies an external contact for codon-label readback, and the window-six representation supplies a finite coordinate carrier.  From those two ingredients one may speak about a local tile, its thirteen-codon boundary region, its punctured-cube face vector, its spectral scalars, its null-model comparisons, its leave-one recovery rates, and its module classification.  Nothing in this chapter establishes translation realization, folded protein structure, physical admissibility, biological function, a universal mechanism, or a global biological law.  Amino-acid label-sequence readback remains a code-layer observation; it is not a folded structure.  Any promotion beyond the code-read layer requires a separate reality contact with its own finite rows.
 
-Support condition: The curated code table supports only codon-label readback and local split checks.
+\subsection{ORF Eligibility Seed Boundary}\label{sec:orf-eligibility-seed-boundary}
+\origin{ai}
 
-Break condition: The pipeline promotes the local tile to translation, structure, physical admissibility, function, or universal mechanism.
+\paragraph{Finite packet.}
+The packet records a boundary-level seed for open-reading-frame eligibility from start/stop codon enumeration.  Its carrier is not an observed transcript, not a curated interval, and not an experimentally contacted coding sequence; it is the finite codon geometry that would have to be compared with such a contact before any biological ORF claim could be made.  The finite row basis contains the motif-union row
+$$
+\begin{aligned}
+R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\\
+&\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\},
+\end{aligned}
+$$
+with $|R|=13$, no missing rows, and no extra rows in the recorded motif compression.  The ambient enumerated set is
+$$
+\begin{aligned}
+M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
+&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
+\end{aligned}
+$$
+and the checked cardinality is $|M|=20$.  This is the entire finite content used here: the record is a seed boundary around these rows, not a biological assertion about any molecule.
 
-\paragraph{Mismatch ledger.}
-\textbf{codon.local.tile.scope.boundary}. Status: aligned. Delta: The contact supports code-layer readback and blocks higher-layer promotion.
+\paragraph{Saturation and quotient coordinates.}
+The finite $f_3$ saturation row verifies that
+$$
+\begin{aligned}
+\operatorname{Sat}_{f_3}(R)=M\setminus\{\mathrm{ACA},\mathrm{ACG}\},
+\end{aligned}
+$$
+so the saturated set has $18$ codons and the recorded $f_3$ boundary is empty.  Equivalently, the mediated reconstruction records $M=\operatorname{Med}(R)\cup\{\mathrm{ACA}\}$ in the finite ledger, while the explicit saturation row omits exactly $\mathrm{ACA}$ and $\mathrm{ACG}$.  The unquotiented coordinate complex has $f$-vector
+$$
+\begin{aligned}
+f(M)=(20,38,26,8,1),
+\end{aligned}
+$$
+and the quotient complex has $10$ listed quotient vertices with $f$-vector
+$$
+\begin{aligned}
+f(\pi M)=(10,14,6,1).
+\end{aligned}
+$$
+The quotient rows are
+$$
+\begin{aligned}
+\pi M=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),(0,1,0,0,0),\\
+&(0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),(1,0,1,0,1),(1,0,1,1,1)\}.
+\end{aligned}
+$$
+These coordinates are admissible as finite-row evidence for a boundary mismatch probe.  They do not identify an ORF interval, an expressed transcript, a translation event, a protein product, a folded structure, a physical admissibility class, or a biological function.
 
-Refinement pressure: Next cycles should search for separate reality contacts before crossing the translation or function boundary.
+\paragraph{Reality-contact gap.}
+Both probes in this packet require a separate contact of type $\mathrm{curated.orf.interval.annotation}$.  No such contact is attached in the present record: the contacts list is empty and the reality-contact reference list is empty.  Therefore the correct local reading is conditional and negative.  A start/stop-window enumeration may describe what one would test against an external biological interval, but it cannot by itself assert that the interval exists in a genome, appears in a transcript, is translated, folds, is physically admissible, has a function, realizes a mechanism, or holds universally across organisms or codes.  The self-check records three checked gates and states the boundary explicitly: no codon geometry is promoted across biological layers.
 
-\textbf{codon.label.readback.not.folded.structure}. Status: blocked\_null. Delta: Amino-acid label readback stays at the code layer; no fold, physical admissibility, or function is observed by this contact.
-
-Refinement pressure: Attach a separate structure experiment or structure-prediction contact before any structural-order claim.
-
-\paragraph{Cannot-claim boundary.} A local codon tile is not a global biological law.; Window-six geometry alone is not translation, structure, physical admissibility, or function.; Amino-acid label-sequence readback is not folded protein structure.
-
-\paragraph{Verified facts.}
-\textbf{h0.M.shape.significance}. Run 0b267c88f8e4. N=2000, distinct\_sample\_attempts=57377, duplicate\_retries=55377, exact\_shape\_matches=1, jaccard\_ge\_0.9\_matches=25, p\_exact=0.0005, p\_jaccard\_ge\_0.9=0.0125, p\_value\_exact\_shape\_significant=0.0005, p\_value\_high\_jaccard\_significant=0.0125, seed=42.
-
-\textbf{h0.R.cardinality.13}. Run 5d4a3459997d. R\_cardinality\_equals\_13=13, R\_matches\_expected\_codons=\{AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU, UAA, UAG, UCA, UGA, UUA\}, size=13.
-
-\textbf{h0.R.punctured.cube}. Run e19917012c60. R\_equals\_punctured\_cube=\{AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU, UAA, UAG, UCA, UGA, UUA\}.
-
-\textbf{h0.null.model.aa\_class\_preserving}. Run e8d5de747a0c. N=2000, exact\_match\_count=0, lower\_tail\_count\_le\_observed\_M\_size=7, observed\_M\_size=20, p\_value\_aa\_class\_exact\_shape=0, p\_value\_aa\_class\_exact\_shape\_significant=0, p\_value\_aa\_class\_lower\_tail=0.0035, p\_value\_aa\_class\_lower\_tail\_significant=0.0035, seed=42.
-
-\textbf{h0.spectrum}. Run 1026324eff41. cubic\_polynomial\_satisfied=-6.22435e-12, lambda\_M=0.675248, lambda\_R=0.475835, mu=3.05149, radial\_polynomial\_value=-6.22435e-12, spectral\_radius\_in\_tolerance=0.675248.
-
-\textbf{h1.leave.one.code.out}. Run 429e6e2c4eb4. baseline\_hit\_rate=0.198217, hit\_rate\_above\_baseline=0.984127, hit\_rate\_in\_M\_minus\_T=0.936508, hit\_rate\_in\_M\_minus\_T\_plus\_boundary=0.984127, tables\_evaluated=23, total\_targets=63.
-
-\textbf{h1.leave.one.codon.out}. Run e9e1a6e41633. anchor\_count=0, boundary\_count=5, closure\_coverage\_high=8, predictable\_count=8, recovery\_rate=1, recovery\_rate\_above\_threshold=1.
-
-\textbf{h1.leave\_one\_code\_out.by\_family}. Run 7dda978c6c97. family\_count=5.
-
-\textbf{h1.leave\_one\_codon\_out.module\_classification}. Run bbe8a4d0455b. no scalar values recorded.
-
-\subsection{orf\_eligibility.seed.boundary}
-
-\paragraph{Biological object.} open-reading-frame eligibility from start/stop codon enumeration
-
-\paragraph{Current claim.} Seed packet for layer orf\_eligibility. Awaits a separate reality contact before any ORF eligibility claim can be made.
-
-\paragraph{External reality input.}
-No external contact is attached.
-
-\paragraph{Internal newmath/BEDC derivation.} Carrier: awaiting reality contact. Distinctions: awaiting reality contact. Readback: awaiting reality contact. Internal structure: none.
-
-\paragraph{Falsifiable probes.}
-\textbf{orf.eligibility.boundary.requires.contact}. A start/stop-window ORF eligibility seed must stay at boundary status unless an external sequence or transcript contact supplies the observed biological interval.
-
-Support condition: Until a separate sequence, transcript, or curated-annotation contact is attached, the packet remains only a boundary probe for what would have to be tested.
-
-Break condition: The pipeline asserts ORF eligibility, translation realization, folded structure, physical admissibility, or biological function from start/stop-window enumeration alone.
-
-\textbf{orf.eligibility.contact.gap.check}. An ORF eligibility seed is admissible only as a boundary probe while it lacks an external biological interval contact.
-
-Support condition: The packet remains a contact-gap boundary record until a separate reality contact that can test orf\_eligibility is attached.
-
-Break condition: The packet records an ORF eligibility claim while no sequence database, transcript evidence, or curated annotation contact can test the proposed interval.
-
-\paragraph{Mismatch ledger.}
-\paragraph{Cannot-claim boundary.} Layer orf\_eligibility cannot be promoted to higher layers without a separate reality contact.; BEDC coordinate alone does not realize layer orf\_eligibility.; Start/stop-window eligibility is not translation realization, folded structure, physical admissibility, or biological function.
-
-\paragraph{Verified facts.}
-\textbf{h0.M.equals.WNR.CUN}. Run a53ef0f36703. M\_cardinality\_equals\_20=20, M\_equals\_WNR\_union\_CUN=\{AAA, AAG, ACA, ACG, AGA, AGG, AUA, AUG, CUA, CUC, CUG, CUU, UAA, UAG, UCA, UCG, UGA, UGG, UUA, UUG\}, size=20.
-
-\textbf{h0.R.motif.compression}. Run 338799579a87. R\_equals\_motif\_union=\{AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU, UAA, UAG, UCA, UGA, UUA\}, no\_extra=\{\}, no\_missing=\{\}.
-
-\textbf{h0.f3.saturation}. Run f4eee68dd2c3. M\_equals\_Med\_R\_union\_ACA=\{AAA, AAG, ACA, ACG, AGA, AGG, AUA, AUG, CUA, CUC, CUG, CUU, UAA, UAG, UCA, UCG, UGA, UGG, UUA, UUG\}, Sat\_f3\_R\_equals\_M\_without\_ACA\_ACG=\{AAA, AAG, AGA, AGG, AUA, AUG, CUA, CUC, CUG, CUU, UAA, UAG, UCA, UCG, UGA, UGG, UUA, UUG\}, f3\_boundary\_is\_zero=\{\}.
-
-\textbf{h0.quotient.geometry}. Run fd0a506a0881. M\_is\_product\_decomposition=\{\}, pi\_M\_size=10.
-
-\textbf{self.claim}. Run 0f47d2f0cf41. boundary=BioReality self-check only; no codon geometry is promoted across biological layers., checked\_gate\_count=3.
+\paragraph{Local verdict.}
+The packet is ready only as a BioReality boundary record.  Its finite content is concrete: $13$ motif rows in $R$, $20$ rows in $M$, $18$ rows in $\operatorname{Sat}_{f_3}(R)$, an empty $f_3$ boundary, the unquotiented $f$-vector $(20,38,26,8,1)$, the quotient size $10$, and the quotient $f$-vector $(10,14,6,1)$.  Its biological content remains deliberately unpromoted.  To promote the layer from boundary status to an ORF eligibility claim, a separate sequence, transcript, or curated interval contact must supply the observed biological interval and must be checked against the finite start/stop-window data recorded above.
