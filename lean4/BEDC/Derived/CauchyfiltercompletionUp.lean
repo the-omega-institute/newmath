@@ -135,4 +135,26 @@ theorem CauchyFilterCompletionPacket_semantic_name_certificate [AskSetup] [Packa
                             ⟨unary_transport sealUnary (hsame_symm sameSeal), provenancePkg⟩
   }
 
+theorem CauchyFilterCompletionRootWindowExposure [AskSetup] [PackageSetup]
+    {filter windows tolerance readback sealRow transport replay provenance name exposure : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterCompletionPacket filter windows tolerance readback sealRow transport replay
+        provenance name bundle pkg ->
+      Cont windows tolerance exposure ->
+        PkgSig bundle exposure pkg ->
+          UnaryHistory filter ∧ UnaryHistory windows ∧ UnaryHistory tolerance ∧
+            UnaryHistory readback ∧ UnaryHistory exposure ∧ Cont filter windows tolerance ∧
+              Cont windows tolerance exposure ∧ Cont tolerance readback sealRow ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle exposure pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro packet windowsToleranceExposure exposurePkg
+  obtain ⟨filterUnary, windowsUnary, toleranceUnary, readbackUnary, _sealUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _nameUnary, filterWindows,
+    toleranceReadback, _transportReplay, provenancePkg, _namePkg⟩ := packet
+  have exposureUnary : UnaryHistory exposure :=
+    unary_cont_closed windowsUnary toleranceUnary windowsToleranceExposure
+  exact
+    ⟨filterUnary, windowsUnary, toleranceUnary, readbackUnary, exposureUnary, filterWindows,
+      windowsToleranceExposure, toleranceReadback, provenancePkg, exposurePkg⟩
+
 end BEDC.Derived.CauchyfiltercompletionUp
