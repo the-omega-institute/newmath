@@ -1399,6 +1399,7 @@ import BEDC.Derived.CauchyProductUp
 import BEDC.Derived.CauchyProductUp.BilinearTailWindow
 import BEDC.Derived.CauchyProductUp.BudgetProductAssociativeRoute
 import BEDC.Derived.CauchyProductUp.BudgetProductSymmetricRoute
+import BEDC.Derived.CauchyProductUp.BudgetRealSealCompatibility
 import BEDC.Derived.CauchyProductUp.BudgetRegseqClassifierLock
 import BEDC.Derived.CauchyProductUp.BudgetRouteExactness
 import BEDC.Derived.CauchyProductUp.BudgetRouteStrictObstruction
@@ -5073,6 +5074,7 @@ import BEDC.Derived.QuadratureUp
 import BEDC.Derived.QuantumChannelUp
 import BEDC.Derived.QuantumStateUp
 import BEDC.Derived.QuasiIsometryUp
+import BEDC.Derived.QuasiMetricUp.TasteGate
 import BEDC.Derived.QuotientGroupUp
 import BEDC.Derived.QuotientGroupUp.AbelianTerminalProjectionUniqueness
 import BEDC.Derived.QuotientGroupUp.CentralizerCosetProduct
