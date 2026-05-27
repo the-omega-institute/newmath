@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-signed-binary-expansion-namecert}
 \origin{human}
 
-Following Avizienis signed-digit arithmetic and Bishop--Bridges constructive analysis, the $\SignedBinaryExpansionUp$ packet records finite signed-binary real readback before any real-name consumer may treat a signed prefix as a terminal seal. It sits after the raw $\BinaryExpansionUp$ prefix surface of \autoref{ch:concrete-instances-binaryexpansion-namecert} and the endpoint uniqueness boundary of \autoref{ch:concrete-instances-binary-endpoint-uniqueness-namecert}, while using the signed-window surface of \autoref{ch:concrete-instances-signeddigitstream-namecert}, the dyadic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite readback certificate for displayed sign and digit windows; it is not quotient stream equality, not a selected representative of an infinite expansion, and not an ambient completeness principle.
+Following Avizienis signed-digit arithmetic and Bishop--Bridges constructive analysis, the $\SignedBinaryExpansionUp$ packet records finite signed-binary real readback before any real-name consumer may treat a signed prefix as a terminal seal. It sits after the raw binary expansion prefix surface of \autoref{ch:concrete-instances-binaryexpansion-namecert} and the endpoint uniqueness boundary of \autoref{ch:concrete-instances-binary-endpoint-uniqueness-namecert}, while using the signed-digit stream handoff of \autoref{ch:concrete-instances-signeddigitstream-namecert}, the dyadic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite readback certificate for displayed sign and digit windows; it is not quotient stream equality, not a selected representative of an infinite expansion, and not an ambient completeness principle.
 
 \begin{definition}[SignedBinaryExpansion carrier]
 \label{def:signed-binary-expansion-carrier}
@@ -13,17 +13,17 @@ $$
 with the following visible rows:
 \begin{enumerate}
 \item $Q$ is the sign row, exposing the displayed positive, negative, or zero-facing prefix orientation used by the readback.
-\item $B$ is the accepted $\BinaryExpansionUp$ finite prefix row whose unsigned digit windows are read before signs are attached.
+\item $B$ is the accepted binary expansion finite prefix row whose unsigned digit windows are read before signs are attached.
 \item $U$ is the accepted $\BinaryEndpointUniquenessUp$ row recording the endpoint-normalization data and excluding a second binary endpoint convention.
 \item $D$ is the signed digit-prefix row, displayed as the local signed-binary digit window before it is handed to the signed stream interface.
 \item $W$ is the $\StreamNameUp$ finite-window schedule selecting exactly the observed digit prefixes and their requested precisions.
 \item $E$ is the $\DyadicRatCoreUp$ enclosure row recording the dyadic center and radius attached to the signed prefix window.
-\item $Y$ is the $\SignedDigitStreamUp$ handoff row that repacks the sign, digit-prefix, carry, and endpoint data as a signed-digit stream window.
+\item $Y$ is the signed-digit stream handoff row that repacks the sign, digit-prefix, carry, and endpoint data as a signed-digit stream window.
 \item $R$ is the $\RegSeqRatUp$ handoff row obtained from the displayed window schedule and dyadic enclosure rows.
 \item $L$ is the terminal $\RealUp$ seal row reached only after $Q,B,U,D,W,E,Y,R$ have been displayed.
 \item $H$ records componentwise $\hsame$ transport for the sign, binary prefix, endpoint-normalization, signed digit, window, enclosure, stream handoff, regular handoff, and seal rows.
 \item $C$ records displayed $\Cont$ replay from a consumer request through the sign and digit windows, then the endpoint-normalization row, dyadic enclosure rows, signed-digit stream handoff, regular rational handoff, and terminal seal.
-\item $P$ is the $\Pkg$ provenance over $\SignedBinaryExpansionUp$, $\BinaryExpansionUp$, $\BinaryEndpointUniquenessUp$, $\SignedDigitStreamUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $P$ is the $\Pkg$ provenance over $\SignedBinaryExpansionUp$, the binary expansion prefix surface, $\BinaryEndpointUniquenessUp$, the signed-digit stream handoff, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
 \item $N$ is the local $\NameCert_{\SignedBinaryExpansionUp}$ row.
 \end{enumerate}
 The carrier predicate accepts only these finite rows. It has no coordinate for quotient stream equality, an infinite selected representative, host real equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
@@ -38,7 +38,7 @@ For every accepted $\SignedBinaryExpansionUp$ carrier $S=(Q,B,U,D,W,E,Y,R,L,H,C,
 \item endpoint-normalization exactness, requiring $U$ to be consumed before any signed digit prefix is interpreted as a unique endpoint readback;
 \item signed-window stability, requiring $D$ and $W$ to be preserved componentwise under the displayed $\hsame$ transport $H$ and replayed by the displayed $\Cont$ row $C$;
 \item dyadic enclosure visibility, requiring every regular rational or real-name consumer to inspect the $\DyadicRatCoreUp$ row $E$ before reading $Y$, $R$, or $L$;
-\item handoff order, requiring the $\SignedDigitStreamUp$ row $Y$ to precede the $\RegSeqRatUp$ row $R$ and the terminal $\RealUp$ seal $L$;
+\item handoff order, requiring the signed-digit stream row $Y$ to precede the $\RegSeqRatUp$ row $R$ and the terminal $\RealUp$ seal $L$;
 \item provenance locality, requiring the package row $P$ and local NameCert row $N$ to expose no quotient stream equality, selected representative, trichotomy, countable-choice selector, or ambient completeness coordinate.
 \end{enumerate}
 No signed-binary expansion obligation is stored outside these rows.
@@ -61,7 +61,7 @@ Let $S=(Q,B,U,D,W,E,Y,R,L,H,C,P,N)$ be an accepted $\SignedBinaryExpansionUp$ ca
 $$
 Q,B,U,D,W \longmapsto E \longmapsto Y \longmapsto R \longmapsto L
 $$
-with structural support $H,C,P,N$. Thus the consumer receives a sign row, finite binary prefix row, endpoint-normalization row, signed digit-prefix window, dyadic enclosure row, $\SignedDigitStreamUp$ handoff, $\RegSeqRatUp$ handoff, and $\RealUp$ seal, all as finite BEDC data.
+with structural support $H,C,P,N$. Thus the consumer receives a sign row, finite binary prefix row, endpoint-normalization row, signed digit-prefix window, dyadic enclosure row, signed-digit stream handoff, $\RegSeqRatUp$ handoff, and $\RealUp$ seal, all as finite BEDC data.
 
 The boundary supplies no quotient equality of streams, no selected representative of an infinite expansion, no trichotomy row, no countable-choice row, no host real equality, and no ambient $\RealUp$ completeness witness.
 \end{theorem}
