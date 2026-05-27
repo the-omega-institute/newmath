@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\HausdorffDimensionUp$}
+\label{ch:concrete-instances-hausdorff-dimension-namecert}
+\origin{human}
+
+Following Hausdorff and Falconer, the $\HausdorffDimensionUp$ packet records the BEDC surface at which gauge-weighted finite and countable-looking cover data become a named scale-cover dimension read. It sits beside the scale counting route of \autoref{ch:concrete-instances-box-dimension-namecert}, the finite refinement route of \autoref{ch:concrete-instances-coveringdimension-namecert}, the compact source boundary of \autoref{ch:concrete-instances-compactmetric-namecert}, and the dense Real-facing route of \autoref{ch:concrete-instances-real-separability-namecert}. The chapter names a gauge-cover packet; it does not overload $\BoxDimensionUp$ with Hausdorff-measure obligations and does not assert a host measure theorem.
+
+\begin{definition}[Hausdorff dimension gauge-cover carrier]
+\label{def:hausdorff-dimension-carrier}
+A $\HausdorffDimensionUp$ carrier over a compact metric source $X$ is a finite $\BHist$ packet
+$$
+H=(M,K,G,C,W,R,S,D,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the inherited $\MetricUp$ row on $X$, including the visible distance classifier used to read ball diameters.
+\item $K$ is the $\CompactMetricUp$ source row, exposing finite-net and complete-limit data before any gauge cover is inspected.
+\item $G$ is the gauge row. It records the dyadic scale exponent, positive radius bound, and rational weight expression used by the Hausdorff gauge read.
+\item $C$ is the finite visible cover row. Each cover member carries a center history, a radius history, membership evidence, and a diameter bound readable through $M$ and $K$.
+\item $W$ is the gauge-weight ledger. It assigns to each displayed cover member its rational gauge contribution and records the finite partial sum.
+\item $R$ is the refinement route. It records how a smaller visible gauge cover refines the previous one without choosing a host-minimal cover.
+\item $S$ is the separability route through $\RealSeparabilityUp$, used when the compact metric source is Real-facing and cover centers must be read from dense windows.
+\item $D$ is the dimension-threshold ledger. It records rational lower and upper threshold comparisons for gauge-weight decay across displayed scales.
+\item $T$ stores componentwise $\hsame$ transport and displayed $\Cont$ replay for metric points, gauge scales, cover members, gauge weights, refinement rows, dense-route data, and threshold comparisons.
+\item $P$ is the $\Pkg$ provenance over $\HausdorffDimensionUp$, $\MetricUp$, $\CompactMetricUp$, $\CoveringDimensionUp$, $\BoxDimensionUp$, $\RealSeparabilityUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HausdorffDimensionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an arbitrary outer measure, a selected optimal cover, countable choice over covers, host logarithms, quotient compacta, ambient Euclidean embeddings, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Hausdorff dimension NameCert obligations]
+\label{thm:hausdorff-dimension-namecert-obligations}
+For every accepted $\HausdorffDimensionUp$ carrier
+$$
+H=(M,K,G,C,W,R,S,D,T,P,N),
+$$
+the local $\NameCert_{\HausdorffDimensionUp}$ surface consists exactly of carrier admission for the metric and compact rows, gauge positivity and scale exposure, finite cover membership, diameter comparison, gauge-weight summation, refinement transport, dense Real-facing routing when present, threshold comparison, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No obligation is stored outside $M,K,G,C,W,R,S,D,T,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hausdorff-dimension-carrier}. The source rows $M$ and $K$ provide the metric and compact finite-net surface, while $G$ supplies the positive gauge scale and the rational exponent data used by the dimension read.
+
+For a fixed gauge, $C$ displays the cover members and $W$ displays their gauge contributions. The finite sum is therefore a packet row, not an invocation of an ambient outer-measure construction.
+
+The row $R$ is the only refinement route between gauges. It transports displayed covers to smaller displayed covers and keeps the weight ledger attached to the same finite source surface.
+
+The dense-source route $S$, threshold ledger $D$, transport and replay row $T$, provenance row $P$, and naming row $N$ preserve the same visible data. Since the carrier contains no coordinate for selected optimal covers, countable choice, host logarithms, outer measures, quotient compacta, Lean verification, or bridge checking, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Hausdorff dimension scale-cover route]
+\label{thm:hausdorff-dimension-scale-cover-route}
+Every scale-cover read exported by an accepted $\HausdorffDimensionUp$ packet factors through
+$$
+\MetricUp,\CompactMetricUp \longmapsto G,C,W,R \longmapsto S,D,T,P,N .
+$$
+The route may be compared with $\BoxDimensionUp$ only at the shared metric, compact, dyadic-scale, finite-cover, refinement, counting, and dense-route rows, and with $\CoveringDimensionUp$ only at the finite cover-refinement surface. It does not identify Hausdorff gauge weights with box cover counts, does not turn covering dimension into a gauge measure, and does not import open-cover compactness or selected subcovers.
+\end{theorem}
+\begin{proof}
+Start from the metric and compact source rows. A scale-cover consumer must first read $M$ and $K$, so the cover is anchored in the same compact metric finite-net boundary used by \autoref{ch:concrete-instances-compactmetric-namecert}.
+
+Open the gauge-cover rows. The gauge row $G$, visible cover row $C$, and gauge-weight ledger $W$ provide the Hausdorff-specific data; the refinement row $R$ records how these rows persist as the scale decreases.
+
+Compare only along shared surfaces. The $\BoxDimensionUp$ sibling shares finite scale-cover and counting language but lacks the gauge-weight ledger, while $\CoveringDimensionUp$ shares finite refinement language but lacks the gauge-threshold comparison row.
+
+Finally route Real-facing centers through $S$ and close the threshold read through $D,T,P,N$. The packet therefore exports a concrete gauge-cover dimension route without adding host outer measures, selected cover families, open-cover compactness, quotient equality, or ambient Real completeness.
+\end{proof}
+
+\begin{closurestatus}{\HausdorffDimensionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hausdorff-dimension-carrier}, \autoref{thm:hausdorff-dimension-namecert-obligations}, and \autoref{thm:hausdorff-dimension-scale-cover-route} seed the gauge-cover dimension packet over compact metric sources, finite refinement rows, RealSeparability dense routes, and box-dimension comparison surfaces.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Hausdorff measure existence, exact numerical dimension values, countable cover choice, selected optimal covers, host logarithm analysis, ambient Euclidean embeddings, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, gauge positivity, finite cover membership, diameter comparison, gauge-weight summation, refinement routing, threshold comparison, and RealSeparability dense-route coverage for BEDC.Derived.HausdorffDimensionUp.}
+  \constructivestory{A $\HausdorffDimensionUp$ packet is generated from a metric row, compact metric source row, gauge row, visible cover row, gauge-weight ledger, refinement route, dense Real-facing route, threshold ledger, componentwise transport and replay, provenance, and a local NameCert row.}
+\end{closurestatus}
