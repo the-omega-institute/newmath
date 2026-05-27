@@ -1658,6 +1658,7 @@ import BEDC.Derived.CauchyWitnessLedgerUp.TasteGate
 import BEDC.Derived.CauchyWitnessLedgerUp.TerminalObserverExactness
 import BEDC.Derived.CauchyWitnessPullbackUp.TasteGate
 import BEDC.Derived.CauchyfiltercompletionUp
+import BEDC.Derived.CauchyfiltercompletionUp.RootUnblock
 import BEDC.Derived.CausalCommitmentUp
 import BEDC.Derived.CausalCommitmentUp.CarrierObligation
 import BEDC.Derived.CausalCommitmentUp.CausalCommitmentClassifierStability
@@ -3436,6 +3437,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.WindowCoverageExactness
 import BEDC.Derived.FiniteLebesgueNumberUp.WindowRadiusLedgerCoherence
 import BEDC.Derived.FiniteLebesgueNumberUp.WindowRadiusSourceLock
 import BEDC.Derived.FiniteLimitSealEnvelopeUp.TasteGate
+import BEDC.Derived.FiniteLowerBoundFoldUp.TasteGate
 import BEDC.Derived.FiniteMapUp
 import BEDC.Derived.FiniteMultiHistPacketUp.TasteGate
 import BEDC.Derived.FiniteNetMinimumFoldUp
@@ -4717,6 +4719,7 @@ import BEDC.Derived.NegativeNameBoundaryUp.NonInternalization
 import BEDC.Derived.NegativeNameBoundaryUp.ObligationClosure
 import BEDC.Derived.NegativeNameBoundaryUp.PublicExport
 import BEDC.Derived.NegativeNameBoundaryUp.QuotientSoundnessLatticeLink
+import BEDC.Derived.NeighborhoodFilterUp.TasteGate
 import BEDC.Derived.NestedClosedIntervalUp
 import BEDC.Derived.NestedDyadicCauchyUp.TasteGate
 import BEDC.Derived.NestedDyadicIntervalUp
