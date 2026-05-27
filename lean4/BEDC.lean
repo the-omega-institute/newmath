@@ -4341,6 +4341,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.NormalFormRouteCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionLedgerExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealDependencyDiamond
+import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealRootUnblockAdmission
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionFrontierFilter
 import BEDC.Derived.MetaCICCriticalPathUp.RealStreamNameSourceReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.RouteReplay
@@ -5360,6 +5361,7 @@ import BEDC.Derived.RealPowerSeriesUp.RadiusObligation
 import BEDC.Derived.RealPowerSeriesUp.RegSeqRatEvaluationHandoff
 import BEDC.Derived.RealPowerSeriesUp.RootCoefficientWindowCoverage
 import BEDC.Derived.RealPowerSeriesUp.RootEndpointNonescape
+import BEDC.Derived.RealPowerSeriesUp.RootRadiusMajorantTriad
 import BEDC.Derived.RealPowerSeriesUp.TasteGate
 import BEDC.Derived.RealRationalApproximationUp.TasteGate
 import BEDC.Derived.RealRootBracketUp.TasteGate
@@ -6718,6 +6720,7 @@ import BEDC.Derived.UniformPartitionUp.TasteGate
 import BEDC.Derived.UniformReflectionKernelUp.TasteGate
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.UniqueChoicePrincipleUp.DeterministicReadback
+import BEDC.Derived.UniqueChoicePrincipleUp.NameCertObligations
 import BEDC.Derived.UniqueChoicePrincipleUp.TasteGate
 import BEDC.Derived.UnitCalibrationLedgerUp.NameCertObligations
 import BEDC.Derived.UnitCalibrationLedgerUp.TasteGate
