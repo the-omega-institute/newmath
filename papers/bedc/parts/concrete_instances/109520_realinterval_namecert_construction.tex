@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\RealIntervalUp$}
+\label{ch:concrete-instances-realinterval-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RealIntervalUp$ packet records displayed real interval endpoints and finite enclosure rows for the L10 Real and Completion route. It sits after the located interval surface of \autoref{ch:concrete-instances-locatedinterval-namecert}, the rational interval surface of \autoref{ch:concrete-instances-rationalinterval-namecert}, and the dyadic-to-real spine of \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The chapter gives interval-completion and real-enclosure consumers one named endpoint-and-enclosure packet; it is not a host closed interval, selected endpoint representatives, trichotomy, compactness, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[RealInterval carrier]
+\label{def:real-interval-carrier}
+A $\RealIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,U,E,D,W,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower endpoint $\RealUp$ row, read through the displayed $\StreamNameUp$ and $\RegSeqRatUp$ seal discipline.
+\item $U$ is the upper endpoint $\RealUp$ row, read through the same finite real-name seal discipline.
+\item $E$ is the enclosure and order row, binding the lower endpoint, upper endpoint, rational interval enclosure, and endpoint-order evidence without replacing the endpoints by host representatives.
+\item $D$ is the dyadic tolerance row supplied by $\DyadicRatCoreUp$; it records positive precision requests, outward rounding budgets, and finite endpoint comparison tolerances.
+\item $W$ is the $\StreamNameUp$ window row for the two endpoint streams and the interval enclosure reads visible at the requested tolerance.
+\item $R$ is the $\RegSeqRatUp$ readback row that turns the endpoint windows and dyadic tolerance budget into regular rational observations.
+\item $S$ is the terminal $\RealUp$ seal row for endpoint and enclosure consumers; every Real-facing output must pass through this row after $D,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for endpoints, enclosure and order data, dyadic tolerance, windows, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from interval membership, enclosure, refinement, or completion-facing requests through $L,U,E,D,W,R,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RealIntervalUp$, $\LocatedIntervalUp$, $\RationalIntervalUp$, $\RealIntervalEnclosureUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealIntervalUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one displayed real interval endpoint-and-enclosure history. It has no coordinate for host interval equality, selected quotient representatives, real-order trichotomy, countable choice, compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RealInterval NameCert obligations]
+\label{thm:real-interval-namecert-obligations}
+For every accepted $\RealIntervalUp$ carrier $I=(L,U,E,D,W,R,S,H,C,P,N)$, the local $\NameCert_{\RealIntervalUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the lower endpoint, upper endpoint, enclosure and order row, dyadic tolerance row, stream windows, regular rational readback, Real seal, transport, replay, provenance, and local name;
+\item endpoint order, requiring $E$ to bind $L$ and $U$ before any interval read can be treated as an enclosure;
+\item enclosure stability, requiring every containment, refinement, and endpoint-bound read to pass through $E$ together with the displayed tolerance and window rows;
+\item dyadic tolerance handoff, requiring $D$ to precede the $\StreamNameUp$ windows $W$ and $\RegSeqRatUp$ readback $R$;
+\item Real seal non-escape, requiring every Real-facing endpoint or enclosure output to reach $S$ only after $L,U,E,D,W,R$ have been displayed;
+\item ledger refusal, excluding host interval equality, selected endpoint representatives, real-order trichotomy, countable choice, compactness, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No real interval obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:real-interval-carrier}. The projection exposes exactly the two endpoint rows, enclosure and order row, dyadic tolerance row, stream windows, regular rational readback, Real seal, and structural rows.
+
+Endpoint order and enclosure stability are read from $E$. That row is the only coordinate joining $L$ and $U$ into an interval boundary, so containment, refinement, and endpoint-bound requests cannot bypass it.
+
+The dyadic tolerance handoff is the route $D\mapsto W\mapsto R$. A positive precision request first enters the dyadic budget, then selects finite stream windows, and only then produces regular rational readback.
+
+The Real seal row $S$ is downstream of that route. The remaining rows $H,C,P,N$ transport, replay, package, and name the same endpoint-and-enclosure history, while the excluded host interval, choice, compactness, and completeness objects have no coordinate in the carrier.
+\end{proof}
+
+\begin{theorem}[RealInterval seal enclosure route]
+\label{thm:real-interval-seal-enclosure-route}
+Every endpoint, enclosure, refinement, or completion-facing read of an accepted $\RealIntervalUp$ carrier reaches the $\RealUp$ seal only through the displayed route
+$$
+L,U,E \longmapsto D,W,R \longmapsto S,H,C,P,N .
+$$
+Consequently every interval consumer receives endpoint order, finite enclosure data, dyadic tolerance, stream windows, and regular rational readback before any Real-facing seal is visible. The route exports no host interval equality, selected endpoint representative, real-order trichotomy, countable-choice schedule, compactness theorem, hidden complete space, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $I=(L,U,E,D,W,R,S,H,C,P,N)$. The endpoint rows $L$ and $U$ are the only Real endpoints in the packet, and $E$ is the only row that binds them as an ordered enclosure.
+
+Read the dyadic tolerance handoff next. The row $D$ supplies the finite precision and outward-rounding budget, $W$ exposes the endpoint stream windows visible at that budget, and $R$ turns those windows into regular rational readback.
+
+Only after this handoff may the Real-facing seal $S$ be consumed. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row preserve the same route. Since none of the excluded host interval or completeness objects is a carrier coordinate, every interval read reaches the seal only through the displayed rows.
+\end{proof}
+
+\closureat{RealIntervalUp}{seedStr}
+
+\begin{closurestatus}{\RealIntervalUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-interval-carrier}, \autoref{thm:real-interval-namecert-obligations}, and \autoref{thm:real-interval-seal-enclosure-route} seed the finite endpoint-and-enclosure interval surface over $\LocatedIntervalUp$, $\RationalIntervalUp$, $\RealIntervalEnclosureUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host interval equality, selected endpoint representatives, trichotomy, countable choice, compactness, ambient RealUp completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint order, enclosure stability, dyadic tolerance handoff, Real seal non-escape, and ledger refusal for BEDC.Derived.RealIntervalUp.}
+  \constructivestory{A $\RealIntervalUp$ packet is generated from lower and upper RealUp endpoint rows, an enclosure and order row, a DyadicRatCoreUp tolerance row, StreamNameUp finite windows, RegSeqRatUp readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
