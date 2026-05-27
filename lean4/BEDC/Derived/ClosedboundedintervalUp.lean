@@ -530,4 +530,61 @@ theorem ClosedBoundedIntervalPacket_root_unblock_obligations [AskSetup] [Package
       nestedWindowUnary, compactUniformUnary, finiteNetRoute, locatedCoverRoute,
       nestedWindowRoute, compactUniformRoute, provenancePkg, localNamePkg, compactUniformPkg⟩
 
+theorem ClosedBoundedIntervalPacket_nested_window_factorization [AskSetup] [PackageSetup]
+    {lower upper order rational dyadic stream readback sealRow transport replay provenance
+      localName exported nestedWindow nestedSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClosedBoundedIntervalPacket lower upper order rational dyadic stream readback sealRow
+        transport replay provenance localName exported bundle pkg ->
+      Cont exported readback nestedWindow ->
+        Cont nestedWindow sealRow nestedSeal ->
+          PkgSig bundle nestedSeal pkg ->
+            UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory order ∧
+              UnaryHistory readback ∧ UnaryHistory sealRow ∧ UnaryHistory nestedWindow ∧
+                UnaryHistory nestedSeal ∧ Cont exported readback nestedWindow ∧
+                  Cont nestedWindow sealRow nestedSeal ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle localName pkg ∧ PkgSig bundle nestedSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro packet nestedWindowRoute nestedSealRoute nestedSealPkg
+  obtain ⟨lowerUnary, upperUnary, orderUnary, _rationalUnary, _dyadicUnary, _streamUnary,
+    readbackUnary, sealRowUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, exportedUnary, _endpointRoute, _containmentRoute, _sealRowRoute,
+    _replayRoute, _nameRoute, provenancePkg, localNamePkg⟩ := packet
+  have nestedWindowUnary : UnaryHistory nestedWindow :=
+    unary_cont_closed exportedUnary readbackUnary nestedWindowRoute
+  have nestedSealUnary : UnaryHistory nestedSeal :=
+    unary_cont_closed nestedWindowUnary sealRowUnary nestedSealRoute
+  exact
+    ⟨lowerUnary, upperUnary, orderUnary, readbackUnary, sealRowUnary, nestedWindowUnary,
+      nestedSealUnary, nestedWindowRoute, nestedSealRoute, provenancePkg, localNamePkg,
+      nestedSealPkg⟩
+
+theorem ClosedBoundedIntervalPacket_located_endpoint_grid [AskSetup] [PackageSetup]
+    {lower upper order rational dyadic stream readback sealRow transport replay provenance
+      localName exported grid cell : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClosedBoundedIntervalPacket lower upper order rational dyadic stream readback sealRow
+        transport replay provenance localName exported bundle pkg ->
+      Cont order dyadic grid ->
+        Cont grid stream cell ->
+          PkgSig bundle cell pkg ->
+            UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory order ∧
+              UnaryHistory dyadic ∧ UnaryHistory stream ∧ UnaryHistory grid ∧
+                UnaryHistory cell ∧ Cont order dyadic grid ∧ Cont grid stream cell ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg ∧
+                    PkgSig bundle cell pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro packet gridRoute cellRoute cellPkg
+  obtain ⟨lowerUnary, upperUnary, orderUnary, _rationalUnary, dyadicUnary, streamUnary,
+    _readbackUnary, _sealRowUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _exportedUnary, _endpointRoute, _containmentRoute, _sealRowRoute,
+    _replayRoute, _nameRoute, provenancePkg, localNamePkg⟩ := packet
+  have gridUnary : UnaryHistory grid :=
+    unary_cont_closed orderUnary dyadicUnary gridRoute
+  have cellUnary : UnaryHistory cell :=
+    unary_cont_closed gridUnary streamUnary cellRoute
+  exact
+    ⟨lowerUnary, upperUnary, orderUnary, dyadicUnary, streamUnary, gridUnary, cellUnary,
+      gridRoute, cellRoute, provenancePkg, localNamePkg, cellPkg⟩
+
 end BEDC.Derived.ClosedboundedintervalUp
