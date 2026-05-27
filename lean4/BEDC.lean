@@ -1393,6 +1393,7 @@ import BEDC.Derived.CauchyProductUp.ConstantFactorBilinearSeal
 import BEDC.Derived.CauchyProductUp.ConstantLeftFactor
 import BEDC.Derived.CauchyProductUp.ConstantRightFactor
 import BEDC.Derived.CauchyProductUp.DyadicProductWindowInversion
+import BEDC.Derived.CauchyProductUp.FactorSwapObservationSurface
 import BEDC.Derived.CauchyProductUp.FiniteBudgetComposition
 import BEDC.Derived.CauchyProductUp.L10DependencyLattice
 import BEDC.Derived.CauchyProductUp.LedgerExhaustion
@@ -4431,9 +4432,11 @@ import BEDC.Derived.MetricCompletionUp.ScopedDependencyPackage
 import BEDC.Derived.MetricCompletionUp.ScopedReadbackScope
 import BEDC.Derived.MetricCompletionUp.SeparatedBranchReadback
 import BEDC.Derived.MetricCompletionUp.SeparatedLimit
+import BEDC.Derived.MetricCompletionUp.SeparatedLimitBoundary
 import BEDC.Derived.MetricCompletionUp.SourceSeparatedScope
 import BEDC.Derived.MetricCompletionUp.TasteGate
 import BEDC.Derived.MetricCompletionUp.UniformCompletionHandoff
+import BEDC.Derived.MetricCompletionUp.UniformCompletionHandoffSurface
 import BEDC.Derived.MetricCompletionUp.UniformSealFactorization
 import BEDC.Derived.MetricCompletionUp.UniformSourceLock
 import BEDC.Derived.MetricEntourageUp
