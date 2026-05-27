@@ -5,6 +5,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.RiemannSumUp.TasteGate
 
 namespace BEDC.Derived.RiemannSumUp
 
@@ -274,5 +275,37 @@ theorem RiemannSumCarrier_darboux_handoff [AskSetup] [PackageSetup]
   exact
     ⟨cert, meshUnary, tagUnary, valueUnary, widthUnary, sumUnary, darbouxUnary,
       meshTagValue, valueWidthSum, sumTransportDarboux, provenancePkg, darbouxPkg⟩
+
+theorem RiemannSumCarrier_tagless_refinement_ledger [AskSetup] [PackageSetup]
+    {M T F W S H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RiemannSumCarrier M T F W S H C P N bundle pkg ->
+      riemannSumDecodeBHist (riemannSumEncodeBHist M) = M ∧
+        riemannSumDecodeBHist (riemannSumEncodeBHist T) = T ∧
+          riemannSumDecodeBHist (riemannSumEncodeBHist F) = F ∧
+            riemannSumDecodeBHist (riemannSumEncodeBHist W) = W ∧
+              riemannSumDecodeBHist (riemannSumEncodeBHist S) = S ∧
+                riemannSumDecodeBHist (riemannSumEncodeBHist H) = H ∧
+                  riemannSumDecodeBHist (riemannSumEncodeBHist C) = C ∧
+                    riemannSumDecodeBHist (riemannSumEncodeBHist P) = P ∧
+                      riemannSumDecodeBHist (riemannSumEncodeBHist N) = N := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg RiemannSumCarrier
+  intro carrier
+  obtain ⟨meshUnary, tagUnary, valueUnary, widthUnary, transportUnary, replayUnary,
+    provenanceUnary, localNameUnary, _meshTagValue, _valueWidthSum, _transportReplay,
+    _provenancePkg, _localNamePkg⟩ := carrier
+  have decode : ∀ row : BHist, riemannSumDecodeBHist (riemannSumEncodeBHist row) = row := by
+    intro row
+    induction row with
+    | Empty => rfl
+    | e0 row ih => exact congrArg BHist.e0 ih
+    | e1 row ih => exact congrArg BHist.e1 ih
+  have _acceptedRows :
+      UnaryHistory M ∧ UnaryHistory T ∧ UnaryHistory F ∧ UnaryHistory W ∧
+        UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N :=
+    ⟨meshUnary, tagUnary, valueUnary, widthUnary, transportUnary, replayUnary,
+      provenanceUnary, localNameUnary⟩
+  exact
+    ⟨decode M, decode T, decode F, decode W, decode S, decode H, decode C, decode P,
+      decode N⟩
 
 end BEDC.Derived.RiemannSumUp

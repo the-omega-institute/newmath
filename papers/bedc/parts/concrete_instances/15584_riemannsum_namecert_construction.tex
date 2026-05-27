@@ -126,6 +126,7 @@ Finally apply \autoref{thm:riemann-sum-darboux-handoff}. DarbouxIntegral and Rie
 \label{thm:riemann-sum-tagless-refinement-ledger}
 Let $Q=(M,T,F,W,S,H,C,P,N)$ be an accepted $\RiemannSumUp$ carrier. Any refinement-facing $\DarbouxIntegralUp$ or $\RiemannIntegralUp$ consumer of $Q$ must replay the same nine rows $M,T,F,W,S,H,C,P,N$. It may compare refinements only through displayed mesh-cell subdivision and transported tag-containment rows. The packet exports no external tag selector, quotient integrand equality, host limiting process, or measure integral.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannSumUp.RiemannSumCarrier\_tagless\_refinement\_ledger}
 \begin{proof}
 Apply the mesh-tag obligation of \autoref{thm:riemann-sum-mesh-tag-obligation}. A refinement-facing consumer must first expose the displayed mesh row $M$ and the tag-containment row $T$, so every subdivision comparison is anchored in the carried cells and carried tag witnesses.
 
