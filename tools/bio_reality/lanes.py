@@ -372,6 +372,17 @@ def _oracle_session_backfill_lane(store: BioRealityStore) -> dict[str, Any]:
         topic_base = re.sub(r"[^A-Za-z0-9._-]+", ".", tag.strip()) or "review"
         if not topic_base.startswith(lane):
             topic_base = f"{lane}.review.{topic_base}"
+        live_topic = topic_base  # without .backfill suffix — matches what bio-G/Plan use for follow-up
+        conv_id_for_followup = conv.get("conversation_id", "")
+        if conv_id_for_followup:
+            state = _read_oracle_state(store)
+            ls = state.get(lane) if isinstance(state.get(lane), dict) else {}
+            tc = ls.get("topic_conversations") if isinstance(ls.get("topic_conversations"), dict) else {}
+            if tc.get(live_topic) != conv_id_for_followup:
+                tc[live_topic] = conv_id_for_followup
+                ls["topic_conversations"] = tc
+                state[lane] = ls
+                _write_oracle_state(store, state)
         topic = f"{topic_base}.backfill"
         lane_dir = sessions_dir / lane
         lane_dir.mkdir(parents=True, exist_ok=True)
