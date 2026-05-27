@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailFilterCofinalityUp$}
+\label{ch:concrete-instances-regular-cauchy-tail-filter-cofinality-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy completion and Frechet on cofinite filters, the $\RegularCauchyTailFilterCofinalityUp$ packet records the finite route by which regular Cauchy tail evidence is read as a cofinal Frechet-filter schedule. It sits between the tail-filter certificate of \autoref{ch:concrete-instances-regular-cauchy-tail-filter-namecert}, the finite-tail schedule of \autoref{ch:concrete-instances-finite-tail-filter-namecert}, and the Frechet cofinite filter interface of \autoref{ch:concrete-instances-frechetfilter-namecert}. The chapter contributes a NameCert landing for Real and Completion consumers; it does not select limits, quotient streams, host reals, or an ambient completeness theorem.
+
+\begin{definition}[Regular Cauchy tail-filter cofinality carrier]
+\label{def:regular-cauchy-tail-filter-cofinality-carrier}
+A $\RegularCauchyTailFilterCofinalityUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,F,G,S,R,D,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\RegularCauchyTailFilterUp$ source row, carrying the regular tail-filter evidence already displayed by the sibling tail-filter chapter.
+\item $F$ is the $\FiniteTailFilterUp$ cofinal schedule row, recording the finite tail windows through which later requests are admitted.
+\item $G$ is the $\FrechetFilterUp$ cofinite-filter row produced from the same finite tail schedule.
+\item $S$ is the $\StreamNameUp$ row whose inspected windows are exposed only after $T,F,G$ have been replayed.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the scheduled tail windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row attached to the same scheduled readback.
+\item $A$ is the terminal $\RealUp$ seal row reached only after the regular tail, finite-tail, Frechet-filter, stream, readback, and dyadic rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $T,F,G,S,R,D,A,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a cofinal-tail request through the regular tail-filter source, finite-tail schedule, Frechet-filter row, stream windows, regular rational readback, dyadic tolerances, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTailFilterUp$, $\FiniteTailFilterUp$, $\FrechetFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyTailFilterCofinalityUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows and has no coordinate for quotient streams, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tail-filter cofinality NameCert obligations]
+\label{thm:regular-cauchy-tail-filter-cofinality-namecert-obligations}
+For every accepted $\RegularCauchyTailFilterCofinalityUp$ carrier $K=(T,F,G,S,R,D,A,H,C,P,N)$, the local $\NameCert_{\RegularCauchyTailFilterCofinalityUp}$ surface consists exactly of carrier admission for the displayed rows, cofinality of the finite-tail schedule between $T$ and $G$, ordered exposure of $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No NameCert obligation is stored outside $T,F,G,S,R,D,A,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-filter-cofinality-carrier}. The analytic rows are exactly the regular tail-filter source, finite-tail schedule, Frechet-filter route, stream windows, regular rational readback, dyadic tolerances, and terminal Real seal.
+
+Cofinality is recorded by the row order $T,F,G$. A request reads the regular Cauchy tail-filter evidence first, then the finite schedule that witnesses cofinal tail access, and only then the Frechet cofinite-filter row.
+
+The remaining rows preserve that route. The $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows are downstream of the cofinal filter route, while $H,C,P,N$ transport, replay, source, and name the same packet. Since the excluded quotient, selector, choice, host-equality, and completeness objects are absent, the listed rows exhaust the local obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail-filter cofinal Frechet route]
+\label{thm:regular-cauchy-tail-filter-cofinality-frechet-route}
+Every Frechet-facing or Real-facing consumer of an accepted $\RegularCauchyTailFilterCofinalityUp$ carrier factors through the finite route
+$$
+\RegularCauchyTailFilterUp \longmapsto \FiniteTailFilterUp \longmapsto \FrechetFilterUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp,\DyadicRatCoreUp \longmapsto \RealUp .
+$$
+Thus the Frechet cofinite schedule is cofinal for the displayed regular Cauchy tail evidence before any stream, readback, dyadic, or Real-seal row is exported.
+\end{theorem}
+\begin{proof}
+Start with a consumer of $K=(T,F,G,S,R,D,A,H,C,P,N)$. Carrier admission exposes $G$ only as a row downstream of the regular tail-filter source $T$ and the finite-tail schedule $F$.
+
+Replay the continuation row $C$. The request consumes the tail evidence named by \autoref{ch:concrete-instances-regular-cauchy-tail-filter-namecert}, then the finite-tail schedule of \autoref{ch:concrete-instances-finite-tail-filter-namecert}, and then the Frechet route of \autoref{ch:concrete-instances-frechetfilter-namecert}.
+
+Only after that cofinal route is displayed can the stream windows $S$, readback row $R$, dyadic tolerance row $D$, and Real seal $A$ be consumed. Componentwise transport and provenance preserve the same order, so the exported Frechet and Real-facing routes are exactly the displayed finite cofinal-tail route.
+\end{proof}
+
+\begin{closurestatus}{\RegularCauchyTailFilterCofinalityUp}
+  \constructivestory{A $\RegularCauchyTailFilterCofinalityUp$ packet is generated from a RegularCauchyTailFilter source row, a FiniteTailFilter cofinal schedule, a FrechetFilter cofinite-filter row, StreamName windows, RegSeqRat readback, DyadicRatCore tolerances, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-filter-cofinality-carrier}, \autoref{thm:regular-cauchy-tail-filter-cofinality-namecert-obligations}, and \autoref{thm:regular-cauchy-tail-filter-cofinality-frechet-route} seed the finite cofinal route from regular Cauchy tail evidence through finite-tail schedules and Frechet cofinite filters to stream, readback, dyadic, and Real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cofinal finite-tail scheduling, Frechet-route exactness, stream-readback order, dyadic tolerance preservation, Real-seal boundary, and ledger refusal proofs for the same packet.}
+\end{closurestatus}
