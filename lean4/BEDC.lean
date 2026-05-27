@@ -250,6 +250,7 @@ import BEDC.Derived.ArchimedeanRealUp.BudgetedCauchyBound
 import BEDC.Derived.ArchimedeanRealUp.PublicOrderConsumer
 import BEDC.Derived.ArchimedeanRealUp.TasteGate
 import BEDC.Derived.ArithmeticGeometricMeanUp.TasteGate
+import BEDC.Derived.ArzelaAscoliFiniteEquicontinuousUp.TasteGate
 import BEDC.Derived.ArzelaAscoliUp
 import BEDC.Derived.AscoliDiagonalUp.TasteGate
 import BEDC.Derived.AscoliModulusUp
@@ -597,7 +598,6 @@ import BEDC.Derived.BHistOctaSequenceNameCertUp
 import BEDC.Derived.BHistOctaTupleNameCertUp
 import BEDC.Derived.BHistPentaSequenceNameCertUp
 import BEDC.Derived.BaireCategoryUp.CauchyThreadLimitHandoff
-import BEDC.Derived.BaireCategoryUp.FiniteMeetDensityHandoff
 import BEDC.Derived.BaireCategoryUp.NameCertObligations
 import BEDC.Derived.BaireCategoryUp.TasteGate
 import BEDC.Derived.BaireSpaceUp
@@ -653,6 +653,7 @@ import BEDC.Derived.BisectionConvergenceUp.TasteGate
 import BEDC.Derived.BisectionMethodUp.TasteGate
 import BEDC.Derived.BisectionRootCauchySealUp.TasteGate
 import BEDC.Derived.BisectionRootIsolationUp.TasteGate
+import BEDC.Derived.BishopCauchyCompletionFunctorUp.TasteGate
 import BEDC.Derived.BishopCauchyLimitCriterionUp.TasteGate
 import BEDC.Derived.BishopCauchyNormalizationUp.TasteGate
 import BEDC.Derived.BishopCompleteMetricUp.TasteGate
@@ -1018,6 +1019,7 @@ import BEDC.Derived.CauchyCompletionComparisonNaturalityUp.TasteGate
 import BEDC.Derived.CauchyCompletionComparisonUp.CarrierAlignment
 import BEDC.Derived.CauchyCompletionComparisonUp.TasteGate
 import BEDC.Derived.CauchyCompletionContinuationUp.TasteGate
+import BEDC.Derived.CauchyCompletionDenseReflectorUp.TasteGate
 import BEDC.Derived.CauchyCompletionEliminatorUp.TasteGate
 import BEDC.Derived.CauchyCompletionEmbeddingUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorUp
