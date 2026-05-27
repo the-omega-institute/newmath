@@ -134,6 +134,26 @@ theorem NetConvergenceCarrier_directed_window_admission {D T E A F S R L H C P M
     _sameC, _sameP, _sameM, fields⟩ := carrier
   exact ⟨sameD, sameT, sameE, directedWindow, readSame, fields⟩
 
+theorem NetConvergenceCarrier_tail_window_admission {D T E A F S R L H C P M
+    filterRead streamRead : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M ->
+      Cont D T E ->
+        Cont E F filterRead ->
+          Cont filterRead S streamRead ->
+            hsame streamRead D ->
+              hsame D D ∧ hsame T T ∧ hsame E E ∧ hsame F F ∧ hsame S S ∧
+                Cont D T E ∧ Cont E F filterRead ∧ Cont filterRead S streamRead ∧
+                  hsame streamRead D ∧
+                    netConvergenceFields (NetConvergenceUp.mk D T E A F S R L H C P M) =
+                      [D, T, E, A, F, S, R, L, H, C, P, M] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  intro carrier tailRoute filterRoute streamRoute streamSame
+  obtain ⟨sameD, sameT, sameE, _sameA, sameF, sameS, _sameR, _sameL, _sameH,
+    _sameC, _sameP, _sameM, fields⟩ := carrier
+  exact
+    ⟨sameD, sameT, sameE, sameF, sameS, tailRoute, filterRoute, streamRoute,
+      streamSame, fields⟩
+
 theorem NetConvergenceCarrier_filterbase_finality {D T E A F S R L H C P M
     filterbaseRead handoffRead : BHist}
     (carrier : NetConvergenceCarrier D T E A F S R L H C P M)
