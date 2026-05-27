@@ -114,9 +114,37 @@ The first two obligation theorems identify the positive route: $B,F$ admit and s
 It remains to record what the packet cannot export. Because $H,C,P,N$ transport, replay, source, and name only the displayed route, any read asking for quotient stream equality, selected host limits, host real equality, countable-choice selectors, or ambient completeness has no carrier coordinate and is refused by the local ledger.
 \end{proof}
 
+\begin{theorem}[CauchyFilterLimit directed-net coverage]
+\label{thm:cauchy-filter-limit-directed-net-coverage}
+Let $L=(B,F,S,R,D,A,H,C,P,N)$ be an accepted $\CauchyFilterLimitUp$ packet. Every directed-net completion consumer of $L$ must pass through the displayed route
+$$
+B,F,S,R,D,A,H,C,P,N .
+$$
+In particular, the consumer first exposes the $\CauchyFilterBasisUp$ generator and $\CauchyFilterUp$ saturation rows, then the shared $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and $\DyadicRatCoreUp$ tolerance ledger, and only then the $\RealUp$ seal and structural rows. The coverage claim does not export a quotient filter, selected subnet, countable-choice selector, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the directed-net handoff of \autoref{thm:cauchy-filter-limit-directed-net-handoff}. It admits a directed-net consumer only after the displayed index and tail evidence have been routed through the same finite filter-limit packet.
+
+Apply the regular seal handoff. Theorem~\ref{thm:cauchy-filter-limit-regular-seal-handoff} fixes the route from the Cauchy-filter basis and saturation rows through the finite stream windows, regular rational readback, dyadic tolerance ledger, and Real seal.
+
+Finally attach the structural rows. Transport, continuation, provenance, and local naming only preserve the displayed route, so a directed-net completion consumer has no carrier coordinate from which to bypass $B,F,S,R,D,A,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[CauchyNetLimit filter comparison]
+\label{thm:cauchy-net-limit-filter-comparison}
+The $\CauchyFilterLimitUp$ and $\CauchyNetLimitUp$ packets can be compared along their shared finite $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ seal rows. The comparison records that both routes expose finite windows, regular rational readbacks, dyadic tolerance ledgers, and downstream Real seals before a completion-facing read is exported. It does not identify filters with nets, does not assert quotient equality of their classifiers, and does not choose a common representative.
+\end{theorem}
+\begin{proof}
+Project the $\CauchyFilterLimitUp$ carrier. The displayed route of \autoref{def:cauchy-filter-limit-carrier} includes the stream row $S$, regular readback row $R$, dyadic tolerance ledger $D$, and Real seal row $A$.
+
+Compare with the Cauchy-net packet only at the shared rows. The directed-net coverage theorem above requires any net-facing consumer of the filter-limit packet to preserve the same $S,R,D,A$ route, so those rows form the comparison surface.
+
+The comparison stops at row sharing. Since the filter packet has no coordinate for quotient filters, selected subnets, quotient equality of nets, or a common representative, the result records finite route compatibility without collapsing the two classifiers.
+\end{proof}
+
 \begin{closurestatus}{\CauchyFilterLimitUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-filter-limit-carrier}, \autoref{thm:cauchy-filter-limit-namecert-obligations}, \autoref{thm:cauchy-filter-limit-regular-seal-handoff}, and \autoref{thm:cauchy-filter-limit-directed-net-handoff} seed the finite Cauchy-filter limit boundary between generated filter data, directed-net consumers, and the downstream $\RealUp$ seal.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:cauchy-filter-limit-carrier}, \autoref{thm:cauchy-filter-limit-namecert-obligations}, \autoref{thm:cauchy-filter-limit-regular-seal-handoff}, \autoref{thm:cauchy-filter-limit-directed-net-handoff}, \autoref{thm:cauchy-filter-limit-basis-saturation-obligation}, \autoref{thm:cauchy-filter-limit-regular-readback-obligation}, \autoref{thm:cauchy-filter-limit-ledger-refusal-obligation}, \autoref{thm:cauchy-filter-limit-directed-net-coverage}, and \autoref{thm:cauchy-net-limit-filter-comparison} close the finite obligation surface between generated filter data, directed-net consumers, comparison rows, and the downstream $\RealUp$ seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, selected host limits, host real equality, countable-choice selectors, ambient $\RealUp$ completeness, or Lean verification.}

@@ -261,7 +261,44 @@ theorem FailureCertificate_gate_blocking [AskSetup] [PackageSetup]
       ledger_sound := by
         intro _row sourceRow
         exact ⟨pkgNamed, namedRoute, sourceRow.left⟩
-    }
+  }
   exact ⟨cert, axisRoute, namedRoute, diagnosticRoute, replayRoute⟩
+
+theorem FailureCertificate_axis_row_separation
+    {N0 C V A B D H K P L A' B' axisGate axisGate' : BHist} :
+    Cont A B axisGate →
+      Cont A' B' axisGate' →
+        A ≠ A' →
+          FailureCertificateUp.mk N0 C V A B D H K P L ≠
+              FailureCertificateUp.mk N0 C V A' B' D H K P L ∧
+            Cont A B axisGate ∧ Cont A' B' axisGate' := by
+  -- BEDC touchpoint anchor: BHist Cont
+  intro axisRoute axisRoute' axisDistinct
+  constructor
+  · intro sameCert
+    apply axisDistinct
+    cases sameCert
+    rfl
+  · exact ⟨axisRoute, axisRoute'⟩
+
+theorem FailureCertificate_axis_separation
+    {N0 C V A B D H K P L Aprime Bprime : BHist} (hAxis : A ≠ Aprime) :
+    FailureCertificateUp.mk N0 C V A B D H K P L ≠
+        FailureCertificateUp.mk N0 C V Aprime Bprime D H K P L ∧
+      (failureCertificateEncodeBHist A : List BMark) ≠ failureCertificateEncodeBHist Aprime := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro hPacket
+    exact hAxis (congrArg (fun packet =>
+      match packet with
+      | FailureCertificateUp.mk _ _ _ axis _ _ _ _ _ _ => axis) hPacket)
+  · intro hEncoded
+    have hDecoded :
+        failureCertificateDecodeBHist (failureCertificateEncodeBHist A) =
+          failureCertificateDecodeBHist (failureCertificateEncodeBHist Aprime) :=
+      congrArg failureCertificateDecodeBHist hEncoded
+    exact hAxis
+      (Eq.trans (failureCertificateDecode_encode_bhist A).symm
+        (Eq.trans hDecoded (failureCertificateDecode_encode_bhist Aprime)))
 
 end BEDC.Derived.FailureCertificateUp
