@@ -602,6 +602,7 @@ import BEDC.Derived.BHistOctaTupleNameCertUp
 import BEDC.Derived.BHistPentaSequenceNameCertUp
 import BEDC.Derived.BaireCategoryUp.CauchyThreadLimitHandoff
 import BEDC.Derived.BaireCategoryUp.CompleteMetricDenseThread
+import BEDC.Derived.BaireCategoryUp.CompleteMetricThreadExtraction
 import BEDC.Derived.BaireCategoryUp.CountableChoiceBoundary
 import BEDC.Derived.BaireCategoryUp.DenseOpenThreadObligation
 import BEDC.Derived.BaireCategoryUp.FiniteMeetDensityHandoff
@@ -3796,6 +3797,7 @@ import BEDC.Derived.HausdorffCompletionUp.SeparatedReflection
 import BEDC.Derived.HausdorffCompletionUp.StandardBridge
 import BEDC.Derived.HausdorffCompletionUp.UniformConsumerPackage
 import BEDC.Derived.HausdorffMetricUp.TasteGate
+import BEDC.Derived.HausdorffReflectionUp.TasteGate
 import BEDC.Derived.HausdorffSpaceUp.ClassifierSeparationRoute
 import BEDC.Derived.HausdorffSpaceUp.DiagonalNonescape
 import BEDC.Derived.HausdorffSpaceUp.OpenNeighborhoodTransport
@@ -4374,6 +4376,7 @@ import BEDC.Derived.MetaCICIdentityUp.TasteGate
 import BEDC.Derived.MetaCICNormalAuditSocketUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationBudgetUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.AdequacyChain
+import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.CriticalPairDischarge
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.GeneratorCompilerRoute
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.InductiveAcceptanceScope
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.KernelScope
