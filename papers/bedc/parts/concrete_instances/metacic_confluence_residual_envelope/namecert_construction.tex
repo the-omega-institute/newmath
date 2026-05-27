@@ -63,6 +63,20 @@ The obstruction row $O$ retains the named residual-substitution obstruction rath
 Finally $H,C,P,N$ transport, replay, source, and name only the displayed carrier rows. Because no later row contains an unconditional $\mathrm{BetaParallelDiamondClosed}$ coordinate, the checker status remains the one supplied by $B$.
 \end{proof}
 
+\begin{theorem}[MetaCIC residual envelope obstruction monotonicity]
+\label{thm:metacic-residual-envelope-obstruction-monotonicity}
+For every accepted $\MetaCICConfluenceResidualEnvelopeUp$ carrier $E=(T,R,S,B,J,O,F,U,Z,H,C,P,N)$, if the bounded checker row $B$ exposes obstruction status and the row $O$ retains the residual-substitution obstruction, then every read of $J,F,U,Z,H,C,P,N$ preserves that obstruction boundary. In particular, those later rows cannot erase the obstruction status and cannot export an unconditional $\mathrm{BetaParallelDiamondClosed}$ theorem.
+\end{theorem}
+\begin{proof}
+Project $B$ and $O$ from the carrier of \autoref{def:metacic-confluence-residual-envelope-carrier}. The row $B$ supplies the displayed checker status, and $O$ is the only row that records the residual-substitution obstruction retained by the envelope.
+
+Apply checker-status determinacy, \autoref{thm:metacic-confluence-residual-envelope-checker-status-determinacy}. Once $B$ exposes obstruction status, the rows inspected after $B$ cannot replace that status by an accepted or rejected alternative.
+
+Now inspect the remaining carrier inventory. The rows $J,F,U,Z$ contain local joins, bounded fuel, neutral-spine reads, and normalization-budget evidence, while $H,C,P,N$ contain transport, replay, provenance, and local naming data. None of these rows contains a closed-diamond coordinate.
+
+Therefore the obstruction retained by $O$ remains visible through every later read. Since the accepted carrier has no unconditional $\mathrm{BetaParallelDiamondClosed}$ coordinate, no consumer can obtain that endpoint theorem from $J,F,U,Z,H,C,P,N$.
+\end{proof}
+
 \begin{theorem}[MetaCIC confluence residual envelope neutral-spine separation]
 \label{thm:metacic-confluence-residual-envelope-neutral-spine-separation}
 Any conditional confluence consumer that attempts to promote a neutral-spine read $U$ into a beta residual branch must also display the residual-frontier row $R$, substitution-boundary row $S$, checker row $B$, local join row $J$, fuel trace $F$, and normalization budget $Z$. Without those rows, the accepted $\MetaCICConfluenceResidualEnvelopeUp$ packet exports only a neutral case and no beta branch.
