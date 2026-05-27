@@ -1,0 +1,17 @@
+\begin{theorem}[MetaCIC critical-path candidate-discharge frontier]
+\label{thm:metacic-critical-path-candidate-discharge-frontier}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ root-unblock packet. Candidate-mediated strong-normalization rows, confluence rows, and bounded-decidability rows may be consumed by the root-unblock route only while the subject-reduction obstruction row $O$ and the discharge socket $D$ remain visible through the same packet. These candidate rows do not fill $D$ unless a separate subject-reduction certificate row is displayed.
+\end{theorem}
+\begin{proof}
+Begin with the consistency handoff of \autoref{thm:metacic-critical-path-consistency-handoff}. It permits the positive read from the strong-normalization row $S$ to the normal-form row $N$ only through the displayed route, transport, provenance, and local naming rows.
+
+Next keep the blocked side visible. The obstruction boundary \autoref{thm:metacic-critical-path-obstruction-boundary}, the NameCert obligation surface \autoref{thm:metacic-critical-path-namecert-obligation-surface}, and discharge-socket nonescape \autoref{thm:metacic-critical-path-discharge-socket-nonescape} keep $O$ and $D$ as separate rows of the same accepted packet.
+
+Now consume the candidate evidence. The candidate-mediated SN frontier \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}, the candidate-mediated SN obligation surface \autoref{thm:metacic-confluence-candidate-mediated-sn-obligation-surface}, and the candidate-mediated subject-reduction boundary \autoref{thm:metacic-critical-path-candidate-mediated-sn-subject-reduction-boundary} allow strong-normalization, confluence-facing, and bounded-decidability consumers to inspect the finite candidate rows, but only with $O$ and $D$ still exposed.
+
+Finally apply discharge-socket coverage, \autoref{thm:metacic-critical-path-discharge-socket-coverage}. A downstream socket read remains inside $S,N,O,U,D,H,C,P,L$ unless a separate subject-reduction input is displayed. Hence candidate-mediated SN, confluence, and bounded-decidability rows sharpen the frontier but do not discharge the socket by themselves.
+\end{proof}
