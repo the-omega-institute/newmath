@@ -239,4 +239,58 @@ theorem CauchyCompletionReflectorPacket_naturality_square [AskSetup] [PackageSet
   exact ⟨leftUnary, rightUnary, leftRoute, rightRoute, sourceUnitCont, completionCounitCont,
     idempotentExtensionCont, exportedPkg, leftPkg, rightPkg⟩
 
+theorem CauchyCompletionReflectorPacket_extension_reflection_scope [AskSetup] [PackageSetup]
+    {source completionObject unit counit idempotent extension reflection transport
+      componentTransport replay provenance localName exported extensionRead reflectionRead :
+        BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionReflectorPacket source completionObject unit counit idempotent extension
+        reflection transport componentTransport replay provenance localName exported bundle pkg →
+      Cont unit extension extensionRead →
+        Cont extension reflection reflectionRead →
+          PkgSig bundle reflectionRead pkg →
+            UnaryHistory extensionRead ∧ UnaryHistory reflectionRead ∧
+              Cont source unit completionObject ∧ Cont completionObject counit transport ∧
+                Cont idempotent extension reflection ∧ Cont unit extension extensionRead ∧
+                  Cont extension reflection reflectionRead ∧ PkgSig bundle exported pkg ∧
+                    PkgSig bundle reflectionRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro packet extensionRoute reflectionRoute reflectionPkg
+  rcases packet with
+    ⟨_sourceUnary, _completionObjectUnary, unitUnary, _counitUnary, _idempotentUnary,
+      extensionUnary, reflectionUnary, _transportUnary, _componentTransportUnary,
+      _replayUnary, _provenanceUnary, _localNameUnary, _exportedUnary, sourceUnitCont,
+      completionCounitCont, idempotentExtensionCont, _componentReplayCont,
+      _provenanceNameCont, exportedPkg⟩
+  have extensionReadUnary : UnaryHistory extensionRead :=
+    unary_cont_closed unitUnary extensionUnary extensionRoute
+  have reflectionReadUnary : UnaryHistory reflectionRead :=
+    unary_cont_closed extensionUnary reflectionUnary reflectionRoute
+  exact ⟨extensionReadUnary, reflectionReadUnary, sourceUnitCont, completionCounitCont,
+    idempotentExtensionCont, extensionRoute, reflectionRoute, exportedPkg, reflectionPkg⟩
+
+theorem CauchyCompletionReflectorPacket_idempotent_nonescape [AskSetup] [PackageSetup]
+    {source completionObject unit counit idempotent extension reflection transport
+      componentTransport replay provenance localName exported repeatedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionReflectorPacket source completionObject unit counit idempotent extension
+        reflection transport componentTransport replay provenance localName exported bundle pkg →
+      Cont idempotent transport repeatedRead →
+        PkgSig bundle repeatedRead pkg →
+          UnaryHistory idempotent ∧ UnaryHistory transport ∧ UnaryHistory repeatedRead ∧
+            Cont idempotent extension reflection ∧ Cont idempotent transport repeatedRead ∧
+              PkgSig bundle exported pkg ∧ PkgSig bundle repeatedRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro packet repeatedRoute repeatedPkg
+  rcases packet with
+    ⟨_sourceUnary, _completionObjectUnary, _unitUnary, _counitUnary, idempotentUnary,
+      _extensionUnary, _reflectionUnary, transportUnary, _componentTransportUnary,
+      _replayUnary, _provenanceUnary, _localNameUnary, _exportedUnary, _sourceUnitCont,
+      _completionCounitCont, idempotentExtensionCont, _componentReplayCont,
+      _provenanceNameCont, exportedPkg⟩
+  have repeatedUnary : UnaryHistory repeatedRead :=
+    unary_cont_closed idempotentUnary transportUnary repeatedRoute
+  exact ⟨idempotentUnary, transportUnary, repeatedUnary, idempotentExtensionCont,
+    repeatedRoute, exportedPkg, repeatedPkg⟩
+
 end BEDC.Derived.CauchyCompletionReflectorUp
