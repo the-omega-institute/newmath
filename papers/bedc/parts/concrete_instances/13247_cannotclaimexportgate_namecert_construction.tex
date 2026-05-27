@@ -67,6 +67,18 @@ Since $H,C,P$ only transport, replay, and source the displayed rows, they do not
 \end{proof}
 \leanchecked{BEDC.Derived.CannotClaimExportGateUp.CannotClaimExportGate\_registry\_factorization}
 
+\begin{theorem}[Cannot-claim export gate export-grade scope]
+\label{thm:cannot-claim-export-gate-export-grade-scope}
+For every accepted $\CannotClaimExportGateUp$ carrier $G=(R,F,E,Q,T,A,H,C,P,N)$, any export-grade read through $Q$ must be scoped by the active refusal row $F$, decision row $E$, target row $T$, audit row $A$, and the field-faithful TasteGate handoff before local naming. Thus a read of $Q$ can classify a refused claim only after the gate has displayed the refusal, export decision, target route, audit readback, and distinct-field carrier boundary for the same registry row $R$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The registry row $R$ fixes the claim site, and the refusal row $F$ records the active cannot-claim entry for that site before the export-grade row is read.
+
+Use the registry factorization theorem, \autoref{thm:cannot-claim-export-gate-registry-factorization}. It forces every export reading through $R,F,E,Q,T,A$ before local naming, so $Q$ is not an independent grade oracle.
+
+Finally apply the TasteGate handoff recorded by the checked alignment target \texttt{BEDC.Derived.CannotClaimExportGateUp.CannotClaimExportGateTasteGate\_single\_carrier\_alignment}. Field faithfulness keeps $F,E,Q,T,A$ as distinct rows, hence the grade read through $Q$ remains scoped by refusal, decision, target, audit, and local NameCert data rather than collapsing into an unchecked package target.
+\end{proof}
+
 \begin{theorem}[Cannot-claim export gate TasteGate handoff]
 \label{thm:cannot-claim-export-gate-tastegate-handoff}
 The Lean-facing handoff for $\CannotClaimExportGateUp$ must keep registry row $R$, refusal row $F$, export-decision row $E$, export-grade row $Q$, target row $T$, audit row $A$, transport row $H$, continuation row $C$, provenance row $P$, and local NameCert row $N$ as distinct fields. Collapsing any of $F,E,Q,T,A$ removes the field on which the refused-claim export block depends.
