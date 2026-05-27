@@ -4533,6 +4533,7 @@ import BEDC.Derived.MonodromyUp.TasteGate
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MonoidUp.StdBridge
 import BEDC.Derived.MonoidalCatUp
+import BEDC.Derived.MonoidalCompletionUp.TasteGate
 import BEDC.Derived.MonotoneCauchyUp
 import BEDC.Derived.MonotoneCauchyUp.BoundedWitnessTailFactorization
 import BEDC.Derived.MonotoneCauchyUp.BridgeFacingCertificate
