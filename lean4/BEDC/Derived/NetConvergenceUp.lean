@@ -134,6 +134,26 @@ theorem NetConvergenceCarrier_directed_window_admission {D T E A F S R L H C P M
     _sameC, _sameP, _sameM, fields⟩ := carrier
   exact ⟨sameD, sameT, sameE, directedWindow, readSame, fields⟩
 
+theorem NetConvergenceCarrier_tail_window_admission {D T E A F S R L H C P M
+    filterRead streamRead : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M ->
+      Cont D T E ->
+        Cont E F filterRead ->
+          Cont filterRead S streamRead ->
+            hsame streamRead D ->
+              hsame D D ∧ hsame T T ∧ hsame E E ∧ hsame F F ∧ hsame S S ∧
+                Cont D T E ∧ Cont E F filterRead ∧ Cont filterRead S streamRead ∧
+                  hsame streamRead D ∧
+                    netConvergenceFields (NetConvergenceUp.mk D T E A F S R L H C P M) =
+                      [D, T, E, A, F, S, R, L, H, C, P, M] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  intro carrier tailRoute filterRoute streamRoute streamSame
+  obtain ⟨sameD, sameT, sameE, _sameA, sameF, sameS, _sameR, _sameL, _sameH,
+    _sameC, _sameP, _sameM, fields⟩ := carrier
+  exact
+    ⟨sameD, sameT, sameE, sameF, sameS, tailRoute, filterRoute, streamRoute,
+      streamSame, fields⟩
+
 theorem NetConvergenceCarrier_filterbase_finality {D T E A F S R L H C P M
     filterbaseRead handoffRead : BHist}
     (carrier : NetConvergenceCarrier D T E A F S R L H C P M)
@@ -207,5 +227,36 @@ theorem NetConvergenceCarrier_stream_readback_route
     _sameC, _sameP, _sameM, fields⟩ := carrier
   exact
     ⟨sameF, sameS, sameR, sameL, streamRoute, sealRoute, sealSame, fields⟩
+
+theorem NetConvergenceCarrier_entourage_tail_stability
+    {D T E A F S R L H C P M D' T' E' A' F' S' R' L' H' C' P' M' handoff
+      handoff' : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M ->
+      NetConvergenceCarrier D' T' E' A' F' S' R' L' H' C' P' M' ->
+        hsame D D' ->
+          hsame T T' ->
+            hsame E E' ->
+              hsame F F' ->
+                Cont D T E ->
+                  Cont D' T' E' ->
+                    Cont E F handoff ->
+                      Cont E' F' handoff' ->
+                        hsame handoff handoff' ∧ hsame D D ∧ hsame D' D' ∧
+                          Cont D T E ∧ Cont D' T' E' ∧ Cont E F handoff ∧
+                            Cont E' F' handoff' := by
+  -- BEDC touchpoint anchor: NetConvergenceCarrier BHist hsame Cont
+  intro carrier carrier' sameD sameT sameE sameF tailRoute tailRoute' handoffRoute
+    handoffRoute'
+  obtain ⟨sameDRefl, _sameTRefl, _sameERefl, _sameARefl, _sameFRefl, _sameSRefl,
+    _sameRRefl, _sameLRefl, _sameHRefl, _sameCRefl, _samePRefl, _sameMRefl,
+    _fields⟩ := carrier
+  obtain ⟨sameD'Refl, _sameT'Refl, _sameE'Refl, _sameA'Refl, _sameF'Refl,
+    _sameS'Refl, _sameR'Refl, _sameL'Refl, _sameH'Refl, _sameC'Refl,
+    _sameP'Refl, _sameM'Refl, _fields'⟩ := carrier'
+  have sameHandoff : hsame handoff handoff' :=
+    cont_respects_hsame sameE sameF handoffRoute handoffRoute'
+  exact
+    ⟨sameHandoff, sameDRefl, sameD'Refl, tailRoute, tailRoute', handoffRoute,
+      handoffRoute'⟩
 
 end BEDC.Derived.NetConvergenceUp

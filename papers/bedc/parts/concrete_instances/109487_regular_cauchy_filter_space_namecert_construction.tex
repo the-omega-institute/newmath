@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyFilterSpaceUp$}
+\label{ch:concrete-instances-regular-cauchy-filter-space-namecert}
+\origin{human}
+
+Following Kelley and Bishop--Bridges, the $\RegularCauchyFilterSpaceUp$ packet records a regular Cauchy filter space as finite NameCert data for the L10 completion route. It sits between the Cauchy filter carrier of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the regular Cauchy filter rows of \autoref{ch:concrete-instances-regularcauchyfilter-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real seal of \autoref{ch:concrete-instances-real-namecert}. The packet feeds completion consumers by displaying regular filter-space rows before any quotient of filters, selected limit, or countable-choice principle can be invoked.
+
+\begin{definition}[Regular Cauchy filter space carrier]
+\label{def:regular-cauchy-filter-space-carrier}
+A $\RegularCauchyFilterSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,B,W,Q,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the admitted point and basic-filter carrier row, retaining classifier-distinct point and filter names without quotienting them by convergence or equality;
+\item $B$ is the $\CauchyFilterUp$ basis row, exposing the finite filter-membership and directedness observations consumed by the packet;
+\item $W$ is the $\RegularCauchyFilterUp$ regularity window, recording the shrinking, containment, and Cauchy-modulus rows used to read the filter as regular;
+\item $Q$ is the classifier/window exactness row, tying every accepted window request to the same point and filter classifier rows in $X,B,W$;
+\item $S$ is the $\StreamNameUp$ inspection row for finite request windows;
+\item $R$ is the $\RegSeqRatUp$ rational readback row for regular window moduli and Cauchy bounds;
+\item $E$ is the $\RealUp$ sealing row reached only after $S,R,W$ have displayed the finite regular-filter readback;
+\item $H$ records componentwise $\hsame$ transport for all carrier, basis, regularity, exactness, window, readback, seal, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay through the same finite route;
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyFilterSpaceUp$, $\CauchyFilterUp$, $\RegularCauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and local naming rows;
+\item $N$ is the local $\NameCert_{\RegularCauchyFilterSpaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient filter equality, a selected representative filter, a selected limit point, countable choice, ambient separated completion, or host equality of point names.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy filter space NameCert obligations]
+\label{thm:regular-cauchy-filter-space-namecert-obligations}
+For every accepted $\RegularCauchyFilterSpaceUp$ carrier
+$$
+F=(X,B,W,Q,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyFilterSpaceUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the point/filter carrier $X$, Cauchy filter basis $B$, regularity window $W$, classifier/window exactness row $Q$, stream windows $S$, regular rational readback $R$, real seal $E$, transport $H$, replay $C$, provenance $P$, and local naming $N$;
+\item classifier/window exactness, requiring every filter-space read to use the displayed classifier rows of $X,B,W$ and the same finite request windows recorded in $Q,S$;
+\item stability and transport, requiring regularity, Cauchy bounds, rational readback, and real sealing to move only componentwise through $H$ and to replay through $C$;
+\item ledger nonescape, excluding quotient filters, host equality, selected representatives, selected limits, countable choice, and ambient separated completion from the packet;
+\item completion-consumer handoff, exporting only $X,B,W,Q,S,R,E,H,C,P,N$ to a $\CauchyFilterCompletionUp$ consumer before that consumer adds its own completion rows.
+\end{enumerate}
+No other NameCert obligation is available from the regular Cauchy filter space packet.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of \autoref{def:regular-cauchy-filter-space-carrier}. The tuple lists the point/filter carrier, Cauchy filter basis, regularity window, exactness row, finite stream windows, regular rational readback, Real seal, transport, replay, provenance, and local naming rows.
+
+Classifier/window exactness is carried by $Q$ and $S$. A consumer first fixes the point and filter classifiers in $X,B,W$, then reads the finite request windows through $Q,S$ before asking for rational or real data.
+
+Stability and transport are componentwise. The row $H$ transports the displayed coordinates, and the row $C$ replays the same route for consumers, so regularity and Cauchy bounds cannot be replaced by host equality or by a detached separated-completion fact.
+
+Ledger nonescape follows from the carrier inventory. There is no coordinate for quotient filter equality, selected representatives, selected limits, countable choice, or ambient separated completion.
+
+Finally the completion handoff is only the displayed tuple $X,B,W,Q,S,R,E,H,C,P,N$. A $\CauchyFilterCompletionUp$ consumer may use that finite regular-filter-space surface as input, but any completion object, quotient, or limit belongs to the consumer packet rather than to this carrier.
+\end{proof}
+
+\falsifiablePrediction{A consumer that claims a $\RegularCauchyFilterSpaceUp$ handoff while omitting the Cauchy filter basis, regularity window, classifier/window exactness row, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\RealUp$ seal, $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$ rows refutes the carrier of \autoref{def:regular-cauchy-filter-space-carrier}.}
+
+\independenceWitness{cauchyfilter, regularcauchyfilter, streamname, regseqrat, real: $\RegularCauchyFilterSpaceUp$ binds the filter basis, regularity window, finite request windows, rational readback, real sealing, transport, replay, provenance, and local naming rows in one completion-facing packet; each named sibling lacks at least one of these rows as a local filter-space coordinate.}
+
+\closureat{RegularCauchyFilterSpaceUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyFilterSpaceUp}
+  \constructivestory{A $\RegularCauchyFilterSpaceUp$ packet is generated from a point/filter carrier, CauchyFilter basis row, RegularCauchyFilter regularity window, classifier/window exactness row, StreamName finite windows, RegSeqRat readback, Real sealing, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-filter-space-carrier} and \autoref{thm:regular-cauchy-filter-space-namecert-obligations} seed the finite regular-filter-space surface that can feed Cauchy filter completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient filter equality, selected representatives, selected limits, countable choice, ambient separated completion, Lean verification, bridge checking, or host equality of point names.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier/window exactness, componentwise stability, ledger nonescape, and completion-consumer handoff for BEDC.Derived.RegularCauchyFilterSpaceUp.}
+\end{closurestatus}

@@ -95,4 +95,123 @@ theorem CauchyFilterLimitCarrier_regular_seal_handoff [AskSetup] [PackageSetup]
       nameUnary, consumerReadUnary, basisFilterWindow, windowReadbackTolerance,
       toleranceSealTransport, sealNameConsumer, provenancePkg, namePkg⟩
 
+theorem CauchyFilterLimitCarrier_directed_net_coverage [AskSetup] [PackageSetup]
+    {basis filter window readback tolerance sealRow transport route provenance name consumerRead
+      directedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterLimitCarrier basis filter window readback tolerance sealRow transport route
+        provenance name bundle pkg ->
+      Cont sealRow name consumerRead ->
+        Cont consumerRead route directedRead ->
+          PkgSig bundle directedRead pkg ->
+            UnaryHistory basis ∧ UnaryHistory filter ∧ UnaryHistory window ∧
+              UnaryHistory readback ∧ UnaryHistory tolerance ∧ UnaryHistory sealRow ∧
+                UnaryHistory consumerRead ∧ UnaryHistory directedRead ∧
+                  Cont basis filter window ∧ Cont window readback tolerance ∧
+                    Cont tolerance sealRow transport ∧ Cont sealRow name consumerRead ∧
+                      Cont consumerRead route directedRead ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle directedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier sealNameConsumer consumerRouteDirected directedPkg
+  have regularHandoff :=
+    CauchyFilterLimitCarrier_regular_seal_handoff
+      (basis := basis) (filter := filter) (window := window) (readback := readback)
+      (tolerance := tolerance) (sealRow := sealRow) (transport := transport)
+      (route := route) (provenance := provenance) (name := name)
+      (consumerRead := consumerRead) (bundle := bundle) (pkg := pkg)
+      carrier sealNameConsumer
+  obtain ⟨basisUnary, filterUnary, windowUnary, readbackUnary, toleranceUnary,
+    sealRowUnary, _nameUnary, consumerUnary, basisFilterWindow, windowReadbackTolerance,
+    toleranceSealTransport, sealNameConsumer', provenancePkg, _namePkg⟩ := regularHandoff
+  obtain ⟨_basisUnaryFromCarrier, _filterUnaryFromCarrier, _windowUnaryFromCarrier,
+    _readbackUnaryFromCarrier, _toleranceUnaryFromCarrier, _sealRowUnaryFromCarrier,
+    _transportUnary, routeUnary, _provenanceUnary, _nameUnaryFromCarrier,
+    _basisFilterWindowFromCarrier, _windowReadbackToleranceFromCarrier,
+    _toleranceSealTransportFromCarrier, _transportRouteProvenance,
+    _sealProvenanceName, _provenancePkgFromCarrier, _namePkgFromCarrier⟩ := carrier
+  have directedUnary : UnaryHistory directedRead :=
+    unary_cont_closed consumerUnary routeUnary consumerRouteDirected
+  exact
+    ⟨basisUnary, filterUnary, windowUnary, readbackUnary, toleranceUnary, sealRowUnary,
+      consumerUnary, directedUnary, basisFilterWindow, windowReadbackTolerance,
+      toleranceSealTransport, sealNameConsumer', consumerRouteDirected, provenancePkg,
+      directedPkg⟩
+
+theorem CauchyFilterLimitCarrier_directed_net_handoff [AskSetup] [PackageSetup]
+    {basis filter window readback tolerance sealRow transport route provenance name directed tail
+      convergence directedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterLimitCarrier basis filter window readback tolerance sealRow transport route
+        provenance name bundle pkg ->
+      UnaryHistory directed ->
+        Cont basis directed tail ->
+          Cont tail route convergence ->
+            Cont convergence sealRow directedRead ->
+              PkgSig bundle directedRead pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row directedRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row basis ∨ hsame row filter ∨ hsame row window ∨
+                        hsame row readback ∨ hsame row tolerance ∨ hsame row sealRow ∨
+                          Cont convergence sealRow directedRead)
+                    (fun row : BHist =>
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle directedRead pkg ∧
+                        hsame row directedRead)
+                    hsame ∧
+                  UnaryHistory tail ∧ UnaryHistory convergence ∧ UnaryHistory directedRead ∧
+                    Cont basis directed tail ∧ Cont tail route convergence ∧
+                      Cont convergence sealRow directedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier directedUnary basisDirectedTail tailRouteConvergence convergenceSealDirected
+    directedPkg
+  obtain ⟨basisUnary, _filterUnary, _windowUnary, _readbackUnary, _toleranceUnary,
+    sealRowUnary, _transportUnary, routeUnary, _provenanceUnary, _nameUnary,
+    _basisFilterWindow, _windowReadbackTolerance, _toleranceSealTransport,
+    _transportRouteProvenance, _sealProvenanceName, provenancePkg, _namePkg⟩ := carrier
+  have tailUnary : UnaryHistory tail :=
+    unary_cont_closed basisUnary directedUnary basisDirectedTail
+  have convergenceUnary : UnaryHistory convergence :=
+    unary_cont_closed tailUnary routeUnary tailRouteConvergence
+  have directedReadUnary : UnaryHistory directedRead :=
+    unary_cont_closed convergenceUnary sealRowUnary convergenceSealDirected
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row directedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row basis ∨ hsame row filter ∨ hsame row window ∨ hsame row readback ∨
+              hsame row tolerance ∨ hsame row sealRow ∨
+                Cont convergence sealRow directedRead)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg ∧ PkgSig bundle directedRead pkg ∧
+              hsame row directedRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro directedRead
+        ⟨hsame_refl directedRead, directedReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row _source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr convergenceSealDirected)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, directedPkg, source.left⟩
+  }
+  exact
+    ⟨cert, tailUnary, convergenceUnary, directedReadUnary, basisDirectedTail,
+      tailRouteConvergence, convergenceSealDirected⟩
+
 end BEDC.Derived.CauchyFilterLimitUp

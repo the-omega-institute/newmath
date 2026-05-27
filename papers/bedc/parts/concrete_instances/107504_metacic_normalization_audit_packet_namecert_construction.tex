@@ -75,6 +75,20 @@ Apply \autoref{thm:metacic-normalization-audit-packet-candidate-handoff}. Public
 The Lean-facing normalization API follows the same discipline: \texttt{candidate\_implies\_sn} reads candidate evidence before SN, \texttt{closed\_typed\_term\_sn\_from\_candidate} exports closed typed SN from that evidence, and \texttt{closed\_typed\_term\_no\_infinite\_reduction\_from\_candidate} projects the resulting SN evidence to absence of infinite reductions. These names record the conditional route; they do not license an evidence-free theorem for every closed typed MetaCIC term.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization audit packet residual-candidate route]
+\label{thm:metacic-normalization-audit-packet-residual-candidate-route}
+For an accepted $\MetaCICNormalizationAuditPacketUp$ carrier $M=(T,K,A,S,I,P,F,H,C,G,N)$, every residual normalization or no-infinite-reduction read must expose candidate or candidate-set evidence in row $K$ before application adequacy $A$, Pi adequacy $P$, strong-normalization projection $S$, and no-infinite-reduction projection $I$ can be consumed. The structural rows $H,C,G,N$ preserve the displayed route, and the frontier row $F$ prevents evidence-free residual normalization from being exported.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-normalization-audit-packet-carrier}. The rows $T,K,A,S,I,P,F,H,C,G,N$ are the full classifier-visible surface for residual normalization and no-infinite-reduction reads.
+
+Use \autoref{thm:metacic-normalization-audit-packet-namecert-obligations}. It identifies $K,A,S,I,P,F$ as the candidate-evidence row, application adequacy row, SN projection row, no-infinite-reduction projection row, Pi adequacy row, and frontier row.
+
+Apply \autoref{thm:metacic-normalization-audit-packet-candidate-handoff} and \autoref{thm:metacic-normalization-candidate-interface-composition}. Together they order candidate evidence before $S$ and $I$, while $A$ and $P$ remain adequacy rows attached to the same candidate-mediated route.
+
+Finally use row exhaustion for $F,H,C,G,N$. The frontier row records requests that would erase candidate evidence, and the structural rows transport, replay, source, and name the displayed route without creating evidence-free normalization.
+\end{proof}
+
 \falsifiablePrediction{Every public strong-normalization or no-infinite-reduction read of a $\MetaCICNormalizationAuditPacketUp$ carrier factors through closed typed term data, candidate or candidate-set evidence, application and Pi adequacy rows, candidate-mediated SN projection, no-infinite-reduction projection, frontier retention, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert evidence.}
 
 \independenceWitness{metacicconfluenceauditpacket, metaciccriticalpath, metacicnormalizationfrontier, closedtermsubstitutionboundary: $\MetaCICNormalizationAuditPacketUp$ is not bijective to any listed sibling because it jointly carries closed typed term data, candidate or candidate-set evidence, application and Pi adequacy rows, candidate-mediated SN projection, no-infinite-reduction projection, frontier retention, transport, replay, provenance, and local naming as one audit carrier.}

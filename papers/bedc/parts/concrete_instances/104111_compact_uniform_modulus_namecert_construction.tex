@@ -56,6 +56,20 @@ The fold ledger $L$ and rational comparison row $Q$ provide the finite lower-bou
 Finally $H,C,P,N$ transport, replay, source, and name the same route. Since the excluded principles do not occur among the carrier rows, no accepted uniform-modulus read can factor through them.
 \end{proof}
 
+\begin{theorem}[Compact uniform modulus finite-net extraction]
+\label{thm:compact-uniform-modulus-finite-net-extraction}
+Let $M=(X,K,F,L,Q,U,H,C,P,N)$ be an accepted $\CompactUniformModulusUp$ carrier. Every finite-net extraction read exported by $M$ exposes the same finite $\mathsf{ProbeBundle}$ lower-bound fold consumed by \autoref{ch:concrete-instances-probe-bundle-finite-minimum-fold-namecert}: the read must pass through $X,K,F,L,Q$ before the $\UniformModulusUp$ output row $U$ can be consumed. No selected subcover, selected Lebesgue number, host minimum, sequence extraction, or ambient completeness row is available to the extraction.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-uniform-modulus-namecert-carrier}. The rows $X,K,F,L,Q,U,H,C,P,N$ are the only displayed rows available to an accepted finite-net extraction read.
+
+Use \autoref{thm:compact-uniform-modulus-namecert-obligations}. It fixes source lock among $X,K,F$, finite coverage through $K$, rational lower-bound exactness through $Q$, and non-escape from selected compactness data.
+
+Apply \autoref{thm:compact-uniform-modulus-finite-net-fold}. The finite fold forces the read through $K,F,L,Q$ before the output row $U$ is visible, matching the lower-bound fold consumed by \autoref{ch:concrete-instances-probe-bundle-finite-minimum-fold-namecert}.
+
+It remains to rule out alternate extraction data. The carrier classifier has no coordinate for a selected subcover, selected Lebesgue number, host minimum, sequence extraction, or ambient completeness row, so row exhaustion prevents any accepted extraction read from leaving the displayed finite route.
+\end{proof}
+
 \begin{theorem}[Compact uniform modulus RealSeparability handoff]
 \label{thm:compact-uniform-modulus-real-separability-handoff}
 A $\RealSeparabilityUp$ or compact-metric consumer may read an accepted $\CompactUniformModulusUp$ carrier $M=(X,K,F,L,Q,U,H,C,P,N)$ only through the finite route

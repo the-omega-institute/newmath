@@ -153,6 +153,24 @@ Attach candidate mediation by applying Theorem~\ref{thm:metacic-critical-path-ca
 Use Theorem~\ref{thm:metacic-critical-path-candidate-route-discharge-refusal} to keep the socket row separate. Since $D$ is not filled by the candidate route and the handoff exhaustion theorem excludes arbitrary Church--Rosser export, the confluence-facing read remains mediated by $K$ and the four displayed faces.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence residual discharge separation]
+\label{thm:metacic-critical-path-confluence-residual-discharge}
+For every accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+a confluence residual row is discharged only when the packet displays a local peak row, a candidate join row, a residual frontier row, a substitution boundary row, a bounded checker row, the obstruction row $O$, and the four L10 faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. Candidate-mediated strong-normalization evidence alone cannot fill the discharge socket $D$ or export closed subject reduction, full consistency, a global Church--Rosser theorem, or a beta-conversion decision procedure.
+\end{theorem}
+\begin{proof}
+Start with the candidate-mediated SN boundary, Theorem~\ref{thm:metacic-critical-path-candidate-mediated-sn-boundary}. It routes every candidate-mediated read through the finite packet rows $S,N,O,U,D,H,C,P,L$ and the four local L10 faces, but it does not add a residual-discharge witness.
+
+Next impose the four-face audit precondition, Theorem~\ref{thm:metacic-critical-path-candidate-sn-four-face-audit-precondition}. The Phase $\RealUp$ and Completion source surface must expose $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ as separate local records. This audit surface is necessary for a residual confluence read, but it is not the socket discharge.
+
+Now read the confluence and decidability consumer boundary. Theorems~\ref{thm:metacic-critical-path-confluence-decidability-handoff-exhaustion}, \ref{thm:metacic-critical-path-confluence-candidate-mediation}, and \ref{thm:metacic-critical-path-decidability-fragment-route} keep confluence-facing and bounded-checker reads inside the handoff row, obstruction and socket rows, structural rows, and four displayed faces. Thus a local peak, candidate join, residual frontier, substitution boundary, and bounded checker must be displayed as rows of the same packet route before any residual-discharge claim can be read.
+
+Finally apply the discharge-refusal and socket-separation results. The candidate route discharge refusal theorem, Theorem~\ref{thm:metacic-critical-path-candidate-route-discharge-refusal}, keeps $D$ unmet, while Theorem~\ref{thm:metacic-critical-path-candidate-sn-socket-nonescape} and Theorem~\ref{thm:metacic-critical-path-four-face-socket-separation} prevent the four L10 faces or candidate SN evidence from being absorbed into the discharge socket. Therefore residual confluence discharge requires the displayed residual rows and cannot be supplied by candidate-mediated SN alone.
+\end{proof}
+
 \begin{theorem}[MetaCIC decidability fragment route]
 \label{thm:metacic-critical-path-decidability-fragment-route}
 For every accepted $\MetaCICCriticalPathUp$ packet
