@@ -221,4 +221,17 @@ theorem MachineInterfaceBoundary_obligation_surface :
         cases h
       · exact ⟨machineInterfaceBoundaryChapterTasteGate⟩
 
+theorem MachineInterfaceBoundary_export_control {R E F A S H C P N : BHist}
+    (hEF : E ≠ F) :
+    MachineInterfaceBoundaryUp.packet R E F A S H C P N ≠
+        MachineInterfaceBoundaryUp.packet R F F A S H C P N ∧
+      machineInterfaceBoundaryFields (MachineInterfaceBoundaryUp.packet R E F A S H C P N) =
+        [R, E, F, A, S, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro h
+    cases h
+    exact hEF rfl
+  · rfl
+
 end BEDC.Derived.MachineInterfaceBoundaryUp
