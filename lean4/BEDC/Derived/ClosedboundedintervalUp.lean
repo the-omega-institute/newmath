@@ -112,6 +112,30 @@ theorem ClosedBoundedIntervalPacket_root_source_split [AskSetup] [PackageSetup]
           (congrArg (fun row : BHist => append row localName)
             packet.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left)
 
+theorem ClosedBoundedIntervalPacket_scoped_kernel_surface [AskSetup] [PackageSetup]
+    {lower upper order rational dyadic stream readback sealRow transport replay provenance
+      localName exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    (packet : ClosedBoundedIntervalPacket lower upper order rational dyadic stream readback
+      sealRow transport replay provenance localName exported bundle pkg) :
+    UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory order ∧ UnaryHistory rational ∧
+      UnaryHistory dyadic ∧ UnaryHistory stream ∧ UnaryHistory readback ∧
+        UnaryHistory sealRow ∧ UnaryHistory transport ∧ UnaryHistory replay ∧
+          UnaryHistory provenance ∧ UnaryHistory localName ∧ Cont lower upper order ∧
+            Cont order rational dyadic ∧ Cont stream readback sealRow ∧
+              Cont transport replay provenance ∧ Cont provenance localName exported ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  obtain ⟨lowerUnary, upperUnary, orderUnary, rationalUnary, dyadicUnary, streamUnary,
+    readbackUnary, sealRowUnary, transportUnary, replayUnary, provenanceUnary,
+    localNameUnary, _exportedUnary, endpointRoute, containmentRoute, sealRowRoute,
+    replayRoute, nameRoute, provenancePkg, localNamePkg⟩ := packet
+  exact
+    ⟨lowerUnary, upperUnary, orderUnary, rationalUnary, dyadicUnary, streamUnary,
+      readbackUnary, sealRowUnary, transportUnary, replayUnary, provenanceUnary,
+      localNameUnary, endpointRoute, containmentRoute, sealRowRoute, replayRoute, nameRoute,
+      provenancePkg, localNamePkg⟩
+
 theorem ClosedBoundedIntervalPacket_endpoint_containment_route [AskSetup] [PackageSetup]
     {lower upper order rational dyadic stream readback sealRow transport replay provenance
       localName exported : BHist}
