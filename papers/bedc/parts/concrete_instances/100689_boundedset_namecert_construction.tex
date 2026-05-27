@@ -204,6 +204,7 @@ Use \autoref{thm:bounded-set-ball-radius-ledger-factorization}. The resulting le
 \label{thm:bounded-set-metric-ball-handoff}
 Every membership or boundedness consumer of an accepted $\BoundedSetUp$ carrier $Q=(X,S,c,r,B,H,C,P,N)$ must pass through the $\MetricBallUp$ row $B$ and the $\MetricDiameterUp$ consumer boundary before a bound is exported. The handoff names the finite ball-radius route over $X,S,c,r,B,H,C,P,N$ and not a host set, selected center family, supremum, compactness theorem, or ambient completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.BoundedSetUp.BoundedSetCarrier\_metric\_ball\_handoff}
 \begin{proof}
 Start with \autoref{thm:bounded-set-ball-containment-route}. It sends every accepted membership read through $X,S$, then $c,r$, and then the $\MetricBallUp$ containment ledger $B$.
 
@@ -371,6 +372,7 @@ X,S,c,r,B \longmapsto H,C,P,N .
 $$
 The row $B$ records containment in the displayed metric ball and the row $r$ records the real or rational bound through $\RealAlgOrderUp$ or $\RealUp$; together they supply boundedness to $\MetricDiameterUp$, finite-net, precompactness, and completion-facing consumers without exporting least bounds, compactness, open-cover compactness, trichotomy, quotient equality, or host Real completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.BoundedSetUp.BoundedSetCarrier\_obligation\_ledger}
 \begin{proof}
 First read the containment side. By \autoref{thm:bounded-set-ball-containment-route}, membership data must pass through $X,S,c,r,B$ before boundedness is available to a consumer.
 
@@ -396,11 +398,11 @@ Next use classifier transport, \autoref{thm:boundedset-obligation-classifier}. M
 Finally apply ledger nonescape, \autoref{thm:boundedset-obligation-ledger}. The boundedness evidence delivered to finite-net, precompactness, diameter, uniform-space, and completion-facing consumers is exactly the displayed ball-containment and real-bound ledger followed by $H,C,P,N$. Since the packet contains no compactness, supremum, trichotomy, quotient, or completion coordinate, no consumer can obtain one from the obligation package.
 \end{proof}
 
-\closureat{BoundedSetUp}{obligationStr}
+\closureat{BoundedSetUp}{scopedStr}
 
 \begin{closurestatus}{\BoundedSetUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:bounded-set-carrier}, \autoref{thm:bounded-set-namecert-obligations}, \autoref{thm:bounded-set-obligation-closure-rows}, \autoref{thm:bounded-set-closure-obligation-envelope}, and \autoref{thm:bounded-set-obligation-consumer-package} bind the finite bounded-subset packet to its displayed carrier, containment, bound, transport, replay, provenance, local naming, and consumer obligation rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:bounded-set-carrier}, \autoref{thm:bounded-set-namecert-obligations}, \autoref{thm:bounded-set-ball-containment-route}, \autoref{thm:bounded-set-real-bound-nonescape}, \autoref{thm:bounded-set-diameter-consumer-boundary}, and \autoref{thm:bounded-set-uniform-space-boundary} bind the scoped dependency surface over $\MetricUp$, $\MetricBallUp$, $\RealAlgOrderUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close compactness, Heine--Borel, open-cover compactness, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
