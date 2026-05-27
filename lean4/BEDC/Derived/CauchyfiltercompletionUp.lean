@@ -135,4 +135,28 @@ theorem CauchyFilterCompletionPacket_semantic_name_certificate [AskSetup] [Packa
                             ⟨unary_transport sealUnary (hsame_symm sameSeal), provenancePkg⟩
   }
 
+theorem CauchyFilterCompletionPacket_window_cofinality [AskSetup] [PackageSetup]
+    {filter windows tolerance readback sealRow transport replay provenance name request : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterCompletionPacket filter windows tolerance readback sealRow transport replay
+        provenance name bundle pkg →
+      Cont windows tolerance request →
+        Cont request readback sealRow →
+          PkgSig bundle sealRow pkg →
+            UnaryHistory filter ∧ UnaryHistory windows ∧ UnaryHistory tolerance ∧
+              UnaryHistory readback ∧ UnaryHistory sealRow ∧ UnaryHistory request ∧
+                Cont filter windows tolerance ∧ Cont windows tolerance request ∧
+                  Cont request readback sealRow ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle sealRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro packet windowTolerance requestReadback sealPkg
+  obtain ⟨filterUnary, windowsUnary, toleranceUnary, readbackUnary, sealUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _nameUnary, filterWindows,
+    _toleranceReadback, _transportReplay, provenancePkg, _namePkg⟩ := packet
+  have requestUnary : UnaryHistory request :=
+    unary_cont_closed windowsUnary toleranceUnary windowTolerance
+  exact
+    ⟨filterUnary, windowsUnary, toleranceUnary, readbackUnary, sealUnary, requestUnary,
+      filterWindows, windowTolerance, requestReadback, provenancePkg, sealPkg⟩
+
 end BEDC.Derived.CauchyfiltercompletionUp
