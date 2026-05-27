@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\CauchyIntegralFormulaUp$}
+\label{ch:concrete-instances-cauchy-integral-formula-namecert}
+\origin{human}
+
+Following Cauchy and Bishop--Bridges constructive complex analysis, the $\CauchyIntegralFormulaUp$ packet names the finite contour-evaluation theorem surface that lets a holomorphic local datum be read at an interior point through an explicit contour integral. It sits above the holomorphic predicate of \autoref{ch:concrete-instances-holomorphic-namecert}, the complex carrier of \autoref{ch:concrete-instances-complex-namecert}, the complex series modulus rows of \autoref{ch:concrete-instances-complex-series-namecert}, the operation socket of \autoref{ch:concrete-instances-contourintegralsocket-namecert}, and the triangle-to-polygon null-integral route of \autoref{ch:concrete-instances-goursat-namecert}. The chapter names the Cauchy integral formula as a BEDC NameCert dependency for residue, maximum-modulus, and analytic-continuation consumers; it does not introduce a host contour integral, quotient path space, classical compactness principle, or unrecorded branch-selection oracle.
+
+\begin{definition}[Cauchy integral formula carrier]
+\label{def:cauchy-integral-formula-carrier}
+A $\CauchyIntegralFormulaUp$ carrier is a finite $\BHist$ packet
+$$
+F=(D,Z,R,H,C,S,G,L,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\HolomorphicUp$ domain row, displaying the holomorphic function, its complex neighbourhood, and the interior point whose value is to be read.
+\item $Z$ is the $\ComplexUp$ point row, carrying the point coordinate and the complex arithmetic rows used by the evaluation denominator.
+\item $R$ is the radius and contour row, naming a rational circle or polygonal contour around $Z$ whose image remains inside the displayed holomorphic neighbourhood.
+\item $H$ is the $\ContourIntegralSocketUp$ row, exposing the piecewise-linear contour, holomorphic input, Riemann-sum modulus, complex output, operation-law ledger, transport, replay, provenance, and local naming rows.
+\item $C$ is the $\ComplexSeriesUp$ local expansion row, recording the finite read of the convergent power-series data needed to identify the residue coefficient at the point.
+\item $S$ is the singular-kernel exclusion row, displaying that the contour avoids the evaluation point in the denominator while the point remains inside the contour.
+\item $G$ is the $\GoursatUp$ null-triangle ledger row, routing contour deformation and polygon subdivision through the already named null-integral packet.
+\item $L$ is the formula ledger row, recording the equality between the point value and the contour integral of the Cauchy kernel over the displayed contour.
+\item $T$ records componentwise $\hsame$ transport for the holomorphic, complex, contour, socket, series, exclusion, Goursat, formula, replay, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\CauchyIntegralFormulaUp$, $\HolomorphicUp$, $\ComplexUp$, $\ComplexSeriesUp$, $\ContourIntegralSocketUp$, $\GoursatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyIntegralFormulaUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $D,Z,R,H,C,S,G,L,T,P,N$. It has no coordinate for a host analytic theorem, selected branch, quotient path equality, or classical integral representation outside the displayed contour socket.
+\end{definition}
+
+\begin{theorem}[Cauchy integral formula NameCert obligations]
+\label{thm:cauchy-integral-formula-namecert-obligations}
+For every accepted $\CauchyIntegralFormulaUp$ carrier $F=(D,Z,R,H,C,S,G,L,T,P,N)$, the local $\NameCert_{\CauchyIntegralFormulaUp}$ surface consists exactly of holomorphic-domain admission through $D$, complex point and arithmetic admission through $Z$, contour containment through $R$, contour-socket admission through $H$, complex-series local expansion through $C$, singular-kernel exclusion through $S$, Goursat deformation through $G$, formula-ledger exactness through $L$, componentwise transport through $T$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The holomorphic source $D$ and point row $Z$ fix the only domain and evaluation data that the packet may read.
+
+The contour row $R$ and socket row $H$ provide the finite operation surface. They determine the contour-integral value through displayed piecewise-linear, Riemann-sum, complex-output, and operation-law rows.
+
+The series row $C$, exclusion row $S$, and Goursat row $G$ identify the Cauchy kernel computation and the allowed contour deformations. The formula ledger $L$ then records the point-evaluation equality inside the same packet.
+
+Finally $T,P,N$ transport, source, and name the same finite route. Since no carrier coordinate stores a host contour theorem, branch selection, quotient path equality, or classical integral representation, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy integral formula contour-socket route]
+\label{thm:cauchy-integral-formula-contour-socket-route}
+Every point-evaluation read exported by an accepted $\CauchyIntegralFormulaUp$ carrier factors through the finite route
+$$
+D,Z,R \longmapsto H \longmapsto C,S,G,L \longmapsto T,P,N .
+$$
+In particular, the read must pass through the $\ContourIntegralSocketUp$ row before the formula ledger can be consumed, and it cannot bypass the contour socket by citing a host Cauchy theorem, quotient path identity, selected branch, or undisplayed completeness object.
+\end{theorem}
+\begin{proof}
+Start with a point-evaluation request. The rows $D,Z,R$ display the holomorphic input, complex point, and contour containment data, but none of them alone stores the contour integral or the formula equality.
+
+The request must next pass through $H$. By \autoref{ch:concrete-instances-contourintegralsocket-namecert}, the socket exposes the contour, input, modulus, complex output, operation ledger, transport, replay, provenance, and local naming rows needed by a contour-integral consumer.
+
+The rows $C,S,G,L$ then attach local series computation, denominator exclusion, Goursat deformation, and formula equality to that same socket route. Transport and provenance through $T,P,N$ preserve the displayed route without adding a second source of analytic equality.
+
+Therefore every exported Cauchy integral formula read is socket-mediated and finite-row visible. The absent host theorem, quotient path identity, branch selection, and completeness oracle have no coordinate in the carrier.
+\end{proof}
+
+\falsifiablePrediction{Every residue, maximum-modulus, or analytic-continuation consumer that cites $\CauchyIntegralFormulaUp$ must expose holomorphic-domain data, complex point data, contour containment, contour-socket rows, local complex-series data, singular-kernel exclusion, Goursat deformation, formula ledger, componentwise hsame transport, Pkg provenance, and local NameCert evidence.}
+
+\independenceWitness{holomorphic, complex-series, contourintegralsocket, goursat: none is bijective with $\CauchyIntegralFormulaUp$ because this packet jointly carries point-evaluation data, contour containment, socket-mediated integral rows, kernel exclusion, deformation ledger, formula equality, transport, provenance, and local naming.}
+
+\closureat{CauchyIntegralFormulaUp}{seedStr}
+
+\begin{closurestatus}{\CauchyIntegralFormulaUp}
+  \constructivestory{A $\CauchyIntegralFormulaUp$ packet is generated from holomorphic-domain rows, complex point rows, contour-containment rows, contour-socket rows, local complex-series rows, singular-kernel exclusion rows, Goursat deformation rows, formula-ledger rows, componentwise hsame transport, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-integral-formula-carrier}, \autoref{thm:cauchy-integral-formula-namecert-obligations}, and \autoref{thm:cauchy-integral-formula-contour-socket-route} seed the finite contour-mediated point-evaluation packet over holomorphic, complex, complex-series, contour-socket, Goursat, transport, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close residue calculus, maximum-modulus consequences, host contour integration, quotient path spaces, global analytic continuation, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, holomorphic source lock, contour containment, contour-socket handoff, local series exactness, singular-kernel exclusion, Goursat deformation, formula-ledger exactness, and non-escape for BEDC.Derived.CauchyIntegralFormulaUp.}
+\end{closurestatus}

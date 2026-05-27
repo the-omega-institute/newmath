@@ -140,6 +140,7 @@ Finally apply the downstream coverage surface. The nested prefix may refine the 
 \label{thm:closed-bounded-interval-uniform-modulus-source}
 Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ be an accepted $\ClosedBoundedIntervalUp$ carrier. Every $\ClosedBoundedIntervalUniformModulusUp$ consumer obtains its interval source from the rows $L,U,O,Q,D,S,R,E,H,C,P,N$ before reading any modulus, compact-uniform, or Heine--Cantor-style row. The source is therefore the displayed package of \autoref{thm:closed-bounded-interval-source-obligation-package}, \autoref{thm:closed-bounded-interval-compact-uniform-source-package}, and \autoref{thm:closed-bounded-interval-downstream-coverage-surface}, not an ambient compact interval theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedboundedintervalUp.ClosedBoundedIntervalPacket\_uniform\_modulus\_source}
 \begin{proof}
 Read the source obligation package first. It identifies $L,U,O,Q,D,S,R,E,H,C,P,N$ as the lower endpoint, upper endpoint, order, containment, window, readback, seal, transport, replay, provenance, and naming rows available to interval consumers.
 
@@ -211,3 +212,17 @@ For net consumers, the mesh rows are downstream of the endpoint and containment 
 The excluded principles are not coordinates of $\Sigma_I$. Therefore readiness is exactly the displayed source-map route followed by consumer-specific rows, not a route through open-cover compactness, trichotomy, selected points, quotient equality, or ambient completeness.
 \end{proof}
 \leanchecked{BEDC.Derived.ClosedboundedintervalUp.ClosedBoundedIntervalPacket\_net\_consumer\_readiness}
+
+\begin{theorem}[Closed bounded interval scoped source package]
+\label{thm:closed-bounded-interval-scoped-source-package}
+Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ be an accepted $\ClosedBoundedIntervalUp$ carrier. The scoped source map $\Sigma_I$ of \autoref{def:closed-bounded-interval-scoped-source-map}, the scoped kernel surface of \autoref{thm:closed-bounded-interval-scoped-kernel-surface}, the net consumer readiness of \autoref{thm:closed-bounded-interval-net-consumer-readiness}, the finite-cover window exactness of \autoref{thm:closed-bounded-interval-finite-cover-window-exactness}, the nested-window factorization of \autoref{thm:closed-bounded-interval-nested-window-factorization}, and the uniform-modulus source of \autoref{thm:closed-bounded-interval-uniform-modulus-source} jointly form the scoped L10 source package for $\ClosedBoundedIntervalUp$. Every endpoint, containment, finite-cover, nested-window, net, and uniform-modulus consumer reads through $L,U,O,Q,D,S,R,E,H,C,P,N$ before any consumer-specific row is available; no open-cover compactness, trichotomy, selected point, quotient equality, or ambient $\RealUp$ completeness coordinate enters the package.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:closed-bounded-interval-scoped-source-map}. The projected packet is exactly $\Sigma_I=(L,U,O,Q,D,S,R,E,H,C,P,N)$, so endpoint, containment, readback, seal, transport, replay, provenance, and naming data have one displayed source.
+
+Apply \autoref{thm:closed-bounded-interval-scoped-kernel-surface}. Any scoped consumer that reads an endpoint, containment ledger, dyadic cell, regular rational readback, or Real seal must remain on the displayed kernel rows of $\Sigma_I$.
+
+For the downstream rows, use \autoref{thm:closed-bounded-interval-net-consumer-readiness}, \autoref{thm:closed-bounded-interval-finite-cover-window-exactness}, \autoref{thm:closed-bounded-interval-nested-window-factorization}, and \autoref{thm:closed-bounded-interval-uniform-modulus-source}. These theorems route net, located-cover, finite-cover, nested-window, and uniform-modulus consumers through the same endpoint, containment, window, readback, seal, and structural rows before the consumer-specific mesh, cover, nesting, or modulus rows are read.
+
+The carrier and the cited routes contain no coordinate for open-cover compactness, trichotomy, selected points, quotient equality, or ambient Real completeness. Therefore the displayed rows form the scoped L10 source package and the excluded objects cannot serve as alternate sources.
+\end{proof}
