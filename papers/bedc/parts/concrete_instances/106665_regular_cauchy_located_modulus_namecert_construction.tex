@@ -118,6 +118,39 @@ completeness coordinate. Hence the Real-seal consumer receives exactly the
 finite located-modulus evidence stated above.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy located modulus finite-window nonescape]
+\label{thm:regular-cauchy-located-modulus-window-nonescape}
+Every $\LocatedRealComparisonUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of an
+accepted $\RegularCauchyLocatedModulusUp$ packet must pass through the displayed
+dyadic ledger $D$, $\StreamNameUp$ window $S$, $\RegSeqRatUp$ readback $Q$,
+lower and upper located comparison rows $L,U$, modulus row $M$, transport rows
+$H$, replay rows $C$, provenance rows $P$, and local $\NameCert$ row $N$. A
+strengthened finite-window read can refine these rows only by reading the same
+carrier coordinates; it cannot bypass them by using quotient Cauchy equality,
+selected limits, trichotomy, host order, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:regular-cauchy-located-modulus-carrier}. The projection exposes
+exactly $D,S,Q,L,U,M,H,C,P,N$ as the finite rows available to a consumer.
+
+Apply
+\autoref{thm:regular-cauchy-located-modulus-namecert-obligations}. Window
+alignment, dyadic precision exactness, regular readback confinement, located
+bracket handoff, and transport stability force each accepted read through the
+displayed ledger, window, readback, brackets, modulus, transport, replay,
+provenance, and local naming rows.
+
+Apply \autoref{thm:regular-cauchy-located-modulus-real-seal-handoff} for the
+Real-facing case. The same $D,S,Q,L,U,M,H,C,P,N$ route is preserved at the
+seal, so a strengthened finite-window read remains a refinement of the
+displayed packet route.
+
+The refused objects are absent carrier coordinates. Therefore quotient Cauchy
+equality, selected limits, trichotomy, host order, and ambient completeness
+cannot be used to bypass the finite-window route.
+\end{proof}
+
 \closureat{RegularCauchyLocatedModulusUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyLocatedModulusUp}
