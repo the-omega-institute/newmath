@@ -1,16 +1,29 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ArchimedeanCauchyTailUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive ArchimedeanCauchyTailUp : Type where
-  | mk (R A M E W Q D H C P N : BHist) : ArchimedeanCauchyTailUp
+  | mk (real bound modulus equivalence window readback dyadic transport replay provenance
+      name : BHist) : ArchimedeanCauchyTailUp
   deriving DecidableEq
 
 def archimedeanCauchyTailEncodeBHist : BHist → RawEvent
@@ -25,7 +38,7 @@ def archimedeanCauchyTailDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (archimedeanCauchyTailDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (archimedeanCauchyTailDecodeBHist tail)
 
-private theorem ArchimedeanCauchyTailTasteGate_decode_encode :
+private theorem archimedeanCauchyTail_decode_encode :
     ∀ h : BHist, archimedeanCauchyTailDecodeBHist
       (archimedeanCauchyTailEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -37,74 +50,109 @@ private theorem ArchimedeanCauchyTailTasteGate_decode_encode :
 
 def archimedeanCauchyTailFields : ArchimedeanCauchyTailUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | ArchimedeanCauchyTailUp.mk R A M E W Q D H C P N => [R, A, M, E, W, Q, D, H, C, P, N]
+  | ArchimedeanCauchyTailUp.mk real bound modulus equivalence window readback dyadic
+      transport replay provenance name =>
+      [real, bound, modulus, equivalence, window, readback, dyadic, transport, replay,
+        provenance, name]
 
-def archimedeanCauchyTailToEventFlow : ArchimedeanCauchyTailUp → EventFlow :=
+def archimedeanCauchyTailToEventFlow : ArchimedeanCauchyTailUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x => archimedeanCauchyTailFields x |>.map archimedeanCauchyTailEncodeBHist
+  | x => List.map archimedeanCauchyTailEncodeBHist (archimedeanCauchyTailFields x)
 
-private def archimedeanCauchyTailEventAt : Nat → EventFlow → RawEvent
+def archimedeanCauchyTailFromEventFlow : EventFlow → Option ArchimedeanCauchyTailUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => archimedeanCauchyTailEventAt index rest
+  | [] => none
+  | real :: restReal =>
+      match restReal with
+      | [] => none
+      | bound :: restBound =>
+          match restBound with
+          | [] => none
+          | modulus :: restModulus =>
+              match restModulus with
+              | [] => none
+              | equivalence :: restEquivalence =>
+                  match restEquivalence with
+                  | [] => none
+                  | window :: restWindow =>
+                      match restWindow with
+                      | [] => none
+                      | readback :: restReadback =>
+                          match restReadback with
+                          | [] => none
+                          | dyadic :: restDyadic =>
+                              match restDyadic with
+                              | [] => none
+                              | transport :: restTransport =>
+                                  match restTransport with
+                                  | [] => none
+                                  | replay :: restReplay =>
+                                      match restReplay with
+                                      | [] => none
+                                      | provenance :: restProvenance =>
+                                          match restProvenance with
+                                          | [] => none
+                                          | name :: restName =>
+                                              match restName with
+                                              | [] =>
+                                                  some
+                                                    (ArchimedeanCauchyTailUp.mk
+                                                      (archimedeanCauchyTailDecodeBHist real)
+                                                      (archimedeanCauchyTailDecodeBHist bound)
+                                                      (archimedeanCauchyTailDecodeBHist modulus)
+                                                      (archimedeanCauchyTailDecodeBHist
+                                                        equivalence)
+                                                      (archimedeanCauchyTailDecodeBHist window)
+                                                      (archimedeanCauchyTailDecodeBHist readback)
+                                                      (archimedeanCauchyTailDecodeBHist dyadic)
+                                                      (archimedeanCauchyTailDecodeBHist
+                                                        transport)
+                                                      (archimedeanCauchyTailDecodeBHist replay)
+                                                      (archimedeanCauchyTailDecodeBHist
+                                                        provenance)
+                                                      (archimedeanCauchyTailDecodeBHist name))
+                                              | _ :: _ => none
 
-def archimedeanCauchyTailFromEventFlow
-    (ef : EventFlow) : Option ArchimedeanCauchyTailUp :=
+private theorem archimedeanCauchyTail_round_trip :
+    ∀ x : ArchimedeanCauchyTailUp,
+      archimedeanCauchyTailFromEventFlow (archimedeanCauchyTailToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (ArchimedeanCauchyTailUp.mk
-      (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEventAt 0 ef))
-      (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEventAt 1 ef))
-      (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEventAt 2 ef))
-      (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEventAt 3 ef))
-      (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEventAt 4 ef))
-      (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEventAt 5 ef))
-      (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEventAt 6 ef))
-      (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEventAt 7 ef))
-      (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEventAt 8 ef))
-      (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEventAt 9 ef))
-      (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEventAt 10 ef)))
-
-private theorem ArchimedeanCauchyTailTasteGate_round_trip
-    (x : ArchimedeanCauchyTailUp) :
-    archimedeanCauchyTailFromEventFlow (archimedeanCauchyTailToEventFlow x) =
-      some x := by
-  -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
-  | mk R A M E W Q D H C P N =>
+  | mk real bound modulus equivalence window readback dyadic transport replay provenance name =>
       change
         some
           (ArchimedeanCauchyTailUp.mk
-            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist R))
-            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist A))
-            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist M))
-            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist E))
-            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist W))
-            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist Q))
-            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist D))
-            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist H))
-            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist C))
-            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist P))
-            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist N))) =
-          some (ArchimedeanCauchyTailUp.mk R A M E W Q D H C P N)
-      rw [ArchimedeanCauchyTailTasteGate_decode_encode R,
-        ArchimedeanCauchyTailTasteGate_decode_encode A,
-        ArchimedeanCauchyTailTasteGate_decode_encode M,
-        ArchimedeanCauchyTailTasteGate_decode_encode E,
-        ArchimedeanCauchyTailTasteGate_decode_encode W,
-        ArchimedeanCauchyTailTasteGate_decode_encode Q,
-        ArchimedeanCauchyTailTasteGate_decode_encode D,
-        ArchimedeanCauchyTailTasteGate_decode_encode H,
-        ArchimedeanCauchyTailTasteGate_decode_encode C,
-        ArchimedeanCauchyTailTasteGate_decode_encode P,
-        ArchimedeanCauchyTailTasteGate_decode_encode N]
+            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist real))
+            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist bound))
+            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist modulus))
+            (archimedeanCauchyTailDecodeBHist
+              (archimedeanCauchyTailEncodeBHist equivalence))
+            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist window))
+            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist readback))
+            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist dyadic))
+            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist transport))
+            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist replay))
+            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist provenance))
+            (archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist name))) =
+          some
+            (ArchimedeanCauchyTailUp.mk real bound modulus equivalence window readback dyadic
+              transport replay provenance name)
+      rw [archimedeanCauchyTail_decode_encode real,
+        archimedeanCauchyTail_decode_encode bound,
+        archimedeanCauchyTail_decode_encode modulus,
+        archimedeanCauchyTail_decode_encode equivalence,
+        archimedeanCauchyTail_decode_encode window,
+        archimedeanCauchyTail_decode_encode readback,
+        archimedeanCauchyTail_decode_encode dyadic,
+        archimedeanCauchyTail_decode_encode transport,
+        archimedeanCauchyTail_decode_encode replay,
+        archimedeanCauchyTail_decode_encode provenance,
+        archimedeanCauchyTail_decode_encode name]
 
-private theorem ArchimedeanCauchyTailTasteGate_toEventFlow_injective
+private theorem archimedeanCauchyTailToEventFlow_injective
     {x y : ArchimedeanCauchyTailUp} :
-    archimedeanCauchyTailToEventFlow x = archimedeanCauchyTailToEventFlow y →
-      x = y := by
+    archimedeanCauchyTailToEventFlow x = archimedeanCauchyTailToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -112,23 +160,24 @@ private theorem ArchimedeanCauchyTailTasteGate_toEventFlow_injective
         archimedeanCauchyTailFromEventFlow (archimedeanCauchyTailToEventFlow y) :=
     congrArg archimedeanCauchyTailFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (ArchimedeanCauchyTailTasteGate_round_trip x).symm
-      (Eq.trans hread (ArchimedeanCauchyTailTasteGate_round_trip y)))
+    (Eq.trans (archimedeanCauchyTail_round_trip x).symm
+      (Eq.trans hread (archimedeanCauchyTail_round_trip y)))
 
-private theorem ArchimedeanCauchyTailTasteGate_fields_faithful :
+private theorem archimedeanCauchyTail_fields_faithful :
     ∀ x y : ArchimedeanCauchyTailUp,
       archimedeanCauchyTailFields x = archimedeanCauchyTailFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk R₁ A₁ M₁ E₁ W₁ Q₁ D₁ H₁ C₁ P₁ N₁ =>
+  | mk real₁ bound₁ modulus₁ equivalence₁ window₁ readback₁ dyadic₁ transport₁ replay₁
+      provenance₁ name₁ =>
       cases y with
-      | mk R₂ A₂ M₂ E₂ W₂ Q₂ D₂ H₂ C₂ P₂ N₂ =>
+      | mk real₂ bound₂ modulus₂ equivalence₂ window₂ readback₂ dyadic₂ transport₂ replay₂
+          provenance₂ name₂ =>
           cases hfields
           rfl
 
-instance archimedeanCauchyTailBHistCarrier :
-    BHistCarrier ArchimedeanCauchyTailUp where
+instance archimedeanCauchyTailBHistCarrier : BHistCarrier ArchimedeanCauchyTailUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := archimedeanCauchyTailToEventFlow
   fromEventFlow := archimedeanCauchyTailFromEventFlow
@@ -138,19 +187,16 @@ instance archimedeanCauchyTailChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      archimedeanCauchyTailFromEventFlow (archimedeanCauchyTailToEventFlow x) =
-        some x
-    exact ArchimedeanCauchyTailTasteGate_round_trip x
+    change archimedeanCauchyTailFromEventFlow (archimedeanCauchyTailToEventFlow x) = some x
+    exact archimedeanCauchyTail_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (ArchimedeanCauchyTailTasteGate_toEventFlow_injective heq)
+    exact hxy (archimedeanCauchyTailToEventFlow_injective heq)
 
-instance archimedeanCauchyTailFieldFaithful :
-    FieldFaithful ArchimedeanCauchyTailUp where
+instance archimedeanCauchyTailFieldFaithful : FieldFaithful ArchimedeanCauchyTailUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := archimedeanCauchyTailFields
-  field_faithful := ArchimedeanCauchyTailTasteGate_fields_faithful
+  field_faithful := archimedeanCauchyTail_fields_faithful
 
 def taste_gate : ChapterTasteGate ArchimedeanCauchyTailUp :=
   -- BEDC touchpoint anchor: BHist BMark
@@ -166,7 +212,80 @@ theorem ArchimedeanCauchyTailTasteGate_single_carrier_alignment :
   exact
     ⟨⟨archimedeanCauchyTailBHistCarrier⟩,
       ⟨archimedeanCauchyTailChapterTasteGate⟩,
-      ArchimedeanCauchyTailTasteGate_decode_encode,
+      archimedeanCauchyTail_decode_encode,
       rfl⟩
+
+def ArchimedeanCauchyTailCarrier [AskSetup] [PackageSetup]
+    (real bound modulus equivalence window readback dyadic transport replay provenance
+      name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame
+  UnaryHistory real ∧ UnaryHistory bound ∧ UnaryHistory modulus ∧
+    UnaryHistory equivalence ∧ UnaryHistory window ∧ UnaryHistory readback ∧
+      UnaryHistory dyadic ∧ UnaryHistory transport ∧ UnaryHistory replay ∧
+        UnaryHistory provenance ∧ UnaryHistory name ∧ Cont real bound modulus ∧
+          Cont modulus equivalence window ∧ Cont window readback dyadic ∧
+            Cont transport replay provenance ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle name pkg
+
+theorem ArchimedeanCauchyTailCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {real bound modulus equivalence window readback dyadic transport replay provenance
+      name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ArchimedeanCauchyTailCarrier real bound modulus equivalence window readback dyadic
+        transport replay provenance name bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          ArchimedeanCauchyTailCarrier real bound modulus equivalence window readback dyadic
+              transport replay provenance name bundle pkg ∧ hsame row name)
+        (fun row : BHist =>
+          hsame row real ∨ hsame row bound ∨ hsame row modulus ∨ hsame row equivalence ∨
+            hsame row window ∨ hsame row readback ∨ hsame row dyadic ∨
+              hsame row transport ∨ hsame row replay ∨ hsame row provenance ∨
+                hsame row name)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle name pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame SemanticNameCert UnaryHistory
+  intro carrier
+  have carrierSource :
+      ArchimedeanCauchyTailCarrier real bound modulus equivalence window readback dyadic
+        transport replay provenance name bundle pkg := carrier
+  obtain ⟨_realUnary, _boundUnary, _modulusUnary, _equivalenceUnary, _windowUnary,
+    _readbackUnary, _dyadicUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    nameUnary, _boundRoute, _tailRoute, _dyadicRoute, _replayRoute, _provenancePkg,
+    namePkg⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro name ⟨carrierSource, hsame_refl name⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _row' leftSame rightSame
+        exact hsame_trans leftSame rightSame
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+    }
+    pattern_sound := by
+      intro row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr (Or.inr source.right)))))))))
+    ledger_sound := by
+      intro row source
+      cases source.right
+      exact ⟨nameUnary, namePkg⟩
+  }
 
 end BEDC.Derived.ArchimedeanCauchyTailUp
