@@ -701,6 +701,7 @@ import BEDC.Derived.BitVectorUp.TasteGate
 import BEDC.Derived.BolzanoCauchyUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassUp.BoundedSequenceSource
+import BEDC.Derived.BolzanoWeierstrassUp.ClosedIntervalClusterHandoff
 import BEDC.Derived.BolzanoWeierstrassUp.ClusterCauchyWindow
 import BEDC.Derived.BolzanoWeierstrassUp.FiniteIntervalTreeInduction
 import BEDC.Derived.BolzanoWeierstrassUp.FiniteSubsequenceObligations
@@ -1768,6 +1769,7 @@ import BEDC.Derived.ClosedBoundedIntervalNetUp.ScopeLedger
 import BEDC.Derived.ClosedBoundedIntervalNetUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalUniformModulusUp.HeineCantorRoute
 import BEDC.Derived.ClosedBoundedIntervalUniformModulusUp.TasteGate
+import BEDC.Derived.ClosedBoundedIntervalUp.DownstreamCoverageSurface
 import BEDC.Derived.ClosedBoundedIntervalUp.RealSealNonescape
 import BEDC.Derived.ClosedBoundedIntervalUp.RealSealRootHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.RegSeqRatWindow
