@@ -88,6 +88,42 @@ or choice principle. Hence the five listed rows exhaust the local naming
 obligations.
 \end{proof}
 
+\begin{theorem}[RepresentedSpace name schedule obligation]
+\label{thm:representedspace-name-schedule-obligation}
+For every accepted $\RepresentedSpaceUp$ carrier $R=(S,W,\rho,X,T,H,C,P,N)$, every represented-space read opens the displayed name row $S$ and the $\StreamNameUp$ schedule $W$ before the representation relation row $\rho$ is consumed. The schedule exposes the inspected precision requests and stream positions as finite $\BHist$ data, not as an implicit oracle over names.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:representedspace-carrier}. The name row $S$ and schedule row $W$ are the only coordinates from which stream observations may be read.
+
+The NameCert obligations of \autoref{thm:representedspace-namecert-obligations} place carrier admission and classifier transport before relation exactness. Thus a consumer cannot reach $\rho$ without first displaying the finite name and schedule rows.
+
+The structural rows $H,C,P,N$ only transport, replay, source, and name that same scheduled route. They do not add an unscheduled representation oracle.
+\end{proof}
+
+\begin{theorem}[RepresentedSpace representation relation exactness]
+\label{thm:representedspace-representation-relation-exactness}
+For every accepted $\RepresentedSpaceUp$ carrier $R=(S,W,\rho,X,T,H,C,P,N)$, the row $\rho$ is the only route from the stream observations displayed by $S,W$ to the target carrier $X$. Any target-facing consumer that bypasses $\rho$ is outside the local $\NameCert_{\RepresentedSpaceUp}$ surface.
+\end{theorem}
+\begin{proof}
+Read the exactness clause in \autoref{thm:representedspace-namecert-obligations}. It identifies $\rho$ as the sole displayed relation between scheduled stream observations and the target row.
+
+Classifier transport through $T,H$ compares the same components on a finite surface. It can move an accepted representation route, but it cannot create a second relation from stream data to $X$.
+
+Replay and provenance through $C,P,N$ preserve the route already named by $\rho$. Therefore every accepted target read factors through $\rho$ and no bypass is certified.
+\end{proof}
+
+\begin{theorem}[RepresentedSpace target handoff nonescape]
+\label{thm:representedspace-target-handoff-nonescape}
+Every $\RealUp$-facing target handoff from an accepted $\RepresentedSpaceUp$ carrier $R=(S,W,\rho,X,T,H,C,P,N)$ factors through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The handoff exports no quotient names, selected representatives, host equality, completeness witness, or choice principle.
+\end{theorem}
+\begin{proof}
+Start with the name schedule obligation. It forces the target handoff to read $S,W$ before the representation relation is consumed.
+
+Apply representation relation exactness. The relation row $\rho$ is the only certified route from the scheduled stream observations to $X$, and the real-facing case of $X$ passes through $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.
+
+Finally use the structural rows. The $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data transport, replay, source, and name the handoff without adding quotient names, representatives, host equality, completeness, or choice.
+\end{proof}
+
 \begin{theorem}[RepresentedSpace StreamName Real handoff]
 \label{thm:representedspace-streamname-real-handoff}
 Every $\RealUp$-facing represented-space read through an accepted

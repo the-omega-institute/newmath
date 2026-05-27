@@ -168,6 +168,35 @@ theorem FormalBallCarrier_cauchy_filter_handoff [AskSetup] [PackageSetup]
     ⟨metricUnary, radiusUnary, dyadicUnary, windowUnary, completionReadUnary,
       cauchyReadUnary, completionRoute, cauchyRoute, provenancePkg, cauchyPkg⟩
 
+theorem FormalBallCarrier_uniform_completion_ledger_exhaustion [AskSetup] [PackageSetup]
+    {M R D W H C P N radiusRead windowRead completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FormalBallCarrier M R D W H C P N bundle pkg ->
+      Cont R D radiusRead ->
+        Cont D W windowRead ->
+          Cont radiusRead windowRead completionRead ->
+            PkgSig bundle completionRead pkg ->
+              UnaryHistory R ∧ UnaryHistory D ∧ UnaryHistory W ∧
+                UnaryHistory radiusRead ∧ UnaryHistory windowRead ∧
+                  UnaryHistory completionRead ∧ Cont R D radiusRead ∧
+                    Cont D W windowRead ∧ Cont radiusRead windowRead completionRead ∧
+                      PkgSig bundle P pkg ∧ PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier radiusRoute windowRoute completionRoute completionPkg
+  obtain ⟨_metricUnary, radiusUnary, dyadicUnary, windowUnary, _transportUnary,
+    _replayUnary, _provenanceUnary, _nameCertUnary, _metricRadius, _dyadicWindowReplay,
+    _transportReplay, provenancePkg⟩ := carrier
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_cont_closed radiusUnary dyadicUnary radiusRoute
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed dyadicUnary windowUnary windowRoute
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed radiusReadUnary windowReadUnary completionRoute
+  exact
+    ⟨radiusUnary, dyadicUnary, windowUnary, radiusReadUnary, windowReadUnary,
+      completionReadUnary, radiusRoute, windowRoute, completionRoute, provenancePkg,
+      completionPkg⟩
+
 theorem FormalBallCarrier_radius_refinement_chain [AskSetup] [PackageSetup]
     {M R D W H C P N firstRefined finalRefined : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
