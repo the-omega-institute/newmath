@@ -43,6 +43,7 @@ Use the discharge-row theorem and discharge-socket induction, \autoref{thm:metac
 
 Finally apply candidate-normalization socket exhaustion, \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}. The exhausted surface contains no coordinate for the refused global metatheoretic or Real-completion claims, so the socket remains a displayed boundary rather than a discharged theorem.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateMediatedFrontierSocketSeparation}
 
 \begin{theorem}[MetaCIC candidate-mediated frontier L10 readback]
 \label{thm:metacic-critical-path-candidate-mediated-frontier-l10-readback}
@@ -238,6 +239,31 @@ The discharge side is controlled by \autoref{thm:metacic-critical-path-discharge
 Finally invoke candidate-normalization socket exhaustion, \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}. The exhausted surface is the candidate-normalization route plus the four L10 faces, with no additional coordinate for closed subject reduction. Hence any consumer that claims such a row must cite it separately, and the candidate-mediated boundary remains distinct from closed subject reduction.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate-mediated SN closed-normal-form readback]
+\label{thm:metacic-critical-path-candidate-mediated-sn-closed-normal-form-readback}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any closed-normal-form readback that consumes candidate-mediated strong-normalization evidence factors through the finite rows $S,N,U,H,C,P,L$ and the four L10 faces
+$$
+\DyadicRatCoreUp,\qquad
+\StreamNameUp,\qquad
+\RegSeqRatUp,\qquad
+\RealUp .
+$$
+The obstruction row $O$ and the discharge socket $D$ remain visible to the readback unless the packet separately displays a subject-reduction row. Thus closed-normal-form readback from candidate-mediated SN is a finite frontier read, not a proof of closed subject reduction, global confluence, or beta-conversion decidability.
+\end{theorem}
+\begin{proof}
+Start with the candidate-mediated SN frontier, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. It confines candidate-mediated normalization evidence to the displayed finite rows and the four L10 faces before any readback consumer may inspect the handoff row $U$.
+
+Use the handshake theorem, \autoref{thm:metacic-critical-path-sn-confluence-decidability-handshake}. The readback may feed confluence-facing or decidability-facing replay through $S,N,U,H,C,P,L$, but that handoff does not add a subject-reduction row.
+
+Apply discharge-socket induction, \autoref{thm:metacic-critical-path-discharge-socket-induction}. Finite replay preserves the socket boundary while the closed-normal-form consumer moves through the displayed route.
+
+Finally use socket exhaustion and the candidate SN boundary, \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion} and \autoref{thm:metacic-critical-path-candidate-sn-boundary}. Together they leave exactly $O$ and $D$ as visible boundaries unless an explicit subject-reduction row is displayed, so the readback cannot be upgraded to closed subject reduction, global confluence, or beta-decidability.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate-mediated SN frontier discharge coverage]
 \label{thm:metacic-critical-path-candidate-mediated-sn-frontier-discharge-coverage}
 Let
@@ -279,6 +305,7 @@ $$
 $$
 A separate subject-reduction row is required before $D$ can be filled. Candidate-mediated normalization evidence alone cannot assert global confluence, closed subject reduction, or beta-conversion decidability.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateMediatedSNRoute}
 \begin{proof}
 Begin with the candidate-mediated SN frontier, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. It places normalization evidence on the finite route through $S,N,U,H,C,P,L$ while keeping $O$ and $D$ visible to any consumer.
 
@@ -287,4 +314,40 @@ Apply the candidate-normalization budget, \autoref{thm:metacic-critical-path-can
 Next use socket exhaustion, \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}. Since exhaustion still leaves $D$ as a socket rather than a filled row, the replay cannot close subject reduction by consuming candidate-mediated SN evidence alone.
 
 Finally invoke discharge coverage, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier-discharge-coverage}. Every admissible consumer either preserves $D$ or cites a separate subject-reduction row. Therefore the route exports only the finite candidate-mediated handoff and refuses global confluence, closed subject reduction, and beta-decidability claims.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate-mediated SN discharge budget]
+\label{thm:metacic-criticalpath-candidate-mediated-sn-discharge-budget}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Every candidate-mediated strong-normalization consumer that is allowed to pass a consistency-facing handoff must first display the normalization candidate row $S$, the confluence boundary carried by the handoff row $U$, the decidability boundary carried by the replay row $C$, the discharge socket $D$, the obstruction row $O$, componentwise transport $H$, replay $C$, provenance $P$, and the local $\NameCert$ row $L$. The consumer may then read the handoff only as the displayed finite discharge budget; it does not export full subject reduction, full confluence, global beta-conversion decidability, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with the candidate-mediated SN frontier, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. It forces every SN read that reaches the handoff row to expose the finite packet rows and the four L10 faces before a confluence-facing or decidability-facing consumer can inspect $U$.
+
+Next apply the socket-separation and discharge-row theorems, \autoref{thm:metacic-critical-path-candidate-mediated-frontier-socket-separation} and \autoref{thm:metacic-critical-path-candidate-mediated-sn-discharge-row}. These keep $O$ and $D$ visible while the normalization candidate and handoff rows are consumed.
+
+Use discharge-socket induction and discharge coverage, \autoref{thm:metacic-critical-path-discharge-socket-induction} and \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier-discharge-coverage}. They show that any finite consumer replay either preserves the socket or cites a separate subject-reduction row outside the candidate-mediated frontier.
+
+Finally read the candidate SN route of \autoref{thm:metacic-critical-path-candidate-mediated-sn-route}. The route exports only the displayed budget rows $S,N,O,U,D,H,C,P,L$ and therefore cannot supply the excluded global MetaCIC or quotient-equality claims.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate-mediated SN L10 readback]
+\label{thm:metacic-criticalpath-candidate-mediated-sn-l10-readback}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any L10-facing read of the candidate-mediated SN frontier routes through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and the subject-reduction discharge socket $D$ before it exports a Phase Real row or a Completion budget row. The exported rows are the finite readback surface of the same packet; they are not full subject reduction, full confluence, global beta-conversion decidability, quotient term equality, ambient $\RealUp$ completeness, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start from the existing L10 readback theorem, \autoref{thm:metacic-critical-path-candidate-mediated-frontier-l10-readback}. It requires $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ to be exposed before the handoff row $U$ is consumed.
+
+Apply the closed-normal-form readback theorem and candidate-normalization budget, \autoref{thm:metacic-critical-path-candidate-mediated-sn-closed-normal-form-readback} and \autoref{thm:metacic-critical-path-candidate-normalization-budget}. These identify the Phase Real and Completion-facing budget as the finite surface $S,N,U,H,C,P,L$ together with the four L10 faces.
+
+Next use the subject-reduction boundary, \autoref{thm:metacic-critical-path-candidate-mediated-sn-subject-reduction-boundary}. It keeps the discharge socket $D$ visible unless a separate subject-reduction row is displayed.
+
+Finally combine socket exhaustion with \autoref{thm:metacic-criticalpath-candidate-mediated-sn-discharge-budget}. Once the L10 route and candidate-mediated rows have been read, the packet has no remaining coordinate for full subject reduction, global confluence, beta-conversion decidability, quotient term equality, ambient $\RealUp$ completeness, or kernel consistency. Thus the Phase Real and Completion rows are budget rows, not global metatheoretic exports.
 \end{proof}

@@ -37,7 +37,7 @@ theorem RiemannIntegralCarrier_darboux_step_scope [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame SemanticNameCert
   intro carrier tagRoute sumRoute darbouxRoute gapRoute gapPkg
   obtain ⟨mUnary, tUnary, fUnary, sUnary, dUnary, gUnary, _rUnary, _hUnary,
-    _cUnary, _nUnary, _pUnary, _mtf, _fsd, _dgr, provenancePkg⟩ := carrier
+    _cUnary, _nUnary, _pUnary, _mtf, _fsd, _dgr, _namePkg, provenancePkg⟩ := carrier
   have tagUnary : UnaryHistory tagRead :=
     unary_cont_closed mUnary tUnary tagRoute
   have sumUnary : UnaryHistory sumRead :=
