@@ -43,7 +43,11 @@ GENERIC_TEMPLATE_PHRASES = [
 
 
 _FORBIDDEN_PATTERNS = [
-    (re.compile(r"\\n[\\n ]*\\input"), "literal_backslash_n_escape_in_tex"),
+    # Catches any '\n<\latex_cmd>' two-character sequence that is literal '\n'
+    # text instead of an actual newline — codex sometimes returns JSON-escaped
+    # \n in chapter_content and we write it raw. Common targets: \input, \label,
+    # \subsection, \paragraph, \begin, \end, \origin.
+    (re.compile(r"\\n\\(input|label|subsection|section|paragraph|begin|end|origin|chapter|noindent|textit|textbf|providecommand|renewcommand|newcommand)\b"), "literal_backslash_n_escape_in_tex"),
     (re.compile(r"\\leanchecked|\\leanstmt|\\leandef|\\leanvariant|\\leansorryd|\\leantarget"), "lean_marker_forbidden_in_bioreality"),
 ]
 
