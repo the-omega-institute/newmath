@@ -195,6 +195,68 @@ theorem CauchyFilterCompletionRootWindowExposure [AskSetup] [PackageSetup]
     ⟨filterUnary, windowsUnary, toleranceUnary, readbackUnary, exposureUnary, filterWindows,
       windowsToleranceExposure, toleranceReadback, provenancePkg, exposurePkg⟩
 
+theorem CauchyFilterCompletionPacket_source_window_totality [AskSetup] [PackageSetup]
+    {filter windows tolerance readback sealRow transport replay provenance name sourceRead sealRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterCompletionPacket filter windows tolerance readback sealRow transport replay
+        provenance name bundle pkg →
+      Cont filter windows sourceRead →
+        Cont sourceRead tolerance sealRead →
+          PkgSig bundle sealRead pkg →
+            UnaryHistory filter ∧ UnaryHistory windows ∧ UnaryHistory tolerance ∧
+              UnaryHistory readback ∧ UnaryHistory sealRow ∧ UnaryHistory transport ∧
+                UnaryHistory replay ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+                  UnaryHistory sourceRead ∧ UnaryHistory sealRead ∧
+                    Cont filter windows tolerance ∧ Cont tolerance readback sealRow ∧
+                      Cont transport replay provenance ∧ Cont filter windows sourceRead ∧
+                        Cont sourceRead tolerance sealRead ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle name pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont PkgSig
+  intro packet sourceRoute sealRoute sealPkg
+  obtain ⟨filterUnary, windowsUnary, toleranceUnary, readbackUnary, sealUnary,
+    transportUnary, replayUnary, provenanceUnary, nameUnary, filterWindows, toleranceReadback,
+    transportReplay, provenancePkg, namePkg⟩ := packet
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed filterUnary windowsUnary sourceRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed sourceUnary toleranceUnary sealRoute
+  exact
+    ⟨filterUnary, windowsUnary, toleranceUnary, readbackUnary, sealUnary, transportUnary,
+      replayUnary, provenanceUnary, nameUnary, sourceUnary, sealReadUnary, filterWindows,
+      toleranceReadback, transportReplay, sourceRoute, sealRoute, provenancePkg, namePkg,
+      sealPkg⟩
+
+theorem CauchyFilterCompletionPacket_root_exactness [AskSetup] [PackageSetup]
+    {filter windows tolerance readback sealRow transport replay provenance name rootRead
+      completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterCompletionPacket filter windows tolerance readback sealRow transport replay
+        provenance name bundle pkg →
+      Cont filter readback rootRead →
+        Cont rootRead sealRow completionRead →
+          PkgSig bundle completionRead pkg →
+            UnaryHistory filter ∧ UnaryHistory windows ∧ UnaryHistory tolerance ∧
+              UnaryHistory readback ∧ UnaryHistory sealRow ∧ UnaryHistory provenance ∧
+                UnaryHistory rootRead ∧ UnaryHistory completionRead ∧
+                  Cont filter windows tolerance ∧ Cont tolerance readback sealRow ∧
+                    Cont filter readback rootRead ∧ Cont rootRead sealRow completionRead ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                        PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont PkgSig
+  intro packet rootRoute completionRoute completionPkg
+  obtain ⟨filterUnary, windowsUnary, toleranceUnary, readbackUnary, sealUnary,
+    _transportUnary, _replayUnary, provenanceUnary, _nameUnary, filterWindows,
+    toleranceReadback, _transportReplay, provenancePkg, namePkg⟩ := packet
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed filterUnary readbackUnary rootRoute
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed rootUnary sealUnary completionRoute
+  exact
+    ⟨filterUnary, windowsUnary, toleranceUnary, readbackUnary, sealUnary, provenanceUnary,
+      rootUnary, completionUnary, filterWindows, toleranceReadback, rootRoute, completionRoute,
+      provenancePkg, namePkg, completionPkg⟩
+
 theorem CauchyFilterCompletionRootSurface_semantic_name_certificate [AskSetup] [PackageSetup]
     {filter windows tolerance readback sealRow transport replay provenance name : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
