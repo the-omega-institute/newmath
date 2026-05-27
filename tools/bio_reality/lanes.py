@@ -3066,6 +3066,22 @@ def _write_namecert_proposals(
             writer_config,
         )
         text = codex_text if codex_text else _render_namecert_proposal(markdown_path, slug)
+        hygiene_issues = bedc_writeback_gates.check_chapter_hygiene(text, require_origin_ai=True)
+        if hygiene_issues:
+            # Both codex and template-fallback failed the chapter hygiene gate.
+            # Replace with a minimal pending stub that keeps LaTeX compiling
+            # without shipping template-residue or literal-\n garbage.
+            text = (
+                f"\\subsection{{NameCert: {_tex_escape(claim_id)}}}\n"
+                f"\\label{{sec:namecert-{slug}}}\n"
+                f"\\origin{{ai}}\n\n"
+                f"This BioReality namecert is awaiting codex re-authoring. "
+                f"Most recent attempt failed the chapter hygiene gate; "
+                f"issues recorded: {', '.join(issue for issue in hygiene_issues)[:400]}. "
+                f"The committed registry record at "
+                f"\\path{{tools/bio_reality/registries/claims.json}} still tracks the "
+                f"underlying claim {_tex_escape(claim_id)} and its experiment runs.\n"
+            )
         (namecerts_dir / f"{slug}.tex").write_text(text, encoding="utf-8")
         slugs.append(slug)
     return slugs
@@ -4657,8 +4673,12 @@ def self_test() -> int:
         if fallback_summary["namecerts_written"] != 1 or not fallback_namecert.exists():
             print(json.dumps(fallback_summary, indent=2), file=sys.stderr)
             return 1
-        if "NameCert chapter slug" not in fallback_namecert.read_text(encoding="utf-8"):
-            print(fallback_namecert.read_text(encoding="utf-8"), file=sys.stderr)
+        fallback_text = fallback_namecert.read_text(encoding="utf-8")
+        if not ("NameCert chapter slug" in fallback_text or "awaiting codex re-authoring" in fallback_text):
+            print(fallback_text, file=sys.stderr)
+            return 1
+        if r"\origin{ai}" not in fallback_text:
+            print(fallback_text, file=sys.stderr)
             return 1
 
         promote_paths = _temp_paths(base / "promote")
