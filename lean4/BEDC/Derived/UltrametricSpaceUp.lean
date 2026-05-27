@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.UltrametricSpaceUp
@@ -10,11 +11,12 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive UltrametricSpaceUp : Type where
-  | mk
-      (metricRow radiusRow triangleRow ballRow exampleRow transportRow replayRow provenanceRow
-        localCert : BHist) :
-      UltrametricSpaceUp
+  | mk (M V T B E H K P N : BHist) : UltrametricSpaceUp
   deriving DecidableEq
+
+def ultrametricSpaceFields : UltrametricSpaceUp -> List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | UltrametricSpaceUp.mk M V T B E H K P N => [M, V, T, B, E, H, K, P, N]
 
 def ultrametricSpaceEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -36,10 +38,6 @@ private theorem UltrametricSpaceTasteGate_single_carrier_alignment_decode :
   | Empty => rfl
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
-
-def ultrametricSpaceFields : UltrametricSpaceUp -> List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | UltrametricSpaceUp.mk M V T B E H K P N => [M, V, T, B, E, H, K, P, N]
 
 def ultrametricSpaceToEventFlow : UltrametricSpaceUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
@@ -170,5 +168,57 @@ theorem UltrametricSpaceTasteGate_single_carrier_alignment :
       UltrametricSpaceTasteGate_single_carrier_alignment_round_trip,
       fun _ _ heq => UltrametricSpaceTasteGate_single_carrier_alignment_toEventFlow_injective heq,
       rfl⟩
+
+private theorem UltrametricSpaceStrongTriangle_handoff_encode_display
+    (h : BHist) :
+    ∀ m, List.Mem m (ultrametricSpaceEncodeBHist h) ->
+      m = BMark.b0 ∨ m = BMark.b1 := by
+  -- BEDC touchpoint anchor: BHist BMark
+  induction h with
+  | Empty =>
+      intro m hm
+      cases hm
+  | e0 h ih =>
+      intro m hm
+      cases hm with
+      | head =>
+          exact Or.inl rfl
+      | tail _ hmTail =>
+          exact ih m hmTail
+  | e1 h ih =>
+      intro m hm
+      cases hm with
+      | head =>
+          exact Or.inr rfl
+      | tail _ hmTail =>
+          exact ih m hmTail
+
+private theorem UltrametricSpaceStrongTriangle_handoff_flow_display
+    (rows : List BHist) :
+    ∀ w m, List.Mem w (rows.map ultrametricSpaceEncodeBHist) -> List.Mem m w ->
+      m = BMark.b0 ∨ m = BMark.b1 := by
+  -- BEDC touchpoint anchor: BHist BMark
+  induction rows with
+  | nil =>
+      intro w m hw _hm
+      cases hw
+  | cons h rows ih =>
+      intro w m hw hm
+      cases hw with
+      | head =>
+          exact UltrametricSpaceStrongTriangle_handoff_encode_display h m hm
+      | tail _ hwTail =>
+          exact ih w m hwTail hm
+
+theorem UltrametricSpaceStrongTriangle_handoff (x : UltrametricSpaceUp) :
+    (∃ rows : List BHist, rows = ultrametricSpaceFields x) ∧
+      (∀ w m, List.Mem w (ultrametricSpaceToEventFlow x) -> List.Mem m w ->
+        m = BMark.b0 ∨ m = BMark.b1) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact ⟨ultrametricSpaceFields x, rfl⟩
+  · intro w m hw hm
+    exact UltrametricSpaceStrongTriangle_handoff_flow_display
+      (ultrametricSpaceFields x) w m hw hm
 
 end BEDC.Derived.UltrametricSpaceUp
