@@ -5028,6 +5028,7 @@ import BEDC.Derived.PolytopeUp
 import BEDC.Derived.PontryaginDualityUp
 import BEDC.Derived.PositiveRealRadiusScaleUp.TasteGate
 import BEDC.Derived.PositiveRealUp.TasteGate
+import BEDC.Derived.PreRealUp.TasteGate
 import BEDC.Derived.PreSheafUp
 import BEDC.Derived.PrecompactCompletionUp.TasteGate
 import BEDC.Derived.PrecompactMetricUp
@@ -6182,6 +6183,7 @@ import BEDC.Derived.SpinGroupUp.Transport
 import BEDC.Derived.SplittingFieldUp
 import BEDC.Derived.SqueezeRealUp
 import BEDC.Derived.SqueezeRealUp.TasteGate
+import BEDC.Derived.SqueezeTheoremUp.TasteGate
 import BEDC.Derived.StableManifoldUp.TasteGate
 import BEDC.Derived.StableNegationBoundaryUp
 import BEDC.Derived.StableNegationBoundaryUp.CertificateTruthNonEscape
