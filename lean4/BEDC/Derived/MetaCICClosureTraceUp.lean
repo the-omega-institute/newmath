@@ -457,4 +457,114 @@ theorem MetaCICClosureTraceCarrier_obligation_closure_upgrade
   }
   exact Exists.intro frontierRead cert
 
+theorem MetaCICClosureTraceCarrier_scoped_confluence_audit_route
+    [AskSetup] [PackageSetup]
+    {S U V B R G K H C P N confluenceRead conversionRead auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ->
+      Cont (append (append S U) G) (append B R) confluenceRead ->
+        Cont confluenceRead K conversionRead ->
+          Cont conversionRead N auditRead ->
+            PkgSig bundle auditRead pkg ->
+              UnaryHistory confluenceRead ∧ UnaryHistory conversionRead ∧
+                UnaryHistory auditRead ∧
+                  Cont (append (append S U) G) (append B R) confluenceRead ∧
+                    Cont confluenceRead K conversionRead ∧
+                      Cont conversionRead N auditRead ∧ PkgSig bundle P pkg ∧
+                        PkgSig bundle auditRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier confluenceRoute conversionRoute auditRoute auditPkg
+  obtain ⟨SUnary, UUnary, _VUnary, BUnary, RUnary, GUnary, KUnary, _HUnary,
+    _CUnary, _PUnary, NUnary, _shiftSubstitution, _generatorPackage, _betaRoute,
+    pkgSig⟩ := carrier
+  have SUUnary : UnaryHistory (append S U) :=
+    unary_append_closed SUnary UUnary
+  have generatorUnary : UnaryHistory (append (append S U) G) :=
+    unary_append_closed SUUnary GUnary
+  have betaUnary : UnaryHistory (append B R) :=
+    unary_append_closed BUnary RUnary
+  have confluenceUnary : UnaryHistory confluenceRead :=
+    unary_cont_closed generatorUnary betaUnary confluenceRoute
+  have conversionUnary : UnaryHistory conversionRead :=
+    unary_cont_closed confluenceUnary KUnary conversionRoute
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed conversionUnary NUnary auditRoute
+  exact
+    ⟨confluenceUnary, conversionUnary, auditUnary, confluenceRoute, conversionRoute,
+      auditRoute, pkgSig, auditPkg⟩
+
+theorem MetaCICClosureTraceCarrier_closed_normalization_source_order
+    [AskSetup] [PackageSetup] {S U V B R G K H C P N candidateRead normalizationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ->
+      Cont (append (append S U) G) (append B R) candidateRead ->
+        Cont candidateRead N normalizationRead ->
+          PkgSig bundle normalizationRead pkg ->
+            SemanticNameCert
+                (fun row : BHist =>
+                  MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ∧
+                    hsame row normalizationRead)
+                (fun row : BHist =>
+                  hsame row (append (append S U) G) ∨ hsame row (append B R) ∨
+                    hsame row K ∨ hsame row N ∨ hsame row normalizationRead)
+                (fun row : BHist => UnaryHistory row ∧ PkgSig bundle normalizationRead pkg)
+                hsame ∧
+              UnaryHistory candidateRead ∧ UnaryHistory normalizationRead ∧
+                Cont (append (append S U) G) (append B R) candidateRead ∧
+                  Cont candidateRead N normalizationRead ∧ PkgSig bundle P pkg ∧
+                    PkgSig bundle normalizationRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier candidateRoute normalizationRoute normalizationPkg
+  have carrierPacket : MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg :=
+    carrier
+  obtain ⟨SUnary, UUnary, _VUnary, BUnary, RUnary, GUnary, _KUnary, _HUnary,
+    _CUnary, _PUnary, NUnary, _shiftSubstitution, _generatorPackage, _betaRoute,
+    pkgSig⟩ := carrier
+  have SUUnary : UnaryHistory (append S U) :=
+    unary_append_closed SUnary UUnary
+  have generatorUnary : UnaryHistory (append (append S U) G) :=
+    unary_append_closed SUUnary GUnary
+  have betaUnary : UnaryHistory (append B R) :=
+    unary_append_closed BUnary RUnary
+  have candidateUnary : UnaryHistory candidateRead :=
+    unary_cont_closed generatorUnary betaUnary candidateRoute
+  have normalizationUnary : UnaryHistory normalizationRead :=
+    unary_cont_closed candidateUnary NUnary normalizationRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ∧
+              hsame row normalizationRead)
+          (fun row : BHist =>
+            hsame row (append (append S U) G) ∨ hsame row (append B R) ∨
+              hsame row K ∨ hsame row N ∨ hsame row normalizationRead)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle normalizationRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro normalizationRead
+        ⟨carrierPacket, hsame_refl normalizationRead⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.right)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨unary_transport normalizationUnary (hsame_symm source.right), normalizationPkg⟩
+  }
+  exact
+    ⟨cert, candidateUnary, normalizationUnary, candidateRoute, normalizationRoute, pkgSig,
+      normalizationPkg⟩
+
 end BEDC.Derived.MetaCICClosureTraceUp

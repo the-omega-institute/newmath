@@ -107,6 +107,7 @@ Finally $H,C,P,N$ transport, replay, source, and name that route. Because the ca
 \label{thm:cauchy-completion-reflector-extension-reflection-scope}
 Let $K=(S,M,U,Q,I,E,R,T,H,C,P,N)$ be an accepted $\CauchyCompletionReflectorUp$ carrier. Every $\CompletionUniversalPropertyUp$ extension read and every $\CompletionReflectionUp$ read must expose the common route $S,U,M,Q,I,T,H,C,P,N$ before $E$ or $R$ is consumed. Neither row supplies a second completion carrier, selected limit, quotient equality, countable choice, ambient completeness, or detached $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCompletionReflectorUp.CauchyCompletionReflectorPacket\_extension\_reflection\_scope}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-completion-reflector-carrier}. The source, completion-object, unit, counit, idempotent, local transport, and structural rows are displayed as $S,M,U,Q,I,T,H,C,P,N$.
 
@@ -115,6 +116,24 @@ Apply the unit-counit obligation of \autoref{thm:cauchy-completion-reflector-uni
 Next apply the idempotent-extension obligation of \autoref{thm:cauchy-completion-reflector-idempotent-extension-obligation}. The idempotent row $I$, extension row $E$, and reflection row $R$ are read over the same unit-counit surface rather than over an independent completion object.
 
 The structural rows $H,C,P,N$ preserve that route through componentwise transport, replay, provenance, and local naming. Since the carrier contains no coordinate for the excluded objects, the extension and reflection reads expose the stated common scope before $E$ or $R$ is consumed.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionReflector public obligation package]
+\label{thm:cauchy-completion-reflector-public-obligation-package}
+For every accepted $\CauchyCompletionReflectorUp$ carrier
+$$
+K=(S,M,U,Q,I,E,R,T,H,C,P,N),
+$$
+every public reflector consumer receives exactly the route through the source row $S$, completion-object row $M$, unit row $U$, counit row $Q$, idempotence row $I$, extension row $E$, reflection row $R$, local transport row $T$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ replay row $C$, provenance row $P$, and local $\NameCert_{\CauchyCompletionReflectorUp}$ row $N$. The package exports no quotient completion, selected limit, host equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:cauchy-completion-reflector-namecert-obligations}. They expose the carrier rows $S,M,U,Q,I,E,R,T,H,C,P,N$ as the entire local certificate surface.
+
+Apply the unit-counit route of \autoref{thm:cauchy-completion-reflector-unit-counit-route}. It forces each public source read through $S,U,M,Q$ before the downstream reflector rows can be consumed.
+
+Next apply the idempotent-extension obligation of \autoref{thm:cauchy-completion-reflector-idempotent-extension-obligation}. The idempotent row $I$, extension row $E$, and reflection row $R$ are read over the same unit-counit surface rather than over a second completion carrier.
+
+Finally use the extension-reflection scope of \autoref{thm:cauchy-completion-reflector-extension-reflection-scope}. The structural rows $T,H,C,P,N$ transport, replay, source, and name only the displayed route, so no quotient completion, selected limit, host equality, countable-choice selector, or ambient-completeness row can be exported.
 \end{proof}
 
 \begin{theorem}[CauchyCompletionReflector real-transport nonescape]
@@ -159,6 +178,7 @@ Since both legs end by the same $H,C,P,N$ rows, componentwise $\hsame$ transport
 \label{thm:cauchy-completion-reflector-idempotent-nonescape}
 Let $K=(S,M,U,Q,I,E,R,T,H,C,P,N)$ be an accepted $\CauchyCompletionReflectorUp$ carrier. Any repeated completion consumer must read the idempotent row $I$ over the same $S,U,M,Q,T$ route before it can inspect $E,R,H,C,P,N$. Consequently the repeated completion route cannot export a second completion carrier, quotient completion equality, selected limit, host equality, countable choice, or detached $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCompletionReflectorUp.CauchyCompletionReflectorPacket\_idempotent\_nonescape}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-completion-reflector-carrier}. The only completion-facing rows are the displayed source $S$, completion object $M$, unit $U$, counit $Q$, idempotent row $I$, extension row $E$, reflection row $R$, local transport row $T$, and structural rows $H,C,P,N$.
 
@@ -234,6 +254,7 @@ Finally apply real-transport nonescape and the naturality square, \autoref{thm:c
 \label{thm:cauchy-completion-reflector-obligation-triple}
 For every accepted $\CauchyCompletionReflectorUp$ carrier $K=(S,M,U,Q,I,E,R,T,H,C,P,N)$, the unit row $U$, counit row $Q$, and idempotent replay row $I$ are the three obligatory reflector faces before any universal-property or reflection consumer may read $E$ or $R$. The triple is carried over the same $S,M,T,H,C,P,N$ structural surface and exports no second completion carrier, quotient completion equality, selected limit, host equality, countable choice, ambient completeness, or detached $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCompletionReflectorUp.CauchyCompletionReflectorPacket\_obligation\_triple}
 \begin{proof}
 Carrier admission comes from \autoref{def:cauchy-completion-reflector-carrier}. The unit, counit, and idempotent rows are visible as $U,Q,I$ in the same finite packet.
 
@@ -242,6 +263,20 @@ The unit-counit obligation theorem places $U$ and $Q$ before public completion a
 The idempotent-extension obligation theorem places $I$ over that same route. A repeated completion pass therefore reuses the displayed completion-object row rather than introducing a second carrier.
 
 The real-transport nonescape theorem and naturality square keep $T,H,C,P,N$ attached to the same triple. Consequently the extension row $E$ and reflection row $R$ are read only after $U,Q,I$ have been exposed, and the excluded quotient, selection, host-equality, choice, ambient-completeness, and detached-real-completeness data remain outside the packet.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionReflector public reflector export]
+\label{thm:cauchy-completion-reflector-public-reflector-export}
+Every accepted $\CauchyCompletionReflectorUp$ packet exports the public completion reflector interface exactly through the unit row $U$, completion object row $M$, counit row $Q$, idempotent row $I$, extension row $E$, reflection row $R$, and local $\StreamNameUp$--$\RegSeqRatUp$--$\DyadicRatCoreUp$--$\RealUp$ transport row $T$. The structural rows $H,C,P,N$ preserve that route and do not export quotient completions, selected limits, host equality, countable choice, ambient completeness, or detached $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the unit-counit route, \autoref{thm:cauchy-completion-reflector-unit-counit-route}. It places every public reflector consumer on the path through $S,U,M,Q$ before the downstream reflector rows are read.
+
+Apply the idempotent-extension scope, \autoref{thm:cauchy-completion-reflector-idempotent-scope}, and the reflection scope, \autoref{thm:cauchy-completion-reflector-reflection-scope}. These results make $I,E,R$ the displayed repeated-completion, extension, and reflection faces over the same unit-counit route.
+
+Add real-transport nonescape, \autoref{thm:cauchy-completion-reflector-real-transport-nonescape}. The row $T$ is the only local StreamName-RegSeqRat-DyadicRatCore-Real route, and the rows $H,C,P,N$ only transport, replay, source, and name the already displayed packet.
+
+Finally use the obligation triple, \autoref{thm:cauchy-completion-reflector-obligation-triple}. Since $U,Q,I$ are obligatory before $E$ or $R$ is consumed, the public interface is exactly the row family $U,M,Q,I,E,R,T,H,C,P,N$, with no coordinate for the excluded quotient, selection, host-equality, choice, ambient-completeness, or detached-real-completeness data.
 \end{proof}
 
 \begin{closurestatus}{\CauchyCompletionReflectorUp}

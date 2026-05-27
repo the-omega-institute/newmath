@@ -28,6 +28,7 @@ Net, compactness-facing, and uniform-modulus consumers therefore receive contain
 \label{thm:closed-bounded-interval-root-seal-split}
 Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ be an accepted $\ClosedBoundedIntervalUp$ carrier. The Real-seal part of the root source is the route $S,R,E$ downstream of $L,U,O,Q,D$ and upstream of every interval-net, compactness-facing, and uniform-modulus consumer. Together with $H,C,P,N$, \autoref{def:closed-bounded-interval-carrier} and \autoref{thm:closed-bounded-interval-namecert-obligations} force all Real-facing reads through the displayed $\StreamNameUp/\RegSeqRatUp/\RealUp$ seal route.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedboundedintervalUp.ClosedBoundedIntervalPacket\_root\_seal\_split}
 \begin{proof}
 Read the carrier in order. The $\StreamNameUp$ row $S$ and $\RegSeqRatUp$ row $R$ are attached to the same endpoint and containment source $L,U,O,Q,D$, and the terminal $\RealUp$ seal $E$ is available only after those rows are displayed.
 
@@ -70,6 +71,7 @@ Finally use \autoref{thm:closed-bounded-interval-root-unblock-obligations}. The 
 \label{thm:closed-bounded-interval-finite-cover-window-exactness}
 Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ be an accepted $\ClosedBoundedIntervalUp$ carrier. Every $\ClosedBoundedIntervalNetUp$ finite-cover window read must expose exactly the source rows $L,U,O,Q,D,S,R,E,H,C,P,N$ before any mesh center, cover cell, or refinement row is read. In particular, \autoref{def:closed-bounded-interval-finite-cover-window}, \autoref{thm:closed-bounded-interval-source-cover-boundary}, and \autoref{thm:closed-bounded-interval-downstream-coverage-surface} make the finite-cover window an exact downstream read of the root packet, not a separate open-cover compactness object.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedboundedintervalUp.ClosedBoundedIntervalPacket\_finite\_cover\_window\_exactness}
 \begin{proof}
 Project the accepted carrier and the finite-cover window. The root rows $L,U,O,Q,D,S,R,E$ supply endpoints, order, containment, StreamName scheduling, RegSeqRat readback, and the terminal Real seal before a finite-cover consumer can inspect its own rows.
 
@@ -148,3 +150,4 @@ For net consumers, the mesh rows are downstream of the endpoint and containment 
 
 The excluded principles are not coordinates of $\Sigma_I$. Therefore readiness is exactly the displayed source-map route followed by consumer-specific rows, not a route through open-cover compactness, trichotomy, selected points, quotient equality, or ambient completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.ClosedboundedintervalUp.ClosedBoundedIntervalPacket\_net\_consumer\_readiness}
