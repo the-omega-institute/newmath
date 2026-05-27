@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\ProjectiveTensorNormUp$}
+\label{ch:concrete-instances-projective-tensor-norm-namecert}
+\origin{human}
+
+Following Grothendieck's tensor-norm program and Banach-space tensor products in Ryan and Defant--Floret, the $\ProjectiveTensorNormUp$ packet records the projective tensor norm as finite BEDC NameCert data over displayed tensor-product, norm, Banach, and bounded-operator rows. It is grounded in the algebraic tensor-product surface of \autoref{ch:concrete-instances-tensorproduct-namecert}, the norm row of \autoref{ch:concrete-instances-norm-namecert}, the Banach carrier of \autoref{ch:concrete-instances-banach-namecert}, the bounded-linear-operator interface of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, and the Banach-algebra consumer surface of \autoref{ch:concrete-instances-banachalgebra-namecert}. The packet names only the displayed finite decomposition ledgers and their norm bounds; it is not a host infimum, a quotient completion primitive, a selected optimal decomposition, or a choice principle.
+
+\begin{definition}[Projective tensor norm carrier]
+\label{def:projective-tensor-norm-carrier}
+A $\ProjectiveTensorNormUp$ carrier over displayed Banach rows $E,F$ is a finite $\BHist$ packet
+$$
+\Pi=(E,F,T,D,B,Q,O,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $E$ and $F$ are the source $\BanachUp$ rows, including their displayed $\NormUp$ and regular-Cauchy surfaces.
+\item $T$ is the algebraic $\TensorProductUp$ source row over the carried endpoints of $E$ and $F$.
+\item $D$ is the finite decomposition ledger: each entry names a finite list of elementary tensors whose displayed tensor sum represents the inspected tensor row.
+\item $B$ is the crossnorm-bound ledger, recording for each displayed decomposition the finite scalar estimate obtained from the product of the visible source norms.
+\item $Q$ is the quotient-facing boundary row, stating that equality of tensor representatives is read only through the tensor-product classifier and the displayed decomposition ledger.
+\item $O$ is the bounded-operator handoff row used by bilinear and operator consumers; it reads through $\BoundedLinearOperatorUp$ only after $T,D,B,Q$ are displayed.
+\item $H$ records componentwise $\hsame$ transport for Banach endpoints, tensor-product rows, decomposition ledgers, bound ledgers, quotient-boundary rows, operator handoff rows, replay data, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+\TensorProductUp,\NormUp,\BanachUp,\BoundedLinearOperatorUp
+\longmapsto
+\ProjectiveTensorNormUp .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ProjectiveTensorNormUp$, $\TensorProductUp$, $\NormUp$, $\BanachUp$, $\BoundedLinearOperatorUp$, $\BanachAlgebraUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ProjectiveTensorNormUp}$ row.
+\end{enumerate}
+The carrier exports only finite decomposition and bound data. It has no coordinate for a host infimum over all decompositions, a completed quotient tensor product, a selected minimizing decomposition, ambient Banach-space choice, or hidden operator-space equality.
+\end{definition}
+
+\begin{theorem}[Projective tensor norm NameCert obligations]
+\label{thm:projective-tensor-norm-namecert-obligations}
+For every accepted $\ProjectiveTensorNormUp$ carrier $\Pi=(E,F,T,D,B,Q,O,H,C,P,N)$, the local $\NameCert_{\ProjectiveTensorNormUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed Banach endpoints, tensor-product row, finite decomposition ledger, crossnorm-bound ledger, quotient-boundary row, bounded-operator handoff row, transport, replay, provenance, and local naming;
+\item crossnorm bound, requiring each elementary tensor read to pass through the displayed source norms and each finite decomposition estimate to pass through $B$;
+\item finite decomposition ledger, requiring every inspected tensor norm claim to name a finite decomposition in $D$ before any bound is exported;
+\item Banach completion handoff, allowing completion-facing consumers to use only the displayed Banach rows and the later completion boundary of \autoref{thm:tensor-norm-banach-completion-handoff};
+\item nonescape from quotient completions, host infima, selected decompositions, cofinal choice, and ambient operator-space equality.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:projective-tensor-norm-carrier}. The endpoint rows $E,F$, the tensor-product row $T$, the decomposition ledger $D$, and the bound ledger $B$ are visible before any projective-norm read is public.
+
+The crossnorm obligation is finite. An elementary tensor estimate reads the two source norms from $E$ and $F$, and a general displayed tensor estimate reads the finite list in $D$ together with the scalar comparison rows stored in $B$.
+
+The quotient-facing and completion-facing material is boundary data. The row $Q$ permits only classifier readback for representatives already displayed by $T$ and $D$, while $O$ supplies the bounded-operator handoff without adding a completed quotient object.
+
+Finally $H,C,P,N$ transport, replay, source, and name only these rows. Since no carrier coordinate stores a host infimum, a selected optimizing decomposition, a quotient completion, cofinal choice, or ambient operator equality, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Projective tensor norm crossnorm boundary]
+\label{thm:tensor-norm-crossnorm-boundary}
+Every elementary tensor read accepted by a $\ProjectiveTensorNormUp$ packet exposes the route
+$$
+\BanachUp,\NormUp,\TensorProductUp
+\longmapsto
+E,F,T,D,B
+$$
+before a scalar bound is exported. The boundary identifies the displayed projective-norm estimate with finite source-norm products from $E$ and $F$, not with a host infimum, a quotient representative, or a selected decomposition of minimal value.
+\end{theorem}
+\begin{proof}
+Start with an elementary tensor request. The carrier of \autoref{def:projective-tensor-norm-carrier} forces the request to read the Banach endpoint rows $E,F$ and the tensor-product row $T$ before the decomposition ledger is inspected.
+
+For elementary tensors the relevant ledger entry in $D$ is a singleton decomposition, and $B$ records the displayed product of the two source norm reads. For finite sums, the same rows are read entry by entry and then combined by the finite scalar comparison stored in $B$.
+
+No additional optimization step is available. The packet has no coordinate for a host infimum over all decompositions, no quotient representative selector, and no choice row that could pick a preferred decomposition.
+\end{proof}
+
+\begin{theorem}[Projective tensor norm Banach completion handoff]
+\label{thm:tensor-norm-banach-completion-handoff}
+Every Banach-completion or bounded-operator consumer of an accepted $\ProjectiveTensorNormUp$ packet factors through the displayed route
+$$
+E,F,T,D,B,Q,O,H,C,P,N .
+$$
+It may use the finite projective-bound ledger as input to later $\BanachUp$, $\BoundedLinearOperatorUp$, or $\BanachAlgebraUp$ rows, but it receives no completed quotient tensor product, no universal completion object, no selected Cauchy representative, and no ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Use the obligation surface of \autoref{thm:projective-tensor-norm-namecert-obligations}. It places every completion-facing read after carrier admission, finite decomposition admission, crossnorm-bound admission, and quotient-boundary readback.
+
+The bounded-operator handoff is exactly the row $O$. It can route bilinear or operator consumers through the displayed tensor and bound ledgers, but it does not add a separate operator-space quotient or a hidden complete tensor product.
+
+Completion-facing consumers therefore receive only the finite data that the later Banach or operator packet can cite: endpoint Banach rows, tensor-product rows, finite decomposition rows, scalar bound rows, transport, replay, provenance, and local naming. The excluded completion and selection principles have no source coordinate in $\Pi$.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ProjectiveTensorNormUp$ packet must expose Banach endpoints, a TensorProductUp row, a finite decomposition ledger, a crossnorm-bound ledger, a quotient-boundary row, a bounded-operator handoff row, hsame transport, Cont replay, Pkg provenance, and a local NameCert row before any projective tensor norm read is public.}
+
+\independenceWitness{tensorproduct, norm, banach, boundedlinearoperator, banachalgebra: $\ProjectiveTensorNormUp$ is not bijective to any listed sibling because it jointly carries finite tensor decompositions, crossnorm-bound ledgers, quotient-boundary readback, Banach-completion handoff, componentwise transport, replay, provenance, and local naming.}
+
+\closureat{ProjectiveTensorNormUp}{seedStr}
+
+\begin{closurestatus}{\ProjectiveTensorNormUp}
+  \constructivestory{A $\ProjectiveTensorNormUp$ packet is generated from displayed Banach endpoint rows, a TensorProductUp source row, finite decomposition ledgers, crossnorm-bound ledgers, quotient-boundary rows, bounded-operator handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:projective-tensor-norm-carrier}, \autoref{thm:projective-tensor-norm-namecert-obligations}, \autoref{thm:tensor-norm-crossnorm-boundary}, and \autoref{thm:tensor-norm-banach-completion-handoff} seed the finite projective tensor norm surface over tensor-product, norm, Banach, bounded-operator, and Banach-algebra rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, completed projective tensor products, host infima over all decompositions, selected optimizing decompositions, quotient completions, cofinal choice, or ambient operator-space equality.}
+  \upgradepath{Obligation closure requires checked carrier admission, crossnorm-bound exactness, finite decomposition ledger coverage, Banach-completion handoff, quotient-boundary readback, transport, replay, provenance, and local naming for BEDC.Derived.ProjectiveTensorNormUp.}
+\end{closurestatus}
