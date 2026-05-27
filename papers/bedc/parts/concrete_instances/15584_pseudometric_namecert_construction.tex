@@ -67,6 +67,20 @@ Completion and located-distance consumers follow a different boundary. They may 
 Because quotient completion, host equality, selected limits, countable-choice selectors, trichotomy, and open-cover compactness are absent from the carrier, no such datum can be exported along the completion or located-metric route.
 \end{proof}
 
+\begin{theorem}[Pseudometric quotient reflection route]
+\label{thm:pseudometric-quotient-reflection-route}
+Let $P=(X,M,D,S,R,E,Z,H,C,N)$ be an accepted $\PseudometricUp$ packet. Every consumer that tries to turn zero-distance evidence from $P$ into point identity must factor first through the displayed $\SeparatedMetricUp$ reflection boundary and then through the existing $\MetricUp$ and $\CompletionUp$ consumers. The route preserves the rows $X,M,D,S,R,E,Z,H,C,N$ and exports no quotient completion, host equality, selected limit, countable choice, trichotomy, or open-cover compactness from the pseudometric packet itself.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:pseudometric-carrier}. Zero-distance evidence is stored in $Z$ after the distance route through $S,R,D,E$, while point admission remains in $X$.
+
+Apply \autoref{thm:pseudometric-separated-reflection-handoff}. It forces any request for point identity from zero distance through the separated reflection boundary named by $\SeparatedMetricUp$ before metric or completion consumers can read the result.
+
+Use \autoref{thm:pseudometric-zero-distance-boundary-obligation}. The zero-distance read is a boundary ledger read through $Z,H,C,N$, so it preserves the displayed pseudometric rows rather than identifying points inside $P$.
+
+Finally apply \autoref{thm:pseudometric-completion-nonescape-obligation}. Completion-facing consumers receive only $X,M,D,S,R,E,Z,H,C,N$ unless a later separated-metric boundary supplies stronger identity data, and the excluded quotient, choice, trichotomy, compactness, and host-equality objects are absent from the packet.
+\end{proof}
+
 \begin{theorem}[Pseudometric zero-distance boundary obligation]
 \label{thm:pseudometric-zero-distance-boundary-obligation}
 Let $P=(X,M,D,S,R,E,Z,H,C,N)$ be an accepted $\PseudometricUp$ packet. Every read that treats zero distance as available evidence must pass through the displayed rows $Z,H,C,N$ after the distance request has been routed through $S,R,D,E$. The row $Z$ records a boundary condition on the displayed distance ledger, $H$ records componentwise $\hsame$ transport, $C$ records replay through the same rows, and $N$ records the local $\NameCert$ provenance. No such read identifies point rows in $X$ or exports host equality from zero distance.
