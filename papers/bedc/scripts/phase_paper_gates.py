@@ -151,6 +151,10 @@ def _changed_tex_files(*, worktree: Path, base_sha: str) -> list[str]:
     ]
 
 
+_ADDED_LINES_CACHE: dict[tuple[str, str, str], list[tuple[int, str]]] = {}
+_OWN_COMMITS_CACHE: dict[tuple[str, str], list[str]] = {}
+
+
 def _added_lines_per_file(*, worktree: Path, base_sha: str,
                           rel_path: str) -> list[tuple[int, str]]:
     """Return (line_no, content) tuples for lines this round added.
@@ -164,17 +168,33 @@ def _added_lines_per_file(*, worktree: Path, base_sha: str,
 
     Also filters by `--diff-filter=AM`: only files added or modified
     in the round's own commit set are scanned.
+
+    Process-level cache: `gate all` invokes ~4 gates (vocab, math,
+    leanvariant, axis-confusion) that each scan the same set of
+    changed files. Without caching this re-runs `git log` and
+    `git diff sha^!` once per (gate, file) — ~60+ subprocess
+    invocations under typical round load, dominating gate wall time.
+    Cache key = (worktree, base_sha, rel_path); same gate-all
+    invocation reuses results across gates.
     """
     if not base_sha:
         return []
-    # List the round's own (non-merge) commits oldest-first.
-    log_out = _git(
-        ["log", "--no-merges", "--reverse", "--pretty=%H",
-         f"{base_sha}..HEAD"],
-        cwd=worktree,
-    )
-    own_commits = [c.strip() for c in log_out.splitlines() if c.strip()]
+    wt_key = str(worktree)
+    cache_key = (wt_key, base_sha, rel_path)
+    if cache_key in _ADDED_LINES_CACHE:
+        return _ADDED_LINES_CACHE[cache_key]
+    commits_key = (wt_key, base_sha)
+    own_commits = _OWN_COMMITS_CACHE.get(commits_key)
+    if own_commits is None:
+        log_out = _git(
+            ["log", "--no-merges", "--reverse", "--pretty=%H",
+             f"{base_sha}..HEAD"],
+            cwd=worktree,
+        )
+        own_commits = [c.strip() for c in log_out.splitlines() if c.strip()]
+        _OWN_COMMITS_CACHE[commits_key] = own_commits
     if not own_commits:
+        _ADDED_LINES_CACHE[cache_key] = []
         return []
     rows: list[tuple[int, str]] = []
     hunk_re = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@")
@@ -198,6 +218,7 @@ def _added_lines_per_file(*, worktree: Path, base_sha: str,
                 pass
             else:
                 current_new += 1
+    _ADDED_LINES_CACHE[cache_key] = rows
     return rows
 
 
