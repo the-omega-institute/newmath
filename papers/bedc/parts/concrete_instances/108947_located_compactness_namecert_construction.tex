@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\LocatedCompactnessUp$}
+\label{ch:concrete-instances-located-compactness-namecert}
+\origin{human}
+
+Following Bishop--Bridges/Kelley-style located compactness, the $\LocatedCompactnessUp$ packet records compact neighbourhood control by finite radius witnesses rather than by open-cover selection. It sits between the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the compact-metric witness of \autoref{ch:concrete-instances-compactmetric-namecert}, the local support window of \autoref{ch:concrete-instances-locallycompact-namecert}, the center-radius boundary of \autoref{ch:concrete-instances-metricclosedball-namecert}, and the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}. Completion-facing consumers receive a finite located-neighbourhood interface, not a host compact subset, selected subcover, quotient completion, countable-choice schedule, or ambient real-completeness principle.
+
+\begin{definition}[Located compactness carrier]
+\label{def:located-compactness-carrier}
+A $\LocatedCompactnessUp$ carrier is a finite $\BHist$ packet
+$$
+L=(M,K,B,U,W,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricUp$ or $\MetricSpaceUp$ source row, naming the carrier, distance witness, and local classifier used by every radius request.
+\item $K$ is the $\CompactMetricUp$ witness row for the displayed neighbourhood or closed-ball window.
+\item $B$ is the $\MetricClosedBallUp$ row naming the center, radius, non-strict membership comparison, and radius ledger of the inspected window.
+\item $U$ is the $\LocallyCompactUp$ support row, recording that the compact witness is attached to a displayed local neighbourhood rather than to a global host compactness claim.
+\item $W$ is the located-neighbourhood radius row, recording the finite positive-radius requests, comparison outcomes, and compact-witness handoffs available to completion consumers.
+\item $S$ is the $\StreamNameUp$ row through which finite radius requests, compact-witness reads, and closed-ball inspections are scheduled.
+\item $H$ records componentwise $\hsame$ transport for metric source, compact witness, closed-ball boundary, local support, located-neighbourhood radius, stream schedule, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from finite stream windows through the closed-ball boundary, local compact support, compact metric witness, and located-radius handoff.
+\item $P$ is the $\Pkg$ provenance over $\LocatedCompactnessUp$, $\MetricUp$, $\MetricSpaceUp$, $\CompactMetricUp$, $\LocallyCompactUp$, $\MetricClosedBallUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocatedCompactnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these ten displayed rows. It has no coordinate for open-cover compactness, selected finite subcovers, quotient completion equality, choice-selected compact witnesses, host powersets, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located compactness NameCert obligations]
+\label{thm:located-compactness-namecert-obligations}
+For every accepted $\LocatedCompactnessUp$ carrier $L=(M,K,B,U,W,S,H,C,P,N)$, the local $\NameCert_{\LocatedCompactnessUp}$ surface consists exactly of metric-source admission, compact-metric witness admission, closed-ball boundary exposure, local compact support, finite located-neighbourhood radius requests, finite $\StreamNameUp$ scheduling, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every completion-facing read must pass through $M,K,B,U,W,S,H,C,P,N$ before using located compactness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-compactness-carrier}. The ten rows displayed there are the only rows visible to the local classifier, so carrier admission is already confined to $M,K,B,U,W,S,H,C,P,N$.
+
+Read the analytic rows componentwise. The metric source $M$ supplies the carrier and distance witness, $B$ supplies the center-radius boundary, $U$ supplies the local compact support, $K$ supplies the compact-metric witness, and $W$ supplies the located-neighbourhood radius requests.
+
+The scheduling and structural rows preserve the same finite route. Stream windows in $S$ expose only finite requests, $H$ transports those rows componentwise, $C$ replays only the displayed handoff, and $P,N$ source and name the packet. Since no additional coordinate is present, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Located compactness finite-net handoff]
+\label{thm:located-compactness-finite-net-handoff}
+Every L10 completion or compact-metric consumer of an accepted $\LocatedCompactnessUp$ carrier receives only the finite handoff
+$$
+\MetricUp,\quad \CompactMetricUp,\quad \LocallyCompactUp,\quad \MetricClosedBallUp,\quad \StreamNameUp,\quad \NameCert_{\LocatedCompactnessUp}
+$$
+through the displayed rows $M,K,B,U,W,S,H,C,P,N$. The handoff provides finite neighbourhood-radius requests, compact-witness rows, closed-ball comparisons, local-support rows, and NameCert provenance; it exports no open-cover compactness, selected dense points, quotient completion equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:located-compactness-namecert-obligations}. A completion consumer first reads the metric row, closed-ball row, local compact support row, compact witness row, and located-radius row as one finite packet.
+
+The finite request order is supplied by $S$. A radius or compact-witness inspection can occur only after a displayed $\StreamNameUp$ window has exposed the request, and the replay row $C$ sends that request through $B,U,K,$ and $W$ without adding a host compactness object.
+
+Finally use the structural rows $H,P,N$. They transport, source, and name the same finite handoff for compact-metric and completion consumers. Because the packet has no row for open covers, selected dense points, quotient completions, countable choice, or ambient real completeness, the exported surface is exactly the finite located-neighbourhood handoff above.
+\end{proof}
+
+\falsifiablePrediction{A completion-facing consumer that reads $\LocatedCompactnessUp$ without displaying the metric source, compact witness, closed-ball boundary, local compact support, finite located-radius request, StreamName schedule, componentwise transport, continuation replay, package provenance, and local NameCert rows refutes the carrier surface.}
+
+\independenceWitness{metric, compactmetric, locallycompact, metricclosedball, streamname: no listed sibling is bijective to $\LocatedCompactnessUp$ because this packet binds source metric data, compact witnesses, closed-ball boundaries, local support, located-radius requests, finite scheduling, transport, replay, provenance, and local naming in one completion-facing interface.}
+
+\closureat{LocatedCompactnessUp}{seedStr}
+
+\begin{closurestatus}{\LocatedCompactnessUp}
+  \constructivestory{A $\LocatedCompactnessUp$ packet is generated from metric source rows, compact-metric witnesses, closed-ball boundaries, local compact support rows, finite located-neighbourhood radius requests, StreamName schedules, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-compactness-carrier}, \autoref{thm:located-compactness-namecert-obligations}, and \autoref{thm:located-compactness-finite-net-handoff} seed the finite located-neighbourhood compactness interface for L10 completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, selected finite subcovers, quotient completion equality, countable choice, ambient real completeness, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the ten-row carrier and prove the finite NameCert obligation surface for BEDC.Derived.LocatedCompactnessUp.}
+\end{closurestatus}
