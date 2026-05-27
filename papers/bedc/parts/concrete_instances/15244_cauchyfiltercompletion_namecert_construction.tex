@@ -747,6 +747,20 @@ Apply \autoref{thm:cauchy-filter-completion-metric-uniform-compatibility}. This 
 Finally the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and NameCert rows provide transport, replay, provenance, and local naming for that same route. Since quotient filters, selected limits, host equality, detached completion objects, and ambient completeness have no coordinate in $F$, no completion-functor consumer can export them.
 \end{proof}
 
+\begin{theorem}[CauchyFilterCompletion cofinal regular readback]
+\label{thm:cauchy-filter-completion-cofinal-regular-readback}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier whose filterbase row admits the completion-functor factorization of \autoref{thm:cauchy-filter-completion-completion-functor-factorization}. Then every completion-facing consumer has a cofinal finite readback route through the $\CauchyFilterUp$, $\UniformCompletionUp$, $\RegSeqRatUp$, and $\RealUp$ rows before the local $\NameCert_{\CauchyFilterCompletionUp}$ row is consumed. The route is exactly the displayed carrier order $C,W,T,R,L,H,K,P,N$, with $C$ exposing the Cauchy-filter and filterbase source, $P$ recording the uniform-completion provenance, $R$ supplying the regular readback, and $L$ supplying the terminal Real seal. No quotient filter, selected limit, host equality, or choice over a cofinal family is introduced.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:cauchy-filter-completion-carrier}. The only source coordinate is $C$, the finite observation rows are $W,T,R$, the terminal seal is $L$, and the remaining rows provide transport, replay, provenance, and local naming.
+
+Use filter-base admission and uniform reflection. Theorems~\ref{thm:cauchy-filter-completion-filter-base-admission} and~\ref{thm:cauchy-filter-completion-uniform-handoff} place the $\CauchyFilterUp/\FilterBaseUp$ source before all window reads and keep the $\UniformCompletionUp$ occurrence in the same provenance-level route.
+
+Next apply regular readback completeness, metric-uniform compatibility, and completion handoff. Theorems~\ref{thm:cauchy-filter-completion-regular-readback-completeness},~\ref{thm:cauchy-filter-completion-metric-uniform-compatibility}, and~\ref{thm:cauchy-filter-completion-completion-handoff} force every completion-facing read to pass from $C,W,T$ through the displayed $\RegSeqRatUp$ readback row $R$ before reaching the $\RealUp$ seal $L$.
+
+Finally apply the completion-functor factorization hypothesis. The factorization can repackage the finite route for functor-facing consumers, but it has no additional coordinate beyond $C,W,T,R,L,H,K,P,N$. The local NameCert therefore consumes only that cofinal finite readback route, and the refused quotient filter, selected limit, host equality, and choice-over-family objects never enter the packet.
+\end{proof}
+
 \input{parts/concrete_instances/cauchyfiltercompletion/root_completion_universal_obligations.tex}
 \input{parts/concrete_instances/cauchyfiltercompletion/basis_completion_route.tex}
 \input{parts/concrete_instances/cauchyfiltercompletion/source_window_seal_obligations.tex}
