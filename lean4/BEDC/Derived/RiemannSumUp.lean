@@ -359,4 +359,76 @@ theorem RiemannSumCarrier_mesh_tag_obligation [AskSetup] [PackageSetup]
   }
   exact ⟨cert, meshUnary, tagUnary, valueUnary, meshTagValue, provenancePkg, valuePkg⟩
 
+theorem RiemannSumCarrier_obligation_closure_package [AskSetup] [PackageSetup]
+    {mesh tag value width sum transport replay provenance localName darbouRead consumerRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RiemannSumCarrier mesh tag value width sum transport replay provenance localName bundle pkg ->
+      Cont sum transport darbouRead ->
+        Cont darbouRead replay consumerRead ->
+          PkgSig bundle darbouRead pkg ->
+            PkgSig bundle consumerRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row mesh ∨ hsame row tag ∨ hsame row value ∨ hsame row width ∨
+                      hsame row sum ∨ Cont darbouRead replay consumerRead)
+                  (fun row : BHist =>
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle darbouRead pkg ∧
+                      PkgSig bundle consumerRead pkg ∧ hsame row consumerRead)
+                  hsame ∧
+                UnaryHistory mesh ∧ UnaryHistory tag ∧ UnaryHistory value ∧
+                  UnaryHistory width ∧ UnaryHistory sum ∧ UnaryHistory darbouRead ∧
+                    UnaryHistory consumerRead ∧ Cont mesh tag value ∧ Cont value width sum ∧
+                      Cont sum transport darbouRead ∧
+                        Cont darbouRead replay consumerRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier sumTransportDarbou darbouReplayConsumer darbouPkg consumerPkg
+  obtain ⟨meshUnary, tagUnary, valueUnary, widthUnary, transportUnary, replayUnary,
+    _provenanceUnary, _localNameUnary, meshTagValue, valueWidthSum, _replayRoute,
+    provenancePkg, _localNamePkg⟩ := carrier
+  have sumUnary : UnaryHistory sum :=
+    unary_cont_closed valueUnary widthUnary valueWidthSum
+  have darbouUnary : UnaryHistory darbouRead :=
+    unary_cont_closed sumUnary transportUnary sumTransportDarbou
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed darbouUnary replayUnary darbouReplayConsumer
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row mesh ∨ hsame row tag ∨ hsame row value ∨ hsame row width ∨
+              hsame row sum ∨ Cont darbouRead replay consumerRead)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg ∧ PkgSig bundle darbouRead pkg ∧
+              PkgSig bundle consumerRead pkg ∧ hsame row consumerRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro consumerRead ⟨hsame_refl consumerRead, consumerUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row _source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr darbouReplayConsumer))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, darbouPkg, consumerPkg, source.left⟩
+  }
+  exact
+    ⟨cert, meshUnary, tagUnary, valueUnary, widthUnary, sumUnary, darbouUnary,
+      consumerUnary, meshTagValue, valueWidthSum, sumTransportDarbou, darbouReplayConsumer⟩
+
 end BEDC.Derived.RiemannSumUp

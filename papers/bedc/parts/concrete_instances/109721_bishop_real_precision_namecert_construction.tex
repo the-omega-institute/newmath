@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\BishopRealPrecisionUp$}
+\label{ch:concrete-instances-bishop-real-precision-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\BishopRealPrecisionUp$ packet records the finite precision budgets by which a real-number read is inspected before any completion-facing consumer may treat it as usable $\RealUp$ data. It sits over the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the visible precision route; it is not quotient equality of streams, a selected limit, a countable-choice schedule, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop real precision carrier]
+\label{def:bishop-real-precision-carrier}
+A $\BishopRealPrecisionUp$ carrier is a finite $\BHist$ packet
+$$
+P=(D,W,R,E,M,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the requested dyadic radius, slack comparison, and endpoint budget for the inspected read.
+\item $W$ is the $\StreamNameUp$ finite-window row, naming the finite observation schedule consumed by the precision request.
+\item $R$ is the $\RegSeqRatUp$ readback row, exposing the regular rational approximants visible through $D$ and $W$.
+\item $E$ is the $\RealUp$ seal row, reached only after the tolerance, window, and regular-readback rows have been displayed.
+\item $M$ is the $\CauchyModulusUp$ handoff row, recording the finite modulus entry that justifies the requested precision budget for later Real and Completion consumers.
+\item $H$ records componentwise $\hsame$ transport for tolerance, window, readback, seal, modulus, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through $D,W,R,E,M$.
+\item $Q$ is the $\Pkg$ provenance over $\BishopRealPrecisionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BishopRealPrecisionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,W,R,E,M,H,C,Q,N$. It has no coordinate for quotient stream equality, a selected host limit, a countable-choice schedule, host real equality, hidden precision repair, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop real precision NameCert obligations]
+\label{thm:bishop-real-precision-namecert-obligations}
+For every accepted $\BishopRealPrecisionUp$ carrier
+$$
+P=(D,W,R,E,M,H,C,Q,N),
+$$
+the local $\NameCert_{\BishopRealPrecisionUp}$ surface consists exactly of carrier admission for the displayed tolerance, window, readback, seal, modulus, transport, replay, provenance, and naming rows; tolerance-window exactness through $D,W$; regular rational readback through $R$; real-seal nonescape through $E$; modulus handoff through $M$; componentwise transport through $H$; displayed replay through $C$; package provenance through $Q$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-real-precision-carrier}. The rows $D,W,R,E,M,H,C,Q,N$ are the only coordinates exposed to a precision consumer.
+
+The tolerance and window are fixed first. A request chooses the dyadic budget $D$ and the finite stream schedule $W$, then reads the regular rational row $R$ along that same displayed route.
+
+The real seal $E$ is downstream of the readback row, while the modulus handoff $M$ records the finite Cauchy budget consumed by later Real and Completion packets. Transport, replay, provenance, and local naming preserve exactly those rows.
+
+Since the carrier contains no further coordinate, the listed obligations exhaust the local NameCert surface and refuse quotient streams, selected limits, countable choice, host real equality, hidden precision repair, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[Bishop real precision RegSeqRat handoff]
+\label{thm:bishop-real-precision-regseqrat-handoff}
+Every $\RealUp$ precision read exported by an accepted $\BishopRealPrecisionUp$ carrier factors through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and the terminal $\RealUp$ seal before use. Equivalently, a completion-facing consumer can read the requested precision only after the route
+$$
+\StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \CauchyModulusUp \longmapsto \RealUp
+$$
+has been replayed inside the same packet.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $P=(D,W,R,E,M,H,C,Q,N)$. The finite stream window $W$ determines which rational approximants may be inspected, and the dyadic tolerance row $D$ determines the budget at which the inspection is valid.
+
+The regular rational readback $R$ is the only row that exports approximants to the precision request. The modulus handoff $M$ records the finite Cauchy budget attached to that readback before the $\RealUp$ seal $E$ is consumed.
+
+Finally, $H,C,Q,N$ transport, replay, source, and name the same route. Thus every accepted precision read reaches $\RealUp$ only through the displayed finite route, and no hidden limit, quotient equality, choice schedule, or ambient completeness principle can supply a bypass.
+\end{proof}
+
+\closureat{BishopRealPrecisionUp}{seedStr}
+
+\begin{closurestatus}{\BishopRealPrecisionUp}
+  \constructivestory{A $\BishopRealPrecisionUp$ packet is generated from DyadicRatCore tolerance rows, StreamName finite windows, RegSeqRat readback, a RealUp seal, a CauchyModulus handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-real-precision-carrier}, \autoref{thm:bishop-real-precision-namecert-obligations}, and \autoref{thm:bishop-real-precision-regseqrat-handoff} seed the finite precision-budget route for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected host limits, countable choice, host real equality, hidden precision repair, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance-window exactness, RegSeqRat readback, Real seal handoff, CauchyModulus handoff, transport, replay, provenance, and local naming for BEDC.Derived.BishopRealPrecisionUp.}
+\end{closurestatus}
