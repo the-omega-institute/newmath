@@ -1,7 +1,7 @@
 \section{StreamName Lattice Dependency}
 \label{sec:streamname-lattice-dependency}
 
-The finite-window $\StreamNameUp$ package is consumed by the $\RegularCauchyNameUp$ certificate of \autoref{ch:concrete-instances-regularcauchyname-namecert}. Its public rows supply the scheduled window, bundle membership, certified unary observations, pointwise $\RegSeqRatUp$ classifier data, transport routes, package provenance, and local \NameCert{} rows that the regular Cauchy name packet reads before exposing a real-name seal.
+The finite-window $\StreamNameUp$ package is consumed by the $\RegularCauchyNameUp$ certificate of \autoref{ch:concrete-instances-regular-cauchy-name-namecert}. Its public rows supply the scheduled window, bundle membership, certified unary observations, pointwise $\RegSeqRatUp$ classifier data, transport routes, package provenance, and local \NameCert{} rows that the regular Cauchy name packet reads before exposing a real-name seal.
 
 This edge is the L10 scheduled finite-window handoff from $\StreamNameUp$ into the $\RegularCauchyNameUp$, $\RegSeqRatUp$, and $\RealUp$ chain. The handoff is recorded before the $\RegSeqRatUp$ and $\RealUp$ seal rows, so the later consumer can cite the StreamName window surface without importing quotient stream equality, host sequence equality, selected limits, or ambient completeness.
 
@@ -77,7 +77,7 @@ The route exports only finite window rows, the accepted regular source row, dyad
 \begin{proof}
 Start from the accepted $\StreamNameUp$ finite-window packet. Its public rows supply the scheduled finite window, bundle membership, unary observations, pointwise $\RegSeqRatUp$ classifier data, componentwise $\hsame$ transports, and displayed $\Cont$ routes.
 
-The $\RegSeqRatUp$ consumer reads those rows through \autoref{ch:concrete-instances-regularcauchyname-namecert}. This fixes the regular source row on the same finite window before any real-seal row is exposed.
+The $\RegSeqRatUp$ consumer reads those rows through \autoref{ch:concrete-instances-regular-cauchy-name-namecert}. This fixes the regular source row on the same finite window before any real-seal row is exposed.
 
 Next use \autoref{ch:concrete-instances-finitetaildiagonalseal-namecert}. The accepted $\FiniteTailDiagonalSealUp$ packet reads the same finite window, the same regular source row, and the selected tail witness before its $\RealUp$ seal handoff.
 
