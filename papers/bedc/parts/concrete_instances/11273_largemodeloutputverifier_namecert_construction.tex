@@ -115,16 +115,31 @@ The Lean $\mathsf{TasteGate.lean}$ surface must provide $\mathsf{Nontrivial}\ \L
 \closureat{LargeModelOutputVerifierUp}{seedStr}
 \closureat{LargeModelOutputVerifierUp}{obligationStr}[BEDC.Derived.LargeModelOutputVerifierUp.TasteGate.LargeModelOutputVerifierTasteGate\_single\_carrier\_alignment]
 \closureat{LargeModelOutputVerifierUp}{publicStr}[BEDC.Derived.LargeModelOutputVerifierUp.TasteGate.LargeModelOutputVerifierTasteGate\_single\_carrier\_alignment]
+\closureat{LargeModelOutputVerifierUp}{bridgedStr}[BEDC.Derived.LargeModelOutputVerifierUp.LargeModelOutputVerifierUp\_StdBridge]
+
+\begin{theorem}[Large-model output verifier bridge surface]
+\label{thm:large-model-output-verifier-bridge-surface}
+The $\LargeModelOutputVerifierUp$ bridge surface is the finite packet that simultaneously displays the verifier carrier of \autoref{def:large-model-output-verifier-carrier}, the public acceptance boundary of \autoref{thm:large-model-output-verifier-public-acceptance-boundary}, the ledger non-escape route of \autoref{thm:large-model-output-verifier-ledger-nonescape}, the obligation package of \autoref{thm:large-model-output-verifier-obligation-closure-package}, the TasteGate marker, and the checked standard bridge marker $\mathsf{LargeModelOutputVerifierUp\_StdBridge}$. A public output export is therefore bridged only when the verifier, proof-check, refusal, route, replay, provenance, local naming, TasteGate, and standard bridge rows are read together.
+\end{theorem}
+\begin{proof}
+Start with the carrier and public acceptance boundary. The carrier exposes $H,A,M,T,I,Q,C,F,R,K,P,N$, and the public boundary forces every accepted export through the verifier row $Q$ and proof-check row $C$ before the route row $R$.
+
+Apply the ledger non-escape theorem. It keeps sibling, verifier, proof-check, refusal, replay, provenance, and local naming rows visible to every consumer of the exported output.
+
+Apply the obligation closure package. It binds classifier accountability, sibling exposure, verifier and proof-check exposure, refusal and route exactness, replay, provenance, local naming, and the TasteGate single-carrier alignment for the same finite packet.
+
+The checked standard bridge marker names the same public route as a bridge surface. Thus the bridge does not add hidden model truth or private checker correctness; it records that the displayed verifier packet is read through the standard bridge boundary.
+\end{proof}
 
 \begin{closurestatus}{\LargeModelOutputVerifierUp}
   \constructivestory{A $\LargeModelOutputVerifierUp$ packet is generated from harness, audit-channel, model-trace, prompt-response, inscription-audit, verifier, proof-check, refusal, route, replay, provenance, and local NameCert rows.}
   \leanchecked{BEDC.Derived.LargeModelOutputVerifierUp.taste\_gate}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:large-model-output-verifier-carrier}, \autoref{def:large-model-output-verifier-classifier}, \autoref{thm:large-model-output-verifier-namecert-obligations}, \autoref{thm:large-model-output-verifier-public-acceptance-boundary}, \autoref{thm:large-model-output-verifier-ledger-nonescape}, and \autoref{thm:large-model-output-verifier-obligation-closure-package} bind verifier and proof-check rows, refusal and route rows, replay and provenance rows, local naming, sibling surfaces, and kernel carrier/classifier surfaces for externally checked model-output export.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:large-model-output-verifier-carrier}, \autoref{def:large-model-output-verifier-classifier}, \autoref{thm:large-model-output-verifier-namecert-obligations}, \autoref{thm:large-model-output-verifier-public-acceptance-boundary}, \autoref{thm:large-model-output-verifier-ledger-nonescape}, \autoref{thm:large-model-output-verifier-obligation-closure-package}, and \autoref{thm:large-model-output-verifier-bridge-surface} bind verifier and proof-check rows, refusal and route rows, replay and provenance rows, local naming, sibling surfaces, TasteGate, and the checked standard bridge surface for externally checked model-output export.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.LargeModelOutputVerifierUp.TasteGate.LargeModelOutputVerifierTasteGate\_single\_carrier\_alignment}
-  \bridgestatus{none}
+  \bridgestatus{bridgeChecked}
   \origin{ai}
-  \notclaimed{This chapter does not close model consciousness, corpus truth, private verifier correctness, host semantic understanding, global proof checking, or bridge checking for $\LargeModelOutputVerifierUp$.}
-  \upgradepath{The next paper-side theory step is bridge-surface closure if a distinct bridge treatment is supplied for $\LargeModelOutputVerifierUp$.}
+  \notclaimed{This chapter does not close model consciousness, corpus truth, private verifier correctness, host semantic understanding, or global proof checking for $\LargeModelOutputVerifierUp$.}
+  \upgradepath{No further paper-side bridge step is claimed here; stronger closure would require a global proof-checking interface beyond this verifier packet.}
 \end{closurestatus}
