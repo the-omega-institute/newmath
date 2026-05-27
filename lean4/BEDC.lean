@@ -697,6 +697,7 @@ import BEDC.Derived.BitVectorUp.TasteGate
 import BEDC.Derived.BolzanoCauchyUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassUp.FiniteSubsequenceObligations
+import BEDC.Derived.BolzanoWeierstrassUp.MonotoneWindowRegularity
 import BEDC.Derived.BolzanoWeierstrassUp.PublicSelectorExport
 import BEDC.Derived.BolzanoWeierstrassUp.RegSeqRatHandoff
 import BEDC.Derived.BolzanoWeierstrassUp.RootIntervalTreeObligation
@@ -4263,6 +4264,7 @@ import BEDC.Derived.MetaCICClosurePreservationUp.TasteGate
 import BEDC.Derived.MetaCICClosureTraceUp
 import BEDC.Derived.MetaCICClosureTraceUp.CandidateMediatedClosednessLedger
 import BEDC.Derived.MetaCICClosureTraceUp.CandidateMediatedSNRoute
+import BEDC.Derived.MetaCICClosureTraceUp.DecidabilityReadbackFrontier
 import BEDC.Derived.MetaCICClosureTraceUp.ObligationStatusRegistration
 import BEDC.Derived.MetaCICClosureTraceUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceAuditPacketUp.TasteGate

@@ -103,6 +103,28 @@ def regulatedIntegralToEventFlow : RegulatedIntegralUp → EventFlow
         regulatedIntegralEncodeBHist provenance,
         regulatedIntegralEncodeBHist localName]
 
+def regulatedIntegralFields : RegulatedIntegralUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | RegulatedIntegralUp.mk interval integrand approximation stepPrimitive compatibility
+      realHandoff errorLedger transport replay provenance localName =>
+      [interval, integrand, approximation, stepPrimitive, compatibility, realHandoff,
+        errorLedger, transport, replay, provenance, localName]
+
+theorem RegulatedIntegralCarrier_nonescape (x : RegulatedIntegralUp) :
+    exists rows : List BHist,
+      rows = regulatedIntegralFields x ∧
+        regulatedIntegralToEventFlow x =
+          ([BMark.b0] :: rows.map regulatedIntegralEncodeBHist) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk interval integrand approximation stepPrimitive compatibility realHandoff errorLedger
+      transport replay provenance localName =>
+      exact
+        Exists.intro
+          [interval, integrand, approximation, stepPrimitive, compatibility, realHandoff,
+            errorLedger, transport, replay, provenance, localName]
+          ⟨rfl, rfl⟩
+
 def regulatedIntegralFromEventFlow : EventFlow → Option RegulatedIntegralUp
   -- BEDC touchpoint anchor: BHist BMark
   | [] => none
