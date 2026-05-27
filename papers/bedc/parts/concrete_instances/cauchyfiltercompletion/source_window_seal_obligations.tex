@@ -1,0 +1,27 @@
+\begin{theorem}[CauchyFilterCompletion source-window totality]
+\label{thm:cauchy-filter-completion-source-window-totality}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier. Before any $\MetricCompletionUp$ or $\UniformCompletionUp$ consumer may read a completion-facing row, the packet exposes the $\CauchyFilterUp/\FilterBaseUp$ source $C$, the finite $\StreamNameUp$ window family $W$, the $\DyadicRatCoreUp$ tolerance ledger $T$, the $\RegSeqRatUp$ readback $R$, the terminal $\RealUp$ seal $L$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cauchy-filter-completion-filter-base-admission}. It places every completion-facing read behind the displayed $\CauchyFilterUp/\FilterBaseUp$ source row $C$.
+
+Apply \autoref{thm:cauchy-filter-completion-completion-handoff}. The metric and uniform completion consumers share the same finite route $C,W,T,R,L,H,K,P,N$, so the source, window, tolerance, readback, seal, transport, replay, provenance, and local naming rows are all exposed before the consumer reads completion vocabulary.
+
+Use \autoref{thm:cauchy-filter-completion-real-seal-basis-exhaustion}. The terminal Real seal is downstream of the same displayed source-window-tolerance-readback route, and no detached completion object remains outside that route.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion seal factorization obligation]
+\label{thm:cauchy-filter-completion-seal-factorization-obligation}
+Every $\MetricCompletionUp$, $\UniformCompletionUp$, $\MetricCompletionFunctorUp$, or $\CauchyCompletionFunctorialityUp$ consumer of an accepted $\CauchyFilterCompletionUp$ carrier factors through the displayed rows
+$$
+C,W,T,R,L,H,K,P,N .
+$$
+The factorization may repackage the Cauchy-filter source, StreamName windows, dyadic tolerance, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming rows, but it cannot add quotient filters, selected limits, host equality, choice, detached completion carriers, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:cauchy-filter-completion-source-window-totality}. It supplies the complete source-window-tolerance-readback-seal route that every completion-facing consumer must display.
+
+Apply \autoref{thm:cauchy-filter-completion-completion-handoff}. The metric and uniform consumers differ only in downstream vocabulary; both receive the same finite carrier rows.
+
+Finally use \autoref{thm:cauchy-filter-completion-non-choice-boundary}. Quotient filters, selected limits, host equality, choice, detached completion carriers, and ambient completeness have no coordinate in the accepted packet, so no completion-functor consumer can add them while preserving the displayed factorization.
+\end{proof}
