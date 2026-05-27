@@ -605,6 +605,7 @@ import BEDC.Derived.BaireCategoryUp.CountableChoiceBoundary
 import BEDC.Derived.BaireCategoryUp.DenseOpenThreadObligation
 import BEDC.Derived.BaireCategoryUp.FiniteMeetDensityHandoff
 import BEDC.Derived.BaireCategoryUp.FiniteScheduleChoiceFreeInduction
+import BEDC.Derived.BaireCategoryUp.NameCertExportSurface
 import BEDC.Derived.BaireCategoryUp.NameCertObligations
 import BEDC.Derived.BaireCategoryUp.ProbeBundleDenseOpenInduction
 import BEDC.Derived.BaireCategoryUp.ProbeBundleRefinementInduction
@@ -3565,6 +3566,7 @@ import BEDC.Derived.FpsUp.StdBridge
 import BEDC.Derived.FpsUp.UnitLaws
 import BEDC.Derived.FpsUp.ZeroSeriesAbsorption
 import BEDC.Derived.FractionalPartUp.TasteGate
+import BEDC.Derived.FrechetCompletionUp.TasteGate
 import BEDC.Derived.FreeMonoidUp
 import BEDC.Derived.FreeMonoidUp.TasteGate
 import BEDC.Derived.FreeWillInscriptionCommitmentUp.TasteGate
