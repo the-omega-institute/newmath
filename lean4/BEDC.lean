@@ -714,6 +714,7 @@ import BEDC.Derived.BolzanoWeierstrassUp.RegSeqRatHandoff
 import BEDC.Derived.BolzanoWeierstrassUp.RetainedCellMonotonicity
 import BEDC.Derived.BolzanoWeierstrassUp.RootIntervalTreeObligation
 import BEDC.Derived.BolzanoWeierstrassUp.RootRealSealObligation
+import BEDC.Derived.BolzanoWeierstrassUp.SubsequenceNonescape
 import BEDC.Derived.BolzanoWeierstrassUp.SubsequenceWindowPublicity
 import BEDC.Derived.BolzanoWeierstrassUp.TailModulusWindowStability
 import BEDC.Derived.BolzanoWeierstrassUp.TasteGate
