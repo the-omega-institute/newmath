@@ -907,6 +907,7 @@ import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
 import BEDC.Derived.CantorBendixsonUp.TasteGate
 import BEDC.Derived.CantorBernsteinUp.TasteGate
 import BEDC.Derived.CantorCompletenessUp.TasteGate
+import BEDC.Derived.CantorCylinderBasisUp.TasteGate
 import BEDC.Derived.CantorDiagonalRealUncountabilityUp.TasteGate
 import BEDC.Derived.CantorFanBarrierUp.TasteGate
 import BEDC.Derived.CantorFunctionUp.TasteGate
