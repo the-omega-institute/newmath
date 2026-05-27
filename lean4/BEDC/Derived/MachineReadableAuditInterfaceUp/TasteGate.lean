@@ -247,4 +247,10 @@ theorem MachineReadableAuditInterfaceTasteGate_single_carrier_alignment :
 
 end TasteGate
 
+theorem taste_gate :
+    Nonempty (ChapterTasteGate MachineReadableAuditInterfaceUp) ∧
+      (∀ (x : MachineReadableAuditInterfaceUp),
+        ∃ (e : EventFlow), BHistCarrier.fromEventFlow e = some x) :=
+  TasteGate.MachineReadableAuditInterfaceTasteGate_single_carrier_alignment
+
 end BEDC.Derived.MachineReadableAuditInterfaceUp
