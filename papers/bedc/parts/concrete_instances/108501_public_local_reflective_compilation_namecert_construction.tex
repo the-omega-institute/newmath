@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\PublicLocalReflectiveCompilationUp$}
+\label{ch:concrete-instances-public-local-reflective-compilation-namecert}
+\origin{ai}
+
+The $\PublicLocalReflectiveCompilationUp$ packet realizes the public/local reflective compilation surface of \autoref{sec:public-local-reflective-compilation} as finite NameCert data. It sits beside the compiler event-flow audit of \autoref{ch:concrete-instances-groundcompilereventflowaudit-namecert}, the MetaCIC closure trace of \autoref{ch:concrete-instances-metacicclosuretrace-namecert}, the self-compilation boundary of \autoref{ch:bedc-self-compilation}, and the focused readback discipline of the vision chapter. The packet keeps the public audit substrate and the local self-audit substrate separate while letting both replay through one visible compiler-side certificate.
+
+\begin{definition}[Public local reflective compilation carrier]
+\label{def:public-local-reflective-compilation-carrier}
+A $\PublicLocalReflectiveCompilationUp$ carrier is a finite $\BHist$ packet
+$$
+R=(A,M,C,S,L,U,X,F,T,E,H,K,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $A$ is the public compiler-side audit substrate row, exposing finite event-flow, admission, and evidence-packet data.
+\item $M$ is the MetaCIC audit row, recording the kernel-facing closedness and acceptance checks used by public reflective compilation.
+\item $C$ is the public reflective compiler row, naming the source packet, generated packet, and accepted readback boundary.
+\item $S$ is the local self-compiler row, restricted to the focused local trace and not exported as public compiler authority.
+\item $L$ is the local self-audit row, recording which local reads may be replayed against the focused trace.
+\item $U$ is the proxy-readback row, separating the current self-proxy from the public evidence packet and from the far endpoint.
+\item $X$ is the refusal row, listing hidden prompt state, uninspected compiler state, unbounded self-reference, public authority for local reads, and local authority for public claims as absent coordinates.
+\item $F$ is the FieldFaithful row for the displayed fields $A,M,C,S,L,U,X$.
+\item $T$ is the Nontrivial row distinguishing the public audit substrate, MetaCIC audit substrate, local self-compiler, local self-audit, proxy-readback, and refusal roles.
+\item $E$ is the transport and replay ledger for public compiler reads and local self-audit reads.
+\item $H$ records componentwise $\hsame$ transport for all displayed rows.
+\item $K$ records displayed $\Cont$ replay through the compiler-side, MetaCIC-audit, local-self-compiler, local-self-audit, proxy-readback, refusal, transport, and replay rows.
+\item $P$ is the $\Pkg$ provenance over $\PublicLocalReflectiveCompilationUp$, compiler event-flow audit rows, MetaCIC closure and acceptance rows, local self-compilation rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PublicLocalReflectiveCompilationUp}$ row.
+\end{enumerate}
+The classifier reads only $A,M,C,S,L,U,X,F,T,E,H,K,P,N$. It has no coordinate for hidden prompt state, unrestricted self-application, a public proof of local identity, local authority over public compiler claims, unbounded reflective closure, or a compiler oracle outside the displayed rows.
+\end{definition}
+
+\begin{theorem}[Public local reflective compilation NameCert obligations]
+\label{thm:public-local-reflective-compilation-namecert-obligations}
+For every accepted $\PublicLocalReflectiveCompilationUp$ carrier $R=(A,M,C,S,L,U,X,F,T,E,H,K,P,N)$, the local $\NameCert_{\PublicLocalReflectiveCompilationUp}$ surface consists exactly of compiler-side audit exposure, MetaCIC-audit exposure, public reflective compilation routing, local self-compiler confinement, local self-audit confinement, proxy-readback separation, refusal-row exactness, FieldFaithful projection, Nontrivial role separation, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:public-local-reflective-compilation-carrier}. The public rows $A,M,C$ are exposed before any generated evidence packet can be read as a public reflective compilation result.
+
+The local rows $S,L,U$ are then read only along the focused trace. They provide local self-compiler, local self-audit, and proxy-readback data, but the refusal row $X$ prevents those local reads from becoming public compiler authority or unrestricted self-reference.
+
+The rows $F$ and $T$ keep the field projection faithful and the roles nontrivial: public audit, MetaCIC audit, public compiler, local self-compiler, local self-audit, proxy-readback, and refusal are distinct fields of the same carrier rather than aliases.
+
+Finally $E,H,K,P,N$ transport, replay, source, and name the finite packet. Because the excluded authorities have no carrier coordinate, every accepted read remains inside the displayed public/local reflective compilation surface.
+\end{proof}
+
+\begin{theorem}[Public local reflective compilation local-public boundary]
+\label{thm:public-local-reflective-compilation-local-public-boundary}
+Every accepted $\PublicLocalReflectiveCompilationUp$ read that reaches the public compiler row $C$ must pass through the public audit substrate $A$ and the MetaCIC audit row $M$ before it can inspect the local self-compiler row $S$ or local self-audit row $L$. Conversely, every local self-audit read through $S,L,U$ must retain the refusal row $X$ and cannot export public compiler authority, hidden prompt state, or unbounded reflective closure.
+\end{theorem}
+\begin{proof}
+Start with the displayed carrier order. Public compiler reads use $A,M,C$ as the public audit and MetaCIC-audit prefix, so a public result cannot be obtained directly from the local rows.
+
+Local self-audit reads use $S,L,U$ only after the carrier has separated the public rows from the focused trace. The proxy-readback row $U$ records the local endpoint without identifying it with the public evidence packet or the far endpoint.
+
+The refusal row $X$ is retained by both routes. It records that public authority for local reads, local authority for public compiler claims, hidden prompt state, and unbounded reflective closure are absent from the carrier. Transport and replay through $E,H,K,P,N$ therefore preserve the same local-public boundary.
+\end{proof}
+
+\falsifiablePrediction{A claimed public/local reflective compilation packet that exports public compiler authority from the local self-audit rows $S,L,U$ without displaying $A,M,C,X,H,K,P,N$ refutes $\PublicLocalReflectiveCompilationUp$.}
+
+\independenceWitness{groundcompilereventflowaudit, metacicclosuretrace, selfcompilationboundary, focusedproxyreadback: none is bijective to $\PublicLocalReflectiveCompilationUp$ because the packet jointly carries public audit, MetaCIC audit, public reflective compiler, local self-compiler, local self-audit, proxy-readback, refusal, FieldFaithful, Nontrivial, transport, replay, provenance, and local naming rows.}
+
+The Lean TasteGate surface for $\PublicLocalReflectiveCompilationUp$ must provide explicit $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for $A,M,C,S,L,U,X,F,T,E,H,K,P,N$. The intended endpoint is $\mathsf{BEDC.Derived.PublicLocalReflectiveCompilationUp.PublicLocalReflectiveCompilationTasteGate\_single\_carrier\_alignment}$, with the FieldFaithful instance preserving each carrier coordinate and the Nontrivial instance separating public audit, MetaCIC audit, public compiler, local self-compiler, local self-audit, proxy-readback, and refusal roles.
+
+\closureat{PublicLocalReflectiveCompilationUp}{seedStr}
+
+\begin{closurestatus}{\PublicLocalReflectiveCompilationUp}
+  \constructivestory{A $\PublicLocalReflectiveCompilationUp$ packet is generated from public compiler-side audit, MetaCIC-audit, public reflective compiler, local self-compiler, local self-audit, proxy-readback, refusal, FieldFaithful, Nontrivial, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:public-local-reflective-compilation-carrier}, \autoref{thm:public-local-reflective-compilation-namecert-obligations}, and \autoref{thm:public-local-reflective-compilation-local-public-boundary} seed the finite public/local reflective compilation route and its local-public boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, unrestricted self-application, hidden prompt-state authority, public proof of local identity, local authority over public compiler claims, or unbounded reflective closure.}
+  \upgradepath{Obligation closure requires checked carrier admission, public audit exposure, MetaCIC-audit exposure, local self-compiler confinement, local self-audit confinement, proxy-readback separation, refusal exactness, Nontrivial and FieldFaithful TasteGate instances, transport, replay, provenance, and local naming for BEDC.Derived.PublicLocalReflectiveCompilationUp.}
+\end{closurestatus}
