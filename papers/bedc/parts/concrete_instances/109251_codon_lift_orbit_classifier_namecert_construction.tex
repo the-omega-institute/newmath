@@ -54,6 +54,18 @@ Apply the Burnside formula. The row $B$ records exactly the fixed-point count ne
 Finally apply the local certificate obligations. Theorem~\ref{thm:codon-lift-orbit-classifier-namecert-obligations} keeps transport, replay, provenance, and local naming attached to the same finite enumeration. Thus a downstream read cannot consume an orbit class without the displayed Burnside and classifier evidence.
 \end{proof}
 
+\begin{theorem}[Codon window and Burnside dependency]
+\label{thm:codon-lift-orbit-classifier-codon-window-dependency}
+Every accepted $\CodonLiftOrbitClassifierUp$ read of an orbit class first consumes the codon-window carrier of \autoref{ch:concrete-instances-codon-six-bit-window-namecert} and the finite Burnside count route of \autoref{ch:concrete-instances-burnside-orbit-count-namecert}. Only after those sibling surfaces have supplied the source window and orbit-count ledger may the rows $A,E,\Gamma,T,B,K,H,C,P,N$ export a classifier value.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:codon-lift-orbit-classifier-carrier}. The support row $A$ and binary lift row $E$ are not free coordinates; they are read as codon-window data before the automorphism row $\Gamma$ and complement row $T$ act on them.
+
+Next project the Burnside ledger row $B$. The classifier row $K$ is downstream of the fixed-point counts recorded in $B$, so its value cannot be read before the finite orbit-count route supplied by \autoref{ch:concrete-instances-burnside-orbit-count-namecert}.
+
+Finally apply the NameCert obligations of \autoref{thm:codon-lift-orbit-classifier-namecert-obligations}. They keep $H,C,P,N$ attached to the same source-window and Burnside-ledger rows, and therefore prevent the classifier from exporting an orbit value detached from \autoref{ch:concrete-instances-codon-six-bit-window-namecert} or \autoref{ch:concrete-instances-burnside-orbit-count-namecert}.
+\end{proof}
+
 \falsifiablePrediction{Deleting the Burnside ledger row $B$ prevents an accepted $\CodonLiftOrbitClassifierUp$ packet from exporting any codon-level lift-orbit class, even when support, lift, automorphism, complement, transport, replay, provenance, and local naming rows remain displayed.}
 
 \independenceWitness{codon-level lift-orbit classification: $\CodonLiftOrbitClassifierUp$ binds support normal forms, binary lift vectors, support automorphisms, global complement action, Burnside fixed-point counts, classifier readback, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ into one finite orbit-enumeration packet.}
