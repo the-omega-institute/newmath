@@ -187,4 +187,38 @@ theorem DiagonalLimitCompatibility_root_budget_selector_synchronizer_exactness
     ⟨sameCompletions, selectorUnary, lockedUnary, syncUnary, completion0Unary,
       completion1Unary, completion0Pkg, completion1Pkg⟩
 
+theorem DiagonalLimitCompatibilityRootBudgetSelectorSynchronizerExactness
+    [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      selector synchronizer exact : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg ->
+      Cont diagonal dyadic selector ->
+        Cont selector windows synchronizer ->
+          Cont synchronizer readback exact ->
+            PkgSig bundle exact pkg ->
+              UnaryHistory diagonal ∧ UnaryHistory dyadic ∧ UnaryHistory windows ∧
+                UnaryHistory readback ∧ UnaryHistory selector ∧ UnaryHistory synchronizer ∧
+                  UnaryHistory exact ∧ Cont diagonal dyadic selector ∧
+                    Cont selector windows synchronizer ∧ Cont synchronizer readback exact ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle exact pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle
+  intro carrier diagonalDyadicSelector selectorWindowsSynchronizer
+    synchronizerReadbackExact exactPkg
+  obtain ⟨diagonalUnary, _triangleUnary, _sealRowUnary, dyadicUnary, windowsUnary,
+    readbackUnary, _realSealUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _certUnary, _diagonalTriangleSeal, _dyadicWindowsReadback, _readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have selectorUnary : UnaryHistory selector :=
+    unary_cont_closed diagonalUnary dyadicUnary diagonalDyadicSelector
+  have synchronizerUnary : UnaryHistory synchronizer :=
+    unary_cont_closed selectorUnary windowsUnary selectorWindowsSynchronizer
+  have exactUnary : UnaryHistory exact :=
+    unary_cont_closed synchronizerUnary readbackUnary synchronizerReadbackExact
+  exact
+    ⟨diagonalUnary, dyadicUnary, windowsUnary, readbackUnary, selectorUnary,
+      synchronizerUnary, exactUnary, diagonalDyadicSelector, selectorWindowsSynchronizer,
+      synchronizerReadbackExact, provenancePkg, exactPkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp
