@@ -81,11 +81,13 @@ Apply the NameCert obligations of \autoref{thm:riemann-sum-namecert-obligations}
 
 Use tagged-mesh exactness and the Darboux handoff, \autoref{thm:riemann-sum-tagged-mesh-exactness} and \autoref{thm:riemann-sum-darboux-handoff}. Both force downstream comparison reads through the same displayed $M,T$ boundary, so no consumer can substitute hidden cells or choice-selected tags.
 \end{proof}
+\leanchecked{BEDC.Derived.RiemannSumUp.RiemannSumCarrier\_mesh\_tag\_obligation}
 
 \begin{theorem}[Riemann sum width and sum exactness obligation]
 \label{thm:riemann-sum-width-exactness-obligation}
 For every accepted $\RiemannSumUp$ carrier $Q=(M,T,F,W,S,H,C,P,N)$, the cell-width ledger $W$ and finite sum row $S$ must be replayed from the same mesh row $M$ and tag-containment row $T$. The obligation surface admits a summand only when its tag value is read through $F$ at a tag contained by $T$ and its width is read through $W$ at the corresponding cell of $M$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannSumUp.RiemannSumCarrier\_width\_sum\_exactness\_obligation}
 \begin{proof}
 Start with the carrier and NameCert obligation surface. The rows $M,T,F,W,S$ are the only finite arithmetic rows available to the packet, and \autoref{thm:riemann-sum-namecert-obligations} orders them as mesh and tag data before value, width, and sum data.
 
@@ -98,6 +100,7 @@ The Darboux handoff preserves this same finite arithmetic boundary. A comparison
 \label{thm:riemann-sum-ledger-nonescape-obligation}
 An accepted $\RiemannSumUp$ packet has no obligation-level route to host limits, quotient function equality, measure integration, or choice-selected tag families. Every downstream read remains inside the displayed finite ledger $M,T,F,W,S,H,C,P,N$ before any Darboux or Riemann integral consumer adds its own rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannSumUp.RiemannSumCarrier\_ledger\_nonescape\_obligation}
 \begin{proof}
 Project the carrier of \autoref{def:riemann-sum-carrier}. The packet contains mesh, tag, finite value, width, sum, transport, replay, provenance, and local naming rows, and no coordinate for host analytic structure.
 
@@ -124,6 +127,7 @@ Finally apply \autoref{thm:riemann-sum-darboux-handoff}. DarbouxIntegral and Rie
 \label{thm:riemann-sum-tagless-refinement-ledger}
 Let $Q=(M,T,F,W,S,H,C,P,N)$ be an accepted $\RiemannSumUp$ carrier. Any refinement-facing $\DarbouxIntegralUp$ or $\RiemannIntegralUp$ consumer of $Q$ must replay the same nine rows $M,T,F,W,S,H,C,P,N$. It may compare refinements only through displayed mesh-cell subdivision and transported tag-containment rows. The packet exports no external tag selector, quotient integrand equality, host limiting process, or measure integral.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannSumUp.RiemannSumCarrier\_tagless\_refinement\_ledger}
 \begin{proof}
 Apply the mesh-tag obligation of \autoref{thm:riemann-sum-mesh-tag-obligation}. A refinement-facing consumer must first expose the displayed mesh row $M$ and the tag-containment row $T$, so every subdivision comparison is anchored in the carried cells and carried tag witnesses.
 

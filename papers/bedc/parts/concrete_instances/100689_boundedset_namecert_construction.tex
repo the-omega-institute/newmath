@@ -341,6 +341,20 @@ Use \autoref{thm:bounded-set-radius-ledger} and \autoref{thm:bounded-set-radius-
 Finally apply \autoref{thm:bounded-set-located-diameter-readback}. A located-diameter or uniform-space consumer may use the ledger as bounded-diameter input, but it cannot read any stronger real-order object from the packet.
 \end{proof}
 
+\begin{theorem}[BoundedSet real-clamping stability]
+\label{thm:bounded-set-real-clamping-stability}
+For every accepted $\BoundedSetUp$ carrier $Q=(X,S,c,r,B,H,C,P,N)$, a bounded-set radius read clamped to a located interval must pass through the displayed $\RealClampingUp$ clamp row, the $\LocatedUpperBoundUp$ upper-bound witness, the $\MetricBallUp$ containment ledger $B$, and the $\RealAlgOrderUp$ comparison surface before boundedness reaches finite-net, precompactness, diameter, or completion consumers. The resulting route is a finite bounded-radius handoff through $X,S,c,r,B,H,C,P,N$, not a selected supremum, host interval order, compactness assertion, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the radius coordinate of \autoref{def:bounded-set-carrier}. The row $r$ is readable only together with $X,S,c$ and the ball-containment ledger $B$.
+
+Apply \autoref{thm:bounded-set-real-radius-ledger}. It places every radius read behind the displayed $\RealAlgOrderUp$ or $\RealUp$ comparison surface and the $\MetricBallUp$ containment route before boundedness is public.
+
+The clamped interval read is therefore an additional consumer of that same radius ledger. It may pass through $\RealClampingUp$ and $\LocatedUpperBoundUp$ to present a located bounded interval, but those rows consume the already displayed comparison and ball-containment data rather than replacing them.
+
+Finally use \autoref{thm:bounded-set-finite-net-consumer-boundary} and \autoref{thm:bounded-set-completion-nonescape}. Finite-net, precompactness, diameter, and completion consumers receive only the routed bounded-radius handoff, so selected suprema, host interval order, compactness, and ambient completeness remain outside the packet.
+\end{proof}
+
 \begin{theorem}[BoundedSet obligation carrier admission]
 \label{thm:boundedset-obligation-carrier}
 For every accepted $\BoundedSetUp$ packet $Q=(X,S,c,r,B,H,C,P,N)$, obligation-level carrier admission is rowwise over the displayed metric carrier $X$, subset classifier $S$, center or witness $c$, real or rational bound row $r$, ball-containment ledger $B$, componentwise transport $H$, replay row $C$, package provenance $P$, and local name $N$. No obligation consumer may admit the packet from an ambient host subset, a hidden supremum, a selected finite net, compactness, trichotomy, or ambient $\RealUp$ completeness.
@@ -352,6 +366,7 @@ Use \autoref{thm:bounded-set-namecert-obligations}. Its carrier-admission clause
 
 Finally apply \autoref{thm:bounded-set-closure-obligation-envelope}. The envelope sends diameter, uniform, and completion-facing consumers through the same rows. Since compactness, finite-net selection, trichotomy, suprema, and ambient Real completeness do not occur in the carrier, they cannot be added at the obligation-admission boundary.
 \end{proof}
+\leanchecked{BEDC.Derived.BoundedSetUp.BoundedSetCarrier\_obligation\_carrier\_admission}
 
 \begin{theorem}[BoundedSet obligation classifier transport]
 \label{thm:boundedset-obligation-classifier}
@@ -399,11 +414,29 @@ Next use classifier transport, \autoref{thm:boundedset-obligation-classifier}. M
 Finally apply ledger nonescape, \autoref{thm:boundedset-obligation-ledger}. The boundedness evidence delivered to finite-net, precompactness, diameter, uniform-space, and completion-facing consumers is exactly the displayed ball-containment and real-bound ledger followed by $H,C,P,N$. Since the packet contains no compactness, supremum, trichotomy, quotient, or completion coordinate, no consumer can obtain one from the obligation package.
 \end{proof}
 
+\begin{theorem}[BoundedSet metric-bornology consumer]
+\label{thm:bounded-set-metric-bornology-consumer}
+Let $Q=(X,S,c,r,B,H,C,P,N)$ be an accepted $\BoundedSetUp$ packet. Every $\MetricBornologyUp$ consumer of $Q$ reads exactly the route
+$$
+X,S,c,r,B \longmapsto H,C,P,N
+$$
+before hereditary or finite-union bornology rows can consume the bounded-set data. The radius row $r$ is read through $\RealUp$ and $\RealAlgOrderUp$, the containment row $B$ is read through the $\MetricBallUp$ center-radius ledger, and the downstream metric-bornology packet is the bounded-family surface of \autoref{ch:concrete-instances-metric-bornology-namecert}.
+
+Consequently the consumer receives metric carrier data, subset-classifier data, a displayed center or witness, a real or rational radius comparison, ball containment, transport, replay, provenance, and local naming, but no host set, supremum, selected maximum, compactness proof, open-cover compactness, trichotomy, quotient equality, or ambient completion datum.
+\end{theorem}
+\begin{proof}
+Project the bounded-set carrier of \autoref{def:bounded-set-carrier}. Its analytic rows are exactly $X,S,c,r,B$, and its support rows are $H,C,P,N$.
+
+Use \autoref{thm:bounded-set-ball-containment-route}. It forces every membership read through the center-radius path before boundedness reaches any downstream consumer. The radius component is the same $\RealUp$ or rational comparison read through $\RealAlgOrderUp$, and the containment component is the same $\MetricBallUp$ ledger.
+
+Finally apply the metric-bornology surface of \autoref{ch:concrete-instances-metric-bornology-namecert}. Hereditary and finite-union bornology rows may consume bounded-set data only after the displayed route has been opened, so the consumer obtains exactly the finite bounded-family handoff and none of the excluded host principles.
+\end{proof}
+
 \closureat{BoundedSetUp}{scopedStr}
 
 \begin{closurestatus}{\BoundedSetUp}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:bounded-set-carrier}, \autoref{thm:bounded-set-namecert-obligations}, \autoref{thm:bounded-set-ball-containment-route}, \autoref{thm:bounded-set-real-bound-nonescape}, \autoref{thm:bounded-set-diameter-consumer-boundary}, and \autoref{thm:bounded-set-uniform-space-boundary} bind the scoped dependency surface over $\MetricUp$, $\MetricBallUp$, $\RealAlgOrderUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \scopeclosed{\autoref{def:bounded-set-carrier}, \autoref{thm:bounded-set-namecert-obligations}, \autoref{thm:bounded-set-ball-containment-route}, \autoref{thm:bounded-set-real-bound-nonescape}, \autoref{thm:bounded-set-diameter-consumer-boundary}, \autoref{thm:bounded-set-uniform-space-boundary}, and \autoref{thm:bounded-set-metric-bornology-consumer} bind the scoped dependency surface over $\MetricUp$, $\MetricBallUp$, $\RealAlgOrderUp$, $\RealUp$, $\MetricBornologyUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close compactness, Heine--Borel, open-cover compactness, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}

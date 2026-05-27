@@ -415,6 +415,28 @@ def detect_orphan_new_chapter(*, worktree: Path, base_sha: str) -> list[str]:
         except OSError:
             continue
 
+        # Hub + spine support: a hub file contains only structural elements
+        # (\input{...} + comments + blank lines). The chapter's autoref
+        # cross-references live in the spine sibling file under
+        # `papers/bedc/parts/concrete_instances/<slug>/namecert_construction.tex`.
+        # Resolve the `\input{...}` targets and concatenate their text so the
+        # autoref check sees the full chapter content, not just the hub.
+        for input_target in re.findall(r"\\input\{([^}]+)\}", text):
+            target_rel = input_target.strip()
+            if not target_rel.endswith(".tex"):
+                target_rel = target_rel + ".tex"
+            if target_rel.startswith("papers/bedc/"):
+                target_path = worktree / target_rel
+            else:
+                target_path = worktree / "papers" / "bedc" / target_rel
+            if target_path.exists():
+                try:
+                    text = text + "\n" + target_path.read_text(
+                        encoding="utf-8", errors="ignore"
+                    )
+                except OSError:
+                    pass
+
         sibling_refs: set[str] = set()
         for slug in _SIBLING_REF_RE.findall(text):
             slug_norm = slug.replace("-", "")
