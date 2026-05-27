@@ -59,16 +59,33 @@ The Lean follow-up file \texttt{lean4/BEDC/Derived/ClaimRegistryLayerUp/TasteGat
 
 \independenceWitness{axiscarryrefusalledger, realityconstrainedmethodologyledger, finiteobservationresidueboundary, externalsupplyboundary: none is bijective to $\ClaimRegistryLayerUp$ because those siblings carry refusal, methodology, finite-observation residue, or external-supply boundary rows, while this carrier binds claim entry, refusal boundary, closure status, formal target, provenance, verification readback, transport, package provenance, and local NameCert rows in one export-control packet.}
 
+\begin{theorem}[Claim registry layer public package surface]
+\label{thm:claim-registry-layer-public-package-surface}
+Every package-level claim-export consumer of $\ClaimRegistryLayerUp$ reads the public surface
+$$
+Q=(E,R,B,C,F,V,H,P,N)
+$$
+through the claim-entry row $E$, refusal-boundary row $R$, closure-status row $B$, formal-target row $C$, provenance row $F$, verification-readback row $V$, componentwise transport $H$, package provenance $P$, and local naming row $N$. The exported surface may be consumed by registry-layer and registry-export chapters, but it cannot export a prose-only claim, a hidden package override, or a claim whose entry and refusal boundary are both absent.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:claim-registry-layer-carrier}. Its displayed rows are exactly $E,R,B,C,F,V,H,P,N$.
+
+The export-control theorem \autoref{thm:claim-registry-layer-export-control} forces every admitted package claim to pass through that packet. The no-unregistered-export theorem \autoref{thm:claim-registry-layer-no-unregistered-export} blocks the case in which both the entry row and refusal-boundary row are absent.
+
+The public consumer therefore receives a finite package surface rather than a prose-only claim. Rows $H,P,N$ transport, source, and name the same exported packet, so registry-layer and registry-export chapters can cite the surface without adding a hidden package override.
+\end{proof}
+
 \closureat{ClaimRegistryLayerUp}{seedStr}
 \closureat{ClaimRegistryLayerUp}{obligationStr}
+\closureat{ClaimRegistryLayerUp}{publicStr}
 
 \begin{closurestatus}{\ClaimRegistryLayerUp}
   \constructivestory{A $\ClaimRegistryLayerUp$ packet is generated from claim-entry, refusal-boundary, closure-status, formal-target, provenance, verification-readback, componentwise hsame transport, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:claim-registry-layer-carrier}, \autoref{thm:claim-registry-layer-export-control}, \autoref{thm:claim-registry-layer-no-unregistered-export}, the falsifiable prediction, and the independence witness bind the carrier, export-control theorem, no-unregistered-export theorem, and non-bijection surface for package-level claim export.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:claim-registry-layer-carrier}, \autoref{thm:claim-registry-layer-export-control}, \autoref{thm:claim-registry-layer-no-unregistered-export}, \autoref{thm:claim-registry-layer-public-package-surface}, the falsifiable prediction, and the independence witness bind the carrier, export-control theorem, no-unregistered-export theorem, public package surface, and non-bijection surface for package-level claim export.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean verification, bridge checking, full subject-index governance, or the correctness of every downstream registry row.}
-  \upgradepath{Public closure requires a named exported $\ClaimRegistryLayerUp$ package theorem consumable by package-level claim-export chapters.}
+  \upgradepath{Bridge-facing maturity requires Lean verification of the public package surface and a checked standard bridge for the same claim-entry and refusal-boundary rows.}
 \end{closurestatus}
