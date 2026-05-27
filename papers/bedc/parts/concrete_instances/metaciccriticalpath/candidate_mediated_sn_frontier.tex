@@ -17,6 +17,7 @@ Next apply the SN confluence-decidability budget theorem, \autoref{thm:metacic-c
 
 The frontier definition simply names the common boundary needed by these two routes: the candidate-mediated read supplies $S,N,U,D,H,C,P,L$ and the four local faces, while the enclosing packet still retains $O$ and $D$ as visible blocked-route data. Since neither cited theorem supplies a coordinate for closed subject reduction, arbitrary strong normalization, global confluence, global beta-conversion decidability, quotient equality, host equality, selected limits, or $\RealUp$ completeness, the factorization cannot export any of those claims.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_candidate\_mediated\_sn\_frontier}
 
 \begin{theorem}[MetaCIC candidate-mediated frontier socket separation]
 \label{thm:metacic-critical-path-candidate-mediated-frontier-socket-separation}
@@ -212,6 +213,31 @@ Apply the discharge-row and socket-induction theorems, \autoref{thm:metacic-crit
 Finally use \autoref{thm:metacic-critical-path-candidate-normalization-budget} and \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}. The budget is exhausted by the displayed replay route and the four source faces, so any closed subject-reduction conclusion must come from a separate displayed row. Without that row, the boundary remains exactly $O,D$ plus the finite replay surface.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate SN boundary]
+\label{thm:metacic-critical-path-candidate-sn-boundary}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Candidate-mediated strong-normalization evidence over $S,N,U,H,C,P,L$ and the L10 faces
+$$
+\DyadicRatCoreUp,\qquad
+\StreamNameUp,\qquad
+\RegSeqRatUp,\qquad
+\RealUp
+$$
+cannot be consumed as a closed subject-reduction row unless $K$ separately displays a subject-reduction coordinate. The candidate-mediated evidence may feed the frontier and the confluence-decidability handoff, but it does not identify reduction preservation for arbitrary closed terms, fill the discharge socket $D$, or erase the obstruction row $O$.
+\end{theorem}
+\begin{proof}
+First apply the candidate-mediated SN frontier, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. It places the evidence on the finite rows $S,N,U,H,C,P,L$ together with the four L10 faces before any handoff consumer reads $U$.
+
+Next use the subject-reduction boundary of \autoref{thm:metacic-critical-path-candidate-mediated-sn-subject-reduction-boundary}. This theorem states the exact missing coordinate: closed subject reduction is available only when the packet displays a separate subject-reduction row.
+
+The discharge side is controlled by \autoref{thm:metacic-critical-path-discharge-socket-induction}. Induction over the displayed replay rows preserves the socket as a socket, so the candidate-mediated evidence cannot become a subject-reduction row by finite consumption.
+
+Finally invoke candidate-normalization socket exhaustion, \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}. The exhausted surface is the candidate-normalization route plus the four L10 faces, with no additional coordinate for closed subject reduction. Hence any consumer that claims such a row must cite it separately, and the candidate-mediated boundary remains distinct from closed subject reduction.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate-mediated SN frontier discharge coverage]
 \label{thm:metacic-critical-path-candidate-mediated-sn-frontier-discharge-coverage}
 Let
@@ -227,6 +253,7 @@ $$
 $$
 either preserves the displayed discharge socket $D$ or cites an explicit subject-reduction row outside the candidate-mediated frontier. Candidate-mediated strong normalization, confluence-facing replay, decidability-facing replay, and L10 readback do not by themselves discharge $D$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateMediatedSNFrontierDischargeCoverage}
 \begin{proof}
 Start with the candidate-mediated SN frontier theorem, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. It places the replay on $S,N,U,D,H,C,P,L$ together with the four L10 faces and keeps the obstruction and discharge rows visible.
 

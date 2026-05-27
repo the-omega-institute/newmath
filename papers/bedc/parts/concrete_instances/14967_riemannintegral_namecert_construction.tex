@@ -91,11 +91,47 @@ Use \autoref{thm:riemann-integral-darboux-step-scope} and \autoref{thm:riemann-i
 The excluded host objects have no row in the displayed carrier and cannot be introduced by $H,C,P$, or $N$. Therefore the listed rows form the scoped package for every accepted $\RiemannIntegralUp$ read.
 \end{proof}
 
-\closureat{RiemannIntegralUp}{obligationStr}
+\begin{theorem}[Riemann integral tagged-sum totality]
+\label{thm:riemann-integral-tagged-sum-totality}
+For every accepted $\RiemannIntegralUp$ carrier $I=(M,T,F,S,D,G,R,H,C,P,N)$, the tagged-sum row $S$ is total only over the displayed $\DyadicMeshUp$ row $M$, tag-containment row $T$, and integrand-read window $F$. A scoped consumer cannot read $S$ before the mesh cells, tags, and finite values have been exposed and replayed through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riemann-integral-carrier}. The rows $M,T,F,S$ are the only tagged-sum coordinates available before the Darboux comparison row $D$ is read.
+
+Apply the NameCert obligations of \autoref{thm:riemann-integral-namecert-obligations}. They place mesh-tag containment and finite sum exactness on the route from $M$ through $T,F$ to $S$.
+
+Use the Darboux-step scope and scope-closure package, \autoref{thm:riemann-integral-darboux-step-scope} and \autoref{thm:riemann-integral-scope-closure-package}. These results keep every scoped integration read inside the same $\DyadicMeshUp$ and finite tagged-sum boundary before a consumer reaches $\DarbouxIntegralUp$, $\RegSeqRatUp$, or $\RealUp$ rows.
+\end{proof}
+
+\begin{theorem}[Riemann integral Darboux-gap exactness]
+\label{thm:riemann-integral-darboux-gap-exactness}
+For every accepted $\RiemannIntegralUp$ carrier $I=(M,T,F,S,D,G,R,H,C,P,N)$, the gap ledger $G$ is exact only relative to the finite tagged sum $S$ and the $\DarbouxIntegralUp$ comparison row $D$ built from the same $M,T,F$ data. The scoped packet admits no Darboux bracket or gap estimate detached from the displayed $\DyadicStepFunctionUp$ and tagged-mesh route.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations. The Darboux comparison row $D$ is read after the tagged-sum row $S$, and the gap row $G$ is read after $D$ on the displayed route.
+
+Apply Darboux-step scope. Theorem~\ref{thm:riemann-integral-darboux-step-scope} binds the step-function bracket to the same $\DyadicMeshUp$ row, tag row, integrand reads, and finite sum already displayed by the packet.
+
+The scope-closure package then keeps the gap ledger in that chain. Since $G$ has no independent coordinate for host function equality, open-cover compactness, measure integration, or ambient completeness, its exactness is exactly the replayed relation between $S$ and $D$ through $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Riemann integral RegSeqRat handoff totality]
+\label{thm:riemann-integral-regseqrat-handoff-totality}
+For every accepted $\RiemannIntegralUp$ carrier $I=(M,T,F,S,D,G,R,H,C,P,N)$, the $\RegSeqRatUp$ and $\RealUp$ handoff row $R$ is total only after the tagged-sum row $S$, $\DarbouxIntegralUp$ comparison row $D$, and Darboux-gap ledger $G$ have been displayed. A scoped consumer reaches $R$ through $M,T,F,S,D,G,H,C,P,N$ and cannot import a separate real-completion assertion or quotient equality of functions.
+\end{theorem}
+\begin{proof}
+Read the real-facing boundary through \autoref{thm:riemann-integral-real-seal-boundary}. The theorem places $R$ downstream of the finite route from mesh and tags to finite sum, Darboux comparison, and gap ledger.
+
+Apply the NameCert obligations and Darboux-gap exactness. The obligations expose the carried route $M,T,F,S,D,G,R$, while \autoref{thm:riemann-integral-darboux-gap-exactness} keeps $G$ attached to the same tagged-sum and Darboux rows before $R$ is read.
+
+Finally use scope closure. Theorem~\ref{thm:riemann-integral-scope-closure-package} confines the $\RegSeqRatUp$ and $\RealUp$ handoff to $R$ with componentwise transport, replay, provenance, and local naming supplied by $H,C,P,N$, so the consumer receives no separate host completion, quotient function equality, open-cover compactness, or measure-integration carrier.
+\end{proof}
+
+\closureat{RiemannIntegralUp}{scopedStr}
 
 \begin{closurestatus}{\RiemannIntegralUp}
   \constructivestory{A $\RiemannIntegralUp$ packet is generated from a dyadic mesh row, finite tag containment row, integrand-read window, finite Riemann-sum row, Darboux comparison row, gap ledger, regular-rational and real-facing handoff, componentwise transport, continuation replay, provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{def:riemann-integral-carrier}, \autoref{thm:riemann-integral-namecert-obligations}, \autoref{thm:riemann-integral-darboux-step-scope}, and \autoref{thm:riemann-integral-real-seal-boundary} bind the carrier, NameCert obligations, Darboux-step scope, and Real-seal boundary for the tagged-mesh Riemann integration surface over $\DyadicMeshUp$, $\DyadicStepFunctionUp$, $\DarbouxIntegralUp$, $\RegSeqRatUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}

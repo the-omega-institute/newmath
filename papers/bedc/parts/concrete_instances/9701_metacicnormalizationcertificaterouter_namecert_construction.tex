@@ -95,6 +95,7 @@ Use the obligation surface. Theorem~\ref{thm:metacic-normalization-certificate-r
 
 Apply closed-read refusal and sibling separation. Theorem~\ref{thm:metacic-normalization-certificate-router-closed-read-refusal} blocks any closed read without evidence in $K$, and \autoref{thm:metacic-normalization-certificate-router-sibling-separation} prevents collapsing the router to the closed-substitution sibling alone. Hence $D$ covers exactly the displayed closed-term substitution boundary route.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICNormalizationCertificateRouterUp.MetaCICNormalizationCertificateRouterProjectionCoverage}
 
 \begin{theorem}[MetaCIC normalization certificate router route coverage]
 \label{thm:metacic-normalization-certificate-router-route-coverage}
@@ -214,6 +215,23 @@ Begin with the carrier and route coverage. The carrier definition displays $A,K,
 Next apply the kernel-scope and generator-compiler routes. Theorem~\ref{thm:metacic-normalization-certificate-router-kernel-scope} requires candidate evidence, closed projection, authorized generation, compiler recognition, and kernel inductive acceptance before a normalization output is read, while Theorem~\ref{thm:metacic-normalization-certificate-router-generator-compiler-route} keeps generator-to-compiler reads inside the same displayed packet.
 
 Finally use the inductive acceptance scope. Theorem~\ref{thm:metacic-normalization-certificate-router-inductive-acceptance-scope} binds the $L$ row to the audit anchor, candidate evidence, closed projection, generator, compiler, transport, replay, provenance, and local naming rows. Hence every normalization read is scoped to the BEDC kernel route carried by the accepted packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization certificate router public export]
+\label{thm:metacic-normalization-certificate-router-public-export}
+An accepted $\MetaCICNormalizationCertificateRouterUp$ packet exports exactly the public router surface already scoped by its carrier: generator recursion through $U$, ground-compiler recognition through $G$, kernel-inductive acceptance through $L$, closed-substitution boundary reads through $D$, residual-candidate determinacy through $K,S,P$, and non-escape through $H,C,Q,N$. The public interface contains no new MetaCIC primitive, evidence-free normalizer, host reduction equality, quotient reduction row, or closed-term normalization read outside
+$$
+A,K,S,P,D,U,G,L,H,C,Q,N .
+$$
+\end{theorem}
+\begin{proof}
+Start with the carrier and obligation surface. The definition displays $A,K,S,P,D,U,G,L,H,C,Q,N$, and Theorem~\ref{thm:metacic-normalization-certificate-router-obligation-surface} identifies these rows as the complete local certificate surface.
+
+Next use the coverage and producer routes. Theorems~\ref{thm:metacic-normalization-certificate-router-route-coverage} and~\ref{thm:metacic-normalization-certificate-router-generator-compiler-route} keep every admitted normalization read, generator read, and compiler-recognizer read inside the same finite router packet.
+
+The acceptance and residual clauses supply the remaining public fields. Theorem~\ref{thm:metacic-normalization-certificate-router-inductive-acceptance-scope} scopes the $L$ row to the displayed kernel route, while Theorems~\ref{thm:metacic-normalization-certificate-router-residual-candidate-coverage} and~\ref{thm:metacic-normalization-certificate-router-residual-determinacy} force residual normalization reads to be mediated by the candidate rows $K,S,P$ and the closed-substitution boundary $D$.
+
+Finally apply the scoped kernel route. Theorem~\ref{thm:metacic-normalization-certificate-router-scoped-kernel-route} binds normalization output to the BEDC kernel-facing surface, and the carrier has no coordinate for a new MetaCIC primitive, evidence-free normalizer, host equality, quotient reduction row, or closed-term normalization read outside the displayed packet. Thus the listed rows are exactly the public export surface.
 \end{proof}
 
 \falsifiablePrediction{A closed-term normalization read is refused unless candidate, closed-candidate, or candidate-set evidence is present on the displayed route.}
