@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICDiamondResidualBudgetUp$}
+\label{ch:concrete-instances-metacic-diamond-residual-budget-namecert}
+\origin{ai}
+
+The $\MetaCICDiamondResidualBudgetUp$ packet realizes the finite residual-budget boundary of \autoref{ch:metacic-confluence-audit-map}. It sits beside the local diamond witness of \autoref{ch:concrete-instances-metacic-local-diamond-witness-namecert}, the residual envelope of \autoref{ch:concrete-instances-metacic-confluence-residual-envelope-namecert}, the substitution boundary of \autoref{ch:concrete-instances-metacic-confluence-substitution-boundary-namecert}, and the closed parallel diamond premise ledger of \autoref{ch:concrete-instances-closed-parallel-diamond-premise-ledger-namecert}. The packet names the finite rows still required by the conditional confluence route without claiming the full parallel diamond theorem.
+
+\begin{definition}[MetaCIC diamond residual budget carrier]
+\label{def:metacic-diamond-residual-budget-carrier}
+A $\MetaCICDiamondResidualBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T,F,R,J,S,E,L,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed-window row for the source and target terms whose residual branches are audited.
+\item $F$ is the redex-frontier row that lists the beta redexes and congruence faces inspected by the local diamond route.
+\item $R$ is the residual-budget row, recording the finite fuel and residual-address accounting needed to replay candidate joins.
+\item $J$ is the candidate-join row, naming the displayed joins produced from $F$ and $R$.
+\item $S$ is the substitution-boundary row, keeping the residual-substitution compatibility premise visible.
+\item $E$ is the residual-envelope row, read through \autoref{ch:concrete-instances-metacic-confluence-residual-envelope-namecert}.
+\item $L$ is the closed parallel diamond premise ledger row, read through \autoref{ch:concrete-instances-closed-parallel-diamond-premise-ledger-namecert}.
+\item $D$ is the local diamond witness row, read through \autoref{ch:concrete-instances-metacic-local-diamond-witness-namecert} as finite local geometry rather than a proof of the closed endpoint.
+\item $H$ records componentwise $\hsame$ transport for typed windows, frontier rows, residual budgets, candidate joins, substitution boundary, residual envelope, premise ledger, local diamond witness, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+T,F,R,S \longmapsto J \longmapsto E,L,D \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\MetaCICDiamondResidualBudgetUp$, MetaCIC beta reduction, $\mathsf{BetaParallel}$, $\mathsf{BetaStarStep}$, the named sibling packets, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICDiamondResidualBudgetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate proving $\mathsf{BetaParallelSubstitutionCompatibility}$, no coordinate proving full parallel diamond, no coordinate proving arbitrary closed Church--Rosser, and no host substitution semantics.
+\end{definition}
+
+\begin{theorem}[MetaCIC diamond residual budget NameCert obligations]
+\label{thm:metacic-diamond-residual-budget-namecert-obligations}
+For every accepted $\MetaCICDiamondResidualBudgetUp$ carrier $B=(T,F,R,J,S,E,L,D,H,C,P,N)$, the local $\NameCert_{\MetaCICDiamondResidualBudgetUp}$ surface consists exactly of typed-window admission through $T$, redex-frontier exposure through $F$, residual-budget accounting through $R$, candidate-join display through $J$, substitution-boundary visibility through $S$, residual-envelope handoff through $E$, closed-premise-ledger handoff through $L$, local-diamond witness handoff through $D$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-diamond-residual-budget-carrier}. The displayed rows are exactly $T,F,R,J,S,E,L,D,H,C,P,N$, so carrier admission is a finite projection.
+
+The residual budget is read before any candidate join is exported. Rows $T$ and $F$ name the typed window and redex frontier, while $R$ records the finite residual-address and fuel accounting required by the join row $J$.
+
+The substitution row $S$ remains visible downstream. The residual envelope $E$, premise ledger $L$, and local diamond witness $D$ are sibling handoffs, not discharges of $S$ or proofs of the full diamond endpoint.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same rows. With no coordinate for the refused endpoint claims, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC diamond residual budget endpoint boundary]
+\label{thm:metacic-diamond-residual-budget-endpoint-boundary}
+Any confluence consumer of an accepted $\MetaCICDiamondResidualBudgetUp$ packet may cite only the displayed residual-budget route
+$$
+T,F,R,S \longmapsto J \longmapsto E,L,D \longmapsto H,P,N .
+$$
+It may not promote the candidate-join row or residual-envelope row into $\mathsf{BetaParallelSubstitutionCompatibility}$, full parallel diamond, or arbitrary closed Church--Rosser.
+\end{theorem}
+\begin{proof}
+Start with the displayed route. The carrier gives the consumer typed windows, redex-frontier data, residual-budget accounting, a substitution-boundary row, candidate joins, the residual envelope, the closed-premise ledger, and the local diamond witness.
+
+Use \autoref{thm:metacic-diamond-residual-budget-namecert-obligations}. Its substitution-boundary visibility keeps $S$ attached whenever $J$ is exported, and its sibling rows keep $E,L,D$ as contextual handoffs rather than endpoint proofs.
+
+Transport, replay, provenance, and local naming preserve the same finite route. Therefore the packet can expose residual-budget coverage and candidate joins, but it cannot supply a premise-free parallel diamond theorem or arbitrary closed Church--Rosser theorem.
+\end{proof}
+
+\falsifiablePrediction{A confluence packet that omits either the residual-budget row $R$ or the candidate-join row $J$ is rejected as a $\MetaCICDiamondResidualBudgetUp$ packet, even when it carries local diamond, residual-envelope, or closed-premise-ledger rows.}
+
+\independenceWitness{metacic-local-diamond-witness, metacic-confluence-residual-envelope, metacic-confluence-substitution-boundary, closed-parallel-diamond-premise-ledger: $\MetaCICDiamondResidualBudgetUp$ is not bijective to any listed sibling because it binds typed windows, redex frontiers, residual-budget accounting, candidate joins, a visible substitution boundary, residual envelope, premise ledger, local diamond witness, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ into one finite confluence-facing packet.}
+
+The Lean-side hardening surface requires $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for the residual-budget packet. The nontrivial witness separates a carrier with displayed residual-budget and candidate-join rows from a refused packet missing one of those rows; field faithfulness matches on $T,F,R,J,S,E,L,D,H,C,P,N$ so two accepted packets with the same displayed fields are indistinguishable to the NameCert classifier.
+
+\closureat{MetaCICDiamondResidualBudgetUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICDiamondResidualBudgetUp}
+  \constructivestory{A $\MetaCICDiamondResidualBudgetUp$ packet is generated from typed windows, redex frontiers, residual-budget accounting, candidate joins, a visible substitution-boundary row, residual-envelope and closed-premise-ledger handoffs, a local diamond witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-diamond-residual-budget-carrier}, \autoref{thm:metacic-diamond-residual-budget-namecert-obligations}, and \autoref{thm:metacic-diamond-residual-budget-endpoint-boundary} seed the finite residual-budget boundary for the MetaCIC confluence route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close BetaParallelSubstitutionCompatibility, full parallel diamond, arbitrary closed Church--Rosser, host substitution semantics, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked typed-window admission, redex-frontier exposure, residual-budget accounting, candidate-join display, substitution-boundary visibility, sibling handoffs, endpoint nonescape, and TasteGate nontriviality with field faithfulness for BEDC.Derived.MetaCICDiamondResidualBudgetUp.}
+\end{closurestatus}
