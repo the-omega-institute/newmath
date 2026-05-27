@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ClosedBoundedIntervalUniformModulusUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -260,5 +263,32 @@ theorem ClosedBoundedIntervalUniformModulus_heine_cantor_route_rows
           closedBoundedIntervalUniformModulus_round_trip
             (ClosedBoundedIntervalUniformModulusUp.mk A B R C D L M U H Q P N),
           rfl⟩
+
+theorem ClosedBoundedIntervalUniformModulus_dyadic_cover_scope
+    {leftEndpoint rightEndpoint intervalRow compactCover dyadicCover lebesgueLedger
+      pointwiseModulus uniformOutput transport route provenance name sourceScope
+      dyadicScope : BHist} :
+    UnaryHistory intervalRow ->
+      UnaryHistory compactCover ->
+        UnaryHistory dyadicCover ->
+          Cont intervalRow compactCover sourceScope ->
+            Cont sourceScope dyadicCover dyadicScope ->
+              closedBoundedIntervalUniformModulusFields
+                  (ClosedBoundedIntervalUniformModulusUp.mk leftEndpoint rightEndpoint
+                    intervalRow compactCover dyadicCover lebesgueLedger pointwiseModulus
+                    uniformOutput transport route provenance name) =
+                [leftEndpoint, rightEndpoint, intervalRow, compactCover, dyadicCover,
+                  lebesgueLedger, pointwiseModulus, uniformOutput, transport, route,
+                  provenance, name] ∧
+                UnaryHistory sourceScope ∧ UnaryHistory dyadicScope ∧
+                  Cont intervalRow compactCover sourceScope ∧
+                    Cont sourceScope dyadicCover dyadicScope := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro intervalUnary compactUnary dyadicUnary intervalCompact sourceDyadic
+  have sourceUnary : UnaryHistory sourceScope :=
+    unary_cont_closed intervalUnary compactUnary intervalCompact
+  have dyadicScopeUnary : UnaryHistory dyadicScope :=
+    unary_cont_closed sourceUnary dyadicUnary sourceDyadic
+  exact ⟨rfl, sourceUnary, dyadicScopeUnary, intervalCompact, sourceDyadic⟩
 
 end BEDC.Derived.ClosedBoundedIntervalUniformModulusUp
