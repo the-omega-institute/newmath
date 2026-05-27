@@ -170,4 +170,25 @@ theorem NetConvergenceCarrier_cauchy_net_limit_handoff
     _sameC, _sameP, _sameM, fields⟩ := carrier
   exact ⟨⟨sourceRoute, limitRoute, limitSame⟩, ⟨realRoute, sameL, fields⟩⟩
 
+theorem NetConvergenceCarrier_moore_smith_filter_boundary
+    {D T E A F S R L H C P M sourceRead filterRead : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M →
+      Cont D T E →
+        Cont D A sourceRead →
+          Cont E F filterRead →
+            hsame sourceRead D →
+              hsame filterRead D →
+                Cont D T E ∧ Cont D A sourceRead ∧ Cont E F filterRead ∧
+                  hsame sourceRead D ∧ hsame filterRead D ∧ hsame H H ∧ hsame C C ∧
+                    hsame P P ∧ hsame M M ∧
+                      netConvergenceFields (NetConvergenceUp.mk D T E A F S R L H C P M) =
+                        [D, T, E, A, F, S, R, L, H, C, P, M] := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro carrier directedTail sourceRoute filterRoute sourceSame filterSame
+  obtain ⟨_sameD, _sameT, _sameE, _sameA, _sameF, _sameS, _sameR, _sameL, sameH,
+    sameC, sameP, sameM, fields⟩ := carrier
+  exact
+    ⟨directedTail, sourceRoute, filterRoute, sourceSame, filterSame, sameH, sameC, sameP,
+      sameM, fields⟩
+
 end BEDC.Derived.NetConvergenceUp
