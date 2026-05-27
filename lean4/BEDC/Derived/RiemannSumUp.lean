@@ -275,4 +275,55 @@ theorem RiemannSumCarrier_darboux_handoff [AskSetup] [PackageSetup]
     ⟨cert, meshUnary, tagUnary, valueUnary, widthUnary, sumUnary, darbouxUnary,
       meshTagValue, valueWidthSum, sumTransportDarboux, provenancePkg, darbouxPkg⟩
 
+theorem RiemannSumCarrier_mesh_tag_obligation [AskSetup] [PackageSetup]
+    {mesh tag value width sum transport replay provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RiemannSumCarrier mesh tag value width sum transport replay provenance localName bundle pkg ->
+      PkgSig bundle value pkg ->
+        SemanticNameCert
+            (fun row : BHist => hsame row value ∧ UnaryHistory row)
+            (fun row : BHist => hsame row mesh ∨ hsame row tag ∨ Cont mesh tag value)
+            (fun row : BHist =>
+              PkgSig bundle provenance pkg ∧ PkgSig bundle value pkg ∧ hsame row value)
+            hsame ∧
+          UnaryHistory mesh ∧ UnaryHistory tag ∧ UnaryHistory value ∧ Cont mesh tag value ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle value pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier valuePkg
+  obtain ⟨meshUnary, tagUnary, valueUnary, _widthUnary, _transportUnary, _replayUnary,
+    _provenanceUnary, _localNameUnary, meshTagValue, _valueWidthSum, _replayRoute,
+    provenancePkg, _localNamePkg⟩ := carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row value ∧ UnaryHistory row)
+          (fun row : BHist => hsame row mesh ∨ hsame row tag ∨ Cont mesh tag value)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg ∧ PkgSig bundle value pkg ∧ hsame row value)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro value ⟨hsame_refl value, valueUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row _source
+      exact Or.inr (Or.inr meshTagValue)
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, valuePkg, source.left⟩
+  }
+  exact ⟨cert, meshUnary, tagUnary, valueUnary, meshTagValue, provenancePkg, valuePkg⟩
+
 end BEDC.Derived.RiemannSumUp
