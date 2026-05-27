@@ -2211,6 +2211,87 @@ def run_keep_lane(store: BioRealityStore) -> dict[str, Any]:
     return {"lane": "bio-K", "committed": True, "files": len(selected), "dropped": len(dropped), "commit_sha": commit_sha, "pushed": True}
 
 
+def run_merge_back_lane(store: BioRealityStore) -> dict[str, Any]:
+    """Merge feat/bio-reality-deepening back to upstream (auto-dev) as fast-forward.
+
+    Throttled by min_seconds_between_merge_backs (config). Skips when:
+      - merge-back disabled
+      - network unreachable (matches bio-S/bio-K guard pattern)
+      - feat is NOT an ancestor of upstream HEAD (i.e. upstream has commits we
+        haven't merged in yet — bio-S handles that direction)
+      - too soon since previous merge-back
+      - working tree dirty
+    """
+    try:
+        config = _load_keep_lane_config()
+    except (OSError, json.JSONDecodeError) as exc:
+        return {"lane": "bio-M", "error": f"config_error: {exc}"}
+    merge_cfg = config.get("merge_back") if isinstance(config.get("merge_back"), dict) else {}
+    if not merge_cfg.get("enabled", False):
+        return {"lane": "bio-M", "skipped": "disabled"}
+    upstream = str(merge_cfg.get("upstream_branch") or "auto-dev")
+    remote = str(config.get("remote") or "origin")
+    feat_branch = str(config.get("branch") or "feat/bio-reality-deepening")
+    min_seconds = float(merge_cfg.get("min_seconds_between_merge_backs") or 1800)
+    state_path = store.paths.keep_lane_state.parent / "merge_back_state.json"
+    last_ts = 0.0
+    try:
+        last_ts = float(json.loads(state_path.read_text(encoding="utf-8")).get("last_merge_back_ts") or 0.0)
+    except (OSError, json.JSONDecodeError, ValueError, TypeError):
+        last_ts = 0.0
+    if min_seconds > 0 and last_ts > 0 and time.time() - last_ts < min_seconds:
+        return {"lane": "bio-M", "skipped": "rate_limited", "since_last_seconds": int(time.time() - last_ts)}
+    if not _network_available():
+        return {"lane": "bio-M", "skipped": "network_unreachable"}
+    repo_root = store.paths.root.parent.parent
+    try:
+        status = _run_command(repo_root, ["git", "status", "--porcelain"], timeout=30.0)
+        if status.returncode != 0 or status.stdout.strip():
+            return {"lane": "bio-M", "skipped": "dirty_worktree", "porcelain": status.stdout[:300]}
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return {"lane": "bio-M", "skipped": f"git_status_error: {exc}"}
+    try:
+        fetch = _run_command(repo_root, ["git", "fetch", remote, upstream], timeout=60.0)
+        if fetch.returncode != 0:
+            return {"lane": "bio-M", "skipped": "fetch_failed", "stderr": (fetch.stderr or "")[-500:]}
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return {"lane": "bio-M", "skipped": f"fetch_error: {exc}"}
+    try:
+        ahead_behind = _run_command(
+            repo_root,
+            ["git", "rev-list", "--left-right", "--count", f"{remote}/{upstream}...HEAD"],
+            timeout=60.0,
+        )
+        if ahead_behind.returncode != 0:
+            return {"lane": "bio-M", "skipped": "rev_list_failed", "stderr": (ahead_behind.stderr or "")[-300:]}
+        parts = ahead_behind.stdout.strip().split()
+        if len(parts) != 2:
+            return {"lane": "bio-M", "skipped": "rev_list_parse_failed", "raw": ahead_behind.stdout.strip()[:200]}
+        upstream_only, feat_only = int(parts[0]), int(parts[1])
+    except (OSError, subprocess.TimeoutExpired, ValueError) as exc:
+        return {"lane": "bio-M", "skipped": f"rev_list_error: {exc}"}
+    if feat_only == 0:
+        return {"lane": "bio-M", "skipped": "feat_not_ahead", "upstream_only": upstream_only}
+    if upstream_only > 0:
+        # Upstream has commits not in feat — bio-S handles that direction. Skip
+        # this push to avoid creating a non-fast-forward; merge will succeed
+        # next cycle once bio-S syncs.
+        return {"lane": "bio-M", "skipped": "feat_behind_upstream", "upstream_only": upstream_only, "feat_only": feat_only}
+    # Fast-forward push of feat HEAD to upstream branch.
+    try:
+        push = _run_command(repo_root, ["git", "push", remote, f"HEAD:{upstream}"], timeout=120.0)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return {"lane": "bio-M", "error": f"push_error: {exc}", "feat_only": feat_only}
+    if push.returncode != 0:
+        return {"lane": "bio-M", "error": "push_failed", "stderr": (push.stderr or "")[-500:], "feat_only": feat_only}
+    try:
+        state_path.parent.mkdir(parents=True, exist_ok=True)
+        state_path.write_text(json.dumps({"last_merge_back_ts": time.time(), "last_upstream": upstream, "commits_pushed": feat_only}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    except OSError:
+        pass
+    return {"lane": "bio-M", "pushed": True, "upstream": upstream, "commits_pushed": feat_only}
+
+
 def _tex_escape(value: Any) -> str:
     text = str(value)
     replacements = {

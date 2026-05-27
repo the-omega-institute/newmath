@@ -96,6 +96,9 @@ def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_disp
     def keep_and_push() -> dict[str, object]:
         return lanes.run_keep_lane(store)
 
+    def merge_back_to_upstream() -> dict[str, object]:
+        return lanes.run_merge_back_lane(store)
+
     return NestedLoopRunner(
         [
             LoopUnit("bio_S_sync_auto_dev", sync_auto_dev),
@@ -112,6 +115,7 @@ def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_disp
             LoopUnit("bio_Q_quality_hardening", quality_hardening),
             LoopUnit("bio_A_assimilate_signals", assimilate_signals),
             LoopUnit("bio_K_keep_and_push", keep_and_push),
+            LoopUnit("bio_M_merge_back_to_upstream", merge_back_to_upstream),
         ],
         LoopState(STATE_DIR / "loop_state.json"),
     )
