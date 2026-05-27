@@ -269,6 +269,22 @@ Finally apply the scoped kernel route, \autoref{thm:metacic-normalization-certif
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICNormalizationCertificateRouterUp.MetaCICNormalizationCertificateRouterPublicConsumerBoundary}
 
+\begin{theorem}[MetaCIC normalization certificate router no-infinite-reduction public handoff]
+\label{thm:metacic-normalization-certificate-router-no-infinite-reduction-public-handoff}
+Every public $\MetaCICNormalizationCertificateRouterUp$ consumer preserving the displayed route
+$$
+A,K,S,P,D,U,G,L,H,C,Q,N
+$$
+exports no-infinite-reduction evidence only through candidate evidence, closed-candidate evidence, or candidate-set evidence in $K$. The public handoff cannot replace those rows by an evidence-free normalizer, host reduction equality, quotient reduction row, or unconditional closed-term normalization principle.
+\end{theorem}
+\begin{proof}
+Start with route coverage and the public consumer boundary. Theorems~\ref{thm:metacic-normalization-certificate-router-route-coverage} and~\ref{thm:metacic-normalization-certificate-router-public-consumer-boundary} force every downstream read to preserve the ordered packet $A,K,S,P,D,U,G,L,H,C,Q,N$.
+
+Next apply residual candidate coverage. Theorem~\ref{thm:metacic-normalization-certificate-router-residual-candidate-coverage} requires candidate, closed-candidate, or candidate-set evidence in $K$ before the adequacy, closed projection, generator, compiler, and acceptance rows may contribute to the displayed route.
+
+The Lean-side source discipline is exactly the three no-infinite-reduction routes through candidate, closed-candidate, and candidate-set evidence. Thus a public consumer can export no-infinite-reduction only by preserving one of those evidence rows, while the carrier offers no coordinate for evidence-free normalization, host reduction equality, quotient reduction, or unconditional closed-term normalization.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization certificate router critical-pair discharge]
 \label{thm:metacic-normalization-certificate-router-critical-pair-discharge}
 Let $R=(A,K,S,P,D,U,G,L,H,C,Q,N)$ be an accepted $\MetaCICNormalizationCertificateRouterUp$ carrier. Suppose a router candidate read through $R$ passes through the sibling rows $\MetaCICNormalizationFrontierUp$, $\ClosedTermSubstitutionBoundaryUp$, $\MetaCICResidualSubstitutionBoundaryUp$, and $\MetaCICConfluenceCriticalPairBoundaryUp$. Then the read reaches a finite discharge row for the displayed residual-substitution and confluence-critical-pair boundary before any normalization certificate is exported through $S$ or through the public route. The discharge remains inside $A,K,S,P,D,U,G,L,H,C,Q,N$ together with the named sibling boundary rows; it does not export evidence-free strong normalization, host conversion equality, quotient reduction equality, or a hidden global confluence theorem.
