@@ -58,11 +58,45 @@ A Picard consumer therefore reads the graph row $G$, the distance witnesses $D$,
 Completeness and endpoint selection remain outside the packet. A Banach consumer must attach its own complete-metric and endpoint rows, while the $\ContractiveMapUp$ handoff supplies only the finite map-level shrink data.
 \end{proof}
 
+\begin{theorem}[Contractive map constant-row exactness]
+\label{thm:contractive-map-constant-row-exactness}
+For every accepted $\ContractiveMapUp$ carrier $K=(X,Y,f,k,D,G,S,H,C,P,N)$, every contraction read exposed by $\NameCert_{\ContractiveMapUp}$ uses the displayed constant row $k$ together with its nonnegativity and strict unit-bound evidence. No Picard, Banach, or uniform-modulus consumer may replace $k$ by an unstored scalar or by a scalar recovered from ambient host data.
+\end{theorem}
+\begin{proof}
+Project the carrier and apply the NameCert obligations of \autoref{thm:contractive-map-namecert-obligations}. The obligation list has a single contraction-constant coordinate, namely the row $k$, and it records the strict unit-bound evidence as part of that row.
+
+The Picard handoff of \autoref{thm:contractive-map-picard-consumer-handoff} exports the same row to downstream consumers. Since the handoff excludes host function extensionality, quotient equality of maps, completed limits, and selected endpoints, there is no second route from which a different contraction scalar can be read.
+\end{proof}
+
+\begin{theorem}[Contractive map distance-witness stability]
+\label{thm:contractive-map-distance-witness-stability}
+For every accepted $\ContractiveMapUp$ carrier $K=(X,Y,f,k,D,G,S,H,C,P,N)$, each source-distance or target-distance request used in a contraction comparison factors through the distance-witness row $D$. If the request involves a displayed application of $f$, the same read is tied to the graph row $G$ before it can be used by the shrink ledger $S$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The obligations in \autoref{thm:contractive-map-namecert-obligations} list distance-witness exposure and graph replay as separate rows, and the proof of that theorem identifies $D$ as the row carrying source-distance and target-distance requests.
+
+A contraction comparison in $S$ is therefore not a free metric assertion. It first reads the relevant source and target distance witnesses through $D$, and when the comparison evaluates $f$ it reads the corresponding finite graph entry through $G$. The continuation row $C$ can replay this order, but it cannot bypass either displayed row.
+\end{proof}
+
+\begin{theorem}[Contractive map shrink-ledger replay]
+\label{thm:contractive-map-shrink-ledger-replay}
+For every accepted $\ContractiveMapUp$ carrier $K=(X,Y,f,k,D,G,S,H,C,P,N)$, every shrink comparison available to $\PicardIterationUp$, $\BanachFixedPointUp$, or $\UniformModulusUp$ consumers is one of the comparisons stored in $S$ and transported, replayed, provenanced, and locally named through $H,C,P,N$. The carrier exposes no additional contraction inequality outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier and read the shrink-ledger clause of \autoref{thm:contractive-map-namecert-obligations}. That clause makes $S$ the row recording the displayed comparisons
+$$
+d_Y(f(x),f(y))\leq k\,d_X(x,y)
+$$
+for carried source histories and graph reads.
+
+The consumer handoff in \autoref{thm:contractive-map-picard-consumer-handoff} sends the same finite shrink data to Picard and Banach consumers, and the carrier definition routes uniform-modulus handoff through the same continuation surface. Componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$ preserve the stored ledger entries rather than generating fresh analytic inequalities.
+\end{proof}
+
 \closureat{ContractiveMapUp}{seedStr}
 
 \begin{closurestatus}{\ContractiveMapUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:contractive-map-carrier}, \autoref{thm:contractive-map-namecert-obligations}, and \autoref{thm:contractive-map-picard-consumer-handoff} seed the finite contraction-map surface for metric, graph, constant, shrink-ledger, transport, replay, provenance, and local naming rows.}
+  \scopeclosed{\autoref{def:contractive-map-carrier}, \autoref{thm:contractive-map-namecert-obligations}, \autoref{thm:contractive-map-picard-consumer-handoff}, \autoref{thm:contractive-map-constant-row-exactness}, \autoref{thm:contractive-map-distance-witness-stability}, and \autoref{thm:contractive-map-shrink-ledger-replay} seed the finite contraction-map surface for metric, graph, constant, shrink-ledger, transport, replay, provenance, and local naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not assert fixed-point existence, complete-metric convergence, quotient equality of maps, selected endpoints, Lean verification, axiom-clean audit, or bridge checking for $\ContractiveMapUp$.}
