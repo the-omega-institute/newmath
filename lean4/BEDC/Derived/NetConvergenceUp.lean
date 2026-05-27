@@ -191,4 +191,21 @@ theorem NetConvergenceCarrier_moore_smith_filter_boundary
     ⟨directedTail, sourceRoute, filterRoute, sourceSame, filterSame, sameH, sameC, sameP,
       sameM, fields⟩
 
+theorem NetConvergenceCarrier_stream_readback_route
+    {D T E A F S R L H C P M streamRead sealRead : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M ->
+      Cont F S streamRead ->
+        Cont streamRead R sealRead ->
+          hsame sealRead D ->
+            hsame F F ∧ hsame S S ∧ hsame R R ∧ hsame L L ∧
+              Cont F S streamRead ∧ Cont streamRead R sealRead ∧ hsame sealRead D ∧
+                netConvergenceFields (NetConvergenceUp.mk D T E A F S R L H C P M) =
+                  [D, T, E, A, F, S, R, L, H, C, P, M] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  intro carrier streamRoute sealRoute sealSame
+  obtain ⟨_sameD, _sameT, _sameE, _sameA, sameF, sameS, sameR, sameL, _sameH,
+    _sameC, _sameP, _sameM, fields⟩ := carrier
+  exact
+    ⟨sameF, sameS, sameR, sameL, streamRoute, sealRoute, sealSame, fields⟩
+
 end BEDC.Derived.NetConvergenceUp
