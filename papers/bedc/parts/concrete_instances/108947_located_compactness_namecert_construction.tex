@@ -54,6 +54,21 @@ The finite request order is supplied by $S$. A radius or compact-witness inspect
 Finally use the structural rows $H,P,N$. They transport, source, and name the same finite handoff for compact-metric and completion consumers. Because the packet has no row for open covers, selected dense points, quotient completions, countable choice, or ambient real completeness, the exported surface is exactly the finite located-neighbourhood handoff above.
 \end{proof}
 
+\begin{theorem}[Located compactness radius stability]
+\label{thm:located-compactness-radius-stability}
+For every accepted $\LocatedCompactnessUp$ carrier $L=(M,K,B,U,W,S,H,C,P,N)$, $\hsame$ transport of the metric source, compact witness, closed-ball boundary, local support, located-radius request, $\StreamNameUp$ schedule, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row preserves the finite located-neighbourhood handoff for every completion-facing consumer. The transported read remains the same finite route through
+$$
+M,K,B,U,W,S,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Project the transport row $H$ from \autoref{def:located-compactness-carrier}. It records componentwise transport for the metric source, compact witness, closed-ball boundary, local support, located-radius request, stream schedule, replay, provenance, and local naming rows.
+
+Use \autoref{thm:located-compactness-namecert-obligations} to identify those transported rows as the whole local NameCert surface. No transported completion-facing read can detach the radius request from $M,K,B,U,W,S,C,P,N$.
+
+Finally apply the finite-net handoff of \autoref{thm:located-compactness-finite-net-handoff}. The consumer route remains finite and choice-free, so transport preserves the located-neighbourhood handoff without introducing open-cover compactness, selected dense points, quotient completion equality, countable choice, or ambient real completeness.
+\end{proof}
+
 \falsifiablePrediction{A completion-facing consumer that reads $\LocatedCompactnessUp$ without displaying the metric source, compact witness, closed-ball boundary, local compact support, finite located-radius request, StreamName schedule, componentwise transport, continuation replay, package provenance, and local NameCert rows refutes the carrier surface.}
 
 \independenceWitness{metric, compactmetric, locallycompact, metricclosedball, streamname: no listed sibling is bijective to $\LocatedCompactnessUp$ because this packet binds source metric data, compact witnesses, closed-ball boundaries, local support, located-radius requests, finite scheduling, transport, replay, provenance, and local naming in one completion-facing interface.}
