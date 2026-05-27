@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicBusemannCocycleUp$}
+\label{ch:concrete-instances-hyperbolic-busemann-cocycle-namecert}
+\origin{human}
+
+Following Busemann and Bridson--Haefliger, the $\HyperbolicBusemannCocycleUp$ packet records the additive boundary cocycle read by comparing two displayed disk or geodesic positions toward the same boundary point. It sits after the metric-read surface of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, the boundary-point carrier of \autoref{ch:concrete-instances-hyperbolic-busemann-boundary-namecert}, the visual comparison route of \autoref{ch:concrete-instances-hyperbolic-visual-metric-namecert}, the geodesic-flow carrier of \autoref{ch:concrete-instances-hyperbolic-geodesic-flow-namecert}, and the horocycle packet of \autoref{ch:concrete-instances-hyperbolic-horocycle-namecert}. The packet names a finite boundary-point and metric-read cocycle route; it does not complete the hyperbolic boundary, quotient geodesic rays, choose global representatives, or import host curvature analysis.
+
+\begin{definition}[HyperbolicBusemannCocycle carrier]
+\label{def:hyperbolic-busemann-cocycle-carrier}
+A $\HyperbolicBusemannCocycleUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,\Xi,R_0,R_1,G,V,Q,E,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\HyperbolicMetricUp$ metric-read row on the visible disk or geodesic source.
+\item $\Xi$ is the $\HyperbolicBusemannBoundaryUp$ boundary-point row toward which the comparison is read.
+\item $R_0$ and $R_1$ are geodesic-ray or disk-position rows with the same displayed boundary endpoint $\Xi$.
+\item $G$ is the $\HyperbolicGeodesicFlowUp$ transport row used to compare positions along the same boundary-facing route.
+\item $V$ is the $\HyperbolicVisualMetricUp$ visibility row recording the boundary comparison window.
+\item $Q$ is the $\HyperbolicHorocycleUp$ horocycle row that records equal-level surfaces for the boundary point.
+\item $E$ is the additive cocycle ledger. It stores the signed metric-read difference and the concatenation rule for composable displayed positions.
+\item $H$ records componentwise $\hsame$ transport for metric, boundary, ray, flow, visual, horocycle, cocycle, replay, package, and naming rows.
+\item $K$ records displayed $\Cont$ replay from a boundary-cocycle request through $M,\Xi,R_0,R_1,G,V,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\HyperbolicBusemannCocycleUp$, $\HyperbolicMetricUp$, $\HyperbolicBusemannBoundaryUp$, $\HyperbolicVisualMetricUp$, $\HyperbolicGeodesicFlowUp$, $\HyperbolicHorocycleUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HyperbolicBusemannCocycleUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a completed ideal-boundary quotient, selected geodesic representative, ambient horosphere foliation, global curvature theorem, or physical observer trajectory.
+\end{definition}
+
+\begin{theorem}[HyperbolicBusemannCocycle boundary additivity]
+\label{thm:hyperbolic-busemann-cocycle-boundary-additivity}
+For every accepted $\HyperbolicBusemannCocycleUp$ carrier $B=(M,\Xi,R_0,R_1,G,V,Q,E,H,K,P,N)$, the additive boundary-cocycle read is exhausted by the visible route
+$$
+\HyperbolicMetricUp,\HyperbolicBusemannBoundaryUp
+\longmapsto
+R_0,R_1,G,V,Q
+\longmapsto
+E,H,K,P,N .
+$$
+If a third displayed position $R_2$ is admitted by the same boundary row $\Xi$, the cocycle ledger $E$ records the composite read from $R_0$ to $R_2$ as the concatenation of the reads from $R_0$ to $R_1$ and from $R_1$ to $R_2$, with all equality understood through the displayed $\hsame$ and $\Cont$ rows of the same packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperbolic-busemann-cocycle-carrier}. The metric row $M$ and boundary row $\Xi$ are the only source rows from which a Busemann-level comparison can be read.
+
+Read the geometric comparison rows. The positions $R_0,R_1$, flow row $G$, visual row $V$, and horocycle row $Q$ attach the comparison to one displayed boundary endpoint rather than to an ambient ideal-boundary quotient.
+
+The additive statement is the content of the ledger $E$. Its concatenation rule is transported by $H$ and replayed by $K$, while $P$ and $N$ package and name the same finite route. Since selected ray representatives, global horosphere foliations, host curvature theorems, and physical observer trajectories have no coordinate in $B$, the boundary additivity read is confined to the displayed packet.
+\end{proof}
+
+\begin{closurestatus}{\HyperbolicBusemannCocycleUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-busemann-cocycle-carrier} and \autoref{thm:hyperbolic-busemann-cocycle-boundary-additivity} seed the finite boundary-point, geodesic-ray, visual-metric, horocycle, additive-ledger, transport, replay, provenance, and NameCert route for the Busemann cocycle.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, completed ideal-boundary quotients, selected geodesic representatives, global horosphere foliations, host curvature analysis, or physical observer dynamics.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundary endpoint coverage, metric-read exactness, horocycle compatibility, additive-ledger concatenation, and local NameCert faithfulness for BEDC.Derived.HyperbolicBusemannCocycleUp.}
+  \constructivestory{A $\HyperbolicBusemannCocycleUp$ packet is generated from hyperbolic metric, Busemann boundary, geodesic-position, geodesic-flow, visual-metric, horocycle, additive-ledger, transport, replay, package, and local NameCert rows.}
+\end{closurestatus}
