@@ -210,6 +210,20 @@ The separated comparison and uniqueness rows then account for the completion-fac
 Finally $H,R,T,P,N$ preserve the same row list. Thus the displayed carrier exhausts the universal route and exports no completion principle beyond the finite packet.
 \end{proof}
 
+\begin{theorem}[SeparatedCompletion universal separated factorization]
+\label{thm:separatedcompletion-universal-separated-factorization}
+Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. Every universal completion read accepted through $S$ passes through $M,D,C$ before the separated classifier $Z$ or the uniqueness row $U$ may be consumed. The separated equality read is zero-distance evidence over the same displayed route, not quotient equality, host equality of completed points, selected representative equality, or an ambient completion equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:separated-completion-carrier}. The only universal completion route available to the packet is the displayed row list $M,D,C,Z,U,H,R,T,P,N$.
+
+Use dense factorization, \autoref{thm:separated-completion-dense-factorization}, and universal route exhaustion, \autoref{thm:separatedcompletion-universal-route-exhaustion}. Together they place every universal read behind the source metric, dense embedding, and completion handoff rows $M,D,C$.
+
+Now apply zero-distance factorization, \autoref{thm:separatedcompletion-zero-distance-factorization}. The separated classifier row $Z$ reads equality as displayed zero-distance evidence over that same handoff, while $U$ reads uniqueness only after the classifier route is exposed.
+
+Finally use nonescape, \autoref{thm:separated-completion-nonescape}. Since quotient equality, host equality, selected representatives, and ambient completion equality have no field in the accepted carrier, they cannot replace the displayed zero-distance route.
+\end{proof}
+
 \begin{theorem}[SeparatedCompletion zero-distance factorization]
 \label{thm:separatedcompletion-zero-distance-factorization}
 Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. The separated classifier route factors through the $\MetricCompletionUp$, $\SeparatedMetricUp$, $\RegSeqRatUp$, and $\RealUp$ zero-distance evidence displayed by $M,C,Z$. Thus a separated-completion equality read is a finite zero-distance handoff through the local packet, not a quotient completion, a selected representative, host equality, countable choice, or an ambient $\RealUp$ completeness assertion.
