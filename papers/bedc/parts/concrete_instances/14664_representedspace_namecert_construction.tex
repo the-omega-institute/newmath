@@ -268,6 +268,42 @@ Transport the realized read along those rows. The finite $\StreamNameUp$ windows
 Finally replay the structural evidence on the second packet. The $\Cont$ row reproduces the same inspected windows, while $\Pkg$ provenance and the local $\NameCert$ row source the transported certificate. No unrecorded realization map, quotient equality, or host representative is introduced by the transport.
 \end{proof}
 
+\begin{theorem}[RepresentedSpace StreamName representation source]
+\label{thm:representedspace-streamname-representation-source}
+For every accepted $\RepresentedSpaceUp$ carrier $R=(S,W,\rho,X,T,H,C,P,N)$, a representation-name read must open the finite $\StreamNameUp$ windows in $W$ before any target-facing inspection of $X$ is available. The source of the representation is therefore the displayed name carrier and schedule pair $S,W$, not an implicit name oracle, a quotient of names, or a selected representative.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only source rows that expose name observations are $S$ and the finite $\StreamNameUp$ schedule $W$.
+
+Apply the NameCert obligations and the realization transport theorem. Both place the representation relation $\rho$ and the target row $X$ downstream of the displayed schedule, so a target consumer cannot inspect $X$ before the finite windows have been opened.
+
+The structural rows $T,H,C,P,N$ transport, replay, source, and name the same route. Since the carrier has no coordinate for an implicit oracle, quotient name, or selected representative, the representation source is exactly the scheduled StreamName surface.
+\end{proof}
+
+\begin{theorem}[RepresentedSpace realization exactness]
+\label{thm:representedspace-realization-exactness}
+For every accepted $\RepresentedSpaceUp$ carrier $R=(S,W,\rho,X,T,H,C,P,N)$, the accepted realizations are exactly the displayed relation row $\rho$ between the scheduled source observations $S,W$ and the target carrier row $X$. A row belongs to the local realization surface precisely when it is read through $S,W,\rho,X$ and then preserved by $T,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:representedspace-representation-relation-exactness}. It identifies $\rho$ as the sole route from scheduled stream observations to the target row.
+
+The forward direction is immediate from carrier admission: an accepted realization displays $S,W$, consumes $\rho$, reaches $X$, and then carries the route through classifier transport, componentwise $\hsame$, replay, provenance, and local naming.
+
+Conversely, any row read through the displayed $S,W,\rho,X$ route and preserved by $T,H,C,P,N$ satisfies the carrier and NameCert obligations. There is no second realization coordinate in the packet, so the displayed relation is exact.
+\end{proof}
+
+\begin{theorem}[RepresentedSpace target seal ledger package]
+\label{thm:representedspace-target-seal-ledger-package}
+Every real-facing target seal exported by an accepted $\RepresentedSpaceUp$ carrier is packaged through the $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows attached to $S,W,\rho,X,T,H,C,P,N$. The package excludes quotient representatives, selected names, host real equality, choice-selected realizers, and ambient completion data.
+\end{theorem}
+\begin{proof}
+Start from the target carrier row $X$. In the real-facing case, the carrier definition and target-seal theorem route $X$ through regular rational readback, dyadic tolerance data, and the terminal Real seal.
+
+Transport and replay are then fixed by the structural rows. The componentwise $\hsame$ rows in $H$ keep the target route on the same finite comparison surface, while $C$ replays the inspected windows and $P,N$ source the package.
+
+No excluded object is a coordinate of $R$. Thus quotient representatives, selected names, host real equality, choice-selected realizers, and ambient completion data cannot be exported by the target seal ledger.
+\end{proof}
+
 \begin{closurestatus}{\RepresentedSpaceUp}
   \constructivestory{A $\RepresentedSpaceUp$ packet is generated from a displayed name carrier, finite $\StreamNameUp$ schedule, representation relation, target carrier, classifier transport, componentwise $\hsame$ rows, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}

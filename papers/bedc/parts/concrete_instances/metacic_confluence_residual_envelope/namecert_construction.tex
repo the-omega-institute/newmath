@@ -89,6 +89,24 @@ Apply the NameCert surface theorem \autoref{thm:metacic-confluence-residual-enve
 Therefore a consumer that reads only $U$ has only the neutral case. To promote the read into a beta residual branch, the consumer must also display $R,S,B,J,F,Z$ through the same transport, replay, provenance, and local naming rows. If any of these rows is absent, the carrier has no coordinate from which a beta residual branch can be exported.
 \end{proof}
 
+\begin{theorem}[MetaCIC residual envelope closed-diamond consumption boundary]
+\label{thm:metacic-confluence-residual-envelope-closed-diamond-consumption}
+Any consumer attempting to cite $\mathrm{BetaParallelDiamondClosed}$ through an accepted $\MetaCICConfluenceResidualEnvelopeUp$ packet must first display the full row inventory
+$$
+T,R,S,B,J,O,F,U,Z,H,C,P,N .
+$$
+If the substitution-boundary row $S$, checker row $B$, obstruction row $O$, fuel row $F$, or normalization-budget row $Z$ is absent, the packet exports only a conditional residual envelope and not closed confluence.
+\end{theorem}
+\begin{proof}
+Start with the NameCert surface theorem, \autoref{thm:metacic-confluence-residual-envelope-namecert-surface}. It identifies the accepted packet with the displayed rows $T,R,S,B,J,O,F,U,Z,H,C,P,N$ and says that no unconditional closed-diamond coordinate is part of the carrier.
+
+Next read the checker and obstruction rows. The checker-status determinacy theorem fixes the status exposed by $B$, while \autoref{thm:metacic-residual-envelope-obstruction-monotonicity} preserves any obstruction retained in $O$ through the later local-join, fuel, neutral-spine, budget, transport, replay, provenance, and naming rows.
+
+Finally apply neutral-spine separation. Theorem~\ref{thm:metacic-confluence-residual-envelope-neutral-spine-separation} refuses to promote a neutral-spine read into a beta residual branch unless the residual frontier, substitution boundary, checker, local join, fuel trace, and normalization budget are all displayed.
+
+Thus a consumer that omits $S$, $B$, $O$, $F$, or $Z$ has not consumed the finite residual-substitution boundary required for the endpoint. It can read only the conditional residual envelope carried by the displayed rows, and no route to $\mathrm{BetaParallelDiamondClosed}$ is exported.
+\end{proof}
+
 The Lean TasteGate site for $\MetaCICConfluenceResidualEnvelopeUp$ must provide explicit $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for this carrier surface. These instances must keep the residual windows, substitution boundary, checker status, local joins, obstruction row, fuel trace, neutral spine, normalization budget, transport, replay, provenance, and local naming distinguishable.
 
 \closureat{MetaCICConfluenceResidualEnvelopeUp}{seedStr}

@@ -113,6 +113,7 @@ Finally use the Darboux handoff. Theorem~\ref{thm:riemann-sum-darboux-handoff} i
 \label{thm:riemann-sum-obligation-closure-package}
 The $\RiemannSumUp$ packet supports obligationClosure exactly by carrier admission, mesh-tag containment, finite integrand readback, cell-width exposure, finite-sum exactness, tagged-mesh exactness, Darboux/Riemann handoff, componentwise transport, $\Cont$ replay, provenance, and ledger non-escape. For an accepted carrier $Q=(M,T,F,W,S,H,C,P,N)$, every obligation-level consumer reads only the finite route through those nine rows and imports no integrability theorem, limiting process, quotient function equality, or tag-choice principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannSumUp.RiemannSumCarrier\_obligation\_closure\_package}
 \begin{proof}
 Begin with the carrier of \autoref{def:riemann-sum-carrier}. It displays exactly $M,T,F,W,S,H,C,P,N$, so carrier admission and ledger non-escape are finite row projections rather than analytic closure assumptions.
 
@@ -121,6 +122,18 @@ Apply \autoref{thm:riemann-sum-namecert-obligations}. The mesh row, tag-containm
 Next use \autoref{thm:riemann-sum-tagged-mesh-exactness}. It identifies downstream reads when the mesh, tags, finite values, widths, and sum row agree under componentwise $\hsame$, giving the exact tagged-mesh boundary required by obligationClosure.
 
 Finally apply \autoref{thm:riemann-sum-darboux-handoff}. DarbouxIntegral and RiemannIntegral consumers receive only the finite tagged-sum side of the comparison. Since the packet has no row for integrability, all refinements, quotient function equality, or a choice-selected tag family, the obligation-closure package is exactly the listed finite surface.
+\end{proof}
+
+\begin{theorem}[Riemann sum public finite tagged-sum interface]
+\label{thm:riemann-sum-public-finite-tagged-sum-interface}
+The public export of an accepted $\RiemannSumUp$ carrier $Q=(M,T,F,W,S,H,C,P,N)$ is exactly the finite tagged-sum boundary $M,T,F,W,S,H,C,P,N$. Darboux and Riemann integral packets may consume that boundary as displayed mesh, tag-containment, integrand-read, cell-width, finite-sum, transport, replay, provenance, and local naming data, but the export contains no host limit, quotient function, measure integral, external tag selector, or completed integral value.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:riemann-sum-carrier}. Its displayed coordinates are precisely the finite tagged-sum rows $M,T,F,W,S,H,C,P,N$, with no additional public coordinate.
+
+Apply the NameCert obligations and tagged-mesh exactness, \autoref{thm:riemann-sum-namecert-obligations} and \autoref{thm:riemann-sum-tagged-mesh-exactness}. These identify the mesh, tag, value, width, and sum rows as the exact finite arithmetic route, preserved under componentwise transport and replay.
+
+Use the Darboux handoff and obligation-closure package, \autoref{thm:riemann-sum-darboux-handoff} and \autoref{thm:riemann-sum-obligation-closure-package}. A Darboux or Riemann integral consumer receives only the displayed finite tagged-sum side of its comparison, so host limits, quotient functions, measure integrals, external tag selectors, and completed integral values remain outside the public export.
 \end{proof}
 
 \begin{theorem}[Riemann sum tagless refinement ledger]
@@ -144,10 +157,10 @@ Finally use ledger non-escape and the Darboux handoff, \autoref{thm:riemann-sum-
 
 \begin{closurestatus}{\RiemannSumUp}
   \constructivestory{A $\RiemannSumUp$ packet is generated from a finite mesh row, tag-containment row, integrand-read window, cell-width ledger, finite sum row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The finite scope is closed for $\BHist$ mesh rows, $\PartitionUp$, $\DyadicMeshUp$, $\DyadicStepFunctionUp$, $\DarbouxIntegralUp$, $\RiemannIntegralUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RiemannSumUp}$ row.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public finite tagged-sum interface is closed for $\BHist$ mesh rows, $\PartitionUp$, $\DyadicMeshUp$, $\DyadicStepFunctionUp$, $\DarbouxIntegralUp$, $\RiemannIntegralUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RiemannSumUp}$ row.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host integrability, convergence over all refinements, measure-theoretic integration, quotient function equality, choice-selected tags, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, mesh-tag containment, finite readback, width exposure, finite sum exactness, tagged-mesh exactness, Darboux handoff, transport, replay, provenance, and ledger non-escape for BEDC.Derived.RiemannSumUp.}
+  \upgradepath{Bridged closure requires Lean verification and a checked standard bridge for the public finite tagged-sum interface of BEDC.Derived.RiemannSumUp.}
 \end{closurestatus}
