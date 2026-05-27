@@ -264,4 +264,21 @@ theorem FailureCertificate_gate_blocking [AskSetup] [PackageSetup]
     }
   exact ⟨cert, axisRoute, namedRoute, diagnosticRoute, replayRoute⟩
 
+theorem FailureCertificate_axis_row_separation
+    {N0 C V A B D H K P L A' B' axisGate axisGate' : BHist} :
+    Cont A B axisGate →
+      Cont A' B' axisGate' →
+        A ≠ A' →
+          FailureCertificateUp.mk N0 C V A B D H K P L ≠
+              FailureCertificateUp.mk N0 C V A' B' D H K P L ∧
+            Cont A B axisGate ∧ Cont A' B' axisGate' := by
+  -- BEDC touchpoint anchor: BHist Cont
+  intro axisRoute axisRoute' axisDistinct
+  constructor
+  · intro sameCert
+    apply axisDistinct
+    cases sameCert
+    rfl
+  · exact ⟨axisRoute, axisRoute'⟩
+
 end BEDC.Derived.FailureCertificateUp
