@@ -1,8 +1,9 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.PeanoContinuumUp.TasteGate
+namespace BEDC.Derived.PeanoContinuumUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -13,13 +14,13 @@ inductive PeanoContinuumUp : Type where
   | mk (X K S L I R H C Q N : BHist) : PeanoContinuumUp
   deriving DecidableEq
 
-def peanoContinuumEncodeBHist : BHist → RawEvent
+def peanoContinuumEncodeBHist : BHist → List BMark
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: peanoContinuumEncodeBHist h
   | BHist.e1 h => BMark.b1 :: peanoContinuumEncodeBHist h
 
-def peanoContinuumDecodeBHist : RawEvent → BHist
+def peanoContinuumDecodeBHist : List BMark → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (peanoContinuumDecodeBHist tail)
@@ -42,34 +43,32 @@ def peanoContinuumToEventFlow : PeanoContinuumUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (peanoContinuumFields x).map peanoContinuumEncodeBHist
 
-private def peanoContinuumEventAt : Nat → EventFlow → RawEvent
+private def peanoContinuumEventAtDefault : Nat → EventFlow → List BMark
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => peanoContinuumEventAt index rest
+  | Nat.succ index, _event :: rest => peanoContinuumEventAtDefault index rest
 
-def peanoContinuumFromEventFlow : EventFlow → Option PeanoContinuumUp
+def peanoContinuumFromEventFlow (ef : EventFlow) : Option PeanoContinuumUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | ef =>
-      some
-        (PeanoContinuumUp.mk
-          (peanoContinuumDecodeBHist (peanoContinuumEventAt 0 ef))
-          (peanoContinuumDecodeBHist (peanoContinuumEventAt 1 ef))
-          (peanoContinuumDecodeBHist (peanoContinuumEventAt 2 ef))
-          (peanoContinuumDecodeBHist (peanoContinuumEventAt 3 ef))
-          (peanoContinuumDecodeBHist (peanoContinuumEventAt 4 ef))
-          (peanoContinuumDecodeBHist (peanoContinuumEventAt 5 ef))
-          (peanoContinuumDecodeBHist (peanoContinuumEventAt 6 ef))
-          (peanoContinuumDecodeBHist (peanoContinuumEventAt 7 ef))
-          (peanoContinuumDecodeBHist (peanoContinuumEventAt 8 ef))
-          (peanoContinuumDecodeBHist (peanoContinuumEventAt 9 ef)))
+  some
+    (PeanoContinuumUp.mk
+      (peanoContinuumDecodeBHist (peanoContinuumEventAtDefault 0 ef))
+      (peanoContinuumDecodeBHist (peanoContinuumEventAtDefault 1 ef))
+      (peanoContinuumDecodeBHist (peanoContinuumEventAtDefault 2 ef))
+      (peanoContinuumDecodeBHist (peanoContinuumEventAtDefault 3 ef))
+      (peanoContinuumDecodeBHist (peanoContinuumEventAtDefault 4 ef))
+      (peanoContinuumDecodeBHist (peanoContinuumEventAtDefault 5 ef))
+      (peanoContinuumDecodeBHist (peanoContinuumEventAtDefault 6 ef))
+      (peanoContinuumDecodeBHist (peanoContinuumEventAtDefault 7 ef))
+      (peanoContinuumDecodeBHist (peanoContinuumEventAtDefault 8 ef))
+      (peanoContinuumDecodeBHist (peanoContinuumEventAtDefault 9 ef)))
 
-private theorem PeanoContinuumTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : PeanoContinuumUp,
-      peanoContinuumFromEventFlow (peanoContinuumToEventFlow x) = some x := by
+private theorem PeanoContinuumTasteGate_single_carrier_alignment_round_trip
+    (x : PeanoContinuumUp) :
+    peanoContinuumFromEventFlow (peanoContinuumToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk X K S L I R H C Q N =>
       change
@@ -110,7 +109,7 @@ private theorem PeanoContinuumTasteGate_single_carrier_alignment_toEventFlow_inj
     (Eq.trans (PeanoContinuumTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (PeanoContinuumTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem PeanoContinuumTasteGate_single_carrier_alignment_fields :
+private theorem PeanoContinuumTasteGate_single_carrier_alignment_fields_faithful :
     ∀ x y : PeanoContinuumUp, peanoContinuumFields x = peanoContinuumFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
@@ -139,36 +138,23 @@ instance peanoContinuumChapterTasteGate : ChapterTasteGate PeanoContinuumUp wher
 instance peanoContinuumFieldFaithful : FieldFaithful PeanoContinuumUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := peanoContinuumFields
-  field_faithful := PeanoContinuumTasteGate_single_carrier_alignment_fields
+  field_faithful := PeanoContinuumTasteGate_single_carrier_alignment_fields_faithful
 
-instance peanoContinuumNontrivial : Nontrivial PeanoContinuumUp where
+def peanoContinuumTasteGate : ChapterTasteGate PeanoContinuumUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨PeanoContinuumUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      PeanoContinuumUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
+  peanoContinuumChapterTasteGate
 
 theorem PeanoContinuumTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate PeanoContinuumUp) ∧
-      Nonempty (FieldFaithful PeanoContinuumUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial PeanoContinuumUp) ∧
-          (∀ h : BHist, peanoContinuumDecodeBHist (peanoContinuumEncodeBHist h) = h) ∧
-            (∀ x : PeanoContinuumUp,
-              peanoContinuumFromEventFlow (peanoContinuumToEventFlow x) = some x) ∧
-              (∀ x y : PeanoContinuumUp,
-                peanoContinuumToEventFlow x = peanoContinuumToEventFlow y → x = y) ∧
-                peanoContinuumEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+    (∀ h : BHist, peanoContinuumDecodeBHist (peanoContinuumEncodeBHist h) = h) ∧
+      (∀ x : PeanoContinuumUp, peanoContinuumFromEventFlow (peanoContinuumToEventFlow x) = some x) ∧
+        (∀ x y : PeanoContinuumUp,
+          peanoContinuumToEventFlow x = peanoContinuumToEventFlow y → x = y) ∧
+          peanoContinuumEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   exact
-    ⟨⟨peanoContinuumChapterTasteGate⟩, ⟨peanoContinuumFieldFaithful⟩,
-      ⟨peanoContinuumNontrivial⟩,
-      PeanoContinuumTasteGate_single_carrier_alignment_decode_encode,
+    ⟨PeanoContinuumTasteGate_single_carrier_alignment_decode_encode,
       PeanoContinuumTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq => PeanoContinuumTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
 
-end BEDC.Derived.PeanoContinuumUp.TasteGate
+end BEDC.Derived.PeanoContinuumUp
