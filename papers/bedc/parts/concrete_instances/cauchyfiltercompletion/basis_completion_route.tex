@@ -1,0 +1,44 @@
+\begin{definition}[CauchyFilterCompletion basis route]
+\label{def:cauchy-filter-completion-basis-route}
+For an accepted $\CauchyFilterCompletionUp$ carrier $F=(C,W,T,R,L,H,K,P,N)$, the \emph{basis-completion route} is the ordered completion-facing read that opens the displayed $\FilterBaseUp/\CauchyFilterUp$ basis behind $C$, then the finite $\StreamNameUp$ windows $W$, the $\DyadicRatCoreUp$ tolerance ledger $T$, the $\RegSeqRatUp$ readback $R$, the terminal $\RealUp$ seal $L$, and finally the structural rows $H,K,P,N$. The route exports no quotient filter, selected limit, host equality, countable-choice selector, detached completion object, or ambient completeness witness.
+\end{definition}
+
+\begin{theorem}[CauchyFilterCompletion basis totality]
+\label{thm:cauchy-filter-completion-basis-totality}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier. Every completion-facing consumer first reads the basis-completion route of \autoref{def:cauchy-filter-completion-basis-route}; in particular, the displayed $\FilterBaseUp/\CauchyFilterUp$ source behind $C$ is admitted before any window, tolerance, readback, seal, transport, replay, provenance, or local naming row can be inspected.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-filter-completion-filter-base-admission}. It places the $\FilterBaseUp/\CauchyFilterUp$ source behind $C$ before every downstream completion-facing read.
+
+Then read the carrier rows in the order displayed by \autoref{def:cauchy-filter-completion-basis-route}. The windows $W$, tolerance ledger $T$, readback $R$, and seal $L$ are downstream from the admitted source, and $H,K,P,N$ only transport, replay, source, and name that same route.
+
+Finally use \autoref{thm:cauchy-filter-completion-non-choice-boundary}. The refused quotient, selected-limit, host-equality, choice, detached-completion, and ambient-completeness objects have no coordinate in $F$, so every completion-facing consumer is total only through the displayed basis route.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion basis Real seal]
+\label{thm:cauchy-filter-completion-basis-real-seal}
+For an accepted $\CauchyFilterCompletionUp$ carrier $F=(C,W,T,R,L,H,K,P,N)$, any consumer that reaches the terminal $\RealUp$ seal $L$ has already traversed the displayed $\FilterBaseUp/\CauchyFilterUp$ basis behind $C$, the $\StreamNameUp$ windows $W$, the $\DyadicRatCoreUp$ tolerance ledger $T$, and the $\RegSeqRatUp$ readback $R$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cauchy-filter-completion-basis-totality}. It fixes the source and window side of every completion-facing read at $C,W,T,R$ before the seal can be inspected.
+
+Apply \autoref{thm:cauchy-filter-completion-completion-handoff}. Metric-facing and uniform-facing readers share the same finite carrier route, so neither can reach a different seal source downstream.
+
+The terminal row $L$ is therefore a seal for the displayed basis-completion route, not a selected limit or host equality proof. The structural rows $H,K,P,N$ preserve and name that same route after the seal boundary has been reached.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion basis uniform handoff]
+\label{thm:cauchy-filter-completion-basis-uniform-handoff}
+Every $\UniformCompletionUp$ consumer of an accepted $\CauchyFilterCompletionUp$ carrier receives only the basis-completion route
+$$
+C,W,T,R,L,H,K,P,N .
+$$
+The uniform handoff reads the $\FilterBaseUp/\CauchyFilterUp$ source behind $C$, finite windows, dyadic tolerances, regular readback, terminal Real seal, transport, replay, provenance, and local naming rows; it does not import quotient filters, selected limits, countable choice, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cauchy-filter-completion-completion-handoff}. It identifies every uniform-facing read with the same carrier route used by the metric-facing completion consumer.
+
+Apply \autoref{thm:cauchy-filter-completion-basis-real-seal}. The terminal Real seal exposed to the uniform handoff is downstream from the displayed source, windows, tolerance ledger, and readback row.
+
+Close with \autoref{thm:cauchy-filter-completion-non-choice-boundary}. Since the refused objects have no carrier coordinate, the uniform handoff cannot add a quotient filter, selected limit, countable-choice selector, host equality, or ambient completeness witness beyond the basis-completion route.
+\end{proof}
