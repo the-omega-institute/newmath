@@ -42,6 +42,31 @@ theorem MetaCICCriticalPathPacket_consistency_handoff [AskSetup] [PackageSetup]
     provenancePkg⟩ := packet
   exact ⟨strongNormNormalFormRoute, transportLocalName, provenancePkg⟩
 
+theorem MetaCICCriticalPathPacket_handoff_row_totality [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName handoffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathPacket strongNorm normalForm obstruction handoff dischargeSocket
+        transport route provenance localName bundle pkg →
+      hsame handoffRead handoff →
+        UnaryHistory strongNorm ∧ UnaryHistory normalForm ∧ UnaryHistory obstruction ∧
+          UnaryHistory handoffRead ∧ UnaryHistory dischargeSocket ∧ UnaryHistory transport ∧
+            UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory localName ∧
+              Cont strongNorm normalForm route ∧ Cont handoff obstruction dischargeSocket ∧
+                hsame transport localName ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro packet sameHandoffRead
+  obtain ⟨strongNormUnary, normalFormUnary, obstructionUnary, handoffUnary,
+    dischargeSocketUnary, transportUnary, routeUnary, provenanceUnary, localNameUnary,
+    strongNormNormalFormRoute, handoffObstructionSocket, transportLocalName,
+    provenancePkg⟩ := packet
+  have handoffReadUnary : UnaryHistory handoffRead :=
+    unary_transport handoffUnary (hsame_symm sameHandoffRead)
+  exact
+    ⟨strongNormUnary, normalFormUnary, obstructionUnary, handoffReadUnary,
+      dischargeSocketUnary, transportUnary, routeUnary, provenanceUnary, localNameUnary,
+      strongNormNormalFormRoute, handoffObstructionSocket, transportLocalName, provenancePkg⟩
+
 theorem MetaCICCriticalPathDischargeSocketNonescape [AskSetup] [PackageSetup]
     {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
       localName socketRead : BHist}
