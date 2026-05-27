@@ -4602,6 +4602,7 @@ import BEDC.Derived.NormUp
 import BEDC.Derived.NormalConvergenceUp.TasteGate
 import BEDC.Derived.NormalFormConsistencySealUp
 import BEDC.Derived.NormalSpaceUp.TasteGate
+import BEDC.Derived.NormalSpaceUp.TietzeExtensionRefusal
 import BEDC.Derived.NormalSpaceUp.TopologyConsumerBoundary
 import BEDC.Derived.NormedSpaceUp.TasteGate
 import BEDC.Derived.NuclearUp
@@ -6622,6 +6623,8 @@ import BEDC.Derived.ZetaContinuationApplicationUp.RootNamecertObligationSurface
 import BEDC.Derived.ZetaContinuationApplicationUp.RootNonEscape
 import BEDC.Derived.ZetaContinuationApplicationUp.RootObligationReadiness
 import BEDC.Derived.ZetaContinuationApplicationUp.RootObligations
+import BEDC.Derived.ZetaContinuationApplicationUp.RootPoleZeroConsumerReadiness
+import BEDC.Derived.ZetaContinuationApplicationUp.RootPublicExportReadiness
 import BEDC.Derived.ZetaContinuationApplicationUp.RootReplayNonescape
 import BEDC.Derived.ZetaContinuationApplicationUp.RootSourceLock
 import BEDC.Derived.ZetaContinuationApplicationUp.RowInventoryCoverage
