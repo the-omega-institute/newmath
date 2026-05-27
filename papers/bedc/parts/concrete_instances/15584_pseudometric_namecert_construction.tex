@@ -26,6 +26,45 @@ with the following displayed rows:
 The carrier has no coordinate for host equality of points, quotient completion, selected limits, countable choice, trichotomy, open-cover compactness, or a separated reflection.
 \end{definition}
 
+\begin{definition}[Pseudometric source carrier]
+\label{def:pseudometric-source-carrier}
+A $\PseudometricUp$ source carrier is a finite $\BHist$ packet
+$$
+P_s=(X,M,D,S,R,E,Z,H,C,N)
+$$
+as in \autoref{def:pseudometric-carrier}, with the additional source-side reading convention that $D$ records metric-like distance rows while permitting zero distance between classifier-distinct point rows of $X$. The rows $S,R,E$ expose the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ readback of each requested distance, while $Z$ records zero-distance evidence as a boundary row. Thus $P_s$ is a source for separated reflection and completion consumers without identifying point names, quotienting the carrier, or importing ambient separated completion.
+\end{definition}
+
+\begin{theorem}[Pseudometric source obligation surface]
+\label{thm:pseudometric-namecert-obligation-surface}
+For every accepted $\PseudometricUp$ source carrier $P_s=(X,M,D,S,R,E,Z,H,C,N)$, the NameCert obligation surface is the conjunction of source carrier admission, dyadic distance readback through $\DyadicRatCoreUp$, finite-window exposure through $\StreamNameUp$, regular rational readback through $\RegSeqRatUp$, terminal distance sealing through $\RealUp$, zero-distance non-identification through $Z$, componentwise transport through $H$, replay through $C$, and local naming through $N$. The surface explicitly refuses quotient equality, host equality, and any ambient $\SeparatedMetricUp$ or $\CompletionUp$ object not routed through these displayed rows.
+\end{theorem}
+\begin{proof}
+Start with the source carrier of \autoref{def:pseudometric-source-carrier}. The tuple contains the point carrier, distance witness, dyadic ledger, finite stream windows, regular rational readback, Real seal, zero-distance row, transport, replay, and local naming row.
+
+The distance side is read in order. A consumer may request a distance through $M$, but the observable data pass through $\DyadicRatCoreUp$ in $D$, the $\StreamNameUp$ windows in $S$, the $\RegSeqRatUp$ readback in $R$, and only then the $\RealUp$ seal in $E$.
+
+The zero-distance side is deliberately separate from identity. The row $Z$ records the boundary condition, while $X$ retains classifier-distinct point rows and $H,C,N$ merely transport, replay, and name the displayed packet.
+
+Therefore a separated metric or completion consumer receives only this source surface. Quotient equality, host equality, and ambient separated completion are absent unless a later $\SeparatedMetricUp$ or $\CompletionUp$ packet adds its own rows.
+\end{proof}
+
+\begin{theorem}[Pseudometric separated completion readback]
+\label{thm:pseudometric-separated-completion-readback}
+Every read from a $\PseudometricUp$ source carrier into a $\SeparatedMetricUp$ or $\CompletionUp$ route factors through
+$$
+X,M,D,S,R,E,Z,H,C,N .
+$$
+The $\SeparatedMetricUp$ route may consume $Z$ as zero-distance evidence only after the $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ distance rows have been displayed, and the $\CompletionUp$ route receives the same pre-separated source rows without quotient equality, host equality, selected representatives, selected limits, or ambient separated completion.
+\end{theorem}
+\begin{proof}
+Project the accepted source carrier. The only distance-read route is $M,D,S,R,E$, with $D$ supplying dyadic tolerance and triangle rows, $S$ supplying finite windows, $R$ supplying regular rational readback, and $E$ supplying the Real distance seal.
+
+For the separated route, $Z$ is read after that distance route as evidence of zero distance. It is not an equality constructor for point rows in $X$, so the separated packet must add its own reflection rows before point identity is available.
+
+For the completion route, the consumer reads the same pre-separated source rows and the structural rows $H,C,N$. Since the carrier has no quotient, representative, limit selector, host equality, or ambient separated-completion coordinate, those objects cannot be exported from the pseudometric source.
+\end{proof}
+
 \begin{theorem}[Pseudometric NameCert obligations]
 \label{thm:pseudometric-namecert-obligations}
 For every accepted $\PseudometricUp$ carrier $P=(X,M,D,S,R,E,Z,H,C,N)$, the local $\NameCert_{\PseudometricUp}$ surface consists exactly of the following obligation rows:
