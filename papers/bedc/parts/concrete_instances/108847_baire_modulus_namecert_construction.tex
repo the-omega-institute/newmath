@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\BaireModulusUp$}
+\label{ch:concrete-instances-baire-modulus-namecert}
+\origin{human}
+
+Following Brouwer, Troelstra--van Dalen, and Bishop, the $\BaireModulusUp$ packet records the finite-prefix modulus surface by which a Baire-space read exposes a bounded inspection window before any real-name or fan-functional consumer sees a value. It sits between the finite prefix discipline of \autoref{ch:concrete-instances-bairespace-namecert}, the stream-window route of \autoref{ch:concrete-instances-streamname-namecert}, the unary index surface of $\NatUp$, the dyadic and regular rational handoff of \autoref{ch:concrete-instances-dyadicratcore-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the finite modulus-extraction consumer of \autoref{ch:concrete-instances-fanfunctional-namecert}. The packet is not host sequence equality, not a selected infinite branch, not a quotient stream object, not countable choice, and not ambient $\RealUp$ completeness.
+
+\begin{definition}[Baire modulus carrier]
+\label{def:baire-modulus-carrier}
+A $\BaireModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(B,S,W,\mu,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is a $\BaireSpaceUp$ finite-prefix packet, naming the inspected stream schedule and the prefix-cylinder classifier.
+\item $S$ is the $\StreamNameUp$ schedule row from which the requested stream coordinates are read.
+\item $W$ is a unary $\NatUp$ index window listing the finite requests admitted by the modulus.
+\item $\mu$ is the displayed prefix-modulus row, asserting that every permitted consumer read is determined by the rows of $W$ and no tail outside that window.
+\item $R$ is the $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ handoff surface attached to the displayed finite prefix.
+\item $H$ records componentwise $\hsame$ transport for the Baire prefix row, stream schedule, unary index window, modulus row, and handoff surface.
+\item $C$ records displayed $\Cont$ replay of the same finite prefix requests and handoff rows.
+\item $P$ is the $\Pkg$ provenance over $\BaireModulusUp$, $\BaireSpaceUp$, $\StreamNameUp$, $\NatUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\FanFunctionalUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BaireModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,S,W,\mu,R,H,C,P,N$. There is no coordinate for host sequence equality, selected branches, quotient streams, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Baire modulus NameCert obligations]
+\label{thm:baire-modulus-namecert-obligations}
+For every accepted $\BaireModulusUp$ carrier $M=(B,S,W,\mu,R,H,C,P,N)$, the local $\NameCert_{\BaireModulusUp}$ surface consists exactly of carrier admission, prefix-modulus exactness, finite-window transport, handoff provenance, and nonescape rows. Carrier admission exposes the $\BaireSpaceUp$ packet, $\StreamNameUp$ schedule, unary $\NatUp$ window, displayed prefix modulus, $\DyadicRatCoreUp/\RegSeqRatUp/\RealUp$ handoff, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming. Prefix-modulus exactness requires every public read to factor through the listed finite window $W$ before the handoff row $R$ or a $\FanFunctionalUp$ consumer is visible. The nonescape rows exclude host sequence equality, selected branches, quotient streams, countable choice, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:baire-modulus-carrier}. The only stream data available are the $\BaireSpaceUp$ finite prefix row $B$, the $\StreamNameUp$ schedule $S$, and the unary index window $W$.
+
+The row $\mu$ is read after those rows. It binds consumer visibility to the displayed prefix window, so the $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, and $\FanFunctionalUp$ handoffs can only consume prefix data already listed in $W$.
+
+Transport and replay do not add data. The componentwise $\hsame$ rows in $H$ and the displayed $\Cont$ routes in $C$ reread the same finite requests, while $P$ and $N$ only record provenance and local naming. Since no excluded object is a carrier coordinate, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Baire modulus prefix handoff]
+\label{thm:baire-modulus-prefix-handoff}
+Every $\RegSeqRatUp$, $\RealUp$, or $\FanFunctionalUp$-facing public read of an accepted $\BaireModulusUp$ packet factors through the route
+$$
+\BaireSpaceUp \longmapsto \StreamNameUp \longmapsto \NatUp \longmapsto \BaireModulusUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp ,
+$$
+together with componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\BaireModulusUp}$ row. The handoff exports a finite prefix modulus and no host sequence equality, branch choice, quotient stream, countable-choice row, or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:baire-modulus-namecert-obligations}. Carrier admission opens the Baire prefix packet, stream schedule, unary window, and modulus row before any downstream consumer can inspect the handoff surface.
+
+Read the handoff row $R$. Its dyadic, regular-rational, and real-name coordinates are attached to the finite window selected by $W$ and bounded by $\mu$, so they cannot request a tail coordinate outside the displayed prefix.
+
+Finally pass the same finite route to the $\FanFunctionalUp$ consumer. The consumer receives the displayed modulus row, transported by $H$ and replayed by $C$, with provenance in $P$ and local naming in $N$. Because the carrier has no host equality, selected branch, quotient stream, countable-choice, or real-completeness coordinate, the public handoff has exactly the stated finite-prefix form.
+\end{proof}
+
+\closureat{BaireModulusUp}{seedStr}
+
+\begin{closurestatus}{\BaireModulusUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:baire-modulus-carrier}, \autoref{thm:baire-modulus-namecert-obligations}, and \autoref{thm:baire-modulus-prefix-handoff} seed the finite-prefix modulus route over $\BaireSpaceUp$, $\StreamNameUp$, $\NatUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\FanFunctionalUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host sequence equality, branch choice, quotient streams, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix-modulus exactness, finite-window transport, handoff provenance, and nonescape for BEDC.Derived.BaireModulusUp.}
+  \constructivestory{A $\BaireModulusUp$ packet is generated from BaireSpace finite prefix rows, StreamName schedules, unary Nat index windows, displayed prefix-modulus rows, DyadicRatCore, RegSeqRat, and Real handoff rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
