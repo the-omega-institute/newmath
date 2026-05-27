@@ -625,6 +625,46 @@ Now read the Hausdorff boundary through \autoref{thm:separatedcompletion-hausdor
 Finally apply source-comparison exhaustion, \autoref{thm:separatedcompletion-source-comparison-exhaustion}. The rows $H,R,T,P,N$ transport, replay, preserve, source, and name the displayed route, while quotient completion equality, selected representatives, choice schedules, host equality, hidden complete spaces, and ambient real completeness have no coordinate in the carrier.
 \end{proof}
 
+\begin{theorem}[SeparatedCompletion source triad obligation]
+\label{thm:separatedcompletion-obligation-source-triad}
+Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. Every accepted packet reads the source metric row $M$, dense embedding row $D$, and completion handoff row $C$ before any separated comparison through $Z$ is public. The triad is preserved through $\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and the local $\NameCert$ row, and no separated-comparison consumer can start from $Z,U,H,R,T,P,N$ alone.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:separated-completion-carrier}. The source metric, dense embedding, and completion handoff rows are exactly the coordinates $M,D,C$, and the separated classifier is a later coordinate $Z$ over the same packet.
+
+Apply dense factorization, \autoref{thm:separated-completion-dense-factorization}. It places every completion-facing read on the route $M,D\mapsto C$ before separated comparison or uniqueness data is available.
+
+Now apply zero-distance factorization, \autoref{thm:separatedcompletion-zero-distance-factorization}. The row $Z$ reads equality as displayed zero-distance evidence over the already exposed dense completion handoff, not as an independent comparison source. The structural rows $H,R,T,P,N$ only preserve, replay, source, and name this order.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion quotient-exhaustion refusal]
+\label{thm:separatedcompletion-no-quotient-exhaustion}
+For every accepted $\SeparatedCompletionUp$ carrier $S=(M,D,C,Z,U,H,R,T,P,N)$, quotient completions, selected representatives, host equality of completed points, countable choice, ambient $\RealUp$ completeness, and hidden complete spaces are absent from every public route exported by $S$. Any public completion-facing, equality-facing, uniqueness-facing, or reflector-facing read is exhausted by $M,D,C,Z,U,H,R,T,P,N$ through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Start with universal route exhaustion, \autoref{thm:separatedcompletion-universal-route-exhaustion}. It identifies the public route with the displayed source, dense embedding, completion handoff, separated classifier, uniqueness boundary, transport, replay, provenance, and local naming rows.
+
+Attach the dense source and comparison constraints. Dense factorization, \autoref{thm:separated-completion-dense-factorization}, forces $M,D,C$ to be read first, and zero-distance factorization, \autoref{thm:separatedcompletion-zero-distance-factorization}, forces equality reads through $Z$ rather than through host equality or quotient equality.
+
+Finally apply the limit-uniqueness export, \autoref{thm:separatedcompletion-limit-uniqueness-export}. It makes $U$ the whole public uniqueness boundary over $M,D,C,Z$. Since the carrier has no coordinate for quotient completions, selected representatives, choice schedules, ambient Real completeness, or hidden complete spaces, those objects are absent from every public route.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion scoped route]
+\label{thm:separatedcompletion-scoped-route}
+For every accepted $\SeparatedCompletionUp$ carrier, the scoped route is exactly
+$$
+M,D,C,Z,U,H,R,T,P,N
+$$
+read through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The route admits the source metric, dense embedding, completion handoff, separated classifier, uniqueness boundary, transport, replay, route ledger, provenance, and local naming rows, and it admits no additional completion, equality, choice, Real-completeness, or hidden-space coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier using \autoref{def:separated-completion-carrier}. This gives the displayed row inventory $M,D,C,Z,U,H,R,T,P,N$ and no further public coordinate.
+
+Use \autoref{thm:separatedcompletion-obligation-source-triad} to fix the source prefix. Every separated-completion read starts with $M,D,C$ before it can inspect $Z$ or $U$.
+
+Use quotient-exhaustion refusal, \autoref{thm:separatedcompletion-no-quotient-exhaustion}, for the negative side. It excludes quotient completions, selected representatives, host equality, countable choice, ambient Real completeness, and hidden complete spaces from the route. The remaining rows are precisely the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface already displayed by the carrier.
+\end{proof}
+
 \begin{closurestatus}{\SeparatedCompletionUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:separated-completion-carrier}, \autoref{thm:separated-completion-namecert-obligations}, \autoref{thm:separated-completion-dense-factorization}, \autoref{thm:separated-completion-uniqueness-boundary}, \autoref{thm:separatedcompletion-cauchy-equivalence-source}, \autoref{thm:separatedcompletion-zero-distance-factorization}, \autoref{thm:separatedcompletion-limit-uniqueness-export}, \autoref{thm:separatedcompletion-dense-uniqueness-interface}, \autoref{thm:separatedcompletion-source-comparison-exhaustion}, and \autoref{thm:separated-completion-nonescape} seed the general separated-completion interface over finite source metric, dense embedding, completion handoff, separated classifier, uniqueness boundary, transport, replay, provenance, and local naming rows.}
