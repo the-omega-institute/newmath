@@ -42,6 +42,22 @@ Read $S,C,E,R,F$ first. These rows provide the complete machine-facing inventory
 Finally use $H,K,P,N$. These rows transport, replay, package, and name the same inventory. Since the carrier has no further coordinate, the stated rows exhaust the local $\NameCert_{\MachineReadableAuditInterfaceUp}$ surface.
 \end{proof}
 
+\begin{theorem}[Machine-readable audit interface obligation basis]
+\label{thm:machine-readable-audit-interface-obligation-basis}
+For every accepted $\MachineReadableAuditInterfaceUp$ packet
+$$
+A=(S,C,E,R,F,H,K,P,N),
+$$
+any machine consumer that reads an audit report from $A$ must first pass through schema validation by $S$, checker verdict by $C$, export and refusal consistency across $E$ and $R$, report non-evidence control for $F$, replay and provenance through $K$ and $P$, and the local $\NameCert_{\MachineReadableAuditInterfaceUp}$ row $N$. No report read is accepted by the packet unless these obligation rows are all displayed in the same carrier.
+\end{theorem}
+\begin{proof}
+Project $A=(S,C,E,R,F,H,K,P,N)$ and apply \autoref{thm:machine-readable-audit-interface-field-coverage}. The field-coverage theorem identifies schema, checker, export, refusal, report, transport, replay, provenance, and local naming as the whole machine-readable audit surface.
+
+Read the operational rows in order. The schema row $S$ fixes the permitted field layout, the checker row $C$ supplies the local validation verdict, and the export and refusal rows $E,R$ determine whether the claimed public read is consistent with the displayed registry surface.
+
+Finally apply \autoref{thm:machine-readable-audit-interface-non-evidence-refusal} to the report row $F$. The replay row $K$, provenance row $P$, and local name $N$ preserve the same non-evidence boundary inside the carrier, so a consumer cannot read an audit report before those obligations have been displayed.
+\end{proof}
+
 \begin{theorem}[Machine-readable audit interface non-evidence refusal]
 \label{thm:machine-readable-audit-interface-non-evidence-refusal}
 If the refusal row $R$ marks the report row $F$ as non-evidence, then no accepted $\MachineReadableAuditInterfaceUp$ packet exports $F$ as theorem evidence.
