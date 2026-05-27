@@ -169,6 +169,60 @@ The approximation route is carried by $W,R,G,E$. A finite $\StreamNameUp$ window
 Componentwise transport and replay preserve the same factorization for classified packets. The provenance and local naming rows name the same finite inventory, so no quotient real equality, selected limit, ambient completeness, or independent representative can enter the route.
 \end{proof}
 
+\begin{theorem}[Farey sequence continued-fraction window]
+\label{thm:farey-sequence-continued-fraction-window}
+Every $\ContinuedFractionUp$ consumer of an accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N)
+$$
+must read the rational-source row $Q$, the finite $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $R$, the denominator-bound row $L$, and the dyadic tolerance row $T$ before any continued-fraction comparison is exported. The comparison route therefore exposes only displayed finite rational-source and window rows, with no selected tail, host real order, quotient real equality, trichotomy, countable-choice selector, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:farey-sequence-carrier}. A continued-fraction consumer can find its rational-source row only at $Q$, and that row is already tied to the displayed boundary, mediant, denominator, and tolerance data.
+
+The next visible access is the finite window row $W$. It requests only displayed entries of the Farey packet, so a comparison cannot bypass the packet through a host rational sequence.
+
+The regular readback row $R$ packages the same windowed data before any continued-fraction comparison leaves the packet. The rows $L$ and $T$ keep the denominator cap and dyadic tolerance attached to that read.
+
+Transport, replay, provenance, and naming through $H,C,P,N$ preserve this route. Since the carrier has no selected continued-fraction tail, host real order, quotient equality, trichotomy, choice selector, or ambient completeness coordinate, every exported continued-fraction comparison is confined to $Q,W,R,L,T$ and the displayed support rows.
+\end{proof}
+
+\begin{theorem}[Farey sequence Stern--Brocot mediant density route]
+\label{thm:farey-sequence-stern-brocot-mediant-density-route}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+the mediant refinement row $M$ and the Stern--Brocot handoff row $S$ jointly preserve determinant-one adjacency through $A$ and keep the denominator and tolerance data attached through $L,T$. The resulting density route is finite and exports no selected best approximant, branch selector, host real order, quotient real equality, trichotomy, choice selector, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Begin with an adjacent pair from the ordered boundary row $B$. The determinant-one check for that pair is the ledger row $A$, and the mediant row $M$ inserts only the displayed numerator-denominator sum between those two boundary entries.
+
+The Stern--Brocot handoff $S$ reads the same adjacent-pair inspection. It therefore sends the refinement to the finite tree-facing ledger without selecting an independent branch or importing a host-order comparison.
+
+The denominator and tolerance side is locked by $L,T$. Every density read that uses the mediant or the Stern--Brocot handoff keeps the displayed denominator cap and dyadic error budget attached to the same finite refinement step.
+
+The downstream rows $D,Q,W,R,G,E,H,C,P,N$ can only consume the resulting finite route. Because none of the carrier rows stores a best-approximant selector, branch selector, host real order, quotient equality, trichotomy, choice, or completeness witness, the mediant density route remains the finite one stated above.
+\end{proof}
+
+\begin{theorem}[Farey sequence Real approximation density route]
+\label{thm:farey-sequence-real-approximation-density-route}
+Every $\RealRationalApproximationUp$ density read of an accepted $\FareySequenceUp$ carrier factors through the full finite inventory
+$$
+B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N.
+$$
+In particular, the read first uses the ordered boundary, adjacency, mediant, denominator, tolerance, Stern--Brocot, and density rows $B,A,M,L,T,S,D$, then the rational-source, window, regular-readback, approximation, and Real-seal rows $Q,W,R,G,E$, and finally transport, replay, provenance, and naming through $H,C,P,N$. It has no host order, quotient Real equality, trichotomy, choice selector, selected best approximant, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with a density read aimed at $\RealRationalApproximationUp$. The Farey-side part of the carrier is $B,A,M,L,T,S,D$: the boundary row, adjacency ledger, mediant refinement, denominator cap, tolerance budget, Stern--Brocot handoff, and density handoff.
+
+The rational-source and windowed-readback part is $Q,W,R$. These rows ensure that the density read reaches rational and regular rational consumers through displayed finite windows rather than through a host rational or real sequence.
+
+The real-facing endpoint is then $G,E$. The handoff row $G$ supplies the $\RealRationalApproximationUp$ packet, and $E$ exposes only the terminal $\RealUp$ seal reached from the preceding finite rows.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same inventory. Since \autoref{def:farey-sequence-carrier} contains no coordinate for host order, quotient Real equality, trichotomy, choice, selected best approximants, or ambient completeness, every Real approximation density read factors through exactly the displayed finite rows.
+\end{proof}
+
 \begin{theorem}[Farey sequence stream-window adjacency scope]
 \label{thm:farey-sequence-stream-window-adjacency-scope}
 For every accepted $\FareySequenceUp$ carrier
