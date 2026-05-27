@@ -234,6 +234,24 @@ The acceptance and residual clauses supply the remaining public fields. Theorem~
 Finally apply the scoped kernel route. Theorem~\ref{thm:metacic-normalization-certificate-router-scoped-kernel-route} binds normalization output to the BEDC kernel-facing surface, and the carrier has no coordinate for a new MetaCIC primitive, evidence-free normalizer, host equality, quotient reduction row, or closed-term normalization read outside the displayed packet. Thus the listed rows are exactly the public export surface.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization certificate router public consumer boundary]
+\label{thm:metacic-normalization-certificate-router-public-consumer-boundary}
+Every downstream consumer of the public $\MetaCICNormalizationCertificateRouterUp$ export must preserve the ordered route
+$$
+A,K,S,P,D,U,G,L,H,C,Q,N .
+$$
+The candidate row $K$ must supply candidate, closed-candidate, or candidate-set evidence before the generator row $U$, compiler row $G$, and acceptance row $L$ are consumed. The consumer boundary therefore admits only candidate-mediated normalization evidence over the displayed packet and refuses evidence-free normalizers, host reduction equality, quotient reduction rows, and unconditional closed-term normalization outside that route.
+\end{theorem}
+\begin{proof}
+Start with route coverage and the public export. Theorem~\ref{thm:metacic-normalization-certificate-router-route-coverage} orders every accepted read through $A,K,S,P,D,U,G,L,H,C,Q,N$, and \autoref{thm:metacic-normalization-certificate-router-public-export} identifies that ordered packet as the public router surface.
+
+Next enforce candidate visibility. The residual candidate coverage theorem, \autoref{thm:metacic-normalization-certificate-router-residual-candidate-coverage}, requires $K$ to display candidate, closed-candidate, or candidate-set evidence before $P,D,U,G,L$ can contribute to a residual normalization read. Residual determinacy, \autoref{thm:metacic-normalization-certificate-router-residual-determinacy}, then keeps the chosen residual route fixed by that displayed evidence.
+
+The projection and producer rows do not create another source. Projection coverage, \autoref{thm:metacic-normalization-certificate-router-projection-coverage}, keeps $D$ as a closed-substitution consumer of candidate-mediated evidence, while the generator-compiler route, \autoref{thm:metacic-normalization-certificate-router-generator-compiler-route}, keeps $U,G,L$ inside the same packet.
+
+Finally apply the scoped kernel route, \autoref{thm:metacic-normalization-certificate-router-scoped-kernel-route}. It binds normalization output to the BEDC kernel-facing rows and leaves no carrier coordinate for evidence-free normalizers, host reduction equality, quotient reduction rows, or unconditional closed-term normalization outside $A,K,S,P,D,U,G,L,H,C,Q,N$.
+\end{proof}
+
 \falsifiablePrediction{A closed-term normalization read is refused unless candidate, closed-candidate, or candidate-set evidence is present on the displayed route.}
 
 \independenceWitness{metacicnormalizationfrontier, closedtermsubstitutionboundary, authorizedgeneratorrecursor, groundcompilerrecognizerflow, kernelinductiveacceptance: the router has simultaneous candidate-evidence, closed projection, Pi/app adequacy, and no-infinite-reduction rows not bijective with any one sibling.}
