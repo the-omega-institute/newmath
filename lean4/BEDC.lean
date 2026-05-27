@@ -1416,6 +1416,7 @@ import BEDC.Derived.CauchyProductUp.RealSealUpstreamBudgetFactorization
 import BEDC.Derived.CauchyProductUp.RealSealUpstreamDependency
 import BEDC.Derived.CauchyProductUp.RealSeriesBudgetExhaustion
 import BEDC.Derived.CauchyProductUp.RealSeriesConsumerBoundary
+import BEDC.Derived.CauchyProductUp.RealSeriesSelectorRefinementBoundary
 import BEDC.Derived.CauchyProductUp.RealSeriesSharedSelectorHandoff
 import BEDC.Derived.CauchyProductUp.RealTailAgreementHandoff
 import BEDC.Derived.CauchyProductUp.RegseqSealNonescape
@@ -2851,6 +2852,7 @@ import BEDC.Derived.DomainTruthCertificateUp.TasteGate
 import BEDC.Derived.DoubleCauchyDiagonalUp.TasteGate
 import BEDC.Derived.DoubleLimitInterchangeUp.TasteGate
 import BEDC.Derived.DoublingMetricUp.TasteGate
+import BEDC.Derived.DugundjiExtensionUp.TasteGate
 import BEDC.Derived.DyadicAbsoluteValueUp
 import BEDC.Derived.DyadicApproximationUp
 import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
@@ -3588,6 +3590,7 @@ import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GramSchmidtUp.TasteGate
 import BEDC.Derived.GraphUp
 import BEDC.Derived.GromovHausdorffUp.NameCertObligations
+import BEDC.Derived.GromovHausdorffUp.TasteGate
 import BEDC.Derived.GronwallInequalityUp.TasteGate
 import BEDC.Derived.GroundCompilerAuditMapUp
 import BEDC.Derived.GroundCompilerAuditMapUp.TasteGate
@@ -4912,6 +4915,7 @@ import BEDC.Derived.PositiveRealRadiusScaleUp.TasteGate
 import BEDC.Derived.PositiveRealUp.TasteGate
 import BEDC.Derived.PreSheafUp
 import BEDC.Derived.PrecompactCompletionUp.TasteGate
+import BEDC.Derived.PrecompactMetricUp
 import BEDC.Derived.PredictiveDescentUp.StabilityScope
 import BEDC.Derived.PredictiveDescentUp.TasteGate
 import BEDC.Derived.PrefixObserverUp
@@ -6346,6 +6350,7 @@ import BEDC.Derived.TypedGapSocketTaxonomyUp.TasteGate
 import BEDC.Derived.TypedReductionNormalFormUp
 import BEDC.Derived.TypedSupplySocketUp.TasteGate
 import BEDC.Derived.TypingJudgmentClassifierUp.TasteGate
+import BEDC.Derived.UltrametricSpaceUp
 import BEDC.Derived.UnaryContMonoidUp
 import BEDC.Derived.UnaryContMonoidUp.CategoryRootReadiness
 import BEDC.Derived.UnaryContMonoidUp.KernelCategoryConsumerBoundary
