@@ -67,6 +67,20 @@ Completion and located-distance consumers follow a different boundary. They may 
 Because quotient completion, host equality, selected limits, countable-choice selectors, trichotomy, and open-cover compactness are absent from the carrier, no such datum can be exported along the completion or located-metric route.
 \end{proof}
 
+\begin{theorem}[Pseudometric quotient reflection route]
+\label{thm:pseudometric-quotient-reflection-route}
+Let $P=(X,M,D,S,R,E,Z,H,C,N)$ be an accepted $\PseudometricUp$ packet. Every consumer that tries to turn zero-distance evidence from $P$ into point identity must factor first through the displayed $\SeparatedMetricUp$ reflection boundary and then through the existing $\MetricUp$ and $\CompletionUp$ consumers. The route preserves the rows $X,M,D,S,R,E,Z,H,C,N$ and exports no quotient completion, host equality, selected limit, countable choice, trichotomy, or open-cover compactness from the pseudometric packet itself.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:pseudometric-carrier}. Zero-distance evidence is stored in $Z$ after the distance route through $S,R,D,E$, while point admission remains in $X$.
+
+Apply \autoref{thm:pseudometric-separated-reflection-handoff}. It forces any request for point identity from zero distance through the separated reflection boundary named by $\SeparatedMetricUp$ before metric or completion consumers can read the result.
+
+Use \autoref{thm:pseudometric-zero-distance-boundary-obligation}. The zero-distance read is a boundary ledger read through $Z,H,C,N$, so it preserves the displayed pseudometric rows rather than identifying points inside $P$.
+
+Finally apply \autoref{thm:pseudometric-completion-nonescape-obligation}. Completion-facing consumers receive only $X,M,D,S,R,E,Z,H,C,N$ unless a later separated-metric boundary supplies stronger identity data, and the excluded quotient, choice, trichotomy, compactness, and host-equality objects are absent from the packet.
+\end{proof}
+
 \begin{theorem}[Pseudometric zero-distance boundary obligation]
 \label{thm:pseudometric-zero-distance-boundary-obligation}
 Let $P=(X,M,D,S,R,E,Z,H,C,N)$ be an accepted $\PseudometricUp$ packet. Every read that treats zero distance as available evidence must pass through the displayed rows $Z,H,C,N$ after the distance request has been routed through $S,R,D,E$. The row $Z$ records a boundary condition on the displayed distance ledger, $H$ records componentwise $\hsame$ transport, $C$ records replay through the same rows, and $N$ records the local $\NameCert$ provenance. No such read identifies point rows in $X$ or exports host equality from zero distance.
@@ -185,6 +199,42 @@ Apply \autoref{thm:pseudometric-distance-source}. It makes the displayed distanc
 Apply \autoref{thm:pseudometric-kernel-route}. It keeps zero-distance and triangle evidence in the displayed ledger until the separated reflection and Real sealing dependencies are read.
 
 The exclusions follow from \autoref{thm:pseudometric-completion-nonescape-obligation}. The packet has no coordinate for separatedness, quotient completion, selected representatives, or completion uniqueness, so downstream consumers receive a dependency-ready surface without those stronger claims.
+\end{proof}
+
+\begin{theorem}[Pseudometric dependency unblock surface]
+\label{thm:pseudometric-dependency-unblock-surface}
+Let $P=(X,M,D,S,R,E,Z,H,C,N)$ be an accepted $\PseudometricUp$ packet. The rows $X,M,D,S,R,E,Z,H,C,N$ are enough for dependency readiness of separated-completion and located-metric consumers: every such consumer can read point admission, distance source, dyadic tolerance and triangle evidence, finite windows, regular-rational readback, the Real distance seal, zero-distance boundary data, componentwise transport, replay, provenance, and local naming without receiving separated identity, quotient completion, selected representatives, or completion uniqueness.
+\end{theorem}
+\begin{proof}
+First project \autoref{def:pseudometric-carrier}. It displays exactly $X,M,D,S,R,E,Z,H,C,N$ as the point, distance, tolerance, window, readback, Real-seal, zero-distance, transport, replay, provenance, and naming surface.
+
+Apply \autoref{thm:pseudometric-deps-ready-package}. That theorem identifies the same rows as the dependency-ready package available to separated-completion and represented-space consumers.
+
+Finally apply \autoref{thm:pseudometric-completion-nonescape-obligation}. It excludes separatedness, quotient completion, selected representatives, and completion uniqueness from the exported packet unless a later consumer routes a stronger claim through its own named boundary.
+\end{proof}
+
+\begin{theorem}[Pseudometric separated-completion source]
+\label{thm:pseudometric-separated-completion-source}
+Let $P=(X,M,D,S,R,E,Z,H,C,N)$ be an accepted $\PseudometricUp$ packet. Any separated-completion consumer that treats zero distance as point identity must route that identity claim through $\SeparatedMetricUp$ after reading the displayed zero-distance boundary $Z$. The pseudometric packet itself supplies only the pre-separated source rows $X,M,D,S,R,E,Z,H,C,N$ and exports no host equality, quotient completion class, selected representative, or separated completion point.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:pseudometric-zero-distance-boundary-obligation}. It makes zero-distance evidence a read of $Z,H,C,N$ after the distance route has passed through $S,R,D,E$.
+
+Next use \autoref{thm:pseudometric-separated-reflection-handoff}. It states that point identity from zero distance is not answered inside the pseudometric packet and must pass through the separated reflection boundary named by $\SeparatedMetricUp$.
+
+The completion-side exclusions then follow from \autoref{thm:pseudometric-completion-nonescape-obligation}. Since host equality, quotient completion classes, selected representatives, and separated completion points are absent from the carrier, the separated-completion consumer receives only the displayed pre-separated source rows.
+\end{proof}
+
+\begin{theorem}[Pseudometric located-metric readiness]
+\label{thm:pseudometric-located-metric-readiness}
+Let $P=(X,M,D,S,R,E,Z,H,C,N)$ be an accepted $\PseudometricUp$ packet. Every located-metric consumer of $P$ reads only the displayed distance source $M$, the dyadic tolerance ledger $D$, the finite window row $S$, the regular-rational readback $R$, the terminal $\RealUp$ distance seal $E$, and the structural rows $H,C,N$. It receives no detached host distance, ambient metric law, trichotomy split, open-cover compactness datum, quotient completion, or separated point identity from the pseudometric packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:pseudometric-distance-source}. It names $M$ as the only source for pseudometric distance requests and routes every such request through $S,R,D,E$ before the structural rows are read.
+
+Use \autoref{thm:pseudometric-distance-readback-obligation}. The readback route exposes finite windows, regular rational readback, dyadic tolerance and triangle data, and the terminal $\RealUp$ seal as displayed rows rather than as detached host distance data.
+
+Finally apply \autoref{thm:pseudometric-ledger-nonescape-obligation}. The located-metric consumer receives only the displayed ledger rows and cannot extract ambient metric laws, trichotomy, open-cover compactness, quotient completion, or separated point identity from the pseudometric packet.
 \end{proof}
 
 \begin{closurestatus}{\PseudometricUp}
