@@ -213,6 +213,30 @@ Finally apply \autoref{thm:cauchysequence-space-two-stage-window-composition}. T
 \end{proof}
 \leanchecked{BEDC.Derived.CauchySequenceSpaceUp.CauchySequenceSpaceCarrier\_shared\_window\_completion\_consumer}
 
+\begin{theorem}[CauchySequenceSpace shared-window determinacy]
+\label{thm:cauchysequence-space-shared-window-determinacy}
+Let
+$$
+S=(F,\sigma,W,\epsilon,Q,H,C,P,N)
+$$
+and
+$$
+S'=(F',\sigma',W',\epsilon',Q',H',C',P',N')
+$$
+be accepted $\CauchySequenceSpaceUp$ packets. Suppose they display the same regular-family row $F$, stream schedule $\sigma$, common-window ledger $W$, dyadic tolerance row $\epsilon$, completion handoff $Q$, componentwise transport $H$, continuation route $C$, package provenance $P$, and local naming row $N$, and suppose their common-window classifiers agree on that displayed window. Then the two packets determine the same completion-facing consumer route before any $\RealUp$ seal is read.
+
+The determined route is the route through $F,\sigma,W,\epsilon,Q,H,C,P,N$. No quotient stream, selected limit, host equality, or ambient completeness coordinate can distinguish the two completion-facing reads.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{def:cauchysequence-space-carrier-surface}. Under the displayed row equalities, the only available completion-facing coordinates in either packet are the same $F,\sigma,W,\epsilon,Q,H,C,P,N$ rows.
+
+Transport the comparison through \autoref{thm:cauchysequence-space-common-window-classifier-transport}. Since the common-window classifiers agree, the accepted packets read the same finite window before any completion handoff is inspected.
+
+Cofinal schedule stability and dyadic tolerance exactness now fix the routed window. Apply \autoref{thm:cauchysequence-space-cofinal-schedule-stability} to the common $\sigma,W$ rows and \autoref{thm:cauchysequence-space-dyadic-tolerance-ledger-exactness} to the common $\epsilon$ row.
+
+Finally use \autoref{thm:cauchysequence-space-completion-handoff-stability} and \autoref{thm:cauchysequence-space-shared-window-completion-consumer}. The completion handoff remains the displayed $Q$ row, and the shared-window consumer has no path through quotient streams, selected limits, host equality, or ambient completeness. The two completion-facing routes are therefore the same before any $\RealUp$ seal is read.
+\end{proof}
+
 \begin{theorem}[CauchySequenceSpace completion handoff stability]
 \label{thm:cauchysequence-space-completion-handoff-stability}
 Let $S=(F,\sigma,W,\epsilon,Q,H,C,P,N)$ be an accepted $\CauchySequenceSpaceUp$ packet. The completion handoff row $Q$ is invariant under the same displayed $\hsame$ transports $H$ and $\Cont$ routes $C$ that preserve the regular-family row $F$, schedule $\sigma$, common-window ledger $W$, and dyadic tolerance row $\epsilon$. A transported handoff therefore names the same completion-facing finite packet and not a quotient-name comparison, selected limit, host real equality, or ambient completeness assertion.

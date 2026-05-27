@@ -87,6 +87,44 @@ Apply the obligation surface of \autoref{thm:directed-set-namecert-obligations}.
 \end{proof}
 \leanchecked{BEDC.Derived.DirectedSetUp.DirectedSetPacket\_finite\_upper\_window\_stability}
 
+\begin{theorem}[DirectedSet carrier obligation]
+\label{thm:directedset-carrier-obligation}
+For every accepted $\DirectedSetUp$ carrier $D=(I,\preceq,W,U,H,C,P,N)$, the carrier obligation is the visible finite row family consisting of the index row $I$, the displayed preorder comparison row $\preceq$, the finite-window row $W$, and the upper-window witness row $U$, together with structural rows $H,C,P,N$. No carrier obligation may be discharged by quotient indices, a total-order completion, cofinal choice, or infinite upper-bound selection.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:directed-set-carrier}. The rows $I,\preceq,W,U,H,C,P,N$ are exactly the displayed coordinates of the accepted packet.
+
+Apply the NameCert obligation theorem \autoref{thm:directed-set-namecert-obligations}. Its carrier admission, preorder readability, finite-window coverage, and upper-window witnessing clauses identify the same visible rows.
+
+The non-escape clause excludes the forbidden objects. Since none of them appears as a carrier coordinate, no downstream consumer can use one to discharge the carrier obligation.
+\end{proof}
+
+\begin{theorem}[DirectedSet preorder stability obligation]
+\label{thm:directedset-preorder-stability-obligation}
+Let $D=(I,\preceq,W,U,H,C,P,N)$ be an accepted $\DirectedSetUp$ carrier. Every displayed preorder comparison exported from $D$ remains stable under the componentwise $\hsame$ transport row $H$ and the displayed $\Cont$ replay row $C$. The stable comparison is still a row of $\preceq$ on addresses from $I$, not a host preorder, quotient relation, total-order completion, or hidden comparison outside the packet.
+\end{theorem}
+\begin{proof}
+Read the comparison row through \autoref{def:directed-set-carrier}. The only preorder comparisons available to a consumer are the displayed entries of $\preceq$ between addresses named by $I$.
+
+Use the transport and continuation stability clause of \autoref{thm:directed-set-namecert-obligations}. It requires $H$ and $C$ to preserve the same finite windows, comparisons, and upper-witness data under replay.
+
+The CauchyNet handoff theorem \autoref{thm:directed-set-cauchynet-index-handoff} then sends net consumers through the same row family. Thus a transported or replayed comparison cannot be replaced by a quotient relation, a host preorder, or a total-order completion.
+\end{proof}
+\leanchecked{BEDC.Derived.DirectedSetUp.DirectedSetCarrier\_preorder\_stability\_obligation}
+
+\begin{theorem}[DirectedSet cofinal merge obligation]
+\label{thm:directedset-cofinal-merge-obligation}
+Let $D=(I,\preceq,W,U,H,C,P,N)$ be an accepted $\DirectedSetUp$ carrier, and let two retained finite windows in $W$ have displayed upper witnesses named by $U$. The cofinal merge obligation for their union is discharged only by naming that union as a finite window in $W$ and reading its displayed upper witness through $U$. The resulting merge remains a finite-window witness and is not a cofinal sequence, infinite upper-bound selector, quotient index, or choice function.
+\end{theorem}
+\begin{proof}
+Begin with the two retained windows. By \autoref{thm:directed-set-namecert-obligations}, each window is first named in $W$ and each upper witness is read through $U$ using displayed comparisons from $\preceq$.
+
+For the merged request, use the same finite-window coverage clause on the union window. Once that union is displayed in $W$, the upper-window witnessing clause supplies its named upper witness in $U$.
+
+Apply finite upper-window stability, \autoref{thm:directed-set-finite-upper-window-stability}, to retained subledgers. It keeps the merged witness inside the same finite route and prevents the merge from becoming a cofinal sequence, quotient index, infinite selector, or choice function.
+\end{proof}
+\leanchecked{BEDC.Derived.DirectedSetUp.DirectedSetCarrier\_cofinal\_merge\_obligation}
+
 \begin{theorem}[DirectedSet upper-window exhaustion]
 \label{thm:directed-set-upper-window-exhaustion}
 Let $D=(I,\preceq,W,U,H,C,P,N)$ be an accepted $\DirectedSetUp$ carrier. Any $\CauchyNetUp$, $\CauchyNetLimitUp$, or $\MooreSmithConvergenceUp$ consumer that reads a finite directed-window request from $D$ factors through the displayed rows
@@ -104,6 +142,7 @@ Now use \autoref{thm:directed-set-cauchynet-index-handoff} for $\CauchyNetUp$ an
 
 Finally, $P$ and $N$ source and name only that route. Since the carrier and the cited obligations contain no row for a cofinal sequence, quotient index, total-order completion, infinite upper-bound selector, or choice function, no downstream consumer can extract one from the finite directed-window request.
 \end{proof}
+\leanchecked{BEDC.Derived.DirectedSetUp.DirectedSetPacket\_upper\_window\_exhaustion}
 
 \begin{theorem}[DirectedSet obligation closure package]
 \label{thm:directed-set-obligation-closure-package}
@@ -123,15 +162,15 @@ Use the CauchyNet index handoff, \autoref{thm:directed-set-cauchynet-index-hando
 Use finite upper-window stability and upper-window exhaustion, \autoref{thm:directed-set-finite-upper-window-stability} and \autoref{thm:directed-set-upper-window-exhaustion}. These keep retained subledgers inside the same finite route and show that Moore--Smith and Cauchy-net consumers cannot extract cofinal selectors, quotient indices, total-order completions, infinite upper-bound selection, or choice functions.
 \end{proof}
 
-\closureat{DirectedSetUp}{seedStr}
+\closureat{DirectedSetUp}{scopedStr}
 
 \begin{closurestatus}{\DirectedSetUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:directed-set-carrier}, \autoref{thm:directed-set-namecert-obligations}, \autoref{thm:directed-set-cauchynet-index-handoff}, and \autoref{thm:directed-set-finite-upper-window-stability} seed the finite directed-index substrate consumed by Cauchy-net, Cauchy-net-limit, and Moore--Smith convergence packets.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:directed-set-carrier}, the NameCert obligations, CauchyNet handoff, finite-window stability, \autoref{thm:directed-set-upper-window-exhaustion}, and \autoref{thm:directed-set-obligation-closure-package} bind the scoped BEDC primitive boundary for the finite directed-index substrate consumed by Cauchy-net, Cauchy-net-limit, and Moore--Smith convergence packets.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.DirectedSetUp.DirectedSetCarrier\_fields\_faithful}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient index objects, selected cofinal sequences, total-order completions, infinite choice principles, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, preorder readability, finite-window coverage, upper-window witnessing, transport replay, and retained-subledger stability for the same packet.}
+  \upgradepath{Public closure requires bridge-ready standard-schema rows and public consumer determinacy for the same directed-index packet.}
   \constructivestory{A $\DirectedSetUp$ packet is generated from a finite index row, displayed preorder comparisons, finite requested windows, common upper-window witnesses, componentwise $\hsame$ transports, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
 \end{closurestatus}

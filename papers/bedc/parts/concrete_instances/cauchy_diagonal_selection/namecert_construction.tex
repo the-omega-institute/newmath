@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\CauchyDiagonalSelectionUp$}
+\label{ch:concrete-instances-cauchy-diagonal-selection-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive diagonal arguments for Cauchy families, the $\CauchyDiagonalSelectionUp$ packet records the finite row that chooses a diagonal observation window from displayed regular-Cauchy data before any Real or Completion consumer reads a seal. It sits after the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the Bishop Cauchy-modulus extraction route of \autoref{ch:concrete-instances-bishop-cauchy-modulus-extraction-namecert}. The packet supplies a named L10 diagonal-selection handoff for Real and Completion routes; it does not assert a host sequence selector, quotient stream equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy diagonal selection carrier]
+\label{def:cauchy-diagonal-selection-carrier}
+A $\CauchyDiagonalSelectionUp$ carrier is a finite $\BHist$ packet
+$$
+D=(S,R,M,W,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ source schedule, exposing the finite family of observation windows available to the diagonal request.
+\item $R$ is the $\RegSeqRatUp$ regular-rational readback row attached to the displayed stream windows.
+\item $M$ is the Cauchy-modulus extraction row, read through $\BishopCauchyModulusExtractionUp$ as the finite threshold discipline for the request.
+\item $W$ is the diagonal-window row, selecting the single displayed window whose source index and precision index have both passed through $S,R,M$.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the comparison between the requested tolerance, the extracted threshold, and the chosen diagonal window.
+\item $E$ is the terminal $\RealUp$ seal reached only after the regular readback, modulus row, diagonal window, and dyadic ledger have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the stream schedule, regular readback, modulus extraction, diagonal window, tolerance ledger, Real seal, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the tolerance request through $S,R,M,W,T,E$ and then through the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\CauchyDiagonalSelectionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BishopCauchyModulusExtractionUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyDiagonalSelectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,M,W,T,E,H,C,P,N$. It has no coordinate for an external diagonal selector, quotient stream equality, hidden subsequence choice, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy diagonal selection NameCert obligations]
+\label{thm:cauchy-diagonal-selection-namecert-obligations}
+For every accepted $\CauchyDiagonalSelectionUp$ carrier $D=(S,R,M,W,T,E,H,C,P,N)$, the local $\NameCert_{\CauchyDiagonalSelectionUp}$ surface consists exactly of five finite obligations:
+\begin{enumerate}
+\item diagonal-window selection, requiring the selected row $W$ to display both the stream source window from $S$ and the regular readback from $R$ before the diagonal observation is admitted;
+\item regular-Cauchy preservation, requiring $R$ and $M$ to keep the readback inside the same regular Cauchy family under the extracted threshold;
+\item dyadic tolerance control, requiring $T$ to compare the requested tolerance with the modulus threshold and the selected diagonal window;
+\item Real-seal handoff, requiring $E$ to be downstream of $S,R,M,W,T$ and to export only the displayed diagonal observation;
+\item ledger non-escape, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed packet, with no external selector, quotient stream equality, hidden subsequence choice, countable choice, trichotomy, host equality, or ambient completeness coordinate.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-diagonal-selection-carrier}. The row $W$ is meaningful only after the stream schedule and regular readback rows have been displayed, so the diagonal observation has no source outside $S$ and $R$.
+
+The modulus row $M$ supplies the finite threshold discipline consumed by the regular-Cauchy read. Thus the readback remains inside the same displayed family rather than becoming a selected subsequence or a host-level limit.
+
+The tolerance ledger $T$ checks the requested dyadic scale against the extracted threshold and the chosen diagonal window. Only after that finite comparison can the Real-facing row $E$ be consumed.
+
+Finally, $H,C,P,N$ preserve and name the same coordinates. Since none of the refused objects appears in the carrier, the five displayed obligations exhaust the local certificate surface.
+\end{proof}
+
+\closureat{CauchyDiagonalSelectionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyDiagonalSelectionUp}
+  \constructivestory{A $\CauchyDiagonalSelectionUp$ packet is generated from StreamName source windows, RegSeqRat regular readback, a BishopCauchyModulusExtraction threshold row, a selected diagonal window, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-diagonal-selection-carrier} and \autoref{thm:cauchy-diagonal-selection-namecert-obligations} seed the finite diagonal-selection route over StreamName, RegSeqRat, Cauchy-modulus extraction, DyadicRatCore, and RealUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected subsequences, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked diagonal-window selection, regular-Cauchy preservation, dyadic tolerance control, Real-seal handoff, ledger non-escape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyDiagonalSelectionUp.}
+\end{closurestatus}

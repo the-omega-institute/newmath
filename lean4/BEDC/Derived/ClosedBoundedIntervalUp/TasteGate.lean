@@ -182,4 +182,140 @@ theorem ClosedBoundedIntervalTasteGate_single_carrier_alignment :
       (fun _ _ h => ClosedBoundedIntervalTasteGate_single_carrier_alignment_injective h),
       rfl⟩
 
+theorem ClosedBoundedInterval_fromEventFlow_exactness :
+    (∀ raw : List BMark,
+      closedBoundedIntervalEncodeBHist (closedBoundedIntervalDecodeBHist raw) = raw) ∧
+      (∀ {flow : EventFlow} {x : ClosedBoundedIntervalUp},
+        closedBoundedIntervalFromEventFlow flow = some x →
+          closedBoundedIntervalToEventFlow x = flow) := by
+  -- BEDC touchpoint anchor: BHist BMark EventFlow
+  have hraw :
+      ∀ raw : List BMark,
+        closedBoundedIntervalEncodeBHist (closedBoundedIntervalDecodeBHist raw) = raw := by
+    intro raw
+    induction raw with
+    | nil => rfl
+    | cons head tail ih =>
+        cases head
+        · change BMark.b0 :: closedBoundedIntervalEncodeBHist
+              (closedBoundedIntervalDecodeBHist tail) = BMark.b0 :: tail
+          exact congrArg (fun row => BMark.b0 :: row) ih
+        · change BMark.b1 :: closedBoundedIntervalEncodeBHist
+              (closedBoundedIntervalDecodeBHist tail) = BMark.b1 :: tail
+          exact congrArg (fun row => BMark.b1 :: row) ih
+  constructor
+  · exact hraw
+  · intro flow x h
+    cases flow with
+    | nil =>
+        change none = some x at h
+        cases h
+    | cons L restL =>
+        cases restL with
+        | nil =>
+            change none = some x at h
+            cases h
+        | cons U restU =>
+            cases restU with
+            | nil =>
+                change none = some x at h
+                cases h
+            | cons O restO =>
+                cases restO with
+                | nil =>
+                    change none = some x at h
+                    cases h
+                | cons Q restQ =>
+                    cases restQ with
+                    | nil =>
+                        change none = some x at h
+                        cases h
+                    | cons D restD =>
+                        cases restD with
+                        | nil =>
+                            change none = some x at h
+                            cases h
+                        | cons S restS =>
+                            cases restS with
+                            | nil =>
+                                change none = some x at h
+                                cases h
+                            | cons R restR =>
+                                cases restR with
+                                | nil =>
+                                    change none = some x at h
+                                    cases h
+                                | cons E restE =>
+                                    cases restE with
+                                    | nil =>
+                                        change none = some x at h
+                                        cases h
+                                    | cons H restH =>
+                                        cases restH with
+                                        | nil =>
+                                            change none = some x at h
+                                            cases h
+                                        | cons C restC =>
+                                            cases restC with
+                                            | nil =>
+                                                change none = some x at h
+                                                cases h
+                                            | cons P restP =>
+                                                cases restP with
+                                                | nil =>
+                                                    change none = some x at h
+                                                    cases h
+                                                | cons N restN =>
+                                                    cases restN with
+                                                    | nil =>
+                                                        change
+                                                          some
+                                                            (ClosedBoundedIntervalUp.mk
+                                                              (closedBoundedIntervalDecodeBHist L)
+                                                              (closedBoundedIntervalDecodeBHist U)
+                                                              (closedBoundedIntervalDecodeBHist O)
+                                                              (closedBoundedIntervalDecodeBHist Q)
+                                                              (closedBoundedIntervalDecodeBHist D)
+                                                              (closedBoundedIntervalDecodeBHist S)
+                                                              (closedBoundedIntervalDecodeBHist R)
+                                                              (closedBoundedIntervalDecodeBHist E)
+                                                              (closedBoundedIntervalDecodeBHist H)
+                                                              (closedBoundedIntervalDecodeBHist C)
+                                                              (closedBoundedIntervalDecodeBHist P)
+                                                              (closedBoundedIntervalDecodeBHist N)) =
+                                                            some x at h
+                                                        cases h
+                                                        change
+                                                          [closedBoundedIntervalEncodeBHist
+                                                              (closedBoundedIntervalDecodeBHist L),
+                                                            closedBoundedIntervalEncodeBHist
+                                                              (closedBoundedIntervalDecodeBHist U),
+                                                            closedBoundedIntervalEncodeBHist
+                                                              (closedBoundedIntervalDecodeBHist O),
+                                                            closedBoundedIntervalEncodeBHist
+                                                              (closedBoundedIntervalDecodeBHist Q),
+                                                            closedBoundedIntervalEncodeBHist
+                                                              (closedBoundedIntervalDecodeBHist D),
+                                                            closedBoundedIntervalEncodeBHist
+                                                              (closedBoundedIntervalDecodeBHist S),
+                                                            closedBoundedIntervalEncodeBHist
+                                                              (closedBoundedIntervalDecodeBHist R),
+                                                            closedBoundedIntervalEncodeBHist
+                                                              (closedBoundedIntervalDecodeBHist E),
+                                                            closedBoundedIntervalEncodeBHist
+                                                              (closedBoundedIntervalDecodeBHist H),
+                                                            closedBoundedIntervalEncodeBHist
+                                                              (closedBoundedIntervalDecodeBHist C),
+                                                            closedBoundedIntervalEncodeBHist
+                                                              (closedBoundedIntervalDecodeBHist P),
+                                                            closedBoundedIntervalEncodeBHist
+                                                              (closedBoundedIntervalDecodeBHist N)] =
+                                                          [L, U, O, Q, D, S, R, E, H, C, P, N]
+                                                        rw [hraw L, hraw U, hraw O, hraw Q,
+                                                          hraw D, hraw S, hraw R, hraw E,
+                                                          hraw H, hraw C, hraw P, hraw N]
+                                                    | cons _ _ =>
+                                                        change none = some x at h
+                                                        cases h
+
 end BEDC.Derived.ClosedBoundedIntervalUp

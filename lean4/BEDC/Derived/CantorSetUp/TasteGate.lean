@@ -1,11 +1,17 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CantorSetUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -184,5 +190,52 @@ theorem CantorSetTasteGate_single_carrier_alignment :
   constructor
   · exact CantorSetTasteGate_single_carrier_alignment_decode_encode
   · rfl
+
+theorem CantorSetFinitePrefixInduction {T G I D R : BHist} :
+    UnaryHistory T →
+      UnaryHistory G →
+        Cont T G I →
+          Cont I D R →
+            SemanticNameCert
+                (fun row : BHist => hsame row I ∧ UnaryHistory row)
+                (fun row : BHist => hsame row T ∨ hsame row G ∨ hsame row I ∨ hsame row D)
+                (fun row : BHist => UnaryHistory row ∧ Cont T G I ∧ Cont I D R)
+                hsame ∧
+              UnaryHistory I := by
+  -- BEDC touchpoint anchor: BHist Cont SemanticNameCert hsame UnaryHistory
+  intro tUnary gUnary tGI iDR
+  have iUnary : UnaryHistory I :=
+    unary_cont_closed tUnary gUnary tGI
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row I ∧ UnaryHistory row)
+          (fun row : BHist => hsame row T ∨ hsame row G ∨ hsame row I ∨ hsame row D)
+          (fun row : BHist => UnaryHistory row ∧ Cont T G I ∧ Cont I D R)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro I ⟨hsame_refl I, iUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inl source.left))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, tGI, iDR⟩
+  }
+  exact ⟨cert, iUnary⟩
 
 end BEDC.Derived.CantorSetUp

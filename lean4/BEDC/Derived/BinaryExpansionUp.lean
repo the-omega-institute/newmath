@@ -413,4 +413,92 @@ theorem BinaryExpansionPacket_prefix_refinement_real_seal_determinacy [AskSetup]
     ⟨sameApproximation, sameApproximation', leftSealUnary, rightSealUnary, leftSealRoute,
       rightSealRoute, leftSealPkg, rightSealPkg⟩
 
+theorem BinaryExpansionPacket_cauchy_modulus_handoff [AskSetup] [PackageSetup]
+    {digits windows approximation regular realSeal transport route provenance nameCert
+      modulusRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinaryExpansionPacket digits windows approximation regular realSeal transport route provenance
+        nameCert bundle pkg ->
+      Cont windows approximation modulusRead ->
+        Cont modulusRead realSeal sealRead ->
+          PkgSig bundle modulusRead pkg ->
+            PkgSig bundle sealRead pkg ->
+              UnaryHistory digits ∧ UnaryHistory windows ∧ UnaryHistory approximation ∧
+                UnaryHistory regular ∧ UnaryHistory realSeal ∧ UnaryHistory modulusRead ∧
+                  UnaryHistory sealRead ∧ Cont windows digits approximation ∧
+                    Cont approximation regular realSeal ∧
+                      Cont windows approximation modulusRead ∧
+                        Cont modulusRead realSeal sealRead ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle modulusRead pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet modulusRoute sealRoute modulusPkg sealPkg
+  obtain ⟨digitsUnary, windowsUnary, approximationUnary, regularUnary, realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary, windowsDigits,
+    approximationRegular, _transportRoute, provenancePkg⟩ := packet
+  have modulusUnary : UnaryHistory modulusRead :=
+    unary_cont_closed windowsUnary approximationUnary modulusRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed modulusUnary realSealUnary sealRoute
+  exact
+    ⟨digitsUnary, windowsUnary, approximationUnary, regularUnary, realSealUnary,
+      modulusUnary, sealUnary, windowsDigits, approximationRegular, modulusRoute, sealRoute,
+      provenancePkg, modulusPkg, sealPkg⟩
+
+theorem BinaryExpansionPacket_endpoint_ambiguity_ledger_boundary [AskSetup] [PackageSetup]
+    {digits windows approximation regular realSeal transport route provenance nameCert
+      conventionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinaryExpansionPacket digits windows approximation regular realSeal transport route provenance
+        nameCert bundle pkg ->
+      PkgSig bundle conventionRead pkg ->
+        SemanticNameCert
+            (fun row : BHist => hsame row realSeal ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row digits ∨ hsame row windows ∨ hsame row approximation ∨
+                hsame row regular ∨ hsame row realSeal)
+            (fun row : BHist => hsame row realSeal ∧ PkgSig bundle provenance pkg)
+            hsame ∧
+          UnaryHistory realSeal ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle conventionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame SemanticNameCert UnaryHistory
+  intro packet conventionPkg
+  obtain ⟨digitsUnary, windowsUnary, approximationUnary, regularUnary, realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameCertUnary, _windowsDigits,
+    _approximationRegular, _transportRoute, provenancePkg⟩ := packet
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row realSeal ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row digits ∨ hsame row windows ∨ hsame row approximation ∨
+            hsame row regular ∨ hsame row realSeal)
+        (fun row : BHist => hsame row realSeal ∧ PkgSig bundle provenance pkg)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro realSeal ⟨hsame_refl realSeal, realSealUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro row source
+      cases source.left
+      exact Or.inr (Or.inr (Or.inr (Or.inr (hsame_refl realSeal))))
+    ledger_sound := by
+      intro row source
+      exact ⟨source.left, provenancePkg⟩
+  }
+  exact ⟨cert, realSealUnary, provenancePkg, conventionPkg⟩
+
 end BEDC.Derived.BinaryExpansionUp

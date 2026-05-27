@@ -84,6 +84,30 @@ theorem BoundedSetCarrier_ball_containment_route [AskSetup] [PackageSetup]
   }
   exact ⟨cert, memberUnary, ballReadUnary, subsetCenter, memberRadius, ballPkg⟩
 
+theorem BoundedSetCarrier_metric_ball_carrier_obligation [AskSetup] [PackageSetup]
+    {X S center radius ball transport replay provenance nameRow memberRead ballRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedSetCarrier X S center radius ball transport replay provenance nameRow bundle pkg ->
+      Cont S center memberRead ->
+        Cont memberRead ball ballRead ->
+          PkgSig bundle ballRead pkg ->
+            UnaryHistory X ∧ UnaryHistory S ∧ UnaryHistory center ∧ UnaryHistory radius ∧
+              UnaryHistory ball ∧ UnaryHistory memberRead ∧ UnaryHistory ballRead ∧
+                Cont S center memberRead ∧ Cont memberRead ball ballRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle ballRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier subsetCenter memberBall ballPkg
+  obtain ⟨xUnary, sUnary, centerUnary, radiusUnary, ballUnary, _transportUnary,
+    _replayUnary, _provenanceUnary, _nameUnary, _carrierMemberRoute, _carrierBallRoute,
+    provenancePkg, _namePkg⟩ := carrier
+  have memberUnary : UnaryHistory memberRead :=
+    unary_cont_closed sUnary centerUnary subsetCenter
+  have ballReadUnary : UnaryHistory ballRead :=
+    unary_cont_closed memberUnary ballUnary memberBall
+  exact
+    ⟨xUnary, sUnary, centerUnary, radiusUnary, ballUnary, memberUnary, ballReadUnary,
+      subsetCenter, memberBall, provenancePkg, ballPkg⟩
+
 theorem BoundedSetCarrier_real_bound_nonescape [AskSetup] [PackageSetup]
     {X S center radius ball transport replay provenance nameRow : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

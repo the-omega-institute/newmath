@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\PoissonSummationUp$}
+\label{ch:concrete-instances-poisson-summation-namecert}
+\origin{human}
+
+Following Poisson and Fourier analysis, the $\PoissonSummationUp$ packet is a finite BEDC route from lattice-indexed source windows through Fourier finite-observation rows and distribution-facing summation rows. It sits over the finite coefficient interface of \autoref{ch:concrete-instances-fourier-namecert}, the lattice source of \autoref{ch:concrete-instances-lattice-namecert}, the pushforward and test-row boundary of \autoref{ch:concrete-instances-distribution-namecert}, and the terminal real readback of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite summation certificate; it does not import analytic convergence, host function equality, Schwartz-space quotients, Haar measure, or an infinite series oracle.
+
+\begin{definition}[Poisson summation finite carrier]
+\label{def:poisson-summation-finite-carrier}
+A $\PoissonSummationUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(L,F,D,S,R,H,C,P,N)
+$$
+with the following displayed coordinates.
+\begin{enumerate}
+  \item $L$ is the $\LatticeUp$ row naming the finite lattice index window, dual-window tags, and shift ledger used by the summation read.
+  \item $F$ is the $\FourierUp$ row naming the finite coefficient and frequency observations made over the displayed lattice window.
+  \item $D$ is the $\DistributionUp$ and test-function row through which the finite Fourier observations are read as distribution-facing data.
+  \item $S$ is the finite summation-window row, recording the source-side and dual-side partial sums inspected by the packet.
+  \item $R$ is the $\RegSeqRatUp/\RealUp$ readback surface for the displayed summation comparison.
+  \item $H$ records componentwise $\hsame$ transport for lattice, Fourier, distribution, summation-window, and real-readback rows.
+  \item $C$ records displayed $\Cont$ replay from lattice windows through Fourier observations, distribution rows, finite summation, and readback.
+  \item $P$ is the $\Pkg$ provenance over $\PoissonSummationUp$, $\LatticeUp$, $\FourierUp$, $\DistributionUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and local naming rows.
+  \item $N$ is the local $\NameCert_{\PoissonSummationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these nine displayed rows. It has no coordinate for analytic convergence, equality of host functions, an infinite summation theorem, Schwartz-space quotient equality, Haar measure, or a selected distribution representative.
+\end{definition}
+
+\begin{theorem}[Poisson summation NameCert obligations]
+\label{thm:poisson-summation-namecert-obligations}
+For every accepted $\PoissonSummationUp$ carrier $Q=(L,F,D,S,R,H,C,P,N)$, the local $\NameCert_{\PoissonSummationUp}$ surface consists exactly of carrier admission for $Q$, lattice-window admission through $L$, finite Fourier observation through $F$, distribution-facing test-row admission through $D$, finite source and dual summation-window comparison through $S$, $\RegSeqRatUp/\RealUp$ readback through $R$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:poisson-summation-finite-carrier}. The analytic surface is exhausted by the lattice row, Fourier row, distribution-facing row, summation-window row, and readback row.
+
+Read $L,F,D,S$ in order. The lattice window determines the finite source and dual indices, the Fourier row records only the inspected frequency observations, the distribution row supplies the test-facing interpretation, and the summation row compares the two displayed finite windows.
+
+The rows $R,H,C,P,N$ then seal, transport, replay, source, and name the same route. Since the carrier has no coordinate for convergence, host function equality, quotient spaces, Haar measure, or selected representatives, none of those objects is part of the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Poisson summation Fourier-lattice route]
+\label{thm:poisson-summation-fourier-lattice-route}
+Every accepted $\PoissonSummationUp$ read factors through the displayed route
+$$
+\LatticeUp \longmapsto \FourierUp \longmapsto \DistributionUp \longmapsto S \longmapsto \RegSeqRatUp/\RealUp .
+$$
+Thus a downstream consumer receives only finite lattice windows, finite Fourier observations, distribution-facing test rows, finite summation windows, real readback, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Begin with the lattice coordinate $L$ of \autoref{def:poisson-summation-finite-carrier}. It supplies the only source of summation indices and dual-window tags.
+
+Apply the Fourier and distribution coordinates $F$ and $D$. They expose finite coefficient observations and test-facing rows before the summation window $S$ can be compared.
+
+Finally pass through $R,H,C,P,N$. The regular and real readback rows seal the finite comparison, while transport, replay, provenance, and naming preserve the route without adding analytic convergence or host equality.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\PoissonSummationUp$ read factors through lattice windows, Fourier finite observations, distribution-facing test rows, finite summation windows, $\RegSeqRatUp/\RealUp$ readback, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+
+\independenceWitness{lattice, fourier, distribution, real: $\PoissonSummationUp$ is not bijective to any listed sibling because it jointly carries lattice windows, Fourier observations, distribution-facing test rows, finite source and dual summation windows, readback, transport, replay, provenance, and local naming.}
+
+\closureat{PoissonSummationUp}{seedStr}
+
+\begin{closurestatus}{\PoissonSummationUp}
+  \constructivestory{A $\PoissonSummationUp$ packet is generated from a LatticeUp window row, a FourierUp finite-observation row, a DistributionUp test-facing row, a finite summation-window comparison, RegSeqRatUp and RealUp readback, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:poisson-summation-finite-carrier}, \autoref{thm:poisson-summation-namecert-obligations}, and \autoref{thm:poisson-summation-fourier-lattice-route} seed the finite Fourier-lattice summation packet over lattice, Fourier, distribution, and real-readback rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim analytic convergence, host function equality, Schwartz-space quotients, Haar measure, infinite summation theorems, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the finite carrier and prove the NameCert obligation surface and Fourier-lattice route theorem.}
+\end{closurestatus}

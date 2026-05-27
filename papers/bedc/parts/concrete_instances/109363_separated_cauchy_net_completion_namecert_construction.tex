@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\SeparatedCauchyNetCompletionUp$}
+\label{ch:concrete-instances-separated-cauchy-net-completion-namecert}
+\origin{human}
+
+Following Kelley, Moore--Smith, and Bourbaki, the $\SeparatedCauchyNetCompletionUp$ packet records the separated completion route for directed Cauchy nets as finite BEDC NameCert data. It sits after the Cauchy-net carrier of \autoref{ch:concrete-instances-cauchynet-namecert}, the Moore--Smith completion interface of \autoref{ch:concrete-instances-moore-smith-completion-namecert}, the separated completion boundary of \autoref{ch:concrete-instances-separatedcompletion-namecert}, and the metric-completion handoff of \autoref{ch:concrete-instances-metriccompletion-namecert}. Its Real-facing seal is read only through the L10 finite-name spine of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+The packet names a completion carrier whose comparison discipline is separated before any terminal Real-facing read is public. It exposes Cauchy-net windows, Moore--Smith boundary data, separated-completion comparison, metric-completion handoff, stream-name observations, regular rational tolerance rows, Real seals, transport, replay, package provenance, and local naming. It exports no quotient net, no selected limit, no host equality of completed points, no countable-choice schedule, and no ambient $\RealUp$ completeness theorem.
+
+\begin{definition}[Separated Cauchy-net completion carrier]
+\label{def:separated-cauchy-net-completion-carrier}
+A $\SeparatedCauchyNetCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(C,M,Q,L,W,R,A,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the $\CauchyNetUp$ directed-window row, including the finite tail requests and common-upper witnesses consumed by the completion route.
+\item $M$ is the $\MooreSmithCompletionUp$ boundary row that turns the same directed Cauchy-net data into a completion-facing Moore--Smith read.
+\item $Q$ is the $\SeparatedCompletionUp$ comparison row, forcing equality-facing reads through separated zero-distance evidence rather than host equality or quotient-net equality.
+\item $L$ is the $\MetricCompletionUp$ handoff row, recording the metric-completion consumer surface reached by the displayed net route.
+\item $W$ is the $\StreamNameUp$ finite observation row attached to the completion read before regular rational tolerances are exported.
+\item $R$ is the $\RegSeqRatUp$ tolerance row, recording the finite regular rational budget used by numerical consumers.
+\item $A$ is the terminal $\RealUp$ seal reached only after $C,M,Q,L,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for Cauchy-net windows, Moore--Smith boundary data, separated comparison, metric-completion handoff, finite stream observations, regular rational tolerances, Real seals, replay data, provenance, and local naming.
+\item $K$ records displayed $\Cont$ replay from Cauchy-net evidence through Moore--Smith completion, separated completion, metric completion, stream-name observation, regular rational readback, and Real-facing sealing.
+\item $P$ is the $\Pkg$ provenance over $\SeparatedCauchyNetCompletionUp$, $\CauchyNetUp$, $\MooreSmithCompletionUp$, $\SeparatedCompletionUp$, $\MetricCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SeparatedCauchyNetCompletionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient nets, selected limits, host equality of completion points, countable choice, ambient $\RealUp$ completeness, hidden complete spaces, or an external Real-completion oracle.
+\end{definition}
+
+\begin{theorem}[Separated Cauchy-net completion NameCert obligations]
+\label{thm:separated-cauchy-net-completion-namecert-obligations}
+For every accepted $\SeparatedCauchyNetCompletionUp$ carrier $S=(C,M,Q,L,W,R,A,H,K,P,N)$, the local $\NameCert_{\SeparatedCauchyNetCompletionUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed Cauchy-net, Moore--Smith completion, separated completion, metric completion, stream-name, regular rational, Real seal, transport, replay, provenance, and local naming rows;
+\item directed-net coverage, requiring every completion-facing read to begin with the $\CauchyNetUp$ row $C$;
+\item Moore--Smith boundary exposure, requiring $M$ before separated or metric completion consumers receive the packet;
+\item separated comparison discipline, requiring $Q$ to mediate all equality-facing reads before any Real-facing seal is exported;
+\item metric and numerical handoff discipline, requiring $L,W,R,A$ to be read in that order for metric-completion and Real-facing consumers;
+\item structural preservation, requiring $H,K,P,N$ to transport, replay, source, and name only the displayed route;
+\item ledger non-escape, excluding quotient nets, selected limits, host equality, countable choice, ambient $\RealUp$ completeness, hidden complete spaces, and external Real-completion oracles.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:separated-cauchy-net-completion-carrier}. The accepted packet exposes exactly the Cauchy-net, Moore--Smith, separated-completion, metric-completion, stream-name, regular rational, Real-seal, and structural rows.
+
+Directed-net coverage and Moore--Smith boundary exposure fix the first part of the route. A completion-facing request cannot reach $Q,L,W,R,A$ until the Cauchy-net row $C$ and the Moore--Smith boundary row $M$ have been displayed.
+
+Separated comparison is isolated in $Q$. Thus equality-facing reads are zero-distance handoffs through the separated-completion surface, not host equality of completed points and not equality of quotient nets.
+
+The metric and numerical handoff rows are downstream. A metric-completion consumer reads $L$, a finite observation consumer reads $W$, a tolerance consumer reads $R$, and the terminal Real-facing consumer reads $A$ only after those prior rows have appeared.
+
+Finally $H,K,P,N$ preserve, replay, source, and name only this ordered route. Since the excluded objects have no carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Separated Cauchy-net completion zero-distance handoff]
+\label{thm:separated-cauchy-net-completion-zero-distance-handoff}
+Let $S=(C,M,Q,L,W,R,A,H,K,P,N)$ be an accepted $\SeparatedCauchyNetCompletionUp$ carrier. Every comparison between two completion-facing reads of $S$ factors through the route
+$$
+C\longmapsto M\longmapsto Q\longmapsto L\longmapsto W\longmapsto R\longmapsto A\longmapsto H,K,P,N .
+$$
+In particular, the handoff to $\RealUp$ is permitted only after the separated zero-distance row $Q$, the $\MetricCompletionUp$ row $L$, the $\StreamNameUp$ row $W$, and the $\RegSeqRatUp$ row $R$ have been displayed. The comparison exports no quotient net, selected limit, host equality, countable-choice schedule, or ambient $\RealUp$ completeness assertion.
+\end{theorem}
+\begin{proof}
+Start with a comparison request for an accepted packet. The carrier definition gives the Cauchy-net row $C$ as the only source of directed tail data, so the comparison begins with displayed finite net windows.
+
+The Moore--Smith boundary row $M$ turns the same net data into a completion-facing read. The separated-completion row $Q$ then supplies the zero-distance comparison discipline before any metric or Real-facing consumer can inspect the result.
+
+The route continues through $L,W,R,A$. These rows record the metric-completion handoff, finite stream observations, regular rational tolerances, and terminal Real seal in order.
+
+Transport, replay, provenance, and local naming in $H,K,P,N$ preserve that route componentwise. Because the carrier has no quotient-net, selected-limit, host-equality, choice, or ambient-completeness coordinate, no comparison can bypass the zero-distance handoff.
+\end{proof}
+
+\falsifiablePrediction{A SeparatedCauchyNetCompletionUp consumer that reads a Real-facing seal before displaying the separated comparison row $Q$ and the regular rational tolerance row $R$ is not reading an accepted packet of this chapter.}
+
+\independenceWitness{cauchynet, mooresmithcompletion, separatedcompletion, metriccompletion, streamname, regseqrat, real: the separated Cauchy-net completion packet is not bijective to any one sibling because CauchyNet lacks the completion boundary, MooreSmithCompletion lacks the explicit separated Real-facing handoff, SeparatedCompletion lacks the directed-net source window, MetricCompletion lacks the StreamName and RegSeqRat seal order, StreamName lacks the separated comparison row, RegSeqRat lacks the Moore--Smith boundary, and Real lacks the upstream net-completion ledger.}
+
+\closureat{SeparatedCauchyNetCompletionUp}{seedStr}
+
+\begin{closurestatus}{\SeparatedCauchyNetCompletionUp}
+  \constructivestory{A $\SeparatedCauchyNetCompletionUp$ packet is generated from CauchyNetUp directed-window evidence, MooreSmithCompletionUp boundary data, SeparatedCompletionUp zero-distance comparison, MetricCompletionUp handoff, StreamNameUp observations, RegSeqRatUp tolerances, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:separated-cauchy-net-completion-carrier}, \autoref{thm:separated-cauchy-net-completion-namecert-obligations}, and \autoref{thm:separated-cauchy-net-completion-zero-distance-handoff} seed the separated Cauchy-net completion route from directed net windows through zero-distance comparison and Real-facing sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient nets, selected limits, host equality of completed points, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Moore--Smith boundary exposure, separated zero-distance comparison, metric handoff, stream-name observation, regular rational tolerance readback, Real-facing sealing, transport preservation, and non-escape for BEDC.Derived.SeparatedCauchyNetCompletionUp.}
+\end{closurestatus}

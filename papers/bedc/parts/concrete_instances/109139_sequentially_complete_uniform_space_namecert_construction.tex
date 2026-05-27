@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\SequentiallyCompleteUniformSpaceUp$}
+\label{ch:concrete-instances-sequentially-complete-uniform-space-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on uniform spaces and Bishop--Bridges on constructive completion, the $\SequentiallyCompleteUniformSpaceUp$ packet records the sequence-level uniform-completeness surface as finite BEDC NameCert data. It sits after the entourage carrier of \autoref{ch:concrete-instances-uniformspace-namecert}, the complete uniform-space surface of \autoref{ch:concrete-instances-complete-uniform-space-namecert}, the Cauchy-filter basis of \autoref{ch:concrete-instances-cauchy-filter-basis-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later completion consumers a sequence-indexed handoff into the complete-uniform-space route without quotienting sequences, selecting limits, or importing countable choice.
+
+\begin{definition}[Sequentially complete uniform-space carrier]
+\label{def:sequentially-complete-uniform-space-carrier}
+A $\SequentiallyCompleteUniformSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(U,S_b,B,Q,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the $\UniformSpaceUp$ entourage row naming the finite entourage basis and its refinement requests.
+\item $S_b$ is the $\StreamNameUp$ sequence-window row recording the inspected finite tail windows.
+\item $B$ is the $\CauchyFilterBasisUp$ request row translating sequence-tail windows into Cauchy-basis obligations.
+\item $Q$ is the $\RegSeqRatUp$ regular readback row for the displayed sequence observations.
+\item $R$ is the downstream $\RealUp$ seal row exposed only after the sequence window and regular readback have been displayed.
+\item $E$ is the $\CompleteUniformSpaceUp$ handoff row recording that the same entourage and Cauchy-basis data can be read by the complete-uniform-space surface.
+\item $H$ records componentwise $\hsame$ transport for entourage rows, sequence windows, Cauchy-basis requests, regular readback, Real sealing, and complete-uniform handoff.
+\item $C$ records displayed $\Cont$ replay from an entourage precision request through sequence windows and Cauchy-basis rows to the Real seal and complete-uniform-space handoff.
+\item $P$ is the $\Pkg$ provenance over $\SequentiallyCompleteUniformSpaceUp$, $\UniformSpaceUp$, $\CompleteUniformSpaceUp$, $\CauchyFilterBasisUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SequentiallyCompleteUniformSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $U,S_b,B,Q,R,E,H,C,P,N$. It has no coordinate for quotient sequence equality, selected representative tails, chosen limits, countable choice, host completion objects, or ambient completeness outside the displayed rows.
+\end{definition}
+
+\begin{theorem}[Sequentially complete uniform-space NameCert obligations]
+\label{thm:sequentially-complete-uniform-space-namecert-obligations}
+For every accepted $\SequentiallyCompleteUniformSpaceUp$ carrier $S=(U,S_b,B,Q,R,E,H,C,P,N)$, the local $\NameCert_{\SequentiallyCompleteUniformSpaceUp}$ surface consists exactly of entourage-basis exposure, finite sequence-window admission, Cauchy-basis request routing, regular readback, Real-seal ordering, complete-uniform-space handoff, componentwise transport, continuation replay, provenance, and local naming. Every accepted read must expose the finite route
+$$
+U,S_b \longmapsto B \longmapsto Q,R \longmapsto E
+$$
+together with $H,C,P,N$ before it is treated as sequential completeness data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sequentially-complete-uniform-space-carrier}. The accepted packet exposes exactly the entourage row, sequence-window row, Cauchy-basis request, regular readback, Real seal, complete-uniform-space handoff, transport, replay, provenance, and local naming rows.
+
+The sequence side is read first. The row $U$ supplies the finite entourage request, and $S_b$ supplies the finite tail windows inspected at that request. The row $B$ then converts those displayed sequence windows into Cauchy-basis obligations.
+
+The readback side is forced through $Q$ and $R$. Regular rational observations and the Real seal are therefore downstream of the same sequence windows and entourage basis, not detached host data.
+
+Finally $E$ records the complete-uniform-space handoff, and $H,C,P,N$ preserve the same route by transport, replay, provenance, and local naming. Since the excluded quotient, choice, selected-limit, host-completion, and ambient-completeness objects are absent from the carrier, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Sequentially complete uniform-space Cauchy-sequence handoff]
+\label{thm:sequentially-complete-uniform-space-cauchy-sequence-handoff}
+Every completion-facing consumer of an accepted $\SequentiallyCompleteUniformSpaceUp$ packet must factor its Cauchy-sequence read through the displayed $\UniformSpaceUp$ entourage row $U$, the $\StreamNameUp$ sequence windows $S_b$, the $\CauchyFilterBasisUp$ request row $B$, the $\RegSeqRatUp$ readback $Q$, the $\RealUp$ seal $R$, and the $\CompleteUniformSpaceUp$ handoff $E$. The exported object is a finite sequence-level route into the complete-uniform-space surface, not a quotient sequence, selected tail representative, chosen limit, countable-choice function, or ambient completion theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted completion-facing read. The only sequence data available in the carrier are the finite windows $S_b$ read under the entourage row $U$.
+
+The Cauchy request row $B$ ties those windows to the Cauchy-filter basis. Thus a consumer cannot reach regular readback or Real sealing until the same finite sequence-tail data have been displayed.
+
+Read $Q$ and $R$ next, then pass to the complete-uniform-space handoff row $E$. The structural rows $H,C,P,N$ transport, replay, source, and name exactly this route.
+
+No carrier coordinate supplies quotient equality, selected representatives, chosen limits, countable choice, a host completion object, or ambient completeness. The handoff is therefore the finite Cauchy-sequence route stated above.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SequentiallyCompleteUniformSpaceUp$ read factors through one $\UniformSpaceUp$ entourage row, one $\StreamNameUp$ sequence-window row, one $\CauchyFilterBasisUp$ request row, one $\RegSeqRatUp$ readback row, one $\RealUp$ seal row, one $\CompleteUniformSpaceUp$ handoff row, and the structural rows $H,C,P,N$.}
+
+\independenceWitness{uniformspace, complete-uniform-space, cauchy-filter-basis, streamname, regseqrat, real: $\SequentiallyCompleteUniformSpaceUp$ is not bijective to any listed sibling because it binds sequence windows to Cauchy-basis requests before exposing regular readback, Real sealing, and complete-uniform-space handoff rows as one finite packet.}
+
+\closureat{SequentiallyCompleteUniformSpaceUp}{seedStr}
+
+\begin{closurestatus}{\SequentiallyCompleteUniformSpaceUp}
+  \constructivestory{A $\SequentiallyCompleteUniformSpaceUp$ packet is generated from a UniformSpace entourage row, StreamName sequence-window row, CauchyFilterBasis request row, RegSeqRat readback row, Real seal row, CompleteUniformSpace handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequentially-complete-uniform-space-carrier}, \autoref{thm:sequentially-complete-uniform-space-namecert-obligations}, and \autoref{thm:sequentially-complete-uniform-space-cauchy-sequence-handoff} seed the sequence-level uniform-completeness route over entourage, sequence-window, Cauchy-basis, regular readback, Real-seal, and complete-uniform-space rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient sequence equality, selected representatives, selected limits, countable choice, host completion objects, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, entourage exactness, sequence-window ordering, Cauchy-basis handoff, regular readback, Real-seal nonescape, complete-uniform-space handoff, transport, replay, provenance, and local naming for BEDC.Derived.SequentiallyCompleteUniformSpaceUp.}
+\end{closurestatus}

@@ -1,0 +1,13 @@
+\begin{theorem}[Cauchy seed closure route]
+\label{thm:cauchy-seed-closure-route}
+Every public route through the $\CauchyUp$ hub is read through the sibling surfaces of \autoref{ch:concrete-instances-cauchy-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-cauchy-remainder-estimate-namecert}, and \autoref{ch:concrete-instances-real-namecert} before any Real-facing completion consumer can use it. The route exposes finite stream windows, dyadic tolerance rows, regular rational readback, Cauchy remainder estimates, terminal real seals, componentwise transport, replay, provenance, and local naming; it exports no selected limit, quotient stream equality, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the Cauchy carrier of \autoref{def:cauchy-carrier}. Its public readback is already ordered through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and the terminal $\RealUp$ seal-facing row.
+
+Apply \autoref{thm:cauchy-modulus-readback-route} and \autoref{thm:cauchy-core-streamname-regseqrat-window}. These results force every regular rational read to pass through finite stream windows, dyadic tolerances, the displayed modulus row, and the compatibility row before $R$ is inspected.
+
+Apply \autoref{thm:cauchy-remainder-estimate-dyadic-tail-bound-admission} for completion-facing tolerance reads. The remainder estimate route inserts the finite threshold and admitted tail windows before any Real or completion consumer can treat the Cauchy packet as usable tail evidence.
+
+Finally apply \autoref{thm:cauchy-core-regseqrat-real-seal}. The terminal Real-facing seal remains downstream of the displayed regular rational and remainder-estimate routes. Since none of the cited sibling surfaces carries selected limits, quotient stream equality, choice, trichotomy, host equality, or ambient completeness, the hub route exports none of those objects.
+\end{proof}

@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\MedianDepthSealingUp$}
+\label{ch:concrete-instances-median-depth-sealing-namecert}
+\origin{ai}
+
+The $\MedianDepthSealingUp$ packet realizes the two-layer median stabilization of \autoref{thm:philosophy-median-depth-sealing} as finite BEDC NameCert data. It sits beside the six-bit codon window of \autoref{ch:concrete-instances-codon-six-bit-window-namecert}, the boundary-tile classifier of \autoref{ch:concrete-instances-dna-window-six-boundary-tile-namecert}, the six-tile coverage rows of \autoref{ch:concrete-instances-six-boundary-tile-coverage-namecert}, the boundary-trigger closure route of \autoref{ch:concrete-instances-dna-boundary-trigger-closure-namecert}, and the finite alphabet bridge of \autoref{ch:concrete-instances-dna-four-phase-alphabet-bridge-namecert}. The packet names the reassigned support, first median layer, second sealing point, layer witnesses, and stabilization check as a finite carrier, not as a biological stochastic model or an ambient closure oracle.
+
+\begin{definition}[Median depth sealing carrier]
+\label{def:median-depth-sealing-carrier}
+A $\MedianDepthSealingUp$ carrier is a finite $\BHist$ packet
+$$
+M=(W,B,V,T,A,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\CodonSixBitWindowUp$ source row for the codon-window coordinates used by the median operation.
+\item $B$ is the $\DnaWindowSixBoundaryTileUp$ boundary row exposing the stop/Trp and Ile/Met tile classifiers consumed by the reassigned support.
+\item $V$ is the $\SixBoundaryTileCoverageUp$ coverage row recording the visible boundary support over which the median read is admitted.
+\item $T$ is the $\DnaBoundaryTriggerClosureUp$ trigger-closure row, read only as finite boundary-trigger data.
+\item $A$ is the $\DNAFourPhaseAlphabetBridgeUp$ alphabet row, fixing the four-phase coordinate interpretation before codons are compared.
+\item $L$ is the median-layer ledger with the displayed rows $\mathcal{R}$, $\Delta_{1}$, $\Delta_{2}$, $\operatorname{Med}_{1}(\mathcal{R})$, and $\operatorname{Med}_{2}(\mathcal{R})$ from \autoref{def:philosophy-median-iteration-layers}.
+\item $E$ is the stabilization row recording that the second layer is closed under the displayed coordinatewise median operation.
+\item $H$ records componentwise $\hsame$ transport for codon windows, boundary tiles, coverage rows, trigger closure, alphabet rows, layer ledgers, stabilization, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from codon-window inspection through boundary-tile coverage, trigger closure, alphabet readback, layer enumeration, and stabilization checking.
+\item $P$ is the $\Pkg$ provenance over $\MedianDepthSealingUp$, $\CodonSixBitWindowUp$, $\DnaWindowSixBoundaryTileUp$, $\SixBoundaryTileCoverageUp$, $\DnaBoundaryTriggerClosureUp$, $\DNAFourPhaseAlphabetBridgeUp$, the median-depth source theorem, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MedianDepthSealingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,B,V,T,A,L,E,H,C,P,N$. It has no coordinate for a biological code table, stochastic evolutionary dynamics, quotient codon semantics, hidden median closure, unbounded search, or host closure oracle.
+\end{definition}
+
+\begin{theorem}[Median depth sealing NameCert obligations]
+\label{thm:median-depth-sealing-namecert-obligations}
+For every accepted $\MedianDepthSealingUp$ carrier $M=(W,B,V,T,A,L,E,H,C,P,N)$, the local $\NameCert_{\MedianDepthSealingUp}$ surface consists exactly of codon-window admission, boundary-tile exposure, six-tile coverage, boundary-trigger closure, four-phase alphabet readback, median-layer ledger exactness, two-layer stabilization, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:median-depth-sealing-carrier}. The codon-window, boundary, coverage, trigger, alphabet, layer, stabilization, and structural rows are all displayed as finite data.
+
+The source rows $W,B,V,T,A$ fix the finite coordinate surface before the median ledger is read. Thus the median operation is interpreted through displayed codon windows, boundary tiles, coverage rows, trigger closure, and four-phase alphabet readback.
+
+The rows $L$ and $E$ then expose the two-layer calculation. The first row records $\mathcal{R}$, $\Delta_{1}$, $\Delta_{2}$, $\operatorname{Med}_{1}(\mathcal{R})$, and $\operatorname{Med}_{2}(\mathcal{R})$; the second records that no further vertex appears after the sealing point.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no remaining coordinate contains a biological table, stochastic model, quotient codon semantics, unbounded search, or hidden closure oracle, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Median depth sealing two-layer stabilization]
+\label{thm:median-depth-sealing-two-layer-stabilization}
+Every accepted $\MedianDepthSealingUp$ read exposes the finite stabilization chain
+$$
+\mathcal{R}
+\longmapsto
+\operatorname{Med}_{1}(\mathcal{R})
+\longmapsto
+\operatorname{Med}_{2}(\mathcal{R})
+=
+\operatorname{Med}(\mathcal{R})
+$$
+with $\Delta_{1}=\{\mathrm{AAG},\mathrm{ACA},\mathrm{AUG},\mathrm{UCG},\mathrm{UGG},\mathrm{UUG}\}$ and $\Delta_{2}=\{\mathrm{ACG}\}$. A consumer must read the layer ledger $L$ and stabilization row $E$ after the codon-window, boundary-tile, coverage, trigger-closure, and alphabet rows have been displayed.
+\end{theorem}
+\begin{proof}
+Read \autoref{thm:philosophy-median-depth-sealing} through the carrier rows. The theorem supplies the finite layer calculation, while \autoref{def:median-depth-sealing-carrier} stores it as the ledger $L$ and stabilization row $E$.
+
+The upstream rows $W,B,V,T,A$ determine the coordinate interpretation and boundary support before the ledger is inspected. Therefore a consumer cannot treat the displayed layer calculation as an ambient median closure unrelated to the accepted codon-window and boundary rows.
+
+The structural rows $H,C,P,N$ preserve the same route. The exported consequence is the two-layer stabilization chain and no additional biological, stochastic, quotient, or hidden closure datum.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MedianDepthSealingUp$ consumer must expose the two-layer stabilization consequence: the first median layer adds exactly $\Delta_{1}$, the second layer adds exactly $\mathrm{ACG}$, and a further coordinatewise-median pass adds no codon.}
+
+\independenceWitness{dna-window-six-boundary-tile, six-boundary-tile-coverage, dna-boundary-trigger-closure, dna-four-phase-alphabet-bridge: none is bijective to $\MedianDepthSealingUp$ because the siblings respectively expose boundary classifiers, coverage rows, trigger closure, or alphabet readback, while the median-depth packet jointly carries the reassigned support, two median layers, sealing codon, stabilization check, transport, replay, provenance, and local naming.}
+
+The Lean TasteGate site for $\MedianDepthSealingUp$ must provide explicit $\Nontrivial\ \MedianDepthSealingUp$ and $\FieldFaithful\ \MedianDepthSealingUp$ instances. Nontriviality must distinguish the reassigned support from the sealed second layer, and field faithfulness must preserve $W,B,V,T,A,L,E,H,C,P,N$ as separate displayed rows.
+
+\closureat{MedianDepthSealingUp}{seedStr}
+
+\begin{closurestatus}{\MedianDepthSealingUp}
+  \constructivestory{A $\MedianDepthSealingUp$ packet is generated from CodonSixBitWindow rows, DnaWindowSixBoundaryTile rows, SixBoundaryTileCoverage rows, DnaBoundaryTriggerClosure rows, DNAFourPhaseAlphabetBridge rows, a median-layer ledger, a stabilization row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:median-depth-sealing-carrier}, \autoref{thm:median-depth-sealing-namecert-obligations}, and \autoref{thm:median-depth-sealing-two-layer-stabilization} seed the finite median-depth sealing packet over codon windows, boundary tiles, coverage rows, trigger closure, alphabet readback, layer enumeration, and stabilization checking.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a biological code table, stochastic evolutionary model, quotient codon semantics, hidden median closure, unbounded search, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundary and coverage exposure, trigger-closure compatibility, alphabet readback, median-layer exactness, stabilization checking, Nontrivial and FieldFaithful TasteGate instances, transport, replay, provenance, and local naming for BEDC.Derived.MedianDepthSealingUp.}
+\end{closurestatus}

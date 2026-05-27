@@ -163,6 +163,214 @@ route. Since the carrier has no coordinate outside the displayed ledger route,
 no consumer of $M,K,D,S,$ or $R$ can bypass $W$.
 \end{proof}
 
+\begin{theorem}[Polish-space root obligation package]
+\label{thm:polish-space-root-obligation-package}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. Before any complete-separable metric synthesis is consumed, $P$ exposes exactly the $\MetricSpaceUp$ row $M$, the $\CompleteMetricUp$ row $K$, the $\SeparableMetricUp$ row $D$, the $\StreamNameUp$ row $S$, and the $\RegSeqRatUp$ row $R$, together with the finite observation ledger $W$, componentwise $\hsame$ transports $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $G$, and local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:polish-space-carrier}. Its displayed rows are precisely the metric, complete, separable, stream, regular-readback, observation-ledger, transport, replay, provenance, and local naming rows.
+
+Use \autoref{thm:polish-space-namecert-obligations} to read those rows as the local NameCert obligation package. It binds metric admission, completion handoff, dense schedule, stream windows, regular rational readback, and ledger exactness in one finite surface.
+
+Finally apply \autoref{thm:polish-space-observation-ledger-exhaustion}. The root obligation package has no route around $W,H,C,G,N$, so every complete-separable consumer first sees exactly the five displayed analytic rows and their finite support.
+\end{proof}
+
+\begin{theorem}[Polish-space completion observation triad]
+\label{thm:polish-space-completion-observation-triad}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. The complete-metric handoff $K$ and the separable dense schedule $D$ are both consumable only after the finite $\StreamNameUp$ observation ledger $S$, the $\RegSeqRatUp$ readback row $R$, and the support ledger $W$ have been displayed over the same metric row $M$. Thus every complete-separable consumer reads the triad
+$$
+S,R,W
+$$
+before either $K$ or $D$, and the packet exports no selected dense points, quotient completion equality, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:polish-space-root-obligation-package}. It displays $M,K,D,S,R,W,H,C,G,N$ before the complete-separable synthesis can be consumed.
+
+Apply \autoref{thm:polish-space-observation-ledger-exhaustion}. Dense-schedule reads and completion reads are both routed through $W$, and their finite windows and rational observations are supplied by $S$ and $R$.
+
+The componentwise transport $H$ keeps $K$ and $D$ over the same metric row $M$, while $C,G,N$ replay, source, and name the route. Since no carrier coordinate stores selected dense points, quotient completion equality, a countable-choice schedule, or ambient $\RealUp$ completeness, none of those objects can be exported.
+\end{proof}
+
+\begin{theorem}[Polish-space complete-metric source lock]
+\label{thm:polish-space-complete-metric-source-lock}
+For an accepted $\PolishSpaceUp$ packet $P=(M,K,D,S,R,W,H,C,G,N)$, every read of the complete-metric handoff $K$ is locked to the source metric row $M$ after the finite observation rows $S,R,W$ have been displayed. The handoff may use the dense schedule $D$ only through the same observation route, and it cannot replace that route by quotient completion equality, selected dense representatives, countable choice, or completeness of an ambient $\RealUp$ object.
+\end{theorem}
+\begin{proof}
+Project $P$ through \autoref{def:polish-space-carrier}. The row $K$ is a $\CompleteMetricUp$ handoff over the metric carrier $M$, not an independent completion object.
+
+Use \autoref{thm:polish-space-namecert-obligations}. The classifier transport row fixes the common metric surface before $K$ or $D$ is read, and the exactness row identifies $W$ as the only source of Cauchy-window requests and regular rational readbacks.
+
+Now apply \autoref{thm:polish-space-completion-observation-triad}. The rows $S$ and $R$ display the finite observations on which the handoff depends. Therefore a complete-metric consumer receives $K$ only as a source-locked finite route over $M$, with no additional quotient, selector, choice, or ambient-completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Polish-space separable dense schedule handoff]
+\label{thm:polish-space-separable-dense-schedule-handoff}
+For an accepted $\PolishSpaceUp$ packet $P=(M,K,D,S,R,W,H,C,G,N)$, every read of the separable dense schedule $D$ is handed off only after the finite $\StreamNameUp$ schedule $S$, the $\RegSeqRatUp$ readback row $R$, and the observation ledger $W$ have been displayed. The dense schedule is therefore a finite NameCert route over $M$ and $K$, not a choice-selected dense subset, countable-choice enumeration, quotient-completion representative, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with a consumer of $D$. By \autoref{thm:polish-space-streamname-countable-dense-handoff}, the consumer must read the displayed stream schedule $S$, ledger $W$, and regular readback $R$ before using the separable-metric row.
+
+The root obligation package fixes the surrounding rows $M,K,H,C,G,N$. Transport through $H$ keeps the dense schedule on the same metric carrier as the complete-metric handoff, and replay through $C$ records the finite request route.
+
+Finally invoke \autoref{thm:polish-space-completion-observation-triad}. Since the carrier has no row for selected dense points, countable choice, quotient completion representatives, or ambient $\RealUp$ completeness, the only exported dense-schedule handoff is the displayed finite NameCert route.
+\end{proof}
+
+\begin{theorem}[Polish-space complete-separable source lock]
+\label{thm:polish-space-complete-separable-source-lock}
+For an accepted $\PolishSpaceUp$ packet $P=(M,K,D,S,R,W,H,C,G,N)$, every complete-separable consumer reads the $\CompleteMetricUp$ handoff $K$ and the $\SeparableMetricUp$ dense schedule $D$ over the same $\MetricSpaceUp$ row $M$. The componentwise transport row $H$ may move $K$ and $D$ only together with $M,S,R,W,C,G,N$, so the complete side cannot be sourced from one metric carrier while the separable side is sourced from another.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:polish-space-carrier}. The rows $K$ and $D$ are both stored beside the single metric row $M$, while $S,R,W$ provide the finite observation route before either analytic row is consumed.
+
+Apply the NameCert obligations and complete-metric source lock. The classifier-transport clause of \autoref{thm:polish-space-namecert-obligations} fixes the common metric surface, and \autoref{thm:polish-space-complete-metric-source-lock} keeps the complete-metric handoff tied to $M$ after the observation rows have been displayed.
+
+Finally use the separable dense schedule handoff. Theorem~\ref{thm:polish-space-separable-dense-schedule-handoff} routes $D$ through the same $S,R,W$ support, while $H,C,G,N$ only transport, replay, source, and name that packet. Thus complete separability is read from one displayed metric source.
+\end{proof}
+
+\begin{theorem}[Polish-space dense completion ledger refusal]
+\label{thm:polish-space-dense-completion-ledger-refusal}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. Every dense-completion read exported by $P$ factors through the stream windows $S$, regular rational readback $R$, and observation ledger $W$ before the rows $K$ and $D$ are consumed. The packet refuses selected dense points, quotient completion equality, countable choice, and ambient $\RealUp$ completeness as sources for the complete-separable handoff.
+\end{theorem}
+\begin{proof}
+Start from the separable dense schedule handoff. Theorem~\ref{thm:polish-space-separable-dense-schedule-handoff} requires every read of $D$ to pass through $S,R,W$ before the dense schedule is exported.
+
+The completion side follows the same ledger. Theorems~\ref{thm:polish-space-completion-observation-triad} and~\ref{thm:polish-space-complete-metric-source-lock} require completion-facing reads of $K$ to use the displayed stream windows, regular readbacks, and observation ledger over $M$.
+
+Now apply the L10 consumer boundary. Theorem~\ref{thm:polish-space-l10-consumer-boundary} excludes selected dense points, quotient completion equality, countable choice, and ambient $\RealUp$ completeness from the public boundary. Since $H,C,G,N$ only preserve the displayed ledger route, no refused object can replace $S,R,W$.
+\end{proof}
+
+\begin{theorem}[Polish-space StreamName readback stability]
+\label{thm:polish-space-stream-readback-stability}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. Transporting the packet along the componentwise $\hsame$ row $H$ and replaying the same request through $C$ preserves the $\StreamNameUp$ windows $S$ and the $\RegSeqRatUp$ readback row $R$ componentwise before any complete-separable synthesis is consumed. The transported synthesis therefore reads the same finite stream and regular-rational observations through $W,G,N$.
+\end{theorem}
+\begin{proof}
+Begin with metric readback stability. Theorem~\ref{thm:polish-space-metric-readback-stability} states that componentwise transport through $H$ preserves the metric, completion, dense-schedule, stream, regular-readback, ledger, replay, provenance, and naming rows.
+
+Apply observation-ledger exhaustion. Theorem~\ref{thm:polish-space-observation-ledger-exhaustion} forces every dense-schedule and completion read through the finite ledger $W$, with windows supplied by $S$ and rational observations supplied by $R$.
+
+Finally attach complete-separable source lock. Theorem~\ref{thm:polish-space-complete-separable-source-lock} keeps the complete and separable rows over the same transported $M$. Hence the complete-separable synthesis cannot alter the StreamName or RegSeqRat readbacks before it is consumed.
+\end{proof}
+
+\begin{theorem}[Polish-space complete separable synthesis]
+\label{thm:polish-space-complete-separable-synthesis}
+Every accepted $\PolishSpaceUp$ packet synthesizes a $\CompleteSeparableMetricUp$ read over the same metric carrier named by $M$. The synthesis consumes the $\CompleteMetricUp$ handoff $K$, the $\SeparableMetricUp$ dense schedule $D$, the finite $\StreamNameUp$ windows $S$, the $\RegSeqRatUp$ readback $R$, and the ledger route $W,H,C,G,N$; it exports no selected dense points, quotient completion equality, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the root obligation package of \autoref{thm:polish-space-root-obligation-package}. The metric row $M$ is fixed before both completion and separability are read, so the synthesis is over one displayed metric carrier.
+
+The completion side is supplied by $K$, and the separability side is supplied by $D$. The dense schedule can be inspected only through $S$, while regular rational observations pass through $R$ after their finite windows have been displayed.
+
+The ledger exhaustion theorem, \autoref{thm:polish-space-observation-ledger-exhaustion}, keeps both sides inside $W,H,C,G,N$. Since the carrier contains no selected dense-point row, quotient-completion equality, countable-choice coordinate, or ambient real-completeness row, the resulting complete separable metric read is exactly the finite synthesis surface named above.
+\end{proof}
+
+\begin{theorem}[Polish-space complete separable non-escape]
+\label{thm:polish-space-complete-separable-nonescape}
+Every $\CompleteSeparableMetricUp$ consumer of an accepted $\PolishSpaceUp$ packet factors through the finite route
+$$
+M,K,D,S,R,W,H,C,G,N.
+$$
+The route is forced by \autoref{thm:polish-space-namecert-obligations}, exhausted by \autoref{thm:polish-space-observation-ledger-exhaustion}, and repacked by \autoref{thm:polish-space-complete-separable-synthesis}. Hence the synthesis exports no selected dense points, quotient completion equality, countable-choice schedule, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a $\CompleteSeparableMetricUp$ consumer of an accepted packet. By \autoref{thm:polish-space-namecert-obligations}, the packet presents only the metric carrier $M$, completion handoff $K$, separable schedule $D$, stream windows $S$, regular readback $R$, and support rows $W,H,C,G,N$.
+
+Use \autoref{thm:polish-space-observation-ledger-exhaustion}. It forces dense-schedule reads and completion reads through the observation ledger $W$, componentwise transport $H$, displayed replay $C$, provenance $G$, and local name $N$ before the consumer can use the complete or separable side.
+
+Finally apply \autoref{thm:polish-space-complete-separable-synthesis}. The synthesis repacks the same rows as a complete-separable metric read over $M$. Since none of those rows stores selected dense points, quotient completion equality, a countable-choice schedule, open-cover compactness, or ambient $\RealUp$ completeness, no such datum can be exported by the consumer.
+\end{proof}
+
+\begin{theorem}[Polish-space L10 consumer boundary]
+\label{thm:polish-space-l10-consumer-boundary}
+An L10 consumer of an accepted $\PolishSpaceUp$ packet may import only the finite boundary consisting of $\MetricSpaceUp$, $\CompleteMetricUp$, $\SeparableMetricUp$, $\CompleteSeparableMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, the observation ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. The boundary excludes selected dense points, quotient completion equality, countable choice, open-cover compactness, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the packet through \autoref{thm:polish-space-root-obligation-package}. This gives the finite L10 rows $M,K,D,S,R$ and the support rows $W,H,C,G,N$ before any downstream consumer can inspect the packet.
+
+Use \autoref{thm:polish-space-complete-separable-synthesis}. It repacks the completion and separability sides as a $\CompleteSeparableMetricUp$ read over the same metric carrier while preserving the stream windows, regular readback, and ledger route.
+
+The exclusion list follows from the carrier and ledger exactness. None of the displayed rows supplies a selected dense point, quotient-completion equality, countable-choice schedule, open-cover compactness principle, or ambient $\RealUp$ completeness datum, so an L10 consumer cannot cite any of those objects through $\PolishSpaceUp$.
+\end{proof}
+
+\begin{theorem}[Polish-space completion dense schedule obligation]
+\label{thm:polish-space-completion-dense-schedule-obligation}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. Every completion-facing dense-schedule obligation exported from $P$ factors through the $\MetricSpaceUp$ row $M$, the $\CompleteMetricUp$ handoff $K$, the $\SeparableMetricUp$ schedule $D$, the $\StreamNameUp$ windows $S$, the $\RegSeqRatUp$ readback row $R$, the observation ledger $W$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $G$, and the local $\NameCert$ row $N$.
+
+The obligation is exactly the finite route certified by \autoref{thm:polish-space-namecert-obligations}, constrained by \autoref{thm:polish-space-observation-ledger-exhaustion}, synthesized by \autoref{thm:polish-space-complete-separable-synthesis}, and bounded at L10 by \autoref{thm:polish-space-l10-consumer-boundary}. It exposes no choice-selected dense point, quotient completion, countable-choice schedule, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:polish-space-carrier}. The displayed analytic rows are precisely $M,K,D,S,R$, and the support rows are $W,H,C,G,N$.
+
+Apply \autoref{thm:polish-space-namecert-obligations} to read those rows as local NameCert obligations. The exactness clause makes $W$ the only route for metric-radius checks, Cauchy windows, dense-name inspections, and regular rational readbacks.
+
+Use \autoref{thm:polish-space-observation-ledger-exhaustion} and \autoref{thm:polish-space-complete-separable-synthesis}. They force the completion side and dense side through the same finite stream and readback route before the complete-separable metric synthesis can be consumed.
+
+Finally apply \autoref{thm:polish-space-l10-consumer-boundary}. Since the boundary contains no coordinate for selected dense points, quotient completions, countable choice, open-cover compactness, or ambient real completeness, the exported obligation is exactly the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Polish-space metric readback stability]
+\label{thm:polish-space-metric-readback-stability}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. Suppose a downstream consumer transports the metric row, completion handoff, dense schedule, stream windows, regular rational readback, and ledger rows along the componentwise $\hsame$ data recorded in $H$ and replays the same request through the displayed $\Cont$ routes in $C$. Then the transported packet preserves the same $\MetricSpaceUp$ readback boundary for $M$, the same $\CompleteMetricUp$ and $\SeparableMetricUp$ handoff surface for $K,D$, and the same $\StreamNameUp$ and $\RegSeqRatUp$ finite observations through $S,R,W,G,N$.
+
+Thus metric readback stability is a finite NameCert property of $P$ and not a quotient-completion equality, selected dense representative, countable-choice enumeration, or host-level equality of metric spaces.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection and the componentwise transport row $H$. The row transports $M,K,D,S,R,W$ together with the local certificate data, so a metric readback cannot move independently from the completion or dense-schedule rows.
+
+Apply \autoref{thm:polish-space-namecert-obligations}. Its classifier-transport and stability clauses require $K$ and $D$ to remain over the transported metric surface before either row is consumed.
+
+Next use \autoref{thm:polish-space-observation-ledger-exhaustion}. Every finite observation read by the transported consumer still passes through $S,R,W$, and the replay row $C$ records the same request route.
+
+The L10 boundary theorem, \autoref{thm:polish-space-l10-consumer-boundary}, supplies the exclusion list. Because no accepted packet coordinate stores quotient completion equality, selected dense representatives, countable-choice enumerations, or host-level metric equality, the stability claim is only the displayed finite transport-and-replay property.
+\end{proof}
+
+\begin{theorem}[Polish-space L10 root unblock package]
+\label{thm:polish-space-l10-root-unblock-package}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. The L10 root obligation package exported by $P$ consists of the completion-dense schedule route of \autoref{thm:polish-space-completion-dense-schedule-obligation}, the metric readback stability route of \autoref{thm:polish-space-metric-readback-stability}, the finite observation exhaustion of \autoref{thm:polish-space-observation-ledger-exhaustion}, the complete-separable synthesis of \autoref{thm:polish-space-complete-separable-synthesis}, and the consumer boundary of \autoref{thm:polish-space-l10-consumer-boundary}.
+
+Consequently every downstream complete-separable metric chapter may import only $\MetricSpaceUp$, $\CompleteMetricUp$, $\SeparableMetricUp$, $\CompleteSeparableMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows through the displayed tuple $P=(M,K,D,S,R,W,H,C,G,N)$. The package does not supply choice-selected dense points, quotient completions, countable-choice schedules, host equality, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First assemble the finite route. The completion-dense schedule obligation displays $M,K,D,S,R,W,H,C,G,N$ before any dense or complete read leaves the chapter boundary.
+
+Next apply metric readback stability. It shows that transported consumers still read the same metric, completion, dense-schedule, stream, regular-readback, ledger, replay, provenance, and naming rows.
+
+The observation-ledger and complete-separable synthesis theorems then repack this route as a $\CompleteSeparableMetricUp$ surface over the metric row $M$. This is the only synthesis route available to an L10 consumer.
+
+Finally invoke the consumer boundary theorem. It permits the listed BEDC rows and refuses selected dense points, quotient completions, countable choice, host equality, open-cover compactness, and ambient real completeness, so the root unblock package is exactly the displayed finite package.
+\end{proof}
+
+\begin{theorem}[Polish-space complete-separable metric row exposure]
+\label{thm:polish-space-complete-separable-metric-row}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. Before any complete-separable metric consumer reads $P$, the packet exposes the $\CompleteMetricUp$ row $K$, the $\SeparableMetricUp$ row $D$, the synthesized $\CompleteSeparableMetricUp$ surface, the $\StreamNameUp$ finite windows $S$, the $\RegSeqRatUp$ readback row $R$, the componentwise $\hsame$ transport $H$, the displayed $\Cont$ replay $C$, the $\Pkg$ provenance $G$, and the local $\NameCert$ row $N$ over the same $\MetricSpaceUp$ row $M$.
+
+Thus the complete-separable consumer receives the finite route
+$$
+M,K,D,S,R,W \longmapsto H,C,G,N
+$$
+and no selected dense point, quotient completion, countable-choice schedule, open-cover compactness principle, host equality of metric spaces, or ambient $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:polish-space-carrier}. The metric source is $M$, the completion handoff is $K$, and the dense schedule is $D$; the stream, regular readback, and observation rows are $S,R,W$.
+
+Apply \autoref{thm:polish-space-complete-separable-synthesis}. It repacks $K$ and $D$ as the complete-separable metric surface only after the stream windows and regular rational readback have been made visible over the same metric carrier.
+
+Use \autoref{thm:polish-space-l10-root-unblock-package}. The package keeps the support rows $H,C,G,N$ attached to the same displayed route, so a consumer cannot read complete separability before the listed rows have been exposed.
+\end{proof}
+
+\begin{theorem}[Polish-space stream-density readback row]
+\label{thm:polish-space-stream-density-readback-row}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. Every dense-schedule consumer that reads the $\SeparableMetricUp$ row $D$ must first pass through the $\StreamNameUp$ windows $S$ and the $\RegSeqRatUp$ readback row $R$, then replay the observation ledger $W$ through $H,C,G,N$ before treating the schedule as a complete-separable metric input.
+
+In particular, a consumer cannot read separability from $D$ as a bare countable enumeration, choice-selected dense point, quotient-completion representative, open-cover compactness argument, or ambient real-completeness witness.
+\end{theorem}
+\begin{proof}
+Start with the dense side of \autoref{thm:polish-space-completion-dense-schedule-obligation}. It places $D$ downstream of the metric row $M$ and ties it to the finite stream windows $S$ and regular rational readback $R$.
+
+Read the observation ledger next. By \autoref{thm:polish-space-observation-ledger-exhaustion}, metric-radius checks, Cauchy windows, dense-name inspections, and regular readbacks all pass through $W$ before the packet exports a separability-facing read.
+
+Finally use \autoref{thm:polish-space-metric-readback-stability}. Transport, replay, provenance, and local naming preserve the same $S,R,W$ route, so a dense-schedule consumer receives finite stream-density readback rather than any hidden enumeration or completion principle.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\PolishSpaceUp$ consumer that reaches a
 $\SeparableMetricUp$, $\CompleteMetricUp$, or $\MetricSpaceUp$ row without
 reading the displayed $\StreamNameUp$ schedule, finite observation ledger,

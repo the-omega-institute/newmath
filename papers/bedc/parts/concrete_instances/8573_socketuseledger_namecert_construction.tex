@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-socket-use-ledger-namecert}
 \origin{ai}
 
-The $\SocketUseLedgerUp$ packet records visible consumption of an apophatic socket as a finite NameCert event surface. It sits under the name-to-gate discipline of \autoref{ch:visions-apophatic-naming-as-discipline} and consumes the sibling surfaces of \autoref{ch:concrete-instances-apophaticname-namecert}, \autoref{ch:concrete-instances-apophaticsocket-namecert}, \autoref{ch:concrete-instances-externalitygate-namecert}, \autoref{ch:concrete-instances-negative-name-boundary-namecert}, and \autoref{ch:concrete-instances-apophaticgatequestion-namecert}. Those chapters name the socket, attach the gate, refuse hidden supply, and ask the audit question; this chapter records the finite event by which a consumer visibly uses that socket.
+The $\SocketUseLedgerUp$ packet records visible consumption of an apophatic socket as a finite NameCert event surface. It sits under the name-to-gate discipline of \autoref{ch:visions-apophatic-naming-as-discipline} and consumes the sibling surfaces of \autoref{ch:concrete-instances-apophaticname-namecert}, \autoref{ch:concrete-instances-apophaticsocket-namecert}, \autoref{ch:concrete-instances-externalitygate-namecert}, \autoref{ch:concrete-instances-negative-name-boundary-namecert}, and \autoref{ch:concrete-instances-apophaticgatequestion-namecert}. Those chapters name the socket, attach the gate, refuse hidden supply, and ask the audit question; this chapter records the finite event by which a consumer visibly uses that socket. The visible-use row consumes the $\ApophaticSocketUp$ use-site row and $\ExternalityGateUp$ gate row as sibling carriers, not merely as prose context.
 
 \begin{definition}[SocketUseLedger carrier]
 \label{def:socket-use-ledger-carrier}
@@ -43,6 +43,7 @@ The event portion is read through $V$ and $R$. A visible use is accepted only wh
 
 Finally $H,C,P,N$ provide the only transport, replay, provenance, and naming routes. Since the carrier contains no requested outside supply, the local certificate records use of the socket without internalizing the supply.
 \end{proof}
+\leanchecked{BEDC.Derived.SocketUseLedgerUp.SocketUseLedgerCarrier\_namecert\_obligations}
 
 \begin{theorem}[SocketUseLedger visible-use non-escape]
 \label{thm:socket-use-ledger-visible-use-nonescape}
@@ -57,6 +58,37 @@ Apply the NameCert obligations of \autoref{thm:socket-use-ledger-namecert-obliga
 Now read the audit-facing rows. The continuation row $C$ exposes the finite use/refusal result, while $H,P,N$ transport, package, and name the same packet. No excluded supply or host principle appears among the coordinates, so the accepted socket-use read cannot escape the ledger.
 \end{proof}
 
+\begin{theorem}[SocketUseLedger public visible refusal]
+\label{thm:socket-use-ledger-public-visible-refusal}
+Every public visible-use or refusal read of a $\SocketUseLedgerUp$ packet factors through $\ApophaticNameUp$, $\ApophaticSocketUp$, $\ExternalityGateUp$, $\NegativeNameBoundaryUp$, and $\ApophaticGateQuestionUp$ before the local visible-use row, refusal ledger, componentwise transport, continuation replay, provenance, and local naming rows are read. Thus the exported event is a sibling-carrier route followed by the local ledger route
+$$
+A,S,Q,V,R,H,C,P,N .
+$$
+It cannot be read as a detached visible-use event, an unmarked supply import, a gate-free refusal, a quotient collapse, or a host replacement for the apophatic boundary.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:socket-use-ledger-carrier}. The name row $A$, socket row $S$, gate question $Q$, visible-use row $V$, refusal row $R$, and structural rows $H,C,P,N$ are the only displayed fields.
+
+Apply \autoref{thm:socket-use-ledger-namecert-obligations}. It forces apophatic-name exposure, socket exposure, gate-question exactness, visible-use readback, refusal-ledger coverage, transport, replay, provenance, and local naming to be read as one NameCert surface.
+
+Now use \autoref{thm:socket-use-ledger-visible-use-nonescape}. The visible-use read reaches the audit consumer only after the sibling apophatic name, socket, externality gate, negative boundary, and gate-question carriers have constrained it. The local ledger rows can therefore export visible use or refusal only through that route, with no detached supply import or host-level gate replacement.
+\end{proof}
+
+\begin{theorem}[SocketUseLedger public event surface]
+\label{thm:socket-use-ledger-public-event-surface}
+The public exported object of $\SocketUseLedgerUp$ is exactly the visible-use and refusal event surface
+$$
+U=(A,S,Q,V,R,H,C,P,N).
+$$
+Its public rows expose the apophatic name $A$, socket $S$, gate question $Q$, visible-use row $V$, refusal row $R$, componentwise transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$, and no other public coordinate is exported.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:socket-use-ledger-carrier} lists precisely the nine displayed rows of $U$. The NameCert obligations of \autoref{thm:socket-use-ledger-namecert-obligations} certify carrier admission, exposure, visible-use readback, refusal coverage, transport, continuation replay, provenance, and local naming for those rows.
+
+The visible-use non-escape theorem \autoref{thm:socket-use-ledger-visible-use-nonescape} excludes the requested outside supply, unmarked selectors, hidden axiom channels, quotient collapse, proposition-extensionality collapse, and host-level gate replacement from the exported read. Hence the public surface is the event ledger $U$ and nothing beyond it.
+\end{proof}
+\leanchecked{BEDC.Derived.SocketUseLedgerUp.SocketUseLedgerCarrier\_public\_event\_surface}
+
 \falsifiablePrediction{Every accepted socket-use read factors through ApophaticNameUp, ApophaticSocketUp, ExternalityGateUp, and the local visible/refusal ledger before any audit consumer sees it. A read that reaches audit without $A,S,Q,V,R,H,C,P,N$ falsifies this packet.}
 
 \independenceWitness{Nearest siblings: apophaticname, apophaticsocket, externalitygate, negativenameboundary, and apophaticgatequestion. SocketUseLedgerUp is not bijective to any of them because it simultaneously carries an event-level visible-use row and a refusal row for the same socket-use read; each sibling lacks at least one of those event ledger coordinates.}
@@ -64,15 +96,16 @@ Now read the audit-facing rows. The continuation row $C$ exposes the finite use/
 \closureat{SocketUseLedgerUp}{seedStr}
 \closureat{SocketUseLedgerUp}{obligationStr}[BEDC.Derived.SocketUseLedgerUp.SocketUseLedgerTasteGate\_single\_carrier\_alignment]
 \closureat{SocketUseLedgerUp}{scopedStr}[BEDC.Derived.SocketUseLedgerUp.taste\_gate]
+\closureat{SocketUseLedgerUp}{publicStr}[BEDC.Derived.SocketUseLedgerUp.taste\_gate]
 
 \begin{closurestatus}{\SocketUseLedgerUp}
   \constructivestory{A $\SocketUseLedgerUp$ packet is generated from an apophatic-name row, socket row, gate-question row, visible-use row, refusal ledger, componentwise transports, displayed continuations, package provenance, and local naming.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:socket-use-ledger-carrier}, \autoref{thm:socket-use-ledger-namecert-obligations}, and \autoref{thm:socket-use-ledger-visible-use-nonescape} bind the finite visible-use event ledger for apophatic socket consumption.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:socket-use-ledger-carrier}, \autoref{thm:socket-use-ledger-namecert-obligations}, \autoref{thm:socket-use-ledger-visible-use-nonescape}, and \autoref{thm:socket-use-ledger-public-event-surface} bind the finite public visible-use and refusal event ledger for apophatic socket consumption.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \leanchecked{BEDC.Derived.SocketUseLedgerUp.taste\_gate}
   \notclaimed{This chapter does not close Lean verification, bridge checking, existence of the requested outside supply, global audit completeness, or every possible socket-use grammar.}
-  \upgradepath{Public closure requires a public-object surface for the visible-use and refusal ledger over the same finite event packet.}
+  \upgradepath{Bridge closure requires a standard bridge that transports the public event ledger into the acceptance schema.}
 \end{closurestatus}
