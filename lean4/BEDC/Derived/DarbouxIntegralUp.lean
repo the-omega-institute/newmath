@@ -198,4 +198,34 @@ theorem DarbouxIntegralPacket_cauchy_gap_nonescape [AskSetup] [PackageSetup]
       upperLowerSumGap, gapRealConsumer, consumerNameIntegral, namePkg, consumerPkg,
       integralPkg⟩
 
+theorem DarbouxIntegralPacket_upper_lower_sum_ledger [AskSetup] [PackageSetup]
+    {partition upper lower upperSum lowerSum gap realHandoff transports routes name
+      refinedUpper refinedLower refinedUpperSum refinedLowerSum : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DarbouxIntegralPacket partition upper lower upperSum lowerSum gap realHandoff transports
+        routes name bundle pkg →
+      Cont upper refinedUpper refinedUpperSum →
+        Cont lower refinedLower refinedLowerSum →
+          hsame upperSum refinedUpperSum →
+            hsame lowerSum refinedLowerSum →
+              UnaryHistory partition ∧ UnaryHistory upper ∧ UnaryHistory lower ∧
+                UnaryHistory upperSum ∧ UnaryHistory lowerSum ∧
+                  UnaryHistory refinedUpperSum ∧ UnaryHistory refinedLowerSum ∧
+                    Cont upper lower upperSum ∧ Cont upperSum lowerSum gap ∧
+                      hsame upperSum refinedUpperSum ∧
+                        hsame lowerSum refinedLowerSum := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro packet _upperRefinement _lowerRefinement sameUpperSum sameLowerSum
+  obtain ⟨partitionUnary, upperUnary, lowerUnary, upperSumUnary, lowerSumUnary, _gapUnary,
+    _realHandoffUnary, _transportsUnary, _routesUnary, _nameUnary, upperLowerUpperSum,
+    upperLowerSumGap, _namePkg⟩ := packet
+  have refinedUpperSumUnary : UnaryHistory refinedUpperSum :=
+    unary_transport upperSumUnary sameUpperSum
+  have refinedLowerSumUnary : UnaryHistory refinedLowerSum :=
+    unary_transport lowerSumUnary sameLowerSum
+  exact
+    ⟨partitionUnary, upperUnary, lowerUnary, upperSumUnary, lowerSumUnary,
+      refinedUpperSumUnary, refinedLowerSumUnary, upperLowerUpperSum, upperLowerSumGap,
+      sameUpperSum, sameLowerSum⟩
+
 end BEDC.Derived.DarbouxIntegralUp
