@@ -120,4 +120,34 @@ theorem NetConvergenceCarrier_moore_smith_dependency
   exact
     ⟨sameD, sameA, sameF, sameL, sourceRoute, filterRoute, realRoute, fields⟩
 
+theorem NetConvergenceCarrier_directed_window_admission {D T E A F S R L H C P M
+    read : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M ->
+      Cont D T E ->
+        hsame read D ->
+          hsame D D ∧ hsame T T ∧ hsame E E ∧ Cont D T E ∧ hsame read D ∧
+            netConvergenceFields (NetConvergenceUp.mk D T E A F S R L H C P M) =
+              [D, T, E, A, F, S, R, L, H, C, P, M] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  intro carrier directedWindow readSame
+  obtain ⟨sameD, sameT, sameE, _sameA, _sameF, _sameS, _sameR, _sameL, _sameH,
+    _sameC, _sameP, _sameM, fields⟩ := carrier
+  exact ⟨sameD, sameT, sameE, directedWindow, readSame, fields⟩
+
+theorem NetConvergenceCarrier_cauchy_net_limit_handoff
+    {D T E A F S R L H C P M sourceRead limitRead : BHist}
+    (carrier : NetConvergenceCarrier D T E A F S R L H C P M)
+    (sourceRoute : Cont D A sourceRead)
+    (limitRoute : Cont sourceRead L limitRead)
+    (realRoute : Cont S R L)
+    (limitSame : hsame limitRead D) :
+    (Cont D A sourceRead ∧ Cont sourceRead L limitRead ∧ hsame limitRead D) ∧
+      (Cont S R L ∧ hsame L L ∧
+        netConvergenceFields (NetConvergenceUp.mk D T E A F S R L H C P M) =
+          [D, T, E, A, F, S, R, L, H, C, P, M]) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  obtain ⟨_sameD, _sameT, _sameE, _sameA, _sameF, _sameS, _sameR, sameL, _sameH,
+    _sameC, _sameP, _sameM, fields⟩ := carrier
+  exact ⟨⟨sourceRoute, limitRoute, limitSame⟩, ⟨realRoute, sameL, fields⟩⟩
+
 end BEDC.Derived.NetConvergenceUp
