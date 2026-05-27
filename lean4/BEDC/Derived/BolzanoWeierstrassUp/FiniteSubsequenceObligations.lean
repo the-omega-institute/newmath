@@ -47,4 +47,48 @@ theorem BolzanoWeierstrassCarrier_finite_subsequence_obligations [AskSetup] [Pac
     ⟨SUnary, KUnary, RUnary, QUnary, subseqUnary, clusterUnary, subseqRoute,
       clusterRoute, carrierPkg, clusterPkg⟩
 
+theorem BolzanoWeierstrassPublicSubsequenceSelector [AskSetup] [PackageSetup]
+    {S K R Q E H C P N selector : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BolzanoWeierstrassCarrier S K R Q E H C P N bundle pkg ->
+      Cont S K selector ->
+        Cont selector R Q ->
+          UnaryHistory S ∧ UnaryHistory K ∧ UnaryHistory R ∧ UnaryHistory Q ∧
+            UnaryHistory selector ∧ Cont S K selector ∧ Cont selector R Q ∧
+              PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier selectorRoute readbackRoute
+  obtain ⟨SUnary, KUnary, RUnary, QUnary, _EUnary, _HUnary, _CUnary, _PUnary,
+    _NUnary, _sourceIntervalRoute, _readbackSealRoute, _transportReplayRoute,
+    carrierPkg⟩ := carrier
+  have selectorUnary : UnaryHistory selector :=
+    unary_cont_closed SUnary KUnary selectorRoute
+  exact
+    ⟨SUnary, KUnary, RUnary, QUnary, selectorUnary, selectorRoute, readbackRoute,
+      carrierPkg⟩
+
+theorem BolzanoWeierstrassPublicClusterWitness [AskSetup] [PackageSetup]
+    {S K R Q E H C P N selector cluster : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BolzanoWeierstrassCarrier S K R Q E H C P N bundle pkg ->
+      Cont S K selector ->
+        Cont selector R Q ->
+          Cont Q E cluster ->
+            UnaryHistory S ∧ UnaryHistory K ∧ UnaryHistory R ∧ UnaryHistory Q ∧
+              UnaryHistory E ∧ UnaryHistory selector ∧ UnaryHistory cluster ∧
+                Cont S K selector ∧ Cont selector R Q ∧ Cont Q E cluster ∧
+                  PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier selectorRoute readbackRoute clusterRoute
+  obtain ⟨SUnary, KUnary, RUnary, QUnary, EUnary, _HUnary, _CUnary, _PUnary,
+    _NUnary, _sourceIntervalRoute, _readbackSealRoute, _transportReplayRoute,
+    carrierPkg⟩ := carrier
+  have selectorUnary : UnaryHistory selector :=
+    unary_cont_closed SUnary KUnary selectorRoute
+  have clusterUnary : UnaryHistory cluster :=
+    unary_cont_closed QUnary EUnary clusterRoute
+  exact
+    ⟨SUnary, KUnary, RUnary, QUnary, EUnary, selectorUnary, clusterUnary,
+      selectorRoute, readbackRoute, clusterRoute, carrierPkg⟩
+
 end BEDC.Derived.BolzanoWeierstrassUp
