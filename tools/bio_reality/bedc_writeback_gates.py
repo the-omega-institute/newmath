@@ -35,7 +35,36 @@ GENERIC_TEMPLATE_PHRASES = [
     "finite reality-bound seed witness for claim",
     "TasteGate-style separation",
     "polynomial witness slot",
+    "lean target sketch (statement-only)",
+    "internal newmath/bedc derivation",
+    "bridge disclaimer",
+    "external reality sources",
 ]
+
+
+_FORBIDDEN_PATTERNS = [
+    (re.compile(r"\\n[\\n ]*\\input"), "literal_backslash_n_escape_in_tex"),
+    (re.compile(r"\\leanchecked|\\leanstmt|\\leandef|\\leanvariant|\\leansorryd|\\leantarget"), "lean_marker_forbidden_in_bioreality"),
+]
+
+
+def check_chapter_hygiene(chapter_text: str, *, require_origin_ai: bool = True) -> list[str]:
+    """Structural hygiene gate: rejects template-residue, literal backslash-n
+    escapes, Lean markers, and missing \\origin{ai}. Independent from the
+    semantic generic_prose_detector — this catches malformed authoring before
+    it ships."""
+    issues: list[str] = []
+    text = chapter_text or ""
+    for pattern, label in _FORBIDDEN_PATTERNS:
+        if pattern.search(text):
+            issues.append(f"forbidden_pattern: {label}")
+    lowered = re.sub(r"\s+", " ", text.lower())
+    for phrase in GENERIC_TEMPLATE_PHRASES:
+        if phrase.lower() in lowered:
+            issues.append(f"template_residue: {phrase}")
+    if require_origin_ai and r"\origin{ai}" not in text:
+        issues.append("missing_origin_ai_marker")
+    return issues
 
 
 def _nonblank_line_count(text: str) -> int:
@@ -348,6 +377,52 @@ def self_test() -> int:
         ("closurestatus_complete", bool(closurestatus_complete(r"\begin{closurestatus}{\FooUp}\formalstatus{}\end{closurestatus}")), None),
         ("origin_ai_has_falsifiable_and_independence", bool(origin_ai_has_falsifiable_and_independence(r"\origin{ai}")), None),
         ("no_naked_leanstmt", bool(no_naked_leanstmt(r"\leanstmt{BEDC.X}")), None),
+        (
+            "check_chapter_hygiene_catches_literal_backslash_n",
+            "forbidden_pattern: literal_backslash_n_escape_in_tex"
+            in check_chapter_hygiene(
+                r"\subsection{x}\origin{ai}\n\n\input{parts/foo}",
+                require_origin_ai=True,
+            ),
+            None,
+        ),
+        (
+            "check_chapter_hygiene_catches_lean_marker",
+            "forbidden_pattern: lean_marker_forbidden_in_bioreality"
+            in check_chapter_hygiene(
+                "\\origin{ai}\n\\leanchecked{BEDC.X}\nMore text.",
+                require_origin_ai=True,
+            ),
+            None,
+        ),
+        (
+            "check_chapter_hygiene_catches_template_residue",
+            any(
+                issue.startswith("template_residue:")
+                for issue in check_chapter_hygiene(
+                    "\\origin{ai}\nThis BEDC 5-tuple records something.",
+                    require_origin_ai=True,
+                )
+            ),
+            None,
+        ),
+        (
+            "check_chapter_hygiene_catches_missing_origin",
+            "missing_origin_ai_marker"
+            in check_chapter_hygiene(
+                "\\subsection{x}\nClean prose without origin marker.",
+                require_origin_ai=True,
+            ),
+            None,
+        ),
+        (
+            "check_chapter_hygiene_passes_clean",
+            not check_chapter_hygiene(
+                "\\subsection{x}\n\\origin{ai}\n\nClean chapter prose with no forbidden patterns.\n",
+                require_origin_ai=True,
+            ),
+            None,
+        ),
         (
             "generic_prose_detector_phrase",
             bool(generic_prose_detector("A finite reality-bound seed witness for the claim appears here." + "x" * 1500, ["a", "b", "c"])),

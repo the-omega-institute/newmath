@@ -1,0 +1,80 @@
+\chapter{BioRealityQSixFamilyLeaveOneBoundaryLedger NameCert Construction}
+\label{ch:concrete-instances-bioreality-q-six-family-leave-one-boundary-ledger-namecert}
+\origin{ai}
+
+The \BioRealityQSixFamilyLeaveOneBoundaryLedgerUp packet encodes a finite boundary ledger for the claim that a leave-one-code-out biological-code test remains above its baseline when inspected by family.  The carrier is not a claim about all possible genetic-code partitions.  It is the bounded ledger determined by five named family rows and by the hit-rate comparisons certified at a fixed verification time.
+
+The certified family support has cardinality $5$.  Four families have hit rate $1.0$ above baseline: bacterial plastid, candidate other, mitochondrial, and nuclear ciliate.  The remaining listed family, alternative yeast, has hit rate $0.8333333333333334$ above baseline.  These five values are the only numerical content used by this chapter.
+
+\falsifiablePrediction{If the same leave-one-code-out family ledger is recomputed on the same certified family partition, then the five-family support must still contain exactly $5$ rows, and the alternative yeast row must remain below the four $1.0$ rows while remaining above baseline at $0.8333333333333334$.}
+
+\independenceWitness{The alternative yeast row is the separating witness: its certified value is $0.8333333333333334$, whereas bacterial plastid, candidate other, mitochondrial, and nuclear ciliate each have value $1.0$.  Hence the boundary ledger is not just a constant-family table, and deleting that row erases the only certified non-unit family hit-rate value.}
+
+\begin{definition}[Family leave-one boundary ledger]
+\label{def:bioreality-q-six-family-leave-one-boundary-ledger}
+A \BioRealityQSixFamilyLeaveOneBoundaryLedgerUp is a finite record consisting of a family set $F$, a value map $h:F\to[0,1]$, and a baseline-comparison flag for each family.  In this chapter the certified support is
+$$
+\begin{gathered}
+F=\{\text{alternative yeast},\text{ bacterial plastid},\text{ candidate other},\text{ mitochondrial},\text{ nuclear ciliate}\},\\
+|F|=5.
+\end{gathered}
+$$
+The certified hit-rate values above baseline are
+$$
+\begin{aligned}
+h(\text{alternative yeast})&=0.8333333333333334,\\
+h(\text{bacterial plastid})&=1.0,\\
+h(\text{candidate other})&=1.0,\\
+h(\text{mitochondrial})&=1.0,\\
+h(\text{nuclear ciliate})&=1.0.
+\end{aligned}
+$$
+The associated boundary predicate $B(f)$ holds when the row for $f$ is certified above baseline.  For this packet, $B(f)$ holds for all five displayed families.
+\end{definition}
+
+\begin{definition}[Leave-one family deletion]
+\label{def:bioreality-q-six-family-leave-one-deletion}
+For a family $a\in F$, the leave-one deletion $F\setminus\{a\}$ is the ledger obtained by removing the row indexed by $a$ and restricting $h$ and $B$ to the remaining rows.  The deletion is boundary-preserving when every remaining row is still certified above baseline.
+\end{definition}
+
+\begin{lemma}[All certified family rows are above baseline]
+\label{lem:bioreality-q-six-family-all-rows-above-baseline}
+Every row of the certified five-family ledger is above baseline.
+\end{lemma}
+
+\begin{proof}
+The proof is by finite inspection of the displayed ledger.  The alternative yeast row has value $0.8333333333333334$ above baseline.  The bacterial plastid, candidate other, mitochondrial, and nuclear ciliate rows each have value $1.0$ above baseline.  These are all five rows of $F$, so each certified family row satisfies $B(f)$.
+\end{proof}
+
+\begin{theorem}[Leave-one family boundary preservation]
+\label{thm:bioreality-q-six-family-leave-one-boundary-preservation}
+For every family $a\in F$, the leave-one deletion $F\setminus\{a\}$ is boundary-preserving.
+\end{theorem}
+
+\begin{proof}
+Fix $a\in F$ and let $g\in F\setminus\{a\}$.  Then $g\in F$.  By the preceding finite inspection, the row for $g$ is above baseline.  Since leave-one deletion only removes the row $a$ and does not alter the certified value or baseline flag attached to any retained row, $B(g)$ still holds in the restricted ledger.  Therefore every retained row is above baseline, so the deletion is boundary-preserving.
+\end{proof}
+
+\begin{proposition}[Nonconstant boundary shape]
+\label{prop:bioreality-q-six-family-nonconstant-boundary-shape}
+The certified ledger is not a constant-valued family ledger.
+\end{proposition}
+
+\begin{proof}
+The alternative yeast row has value $0.8333333333333334$, while the bacterial plastid row has value $1.0$.  These two certified values are unequal.  Hence not all certified family rows have the same hit-rate value.
+\end{proof}
+
+\begin{definition}[Boundary refusal]
+\label{def:bioreality-q-six-family-boundary-refusal}
+The packet refuses any strengthening from the five certified rows to an unrestricted biological-code family theorem.  It also refuses any claim that the non-unit alternative yeast value is a measurement error, a universal lower bound, or evidence for an unlisted family.  The construction only certifies the five displayed rows and their leave-one boundary preservation.
+\end{definition}
+
+\begin{closurestatus}{\BioRealityQSixFamilyLeaveOneBoundaryLedgerUp}
+  \constructivestory{A finite five-row ledger is constructed from the certified family names and their displayed hit-rate-above-baseline values; leave-one deletion is the ordinary row restriction of that finite ledger.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{Closed for the five named families and for leave-one deletion of exactly one certified family row.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{No claim is made for unlisted biological-code families, alternate family partitions, codon-level causal mechanisms, or recomputations beyond the certified values verified at $2026$-$05$-$26$ $16{:}22{:}47+00{:}00$.}
+  \upgradepath{To upgrade the packet, supply a formal carrier for the five-family ledger, a checked deletion operator, and a bridge audit tying the displayed numerical rows to a reproducible provenance record.}
+\end{closurestatus}

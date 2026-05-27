@@ -1,0 +1,67 @@
+\chapter{BioRealityQSixAaClassNullLedger NameCert Construction}
+\label{ch:concrete-instances-bioreality-q-six-aa-class-null-ledger-namecert}
+\origin{ai}
+
+The BioRealityQSixAaClassNullLedger packet certifies a finite null ledger for the claim $h0.null.model.aa\_class\_preserving$.  The carrier is not a biological law and not a distributional limit theorem.  It is the closed record of one bounded randomization ledger: $N=2000$ null draws were inspected under seed $42$, the exact-shape match count was $0$, and the observed amino-acid class support size was $20$.
+
+\section{Carrier Record}
+\label{sec:bioreality-q-six-aa-class-null-ledger-carrier-record}
+
+\begin{definition}[BioRealityQSixAaClassNullLedger carrier]
+\label{def:bioreality-q-six-aa-class-null-ledger-carrier}
+The BioRealityQSixAaClassNullLedger carrier is the finite tuple
+$$
+\begin{gathered}
+\mathcal{L}_{aa}=(N,s,E,L,M,p_E,p_L),\\
+N=2000,\quad s=42,\quad E=0,\quad L=7,\quad M=20,\\
+p_E=0.0,\quad p_L=0.0035.
+\end{gathered}
+$$
+Here $E$ is the number of null draws whose amino-acid-class shape exactly matched the observed shape, $L$ is the number of null draws whose class-support size was at most the observed support size, $M$ is the observed support size, $p_E$ is the reported exact-shape empirical tail value, and $p_L$ is the reported lower-tail empirical value.
+\end{definition}
+
+The ledger therefore separates two negative signals.  First, exact shape matching was absent in the bounded draw set: among $2000$ null draws, $0$ exact matches were recorded.  Second, the lower-tail event was rare but not absent: $7$ of the same $2000$ null draws had support size at most the observed size $20$, giving the displayed lower-tail value $0.0035$.
+
+\begin{theorem}[Finite amino-acid-class null certificate]
+\label{thm:bioreality-q-six-aa-class-null-ledger-certificate}
+For the BioRealityQSixAaClassNullLedger carrier, the certified exact-shape count is $E=0$, the certified lower-tail count is $L=7$, and the certified observed support size is $M=20$ over $N=2000$ null draws.  Consequently the finite ledger reports
+$$
+\begin{aligned}
+p_E &= 0.0,\\
+p_L &= 0.0035.
+\end{aligned}
+$$
+\end{theorem}
+
+\begin{proof}
+The statement is a direct unpacking of the carrier tuple.  The first coordinate fixes $N=2000$, the exact-shape coordinate fixes $E=0$, the lower-tail coordinate fixes $L=7$, and the observed-support coordinate fixes $M=20$.  The two displayed empirical values are the two tail-value coordinates of the same closed tuple.
+\end{proof}
+
+\section{Null-Model Reading}
+\label{sec:bioreality-q-six-aa-class-null-ledger-null-reading}
+
+The certified claim is intentionally narrow.  It says that this finite null ledger did not reproduce the observed amino-acid-class shape exactly, and that only $7$ null draws fell at or below the observed support size $20$.  The exact-shape significance field is $0.0$, matching the recorded exact-shape tail value $0.0$.  The lower-tail significance field is $0.0035$, matching the recorded lower-tail value $0.0035$.
+
+\begin{definition}[Bounded refusal boundary]
+\label{def:bioreality-q-six-aa-class-null-ledger-refusal-boundary}
+The refusal boundary of the carrier is the rule that no statement may be inferred beyond the seven recorded coordinates of $\mathcal{L}_{aa}$.  In particular, the ledger does not claim an asymptotic $p$-value, does not claim a mechanistic biochemical cause, and does not identify any codon-level witness list.
+\end{definition}
+
+This boundary matters because the row-count evidence is finite.  The value $p_E=0.0$ records $0$ hits inside $2000$ inspected null rows; it is not promoted here into an absolute impossibility theorem.  Likewise $p_L=0.0035$ records the ratio corresponding to $7$ lower-tail rows among $2000$ inspected rows; it is not treated as a universal constant outside the certified ledger.
+
+\falsifiablePrediction{A rerun that preserves the same null mechanism, the same seed $42$, and the same bounded draw count $N=2000$ must reproduce the ledger coordinates $E=0$, $L=7$, $M=20$, $p_E=0.0$, and $p_L=0.0035$.  A rerun that returns a nonzero exact-shape count, a lower-tail count other than $7$, or an observed support size other than $20$ would falsify this particular NameCert carrier.}
+
+\independenceWitness{The exact-shape coordinate and the lower-tail coordinate are recorded as separate counters: $E=0$ records no exact amino-acid-class shape match, while $L=7$ records null rows with support size at most $M=20$.  The carrier can therefore be audited without deriving the lower-tail count from the exact-match count or deriving the exact-match count from the support-size threshold.}
+
+\section{Closure Status}
+\label{sec:bioreality-q-six-aa-class-null-ledger-closure-status}
+
+\begin{closurestatus}{BioRealityQSixAaClassNullLedger}
+  \constructivestory{The chapter closes a bounded empirical carrier by exposing its finite tuple, counters, tail values, and refusal boundary as inspectable NameCert data.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{Closed only for the finite ledger with $N=2000$, seed $42$, exact-shape count $0$, lower-tail count $7$, observed support size $20$, exact-shape value $0.0$, and lower-tail value $0.0035$.}
+  \formalstatus{\unformalized}
+  \bridgestatus{none}
+  \notclaimed{No asymptotic null theorem, biochemical mechanism, codon list, amino-acid witness table, or independence theorem for future runs is claimed.}
+  \upgradepath{To upgrade the carrier, provide the underlying row-level null ledger and a formal checker that recomputes the two counters and both empirical tail values from that row data.}
+\end{closurestatus}
