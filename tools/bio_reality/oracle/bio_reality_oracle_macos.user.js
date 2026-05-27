@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BioReality Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bio-reality
-// @version      2.1
+// @version      2.2
 // @description  BioReality-pipeline ChatGPT bridge bio-2.0 with automath-stable waiting and BEDC project/PDF routing. Talks to bio_reality_oracle_server.py on :8769.
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -45,7 +45,7 @@
   const MAX_WAIT = 7200000;
   const DEFAULT_MIN_RESPONSE_LENGTH = 1000;
   const REQUIRE_FOREGROUND_TO_CLAIM = false;
-  const SCRIPT_VERSION = "bio-2.1";
+  const SCRIPT_VERSION = "bio-2.2";
   const BIOREALITY_PROJECT_PREFIX = "/g/g-p-6a098a6e69688191a6afd91978c585ef-ge-ben-ha-gen-zhi-lu";
   const BIOREALITY_PROJECT_HOME = `https://chatgpt.com${BIOREALITY_PROJECT_PREFIX}/project`;
 
@@ -1128,10 +1128,27 @@
     let lastLogTime = 0;
     let lastHeartbeat = 0;
     let countIncreasedLogged = false;
+    let lastUrlPin = "";
     while (Date.now() - startTime < MAX_WAIT) {
       await sleep(STABLE_INTERVAL);
       scrollConversationToBottom("wait");
       await sleep(500);
+      // Pin chatgpt_url to the server early so a later /continue on this
+      // conversation_id can route back to the same ChatGPT thread, even if
+      // the Python client poll_result times out before we post the result.
+      if (task_id) {
+        const curUrl = currentChatUrl();
+        if (curUrl && curUrl !== lastUrlPin && /\/c\/[a-f0-9-]/.test(curUrl)) {
+          try {
+            await serverPost("/pin-conv-url", {
+              task_id,
+              chatgpt_url: curUrl,
+              agent_id: agentId(),
+            });
+            lastUrlPin = curUrl;
+          } catch {}
+        }
+      }
       const curCount = newAssistantCount();
       let responseText = (curCount > preSubmitAssistantCount)
         ? extractAssistantOnly()    // count increased: take the LAST assistant message only
