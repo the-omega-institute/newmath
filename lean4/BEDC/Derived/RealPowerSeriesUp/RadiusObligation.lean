@@ -47,4 +47,38 @@ theorem RealPowerSeriesObligationCarrier_radius_obligation [AskSetup] [PackageSe
     ⟨aUnary, rUnary, tUnary, qUnary, uUnary, vUnary, eUnary, partialUnary, testUnary,
       endpointUnary, partialRoute, testRoute, endpointRoute, pPkg, endpointPkg⟩
 
+theorem RealPowerSeriesCarrier_radius_composition [AskSetup] [PackageSetup]
+    {A Z X R W S M E H C P N A' Z' X' R' W' S' M' E' H' C' P' N'
+      radiusRead radiusRead' majorantRead majorantRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ->
+      RealPowerSeriesCarrier A' Z' X' R' W' S' M' E' H' C' P' N' bundle pkg ->
+        hsame R R' ->
+          hsame W W' ->
+            hsame S S' ->
+              Cont R W radiusRead ->
+                Cont R' W' radiusRead' ->
+                  Cont radiusRead S majorantRead ->
+                    Cont radiusRead' S' majorantRead' ->
+                      hsame radiusRead radiusRead' ∧ hsame majorantRead majorantRead' ∧
+                        UnaryHistory radiusRead ∧ UnaryHistory majorantRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier carrier' radiusSame windowSame partialSame radiusRoute radiusRoute'
+    majorantRoute majorantRoute'
+  obtain ⟨_AUnary, _ZUnary, _XUnary, RUnary, WUnary, SUnary, _MUnary, _EUnary,
+    _HUnary, _CUnary, _PUnary, _NUnary, _coefficientWindow, _radiusMajorant,
+    _majorantEndpoint, _pkgSig⟩ := carrier
+  obtain ⟨_AUnary', _ZUnary', _XUnary', _RUnary', _WUnary', _SUnary', _MUnary',
+    _EUnary', _HUnary', _CUnary', _PUnary', _NUnary', _coefficientWindow',
+    _radiusMajorant', _majorantEndpoint', _pkgSig'⟩ := carrier'
+  have radiusReadSame : hsame radiusRead radiusRead' :=
+    cont_respects_hsame radiusSame windowSame radiusRoute radiusRoute'
+  have majorantReadSame : hsame majorantRead majorantRead' :=
+    cont_respects_hsame radiusReadSame partialSame majorantRoute majorantRoute'
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_cont_closed RUnary WUnary radiusRoute
+  have majorantReadUnary : UnaryHistory majorantRead :=
+    unary_cont_closed radiusReadUnary SUnary majorantRoute
+  exact ⟨radiusReadSame, majorantReadSame, radiusReadUnary, majorantReadUnary⟩
+
 end BEDC.Derived.RealPowerSeriesUp
