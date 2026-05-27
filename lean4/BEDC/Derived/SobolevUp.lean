@@ -523,6 +523,35 @@ theorem SobolevCarrier_root_norm_completion_ledger [AskSetup] [PackageSetup]
       completionUnary, domainBaseCodomain, codomainMagnitudeGradient, normRoute,
       completionRoute, provenancePkg, completionPkg⟩
 
+theorem SobolevCarrier_root_weak_gradient_carrier [AskSetup] [PackageSetup]
+    {domain base codomain magnitude gradient transports routes provenance localCert rootRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SobolevCarrier domain base codomain magnitude gradient transports routes provenance
+        localCert bundle pkg →
+      Cont magnitude gradient rootRead →
+        UnaryHistory domain ∧ UnaryHistory base ∧ UnaryHistory codomain ∧
+          UnaryHistory magnitude ∧ UnaryHistory gradient ∧ UnaryHistory transports ∧
+            UnaryHistory routes ∧ UnaryHistory provenance ∧ UnaryHistory localCert ∧
+              UnaryHistory rootRead ∧ Cont domain base codomain ∧
+                Cont codomain magnitude gradient ∧ Cont magnitude gradient rootRead ∧
+                  Cont gradient transports routes ∧ Cont routes provenance localCert ∧
+                    PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier magnitudeGradientRoot
+  rcases carrier with
+    ⟨domainUnary, baseUnary, codomainUnary, magnitudeUnary, gradientUnary, transportsUnary,
+      routesUnary, provenanceUnary, localCertUnary, domainBaseCodomain,
+      codomainMagnitudeGradient, gradientTransportsRoutes, routesProvenanceLocalCert,
+      provenancePkg⟩
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed magnitudeUnary gradientUnary magnitudeGradientRoot
+  exact
+    ⟨domainUnary, baseUnary, codomainUnary, magnitudeUnary, gradientUnary, transportsUnary,
+      routesUnary, provenanceUnary, localCertUnary, rootUnary, domainBaseCodomain,
+      codomainMagnitudeGradient, magnitudeGradientRoot, gradientTransportsRoutes,
+      routesProvenanceLocalCert, provenancePkg⟩
+
 def SobolevFiniteWindowCarrier [AskSetup] [PackageSetup]
     (domain base codomain magnitude gradient trace transports provenance localCert : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
