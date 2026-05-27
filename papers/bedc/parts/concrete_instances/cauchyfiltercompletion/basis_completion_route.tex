@@ -7,6 +7,7 @@ For an accepted $\CauchyFilterCompletionUp$ carrier $F=(C,W,T,R,L,H,K,P,N)$, the
 \label{thm:cauchy-filter-completion-basis-totality}
 Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier. Every completion-facing consumer first reads the basis-completion route of \autoref{def:cauchy-filter-completion-basis-route}; in particular, the displayed $\FilterBaseUp/\CauchyFilterUp$ source behind $C$ is admitted before any window, tolerance, readback, seal, transport, replay, provenance, or local naming row can be inspected.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionPacket\_basis\_totality}
 \begin{proof}
 Apply \autoref{thm:cauchy-filter-completion-filter-base-admission}. It places the $\FilterBaseUp/\CauchyFilterUp$ source behind $C$ before every downstream completion-facing read.
 
@@ -26,6 +27,7 @@ Apply \autoref{thm:cauchy-filter-completion-completion-handoff}. Metric-facing a
 
 The terminal row $L$ is therefore a seal for the displayed basis-completion route, not a selected limit or host equality proof. The structural rows $H,K,P,N$ preserve and name that same route after the seal boundary has been reached.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletion\_basis\_real\_seal\_transport}
 
 \begin{theorem}[CauchyFilterCompletion basis uniform handoff]
 \label{thm:cauchy-filter-completion-basis-uniform-handoff}
@@ -41,4 +43,37 @@ Use \autoref{thm:cauchy-filter-completion-completion-handoff}. It identifies eve
 Apply \autoref{thm:cauchy-filter-completion-basis-real-seal}. The terminal Real seal exposed to the uniform handoff is downstream from the displayed source, windows, tolerance ledger, and readback row.
 
 Close with \autoref{thm:cauchy-filter-completion-non-choice-boundary}. Since the refused objects have no carrier coordinate, the uniform handoff cannot add a quotient filter, selected limit, countable-choice selector, host equality, or ambient completeness witness beyond the basis-completion route.
+\end{proof}
+
+\begin{definition}[CauchyFilterCompletion basis ledger route]
+\label{def:cauchy-filter-completion-basis-ledger-route}
+For an accepted $\CauchyFilterCompletionUp$ carrier $F=(C,W,T,R,L,H,K,P,N)$, the \emph{basis-ledger route} is the source-window-tolerance-readback-seal ledger
+$$
+C \longmapsto W \longmapsto T \longmapsto R \longmapsto L
+$$
+together with the structural transport, replay, provenance, and local naming rows $H,K,P,N$. It is the visible ledger read that begins at the $\FilterBaseUp/\CauchyFilterUp$ source behind $C$, opens the finite $\StreamNameUp$ windows $W$, reads the $\DyadicRatCoreUp$ tolerance ledger $T$, extracts the $\RegSeqRatUp$ readback $R$, and reaches the terminal $\RealUp$ seal $L$ without adding quotient filters, selected limits, host equality, or countable-choice selectors.
+\end{definition}
+
+\begin{theorem}[CauchyFilterCompletion basis ledger exhaustion]
+\label{thm:cauchy-filter-completion-basis-ledger-exhaustion}
+Every basis-facing completion read of an accepted $\CauchyFilterCompletionUp$ carrier is exhausted by the basis-ledger route of \autoref{def:cauchy-filter-completion-basis-ledger-route}. In particular, once the $\FilterBaseUp/\CauchyFilterUp$ source behind $C$ has been admitted, all visible completion data pass through $W,T,R,L,H,K,P,N$ and no additional source, tolerance, readback, seal, or completion coordinate remains available.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cauchy-filter-completion-basis-totality}. It places the $\FilterBaseUp/\CauchyFilterUp$ source behind $C$ before any basis-facing completion read can inspect downstream rows.
+
+Apply \autoref{thm:cauchy-filter-completion-basis-real-seal}. The terminal $\RealUp$ seal is reachable only after the finite windows $W$, tolerance ledger $T$, and regular readback row $R$ have been traversed.
+
+Finally use \autoref{thm:cauchy-filter-completion-basis-uniform-handoff}. Uniform-facing reads share the same displayed carrier route, so the structural rows $H,K,P,N$ only transport, replay, package, and name the already visible ledger. The sibling FilterBaseUp, RegSeqRatUp, RealUp, and UniformCompletionUp chapters are therefore consumed through this finite route rather than through detached completion data.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion basis universal consumer route]
+\label{thm:cauchy-filter-completion-basis-universal-consumer-route}
+Every $\MetricCompletionUp$, $\UniformCompletionUp$, $\CauchyCompletionFunctorialityUp$, or $\RealUp$ consumer of an accepted $\CauchyFilterCompletionUp$ carrier factors through the same basis-ledger route of \autoref{def:cauchy-filter-completion-basis-ledger-route}. The consumer may repackage the route for metric, uniform, functorial, or Real-facing use, but it receives only the displayed $\FilterBaseUp/\CauchyFilterUp$ source, windows, dyadic tolerances, regular readback, terminal seal, transport, replay, provenance, and local NameCert rows.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cauchy-filter-completion-basis-ledger-exhaustion} to identify the only available basis-facing completion data with $C,W,T,R,L,H,K,P,N$.
+
+For the Real-facing branch, apply \autoref{thm:cauchy-filter-completion-basis-real-seal}. The $\RealUp$ consumer reaches $L$ only through the same source-window-tolerance-readback route.
+
+For the uniform and functorial branches, apply \autoref{thm:cauchy-filter-completion-basis-uniform-handoff}. The $\UniformCompletionUp$ and $\CauchyCompletionFunctorialityUp$ consumers can transport or repackage the finite ledger, but they cannot add quotient filters, selected limits, host equality, countable choice, or an ambient completeness witness. The $\MetricCompletionUp$ branch is the same route read through the metric-completion vocabulary.
 \end{proof}

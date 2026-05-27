@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\RiemannSumGaugeUp$}
+\label{ch:concrete-instances-riemann-sum-gauge-namecert}
+\origin{human}
+
+Following Bishop and Bridges on Riemann integration, the $\RiemannSumGaugeUp$ packet records the finite tagged-gauge data visible before an integration consumer reads a Riemann-sum or Darboux-sum handoff. It sits after the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the upper Darboux-sum boundary of \autoref{ch:concrete-instances-upper-darboux-sum-namecert}, and the closed bounded interval Darboux-partition surface of \autoref{ch:concrete-instances-closed-bounded-interval-darboux-partition-namecert}. The packet names a finite gauge-and-tag carrier for later $\CalculusUp$ and $\IntegralUp$ consumers; it does not import host real functions, selected tags, quotient equality of partitions, choice, open-cover compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Riemann sum gauge carrier]
+\label{def:riemann-sum-gauge-carrier}
+A $\RiemannSumGaugeUp$ carrier is a finite $\BHist$ packet
+$$
+G=(I,T,Q,M,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the closed bounded $\RealUp$ interval row, including endpoint seals and the finite interval enclosure visible to the consumer.
+\item $T$ is the tagged finite partition row, recording cells, tags, endpoint reads, and the local tag-in-cell classifier.
+\item $Q$ is the positive rational gauge-radius row, read as displayed rational data rather than as an ambient open cover.
+\item $M$ is the mesh ledger, binding the tagged partition to the gauge-radius row and recording the visible mesh comparisons.
+\item $D$ is the Darboux/Riemann sum row, carrying the finite weighted values and the handoff to $\UpperDarbouxSumUp$ and the displayed Darboux-partition surface.
+\item $W$ is the $\StreamNameUp$ window row for endpoint, tag, mesh, and value observations at the requested finite windows.
+\item $R$ is the $\RegSeqRatUp$ readback row for the same windows and rational gauge data.
+\item $E$ is the $\DyadicRatCoreUp$ tolerance ledger and terminal $\RealUp$ seal row for every real-facing value or interval read.
+\item $H$ records componentwise $\hsame$ transport for interval, tagged partition, gauge, mesh, sum, window, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from gauge requests, tagged-sum reads, Darboux handoffs, or real-facing consumers through $I,T,Q,M,D,W,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RiemannSumGaugeUp$, $\RealUp$, $\ClosedBoundedIntervalDarbouxPartitionUp$, $\UpperDarbouxSumUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RiemannSumGaugeUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one displayed finite tagged-gauge Riemann-sum history. It has no coordinate for a host function space, selected open cover, quotient equality of partitions, chosen limiting mesh, choice principle, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Riemann sum gauge NameCert obligations]
+\label{thm:riemann-sum-gauge-namecert-obligations}
+For every accepted $\RiemannSumGaugeUp$ carrier $G=(I,T,Q,M,D,W,R,E,H,C,P,N)$, the local $\NameCert_{\RiemannSumGaugeUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the closed bounded interval, tagged finite partition, positive rational gauge-radius row, mesh ledger, Darboux/Riemann sum row, stream windows, regular rational readback, dyadic tolerance and Real seal row, transport, replay, provenance, and local name;
+\item classifier transport, requiring tags, cells, endpoint observations, and gauge-radius comparisons to move only by the componentwise $\hsame$ row $H$;
+\item mesh-gauge exactness, requiring $M$ to bind the tagged partition $T$ to the positive rational gauge-radius row $Q$ before any tagged-sum consumer reads the mesh;
+\item Darboux-sum handoff, requiring the finite sum row $D$ to expose only the displayed $\UpperDarbouxSumUp$ and $\ClosedBoundedIntervalDarbouxPartitionUp$ routes;
+\item Real seal nonescape, requiring every Real-facing value, endpoint, or interval read to pass through $W,R,E$ after $I,T,Q,M,D$ have been displayed;
+\item transport and replay, requiring $H$ and $C$ to preserve the same finite tagged-gauge history;
+\item provenance and naming, requiring $P$ and $N$ to package and name exactly the displayed rows;
+\item ledger refusal, excluding host real functions, quotient equality of partitions, selected limiting meshes, choice, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No Riemann-sum gauge obligation is stored outside these rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.RiemannSumGaugeUp.RiemannSumGaugeTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Carrier admission is projection from \autoref{def:riemann-sum-gauge-carrier}. The projection exposes exactly the interval, tagged partition, gauge-radius, mesh, finite sum, window, readback, seal, and structural rows.
+
+The mesh-gauge route is $T,Q\mapsto M\mapsto D$. A tag or cell may be consumed by the sum row only after the mesh ledger has related that tagged partition to the displayed positive rational gauge-radius row.
+
+The Darboux handoff is then read from $D$. Since $D$ only names the finite $\UpperDarbouxSumUp$ and $\ClosedBoundedIntervalDarbouxPartitionUp$ routes, it cannot add a host supremum, hidden function equality, or selected limiting mesh.
+
+Finally, $W,R,E$ supply finite window, regular rational readback, dyadic tolerance, and Real seal data, while $H,C,P,N$ transport, replay, package, and name the same history. The excluded host objects have no carrier coordinate, so the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\closureat{RiemannSumGaugeUp}{seedStr}
+
+\begin{closurestatus}{\RiemannSumGaugeUp}
+  \constructivestory{A $\RiemannSumGaugeUp$ packet is generated from a closed bounded RealUp interval row, tagged finite partition row, positive rational gauge-radius row, mesh ledger, Darboux/Riemann sum row, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-sum-gauge-carrier} and \autoref{thm:riemann-sum-gauge-namecert-obligations} seed the finite tagged-gauge Riemann-sum surface over $\RealUp$, $\ClosedBoundedIntervalDarbouxPartitionUp$, $\UpperDarbouxSumUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real functions, quotient equality of partitions, selected limiting meshes, choice, open-cover compactness, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, mesh-gauge exactness, Darboux-sum handoff, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RiemannSumGaugeUp.}
+\end{closurestatus}
