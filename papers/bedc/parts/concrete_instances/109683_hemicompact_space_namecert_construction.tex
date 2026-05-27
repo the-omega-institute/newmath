@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\HemicompactSpaceUp$}
+\label{ch:concrete-instances-hemicompact-space-namecert}
+\origin{human}
+
+Following Kelley and Engelking on hemicompact spaces, the $\HemicompactSpaceUp$ packet records compact exhaustion as explicit finite-name data. It sits over the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the compact metric window surface of \autoref{ch:concrete-instances-compactmetric-namecert}, the finite stream schedule of \autoref{ch:concrete-instances-streamname-namecert}, the formal-ball neighborhood route of \autoref{ch:concrete-instances-formalball-namecert}, and the real-radius seal of \autoref{ch:concrete-instances-real-namecert}. The carrier names a countable displayed exhaustion by compact windows; it does not infer open-cover compactness, select covers by choice, or assume that the whole host space is compact.
+
+\begin{definition}[Hemicompact-space carrier]
+\label{def:hemicompact-space-carrier}
+A $\HemicompactSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+E=(M,K,S,F,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the ambient $\MetricSpaceUp$ row, including the point classifier, distance readback, and finite observation histories used by the exhaustion.
+\item $K$ is the $\CompactMetricUp$ exhaustion-window row; its entries name compact metric windows $K_i$ as finite BEDC data and expose their local compact certificates only when the corresponding index is displayed.
+\item $S$ is the $\StreamNameUp$ index schedule recording the inspected exhaustion indices, monotone window requests, and replayed finite prefixes.
+\item $F$ is the $\FormalBallUp$ neighborhood-window row that reads local center-radius data inside a displayed compact window before any neighborhood consumer uses it.
+\item $R$ is the $\RealUp$ radius-seal row attached to the formal-ball windows and to the compact-window containment tests.
+\item $H$ records componentwise $\hsame$ transport for $M,K,S,F,R,C,P,N$ and for the local classifier row.
+\item $C$ records displayed $\Cont$ replay from an index request through the compact window, formal-ball neighborhood window, real-radius seal, transport, provenance, and local name.
+\item $P$ is the $\Pkg$ provenance over $\HemicompactSpaceUp$, $\MetricSpaceUp$, $\CompactMetricUp$, $\StreamNameUp$, $\FormalBallUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HemicompactSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by replaying $M,K,S,F,R,H,C,P,N$. It has no coordinate for an open-cover compactness theorem, a choice-selected cover, a selected global compactification, host-space compactness, quotient equality of exhaustion sequences, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[HemicompactSpace NameCert obligations]
+\label{thm:hemicompact-space-namecert-obligations}
+For every accepted $\HemicompactSpaceUp$ carrier $E=(M,K,S,F,R,H,C,P,N)$, the local $\NameCert_{\HemicompactSpaceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed metric source, compact-window exhaustion, stream index schedule, formal-ball neighborhood windows, real-radius seals, transport, replay, provenance, and local name;
+\item compact-window accountability, requiring every compactness read to pass through the displayed $\CompactMetricUp$ row $K$ at an index supplied by the schedule $S$;
+\item neighborhood-window accountability, requiring every local neighborhood read to pass through the $\FormalBallUp$ row $F$ and the $\RealUp$ radius seals $R$ over the same metric source $M$;
+\item componentwise $\hsame$ transport and $\Cont$ replay stability for the same finite rows;
+\item ledger refusal, stating that open-cover compactness, choice-selected covers, host compactness, quotient equality of exhaustion sequences, and ambient completeness are not carrier coordinates.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:hemicompact-space-carrier}. The analytic rows are exactly the metric source, compact-window exhaustion, index schedule, formal-ball neighborhood row, and real-radius seals.
+
+The compact and neighborhood obligations are ordered by the displayed schedule. A consumer first reads an index in $S$, then the compact metric window in $K$, and only then the formal-ball and real-radius rows $F,R$ available over that window.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same packet. Since the excluded compactness and choice principles are absent from the carrier, no NameCert obligation can export them.
+\end{proof}
+
+\begin{theorem}[Hemicompact exhaustion window]
+\label{thm:hemicompact-space-exhaustion-window}
+Every accepted $\HemicompactSpaceUp$ read of a compact exhaustion window factors through
+$$
+M,S,K,F,R,H,C,P,N .
+$$
+In particular, the consumer receives an index from the $\StreamNameUp$ schedule, the corresponding $\CompactMetricUp$ window, the local $\FormalBallUp$ neighborhood rows, and the $\RealUp$ radius seals over the same $\MetricSpaceUp$ source before the local $\NameCert$ row is consumed. The route exports no open-cover compactness proof, selected cover family, host-space compactness witness, quotient exhaustion equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the index schedule. The row $S$ is the only coordinate that can name which exhaustion window is being inspected, so a compact-window read cannot begin with an unindexed compact object.
+
+Read $K,F,R$ at the displayed index. The compact metric window comes from $K$, while formal-ball neighborhoods and radius seals are replayed through $F$ and $R$ over the same metric source $M$.
+
+Finally attach $H,C,P,N$. These rows preserve the same finite route under transport and replay, and they contain no open-cover, choice-selected, quotient, host compactness, or ambient-completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Hemicompact nonescape]
+\label{thm:hemicompact-space-nonescape}
+Every neighborhood or compact-window consumer of an accepted $\HemicompactSpaceUp$ carrier remains inside the finite route through $\MetricSpaceUp$, $\CompactMetricUp$, $\StreamNameUp$, $\FormalBallUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The consumer cannot escape to open-cover compactness, choice-selected finite subcovers, a compact host-space assertion, selected representatives of exhaustion windows, quotient equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The only analytic coordinates are $M,K,S,F,R$, and each is displayed before the local naming row is available.
+
+Use the exhaustion-window theorem. It forces compact and neighborhood reads to pass through the scheduled compact metric window, formal-ball row, and real-radius seal rather than through an external compactness theorem.
+
+The remaining rows are structural. Transport, replay, provenance, and local naming keep the read inside the displayed $\BHist$ packet, so there is no coordinate from which a consumer can obtain the excluded principles.
+\end{proof}
+
+\falsifiablePrediction{Every $\HemicompactSpaceUp$ consumer of a compact exhaustion window reads a MetricSpaceUp source, CompactMetricUp window, StreamNameUp index schedule, FormalBallUp neighborhood row, RealUp radius seal, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{metricspace, compactmetric, streamname, formalball, real: $\HemicompactSpaceUp$ is not bijective to any listed sibling because it jointly carries an indexed compact-exhaustion schedule, compact metric windows, formal-ball neighborhood windows, real-radius seals, transport, replay, provenance, and local NameCert rows as one finite packet.}
+
+\closureat{HemicompactSpaceUp}{seedStr}
+
+\begin{closurestatus}{\HemicompactSpaceUp}
+  \constructivestory{A $\HemicompactSpaceUp$ packet is generated from a MetricSpaceUp source, CompactMetricUp exhaustion windows, a StreamNameUp index schedule, FormalBallUp neighborhood windows, RealUp radius seals, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hemicompact-space-carrier}, \autoref{thm:hemicompact-space-namecert-obligations}, \autoref{thm:hemicompact-space-exhaustion-window}, and \autoref{thm:hemicompact-space-nonescape} seed the finite compact-exhaustion interface over scheduled compact metric windows and formal-ball neighborhoods.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected finite subcovers, host-space compactness, quotient exhaustion equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-window accountability, index-schedule exactness, formal-ball and real-radius replay, transport stability, provenance, and local naming for BEDC.Derived.HemicompactSpaceUp.}
+\end{closurestatus}
