@@ -272,6 +272,7 @@ S,U,V,B,R,G,K,H,C,P,N .
 $$
 The handoff may cite the substitution generator package, beta-star preservation readback, kernel-ledger boundary, and candidate-mediated closedness ledger, but it exports no global confluence theorem, no subject-reduction theorem, no quotient term equality, no arbitrary normalization theorem, and no kernel-soundness premise.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICClosureTraceUp.MetaCICClosureTraceCarrier\_confluence\_handoff\_boundary}
 \begin{proof}
 Start with a confluence-facing consumer. Carrier projection exposes only the five closure theorem rows, the generator row, the kernel ledger, and the structural rows.
 
@@ -294,6 +295,22 @@ Project the carrier. No row of \autoref{def:metacicclosuretrace-carrier} stores 
 Apply the NameCert obligations and kernel-ledger boundary. They identify $K,H,C,P,N$ as ledger, transport, replay, provenance, and naming rows for the displayed ClosurePreservation declarations only.
 
 Apply the candidate-mediated closedness ledger and candidate closure forwarding results. They allow a decidability-facing packet to consume closedness preservation as input data, but the decidability readback frontier remains the displayed row family; any decidability conclusion must be supplied by the consumer packet.
+\end{proof}
+
+\begin{theorem}[MetaCICClosureTrace obligation status registration]
+\label{thm:metacicclosuretrace-obligation-status-registration}
+For every accepted $\MetaCICClosureTraceUp$ carrier $T=(S,U,V,B,R,G,K,H,C,P,N)$, the substitution-shift package of \autoref{thm:metacicclosuretrace-substitution-shift-generator-package}, the beta-star preservation readback of \autoref{thm:metacicclosuretrace-beta-star-preservation-readback}, the local NameCert obligations of \autoref{thm:metacicclosuretrace-namecert-obligations}, the kernel-ledger boundary of \autoref{thm:metacicclosuretrace-kernel-ledger-boundary}, the candidate frontier of \autoref{thm:metacic-closure-trace-candidate-frontier}, and the decidability readback frontier of \autoref{thm:metacicclosuretrace-decidability-readback-frontier} form the paper obligation surface for the closure trace.
+
+This surface registers only shift closedness, variable-substitution closedness, full-substitution closedness, one-step beta closedness, finite beta-chain closedness, generator readback, kernel-acceptance accounting, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming. It refuses subject reduction, confluence, normalization, conversion soundness, and kernel soundness.
+\end{theorem}
+\begin{proof}
+Read the substitution side first. The substitution-shift package identifies $S,U,V,G$ as the finite generator surface for shift and substitution closedness, so no typing or conversion premise is introduced at the entry point.
+
+Attach the beta-chain readback. The beta-star preservation theorem adds $B,R$ only as one-step and finite-chain \texttt{ClosedAt} rows, while the NameCert obligations place those rows inside carrier admission, transport, replay, provenance, and local naming.
+
+Use the kernel-ledger boundary and candidate frontier to order the remaining route. The row $K$ remains acceptance accounting for displayed ClosurePreservation declarations, and the candidate frontier forces normalization-facing, confluence-facing, and conversion-facing consumers to pass through the same finite row family before asking any downstream packet for stronger evidence.
+
+Finally apply the decidability readback frontier. It keeps decidability-facing reads inside $S,U,V,B,R,G,K,H,C,P,N$ and requires any decidable conversion, decidable typing, quotient term equality, confluence, normalization, subject reduction, conversion soundness, or kernel soundness conclusion to arrive from another packet. Thus the named results jointly register the paper obligation surface without asserting the stronger MetaCIC theorems.
 \end{proof}
 
 \closureat{MetaCICClosureTraceUp}{seedStr}
