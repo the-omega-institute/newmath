@@ -305,6 +305,54 @@ After the window is displayed, the readback row $R$ packages the same data as a 
 Because the route is $B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N$ and the carrier has no selected-best-approximant or quotient-real coordinate, the accepted approximation request is total only along this finite stream and regular-rational route.
 \end{proof}
 
+\begin{theorem}[Farey sequence adjacent dyadic window]
+\label{thm:fareysequence-adjacent-dyadic-window}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+an adjacent Farey window inspected through $B,A,M,L$ gives a dyadic tolerance route only through the displayed $\DyadicRatCoreUp$ and $\RatUp$ rows in $Q$ together with the tolerance row $T$. The route may feed $\RationalStreamUp$ and $\StreamNameUp$ consumers through $W$, but it cannot introduce a host real-order comparison, selected best approximant, or quotient-real equality witness.
+\end{theorem}
+\begin{proof}
+Start with an adjacent-pair inspection. The finite boundary row $B$ names the rational endpoints, the adjacency ledger $A$ records determinant-one neighboring, the mediant row $M$ supplies the displayed refinement, and $L$ bounds the denominators.
+
+The dyadic tolerance read is then forced through $T$ and $Q$. These rows are the only coordinates that expose $\DyadicRatCoreUp$ and $\RatUp$ data to downstream rational consumers.
+
+The stream-facing part of the same request uses $W$ for the $\StreamNameUp$ window and may expose $\RationalStreamUp$ through the rational-source handoff. Since no host-order, selected-approximant, or quotient-equality coordinate appears in \autoref{def:farey-sequence-carrier}, the adjacent window remains a finite dyadic-tolerance route.
+\end{proof}
+
+\begin{theorem}[Farey sequence rational stream readback]
+\label{thm:fareysequence-rational-stream-readback}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+the $\RationalStreamUp$ and $\StreamNameUp$ readback of an adjacent Farey window preserves the same classifier rows $B,A,M,L,T,Q,W$. When the readback is repackaged as a $\RegSeqRatUp$ row $R$, it still records the same finite window classifier and does not add a new rational sequence, choice selector, or ambient completion coordinate.
+\end{theorem}
+\begin{proof}
+Read the stream-facing route from $Q,W$. The rational-source row $Q$ exposes only the displayed rational data already controlled by $B,A,M,L,T$, and the finite stream window $W$ requests entries from that displayed sequence.
+
+The regular rational readback row $R$ repackages the same window for $\RegSeqRatUp$. It is downstream of $Q,W$, so it cannot replace the classifier by a hidden rational stream or by a selected subsequence.
+
+Transport and replay through $H,C$ preserve the same rows before provenance and local naming are read. Thus the classifier remains $B,A,M,L,T,Q,W,R$ throughout the rational-stream readback.
+\end{proof}
+
+\begin{theorem}[Farey sequence real approximation boundary]
+\label{thm:fareysequence-real-approximation-boundary}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+the Real-facing approximation boundary is the route from adjacent Farey rows through $\DyadicRatCoreUp$, $\RatUp$, $\RationalStreamUp$, $\StreamNameUp$, $\RegSeqRatUp$, and then $G,E$ for $\RealRationalApproximationUp$ and $\RealUp$. The boundary exports finite approximation data only; it cannot export quotient equality of real names, a selected limit, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the adjacent window and dyadic tolerance route of \autoref{thm:fareysequence-adjacent-dyadic-window}. It confines the approximation request to $B,A,M,L,T,Q,W$ before the regular readback is available.
+
+Apply the readback scope of \autoref{thm:fareysequence-rational-stream-readback}. The row $R$ gives the $\RegSeqRatUp$ surface for the same displayed window, preserving the rational and stream classifiers.
+
+Only after those rows are displayed can $G$ expose the $\RealRationalApproximationUp$ handoff and $E$ expose the terminal $\RealUp$ seal. The carrier contains no quotient-real equality, selected-limit, trichotomy, choice, or ambient-completeness coordinate, so the real-facing boundary is finite approximation data and nothing stronger.
+\end{proof}
+
 \begin{theorem}[Farey sequence Stern--Brocot refinement scope]
 \label{thm:farey-sequence-stern-brocot-refinement-scope}
 For every accepted $\FareySequenceUp$ carrier
