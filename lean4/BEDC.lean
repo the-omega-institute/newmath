@@ -711,6 +711,7 @@ import BEDC.Derived.BolzanoWeierstrassUp.MonotoneWindowRegularity
 import BEDC.Derived.BolzanoWeierstrassUp.NameCertObligations
 import BEDC.Derived.BolzanoWeierstrassUp.PublicSelectorExport
 import BEDC.Derived.BolzanoWeierstrassUp.RegSeqRatHandoff
+import BEDC.Derived.BolzanoWeierstrassUp.RegularSubsequenceWindowReadback
 import BEDC.Derived.BolzanoWeierstrassUp.RootIntervalTreeObligation
 import BEDC.Derived.BolzanoWeierstrassUp.RootRealSealObligation
 import BEDC.Derived.BolzanoWeierstrassUp.SubsequenceNonescape
@@ -5347,6 +5348,7 @@ import BEDC.Derived.RealSealComparisonUp.NameCertObligations
 import BEDC.Derived.RealSealComparisonUp.TasteGate
 import BEDC.Derived.RealSealCongruenceUp.TasteGate
 import BEDC.Derived.RealSelectorComparisonUp.TasteGate
+import BEDC.Derived.RealSequenceAlgebraUp.BoundedConsumer
 import BEDC.Derived.RealSequenceAlgebraUp.LimitConsumer
 import BEDC.Derived.RealSequenceAlgebraUp.OperationRowExactness
 import BEDC.Derived.RealSequenceAlgebraUp.TasteGate
@@ -6111,6 +6113,7 @@ import BEDC.Derived.SobolevUp.ClassifierLocality
 import BEDC.Derived.SobolevUp.FiniteEnergyCarrier
 import BEDC.Derived.SobolevUp.FiniteWindowRootPackage
 import BEDC.Derived.SobolevUp.IntegralMagnitudeLedgerStability
+import BEDC.Derived.SobolevUp.LocalPoincareLedger
 import BEDC.Derived.SobolevUp.ObligationPackage
 import BEDC.Derived.SobolevUp.TasteGate
 import BEDC.Derived.SobolevUp.TestFunctionSource
