@@ -1,16 +1,29 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.MonoidalCompletionUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive MonoidalCompletionUp : Type where
-  | mk (M U V P A S H C G N : BHist) : MonoidalCompletionUp
+  | mk (metric unit counit product assoc symmetry transport replay provenance name : BHist) :
+      MonoidalCompletionUp
   deriving DecidableEq
 
 def monoidalCompletionEncodeBHist : BHist → RawEvent
@@ -25,7 +38,7 @@ def monoidalCompletionDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (monoidalCompletionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (monoidalCompletionDecodeBHist tail)
 
-private theorem MonoidalCompletionTasteGate_single_carrier_alignment_decode :
+private theorem monoidalCompletion_decode_encode :
     ∀ h : BHist, monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -36,67 +49,91 @@ private theorem MonoidalCompletionTasteGate_single_carrier_alignment_decode :
 
 def monoidalCompletionFields : MonoidalCompletionUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | MonoidalCompletionUp.mk M U V P A S H C G N => [M, U, V, P, A, S, H, C, G, N]
+  | MonoidalCompletionUp.mk metric unit counit product assoc symmetry transport replay
+      provenance name =>
+      [metric, unit, counit, product, assoc, symmetry, transport, replay, provenance, name]
 
-def monoidalCompletionToEventFlow : MonoidalCompletionUp → EventFlow :=
+def monoidalCompletionToEventFlow : MonoidalCompletionUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x => (monoidalCompletionFields x).map monoidalCompletionEncodeBHist
+  | x => List.map monoidalCompletionEncodeBHist (monoidalCompletionFields x)
 
-private def monoidalCompletionEventAtDefault : Nat → EventFlow → RawEvent
+def monoidalCompletionFromEventFlow : EventFlow → Option MonoidalCompletionUp
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => monoidalCompletionEventAtDefault index rest
+  | [] => none
+  | metric :: restMetric =>
+      match restMetric with
+      | [] => none
+      | unit :: restUnit =>
+          match restUnit with
+          | [] => none
+          | counit :: restCounit =>
+              match restCounit with
+              | [] => none
+              | product :: restProduct =>
+                  match restProduct with
+                  | [] => none
+                  | assoc :: restAssoc =>
+                      match restAssoc with
+                      | [] => none
+                      | symmetry :: restSymmetry =>
+                          match restSymmetry with
+                          | [] => none
+                          | transport :: restTransport =>
+                              match restTransport with
+                              | [] => none
+                              | replay :: restReplay =>
+                                  match restReplay with
+                                  | [] => none
+                                  | provenance :: restProvenance =>
+                                      match restProvenance with
+                                      | [] => none
+                                      | name :: restName =>
+                                          match restName with
+                                          | [] =>
+                                              some
+                                                (MonoidalCompletionUp.mk
+                                                  (monoidalCompletionDecodeBHist metric)
+                                                  (monoidalCompletionDecodeBHist unit)
+                                                  (monoidalCompletionDecodeBHist counit)
+                                                  (monoidalCompletionDecodeBHist product)
+                                                  (monoidalCompletionDecodeBHist assoc)
+                                                  (monoidalCompletionDecodeBHist symmetry)
+                                                  (monoidalCompletionDecodeBHist transport)
+                                                  (monoidalCompletionDecodeBHist replay)
+                                                  (monoidalCompletionDecodeBHist provenance)
+                                                  (monoidalCompletionDecodeBHist name))
+                                          | _ :: _ => none
 
-def monoidalCompletionFromEventFlow (ef : EventFlow) : Option MonoidalCompletionUp :=
+private theorem monoidalCompletion_round_trip :
+    ∀ x : MonoidalCompletionUp,
+      monoidalCompletionFromEventFlow (monoidalCompletionToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (MonoidalCompletionUp.mk
-      (monoidalCompletionDecodeBHist (monoidalCompletionEventAtDefault 0 ef))
-      (monoidalCompletionDecodeBHist (monoidalCompletionEventAtDefault 1 ef))
-      (monoidalCompletionDecodeBHist (monoidalCompletionEventAtDefault 2 ef))
-      (monoidalCompletionDecodeBHist (monoidalCompletionEventAtDefault 3 ef))
-      (monoidalCompletionDecodeBHist (monoidalCompletionEventAtDefault 4 ef))
-      (monoidalCompletionDecodeBHist (monoidalCompletionEventAtDefault 5 ef))
-      (monoidalCompletionDecodeBHist (monoidalCompletionEventAtDefault 6 ef))
-      (monoidalCompletionDecodeBHist (monoidalCompletionEventAtDefault 7 ef))
-      (monoidalCompletionDecodeBHist (monoidalCompletionEventAtDefault 8 ef))
-      (monoidalCompletionDecodeBHist (monoidalCompletionEventAtDefault 9 ef)))
-
-private theorem MonoidalCompletionTasteGate_single_carrier_alignment_round_trip
-    (x : MonoidalCompletionUp) :
-    monoidalCompletionFromEventFlow (monoidalCompletionToEventFlow x) = some x := by
-  -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
-  | mk M U V P A S H C G N =>
+  | mk metric unit counit product assoc symmetry transport replay provenance name =>
       change
         some
           (MonoidalCompletionUp.mk
-            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist M))
-            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist U))
-            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist V))
-            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist P))
-            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist A))
-            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist S))
-            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist H))
-            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist C))
-            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist G))
-            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist N))) =
-          some (MonoidalCompletionUp.mk M U V P A S H C G N)
-      rw [MonoidalCompletionTasteGate_single_carrier_alignment_decode M,
-        MonoidalCompletionTasteGate_single_carrier_alignment_decode U,
-        MonoidalCompletionTasteGate_single_carrier_alignment_decode V,
-        MonoidalCompletionTasteGate_single_carrier_alignment_decode P,
-        MonoidalCompletionTasteGate_single_carrier_alignment_decode A,
-        MonoidalCompletionTasteGate_single_carrier_alignment_decode S,
-        MonoidalCompletionTasteGate_single_carrier_alignment_decode H,
-        MonoidalCompletionTasteGate_single_carrier_alignment_decode C,
-        MonoidalCompletionTasteGate_single_carrier_alignment_decode G,
-        MonoidalCompletionTasteGate_single_carrier_alignment_decode N]
+            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist metric))
+            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist unit))
+            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist counit))
+            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist product))
+            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist assoc))
+            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist symmetry))
+            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist transport))
+            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist replay))
+            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist provenance))
+            (monoidalCompletionDecodeBHist (monoidalCompletionEncodeBHist name))) =
+          some
+            (MonoidalCompletionUp.mk metric unit counit product assoc symmetry transport replay
+              provenance name)
+      rw [monoidalCompletion_decode_encode metric, monoidalCompletion_decode_encode unit,
+        monoidalCompletion_decode_encode counit, monoidalCompletion_decode_encode product,
+        monoidalCompletion_decode_encode assoc, monoidalCompletion_decode_encode symmetry,
+        monoidalCompletion_decode_encode transport, monoidalCompletion_decode_encode replay,
+        monoidalCompletion_decode_encode provenance, monoidalCompletion_decode_encode name]
 
-private theorem MonoidalCompletionTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : MonoidalCompletionUp} :
+private theorem monoidalCompletionToEventFlow_injective {x y : MonoidalCompletionUp} :
     monoidalCompletionToEventFlow x = monoidalCompletionToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -105,20 +142,8 @@ private theorem MonoidalCompletionTasteGate_single_carrier_alignment_toEventFlow
         monoidalCompletionFromEventFlow (monoidalCompletionToEventFlow y) :=
     congrArg monoidalCompletionFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (MonoidalCompletionTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (MonoidalCompletionTasteGate_single_carrier_alignment_round_trip y)))
-
-private theorem MonoidalCompletionTasteGate_single_carrier_alignment_fields_faithful :
-    ∀ x y : MonoidalCompletionUp, monoidalCompletionFields x = monoidalCompletionFields y →
-      x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk M₁ U₁ V₁ P₁ A₁ S₁ H₁ C₁ G₁ N₁ =>
-      cases y with
-      | mk M₂ U₂ V₂ P₂ A₂ S₂ H₂ C₂ G₂ N₂ =>
-          cases hfields
-          rfl
+    (Eq.trans (monoidalCompletion_round_trip x).symm
+      (Eq.trans hread (monoidalCompletion_round_trip y)))
 
 instance monoidalCompletionBHistCarrier : BHistCarrier MonoidalCompletionUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -130,40 +155,73 @@ instance monoidalCompletionChapterTasteGate : ChapterTasteGate MonoidalCompletio
   round_trip := by
     intro x
     change monoidalCompletionFromEventFlow (monoidalCompletionToEventFlow x) = some x
-    exact MonoidalCompletionTasteGate_single_carrier_alignment_round_trip x
+    exact monoidalCompletion_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (MonoidalCompletionTasteGate_single_carrier_alignment_toEventFlow_injective heq)
-
-instance monoidalCompletionFieldFaithful : FieldFaithful MonoidalCompletionUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := monoidalCompletionFields
-  field_faithful := MonoidalCompletionTasteGate_single_carrier_alignment_fields_faithful
-
-instance monoidalCompletionNontrivial : Nontrivial MonoidalCompletionUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨MonoidalCompletionUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      MonoidalCompletionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
+    exact hxy (monoidalCompletionToEventFlow_injective heq)
 
 def taste_gate : ChapterTasteGate MonoidalCompletionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   monoidalCompletionChapterTasteGate
 
-theorem MonoidalCompletionTasteGate_single_carrier_alignment :
-    ∃ x : MonoidalCompletionUp,
-      monoidalCompletionFromEventFlow (monoidalCompletionToEventFlow x) = some x ∧
-        BHistCarrier.toEventFlow x = monoidalCompletionToEventFlow x := by
-  -- BEDC touchpoint anchor: BHist BMark
-  refine
-    ⟨MonoidalCompletionUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-      BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty, ?_, ?_⟩
-  · exact MonoidalCompletionTasteGate_single_carrier_alignment_round_trip _
-  · rfl
+def MonoidalCompletionCarrier [AskSetup] [PackageSetup]
+    (metric unit counit product assoc symmetry transport replay provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle Pkg PkgSig hsame
+  UnaryHistory metric ∧ UnaryHistory unit ∧ UnaryHistory counit ∧ UnaryHistory product ∧
+    UnaryHistory assoc ∧ UnaryHistory symmetry ∧ UnaryHistory transport ∧
+      UnaryHistory replay ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+        Cont metric unit counit ∧ Cont counit product assoc ∧
+          Cont assoc symmetry transport ∧ Cont transport replay provenance ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg
+
+theorem MonoidalCompletionCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {metric unit counit product assoc symmetry transport replay provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MonoidalCompletionCarrier metric unit counit product assoc symmetry transport replay
+        provenance name bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          MonoidalCompletionCarrier metric unit counit product assoc symmetry transport replay
+              provenance name bundle pkg ∧ hsame row name)
+        (fun row : BHist =>
+          hsame row metric ∨ hsame row unit ∨ hsame row counit ∨ hsame row product ∨
+            hsame row assoc ∨ hsame row symmetry ∨ hsame row transport ∨
+              hsame row replay ∨ hsame row provenance ∨ hsame row name)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle name pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame SemanticNameCert UnaryHistory
+  intro carrier
+  have carrierSource :
+      MonoidalCompletionCarrier metric unit counit product assoc symmetry transport replay
+        provenance name bundle pkg := carrier
+  obtain ⟨_metricUnary, _unitUnary, _counitUnary, _productUnary, _assocUnary,
+    _symmetryUnary, _transportUnary, _replayUnary, _provenanceUnary, nameUnary,
+    _reflectorRoute, _productRoute, _coherenceRoute, _replayRoute, _provenancePkg,
+    namePkg⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro name ⟨carrierSource, hsame_refl name⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _row' leftSame rightSame
+        exact hsame_trans leftSame rightSame
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+    }
+    pattern_sound := by
+      intro row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.right))))))))
+    ledger_sound := by
+      intro row source
+      cases source.right
+      exact ⟨nameUnary, namePkg⟩
+  }
 
 end BEDC.Derived.MonoidalCompletionUp
