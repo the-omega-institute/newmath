@@ -1,0 +1,86 @@
+\chapter{Cauchy Sequential Continuity NameCert Construction}
+\label{ch:concrete-instances-cauchy-sequential-continuity-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\CauchySequentialContinuityUp$ packet records the finite certificate that a displayed continuous map carries a regular Cauchy name to a regular Cauchy image name. It sits between the certified sequence-consumer surface of \autoref{ch:concrete-instances-sequentialcontinuity-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}, and the graph-and-modulus rows of \autoref{ch:concrete-instances-continuousmap-namecert}. The packet gives the L10 Real and Completion route a finite preservation certificate before a completion consumer treats the image stream as a real name.
+
+\begin{definition}[Cauchy sequential continuity carrier]
+\label{def:cauchy-sequential-continuity-carrier}
+A $\CauchySequentialContinuityUp$ carrier is a finite $\BHist$ packet
+$$
+K=(M_X,M_Y,F,S,W_X,W_Y,R_X,R_Y,E_X,E_Y,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M_X$ and $M_Y$ are the source and target metric rows used by the displayed map.
+\item $F$ is the $\ContinuousMapUp$ graph-and-modulus row for the source-to-target map.
+\item $S$ is the source Cauchy stream surface, read only through finite $\StreamNameUp$ windows.
+\item $W_X$ and $W_Y$ are the inspected source windows and image windows.
+\item $R_X$ and $R_Y$ are the $\RegSeqRatUp$ readback rows for the source and image windows.
+\item $E_X$ and $E_Y$ are the $\RealUp$ seal rows available after the corresponding regular readbacks.
+\item $B$ is the Cauchy-preservation ledger, listing the finite pairs of source thresholds, target tolerances, and modulus rows needed to turn the $R_X$ regularity witness into the $R_Y$ regularity witness.
+\item $H$ records componentwise $\hsame$ transport for all displayed rows and for continuation, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from the source windows through the continuous-map modulus row to the image windows, then through regular readback and seal handoff.
+\item $P$ is the $\Pkg$ provenance over $\CauchySequentialContinuityUp$, $\SequentialContinuityUp$, $\ContinuousMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySequentialContinuityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for a host function, quotient stream equality, selected limit, countable choice, external completeness theorem, or ambient real-continuity principle.
+\end{definition}
+
+\begin{theorem}[Cauchy sequential continuity Cauchy preservation]
+\label{thm:cauchy-sequential-continuity-cauchy-preservation}
+Every accepted $\CauchySequentialContinuityUp$ carrier carries its displayed source regular Cauchy name to a displayed target regular Cauchy name. More precisely, any consumer of the target $\RealUp$ seal must factor through
+$$
+S
+\longmapsto
+W_X
+\longmapsto
+R_X
+\longmapsto
+F
+\longmapsto
+W_Y
+\longmapsto
+B
+\longmapsto
+R_Y
+\longmapsto
+E_Y
+$$
+together with the metric rows, transport rows, continuation replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-sequential-continuity-carrier}. The source stream $S$ is visible only through the inspected windows $W_X$, and the source Cauchy evidence is visible only through the regular rational readback $R_X$.
+
+Apply the displayed continuous-map row $F$ to the same finite source windows. The continuation row $C$ records that every image window $W_Y$ is produced from $W_X$ through the graph-and-modulus data of $F$, not by a host function equality or an unrecorded semantic map.
+
+The preservation ledger $B$ then binds the source thresholds from $R_X$ to the target tolerances requested for $R_Y$. Componentwise $\hsame$ transport in $H$ keeps the metric rows, window rows, regular readbacks, seal rows, continuation, provenance, and local naming on the same displayed packet.
+
+Finally the target seal $E_Y$ is downstream from $R_Y$. Thus a target-real consumer that bypasses the source readback, the continuous-map modulus row, the preservation ledger, or the target readback leaves the accepted carrier.
+\end{proof}
+
+\begin{theorem}[Cauchy sequential continuity NameCert obligations]
+\label{thm:cauchy-sequential-continuity-namecert-obligations}
+For every accepted $\CauchySequentialContinuityUp$ carrier $K=(M_X,M_Y,F,S,W_X,W_Y,R_X,R_Y,E_X,E_Y,B,H,C,P,N)$, the local $\NameCert_{\CauchySequentialContinuityUp}$ surface consists exactly of carrier admission, source and target metric exposure, continuous-map modulus exposure, source stream-window exposure, source and target regular-rational readback, source and target real-seal handoff, Cauchy-preservation ledger readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Read the displayed tuple in \autoref{def:cauchy-sequential-continuity-carrier}. The analytic rows are $M_X,M_Y,F,S,W_X,W_Y,R_X,R_Y,E_X,E_Y,B$; the structural rows are $H,C,P,N$.
+
+The source side is exposed by $S,W_X,R_X,E_X$. These rows say only that the inspected stream windows have regular rational readback and a downstream real seal.
+
+The map side is exposed by $M_X,M_Y,F,W_Y,B$. The continuous-map row supplies the finite modulus data used to form image windows, and the preservation ledger records the threshold comparisons that certify those image windows as regular Cauchy.
+
+The remaining rows transport and replay the same finite route. Since no excluded host principle is a coordinate of the carrier, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\closureat{CauchySequentialContinuityUp}{seedStr}
+
+\begin{closurestatus}{\CauchySequentialContinuityUp}
+  \constructivestory{A $\CauchySequentialContinuityUp$ packet is generated from source and target metric rows, a ContinuousMap graph-and-modulus row, finite source and image StreamName windows, source and target RegSeqRat readbacks, RealUp seal rows, a Cauchy-preservation ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-sequential-continuity-carrier}, \autoref{thm:cauchy-sequential-continuity-cauchy-preservation}, and \autoref{thm:cauchy-sequential-continuity-namecert-obligations} seed the finite certificate that displayed continuous maps preserve regular Cauchy names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host sequential continuity, quotient stream equality, selected limits, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source and target metric exposure, continuous-map modulus exposure, stream-window exactness, RegSeqRat readback, RealUp seal handoff, Cauchy-preservation ledger stability, transport, replay, provenance, and local naming for BEDC.Derived.CauchySequentialContinuityUp.}
+\end{closurestatus}
