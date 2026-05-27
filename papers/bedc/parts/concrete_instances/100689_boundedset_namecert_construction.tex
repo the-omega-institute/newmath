@@ -304,6 +304,7 @@ X,S,c,r,B \longmapsto H,C,P,N .
 $$
 In particular, the consumer may use the located ball and radius rows as bounded-diameter input for $\MetricDiameterUp$ or $\UniformSpaceUp$, but it cannot infer a selected diameter, a least upper bound, compactness, finite-net existence, trichotomy, or ambient $\RealUp$ completeness from the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.BoundedSetUp.BoundedSetCarrier\_located\_diameter\_readback}
 \begin{proof}
 Begin with \autoref{thm:bounded-set-diameter-consumer-handoff}. A diameter consumer receives boundedness only through the metric carrier, subset classifier, center or witness, bound, containment ledger, and structural rows.
 
@@ -338,6 +339,20 @@ Apply \autoref{thm:boundedset-real-order-radius-obligation}. It requires the rad
 Use \autoref{thm:bounded-set-radius-ledger} and \autoref{thm:bounded-set-radius-classifier-stability}. They keep the radius classifier on the finite ledger $X,S,c,r,B,H,C,P,N$ and prevent replacement by a selected maximum, supremum, host-order comparison, trichotomy decision, or ambient completeness argument.
 
 Finally apply \autoref{thm:bounded-set-located-diameter-readback}. A located-diameter or uniform-space consumer may use the ledger as bounded-diameter input, but it cannot read any stronger real-order object from the packet.
+\end{proof}
+
+\begin{theorem}[BoundedSet real-clamping stability]
+\label{thm:bounded-set-real-clamping-stability}
+For every accepted $\BoundedSetUp$ carrier $Q=(X,S,c,r,B,H,C,P,N)$, a bounded-set radius read clamped to a located interval must pass through the displayed $\RealClampingUp$ clamp row, the $\LocatedUpperBoundUp$ upper-bound witness, the $\MetricBallUp$ containment ledger $B$, and the $\RealAlgOrderUp$ comparison surface before boundedness reaches finite-net, precompactness, diameter, or completion consumers. The resulting route is a finite bounded-radius handoff through $X,S,c,r,B,H,C,P,N$, not a selected supremum, host interval order, compactness assertion, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the radius coordinate of \autoref{def:bounded-set-carrier}. The row $r$ is readable only together with $X,S,c$ and the ball-containment ledger $B$.
+
+Apply \autoref{thm:bounded-set-real-radius-ledger}. It places every radius read behind the displayed $\RealAlgOrderUp$ or $\RealUp$ comparison surface and the $\MetricBallUp$ containment route before boundedness is public.
+
+The clamped interval read is therefore an additional consumer of that same radius ledger. It may pass through $\RealClampingUp$ and $\LocatedUpperBoundUp$ to present a located bounded interval, but those rows consume the already displayed comparison and ball-containment data rather than replacing them.
+
+Finally use \autoref{thm:bounded-set-finite-net-consumer-boundary} and \autoref{thm:bounded-set-completion-nonescape}. Finite-net, precompactness, diameter, and completion consumers receive only the routed bounded-radius handoff, so selected suprema, host interval order, compactness, and ambient completeness remain outside the packet.
 \end{proof}
 
 \begin{theorem}[BoundedSet obligation carrier admission]

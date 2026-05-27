@@ -16,6 +16,7 @@ The split is therefore a source discipline rather than an extra compactness prin
 \label{thm:closed-bounded-interval-root-containment-split}
 Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ be an accepted $\ClosedBoundedIntervalUp$ carrier. The containment part of the root source is exactly $L,U,O,Q,D$ transported and replayed through $H,C$ and recorded through $P,N$. Thus interval-net cells, compactness-facing finite covers, and uniform-modulus mesh requests must pass through the endpoint, order, rational-containment, and dyadic-containment rows of \autoref{def:closed-bounded-interval-carrier} and \autoref{thm:closed-bounded-interval-namecert-obligations} before they read any mesh, cover, or modulus row.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedboundedintervalUp.ClosedBoundedIntervalPacket\_root\_containment\_split}
 \begin{proof}
 Start with the endpoint-containment route. The carrier gives $L,U,O,Q,D$ before the schedule and readback rows, and the NameCert obligation theorem admits containment only through those displayed coordinates.
 
@@ -41,6 +42,7 @@ The replay and provenance rows keep the seal attached to the root source. Hence 
 \label{thm:closed-bounded-interval-root-unblock-obligations}
 The root obligations exposed by an accepted $\ClosedBoundedIntervalUp$ packet are endpoint admission, endpoint-order transport, rational containment exposure, dyadic containment exposure, $\StreamNameUp$ readback, $\RegSeqRatUp$ readback, $\RealUp$ seal nonescape, transport, replay, provenance, and local $\NameCert$ naming. Any downstream finite-net, located-cover, nested-window, or compact-uniform route must discharge those obligations before adding its own consumer rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedboundedintervalUp.ClosedBoundedIntervalPacket\_root\_unblock\_obligations}
 \begin{proof}
 Read the NameCert obligation theorem and the endpoint-order transport theorem. Together they make endpoint admission and endpoint-order transport part of the local $\ClosedBoundedIntervalUp$ surface.
 
@@ -116,6 +118,20 @@ Apply \autoref{thm:closed-bounded-interval-finite-cover-window-exactness}. A net
 Apply \autoref{thm:closed-bounded-interval-uniform-modulus-source}. A compact-uniform or modulus consumer receives the same source packet before any Lebesgue-number row or modulus row is read.
 
 Finally use \autoref{thm:closed-bounded-interval-downstream-coverage-surface}. The downstream refinement surface remains inside the displayed packet and excludes host open-cover compactness, selected subcovers, quotient real equality, trichotomy, countable choice, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[Closed bounded interval located endpoint grid]
+\label{thm:closed-bounded-interval-root-located-endpoint-grid}
+Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ be an accepted $\ClosedBoundedIntervalUp$ carrier. If $I$ feeds an interval-net, compactness-facing, or uniform-modulus consumer, then any located endpoint grid or dyadic cell grid read must expose the endpoint rows $L,U$, endpoint order $O$, rational and dyadic containment rows $Q,D$, $\StreamNameUp$ window $S$, $\RegSeqRatUp$ readback $R$, $\RealUp$ seal $E$, and the structural rows $H,C,P,N$ before the grid can be consumed. Thus grid readiness is downstream of the displayed root source packet and is not a route through selected interval points, trichotomy, quotient equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier by \autoref{def:closed-bounded-interval-carrier}. The only endpoint-facing and containment-facing source coordinates available before a consumer row are $L,U,O,Q,D,S,R,E,H,C,P,N$.
+
+Apply \autoref{thm:closed-bounded-interval-root-source-split}. It identifies those rows as the root source for interval-net, compactness-facing, and uniform-modulus consumers, so a located endpoint grid cannot be read before the endpoint, order, containment, readback, seal, transport, replay, provenance, and naming rows are displayed.
+
+Use \autoref{thm:closed-bounded-interval-finite-cover-window-exactness} for the dyadic cell side. A finite-cover or grid window must expose the complete source packet before any mesh center, cover cell, or refinement row is inspected.
+
+Finally apply \autoref{thm:closed-bounded-interval-root-cover-refinement-source}. Grid readiness is therefore downstream of the displayed source packet. Since selected points, trichotomy, quotient equality, and ambient Real completeness are not coordinates of that packet, no such object can serve as the grid source.
 \end{proof}
 
 \begin{definition}[Closed bounded interval scoped source map]
