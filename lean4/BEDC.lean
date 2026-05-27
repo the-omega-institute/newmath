@@ -1161,6 +1161,7 @@ import BEDC.Derived.CauchyCriterionUp.TerminalSelectorSealNochoiceExhaustion
 import BEDC.Derived.CauchyCriterionUp.UniformCriterionFiniteFamilyReduction
 import BEDC.Derived.CauchyCriterionUp.UniformSelectorSealCompatibility
 import BEDC.Derived.CauchyCriterionUp.VisibleTerminalClosure
+import BEDC.Derived.CauchyCutComparisonUp
 import BEDC.Derived.CauchyDiagonalArgumentUp.TasteGate
 import BEDC.Derived.CauchyDiagonalBudgetUp
 import BEDC.Derived.CauchyDiagonalBudgetUp.SharedTailWindowExhaustion
@@ -5310,7 +5311,6 @@ import BEDC.Derived.RealPowerSeriesUp.CauchyProductHandoff
 import BEDC.Derived.RealPowerSeriesUp.EndpointSealFactorization
 import BEDC.Derived.RealPowerSeriesUp.MajorantConsumerCoverage
 import BEDC.Derived.RealPowerSeriesUp.MajorantExhaustion
-import BEDC.Derived.RealPowerSeriesUp.MajorantRouteTotality
 import BEDC.Derived.RealPowerSeriesUp.RadiusMajorantCoverage
 import BEDC.Derived.RealPowerSeriesUp.RadiusMajorantPublicExport
 import BEDC.Derived.RealPowerSeriesUp.RadiusObligation
@@ -6931,7 +6931,6 @@ import BEDC.Derived.ZnormalUp.RootTotalHostRefusalLedger
 import BEDC.Derived.ZnormalUp.RootTotalHostSourcePacket
 import BEDC.Derived.ZnormalUp.RootUnblockNonescapeLedger
 import BEDC.Derived.ZnormalUp.RootVisibleSourcePackage
-import BEDC.Derived.ZnormalUp.RootZeckendorfHandoff
 import BEDC.Derived.ZnormalUp.RouteTransport
 import BEDC.Derived.ZnormalUp.TasteGate
 import BEDC.Derived.ZnormalUp.TasteGateFieldReadbackLock
