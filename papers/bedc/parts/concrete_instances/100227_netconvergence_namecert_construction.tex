@@ -128,12 +128,49 @@ The structural rows $H,C,P,M$ transport, replay, package, and locally name that 
 \label{thm:net-convergence-filterbase-finality}
 Every $\FilterBaseUp$ or $\CauchyFilterUp$ consumer of an accepted $\NetConvergenceUp$ carrier factors through the displayed directed tail $D,T,E$ and the handoff row $F$. No host filter equality, selected limit, quotient net, ambient completeness witness, or alternate filter coordinate can refine that handoff beyond the finite route already displayed by the carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier\_filterbase\_finality}
 \begin{proof}
 Project the carrier of \autoref{def:net-convergence-carrier}. The rows $D,T,E$ are the directed-index window, tail-neighbourhood ledger, and entourage row, while $F$ is the only row that names the filter-facing handoff.
 
 Apply \autoref{thm:net-convergence-cauchy-filter-handoff}. It sends every CauchyFilter-facing read through $D,T,E,F$ before any Real-facing rows can contribute. Apply also \autoref{thm:net-convergence-moore-smith-filter-boundary}, which identifies the Moore--Smith and filter boundary with the same displayed rows.
 
 The carrier has no second filterbase coordinate, no selected limit coordinate, and no quotient-net coordinate. Thus every filterbase or CauchyFilter consumer factors through the displayed handoff, and that handoff is final among the routes accepted by the packet.
+\end{proof}
+
+\begin{theorem}[Net convergence Real seal nonescape]
+\label{thm:net-convergence-real-seal-nonescape}
+Let $N=(D,T,E,A,F,S,R,L,H,C,P,M)$ be an accepted $\NetConvergenceUp$ carrier. The terminal $\RealUp$ seal $L$ is reachable only after the directed window $D$, tail-neighbourhood ledger $T$, entourage row $E$, CauchyFilter handoff $F$, StreamName schedule $S$, and RegSeqRat readback $R$ have been displayed. The seal cannot be selected as a host limit, quotient-net representative, ambient convergence witness, or completeness object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:net-convergence-carrier}. The rows preceding the Real seal are exactly the directed-tail rows $D,T,E$, the filter-facing row $F$, and the Real-facing readback rows $S,R$.
+
+Use \autoref{thm:net-convergence-namecert-obligations}. Its carrier admission and Real seal non-escape clauses force $L$ to be read only after the displayed analytic rows have appeared.
+
+Use also \autoref{thm:net-convergence-directed-window-admission}, \autoref{thm:net-convergence-cauchy-filter-handoff}, and \autoref{thm:net-convergence-cauchy-net-limit-handoff}. Together they leave no route from a host limit, quotient net, ambient convergence predicate, or completeness theorem into the seal coordinate.
+\end{proof}
+
+\begin{theorem}[Net convergence entourage-tail stability]
+\label{thm:net-convergence-entourage-tail-stability}
+Let $N=(D,T,E,A,F,S,R,L,H,C,P,M)$ and $N'=(D',T',E',A',F',S',R',L',H',C',P',M')$ be accepted $\NetConvergenceUp$ carriers related by the componentwise $\hsame$ transport recorded by their structural rows. Transport of $D,T,E$ preserves the same tail-neighbourhood and entourage route for every $\CauchyFilterUp$ consumer, so the handoff remains a read through $D,T,E,F$ rather than a new host filter or ambient uniformity.
+\end{theorem}
+\begin{proof}
+Read the structural transport row in \autoref{def:net-convergence-carrier}. It transports the directed window, tail-neighbourhood ledger, entourage row, optional source row, filter handoff, stream schedule, readback, seal, provenance, and local naming component by component.
+
+Apply \autoref{thm:net-convergence-namecert-obligations} and \autoref{thm:net-convergence-directed-window-admission}. A convergence read must first expose $D,T,E$, and the transported carrier exposes the corresponding $D',T',E'$ through the same structural coordinate.
+
+Finally apply \autoref{thm:net-convergence-cauchy-filter-handoff} and \autoref{thm:net-convergence-cauchy-net-limit-handoff}. Since every filter-facing read is already routed through the directed tail and entourage rows before $F$ is consumed, componentwise $\hsame$ transport preserves the route and adds no host filter equality or ambient uniformity coordinate.
+\end{proof}
+
+\begin{theorem}[Net convergence stream readback route]
+\label{thm:net-convergence-stream-readback-route}
+Let $N=(D,T,E,A,F,S,R,L,H,C,P,M)$ be an accepted $\NetConvergenceUp$ carrier. After the CauchyFilter handoff row $F$ has been displayed, the only Real-facing route available to the packet is the $\StreamNameUp$ schedule $S$ followed by the $\RegSeqRatUp$ readback $R$ and the terminal seal $L$. No alternate real-name route, selected limit, quotient-net representative, or ambient completeness row is exported.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection of \autoref{def:net-convergence-carrier}. The rows downstream of $F$ on the Real-facing side are $S,R,L$, together with the structural rows $H,C,P,M$.
+
+Apply \autoref{thm:net-convergence-namecert-obligations}. The listed obligations include the CauchyFilter handoff, Real seal non-escape, componentwise transport, replay, provenance, and local naming; none of them introduces a second real-name coordinate.
+
+Apply \autoref{thm:net-convergence-directed-window-admission}, \autoref{thm:net-convergence-cauchy-filter-handoff}, and \autoref{thm:net-convergence-cauchy-net-limit-handoff}. They force the route through $D,T,E,F$ before any Real-facing read and then through $S,R,L$, so the stream schedule and regular readback are the only Real-facing route after the handoff.
 \end{proof}
 
 \begin{closurestatus}{\NetConvergenceUp}
