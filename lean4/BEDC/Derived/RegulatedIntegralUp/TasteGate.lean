@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegulatedIntegralUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -102,6 +105,28 @@ def regulatedIntegralToEventFlow : RegulatedIntegralUp → EventFlow
         regulatedIntegralEncodeBHist replay,
         regulatedIntegralEncodeBHist provenance,
         regulatedIntegralEncodeBHist localName]
+
+def regulatedIntegralFields : RegulatedIntegralUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | RegulatedIntegralUp.mk interval integrand approximation stepPrimitive compatibility
+      realHandoff errorLedger transport replay provenance localName =>
+      [interval, integrand, approximation, stepPrimitive, compatibility, realHandoff,
+        errorLedger, transport, replay, provenance, localName]
+
+theorem RegulatedIntegralCarrier_nonescape (x : RegulatedIntegralUp) :
+    exists rows : List BHist,
+      rows = regulatedIntegralFields x ∧
+        regulatedIntegralToEventFlow x =
+          ([BMark.b0] :: rows.map regulatedIntegralEncodeBHist) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk interval integrand approximation stepPrimitive compatibility realHandoff errorLedger
+      transport replay provenance localName =>
+      exact
+        Exists.intro
+          [interval, integrand, approximation, stepPrimitive, compatibility, realHandoff,
+            errorLedger, transport, replay, provenance, localName]
+          ⟨rfl, rfl⟩
 
 def regulatedIntegralFromEventFlow : EventFlow → Option RegulatedIntegralUp
   -- BEDC touchpoint anchor: BHist BMark
@@ -282,5 +307,29 @@ theorem RegulatedIntegralTasteGate_single_carrier_alignment :
       · intro x y heq
         exact regulatedIntegralToEventFlow_injective heq
       · rfl
+
+def RegulatedIntegralCarrier (I G A S D R E H C P N : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  UnaryHistory I ∧ UnaryHistory G ∧ UnaryHistory A ∧ UnaryHistory S ∧
+    UnaryHistory D ∧ UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory H ∧
+      UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧ Cont I G A ∧
+        Cont A S D ∧ Cont D E R
+
+theorem RegulatedIntegralStepPrimitive {I G A S D R E H C P N stepRead : BHist} :
+    RegulatedIntegralCarrier I G A S D R E H C P N →
+      Cont I G A →
+        Cont A S stepRead →
+          UnaryHistory I ∧ UnaryHistory G ∧ UnaryHistory A ∧ UnaryHistory S ∧
+            UnaryHistory stepRead ∧ Cont I G A ∧ Cont A S stepRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro carrier intervalIntegrand stepRoute
+  obtain ⟨intervalUnary, integrandUnary, approximationUnary, stepPrimitiveUnary, _darbouxUnary,
+    _realUnary, _errorUnary, _transportUnary, _replayUnary, _provenanceUnary, _nameUnary,
+    _intervalApproximationRoute, _stepCompatibilityRoute, _realHandoffRoute⟩ := carrier
+  have stepReadUnary : UnaryHistory stepRead :=
+    unary_cont_closed approximationUnary stepPrimitiveUnary stepRoute
+  exact
+    ⟨intervalUnary, integrandUnary, approximationUnary, stepPrimitiveUnary, stepReadUnary,
+      intervalIntegrand, stepRoute⟩
 
 end BEDC.Derived.RegulatedIntegralUp
