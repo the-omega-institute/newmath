@@ -686,6 +686,7 @@ import BEDC.Derived.BolzanoCauchyUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassUp.FiniteSubsequenceObligations
 import BEDC.Derived.BolzanoWeierstrassUp.RootIntervalTreeObligation
+import BEDC.Derived.BolzanoWeierstrassUp.RootRealSealObligation
 import BEDC.Derived.BolzanoWeierstrassUp.TasteGate
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUp.SemanticCertificate
@@ -867,6 +868,7 @@ import BEDC.Derived.BoundedSetUp.CompletionNonescape
 import BEDC.Derived.BoundedSetUp.DiameterConsumerBoundary
 import BEDC.Derived.BoundedSetUp.NameCertLedgerNonescape
 import BEDC.Derived.BoundedSetUp.RadiusClassifierStability
+import BEDC.Derived.BoundedSetUp.RadiusLedger
 import BEDC.Derived.BoundedSetUp.SubsetBallReplayStability
 import BEDC.Derived.BoundedSetUp.TasteGate
 import BEDC.Derived.BoundedUniversalTraceUp.Carrier
@@ -5670,6 +5672,7 @@ import BEDC.Derived.RegularCauchyTailMonotonicityUp.TasteGate
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSelectorUp
 import BEDC.Derived.RegularCauchyTailSubsequenceUp.TasteGate
+import BEDC.Derived.RegularCauchyTailSumUp.TasteGate
 import BEDC.Derived.RegularCauchyTelescopingBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyTriangleBoundUp
 import BEDC.Derived.RegularCauchyTriangleBoundUp.TasteGate
