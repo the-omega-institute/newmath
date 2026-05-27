@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BioReality Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bio-reality
-// @version      2.0
+// @version      2.1
 // @description  BioReality-pipeline ChatGPT bridge bio-2.0 with automath-stable waiting and BEDC project/PDF routing. Talks to bio_reality_oracle_server.py on :8769.
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -45,7 +45,7 @@
   const MAX_WAIT = 7200000;
   const DEFAULT_MIN_RESPONSE_LENGTH = 1000;
   const REQUIRE_FOREGROUND_TO_CLAIM = false;
-  const SCRIPT_VERSION = "bio-2.0";
+  const SCRIPT_VERSION = "bio-2.1";
   const BIOREALITY_PROJECT_PREFIX = "/g/g-p-6a098a6e69688191a6afd91978c585ef-ge-ben-ha-gen-zhi-lu";
   const BIOREALITY_PROJECT_HOME = `https://chatgpt.com${BIOREALITY_PROJECT_PREFIX}/project`;
 
@@ -693,11 +693,36 @@
     }
   }
 
+  function clickScrollToBottomButton() {
+    // ChatGPT shows a circular "scroll to bottom" button when the user has
+    // scrolled up; while it is visible the stream-follow auto-scroll is paused.
+    // We must click it to resume following the response as tokens stream.
+    const selectors = [
+      'button[aria-label*="Scroll to bottom" i]',
+      'button[aria-label*="scroll" i]',
+      'button[data-testid*="scroll-to-bottom" i]',
+      'button[class*="scroll-to-bottom" i]',
+    ];
+    for (const sel of selectors) {
+      try {
+        for (const btn of document.querySelectorAll(sel)) {
+          const rect = btn.getBoundingClientRect();
+          if (rect.width > 0 && rect.height > 0 && !btn.disabled) {
+            btn.click();
+            return true;
+          }
+        }
+      } catch {}
+    }
+    return false;
+  }
+
   function scrollConversationToBottom(reason = "", force = false) {
     const now = Date.now();
     if (!force && now - lastBottomScrollAt < 5000) return false;
     lastBottomScrollAt = now;
     try {
+      clickScrollToBottomButton();
       const main = document.querySelector("main");
       const messageNodes = main
         ? main.querySelectorAll("[data-message-author-role]")
