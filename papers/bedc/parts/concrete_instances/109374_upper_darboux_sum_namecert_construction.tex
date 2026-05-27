@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\UpperDarbouxSumUp$}
+\label{ch:concrete-instances-upper-darboux-sum-namecert}
+\origin{human}
+
+Following Darboux and Riemann, the $\UpperDarbouxSumUp$ packet isolates the finite upper-sum side of the Darboux interface before a consumer asks for a full upper/lower gap. It sits between the dyadic step-function surface of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}, the tagged finite-sum consumer of \autoref{ch:concrete-instances-riemannsum-namecert}, the Darboux integration handoff of \autoref{ch:concrete-instances-darbouxintegral-namecert}, and the tagged-mesh integral boundary of \autoref{ch:concrete-instances-riemannintegral-namecert}. The packet supplies a finite upper-bound ledger for later Darboux and Riemann criteria without importing host suprema, open-cover compactness, quotient function equality, selected mesh limits, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Upper Darboux sum carrier]\label{def:upper-darboux-sum-carrier}
+An $\UpperDarbouxSumUp$ carrier is a finite $\BHist$ packet
+$$
+U=(P,B,D,S,I,R,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the partition row, naming the finite ordered cell list, cell-width ledger, endpoint order, and refinement handle used by every later read.
+\item $B$ is the cell upper-bound ledger. For each displayed cell it records the chosen upper value row and the comparison proof that every admitted sample value in that cell is below the carried bound.
+\item $D$ is the $\DyadicStepFunctionUp$ row over the same partition cells, carrying the step value used to display the upper envelope.
+\item $S$ is the $\RiemannSumUp$ row computed from the displayed widths of $P$ and the upper values exposed by $B$ and $D$.
+\item $I$ is the $\DarbouxIntegralUp$ provenance row, recording that the upper-sum read is available to the Darboux handoff before any lower-sum or gap row is requested.
+\item $R$ is the $\RealUp$ comparison row, exposing the finite real-name comparison used by upper-bound consumers.
+\item $H$ records componentwise $\hsame$ transport for the partition, upper-bound ledger, dyadic step row, Riemann-sum row, Darboux handoff, comparison row, replay, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from partition cells to upper-bound reads, from upper-bound reads to the dyadic step row, from the dyadic step row to the Riemann-sum row, and from the sum row to the Darboux handoff.
+\item $Q$ is the $\Pkg$ provenance over $\UpperDarbouxSumUp$, $\DyadicStepFunctionUp$, $\RiemannSumUp$, $\DarbouxIntegralUp$, $\RiemannIntegralUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UpperDarbouxSumUp}$ row.
+\end{enumerate}
+The classifier reads accepted packets only through $P,B,D,S,I,R,H,C,Q,N$. It has no coordinate for a host supremum, an open-cover compactness theorem, a selected mesh limit, a lower Darboux sum, quotient equality of functions, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Upper Darboux sum NameCert obligations]\label{thm:upper-darboux-sum-namecert-obligations}
+For every accepted $\UpperDarbouxSumUp$ carrier
+$$
+U=(P,B,D,S,I,R,H,C,Q,N),
+$$
+the local $\NameCert_{\UpperDarbouxSumUp}$ surface consists exactly of the following five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed partition row, cell upper-bound ledger, dyadic step row, Riemann-sum row, Darboux handoff, comparison row, transport, replay, provenance, and local naming row;
+\item partition-refinement stability, requiring each transported refinement of $P$ to carry the same cell-width ledger and to route upper-bound reads through the displayed refinement handle;
+\item upper-bound ledger transport, requiring $B$ and $D$ to move componentwise by $\hsame$ while preserving the stated upper relation on every displayed cell;
+\item Darboux handoff, requiring the row $I$ to expose the upper-sum read to $\DarbouxIntegralUp$ without producing a lower sum, a gap witness, or a host supremum;
+\item Riemann-sum consumer boundary, requiring every $\RiemannSumUp$ or $\RiemannIntegralUp$ consumer to read the finite widths, upper values, replay, provenance, and local name before it can use the upper-sum row.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of \autoref{def:upper-darboux-sum-carrier}. The accepted packet displays exactly the partition, upper-bound, dyadic step, finite sum, Darboux handoff, comparison, transport, replay, provenance, and local naming rows.
+
+Partition-refinement stability comes next. The partition row $P$ names the finite cells and widths, so a transported refinement can only expose an upper read through the same displayed cell ledger and refinement handle.
+
+Upper-bound ledger transport is then componentwise. The rows $B$ and $D$ move together under $H$, and replay through $C$ recomputes the dyadic upper envelope before the finite sum row $S$ is available.
+
+The Darboux and Riemann boundaries are exhausted by $S$ and $I$. The Darboux consumer receives only the upper-sum handoff, while a Riemann-facing consumer must read the same finite widths, upper values, replay, provenance, and local name before using the sum.
+
+The excluded analytic objects are absent from the carrier. No row stores a host supremum, open-cover compactness, selected mesh limit, quotient function equality, lower-sum datum, or ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[Upper-sum consumer boundary]\label{thm:upper-darboux-sum-consumer-boundary}
+Every $\DarbouxIntegralUp$, $\RiemannSumUp$, or $\RiemannIntegralUp$ consumer of an accepted $\UpperDarbouxSumUp$ carrier $U=(P,B,D,S,I,R,H,C,Q,N)$ must first read the partition row $P$, the upper-bound ledger $B$, the $\DyadicStepFunctionUp$ row $D$, the finite sum row $S$, the Darboux handoff $I$, and the comparison row $R$, with transport, replay, provenance, and local naming supplied by $H,C,Q,N$. The consumer therefore receives a finite upper-sum route rather than a host supremum, an open-cover compactness proof, a selected limiting mesh, or a quotient function-equality principle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows upstream of every exported upper-sum read are $P,B,D,S,I,R$ with structural support $H,C,Q,N$.
+
+For a Darboux-facing read, the handoff row $I$ is reachable only after the partition, upper-bound ledger, dyadic step row, and finite sum row have been replayed. For a Riemann-facing read, the row $S$ is already the displayed finite sum built from those same cells and upper values.
+
+Since the packet has no additional analytic coordinate, every listed consumer reads the same finite route and cannot bypass it through a host supremum, compactness theorem, selected mesh limit, quotient equality, or ambient completeness.
+\end{proof}
+
+\closureat{UpperDarbouxSumUp}{seedStr}
+
+\begin{closurestatus}{\UpperDarbouxSumUp}
+  \constructivestory{An $\UpperDarbouxSumUp$ packet is generated from finite partition rows, cell upper-bound ledgers, DyadicStepFunction rows, RiemannSum rows, Darboux handoff rows, Real comparison rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:upper-darboux-sum-carrier}, \autoref{thm:upper-darboux-sum-namecert-obligations}, and \autoref{thm:upper-darboux-sum-consumer-boundary} seed the finite upper-sum packet over partition, upper-bound, dyadic-step, finite-sum, Darboux handoff, comparison, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host suprema, open-cover compactness, selected mesh limits, lower Darboux sums, lower-sum gap data, quotient function equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, partition-refinement stability, upper-bound ledger transport, Darboux handoff exactness, Riemann-sum consumer boundary, componentwise transport, displayed replay, provenance, and ledger non-escape for BEDC.Derived.UpperDarbouxSumUp.}
+\end{closurestatus}

@@ -165,12 +165,57 @@ Finally apply \autoref{thm:net-convergence-cauchy-filter-handoff} and \autoref{t
 \label{thm:net-convergence-stream-readback-route}
 Let $N=(D,T,E,A,F,S,R,L,H,C,P,M)$ be an accepted $\NetConvergenceUp$ carrier. After the CauchyFilter handoff row $F$ has been displayed, the only Real-facing route available to the packet is the $\StreamNameUp$ schedule $S$ followed by the $\RegSeqRatUp$ readback $R$ and the terminal seal $L$. No alternate real-name route, selected limit, quotient-net representative, or ambient completeness row is exported.
 \end{theorem}
+\leanchecked{BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier\_stream\_readback\_route}
 \begin{proof}
 Start with the carrier projection of \autoref{def:net-convergence-carrier}. The rows downstream of $F$ on the Real-facing side are $S,R,L$, together with the structural rows $H,C,P,M$.
 
 Apply \autoref{thm:net-convergence-namecert-obligations}. The listed obligations include the CauchyFilter handoff, Real seal non-escape, componentwise transport, replay, provenance, and local naming; none of them introduces a second real-name coordinate.
 
 Apply \autoref{thm:net-convergence-directed-window-admission}, \autoref{thm:net-convergence-cauchy-filter-handoff}, and \autoref{thm:net-convergence-cauchy-net-limit-handoff}. They force the route through $D,T,E,F$ before any Real-facing read and then through $S,R,L$, so the stream schedule and regular readback are the only Real-facing route after the handoff.
+\end{proof}
+
+\begin{theorem}[Net convergence tail-window admission]
+\label{thm:netconvergence-tail-window-admission}
+Let $N=(D,T,E,A,F,S,R,L,H,C,P,M)$ be an accepted $\NetConvergenceUp$ carrier. Every accepted convergence read first exposes a directed tail window in $D$ together with the tail-neighbourhood request recorded in $T$ and the entourage interpretation row $E$. Only after that route is displayed may the packet read a present $\CauchyNetUp$ row $A$, the $\CauchyFilterUp$ handoff $F$, or the Real-facing schedule $S,R,L$.
+\end{theorem}
+\begin{proof}
+Read the carrier rows of \autoref{def:net-convergence-carrier}. The only coordinates that name a directed tail and interpret a neighbourhood request are $D,T,E$.
+
+Apply the tail classification and entourage interpretation clauses of \autoref{thm:net-convergence-namecert-obligations}. They put every convergence read on the displayed directed-tail route before the optional source row, filter handoff, stream schedule, regular-rational readback, or Real seal can be consumed.
+
+The downstream rows therefore depend on the tail-window admission route. Since the carrier has no second directed-tail coordinate, no consumer can bypass $D,T,E$ by reading a host convergence predicate or a cofinal-choice operator.
+\end{proof}
+
+\begin{theorem}[Net convergence boundary readback]
+\label{thm:netconvergence-boundary-readback}
+For an accepted $\NetConvergenceUp$ carrier $N=(D,T,E,A,F,S,R,L,H,C,P,M)$, every Cauchy-facing read and every Real-facing read meet at the displayed boundary
+$$
+D,T,E
+\longmapsto
+F
+\longmapsto
+S,R,L .
+$$
+The $\CauchyFilterUp$ and $\CauchyNetUp$ handoff rows may be read only through the same directed tail, and the $\RealUp$ seal is read only after the $\RegSeqRatUp$ boundary row has been displayed.
+\end{theorem}
+\begin{proof}
+Start with the Cauchy-facing side. By \autoref{thm:net-convergence-cauchy-filter-handoff}, the filter handoff $F$ is reached through $D,T,E$, and by \autoref{thm:net-convergence-cauchy-net-limit-handoff}, a present source-net row $A$ is read through that same directed route.
+
+Now read the Real-facing side. The stream readback theorem \autoref{thm:net-convergence-stream-readback-route} forces every Real read after $F$ through $S$ and $R$ before it reaches the terminal seal $L$.
+
+Thus the boundary is visible on both sides: directed tails supply the Cauchy handoff, and regular-rational readback supplies the Real seal. The packet does not expose a selected limit, quotient net, host convergence predicate, or ambient completeness row that could replace this boundary.
+\end{proof}
+
+\begin{theorem}[Net convergence ledger nonescape]
+\label{thm:netconvergence-ledger-nonescape}
+Every consumer of an accepted $\NetConvergenceUp$ packet factors through the finite ledger rows $D,T,E,A,F,S,R,L,H,C,P,M$. The packet refuses quotient nets, selected limits, cofinal-choice operators, host filter equality, ambient convergence predicates, and ambient completeness; none of these objects can be recovered from transport, replay, provenance, or local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. Its analytic coordinates are the directed window, tail ledger, entourage row, optional source row, filter handoff, stream schedule, regular-rational readback, and Real seal; its structural coordinates are transport, replay, provenance, and local naming.
+
+Apply \autoref{thm:netconvergence-tail-window-admission} and \autoref{thm:netconvergence-boundary-readback}. Together they place every accepted read on the finite directed-tail and Cauchy-to-Real boundary route.
+
+The structural rows cannot add analytic content. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve only the listed coordinates, while $P$ and $M$ source and name only the same packet. Hence quotient nets, selected limits, cofinal choice, host filter equality, ambient convergence, and completeness remain outside the certificate.
 \end{proof}
 
 \begin{closurestatus}{\NetConvergenceUp}
