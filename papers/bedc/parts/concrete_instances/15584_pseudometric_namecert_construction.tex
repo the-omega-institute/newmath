@@ -107,6 +107,48 @@ The located-metric consumer receives the same surface. Its distance readbacks ar
 Apply \autoref{thm:pseudometric-separated-reflection-handoff}. Any conversion from zero distance to point identity is forced through $\SeparatedMetricUp$, so the pseudometric packet itself cannot export separated identity or any of the listed non-displayed principles.
 \end{proof}
 
+\begin{theorem}[Pseudometric distance readback obligation]
+\label{thm:pseudometric-distance-readback-obligation}
+Let $P=(X,M,D,S,R,E,Z,H,C,N)$ be an accepted $\PseudometricUp$ packet. Every consumer read of a distance witness must pass through the finite route $S,R,D,E$ before any consumer may read the zero-distance boundary, componentwise transport, replay, provenance, or local naming rows $Z,H,C,N$. The route exposes stream windows, regular rational readback, the dyadic tolerance and triangle ledger, and the terminal $\RealUp$ seal as displayed rows of \autoref{def:pseudometric-carrier}; it exports no detached host distance or ambient metric law.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:pseudometric-carrier}. The distance witness is named by $M$, while the observable distance readback is routed through the stream window $S$, regular rational row $R$, dyadic ledger $D$, and Real seal $E$.
+
+Apply \autoref{thm:pseudometric-namecert-obligations}. It lists distance readback as a local obligation requiring every exported distance request to pass through $S,R,D$ before $E$ is read.
+
+The structural rows $Z,H,C,N$ occur after the displayed distance route. Thus a consumer cannot read zero-distance evidence, componentwise transport, replay, provenance, or the local name before the finite distance route has been displayed.
+
+Finally use \autoref{thm:pseudometric-triangle-ledger-obligation}. Symmetry and triangle estimates are rows of $D$, so the readback route does not import a detached host distance or ambient metric law.
+\end{proof}
+
+\begin{theorem}[Pseudometric classifier transport obligation]
+\label{thm:pseudometric-classifier-transport-obligation}
+Let $P=(X,M,D,S,R,E,Z,H,C,N)$ be an accepted $\PseudometricUp$ packet. Point classifiers and distance classifiers transport only componentwise through the $\hsame$ row $H$ and are replayed for consumers only through the displayed $\Cont$ row $C$. The transport reads no quotient completion, selected representative, separated point identity, host equality, or detached metric classifier outside the rows of \autoref{def:pseudometric-carrier}.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The row $H$ is the only componentwise transport row for point admission, distance witness, dyadic ledger, stream windows, regular readback, Real seal, zero-distance boundary, continuation, provenance, and local naming.
+
+Apply \autoref{thm:pseudometric-namecert-obligations}. Its classifier-transport clause requires point and distance classifiers to move only by $H$ and replay row $C$.
+
+The replay row $C$ preserves the same order as the displayed distance route. It replays point admission, stream windows, regular readback, dyadic tolerance and triangle rows, Real sealing, and zero-distance boundary evidence before provenance and local naming are consumed.
+
+Apply \autoref{thm:pseudometric-separated-reflection-handoff}. Any conversion of zero distance into separated identity lies outside $P$ and must pass through $\SeparatedMetricUp$, so transport inside $P$ cannot smuggle in quotient completion, selected representatives, host equality, or a detached metric classifier.
+\end{proof}
+
+\begin{theorem}[Pseudometric ledger nonescape obligation]
+\label{thm:pseudometric-ledger-nonescape-obligation}
+Let $P=(X,M,D,S,R,E,Z,H,C,N)$ be an accepted $\PseudometricUp$ packet. Quotient completion, host equality, selected limits, countable choice, trichotomy, open-cover compactness, and separated identity are absent from the pseudometric ledger unless a consumer routes the separated-identity request through $\SeparatedMetricUp$. The only ledger rows available to completion and located-metric consumers are the displayed coordinates $X,M,D,S,R,E,Z,H,C,N$.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:pseudometric-carrier}. The tuple contains the point carrier, displayed distance witness, dyadic ledger, stream windows, regular readback, Real seal, zero-distance boundary, transport, replay, provenance, and local naming rows, and it contains no coordinate for the excluded objects.
+
+Apply \autoref{thm:pseudometric-completion-nonescape-obligation}. Completion and located-metric consumers receive only the displayed pseudometric rows and no quotient completion, selected representative, trichotomy split, open-cover compactness datum, or separated point identity except through $\SeparatedMetricUp$.
+
+Apply \autoref{thm:pseudometric-triangle-ledger-obligation}. The metric-law surface is confined to the dyadic ledger $D$ and the route through $S,R,E$, so host equality, countable choice, and ambient metric principles cannot enter through the distance side.
+
+Finally apply \autoref{thm:pseudometric-separated-reflection-handoff}. The only named route from zero distance to point identity is the separated reflection boundary, so separated identity is absent from the pseudometric ledger itself.
+\end{proof}
+
 \begin{closurestatus}{\PseudometricUp}
   \constructivestory{A $\PseudometricUp$ packet is generated from point carrier rows, displayed distance witnesses, DyadicRatCore tolerance and triangle ledgers, StreamName windows, RegSeqRat readback, a Real distance seal, a zero-distance boundary row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
