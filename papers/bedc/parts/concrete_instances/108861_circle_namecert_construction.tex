@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\CircleUp$}
+\label{ch:concrete-instances-circle-namecert}
+\origin{human}
+
+Following Hatcher and Munkres on the circle as a compact one-dimensional boundary object, the $\CircleUp$ packet records the topological boundary reading of a one-dimensional closed loop without identifying it with the algebraic $\SOneUp$ group certificate. It sits beside $\SOneUp$ of \autoref{ch:concrete-instances-s1-namecert}, $\RealUp$ of \autoref{ch:concrete-instances-real-namecert}, $\MetricSpaceUp$ of \autoref{ch:concrete-instances-metricspace-namecert}, and $\CompactUp$ of \autoref{ch:concrete-instances-compact-namecert}: those siblings supply phase multiplication, real-coordinate readback, metric inspection, and compact covering rows, while this packet binds the finite boundary carrier and its NameCert obligations as a topological circle surface.
+
+\begin{definition}[Circle carrier]
+\label{def:circle-carrier}
+A $\CircleUp$ carrier is a finite $\BHist$ packet
+$$
+C=(B,R,M,K,S,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the boundary-loop row, naming the closed one-dimensional boundary surface.
+\item $R$ is the $\RealUp$ coordinate-read row, recording the finite real-coordinate inspection used by local charts or parametrized arcs.
+\item $M$ is the $\MetricSpaceUp$ row, recording the metric neighborhoods through which boundary adjacency is read.
+\item $K$ is the $\CompactUp$ row, recording finite cover data for the closed boundary surface.
+\item $S$ is the $\SOneUp$ handoff row, available only when a consumer asks for the phase-group reading of the same boundary.
+\item $H$ records componentwise $\hsame$ transport for the boundary, real-coordinate, metric, compactness, handoff, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\CircleUp$, $\SOneUp$, $\RealUp$, $\MetricSpaceUp$, $\CompactUp$, $\BHist$, $\hsame$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CircleUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an ambient plane, a selected trigonometric parametrization, a quotient by angle equality, or a global orientation choice.
+\end{definition}
+
+\begin{theorem}[Circle NameCert obligations]
+\label{thm:circle-namecert-obligations}
+For every accepted $\CircleUp$ carrier
+$$
+C=(B,R,M,K,S,H,P,N),
+$$
+the local $\NameCert_{\CircleUp}$ surface consists exactly of carrier admission for the boundary-loop row, real-coordinate readback, metric-neighborhood row, compact-cover row, optional $\SOneUp$ handoff, componentwise transport, package provenance, and local naming. Any topological-circle consumer must read the closed boundary surface through $B,R,M,K,H,P,N$ before using the algebraic phase handoff $S$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier of \autoref{def:circle-carrier}. The topological rows are $B,R,M,K$: they name the closed boundary, the real-coordinate readback, the metric neighborhoods, and the compact cover data.
+
+The handoff row $S$ is downstream. It allows a consumer to compare the boundary packet with the $\SOneUp$ phase-group sibling, but it does not replace the boundary carrier by an algebraic group row.
+
+The rows $H,P,N$ transport, source, and name the same finite packet. Since no ambient plane, trigonometric parametrization, quotient-angle equality, or orientation coordinate appears in the carrier, the listed rows exhaust the $\NameCert_{\CircleUp}$ obligations.
+\end{proof}
+
+\begin{theorem}[Circle and $\SOneUp$ boundary handoff]
+\label{thm:circle-sone-boundary-handoff}
+Every $\SOneUp$-facing read of an accepted $\CircleUp$ carrier factors through the boundary-loop row $B$, real-coordinate readback $R$, metric row $M$, compact-cover row $K$, and handoff row $S$. The handoff may expose a phase-group consumer, but it cannot make $\SOneUp$ the carrier of topological compact-boundary data and cannot export quotient-angle equality or a selected global parametrization.
+\end{theorem}
+\begin{proof}
+Start with a consumer asking for the phase-group reading. The $\CircleUp$ carrier first exposes the boundary surface through $B$ and its local real and metric inspections through $R,M$.
+
+Compactness is read through $K$, so the consumer receives a finite cover surface for the closed boundary before any phase handoff is available. Only then can $S$ point to the $\SOneUp$ sibling.
+
+The componentwise transport, provenance, and naming rows $H,P,N$ preserve this order. Because the carrier has no quotient-angle coordinate or selected global parametrization, the handoff remains a boundary-to-phase route rather than an identification of the two packets.
+\end{proof}
+
+\closureat{CircleUp}{seedStr}
