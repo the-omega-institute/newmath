@@ -163,6 +163,20 @@ private theorem archimedeanCauchyTailToEventFlow_injective
     (Eq.trans (archimedeanCauchyTail_round_trip x).symm
       (Eq.trans hread (archimedeanCauchyTail_round_trip y)))
 
+private theorem archimedeanCauchyTail_fields_faithful :
+    ∀ x y : ArchimedeanCauchyTailUp,
+      archimedeanCauchyTailFields x = archimedeanCauchyTailFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk real₁ bound₁ modulus₁ equivalence₁ window₁ readback₁ dyadic₁ transport₁ replay₁
+      provenance₁ name₁ =>
+      cases y with
+      | mk real₂ bound₂ modulus₂ equivalence₂ window₂ readback₂ dyadic₂ transport₂ replay₂
+          provenance₂ name₂ =>
+          cases hfields
+          rfl
+
 instance archimedeanCauchyTailBHistCarrier : BHistCarrier ArchimedeanCauchyTailUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := archimedeanCauchyTailToEventFlow
@@ -179,9 +193,27 @@ instance archimedeanCauchyTailChapterTasteGate :
     intro x y hxy heq
     exact hxy (archimedeanCauchyTailToEventFlow_injective heq)
 
+instance archimedeanCauchyTailFieldFaithful : FieldFaithful ArchimedeanCauchyTailUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := archimedeanCauchyTailFields
+  field_faithful := archimedeanCauchyTail_fields_faithful
+
 def taste_gate : ChapterTasteGate ArchimedeanCauchyTailUp :=
   -- BEDC touchpoint anchor: BHist BMark
   archimedeanCauchyTailChapterTasteGate
+
+theorem ArchimedeanCauchyTailTasteGate_single_carrier_alignment :
+    Nonempty (BHistCarrier ArchimedeanCauchyTailUp) ∧
+      Nonempty (ChapterTasteGate ArchimedeanCauchyTailUp) ∧
+        (∀ h : BHist,
+          archimedeanCauchyTailDecodeBHist (archimedeanCauchyTailEncodeBHist h) = h) ∧
+          archimedeanCauchyTailEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨⟨archimedeanCauchyTailBHistCarrier⟩,
+      ⟨archimedeanCauchyTailChapterTasteGate⟩,
+      archimedeanCauchyTail_decode_encode,
+      rfl⟩
 
 def ArchimedeanCauchyTailCarrier [AskSetup] [PackageSetup]
     (real bound modulus equivalence window readback dyadic transport replay provenance
