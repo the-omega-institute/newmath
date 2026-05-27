@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICSnCandidateInterfaceUp$}
+\label{ch:concrete-instances-metacic-sn-candidate-interface-namecert}
+\origin{ai}
+
+The $\MetaCICSnCandidateInterfaceUp$ packet realizes the candidate-mediated strong-normalization frontier of \autoref{ch:metacic-open-problems} as finite MetaCIC NameCert data. It sits beside the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the closure trace of \autoref{ch:concrete-instances-metacicclosuretrace-namecert}, the normalization certificate router of \autoref{ch:concrete-instances-metacicnormalizationcertificaterouter-namecert}, and the closed-term substitution boundary of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}. The packet names candidate evidence, closed-candidate routing, bounded-normal endpoint data, and subject-reduction frontier retention without claiming evidence-free closed-term normalization.
+
+\begin{definition}[MetaCIC SN candidate interface carrier]
+\label{def:metacic-sn-candidate-carrier}
+A $\MetaCICSnCandidateInterfaceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,K,L,B,E,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed typed MetaCIC term window in scope for the normalization read.
+\item $K$ is the candidate evidence row, allowing candidate, closed-candidate, or candidate-set evidence to be displayed explicitly.
+\item $L$ is the closed-candidate routing row that binds the evidence in $K$ to the closed-term boundary consumed by downstream readers.
+\item $B$ is the bounded normalizer evidence row, recording the finite endpoint data available at the inspected fuel or budget.
+\item $E$ is the endpoint readback row that exposes the bounded normal form only after $T,K,L,B$ have been displayed.
+\item $F$ is the subject-reduction frontier retention row, keeping the required subject-reduction discharge boundary visible instead of erasing it into an unconditional theorem.
+\item $H$ stores componentwise $\hsame$ transport for closed typed terms, candidate evidence, closed-candidate routing, bounded endpoint data, frontier retention, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay for candidate-mediated normalization requests.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICSnCandidateInterfaceUp$, $\MetaCICNormalizationFrontierUp$, $\MetaCICClosureTraceUp$, $\MetaCICNormalizationCertificateRouterUp$, $\ClosedTermSubstitutionBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetaCICSnCandidateInterfaceUp}$ row.
+\end{enumerate}
+The classifier accepts only packets whose strong-normalization-facing read traverses $T,K,L,B,E,F,H,C,P,N$. It has no coordinate for unconditional closed-term normalization, evidence-free strong normalization, unrestricted subject reduction, quotient syntax equality, host evaluator soundness, or completed closed consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC SN candidate interface NameCert obligations]
+\label{thm:metacic-sn-candidate-namecert-obligations}
+For every accepted $\MetaCICSnCandidateInterfaceUp$ carrier $S=(T,K,L,B,E,F,H,C,P,N)$, the local $\NameCert_{\MetaCICSnCandidateInterfaceUp}$ obligations are exactly carrier admission, closed typed term scoping, candidate evidence admission, closed-candidate routing, bounded normalizer endpoint readback, subject-reduction frontier retention, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-sn-candidate-carrier}. Carrier admission exposes exactly the closed term window, candidate evidence, closed-candidate route, bounded endpoint data, frontier retention, and structural rows.
+
+Read the candidate side first. The rows $T,K,L$ ensure that a closed typed term is paired with explicit candidate evidence and that the evidence is routed through the closed-term boundary before any endpoint readback is consumed.
+
+The bounded endpoint row is then inspected through $B$ and $E$. This read records only finite normalizer evidence at the displayed budget, not a global normalization theorem.
+
+Finally, $F,H,C,P,N$ keep the subject-reduction frontier, transport, replay, provenance, and local name visible. Since the carrier lacks evidence-free normalization, unrestricted subject reduction, quotient syntax equality, host evaluator soundness, and completed consistency rows, the listed obligations exhaust the packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC SN candidate interface frontier refusal]
+\label{thm:metacic-sn-candidate-frontier-refusal}
+Any closed-term strong-normalization consumer of an accepted $\MetaCICSnCandidateInterfaceUp$ packet is refused unless the route exposes candidate evidence, bounded normalizer evidence, subject-reduction frontier retention, transport, replay, provenance, and local naming rows. The packet cannot be read as arbitrary closed-term normalization or as a completed MetaCIC consistency theorem.
+\end{theorem}
+\begin{proof}
+Start from the closed typed term window $T$. The carrier makes $T$ visible only together with the candidate evidence row $K$ and closed-candidate routing row $L$.
+
+Inspect the endpoint data. Rows $B$ and $E$ provide bounded normalizer evidence and endpoint readback at the displayed budget, so a consumer cannot skip directly from a closed term to a strong-normalization conclusion.
+
+Now read the frontier row $F$. It retains the subject-reduction boundary as part of the packet rather than discharging it as an unconditional theorem.
+
+The structural rows $H,C,P,N$ preserve and name the same candidate-mediated route. Therefore any consumer missing one of these rows is refused, and the packet cannot export evidence-free closed-term normalization or completed consistency.
+\end{proof}
+
+\falsifiablePrediction{If a MetaCIC strong-normalization consumer exports a closed-term SN row without candidate evidence, bounded normalizer evidence, subject-reduction frontier retention, transport, replay, provenance, and local naming rows, then the packet is refuted.}
+
+\independenceWitness{metacicnormalizationfrontier, metacicclosuretrace, metacicnormalizationcertificaterouter, closedtermsubstitutionboundary: $\MetaCICSnCandidateInterfaceUp$ is not bijective to any listed sibling because it jointly carries candidate evidence, closed-candidate routing, bounded-normal endpoint data, and subject-reduction frontier retention.}
+
+The Lean TasteGate site for $\MetaCICSnCandidateInterfaceUp$ must provide explicit $\Nontrivial\ \MetaCICSnCandidateInterfaceUp$ and $\FieldFaithful\ \MetaCICSnCandidateInterfaceUp$ instances in \texttt{TasteGate.lean}. These instances preserve candidate evidence, closed-candidate routing, bounded endpoint readback, subject-reduction frontier retention, transport, replay, provenance, and local naming as distinguishable fields.
+
+\closureat{MetaCICSnCandidateInterfaceUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICSnCandidateInterfaceUp}
+  \constructivestory{A $\MetaCICSnCandidateInterfaceUp$ packet is generated from a closed typed MetaCIC term window, candidate evidence, closed-candidate routing, bounded normalizer endpoint data, subject-reduction frontier retention, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-sn-candidate-carrier}, \autoref{thm:metacic-sn-candidate-namecert-obligations}, and \autoref{thm:metacic-sn-candidate-frontier-refusal} seed the finite candidate-mediated strong-normalization interface for MetaCIC readers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary closed-term normalization, unrestricted subject reduction, quotient syntax equality, host evaluator soundness, completed closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate evidence routing, bounded endpoint readback, subject-reduction frontier retention, TasteGate nontriviality, field faithfulness, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICSnCandidateInterfaceUp.}
+\end{closurestatus}

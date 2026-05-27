@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.Derived.LocatedSupremumUp.TasteGate
@@ -12,6 +13,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -19,7 +21,46 @@ def LocatedSupremumCarrier [AskSetup] [PackageSetup]
     (L U A W R E H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   -- BEDC touchpoint anchor: BHist BMark
   UnaryHistory R ∧ UnaryHistory A ∧ Cont R A E ∧ hsame L U ∧ UnaryHistory W ∧
-    Cont W R C ∧ hsame H (append C W) ∧ PkgSig bundle P pkg ∧ hsame N (append E H)
+    Cont W R C ∧ hsame H (append C W) ∧ PkgSig bundle P pkg ∧
+      hsame N (append E H) ∧ PkgSig bundle N pkg
+
+theorem LocatedSupremumCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
+    {L U A W R E H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedSupremumCarrier L U A W R E H C P N bundle pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          LocatedSupremumCarrier L U A W R E H C P N bundle pkg ∧ hsame row N)
+        (fun row : BHist =>
+          LocatedSupremumCarrier L U A W R E H C P N bundle pkg ∧ hsame row N)
+        (fun row : BHist =>
+          LocatedSupremumCarrier L U A W R E H C P N bundle pkg ∧ hsame row N)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame SemanticNameCert
+  intro carrier
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro N (And.intro carrier (hsame_refl N))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro row row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro row row' row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact And.intro source.left (hsame_trans (hsame_symm sameRows) source.right)
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 theorem LocatedSupremumCarrier_real_seal_boundary [AskSetup] [PackageSetup]
     {L U A W R E H C P N sealRead : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

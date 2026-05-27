@@ -36,6 +36,7 @@ X,(F\ \hbox{or}\ D),R,S,H,C,P,N .
 $$
 It is not a quotient of Cauchy names, not a choice of canonical representatives, and not a claim that a host metric space is complete.
 \end{definition}
+\leandef{BEDC.Derived.MetricCompletionUp.ClassifierRoute.MetricCompletionClassifier}
 
 \begin{theorem}[MetricCompletion NameCert obligations]
 \label{thm:metric-completion-namecert-obligations}
@@ -377,6 +378,7 @@ Finally use \autoref{thm:metric-completion-obligation-uniform-handoff}. The $\Un
 \label{def:metriccompletion-branch-interface-scope}
 For an accepted $\MetricCompletionUp$ packet $M=(X,F,D,R,S,H,C,P,N)$, the branch-interface rows are the displayed source metric row $X$, exactly one Cauchy-evidence branch $F$ or $D$, the finite $\RegSeqRatUp$ or $\RealUp$ readback row $R$, the $\SeparatedMetricUp$ comparison row $S$, the componentwise $\hsame$ transport row $H$, the displayed $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\MetricCompletionUp}$ row $N$. This scope is a row boundary: it names what filter and net consumers may read, and it does not add carrier/classifier transport beyond the accepted packet.
 \end{definition}
+\leandef{BEDC.Derived.MetricCompletionUp.BranchInterfaceScope.MetricCompletionBranchInterfaceScope}
 
 \begin{theorem}[MetricCompletion filter-branch scope]
 \label{thm:metriccompletion-filter-branch-scope}
@@ -459,6 +461,7 @@ The comparison cannot move to host equality or quotient equality. The finite-rea
 
 Thus uniqueness remains a local separatedness boundary: $S$ supplies the comparison, and $H,C,P,N$ transport, replay, source, and name that same comparison without adding any representative selector.
 \end{proof}
+\leanchecked{BEDC.Derived.MetricCompletionUp.SeparatedLimitBoundary.MetricCompletion\_separated\_limit\_uniqueness\_boundary}
 
 \begin{theorem}[Metric completion uniform-completion handoff]
 \label{thm:metriccompletion-uniform-completion-handoff}
@@ -477,6 +480,7 @@ Apply \autoref{thm:metric-completion-obligation-separated-comparison} and \autor
 
 The refusal and non-escape boundaries complete the handoff. By \autoref{thm:metric-completion-branch-conversion-refusal} and \autoref{thm:metric-completion-finite-readback-ledger-nonescape}, no absent branch-conversion row, quotient row, representative selector, host equality row, or independent uniform-completion classifier can be recovered downstream.
 \end{proof}
+\leanchecked{BEDC.Derived.MetricCompletionUp.UniformCompletionHandoffSurface.MetricCompletion\_uniform\_completion\_handoff\_surface}
 
 \begin{theorem}[MetricCompletion Cauchy-filter carrier admission]
 \label{thm:metriccompletion-cauchyfilter-carrier-admission}
@@ -574,6 +578,7 @@ Since quotient completions, representative selectors, countable-choice schedules
 \label{thm:metriccompletion-filter-scope-lock}
 For an accepted $\MetricCompletionUp$ packet $M=(X,F,D,R,S,H,C,P,N)$ whose selected branch is the $\CauchyFilterUp$ row $F$, every root-unblock read of the filter branch is confined to $\BHist$ provenance, componentwise $\hsame$ transport, displayed $\Cont$ replay, the package row $\Pkg$, and the local $\NameCert_{\MetricCompletionUp}$ ledger before it may cite \autoref{ch:concrete-instances-cauchyfilter-namecert}. The read exports no Cauchy-net conversion, quotient completion, selected representative, selected limit, host equality, countable-choice schedule, or ambient completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetricCompletionUp.FilterScopeLock.MetricCompletion\_filter\_scope\_lock}
 \begin{proof}
 Project the accepted packet through \autoref{thm:metriccompletion-root-obligation-carrier}. On the filter branch, the only Cauchy evidence exposed to a root consumer is $F$ together with the history row carried by $P,N$.
 
@@ -588,6 +593,7 @@ Since the tuple contains no coordinate for a net conversion, quotient carrier, r
 \label{thm:metriccompletion-net-scope-lock}
 For an accepted $\MetricCompletionUp$ packet $M=(X,F,D,R,S,H,C,P,N)$ whose selected branch is the $\CauchyNetUp$ row $D$, every root-unblock read of the net branch is confined to $\BHist$ provenance, componentwise $\hsame$ transport, displayed $\Cont$ replay, the package row $\Pkg$, and the local $\NameCert_{\MetricCompletionUp}$ ledger before it may cite \autoref{ch:concrete-instances-cauchynet-namecert}. The read exports no filter selector, quotient completion, selected representative, selected limit, host equality, countable-choice schedule, or ambient completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetricCompletionUp.NetScopeLock.MetricCompletion\_net\_scope\_lock}
 \begin{proof}
 Start from the root classifier obligation \autoref{thm:metriccompletion-root-obligation-classifier}. The net branch is compared by the displayed row $D$ and by the same finite readback, separatedness, transport, replay, package, and naming rows used by the packet.
 

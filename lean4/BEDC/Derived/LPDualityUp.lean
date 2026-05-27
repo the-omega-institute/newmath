@@ -209,4 +209,32 @@ theorem LPDualityFiniteOrderedFieldFeasibilityRow_root_obligation_surface
         classifierRow', routeRow', endpointRow', pkgSig'⟩,
       sameClassifier, sameRoute, sameEndpoint⟩
 
+theorem LPDualityFeasibleRegion_face_exhaustion [AskSetup] [PackageSetup]
+    {feasible field order objective classifier route provenance endpoint faceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LPDualityFiniteOrderedFieldFeasibilityRow feasible field order objective classifier route
+        provenance endpoint bundle pkg ->
+      Cont endpoint BHist.Empty faceRead ->
+        PkgSig bundle faceRead pkg ->
+          UnaryHistory feasible ∧ UnaryHistory field ∧ UnaryHistory order ∧
+            UnaryHistory objective ∧ UnaryHistory endpoint ∧ UnaryHistory faceRead ∧
+              Cont feasible field classifier ∧ Cont classifier order route ∧
+                Cont route objective endpoint ∧ Cont endpoint BHist.Empty faceRead ∧
+                  PkgSig bundle endpoint pkg ∧ PkgSig bundle faceRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro row faceRow facePkg
+  obtain ⟨feasibleUnary, fieldUnary, orderUnary, objectiveUnary, _provenanceUnary,
+    classifierRow, routeRow, endpointRow, endpointPkg⟩ := row
+  have classifierUnary : UnaryHistory classifier :=
+    unary_cont_closed feasibleUnary fieldUnary classifierRow
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed classifierUnary orderUnary routeRow
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed routeUnary objectiveUnary endpointRow
+  have faceUnary : UnaryHistory faceRead :=
+    unary_cont_closed endpointUnary unary_empty faceRow
+  exact
+    ⟨feasibleUnary, fieldUnary, orderUnary, objectiveUnary, endpointUnary, faceUnary,
+      classifierRow, routeRow, endpointRow, faceRow, endpointPkg, facePkg⟩
+
 end BEDC.Derived.LPDualityUp
