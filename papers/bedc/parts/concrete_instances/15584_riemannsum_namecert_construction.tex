@@ -69,6 +69,42 @@ A $\DarbouxIntegralUp$ consumer may compare this finite row with upper and lower
 The excluded analytic claims are not carrier coordinates. The packet has no row for a completed integral, no family of all refinements, no host quotient of functions, and no choice-selected tag assignment outside $T$. Thus the handoff is exactly the finite tagged-sum side of the integration boundary.
 \end{proof}
 
+\begin{theorem}[Riemann sum mesh-tag obligation]
+\label{thm:riemann-sum-mesh-tag-obligation}
+Every obligation-level $\RiemannSumUp$ consumer of an accepted carrier $Q=(M,T,F,W,S,H,C,P,N)$ must expose the mesh row $M$ and tag-containment row $T$ before reading an integrand value, a cell-width ledger, or the finite sum row. The mesh row supplies the displayed cells, and $T$ supplies exactly one carried tag-containment witness for each cell named by $M$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riemann-sum-carrier}. Its only mesh coordinate is $M$, and its only tag-containment coordinate is $T$.
+
+Apply the NameCert obligations of \autoref{thm:riemann-sum-namecert-obligations}. They place mesh-tag containment before finite integrand readback, width exposure, and sum exactness.
+
+Use tagged-mesh exactness and the Darboux handoff, \autoref{thm:riemann-sum-tagged-mesh-exactness} and \autoref{thm:riemann-sum-darboux-handoff}. Both force downstream comparison reads through the same displayed $M,T$ boundary, so no consumer can substitute hidden cells or choice-selected tags.
+\end{proof}
+
+\begin{theorem}[Riemann sum width and sum exactness obligation]
+\label{thm:riemann-sum-width-exactness-obligation}
+For every accepted $\RiemannSumUp$ carrier $Q=(M,T,F,W,S,H,C,P,N)$, the cell-width ledger $W$ and finite sum row $S$ must be replayed from the same mesh row $M$ and tag-containment row $T$. The obligation surface admits a summand only when its tag value is read through $F$ at a tag contained by $T$ and its width is read through $W$ at the corresponding cell of $M$.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligation surface. The rows $M,T,F,W,S$ are the only finite arithmetic rows available to the packet, and \autoref{thm:riemann-sum-namecert-obligations} orders them as mesh and tag data before value, width, and sum data.
+
+Apply tagged-mesh exactness. Theorem~\ref{thm:riemann-sum-tagged-mesh-exactness} says every summand route begins with a cell of $M$, passes through its tag witness in $T$, and then reads the matching value and width rows before rebuilding $S$.
+
+The Darboux handoff preserves this same finite arithmetic boundary. A comparison consumer may inspect the sum side of the bracket, but it receives $S$ only as the replay of $M,T,F,W$, not as a host limiting object.
+\end{proof}
+
+\begin{theorem}[Riemann sum ledger non-escape obligation]
+\label{thm:riemann-sum-ledger-nonescape-obligation}
+An accepted $\RiemannSumUp$ packet has no obligation-level route to host limits, quotient function equality, measure integration, or choice-selected tag families. Every downstream read remains inside the displayed finite ledger $M,T,F,W,S,H,C,P,N$ before any Darboux or Riemann integral consumer adds its own rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riemann-sum-carrier}. The packet contains mesh, tag, finite value, width, sum, transport, replay, provenance, and local naming rows, and no coordinate for host analytic structure.
+
+Apply the NameCert obligations and tagged-mesh exactness. These theorems force all accepted reads through the finite row route $M,T,F,W,S,H,C,P,N$.
+
+Finally use the Darboux handoff. Theorem~\ref{thm:riemann-sum-darboux-handoff} identifies the exported object as the finite tagged-sum side of a comparison, so host limits, quotient function equality, measure integration, and external tag choice remain outside the ledger.
+\end{proof}
+
 \begin{theorem}[Riemann sum obligation-closure package]
 \label{thm:riemann-sum-obligation-closure-package}
 The $\RiemannSumUp$ packet supports obligationClosure exactly by carrier admission, mesh-tag containment, finite integrand readback, cell-width exposure, finite-sum exactness, tagged-mesh exactness, Darboux/Riemann handoff, componentwise transport, $\Cont$ replay, provenance, and ledger non-escape. For an accepted carrier $Q=(M,T,F,W,S,H,C,P,N)$, every obligation-level consumer reads only the finite route through those nine rows and imports no integrability theorem, limiting process, quotient function equality, or tag-choice principle.

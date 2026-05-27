@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\LocallyCompactPolishUp$}
+\label{ch:concrete-instances-locally-compact-polish-namecert}
+\origin{human}
+
+Following Bourbaki, Kelley, and Alexandrov--Urysohn, the $\LocallyCompactPolishUp$ packet records the finite BEDC surface where local compact neighbourhood data is read together with a Polish complete-separable metric presentation. It sits at the joint frontier of the local compact metric packet of \autoref{ch:concrete-instances-locally-compact-metric-namecert}, the Polish readback of \autoref{ch:concrete-instances-polishspace-namecert}, the proper closed-ball route of \autoref{ch:concrete-instances-propermetric-namecert}, the sigma-compact exhaustion of \autoref{ch:concrete-instances-sigma-compact-namecert}, and the complete-separable metric presentation of \autoref{ch:concrete-instances-complete-separable-metric-namecert}. The certificate is finite data: neighbourhood rows, complete-separable readback, properness rows, sigma-compact exhaustion windows, StreamName and RegSeqRat observations, transport, replay, provenance, and local naming.
+
+\begin{definition}[Locally compact Polish carrier]
+\label{def:locally-compact-polish-carrier}
+A $\LocallyCompactPolishUp$ carrier is a finite $\BHist$ packet
+$$
+L=(X,M,K,C,S,E,W,T,R,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the underlying metric-object row shared by the locally compact, Polish, proper, sigma-compact, and complete-separable presentations.
+\item $M$ is the $\LocallyCompactMetricUp$ neighbourhood row. It records, for every displayed point-window, a compact neighbourhood candidate, an interior witness, and the metric inspection data by which the candidate is consumed.
+\item $K$ is the local compactness compact-row ledger. It binds compact neighbourhood reads to the compact witnesses supplied through $M$ and refuses any neighbourhood not named in the packet.
+\item $C$ is the $\CompleteSeparableMetricUp$ readback row. It records the complete metric presentation, the countable dense probe family, and the finite comparison windows through which completeness and separability are inspected.
+\item $S$ is the $\PolishSpaceUp$ row obtained from the same complete-separable readback; it carries no independent host topology coordinate.
+\item $E$ is the $\ProperMetricUp$ closed-ball compactness row. It is read only after $M,K,C,S$ have fixed the metric and neighbourhood surface.
+\item $W$ is the $\SigmaCompactUp$ exhaustion row. Its compact exhaustion windows are generated from the displayed local compactness and properness rows, not from a selected external exhaustion.
+\item $T$ is the finite $\StreamNameUp$ observation row for points, compact neighbourhood candidates, complete-separable probes, closed balls, exhaustion windows, and endpoint-facing reads.
+\item $R$ is the finite $\RegSeqRatUp$ comparison row for the same metric probes and exhaustion windows.
+\item $H$ records componentwise $\hsame$ transport for $X,M,K,C,S,E,W,T,R,Q,P,N$.
+\item $Q$ records displayed $\Cont$ replay of the route
+$$
+M,K \longmapsto C,S \longmapsto E,W \longmapsto T,R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\LocallyCompactPolishUp$, $\LocallyCompactMetricUp$, $\PolishSpaceUp$, $\ProperMetricUp$, $\SigmaCompactUp$, $\CompleteSeparableMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocallyCompactPolishUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,M,K,C,S,E,W,T,R,H,Q,P,N$. It has no coordinate for arbitrary open-cover compactness, a selected exhaustion, host topological equality, quotient metric equality, countable choice, or a Polish presentation detached from the displayed complete-separable row.
+\end{definition}
+
+\begin{theorem}[Locally compact Polish NameCert obligations]
+\label{thm:locally-compact-polish-namecert-obligations}
+For every accepted $\LocallyCompactPolishUp$ carrier
+$$
+L=(X,M,K,C,S,E,W,T,R,H,Q,P,N),
+$$
+the local $\NameCert_{\LocallyCompactPolishUp}$ surface consists exactly of the following finite rows:
+\begin{enumerate}
+\item carrier admission for the thirteen displayed rows;
+\item local compact neighbourhood exactness, requiring $M$ and $K$ to bind every compact neighbourhood read to a displayed point-window and compact witness;
+\item complete-separable readback compatibility, requiring $C$ to carry the complete metric presentation and countable dense probe family used by the packet;
+\item Polish readback compatibility, requiring $S$ to be consumed through $C$ and not through an independent host topology;
+\item proper closed-ball compactness compatibility, requiring $E$ to inspect the metric and compact neighbourhood rows already displayed;
+\item sigma-compact exhaustion compatibility, requiring $W$ to use only the compact windows generated from the local compactness and properness route;
+\item StreamName and RegSeqRat finite-window compatibility, requiring $T$ and $R$ to observe the same metric probes, compact neighbourhoods, closed balls, and exhaustion windows;
+\item componentwise transport, displayed replay, provenance, and local naming for the same route through $H,Q,P,N$.
+\end{enumerate}
+No locally compact Polish obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $L=(X,M,K,C,S,E,W,T,R,H,Q,P,N)$. The metric object, local compactness, compact-neighbourhood ledger, complete-separable readback, Polish row, properness row, sigma-compact exhaustion, finite observations, and structural rows are precisely the displayed carrier coordinates.
+
+The neighbourhood route is fixed first. Rows $M$ and $K$ name the compact neighbourhood candidates and bind every accepted local compactness read to the corresponding point-window and compact witness.
+
+Next the complete-separable route is read through $C$, and the Polish row $S$ is downstream of that readback. Since $S$ has no separate host-topology coordinate, every Polish consumer receives the same complete metric and dense-probe data.
+
+The rows $E$ and $W$ expose proper closed-ball compactness and sigma-compact exhaustion only after the metric, neighbourhood, and complete-separable rows have been displayed. The observation rows $T$ and $R$ then inspect the same probes and windows through finite StreamName and RegSeqRat data.
+
+Finally $H,Q,P,N$ transport, replay, source, and name the route without adding new coordinates. The excluded objects do not occur in the carrier, so the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Locally compact Polish proper-sigma route]
+\label{thm:locally-compact-polish-proper-sigma-route}
+Every properness, sigma-compactness, completion, or compact-neighbourhood consumer of an accepted $\LocallyCompactPolishUp$ carrier receives the finite route
+$$
+\LocallyCompactMetricUp,\CompleteSeparableMetricUp,\PolishSpaceUp
+\longmapsto
+M,K,C,S
+\longmapsto
+\ProperMetricUp,\SigmaCompactUp
+\longmapsto
+E,W,T,R,H,Q,P,N .
+$$
+The route exposes local compact neighbourhood rows and Polish complete-separable readback before proper closed-ball compactness or sigma-compact exhaustion is public. It exports no arbitrary open-cover compactness, selected exhaustion, host topological equality, quotient metric equality, countable-choice selector, or Polish presentation detached from the displayed complete-separable packet.
+\end{theorem}
+\begin{proof}
+Start with the rows $M,K,C,S$. The first pair carries the local compact neighbourhood data, while the second pair carries the complete-separable presentation and the Polish readback consumed by the packet.
+
+The properness and sigma-compactness rows are then downstream. Row $E$ reads closed-ball compactness only through the displayed metric and local compactness surface, and row $W$ records exhaustion windows generated from the same source.
+
+The observation and structural rows $T,R,H,Q,P,N$ preserve that route for consumers. Because the carrier has no coordinate for open-cover compactness, selected exhaustion, host equality, quotient equality, countable choice, or detached Polish data, every consumer remains inside the displayed proper-sigma route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\LocallyCompactPolishUp$ read is refuted if a properness, sigma-compactness, completion, or compact-neighbourhood consumer exports a closed-ball compactness row or exhaustion row without displaying LocallyCompactMetric neighbourhood data, Polish complete-separable readback, StreamName and RegSeqRat finite windows, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{locally-compact-metric, polishspace, propermetric, sigma-compact, complete-separable-metric, streamname, regseqrat: none alone is bijective with $\LocallyCompactPolishUp$ because the packet jointly carries local compact neighbourhood rows, complete-separable Polish readback, proper closed-ball compactness, sigma-compact exhaustion, finite observations, transport, replay, provenance, and local NameCert.}
+
+\closureat{LocallyCompactPolishUp}{seedStr}
+
+\begin{closurestatus}{\LocallyCompactPolishUp}
+  \constructivestory{A $\LocallyCompactPolishUp$ packet is generated from locally compact metric neighbourhood rows, compact-neighbourhood ledgers, complete-separable metric readback, PolishSpaceUp readback, ProperMetricUp closed-ball compactness, SigmaCompactUp exhaustion windows, StreamNameUp and RegSeqRatUp finite observations, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:locally-compact-polish-carrier}, \autoref{thm:locally-compact-polish-namecert-obligations}, and \autoref{thm:locally-compact-polish-proper-sigma-route} seed the locally compact Polish certificate surface from compact neighbourhood rows and complete-separable readback through proper closed-ball compactness and sigma-compact exhaustion.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary open-cover compactness, selected exhaustions, host topological equality, quotient metric equality, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked local compact neighbourhood exactness, complete-separable and Polish readback compatibility, proper closed-ball compatibility, sigma-compact exhaustion compatibility, StreamName and RegSeqRat finite-window compatibility, transport, replay, provenance, and local naming for the displayed packet.}
+\end{closurestatus}
