@@ -5311,6 +5311,7 @@ import BEDC.Derived.RealPowerSeriesUp.CauchyProductHandoff
 import BEDC.Derived.RealPowerSeriesUp.EndpointSealFactorization
 import BEDC.Derived.RealPowerSeriesUp.MajorantConsumerCoverage
 import BEDC.Derived.RealPowerSeriesUp.MajorantExhaustion
+import BEDC.Derived.RealPowerSeriesUp.MajorantRouteTotality
 import BEDC.Derived.RealPowerSeriesUp.RadiusMajorantCoverage
 import BEDC.Derived.RealPowerSeriesUp.RadiusMajorantPublicExport
 import BEDC.Derived.RealPowerSeriesUp.RadiusObligation
@@ -5791,6 +5792,7 @@ import BEDC.Derived.RegularCauchyTailSelectorUp
 import BEDC.Derived.RegularCauchyTailSubsequenceUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSumUp.TasteGate
 import BEDC.Derived.RegularCauchyTelescopingBudgetUp.TasteGate
+import BEDC.Derived.RegularCauchyTranslationUp.TasteGate
 import BEDC.Derived.RegularCauchyTriangleBoundUp
 import BEDC.Derived.RegularCauchyTriangleBoundUp.TasteGate
 import BEDC.Derived.RegularCauchyUniformityUp.TasteGate
@@ -6931,6 +6933,7 @@ import BEDC.Derived.ZnormalUp.RootTotalHostRefusalLedger
 import BEDC.Derived.ZnormalUp.RootTotalHostSourcePacket
 import BEDC.Derived.ZnormalUp.RootUnblockNonescapeLedger
 import BEDC.Derived.ZnormalUp.RootVisibleSourcePackage
+import BEDC.Derived.ZnormalUp.RootZeckendorfHandoff
 import BEDC.Derived.ZnormalUp.RouteTransport
 import BEDC.Derived.ZnormalUp.TasteGate
 import BEDC.Derived.ZnormalUp.TasteGateFieldReadbackLock
