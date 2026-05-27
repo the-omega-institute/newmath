@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\SummableSequenceUp$}
+\label{ch:concrete-instances-summable-sequence-namecert}
+\origin{human}
+
+Following Hardy, Knopp, and Bishop--Bridges constructive real-series analysis, the $\SummableSequenceUp$ packet records the finite route by which a real-valued sequence exposes a Cauchy tail budget before any Real or Completion consumer reads its sum. It sits after the finite partial-sum surface of $\RealSeriesUp$ in \autoref{ch:concrete-instances-realseries-namecert}, the absolute and uniform convergence handoffs of \autoref{ch:concrete-instances-absolute-convergence-namecert} and \autoref{ch:concrete-instances-uniform-convergence-test-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream-window route of \autoref{ch:concrete-instances-streamname-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names summability as finite certificate data: a source series, partial-sum windows, Cauchy tail budgets, convergence-test handoff, readback, sealing, transport, replay, provenance, and local naming.
+
+\begin{definition}[Summable sequence carrier]
+\label{def:summable-sequence-carrier}
+A $\SummableSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,W,T,B,G,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\RealSeriesUp$ source row. It exposes the summand stream and the partial-sum construction only through the finite real-series surface.
+\item $W$ is the partial-sum window row. It records finite windows of summands, partial sums, and requested tail cutoffs.
+\item $T$ is the Cauchy tail budget row. For every displayed tolerance request it records a cutoff, two later partial-sum windows, and the dyadic comparison certifying that their difference lies below the requested bound.
+\item $B$ is the convergence-test handoff row. It is read either through an $\AbsoluteConvergenceUp$ majorant route or through a $\UniformConvergenceTestUp$ route when the summability claim is supplied by a uniform family; if neither handoff is displayed, $B$ carries only the local Cauchy tail budget.
+\item $G$ is the $\RegSeqRatUp$ readback row obtained from the same partial-sum windows and tail budgets.
+\item $R$ is the $\StreamNameUp$ observation row for summands, partial sums, cutoffs, tail comparisons, and endpoint-facing reads.
+\item $E$ is the terminal $\RealUp$ seal reached only after $A,W,T,B,G,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, windows, tail budget, convergence handoff, readback, stream observations, Real seal, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+A,W,T,B \longmapsto G,R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\SummableSequenceUp$, $\RealSeriesUp$, $\AbsoluteConvergenceUp$, $\UniformConvergenceTestUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\SummableSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,W,T,B,G,R,E,H,C,P,N$. It has no coordinate for a selected infinite sum, quotient stream equality, host real equality, countable choice, ambient $\RealUp$ completeness, or an external convergence theorem not displayed by the handoff row.
+\end{definition}
+
+\begin{theorem}[Summable sequence NameCert obligations]
+\label{thm:summable-sequence-namecert-obligations}
+For every accepted $\SummableSequenceUp$ carrier
+$$
+S=(A,W,T,B,G,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\SummableSequenceUp}$ surface consists exactly of the following finite rows:
+\begin{enumerate}
+\item carrier admission for the eleven displayed rows;
+\item $\RealSeriesUp$ source exposure, requiring every summand and partial-sum read to pass through $A$;
+\item partial-sum window exactness, requiring $W$ to bind every inspected summand, partial sum, and tail cutoff to one finite window;
+\item Cauchy tail budget exactness, requiring $T$ to pair every tolerance request with a cutoff and later-window comparison;
+\item convergence-test handoff compatibility, requiring $B$ to expose only the displayed $\AbsoluteConvergenceUp$ or $\UniformConvergenceTestUp$ route when such a route is used;
+\item $\RegSeqRatUp$ and $\StreamNameUp$ readback compatibility, requiring $G$ and $R$ to inspect the same partial-sum and tail-budget rows;
+\item $\RealUp$ seal non-escape, requiring $E$ to remain downstream of $A,W,T,B,G,R$;
+\item componentwise transport, displayed replay, provenance, and local naming for the same route through $H,C,P,N$.
+\end{enumerate}
+No summability obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $S=(A,W,T,B,G,R,E,H,C,P,N)$. The source, window, tail-budget, convergence-handoff, readback, stream-observation, Real-seal, and structural rows are exactly the displayed coordinates of the carrier.
+
+The source and window obligations come first. The row $A$ supplies only $\RealSeriesUp$ summands and partial sums, while $W$ fixes the finite windows in which tail cutoffs and later partial sums are inspected.
+
+The Cauchy tail budget is the row $T$. It pairs each tolerance request with a cutoff and the finite comparisons between later partial sums. The handoff row $B$ may justify that budget through the displayed absolute or uniform convergence route, but it cannot import an unlisted convergence theorem.
+
+Finally $G,R,E,H,C,P,N$ read back, observe, seal, transport, replay, source, and name that same route. Since the excluded objects do not occur as carrier coordinates, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Summable sequence Real-series handoff]
+\label{thm:summable-sequence-real-series-handoff}
+Every Real or Completion consumer of an accepted $\SummableSequenceUp$ carrier receives the finite route
+$$
+\RealSeriesUp,\AbsoluteConvergenceUp,\UniformConvergenceTestUp
+\longmapsto
+A,W,T,B
+\longmapsto
+\RegSeqRatUp,\StreamNameUp
+\longmapsto
+E,H,C,P,N .
+$$
+The handoff states that summability is consumed through displayed partial-sum windows and Cauchy tail budgets before the $\RegSeqRatUp$ readback and $\RealUp$ seal are exposed. It exports no selected infinite sum, quotient stream equality, host real equality, countable-choice selector, ambient completeness theorem, or convergence principle detached from the finite packet.
+\end{theorem}
+\begin{proof}
+Start from the $\RealSeriesUp$ row $A$. It supplies the summand stream and partial sums, while $W$ records the finite partial-sum windows and tail cutoffs available to the consumer.
+
+Read the tail budget through $T$ and the optional convergence-test handoff through $B$. The absolute-convergence or uniform-convergence route can be consumed only when it is displayed in $B$, and the local Cauchy tail comparison remains the row that later readback uses.
+
+The rows $G$ and $R$ expose the same partial-sum and tail-budget data as regular rational readback and stream observations. The Real seal $E$ is therefore downstream of the finite Cauchy tail route.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name the same packet. Because the carrier contains no selected infinite sum, quotient equality, host equality, choice, ambient completeness, or detached convergence coordinate, every Real or Completion handoff stays inside the displayed route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SummableSequenceUp$ read is refuted if a Real or Completion consumer exports a Real seal without displaying a RealSeries source row, partial-sum windows, Cauchy tail budget, convergence-test handoff when used, RegSeqRat readback, StreamName observations, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{realseries, absolute-convergence, uniform-convergence-test, regseqrat, streamname, real: none alone is bijective with $\SummableSequenceUp$ because the packet jointly carries source partial sums, Cauchy tail budgets, convergence-test handoff, regular readback, stream observations, Real sealing, transport, replay, provenance, and local NameCert.}
+
+\closureat{SummableSequenceUp}{seedStr}
+
+\begin{closurestatus}{\SummableSequenceUp}
+  \constructivestory{A $\SummableSequenceUp$ packet is generated from a RealSeriesUp source row, partial-sum window rows, Cauchy tail-budget rows, AbsoluteConvergenceUp or UniformConvergenceTestUp handoff rows when displayed, RegSeqRatUp readback, StreamNameUp observations, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:summable-sequence-carrier}, \autoref{thm:summable-sequence-namecert-obligations}, and \autoref{thm:summable-sequence-real-series-handoff} seed the finite summability certificate surface from real-series partial sums through Cauchy tail budgets to regular readback and RealUp sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close selected infinite sums, quotient stream equality, host real equality, countable choice, ambient $\RealUp$ completeness, detached convergence principles, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, partial-sum window exactness, Cauchy tail-budget stability, convergence-test handoff compatibility, RegSeqRat readback, StreamName observation compatibility, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.SummableSequenceUp.}
+\end{closurestatus}
