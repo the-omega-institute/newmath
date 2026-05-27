@@ -4,8 +4,8 @@ namespace BEDC.Derived
 
 open BEDC.FKernel.Hist
 
-inductive EudoxusRealUp : Type where
-  | mk (I A B D S Q R H C P N : BHist) : EudoxusRealUp
+inductive BishopIntervalEnclosureUp : Type where
+  | mk (L U Q D R S H C P N : BHist) : BishopIntervalEnclosureUp
   deriving DecidableEq
 
 end BEDC.Derived
