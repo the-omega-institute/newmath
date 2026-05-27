@@ -4687,6 +4687,7 @@ import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.NormUp
 import BEDC.Derived.NormalConvergenceUp.TasteGate
 import BEDC.Derived.NormalFormConsistencySealUp
+import BEDC.Derived.NormalSpaceUp.ClosedSetSeparationRoute
 import BEDC.Derived.NormalSpaceUp.TasteGate
 import BEDC.Derived.NormalSpaceUp.TietzeExtensionRefusal
 import BEDC.Derived.NormalSpaceUp.TopologyConsumerBoundary
@@ -5311,6 +5312,7 @@ import BEDC.Derived.RealPowerSeriesUp.CauchyProductHandoff
 import BEDC.Derived.RealPowerSeriesUp.EndpointSealFactorization
 import BEDC.Derived.RealPowerSeriesUp.MajorantConsumerCoverage
 import BEDC.Derived.RealPowerSeriesUp.MajorantExhaustion
+import BEDC.Derived.RealPowerSeriesUp.MajorantRouteTotality
 import BEDC.Derived.RealPowerSeriesUp.RadiusMajorantCoverage
 import BEDC.Derived.RealPowerSeriesUp.RadiusMajorantPublicExport
 import BEDC.Derived.RealPowerSeriesUp.RadiusObligation
@@ -5966,6 +5968,7 @@ import BEDC.Derived.SequentialCompactnessUp.NameCertObligations
 import BEDC.Derived.SequentialCompactnessUp.SelectorRefusal
 import BEDC.Derived.SequentialCompactnessUp.TasteGate
 import BEDC.Derived.SequentialCompletionUp.TasteGate
+import BEDC.Derived.SequentialContinuityUp.MetricRowStability
 import BEDC.Derived.SequentialContinuityUp.TasteGate
 import BEDC.Derived.SeriesDivergenceTestUp.TasteGate
 import BEDC.Derived.SeriesLimitComparisonUp
@@ -6931,6 +6934,7 @@ import BEDC.Derived.ZnormalUp.RootTotalHostRefusalLedger
 import BEDC.Derived.ZnormalUp.RootTotalHostSourcePacket
 import BEDC.Derived.ZnormalUp.RootUnblockNonescapeLedger
 import BEDC.Derived.ZnormalUp.RootVisibleSourcePackage
+import BEDC.Derived.ZnormalUp.RootZeckendorfHandoff
 import BEDC.Derived.ZnormalUp.RouteTransport
 import BEDC.Derived.ZnormalUp.TasteGate
 import BEDC.Derived.ZnormalUp.TasteGateFieldReadbackLock
