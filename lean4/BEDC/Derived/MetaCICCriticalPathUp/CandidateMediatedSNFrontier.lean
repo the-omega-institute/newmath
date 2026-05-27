@@ -83,4 +83,87 @@ theorem MetaCICCriticalPathPacket_candidate_mediated_sn_frontier [AskSetup] [Pac
   }
   exact ⟨cert, frontierUnary, realSealPkg⟩
 
+theorem MetaCICCriticalPathCandidateMediatedFrontierSocketSeparation [AskSetup]
+    [PackageSetup]
+    {strongNorm normalForm obstruction unblock discharge handoff continuation provenance
+      localName dyadic stream regseq realSeal frontier socketRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathOpenPhaseSourceLedger strongNorm normalForm obstruction unblock
+        discharge handoff continuation provenance localName dyadic stream regseq realSeal
+        bundle pkg →
+      Cont continuation localName frontier →
+        Cont unblock obstruction socketRead →
+          PkgSig bundle frontier pkg →
+            SemanticNameCert
+                (fun row : BHist => (hsame row frontier ∨ hsame row socketRead) ∧
+                  UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row obstruction ∨ hsame row discharge ∨ hsame row frontier ∨
+                    hsame row socketRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ PkgSig bundle frontier pkg ∧
+                    Cont unblock obstruction socketRead)
+                hsame ∧
+              UnaryHistory frontier ∧ UnaryHistory socketRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro ledger continuationLocalFrontier unblockObstructionRead frontierPkg
+  obtain ⟨packet, _dyadicUnary, _streamUnary, _regseqUnary, _realSealUnary,
+    _dyadicStreamRegseq, _regseqRealSealHandoff, _realSealPkg⟩ := ledger
+  obtain ⟨_strongNormUnary, _normalFormUnary, obstructionUnary, unblockUnary,
+    _dischargeUnary, _handoffUnary, continuationUnary, _provenanceUnary,
+    localNameUnary, _strongNormNormalFormContinuation, _unblockObstructionDischarge,
+    _handoffLocalName, _provenancePkg⟩ := packet
+  have frontierUnary : UnaryHistory frontier :=
+    unary_cont_closed continuationUnary localNameUnary continuationLocalFrontier
+  have socketReadUnary : UnaryHistory socketRead :=
+    unary_cont_closed unblockUnary obstructionUnary unblockObstructionRead
+  have sourceFrontier :
+      (fun row : BHist => (hsame row frontier ∨ hsame row socketRead) ∧
+        UnaryHistory row) frontier := by
+    exact ⟨Or.inl (hsame_refl frontier), frontierUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => (hsame row frontier ∨ hsame row socketRead) ∧
+            UnaryHistory row)
+          (fun row : BHist =>
+            hsame row obstruction ∨ hsame row discharge ∨ hsame row frontier ∨
+              hsame row socketRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle frontier pkg ∧
+              Cont unblock obstruction socketRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro frontier sourceFrontier
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _row' sameRows source
+        constructor
+        · cases source.left with
+          | inl sameFrontier =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) sameFrontier)
+          | inr sameSocket =>
+              exact Or.inr (hsame_trans (hsame_symm sameRows) sameSocket)
+        · exact unary_transport source.right sameRows
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameFrontier =>
+          exact Or.inr (Or.inr (Or.inl sameFrontier))
+      | inr sameSocket =>
+          exact Or.inr (Or.inr (Or.inr sameSocket))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, frontierPkg, unblockObstructionRead⟩
+  }
+  exact ⟨cert, frontierUnary, socketReadUnary⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp
