@@ -2375,8 +2375,22 @@ def _render_paper_main(paths: BioRealityPaths, namecert_slugs: list[str]) -> str
         r"\usepackage[T1]{fontenc}",
         r"\usepackage{lmodern}",
         r"\usepackage{microtype}",
+        r"\usepackage{amsmath,amssymb,amsthm}",
         r"\usepackage{hyperref}",
         "",
+        r"% BEDC-style macros stubbed for the standalone BioReality paper.",
+        r"\newcommand{\origin}[1]{}",
+        r"\newcommand{\closureat}[2]{}",
+        r"\newcommand{\path}[1]{\texttt{#1}}",
+        r"\providecommand{\BHist}{\mathsf{BHist}}",
+        r"\providecommand{\hsame}{\equiv_h}",
+        r"\providecommand{\Cont}{\mathrm{Cont}}",
+        r"\providecommand{\Pkg}{\mathrm{Pkg}}",
+        r"\newtheorem{definition}{Definition}[section]",
+        r"\newtheorem{theorem}[definition]{Theorem}",
+        r"\newtheorem{lemma}[definition]{Lemma}",
+        r"\newtheorem{proposition}[definition]{Proposition}",
+        r"",
         r"\title{BioReality: Reality-Bound Biological Deepening}",
         r"\author{The Omega Institute}",
         r"\date{}",
@@ -3072,15 +3086,16 @@ def _write_namecert_proposals(
             # Both codex and template-fallback failed the chapter hygiene gate.
             # Replace with a minimal pending stub that keeps LaTeX compiling
             # without shipping template-residue or literal-\n garbage.
+            issues_text = ", ".join(issue for issue in hygiene_issues)[:400]
             text = (
                 f"\\subsection{{NameCert: {_tex_escape(claim_id)}}}\n"
                 f"\\label{{sec:namecert-{slug}}}\n"
                 f"\\origin{{ai}}\n\n"
                 f"This BioReality namecert is awaiting codex re-authoring. "
                 f"Most recent attempt failed the chapter hygiene gate; "
-                f"issues recorded: {', '.join(issue for issue in hygiene_issues)[:400]}. "
+                f"issues recorded: {_tex_escape(issues_text)}. "
                 f"The committed registry record at "
-                f"\\path{{tools/bio_reality/registries/claims.json}} still tracks the "
+                f"\\path{{tools/bio\\_reality/registries/claims.json}} still tracks the "
                 f"underlying claim {_tex_escape(claim_id)} and its experiment runs.\n"
             )
         (namecerts_dir / f"{slug}.tex").write_text(text, encoding="utf-8")
@@ -3149,12 +3164,31 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
         writer_config,
     )
     paths.paper_main.write_text(_render_paper_main(paths, namecert_slugs), encoding="utf-8")
+    # Auto-build the PDF so reviewers can open papers/bio_reality/main.pdf
+    # immediately after each cycle. Failure is informational, not fatal — the
+    # source .tex is the deliverable and bio-K still commits it.
+    pdf_build_status = "skipped"
+    pdf_build_detail = ""
+    paper_dir = paths.paper_main.parent
+    if (paper_dir / "Makefile").exists():
+        try:
+            build = _run_command(paper_dir, ["make", "-s"], timeout=300.0)
+            if build.returncode == 0:
+                pdf_build_status = "ok"
+            else:
+                pdf_build_status = "failed"
+                pdf_build_detail = ((build.stderr or build.stdout) or "")[-400:]
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            pdf_build_status = "error"
+            pdf_build_detail = str(exc)[-400:]
     return {
         "lane": "bio-W",
         "paper_main": str(paths.paper_main),
         "paper_part": str(paths.paper_part),
         "written_conjectures": len(conjectures),
         "namecerts_written": len(namecert_slugs),
+        "pdf_build_status": pdf_build_status,
+        "pdf_build_detail": pdf_build_detail,
     }
 
 
