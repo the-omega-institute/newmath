@@ -70,6 +70,22 @@ Compare the audit and apophatic siblings next. $\AuditGateBoundaryUp$ exposes au
 Finally compare $\SupplySocketLedgerUp$. It accounts for requested supply sockets but does not bind a machine-facing target row to the classifier, use ledger, audit gate, and refusal-locality rows in one packet. Therefore no bijection preserves the target row plus gate-locality row together with all displayed NameCert fields.
 \end{proof}
 
+\begin{theorem}[MachineInterfaceSocket public target export]
+\label{thm:machine-interface-socket-public-target-export}
+Every public machine-facing target export carried by an accepted $\MachineInterfaceSocketUp$ packet $M=(T,K,U,A,S,R,H,C,P,N)$ factors through the displayed rows
+$$
+T,K,U,A,S,R,H,C,P,N .
+$$
+Here $T$ is the target row, $K$ the socket-kind classifier, $U$ the use ledger, $A$ the audit-gate row, $S$ the supply ledger, $R$ refusal locality, $H$ transport, $C$ replay, $P$ provenance, and $N$ local naming. The export has no coordinate for anonymous target admission, bypassed audit acceptance, global namespace correctness, supplied proof content, host-side proof search success, or a theorem asserting that every declared target is true.
+\end{theorem}
+\begin{proof}
+Read the NameCert obligations of \autoref{thm:machine-interface-socket-namecert-obligations}. They expose the target row, socket kind, use ledger, audit-gate row, supply ledger, refusal-locality row, transport, replay, provenance, and local name as the whole local certificate surface.
+
+Apply gate locality from \autoref{thm:machine-interface-socket-gate-locality}. A public export cannot bypass $A$, because refused socket kinds are blocked by $R$ before the target row can be treated as authorized.
+
+Finally use sibling separation, \autoref{thm:machine-interface-socket-sibling-separation}. None of the sibling packets preserves the formalization-target row together with the gate-locality row and all support rows, so the public machine-facing export must factor through $T,K,U,A,S,R,H,C,P,N$ inside this packet.
+\end{proof}
+
 \falsifiablePrediction{A $\MachineInterfaceSocketUp$ packet cannot authorize a formalization target whose audit-gate row refuses its socket kind.}
 
 \independenceWitness{socketkindclassifier, socketuseledger, auditgateboundary, apophaticsocket, supplysocketledger: the classifier lacks the formalization-target row, the use ledger lacks the target-bound gate refusal row, the audit gate lacks socket-use and supply-ledger accounting for target routing, the apophatic socket refuses supply without target admission, and the supply socket ledger lacks target-row authorization; no bijection preserves target row plus gate-locality row.}
@@ -83,7 +99,7 @@ The Lean carrier file $\mathsf{BEDC.Derived.MachineInterfaceSocketUp.TasteGate}$
 \begin{closurestatus}{\MachineInterfaceSocketUp}
   \constructivestory{A $\MachineInterfaceSocketUp$ packet is generated from a target row, socket-kind row, use ledger, audit-gate row, supply-ledger row, refusal-locality row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:machine-interface-socket-carrier}, \autoref{thm:machine-interface-socket-namecert-obligations}, \autoref{thm:machine-interface-socket-gate-locality}, and \autoref{thm:machine-interface-socket-sibling-separation} bind the target row, socket-kind classifier, socket-use ledger, audit-gate boundary, supply-ledger row, refusal-locality, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows as one scoped machine-interface socket.}
+  \scopeclosed{\autoref{def:machine-interface-socket-carrier}, \autoref{thm:machine-interface-socket-namecert-obligations}, \autoref{thm:machine-interface-socket-gate-locality}, \autoref{thm:machine-interface-socket-sibling-separation}, and \autoref{thm:machine-interface-socket-public-target-export} bind the target row, socket-kind classifier, socket-use ledger, audit-gate boundary, supply-ledger row, refusal-locality, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows as one scoped machine-interface socket.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, global namespace correctness, host-side proof search success, supplied witness content, or truth of every declared target.}
