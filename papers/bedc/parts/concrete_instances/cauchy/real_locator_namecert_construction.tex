@@ -100,11 +100,29 @@ The Real-seal nonescape theorem \autoref{thm:cauchy-real-locator-real-seal-nones
 Finally compare this carrier projection with \autoref{thm:cauchy-l10-four-object-seal-route}. The four object faces are exactly $S,D,Q,R$, while $M,H,C,P,N$ supply only schedule, transport, replay, provenance, and naming support. Hence an accepted locator read has the claimed four-object L10 exit route and no additional exported coordinate.
 \end{proof}
 
+\begin{theorem}[Cauchy real locator induction route]
+\label{thm:cauchy-real-locator-induction-route}
+For an accepted $\CauchyRealLocatorUp$ carrier $L=(M,S,D,Q,R,H,C,P,N)$, every locator-side read available to induction is obtained by the finite route
+$$
+M \longmapsto S \longmapsto D \longmapsto Q \longmapsto R \longmapsto H,C,P,N .
+$$
+The induction step reads finite $\StreamNameUp$ windows, $\RegSeqRatUp$ rational readback, $\DyadicRatCoreUp$ tolerance ledgers, and the downstream $\RealUp$ seal rows without deciding trichotomy and without choosing a host limit.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-real-locator-carrier}. The modulus schedule $M$ is the only threshold source, so a locator-side induction step begins by reading the same schedule used in the modulus route.
+
+The finite observation is then $S$ interpreted through $D$. The stream row exposes only bounded windows, while the dyadic row supplies the tolerance scale and comparison cells needed to use those windows.
+
+The rational and Real-facing parts follow through $Q$ and $R$. The modulus route theorem \autoref{thm:cauchy-real-locator-modulus-route} fixes this order, and the four-object exit theorem \autoref{thm:cauchy-real-locator-four-object-exit} identifies $S,D,Q,R$ as the four L10 exit faces.
+
+Finally $H,C,P,N$ preserve the route by transport, replay, provenance, and local naming. Since the carrier has no coordinate for trichotomy or selected host limits, the induction route cannot decide a side by trichotomy or choose a limit outside the displayed locator data.
+\end{proof}
+
 \closureat{CauchyRealLocatorUp}{seedStr}
 
 \begin{closurestatus}{\CauchyRealLocatorUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-real-locator-carrier}, \autoref{thm:cauchy-real-locator-namecert-obligations}, \autoref{thm:cauchy-real-locator-modulus-route}, \autoref{thm:cauchy-real-locator-real-seal-nonescape}, and \autoref{thm:cauchy-real-locator-four-object-exit} seed the finite locator route over Cauchy modulus schedules, StreamName windows, DyadicRatCore tolerances, RegSeqRat readbacks, and the Real locator seal.}
+  \scopeclosed{\autoref{def:cauchy-real-locator-carrier}, \autoref{thm:cauchy-real-locator-namecert-obligations}, \autoref{thm:cauchy-real-locator-modulus-route}, \autoref{thm:cauchy-real-locator-real-seal-nonescape}, \autoref{thm:cauchy-real-locator-four-object-exit}, and \autoref{thm:cauchy-real-locator-induction-route} seed the finite locator route over Cauchy modulus schedules, StreamName windows, DyadicRatCore tolerances, RegSeqRat readbacks, and the Real locator seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim host Real equality, quotient streams, selected limits, countable choice, trichotomy, open-cover compactness, ambient RealUp completeness, Lean verification, or bridge checking.}
