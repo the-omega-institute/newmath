@@ -134,6 +134,26 @@ theorem NetConvergenceCarrier_directed_window_admission {D T E A F S R L H C P M
     _sameC, _sameP, _sameM, fields⟩ := carrier
   exact ⟨sameD, sameT, sameE, directedWindow, readSame, fields⟩
 
+theorem NetConvergenceCarrier_filterbase_finality {D T E A F S R L H C P M
+    filterbaseRead handoffRead : BHist}
+    (carrier : NetConvergenceCarrier D T E A F S R L H C P M)
+    (tailRoute : Cont D T E)
+    (filterbaseRoute : Cont T E filterbaseRead)
+    (handoffRoute : Cont E F handoffRead)
+    (filterbaseSame : hsame filterbaseRead D)
+    (handoffSame : hsame handoffRead F) :
+    hsame D D ∧ hsame T T ∧ hsame E E ∧ hsame F F ∧ Cont D T E ∧
+      Cont T E filterbaseRead ∧ Cont E F handoffRead ∧ hsame filterbaseRead D ∧
+        hsame handoffRead F ∧
+          netConvergenceFields (NetConvergenceUp.mk D T E A F S R L H C P M) =
+            [D, T, E, A, F, S, R, L, H, C, P, M] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  obtain ⟨sameD, sameT, sameE, _sameA, sameF, _sameS, _sameR, _sameL, _sameH,
+    _sameC, _sameP, _sameM, fields⟩ := carrier
+  exact
+    ⟨sameD, sameT, sameE, sameF, tailRoute, filterbaseRoute, handoffRoute,
+      filterbaseSame, handoffSame, fields⟩
+
 theorem NetConvergenceCarrier_cauchy_net_limit_handoff
     {D T E A F S R L H C P M sourceRead limitRead : BHist}
     (carrier : NetConvergenceCarrier D T E A F S R L H C P M)
@@ -149,5 +169,26 @@ theorem NetConvergenceCarrier_cauchy_net_limit_handoff
   obtain ⟨_sameD, _sameT, _sameE, _sameA, _sameF, _sameS, _sameR, sameL, _sameH,
     _sameC, _sameP, _sameM, fields⟩ := carrier
   exact ⟨⟨sourceRoute, limitRoute, limitSame⟩, ⟨realRoute, sameL, fields⟩⟩
+
+theorem NetConvergenceCarrier_moore_smith_filter_boundary
+    {D T E A F S R L H C P M sourceRead filterRead : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M →
+      Cont D T E →
+        Cont D A sourceRead →
+          Cont E F filterRead →
+            hsame sourceRead D →
+              hsame filterRead D →
+                Cont D T E ∧ Cont D A sourceRead ∧ Cont E F filterRead ∧
+                  hsame sourceRead D ∧ hsame filterRead D ∧ hsame H H ∧ hsame C C ∧
+                    hsame P P ∧ hsame M M ∧
+                      netConvergenceFields (NetConvergenceUp.mk D T E A F S R L H C P M) =
+                        [D, T, E, A, F, S, R, L, H, C, P, M] := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro carrier directedTail sourceRoute filterRoute sourceSame filterSame
+  obtain ⟨_sameD, _sameT, _sameE, _sameA, _sameF, _sameS, _sameR, _sameL, sameH,
+    sameC, sameP, sameM, fields⟩ := carrier
+  exact
+    ⟨directedTail, sourceRoute, filterRoute, sourceSame, filterSame, sameH, sameC, sameP,
+      sameM, fields⟩
 
 end BEDC.Derived.NetConvergenceUp
