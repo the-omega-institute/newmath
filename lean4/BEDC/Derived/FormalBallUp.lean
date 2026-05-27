@@ -118,4 +118,29 @@ theorem FormalBallCarrier_directed_radius_transport [AskSetup] [PackageSetup]
     ⟨radiusUnary, dyadicUnary, replayUnary, radiusReadUnary, transportedReadUnary,
       radiusRoute, transportedRoute, provenancePkg, transportedPkg⟩
 
+theorem FormalBallCarrier_completion_window_handoff [AskSetup] [PackageSetup]
+    {M R D W H C P N completionRead exportedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FormalBallCarrier M R D W H C P N bundle pkg ->
+      Cont M R D ->
+        Cont D W completionRead ->
+          Cont completionRead C exportedRead ->
+            PkgSig bundle exportedRead pkg ->
+              UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory D ∧ UnaryHistory W ∧
+                UnaryHistory completionRead ∧ UnaryHistory exportedRead ∧ Cont M R D ∧
+                  Cont D W completionRead ∧ Cont completionRead C exportedRead ∧
+                    PkgSig bundle P pkg ∧ PkgSig bundle exportedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier metricRadiusDyadic dyadicWindowCompletion completionExport exportedPkg
+  obtain ⟨metricUnary, radiusUnary, dyadicUnary, windowUnary, _transportUnary,
+    replayUnary, _provenanceUnary, _nameCertUnary, _metricRadius, _dyadicWindowReplay,
+    _transportReplay, provenancePkg⟩ := carrier
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed dyadicUnary windowUnary dyadicWindowCompletion
+  have exportedUnary : UnaryHistory exportedRead :=
+    unary_cont_closed completionUnary replayUnary completionExport
+  exact
+    ⟨metricUnary, radiusUnary, dyadicUnary, windowUnary, completionUnary, exportedUnary,
+      metricRadiusDyadic, dyadicWindowCompletion, completionExport, provenancePkg, exportedPkg⟩
+
 end BEDC.Derived.FormalBallUp
