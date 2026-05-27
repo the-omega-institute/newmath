@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\MonotoneCauchyCriterionUp$}
+\label{ch:concrete-instances-monotone-cauchy-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\MonotoneCauchyCriterionUp$ packet records the bounded monotone Cauchy criterion as finite BEDC data rather than as an ambient completeness principle. It sits after the monotone source surface of \autoref{ch:concrete-instances-monotonecauchy-namecert}, the bounded witness route of \autoref{ch:concrete-instances-boundedmonotonecauchywitness-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet exposes a displayed regular Cauchy route from bounded monotone data; it does not select a limit, quotient real names, import trichotomy, use open-cover compactness, or assume ambient $\RealUp$ completeness.
+
+\begin{definition}[MonotoneCauchyCriterion carrier]
+\label{def:monotone-cauchy-criterion-carrier}
+A $\MonotoneCauchyCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(B,S,T,M,D,L,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the bounded monotone source row, including the inspected monotone observations and their located upper-bound guard.
+\item $S$ is the $\StreamNameUp$ schedule row selecting the finite windows read from the source.
+\item $T$ is the tail-window schedule row that turns a dyadic request into a displayed tail window.
+\item $M$ is the monotone-tail witness row, recording that later observations stay inside the same bounded monotone route.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for radii, slack, monotone comparisons, and upper-bound traps.
+\item $L$ is the located upper-bound trap row tying each selected tail window to a finite lower observation and a located upper guard.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same window, tail, witness, ledger, and trap data.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the regular-rational readback has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the bounded source, schedule, tail window, monotone witness, dyadic ledger, located trap, readback, seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a criterion request through $B,S,T,M,D,L,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MonotoneCauchyCriterionUp$, $\MonotoneCauchyUp$, $\BoundedMonotoneCauchyWitnessUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MonotoneCauchyCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,S,T,M,D,L,R,E,H,C,P,N$. It has no coordinate for a selected limiting representative, quotient real equality, host real equality, trichotomy, open-cover compactness, choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[MonotoneCauchyCriterion NameCert obligations]
+\label{thm:monotone-cauchy-criterion-namecert-obligations}
+For every accepted $\MonotoneCauchyCriterionUp$ carrier $K=(B,S,T,M,D,L,R,E,H,C,P,N)$, the local $\NameCert_{\MonotoneCauchyCriterionUp}$ surface consists exactly of carrier admission for the displayed packet, bounded-window exposure through $B,S,T$, monotone-tail witness exposure through $M$, dyadic ledger exactness through $D$, located upper-bound trap exposure through $L$, regular-rational readback through $R$, Real seal nonescape through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+
+No obligation may be discharged by selected limits, quotient real equality, trichotomy, open-cover compactness, choice, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:monotone-cauchy-criterion-carrier}. The displayed rows are exactly $B,S,T,M,D,L,R,E,H,C,P,N$, so admission exposes only the bounded monotone source, finite schedules, tail witness, dyadic ledger, located trap, readback, seal, transport, replay, provenance, and naming data.
+
+The bounded-window rows are $B,S,T$. They force every request to pass first through the inspected source and a finite scheduled tail window before any Cauchy-facing witness can be read.
+
+The witness and numerical rows are $M,D,L,R$. The monotone-tail witness stays attached to the dyadic tolerance ledger and located trap, and the regular-rational readback is produced from that same finite route.
+
+Finally the seal and structural rows $E,H,C,P,N$ preserve and name the route. Since the excluded analytic objects are absent from the carrier, they cannot become local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MonotoneCauchyCriterion bounded-window route]
+\label{thm:monotone-cauchy-criterion-bounded-window-route}
+Every criterion-facing read exported by an accepted $\MonotoneCauchyCriterionUp$ packet factors through the finite route
+$$
+\MonotoneCauchyUp \longmapsto \BoundedMonotoneCauchyWitnessUp \longmapsto
+\StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The route first exposes bounded monotone source rows and finite tail windows, then reads the monotone-tail witness, dyadic tolerance ledger, located upper-bound trap, regular-rational readback, and terminal real seal. It exports no selected limit, quotient real equality, host real equality, trichotomy, open-cover compactness, choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a criterion-facing read of $K=(B,S,T,M,D,L,R,E,H,C,P,N)$. Carrier projection exposes the bounded monotone source row $B$, the finite $\StreamNameUp$ schedule $S$, and the tail-window row $T$ before the witness row can be consumed.
+
+Compose the bounded monotone witness route with the monotone Cauchy surface. The existing Lean touchpoint \texttt{BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BoundedMonotoneCauchyWitnessCarrier\_monotone\_cauchy\_criterion\_bridge} records the same source-to-tail-to-witness-to-ledger-to-seal chain at the finite $\BHist$, $\Cont$, and $\Pkg$ level.
+
+The dyadic ledger $D$ and located trap $L$ then feed the regular-rational readback $R$. Only after $R$ is displayed can the terminal $\RealUp$ seal $E$ be read, and $H,C,P,N$ transport, replay, source, and name the same finite packet.
+
+Because no excluded completion, quotient, selection, trichotomy, open-cover compactness, choice, or host-real coordinate occurs in the carrier, every exported criterion read is exhausted by the displayed bounded-window route.
+\end{proof}
+
+\closureat{MonotoneCauchyCriterionUp}{seedStr}
+
+\begin{closurestatus}{\MonotoneCauchyCriterionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:monotone-cauchy-criterion-carrier}, \autoref{thm:monotone-cauchy-criterion-namecert-obligations}, and \autoref{thm:monotone-cauchy-criterion-bounded-window-route} seed the bounded monotone Cauchy criterion route from MonotoneCauchyUp and BoundedMonotoneCauchyWitnessUp rows through StreamNameUp, DyadicRatCoreUp, RegSeqRatUp, and the RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient real equality, trichotomy, open-cover compactness, choice, host real equality, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-window exposure, monotone-tail witness exposure, dyadic ledger exactness, located trap exposure, readback exactness, Real seal nonescape, transport, and replay proofs for BEDC.Derived.MonotoneCauchyCriterionUp.}
+  \constructivestory{A $\MonotoneCauchyCriterionUp$ packet is generated from bounded monotone source rows, finite StreamName windows, a tail-window schedule, a monotone-tail witness, a DyadicRatCore tolerance ledger, a located upper-bound trap, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
