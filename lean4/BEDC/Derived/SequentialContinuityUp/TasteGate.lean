@@ -1,11 +1,16 @@
+import BEDC.FKernel.Ask
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SequentialContinuityUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -253,5 +258,27 @@ theorem SequentialContinuityTasteGate_single_carrier_alignment :
       | b1 =>
           exact Or.inr rfl
     · rfl
+
+theorem SequentialContinuityCauchyHandoff [AskSetup]
+    {S L WX F WY RX EX RY EY : BHist} :
+    UnaryHistory S -> UnaryHistory L -> UnaryHistory F -> UnaryHistory RX ->
+      UnaryHistory RY -> Cont S L WX -> Cont WX F WY -> Cont WX RX EX ->
+        Cont WY RY EY ->
+          UnaryHistory WX ∧ UnaryHistory WY ∧ UnaryHistory EX ∧ UnaryHistory EY ∧
+            Cont S L WX ∧ Cont WX F WY ∧ Cont WX RX EX ∧ Cont WY RY EY := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro sourceUnary ledgerUnary mapUnary sourceReadUnary targetReadUnary
+    sourceWindow imageWindow sourceSeal targetSeal
+  have sourceWindowUnary : UnaryHistory WX :=
+    unary_cont_closed sourceUnary ledgerUnary sourceWindow
+  have imageWindowUnary : UnaryHistory WY :=
+    unary_cont_closed sourceWindowUnary mapUnary imageWindow
+  have sourceSealUnary : UnaryHistory EX :=
+    unary_cont_closed sourceWindowUnary sourceReadUnary sourceSeal
+  have targetSealUnary : UnaryHistory EY :=
+    unary_cont_closed imageWindowUnary targetReadUnary targetSeal
+  exact
+    ⟨sourceWindowUnary, imageWindowUnary, sourceSealUnary, targetSealUnary,
+      sourceWindow, imageWindow, sourceSeal, targetSeal⟩
 
 end BEDC.Derived.SequentialContinuityUp
