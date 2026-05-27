@@ -140,6 +140,20 @@ Replay the continuation row $K$. A completion request reaches $W$ only after $C$
 The structural rows preserve the route. Transport through $H$, provenance through $P$, and local naming through $N$ record the same filterbase-first handoff, so detached windows, free tolerances, selected filter limits, and ambient completeness have no coordinate inside the accepted packet.
 \end{proof}
 
+\begin{theorem}[CauchyFilterCompletion finite-window induction]
+\label{thm:cauchy-filter-completion-finite-window-induction}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ packet. Every induction over the finite filterbase windows of $F$ preserves the displayed Cauchy tolerance row $T$, the located-uniform readback rows through $R$, the separatedness boundary carried by the terminal $\RealUp$ seal $L$, and the Real-seal handoff rows $H,K,P,N$. The induction may only use the finite $\BHist$ support of $W$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row; it cannot insert quotient filters, selected limits, host equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:cauchy-filter-completion-filterbase-handoff}. It places the displayed $\FilterBaseUp/\CauchyFilterUp$ source before every finite window, so induction on the window spine begins with a fixed source row $C$.
+
+At each finite step, use \autoref{thm:cauchy-filter-completion-window-tolerance-totality}. The window row being inspected carries the same dyadic tolerance ledger $T$, and the readback row $R$ remains downstream of that ledger.
+
+The terminal step is governed by \autoref{thm:cauchy-filter-completion-real-seal-handoff} and \autoref{thm:cauchy-filter-completion-located-uniform-gluing}. They keep located, uniform, separatedness, and Real-seal consumers on the same $C,W,T,R,L,H,K,P,N$ route.
+
+Finally the structural rows $H,K,P,N$ transport, replay, source, and name only the displayed packet. Since the refused objects are absent from the carrier and from the NameCert obligation surface, the finite-window induction preserves exactly the listed rows.
+\end{proof}
+
 \begin{theorem}[CauchyFilterCompletion uniform-limit compatibility]
 \label{thm:cauchy-filter-completion-uniform-limit-compatibility}
 Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ packet. Every $\UniformCompletionUp$, $\UniformCauchyFilterUp$, or separated-completion consumer of $F$ that also reads a uniform-limit or separated-seal boundary must use the same finite completion route
