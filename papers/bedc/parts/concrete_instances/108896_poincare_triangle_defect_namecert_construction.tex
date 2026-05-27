@@ -55,6 +55,18 @@ The row $H$ transports each displayed coordinate componentwise. The row $C$ then
 The provenance row $P$ and local name $N$ only source and name this route. Since the carrier contains no coordinate for an ambient model or selected boundary representative, the transported defect remains the same finite BEDC packet.
 \end{proof}
 
+\begin{theorem}[Poincare triangle defect sibling route]
+\label{thm:poincare-triangle-defect-sibling-route}
+Every accepted $\PoincareTriangleDefectUp$ carrier reads disk rows through the Poincare disk phase-transport surface of \autoref{ch:concrete-instances-poincare-disk-phase-transport-namecert}, side rows through the hyperbolic geodesic boundary surface of \autoref{ch:concrete-instances-hyperbolic-geodesic-boundary-namecert}, comparison rows through the hyperbolic metric surface of \autoref{ch:concrete-instances-hyperbolic-metric-namecert} and the hyperbolic cross-ratio surface of \autoref{ch:concrete-instances-hyperbolic-cross-ratio-namecert}, and terminal value rows through the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The local packet exports the resulting route only through $D,G,M,X,R,H,C,P,N$ and exports no host hyperbolic plane, ambient angle measure, selected boundary representative, or unrecorded quotient geometry.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:poincare-triangle-defect-carrier}. The disk row $D$ is the only row from which point data may be read, so it is routed through the Poincare disk phase-transport sibling before any side or comparison consumer sees the packet.
+
+Next read the side and comparison rows. The side row $G$ is routed through the hyperbolic geodesic boundary sibling, while $M$ and $X$ are routed through the hyperbolic metric and hyperbolic cross-ratio siblings. These four sibling surfaces provide the displayed geometric input rows; none adds a host hyperbolic plane or ambient angle measure.
+
+Finally read $R,H,C,P,N$. The terminal value is sealed through the RealUp sibling, and the transport, replay, provenance, and local name rows keep the same sibling route attached to the finite triangle-defect packet. Since no accepted coordinate names a selected boundary representative or quotient geometry, those objects cannot be exported by the sibling route.
+\end{proof}
+
 \falsifiablePrediction{A candidate implementation of $\PoincareTriangleDefectUp$ that omits any one of the disk-point, geodesic-side, hyperbolic-metric, cross-ratio, or $\RealUp$ seal rows will fail to export a stable defect read under componentwise $\hsame$ transport.}
 
 \independenceWitness{The packet depends on the visible rows named poincare-disk-phase-transport, hyperbolic-metric, hyperbolic-geodesic-boundary, hyperbolic-cross-ratio, and real; it does not depend on a host hyperbolic plane, ambient angle measure, selected boundary representative, or global quotient geometry. Lean TasteGate support will require explicit Nontrivial and FieldFaithful instances before the geometric rows can be checked as a typed finite route.}
@@ -64,7 +76,7 @@ The provenance row $P$ and local name $N$ only source and name this route. Since
 \begin{closurestatus}{\PoincareTriangleDefectUp}
   \constructivestory{A $\PoincareTriangleDefectUp$ packet is generated from disk-point rows, geodesic-side rows, HyperbolicMetric rows, HyperbolicCrossRatio rows, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:poincare-triangle-defect-carrier}, \autoref{thm:poincare-triangle-defect-namecert-obligations}, and \autoref{thm:poincare-triangle-defect-transport-stability} seed the finite Poincare disk triangle-defect packet.}
+  \scopeclosed{\autoref{def:poincare-triangle-defect-carrier}, \autoref{thm:poincare-triangle-defect-namecert-obligations}, \autoref{thm:poincare-triangle-defect-transport-stability}, and \autoref{thm:poincare-triangle-defect-sibling-route} seed the finite Poincare disk triangle-defect packet and its sibling dependency route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close a host hyperbolic plane, ambient angle measure, selected ideal boundary representative, global field quotient, Lean TasteGate instances, Lean verification, or bridge checking.}
