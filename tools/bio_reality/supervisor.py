@@ -63,6 +63,9 @@ def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_disp
     def vision_intake() -> dict[str, object]:
         return lanes.run_vision_lane(store)
 
+    def consume_server_oracle_responses() -> dict[str, object]:
+        return lanes._oracle_session_backfill_lane(store)
+
     def gate_and_plan() -> dict[str, object]:
         return lanes.run_gate_lane(store)
 
@@ -98,6 +101,7 @@ def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_disp
             LoopUnit("bio_S_sync_auto_dev", sync_auto_dev),
             LoopUnit("bio_P_packet_targets", packet_targets),
             LoopUnit("bio_V_vision_intake", vision_intake),
+            LoopUnit("bio_C_consume_server_oracle", consume_server_oracle_responses),
             LoopUnit("bio_G_gate_and_plan", gate_and_plan),
             LoopUnit("bio_X_execute_experiments", execute_experiments),
             LoopUnit("bio_N_namecert_decomposition", namecert_decomposition),

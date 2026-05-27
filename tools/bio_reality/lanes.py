@@ -335,6 +335,137 @@ def run_packet_lane(store: BioRealityStore) -> dict[str, Any]:
     }
 
 
+def _oracle_session_backfill_lane(store: BioRealityStore) -> dict[str, Any]:
+    """Scan oracle_sessions/conv_*.json for substantive ChatGPT responses that
+    never made it into a lane transcript (because the Python client gave up
+    before the userscript posted back). Reconstruct client-side transcripts
+    and synthesize oracle_consultation_completed events so bio-oracle-consumer
+    can ingest them on the next cycle. Idempotent — re-runs detect already-
+    backfilled topics via the `.backfill` suffix."""
+    summary = {"lane": "bio-C", "scanned": 0, "backfilled": 0, "skipped_thin": 0, "skipped_present": 0}
+    sessions_dir = store.paths.events.parent.parent / "state" / "oracle_sessions" if not (store.paths.events.parent.parent / "state" / "oracle_sessions").exists() else store.paths.events.parent.parent / "state" / "oracle_sessions"
+    if not sessions_dir.exists():
+        sessions_dir = Path(__file__).parent / "state" / "oracle_sessions"
+    if not sessions_dir.exists():
+        return summary
+    events_path = store.paths.events
+    for conv_path in sorted(sessions_dir.glob("conv_*.json")):
+        summary["scanned"] += 1
+        try:
+            conv = json.loads(conv_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        turns = conv.get("turns") or []
+        if not turns:
+            summary["skipped_thin"] += 1
+            continue
+        first = turns[0]
+        response = str(first.get("response") or "")
+        if not response or "ERROR" in response[:120] or "[TIMEOUT" in response[:120] or len(response) < 300:
+            summary["skipped_thin"] += 1
+            continue
+        tag = str(conv.get("tag") or "")
+        if not tag or tag in {"oracle-bridge-smoke-test"}:
+            continue
+        lane = "bio-Plan" if (tag.startswith("bio-Plan") or tag.startswith("phase.")) else "bio-G"
+        topic_base = re.sub(r"[^A-Za-z0-9._-]+", ".", tag.strip()) or "review"
+        if not topic_base.startswith(lane):
+            topic_base = f"{lane}.review.{topic_base}"
+        topic = f"{topic_base}.backfill"
+        lane_dir = sessions_dir / lane
+        lane_dir.mkdir(parents=True, exist_ok=True)
+        already = False
+        for existing in lane_dir.glob("*.jsonl"):
+            stem = existing.stem
+            if stem.split("__", 1)[-1] == topic:
+                already = True
+                break
+        if already:
+            summary["skipped_present"] += 1
+            continue
+        created = conv.get("created_at", "")
+        try:
+            stamp = datetime.fromisoformat(created).astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        except ValueError:
+            stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        base = lane_dir / f"{stamp}__{topic}"
+        session = {
+            "record_kind": "session",
+            "lane": lane,
+            "topic": topic,
+            "conversation_id": conv.get("conversation_id", ""),
+            "turn_count": 1,
+            "pdf_attached": True,
+            "pdf_skipped_reason": "",
+            "closed_reason": "backfilled_substantive_server_response",
+            "max_turns_reached": False,
+        }
+        turn_rec = {
+            "record_kind": "turn",
+            "turn": 0,
+            "prompt": "(backfilled from server-side conv; original client transcript timed out before this response was posted)",
+            "result": {
+                "status": "completed",
+                "response": response,
+                "conversation_id": conv.get("conversation_id", ""),
+                "task_id": first.get("task_id", ""),
+            },
+        }
+        with base.with_suffix(".jsonl").open("w", encoding="utf-8") as fh:
+            fh.write(json.dumps(session, ensure_ascii=False) + "\n")
+            fh.write(json.dumps(turn_rec, ensure_ascii=False) + "\n")
+        digest = "\n".join([
+            f"# Oracle consultation: {topic}",
+            "",
+            f"- lane: {lane}",
+            f"- conversation_id: {conv.get('conversation_id', '')}",
+            f"- closed_reason: backfilled_substantive_server_response",
+            f"- pdf_attached: True",
+            f"- turns: 1",
+            "",
+            "## Turn 0",
+            "",
+            "Response:",
+            "",
+            "```text",
+            response,
+            "```",
+            "",
+        ])
+        base.with_suffix(".md").write_text(digest + "\n", encoding="utf-8")
+        eid = f"event.{hashlib.sha256((topic + created).encode()).hexdigest()[:16]}"
+        subject_id = f"{lane}.{hashlib.sha256(topic.encode()).hexdigest()[:12]}"
+        event = {
+            "event_id": eid,
+            "event_kind": "oracle_consultation_completed",
+            "source": lane,
+            "subject_kind": "oracle_consultation",
+            "subject_id": subject_id,
+            "reason": "backfilled from server-side ChatGPT response",
+            "payload": {
+                "lane": lane,
+                "topic": topic,
+                "intended_claim_id": "",
+                "conversation_id": conv.get("conversation_id", ""),
+                "turns": len(turns),
+                "closed_reason": "backfilled_substantive_server_response",
+                "max_turns_reached": False,
+            },
+            "stable_event_key": f"oracle_consultation_completed::oracle_consultation::{subject_id}",
+            "status": "open",
+            "created_at": now_iso(),
+        }
+        existing_events = store.load_events()
+        if not any(e.get("stable_event_key") == event["stable_event_key"] for e in existing_events):
+            events_path.parent.mkdir(parents=True, exist_ok=True)
+            with events_path.open("a", encoding="utf-8") as fh:
+                fh.write(json.dumps(event, ensure_ascii=False) + "\n")
+            summary["backfilled"] += 1
+        else:
+            summary["skipped_present"] += 1
+    return summary
+
+
 def run_gate_lane(store: BioRealityStore) -> dict[str, Any]:
     summary = bio_reality_loop.run_once(store)
     oracle_summary = _maybe_run_bio_g_oracle(store)
