@@ -7,6 +7,7 @@ import argparse
 import fnmatch
 import hashlib
 import json
+import os
 import re
 import socket
 import subprocess
@@ -3171,8 +3172,25 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
     pdf_build_detail = ""
     paper_dir = paths.paper_main.parent
     if (paper_dir / "Makefile").exists():
+        # launchctl-managed daemon has a sparse PATH; ensure TeX bin is reachable.
+        env = os.environ.copy()
+        tex_candidates = ["/Library/TeX/texbin", "/usr/local/texlive/2026basic/bin/universal-darwin", "/usr/local/texlive/2025basic/bin/universal-darwin"]
+        existing_path = env.get("PATH", "")
+        for tex_dir in tex_candidates:
+            if Path(tex_dir).exists() and tex_dir not in existing_path:
+                existing_path = f"{tex_dir}:{existing_path}" if existing_path else tex_dir
+        env["PATH"] = existing_path
         try:
-            build = _run_command(paper_dir, ["make", "-s"], timeout=300.0)
+            build = subprocess.run(
+                ["make", "-s"],
+                cwd=paper_dir,
+                env=env,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                timeout=300.0,
+                check=False,
+            )
             if build.returncode == 0:
                 pdf_build_status = "ok"
             else:
