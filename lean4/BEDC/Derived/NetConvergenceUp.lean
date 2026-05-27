@@ -259,4 +259,25 @@ theorem NetConvergenceCarrier_entourage_tail_stability
     ⟨sameHandoff, sameDRefl, sameD'Refl, tailRoute, tailRoute', handoffRoute,
       handoffRoute'⟩
 
+theorem NetConvergenceCarrier_ledger_nonescape {D T E A F S R L H C P M
+    consumer : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M ->
+      Cont D T E ->
+        Cont E F S ->
+          Cont S R L ->
+            hsame consumer D ->
+              hsame D D ∧ hsame T T ∧ hsame E E ∧ hsame A A ∧ hsame F F ∧
+                hsame S S ∧ hsame R R ∧ hsame L L ∧ hsame H H ∧ hsame C C ∧
+                  hsame P P ∧ hsame M M ∧ Cont D T E ∧ Cont E F S ∧
+                    Cont S R L ∧ hsame consumer D ∧
+                      netConvergenceFields (NetConvergenceUp.mk D T E A F S R L H C P M) =
+                        [D, T, E, A, F, S, R, L, H, C, P, M] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  intro carrier tailRoute filterRoute realRoute consumerSame
+  obtain ⟨sameD, sameT, sameE, sameA, sameF, sameS, sameR, sameL, sameH, sameC,
+    sameP, sameM, fields⟩ := carrier
+  exact
+    ⟨sameD, sameT, sameE, sameA, sameF, sameS, sameR, sameL, sameH, sameC, sameP,
+      sameM, tailRoute, filterRoute, realRoute, consumerSame, fields⟩
+
 end BEDC.Derived.NetConvergenceUp
