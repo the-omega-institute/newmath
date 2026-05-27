@@ -57,6 +57,20 @@ Apply the NameCert obligations of \autoref{thm:socket-use-ledger-namecert-obliga
 Now read the audit-facing rows. The continuation row $C$ exposes the finite use/refusal result, while $H,P,N$ transport, package, and name the same packet. No excluded supply or host principle appears among the coordinates, so the accepted socket-use read cannot escape the ledger.
 \end{proof}
 
+\begin{theorem}[SocketUseLedger public event surface]
+\label{thm:socket-use-ledger-public-event-surface}
+The public exported object of $\SocketUseLedgerUp$ is exactly the visible-use and refusal event surface
+$$
+U=(A,S,Q,V,R,H,C,P,N).
+$$
+Its public rows expose the apophatic name $A$, socket $S$, gate question $Q$, visible-use row $V$, refusal row $R$, componentwise transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$, and no other public coordinate is exported.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:socket-use-ledger-carrier} lists precisely the nine displayed rows of $U$. The NameCert obligations of \autoref{thm:socket-use-ledger-namecert-obligations} certify carrier admission, exposure, visible-use readback, refusal coverage, transport, continuation replay, provenance, and local naming for those rows.
+
+The visible-use non-escape theorem \autoref{thm:socket-use-ledger-visible-use-nonescape} excludes the requested outside supply, unmarked selectors, hidden axiom channels, quotient collapse, proposition-extensionality collapse, and host-level gate replacement from the exported read. Hence the public surface is the event ledger $U$ and nothing beyond it.
+\end{proof}
+
 \falsifiablePrediction{Every accepted socket-use read factors through ApophaticNameUp, ApophaticSocketUp, ExternalityGateUp, and the local visible/refusal ledger before any audit consumer sees it. A read that reaches audit without $A,S,Q,V,R,H,C,P,N$ falsifies this packet.}
 
 \independenceWitness{Nearest siblings: apophaticname, apophaticsocket, externalitygate, negativenameboundary, and apophaticgatequestion. SocketUseLedgerUp is not bijective to any of them because it simultaneously carries an event-level visible-use row and a refusal row for the same socket-use read; each sibling lacks at least one of those event ledger coordinates.}
@@ -64,15 +78,16 @@ Now read the audit-facing rows. The continuation row $C$ exposes the finite use/
 \closureat{SocketUseLedgerUp}{seedStr}
 \closureat{SocketUseLedgerUp}{obligationStr}[BEDC.Derived.SocketUseLedgerUp.SocketUseLedgerTasteGate\_single\_carrier\_alignment]
 \closureat{SocketUseLedgerUp}{scopedStr}[BEDC.Derived.SocketUseLedgerUp.taste\_gate]
+\closureat{SocketUseLedgerUp}{publicStr}[BEDC.Derived.SocketUseLedgerUp.taste\_gate]
 
 \begin{closurestatus}{\SocketUseLedgerUp}
   \constructivestory{A $\SocketUseLedgerUp$ packet is generated from an apophatic-name row, socket row, gate-question row, visible-use row, refusal ledger, componentwise transports, displayed continuations, package provenance, and local naming.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:socket-use-ledger-carrier}, \autoref{thm:socket-use-ledger-namecert-obligations}, and \autoref{thm:socket-use-ledger-visible-use-nonescape} bind the finite visible-use event ledger for apophatic socket consumption.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:socket-use-ledger-carrier}, \autoref{thm:socket-use-ledger-namecert-obligations}, \autoref{thm:socket-use-ledger-visible-use-nonescape}, and \autoref{thm:socket-use-ledger-public-event-surface} bind the finite public visible-use and refusal event ledger for apophatic socket consumption.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \leanchecked{BEDC.Derived.SocketUseLedgerUp.taste\_gate}
   \notclaimed{This chapter does not close Lean verification, bridge checking, existence of the requested outside supply, global audit completeness, or every possible socket-use grammar.}
-  \upgradepath{Public closure requires a public-object surface for the visible-use and refusal ledger over the same finite event packet.}
+  \upgradepath{Bridge closure requires a standard bridge that transports the public event ledger into the acceptance schema.}
 \end{closurestatus}

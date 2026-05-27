@@ -98,4 +98,29 @@ theorem RiemannIntegralPacket_namecert_obligations [AskSetup] [PackageSetup]
       realHandoffUnary, consumerUnary, meshTagsIntegrand, integrandSumDarboux, darbouxGapReal,
       gapRealConsumer, namePkg, consumerPkg⟩
 
+theorem RiemannIntegralPacket_real_seal_boundary [AskSetup] [PackageSetup]
+    {mesh tags integrand sum darboux gap realHandoff transports routes provenance name realSeal :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RiemannIntegralPacket mesh tags integrand sum darboux gap realHandoff transports routes
+        provenance name bundle pkg ->
+      Cont gap realHandoff realSeal ->
+        PkgSig bundle realSeal pkg ->
+          UnaryHistory mesh ∧ UnaryHistory tags ∧ UnaryHistory integrand ∧ UnaryHistory sum ∧
+            UnaryHistory darboux ∧ UnaryHistory gap ∧ UnaryHistory realHandoff ∧
+              UnaryHistory realSeal ∧ Cont mesh tags integrand ∧ Cont integrand sum darboux ∧
+                Cont darboux gap realHandoff ∧ Cont gap realHandoff realSeal ∧
+                  PkgSig bundle name pkg ∧ PkgSig bundle realSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet gapRealSeal sealPkg
+  obtain ⟨meshUnary, tagsUnary, integrandUnary, sumUnary, darbouxUnary, gapUnary,
+    realHandoffUnary, _transportsUnary, _routesUnary, _provenanceUnary, _nameUnary,
+    meshTagsIntegrand, integrandSumDarboux, darbouxGapReal, namePkg⟩ := packet
+  have sealUnary : UnaryHistory realSeal :=
+    unary_cont_closed gapUnary realHandoffUnary gapRealSeal
+  exact
+    ⟨meshUnary, tagsUnary, integrandUnary, sumUnary, darbouxUnary, gapUnary,
+      realHandoffUnary, sealUnary, meshTagsIntegrand, integrandSumDarboux, darbouxGapReal,
+      gapRealSeal, namePkg, sealPkg⟩
+
 end BEDC.Derived.RiemannIntegralUp
