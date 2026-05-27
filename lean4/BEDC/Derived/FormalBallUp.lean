@@ -94,4 +94,28 @@ theorem FormalBallRadiusRefinement [AskSetup] [PackageSetup]
     ⟨metricUnary, radiusUnary, dyadicUnary, windowUnary, refinedUnary, provenancePkg,
       refinedPkg⟩
 
+theorem FormalBallCarrier_directed_radius_transport [AskSetup] [PackageSetup]
+    {M R D W H C P N radiusRead transportedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FormalBallCarrier M R D W H C P N bundle pkg ->
+      Cont R D radiusRead ->
+        Cont radiusRead C transportedRead ->
+          PkgSig bundle transportedRead pkg ->
+            UnaryHistory R ∧ UnaryHistory D ∧ UnaryHistory C ∧
+              UnaryHistory radiusRead ∧ UnaryHistory transportedRead ∧
+                Cont R D radiusRead ∧ Cont radiusRead C transportedRead ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle transportedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier radiusRoute transportedRoute transportedPkg
+  obtain ⟨_metricUnary, radiusUnary, dyadicUnary, _windowUnary, _transportUnary,
+    replayUnary, _provenanceUnary, _nameCertUnary, _metricRadius, _dyadicWindow,
+    _transportReplay, provenancePkg⟩ := carrier
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_cont_closed radiusUnary dyadicUnary radiusRoute
+  have transportedReadUnary : UnaryHistory transportedRead :=
+    unary_cont_closed radiusReadUnary replayUnary transportedRoute
+  exact
+    ⟨radiusUnary, dyadicUnary, replayUnary, radiusReadUnary, transportedReadUnary,
+      radiusRoute, transportedRoute, provenancePkg, transportedPkg⟩
+
 end BEDC.Derived.FormalBallUp

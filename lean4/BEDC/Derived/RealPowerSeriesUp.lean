@@ -171,6 +171,29 @@ theorem RealPowerSeriesCarrier_partial_sum_majorant_readback [AskSetup] [Package
     unary_cont_closed SUnary MUnary readbackRoute
   exact ⟨SUnary, MUnary, readbackUnary, readbackRoute, radiusMajorant, pkgSig⟩
 
+theorem RealPowerSeriesCarrier_radius_window_obligation_basis [AskSetup] [PackageSetup]
+    {A Z X R W S M E H C P N endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealPowerSeriesCarrier A Z X R W S M E H C P N bundle pkg ->
+      Cont S M endpointRead ->
+        PkgSig bundle endpointRead pkg ->
+          UnaryHistory A ∧ UnaryHistory Z ∧ UnaryHistory X ∧ UnaryHistory R ∧
+            UnaryHistory W ∧ UnaryHistory S ∧ UnaryHistory M ∧ UnaryHistory E ∧
+              UnaryHistory endpointRead ∧ Cont A W S ∧ Cont R S M ∧
+                Cont S M endpointRead ∧ Cont M E C ∧ PkgSig bundle P pkg ∧
+                  PkgSig bundle endpointRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier endpointRoute endpointPkg
+  obtain ⟨AUnary, ZUnary, XUnary, RUnary, WUnary, SUnary, MUnary, EUnary,
+    _HUnary, _CUnary, _PUnary, _NUnary, coefficientWindow, radiusMajorant,
+    majorantEndpoint, pkgSig⟩ := carrier
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed SUnary MUnary endpointRoute
+  exact
+    ⟨AUnary, ZUnary, XUnary, RUnary, WUnary, SUnary, MUnary, EUnary, endpointUnary,
+      coefficientWindow, radiusMajorant, endpointRoute, majorantEndpoint, pkgSig,
+      endpointPkg⟩
+
 theorem RealPowerSeriesCarrier_radius_source_compatibility [AskSetup] [PackageSetup]
     {A Z X R W S M E H C P N radiusRead sourceRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
