@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\DistanceFunctionCompletionUp$}
+\label{ch:concrete-instances-distance-function-completion-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on metric completion by distance functions, the $\DistanceFunctionCompletionUp$ packet records the L10 route where a metric source is read through its distance-to-source observations before later completion and separated-completion consumers inspect it. It sits after the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the metric-completion boundary of \autoref{ch:concrete-instances-metriccompletion-namecert}, the Kuratowski embedding route of \autoref{ch:concrete-instances-kuratowski-embedding-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the distance-function completion route as finite BEDC data; it is not a quotient completion, selected representative, host equality of completed points, countable-choice schedule, or ambient $\RealUp$ completeness theorem.
+
+\begin{definition}[DistanceFunctionCompletion carrier]
+\label{def:distance-function-completion-carrier}
+A $\DistanceFunctionCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M,C,K,S,R,D,A,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricUp$ source row whose distances are observed.
+\item $C$ is the $\MetricCompletionUp$ consumer row reached only after the source metric observations have been displayed.
+\item $K$ is the $\KuratowskiEmbeddingUp$ distance-function handoff row from the source metric into the completion-facing observation space.
+\item $S$ is the $\StreamNameUp$ finite-window row naming the inspected distance observations.
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular rational values exposed by those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare requested distances and finite approximants.
+\item $A$ is the terminal $\RealUp$ seal row for each displayed distance value.
+\item $H$ records componentwise $\hsame$ transport for the metric source, completion row, Kuratowski handoff, stream windows, regular readback, dyadic ledger, real seal, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay of the route
+$$
+M,K,S,R,D \longmapsto A \longmapsto C \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\DistanceFunctionCompletionUp$, $\MetricUp$, $\MetricCompletionUp$, $\KuratowskiEmbeddingUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DistanceFunctionCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $M,C,K,S,R,D,A,H,T,P,N$. It has no coordinate for quotient completion classes, selected completed points, host equality of distance functions, countable choice over source points, ambient completeness of $\RealUp$, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[DistanceFunctionCompletion NameCert obligations]
+\label{thm:distance-function-completion-namecert-obligations}
+For every accepted $\DistanceFunctionCompletionUp$ carrier
+$$
+F=(M,C,K,S,R,D,A,H,T,P,N),
+$$
+the local $\NameCert_{\DistanceFunctionCompletionUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the metric source, metric-completion consumer, Kuratowski embedding, stream-window, regular-rational, dyadic-tolerance, real-seal, transport, replay, provenance, and local naming rows;
+\item distance-function exposure, requiring every completion-facing read to pass through $M$ and $K$ before $C$ may be consumed;
+\item L10 readback, requiring each displayed distance observation to pass through $S,R,D,A$ before it is available to a completion consumer;
+\item transport stability, requiring $\hsame$ comparison to preserve the source metric, distance-function handoff, readback route, completion consumer, replay, provenance, and local naming rows componentwise;
+\item replay locality, requiring $\Cont$ replay to use only the displayed route from $M,K,S,R,D$ through $A$ and $C$;
+\item non-escape, excluding quotient completion classes, selected completed points, host equality of completed points or distance functions, countable choice, ambient $\RealUp$ completeness, Lean verification, and bridge checking.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:distance-function-completion-carrier}. The displayed packet supplies exactly the source metric row, the distance-function handoff, the finite observation route, the completion consumer, and the structural rows.
+
+Distance-function exposure starts with $M$ and $K$. A completion-facing read has no access to $C$ until the source metric and its Kuratowski distance observations have both been displayed.
+
+The L10 readback is the route $S,R,D,A$. Stream windows name the inspected observations, regular rational rows read them back, dyadic tolerance rows compare requested scales, and the real seal records the terminal value visible to completion consumers.
+
+Finally $H,T,P,N$ preserve and name the same route. Since no excluded quotient, selector, host-equality, choice, completeness, verification, or bridge object is a carrier row, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\closureat{DistanceFunctionCompletionUp}{seedStr}
+
+\begin{closurestatus}{\DistanceFunctionCompletionUp}
+  \constructivestory{A $\DistanceFunctionCompletionUp$ packet is generated from a MetricUp source row, a MetricCompletionUp consumer row, a KuratowskiEmbeddingUp distance-function handoff, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance rows, RealUp seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:distance-function-completion-carrier} and \autoref{thm:distance-function-completion-namecert-obligations} seed the finite distance-function completion route through metric source observations, Kuratowski embedding, L10 readback, and completion consumption.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient completion classes, selected completed points, host equality of completed points or distance functions, countable choice, ambient $\RealUp$ completeness, Lean verification, bridge checking, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, distance-function exposure, L10 readback, transport stability, replay locality, provenance, and local naming for BEDC.Derived.DistanceFunctionCompletionUp.}
+\end{closurestatus}
