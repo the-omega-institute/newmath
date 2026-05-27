@@ -4,8 +4,8 @@ namespace BEDC.Derived
 
 open BEDC.FKernel.Hist
 
-inductive EudoxusRealUp : Type where
-  | mk (I A B D S Q R H C P N : BHist) : EudoxusRealUp
+inductive UniformEmbeddingUp : Type where
+  | mk (S T I U J R H C P N : BHist) : UniformEmbeddingUp
   deriving DecidableEq
 
 end BEDC.Derived

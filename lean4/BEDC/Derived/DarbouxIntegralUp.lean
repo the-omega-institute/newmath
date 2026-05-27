@@ -228,4 +228,40 @@ theorem DarbouxIntegralPacket_upper_lower_sum_ledger [AskSetup] [PackageSetup]
       refinedUpperSumUnary, refinedLowerSumUnary, upperLowerUpperSum, upperLowerSumGap,
       sameUpperSum, sameLowerSum⟩
 
+theorem DarbouxIntegralPacket_public_gap_seal [AskSetup] [PackageSetup]
+    {partition upper lower upperSum lowerSum gap realHandoff transports routes name cauchyConsumer
+      integralConsumer publicSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DarbouxIntegralPacket partition upper lower upperSum lowerSum gap realHandoff transports routes
+        name bundle pkg ->
+      Cont gap realHandoff cauchyConsumer ->
+        Cont cauchyConsumer name integralConsumer ->
+          Cont integralConsumer name publicSeal ->
+            PkgSig bundle cauchyConsumer pkg ->
+              PkgSig bundle integralConsumer pkg ->
+                PkgSig bundle publicSeal pkg ->
+                  UnaryHistory gap ∧ UnaryHistory realHandoff ∧ UnaryHistory cauchyConsumer ∧
+                    UnaryHistory integralConsumer ∧ UnaryHistory publicSeal ∧
+                      Cont upper lower upperSum ∧ Cont upperSum lowerSum gap ∧
+                        Cont gap realHandoff cauchyConsumer ∧
+                          Cont cauchyConsumer name integralConsumer ∧
+                            Cont integralConsumer name publicSeal ∧ PkgSig bundle name pkg ∧
+                              PkgSig bundle publicSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro packet gapRealConsumer consumerNameIntegral integralNameSeal _consumerPkg _integralPkg
+    sealPkg
+  obtain ⟨_partitionUnary, _upperUnary, _lowerUnary, _upperSumUnary, _lowerSumUnary,
+    gapUnary, realHandoffUnary, _transportsUnary, _routesUnary, nameUnary,
+    upperLowerUpperSum, upperLowerSumGap, namePkg⟩ := packet
+  have cauchyUnary : UnaryHistory cauchyConsumer :=
+    unary_cont_closed gapUnary realHandoffUnary gapRealConsumer
+  have integralUnary : UnaryHistory integralConsumer :=
+    unary_cont_closed cauchyUnary nameUnary consumerNameIntegral
+  have sealUnary : UnaryHistory publicSeal :=
+    unary_cont_closed integralUnary nameUnary integralNameSeal
+  exact
+    ⟨gapUnary, realHandoffUnary, cauchyUnary, integralUnary, sealUnary, upperLowerUpperSum,
+      upperLowerSumGap, gapRealConsumer, consumerNameIntegral, integralNameSeal, namePkg,
+      sealPkg⟩
+
 end BEDC.Derived.DarbouxIntegralUp
