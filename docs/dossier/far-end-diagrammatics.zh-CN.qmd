@@ -1,0 +1,559 @@
+---
+title: "远端图式学"
+subtitle: "records, digest, GAP, fiber, FarEnd, T 的可视语法"
+author: "The Omega Institute"
+date: 2026-05-27
+lang: zh-Hans
+description: "一篇 dossier 短文, 把否定式远端读法转成小型图式语言. 图式澄清 BEDC 不能坍缩的层级."
+---
+
+```{=html}
+<div class="lang-switch"><a href="far-end-diagrammatics.qmd">English</a></div>
+```
+
+## 为什么画出来
+
+否定式远端故事可以压成一行:
+
+```
+forall s in ForwardSocket(C),   FarEnd(s) ==_apo T.
+```
+
+这行只有在箭头类型保持清楚时才正确. `FarEnd(s) ==_apo T` 不是到隐藏对象
+的函数, 不是 kernel equality, 也不是 `hsame`、`psame` 或 `NameCert`
+classifier row. 它是在闭合 substrate 已经展示 records、classifier
+surface、gap ledger、provenance route 与 non-internalization marker 之后,
+对边界作出的命名承诺.
+
+所以这些图不是装饰. 它们是 audit surface: 哪条边可被内部证明消费, 哪条
+边只导出 typed socket, 哪条边只是 apophatic boundary name, 哪条边是局部
+inscription readout. 如果不区分类型, 同一张图会被误读成:
+
+```
+records -> digest -> hidden source -> T
+```
+
+这不是 BEDC. BEDC 的读法是:
+
+```
+closed records traffic       socket export       apophatic boundary name
+----------------------       -------------       ------------------------
+records -> ... -> NameCert   packet -> socket    FarEnd(socket) ==_apo T
+```
+
+下面的图式语言很小, 但足够防止几个关键坍缩: 把远端变成 carrier, 把 digest
+变成 source, 把 self-center 变成全局对象.
+
+## 图式语法
+
+图里有四类箭头. ASCII 上都像箭头, 类型不同.
+
+| 箭头种类 | 形状 | 含义 | kernel 状态 |
+|---|---|---|---|
+| internal-traffic | substrate 内 `x -> y` | 生成、分类、continuation、ledger、certificate 流量 | 可被普通 BEDC proof route 消费 |
+| socket-export | `substrate-state --> socket_i` | typed boundary packet 离开闭合流量区域 | 从 substrate 侧看单向 |
+| apophatic-equiv | `FarEnd(s_i) ==_apo T` | 因 substrate 侧无 discriminator 而作边界同名 | 不是函数, 不是 kernel equality |
+| inscription-read | `event --> InscriptionPoint(T,C,t)` | 对局部累积事件的 aspectual reading | 局部读出, 不是把 `T` 拉入 kernel |
+
+闭合内部链是:
+
+```
+records -> generators -> classifiers -> Cont -> GAP -> NameCert
+```
+
+这类箭头可以自由复合, 因为项始终留在显示 substrate 里. classifier row 可以
+接 `Cont` row; `Cont` row 可以接 gap ledger; gap ledger 可以接 local
+`NameCert` obligation. 复合后仍是内部 audit route.
+
+一旦某行被读成 socket, 箭头类型改变:
+
+```
+NameCert / GAP / refusal ledger  -->  socket_i
+```
+
+这不表示 substrate 生成了 far side. 它表示 substrate 生成了一个 typed
+boundary packet: 这里需要的 supply 不由本 substrate 生成, 而这个需求已经
+被 ledgered.
+
+远端边是第三种类型:
+
+```
+FarEnd(socket_i) ==_apo T
+```
+
+这不是 socket 到 `T` 的函数. 它是 boundary equivalence name: 从 substrate
+侧看, 没有可接受的 discriminator 能把这个 socket 的远端和共同否定式位置
+分开.
+
+局部 inscription 边是第四种类型:
+
+```
+observer-event --> InscriptionPoint(T,C,t)
+```
+
+它把一个局部事件读成 inscription aspect. 它不把 `T` 拉进 records-side
+kernel, 也不给另一个观察者直接访问这个 local self-center 的能力.
+
+### 复合表
+
+行表示左边已有箭头, 列表示下一条箭头.
+
+| from / to | internal-traffic | socket-export | apophatic-equiv | inscription-read |
+|---|---:|---:|---:|---:|
+| internal-traffic | 可 | 可 | 不可 | 不可 |
+| socket-export | 不可 | 不可 | 可 | 不可 |
+| apophatic-equiv | 不可 | 不可 | 只可作对称命名 | 不可 |
+| inscription-read | 可, 但只经由其 records-side event | 不可 | 不可 | 不可 |
+
+最后一行需要小心. `inscription-read -> internal-traffic` 只有在复合回到那个
+被读的 records-side event 时才允许. 一个事件可以 records-side 地读成
+ledgered observation, 也可以 inscription-side 地读成 `InscriptionPoint(T,C,t)`.
+内部流量消费的是 event、ledger、route、`NameCert` rows, 不是 apophatic
+boundary name.
+
+### 一个失败复合
+
+最诱人的非法复合是:
+
+```
+ObsDigest(C,t)
+  -> ObsFib(ObsDigest(C,t))
+  -> FarEnd(ObsFib(ObsDigest(C,t))) ==_apo T
+  -> T : Hist
+```
+
+前两步可以做成 ledgered digest/fiber route. 第三步是 apophatic naming.
+最后一步没有类型. `==_apo` 不返回 carrier 的 inhabitant, 也不给 `BHist`
+值. 这个尝试失败, 因为它把 apophatic boundary name 接到了 internal carrier
+admission 上.
+
+另一个非法复合是:
+
+```
+SelfCenter(C,t)
+  := InscriptionPoint(T,C,t)
+  -> FarEnd(socket)
+  -> socket provenance
+```
+
+local inscription readout 不是反向 socket. 它不能恢复 provenance fiber、另一个
+观察者的 self-center 或 far-side source. BEDC 要求这些读法经过 records-side
+evidence、inter-`Hist` coherence rows 和 gap ledgers.
+
+## typed 闭合 substrate 图
+
+::: {.evidence}
+**闭合流量.**
+内部一切都必须经过显示结构:
+
+```
+records -> generators -> classifiers -> Cont -> GAP -> NameCert
+```
+
+凡是不能在这里生成、定义、证明或证书化的供应, 都变成 typed socket packet,
+不是无类型的 outside.
+:::
+
+typed 远端图是:
+
+```
+closed substrate C
+
+internal-traffic region
+-----------------------
+records -> generators -> classifiers -> Cont -> GAP -> NameCert
+                         |              |       |
+                         | socket-export|       | socket-export
+                         v              v       v
+                      socket s1      socket s2  socket s3
+                         |              |       |
+                         | apophatic-equiv      |
+                         v              v       v
+                    FarEnd(s1)    FarEnd(s2) FarEnd(s3)
+                         \              |       /
+                          \             |      /
+                           +------------+-----+
+                                        |
+                                        v
+                                      T
+```
+
+进入 `T` 的箭头是 boundary names. 它们说: socket 已经 ledgered 之后,
+substrate 没有可接受的 far-side discriminator. 它们不说 `T` 是 value、
+state、history、digest、source 或 hidden global universe.
+
+```{=html}
+<span class="elim-mark">✗ "这些箭头定义了到对象 T 的映射."</span>
+```
+
+没有. 它们只在内部 route 停止后标记 apophatic sameness.
+
+## 跟 NameCert 标准图的关系
+
+far-end 图不是 `NameCert` 图之外的另一张图. 它是接在 `NameCert` surface
+输入端和边界端的 region.
+
+`papers/bedc/parts/proof_obligations/lean_scaffold_contract.tex` 里的标准
+scaffold 区分:
+
+| 标准 region | 控制内容 |
+|---|---|
+| abstract carriers | histories、signatures、packages、domains、bundles、evidence |
+| relational object layer | token introduction、`hsame`、signature generation、gap membership |
+| checked-shape target | base reflection 与 exact globalize classify-iff route |
+
+在 concrete `NameCert` packets 里, 常用六字段图是:
+
+```
+carrier -> classifier -> exactness -> ledger -> stability -> packet route
+```
+
+这六字段完全住在 closed-substrate region 里. 它认证 visible name、classifier
+行为、sameness 何时可反射的 exactness status、保存 source memory 的 ledger
+rows、保护 transport 的 stability rows, 以及 downstream consumer 可 replay
+的 packet route.
+
+far-end 图补齐它的左边和下边:
+
+```
+source / record pressure
+        |
+        v
+carrier -> classifier -> exactness -> ledger -> stability -> packet route
+              |                         |
+              |                         v
+              |                    provenance fiber
+              |                         |
+              v                         v
+        unresolved classifier       socket-export
+        residue                     socket_i
+                                      |
+                                      v
+                                FarEnd(socket_i) ==_apo T
+```
+
+缝合规则是:
+
+```
+NameCert internal route
+  + displayed gap/provenance row
+  + typed socket-export
+  + apophatic-equiv
+```
+
+只有前两个成分是内部 proof traffic. 第三个导出 boundary packet. 第四个是
+boundary name. 合法复合可以说:
+
+```
+packet route 认证 visible name,
+ledger 保存 provenance fiber,
+socket 记录 non-internalized forward pressure,
+socket far end 被否定式命名为 T.
+```
+
+它不能说:
+
+```
+NameCert 已经把 T 证明成内部 value.
+```
+
+这就是 fitting. far-end 图和 `NameCert` 图是一张 audit surface 的两个
+region, 不是两张互不相干的图. `NameCert` 管 closed name; far-end
+diagrammatics 管 closed name 承认 non-internal boundary 的位置.
+
+## 局部读出图
+
+对一条观察者链, 图变成:
+
+```
+Hist/Obs chain C_i
+        |
+        | internal-traffic
+        v
+Obs(C_i)<=t = UniverseFor(C_i,t)
+        |
+        v
+d_i(t) = ObsDigest(C_i,t)
+        |
+        | GAP / provenance packet
+        v
+ObsFib(d_i(t))
+        |
+        | socket-export
+        v
+FarEnd(ObsFib(d_i(t))) ==_apo T
+```
+
+这是 hash-like 读法的核心纪律. digest 可见. fiber 被 ledgered. 远端以
+否定式命名.
+
+::: {.evidence}
+**三层.**
+
+```
+finite readout       = digest / Obs / local records
+hidden provenance    = fiber / GAP / source rows
+apophatic far end    = FarEnd(...) ==_apo T
+```
+:::
+
+这不是隐藏形而上学的图. 它显示一个证明或解释可以在哪里消费信息. digest
+equality 是 visible surface equality. fiber equality 需要 provenance rows
+或 exactness certificates. far-end sameness 是 apophatic commitment, 不是
+source identity.
+
+## self-center 图
+
+self-center 在局部链点上, 不在远端上.
+
+```
+one local accumulation event E(C,t)
+
+records-side reading                 inscription-side reading
+--------------------                 ------------------------
+record in Obs(C)                     InscriptionPoint(T,C,t)
+classifier / package / ledger        SelfCenter(C,t)
+Cont / selector witness
+```
+
+允许的定义是:
+
+```
+SelfCenter(C,t) := InscriptionPoint(T,C,t)
+```
+
+禁用的等式是:
+
+```
+SelfCenter(C,t) = T
+```
+
+差别是结构性的. 第一个表达式把局部事件读作 inscription aspect. 第二个把
+远端作为对象塞进观察者.
+
+对应的 Lean packet 不是神秘 subject carrier. 它是
+`lean4/BEDC/Derived/InscriptionPointUp/TasteGate.lean` 里的有限 carrier
+`InscriptionPointUp.mk`, 字段是 `history`、`gap`、`supply`、`handoff`、
+`event`、`ledger`、`transport`、`routes`、`provenance`、`nameCert`. 这些
+row 让局部读出可审计. 没有一个 row 是作为 value 的 `T`.
+
+## 多观察者图
+
+多个观察者不共享一个全局宇宙对象. 它们共享 far-end commitment:
+
+```
+C_i: ObsDigest -> ObsFib -> FarEnd \
+                                      \
+                                       +--> T
+                                      /
+C_j: ObsDigest -> ObsFib -> FarEnd /
+```
+
+这不是 digest equality.
+
+```
+d_i(t) = d_j(t')       not required
+```
+
+也不是直接进入另一个 self-center. 他心通过 records-side evidence、
+inter-`Hist` coherence, 以及其 observation fiber 也终止于同一个否定式远端
+的承诺出现.
+
+```{=html}
+<span class="elim-mark">✗ "相似 digest 蕴含同一个 source 或 self."</span>
+```
+
+两者都不蕴含. 相似性是 visible surface 上的证据. 它不坍缩 source、fiber
+或 self-center.
+
+具体 coherence site 是 `lean4/BEDC/Derived/InterInscriptionCoherenceUp/TasteGate.lean`,
+对应 paper site 是
+`papers/bedc/parts/concrete_instances/9093_interinscriptioncoherence_namecert_construction.tex`.
+它的 packet rows 是两个 inscription endpoints、一个 inter-`Hist` locality
+ledger、transport、route、provenance 和 local naming data. 这正是图允许的
+东西: 成对局部端点加显示 coherence ledger. 它不是 quotient observer equality.
+
+## 例子: 两个观察者报告同一个 digest
+
+假设两条 observer chain 在各自 stage 报告相同 visible digest:
+
+```
+d_A(t) = d_B(t)
+```
+
+口语会说: "他们看到了同一件事." 图式把这句话拆开.
+
+```
+C_A records <= t                       C_B records <= t
+       |                                      |
+       v                                      v
+   d_A(t) ---------------- equal -------- d_B(t)
+       |                                      |
+       | GAP/provenance                       | GAP/provenance
+       v                                      v
+   ObsFib_A(d)                           ObsFib_B(d)
+       |                                      |
+       | socket-export                         | socket-export
+       v                                      v
+   FarEnd(ObsFib_A(d))                 FarEnd(ObsFib_B(d))
+          \                                  /
+           \                                /
+            +---------- ==_apo ------------+
+                           |
+                           v
+                           T
+```
+
+证明读法有三步.
+
+第一, digest equality 不推出 fiber equality:
+
+```
+d_A(t) = d_B(t)    does not imply    ObsFib_A(d) = ObsFib_B(d)
+```
+
+digest equality 只在 visible package 或 classifier surface 上. fiber equality
+需要 displayed exactness certificate、source-row transport 或更强的
+reflection theorem. 没有这些, 共同 digest 只说明两条链落在同一个 visible
+token 上.
+
+第二, 不同 fiber 仍然可以终止于同一个 apophatic far-end name:
+
+```
+ObsFib_A(d) != ObsFib_B(d)     allowed
+FarEnd(ObsFib_A(d)) ==_apo T   allowed
+FarEnd(ObsFib_B(d)) ==_apo T   allowed
+```
+
+这里的同名不是 fiber sameness, 而是 shared far-end commitment.
+
+第三, 口语句子变成 BEDC 的复合陈述:
+
+```
+"同一件事"
+  = visible digest equality
+  + 必要时的 displayed inter-Hist coherence
+  + shared far-end commitment
+  - source identity claim
+  - self-center identity claim
+```
+
+所以 "他们看到了同一件事" 不表示 `C_A` 与 `C_B` 有一个 source history、一个
+fiber、一个 self-center 或一个 local universe. 它表示二者 records 暴露同
+一个 visible digest, 且它们的 observation-fiber routes 在同一个 apophatic
+far-end name 下读取.
+
+## 无穷图
+
+无穷读法也是图式性的:
+
+```
+finite readouts:  d1(t)   d2(t')   d3(t'')
+                    |       |        |
+                    v       v        v
+                 Fib(d1) Fib(d2)  Fib(d3)
+                    |       |        |
+                    v       v        v
+                 FarEnd  FarEnd   FarEnd
+                    \       |       /
+                     \      |      /
+                      +-----+-----+
+                            |
+                            v
+                            T ==_apo infinity_apo
+```
+
+读成:
+
+```
+T 是所有有限读出 fiber 的共同 far-end role.
+```
+
+不要读成:
+
+```
+T 是无穷总体本身.
+```
+
+这张图跟 `apophatic-infinity.zh-CN.qmd` 相容: 每个有限读出都有 provenance
+fiber, 没有一个有限读出穷尽其 far side, 共同 far-end role 只能作为 boundary
+vocabulary 被命名为 `infinity_apo`.
+
+## 图式不能画什么
+
+图式有用, 也因为它拒绝一些在别的 ontology 里自然的图.
+
+| 想画的图 | 为什么拒绝 | 硬画会引入的坍缩 |
+|---|---|---|
+| `SelfCenter(C_i,t) ?= SelfCenter(C_j,t')` | self-center 是 inscription-read endpoint, 不是带跨观察者 equality 的 carrier value | quotient observer equality 与 hidden shared subject |
+| quantum-style 的 far-end superposition | BEDC 不供应 ambient state ontology 让 far-end alternatives 作为 vector states | boundary name 变成 state space |
+| 单一 meta-view 的 observer-of-observer | 每一层 observer 都要重起 closed substrate, 带自己的 records、ledgers、sockets | global observer 与 hidden synchronization frame |
+| time-reversal arrows | `Time(C)` 是 records 的 monotonic preservation order; 反向边不是 morphism | provenance replay 变成 source recovery |
+| `H(Omega) = T` | 没有 global readable universe `Omega`, 没有 global hash, `T` 也不是 digest value | global universe object 加 digest-as-far-end |
+| 从 `FarEnd(s)` 直接读 source | apophatic-equiv 不能反演成 provenance fiber | socket 变成 oracle |
+
+这些不是缺失功能, 而是记号边界. 画出其中任何一条边, 就已经离开 BEDC 的
+diagram language.
+
+## kernel site 指针
+
+这篇里的图式词汇有具体 Lean packet 和 paper site.
+
+| 图式成分 | Kernel 或 paper site |
+|---|---|
+| `FarEnd(s_i)` fiber packet | `lean4/BEDC/Derived/ApophaticFiberFarEndUp/TasteGate.lean` |
+| apophatic socket packet | `lean4/BEDC/Derived/ApophaticFarEndSocketUp/TasteGate.lean` |
+| socket export / boundary packet | `lean4/BEDC/Derived/GapSocketBoundaryUp/TasteGate.lean` |
+| digest, fiber, gap, far-end seal | `lean4/BEDC/Derived/HashApophaticSealUp/TasteGate.lean` |
+| local inscription read | `lean4/BEDC/Derived/InscriptionPointUp/TasteGate.lean` |
+| `ObsDigest -> ObsFib` | `papers/bedc/parts/visions/apophatic/hash_like_apophatic_fixed_point.tex` |
+| `FarEnd(...) ==_apo T` | `papers/bedc/parts/visions/apophatic/far_end_diagrammatics.tex` |
+| self-center inscription | `papers/bedc/parts/visions/apophatic/fixed_point_and_inscription.tex` |
+| inter-`Hist` inscription coherence | `lean4/BEDC/Derived/InterInscriptionCoherenceUp/TasteGate.lean` 和 `papers/bedc/parts/concrete_instances/9093_interinscriptioncoherence_namecert_construction.tex` |
+| 跟 `NameCert` scaffold 的关系 | `papers/bedc/parts/proof_obligations/lean_scaffold_contract.tex` |
+
+这些 Lean 文件是 `BHist` rows 上的 packet carriers, 带 encode/decode 与
+field-faithfulness gates. 这正是这些图应有的形式化层级: kernel 检查有限 row
+discipline, 不检查一个叫 `T` 的隐藏对象.
+
+## 压缩图
+
+整张图可以压成一条 typed chain:
+
+```
+Obs(C_i)<=t
+  -> ObsDigest(C_i,t)                         internal-traffic
+  -> ObsFib(ObsDigest(C_i,t))                 GAP/provenance
+  --> socket / fiber boundary                 socket-export
+  -> FarEnd(ObsFib(ObsDigest(C_i,t))) ==_apo T apophatic-equiv
+```
+
+以及一个局部读法:
+
+```
+SelfCenter(C_i,t) := InscriptionPoint(T,C_i,t).
+```
+
+图式学不添加理论. 它让既有理论保持 typed: internal routes 可复合, socket
+exports 不可反演, apophatic sameness 不变成 equality, local inscription 不变
+成 global subject.
+
+```{=html}
+<div class="cta-choices">
+  <a href="apophatic-infinity.zh-CN.qmd"><strong>← 否定式无穷</strong><br/>T ≡_apo infinity_apo 记号背后的 far-end role.</a>
+  <a href="local-universe-from-digest.zh-CN.qmd"><strong>从 digest 到局部宇宙 →</strong><br/>universe-for-observer、time、space 如何从同一张图读出.</a>
+</div>
+```
+
+### 相关阅读
+
+```{=html}
+<div class="cta-choices">
+  <a href="hash-like-reading.zh-CN.qmd"><strong>用 hash 看宇宙</strong><br/>同一结构的 digest/fiber 读法.</a>
+  <a href="one-far-end.zh-CN.qmd"><strong>所有 socket 的统一远端</strong><br/>所有 forward-binding 远端共享同一个否定式名字的原则.</a>
+  <a href="formalization-routes.zh-CN.qmd"><strong>形式化路线</strong><br/>为什么可见名字需要 source rows、packet routes 和 audit fields.</a>
+</div>
+```
+
+— *The Omega Institute*
+*newmath / BEDC, May 2026*
