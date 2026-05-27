@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\BorelHierarchyUp$}
+\label{ch:concrete-instances-borel-hierarchy-namecert}
+\origin{human}
+
+Following Kechris and Bourbaki in classical descriptive set theory, the $\BorelHierarchyUp$ packet records the finite BEDC boundary by which a Polish or Borel-facing consumer inspects a displayed hierarchy rank without importing the ambient host universe of all Borel subsets. It sits over the generated-set surface of \autoref{ch:concrete-instances-borel-set-namecert}, the open-schedule boundary of \autoref{ch:concrete-instances-g-delta-set-namecert}, and the complete separable source of \autoref{ch:concrete-instances-polishspace-namecert}. The packet exposes rank schedules, successor and limit-stage replay, StreamName and RegSeqRat readback, transport, continuation replay, provenance, and local naming; it does not claim classical descriptive-set completeness, selected codes, quotient set equality, countable choice, or measure-theoretic structure.
+
+\begin{definition}[Borel hierarchy carrier]
+\label{def:borel-hierarchy-carrier}
+A $\BorelHierarchyUp$ carrier is a finite $\BHist$ packet
+$$
+H=(X,B,G,P,S,R,T,C,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source-space row, read through the Polish or topology-facing source visible to the current consumer.
+\item $B$ is the $\BorelSetUp$ row that receives generated-set handoff after the hierarchy schedule has been inspected.
+\item $G$ is either the $\GDeltaSetUp$ row or the displayed open-generator row used as the first nontrivial hierarchy surface.
+\item $P$ is the $\PolishSpaceUp$ source row when the hierarchy is being read over a complete separable metric presentation.
+\item $S$ is the countable rank schedule. Each visible stage records the rank tag, predecessor window, successor or limit-stage instruction, and the finite constructor route offered to the consumer.
+\item $R$ is the finite $\StreamNameUp$ and $\RegSeqRatUp$ readback row for rank positions, predecessor windows, open-generator observations, and real-facing regular rational queries.
+\item $T$ records componentwise $\hsame$ transport for the source, Borel row, G-delta or open-generator row, Polish row, rank schedule, readback, continuation, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a source query through the visible rank schedule, successor or limit-stage constructor, generated-set handoff, and readback route.
+\item $N$ is the local $\NameCert_{\BorelHierarchyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,B,G,P,S,R,T,C,N$. It has no coordinate for a host subset, a chosen Borel code, countable choice over ranks, quotient set equality, a completed descriptive-set universe, or a measure-theoretic assertion.
+\end{definition}
+
+\begin{theorem}[Borel hierarchy NameCert obligations]
+\label{thm:borel-hierarchy-namecert-obligations}
+For every accepted $\BorelHierarchyUp$ carrier
+$$
+H=(X,B,G,P,S,R,T,C,N),
+$$
+the local $\NameCert_{\BorelHierarchyUp}$ surface consists exactly of the following obligations:
+\begin{enumerate}
+\item source admission for the displayed source-space row and, when present, the Polish source row;
+\item rank-schedule exposure, requiring every inspected hierarchy stage to appear in the finite visible prefix of $S$ before any generated-set row is consumed;
+\item successor-stage replay, requiring successor constructors to read their predecessor window, constructor tag, StreamName observation, and RegSeqRat readback through $S$ and $R$;
+\item limit-stage replay, requiring limit constructors to expose only the displayed finite prefix, schedule position, and readback windows visible in $S$ and $R$;
+\item generated-set handoff, requiring the $\BorelSetUp$ row $B$ to consume the visible route through $X,G,P,S,R$;
+\item transport, requiring $T$ to preserve source, Borel, G-delta or open-generator, Polish, rank-schedule, readback, replay, and naming rows together;
+\item continuation replay, requiring $C$ to replay the same ordered route before any Borel, G-delta, Polish, StreamName, or RegSeqRat consumer receives the packet;
+\item provenance, requiring every cited sibling surface to be read only through the displayed rows of \autoref{ch:concrete-instances-borel-set-namecert}, \autoref{ch:concrete-instances-g-delta-set-namecert}, and \autoref{ch:concrete-instances-polishspace-namecert};
+\item local naming, requiring $N$ to certify exactly the rows $X,B,G,P,S,R,T,C$;
+\item refusal of host subsets, selected codes, countable choice, quotient set equality, ambient descriptive-set completeness, and measure-theoretic claims.
+\end{enumerate}
+No $\BorelHierarchyUp$ NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:borel-hierarchy-carrier}. The tuple displays exactly the source row, Borel row, G-delta or open-generator row, Polish row, countable rank schedule, finite readback, transport, replay, and local naming rows.
+
+Rank exposure is read through $S$ and $R$. A successor stage exposes its predecessor window and constructor tag through the visible schedule, while a limit stage exposes only the finite prefix, position, and readback windows visible to the current consumer.
+
+The generated-set handoff then passes to $B$ over the same $X,G,P,S,R$ route. The sibling chapters supply the only accepted surfaces for the Borel row, the G-delta or open-generator row, and the Polish source.
+
+Finally $T,C,N$ transport, replay, and name the displayed route. Since no row stores a host subset, selected code, countable-choice selector, quotient set equality, completed descriptive-set universe, or measure-theoretic datum, the enumerated obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{closurestatus}{\BorelHierarchyUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:borel-hierarchy-carrier} and \autoref{thm:borel-hierarchy-namecert-obligations} seed the hierarchy route over source, Borel, G-delta or open-generator, Polish, rank-schedule, readback, transport, replay, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host subsets, selected Borel codes, countable choice, quotient set equality, ambient descriptive-set completeness, measure theory, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rank-schedule exposure, successor and limit-stage replay, generated-set handoff, transport, replay, provenance, local naming, and ledger refusal for BEDC.Derived.BorelHierarchyUp.}
+  \constructivestory{A $\BorelHierarchyUp$ packet is generated from a source-space row, BorelSet row, GDeltaSet or open-generator row, Polish source row, countable rank schedule, finite StreamName and RegSeqRat readback, componentwise hsame transport, displayed Cont replay, and a local NameCert row.}
+\end{closurestatus}
