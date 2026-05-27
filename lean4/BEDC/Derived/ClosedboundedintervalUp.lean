@@ -227,4 +227,33 @@ theorem ClosedBoundedIntervalPacket_finite_cover_window_exactness [AskSetup] [Pa
     ⟨exportedUnary, coverWindowUnary, coverCellUnary, refinementUnary, coverCellRoute,
       refinementRoute, provenancePkg, localNamePkg, refinementPkg⟩
 
+theorem ClosedBoundedIntervalPacket_net_consumer_readiness [AskSetup] [PackageSetup]
+    {lower upper order rational dyadic stream readback sealRow transport replay provenance
+      localName exported mesh modulus nesting ready : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClosedBoundedIntervalPacket lower upper order rational dyadic stream readback sealRow
+        transport replay provenance localName exported bundle pkg ->
+      UnaryHistory mesh ->
+        UnaryHistory nesting ->
+          Cont exported mesh modulus ->
+            Cont modulus nesting ready ->
+              PkgSig bundle ready pkg ->
+                UnaryHistory exported ∧ UnaryHistory mesh ∧ UnaryHistory modulus ∧
+                  UnaryHistory nesting ∧ UnaryHistory ready ∧ Cont exported mesh modulus ∧
+                    Cont modulus nesting ready ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle localName pkg ∧ PkgSig bundle ready pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro packet meshUnary nestingUnary modulusRoute readyRoute readyPkg
+  obtain ⟨_lowerUnary, _upperUnary, _orderUnary, _rationalUnary, _dyadicUnary,
+    _streamUnary, _readbackUnary, _sealRowUnary, _transportUnary, _replayUnary,
+    _provenanceUnary, _localNameUnary, exportedUnary, _endpointRoute, _containmentRoute,
+    _sealRowRoute, _replayRoute, _nameRoute, provenancePkg, localNamePkg⟩ := packet
+  have modulusUnary : UnaryHistory modulus :=
+    unary_cont_closed exportedUnary meshUnary modulusRoute
+  have readyUnary : UnaryHistory ready :=
+    unary_cont_closed modulusUnary nestingUnary readyRoute
+  exact
+    ⟨exportedUnary, meshUnary, modulusUnary, nestingUnary, readyUnary, modulusRoute,
+      readyRoute, provenancePkg, localNamePkg, readyPkg⟩
+
 end BEDC.Derived.ClosedboundedintervalUp
