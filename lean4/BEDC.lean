@@ -4356,6 +4356,7 @@ import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.ObligationClosurePac
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.ProjectionCoverage
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.PublicConsumerBoundary
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.ResidualCandidateCoverage
+import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.ResidualDeterminacy
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.ResidualReadbackBoundary
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.RouteCoverage
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
@@ -6125,6 +6126,7 @@ import BEDC.Derived.SmythPowerdomainUp.TasteGate
 import BEDC.Derived.SobolevUp
 import BEDC.Derived.SobolevUp.BHistCarrierScope
 import BEDC.Derived.SobolevUp.ClassifierLocality
+import BEDC.Derived.SobolevUp.CompletionNormHandoff
 import BEDC.Derived.SobolevUp.FiniteEnergyCarrier
 import BEDC.Derived.SobolevUp.FiniteWindowRootPackage
 import BEDC.Derived.SobolevUp.IntegralMagnitudeLedgerStability
@@ -6182,6 +6184,7 @@ import BEDC.Derived.SpinGroupUp.Transport
 import BEDC.Derived.SplittingFieldUp
 import BEDC.Derived.SqueezeRealUp
 import BEDC.Derived.SqueezeRealUp.TasteGate
+import BEDC.Derived.SqueezeTheoremUp.TasteGate
 import BEDC.Derived.StableManifoldUp.TasteGate
 import BEDC.Derived.StableNegationBoundaryUp
 import BEDC.Derived.StableNegationBoundaryUp.CertificateTruthNonEscape
