@@ -227,6 +227,7 @@ $$
 $$
 either preserves the displayed discharge socket $D$ or cites an explicit subject-reduction row outside the candidate-mediated frontier. Candidate-mediated strong normalization, confluence-facing replay, decidability-facing replay, and L10 readback do not by themselves discharge $D$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateMediatedSNFrontierDischargeCoverage}
 \begin{proof}
 Start with the candidate-mediated SN frontier theorem, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. It places the replay on $S,N,U,D,H,C,P,L$ together with the four L10 faces and keeps the obstruction and discharge rows visible.
 
@@ -235,4 +236,29 @@ Apply the discharge-row theorem and discharge-socket induction, \autoref{thm:met
 Use the candidate-normalization budget and socket-exhaustion theorems, \autoref{thm:metacic-critical-path-candidate-normalization-budget} and \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}. They show that the consumer surface is exhausted by $S,N,U,H,C,P,L$ and the four L10 faces, with no hidden subject-reduction coordinate.
 
 Finally invoke the subject-reduction boundary, \autoref{thm:metacic-critical-path-candidate-mediated-sn-subject-reduction-boundary}. It is exactly the alternative in the statement: either the replay keeps $D$ displayed, or a separate subject-reduction row outside the candidate-mediated frontier must be cited.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate-mediated SN route]
+\label{thm:metacic-critical-path-candidate-mediated-sn-route}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any candidate-mediated strong-normalization evidence consumed by confluence-facing or decidability-facing replay is routed through $S,N,U,H,C,P,L$, the visible obstruction row $O$, the discharge socket $D$, and the four L10 faces
+$$
+\DyadicRatCoreUp,\qquad
+\StreamNameUp,\qquad
+\RegSeqRatUp,\qquad
+\RealUp .
+$$
+A separate subject-reduction row is required before $D$ can be filled. Candidate-mediated normalization evidence alone cannot assert global confluence, closed subject reduction, or beta-conversion decidability.
+\end{theorem}
+\begin{proof}
+Begin with the candidate-mediated SN frontier, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. It places normalization evidence on the finite route through $S,N,U,H,C,P,L$ while keeping $O$ and $D$ visible to any consumer.
+
+Apply the candidate-normalization budget, \autoref{thm:metacic-critical-path-candidate-normalization-budget}. The budget available to confluence-facing and decidability-facing replay is exhausted by the displayed SN route and the four L10 faces.
+
+Next use socket exhaustion, \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}. Since exhaustion still leaves $D$ as a socket rather than a filled row, the replay cannot close subject reduction by consuming candidate-mediated SN evidence alone.
+
+Finally invoke discharge coverage, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier-discharge-coverage}. Every admissible consumer either preserves $D$ or cites a separate subject-reduction row. Therefore the route exports only the finite candidate-mediated handoff and refuses global confluence, closed subject reduction, and beta-decidability claims.
 \end{proof}

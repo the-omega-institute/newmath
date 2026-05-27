@@ -379,11 +379,28 @@ Next read the bound side. The real-bound nonescape theorem confines $r$ to the d
 Finally combine the consumer handoff theorems. The diameter handoff, completion nonescape, closure-obligation envelope, and located-diameter readback all reuse the same $H,C,P,N$ structural rows. Thus metric diameter, finite-net, precompactness, and completion consumers receive the ball-containment and bound ledger only as finite boundedness evidence, not as stronger compactness or completeness data.
 \end{proof}
 
-\closureat{BoundedSetUp}{seedStr}
+\begin{theorem}[BoundedSet obligation consumer package]
+\label{thm:bounded-set-obligation-consumer-package}
+Every finite-net, precompactness, $\MetricDiameterUp$, $\UniformSpaceUp$, or completion-facing consumer of an accepted $\BoundedSetUp$ packet $Q=(X,S,c,r,B,H,C,P,N)$ receives boundedness only through the displayed carrier route
+$$
+X,S,c,r,B \longmapsto H,C,P,N .
+$$
+The consumer may project metric membership, the subset classifier, the center or witness, the bound row, and the ball-containment ledger, and may then replay the same rows through componentwise transport, continuation, provenance, and local naming. It cannot replace the route by host-set boundedness, hidden compactness, a finite-net selection, a supremum, trichotomy, quotient equality, or ambient completion data.
+\end{theorem}
+\leanchecked{BEDC.Derived.BoundedSetUp.BoundedSetCarrier\_obligation\_consumer\_package}
+\begin{proof}
+Start with carrier admission, \autoref{thm:boundedset-obligation-carrier}. It admits the packet only from $X,S,c,r,B,H,C,P,N$, so a downstream consumer has no independent host-set boundedness coordinate to inspect.
+
+Next use classifier transport, \autoref{thm:boundedset-obligation-classifier}. Membership and subset movement remain tied to $S$ over the same $X,c,r,B$ rows and are replayed only through $H$ and $C$.
+
+Finally apply ledger nonescape, \autoref{thm:boundedset-obligation-ledger}. The boundedness evidence delivered to finite-net, precompactness, diameter, uniform-space, and completion-facing consumers is exactly the displayed ball-containment and real-bound ledger followed by $H,C,P,N$. Since the packet contains no compactness, supremum, trichotomy, quotient, or completion coordinate, no consumer can obtain one from the obligation package.
+\end{proof}
+
+\closureat{BoundedSetUp}{obligationStr}
 
 \begin{closurestatus}{\BoundedSetUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:bounded-set-carrier}, \autoref{thm:bounded-set-namecert-obligations}, \autoref{thm:bounded-set-ball-containment-route}, and \autoref{thm:bounded-set-real-bound-nonescape} seed the finite bounded-subset packet over metric carriers, subset classifier rows, displayed centers, order-facing bounds, and MetricBall containment ledgers.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:bounded-set-carrier}, \autoref{thm:bounded-set-namecert-obligations}, \autoref{thm:bounded-set-obligation-closure-rows}, \autoref{thm:bounded-set-closure-obligation-envelope}, and \autoref{thm:bounded-set-obligation-consumer-package} bind the finite bounded-subset packet to its displayed carrier, containment, bound, transport, replay, provenance, local naming, and consumer obligation rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close compactness, Heine--Borel, open-cover compactness, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
