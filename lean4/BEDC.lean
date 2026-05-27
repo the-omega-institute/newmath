@@ -2904,6 +2904,7 @@ import BEDC.Derived.DyadicCoverUp.LedgerNonescape
 import BEDC.Derived.DyadicCoverUp.RealEnvelopeCoverageExactness
 import BEDC.Derived.DyadicCoverUp.RefinementWitnessExhaustion
 import BEDC.Derived.DyadicCoverUp.TotalBoundedRadiusLedger
+import BEDC.Derived.DyadicDivisionUp.TasteGate
 import BEDC.Derived.DyadicEmbeddingUniquenessUp.TasteGate
 import BEDC.Derived.DyadicEmbeddingUp
 import BEDC.Derived.DyadicEmbeddingUp.TasteGate
@@ -3932,6 +3933,7 @@ import BEDC.Derived.KroneckerApproximationUp.TasteGate
 import BEDC.Derived.KroneckerLemmaUp.TasteGate
 import BEDC.Derived.KummerTestUp.TasteGate
 import BEDC.Derived.KuratowskiCompletionNaturalityUp
+import BEDC.Derived.KuratowskiCompletionNaturalityUp.TasteGate
 import BEDC.Derived.KuratowskiCompletionUp.TasteGate
 import BEDC.Derived.KuratowskiEmbeddingUp.TasteGate
 import BEDC.Derived.LFunctionUp
