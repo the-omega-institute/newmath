@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\ProductUniformSpaceUp$}
+\label{ch:concrete-instances-product-uniform-space-namecert}
+\origin{human}
+
+Following Bourbaki and Weil's product uniformity language, the $\ProductUniformSpaceUp$ packet records the finite route by which two displayed uniform source packets are assembled into a product uniformity without importing a host product topology. It reads the $\UniformSpaceUp$ entourage surface of \autoref{ch:concrete-instances-uniformspace-namecert}, the $\ProductUp$ projection route of \autoref{ch:concrete-instances-prod-namecert}, the metric-compatible source of \autoref{ch:concrete-instances-metric-namecert}, and the completion-facing boundary of \autoref{ch:concrete-instances-completion-namecert}. The chapter names the product-entourage rows needed by completion consumers before any quotient completion, unrestricted entourage choice, or ambient topology is visible.
+
+\begin{definition}[Product uniform space carrier]
+\label{def:product-uniform-space-carrier}
+A $\ProductUniformSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+U=(A,B,\Pi,E_A,E_B,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two uniform source packets. Each source exposes only its displayed carrier, entourage ledger, diagonal row, symmetry row, composition-refinement row, transport row, replay row, provenance row, and local $\NameCert$ row.
+\item $\Pi$ is the $\ProductUp$ projection row. It records the left and right projection reads and the paired point-name admission used by the product packet.
+\item $E_A$ and $E_B$ are the paired entourage ledgers. A product entourage request must name a left source entourage from $A$ and a right source entourage from $B$ before it can be read as a product request.
+\item $W$ is the finite componentwise witness row. It records that a product pair is accepted exactly by its two projected source reads and their paired entourage ledgers.
+\item $H$ records componentwise $\hsame$ transport for the two source packets, the projection row, the paired entourage ledgers, the witness row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a product-entourage request through the projection row, the left and right source entourages, the componentwise witness, transport, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\ProductUniformSpaceUp$, $\UniformSpaceUp$, $\ProductUp$, $\MetricSpaceUp$, $\CompletionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ProductUniformSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $A,B,\Pi,E_A,E_B,W,H,C,P,N$. It has no coordinate for host product topology, unrestricted choice of entourages, quotient completion, selected limits, open-cover compactness, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Product uniform space NameCert obligations]
+\label{thm:product-uniform-space-namecert-obligations}
+For every accepted $\ProductUniformSpaceUp$ carrier $U=(A,B,\Pi,E_A,E_B,W,H,C,P,N)$, the local $\NameCert_{\ProductUniformSpaceUp}$ surface consists exactly of carrier admission for the two $\UniformSpaceUp$ source packets, the $\ProductUp$ projection row, the paired left and right entourage ledgers, the finite componentwise witness row, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. No product-uniformity obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:product-uniform-space-carrier}. The tuple displays exactly the two source packets, projection row, paired entourage ledgers, witness row, transport, replay, provenance, and local naming.
+
+The source rows provide the only uniform data available to the packet. A product-entourage read must therefore pass through $A$ and $B$ and then through the named ledgers $E_A$ and $E_B$.
+
+The projection row $\Pi$ and witness row $W$ bind the product read to the two component reads. Transport by $H$ is componentwise, and replay by $C$ follows the same displayed route.
+
+Since $P$ and $N$ only source and name this finite surface, and since no other carrier coordinate remains, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Product uniform space projection-entourage route]
+\label{thm:product-uniform-space-projection-entourage-route}
+Every completion-facing or metric-compatible read of an accepted $\ProductUniformSpaceUp$ carrier factors through the finite route
+$$
+\ProductUp \longmapsto (\UniformSpaceUp,\UniformSpaceUp) \longmapsto \CompletionUp .
+$$
+More explicitly, a consumer first reads the projection row $\Pi$, then the left and right uniform source packets $A,B$, then the paired entourage ledgers $E_A,E_B$, and only afterward the witness, transport, replay, provenance, and local naming rows $W,H,C,P,N$. The route exports no host product topology, unrestricted entourage selector, quotient completion, selected limit, or ambient bridge proof.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier and the obligations of \autoref{thm:product-uniform-space-namecert-obligations}. The product request is not available before $\Pi$ displays the two projections and paired point-name admission.
+
+Each projected read then enters one source uniform packet. The left and right entourage data are the displayed ledgers $E_A$ and $E_B$, so the product entourage is a finite pair of component ledgers rather than a host-level neighbourhood of a product topology.
+
+The completion-facing part reads only the same finite route. The witness row $W$ records componentwise acceptance, while $H,C,P,N$ transport, replay, source, and name that route for $\MetricSpaceUp$ and $\CompletionUp$ consumers.
+
+Because the carrier has no coordinate for host product topology, unrestricted entourage choice, quotient completion, selected limits, or bridge checking, no consumer can project those objects from the packet.
+\end{proof}
+
+\closureat{ProductUniformSpaceUp}{seedStr}
+
+\begin{closurestatus}{\ProductUniformSpaceUp}
+  \constructivestory{A $\ProductUniformSpaceUp$ packet is generated from two UniformSpace source packets, a Product projection row, paired component entourage ledgers, a finite componentwise witness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:product-uniform-space-carrier}, \autoref{thm:product-uniform-space-namecert-obligations}, and \autoref{thm:product-uniform-space-projection-entourage-route} seed the finite product-uniformity route used by metric-compatible completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host product topology, unrestricted choice of entourages, quotient completion, selected limits, Lean verification, or bridge checking for $\ProductUniformSpaceUp$.}
+  \upgradepath{Obligation closure requires checked source carrier admission, projection coverage, paired entourage exactness, componentwise transport, replay stability, provenance, local naming, and completion-route non-escape for BEDC.Derived.ProductUniformSpaceUp.}
+\end{closurestatus}
