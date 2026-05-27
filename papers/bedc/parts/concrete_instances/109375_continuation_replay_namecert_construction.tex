@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\ContinuationReplayUp$}
+\label{ch:concrete-instances-continuation-replay-namecert}
+\origin{human}
+
+Following Plotkin-style structural operational semantics, the $\ContinuationReplayUp$ packet records a finite replay of displayed $\Cont$ execution rows as BEDC NameCert data. It realizes the computation-as-continuation reading of \autoref{ch:visions-computation-as-continuation} between the small-step ledger of \autoref{ch:concrete-instances-continuationtrace-namecert}, the monadic continuation surface of \autoref{ch:concrete-instances-continuationmonad-namecert}, and the unary composition substrate of \autoref{ch:concrete-instances-unarycontmonoid-namecert}. The packet supplies a reusable execution replay carrier for later operational and MetaCIC chapters without importing a host evaluator, quotient trace equality, global confluence, or an external normalization oracle.
+
+\begin{definition}[Continuation replay carrier]\label{def:continuation-replay-carrier}
+A $\ContinuationReplayUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite list of $\Cont$ step rows, each naming its source history, transition mark, tail context, and target history as displayed BEDC data.
+\item $T$ is the $\ContinuationTraceUp$ ledger that reads the same ordered steps as a small-step trace.
+\item $E$ is the endpoint row, recording the initial history, terminal history, and boundary read reached by replaying the listed steps.
+\item $H$ records componentwise $\hsame$ transport for step rows, endpoint rows, trace ledger, replay route, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from the initial endpoint through every row of $S$ to the terminal endpoint, with the unit and composition route readable by $\ContinuationMonadUp$ and $\UnaryContMonoidUp$ consumers.
+\item $P$ is the $\Pkg$ provenance over $\ContinuationReplayUp$, $\ContinuationTraceUp$, $\ContinuationMonadUp$, $\UnaryContMonoidUp$, \autoref{ch:visions-computation-as-continuation}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ContinuationReplayUp}$ row.
+\end{enumerate}
+The classifier reads accepted packets only through $S,T,E,H,C,P,N$. It has no coordinate for a host evaluator, quotient trace equality, infinite execution object, global confluence theorem, external normalizer, or hidden monadic semantics.
+\end{definition}
+
+\begin{theorem}[Continuation replay NameCert obligations]\label{thm:continuation-replay-namecert-obligations}
+For every accepted $\ContinuationReplayUp$ carrier
+$$
+R=(S,T,E,H,C,P,N),
+$$
+the local $\NameCert_{\ContinuationReplayUp}$ surface consists exactly of carrier admission, step-row exposure, endpoint exposure, $\ContinuationTraceUp$ ledger readback, endpoint transport by $\hsame$, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and ledger refusal for host evaluators, quotient traces, infinite execution objects, global confluence, external normalization, and hidden monadic semantics.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of \autoref{def:continuation-replay-carrier}. The accepted packet displays only the step list, trace ledger, endpoint row, componentwise transport, replay route, provenance, and local name.
+
+Step-row exposure and endpoint exposure are finite. The row $S$ lists the displayed source, mark, tail, and target data for each step, while $E$ records only the initial and terminal histories reached by replaying that list.
+
+The trace and algebraic consumers read the same route. The $\ContinuationTraceUp$ row $T$ supplies small-step readback, and the replay row $C$ supplies the displayed continuation composition route available to $\ContinuationMonadUp$ and $\UnaryContMonoidUp$ consumers.
+
+Finally, $H,P,N$ transport, source, and name this same finite route. Since no carrier coordinate stores a host evaluator, quotient trace equality, infinite execution, global confluence, external normalization, or hidden monadic semantics, the ledger refusal clauses exhaust the remaining obligation surface.
+\end{proof}
+
+\begin{theorem}[Continuation replay endpoint transport]\label{thm:continuation-replay-endpoint-transport}
+Every endpoint-facing consumer of an accepted $\ContinuationReplayUp$ carrier $R=(S,T,E,H,C,P,N)$ receives the endpoint row $E$ only after reading the displayed step rows $S$, the $\ContinuationTraceUp$ ledger $T$, and the replay route $C$, with componentwise transport, provenance, and local naming supplied by $H,P,N$. The consumer therefore reads finite $\Cont$ execution rather than a host evaluator graph, quotient trace, global confluence certificate, or external normalizer.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The endpoint row $E$ is carried with the same step list $S$, trace ledger $T$, replay route $C$, and structural rows $H,P,N$.
+
+Replay precedes endpoint export. The route $C$ starts from the initial endpoint, consumes each displayed step row in order, and reaches the terminal endpoint named by $E$; transport through $H$ preserves this endpoint relation componentwise.
+
+The sibling consumers cannot bypass the route. $\ContinuationTraceUp$ reads $T$ as the small-step ledger, while $\ContinuationMonadUp$ and $\UnaryContMonoidUp$ read the same replay through unit and composition rows. The excluded host objects are not fields of the packet.
+\end{proof}
+
+\closureat{ContinuationReplayUp}{seedStr}
+
+\begin{closurestatus}{\ContinuationReplayUp}
+  \constructivestory{A $\ContinuationReplayUp$ packet is generated from finite Cont step rows, continuation trace ledgers, endpoint rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:continuation-replay-carrier} and \autoref{thm:continuation-replay-namecert-obligations} seed the finite replay object over step-list, trace-ledger, endpoint, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host evaluators, quotient trace equality, infinite execution objects, global confluence, external normalization, hidden monadic semantics, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, step-row exposure, endpoint exposure, trace-ledger readback, endpoint transport, displayed replay, provenance, local naming, and ledger non-escape for BEDC.Derived.ContinuationReplayUp.}
+\end{closurestatus}
