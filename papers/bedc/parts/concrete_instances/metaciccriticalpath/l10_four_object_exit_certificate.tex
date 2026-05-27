@@ -122,6 +122,20 @@ Next apply Theorem~\ref{thm:metacic-critical-path-phase-real-audit-clean-floor}.
 Finally apply Theorem~\ref{thm:metacic-critical-path-four-face-deficiency-refusal}. If any one of the four face records is missing or below the required local threshold, the route cannot be consumed as Phase Real and Completion exit evidence. Thus the three cited theorems form the complete consumer-side audit floor for the current MetaCIC route.
 \end{proof}
 
+\begin{theorem}[MetaCIC L10 four-face closure readiness]
+\label{thm:metacic-critical-path-l10-four-face-closure-readiness}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the packet can be consumed as current Phase Real and Completion readiness only when the four faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ each expose a local closurestatus row at least $\scopedClosure$ and a local formalstatus row at least $\auditCleanV$. The MetaCIC aggregate route supplies the four-object exit surface, but it supplies neither quotient stream equality nor selected host limits nor a substitute status row for any missing face.
+\end{theorem}
+\begin{proof}
+First use the four-object exit certificate. Theorem~\ref{thm:metacic-critical-path-l10-four-object-exit-certificate} identifies the current route through the dyadic budget, StreamName schedule, RegSeqRat readback, and Real terminal seal rows, each carried by finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.
+
+Next route that surface through the status bridge. Theorem~\ref{thm:metacic-critical-path-l10-status-bridge-obligation} forces any Phase Real and Completion consumer to inspect the Real L10 objectwise audit pullback, and Theorem~\ref{thm:metacic-critical-path-phase-real-status-product-readiness} reads that pullback as a four-entry product of local face records.
+
+The local threshold is the audit-clean floor. Theorem~\ref{thm:metacic-critical-path-phase-real-audit-clean-floor} and Theorem~\ref{thm:metacic-critical-path-four-face-audit-floor} require each face to contribute its own closurestatus at least $\scopedClosure$ and its own formalstatus at least $\auditCleanV$.
+
+Finally apply the deficiency refusal. Theorem~\ref{thm:metacic-critical-path-four-face-deficiency-refusal} blocks consumption when any one face is absent or below threshold. The same refusal excludes aggregate route status, quotient stream equality, selected host limits, countable choice, and ambient $\RealUp$ completeness as replacements for the missing local record.
+\end{proof}
+
 \begin{theorem}[MetaCIC Phase Real consumer minimality]
 \label{thm:metacic-critical-path-phase-real-consumer-minimality}
 For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$ consumed as Phase Real and Completion exit evidence, every downstream consumer must retain all four Phase Real face rows $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, together with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows attached to those faces. Deleting or replacing any one of those face rows or support rows prevents $K$ from being consumed as current phase exit evidence.
