@@ -1,53 +1,5 @@
-\subsection{Boundary status of the ORF eligibility seed}\label{sec:biorreality-self-claim-or-eligibility-boundary}
+\subsection{NameCert: self.claim}
+\label{sec:namecert-self_claim}
 \origin{ai}
 
-\paragraph{Object and local reading.}
-The record $\mathsf{self.claim}$ is a BioReality seed for the layer \texttt{orf\_eligibility}.  Its biological object is open-reading-frame eligibility from start/stop codon enumeration, but the finite row deliberately does not assert that an open reading frame has been observed.  The BEDC minimal form is marked as awaiting reality contact: the carrier is awaiting reality contact, the only recorded distinction is awaiting reality contact, the internal structure is none, and the readback is awaiting reality contact.  Thus the chapter records a boundary condition, not a biological realization.  The packet can name what would have to be tested by an external sequence, transcript, or curated interval annotation; it cannot by itself say that any such interval exists in a genome, transcriptome, or translated molecule.
-
-\paragraph{Finite codon rows available inside the seed.}
-The seed carries several finite codon facts that are already checked as row data.  The motif-compression row records the thirteen-element set
-$\mathsf R=\{\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}$,
-with no missing and no extra elements relative to the motif union.  A second row records the twenty-element set
-$\mathsf M=\{\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}$,
-where both the named cardinality and the reported size are $20$.  The saturation row says that $\mathsf M$ is recovered from the mediated $\mathsf R$ row together with $\mathrm{ACA}$ and $\mathrm{ACG}$, while the displayed saturation of $\mathsf R$ omits exactly those two codons and has eighteen listed codons.  In local finite-row form, this is the only conclusion licensed by these rows:
-$$
-\begin{aligned}
-|\mathsf R|&=13,\\
-|\mathsf M|&=20,\\
-|\mathsf{Sat}_{f3}(\mathsf R)|&=18,\\
-\mathsf M\setminus \mathsf{Sat}_{f3}(\mathsf R)&=\{\mathrm{ACA},\mathrm{ACG}\}.
-\end{aligned}
-$$
-The same finite audit records that the $f3$ boundary residue is empty.  This is a row-level closure statement about the enumerated codon coordinate, not a statement that an observed biological interval has been found.
-
-\paragraph{Quotient geometry inside the same packet.}
-The quotient-geometry row supplies a second independent numerical check.  For $\mathsf M$ the finite vector is
-$$
-\begin{aligned}
-f(\mathsf M)&=(20,38,26,8,1),
-\end{aligned}
-$$
-and the quotient vector is
-$$
-\begin{aligned}
-f(\pi_{\mathsf M})&=(10,14,6,1).
-\end{aligned}
-$$
-The quotient has size $10$, and the recorded quotient representatives are the ten binary rows
-$$(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),(0,1,0,0,0),(0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),(1,0,1,0,1),(1,0,1,1,1).$$
-These data justify saying that the codon enumeration has a finite internal geometry and a ten-row quotient presentation.  They do not justify saying that the quotient presentation is a reading frame, an expressed transcript, a translated polypeptide, a folded structure, or a functional biological module.  The row is mathematical evidence about a coordinate, not a contact with a biological object.
-
-\paragraph{Self-check gate and boundary verdict.}
-The self-check row states that no codon geometry is promoted across biological layers, and it reports a checked gate count of $3$.  The two boundary probes express the same local discipline in operational form.  The first probe breaks if the pipeline asserts ORF eligibility, translation realization, folded structure, physical admissibility, or biological function from start/stop-window enumeration alone.  The second probe breaks if an ORF eligibility claim is recorded while no sequence database, transcript evidence, or curated annotation contact is available to test the proposed interval.  Therefore the admissible verdict is only a boundary seed:
-$$
-\begin{aligned}
-\mathrm{codon\ enumeration}+\mathrm{quotient\ geometry}+\mathrm{self\ check}
-&\nRightarrow \mathrm{boundary\ probe},\\
-\mathrm{boundary\ probe}
-&\nRightarrow \mathrm{no\ ORF\ eligibility\ claim\ without\ contact}.
-\end{aligned}
-$$
-Here the symbol $\nRightarrow$ is part of the local cannot-claim assertion: finite enumeration does not entail biological realization.  No translation, folding, physical admissibility, biological function, mechanism, or universality follows unless a separate reality contact supplies the relevant observed interval and the appropriate layer-specific evidence.  In particular, start/stop-window eligibility is not translation realization; translation realization is not folded structure; folded structure is not physical admissibility; and physical admissibility is not biological function.  Each promotion requires its own reality contact and its own audit trail.
-
-\paragraph{Contact gap.}
-The contacts list is empty, and the reality-contact reference list is empty.  The required contact named by both probes is a curated ORF interval annotation.  Since no such contact is attached, the record remains at boundary status.  The correct readback is not that the ORF eligibility claim succeeded, but that the finite codon coordinate has exposed the exact point where empirical contact is missing.  The packet is therefore useful as a guardrail: it preserves the verified row facts $|\mathsf R|=13$, $|\mathsf M|=20$, $|\pi_{\mathsf M}|=10$, $f(\mathsf M)=(20,38,26,8,1)$, $f(\pi_{\mathsf M})=(10,14,6,1)$, and the gate count $3$, while preventing those facts from being misread as biological observation.
+This BioReality namecert is awaiting codex re-authoring. Most recent attempt failed the chapter hygiene gate; issues recorded: template\_residue: BEDC 5-tuple, template\_residue: lean target sketch (statement-only), template\_residue: internal newmath/bedc derivation, template\_residue: bridge disclaimer, template\_residue: external reality sources. The committed registry record at \path{tools/bio\_reality/registries/claims.json} still tracks the underlying claim self.claim and its experiment runs.
