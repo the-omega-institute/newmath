@@ -69,6 +69,49 @@ Both sides then pass through regular-rational readback. The rows $R_X$ and $R_Y$
 
 Thus a consumer that tries to use either $\RealUp$ seal without the matching $\RegSeqRatUp$ handoff leaves the accepted $\SequentialContinuityUp$ carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.SequentialContinuityUp.SequentialContinuityCauchyHandoff}
+
+\begin{theorem}[Sequential continuity metric-row stability]
+\label{thm:sequential-continuity-metric-row-stability}
+For every accepted $\SequentialContinuityUp$ carrier
+$$
+Q=(M_X,M_Y,F,S,L,W_X,W_Y,R_X,R_Y,E_X,E_Y,H,C,P,N),
+$$
+the source and target metric rows used by the local classifier are exactly the displayed $\MetricSpaceUp$ rows $M_X$ and $M_Y$, stabilized by the same componentwise $\hsame$ transport $H$ and displayed $\Cont$ replay $C$ carried by $Q$. No metric comparison may be supplied by an external topology, host equality of points, quotient stream equality, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only metric coordinates visible in the packet are $M_X$ and $M_Y$, and the only structural coordinates that can move them between accepted packets are $H$ and $C$.
+
+The provenance and naming rows do not add a second metric surface. They record that the displayed rows belong to the same $\SequentialContinuityUp$ packet over $\MetricSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Thus every metric read used by the classifier is stable exactly along $M_X,M_Y,H,C,P,N$. The excluded external topology, host equality, quotient, and completeness data are not coordinates of $Q$.
+\end{proof}
+
+\begin{theorem}[Sequential continuity pointwise consumption]
+\label{thm:sequential-continuity-pointwise-consumption}
+For every accepted $\SequentialContinuityUp$ carrier $Q=(M_X,M_Y,F,S,L,W_X,W_Y,R_X,R_Y,E_X,E_Y,H,C,P,N)$, the pointwise-continuity information consumed by the sequence route is only the displayed $\ContinuousUp$ row $F$ together with the source metric row $M_X$, target metric row $M_Y$, finite windows $W_X,W_Y$, transport $H$, replay $C$, provenance $P$, and local naming $N$. The packet exports no host sequential-continuity theorem and no function-extensionality coordinate.
+\end{theorem}
+\begin{proof}
+Read the pointwise face of the carrier. The row $F$ is the unique $\ContinuousUp$ coordinate, and it is stored beside the source and target metric rows $M_X,M_Y$.
+
+The sequence route inspects only finite windows. The continuation row sends the displayed source windows $W_X$ through $F$ to the target windows $W_Y$, and the transport row preserves that same route under componentwise $\hsame$.
+
+Finally, $P$ and $N$ source and name the same packet. Since neither a host sequential-continuity theorem nor a function-extensionality principle appears among the coordinates of $Q$, every pointwise-continuity use is consumed through the displayed rows named in the statement.
+\end{proof}
+
+\begin{theorem}[Sequential continuity inspected-threshold coverage]
+\label{thm:sequential-continuity-inspected-threshold-coverage}
+For every accepted $\SequentialContinuityUp$ carrier $Q=(M_X,M_Y,F,S,L,W_X,W_Y,R_X,R_Y,E_X,E_Y,H,C,P,N)$, each threshold used by a Real-facing or regular-Cauchy consumer is first listed in the inspected convergence ledger $L$, then read through the source window $W_X$, the image window $W_Y$, the regular handoff rows $R_X,R_Y$, and only then through the seal rows $E_X,E_Y$. The coverage route is exhausted by the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of the same carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier and read the inspected ledger. The row $L$ is the only coordinate that lists convergence thresholds requested by the packet.
+
+The source schedule then opens $W_X$ from $S$ at the listed thresholds. The pointwise row $F$ and replay row $C$ produce the corresponding image windows $W_Y$ without adding a detached sequence object.
+
+The regular and Real-facing reads are downstream from those windows. The rows $R_X,R_Y$ repack the inspected windows as regular rational handoffs, and $E_X,E_Y$ are consumed only after those handoffs.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name exactly this route. Therefore the inspected thresholds cover the whole consumer path and no unlisted threshold, quotient stream, selected limit, choice row, or ambient completeness datum can enter the packet.
+\end{proof}
 
 \closureat{SequentialContinuityUp}{seedStr}
 
