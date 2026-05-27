@@ -367,6 +367,7 @@ import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OpenPhaseLedgerNonescape
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OpenPhaseSourceTriad
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OutputAuthorizationClosure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10OutputDownstreamCoverage
+import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10PublicSourceHandoff
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10ReadinessClosure
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RealStreamHandoffRow
 import BEDC.Derived.AuthorizedGeneratorRecursorUp.L10RealStreamOutputFactorization
@@ -2975,6 +2976,7 @@ import BEDC.Derived.DyadicBisectionUp
 import BEDC.Derived.DyadicBisectionUp.TasteGate
 import BEDC.Derived.DyadicCeilingUp.TasteGate
 import BEDC.Derived.DyadicCofinalTailSelectorUp.TasteGate
+import BEDC.Derived.DyadicCompactnessExtractorUp.TasteGate
 import BEDC.Derived.DyadicCompactnessUp
 import BEDC.Derived.DyadicCompactnessUp.TasteGate
 import BEDC.Derived.DyadicCompletionUp
@@ -5905,7 +5907,9 @@ import BEDC.Derived.RiemannIntegrabilityCriterionUp.TasteGate
 import BEDC.Derived.RiemannIntegrableUp.DarbouxGapRoute
 import BEDC.Derived.RiemannIntegrableUp.TasteGate
 import BEDC.Derived.RiemannIntegralUp
+import BEDC.Derived.RiemannIntegralUp.DarbouxGapExactness
 import BEDC.Derived.RiemannIntegralUp.DarbouxStepScope
+import BEDC.Derived.RiemannIntegralUp.RegSeqRatHandoffTotality
 import BEDC.Derived.RiemannIntegralUp.TasteGate
 import BEDC.Derived.RiemannRearrangementUp
 import BEDC.Derived.RiemannRearrangementUp.TasteGate
