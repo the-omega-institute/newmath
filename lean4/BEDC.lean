@@ -1829,6 +1829,7 @@ import BEDC.Derived.CofinalTailBudgetUp.NameCertObligations
 import BEDC.Derived.CofinalTailBudgetUp.StdBridge
 import BEDC.Derived.CofinalTailBudgetUp.TasteGate
 import BEDC.Derived.CofinalTailEquivalenceUp.TasteGate
+import BEDC.Derived.CofinalTailMapUp.TasteGate
 import BEDC.Derived.CofinalWindowRealSealUp.NameCertObligations
 import BEDC.Derived.CofinalWindowRealSealUp.ObligationScope
 import BEDC.Derived.CofinalWindowRealSealUp.PublicCertificate
@@ -3014,6 +3015,7 @@ import BEDC.Derived.EffectiveCompletionUp.TasteGate
 import BEDC.Derived.EffectivePolishSpaceUp.TasteGate
 import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
 import BEDC.Derived.EigenUp
+import BEDC.Derived.EilenbergMooreCompletionAlgebraUp.TasteGate
 import BEDC.Derived.EllipticCurveUp
 import BEDC.Derived.EllipticCurveUp.TasteGate
 import BEDC.Derived.EmpiricalRegularityPersistenceUp.TasteGate
@@ -6202,6 +6204,8 @@ import BEDC.Derived.TailCompatibleCauchySectionUp.TasteGate
 import BEDC.Derived.TailModulusAlignmentUp.TasteGate
 import BEDC.Derived.TannakaKreinUp
 import BEDC.Derived.TanneryTheoremUp
+import BEDC.Derived.TanneryTheoremUp.NameCertObligations
+import BEDC.Derived.TanneryTheoremUp.TasteGate
 import BEDC.Derived.TarskiTruthRefusalUp.TasteGate
 import BEDC.Derived.TasteGateAdmissionUp.TasteGate
 import BEDC.Derived.TasteGateAuditTraceUp.TasteGate
