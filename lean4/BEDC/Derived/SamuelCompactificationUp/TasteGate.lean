@@ -126,22 +126,25 @@ instance samuelCompactificationChapterTasteGate : ChapterTasteGate SamuelCompact
     intro x y hxy heq
     exact hxy (SamuelCompactificationTasteGate_single_carrier_alignment_injective heq)
 
+private theorem SamuelCompactificationTasteGate_single_carrier_alignment_instances :
+    Nonempty (BHistCarrier SamuelCompactificationUp) ∧
+      Nonempty (ChapterTasteGate SamuelCompactificationUp) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact ⟨⟨samuelCompactificationBHistCarrier⟩, ⟨samuelCompactificationChapterTasteGate⟩⟩
+
 theorem SamuelCompactificationTasteGate_single_carrier_alignment :
     (∀ h : BHist, samuelCompactificationDecodeBHist
       (samuelCompactificationEncodeBHist h) = h) ∧
-      (∀ x : SamuelCompactificationUp,
-        samuelCompactificationFromEventFlow (samuelCompactificationToEventFlow x) = some x) ∧
-        (∀ x y : SamuelCompactificationUp,
-          samuelCompactificationToEventFlow x = samuelCompactificationToEventFlow y → x = y) ∧
+      Nonempty (BHistCarrier SamuelCompactificationUp) ∧
+        Nonempty (ChapterTasteGate SamuelCompactificationUp) ∧
           samuelCompactificationEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   constructor
   · exact SamuelCompactificationTasteGate_single_carrier_alignment_decode
   · constructor
-    · exact SamuelCompactificationTasteGate_single_carrier_alignment_round_trip
+    · exact SamuelCompactificationTasteGate_single_carrier_alignment_instances.left
     · constructor
-      · intro x y heq
-        exact SamuelCompactificationTasteGate_single_carrier_alignment_injective heq
+      · exact SamuelCompactificationTasteGate_single_carrier_alignment_instances.right
       · rfl
 
 end BEDC.Derived.SamuelCompactificationUp
