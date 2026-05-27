@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\CauchyFilterBasisCompletionUp$}
+\label{ch:concrete-instances-cauchy-filter-basis-completion-namecert}
+\origin{human}
+
+Following Kelley and Bishop--Bridges constructive analysis, the $\CauchyFilterBasisCompletionUp$ packet records the basis-first route from a displayed $\FilterBaseUp/\CauchyFilterUp$ source to a sealed completion read. It sits after \autoref{ch:concrete-instances-cauchyfiltercompletion-namecert}, the filter-base route of \autoref{ch:concrete-instances-filterbase-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the uniform handoff of \autoref{ch:concrete-instances-uniformcompletion-namecert}. The chapter names a finite basis-completion certificate; it does not add quotient filters, selected limits, host real equality, countable choice, or ambient completeness.
+
+\begin{definition}[CauchyFilterBasisCompletion carrier]
+\label{def:cauchy-filter-basis-completion-carrier}
+A $\CauchyFilterBasisCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(B,C,W,T,R,L,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\FilterBaseUp$ row naming the finite basis elements through which the source filter is read.
+\item $C$ is the $\CauchyFilterUp$ source row, constrained to open only basis observations listed by $B$.
+\item $W$ is the $\StreamNameUp$ finite-window family inspected by completion-facing consumers.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the basis windows and the Cauchy-filter source.
+\item $R$ is the $\RegSeqRatUp$ readback row extracted from the displayed windows and dyadic tolerance data.
+\item $L$ is the terminal $\RealUp$ seal row reached only after $B,C,W,T,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for basis, Cauchy-filter source, windows, tolerance, readback, seal, replay, provenance, and local naming.
+\item $K$ records displayed $\Cont$ replay from a completion-facing request through $B,C,W,T,R,L,H,P,N$.
+\item $P$ records $\Pkg$ provenance over $\CauchyFilterBasisCompletionUp$, $\CauchyFilterCompletionUp$, $\FilterBaseUp$, $\CauchyFilterUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\UniformCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyFilterBasisCompletionUp}$ row.
+\end{enumerate}
+The carrier exports completion data only through $B,C,W,T,R,L,H,K,P,N$. It has no coordinate for quotient filters, selected completion points, host real equality, countable-choice selectors, detached $\UniformCompletionUp$ carriers, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CauchyFilterBasisCompletion NameCert obligations]
+\label{thm:cauchy-filter-basis-completion-namecert-obligations}
+For every accepted $\CauchyFilterBasisCompletionUp$ carrier
+$$
+Q=(B,C,W,T,R,L,H,K,P,N),
+$$
+the local $\NameCert_{\CauchyFilterBasisCompletionUp}$ surface consists exactly of carrier admission for the displayed $\FilterBaseUp$ row, $\CauchyFilterUp$ source, $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise transport, displayed replay, provenance, and local naming. Every completion-facing request first reads the basis row $B$, then the Cauchy-filter source $C$, then the finite windows $W$, tolerance ledger $T$, readback $R$, and terminal seal $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-filter-basis-completion-carrier}. The only source rows are $B$ and $C$, and the completion-facing rows $W,T,R,L$ are downstream from them.
+
+Read the basis first. The $\FilterBaseUp$ row lists the admissible basis observations, and the $\CauchyFilterUp$ row can open only those displayed observations before any StreamName window is inspected.
+
+Next inspect $W,T,R$. The finite windows determine which observations are visible, the dyadic ledger supplies the tolerance budget, and the regular rational readback records the finite completion-facing value.
+
+Finally consume $L,H,K,P,N$. The seal is reached only after the basis, source, window, tolerance, and readback rows have been displayed, while transport, replay, provenance, and local naming preserve that same route. Since no remaining carrier coordinate stores quotient filters, selected limits, choice, host equality, detached uniform completion, or ambient completeness, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CauchyFilterBasisCompletion filter-base route]
+\label{thm:cauchy-filter-basis-completion-filterbase-route}
+Every $\CauchyFilterCompletionUp$ or $\UniformCompletionUp$ consumer of an accepted $\CauchyFilterBasisCompletionUp$ packet reads the finite route
+$$
+B,C,W,T,R,L,H,K,P,N
+$$
+before it exports a completion-facing result. Thus the consumer first sees the $\FilterBaseUp$ basis, then the $\CauchyFilterUp$ source, then the $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal, componentwise transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:cauchy-filter-basis-completion-namecert-obligations}. They force every completion-facing request through $B,C,W,T,R,L$ before the structural rows are consumed.
+
+For a $\CauchyFilterCompletionUp$ consumer, the source side is already the displayed basis-filter route. It can therefore receive only the basis row, Cauchy-filter row, stream windows, tolerance ledger, regular readback, seal, and structural rows listed in $Q$.
+
+For a $\UniformCompletionUp$ consumer, the provenance row $P$ records only a handoff to the uniform completion vocabulary. It supplies no detached uniform-completion carrier and no selected limit; it merely names the same finite route for the downstream reader.
+
+The exclusions follow from the carrier definition. Quotient filters, selected completion points, host real equality, countable-choice selectors, and ambient completeness are not coordinates of $Q$, so neither completion consumer can recover them after traversing the displayed route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyFilterBasisCompletionUp$ completion read preserving the same basis source factors through displayed $\FilterBaseUp$, $\CauchyFilterUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, transport, replay, provenance, and local $\NameCert$ rows.}
+
+\independenceWitness{\texttt{filterbase}, \texttt{cauchyfiltercompletion}, \texttt{streamname}, \texttt{uniformcompletion}: the FilterBase packet records basis observations without the completion seal; the CauchyFilterCompletion packet records the completion-facing route without making the basis row first-class; the StreamName packet records finite windows without filter-source admission; and the UniformCompletion packet records a completion handoff without the basis-ledger carrier. None is bijective to $\CauchyFilterBasisCompletionUp$.}
+
+\closureat{CauchyFilterBasisCompletionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyFilterBasisCompletionUp}
+  \constructivestory{A $\CauchyFilterBasisCompletionUp$ packet is generated from FilterBase rows, CauchyFilter source rows, finite StreamName windows, DyadicRatCore tolerance data, RegSeqRat readback, a RealUp seal, componentwise transport, displayed replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-filter-basis-completion-carrier}, \autoref{thm:cauchy-filter-basis-completion-namecert-obligations}, and \autoref{thm:cauchy-filter-basis-completion-filterbase-route} seed the finite basis-first completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, selected completion points, host real equality, countable choice, detached uniform-completion carriers, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked basis admission, Cauchy-filter source admission, window exactness, tolerance exactness, readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyFilterBasisCompletionUp.}
+\end{closurestatus}

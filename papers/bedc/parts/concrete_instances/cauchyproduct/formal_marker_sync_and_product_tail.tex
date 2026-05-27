@@ -398,6 +398,7 @@ Combining the two routes gives the required handoff. The product classifier can 
 \label{thm:cauchy-product-window-budget-composition-surface}
 For every accepted $\CauchyProductUp$ packet and every accepted $\RealObservationBudgetUp$ packet reading its product, the paired windows $W_X,W_Y$, radius rows $M_X,M_Y$, dyadic rows $Q_X,Q_Y$, product row $P$, ledger $L$, and budget rows $E_B,W_B,D_B,R_B,H_B,C_B,P_B,N_B$ form one finite composition surface from $\StreamNameUp$ through $\DyadicRatCoreUp$ to the $\RegSeqRatUp$ classifier row $E$. The surface is obtained by the CauchyProduct StreamName handoff of \autoref{thm:cauchy-product-streamname-handoff}, the budget route exactness surface of \autoref{thm:cauchy-product-budget-route-exactness}, and radius product regularity of \autoref{thm:cauchy-product-radius-product-regularity}, and it exposes no quotient stream, selected limit, host multiplication primitive, trichotomy row, independent real carrier, or ambient completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_window\_budget\_composition\_surface}
 \begin{proof}
 First unfold the paired-window rows of the accepted product packet. The StreamName handoff of \autoref{thm:cauchy-product-streamname-handoff} sends the two source names through $W_X,W_Y$ to the dyadic-radius and observation rows $M_X,M_Y,Q_X,Q_Y$, so the first part of the surface is already finite.
 
@@ -412,6 +413,7 @@ Every displayed coordinate belongs to one of the two packets, and both packets e
 \label{thm:cauchy-product-budget-real-seal-compatibility}
 The window-budget composition surface of \autoref{thm:cauchy-product-window-budget-composition-surface} is exactly the route that a $\RealUp$ seal and a $\RealObservationBudgetUp$ consumer may read. The $\RealUp$ side reads the classifier and seal rows supplied by the CauchyProduct Real seal boundary of \autoref{thm:cauchy-product-real-seal-boundary}; the budget side reads the same classifier only through the Real observation budget handoff of \autoref{thm:cauchy-product-real-observation-budget-handoff} and the observation-budget $\RegSeqRatUp$ handoff of \autoref{thm:cauchy-product-observation-budget-regseq-handoff}. No additional quotient stream, selected limit, host multiplication primitive, trichotomy row, independent real carrier, or ambient completeness witness is available at the join.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_budget\_real\_seal\_compatibility}
 \begin{proof}
 Begin at the Real seal boundary of \autoref{thm:cauchy-product-real-seal-boundary}. It permits the product to reach a $\RealUp$ consumer only through the recorded $\RegSeqRatUp$ classifier row $E$, the finite ledger, the displayed transports, continuations, provenance, and local naming evidence.
 
@@ -461,6 +463,7 @@ The consumer boundary is therefore the displayed union of rows. Since both packe
 \label{thm:cauchy-product-budget-regseq-classifier-lock}
 Before the product row $E$ of an accepted $\CauchyProductUp$ packet is read as a $\RegSeqRatUp$ classifier by a $\RealObservationBudgetUp$ consumer, the finite rows $W_X,W_Y,M_X,M_Y,Q_X,Q_Y,P,L$ have already locked the route from the two source names to the product observation. The lock is the route supplied by the CauchyProduct StreamName handoff, the paired-window ledger classifier, the budget route exactness surface, and the budgeted product consumer boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyProductUp.CauchyProductPacket\_budget\_regseq\_classifier\_lock}
 \begin{proof}
 The StreamName handoff fixes the source reads through $W_X,W_Y$ and the radius rows $M_X,M_Y$ before the dyadic rows $Q_X,Q_Y$ and product observation $P$ are visible.
 

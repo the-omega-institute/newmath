@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\HorosphereFlowLedgerUp$}
+\label{ch:concrete-instances-horosphere-flow-ledger-namecert}
+\origin{ai}
+
+The $\HorosphereFlowLedgerUp$ packet realizes the boundary-fixed transport and horocycle provenance reading of \autoref{sec:hyperbolic-disk-dynamics-fixed-end} as finite NameCert data. It sits after the horocycle packet of \autoref{ch:concrete-instances-hyperbolic-horocycle-namecert}, the boundary-shadow route of \autoref{ch:concrete-instances-hyperbolic-boundary-shadow-namecert}, the Busemann boundary ledger of \autoref{ch:concrete-instances-hyperbolic-busemann-boundary-namecert}, and the boundary-fixed transport packet of \autoref{ch:concrete-instances-poincare-boundary-fixed-transport-namecert}. The chapter names a finite horosphere-flow ledger; it does not assert a host hyperbolic flow, quotient ideal-boundary equality, selected geodesic foliation, physical observer dynamics, or ambient manifold completion.
+
+\begin{definition}[HorosphereFlowLedger carrier]
+\label{def:horosphere-flow-ledger-carrier}
+A $\HorosphereFlowLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+F=(O,S,B,T,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\HyperbolicHorocycleUp$ row naming the horocycle read attached to the fixed boundary end.
+\item $S$ is the $\HyperbolicBoundaryShadowUp$ row recording the visible boundary shadow of the transported disk data.
+\item $B$ is the $\HyperbolicBusemannBoundaryUp$ row, providing the Busemann-level boundary ledger used to compare horocycle levels.
+\item $T$ is the $\PoincareBoundaryFixedTransportUp$ row requiring the same boundary end to remain fixed through the disk transport.
+\item $L$ is the horosphere-flow ledger row pairing the horocycle, boundary-shadow, Busemann, and boundary-fixed transport reads.
+\item $H$ records componentwise $\hsame$ transport for horocycle, boundary shadow, Busemann boundary, boundary-fixed transport, ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through horocycle exposure, boundary-shadow readback, Busemann boundary comparison, boundary-fixed transport, and ledger inspection.
+\item $P$ records $\Pkg$ provenance over $\HorosphereFlowLedgerUp$, $\HyperbolicHorocycleUp$, $\HyperbolicBoundaryShadowUp$, $\HyperbolicBusemannBoundaryUp$, $\PoincareBoundaryFixedTransportUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HorosphereFlowLedgerUp}$ row.
+\end{enumerate}
+The carrier exports horosphere-flow data only through $O,S,B,T,L,H,C,P,N$. It has no coordinate for host hyperbolic flows, quotient ideal-boundary equality, selected geodesic foliations, physical observer dynamics, or ambient manifold completion.
+\end{definition}
+
+\begin{theorem}[HorosphereFlowLedger NameCert obligations]
+\label{thm:horosphere-flow-ledger-namecert-obligations}
+For every accepted $\HorosphereFlowLedgerUp$ carrier
+$$
+F=(O,S,B,T,L,H,C,P,N),
+$$
+the local $\NameCert_{\HorosphereFlowLedgerUp}$ surface consists exactly of horocycle exposure, boundary-shadow readback, Busemann boundary comparison, boundary-fixed disk transport, horosphere-flow ledger exactness, componentwise transport, displayed replay, provenance, and local naming.
+
+The future Lean TasteGate file for this packet must provide \texttt{Nontrivial} and \texttt{FieldFaithful} instances; the paper packet records the finite carrier and obligation surface.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The visible geometric rows are $O,S,B,T$, and the ledger row $L$ only pairs those displayed rows.
+
+Read the sibling packets in order. The horocycle row supplies the boundary-tangent provenance, the boundary-shadow row supplies the visible boundary window, the Busemann row supplies the boundary-level comparison, and the boundary-fixed transport row preserves the same far end through disk transport.
+
+Transport, replay, provenance, and local naming preserve that route. Since the carrier has no coordinate for a host flow, quotient boundary equality, selected foliation, physical dynamics, or ambient completion, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[HorosphereFlowLedger boundary-fixed route]
+\label{thm:horosphere-flow-ledger-boundary-fixed-route}
+Every accepted $\HorosphereFlowLedgerUp$ read factors through
+$$
+\HyperbolicHorocycleUp,\ \HyperbolicBoundaryShadowUp,\ \HyperbolicBusemannBoundaryUp,\ \PoincareBoundaryFixedTransportUp
+$$
+before the horosphere-flow ledger row is exposed. A consumer that changes the fixed boundary end or bypasses one of these rows is outside the accepted packet.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:horosphere-flow-ledger-carrier}. Its ledger row $L$ is downstream from $O,S,B,T$, so the horosphere-flow read cannot be inspected before those rows are displayed.
+
+The boundary-fixed transport row $T$ keeps the far end constant while the horocycle, shadow, and Busemann rows are read. Therefore a consumer preserving the same horocycle ledger must preserve the same boundary-fixed transport route.
+
+No host-flow or quotient-boundary row remains. The accepted read is exactly the displayed sibling route followed by transport, replay, provenance, and local naming.
+\end{proof}
+
+\falsifiablePrediction{Boundary-fixed disk transport preserving the same $\PoincareBoundaryFixedTransportUp$ far-end row preserves the same $\HorosphereFlowLedgerUp$ ledger precisely when the displayed $\HyperbolicHorocycleUp$, $\HyperbolicBoundaryShadowUp$, $\HyperbolicBusemannBoundaryUp$, transport, replay, provenance, and local $\NameCert$ rows are preserved.}
+
+\independenceWitness{\texttt{hyperbolic\_horocycle}, \texttt{hyperbolic\_boundary\_shadow}, \texttt{hyperbolic\_busemann\_boundary}, \texttt{poincare\_boundary\_fixed\_transport}: the horocycle packet records boundary tangency without the flow ledger; the boundary-shadow packet records visible boundary transport without Busemann-level comparison; the Busemann boundary packet records boundary level data without a flow ledger row; and the boundary-fixed transport packet preserves a far end without horocycle provenance. None is bijective to $\HorosphereFlowLedgerUp$.}
+
+\closureat{HorosphereFlowLedgerUp}{seedStr}
+
+\begin{closurestatus}{\HorosphereFlowLedgerUp}
+  \constructivestory{A $\HorosphereFlowLedgerUp$ packet is generated from HyperbolicHorocycle rows, HyperbolicBoundaryShadow rows, HyperbolicBusemannBoundary rows, PoincareBoundaryFixedTransport rows, a horosphere-flow ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:horosphere-flow-ledger-carrier}, \autoref{thm:horosphere-flow-ledger-namecert-obligations}, and \autoref{thm:horosphere-flow-ledger-boundary-fixed-route} seed the finite boundary-fixed horosphere-flow ledger route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host hyperbolic flows, quotient ideal-boundary equality, selected geodesic foliations, physical observer dynamics, ambient manifold completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked horocycle exposure, boundary-shadow readback, Busemann boundary comparison, boundary-fixed transport, ledger exactness, transport, replay, provenance, and local naming for BEDC.Derived.HorosphereFlowLedgerUp.}
+\end{closurestatus}

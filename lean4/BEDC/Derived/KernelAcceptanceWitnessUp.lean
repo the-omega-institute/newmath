@@ -363,4 +363,31 @@ theorem KernelAcceptanceWitnessPublicExportPackage [AskSetup] [PackageSetup]
       publicUnary, generatedAcceptedRoute, axiomTransportRoute, refusalRoute, nameCertRoute,
       acceptanceRoute, publicRoute, acceptancePkg, publicPkg⟩
 
+theorem KernelAcceptanceWitnessRefusalSeparation [AskSetup] [PackageSetup]
+    {generated accepted environmentLedger axiomQuery refusal transport routes provenance nameCert
+      acceptance refusalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KernelAcceptanceWitnessPacket generated accepted environmentLedger axiomQuery refusal
+        transport routes provenance nameCert acceptance bundle pkg →
+      Cont refusal transport refusalRead →
+        UnaryHistory generated ∧ UnaryHistory accepted ∧ UnaryHistory environmentLedger ∧
+          UnaryHistory axiomQuery ∧ UnaryHistory refusal ∧ UnaryHistory transport ∧
+            UnaryHistory refusalRead ∧ Cont generated environmentLedger accepted ∧
+              Cont accepted axiomQuery transport ∧ Cont refusal transport refusalRead ∧
+                PkgSig bundle acceptance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet refusalTransportRoute
+  rcases packet with
+    ⟨generatedUnary, acceptedUnary, environmentUnary, axiomUnary, refusalUnary, _nameCertUnary,
+      generatedAcceptedRoute, axiomTransportRoute, _refusalRoute, _nameCertRoute,
+      _acceptanceRoute, acceptancePkg⟩
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed acceptedUnary axiomUnary axiomTransportRoute
+  have refusalReadUnary : UnaryHistory refusalRead :=
+    unary_cont_closed refusalUnary transportUnary refusalTransportRoute
+  exact
+    ⟨generatedUnary, acceptedUnary, environmentUnary, axiomUnary, refusalUnary,
+      transportUnary, refusalReadUnary, generatedAcceptedRoute, axiomTransportRoute,
+      refusalTransportRoute, acceptancePkg⟩
+
 end BEDC.Derived.KernelAcceptanceWitnessUp
