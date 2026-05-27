@@ -149,4 +149,34 @@ theorem DarbouxIntegralPacket_integral_consumer_surface [AskSetup] [PackageSetup
     ⟨consumerUnary, surfaceUnary, upperLowerUpperSum, upperLowerSumGap, gapRealConsumer,
       consumerNameSurface, namePkg, consumerPkg, surfacePkg⟩
 
+theorem DarbouxIntegralPacket_cauchy_gap_nonescape [AskSetup] [PackageSetup]
+    {partition upper lower upperSum lowerSum gap realHandoff transports routes name
+      cauchyConsumer integralConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DarbouxIntegralPacket partition upper lower upperSum lowerSum gap realHandoff transports routes
+        name bundle pkg ->
+      Cont gap realHandoff cauchyConsumer ->
+        Cont cauchyConsumer name integralConsumer ->
+          PkgSig bundle cauchyConsumer pkg ->
+            PkgSig bundle integralConsumer pkg ->
+              UnaryHistory gap ∧ UnaryHistory realHandoff ∧ UnaryHistory cauchyConsumer ∧
+                UnaryHistory integralConsumer ∧ Cont upper lower upperSum ∧
+                  Cont upperSum lowerSum gap ∧ Cont gap realHandoff cauchyConsumer ∧
+                    Cont cauchyConsumer name integralConsumer ∧ PkgSig bundle name pkg ∧
+                      PkgSig bundle cauchyConsumer pkg ∧
+                        PkgSig bundle integralConsumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro packet gapRealConsumer consumerNameIntegral consumerPkg integralPkg
+  obtain ⟨_partitionUnary, _upperUnary, _lowerUnary, _upperSumUnary, _lowerSumUnary,
+    gapUnary, realHandoffUnary, _transportsUnary, _routesUnary, nameUnary,
+    upperLowerUpperSum, upperLowerSumGap, namePkg⟩ := packet
+  have cauchyUnary : UnaryHistory cauchyConsumer :=
+    unary_cont_closed gapUnary realHandoffUnary gapRealConsumer
+  have integralUnary : UnaryHistory integralConsumer :=
+    unary_cont_closed cauchyUnary nameUnary consumerNameIntegral
+  exact
+    ⟨gapUnary, realHandoffUnary, cauchyUnary, integralUnary, upperLowerUpperSum,
+      upperLowerSumGap, gapRealConsumer, consumerNameIntegral, namePkg, consumerPkg,
+      integralPkg⟩
+
 end BEDC.Derived.DarbouxIntegralUp
