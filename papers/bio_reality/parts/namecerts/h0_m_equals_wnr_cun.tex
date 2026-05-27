@@ -1,0 +1,74 @@
+\origin{ai}
+\subsection{ORF-Eligibility Boundary for the $M=WNR\cup CUN$ Finite Row}
+\label{subsec:bioreality-h0-m-equals-wnr-cun-orf-eligibility-boundary}
+
+\paragraph{Finite carrier.}
+This BioReality record treats the finite codon row named by claim $h0.M.equals.WNR.CUN$ as a boundary object for open-reading-frame eligibility, not as an observed biological interval. The checked carrier has cardinality $20$ and is exactly the following finite set:
+$$
+\begin{aligned}
+M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,\\
+& CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
+\end{aligned}
+$$
+The row is recorded as $M=WNR\cup CUN$ in experiment run $a53ef0f36703$, with the scalar size field also equal to $20$. This is a finite syntactic equality among enumerated codons. It does not by itself identify an interval in a genome, transcript, curated ORF table, protein product, molecular structure, or organismal context.
+
+\paragraph{Motif compression row.}
+The linked motif-compression contact-free row gives a smaller motif union
+$$
+\begin{aligned}
+R=\{&AAA,AGA,AGG,AUA,CUA,CUC,CUG,CUU,UAA,UAG,\\
+& UCA,UGA,UUA\}.
+\end{aligned}
+$$
+This row has $13$ listed elements. Its audit fields report no missing elements and no extra elements: $no\_missing=\varnothing$ and $no\_extra=\varnothing$. Therefore the compression fact used here is only the exact finite identity of $R$ with the listed motif union. The BioReality reading remains deliberately narrow: a compressed motif row can suggest which finite start-stop-window candidates are available for later testing, but it is not an observation that any such window is used in translation.
+
+\paragraph{Saturation and boundary gap.}
+The $f_3$ saturation row states that the saturation of $R$ reaches the $18$-element list
+$$
+\begin{aligned}
+Sat_{f_3}(R)=\{&AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+& UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
+\end{aligned}
+$$
+The same finite record identifies this as $M$ without $ACA$ and $ACG$. It also records
+$$
+\begin{aligned}
+f_3\text{-boundary}=\varnothing,
+\end{aligned}
+$$
+and the mediated row
+$$
+\begin{aligned}
+M=Med(R)\cup\{ACA\}
+\end{aligned}
+$$
+with the displayed $20$-element value of $M$. These are exact finite-row constraints on the codon enumeration. They are enough to define a boundary probe for ORF eligibility: if an external interval contact is later supplied, the finite row gives a predeclared combinatorial object against which the interval-level claim can be tested. They are not enough to assert that an ORF exists.
+
+\paragraph{Quotient geometry.}
+The quotient-geometry row supplies a second finite check on the same carrier. The $M$-row has $f$-vector
+$$
+\begin{aligned}
+(20,38,26,8,1),
+\end{aligned}
+$$
+while the quotient row has $10$ quotient points and quotient $f$-vector
+$$
+\begin{aligned}
+(10,14,6,1).
+\end{aligned}
+$$
+The quotient support is the ten-row binary list
+$$
+\begin{aligned}
+\pi_M=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),\\
+&(0,1,0,0,0),(0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),\\
+&(1,0,1,0,1),(1,0,1,1,1)\}.
+\end{aligned}
+$$
+The product-decomposition residual is empty, so the finite quotient geometry matches its expected row. This geometric compression is still internal to the enumerated codon object. It supplies a finite signature for the boundary packet, not a biological mechanism.
+
+\paragraph{Reality-contact gate.}
+The contact list for this packet is empty. Both probes therefore remain boundary probes. The first probe requires a curated ORF interval annotation before a start/stop-window seed may be treated as ORF eligibility. The second probe breaks if the packet records an ORF eligibility claim while no sequence database entry, transcript evidence, or curated annotation can test the proposed interval. The self-check row records the boundary statement that no codon geometry is promoted across biological layers and reports $3$ checked gates. Consequently the local admissible claim is exactly this: the finite row $M=WNR\cup CUN$, together with the linked $R$ row, saturation row, and quotient row, defines a contact-gap seed for a possible ORF-eligibility test.
+
+\paragraph{Cannot-claim boundary.}
+No translation realization follows from this packet. No folded structure follows from this packet. No physical admissibility follows from this packet. No biological function follows from this packet. No molecular mechanism follows from this packet. No universality claim follows from this packet. The row also does not claim that the codons listed above are used as an observed open reading frame in any organism, transcript, or curated database. Such claims require a separate reality contact, such as an external sequence interval, transcript record, or curated ORF annotation. Until that contact is attached, the result is a finite BioReality boundary record whose biological content is only the precise statement of what would have to be tested.
