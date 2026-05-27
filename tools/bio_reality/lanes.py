@@ -2852,6 +2852,7 @@ def _render_namecert_proposal(markdown_path: Path, slug: str) -> str:
     lines = [
         rf"\subsection{{NameCert: {_tex_escape(_namecert_claim_id(markdown_path))}}}",
         rf"\label{{sec:namecert-{slug}}}",
+        r"\origin{ai}",
         r"\noindent\textit{Proposed by bio-namer; review status: draft.}",
         "",
     ]
