@@ -1,0 +1,39 @@
+\begin{theorem}[CauchyFilterCompletion filterbase window minimality]
+\label{thm:cauchy-filter-completion-filterbase-window-minimality}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier. A completion-facing read may open a $\StreamNameUp$ window in $W$ only after the $\FilterBaseUp/\CauchyFilterUp$ source behind $C$ has been admitted, and the only rows available after that opening are the matching dyadic tolerance row $T$, regular readback row $R$, Real seal $L$, and structural rows $H,K,P,N$. The carrier therefore contains no quotient filter, selected limit, countable-choice selector, host equality, or ambient completeness row between the source and the window.
+\end{theorem}
+\begin{proof}
+Project the tuple $F$. The source coordinate is $C$, while $W,T,R,L$ are downstream observation rows.
+
+Apply \autoref{thm:cauchy-filter-completion-filter-base-admission}. It places every completion-facing read behind the displayed $\FilterBaseUp/\CauchyFilterUp$ source before any stream window is consumed.
+
+Use \autoref{thm:cauchy-filter-completion-non-choice-boundary} to exhaust the remaining coordinates. Since the refused quotient, selector, choice, equality, and completeness objects are not fields of $F$, the displayed source-to-window route is minimal.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion tail readback admission]
+\label{thm:cauchy-filter-completion-tail-readback-admission}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier. Every tail readback admitted by the root completion surface passes through the finite route
+$$
+C\longmapsto W\longmapsto T\longmapsto R\longmapsto L
+$$
+together with $H,K,P,N$, where $C$ carries the $\FilterBaseUp/\CauchyFilterUp$ source, $W$ carries the $\StreamNameUp$ window, $T$ carries the $\DyadicRatCoreUp$ tolerance ledger, $R$ carries the $\RegSeqRatUp$ readback, and $L$ carries the terminal $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cauchy-filter-completion-regular-readback-totality}. It forces each accepted readback in $R$ to use the matching stream window $W$ and dyadic tolerance ledger $T$ behind the Cauchy-filter source $C$.
+
+Then apply \autoref{thm:cauchy-filter-completion-root-real-seal-no-choice}. The terminal Real seal $L$ is read only after that finite source-window-tolerance-readback route.
+
+The structural rows $H,K,P,N$ preserve the same route. Thus no detached tail, quotient filter, selected limit, host equality, countable choice, or ambient completeness row is admitted.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion Real-seal source exhaustion]
+\label{thm:cauchy-filter-completion-real-seal-source-exhaustion}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier. Once a consumer reaches the terminal $\RealUp$ seal $L$, every source row available to that consumer has already appeared in $C,W,T,R$ and the structural rows $H,K,P,N$. The seal exports only the displayed $\FilterBaseUp/\CauchyFilterUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ route, not a quotient filter, selected limit, countable-choice schedule, host equality, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Read $L$ through \autoref{thm:cauchy-filter-completion-tail-readback-admission}. The theorem places the Real seal after the source, window, tolerance, and regular-readback rows.
+
+Apply \autoref{thm:cauchy-filter-completion-carrier-ledger-package}. The local certificate consumes no row outside $C,W,T,R,L,H,K,P,N$.
+
+Finally use \autoref{thm:cauchy-filter-completion-non-choice-boundary}. The refused objects have no coordinate in the accepted carrier, so the Real seal exhausts the displayed finite source route.
+\end{proof}
