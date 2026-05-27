@@ -87,6 +87,7 @@ def submit_query_full(
     intended_lane: str = "",
     pdf_base64: str = "",
     pdf_name: str = "",
+    tag: str = "",
     server_url: str = DEFAULT_SERVER_URL,
     timeout_seconds: int = 60,
 ) -> tuple[str, str]:
@@ -99,7 +100,7 @@ def submit_query_full(
         "prompt": text,
         "intended_claim_id": intended_claim_id,
         "intended_lane": intended_lane,
-        "tag": intended_claim_id or intended_lane or "bio-oracle-query",
+        "tag": tag or intended_claim_id or intended_lane or "bio-oracle-query",
     }
     if pdf_base64:
         payload["pdf_base64"] = pdf_base64
@@ -248,12 +249,16 @@ def run_session(
     try:
         for turn_index in range(total_turns):
             if turn_index == 0 and not conversation_id:
+                # Pass topic as tag so server-side conv files tag matches the
+                # client-side topic key; bio-C backfill can then write
+                # topic_conversations[topic] using the same key the lane reads.
                 task_id, new_conv_id = submit_query_full(
                     current_prompt,
                     intended_claim_id=intended_claim_id,
                     intended_lane=intended_lane,
                     pdf_base64=pdf_base64,
                     pdf_name=pdf_name,
+                    tag=topic,
                     server_url=server_url,
                 )
                 # Capture conv_id immediately from server's submit response so
