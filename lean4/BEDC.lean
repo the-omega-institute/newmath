@@ -682,6 +682,7 @@ import BEDC.Derived.BishopIntervalEnclosureUp.TasteGate
 import BEDC.Derived.BishopIntervalHalvingUp.TasteGate
 import BEDC.Derived.BishopIntervalNestLimitUp.TasteGate
 import BEDC.Derived.BishopLocatedCauchyRealUp.TasteGate
+import BEDC.Derived.BishopLocatedCompletionUp.TasteGate
 import BEDC.Derived.BishopModulusProductClosureUp.TasteGate
 import BEDC.Derived.BishopModulusRealUp.TasteGate
 import BEDC.Derived.BishopMonotoneRealLimitUp.TasteGate
@@ -1200,6 +1201,7 @@ import BEDC.Derived.CauchyFilterMeetUp
 import BEDC.Derived.CauchyFilterMeetUp.TasteGate
 import BEDC.Derived.CauchyFilterModulusTransferUp.TasteGate
 import BEDC.Derived.CauchyFilterNetCorrespondenceUp.TasteGate
+import BEDC.Derived.CauchyFilterRegularizationUp.TasteGate
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyInverseBudgetUp.RouteSurface
 import BEDC.Derived.CauchyInverseBudgetUp.TasteGate
@@ -1560,6 +1562,7 @@ import BEDC.Derived.CauchyRealOrderedFieldUp.TasteGate
 import BEDC.Derived.CauchyRealizerSequenceUp.TasteGate
 import BEDC.Derived.CauchyRealizerTailModulusUp.TasteGate
 import BEDC.Derived.CauchyRealizerUp.TasteGate
+import BEDC.Derived.CauchyRegularityModulusUp.TasteGate
 import BEDC.Derived.CauchyRegularizationUp
 import BEDC.Derived.CauchyRegularizationUp.TasteGate
 import BEDC.Derived.CauchyRepresentationUp.TasteGate
