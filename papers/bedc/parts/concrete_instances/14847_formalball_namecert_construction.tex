@@ -41,6 +41,7 @@ The analytic obligations are exactly $M,R,D,W$. The metric row supplies point an
 
 The structural obligations are exactly $H,C,P,N$. They transport the same rows, replay the same finite route, record package provenance, and bind the local certificate. Since the carrier contains no quotient, selected representative, selected limit, countable-choice schedule, compactness principle, or ambient-completeness coordinate, none can be exported by the NameCert surface.
 \end{proof}
+\leanchecked{BEDC.Derived.FormalBallUp.FormalBallCarrier\_namecert\_obligations}
 
 \begin{theorem}[FormalBall radius refinement]
 \label{thm:formalball-radius-refinement}
@@ -48,6 +49,8 @@ Let $B=(M,R,D,W,H,C,P,N)$ be an accepted $\FormalBallUp$ carrier. A refinement r
 
 The refined formal ball is therefore a smaller window inside the same packet. It is not a second metric, not a quotient of centers, not a selected Cauchy representative, and not an appeal to ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.FormalBallUp.FormalBallRadiusRefinement}
+\leanvariant{BEDC.Derived.FormalBallUp.FormalBallCarrier\_radius\_refinement}
 \begin{proof}
 Project the accepted packet and read the metric source $M$. Any center comparison used by the refinement is interpreted through the point classifier and distance rows already displayed there.
 
@@ -166,6 +169,18 @@ The Real-facing tolerance seal is reached only through the replay row $C$, which
 Finally $P$ and $N$ record provenance and local naming for this route. Therefore a $\CauchyFilterUp$ or $\UniformCompletionUp$ consumer receives exactly the displayed finite formal-ball packet and no quotient-completion equality, chosen Cauchy representative, selected limit, countable-choice schedule, compactness principle, or ambient complete space.
 \end{proof}
 
+\begin{theorem}[FormalBall located-radius window]
+\label{thm:formalball-located-radius-window}
+Every accepted $\FormalBallUp$ located-radius completion read must display the $\MetricSpaceUp$ source $M$, the $\RegSeqRatUp$ radius row $R$, the $\DyadicRatCoreUp$ comparison ledger $D$, the $\StreamNameUp$ finite window $W$, and the $\Cont$ replay row $C$ before any $\UniformCompletionUp$ or $\CauchyFilterUp$ handoff is consumed. The read is therefore a finite located-radius window in the carrier $B=(M,R,D,W,H,C,P,N)$, not a quotient completion, selected limit, countable-choice schedule, open-cover compactness argument, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:formalball-carrier}. The located-radius data available to a completion-facing consumer is exactly $M,R,D,W$ together with transport, replay, provenance, and naming rows.
+
+Apply the radius-refinement chain of \autoref{thm:formalball-radius-refinement-chain}. It keeps every displayed radius comparison inside the dyadic ledger $D$ and the replayed finite window $W,C$ over the same metric source $M$.
+
+Finally apply the completion-window handoff of \autoref{thm:formalball-completion-window-handoff} and the Cauchy-filter handoff of \autoref{thm:formalball-cauchy-filter-handoff}. These handoffs force $\UniformCompletionUp$ and $\CauchyFilterUp$ consumers to read the finite center-radius packet before the completion boundary, so no quotient completion, selected limit, choice schedule, compactness principle, or ambient completeness row can enter.
+\end{proof}
+
 \begin{theorem}[FormalBall rounded-filter admission]
 \label{thm:formalball-rounded-filter-admission}
 Every $\UniformCompletionUp$ or $\CauchyFilterUp$ consumer admitted through an accepted $\FormalBallUp$ carrier must display the $\MetricSpaceUp$ source $M$, the $\RegSeqRatUp$ radius row $R$, the $\DyadicRatCoreUp$ refinement ledger $D$, the $\StreamNameUp$ finite window $W$, and the $\Cont$ replay row $C$ before reading a rounded-filter boundary. The admitted route also preserves componentwise transport, formal-order monotonicity, provenance, and local naming through $H,P,N$.
@@ -198,6 +213,7 @@ The completion handoff theorems then keep every $\UniformCompletionUp$ or $\Cauc
 \label{thm:formal-ball-directed-radius-transport}
 Let $B=(M,R,D,W,H,C,P,N)$ be an accepted $\FormalBallUp$ carrier. If a displayed radius refinement is preserved componentwise by the $\hsame$ row $H$, then the transported refinement is still read through the same dyadic ledger $D$ and replay row $C$. In particular, radius refinements cannot be transported by quotient completion equality, selected representatives, countable choice, open-cover compactness, or an ambient complete-space principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.FormalBallUp.FormalBallCarrier\_directed\_radius\_transport}
 \begin{proof}
 Start with a displayed refinement. By \autoref{thm:formalball-radius-refinement}, the comparison from the larger radius to the smaller one is recorded in $D$, and the corresponding center-window read is replayed through $C$ over the same metric source.
 
@@ -292,6 +308,20 @@ First combine the filter-basis route with the radius-order handoff. The basis re
 Next apply the rounded ideal and Cauchy-net admission theorems. They attach all completion-facing Cauchy evidence to the displayed finite packet and replay it through $C$.
 
 Finally apply the uniform-completion route. Since that route exposes no coordinate beyond $M,R,D,W,H,C,P,N$, the completion consumer cannot escape to quotient equality, selected limits, compactness, choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[FormalBall rounded-filter admission package]
+\label{thm:formal-ball-rounded-filter-admission-package}
+Every accepted $\FormalBallUp$ carrier $B=(M,R,D,W,H,C,P,N)$ whose center-radius row, directed radius transport row, rounded ideal handoff row, filter-basis route row, radius-order handoff row, and completion-basis nonescape row are displayed admits the rounded-filter package read by completion consumers. The package passes through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\DyadicRatCoreUp$, $\MetricSpaceUp$, $\CauchyFilterBasisUp$, $\CauchyNetUp$, and $\UniformCompletionUp$, and exports no quotient Cauchy name, selected limit, countable-choice schedule, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:formalball-carrier}. The analytic prefix $M,R,D,W$ is visible by \autoref{thm:formal-ball-carrier-admission}, so the center-radius read starts from a displayed $\MetricSpaceUp$ source, a regular rational radius, a $\DyadicRatCoreUp$ ledger, and a finite window.
+
+Apply directed radius transport and the rounded ideal handoff. Theorems~\ref{thm:formal-ball-directed-radius-transport} and \ref{thm:formal-ball-rounded-ideal-handoff} keep radius shrinkage inside the same dyadic ledger, componentwise $\hsame$ transport, and replay row $C$.
+
+Next read the Cauchy-facing basis rows. Theorems~\ref{thm:formalball-cauchy-net-admission} and \ref{thm:formalball-filter-basis-route} attach $\CauchyNetUp$ and $\CauchyFilterBasisUp$ evidence to the displayed packet rather than to an external quotient or representative.
+
+Finally apply the radius-order handoff and completion-basis nonescape, \autoref{thm:formalball-radius-order-handoff} and \autoref{thm:formalball-completion-basis-nonescape}. These rows exhaust the completion-facing package by $M,R,D,W,H,C,P,N$, so the admitted rounded-filter package exports no quotient Cauchy name, selected limit, countable choice, or ambient completeness.
 \end{proof}
 
 \begin{closurestatus}{\FormalBallUp}

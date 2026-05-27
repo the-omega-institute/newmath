@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyEnclosureFilterUp$}
+\label{ch:concrete-instances-regular-cauchy-enclosure-filter-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyEnclosureFilterUp$ packet records a finite enclosure-filter route for regular Cauchy names. It sits over the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the Cauchy-filter basis surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}. The packet gives Real and Completion consumers a displayed enclosure-filter certificate without quotienting streams, selecting a host limit, assuming ambient completeness, or identifying Cauchy filters by external equality.
+
+\begin{definition}[Regular Cauchy enclosure-filter carrier]
+\label{def:regular-cauchy-enclosure-filter-carrier}
+A $\RegularCauchyEnclosureFilterUp$ carrier is a finite $\BHist$ packet
+$$
+E=(W,D,Q,F,B,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ finite-window row naming the inspected rational-name segment and the requested precision window.
+\item $D$ is the $\DyadicRatCoreUp$ enclosure ledger, recording the positive dyadic radius, interval endpoints, midpoint comparison, and slack data used by the window.
+\item $Q$ is the $\RegSeqRatUp$ regular readback row obtained only after $W$ and $D$ have been displayed.
+\item $F$ is the $\CauchyFilterUp$ basis row, listing the finite filter requests and refinements whose accepted members contain the same dyadic enclosures.
+\item $B$ is the enclosure-basis compatibility row, matching each displayed regular Cauchy window with a filter-basis request at the same dyadic radius.
+\item $R$ is the downstream $\RealUp$ seal row, available only after $W,D,Q,F,B$ have been consumed.
+\item $H$ records componentwise $\hsame$ transport for the window, dyadic enclosure, regular readback, Cauchy-filter basis, compatibility, and Real-seal rows.
+\item $C$ records displayed $\Cont$ replay from a finite window and radius request through regular readback and filter-basis compatibility to the Real-facing seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyEnclosureFilterUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyFilterUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyEnclosureFilterUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,D,Q,F,B,R,H,C,P,N$. It has no coordinate for quotient stream equality, quotient filter equality, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy enclosure-filter NameCert obligations]
+\label{thm:regular-cauchy-enclosure-filter-namecert-obligations}
+For every accepted $\RegularCauchyEnclosureFilterUp$ carrier $E=(W,D,Q,F,B,R,H,C,P,N)$, the local $\NameCert_{\RegularCauchyEnclosureFilterUp}$ surface consists exactly of finite window exposure, dyadic enclosure admission, regular rational readback, Cauchy-filter basis admission, enclosure-basis compatibility, Real-seal ordering, componentwise transport, continuation replay, provenance, and local naming. Every consumer must read the finite route
+$$
+W,D \longmapsto Q \longmapsto F,B \longmapsto R
+$$
+together with $H,C,P,N$ before treating the packet as an enclosure-filter certificate for a regular Cauchy name.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-enclosure-filter-carrier}. The rows $W,D,Q,F,B,R,H,C,P,N$ are the only displayed coordinates available to the local classifier.
+
+The regular Cauchy side is read first. The window row $W$ supplies a finite observation, the dyadic row $D$ supplies the enclosing radius and endpoint ledger, and the readback row $Q$ is downstream of those two rows.
+
+The filter side is then forced through $F$ and $B$. The basis row $F$ exposes only finite Cauchy-filter requests, while $B$ records the compatibility between those requests and the same dyadic enclosures already used by $Q$.
+
+Finally $R$ is reached through the displayed route, and $H,C,P,N$ preserve the route by transport, replay, provenance, and local naming. Since the excluded host and quotient objects are absent from the carrier, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy enclosure-filter real seal route]
+\label{thm:regular-cauchy-enclosure-filter-real-seal-route}
+An accepted $\RegularCauchyEnclosureFilterUp$ carrier may expose its $\RealUp$ seal row $R$ only after the finite $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ enclosure ledger $D$, the $\RegSeqRatUp$ readback row $Q$, the $\CauchyFilterUp$ basis row $F$, and the compatibility row $B$ have been displayed through $H$ and $C$. Thus a Real or Completion consumer receives a finite enclosure-filter route for the regular Cauchy name, not a quotient stream, a selected limit, quotient filter equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The Real-seal row $R$ is a coordinate of $E$, but it is downstream of $W,D,Q,F,B$ in the displayed route.
+
+The rows $W,D,Q$ bind the regular Cauchy readback to finite windows and dyadic enclosures. The rows $F,B$ then bind the same enclosure data to finite Cauchy-filter basis requests, so the filter-facing read is not independent of the regular rational readback.
+
+Transport through $H$ and replay through $C$ preserve this ordering, while $P$ and $N$ record provenance and local naming for the same packet. No carrier coordinate can supply quotient equality, a chosen limit, countable choice, host real equality, or ambient completeness; the Real seal therefore exports only the displayed finite enclosure-filter route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyEnclosureFilterUp$ read used by a Real or Completion consumer displays one finite $\StreamNameUp$ window row, one $\DyadicRatCoreUp$ enclosure ledger, one $\RegSeqRatUp$ readback row, one $\CauchyFilterUp$ basis row, one compatibility row, one downstream $\RealUp$ seal row, and the structural rows $H,C,P,N$.}
+
+\independenceWitness{streamname, dyadicratcore, regseqrat, cauchyfilter, real: $\RegularCauchyEnclosureFilterUp$ is not bijective to any listed sibling because it binds regular Cauchy readback and Cauchy-filter basis membership through the same displayed dyadic enclosure ledger before the Real seal is exposed.}
+
+\closureat{RegularCauchyEnclosureFilterUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyEnclosureFilterUp}
+  \constructivestory{A $\RegularCauchyEnclosureFilterUp$ packet is generated from a finite StreamName window, a DyadicRatCore enclosure ledger, a RegSeqRat readback row, a CauchyFilter basis row, an enclosure-basis compatibility row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-enclosure-filter-carrier}, \autoref{thm:regular-cauchy-enclosure-filter-namecert-obligations}, and \autoref{thm:regular-cauchy-enclosure-filter-real-seal-route} seed the finite enclosure-filter route over StreamName, DyadicRatCore, RegSeqRat, CauchyFilter, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, quotient filter equality, selected limits, countable choice, trichotomy, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic enclosure exactness, regular readback ordering, Cauchy-filter basis compatibility, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyEnclosureFilterUp.}
+\end{closurestatus}

@@ -26,6 +26,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted packets only through $M,T,F,S,D,G,R,H,C,P,N$. It has no coordinate for a host function quotient, a completed real equality principle, a choice-selected tag family, open-cover compactness, a measure space, or an ambient completeness theorem.
 \end{definition}
+\leanchecked{BEDC.Derived.RiemannIntegralUp.RiemannIntegralTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Riemann integral NameCert obligations]
 \label{thm:riemann-integral-namecert-obligations}
@@ -35,6 +36,7 @@ M\longmapsto T\longmapsto F\longmapsto S\longmapsto D\longmapsto G\longmapsto R
 $$
 together with $H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannIntegralUp.RiemannIntegralPacket\_namecert\_obligations}
 \begin{proof}
 Carrier admission is the projection of the tuple in \autoref{def:riemann-integral-carrier}. The mesh row $M$ displays the finite cells, and the tag row $T$ records containment inside those cells before any value of the integrand is read.
 
@@ -56,6 +58,7 @@ The finite sum row $S$ is computed from those displayed reads. The comparison ro
 
 The gap row $G$ is read after the sum and bracket rows. Thus a real-facing consumer reaches $R$ only through the displayed mesh, tags, finite sum, Darboux bracket, and gap data. No carrier coordinate can export quotient function equality or ambient completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.RiemannIntegralUp.RiemannIntegralCarrier\_darboux\_step\_scope}
 
 \begin{theorem}[Riemann integral real seal boundary]
 \label{thm:riemann-integral-real-seal-boundary}
@@ -73,12 +76,26 @@ Componentwise transport through $H$ preserves the same coordinates, and continua
 The excluded objects are absent from the carrier: there is no host completion witness, no quotient equality of real functions, no open-cover compactness row, and no measure-theoretic carrier. Hence the real seal boundary is exactly the displayed tagged-mesh and Darboux-gap handoff.
 \end{proof}
 
-\closureat{RiemannIntegralUp}{seedStr}
+\begin{theorem}[Riemann integral scope closure package]
+\label{thm:riemann-integral-scope-closure-package}
+Every accepted $\RiemannIntegralUp$ read is exhausted by the dyadic mesh row, tag-containment row, integrand-read window, finite-sum row, Darboux bracket, gap ledger, regular-rational and $\RealUp$ handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local NameCert rows named in \autoref{def:riemann-integral-carrier}. The scope contains no quotient function equality, open-cover compactness, measure-integration carrier, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start from the carrier description in \autoref{def:riemann-integral-carrier}. Its coordinates are exactly $M,T,F,S,D,G,R,H,C,P,N$, so any accepted read first exposes a dyadic mesh, tag containment, integrand reads, finite sum data, Darboux comparison, gap estimate, and real-facing handoff.
+
+Apply \autoref{thm:riemann-integral-namecert-obligations}. The NameCert surface names the same carrier admission, mesh-tag containment, finite sum exactness, Darboux bracket compatibility, gap-to-real handoff, transport, replay, provenance, and ledger non-escape rows.
+
+Use \autoref{thm:riemann-integral-darboux-step-scope} and \autoref{thm:riemann-integral-real-seal-boundary}. The first confines every integration read to the tagged-mesh and Darboux-step route; the second makes the $\RealUp$ seal downstream of that finite route.
+
+The excluded host objects have no row in the displayed carrier and cannot be introduced by $H,C,P$, or $N$. Therefore the listed rows form the scoped package for every accepted $\RiemannIntegralUp$ read.
+\end{proof}
+
+\closureat{RiemannIntegralUp}{obligationStr}
 
 \begin{closurestatus}{\RiemannIntegralUp}
   \constructivestory{A $\RiemannIntegralUp$ packet is generated from a dyadic mesh row, finite tag containment row, integrand-read window, finite Riemann-sum row, Darboux comparison row, gap ledger, regular-rational and real-facing handoff, componentwise transport, continuation replay, provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:riemann-integral-carrier}, \autoref{thm:riemann-integral-namecert-obligations}, \autoref{thm:riemann-integral-darboux-step-scope}, and \autoref{thm:riemann-integral-real-seal-boundary} seed the tagged-mesh Riemann integration boundary over $\DyadicMeshUp$, $\DyadicStepFunctionUp$, $\DarbouxIntegralUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:riemann-integral-carrier}, \autoref{thm:riemann-integral-namecert-obligations}, \autoref{thm:riemann-integral-darboux-step-scope}, and \autoref{thm:riemann-integral-real-seal-boundary} bind the carrier, NameCert obligations, Darboux-step scope, and Real-seal boundary for the tagged-mesh Riemann integration surface over $\DyadicMeshUp$, $\DyadicStepFunctionUp$, $\DarbouxIntegralUp$, $\RegSeqRatUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host completeness, quotient real equality, open-cover compactness, measure-theoretic integration, Lean verification, or bridge checking.}
