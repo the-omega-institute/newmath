@@ -78,6 +78,42 @@ For a directed-net completion consumer, the filter basis is first read through t
 Apply the $\MooreSmithConvergenceUp$ boundary row to the displayed directed windows and tail evidence. This places the directed-net read downstream of the same StreamName, RegSeqRat, DyadicRatCore, and Real route, while omitting selected subnets, countable-choice selectors, and ambient completeness.
 \end{proof}
 
+\begin{theorem}[CauchyFilterLimit basis saturation obligation]
+\label{thm:cauchy-filter-limit-basis-saturation-obligation}
+For every accepted $\CauchyFilterLimitUp$ carrier $L=(B,F,S,R,D,A,H,C,P,N)$ of \autoref{def:cauchy-filter-limit-carrier}, the local saturation obligation requires the basis row $B$ and saturated filter row $F$ to be admitted before any $\StreamNameUp$ window $S$, $\RegSeqRatUp$ readback $R$, $\DyadicRatCoreUp$ tolerance ledger $D$, or $\RealUp$ seal $A$ is read. The same obligation is transported by $H$, replayed by $C$, sourced by $P$, and named by $N$, and it refuses quotient stream equality, selected host limits, host real equality, countable-choice selectors, and ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier rows listed in \autoref{def:cauchy-filter-limit-carrier}. The basis generator $B$ and saturated filter row $F$ are the only rows that can expose the limit request before window, readback, tolerance, and seal data appear.
+
+Replay the continuation row $C$. Its route sends the request from $B$ to $F$ before it reaches $S,R,D,A$, while $H$ preserves the same order under componentwise transport.
+
+The provenance row $P$ and local naming row $N$ package only this finite route. Since no carrier coordinate stores quotient stream equality, selected host limits, host real equality, countable-choice selectors, or ambient completeness, the saturation obligation cannot export those principles.
+\end{proof}
+
+\begin{theorem}[CauchyFilterLimit regular readback obligation]
+\label{thm:cauchy-filter-limit-regular-readback-obligation}
+For every accepted $\CauchyFilterLimitUp$ carrier $L=(B,F,S,R,D,A,H,C,P,N)$, a $\RealUp$-facing limit read is admitted only after the $\StreamNameUp$ row $S$ has displayed the finite windows, the $\RegSeqRatUp$ row $R$ has supplied regular rational readback, and the $\DyadicRatCoreUp$ row $D$ has supplied the tolerance ledger. The admission is invariant under $H$, replayed by $C$, sourced by $P$, and named by $N$; it does not identify quotient streams, choose a host limit, assert host real equality, use countable choice, or invoke ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin after the basis-saturation obligation of \autoref{thm:cauchy-filter-limit-basis-saturation-obligation}. The remaining limit-facing read must pass through the rows $S,R,D,A$ in the carrier.
+
+The row $S$ exposes finite windows only. The row $R$ turns those windows into regular rational observations, and the row $D$ records the dyadic tolerance comparison before the seal row $A$ can be read.
+
+Rows $H,C,P,N$ preserve this readback order under transport, replay, provenance, and naming. The refused principles are absent from the tuple, so the regular readback obligation cannot be consumed as quotient stream equality, a selected host limit, host real equality, countable choice, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[CauchyFilterLimit ledger refusal obligation]
+\label{thm:cauchy-filter-limit-ledger-refusal-obligation}
+For every accepted $\CauchyFilterLimitUp$ carrier $L=(B,F,S,R,D,A,H,C,P,N)$, the local ledger refusal is part of the NameCert surface: any consumer that reads beyond the displayed $B,F,S,R,D,A,H,C,P,N$ rows is rejected. In particular, the carrier refuses quotient stream equality, selected host limits, host real equality, countable-choice selectors, and ambient Real completeness while retaining the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:cauchy-filter-limit-namecert-obligations}. It states that the local NameCert surface is exhausted by carrier admission, basis consumption, filter saturation, regular readback, Real seal non-escape, and ledger refusal.
+
+The first two obligation theorems identify the positive route: $B,F$ admit and saturate the filter request, while $S,R,D,A$ expose finite windows, regular readback, dyadic tolerance, and the Real seal.
+
+It remains to record what the packet cannot export. Because $H,C,P,N$ transport, replay, source, and name only the displayed route, any read asking for quotient stream equality, selected host limits, host real equality, countable-choice selectors, or ambient completeness has no carrier coordinate and is refused by the local ledger.
+\end{proof}
+
 \begin{closurestatus}{\CauchyFilterLimitUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:cauchy-filter-limit-carrier}, \autoref{thm:cauchy-filter-limit-namecert-obligations}, \autoref{thm:cauchy-filter-limit-regular-seal-handoff}, and \autoref{thm:cauchy-filter-limit-directed-net-handoff} seed the finite Cauchy-filter limit boundary between generated filter data, directed-net consumers, and the downstream $\RealUp$ seal.}
