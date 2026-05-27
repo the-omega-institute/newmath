@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\FiniteLowerBoundFoldUp$}
+\label{ch:concrete-instances-finite-lower-bound-fold-namecert}
+\origin{human}
+
+Following the finite-cover proof of Heine--Cantor in \autoref{ch:visions-compact-uniform-continuity}, the $\FiniteLowerBoundFoldUp$ packet records the rational lower-bound fold that turns finitely many local continuity radii into one uniform precision row. It sits over compact finite coverage from \autoref{ch:concrete-instances-compact-namecert}, the metric source of \autoref{ch:concrete-instances-metric-namecert}, pointwise continuity rows from \autoref{ch:concrete-instances-continuous-namecert}, rational positivity from \autoref{ch:concrete-instances-rat-namecert}, and the downstream $\UniformModulusUp$ consumer of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet makes the finite $\mathsf{ProbeBundle}$ fold an explicit NameCert object.
+
+\begin{definition}[FiniteLowerBoundFold carrier]
+\label{def:finite-lower-bound-fold-carrier}
+A $\FiniteLowerBoundFoldUp$ carrier is a finite $\BHist$ packet
+$$
+F=(K,\mathcal{P},R,A,B,L,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactUp$ source row carrying the finite coverage witness.
+\item $\mathcal{P}$ is the nonempty $\mathsf{ProbeBundle}$ spine indexing the bundled centers.
+\item $R$ is the finite family of positive $\RatUp$ lower-bound candidates, one row for each bundled probe.
+\item $A$ is the accumulator ledger produced by primitive recursion over $\mathcal{P}$.
+\item $B$ is the certified lower-bound row saying that the accumulator is below every displayed candidate in $R$.
+\item $L$ is the $\UniformModulusUp$ handoff row that receives the accumulator as the tolerance-only precision.
+\item $H$ records componentwise $\hsame$ transport for the compact source, bundle spine, rational candidates, accumulator, lower-bound certificate, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the fold over the finite bundle.
+\item $Q$ is the $\Pkg$ provenance over $\FiniteLowerBoundFoldUp$, $\CompactUp$, $\MetricUp$, $\ContinuousUp$, $\RatUp$, $\UniformModulusUp$, $\mathsf{ProbeBundle}$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteLowerBoundFoldUp}$ row.
+\end{enumerate}
+The carrier contains no host minimum, selected center outside $\mathcal{P}$, open-cover compactness object, quotient point equality, external modulus function, or ambient $\RealUp$ completeness row.
+\end{definition}
+
+\begin{theorem}[FiniteLowerBoundFold NameCert obligations]
+\label{thm:finite-lower-bound-fold-namecert-obligations}
+For every accepted $\FiniteLowerBoundFoldUp$ carrier
+$$
+F=(K,\mathcal{P},R,A,B,L,H,C,Q,N),
+$$
+the local $\NameCert_{\FiniteLowerBoundFoldUp}$ surface consists exactly of compact source exposure, $\mathsf{ProbeBundle}$ spine admission, positive $\RatUp$ candidate admission, accumulator recursion, certified lower-bound readback, $\UniformModulusUp$ handoff, componentwise transport, displayed replay, provenance, and local naming. The fold route is confined to
+$$
+\CompactUp,\quad \MetricUp,\quad \ContinuousUp,\quad \RatUp,\quad \UniformModulusUp .
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:finite-lower-bound-fold-carrier}. The only rows visible to a consumer are the compact source, finite bundle, rational candidate family, accumulator, lower-bound certificate, handoff, and structural rows.
+
+The bundle spine $\mathcal{P}$ supplies the induction domain. At each finite step the fold reads one positive rational candidate from $R$ and updates the accumulator row $A$ through the displayed replay route $C$.
+
+The lower-bound certificate $B$ is attached to the same finite recursion. It states that the final accumulator is below every candidate in $R$, so a downstream read of $L$ receives a classifier-stable precision row rather than a host minimum.
+
+Transport, provenance, and local naming are supplied by $H,Q,N$. Since none of the excluded host, open-cover, quotient, external-modulus, or completeness objects occurs in the carrier, the listed obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[FiniteLowerBoundFold uniform-modulus handoff]
+\label{thm:finite-lower-bound-fold-uniform-modulus-handoff}
+Every compact-uniform-continuity consumer that reads a $\FiniteLowerBoundFoldUp$ packet obtains its $\UniformModulusUp$ precision row only through the finite $\mathsf{ProbeBundle}$ spine $\mathcal{P}$, the positive $\RatUp$ candidate ledger $R$, the accumulator row $A$, the lower-bound certificate $B$, and the structural rows $H,C,Q,N$. The consumer receives no host finite minimum, selected center outside the bundle, open-cover compactness object, quotient point equality, external modulus selector, or ambient $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $F=(K,\mathcal{P},R,A,B,L,H,C,Q,N)$. The compact source row $K$ and the finite bundle $\mathcal{P}$ are the only coverage rows available.
+
+Read the candidate family $R$. Each candidate is a positive $\RatUp$ row attached to a bundled probe, so the fold cannot inspect an infinite cover or a center outside the displayed bundle.
+
+The accumulator row $A$ and certificate row $B$ provide the lower-bound fold. They are transported and replayed by $H$ and $C$, and then sourced and named by $Q$ and $N$.
+
+The handoff row $L$ is therefore a $\UniformModulusUp$ precision read over that finite packet. Since no excluded host or compactness coordinate is present, every uniform-modulus consumer remains inside the displayed fold route.
+\end{proof}
+
+\closureat{FiniteLowerBoundFoldUp}{seedStr}
+
+\begin{closurestatus}{\FiniteLowerBoundFoldUp}
+  \constructivestory{A $\FiniteLowerBoundFoldUp$ packet is generated from a CompactUp finite coverage row, a nonempty ProbeBundle spine, positive RatUp candidate rows, an accumulator ledger, a certified lower-bound row, a UniformModulusUp handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-lower-bound-fold-carrier}, \autoref{thm:finite-lower-bound-fold-namecert-obligations}, and \autoref{thm:finite-lower-bound-fold-uniform-modulus-handoff} seed the finite ProbeBundle rational lower-bound fold used by compact-uniform-modulus consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host finite minima, selected centers outside the bundle, open-cover compactness, quotient point equality, external modulus selectors, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked bundle admission, rational candidate positivity, accumulator recursion, lower-bound certificate stability, uniform-modulus handoff, and ledger non-escape for BEDC.Derived.FiniteLowerBoundFoldUp.}
+\end{closurestatus}
