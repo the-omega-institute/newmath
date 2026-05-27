@@ -493,6 +493,34 @@ theorem MetaCICClosureTraceCarrier_scoped_confluence_audit_route
     ⟨confluenceUnary, conversionUnary, auditUnary, confluenceRoute, conversionRoute,
       auditRoute, pkgSig, auditPkg⟩
 
+theorem MetaCICClosureTraceCarrier_confluence_handoff_boundary [AskSetup] [PackageSetup]
+    {S U V B R G K H C P N substRead betaRead confluenceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ->
+      Cont S V substRead ->
+        Cont B R betaRead ->
+          Cont substRead betaRead confluenceRead ->
+            PkgSig bundle confluenceRead pkg ->
+              UnaryHistory S ∧ UnaryHistory U ∧ UnaryHistory V ∧ UnaryHistory B ∧
+                UnaryHistory R ∧ UnaryHistory G ∧ UnaryHistory K ∧
+                  UnaryHistory substRead ∧ UnaryHistory betaRead ∧
+                    UnaryHistory confluenceRead ∧ Cont S U V ∧ Cont V G K ∧
+                      Cont B R C ∧ Cont substRead betaRead confluenceRead ∧
+                        PkgSig bundle P pkg ∧ PkgSig bundle confluenceRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier substRoute betaRoute confluenceRoute confluencePkg
+  obtain ⟨SUnary, UUnary, VUnary, BUnary, RUnary, GUnary, KUnary, _HUnary, _CUnary,
+    _PUnary, _NUnary, shiftSubstitution, generatorPackage, betaCarrierRoute, pkgSig⟩ :=
+      carrier
+  have substUnary : UnaryHistory substRead := unary_cont_closed SUnary VUnary substRoute
+  have betaUnary : UnaryHistory betaRead := unary_cont_closed BUnary RUnary betaRoute
+  have confluenceUnary : UnaryHistory confluenceRead :=
+    unary_cont_closed substUnary betaUnary confluenceRoute
+  exact
+    ⟨SUnary, UUnary, VUnary, BUnary, RUnary, GUnary, KUnary, substUnary, betaUnary,
+      confluenceUnary, shiftSubstitution, generatorPackage, betaCarrierRoute,
+      confluenceRoute, pkgSig, confluencePkg⟩
+
 theorem MetaCICClosureTraceCarrier_closed_normalization_source_order
     [AskSetup] [PackageSetup] {S U V B R G K H C P N candidateRead normalizationRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
