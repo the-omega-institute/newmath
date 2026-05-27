@@ -459,4 +459,51 @@ theorem ClosedBoundedIntervalPacket_finite_net_source [AskSetup] [PackageSetup]
     ⟨cert, lowerUnary, upperUnary, orderUnary, rationalUnary, dyadicUnary, finiteNetUnary,
       endpointRoute, dyadicRoute, finiteNetRoute, provenancePkg, localNamePkg, finiteNetPkg⟩
 
+theorem ClosedBoundedIntervalPacket_root_unblock_obligations [AskSetup] [PackageSetup]
+    {lower upper order rational dyadic stream readback sealRow transport replay provenance
+      localName exported finiteNet locatedCover nestedWindow compactUniform : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClosedBoundedIntervalPacket lower upper order rational dyadic stream readback sealRow
+        transport replay provenance localName exported bundle pkg ->
+      Cont exported dyadic finiteNet ->
+        Cont exported stream locatedCover ->
+          Cont exported readback nestedWindow ->
+            Cont exported sealRow compactUniform ->
+              PkgSig bundle finiteNet pkg ->
+                PkgSig bundle locatedCover pkg ->
+                  PkgSig bundle nestedWindow pkg ->
+                    PkgSig bundle compactUniform pkg ->
+                      UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory order ∧
+                        UnaryHistory rational ∧ UnaryHistory dyadic ∧ UnaryHistory stream ∧
+                          UnaryHistory readback ∧ UnaryHistory sealRow ∧
+                            UnaryHistory exported ∧ UnaryHistory finiteNet ∧
+                              UnaryHistory locatedCover ∧ UnaryHistory nestedWindow ∧
+                                UnaryHistory compactUniform ∧ Cont exported dyadic finiteNet ∧
+                                  Cont exported stream locatedCover ∧
+                                    Cont exported readback nestedWindow ∧
+                                      Cont exported sealRow compactUniform ∧
+                                        PkgSig bundle provenance pkg ∧
+                                          PkgSig bundle localName pkg ∧
+                                            PkgSig bundle compactUniform pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro packet finiteNetRoute locatedCoverRoute nestedWindowRoute compactUniformRoute
+    _finiteNetPkg _locatedCoverPkg _nestedWindowPkg compactUniformPkg
+  obtain ⟨lowerUnary, upperUnary, orderUnary, rationalUnary, dyadicUnary, streamUnary,
+    readbackUnary, sealRowUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, exportedUnary, _endpointRoute, _containmentRoute, _sealRowRoute,
+    _replayRoute, _nameRoute, provenancePkg, localNamePkg⟩ := packet
+  have finiteNetUnary : UnaryHistory finiteNet :=
+    unary_cont_closed exportedUnary dyadicUnary finiteNetRoute
+  have locatedCoverUnary : UnaryHistory locatedCover :=
+    unary_cont_closed exportedUnary streamUnary locatedCoverRoute
+  have nestedWindowUnary : UnaryHistory nestedWindow :=
+    unary_cont_closed exportedUnary readbackUnary nestedWindowRoute
+  have compactUniformUnary : UnaryHistory compactUniform :=
+    unary_cont_closed exportedUnary sealRowUnary compactUniformRoute
+  exact
+    ⟨lowerUnary, upperUnary, orderUnary, rationalUnary, dyadicUnary, streamUnary,
+      readbackUnary, sealRowUnary, exportedUnary, finiteNetUnary, locatedCoverUnary,
+      nestedWindowUnary, compactUniformUnary, finiteNetRoute, locatedCoverRoute,
+      nestedWindowRoute, compactUniformRoute, provenancePkg, localNamePkg, compactUniformPkg⟩
+
 end BEDC.Derived.ClosedboundedintervalUp
