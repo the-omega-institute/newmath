@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\LocatedCoveringNumberUp$}
+\label{ch:concrete-instances-located-covering-number-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Kelley-style metric-cover language, the $\LocatedCoveringNumberUp$ packet records a covering-number request whose centers, tolerance, and budget are all displayed before any compactness or dimension consumer can use it. It sits after the metric covering-number surface of \autoref{ch:concrete-instances-metric-covering-number-namecert}, the finite epsilon-net carrier of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}, the compact metric route of \autoref{ch:concrete-instances-compactmetric-namecert}, and the doubling-metric finite-growth packet of \autoref{ch:concrete-instances-doubling-metric-namecert}. The packet names a finite located cover certificate; it is not an open-cover compactness theorem, selected subcover principle, quotient metric equality, or ambient choice of centers.
+
+\begin{definition}[Located covering number carrier]
+\label{def:located-covering-number-carrier}
+A $\LocatedCoveringNumberUp$ carrier is a finite $\BHist$ packet
+$$
+L=(M,Q,T,E,B,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the metric source row, including the carrier classifier, distance requests, and ball-membership rows used by the cover.
+\item $Q$ is the located request row, naming the displayed subset or inspection window together with the cover request whose membership must be witnessed.
+\item $T$ is the tolerance ledger, recording the positive $\varepsilon$ row and its rational or dyadic comparison data.
+\item $E$ is the finite $\varepsilon$-net center row, listing the centers and their point-name evidence through \autoref{ch:concrete-instances-finite-epsilon-net-namecert}.
+\item $B$ is the covering-number budget row, recording the displayed natural-number bound and the count of center rows used by the certificate.
+\item $W$ is the location witness row, assigning each inspected request point to one displayed center with a distance comparison below the tolerance ledger.
+\item $H$ records componentwise $\hsame$ transport for the metric source, request, tolerance, center list, budget, witness, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a located cover request through the tolerance ledger, finite center list, budget row, and witness row.
+\item $P$ is the $\Pkg$ provenance over $\LocatedCoveringNumberUp$, $\MetricCoveringNumberUp$, $\FiniteEpsilonNetUp$, $\CompactMetricUp$, $\DoublingMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedCoveringNumberUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,Q,T,E,B,W,H,C,P,N$. It has no coordinate for arbitrary open covers, selected subcovers, hidden dense enumerations, quotient metric equality, host compactness, or a choice-selected center family.
+\end{definition}
+
+\begin{theorem}[Located covering number NameCert obligations]
+\label{thm:located-covering-number-namecert-obligations}
+For every accepted $\LocatedCoveringNumberUp$ carrier $L=(M,Q,T,E,B,W,H,C,P,N)$, the local $\NameCert_{\LocatedCoveringNumberUp}$ surface consists exactly of carrier admission, located-center visibility, tolerance exactness, budget exactness, finite-net handoff, location-witness replay, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming. Every covering-number consumer must read these rows before using the displayed budget, and no consumer may read a stronger compactness, selected-subcover, or choice-of-centers object from the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-covering-number-carrier}. Carrier admission exposes the metric source, located request, tolerance ledger, finite center list, budget row, location witness, transport, replay, provenance, and local name.
+
+The located-center and tolerance obligations are read through $E,T,W$. A center can serve a request only when the witness row displays the center and the corresponding distance comparison against the same tolerance ledger.
+
+Budget exactness is read through $B$ and $E$. The count in $B$ is attached to the displayed finite center row, so the covering number cannot be justified by an unlisted center or a selected subcover outside the packet.
+
+Finally use $H,C,P,N$. Transport, replay, provenance, and local naming preserve the same finite-net handoff to the metric covering-number, compact-metric, and doubling-metric consumers. Coordinate exhaustion blocks arbitrary covers, host compactness, quotient metric equality, and choice-selected center families.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LocatedCoveringNumberUp$ consumer displays a metric source row, located request row, tolerance ledger, finite epsilon-net center row, covering-number budget row, location witness row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before a covering-number budget is public.}
+
+\independenceWitness{metric-covering-number, finite-epsilon-net, compactmetric, doubling-metric: $\LocatedCoveringNumberUp$ is not bijective to any listed sibling because it binds the request locator, tolerance ledger, center list, budget row, and witness assignment into one finite covering-number certificate.}
+
+\closureat{LocatedCoveringNumberUp}{seedStr}
+
+\begin{closurestatus}{\LocatedCoveringNumberUp}
+  \constructivestory{A $\LocatedCoveringNumberUp$ packet is generated from a metric source row, located request row, tolerance ledger, finite epsilon-net center row, covering-number budget row, location witness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-covering-number-carrier} and \autoref{thm:located-covering-number-namecert-obligations} seed the located finite-cover budget route over MetricCoveringNumber, FiniteEpsilonNet, CompactMetric, DoublingMetric, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, arbitrary open-cover compactness, selected subcovers, quotient metric equality, hidden dense enumerations, or choice-selected center families.}
+  \upgradepath{Obligation closure requires checked carrier admission, located-center visibility, tolerance exactness, budget exactness, finite-net handoff, witness replay, transport, provenance, and local naming for BEDC.Derived.LocatedCoveringNumberUp.}
+\end{closurestatus}
