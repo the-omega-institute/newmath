@@ -47,4 +47,33 @@ theorem BolzanoWeierstrassCarrier_finite_subsequence_obligations [AskSetup] [Pac
     ⟨SUnary, KUnary, RUnary, QUnary, subseqUnary, clusterUnary, subseqRoute,
       clusterRoute, carrierPkg, clusterPkg⟩
 
+theorem BolzanoWeierstrassCarrier_root_subsequence_extraction_obligation
+    [AskSetup] [PackageSetup]
+    {S K R Q E H C P N intervalTree extracted readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BolzanoWeierstrassCarrier S K R Q E H C P N bundle pkg ->
+      Cont S K intervalTree ->
+        Cont intervalTree R extracted ->
+          Cont extracted Q readback ->
+            PkgSig bundle readback pkg ->
+              UnaryHistory S ∧ UnaryHistory K ∧ UnaryHistory R ∧ UnaryHistory Q ∧
+                UnaryHistory intervalTree ∧ UnaryHistory extracted ∧ UnaryHistory readback ∧
+                  Cont S K intervalTree ∧ Cont intervalTree R extracted ∧
+                    Cont extracted Q readback ∧ PkgSig bundle P pkg ∧
+                      PkgSig bundle readback pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier intervalRoute extractionRoute readbackRoute readbackPkg
+  obtain ⟨SUnary, KUnary, RUnary, QUnary, _EUnary, _HUnary, _CUnary, _PUnary,
+    _NUnary, _sourceIntervalRoute, _readbackSealRoute, _transportReplayRoute,
+    carrierPkg⟩ := carrier
+  have intervalUnary : UnaryHistory intervalTree :=
+    unary_cont_closed SUnary KUnary intervalRoute
+  have extractedUnary : UnaryHistory extracted :=
+    unary_cont_closed intervalUnary RUnary extractionRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed extractedUnary QUnary readbackRoute
+  exact
+    ⟨SUnary, KUnary, RUnary, QUnary, intervalUnary, extractedUnary, readbackUnary,
+      intervalRoute, extractionRoute, readbackRoute, carrierPkg, readbackPkg⟩
+
 end BEDC.Derived.BolzanoWeierstrassUp
