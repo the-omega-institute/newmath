@@ -674,7 +674,9 @@ def render_prompt(event: dict[str, Any], agent_id: str, action: str) -> str:
             target_lines = [
                 "Action target:",
                 "- Extract concrete refinement proposals for the reviewed claim's BEDC carrier.",
-                "- If the transcript does not support a concrete refinement, use verdict carrier_ok or needs_more_data.",
+                "- If the transcript mentions ANY dependency leak, kernel/bridge re-layering, label-readback distinction migration, REFINE_BEFORE_MINIMAL_PASS verdict, 'conditional pass / not strictly minimal', kernel-distinction reclassification, or a proposed alternate JSON form, treat that as verdict=refinement_proposed and produce a refinement_diff that captures the moves (e.g. {\"field\": \"distinctions[\\\"singleton label corner\\\"]\", \"from\": \"kernel\", \"to\": \"external_readback_distinctions\", \"reason\": \"label-dependent per ChatGPT review\"}).",
+                "- Use verdict=carrier_ok ONLY when the transcript states explicitly that the current minimal form needs no changes and no fields should move between kernel/bridge/derived layers.",
+                "- Use verdict=needs_more_data only if the transcript is empty, truncated, error, or otherwise contains no substantive review.",
             ]
         return "\n".join(
             [
