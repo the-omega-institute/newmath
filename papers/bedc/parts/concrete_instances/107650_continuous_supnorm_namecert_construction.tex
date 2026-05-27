@@ -63,6 +63,20 @@ Any bound read first uses the compact source $K$ and continuous-map row $F$, the
 The structural rows $H,C,P,N$ preserve the same route under transport, replay, provenance, and naming. Since no other Real-valued coordinate appears in the carrier, the exported bound cannot leave the displayed Real-seal surface.
 \end{proof}
 
+\begin{theorem}[Continuous sup-norm uniform-limit metric export]
+\label{thm:continuous-sup-norm-uniform-limit-metric-export}
+Every accepted $\ContinuousSupNormUp$ carrier $S=(K,F,R,O,M,B,H,C,P,N)$ handed to $\UniformLimitMetricUp$ or $\UniformSequentialLimitUp$ exports only compact metric source rows, $\ContinuousMapUp$ rows, finite oscillation and modulus ledgers, pointwise $\RealUp$ difference seals, finite sup-bound witnesses, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\ContinuousSupNormUp}$ row. The export route has no coordinate for host function equality, a selected supremum point, a completed function-space quotient, a choice-selected limiting function, or ambient compactness outside the displayed compact metric source.
+\end{theorem}
+\begin{proof}
+Project the carrier and apply \autoref{thm:continuous-sup-norm-compact-uniform-handoff}. The compact source, continuous-map row, oscillation ledger, modulus row, Real difference seal, and finite bound witness already form the only compact-uniform route available to a consumer.
+
+Use \autoref{thm:continuous-sup-norm-real-seal-nonescape} for the Real-facing boundary. It forces every exported bound through the displayed pointwise difference seal and finite sup-bound witness.
+
+Finally compose this boundary with the Cauchy-control handoff of \autoref{thm:continuous-supnorm-cauchy-control}. The resulting uniform-limit metric export reads exactly $K,F,O,M,R,B,H,C,P,N$ and nothing else.
+
+Since the carrier has no coordinate for host function equality, selected supremum data, completed function-space quotients, selected limiting functions, or ambient compactness beyond $K$, both $\UniformLimitMetricUp$ and $\UniformSequentialLimitUp$ receive only the finite BEDC route.
+\end{proof}
+
 \begin{theorem}[Continuous sup-norm Cauchy control]
 \label{thm:continuous-supnorm-cauchy-control}
 Every accepted $\ContinuousSupNormUp$ carrier $S=(K,F,R,O,M,B,H,C,P,N)$ that is read as a sup-norm Cauchy row supplies uniform finite-window Cauchy control over the compact source. For each displayed tolerance request, the accepted read factors through the finite route
@@ -96,7 +110,7 @@ There is no remaining coordinate for a host completion theorem, a quotient of fu
 \begin{closurestatus}{\ContinuousSupNormUp}
   \constructivestory{A $\ContinuousSupNormUp$ packet is generated from a compact metric source, continuous-map row, pointwise RealUp difference seal, finite oscillation and modulus ledgers, supremum-bound witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:continuous-supnorm-carrier}, \autoref{thm:continuous-supnorm-cauchy-control}, and \autoref{thm:continuous-supnorm-uniform-limit-handoff} seed the compact-source sup-norm carrier, Cauchy-control route, and uniform-limit handoff for bounded continuous real-valued functions.}
+  \scopeclosed{\autoref{def:continuous-supnorm-carrier}, \autoref{thm:continuous-supnorm-cauchy-control}, \autoref{thm:continuous-sup-norm-uniform-limit-metric-export}, and \autoref{thm:continuous-supnorm-uniform-limit-handoff} seed the compact-source sup-norm carrier, Cauchy-control route, uniform-limit metric export, and uniform-limit handoff for bounded continuous real-valued functions.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Banach-space completeness, quotient equality of functions, host supremum existence, selected limit functions, Lean verification, or bridge checking for $\ContinuousSupNormUp$.}
