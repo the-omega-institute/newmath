@@ -12,6 +12,7 @@ import BEDC.BaseReflection.Token
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.AbGroupUp.TasteGate
 import BEDC.Derived.AbelLimitTheoremUp.TasteGate
+import BEDC.Derived.AbelPartialSummationUp.TasteGate
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AbelSummationUp.TasteGate
 import BEDC.Derived.AbelTestUp.TasteGate
@@ -4524,6 +4525,7 @@ import BEDC.Derived.MonotoneSubsequenceUp.TasteGate
 import BEDC.Derived.MooreOsgoodUp.TasteGate
 import BEDC.Derived.MooreSmithCompletionUp.TasteGate
 import BEDC.Derived.MooreSmithConvergenceUp
+import BEDC.Derived.MooreSmithConvergenceUp.DirectedWindowTotality
 import BEDC.Derived.MooreSmithConvergenceUp.LedgerRefusal
 import BEDC.Derived.MulUp.TasteGate
 import BEDC.Derived.MultiHistConfigUp
@@ -5740,6 +5742,8 @@ import BEDC.Derived.RiemannIntegrabilityCriterionUp.TasteGate
 import BEDC.Derived.RiemannIntegrableUp.DarbouxGapRoute
 import BEDC.Derived.RiemannIntegrableUp.TasteGate
 import BEDC.Derived.RiemannIntegralUp
+import BEDC.Derived.RiemannIntegralUp.DarbouxStepScope
+import BEDC.Derived.RiemannIntegralUp.TasteGate
 import BEDC.Derived.RiemannRearrangementUp
 import BEDC.Derived.RiemannRearrangementUp.TasteGate
 import BEDC.Derived.RiemannStieltjesUp.TasteGate
