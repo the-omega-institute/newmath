@@ -5808,6 +5808,7 @@ import BEDC.Derived.RiemannIntegralUp.TasteGate
 import BEDC.Derived.RiemannRearrangementUp
 import BEDC.Derived.RiemannRearrangementUp.TasteGate
 import BEDC.Derived.RiemannStieltjesUp.TasteGate
+import BEDC.Derived.RiemannSumUp
 import BEDC.Derived.RiemannSumUp.TasteGate
 import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.RieszLemmaUp.TasteGate
