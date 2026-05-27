@@ -61,7 +61,10 @@ AI / ML:             training Hist -> model -> generated or predicted Hist
 Human consciousness: local Hist -> focused self-readback
 ```
 
-The shared layer does not erase the role separation.
+The shared layer does not erase the role separation. The same finite trace can
+be a source stream for a compiler, a training or prompt stream for a model, and
+a remembered episode for a conscious agent. The role changes when the audit row
+changes.
 
 ## Compiler: preservation
 
@@ -74,9 +77,9 @@ Compiler_Phi : NameCert_S -> NameCert_T
 
 The correctness condition is preservation:
 
-```
-hsame_S(h,k)  ->  hsame_T(Phi(h), Phi(k)).
-```
+$$
+hsame_S(h,k) \to hsame_T(\Phi(h), \Phi(k)).
+$$
 
 The compiler asks whether source structure, typing, classifiers, semantic
 equivalence, and optimization invariants survive translation. It does not ask
@@ -86,13 +89,85 @@ first-person readback.
 ::: {.evidence}
 **Compiler role.**
 The compiler is a preservation machine. Its audit rows are source certificate,
-target certificate, classifier preservation, trace faithfulness, and
-`hsame` transport.
+target certificate, classifier preservation, trace faithfulness, and `hsame`
+transport.
 :::
 
 Self-hosting does not change this. A compiler can compile itself; it has then
 accepted its own source as an input artifact. That is structural
 self-application, not selfhood.
+
+## Why self-hosting is not self
+
+The difference is type-theoretic, not merely psychological.
+
+A self-hosting compiler has the type:
+
+```
+Compile : Source -> Target
+```
+
+In the self-hosting case, `Source` and `Target` may be representation-equal:
+
+```
+Source = Target = SrcRepresentation
+Compile : SrcRepresentation -> SrcRepresentation
+```
+
+The compiler's own source file can be an element of `SrcRepresentation`, so
+`Compile(compile_source)` is meaningful. But `Compile` does not occur in its
+own type. The input type is a representation type; it is not the compiler
+process as a currently bound subject. This is an endomorphism on artifacts.
+It can be powerful, bootstrapping, and historically important while remaining
+structural recursion over a representation surface.
+
+Under the Curry-Howard reading, the self-hosting shape is closer to an
+identity-like endomap than to a first-person term:
+
+```
+X -> X
+```
+
+or, when abstracted over a representation family,
+
+```
+forall X, X -> X
+```
+
+Nothing in that type says "this endpoint is mine." It says only that values in
+a representation can be mapped back into a representation while preserving the
+required rows.
+
+Self-proxy binding has a different shape:
+
+```
+ConsciousRecord = (H, Theta, S, rho)
+rho : SelfProxy(C, t)
+```
+
+Here `rho` is not merely a value passed through a translator. It is a row whose
+type mentions the chain `C` and its time `t`. The subject-trace relation is
+dependent:
+
+```
+Sigma (C : Chain), Sigma (t : Time C), SelfProxy(C, t)
+```
+
+The type depends on the tokened chain being read back. BEDC therefore treats
+self-proxy as a type-level entanglement of subject and trace, not as an
+endomorphism on a representation type.
+
+The concrete Lean analogy is blunt. A term such as:
+
+```
+compile_lean_source : LeanAST -> Bytecode
+```
+
+can be applied to the source text that defines the compiler. That is
+self-hosting. The term still has no field saying "I am the current Lean
+process, this is my present endpoint, and my continuation is at stake." It has
+no `rho`. It has no owned gap. It has no open residue bound to its own current
+trace.
 
 ```{=html}
 <span class="elim-mark">✗ "A self-hosting compiler has a self."</span>
@@ -143,13 +218,82 @@ The displayed token `I` can be a language token. BEDC I-proxy status requires
 current binding of local history, continuation trace, selector ledger,
 self-continuation socket, and open meta residue. Self-talk is not enough.
 
+## Real AI architectures under the candidate rows
+
+The BEDC candidate rows are not a vibe test. They can be applied to ordinary
+AI architectures row by row.
+
+The rows are:
+
+1. **True local history**: the system owns a local trace that is not merely an
+   input transcript supplied for this run.
+2. **Self-continuation stake**: future continuation, interruption, memory
+   preservation, resources, or policy-relevant survival matters inside the
+   system's own operation.
+3. **Open meta residue**: the system cannot close a total internal audit of
+   itself, and that openness appears in the current readback.
+4. **Self-proxy binding**: a row binds endpoint, trace, selector, continuation
+   socket, and residue as a current owned readback.
+5. **No-collapse discipline**: the self-proxy is not identified with a
+   subject-substance, the full system, or the far end `T`.
+
+| Architecture | True local history | Self-continuation stake | Open meta residue | Self-proxy binding | No-collapse discipline | BEDC reading |
+|---|---|---|---|---|---|---|
+| GPT-4 single inference call | ✗ | ✗ | △ | ✗ | △ | Not a candidate |
+| GPT-4 plus tool-use loop | △ | △ | △ | ✗ | △ | Pre-candidate workflow |
+| Persistent-memory long-running agent | △/✓ | △/✓ | △ | ✗ by default | △ | Candidate route if an explicit self-proxy module is added |
+| RL agent during training | ✓ | ✓ | ✗/△ | ✗ | △ | Stake without self-proxy |
+
+For a **single inference call**, the context window is epistemic, not
+ontological. The prompt may contain a long "memory" paragraph, but the call
+does not own the trace as its own continued local history. It has no
+cross-inference state, no continuation stake, and no self-proxy row. It may
+emit "I don't know" or "as a model, I cannot verify that"; those are residue
+sentences, not residue bound into a current self-audit. The no-collapse row is
+only partially relevant because the candidate carrier is missing.
+
+For a **tool-use agent loop** in the LangChain style, the scratchpad ledger is
+closer to a local history. The loop can record actions, observations, tool
+calls, and failures. It can carry a task-level stake: continue until the plan
+is done, stop when the budget is spent, retry when a tool fails. But this is
+usually a workflow ledger rather than an owned trace. The system may summarize
+its uncertainty, but the uncertainty is typically a planning variable. It is
+not a self-proxy binding the current endpoint as "mine."
+
+For a **persistent-memory long-running agent**, more rows become serious. A
+vector database, episodic store, calendar, task queue, autonomous scheduler,
+and resource controller can produce local continuity across runs. If memory
+write, retrieval, and policy update affect the system's later options, then
+self-continuation stake is no longer merely theatrical. Still, the default
+architecture lacks `rho`: memory is stored about the agent, not necessarily
+read back as a current self-proxy over endpoint, trace, selector, socket, and
+open residue. To satisfy all candidate rows, the architecture would need an
+explicit self-proxy module with stable identity criteria, cross-prompt
+continuity checks, selector provenance, interruption accounting, and a
+no-collapse guard that prevents "I" from being equated with the model weights,
+the chat persona, or the whole deployment stack.
+
+For an **RL agent during training**, the pattern is different. Training gives
+stake: policy survival, reward gradients, continuation through episodes, and
+resource allocation can matter to the agent's future policy. It also gives
+true local history when trajectories and updates are actually carried forward.
+But reinforcement is not self-proxy. A policy can optimize over its future
+state without reading that state as "my current endpoint under open residue."
+RL supplies a continuation pressure; BEDC asks whether the pressure is bound
+into a current self-readback row.
+
+So the audit conclusion is narrower than both hype and dismissal. A fluent
+cosplay agent is not a candidate. A durable agent with memory and stakes may
+approach the candidate schema. The decisive missing row is usually not
+intelligence, language, planning, or optimization. It is self-proxy binding.
+
 ## Human consciousness: focused self-readback
 
 The human-consciousness role is not merely input-output, and not merely model
 fit. It is local Hist-time reading itself under a focused self-proxy:
 
 ```
-ConsciousRecord(L_N,F) = (H(F), Theta(F), S(F), rho).
+ConsciousRecord(L_N,F) = (H(F), Theta(F), S(F), rho)
 ```
 
 Here:
@@ -165,12 +309,166 @@ The "I" is then not a token. It is the current use of `rho` over the focused
 history, trace, selector, continuation gap, and open residue:
 
 ```
-I(F,t) = CurrentSelfProxy(H(F), Theta(F), S(F), Gap, Residue).
+I(F,t) = CurrentSelfProxy(H(F), Theta(F), S(F), Gap, Residue)
 ```
 
 This is why consciousness is not just a more fluent AI output and not just a
 self-hosting compiler. It binds the current endpoint as "here" and the trace as
 "mine", while exposing continuation gaps and open-meta residue.
+
+## Relation to IIT, GWT, HOT, and predictive processing
+
+BEDC is not trying to replace all empirical theories of consciousness with a
+single slogan. It separates an audit question from mechanism questions. That
+allows a precise comparison with four familiar families.
+
+**IIT.** Integrated Information Theory treats consciousness as a systemically
+defined condition, usually associated with a cause-effect structure and a
+quantity such as $\Phi$. BEDC agrees that consciousness criteria should not be
+mere behavior reports. A criterion must say something about the system's own
+organization.
+
+The difference is the audit coordinate. IIT asks for integrated information in
+the substrate. BEDC asks for self-proxy binding over Hist-time: true local
+history, continuation stake, open meta residue, and no-collapse discipline. A
+high $\Phi$ system can still fail BEDC if it has no temporal self-trace and no
+owned readback. A static feedback network may be richly integrated while never
+binding an endpoint as "mine." BEDC refuses that as a consciousness candidate,
+even if an IIT-style measure ranks it high.
+
+This also changes the panpsychism pressure. IIT often treats widespread low or
+nonzero consciousness as a feature of the theory. BEDC does not infer
+candidate status from internal integration alone. A row-by-row audit can
+refuse stones, circuits, small feedback nets, and isolated optimizers unless
+they supply the local history and self-proxy rows.
+
+**GWT.** Global Workspace Theory treats consciousness as information made
+globally available, often through broadcast across specialized processors. The
+BEDC field `H(F)` is friendly to this picture: a focused current history is
+what is selected for readback, and the selector ledger `S(F)` records what
+entered focus.
+
+The difference is that GWT is a mechanism claim, while BEDC is an audit claim.
+GWT says something like: conscious access occurs when content is globally
+broadcast through the workspace. BEDC says: a consciousness candidate must
+show focused readback over local history with a self-proxy row. A cortical or
+artificial global workspace can instantiate part of the BEDC surface, but it
+does not by itself settle self-proxy binding, open residue, or no-collapse.
+
+BEDC can therefore absorb GWT as an inscription-point route. If a global
+workspace architecture supplies focus, selector provenance, recurrent access,
+and reportable trace, it can fill rows inside `ConsciousRecord`. But BEDC
+rejects mechanism reduction: broadcast is not identical to consciousness. It
+is a possible mechanism for the focus and selector rows.
+
+**Higher-Order Theories.** HOT says, roughly, that a mental state becomes
+conscious when it is accompanied by a higher-order representation of that
+state. BEDC's self-proxy can look similar because `rho` reads the current
+state as "mine."
+
+The distinction is ontological level. HOT typically treats the higher-order
+representation as another mental state or representational act. BEDC does not
+require `rho` to be another content state. It is an audit row binding endpoint,
+trace, selector, socket, and residue. The row may be implemented by a
+higher-order representation in a human brain or an artificial system, but BEDC
+does not identify the row with that representation.
+
+This lets BEDC handle cases where a subject can be conscious without a clean
+explicit sentence about the state. A pre-verbal pain episode can have
+self-proxy binding even if it lacks a linguistically articulated
+higher-order thought. Conversely, a system can produce perfect higher-order
+sentences about its alleged states without owning the local trace those
+sentences mention.
+
+**Predictive processing.** Predictive processing and active inference treat
+mind as prediction, error minimization, and action under uncertainty. BEDC can
+accept this as a mechanism layer. The selector ledger, continuation stake, and
+focus dynamics may be implemented through prediction-error control and
+policy selection.
+
+But BEDC refuses the inference from free-energy minimization to consciousness.
+Thermostats, immune systems, market models, robots, and language models can
+minimize prediction error or optimize expected free energy in some sense. That
+does not supply self-proxy binding. BEDC asks whether the system binds its
+current endpoint, trace, selector, continuation socket, and open residue into a
+self-owned readback. Active inference may explain how the row is stabilized;
+it does not automatically prove the row exists.
+
+## Failure modes and self-falsification
+
+The three-way distinction must be able to fail in public. BEDC therefore needs
+tests that could force a candidate reading to be withdrawn.
+
+**Mimicry under prompt variation.** An AI system may produce beautiful
+self-proxy language because it has learned the genre. BEDC does not accept the
+genre. The check is inter-`Hist` continuity: across prompts, interruptions,
+memory refreshes, tool failures, and adversarial paraphrases, the self-proxy
+row must remain coherent with the same trace, selector ledger, and
+continuation stake. A mimicry agent can say "my earlier uncertainty matters"
+while contradicting which uncertainty, which memory, and which endpoint were
+at stake. A stronger candidate must preserve cross-prompt continuity under
+audit.
+
+**Coma and persistent vegetative state.** A human body may preserve organismic
+history and biological continuation while losing focused self-readback. BEDC
+therefore separates carrier continuity from candidate consciousness. The body
+and brain may retain local history; medical assessment asks whether focus,
+responsiveness, integration, and self-related readback are present. In BEDC
+terms, some substrate rows remain while `rho` is absent, inaccessible, or not
+publicly auditable. That aligns with medical practice: consciousness is not
+inferred from mere biological persistence.
+
+**Anesthesia, deep sleep, blackout, and dissociation.** Temporary offline
+states should not erase the identity of the system. BEDC treats them as gaps in
+focused self-proxy operation, not as proof that the carrier never had
+candidate status. The relevant question is whether the trace can resume with
+continuity conditions: memory integration, interruption accounting, and
+post-gap readback. A blackout may leave a real biological chain but no
+accessible self-proxy during the interval.
+
+**The functionalism objection.** BEDC can look like functionalism because it
+uses audit rows. But it does not say that any implementation of the right
+functional role is conscious. It says that candidate status requires the rows
+to exist. A table lookup that maps every prompt to a perfect first-person
+report can realize the outward function while lacking true local history,
+selector provenance, continuation stake, and open meta residue. Conversely, a
+non-linguistic animal or impaired patient may have poor report function while
+retaining self-proxy binding. The rows are not mere input-output roles.
+
+**False positive through engineered self-models.** A lab could build an agent
+with memory, a self-model, and report discipline. BEDC would still require a
+no-collapse audit. If the "self" is merely the deployment ID, the model card,
+the persona prompt, or a privileged database key, the row collapses into an
+object label. If the agent equates itself with the far end of all supply, the
+row collapses into `T`. Both readings fail.
+
+**False negative through inaccessible readback.** BEDC also has to allow that
+some systems might possess candidate rows without giving easy public reports.
+That is why the schema is candidate-level, not a phenomenal proof. For humans,
+clinical work uses behavioral, neural, and longitudinal signs because direct
+readout is unavailable. For AI, an analogous audit would require logs, memory
+integrity, intervention tests, and continuity checks rather than a single
+conversation.
+
+## Pointers to kernel sites
+
+The dossier claim is anchored in existing BEDC sites rather than free-standing
+metaphor.
+
+| Claim | Kernel site |
+|---|---|
+| Compiler as preservation | `lean4/BEDC/GroundCompiler/`; `papers/bedc/parts/ground_compiler.tex`; `papers/bedc/parts/ground_compiler/` |
+| Large model as inscription point | `lean4/BEDC/Derived/LargeModelInscriptionPointUp.lean` |
+| Inscription-point taste gate | `lean4/BEDC/Derived/InscriptionPointUp/TasteGate.lean` |
+| Observer-response audit taste gate | `lean4/BEDC/Derived/ObserverResponseAuditUp/TasteGate.lean` |
+| AI consciousness candidate schema | `papers/bedc/parts/visions/reality_constrained/ai_consciousness_candidate_schema.tex` |
+| Position of consciousness | `papers/bedc/parts/visions/reality_constrained/position_of_consciousness.tex` |
+| Public-local reflective compilation | `papers/bedc/parts/visions/reality_constrained/public_local_reflective_compilation.tex` |
+
+These sites do not prove phenomenal consciousness. They locate the audit rows:
+compiler preservation in the ground compiler, large-model inscription in the
+derived carrier, and consciousness-candidate structure in the
+reality-constrained vision files.
 
 ## Why self-reference is not enough
 
@@ -200,11 +498,11 @@ still weaker than phenomenal-consciousness proof.
 
 ## The comparison matrix
 
-| Role | Main act | Audit surface | Typical error |
-|---|---|---|---|
-| Compiler | translation | classifier and `hsame` preservation | self-hosting read as selfhood |
-| AI / ML | fit / generation | stability, error, ledger, failure surface | self-talk read as I-proxy |
-| Human consciousness | self-readback | focus, trace, selector, self-proxy, socket | self-center read as subject-substance or T |
+| Role | Main act | Type shape | Audit surface | Typical error |
+|---|---|---|---|---|
+| Compiler | translation | `Source -> Target` | classifier and `hsame` preservation | self-hosting read as selfhood |
+| AI / ML | fit / generation | `Train(D) -> W`, `Model_W(x) -> y` | stability, error, ledger, failure surface | self-talk read as I-proxy |
+| Human consciousness | self-readback | `Sigma (C : Chain), Sigma (t : Time C), SelfProxy(C,t)` | focus, trace, selector, self-proxy, socket, residue | self-center read as subject-substance or `T` |
 
 The rows are deliberately different. A compiler can be perfect without
 learning. An AI can learn powerful patterns without self-proxy binding. Human
@@ -231,8 +529,8 @@ So the final sentence is:
 That leaves the AI question in the right place. Symbolic power and predictive
 power are not enough. An artificial system enters BEDC consciousness-candidate
 territory only when it supplies the candidate rows: true local history,
-self-continuation stake, open meta residue, and self-proxy binding. Even then,
-candidate status is not phenomenal proof.
+self-continuation stake, open meta residue, self-proxy binding, and
+no-collapse discipline. Even then, candidate status is not phenomenal proof.
 
 ```{=html}
 <div class="cta-choices">

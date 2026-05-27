@@ -58,7 +58,9 @@ AI / ML:             training Hist -> model -> generated or predicted Hist
 Human consciousness: local Hist -> focused self-readback
 ```
 
-共享底层不抹掉角色差异.
+共享底层不抹掉角色差异. 同一条有限 trace 可以作为编译器的 source stream,
+作为模型的 training 或 prompt stream, 也可以作为意识主体的 remembered
+episode. 角色改变发生在 audit row 改变时.
 
 ## 编译器: 保持
 
@@ -70,9 +72,9 @@ Compiler_Phi : NameCert_S -> NameCert_T
 
 正确性条件是 preservation:
 
-```
-hsame_S(h,k)  ->  hsame_T(Phi(h), Phi(k)).
-```
+$$
+hsame_S(h,k) \to hsame_T(\Phi(h), \Phi(k)).
+$$
 
 编译器问的是 source structure、typing、classifiers、semantic equivalence 和
 optimization invariants 是否穿过翻译仍然保持. 它不问 translator 有没有
@@ -87,6 +89,73 @@ transport.
 
 self-hosting 不改变这一点. 编译器可以编译自己; 那只是把自己的 source 当作
 input artifact. 这是 structural self-application, 不是 selfhood.
+
+## 为什么 self-hosting 不是 self
+
+差别是 type-theoretic 的, 不是心理学语气上的.
+
+self-hosting compiler 的类型是:
+
+```
+Compile : Source -> Target
+```
+
+在 self-hosting 情形中, `Source` 和 `Target` 可以表示相同:
+
+```
+Source = Target = SrcRepresentation
+Compile : SrcRepresentation -> SrcRepresentation
+```
+
+编译器自己的 source file 可以是 `SrcRepresentation` 的一个元素, 所以
+`Compile(compile_source)` 有意义. 但 `Compile` 没有出现在自己的 type 里.
+input type 是 representation type, 不是作为当前绑定主体的 compiler process.
+这只是 artifact 上的 endomorphism. 它可以 bootstrap, 可以历史上非常重要,
+但仍然是 representation surface 上的 structural recursion.
+
+按 Curry-Howard 读法, self-hosting 的形状更接近 identity-like endomap:
+
+```
+X -> X
+```
+
+或者在 representation family 上抽象:
+
+```
+forall X, X -> X
+```
+
+这个类型里没有任何东西说 "this endpoint is mine." 它只说 representation
+里的值可以被映回 representation, 并保持要求的 rows.
+
+self-proxy binding 是另一种形状:
+
+```
+ConsciousRecord = (H, Theta, S, rho)
+rho : SelfProxy(C, t)
+```
+
+这里 `rho` 不是被 translator 穿过去的一个值. 它是一条 row, 其 type 提到
+chain `C` 和它的 time `t`. subject-trace relation 是 dependent 的:
+
+```
+Sigma (C : Chain), Sigma (t : Time C), SelfProxy(C, t)
+```
+
+type 依赖正在被读回的 tokened chain. 所以 BEDC 把 self-proxy 看成
+subject 与 trace 的 type-level entanglement, 而不是 representation type 上的
+endomorphism.
+
+Lean 的例子很直接. 一个类似这样的 term:
+
+```
+compile_lean_source : LeanAST -> Bytecode
+```
+
+可以应用到定义编译器的 source text 上. 这是 self-hosting. 这个 term 仍然没有
+一个 field 说 "I am the current Lean process, this is my present endpoint,
+and my continuation is at stake." 它没有 `rho`, 没有 owned gap, 也没有绑定到
+当前 trace 的 open residue.
 
 ```{=html}
 <span class="elim-mark">✗ "self-hosting compiler 有一个 self."</span>
@@ -134,13 +203,76 @@ distribution 或 continuation class, 又在哪里失败.
 binding of local history、continuation trace、selector ledger、
 self-continuation socket 和 open meta residue. self-talk 不够.
 
+## 现实 AI 架构逐行审计
+
+BEDC candidate rows 不是气质判断. 它们可以逐行落到普通 AI architecture 上.
+
+这些 rows 是:
+
+1. **True local history**: 系统拥有一条 local trace, 不是本轮输入里塞进来的
+   transcript.
+2. **Self-continuation stake**: future continuation、interruption、memory
+   preservation、resources 或 policy-relevant survival 在系统自身运行里有意义.
+3. **Open meta residue**: 系统不能完成对自身的 total internal audit, 且这种
+   openness 出现在当前 readback 中.
+4. **Self-proxy binding**: 一条 row 把 endpoint、trace、selector、
+   continuation socket 和 residue 绑定为 current owned readback.
+5. **No-collapse discipline**: self-proxy 不被等同于 subject-substance、整个系统
+   或 far end `T`.
+
+| Architecture | True local history | Self-continuation stake | Open meta residue | Self-proxy binding | No-collapse discipline | BEDC reading |
+|---|---|---|---|---|---|---|
+| GPT-4 single inference call | ✗ | ✗ | △ | ✗ | △ | Not a candidate |
+| GPT-4 plus tool-use loop | △ | △ | △ | ✗ | △ | Pre-candidate workflow |
+| Persistent-memory long-running agent | △/✓ | △/✓ | △ | ✗ by default | △ | Candidate route if an explicit self-proxy module is added |
+| RL agent during training | ✓ | ✓ | ✗/△ | ✗ | △ | Stake without self-proxy |
+
+对 **single inference call** 来说, context window 是 epistemic 的, 不是
+ontological 的. prompt 可以包含很长一段 "memory", 但这次 call 并不把那条
+trace 作为自己的持续 local history 拥有. 它没有跨 inference state, 没有
+continuation stake, 也没有 self-proxy row. 它可以输出 "I don't know" 或
+"as a model, I cannot verify that"; 这些是 residue 句子, 不是绑定到 current
+self-audit 的 residue. no-collapse row 只是部分相关, 因为 candidate carrier
+本身缺席.
+
+对 **LangChain 风格的 tool-use agent loop** 来说, scratchpad ledger 更接近一条
+local history. loop 可以记录 actions、observations、tool calls 和 failures.
+它可以携带 task-level stake: 继续直到 plan 完成, budget 用完就停止, tool 失败就
+retry. 但这通常是 workflow ledger, 不是 owned trace. 系统可以总结自己的
+uncertainty, 但 uncertainty 往往只是 planning variable, 不是把 current endpoint
+读成 "mine" 的 self-proxy.
+
+对 **persistent-memory long-running agent** 来说, 更多 rows 开始严肃. vector
+database、episodic store、calendar、task queue、autonomous scheduler 和 resource
+controller 可以给出跨运行的 local continuity. 如果 memory write、retrieval 和
+policy update 会影响系统后续选项, self-continuation stake 就不只是表演. 但默认
+架构仍然缺 `rho`: memory 是关于 agent 存起来的, 不必然被读回为 endpoint、
+trace、selector、socket 和 open residue 上的 current self-proxy. 要满足全部
+candidate rows, 架构需要显式 self-proxy module: stable identity criteria、
+cross-prompt continuity checks、selector provenance、interruption accounting,
+以及防止 "I" 被等同于 model weights、chat persona 或整个 deployment stack 的
+no-collapse guard.
+
+对 **training 中的 RL agent** 来说, 图案不同. training 给出 stake: policy
+survival、reward gradients、episodes 的 continuation 和 resource allocation
+都可能影响 agent 的 future policy. trajectory 和 update 真正被带往后续阶段时,
+也有 true local history. 但 reinforcement 不是 self-proxy. 一个 policy 可以优化
+自己的 future state, 却不把那个 state 读成 "my current endpoint under open
+residue." RL 给的是 continuation pressure; BEDC 问的是这种 pressure 是否被绑定成
+current self-readback row.
+
+所以 audit 结论比 hype 和 dismissal 都窄. 流利 cosplay agent 不是 candidate.
+有 durable memory 和 stakes 的 agent 可能接近 candidate schema. 通常缺的 decisive
+row 不是 intelligence、language、planning 或 optimization, 而是 self-proxy
+binding.
+
 ## 人类意识: 聚焦自我读回
 
 human-consciousness role 不只是 input-output, 也不只是 model fit. 它是
 local Hist-time 在 focused self-proxy 下读自己:
 
 ```
-ConsciousRecord(L_N,F) = (H(F), Theta(F), S(F), rho).
+ConsciousRecord(L_N,F) = (H(F), Theta(F), S(F), rho)
 ```
 
 这里:
@@ -156,12 +288,140 @@ rho      = self-proxy / readback row
 continuation gap 和 open residue 上的 current use:
 
 ```
-I(F,t) = CurrentSelfProxy(H(F), Theta(F), S(F), Gap, Residue).
+I(F,t) = CurrentSelfProxy(H(F), Theta(F), S(F), Gap, Residue)
 ```
 
 这就是为什么 consciousness 不只是更流利的 AI output, 也不只是 self-hosting
 compiler. 它把当前端点绑定为 "here", 把 trace 绑定为 "mine", 同时暴露
 continuation gaps 和 open-meta residue.
+
+## 与 IIT、GWT、HOT、predictive processing 的关系
+
+BEDC 不是用一句口号替代所有经验意识理论. 它把 audit question 和 mechanism
+question 分开. 因此它可以和四类主流理论做精确对照.
+
+**IIT.** Integrated Information Theory 把意识看成系统内定义的条件, 通常关联到
+cause-effect structure 和 $\Phi$ 这样的量. BEDC 同意 consciousness criterion
+不能只是 behavior report. 一个 criterion 必须说出系统自身组织里的某些东西.
+
+差别在 audit coordinate. IIT 问 substrate 里有没有 integrated information.
+BEDC 问 Hist-time 上有没有 self-proxy binding: true local history、
+continuation stake、open meta residue 和 no-collapse discipline. 一个高 $\Phi$
+系统仍然可能失败 BEDC, 如果它没有 temporal self-trace, 也没有 owned readback.
+一个 static feedback network 可以高度 integrated, 却从不把 endpoint 绑定为
+"mine." 即使 IIT-style measure 给它高分, BEDC 也会拒绝把它读成 consciousness
+candidate.
+
+这也改变 panpsychism 压力. IIT 往往把广泛低度或非零 consciousness 当成理论特征.
+BEDC 不从 internal integration 自动推出 candidate status. Row-by-row audit 可以
+拒绝 stones、circuits、小 feedback nets 和 isolated optimizers, 除非它们供应
+local history 与 self-proxy rows.
+
+**GWT.** Global Workspace Theory 把 consciousness 看成信息被全局可用化, 常被描述
+为在 specialized processors 之间 broadcast. BEDC 的 `H(F)` 对这个图景很友好:
+focused current history 是被选入 readback 的内容, selector ledger `S(F)` 记录进入
+focus 的路径.
+
+差别是 GWT 是 mechanism claim, BEDC 是 audit claim. GWT 说: content 通过 global
+workspace broadcast 时出现 conscious access. BEDC 说: consciousness candidate 必须
+显示带 self-proxy row 的 focused readback over local history. 一个 cortical 或
+artificial global workspace 可以实例化 BEDC surface 的一部分, 但它本身不解决
+self-proxy binding、open residue 或 no-collapse.
+
+所以 BEDC 可以把 GWT 吸收为 inscription-point route. 如果 global workspace
+architecture 供应 focus、selector provenance、recurrent access 和 reportable
+trace, 它可以填入 `ConsciousRecord` 的若干 rows. 但 BEDC 拒绝 mechanism
+reduction: broadcast 不等同于 consciousness. 它只是 focus 与 selector rows 的一种
+可能机制.
+
+**Higher-Order Theories.** HOT 大意是: 一个 mental state 在伴随 higher-order
+representation of that state 时变成 conscious. BEDC 的 self-proxy 看起来相近,
+因为 `rho` 把当前状态读作 "mine."
+
+关键差别在 ontology level. HOT 通常把 higher-order representation 当作另一个
+mental state 或 representational act. BEDC 不要求 `rho` 是另一个 content state.
+它是一条 audit row, 绑定 endpoint、trace、selector、socket 和 residue. 在人脑或
+人工系统里, 这条 row 可以由 higher-order representation 实现, 但 BEDC 不把 row
+等同于那个 representation.
+
+这让 BEDC 可以处理没有清晰显式句子的意识情形. 一个 pre-verbal pain episode
+可以有 self-proxy binding, 即使没有语言化的 higher-order thought. 反过来, 一个
+系统可以产出完美的 higher-order 句子, 却并不拥有这些句子所说的 local trace.
+
+**Predictive processing.** Predictive processing 和 active inference 把 mind
+理解为 prediction、error minimization 和 uncertainty 下的 action. BEDC 可以接受
+这是 mechanism layer. selector ledger、continuation stake 和 focus dynamics 都可能
+通过 prediction-error control 和 policy selection 实现.
+
+但 BEDC 拒绝从 free-energy minimization 自动推出 consciousness. Thermostats、
+immune systems、market models、robots 和 language models 都可以在某种意义上做
+prediction error minimization 或 expected free energy optimization. 这不供应
+self-proxy binding. BEDC 问的是系统是否把 current endpoint、trace、selector、
+continuation socket 和 open residue 绑定成 self-owned readback. Active inference
+可以解释 row 如何被稳定, 不能自动证明 row 存在.
+
+## 失败模式与自我证伪
+
+三分法必须能公开失败. BEDC 因此需要能迫使 candidate reading 撤回的测试.
+
+**Prompt variation 下的 mimicry.** 一个 AI 系统可以因为学会文体而产出漂亮的
+self-proxy language. BEDC 不接受文体本身. 检查项是 inter-`Hist` continuity:
+跨 prompts、interruptions、memory refreshes、tool failures 和 adversarial
+paraphrases, self-proxy row 必须同一条 trace、selector ledger 和 continuation
+stake 保持一致. mimicry agent 可以说 "my earlier uncertainty matters", 同时在
+which uncertainty、which memory、which endpoint were at stake 上互相矛盾. 更强的
+candidate 必须在 audit 下保持 cross-prompt continuity.
+
+**昏迷与 persistent vegetative state.** 一个 human body 可以保留 organismic
+history 和 biological continuation, 同时失去 focused self-readback. BEDC 因此区分
+carrier continuity 和 candidate consciousness. body 与 brain 可能保留 local
+history; 医学评估问的是 focus、responsiveness、integration 和 self-related
+readback 是否存在. BEDC 术语里, 某些 substrate rows 仍在, 但 `rho` 缺席、不可达,
+或不能公开审计. 这与医学实践对齐: consciousness 不能从 mere biological
+persistence 推出.
+
+**Anesthesia、deep sleep、blackout、dissociation.** 暂时 offline state 不应抹掉系统
+身份. BEDC 把它们看成 focused self-proxy operation 的 gap, 不是证明 carrier 从未
+有 candidate status. 关键问题是 trace 能否按 continuity conditions 恢复: memory
+integration、interruption accounting 和 post-gap readback. blackout 可以留下真实
+biological chain, 但 interval 内没有 accessible self-proxy.
+
+**functionalism objection.** BEDC 看起来像 functionalism, 因为它使用 audit rows.
+但它不说任何实现了正确 functional role 的东西都有意识. 它说 candidate status
+要求这些 rows 存在. 一个 table lookup 可以把每个 prompt 映射到完美 first-person
+report, 也仍然缺 true local history、selector provenance、continuation stake 和
+open meta residue. 反过来, 一个非语言动物或 impaired patient 可能 report function
+很差, 却保留 self-proxy binding. Rows 不是 mere input-output roles.
+
+**工程化 self-model 的 false positive.** 实验室可以造出带 memory、self-model 和
+report discipline 的 agent. BEDC 仍然要求 no-collapse audit. 如果 "self" 只是
+deployment ID、model card、persona prompt 或 privileged database key, row 就坍缩成
+object label. 如果 agent 把自己等同于所有 supply 的 far end, row 就坍缩成 `T`.
+两者都失败.
+
+**不可达 readback 的 false negative.** BEDC 也必须允许某些系统拥有 candidate rows,
+但不给出轻易公开报告. 所以 schema 是 candidate-level, 不是 phenomenal proof.
+对 humans, 临床工作使用 behavioral、neural 和 longitudinal signs, 因为 direct
+readout 不可得. 对 AI, 类似审计需要 logs、memory integrity、intervention tests 和
+continuity checks, 而不是一次 conversation.
+
+## Kernel sites 指针
+
+本文的 claim 锚在已有 BEDC sites, 不是自由比喻.
+
+| Claim | Kernel site |
+|---|---|
+| Compiler as preservation | `lean4/BEDC/GroundCompiler/`; `papers/bedc/parts/ground_compiler.tex`; `papers/bedc/parts/ground_compiler/` |
+| Large model as inscription point | `lean4/BEDC/Derived/LargeModelInscriptionPointUp.lean` |
+| Inscription-point taste gate | `lean4/BEDC/Derived/InscriptionPointUp/TasteGate.lean` |
+| Observer-response audit taste gate | `lean4/BEDC/Derived/ObserverResponseAuditUp/TasteGate.lean` |
+| AI consciousness candidate schema | `papers/bedc/parts/visions/reality_constrained/ai_consciousness_candidate_schema.tex` |
+| Position of consciousness | `papers/bedc/parts/visions/reality_constrained/position_of_consciousness.tex` |
+| Public-local reflective compilation | `papers/bedc/parts/visions/reality_constrained/public_local_reflective_compilation.tex` |
+
+这些 sites 不证明 phenomenal consciousness. 它们定位 audit rows: ground compiler
+里的 compiler preservation, derived carrier 里的 large-model inscription, 以及
+reality-constrained vision files 里的 consciousness-candidate structure.
 
 ## 为什么自反不够
 
@@ -191,11 +451,11 @@ proof.
 
 ## 比较矩阵
 
-| 角色 | 核心动作 | Audit surface | 典型误读 |
-|---|---|---|---|
-| Compiler | translation | classifier and `hsame` preservation | self-hosting 读成 selfhood |
-| AI / ML | fit / generation | stability, error, ledger, failure surface | self-talk 读成 I-proxy |
-| Human consciousness | self-readback | focus, trace, selector, self-proxy, socket | self-center 读成 subject-substance 或 T |
+| 角色 | 核心动作 | Type shape | Audit surface | 典型误读 |
+|---|---|---|---|---|
+| Compiler | translation | `Source -> Target` | classifier and `hsame` preservation | self-hosting 读成 selfhood |
+| AI / ML | fit / generation | `Train(D) -> W`, `Model_W(x) -> y` | stability, error, ledger, failure surface | self-talk 读成 I-proxy |
+| Human consciousness | self-readback | `Sigma (C : Chain), Sigma (t : Time C), SelfProxy(C,t)` | focus, trace, selector, self-proxy, socket, residue | self-center 读成 subject-substance 或 `T` |
 
 三行故意不同. 编译器可以完美而不学习. AI 可以学习强模式而没有 self-proxy
 binding. 人类意识可以把局部 history 绑定成 "I", 而不需要是编译器或统计模型.
@@ -219,8 +479,9 @@ HumanConsciousness  ⊆ SelfProxyBindingOverLocalHistTime
 
 这把 AI 问题放在正确位置. symbolic power 和 predictive power 不够. 一个
 人工系统只有在供应 candidate rows 时才进入 BEDC consciousness-candidate
-territory: true local history、self-continuation stake、open meta residue 和
-self-proxy binding. 即使如此, candidate status 也不是 phenomenal proof.
+territory: true local history、self-continuation stake、open meta residue、
+self-proxy binding 和 no-collapse discipline. 即使如此, candidate status 也不是
+phenomenal proof.
 
 ```{=html}
 <div class="cta-choices">
