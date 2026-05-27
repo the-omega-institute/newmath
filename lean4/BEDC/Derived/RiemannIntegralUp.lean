@@ -187,4 +187,71 @@ theorem RiemannIntegralCarrier_scope_closure_package [AskSetup] [PackageSetup]
     ⟨cert, mUnary, tUnary, fUnary, sUnary, dUnary, gUnary, rUnary, consumerUnary, mtf, fsd,
       dgr, gapRealConsumer, provenancePkg, consumerPkg⟩
 
+theorem RiemannIntegralCarrier_tagged_sum_totality [AskSetup] [PackageSetup]
+    {M T F S D G R H C P N tagRead sumRead sumConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RiemannIntegralPacket M T F S D G R H C P N bundle pkg →
+      Cont M T tagRead →
+        Cont F S sumRead →
+          Cont sumRead H sumConsumer →
+            PkgSig bundle sumConsumer pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row sumRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row M ∨ hsame row T ∨ hsame row F ∨ hsame row S ∨
+                      Cont F S sumRead)
+                  (fun row : BHist =>
+                    PkgSig bundle P pkg ∧ PkgSig bundle sumConsumer pkg ∧ hsame row sumRead)
+                  hsame ∧
+                UnaryHistory tagRead ∧ UnaryHistory sumRead ∧ UnaryHistory sumConsumer ∧
+                  Cont M T tagRead ∧ Cont F S sumRead ∧ Cont sumRead H sumConsumer ∧
+                    PkgSig bundle sumConsumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro packet meshTagRead finiteSumRead consumerRoute consumerPkg
+  obtain ⟨mUnary, tUnary, fUnary, sUnary, _dUnary, _gUnary, _rUnary, hUnary,
+    _cUnary, _pUnary, _nUnary, _mtf, _fsd, _dgr, provenancePkg, _namePkg⟩ := packet
+  have tagReadUnary : UnaryHistory tagRead :=
+    unary_cont_closed mUnary tUnary meshTagRead
+  have sumReadUnary : UnaryHistory sumRead :=
+    unary_cont_closed fUnary sUnary finiteSumRead
+  have sumConsumerUnary : UnaryHistory sumConsumer :=
+    unary_cont_closed sumReadUnary hUnary consumerRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sumRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row T ∨ hsame row F ∨ hsame row S ∨ Cont F S sumRead)
+          (fun row : BHist =>
+            PkgSig bundle P pkg ∧ PkgSig bundle sumConsumer pkg ∧ hsame row sumRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sumRead ⟨hsame_refl sumRead, sumReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        have otherSame : hsame other sumRead :=
+          hsame_trans (hsame_symm sameRows) source.left
+        have otherUnary : UnaryHistory other :=
+          unary_transport source.right sameRows
+        exact ⟨otherSame, otherUnary⟩
+    }
+    pattern_sound := by
+      intro _row _source
+      exact Or.inr (Or.inr (Or.inr (Or.inr finiteSumRead)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, consumerPkg, source.left⟩
+  }
+  exact
+    ⟨cert, tagReadUnary, sumReadUnary, sumConsumerUnary, meshTagRead, finiteSumRead,
+      consumerRoute, consumerPkg⟩
+
 end BEDC.Derived.RiemannIntegralUp
