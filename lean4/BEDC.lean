@@ -5229,6 +5229,7 @@ import BEDC.Derived.RealPlaneUp
 import BEDC.Derived.RealPolynomialUp.TasteGate
 import BEDC.Derived.RealPowerSeriesUp
 import BEDC.Derived.RealPowerSeriesUp.CauchyProductHandoff
+import BEDC.Derived.RealPowerSeriesUp.MajorantConsumerCoverage
 import BEDC.Derived.RealPowerSeriesUp.RadiusObligation
 import BEDC.Derived.RealPowerSeriesUp.TasteGate
 import BEDC.Derived.RealRationalApproximationUp.TasteGate
@@ -5640,6 +5641,7 @@ import BEDC.Derived.RegularCauchyScalarUp.RealHandoff
 import BEDC.Derived.RegularCauchyScalarUp.TasteGate
 import BEDC.Derived.RegularCauchyScaleUp
 import BEDC.Derived.RegularCauchyScaleUp.ObligationScopePackage
+import BEDC.Derived.RegularCauchyScaleUp.RealSealHandoffObligation
 import BEDC.Derived.RegularCauchyScaleUp.ScaleCarrierObligation
 import BEDC.Derived.RegularCauchyScaleUp.ScopedClosureRoute
 import BEDC.Derived.RegularCauchyScaleUp.ScopedRealConsumerBoundary
