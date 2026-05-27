@@ -243,6 +243,7 @@ import BEDC.Derived.ApproximationTowerResidueUp.HiddenSourceNonescape
 import BEDC.Derived.ApproximationTowerResidueUp.TasteGate
 import BEDC.Derived.ApproximationUp
 import BEDC.Derived.ArchimedeanBracketUp.TasteGate
+import BEDC.Derived.ArchimedeanCauchyTailUp.TasteGate
 import BEDC.Derived.ArchimedeanModulusUp.NameCertObligations
 import BEDC.Derived.ArchimedeanModulusUp.TasteGate
 import BEDC.Derived.ArchimedeanOrderedFieldUp.TasteGate
@@ -5243,9 +5244,11 @@ import BEDC.Derived.RealPlaneUp
 import BEDC.Derived.RealPolynomialUp.TasteGate
 import BEDC.Derived.RealPowerSeriesUp
 import BEDC.Derived.RealPowerSeriesUp.CauchyProductHandoff
+import BEDC.Derived.RealPowerSeriesUp.EndpointSealFactorization
 import BEDC.Derived.RealPowerSeriesUp.MajorantConsumerCoverage
 import BEDC.Derived.RealPowerSeriesUp.RadiusMajorantCoverage
 import BEDC.Derived.RealPowerSeriesUp.RadiusObligation
+import BEDC.Derived.RealPowerSeriesUp.RootEndpointNonescape
 import BEDC.Derived.RealPowerSeriesUp.TasteGate
 import BEDC.Derived.RealRationalApproximationUp.TasteGate
 import BEDC.Derived.RealRootBracketUp.TasteGate
@@ -6736,6 +6739,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.RootZeroLedgerTotality
 import BEDC.Derived.ZetaContinuationWitnessUp.RouteCarrierAdmission
 import BEDC.Derived.ZetaContinuationWitnessUp.RouteClassifierStability
 import BEDC.Derived.ZetaContinuationWitnessUp.RouteStabilityBudget
+import BEDC.Derived.ZetaContinuationWitnessUp.ScopedRoutePackage
 import BEDC.Derived.ZetaContinuationWitnessUp.SourceLockCoverage
 import BEDC.Derived.ZetaContinuationWitnessUp.SourceLockTriad
 import BEDC.Derived.ZetaContinuationWitnessUp.SourceRouteScopedTotality
