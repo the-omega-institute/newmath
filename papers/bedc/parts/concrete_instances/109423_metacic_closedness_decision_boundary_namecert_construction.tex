@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICClosednessDecisionBoundaryUp$}
+\label{ch:concrete-instances-metacic-closedness-decision-boundary-namecert}
+\origin{ai}
+
+The $\MetaCICClosednessDecisionBoundaryUp$ packet realizes the closedness-decision warning of \autoref{ch:metacic-decidable-audit-map} as finite NameCert data. It sits beside the decidability audit packet of \autoref{ch:concrete-instances-metacicdecidableauditpacket-namecert}, the bounded normal-equality checker of \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, the bounded fuel trace of \autoref{ch:concrete-instances-metacic-fuel-trace-namecert}, and the closed type-checker seal of \autoref{ch:concrete-instances-closed-type-checker-seal-namecert}. The packet names the boundary where closedness evidence can be consumed without exporting a theorem of the form \texttt{Decidable (ClosedAt n t)} or unrestricted closed-term beta-conversion decidability.
+
+\falsifiablePrediction{A consumer of $\MetaCICClosednessDecisionBoundaryUp$ cannot derive unrestricted closed-term beta-conversion decidability from this packet alone; every accepted read exposes decidability-audit, bounded-normal-equality, fuel-trace, closed-type-checker, closedness-boundary, refusal, transport, replay, provenance, and local $\NameCert$ rows before any conversion-facing handoff.}
+
+\independenceWitness{metacicdecidableauditpacket, boundednormalequalitychecker, metacicfueltrace, closedtypecheckerseal: the audit packet records checker scope without this closedness boundary row; the bounded normal-equality checker records finite fuel comparison without a global closedness decision; the fuel trace records bounded normalizer fuel without unrestricted conversion completeness; and the closed type-checker seal records checked typing without a standalone closedness decider. None is bijective to $\MetaCICClosednessDecisionBoundaryUp$.}
+
+\begin{definition}[MetaCIC closedness decision boundary carrier]
+\label{def:metacic-closedness-decision-boundary-carrier}
+A $\MetaCICClosednessDecisionBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,Q,F,S,Z,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\MetaCICDecidableAuditPacketUp$ row exposing the checked typing and bounded conversion audit surface.
+\item $Q$ is the $\BoundedNormalEqualityCheckerUp$ row exposing bounded normal-form comparison.
+\item $F$ is the $\MetaCICFuelTraceUp$ row exposing the finite fuel budget and bounded normalizer endpoint data.
+\item $S$ is the $\ClosedTypeCheckerSealUp$ row exposing closed typing-checker reads.
+\item $Z$ is the closedness-boundary row naming the available finite closedness evidence and the absence of a global \texttt{Decidable (ClosedAt n t)} export.
+\item $O$ is the refusal row for unrestricted closed-term beta-conversion decidability, arbitrary-fuel completeness, evaluator equality, quotient syntax equality, subject reduction, confluence, and kernel consistency.
+\item $H$ records componentwise $\hsame$ transport for $A,Q,F,S,Z,O$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from a closedness-facing query through $A,Q,F,S,Z,O,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICClosednessDecisionBoundaryUp$, $\MetaCICDecidableAuditPacketUp$, $\BoundedNormalEqualityCheckerUp$, $\MetaCICFuelTraceUp$, $\ClosedTypeCheckerSealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetaCICClosednessDecisionBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $A,Q,F,S,Z,O,H,C,P,N$. It has no coordinate for unrestricted closed-term beta-conversion decidability, arbitrary-fuel completeness, evaluator equality, quotient syntax equality, subject reduction, confluence, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC closedness decision boundary NameCert obligations]
+\label{thm:metacic-closedness-decision-boundary-namecert-obligations}
+For every accepted $\MetaCICClosednessDecisionBoundaryUp$ carrier
+$$
+B=(A,Q,F,S,Z,O,H,C,P,N),
+$$
+the local $\NameCert_{\MetaCICClosednessDecisionBoundaryUp}$ surface consists exactly of decidability-audit exposure through $A$, bounded normal-equality exposure through $Q$, finite fuel-trace exposure through $F$, closed type-checker seal exposure through $S$, closedness-boundary exposure through $Z$, refusal retention through $O$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-closedness-decision-boundary-carrier}. Rows $A,Q,F,S$ are the sibling checker and bounded-computation surfaces, while $Z$ records the closedness boundary and $O$ records the refused endpoints.
+
+A closedness-facing read must pass through the audit packet, bounded checker, fuel trace, and closed type-checker seal before it can use $Z$. These rows provide finite checker evidence, but none contains a global \texttt{Decidable (ClosedAt n t)} theorem.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same boundary packet. Since no carrier coordinate contains unrestricted beta-conversion decidability, arbitrary-fuel completeness, evaluator equality, quotient syntax equality, subject reduction, confluence, or kernel consistency, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MetaCIC closedness decision boundary non-escape]
+\label{thm:metacic-closedness-decision-boundary-nonescape}
+Every consumer of an accepted $\MetaCICClosednessDecisionBoundaryUp$ carrier can cite only the finite route
+$$
+\MetaCICDecidableAuditPacketUp,\ \BoundedNormalEqualityCheckerUp,\ \MetaCICFuelTraceUp,\ \ClosedTypeCheckerSealUp,\ Z,O,H,C,P,N.
+$$
+The route preserves checked typing, bounded normal comparison, finite fuel tracing, and closed type-checker sealing while refusing unrestricted closed-term beta-conversion decidability and a standalone global closedness decision.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metacic-closedness-decision-boundary-namecert-obligations}. It forces every consumer to read the audit, bounded-checker, fuel-trace, and closed-type-checker rows before reading the local closedness-boundary row.
+
+The refusal row $O$ is part of the same carrier. It records that the packet does not export unrestricted closed-term beta-conversion decidability, arbitrary-fuel completeness, evaluator equality, quotient syntax equality, subject reduction, confluence, or kernel consistency.
+
+Transport and replay through $H$ and $C$, with provenance and naming through $P$ and $N$, preserve that boundary. The consumer therefore receives a finite closedness-decision boundary packet, not a global decision theorem.
+\end{proof}
+
+The Lean follow-up supplies $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances in \texttt{lean4/BEDC/Derived/MetaCICClosednessDecisionBoundaryUp/TasteGate.lean} by exhibiting distinct accepted and refused boundary packets and by matching on the rows $A,Q,F,S,Z,O,H,C,P,N$.
+
+\closureat{MetaCICClosednessDecisionBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICClosednessDecisionBoundaryUp}
+  \constructivestory{A $\MetaCICClosednessDecisionBoundaryUp$ packet is generated from MetaCICDecidableAuditPacket, BoundedNormalEqualityChecker, MetaCICFuelTrace, ClosedTypeCheckerSeal, closedness-boundary, refusal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-closedness-decision-boundary-carrier}, \autoref{thm:metacic-closedness-decision-boundary-namecert-obligations}, and \autoref{thm:metacic-closedness-decision-boundary-nonescape} seed the finite closedness-decision boundary for MetaCIC decidability consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim unrestricted closed-term beta-conversion decidability, a global \texttt{Decidable (ClosedAt n t)} theorem, arbitrary-fuel completeness, evaluator equality, quotient syntax equality, subject reduction, confluence, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, audit-packet exposure, bounded-normal checker exposure, fuel-trace exposure, closed-type-checker seal compatibility, closedness-boundary nonescape, refusal retention, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICClosednessDecisionBoundaryUp.}
+\end{closurestatus}
