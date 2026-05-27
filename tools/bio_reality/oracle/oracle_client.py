@@ -185,6 +185,8 @@ def run_session(
     intended_lane: str = "",
     pdf_base64: str = "",
     pdf_name: str = "",
+    existing_conversation_id: str = "",
+    close_on_exit: bool = True,
     server_url: str = DEFAULT_SERVER_URL,
     poll_timeout: int = 600,
     poll_interval: float = 5.0,
@@ -209,21 +211,32 @@ def run_session(
         }
     """
     turns: list[dict[str, Any]] = []
-    conversation_id = ""
+    conversation_id = str(existing_conversation_id or "")
     closed_reason = ""
     max_turns_reached = False
     current_prompt = initial_prompt
     total_turns = max(0, int(max_turns))
+    resumed = bool(conversation_id)
 
     try:
         for turn_index in range(total_turns):
-            if turn_index == 0:
+            if turn_index == 0 and not conversation_id:
                 task_id = submit_query(
                     current_prompt,
                     intended_claim_id=intended_claim_id,
                     intended_lane=intended_lane,
                     pdf_base64=pdf_base64,
                     pdf_name=pdf_name,
+                    server_url=server_url,
+                )
+            elif turn_index == 0 and conversation_id:
+                # Resuming an existing ChatGPT conversation across cycles.
+                task_id = continue_query(
+                    conversation_id,
+                    current_prompt,
+                    intended_claim_id=intended_claim_id,
+                    intended_lane=intended_lane,
+                    tag=topic,
                     server_url=server_url,
                 )
             else:
@@ -284,7 +297,7 @@ def run_session(
         elif not closed_reason:
             closed_reason = "session ended"
     finally:
-        if conversation_id:
+        if conversation_id and close_on_exit:
             close_conversation(conversation_id, server_url=server_url)
 
     return {
@@ -293,6 +306,8 @@ def run_session(
         "turns": turns,
         "closed_reason": closed_reason,
         "max_turns_reached": max_turns_reached,
+        "resumed": resumed,
+        "closed": bool(conversation_id and close_on_exit),
     }
 
 

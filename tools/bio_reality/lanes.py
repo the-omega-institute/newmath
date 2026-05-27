@@ -8,6 +8,7 @@ import fnmatch
 import hashlib
 import json
 import re
+import socket
 import subprocess
 import sys
 import tempfile
@@ -739,8 +740,16 @@ def _maybe_run_bio_g_oracle(store: BioRealityStore) -> dict[str, Any]:
     if not pdf_path.exists():
         pdf_path = None
     persist_dir = _resolve_repo_path(repo_root, config.get("persist_dir") or "tools/bio_reality/state/oracle_sessions")
+    server_url = str(config.get("server_url") or "http://127.0.0.1:8769")
+    server_host, server_port = _parse_server_host_port(server_url)
+    if server_host and server_port and not _localhost_available(server_host, server_port):
+        return _oracle_skip("oracle_server_unreachable")
+    if not _network_available():
+        return _oracle_skip("network_unreachable")
     claim_id, prompt = _bio_g_initial_prompt(store, candidate)
     topic = f"bio-G.review.{claim_id}"
+    topic_conversations = lane_state.get("topic_conversations") if isinstance(lane_state.get("topic_conversations"), dict) else {}
+    existing_conv_id = str(topic_conversations.get(topic) or "")
     result = oracle_consultation.run_oracle_consultation(
         repo_root,
         "bio-G",
@@ -753,15 +762,21 @@ def _maybe_run_bio_g_oracle(store: BioRealityStore) -> dict[str, Any]:
         server_url=str(config.get("server_url") or "http://127.0.0.1:8769"),
         poll_timeout=int(lane_config.get("poll_timeout_seconds") or 600),
         codex_judge_timeout=int(lane_config.get("codex_judge_timeout_seconds") or 240),
+        existing_conversation_id=existing_conv_id,
+        close_on_exit=False,
     )
     lane_state.update({"last_consulted_at": now_iso(), "last_topic": topic, "last_claim_id": claim_id})
     consulted_map = lane_state.get("consulted_claim_ids") if isinstance(lane_state.get("consulted_claim_ids"), dict) else {}
     consulted_map[claim_id] = now_iso()
     lane_state["consulted_claim_ids"] = consulted_map
+    new_conv_id = str(result.get("conversation_id") or "") if isinstance(result, dict) else ""
+    if new_conv_id:
+        topic_conversations[topic] = new_conv_id
+        lane_state["topic_conversations"] = topic_conversations
     state["bio-G"] = lane_state
     _write_oracle_state(store, state)
     _append_oracle_event(store, "bio-G", topic, result, intended_claim_id=claim_id, reason=("rotation_deep_review" if rotation_used else ""))
-    return {"oracle_consultations": 1, "oracle_turns_total": _turn_count(result), "oracle_skipped_reason": "", "oracle_rotation_used": rotation_used}
+    return {"oracle_consultations": 1, "oracle_turns_total": _turn_count(result), "oracle_skipped_reason": "", "oracle_rotation_used": rotation_used, "oracle_resumed": bool(existing_conv_id)}
 
 
 def _load_claims_document(path: Path) -> dict[str, Any]:
@@ -1093,7 +1108,15 @@ def _maybe_run_bio_plan_oracle(
     if not pdf_path.exists():
         pdf_path = None
     persist_dir = _resolve_repo_path(repo_root, config.get("persist_dir") or "tools/bio_reality/state/oracle_sessions")
+    server_url = str(config.get("server_url") or "http://127.0.0.1:8769")
+    server_host, server_port = _parse_server_host_port(server_url)
+    if server_host and server_port and not _localhost_available(server_host, server_port):
+        return _oracle_skip("oracle_server_unreachable")
+    if not _network_available():
+        return _oracle_skip("network_unreachable")
     topic, claim_id, prompt = _bio_plan_prompt(claims, phases_passed, trigger_event)
+    topic_conversations = lane_state.get("topic_conversations") if isinstance(lane_state.get("topic_conversations"), dict) else {}
+    existing_conv_id = str(topic_conversations.get(topic) or "")
     result = oracle_consultation.run_oracle_consultation(
         repo_root,
         "bio-Plan",
@@ -1106,12 +1129,18 @@ def _maybe_run_bio_plan_oracle(
         server_url=str(config.get("server_url") or "http://127.0.0.1:8769"),
         poll_timeout=int(lane_config.get("poll_timeout_seconds") or 600),
         codex_judge_timeout=int(lane_config.get("codex_judge_timeout_seconds") or 240),
+        existing_conversation_id=existing_conv_id,
+        close_on_exit=False,
     )
     lane_state.update({"last_consulted_at": now_iso(), "last_consulted_cycle": cycle, "last_topic": topic})
+    new_conv_id = str(result.get("conversation_id") or "") if isinstance(result, dict) else ""
+    if new_conv_id:
+        topic_conversations[topic] = new_conv_id
+        lane_state["topic_conversations"] = topic_conversations
     state["bio-Plan"] = lane_state
     _write_oracle_state(store, state)
     _append_oracle_event(store, "bio-Plan", topic, result, intended_claim_id=claim_id)
-    return {"oracle_consultations": 1, "oracle_turns_total": _turn_count(result), "oracle_skipped_reason": ""}
+    return {"oracle_consultations": 1, "oracle_turns_total": _turn_count(result), "oracle_skipped_reason": "", "oracle_resumed": bool(existing_conv_id)}
 
 
 def run_plan_lane(store: BioRealityStore) -> dict[str, Any]:
@@ -1737,8 +1766,42 @@ def _rev_list_ahead_behind(repo_root: Path, compare_ref: str) -> tuple[int, int]
     return int(parts[0]), int(parts[1])
 
 
+_NETWORK_PROBE_HOST = "github.com"
+_NETWORK_PROBE_PORT = 443
+_NETWORK_PROBE_TIMEOUT = 3.0
+
+
+def _network_available(host: str = _NETWORK_PROBE_HOST, port: int = _NETWORK_PROBE_PORT, timeout: float = _NETWORK_PROBE_TIMEOUT) -> bool:
+    try:
+        with socket.create_connection((host, port), timeout=timeout):
+            return True
+    except OSError:
+        return False
+
+
+def _localhost_available(host: str, port: int, timeout: float = 2.0) -> bool:
+    try:
+        with socket.create_connection((host, port), timeout=timeout):
+            return True
+    except OSError:
+        return False
+
+
+def _parse_server_host_port(url: str) -> tuple[str, int]:
+    try:
+        from urllib.parse import urlparse
+        parsed = urlparse(url)
+        host = parsed.hostname or "127.0.0.1"
+        port = int(parsed.port or (443 if parsed.scheme == "https" else 80))
+        return host, port
+    except (ValueError, TypeError):
+        return "", 0
+
+
 def run_sync_lane(store: BioRealityStore) -> dict[str, Any]:
     """Fetch origin/auto-dev, extract Loning's recent biology-related work, attempt fast-forward / no-ff merge."""
+    if not _network_available():
+        return {"lane": "bio-S", "skipped": "network_unreachable", "host": _NETWORK_PROBE_HOST, "port": _NETWORK_PROBE_PORT}
     try:
         config = _load_sync_lane_config()
     except (OSError, json.JSONDecodeError) as exc:
@@ -2104,6 +2167,9 @@ def run_keep_lane(store: BioRealityStore) -> dict[str, Any]:
     retries = int(config.get("max_push_retries") or 0)
     push_ok = False
     last_push_error = ""
+    if not _network_available():
+        _append_keep_log(store, "network_unreachable", {"remote": remote, "branch": branch, "commit_sha": commit_sha})
+        return {"lane": "bio-K", "committed": True, "pushed": False, "skipped_push": "network_unreachable", "files": len(selected), "dropped": len(dropped), "commit_sha": commit_sha}
     for attempt in range(retries + 1):
         try:
             push = _run_command(repo_root, ["git", "push", remote, f"HEAD:{branch}"], timeout=60.0)
@@ -4913,6 +4979,8 @@ def self_test() -> int:
             intended_lane: str = "",
             pdf_base64: str = "",
             pdf_name: str = "",
+            existing_conversation_id: str = "",
+            close_on_exit: bool = True,
             server_url: str = "",
             poll_timeout: int = 600,
             poll_interval: float = 5.0,
