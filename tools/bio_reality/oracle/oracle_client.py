@@ -66,7 +66,34 @@ def submit_query(
     server_url: str = DEFAULT_SERVER_URL,
     timeout_seconds: int = 60,
 ) -> str:
-    """Submit a query to the BioReality oracle. Returns task_id."""
+    """Submit a query to the BioReality oracle. Returns task_id only (backward compat).
+    For sessions that need the server-assigned conversation_id immediately use submit_query_full()."""
+    task_id, _conv_id = submit_query_full(
+        text,
+        intended_claim_id=intended_claim_id,
+        intended_lane=intended_lane,
+        pdf_base64=pdf_base64,
+        pdf_name=pdf_name,
+        server_url=server_url,
+        timeout_seconds=timeout_seconds,
+    )
+    return task_id
+
+
+def submit_query_full(
+    text: str,
+    *,
+    intended_claim_id: str = "",
+    intended_lane: str = "",
+    pdf_base64: str = "",
+    pdf_name: str = "",
+    server_url: str = DEFAULT_SERVER_URL,
+    timeout_seconds: int = 60,
+) -> tuple[str, str]:
+    """Submit a query and return (task_id, conversation_id). The server assigns conv_id
+    immediately at /tasks even before the userscript picks the task up — capturing it
+    here lets the caller persist conv_id for follow-up even if the later poll_result
+    times out before a response is posted back."""
     payload = {
         "text": text,
         "prompt": text,
@@ -79,8 +106,8 @@ def submit_query(
         payload["pdf_name"] = pdf_name or "main.pdf"
     data = _request_json("POST", server_url, "/tasks", payload, timeout_seconds)
     if data.get("status") == "error":
-        return ""
-    return str(data.get("task_id") or "")
+        return ("", "")
+    return (str(data.get("task_id") or ""), str(data.get("conversation_id") or ""))
 
 
 _PDF_CACHE: dict[str, Any] = {"path": None, "mtime": None, "b64": None, "name": None}
@@ -221,7 +248,7 @@ def run_session(
     try:
         for turn_index in range(total_turns):
             if turn_index == 0 and not conversation_id:
-                task_id = submit_query(
+                task_id, new_conv_id = submit_query_full(
                     current_prompt,
                     intended_claim_id=intended_claim_id,
                     intended_lane=intended_lane,
@@ -229,6 +256,10 @@ def run_session(
                     pdf_name=pdf_name,
                     server_url=server_url,
                 )
+                # Capture conv_id immediately from server's submit response so
+                # caller can persist it for follow-up even if poll_result times out.
+                if new_conv_id and not conversation_id:
+                    conversation_id = new_conv_id
             elif turn_index == 0 and conversation_id:
                 # Resuming an existing ChatGPT conversation across cycles.
                 task_id = continue_query(
