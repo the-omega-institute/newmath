@@ -69,6 +69,22 @@ The comparison row $M$ combines these displayed rows into the Gronwall bound. Si
 The Picard-facing row $F$ can now consume the bound. It receives only the displayed Lipschitz, envelope, dyadic majorant, regular-rational, and real-seal rows together with transport, replay, provenance, and local naming. Thus every Picard--Lindelof local-flow stability read factors through the stated route and cannot bypass it by invoking a host solver, host function equality, or a choice-selected solution curve.
 \end{proof}
 
+\begin{theorem}[Gronwall inequality finite integral bound]
+\label{thm:gronwall-inequality-finite-integral-bound}
+For every accepted $\GronwallInequalityUp$ carrier
+$$
+P=(I,L,E,D,M,F,R,H,C,G,N),
+$$
+the comparison row $M$ bounds each inspected envelope row in $E$ by the dyadic exponential-majorant row $D$ only after reading the interval row $I$, the Lipschitz row $L$, and the $\RegSeqRatUp$ readback row $R$. The Picard-facing row $F$ may consume that bound for local-flow stability, but it receives no host ODE solver, global continuation, selected solution curve, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier by \autoref{def:gronwall-inequality-carrier}. The rows $I,L,E,D,M,F,R$ are the only analytic coordinates available to a stability consumer, and the structural rows $H,C,G,N$ only transport, replay, source, and locally name those coordinates.
+
+Apply the obligation surface of \autoref{thm:gronwall-inequality-namecert-obligations} to the rows $D,E,M,R$. The dyadic majorant is admitted by $D$, the envelope reads are admitted by $E$, the rational observations are admitted by $R$, and the comparison stability row $M$ binds them only after the interval and Lipschitz rows have also been opened.
+
+Now route the resulting comparison through \autoref{thm:gronwall-inequality-picard-handoff}. The Picard-facing row $F$ receives the displayed finite bound through the same route, so it cannot import a host ODE solver, global continuation, selected solution curve, host function equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \falsifiablePrediction{Every $\GronwallInequalityUp$ stability read factors through one interval row, one LipschitzMap constant row, one nonnegative envelope row, one DyadicRatCore exponential-majorant row, one comparison row, one Picard-flow handoff, one RegSeqRat readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{picardlindelof, picardlindeloflocalflow, lipschitzmap, completemetric, real, regseqrat, dyadicratcore: $\GronwallInequalityUp$ is not bijective to any listed sibling because it jointly carries the interval, Lipschitz constant, nonnegative envelope, dyadic exponential majorant, Picard-flow comparison, rational readback, and the transport/replay/provenance rows binding them into a finite stability certificate.}
