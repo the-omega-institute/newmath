@@ -3499,7 +3499,6 @@ import BEDC.Derived.ForbiddenAxiomAncestryUp.TasteGate
 import BEDC.Derived.ForceInterHistRelationUp.TasteGate
 import BEDC.Derived.FormalBallCompletionUp.TasteGate
 import BEDC.Derived.FormalBallUp
-import BEDC.Derived.FormalBallUp.CenterRadiusAdmission
 import BEDC.Derived.FormalConstantEmpiricalValueBoundaryUp.TasteGate
 import BEDC.Derived.FormalTargetDependencyAuditUp.TasteGate
 import BEDC.Derived.ForwardBindingGapLedgerUp.TasteGate
@@ -4428,11 +4427,9 @@ import BEDC.Derived.MetricCompletionUp.ScopedDependencyPackage
 import BEDC.Derived.MetricCompletionUp.ScopedReadbackScope
 import BEDC.Derived.MetricCompletionUp.SeparatedBranchReadback
 import BEDC.Derived.MetricCompletionUp.SeparatedLimit
-import BEDC.Derived.MetricCompletionUp.SeparatedLimitBoundary
 import BEDC.Derived.MetricCompletionUp.SourceSeparatedScope
 import BEDC.Derived.MetricCompletionUp.TasteGate
 import BEDC.Derived.MetricCompletionUp.UniformCompletionHandoff
-import BEDC.Derived.MetricCompletionUp.UniformCompletionHandoffSurface
 import BEDC.Derived.MetricCompletionUp.UniformSealFactorization
 import BEDC.Derived.MetricCompletionUp.UniformSourceLock
 import BEDC.Derived.MetricEntourageUp
