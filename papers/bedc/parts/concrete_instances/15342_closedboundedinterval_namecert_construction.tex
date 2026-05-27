@@ -416,6 +416,18 @@ The cover handoff then reads $Q,D,S,R,E$. Rational and dyadic ledgers provide fi
 Finally use $H,C,P,N$. These structural rows replay and name exactly the displayed route, so a compactness-facing consumer receives a located-cover handoff over the accepted packet and not an open-cover theorem, quotient real equality, trichotomy, countable choice, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[Closed bounded interval located-cover source totality]
+\label{thm:closed-bounded-interval-located-cover-source-totality}
+Any located-cover consumer of an accepted $\ClosedBoundedIntervalUp$ carrier $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ must read the endpoint rows $L,U,O$, containment ledgers $Q,D$, $\StreamNameUp$ row $S$, $\RegSeqRatUp$ readback $R$, $\RealUp$ seal $E$, and structural rows $H,C,P,N$ before consuming a $\LocatedIntervalCoverUp$ row. The located-cover source is therefore the full displayed endpoint-and-containment packet, not a parameter echo of the cover consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier and the source window. The carrier of \autoref{def:closed-bounded-interval-carrier} lists $L,U,O,Q,D,S,R,E,H,C,P,N$, while \autoref{def:closed-bounded-interval-source-window} reads the same rows as the endpoint-source packet.
+
+Apply source nonescape and finite-net source. Theorems~\ref{thm:closed-bounded-interval-source-nonescape} and \ref{thm:closed-bounded-interval-finite-net-source} force every interval-net, located-cover, or compactness-facing read through the endpoint rows, containment ledgers, observation schedule, readback, and seal before any downstream cover row is available.
+
+Finally use the located-cover handoff. Theorem~\ref{thm:closed-bounded-interval-located-cover-handoff} keeps the cover consumer on the same displayed route, with $H,C,P,N$ preserving replay, provenance, and local naming. Thus a $\LocatedIntervalCoverUp$ row can only be consumed after the full source package has been exposed.
+\end{proof}
+
 \begin{theorem}[Closed bounded interval compactness consumer boundary]
 \label{thm:closed-bounded-interval-compactness-consumer-boundary}
 Any $\NestedIntervalCompactnessUp$ consumer, finite-net compactness consumer, or Real-completion consumer that reads an accepted $\ClosedBoundedIntervalUp$ packet must keep the endpoint rows, dyadic-net rows, located-cover rows, and nested compactness rows displayed before any compactness conclusion is consumed. Thus every such consumer factors through the carrier route of \autoref{def:closed-bounded-interval-carrier}, the dyadic-net obligations of \autoref{thm:closed-bounded-interval-dyadic-net-obligations}, the located-cover handoff of \autoref{thm:closed-bounded-interval-located-cover-handoff}, and the nested compactness handoff of \autoref{thm:closed-bounded-interval-nested-compactness-handoff}.
