@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\EffectiveMetricSpaceUp$}
+\label{ch:concrete-instances-effective-metric-space-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive metric spaces and Weihrauch represented spaces, the $\EffectiveMetricSpaceUp$ packet records the finite interface needed by completion consumers before any limit object is formed. It refines the represented-name surface of \autoref{ch:concrete-instances-representedspace-namecert}, the distance obligations of \autoref{ch:concrete-instances-metric-namecert}, the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the scheduled name windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[EffectiveMetricSpace carrier]
+\label{def:effective-metric-space-carrier}
+An $\EffectiveMetricSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+E=(X,S,W,\rho,D,R,\delta,\Sigma,\Delta,T,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+  \item a point-name row $X$ and a represented-space schedule $S,W,\rho$ for finite $\StreamNameUp$ reads;
+  \item a dyadic tolerance row $D$ and a $\RegSeqRatUp$ readback row $R$ for all inspected distance approximants;
+  \item a $\RealUp$-valued distance seal $\delta$ whose admitted reads pass through $D$ and $R$;
+  \item symmetry and triangle replay rows $\Sigma,\Delta$ for the displayed distance seal;
+  \item componentwise transport $T$, replay $C$, provenance $P$, and a local $\NameCert$ row $N$.
+\end{enumerate}
+The carrier is accepted only when every distance request exposes a scheduled name window, a dyadic tolerance, a regular rational readback, and the resulting $\RealUp$ seal before a completion-facing consumer can inspect it.
+\end{definition}
+
+\begin{theorem}[EffectiveMetricSpace NameCert obligations]
+\label{thm:effective-metric-space-namecert-obligations}
+Every accepted $\EffectiveMetricSpaceUp$ carrier $E=(X,S,W,\rho,D,R,\delta,\Sigma,\Delta,T,C,P,N)$ supplies the finite NameCert obligations needed by an $\EffectiveMetricCompletionUp$ consumer: point-name admission, represented-space scheduling, dyadic tolerance tracking, regular rational readback, Real-valued distance sealing, symmetry replay, triangle replay, componentwise transport, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:effective-metric-space-carrier}. The only rows available to a completion-facing reader are the displayed point names, scheduled representation reads, tolerance ledger, rational readback, real seal, replay rows, transport, provenance, and local NameCert.
+
+The represented-space part is sourced by \autoref{ch:concrete-instances-representedspace-namecert}. The tolerance and readback rows then pass through \autoref{ch:concrete-instances-dyadicratcore-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, so the distance seal cannot be opened without the finite arithmetic route.
+
+Finally the symmetry and triangle rows replay only that displayed seal. Transport and provenance carry the same finite packet into the local $\NameCert$ row, excluding host equality of points, selected representatives, countable choice, and ambient completion data.
+\end{proof}
+
+\begin{theorem}[EffectiveMetricSpace distance readback]
+\label{thm:effective-metric-space-distance-readback}
+For any two accepted point names in an $\EffectiveMetricSpaceUp$ carrier, each distance read available to a Real or completion consumer factors through
+$$
+S,W,\rho \longmapsto D \longmapsto R \longmapsto \delta \longmapsto \Sigma,\Delta,T,C,P,N.
+$$
+The read is therefore a finite scheduled $\RealUp$ seal assembled from $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ data, not a host metric value, quotient representative, selected Cauchy name, or pre-existing completion point.
+\end{theorem}
+\begin{proof}
+Start with the two point names and their represented-space schedule. The carrier exposes only the finite $\StreamNameUp$ windows and representation relation before any distance request can be made.
+
+Next consume the dyadic and regular-rational rows. They produce the tolerance-indexed readback that feeds the $\RealUp$ distance seal, so the downstream reader sees a certified real value rather than an ambient metric value.
+
+The replay rows $\Sigma$ and $\Delta$ preserve symmetry and triangle evidence for the same seal. The transport, replay, provenance, and local naming rows then package the read for Real and completion consumers without adding a quotient, a selected representative, a choice principle, or an already completed point.
+\end{proof}
+
+\closureat{EffectiveMetricSpaceUp}{seedStr}
+
+\begin{closurestatus}{\EffectiveMetricSpaceUp}
+  \constructivestory{An $\EffectiveMetricSpaceUp$ packet is generated from displayed point-name rows, a represented-space schedule, dyadic tolerance data, regular rational readback, a Real-valued distance seal, symmetry and triangle replay rows, componentwise transport, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:effective-metric-space-carrier}, \autoref{thm:effective-metric-space-namecert-obligations}, and \autoref{thm:effective-metric-space-distance-readback} seed the finite effective-metric source interface consumed by Real and completion chapters.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close metric completion, located limits, quotient metric spaces, selected representatives, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, represented-space scheduling, dyadic and regular-rational readback, Real seal stability, symmetry and triangle replay, transport, provenance, and local naming.}
+\end{closurestatus}
