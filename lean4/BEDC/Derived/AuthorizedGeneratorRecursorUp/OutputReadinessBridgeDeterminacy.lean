@@ -79,4 +79,47 @@ theorem AuthorizedGeneratorRecursorOutputReadinessBridgeDeterminacy [AskSetup] [
     ⟨cert, routeUnary, transportReadUnary, boundaryReadUnary, outputAuditRoute,
       routeTransport, transportBoundary⟩
 
+theorem AuthorizedGeneratorRecursorOutputReadinessDeterminacy [AskSetup] [PackageSetup]
+    {I E M B D O A H C P G N routeRead₁ routeRead₂ transportRead₁ transportRead₂
+      boundaryRead₁ boundaryRead₂ : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuthorizedGeneratorRecursorCarrier I E M B D O A H C P G N bundle pkg →
+      Cont O A routeRead₁ →
+        Cont O A routeRead₂ →
+          Cont routeRead₁ H transportRead₁ →
+            Cont routeRead₂ H transportRead₂ →
+              Cont transportRead₁ N boundaryRead₁ →
+                Cont transportRead₂ N boundaryRead₂ →
+                  PkgSig bundle boundaryRead₁ pkg →
+                    PkgSig bundle boundaryRead₂ pkg →
+                      hsame routeRead₁ routeRead₂ ∧
+                        hsame transportRead₁ transportRead₂ ∧
+                          hsame boundaryRead₁ boundaryRead₂ ∧
+                            UnaryHistory routeRead₁ ∧ UnaryHistory transportRead₁ ∧
+                              UnaryHistory boundaryRead₁ ∧
+                                PkgSig bundle boundaryRead₁ pkg ∧
+                                  PkgSig bundle boundaryRead₂ pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame UnaryHistory
+  intro carrier outputAuditRoute₁ outputAuditRoute₂ routeTransport₁ routeTransport₂
+    transportBoundary₁ transportBoundary₂ boundaryPkg₁ boundaryPkg₂
+  obtain ⟨_IUnary, _EUnary, _MUnary, _BUnary, _DUnary, outputUnary, auditUnary,
+    transportUnary, _continuationUnary, _provenanceUnary, _boundaryUnary, nameUnary,
+    _signatureEliminatorMotive, _motiveBranchDescent, _descentOutputAudit,
+    _transportAuditContinuation, _provenancePkg⟩ := carrier
+  have routeSame : hsame routeRead₁ routeRead₂ :=
+    cont_deterministic outputAuditRoute₁ outputAuditRoute₂
+  have transportSame : hsame transportRead₁ transportRead₂ :=
+    cont_respects_hsame routeSame (hsame_refl H) routeTransport₁ routeTransport₂
+  have boundarySame : hsame boundaryRead₁ boundaryRead₂ :=
+    cont_respects_hsame transportSame (hsame_refl N) transportBoundary₁ transportBoundary₂
+  have routeUnary : UnaryHistory routeRead₁ :=
+    unary_cont_closed outputUnary auditUnary outputAuditRoute₁
+  have transportReadUnary : UnaryHistory transportRead₁ :=
+    unary_cont_closed routeUnary transportUnary routeTransport₁
+  have boundaryReadUnary : UnaryHistory boundaryRead₁ :=
+    unary_cont_closed transportReadUnary nameUnary transportBoundary₁
+  exact
+    ⟨routeSame, transportSame, boundarySame, routeUnary, transportReadUnary,
+      boundaryReadUnary, boundaryPkg₁, boundaryPkg₂⟩
+
 end BEDC.Derived.AuthorizedGeneratorRecursorUp
