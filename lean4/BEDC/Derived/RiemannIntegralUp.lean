@@ -16,6 +16,10 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+inductive RiemannIntegralUp : Type where
+  | mk (M T F S D G R H C P N : BHist) : RiemannIntegralUp
+  deriving DecidableEq
+
 def RiemannIntegralPacket [AskSetup] [PackageSetup]
     (mesh tags integrand sum darboux gap realHandoff transports routes provenance name : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
