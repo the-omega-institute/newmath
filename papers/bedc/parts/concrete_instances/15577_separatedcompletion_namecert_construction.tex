@@ -53,6 +53,42 @@ Finally, $H,R,T,P,N$ record transport, replay, route preservation, provenance, a
 \end{proof}
 \leanchecked{BEDC.Derived.SeparatedCompletionUp.SeparatedCompletionCarrier\_semantic\_name\_certificate}
 
+\begin{theorem}[SeparatedCompletion obligation surface]
+\label{thm:separated-completion-obligation-surface}
+Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. Every local $\NameCert_{\SeparatedCompletionUp}$ read starts with the displayed source row $M$, dense row $D$, completion handoff $C$, separated classifier $Z$, and uniqueness row $U$, then preserves that route through $\BHist$, $\hsame$, $\Cont$, provenance, and local naming data in $H,R,T,P,N$. The surface exports no quotient completion, selected representative, host equality, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $M,D,C,Z,U$ are the only source, dense, completion, separated-classifier, and uniqueness rows available to the local certificate.
+
+The structural rows $H,R,T$ then transport and replay the same ordered route through $\hsame$ and $\Cont$ inside $\BHist$. The provenance and local naming rows $P,N$ attach the route to $\NameCert_{\SeparatedCompletionUp}$ without adding another completion object.
+
+Since the carrier has no quotient-completion, representative-selection, host-equality, countable-choice, or Real-completeness coordinate, every obligation read is exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion seal uniqueness]
+\label{thm:separated-completion-seal-uniqueness}
+For accepted packets $S=(M,D,C,Z,U,H,R,T,P,N)$ and $S'=(M,D,C,Z,U',H',R',T',P,N')$ with the same displayed source, dense, completion, separated-classifier, and provenance rows, any equality-of-export read between their completion seals is determined by the local uniqueness rows $U,U'$ together with the $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ data in $H,R,T,N$ and $H',R',T',N'$. It is not a quotient completion, selected representative comparison, host equality, countable-choice selection, or ambient Real-completeness conclusion.
+\end{theorem}
+\begin{proof}
+The shared rows $M,D,C,Z,P$ fix the source metric, dense embedding, completion handoff, separated classifier, and provenance surface for both packets.
+
+Any remaining comparison must therefore inspect $U,U'$ and the corresponding transport, replay, route-preservation, and local naming rows. These rows compare completion exports only over the already displayed route.
+
+No carrier coordinate supplies quotient equality, selected representatives, host equality, choice, or Real completeness. Thus seal uniqueness is local to $U,U'$ and the displayed $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ data.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion window transport]
+\label{thm:separated-completion-window-transport}
+Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. If a completion-facing window read is transported componentwise by the displayed $\hsame$ row $H$, then the transported read remains on the same $M,D,C,Z,U$ route and is replayed by the displayed $\Cont$ row $R$ and transport ledger $T$ before the local $\NameCert_{\SeparatedCompletionUp}$ row $N$ is inspected. The transport introduces no quotient completion, selected representative, host equality, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start from the window read over $M,D,C$. These rows fix the source metric, dense source, and completion handoff before any separated comparison is available.
+
+Apply the displayed $\hsame$ row $H$ componentwise. The transport is a movement of the already displayed $\BHist$ rows, not a selection of a new representative or a quotient completion class.
+
+The $\Cont$ replay row $R$ and the transport ledger $T$ then replay the same route through $Z,U,P,N$. Since all excluded principles are absent from the carrier, transported windows remain inside the local NameCert surface.
+\end{proof}
+
 \begin{theorem}[SeparatedCompletion dense factorization]
 \label{thm:separated-completion-dense-factorization}
 Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. Every completion-facing consumer read factors through the finite dense route
