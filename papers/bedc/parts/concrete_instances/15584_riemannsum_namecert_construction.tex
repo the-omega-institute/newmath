@@ -67,6 +67,20 @@ A $\DarbouxIntegralUp$ consumer may compare this finite row with upper and lower
 The excluded analytic claims are not carrier coordinates. The packet has no row for a completed integral, no family of all refinements, no host quotient of functions, and no choice-selected tag assignment outside $T$. Thus the handoff is exactly the finite tagged-sum side of the integration boundary.
 \end{proof}
 
+\begin{theorem}[Riemann sum obligation-closure package]
+\label{thm:riemann-sum-obligation-closure-package}
+The $\RiemannSumUp$ packet supports obligationClosure exactly by carrier admission, mesh-tag containment, finite integrand readback, cell-width exposure, finite-sum exactness, tagged-mesh exactness, Darboux/Riemann handoff, componentwise transport, $\Cont$ replay, provenance, and ledger non-escape. For an accepted carrier $Q=(M,T,F,W,S,H,C,P,N)$, every obligation-level consumer reads only the finite route through those nine rows and imports no integrability theorem, limiting process, quotient function equality, or tag-choice principle.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:riemann-sum-carrier}. It displays exactly $M,T,F,W,S,H,C,P,N$, so carrier admission and ledger non-escape are finite row projections rather than analytic closure assumptions.
+
+Apply \autoref{thm:riemann-sum-namecert-obligations}. The mesh row, tag-containment row, integrand-read window, cell-width ledger, finite sum row, transport, replay, provenance, and local naming rows give the obligation surface named in the statement.
+
+Next use \autoref{thm:riemann-sum-tagged-mesh-exactness}. It identifies downstream reads when the mesh, tags, finite values, widths, and sum row agree under componentwise $\hsame$, giving the exact tagged-mesh boundary required by obligationClosure.
+
+Finally apply \autoref{thm:riemann-sum-darboux-handoff}. DarbouxIntegral and RiemannIntegral consumers receive only the finite tagged-sum side of the comparison. Since the packet has no row for integrability, all refinements, quotient function equality, or a choice-selected tag family, the obligation-closure package is exactly the listed finite surface.
+\end{proof}
+
 \closureat{RiemannSumUp}{seedStr}
 
 \begin{closurestatus}{\RiemannSumUp}
