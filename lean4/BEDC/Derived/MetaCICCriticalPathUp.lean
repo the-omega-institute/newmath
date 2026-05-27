@@ -101,6 +101,23 @@ theorem MetaCICCriticalPathDischargeSocketNonescape [AskSetup] [PackageSetup]
   }
   exact ⟨cert, socketReadUnary, provenancePkg⟩
 
+private theorem MetaCICCriticalPathDyadicRatCoreBudgetReadiness_budget_unary
+    [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName dyadicBudget : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathPacket strongNorm normalForm obstruction handoff dischargeSocket
+        transport route provenance localName bundle pkg →
+      Cont route localName dyadicBudget →
+        UnaryHistory dyadicBudget := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro packet routeLocalNameBudget
+  obtain ⟨_strongNormUnary, _normalFormUnary, _obstructionUnary, _handoffUnary,
+    _dischargeSocketUnary, _transportUnary, routeUnary, _provenanceUnary, localNameUnary,
+    _strongNormNormalFormRoute, _handoffObstructionSocket, _transportLocalName,
+    _provenancePkg⟩ := packet
+  exact unary_cont_closed routeUnary localNameUnary routeLocalNameBudget
+
 theorem MetaCICCriticalPathDyadicRatCoreBudgetReadiness [AskSetup] [PackageSetup]
     {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
       localName dyadicBudget : BHist}
@@ -120,12 +137,12 @@ theorem MetaCICCriticalPathDyadicRatCoreBudgetReadiness [AskSetup] [PackageSetup
             UnaryHistory dyadicBudget ∧ PkgSig bundle provenance pkg := by
   -- BEDC touchpoint anchor: BHist Cont PkgSig ProbeBundle SemanticNameCert hsame UnaryHistory
   intro packet routeLocalNameBudget dyadicBudgetPkg
-  obtain ⟨_strongNormUnary, _normalFormUnary, _obstructionUnary, _handoffUnary,
-    _dischargeSocketUnary, _transportUnary, routeUnary, provenanceUnary, localNameUnary,
-    _strongNormNormalFormRoute, _handoffObstructionSocket, _transportLocalName,
-    provenancePkg⟩ := packet
   have dyadicBudgetUnary : UnaryHistory dyadicBudget :=
-    unary_cont_closed routeUnary localNameUnary routeLocalNameBudget
+    MetaCICCriticalPathDyadicRatCoreBudgetReadiness_budget_unary packet routeLocalNameBudget
+  obtain ⟨_strongNormUnary, _normalFormUnary, _obstructionUnary, _handoffUnary,
+    _dischargeSocketUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _localNameUnary, _strongNormNormalFormRoute, _handoffObstructionSocket,
+    _transportLocalName, provenancePkg⟩ := packet
   have sourceDyadicBudget :
       (fun row : BHist => hsame row dyadicBudget ∧ UnaryHistory row) dyadicBudget := by
     exact ⟨hsame_refl dyadicBudget, dyadicBudgetUnary⟩
