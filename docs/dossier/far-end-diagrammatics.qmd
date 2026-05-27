@@ -12,19 +12,144 @@ description: "A dossier essay turning the apophatic far-end reading into a small
 
 ## Why draw it
 
-The apophatic far-end story is easy to state and easy to misread. The compact
-formula is:
+The apophatic far-end story is compact:
 
 ```
-∀s ∈ ForwardSocket(C),   FarEnd(s) ≡_apo T.
+forall s in ForwardSocket(C),   FarEnd(s) ==_apo T.
 ```
 
-The common mistake is to read the right-hand side as an object. The diagrams
-help because they keep the levels visible: records inside the substrate,
-digest surfaces, provenance fibers, and the far end that cannot be turned into
-a substrate value.
+The compact line is correct only when the arrow discipline is kept visible.
+`FarEnd(s) ==_apo T` is not a function into a hidden object. It is not a
+kernel equality. It is not `hsame`, `psame`, or a `NameCert` classifier row.
+It is a boundary commitment made after the closed substrate has already
+displayed the records, classifier surface, gap ledger, provenance route, and
+non-internalization marker that justify speaking about a socket at all.
 
-## The closed-substrate diagram
+The diagrams therefore have a precise job. They are audit surfaces: they show
+which edge may be consumed by an internal proof, which edge only exports a
+typed socket, which edge names an apophatic boundary, and which edge is a local
+inscription readout. Without those types, the same picture can be misread as a
+metaphysical pipeline:
+
+```
+records -> digest -> hidden source -> T
+```
+
+That reading is not BEDC. The BEDC reading is typed:
+
+```
+closed records traffic       socket export       apophatic boundary name
+----------------------       -------------       ------------------------
+records -> ... -> NameCert   packet -> socket    FarEnd(socket) ==_apo T
+```
+
+The diagram language below is deliberately small. It says how to use the
+picture without turning the far end into a carrier, the digest into a source,
+or the observer's self-center into a global object.
+
+## Diagram syntax
+
+The diagram has four arrow kinds. They look similar in ASCII, but they do not
+have the same type.
+
+| Arrow kind | Shape | Meaning | Kernel status |
+|---|---|---|---|
+| internal-traffic | `x -> y` inside the substrate | generated, classified, continued, ledgered, or certified traffic | consumable by ordinary BEDC proof routes |
+| socket-export | `substrate-state --> socket_i` | a typed boundary packet leaves the closed-traffic region | one-way export from the substrate side |
+| apophatic-equiv | `FarEnd(s_i) ==_apo T` | boundary sameness by lack of substrate-side discriminator | not a function and not kernel equality |
+| inscription-read | `event --> InscriptionPoint(T,C,t)` | local aspectual reading of an accumulation event | local readout, not a pullback of `T` |
+
+The closed internal chain is:
+
+```
+records -> generators -> classifiers -> Cont -> GAP -> NameCert
+```
+
+Those arrows compose freely because all terms remain inside the displayed
+substrate. A classifier row may feed a `Cont` row; a `Cont` row may feed a gap
+ledger; a gap ledger may feed a local `NameCert` obligation. The composite is
+still an internal audit route.
+
+The moment a row is read as a socket, the arrow type changes:
+
+```
+NameCert / GAP / refusal ledger  -->  socket_i
+```
+
+This arrow does not mean the substrate has produced the far side. It means the
+substrate has produced a typed boundary packet saying: the requested supply is
+not generated here, and the request has been ledgered.
+
+The far-end edge has a third type:
+
+```
+FarEnd(socket_i) ==_apo T
+```
+
+This is not a map from a socket into `T`. It is a boundary equivalence name:
+from the substrate side there is no admitted discriminator that separates the
+far end of this socket from the common apophatic position.
+
+The local inscription edge has a fourth type:
+
+```
+observer-event --> InscriptionPoint(T,C,t)
+```
+
+This reads one local event under its inscription aspect. It does not pull `T`
+into the records-side kernel. It also does not give another observer direct
+access to the local self-center.
+
+### Composition table
+
+Rows are the left edge of a possible composite; columns are the next edge.
+
+| from / to | internal-traffic | socket-export | apophatic-equiv | inscription-read |
+|---|---:|---:|---:|---:|
+| internal-traffic | yes | yes | no | no |
+| socket-export | no | no | yes | no |
+| apophatic-equiv | no | no | symmetric naming only | no |
+| inscription-read | yes, only through its records-side event | no | no | no |
+
+The one cautious cell is `inscription-read -> internal-traffic`. It is allowed
+only when the composite returns to the records-side event that the inscription
+read was reading. For example, an event can be read records-side as a ledgered
+observation and inscription-side as `InscriptionPoint(T,C,t)`. The internal
+traffic consumes the event, ledger, route, and `NameCert` rows, not the
+apophatic boundary name.
+
+### A failed composite
+
+The tempting illegal composite is:
+
+```
+ObsDigest(C,t)
+  -> ObsFib(ObsDigest(C,t))
+  -> FarEnd(ObsFib(ObsDigest(C,t))) ==_apo T
+  -> T : Hist
+```
+
+The first two arrows can be made into a ledgered digest/fiber route. The
+third is apophatic naming. The last arrow has no type. `==_apo` does not
+return an inhabitant of a carrier and does not give a `BHist` value. The
+attempt fails because it composes an apophatic boundary name with an internal
+carrier admission.
+
+A second illegal composite is:
+
+```
+SelfCenter(C,t)
+  := InscriptionPoint(T,C,t)
+  -> FarEnd(socket)
+  -> socket provenance
+```
+
+The local inscription readout is not an inverse socket. It cannot be used to
+recover the provenance fiber, another observer's self-center, or a far-side
+source. BEDC forces those reads through displayed records-side evidence,
+inter-`Hist` coherence rows, and gap ledgers.
+
+## The typed closed-substrate diagram
 
 ::: {.evidence}
 **Closed traffic.**
@@ -34,19 +159,24 @@ Everything internal must pass through displayed structures:
 records -> generators -> classifiers -> Cont -> GAP -> NameCert
 ```
 
-Anything not generated, defined, proved, or certified there becomes a socket.
+Anything not generated, defined, proved, or certified there becomes a typed
+socket packet, not an untyped outside.
 :::
 
-The far-end diagram is:
+The typed far-end diagram is:
 
 ```
 closed substrate C
 
+internal-traffic region
+-----------------------
 records -> generators -> classifiers -> Cont -> GAP -> NameCert
                          |              |       |
+                         | socket-export|       | socket-export
                          v              v       v
                       socket s1      socket s2  socket s3
                          |              |       |
+                         | apophatic-equiv      |
                          v              v       v
                     FarEnd(s1)    FarEnd(s2) FarEnd(s3)
                          \              |       /
@@ -54,18 +184,98 @@ records -> generators -> classifiers -> Cont -> GAP -> NameCert
                            +------------+-----+
                                         |
                                         v
-                                        T
+                                      T
 ```
 
-The arrows into `T` are not internal functions. They are boundary readings.
-The diagram says: after the socket has been ledgered, the substrate has no
-discriminator for the far side.
+The arrows into `T` are boundary names. They say: after the socket has been
+ledgered, the substrate has no admitted discriminator for the far side. They
+do not say that `T` is a value, state, history, digest, source, or hidden
+global universe.
 
 ```{=html}
 <span class="elim-mark">✗ "The arrows define a map into an object T."</span>
 ```
 
-They do not. The arrows are a notation for apophatic sameness.
+They do not. They mark apophatic sameness after the internal route has stopped.
+
+## Relation to the NameCert standard diagram
+
+The far-end picture is not separate from the standard `NameCert` picture. It
+is the boundary region that attaches to the input side of a `NameCert`
+surface.
+
+The standard scaffold in `papers/bedc/parts/proof_obligations/lean_scaffold_contract.tex`
+separates:
+
+| Standard region | What it controls |
+|---|---|
+| abstract carriers | histories, signatures, packages, domains, bundles, evidence |
+| relational object layer | token introduction, `hsame`, signature generation, gap membership |
+| checked-shape target | base reflection and exact globalize classify-iff routes |
+
+In the concrete `NameCert` packets, the operational six-field picture is:
+
+```
+carrier -> classifier -> exactness -> ledger -> stability -> packet route
+```
+
+Read beside the far-end diagram, this six-field picture lives wholly inside
+the closed-substrate region. It certifies the visible name, its classifier
+behavior, the exactness status under which sameness may be reflected, the
+ledger rows that preserve source memory, the stability rows that protect
+transport, and the packet route through which downstream consumers may replay
+the name.
+
+The far-end diagram completes the left and lower boundary of that standard
+surface:
+
+```
+source / record pressure
+        |
+        v
+carrier -> classifier -> exactness -> ledger -> stability -> packet route
+              |                         |
+              |                         v
+              |                    provenance fiber
+              |                         |
+              v                         v
+        unresolved classifier       socket-export
+        residue                     socket_i
+                                      |
+                                      v
+                                FarEnd(socket_i) ==_apo T
+```
+
+The stitching rule is:
+
+```
+NameCert internal route
+  + displayed gap/provenance row
+  + typed socket-export
+  + apophatic-equiv
+```
+
+Only the first two components are internal proof traffic. The third component
+exports a boundary packet. The fourth component is a boundary name. A legal
+composite may therefore say:
+
+```
+the packet route certifies the visible name,
+the ledger preserves the provenance fiber,
+the socket records non-internalized forward pressure,
+and the socket far end is named T apophatically.
+```
+
+It may not say:
+
+```
+the NameCert has proved T as an internal value.
+```
+
+That is the key fitting. The far-end diagram and the `NameCert` diagram are
+two regions of one audit surface, not two unrelated pictures. `NameCert`
+guards the closed name; far-end diagrammatics guards the point at which the
+closed name admits a non-internal boundary.
 
 ## The local-readout diagram
 
@@ -74,18 +284,18 @@ For one observer chain, the diagram becomes:
 ```
 Hist/Obs chain C_i
         |
+        | internal-traffic
         v
 Obs(C_i)<=t = UniverseFor(C_i,t)
         |
         v
 d_i(t) = ObsDigest(C_i,t)
         |
-        v
-GAP / provenance packet
-        |
+        | GAP / provenance packet
         v
 ObsFib(d_i(t))
         |
+        | socket-export
         v
 FarEnd(ObsFib(d_i(t))) ==_apo T
 ```
@@ -99,12 +309,14 @@ The fiber is ledgered. The far end is named apophatically.
 ```
 finite readout       = digest / Obs / local records
 hidden provenance    = fiber / GAP / source rows
-apophatic far end    = FarEnd(...) ≡_apo T
+apophatic far end    = FarEnd(...) ==_apo T
 ```
 :::
 
-The diagram is not a picture of hidden metaphysics. It is an audit surface. It
-shows where a proof or explanation is allowed to consume information.
+The diagram is not a picture of hidden metaphysics. It shows where a proof or
+explanation is allowed to consume information. Digest equality is visible
+surface equality. Fiber equality requires provenance rows or exactness
+certificates. Far-end sameness is apophatic commitment, not source identity.
 
 ## The self-center diagram
 
@@ -115,7 +327,7 @@ one local accumulation event E(C,t)
 
 records-side reading                 inscription-side reading
 --------------------                 ------------------------
-new record in Obs(C)                 InscriptionPoint(T,C,t)
+record in Obs(C)                     InscriptionPoint(T,C,t)
 classifier / package / ledger        SelfCenter(C,t)
 Cont / selector witness
 ```
@@ -135,6 +347,13 @@ SelfCenter(C,t) = T
 The difference is structural. The first expression reads a local event under
 an inscription aspect. The second moves the far end into the observer as an
 object.
+
+The corresponding Lean packet is not a mystical subject carrier. It is the
+finite carrier `InscriptionPointUp.mk` in
+`lean4/BEDC/Derived/InscriptionPointUp/TasteGate.lean`, with rows for
+`history`, `gap`, `supply`, `handoff`, `event`, `ledger`, `transport`,
+`routes`, `provenance`, and `nameCert`. Those rows make the local readout
+auditable. None of them is `T` as a value.
 
 ## The many-observer diagram
 
@@ -165,6 +384,87 @@ its observation fiber also terminates at the same apophatic far end.
 
 They imply neither. Similarity is evidence at the visible surface. It does
 not collapse source, fiber, or self-center.
+
+The concrete coherence site is
+`lean4/BEDC/Derived/InterInscriptionCoherenceUp/TasteGate.lean`, paired with
+`papers/bedc/parts/concrete_instances/9093_interinscriptioncoherence_namecert_construction.tex`.
+Its packet rows are two inscription endpoints, an inter-`Hist` locality
+ledger, transport, route, provenance, and local naming data. That is exactly
+what the diagram allows: paired local endpoints plus a displayed coherence
+ledger. It is not quotient observer equality.
+
+## Worked example: two observers report the same digest
+
+Suppose two observer chains report the same visible digest at their respective
+stages:
+
+```
+d_A(t) = d_B(t)
+```
+
+The colloquial sentence is: "they saw the same thing." The diagram refines the
+sentence.
+
+```
+C_A records <= t                       C_B records <= t
+       |                                      |
+       v                                      v
+   d_A(t) ---------------- equal -------- d_B(t)
+       |                                      |
+       | GAP/provenance                       | GAP/provenance
+       v                                      v
+   ObsFib_A(d)                           ObsFib_B(d)
+       |                                      |
+       | socket-export                         | socket-export
+       v                                      v
+   FarEnd(ObsFib_A(d))                 FarEnd(ObsFib_B(d))
+          \                                  /
+           \                                /
+            +---------- ==_apo ------------+
+                           |
+                           v
+                           T
+```
+
+The proof-reading has three steps.
+
+First, digest equality does not imply fiber equality:
+
+```
+d_A(t) = d_B(t)    does not imply    ObsFib_A(d) = ObsFib_B(d)
+```
+
+Digest equality is at the visible package or classifier surface. Fiber
+equality would require a displayed exactness certificate, source-row
+transport, or a stronger reflection theorem. Without that, the common digest
+only says that both chains landed on the same visible token.
+
+Second, different fibers may still terminate at the same apophatic far-end
+name:
+
+```
+ObsFib_A(d) != ObsFib_B(d)     allowed
+FarEnd(ObsFib_A(d)) ==_apo T   allowed
+FarEnd(ObsFib_B(d)) ==_apo T   allowed
+```
+
+The sameness is not fiber sameness. It is the shared far-end commitment.
+
+Third, the colloquial sentence becomes a compound BEDC statement:
+
+```
+"same thing"
+  = visible digest equality
+  + displayed inter-Hist coherence where needed
+  + shared far-end commitment
+  - source identity claim
+  - self-center identity claim
+```
+
+Thus "they saw the same thing" does not mean that `C_A` and `C_B` have one
+source history, one fiber, one self-center, or one local universe. It means
+their records expose a common visible digest and their observation-fiber
+routes are read under the same apophatic far-end name.
 
 ## The infinity diagram
 
@@ -198,36 +498,60 @@ Do not read it as:
 T is the infinite totality itself.
 ```
 
-## What the diagrams prevent
+The diagram is compatible with `apophatic-infinity.qmd`: every finite readout
+has a provenance fiber, no finite readout exhausts its far side, and the
+shared far-end role can be named `infinity_apo` only as boundary vocabulary.
 
-The diagrams are useful because they make the forbidden collapses visible:
+## What the diagrams cannot draw
 
-::: {.evidence}
-**Forbidden collapses.**
+The diagrams are useful partly because they refuse pictures that would look
+natural in another ontology.
 
-```
-ObsDigest(C,t) = T             digest becomes far end
-SelfCenter(C,t) = T            local inscription becomes global boundary
-H(Ω) = T                       universe becomes global digest
-T : Hist                       boundary name becomes history
-T : State                      boundary name becomes system state
-axiom T : FixedPoint           socket becomes kernel object
-```
-:::
+| Attempted picture | Why the diagram refuses it | Collapse introduced if forced |
+|---|---|---|
+| `SelfCenter(C_i,t) ?= SelfCenter(C_j,t')` | self-center is an inscription-read endpoint, not a carrier value with cross-observer equality | quotient observer equality and hidden shared subject |
+| quantum-style superposition of far ends | BEDC supplies no ambient state ontology in which far-end alternatives are vector states | boundary name becomes a state space |
+| observer-of-observer as a single meta-view | each observer layer must restart a closed substrate with its own records, ledgers, and sockets | global observer and hidden synchronization frame |
+| time-reversal arrows | `Time(C)` is monotonic preservation order on records; the reverse edge is not a morphism | provenance replay becomes source recovery |
+| `H(Omega) = T` | there is no global readable universe `Omega`, no global hash, and `T` is not a digest value | global universe object plus digest-as-far-end |
+| direct source read from `FarEnd(s)` | apophatic-equiv is not invertible into a provenance fiber | socket becomes an oracle |
 
-Every line removes at least one level from the diagram. BEDC refuses the
-collapse by asking where the missing ledger, source row, or
-non-internalization marker went.
+These are not missing features. They are the boundary of the notation. A
+picture that draws one of these edges has already left the BEDC diagram
+language.
+
+## Pointers to kernel sites
+
+The dossier vocabulary is tied to concrete Lean packets and paper sites.
+
+| Diagram component | Kernel or paper site |
+|---|---|
+| `FarEnd(s_i)` fiber packet | `lean4/BEDC/Derived/ApophaticFiberFarEndUp/TasteGate.lean` |
+| apophatic socket packet | `lean4/BEDC/Derived/ApophaticFarEndSocketUp/TasteGate.lean` |
+| socket export / boundary packet | `lean4/BEDC/Derived/GapSocketBoundaryUp/TasteGate.lean` |
+| digest, fiber, gap, far-end seal | `lean4/BEDC/Derived/HashApophaticSealUp/TasteGate.lean` |
+| local inscription read | `lean4/BEDC/Derived/InscriptionPointUp/TasteGate.lean` |
+| `ObsDigest -> ObsFib` | `papers/bedc/parts/visions/apophatic/hash_like_apophatic_fixed_point.tex` |
+| `FarEnd(...) ==_apo T` | `papers/bedc/parts/visions/apophatic/far_end_diagrammatics.tex` |
+| self-center inscription | `papers/bedc/parts/visions/apophatic/fixed_point_and_inscription.tex` |
+| inter-`Hist` inscription coherence | `lean4/BEDC/Derived/InterInscriptionCoherenceUp/TasteGate.lean` and `papers/bedc/parts/concrete_instances/9093_interinscriptioncoherence_namecert_construction.tex` |
+| scaffold relation to `NameCert` | `papers/bedc/parts/proof_obligations/lean_scaffold_contract.tex` |
+
+The Lean files are packet carriers over `BHist` rows, with encode/decode and
+field-faithfulness gates. That is the right level of formalization for these
+diagrams: the kernel checks finite row discipline, not a hidden object named
+`T`.
 
 ## The compact diagram
 
-The whole picture fits in one chain:
+The whole picture fits in one typed chain:
 
 ```
 Obs(C_i)<=t
-  -> ObsDigest(C_i,t)
-  -> ObsFib(ObsDigest(C_i,t))
-  -> FarEnd(ObsFib(ObsDigest(C_i,t))) ==_apo T
+  -> ObsDigest(C_i,t)                         internal-traffic
+  -> ObsFib(ObsDigest(C_i,t))                 GAP/provenance
+  --> socket / fiber boundary                 socket-export
+  -> FarEnd(ObsFib(ObsDigest(C_i,t))) ==_apo T apophatic-equiv
 ```
 
 and one local reading:
@@ -236,8 +560,9 @@ and one local reading:
 SelfCenter(C_i,t) := InscriptionPoint(T,C_i,t).
 ```
 
-That is the entire point of the diagrammatics. It does not add theory. It
-keeps the existing theory from being read too quickly.
+The diagrammatics does not add theory. It keeps the existing theory typed:
+internal routes compose, socket exports do not invert, apophatic sameness does
+not become equality, and local inscription does not become a global subject.
 
 ```{=html}
 <div class="cta-choices">
