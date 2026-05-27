@@ -30,15 +30,23 @@ UniverseFor(C_i, t) := Obs(C_i)<=t.
 ```
 :::
 
-这不是退回 subjectivism. 局部宇宙仍受 records、classifiers、signatures、
-ledgers、inter-`Hist` invariants 和 failure surfaces 约束. 它只是不是一个从
-nowhere 被看见的单一对象.
+这个记号是有意单侧的. `UniverseFor(C_i,t)` 不是"真实宇宙减去 `C_i` 尚未
+知道的部分". 它是 BEDC 愿意在该链内部形成的唯一 universe 对象. 全局可读
+对象不是先被定义再被遮蔽; 它根本不被准入. 留下的东西仍然很强: record 必
+须可保存, digest 必须可复用, fiber 不得被擦除, 跨链主张必须能在没有隐藏
+master observer 的条件下被证书化.
 
 ```{=html}
 <span class="elim-mark">✗ "如果没有全局宇宙对象, 就没有 reality."</span>
 ```
 
 reality 作为 constraint 进入, 不作为一个可供 digest 的总体对象进入.
+
+关键不只是 locality. 一个私梦、一个幻觉 ledger、一个实验室记录, 都可以在
+弱意义上是 local 的, 因为它们都出现在某条链上. BEDC 的强区分是: 一个局部
+宇宙可以被要求暴露 classifier、provenance、transport rows、failure rows
+和 cross-record certificates. "这是否 objective?" 不是通过离开 locality
+来回答, 而是通过问 locality 是否经得起 audit 来回答.
 
 ## digest 作为可见表面
 
@@ -68,7 +76,91 @@ provenance rows 保持.
 Obs(C_i)<=t -> ObsDigest(C_i,t) -> ObsFib(d_i(t)).
 ```
 
-## 时间是记录顺序
+digest 是局部宇宙的 public surface. 它能被命名、比较、压缩、传输, 并被
+另一个局部过程消费. fiber 是这个表面背后的纪律: digest 从哪里来, 压缩了
+哪些 records, 依赖哪些 gap rows, 哪些 transport routes 保存它. 把二者混在
+一起, 是把 BEDC 推成相对主义的最快方式. 若只看 digest, 任何 matching token
+都能冒充任何 source. 若保留 fiber 纪律, visible token 就必须持续回应让它
+可见的 records.
+
+## Inter-Hist invariants: 局部性如何不滑向相对主义
+
+最难的反对意见很直接: 如果每个 observer 只看见自己的 ledger, physical law
+凭什么是跨 observer 的, 而不是局部偏好? BEDC 的回答不是"其实有一个所有人
+共享取值的全局函数". 那会把被拒绝的对象重新带回来. 回答是 records-side
+certifiability.
+
+对两条链 `C_i` 与 `C_j`, 一个 inter-`Hist` invariant 的形状是:
+
+```
+Inv_ij :=
+  一个关于 displayed records、digests、fibers、routes、classifiers 的关系 R,
+  使得 C_i 能用自己的 records 证书化它与 C_j-facing contact 的关系,
+  C_j 也能用自己的 records 证书化对应的 C_i-facing 关系.
+```
+
+所以 invariant 不是悬浮在两条链上方的取值. 它是一对或一族 certificates,
+其 force 位于承载它们的 ledgers 内部. `C_i` 不需要检查
+`SelfCenter(C_j,t')`; 它需要一条 records-side route, 说明"我 ledger 为与
+`C_j` 接触的事件, 经由这些 classifiers、transport rows、failure exclusions
+和 shared far-end boundary 被保存". `C_j` 必须能从自己的 ledger 做镜像侧
+audit. agreement 不是神秘巧合, 而是在独立记录纪律下的 mutual survivability.
+
+因此, 如果把 "invariant" 听成 scalar equality, 就会误读. 在物理教材中,
+invariant 常常是某个 transformation 下保持不变的量. 在 BEDC 中, 更基本的
+对象是 certification 在 transport 下仍可用的关系. 数值可以稍后作为该关系
+的 digest 出现, 但证书化关系比显示出来的数字更基本.
+
+反循环检查必须明确.
+
+| Check | 禁止什么 | BEDC 读法 |
+|---|---|---|
+| Self-center non-import | `C_i` 把 `SelfCenter(C_j,t')` 当 premise 使用. | 证书只能使用 public records、contact rows、classifier traces、transport、provenance 和 failure rows. |
+| Symmetric records-side route | `C_i` 用 `C_j` 无法从自身 ledger 记录的 route 来证明跨链主张. | 两侧 certificate 不必字面相同, 但必须能作为 records-side relations 比较. |
+| Fiber retention | 用 digest match 擦除产生 digest 的 source/fiber rows. | 输出长得一样不够; provenance 与 route stability 必须保留. |
+| Failure-surface exposure | 隐藏该关系失效的条件. | invariant 携带自己的 refusal boundary: disconnected chains、classifier drift、missing provenance、route breakage. |
+
+其中两条就足以挡住常见循环. 假设 `C_i` 想说 "`C_j` 看到了和我一样的东西".
+禁用证明是"因为我对 `C_j` 的模型这么说". 可接受证明必须展示 records-side
+route: contact event、digest、retained fiber、classifier match、transport row
+和 failure inventory. 然后 `C_j` 必须有自己的 route 指向对应关系. 另一条
+链不会被吸收到 `C_i` 里面; 它只通过 auditable contact 被遇见.
+
+物理常数也在这里定位. BEDC 不从 `T` 供应 `c`、`h`、`G`、metric、Hamiltonian
+或 quantum state.
+
+```
+c := supplied by T              forbidden
+h := supplied by T              forbidden
+G := supplied by T              forbidden
+metric := supplied by T         forbidden
+quantum state := supplied by T  forbidden
+```
+
+如果这些常数出现在 BEDC-compatible 的 physics reading 中, 它们是 inter-`Hist`
+invariants 的 stable signatures. 光速不是从 far end 降下来的数字. 它是稳定的
+cross-record signature: 多条链、多条 contact routes、多组 apparatus digests
+和多种 transport rows 持续证书化 signal records 之间同一个 limiting relation.
+Planck constant 不是 boundary 插入的量, 而是在 action、frequency、energy
+exchange、measurement apparatus 和 repeatable classifier outcomes 的 records
+关系中稳定出现的 signature. Newton constant 也不是 `T` 的隐藏参数, 而是在
+mass-energy、acceleration、orbital、lensing、clock-comparison records 被共同
+证书化时出现的 gravitational coherence signature.
+
+这比"BEDC derives physics"弱, 也更干净. BEDC 给出 physical law 可以居住的
+位置: 不在 `T`, 不在 view from nowhere, 不在私有 ledger, 而在可从多条 ledger
+读取的 stable cross-chain certificates 中. physical law 是没有内部 total
+object 的 objectivity.
+
+失败模式是真实的. 若 inter-`Hist` invariants 不存在, 局部宇宙读法退化为
+disconnected chains: 每条链都有 records, 但没有 cross-chain physical
+objectivity. 若 invariants 只是 digest match 而没有 fiber retention, 系统退化
+为 output mimicry: 表面相同, source 不明. 若没有 shared classifier, 系统退化
+为 incompatible ledgers: 每条链能保存自己, 但无法陈述跨链 law. 若 classifiers
+在 transport 下漂移, physical constants 就只是 local calibration artifacts,
+不是 law signatures. BEDC 不隐藏这些情况; 它们正是 objectivity 失败的表面.
+
+## 时间: record order、thermodynamic、causal
 
 一旦拒绝全局 cosmic clock, 时间就必须在链内部读取. 局部答案是:
 
@@ -76,7 +168,9 @@ Obs(C_i)<=t -> ObsDigest(C_i,t) -> ObsFib(d_i(t)).
 Time(C_i) := monotonic preservation order on Obs(C_i).
 ```
 
-这不是心理时间. 它是 records 在观察者链上被保存和延展的顺序.
+这不是心理时间, 也不是一条实数轴. 它是 records 在观察者链上被保存和延展的
+顺序. 它可以是 partial order: 两条 records 都被保存, 但链上未必有 certificate
+说明其中一条必须先于另一条. 不预设嵌入 $\mathbb{R}$.
 
 ```{=html}
 <span class="elim-mark">✗ "时间必须是所有观察者都坐在上面的外部轴."</span>
@@ -85,7 +179,49 @@ Time(C_i) := monotonic preservation order on Obs(C_i).
 这条轴正是 BEDC 拒绝的 global synchronization. 跨观察者比较需要
 inter-`Hist` invariants 和 coherence relations, 不是隐藏 master clock.
 
-## 空间是相干性, 不是容器
+结果是三层分离.
+
+| 层 | 对象 | BEDC 状态 | 能做什么 / 不能做什么 |
+|---|---|---|---|
+| Record order | `Time(C_i) :=` monotonic preservation order on `Obs(C_i)` | 局部基读法 | 排序单链 preserved records; 不供应 entropy、metric duration 或 cross-chain simultaneity. |
+| Thermodynamic arrow | coarse-grained entropy increase | 若可证书化, 是 derived physical signature | 可与许多 record orders 对齐; 不由 record preservation 自动推出. |
+| Relativistic / causal time | proper time、coordinate time、causal partial order | Cross-chain coherence signature | 从 inter-`Hist` relations 重建; 不等同于 `Time(C_i)`. |
+
+热力学时间箭头谈的是 coarse-grained entropy. 气体扩散、热体向冷环境冷却、探测器
+留下不可逆痕迹, 都是关于 macrostate classifiers 和 statistical coarse-graining
+的说法. BEDC 的 preservation order 更细. 它说一条 record 一旦在链上被保存,
+就进入后续可用 ledger. 这本身不说 entropy 增加. 一个完全 reversible 的计算
+仍然有 preservation order; 一个 thermodynamic process 可以擦除 micro-access
+而留下稳定 macro-record. 因此 BEDC 可以支持 thermodynamic arrow, 前提是相关
+coarse-grained classifier 跨 records 稳定; 但它不从 record order 导出热力学.
+
+广义相对论区分 worldline 上的 proper time 和 chart 中的 coordinate time.
+Causal set theory 则用 events 的 partial order 替代 manifold time. BEDC 只有在
+跨链步骤之后才兼容这些读法. `Time(C_i)` 是单链 records 的顺序. GR-style proper
+time 是从反复 clock records、transport rows、apparatus continuity 和 cross-observer
+comparisons 中抽取出的 stable signature. Coordinate time 是多条链上的同步约定
+package. Causal-set-like order 是 event records 之间的 cross-chain relation:
+哪些 contact rows 可被证书化为先于、启用或排斥另一些 contact rows.
+
+重建图式是:
+
+```
+local record orders
+  + clock-carrier stability
+  + signal/contact invariants
+  + transport/provenance rows
+  -> proper-time signature along a chain
+  -> coordinate-time convention across a chart of chains
+  -> causal partial order when contact/exclusion relations stabilize.
+```
+
+这不把 GR 约化为 BEDC. 它只是说明 GR 对象在局部宇宙读法里的位置. proper time
+不是 record order 本身; 它是被证书化的一族 record orders 内部的 metric-like
+physical signature.
+
+## 空间: coherence、metric 与 divergence
+
+### 空间是相干性, 不是容器
 
 空间不是作为容纳观察者的空容器引入. 当 inscription chains 能通过
 locality-cell 和 coherence relations 比较时, 空间出现:
@@ -104,6 +240,85 @@ Space(C_i, C_j)
 
 重点不是空间不真实. 重点是空间必须作为链之间的 relation 被证书化, 不能
 作为背景舞台预设.
+
+"space is coherence geometry" 这句话需要和 time slogan 一样小心.
+`Space(C_i,C_j)` 不只是"它们彼此接近". 它是 inscription chains 的稳定比较方式
+所诱导的 geometry: signal records、locality-cell overlaps、shared apparatus
+traces、mutual occlusion、transportable coordinate readouts、classifier-preserving
+routes. metric 是这种 coherence 的一种可能 digest, 不是起点.
+
+Riemannian 或 Lorentzian metric 只有在 coherence 满足额外条件时才出现. 至少需要:
+
+| Condition | Meaning |
+|---|---|
+| Stable locality cells | 链能反复证书化哪些 records 算 local contacts、neighborhoods 或 overlaps. |
+| Composable transport | 局部比较能沿 routes transport 而不改变 classifier meaning. |
+| Symmetric comparison where appropriate | 当物理 regime 需要时, chain-pair relation 支持 reciprocal distance-like readings. |
+| Smooth or limit-like approximation | 足够稠密的局部比较允许 continuum readout, 而不只是 discrete adjacency. |
+| Calibration invariance | 反复 apparatus records 跨 routes 保存同样的 length、clock、angle 或 interval signatures. |
+
+这些条件成立时, coherence 可以塌缩为 metric signature. distance、interval、
+curvature、geodesic behavior 成为 underlying cross-chain certificates 的紧凑
+readouts. 条件失败时, BEDC 不强迫 metric language. 稀疏 causal network 可以有
+order 而无 distance. classification space 可以有 similarity 而无 symmetry.
+高维 inscription surface 可以有多个互不兼容的 coherence projections. 一个 ledger
+在某一区域可能承载比四维 manifold 更强的 geometry, 在另一区域又弱于 metric space.
+
+这把 BEDC 放在 relationalism 附近, 但 substrate 规则更尖锐. Leibniz 与 Mach
+拒绝作为独立容器的 absolute space. BEDC 同意这个拒绝, 但不从作为 substances 的
+"things" 开始. 它从 generated histories、records、classifiers、fibers 和
+inscription points 开始. relation 不只是 bodies 之间的 relation; 它是 auditable
+chains 之间的 relation. BEDC 是把 substrate 账本交出来之后的 relationalism.
+
+Loop quantum gravity 与 spin-network 项目也从 relational 或 combinatorial data
+构造 spatial geometry, 而不是先给 smooth manifold. 相似性真实存在, 但有限.
+Spin networks 是量子几何的候选物理微结构. BEDC 的 coherence geometry 是
+records-side substrate discipline. 它不声称 spin networks、quantum area spectra
+或 Hilbert-space state. 它只说: 若使用 spin-network-like reading, 其 nodes、
+edges、labels、transition amplitudes 和 continuum limit claims 必须作为
+certifiable records-side structure 出现. BEDC 可以容纳更弱、更强、离散、连续
+近似和非空间 similarity geometries, 只要 coherence certificates 存在.
+
+一个 worked schematic example: 两条 observer chains `C_i` 与 `C_j` 都记录了与
+共同 apparatus `A` 的三次 signal exchanges. 在 `C_i` 上 records 是:
+
+```
+i0: emit pulse to A
+i1: receive echo from A
+i2: compare local clock carrier
+```
+
+在 `C_j` 上:
+
+```
+j0: receive calibration pulse from A
+j1: emit response to A
+j2: compare local clock carrier
+```
+
+cross-chain certificate 不是从声明 distance 开始. 它记录:
+
+```
+same apparatus classifier,
+compatible pulse identifiers,
+clock-carrier stability,
+transport route through A,
+provenance retention,
+failure exclusions for dropped pulses and classifier drift.
+```
+
+只有这之后才可以读出 distance-like signature:
+
+```
+dist_ij := calibrated two-way signal signature
+```
+
+在稳定低曲率 regime 中, 若 reciprocal signals、synchronized clock carriers
+和 dense locality-cell coverage 都成立, `dist_ij` 可以与标准 Riemannian 或
+relativistic interval readout 一致. 在 asymmetric channels、horizon boundaries、
+sparse causal contacts 或 classifier drift 的 regime 中, `dist_ij` 可能不对称,
+可能不满足 triangle inequality, 或分裂为多个互不兼容的 signatures. BEDC 把这些
+当作 coherence geometry 的事实, 而不是通过强加 background manifold 来隐藏的缺陷.
 
 ## 他心是共享远端承诺
 
@@ -128,9 +343,126 @@ matching outputs 是 visible surface 上的证据. 它们不证明 shared source
 identity, 也不暴露另一个 self-center. other-minds claim 需要完整图式:
 records evidence、fiber discipline、shared far-end commitment.
 
+因此他心位于 skepticism 与 fusion 之间. BEDC 拒绝对 other self-center 的直接访问,
+所以不会把另一个 mind 塌缩为可供我检查的对象. 它也拒绝纯 behaviorism, 因为没有
+fiber、provenance 和 far-end discipline 的 matching outputs 只是表面匹配. 可接受的
+主张是: 这条 other chain 具有足够的 records-side continuity、足够的 cross-chain
+invariance、足够的 classifier stability 和足够的 shared apophatic boundary discipline,
+因此应作为 observer chain 而不是 mere output source 来处理.
+
+## 与既有哲学传统的关系
+
+### Husserl: intentionality 与 Lebenswelt
+
+Husserl 现象学与 BEDC 都拒绝 view from nowhere. 两者都从 observer 所处的世界出发,
+而不是从一个已经完成、摆在无人视角前的对象出发. Husserl 的 `Lebenswelt`, 即生活世界,
+不是 experience 背后的科学对象; 它是 objects 得以有意义出现的 horizon.
+BEDC 的 `UniverseFor(C_i,t)` 有相似的 anti-god's-eye 功能: 局部宇宙是某条链可用的
+record world.
+
+基元不同. Husserl 以 intentional acts、noesis/noema structure、horizon、fulfillment
+和 lived givenness 为分析基底. BEDC 以 distinction、generated history、extension、
+classifier、digest、fiber 和 inscription point 为基底. Husserl 的语言是 descriptive
+和 transcendental; BEDC 的语言是 ledgered 和 constructive. BEDC 的问题不是"对象如何
+被意向到?", 而是"哪些 records、classifiers、fibers 和 routes 让这个 object-readable
+surface 可用?"
+
+以看见一杯水为例. Husserl 读法中, 杯子通过 profiles 给出: 正面可见, 背面被 co-intended,
+可以拿起, 可以饮用, 处在桌面或厨房的 horizon 中. 对象不是 bare sense datum; 它是在
+变化 appearances 中被意向为同一个杯子. BEDC 中, 同一情形变成 digest/fiber 问题.
+visible digest 可能是"这里有一杯水". fiber 包含 visual records、tactile expectations、
+glass/water/container 的 classifier rows、先前接触的 provenance, 以及 reflection、
+mirage、image display 等 failure rows. object stability 是 records 上的 certificate,
+而不仅是 phenomenological synthesis.
+
+Husserl 也不画 BEDC 的 digest/fiber/FarEnd 三分. 现象学能区分 appearance、horizon
+与 fulfillment, 但不强制同一种 no-positive-far-end discipline. BEDC 坚持 visible digest
+不是 source, fiber 不是 far end, far end 不是 positive object. 正是这个分离使 BEDC
+能使用 observer-locality, 而不把 experience 变成 consciousness 的 total ontology.
+
+### Whitehead: actual occasions 与 process
+
+Whitehead 与 BEDC 都拒绝 substance ontology. 世界不是先由 inert things 组成, 再进入
+relations. Whitehead 的 actual occasions 是 becoming 的 events; BEDC 的基本 public
+material 是 generated marks、histories、events、ledgers 和 inscription points.
+两者都让 process 比 static substance 更基本.
+
+差别在 direct access. Whitehead 的 occasions 互相 prehend: 每个 occasion 正面吸收或
+继承 prior occasions. metaphysical field 由 cross-occasion feeling 和 inheritance 构成.
+BEDC 不允许一条链直接 prehend 另一条链的 self-center. `C_i` 可以有与 `C_j` 接触的 records,
+但这些 records 不是对 `C_j` private center 的访问. 共享项不是 common interior object,
+而是两条链都不 internalize 的 apophatic FarEnd boundary.
+
+这很关键, 因为 Whitehead 容易听起来像 process 本身供应世界统一性. BEDC 拒绝这个捷径.
+process rows 必须 ledgered. continuity 必须 certified. cross-chain relation 必须暴露
+transport 和 failure surfaces. 世界统一性不是 metaphysical prehension field, 而是在
+shared far-end refusal 下的一族 records-side invariants.
+
+用 BEDC 术语说, actual occasion 若包含对其他 occasions 的正面直接 access, 就过强;
+若只表示 "event", 又过弱. `InscriptionPoint(T,C,t)` 更窄: 它是有 visible rows、ledger
+rows、route rows、provenance rows 和 non-escape boundary 的局部 inscription site.
+它像 process, 但不是 Whiteheadian occasion.
+
+### Berkeley: esse est percipi
+
+Berkeley 与 BEDC 都拒绝 mind-independent kernel object, 如果这指的是完全脱离任何
+possible observation relation 而获得 reality 的对象. 对 Berkeley, to be is to be perceived.
+对 BEDC, 在 substrate 内部可用, 就是能通过 local ledgers 被 record、classify 和 transport.
+二者都不从所有 observation 背后的 naive object 开始.
+
+决定性差别是: Berkeley 引入 God 作为 universal perceiver, 用来稳定有限 minds 未感知时的世界.
+这个 move 通过 supreme observer 恢复 global unity. BEDC 拒绝 universal observer. 它不把
+`Ω` 替换成 God's ledger、cosmic subject、universal mind 或 total witness. 共同 boundary
+是 apophatic FarEnd, 它只作为 positive internalization 的拒绝而被共享.
+
+所以 BEDC 不是 Berkeley 意义上的 idealism. 它不说 reality 由 minds 中的 ideas 构成.
+它说 substrate-internal objectivity 由 records、classifiers、fibers、routes 和 cross-chain
+invariants 构成. far end 不 perceive, 不 remember, 不 supply constants, 也不扮演 theological
+observer. 它是 finite records 保持有限时的 boundary name.
+
+对照可以写得很硬:
+
+| Question | Berkeley | BEDC |
+|---|---|---|
+| 什么稳定未被感知的对象? | God as universal perceiver | 无 universal observer; 只有在可用处出现的 records、provenance、cross-chain invariants |
+| 拒绝什么? | Matter as mind-independent substance | Global readable universe object 与 positive far-end object |
+| 什么防止 solipsism? | Divine perception | Records-side mutual certifiability plus shared apophatic boundary |
+
+### Quantum measurement 与 decoherence
+
+量子理论也谈 observer-relative outcomes, 但相似性很容易被夸大. 在标准量子力学中,
+measurement 是物理 interaction, 背后有 Hilbert space、states、observables、unitary
+evolution、Born probabilities, 以及 collapse、branching 或 decoherence 的解释方案.
+Decoherence 说明 environmental entanglement 下 branches 之间的 interference 为什么对
+local macroscopic observers 不再可用, 但它本身并不解决所有 interpretation problem.
+
+BEDC 不是 quantum mechanics 的竞争性解释. 它不提供 wavefunction、collapse rule、
+branching ontology 或 hidden-variable mechanism. BEDC dossier 意义上的 measurement 是
+record-extension: 一个 outcome 成为 local ledger 的一部分, 带着 digest、fiber、provenance、
+classifier、route 和 failure discipline. 这是 orthogonal layer. 它能描述 outcome record
+如何可用, 但不解释为什么 quantum theory 给出那个 probability distribution.
+
+"observer-relative outcome" 这个共享短语因此指向两个不同对象. 在 quantum mechanics 中,
+outcome 相对于 measurement interaction 与 state description. 在 BEDC 中, outcome 相对于
+records chain 及其 preservation order. 实验笔记、detector click、peer replication record
+都可以是 BEDC records, 无论底层物理理论是 quantum、classical 还是别的.
+
+干净的 disambiguation 是:
+
+```
+QM measurement problem:
+  unitary dynamics、decoherence、probability 和 definite outcomes 如何相容?
+
+BEDC local-universe problem:
+  finite local records 如何在没有 global readable universe object 的条件下支撑 objectivity?
+```
+
+两者都不解决对方. quantum experiment 仍需要 physics. physics result 若要成为 observer
+chains 之间的 objective claim, 仍需要 record discipline.
+
 ## 物理内容在表面之间
 
-局部宇宙读法不从 `T` 导出物理定律.
+局部宇宙读法不从 `T` 导出物理定律. 它也不否定 physical law. 它重新定位可接受的主张.
 
 ```
 c := supplied by T              forbidden
@@ -147,6 +479,25 @@ bundles 的稳定 routes.
 共同远端给出边界纪律. 它不供应 constants、metrics、dynamics 或 state spaces.
 任何 physical law 都必须在 records side 和观察者链之间被证书化.
 :::
+
+这正是前面 invariant 分析进入 physics 的位置. law 不是单链习惯, 也不是 divine
+inscription. 它是在 classifier changes、apparatus transport、observer substitution、
+failure-surface audit 和 provenance retention 下仍稳定的 records-side pattern. invariance
+family 越强, pattern 越像 law. family 越弱, pattern 越 local、model-bound 或 apparatus-bound.
+
+## Kernel sites 指针
+
+本文论证是 philosophical dossier, 但它指向具体 BEDC kernel 与 paper sites. 下列路径已在
+当前 worktree 核实存在.
+
+| Claim | Kernel site |
+|---|---|
+| `InscriptionPoint(T,C,t)` carrier 与 taste-gate surface | `lean4/BEDC/Derived/InscriptionPointUp/TasteGate.lean` |
+| Large-model inscription-point variant | `lean4/BEDC/Derived/LargeModelInscriptionPointUp.lean` |
+| Apophatic fiber/far-end packet | `lean4/BEDC/Derived/ApophaticFiberFarEndUp/TasteGate.lean` |
+| Inscription NameCert paper site | `papers/bedc/parts/concrete_instances/2816_inscriptionpoint_namecert_construction.tex` |
+| Hyperbolic observer-expansion geometry | `papers/bedc/parts/visions/hyperbolic_phase_geometry_of_observer_expansion.tex` |
+| Position of consciousness as focused record plus local inscription | `papers/bedc/parts/visions/reality_constrained/position_of_consciousness.tex` |
 
 ## 压缩读法
 
