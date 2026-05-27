@@ -53,6 +53,37 @@ Finally, $H,R,T,P,N$ record transport, replay, route preservation, provenance, a
 \end{proof}
 \leanchecked{BEDC.Derived.SeparatedCompletionUp.SeparatedCompletionCarrier\_semantic\_name\_certificate}
 
+\begin{definition}[SeparatedCompletion kernel route]
+\label{def:separated-completion-kernel-route}
+The separated-completion kernel route of an accepted carrier $S=(M,D,C,Z,U,H,R,T,P,N)$ is the ordered readback
+$$
+M,D \longmapsto C \longmapsto Z,U \longmapsto H,R,T,P,N .
+$$
+Thus every completion-facing consumer first reads the source metric row $M$ and dense embedding row $D$, then the completion handoff row $C$, then the separated classifier and uniqueness rows $Z,U$, and only then the transport, replay, provenance, and local naming rows $H,R,T,P,N$.
+\end{definition}
+
+\begin{theorem}[SeparatedCompletion separated-limit handoff]
+\label{thm:separated-completion-separated-limit-handoff}
+Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. Every separated completion comparison reaches the separated classifier row $Z$ and uniqueness boundary row $U$ only after the source metric row $M$, dense embedding row $D$, and completion handoff row $C$ have been displayed.
+\end{theorem}
+\begin{proof}
+Use the carrier projection of \autoref{def:separated-completion-carrier} and the obligation order of \autoref{thm:separated-completion-namecert-obligations}. The rows $M$ and $D$ are the source and dense-entry surface, while $C$ is the only completion handoff row.
+
+The separated classifier $Z$ and uniqueness boundary $U$ are downstream rows in the same carrier. Since the carrier has no separate comparison coordinate, a separated-limit handoff cannot inspect $Z$ or $U$ before the $M,D,C$ route has been read.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion L10 readback exhaustion]
+\label{thm:separated-completion-l10-readback-exhaustion}
+For every accepted $\SeparatedCompletionUp$ carrier $S=(M,D,C,Z,U,H,R,T,P,N)$, the handoff row $C$ is exhausted by the finite L10 readbacks through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. It exports no quotient completion, selected representative, host equality of completed points, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project $C$ from the carrier of \autoref{def:separated-completion-carrier}. The definition identifies $C$ as the completion handoff row read through the finite $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ naming spine.
+
+Apply \autoref{thm:separated-completion-namecert-obligations}. The ledger non-escape clause states that quotient completions, selected representatives, host equality, countable choice, ambient $\RealUp$ completeness, and hidden complete metric spaces are absent from the local surface.
+
+Therefore every L10 readback of $C$ is exhausted by the displayed dyadic, stream, regular-rational, and real-name route, and no additional completion principle is exported.
+\end{proof}
+
 \begin{theorem}[SeparatedCompletion obligation surface]
 \label{thm:separated-completion-obligation-surface}
 Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. Every local $\NameCert_{\SeparatedCompletionUp}$ read starts with the displayed source row $M$, dense row $D$, completion handoff $C$, separated classifier $Z$, and uniqueness row $U$, then preserves that route through $\BHist$, $\hsame$, $\Cont$, provenance, and local naming data in $H,R,T,P,N$. The surface exports no quotient completion, selected representative, host equality, countable choice, or ambient Real completeness.
