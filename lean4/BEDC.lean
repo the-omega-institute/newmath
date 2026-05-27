@@ -712,6 +712,7 @@ import BEDC.Derived.BolzanoWeierstrassUp.MonotoneWindowRegularity
 import BEDC.Derived.BolzanoWeierstrassUp.NameCertObligations
 import BEDC.Derived.BolzanoWeierstrassUp.PublicSelectorExport
 import BEDC.Derived.BolzanoWeierstrassUp.RegSeqRatHandoff
+import BEDC.Derived.BolzanoWeierstrassUp.RegularSubsequenceWindowReadback
 import BEDC.Derived.BolzanoWeierstrassUp.RootIntervalTreeObligation
 import BEDC.Derived.BolzanoWeierstrassUp.RootRealSealObligation
 import BEDC.Derived.BolzanoWeierstrassUp.SubsequenceNonescape
@@ -1429,7 +1430,9 @@ import BEDC.Derived.CauchyProductUp.LedgerObligation
 import BEDC.Derived.CauchyProductUp.LimitSealSelectorCoherence
 import BEDC.Derived.CauchyProductUp.LimitSealSiblingDependency
 import BEDC.Derived.CauchyProductUp.MainSurfacePublicHandoff
+import BEDC.Derived.CauchyProductUp.MaturePublicFactorization
 import BEDC.Derived.CauchyProductUp.MultiplicationPublicConsumerBoundary
+import BEDC.Derived.CauchyProductUp.ObligationClosure
 import BEDC.Derived.CauchyProductUp.ObservationBudgetRegseqHandoff
 import BEDC.Derived.CauchyProductUp.PairedWindowClosure
 import BEDC.Derived.CauchyProductUp.PairedWindowLedgerClassifier
@@ -4064,6 +4067,7 @@ import BEDC.Derived.LayeredRelationDisplayUp.TasteGate
 import BEDC.Derived.LayeredRelationFailureBoundaryUp.TasteGate
 import BEDC.Derived.LayeredRelationGateUp.TasteGate
 import BEDC.Derived.LayeredRelationSiteUp.TasteGate
+import BEDC.Derived.LeibnizAlternatingRemainderUp.TasteGate
 import BEDC.Derived.LengthSpaceUp.TasteGate
 import BEDC.Derived.LesserLimitedOmniscienceUp
 import BEDC.Derived.LesserLimitedOmniscienceUp.TasteGate
@@ -6114,6 +6118,7 @@ import BEDC.Derived.SobolevUp.ClassifierLocality
 import BEDC.Derived.SobolevUp.FiniteEnergyCarrier
 import BEDC.Derived.SobolevUp.FiniteWindowRootPackage
 import BEDC.Derived.SobolevUp.IntegralMagnitudeLedgerStability
+import BEDC.Derived.SobolevUp.LocalPoincareLedger
 import BEDC.Derived.SobolevUp.ObligationPackage
 import BEDC.Derived.SobolevUp.TasteGate
 import BEDC.Derived.SobolevUp.TestFunctionSource
