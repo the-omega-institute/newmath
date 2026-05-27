@@ -242,6 +242,58 @@ Next apply the beta-star preservation readback and the kernel-ledger boundary. T
 Finally apply the candidate-mediated closedness ledger of \autoref{thm:metacicclosuretrace-candidate-mediated-closedness-ledger}. Row exhaustion leaves $H,C,P,N$ as transport, replay, provenance, and local naming support, so any stronger normalization, confluence, subject-reduction, or conversion-soundness theorem must enter from the downstream candidate packet.
 \end{proof}
 
+\begin{theorem}[MetaCICClosureTrace closed-normalization source order]
+\label{thm:metacicclosuretrace-closed-normalization-source-order}
+Every closed-normalization-facing consumer of an accepted $\MetaCICClosureTraceUp$ carrier
+$$
+T=(S,U,V,B,R,G,K,H,C,P,N)
+$$
+must read the displayed source order
+$$
+S,U,V,G \longmapsto B,R \longmapsto K \longmapsto H,C,P,N .
+$$
+The read supplies only closedness preservation for shift, variable substitution, full substitution, one-step beta, finite beta chains, generator rows, kernel-ledger accounting, transport, replay, provenance, and local naming. It refuses subject reduction, arbitrary normalization, quotient term equality, kernel soundness, and any normalization conclusion not already supplied by the downstream candidate packet.
+\end{theorem}
+\begin{proof}
+Project the carrier row family $S,U,V,B,R,G,K,H,C,P,N$. The only normalization-facing data available from the trace are the displayed ClosurePreservation rows and their structural support.
+
+Apply the substitution-shift generator package to order $S,U,V,G$. Apply the beta-star preservation readback to attach $B,R$ as beta closedness rows, and then apply the kernel-ledger boundary to keep $K$ as acceptance accounting rather than semantic soundness.
+
+Finally apply the candidate closure forwarding theorem. It permits forwarding only the displayed \texttt{ClosedAt} preservation rows, so closed-normalization consumers must obtain any actual normalization theorem from the downstream candidate packet rather than from this closure trace.
+\end{proof}
+
+\begin{theorem}[MetaCICClosureTrace confluence handoff boundary]
+\label{thm:metacicclosuretrace-confluence-handoff-boundary}
+Every confluence-facing handoff from an accepted $\MetaCICClosureTraceUp$ carrier factors through
+$$
+S,U,V,B,R,G,K,H,C,P,N .
+$$
+The handoff may cite the substitution generator package, beta-star preservation readback, kernel-ledger boundary, and candidate-mediated closedness ledger, but it exports no global confluence theorem, no subject-reduction theorem, no quotient term equality, no arbitrary normalization theorem, and no kernel-soundness premise.
+\end{theorem}
+\begin{proof}
+Start with a confluence-facing consumer. Carrier projection exposes only the five closure theorem rows, the generator row, the kernel ledger, and the structural rows.
+
+Use the substitution beta-chain boundary to combine $S,U,V,G$ with $B,R$ while staying inside \texttt{ClosedAt} preservation. Use the obligation-closure forwarder to route the same rows through $K,H,C,P,N$.
+
+The candidate closure forwarding theorem is the final boundary. It allows the closedness trace to be forwarded into a confluence packet, but it does not let the trace itself assert global confluence, quotient equality of terms, subject reduction, arbitrary normalization, or kernel soundness.
+\end{proof}
+
+\begin{theorem}[MetaCICClosureTrace decidability readback frontier]
+\label{thm:metacicclosuretrace-decidability-readback-frontier}
+Every decidability-facing readback from an accepted $\MetaCICClosureTraceUp$ carrier is confined to the displayed rows
+$$
+S,U,V,B,R,G,K,H,C,P,N .
+$$
+It may read closedness preservation, generator accounting, kernel acceptance accounting, componentwise transport, displayed replay, provenance, and local naming. It may not read decidable conversion, decidable typing, quotient term equality, global confluence, arbitrary normalization, subject reduction, or kernel soundness from the closure trace.
+\end{theorem}
+\begin{proof}
+Project the carrier. No row of \autoref{def:metacicclosuretrace-carrier} stores a decidability theorem, a conversion classifier, a typing classifier, quotient term equality, or kernel soundness.
+
+Apply the NameCert obligations and kernel-ledger boundary. They identify $K,H,C,P,N$ as ledger, transport, replay, provenance, and naming rows for the displayed ClosurePreservation declarations only.
+
+Apply the candidate-mediated closedness ledger and candidate closure forwarding results. They allow a decidability-facing packet to consume closedness preservation as input data, but the decidability readback frontier remains the displayed row family; any decidability conclusion must be supplied by the consumer packet.
+\end{proof}
+
 \closureat{MetaCICClosureTraceUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICClosureTraceUp}
