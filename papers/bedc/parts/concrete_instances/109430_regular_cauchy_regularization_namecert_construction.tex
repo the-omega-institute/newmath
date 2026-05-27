@@ -1,0 +1,67 @@
+\providecommand{\RegularCauchyRegularizationUp}{\mathsf{RegularCauchyRegularization}^{\uparrow}}
+
+\chapter{A Concrete Naming Certificate for $\RegularCauchyRegularizationUp$}
+\label{ch:concrete-instances-regular-cauchy-regularization-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyRegularizationUp$ packet records the finite BEDC route by which arbitrary Cauchy data are tightened into the regular-rational route used by $\RegSeqRatUp$ and the terminal $\RealUp$ seal. It sits between \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-real-namecert}, and the Cauchy-criterion surfaces such as \autoref{ch:concrete-instances-cauchycriterion-namecert}. The packet is a regularization service over displayed finite rows; it is not quotient stream equality, a selected limit, trichotomy, countable choice, or ambient completeness for $\RealUp$.
+
+\begin{definition}[Regular Cauchy regularization carrier]
+\label{def:regular-cauchy-regularization-carrier}
+A $\RegularCauchyRegularizationUp$ carrier is a finite $\BHist$ packet
+$$
+R=(Q,D,S,A,E,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $Q$ is the raw Cauchy source row, naming the displayed rational data and its Cauchy-window evidence through a local Cauchy-criterion certificate;
+\item $D$ is the $\DyadicRatCoreUp$ tightening ledger, recording the dyadic precision scale used to replace arbitrary Cauchy requests by nested regular tolerances;
+\item $S$ is the $\StreamNameUp$ schedule that lists the finite read windows consumed by the regularization;
+\item $A$ is the $\RegSeqRatUp$ readback row obtained from the tightened schedule and dyadic ledger;
+\item $E$ is the terminal $\RealUp$ seal exposed only after the regular readback row has been displayed;
+\item $H$ records componentwise $\hsame$ transport for the source, dyadic ledger, schedule, regular readback, terminal seal, replay, provenance, and naming rows;
+\item $C$ records the displayed $\Cont$ replay from $Q$ through $D,S,A$ to $E$;
+\item $P$ is the $\Pkg$ provenance over $\CauchyCriterionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyRegularizationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotienting Cauchy streams, selecting a host limit, comparing host real values by trichotomy, or importing completed-real closure.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy NameCert obligations]
+\label{thm:regular-cauchy-regularization-namecert-obligations}
+For the carrier of \autoref{def:regular-cauchy-regularization-carrier}, the local $\NameCert_{\RegularCauchyRegularizationUp}$ surface consists exactly of carrier admission for $R=(Q,D,S,A,E,H,C,P,N)$, dyadic tightening from the raw Cauchy source row to the scheduled regular windows, $\StreamNameUp$ schedule stability, $\RegSeqRatUp$ readback exactness, $\RealUp$ terminal-seal exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and nonescape for quotient stream equality, selected host limits, trichotomy, countable choice, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the finite packet. The rows $Q,D,S,A,E,H,C,P,N$ are the whole carrier, so the admitted regularization service must expose the raw Cauchy source, the dyadic tightening ledger, the stream schedule, the regular rational readback, and the terminal seal as displayed data.
+
+The Cauchy source is consumed through the local Cauchy-criterion row, while $D$ chooses the dyadic precision budget used for each scheduled request. The schedule row $S$ then records only finitely many read windows, and $A$ packages those windows as the regular rational readback used by $\RegSeqRatUp$.
+
+Transport and replay are componentwise. The $\hsame$ row $H$ preserves the source, ledger, schedule, readback, seal, route, provenance, and local name together, while the $\Cont$ row $C$ forces every consumer to traverse $Q$ then $D,S,A$ before reaching $E$.
+
+Since the packet contains no quotient-stream coordinate, selected host limit, trichotomy row, choice row, or ambient completeness row, no such datum can be projected from the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus route]
+\label{thm:regular-cauchy-regularization-modulus-route}
+Every accepted $\RegularCauchyRegularizationUp$ carrier turns a raw Cauchy source row into a $\RegSeqRatUp$ route by first tightening the source through the $\DyadicRatCoreUp$ ledger, then scheduling the required windows through $\StreamNameUp$, then reading the scheduled rational data as the regular row $A$. The $\RealUp$ seal $E$ is available only through that displayed route, and no consumer may replace the route by quotient stream equality, a selected limit, trichotomy, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier inventory of \autoref{def:regular-cauchy-regularization-carrier}. The only source of tolerance control is $D$, and the only source of read order is $S$. Thus the raw Cauchy row cannot be consumed as a regular sequence until the dyadic ledger and the stream schedule have both been displayed.
+
+Next read the regular row. The packet places $A$ after $D$ and $S$, so the $\RegSeqRatUp$ consumer sees regular rational data only through the tightened windows. The terminal $\RealUp$ seal $E$ is reached after this readback, not directly from the raw source row.
+
+Finally apply the nonescape clauses from the NameCert obligations. Because no quotient stream, selected host limit, trichotomy, countable-choice coordinate, or ambient completeness row occurs in $R$, the modulus route is the displayed finite route through $\CauchyCriterionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+\end{proof}
+
+\closureat{RegularCauchyRegularizationUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyRegularizationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-regularization-carrier}, \autoref{thm:regular-cauchy-regularization-namecert-obligations}, and \autoref{thm:regular-cauchy-regularization-modulus-route} seed the finite regularization surface from raw Cauchy source rows through dyadic tightening, StreamName scheduling, RegSeqRat readback, and Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient stream equality, selected host limits, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic tightening exactness, schedule stability, regular readback exactness, Real seal exposure, and nonescape for BEDC.Derived.RegularCauchyRegularizationUp.}
+  \constructivestory{A $\RegularCauchyRegularizationUp$ packet is generated from a raw Cauchy source row, a $\DyadicRatCoreUp$ tightening ledger, a $\StreamNameUp$ schedule, a $\RegSeqRatUp$ readback row, a $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
