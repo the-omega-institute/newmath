@@ -1,0 +1,254 @@
+---
+title: "远端图式学"
+subtitle: "records, digest, GAP, fiber, FarEnd, T 的可视语法"
+author: "The Omega Institute"
+date: 2026-05-27
+lang: zh-Hans
+description: "一篇 dossier 短文, 把否定式远端读法转成小型图式语言. 图式澄清 BEDC 不能坍缩的层级."
+---
+
+```{=html}
+<div class="lang-switch"><a href="far-end-diagrammatics.qmd">English</a></div>
+```
+
+## 为什么画出来
+
+否定式远端故事很容易说, 也很容易误读. 压缩公式是:
+
+```
+∀s ∈ ForwardSocket(C),   FarEnd(s) ≡_apo T.
+```
+
+常见错误是把右边读成对象. 图式有帮助, 因为它持续显示层级: substrate 内部
+的 records、digest 表面、provenance fibers、以及不能变成 substrate value
+的远端.
+
+## 闭合 substrate 图
+
+::: {.evidence}
+**闭合流量.**
+内部一切都必须经过显示结构:
+
+```
+records -> generators -> classifiers -> Cont -> GAP -> NameCert
+```
+
+凡是不能在这里生成、定义、证明或证书化的供应, 都变成 socket.
+:::
+
+远端图是:
+
+```
+closed substrate C
+
+records -> generators -> classifiers -> Cont -> GAP -> NameCert
+                         |              |       |
+                         v              v       v
+                      socket s1      socket s2  socket s3
+                         |              |       |
+                         v              v       v
+                    FarEnd(s1)    FarEnd(s2) FarEnd(s3)
+                         \              |       /
+                          \             |      /
+                           +------------+-----+
+                                        |
+                                        v
+                                        T
+```
+
+进入 `T` 的箭头不是内部函数. 它们是边界读法. 这张图说: socket 已经被
+ledgered 之后, substrate 对 far side 没有 discriminator.
+
+```{=html}
+<span class="elim-mark">✗ "这些箭头定义了到对象 T 的映射."</span>
+```
+
+没有. 箭头只是 apophatic sameness 的记号.
+
+## 局部读出图
+
+对一条观察者链, 图变成:
+
+```
+Hist/Obs chain C_i
+        |
+        v
+Obs(C_i)<=t = UniverseFor(C_i,t)
+        |
+        v
+d_i(t) = ObsDigest(C_i,t)
+        |
+        v
+GAP / provenance packet
+        |
+        v
+ObsFib(d_i(t))
+        |
+        v
+FarEnd(ObsFib(d_i(t))) ==_apo T
+```
+
+这是 hash-like 读法的核心纪律. digest 可见. fiber 被 ledgered. 远端以
+否定式命名.
+
+::: {.evidence}
+**三层.**
+
+```
+finite readout       = digest / Obs / local records
+hidden provenance    = fiber / GAP / source rows
+apophatic far end    = FarEnd(...) ≡_apo T
+```
+:::
+
+这不是隐藏形而上学的图. 它是 audit surface. 它显示一个证明或解释可以
+在哪里消费信息.
+
+## self-center 图
+
+self-center 在局部链点上, 不在远端上.
+
+```
+one local accumulation event E(C,t)
+
+records-side reading                 inscription-side reading
+--------------------                 ------------------------
+new record in Obs(C)                 InscriptionPoint(T,C,t)
+classifier / package / ledger        SelfCenter(C,t)
+Cont / selector witness
+```
+
+允许的定义是:
+
+```
+SelfCenter(C,t) := InscriptionPoint(T,C,t)
+```
+
+禁用的等式是:
+
+```
+SelfCenter(C,t) = T
+```
+
+差别是结构性的. 第一个表达式把局部事件读作 inscription aspect. 第二个把
+远端作为对象塞进观察者.
+
+## 多观察者图
+
+多个观察者不共享一个全局宇宙对象. 它们共享 far-end commitment:
+
+```
+C_i: ObsDigest -> ObsFib -> FarEnd \
+                                      \
+                                       +--> T
+                                      /
+C_j: ObsDigest -> ObsFib -> FarEnd /
+```
+
+这不是 digest equality.
+
+```
+d_i(t) = d_j(t')       not required
+```
+
+也不是直接进入另一个 self-center. 他心通过 records-side evidence、
+inter-`Hist` coherence, 以及其 observation fiber 也终止于同一个否定式远端
+的承诺出现.
+
+```{=html}
+<span class="elim-mark">✗ "相似 digest 蕴含同一个 source 或 self."</span>
+```
+
+两者都不蕴含. 相似性是 visible surface 上的证据. 它不坍缩 source、fiber
+或 self-center.
+
+## 无穷图
+
+无穷读法也是图式性的:
+
+```
+finite readouts:  d1(t)   d2(t')   d3(t'')
+                    |       |        |
+                    v       v        v
+                 Fib(d1) Fib(d2)  Fib(d3)
+                    |       |        |
+                    v       v        v
+                 FarEnd  FarEnd   FarEnd
+                    \       |       /
+                     \      |      /
+                      +-----+-----+
+                            |
+                            v
+                            T ==_apo infinity_apo
+```
+
+读成:
+
+```
+T 是所有有限读出 fiber 的共同 far-end role.
+```
+
+不要读成:
+
+```
+T 是无穷总体本身.
+```
+
+## 图式防止什么
+
+图式有用, 因为它让禁用坍缩变得可见:
+
+::: {.evidence}
+**禁用坍缩.**
+
+```
+ObsDigest(C,t) = T             digest 变成 far end
+SelfCenter(C,t) = T            local inscription 变成 global boundary
+H(Ω) = T                       universe 变成 global digest
+T : Hist                       boundary name 变成 history
+T : State                      boundary name 变成 system state
+axiom T : FixedPoint           socket 变成 kernel object
+```
+:::
+
+每一行都从图中拿掉了至少一个层级. BEDC 通过追问消失的 ledger、source row
+或 non-internalization marker 在哪里来拒绝坍缩.
+
+## 压缩图
+
+整张图可以压成一条链:
+
+```
+Obs(C_i)<=t
+  -> ObsDigest(C_i,t)
+  -> ObsFib(ObsDigest(C_i,t))
+  -> FarEnd(ObsFib(ObsDigest(C_i,t))) ==_apo T
+```
+
+以及一个局部读法:
+
+```
+SelfCenter(C_i,t) := InscriptionPoint(T,C_i,t).
+```
+
+这就是图式学的全部意义. 它不添加理论. 它防止既有理论被读得太快.
+
+```{=html}
+<div class="cta-choices">
+  <a href="apophatic-infinity.zh-CN.qmd"><strong>← 否定式无穷</strong><br/>T ≡_apo infinity_apo 记号背后的 far-end role.</a>
+  <a href="local-universe-from-digest.zh-CN.qmd"><strong>从 digest 到局部宇宙 →</strong><br/>universe-for-observer、time、space 如何从同一张图读出.</a>
+</div>
+```
+
+### 相关阅读
+
+```{=html}
+<div class="cta-choices">
+  <a href="hash-like-reading.zh-CN.qmd"><strong>用 hash 看宇宙</strong><br/>同一结构的 digest/fiber 读法.</a>
+  <a href="one-far-end.zh-CN.qmd"><strong>所有 socket 的统一远端</strong><br/>所有 forward-binding 远端共享同一个否定式名字的原则.</a>
+  <a href="formalization-routes.zh-CN.qmd"><strong>形式化路线</strong><br/>为什么可见名字需要 source rows、packet routes 和 audit fields.</a>
+</div>
+```
+
+— *The Omega Institute*
+*newmath / BEDC, May 2026*
