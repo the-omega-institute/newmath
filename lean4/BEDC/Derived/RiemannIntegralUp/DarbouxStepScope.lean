@@ -14,7 +14,7 @@ open BEDC.FKernel.Unary
 theorem RiemannIntegralCarrier_darboux_step_scope [AskSetup] [PackageSetup]
     {M T F S D G R H C P N tagRead sumRead darbouxRead gapRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    RiemannIntegralCarrier M T F S D G R H C P N bundle pkg ->
+    RiemannIntegralPacket M T F S D G R H C N P bundle pkg ->
       Cont M T tagRead ->
         Cont F S sumRead ->
           Cont sumRead D darbouxRead ->
@@ -37,7 +37,7 @@ theorem RiemannIntegralCarrier_darboux_step_scope [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame SemanticNameCert
   intro carrier tagRoute sumRoute darbouxRoute gapRoute gapPkg
   obtain ⟨mUnary, tUnary, fUnary, sUnary, dUnary, gUnary, _rUnary, _hUnary,
-    _cUnary, _nUnary, _mtf, _fsd, _dgr, provenancePkg⟩ := carrier
+    _cUnary, _nUnary, _pUnary, _mtf, _fsd, _dgr, provenancePkg⟩ := carrier
   have tagUnary : UnaryHistory tagRead :=
     unary_cont_closed mUnary tUnary tagRoute
   have sumUnary : UnaryHistory sumRead :=
