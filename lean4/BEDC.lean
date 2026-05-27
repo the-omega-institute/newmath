@@ -4327,6 +4327,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObligation
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNamingExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurface
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormPublicNonescape
+import BEDC.Derived.MetaCICCriticalPathUp.NormalFormReadbackBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormRouteCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionLedgerExhaustion
@@ -4351,6 +4352,7 @@ import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.ObligationClosurePac
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.ProjectionCoverage
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.PublicConsumerBoundary
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.ResidualCandidateCoverage
+import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.ResidualReadbackBoundary
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.RouteCoverage
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationFrontierUp.AuditSealConsumerRoute
@@ -5336,6 +5338,7 @@ import BEDC.Derived.RealPowerSeriesUp
 import BEDC.Derived.RealPowerSeriesUp.CauchyProductHandoff
 import BEDC.Derived.RealPowerSeriesUp.CoefficientWindowLedger
 import BEDC.Derived.RealPowerSeriesUp.EndpointSealFactorization
+import BEDC.Derived.RealPowerSeriesUp.EndpointSealScope
 import BEDC.Derived.RealPowerSeriesUp.MajorantConsumerCoverage
 import BEDC.Derived.RealPowerSeriesUp.MajorantExhaustion
 import BEDC.Derived.RealPowerSeriesUp.MajorantRouteTotality
@@ -6128,6 +6131,7 @@ import BEDC.Derived.SobolevUp.TestFunctionSource
 import BEDC.Derived.SobolevUp.TraceBoundaryObligation
 import BEDC.Derived.SobolevUp.TraceWindowObligation
 import BEDC.Derived.SobolevUp.WeakDerivativeRoute
+import BEDC.Derived.SobolevUp.WeakDerivativeScope
 import BEDC.Derived.SocketKindClassifierUp.NameCertObligations
 import BEDC.Derived.SocketKindClassifierUp.StdBridge
 import BEDC.Derived.SocketKindClassifierUp.TasteGate
