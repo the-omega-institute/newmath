@@ -1,43 +1,5 @@
+\subsection{NameCert: self.claim}
+\label{sec:namecert-self_claim}
 \origin{ai}
 
-\subsection{Self-Claim Boundary for ORF Eligibility}
-\label{sec:bioreality-self-claim-orf-eligibility-boundary}
-
-\paragraph{Finite packet.}
-This BioReality record is a seed-level boundary packet for open-reading-frame eligibility from start/stop codon enumeration. Its carrier is not yet an observed biological interval, a transcript, a translated product, or a curated annotation. The current carrier is the explicit contact gap: the packet records that reality contact is still absent. The local finite evidence is therefore used only to delimit what a later contact would have to test. In the verified row $h0.M.equals.WNR.CUN$, the finite set $M$ has cardinality $20$ and is exactly
-$\{AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}$. In the verified row $h0.R.motif.compression$, the compressed motif set $R$ has $13$ displayed elements,
-$\{AAA,AGA,AGG,AUA,CUA,CUC,CUG,CUU,UAA,UAG,UCA,UGA,UUA\}$,
-with no missing and no extra entries relative to the recorded motif union. These are finite codon rows, not biological claims about expressed sequence.
-
-\paragraph{Boundary computation.}
-The row $h0.f3.saturation$ records that saturation from $R$ under the $f_3$ operation reaches the $18$-element set
-$\{AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}$,
-which is $M$ without $ACA$ and $ACG$. The same row records $M=Med(R)\cup\{ACA,ACG\}$ and an empty $f_3$ boundary. Written only as finite bookkeeping, the relevant sizes are
-$$
-\begin{aligned}
-|R|&=13,\\
-|Sat_{f_3}(R)|&=18,\\
-|M|&=20,\\
-M\setminus Sat_{f_3}(R)&=\{ACA,ACG\}.
-\end{aligned}
-$$
-This calculation supplies a controlled enumeration boundary: it says which codon rows are present in the packet and which two rows account for the difference between the saturated row and $M$. It does not say that a start codon is used in vivo, that a stop codon closes a biological interval, or that any listed window is an observed ORF.
-
-\paragraph{Quotient geometry.}
-The row $h0.quotient.geometry$ gives a second finite check on the packet. The $M$-level face vector is recorded as $(20,38,26,8,1)$, while the quotient face vector is $(10,14,6,1)$ and the quotient has size $10$. The recorded quotient rows are
-$$(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),(0,1,0,0,0),(0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),(1,0,1,0,1),(1,0,1,1,1).$$
-Equivalently, the finite packet records the scalar summary
-$$
-\begin{aligned}
- f_M&=(20,38,26,8,1),\\
- |\pi(M)|&=10,\\
- f_{\pi(M)}&=(10,14,6,1).
-\end{aligned}
-$$
-These numbers check internal row consistency and quotient compression. They still remain coordinate facts inside the packet. They are not evidence of translation, folding, physical admissibility, molecular mechanism, organismal function, or biological universality.
-
-\paragraph{Reality-contact gate.}
-The self-check row records the boundary sentence: ``BioReality self-check only; no codon geometry is promoted across biological layers.'' It also records $3$ checked gates. In this chapter those gates are interpreted conservatively. The packet may say that the ORF-eligibility layer has a finite seed boundary and that two derived probes identify the missing reality contact. It may not say that ORF eligibility itself has been observed, because the contact list is empty and no curated ORF interval annotation, sequence database record, transcript evidence, ribosome-profiling evidence, peptide evidence, or functional assay is attached here.
-
-\paragraph{Cannot-claim boundary.}
-The local rule is therefore absolute for this packet. Start/stop-window enumeration alone does not entail translation realization. It does not entail folded structure. It does not entail physical admissibility. It does not entail biological function, biochemical mechanism, taxonomic prevalence, evolutionary conservation, or universality. A later chapter may attach a separate contact that tests an interval against curated sequence or transcript evidence, but that would be a new reality contact, not a consequence of these coordinates. Until such a contact is present, the correct BioReality status is boundary-only ORF-eligibility seeding: a finite row system with $|M|=20$, $|R|=13$, $|Sat_{f_3}(R)|=18$, quotient size $10$, and $3$ checked self-gates, but with no biological layer claim beyond the contact gap itself.
+This BioReality namecert is awaiting codex re-authoring. Most recent attempt failed the chapter hygiene gate; issues recorded: template_residue: BEDC 5-tuple, template_residue: lean target sketch (statement-only), template_residue: internal newmath/bedc derivation, template_residue: bridge disclaimer, template_residue: external reality sources. The committed registry record at \path{tools/bio_reality/registries/claims.json} still tracks the underlying claim self.claim and its experiment runs.
