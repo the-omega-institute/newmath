@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\ProbeBundleFiniteMinimumFoldUp$}
+\label{ch:concrete-instances-probe-bundle-finite-minimum-fold-namecert}
+\origin{human}
+
+Following the finite minimum step in the Heine--Cantor proof of \autoref{ch:visions-compact-uniform-continuity}, the $\ProbeBundleFiniteMinimumFoldUp$ packet records the compact-net lower-bound fold as a finite BEDC carrier. It reads the $\mathsf{ProbeBundle}$ spine supplied by compactness, the $\RatUp$ radius histories attached to bundled centers, the order readback exposed through $\TotalOrderUp$, the source rows of $\CompactUp$ and $\MetricUp$, the pointwise graph rows of $\ContinuousMapUp$, and the downstream $\UniformContinuityModulusUp$ consumer. The packet names the fold as finite induction over displayed probes, not as a host minimum over a semantic finite set.
+
+\begin{definition}[ProbeBundleFiniteMinimumFold carrier]
+\label{def:probe-bundle-finite-minimum-fold-carrier}
+A $\ProbeBundleFiniteMinimumFoldUp$ carrier is a finite $\BHist$ packet
+$$
+F=(K,M,G,\mathcal{P},R,O,A,B,U,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactUp$ source row carrying the finite-net witness.
+\item $M$ is the $\MetricUp$ source-distance row used by the compact-uniform-continuity argument.
+\item $G$ is the $\ContinuousMapUp$ pointwise-modulus row attached to the displayed graph.
+\item $\mathcal{P}$ is the nonempty $\mathsf{ProbeBundle}$ spine indexing the compact-net centers.
+\item $R$ is the finite family of positive $\RatUp$ radius histories, one for each bundled probe.
+\item $O$ is the $\TotalOrderUp$ readback row used to compare the positive rational radius histories.
+\item $A$ is the accumulator ledger produced by primitive recursion over $\mathcal{P}$.
+\item $B$ is the certified lower-bound row saying that the final accumulator is below every displayed radius history in $R$.
+\item $U$ is the $\UniformContinuityModulusUp$ handoff row that receives the accumulator as the tolerance-only precision.
+\item $H$ records componentwise $\hsame$ transport for the compact source, metric source, continuous-map row, bundle spine, rational candidates, order readback, accumulator, lower-bound certificate, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite fold from the bundle spine to the handoff row.
+\item $Q$ records $\Pkg$ provenance over $\ProbeBundleFiniteMinimumFoldUp$, $\CompactUp$, $\MetricUp$, $\ContinuousMapUp$, $\RatUp$, $\TotalOrderUp$, $\UniformContinuityModulusUp$, $\mathsf{ProbeBundle}$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ProbeBundleFiniteMinimumFoldUp}$ row.
+\end{enumerate}
+The carrier contains no host finite minimum, escaped probe outside $\mathcal{P}$, open-cover compactness object, quotient point equality, external modulus selector, or ambient $\RealUp$ completeness row.
+\end{definition}
+
+\begin{theorem}[ProbeBundleFiniteMinimumFold NameCert obligations]
+\label{thm:probe-bundle-finite-minimum-fold-namecert-obligations}
+For every accepted $\ProbeBundleFiniteMinimumFoldUp$ carrier
+$$
+F=(K,M,G,\mathcal{P},R,O,A,B,U,H,C,Q,N),
+$$
+the local $\NameCert_{\ProbeBundleFiniteMinimumFoldUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item compact, metric, and continuous-map source admission through $K,M,G$;
+\item nonempty $\mathsf{ProbeBundle}$ spine admission for $\mathcal{P}$;
+\item positive $\RatUp$ radius admission for each bundled row of $R$;
+\item $\TotalOrderUp$ comparison readback through $O$ at each successor step of the fold;
+\item finite-spine induction producing the accumulator row $A$ from the rows of $R$;
+\item lower-bound exactness, requiring $B$ to certify that the accumulator is below every displayed radius history and to read no radius outside $R$;
+\item $\UniformContinuityModulusUp$ handoff through $U$;
+\item ledger non-escape, excluding host minima, escaped probes, open-cover compactness, quotient point equality, external modulus selectors, and ambient $\RealUp$ completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:probe-bundle-finite-minimum-fold-carrier}. The compact, metric, and continuous-map rows expose the source of the compact-uniform-continuity argument, while $\mathcal{P}$ is the only induction spine available to the fold.
+
+Use primitive recursion over $\mathcal{P}$. At the initial row the accumulator reads the first positive $\RatUp$ radius history in $R$; at each successor step the fold compares the accumulator with the next radius through the displayed $\TotalOrderUp$ row $O$ and writes the retained lower row into $A$.
+
+The lower-bound certificate $B$ is attached to the same recursion. It records that the final accumulator is classifier-stably below every radius row already inspected in $R$, and it has no coordinate from which a radius outside the bundle can be read.
+
+Finally the handoff row $U$ gives the compact-uniform-continuity consumer a tolerance-only precision history. The structural rows $H,C,Q,N$ transport, replay, source, and name the same finite route, so no host finite minimum, escaped probe, open-cover compactness object, quotient point equality, external modulus selector, or ambient real-completeness object can enter the certificate.
+\end{proof}
+
+\falsifiablePrediction{A $\ProbeBundleFiniteMinimumFoldUp$ consumer that obtains a UniformContinuityModulusUp precision without reading the displayed CompactUp source, MetricUp source, ContinuousMapUp row, ProbeBundle spine, RatUp radius histories, TotalOrderUp comparison row, accumulator ledger, lower-bound certificate, hsame transport, Cont replay, Pkg provenance, and local NameCert row refutes the carrier surface.}
+
+\independenceWitness{compact, metric, continuousmap, rat, totalorder, uniformcontinuitymodulus: no listed sibling supplies the whole ProbeBundle finite minimum fold because each sibling contributes only compact source data, metric rows, graph rows, rational order data, or modulus handoff rows while this chapter binds the finite-spine induction surface.}
+
+\closureat{ProbeBundleFiniteMinimumFoldUp}{seedStr}
+
+\begin{closurestatus}{\ProbeBundleFiniteMinimumFoldUp}
+  \constructivestory{A $\ProbeBundleFiniteMinimumFoldUp$ packet is generated from CompactUp finite-net rows, MetricUp source rows, ContinuousMapUp pointwise-modulus rows, a nonempty ProbeBundle spine, positive RatUp radius histories, a TotalOrderUp comparison readback row, an accumulator ledger, a lower-bound certificate, a UniformContinuityModulusUp handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:probe-bundle-finite-minimum-fold-carrier} and \autoref{thm:probe-bundle-finite-minimum-fold-namecert-obligations} seed the finite ProbeBundle minimum fold required by the compact-uniform-continuity lower-bound route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host finite minima, probes outside the displayed bundle, open-cover compactness, quotient point equality, external modulus selectors, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the displayed carrier and prove source admission, bundle spine admission, positive rational admission, order readback, finite-spine induction, lower-bound exactness, modulus handoff, and ledger non-escape.}
+\end{closurestatus}
