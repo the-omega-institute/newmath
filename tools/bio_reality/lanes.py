@@ -2382,7 +2382,7 @@ def _render_paper_main(paths: BioRealityPaths, namecert_slugs: list[str]) -> str
         r"% BEDC-style macros stubbed for the standalone BioReality paper.",
         r"\newcommand{\origin}[1]{}",
         r"\newcommand{\closureat}[2]{}",
-        r"\newcommand{\path}[1]{\texttt{#1}}",
+        r"\providecommand{\path}{}\renewcommand{\path}[1]{\texttt{#1}}",
         r"\providecommand{\BHist}{\mathsf{BHist}}",
         r"\providecommand{\hsame}{\equiv_h}",
         r"\providecommand{\Cont}{\mathrm{Cont}}",
