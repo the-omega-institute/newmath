@@ -457,4 +457,40 @@ theorem MetaCICClosureTraceCarrier_obligation_closure_upgrade
   }
   exact Exists.intro frontierRead cert
 
+theorem MetaCICClosureTraceCarrier_scoped_confluence_audit_route
+    [AskSetup] [PackageSetup]
+    {S U V B R G K H C P N confluenceRead conversionRead auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICClosureTraceCarrier S U V B R G K H C P N bundle pkg ->
+      Cont (append (append S U) G) (append B R) confluenceRead ->
+        Cont confluenceRead K conversionRead ->
+          Cont conversionRead N auditRead ->
+            PkgSig bundle auditRead pkg ->
+              UnaryHistory confluenceRead ∧ UnaryHistory conversionRead ∧
+                UnaryHistory auditRead ∧
+                  Cont (append (append S U) G) (append B R) confluenceRead ∧
+                    Cont confluenceRead K conversionRead ∧
+                      Cont conversionRead N auditRead ∧ PkgSig bundle P pkg ∧
+                        PkgSig bundle auditRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier confluenceRoute conversionRoute auditRoute auditPkg
+  obtain ⟨SUnary, UUnary, _VUnary, BUnary, RUnary, GUnary, KUnary, _HUnary,
+    _CUnary, _PUnary, NUnary, _shiftSubstitution, _generatorPackage, _betaRoute,
+    pkgSig⟩ := carrier
+  have SUUnary : UnaryHistory (append S U) :=
+    unary_append_closed SUnary UUnary
+  have generatorUnary : UnaryHistory (append (append S U) G) :=
+    unary_append_closed SUUnary GUnary
+  have betaUnary : UnaryHistory (append B R) :=
+    unary_append_closed BUnary RUnary
+  have confluenceUnary : UnaryHistory confluenceRead :=
+    unary_cont_closed generatorUnary betaUnary confluenceRoute
+  have conversionUnary : UnaryHistory conversionRead :=
+    unary_cont_closed confluenceUnary KUnary conversionRoute
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed conversionUnary NUnary auditRoute
+  exact
+    ⟨confluenceUnary, conversionUnary, auditUnary, confluenceRoute, conversionRoute,
+      auditRoute, pkgSig, auditPkg⟩
+
 end BEDC.Derived.MetaCICClosureTraceUp
