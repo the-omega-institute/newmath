@@ -27,6 +27,44 @@ def CauchyFilterCompletionPacket [AskSetup] [PackageSetup]
           Cont transport replay provenance ∧ PkgSig bundle provenance pkg ∧
             PkgSig bundle name pkg
 
+theorem CauchyFilterCompletionPacket_source_exactness [AskSetup] [PackageSetup]
+    {filter windows tolerance readback sealRow transport replay provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterCompletionPacket filter windows tolerance readback sealRow transport replay
+        provenance name bundle pkg →
+      UnaryHistory filter ∧ UnaryHistory windows ∧ UnaryHistory tolerance ∧
+        UnaryHistory readback ∧ UnaryHistory sealRow ∧ Cont filter windows tolerance ∧
+          Cont tolerance readback sealRow ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro packet
+  obtain ⟨filterUnary, windowsUnary, toleranceUnary, readbackUnary, sealUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _nameUnary, filterWindows,
+    toleranceReadback, _transportReplay, provenancePkg, _namePkg⟩ := packet
+  exact
+    ⟨filterUnary, windowsUnary, toleranceUnary, readbackUnary, sealUnary, filterWindows,
+      toleranceReadback, provenancePkg⟩
+
+theorem CauchyFilterCompletionPacket_ledger_exhaustion [AskSetup] [PackageSetup]
+    {filter windows tolerance readback sealRow transport replay provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterCompletionPacket filter windows tolerance readback sealRow transport replay
+        provenance name bundle pkg →
+      UnaryHistory filter ∧ UnaryHistory windows ∧ UnaryHistory tolerance ∧
+        UnaryHistory readback ∧ UnaryHistory sealRow ∧ UnaryHistory transport ∧
+          UnaryHistory replay ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+            Cont filter windows tolerance ∧ Cont tolerance readback sealRow ∧
+              Cont transport replay provenance ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro packet
+  obtain ⟨filterUnary, windowsUnary, toleranceUnary, readbackUnary, sealUnary,
+    transportUnary, replayUnary, provenanceUnary, nameUnary, filterWindows,
+    toleranceReadback, transportReplay, provenancePkg, namePkg⟩ := packet
+  exact
+    ⟨filterUnary, windowsUnary, toleranceUnary, readbackUnary, sealUnary, transportUnary,
+      replayUnary, provenanceUnary, nameUnary, filterWindows, toleranceReadback, transportReplay,
+      provenancePkg, namePkg⟩
+
 theorem CauchyFilterCompletionPacket_semantic_name_certificate [AskSetup] [PackageSetup]
     {filter windows tolerance readback sealRow transport replay provenance name : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
