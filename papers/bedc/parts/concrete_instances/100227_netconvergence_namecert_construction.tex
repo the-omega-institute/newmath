@@ -121,6 +121,18 @@ Read the CauchyFilter handoff theorem \autoref{thm:net-convergence-cauchy-filter
 The structural rows $H,C,P,M$ transport, replay, package, and locally name that same route. Since neither theorem supplies a coordinate for selected subnets, cofinal choice, quotient nets, host filter equality, or ambient completeness, the Moore--Smith and filter consumers meet only at the displayed finite boundary.
 \end{proof}
 
+\begin{theorem}[Net convergence filterbase finality]
+\label{thm:net-convergence-filterbase-finality}
+Every $\FilterBaseUp$ or $\CauchyFilterUp$ consumer of an accepted $\NetConvergenceUp$ carrier factors through the displayed directed tail $D,T,E$ and the handoff row $F$. No host filter equality, selected limit, quotient net, ambient completeness witness, or alternate filter coordinate can refine that handoff beyond the finite route already displayed by the carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:net-convergence-carrier}. The rows $D,T,E$ are the directed-index window, tail-neighbourhood ledger, and entourage row, while $F$ is the only row that names the filter-facing handoff.
+
+Apply \autoref{thm:net-convergence-cauchy-filter-handoff}. It sends every CauchyFilter-facing read through $D,T,E,F$ before any Real-facing rows can contribute. Apply also \autoref{thm:net-convergence-moore-smith-filter-boundary}, which identifies the Moore--Smith and filter boundary with the same displayed rows.
+
+The carrier has no second filterbase coordinate, no selected limit coordinate, and no quotient-net coordinate. Thus every filterbase or CauchyFilter consumer factors through the displayed handoff, and that handoff is final among the routes accepted by the packet.
+\end{proof}
+
 \begin{closurestatus}{\NetConvergenceUp}
   \constructivestory{A $\NetConvergenceUp$ packet is generated from a directed-index window, a tail-neighbourhood ledger, a UniformSpace entourage row, an optional CauchyNet source row, a CauchyFilter handoff row, StreamName windows, RegSeqRat readback, a Real seal boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
