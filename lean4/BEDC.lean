@@ -916,6 +916,7 @@ import BEDC.Derived.CantorIntersectionUp.WidthWindowTransport
 import BEDC.Derived.CantorSetUp.TasteGate
 import BEDC.Derived.CantorSpaceUp
 import BEDC.Derived.CantorSpaceUp.StreamNameBoolScope
+import BEDC.Derived.CaratheodoryConvexHullUp.TasteGate
 import BEDC.Derived.CatColimitUp
 import BEDC.Derived.CatLimitUp
 import BEDC.Derived.CategoryFunctorIndex
