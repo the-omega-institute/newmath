@@ -30,7 +30,7 @@ def frechetCompletionDecodeBHist : RawEvent -> BHist
   | BMark.b1 :: tail => BHist.e1 (frechetCompletionDecodeBHist tail)
 
 theorem FrechetCompletionTasteGate_single_carrier_alignment_decode_encode :
-    ∀ h : BHist, frechetCompletionDecodeBHist (frechetCompletionEncodeBHist h) = h := by
+    forall h : BHist, frechetCompletionDecodeBHist (frechetCompletionEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -100,7 +100,7 @@ def frechetCompletionFromEventFlow : EventFlow -> Option FrechetCompletionUp
                                           | _ :: _ => none
 
 theorem FrechetCompletionTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : FrechetCompletionUp,
+    forall x : FrechetCompletionUp,
       frechetCompletionFromEventFlow (frechetCompletionToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
@@ -165,10 +165,10 @@ def frechetCompletionTasteGate : ChapterTasteGate FrechetCompletionUp :=
   frechetCompletionChapterTasteGate
 
 theorem FrechetCompletionTasteGate_single_carrier_alignment :
-    (∀ h : BHist, frechetCompletionDecodeBHist (frechetCompletionEncodeBHist h) = h) ∧
-      (∀ x : FrechetCompletionUp,
+    (forall h : BHist, frechetCompletionDecodeBHist (frechetCompletionEncodeBHist h) = h) ∧
+      (forall x : FrechetCompletionUp,
         frechetCompletionFromEventFlow (frechetCompletionToEventFlow x) = some x) ∧
-        (∀ x y : FrechetCompletionUp,
+        (forall x y : FrechetCompletionUp,
           frechetCompletionToEventFlow x = frechetCompletionToEventFlow y -> x = y) ∧
           frechetCompletionEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
