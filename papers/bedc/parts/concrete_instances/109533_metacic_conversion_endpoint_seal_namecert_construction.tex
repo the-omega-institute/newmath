@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICConversionEndpointSealUp$}
+\label{ch:concrete-instances-metacic-conversion-endpoint-seal-namecert}
+\origin{ai}
+
+The $\MetaCICConversionEndpointSealUp$ packet realizes the endpoint question isolated in \autoref{ch:metacic-open-problems}. It sits after the bounded normal-conversion bridge of \autoref{ch:concrete-instances-bounded-normal-conversion-bridge-namecert}, the finite fuel trace of \autoref{ch:concrete-instances-metacic-fuel-trace-namecert}, and the typed normal-form decider of \autoref{ch:concrete-instances-typed-normal-form-decider-namecert}. The packet names the exact surface where bounded normal computation may be sealed as finished normal-form data for the closed typed terms under discussion, while leaving unrestricted closed beta-conversion outside the carrier.
+
+\falsifiablePrediction{Every accepted $\MetaCICConversionEndpointSealUp$ read exposes bounded-normal-conversion bridge, MetaCIC fuel trace, typed normal-form decider, finished endpoint, closed typed term, obstruction, transport, replay, provenance, and local $\NameCert$ rows before any conversion endpoint handoff is consumed.}
+
+\independenceWitness{bounded-normal-conversion-bridge, metacic-fuel-trace, typed-normal-form-decider, metacic-decidable-conversion-frontier: the bridge records bounded comparison with endpoint evidence, the fuel trace records bounded computation, the typed decider records typed comparison, and the frontier records the broader decidability boundary. None is bijective to the endpoint seal because this packet binds those rows into one finished-normal endpoint handoff.}
+
+\begin{definition}[MetaCIC conversion endpoint seal carrier]
+\label{def:metacic-conversion-endpoint-seal-carrier}
+A $\MetaCICConversionEndpointSealUp$ carrier is a finite $\BHist$ packet
+$$
+E=(B,F,D,T,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BoundedNormalConversionBridgeUp$ row, recording bounded normal comparison under displayed endpoint evidence.
+\item $F$ is the $\MetaCICFuelTraceUp$ row, recording finite fuel, input, bounded output, finished-normalization evidence or its explicit absence, and bounded readback.
+\item $D$ is the $\TypedNormalFormDeciderUp$ row, recording the typed checker surface for the compared closed terms.
+\item $T$ is the closed typed-term row, recording the context, terms, inferred type status, and closedness window admitted by the decider surface.
+\item $O$ is the obstruction row, excluding unrestricted closed beta-conversion, arbitrary-fuel completeness, host evaluator equality, quotient syntax equality, subject reduction, confluence, and kernel consistency.
+\item $H$ records componentwise $\hsame$ transport for $B,F,D,T,O$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from a conversion endpoint request through $B,F,D,T,O,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICConversionEndpointSealUp$, $\BoundedNormalConversionBridgeUp$, $\MetaCICFuelTraceUp$, $\TypedNormalFormDeciderUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICConversionEndpointSealUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $B,F,D,T,O,H,C,P,N$. It has no coordinate for unrestricted closed beta-conversion, arbitrary-fuel completeness, host evaluator equality, quotient syntax equality, subject reduction, confluence, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC conversion endpoint seal obligations]
+\label{thm:metacic-conversion-endpoint-seal-obligations}
+For every accepted $\MetaCICConversionEndpointSealUp$ carrier
+$$
+E=(B,F,D,T,O,H,C,P,N),
+$$
+the local $\NameCert_{\MetaCICConversionEndpointSealUp}$ surface consists exactly of bounded bridge exposure through $B$, finite fuel-trace exposure through $F$, typed normal-form decider exposure through $D$, closed typed-term endpoint exposure through $T$, obstruction retention through $O$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-conversion-endpoint-seal-carrier}. Rows $B,F,D$ are the three sibling surfaces: bounded comparison, finite fuel trace, and typed normal-form decision.
+
+The endpoint row $T$ is read only after those sibling rows are displayed. It records the closed typed-term boundary under which bounded normal computation can be treated as a finished normal-form endpoint.
+
+The obstruction row $O$ remains part of the same packet. It blocks rereading the endpoint as unrestricted closed beta-conversion, arbitrary-fuel completeness, host evaluator equality, quotient syntax equality, subject reduction, confluence, or kernel consistency.
+
+Finally $H,C,P,N$ transport, replay, source, and name exactly the same finite route. No carrier coordinate stores a stronger global metatheorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC conversion endpoint seal handoff]
+\label{thm:metacic-conversion-endpoint-seal-handoff}
+Every endpoint-facing consumer of an accepted $\MetaCICConversionEndpointSealUp$ carrier factors through
+$$
+\BoundedNormalConversionBridgeUp,\ \MetaCICFuelTraceUp,\ \TypedNormalFormDeciderUp
+$$
+before it may read the closed typed-term endpoint row. The handoff exports a finite endpoint seal for bounded normal computation, not an unrestricted conversion decider.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:metacic-conversion-endpoint-seal-obligations}. The bounded bridge row supplies the comparison boundary, the fuel-trace row supplies the finite computation trace, and the typed decider row supplies the typing-facing comparison surface.
+
+Only after these rows are present can the endpoint row $T$ be consumed. This makes the endpoint a replayable finite seal rather than a theorem erasing the fuel and typed-side hypotheses.
+
+The obstruction, transport, replay, provenance, and naming rows preserve the same boundary. Thus the packet gives the decidability frontier a concrete endpoint landing while refusing the stronger global conversion claims.
+\end{proof}
+
+The Lean TasteGate follow-up for this chapter must provide explicit $\mathsf{Nontrivial}\ \MetaCICConversionEndpointSealUp$ and $\mathsf{FieldFaithful}\ \MetaCICConversionEndpointSealUp$ instances preserving $B,F,D,T,O,H,C,P,N$ as separate displayed rows.
+
+\closureat{MetaCICConversionEndpointSealUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICConversionEndpointSealUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-conversion-endpoint-seal-carrier}, \autoref{thm:metacic-conversion-endpoint-seal-obligations}, and \autoref{thm:metacic-conversion-endpoint-seal-handoff} seed the finite endpoint seal connecting bounded normal computation to finished normal-form data for closed typed terms.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted closed beta-conversion, arbitrary-fuel completeness, host evaluator equality, quotient syntax equality, subject reduction, confluence, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded bridge exposure, fuel-trace exactness, typed normal-form decider compatibility, closed endpoint exposure, obstruction nonescape, TasteGate nontriviality, field faithfulness, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICConversionEndpointSealUp.}
+  \constructivestory{A $\MetaCICConversionEndpointSealUp$ packet is generated from BoundedNormalConversionBridge, MetaCICFuelTrace, TypedNormalFormDecider, closed typed-term endpoint, obstruction, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
