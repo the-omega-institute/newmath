@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRealLimitUp$}
+\label{ch:concrete-instances-cauchy-real-limit-namecert}
+\origin{human}
+
+Following Bishop and Bridges, a Cauchy real limit is treated here as the finite handoff from a regular Cauchy presentation to a sealed real name. The $\CauchyRealLimitUp$ packet sits after the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the filter-facing limit route of \autoref{ch:concrete-instances-cauchyfilterlimit-namecert}. Its role is to expose the L10 real-completion limit handoff without importing quotient streams, selected representatives, host limits, choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy-real-limit carrier]
+\label{def:cauchy-real-limit-carrier}
+A $\CauchyRealLimitUp$ carrier is a finite $\BHist$ packet
+$$
+L=(M,S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the Cauchy-modulus row that assigns each requested tolerance to a finite tail-window obligation.
+\item $S$ is the $\StreamNameUp$ row displaying the inspected windows of the Cauchy presentation.
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular rational approximants observed through $S$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare the observed windows with the requested modulus budget.
+\item $E$ is the $\RealUp$ seal row reached only after the regular readback and dyadic tolerance rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the modulus, stream, regular readback, dyadic tolerance, real seal, and local certificate rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through $M,S,R,D$ to the $\RealUp$ seal $E$.
+\item $P$ records $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyFilterLimitUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyRealLimitUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, an externally selected limit, host real convergence, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Cauchy-real-limit NameCert obligations]
+\label{thm:cauchy-real-limit-namecert-obligations}
+For every accepted $\CauchyRealLimitUp$ carrier
+$$
+L=(M,S,R,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyRealLimitUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed Cauchy modulus, stream windows, regular rational readback, dyadic tolerance ledger, real seal, transport, replay, provenance, and local naming rows;
+\item tail-window coverage, requiring every tolerance request admitted by $M$ to name a finite window in $S$ before a limit read is exported;
+\item dyadic tolerance exactness, requiring every comparison used by the handoff to read exactly the row $D$ beside the $\RegSeqRatUp$ observations in $R$;
+\item real-seal handoff, requiring the $\RealUp$ seal $E$ to be consumed only after $M,S,R,D$ have been displayed;
+\item ledger non-escape, excluding quotient streams, selected limits, host convergence, choice, and ambient $\RealUp$ completeness from the packet.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The rows $M,S,R,D,E$ display the Cauchy modulus, finite stream windows, regular rational observations, dyadic tolerance ledger, and terminal real seal before any limit-facing consumer can read the packet.
+
+The tail-window and tolerance clauses are finite. A tolerance request first consults $M$, then reads the scheduled window in $S$, observes the regular rational data in $R$, and checks the dyadic budget in $D$.
+
+Finally attach the seal and structural rows. The row $E$ is reachable only after the displayed readback route, while $H,C,P,N$ transport, replay, source, and name that same route. Since no further coordinate is present, the carrier cannot export quotient stream equality, a selected limit, host convergence, choice, or ambient real completeness.
+\end{proof}
+
+\falsifiablePrediction{A $\CauchyRealLimitUp$ consumer that reaches a $\RealUp$ limit seal without reading the displayed Cauchy modulus, StreamName windows, RegSeqRat observations, DyadicRatCore tolerance ledger, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row refutes the carrier surface.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, real, cauchyfilterlimit: no listed sibling supplies the whole Cauchy-real-limit packet because each sibling contributes only readback, windowing, tolerance, sealing, or filter-facing limit data while this chapter binds the finite handoff route.}
+
+\closureat{CauchyRealLimitUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRealLimitUp}
+  \constructivestory{A $\CauchyRealLimitUp$ packet is generated from a Cauchy modulus row, StreamName windows, RegSeqRat regular rational readbacks, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-real-limit-carrier} and \autoref{thm:cauchy-real-limit-namecert-obligations} seed the finite real-limit handoff over Cauchy modulus, stream-window, regular-readback, dyadic-tolerance, and Real seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, host real convergence, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the displayed carrier and prove carrier admission, tail-window coverage, dyadic tolerance exactness, Real seal handoff, and ledger non-escape.}
+\end{closurestatus}
