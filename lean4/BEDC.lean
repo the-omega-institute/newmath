@@ -607,6 +607,7 @@ import BEDC.Derived.BaireCategoryUp.DenseOpenThreadObligation
 import BEDC.Derived.BaireCategoryUp.FiniteMeetDensityHandoff
 import BEDC.Derived.BaireCategoryUp.FiniteScheduleChoiceFreeInduction
 import BEDC.Derived.BaireCategoryUp.LimitThreadNonescape
+import BEDC.Derived.BaireCategoryUp.NameCertExportSurface
 import BEDC.Derived.BaireCategoryUp.NameCertObligations
 import BEDC.Derived.BaireCategoryUp.ProbeBundleDenseOpenInduction
 import BEDC.Derived.BaireCategoryUp.ProbeBundleRefinementInduction
@@ -904,6 +905,7 @@ import BEDC.Derived.BoundedSetUp.BallRadiusLedgerFactorization
 import BEDC.Derived.BoundedSetUp.ClosureObligationEnvelope
 import BEDC.Derived.BoundedSetUp.CompletionNonescape
 import BEDC.Derived.BoundedSetUp.DiameterConsumerBoundary
+import BEDC.Derived.BoundedSetUp.DiameterConsumerHandoff
 import BEDC.Derived.BoundedSetUp.LocatedDiameterReadback
 import BEDC.Derived.BoundedSetUp.MetricBallContainmentDependency
 import BEDC.Derived.BoundedSetUp.MetricBallHandoff
@@ -1206,6 +1208,7 @@ import BEDC.Derived.CauchyFilterModulusTransferUp.TasteGate
 import BEDC.Derived.CauchyFilterNetCorrespondenceUp.TasteGate
 import BEDC.Derived.CauchyFilterRegularizationUp.TasteGate
 import BEDC.Derived.CauchyFilterUp
+import BEDC.Derived.CauchyInterleavingProductUp.TasteGate
 import BEDC.Derived.CauchyInverseBudgetUp.RouteSurface
 import BEDC.Derived.CauchyInverseBudgetUp.TasteGate
 import BEDC.Derived.CauchyLimitFunctorUp
@@ -3569,6 +3572,7 @@ import BEDC.Derived.FormalBallUp.CenterRadiusAdmission
 import BEDC.Derived.FormalBallUp.LocatedRadiusWindow
 import BEDC.Derived.FormalBallUp.RoundedFilterAdmission
 import BEDC.Derived.FormalBallUp.TasteGate
+import BEDC.Derived.FormalBallUp.UniformCompletionRoute
 import BEDC.Derived.FormalConstantEmpiricalValueBoundaryUp.TasteGate
 import BEDC.Derived.FormalTargetDependencyAuditUp.TasteGate
 import BEDC.Derived.ForwardBindingGapLedgerUp.TasteGate
@@ -5326,6 +5330,7 @@ import BEDC.Derived.RealDiagonalMeshBudgetUp
 import BEDC.Derived.RealDiagonalNonSurjectionUp
 import BEDC.Derived.RealDiagonalRegularitySealUp.TasteGate
 import BEDC.Derived.RealDiagonalWindowCoverageUp
+import BEDC.Derived.RealDiagonalWindowCoverageUp.TasteGate
 import BEDC.Derived.RealDyadicEmbeddingUp.TasteGate
 import BEDC.Derived.RealDyadicOrderEmbeddingUp.TasteGate
 import BEDC.Derived.RealEqualityUp
