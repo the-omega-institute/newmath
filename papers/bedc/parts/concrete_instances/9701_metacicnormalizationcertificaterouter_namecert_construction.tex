@@ -188,6 +188,18 @@ Apply the refusal and determinacy clauses. Theorem~\ref{thm:metacic-normalizatio
 It remains to account for the route rows. Theorem~\ref{thm:metacic-normalization-certificate-router-route-coverage} orders the finite route through $A,K,S,P,D,U,G,L,H,C,Q,N$, and \autoref{thm:metacic-normalization-certificate-router-inductive-acceptance-scope} keeps the kernel-acceptance contribution scoped to that displayed packet. Hence $P,D,U,G,L,H,C,Q,N$ can only transmit a residual read already mediated by $K$.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization certificate router residual determinacy]
+\label{thm:metacic-normalization-certificate-router-residual-determinacy}
+If two accepted $\MetaCICNormalizationCertificateRouterUp$ packets expose the same authorized-generator row $U$, closed-term substitution boundary $D$, normalization frontier rows $K,S,P$, and residual candidate rows carried by $K$, then every candidate-mediated normalization read selects the same displayed residual route up to the packet classifier. No hidden redex choice, host reduction equality, quotient reduction row, or evidence-free normalizer can separate the two reads.
+\end{theorem}
+\begin{proof}
+Start with candidate determinacy. Theorem~\ref{thm:metacic-normalization-certificate-router-candidate-determinacy} determines the strong-normalization readback from the candidate evidence in $K$, and \autoref{thm:metacic-normalization-certificate-router-residual-candidate-coverage} requires every residual read to be mediated by that displayed evidence.
+
+Project the shared rows. Projection coverage and route coverage identify the finite route through $A,K,S,P,D,U,G,L,H,C,Q,N$, while the common $D,U$ and normalization-frontier rows fix the closed-substitution boundary, authorized-generator handoff, and candidate frontier seen by the read.
+
+It remains only to exclude hidden selectors. The carrier has no coordinate for an external redex choice, host reduction equality, quotient reduction, or evidence-free normalizer, and the structural rows $H,C,Q,N$ only transport, replay, source, and name the displayed route. Hence the two packets select the same residual route up to their packet classifier.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization certificate router scoped kernel route]
 \label{thm:metacic-normalization-certificate-router-scoped-kernel-route}
 Every accepted $\MetaCICNormalizationCertificateRouterUp$ read exposes the ordered finite route
