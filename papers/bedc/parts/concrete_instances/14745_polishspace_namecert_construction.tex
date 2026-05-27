@@ -371,6 +371,115 @@ Read the observation ledger next. By \autoref{thm:polish-space-observation-ledge
 Finally use \autoref{thm:polish-space-metric-readback-stability}. Transport, replay, provenance, and local naming preserve the same $S,R,W$ route, so a dense-schedule consumer receives finite stream-density readback rather than any hidden enumeration or completion principle.
 \end{proof}
 
+\begin{definition}[Polish-space root carrier]
+\label{def:polishspace-carrier}
+The root-facing $\PolishSpaceUp$ carrier is the tuple
+$P=(M,K,D,S,R,W,H,C,G,N)$ of \autoref{def:polish-space-carrier}, read as a
+single $\BHist$ packet whose consumer-visible rows are $\MetricSpaceUp$,
+$\CompleteMetricUp$, $\SeparableMetricUp$, $\CompleteSeparableMetricUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, componentwise $\hsame$, displayed $\Cont$,
+$\Pkg$ provenance, and local $\NameCert$ data. The root view has no additional
+row for selected dense points, quotient completions, host equality,
+open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Polish-space separable complete metric obligations]
+\label{thm:polishspace-separable-complete-metric-obligations}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted root-facing $\PolishSpaceUp$
+carrier. Every $\CompleteSeparableMetricUp$ obligation exported from $P$
+factors through the $\MetricSpaceUp$ row $M$, the $\CompleteMetricUp$ handoff
+$K$, the $\SeparableMetricUp$ dense schedule $D$, the $\StreamNameUp$ windows
+$S$, the $\RegSeqRatUp$ readback row $R$, the observation ledger $W$,
+componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$
+provenance $G$, and the local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:polishspace-carrier}. The root carrier is only the
+displayed tuple $P=(M,K,D,S,R,W,H,C,G,N)$.
+
+Apply \autoref{thm:polish-space-complete-separable-metric-row}. It exposes the
+complete, separable, stream, regular-readback, replay, provenance, and naming
+rows over the same metric source before any complete-separable consumer reads
+the packet.
+
+Finally use \autoref{thm:polish-space-stream-density-readback-row}. It forces
+dense-schedule reads through $S,R,W,H,C,G,N$, so the complete-separable
+obligation has exactly the listed finite route.
+\end{proof}
+
+\begin{theorem}[Polish-space NameCert ledger transport]
+\label{thm:polishspace-namecert-ledger-transport}
+For an accepted root-facing $\PolishSpaceUp$ carrier
+$P=(M,K,D,S,R,W,H,C,G,N)$, componentwise $\hsame$ transport may move the
+$\MetricSpaceUp$, $\CompleteMetricUp$, $\SeparableMetricUp$,
+$\CompleteSeparableMetricUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows only
+together with the observation ledger $W$, displayed $\Cont$ replay $C$, $\Pkg$
+provenance $G$, and local $\NameCert$ row $N$. No transported consumer can
+read a complete-separable metric surface after dropping the ledger.
+\end{theorem}
+\begin{proof}
+Read the componentwise transport row $H$ from
+\autoref{def:polishspace-carrier}. It is part of the same finite packet as the
+metric, completion, separability, stream, regular-readback, and ledger rows.
+
+Apply \autoref{thm:polish-space-metric-readback-stability}. Transport preserves
+the metric readback boundary together with the StreamName and RegSeqRat finite
+observations through $S,R,W,G,N$.
+
+The L10 root package of \autoref{thm:polish-space-l10-root-unblock-package}
+then keeps every complete-separable consumer inside that transported ledger.
+Thus ledger-free transport is not an exported row of the packet.
+\end{proof}
+
+\begin{theorem}[Polish-space standard readiness]
+\label{thm:polishspace-standard-readiness}
+An accepted root-facing $\PolishSpaceUp$ carrier is ready for standard
+complete-separable metric consumers only as the displayed $\BHist$ route
+through $\MetricSpaceUp$, $\CompleteMetricUp$, $\SeparableMetricUp$,
+$\CompleteSeparableMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\hsame$,
+$\Cont$, $\Pkg$, and $\NameCert$ rows. A downstream $\RealUp$ consumer may
+receive only the regular-readback side exposed through this route; it does not
+receive ambient Real completeness or host equality of metric spaces.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:polishspace-separable-complete-metric-obligations}. It
+displays the complete-separable metric route over $M,K,D,S,R,W,H,C,G,N$.
+
+Apply \autoref{thm:polishspace-namecert-ledger-transport}. Standard consumers
+must preserve the observation ledger and replay rows when they move the metric,
+completion, separability, stream, and readback data.
+
+The $\RealUp$ clause is only a downstream boundary. The root carrier exposes
+regular rational readback through $R$ but has no coordinate for ambient Real
+completeness or host metric equality, so those claims cannot be imported.
+\end{proof}
+
+\begin{theorem}[Polish-space L10 root unblock package]
+\label{thm:polishspace-l10-root-unblock-package}
+The root-facing $\PolishSpaceUp$ packet unlocks L10 metric-completion
+consumers exactly by the finite carrier of \autoref{def:polishspace-carrier},
+the complete-separable metric obligations of
+\autoref{thm:polishspace-separable-complete-metric-obligations}, the ledger
+transport of \autoref{thm:polishspace-namecert-ledger-transport}, and the
+standard readiness boundary of \autoref{thm:polishspace-standard-readiness}.
+It exports no selected dense point, quotient completion, countable-choice
+schedule, host equality, open-cover compactness, or ambient $\RealUp$
+completeness datum.
+\end{theorem}
+\begin{proof}
+Assemble the carrier route first. The definition exposes $M,K,D,S,R,W,H,C,G,N$
+as one finite $\BHist$ packet.
+
+The separable complete metric obligations show how $\CompleteSeparableMetricUp$
+consumers read that packet, and ledger transport keeps the rows tied together
+under $\hsame$ movement.
+
+Finally apply standard readiness. The only exported L10 boundary is the
+displayed route through metric, completion, separability, stream, regular
+readback, transport, replay, provenance, and local naming rows, with the listed
+objects excluded from the carrier.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\PolishSpaceUp$ consumer that reaches a
 $\SeparableMetricUp$, $\CompleteMetricUp$, or $\MetricSpaceUp$ row without
 reading the displayed $\StreamNameUp$ schedule, finite observation ledger,

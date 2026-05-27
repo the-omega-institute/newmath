@@ -1,0 +1,163 @@
+\chapter{A Concrete Naming Certificate for $\FiniteObservationTraceFilterUp$}
+\label{ch:concrete-instances-finite-observation-trace-filter-namecert}
+\origin{ai}
+
+The $\FiniteObservationTraceFilterUp$ packet realizes the finite verification
+trace of \autoref{def:transcendental-input-finite-trace} as a concrete
+NameCert surface. It sits beside the finite-trace GAP socket of
+\autoref{ch:concrete-instances-finite-trace-gap-socket-namecert} and the
+closed observation ledger of
+\autoref{ch:concrete-instances-closedobservationsystem-namecert}. Its role is
+to filter observed trace rows through finite kernel checks while keeping the
+universal-induction boundary visible as a GAP-facing refusal.
+
+\begin{definition}[Finite observation trace filter carrier]
+\label{def:finite-observation-trace-filter-carrier}
+A $\FiniteObservationTraceFilterUp$ carrier is a finite $\BHist$ packet
+$$
+F=(O,T,K,A,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the closed-observation source row containing the finite observed
+states and their monotone ledger.
+\item $T$ is the finite verification trace row, listing inspected indices,
+their predicates, and the closed-generation checks visible at those indices.
+\item $K$ is the kernel-filter row that records which trace entries are
+accepted by finite verification and which are rejected as outside the carried
+window.
+\item $A$ is the audit row for non-escape: it records that no universal
+quantifier, induction schema, future-observation oracle, or hidden host rule is
+imported by the filter.
+\item $G$ is the GAP-socket row exposed when a consumer asks the finite trace
+to act as a universal statement.
+\item $H$ records componentwise $\hsame$ transport for $O,T,K,A,G$ and the
+local certificate data.
+\item $C$ records displayed $\Cont$ replay from an observation request to the
+trace row, from the trace row to the kernel filter, and from a universal
+request to the GAP row.
+\item $P$ is the $\Pkg$ provenance over $\BHist$, closed observation,
+finite-trace rows, GAP sockets, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteObservationTraceFilterUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by these rows. It has no
+coordinate for a future observation, a substrate-internal induction principle,
+a universal closure over all indices, or a host-level truth predicate.
+\end{definition}
+
+\begin{theorem}[Finite trace filter acceptance boundary]
+\label{thm:finite-observation-trace-filter-acceptance-boundary}
+For every accepted $\FiniteObservationTraceFilterUp$ carrier
+$F=(O,T,K,A,G,H,C,P,N)$, a trace entry is available to a downstream consumer
+only after it appears in the finite trace row $T$, is checked by the
+kernel-filter row $K$, and is replayed through $C$ with provenance $P$ and
+local name $N$. Entries outside the displayed trace are not refused as false;
+they are routed to the GAP row $G$ when a consumer asks for universal closure.
+\end{theorem}
+\begin{proof}
+Project the carrier. The observed source is $O$, the trace is $T$, and the
+filter row is $K$; no other row stores accepted trace entries.
+
+The replay row $C$ makes the accepted route explicit. It starts from the
+observation request, reads the finite trace entry, and then checks that entry
+against $K$.
+
+When the requested entry is not in the displayed trace, the packet exposes the
+GAP row $G$ rather than converting absence into a universal claim. The audit
+row $A$ records this non-escape boundary, while $P,N$ source and name the
+finite route.
+\end{proof}
+
+\begin{theorem}[Finite trace filter NameCert obligations]
+\label{thm:finite-observation-trace-filter-namecert-obligations}
+The local $\NameCert_{\FiniteObservationTraceFilterUp}$ surface consists
+exactly of closed-observation source admission, finite trace exposure,
+kernel-filter acceptance, non-escape audit, GAP-socket routing, componentwise
+$\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local
+naming. These obligations certify finite trace filtering only; they do not
+certify induction, field completeness, universal closure, or future-observation
+coverage.
+\end{theorem}
+\begin{proof}
+Carrier admission exposes the tuple
+$$
+F=(O,T,K,A,G,H,C,P,N).
+$$
+The source, trace, filter, audit, and GAP rows are the only content rows.
+
+Apply the acceptance boundary of
+\autoref{thm:finite-observation-trace-filter-acceptance-boundary}. It
+identifies the accepted route through $T,K,C,P,N$ and routes universal requests
+to $G$.
+
+Transport through $H$ preserves this row structure componentwise. Since the
+carrier has no row for induction, field completeness, universal closure, or
+future observations, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finite trace filter TasteGate worklist]
+\label{thm:finite-observation-trace-filter-tastegate-worklist}
+Any Lean TasteGate implementation for $\FiniteObservationTraceFilterUp$ must
+separate finite trace acceptance from algebraic adequacy by carrying explicit
+\texttt{Nontrivial} and \texttt{FieldFaithful} instance obligations for the
+numeric side of the filter. The paper packet records the finite trace boundary
+only; those instances are downstream formal work and cannot be inferred from
+closed observation rows alone.
+\end{theorem}
+\begin{proof}
+The filter carrier records finite observation, trace, kernel acceptance,
+audit, GAP, transport, replay, provenance, and naming rows. None of these rows
+asserts that a numeric carrier has more than one element or that field
+operations are faithful to the intended readback.
+
+The acceptance boundary therefore cannot discharge \texttt{Nontrivial} or
+\texttt{FieldFaithful} by projection. Those obligations must be visible in
+the Lean TasteGate work for any numeric consumer of the filter.
+
+This keeps the concrete packet honest: it certifies finite observation
+filtering, while algebraic adequacy remains a separate formal instance
+surface.
+\end{proof}
+
+\begin{theorem}[Finite trace filter GAP handoff]
+\label{thm:finite-observation-trace-filter-gap-handoff}
+If a downstream consumer treats an accepted $\FiniteObservationTraceFilterUp$
+packet as evidence for a universal statement, the packet exports only the
+finite accepted rows and the GAP socket $G$. It supplies no substrate-internal
+induction rule, no future-observation oracle, no total trace closure, and no
+host truth predicate.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations. They expose finite source, trace, filter,
+audit, GAP, transport, replay, provenance, and naming rows.
+
+A universal request is not one of the accepted trace entries. By the acceptance
+boundary, such a request is routed to $G$ rather than accepted by $K$.
+
+The non-escape audit row $A$ records that this is a refusal boundary. Since
+the carrier has no row for induction, future observations, total closure, or a
+host truth predicate, the GAP handoff is the only universal-facing export.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteObservationTraceFilterUp$ consumer
+that obtains a universal statement, induction rule, future-observation value,
+or host truth predicate without passing through the displayed GAP row $G$
+refutes the filter surface.}
+
+\independenceWitness{finite-trace-gap-socket, closedobservationsystem: the
+GAP socket names the universal request boundary and the closed-observation
+chapter names monotone finite records, but neither chapter supplies the
+kernel-filter row $K$ and audit row $A$ that classify accepted finite trace
+entries.}
+
+\closureat{FiniteObservationTraceFilterUp}{seedStr}
+
+\begin{closurestatus}{\FiniteObservationTraceFilterUp}
+  \constructivestory{A $\FiniteObservationTraceFilterUp$ packet is generated from closed-observation rows, finite verification trace rows, kernel-filter acceptance rows, audit rows, GAP socket rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-observation-trace-filter-carrier}, \autoref{thm:finite-observation-trace-filter-acceptance-boundary}, \autoref{thm:finite-observation-trace-filter-namecert-obligations}, \autoref{thm:finite-observation-trace-filter-tastegate-worklist}, and \autoref{thm:finite-observation-trace-filter-gap-handoff} seed the finite trace filter boundary for closed observation.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim induction, universal trace closure, future-observation coverage, field adequacy, Lean verification, or bridge checking.}
+  \upgradepath{A formal route can encode the displayed carrier and prove finite trace acceptance, GAP handoff, and the TasteGate instance boundary for BEDC.Derived.FiniteObservationTraceFilterUp.}
+\end{closurestatus}

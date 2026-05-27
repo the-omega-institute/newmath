@@ -123,6 +123,37 @@ Next use \autoref{thm:riemann-sum-tagged-mesh-exactness}. It identifies downstre
 Finally apply \autoref{thm:riemann-sum-darboux-handoff}. DarbouxIntegral and RiemannIntegral consumers receive only the finite tagged-sum side of the comparison. Since the packet has no row for integrability, all refinements, quotient function equality, or a choice-selected tag family, the obligation-closure package is exactly the listed finite surface.
 \end{proof}
 
+\begin{theorem}[Riemann sum dyadic mesh public export]
+\label{thm:riemann-sum-dyadic-mesh-public-export}
+An accepted $\RiemannSumUp$ packet exports to public integration consumers
+only the displayed $\PartitionUp$ row, $\DyadicMeshUp$ row, tagged sample row,
+$\DyadicStepFunctionUp$ row, $\DarbouxIntegralUp$ handoff row, and
+$\RiemannIntegralUp$ handoff row carried through
+$$
+M,T,F,W,S,H,C,P,N.
+$$
+It exports no host integral, selected limit over refinements, quotient
+equality of functions, ambient completeness principle, or tag-choice family
+outside the displayed mesh and tag-containment ledger.
+\end{theorem}
+\begin{proof}
+Start with the Riemann sum NameCert obligations of
+\autoref{thm:riemann-sum-namecert-obligations}. They expose the packet as the
+finite route through mesh, tag containment, integrand readback, cell widths,
+finite sum, transport, replay, provenance, and local naming rows.
+
+Use the mesh-tag and width exactness obligations. Theorems~\ref{thm:riemann-sum-mesh-tag-obligation}
+and~\ref{thm:riemann-sum-width-exactness-obligation} force the public mesh
+surface through the displayed $\PartitionUp$ and $\DyadicMeshUp$ rows, then
+through the tagged sample and dyadic step-function rows used to rebuild $S$.
+
+Finally apply the Darboux handoff and ledger non-escape theorems. A
+$\DarbouxIntegralUp$ or $\RiemannIntegralUp$ consumer receives only this finite
+tagged-sum side of the comparison. The carrier contains no host integral,
+selected refinement limit, quotient function equality, ambient completeness,
+or external tag-choice coordinate, so none can be exported.
+\end{proof}
+
 \begin{theorem}[Riemann sum tagless refinement ledger]
 \label{thm:riemann-sum-tagless-refinement-ledger}
 Let $Q=(M,T,F,W,S,H,C,P,N)$ be an accepted $\RiemannSumUp$ carrier. Any refinement-facing $\DarbouxIntegralUp$ or $\RiemannIntegralUp$ consumer of $Q$ must replay the same nine rows $M,T,F,W,S,H,C,P,N$. It may compare refinements only through displayed mesh-cell subdivision and transported tag-containment rows. The packet exports no external tag selector, quotient integrand equality, host limiting process, or measure integral.
