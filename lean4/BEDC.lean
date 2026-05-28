@@ -1643,6 +1643,7 @@ import BEDC.Derived.CauchyTailBoundUp.TasteGate
 import BEDC.Derived.CauchyTailComparisonUp
 import BEDC.Derived.CauchyTailComparisonUp.TasteGate
 import BEDC.Derived.CauchyTailConsensusUp.TasteGate
+import BEDC.Derived.CauchyTailControlUp.TasteGate
 import BEDC.Derived.CauchyTailDiameterUp
 import BEDC.Derived.CauchyTailDiameterUp.TasteGate
 import BEDC.Derived.CauchyTailEquivalenceUp.TasteGate
