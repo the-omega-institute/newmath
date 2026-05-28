@@ -336,4 +336,61 @@ theorem IsometricEmbeddingCarrier_sibling_completion_lattice [AskSetup] [Package
       distanceReflection, reflectionRoutesReal, targetTransportsCompletion, reflectionPkg,
       realPkg, completionPkg⟩
 
+theorem IsometricEmbeddingCarrier_obligation_closure_surface [AskSetup] [PackageSetup]
+    {source target graph sourceDistance targetDistance reflection transports routes provenance
+      localCert completionConsumer separatedConsumer realConsumer hostTail : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IsometricEmbeddingCarrier source target graph sourceDistance targetDistance reflection
+        transports routes provenance localCert bundle pkg ->
+      Cont target transports completionConsumer ->
+        Cont reflection routes separatedConsumer ->
+          Cont reflection routes realConsumer ->
+            PkgSig bundle completionConsumer pkg ->
+              PkgSig bundle separatedConsumer pkg ->
+                PkgSig bundle realConsumer pkg ->
+                  SemanticNameCert
+                        (fun row : BHist => hsame row localCert ∧ UnaryHistory row)
+                        (fun row : BHist => UnaryHistory row ∧ hsame row localCert)
+                        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle reflection pkg)
+                        hsame ∧
+                    UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory graph ∧
+                      UnaryHistory sourceDistance ∧ UnaryHistory targetDistance ∧
+                        UnaryHistory reflection ∧ UnaryHistory completionConsumer ∧
+                          UnaryHistory separatedConsumer ∧ UnaryHistory realConsumer ∧
+                            Cont source graph target ∧
+                              Cont sourceDistance targetDistance reflection ∧
+                                Cont target transports completionConsumer ∧
+                                  Cont reflection routes separatedConsumer ∧
+                                    Cont reflection routes realConsumer ∧
+                                      PkgSig bundle reflection pkg ∧
+                                        PkgSig bundle completionConsumer pkg ∧
+                                          PkgSig bundle separatedConsumer pkg ∧
+                                            PkgSig bundle realConsumer pkg ∧
+                                              (Cont separatedConsumer (BHist.e0 hostTail)
+                                                  reflection -> False) ∧
+                                                (Cont separatedConsumer (BHist.e1 hostTail)
+                                                  reflection -> False) := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert UnaryHistory
+  intro carrier targetTransportsCompletion reflectionRoutesSeparated reflectionRoutesReal
+  intro completionPkg separatedPkg realPkg
+  obtain ⟨sourceUnary, targetUnary, graphUnary, sourceDistanceUnary, targetDistanceUnary,
+    reflectionUnary, transportsUnary, routesUnary, _provenanceUnary, _localCertUnary,
+      sourceGraph, distanceReflection, reflectionPkg, localSemantic⟩ := carrier
+  have completionUnary : UnaryHistory completionConsumer :=
+    unary_cont_closed targetUnary transportsUnary targetTransportsCompletion
+  have separatedUnary : UnaryHistory separatedConsumer :=
+    unary_cont_closed reflectionUnary routesUnary reflectionRoutesSeparated
+  have realUnary : UnaryHistory realConsumer :=
+    unary_cont_closed reflectionUnary routesUnary reflectionRoutesReal
+  have e0Refusal : Cont separatedConsumer (BHist.e0 hostTail) reflection -> False :=
+    fun back => cont_mutual_extension_right_tail_absurd.left reflectionRoutesSeparated back
+  have e1Refusal : Cont separatedConsumer (BHist.e1 hostTail) reflection -> False :=
+    fun back => cont_mutual_extension_right_tail_absurd.right reflectionRoutesSeparated back
+  exact
+    ⟨localSemantic, sourceUnary, targetUnary, graphUnary, sourceDistanceUnary,
+      targetDistanceUnary, reflectionUnary, completionUnary, separatedUnary, realUnary,
+      sourceGraph, distanceReflection, targetTransportsCompletion, reflectionRoutesSeparated,
+      reflectionRoutesReal, reflectionPkg, completionPkg, separatedPkg, realPkg, e0Refusal,
+      e1Refusal⟩
+
 end BEDC.Derived.IsometricEmbeddingUp
