@@ -146,6 +146,10 @@ def write_last_built(sha: str) -> None:
 
 
 def run_full_build(target: str) -> tuple[bool, str, float]:
+    # Refactor (iter1/single-pdf-split):
+    #   Old pattern: one full build always meant the monolithic main.pdf target.
+    #   New principle: full-build execution is target-parametric so main and
+    #   concrete_instances are independent companion PDF products.
     paper_dir = BUILDER_DIR / "papers" / "bedc"
     if not paper_dir.exists():
         return False, f"{paper_dir} missing", 0.0
@@ -170,6 +174,10 @@ def run_full_build(target: str) -> tuple[bool, str, float]:
 
 
 def fix_attempts_for(sha: str, target: str) -> int:
+    # Refactor (iter1/single-pdf-split):
+    #   Old pattern: retry accounting used the remote SHA as the whole failure key.
+    #   New principle: retry accounting is keyed by (sha, target), preserving
+    #   separate repair budgets for the companion PDF targets.
     if not BROKEN_SHAS_FILE.exists():
         return 0
     n = 0
@@ -245,6 +253,12 @@ def codex_fix(sha: str, target: str, log_tail: str, elapsed: float) -> bool:
 
 def _build_sha_once(sha: str, consecutive_fail: int = 0) -> tuple[bool, int]:
     """Build all PDF targets for one checked remote SHA.
+
+    Refactor (iter1/single-pdf-split):
+      Old pattern: the daemon body coupled checkout, one PDF build, repair,
+      and last-built bookkeeping in the polling loop.
+      New principle: one helper owns the per-SHA target loop, repair handoff,
+      and last-built decision while the polling loop only detects new tips.
 
     Returns `(tip_moved, consecutive_fail)`. When a repair advances the
     remote tip, `LAST_BUILT_FILE` is intentionally left unchanged so the
