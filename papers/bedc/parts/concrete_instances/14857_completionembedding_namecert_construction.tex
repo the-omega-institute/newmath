@@ -116,12 +116,30 @@ The public route is supplied by \autoref{thm:completion-embedding-dense-isometri
 Finally combine \autoref{thm:completion-embedding-real-seal-nonescape} with \autoref{thm:completion-embedding-source-density-reflection}. The first keeps Real-facing reads inside the same route, and the second reflects target reads back to the source-density classifier. The excluded quotient, selected-representative, host-equality, choice, and ambient-completeness data therefore remain absent throughout the obligation package.
 \end{proof}
 
+\begin{theorem}[CompletionEmbedding public interface]
+\label{thm:completion-embedding-public-interface}
+The public $\CompletionEmbeddingUp$ interface for downstream completion consumers is the package consisting of the carrier of \autoref{def:completion-embedding-carrier}, the NameCert obligations of \autoref{thm:completion-embedding-namecert-obligations}, the dense isometric handoff of \autoref{thm:completion-embedding-dense-isometric-handoff}, the Real seal non-escape theorem of \autoref{thm:completion-embedding-real-seal-nonescape}, the source-density reflection of \autoref{thm:completion-embedding-source-density-reflection}, and the obligation closure package of \autoref{thm:completion-embedding-obligation-closure-package}.
+
+Every public consumer must read $\CompletionEmbeddingUp$ over $\MetricCompletionUp$, $\IsometricEmbeddingUp$, $\RegularCauchyDenseEmbeddingUp$, $\HausdorffCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ through that package. The interface exports dense source coverage, distance reflection, source-density reflection, and Real-seal non-escape, but exports no quotient completion, selected representative, host equality, countable-choice schedule, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted public consumer request through \autoref{def:completion-embedding-carrier}. The only displayed source rows are the source metric, completion target, dense image, isometry, regular-Cauchy source, Hausdorff boundary, Real seal, transport, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:completion-embedding-namecert-obligations}. The NameCert surface admits exactly those rows and records dense-image coverage, isometric reflection, Hausdorff separated comparison, and ledger non-escape.
+
+Use \autoref{thm:completion-embedding-dense-isometric-handoff} for the public handoff. It routes completion consumers through the dense source image and distance-reflecting embedding before a target read is accepted.
+
+The Real-facing and source-facing public boundaries are supplied by \autoref{thm:completion-embedding-real-seal-nonescape} and \autoref{thm:completion-embedding-source-density-reflection}. These theorems keep Real seal reads and target-source reflections inside the same finite route.
+
+Finally package the route with \autoref{thm:completion-embedding-obligation-closure-package}. Since every cited row belongs to that package and the excluded data have no carrier coordinate, the named package is the public $\CompletionEmbeddingUp$ interface.
+\end{proof}
+
 \begin{closurestatus}{\CompletionEmbeddingUp}
   \constructivestory{A $\CompletionEmbeddingUp$ packet is generated from a source metric row, a completion target row, a dense image row, an isometry row, a regular-Cauchy source row, a Hausdorff separated boundary row, a Real seal row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:completion-embedding-obligation-closure-package} witnesses the finite route over $\MetricCompletionUp$, $\IsometricEmbeddingUp$, $\RegularCauchyDenseEmbeddingUp$, $\HausdorffCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ for the dense isometric completion-embedding packet.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:completion-embedding-public-interface}, \autoref{thm:completion-embedding-dense-isometric-handoff}, and \autoref{thm:completion-embedding-source-density-reflection} close the dense isometric completion bridge over $\MetricCompletionUp$, $\IsometricEmbeddingUp$, $\RegularCauchyDenseEmbeddingUp$, $\HausdorffCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completions, selected representatives, host equality, countable choice, or ambient completeness.}
-  \upgradepath{Public closure requires a public consumer theorem and bridge-facing non-escape for the same dense isometric completion-embedding packet.}
+  \upgradepath{Bridge-facing closure requires a standard bridge row for the public dense isometric completion-embedding interface.}
 \end{closurestatus}
