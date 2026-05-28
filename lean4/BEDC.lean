@@ -1501,6 +1501,7 @@ import BEDC.Derived.CauchyProductUp.RegseqSealNonescape
 import BEDC.Derived.CauchyProductUp.RegseqratProductBudgetExhaustion
 import BEDC.Derived.CauchyProductUp.RegularFactorSourceMinimality
 import BEDC.Derived.CauchyProductUp.RegularProductWindowExhaustion
+import BEDC.Derived.CauchyProductUp.RegularTailDiagonalWindowLock
 import BEDC.Derived.CauchyProductUp.RightFactorClassifierCongruence
 import BEDC.Derived.CauchyProductUp.RootAdmission
 import BEDC.Derived.CauchyProductUp.RootBudgetFusionNonescape
@@ -2629,6 +2630,7 @@ import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
 import BEDC.Derived.DefinitionTheoremProofAuditUp.TasteGate
 import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DenjoyIntegralUp.TasteGate
+import BEDC.Derived.DenseExtensionMetricUp.TasteGate
 import BEDC.Derived.DenseImageCompletionUp.TasteGate
 import BEDC.Derived.DenseUniformEmbeddingUp
 import BEDC.Derived.DenseUniformEmbeddingUp.TasteGate
