@@ -384,16 +384,39 @@ def _oracle_session_backfill_lane(store: BioRealityStore) -> dict[str, Any]:
                 ls["topic_conversations"] = tc
                 state[lane] = ls
                 _write_oracle_state(store, state)
-        topic = f"{topic_base}.backfill"
+        # Turn-count-aware backfill: when a conversation deepens (e.g. 1 turn -> 10
+        # turns of multi-turn ChatGPT follow-up), emit a FRESH backfill + consumer
+        # event so the consumer re-reads the deeper transcript and can extract the
+        # refinement that only appears in later turns. Skip only if a backfill at
+        # >= the current turn count already exists.
+        substantive_turns = sum(
+            1 for t in turns
+            if isinstance(t.get("response"), str)
+            and len(t.get("response", "")) >= 300
+            and "ERROR" not in t.get("response", "")[:120]
+            and "[TIMEOUT" not in t.get("response", "")[:120]
+        )
+        topic = f"{topic_base}.backfill.t{substantive_turns}"
         lane_dir = sessions_dir / lane
         lane_dir.mkdir(parents=True, exist_ok=True)
         already = False
+        max_existing_turns = 0
+        prefix = f"{topic_base}.backfill.t"
         for existing in lane_dir.glob("*.jsonl"):
-            stem = existing.stem
-            if stem.split("__", 1)[-1] == topic:
+            stem_topic = existing.stem.split("__", 1)[-1]
+            if stem_topic == topic:
                 already = True
                 break
-        if already:
+            if stem_topic.startswith(prefix):
+                try:
+                    n = int(stem_topic[len(prefix):])
+                    max_existing_turns = max(max_existing_turns, n)
+                except ValueError:
+                    pass
+            elif stem_topic == f"{topic_base}.backfill":
+                # legacy single-turn backfill (pre turn-count scheme) counts as t1
+                max_existing_turns = max(max_existing_turns, 1)
+        if already or substantive_turns <= max_existing_turns:
             summary["skipped_present"] += 1
             continue
         created = conv.get("created_at", "")
@@ -402,50 +425,62 @@ def _oracle_session_backfill_lane(store: BioRealityStore) -> dict[str, Any]:
         except ValueError:
             stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
         base = lane_dir / f"{stamp}__{topic}"
+        # Collect ALL substantive turns — multi-turn follow-up means the strongest
+        # refinement often appears in later turns, not turn 0.
+        sub_turn_records = [
+            t for t in turns
+            if isinstance(t.get("response"), str)
+            and len(t.get("response", "")) >= 300
+            and "ERROR" not in t.get("response", "")[:120]
+            and "[TIMEOUT" not in t.get("response", "")[:120]
+        ]
         session = {
             "record_kind": "session",
             "lane": lane,
             "topic": topic,
             "conversation_id": conv.get("conversation_id", ""),
-            "turn_count": 1,
+            "turn_count": len(sub_turn_records),
             "pdf_attached": True,
             "pdf_skipped_reason": "",
             "closed_reason": "backfilled_substantive_server_response",
             "max_turns_reached": False,
         }
-        turn_rec = {
-            "record_kind": "turn",
-            "turn": 0,
-            "prompt": "(backfilled from server-side conv; original client transcript timed out before this response was posted)",
-            "result": {
-                "status": "completed",
-                "response": response,
-                "conversation_id": conv.get("conversation_id", ""),
-                "task_id": first.get("task_id", ""),
-            },
-        }
         with base.with_suffix(".jsonl").open("w", encoding="utf-8") as fh:
             fh.write(json.dumps(session, ensure_ascii=False) + "\n")
-            fh.write(json.dumps(turn_rec, ensure_ascii=False) + "\n")
-        digest = "\n".join([
+            for idx, t in enumerate(sub_turn_records):
+                fh.write(json.dumps({
+                    "record_kind": "turn",
+                    "turn": idx,
+                    "prompt": "(backfilled from server-side conv turn)",
+                    "result": {
+                        "status": "completed",
+                        "response": str(t.get("response") or ""),
+                        "conversation_id": conv.get("conversation_id", ""),
+                        "task_id": t.get("task_id", ""),
+                    },
+                }, ensure_ascii=False) + "\n")
+        digest_lines = [
             f"# Oracle consultation: {topic}",
             "",
             f"- lane: {lane}",
             f"- conversation_id: {conv.get('conversation_id', '')}",
             f"- closed_reason: backfilled_substantive_server_response",
             f"- pdf_attached: True",
-            f"- turns: 1",
+            f"- turns: {len(sub_turn_records)}",
             "",
-            "## Turn 0",
-            "",
-            "Response:",
-            "",
-            "```text",
-            response,
-            "```",
-            "",
-        ])
-        base.with_suffix(".md").write_text(digest + "\n", encoding="utf-8")
+        ]
+        for idx, t in enumerate(sub_turn_records):
+            digest_lines += [
+                f"## Turn {idx}",
+                "",
+                "Response:",
+                "",
+                "```text",
+                str(t.get("response") or ""),
+                "```",
+                "",
+            ]
+        base.with_suffix(".md").write_text("\n".join(digest_lines) + "\n", encoding="utf-8")
         eid = f"event.{hashlib.sha256((topic + created).encode()).hexdigest()[:16]}"
         subject_id = f"{lane}.{hashlib.sha256(topic.encode()).hexdigest()[:12]}"
         event = {
