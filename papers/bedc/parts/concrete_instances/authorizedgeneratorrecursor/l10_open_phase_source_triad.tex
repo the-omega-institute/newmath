@@ -85,6 +85,24 @@ Next use \autoref{thm:authorized-generator-recursor-open-phase-consumer-handoff}
 Finally apply \autoref{thm:authorized-generator-recursor-open-phase-ledger-nonescape} and \autoref{thm:authorized-generator-recursor-l10-readiness-closure}. The ledger refusal and readiness closure leave only the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface, so the excluded host-choice, detached-induction, selected-witness, quotient-equality, and proof-producing readings have no exported coordinate.
 \end{proof}
 
+\begin{theorem}[AuthorizedGeneratorRecursor L10 source-triad public export]
+\label{thm:authorized-generator-recursor-l10-source-triad-public-export}
+Let
+$$
+R=(I,E,M,B,D,O,A,H,C,P,G,N)
+$$
+be an accepted $\AuthorizedGeneratorRecursorUp$ packet whose L10 open-phase source triad is exposed to a public consumer. Any accepted authorized-generator recursor consumer of that source triad must factor through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before it exposes generator authorization, recursion scheduling, or ledger replay. The exported route remains the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface over $I,E,M,B,D,O,A,H,C,P,G,N$ and cannot reopen host choice, detached induction, selected real witnesses, quotient stream equality, or proof-producing channels.
+\end{theorem}
+\begin{proof}
+First use the L10 source triad, \autoref{thm:authorized-generator-recursor-l10-open-phase-source-triad}. It lists the only rows available before a public consumer may read the authorized recursor as a source.
+
+Next apply the consumer handoff, \autoref{thm:authorized-generator-recursor-open-phase-consumer-handoff}. It keeps the output row $O$ attached to the audit, transport, continuation, provenance, boundary, and local naming rows when the consumer specializes the route.
+
+Now combine ledger non-escape and readiness closure, \autoref{thm:authorized-generator-recursor-open-phase-ledger-nonescape} and \autoref{thm:authorized-generator-recursor-l10-readiness-closure}. These results force the public route to pass through the same finite ledger and readiness surface before generator authorization, recursion scheduling, or replay is exposed.
+
+Finally use the public source handoff, \autoref{thm:authorized-generator-recursor-l10-public-source-handoff}. The handoff identifies the consumer-facing route for $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$; adding the $\DyadicRatCoreUp$ tolerance surface only records the finite tolerance row used before the regular and real-facing consumers. No unlisted host-choice, detached-induction, selected-witness, quotient-equality, or proof-producing coordinate can be exported.
+\end{proof}
+
 \begin{corollary}[AuthorizedGeneratorRecursor L10 source-triad strict obstruction]
 \label{cor:authorized-generator-recursor-l10-source-triad-strict-obstruction}
 Let
