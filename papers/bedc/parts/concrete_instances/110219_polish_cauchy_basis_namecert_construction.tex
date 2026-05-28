@@ -1,0 +1,157 @@
+\chapter{A Concrete Naming Certificate for $\PolishCauchyBasisUp$}
+\label{ch:concrete-instances-polish-cauchy-basis-namecert}
+\origin{human}
+
+Following Alexandrov--Urysohn, Bourbaki, Kelley, and Bishop--Bridges, the
+$\PolishCauchyBasisUp$ packet records the basis-level handoff by which a
+complete separable metric source exposes Cauchy-filter basis data before any
+completion consumer reads a limit. It sits between the $\PolishSpaceUp$ source
+of \autoref{ch:concrete-instances-polishspace-namecert}, the
+$\CauchyFilterBasisUp$ generator of
+\autoref{ch:concrete-instances-cauchy-filter-basis-namecert}, the
+$\CompleteMetricUp$ handoff of
+\autoref{ch:concrete-instances-completemetric-namecert}, and the
+$\SeparableMetricUp$ dense schedule of
+\autoref{ch:concrete-instances-separablemetric-namecert}. The packet is a
+finite BEDC handoff surface for Polish-space Cauchy bases, not a quotient
+completion, not a choice-selected dense sequence, and not an ambient
+$\RealUp$ completeness theorem.
+
+\begin{definition}[Polish Cauchy basis carrier]
+\label{def:polish-cauchy-basis-carrier}
+A $\PolishCauchyBasisUp$ carrier is a finite $\BHist$ packet
+$$
+P=(X,B,K,D,S,R,O,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\PolishSpaceUp$ source row, carrying the complete separable
+metric packet over which every later basis read is interpreted.
+\item $B$ is the $\CauchyFilterBasisUp$ basis row, recording the directed
+finite basis generator used by Cauchy-filter consumers.
+\item $K$ is the $\CompleteMetricUp$ handoff row attached to the same metric
+surface as $X$; it records the completion-facing route without selecting a
+limit point.
+\item $D$ is the $\SeparableMetricUp$ dense schedule row, stored as public
+finite name data rather than as a choice function over all balls.
+\item $S$ is the $\StreamNameUp$ window row used to inspect dense names,
+basis requests, and Cauchy-window demands.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those stream
+windows, giving regular rational observations before any basis comparison is
+made.
+\item $O$ is the observation ledger joining dense-window requests,
+regular-rational readbacks, Cauchy-basis refinements, and completion-handoff
+checks.
+\item $H$ records componentwise $\hsame$ transport for $X,B,K,D,S,R,O$ and
+for the local certificate rows.
+\item $C$ records displayed $\Cont$ replay from a Polish-source request
+through dense schedules, stream windows, regular readbacks, Cauchy-basis
+refinement, and the completion handoff.
+\item $G$ is the $\Pkg$ provenance over $\PolishSpaceUp$,
+$\CauchyFilterBasisUp$, $\CompleteMetricUp$, $\SeparableMetricUp$,
+$\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and
+$\NameCert$.
+\item $N$ is the local $\NameCert_{\PolishCauchyBasisUp}$ row.
+\end{enumerate}
+The classifier compares two accepted packets only after transporting these
+displayed rows to a common Polish source, Cauchy-basis generator,
+completion-handoff row, dense schedule, stream-window row, and regular
+readback ledger. It has no coordinate for choice-selected dense points,
+quotient completion equality, host point equality, or ambient real
+completeness.
+\end{definition}
+
+\begin{theorem}[Polish Cauchy basis NameCert obligations]
+\label{thm:polish-cauchy-basis-namecert-obligations}
+For every accepted $\PolishCauchyBasisUp$ carrier
+$P=(X,B,K,D,S,R,O,H,C,G,N)$, the local
+$\NameCert_{\PolishCauchyBasisUp}$ surface consists exactly of the following
+obligation rows:
+\begin{enumerate}
+\item carrier admission for the Polish source, Cauchy-filter basis,
+complete-metric handoff, separable dense schedule, stream windows, regular
+rational readback, observation ledger, transport, continuation, provenance,
+and local naming rows;
+\item common-source classification, requiring the $B,K,D,S,R,O$ rows to be
+read over the same transported $\PolishSpaceUp$ source row $X$;
+\item basis-directedness exposure, requiring every Cauchy-basis refinement
+consumed by $B$ to be visible in $S,R,O$ before the completion handoff $K$ is
+read;
+\item dense-schedule compatibility, requiring the separable row $D$ and the
+Cauchy-basis row $B$ to share the same stream-window and regular-readback
+surface;
+\item completion-handoff non-escape, requiring every completion-facing
+consumer to pass through $B,S,R,O$ before reaching $K$;
+\item package provenance and local $\NameCert$ naming for exactly the
+displayed packet.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:polish-cauchy-basis-carrier}. The
+projection exposes the Polish source, Cauchy-basis generator, complete-metric
+handoff, dense schedule, stream windows, regular readbacks, observation
+ledger, transport rows, continuation rows, provenance row, and local name.
+
+The classifier route starts at $X$. Componentwise transport in $H$ moves
+$B,K,D,S,R,O$ together, so a consumer never compares a basis row over one
+Polish source with a completion handoff or dense schedule over another.
+
+The observation ledger $O$ fixes the finite read order. Dense requests and
+basis refinements are observed through $S$ and $R$ before either the
+Cauchy-filter basis or complete-metric handoff can be consumed.
+
+Finally replay $C$ and attach $G,N$. These rows route, source, and name the
+same displayed packet, with no additional coordinate for selected dense
+points, quotient completion equality, host point equality, or ambient
+$\RealUp$ completeness. Hence the listed rows exhaust the local naming
+surface.
+\end{proof}
+
+\begin{theorem}[Polish Cauchy basis completion handoff]
+\label{thm:polish-cauchy-basis-completion-handoff}
+Let $P=(X,B,K,D,S,R,O,H,C,G,N)$ be an accepted
+$\PolishCauchyBasisUp$ packet. Every completion-facing consumer of the Polish
+source $X$ reaches the $\CompleteMetricUp$ handoff $K$ only through the
+displayed Cauchy-filter basis row $B$, the separable dense schedule $D$, the
+$\StreamNameUp$ windows $S$, the $\RegSeqRatUp$ readback row $R$, and the
+observation ledger $O$, transported by $H$ and replayed by $C$.
+
+The visible route is
+$$
+X,D,S,R,B,O \longmapsto K \longmapsto H,C,G,N .
+$$
+It exports a finite completion handoff for downstream completion, Baire, and
+fixed-point packets; it does not export a quotient completion class, a
+selected dense sequence, host point equality, or an ambient real-completeness
+principle.
+\end{theorem}
+\begin{proof}
+Read $X$ from the carrier in \autoref{def:polish-cauchy-basis-carrier}. The
+Polish source supplies the common complete separable metric surface, while
+$D,S,R$ display the finite dense-window observations available to the packet.
+
+Use the NameCert obligations of
+\autoref{thm:polish-cauchy-basis-namecert-obligations}. The basis-directedness
+and dense-schedule compatibility clauses force the Cauchy-filter basis row
+$B$ to be read through the same stream windows, regular readbacks, and
+observation ledger as the dense schedule.
+
+The completion-handoff clause then places $K$ after $B,S,R,O$. Transport by
+$H$ and replay by $C$ preserve that order, while $G,N$ package and name the
+same route. Therefore every completion-facing consumer receives only the
+displayed finite handoff and cannot bypass it through choice, quotient
+equality, host point equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{PolishCauchyBasisUp}{seedStr}
+
+\begin{closurestatus}{\PolishCauchyBasisUp}
+  \constructivestory{A $\PolishCauchyBasisUp$ packet is generated from a PolishSpace source, CauchyFilterBasis basis, CompleteMetric handoff, SeparableMetric dense schedule, StreamName windows, RegSeqRat readback, an observation ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:polish-cauchy-basis-carrier}, \autoref{thm:polish-cauchy-basis-namecert-obligations}, and \autoref{thm:polish-cauchy-basis-completion-handoff} seed the basis-level Cauchy handoff from Polish-space data to completion-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close choice-selected dense points, quotient completions, host point equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-source classification, basis-directedness exposure, dense-schedule compatibility, completion-handoff non-escape, transport, replay, provenance, and local naming for the same packet.}
+\end{closurestatus}
