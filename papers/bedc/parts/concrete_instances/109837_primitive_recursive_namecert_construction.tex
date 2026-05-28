@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\PrimitiveRecursiveUp$}
+\label{ch:concrete-instances-primitive-recursive-namecert}
+\origin{human}
+
+Following Kleene's primitive recursive functions, the $\PrimitiveRecursiveUp$ packet records finite recursion syntax and its local replay rows as BEDC data. It sits after the unary natural-number carrier of \autoref{ch:concrete-instances-nat-namecert}, the list spine of \autoref{ch:concrete-instances-list-namecert}, the finite computability surface of \autoref{ch:concrete-instances-computable-namecert}, the stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}. The chapter supplies a finite schedule substrate for later modulus and real-name consumers; it does not introduce minimization, partial recursive search, host functions, or unbounded choice.
+
+\begin{definition}[PrimitiveRecursive carrier]
+\label{def:primitive-recursive-carrier}
+A $\PrimitiveRecursiveUp$ carrier is a finite $\BHist$ packet
+$$
+P=(Z,S,\Pi,K,R,H,C,Q,N)
+$$
+whose rows are read as follows:
+\begin{enumerate}
+\item $Z$ is the zero-function row.
+\item $S$ is the successor-function row.
+\item $\Pi$ is the finite family of projection rows, each with displayed arity and coordinate index.
+\item $K$ is the composition row, storing one outer code, its finite list of inner codes, and the arity ledger that makes the composition well typed.
+\item $R$ is the primitive-recursion scheme row, storing the base code, step code, displayed accumulator coordinate, and finite recursion spine over the $\NatUp$ row.
+\item $H$ is componentwise $\hsame$ transport for zero, successor, projection, composition, recursion, replay, provenance, and local naming rows.
+\item $C$ is displayed $\Cont$ replay for evaluating a finite syntax tree by structural recursion through the rows $Z,S,\Pi,K,R$.
+\item $Q$ is the $\Pkg$ provenance row over $\PrimitiveRecursiveUp$, $\NatUp$, $\ListUp$, $\ComputableUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PrimitiveRecursiveUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Z,S,\Pi,K,R,H,C,Q,N$. There is no coordinate for minimization, unbounded search, partiality, a host function graph, countable choice, or an external evaluator.
+\end{definition}
+
+\begin{theorem}[PrimitiveRecursive NameCert obligations]
+\label{thm:primitive-recursive-namecert-obligations}
+For every accepted $\PrimitiveRecursiveUp$ carrier
+$$
+P=(Z,S,\Pi,K,R,H,C,Q,N),
+$$
+the local $\NameCert_{\PrimitiveRecursiveUp}$ surface consists exactly of carrier admission for the zero, successor, projection, composition, primitive-recursion, transport, replay, provenance, and naming rows; arity compatibility for $\Pi,K,R$; structural replay of the displayed syntax tree through $C$; componentwise transport through $H$; and provenance through $Q,N$. No obligation is stored in a minimization row, partial recursive search row, host-function graph, or unbounded-choice selector.
+\end{theorem}
+\begin{proof}
+Inspect the carrier row by row. The base constructors are $Z,S,\Pi$, and their arity information is part of the displayed finite rows rather than a host-side function space.
+
+For composite syntax, the row $K$ supplies the finite list of inner codes and the outer code, while $R$ supplies the base and step codes for the primitive-recursion scheme. Induction on the displayed syntax tree checks that every replay request descends to one of $Z,S,\Pi$ or to a strictly displayed subcode of $K$ or $R$.
+
+The structural rows close the local certificate. Transport through $H$ preserves the same constructor rows, replay through $C$ evaluates only the displayed syntax tree, and $Q,N$ record provenance and naming. Since the packet has no coordinate for minimization, partial recursive search, host functions, or unbounded choice, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[PrimitiveRecursive composition closure]
+\label{thm:primitive-recursive-composition-closure}
+If an accepted $\PrimitiveRecursiveUp$ packet contains a composition row $K$ whose outer code and finite list of inner codes are accepted by the same carrier, then the composed code is again read as a $\PrimitiveRecursiveUp$ row through $K,H,C,Q,N$. The closure is internal to the finite displayed syntax and exports no minimization, partiality, host-function graph, or unbounded-choice principle.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the finite list of inner codes recorded in $K$. The empty-list boundary is the displayed arity check for the outer code, and the single-step case appends one already accepted inner row to the composition ledger.
+
+At each induction step the replay row $C$ evaluates the inner rows before the outer row, and transport through $H$ preserves the same arity and constructor classifiers. The provenance row $Q$ and local naming row $N$ then repackage the resulting finite syntax as a $\PrimitiveRecursiveUp$ row.
+
+No unbounded search is used in the induction. The construction consumes only the displayed finite list in $K$ and the accepted subcodes already present in the carrier, so it cannot introduce minimization, partial recursive search, host functions, or unbounded choice.
+\end{proof}
+
+\begin{closurestatus}{\PrimitiveRecursiveUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:primitive-recursive-carrier}, \autoref{thm:primitive-recursive-namecert-obligations}, and \autoref{thm:primitive-recursive-composition-closure} seed the finite recursion-syntax certificate for schedule and modulus consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close minimization, partial recursive search, host functions, unbounded choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, arity compatibility, composition closure, primitive-recursion replay, transport, provenance, and local naming for the same finite recursion syntax.}
+  \constructivestory{The construction starts from zero, successor, and projection rows, closes finite composition through a displayed list spine, and closes primitive recursion by replaying the base and step codes over the Nat row under componentwise transport and local naming.}
+\end{closurestatus}
