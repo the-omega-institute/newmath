@@ -62,6 +62,20 @@ The sibling packets preserve that boundary. The residual-substitution boundary s
 The obstruction row $O$ remains part of the packet. Therefore the handoff is a finite frontier certificate for a conditional route, not a proof of the missing residual-substitution input or any stronger confluence endpoint.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond frontier route]
+\label{thm:metacic-parallel-diamond-frontier-route}
+Every confluence-audit consumer that reads an accepted $\MetaCICParallelDiamondFrontierUp$ packet must expose the residual-substitution premise row $P$, critical-pair row $K$, candidate-join row $J$, residual-frontier row $R$, closed-checker seal $S$, closed-normal fragment $C$, bounded-check row $B$, obstruction row $O$, transport row $H$, replay row $T$, provenance row $G$, and local name row $N$ before using a conditional parallel-diamond handoff. The route does not turn the residual-substitution premise into a theorem, does not prove full Church--Rosser, and does not discharge subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:metacic-parallel-diamond-frontier-carrier}. It displays exactly the premise, peak, join, residual, checker, fragment, bounded-check, obstruction, transport, replay, provenance, and local naming rows.
+
+The obligation theorem \autoref{thm:metacic-parallel-diamond-frontier-obligations} keeps $P,K,J,R,S,C,B,O$ as first-class rows. A confluence-audit consumer therefore cannot use the handoff before the missing residual-substitution premise and the obstruction boundary are visible.
+
+The handoff theorem \autoref{thm:metacic-parallel-diamond-frontier-handoff} supplies only a conditional frontier route. The added transport, replay, provenance, and local name rows preserve that boundary for downstream audit consumers.
+
+Since no row discharges residual substitution or full closed confluence, the route is a sharper obligation boundary rather than a completed Church--Rosser certificate.
+\end{proof}
+
 The Lean follow-up supplies $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ TasteGate instances in \texttt{lean4/BEDC/Derived/MetaCICParallelDiamondFrontierUp/TasteGate.lean} by exhibiting distinct accepted and refused frontier packets and by matching on the rows $P,K,J,R,S,C,B,O,H,T,G,N$.
 
 \closureat{MetaCICParallelDiamondFrontierUp}{seedStr}
