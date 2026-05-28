@@ -4425,6 +4425,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionReadinessPackage
 import BEDC.Derived.MetaCICCriticalPathUp.RealStreamNameSourceReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatCandidateNormalizationRoute
 import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatReadbackReadiness
+import BEDC.Derived.MetaCICCriticalPathUp.RouteExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.RouteReplay
 import BEDC.Derived.MetaCICCriticalPathUp.SNConfluenceDecidabilityHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.SocketRouteTotality
@@ -6282,6 +6283,7 @@ import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.SpeckerSequenceUp
 import BEDC.Derived.SpeckerSequenceUp.TasteGate
 import BEDC.Derived.SpectralMeasureUp
+import BEDC.Derived.SpectralRadiusFormulaUp.TasteGate
 import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.SpectralStabilizationUp.TasteGate
 import BEDC.Derived.SpectralTheoremUp
