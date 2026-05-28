@@ -1,0 +1,35 @@
+\begin{theorem}[PolishSpace effective-name root obligations]
+\label{thm:polishspace-root-effective-name-obligations}
+For every accepted $\PolishSpaceUp$ carrier $P=(M,K,D,S,R,W,H,C,G,N)$, any effective-name consumer of $P$ reaches the displayed names only through the $\StreamNameUp$ row $S$, the $\RegSeqRatUp$ readback row $R$, the observation ledger $W$, the componentwise $\hsame$ rows $H$, the replay row $C$, the provenance row $G$, and the local $\NameCert$ row $N$ of \autoref{def:polish-space-carrier}. It receives no unscheduled dense-name oracle, selected dense point, quotient completion representative, host equality, countable-choice selector, or ambient $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Project the carrier first. The rows $S,R,W,H,C,G,N$ are displayed coordinates of the same finite packet $P$, so an effective-name read cannot leave the packet before the schedule and readback rows have been opened.
+
+Apply \autoref{thm:polish-space-streamname-countable-dense-handoff} and \autoref{thm:polish-space-stream-density-readback-row}. These theorems identify the dense schedule and finite readbacks as the route by which downstream effective names inspect the Polish carrier.
+
+The excluded objects are not coordinates of \autoref{def:polish-space-carrier}. Transport, replay, provenance, and local naming preserve the displayed route and do not add an external oracle.
+\end{proof}
+
+\begin{theorem}[PolishSpace complete-separable root schedule]
+\label{thm:polishspace-root-complete-separable-schedule}
+Every complete-separable consumer of an accepted $\PolishSpaceUp$ carrier factors through the $\MetricSpaceUp$ row $M$, the $\CompleteMetricUp$ handoff $K$, the $\SeparableMetricUp$ schedule $D$, the $\StreamNameUp$ windows $S$, the $\RegSeqRatUp$ readback $R$, and the structural rows $W,H,C,G,N$. In particular, a $\CompleteMetricUp$ or $\SeparableMetricUp$ read cannot be separated from the displayed finite observation schedule of the same packet.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:polish-space-carrier}. The metric, completion, separability, stream, readback, ledger, transport, replay, provenance, and naming rows are carried together as $M,K,D,S,R,W,H,C,G,N$.
+
+Use \autoref{thm:polishspace-separable-complete-metric-obligations} to read the complete and separable obligations from the displayed carrier. Then use \autoref{thm:polishspace-namecert-ledger-transport} to keep those obligations attached to $W,H,C,G,N$ under componentwise movement.
+
+Thus a downstream complete-separable read receives the finite schedule and readback route, not an independent completion or dense-set choice principle.
+\end{proof}
+
+\begin{theorem}[PolishSpace represented-space root handoff]
+\label{thm:polishspace-root-representation-handoff}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. Any handoff from $P$ to a $\RepresentedSpaceUp$ consumer must expose the $\StreamNameUp$ schedule $S$, the $\RegSeqRatUp$ readback $R$, the $\CompleteMetricUp$ handoff $K$, the $\SeparableMetricUp$ schedule $D$, and the structural rows $W,H,C,G,N$ before representation vocabulary is available.
+\end{theorem}
+\begin{proof}
+Open the represented-space boundary through \autoref{thm:polish-space-effective-representation-handoff}. That theorem already fixes the route from the Polish packet to represented and effective Polish consumers.
+
+The root rows in the statement are precisely the rows used by that handoff: completion comes from $K$, separability from $D$, scheduled names from $S$, regular readback from $R$, and structural preservation from $W,H,C,G,N$.
+
+Since no host representation equality, selected name, quotient completion, or countable-choice selector is present in $P$, the represented-space consumer can read only this finite route.
+\end{proof}
