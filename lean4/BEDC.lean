@@ -624,6 +624,7 @@ import BEDC.Derived.BaireCategoryUp.TasteGate
 import BEDC.Derived.BaireSpaceUp
 import BEDC.Derived.BaireSpaceUp.TasteGate
 import BEDC.Derived.BaireUltrametricUp.TasteGate
+import BEDC.Derived.BanachAlgebraUp.TasteGate
 import BEDC.Derived.BanachFixedPointUp
 import BEDC.Derived.BanachUp
 import BEDC.Derived.BanachUp.IdentityUnits
@@ -1817,8 +1818,8 @@ import BEDC.Derived.ClosedBoundedIntervalUp.ContainmentLedgerObligations
 import BEDC.Derived.ClosedBoundedIntervalUp.DownstreamCoverageSurface
 import BEDC.Derived.ClosedBoundedIntervalUp.EndpointOrderTransport
 import BEDC.Derived.ClosedBoundedIntervalUp.FiniteCoverNonescape
+import BEDC.Derived.ClosedBoundedIntervalUp.FiniteWindowTransportObligations
 import BEDC.Derived.ClosedBoundedIntervalUp.LocatedEndpointReadback
-import BEDC.Derived.ClosedBoundedIntervalUp.ModulusWindowTransport
 import BEDC.Derived.ClosedBoundedIntervalUp.RealSealNonescape
 import BEDC.Derived.ClosedBoundedIntervalUp.RealSealRootHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.RegSeqRatWindow

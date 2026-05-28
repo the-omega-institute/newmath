@@ -223,4 +223,60 @@ theorem PrecompactMetricNameCert_obligations (x : PrecompactMetricUp) :
     exact PrecompactMetricNameCert_obligations_flow_display
       (precompactMetricFields x) w m hw hm
 
+theorem PrecompactMetric_totally_bounded_handoff (x : PrecompactMetricUp) :
+    ∃ X D N F R M H C G Q : BHist,
+      x = PrecompactMetricUp.mk X D N F R M H C G Q ∧
+        precompactMetricFields x = [X, D, N, F, R, M, H, C, G, Q] ∧
+          List.Mem X (precompactMetricFields x) ∧
+            List.Mem D (precompactMetricFields x) ∧
+              List.Mem N (precompactMetricFields x) ∧
+                List.Mem M (precompactMetricFields x) ∧
+                  List.Mem H (precompactMetricFields x) ∧
+                    List.Mem C (precompactMetricFields x) ∧
+                      List.Mem G (precompactMetricFields x) ∧
+                        List.Mem Q (precompactMetricFields x) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk X D N F R M H C G Q =>
+      exact
+        ⟨X, D, N, F, R, M, H, C, G, Q, rfl, rfl, by
+          exact List.Mem.head [D, N, F, R, M, H, C, G, Q], by
+          exact List.Mem.tail X (List.Mem.head [N, F, R, M, H, C, G, Q]), by
+          exact List.Mem.tail X (List.Mem.tail D (List.Mem.head [F, R, M, H, C, G, Q])), by
+          exact
+            List.Mem.tail X
+              (List.Mem.tail D
+                (List.Mem.tail N
+                  (List.Mem.tail F (List.Mem.tail R (List.Mem.head [H, C, G, Q]))))), by
+          exact
+            List.Mem.tail X
+              (List.Mem.tail D
+                (List.Mem.tail N
+                  (List.Mem.tail F
+                    (List.Mem.tail R (List.Mem.tail M (List.Mem.head [C, G, Q])))))), by
+          exact
+            List.Mem.tail X
+              (List.Mem.tail D
+                (List.Mem.tail N
+                  (List.Mem.tail F
+                    (List.Mem.tail R
+                      (List.Mem.tail M (List.Mem.tail H (List.Mem.head [G, Q]))))))), by
+          exact
+            List.Mem.tail X
+              (List.Mem.tail D
+                (List.Mem.tail N
+                  (List.Mem.tail F
+                    (List.Mem.tail R
+                      (List.Mem.tail M
+                        (List.Mem.tail H (List.Mem.tail C (List.Mem.head [Q])))))))), by
+          exact
+            List.Mem.tail X
+              (List.Mem.tail D
+                (List.Mem.tail N
+                  (List.Mem.tail F
+                    (List.Mem.tail R
+                      (List.Mem.tail M
+                        (List.Mem.tail H
+                          (List.Mem.tail C (List.Mem.tail G (List.Mem.head [])))))))))⟩
+
 end BEDC.Derived.PrecompactMetricUp
