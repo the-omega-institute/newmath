@@ -180,6 +180,17 @@ Apply \autoref{thm:decimal-expansion-namecert-obligations}. The obligation surfa
 Finally apply \autoref{thm:decimal-expansion-regseqrat-handoff}. It states that finite digit rows pass through rational place-value rows and dyadic comparison rows before reaching $R$ and the terminal seal $E$. The dyadic handoff therefore uses the existing routes of \autoref{ch:concrete-instances-dyadicratcore-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, with no bypass from $V$ to $R$.
 \end{proof}
 
+\begin{theorem}[DecimalExpansion dyadic normalization lock]\label{thm:decimal-expansion-dyadic-normalization-lock}
+Every $\RealUp$ read of an accepted $\DecimalExpansionUp$ packet passes through the $\DyadicRatCoreUp$ digit-place tolerance ledger, the $\RegSeqRatUp$ readback row, the $\StreamNameUp$ finite-window row, and the terminal $\RealUp$ seal row before any real-facing decimal value is consumed. In particular, the digit-place route is the same L10 sibling lattice exposed by \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, and \autoref{ch:concrete-instances-real-namecert}; the packet exports no direct decimal-to-real shortcut.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:decimal-expansion-carrier}. The digit rows $D$ and finite decimal windows $W$ feed the place-value row $V$, while the comparison row $Q$ is the only displayed dyadic and rational tolerance route.
+
+Apply \autoref{thm:decimal-expansion-dyadic-comparison-handoff}. It places $Q$ between every place-value read and the $\RegSeqRatUp$ handoff, so the decimal packet cannot jump from $V$ directly to the seal row.
+
+Finally apply \autoref{thm:decimal-expansion-real-readback-boundary}. The terminal real read is reached only after finite windows, digit rows, dyadic tolerance, and regular rational readback have been displayed. This locks the decimal route to the dyadic, regular-Cauchy, stream-window, and real-seal sibling lattice named in the statement.
+\end{proof}
+
 \begin{theorem}[DecimalExpansion Real seal nonescape]\label{thm:decimal-expansion-real-seal-nonescape}
 The terminal row $E$ of an accepted $\DecimalExpansionUp$ packet exports only the displayed $\RealUp$ seal reached from $D,W,V,Q,R$. It exports no quotient real, endpoint resolver, trichotomy decision, selected decimal stream, or $\RealUp$ completeness witness.
 \end{theorem}
