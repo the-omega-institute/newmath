@@ -1,1 +1,15 @@
-The finite subfamily ledger exported by $\HellyTheoremUp$ is consumed through a concrete sibling route: $\ConvexSetUp$ from \autoref{ch:concrete-instances-convexset-namecert} supplies the convex-family membership rows, $\PolytopeUp$ from \autoref{ch:concrete-instances-polytope-namecert} supplies the finite witness ledger, $\AffineSpaceUp$ from \autoref{ch:concrete-instances-affinespace-namecert} and $\VecSpaceUp$ from \autoref{ch:concrete-instances-vecspace-namecert} supply the ambient affine and displacement rows, $\CompactMetricUp$ from \autoref{ch:concrete-instances-compactmetric-namecert} supplies the finite compact-read boundary, and $\CaratheodoryConvexHullUp$ from \autoref{ch:concrete-instances-caratheodory-convex-hull-namecert} consumes the resulting bounded support surface.
+\begin{theorem}[Helly finite-subfamily ledger route]
+\label{thm:helly-theorem-finite-subfamily-ledger-route}
+Every $\HellyTheoremUp$ finite-subfamily ledger consumed by $\CaratheodoryConvexHullUp$ must read $\ConvexSetUp$ membership rows, $\PolytopeUp$ finite witness rows, $\AffineSpaceUp$ and $\VecSpaceUp$ ambient rows, and $\CompactMetricUp$ finite-read boundaries before exporting the bounded support surface. The ledger route is therefore
+$$
+\AffineSpaceUp,\VecSpaceUp \longmapsto \ConvexSetUp \longmapsto \PolytopeUp,\CompactMetricUp \longmapsto \CaratheodoryConvexHullUp .
+$$
+It exposes only the named finite subfamily data and does not introduce a host separation theorem, a selected intersection point, quotient convex-set equality, or ambient standard-model convexity.
+\end{theorem}
+\begin{proof}
+Project the existing $\HellyTheoremUp$ carrier of \autoref{def:helly-theorem-carrier}. Its ambient rows are $A,V$, its convex-family row is $F$, and its finite witness and subfamily rows are $W,S,I$.
+
+Follow the sibling route already displayed by the chapter: $\ConvexSetUp$ supplies membership rows, $\PolytopeUp$ supplies finite witnesses, $\AffineSpaceUp$ and $\VecSpaceUp$ supply the ambient affine and displacement rows, and $\CompactMetricUp$ supplies the finite-read boundary. The $\CaratheodoryConvexHullUp$ consumer can read a bounded support surface only after those rows have been displayed.
+
+No carrier coordinate stores host separation, a selected intersection point, quotient convex-set equality, or ambient standard-model convexity. The exported ledger is therefore exactly the finite sibling route stated above.
+\end{proof}
