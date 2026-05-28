@@ -1328,10 +1328,28 @@ def _extract_error_before_failed(
     return context[failed_index][1].strip()[:500]
 
 
+_ROUND_FAILED_RE = re.compile(
+    r"\[[RP]\d+\]\s+(?:"
+    r"(?:Round\s+)?FAILED\s*$"          # lean MainThread tally / worker round-fail
+    r"|push attempts exhausted\b"        # paper/lean terminal push-retry exhaustion
+    r"|Merge failed\b"                   # terminal merge failure -> recovery queue
+    r"|All targets duplicated by other rounds"  # in-flight target saturation abort
+    r")"
+)
+
+
 def _preceding_failures(context: list[tuple[datetime, str]]) -> list[dict]:
     failures: list[dict] = []
     for idx, (_, line) in enumerate(context):
-        if "Round FAILED" not in line:
+        # Two log forms reach the cooldown context window: the worker-thread
+        # "[worker_N] [R<N>] Round FAILED" and the MainThread tally
+        # "[MainThread] [R<N>] FAILED" that immediately precedes the cooldown.
+        # The MainThread form is the one actually present in the 5-min window,
+        # so matching only the literal "Round FAILED" left preceding_fails empty
+        # for every cooldown (UNKNOWN alerts with no snippet). Anchor FAILED to
+        # the round id at end-of-line so recoverable lines like
+        # "[P<N>] Post-merge drift audit FAILED -- asking codex" don't match.
+        if not _ROUND_FAILED_RE.search(line):
             continue
         rid = _extract_round_id(line)
         snippet = _extract_error_before_failed(context, idx)
@@ -1531,7 +1549,17 @@ def classify_cooldown_cause(cooldown: dict) -> tuple[str, dict]:
         }
 
     # 4. PUSH_LOCK_STARVATION
-    m = re.search(r"push lock for branch.*held for more than \d+s", text)
+    # Two surface forms of the same root cause (workers losing the origin push
+    # race under high concurrency): the internal push lock held too long, and
+    # the ff-update retry loop exhausting its attempt budget on persistent
+    # "Diverging branches can't be fast-forwarded". The latter ("push attempts
+    # exhausted (N)") is the dominant cooldown driver at high parallelism and
+    # was previously falling to UNKNOWN.
+    m = re.search(
+        r"push lock for branch.*held for more than \d+s"
+        r"|push attempts exhausted \(\d+\)",
+        text,
+    )
     if m:
         return "PUSH_LOCK_STARVATION", {
             "snippet": m.group(0),
