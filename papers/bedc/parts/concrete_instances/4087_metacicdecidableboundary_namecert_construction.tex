@@ -112,6 +112,20 @@ Apply \autoref{thm:metacic-decidable-boundary-bounded-comparison-nonescape}. It 
 The provenance theorem accounts for the remaining sibling references. They explain where the finite boundary sits, but they add no extra comparison rows. Thus the ledger is exact: the displayed bounded-comparison rows are all that consumers may inspect.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidable boundary obligation-closure package]
+\label{thm:metacic-decidable-boundary-obligation-closure-package}
+For an accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, the finite checker row $T$, structural equality row $S$, bounded normal comparison row $B$, finished-normal side-condition row $F$, refusal row $R$, and structural rows $H,C,P,N$ form exactly the obligation-closure surface of the chapter. The package records checker visibility, structural-equality visibility, bounded-comparison visibility, finished-normal side conditions, refusal exactness, sibling provenance, classifier stability, and ledger exactness, while it still exports no standalone $\mathsf{ClosedAt}$ decidability, global beta-conversion decidability, fuel-erased normalization, quotient equality, or host evaluation.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:metacic-decidable-boundary-namecert-obligations}. It lists the carrier admission, checker row, structural equality row, bounded comparison row, finished-normal side condition, refusal row, transport, replay, provenance, and local naming rows of $D$.
+
+Use \autoref{thm:metacic-decidable-boundary-bounded-comparison-nonescape} and \autoref{thm:metacic-decidable-boundary-refusal-exactness}. Together they keep $B,F$ as bounded comparison data and keep $R$ as the exact refusal of standalone $\mathsf{ClosedAt}$ decidability and global beta conversion.
+
+Apply \autoref{thm:metacic-decidable-boundary-sibling-provenance} and \autoref{thm:metacic-decidable-boundary-ledger-exactness}. Provenance contributes only the named sibling route, and the ledger supplies no unrecorded bounded-comparison row, quotient of represented terms, host evaluator, or global beta-conversion decider.
+
+The classifier-stability theorem \autoref{thm:metacic-decidable-boundary-classifier-stability} transports the same displayed rows through $H,C$ without adding a new endpoint. Hence $T,S,B,F,R,H,C,P,N$ are exactly the obligation-closure package surface.
+\end{proof}
+
 \closureat{MetaCICDecidableBoundaryUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICDecidableBoundaryUp}
