@@ -629,6 +629,7 @@ import BEDC.Derived.BaireUltrametricUp.TasteGate
 import BEDC.Derived.BanachAlgebraUp.TasteGate
 import BEDC.Derived.BanachContractionPrincipleUp.TasteGate
 import BEDC.Derived.BanachFixedPointUp
+import BEDC.Derived.BanachSpaceUp.TasteGate
 import BEDC.Derived.BanachUp
 import BEDC.Derived.BanachUp.IdentityUnits
 import BEDC.Derived.BareObjectRefusalUp.TasteGate
@@ -4463,6 +4464,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.DownstreamReadinessBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.FourFaceDeficiencyRefusal
 import BEDC.Derived.MetaCICCriticalPathUp.FourSourceOwnerNoncollapse
 import BEDC.Derived.MetaCICCriticalPathUp.KernelFrontierExposure
+import BEDC.Derived.MetaCICCriticalPathUp.L10CandidateDischargeOrder
 import BEDC.Derived.MetaCICCriticalPathUp.L10EntryBudgetSynchronization
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceClosureReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.L10NormalizationDischargeBudget
@@ -4488,6 +4490,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealSourceObligations
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealStatusProductReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionFrontierFilter
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionReadinessPackage
+import BEDC.Derived.MetaCICCriticalPathUp.RealSealNoInfiniteReductionHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.RealStreamNameSourceReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatCandidateNormalizationRoute
 import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatReadbackReadiness
