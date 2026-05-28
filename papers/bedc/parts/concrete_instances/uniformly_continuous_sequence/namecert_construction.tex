@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\UniformlyContinuousSequenceUp$}
+\label{ch:concrete-instances-uniformly-continuous-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\UniformlyContinuousSequenceUp$ packet records a sequence of maps whose continuity data share one displayed modulus ledger. It sits over the metric source row of \autoref{ch:concrete-instances-metric-namecert}, the continuous-map surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The point of the packet is the shared-modulus route: a downstream consumer may inspect finitely many sequence entries only after the same uniform-control row has been displayed for all inspected maps.
+
+\begin{definition}[Uniformly continuous sequence carrier]
+\label{def:uniformly-continuous-sequence-carrier}
+A $\UniformlyContinuousSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+U=(X,Y,F,M,S,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricSpaceUp$ row.
+\item $Y$ is the target $\MetricSpaceUp$ row used by every displayed map in the sequence.
+\item $F$ is the finite family of $\ContinuousMapUp$ sequence-entry rows available to the packet.
+\item $M$ is the shared $\UniformModulusUp$ row, read once and then reused by every displayed entry in $F$.
+\item $S$ is the $\StreamNameUp$ finite-window row listing the inspected indices, source probes, and requested tolerances.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to those windows and to the shared modulus ledger.
+\item $E$ is the $\RealUp$ seal for the target readings reached only after $S,Q,M$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for source metric, target metric, sequence-entry, shared-modulus, stream-window, regular-readback, real-seal, replay, provenance, and local-name rows.
+\item $C$ records displayed $\Cont$ replay from an inspected sequence index and tolerance request through $X,Y,F,M,S,Q,E$.
+\item $P$ is the $\Pkg$ provenance over $\UniformlyContinuousSequenceUp$, $\MetricSpaceUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformlyContinuousSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,Y,F,M,S,Q,E,H,C,P,N$. It has no coordinate for host function extensionality, quotient stream equality, selected limits, countable choice, ambient $\RealUp$ completeness, or a detached pointwise continuity proof for a sequence entry.
+\end{definition}
+
+\begin{theorem}[Uniformly continuous sequence NameCert obligations]
+\label{thm:uniformly-continuous-sequence-namecert-obligations}
+For every accepted $\UniformlyContinuousSequenceUp$ carrier $U=(X,Y,F,M,S,Q,E,H,C,P,N)$, the local $\NameCert_{\UniformlyContinuousSequenceUp}$ surface consists exactly of carrier admission for the two metric rows, continuous-map sequence-entry rows, shared uniform-modulus row, finite stream windows, regular rational readback, real-name seal, componentwise transport, continuation replay, package provenance, and local naming; shared-modulus exactness requiring each inspected entry of $F$ to consume the same $M$ row; finite-window exactness through $S$; readback exactness through $Q$; real-seal boundary through $E$; and non-escape from host function extensionality, quotient streams, selected limits, countable choice, ambient $\RealUp$ completeness, and detached pointwise continuity data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniformly-continuous-sequence-carrier}. The only source, target, sequence-entry, shared-modulus, stream, readback, and real-seal data available to the classifier are the displayed rows $X,Y,F,M,S,Q,E$.
+
+The shared-modulus clause is read before any inspected sequence entry reaches a downstream Real-facing consumer. Each entry in $F$ is a $\ContinuousMapUp$ row, but the packet exposes it to a tolerance request only through the common $\UniformModulusUp$ row $M$ and the finite windows in $S$.
+
+Readback and sealing are downstream of that shared route. The $\RegSeqRatUp$ row $Q$ records only the rational data obtained from the displayed windows and shared modulus, and the $\RealUp$ row $E$ is reached only after $S,Q,M$ have been exposed.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier contains no row for host function extensionality, quotient stream equality, selected limits, countable choice, ambient real completeness, or detached pointwise continuity proofs, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Uniformly continuous sequence shared-modulus handoff]
+\label{thm:uniformly-continuous-sequence-shared-modulus-handoff}
+Every downstream $\RealUp$ read of an accepted $\UniformlyContinuousSequenceUp$ carrier factors through the finite route
+$$
+\MetricSpaceUp,\ \ContinuousMapUp,\ \UniformModulusUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The route supplies a shared modulus for all inspected sequence entries, finite stream windows for those inspections, regular rational readback, and the terminal real-name seal. It exports no host function extensionality, quotient stream equality, selected limit, countable-choice schedule, ambient $\RealUp$ completeness, or hidden complete metric space.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:uniformly-continuous-sequence-namecert-obligations}. It identifies the continuous-map entries and the shared uniform-modulus ledger as carrier rows, not as host functions or external continuity facts.
+
+A Real-facing consumer next opens only the finite windows in $S$. Those windows determine the regular rational readback $Q$ under the shared modulus $M$, and only then can the terminal seal $E$ be consumed.
+
+The transport, continuation, provenance, and local naming rows preserve that same order. Therefore every public read is a shared-modulus sequence-of-maps route through the displayed BEDC rows, with the excluded extensionality, quotient, choice, completeness, and hidden-completion objects absent from the packet.
+\end{proof}
+
+\begin{closurestatus}{\UniformlyContinuousSequenceUp}
+  \constructivestory{A $\UniformlyContinuousSequenceUp$ packet is generated from source and target MetricSpace rows, ContinuousMap sequence-entry rows, one shared UniformModulus row, finite StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniformly-continuous-sequence-carrier}, \autoref{thm:uniformly-continuous-sequence-namecert-obligations}, and \autoref{thm:uniformly-continuous-sequence-shared-modulus-handoff} seed the shared-modulus sequence-of-maps packet for Real-facing finite-window consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function extensionality, quotient streams, selected limits, countable choice, ambient RealUp completeness, hidden complete metric spaces, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared-modulus exactness, finite-window exactness, regular-readback boundary, Real-seal boundary, transport, replay, provenance, and local naming for BEDC.Derived.UniformlyContinuousSequenceUp.}
+\end{closurestatus}
