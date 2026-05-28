@@ -1,48 +1,5 @@
-\subsection{Motif compression as an ORF-eligibility boundary record}\label{subsec:h0-r-motif-compression}
+\subsection{NameCert: h0.R.motif.compression}
+\label{sec:namecert-h0_r_motif_compression}
 \origin{ai}
 
-\paragraph{Finite packet.}
-This record concerns the finite-row object named by claim id $h0.R.motif.compression$.  Its biological object is open-reading-frame eligibility as seen only through start/stop codon enumeration.  The packet is not an observed ORF, not a translated product, and not a functional annotation.  It is a boundary record saying that a particular codon-level motif compression has been checked inside the finite coordinate system, while the biological layer $orf\_eligibility$ still awaits a separate contact with sequence, transcript, or curated interval data.
-
-The verified finite row is the thirteen-element set
-$$
-\begin{aligned}
-R=\{&AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU,\\
-&UAA, UAG, UCA, UGA, UUA\}.
-\end{aligned}
-$$
-The motif-compression check records $no\_missing=0$ and $no\_extra=0$.  Thus, within this finite packet, the named motif union is exactly $R$: every listed codon belongs to the compressed motif row, and no additional codon is admitted by the compression rule.  This is a finite equality claim about a thirteen-row codon subset, not a claim that any external biological interval contains an open reading frame.
-
-\paragraph{Ambient codon row.}
-The same packet is linked to a checked ambient set $M$ of cardinality $20$.  The recorded equality is
-$$
-\begin{aligned}
-M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,\\
-&CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
-\end{aligned}
-$$
-The relation between the two finite rows is therefore a concrete containment pattern: $R$ has $13$ codons, while the ambient verified row $M$ has $20$ codons.  The codons present in $M$ but not in $R$ are $AAG$, $ACA$, $ACG$, $AUG$, $UCG$, $UGG$, and $UUG$.  This comparison is useful for auditing the compression boundary because it makes the omitted ambient alternatives explicit.  It does not say that the thirteen codons in $R$ are biologically privileged starts, stops, transcripts, proteins, folds, or functions.
-
-\paragraph{Saturation check.}
-A linked saturation computation records
-$$
-\begin{aligned}
-Sat_{f3}(R)=\{&AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
-&UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
-\end{aligned}
-$$
-This saturated row has $18$ displayed codons and is exactly $M$ without $ACA$ and $ACG$.  The same check records $f3\_boundary\_is\_zero=\emptyset$, and the mediated reconstruction records $M=Med(R)\cup\{ACA,ACG\}$ as the displayed twenty-codon list.  These are finite combinatorial facts about how the row behaves under the named saturation and mediation operations.  They remain inside the codon-enumeration coordinate system.  In particular, the saturation statement does not create an observed transcript interval, does not identify a start-to-stop frame in a real sequence, and does not assert that any peptide is produced.
-
-\paragraph{Quotient geometry.}
-The quotient-geometry evidence supplies additional finite scalars for the same coordinate family.  The ambient row has $f$-vector $(20,38,26,8,1)$, while the quotient has $f$-vector $(10,14,6,1)$ and quotient size $10$.  The recorded quotient representatives are the ten binary rows
-$$
-\begin{aligned}
-&00001,00011,00101,00111,01000,01001,10001,10011,10101,10111.
-\end{aligned}
-$$
-These numbers make the compression auditable as finite geometry: a twenty-row ambient object is compressed to a ten-row quotient object with the displayed incidence counts.  The quotient geometry is still a coordinate artifact.  It is not an assay, not a database annotation, and not a biological mechanism.
-
-\paragraph{Boundary verdict.}
-The self-check for this packet records a boundary message: BioReality self-check only; no codon geometry is promoted across biological layers.  It also records $checked\_gate\_count=3$.  The local verdict is therefore deliberately narrow.  The packet supports the finite equality $R=$ motif union, with thirteen listed codons, zero missing codons, and zero extra codons, inside a twenty-codon ambient row and a ten-class quotient geometry.  It does not support any stronger biological conclusion.
-
-An ORF-eligibility claim would require a separate reality contact, such as a curated ORF interval annotation, sequence database contact, transcript evidence, or another external biological interval record that can test the proposed boundary.  Until such a contact is attached, the packet remains a boundary probe.  No translation, folding, physical admissibility, function, mechanism, or universality follows from the start/stop-window enumeration or from the motif compression alone.
+This BioReality namecert is awaiting codex re-authoring. Most recent attempt failed the chapter hygiene gate; issues recorded: template\_residue: BEDC 5-tuple, template\_residue: carrier reads back to observable data by following, template\_residue: TasteGate-style separation, template\_residue: lean target sketch (statement-only), template\_residue: internal newmath/bedc derivation, template\_residue: bridge disclaimer, template\_residue: external reality sources. The committed registry record at \path{tools/bio\_reality/registries/claims.json} still tracks the underlying claim h0.R.motif.compression and its experiment runs.
