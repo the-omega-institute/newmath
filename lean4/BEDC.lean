@@ -602,9 +602,9 @@ import BEDC.Derived.BHistOctaTupleNameCertUp
 import BEDC.Derived.BHistPentaSequenceNameCertUp
 import BEDC.Derived.BaireCategoryUp.CauchyThreadLimitHandoff
 import BEDC.Derived.BaireCategoryUp.CompleteMetricDenseThread
+import BEDC.Derived.BaireCategoryUp.CompleteMetricRefinementScope
 import BEDC.Derived.BaireCategoryUp.CompleteMetricThreadExtraction
 import BEDC.Derived.BaireCategoryUp.CountableChoiceBoundary
-import BEDC.Derived.BaireCategoryUp.DenseOpenScheduleScope
 import BEDC.Derived.BaireCategoryUp.DenseOpenThreadObligation
 import BEDC.Derived.BaireCategoryUp.FiniteMeetDensityHandoff
 import BEDC.Derived.BaireCategoryUp.FiniteScheduleChoiceFreeInduction
@@ -4409,6 +4409,7 @@ import BEDC.Derived.MetaCICNormalAuditSocketUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationBudgetUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.AdequacyChain
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.CriticalPairDischarge
+import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.FrontierResidualAuditHandoff
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.GeneratorCompilerRoute
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.InductiveAcceptanceScope
 import BEDC.Derived.MetaCICNormalizationCertificateRouterUp.KernelScope
@@ -5168,7 +5169,6 @@ import BEDC.Derived.ProperMetricUp.TasteGate
 import BEDC.Derived.PropextTransportBoundaryUp
 import BEDC.Derived.PropextTransportBoundaryUp.NameCertObligations
 import BEDC.Derived.PropextTransportBoundaryUp.TasteGate
-import BEDC.Derived.PseudometricUp.TasteGate
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.QuadrantSubstrateUp.TasteGate
 import BEDC.Derived.QuadratureUp
@@ -6530,6 +6530,7 @@ import BEDC.Derived.TopologyUp.Singleton
 import BEDC.Derived.TopologyUp.StdBridge
 import BEDC.Derived.ToposUp
 import BEDC.Derived.ToposUp.NameCertObligationSurface
+import BEDC.Derived.TotalBoundedMetricUp.TasteGate
 import BEDC.Derived.TotalHostFuelHandoffUp.TasteGate
 import BEDC.Derived.TotallyBoundedClosureUp.TasteGate
 import BEDC.Derived.TotallyBoundedMetricUp.TasteGate
@@ -6962,6 +6963,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.RouteCarrierAdmission
 import BEDC.Derived.ZetaContinuationWitnessUp.RouteClassifierStability
 import BEDC.Derived.ZetaContinuationWitnessUp.RouteStabilityBudget
 import BEDC.Derived.ZetaContinuationWitnessUp.ScopedRoutePackage
+import BEDC.Derived.ZetaContinuationWitnessUp.SourceLock
 import BEDC.Derived.ZetaContinuationWitnessUp.SourceLockCoverage
 import BEDC.Derived.ZetaContinuationWitnessUp.SourceLockTriad
 import BEDC.Derived.ZetaContinuationWitnessUp.SourceRouteScopedTotality
