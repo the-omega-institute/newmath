@@ -5475,6 +5475,7 @@ import BEDC.Derived.RealIntegerPartUp
 import BEDC.Derived.RealIntegerPartUp.TasteGate
 import BEDC.Derived.RealIntervalArithmeticUp.TasteGate
 import BEDC.Derived.RealIntervalDistanceUp.TasteGate
+import BEDC.Derived.RealLimitStabilityUp
 import BEDC.Derived.RealLimitUniquenessSealUp
 import BEDC.Derived.RealLimitUniquenessSealUp.TasteGate
 import BEDC.Derived.RealLimitUniquenessWitnessUp.TasteGate
@@ -5519,6 +5520,7 @@ import BEDC.Derived.RealPowerSeriesUp.RootCoefficientWindowCoverage
 import BEDC.Derived.RealPowerSeriesUp.RootEndpointNonescape
 import BEDC.Derived.RealPowerSeriesUp.RootRadiusMajorantTriad
 import BEDC.Derived.RealPowerSeriesUp.TasteGate
+import BEDC.Derived.RealPrefixDiagnosticUp
 import BEDC.Derived.RealRationalApproximationUp.TasteGate
 import BEDC.Derived.RealRootBracketUp.TasteGate
 import BEDC.Derived.RealRootExistenceUp.TasteGate
