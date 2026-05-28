@@ -136,6 +136,32 @@ instance denseExtensionMetricChapterTasteGate : ChapterTasteGate DenseExtensionM
     intro x y hxy heq
     exact hxy (DenseExtensionMetricTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
+instance denseExtensionMetricFieldFaithful : FieldFaithful DenseExtensionMetricUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := denseExtensionMetricFields
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk X₁ J₁ omega₁ M₁ Y₁ S₁ R₁ D₁ Q₁ T₁ H₁ C₁ P₁ N₁ =>
+        cases y with
+        | mk X₂ J₂ omega₂ M₂ Y₂ S₂ R₂ D₂ Q₂ T₂ H₂ C₂ P₂ N₂ =>
+            cases h
+            rfl
+
+instance denseExtensionMetricNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial DenseExtensionMetricUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨DenseExtensionMetricUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      DenseExtensionMetricUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem DenseExtensionMetricTasteGate_single_carrier_alignment :
     (∀ h : BHist, denseExtensionMetricDecodeBHist (denseExtensionMetricEncodeBHist h) = h) ∧
       Nonempty (BHistCarrier DenseExtensionMetricUp) ∧
@@ -145,5 +171,27 @@ theorem DenseExtensionMetricTasteGate_single_carrier_alignment :
   exact
     ⟨DenseExtensionMetricTasteGate_single_carrier_alignment_decode_encode,
       ⟨denseExtensionMetricBHistCarrier⟩, ⟨denseExtensionMetricChapterTasteGate⟩, rfl⟩
+
+theorem DenseExtensionMetricUpTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate DenseExtensionMetricUp) ∧
+      Nonempty (FieldFaithful DenseExtensionMetricUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial DenseExtensionMetricUp) ∧
+          (∀ h : BHist, denseExtensionMetricDecodeBHist (denseExtensionMetricEncodeBHist h) = h) ∧
+            (∀ x : DenseExtensionMetricUp,
+              denseExtensionMetricFromEventFlow (denseExtensionMetricToEventFlow x) = some x) ∧
+              (∀ x y : DenseExtensionMetricUp,
+                denseExtensionMetricToEventFlow x = denseExtensionMetricToEventFlow y -> x = y) ∧
+                denseExtensionMetricEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  exact
+    ⟨⟨denseExtensionMetricChapterTasteGate⟩,
+      ⟨denseExtensionMetricFieldFaithful⟩,
+      ⟨denseExtensionMetricNontrivial⟩,
+      DenseExtensionMetricTasteGate_single_carrier_alignment_decode_encode,
+      DenseExtensionMetricTasteGate_single_carrier_alignment_round_trip,
+      by
+        intro x y heq
+        exact DenseExtensionMetricTasteGate_single_carrier_alignment_toEventFlow_injective heq,
+      rfl⟩
 
 end BEDC.Derived.DenseExtensionMetricUp

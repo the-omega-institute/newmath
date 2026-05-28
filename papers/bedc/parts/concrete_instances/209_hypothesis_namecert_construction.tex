@@ -115,6 +115,63 @@ asymptotic, or classical completeness assertion.
 \end{proof}
 \leanchecked{BEDC.Derived.HypothesisUp.HypothesisTestDecisionCarrier\_namecert\_obligation\_surface}
 
+\begin{theorem}[HypothesisTestUp finite-risk boundary]
+\label{thm:hypothesis-test-finite-risk-boundary}
+For every accepted $\HypothesisTestUp$ carrier, any finite risk read factors
+through the displayed null and alternative $\DistributionUp$ rows, the
+consumed $\ProbSpaceUp$ event rows, the sample and statistic rows, the
+statistic-threshold comparison row, the decision row, and the Type I and Type
+II error-budget rows. The boundary exports only these finite ledgers and no
+asymptotic consistency, optimality principle, or probability-completion datum.
+\end{theorem}
+\begin{proof}
+Project the decision carrier of
+\autoref{def:hypothesistest-decision-carrier}. The carrier displays the null
+and alternative hypotheses, the sample row, statistic row,
+statistic-threshold comparison, decision row, and the two finite
+error-budget rows.
+
+Apply the Type I and Type II ledger theorems,
+\autoref{thm:hypothesistest-type-one-error-ledger} and
+\autoref{thm:hypothesistest-type-two-error-ledger}. They identify the only
+reject-under-null and accept-under-alternative risk reads with the displayed
+$\ProbSpaceUp/\DistributionUp$ event ledgers.
+
+Finally use the distribution consumer boundary and the NameCert obligation
+surface. Theorems~\ref{thm:hypothesistest-distribution-consumer-boundary}
+and~\ref{thm:hypothesistest-namecert-obligation-surface} keep every public
+risk read inside the displayed decision rows, so no hidden asymptotic,
+optimality, or probability-completion field can be exported.
+\end{proof}
+
+\begin{theorem}[HypothesisTestUp decision stability under transport]
+\label{thm:hypothesis-test-decision-stability-under-transport}
+Let two accepted $\HypothesisTestUp$ carriers be related componentwise by
+$\hsame$ on their null and alternative $\DistributionUp$ rows,
+$\ProbSpaceUp$ event rows, statistic-threshold ledgers, decision rows, and
+Type I/Type II budget rows. Then the transported carrier preserves the
+decision row and both error-ledger reads through the same finite
+$\NameCert_{\HypothesisTestUp}$ surface. The transport adds no asymptotic
+consistency claim, optimality datum, or probability-completion row.
+\end{theorem}
+\begin{proof}
+Start from the componentwise $\hsame$ relation. The carrier projection gives
+matching null and alternative distribution rows, event rows, statistic and
+threshold comparisons, decision rows, and finite Type I/Type II budget rows.
+
+Transport the error reads through the already checked ledgers. Theorem~\ref{thm:hypothesistest-type-one-error-ledger}
+preserves the reject-under-null row, and
+\autoref{thm:hypothesistest-type-two-error-ledger} preserves the
+accept-under-alternative row, because each is read from the displayed carrier
+coordinates.
+
+Repack the transported rows using
+\autoref{thm:hypothesistest-namecert-obligation-surface}. Since the
+NameCert surface contains only the decision carrier, visible classifiers,
+transport field, and finite ledgers, the transported decision cannot acquire
+an optimality, asymptotic, or probability-completion coordinate.
+\end{proof}
+
 \begin{closurestatus}{\HypothesisTestUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{The seed scope binds the finite decision carrier, null and alternative DistributionUp rows, ProbSpaceUp event rows, finite threshold ledger, and Type I/Type II error-budget rows.}
