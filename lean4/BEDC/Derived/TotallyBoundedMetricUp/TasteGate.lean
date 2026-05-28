@@ -314,6 +314,73 @@ theorem TotalBoundedMetricCauchyCoverObligation [AskSetup] [PackageSetup]
   }
   exact ⟨cert, cauchyCoverUnary, provenancePkg⟩
 
+theorem TotallyBoundedMetricCarrier_cauchy_cover_obligation [AskSetup] [PackageSetup]
+    {M R E D S Q H C P N metricRead toleranceRead finiteNetRead cauchyCover : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedMetricCarrier M R E D S Q H C P N bundle pkg ->
+      Cont M R metricRead ->
+        Cont metricRead D toleranceRead ->
+          Cont toleranceRead E finiteNetRead ->
+            Cont finiteNetRead Q cauchyCover ->
+              PkgSig bundle cauchyCover pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row cauchyCover ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row M ∨ hsame row R ∨ hsame row D ∨ hsame row E ∨
+                        hsame row Q ∨ hsame row cauchyCover)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ PkgSig bundle cauchyCover pkg ∧
+                        PkgSig bundle P pkg)
+                    hsame ∧
+                  UnaryHistory cauchyCover ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig SemanticNameCert
+  intro carrier metricRoute toleranceRoute finiteNetRoute cauchyCoverRoute cauchyCoverPkg
+  obtain ⟨MUnary, RUnary, EUnary, DUnary, _SUnary, QUnary, _HUnary, _CUnary,
+    _PUnary, _NUnary, _metricFamilyRoute, _windowReadbackRoute, _transportReplayRoute,
+    carrierPkg⟩ := carrier
+  have metricReadUnary : UnaryHistory metricRead :=
+    unary_cont_closed MUnary RUnary metricRoute
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed metricReadUnary DUnary toleranceRoute
+  have finiteNetReadUnary : UnaryHistory finiteNetRead :=
+    unary_cont_closed toleranceReadUnary EUnary finiteNetRoute
+  have cauchyCoverUnary : UnaryHistory cauchyCover :=
+    unary_cont_closed finiteNetReadUnary QUnary cauchyCoverRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row cauchyCover ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row M ∨ hsame row R ∨ hsame row D ∨ hsame row E ∨
+            hsame row Q ∨ hsame row cauchyCover)
+        (fun row : BHist =>
+          UnaryHistory row ∧ PkgSig bundle cauchyCover pkg ∧ PkgSig bundle P pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro cauchyCover
+        (And.intro (hsame_refl cauchyCover) cauchyCoverUnary)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _row' _row'' same same'
+        exact hsame_trans same same'
+      carrier_respects_equiv := by
+        intro row row' same sourceRow
+        exact And.intro (hsame_trans (hsame_symm same) sourceRow.left)
+          (unary_transport sourceRow.right same)
+    }
+    pattern_sound := by
+      intro row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))
+    ledger_sound := by
+      intro row sourceRow
+      exact And.intro sourceRow.right (And.intro cauchyCoverPkg carrierPkg)
+  }
+  exact ⟨cert, cauchyCoverUnary, carrierPkg⟩
+
 theorem TotalBoundedMetricCarrier_finite_net_obligation [AskSetup] [PackageSetup]
     {metric realMetric epsilonNet dyadic stream readback transport replay provenance
       localName finiteNetRead : BHist}
