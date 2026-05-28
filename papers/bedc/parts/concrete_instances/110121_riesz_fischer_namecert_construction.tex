@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\RieszFischerUp$}
+\label{ch:concrete-instances-riesz-fischer-namecert}
+\origin{human}
+
+Following Riesz and Fischer, the $\RieszFischerUp$ packet records the finite NameCert surface for the classical completeness route from square-summable coefficient windows to a Hilbert-facing limit object. It sits between the inner-product and norm rows of \autoref{ch:concrete-instances-innerproduct-namecert}, \autoref{ch:concrete-instances-hilbert-namecert}, and \autoref{ch:concrete-instances-norm-namecert}, and the completion handoff rows of \autoref{ch:concrete-instances-completemetric-namecert} and \autoref{ch:concrete-instances-cauchycompletionunit-namecert}. The packet exposes the coefficient-window, inner-product, norm, completion, transport, replay, provenance, and local naming rows needed for a constructive Riesz--Fischer handoff; it does not introduce quotient $L^{2}$ classes, choice-selected limits, or an ambient Hilbert completeness theorem outside the displayed packet.
+
+\begin{definition}[RieszFischer carrier]
+\label{def:riesz-fischer-carrier}
+A $\RieszFischerUp$ carrier is a finite $\BHist$ packet
+$$
+R=(W,I,H,N,M,U,T,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the square-summable coefficient-window row, recording finite coefficient blocks, tail bounds, and the window schedule used by the packet.
+\item $I$ is the $\InnerProductUp$ row that reads coefficient-window comparisons as inner-product estimates.
+\item $H$ is the $\HilbertUp$ source row naming the Hilbert-facing endpoint surface over which the coefficient windows are interpreted.
+\item $N$ is the $\NormUp$ row induced by the displayed inner-product estimates.
+\item $M$ is the $\CompleteMetricUp$ Cauchy-service row for the metric sequence determined by $W,I,N$.
+\item $U$ is the $\CauchyCompletionUnitUp$ handoff row that packages the displayed Cauchy datum as a completion-facing unit route.
+\item $T$ records componentwise $\hsame$ transport for $W,I,H,N,M,U$ and for the local structural rows.
+\item $C$ records displayed $\Cont$ replay from coefficient windows through the inner-product, norm, completion, and unit-handoff route.
+\item $P$ is the $\Pkg$ provenance over $\RieszFischerUp$, $\InnerProductUp$, $\HilbertUp$, $\NormUp$, $\CompleteMetricUp$, $\CauchyCompletionUnitUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\RieszFischerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient $L^{2}$ classes, almost-everywhere representatives, countable-choice limit selection, ambient Hilbert completeness, or host equality of limits.
+\end{definition}
+
+\begin{theorem}[RieszFischer NameCert obligations]
+\label{thm:riesz-fischer-namecert-obligations}
+For every accepted $\RieszFischerUp$ carrier $R=(W,I,H,N,M,U,T,C,P,L)$, the local $\NameCert_{\RieszFischerUp}$ surface consists exactly of these finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the square-summable coefficient windows, $\InnerProductUp$ comparison row, $\HilbertUp$ source row, $\NormUp$ metric row, $\CompleteMetricUp$ Cauchy-service row, $\CauchyCompletionUnitUp$ handoff row, componentwise transport, replay, provenance, and local naming;
+\item square-summable exhaustion, requiring every Hilbert-facing completion read to begin with the displayed coefficient-window row $W$;
+\item inner-product and norm compatibility, requiring $I$ and $N$ to expose the same finite comparison route before any metric-completion row is consumed;
+\item completion handoff, requiring $M$ and $U$ to route the same Cauchy datum and not a selected external limit;
+\item transport replay, requiring $T,C,P,L$ to preserve the ordered route under $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$;
+\item ledger non-escape, excluding quotient $L^{2}$ classes, choice-selected limits, ambient Hilbert completeness, host equality of limits, and hidden measure-space representatives.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The packet displays the square-summable windows, inner-product estimates, Hilbert-facing source, norm metric, complete-metric service, completion-unit handoff, transport, replay, provenance, and local name as the whole available surface.
+
+Read the analytic route in order. The coefficient window $W$ supplies the finite square-summability data; the rows $I$ and $N$ turn those windows into inner-product and norm comparisons; the row $M$ consumes the resulting Cauchy datum; and $U$ exposes the same datum to completion consumers.
+
+Finally attach the structural rows. Componentwise transport and displayed replay preserve only $W,I,H,N,M,U$, while $P$ and $L$ source and name the packet. Since no carrier coordinate contains quotient classes, selected limits, ambient completeness, host equality, or hidden representatives, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\closureat{RieszFischerUp}{seedStr}
+
+\begin{closurestatus}{\RieszFischerUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riesz-fischer-carrier} and \autoref{thm:riesz-fischer-namecert-obligations} seed the finite Riesz--Fischer packet over square-summable coefficient windows, $\InnerProductUp$, $\HilbertUp$, $\NormUp$, $\CompleteMetricUp$, $\CauchyCompletionUnitUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient $L^{2}$ classes, choice-selected limits, ambient Hilbert completeness, host equality of limits, hidden measure-space representatives, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, coefficient-window exhaustion, inner-product and norm compatibility, completion handoff, transport replay, and ledger non-escape for BEDC.Derived.RieszFischerUp.}
+  \constructivestory{A $\RieszFischerUp$ packet is generated from finite square-summable coefficient windows, inner-product comparison rows, a Hilbert-facing source row, norm metric rows, a complete-metric Cauchy service, a CauchyCompletionUnit handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
