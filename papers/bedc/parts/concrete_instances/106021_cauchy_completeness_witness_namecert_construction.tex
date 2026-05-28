@@ -59,6 +59,18 @@ The consumer must therefore pass through $R,S,D,M$. These rows provide the regul
 The support rows $H,C,P,N$ transport, replay, source, and locally certify that same finite route. They can preserve the displayed witness, but they cannot introduce quotient equality, selected limits, countable choice, trichotomy, detached Real seals, or ambient completeness because no such coordinate is present in the accepted packet.
 \end{proof}
 
+\begin{theorem}[Cauchy completeness witness obligation package]
+\label{thm:cauchy-completeness-witness-obligation-package}
+The carrier definition \autoref{def:cauchy-completeness-witness-carrier}, the NameCert-obligations theorem \autoref{thm:cauchy-completeness-witness-namecert-obligations}, and the Real-seal-route theorem \autoref{thm:cauchy-completeness-witness-real-seal-route} together supply the obligation surface for $\CauchyCompletenessWitnessUp$. This surface consists of carrier admission, classifier stability through componentwise $\hsame$, witness-to-seal routing through the completeness modulus, $\DyadicRatCoreUp$ ledger nonescape, sibling routing through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyCompletenessModulusUp$, and $\RealUp$, and local $\NameCert$ provenance.
+\end{theorem}
+\begin{proof}
+Project the finite tuple $W=(R,S,D,M,E,H,C,P,N)$ from \autoref{def:cauchy-completeness-witness-carrier}. Carrier admission is exactly the admission of these displayed rows, with no extra coordinate for quotient stream equality, selected limits, choice, trichotomy, detached Real seals, or ambient completeness.
+
+Apply \autoref{thm:cauchy-completeness-witness-namecert-obligations}. It identifies classifier stability, componentwise $\hsame$ transport, dyadic ledger discipline, sibling dependency routing, provenance, and the local $\NameCert$ row as the NameCert surface of the packet.
+
+Apply \autoref{thm:cauchy-completeness-witness-real-seal-route}. It forces every completion-seal read through $R,S,D,M,E,H,C,P,N$, so the witness-to-seal obligation passes through the completeness modulus and terminal Real seal rather than through an unstated host limit. The three cited surfaces therefore exhaust the obligation package for the finite completion witness.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\CauchyCompletenessWitnessUp$ consumer that reaches a terminal $\RealUp$ seal while omitting the regular rational readback, finite stream windows, dyadic tolerance ledger, completeness modulus, transport, replay, provenance, or local naming row refutes the packet.}
 
 \independenceWitness{regseqrat, streamname, dyadicratcore, cauchy-completeness-modulus, real: no listed sibling supplies the whole witness packet $W=(R,S,D,M,E,H,C,P,N)$, because each sibling contributes only readback, windows, tolerances, tail control, or the terminal seal while this chapter binds all five analytic faces as one finite completion witness.}
