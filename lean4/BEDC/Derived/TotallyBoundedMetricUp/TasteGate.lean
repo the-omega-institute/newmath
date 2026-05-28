@@ -3,8 +3,8 @@ import BEDC.FKernel.Mark
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
-import BEDC.FKernel.Package
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
@@ -246,6 +246,73 @@ theorem TotallyBoundedMetricCarrier_finite_net_factorization [AskSetup] [Package
     ⟨MUnary, RUnary, EUnary, DUnary, SUnary, metricUnary, toleranceUnary,
       finiteNetUnary, windowUnary, metricRoute, toleranceRoute, finiteNetRoute,
       windowRoute, carrierPkg, windowPkg⟩
+
+theorem TotalBoundedMetricCauchyCoverObligation [AskSetup] [PackageSetup]
+    {metric realMetric epsilonNet dyadic stream regseq transport replay provenance
+      localName cauchyCover : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedMetricCarrier metric realMetric epsilonNet dyadic stream regseq
+        transport replay provenance localName bundle pkg →
+      Cont dyadic epsilonNet cauchyCover →
+        PkgSig bundle cauchyCover pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row cauchyCover ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row metric ∨ hsame row realMetric ∨ hsame row dyadic ∨
+                  hsame row epsilonNet ∨ hsame row stream ∨ hsame row regseq ∨
+                    hsame row cauchyCover)
+              (fun row : BHist =>
+                hsame row cauchyCover ∧ PkgSig bundle cauchyCover pkg ∧
+                  PkgSig bundle provenance pkg)
+              hsame ∧
+            UnaryHistory cauchyCover ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier dyadicEpsilonCover cauchyCoverPkg
+  obtain ⟨metricUnary, realMetricUnary, epsilonNetUnary, dyadicUnary, streamUnary,
+    regseqUnary, _transportUnary, _replayUnary, provenanceUnary, _localNameUnary,
+    _metricRealMetricEpsilonNet, _dyadicStreamRegseq, _transportReplayProvenance,
+    provenancePkg⟩ := carrier
+  have cauchyCoverUnary : UnaryHistory cauchyCover :=
+    unary_cont_closed dyadicUnary epsilonNetUnary dyadicEpsilonCover
+  have sourceCover :
+      (fun row : BHist => hsame row cauchyCover ∧ UnaryHistory row) cauchyCover := by
+    exact ⟨hsame_refl cauchyCover, cauchyCoverUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row cauchyCover ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row metric ∨ hsame row realMetric ∨ hsame row dyadic ∨
+              hsame row epsilonNet ∨ hsame row stream ∨ hsame row regseq ∨
+                hsame row cauchyCover)
+          (fun row : BHist =>
+            hsame row cauchyCover ∧ PkgSig bundle cauchyCover pkg ∧
+              PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro cauchyCover sourceCover
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, cauchyCoverPkg, provenancePkg⟩
+  }
+  exact ⟨cert, cauchyCoverUnary, provenancePkg⟩
 
 theorem TotalBoundedMetricCarrier_finite_net_obligation [AskSetup] [PackageSetup]
     {metric realMetric epsilonNet dyadic stream readback transport replay provenance
