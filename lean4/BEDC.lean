@@ -1219,6 +1219,7 @@ import BEDC.Derived.CauchyDiagonalBudgetUp.SharedTailWindowExhaustion
 import BEDC.Derived.CauchyDiagonalCompactnessUp.TasteGate
 import BEDC.Derived.CauchyDiagonalFusionUp.TasteGate
 import BEDC.Derived.CauchyDiagonalLimitUp.TasteGate
+import BEDC.Derived.CauchyDiagonalSelectionUp.TasteGate
 import BEDC.Derived.CauchyDifferenceCriterionUp.TasteGate
 import BEDC.Derived.CauchyDoubleSequenceUp
 import BEDC.Derived.CauchyEntourageFilterUp.TasteGate
@@ -1644,6 +1645,7 @@ import BEDC.Derived.CauchyTailBoundUp.TasteGate
 import BEDC.Derived.CauchyTailComparisonUp
 import BEDC.Derived.CauchyTailComparisonUp.TasteGate
 import BEDC.Derived.CauchyTailConsensusUp.TasteGate
+import BEDC.Derived.CauchyTailControlUp.TasteGate
 import BEDC.Derived.CauchyTailDiameterUp
 import BEDC.Derived.CauchyTailDiameterUp.TasteGate
 import BEDC.Derived.CauchyTailEquivalenceUp.TasteGate
@@ -3013,6 +3015,7 @@ import BEDC.Derived.DoCalculusUp.TasteGate
 import BEDC.Derived.DomainTruthCertificateUp.NameCertObligations
 import BEDC.Derived.DomainTruthCertificateUp.SiblingIndependence
 import BEDC.Derived.DomainTruthCertificateUp.TasteGate
+import BEDC.Derived.DominatedConvergenceUp.TasteGate
 import BEDC.Derived.DoubleCauchyDiagonalUp.TasteGate
 import BEDC.Derived.DoubleLimitInterchangeUp.TasteGate
 import BEDC.Derived.DoublingMetricUp.TasteGate
@@ -6042,6 +6045,7 @@ import BEDC.Derived.RegularCauchyTranslationUp.TasteGate
 import BEDC.Derived.RegularCauchyTriangleBoundUp
 import BEDC.Derived.RegularCauchyTriangleBoundUp.TasteGate
 import BEDC.Derived.RegularCauchyUniformityUp.TasteGate
+import BEDC.Derived.RegularCauchyUniquenessUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowIntersectionUp.TasteGate
 import BEDC.Derived.RegularCauchyWitnessScheduleUp

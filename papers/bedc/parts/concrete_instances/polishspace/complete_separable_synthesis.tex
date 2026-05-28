@@ -36,6 +36,24 @@ host metric, or quotient-completion equality, the displayed route is the only
 complete-separable synthesis exported by an accepted Polish-space packet.
 \end{proof}
 
+\begin{theorem}[Polish-space complete-separable shared-source route]
+\label{thm:polish-space-complete-separable-shared-source-route}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ packet. Every complete-separable consumer must read the complete row $K$ and the separable row $D$ over the same $\MetricSpaceUp$ row $M$, then pass through the finite route
+$$
+M \longmapsto (K,D) \longmapsto (S,R,W) \longmapsto (H,C,G,N).
+$$
+It cannot split completion and separability across different host metrics, separate quotient-completion coordinates, selected dense sequences, or unscheduled readback windows.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:polish-space-root-complete-separable-synthesis}. It already displays $K$ and $D$ as rows of one accepted packet over the same metric source $M$.
+
+Next use \autoref{thm:polishspace-root-density-obligations}. The dense schedule $D$ is read through the shared stream and regular rational windows $S,R$ together with the observation ledger $W$, so it cannot be detached from the metric row that supplies its distances.
+
+Use \autoref{thm:polishspace-root-completion-obligations} for the complete side. The completion row $K$ is transported and replayed through the same $H,C,G,N$ route as $D$.
+
+The carrier has no coordinate for a second host metric, separate quotient completion, selected dense sequence, or unscheduled readback window. Thus the complete-separable route is a shared-source route through $M,K,D,S,R,W,H,C,G,N$.
+\end{proof}
+
 \begin{definition}[Polish-space root unblock surface]
 \label{def:polish-space-root-unblock-surface}
 The root unblock surface of an accepted $\PolishSpaceUp$ packet is the
