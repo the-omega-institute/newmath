@@ -615,6 +615,24 @@ those objects therefore leaves the exact-boundary packet rather than giving a
 different valid read.
 \end{proof}
 
+\begin{theorem}[Real completion exact-boundary tail-envelope criterion]
+\label{thm:real-completion-exact-boundary-tail-envelope-criterion}
+An accepted $\RealCompletionExactBoundaryUp$ packet admits a Real-facing completion read only when the tail schedule, cofinal terminal route, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, and terminal $\RealUp$ seal are present in one envelope over
+$$
+L,K,J,S,W,R,D,E,H,C,P,N.
+$$
+Equivalently, the exact boundary rejects any Real-facing completion read that omits one of the tail schedule, cofinal terminal route, finite window, regular readback, dyadic tolerance, or terminal seal rows. The criterion exports no quotient stream equality, host real equality, selected representatives, countable choice, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:real-completion-exact-boundary-tail-cofinality-schedule-factorization}. It makes the accepted tail schedule a consumer-side factor of the same four faces $W,R,D,E$, not a separate completion coordinate.
+
+Next apply \autoref{thm:real-completion-exact-boundary-cofinal-terminal-determinacy}. The cofinal terminal route can compare terminal seals only through the displayed schedule and the exact-boundary terminal coordinate.
+
+Use \autoref{thm:real-completion-exact-boundary-four-face-terminal-consumer-exhaustion}. Every terminal consumer reads the StreamName, RegSeqRat, DyadicRatCore, and Real rows through the same support rows $H,C,P,N$ after $L,K,J,S$.
+
+Finally apply \autoref{thm:real-completion-exact-boundary-all-rows-necessary}. Since every displayed row is necessary, omitting the tail schedule factor, cofinal terminal route, window row, readback row, tolerance ledger, or terminal seal leaves the accepted boundary. Quotient stream equality, host real equality, selected representatives, countable choice, and $\RealUp$ completeness have no carrier slot in the criterion.
+\end{proof}
+
 \closureat{RealCompletionExactBoundaryUp}{scopedStr}[BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment]
 \closureat{RealCompletionExactBoundaryUp}{publicStr}[BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment]
 \closureat{RealCompletionExactBoundaryUp}{bridgedStr}[BEDC.Derived.RealCompletionExactBoundaryUp.RealCompletionExactBoundaryTasteGate\_single\_carrier\_alignment]
