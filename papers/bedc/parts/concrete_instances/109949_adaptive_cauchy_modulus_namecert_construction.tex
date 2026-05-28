@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\AdaptiveCauchyModulusUp$}
+\label{ch:concrete-instances-adaptive-cauchy-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy names and finite modulus extraction, the $\AdaptiveCauchyModulusUp$ packet records the threshold-selection surface that is actually inspected by a regular real-name consumer. It sits between the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the ordinary modulus row of \autoref{ch:concrete-instances-cauchymodulus-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only the finite adaptive route from requested tolerances to inspected windows, regular readback, and Real consumers; it does not choose a global limit, quotient stream representative, ambient complete real, or unbounded modulus oracle.
+
+\begin{definition}[Adaptive Cauchy modulus carrier]
+\label{def:adaptive-cauchy-modulus-carrier}
+An $\AdaptiveCauchyModulusUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,D,T,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\StreamNameUp$ row, exposing the finite name windows available to a regular Cauchy request.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the requested positive dyadic thresholds and the refinements used by the threshold search.
+\item $T$ is the adaptive threshold schedule, assigning to each displayed tolerance request the finite stage bound selected from the inspected evidence.
+\item $W$ is the inspected-window row, listing exactly the stream windows opened while validating the schedule $T$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the source stream, tolerance ledger, threshold schedule, and inspected windows.
+\item $E$ is the terminal $\RealUp$ seal row available only after the regular-rational readback has been displayed.
+\item $H$ records componentwise $\hsame$ transport for $S,D,T,W,R,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from an adaptive-modulus request through the same source, tolerance, schedule, window, readback, seal, transport, provenance, and naming rows.
+\item $P$ is the $\Pkg$ provenance over $\AdaptiveCauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AdaptiveCauchyModulusUp}$ row.
+\end{enumerate}
+The classifier accepts only packets whose threshold read is mediated by $S,D,T,W,R,E,H,C,P,N$. There is no coordinate for a selected limit, quotient stream equality, host real equality, ambient completeness, countable choice, or an uninspected global modulus.
+\end{definition}
+
+\begin{theorem}[Adaptive Cauchy modulus NameCert obligations]
+\label{thm:adaptive-cauchy-modulus-namecert-obligations}
+For every accepted $\AdaptiveCauchyModulusUp$ carrier
+$$
+A=(S,D,T,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\AdaptiveCauchyModulusUp}$ surface consists exactly of source-stream admission, dyadic tolerance-ledger exposure, adaptive threshold-schedule admission, inspected-window replay, regular-rational readback, terminal Real seal readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through the rows of $A$.
+
+No obligation in the packet is discharged by a selected Cauchy limit, quotient equality of streams, host real equality, ambient completeness, countable choice, or an oracle for a modulus outside the displayed finite windows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:adaptive-cauchy-modulus-carrier}. The analytic rows are precisely the source stream $S$, tolerance ledger $D$, adaptive threshold schedule $T$, inspected windows $W$, regular readback $R$, and terminal Real seal $E$.
+
+The access order is forced by the rows. A consumer first reads a dyadic request from $D$, then uses $T$ to select a finite stage bound, and then opens only the windows recorded by $W$ in the source stream $S$.
+
+The readback rows add no external completion principle. The row $R$ repacks the inspected stream and tolerance data as a regular rational sequence, and $E$ seals that readback for Real-facing consumers only after $R$ is present.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since no coordinate of $A$ stores a selected limit, quotient equality, host equality, ambient completeness, countable choice, or an uninspected global modulus, the displayed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Adaptive Cauchy modulus RegSeqRat handoff]
+\label{thm:adaptive-cauchy-modulus-regseqrat-handoff}
+Every regular Cauchy or Real consumer of an accepted $\AdaptiveCauchyModulusUp$ carrier factors through the finite route
+$$
+\StreamNameUp
+\longmapsto
+\DyadicRatCoreUp
+\longmapsto
+\CauchyModulusUp
+\longmapsto
+\RegSeqRatUp
+\longmapsto
+\RealUp .
+$$
+The handoff exports only the source stream, tolerance ledger, adaptive threshold schedule, inspected windows, regular-rational readback, terminal Real seal, componentwise transport, displayed replay, provenance, and local name carried by the same packet.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:adaptive-cauchy-modulus-namecert-obligations}. They force every accepted consumer to read the source stream, dyadic tolerance ledger, threshold schedule, and inspected windows before any regular-rational output is available.
+
+Next attach the ordinary modulus interface. The schedule row $T$ is the finite adaptive presentation of the requested $\CauchyModulusUp$ behavior, and the inspected windows $W$ record the evidence used to justify each displayed threshold.
+
+The regular and Real rows then close the handoff. The row $R$ is the only displayed path from the inspected data to $\RegSeqRatUp$, and the seal $E$ is the only displayed path from $R$ to $\RealUp$.
+
+The structural rows $H,C,P,N$ preserve that same route through transport, replay, provenance, and local naming. Hence a consumer reaches RegSeqRat and Real data through finite inspected evidence rather than through quotient streams, selected limits, host equality, ambient completeness, countable choice, or a detached modulus oracle.
+\end{proof}
+
+\closureat{AdaptiveCauchyModulusUp}{seedStr}
+
+\begin{closurestatus}{\AdaptiveCauchyModulusUp}
+  \constructivestory{An $\AdaptiveCauchyModulusUp$ packet is generated from a source stream, dyadic tolerance ledger, adaptive threshold schedule, inspected stream windows, RegSeqRat readback, Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:adaptive-cauchy-modulus-carrier}, \autoref{thm:adaptive-cauchy-modulus-namecert-obligations}, and \autoref{thm:adaptive-cauchy-modulus-regseqrat-handoff} seed the finite adaptive threshold-selection route for regular Cauchy names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected limits, quotient stream equality, host real equality, ambient completeness, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, adaptive threshold schedule exposure, inspected-window replay, RegSeqRat readback, Real seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.AdaptiveCauchyModulusUp.}
+\end{closurestatus}
