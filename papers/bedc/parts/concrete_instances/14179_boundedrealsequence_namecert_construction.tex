@@ -135,6 +135,22 @@ The structural rows keep the readback inside the packet. Transport by $H$, repla
 \end{proof}
 \leanchecked{BEDC.Derived.BoundedRealSequenceUp.BoundedRealSequenceRegSeqRat\_readback}
 
+\begin{theorem}[Bounded real sequence located-bound handoff]
+\label{thm:bounded-real-sequence-located-bound-handoff}
+Every accepted $\BoundedRealSequenceUp$ packet whose interval-net row is read as located lower and upper real bounds factors through the $\LocatedBoundedRealSequenceUp$ route of \autoref{ch:concrete-instances-located-bounded-real-sequence-namecert} before any $\BolzanoWeierstrassUp$ consumer inspects it. The visible route is
+$$
+S,W,Q,R,I \longmapsto \LocatedBoundedRealSequenceUp \longmapsto H,C,P,N .
+$$
+Thus the closed-bounded interval-net row is narrowed to located lower and upper bound data before the Bolzano--Weierstrass handoff, without exporting compactness, trichotomy, quotient sequence equality, countable choice, or a selected subsequence.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier $B=(S,W,Q,R,I,H,C,P,N)$ from \autoref{def:bounded-real-sequence-carrier}. The sequence source is displayed only through inspected indices $S$, stream windows $W$, regular rational readback $Q$, and the downstream $\RealUp$ seal $R$.
+
+Use \autoref{thm:bounded-real-sequence-finite-window-bound} and \autoref{thm:bounded-real-sequence-regseqrat-readback}. They put every visible sequence value on the route from $W$ through $Q,R$ to the bound row $I$, so the lower and upper endpoint reads of $I$ are tied to the same finite windows.
+
+When $I$ is read as located lower and upper real bounds, the narrower sibling route is exactly the $\LocatedBoundedRealSequenceUp$ packet of \autoref{ch:concrete-instances-located-bounded-real-sequence-namecert}. The structural rows $H,C,P,N$ preserve that route before \autoref{thm:bounded-real-sequence-bolzano-weierstrass-handoff} lets any $\BolzanoWeierstrassUp$ consumer inspect the bounded source.
+\end{proof}
+
 \begin{theorem}[Bounded real sequence obligation-closure package]
 \label{thm:bounded-real-sequence-obligation-closure-package}
 For every accepted $\BoundedRealSequenceUp$ carrier, the carrier row of \autoref{def:bounded-real-sequence-carrier}, the NameCert obligation surface of \autoref{thm:bounded-real-sequence-namecert-obligations}, the finite-window bound of \autoref{thm:bounded-real-sequence-finite-window-bound}, the Bolzano--Weierstrass handoff of \autoref{thm:bounded-real-sequence-bolzano-weierstrass-handoff}, the window envelope of \autoref{thm:bounded-real-sequence-window-envelope}, the Bolzano frontier of \autoref{thm:bounded-real-sequence-bolzano-frontier}, and the RegSeqRat readback of \autoref{thm:bounded-real-sequence-regseqrat-readback} assemble the obligationClosure surface over
