@@ -112,4 +112,33 @@ theorem ClosedBoundedIntervalPacket_dyadic_net_obligations [AskSetup] [PackageSe
   }
   exact ⟨cert, dyadicNetUnary, locatedRefinementUnary, dyadicStreamNet, netSealRefinement⟩
 
+theorem ClosedBoundedIntervalPacket_finite_net_compactness_route [AskSetup] [PackageSetup]
+    {lower upper order rational dyadic stream readback sealRow transport replay provenance
+      localName exported netRead coverRead compactRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClosedBoundedIntervalPacket lower upper order rational dyadic stream readback sealRow
+        transport replay provenance localName exported bundle pkg →
+      UnaryHistory netRead →
+        Cont dyadic netRead coverRead →
+          Cont coverRead sealRow compactRead →
+            PkgSig bundle compactRead pkg →
+              UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory dyadic ∧
+                UnaryHistory netRead ∧ UnaryHistory coverRead ∧ UnaryHistory compactRead ∧
+                  Cont dyadic netRead coverRead ∧ Cont coverRead sealRow compactRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle compactRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro packet netReadUnary coverRoute compactRoute compactPkg
+  obtain ⟨lowerUnary, upperUnary, _orderUnary, _rationalUnary, dyadicUnary,
+    _streamUnary, _readbackUnary, sealRowUnary, _transportUnary, _replayUnary,
+    _provenanceUnary, _localNameUnary, _exportedUnary, _endpointRoute,
+    _containmentRoute, _sealRoute, _replayRoute, _nameRoute, provenancePkg,
+    _localNamePkg⟩ := packet
+  have coverReadUnary : UnaryHistory coverRead :=
+    unary_cont_closed dyadicUnary netReadUnary coverRoute
+  have compactReadUnary : UnaryHistory compactRead :=
+    unary_cont_closed coverReadUnary sealRowUnary compactRoute
+  exact
+    ⟨lowerUnary, upperUnary, dyadicUnary, netReadUnary, coverReadUnary, compactReadUnary,
+      coverRoute, compactRoute, provenancePkg, compactPkg⟩
+
 end BEDC.Derived.ClosedboundedintervalUp
