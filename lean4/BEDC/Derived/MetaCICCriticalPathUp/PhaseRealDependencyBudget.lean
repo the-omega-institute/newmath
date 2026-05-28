@@ -175,4 +175,81 @@ theorem MetaCICCriticalPathPhaseRealExitConjunction [AskSetup] [PackageSetup]
   }
   exact ⟨cert, exitReadUnary, realSealPkg⟩
 
+theorem MetaCICCriticalPathPhaseRealBudgetExhaustion [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction unblock discharge handoff continuation provenance
+      localName dyadic stream regseq realSeal exitRead budgetExit : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathOpenPhaseSourceLedger strongNorm normalForm obstruction unblock
+        discharge handoff continuation provenance localName dyadic stream regseq realSeal
+        bundle pkg →
+      Cont dyadic stream regseq →
+        Cont regseq realSeal exitRead →
+          Cont exitRead provenance budgetExit →
+            PkgSig bundle budgetExit pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row budgetExit ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row dyadic ∨ hsame row stream ∨ hsame row regseq ∨
+                      hsame row realSeal ∨ hsame row exitRead ∨ hsame row budgetExit)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont dyadic stream regseq ∧
+                      Cont regseq realSeal exitRead ∧ Cont exitRead provenance budgetExit ∧
+                        PkgSig bundle budgetExit pkg ∧ PkgSig bundle realSeal pkg)
+                  hsame ∧
+                UnaryHistory exitRead ∧ UnaryHistory budgetExit ∧
+                  PkgSig bundle realSeal pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro ledger dyadicStreamRegseq regseqRealSealExit exitProvenanceBudget budgetPkg
+  obtain ⟨packet, _dyadicUnary, _streamUnary, regseqUnary, realSealUnary,
+    _dyadicStreamRegseq, _regseqRealSealHandoff, realSealPkg⟩ := ledger
+  obtain ⟨_strongNormUnary, _normalFormUnary, _obstructionUnary, _unblockUnary,
+    _dischargeUnary, _handoffUnary, _continuationUnary, provenanceUnary,
+    _localNameUnary, _strongNormNormalFormContinuation, _unblockObstructionDischarge,
+    _handoffLocalName, _provenancePkg⟩ := packet
+  have exitUnary : UnaryHistory exitRead :=
+    unary_cont_closed regseqUnary realSealUnary regseqRealSealExit
+  have budgetUnary : UnaryHistory budgetExit :=
+    unary_cont_closed exitUnary provenanceUnary exitProvenanceBudget
+  have budgetSource :
+      (fun row : BHist => hsame row budgetExit ∧ UnaryHistory row) budgetExit := by
+    exact ⟨hsame_refl budgetExit, budgetUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row budgetExit ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row dyadic ∨ hsame row stream ∨ hsame row regseq ∨
+              hsame row realSeal ∨ hsame row exitRead ∨ hsame row budgetExit)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont dyadic stream regseq ∧
+              Cont regseq realSeal exitRead ∧ Cont exitRead provenance budgetExit ∧
+                PkgSig bundle budgetExit pkg ∧ PkgSig bundle realSeal pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro budgetExit budgetSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, dyadicStreamRegseq, regseqRealSealExit, exitProvenanceBudget,
+          budgetPkg, realSealPkg⟩
+  }
+  exact ⟨cert, exitUnary, budgetUnary, realSealPkg⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp
