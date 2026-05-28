@@ -63,6 +63,22 @@ The row $R$ consumes exactly that finite constant-window evidence. Componentwise
 No further principle is available in the carrier. The handoff therefore remains the displayed route $D \to W \to R$, rather than a quotient-stream class or a selected limiting real.
 \end{proof}
 
+\begin{theorem}[Stationary dyadic stream constant embedding]
+\label{thm:stationary-dyadic-stream-constant-embedding}
+Every accepted $\StationaryDyadicStreamUp$ packet whose source row is a displayed $\DyadicRatCoreUp$ datum exports the same public route as the dyadic constant embedding into $\RealUp$:
+$$
+\DyadicRatCoreUp \longrightarrow \StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp .
+$$
+For a carrier $S=(D,W,R,E,H,C,P,N)$, this route is read through the rows $D,W,R,E,H,C,P,N$. It does not introduce quotient stream equality, a selected limit, host real equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Use the carrier definition to project the accepted packet. The source row $D$ is the displayed dyadic rational datum, and the window row $W$ records that every finite stream request repeats that same datum.
+
+Apply the RegSeqRat handoff theorem. It identifies $R$ as the regular rational readback of the constant finite windows, with zero displayed drift between the windows admitted by $W$.
+
+Finally apply the Real seal boundary theorem. The seal $E$ is available only after $D,W,R$ have been displayed, and $H,C,P,N$ only transport, replay, source, and name the same finite route. The packet therefore presents exactly the constant dyadic embedding route and no quotient stream, selected limit, host real equality, countable-choice schedule, or ambient completeness principle.
+\end{proof}
+
 \begin{theorem}[Stationary dyadic stream Real seal boundary]
 \label{thm:stationary-dyadic-stream-real-seal-boundary}
 Every accepted $\RealUp$ consumer of a $\StationaryDyadicStreamUp$ packet must inspect the dyadic source row, the constant StreamName window, and the RegSeqRat handoff before reading the terminal seal $E$. Consequently the public real-facing boundary is the finite route
