@@ -437,9 +437,9 @@ theorem TotallyBoundedMetricCarrier_cauchy_cover_obligation [AskSetup] [PackageS
       exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))
     ledger_sound := by
       intro row sourceRow
-      exact And.intro sourceRow.right (And.intro cauchyCoverPkg carrierPkg)
+      exact And.intro sourceRow.right (And.intro cauchyCoverPkg carrierPkg.left)
   }
-  exact ⟨cert, cauchyCoverUnary, carrierPkg⟩
+  exact ⟨cert, cauchyCoverUnary, carrierPkg.left⟩
 
 theorem TotalBoundedMetricCarrier_finite_net_obligation [AskSetup] [PackageSetup]
     {metric realMetric epsilonNet dyadic stream readback transport replay provenance
