@@ -56,6 +56,22 @@ The route then passes through $B$ and $C$. The row $B$ supplies the finite neigh
 The structural rows $H,R,P,N$ do not add a hidden selector. They transport, replay, source, and name the same finite route, so no path, arc, arbitrary subcover, quotient representative, or host basis can replace the displayed neighbourhood-component data.
 \end{proof}
 
+\begin{theorem}[Locally connected obligation closure surface]
+\label{thm:locally-connected-obligation-closure-surface}
+For every accepted $\LocallyConnectedUp$ carrier $L=(T,M,G,K,B,C,H,R,P,N)$, the obligation-closure surface is exhausted by the displayed finite topology, metric, connected-space, compact-metric, neighbourhood-refinement, local-component, transport, replay, provenance, and naming rows. The row $T$ supplies the open-neighbourhood source, $M$ supplies metric-ball observations, $G$ supplies connected-space comparison, $K$ supplies compact-metric finite-source compatibility, $B,C$ supply the local refinement and component rows, and $H,R,P,N$ supply transport, replay, provenance, and local naming.
+
+The local component route therefore consumes the connected-space carrier of \autoref{ch:concrete-instances-connected-space-namecert}, the compact-metric finite neighbourhood discipline of \autoref{ch:concrete-instances-compactmetric-namecert}, the metric-ball rows of \autoref{ch:concrete-instances-metric-namecert}, and the topology neighbourhood ledger of \autoref{ch:concrete-instances-topology-namecert} before a local component can be named.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:locally-connected-namecert-obligations} to the accepted carrier. It identifies the complete NameCert surface with the rows $T,M,G,K,B,C,H,R,P,N$.
+
+Apply \autoref{thm:locally-connected-neighborhood-component-route}. The route from an open request to a local component passes through topology, optional metric-ball observations, connected-space comparison, compact-metric compatibility, finite refinement, and component rows before the structural rows transport and name the result.
+
+The sibling lattice is read in that order: topology supplies the neighbourhood ledger, metric supplies ball observations, connected-space supplies the comparison carrier, and compact metric supplies the finite neighbourhood discipline. The local refinement and component rows then bind those sibling contributions into the $\LocallyConnectedUp$ packet.
+
+Thus the obligation surface is the stated finite route. Path or arc selection, open-cover compactness, quotient components, and a host basis are refused because none of them is a carrier coordinate or a row used by the two preceding theorems.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\LocallyConnectedUp$ read must expose a $\TopologyUp$ open-neighbourhood row, optional $\MetricUp$ ball observations, the $\ConnectedSpaceUp$ comparison row when a global consumer is present, the $\CompactMetricUp$ finite-source row when a compact-metric consumer is present, a finite neighbourhood-refinement row, a local component row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
 
 \independenceWitness{topology, metric, connected-space, compactmetric: $\LocallyConnectedUp$ is not bijective to any listed sibling because it binds a local neighbourhood-refinement row to a local component row before connected-space or compact-metric consumers may read the result.}
