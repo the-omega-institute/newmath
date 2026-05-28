@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\RealCompletenessWitnessUp$}
+\label{ch:concrete-instances-real-completeness-witness-namecert}
+\origin{ai}
+
+The $\RealCompletenessWitnessUp$ packet realizes the four-face Real and Completion route as finite BEDC data: the $\StreamNameUp$ finite-window face, the $\DyadicRatCoreUp$ tolerance face, the $\RegSeqRatUp$ regularity and classifier face, and the terminal $\RealUp$ seal face. It records the completion witness used by Real-facing consumers without turning that witness into ambient completeness, quotient stream equality, selected limits, trichotomy, or countable choice.
+
+\begin{definition}[Real completeness witness carrier]
+\label{def:real-completeness-witness-carrier}
+A $\RealCompletenessWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(S,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window schedule naming the requested observations.
+\item $D$ is the $\DyadicRatCoreUp$ ledger of endpoint rows, radii, comparison distances, and tolerance budgets.
+\item $R$ is the $\RegSeqRatUp$ regularity and classifier row read from the same finite schedule and dyadic ledger.
+\item $E$ is the terminal $\RealUp$ seal reached only after $S,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the four faces, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a completion-facing request through $S,D,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RealCompletenessWitnessUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RealCompletenessWitnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted witnesses only through the displayed four-face route and the structural rows. It has no coordinate for quotient streams, selected host limits, ambient $\RealUp$ completeness, trichotomy, countable choice, field completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Real completeness witness NameCert obligations]
+\label{thm:real-completeness-witness-namecert-obligations}
+For every accepted $\RealCompletenessWitnessUp$ carrier $W=(S,D,R,E,H,C,P,N)$, the local $\NameCert_{\RealCompletenessWitnessUp}$ surface consists exactly of carrier admission for the StreamName finite-window face, DyadicRatCore tolerance face, RegSeqRat regularity and classifier face, terminal RealUp seal face, componentwise transport, displayed continuation replay, provenance, and local naming; four-face route exposure; and refusal of quotient streams, selected limits, ambient completeness, trichotomy, countable choice, detached field structure, Lean verification, and bridge checking.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-completeness-witness-carrier}. The accepted packet has exactly four mathematical faces, followed by transport, replay, provenance, and naming rows.
+
+The route exposure is ordered. A completion-facing consumer reads $S$ before dyadic tolerances, $D$ before regular readback, $R$ before the terminal Real seal, and $E$ before any downstream seal consumer.
+
+The exclusions are an inventory check. No coordinate stores quotient stream equality, a selected host limit, an ambient completeness theorem, trichotomy, countable choice, a field-faithfulness proof, Lean verification, or a bridge certificate. Therefore the displayed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Real completeness witness four-face route]
+\label{thm:real-completeness-witness-four-face-route}
+Every accepted $\RealCompletenessWitnessUp$ consumer reaches completion-facing Real data only through the finite route
+$$
+S \longmapsto D \longmapsto R \longmapsto E
+$$
+and then through $H,C,P,N$. Thus the witness is a finite four-face packet over \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}, not an assertion of full $\RealUp$ completeness or a field-completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted completion-facing read. The only source face is $S$, the finite $\StreamNameUp$ schedule, so the read first fixes the visible windows.
+
+Next read $D$ and $R$. The dyadic face supplies endpoint, radius, distance, and tolerance rows; the regular-rational face reads those rows as the $\RegSeqRatUp$ regularity and classifier surface.
+
+Finally read $E$ as the terminal $\RealUp$ seal and pass through $H,C,P,N$ for transport, replay, source, and local naming. Since no field-faithfulness, nontriviality, quotient stream, selected limit, or ambient completeness coordinate is present in the carrier, those later Lean obligations must be supplied separately by `TasteGate.lean`, with `Nontrivial RealCompletenessWitnessUp` and `FieldFaithful RealCompletenessWitnessUp` recorded as independent evidence rather than projected from this packet.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\RealCompletenessWitnessUp$ read that reaches Real-completion data while bypassing the $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, or $\RealUp$ seal rows refutes the carrier.}
+
+\independenceWitness{streamname, dyadicratcore, regseqrat, real, finite-real-section: $\RealCompletenessWitnessUp$ is not bijective to any listed sibling because it jointly carries the finite-window schedule, dyadic tolerance ledger, regularity and classifier readback, terminal Real seal, structural transport, replay, provenance, and local NameCert rows as one four-face packet.}
+
+\closureat{RealCompletenessWitnessUp}{seedStr}
+
+\begin{closurestatus}{\RealCompletenessWitnessUp}
+  \constructivestory{A $\RealCompletenessWitnessUp$ packet is generated from a StreamName finite-window face, DyadicRatCore tolerance face, RegSeqRat regularity and classifier face, terminal RealUp seal face, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-completeness-witness-carrier}, \autoref{thm:real-completeness-witness-namecert-obligations}, and \autoref{thm:real-completeness-witness-four-face-route} seed the finite four-face completion witness over StreamName, DyadicRatCore, RegSeqRat, RealUp, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full RealUp completeness, quotient stream equality, selected limits, field-faithfulness, nontriviality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked four-face carrier admission, route exposure, nonescape, transport, replay, provenance, local naming, and separate TasteGate evidence for BEDC.Derived.RealCompletenessWitnessUp.}
+\end{closurestatus}
