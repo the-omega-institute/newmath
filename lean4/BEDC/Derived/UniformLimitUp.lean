@@ -91,4 +91,27 @@ theorem UniformLimitCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact And.intro (hsame_refl endpoint) endpointPkg
   }
 
+theorem UniformLimitCarrier_tail_ledger_exactness [AskSetup] [PackageSetup]
+    {family modulus tail regularHandoff sealRow endpoint sameRows route provenance namecert
+      tailRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformLimitCarrier family modulus tail regularHandoff sealRow endpoint sameRows route
+        provenance namecert bundle pkg ->
+      Cont modulus tail tailRead ->
+        PkgSig bundle tailRead pkg ->
+          UnaryHistory family ∧ UnaryHistory modulus ∧ UnaryHistory tail ∧
+            UnaryHistory tailRead ∧ Cont family modulus tail ∧ Cont modulus tail tailRead ∧
+              PkgSig bundle endpoint pkg ∧ PkgSig bundle tailRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier modulusTailRead tailReadPkg
+  obtain ⟨familyUnary, modulusUnary, tailUnary, _regularHandoffUnary, _sealUnary,
+    _endpointUnary, _sameRowsUnary, _routeUnary, _provenanceUnary, _namecertUnary,
+    familyModulusTail, _tailRegularSeal, _regularSealEndpoint, _endpointNameProvenance,
+    _sameRows, endpointPkg⟩ := carrier
+  have tailReadUnary : UnaryHistory tailRead :=
+    unary_cont_closed modulusUnary tailUnary modulusTailRead
+  exact
+    ⟨familyUnary, modulusUnary, tailUnary, tailReadUnary, familyModulusTail,
+      modulusTailRead, endpointPkg, tailReadPkg⟩
+
 end BEDC.Derived.UniformLimitUp
