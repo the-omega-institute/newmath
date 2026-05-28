@@ -211,9 +211,68 @@ def TotallyBoundedMetricCarrier [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
   UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory D ∧
     UnaryHistory S ∧ UnaryHistory Q ∧ UnaryHistory H ∧ UnaryHistory C ∧
-      UnaryHistory P ∧ UnaryHistory N ∧ Cont M R E ∧ Cont D S Q ∧
-        Cont H C P ∧ PkgSig bundle P pkg ∧ Cont M R D ∧ Cont D E S ∧
-          Cont S Q C ∧ PkgSig bundle N pkg
+      UnaryHistory P ∧ UnaryHistory N ∧ Cont M R D ∧ Cont D S Q ∧
+        Cont H C P ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
+theorem TotallyBoundedMetricCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {M R E D S Q H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedMetricCarrier M R E D S Q H C P N bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row E ∧ TotallyBoundedMetricCarrier M R E D S Q H C P N bundle pkg)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row R ∨ hsame row D ∨ Cont M R D ∨ Cont D S Q)
+          (fun row : BHist =>
+            PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧ hsame row E)
+          hsame ∧
+        UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory D ∧
+          UnaryHistory S ∧ UnaryHistory Q ∧ Cont M R D ∧ Cont D S Q ∧
+            PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier
+  obtain ⟨MUnary, RUnary, EUnary, DUnary, SUnary, QUnary, _HUnary, _CUnary, _PUnary,
+    _NUnary, metricToleranceRoute, windowReadbackRoute, _transportReplayRoute,
+    provenancePkg, localNamePkg⟩ := carrier
+  have carrierAtE :
+      TotallyBoundedMetricCarrier M R E D S Q H C P N bundle pkg :=
+    ⟨MUnary, RUnary, EUnary, DUnary, SUnary, QUnary, _HUnary, _CUnary, _PUnary,
+      _NUnary, metricToleranceRoute, windowReadbackRoute, _transportReplayRoute,
+      provenancePkg, localNamePkg⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row E ∧ TotallyBoundedMetricCarrier M R E D S Q H C P N bundle pkg)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row R ∨ hsame row D ∨ Cont M R D ∨ Cont D S Q)
+          (fun row : BHist =>
+            PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧ hsame row E)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro E ⟨hsame_refl E, carrierAtE⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row _source
+      exact Or.inr (Or.inr (Or.inr (Or.inl metricToleranceRoute)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, localNamePkg, source.left⟩
+  }
+  exact
+    ⟨cert, MUnary, RUnary, EUnary, DUnary, SUnary, QUnary, metricToleranceRoute,
+      windowReadbackRoute, provenancePkg, localNamePkg⟩
 
 theorem TotallyBoundedMetricCarrier_finite_net_factorization [AskSetup] [PackageSetup]
     {M R E D S Q H C P N metricRead toleranceRead finiteNetRead windowRead : BHist}
@@ -234,8 +293,7 @@ theorem TotallyBoundedMetricCarrier_finite_net_factorization [AskSetup] [Package
   intro carrier metricRoute toleranceRoute finiteNetRoute windowRoute windowPkg
   obtain ⟨MUnary, RUnary, EUnary, DUnary, SUnary, _QUnary, _HUnary, _CUnary,
     _PUnary, _NUnary, _metricFamilyRoute, _windowReadbackRoute, _transportReplayRoute,
-    carrierPkg, _metricToleranceRoute, _toleranceFiniteNetRoute, _windowReplayRoute,
-    _nameCertPkg⟩ := carrier
+    carrierPkg, _localNamePkg⟩ := carrier
   have metricUnary : UnaryHistory metricRead :=
     unary_cont_closed MUnary RUnary metricRoute
   have toleranceUnary : UnaryHistory toleranceRead :=
@@ -273,8 +331,7 @@ theorem TotalBoundedMetricCauchyCoverObligation [AskSetup] [PackageSetup]
   obtain ⟨metricUnary, realMetricUnary, epsilonNetUnary, dyadicUnary, streamUnary,
     regseqUnary, _transportUnary, _replayUnary, provenanceUnary, _localNameUnary,
     _metricRealMetricEpsilonNet, _dyadicStreamRegseq, _transportReplayProvenance,
-    provenancePkg, _metricDyadicRoute, _dyadicEpsilonRoute, _streamRegseqReplayRoute,
-    _localNamePkg⟩ := carrier
+    provenancePkg, _localNamePkg⟩ := carrier
   have cauchyCoverUnary : UnaryHistory cauchyCover :=
     unary_cont_closed dyadicUnary epsilonNetUnary dyadicEpsilonCover
   have sourceCover :
@@ -340,8 +397,7 @@ theorem TotalBoundedMetricCarrier_finite_net_obligation [AskSetup] [PackageSetup
   obtain ⟨_metricUnary, _realMetricUnary, epsilonNetUnary, dyadicUnary, _streamUnary,
     _readbackUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
     _metricRealEpsilonRoute, _dyadicStreamReadback, _transportReplayProvenance,
-    provenancePkg, _metricDyadicRoute, _dyadicEpsilonRoute, _streamReadbackReplayRoute,
-    _localNamePkg⟩ := carrier
+    provenancePkg, _localNamePkg⟩ := carrier
   have finiteNetUnary : UnaryHistory finiteNetRead :=
     unary_cont_closed dyadicUnary epsilonNetUnary dyadicEpsilonNetRead
   have sourceFiniteNet :

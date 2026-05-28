@@ -20,21 +20,20 @@ theorem TotalBoundedMetricCarrier_namecert_obligations [AskSetup] [PackageSetup]
               BEDC.Derived.TotallyBoundedMetricUp.TasteGate.TotallyBoundedMetricCarrier
                 M R E D S Q H C P N bundle pkg)
           (fun row : BHist =>
-            hsame row N ∧ Cont M R D ∧ Cont D E S ∧ Cont S Q C)
+            hsame row N ∧ Cont M R D ∧ Cont D S Q ∧ Cont H C P)
           (fun row : BHist => hsame row N ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
           hsame ∧
         UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory D ∧
-          UnaryHistory S ∧ UnaryHistory Q ∧ Cont M R D ∧ Cont D E S ∧
-            Cont S Q C ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+          UnaryHistory S ∧ UnaryHistory Q ∧ Cont M R D ∧ Cont D S Q ∧
+            Cont H C P ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
   -- BEDC touchpoint anchor: BHist Cont hsame ProbeBundle Pkg PkgSig SemanticNameCert
   intro carrier
   have carrierSource :
       BEDC.Derived.TotallyBoundedMetricUp.TasteGate.TotallyBoundedMetricCarrier
         M R E D S Q H C P N bundle pkg := carrier
   obtain ⟨MUnary, RUnary, EUnary, DUnary, SUnary, QUnary, _HUnary, _CUnary,
-    _PUnary, _NUnary, _metricFamilyRoute, _windowReadbackRoute, _transportReplayRoute,
-    provenancePkg, metricToleranceRoute, toleranceFiniteNetRoute, windowReplayRoute,
-    nameCertPkg⟩ := carrier
+    _PUnary, _NUnary, metricToleranceRoute, windowReadbackRoute, transportReplayRoute,
+    provenancePkg, nameCertPkg⟩ := carrier
   have cert :
       SemanticNameCert
           (fun row : BHist =>
@@ -42,7 +41,7 @@ theorem TotalBoundedMetricCarrier_namecert_obligations [AskSetup] [PackageSetup]
               BEDC.Derived.TotallyBoundedMetricUp.TasteGate.TotallyBoundedMetricCarrier
                 M R E D S Q H C P N bundle pkg)
           (fun row : BHist =>
-            hsame row N ∧ Cont M R D ∧ Cont D E S ∧ Cont S Q C)
+            hsame row N ∧ Cont M R D ∧ Cont D S Q ∧ Cont H C P)
           (fun row : BHist => hsame row N ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
           hsame := by
     exact {
@@ -64,13 +63,13 @@ theorem TotalBoundedMetricCarrier_namecert_obligations [AskSetup] [PackageSetup]
       }
       pattern_sound := by
         intro _row source
-        exact ⟨source.left, metricToleranceRoute, toleranceFiniteNetRoute, windowReplayRoute⟩
+        exact ⟨source.left, metricToleranceRoute, windowReadbackRoute, transportReplayRoute⟩
       ledger_sound := by
         intro _row source
         exact ⟨source.left, provenancePkg, nameCertPkg⟩
     }
   exact
     ⟨cert, MUnary, RUnary, EUnary, DUnary, SUnary, QUnary, metricToleranceRoute,
-      toleranceFiniteNetRoute, windowReplayRoute, provenancePkg, nameCertPkg⟩
+      windowReadbackRoute, transportReplayRoute, provenancePkg, nameCertPkg⟩
 
 end BEDC.Derived.TotalBoundedMetricUp
