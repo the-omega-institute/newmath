@@ -25,6 +25,13 @@ def load_daemon():
 
 daemon = load_daemon()
 
+CONCRETE_TARGETS = [
+    "concrete_instances_opening",
+    "concrete_instances_middle",
+    "concrete_instances_analysis",
+    "concrete_instances_completion",
+]
+
 
 class PaperBuilderDaemonTests(unittest.TestCase):
     def test_retry_state_uses_target_key_and_accepts_sha_only_rows(self) -> None:
@@ -36,22 +43,25 @@ class PaperBuilderDaemonTests(unittest.TestCase):
                 state.write_text(
                     "oldsha\n"
                     "newsha main\n"
-                    "newsha concrete_instances\n",
+                    "newsha concrete_instances_opening\n",
                     encoding="utf-8",
                 )
 
                 self.assertEqual(daemon.fix_attempts_for("oldsha", "main"), 1)
-                self.assertEqual(daemon.fix_attempts_for("oldsha", "concrete_instances"), 1)
+                self.assertEqual(daemon.fix_attempts_for("oldsha", "concrete_instances_opening"), 1)
                 self.assertEqual(daemon.fix_attempts_for("newsha", "main"), 1)
-                self.assertEqual(daemon.fix_attempts_for("newsha", "concrete_instances"), 1)
+                self.assertEqual(daemon.fix_attempts_for("newsha", "concrete_instances_opening"), 1)
                 self.assertEqual(daemon.fix_attempts_for("newsha", "other"), 0)
 
                 daemon.record_fix_attempt("newsha", "main")
                 self.assertEqual(daemon.fix_attempts_for("newsha", "main"), 2)
-                self.assertEqual(daemon.fix_attempts_for("newsha", "concrete_instances"), 1)
+                self.assertEqual(daemon.fix_attempts_for("newsha", "concrete_instances_opening"), 1)
                 self.assertIn("newsha main", state.read_text(encoding="utf-8").splitlines())
             finally:
                 daemon.BROKEN_SHAS_FILE = original
+
+    def test_pdf_targets_are_main_plus_four_concrete_roots(self) -> None:
+        self.assertEqual(daemon.PDF_TARGETS, ("main", *CONCRETE_TARGETS))
 
     def test_run_full_build_calls_target_pdf_make(self) -> None:
         calls: list[tuple[list[str], str]] = []
@@ -69,18 +79,18 @@ class PaperBuilderDaemonTests(unittest.TestCase):
                 daemon.BUILDER_DIR = root
                 daemon.subprocess.run = fake_run
                 ok_main, _, _ = daemon.run_full_build("main")
-                ok_concrete, _, _ = daemon.run_full_build("concrete_instances")
+                ok_concrete, _, _ = daemon.run_full_build("concrete_instances_analysis")
             finally:
                 daemon.BUILDER_DIR = original_dir
                 daemon.subprocess.run = original_run
 
         self.assertTrue(ok_main)
         self.assertTrue(ok_concrete)
-        self.assertEqual([cmd for cmd, _ in calls], [["make", "main.pdf"], ["make", "concrete_instances.pdf"]])
+        self.assertEqual([cmd for cmd, _ in calls], [["make", "main.pdf"], ["make", "concrete_instances_analysis.pdf"]])
 
     def test_run_full_build_timeout_names_target(self) -> None:
         def fake_run(*args, **kwargs):
-            raise subprocess.TimeoutExpired(["make", "concrete_instances.pdf"], 30)
+            raise subprocess.TimeoutExpired(["make", "concrete_instances_completion.pdf"], 30)
 
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
@@ -92,14 +102,14 @@ class PaperBuilderDaemonTests(unittest.TestCase):
                 daemon.BUILDER_DIR = root
                 daemon.subprocess.run = fake_run
                 daemon.BUILD_TIMEOUT_S = 30
-                ok, tail, _ = daemon.run_full_build("concrete_instances")
+                ok, tail, _ = daemon.run_full_build("concrete_instances_completion")
             finally:
                 daemon.BUILDER_DIR = original_dir
                 daemon.subprocess.run = original_run
                 daemon.BUILD_TIMEOUT_S = original_timeout
 
         self.assertFalse(ok)
-        self.assertIn("make concrete_instances.pdf timed out", tail)
+        self.assertIn("make concrete_instances_completion.pdf timed out", tail)
 
     def test_build_sha_once_runs_both_targets_and_records_failed_target(self) -> None:
         events: list[tuple[str, str]] = []
@@ -112,7 +122,9 @@ class PaperBuilderDaemonTests(unittest.TestCase):
             events.append(("build", target))
             if target == "main":
                 return True, "ok", 1.0
-            return False, "broken concrete", 2.0
+            if target == "concrete_instances_completion":
+                return False, "broken concrete", 2.0
+            return True, "ok", 1.0
 
         def fake_attempts(sha: str, target: str) -> int:
             events.append(("attempts", f"{sha}:{target}"))
@@ -160,9 +172,9 @@ class PaperBuilderDaemonTests(unittest.TestCase):
 
         self.assertFalse(tip_moved)
         self.assertEqual(consecutive_fail, 1)
-        self.assertEqual([event for event in events if event[0] == "build"], [("build", "main"), ("build", "concrete_instances")])
-        self.assertIn(("record", "abc123:concrete_instances"), events)
-        self.assertIn(("fix", "abc123:concrete_instances:broken concrete:2"), events)
+        self.assertEqual([event for event in events if event[0] == "build"], [("build", "main"), *[("build", target) for target in CONCRETE_TARGETS]])
+        self.assertIn(("record", "abc123:concrete_instances_completion"), events)
+        self.assertIn(("fix", "abc123:concrete_instances_completion:broken concrete:2"), events)
         self.assertIn(("write_last", "abc123"), events)
 
     def test_build_sha_once_leaves_last_built_when_fix_advances_tip(self) -> None:

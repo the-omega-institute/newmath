@@ -57,9 +57,18 @@ jobs:
             papers/bedc/main.aux
             papers/bedc/main.toc
             papers/bedc/main.out
-            papers/bedc/concrete_instances.aux
-            papers/bedc/concrete_instances.toc
-            papers/bedc/concrete_instances.out
+            papers/bedc/concrete_instances_opening.aux
+            papers/bedc/concrete_instances_opening.toc
+            papers/bedc/concrete_instances_opening.out
+            papers/bedc/concrete_instances_middle.aux
+            papers/bedc/concrete_instances_middle.toc
+            papers/bedc/concrete_instances_middle.out
+            papers/bedc/concrete_instances_analysis.aux
+            papers/bedc/concrete_instances_analysis.toc
+            papers/bedc/concrete_instances_analysis.out
+            papers/bedc/concrete_instances_completion.aux
+            papers/bedc/concrete_instances_completion.toc
+            papers/bedc/concrete_instances_completion.out
           key: ${{ runner.os }}-latex-aux-${{ hashFiles('papers/bedc/main.tex', 'papers/bedc/preamble.tex', 'papers/bedc/frontmatter/**/*.tex', 'papers/bedc/parts/**/*.tex', 'papers/bedc/appendices/**/*.tex') }}
           restore-keys: |
             ${{ runner.os }}-latex-aux-
@@ -75,19 +84,34 @@ jobs:
           make precheck
           pdflatex -interaction=nonstopmode -halt-on-error -file-line-error main.tex
           pdflatex -interaction=nonstopmode -halt-on-error -file-line-error main.tex
-          pdflatex -interaction=nonstopmode -halt-on-error -file-line-error concrete_instances.tex
-          pdflatex -interaction=nonstopmode -halt-on-error -file-line-error concrete_instances.tex
+          pdflatex -interaction=nonstopmode -halt-on-error -file-line-error concrete_instances_opening.tex
+          pdflatex -interaction=nonstopmode -halt-on-error -file-line-error concrete_instances_opening.tex
+          pdflatex -interaction=nonstopmode -halt-on-error -file-line-error concrete_instances_middle.tex
+          pdflatex -interaction=nonstopmode -halt-on-error -file-line-error concrete_instances_middle.tex
+          pdflatex -interaction=nonstopmode -halt-on-error -file-line-error concrete_instances_analysis.tex
+          pdflatex -interaction=nonstopmode -halt-on-error -file-line-error concrete_instances_analysis.tex
+          pdflatex -interaction=nonstopmode -halt-on-error -file-line-error concrete_instances_completion.tex
+          pdflatex -interaction=nonstopmode -halt-on-error -file-line-error concrete_instances_completion.tex
 
       - name: Package dated PDFs
         if: ${{ inputs.upload_artifact }}
         id: package_pdf
         run: |
           pdf_name="bedc_$(git show -s --format=%cs HEAD).pdf"
-          concrete_pdf_name="bedc_concrete_instances_$(git show -s --format=%cs HEAD).pdf"
+          concrete_opening_pdf_name="bedc_concrete_instances_opening_$(git show -s --format=%cs HEAD).pdf"
+          concrete_middle_pdf_name="bedc_concrete_instances_middle_$(git show -s --format=%cs HEAD).pdf"
+          concrete_analysis_pdf_name="bedc_concrete_instances_analysis_$(git show -s --format=%cs HEAD).pdf"
+          concrete_completion_pdf_name="bedc_concrete_instances_completion_$(git show -s --format=%cs HEAD).pdf"
           cp main.pdf "$pdf_name"
-          cp concrete_instances.pdf "$concrete_pdf_name"
+          cp concrete_instances_opening.pdf "$concrete_opening_pdf_name"
+          cp concrete_instances_middle.pdf "$concrete_middle_pdf_name"
+          cp concrete_instances_analysis.pdf "$concrete_analysis_pdf_name"
+          cp concrete_instances_completion.pdf "$concrete_completion_pdf_name"
           echo "pdf_name=$pdf_name" >> "$GITHUB_OUTPUT"
-          echo "concrete_pdf_name=$concrete_pdf_name" >> "$GITHUB_OUTPUT"
+          echo "concrete_opening_pdf_name=$concrete_opening_pdf_name" >> "$GITHUB_OUTPUT"
+          echo "concrete_middle_pdf_name=$concrete_middle_pdf_name" >> "$GITHUB_OUTPUT"
+          echo "concrete_analysis_pdf_name=$concrete_analysis_pdf_name" >> "$GITHUB_OUTPUT"
+          echo "concrete_completion_pdf_name=$concrete_completion_pdf_name" >> "$GITHUB_OUTPUT"
 
       - name: Upload main.pdf artifact
         if: ${{ inputs.upload_artifact }}
@@ -110,23 +134,86 @@ jobs:
           retention-days: ${{ inputs.artifact_retention_days }}
           overwrite: true
 
-      - name: Upload concrete_instances.pdf artifact
+      - name: Upload concrete_instances_opening.pdf artifact
         if: ${{ inputs.upload_artifact }}
-        id: upload_concrete_pdf
+        id: upload_concrete_opening_pdf
         continue-on-error: true
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: ${{ inputs.artifact_name }}-concrete-instances
-          path: papers/bedc/${{ steps.package_pdf.outputs.concrete_pdf_name }}
+          name: ${{ inputs.artifact_name }}-concrete-instances-opening
+          path: papers/bedc/${{ steps.package_pdf.outputs.concrete_opening_pdf_name }}
           if-no-files-found: error
           retention-days: ${{ inputs.artifact_retention_days }}
 
-      - name: Retry concrete_instances.pdf artifact upload
-        if: ${{ inputs.upload_artifact && steps.upload_concrete_pdf.outcome == 'failure' }}
+      - name: Retry concrete_instances_opening.pdf artifact upload
+        if: ${{ inputs.upload_artifact && steps.upload_concrete_opening_pdf.outcome == 'failure' }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: ${{ inputs.artifact_name }}-concrete-instances
-          path: papers/bedc/${{ steps.package_pdf.outputs.concrete_pdf_name }}
+          name: ${{ inputs.artifact_name }}-concrete-instances-opening
+          path: papers/bedc/${{ steps.package_pdf.outputs.concrete_opening_pdf_name }}
+          if-no-files-found: error
+          retention-days: ${{ inputs.artifact_retention_days }}
+          overwrite: true
+
+      - name: Upload concrete_instances_middle.pdf artifact
+        if: ${{ inputs.upload_artifact }}
+        id: upload_concrete_middle_pdf
+        continue-on-error: true
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ${{ inputs.artifact_name }}-concrete-instances-middle
+          path: papers/bedc/${{ steps.package_pdf.outputs.concrete_middle_pdf_name }}
+          if-no-files-found: error
+          retention-days: ${{ inputs.artifact_retention_days }}
+
+      - name: Retry concrete_instances_middle.pdf artifact upload
+        if: ${{ inputs.upload_artifact && steps.upload_concrete_middle_pdf.outcome == 'failure' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ${{ inputs.artifact_name }}-concrete-instances-middle
+          path: papers/bedc/${{ steps.package_pdf.outputs.concrete_middle_pdf_name }}
+          if-no-files-found: error
+          retention-days: ${{ inputs.artifact_retention_days }}
+          overwrite: true
+
+      - name: Upload concrete_instances_analysis.pdf artifact
+        if: ${{ inputs.upload_artifact }}
+        id: upload_concrete_analysis_pdf
+        continue-on-error: true
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ${{ inputs.artifact_name }}-concrete-instances-analysis
+          path: papers/bedc/${{ steps.package_pdf.outputs.concrete_analysis_pdf_name }}
+          if-no-files-found: error
+          retention-days: ${{ inputs.artifact_retention_days }}
+
+      - name: Retry concrete_instances_analysis.pdf artifact upload
+        if: ${{ inputs.upload_artifact && steps.upload_concrete_analysis_pdf.outcome == 'failure' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ${{ inputs.artifact_name }}-concrete-instances-analysis
+          path: papers/bedc/${{ steps.package_pdf.outputs.concrete_analysis_pdf_name }}
+          if-no-files-found: error
+          retention-days: ${{ inputs.artifact_retention_days }}
+          overwrite: true
+
+      - name: Upload concrete_instances_completion.pdf artifact
+        if: ${{ inputs.upload_artifact }}
+        id: upload_concrete_completion_pdf
+        continue-on-error: true
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ${{ inputs.artifact_name }}-concrete-instances-completion
+          path: papers/bedc/${{ steps.package_pdf.outputs.concrete_completion_pdf_name }}
+          if-no-files-found: error
+          retention-days: ${{ inputs.artifact_retention_days }}
+
+      - name: Retry concrete_instances_completion.pdf artifact upload
+        if: ${{ inputs.upload_artifact && steps.upload_concrete_completion_pdf.outcome == 'failure' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ${{ inputs.artifact_name }}-concrete-instances-completion
+          path: papers/bedc/${{ steps.package_pdf.outputs.concrete_completion_pdf_name }}
           if-no-files-found: error
           retention-days: ${{ inputs.artifact_retention_days }}
           overwrite: true

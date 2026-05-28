@@ -16,7 +16,7 @@ Design:
 - Single instance enforced via fcntl flock on .paper_builder.lock.
 - Poll codex-auto-dev tip every POLL_SECONDS.
 - On new SHA: checkout it in `.worktrees/_paper_builder`, run
-  both PDF targets, log result.
+  all configured PDF targets, log result.
 - The daemon owns the `_paper_builder` worktree exclusively. Round
   workers never touch it.
 - On build fail: invoke codex inside `_paper_builder` with the
@@ -67,7 +67,13 @@ BASE_BRANCH = "codex-auto-dev"
 
 CODEX_FIX_TIMEOUT_S = 1800
 MAX_FIX_ATTEMPTS = 3
-PDF_TARGETS = ("main", "concrete_instances")
+PDF_TARGETS = (
+    "main",
+    "concrete_instances_opening",
+    "concrete_instances_middle",
+    "concrete_instances_analysis",
+    "concrete_instances_completion",
+)
 BROKEN_SHAS_FILE = (
     REPO_ROOT / "papers" / "bedc" / "scripts" / ".broken_shas.txt"
 )
@@ -146,10 +152,11 @@ def write_last_built(sha: str) -> None:
 
 
 def run_full_build(target: str) -> tuple[bool, str, float]:
-    # Refactor (iter1/single-pdf-split):
-    #   Old pattern: one full build always meant the monolithic main.pdf target.
-    #   New principle: full-build execution is target-parametric so main and
-    #   concrete_instances are independent companion PDF products.
+    # Refactor (iter2/concrete-instances-split-by-domain):
+    #   Old pattern: single concrete_instances.pdf 17941 pages, TeX memory
+    #   4.78M / 5M = 95.7%, unreadable as a linear PDF.
+    #   New principle: 4 thin PDF roots over existing sibling catalogs,
+    #   no manifest, explicit Make targets, 5 daemon targets, 4 artifacts.
     paper_dir = BUILDER_DIR / "papers" / "bedc"
     if not paper_dir.exists():
         return False, f"{paper_dir} missing", 0.0
@@ -174,10 +181,11 @@ def run_full_build(target: str) -> tuple[bool, str, float]:
 
 
 def fix_attempts_for(sha: str, target: str) -> int:
-    # Refactor (iter1/single-pdf-split):
-    #   Old pattern: retry accounting used the remote SHA as the whole failure key.
-    #   New principle: retry accounting is keyed by (sha, target), preserving
-    #   separate repair budgets for the companion PDF targets.
+    # Refactor (iter2/concrete-instances-split-by-domain):
+    #   Old pattern: single concrete_instances.pdf 17941 pages, TeX memory
+    #   4.78M / 5M = 95.7%, unreadable as a linear PDF.
+    #   New principle: 4 thin PDF roots over existing sibling catalogs,
+    #   no manifest, explicit Make targets, 5 daemon targets, 4 artifacts.
     if not BROKEN_SHAS_FILE.exists():
         return 0
     n = 0
@@ -254,11 +262,11 @@ def codex_fix(sha: str, target: str, log_tail: str, elapsed: float) -> bool:
 def _build_sha_once(sha: str, consecutive_fail: int = 0) -> tuple[bool, int]:
     """Build all PDF targets for one checked remote SHA.
 
-    Refactor (iter1/single-pdf-split):
-      Old pattern: the daemon body coupled checkout, one PDF build, repair,
-      and last-built bookkeeping in the polling loop.
-      New principle: one helper owns the per-SHA target loop, repair handoff,
-      and last-built decision while the polling loop only detects new tips.
+    Refactor (iter2/concrete-instances-split-by-domain):
+      Old pattern: single concrete_instances.pdf 17941 pages, TeX memory
+      4.78M / 5M = 95.7%, unreadable as a linear PDF.
+      New principle: 4 thin PDF roots over existing sibling catalogs,
+      no manifest, explicit Make targets, 5 daemon targets, 4 artifacts.
 
     Returns `(tip_moved, consecutive_fail)`. When a repair advances the
     remote tip, `LAST_BUILT_FILE` is intentionally left unchanged so the

@@ -133,11 +133,29 @@ jobs:
           name: release-pdf
           path: release-assets/pdf
 
-      - name: Download built concrete_instances.pdf artifact
+      - name: Download built concrete_instances_opening.pdf artifact
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
-          name: release-pdf-concrete-instances
-          path: release-assets/concrete-instances-pdf
+          name: release-pdf-concrete-instances-opening
+          path: release-assets/concrete-instances-opening-pdf
+
+      - name: Download built concrete_instances_middle.pdf artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: release-pdf-concrete-instances-middle
+          path: release-assets/concrete-instances-middle-pdf
+
+      - name: Download built concrete_instances_analysis.pdf artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: release-pdf-concrete-instances-analysis
+          path: release-assets/concrete-instances-analysis-pdf
+
+      - name: Download built concrete_instances_completion.pdf artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: release-pdf-concrete-instances-completion
+          path: release-assets/concrete-instances-completion-pdf
 
       - name: Download Lean4 manifest artifact
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
@@ -153,9 +171,24 @@ jobs:
             echo "Expected a dated PDF artifact in release-assets/pdf" >&2
             exit 1
           fi
-          concrete_pdf_path="$(find release-assets/concrete-instances-pdf -maxdepth 1 -type f -name 'bedc_concrete_instances_*.pdf' -print -quit)"
-          if [ -z "$concrete_pdf_path" ]; then
-            echo "Expected a dated concrete_instances PDF artifact in release-assets/concrete-instances-pdf" >&2
+          concrete_opening_pdf_path="$(find release-assets/concrete-instances-opening-pdf -maxdepth 1 -type f -name 'bedc_concrete_instances_opening_*.pdf' -print -quit)"
+          if [ -z "$concrete_opening_pdf_path" ]; then
+            echo "Expected a dated concrete_instances_opening PDF artifact in release-assets/concrete-instances-opening-pdf" >&2
+            exit 1
+          fi
+          concrete_middle_pdf_path="$(find release-assets/concrete-instances-middle-pdf -maxdepth 1 -type f -name 'bedc_concrete_instances_middle_*.pdf' -print -quit)"
+          if [ -z "$concrete_middle_pdf_path" ]; then
+            echo "Expected a dated concrete_instances_middle PDF artifact in release-assets/concrete-instances-middle-pdf" >&2
+            exit 1
+          fi
+          concrete_analysis_pdf_path="$(find release-assets/concrete-instances-analysis-pdf -maxdepth 1 -type f -name 'bedc_concrete_instances_analysis_*.pdf' -print -quit)"
+          if [ -z "$concrete_analysis_pdf_path" ]; then
+            echo "Expected a dated concrete_instances_analysis PDF artifact in release-assets/concrete-instances-analysis-pdf" >&2
+            exit 1
+          fi
+          concrete_completion_pdf_path="$(find release-assets/concrete-instances-completion-pdf -maxdepth 1 -type f -name 'bedc_concrete_instances_completion_*.pdf' -print -quit)"
+          if [ -z "$concrete_completion_pdf_path" ]; then
+            echo "Expected a dated concrete_instances_completion PDF artifact in release-assets/concrete-instances-completion-pdf" >&2
             exit 1
           fi
           manifest_path="$(find release-assets/lean4 -maxdepth 1 -type f -name 'bedc_lean_manifest_*.json' -print -quit)"
@@ -164,7 +197,10 @@ jobs:
             exit 1
           fi
           echo "pdf_path=$pdf_path" >> "$GITHUB_OUTPUT"
-          echo "concrete_pdf_path=$concrete_pdf_path" >> "$GITHUB_OUTPUT"
+          echo "concrete_opening_pdf_path=$concrete_opening_pdf_path" >> "$GITHUB_OUTPUT"
+          echo "concrete_middle_pdf_path=$concrete_middle_pdf_path" >> "$GITHUB_OUTPUT"
+          echo "concrete_analysis_pdf_path=$concrete_analysis_pdf_path" >> "$GITHUB_OUTPUT"
+          echo "concrete_completion_pdf_path=$concrete_completion_pdf_path" >> "$GITHUB_OUTPUT"
           echo "manifest_path=$manifest_path" >> "$GITHUB_OUTPUT"
 
       - name: Delete orphan releases sharing this tag
@@ -191,7 +227,10 @@ jobs:
             echo "- target SHA: \`${{ needs.resolve_target.outputs.target_sha }}\`"
             echo "- release tag: \`${{ needs.resolve_target.outputs.release_tag }}\`"
             echo "- PDF asset: \`${{ steps.resolve_assets.outputs.pdf_path }}\`"
-            echo "- concrete instances PDF asset: \`${{ steps.resolve_assets.outputs.concrete_pdf_path }}\`"
+            echo "- concrete instances opening PDF asset: \`${{ steps.resolve_assets.outputs.concrete_opening_pdf_path }}\`"
+            echo "- concrete instances middle PDF asset: \`${{ steps.resolve_assets.outputs.concrete_middle_pdf_path }}\`"
+            echo "- concrete instances analysis PDF asset: \`${{ steps.resolve_assets.outputs.concrete_analysis_pdf_path }}\`"
+            echo "- concrete instances completion PDF asset: \`${{ steps.resolve_assets.outputs.concrete_completion_pdf_path }}\`"
             echo "- Lean manifest: \`${{ steps.resolve_assets.outputs.manifest_path }}\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -202,7 +241,10 @@ jobs:
           name: ${{ needs.resolve_target.outputs.release_tag }}
           files: |
             ${{ steps.resolve_assets.outputs.pdf_path }}
-            ${{ steps.resolve_assets.outputs.concrete_pdf_path }}
+            ${{ steps.resolve_assets.outputs.concrete_opening_pdf_path }}
+            ${{ steps.resolve_assets.outputs.concrete_middle_pdf_path }}
+            ${{ steps.resolve_assets.outputs.concrete_analysis_pdf_path }}
+            ${{ steps.resolve_assets.outputs.concrete_completion_pdf_path }}
             ${{ steps.resolve_assets.outputs.manifest_path }}
           fail_on_unmatched_files: true
           generate_release_notes: true
