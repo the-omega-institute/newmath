@@ -144,6 +144,39 @@ Apply \autoref{thm:separated-completion-namecert-obligations}. Dense-source comp
 The Real-facing seal is part of the completion handoff read through $C$. Hence no separated classifier, uniqueness, or Real-facing consumer can bypass the source-density triad.
 \end{proof}
 
+\begin{theorem}[SeparatedCompletion source-density factorization]\label{thm:separatedcompletion-source-density-factorization}
+Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. Every completion-facing read that claims source density factors through the ordered prefix $M,D,C$ before the separated classifier $Z$, uniqueness boundary $U$, transport row $H$, replay row $R$, route ledger $T$, provenance row $P$, or local naming row $N$ is consumed. The factorization is the dense-source compatibility clause of the local NameCert obligations, not a quotient-completion read, selected representative, host equality of completed points, countable-choice schedule, or ambient Real-completeness assertion.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:separated-completion-carrier}. The source metric row is $M$, the dense embedding row is $D$, and the completion handoff row is $C$; the remaining rows $Z,U,H,R,T,P,N$ are downstream of that prefix.
+
+Apply \autoref{thm:separated-completion-namecert-obligations}. Its dense-source compatibility clause requires every completion-facing consumer to read $M$ and $D$ before the handoff row $C$ is public.
+
+The structural rows $H,R,T,P,N$ can only transport, replay, preserve, source, and name the same displayed route. Since the carrier has no quotient-completion, selected-representative, host-equality, choice, or ambient-completeness coordinate, source density can only be read through $M,D,C$.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion uniqueness boundary scope]\label{thm:separatedcompletion-uniqueness-boundary-scope}
+Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. The uniqueness boundary row $U$ is scoped only over the already displayed route $M,D,C,Z$ and the structural rows $H,R,T,P,N$. A consumer may read $U$ as the local separated-completion uniqueness boundary, but cannot use it as a quotient completion, a selected representative comparison, a host equality of completed points, a countable-choice selector, or an ambient Real-completeness theorem.
+\end{theorem}
+\begin{proof}
+First read the source-density factorization of \autoref{thm:separatedcompletion-source-density-factorization}. It places every completion-facing read on the prefix $M,D,C$.
+
+Next apply the separated-classifier exactness and uniqueness-boundary exactness clauses of \autoref{thm:separated-completion-namecert-obligations}. They place $Z$ after the handoff row $C$ and read $U$ over the same $M,D,C,Z$ route.
+
+Finally attach $H,R,T,P,N$. These rows keep the uniqueness comparison inside displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ data. No listed row supplies an external completion object, a selected representative, host equality, choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion Real-seal nonescape]\label{thm:separatedcompletion-realseal-nonescape}
+Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. Any Real-facing seal exported by the packet is read through the completion handoff row $C$ after $M,D$ and before the separated uniqueness surface $Z,U,H,R,T,P,N$ is consumed. The seal remains a finite route through the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows; it cannot escape into quotient completion, selected representatives, host equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier row $C$. By \autoref{def:separated-completion-carrier}, $C$ is the completion handoff read through the finite $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ L10 naming spine.
+
+Use \autoref{thm:separatedcompletion-source-density-factorization}. The handoff row $C$ is reachable only after the source metric row $M$ and dense embedding row $D$ have been displayed.
+
+Use \autoref{thm:separatedcompletion-uniqueness-boundary-scope}. The later separated rows $Z,U,H,R,T,P,N$ preserve and name the same handoff route rather than adding an external Real-completion principle. Therefore every Real-facing seal stays inside the displayed carrier and cannot introduce the excluded quotient, representative, host-equality, choice, or completeness objects.
+\end{proof}
+
 \begin{theorem}[SeparatedCompletion seal uniqueness]
 \label{thm:separated-completion-seal-uniqueness}
 For accepted packets $S=(M,D,C,Z,U,H,R,T,P,N)$ and $S'=(M,D,C,Z,U',H',R',T',P,N')$ with the same displayed source, dense, completion, separated-classifier, and provenance rows, any equality-of-export read between their completion seals is determined by the local uniqueness rows $U,U'$ together with the $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ data in $H,R,T,N$ and $H',R',T',N'$. It is not a quotient completion, selected representative comparison, host equality, countable-choice selection, or ambient Real-completeness conclusion.
