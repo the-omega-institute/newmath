@@ -253,6 +253,24 @@ Apply the NameCert obligations of \autoref{thm:decimal-expansion-namecert-obliga
 Finally combine the Real readback boundary of \autoref{thm:decimal-expansion-real-readback-boundary} with the dyadic normalization lock of \autoref{thm:decimal-expansion-dyadic-normalization-lock}. Every real-facing finite-prefix read moves through digit windows, dyadic tolerance, regular rational readback, and the terminal seal before structural replay and naming, so $D,W,V,Q,R,E,H,C,P,N$ exhaust the prefix-completeness surface.
 \end{proof}
 
+\begin{theorem}[DecimalExpansion endpoint-normalization handoff]
+\label{thm:decimal-expansion-endpoint-normalization-handoff}
+Every endpoint-sensitive decimal consumer of an accepted $\DecimalExpansionUp$ packet must pass the rows
+$$
+D,W,V,Q,R,E
+$$
+through $\DecimalEndpointNormalizationUp$ before any $\RealDecimalNormalFormUp$ consumer reads the normalized prefix. The handoff exports only the finite digit ledger, decimal window, place-value row, dyadic comparison, regular rational handoff, and terminal Real seal already displayed by the packet; it exports no repeating-nine endpoint convention, quotient real, selected stream, or Real completeness witness.
+\end{theorem}
+\begin{proof}
+Start from the finite prefix completeness theorem \autoref{thm:decimal-expansion-finite-prefix-completeness}. It exhausts every prefix-sensitive read by $D,W,V,Q,R,E,H,C,P,N$ and leaves no additional endpoint coordinate in the $\DecimalExpansionUp$ packet.
+
+Use the window normalization obligation \autoref{thm:decimal-expansion-window-normalization-obligation}. It forces each public read of place values, dyadic comparisons, regular handoffs, and Real seals to pass through the finite digit and window rows $D,W$.
+
+Apply the dyadic comparison handoff of \autoref{thm:decimal-expansion-dyadic-comparison-handoff}. The comparison row $Q$ is the only displayed passage from place-value data in $V$ toward the regular rational row $R$ and the seal $E$.
+
+The endpoint-sensitive part is therefore delegated to \autoref{ch:concrete-instances-decimal-endpoint-normalization-namecert}. Only after that finite endpoint-normalization surface has acted on the same $D,W,V,Q,R,E$ route may the canonical readback surface of \autoref{ch:concrete-instances-real-decimal-normal-form-namecert} read the normalized prefix. The excluded endpoint convention, quotient real, selected stream, and completeness witness are absent from the DecimalExpansion carrier and cannot be supplied by this handoff.
+\end{proof}
+
 \begin{closurestatus}{\DecimalExpansionUp}
   \constructivestory{A $\DecimalExpansionUp$ packet is generated from finite decimal digit rows, decimal-place windows, rational place-value rows, dyadic/rational comparison rows, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
