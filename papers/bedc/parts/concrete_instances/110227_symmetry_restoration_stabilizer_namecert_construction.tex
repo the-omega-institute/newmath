@@ -1,0 +1,169 @@
+\chapter{A Concrete Naming Certificate for $\SymmetryRestorationStabilizerUp$}
+\label{ch:concrete-instances-symmetry-restoration-stabilizer-namecert}
+\origin{ai}
+
+The $\SymmetryRestorationStabilizerUp$ packet realizes the hidden $Q_{6}$
+stabilizer and orbit-persistence rows of
+\autoref{thm:philosophy-active-support-stabilizer},
+\autoref{thm:philosophy-hidden-c2-persists},
+\autoref{thm:philosophy-median-closure-stabilizer}, and
+\autoref{thm:philosophy-symmetry-restoration} as finite BEDC NameCert data.
+It consumes the six-coordinate codon window of
+\autoref{ch:concrete-instances-codon-six-bit-window-namecert}, the boundary
+tile packet of
+\autoref{ch:concrete-instances-dna-window-six-boundary-tile-namecert}, the
+codon lift-orbit classifier of
+\autoref{ch:concrete-instances-codon-lift-orbit-classifier-namecert}, and
+the median-closure surface of
+\autoref{ch:concrete-instances-median-closure-namecert}. The packet exposes
+support, stabilizer, orbit, and median-closure rows before any consumer may
+claim the hidden $C_{2}$ persistence or the restored $S_{3}\times C_{2}$
+surface.
+
+\begin{definition}[Symmetry restoration stabilizer carrier]
+\label{def:symmetry-restoration-stabilizer-carrier}
+A $\SymmetryRestorationStabilizerUp$ carrier is a finite $\BHist$ packet
+$$
+S=(Q,A,T,U,M,O,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the finite $Q_{6}$ codon-window row, including the six bit
+coordinates inspected by the stabilizer calculation.
+\item $A$ is the active-support row for $\mathcal{R}$ and its inactive-anchor
+closure, read through the boundary-tile packet.
+\item $T$ is the hidden $C_{2}$ stabilizer row, naming the identity and the
+coordinate transposition $\tau:s_{1}\leftrightarrow f_{2}$ from
+\autoref{thm:philosophy-active-support-stabilizer}.
+\item $U$ is the orbit-persistence row, recording the active-support,
+inactive-anchor, and first-median-layer orbits of $\tau$ from
+\autoref{thm:philosophy-hidden-c2-persists}.
+\item $M$ is the median-closure stabilizer row, recording the displayed
+$S_{3}\times C_{2}$ restoration surface of
+\autoref{thm:philosophy-median-closure-stabilizer}.
+\item $O$ is the orbit ledger joining the nontrivial $C_{2}$ orbits, the
+median-closure orbit table, and the sealing-corner orbit-completion row.
+\item $R$ is the refusal row separating support symmetry from weighted
+reassignment symmetry, and excluding biological causality, stochastic
+fitness, host quotient codon semantics, and hidden enumeration oracles.
+\item $H$ records componentwise $\hsame$ transport for $Q,A,T,U,M,O,R$ and
+for the local certificate rows.
+\item $C$ records displayed $\Cont$ replay from a support read through the
+stabilizer row, orbit-persistence row, median-closure row, orbit ledger, and
+refusal row.
+\item $P$ is the $\Pkg$ provenance over $\SymmetryRestorationStabilizerUp$,
+$\CodonSixBitWindowUp$, $\DnaWindowSixBoundaryTileUp$,
+$\CodonLiftOrbitClassifierUp$, $\MedianClosureUp$, $\BHist$, $\hsame$,
+$\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SymmetryRestorationStabilizerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through
+$Q,A,T,U,M,O,R,H,C,P,N$. It has no coordinate for an unstated support set,
+an unrecorded stabilizer enumeration, a host quotient codon object, a
+biological mechanism, or a weighted-symmetry substitute for the support
+stabilizer.
+\end{definition}
+
+\begin{theorem}[Symmetry restoration stabilizer NameCert obligations]
+\label{thm:symmetry-restoration-stabilizer-namecert-obligations}
+For every accepted $\SymmetryRestorationStabilizerUp$ carrier
+$S=(Q,A,T,U,M,O,R,H,C,P,N)$, the local
+$\NameCert_{\SymmetryRestorationStabilizerUp}$ surface consists exactly of
+the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the $Q_{6}$ codon window, active support,
+hidden $C_{2}$ stabilizer, orbit-persistence row, median-closure stabilizer,
+orbit ledger, refusal row, transport, continuation, provenance, and local
+naming row;
+\item support visibility, requiring every stabilizer or orbit read to expose
+the active-support row $A$ before reading $T,U,M$, or $O$;
+\item stabilizer exactness, requiring the hidden $C_{2}$ row $T$ to name only
+the identity and $\tau:s_{1}\leftrightarrow f_{2}$ for the active-support
+and first-median-layer reads;
+\item median-closure compatibility, requiring the restored
+$S_{3}\times C_{2}$ row $M$ to be read only after the median-closure surface
+and its orbit ledger are displayed;
+\item orbit non-escape, requiring any hidden $C_{2}$ orbit claim to pass
+through $A,T,U,M,O,H,C,P,N$;
+\item package provenance and local $\NameCert$ naming for exactly the
+displayed packet.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:symmetry-restoration-stabilizer-carrier}. The projection
+exposes the codon window, active support, stabilizer row, orbit-persistence
+row, median-closure stabilizer, orbit ledger, refusal row, and the structural
+rows $H,C,P,N$.
+
+Support visibility comes first. The row $A$ is the source for the stabilizer
+calculation, so $T,U,M$, and $O$ cannot be read as free group-theoretic
+objects detached from the displayed support.
+
+The stabilizer exactness row is $T$. It records exactly the identity and the
+transposition $\tau:s_{1}\leftrightarrow f_{2}$ for the active-support
+surface, while $U$ records the same nonidentity element along the
+inactive-anchor and first-median-layer rows.
+
+The median-closure compatibility row is $M$, with orbit data stored in $O$.
+Transport by $H$ and replay by $C$ preserve this order, and $P,N$ package and
+name the same rows. Thus no hidden orbit claim escapes the displayed support,
+stabilizer, median-closure, transport, replay, provenance, and local naming
+surface.
+\end{proof}
+
+\begin{theorem}[Symmetry restoration orbit non-escape]
+\label{thm:symmetry-restoration-orbit-nonescape}
+Every consumer claiming the hidden $C_{2}$ orbit of an accepted
+$\SymmetryRestorationStabilizerUp$ packet must display the support row $A$,
+the stabilizer row $T$, the orbit-persistence row $U$, the median-closure row
+$M$, the orbit ledger $O$, componentwise transport $H$, displayed replay $C$,
+package provenance $P$, and local $\NameCert$ row $N$. The visible route is
+$$
+Q,A \longmapsto T,U \longmapsto M,O \longmapsto H,C,P,N .
+$$
+It cannot be replaced by a host stabilizer calculation, an unrecorded orbit
+enumeration, a weighted-reassignment symmetry, quotient codon semantics, or a
+biological mechanism claim.
+\end{theorem}
+\begin{proof}
+Read $Q,A$ from the carrier in
+\autoref{def:symmetry-restoration-stabilizer-carrier}. These rows provide
+the finite codon-window coordinates and the active support over which the
+stabilizer calculation is meaningful.
+
+Apply the NameCert obligations of
+\autoref{thm:symmetry-restoration-stabilizer-namecert-obligations}. Support
+visibility and stabilizer exactness place $T$ and $U$ after $A$, while
+median-closure compatibility places $M$ and $O$ after the displayed closure
+surface.
+
+Finally use orbit non-escape. The rows $H,C,P,N$ transport, replay, source,
+and name the same finite route, and the refusal row separates it from
+weighted reassignment symmetry or host enumeration. Therefore a hidden
+$C_{2}$ orbit consumer must pass through the displayed packet and cannot
+claim the orbit from outside it.
+\end{proof}
+
+\falsifiablePrediction{Any consumer claiming the hidden $C_{2}$ orbit without displaying support, stabilizer, median-closure, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows refutes the $\SymmetryRestorationStabilizerUp$ packet.}
+
+\independenceWitness{q-six orbit/classification, median-closure sibling slugs: $\SymmetryRestorationStabilizerUp$ is not bijective to the orbit/classification or median-closure siblings because this packet jointly carries active support, hidden $C_{2}$ stabilizer, orbit persistence, restored median-closure stabilizer, orbit ledger, refusal, componentwise transport, replay, provenance, and local naming as one accepted surface.}
+
+The Lean TasteGate file for this packet must include $\mathsf{Nontrivial}$
+and $\mathsf{FieldFaithful}$ instances. The field-faithfulness witness keeps
+$Q,A,T,U,M,O,R,H,C,P,N$ as distinct rows so a checked TasteGate theorem can
+rule out hidden-orbit claims that omit the support, stabilizer, or
+median-closure coordinates.
+
+\closureat{SymmetryRestorationStabilizerUp}{seedStr}
+
+\begin{closurestatus}{\SymmetryRestorationStabilizerUp}
+  \constructivestory{A $\SymmetryRestorationStabilizerUp$ packet is generated from Q6 codon-window rows, active-support rows, hidden C2 stabilizer rows, orbit-persistence rows, median-closure stabilizer rows, orbit ledgers, refusal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:symmetry-restoration-stabilizer-carrier}, \autoref{thm:symmetry-restoration-stabilizer-namecert-obligations}, and \autoref{thm:symmetry-restoration-orbit-nonescape} seed the finite support-stabilizer packet for the hidden Q6 orbit and median-closure restoration surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close biological causality, stochastic fitness, quotient codon semantics, host stabilizer enumeration, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked codon-window admission, support visibility, stabilizer exactness, orbit persistence, median-closure compatibility, orbit non-escape, refusal preservation, transport, replay, provenance, local naming, and TasteGate field faithfulness for BEDC.Derived.SymmetryRestorationStabilizerUp.}
+\end{closurestatus}
