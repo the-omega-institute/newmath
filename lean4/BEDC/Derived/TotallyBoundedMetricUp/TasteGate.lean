@@ -514,3 +514,47 @@ theorem TotalBoundedMetricCarrier_namecert_obligations [AskSetup] [PackageSetup]
   exact ⟨cert, toleranceUnary, netUnary, readbackUnary, endpointUnary⟩
 
 end BEDC.Derived.TotallyBoundedMetricUp.TasteGate
+
+namespace BEDC.Derived.TotalBoundedMetricUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+theorem TotalBoundedMetricCarrier_cauchy_window_extraction [AskSetup] [PackageSetup]
+    {metric realMetric epsilonNet dyadic stream readback transport replay provenance localCert
+      windowRead netRead compactRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.TotallyBoundedMetricUp.TasteGate.TotallyBoundedMetricCarrier metric
+        realMetric epsilonNet dyadic stream readback transport replay provenance localCert
+        bundle pkg ->
+      Cont dyadic stream windowRead ->
+        Cont epsilonNet windowRead netRead ->
+          Cont netRead readback compactRead ->
+            PkgSig bundle compactRead pkg ->
+              UnaryHistory dyadic ∧ UnaryHistory stream ∧ UnaryHistory epsilonNet ∧
+                UnaryHistory readback ∧ UnaryHistory windowRead ∧ UnaryHistory netRead ∧
+                  UnaryHistory compactRead ∧ Cont dyadic stream windowRead ∧
+                    Cont epsilonNet windowRead netRead ∧ Cont netRead readback compactRead ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle compactRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier dyadicStreamWindow epsilonWindowNet netReadbackCompact compactPkg
+  obtain ⟨_metricUnary, _realMetricUnary, epsilonNetUnary, dyadicUnary, streamUnary,
+    readbackUnary, _transportUnary, _replayUnary, _provenanceUnary, _localCertUnary,
+    _metricRealMetricEpsilonNet, _dyadicStreamReadback, _transportReplayProvenance,
+      provenancePkg, _localCertPkg⟩ := carrier
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed dyadicUnary streamUnary dyadicStreamWindow
+  have netUnary : UnaryHistory netRead :=
+    unary_cont_closed epsilonNetUnary windowUnary epsilonWindowNet
+  have compactUnary : UnaryHistory compactRead :=
+    unary_cont_closed netUnary readbackUnary netReadbackCompact
+  exact
+    ⟨dyadicUnary, streamUnary, epsilonNetUnary, readbackUnary, windowUnary, netUnary,
+      compactUnary, dyadicStreamWindow, epsilonWindowNet, netReadbackCompact, provenancePkg,
+      compactPkg⟩
+
+end BEDC.Derived.TotalBoundedMetricUp
