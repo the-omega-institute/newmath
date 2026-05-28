@@ -1,10 +1,14 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.SeparatedCompletionUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 
 theorem SeparatedCompletionCarrier_semantic_name_certificate
     (M D C Z U H R T P N : BHist) :
@@ -137,5 +141,24 @@ theorem SeparatedCompletionCarrier_semantic_name_certificate
       intro _row source
       exact source
   }
+
+theorem SeparatedCompletionCarrier_separated_limit_handoff
+    {source dense handoff classifier unique : BHist} :
+    UnaryHistory source →
+      UnaryHistory dense →
+        UnaryHistory classifier →
+          Cont source dense handoff →
+            Cont handoff classifier unique →
+              UnaryHistory handoff ∧ UnaryHistory unique ∧
+                Cont source dense handoff ∧ Cont handoff classifier unique := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro sourceUnary denseUnary classifierUnary sourceDenseHandoff handoffClassifierUnique
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed sourceUnary denseUnary sourceDenseHandoff
+  exact
+    ⟨handoffUnary,
+      unary_cont_closed handoffUnary classifierUnary handoffClassifierUnique,
+      sourceDenseHandoff,
+      handoffClassifierUnique⟩
 
 end BEDC.Derived.SeparatedCompletionUp

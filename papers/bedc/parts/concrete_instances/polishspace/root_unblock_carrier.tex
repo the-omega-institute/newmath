@@ -1,0 +1,99 @@
+\begin{definition}[Polish-space root-unblock carrier]
+\label{def:polish-space-root-unblock-carrier}
+The root-unblock carrier of an accepted $\PolishSpaceUp$ packet is the finite $\BHist$ row
+$$
+U=(M,K,D,S,R,B,H,C,P,N)
+$$
+read as follows:
+\begin{enumerate}
+\item $M$ is the common $\MetricSpaceUp$ source row.
+\item $K$ is the $\CompleteMetricUp$ handoff row over $M$.
+\item $D$ is the $\SeparableMetricUp$ dense-schedule row over $M$.
+\item $S$ is the $\StreamNameUp$ finite-window row for dense-name and Cauchy-window inspections.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those windows.
+\item $B$ is the supporting $\BHist$ observation ledger, including metric-radius requests, complete-metric requests, separable-density requests, and the finite links among them.
+\item $H$ records componentwise $\hsame$ transport for $M,K,D,S,R,B$ and the local certificate rows.
+\item $C$ records displayed $\Cont$ replay from each root consumer request through the same complete-separable packet.
+\item $P$ is the $\Pkg$ provenance over $\MetricSpaceUp$, $\CompleteMetricUp$, $\SeparableMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PolishSpaceUp}$ row.
+\end{enumerate}
+The carrier excludes selected dense points, quotient completion equality, countable choice, and ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Polish-space common metric root unblock]
+\label{thm:polish-space-root-unblock-common-metric}
+Let $U=(M,K,D,S,R,B,H,C,P,N)$ be a Polish-space root-unblock carrier. Every complete-separable root consumer reads the $\CompleteMetricUp$ row $K$ and the $\SeparableMetricUp$ row $D$ only over the same $\MetricSpaceUp$ row $M$, with the finite $\BHist$ ledger $B$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$ recording that common source.
+
+Consequently the complete side cannot use a different metric carrier from the separable side, and no selected dense point, quotient completion equality, countable-choice schedule, or ambient $\RealUp$ completeness datum is exported by the root packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:polish-space-root-unblock-carrier}. The complete-metric handoff $K$ and the separable schedule $D$ are both listed after the same metric source row $M$.
+
+Use the observation ledger $B$ to read root requests. Each complete-metric request and each separable-density request is recorded with the same metric-radius surface, so a downstream consumer cannot split the two sides across different carriers.
+
+The rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no selected dense point, quotient completion equality, countable-choice schedule, or ambient real-completeness coordinate appears in the carrier, the common metric row exhausts the root-unblock source.
+\end{proof}
+
+\begin{theorem}[PolishSpace complete-separable obligation surface]
+\label{thm:polishspace-complete-separable-obligation-surface}
+Let $U=(M,K,D,S,R,B,H,C,P,N)$ be a Polish-space root-unblock carrier. The complete-separable obligation surface is the joint read in which $M$ is the $\MetricSpaceUp$ carrier, $K$ supplies the $\CompleteMetricUp$ convergence rows over $M$, $D$ supplies the $\SeparableMetricUp$ dense enumeration rows over the same $M$, $S$ supplies finite $\StreamNameUp$ observations, $R$ supplies $\RegSeqRatUp$ regular Cauchy witnesses and the resulting $\RealUp$ seals for observed distances, and $B,H,C,P,N$ record the observation ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ transport.
+
+Every downstream complete-separable consumer must factor through this surface before reading any Polish-space data. The surface exports no split metric carrier, no selected dense point, no quotient-completion representative, no countable-choice schedule, and no ambient real-completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:polish-space-root-unblock-carrier}. The metric carrier $M$, complete row $K$, separable dense row $D$, stream row $S$, regular rational row $R$, ledger $B$, transport row $H$, replay row $C$, provenance row $P$, and local name $N$ are the displayed rows.
+
+The complete and separable sides share the same metric source. By \autoref{thm:polish-space-root-unblock-common-metric}, $K$ and $D$ cannot be consumed over different carriers.
+
+The finite observation discipline is supplied by \autoref{thm:polish-space-root-unblock-window-discipline}. Dense-name requests, Cauchy-window requests, and metric-radius comparisons pass through $S$ and $R$, with the Real-facing distance seals read only after the regular Cauchy witnesses have been displayed.
+
+Finally $B,H,C,P,N$ transport, replay, source, and name that single route. Since the carrier has no field for the excluded host objects, the listed rows form the complete-separable obligation surface.
+\end{proof}
+
+\begin{theorem}[PolishSpace StreamName Real dependency anchor]
+\label{thm:polishspace-streamname-real-dependency-anchor}
+Let $U=(M,K,D,S,R,B,H,C,P,N)$ be a Polish-space root-unblock carrier. Any root consumer that reaches a $\RealUp$-sealed distance, convergence tolerance, or dense-radius observation must first read the $\StreamNameUp$ finite observation row $S$ and the $\RegSeqRatUp$ regular Cauchy witness row $R$. The dependency then returns to the $\MetricSpaceUp$ carrier $M$, the $\CompleteMetricUp$ convergence rows $K$, and the $\SeparableMetricUp$ dense enumeration rows $D$ through the $\BHist$ ledger $B$, componentwise transport $H$, replay $C$, provenance $P$, and local $\NameCert$ row $N$.
+
+Thus Real-facing data in a $\PolishSpaceUp$ root packet are anchored by scheduled observations and regular Cauchy witnesses, not by an external real-number oracle or host metric completion.
+\end{theorem}
+\begin{proof}
+Expose the stream-facing fields of \autoref{def:polish-space-root-unblock-carrier}. The only row that schedules finite observations is $S$, and the only row that turns those observations into regular rational Cauchy data is $R$.
+
+Read a Real-facing request. The request must pass through $B$, where dense-radius, Cauchy-window, and metric comparison observations are paired with their stream positions and regular rational witnesses.
+
+The analytic rows are then reached over the same packet. The metric carrier $M$, complete convergence row $K$, and dense enumeration row $D$ are transported together by $H$ and replayed through $C$.
+
+The provenance and naming rows $P,N$ do not add a second Real-facing source. Therefore the dependency anchor is exactly the StreamName and RegSeqRat route followed by the common metric, complete, separable, ledger, transport, replay, provenance, and NameCert rows.
+\end{proof}
+
+\begin{theorem}[PolishSpace NameCert ledger exactness]
+\label{thm:polishspace-namecert-ledger-exactness}
+Let $U=(M,K,D,S,R,B,H,C,P,N)$ be a Polish-space root-unblock carrier. The local $\NameCert_{\PolishSpaceUp}$ ledger transport is exact: $N$ names precisely the $\MetricSpaceUp$ carrier $M$, the $\CompleteMetricUp$ convergence rows $K$, the $\SeparableMetricUp$ dense enumeration rows $D$, the finite $\StreamNameUp$ observations $S$, the $\RegSeqRatUp$ regular Cauchy witnesses $R$, the resulting $\RealUp$ seals recorded by the observation ledger $B$, and the componentwise $\hsame$, $\Cont$, and $\Pkg$ rows $H,C,P$.
+
+Consequently a classified replacement of $U$ preserves the same complete-separable root packet component by component and cannot introduce hidden quotient equality, selected dense names, unrecorded limits, external real seals, or additional NameCert obligations.
+\end{theorem}
+\begin{proof}
+Project the carrier. The local name $N$ appears only after the metric, complete, separable, stream, regular rational, ledger, transport, replay, and provenance rows have been displayed.
+
+Use \autoref{thm:polishspace-complete-separable-obligation-surface}. It identifies the exact complete-separable surface consumed by downstream root readers, including the Real-facing seals recorded by $B$ after $S$ and $R$ have supplied finite observations and regular Cauchy witnesses.
+
+Now transport the packet componentwise. The row $H$ compares each displayed coordinate with its replacement, $C$ replays the same requests, and $P$ preserves the stated provenance.
+
+Since no other field remains in the root-unblock carrier, $N$ cannot name an additional obligation. The NameCert ledger transport is therefore exact for the listed rows and excludes the hidden host data named in the statement.
+\end{proof}
+
+\begin{theorem}[Polish-space window-discipline root unblock]
+\label{thm:polish-space-root-unblock-window-discipline}
+Let $U=(M,K,D,S,R,B,H,C,P,N)$ be a Polish-space root-unblock carrier. Every root read of dense-name coverage, Cauchy-window completion data, or metric-radius comparison factors through the $\StreamNameUp$ row $S$ and the $\RegSeqRatUp$ row $R$ before it is consumed by $M,K,D$. The supporting $\BHist$ row $B$ records exactly those windows and readbacks, while $H,C,P,N$ preserve the same route for downstream complete-separable consumers.
+
+Thus a Polish-space root consumer receives finite window discipline over one complete-separable packet, not an unscheduled name oracle, selected dense sequence, quotient completion equality, countable-choice row, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start from the carrier. The only scheduling coordinate is $S$, and the only regular rational readback coordinate attached to it is $R$.
+
+Read a dense-name, Cauchy-window, or metric-radius request through $B$. By definition of the root-unblock carrier, $B$ records those requests only together with the finite stream positions and regular rational observations supplied by $S$ and $R$.
+
+It remains to route the analytic rows. The complete row $K$ and separable row $D$ are consumed only after the window and readback rows have been displayed, and the common metric row $M$ is the metric source for both.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no unscheduled oracle, selected dense sequence, quotient equality, choice row, or ambient completeness coordinate, every root read respects the displayed window discipline.
+\end{proof}

@@ -71,10 +71,98 @@ Transport and replay preserve the route rather than choosing a new candidate. Th
 \end{proof}
 \leanchecked{BEDC.Derived.SeparableMetricUp.SeparableMetricCarrier\_dense\_window\_stability}
 
+\begin{theorem}[Separable metric countable-density carrier admission]
+\label{thm:separablemetric-countable-density-carrier-admission}
+Let $S=(M,A,W,T,R,E,H,C,P,N)$ be the displayed $\SeparableMetricUp$ packet of \autoref{def:separable-metric-carrier-surface}. Carrier admission for $S$ is exactly the finite $\BHist$ admission of the $\MetricUp$ distance row $M$, the indexed dense-name row $A$, the $\StreamNameUp$ request window $W$, the $\DyadicRatCoreUp$ tolerance ledger $T$, the $\RegSeqRatUp$ handoff row $R$, the $\RealUp$ distance seal $E$, componentwise $\hsame$ transport $H$, $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert_{\SeparableMetricUp}$ naming row $N$. No admitted coordinate chooses a dense point from an arbitrary inhabited ball, identifies quotient-completion classes, or imports ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple from \autoref{def:separable-metric-carrier-surface}. Each admissible component is already named by a finite $\BHist$ row: the metric distance row, dense-name index row, window row, tolerance row, regular handoff, real seal, transport, replay, provenance, and local certificate.
+
+The admission test is therefore componentwise. The $\MetricUp$ row supplies the only distance surface, $A$ and $W$ supply the only countable-density observations, $T$ supplies the dyadic or real tolerance data, and $R$ and $E$ are downstream of those displayed rows.
+
+Transport, continuation, provenance, and naming do not add a selection principle. The rows $H,C,P,N$ only preserve and package the finite route, so a selected dense point, quotient-completion equality, or ambient Real-completeness witness would require a coordinate not present in $S$.
+\end{proof}
+
+\begin{theorem}[Separable metric dense-window metric compatibility]
+\label{thm:separablemetric-dense-window-metric-compatibility}
+For an accepted $\SeparableMetricUp$ packet $S=(M,A,W,T,R,E,H,C,P,N)$, every finite density request that reads an indexed candidate through the $\StreamNameUp$ window $W$ must compute its distance comparison through the displayed $\MetricUp$ distance row $M$ and the $\DyadicRatCoreUp$ or $\RealUp$ tolerance row $T$ before it can be handed to $R$ or sealed by $E$. The $\hsame$ transport $H$, $\Cont$ replay $C$, $\Pkg$ provenance $P$, and $\NameCert_{\SeparableMetricUp}$ row $N$ preserve that route for later consumers.
+\end{theorem}
+\begin{proof}
+Start with a finite density request. The only candidate names visible to the request are the indexed rows of $A$ admitted through the window $W$, so the request has no direct access to a host dense set or to a separately chosen point.
+
+Metric compatibility is forced by the available distance row. Before a candidate can be compared with a tolerance, the request must pass through $M$ and then through the displayed tolerance ledger $T$, read as $\DyadicRatCoreUp$ or $\RealUp$ data.
+
+Only after those rows are displayed can the request reach the regular handoff $R$ and the real-facing seal $E$. The rows $H,C,P,N$ transport, replay, package, and locally name the same route, so the metric comparison cannot be replaced by a second metric or by quotient-completion equality.
+\end{proof}
+
+\begin{theorem}[Separable metric regular-handoff obligation]
+\label{thm:separablemetric-regular-handoff-obligation}
+Let $S=(M,A,W,T,R,E,H,C,P,N)$ be an accepted $\SeparableMetricUp$ packet. The $\RegSeqRatUp$ handoff row $R$ is obligated to use only the dense-name observations displayed by $A$ and $W$, the $\MetricUp$ distance row $M$, and the $\DyadicRatCoreUp$ or $\RealUp$ tolerance rows in $T$. Its export to $E,H,C,P,N$ is a finite NameCert-local route, not a selected Cauchy subsequence, quotient-completion equality, open-cover compactness witness, or ambient completeness proof.
+\end{theorem}
+\begin{proof}
+Read the handoff row in the order exposed by the carrier. The dense observations come from $A$ through the finite $\StreamNameUp$ window $W$, and all metric comparisons have already been routed through $M$ and the tolerance ledger $T$.
+
+The row $R$ repackages exactly those observations as regular rational data. It has no independent coordinate for selecting a subsequence, choosing a dense point, or asserting equality of completion representatives.
+
+The export surface is then the displayed seal, transport, replay, provenance, and local naming rows $E,H,C,P,N$. These rows make the handoff available to $\CompleteMetricUp$, $\RealUp$, and later NameCert consumers while preserving the finite packet boundary and refusing open-cover compactness or ambient Real-completeness data.
+\end{proof}
+
+\begin{theorem}[Separable metric tolerance-net replay]
+\label{thm:separable-metric-tolerance-net-replay}
+Let $S=(M,A,W,T,R,E,H,C,P,N)$ be an accepted $\SeparableMetricUp$ carrier. Every finite density request whose indexed window is displayed by $W$ and whose tolerance is displayed by $T$ replays through the finite route
+$$
+M,A,W,T\longmapsto R\longmapsto E\longmapsto H,C,P,N .
+$$
+In particular, the request reads $\MetricUp$ distance data, $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance rows, $\RegSeqRatUp$ handoff data, and $\RealUp$ distance seals only through the carrier rows of $S$.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple of \autoref{def:separable-metric-carrier-surface}. The rows $M,A,W,T$ display the metric certificate, indexed dense-name family, finite request window, and tolerance ledger before any downstream handoff is available.
+
+Use the NameCert obligation surface of \autoref{thm:separable-metric-namecert-obligation-surface}. Metric compatibility keeps all distance reads inside $M$, countable-name visibility keeps the request inside $A$ and $W$, and tolerance discipline keeps the precision data inside $T$.
+
+The regular and real-facing rows are then forced. The row $R$ repacks the same inspected window and tolerance ledger as $\RegSeqRatUp$ data, while $E$ supplies the terminal $\RealUp$ seal.
+
+Finally $H,C,P,N$ transport, replay, source, and name that route. No step introduces a selected dense point or a second tolerance witness outside the displayed packet.
+\end{proof}
+\leanchecked{BEDC.Derived.SeparableMetricUp.SeparableMetricCarrier\_tolerance\_net\_replay}
+
+\begin{theorem}[Separable metric completion-consumer handoff]
+\label{thm:separable-metric-completion-consumer-handoff}
+Let $S=(M,A,W,T,R,E,H,C,P,N)$ be an accepted $\SeparableMetricUp$ carrier. Every $\CompleteMetricUp$ consumer of $S$ receives only indexed dense-name windows, tolerance rows, regular handoff rows, and real distance seals displayed by
+$$
+A,W,T,R,E,H,C,P,N .
+$$
+The consumer receives no selected dense point, quotient completion equality, open-cover compactness certificate, or ambient Real completeness principle.
+\end{theorem}
+\begin{proof}
+Project the tuple $S=(M,A,W,T,R,E,H,C,P,N)$. The only separability coordinates available to a completion consumer are the indexed dense-name family, the finite windows, the tolerance ledger, the regular handoff, and the real distance seal.
+
+Apply \autoref{thm:separable-metric-namecert-obligation-surface}. Countable-name visibility prevents the consumer from replacing $A$ by a selector over balls, and tolerance discipline prevents the consumer from reading a precision datum before $T$ is displayed.
+
+Apply \autoref{thm:separable-metric-dense-window-stability}. If two completion-facing reads share the same finite window and tolerance row, then the route through $R$ and $E$ is the same under $H$ and $C$.
+
+Thus the $\CompleteMetricUp$ handoff is windowed and indexed. Since selected points, quotient completion equality, open-cover compactness, and ambient Real completeness are absent from the carrier, they cannot be exported to the consumer.
+\end{proof}
+\leanchecked{BEDC.Derived.SeparableMetricUp.SeparableMetricCarrier\_completion\_consumer\_handoff}
+
+\begin{theorem}[Separable metric RegSeqRat density handoff]
+\label{thm:separable-metric-regseqrat-density-handoff}
+Let $S=(M,A,W,T,R,E,H,C,P,N)$ be an accepted $\SeparableMetricUp$ carrier. Every $\RegSeqRatUp$ handoff exported by the separability packet is downstream of the same countable dense-name family $A$ and the same tolerance ledger $T$ that feed the request window $W$. The handoff cannot be formed from a different dense family, an untracked tolerance, or an ambient real-completeness argument.
+\end{theorem}
+\begin{proof}
+Project $A,W,T,R$ from \autoref{def:separable-metric-carrier-surface}. The row $W$ displays the finite indices inspected from $A$, and the row $T$ displays the dyadic or real tolerance data attached to that same request.
+
+Use \autoref{thm:separable-metric-namecert-obligation-surface}. The regular handoff obligation states that $R$ is obtained only from the displayed dense-name windows and tolerance rows, while the nonescape obligation keeps all downstream rows on the same finite dependency surface.
+
+The transport and replay rows preserve the source of the handoff. The rows $H$ and $C$ cannot replace the dense-name family or tolerance ledger; they only carry the displayed $A,W,T,R,E$ route to later consumers.
+
+Therefore every $\RegSeqRatUp$ density handoff is downstream of the same countable dense-name family and tolerance ledger. A different dense family, untracked tolerance, or ambient real-completeness argument has no carrier coordinate from which it could be read.
+\end{proof}
+
 \begin{closurestatus}{\SeparableMetricUp}
   \constructivestory{A $\SeparableMetricUp$ packet is generated from a displayed MetricUp carrier, an indexed dense-name family, finite StreamName request windows, DyadicRatCore or RealUp tolerance rows, a RegSeqRat handoff, a RealUp distance seal, componentwise transport, continuation replay, package provenance, and local naming.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:separable-metric-carrier-surface}, \autoref{thm:separable-metric-namecert-obligation-surface}, and \autoref{thm:separable-metric-dense-window-stability} seed the finite countable-density surface for L10 completion, Polish-space, and compact-metric consumers.}
+  \scopeclosed{\autoref{def:separable-metric-carrier-surface}, \autoref{thm:separable-metric-namecert-obligation-surface}, \autoref{thm:separable-metric-dense-window-stability}, \autoref{thm:separable-metric-tolerance-net-replay}, \autoref{thm:separable-metric-completion-consumer-handoff}, and \autoref{thm:separable-metric-regseqrat-density-handoff} seed the finite countable-density surface for L10 completion, Polish-space, and compact-metric consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim selected dense points, quotient completion equality, open-cover compactness, ambient Real completeness, Lean verification, or bridge checking.}
