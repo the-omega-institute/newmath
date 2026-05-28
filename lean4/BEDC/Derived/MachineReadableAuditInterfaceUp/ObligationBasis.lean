@@ -54,4 +54,27 @@ theorem MachineReadableAuditInterface_obligation_basis [AskSetup] [PackageSetup]
       reportUnary, replayUnary, schemaRoute, reportRoute, replayRoute, carrierPkg,
       namePkg, replayPkg⟩
 
+theorem MachineReadableAuditInterface_non_evidence_refusal [AskSetup] [PackageSetup]
+    {S C E R F H K P N refusalRead replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MachineReadableAuditInterfaceCarrier S C E R F H K P N bundle pkg ->
+      Cont R F refusalRead ->
+        Cont refusalRead K replayRead ->
+          PkgSig bundle replayRead pkg ->
+            UnaryHistory R ∧ UnaryHistory F ∧ UnaryHistory K ∧ UnaryHistory refusalRead ∧
+              UnaryHistory replayRead ∧ Cont R F refusalRead ∧ Cont refusalRead K replayRead ∧
+                PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧ PkgSig bundle replayRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier refusalRoute replayRoute replayPkg
+  obtain ⟨_SUnary, _CUnary, _EUnary, RUnary, FUnary, _HUnary, KUnary, _PUnary,
+    _NUnary, _schemaCarrierRoute, _reportCarrierRoute, _replayCarrierRoute,
+    carrierPkg, namePkg⟩ := carrier
+  have refusalUnary : UnaryHistory refusalRead :=
+    unary_cont_closed RUnary FUnary refusalRoute
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed refusalUnary KUnary replayRoute
+  exact
+    ⟨RUnary, FUnary, KUnary, refusalUnary, replayUnary, refusalRoute, replayRoute,
+      carrierPkg, namePkg, replayPkg⟩
+
 end BEDC.Derived.MachineReadableAuditInterfaceUp

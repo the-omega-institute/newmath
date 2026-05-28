@@ -1,11 +1,21 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.TotallyBoundedMetricUp.TasteGate
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -193,5 +203,46 @@ theorem TotallyBoundedMetricTasteGate_single_carrier_alignment :
       TotallyBoundedMetricTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq => TotallyBoundedMetricTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
+
+def TotallyBoundedMetricCarrier [AskSetup] [PackageSetup]
+    (M R E D S Q H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory D ∧
+    UnaryHistory S ∧ UnaryHistory Q ∧ UnaryHistory H ∧ UnaryHistory C ∧
+      UnaryHistory P ∧ UnaryHistory N ∧ Cont M R E ∧ Cont D S Q ∧
+        Cont H C P ∧ PkgSig bundle P pkg
+
+theorem TotallyBoundedMetricCarrier_finite_net_factorization [AskSetup] [PackageSetup]
+    {M R E D S Q H C P N metricRead toleranceRead finiteNetRead windowRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedMetricCarrier M R E D S Q H C P N bundle pkg ->
+      Cont M R metricRead ->
+        Cont metricRead D toleranceRead ->
+          Cont toleranceRead E finiteNetRead ->
+            Cont finiteNetRead S windowRead ->
+              PkgSig bundle windowRead pkg ->
+                UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory D ∧
+                  UnaryHistory S ∧ UnaryHistory metricRead ∧ UnaryHistory toleranceRead ∧
+                    UnaryHistory finiteNetRead ∧ UnaryHistory windowRead ∧
+                      Cont M R metricRead ∧ Cont metricRead D toleranceRead ∧
+                        Cont toleranceRead E finiteNetRead ∧ Cont finiteNetRead S windowRead ∧
+                          PkgSig bundle P pkg ∧ PkgSig bundle windowRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier metricRoute toleranceRoute finiteNetRoute windowRoute windowPkg
+  obtain ⟨MUnary, RUnary, EUnary, DUnary, SUnary, _QUnary, _HUnary, _CUnary,
+    _PUnary, _NUnary, _metricFamilyRoute, _windowReadbackRoute, _transportReplayRoute,
+    carrierPkg⟩ := carrier
+  have metricUnary : UnaryHistory metricRead :=
+    unary_cont_closed MUnary RUnary metricRoute
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed metricUnary DUnary toleranceRoute
+  have finiteNetUnary : UnaryHistory finiteNetRead :=
+    unary_cont_closed toleranceUnary EUnary finiteNetRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed finiteNetUnary SUnary windowRoute
+  exact
+    ⟨MUnary, RUnary, EUnary, DUnary, SUnary, metricUnary, toleranceUnary,
+      finiteNetUnary, windowUnary, metricRoute, toleranceRoute, finiteNetRoute,
+      windowRoute, carrierPkg, windowPkg⟩
 
 end BEDC.Derived.TotallyBoundedMetricUp.TasteGate
