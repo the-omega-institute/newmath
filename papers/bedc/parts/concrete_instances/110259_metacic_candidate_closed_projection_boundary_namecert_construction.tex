@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICCandidateClosedProjectionBoundaryUp$}
+\label{ch:concrete-instances-metacic-candidate-closed-projection-boundary-namecert}
+\origin{ai}
+
+The $\MetaCICCandidateClosedProjectionBoundaryUp$ packet realizes the normalization remaining question of \autoref{ch:metacic-open-problems} as finite NameCert data. It sits beside the candidate-set packet of \autoref{ch:concrete-instances-metacic-candidate-set-normalization-namecert} and the normalization router of \autoref{ch:concrete-instances-metacicnormalizationcertificaterouter-namecert}: those siblings expose candidate evidence and route selection, while this packet records the boundary where empty-context closed typed terms may or may not enter the candidate interface. The packet names a closed-projection frontier only; it does not turn candidate-mediated normalization into an unconditional strong-normalization theorem for every closed MetaCIC term.
+
+\begin{definition}[MetaCIC candidate closed-projection boundary carrier]
+\label{def:metacic-candidate-closed-projection-boundary-carrier}
+A $\MetaCICCandidateClosedProjectionBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T,K,R,E,NF,O,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the empty-context typed closed-term row whose projection into the candidate interface is being tested.
+\item $K$ is the candidate-set evidence row, read through $\CandidateSetNormalizationUp$ when the projection is admitted.
+\item $R$ is the router row, read through $\MetaCICNormalizationCertificateRouterUp$ and recording which candidate, closed-candidate, or candidate-set route is exposed.
+\item $E$ is the bounded-normal endpoint seal row, recording the finite normal-output evidence available after candidate admission.
+\item $NF$ is the no-infinite-reduction row exported only downstream of $K,R,E$.
+\item $O$ is the obstruction row recording refusal when the closed term cannot be placed into the displayed candidate interface.
+\item $H$ records componentwise $\hsame$ transport for $T,K,R,E,NF,O,C,P,L$.
+\item $C$ records displayed $\Cont$ replay from the closed-term row through candidate admission, router selection, endpoint seal, no-infinite-reduction read, and obstruction retention.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICCandidateClosedProjectionBoundaryUp$, $\CandidateSetNormalizationUp$, $\MetaCICNormalizationCertificateRouterUp$, $\MetaCICOpenProblemLedgerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\MetaCICCandidateClosedProjectionBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,K,R,E,NF,O,H,C,P,L$. It has no coordinate for evidence-free closed-term strong normalization, unrestricted subject reduction, host reduction equality, quotient conversion, or a global normalizer.
+\end{definition}
+
+\begin{theorem}[MetaCIC candidate-set closed projection frontier]
+\label{thm:metacic-candidate-set-closed-projection-frontier}
+For every accepted $\MetaCICCandidateClosedProjectionBoundaryUp$ carrier
+$$
+B=(T,K,R,E,NF,O,H,C,P,L),
+$$
+the closed-term row $T$ reaches a strong-normalization-facing read only through candidate evidence $K$, router selection $R$, and bounded-normal endpoint seal $E$. If those rows do not place $T$ inside the candidate interface, the obstruction row $O$ is the only exported boundary datum.
+\end{theorem}
+\begin{proof}
+Project the carrier. The closed-term row $T$ is present as a finite syntactic and typing packet, but it is not itself a normalization theorem.
+
+The positive route first reads $K$ through \autoref{ch:concrete-instances-metacic-candidate-set-normalization-namecert}. The router row $R$ then records the candidate, closed-candidate, or candidate-set branch through \autoref{ch:concrete-instances-metacicnormalizationcertificaterouter-namecert}. Only after those rows are displayed can the endpoint seal $E$ and no-infinite-reduction row $NF$ be consumed.
+
+If candidate admission is absent, $O$ records the refusal. Transport, replay, provenance, and local naming through $H,C,P,L$ preserve that same finite boundary, so the packet exports no evidence-free closed-term strong-normalization claim.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate-set SN handoff boundary]
+\label{thm:metacic-candidate-set-sn-handoff-boundary}
+Every strong-normalization handoff exported by an accepted $\MetaCICCandidateClosedProjectionBoundaryUp$ packet is a handoff for rows already inside the displayed candidate interface. It cannot be read as a blanket theorem that all empty-context typed closed MetaCIC terms are strongly normalizing.
+\end{theorem}
+\begin{proof}
+Start with the frontier theorem. It places the normalization-facing route behind $K,R,E$ and keeps the obstruction row $O$ visible when the candidate interface is not supplied.
+
+For an admitted row, the handoff consumes candidate evidence from $\CandidateSetNormalizationUp$ and route evidence from $\MetaCICNormalizationCertificateRouterUp$. The no-infinite-reduction row $NF$ is therefore downstream of the admitted candidate branch rather than a second source of normalization evidence.
+
+For a closed term outside that interface, the carrier has only $T$ and the obstruction row $O$ on the boundary. The structural rows $H,C,P,L$ transport, replay, source, and name the boundary, but they do not add subject reduction, host conversion equality, quotient reduction equality, or a global normalizer. Hence the handoff is candidate-scoped.
+\end{proof}
+
+\falsifiablePrediction{A $\MetaCICCandidateClosedProjectionBoundaryUp$ consumer that exports strong normalization from $T$ without reading $K,R,E$ refutes the carrier surface.}
+
+\independenceWitness{candidate-set-normalization, metacicnormalizationcertificaterouter, metacicopenproblemledger: the candidate-set packet carries candidate evidence, the router selects the admissible normalization route, and the open-problem ledger records the frontier question; this packet binds those rows into a closed-projection boundary without adding an evidence-free normalization theorem.}
+
+\closureat{MetaCICCandidateClosedProjectionBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICCandidateClosedProjectionBoundaryUp}
+  \constructivestory{A $\MetaCICCandidateClosedProjectionBoundaryUp$ packet is generated from an empty-context typed closed-term row, candidate-set evidence, normalization-router selection, bounded-normal endpoint seal, no-infinite-reduction row, obstruction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-candidate-closed-projection-boundary-carrier}, \autoref{thm:metacic-candidate-set-closed-projection-frontier}, and \autoref{thm:metacic-candidate-set-sn-handoff-boundary} seed the finite closed-projection, candidate-evidence, router-selection, endpoint-seal, obstruction, transport, replay, provenance, and local naming surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, unconditional strong normalization for all closed typed MetaCIC terms, unrestricted subject reduction, host reduction equality, quotient conversion, or a global normalizer.}
+  \upgradepath{Obligation closure requires checked closed-term projection, candidate-evidence admission, router selection, bounded-normal endpoint sealing, no-infinite-reduction handoff, obstruction exactness, replay, provenance, and local naming for BEDC.Derived.MetaCICCandidateClosedProjectionBoundaryUp.}
+\end{closurestatus}
