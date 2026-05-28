@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\WeaklyLocatedIntervalSelectionUp$}
+\label{ch:concrete-instances-weakly-located-interval-selection-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive locatedness, the $\WeaklyLocatedIntervalSelectionUp$ packet records the finite interval-selection surface that can be read by Cauchy and Real interval consumers without selecting an endpoint or importing compactness. It sits over the located interval carrier of \autoref{ch:concrete-instances-locatedinterval-namecert}, the rational cell ledger of \autoref{ch:concrete-instances-rationalinterval-namecert}, the optional dyadic refinement rows of \autoref{ch:concrete-instances-dyadicinterval-namecert}, the endpoint observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readbacks of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite route through displayed interval data; it does not assert endpoint choice, Heine--Borel compactness, trichotomy, quotient real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[WeaklyLocatedIntervalSelection carrier]
+\label{def:weakly-located-interval-selection-carrier}
+A $\WeaklyLocatedIntervalSelectionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(L,Q,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LocatedIntervalUp$ row naming the source interval and its locatedness probes.
+\item $Q$ is the $\RationalIntervalUp$ cell ledger listing the rational subinterval cells visible to the selection route.
+\item $D$ is an optional $\DyadicIntervalUp$ refinement row; when present, it refines cells already displayed by $Q$ and adds no independent selector.
+\item $W$ is the paired $\StreamNameUp$ endpoint-window row through which finite endpoint observations are read.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same endpoint windows and rational cells.
+\item $E$ is the terminal $\RealUp$ seal row reached by any Real-facing endpoint or interval consumer.
+\item $H$ records componentwise $\hsame$ transport for $L,Q,D,W,R,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from located interval probes through rational cells, optional dyadic refinements, endpoint windows, regular readbacks, and the Real seal.
+\item $P$ is $\Pkg$ provenance over $\WeaklyLocatedIntervalSelectionUp$, $\LocatedIntervalUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\WeaklyLocatedIntervalSelectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets componentwise through these ten rows. There is no coordinate for an endpoint selector, an open-cover compactness argument, a trichotomy oracle, quotient equality of Real names, or host Real completeness.
+\end{definition}
+
+\begin{theorem}[WeaklyLocatedIntervalSelection NameCert obligations]
+\label{thm:weakly-located-interval-selection-namecert-obligations}
+For every accepted $\WeaklyLocatedIntervalSelectionUp$ carrier
+$$
+S=(L,Q,D,W,R,E,H,C,P,N),
+$$
+the local NameCert surface consists exactly of the following obligations:
+\begin{enumerate}
+\item carrier admission for the finite $\BHist$ packet $S$ and its displayed rows;
+\item located-cell visibility from the $\LocatedIntervalUp$ row $L$ into the $\RationalIntervalUp$ ledger $Q$;
+\item finite selection-route exactness through the visible rational cells and any displayed $\DyadicIntervalUp$ refinements $D$;
+\item endpoint-window transport from $Q,D$ into the $\StreamNameUp$ windows $W$ and $\RegSeqRatUp$ readbacks $R$;
+\item Real-seal nonescape, requiring every Real-facing read to pass through the displayed $\RealUp$ row $E$;
+\item componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance preservation, and local $\NameCert$ preservation through $H,C,P,N$.
+\end{enumerate}
+No endpoint choice principle, Heine--Borel theorem, trichotomy principle, quotient equality of Real names, or ambient $\RealUp$ completeness theorem is an obligation or an output of this surface.
+\end{theorem}
+
+\closureat{WeaklyLocatedIntervalSelectionUp}{seedStr}
+
+\begin{closurestatus}{\WeaklyLocatedIntervalSelectionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:weakly-located-interval-selection-carrier} and \autoref{thm:weakly-located-interval-selection-namecert-obligations} seed the finite weakly located interval-selection route over \autoref{ch:concrete-instances-locatedinterval-namecert}, \autoref{ch:concrete-instances-rationalinterval-namecert}, \autoref{ch:concrete-instances-dyadicinterval-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close endpoint choice, Heine--Borel compactness, trichotomy, quotient real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located-cell visibility, finite selection-route exactness, endpoint-window transport, Real-seal nonescape, transport and replay stability, provenance exhaustion, and local naming for BEDC.Derived.WeaklyLocatedIntervalSelectionUp.}
+  \constructivestory{A $\WeaklyLocatedIntervalSelectionUp$ packet is generated from LocatedInterval rows, RationalInterval cell ledgers, optional DyadicInterval refinements, StreamName endpoint windows, RegSeqRat readbacks, a Real seal, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+\end{closurestatus}
