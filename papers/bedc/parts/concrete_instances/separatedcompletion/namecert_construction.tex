@@ -53,6 +53,42 @@ Finally, $H,R,T,P,N$ record transport, replay, route preservation, provenance, a
 \end{proof}
 \leanchecked{BEDC.Derived.SeparatedCompletionUp.SeparatedCompletionCarrier\_semantic\_name\_certificate}
 
+\begin{theorem}[SeparatedCompletion source-metric obligation]
+\label{thm:separated-completion-source-metric-obligation}
+Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. Every $\BHist$ or $\NameCert_{\SeparatedCompletionUp}$ read that exposes completion-facing metric data must first enter through the source metric row $M$. The later rows $D,C,Z,U,H,R,T,P,N$ may transport, replay, source, and name that read, but none of them supplies an independent source metric, an external complete metric space, a quotient completion, or host equality of completed points.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:separated-completion-carrier}. The coordinate $M$ is the displayed source metric row and is the only carrier coordinate with source-metric status.
+
+Apply \autoref{thm:separated-completion-namecert-obligations}. Carrier admission and dense-source compatibility place $M$ before the dense row $D$ and the completion handoff $C$, while the remaining rows only compare, transport, replay, source, and locally name the same displayed route.
+
+Since the carrier has no external complete-space, quotient-completion, host-equality, or second source-metric coordinate, every metric read is a read through $M$ preserved by $H,R,T,P,N$.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion dense-embedding obligation]
+\label{thm:separated-completion-dense-embedding-obligation}
+Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. Every dense source read consumed by a completion-facing row must pass through the dense embedding row $D$ before the completion handoff row $C$ is public. No row of the packet may treat $C$, $Z$, or $U$ as a dense embedding unless the preceding $M,D$ route has already been displayed in the same $\BHist$ packet.
+\end{theorem}
+\begin{proof}
+Read the displayed tuple in \autoref{def:separated-completion-carrier}. The row $D$ is the dense $\CompletionEmbeddingUp$ row, and $C$ is the downstream completion handoff row.
+
+Use the dense-source compatibility clause of \autoref{thm:separated-completion-namecert-obligations}. It requires every completion-facing consumer to read $M$ and $D$ before $C$, so the handoff cannot be used as a substitute dense embedding.
+
+The separated classifier $Z$ and uniqueness row $U$ are later rows over the same route. Thus a dense source read reaches $C,Z,U$ only after the displayed $M,D$ entrance has been recorded in $\BHist$ and replayed by the local $\Cont$ data.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion zero-distance obligation]
+\label{thm:separated-completion-zero-distance-obligation}
+Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. Every separated comparison must read the zero-distance classifier row $Z$ before any uniqueness-boundary row $U$ is consumed. The comparison is therefore a finite classifier route through $M,D,C,Z,U$ with $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming, not host equality, selected representatives, quotient completion equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The row $Z$ is the only separated zero-distance classifier row, while $U$ records uniqueness over the same source, dense, completion, and classifier route.
+
+Apply separated-classifier exactness from \autoref{thm:separated-completion-namecert-obligations}. A comparison of completion readings reaches $Z$ only after $C$ has been displayed, and uniqueness-boundary exactness reads $U$ over that same $M,D,C,Z$ route.
+
+The structural rows $H,R,T,P,N$ preserve, replay, source, and name the route without adding a second comparison principle. Because the excluded host-equality, representative, quotient, and ambient-completeness objects are absent from the carrier, every separated comparison must pass through $Z$ before $U$.
+\end{proof}
+
 \begin{definition}[SeparatedCompletion kernel route]
 \label{def:separated-completion-kernel-route}
 The separated-completion kernel route of an accepted carrier $S=(M,D,C,Z,U,H,R,T,P,N)$ is the ordered readback
