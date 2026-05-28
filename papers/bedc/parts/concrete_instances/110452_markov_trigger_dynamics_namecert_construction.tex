@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\MarkovTriggerDynamicsUp$}
+\label{ch:concrete-instances-markov-trigger-dynamics-namecert}
+\origin{ai}
+
+The $\MarkovTriggerDynamicsUp$ packet realizes the finite rank-trigger dynamics of \autoref{thm:philosophy-rank-markov-transition}, \autoref{cor:philosophy-rank-markov-drift}, and \autoref{thm:philosophy-markov-trigger-theorem} as BEDC NameCert data. It records the state, support-rank, transition-count, drift, trigger-time, classifier, continuation, provenance, and naming rows needed by a downstream finite-dynamics consumer. The packet is a finite BHist surface for trigger-time readback; it is not a stochastic process on an ambient probability space, not an infinite sample path, not a hidden field model, and not a host Markov-chain object.
+
+\begin{definition}[MarkovTriggerDynamics carrier]
+\label{def:markov-trigger-dynamics-carrier}
+A $\MarkovTriggerDynamicsUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,K,A,D,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite state row. It records the consumed external-codon count $m$ and the covered support rank $r$ for the current trigger state.
+\item $K$ is the support-rank row. It records the finite support coordinates currently covered by the observed codon rows and the rank read from that support.
+\item $A$ is the transition-count row. It stores the finite count of rank-preserving and rank-increasing next draws available from the current state.
+\item $D$ is the drift row. It records the displayed one-step rank drift computed from the same transition counts.
+\item $G$ is the trigger-time row. It records the finite recursion for the time to reach full rank and the deterministic threshold row consumed by trigger-time readers.
+\item $H$ records componentwise $\hsame$ transport for state, support-rank, transition-count, drift, trigger-time, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a state read through $S,K,A,D,G,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MarkovTriggerDynamicsUp$, $\BHist$, $\hsame$, $\Cont$, finite rank-trigger rows, finite transition-count rows, finite trigger-time rows, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MarkovTriggerDynamicsUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an ambient probability space, hidden generator field, infinite sample path, external random oracle, host Markov-chain semantics, or unstated independence assumption.
+\end{definition}
+
+\begin{theorem}[MarkovTriggerDynamics NameCert obligations]
+\label{thm:markov-trigger-dynamics-namecert-obligations}
+For every accepted $\MarkovTriggerDynamicsUp$ carrier $T=(S,K,A,D,G,H,C,P,N)$, the local $\NameCert_{\MarkovTriggerDynamicsUp}$ surface consists exactly of carrier admission for the displayed state row, support-rank row, transition-count row, drift row, trigger-time row, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming row.
+
+The obligation surface requires the transition-count row $A$ to be computed from the finite support-rank row $K$, the drift row $D$ to read only the transition counts in $A$, and the trigger-time row $G$ to replay the finite recursion from the displayed state row $S$ without adding an external probability carrier.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The packet exposes only $S,K,A,D,G,H,C,P,N$, so every NameCert obligation is a componentwise obligation on those rows.
+
+The state and support rows $S,K$ determine the finite rank-trigger situation. The transition-count row $A$ counts rank-preserving and rank-increasing next draws from that finite support surface.
+
+The drift row $D$ is downstream of $A$, and the trigger-time row $G$ is downstream of the same state and transition-count data. Thus the trigger-time read is a finite recursion over displayed rows, not an imported Markov-chain object.
+
+Transport, replay, provenance, and local naming preserve the same coordinates. Since the excluded ambient and hidden objects are not coordinates of $T$, no consumer can read them from the packet.
+\end{proof}
+
+\begin{theorem}[MarkovTriggerDynamics finite trigger readback]
+\label{thm:markov-trigger-dynamics-finite-trigger-readback}
+Every trigger-time consumer of an accepted $\MarkovTriggerDynamicsUp$ packet reads the finite route
+$$
+S,K,A,D,G,H,C,P,N .
+$$
+Consequently the transition law, drift, and trigger-time rows are all determined by finite BHist transition-count data. No trigger-time read exports an infinite sample path, host Markov process, hidden field, or unstated independence source.
+\end{theorem}
+\begin{proof}
+Start with the state row $S$ and support-rank row $K$. They display the finite input state and the rank information that determines which next-draw counts are available.
+
+The transition-count row $A$ is the only row from which the drift row $D$ may be read. The trigger-time row $G$ then replays the finite recursion from those same transition counts.
+
+Finally $H,C,P,N$ transport, replay, source, and name the finite trigger route. Because no other row exists in the carrier, the stated nonescape clauses follow.
+\end{proof}
+
+\falsifiablePrediction{Every $\MarkovTriggerDynamicsUp$ trigger-time read factors through finite state, support-rank, transition-count, drift, trigger-time, hsame, Cont, Pkg, and NameCert rows.}
+
+\independenceWitness{dna-boundary-tile, rank-trigger, finite-markov-transition: $\MarkovTriggerDynamicsUp$ is not bijective to any listed sibling because it jointly carries state rows, support-rank rows, transition-count rows, drift rows, trigger-time rows, componentwise hsame transport, displayed Cont replay, provenance, and local naming.}
+
+Nontrivial TasteGate and FieldFaithful instances remain required before this finite trigger surface can be read as a checked biological field-faithfulness claim.
+
+\closureat{MarkovTriggerDynamicsUp}{seedStr}
+
+\begin{closurestatus}{\MarkovTriggerDynamicsUp}
+  \constructivestory{A $\MarkovTriggerDynamicsUp$ packet is generated from finite state rows, support-rank rows, transition-count rows, drift rows, trigger-time recursion rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:markov-trigger-dynamics-carrier}, \autoref{thm:markov-trigger-dynamics-namecert-obligations}, and \autoref{thm:markov-trigger-dynamics-finite-trigger-readback} seed the finite rank-trigger Markov readback surface for DNA boundary-tile dynamics.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ambient probability spaces, infinite sample paths, hidden field models, host Markov-chain semantics, biological field-faithfulness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, transition-count exactness, drift readback, trigger-time recursion, nontrivial TasteGate coverage, FieldFaithful evidence, transport, replay, provenance, and local naming for BEDC.Derived.MarkovTriggerDynamicsUp.}
+\end{closurestatus}
