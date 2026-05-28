@@ -465,4 +465,70 @@ theorem RiemannIntegralCarrier_regular_cauchy_darboux_handoff [AskSetup] [Packag
   }
   exact ⟨cert, regseqUnary, realUnary, darbouxyUnary⟩
 
+theorem RiemannIntegralUp_StdBridge [AskSetup] [PackageSetup]
+    {M T F S D G R H C P N regseqRead realRead bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RiemannIntegralPacket M T F S D G R H C P N bundle pkg ->
+      Cont R H regseqRead ->
+        Cont regseqRead C realRead ->
+          Cont realRead N bridgeRead ->
+            PkgSig bundle bridgeRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row M ∨ hsame row T ∨ hsame row S ∨ hsame row D ∨
+                      hsame row G ∨ hsame row R ∨ hsame row bridgeRead)
+                  (fun row : BHist =>
+                    PkgSig bundle P pkg ∧ PkgSig bundle bridgeRead pkg ∧
+                      hsame row bridgeRead)
+                  hsame ∧
+                UnaryHistory regseqRead ∧ UnaryHistory realRead ∧ UnaryHistory bridgeRead ∧
+                  Cont R H regseqRead ∧ Cont regseqRead C realRead ∧
+                    Cont realRead N bridgeRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro packet regseqRoute realRoute bridgeRoute bridgePkg
+  obtain ⟨_mUnary, _tUnary, _fUnary, _sUnary, _dUnary, _gUnary, rUnary, hUnary, cUnary,
+    _provenanceUnary, nUnary, _mtf, _fsd, _dgr, provenancePkg, _namePkg⟩ := packet
+  have regseqUnary : UnaryHistory regseqRead :=
+    unary_cont_closed rUnary hUnary regseqRoute
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed regseqUnary cUnary realRoute
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed realUnary nUnary bridgeRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row T ∨ hsame row S ∨ hsame row D ∨ hsame row G ∨
+              hsame row R ∨ hsame row bridgeRead)
+          (fun row : BHist =>
+            PkgSig bundle P pkg ∧ PkgSig bundle bridgeRead pkg ∧ hsame row bridgeRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro bridgeRead ⟨hsame_refl bridgeRead, bridgeUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, bridgePkg, source.left⟩
+  }
+  exact
+    ⟨cert, regseqUnary, realUnary, bridgeUnary, regseqRoute, realRoute, bridgeRoute⟩
+
 end BEDC.Derived.RiemannIntegralUp
