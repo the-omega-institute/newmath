@@ -14,40 +14,30 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def PseudometricCarrier [AskSetup] [PackageSetup]
-    (point distance dyadic stream readback realSeal zero transport replay cert : BHist)
-    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
-  UnaryHistory point ∧ UnaryHistory distance ∧ UnaryHistory dyadic ∧ UnaryHistory stream ∧
-    UnaryHistory readback ∧ UnaryHistory realSeal ∧ UnaryHistory zero ∧
-      UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory cert ∧
-        Cont point distance dyadic ∧ Cont stream readback realSeal ∧
-          Cont transport replay cert ∧ PkgSig bundle cert pkg
-
 theorem PseudometricCarrier_distance_readback_obligation [AskSetup] [PackageSetup]
-    {point distance dyadic stream readback realSeal zero transport replay cert distanceRead
+    {point distance dyadic stream readback sealRow zeroRow transport replay localName distanceRead
       zeroRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    PseudometricCarrier point distance dyadic stream readback realSeal zero transport replay cert
+    PseudometricCarrier point distance dyadic stream readback sealRow zeroRow transport replay localName
         bundle pkg →
       Cont stream readback distanceRead →
-        Cont distanceRead zero zeroRead →
+        Cont distanceRead zeroRow zeroRead →
           PkgSig bundle zeroRead pkg →
             UnaryHistory stream ∧ UnaryHistory readback ∧ UnaryHistory distanceRead ∧
               UnaryHistory zeroRead ∧ Cont stream readback distanceRead ∧
-                Cont distanceRead zero zeroRead ∧ PkgSig bundle cert pkg ∧
+                Cont distanceRead zeroRow zeroRead ∧ PkgSig bundle localName pkg ∧
                   PkgSig bundle zeroRead pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
   intro carrier distanceRoute zeroRoute zeroPkg
   obtain ⟨_pointUnary, _distanceUnary, _dyadicUnary, streamUnary, readbackUnary,
-    _realSealUnary, zeroUnary, _transportUnary, _replayUnary, _certUnary, _pointDistance,
-    _streamReadback, _transportReplay, certPkg⟩ := carrier
+    _sealUnary, zeroUnary, _transportUnary, _replayUnary, _localNameUnary,
+    _streamReadbackDyadic, _dyadicSealZero, _localNameZero, localNamePkg⟩ := carrier
   have distanceReadUnary : UnaryHistory distanceRead :=
     unary_cont_closed streamUnary readbackUnary distanceRoute
   have zeroReadUnary : UnaryHistory zeroRead :=
     unary_cont_closed distanceReadUnary zeroUnary zeroRoute
   exact
     ⟨streamUnary, readbackUnary, distanceReadUnary, zeroReadUnary, distanceRoute, zeroRoute,
-      certPkg, zeroPkg⟩
+      localNamePkg, zeroPkg⟩
 
 end BEDC.Derived.PseudometricUp
