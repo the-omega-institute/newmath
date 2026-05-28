@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\BanachFixedPointModulusUp$}
+\label{ch:concrete-instances-banach-fixed-point-modulus-namecert}
+\origin{human}
+
+Following Banach and Bishop--Bridges constructive analysis, the $\BanachFixedPointModulusUp$ packet records the explicit contraction-rate modulus consumed before the endpoint seal of \autoref{ch:concrete-instances-banach-fixed-point-namecert}. It sits after the residual-to-error route of \autoref{ch:concrete-instances-picard-error-estimate-namecert} and before any $\BanachFixedPointUp$ consumer reads a $\RealUp$ endpoint boundary. The packet names only the finite contraction graph, the rational Lipschitz ledger below one, the Picard ledger, the Cauchy threshold row, the regular-rational handoff, the complete-metric service row, and the endpoint-facing seal; it does not select a fixed point, assert host equality, or import ambient completeness outside the displayed carrier rows.
+
+\begin{definition}[Banach fixed-point modulus carrier]
+\label{def:banach-fixed-point-modulus-carrier}
+A $\BanachFixedPointModulusUp$ carrier is a finite $\BHist$ packet
+$$
+K=(B,T,L,I,M,R,C,E,H,Q,P,N)
+$$
+with the following visible coordinates:
+\begin{enumerate}
+\item $B$ is the source $\BanachFixedPointUp$ row whose endpoint construction is waiting for an explicit modulus route.
+\item $T$ is the contraction graph row, displaying the finite map-application history used by the Picard iteration.
+\item $L$ is the rational Lipschitz ledger below one, including the displayed positivity and unit-bound rows read by the contraction estimate.
+\item $I$ is the Picard iteration ledger, recording the finite adjacent iterate rows and the replay order for $x_{k+1}=T(x_k)$.
+\item $M$ is the $\CauchyModulusUp$ threshold row produced from $L$ and $I$ for each requested rational tolerance.
+\item $R$ is the $\RegSeqRatUp$ readback row that exposes the regular rational name after the modulus threshold has been displayed.
+\item $C$ is the $\CompleteMetricUp$ service row consumed by the completion-facing handoff.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $M,R,C$ have been read.
+\item $H$ stores componentwise $\hsame$ transports for the fixed-point, graph, Lipschitz, Picard, modulus, readback, complete-metric, seal, provenance, and local naming rows.
+\item $Q$ stores displayed $\Cont$ replay from contraction application to Picard iteration, from the Lipschitz ledger and Picard ledger to the modulus threshold, and from the modulus threshold to the regular-rational and endpoint-facing rows.
+\item $P$ is the $\Pkg$ provenance over $\BanachFixedPointModulusUp$, $\BanachFixedPointUp$, $\PicardErrorEstimateUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, $\CompleteMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BanachFixedPointModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $B,T,L,I,M,R,C,E,H,Q,P,N$. It has no coordinate for a choice-selected limit, a host fixed-point equality proof, quotient completion equality, global nonlinear analysis, or completeness beyond the displayed $\CompleteMetricUp$ service row.
+\end{definition}
+
+\begin{theorem}[Banach fixed-point modulus NameCert obligations]
+\label{thm:banach-fixed-point-modulus-namecert-obligations}
+For every accepted $\BanachFixedPointModulusUp$ carrier $K=(B,T,L,I,M,R,C,E,H,Q,P,N)$, the local $\NameCert_{\BanachFixedPointModulusUp}$ surface consists exactly of carrier admission for the displayed rows, contraction-graph visibility through $T$, rational Lipschitz visibility below one through $L$, finite Picard iteration access through $I$, Cauchy-threshold construction through $M$, regular-rational readback through $R$, complete-metric service access through $C$, endpoint seal access through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $Q$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:banach-fixed-point-modulus-carrier}. The accepted packet exposes exactly the fixed-point row, contraction graph, Lipschitz ledger, Picard ledger, modulus row, regular-rational readback, complete-metric service, endpoint seal, transport, replay, provenance, and local naming rows.
+
+The contraction-rate information is exhausted by $T,L,I$. The graph row supplies the finite application history, the Lipschitz ledger supplies the displayed bound below one, and the Picard ledger supplies the adjacent iterate rows used by the threshold calculation.
+
+The handoff information is exhausted by $M,R,C,E$. The modulus threshold row is formed before any regular-rational readback, the complete-metric service is read only at the handoff boundary, and the endpoint seal is exposed only after those rows have been displayed. The structural rows $H,Q,P,N$ transport, replay, source, and name this same route, so no further NameCert obligation is available.
+\end{proof}
+
+\begin{theorem}[Banach fixed-point modulus Picard handoff]
+\label{thm:banach-fixed-point-modulus-picard-handoff}
+Every $\BanachFixedPointUp$ endpoint-sealing route that consumes a $\BanachFixedPointModulusUp$ carrier must first factor through
+$$
+T,L,I\longmapsto M\longmapsto R,C\longmapsto E .
+$$
+The Picard and contraction-rate rows therefore supply the explicit $\CauchyModulusUp$ threshold before the $\RegSeqRatUp$ readback, the $\CompleteMetricUp$ service row, and the $\RealUp$ seal are available to the fixed-point endpoint boundary.
+\end{theorem}
+\begin{proof}
+Start with a fixed-point endpoint request from the source row $B$. The only contraction-rate rows in the carrier are the graph row $T$, the Lipschitz ledger $L$, and the Picard ledger $I$, so the request must read those rows before it can form a threshold.
+
+The threshold is the displayed $\CauchyModulusUp$ coordinate $M$. The existing $\BanachFixedPointUp$ route of \autoref{ch:concrete-instances-banach-fixed-point-namecert} consumes such a threshold before endpoint sealing, while the $\PicardErrorEstimateUp$ route of \autoref{ch:concrete-instances-picard-error-estimate-namecert} supplies the residual-and-ratio pattern that makes the threshold finite.
+
+After $M$ is displayed, the handoff can read $R$ and $C$, and only then can it expose the endpoint-facing row $E$. The transport, replay, provenance, and local naming rows preserve this order, so the packet exports no selected fixed point, host equality, or ambient completeness theorem.
+\end{proof}
+
+\closureat{BanachFixedPointModulusUp}{seedStr}
+
+\begin{closurestatus}{\BanachFixedPointModulusUp}
+  \constructivestory{A $\BanachFixedPointModulusUp$ packet is generated from a BanachFixedPoint row, a contraction graph, a rational Lipschitz ledger below one, a Picard iteration ledger, a CauchyModulus threshold, a RegSeqRat readback, a CompleteMetric service row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:banach-fixed-point-modulus-carrier}, \autoref{thm:banach-fixed-point-modulus-namecert-obligations}, and \autoref{thm:banach-fixed-point-modulus-picard-handoff} seed the finite contraction-rate modulus route consumed before Banach fixed-point endpoint sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected fixed points, host fixed-point equality, quotient completion equality, ambient completeness, Lean verification, bridge checking, or global nonlinear analysis.}
+  \upgradepath{Obligation closure requires checked carrier admission, contraction-graph visibility, Lipschitz-below-one visibility, Picard iteration access, Cauchy-threshold construction, regular-rational readback, complete-metric service access, endpoint seal access, transport, replay, provenance, and local naming for BEDC.Derived.BanachFixedPointModulusUp.}
+\end{closurestatus}

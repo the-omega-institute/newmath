@@ -1,0 +1,21 @@
+\begin{theorem}[DyadicRatCore terminal scale-window realizer]
+\label{thm:dyadicratcore-scale-window-realizer}
+Let $D$ be an accepted $\DyadicRatCoreUp$ common-exponent classifier window whose visible rows are the signed $\RatUp$ mantissa row, the positive-unary exponent row, the denominator ledger for the displayed power of two, the scaled-mantissa $\RatUp$ comparison row, the componentwise $\hsame$ transport row, the displayed $\Cont$ route, and the $\Pkg$ provenance row. Then $D$ determines a terminal finite scale window
+$$
+T_D=(m,e,\ell,r,H,C,P,N)
+$$
+whose mantissa $m$, exponent $e$, denominator ledger $\ell$, $\RatUp$ comparison row $r$, transport $H$, continuation route $C$, provenance $P$, and local $\NameCert_{\DyadicRatCoreUp}$ row are all read from the common-exponent classifier window.
+
+The realizer is terminal among finite dyadic scale-window reads with the same classifier data: any $\StreamNameUp$ finite-window consumer, $\RegSeqRatUp$ regularity consumer, or downstream handoff that preserves the same mantissa, exponent, denominator ledger, $\RatUp$ comparison, $\Cont$ route, and $\Pkg$ provenance factors through $T_D$. The realizer exports no completed $\RealUp$ endpoint, selected limit, quotient rational equality, quotient stream equality, countable-choice row, metric-completeness row, bridge row, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the common-exponent classifier window. Its visible rows already contain the signed $\RatUp$ mantissa, the positive-unary exponent, the denominator ledger, and the scaled-mantissa $\RatUp$ comparison row.
+
+Apply the scale-window obligation surface of \autoref{thm:dyadicratcore-scale-window-obligation-surface}. That theorem identifies the finite dyadic tolerance row consumed by $\StreamNameUp$ finite windows and $\RegSeqRatUp$ regularity checks, using only the displayed mantissa, exponent, denominator, comparison, transport, replay, and provenance data.
+
+Next apply common-scale terminal refinement, \autoref{thm:dyadicratcore-common-scale-terminal-refinement}. It refines the displayed classifier window to a terminal finite scale packet while preserving the same signed mantissa row, denominator ledger, endpoint comparison rows, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local DyadicRatCore naming rows.
+
+For terminality, use the uniqueness clause of \autoref{thm:dyadicratcore-common-scale-terminal-refinement-uniqueness}. Any competing finite scale-window read with the same visible classifier data and the same downstream $\StreamNameUp$ or $\RegSeqRatUp$ faces must determine the same terminal tolerance row.
+
+Finally use the non-escape clauses of \autoref{thm:dyadicratcore-regseqrat-terminal-radius-window-boundary}. The terminal handoff is read before any $\RealUp$ seal can consume it, so the constructed packet has no completed real endpoint or hidden completion coordinate.
+\end{proof}
