@@ -132,6 +132,47 @@ Therefore every based Cauchy consumer receives exactly the finite route
 displayed in the statement.
 \end{proof}
 
+\begin{theorem}[Pointed complete metric basepoint completion handoff]
+\label{thm:pointed-complete-metric-basepoint-completion-handoff}
+Let $P=(M,B,Q,S,R,E,L,H,C,P_0,N)$ and
+$P'=(M',B',Q',S',R',E',L',H',C',P'_0,N')$ be accepted
+$\PointedCompleteMetricSpaceUp$ carriers. If the two packets transport
+$M,B,Q,S,R,E$ through the same componentwise $H$ row, then every
+$\CompleteMetricUp$ service read of $L$ is taken over that same named
+basepoint route before any loop-space or embedding consumer may inspect a
+completed point.
+
+Equivalently, a consumer may inspect
+$$
+L \quad\text{or}\quad L'
+$$
+only after the route
+$$
+M,B,Q,S,R,E \longmapsto H,C,P_0,N
+$$
+has been displayed; it cannot detach completion service from the transported
+basepoint row.
+\end{theorem}
+\begin{proof}
+Project both carriers. In each packet the completion-service coordinate is
+$L$, and the only rows upstream of it are the metric row $M$, the basepoint row
+$B$, the Cauchy-window row $Q$, the stream row $S$, the regular rational row
+$R$, and the real-distance seal $E$.
+
+Apply \autoref{thm:pointed-complete-metric-space-cauchy-basepoint-route} to
+the first packet. The displayed route forces every based Cauchy request to
+pass through $M,B,Q,S,R,E$ before the service row $L$ is visible.
+
+Use the assumed componentwise transport row $H$ to move the same route to the
+second packet. The replay row $C$ then reproduces the transported route for
+the completion-facing consumer, and the provenance and local name rows
+$P_0,N$ record no independent completed point.
+
+Thus a loop-space or embedding consumer can inspect a completed point only
+after the transported basepoint route has been displayed. There is no carrier
+coordinate from which the consumer could read $L$ apart from $B$.
+\end{proof}
+
 \begin{theorem}[Pointed complete metric space completion nonescape]
 \label{thm:pointed-complete-metric-space-completion-nonescape}
 Every completion-facing, loop-space-facing, or embedding-facing consumer of an
