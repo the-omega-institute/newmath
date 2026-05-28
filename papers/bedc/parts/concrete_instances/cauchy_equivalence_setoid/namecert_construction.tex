@@ -42,6 +42,7 @@ the classifier row $T$ supplies exactly the reflexive, symmetric, and transitive
 \end{enumerate}
 No classifier law is stored outside the finite rows of $Q$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyEquivalenceSetoidUp.CauchyEquivalenceSetoidClassifierLaws}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-equivalence-setoid-carrier}. The projection exposes two finite StreamName windows, two RegSeqRat readback rows, one DyadicRatCore tolerance ledger, one setoid-test row, the Real seal boundary, and the structural rows.
 
@@ -84,6 +85,7 @@ For every accepted $\CauchyEquivalenceSetoidUp$ carrier $Q=(S_0,S_1,R_0,R_1,D,T,
 \end{enumerate}
 The surface exports no quotient stream equality, host real equality, selected limit, countable-choice selector, ambient completeness witness, Lean verification, or bridge check.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyEquivalenceSetoidUp.CauchyEquivalenceSetoidNameCertSurface}
 \begin{proof}
 Carrier admission is the displayed tuple of \autoref{def:cauchy-equivalence-setoid-carrier}. It gives exactly the stream, readback, dyadic, classifier, seal, transport, replay, provenance, and naming rows.
 
@@ -208,6 +210,24 @@ Apply \autoref{thm:cauchy-equivalence-setoid-transport}. It keeps the shared Str
 Now use \autoref{thm:cauchy-equivalence-setoid-tail-transitivity}. It orders the composed finite route through $S_0,S_1,R_0,R_1,D,T,E,H,C,P,N$ before any downstream seal boundary is available.
 
 Finally apply \autoref{thm:cauchy-equivalence-setoid-downstream-equality-dependency}. Every $\RealClassifier$ or $\MetricCompletionUp$ consumer receives only that displayed route, so completion-facing inspection cannot bypass the shared windows, readbacks, tolerance ledger, or classifier row.
+\end{proof}
+
+\begin{theorem}[CauchyEquivalenceSetoid RegSeqRat route]
+\label{thm:cauchy-equivalence-setoid-regseqrat-route}
+Every completion-tail comparison exported by an accepted $\CauchyEquivalenceSetoidUp$ packet must pass through the sibling $\RegSeqRatUp$ and $\RealUp$ routes of \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert}. The exported comparison is the finite route
+$$
+S_0,S_1 \longmapsto R_0,R_1 \longmapsto D \longmapsto T \longmapsto E \longmapsto H,C,P,N
+$$
+rather than quotient stream equality, host real equality, a selected limit, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from the classifier laws of \autoref{thm:cauchy-equivalence-setoid-classifier-laws}. They force reflexive, symmetric, and transitive comparison reads to stay on the displayed $S_0,S_1,R_0,R_1,D,T$ surface.
+
+Use \autoref{thm:cauchy-equivalence-setoid-transport}. It preserves the same StreamName windows, RegSeqRat readbacks, dyadic ledger, classifier row, Real seal, replay, provenance, and local naming under componentwise $\hsame$ comparison.
+
+Apply \autoref{thm:cauchy-equivalence-setoid-downstream-equality-dependency} and \autoref{thm:cauchy-equivalence-setoid-completion-tail-composition}. The first identifies the Real-facing equality consumer route, and the second orders completion-tail reads through the composed classifier surface before any completion consumer can inspect the seal.
+
+Thus every exported completion-tail comparison must use the sibling RegSeqRat readback and Real seal routes. Since no carrier row records quotient equality, host real equality, selected limits, countable choice, or ambient completeness, the route cannot leave the finite packet.
 \end{proof}
 
 The setoid-test row is consumed through the finite-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal $\RealUp$ seal boundary of \autoref{ch:concrete-instances-real-namecert}. Downstream Cauchy locatedness and selection-free real consumers therefore read the equality-facing classifier through those concrete sibling edges rather than through a detached kernel-only equality object.

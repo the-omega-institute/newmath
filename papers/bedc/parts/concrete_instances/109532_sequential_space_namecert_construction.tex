@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\SequentialSpaceUp$}
+\label{ch:concrete-instances-sequential-space-namecert}
+\origin{human}
+
+Following Franklin and Engelking on sequential spaces, the $\SequentialSpaceUp$ packet records the finite convergence interface by which sequence-indexed observations may be consumed as topological data without importing open-cover compactness, quotient point equality, or a selected subsequence principle. It sits beside the limit carrier of \autoref{ch:concrete-instances-limit-space-namecert}, the Cauchy source interface of \autoref{ch:concrete-instances-cauchyspace-namecert}, the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the indexed-open topology surface of \autoref{ch:concrete-instances-topology-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. Later completion and compactness consumers may read sequential convergence only through this displayed packet.
+
+\begin{definition}[SequentialSpace carrier]
+\label{def:sequential-space-carrier}
+A $\SequentialSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(I,W,L,T,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the sequence-index row, naming the finite initial segment, tail request, and comparison scale read by the consumer.
+\item $W$ is the $\StreamNameUp$ window row, exposing only the finite observations of the sequence at the requested indices.
+\item $L$ is the $\LimitSpaceUp$ convergence row, recording the limit-facing test supplied by \autoref{ch:concrete-instances-limit-space-namecert}.
+\item $T$ is the $\TopologyUp$ open-test row, recording the indexed open neighbourhood test through which sequential convergence is observed.
+\item $Q$ is the $\CauchySpaceUp$ comparison row when the sequence is also read by a completion or Cauchy consumer.
+\item $R$ is the $\RealUp$ endpoint row when the displayed observations are regular real-name reads.
+\item $H$ records componentwise $\hsame$ transport for the sequence index, StreamName window, limit row, topology row, Cauchy comparison row, Real endpoint row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a sequential-convergence request through $I,W,L,T,Q,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\SequentialSpaceUp$, $\StreamNameUp$, $\LimitSpaceUp$, $\TopologyUp$, $\CauchySpaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SequentialSpaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for open-cover compactness, quotient point equality, selected subsequences, countable-choice selectors, host topological closure, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[SequentialSpace NameCert obligations]
+\label{thm:sequential-space-namecert-obligations}
+For every accepted $\SequentialSpaceUp$ carrier
+$$
+S=(I,W,L,T,Q,R,H,C,P,N),
+$$
+the local $\NameCert_{\SequentialSpaceUp}$ surface consists exactly of sequence-index admission through $I$, finite observation through $W$, limit-space convergence through $L$, topology open-test exposure through $T$, Cauchy comparison through $Q$ when present, Real endpoint exposure through $R$ when present, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sequential-space-carrier}. The sequence-facing side is exhausted by $I$ and $W$, so a consumer can inspect only displayed finite StreamName windows at displayed indices.
+
+The convergence-facing side is exhausted by $L,T,Q,R$. The limit row supplies the sequential convergence request, the topology row supplies the open-test interface, and the Cauchy and Real rows are available only when the same packet displays those comparison surfaces.
+
+The rows $H,C,P,N$ transport, replay, source, and name exactly this data. Since the carrier has no coordinate for open-cover compactness, quotient point equality, selected subsequences, countable choice, host closure, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[SequentialSpace completion-facing route]
+\label{thm:sequential-space-completion-facing-route}
+Every completion-facing consumer of an accepted $\SequentialSpaceUp$ packet reads sequential convergence through the finite route
+$$
+\StreamNameUp,\ \LimitSpaceUp,\ \TopologyUp,\ \CauchySpaceUp,\ \RealUp .
+$$
+The route exposes finite sequence windows, a displayed limit test, an indexed-open neighbourhood test, a Cauchy comparison surface when relevant, and a terminal Real endpoint row; it exports no open-cover compactness, selected subsequence, quotient point equality, countable-choice selector, or ambient Real completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:sequential-space-namecert-obligations}. A completion-facing read must first inspect the sequence index and finite StreamName window rows.
+
+The limit request then passes through the $\LimitSpaceUp$ row and the $\TopologyUp$ open-test row. If the consumer is a completion or Cauchy consumer, the same route displays the $\CauchySpaceUp$ comparison row before any $\RealUp$ endpoint row is read.
+
+Transport, replay, provenance, and naming preserve this order. The excluded principles are not carrier coordinates, so no consumer can extract them from the packet.
+\end{proof}
+
+\closureat{SequentialSpaceUp}{seedStr}
+
+\begin{closurestatus}{\SequentialSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequential-space-carrier}, \autoref{thm:sequential-space-namecert-obligations}, and \autoref{thm:sequential-space-completion-facing-route} seed the finite sequential-convergence interface over StreamName, LimitSpace, Topology, CauchySpace, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, quotient point equality, selected subsequences, countable-choice selectors, host topological closure, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, sequence-index exactness, StreamName window coverage, LimitSpace convergence routing, Topology open-test exposure, Cauchy comparison compatibility, Real endpoint nonescape, transport, replay, provenance, and local naming for BEDC.Derived.SequentialSpaceUp.}
+  \constructivestory{A $\SequentialSpaceUp$ packet is generated from sequence-index rows, StreamName windows, LimitSpace convergence rows, Topology open-test rows, CauchySpace comparison rows where relevant, Real endpoint rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

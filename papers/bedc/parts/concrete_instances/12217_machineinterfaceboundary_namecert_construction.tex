@@ -63,11 +63,13 @@ Route accepted machine exposure through $A$ and $S$. These rows determine the fo
 
 Transport and replay use only $H$ and $C$, with provenance and local naming supplied by $P$ and $N$. Since no coordinate of $M$ stores host-side certification or an unchecked machine claim, an export route that tries to bypass $F,A,S,H,C,P,N$ exits the carrier instead of exporting a BEDC machine-facing claim.
 \end{proof}
+\leanchecked{BEDC.Derived.MachineInterfaceBoundaryUp.MachineInterfaceBoundary\_export\_control}
 
 \begin{theorem}[Machine-interface boundary TasteGate handoff]
 \label{thm:machine-interface-boundary-tastegate-handoff}
 Later Lean work for $\MachineInterfaceBoundaryUp$ must provide $\Nontrivial\ \MachineInterfaceBoundaryUp$ and $\FieldFaithful\ \MachineInterfaceBoundaryUp$ instances in $\mathsf{lean4/BEDC/Derived/MachineInterfaceBoundaryUp/TasteGate.lean}$. The nontriviality witness must expose at least one accepted registry-export or refusal-routing packet, and the field-faithfulness witness must preserve the distinct rows $R,E,F,A,S,H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MachineInterfaceBoundaryUp.MachineInterfaceBoundary\_tastegate\_handoff}
 \begin{proof}
 The carrier is not a terminal tag: it distinguishes registry rows, export decisions, refused claims, formalization targets, socket exposure, transport, replay, provenance, and local naming.
 

@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\BishopRealConstructionUp$}
+\label{ch:concrete-instances-bishop-real-construction-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\BishopRealConstructionUp$ packet records the regular-Cauchy construction of the real numbers as finite BEDC NameCert data. It sits over the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the explicit convergence ledger of \autoref{ch:concrete-instances-modulusofconvergence-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the human-known Bishop real construction without quotient stream equality, selected host limits, countable choice, host real equality, Dedekind-cut replacement, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop real construction carrier]
+\label{def:bishop-real-construction-carrier}
+A $\BishopRealConstructionUp$ carrier is a finite $\BHist$ packet
+$$
+B=(D,S,Q,R,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic radii, slack comparisons, and endpoint bounds used by every inspected Cauchy window.
+\item $S$ is the $\StreamNameUp$ finite-window row, exposing the finite observation schedule for the rational approximants before any real-name seal is read.
+\item $Q$ is the regular-Cauchy source row, retaining the named rational stream together with its displayed regularity budget.
+\item $R$ is the $\RegSeqRatUp$ regular-readback row obtained from $D,S,Q$, and it is the only row through which rational approximants are exported to later consumers.
+\item $M$ is the $\RealModulusOfConvergenceUp$ ledger row, recording the finite modulus entries that witness the regular-Cauchy estimates read by $R$.
+\item $E$ is the $\RealUp$ seal row, reached only after the dyadic, stream, regular-readback, and convergence-ledger rows have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for dyadic tolerances, finite windows, regular sources, readback rows, convergence ledgers, real seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a real-construction request through the same finite route $D,S,Q,R,M,E$.
+\item $P$ is the $\Pkg$ provenance over $\BishopRealConstructionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealModulusOfConvergenceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BishopRealConstructionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,Q,R,M,E,H,C,P,N$. It has no coordinate for quotient equality of streams, a selected host limit, countable choice, host real equality, Dedekind-cut replacement, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Bishop real construction NameCert obligations]
+\label{thm:bishop-real-construction-namecert-obligations}
+For every accepted $\BishopRealConstructionUp$ carrier
+$$
+B=(D,S,Q,R,M,E,H,C,P,N),
+$$
+the local $\NameCert_{\BishopRealConstructionUp}$ surface consists exactly of the following six obligation rows:
+\begin{enumerate}
+\item carrier admission for the dyadic tolerance ledger $D$, finite stream windows $S$, regular-Cauchy source $Q$, regular readback $R$, convergence ledger $M$, real seal $E$, transport $H$, replay $C$, provenance $P$, and local naming $N$;
+\item tolerance-window exactness, requiring every accepted read to pair the same dyadic budget in $D$ with the same finite windows in $S$;
+\item regular-Cauchy readback, requiring the rational approximants exported by the packet to pass through $Q,R$ before any $\RealUp$ consumer reads them;
+\item convergence-ledger exposure through $M$, so the construction records finite regularity evidence rather than a hidden host limit;
+\item seal nonescape through $E$, which blocks quotient stream equality, selected host limits, host real equality, Dedekind-cut replacement, countable choice, and ambient $\RealUp$ completeness;
+\item provenance and name exhaustion through $P,N$ together with componentwise transport and replay rows $H,C$.
+\end{enumerate}
+No other NameCert obligation is available from the Bishop real construction packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-real-construction-carrier}. The displayed tuple exposes the dyadic tolerance ledger, finite stream windows, regular-Cauchy source, regular rational readback, convergence ledger, real seal, transport, replay, provenance, and local naming rows.
+
+The tolerance-window exactness row is read before any rational approximation is exported. A request first fixes the dyadic budget $D$ and the finite windows $S$, then reads the regular source $Q$ and the readback row $R$ along that same displayed route.
+
+The convergence ledger $M$ records the finite regularity evidence used by the construction. The real seal $E$ is downstream of $D,S,Q,R,M$, so a consumer cannot replace those rows by quotient stream equality, a selected host limit, host real equality, Dedekind cuts, countable choice, or ambient completeness.
+
+Finally $H,C,P,N$ transport, replay, source, and name exactly the same finite packet. Since the carrier has no additional coordinate, the six listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\closureat{BishopRealConstructionUp}{seedStr}
+
+\begin{closurestatus}{\BishopRealConstructionUp}
+  \constructivestory{A $\BishopRealConstructionUp$ packet is generated from DyadicRatCore tolerance rows, StreamName finite-window rows, RegSeqRat regular-readback rows, RealModulusOfConvergence ledger rows, a Real seal, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-real-construction-carrier} and \autoref{thm:bishop-real-construction-namecert-obligations} seed the finite Bishop--Bridges regular-Cauchy construction route for Real and completion-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected host limits, countable choice, host real equality, Dedekind-cut replacement, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, regular-Cauchy readback, Real seal handoff, convergence-ledger refusal, transport, replay, provenance, and local naming for BEDC.Derived.BishopRealConstructionUp.BishopRealConstructionCarrier.}
+\end{closurestatus}

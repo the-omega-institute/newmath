@@ -1,8 +1,8 @@
-\chapter{A Concrete Naming Certificate for $\TotallyBoundedMetricUp$}
+\chapter{A Concrete Naming Certificate for $\TotalBoundedMetricUp$}
 \label{ch:concrete-instances-totally-bounded-metric-namecert}
 \origin{human}
 
-Bishop--Bridges and Kelley-style metric language treats total boundedness as a tolerance-indexed finite-net interface attached to a displayed metric source. The $\TotallyBoundedMetricUp$ packet records exactly that L10 boundary: it reads the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the real metric comparison surface of \autoref{ch:concrete-instances-real-metric-namecert}, the finite epsilon-net ledger of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet gives compact and completion-facing consumers a finite total-bounded metric package while leaving open-cover compactness, countable choice, selected limits, ambient $\RealUp$ completeness, Lean verification, and bridge checking outside the carrier.
+Bishop--Bridges constructive metric compactness treats total boundedness as a tolerance-indexed finite-net interface attached to a displayed metric source. The $\TotalBoundedMetricUp$ packet records exactly that L10 boundary: it reads the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the real metric comparison surface of \autoref{ch:concrete-instances-real-metric-namecert}, the finite epsilon-net ledger of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the compact-metric consumer of \autoref{ch:concrete-instances-compactmetric-namecert}. The packet gives compact and completion-facing consumers a finite total-bounded metric package while leaving open-cover compactness, countable choice, selected limits, ambient $\RealUp$ completeness, Lean verification, and bridge checking outside the carrier.
 
 \begin{definition}[TotallyBoundedMetric carrier]
 \label{def:totally-bounded-metric-carrier}
@@ -12,7 +12,7 @@ T=(M,R,E,D,S,Q,H,C,P,N)
 $$
 with the following displayed rows:
 \begin{enumerate}
-\item $M$ is the $\MetricUp$ source row, carrying the point classifier, distance classifier, symmetry, zero-distance, and triangle ledgers read by the packet.
+\item $M$ is the $\MetricSpaceUp$ source row, carrying the point classifier, distance classifier, symmetry, zero-distance, and triangle ledgers read by the packet.
 \item $R$ is the $\RealMetricUp$ comparison row, exposing the real-valued metric readback only through displayed rational or dyadic observations.
 \item $E$ is the $\FiniteEpsilonNetUp$ family row. For each positive tolerance request it displays a closed $\mathsf{ProbeBundle}$ of centers, membership rows, center-carrier rows, and coverage-distance witnesses.
 \item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic refinement and positivity data used by the finite-net family.
@@ -23,8 +23,8 @@ with the following displayed rows:
 $$
 M,R,D,S,Q \longmapsto E \longmapsto H,P,N .
 $$
-\item $P$ is the $\Pkg$ provenance over $\TotallyBoundedMetricUp$, $\MetricUp$, $\RealMetricUp$, $\FiniteEpsilonNetUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
-\item $N$ is the local $\NameCert_{\TotallyBoundedMetricUp}$ row.
+\item $P$ is the $\Pkg$ provenance over $\TotalBoundedMetricUp$, $\MetricSpaceUp$, $\RealMetricUp$, $\FiniteEpsilonNetUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TotalBoundedMetricUp}$ row.
 \end{enumerate}
 The classifier compares accepted packets only through $M,R,E,D,S,Q,H,C,P,N$. It has no coordinate for open-cover compactness, countable choice, selected limits, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.
 \end{definition}
@@ -80,6 +80,48 @@ The readback route then remains finite. The stream windows $S$ and regular ratio
 Therefore every exported total-bounded metric claim factors through the displayed finite-net route. The consumer receives no open-cover compactness, countable choice, selected limit, ambient $\RealUp$ completeness theorem, Lean verification, or bridge credential from the packet.
 \end{proof}
 
+\begin{theorem}[Total-bounded metric finite-net obligation]
+\label{thm:total-bounded-metric-finite-net-obligation}
+Let $T=(M,R,E,D,S,Q,H,C,P,N)$ be an accepted $\TotalBoundedMetricUp$ carrier. For every positive dyadic tolerance admitted by $D$, the finite-net obligation exposed by the local $\NameCert_{\TotalBoundedMetricUp}$ surface is exactly the closed $\mathsf{ProbeBundle}$ branch of $E$ together with its center-membership rows, center-carrier rows over $M$, coverage-distance witnesses read through $R$, finite observation windows $S$, regular rational readback $Q$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, provenance $P$, and local name $N$.
+
+In particular, a $\CompactMetricUp$ or compact-uniform-continuity consumer can read a finite net only through the displayed route
+$$
+\MetricSpaceUp,\DyadicRatCoreUp
+\longmapsto
+\mathsf{ProbeBundle},\FiniteEpsilonNetUp
+\longmapsto
+\RealUp,\StreamNameUp,\RegSeqRatUp
+\longmapsto
+\BHist,\hsame,\Cont,\Pkg,\NameCert .
+$$
+The obligation exports no selected finite subcover, host enumeration of centers, open-cover compactness theorem, countable-choice schedule, or detached ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The tolerance request first reaches the dyadic ledger $D$, so positivity, refinement, and radius comparison are visible before any center bundle is consumed.
+
+The finite-net row is then forced to be $E$. Its closed $\mathsf{ProbeBundle}$ branch supplies the center rows, the $\mathsf{InBundle}$ membership constructors, and the coverage witnesses for the displayed tolerance.
+
+The metric and real reads are not independent coordinates. The center-carrier rows are read over $M$, coverage distances pass through $R$, and the finite observations and rational comparisons are recorded by $S$ and $Q$.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since no selected subcover, host enumeration, open-cover compactness theorem, choice schedule, or detached completeness principle occurs as a carrier coordinate, the listed finite route exhausts the obligation.
+\end{proof}
+
+\begin{theorem}[Total-bounded metric Cauchy-cover obligation]
+\label{thm:total-bounded-metric-cauchy-cover-obligation}
+Let $T=(M,R,E,D,S,Q,H,C,P,N)$ be an accepted $\TotalBoundedMetricUp$ carrier. Every Cauchy-cover read used by a $\CompleteMetricUp$, $\CompactMetricUp$, or compact-uniform-continuity route is obtained by replaying the same finite-net data at the requested dyadic tolerance: metric source $M$, real-distance comparison $R$, tolerance ledger $D$, finite center bundle $E$, observation windows $S$, readback row $Q$, and structural rows $H,C,P,N$.
+
+Thus the Cauchy-cover interface is a finite BEDC dependency between the Real and Completion phase and the compact-metric phase. It does not import a completed compact space, an open-cover proof, a selected convergent subsequence, a hidden dense enumeration, quotient equality of Cauchy names, countable choice, or host real completeness.
+\end{theorem}
+\begin{proof}
+Begin with a Cauchy-cover request. The only metric source available to it is $M$, and the only real-distance comparison row available to it is $R$.
+
+The requested cover scale is supplied by $D$. At that scale, \autoref{thm:total-bounded-metric-finite-net-obligation} identifies $E$ as the unique finite-net row through which centers, membership constructors, and coverage witnesses can be read.
+
+The observation data remains finite because $S$ stores the inspected source and center windows, while $Q$ stores the regular rational readbacks used by the distance and tolerance comparisons.
+
+The structural rows $H,C,P,N$ then replay the same data for completion, compact-metric, and compact-uniform-continuity consumers. None of the excluded compactness, subsequence, dense-enumeration, quotient, choice, or host-completeness objects has a carrier coordinate, so no Cauchy-cover read can depend on it.
+\end{proof}
+
 \begin{theorem}[TotallyBoundedMetric Cauchy-window extraction]
 \label{thm:totally-bounded-metric-cauchy-window}
 Let $T=(M,R,E,D,S,Q,H,C,P,N)$ be an accepted $\TotallyBoundedMetricUp$ carrier. Any Cauchy-window request answered by the packet must expose a $\FiniteEpsilonNetUp$ row $E$, a $\DyadicRatCoreUp$ tolerance row $D$, finite $\StreamNameUp$ observation windows $S$, and $\RegSeqRatUp$ readback $Q$ before any compact or completion-facing consumer reads the result. The extracted route is finite and exports no open-cover compactness, selected limit, countable choice, or ambient $\RealUp$ completeness.
@@ -94,14 +136,14 @@ By \autoref{thm:totally-bounded-metric-finite-net-factorization}, compact and co
 The structural rows $H,C,P,N$ preserve and name the same route. Since the carrier has no coordinate for open-cover compactness, selected limits, countable choice, or ambient Real completeness, none of those principles can be read from the extracted Cauchy window.
 \end{proof}
 
-\closureat{TotallyBoundedMetricUp}{seedStr}
+\closureat{TotalBoundedMetricUp}{seedStr}
 
-\begin{closurestatus}{\TotallyBoundedMetricUp}
+\begin{closurestatus}{\TotalBoundedMetricUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:totally-bounded-metric-carrier}, \autoref{thm:totally-bounded-metric-namecert-obligations}, and \autoref{thm:totally-bounded-metric-finite-net-factorization} seed the finite total-bounded metric package over displayed metric, real metric, finite-net, dyadic tolerance, stream-window, regular rational, transport, replay, provenance, and local naming rows.}
+  \scopeclosed{\autoref{def:totally-bounded-metric-carrier}, \autoref{thm:totally-bounded-metric-namecert-obligations}, \autoref{thm:totally-bounded-metric-finite-net-factorization}, \autoref{thm:total-bounded-metric-finite-net-obligation}, and \autoref{thm:total-bounded-metric-cauchy-cover-obligation} seed the finite total-bounded metric package over displayed metric, real metric, finite-net, dyadic tolerance, stream-window, regular rational, transport, replay, provenance, and local naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close open-cover compactness, countable choice, selected limits, ambient RealUp completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, metric-source exactness, tolerance visibility, finite-net exposure, window and readback compatibility, provenance exhaustion, and finite-net factorization for BEDC.Derived.TotallyBoundedMetricUp.}
-  \constructivestory{A $\TotallyBoundedMetricUp$ packet is generated from a MetricUp source row, a RealMetricUp comparison row, a FiniteEpsilonNetUp family, a DyadicRatCore tolerance ledger, StreamName windows, RegSeqRat readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \upgradepath{Obligation closure requires checked carrier admission, metric-source exactness, tolerance visibility, finite-net exposure, window and readback compatibility, provenance exhaustion, Cauchy-cover replay, and finite-net factorization for BEDC.Derived.TotalBoundedMetricUp.}
+  \constructivestory{A $\TotalBoundedMetricUp$ packet is generated from a MetricSpaceUp source row, a RealMetricUp comparison row, a FiniteEpsilonNetUp family, a DyadicRatCore tolerance ledger, StreamName windows, RegSeqRat readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
 \end{closurestatus}

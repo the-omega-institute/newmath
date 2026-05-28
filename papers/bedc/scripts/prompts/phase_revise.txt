@@ -85,6 +85,7 @@ The Phase Verify step will reject the round if any of these is broken.
 8. **Do NOT git push.** The merge and push are handled externally.
 9. **Do NOT edit `papers/bedc/main.tex`'s structure.** You may edit it ONLY to add a single `\input{parts/<theme>/<file>}` if you split a chapter. Do not reorder chapters here.
 10. **Do NOT edit `lean4/lakefile.lean`, `lean4/lean-toolchain`, or `papers/bedc/preamble.tex` unless a target explicitly requires a new macro.** Adding a macro must be conservative (no breaking changes to existing macros).
+11. **New `\providecommand{\<X>Up}{\mathsf{<X>}^{\uparrow}}` macros go to `papers/bedc/preamble_chapter_macros_late_tail.tex`, NOT the main `papers/bedc/preamble_chapter_macros.tex`.** The main file is the historical macro index and must stay stable. Always use `\providecommand` (not `\newcommand`) so duplicate registrations are silently absorbed when two parallel rounds add the same macro. Macros files are exempt from the 800-line cap; just append to `late_tail.tex`.
 
 ## Structural split rule
 

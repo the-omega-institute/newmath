@@ -1,0 +1,35 @@
+\begin{theorem}[CauchyFilterCompletion root carrier admission obligation]
+\label{thm:cauchy-filter-completion-root-carrier-admission-obligation}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier as in \autoref{def:cauchy-filter-completion-carrier}. The root carrier-admission obligation is the $\BHist$-anchored demand that the Cauchy-filter source $C$, finite $\StreamNameUp$ windows $W$, tolerance ledger $T$, $\RegSeqRatUp$ readback $R$, terminal $\RealUp$ seal $L$, transport row $H$, replay row $K$, provenance row $P$, and local NameCert row $N$ are all admitted as rows of the same finite packet before any completion-facing consumer reads them.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:cauchy-filter-completion-carrier}. Its displayed carrier rows are exactly $C,W,T,R,L,H,K,P,N$.
+
+The obligation is rooted in the same $\BHist$ packet. Carrier admission therefore does not create a detached completion object; it only exposes the already displayed CauchyFilterUp, StreamNameUp, RegSeqRatUp, RealUp, UniformCompletionUp, transport, replay, provenance, and naming rows.
+
+The refusal side follows from the absence of any quotient-filter, selected-limit, host-equality, choice, or ambient-completeness coordinate in the carrier.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion root filterbase source coverage obligation]
+\label{thm:cauchy-filter-completion-root-filterbase-source-coverage-obligation}
+For an accepted $\CauchyFilterCompletionUp$ carrier $F=(C,W,T,R,L,H,K,P,N)$, the filterbase-directed source coverage obligation requires every completion-facing read of $W,T,R,L$ to pass through the same $\FilterBaseUp/\CauchyFilterUp$ source row behind $C$. The finite windows, regular readback, Real seal, and $\UniformCompletionUp$ provenance row cannot be read from a second source packet.
+\end{theorem}
+\begin{proof}
+Use the carrier admission obligation of \autoref{thm:cauchy-filter-completion-root-carrier-admission-obligation}. It keeps $C,W,T,R,L,H,K,P,N$ inside one $\BHist$ packet.
+
+Read the source row first. The CauchyFilterUp carrier behind $C$ supplies the filterbase-facing data, and the finite StreamNameUp windows $W$ are downstream from that source.
+
+The readback and seal rows remain attached to the same route. Since $R$ is the RegSeqRatUp readback extracted from $W$ and $T$, and $L$ is the RealUp seal reached after that extraction, the UniformCompletionUp provenance in $P$ has no second filterbase source to expose.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion root Real seal handoff obligation]
+\label{thm:cauchy-filter-completion-root-real-seal-handoff-obligation}
+For an accepted $\CauchyFilterCompletionUp$ carrier $F=(C,W,T,R,L,H,K,P,N)$, the Real-seal completion handoff obligation requires every $\RealUp$ or $\UniformCompletionUp$ consumer to reach the terminal seal $L$ only after the $\FilterBaseUp/\CauchyFilterUp$ source $C$, finite $\StreamNameUp$ windows $W$, tolerance ledger $T$, and $\RegSeqRatUp$ readback $R$ have been replayed through $K$ and preserved by $H,P,N$.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:cauchy-filter-completion-root-filterbase-source-coverage-obligation}. It fixes the source and window rows for every completion-facing read.
+
+The Real seal is downstream from the readback row. A consumer of $L$ therefore must first traverse $C,W,T,R$, and the displayed replay row $K$ records that route inside the same $\BHist$ packet.
+
+The structural rows preserve the handoff. Componentwise transport $H$, UniformCompletionUp provenance $P$, and local naming $N$ carry the same route forward, so the seal handoff does not introduce selected limits, host equality of completion points, quotient filters, or ambient completeness.
+\end{proof}

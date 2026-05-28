@@ -93,13 +93,14 @@ Therefore any $\RealUp$-facing consumer reads $A$ only after the dyadic toleranc
 \leanchecked{BEDC.Derived.CauchyNetLimitUp.CauchyNetLimitCarrier\_dyadic\_tolerance\_handoff}
 
 \closureat{CauchyNetLimitUp}{obligationStr}
+\closureat{CauchyNetLimitUp}{scopedStr}
 
 \begin{closurestatus}{\CauchyNetLimitUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:cauchy-net-limit-carrier}, \autoref{thm:cauchy-net-limit-namecert-obligations}, \autoref{thm:cauchy-net-limit-real-seal-handoff}, \autoref{thm:cauchy-net-limit-directed-window-obligations}, and \autoref{thm:cauchy-net-limit-dyadic-tolerance-handoff} seed the finite Cauchy-net limit boundary between directed-window data and the downstream $\RealUp$ seal.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cauchy-net-limit-carrier}, \autoref{thm:cauchy-net-limit-namecert-obligations}, \autoref{thm:cauchy-net-limit-real-seal-handoff}, \autoref{thm:cauchy-net-limit-directed-window-obligations}, and \autoref{thm:cauchy-net-limit-dyadic-tolerance-handoff} bind the directed-window, regular-readback, dyadic-tolerance, $\RealUp$-seal, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ scope for finite Cauchy-net limit reads.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient nets, selected host limits, cofinal choice, host real equality, ambient $\RealUp$ completeness, or Lean verification.}
-  \upgradepath{To reach scopedClosure, the directed-window, regular-readback, Real-seal, and ledger-refusal scope must be bound as one reusable Cauchy-net limit boundary.}
+  \upgradepath{To reach publicClosure, the chapter must expose the scoped Cauchy-net limit boundary as a reusable public completion-facing surface.}
   \constructivestory{A $\CauchyNetLimitUp$ packet is generated from a CauchyNet directed-window row, StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
 \end{closurestatus}

@@ -301,6 +301,34 @@ theorem ClosedBoundedIntervalPacket_net_consumer_readiness [AskSetup] [PackageSe
     ⟨exportedUnary, meshUnary, modulusUnary, nestingUnary, readyUnary, modulusRoute,
       readyRoute, provenancePkg, localNamePkg, readyPkg⟩
 
+theorem ClosedBoundedIntervalPacket_uniform_modulus_source [AskSetup] [PackageSetup]
+    {lower upper order rational dyadic stream readback sealRow transport replay provenance
+      localName exported modulusWindow modulusRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClosedBoundedIntervalPacket lower upper order rational dyadic stream readback sealRow
+        transport replay provenance localName exported bundle pkg ->
+      UnaryHistory modulusWindow ->
+        Cont exported modulusWindow modulusRead ->
+          PkgSig bundle modulusRead pkg ->
+            UnaryHistory lower ∧ UnaryHistory upper ∧ UnaryHistory order ∧
+              UnaryHistory rational ∧ UnaryHistory dyadic ∧ UnaryHistory stream ∧
+                UnaryHistory readback ∧ UnaryHistory sealRow ∧ UnaryHistory exported ∧
+                  UnaryHistory modulusWindow ∧ UnaryHistory modulusRead ∧
+                    Cont exported modulusWindow modulusRead ∧ PkgSig bundle provenance pkg ∧
+                      PkgSig bundle localName pkg ∧ PkgSig bundle modulusRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro packet modulusWindowUnary modulusReadRoute modulusReadPkg
+  obtain ⟨lowerUnary, upperUnary, orderUnary, rationalUnary, dyadicUnary, streamUnary,
+    readbackUnary, sealRowUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, exportedUnary, _endpointRoute, _containmentRoute, _sealRowRoute,
+    _replayRoute, _nameRoute, provenancePkg, localNamePkg⟩ := packet
+  have modulusReadUnary : UnaryHistory modulusRead :=
+    unary_cont_closed exportedUnary modulusWindowUnary modulusReadRoute
+  exact
+    ⟨lowerUnary, upperUnary, orderUnary, rationalUnary, dyadicUnary, streamUnary,
+      readbackUnary, sealRowUnary, exportedUnary, modulusWindowUnary, modulusReadUnary,
+      modulusReadRoute, provenancePkg, localNamePkg, modulusReadPkg⟩
+
 theorem ClosedBoundedIntervalPacket_carrier_gate [AskSetup] [PackageSetup]
     {lower upper order rational dyadic stream readback sealRow transport replay provenance
       localName exported intervalNetRead : BHist}
