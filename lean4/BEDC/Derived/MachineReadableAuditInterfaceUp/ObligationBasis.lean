@@ -77,4 +77,43 @@ theorem MachineReadableAuditInterface_non_evidence_refusal [AskSetup] [PackageSe
     ⟨RUnary, FUnary, KUnary, refusalUnary, replayUnary, refusalRoute, replayRoute,
       carrierPkg, namePkg, replayPkg⟩
 
+theorem MachineReadableAuditInterface_kernel_scope [AskSetup] [PackageSetup]
+    {S C E R F H K P N schemaRead exportRead refusalRead reportRead scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MachineReadableAuditInterfaceCarrier S C E R F H K P N bundle pkg ->
+      Cont S C schemaRead ->
+        Cont E R exportRead ->
+          Cont R F refusalRead ->
+            Cont F K reportRead ->
+              Cont reportRead N scopedRead ->
+                PkgSig bundle scopedRead pkg ->
+                  UnaryHistory S ∧ UnaryHistory C ∧ UnaryHistory E ∧ UnaryHistory R ∧
+                    UnaryHistory F ∧ UnaryHistory K ∧ UnaryHistory N ∧
+                      UnaryHistory schemaRead ∧ UnaryHistory exportRead ∧
+                        UnaryHistory refusalRead ∧ UnaryHistory reportRead ∧
+                          UnaryHistory scopedRead ∧ Cont S C schemaRead ∧
+                            Cont E R exportRead ∧ Cont R F refusalRead ∧
+                              Cont F K reportRead ∧ Cont reportRead N scopedRead ∧
+                                PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧
+                                  PkgSig bundle scopedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier schemaRoute exportRoute refusalRoute reportRoute scopedRoute scopedPkg
+  obtain ⟨SUnary, CUnary, EUnary, RUnary, FUnary, _HUnary, KUnary, _PUnary,
+    NUnary, _schemaCarrierRoute, _reportCarrierRoute, _replayCarrierRoute,
+    carrierPkg, namePkg⟩ := carrier
+  have schemaUnary : UnaryHistory schemaRead :=
+    unary_cont_closed SUnary CUnary schemaRoute
+  have exportUnary : UnaryHistory exportRead :=
+    unary_cont_closed EUnary RUnary exportRoute
+  have refusalUnary : UnaryHistory refusalRead :=
+    unary_cont_closed RUnary FUnary refusalRoute
+  have reportUnary : UnaryHistory reportRead :=
+    unary_cont_closed FUnary KUnary reportRoute
+  have scopedUnary : UnaryHistory scopedRead :=
+    unary_cont_closed reportUnary NUnary scopedRoute
+  exact
+    ⟨SUnary, CUnary, EUnary, RUnary, FUnary, KUnary, NUnary, schemaUnary,
+      exportUnary, refusalUnary, reportUnary, scopedUnary, schemaRoute, exportRoute,
+      refusalRoute, reportRoute, scopedRoute, carrierPkg, namePkg, scopedPkg⟩
+
 end BEDC.Derived.MachineReadableAuditInterfaceUp
