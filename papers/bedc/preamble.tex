@@ -11,6 +11,7 @@
 \usepackage{enumitem}
 \usepackage{xcolor}
 \usepackage[draft]{hyperref}
+\usepackage{xr-hyper}
 \usepackage{fancyhdr}
 \usepackage{booktabs,longtable,array}
 \usepackage{verbatim}
@@ -59,6 +60,8 @@
 \hfuzz=10000pt
 \geometry{margin=1.02in}
 \hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black}
+\IfFileExists{main.aux}{\externaldocument{main}}{}
+\IfFileExists{concrete_instances.aux}{\externaldocument{concrete_instances}}{}
 \setlist[itemize]{topsep=3pt,itemsep=2pt,leftmargin=*}
 \setlist[enumerate]{topsep=3pt,itemsep=2pt,leftmargin=*}
 \setlength{\headheight}{14pt}

@@ -4,7 +4,7 @@
 Round-level codex_revise rounds only run `make check` (single-pass
 draftmode pdflatex) so PDF builds don't dominate round wall time and
 trigger 600s timeouts. The full double-pass `make` that resolves
-`\\autoref` page numbers and produces the typeset main.pdf is handled
+`\\autoref` page numbers and produces the typeset PDFs is handled
 here instead — asynchronously, against the codex-auto-dev tip, in a
 dedicated `_paper_builder` git worktree so it never touches a round
 worktree.
@@ -16,13 +16,13 @@ Design:
 - Single instance enforced via fcntl flock on .paper_builder.lock.
 - Poll codex-auto-dev tip every POLL_SECONDS.
 - On new SHA: checkout it in `.worktrees/_paper_builder`, run
-  `make` (double-pass), log result.
+  both PDF targets, log result.
 - The daemon owns the `_paper_builder` worktree exclusively. Round
   workers never touch it.
 - On build fail: invoke codex inside `_paper_builder` with the
   build-log tail and `prompts/paper_builder_fix.txt`. Codex edits
   `papers/bedc/`, commits with `paper-builder-fix:` prefix, and pushes
-  back to `codex-auto-dev`. Tracks per-SHA fix attempts in
+  back to `codex-auto-dev`. Tracks per-SHA/target fix attempts in
   `BROKEN_SHAS_FILE` so the same broken commit is not retried more
   than MAX_FIX_ATTEMPTS times. Mirrors lean's `_builder_codex_fix`.
 
@@ -67,6 +67,7 @@ BASE_BRANCH = "codex-auto-dev"
 
 CODEX_FIX_TIMEOUT_S = 1800
 MAX_FIX_ATTEMPTS = 3
+PDF_TARGETS = ("main", "concrete_instances")
 BROKEN_SHAS_FILE = (
     REPO_ROOT / "papers" / "bedc" / "scripts" / ".broken_shas.txt"
 )
@@ -144,14 +145,17 @@ def write_last_built(sha: str) -> None:
     LAST_BUILT_FILE.write_text(sha + "\n")
 
 
-def run_full_build() -> tuple[bool, str, float]:
+def run_full_build(target: str) -> tuple[bool, str, float]:
+    # Refactor (iter1/single-pdf-split):
+    #   Old pattern: 单一 main.pdf 把 concrete_instances 文件 input 进一个 build target, 撞 TeX 内存上限, 无法 build/read.
+    #   New principle: 2 PDF split, concrete_instances as companion volume, explicit Makefile targets.
     paper_dir = BUILDER_DIR / "papers" / "bedc"
     if not paper_dir.exists():
         return False, f"{paper_dir} missing", 0.0
     start = time.time()
     try:
         r = subprocess.run(
-            ["make"],  # full main.pdf double-pass via slot-gated pdflatex
+            ["make", f"{target}.pdf"],
             cwd=str(paper_dir),
             capture_output=True, text=True, errors="replace",
             timeout=BUILD_TIMEOUT_S,
@@ -162,29 +166,33 @@ def run_full_build() -> tuple[bool, str, float]:
         return ok, tail, elapsed
     except subprocess.TimeoutExpired:
         elapsed = time.time() - start
-        return False, f"make timed out after {BUILD_TIMEOUT_S}s", elapsed
+        return False, f"make {target}.pdf timed out after {BUILD_TIMEOUT_S}s", elapsed
     except Exception as exc:
         elapsed = time.time() - start
         return False, f"make raised {exc!r}", elapsed
 
 
-def fix_attempts_for(sha: str) -> int:
+def fix_attempts_for(sha: str, target: str) -> int:
+    # Refactor (iter1/single-pdf-split):
+    #   Old pattern: daemon retry state used a SHA-only key for the single PDF build.
+    #   New principle: (sha, target) retry keys separate main and concrete_instances attribution.
     if not BROKEN_SHAS_FILE.exists():
         return 0
     n = 0
     for line in BROKEN_SHAS_FILE.read_text(encoding="utf-8").splitlines():
-        if line.strip() == sha:
+        fields = line.strip().split()
+        if fields == [sha] or fields == [sha, target]:
             n += 1
     return n
 
 
-def record_fix_attempt(sha: str) -> None:
+def record_fix_attempt(sha: str, target: str) -> None:
     BROKEN_SHAS_FILE.parent.mkdir(parents=True, exist_ok=True)
     with BROKEN_SHAS_FILE.open("a", encoding="utf-8") as f:
-        f.write(sha + "\n")
+        f.write(f"{sha} {target}\n")
 
 
-def codex_fix(sha: str, log_tail: str, elapsed: float) -> bool:
+def codex_fix(sha: str, target: str, log_tail: str, elapsed: float) -> bool:
     """Invoke codex inside _paper_builder worktree to repair a broken build.
 
     Returns True if codex left a committed-and-pushed fix on
@@ -200,6 +208,7 @@ def codex_fix(sha: str, log_tail: str, elapsed: float) -> bool:
         return False
     prompt = prompt_template.format(
         sha=sha[:8],
+        target=target,
         elapsed=elapsed,
         log_tail=log_tail[-6000:],
     )
@@ -207,7 +216,7 @@ def codex_fix(sha: str, log_tail: str, elapsed: float) -> bool:
         ["git", "-C", str(REPO_ROOT), "rev-parse", f"origin/{BASE_BRANCH}"],
         capture_output=True, text=True,
     ).stdout.strip()
-    log(f"codex_fix: invoking codex on {sha[:8]} (origin tip {pre_tip[:8]})")
+    log(f"codex_fix: invoking codex on {sha[:8]} target={target} (origin tip {pre_tip[:8]})")
     try:
         subprocess.run(
             [
@@ -218,7 +227,7 @@ def codex_fix(sha: str, log_tail: str, elapsed: float) -> bool:
             check=False,
         )
     except subprocess.TimeoutExpired:
-        log(f"codex_fix: timed out after {CODEX_FIX_TIMEOUT_S}s on {sha[:8]}")
+        log(f"codex_fix: timed out after {CODEX_FIX_TIMEOUT_S}s on {sha[:8]} target={target}")
         return False
     except Exception as exc:
         log(f"codex_fix: codex invocation raised {exc!r}")
@@ -260,6 +269,9 @@ def handle_signal(signum, frame):  # pragma: no cover
 
 
 def main() -> int:
+    # Refactor (iter1/single-pdf-split):
+    #   Old pattern: 单一 main.pdf 把 concrete_instances 文件 input 进一个 build target, 撞 TeX 内存上限, 无法 build/read.
+    #   New principle: 2 PDF split, guarded xr-hyper, and independent target build/fix loops.
     signal.signal(signal.SIGTERM, handle_signal)
     signal.signal(signal.SIGINT, handle_signal)
 
@@ -280,46 +292,50 @@ def main() -> int:
                 if not checkout(sha):
                     log("checkout failed, will retry next tick")
                 else:
-                    ok, tail, elapsed = run_full_build()
-                    if ok:
-                        log(
-                            f"build OK {sha[:8]} in {elapsed:.0f}s"
-                        )
-                        consecutive_fail = 0
-                    else:
+                    tip_moved = False
+                    for target in PDF_TARGETS:
+                        ok, tail, elapsed = run_full_build(target)
+                        if ok:
+                            log(
+                                f"build OK {sha[:8]} target={target} in {elapsed:.0f}s"
+                            )
+                            consecutive_fail = 0
+                            continue
                         consecutive_fail += 1
                         log(
-                            f"build FAIL {sha[:8]} in {elapsed:.0f}s "
+                            f"build FAIL {sha[:8]} target={target} in {elapsed:.0f}s "
                             f"(consecutive_fail={consecutive_fail}); tail:\n"
                             f"{tail[-1200:]}"
                         )
-                        attempts_so_far = fix_attempts_for(sha)
+                        attempts_so_far = fix_attempts_for(sha, target)
                         if attempts_so_far < MAX_FIX_ATTEMPTS:
-                            record_fix_attempt(sha)
+                            record_fix_attempt(sha, target)
                             log(
                                 f"codex repair: attempt "
-                                f"{attempts_so_far + 1}/{MAX_FIX_ATTEMPTS} on {sha[:8]}"
+                                f"{attempts_so_far + 1}/{MAX_FIX_ATTEMPTS} on {sha[:8]} target={target}"
                             )
-                            if codex_fix(sha, tail, elapsed):
+                            if codex_fix(sha, target, tail, elapsed):
                                 # tip moved; keep last_built pointing at the
                                 # FAILED sha so the daemon's next iteration
                                 # detects the new tip and re-builds.
-                                continue
+                                tip_moved = True
+                                break
                             log(
-                                f"codex repair: no fix pushed on {sha[:8]}; "
+                                f"codex repair: no fix pushed on {sha[:8]} target={target}; "
                                 f"daemon will retry on next merged tip"
                             )
                         else:
                             log(
                                 f"codex repair: max attempts "
-                                f"({MAX_FIX_ATTEMPTS}) exhausted for {sha[:8]}; "
+                                f"({MAX_FIX_ATTEMPTS}) exhausted for {sha[:8]} target={target}; "
                                 f"giving up until tip moves"
                             )
                     # Even on fail, advance last_built so we don't loop
                     # forever on a broken commit. The next merged commit
                     # will trigger a fresh build attempt and (usually)
                     # supersede the failure.
-                    write_last_built(sha)
+                    if not tip_moved:
+                        write_last_built(sha)
         except Exception as exc:
             log(f"loop error: {exc!r}")
         time.sleep(POLL_SECONDS)

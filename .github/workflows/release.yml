@@ -63,7 +63,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
   build_pdf:
-    name: Build main.pdf
+    name: Build PDFs
     needs: resolve_target
     uses: ./.github/workflows/reusable-pdf.yml
     with:
@@ -133,6 +133,12 @@ jobs:
           name: release-pdf
           path: release-assets/pdf
 
+      - name: Download built concrete_instances.pdf artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: release-pdf-concrete-instances
+          path: release-assets/concrete-instances-pdf
+
       - name: Download Lean4 manifest artifact
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
@@ -147,12 +153,18 @@ jobs:
             echo "Expected a dated PDF artifact in release-assets/pdf" >&2
             exit 1
           fi
+          concrete_pdf_path="$(find release-assets/concrete-instances-pdf -maxdepth 1 -type f -name 'bedc_concrete_instances_*.pdf' -print -quit)"
+          if [ -z "$concrete_pdf_path" ]; then
+            echo "Expected a dated concrete_instances PDF artifact in release-assets/concrete-instances-pdf" >&2
+            exit 1
+          fi
           manifest_path="$(find release-assets/lean4 -maxdepth 1 -type f -name 'bedc_lean_manifest_*.json' -print -quit)"
           if [ -z "$manifest_path" ]; then
             echo "Expected a Lean4 manifest artifact in release-assets/lean4" >&2
             exit 1
           fi
           echo "pdf_path=$pdf_path" >> "$GITHUB_OUTPUT"
+          echo "concrete_pdf_path=$concrete_pdf_path" >> "$GITHUB_OUTPUT"
           echo "manifest_path=$manifest_path" >> "$GITHUB_OUTPUT"
 
       - name: Delete orphan releases sharing this tag
@@ -179,6 +191,7 @@ jobs:
             echo "- target SHA: \`${{ needs.resolve_target.outputs.target_sha }}\`"
             echo "- release tag: \`${{ needs.resolve_target.outputs.release_tag }}\`"
             echo "- PDF asset: \`${{ steps.resolve_assets.outputs.pdf_path }}\`"
+            echo "- concrete instances PDF asset: \`${{ steps.resolve_assets.outputs.concrete_pdf_path }}\`"
             echo "- Lean manifest: \`${{ steps.resolve_assets.outputs.manifest_path }}\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -189,6 +202,7 @@ jobs:
           name: ${{ needs.resolve_target.outputs.release_tag }}
           files: |
             ${{ steps.resolve_assets.outputs.pdf_path }}
+            ${{ steps.resolve_assets.outputs.concrete_pdf_path }}
             ${{ steps.resolve_assets.outputs.manifest_path }}
           fail_on_unmatched_files: true
           generate_release_notes: true

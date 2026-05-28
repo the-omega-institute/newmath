@@ -18,7 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 TARGET_DIR = ROOT / "parts" / "concrete_instances"
 PATTERN = re.compile(r"^[0-9]+[a-z]?_[a-z][a-z0-9_]*\.tex$")
-STRUCTURAL_HUBS = {"late_index.tex"}
+STRUCTURAL_HUBS = {"index.tex", "late_index.tex"}
 
 
 def main() -> int:

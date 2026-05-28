@@ -1,5 +1,5 @@
 .PHONY: all clean precheck check warn
-all: main.pdf
+all: main.pdf concrete_instances.pdf
 precheck: warn
 	@bash scripts/check_tex_size.sh
 	@bash scripts/check_math_env.sh
@@ -24,6 +24,8 @@ warn:
 # so parallel paper rounds don't dogpile the CPU and start timing out.
 main.pdf: precheck main.tex preamble.tex $(wildcard frontmatter/*.tex parts/**/*.tex appendices/*.tex)
 	python3 scripts/with_pdf_slot.py -- bash -c 'pdflatex -draftmode -interaction=batchmode main.tex; pdflatex -interaction=batchmode main.tex'
+concrete_instances.pdf: precheck concrete_instances.tex preamble.tex parts/concrete_instances/index.tex $(wildcard parts/concrete_instances/**/*.tex parts/concrete_instances/*.tex)
+	python3 scripts/with_pdf_slot.py -- bash -c 'pdflatex -draftmode -interaction=batchmode concrete_instances.tex; pdflatex -interaction=batchmode concrete_instances.tex'
 # Round-local sanity: pure-text static checks only, no pdflatex invocation.
 # The precheck dependency runs four python/bash gates: file size,
 # forbidden math env, marker uniqueness, NAMING.md compliance. The
@@ -34,4 +36,4 @@ main.pdf: precheck main.tex preamble.tex $(wildcard frontmatter/*.tex parts/**/*
 # pdflatex draftmode) and frees the pdf-build slot gate for the daemon.
 check: precheck
 clean:
-	rm -f main.pdf main.log main.aux main.toc main.out *.bbl *.blg
+	rm -f main.pdf main.log main.aux main.toc main.out concrete_instances.pdf concrete_instances.log concrete_instances.aux concrete_instances.toc concrete_instances.out *.bbl *.blg
