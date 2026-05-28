@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Build static HTML pages for concrete-instance NameCert chapters."""
+"""Build static HTML pages for concrete-instance NameCert chapters.
+
+NameCert chapters are generated from BEDC paper sources but consumed from the
+dossier DAG as standalone HTML pages. This module discovers chapter labels,
+renders each source through make4ht, and writes stable `namecert/<slug>/`
+paths that Quarto can copy into the published site.
+"""
 
 from __future__ import annotations
 

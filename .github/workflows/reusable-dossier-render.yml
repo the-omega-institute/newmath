@@ -111,14 +111,14 @@ jobs:
       - name: Build NameCert HTML pages
         run: python3 tools/build_namecert_html.py --manifest docs/dossier/data/namecert_sources.json --dependency docs/dossier/data/dependency.json --jobs 2 --strict
 
-      - name: Check NameCert HTML links
-        run: python3 tools/check_namecert_html.py --full
-
       - name: Glossary completeness gate
         run: python3 tools/check_glossary.py
 
       - name: Render dossier
         run: quarto render docs/dossier/
+
+      - name: Check published NameCert HTML links
+        run: python3 tools/check_namecert_html.py --full --site-root docs/dossier/_site
 
       - name: Verify PDF reached _site
         run: |

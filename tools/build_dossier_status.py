@@ -9,6 +9,11 @@ three JSON files consumed by `docs/dossier/visualization.qmd`:
 - docs/dossier/data/glossary.json   -- bilingual term dictionary
 - docs/dossier/data/dependency.json -- node/edge graph for Cytoscape
 
+NameCert HTML metadata is emitted beside the graph so each dependency node can
+link to a generated chapter page. The source of truth remains the paper label
+`ch:concrete-instances-<slug>-namecert`; this script only records the URL
+contract consumed by the renderer and publication gate.
+
 stdlib only (project rule: no third-party deps in tools).
 """
 
@@ -29,7 +34,6 @@ DERIVED_DIR = LEAN_DIR / "Derived"
 PAPER_PARTS = ROOT / "papers" / "bedc" / "parts"
 PAPER_INSTANCES = PAPER_PARTS / "concrete_instances"
 DATA_DIR = ROOT / "docs" / "dossier" / "data"
-NAMECERT_HTML_ROOT = ROOT / "docs" / "dossier" / "namecert"
 
 THEOREM_RE = re.compile(r"^(?:theorem|lemma)\s+(\w+)", re.MULTILINE)
 DEF_RE = re.compile(r"^(?:def|inductive|structure|class)\s+(\w+)", re.MULTILINE)
