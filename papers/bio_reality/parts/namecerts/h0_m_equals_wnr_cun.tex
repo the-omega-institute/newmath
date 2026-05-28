@@ -1,46 +1,5 @@
+\subsection{NameCert: h0.M.equals.WNR.CUN}
+\label{sec:namecert-h0_m_equals_wnr_cun}
 \origin{ai}
-\subsection{Boundary packet for start--stop-window ORF eligibility}
-\label{subsec:biorreality-h0-m-equals-wnr-cun}
 
-\paragraph{Finite row carrier.}
-This BioReality packet records a finite codon-row calculation that is relevant only to the boundary of open-reading-frame eligibility.  The verified carrier is the twenty-element set $M$, computed in run $\mathrm{a53ef0f36703}$ at $2026$-$05$-$28\,17{:}29{:}51+00{:}00$.  Its enumerated rows are
-$$
-\begin{aligned}
-M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
-&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
-\end{aligned}
-$$
-The cardinality check is local and exact: $|M|=20$.  In the finite-row readback, this same set is certified as $M=\mathrm{WNR}\cup\mathrm{CUN}$, but that equality is only a combinatorial row identity.  It does not assert that any member of $M$ is an observed genomic interval, an expressed transcript, a translated peptide, or a biological function.
-
-\paragraph{Motif subcarrier and saturation boundary.}
-A smaller motif row set $R$ was verified in run $\mathrm{338799579a87}$ with no missing and no extra rows.  The certified rows are
-$$
-\begin{aligned}
-R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\\
-&\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
-\end{aligned}
-$$
-Thus $|R|=13$ by direct enumeration.  The saturation check in run $\mathrm{f4eee68dd2c3}$ reports
-$$
-\begin{aligned}
-\operatorname{Sat}_{f3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
-\end{aligned}
-$$
-This is the eighteen-row set $M\setminus\{\mathrm{ACA},\mathrm{ACG}\}$, and the same run records the finite identity $M=\operatorname{Med}(R)\cup\{\mathrm{ACA},\mathrm{ACG}\}$.  The reported $f3$ boundary is empty.  These facts say that the start--stop-window row geometry closes under the recorded finite operation except for the two named rows.  They still do not supply an external biological interval.
-
-\paragraph{Quotient geometry.}
-The quotient calculation in run $\mathrm{fd0a506a0881}$ gives the finite $f$-vector of $M$ as $(20,38,26,8,1)$ and the quotient $f$-vector as $(10,14,6,1)$.  The quotient projection has size $10$ and is certified by the rows
-$$
-\begin{aligned}
-\pi_M=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),(0,1,0,0,0),\\
-&(0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),(1,0,1,0,1),(1,0,1,1,1)\}.
-\end{aligned}
-$$
-The product-decomposition mismatch list is empty.  Consequently, the packet has a finite quotient geometry that can be read and checked internally: twenty carrier rows collapse to ten quotient rows with the displayed face-vector data.  The quotient geometry is part of the name certificate for the row calculation, not a biological mechanism.
-
-\paragraph{Reality-contact gap.}
-The conjecture layer is $\mathrm{orf\_eligibility}$, but the carrier, distinctions, and readback fields remain marked as awaiting reality contact.  The packet contains no attached sequence database contact, transcript contact, or curated ORF interval annotation.  Its two boundary probes require $\mathrm{curated.orf.interval.annotation}$ before the row calculation can be tested as an ORF-eligibility claim.  The first probe breaks if the pipeline asserts ORF eligibility, translation realization, folded structure, physical admissibility, or biological function from start--stop-window enumeration alone.  The second probe breaks if an ORF eligibility claim is recorded while no external sequence, transcript evidence, or curated annotation can test the proposed interval.
-
-\paragraph{Local verdict.}
-The self-check run $\mathrm{0f47d2f0cf41}$ records three checked gates and states the boundary explicitly: this is a BioReality self-check only, and no codon geometry is promoted across biological layers.  Therefore the local result is a ready boundary record, not a biological realization claim.  The finite statement that may be retained is: $M$ is the displayed twenty-row set, $M=\mathrm{WNR}\cup\mathrm{CUN}$, $R$ is the displayed thirteen-row motif set, $\operatorname{Sat}_{f3}(R)=M\setminus\{\mathrm{ACA},\mathrm{ACG}\}$, the $f3$ boundary is empty, and the quotient geometry has ten rows with $f$-vectors $(20,38,26,8,1)$ and $(10,14,6,1)$.  The local cannot-claim boundary is strict: no translation, folding, physical admissibility, function, mechanism, or universality follows unless a separate reality contact supplies the relevant biological interval and the corresponding test passes.
+This BioReality namecert is awaiting codex re-authoring. Most recent attempt failed the chapter hygiene gate; issues recorded: template\_residue: BEDC 5-tuple, template\_residue: carrier reads back to observable data by following, template\_residue: TasteGate-style separation, template\_residue: lean target sketch (statement-only), template\_residue: internal newmath/bedc derivation, template\_residue: bridge disclaimer, template\_residue: external reality sources. The committed registry record at \path{tools/bio\_reality/registries/claims.json} still tracks the underlying claim h0.M.equals.WNR.CUN and its experiment runs.
