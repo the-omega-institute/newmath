@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\DedekindCutStreamUp$}
+\label{ch:concrete-instances-dedekind-cut-stream-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\DedekindCutStreamUp$ packet records a located cut-observation stream over the L10 stream-name substrate, not the forbidden Dedekind-cut construction of $\RealUp$. It sits after the dyadic endpoint ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the rounded located cut interface of \autoref{ch:concrete-instances-dedekindcut-namecert}. The packet names the finite stream route by which lower and upper cut observations can be sampled before any Real-facing consumer treats them as regular Cauchy data.
+
+\begin{definition}[Dedekind-cut stream carrier]\label{def:dedekind-cut-stream-carrier}
+A $\DedekindCutStreamUp$ carrier is a finite $\BHist$ packet
+$$
+S_{\mathrm{cut}}=(D,L,U,W,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ endpoint row, recording the finite dyadic rational endpoints, radii, and comparison budgets used by the cut observation.
+\item $L$ is the located lower-cut observation row, carrying finite evidence that the displayed endpoints lie on the lower side of the cut.
+\item $U$ is the located upper-cut observation row, carrying finite evidence that the displayed endpoints lie on the upper side of the cut.
+\item $W$ is the $\StreamNameUp$ window row, listing exactly the finite observation windows through which $L$ and $U$ are sampled.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained only after the stream windows and dyadic endpoint budgets have been displayed.
+\item $H$ records componentwise $\hsame$ transport for dyadic endpoints, lower observations, upper observations, stream windows, regular readbacks, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a located cut-observation request through $D,L,U,W,R$.
+\item $P$ is the $\Pkg$ provenance over $\DedekindCutStreamUp$, $\DedekindCutUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DedekindCutStreamUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,L,U,W,R,H,C,P,N$. It has no coordinate for quotient cuts, quotient stream equality, trichotomy, selected suprema, selected real limits, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Dedekind-cut stream NameCert obligations]\label{thm:dedekind-cut-stream-namecert-obligations}
+For every accepted $\DedekindCutStreamUp$ carrier $S_{\mathrm{cut}}=(D,L,U,W,R,H,C,P,N)$, the local $\NameCert_{\DedekindCutStreamUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the dyadic endpoint ledger, located lower observations, located upper observations, stream windows, regular rational readback, transport, replay, provenance, and local naming rows;
+\item endpoint exactness, requiring every lower or upper cut observation to name its rational endpoint and comparison budget through $D$;
+\item located observation separation, requiring $L$ and $U$ to remain displayed lower and upper observations rather than a quotient cut object;
+\item stream-window exactness, requiring every cut observation consumed downstream to pass through the finite $\StreamNameUp$ row $W$;
+\item regular-readback boundary, requiring $R$ to be read only after $D,L,U,W$ have been exposed;
+\item componentwise transport and replay, requiring $H$ and $C$ to preserve the same endpoint, observation, stream, and readback route;
+\item provenance and local naming, requiring $P$ and $N$ to source the packet through $\DedekindCutUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ without adding quotient cuts, trichotomy, completeness, or host real equality.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dedekind-cut-stream-carrier}. The accepted packet exposes only the dyadic endpoint row $D$, the lower and upper observation rows $L,U$, the stream window row $W$, the regular readback row $R$, and the structural rows $H,C,P,N$.
+
+Endpoint exactness and located observation separation are read from the same projection. The rows $L$ and $U$ can mention a rational observation only through the dyadic endpoint and budget data in $D$, and they remain two displayed observation ledgers rather than a quotient cut.
+
+The stream and readback obligations are downstream. A consumer first opens the finite windows in $W$, then obtains the regular rational readback $R$ justified by those windows and the endpoint budget.
+
+Finally, $H$ and $C$ transport and replay that same finite route, while $P$ and $N$ source and name it. Since the carrier contains no row for quotient cuts, trichotomy, completeness, host real equality, or selected real limits, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dedekind-cut stream regular-Cauchy handoff]\label{thm:dedekind-cut-stream-regular-cauchy-handoff}
+Every downstream $\RealUp$ read of an accepted $\DedekindCutStreamUp$ carrier must pass through the $\StreamNameUp$ window row $W$ and the $\RegSeqRatUp$ readback row $R$ before the cut-observation stream can be consumed. Equivalently, the only Real-facing route exported by the packet is
+$$
+\DedekindCutUp,\ \DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert_{\DedekindCutStreamUp}.
+$$
+The handoff supplies located cut observations as finite stream-name data; it supplies no Dedekind-cut construction of $\RealUp$, quotient cut, trichotomy branch, completeness theorem, selected supremum, selected limit, or host real equality.
+\end{theorem}
+\begin{proof}
+Let a downstream Real-facing consumer read an accepted carrier $S_{\mathrm{cut}}=(D,L,U,W,R,H,C,P,N)$. By carrier projection, the only cut-facing data available before readback are the endpoint ledger $D$ and the displayed lower and upper observation rows $L,U$.
+
+The consumer cannot reach a regular rational datum directly from $L$ or $U$. The finite stream-name row $W$ records the observation windows that are opened, and the readback row $R$ records the regular rational data obtained from those windows and the dyadic endpoint budget.
+
+Thus any Real-facing use of the cut-observation stream is downstream of $W$ and $R$. The remaining rows $H,C,P,N$ preserve, replay, source, and name the same route.
+
+Because no carrier coordinate stores quotient cuts, a Dedekind construction of reals, trichotomy, completeness, selected suprema, selected limits, or host real equality, the handoff is exactly the displayed stream-name and regular-Cauchy boundary.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DedekindCutStreamUp$ Real-facing read factors through DyadicRatCore endpoints, located lower and upper cut observations, StreamName windows, RegSeqRat readback, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+
+\independenceWitness{dedekindcut, dyadicratcore, streamname, regseqrat, real: $\DedekindCutStreamUp$ is not bijective to any listed sibling because it jointly carries located lower and upper cut observations, dyadic endpoint budgets, stream windows, regular rational readback, transport, replay, provenance, and local naming in one stream-observation packet.}
+
+\closureat{DedekindCutStreamUp}{seedStr}
+
+\begin{closurestatus}{\DedekindCutStreamUp}
+  \constructivestory{A $\DedekindCutStreamUp$ packet is generated from DyadicRatCore endpoint rows, located lower and upper cut observations, StreamName finite windows, RegSeqRat readback rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dedekind-cut-stream-carrier}, \autoref{thm:dedekind-cut-stream-namecert-obligations}, and \autoref{thm:dedekind-cut-stream-regular-cauchy-handoff} seed the located cut-observation stream route over DyadicRatCoreUp, StreamNameUp, RegSeqRatUp, RealUp, DedekindCutUp, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Dedekind-cut construction of $\RealUp$, quotient cuts, trichotomy, completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint exactness, located observation separation, stream-window exactness, regular-readback boundary, transport, replay, provenance, and local naming for BEDC.Derived.DedekindCutStreamUp.}
+\end{closurestatus}
