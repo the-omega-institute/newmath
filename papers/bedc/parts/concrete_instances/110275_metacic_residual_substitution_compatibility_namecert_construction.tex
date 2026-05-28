@@ -54,6 +54,24 @@ Replay then supplies the compatibility boundary. The row $c$ records the finite 
 Finally $h,p,n$ transport, source, and name exactly the displayed packet. Since full closed Church--Rosser and arbitrary closed-source confluence are not carrier coordinates, they are not exported by this NameCert surface.
 \end{proof}
 
+\begin{theorem}[MetaCIC residual-substitution candidate projection route]
+\label{thm:metacic-residual-substitution-compatibility-candidate-projection-route}
+Every accepted $\MetaCICResidualSubstitutionCompatibilityUp$ carrier
+$$
+M=(s,t,b,j,g,a,h,c,p,n)
+$$
+exports a candidate-closed projection route to \autoref{ch:concrete-instances-metacic-candidate-closed-projection-boundary-namecert} only after the source term row $s$, substituted term row $t$, beta-parallel branch row $b$, residual join row $j$, closedness guard row $g$, and atom-shape separation row $a$ have all been displayed. The downstream candidate boundary receives a guarded compatibility packet, not full Church--Rosser and not arbitrary closed-source confluence.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-residual-substitution-compatibility-carrier}. The rows $s,t,b,j,g,a$ are the only computational rows available before the structural transport, replay, provenance, and local naming rows are read.
+
+Use \autoref{thm:metacic-residual-substitution-compatibility-namecert-obligations}. Branch-shape disjointness exposes $a$, substitution residual replay exposes the route from $t$ and $b$ to $j$, and the closed-source guard exposes exactly the assumptions in $g$.
+
+The candidate boundary of \autoref{ch:concrete-instances-metacic-candidate-closed-projection-boundary-namecert} is therefore reached through a guarded compatibility packet. The route supplies source, substitution, beta-parallel, residual-join, closedness, and atom-shape data, while $h,c,p,n$ only transport, replay, source, and name those rows.
+
+Since completed Church--Rosser and arbitrary closed-source confluence are absent from the carrier, the candidate-closed projection route cannot export them. It hands off only the displayed residual-substitution compatibility boundary.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\MetaCICResidualSubstitutionCompatibilityUp$ read displays source term, substituted term, parallel branch, residual join, closedness guard, atom-shape separation, hsame transport, Cont replay, Pkg provenance, and local naming rows before the conditional MetaCIC confluence bridge can consume it.}
 
 \independenceWitness{metacic-confluence-audit: $\MetaCICResidualSubstitutionCompatibilityUp$ is not a completed confluence theorem because it carries only the finite residual-substitution compatibility boundary consumed by the conditional parallel-diamond route.}
@@ -63,7 +81,7 @@ Finally $h,p,n$ transport, source, and name exactly the displayed packet. Since 
 \begin{closurestatus}{\MetaCICResidualSubstitutionCompatibilityUp}
   \constructivestory{A $\MetaCICResidualSubstitutionCompatibilityUp$ packet is generated from source term, substituted term, parallel branch, residual join, closedness guard, atom-shape separation, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-residual-substitution-compatibility-carrier} and \autoref{thm:metacic-residual-substitution-compatibility-namecert-obligations} seed the finite residual-substitution compatibility boundary consumed by the conditional MetaCIC confluence bridge.}
+  \scopeclosed{\autoref{def:metacic-residual-substitution-compatibility-carrier}, \autoref{thm:metacic-residual-substitution-compatibility-namecert-obligations}, and \autoref{thm:metacic-residual-substitution-compatibility-candidate-projection-route} seed the finite residual-substitution compatibility boundary consumed by the conditional MetaCIC confluence bridge and the candidate-closed projection route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim full closed Church--Rosser, arbitrary closed-source confluence, unguarded substitution compatibility, Lean verification, or bridge checking.}
