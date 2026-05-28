@@ -1,5 +1,53 @@
-\subsection{NameCert: h0.M.equals.WNR.CUN}
-\label{sec:namecert-h0_m_equals_wnr_cun}
+\subsection{Start--stop window boundary for open-reading-frame eligibility}
+\label{sec:bioreality-h0-m-equals-wnr-cun}
 \origin{ai}
 
-This BioReality namecert is awaiting codex re-authoring. Most recent attempt failed the chapter hygiene gate; issues recorded: template\_residue: BEDC 5-tuple, template\_residue: carrier reads back to observable data by following, template\_residue: TasteGate-style separation, template\_residue: lean target sketch (statement-only), template\_residue: internal newmath/bedc derivation, template\_residue: bridge disclaimer, template\_residue: external reality sources. The committed registry record at \path{tools/bio\_reality/registries/claims.json} still tracks the underlying claim h0.M.equals.WNR.CUN and its experiment runs.
+\paragraph{Finite packet.}
+This BioReality packet records a finite codon-window computation whose biological reading is deliberately weaker than an open-reading-frame claim.  The object under inspection is open-reading-frame eligibility from start/stop codon enumeration, but the packet has no attached sequence, transcript, curated interval, ribosome-profiling record, protein product, structural assay, or organism-level annotation.  Its carrier is therefore not an observed biological interval.  It is a boundary carrier: a finite row set whose only admissible role is to say what kind of external contact would be required before the phrase ``ORF eligibility'' could be asserted.
+
+The verified finite set $M$ has cardinality $20$.  The run $a53ef0f36703$ verifies that $M$ is exactly the following codon list:
+$$
+\begin{aligned}
+M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,\
+& CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
+\end{aligned}
+$$
+This equality is recorded as $M=WNR\cup CUN$, with size $20$.  In the present chapter, that equality is used only as a finite-row certificate.  It does not by itself identify a genomic interval, a transcript interval, a coding frame, a translated product, or a functional molecule.
+
+\paragraph{Motif compression.}
+A second finite-row certificate records a compressed motif set $R$.  The run $338799579a87$ verifies
+$$
+\begin{aligned}
+R=\{&AAA,AGA,AGG,AUA,CUA,CUC,CUG,CUU,UAA,UAG,UCA,UGA,UUA\}.
+\end{aligned}
+$$
+The same certificate reports no missing motif rows and no extra motif rows: the lists $no\_missing$ and $no\_extra$ are both empty.  Thus the compression check is exact inside the packet.  This exactness is still internal exactness only.  It says that the stated finite motif presentation matches the row computation; it does not say that any member of $R$ is realized in a biological molecule at an annotated ORF boundary.
+
+\paragraph{Saturation boundary.}
+The run $f4eee68dd2c3$ verifies a saturation comparison.  The saturated row set is
+$$
+\begin{aligned}
+Sat_{f3}(R)=\{&AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\
+& UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
+\end{aligned}
+$$
+This is $M$ with $ACA$ and $ACG$ absent.  The same run verifies that $M$ is recovered by adding the mediated $R$ contribution together with the $ACA$ side contribution, again producing the same $20$ codons listed above.  The reported $f3$ boundary is empty: $f3\_boundary\_is\_zero=[]$.  The admissible interpretation is a closed finite combinatorial boundary inside the codon-window packet.  The inadmissible interpretation would be to treat this closure as evidence for translation, folding, physical admissibility, mechanism, biological function, or universality.
+
+\paragraph{Quotient geometry.}
+The run $fd0a506a0881$ verifies the finite quotient geometry associated with $M$.  The $M$-level $f$-vector is $(20,38,26,8,1)$, and the quotient $f$-vector is $(10,14,6,1)$.  The quotient has size $10$, with rows
+$$
+\begin{aligned}
+\pi(M)=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),\
+&(0,1,0,0,0),(0,1,0,0,1),(1,0,0,0,1),(1,0,1,1,1),\
+&(1,0,1,0,1),(1,0,1,1,1)\}.
+\end{aligned}
+$$
+The certificate also records that the expected product-decomposition discrepancy list is empty: $M\_is\_product\_decomposition=[]$.  These data give a row-level shape for the packet.  They do not supply a biological coordinate system in which an interval is located, nor do they establish that a start codon and a stop codon occur in the same observed frame in an actual sequence.
+
+\paragraph{Reality-contact gate.}
+The packet contains two boundary probes.  The first states that a start/stop-window ORF-eligibility seed must remain at boundary status unless an external sequence or transcript contact supplies the observed biological interval.  The second states that an ORF-eligibility seed is admissible only as a boundary probe while it lacks an external biological interval contact.  Both probes require the same kind of contact: a curated ORF interval annotation.  The contact list for this packet is empty, and no reality-contact reference is attached.  Therefore the correct local verdict is not that an ORF exists, nor that an ORF is eligible, but that the finite codon-window computation has identified a contact gap.
+
+The self-check run $0f47d2f0cf41$ records the boundary sentence explicitly: BioReality self-check only; no codon geometry is promoted across biological layers.  It also records $checked\_gate\_count=3$.  This chapter preserves that gate.  The finite equalities $|M|=20$, $M=WNR\cup CUN$, the exact $R$ compression, the empty $f3$ boundary, and the quotient vectors are all valid packet-level facts.  None of them crosses the biological layer boundary.
+
+\paragraph{Cannot-claim boundary.}
+The local cannot-claim rule is as follows.  From this packet alone one may not claim translation realization, folded structure, physical admissibility, biological function, molecular mechanism, evolutionary conservation, organismal relevance, or universality.  One may not claim that a start/stop-window enumeration is an observed open reading frame.  One may not promote the BEDC coordinate, the $20$-row set $M$, the $13$-row motif set $R$, the saturated $18$-row comparison, or the quotient size $10$ into the biological layer without a separate contact.  A later contact could test an interval against these finite rows; until then, the chapter is a precise boundary record and not a positive biological assertion.
