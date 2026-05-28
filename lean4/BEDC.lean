@@ -4412,12 +4412,14 @@ import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealDependencyBudget
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealDependencyDiamond
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealExitRefusalBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealRootUnblockAdmission
+import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealRootUnblockSoundness
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealStatusProductReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionFrontierFilter
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionReadinessPackage
 import BEDC.Derived.MetaCICCriticalPathUp.RealStreamNameSourceReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatCandidateNormalizationRoute
 import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatReadbackReadiness
+import BEDC.Derived.MetaCICCriticalPathUp.RouteExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.RouteReplay
 import BEDC.Derived.MetaCICCriticalPathUp.SocketRouteTotality
 import BEDC.Derived.MetaCICCriticalPathUp.TransportRowStability
@@ -5195,6 +5197,7 @@ import BEDC.Derived.ProperMetricUp.TasteGate
 import BEDC.Derived.PropextTransportBoundaryUp
 import BEDC.Derived.PropextTransportBoundaryUp.NameCertObligations
 import BEDC.Derived.PropextTransportBoundaryUp.TasteGate
+import BEDC.Derived.PseudometricUp
 import BEDC.Derived.PseudometricUp.TasteGate
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.QuadrantSubstrateUp.TasteGate
@@ -6240,6 +6243,7 @@ import BEDC.Derived.SobolevUp.CompletionNormHandoff
 import BEDC.Derived.SobolevUp.FiniteEnergyCarrier
 import BEDC.Derived.SobolevUp.FiniteWindowRootPackage
 import BEDC.Derived.SobolevUp.HilbertCompletionDescent
+import BEDC.Derived.SobolevUp.IntegralDerivativeTransportStability
 import BEDC.Derived.SobolevUp.IntegralMagnitudeLedgerStability
 import BEDC.Derived.SobolevUp.LocalPoincareLedger
 import BEDC.Derived.SobolevUp.ObligationPackage
@@ -6270,6 +6274,7 @@ import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.SpeckerSequenceUp
 import BEDC.Derived.SpeckerSequenceUp.TasteGate
 import BEDC.Derived.SpectralMeasureUp
+import BEDC.Derived.SpectralRadiusFormulaUp.TasteGate
 import BEDC.Derived.SpectralSeqUp
 import BEDC.Derived.SpectralTheoremUp
 import BEDC.Derived.SpernerLemmaUp.TasteGate
@@ -7100,6 +7105,7 @@ import BEDC.Derived.ZnormalUp.RootTotalHostReadiness
 import BEDC.Derived.ZnormalUp.RootTotalHostRefusal
 import BEDC.Derived.ZnormalUp.RootTotalHostRefusalLedger
 import BEDC.Derived.ZnormalUp.RootTotalHostSourcePacket
+import BEDC.Derived.ZnormalUp.RootUnaryCarryEntry
 import BEDC.Derived.ZnormalUp.RootUnblockNonescapeLedger
 import BEDC.Derived.ZnormalUp.RootVisibleSourcePackage
 import BEDC.Derived.ZnormalUp.RootZeckendorfHandoff
