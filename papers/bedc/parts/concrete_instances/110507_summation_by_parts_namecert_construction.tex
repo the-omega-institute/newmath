@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\SummationByPartsUp$}
+\label{ch:concrete-instances-summation-by-parts-namecert}
+\origin{human}
+
+Following Abel and Dirichlet, the $\SummationByPartsUp$ packet records the finite identity surface by which displayed partial sums, coefficient windows, adjacent differences, and endpoint terms are bound into one NameCert row. It sits beside the Abel-summation route of \autoref{ch:concrete-instances-abel-summation-namecert}, the Abel-test consumer of \autoref{ch:concrete-instances-abel-test-namecert}, and the Dirichlet-test consumer of \autoref{ch:concrete-instances-dirichlet-test-namecert}. Its source rows use the finite series carrier of \autoref{ch:concrete-instances-series-namecert}; its regular readback, dyadic tolerance, and endpoint seal use \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet names a finite algebraic identity for downstream convergence tests; it does not import infinite sums, quotient series equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Summation by parts carrier]
+\label{def:summation-by-parts-carrier}
+A $\SummationByPartsUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,A,\Delta,P,B,T,R,D,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\SeriesUp$ source row, exposing only the inspected finite term window and its displayed partial sums.
+\item $A$ is the coefficient-window row, naming the coefficient entries read over the same finite interval.
+\item $\Delta$ is the adjacent-difference row, recording the displayed values $a_k-a_{k+1}$ used by the identity.
+\item $P$ is the partial-sum-window row, naming the cumulative sums paired with $A$ and $\Delta$.
+\item $B$ is the boundary-term row, displaying the endpoint products and the finite interior products determined by $S,A,\Delta,P$.
+\item $T$ is the convergence-test handoff row consumed by $\AbelSummationUp$, $\AbelTestUp$, or $\DirichletTestUp$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed finite identity data.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the finite additions, subtractions, products, and endpoint comparisons used by $B$.
+\item $E$ is the $\RealUp$ endpoint seal reached only after $S,A,\Delta,P,B,T,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, coefficient, difference, partial-sum, boundary, handoff, readback, dyadic, endpoint, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,A,\Delta,P,B,T,R,D \longmapsto E .
+$$
+\item $Q$ is the $\Pkg$ provenance over $\SummationByPartsUp$, $\SeriesUp$, $\AbelSummationUp$, $\AbelTestUp$, $\DirichletTestUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SummationByPartsUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,A,\Delta,P,B,T,R,D,E,H,C,Q,N$. It has no coordinate for an infinite sum, quotient series equality, selected convergence witness, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Summation by parts NameCert obligations]
+\label{thm:summation-by-parts-namecert-obligations}
+For every accepted $\SummationByPartsUp$ carrier
+$$
+K=(S,A,\Delta,P,B,T,R,D,E,H,C,Q,N),
+$$
+the local $\NameCert_{\SummationByPartsUp}$ surface consists exactly of carrier admission for the displayed finite packet; source and partial-sum exposure through $S$ and $P$; coefficient-window and adjacent-difference exposure through $A$ and $\Delta$; boundary-term exactness through $B$; convergence-test handoff through $T$; regular readback, dyadic accounting, and endpoint sealing through $R,D,E$; and transport, replay, provenance, and local naming through $H,C,Q,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The projection exposes exactly the rows $S,A,\Delta,P,B,T,R,D,E,H,C,Q,N$, so every naming obligation must be read from one of those displayed coordinates.
+
+The identity rows are finite. The source row $S$ and partial-sum row $P$ display the inspected cumulative sums, the coefficient row $A$ displays the paired coefficients, and $\Delta$ displays the adjacent differences used by the interior terms. The boundary row $B$ records only the endpoint products and interior products determined by those rows.
+
+The consumer handoff is downstream of the identity. A convergence-test consumer first reads $T$, and the regular and real-facing route then passes through $R,D,E$. These rows can transport the displayed finite calculation, but they do not introduce an independent summation principle.
+
+Finally $H,C,Q,N$ preserve, replay, source, and name the same route. Because the carrier has no coordinate for infinite sums, quotient series equality, selected convergence witnesses, countable choice, trichotomy, or ambient real completeness, the stated rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Summation by parts Cauchy-series handoff]
+\label{thm:summation-by-parts-cauchy-series-handoff}
+Every accepted $\SummationByPartsUp$ packet that is consumed by an $\AbelSummationUp$, $\AbelTestUp$, or $\DirichletTestUp$ route hands off only the finite identity chain
+$$
+\SeriesUp \longmapsto S,A,\Delta,P,B,T \longmapsto R,D,E,H,C,Q,N .
+$$
+Thus a Cauchy-series or real-seal consumer may read the summation-by-parts row only after the series window, coefficient window, adjacent-difference ledger, partial-sum window, boundary ledger, and test handoff have been displayed. The handoff supplies no infinite sum, quotient series equality, selected limit, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a convergence-test read. Carrier admission exposes the source row $S$ and the finite identity rows $A,\Delta,P,B$ before the handoff row $T$ is available.
+
+The downstream chapters may add their own test-specific rows. The $\AbelSummationUp$ consumer reads the displayed finite identity as its transform row, the $\AbelTestUp$ consumer combines it with a monotone null coefficient ledger, and the $\DirichletTestUp$ consumer combines it with bounded partial sums and a null-tail schedule. In each case the summation-by-parts contribution remains the same displayed finite packet.
+
+The Cauchy-facing route is therefore forced through $R$ and $D$ before $E$ can seal the endpoint. Transport, replay, provenance, and local naming preserve that same route, so no excluded summation or completeness datum can be read from the packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SummationByPartsUp$ consumer that reaches an $\AbelSummationUp$, $\AbelTestUp$, $\DirichletTestUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ row without reading the displayed source, coefficient, adjacent-difference, partial-sum, boundary-term, and handoff rows refutes the carrier surface.}
+
+\independenceWitness{abel-summation, abel-test, dirichlet-test, series, regseqrat, dyadicratcore, real: no listed sibling supplies the whole thirteen-row packet $K=(S,A,\Delta,P,B,T,R,D,E,H,C,Q,N)$, because each sibling contributes only a transform consumer, convergence-test consumer, source series, regular readback, dyadic ledger, or endpoint seal while this chapter binds the finite identity itself.}
+
+\closureat{SummationByPartsUp}{seedStr}
+
+\begin{closurestatus}{\SummationByPartsUp}
+  \constructivestory{A $\SummationByPartsUp$ packet is generated from a SeriesUp finite source row, coefficient windows, adjacent-difference rows, partial-sum windows, boundary-term ledgers, AbelSummation/AbelTest/DirichletTest handoff rows, RegSeqRat readback, DyadicRatCore tolerance accounting, a RealUp endpoint seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:summation-by-parts-carrier}, \autoref{thm:summation-by-parts-namecert-obligations}, and \autoref{thm:summation-by-parts-cauchy-series-handoff} seed the finite summation-by-parts identity packet over $\SeriesUp$, $\AbelSummationUp$, $\AbelTestUp$, $\DirichletTestUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close infinite summation, quotient series equality, selected convergence witnesses, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite identity exactness, convergence-test handoff, Cauchy-series readback, dyadic accounting, endpoint sealing, transport and replay stability, provenance exhaustion, and TasteGate field faithfulness for BEDC.Derived.SummationByPartsUp.}
+\end{closurestatus}
