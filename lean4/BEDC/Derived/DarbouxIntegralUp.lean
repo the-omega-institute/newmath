@@ -264,4 +264,68 @@ theorem DarbouxIntegralPacket_public_gap_seal [AskSetup] [PackageSetup]
       upperLowerSumGap, gapRealConsumer, consumerNameIntegral, integralNameSeal, namePkg,
       sealPkg⟩
 
+theorem DarbouxIntegralPacket_mature_boundary_certificate [AskSetup] [PackageSetup]
+    {partition upper lower upperSum lowerSum gap realHandoff transports routes name cauchyConsumer
+      integralConsumer publicSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DarbouxIntegralPacket partition upper lower upperSum lowerSum gap realHandoff transports routes
+        name bundle pkg ->
+      Cont gap realHandoff cauchyConsumer ->
+        Cont cauchyConsumer name integralConsumer ->
+          Cont integralConsumer name publicSeal ->
+            PkgSig bundle publicSeal pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row publicSeal ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row partition ∨ hsame row gap ∨ hsame row realHandoff ∨
+                      hsame row publicSeal)
+                  (fun row : BHist => hsame row publicSeal ∧ PkgSig bundle publicSeal pkg)
+                  hsame ∧
+                UnaryHistory cauchyConsumer ∧ UnaryHistory integralConsumer ∧
+                  UnaryHistory publicSeal := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro packet gapRealConsumer consumerNameIntegral integralNameSeal sealPkg
+  obtain ⟨_partitionUnary, _upperUnary, _lowerUnary, _upperSumUnary, _lowerSumUnary,
+    gapUnary, realHandoffUnary, _transportsUnary, _routesUnary, nameUnary,
+    _upperLowerUpperSum, _upperLowerSumGap, _namePkg⟩ := packet
+  have cauchyUnary : UnaryHistory cauchyConsumer :=
+    unary_cont_closed gapUnary realHandoffUnary gapRealConsumer
+  have integralUnary : UnaryHistory integralConsumer :=
+    unary_cont_closed cauchyUnary nameUnary consumerNameIntegral
+  have sealUnary : UnaryHistory publicSeal :=
+    unary_cont_closed integralUnary nameUnary integralNameSeal
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicSeal ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row partition ∨ hsame row gap ∨ hsame row realHandoff ∨
+              hsame row publicSeal)
+          (fun row : BHist => hsame row publicSeal ∧ PkgSig bundle publicSeal pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicSeal ⟨hsame_refl publicSeal, sealUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr source.left))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, sealPkg⟩
+  }
+  exact ⟨cert, cauchyUnary, integralUnary, sealUnary⟩
+
 end BEDC.Derived.DarbouxIntegralUp
