@@ -1,8 +1,9 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.NormalFamilyUp
+namespace BEDC.Derived.NormalFamilyUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,7 +26,7 @@ def normalFamilyDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (normalFamilyDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (normalFamilyDecodeBHist tail)
 
-private theorem normalFamily_decode_encode_bhist :
+private theorem NormalFamilyTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist, normalFamilyDecodeBHist (normalFamilyEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -40,49 +41,35 @@ def normalFamilyFields : NormalFamilyUp → List BHist
 
 def normalFamilyToEventFlow : NormalFamilyUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | NormalFamilyUp.mk F X Y M E I Q H C P L =>
-      [[BMark.b1, BMark.b0, BMark.b1, BMark.b0],
-        normalFamilyEncodeBHist F,
-        normalFamilyEncodeBHist X,
-        normalFamilyEncodeBHist Y,
-        normalFamilyEncodeBHist M,
-        normalFamilyEncodeBHist E,
-        normalFamilyEncodeBHist I,
-        normalFamilyEncodeBHist Q,
-        normalFamilyEncodeBHist H,
-        normalFamilyEncodeBHist C,
-        normalFamilyEncodeBHist P,
-        normalFamilyEncodeBHist L]
+  | x => (normalFamilyFields x).map normalFamilyEncodeBHist
 
-private def normalFamilyEventAtDefault : Nat → EventFlow → RawEvent
+private def normalFamilyEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => normalFamilyEventAtDefault index rest
+  | Nat.succ index, _event :: rest => normalFamilyEventAt index rest
 
-def normalFamilyFromEventFlow : EventFlow → Option NormalFamilyUp :=
+def normalFamilyFromEventFlow (ef : EventFlow) : Option NormalFamilyUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    some
-      (NormalFamilyUp.mk
-        (normalFamilyDecodeBHist (normalFamilyEventAtDefault 1 ef))
-        (normalFamilyDecodeBHist (normalFamilyEventAtDefault 2 ef))
-        (normalFamilyDecodeBHist (normalFamilyEventAtDefault 3 ef))
-        (normalFamilyDecodeBHist (normalFamilyEventAtDefault 4 ef))
-        (normalFamilyDecodeBHist (normalFamilyEventAtDefault 5 ef))
-        (normalFamilyDecodeBHist (normalFamilyEventAtDefault 6 ef))
-        (normalFamilyDecodeBHist (normalFamilyEventAtDefault 7 ef))
-        (normalFamilyDecodeBHist (normalFamilyEventAtDefault 8 ef))
-        (normalFamilyDecodeBHist (normalFamilyEventAtDefault 9 ef))
-        (normalFamilyDecodeBHist (normalFamilyEventAtDefault 10 ef))
-        (normalFamilyDecodeBHist (normalFamilyEventAtDefault 11 ef)))
+  some
+    (NormalFamilyUp.mk
+      (normalFamilyDecodeBHist (normalFamilyEventAt 0 ef))
+      (normalFamilyDecodeBHist (normalFamilyEventAt 1 ef))
+      (normalFamilyDecodeBHist (normalFamilyEventAt 2 ef))
+      (normalFamilyDecodeBHist (normalFamilyEventAt 3 ef))
+      (normalFamilyDecodeBHist (normalFamilyEventAt 4 ef))
+      (normalFamilyDecodeBHist (normalFamilyEventAt 5 ef))
+      (normalFamilyDecodeBHist (normalFamilyEventAt 6 ef))
+      (normalFamilyDecodeBHist (normalFamilyEventAt 7 ef))
+      (normalFamilyDecodeBHist (normalFamilyEventAt 8 ef))
+      (normalFamilyDecodeBHist (normalFamilyEventAt 9 ef))
+      (normalFamilyDecodeBHist (normalFamilyEventAt 10 ef)))
 
-private theorem normalFamily_round_trip :
-    ∀ x : NormalFamilyUp,
-      normalFamilyFromEventFlow (normalFamilyToEventFlow x) = some x := by
+private theorem NormalFamilyTasteGate_single_carrier_alignment_round_trip
+    (x : NormalFamilyUp) :
+    normalFamilyFromEventFlow (normalFamilyToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk F X Y M E I Q H C P L =>
       change
@@ -100,14 +87,20 @@ private theorem normalFamily_round_trip :
             (normalFamilyDecodeBHist (normalFamilyEncodeBHist P))
             (normalFamilyDecodeBHist (normalFamilyEncodeBHist L))) =
           some (NormalFamilyUp.mk F X Y M E I Q H C P L)
-      rw [normalFamily_decode_encode_bhist F, normalFamily_decode_encode_bhist X,
-        normalFamily_decode_encode_bhist Y, normalFamily_decode_encode_bhist M,
-        normalFamily_decode_encode_bhist E, normalFamily_decode_encode_bhist I,
-        normalFamily_decode_encode_bhist Q, normalFamily_decode_encode_bhist H,
-        normalFamily_decode_encode_bhist C, normalFamily_decode_encode_bhist P,
-        normalFamily_decode_encode_bhist L]
+      rw [NormalFamilyTasteGate_single_carrier_alignment_decode_encode F,
+        NormalFamilyTasteGate_single_carrier_alignment_decode_encode X,
+        NormalFamilyTasteGate_single_carrier_alignment_decode_encode Y,
+        NormalFamilyTasteGate_single_carrier_alignment_decode_encode M,
+        NormalFamilyTasteGate_single_carrier_alignment_decode_encode E,
+        NormalFamilyTasteGate_single_carrier_alignment_decode_encode I,
+        NormalFamilyTasteGate_single_carrier_alignment_decode_encode Q,
+        NormalFamilyTasteGate_single_carrier_alignment_decode_encode H,
+        NormalFamilyTasteGate_single_carrier_alignment_decode_encode C,
+        NormalFamilyTasteGate_single_carrier_alignment_decode_encode P,
+        NormalFamilyTasteGate_single_carrier_alignment_decode_encode L]
 
-private theorem normalFamilyToEventFlow_injective {x y : NormalFamilyUp} :
+private theorem NormalFamilyTasteGate_single_carrier_alignment_toEventFlow_injective
+    {x y : NormalFamilyUp} :
     normalFamilyToEventFlow x = normalFamilyToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -116,8 +109,19 @@ private theorem normalFamilyToEventFlow_injective {x y : NormalFamilyUp} :
         normalFamilyFromEventFlow (normalFamilyToEventFlow y) :=
     congrArg normalFamilyFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (normalFamily_round_trip x).symm
-      (Eq.trans hread (normalFamily_round_trip y)))
+    (Eq.trans (NormalFamilyTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (NormalFamilyTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem NormalFamilyTasteGate_single_carrier_alignment_fields_faithful :
+    ∀ x y : NormalFamilyUp, normalFamilyFields x = normalFamilyFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk F₁ X₁ Y₁ M₁ E₁ I₁ Q₁ H₁ C₁ P₁ L₁ =>
+      cases y with
+      | mk F₂ X₂ Y₂ M₂ E₂ I₂ Q₂ H₂ C₂ P₂ L₂ =>
+          cases hfields
+          rfl
 
 instance normalFamilyBHistCarrier : BHistCarrier NormalFamilyUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -129,57 +133,56 @@ instance normalFamilyChapterTasteGate : ChapterTasteGate NormalFamilyUp where
   round_trip := by
     intro x
     change normalFamilyFromEventFlow (normalFamilyToEventFlow x) = some x
-    exact normalFamily_round_trip x
+    exact NormalFamilyTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (normalFamilyToEventFlow_injective heq)
+    exact hxy (NormalFamilyTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+
+instance normalFamilyFieldFaithful : FieldFaithful NormalFamilyUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := normalFamilyFields
+  field_faithful := NormalFamilyTasteGate_single_carrier_alignment_fields_faithful
+
+instance normalFamilyNontrivial : BEDC.Meta.TasteGate.Nontrivial NormalFamilyUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨NormalFamilyUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      NormalFamilyUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 def taste_gate : ChapterTasteGate NormalFamilyUp :=
   -- BEDC touchpoint anchor: BHist BMark
   normalFamilyChapterTasteGate
 
-theorem NormalFamilyTasteGate_single_carrier_alignment :
-    (∀ h : BHist, normalFamilyDecodeBHist (normalFamilyEncodeBHist h) = h) ∧
-      (∀ x : NormalFamilyUp,
-        normalFamilyFromEventFlow (normalFamilyToEventFlow x) = some x) ∧
-        normalFamilyFields
-            (NormalFamilyUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-              BHist.Empty) =
-          [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
-            BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  constructor
-  · intro h
-    induction h with
-    | Empty => rfl
-    | e0 h ih => exact congrArg BHist.e0 ih
-    | e1 h ih => exact congrArg BHist.e1 ih
-  constructor
-  · intro x
-    cases x with
-    | mk F X Y M E I Q H C P L =>
-        change
-          some
-            (NormalFamilyUp.mk
-              (normalFamilyDecodeBHist (normalFamilyEncodeBHist F))
-              (normalFamilyDecodeBHist (normalFamilyEncodeBHist X))
-              (normalFamilyDecodeBHist (normalFamilyEncodeBHist Y))
-              (normalFamilyDecodeBHist (normalFamilyEncodeBHist M))
-              (normalFamilyDecodeBHist (normalFamilyEncodeBHist E))
-              (normalFamilyDecodeBHist (normalFamilyEncodeBHist I))
-              (normalFamilyDecodeBHist (normalFamilyEncodeBHist Q))
-              (normalFamilyDecodeBHist (normalFamilyEncodeBHist H))
-              (normalFamilyDecodeBHist (normalFamilyEncodeBHist C))
-              (normalFamilyDecodeBHist (normalFamilyEncodeBHist P))
-              (normalFamilyDecodeBHist (normalFamilyEncodeBHist L))) =
-            some (NormalFamilyUp.mk F X Y M E I Q H C P L)
-        rw [normalFamily_decode_encode_bhist F, normalFamily_decode_encode_bhist X,
-          normalFamily_decode_encode_bhist Y, normalFamily_decode_encode_bhist M,
-          normalFamily_decode_encode_bhist E, normalFamily_decode_encode_bhist I,
-          normalFamily_decode_encode_bhist Q, normalFamily_decode_encode_bhist H,
-          normalFamily_decode_encode_bhist C, normalFamily_decode_encode_bhist P,
-          normalFamily_decode_encode_bhist L]
-  · rfl
+def taste_gate_witness : FieldFaithful NormalFamilyUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  normalFamilyFieldFaithful
 
-end BEDC.Derived.NormalFamilyUp
+theorem NormalFamilyTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate NormalFamilyUp) ∧
+      Nonempty (FieldFaithful NormalFamilyUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial NormalFamilyUp) ∧
+          normalFamilyFromEventFlow
+              (normalFamilyToEventFlow
+                (NormalFamilyUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty)) =
+            some
+              (NormalFamilyUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  exact
+    ⟨⟨normalFamilyChapterTasteGate⟩,
+      ⟨normalFamilyFieldFaithful⟩,
+      ⟨normalFamilyNontrivial⟩,
+      NormalFamilyTasteGate_single_carrier_alignment_round_trip
+        (NormalFamilyUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty)⟩
+
+end BEDC.Derived.NormalFamilyUp.TasteGate
