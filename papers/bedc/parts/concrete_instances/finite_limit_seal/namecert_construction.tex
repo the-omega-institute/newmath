@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\FiniteLimitSealUp$}
+\label{ch:concrete-instances-finite-limit-seal-namecert}
+\origin{human}
+
+Following Bishop regular-Cauchy completion, the $\FiniteLimitSealUp$ packet records the finite seal used by diagonal-limit arguments before any selected limit or quotient stream equality can be mentioned. It is anchored in the finite-window route through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet packages the local Real-completion limit service as displayed BEDC data; it is not a global completeness theorem for $\RealUp$.
+
+\begin{definition}[Finite limit seal carrier]
+\label{def:finite-limit-seal-carrier}
+A $\FiniteLimitSealUp$ carrier is a finite $\BHist$ packet
+$$
+L=(M,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the modulus schedule row naming the finite tail and tolerance requests used by the diagonal-limit route.
+\item $W$ is the selected $\StreamNameUp$ window row containing exactly the finite observations requested by $M$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger against which the readback is checked.
+\item $E$ is the $\RealUp$ seal row, available only after $M,W,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the modulus schedule, selected windows, readback, tolerance ledger, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+M \longmapsto W \longmapsto R \longmapsto D \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FiniteLimitSealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteLimitSealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by the displayed modulus schedule, window reads, rational readback, dyadic tolerance ledger, Real seal, transport, replay, provenance, and local name. It has no coordinate for selected limits, quotient stream equality, countable choice, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite limit seal route nonescape]
+\label{thm:finite-limit-seal-route-nonescape}
+Every accepted $\FiniteLimitSealUp$ carrier exports its diagonal-limit service only through the finite route
+$$
+M \longmapsto W \longmapsto R \longmapsto D \longmapsto E .
+$$
+It exports no selected limit, quotient stream equality, countable choice, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Inspect the carrier of \autoref{def:finite-limit-seal-carrier}. The only limit-facing row is the terminal $\RealUp$ seal $E$, and the definition places it after the modulus schedule, selected stream windows, regular rational readback, and dyadic tolerance ledger.
+
+Thus any consumer of the seal must first read $M,W,R,D$. The transport row $H$ and replay row $C$ preserve this same route under componentwise renaming and repeated consumer requests.
+
+The provenance row $P$ and local name $N$ source the packet without adding mathematical content. Since the tuple contains no selected-limit coordinate, quotient equality relation, choice schedule, host real equality oracle, trichotomy branch, or ambient completeness theorem, the displayed route is the whole exported surface.
+\end{proof}
+
+\closureat{FiniteLimitSealUp}{seedStr}
+
+\begin{closurestatus}{\FiniteLimitSealUp}
+  \constructivestory{A $\FiniteLimitSealUp$ packet is generated from a modulus schedule, selected StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-limit-seal-carrier} and \autoref{thm:finite-limit-seal-route-nonescape} seed the finite diagonal-limit seal over StreamName, RegSeqRat, DyadicRatCore, Real, hsame, Cont, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient stream equality, countable choice, host real equality, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window selection, regular readback, dyadic tolerance nonescape, Real-seal routing, transport, replay, provenance, and local naming for BEDC.Derived.FiniteLimitSealUp.}
+\end{closurestatus}
