@@ -302,4 +302,78 @@ theorem MetaCICCriticalPathCandidateMediatedFrontierHandoffTotality [AskSetup]
   }
   exact ⟨cert, frontierUnary, handoffReadUnary, realSealPkg⟩
 
+theorem MetaCICCriticalPathCandidateMediatedSNDischargeBudget [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction unblock discharge handoff continuation provenance
+      localName dyadic stream regseq realSeal frontier dischargeRead budgetRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathOpenPhaseSourceLedger strongNorm normalForm obstruction unblock
+        discharge handoff continuation provenance localName dyadic stream regseq realSeal
+        bundle pkg →
+      Cont continuation localName frontier →
+        Cont frontier discharge dischargeRead →
+          Cont dischargeRead handoff budgetRead →
+            PkgSig bundle budgetRead pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row budgetRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row frontier ∨ hsame row discharge ∨ hsame row obstruction ∨
+                      hsame row budgetRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ PkgSig bundle budgetRead pkg ∧
+                      Cont dischargeRead handoff budgetRead)
+                  hsame ∧
+                UnaryHistory dischargeRead ∧ UnaryHistory budgetRead ∧
+                  PkgSig bundle realSeal pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro ledger continuationLocalFrontier frontierDischargeRead dischargeHandoffBudget
+    budgetReadPkg
+  obtain ⟨packet, _dyadicUnary, _streamUnary, _regseqUnary, _realSealUnary,
+    _dyadicStreamRegseq, _regseqRealSealHandoff, realSealPkg⟩ := ledger
+  obtain ⟨_strongNormUnary, _normalFormUnary, _obstructionUnary, _unblockUnary,
+    dischargeUnary, _handoffUnary, continuationUnary, _provenanceUnary,
+    localNameUnary, _strongNormNormalFormContinuation, _unblockObstructionDischarge,
+    _handoffLocalName, _provenancePkg⟩ := packet
+  have frontierUnary : UnaryHistory frontier :=
+    unary_cont_closed continuationUnary localNameUnary continuationLocalFrontier
+  have dischargeReadUnary : UnaryHistory dischargeRead :=
+    unary_cont_closed frontierUnary dischargeUnary frontierDischargeRead
+  have budgetReadUnary : UnaryHistory budgetRead :=
+    unary_cont_closed dischargeReadUnary _handoffUnary dischargeHandoffBudget
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row budgetRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row frontier ∨ hsame row discharge ∨ hsame row obstruction ∨
+              hsame row budgetRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle budgetRead pkg ∧
+              Cont dischargeRead handoff budgetRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro budgetRead ⟨hsame_refl budgetRead, budgetReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr source.left))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, budgetReadPkg, dischargeHandoffBudget⟩
+  }
+  exact ⟨cert, dischargeReadUnary, budgetReadUnary, realSealPkg⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp
