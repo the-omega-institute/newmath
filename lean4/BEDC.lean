@@ -1812,6 +1812,7 @@ import BEDC.Derived.ClosedBoundedIntervalUp.LocatedEndpointReadback
 import BEDC.Derived.ClosedBoundedIntervalUp.RealSealNonescape
 import BEDC.Derived.ClosedBoundedIntervalUp.RealSealRootHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.RegSeqRatWindow
+import BEDC.Derived.ClosedBoundedIntervalUp.RootConsumerCompleteness
 import BEDC.Derived.ClosedBoundedIntervalUp.RootCoverRefinementSource
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceCarrierAdmission
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceWindowExactness
@@ -1850,6 +1851,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.BinderBudgetDepthLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.BinderSealFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.BoundaryRoutes
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedSourceBudgetSurface
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedSourceDownstreamCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedValueRouteDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosedValueShiftTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ClosednessConsumerExport
@@ -1986,6 +1988,7 @@ import BEDC.Derived.CompactOpenMetricUp
 import BEDC.Derived.CompactOpenMetricUp.TasteGate
 import BEDC.Derived.CompactOperatorUp
 import BEDC.Derived.CompactOperatorUp.TasteGate
+import BEDC.Derived.CompactUniformContinuitySchemeUp.TasteGate
 import BEDC.Derived.CompactUniformContinuityUp
 import BEDC.Derived.CompactUniformContinuityUp.BridgeModulusAssembly
 import BEDC.Derived.CompactUniformContinuityUp.BridgeNonEscapeBoundary
@@ -4406,6 +4409,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.NormalFormRouteCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationSourceVisibility
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionLedgerExhaustion
+import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseConsumerTotality
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealDependencyBudget
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealDependencyDiamond
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealExitRefusalBoundary
@@ -6097,6 +6101,7 @@ import BEDC.Derived.SeparatedMetricUp.CauchyUniquenessRootPackage
 import BEDC.Derived.SeparatedMetricUp.CompletionHandoffNonescape
 import BEDC.Derived.SeparatedMetricUp.CompletionLimitUniquenessRoute
 import BEDC.Derived.SeparatedMetricUp.LimitUniquenessScope
+import BEDC.Derived.SeparatedMetricUp.NameCertLedgerExhaustion
 import BEDC.Derived.SeparatedMetricUp.RealCompletionConsumerBoundary
 import BEDC.Derived.SeparatedMetricUp.TasteGate
 import BEDC.Derived.SeparatedMetricUp.ZeroDistanceConsumerExactness
