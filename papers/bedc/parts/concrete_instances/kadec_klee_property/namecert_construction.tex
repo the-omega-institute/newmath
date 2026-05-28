@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\KadecKleePropertyUp$}
+\label{ch:concrete-instances-kadec-klee-property-namecert}
+\origin{human}
+
+Following Kadec and Klee on the Radon--Riesz property, the $\KadecKleePropertyUp$ packet records the finite BEDC surface where weak convergence plus convergence of norms is accepted as a strong convergence handoff. It sits between the normed and complete linear analysis packets of \autoref{ch:concrete-instances-norm-namecert}, \autoref{ch:concrete-instances-banach-namecert}, and \autoref{ch:concrete-instances-hilbert-namecert}, reads the weak-convergence boundary of \autoref{ch:concrete-instances-weak-topology-namecert}, and keeps every scalar comparison at the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only the displayed Radon--Riesz handoff route and does not import Hahn--Banach separation, choice-selected weak limits, quotient vector equality, or ambient completeness.
+
+\begin{definition}[Kadec--Klee property carrier]
+\label{def:kadec-klee-property-carrier}
+A $\KadecKleePropertyUp$ carrier is a finite $\BHist$ packet
+$$
+K=(B,H,N,W,Q,S,T,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the ambient $\BanachUp$ row, exposing the vector-name surface used by the sequence and limit entries;
+\item $H$ is the optional $\HilbertUp$ refinement row, used only when the consumer already works over an inner-product source;
+\item $N$ is the $\NormUp$ row recording the norm readback and its $\RealUp$ comparison seal;
+\item $W$ is the $\WeakTopologyUp$ row that displays weak convergence of the named sequence to the named candidate limit;
+\item $Q$ is the norm-convergence row, whose scalar values are read through $\RealUp$ names rather than through host real equality;
+\item $S$ is the strong-convergence handoff row asserting that the same displayed sequence and candidate limit may be consumed as norm convergence after $W$ and $Q$ have both been read;
+\item $T$ records componentwise $\hsame$ transport for $B,H,N,W,Q,S$ and for the local certificate rows;
+\item $C$ records the displayed $\Cont$ replay from weak observations and norm-value observations to the strong-convergence handoff;
+\item $P$ is the $\Pkg$ provenance over $\KadecKleePropertyUp$, $\BanachUp$, $\HilbertUp$, $\NormUp$, $\WeakTopologyUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $L$ is the local $\NameCert_{\KadecKleePropertyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for Hahn--Banach separation, a selected weakly convergent subnet, quotient equality of vectors, a detached norm limit, or a completeness principle beyond the displayed source rows.
+\end{definition}
+
+\begin{theorem}[Kadec--Klee NameCert obligations]
+\label{thm:kadec-klee-property-namecert-obligations}
+For an accepted $\KadecKleePropertyUp$ carrier
+$$
+K=(B,H,N,W,Q,S,T,C,P,L),
+$$
+the local $\NameCert_{\KadecKleePropertyUp}$ surface consists exactly of carrier admission for the Banach row, optional Hilbert refinement, norm row, weak-topology row, norm-convergence row, strong-convergence handoff, componentwise transport, continuation replay, provenance, and local naming; classifier stability under the same displayed rows; exactness of the $\RealUp$ norm-value comparisons; visibility of the weak convergence row before any strong handoff is read; and refusal of Hahn--Banach separation, choice-selected weak limits, quotient vector equality, detached scalar limits, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kadec-klee-property-carrier}. The projection exposes exactly the analysis rows $B,H,N,W,Q,S$ and the structural rows $T,C,P,L$.
+
+The weak and norm routes are separate until both have been displayed. The weak route reads $W$ over the same named vector sequence and candidate limit, while the norm route reads $Q$ through the $\NormUp$ row $N$ and the $\RealUp$ scalar seal.
+
+Now replay the handoff through $C$ and transport it through $T$. The strong-convergence row $S$ is available only downstream from $W$ and $Q$, and the provenance and naming rows attach no additional selection, separation, quotient equality, detached limit, or completeness data.
+\end{proof}
+
+\begin{theorem}[Kadec--Klee weak-strong handoff]
+\label{thm:kadec-klee-property-weak-strong-handoff}
+Let $K=(B,H,N,W,Q,S,T,C,P,L)$ be an accepted $\KadecKleePropertyUp$ carrier. Any consumer that reads the strong-convergence handoff $S$ must first read the weak-convergence row $W$, the norm row $N$, the norm-convergence row $Q$, the shared $\RealUp$ scalar seal, componentwise $\hsame$ transport $T$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $L$. Thus the Radon--Riesz handoff is a finite BEDC route over $\BanachUp$, $\HilbertUp$, $\NormUp$, $\WeakTopologyUp$, and $\RealUp$, not a consequence of Hahn--Banach separation, choice-selected weak limits, quotient vector equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with a request for $S$. Carrier admission gives the only available predecessors: weak convergence through $W$, norm readback through $N$, scalar convergence through $Q$, and the structural rows $T,C,P,L$.
+
+Use the NameCert obligation surface of \autoref{thm:kadec-klee-property-namecert-obligations}. It forces the weak observation and the norm-value comparison to share the same displayed sequence, candidate limit, transport row, and real-name scalar boundary before strong convergence can be consumed.
+
+Because no other coordinate exists in the carrier, the consumer cannot replace the handoff by a separation theorem, a selected weak limit, quotient vector equality, a hidden scalar limit, or an ambient completeness argument. The handoff is exactly the displayed finite route.
+\end{proof}
+
+\closureat{KadecKleePropertyUp}{seedStr}
+
+\begin{closurestatus}{\KadecKleePropertyUp}
+  \constructivestory{A $\KadecKleePropertyUp$ packet is generated from Banach, optional Hilbert, Norm, WeakTopology, Real scalar, weak-convergence, norm-convergence, strong-handoff, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kadec-klee-property-carrier}, \autoref{thm:kadec-klee-property-namecert-obligations}, and \autoref{thm:kadec-klee-property-weak-strong-handoff} seed the Radon--Riesz route from weak convergence and norm convergence to strong convergence over displayed Banach, Hilbert, Norm, WeakTopology, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Hahn--Banach separation, choice-selected weak limits, quotient vector equality, detached scalar limits, ambient completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, weak-row visibility, norm-scalar exactness, strong-handoff routing, transport replay, provenance, and consumer refusal for BEDC.Derived.KadecKleePropertyUp.}
+\end{closurestatus}

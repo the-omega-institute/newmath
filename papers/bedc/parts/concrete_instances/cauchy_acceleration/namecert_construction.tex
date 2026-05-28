@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\CauchyAccelerationUp$}
+\label{ch:concrete-instances-cauchy-acceleration-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyAccelerationUp$ packet records the finite acceleration step by which an ordinary displayed Cauchy name is replaced by a cofinal regular rational name without changing the represented real. It sits after the criterion surfaces of \autoref{ch:concrete-instances-cauchycriterion-namecert} and \autoref{ch:concrete-instances-bishop-cauchy-criterion-namecert}, the regularization route of \autoref{ch:concrete-instances-cauchyregularization-namecert}, the windowed name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet makes acceleration a named finite ledger: it does not select an ambient subsequence, quotient a Cauchy representative, or appeal to host completeness of $\RealUp$.
+
+\begin{definition}[Cauchy acceleration carrier]
+\label{def:cauchy-acceleration-carrier}
+A $\CauchyAccelerationUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,T,\alpha,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\StreamNameUp$ row whose finite windows display the original rational Cauchy name.
+\item $T$ is the dyadic tolerance schedule, read through $\DyadicRatCoreUp$, assigning the requested precision budget to each inspected window.
+\item $\alpha$ is the cofinal acceleration map, stored as a finite monotone ledger saying which source window is read for each accelerated precision request.
+\item $R$ is the $\RegSeqRatUp$ proof row for the accelerated rational name, including the regularity inequalities obtained by reading $S$ through $\alpha$ and $T$.
+\item $E$ is the $\RealUp$ seal row, recording that the accelerated regular name reaches the same Real-facing boundary as the source name.
+\item $H$ records componentwise $\hsame$ transport for the source stream, tolerance schedule, cofinality map, regular proof row, Real seal, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from an acceleration request through $S,T,\alpha,R,E$ and then to the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\CauchyAccelerationUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyAccelerationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a quotient representative of the original Cauchy name, a choice-selected subsequence, an ambient completeness theorem, or a host-side equality oracle for real numbers.
+\end{definition}
+
+\begin{theorem}[Cauchy acceleration NameCert obligations]
+\label{thm:cauchy-acceleration-namecert-obligations}
+For every accepted $\CauchyAccelerationUp$ carrier $A=(S,T,\alpha,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyAccelerationUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed $\StreamNameUp$ source row $S$, dyadic tolerance schedule $T$, cofinal map $\alpha$, regular rational proof row $R$, and Real seal row $E$;
+\item monotone cofinality, requiring $\alpha$ to preserve request order and to eventually reach every inspected source precision window;
+\item dyadic tolerance preservation, requiring each accelerated request to read the same displayed tolerance budget through $\DyadicRatCoreUp$ before it reaches the $\RegSeqRatUp$ row;
+\item classifier transport, requiring $H$ and $C$ to preserve the source stream, tolerance schedule, cofinality ledger, regular proof row, and Real seal under componentwise $\hsame$ and displayed replay;
+\item ledger exhaustion through $P$ and $N$, excluding quotient representatives, choice-selected subsequences, ambient $\RealUp$ completeness, and host real equality.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-acceleration-carrier}. The accepted packet exposes only the source stream $S$, tolerance schedule $T$, acceleration ledger $\alpha$, regular readback $R$, Real seal $E$, and the structural rows.
+
+Monotone cofinality is the public content of $\alpha$. Since $\alpha$ is stored as a finite ledger over the inspected request window, each accelerated precision read names the source window it consumes and records that later requests do not move backward.
+
+Dyadic tolerance preservation follows by reading $T$ before the regular rational proof row. The $\RegSeqRatUp$ row $R$ receives exactly the tolerance entries displayed by $\DyadicRatCoreUp$, so the acceleration cannot import an unrecorded modulus or external precision oracle.
+
+Classifier transport is componentwise through $H$ and replayed through $C$. These rows preserve $S,T,\alpha,R,E$ without adding a second classifier surface.
+
+Finally, $P$ and $N$ name precisely the displayed packet. Because the carrier contains no quotient representative, choice-selected subsequence, ambient completeness coordinate, or host real equality oracle, the five listed rows exhaust the local naming obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy acceleration L10 handoff]
+\label{thm:cauchy-acceleration-l10-handoff}
+Every accepted $\CauchyAccelerationUp$ carrier $A=(S,T,\alpha,R,E,H,C,P,N)$ exports only the finite route
+$$
+\StreamNameUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp
+$$
+displayed by $S,T,\alpha,R,E,H,C,P,N$. Consequently every L10 consumer receives a $\RegSeqRatUp$-compatible and $\RealUp$-compatible accelerated name, while quotient representatives of the original Cauchy name, choice-selected subsequences, and ambient $\RealUp$ completeness remain unavailable.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and apply \autoref{thm:cauchy-acceleration-namecert-obligations}. The only public data are $S,T,\alpha,R,E,H,C,P,N$.
+
+The source read begins at the $\StreamNameUp$ row $S$. The tolerance read then passes through $T$ and $\alpha$, so every accelerated precision request is attached to an explicit dyadic budget and a displayed source window.
+
+The regular rational handoff is exactly $R$, and the Real-facing boundary is exactly $E$. Transport and replay through $H$ and $C$ preserve that route for downstream consumers.
+
+Since $P$ and $N$ exhaust the packet and no forbidden coordinate appears in \autoref{def:cauchy-acceleration-carrier}, the exported object is only the displayed accelerated name compatible with $\RegSeqRatUp$ and $\RealUp$.
+\end{proof}
+
+\closureat{CauchyAccelerationUp}{seedStr}
+
+\begin{closurestatus}{\CauchyAccelerationUp}
+  \constructivestory{A $\CauchyAccelerationUp$ packet is generated from a StreamName source row, a DyadicRatCore tolerance schedule, a finite cofinal acceleration ledger, a RegSeqRat proof row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-acceleration-carrier}, \autoref{thm:cauchy-acceleration-namecert-obligations}, and \autoref{thm:cauchy-acceleration-l10-handoff} seed the finite acceleration route from StreamName windows through dyadic tolerance schedules, cofinal acceleration ledgers, RegSeqRat readback, and the terminal RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient Cauchy-name equality, choice-selected subsequences, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, monotone cofinality, dyadic tolerance preservation, classifier transport, L10 handoff, and ledger exhaustion for BEDC.Derived.CauchyAccelerationUp.}
+\end{closurestatus}
