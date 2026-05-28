@@ -1460,6 +1460,7 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
         "passed_this_cycle": 0,
         "failed_this_cycle": 0,
         "needs_data_this_cycle": 0,
+        "needs_external_this_cycle": 0,
         "error_this_cycle": 0,
         "skipped_unmet_dep": 0,
         "claim_states": {},
@@ -1481,11 +1482,23 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
         if experiment is None:
             continue
         dependencies = [str(item) for item in claim.get("depends_on", []) if isinstance(item, str)]
-        unmet = [dep for dep in dependencies if str(claim_by_id.get(dep, {}).get("status") or "") != "passed"]
+        id_deps = [dep for dep in dependencies if re.match(r"^[A-Za-z0-9._+-]+$", dep)]
+        external_preconditions = [dep for dep in dependencies if not re.match(r"^[A-Za-z0-9._+-]+$", dep)]
+        if external_preconditions:
+            if str(claim.get("status") or "") != "needs_external":
+                claim["status"] = "needs_external"
+                history = claim.setdefault("history", [])
+                if isinstance(history, list):
+                    history.append(_history_entry("needs_external", "blocked on external preconditions", external_preconditions=external_preconditions))
+            summary["needs_external_this_cycle"] += 1
+            continue
+        unmet = [dep for dep in id_deps if str(claim_by_id.get(dep, {}).get("status") or "") != "passed"]
         if unmet:
             history = claim.setdefault("history", [])
             if isinstance(history, list):
-                history.append(_history_entry("skipped", "skipped due to unmet dependency", unmet_dependencies=unmet))
+                last = history[-1] if history else {}
+                if not (isinstance(last, dict) and last.get("status") == "skipped" and last.get("unmet_dependencies") == unmet):
+                    history.append(_history_entry("skipped", "skipped due to unmet dependency", unmet_dependencies=unmet))
             summary["skipped_unmet_dep"] += 1
             continue
         missing_data = _missing_required_data(repo_root, experiment)
