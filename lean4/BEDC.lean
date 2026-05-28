@@ -3090,6 +3090,7 @@ import BEDC.Derived.DyadicStepFunctionUp.ScopeExport
 import BEDC.Derived.DyadicStepFunctionUp.ScopeTransportPackage
 import BEDC.Derived.DyadicStepFunctionUp.ScopedObligationPackage
 import BEDC.Derived.DyadicStepFunctionUp.ScopedWindowPackage
+import BEDC.Derived.DyadicStepFunctionUp.StandardBridge
 import BEDC.Derived.DyadicStepFunctionUp.TasteGate
 import BEDC.Derived.DyadicStepFunctionUp.WindowCarrier
 import BEDC.Derived.DyadicSubdivisionUp
@@ -5717,6 +5718,8 @@ import BEDC.Derived.RegistryExportSurfaceUp.TasteGate
 import BEDC.Derived.RegistryLayerUp.TasteGate
 import BEDC.Derived.RegistryNoSmugglingPredicateUp.TasteGate
 import BEDC.Derived.RegularCauchyAbsUp.NameCert
+import BEDC.Derived.RegularCauchyAbsUp.NonEscape
+import BEDC.Derived.RegularCauchyAbsUp.ObligationClosure
 import BEDC.Derived.RegularCauchyAbsUp.RealSealBoundary
 import BEDC.Derived.RegularCauchyAbsUp.RegSeqRatHandoff
 import BEDC.Derived.RegularCauchyAbsUp.TasteGate
