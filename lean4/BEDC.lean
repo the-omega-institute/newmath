@@ -5190,6 +5190,7 @@ import BEDC.Derived.ProperMetricUp.TasteGate
 import BEDC.Derived.PropextTransportBoundaryUp
 import BEDC.Derived.PropextTransportBoundaryUp.NameCertObligations
 import BEDC.Derived.PropextTransportBoundaryUp.TasteGate
+import BEDC.Derived.PseudometricUp
 import BEDC.Derived.PseudometricUp.TasteGate
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.QuadrantSubstrateUp.TasteGate
@@ -6232,6 +6233,7 @@ import BEDC.Derived.SobolevUp.CompletionNormHandoff
 import BEDC.Derived.SobolevUp.FiniteEnergyCarrier
 import BEDC.Derived.SobolevUp.FiniteWindowRootPackage
 import BEDC.Derived.SobolevUp.HilbertCompletionDescent
+import BEDC.Derived.SobolevUp.IntegralDerivativeTransportStability
 import BEDC.Derived.SobolevUp.IntegralMagnitudeLedgerStability
 import BEDC.Derived.SobolevUp.LocalPoincareLedger
 import BEDC.Derived.SobolevUp.ObligationPackage
