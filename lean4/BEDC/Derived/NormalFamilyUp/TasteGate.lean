@@ -158,18 +158,31 @@ def taste_gate : ChapterTasteGate NormalFamilyUp :=
   -- BEDC touchpoint anchor: BHist BMark
   normalFamilyChapterTasteGate
 
+def taste_gate_witness : FieldFaithful NormalFamilyUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  normalFamilyFieldFaithful
+
 theorem NormalFamilyTasteGate_single_carrier_alignment :
-    (∀ h : BHist, normalFamilyDecodeBHist (normalFamilyEncodeBHist h) = h) ∧
-      (∀ x : NormalFamilyUp, normalFamilyFromEventFlow (normalFamilyToEventFlow x) = some x) ∧
-        (∀ x y : NormalFamilyUp, normalFamilyToEventFlow x = normalFamilyToEventFlow y →
-          x = y) ∧
-          normalFamilyEncodeBHist BHist.Empty = ([] : List BMark) := by
+    Nonempty (ChapterTasteGate NormalFamilyUp) ∧
+      Nonempty (FieldFaithful NormalFamilyUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial NormalFamilyUp) ∧
+          normalFamilyFromEventFlow
+              (normalFamilyToEventFlow
+                (NormalFamilyUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty)) =
+            some
+              (NormalFamilyUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
-    ⟨NormalFamilyTasteGate_single_carrier_alignment_decode_encode,
-      NormalFamilyTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        NormalFamilyTasteGate_single_carrier_alignment_toEventFlow_injective heq),
-      rfl⟩
+    ⟨⟨normalFamilyChapterTasteGate⟩,
+      ⟨normalFamilyFieldFaithful⟩,
+      ⟨normalFamilyNontrivial⟩,
+      NormalFamilyTasteGate_single_carrier_alignment_round_trip
+        (NormalFamilyUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+          BHist.Empty)⟩
 
 end BEDC.Derived.NormalFamilyUp.TasteGate

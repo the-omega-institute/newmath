@@ -33,3 +33,19 @@ The Real seal is downstream from the readback row. A consumer of $L$ therefore m
 
 The structural rows preserve the handoff. Componentwise transport $H$, UniformCompletionUp provenance $P$, and local naming $N$ carry the same route forward, so the seal handoff does not introduce selected limits, host equality of completion points, quotient filters, or ambient completeness.
 \end{proof}
+
+\begin{theorem}[CauchyFilterCompletion root filter scope closure]
+\label{thm:cauchyfiltercompletion-root-filter-scope-closure}
+Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier. Before any completion-facing consumer can read a completed point, the root-filter completion read must expose the $\FilterBaseUp$ and $\CauchyFilterUp$ rows behind $C$, the $\UniformCompletionUp$ or $\SeparatedCompletionUp$ handoff surface, the $\StreamNameUp$ finite-window schedule $W$, the $\RegSeqRatUp$ regular readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $T$, the $\RealUp$ seal $L$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $K$, $\Pkg$ provenance $P$, and the local $\NameCert_{\CauchyFilterCompletionUp}$ row $N$.
+
+Consequently the root-filter completion scope exports only this displayed finite route. It does not export quotient completions, selected limits, countable-choice schedules, host equality of completed points, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-filter-completion-carrier}. The source coordinate $C$ is the only place where a root filter can enter, and the root carrier admission obligation keeps $C,W,T,R,L,H,K,P,N$ inside the same finite $\BHist$ packet.
+
+Route filter-base requests through the existing source coverage obligation. The $\FilterBaseUp/\CauchyFilterUp$ rows behind $C$ must be read before the $\StreamNameUp$ windows $W$, the $\DyadicRatCoreUp$ tolerance ledger $T$, or the $\RegSeqRatUp$ readback $R$ can be inspected.
+
+Now route the completion handoff. The $\RealUp$ seal $L$ and the $\UniformCompletionUp$ or $\SeparatedCompletionUp$ consumer surface are reached only after the displayed source, window, tolerance, and readback rows have been replayed through $K$ and transported by $H$.
+
+Finally $P$ and $N$ source and name the same route. Since the packet has no quotient-completion, selected-limit, countable-choice, host-equality, or ambient-completeness coordinate, the root-filter completion scope is exactly the finite route stated above.
+\end{proof}
