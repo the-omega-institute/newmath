@@ -148,6 +148,25 @@ No direct route to $\mathrm{BetaParallelDiamondClosed}$ is available from the
 residual envelope alone.
 \end{proof}
 
+\begin{theorem}[MetaCIC residual envelope closed-join boundary]
+\label{thm:metacic-residual-envelope-closed-join-boundary}
+Every closed-join or closed-diamond consumer of an accepted $\MetaCICConfluenceResidualEnvelopeUp$ packet $E=(T,R,S,B,J,O,F,U,Z,H,C,P,N)$ must read the envelope rows in the following boundary order: typed window, residual frontier, substitution boundary, checker status, local join, obstruction, fuel, neutral spine, normalization budget, transport, replay, provenance, and local naming. Equivalently, a consumer may cite the closed-join row only after the displayed route
+$$
+T,R,S,B,J,O,F,U,Z,H,C,P,N
+$$
+has been consumed. The boundary exports no unrestricted $\mathrm{BetaParallelDiamondClosed}$ theorem, no unrestricted substitution compatibility, no subject reduction theorem, and no Church--Rosser theorem.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert surface theorem,
+\autoref{thm:metacic-confluence-residual-envelope-namecert-surface}. It fixes the visible surface of an accepted envelope as precisely $T,R,S,B,J,O,F,U,Z,H,C,P,N$.
+
+Next read the residual-sensitive part of the route. The checker-status determinacy theorem fixes $B$ before the local join is inspected, while obstruction monotonicity keeps $O$ visible through the later rows. Thus $J$ can be read only as a local join under the already displayed residual frontier, substitution boundary, checker status, and obstruction boundary.
+
+Apply the closed-diamond consumption boundary and the diamond route. Together they force any closed-diamond or closed-join consumer through the same full inventory, and the sibling residual-substitution boundary, bounded frontier, and open-frontier ledger prevent the envelope from presenting the endpoint as a discharged global theorem.
+
+Finally inspect the excluded coordinates. Since the carrier has no row for unrestricted closed diamond, substitution compatibility, subject reduction, or Church--Rosser, the closed-join read is exactly the ordered finite boundary stated above.
+\end{proof}
+
 The Lean TasteGate site for $\MetaCICConfluenceResidualEnvelopeUp$ must provide explicit $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for this carrier surface. These instances must keep the residual windows, substitution boundary, checker status, local joins, obstruction row, fuel trace, neutral spine, normalization budget, transport, replay, provenance, and local naming distinguishable.
 
 \closureat{MetaCICConfluenceResidualEnvelopeUp}{seedStr}
