@@ -113,6 +113,18 @@ Use \autoref{thm:bolzano-cauchy-cauchy-to-limit-route} for the forward direction
 Use \autoref{thm:bolzano-cauchy-limit-to-cauchy-route} for the reverse direction. It reads the same compatibility row $L$ back through $E,R,D,M,S$, with $H,C,P,N$ preserving the packet. Because both routes consume the same rows and the carrier has no coordinate between $E$ and $L$, selected host limits, quotient stream equality, and ambient completeness cannot be inserted there.
 \end{proof}
 
+\begin{theorem}[Bolzano-Cauchy RegSeqRat window factorization]
+\label{thm:bolzano-cauchy-regseqrat-window-factorization}
+For any accepted $\BolzanoCauchyUp$ carrier $B=(S,M,D,R,E,L,H,C,P,N)$, both the Cauchy-to-limit read and the limit-to-Cauchy read factor through the same finite $S,M,D,R$ window before either the $\RealUp$ seal row $E$ or the $\CauchyLimitSealUp$ row $L$ is exposed. In particular, no quotient stream, selected host limit, or ambient $\RealUp$ completeness coordinate can be inserted between the $\RegSeqRatUp$ window $R$ and the seal rows $E,L$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:bolzano-cauchy-cauchy-to-limit-route} for the Cauchy-to-limit direction. Its read reaches the $\RealUp$ and limit-seal rows only after the finite stream schedule $S$, modulus row $M$, dyadic ledger $D$, and regular readback $R$ have been displayed.
+
+Use \autoref{thm:bolzano-cauchy-limit-to-cauchy-route} for the limit-to-Cauchy direction. Reading back from $L$ passes through $E,R,D,M,S$, so the reverse route exposes the same $S,M,D,R$ window before returning a Cauchy conclusion.
+
+Finally apply \autoref{thm:bolzano-cauchy-ledger-exactness}. The two routes consume the same finite ledger rows, and the carrier has no coordinate between $R$ and the seal rows. Hence quotient streams, selected host limits, and ambient $\RealUp$ completeness cannot be inserted into the factorization.
+\end{proof}
+
 \closureat{BolzanoCauchyUp}{seedStr}
 
 \begin{closurestatus}{\BolzanoCauchyUp}
