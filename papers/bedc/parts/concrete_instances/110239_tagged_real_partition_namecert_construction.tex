@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\TaggedRealPartitionUp$}
+\label{ch:concrete-instances-tagged-real-partition-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive integration, the $\TaggedRealPartitionUp$ packet records a finite partition of a located real interval together with a displayed tag inside each cell. It refines the located partition carrier of \autoref{ch:concrete-instances-located-real-interval-partition-namecert} and the oscillation-controlled partition carrier of \autoref{ch:concrete-instances-finite-oscillation-partition-namecert}; it also reads its endpoint and tag data through the $\StreamNameUp$ source of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies the finite tag-bearing surface needed by L10 integration and oscillation routes without replacing it by an untagged mesh, a host partition object, selected representatives, quotient real equality, countable choice, or ambient completeness.
+
+\begin{definition}[Tagged real partition carrier]
+\label{def:tagged-real-partition-carrier}
+A $\TaggedRealPartitionUp$ carrier is a finite $\BHist$ packet
+$$
+T=(I,M,A,G,O,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the source $\LocatedRealIntervalPartitionUp$ row exposing the located interval, finite cell order, endpoint containment, and mesh precision.
+\item $M$ is the finite mesh row inherited from $I$, listing adjacent cells and the common refinement ledger used by later integration consumers.
+\item $A$ is the cell-containment row, certifying for every mesh cell that its endpoints and rational witness rows remain inside the located interval source.
+\item $G$ is the tag row family, assigning to every displayed cell a tag history whose $\StreamNameUp$ and $\RegSeqRatUp$ reads certify containment in that same cell before any $\RealUp$ seal is consumed.
+\item $O$ is the oscillation and modulus ledger, recording the tolerance request, the cellwise oscillation bound, and the refinement compatibility supplied by $\FiniteOscillationPartitionUp$.
+\item $S$ is the finite $\StreamNameUp$ window family opened for interval endpoints, cell endpoints, and tags.
+\item $R$ is the $\RegSeqRatUp$ readback family for the same finite windows and mesh precision.
+\item $E$ is the terminal $\RealUp$ seal family reached only after the source interval, cell containment, tag containment, oscillation ledger, window, and regular readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $I,M,A,G,O,S,R,E$ and for the replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tagged-partition read through
+$$
+I,M,A,G,O,S,R,E \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\TaggedRealPartitionUp$, $\LocatedRealIntervalPartitionUp$, $\FiniteOscillationPartitionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TaggedRealPartitionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by these displayed interval-source, mesh, containment, tag, oscillation, window, readback, seal, transport, replay, provenance, and local naming rows. It has no coordinate for a host tagged partition, an unbounded tag selector, quotient real equality, chosen completed tag values, countable choice, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Tagged real partition NameCert obligations]
+\label{thm:tagged-real-partition-namecert-obligations}
+For every accepted $\TaggedRealPartitionUp$ carrier $T=(I,M,A,G,O,S,R,E,H,C,P,N)$, the local $\NameCert_{\TaggedRealPartitionUp}$ surface consists exactly of carrier admission, located interval and mesh exposure through $I,M$, cell-containment certification through $A$, tag containment through $G$, oscillation and modulus accounting through $O$, finite $\StreamNameUp$ windows through $S$, $\RegSeqRatUp$ readback through $R$, terminal $\RealUp$ seals through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+
+Every integration-facing or oscillation-facing read of the tagged partition must therefore pass through the displayed finite mesh, tag-containment, oscillation, window, readback, and seal rows before any terminal real-value consumer is allowed to inspect the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tagged-real-partition-carrier}. The tuple lists the only rows available to a tagged-partition consumer: the interval source, mesh, containment ledger, tag rows, oscillation ledger, finite windows, regular readbacks, real seals, transport, replay, provenance, and local naming rows.
+
+The source interval and cell obligations are $I,M,A$. The located partition row supplies the interval and mesh; the containment row attaches each cell to the same source, so a tag cannot be read against a detached host interval.
+
+The tag and oscillation obligations are $G,O$. The tag row certifies cell membership for each tag through the same finite-window and regular-readback route, while the oscillation row records the tolerance and refinement ledger inherited from the oscillation-partition packet.
+
+The readback and seal obligations are $S,R,E$. A consumer reaches the StreamName windows only after the interval, cell, tag, and oscillation rows are visible, then reads the regular rational rows and finally the terminal Real seal.
+
+The structural rows $H,C,P,N$ transport, replay, package, and name exactly this route. Since the carrier has no coordinate for a host tagged partition, an unbounded selector, quotient real equality, chosen completed tag values, countable choice, or ambient completeness, the displayed NameCert obligations exhaust the accepted packet.
+\end{proof}
+
+\closureat{TaggedRealPartitionUp}{seedStr}
+
+\begin{closurestatus}{\TaggedRealPartitionUp}
+  \constructivestory{A $\TaggedRealPartitionUp$ packet is generated from a LocatedRealIntervalPartitionUp source, finite mesh and cell-containment rows, per-cell tag rows, oscillation and modulus ledgers, StreamName windows, RegSeqRat readback, RealUp seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tagged-real-partition-carrier} and \autoref{thm:tagged-real-partition-namecert-obligations} seed the finite tag-bearing partition interface for L10 integration and oscillation consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close integration convergence, Darboux sums, quotient real equality, selected tag values, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cell containment, tag containment, oscillation-modulus accounting, StreamName windows, RegSeqRat readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.TaggedRealPartitionUp.}
+\end{closurestatus}
