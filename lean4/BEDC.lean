@@ -5120,6 +5120,7 @@ import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.PaperLeanDriftWitnessUp
 import BEDC.Derived.ParacompactUp.TasteGate
 import BEDC.Derived.ParallelConfluenceAuditUp.TasteGate
+import BEDC.Derived.ParsevalUp.TasteGate
 import BEDC.Derived.PartitionUp
 import BEDC.Derived.PdeUp
 import BEDC.Derived.PdeUp.TasteGate
@@ -6344,6 +6345,7 @@ import BEDC.Derived.SmugglingPatternClassifierUp.TasteGate
 import BEDC.Derived.SmythCompletionUp
 import BEDC.Derived.SmythCompletionUp.TasteGate
 import BEDC.Derived.SmythPowerdomainUp.TasteGate
+import BEDC.Derived.SobolevEmbeddingUp.TasteGate
 import BEDC.Derived.SobolevUp
 import BEDC.Derived.SobolevUp.BHistCarrierScope
 import BEDC.Derived.SobolevUp.ClassifierLocality
@@ -6913,6 +6915,7 @@ import BEDC.Derived.UniformCompletionSeparationKernelUp
 import BEDC.Derived.UniformCompletionUp.DirectedNetWitnessCertificate
 import BEDC.Derived.UniformCompletionUp.PublicFactorization
 import BEDC.Derived.UniformCompletionUp.TasteGate
+import BEDC.Derived.UniformContinuityModulusUp.TasteGate
 import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.UniformContinuityUp.TasteGate
 import BEDC.Derived.UniformConvergenceSeriesUp.TasteGate
