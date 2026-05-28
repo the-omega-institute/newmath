@@ -65,6 +65,18 @@ The unique-readback row $U$ does not add a choice principle. By the role inherit
 Transport, replay, and provenance preserve the same boundary. The rows $H,C,P,N$ move, replay, source, and name only the finite packet, while the no-choice sibling $\CauchyChoiceBoundaryUp$ blocks the diagonal route from being read as a global selector.
 \end{proof}
 
+\begin{theorem}[Countable choice boundary Cauchy witness refusal]
+\label{thm:countable-choice-boundary-cauchy-witness-refusal}
+Any $\CauchyCompletenessWitnessUp$ consumer of \autoref{ch:concrete-instances-cauchy-completeness-witness-namecert} that uses finite $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ rows may cite $\CountableChoiceBoundaryUp$ only as a refusal boundary. It may read the displayed finite witness rows supplied by \autoref{thm:countable-choice-boundary-finite-witness-row}, but \autoref{thm:countable-choice-boundary-no-selected-limit} gives it no global selector, no host sequence choice, no selected limit, and no quotient stream equality.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:countable-choice-boundary-carrier}. The finite witness row $F$ is downstream of the request, stream window, and regular rational readback rows, so a completion witness consumer can inspect only the displayed rows already named by the packet.
+
+Apply \autoref{thm:countable-choice-boundary-finite-witness-row}. It permits finite $\StreamNameUp$ windows and $\RegSeqRatUp$ readback inside the named request, and it supplies no coordinate for a host family of choices.
+
+Apply \autoref{thm:countable-choice-boundary-no-selected-limit}. The refusal row $L$ excludes selected limits, global selectors, host sequence choice, countable choice, quotient stream equality, and ambient completion data. The $\CauchyCompletenessWitnessUp$ consumer therefore receives a boundary certificate for finite witness rows, not a choice principle for completing all Cauchy presentations.
+\end{proof}
+
 \begin{theorem}[Countable choice boundary Real-completion discipline]
 \label{thm:countable-choice-boundary-real-completion-discipline}
 Every Real and Completion consumer of an accepted $\CountableChoiceBoundaryUp$ carrier must pass through the finite witness row of \autoref{thm:countable-choice-boundary-finite-witness-row} and the no-selected-limit boundary of \autoref{thm:countable-choice-boundary-no-selected-limit}. Consequently $\RealUp$ and $\RegSeqRatUp$ arguments may use finite-window witnesses but may not import countable choice, host sequence choice, selected limits, quotient stream equality, or ambient Real-completion evidence.

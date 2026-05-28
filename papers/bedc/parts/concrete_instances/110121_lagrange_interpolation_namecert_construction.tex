@@ -1,0 +1,146 @@
+\chapter{A Concrete Naming Certificate for $\LagrangeInterpolationUp$}
+\label{ch:concrete-instances-lagrange-interpolation-namecert}
+\origin{human}
+
+Following Lagrange's interpolation formula, the $\LagrangeInterpolationUp$
+packet records the finite route from distinct interpolation nodes and displayed
+values to a polynomial whose evaluations match those values. It consumes the
+polynomial coefficient-list surface of
+\autoref{ch:concrete-instances-polynomial-namecert}, the matrix-style finite
+table discipline of \autoref{ch:concrete-instances-matrix-namecert}, and the
+field and rational arithmetic boundaries of
+\autoref{ch:concrete-instances-field-namecert} and
+\autoref{ch:concrete-instances-rat-namecert}. Its BEDC carrier is a finite
+$\BHist$ ledger: it names nodes, values, basis-polynomial construction,
+evaluation rows, uniqueness rows, $\hsame$ transport, $\Cont$ replay, $\Pkg$
+provenance, and a local $\NameCert$ row. It is not a host interpolation
+theorem, a quotient polynomial equality, or an ambient field-completion
+principle.
+
+The history rows are read as ordinary BEDC certificate data in the sense of
+\autoref{ch:concrete-instances-b-hist-hendeca-tuple-namecert} and the typed
+naming discipline of \autoref{ch:core-typed-naming-certificates}. The classical
+formula appears only through finite arithmetic ledgers; every consumer sees the
+displayed nodes, denominators, coefficient rows, and evaluation routes before
+it can use the interpolating polynomial.
+
+\begin{definition}[Lagrange interpolation carrier]
+\label{def:lagrange-interpolation-carrier}
+A $\LagrangeInterpolationUp$ source is a finite $\mathsf{BHist}$ packet
+$$
+L=(N,V,D,B,E,U,H,C,P,Q)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $N$ is a nonempty finite node row, with an index list and a displayed
+pairwise-distinctness ledger for the nodes.
+\item $V$ is the value row assigning one carried scalar value to each node of
+$N$.
+\item $D$ is the denominator ledger for the factors $x_i-x_j$ with
+$i\ne j$, routed through $\FieldUp$ inverse rows and the rational arithmetic
+surface when the nodes are rational.
+\item $B$ is the basis-polynomial row, displaying the finite products
+$$
+\ell_i(X)=\prod_{j\ne i}\frac{X-x_j}{x_i-x_j}
+$$
+as normalized $\PolynomialUp$ coefficient lists.
+\item $E$ is the evaluation row, recording that each $\ell_i$ evaluates to the
+Kronecker pattern on the displayed node list.
+\item $U$ is the polynomial assembly and uniqueness row: it records the finite
+sum $\sum_i V_i\ell_i$ and the finite comparison showing that any other
+polynomial of degree below the displayed node count with the same evaluations
+has the same normalized coefficient list.
+\item $H$ records componentwise $\hsame$ transport for the node, value,
+denominator, basis, evaluation, uniqueness, replay, provenance, and local-name
+rows.
+\item $C$ records the $\Cont$ routes that replay denominator formation,
+basis-polynomial multiplication, polynomial evaluation, and uniqueness
+comparison from the same displayed finite packet.
+\item $P$ is the $\Pkg$ provenance over $\LagrangeInterpolationUp$,
+$\PolynomialUp$, $\MatrixUp$, $\FieldUp$, $\RatUp$, $\BHist$, $\hsame$,
+$\Cont$, and $\NameCert$.
+\item $Q$ is the local $\NameCert_{\LagrangeInterpolationUp}$ row.
+\end{enumerate}
+The carrier predicate is
+$\mathsf{LagrangeInterpolationLedger}(N,V,D,B,E,U,H,C,P,Q)$. Two accepted
+packets classify together exactly when the ten displayed rows are transported
+by $H$ and replay through the same routes named by $C$ and $P$.
+\end{definition}
+
+\begin{theorem}[Lagrange interpolation NameCert obligations]
+\label{thm:lagrange-interpolation-namecert-obligations}
+For an accepted $\LagrangeInterpolationUp$ packet
+$L=(N,V,D,B,E,U,H,C,P,Q)$, the local
+$\NameCert_{\LagrangeInterpolationUp}$ obligation surface consists exactly of
+the finite carrier and classifier rows of
+\autoref{def:lagrange-interpolation-carrier}, the denominator nonzero rows
+$D$, the basis-polynomial construction rows $B$, the evaluation rows $E$, the
+assembly and uniqueness rows $U$, the componentwise $\hsame$ transport $H$, the
+displayed $\Cont$ replay $C$, the $\Pkg$ provenance $P$, and the local naming
+row $Q$. No additional host polynomial function, determinant inverse, quotient
+equality of polynomials, infinite node family, or completion datum is exported.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:lagrange-interpolation-carrier}. The rows
+$N$ and $V$ supply the finite interpolation table, while $D$ records exactly
+the nonzero denominator data forced by distinct nodes.
+
+The basis and evaluation content is held by $B$ and $E$. These rows are typed
+over the same polynomial coefficient-list surface and the same scalar
+arithmetic provenance, so their comparisons do not introduce a second carrier.
+
+The row $U$ is the only place where the assembled polynomial and the
+degree-bounded uniqueness comparison are visible. The remaining rows $H,C,P,Q$
+transport, replay, source, and name the displayed packet. Since no further
+coordinate is present, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Lagrange polynomial evaluation route]
+\label{thm:lagrange-interpolation-polynomial-evaluation-route}
+Every evaluation read exported by an accepted $\LagrangeInterpolationUp$
+packet factors through the same finite route
+$$
+N,V,D \longmapsto B \longmapsto E \longmapsto U \longmapsto Q .
+$$
+The route first verifies pairwise-distinct nodes and denominator rows, then
+builds normalized basis polynomials in $\PolynomialUp$, evaluates those basis
+polynomials at the displayed nodes, assembles the interpolating polynomial, and
+finally exposes the local $\NameCert_{\LagrangeInterpolationUp}$ row. A
+consumer cannot bypass this route by appealing to an ambient polynomial
+function, a determinant computation over an unstated matrix, or an external
+field-completion argument.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet
+$L=(N,V,D,B,E,U,H,C,P,Q)$. The denominator ledger $D$ is downstream of the
+node row $N$ and upstream of the basis row $B$, so each basis-polynomial read
+has already passed through the displayed distinctness and inverse witnesses.
+
+Next, $E$ evaluates the basis rows of $B$ at the same finite node list. The
+route is replayed by $C$ and transported by $H$, hence a transported packet
+keeps the same node, value, denominator, basis, and evaluation sequence.
+
+Finally, $U$ assembles the finite linear combination and records the
+degree-bounded uniqueness comparison before $Q$ names the packet. Thus every
+polynomial-evaluation read available from the local certificate follows the
+displayed finite route and has no coordinate from which a bypassing host
+argument could be read.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LagrangeInterpolationUp$ read that
+claims an interpolating polynomial factors through finite node rows, value rows,
+denominator ledgers, normalized $\PolynomialUp$ basis rows, evaluation rows,
+uniqueness rows, componentwise $\hsame$ transport, displayed $\Cont$ replay,
+$\Pkg$ provenance, and the local $\NameCert$ row.}
+
+\closureat{LagrangeInterpolationUp}{seedStr}
+
+\begin{closurestatus}{\LagrangeInterpolationUp}
+  \constructivestory{A $\LagrangeInterpolationUp$ packet is generated from finite node rows, value rows, denominator ledgers, normalized polynomial basis rows, evaluation rows, uniqueness rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lagrange-interpolation-carrier}, \autoref{thm:lagrange-interpolation-namecert-obligations}, and \autoref{thm:lagrange-interpolation-polynomial-evaluation-route} bind the finite interpolation carrier, local NameCert obligation surface, and polynomial-evaluation route over displayed nodes, values, denominators, basis polynomials, evaluation, uniqueness, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, host interpolation functions, determinant inversion outside the displayed ledger, quotient equality of polynomials, infinite node families, ambient completeness, or field-completion arguments.}
+  \upgradepath{Obligation closure requires checked carrier admission, denominator nonzero routing, basis-polynomial construction, evaluation replay, assembly, uniqueness, transport replay, provenance, and local naming for BEDC.Derived.LagrangeInterpolationUp.}
+\end{closurestatus}
