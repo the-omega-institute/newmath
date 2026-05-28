@@ -2064,6 +2064,7 @@ import BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp
 import BEDC.Derived.CompactUniformEpsilonTriangleHandoffUp.TasteGate
 import BEDC.Derived.CompactUniformFiniteNetRealizationUp.TasteGate
 import BEDC.Derived.CompactUniformModulusExtractorUp.TasteGate
+import BEDC.Derived.CompactUniformModulusTransferUp.TasteGate
 import BEDC.Derived.CompactUniformModulusUp.TasteGate
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.CommonPrecision
@@ -5271,7 +5272,9 @@ import BEDC.Derived.PropextTransportBoundaryUp
 import BEDC.Derived.PropextTransportBoundaryUp.NameCertObligations
 import BEDC.Derived.PropextTransportBoundaryUp.TasteGate
 import BEDC.Derived.PseudometricUp
+import BEDC.Derived.PseudometricUp.ClassifierTransportObligation
 import BEDC.Derived.PseudometricUp.DistanceReadbackObligation
+import BEDC.Derived.PseudometricUp.LedgerNonescapeObligation
 import BEDC.Derived.PseudometricUp.TasteGate
 import BEDC.Derived.PublicKeyUp
 import BEDC.Derived.QuadrantSubstrateUp.TasteGate
@@ -6326,6 +6329,7 @@ import BEDC.Derived.SobolevUp.CompletionNormHandoff
 import BEDC.Derived.SobolevUp.FiniteEnergyCarrier
 import BEDC.Derived.SobolevUp.FiniteWindowRootPackage
 import BEDC.Derived.SobolevUp.HilbertCompletionDescent
+import BEDC.Derived.SobolevUp.HilbertNormRootWindow
 import BEDC.Derived.SobolevUp.IntegralDerivativeTransportStability
 import BEDC.Derived.SobolevUp.IntegralMagnitudeLedgerStability
 import BEDC.Derived.SobolevUp.LocalPoincareLedger
