@@ -608,6 +608,7 @@ import BEDC.Derived.BaireCategoryUp.DenseOpenThreadObligation
 import BEDC.Derived.BaireCategoryUp.FiniteMeetDensityHandoff
 import BEDC.Derived.BaireCategoryUp.FiniteScheduleChoiceFreeInduction
 import BEDC.Derived.BaireCategoryUp.LimitThreadNonescape
+import BEDC.Derived.BaireCategoryUp.MeagreBoundaryRefusal
 import BEDC.Derived.BaireCategoryUp.NameCertExportSurface
 import BEDC.Derived.BaireCategoryUp.NameCertObligations
 import BEDC.Derived.BaireCategoryUp.ProbeBundleDenseOpenInduction
@@ -6174,6 +6175,7 @@ import BEDC.Derived.SobolevUp
 import BEDC.Derived.SobolevUp.BHistCarrierScope
 import BEDC.Derived.SobolevUp.ClassifierLocality
 import BEDC.Derived.SobolevUp.CompleteMetricHandoff
+import BEDC.Derived.SobolevUp.CompletionConsumerExport
 import BEDC.Derived.SobolevUp.CompletionNormHandoff
 import BEDC.Derived.SobolevUp.FiniteEnergyCarrier
 import BEDC.Derived.SobolevUp.FiniteWindowRootPackage
