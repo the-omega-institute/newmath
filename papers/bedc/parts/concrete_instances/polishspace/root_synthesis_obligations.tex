@@ -1,0 +1,70 @@
+\begin{theorem}[Polish-space complete-separable root synthesis]
+\label{thm:polishspace-complete-separable-root-synthesis}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. The
+rows $M,K,D,S,R,W,H,C,G,N$ form one complete-separable metric synthesis route:
+$M$ is the common metric source, $K$ is the complete-metric handoff over $M$,
+$D$ is the separable schedule over $M$, $S$ and $R$ display the stream and
+regular-rational observations, and $W,H,C,G,N$ preserve ledger exactness,
+transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:polish-space-carrier}. The displayed
+tuple is already the common $\BHist$ packet containing the metric, completion,
+separability, stream, readback, ledger, transport, replay, provenance, and
+local naming rows.
+
+Apply \autoref{thm:polish-space-namecert-obligations}. Carrier admission
+exposes those rows as one local NameCert surface, while classifier transport
+keeps $K$ and $D$ over the same metric source $M$.
+
+Finally use the root stream readback obligations of
+\autoref{thm:polishspace-root-stream-readback-obligations}. The stream and
+regular-rational rows $S,R$ must be displayed before $M,K,D$ are consumed, so
+the complete-separable synthesis is exactly the finite route
+$M,K,D,S,R,W,H,C,G,N$.
+\end{proof}
+
+\begin{theorem}[Polish-space stream readback exactness]
+\label{thm:polishspace-stream-readback-exactness}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. Every
+dense-name read and every Cauchy-window read passes through the displayed
+$\StreamNameUp$ row $S$, the $\RegSeqRatUp$ readback row $R$, and the
+observation ledger $W$ before it can be consumed by the metric,
+complete-metric, or separable rows $M,K,D$.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:polish-space-carrier}. Dense-name inspections and
+Cauchy-window requests have only the stream schedule $S$, regular rational
+readback $R$, and observation ledger $W$ as displayed readback coordinates.
+
+Use \autoref{thm:polish-space-namecert-obligations}. Its ledger-exactness
+clause makes $W$ the only source of metric-radius checks, Cauchy windows,
+dense-name inspections, and regular rational readbacks.
+
+The earlier root stream readback theorem then fixes the order of use: $S,R,W$
+are read before any consumer treats $M,K,D$ as analytic evidence. Thus no
+dense-name or Cauchy-window read can bypass the stream readback route.
+\end{proof}
+
+\begin{theorem}[Polish-space choice-free observation ledger]
+\label{thm:polishspace-choice-free-observation-ledger}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. The
+ledger rows $W,H,C,G,N$ exclude selected dense sequences, quotient completion
+equality, and host complete-separable spaces as sources for the
+$\PolishSpaceUp$ synthesis; every public observation remains a finite route
+through $M,K,D,S,R$.
+\end{theorem}
+\begin{proof}
+Read the carrier projection from \autoref{def:polish-space-carrier}. The
+support rows $W,H,C,G,N$ record observation, transport, replay, provenance,
+and local naming for the displayed tuple only.
+
+Apply \autoref{thm:polish-space-namecert-obligations}. No NameCert obligation
+is stored outside the six listed obligation rows, and the exactness row
+identifies $W$ as the sole observation source.
+
+Combine this with \autoref{thm:polishspace-complete-separable-root-synthesis}.
+The complete-separable route is already supplied by $M,K,D,S,R,W,H,C,G,N$, so
+selected dense sequences, quotient completion equality, and host
+complete-separable spaces are not exported by the packet.
+\end{proof}
