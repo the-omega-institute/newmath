@@ -224,6 +224,39 @@ Use \autoref{thm:separatedcompletion-obligation-source-triad} to fix the source 
 Use quotient-exhaustion refusal, \autoref{thm:separatedcompletion-no-quotient-exhaustion}, for the negative side. It excludes quotient completions, selected representatives, host equality, countable choice, ambient Real completeness, and hidden complete spaces from the route. The remaining rows are precisely the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface already displayed by the carrier.
 \end{proof}
 
+\begin{definition}[SeparatedCompletion scoped kernel route]
+\label{def:separatedcompletion-scoped-kernel-route}
+For an accepted $\SeparatedCompletionUp$ carrier $S=(M,D,C,Z,U,H,R,T,P,N)$, the scoped kernel route is the finite BEDC read
+$$
+(\BHist,\hsame,\Cont,\Pkg,\NameCert)\vdash M,D,C,Z,U,H,R,T,P,N.
+$$
+It binds dense-source compatibility by $M,D,C$, separated classifier exactness by $Z,U$, transport and replay by $H,R,T$, and provenance and local naming by $P,N$. The route has no coordinate for quotient completions, selected representatives, host equality of completed points, countable choice, ambient $\RealUp$ completeness, or hidden complete metric spaces.
+\end{definition}
+
+\begin{theorem}[SeparatedCompletion dense source scope]
+\label{thm:separatedcompletion-dense-source-scope}
+Every dense-source consumer of an accepted $\SeparatedCompletionUp$ carrier must read $M,D,C$ through the scoped kernel route before reading $Z,U,H,R,T,P,N$. Thus dense-source compatibility is a statement about the displayed source metric row, dense embedding row, and completion handoff row inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, not about an external completed space.
+\end{theorem}
+\begin{proof}
+Apply the scoped route theorem, \autoref{thm:separatedcompletion-scoped-route}. It identifies the public route with the rows $M,D,C,Z,U,H,R,T,P,N$ and no additional coordinate.
+
+Now use the dense-limit route, \autoref{thm:separatedcompletion-dense-limit-route}. It places dense completion reads on the prefix $M,D,C$ before separated comparison or uniqueness rows are consumed.
+
+Finally apply quotient-exhaustion refusal, \autoref{thm:separatedcompletion-no-quotient-exhaustion}. Since quotient completions, selected representatives, host equality, choice, ambient Real completeness, and hidden complete spaces are absent, the dense-source scope is exactly the displayed kernel prefix.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion classifier nonescape scope]
+\label{thm:separatedcompletion-classifier-nonescape-scope}
+For every accepted $\SeparatedCompletionUp$ carrier, the separated classifier and uniqueness boundary are exact only through $Z,U$ over the dense-source prefix $M,D,C$. Any completion-facing, equality-facing, uniqueness-facing, or reflector-facing consumer reads the classifier route through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, and it cannot escape to quotient equality, selected representatives, host equality, countable choice, ambient $\RealUp$ completeness, or hidden complete metric spaces.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:separatedcompletion-scoped-kernel-route}. It names the carrier rows available to the scoped kernel route and separates the dense-source prefix from the classifier and uniqueness rows.
+
+Use \autoref{thm:separatedcompletion-scoped-route} to identify the public consumer route. The theorem makes $M,D,C,Z,U,H,R,T,P,N$ the whole visible surface.
+
+The exactness side is supplied by \autoref{thm:separatedcompletion-dense-limit-route}: the separated classifier is read only after the dense completion prefix has been exposed. The negative side is supplied by \autoref{thm:separatedcompletion-no-quotient-exhaustion}, which excludes quotient, representative, host equality, choice, Real-completeness, and hidden-space coordinates from every public route.
+\end{proof}
+
 \begin{closurestatus}{\SeparatedCompletionUp}
   \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:separated-completion-carrier}, \autoref{thm:separated-completion-namecert-obligations}, \autoref{thm:separated-completion-dense-factorization}, \autoref{thm:separated-completion-uniqueness-boundary}, \autoref{thm:separatedcompletion-cauchy-equivalence-source}, \autoref{thm:separatedcompletion-zero-distance-factorization}, \autoref{thm:separatedcompletion-limit-uniqueness-export}, \autoref{thm:separatedcompletion-dense-uniqueness-interface}, \autoref{thm:separatedcompletion-source-comparison-exhaustion}, and \autoref{thm:separated-completion-nonescape} seed the general separated-completion interface over finite source metric, dense embedding, completion handoff, separated classifier, uniqueness boundary, transport, replay, provenance, and local naming rows.}
