@@ -290,4 +290,33 @@ theorem FormalBallCarrier_public_window_export [AskSetup] [PackageSetup]
     ⟨metricUnary, radiusUnary, dyadicUnary, windowUnary, publicWindowUnary,
       metricRadiusRoute, publicWindowRoute, provenancePkg, publicWindowPkg⟩
 
+theorem FormalBallCarrier_radius_ledger_exhaustion [AskSetup] [PackageSetup]
+    {M R D W H C P N shrinkRead windowRead replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FormalBallCarrier M R D W H C P N bundle pkg ->
+      Cont R D shrinkRead ->
+        Cont D W windowRead ->
+          Cont windowRead C replayRead ->
+            PkgSig bundle replayRead pkg ->
+              UnaryHistory R ∧ UnaryHistory D ∧ UnaryHistory W ∧ UnaryHistory C ∧
+                UnaryHistory shrinkRead ∧ UnaryHistory windowRead ∧
+                  UnaryHistory replayRead ∧ Cont R D shrinkRead ∧
+                    Cont D W windowRead ∧ Cont windowRead C replayRead ∧
+                      PkgSig bundle P pkg ∧ PkgSig bundle replayRead pkg := by
+  -- BEDC touchpoint anchor: FormalBallCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier shrinkRoute windowRoute replayRoute replayPkg
+  obtain ⟨_metricUnary, radiusUnary, dyadicUnary, windowUnary, _transportUnary,
+    replayUnary, _provenanceUnary, _nameCertUnary, _metricRadius, _dyadicWindowReplay,
+    _transportReplay, provenancePkg⟩ := carrier
+  have shrinkReadUnary : UnaryHistory shrinkRead :=
+    unary_cont_closed radiusUnary dyadicUnary shrinkRoute
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed dyadicUnary windowUnary windowRoute
+  have replayReadUnary : UnaryHistory replayRead :=
+    unary_cont_closed windowReadUnary replayUnary replayRoute
+  exact
+    ⟨radiusUnary, dyadicUnary, windowUnary, replayUnary, shrinkReadUnary,
+      windowReadUnary, replayReadUnary, shrinkRoute, windowRoute, replayRoute,
+      provenancePkg, replayPkg⟩
+
 end BEDC.Derived.FormalBallUp
