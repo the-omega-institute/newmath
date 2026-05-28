@@ -86,6 +86,24 @@ The landing row $L$ is downstream of these law rows. A consumer can see a metric
 The structural rows $H,C,P,N$ preserve this route componentwise. Since the packet contains no quotient, selection, host-equality, ambient-completeness, Lean, or bridge row, the algebra laws are exactly the displayed NameCert comparisons of $M,U,K,I,L,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[Eilenberg--Moore completion algebra unit and multiplication laws]
+\label{thm:eilenberg-moore-completion-algebra-unit-multiplication-laws}
+For every accepted $\EilenbergMooreCompletionAlgebraUp$ carrier
+$$
+A=(M,U,K,I,L,H,C,P,N),
+$$
+the public algebra action is available only after the $\CauchyCompletionMonadUp$ row $M$, $\CauchyCompletionUnitUp$ row $U$, Kleisli or extension row $K$, idempotent or multiplication row $I$, $\MetricCompletionUp$ landing row $L$, and structural rows $H,C,P,N$ have been displayed. The route records the finite unit and multiplication laws of the completion monad without quotient completions, selected representatives, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:eilenberg-moore-completion-algebra-carrier}. The accepted packet exposes exactly the completion monad row $M$, unit row $U$, Kleisli or extension row $K$, idempotent or multiplication row $I$, metric-completion landing row $L$, and structural rows $H,C,P,N$.
+
+Apply the law-surface theorem. Theorem~\ref{thm:eilenberg-moore-completion-algebra-law-surface} reads the unit law from $M,U$ and the multiplication or idempotence law from $M,U,K,I$ before any landing row is public.
+
+Use the Kleisli-consumption theorem to bind consumers to the same route. Theorem~\ref{thm:eilenberg-moore-completion-algebra-kleisli-consumption} forces a Kleisli or extension request through $M,U,K,I,L,H,C,P,N$, so the algebra action cannot bypass the finite completion-monad rows.
+
+Finally the ledger non-escape theorem excludes the analytic and quotient alternatives. Theorem~\ref{thm:eilenberg-moore-completion-algebra-ledger-nonescape} leaves no coordinate for quotient completion, selected representatives, host equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[Eilenberg--Moore completion algebra Kleisli consumption]
 \label{thm:eilenberg-moore-completion-algebra-kleisli-consumption}
 Every L10 Completion consumer that reads an accepted $\EilenbergMooreCompletionAlgebraUp$ carrier through a Kleisli or extension request factors through the displayed rows $M,U,K,I,L,H,C,P,N$. In particular, the consumer first reads the completion monad and unit rows, then the Kleisli request, then the idempotent or multiplication row, and only then the metric-completion landing and structural rows.
