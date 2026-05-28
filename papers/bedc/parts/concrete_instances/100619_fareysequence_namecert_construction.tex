@@ -129,6 +129,24 @@ After insertion, the two new neighboring pairs are still checked by $A$. The Ste
 The rows $L$ and $T$ keep the denominator cap and dyadic tolerance budget attached to the refinement. Since \autoref{def:farey-sequence-carrier} contains no coordinate for selected best approximants, trichotomy, countable choice, ambient completeness, or a completed real representative, mediant refinement cannot export any of those principles.
 \end{proof}
 
+\begin{theorem}[Farey sequence Stern--Brocot handoff lock]
+\label{thm:farey-sequence-stern-brocot-handoff-lock}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+every denominator-level successor or approximation read that consumes a mediant row $M$ must pass through the adjacent determinant-one ledger $A$, the denominator cap $L$, the dyadic tolerance $T$, and the $\SternBrocotUp$ handoff $S$ before the $\RealRationalApproximationUp$ row $G$ or terminal $\RealUp$ row $E$ is read. The locked route exports no selected best approximant, host order, quotient real equality, trichotomy, countable choice, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with a successor or approximation read that consumes $M$. Carrier admission exposes $M$ only as the mediant row for an adjacent pair already displayed in $B$, so the determinant-one ledger $A$ is the first required witness for that read.
+
+Apply mediant refinement stability from \autoref{thm:farey-sequence-mediant-refinement-stability}. The inserted row remains tied to the same adjacent-pair inspection, and the Stern--Brocot handoff $S$ records the corresponding finite tree route rather than a host-order branch choice.
+
+Next use denominator and tolerance control from \autoref{thm:farey-sequence-denominator-tolerance-control}. The denominator cap $L$ and dyadic tolerance $T$ are the only budget rows available to the mediant and approximation route, so no second host bound or selected modulus can enter before the read reaches $G$ or $E$.
+
+Finally apply approximation-window factorization from \autoref{thm:farey-sequence-approximation-window-factorization}. The real-facing rows $G,E$ are downstream of $A,M,L,T,S,W,R$ and the structural rows $H,C,P,N$. Since the carrier has no coordinate for selected best approximants, host order, quotient real equality, trichotomy, countable choice, or ambient completeness, the handoff is locked to the finite Stern--Brocot route.
+\end{proof}
+
 \begin{theorem}[Farey sequence denominator and tolerance control]
 \label{thm:farey-sequence-denominator-tolerance-control}
 For every accepted $\FareySequenceUp$ carrier
