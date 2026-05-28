@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchyMeanUp$}
+\label{ch:concrete-instances-bishop-cauchy-mean-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive analysis, the $\BishopCauchyMeanUp$ packet records the finite averaging step used when a Cauchy source is read through displayed rational windows and sealed as a Real-facing name. It sits after the $\CauchyUp$ source route of \autoref{ch:concrete-instances-cauchy-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names finite averages of observed Cauchy data; it does not assert a selected limit, quotient stream equality, host real equality, countable choice, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Bishop Cauchy mean carrier]
+\label{def:bishop-cauchy-mean-carrier}
+A $\BishopCauchyMeanUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,D,W,R,A,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\CauchyUp$ source row naming the Cauchy data whose finite observations are being averaged.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row recording the requested dyadic radius, denominator budget, and comparison scale for the average.
+\item $W$ is the $\StreamNameUp$ finite-window row exposing exactly the source entries inspected at tolerance $D$.
+\item $R$ is the $\RegSeqRatUp$ readback row translating the inspected stream window into regular rational data.
+\item $A$ is the finite averaging ledger: it lists the inspected rational entries, their displayed weights, the denominator row, the partial-sum row, and the final mean row consumed by the certificate.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $S,D,W,R,A$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, tolerance, window, readback, averaging ledger, Real seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite mean request through $S,D,W,R,A,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BishopCauchyMeanUp$, $\CauchyUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopCauchyMeanUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,D,W,R,A,E,H,C,P,N$. It has no coordinate for quotient stream equality, a selected limit, host real equality, countable choice, ambient completeness of $\RealUp$, or an infinite averaging oracle.
+\end{definition}
+
+\begin{theorem}[Bishop Cauchy mean NameCert obligations]
+\label{thm:bishop-cauchy-mean-namecert-obligations}
+For every accepted $\BishopCauchyMeanUp$ carrier
+$$
+M=(S,D,W,R,A,E,H,C,P,N),
+$$
+the local $\NameCert_{\BishopCauchyMeanUp}$ surface consists exactly of carrier admission for the Cauchy source row, dyadic tolerance row, finite stream window, regular rational readback, finite averaging ledger, terminal Real seal, componentwise transport row, displayed continuation replay, package provenance, and local naming row.
+
+The obligation surface requires Cauchy-source visibility through $S$, tolerance accounting through $D$, finite-window visibility through $W$, regular rational readback through $R$, average-ledger exactness through $A$, Real-seal nonescape through $E$, transport and replay stability through $H$ and $C$, provenance through $P$, and local naming through $N$. It refuses selected limits, quotient stream equality, host real equality, countable choice, and ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:bishop-cauchy-mean-carrier}. The only analytic rows are the Cauchy source $S$, the dyadic tolerance $D$, the finite window $W$, the regular rational readback $R$, the averaging ledger $A$, and the terminal Real seal $E$.
+
+The averaging step is finite. The ledger $A$ displays the inspected rational entries, their weights, the denominator row, the partial sums, and the final mean; no later consumer can ask for an average outside this listed window.
+
+The terminal seal is downstream of the displayed route. Since the carrier has no coordinate for quotient stream equality, a selected limit, host real equality, countable choice, ambient completeness, or an infinite averaging oracle, those objects cannot enter the local NameCert surface.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite packet. They preserve the displayed rows and do not add analytic content.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy mean finite-average stability]
+\label{thm:bishop-cauchy-mean-finite-average-stability}
+Let
+$$
+M=(S,D,W,R,A,E,H,C,P,N)
+$$
+be an accepted $\BishopCauchyMeanUp$ carrier. Every accepted consumer read of the mean row factors through the finite route
+$$
+\CauchyUp(S),\ \DyadicRatCoreUp(D),\ \StreamNameUp(W),\ \RegSeqRatUp(R),\ A,\ \RealUp(E).
+$$
+If the source row, tolerance row, finite window, readback row, and averaging ledger are transported componentwise by the displayed $\hsame$ rows in $H$ and replayed through $C$, then the consumer-visible mean row is unchanged as a $\BishopCauchyMeanUp$ read. No quotient stream equality, selected limit, host real equality, countable choice, or ambient $\RealUp$ completeness row participates in the stability claim.
+\end{theorem}
+\begin{proof}
+Start with the consumer route. By the carrier definition, a mean read must first inspect the Cauchy source $S$, choose the displayed dyadic tolerance $D$, open the finite window $W$, and read the regular rational row $R$.
+
+The average itself is then the ledger row $A$. Its entries, weights, denominator, partial sums, and final mean are finite displayed data, so componentwise $\hsame$ transport preserves exactly the rows that the consumer can inspect.
+
+Replay through $C$ exposes the transported packet with the same provenance and local naming rows $P,N$. The terminal Real seal $E$ is reached from that transported finite route, not from a quotient stream or selected limit.
+
+Thus any consumer-visible equality of mean reads is exhausted by $S,D,W,R,A,E,H,C,P,N$. The excluded rows are absent from the carrier and cannot affect the stability conclusion.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BishopCauchyMeanUp$ read must expose a Cauchy source, dyadic tolerance, StreamName window, RegSeqRat readback, finite averaging ledger, Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before a Real or Completion consumer can read the mean boundary.}
+
+\independenceWitness{cauchy, dyadicratcore, streamname, regseqrat, real: $\BishopCauchyMeanUp$ is not bijective to any listed sibling because it binds a finite averaging ledger between regular rational readback and the Real seal.}
+
+\closureat{BishopCauchyMeanUp}{seedStr}
+
+\begin{closurestatus}{\BishopCauchyMeanUp}
+  \constructivestory{A $\BishopCauchyMeanUp$ packet is generated from a Cauchy source row, DyadicRatCore tolerance row, StreamName finite window, RegSeqRat readback, finite averaging ledger, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-cauchy-mean-carrier}, \autoref{thm:bishop-cauchy-mean-namecert-obligations}, and \autoref{thm:bishop-cauchy-mean-finite-average-stability} seed the finite Cauchy-mean certificate over Cauchy, DyadicRatCore, StreamName, RegSeqRat, RealUp, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient stream equality, host real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite average ledger exactness, tolerance-window readback, regular rational handoff, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BishopCauchyMeanUp.}
+\end{closurestatus}
