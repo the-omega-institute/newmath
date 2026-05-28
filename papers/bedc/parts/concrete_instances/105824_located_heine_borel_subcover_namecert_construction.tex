@@ -4,6 +4,8 @@
 
 Following Bishop and Bridges' constructive finite-subcover treatment for compact intervals, the $\LocatedHeineBorelSubcoverUp$ packet records the BEDC route that turns a located closed interval cover request into a displayed finite subcover through finite nets and positive-radius data. It sits over the located interval finite-net surface of \autoref{ch:concrete-instances-located-closed-interval-finite-net-namecert}, the compact-cover radius route of \autoref{ch:concrete-instances-lebesgue-number-lemma-namecert}, the finite-net interval-cover packet of \autoref{ch:concrete-instances-heine-borel-finite-net-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet names a located finite-subcover certificate; it does not claim unrestricted open-cover Heine--Borel compactness, selected subcovers from arbitrary covers, countable choice, quotient interval equality, or ambient $\RealUp$ completeness.
 
+Its subcover read uses \autoref{ch:concrete-instances-heine-borel-finite-net-namecert} and the located interval finite-net sibling as mandatory predecessors before any retained witness can reach the $\RealUp$ seal.
+
 \begin{definition}[Located Heine--Borel subcover carrier]
 \label{def:located-heine-borel-subcover-carrier}
 A $\LocatedHeineBorelSubcoverUp$ carrier is a finite $\BHist$ packet
@@ -70,6 +72,18 @@ Begin with an accepted carrier $S=(I,F,L,H,R,D,E,T,C,P,N)$. The located interval
 The retained-subcover row $R$ may be read only after those rows. Its witnesses are checked by the dyadic ledger $D$ and then sealed by $E$, so the exported finite subcover is a displayed BEDC packet row rather than a host-level choice operation.
 
 Replay through $C$, transport through $T$, provenance through $P$, and naming through $N$ keep the same route. No arbitrary open cover, unrestricted compactness theorem, quotient interval representative, countable-choice row, or ambient completeness coordinate is available to bypass it.
+\end{proof}
+
+\begin{theorem}[Located Heine--Borel subcover sibling route]
+\label{thm:located-heine-borel-subcover-sibling-route}
+Any accepted read of a $\LocatedHeineBorelSubcoverUp$ retained subcover row must pass through \autoref{ch:concrete-instances-heine-borel-finite-net-namecert} and the located interval finite-net sibling before reaching the terminal $\RealUp$ seal. Equivalently, in the carrier $S=(I,F,L,H,R,D,E,T,C,P,N)$, the row $R$ is readable only after the displayed finite-net row $F$ and the $\HeineBorelFiniteNetUp$ sibling row $H$ have exposed the same interval, radius, dyadic, and cover-witness surface.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-heine-borel-subcover-carrier}. The located interval finite-net row is $F$, the finite-net sibling row is $H$, and the retained-subcover row is $R$.
+
+Apply \autoref{thm:located-heine-borel-subcover-namecert-obligations}. Its located interval exposure and finite-subcover exactness clauses require every retained witness to be downstream of $F,L,H,D$ before the real-seal row $E$ is available.
+
+Finally apply \autoref{thm:located-heine-borel-subcover-finite-net-route}. The displayed route places $\HeineBorelFiniteNetUp$ between the positive-radius row and the dyadic/Real seal, so a located subcover consumer cannot read $R$ by bypassing either sibling.
 \end{proof}
 
 \closureat{LocatedHeineBorelSubcoverUp}{seedStr}
