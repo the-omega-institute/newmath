@@ -365,7 +365,8 @@ def verify_local_ci() -> tuple[bool, str | None]:
             600,
         ),
     ]
-    for name, cmd, cwd, timeout in checks:
+    def _run_check(name, cmd, cwd, timeout):
+        """Run one check. Returns (ok, err_tail). err_tail is None on success."""
         print(f"[heal] verify_local_ci: running {name}", flush=True)
         try:
             res = run(cmd, cwd=cwd, check=False, capture=True, timeout=timeout)
@@ -376,13 +377,33 @@ def verify_local_ci() -> tuple[bool, str | None]:
                 stdout = stdout.decode("utf-8", errors="ignore")
             if isinstance(stderr, bytes):
                 stderr = stderr.decode("utf-8", errors="ignore")
-            out = stdout + stderr
-            return False, f"{name} timed out after {timeout}s\n{_tail_text(out)}"
+            return False, f"{name} timed out after {timeout}s\n{_tail_text(stdout + stderr)}"
         except Exception as exc:
             return False, f"{name} failed to run: {exc}"
         if res.returncode != 0:
             out = (res.stdout or "") + (res.stderr or "")
             return False, f"{name} failed rc={res.returncode}\n{_tail_text(out)}"
+        return True, None
+
+    for name, cmd, cwd, timeout in checks:
+        ok, err = _run_check(name, cmd, cwd, timeout)
+        if ok:
+            continue
+        # Retry once on failure. The builder daemon and sibling rounds mutate
+        # the main checkout's shared `.lake` concurrently; a `#print axioms`
+        # / audit / build that races a concurrent olean rebuild can fail
+        # spuriously (observed 2026-05-29: axiom-purity --strict rc=1 in
+        # verify_local_ci while a full-tree run was simultaneously pure=19653
+        # impure=0). A genuine failure reproduces on retry; a stale-artifact
+        # race does not. Resync oleans with a fresh lake build before the
+        # retry so the second run sees a consistent build.
+        print(f"[heal] verify_local_ci: {name} failed once; resyncing build "
+              f"and retrying (transient .lake race guard)", flush=True)
+        run(["lake", "build"], cwd=REPO_ROOT / "lean4", check=False,
+            capture=True, timeout=600)
+        ok2, err2 = _run_check(name, cmd, cwd, timeout)
+        if not ok2:
+            return False, err2
     return True, None
 
 
