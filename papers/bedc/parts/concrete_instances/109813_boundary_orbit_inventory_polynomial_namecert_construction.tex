@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\BoundaryOrbitInventoryPolynomialUp$}
+\label{ch:concrete-instances-boundary-orbit-inventory-polynomial-namecert}
+\origin{ai}
+
+The $\BoundaryOrbitInventoryPolynomialUp$ packet realizes the orbit and codon inventory polynomials of \autoref{def:philosophy-orbit-codon-inventory-polynomials} as finite BEDC NameCert data. It consumes the boundary-tile source of \autoref{ch:concrete-instances-dna-window-six-boundary-tile-namecert}, the coverage packet of \autoref{ch:concrete-instances-six-boundary-tile-coverage-namecert}, the codon window source of \autoref{ch:concrete-instances-codon-six-bit-window-namecert}, and the finite polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}. The packet records orbit rows, codon-count rows, coefficient ledgers, and marginal projections; it is not a biological stochastic model, an empirical code table, a hidden enumeration oracle, or quotient codon semantics.
+
+\begin{definition}[Boundary orbit inventory polynomial carrier]
+\label{def:boundary-orbit-inventory-polynomial-carrier}
+A $\BoundaryOrbitInventoryPolynomialUp$ carrier is a finite $\BHist$ packet
+$$
+I=(O,K,E,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the orbit table row, recording the finite orbit types classified by support size $m$, overlap defect $\delta$, lift imbalance $b$, and orbit size.
+\item $K$ is the codon count table row, recording the weighted counts of lifted triggers over the same triples $(m,\delta,b)$.
+\item $E$ is the coefficient ledger row, storing the displayed coefficients of the orbit inventory polynomial $\mathcal{O}(u,v,w)$ and the codon inventory polynomial $\mathcal{C}(u,v,w)$.
+\item $M$ is the marginal projection row, recording the one-variable and bivariate specializations read from the coefficient ledger.
+\item $H$ records componentwise $\hsame$ transport for the orbit table, codon count table, coefficient ledger, marginal projections, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an inventory query through $O,K,E,M,H$.
+\item $P$ is the $\Pkg$ provenance over $\BoundaryOrbitInventoryPolynomialUp$, $\DnaWindowSixBoundaryTileUp$, $\SixBoundaryTileCoverageUp$, $\CodonSixBitWindowUp$, $\PolynomialUp$, the source vision of \autoref{def:philosophy-orbit-codon-inventory-polynomials}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundaryOrbitInventoryPolynomialUp}$ row.
+\end{enumerate}
+The carrier accepts coefficient and marginal reads only through $O,K,E,M,H,C,P,N$. It has no coordinate for a hidden biological code table, probabilistic fitness model, unbounded orbit enumeration, quotient codon equality, or unstated polynomial coefficient source.
+\end{definition}
+
+\begin{theorem}[Boundary orbit inventory polynomial obligations]
+\label{thm:boundary-orbit-inventory-polynomial-obligations}
+For every accepted $\BoundaryOrbitInventoryPolynomialUp$ carrier $I=(O,K,E,M,H,C,P,N)$, the local $\NameCert_{\BoundaryOrbitInventoryPolynomialUp}$ surface consists exactly of orbit-table admission through $O$, codon-count table admission through $K$, coefficient-ledger exactness through $E$, marginal-projection exactness through $M$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:boundary-orbit-inventory-polynomial-carrier}. The orbit table and codon count table are the only source rows, while the coefficient ledger and marginal projection rows are the only polynomial-facing rows.
+
+Coefficient exactness is read from $E$. Each displayed coefficient is determined by grouping the rows of $O$ and weighting them by the count row $K$; no coefficient row is available without those two source tables.
+
+Marginal exactness is read from $M$. A marginal projection is permitted only as a specialization of the coefficient ledger, so it cannot replace the orbit table or codon count table by a hidden enumeration.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name the same finite route. Since the carrier lacks biological stochastic, quotient-codon, hidden-table, and unbounded-enumeration coordinates, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Boundary orbit inventory coefficient determinacy]
+\label{thm:boundary-orbit-inventory-coefficient-determinacy}
+Every coefficient marginal exported by an accepted $\BoundaryOrbitInventoryPolynomialUp$ packet is determined by the displayed orbit table $O$, codon count table $K$, coefficient ledger $E$, and marginal projection row $M$. Removing any coefficient row from $E$ leaves a marginal query without a displayed source, and removing any orbit or codon count row leaves the corresponding coefficient without a displayed inventory witness.
+\end{theorem}
+\begin{proof}
+Read the NameCert obligations of \autoref{thm:boundary-orbit-inventory-polynomial-obligations}. A coefficient query first exposes the orbit table $O$ and codon count table $K$, then reads the coefficient ledger $E$.
+
+The marginal projection row $M$ is downstream of the ledger. It can specialize the displayed polynomial, but it cannot introduce a coefficient absent from $E$ or reconstruct a missing source row absent from $O$ or $K$.
+
+Transport and replay preserve the same dependency order. Therefore a coefficient marginal is determined exactly by the displayed table and ledger rows, and deletion of any required row breaks the finite NameCert route.
+\end{proof}
+
+\falsifiablePrediction{For $\BoundaryOrbitInventoryPolynomialUp$, coefficient marginals are determined by the displayed orbit table, codon count table, coefficient ledger, and marginal projection rows, and a marginal read fails if any required coefficient row is removed.}
+
+\independenceWitness{partition, hash, errorcode, dna-window-six-boundary-tile, six-boundary-tile-coverage: the polynomial coefficient ledger is not bijective to these sibling carriers because it binds orbit tables, codon count tables, coefficient rows, marginal projections, transport, replay, provenance, and local naming, while the siblings supply partitioning, digest, error coding, boundary-tile, or coverage surfaces without this coefficient inventory.}
+
+\closureat{BoundaryOrbitInventoryPolynomialUp}{seedStr}
+
+\begin{closurestatus}{\BoundaryOrbitInventoryPolynomialUp}
+  \constructivestory{A $\BoundaryOrbitInventoryPolynomialUp$ packet is generated from an orbit table, codon count table, coefficient ledger, marginal projection row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:boundary-orbit-inventory-polynomial-carrier}, \autoref{thm:boundary-orbit-inventory-polynomial-obligations}, and \autoref{thm:boundary-orbit-inventory-coefficient-determinacy} seed the finite orbit-inventory polynomial certificate over boundary-tile and coverage rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close biological stochastic modeling, empirical code-table semantics, quotient codon equality, unbounded orbit enumeration, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked orbit-table admission, codon-count table admission, coefficient-ledger exactness, marginal-projection exactness, transport, replay, provenance, and local naming for BEDC.Derived.BoundaryOrbitInventoryPolynomialUp.}
+\end{closurestatus}
