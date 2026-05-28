@@ -696,6 +696,7 @@ import BEDC.Derived.BishopRealComparisonUp.TasteGate
 import BEDC.Derived.BishopRealLineInterfaceUp
 import BEDC.Derived.BishopRealLineInterfaceUp.TasteGate
 import BEDC.Derived.BishopRealNormalizerUp.TasteGate
+import BEDC.Derived.BishopRealPrecisionUp.TasteGate
 import BEDC.Derived.BishopRealUniformCompletionUp.TasteGate
 import BEDC.Derived.BishopRealUp
 import BEDC.Derived.BishopRegularCauchyCompletionUp
@@ -1776,6 +1777,7 @@ import BEDC.Derived.ClassifierTypingUp
 import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.CliffordUp.TasteGate
+import BEDC.Derived.ClosedBoundedIntervalCompactUp
 import BEDC.Derived.ClosedBoundedIntervalNetUp.CellCenterReadback
 import BEDC.Derived.ClosedBoundedIntervalNetUp.CompactUniformRoute
 import BEDC.Derived.ClosedBoundedIntervalNetUp.FiniteMeshCoverage
@@ -1796,6 +1798,7 @@ import BEDC.Derived.ClosedBoundedIntervalUp.FiniteCoverNonescape
 import BEDC.Derived.ClosedBoundedIntervalUp.RealSealNonescape
 import BEDC.Derived.ClosedBoundedIntervalUp.RealSealRootHandoff
 import BEDC.Derived.ClosedBoundedIntervalUp.RegSeqRatWindow
+import BEDC.Derived.ClosedBoundedIntervalUp.RootCoverRefinementSource
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceCarrierAdmission
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceWindowExactness
 import BEDC.Derived.ClosedBoundedIntervalUp.TasteGate
@@ -3586,6 +3589,7 @@ import BEDC.Derived.ForceInterHistRelationUp.TasteGate
 import BEDC.Derived.FormalBallCompletionUp.TasteGate
 import BEDC.Derived.FormalBallUp
 import BEDC.Derived.FormalBallUp.CenterRadiusAdmission
+import BEDC.Derived.FormalBallUp.FilterBasisRoute
 import BEDC.Derived.FormalBallUp.LocatedRadiusWindow
 import BEDC.Derived.FormalBallUp.RoundedFilterAdmission
 import BEDC.Derived.FormalBallUp.TasteGate
@@ -6194,6 +6198,7 @@ import BEDC.Derived.SobolevUp.HilbertCompletionDescent
 import BEDC.Derived.SobolevUp.IntegralMagnitudeLedgerStability
 import BEDC.Derived.SobolevUp.LocalPoincareLedger
 import BEDC.Derived.SobolevUp.ObligationPackage
+import BEDC.Derived.SobolevUp.PDEConsumerAdmission
 import BEDC.Derived.SobolevUp.TasteGate
 import BEDC.Derived.SobolevUp.TestFunctionSource
 import BEDC.Derived.SobolevUp.TraceBoundaryObligation
