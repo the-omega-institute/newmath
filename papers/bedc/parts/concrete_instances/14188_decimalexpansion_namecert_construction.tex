@@ -213,6 +213,26 @@ Apply the Real seal nonescape theorem \autoref{thm:decimal-expansion-real-seal-n
 Finally use the countable-density role of $\RealSeparabilityUp$ described in the chapter introduction. The same finite decimal-prefix windows that feed $D,W,V,Q,R,E$ are the windows counted by the RealSeparability route, so the factorization records a finite dense readback path rather than a direct decimal-to-real shortcut.
 \end{proof}
 
+\begin{theorem}[DecimalExpansion digit-carry determinacy]
+\label{thm:decimal-expansion-digit-carry-determinacy}
+Let
+$$
+K=(D,W,V,Q,R,E,H,C,P,N)
+\quad\text{and}\quad
+K'=(D',W',V',Q',R',E',H',C',P',N')
+$$
+be accepted $\DecimalExpansionUp$ packets. If $K$ and $K'$ display the same finite digit window and the same dyadic place-value ledger before their terminal seals are read, then they expose the same $\RegSeqRatUp$ readback route before the $\RealUp$ seal. Carry normalization is confined to the finite window ledger: it may rewrite the displayed digit and place-value rows inside $D,W,V,Q$, but it cannot introduce a second regular-rational route, a direct decimal-to-real shortcut, a quotient real, a selected representative, or an ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with window normalization, \autoref{thm:decimal-expansion-window-normalization-obligation}. It forces both packets to display their finite digit ledgers and finite window ledgers before $V,Q,R,E$ can be read, so the shared window fixes the source surface for any carry operation.
+
+Use the dyadic comparison handoff, \autoref{thm:decimal-expansion-dyadic-comparison-handoff}. The shared dyadic place-value ledger places both packets on the same comparison row before either packet reaches a $\RegSeqRatUp$ handoff.
+
+Next apply the dyadic normalization lock, \autoref{thm:decimal-expansion-dyadic-normalization-lock}. It prevents carry normalization from bypassing the dyadic and regular-rational route; the normalized digit rows remain confined to the finite window and comparison ledgers.
+
+Finally use Real seal factorization, \autoref{thm:decimal-expansion-real-seal-factorization}. The terminal seal is downstream of $D,W,V,Q,R$, so equality of the displayed window and dyadic place-value ledger determines the readback route before $E$ is exposed. Since the carrier has no quotient-real, selected-representative, direct decimal-stream, or completeness coordinate, carry normalization exports no additional route beyond the finite ledger.
+\end{proof}
+
 \begin{theorem}[DecimalExpansion separability density obligation]
 \label{thm:decimal-expansion-separability-density-obligation}
 Every accepted $\DecimalExpansionUp$ packet supplies its $\RealSeparabilityUp$ density reads only through finite decimal-prefix windows. More precisely, a density-window consumer must read the digit ledger $D$, the decimal-place window ledger $W$, the place-value row $V$, the dyadic comparison row $Q$, the regular rational handoff $R$, the terminal real seal $E$, and then the structural rows $H,C,P,N$ of \autoref{def:decimal-expansion-carrier}; no dense route is exported from an infinite decimal stream, a quotient real, or a selected representative.
