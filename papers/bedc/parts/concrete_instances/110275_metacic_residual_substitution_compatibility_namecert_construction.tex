@@ -4,6 +4,8 @@
 
 Following Tait--Martin-Lof and Barendregt on residuals, parallel reduction, and confluence discipline, the $\MetaCICResidualSubstitutionCompatibilityUp$ packet records the finite boundary where a beta-parallel branch and a substitution replay must meet before the MetaCIC confluence route may use the conditional diamond bridge. It sits over the audit map of \autoref{ch:metacic-confluence-audit-map} and names the residual-substitution input as packet data rather than as a global Church--Rosser theorem. The packet does not claim full closed Church--Rosser, arbitrary closed-source confluence, or an unrestricted substitution theorem.
 
+The residual-substitution packet is consumed by \autoref{ch:concrete-instances-metaciccriticalpath-namecert} as a guarded input to candidate-mediated SN/confluence scheduling. The dependency is the residual join row together with the closedness guard data: it tells the scheduler which finite substitution replay may enter a candidate branch and which source windows are closed enough for that handoff, not that the full Church--Rosser theorem has already been completed.
+
 \begin{definition}[MetaCIC residual-substitution compatibility carrier]
 \label{def:metacic-residual-substitution-compatibility-carrier}
 A $\MetaCICResidualSubstitutionCompatibilityUp$ carrier is a finite $\BHist$ packet
