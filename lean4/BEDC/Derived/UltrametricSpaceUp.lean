@@ -1,5 +1,11 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
@@ -220,5 +226,81 @@ theorem UltrametricSpaceStrongTriangle_handoff (x : UltrametricSpaceUp) :
   · intro w m hw hm
     exact UltrametricSpaceStrongTriangle_handoff_flow_display
       (ultrametricSpaceFields x) w m hw hm
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+theorem UltrametricSpaceCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    (U : UltrametricSpaceUp)
+    {M V T B E H K P N comparisonRead triangleRead ballRead exampleRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ultrametricSpaceFields U = [M, V, T, B, E, H, K, P, N] ->
+      UnaryHistory M -> UnaryHistory V -> UnaryHistory T -> UnaryHistory B -> UnaryHistory E ->
+        Cont M V comparisonRead ->
+          Cont comparisonRead T triangleRead ->
+            Cont triangleRead B ballRead ->
+              Cont ballRead E exampleRead ->
+                PkgSig bundle P pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row exampleRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row M ∨ hsame row V ∨ hsame row T ∨ hsame row B ∨
+                          hsame row E ∨ Cont M V comparisonRead ∨
+                            Cont comparisonRead T triangleRead ∨ Cont triangleRead B ballRead ∨
+                              Cont ballRead E exampleRead)
+                      (fun row : BHist => PkgSig bundle P pkg ∧ hsame row exampleRead)
+                      hsame ∧ UnaryHistory comparisonRead ∧ UnaryHistory triangleRead ∧
+                    UnaryHistory ballRead ∧ UnaryHistory exampleRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro _fields metricUnary comparisonUnary triangleUnary ballUnary exampleUnary
+    comparisonRoute triangleRoute ballRoute exampleRoute provenancePkg
+  have comparisonReadUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed metricUnary comparisonUnary comparisonRoute
+  have triangleReadUnary : UnaryHistory triangleRead :=
+    unary_cont_closed comparisonReadUnary triangleUnary triangleRoute
+  have ballReadUnary : UnaryHistory ballRead :=
+    unary_cont_closed triangleReadUnary ballUnary ballRoute
+  have exampleReadUnary : UnaryHistory exampleRead :=
+    unary_cont_closed ballReadUnary exampleUnary exampleRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row exampleRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row V ∨ hsame row T ∨ hsame row B ∨
+              hsame row E ∨ Cont M V comparisonRead ∨
+                Cont comparisonRead T triangleRead ∨ Cont triangleRead B ballRead ∨
+                  Cont ballRead E exampleRead)
+          (fun row : BHist => PkgSig bundle P pkg ∧ hsame row exampleRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro exampleRead ⟨hsame_refl exampleRead, exampleReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row _source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr (Or.inr (Or.inr exampleRoute)))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, source.left⟩
+  }
+  exact ⟨cert, comparisonReadUnary, triangleReadUnary, ballReadUnary, exampleReadUnary⟩
 
 end BEDC.Derived.UltrametricSpaceUp
