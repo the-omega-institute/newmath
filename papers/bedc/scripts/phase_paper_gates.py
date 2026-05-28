@@ -292,7 +292,7 @@ def detect_math(*, worktree: Path, base_sha: str) -> list[str]:
 
 
 _OVERSIZED_EXEMPT_RE = re.compile(
-    r"^papers/bedc/preamble_chapter_macros(?:_[a-z_]+)?\.tex$"
+    r"^papers/bedc/(?:main|preamble_chapter_macros(?:_[a-z_]+)?)\.tex$"
 )
 
 
