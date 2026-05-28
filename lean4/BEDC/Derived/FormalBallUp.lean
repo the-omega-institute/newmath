@@ -119,6 +119,73 @@ theorem FormalBallCarrier_directed_radius_transport [AskSetup] [PackageSetup]
     ⟨radiusUnary, dyadicUnary, replayUnary, radiusReadUnary, transportedReadUnary,
       radiusRoute, transportedRoute, provenancePkg, transportedPkg⟩
 
+theorem FormalBallCarrier_formal_order_monotonicity [AskSetup] [PackageSetup]
+    {M R D W H C P N radiusRead shrinkRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FormalBallCarrier M R D W H C P N bundle pkg ->
+      Cont R D radiusRead ->
+        Cont radiusRead C shrinkRead ->
+          PkgSig bundle shrinkRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row shrinkRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row R ∨ hsame row D ∨ hsame row radiusRead ∨
+                    Cont radiusRead C shrinkRead)
+                (fun row : BHist =>
+                  PkgSig bundle P pkg ∧ PkgSig bundle shrinkRead pkg ∧
+                    hsame row shrinkRead)
+                hsame ∧
+              UnaryHistory R ∧ UnaryHistory D ∧ UnaryHistory C ∧
+                UnaryHistory radiusRead ∧ UnaryHistory shrinkRead ∧ Cont R D radiusRead ∧
+                  Cont radiusRead C shrinkRead ∧ PkgSig bundle P pkg ∧
+                    PkgSig bundle shrinkRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier radiusRoute shrinkRoute shrinkPkg
+  obtain ⟨_metricUnary, radiusUnary, dyadicUnary, _windowUnary, _transportUnary,
+    replayUnary, _provenanceUnary, _nameCertUnary, _metricRadius, _dyadicWindow,
+    _transportReplay, provenancePkg⟩ := carrier
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_cont_closed radiusUnary dyadicUnary radiusRoute
+  have shrinkReadUnary : UnaryHistory shrinkRead :=
+    unary_cont_closed radiusReadUnary replayUnary shrinkRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row shrinkRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row R ∨ hsame row D ∨ hsame row radiusRead ∨
+              Cont radiusRead C shrinkRead)
+          (fun row : BHist =>
+            PkgSig bundle P pkg ∧ PkgSig bundle shrinkRead pkg ∧ hsame row shrinkRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro shrinkRead
+        ⟨hsame_refl shrinkRead, shrinkReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row _source
+      exact Or.inr (Or.inr (Or.inr shrinkRoute))
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, shrinkPkg, source.left⟩
+  }
+  exact
+    ⟨cert, radiusUnary, dyadicUnary, replayUnary, radiusReadUnary, shrinkReadUnary,
+      radiusRoute, shrinkRoute, provenancePkg, shrinkPkg⟩
+
 theorem FormalBallCarrier_completion_window_handoff [AskSetup] [PackageSetup]
     {M R D W H C P N completionRead exportedRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
