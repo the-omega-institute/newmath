@@ -71,10 +71,60 @@ Transport and replay preserve the route rather than choosing a new candidate. Th
 \end{proof}
 \leanchecked{BEDC.Derived.SeparableMetricUp.SeparableMetricCarrier\_dense\_window\_stability}
 
+\begin{theorem}[Separable metric tolerance-net replay]
+\label{thm:separable-metric-tolerance-net-replay}
+Let $S=(M,A,W,T,R,E,H,C,P,N)$ be an accepted $\SeparableMetricUp$ carrier. Every finite density request whose indexed window is displayed by $W$ and whose tolerance is displayed by $T$ replays through the finite route
+$$
+M,A,W,T\longmapsto R\longmapsto E\longmapsto H,C,P,N .
+$$
+In particular, the request reads $\MetricUp$ distance data, $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance rows, $\RegSeqRatUp$ handoff data, and $\RealUp$ distance seals only through the carrier rows of $S$.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple of \autoref{def:separable-metric-carrier-surface}. The rows $M,A,W,T$ display the metric certificate, indexed dense-name family, finite request window, and tolerance ledger before any downstream handoff is available.
+
+Use the NameCert obligation surface of \autoref{thm:separable-metric-namecert-obligation-surface}. Metric compatibility keeps all distance reads inside $M$, countable-name visibility keeps the request inside $A$ and $W$, and tolerance discipline keeps the precision data inside $T$.
+
+The regular and real-facing rows are then forced. The row $R$ repacks the same inspected window and tolerance ledger as $\RegSeqRatUp$ data, while $E$ supplies the terminal $\RealUp$ seal.
+
+Finally $H,C,P,N$ transport, replay, source, and name that route. No step introduces a selected dense point or a second tolerance witness outside the displayed packet.
+\end{proof}
+
+\begin{theorem}[Separable metric completion-consumer handoff]
+\label{thm:separable-metric-completion-consumer-handoff}
+Let $S=(M,A,W,T,R,E,H,C,P,N)$ be an accepted $\SeparableMetricUp$ carrier. Every $\CompleteMetricUp$ consumer of $S$ receives only indexed dense-name windows, tolerance rows, regular handoff rows, and real distance seals displayed by
+$$
+A,W,T,R,E,H,C,P,N .
+$$
+The consumer receives no selected dense point, quotient completion equality, open-cover compactness certificate, or ambient Real completeness principle.
+\end{theorem}
+\begin{proof}
+Project the tuple $S=(M,A,W,T,R,E,H,C,P,N)$. The only separability coordinates available to a completion consumer are the indexed dense-name family, the finite windows, the tolerance ledger, the regular handoff, and the real distance seal.
+
+Apply \autoref{thm:separable-metric-namecert-obligation-surface}. Countable-name visibility prevents the consumer from replacing $A$ by a selector over balls, and tolerance discipline prevents the consumer from reading a precision datum before $T$ is displayed.
+
+Apply \autoref{thm:separable-metric-dense-window-stability}. If two completion-facing reads share the same finite window and tolerance row, then the route through $R$ and $E$ is the same under $H$ and $C$.
+
+Thus the $\CompleteMetricUp$ handoff is windowed and indexed. Since selected points, quotient completion equality, open-cover compactness, and ambient Real completeness are absent from the carrier, they cannot be exported to the consumer.
+\end{proof}
+
+\begin{theorem}[Separable metric RegSeqRat density handoff]
+\label{thm:separable-metric-regseqrat-density-handoff}
+Let $S=(M,A,W,T,R,E,H,C,P,N)$ be an accepted $\SeparableMetricUp$ carrier. Every $\RegSeqRatUp$ handoff exported by the separability packet is downstream of the same countable dense-name family $A$ and the same tolerance ledger $T$ that feed the request window $W$. The handoff cannot be formed from a different dense family, an untracked tolerance, or an ambient real-completeness argument.
+\end{theorem}
+\begin{proof}
+Project $A,W,T,R$ from \autoref{def:separable-metric-carrier-surface}. The row $W$ displays the finite indices inspected from $A$, and the row $T$ displays the dyadic or real tolerance data attached to that same request.
+
+Use \autoref{thm:separable-metric-namecert-obligation-surface}. The regular handoff obligation states that $R$ is obtained only from the displayed dense-name windows and tolerance rows, while the nonescape obligation keeps all downstream rows on the same finite dependency surface.
+
+The transport and replay rows preserve the source of the handoff. The rows $H$ and $C$ cannot replace the dense-name family or tolerance ledger; they only carry the displayed $A,W,T,R,E$ route to later consumers.
+
+Therefore every $\RegSeqRatUp$ density handoff is downstream of the same countable dense-name family and tolerance ledger. A different dense family, untracked tolerance, or ambient real-completeness argument has no carrier coordinate from which it could be read.
+\end{proof}
+
 \begin{closurestatus}{\SeparableMetricUp}
   \constructivestory{A $\SeparableMetricUp$ packet is generated from a displayed MetricUp carrier, an indexed dense-name family, finite StreamName request windows, DyadicRatCore or RealUp tolerance rows, a RegSeqRat handoff, a RealUp distance seal, componentwise transport, continuation replay, package provenance, and local naming.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:separable-metric-carrier-surface}, \autoref{thm:separable-metric-namecert-obligation-surface}, and \autoref{thm:separable-metric-dense-window-stability} seed the finite countable-density surface for L10 completion, Polish-space, and compact-metric consumers.}
+  \scopeclosed{\autoref{def:separable-metric-carrier-surface}, \autoref{thm:separable-metric-namecert-obligation-surface}, \autoref{thm:separable-metric-dense-window-stability}, \autoref{thm:separable-metric-tolerance-net-replay}, \autoref{thm:separable-metric-completion-consumer-handoff}, and \autoref{thm:separable-metric-regseqrat-density-handoff} seed the finite countable-density surface for L10 completion, Polish-space, and compact-metric consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim selected dense points, quotient completion equality, open-cover compactness, ambient Real completeness, Lean verification, or bridge checking.}
