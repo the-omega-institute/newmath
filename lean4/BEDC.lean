@@ -2964,6 +2964,7 @@ import BEDC.Derived.DigestProvenancePacketUp.NoHiddenSourceConsumption
 import BEDC.Derived.DigestProvenancePacketUp.SourceFiberLedgerOrder
 import BEDC.Derived.DigestProvenancePacketUp.TasteGate
 import BEDC.Derived.DimLiftBoundaryUp
+import BEDC.Derived.DiniContinuityUp.TasteGate
 import BEDC.Derived.DiniDerivativeUp.TasteGate
 import BEDC.Derived.DiniTheoremUp.TasteGate
 import BEDC.Derived.DiniUniformConvergenceUp.TasteGate
@@ -4410,6 +4411,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNConfluenceCheckerFactorizat
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNFiniteSocketNormalForm
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateScheduleDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.ClosedSubstitutionBoundaryExposure
+import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceCandidateMediation
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityBudget
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityConsumerBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceDecidabilityHandoffExhaustion
