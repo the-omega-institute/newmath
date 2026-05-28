@@ -44,4 +44,37 @@ theorem BolzanoWeierstrassCarrier_regular_subsequence_window_readback
       hsame_refl (append (append intervalTree extracted) readback), intervalRoute,
       extractionRoute, readbackRoute, carrierPkg, readbackPkg⟩
 
+theorem BolzanoWeierstrassCarrier_regular_cauchy_subsequence_readback
+    [AskSetup] [PackageSetup]
+    {S K R Q E H C P N intervalTree retainedWindow readbackWindow clusterSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BolzanoWeierstrassCarrier S K R Q E H C P N bundle pkg ->
+      Cont S K intervalTree ->
+        Cont K R retainedWindow ->
+          Cont retainedWindow Q readbackWindow ->
+            Cont readbackWindow E clusterSeal ->
+              PkgSig bundle clusterSeal pkg ->
+                UnaryHistory intervalTree ∧ UnaryHistory retainedWindow ∧
+                  UnaryHistory readbackWindow ∧ UnaryHistory clusterSeal ∧
+                    Cont S K intervalTree ∧ Cont K R retainedWindow ∧
+                      Cont retainedWindow Q readbackWindow ∧
+                        Cont readbackWindow E clusterSeal ∧ PkgSig bundle P pkg ∧
+                          PkgSig bundle clusterSeal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier intervalRoute retainedRoute readbackRoute clusterRoute clusterPkg
+  obtain ⟨SUnary, KUnary, RUnary, QUnary, EUnary, _HUnary, _CUnary, _PUnary,
+    _NUnary, _sourceIntervalRoute, _readbackSealRoute, _transportReplayRoute,
+    carrierPkg⟩ := carrier
+  have intervalUnary : UnaryHistory intervalTree :=
+    unary_cont_closed SUnary KUnary intervalRoute
+  have retainedUnary : UnaryHistory retainedWindow :=
+    unary_cont_closed KUnary RUnary retainedRoute
+  have readbackUnary : UnaryHistory readbackWindow :=
+    unary_cont_closed retainedUnary QUnary readbackRoute
+  have clusterUnary : UnaryHistory clusterSeal :=
+    unary_cont_closed readbackUnary EUnary clusterRoute
+  exact
+    ⟨intervalUnary, retainedUnary, readbackUnary, clusterUnary, intervalRoute,
+      retainedRoute, readbackRoute, clusterRoute, carrierPkg, clusterPkg⟩
+
 end BEDC.Derived.BolzanoWeierstrassUp
