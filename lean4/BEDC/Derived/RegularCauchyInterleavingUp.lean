@@ -485,4 +485,50 @@ theorem RegularCauchyInterleavingPacket_obligation_closure_package [AskSetup] [P
     ⟨leftSealUnary, rightSealUnary, interleavedUnary, endpointReadUnary, publicReadUnary,
       interleavedRoute, endpointReadRoute, publicRoute, sameEndpoint, endpointPkg, publicPkg⟩
 
+theorem RegularCauchyInterleavingPacket_public_bridge_readiness [AskSetup] [PackageSetup]
+    {leftName rightName leftSchedule rightSchedule selector modulus leftSeal rightSeal
+      interleavedSeal transport routes provenance nameCert endpoint publicRead bridgeRead
+      finiteTailRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyInterleavingPacket leftName rightName leftSchedule rightSchedule selector
+        modulus leftSeal rightSeal interleavedSeal transport routes provenance nameCert endpoint
+        bundle pkg →
+      Cont endpoint provenance publicRead →
+        Cont publicRead routes bridgeRead →
+          Cont bridgeRead nameCert finiteTailRead →
+            PkgSig bundle finiteTailRead pkg →
+              UnaryHistory leftName ∧ UnaryHistory rightName ∧ UnaryHistory leftSchedule ∧
+                UnaryHistory rightSchedule ∧ UnaryHistory selector ∧ UnaryHistory modulus ∧
+                  UnaryHistory interleavedSeal ∧ UnaryHistory endpoint ∧
+                    UnaryHistory publicRead ∧ UnaryHistory bridgeRead ∧
+                      UnaryHistory finiteTailRead ∧ Cont endpoint provenance publicRead ∧
+                        Cont publicRead routes bridgeRead ∧
+                          Cont bridgeRead nameCert finiteTailRead ∧
+                            PkgSig bundle endpoint pkg ∧
+                              PkgSig bundle finiteTailRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro packet publicRoute bridgeRoute tailRoute tailPkg
+  obtain ⟨leftNameUnary, rightNameUnary, leftScheduleUnary, rightScheduleUnary,
+    selectorUnary, modulusUnary, _transportUnary, routesUnary, provenanceUnary,
+    nameCertUnary, leftSealRoute, rightSealRoute, interleavedRoute, endpointRoute,
+    endpointPkg⟩ := packet
+  have leftSealUnary : UnaryHistory leftSeal :=
+    unary_cont_closed selectorUnary leftScheduleUnary leftSealRoute
+  have rightSealUnary : UnaryHistory rightSeal :=
+    unary_cont_closed selectorUnary rightScheduleUnary rightSealRoute
+  have interleavedUnary : UnaryHistory interleavedSeal :=
+    unary_cont_closed leftSealUnary rightSealUnary interleavedRoute
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed interleavedUnary modulusUnary endpointRoute
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed endpointUnary provenanceUnary publicRoute
+  have bridgeReadUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed publicReadUnary routesUnary bridgeRoute
+  have finiteTailReadUnary : UnaryHistory finiteTailRead :=
+    unary_cont_closed bridgeReadUnary nameCertUnary tailRoute
+  exact
+    ⟨leftNameUnary, rightNameUnary, leftScheduleUnary, rightScheduleUnary, selectorUnary,
+      modulusUnary, interleavedUnary, endpointUnary, publicReadUnary, bridgeReadUnary,
+      finiteTailReadUnary, publicRoute, bridgeRoute, tailRoute, endpointPkg, tailPkg⟩
+
 end BEDC.Derived.RegularCauchyInterleavingUp
