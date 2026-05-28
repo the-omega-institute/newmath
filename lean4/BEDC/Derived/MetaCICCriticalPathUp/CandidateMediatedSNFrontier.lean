@@ -166,4 +166,69 @@ theorem MetaCICCriticalPathCandidateMediatedFrontierSocketSeparation [AskSetup]
   }
   exact ⟨cert, frontierUnary, socketReadUnary⟩
 
+theorem MetaCICCriticalPathSNConfluenceDecidabilityHandshake [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName handshakeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathPacket strongNorm normalForm obstruction handoff dischargeSocket
+        transport route provenance localName bundle pkg →
+      Cont strongNorm handoff handshakeRead →
+        PkgSig bundle handshakeRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row handshakeRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row strongNorm ∨ hsame row normalForm ∨ hsame row handoff ∨
+                  hsame row route ∨ hsame row handshakeRead)
+              (fun row : BHist =>
+                hsame row handshakeRead ∧ PkgSig bundle handshakeRead pkg ∧
+                  PkgSig bundle provenance pkg)
+              hsame ∧
+            UnaryHistory handshakeRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro packet strongNormHandoffRead handshakeReadPkg
+  obtain ⟨strongNormUnary, _normalFormUnary, _obstructionUnary, handoffUnary,
+    _dischargeSocketUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _localNameUnary, _strongNormNormalFormRoute, _handoffObstructionSocket,
+    _transportLocalName, provenancePkg⟩ := packet
+  have handshakeUnary : UnaryHistory handshakeRead :=
+    unary_cont_closed strongNormUnary handoffUnary strongNormHandoffRead
+  have sourceHandshake :
+      (fun row : BHist => hsame row handshakeRead ∧ UnaryHistory row) handshakeRead := by
+    exact ⟨hsame_refl handshakeRead, handshakeUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row handshakeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row strongNorm ∨ hsame row normalForm ∨ hsame row handoff ∨
+              hsame row route ∨ hsame row handshakeRead)
+          (fun row : BHist =>
+            hsame row handshakeRead ∧ PkgSig bundle handshakeRead pkg ∧
+              PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro handshakeRead sourceHandshake
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, handshakeReadPkg, provenancePkg⟩
+  }
+  exact ⟨cert, handshakeUnary, provenancePkg⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp
