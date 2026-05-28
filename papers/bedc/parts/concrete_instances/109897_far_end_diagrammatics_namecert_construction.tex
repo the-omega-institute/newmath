@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\FarEndDiagrammaticsUp$}
+\label{ch:concrete-instances-far-end-diagrammatics-namecert}
+\origin{ai}
+
+The $\FarEndDiagrammaticsUp$ packet realizes the apophatic diagrammatics route of \autoref{ch:visions-apophatic-far-end-diagrammatics} as finite NameCert data. It sits beside the far-end diagram carrier of \autoref{ch:concrete-instances-far-end-diagram-namecert}, the apophatic far-end socket of \autoref{ch:concrete-instances-apophaticfarendsocket-namecert}, and the forward socket ledger of \autoref{ch:concrete-instances-forward-socket-ledger-namecert}. The packet binds socket exposure, provenance fibers, far-end boundary rows, apophatic-unity rows, transport, continuation, provenance, and local naming before any $T$-boundary read is public.
+
+\falsifiablePrediction{Every accepted $\FarEndDiagrammaticsUp$ packet exposes socket, provenance-fiber, far-end boundary, apophatic-unity, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows before a $T$-boundary read is public.}
+
+\begin{definition}[Far-end diagrammatics carrier]\label{def:far-end-diagrammatics-carrier}
+A $\FarEndDiagrammaticsUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,L,G,B,U,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $S$ is the socket row, listing the forward sockets that may expose a far-end boundary read;
+\item $L$ is the provenance-fiber ledger, recording which finite fiber supports each visible socket read;
+\item $G$ is the gap row, marking the non-internalized boundary between source-side ledger data and the far-end read;
+\item $B$ is the far-end boundary row, naming the boundary without turning it into a kernel object;
+\item $U$ is the apophatic-unity row, binding socket, fiber, gap, and boundary reads into one diagrammatic route;
+\item $H$ records componentwise $\hsame$ transport for $S,L,G,B,U$;
+\item $C$ records displayed $\Cont$ replay of the same socket-ledger route;
+\item $P$ is the $\Pkg$ provenance over $\FarEndDiagrammaticsUp$, $\FarEndDiagramUp$, $\ApophaticFarEndSocketUp$, $\ForwardSocketLedgerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\FarEndDiagrammaticsUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an internal $T$ object, a hidden source selector, an unledgered far-end arrow, a global observer, or an equality between the provenance fiber and the far-end boundary.
+\end{definition}
+
+\begin{theorem}[Far-end diagrammatics NameCert obligations]\label{thm:far-end-diagrammatics-namecert-obligations}
+For the carrier of \autoref{def:far-end-diagrammatics-carrier}, the local $\NameCert_{\FarEndDiagrammaticsUp}$ surface consists exactly of socket admission, provenance-fiber admission, gap-boundary admission, far-end boundary naming, apophatic-unity routing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every public $T$-boundary read factors through $S,L,G,B,U,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The diagrammatic rows are $S,L,G,B,U$, and the structural rows are $H,C,P,N$.
+
+The socket row $S$ is read first. A boundary read is not public until $L$ supplies the provenance fiber and $G$ marks the gap between the visible source-side ledger and the non-internalized far end.
+
+The far-end boundary row $B$ is then named only through the apophatic-unity row $U$. This row records unity of the diagrammatic route, not identity between a source object and the boundary.
+
+Rows $H,C,P,N$ transport, replay, source, and name exactly the displayed route. Since no other coordinate occurs in the carrier, the local NameCert obligations are exhausted by those rows.
+\end{proof}
+
+\begin{theorem}[Far-end diagrammatics unity route]\label{thm:far-end-diagrammatics-unity-route}
+Every accepted $\FarEndDiagrammaticsUp$ packet exposes diagrammatic unity only as the finite route
+$$
+S,L,G,B,U \longmapsto H,C,P,N .
+$$
+The route is consumed after the socket ledger, provenance fiber, far-end boundary, and apophatic-unity rows are displayed. It exports no internal $T$ object, hidden source selector, unledgered far-end arrow, global observer, or equality between the provenance fiber and the far-end boundary.
+\end{theorem}
+\begin{proof}
+Start with the socket ledger. The row $S$ lists the requested forward sockets, while $L$ records the provenance fiber supporting each visible socket read.
+
+Read the gap and boundary rows next. The row $G$ marks the non-internalized far-end boundary, and $B$ names that boundary without adding it as a kernel object.
+
+The apophatic-unity row $U$ binds the visible socket, fiber, gap, and boundary rows into one route. It is therefore a route unity, not a collapse of the source-side fiber into the far-end boundary.
+
+Finally, $H,C,P,N$ preserve, replay, package, and name the same finite route. The excluded objects are absent from \autoref{def:far-end-diagrammatics-carrier}, so they cannot be exported by the unity route.
+\end{proof}
+
+\independenceWitness{apophaticname, forward-socket-ledger, gap, package, namecert: $\FarEndDiagrammaticsUp$ is not bijective to any listed sibling because it jointly carries socket, provenance-fiber, far-end boundary, apophatic-unity, transport, continuation, provenance, and local NameCert rows before a $T$-boundary read is public.}
+
+\closureat{FarEndDiagrammaticsUp}{seedStr}
+
+\begin{closurestatus}{\FarEndDiagrammaticsUp}
+  \constructivestory{A $\FarEndDiagrammaticsUp$ packet is generated from socket rows, provenance-fiber ledgers, gap rows, far-end boundary names, apophatic-unity rows, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:far-end-diagrammatics-carrier}, \autoref{thm:far-end-diagrammatics-namecert-obligations}, and \autoref{thm:far-end-diagrammatics-unity-route} seed the finite socket-to-fiber-to-boundary route for far-end diagrammatics.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not internalize $T$, add a global observer, identify provenance fibers with the far-end boundary, provide Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean-backed carrier admission, socket ledger accountability, provenance-fiber routing, apophatic-unity nonescape, TasteGate instances, and local NameCert registration for BEDC.Derived.FarEndDiagrammaticsUp.}
+\end{closurestatus}

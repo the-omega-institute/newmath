@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\ScottDomainUp$}
+\label{ch:concrete-instances-scott-domain-namecert}
+\origin{human}
+
+Following Scott and Abramsky--Jung on domain theory, the $\ScottDomainUp$ packet records a finite naming certificate for the order-theoretic surface used by domain semantics before any completion-facing consumer reads a dcpo-style object. It sits after the preorder surface of \autoref{ch:concrete-instances-preorder-namecert}, the observable open-test discipline of \autoref{ch:concrete-instances-sierpinski-space-namecert}, the represented-space handoff of \autoref{ch:concrete-instances-representedspace-namecert}, and the finite stream window route of \autoref{ch:concrete-instances-streamname-namecert}. The packet names a displayed directed-supremum carrier; it does not assert a host dcpo, quotient domain, selected basis enumeration, classical lub principle, or ambient semantic completeness.
+
+\begin{definition}[ScottDomain carrier]\label{def:scott-domain-carrier}
+A $\ScottDomainUp$ carrier is a finite $\BHist$ packet
+$$
+D=(O,S,U,B,A,V,R,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $O$ is the preorder and partial-order carrier row, exposing the displayed comparison relation and the antisymmetry witness used by the local packet;
+\item $S$ is the directed-family schedule row, listing the finite inspection schedule for the directed pieces that a consumer may request;
+\item $U$ is the supremum row, recording the displayed least-upper-bound read served by the finite directed-family schedule;
+\item $B$ is the compact-basis approximation row, listing the compact basis tokens and finite approximation evidence visible to the packet;
+\item $A$ is the approximation-order row, routing basis-token comparisons back through $O$ and the directed schedule $S$;
+\item $V$ is the Scott-open observable row, read through $\SierpinskiSpaceUp$ tests rather than host subsets;
+\item $R$ is the represented-space handoff row, packaging the same observations through $\RepresentedSpaceUp$ and finite $\StreamNameUp$ windows;
+\item $H$ records componentwise $\hsame$ transport for $O,S,U,B,A,V,R$;
+\item $C$ records displayed $\Cont$ replay of directed-supremum and Scott-open reads;
+\item $P$ is the $\Pkg$ provenance over $\ScottDomainUp$, $\PreorderUp$, $\SierpinskiSpaceUp$, $\RepresentedSpaceUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ScottDomainUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host dcpo, quotient order, selected infinite basis enumeration, classical pointwise lub, ambient topology, or semantic completeness theorem.
+\end{definition}
+
+\begin{theorem}[ScottDomain NameCert obligations]\label{thm:scott-domain-namecert-obligations}
+For the carrier of \autoref{def:scott-domain-carrier}, the local $\NameCert_{\ScottDomainUp}$ surface consists exactly of preorder and partial-order admission, directed-family schedule admission, supremum-row admission, compact-basis approximation admission, Scott-open observability, represented-space handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every consumer of the packet must read the rows $O,S,U,B,A,V,R,H,C,P,N$ before treating a directed supremum or Scott-open test as public.
+\end{theorem}
+\begin{proof}
+Project the carrier. The order-theoretic rows are $O,S,U,B,A,V,R$, and the structural rows are $H,C,P,N$.
+
+The preorder and partial-order read begins at $O$. A directed-supremum read then uses $S$ to expose the inspected directed schedule before $U$ names the supremum row.
+
+The basis read is separate but attached. The compact-basis row $B$ and approximation row $A$ route finite basis tokens back through $O$ and $S$, so a consumer cannot replace the displayed approximation surface by a host basis enumeration.
+
+Finally, the Scott-open observable row $V$ and represented-space row $R$ package those finite reads through \autoref{ch:concrete-instances-sierpinski-space-namecert}, \autoref{ch:concrete-instances-representedspace-namecert}, and \autoref{ch:concrete-instances-streamname-namecert}. Rows $H,C,P,N$ preserve, replay, source, and name the same carrier, exhausting the local obligations.
+\end{proof}
+
+\begin{theorem}[ScottDomain directed-supremum stability]\label{thm:scott-domain-directed-supremum-stability}
+Every accepted $\ScottDomainUp$ packet preserves directed-supremum visibility under componentwise transport and continuation replay. If a consumer reads the supremum row $U$ through the directed-family schedule $S$, any transported or replayed read of the same packet factors again through
+$$
+O,S,U,B,A,V,R,H,C,P,N .
+$$
+Thus Scott-open observations and represented-space handoffs remain downstream of the displayed directed schedule and never expose a host dcpo, quotient domain, selected infinite basis enumeration, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start with a directed-supremum read. By \autoref{def:scott-domain-carrier}, the read reaches $U$ only after the order row $O$ and the directed-family schedule $S$ are displayed.
+
+Apply the NameCert obligations of \autoref{thm:scott-domain-namecert-obligations}. Componentwise transport through $H$ preserves the same rows, and $\Cont$ replay through $C$ reuses the displayed schedule rather than generating a second supremum source.
+
+The observable and representation rows are downstream. A Scott-open test reads $V$ through the Sierpinski surface, and the represented-space handoff reads $R$ through finite stream windows. Since the excluded host objects are absent from $O,S,U,B,A,V,R,H,C,P,N$, no transported or replayed directed-supremum read can expose them.
+\end{proof}
+
+\closureat{ScottDomainUp}{seedStr}
+
+\begin{closurestatus}{\ScottDomainUp}
+  \constructivestory{A $\ScottDomainUp$ packet is generated from preorder and partial-order rows, directed-family schedules, supremum rows, compact-basis approximation rows, Scott-open observable rows, represented-space handoff rows, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:scott-domain-carrier}, \autoref{thm:scott-domain-namecert-obligations}, and \autoref{thm:scott-domain-directed-supremum-stability} seed the finite directed-supremum and Scott-open observation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host dcpos, quotient domains, selected basis enumerations, classical lub principles, ambient topology, semantic completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean-backed carrier admission, directed-schedule stability, Scott-open observability, represented-space handoff, and local NameCert registration for BEDC.Derived.ScottDomainUp.}
+\end{closurestatus}
