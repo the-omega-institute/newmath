@@ -1,10 +1,9 @@
 name: Daily Build
 
-# Consumer of BEDC Build's bedc-pdf artifact. Triggered by workflow_run
-# after BEDC Build succeeds on a push to `dev`. Publishes the resulting
-# PDF as a daily prerelease tag. Previously this workflow rebuilt the PDF
-# (and Lean) itself; both steps are now subsumed by build-paper.yml so
-# the dev push only produces one PDF.
+# Consumer of BEDC Build's PDF artifacts. Triggered by workflow_run after
+# BEDC Build succeeds on a push to `dev`. Publishes main.pdf and
+# concrete_instances.pdf as daily prerelease assets. PDF and Lean validation
+# are handled by build-paper.yml before this workflow publishes the artifacts.
 
 on:
   workflow_run:

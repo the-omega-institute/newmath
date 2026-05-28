@@ -146,9 +146,6 @@ def write_last_built(sha: str) -> None:
 
 
 def run_full_build(target: str) -> tuple[bool, str, float]:
-    # Refactor (iter1/single-pdf-split):
-    #   Old pattern: 单一 main.pdf 把 concrete_instances 文件 input 进一个 build target, 撞 TeX 内存上限, 无法 build/read.
-    #   New principle: 2 PDF split, concrete_instances as companion volume, explicit Makefile targets.
     paper_dir = BUILDER_DIR / "papers" / "bedc"
     if not paper_dir.exists():
         return False, f"{paper_dir} missing", 0.0
@@ -173,9 +170,6 @@ def run_full_build(target: str) -> tuple[bool, str, float]:
 
 
 def fix_attempts_for(sha: str, target: str) -> int:
-    # Refactor (iter1/single-pdf-split):
-    #   Old pattern: daemon retry state used a SHA-only key for the single PDF build.
-    #   New principle: (sha, target) retry keys separate main and concrete_instances attribution.
     if not BROKEN_SHAS_FILE.exists():
         return 0
     n = 0
@@ -249,6 +243,53 @@ def codex_fix(sha: str, target: str, log_tail: str, elapsed: float) -> bool:
     return False
 
 
+def _build_sha_once(sha: str, consecutive_fail: int = 0) -> tuple[bool, int]:
+    """Build all PDF targets for one checked remote SHA.
+
+    Returns `(tip_moved, consecutive_fail)`. When a repair advances the
+    remote tip, `LAST_BUILT_FILE` is intentionally left unchanged so the
+    next daemon tick picks up the new SHA.
+    """
+    if not checkout(sha):
+        log("checkout failed, will retry next tick")
+        return False, consecutive_fail
+
+    for target in PDF_TARGETS:
+        ok, tail, elapsed = run_full_build(target)
+        if ok:
+            log(f"build OK {sha[:8]} target={target} in {elapsed:.0f}s")
+            consecutive_fail = 0
+            continue
+        consecutive_fail += 1
+        log(
+            f"build FAIL {sha[:8]} target={target} in {elapsed:.0f}s "
+            f"(consecutive_fail={consecutive_fail}); tail:\n"
+            f"{tail[-1200:]}"
+        )
+        attempts_so_far = fix_attempts_for(sha, target)
+        if attempts_so_far < MAX_FIX_ATTEMPTS:
+            record_fix_attempt(sha, target)
+            log(
+                f"codex repair: attempt "
+                f"{attempts_so_far + 1}/{MAX_FIX_ATTEMPTS} on {sha[:8]} target={target}"
+            )
+            if codex_fix(sha, target, tail, elapsed):
+                return True, consecutive_fail
+            log(
+                f"codex repair: no fix pushed on {sha[:8]} target={target}; "
+                f"daemon will retry on next merged tip"
+            )
+        else:
+            log(
+                f"codex repair: max attempts "
+                f"({MAX_FIX_ATTEMPTS}) exhausted for {sha[:8]} target={target}; "
+                f"giving up until tip moves"
+            )
+
+    write_last_built(sha)
+    return False, consecutive_fail
+
+
 def acquire_lock() -> int | None:
     fd = os.open(str(LOCK_FILE), os.O_CREAT | os.O_RDWR, 0o644)
     try:
@@ -269,9 +310,6 @@ def handle_signal(signum, frame):  # pragma: no cover
 
 
 def main() -> int:
-    # Refactor (iter1/single-pdf-split):
-    #   Old pattern: 单一 main.pdf 把 concrete_instances 文件 input 进一个 build target, 撞 TeX 内存上限, 无法 build/read.
-    #   New principle: 2 PDF split, guarded xr-hyper, and independent target build/fix loops.
     signal.signal(signal.SIGTERM, handle_signal)
     signal.signal(signal.SIGINT, handle_signal)
 
@@ -289,53 +327,7 @@ def main() -> int:
             sha = latest_remote_sha()
             if sha and sha != last_built():
                 log(f"new SHA {sha[:8]}, starting full build")
-                if not checkout(sha):
-                    log("checkout failed, will retry next tick")
-                else:
-                    tip_moved = False
-                    for target in PDF_TARGETS:
-                        ok, tail, elapsed = run_full_build(target)
-                        if ok:
-                            log(
-                                f"build OK {sha[:8]} target={target} in {elapsed:.0f}s"
-                            )
-                            consecutive_fail = 0
-                            continue
-                        consecutive_fail += 1
-                        log(
-                            f"build FAIL {sha[:8]} target={target} in {elapsed:.0f}s "
-                            f"(consecutive_fail={consecutive_fail}); tail:\n"
-                            f"{tail[-1200:]}"
-                        )
-                        attempts_so_far = fix_attempts_for(sha, target)
-                        if attempts_so_far < MAX_FIX_ATTEMPTS:
-                            record_fix_attempt(sha, target)
-                            log(
-                                f"codex repair: attempt "
-                                f"{attempts_so_far + 1}/{MAX_FIX_ATTEMPTS} on {sha[:8]} target={target}"
-                            )
-                            if codex_fix(sha, target, tail, elapsed):
-                                # tip moved; keep last_built pointing at the
-                                # FAILED sha so the daemon's next iteration
-                                # detects the new tip and re-builds.
-                                tip_moved = True
-                                break
-                            log(
-                                f"codex repair: no fix pushed on {sha[:8]} target={target}; "
-                                f"daemon will retry on next merged tip"
-                            )
-                        else:
-                            log(
-                                f"codex repair: max attempts "
-                                f"({MAX_FIX_ATTEMPTS}) exhausted for {sha[:8]} target={target}; "
-                                f"giving up until tip moves"
-                            )
-                    # Even on fail, advance last_built so we don't loop
-                    # forever on a broken commit. The next merged commit
-                    # will trigger a fresh build attempt and (usually)
-                    # supersede the failure.
-                    if not tip_moved:
-                        write_last_built(sha)
+                _, consecutive_fail = _build_sha_once(sha, consecutive_fail)
         except Exception as exc:
             log(f"loop error: {exc!r}")
         time.sleep(POLL_SECONDS)
