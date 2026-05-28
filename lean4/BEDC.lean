@@ -1631,6 +1631,7 @@ import BEDC.Derived.CauchySequenceSpaceUp.UniformCriterionConsumption
 import BEDC.Derived.CauchySequenceSpaceUp.WindowFactorization
 import BEDC.Derived.CauchySequenceTailFilterCompletionUp
 import BEDC.Derived.CauchySeriesCriterionUp.TasteGate
+import BEDC.Derived.CauchySeriesProductUp.TasteGate
 import BEDC.Derived.CauchySharedTailModulusUp.TasteGate
 import BEDC.Derived.CauchySpaceUp
 import BEDC.Derived.CauchySpaceUp.TasteGate
