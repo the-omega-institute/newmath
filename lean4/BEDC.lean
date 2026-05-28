@@ -3157,6 +3157,7 @@ import BEDC.Derived.EudoxusRealUp.TasteGate
 import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.EulerMaclaurinUp.TasteGate
 import BEDC.Derived.EulerPolygonUp.TasteGate
+import BEDC.Derived.EulerTransformUp.TasteGate
 import BEDC.Derived.EvenOddCauchyCriterionUp.Route
 import BEDC.Derived.EvenOddCauchyCriterionUp.TasteGate
 import BEDC.Derived.EventualTailAgreementUp.TasteGate
