@@ -61,6 +61,18 @@ Finally $H,C,P,N$ transport, replay, source, and name the finite trigger route. 
 
 \independenceWitness{dna-boundary-tile, rank-trigger, finite-markov-transition: $\MarkovTriggerDynamicsUp$ is not bijective to any listed sibling because it jointly carries state rows, support-rank rows, transition-count rows, drift rows, trigger-time rows, componentwise hsame transport, displayed Cont replay, provenance, and local naming.}
 
+\begin{theorem}[MarkovTriggerDynamics sibling dependency route]
+\label{thm:markov-trigger-dynamics-sibling-dependency-route}
+Every accepted $\MarkovTriggerDynamicsUp$ trigger-time read routes its finite state and transition-count rows through \autoref{ch:concrete-instances-markovchain-namecert} or \autoref{ch:concrete-instances-finite-markov-partition-namecert} when the carrier is read as a Markov surface, through \autoref{ch:concrete-instances-dynsystem-namecert} when it is read as finite transition evolution, and through \autoref{ch:concrete-instances-dna-boundary-trigger-closure-namecert} for the DNA boundary-trigger consumer.
+\end{theorem}
+\begin{proof}
+Project the existing carrier rows $S,K,A,D,G,H,C,P,N$. The state row $S$, support-rank row $K$, and transition-count row $A$ provide exactly the finite Markov read, so a Markov-surface consumer reaches this packet through the Markov-chain or finite Markov-partition certificates.
+
+The same rows, together with drift row $D$ and trigger-time row $G$, form the finite transition-evolution route consumed by the dynamical-system certificate. The structural rows $H,C,P,N$ then transport, replay, source, and name that route for the DNA boundary-trigger consumer.
+
+This is a dependency route only. It does not add an ambient probability space, infinite sample path, unstated independence source, or host Markov-chain object to the carrier.
+\end{proof}
+
 Nontrivial TasteGate and FieldFaithful instances remain required before this finite trigger surface can be read as a checked biological field-faithfulness claim.
 
 \closureat{MarkovTriggerDynamicsUp}{seedStr}
