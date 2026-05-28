@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\RealIntervalApartnessUp$}
+\label{ch:concrete-instances-real-interval-apartness-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RealIntervalApartnessUp$ packet records located separation of two real intervals by a displayed positive dyadic gap rather than by a trichotomy decision on completed real endpoints. It sits after the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the located endpoint interval surface of \autoref{ch:concrete-instances-located-real-interval-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the separability boundary of \autoref{ch:concrete-instances-real-separability-namecert}. The packet names interval separation only through visible endpoint rows, gap rows, transport, replay, provenance, and local naming.
+
+\begin{definition}[RealIntervalApartness carrier]
+\label{def:real-interval-apartness-carrier}
+A $\RealIntervalApartnessUp$ carrier is a finite $\BHist$ packet
+$$
+A=(I,J,L,U,L',U',G,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ and $J$ are the two $\LocatedRealIntervalUp$ endpoint packets whose lower and upper endpoint rows are exposed before any apartness read.
+\item $L,U$ are the lower and upper $\RealUp$ seal rows for $I$, and $L',U'$ are the corresponding $\RealUp$ seal rows for $J$.
+\item $G$ is a positive $\DyadicRatCoreUp$ gap witness, attached either to the displayed comparison $U+G\leq L'$ or to the displayed comparison $U'+G\leq L$.
+\item $S$ is the $\StreamNameUp$ finite-window row naming exactly the endpoint observations and gap inspections used by the packet.
+\item $R$ is the $\RegSeqRatUp$ readback row for those endpoint windows and dyadic gap checks.
+\item $E$ records the $\RealSeparabilityUp$ boundary row witnessing that the two exposed endpoint intervals are separated by the displayed dyadic gap.
+\item $H$ records componentwise $\hsame$ transport for intervals, endpoint seals, dyadic gap rows, finite windows, readbacks, separability rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay through $I,J,L,U,L',U',G,S,R,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\RealIntervalApartnessUp$, $\LocatedRealIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RealSeparabilityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealIntervalApartnessUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for real trichotomy, quotient real equality, a selected endpoint representative, a host interval order, or an ambient completeness principle for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[RealIntervalApartness NameCert obligations]
+\label{thm:real-interval-apartness-namecert-obligations}
+For every accepted $\RealIntervalApartnessUp$ carrier
+$$
+A=(I,J,L,U,L',U',G,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\RealIntervalApartnessUp}$ surface consists exactly of the following obligations:
+\begin{enumerate}
+\item admit the two located real interval packets $I,J$ and expose their lower and upper endpoint rows through $L,U,L',U'$;
+\item expose the positive $\DyadicRatCoreUp$ gap witness $G$ and the side on which the gap separates the displayed endpoint rows;
+\item bind every endpoint and gap inspection to the finite $\StreamNameUp$ and $\RegSeqRatUp$ rows $S,R$;
+\item preserve the interval, endpoint, gap, readback, and separability rows by componentwise $\hsame$ transport through $H$;
+\item replay the same finite route through $\Cont$ row $C$, source it by $\Pkg$ provenance $P$, and name it by the local $\NameCert$ row $N$.
+\end{enumerate}
+No obligation row is stored for real trichotomy, quotient equality of completed real names, selected endpoint representatives, host interval order, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-interval-apartness-carrier}. The two located interval packets and their endpoint seals are the only interval data exposed to a consumer.
+
+The separation datum is the row $G$. Positivity is read as a dyadic-row property, and the side of separation is part of the displayed ledger; no trichotomy comparison is consulted.
+
+The numerical readback is forced through $S$ and $R$, then through the separability row $E$. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet.
+
+Since none of the excluded host-order, quotient-equality, representative-selection, trichotomy, or completeness data occurs as a carrier coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[RealIntervalApartness separability route]
+\label{thm:real-interval-apartness-separability-route}
+Every Real-and-Completion consumer of an accepted $\RealIntervalApartnessUp$ carrier factors through
+$$
+\LocatedRealIntervalUp,\ \DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \RealSeparabilityUp,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert_{\RealIntervalApartnessUp}.
+$$
+The route exports located interval separation only as a positive dyadic gap between displayed endpoint rows. It exports no real trichotomy, quotient real equality, host interval order, selected endpoint representative, or ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:real-interval-apartness-namecert-obligations}. They force the two located interval packets and endpoint seals to be visible before a consumer may read an apartness claim.
+
+Next read the dyadic gap row and its finite endpoint inspections through the stream and regular-rational rows. The separability row is therefore attached to the displayed positive gap, not to a host comparison of completed reals.
+
+Finally route through transport, replay, provenance, and local naming. These rows preserve the same finite packet, so the consumer receives located interval apartness without importing any excluded trichotomy, quotient, selection, host-order, or completeness principle.
+\end{proof}
+
+\closureat{RealIntervalApartnessUp}{seedStr}
+
+\begin{closurestatus}{\RealIntervalApartnessUp}
+  \constructivestory{A $\RealIntervalApartnessUp$ packet is generated from two LocatedRealInterval endpoint packets, Real endpoint seal rows, a positive DyadicRatCore gap witness, finite StreamName windows, RegSeqRat readback, a RealSeparability boundary row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-interval-apartness-carrier}, \autoref{thm:real-interval-apartness-namecert-obligations}, and \autoref{thm:real-interval-apartness-separability-route} seed the located interval separation packet over displayed endpoint, dyadic gap, finite-window, regular-readback, Real seal, separability, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim real trichotomy, quotient real equality, selected endpoint representatives, host interval order, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint exposure, positive-gap exposure, transport, replay, provenance, local naming, and non-escape for BEDC.Derived.RealIntervalApartnessUp.}
+\end{closurestatus}
