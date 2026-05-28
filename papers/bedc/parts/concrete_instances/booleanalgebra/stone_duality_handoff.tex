@@ -1,0 +1,13 @@
+\begin{theorem}[BooleanAlgebra Stone-duality handoff]
+\label{thm:booleanalgebra-stone-duality-handoff}
+Every $\StoneDualityUp$-facing read of an accepted $\BooleanAlgebraUp$ packet first consumes the finite join row $J$, meet row $M$, complement row $K$, endpoint rows $Z,O$, order row $R$, componentwise transport row $H$, replay row $C$, provenance row $P$, and local $\NameCert$ row $N$ of \autoref{ch:concrete-instances-booleanalgebra-namecert}. Only after those rows are exposed may the consumer reach the Boolean-source side of \autoref{ch:concrete-instances-stoneduality-namecert}.
+
+The handoff is additive to the local Boolean-algebra carrier: it exports a concrete outgoing dependency edge to $\StoneDualityUp$ while adding no Stone space, ultrafilter, clopen topology, powerset representation, quotient lattice, or host Boolean-algebra equality row.
+\end{theorem}
+\begin{proof}
+Project the accepted Boolean-algebra carrier from \autoref{def:booleanalgebra-bhist-carrier}. Its visible operation and endpoint surface is exactly $J,M,K,Z,O,R$, with $H,C,P,N$ carrying transport, replay, provenance, and local naming.
+
+Apply \autoref{thm:booleanalgebra-namecert-obligation-surface}. The local certificate requires the operation rows, endpoint exactness rows, and order compatibility rows to be displayed before any downstream packet can treat the carrier as a Boolean source.
+
+The Stone-duality source of \autoref{ch:concrete-instances-stoneduality-namecert} consumes a Boolean-algebra source before clopen or topology-facing rows appear. Therefore the Stone-duality-facing read must pass through the BooleanAlgebra rows first, and no absent Stone-space, ultrafilter, clopen-topology, powerset, quotient-lattice, or host-equality coordinate can be exported.
+\end{proof}
