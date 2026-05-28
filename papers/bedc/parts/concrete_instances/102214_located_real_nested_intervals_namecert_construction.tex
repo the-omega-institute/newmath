@@ -122,6 +122,22 @@ Apply \autoref{thm:located-real-nested-intervals-point-name} to the terminal rou
 The carrier of \autoref{def:located-real-nested-intervals-carrier} contains no alternate coordinate for host intersection, quotient selection, compactness, choice, or completeness. Hence every accepted $\RealUp$-facing read is forced through the displayed finite route.
 \end{proof}
 
+\begin{theorem}[Located real nested intervals Cauchy witness route]
+\label{thm:located-real-nested-intervals-cauchy-witness-route}
+For every accepted $\LocatedRealNestedIntervalsUp$ carrier $Z=(I,B,M,D,J,S,R,E,H,C,P,N)$, the diameter-budget row $D$ and nested-containment row $J$ force each requested precision through the finite witness route
+$$
+D,J \longmapsto S,R \longmapsto E,H,C,P,N .
+$$
+Consequently the packet supplies a regular-Cauchy witness route into $\RegSeqRatUp$ and the terminal $\RealUp$ seal, rather than only a sealed Real-name row.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:located-real-nested-intervals-diameter-contracts}. It places every retained interval window downstream of the displayed diameter budget $D$ and nested-containment row $J$.
+
+Next apply \autoref{thm:located-real-nested-intervals-point-name}. The point-name route sends the retained endpoint windows through $S$ and repacks them through the $\RegSeqRatUp$ row $R$ before the Real seal $E$ can be read.
+
+Finally use \autoref{thm:located-real-nested-intervals-real-seal-nonescape}. The seal remains downstream of $D,J,S,R$ and is transported only through $H,C,P,N$, so each requested precision carries an explicit finite Cauchy witness route into the terminal $\RealUp$ boundary.
+\end{proof}
+
 \closureat{LocatedRealNestedIntervalsUp}{seedStr}
 
 \begin{closurestatus}{\LocatedRealNestedIntervalsUp}
