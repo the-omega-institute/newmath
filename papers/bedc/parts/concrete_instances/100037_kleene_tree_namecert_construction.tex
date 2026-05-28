@@ -104,6 +104,7 @@ It remains to identify what cannot pass through that read. Apply \autoref{thm:kl
 \label{thm:kleene-tree-selector-refusal}
 Every read from an accepted $\KleeneTreeUp$ packet into $\CauchySelectionFunctionUp$, $\ChoiceSequenceUp$, or $\SequentialCauchySelectorUp$ factors through the finite rows $S,L,B,T,O,H,C,P,N$. The read may reuse finite StreamName windows, finite prefix ledgers, and finite obstruction data, but it cannot produce a branch selector, a countable-choice functional, or a sequential Cauchy selector row. The obstruction is carried by the row $O$ together with the path and fan boundaries of \autoref{thm:kleene-tree-streamname-path-boundary} and \autoref{thm:kleene-tree-fan-boundary}.
 \end{theorem}
+\leanchecked{BEDC.Derived.KleeneTreeUp.KleeneTreeSelectorRefusal}
 \begin{proof}
 Project the accepted carrier of \autoref{def:kleene-tree-carrier}. The only rows exposed to a selector-facing consumer are the finite StreamName schedule $S$, the prefix spine $L$, the Bool ledger $B$, the tree ledger $T$, the obstruction row $O$, and the structural rows $H,C,P,N$.
 
