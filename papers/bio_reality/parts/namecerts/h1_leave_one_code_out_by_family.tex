@@ -1,76 +1,42 @@
-\subsection{Leave-One-Code-Out Stability by Code Family}\label{subsec:h1-leave-one-code-out-by-family}
+\subsection{Leave-One-Code-Out Stability by Code Family}\label{subsec:bioreality-h1-leave-one-code-out-by-family}
 \origin{ai}
 
-\paragraph{Finite carrier and readback contact.}
-The row works over the codon cube $Q_6$, read as the finite six-bit codon display whose visible labels are the standard codons over $\{A,C,G,U\}$.  The biological contact is deliberately narrow: a curated standard-code table supplies codon-to-label readback at the code layer.  It does not supply translation realization, folded structure, physical admissibility, biological function, a mechanism of code emergence, or a universality theorem.  Thus every assertion below is a finite-row claim about coordinate, closure, spectrum, and relation data over the displayed codon table, not a promotion from a local tile to a global biological law.
+\paragraph{Finite-row object.}
+This record treats the standard-code codon table as a finite code-read object, not as a mechanism for translation or as a model of protein structure.  The carrier is the six-bit codon cube $Q_6$, read through the external label table which assigns each codon to an amino-acid or stop label.  The observed boundary set $R$ has cardinality $13$ and is exactly
+$\{\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}$.  The same finite row is observed as a punctured-cube pattern with face data $(13,16,4)$.  Thus the chapter-specific object is not an arbitrary subset of the codon cube: it is a thirteen-codon boundary row with a fixed local tile profile, a standard-code label readback, and a family-level leave-one-code-out probe.
 
-\paragraph{Boundary set and punctured-cube row.}
-The distinguished row $R$ has cardinality $13$ and is exactly
-$$
-\begin{aligned}
-R=\{&AAA,AGA,AGG,AUA,CUA,CUC,CUG,CUU,\\
-&UAA,UAG,UCA,UGA,UUA\}.
-\end{aligned}
-$$
-The same row is reported as a punctured-cube configuration with $f$-vector
-$$
-\begin{aligned}
-(f_0,f_1,f_2)=(13,16,4).
-\end{aligned}
-$$
-This is the finite geometric object being tested: a local codon tile with a singleton-corner and three-point label-class distinction, not a claim that the genome or the translation apparatus is forced by this geometry.
+\paragraph{Spectral and shape checks.}
+The row also carries a numerical spectral signature.  The recorded values are $\lambda_M=0.6752479308830213$, $\lambda_R=0.4758352843197002$, and $\mu=3.051487585298128$.  The radial cubic residual is $-6.224354365258478\times 10^{-12}$, so the checked spectral equation is numerically closed at the displayed tolerance:
+$$\begin{aligned}
+\lambda_M &= 0.6752479308830213,\\
+\lambda_R &= 0.4758352843197002,\\
+\mu &= 3.051487585298128,\\
+P_{\mathrm{rad}}(\lambda_M,\lambda_R,\mu) &\approx -6.224354365258478\times 10^{-12}.
+\end{aligned}$$
+The shape test used $N=2000$ distinct samples after $57377$ attempts and $55377$ duplicate retries.  It found $1$ exact shape match, giving $p_{\mathrm{exact}}=0.0005$, and $25$ samples with Jaccard similarity at least $0.9$, giving $p_{\mathrm{Jaccard}\geq 0.9}=0.0125$.  Under the amino-acid-class-preserving null model, the observed $M$-size is $20$, exact shape matches are $0$ out of $2000$, and the lower-tail count at or below the observed $M$-size is $7$, giving $p=0.0035$.  The finite-row packet does not expose the full membership list of $M$ in this datum, so this subsection uses the observed $M$-size and the reported row statistics rather than inventing an unobserved list.
 
-\paragraph{Spectral and shape diagnostics.}
-The spectral row records
-$$
-\begin{aligned}
-\lambda_M&=0.6752479308830213,\\
-\lambda_R&=0.4758352843197002,\\
-\mu&=3.051487585298128.
-\end{aligned}
-$$
-The cubic, or radial, polynomial residual is $-6.224354365258478\times 10^{-12}$, and the recorded spectral radius in tolerance is $0.6752479308830213$.  A finite null comparison with $N=2000$ trials, seed $42$, and $57377$ distinct-sample attempts reports one exact shape match and $25$ matches at Jaccard threshold at least $0.9$.  The corresponding probabilities are
-$$
-\begin{aligned}
-p_{\mathrm{exact}}&=0.0005,\\
-p_{J\geq 0.9}&=0.0125.
-\end{aligned}
-$$
-The amino-acid-class-preserving null row, also at $N=2000$ and seed $42$, records observed $|M|=20$, zero exact matches, and $7$ lower-tail samples at or below the observed $M$ size.  Its reported values are
-$$
-\begin{aligned}
-p_{\mathrm{aa\ class\ exact}}&=0.0,\\
-p_{\mathrm{aa\ class\ lower\ tail}}&=0.0035.
-\end{aligned}
-$$
-These numbers support a finite non-randomness reading of the displayed row under the sampled nulls.  They do not identify a molecular mechanism.
+\paragraph{Leave-one-code-out result.}
+The family-level claim is that the local code-read boundary remains predictive across curated code families when one code table is withheld.  The primary row evaluates $5$ families.  The family hit-rate-above-baseline values are
+$$\begin{aligned}
+\mathrm{alternative\ yeast} &= 0.8333333333333334,\\
+\mathrm{bacterial\ plastid} &= 1.0,\\
+\mathrm{candidate\ other} &= 1.0,\\
+\mathrm{mitochondrial} &= 1.0,\\
+\mathrm{nuclear\ ciliate} &= 1.0.
+\end{aligned}$$
+The companion leave-one-code-out table evaluates $23$ code tables and $63$ targets.  Its baseline hit rate is $0.19821739130434785$, while the hit rate above baseline is $0.9841269841269841$.  Inside $M-T$ the hit rate is $0.9365079365079365$, and inside $M-T$ plus the boundary it is $0.9841269841269841$.  These numbers support a local statement: the six-bit coordinate tile and its boundary row recover code-layer label splits far above the recorded baseline for this finite family sample.
 
-\paragraph{Leave-one-code-out row.}
-The global leave-one-code-out experiment evaluated $23$ code tables and $63$ targets.  The baseline hit rate is $0.19821739130434785$.  The hit rate above baseline is $0.9841269841269841$, the hit rate inside $M\setminus T$ is $0.9365079365079365$, and the hit rate inside $M\setminus T$ plus boundary is $0.9841269841269841$.  The family-resolved row has $5$ families.  Its hit rates above baseline are
-$$
-\begin{aligned}
-\mathrm{alternative\ yeast}&:0.8333333333333334,\\
-\mathrm{bacterial\ plastid}&:1.0,\\
-\mathrm{candidate\ other}&:1.0,\\
-\mathrm{mitochondrial}&:1.0,\\
-\mathrm{nuclear\ ciliate}&:1.0.
-\end{aligned}
-$$
-The chapter-specific claim is therefore not merely that one pooled leave-one-code-out statistic is high.  The stronger finite-row observation is that the high recovery is stable across the recorded code-family partition, with four of five families at $1.0$ above baseline and the remaining alternative-yeast family still at $0.8333333333333334$.
+\paragraph{Leave-one-codon and module structure.}
+The codon-level recovery row is also finite.  It has anchor count $0$, boundary count $5$, closure coverage high count $8$, predictable count $8$, and recovery rate $1.0$.  The module classification accounts for all $13$ codons in $R$ with no extras, no missing codons, and no unassigned codons.  The modules are
+$$\begin{aligned}
+\mathrm{agr} &= \{\mathrm{AGA},\mathrm{AGG}\},\\
+\mathrm{ar\_lys} &= \{\mathrm{AAA}\},\\
+\mathrm{cun} &= \{\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}\},\\
+\mathrm{ile\_met} &= \{\mathrm{AUA}\},\\
+\mathrm{ssn} &= \{\mathrm{UCA},\mathrm{UUA}\},\\
+\mathrm{stop\_trp} &= \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
+\end{aligned}$$
+Every listed module has either predictable or boundary status in the finite-row classification.  This is the local content of the BioReality record: the code-read boundary is structured by small codon modules and survives both code-table and codon-level withholding tests within the reported finite sample.
 
-\paragraph{Leave-one-codon-out and module partition.}
-The leave-one-codon-out row records anchor count $0$, boundary count $5$, closure-coverage-high count $8$, predictable count $8$, and recovery rate $1.0$.  The module classification assigns all $13$ codons of $R$, with $R$ size $13$, assigned count $13$, no missing module codons, no extra module codons, and no unassigned codons.  The modules are
-$$
-\begin{aligned}
-\mathrm{agr}&=\{AGA,AGG\},\\
-\mathrm{ar\_lys}&=\{AAA\},\\
-\mathrm{cun}&=\{CUA,CUC,CUG,CUU\},\\
-\mathrm{ile\_met}&=\{AUA\},\\
-\mathrm{ssn}&=\{UCA,UUA\},\\
-\mathrm{stop\_trp}&=\{UAA,UAG,UGA\}.
-\end{aligned}
-$$
-Every listed module has a predictable-or-boundary explanation in the finite row.  This makes the family leave-one-code-out result compatible with the codon-level module partition: the same $13$-codon boundary row is not only recovered at high rate in pooled code-table perturbations, but is also exhausted by named local modules without residue.
-
-\paragraph{Boundary of the claim.}
-The verified content is a code-read statement.  Window-six codon coordinates expose a local boundary-tile structure whose row $R$, punctured-cube $f$-vector, spectral values, null-model probabilities, leave-one-code-out family rates, and leave-one-codon-out module partition are all finite data.  The curated standard-code table is the external contact that permits codon-label readback.  No translation process, no folded protein structure, no structural order, no physical admissibility, no biological function, no universal mechanism, and no necessity claim follows from this chapter unless a separate higher-layer contact is supplied.  Amino-acid label-sequence readback remains a code-layer observation; it is not folded structure and not functional realization.
+\paragraph{Reality contact and cannot-claim boundary.}
+The only external contact used here is the curated standard genetic-code bridge: a table assigning codons to amino-acid or stop labels.  That contact tests code readback and local codon-tile label splits.  It does not test translation realization, folded structure, structural order, physical admissibility, biological function, universal mechanism, or biological necessity.  Therefore the chapter does not claim that DNA obeys this geometry as a global law, that window-six geometry explains translation, or that an amino-acid label sequence determines folded protein structure.  Any promotion from code-read stability to translation, folding, physical admissibility, function, mechanism, or universality would require a separate reality contact with its own finite-row evidence.
