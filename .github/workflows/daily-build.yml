@@ -1,10 +1,9 @@
 name: Daily Build
 
-# Consumer of BEDC Build's bedc-pdf artifact. Triggered by workflow_run
-# after BEDC Build succeeds on a push to `dev`. Publishes the resulting
-# PDF as a daily prerelease tag. Previously this workflow rebuilt the PDF
-# (and Lean) itself; both steps are now subsumed by build-paper.yml so
-# the dev push only produces one PDF.
+# Consumer of BEDC Build's PDF artifacts. Triggered by workflow_run after
+# BEDC Build succeeds on a push to `dev`. Publishes main.pdf and
+# concrete_instances.pdf as daily prerelease assets. PDF and Lean validation
+# are handled by build-paper.yml before this workflow publishes the artifacts.
 
 on:
   workflow_run:
@@ -111,6 +110,15 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ inputs.source_run_id || github.event.workflow_run.id }}
 
+      - name: Download concrete_instances PDF artifact from BEDC Build run
+        if: ${{ steps.resolve_target.outputs.should_publish == 'true' }}
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: bedc-pdf-concrete-instances
+          path: release-assets/concrete-instances-pdf
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ inputs.source_run_id || github.event.workflow_run.id }}
+
       - name: Resolve release assets
         if: ${{ steps.resolve_target.outputs.should_publish == 'true' }}
         id: resolve_assets
@@ -120,7 +128,13 @@ jobs:
             echo "Expected a dated PDF artifact in release-assets/pdf" >&2
             exit 1
           fi
+          concrete_pdf_path="$(find release-assets/concrete-instances-pdf -maxdepth 1 -type f -name 'bedc_concrete_instances_*.pdf' -print -quit)"
+          if [ -z "$concrete_pdf_path" ]; then
+            echo "Expected a dated concrete_instances PDF artifact in release-assets/concrete-instances-pdf" >&2
+            exit 1
+          fi
           echo "pdf_path=$pdf_path" >> "$GITHUB_OUTPUT"
+          echo "concrete_pdf_path=$concrete_pdf_path" >> "$GITHUB_OUTPUT"
 
       - name: Delete orphan releases sharing this tag
         if: ${{ steps.resolve_target.outputs.should_publish == 'true' }}
@@ -152,6 +166,7 @@ jobs:
             echo
             echo "- target SHA: \`${{ steps.resolve_target.outputs.target_sha }}\`"
             echo "- PDF asset: \`${{ steps.resolve_assets.outputs.pdf_path }}\`"
+            echo "- concrete instances PDF asset: \`${{ steps.resolve_assets.outputs.concrete_pdf_path }}\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publish prerelease
@@ -169,5 +184,6 @@ jobs:
             - source branch: `dev`
           files: |
             ${{ steps.resolve_assets.outputs.pdf_path }}
+            ${{ steps.resolve_assets.outputs.concrete_pdf_path }}
           fail_on_unmatched_files: true
           generate_release_notes: false

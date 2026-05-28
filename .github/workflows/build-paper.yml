@@ -83,7 +83,7 @@ jobs:
         run: python3 tools/check_workflow_checkout_safety.py
 
   build_pdf:
-    name: Build main.pdf
+    name: Build PDFs
     needs: detect_changes
     if: ${{ needs.detect_changes.outputs.tex == 'true' }}
     uses: ./.github/workflows/reusable-pdf.yml
