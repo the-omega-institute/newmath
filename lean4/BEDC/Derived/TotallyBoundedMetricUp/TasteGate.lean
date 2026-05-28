@@ -314,4 +314,69 @@ theorem TotalBoundedMetricCauchyCoverObligation [AskSetup] [PackageSetup]
   }
   exact ⟨cert, cauchyCoverUnary, provenancePkg⟩
 
+theorem TotalBoundedMetricCarrier_finite_net_obligation [AskSetup] [PackageSetup]
+    {metric realMetric epsilonNet dyadic stream readback transport replay provenance
+      localName finiteNetRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TotallyBoundedMetricCarrier metric realMetric epsilonNet dyadic stream readback
+        transport replay provenance localName bundle pkg →
+      Cont dyadic epsilonNet finiteNetRead →
+        PkgSig bundle finiteNetRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row finiteNetRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row metric ∨ hsame row realMetric ∨ hsame row epsilonNet ∨
+                  hsame row dyadic ∨ hsame row finiteNetRead)
+              (fun row : BHist =>
+                hsame row finiteNetRead ∧ PkgSig bundle finiteNetRead pkg ∧
+                  PkgSig bundle provenance pkg)
+              hsame ∧
+            UnaryHistory finiteNetRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier dyadicEpsilonNetRead finiteNetPkg
+  obtain ⟨_metricUnary, _realMetricUnary, epsilonNetUnary, dyadicUnary, _streamUnary,
+    _readbackUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    _metricRealEpsilonRoute, _dyadicStreamReadback, _transportReplayProvenance,
+    provenancePkg⟩ := carrier
+  have finiteNetUnary : UnaryHistory finiteNetRead :=
+    unary_cont_closed dyadicUnary epsilonNetUnary dyadicEpsilonNetRead
+  have sourceFiniteNet :
+      (fun row : BHist => hsame row finiteNetRead ∧ UnaryHistory row) finiteNetRead := by
+    exact ⟨hsame_refl finiteNetRead, finiteNetUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row finiteNetRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row metric ∨ hsame row realMetric ∨ hsame row epsilonNet ∨
+              hsame row dyadic ∨ hsame row finiteNetRead)
+          (fun row : BHist =>
+            hsame row finiteNetRead ∧ PkgSig bundle finiteNetRead pkg ∧
+              PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro finiteNetRead sourceFiniteNet
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, finiteNetPkg, provenancePkg⟩
+  }
+  exact ⟨cert, finiteNetUnary, provenancePkg⟩
+
 end BEDC.Derived.TotallyBoundedMetricUp.TasteGate
