@@ -125,6 +125,22 @@ Next apply Theorem~\ref{thm:metacic-critical-path-phase-real-audit-clean-floor}.
 Finally apply Theorem~\ref{thm:metacic-critical-path-four-face-deficiency-refusal}. If any one of the four face records is missing or below the required local threshold, the route cannot be consumed as Phase Real and Completion exit evidence. Thus the three cited theorems form the complete consumer-side audit floor for the current MetaCIC route.
 \end{proof}
 
+\begin{theorem}[MetaCIC L10 four-object locality]
+\label{thm:metacic-critical-path-l10-four-object-locality}
+Every accepted $\MetaCICCriticalPathUp$ Phase Real and Completion exit consumer must read $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ as four local records, each with its own finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, closurestatus, formalstatus, leantarget, and bridgestatus surface. None of the four local records can be substituted by an aggregate route target, quotient stream, selected host limit, countable-choice coordinate, route-level bridge row, or $\RealUp$ completeness claim.
+
+The locality requirement is exactly the consumer-side reading of the MetaCIC L10 route: the aggregate packet may carry the four-object exit certificate, but it never replaces the four displayed object records.
+\end{theorem}
+\begin{proof}
+Start with the L10 status bridge obligation of Theorem~\ref{thm:metacic-critical-path-l10-status-bridge-obligation}. It sends every accepted use of the four-object certificate through the Real L10 objectwise audit pullback, so the consumer reads the dyadic budget, StreamName schedule, RegSeqRat readback, and Real seal as separate local faces.
+
+Next apply the four-face deficiency refusal of Theorem~\ref{thm:metacic-critical-path-four-face-deficiency-refusal}. If any one of the four local records is absent, the MetaCIC route cannot be consumed as Phase Real and Completion exit evidence. This already rules out replacement by a single aggregate route credential.
+
+The face-target locality theorem, Theorem~\ref{thm:metacic-critical-path-l10-face-leantarget-locality}, fixes the target and bridge rows at their local faces. Thus a route-level leantarget or route-level bridge row cannot stand in for the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ local record.
+
+Finally apply the audit-clean floor of Theorem~\ref{thm:metacic-critical-path-four-face-audit-floor}. The consumer-side threshold is the four-face product itself. Quotient streams, selected host limits, countable-choice coordinates, and $\RealUp$ completeness claims have no coordinate in that product, so they cannot replace any of the four local object records.
+\end{proof}
+
 \begin{theorem}[MetaCIC L10 four-face closure readiness]
 \label{thm:metacic-critical-path-l10-four-face-closure-readiness}
 For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the packet can be consumed as current Phase Real and Completion readiness only when the four faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ each expose a local closurestatus row at least $\scopedClosure$ and a local formalstatus row at least $\auditCleanV$. The MetaCIC aggregate route supplies the four-object exit surface, but it supplies neither quotient stream equality nor selected host limits nor a substitute status row for any missing face.
