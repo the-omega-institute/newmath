@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\TightRealIntervalUp$}
+\label{ch:concrete-instances-tight-real-interval-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\TightRealIntervalUp$ packet names a finite lower-upper real interval by displaying both endpoint names and every rational cell through which those endpoints are inspected. It sits downstream of the located endpoint surface of \autoref{ch:concrete-instances-locatedinterval-namecert} and the dyadic refinement surface of \autoref{ch:concrete-instances-dyadicinterval-namecert}: consumers may read a tight interval only after the lower endpoint, upper endpoint, rational cell ledger, dyadic refinement ledger, stream windows, regular rational readbacks, and Real seal rows have all been displayed.
+
+\begin{definition}[TightRealInterval carrier]
+\label{def:tight-real-interval-carrier}
+A $\TightRealIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+T=(L,U,Q,D,S,R,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $L$ is the lower $\LocatedRealUp$ endpoint row and $U$ is the upper $\LocatedRealUp$ endpoint row.
+\item $Q$ is the $\RationalIntervalUp$ cell ledger recording the finite rational windows that enclose the endpoint reads and witness lower-before-upper compatibility.
+\item $D$ is the $\DyadicIntervalUp$ refinement ledger attached to the rational cells in $Q$.
+\item $S$ is the $\StreamNameUp$ window row naming exactly the endpoint observations and interval cells inspected by the packet.
+\item $R$ is the $\RegSeqRatUp$ readback row for those endpoint windows and cell refinements.
+\item $E$ is the paired $\RealUp$ seal row reached from $L,U,S,R,Q,D$.
+\item $H$ records componentwise $\hsame$ transport for endpoints, rational cells, dyadic refinements, stream windows, readbacks, Real seals, replay, provenance, and the local name.
+\item $C$ records displayed $\Cont$ replay through $L,U,Q,D,S,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealUp$, $\RationalIntervalUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TightRealIntervalUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host interval equality, chosen endpoint values, quotient real equality, trichotomy, countable choice, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[TightRealInterval NameCert obligations]
+\label{thm:tight-real-interval-namecert-obligations}
+For an accepted $\TightRealIntervalUp$ carrier $T=(L,U,Q,D,S,R,E,H,C,P,N)$, the local $\NameCert_{\TightRealIntervalUp}$ surface consists exactly of carrier admission for the lower and upper $\LocatedRealUp$ endpoint rows, rational and dyadic interval ledgers, finite stream windows, regular rational readbacks, paired Real seal rows, componentwise transport, continuation replay, package provenance, and local naming; endpoint-order visibility through $Q$; dyadic refinement discipline through $D$; stream-readback exactness through $S,R$; and ledger non-escape from host intervals, selected endpoints, quotient real equality, choice, trichotomy, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tight-real-interval-carrier}. The lower and upper endpoint rows, the rational cell ledger, the dyadic refinement ledger, finite windows, regular readbacks, Real seals, transport rows, replay rows, provenance row, and local naming row are all visible before any interval consumer can read the packet.
+
+Endpoint-order visibility is supplied by $Q$. Since each dyadic refinement in $D$ is attached to a rational cell, the refinement discipline cannot detach from the endpoint ledger.
+
+Stream-readback exactness is then read through $S$ and $R$. The rows $H,C,P,N$ transport, replay, source, and name the same finite route, while the excluded interval and completeness data have no carrier coordinate.
+\end{proof}
+
+\begin{theorem}[TightRealInterval Real seal route]
+\label{thm:tight-real-interval-real-seal-route}
+Every $\RealUp$-facing read of an accepted $\TightRealIntervalUp$ packet factors through the finite route
+$$
+\LocatedRealUp,\ \RationalIntervalUp,\ \DyadicIntervalUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The read exposes lower and upper endpoint windows together with the rational and dyadic cell ledgers that bind them. It does not expose a host real interval, a selected endpoint value, quotient real equality, countable choice, trichotomy, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier. The only seal-facing row is $E$, and it is displayed after $L,U,Q,D,S,R$ in the finite packet.
+
+Apply \autoref{thm:tight-real-interval-namecert-obligations}. Endpoint-order visibility forces the Real read to keep the rational cell ledger $Q$, dyadic refinement discipline forces any dyadic window through $D$, and stream-readback exactness forces finite observations through $S,R$.
+
+Finally route through $H,C,P,N$. These rows preserve and name the same packet, so no host interval, endpoint selector, quotient equality, choice schedule, trichotomy row, or ambient completeness principle can enter the Real seal route.
+\end{proof}
+
+\begin{closurestatus}{\TightRealIntervalUp}
+  \constructivestory{A $\TightRealIntervalUp$ packet is generated from lower and upper $\LocatedRealUp$ endpoint rows, a $\RationalIntervalUp$ cell ledger, a $\DyadicIntervalUp$ refinement ledger, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, paired $\RealUp$ seal rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tight-real-interval-carrier}, \autoref{thm:tight-real-interval-namecert-obligations}, and \autoref{thm:tight-real-interval-real-seal-route} seed the finite lower-upper Real interval packet over located endpoints, rational cells, dyadic refinements, stream windows, regular readbacks, and Real seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host interval equality, selected endpoint values, quotient real equality, trichotomy, countable choice, or ambient real completeness.}
+  \upgradepath{Scoped closure requires a checked carrier-obligation package and a public consumer route for the same finite lower-upper interval packet.}
+\end{closurestatus}
