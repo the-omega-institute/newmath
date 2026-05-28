@@ -67,6 +67,24 @@ For the separated route, $Z$ is read after that distance route as evidence of ze
 For the completion route, the consumer reads the same pre-separated source rows and the structural rows $H,C,N$. Since the carrier has no quotient, representative, limit selector, host equality, or ambient separated-completion coordinate, those objects cannot be exported from the pseudometric source.
 \end{proof}
 
+\begin{theorem}[Pseudometric separated-reflection factorization]
+\label{thm:pseudometric-separated-reflection-factorization}
+Let $P=(X,M,D,S,R,E,Z,H,C,N)$ be an accepted $\PseudometricUp$ source carrier. Any $\SeparatedMetricUp$ or $\CompletionUp$ consumer that reads zero-distance evidence from $P$ must first factor through the displayed rows
+$$
+X,M,D,S,R,E,Z,H,C,N .
+$$
+Only a later separated-reflection packet may turn the zero-distance boundary row $Z$ into point-identity data; the pseudometric source itself exports no quotient equality, host equality, selected representative, selected limit, or ambient separated completion.
+\end{theorem}
+\begin{proof}
+Project the source carrier of \autoref{def:pseudometric-source-carrier}. The only available rows are the point carrier, distance witness, dyadic tolerance and triangle ledger, finite windows, regular readback, Real seal, zero-distance boundary, transport, replay, and local naming rows.
+
+Apply \autoref{thm:pseudometric-separated-completion-readback}. It forces both separated-metric and completion-facing reads through $X,M,D,S,R,E,Z,H,C,N$ before either consumer can inspect zero-distance evidence.
+
+Use the zero-distance non-identification row. The row $Z$ records boundary evidence on the displayed distance ledger, while point rows remain in $X$ and are transported only by $H$ and replayed only by $C$.
+
+Finally apply the carrier exclusions. Since no quotient equality, host equality, selected representative, selected limit, or ambient separated-completion coordinate occurs in the source packet, identity data can appear only after a later separated-reflection packet supplies its own rows.
+\end{proof}
+
 \begin{theorem}[Pseudometric NameCert obligations]
 \label{thm:pseudometric-namecert-obligations}
 For every accepted $\PseudometricUp$ carrier $P=(X,M,D,S,R,E,Z,H,C,N)$, the local $\NameCert_{\PseudometricUp}$ surface consists exactly of the following obligation rows:
