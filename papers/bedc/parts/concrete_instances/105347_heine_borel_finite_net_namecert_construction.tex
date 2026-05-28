@@ -148,6 +148,18 @@ Use \autoref{thm:heine-borel-finite-net-obligation-closure-package} to keep that
 The refused readings have no carrier coordinate and no replay route. Therefore the exported finite subcover row cannot be detached from the finite-net interval certificate or promoted into unrestricted compactness or choice-selected subcover data.
 \end{proof}
 
+\begin{theorem}[Heine-Borel finite-net primitive induction route]
+\label{thm:heine-borel-finite-net-primitive-induction-route}
+Let $H=(I,F,L,C,R,D,E,T,Q,P,N)$ be an accepted $\HeineBorelFiniteNetUp$ packet. The finite-net cell list displayed by $F$ supports primitive finite induction from the first accepted cell through each subsequent $\Cont$ replay row in $Q$. At every step the induction reads only the current net cell, the corresponding radius check in $L$, the dyadic slack row in $D$, the retained cover read in $R$, and the endpoint seal in $E$. The resulting induction route is stable under componentwise $\hsame$ transport in $T$ and remains inside the provenance and local naming ledger $P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:heine-borel-finite-net-carrier}. The finite list is the displayed row $F$, and the replay row $Q$ records how a cover request advances through the listed cells.
+
+The base step reads the first accepted cell together with its positive-radius row from $L$, dyadic slack row from $D$, cover witness from $R$, and endpoint seal from $E$. The successor step repeats the same displayed read for the next cell and adjoins the resulting witness to the finite subcover row.
+
+Componentwise transport through $T$ preserves each cell, radius, slack, cover-read, and endpoint-seal row. Since $P$ and $N$ name only the same displayed packet, the induction route cannot leave the local NameCert ledger or import an arbitrary open-cover compactness principle.
+\end{proof}
+
 \closureat{HeineBorelFiniteNetUp}{seedStr}
 
 \begin{closurestatus}{\HeineBorelFiniteNetUp}
