@@ -80,6 +80,17 @@ Apply \autoref{thm:dyadic-interval-nesting-regular-name-route}. Every regular-na
 Thus the later width is no larger than the earlier displayed width inside the dyadic ledger, and $R$ remains downstream of that monotone ledger. The seal row $E$ is reached only after this route, so the argument never uses a completed intersection or host real equality.
 \end{proof}
 
+\begin{theorem}[DyadicIntervalNesting obligation scope]\label{thm:dyadic-interval-nesting-obligation-scope}
+For an accepted $\DyadicIntervalNestingUp$ carrier $J=(D,S,R,E,I,H,C,P,N)$, the obligation scope is exactly the $\NestedDyadicIntervalUp$ row $I$, the $\DyadicRatCoreUp$ endpoint and width ledgers in $D$, finite $\StreamNameUp$ windows in $S$, the $\RegSeqRatUp$ handoff $R$, the $\RealUp$ seal $E$, the ambient $\BHist$ packet, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$. No completed intersection, quotient stream equality, host real equality, selected limit, countable choice, or ambient completeness coordinate lies in the scope.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $I,D,S,R,E,H,C,P,N$ from \autoref{def:dyadic-interval-nesting-carrier}. The nested interval row, endpoint-width ledger, scheduled windows, regular handoff, and seal are exactly the mathematical source rows, while $H,C,P,N$ preserve and name the same packet inside $\BHist$.
+
+Apply \autoref{thm:dyadic-interval-nesting-namecert-obligations}. It identifies the local NameCert clauses with dyadic endpoint admission, finite observation scheduling, regular rational handoff, real seal nonescape, and sibling nesting compatibility.
+
+Apply \autoref{thm:dyadic-interval-nesting-regular-name-route} and \autoref{thm:dyadic-interval-nesting-width-monotonicity}. These keep every regular or Real consumer downstream of $I,D,S,R,E$ and keep width reads inside the dyadic ledger. Since the carrier has no further coordinate, the listed rows exhaust the obligation scope.
+\end{proof}
+
 \closureat{DyadicIntervalNestingUp}{seedStr}
 
 \begin{closurestatus}{\DyadicIntervalNestingUp}
