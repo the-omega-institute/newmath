@@ -1,0 +1,57 @@
+\begin{definition}[Cauchy seed carrier]\label{def:cauchy-seed-carrier}
+A $\CauchyUp$ seed carrier is a finite $\BHist$ packet
+$$
+S=(W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ window row, recording the finite observation windows that a Cauchy consumer may inspect.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, carrying the displayed dyadic precision requests and comparison budgets for those windows.
+\item $R$ is the $\RegSeqRatUp$ readback row, obtained only from the displayed stream windows and dyadic tolerance data.
+\item $E$ is the terminal $\RealUp$ seal row consumed after the regular rational readback, not a selected limit or host real equality witness.
+\item $H$ records componentwise $\hsame$ transport for the stream windows, dyadic tolerances, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an admitted Cauchy request through $W,D,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyUp}$ row.
+\end{enumerate}
+The classifier compares accepted seed packets only through $W,D,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, host real equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy seed NameCert obligations]\label{thm:cauchy-seed-namecert-obligations}
+For every accepted $\CauchyUp$ seed carrier $S=(W,D,R,E,H,C,P,N)$, the local seed-level $\NameCert_{\CauchyUp}$ surface consists exactly of the following rows:
+\begin{enumerate}
+\item carrier admission for finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerances, $\RegSeqRatUp$ readback, terminal $\RealUp$ sealing, componentwise transport, displayed replay, provenance, and local naming;
+\item tolerance exactness, requiring every Cauchy comparison to read its dyadic budget from $D$ before any regular rational readback is accepted;
+\item window readback exactness, requiring $R$ to be generated from the displayed windows $W$ and tolerances $D$;
+\item Real seal discipline, requiring $E$ to remain downstream of $W,D,R$ and never to serve as a selected limit or host equality object;
+\item structural stability under $\hsame$ transport $H$ and displayed $\Cont$ replay $C$;
+\item provenance and local naming through $P$ and $N$.
+\end{enumerate}
+No seed obligation certifies quotient stream equality, selected limits, host real equality, trichotomy, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-seed-carrier}. The accepted packet exposes only the finite window row, dyadic tolerance row, regular rational readback, Real seal, transport, replay, provenance, and local naming rows.
+
+Tolerance exactness is read from $D$ after the window row $W$ has been displayed. The regular readback row $R$ is downstream of both rows, so it cannot introduce an independent rational sequence or a choice schedule.
+
+The Real seal row $E$ is terminal for the seed route. It is consumed only after $W,D,R$ are visible, and therefore cannot act as a selected limit, quotient equality, or host real equality witness.
+
+Finally $H$ and $C$ preserve the same component rows under transport and replay, while $P$ and $N$ source and name the packet. Since no remaining coordinate exists, the listed rows exhaust the seed-level NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy seed Real seal boundary]\label{thm:cauchy-seed-real-seal-boundary}
+Every $\RealUp$-facing or completion-facing read of an accepted $\CauchyUp$ seed carrier factors through
+$$
+\StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+with componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming preserved by $H,C,P,N$. The seed route exports finite stream windows, dyadic tolerances, regular rational readback, and a terminal Real seal, but exports no quotient stream equality, selected limit, host real equality, trichotomy, countable-choice selector, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing or completion-facing read from $S=(W,D,R,E,H,C,P,N)$. Carrier admission exposes the finite StreamName window row $W$ before the tolerance and readback rows can be consumed.
+
+The dyadic tolerance row $D$ supplies the displayed precision budget for the read. The regular rational readback row $R$ then packages the windowed data under that budget, rather than selecting an external limit or invoking a host sequence.
+
+The Real seal row $E$ is reached only after $W,D,R$ have been displayed. Structural transport and replay through $H,C$ keep the same route, and $P,N$ record provenance and local naming.
+
+Because the carrier has no coordinate for quotient stream equality, selected limits, host real equality, trichotomy, countable choice, or ambient completeness, every exported Real-facing read remains inside the seed route stated above.
+\end{proof}
