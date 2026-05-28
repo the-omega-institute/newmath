@@ -80,4 +80,76 @@ theorem MetaCICCriticalPathSNConfluenceDecidabilityHandoff [AskSetup] [PackageSe
   }
   exact ⟨cert, decisionUnary, realSealPkg⟩
 
+theorem MetaCICCriticalPathSNDischargeSocketReadiness [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction unblock discharge handoff continuation provenance
+      localName dyadic stream regseq realSeal snRead confluenceRead socketRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathOpenPhaseSourceLedger strongNorm normalForm obstruction unblock
+        discharge handoff continuation provenance localName dyadic stream regseq realSeal
+        bundle pkg →
+      Cont continuation localName snRead →
+        Cont snRead handoff confluenceRead →
+          Cont confluenceRead discharge socketRead →
+            PkgSig bundle socketRead pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row socketRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row snRead ∨ hsame row confluenceRead ∨ hsame row discharge ∨
+                      hsame row socketRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ PkgSig bundle socketRead pkg ∧
+                      PkgSig bundle realSeal pkg)
+                  hsame ∧
+                UnaryHistory socketRead ∧ PkgSig bundle realSeal pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro ledger continuationLocalNameSN snHandoffConfluence confluenceDischargeSocket
+    socketPkg
+  obtain ⟨packet, _dyadicUnary, _streamUnary, _regseqUnary, _realSealUnary,
+    _dyadicStreamRegseq, _regseqRealSealHandoff, realSealPkg⟩ := ledger
+  obtain ⟨_strongNormUnary, _normalFormUnary, _obstructionUnary, _unblockUnary,
+    dischargeUnary, handoffUnary, continuationUnary, _provenanceUnary, localNameUnary,
+    _strongNormNormalFormContinuation, _unblockObstructionDischarge,
+    _handoffLocalName, _provenancePkg⟩ := packet
+  have snUnary : UnaryHistory snRead :=
+    unary_cont_closed continuationUnary localNameUnary continuationLocalNameSN
+  have confluenceUnary : UnaryHistory confluenceRead :=
+    unary_cont_closed snUnary handoffUnary snHandoffConfluence
+  have socketUnary : UnaryHistory socketRead :=
+    unary_cont_closed confluenceUnary dischargeUnary confluenceDischargeSocket
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row socketRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row snRead ∨ hsame row confluenceRead ∨ hsame row discharge ∨
+              hsame row socketRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle socketRead pkg ∧ PkgSig bundle realSeal pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro socketRead ⟨hsame_refl socketRead, socketUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr source.left))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, socketPkg, realSealPkg⟩
+  }
+  exact ⟨cert, socketUnary, realSealPkg⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp

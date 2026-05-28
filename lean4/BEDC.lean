@@ -3007,6 +3007,7 @@ import BEDC.Derived.DoCalculusUp.TasteGate
 import BEDC.Derived.DomainTruthCertificateUp.NameCertObligations
 import BEDC.Derived.DomainTruthCertificateUp.SiblingIndependence
 import BEDC.Derived.DomainTruthCertificateUp.TasteGate
+import BEDC.Derived.DoobUpcrossingUp.TasteGate
 import BEDC.Derived.DoubleCauchyDiagonalUp.TasteGate
 import BEDC.Derived.DoubleLimitInterchangeUp.TasteGate
 import BEDC.Derived.DoublingMetricUp.TasteGate
