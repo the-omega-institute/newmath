@@ -95,6 +95,24 @@ Apply source readback stability and the compact-uniform source package. Transpor
 Thus the root obligations are exactly the listed rows. A downstream consumer that omits any one of them has not received an accepted $\ClosedBoundedIntervalUp$ source.
 \end{proof}
 
+\begin{theorem}[Closed bounded interval root consumer completeness]
+\label{thm:closed-bounded-interval-root-consumer-completeness}
+Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ be an accepted $\ClosedBoundedIntervalUp$ carrier. Every $\ClosedBoundedIntervalNetUp$, $\LocatedIntervalCoverUp$, $\NestedIntervalCompactnessUp$, and $\ClosedBoundedIntervalUniformModulusUp$ consumer factors through the complete source packet $L,U,O,Q,D,S,R,E,H,C,P,N$ before any consumer-specific row is read. The completeness surface composes the root source split, scoped source map, downstream coverage surface, finite-cover window exactness, nested-window factorization, and uniform-modulus source, and it explicitly excludes open-cover compactness, selected subcovers, trichotomy, quotient real equality, countable choice, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the root source split and root unblock obligations. They identify $L,U,O,Q,D,S,R,E,H,C,P,N$ as the endpoint, order, containment, window, readback, seal, transport, replay, provenance, and local naming rows that every downstream consumer must receive first.
+
+Pass to the scoped source map. The definition of $\Sigma_I$ records the same rows as the scoped source packet, and the downstream coverage surface states that located-cover, nested-window, finite-net, and compact-uniform consumers may only add their own rows after that packet has been displayed.
+
+For interval-net and located-cover consumers, apply finite-cover window exactness. It forces mesh centers, cover cells, and refinement rows to remain downstream of the complete root packet.
+
+For nested-window consumers, apply nested-window factorization. The retained nested prefix and compactness ledger are read only after $L,U,O,Q,D,S,R,E,H,C,P,N$ have been exposed.
+
+For uniform-modulus consumers, apply the uniform-modulus source theorem. The modulus and compact-uniform rows are added after the same endpoint, containment, StreamName, RegSeqRat, Real-seal, and structural route.
+
+The cited source theorems use no coordinate for open-cover compactness, selected subcovers, trichotomy, quotient real equality, countable choice, or ambient $\RealUp$ completeness. Therefore the four named consumer families are complete exactly over the displayed root packet and over no stronger ambient principle.
+\end{proof}
+
 \begin{theorem}[Closed bounded interval downstream coverage surface]
 \label{thm:closed-bounded-interval-downstream-coverage-surface}
 Every downstream located-cover, nested-window, finite-net, and compact-uniform consumer of an accepted $\ClosedBoundedIntervalUp$ carrier factors through the same source packet
