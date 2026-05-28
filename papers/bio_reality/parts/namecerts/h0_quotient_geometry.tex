@@ -1,68 +1,62 @@
-\subsection{Quotient Geometry as an ORF-Eligibility Boundary Record}\label{subsec:h0-quotient-geometry-orf-boundary}
 \origin{ai}
 
-\paragraph{Finite packet.}
-This BioReality packet records a finite quotient geometry associated with open-reading-frame eligibility from start/stop codon enumeration. The biological layer is $\mathrm{orf\_eligibility}$, but the packet has no attached sequence, transcript, or curated interval contact. Its status is therefore not an observed ORF claim. It is a boundary record specifying what would have to be tested before any ORF-eligibility assertion could be made.
+\subsection{Quotient Geometry for an ORF-Eligibility Boundary Seed}
+\label{subsec:h0-quotient-geometry-orf-eligibility-boundary}
 
-The finite carrier used by the packet is the verified set $M$ of twenty codons
-$$
-\begin{aligned}
-M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
-&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
-\end{aligned}
-$$
-The verification row reports $|M|=20$ and identifies $M$ with the union $\mathrm{WNR}\cup\mathrm{CUN}$ in the codon enumeration used by the packet. A smaller motif carrier $R$ is also verified:
-$$
-\begin{aligned}
-R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
-\end{aligned}
-$$
-For this motif equality check the finite-row ledger reports no missing codons and no extra codons. This says only that the named finite motif decomposition matches the recorded codon list; it does not say that the list is realized in a biological molecule.
+\paragraph{Object and boundary role.}
+This record concerns the finite-row packet named \emph{open-reading-frame eligibility from start/stop codon enumeration}.  Its claim identifier is \texttt{h0.quotient.geometry}, and its biological layer is only \texttt{orf\_eligibility}.  The packet is not an observed open reading frame.  It is a boundary seed: it records the combinatorial shape that would have to be connected to an external sequence, transcript, or curated interval annotation before any ORF-eligibility assertion could be made.  In the present row data there are no attached reality contacts.  Hence the carrier, distinctions, and readback remain at the local status ``awaiting reality contact,'' while the internal structure is explicitly recorded as none.  The chapter therefore treats the finite geometry as a name-certified coordinate record and not as a biological realization.
 
-\paragraph{Quotient rows.}
-The quotient geometry claim is the verified claim $\mathrm{h0.quotient.geometry}$. The packet records the $f$-vector of $M$ as
+\paragraph{Finite codon rows used by the coordinate.}
+The row set $M$ contains exactly $20$ codons.  The verified list is
 $$
 \begin{aligned}
-f(M)=(20,38,26,8,1),
+M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,\\
+& CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
 \end{aligned}
 $$
-and it records the quotient $f$-vector as
+The auxiliary motif-compressed row set $R$ contains the $13$ displayed codons
 $$
 \begin{aligned}
-f(\pi M)=(10,14,6,1).
+R=\{&AAA,AGA,AGG,AUA,CUA,CUC,CUG,CUU,UAA,UAG,UCA,UGA,UUA\}.
 \end{aligned}
 $$
-The quotient has size $10$. Its verified rows are
+The compression check records no missing rows and no extra rows for this representation of $R$.  The equality check for $M$ records $M$ as the union named \texttt{WNR} with \texttt{CUN}, and the reported cardinality agrees with the displayed list: $|M|=20$.  A separate saturation row records
 $$
 \begin{aligned}
-\pi M=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),\\
+\operatorname{Sat}_{f3}(R)=\{&AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+&UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\},
+\end{aligned}
+$$
+so this saturation contains $18$ codons and omits $ACA$ and $ACG$ from $M$.  The same finite check reports the $f3$ boundary as the empty row set.  Thus the codon enumeration is internally consistent as finite data, but this consistency is still a statement about the coordinate packet, not about an observed transcript interval.
+
+\paragraph{Product row and quotient row counts.}
+For the unquotiented finite geometry, the recorded $f$-vector is
+$$
+\begin{aligned}
+f(M)=(20,38,26,8,1).
+\end{aligned}
+$$
+This says that the finite coordinate has $20$ vertices, $38$ one-dimensional incidences, $26$ two-dimensional faces, $8$ three-dimensional cells, and $1$ top-dimensional product component in the encoded combinatorial object.  The product-decomposition check is present as an empty mismatch row, so the stated product decomposition has no recorded counter-row in this finite audit.  After quotienting, the verified quotient $f$-vector is
+$$
+\begin{aligned}
+f(\pi_M)=(10,14,6,1).
+\end{aligned}
+$$
+The quotient therefore has $10$ quotient vertices, $14$ quotient edges, $6$ quotient two-faces, and $1$ top cell.  The row count $\texttt{pi\_M\_size}=10$ agrees with the first coordinate of this quotient $f$-vector.
+
+\paragraph{Explicit quotient representatives.}
+The verified quotient representative table is the following ten binary rows:
+$$
+\begin{aligned}
+\pi_M=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),\\
 &(0,1,0,0,0),(0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),\\
 &(1,0,1,0,1),(1,0,1,1,1)\}.
 \end{aligned}
 $$
-The product-decomposition check is present as an empty exception list, and the quotient row list matches the expected quotient in the finite enumeration. These are purely finite-row statements: they concern a codon list, a quotient list, and their enumerated incidence data.
+The finite-row claim is exactly that these ten representatives match the expected quotient coordinate for $M$.  Read internally, the quotient halves the $20$-row carrier to $10$ representative rows while preserving the audited incidence summary $(10,14,6,1)$.  This is a geometrical compression statement about the encoded start/stop-window coordinate.  It does not identify which, if any, of the corresponding windows occurs in a real sequence, transcript, strain, sample, annotation release, or experimental condition.
 
-\paragraph{Saturation comparison.}
-The packet also cites the saturation comparison $\mathrm{h0.f3.saturation}$. In that row, $\mathrm{Sat}_{f3}(R)$ is the eighteen-element list
-$$
-\begin{aligned}
-\mathrm{Sat}_{f3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
-&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
-\end{aligned}
-$$
-The same row records the boundary complement as empty for the named $f3$ boundary check and records that
-$$
-\begin{aligned}
-M=\mathrm{Med}(R)\cup\{\mathrm{ACA}\},
-\end{aligned}
-$$
-with the resulting twenty-element list again equal to the displayed carrier $M$. The point of including this comparison is local and finite: it distinguishes the quotient carrier, the motif carrier, and the saturation-derived carrier by explicit codon membership. It is not a translation assay, not a folding assay, and not a physical-admissibility assay.
+\paragraph{Self-check gate.}
+The self-check row states: ``BioReality self-check only; no codon geometry is promoted across biological layers.''  Its checked gate count is $3$.  In local terms, those gates separate the coordinate calculation from biological promotion.  The present packet may say that the codon coordinate has the verified $M$ list, the $R$ motif list, the saturation relation above, the product $f$-vector $(20,38,26,8,1)$, the quotient size $10$, and the quotient $f$-vector $(10,14,6,1)$.  It may not say that an ORF has been observed.
 
-\paragraph{Reality-contact gate.}
-The self-check row states that this is a BioReality self-check only and that no codon geometry is promoted across biological layers. The checked gate count is $3$. The packet contains no reality contacts. In particular, it has no curated ORF interval annotation, no sequence database row, no transcript evidence, and no experimentally observed biological interval that could test the proposed ORF-eligibility boundary.
-
-Consequently, the chapter makes the following local boundary explicit. Start/stop-window enumeration and quotient geometry may define a finite object at the $\mathrm{orf\_eligibility}$ boundary, but they do not by themselves establish translation realization, folded structure, physical admissibility, biological function, mechanism, or universality. A later contact could test an interval against this boundary, but absent that contact the correct readback is only: the finite quotient packet is a contact-gap probe for what an ORF-eligibility claim would require.
-
-\paragraph{Cannot-claim clause.}
-No claim of an open reading frame is made here. No claim of protein production is made here. No claim of stable folding, biochemical activity, evolutionary conservation, organism-level role, molecular mechanism, or universal codon-law status is made here. The verified finite facts are restricted to the displayed codon lists, the quotient row set of size $10$, the $f$-vectors $(20,38,26,8,1)$ and $(10,14,6,1)$, the motif equality with no missing or extra entries, and the saturation comparison with the recorded empty boundary exception. Any stronger biological statement requires a separate reality contact capable of testing the relevant biological layer.
+\paragraph{Cannot-claim boundary.}
+No translation, folding, physical admissibility, biological function, molecular mechanism, organism-level relevance, or universality follows from this packet.  In particular, start/stop-window enumeration is not translation realization; the quotient representatives are not folded structure; the finite product geometry is not physical admissibility; and the motif-compressed set $R$ is not biological function.  The only admissible biological-language reading is conditional: if a separate curated ORF interval annotation, external sequence contact, or transcript contact is later attached and tests the relevant interval, then this finite coordinate could serve as the pre-existing boundary record for that test.  Until such contact is supplied, the result remains an ORF-eligibility boundary probe and not an ORF-eligibility claim.
