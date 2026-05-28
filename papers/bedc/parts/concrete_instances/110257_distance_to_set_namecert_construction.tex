@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\DistanceToSetUp$}
+\label{ch:concrete-instances-distance-to-set-namecert}
+\origin{human}
+
+Following Bishop and Bridges on located subsets in metric spaces, the $\DistanceToSetUp$ packet records the finite route by which a point-to-set distance request is read through displayed located-radius rows and closed-ball witnesses. It sits after the metric source of \autoref{ch:concrete-instances-metric-namecert}, the located-set surface of \autoref{ch:concrete-instances-locatedset-namecert}, the metric closed-ball boundary of \autoref{ch:concrete-instances-metricclosedball-namecert}, the located closed-ball handoff of \autoref{ch:concrete-instances-located-closed-ball-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names distance-to-set as finite BEDC data; it is not a host infimum, not a selected nearest point, not quotient real equality, and not a countable-choice construction.
+
+\begin{definition}[Distance-to-set carrier]
+\label{def:distance-to-set-carrier}
+A $\DistanceToSetUp$ carrier is a finite $\BHist$ packet
+$$
+D=(X,A,x,r,B,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\MetricUp$ source row over which point and subset reads are interpreted.
+\item $A$ is the $\LocatedSetUp$ row naming the subset by finite located-radius observations.
+\item $x$ is the displayed point row in the metric source.
+\item $r$ is the dyadic radius ledger recording the inspected tolerance windows.
+\item $B$ is the $\MetricClosedBallUp$ witness row attached to the point and radius ledger.
+\item $R$ is the $\RealUp$ seal row for the exported distance name, read only after the located-set and closed-ball rows are displayed.
+\item $H$ records componentwise $\hsame$ transport for the metric source, located set, point row, dyadic ledger, closed-ball witness, Real seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from the metric source through located-set exposure, point inspection, dyadic-radius accounting, closed-ball handoff, and the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\DistanceToSetUp$, $\MetricUp$, $\LocatedSetUp$, $\MetricClosedBallUp$, $\LocatedClosedBallUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\DistanceToSetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,A,x,r,B,R,H,C,P,N$. It has no coordinate for a host infimum over all points of $A$, a selected nearest point, quotient real equality, countable choice, or an ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Distance-to-set NameCert obligations]
+\label{thm:distance-to-set-namecert-obligations}
+For every accepted $\DistanceToSetUp$ carrier
+$$
+D=(X,A,x,r,B,R,H,C,P,N),
+$$
+the local $\NameCert_{\DistanceToSetUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the metric source, located set, point row, dyadic radius ledger, closed-ball witness, Real seal, transport, replay, provenance, and local naming;
+\item located-set exposure, requiring every subset read to pass through the $\LocatedSetUp$ row $A$ before a distance row is exported;
+\item dyadic-radius monotonicity, requiring the tolerance ledger $r$ to preserve the displayed radius order used by the located-set and closed-ball rows;
+\item closed-ball handoff, requiring each ball membership or exclusion read to pass through the $\MetricClosedBallUp$ witness $B$ and the located closed-ball sibling surface before the Real seal is read;
+\item Real seal non-escape, requiring $R$ to seal only the displayed distance name and not a host infimum or quotient real;
+\item componentwise transport, displayed replay, package provenance, and local $\NameCert$ naming for exactly the displayed packet.
+\end{enumerate}
+No DistanceToSet obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:distance-to-set-carrier}. The metric source is $X$, the located subset is $A$, the inspected point is $x$, and the finite tolerance information is held by $r$.
+
+The closed-ball witness $B$ is read only after those rows are displayed. Its radius requests are therefore attached to the same metric source, located-set row, point row, and dyadic ledger.
+
+The Real seal $R$ comes after the located-radius and closed-ball rows. Transport $H$ and replay $C$ preserve the same order, while $P$ and $N$ record provenance and local naming.
+
+Since no coordinate stores a host infimum, a nearest-point selector, quotient real equality, countable choice, or ambient completeness, those objects cannot become local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Distance-to-set located-radius handoff]
+\label{thm:distance-to-set-located-radius-handoff}
+Every consumer of an accepted $\DistanceToSetUp$ packet reads distance-to-set data only through the displayed located-radius row $A$, the dyadic radius ledger $r$, the closed-ball witness $B$, and the Real seal $R$, transported by $H$ and replayed by $C$. The consumer cannot bypass these rows by reading a host infimum, a selected nearest point, quotient real equality, countable choice, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:distance-to-set-carrier}. The only subset coordinate is the located-set row $A$, and the only radius coordinate is the dyadic ledger $r$.
+
+The closed-ball witness $B$ supplies the displayed ball boundary before the Real seal $R$ is exposed. Thus a distance consumer reaches the exported real name only through the located-radius and closed-ball rows.
+
+Apply \autoref{thm:distance-to-set-namecert-obligations}. The transport, replay, provenance, and local naming rows preserve the same finite packet and add no host infimum, nearest-point selector, quotient real equality, countable choice, or ambient completeness data.
+\end{proof}
+
+\closureat{DistanceToSetUp}{seedStr}
+
+\begin{closurestatus}{\DistanceToSetUp}
+  \constructivestory{A $\DistanceToSetUp$ packet is generated from a metric source, located set row, point row, dyadic radius ledger, closed-ball witness, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:distance-to-set-carrier}, \autoref{thm:distance-to-set-namecert-obligations}, and \autoref{thm:distance-to-set-located-radius-handoff} seed the finite located-radius and closed-ball interface for distance-to-set consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, host infimum construction, selected nearest points, quotient real equality, countable choice, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, located-set exposure, dyadic-radius monotonicity, closed-ball handoff, Real seal non-escape, transport stability, replay stability, provenance, and local naming for BEDC.Derived.DistanceToSetUp.}
+\end{closurestatus}
