@@ -1,0 +1,141 @@
+\chapter{A Concrete Naming Certificate for $\LebesgueCoveringDimensionUp$}
+\label{ch:concrete-instances-lebesgue-covering-dimension-namecert}
+\origin{human}
+
+Following Lebesgue and Hurewicz--Wallman, the $\LebesgueCoveringDimensionUp$
+packet records covering dimension through finite open-cover refinements with
+bounded overlap. It sits beside the finite refinement carrier of
+\autoref{ch:concrete-instances-coveringdimension-namecert}, the topology row of
+\autoref{ch:concrete-instances-topology-namecert}, the metric-ball observation
+surface of \autoref{ch:concrete-instances-metric-namecert}, and the finite
+radius ledger of \autoref{ch:concrete-instances-finite-lebesgue-number-namecert}.
+The packet names only displayed cover rows, refinement rows, and order ledgers;
+it does not invoke arbitrary open-cover compactness, a selected subcover, or a
+host dimension theorem.
+
+\begin{definition}[Lebesgue covering dimension carrier]
+\label{def:lebesgue-covering-dimension-carrier}
+A $\LebesgueCoveringDimensionUp$ carrier is a finite $\BHist$ packet
+$$
+L=(X,U,V,R,O,B,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\TopologyUp$ source row together with the metric observation
+surface needed to read finite $\MetricBallUp$ cover cells.
+\item $U$ is a finite open-cover request row, displayed as named topology
+opens and local metric-ball witnesses.
+\item $V$ is a finite refinement row whose entries are open rows over the same
+source $X$.
+\item $R$ is the refinement-containment ledger, recording for each row of $V$
+the named row of $U$ that contains it.
+\item $O$ is the order-at-most-$n$ overlap ledger, recording that every
+displayed point-history read meets at most $n+1$ refinement rows.
+\item $B$ is the finite ball-inspection row tying the topology opens to
+$\MetricBallUp$ observations.
+\item $F$ is the $\FiniteLebesgueNumberUp$ radius ledger for the displayed
+finite cover window.
+\item $H$ records componentwise $\hsame$ transport for $X,U,V,R,O,B,F$ and
+for the certificate rows.
+\item $C$ records displayed $\Cont$ replay from an open-cover request through
+finite ball inspection, finite-radius readback, refinement containment, and
+overlap checking.
+\item $P$ is the $\Pkg$ provenance over $\LebesgueCoveringDimensionUp$,
+$\TopologyUp$, $\MetricBallUp$, $\CoveringDimensionUp$,
+$\FiniteLebesgueNumberUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LebesgueCoveringDimensionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by transporting these displayed
+rows. It has no coordinate for a host open-cover family, a selected refinement,
+an external multiplicity oracle, or a classical covering-dimension theorem.
+\end{definition}
+
+\begin{theorem}[Lebesgue covering dimension NameCert obligations]
+\label{thm:lebesgue-covering-dimension-namecert-obligations}
+For every accepted $\LebesgueCoveringDimensionUp$ carrier
+$$
+L=(X,U,V,R,O,B,F,H,C,P,N),
+$$
+the local $\NameCert_{\LebesgueCoveringDimensionUp}$ surface consists exactly
+of topology-source admission through $X$, finite open-cover admission through
+$U$, refinement-row admission through $V$, refinement containment through $R$,
+order-at-most-$n$ overlap checking through $O$, metric-ball inspection through
+$B$, finite Lebesgue-number radius readback through $F$, componentwise
+$\hsame$ transport through $H$, displayed $\Cont$ replay through $C$,
+$\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:lebesgue-covering-dimension-carrier}. The topology, cover,
+refinement, containment, overlap, ball-inspection, finite-radius, transport,
+replay, provenance, and naming rows are precisely the displayed coordinates.
+
+The finite refinement obligation reads $U,V,R,O$ over the source row $X$.
+Containment is stored as a row-to-row ledger, and the order bound is stored as
+the visible overlap count for finite point-history inspections.
+
+The metric side is only observational. The rows $B$ and $F$ route finite open
+cells through $\MetricBallUp$ and $\FiniteLebesgueNumberUp$ before a consumer
+may compare the packet with the sibling $\CoveringDimensionUp$ surface.
+
+Finally $H,C,P,N$ preserve the same route by transport, replay, provenance,
+and local naming. Since no excluded host object occurs as a carrier coordinate,
+the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Lebesgue finite-refinement route]
+\label{thm:lebesgue-covering-dimension-finite-refinement-route}
+Every $\CoveringDimensionUp$ consumer of an accepted
+$\LebesgueCoveringDimensionUp$ packet receives only the finite route
+$$
+\TopologyUp,\ \MetricBallUp,\ \FiniteLebesgueNumberUp
+\longmapsto
+U,V,R,O,H,C,P,N .
+$$
+Thus the dimension assertion is a displayed open-cover refinement with
+order-at-most-$n$ overlap and finite radius readback. It exports no arbitrary
+open-cover compactness principle, selected subcover, host refinement theorem,
+or detached multiplicity oracle.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of
+\autoref{thm:lebesgue-covering-dimension-namecert-obligations}. They force a
+consumer to read the source topology, the finite cover request, the refinement
+rows, the containment ledger, and the overlap ledger before any dimension
+claim can be exported.
+
+Read the metric observation side next. The ball row $B$ supplies only the
+displayed $\MetricBallUp$ inspections, while $F$ supplies only the finite
+radius ledger already exposed by $\FiniteLebesgueNumberUp$.
+
+The comparison with $\CoveringDimensionUp$ is therefore horizontal: both
+packets share finite cover-refinement and overlap rows, but this chapter keeps
+the Lebesgue finite-radius route explicit. The structural rows $H,C,P,N$
+transport, replay, source, and name that finite route, so no host compactness
+or selected-refinement object can be read from the packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\LebesgueCoveringDimensionUp$ read is
+refuted if a consumer exports a covering-dimension bound without displaying
+TopologyUp source rows, finite open-cover rows, refinement-containment rows,
+order-at-most-$n$ overlap rows, MetricBallUp inspections, FiniteLebesgueNumberUp
+radius data, hsame transport, Cont replay, Pkg provenance, and local NameCert
+data.}
+
+\independenceWitness{coveringdimension, finite-lebesgue-number, topology,
+metric: no listed sibling supplies the whole $\LebesgueCoveringDimensionUp$
+packet, because the packet binds finite topology cover rows, metric-ball
+inspection, finite-radius readback, refinement containment, overlap order, and
+NameCert provenance in one carrier.}
+
+\closureat{LebesgueCoveringDimensionUp}{seedStr}
+
+\begin{closurestatus}{\LebesgueCoveringDimensionUp}
+  \constructivestory{A $\LebesgueCoveringDimensionUp$ packet is generated from TopologyUp source rows, finite open-cover rows, MetricBallUp observations, FiniteLebesgueNumberUp radius rows, finite refinement-containment ledgers, order-at-most-n overlap ledgers, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lebesgue-covering-dimension-carrier}, \autoref{thm:lebesgue-covering-dimension-namecert-obligations}, and \autoref{thm:lebesgue-covering-dimension-finite-refinement-route} seed the finite-refinement L10 topology object over TopologyUp, MetricBallUp, CoveringDimensionUp, and FiniteLebesgueNumberUp.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary open-cover compactness, selected subcovers, host dimension theorems, detached multiplicity oracles, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, refinement containment, overlap-order exactness, metric-ball inspection, finite-radius compatibility, transport, replay, provenance, and local naming for BEDC.Derived.LebesgueCoveringDimensionUp.}
+\end{closurestatus}
