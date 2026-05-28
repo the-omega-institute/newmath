@@ -312,6 +312,48 @@ Use \autoref{thm:pseudometric-distance-readback-obligation}. The readback route 
 Finally apply \autoref{thm:pseudometric-ledger-nonescape-obligation}. The located-metric consumer receives only the displayed ledger rows and cannot extract ambient metric laws, trichotomy, open-cover compactness, quotient completion, or separated point identity from the pseudometric packet.
 \end{proof}
 
+\begin{theorem}[Pseudometric finite-window distance route]
+\label{thm:pseudometric-finite-window-distance-route}
+Let $P=(X,M,D,S,R,E,Z,H,C,N)$ be an accepted $\PseudometricUp$ packet. Every finite distance read exported by $P$ is routed through the carrier row $X$, the displayed distance source $M$, the dyadic tolerance and triangle ledger $D$, the finite-window row $S$, the regular-rational readback row $R$, the terminal $\RealUp$ seal $E$, the zero-distance boundary $Z$, and the structural rows $H,C,N$. The route is exactly the distance-readback surface of \autoref{thm:pseudometric-distance-readback-obligation} together with the triangle-ledger control of \autoref{thm:pseudometric-triangle-ledger-obligation}, and it does not expose a detached host distance, separated point identity, quotient completion, selected limit, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection of \autoref{def:pseudometric-carrier}. The accepted packet gives the rows $X,M,D,S,R,E,Z,H,C,N$ and no additional distance coordinate.
+
+Apply \autoref{thm:pseudometric-distance-readback-obligation}. A distance request must pass through the finite windows $S$, the regular-rational readback $R$, the dyadic ledger $D$, and the terminal seal $E$ before the structural rows can package the read.
+
+Apply \autoref{thm:pseudometric-triangle-ledger-obligation}. The same ledger row $D$ is the only triangle-facing control row, so finite-window distance reads and triangle comparisons share the displayed tolerance route rather than splitting into a host metric law.
+
+Finally use \autoref{thm:pseudometric-completion-nonescape-obligation}. Completion, selected-limit, host-equality, and ambient-completeness claims are outside the pseudometric packet, while $Z$ remains only the zero-distance boundary available for later separated reflection.
+\end{proof}
+
+\begin{theorem}[Pseudometric zero-distance separated-reflection exactness]
+\label{thm:pseudometric-zero-distance-separated-reflection-exactness}
+Let $P=(X,M,D,S,R,E,Z,H,C,N)$ be an accepted $\PseudometricUp$ packet. The zero-distance row $Z$ is the exact boundary offered to separated-reflection consumers: it can be transported with $H$, replayed through $C$, packaged by the local naming row $N$, and compared with the distance-readback route $M,D,S,R,E$, but it becomes separated point identity only after the consumer reads the $\SeparatedMetricUp$ boundary named in \autoref{thm:pseudometric-separated-reflection-handoff}. The packet therefore exposes zero-distance evidence without quotient completion, selected limits, host equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the rows of $P$. The zero-distance row $Z$ is present beside the distance source $M$, tolerance ledger $D$, finite windows $S$, regular readback $R$, and Real seal $E$.
+
+Use \autoref{thm:pseudometric-distance-readback-obligation} to align $Z$ with the displayed distance route. The row can be inspected only against the same finite-window and dyadic readback surface that supplies distance evidence.
+
+Now apply \autoref{thm:pseudometric-separated-reflection-handoff}. That theorem places separated point identity beyond the pseudometric packet, at the later separated metric boundary, so $Z$ is exact as boundary evidence and not as identity in $X$.
+
+The non-escape clause follows from \autoref{thm:pseudometric-completion-nonescape-obligation}. Rows $H,C,N$ preserve and name the boundary route, but no row stores quotient completion, selected limits, host equality, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Pseudometric triangle separated-reflection compatibility]
+\label{thm:pseudometric-triangle-separated-reflection-compatibility}
+Let $P=(X,M,D,S,R,E,Z,H,C,N)$ be an accepted $\PseudometricUp$ packet. The triangle information carried by $D$ is compatible with separated reflection exactly along the displayed route $M,D,S,R,E,Z,H,C,N$: triangle comparisons are read through the same finite-window and regular-rational distance surface as zero-distance evidence, and any separated identity conclusion must pass through \autoref{thm:pseudometric-separated-reflection-handoff}. The compatibility claim uses the distance-readback obligation, triangle-ledger obligation, and completion non-escape boundary, and it does not add an ambient metric law, quotient completion, selected limit, host equality, trichotomy split, or open-cover compactness datum.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:pseudometric-triangle-ledger-obligation}. It identifies the triangle-facing content of $P$ with the dyadic ledger row $D$, not with an external metric law.
+
+Apply \autoref{thm:pseudometric-distance-readback-obligation}. The triangle comparison and the zero-distance comparison both read the finite windows $S$, regular-rational readback $R$, dyadic tolerance row $D$, and terminal Real seal $E$.
+
+Use \autoref{thm:pseudometric-separated-reflection-handoff} for the separated boundary. If a consumer turns zero-distance evidence into point identity, that step is performed by the separated metric route, not by the pseudometric carrier itself.
+
+Finally invoke \autoref{thm:pseudometric-completion-nonescape-obligation}. The same structural rows $H,C,N$ preserve the displayed compatibility route while refusing quotient completion, selected limits, host equality, trichotomy, open-cover compactness, and ambient Real completeness.
+\end{proof}
+
 \begin{closurestatus}{\PseudometricUp}
   \constructivestory{A $\PseudometricUp$ packet is generated from point carrier rows, displayed distance witnesses, DyadicRatCore tolerance and triangle ledgers, StreamName windows, RegSeqRat readback, a Real distance seal, a zero-distance boundary row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
