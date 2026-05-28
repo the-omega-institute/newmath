@@ -3184,6 +3184,7 @@ import BEDC.Derived.DynSystemUp
 import BEDC.Derived.EffectiveCauchySequenceUp
 import BEDC.Derived.EffectiveCauchySequenceUp.TasteGate
 import BEDC.Derived.EffectiveCompletionUp
+import BEDC.Derived.EffectiveCompletionUp.CauchyRealizerHandoff
 import BEDC.Derived.EffectiveCompletionUp.TasteGate
 import BEDC.Derived.EffectivePolishSpaceUp.TasteGate
 import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
@@ -3673,6 +3674,7 @@ import BEDC.Derived.FormalBallUp
 import BEDC.Derived.FormalBallUp.CenterRadiusAdmission
 import BEDC.Derived.FormalBallUp.FilterBasisRoute
 import BEDC.Derived.FormalBallUp.LocatedRadiusWindow
+import BEDC.Derived.FormalBallUp.ObligationClosureExport
 import BEDC.Derived.FormalBallUp.RadiusOrderHandoff
 import BEDC.Derived.FormalBallUp.RoundedFilterAdmission
 import BEDC.Derived.FormalBallUp.TasteGate
@@ -4512,6 +4514,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.SNConfluenceDecidabilityBudget
 import BEDC.Derived.MetaCICCriticalPathUp.SNConfluenceDecidabilityHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.SocketRouteTotality
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketAuditBoundary
+import BEDC.Derived.MetaCICCriticalPathUp.SubstitutionBoundaryRouting
 import BEDC.Derived.MetaCICCriticalPathUp.TransportRowStability
 import BEDC.Derived.MetaCICDecidableBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICDischargeObligationLedgerUp.TasteGate
@@ -5918,6 +5921,7 @@ import BEDC.Derived.RegularCauchyFilterUp.TailStability
 import BEDC.Derived.RegularCauchyFilterUp.TasteGate
 import BEDC.Derived.RegularCauchyFiniteObservationRouteUp.TasteGate
 import BEDC.Derived.RegularCauchyFiniteProductUp
+import BEDC.Derived.RegularCauchyHausdorffReflectionUp.RepresentativeIndependence
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.TasteGate
 import BEDC.Derived.RegularCauchyInterleaveUp
 import BEDC.Derived.RegularCauchyInterleavingUp
@@ -6364,6 +6368,7 @@ import BEDC.Derived.SobolevUp.BHistCarrierScope
 import BEDC.Derived.SobolevUp.ClassifierLocality
 import BEDC.Derived.SobolevUp.CompleteMetricHandoff
 import BEDC.Derived.SobolevUp.CompletionConsumerExport
+import BEDC.Derived.SobolevUp.CompletionFacingRootScope
 import BEDC.Derived.SobolevUp.CompletionNormHandoff
 import BEDC.Derived.SobolevUp.FiniteEnergyCarrier
 import BEDC.Derived.SobolevUp.FiniteWindowRootPackage
