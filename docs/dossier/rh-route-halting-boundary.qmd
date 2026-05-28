@@ -1,0 +1,842 @@
+---
+title: "RH Route Closure and the Halting Boundary"
+subtitle: "Why route undecidability does not make the Riemann Hypothesis independent -- and what a finite RH proof datum must actually supply"
+author: "The Omega Institute"
+date: 2026-05-28
+description: "A BEDC dossier on RH route closure, finite proof data, grounding rank, halting-level route undecidability, dual audit bases, and the maximal boundary for finite non-oracular RH decision claims."
+---
+
+```{=html}
+<div class="lang-switch"><a href="rh-route-halting-boundary.zh-CN.qmd">中文</a></div>
+```
+
+Core conclusion:
+
+$$
+\boxed{\text{route undecidability} \not\Rightarrow \text{RH independence}}
+$$
+
+$$
+\boxed{\text{finite RH decision strength} \Rightarrow \text{one of four RH decision data}}
+$$
+
+That is:
+
+> The halting boundary blocks a global classifier for all theorem routes.
+> It does not decide the fixed proposition $\mathsf{RH}$.
+> A finite non-oracular expression can change the RH decision layer only by
+> supplying a proof datum, a constructive counterexample, an RH-specific
+> independence theorem for a named fragment, or a finite route-closure
+> certificate.
+
+## 0. Overview
+
+BEDC separates three questions that are often collapsed.
+First, what is the fixed proposition $\mathsf{RH}$?
+Second, what counts as a finite route that closes it?
+Third, can one classifier decide closure for every route?
+
+The answers have different logical status.
+The first is a fixed $\Pi$-statement.
+The second is local proof data.
+The third is a halting-level totality request.
+
+```
+                         fixed BEDC statement
+                                RH
+                                 |
+                                 v
+             proof datum / counterexample / meta-theorem
+                                 |
+                                 v
+                       concrete RH route work
+              condition, equivalence chain, rule tower
+                                 |
+              +------------------+------------------+
+              |                                     |
+              v                                     v
+       finite witnessed route              infinite ungrounded tower
+              |                                     |
+              v                                     v
+            closes RH                         GAP socket / T
+                                                    |
+                                                    v
+                                      cannot be consumed as proof
+
+       global route closure decider?
+                    |
+                    v
+          encodes arbitrary Cont-chain halting
+                    |
+                    v
+            forbidden Type VII request
+
+       but this does not decide the fixed RH statement.
+```
+
+The dossier claim is therefore narrow and strong:
+
+$$
+\boxed{
+\text{no global route decider}
+\quad\text{and}\quad
+\text{no RH decision datum}
+\quad\Rightarrow\quad
+\text{RH remains at the boundary}
+}
+$$
+
+This is not a negative solution to $\mathsf{RH}$.
+It is not a proof of independence.
+It is the audit rule for what a finite humanly communicable strengthening
+must actually provide.
+
+## 1. RH as a Fixed Pi-statement
+
+**Definition 1.1 RH predicate**
+
+The Riemann Hypothesis, written $\mathsf{RH}$, is a fixed constructive
+$\Pi$-statement:
+
+$$
+\mathsf{RH}
+:=
+\forall s.\,
+\mathsf{ZetaZero}(s)
+\wedge
+\mathsf{InCritStrip}(s)
+\Rightarrow
+\mathsf{OnCritLine}(s).
+$$
+
+Here $s$ ranges over complex histories in the zeta-zero surface.
+The predicate $\mathsf{InCritStrip}(s)$ means that $s$ is in the critical
+strip.
+The predicate $\mathsf{ZetaZero}(s)$ means that the zeta value at $s$ is
+the zero history.
+The predicate $\mathsf{OnCritLine}(s)$ means that the real part of $s$ is
+identified with $1/2$ by the constructive equality witness used by BEDC.
+
+**Definition 1.2 Constructive RH proof datum**
+
+A constructive proof datum for $\mathsf{RH}$ is a total witness function
+
+$$
+\Phi :
+\{s \mid \mathsf{ZetaZero}(s) \wedge \mathsf{InCritStrip}(s)\}
+\to
+\{\text{witness of } \mathsf{OnCritLine}(s)\}.
+$$
+
+The proof is not the sentence "all zeros are on the line" floating above
+the kernel.
+It is the function $\Phi$ that consumes any critical-strip zero witness and
+returns the corresponding critical-line witness.
+
+**Definition 1.3 Constructive RH counterexample datum**
+
+A constructive disproof datum is a packet
+
+$$
+s_0,\quad
+\mathsf{ZetaZero}(s_0),\quad
+\mathsf{InCritStrip}(s_0),\quad
+\neg\mathsf{OnCritLine}(s_0).
+$$
+
+The last component is positive information: a constructive separation from
+the line, not a bare refusal to find a line witness.
+
+**Theorem 1.4 RH is not a route class**
+
+The proposition $\mathsf{RH}$ is one fixed $\Pi$-statement, not the class of
+all routes that might try to prove it.
+
+**Proof.** A route is a search object, condition chain, proof program, rule
+tower, or certificate family.  The proposition $\mathsf{RH}$ is the target
+that such a route may or may not close.  A classifier over routes therefore
+lives one level above the fixed formula.  Failure of a total classifier at
+that higher level does not by itself produce a proof, counterexample, or
+fragment-specific independence theorem for the fixed formula. $\square$
+
+## 2. Three Strata Around RH
+
+**Definition 2.1 RH condition**
+
+An RH condition is a pair $(K, \tau)$ where $K$ is a displayed condition and
+
+$$
+\tau : K \to \mathsf{RH}
+$$
+
+is a certified transport.
+The condition $K$ may be a classifier, spectral statement, positivity
+statement, zero-set statement, operator statement, or other BEDC
+proposition.
+If a witness $k:K$ is also supplied, then $\tau(k)$ is a proof of
+$\mathsf{RH}$ along that route.
+
+**Definition 2.2 Finite RH condition**
+
+An RH condition $(K,\tau)$ is finite when all of the following data are
+present:
+
+1. a finite naming certificate or proof packet for $K$;
+2. a displayed witness $k:K$;
+3. a checked transport $\tau:K\to\mathsf{RH}$;
+4. a complete dependency ledger;
+5. an axiom-purity pass;
+6. no hidden selector, quotient collapse, proposition-extensional collapse,
+external proof source, or unclosed $\mathsf{GAP}$.
+
+**Theorem 2.3 Finite RH condition closes RH**
+
+If $(K,\tau)$ is a finite RH condition and $k:K$ is its displayed witness,
+then $\mathsf{RH}$ is closed on that route.
+
+**Proof.** The transport component has type $\tau:K\to\mathsf{RH}$.
+Applying it to the witness $k:K$ gives $\tau(k):\mathsf{RH}$.
+The finiteness clauses ensure that this application is internal proof data:
+the witness, transport, dependency ledger, and purity constraints are all
+displayed rather than imported by an unmarked meta-level supply. $\square$
+
+**Definition 2.4 RH condition chain**
+
+An RH condition chain is a sequence
+
+$$
+K_0,K_1,K_2,\ldots
+$$
+
+with
+
+$$
+K_0=\mathsf{RH}
+$$
+
+and displayed transports
+
+$$
+K_n \to K_{n+1},
+$$
+
+$$
+K_{n+1} \to K_n
+$$
+
+at each stage where equivalence is claimed.
+The chain closes at level $N$ when a witness $w_N:K_N$ is supplied and the
+reverse transports carry $w_N$ back to $K_0$.
+
+**Theorem 2.5 Equivalence chains transport obligations**
+
+An infinite chain
+
+$$
+\mathsf{RH}
+\Longleftrightarrow
+K_1
+\Longleftrightarrow
+K_2
+\Longleftrightarrow
+\cdots
+$$
+
+does not by itself prove $\mathsf{RH}$.
+It proves $\mathsf{RH}$ only when some displayed stage has a witness that
+can be transported back to $K_0$.
+
+**Proof.** Each equivalence supplies transport between neighbouring
+obligations.  Transport moves an existing witness; it does not create one.
+If no stage $K_N$ has a witness $w_N:K_N$, then the reverse chain has no
+term to consume.  The chain changes the coordinate system of the remaining
+$\mathsf{GAP}$ without discharging it. $\square$
+
+## 3. Grounding Rank
+
+**Definition 3.1 Rule-presented condition**
+
+An infinite RH condition is rule-presented when it is supplied by a
+displayed generator, recognizer, continuation system, classifier, or packet
+family rather than by a bare external totality claim.
+
+It is closed-rule-presented when the generator itself has:
+
+1. a finite naming certificate;
+2. a totality witness;
+3. a correctness witness;
+4. a dependency ledger.
+
+**Definition 3.2 Grounding rank**
+
+The grounding rank of an RH condition is defined by these clauses:
+
+$$
+\mathrm{rank}(K)=0
+$$
+
+when the condition itself has a finite certificate and finite witness
+packet.
+
+$$
+\mathrm{rank}(K)=n+1
+$$
+
+when the condition is generated by a rule whose grounding rank is $n$.
+
+$$
+\mathrm{rank}(K)=\omega
+$$
+
+when no finite rank is available.
+
+**Theorem 3.3 Finite rank gives finite route**
+
+If an RH condition has grounding rank $N<\omega$, and every transport from
+the finite top of the rule tower back to $\mathsf{RH}$ has a finite
+certificate, then the condition determines a finite BEDC proof route to
+$\mathsf{RH}$.
+
+**Proof.** Unfold the finite rank.  At the top level there is a finite
+certificate and witness packet.  The certified rules below it successively
+generate the next lower condition.  The certified transports carry the
+resulting witness down the tower until it reaches $K_0=\mathsf{RH}$.
+Only finitely many rules and transports are consumed, so the route remains
+a finite BEDC object even when the condition it presents has infinite
+extension. $\square$
+
+**Theorem 3.4 Omega-rank towers are T-sockets**
+
+If an RH route has grounding rank $\omega$, then that route is not an
+internal proof of $\mathsf{RH}$.
+It is a $\mathsf{GAP}$ socket whose far end is named by the apophatic
+boundary $\mathsf{T}$.
+
+**Proof.** Rank $\omega$ means that every displayed rule still requires a
+higher rule.  No finite layer supplies the top certificate that BEDC needs
+in order to consume the route as proof data.  Treating the entire tower as
+one object only moves the demand: the tower-object itself now requires a
+generator, certificate, totality witness, correctness witness, and ledger.
+In their absence the demand is recorded as a $\mathsf{GAP}$ socket.
+The far end of such a socket has only the apophatic reading
+
+$$
+\mathrm{FarEnd}(\mathrm{socket})
+\equiv_{\mathrm{apo}}
+\mathsf{T}.
+$$
+
+This names the boundary of internalization; it is not a proof term. $\square$
+
+## 4. Closure Deciders and Halting
+
+**Definition 4.1 Global theorem-route closure decider**
+
+A global theorem-route closure decider is a BEDC classifier $D$ that, for
+every theorem target $A$ and every proof-search route $R$, decides whether
+$R$ eventually outputs a closed proof of $A$.
+
+**Theorem 4.2 No global theorem-route closure decider**
+
+There is no global theorem-route closure decider in BEDC.
+
+**Proof.** Assume that such a classifier $D$ is available.
+Given an arbitrary certificate $NameCert_P$ and history $h$, construct a
+route $R_{NameCert_P,h}$ that replays the $Cont_P$-chain from $h$ and
+outputs a fixed proof of a trivial target exactly when that chain
+terminates.
+
+Then $D$ applied to the trivial target and to $R_{NameCert_P,h}$ decides
+whether the $Cont_P$-chain from $h$ terminates.
+That is a halting predicate over arbitrary certificate-history pairs.
+The diagonal halting obstruction rejects such a total predicate, because it
+would close the open meta loop at the certificate stratum.
+Therefore $D$ cannot exist. $\square$
+
+**Definition 4.3 RH-route closure decider**
+
+An RH-route closure decider is a classifier that decides, for each route in
+a specified class of RH condition chains, rule towers, or proof-output
+programs, whether that route eventually yields a proof of $\mathsf{RH}$.
+
+**Theorem 4.4 Expressive RH deciders are Type VII sockets**
+
+If an RH-route closure decider ranges over a class of routes expressive
+enough to encode arbitrary $Cont$-chain termination problems, then its
+request is a Type VII socket rather than an internal BEDC classifier.
+
+**Proof.** By the expressiveness assumption, each halting instance
+$(NameCert_P,h)$ can be represented as closure of an RH-directed route.
+The proposed decider would therefore decide arbitrary $Cont_P$-chain
+termination.  That is the same certificate-stratum halting predicate ruled
+out by the no-global-decider theorem.  Under the socket taxonomy, requests
+for total truth predicates, runtime validators, self-certifying checkers,
+and halting-level self-reference closure are Type VII sockets.  The
+proposed decider is therefore not a closed classifier; it is a named
+self-reference boundary. $\square$
+
+## 5. Fixed RH Is Not Made Independent by Halting
+
+**Theorem 5.1 Fixed RH is not made independent by halting**
+
+The nonexistence of a global closure decider does not imply
+
+$$
+\mathsf{BEDC}\not\vdash\mathsf{RH}
+$$
+
+and
+
+$$
+\mathsf{BEDC}\not\vdash\neg\mathsf{RH}.
+$$
+
+**Proof.** The halting obstruction concerns uniform classification over
+arbitrary certificate-history pairs or arbitrary theorem routes.
+The formula $\mathsf{RH}$ is one fixed $\Pi$-statement.
+A fixed statement may be provable, refutable by a constructive
+counterexample, or independent of a chosen fragment.
+The third outcome requires an RH-specific meta-theorem about that fragment.
+It is not obtained merely from the absence of a uniform route-closure
+classifier. $\square$
+
+This is the critical distinction from a careless Goedel-style slogan.
+The halting boundary says:
+
+$$
+\neg
+\exists D.\,
+\forall A,R.\,
+D(A,R)
+\text{ decides route closure}.
+$$
+
+It does not say:
+
+$$
+\mathsf{RH}
+\text{ is undecidable in BEDC}.
+$$
+
+The first statement is uniform and route-level.
+The second is a statement about one named mathematical proposition in one
+named fragment.
+To pass from the first to the second would require exactly the kind of
+hidden global proof-search oracle that the first statement forbids.
+
+## 6. Dual Audit Bases
+
+**Theorem 6.1 MetaCIC and GroundCompiler are distinct audit bases**
+
+The RH route boundary is read through two cooperating audit bases:
+$\mathsf{MetaCIC}$ and $\mathsf{GroundCompiler}$.
+The former audits the closed-CIC meta-theory surface.
+The latter audits event flows, source channels, generated recognizers,
+certificate gates, and non-claim rows.
+Neither base collapses into the other.
+
+**Proof.** The $\mathsf{MetaCIC}$ audit concerns typing surfaces,
+substitution, reduction geometry, normalisation, confluence fragments,
+decidable checking, and the blocked lift from local checks to full subject
+reduction.  The $\mathsf{GroundCompiler}$ audit concerns a different
+surface: event-flow representation, source-channel separation, recognizer
+generation, certificate-gate passage, and no-hidden-input discipline.
+
+An RH proof route must pass the relevant proof-theoretic checks and the
+relevant compiler-facing visibility checks.  A pass on one surface is not a
+pass on the other.  A local parser boundary cannot become a
+certificate-level halting classifier, and a decidable type-checking surface
+cannot become a global theorem-route closure decider. $\square$
+
+The two bases cooperate by refusing two different smuggling moves:
+
+```
+MetaCIC audit:
+    no hidden proof-theoretic collapse
+    no classical shortcut treated as kernel data
+    no unchecked theorem-route totality
+
+GroundCompiler audit:
+    no hidden source channel
+    no generated recognizer without certificate gate
+    no event flow treated as proof merely because it was produced
+```
+
+## 7. Finite Human Expression Maximality
+
+**Definition 7.1 Finite communicable expression**
+
+A finite communicable mathematical expression is any finite written or
+programmable mathematical artifact that can be exchanged, inspected, and
+audited.
+Examples include a definition, theorem, proof, counterexample, conjecture,
+axiomatic extension, equivalence, proof route, algorithm, condition chain,
+rule tower, meta-theorem, numerical certificate, spectral condition,
+operator condition, or zeta-specific analytic packet.
+
+**Definition 7.2 BEDC encoding premise for finite expression**
+
+The finite-expression encoding premise says that every finite communicable
+mathematical expression relevant to $\mathsf{RH}$ can be read in BEDC as
+one of the following surfaces:
+
+1. statement row;
+2. proof row;
+3. program row;
+4. condition route;
+5. $NameCert$ packet;
+6. $\mathsf{Pkg}$ packet;
+7. $\mathsf{GAP}$ row;
+8. socket row;
+9. cannot-claim row;
+10. meta-theorem row.
+
+This is an encoding premise, not a truth-completeness premise.
+It says how finite expressions are audited.
+It does not say that every mathematical truth has already been proved.
+
+**Definition 7.3 Non-oracular expression**
+
+A finite expression is non-oracular when it does not consume any of the
+following unmarked supplies:
+
+1. global truth predicate;
+2. global halting oracle;
+3. global proof-search oracle;
+4. global RH-route decider;
+5. hidden $\mathsf{Classical.choice}$;
+6. hidden $\mathsf{Quot.sound}$;
+7. hidden $\mathsf{propext}$;
+8. unledgered external supply;
+9. unmarked meta-closure.
+
+If such a supply is requested, the expression remains non-oracular only by
+exposing the request as a $\mathsf{GAP}$ socket whose far end is named
+apophatically.
+
+**Definition 7.4 RH decision datum**
+
+An RH decision datum is one of four artifacts.
+
+First:
+
+$$
+\Phi:\mathsf{RH}.
+$$
+
+This is a proof datum in the constructive sense of the fixed RH
+$\Pi$-statement.
+
+Second:
+
+$$
+s_0,\quad
+\mathsf{ZetaZero}(s_0),\quad
+\mathsf{InCritStrip}(s_0),\quad
+\neg\mathsf{OnCritLine}(s_0).
+$$
+
+This is a constructive counterexample packet.
+
+Third:
+
+$$
+F\not\vdash\mathsf{RH}
+\quad\text{and}\quad
+F\not\vdash\neg\mathsf{RH}
+$$
+
+for a chosen fragment $F$.
+This is an RH-specific independence theorem.
+
+Fourth: a finite route-closure certificate, consisting of a displayed route
+stage witness and certified transports back to $\mathsf{RH}$.
+
+**Definition 7.5 RH boundary statement**
+
+The RH boundary statement is the conjunction of these claims:
+
+1. $\mathsf{RH}$ is the fixed $\Pi$-statement of the zeta-zero critical
+strip;
+2. a proof must supply the total witness function $\Phi$;
+3. a disproof must supply a constructive counterexample packet;
+4. independence must be an RH-specific meta-theorem about the chosen
+fragment;
+5. an RH condition proves $\mathsf{RH}$ only through a witness and certified
+transport;
+6. an equivalence chain without a witnessed stage transports obligations
+rather than producing proof;
+7. an infinite rule tower without finite grounding rank is a
+$\mathsf{GAP}$ socket;
+8. a global route-closure classifier is a halting oracle;
+9. an unclosed RH decision request has only the apophatic far-end reading
+
+$$
+\mathrm{FarEnd}(\mathrm{socket}_{\mathsf{RH}})
+\equiv_{\mathrm{apo}}
+\mathsf{T}.
+$$
+
+**Definition 7.6 Strict RH-decision strengthening**
+
+A finite expression strictly strengthens the RH boundary statement at the
+decision layer when it claims more than boundary placement.
+Examples include a claim that $\mathsf{RH}$ is proved, refuted, or
+independent; that a concrete RH route closes or cannot close; that all
+relevant routes are decidable; or that an infinite condition can be
+consumed as proof resource without finite grounding.
+
+**Theorem 7.7 Finite non-oracular RH boundary maximality**
+
+Assume the finite-expression encoding premise.
+Assume also that no RH proof datum, constructive RH counterexample packet,
+RH-specific independence theorem, or finite RH route-closure certificate is
+supplied, and that global halting or proof-search oracles are not admitted.
+Then any finite communicable non-oracular expression that strictly
+strengthens the RH boundary statement at the decision layer supplies an RH
+decision datum.
+
+**Proof.** Let $E$ be a finite communicable non-oracular expression, and
+suppose that it strictly strengthens the RH boundary statement at the
+decision layer.  By the encoding premise, $E$ has a BEDC reading as a
+statement, proof, program, route, certificate, gap, socket, cannot-claim
+row, or meta-theorem row.
+
+If $E$ proves $\mathsf{RH}$, then the constructive form of $\mathsf{RH}$
+forces it to supply the total function $\Phi$ from critical-strip zeta-zero
+witnesses to $\mathsf{OnCritLine}$ witnesses.  This is a proof datum.
+
+If $E$ refutes $\mathsf{RH}$ constructively, then it must display a complex
+history $s_0$ together with witnesses $\mathsf{ZetaZero}(s_0)$,
+$\mathsf{InCritStrip}(s_0)$, and $\neg\mathsf{OnCritLine}(s_0)$.
+This is a counterexample datum.
+
+If $E$ claims independence of $\mathsf{RH}$ over a fragment $F$, then it
+must supply the fragment-specific meta-theorem
+$F\not\vdash\mathsf{RH}$ and $F\not\vdash\neg\mathsf{RH}$.
+This is an independence datum.
+It cannot be inferred merely from the halting boundary.
+
+If $E$ closes a concrete RH route, then it must display a route stage
+witness and certified transports back to $\mathsf{RH}$.
+This is a finite route-closure certificate.
+
+If $E$ only provides another equivalent condition or an infinite chain of
+equivalent conditions, then it transports the $\mathsf{GAP}$ rather than
+closing it.  Such an expression is not a strict decision-layer
+strengthening.
+
+If $E$ claims that an infinite rule tower can be consumed without finite
+grounding, then the unavailable finite top certificate is recorded as a
+$\mathsf{GAP}$ socket whose far end is named by $\mathsf{T}$.
+There is no strict decision-layer strengthening unless a finite grounding
+and closure certificate is supplied.
+
+If $E$ supplies a global route-closure decider, then it becomes a halting
+predicate and hence an open-meta-loop closure.  That violates
+non-oracularity unless the request is exposed as a socket.  A socketed
+request is boundary placement, not a decision datum.
+
+These cases exhaust the ways a finite encoded expression can claim more at
+the RH decision layer.  Therefore every non-oracular strict strengthening
+supplies an RH decision datum. $\square$
+
+**Corollary 7.8 Local RH work remains admissible**
+
+Finite non-oracular work may introduce additional RH equivalences, condition
+chains, finite exclusions of route classes, zeta-continuation packets,
+zero-counting witnesses, critical-strip barriers, Hilbert--Polya style
+packets, Li-criterion generators, or RH-specific independence interfaces.
+Such work changes the RH decision layer exactly when it produces an RH
+decision datum.
+
+**Proof.** Each listed artifact is a finite communicable expression and so
+has a BEDC reading under the encoding premise.  If it remains local,
+conditional, or socketed, it refines the boundary without deciding
+$\mathsf{RH}$.  If it strictly strengthens the decision layer, the
+maximality theorem forces it to supply one of the four RH decision data.
+$\square$
+
+**Corollary 7.9 RH boundary summary**
+
+BEDC can state $\mathsf{RH}$ as a fixed constructive $\Pi$-statement, can
+recognize finite RH conditions as proof routes, and can reject infinite
+rule towers without finite grounding as $\mathsf{GAP}/\mathsf{T}$ sockets.
+It can also reject global route-closure deciders by the halting boundary.
+Under the finite-expression encoding premise, this boundary is maximal
+among finite communicable non-oracular expressions at the RH decision layer:
+any strict strengthening supplies a proof datum, counterexample datum,
+fragment-specific independence datum, or finite route-closure certificate.
+
+**Proof.** The first claim is the fixed $\Pi$-statement and constructive
+proof form of $\mathsf{RH}$.  The second is finite RH condition closure.
+The third is the omega-rank socket theorem.  The fourth is the no-global
+route-decider theorem.  The maximality claim is Theorem 7.7. $\square$
+
+## 8. The Apophatic Far End Does Not Decide
+
+**Corollary 8.1 The apophatic far end does not decide RH**
+
+The boundary reading
+
+$$
+\mathrm{FarEnd}(\mathrm{socket}_{\mathsf{RH}})
+\equiv_{\mathrm{apo}}
+\mathsf{T}
+$$
+
+does not supply $\Phi$, a counterexample, an independence theorem, or a
+route-closure certificate.
+
+**Proof.** The symbol $\mathsf{T}$ names the far end of an uninternalized
+supply socket.  It is not a kernel object, proof term, zeta value, decision
+classifier, or global oracle.  It records where the request leaves the
+closed fragment, not what the answer to $\mathsf{RH}$ is. $\square$
+
+The practical reading is simple:
+
+```
+socket_RH asks for more than the closed fragment has displayed
+        |
+        v
+FarEnd(socket_RH) ==_apo T
+        |
+        v
+boundary named, answer not supplied
+```
+
+Naming the far end prevents a false claim of possession.
+It does not turn absence of proof data into proof of absence.
+
+## 9. ASCII Summary
+
+```
+                         RH
+          fixed constructive Pi-statement
+                         |
+                         v
+       proof datum? counterexample? independence theorem?
+                         |
+             +-----------+-----------+
+             |                       |
+             v                       v
+       decision datum          no decision datum
+             |                       |
+             v                       v
+          RH changes          inspect proposed route
+                                     |
+                                     v
+                         finite witnessed route?
+                                     |
+                    +----------------+----------------+
+                    |                                 |
+                    v                                 v
+              yes: closes RH                 no: condition chain /
+                                             rule tower / program
+                                                    |
+                                                    v
+                                      finite grounding rank?
+                                                    |
+                              +---------------------+------------------+
+                              |                                        |
+                              v                                        v
+                     finite top certificate                  omega-rank demand
+                              |                                        |
+                              v                                        v
+                       finite route to RH                      GAP socket
+                                                                       |
+                                                                       v
+                                                                FarEnd ==_apo T
+
+       global route closure decider
+                    |
+                    v
+       decides arbitrary Cont-chain termination
+                    |
+                    v
+       halting predicate / open-meta-loop closure
+                    |
+                    v
+       rejected as Type VII socket
+```
+
+## 10. Boxed Clean Formulas
+
+$$
+\boxed{
+\mathsf{RH}
+=
+\forall s.\,
+\mathsf{ZetaZero}(s)
+\wedge
+\mathsf{InCritStrip}(s)
+\Rightarrow
+\mathsf{OnCritLine}(s)
+}
+$$
+
+$$
+\boxed{
+(K,\tau,k)
+\quad\Rightarrow\quad
+\tau(k):\mathsf{RH}
+}
+$$
+
+$$
+\boxed{
+\text{equivalence chain without witness}
+=
+\text{transported GAP}
+}
+$$
+
+$$
+\boxed{
+\mathrm{rank}(R)=\omega
+\quad\Rightarrow\quad
+R=\mathsf{GAP}\text{-socket},\ 
+\mathrm{FarEnd}(R)\equiv_{\mathrm{apo}}\mathsf{T}
+}
+$$
+
+$$
+\boxed{
+\text{global route closure decider}
+\Rightarrow
+\text{halting oracle}
+\Rightarrow
+\text{Type VII socket}
+}
+$$
+
+$$
+\boxed{
+\text{finite non-oracular strict RH strengthening}
+\Rightarrow
+\text{RH decision datum}
+}
+$$
+
+## 11. One-sentence Summary
+
+> The halting boundary blocks total route-closure classifiers, not the fixed
+> RH statement itself; under the finite-expression and non-oracular
+> discipline, any finite expression that genuinely moves the RH decision
+> layer must supply a proof datum, a constructive counterexample, an
+> RH-specific independence theorem, or a finite route-closure certificate.
+
+### Related reading
+
+```{=html}
+<div class="cta-choices">
+  <a href="halting-as-open-meta-loop.qmd"><strong>Halting as the Open Meta Loop</strong><br/>The runtime form of BEDC's open meta loop and the diagonal obstruction behind total halting predicates.</a>
+  <a href="apophatic-infinity.qmd"><strong>Apophatic Infinity</strong><br/>The reading of T as a far end rather than an internal object or answer.</a>
+  <a href="goedel-boundary-as-data.qmd"><strong>Goedel Boundary as Data</strong><br/>The boundary between fixed statements, self-reference, and data-bearing meta-theorems.</a>
+  <a href="boundary-not-axiom.qmd"><strong>Boundary, Not Axiom</strong><br/>Why exposed boundaries are not hidden axioms and do not license unmarked closure.</a>
+  <a href="no-exception-everything-inside.qmd"><strong>No Exception, Everything Inside</strong><br/>The discipline that every admissible claim must expose its carrier, witness, and audit surface.</a>
+</div>
+```
+
+— *The Omega Institute*  
+*newmath / BEDC, May 2026*
