@@ -393,4 +393,35 @@ theorem IsometricEmbeddingCarrier_obligation_closure_surface [AskSetup] [Package
       reflectionRoutesReal, reflectionPkg, completionPkg, separatedPkg, realPkg, e0Refusal,
       e1Refusal⟩
 
+theorem IsometricEmbeddingCarrier_scoped_kernel_route [AskSetup] [PackageSetup]
+    {source target graph sourceDistance targetDistance reflection transports routes provenance
+      localCert scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IsometricEmbeddingCarrier source target graph sourceDistance targetDistance reflection
+        transports routes provenance localCert bundle pkg ->
+      Cont reflection routes scopedRead ->
+        PkgSig bundle scopedRead pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row localCert ∧ UnaryHistory row)
+              (fun row : BHist => UnaryHistory row ∧ hsame row localCert)
+              (fun row : BHist => UnaryHistory row ∧ PkgSig bundle reflection pkg)
+              hsame ∧
+            UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory graph ∧
+              UnaryHistory sourceDistance ∧ UnaryHistory targetDistance ∧
+                UnaryHistory reflection ∧ UnaryHistory scopedRead ∧
+                  Cont source graph target ∧ Cont sourceDistance targetDistance reflection ∧
+                    Cont reflection routes scopedRead ∧ PkgSig bundle reflection pkg ∧
+                      PkgSig bundle scopedRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert UnaryHistory
+  intro carrier reflectionRoutesScoped scopedPkg
+  obtain ⟨sourceUnary, targetUnary, graphUnary, sourceDistanceUnary, targetDistanceUnary,
+    reflectionUnary, _transportsUnary, routesUnary, _provenanceUnary, _localCertUnary,
+      sourceGraph, distanceReflection, reflectionPkg, localSemantic⟩ := carrier
+  have scopedUnary : UnaryHistory scopedRead :=
+    unary_cont_closed reflectionUnary routesUnary reflectionRoutesScoped
+  exact
+    ⟨localSemantic, sourceUnary, targetUnary, graphUnary, sourceDistanceUnary,
+      targetDistanceUnary, reflectionUnary, scopedUnary, sourceGraph, distanceReflection,
+      reflectionRoutesScoped, reflectionPkg, scopedPkg⟩
+
 end BEDC.Derived.IsometricEmbeddingUp
