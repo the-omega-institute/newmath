@@ -959,7 +959,6 @@ import BEDC.Derived.BundleUp
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CandidateSNConfluenceBoundaryUp.TasteGate
-import BEDC.Derived.CandidateSetNormalizationUp.TasteGate
 import BEDC.Derived.CannotClaimExportGateUp
 import BEDC.Derived.CannotClaimExportGateUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
@@ -6894,6 +6893,7 @@ import BEDC.Derived.UniversalClosedSubstrateUp.TasteGate
 import BEDC.Derived.UniversalityClosureQuadrantUp.TasteGate
 import BEDC.Derived.UnwitnessedExistenceClosureUp.TasteGate
 import BEDC.Derived.UpcrossingUp.FiniteLedgerInduction
+import BEDC.Derived.UpcrossingUp.MartingaleConvergenceHandoff
 import BEDC.Derived.UpcrossingUp.TasteGate
 import BEDC.Derived.UpgradeRegistryUp.NameCertObligations
 import BEDC.Derived.UpgradeRegistryUp.NoncompletionSurface
