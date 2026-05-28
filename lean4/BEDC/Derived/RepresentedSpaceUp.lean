@@ -447,6 +447,70 @@ theorem RepresentedSpaceCarrier_schedule_representation_exactness [AskSetup] [Pa
   }
   exact ⟨cert, scheduledReadUnary, relationReadUnary⟩
 
+theorem RepresentedSpaceCarrier_classifier_transport [AskSetup] [PackageSetup]
+    {name schedule relation target transport replay provenance localName classifierRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.RepresentedSpaceUp name schedule relation target transport replay
+        provenance localName bundle pkg →
+      Cont transport replay classifierRead →
+        PkgSig bundle classifierRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row classifierRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row name ∨ hsame row schedule ∨ hsame row relation ∨ hsame row target ∨
+                  hsame row transport ∨ hsame row replay ∨ hsame row classifierRead)
+              (fun row : BHist =>
+                hsame row classifierRead ∧ PkgSig bundle classifierRead pkg ∧
+                  PkgSig bundle provenance pkg)
+              hsame ∧
+            UnaryHistory classifierRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier transportReplayRead classifierReadPkg
+  obtain ⟨_nameUnary, _scheduleUnary, _relationUnary, _targetUnary, transportUnary,
+    replayUnary, _provenanceUnary, _localNameUnary, _nameScheduleReplay,
+    _relationTargetTransport, _localNameTransport, provenancePkg⟩ := carrier
+  have classifierReadUnary : UnaryHistory classifierRead :=
+    unary_cont_closed transportUnary replayUnary transportReplayRead
+  have sourceClassifierRead :
+      (fun row : BHist => hsame row classifierRead ∧ UnaryHistory row) classifierRead := by
+    exact ⟨hsame_refl classifierRead, classifierReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row classifierRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row name ∨ hsame row schedule ∨ hsame row relation ∨ hsame row target ∨
+              hsame row transport ∨ hsame row replay ∨ hsame row classifierRead)
+          (fun row : BHist =>
+            hsame row classifierRead ∧ PkgSig bundle classifierRead pkg ∧
+              PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro classifierRead sourceClassifierRead
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      cases source.left
+      exact ⟨hsame_refl classifierRead, classifierReadPkg, provenancePkg⟩
+  }
+  exact ⟨cert, classifierReadUnary, provenancePkg⟩
+
 end RepresentedSpaceUp
 
 end BEDC.Derived
