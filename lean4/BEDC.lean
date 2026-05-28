@@ -1862,7 +1862,6 @@ import BEDC.Derived.ClosedBoundedIntervalUp.TasteGate
 import BEDC.Derived.ClosedConsistencyAssemblyUp.TasteGate
 import BEDC.Derived.ClosedConsistencyGapUp.TasteGate
 import BEDC.Derived.ClosedGenerationRefusalUp.TasteGate
-import BEDC.Derived.ClosedIntervalApproximationUp.TasteGate
 import BEDC.Derived.ClosedIntervalCauchyCompletionUp.TasteGate
 import BEDC.Derived.ClosedIntervalCauchyCriterionUp.TasteGate
 import BEDC.Derived.ClosedIntervalCompactNetUp.TasteGate
@@ -4639,7 +4638,6 @@ import BEDC.Derived.MetricBallUp.TopologyHandoff
 import BEDC.Derived.MetricClosedBallUp
 import BEDC.Derived.MetricClosedBallUp.CenterTransportScope
 import BEDC.Derived.MetricClosedBallUp.TasteGate
-import BEDC.Derived.MetricCofinalCompletionUp.TasteGate
 import BEDC.Derived.MetricCompletionFunctorUp
 import BEDC.Derived.MetricCompletionFunctorUp.TasteGate
 import BEDC.Derived.MetricCompletionKleisliUp.TasteGate
@@ -5110,6 +5108,7 @@ import BEDC.Derived.OracleResponseLedgerUp.TasteGate
 import BEDC.Derived.OracleSubstrateBoundaryUp.TasteGate
 import BEDC.Derived.OrderUp
 import BEDC.Derived.OrderUp.TasteGate
+import BEDC.Derived.OscillationModulusUp.TasteGate
 import BEDC.Derived.OtherMindsCommitmentUp.Packet
 import BEDC.Derived.OtherMindsCommitmentUp.TasteGate
 import BEDC.Derived.PackageExportDisciplineUp.TasteGate
@@ -6202,6 +6201,7 @@ import BEDC.Derived.SemiringUp
 import BEDC.Derived.SemiringUp.TasteGate
 import BEDC.Derived.SeparableCompletionUp.TasteGate
 import BEDC.Derived.SeparableExtUp
+import BEDC.Derived.SeparableMetricSpaceUp.TasteGate
 import BEDC.Derived.SeparableMetricUp.CompletionConsumerHandoff
 import BEDC.Derived.SeparableMetricUp.TasteGate
 import BEDC.Derived.SeparatedCompletionReflectorUp
@@ -6219,7 +6219,6 @@ import BEDC.Derived.SeparatedMetricUp.RealCompletionConsumerBoundary
 import BEDC.Derived.SeparatedMetricUp.TasteGate
 import BEDC.Derived.SeparatedMetricUp.ZeroDistanceConsumerExactness
 import BEDC.Derived.SeparatedMetricUp.ZeroDistanceRealReflection
-import BEDC.Derived.SeparatedPseudometricCompletionUp.TasteGate
 import BEDC.Derived.SeparatedQuotientMetricUp
 import BEDC.Derived.SeparatedQuotientMetricUp.TasteGate
 import BEDC.Derived.SeparatedUniformSpaceUp.TasteGate
