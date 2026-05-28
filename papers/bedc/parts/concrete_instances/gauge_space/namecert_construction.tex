@@ -1,0 +1,52 @@
+\chapter{A Concrete Naming Certificate for $\GaugeSpaceUp$}
+\label{ch:concrete-instances-gauge-space-namecert}
+\origin{human}
+
+Following Bourbaki and Willard, the $\GaugeSpaceUp$ packet records a uniform structure by a finite family of gauge seminorm rows rather than by a primitive entourage filter. It sits between the metric distance certificate of \autoref{ch:concrete-instances-metric-namecert}, the entourage interface of \autoref{ch:concrete-instances-uniformspace-namecert}, and the directional variant of \autoref{ch:concrete-instances-quasi-uniform-space-namecert}. The chapter names the finite presentation used by uniform-completion consumers without importing a selected completion, quotient equality, or ambient uniformity oracle.
+
+\begin{definition}[Gauge-space carrier]
+\label{def:gauge-space-carrier}
+A $\GaugeSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+G=(X,Q,D,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the underlying point-name carrier read through the ambient finite source rows.
+\item $Q$ is the finite list of gauge rows, each row naming a nonnegative comparison surface for a displayed point pair.
+\item $D$ is the diagonal row, stating that each displayed gauge row admits the named diagonal pair.
+\item $R$ is the refinement row, stating that a requested finite tolerance may be met by a displayed subfamily and smaller tolerance row.
+\item $S$ is the symmetry row for the uniform case; in a quasi-uniform presentation it is replaced by the directional row of \autoref{ch:concrete-instances-quasi-uniform-space-namecert}.
+\item $H$ stores componentwise $\hsame$ transport for the point carrier, gauge list, diagonal, refinement, symmetry, continuation, provenance, and local naming rows.
+\item $C$ stores the $\Cont$ replay route from finite gauge requests to generated entourage rows.
+\item $P$ is the $\Pkg$ provenance over $\GaugeSpaceUp$, $\MetricUp$, $\UniformSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\GaugeSpaceUp}$ row.
+\end{enumerate}
+The carrier exports only the finite gauge presentation. It contains no primitive entourage filter, no selected uniform completion, no quotient equality of Cauchy data, and no ambient choice of separating gauges.
+\end{definition}
+
+\begin{theorem}[Gauge-space entourage generation]
+\label{thm:gauge-space-entourage-generation}
+For every accepted $\GaugeSpaceUp$ carrier $G=(X,Q,D,R,S,H,C,P,N)$, the displayed gauge rows generate the diagonal, refinement, and symmetry surface required by the $\UniformSpaceUp$ entourage interface: $D$ supplies diagonal admission for every named gauge row, $R$ supplies finite refinement of gauge tolerances, and $S$ supplies the uniform symmetry row. The generated surface is transported by $H$, replayed by $C$, packaged by $P$, and locally named by $N$, and it does not add a primitive entourage filter, selected completion point, quotient Cauchy equality, or host uniformity principle.
+\end{theorem}
+\begin{proof}
+Start with the finite gauge list $Q$. Each gauge row is a displayed comparison surface over the carrier $X$, so any entourage request must first name a finite subfamily of $Q$ and a tolerance row.
+
+The diagonal face is provided by $D$. It admits the named diagonal pair for each displayed gauge row and therefore gives the same diagonal surface that a metric ball entourage obtains from zero self-distance in \autoref{ch:concrete-instances-metric-namecert}.
+
+Refinement is provided by $R$. A request for a smaller entourage is answered by a finite subfamily and smaller tolerance row, then replayed through $C$ as the generated entourage route. This is the finite counterpart of the refinement surface in \autoref{ch:concrete-instances-uniformspace-namecert}.
+
+The symmetry row $S$ closes the uniform case. If the row is replaced by a directional row, the same carrier becomes a quasi-uniform presentation of the kind recorded in \autoref{ch:concrete-instances-quasi-uniform-space-namecert}; with $S$ present, the route is the ordinary uniform gauge surface.
+
+Finally, $H,P,N$ preserve the same generated route under transport, package provenance, and local naming. No step introduces a primitive entourage filter, selected completion, quotient Cauchy equality, or ambient uniformity oracle, so the generated surface is exactly the finite BEDC gauge presentation.
+\end{proof}
+
+\begin{closurestatus}{\GaugeSpaceUp}
+  \constructivestory{A $\GaugeSpaceUp$ packet is generated from a displayed point carrier, finite gauge rows, diagonal admission, refinement rows, a symmetry row, componentwise transport, continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:gauge-space-carrier} and \autoref{thm:gauge-space-entourage-generation} seed the finite gauge-row presentation of diagonal, refinement, and symmetry entourage generation.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a selected completion, quotient Cauchy equality, a primitive entourage filter, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, diagonal generation, refinement generation, symmetry transport, and standard uniform-space handoff for the displayed finite packet.}
+\end{closurestatus}
