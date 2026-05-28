@@ -96,6 +96,18 @@ The structural rows $H,R,T$ then transport and replay the same ordered route thr
 Since the carrier has no quotient-completion, representative-selection, host-equality, countable-choice, or Real-completeness coordinate, every obligation read is exhausted by the displayed rows.
 \end{proof}
 
+\begin{theorem}[SeparatedCompletion source-density triad]
+\label{thm:separatedcompletion-source-density-triad}
+Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. Every separated-completion consumer must read the source metric row $M$, dense embedding row $D$, and completion handoff row $C$ before it can read the separated classifier $Z$, the uniqueness boundary $U$, or any Real-facing seal exported by the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:separated-completion-carrier}. Its first three analytic rows are exactly $M,D,C$, while $Z$ and $U$ are later rows over the same displayed packet.
+
+Apply \autoref{thm:separated-completion-namecert-obligations}. Dense-source compatibility requires $M,D$ before $C$, separated-classifier exactness requires $C$ before $Z$, and uniqueness-boundary exactness reads $U$ over the same $M,D,C,Z$ route.
+
+The Real-facing seal is part of the completion handoff read through $C$. Hence no separated classifier, uniqueness, or Real-facing consumer can bypass the source-density triad.
+\end{proof}
+
 \begin{theorem}[SeparatedCompletion seal uniqueness]
 \label{thm:separated-completion-seal-uniqueness}
 For accepted packets $S=(M,D,C,Z,U,H,R,T,P,N)$ and $S'=(M,D,C,Z,U',H',R',T',P,N')$ with the same displayed source, dense, completion, separated-classifier, and provenance rows, any equality-of-export read between their completion seals is determined by the local uniqueness rows $U,U'$ together with the $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ data in $H,R,T,N$ and $H',R',T',N'$. It is not a quotient completion, selected representative comparison, host equality, countable-choice selection, or ambient Real-completeness conclusion.
