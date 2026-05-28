@@ -71,7 +71,7 @@ DEFAULT_CONFIG: dict[str, Any] = {
     "ADJUST_TRIGGER_FINDINGS": 5,
     "RESEARCH_EVERY_N_ADJUSTS": 5,
     "MAX_RESOLUTIONS_PER_DAY": 24,
-    "FINDING_RESOLUTION_TIMEOUT_SECONDS": 1200,
+    "FINDING_RESOLUTION_TIMEOUT_SECONDS": 3600,
     "RESOLUTION_COOLDOWN_HOURS": 24,
 }
 
@@ -2238,7 +2238,7 @@ def inspect_and_resolve_top_finding(state: dict, cfg: dict, dry_run: bool) -> bo
             cwd=worktree,
             check=False,
             capture=True,
-            timeout=int(cfg.get("FINDING_RESOLUTION_TIMEOUT_SECONDS", 1200)),
+            timeout=int(cfg.get("FINDING_RESOLUTION_TIMEOUT_SECONDS", 3600)),
         )
         output = (res.stdout or "") + "\n" + (res.stderr or "")
         if res.returncode != 0:
