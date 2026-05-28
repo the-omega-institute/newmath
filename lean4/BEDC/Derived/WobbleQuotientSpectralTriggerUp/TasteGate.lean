@@ -36,6 +36,37 @@ private theorem wobbleQuotientSpectralTrigger_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
+private theorem wobbleQuotientSpectralTrigger_encode_injective :
+    ∀ {a b : BHist},
+      wobbleQuotientSpectralTriggerEncodeBHist a =
+          wobbleQuotientSpectralTriggerEncodeBHist b →
+        a = b := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro a
+  induction a with
+  | Empty =>
+      intro b h
+      cases b with
+      | Empty => rfl
+      | e0 b => cases h
+      | e1 b => cases h
+  | e0 a ih =>
+      intro b h
+      cases b with
+      | Empty => cases h
+      | e0 b =>
+          injection h with _ htail
+          exact congrArg BHist.e0 (ih htail)
+      | e1 b => cases h
+  | e1 a ih =>
+      intro b h
+      cases b with
+      | Empty => cases h
+      | e0 b => cases h
+      | e1 b =>
+          injection h with _ htail
+          exact congrArg BHist.e1 (ih htail)
+
 def wobbleQuotientSpectralTriggerFields : WobbleQuotientSpectralTriggerUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | WobbleQuotientSpectralTriggerUp.mk Q S E H C P B R N => [Q, S, E, H, C, P, B, R, N]
@@ -108,15 +139,38 @@ theorem wobbleQuotientSpectralTriggerToEventFlow_injective
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
-  have hread :
-      wobbleQuotientSpectralTriggerFromEventFlow
-          (wobbleQuotientSpectralTriggerToEventFlow x) =
-        wobbleQuotientSpectralTriggerFromEventFlow
-          (wobbleQuotientSpectralTriggerToEventFlow y) :=
-    congrArg wobbleQuotientSpectralTriggerFromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (wobbleQuotientSpectralTrigger_round_trip x).symm
-      (Eq.trans hread (wobbleQuotientSpectralTrigger_round_trip y)))
+  cases x with
+  | mk Q₁ S₁ E₁ H₁ C₁ P₁ B₁ R₁ N₁ =>
+      cases y with
+      | mk Q₂ S₂ E₂ H₂ C₂ P₂ B₂ R₂ N₂ =>
+          injection heq with hQ tail0
+          injection tail0 with hS tail1
+          injection tail1 with hE tail2
+          injection tail2 with hH tail3
+          injection tail3 with hC tail4
+          injection tail4 with hP tail5
+          injection tail5 with hB tail6
+          injection tail6 with hR tail7
+          injection tail7 with hN _
+          have eQ := wobbleQuotientSpectralTrigger_encode_injective hQ
+          have eS := wobbleQuotientSpectralTrigger_encode_injective hS
+          have eE := wobbleQuotientSpectralTrigger_encode_injective hE
+          have eH := wobbleQuotientSpectralTrigger_encode_injective hH
+          have eC := wobbleQuotientSpectralTrigger_encode_injective hC
+          have eP := wobbleQuotientSpectralTrigger_encode_injective hP
+          have eB := wobbleQuotientSpectralTrigger_encode_injective hB
+          have eR := wobbleQuotientSpectralTrigger_encode_injective hR
+          have eN := wobbleQuotientSpectralTrigger_encode_injective hN
+          cases eQ
+          cases eS
+          cases eE
+          cases eH
+          cases eC
+          cases eP
+          cases eB
+          cases eR
+          cases eN
+          rfl
 
 private theorem wobbleQuotientSpectralTrigger_fields_faithful :
     ∀ x y : WobbleQuotientSpectralTriggerUp,
