@@ -967,6 +967,7 @@ import BEDC.Derived.CannotClaimExportGateUp.TasteGate
 import BEDC.Derived.CanonicalTailChoiceUp.TasteGate
 import BEDC.Derived.CantorBendixsonUp.TasteGate
 import BEDC.Derived.CantorBernsteinUp.TasteGate
+import BEDC.Derived.CantorCompleteMetricUp.TasteGate
 import BEDC.Derived.CantorCompletenessUp.TasteGate
 import BEDC.Derived.CantorCylinderBasisUp.TasteGate
 import BEDC.Derived.CantorDiagonalRealUncountabilityUp.TasteGate
@@ -1700,6 +1701,7 @@ import BEDC.Derived.CauchyfiltercompletionUp.SealFactorizationObligation
 import BEDC.Derived.CauchyfiltercompletionUp.TasteGate
 import BEDC.Derived.CauchyfiltercompletionUp.UniformCompletionUniversalProperty
 import BEDC.Derived.CauchyfiltercompletionUp.UniversalRoutes
+import BEDC.Derived.CauchyfiltercompletionUp.WindowRealSealDeterminacy
 import BEDC.Derived.CausalCommitmentUp
 import BEDC.Derived.CausalCommitmentUp.CarrierObligation
 import BEDC.Derived.CausalCommitmentUp.CausalCommitmentClassifierStability
