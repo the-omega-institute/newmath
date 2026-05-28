@@ -115,6 +115,17 @@ private theorem BesselInequalityToEventFlow_injective {x y : BesselInequalityUp}
     (Eq.trans (BesselInequalityTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (BesselInequalityTasteGate_single_carrier_alignment_round_trip y)))
 
+private theorem BesselInequalityTasteGate_single_carrier_alignment_fields_faithful :
+    ∀ x y : BesselInequalityUp, besselInequalityFields x = besselInequalityFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk H1 I1 N1 V1 O1 C1 S1 L1 T1 R1 P1 Q1 =>
+      cases y with
+      | mk H2 I2 N2 V2 O2 C2 S2 L2 T2 R2 P2 Q2 =>
+          cases hfields
+          rfl
+
 instance besselInequalityBHistCarrier : BHistCarrier BesselInequalityUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := besselInequalityToEventFlow
@@ -134,12 +145,34 @@ def taste_gate : ChapterTasteGate BesselInequalityUp :=
   -- BEDC touchpoint anchor: BHist BMark
   besselInequalityChapterTasteGate
 
+instance besselInequalityFieldFaithful : FieldFaithful BesselInequalityUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := besselInequalityFields
+  field_faithful := BesselInequalityTasteGate_single_carrier_alignment_fields_faithful
+
+instance besselInequalityNontrivial : Nontrivial BesselInequalityUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨BesselInequalityUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      BesselInequalityUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem BesselInequalityTasteGate_single_carrier_alignment :
     (∀ h : BHist, besselInequalityDecodeBHist (besselInequalityEncodeBHist h) = h) ∧
       Nonempty (BHistCarrier BesselInequalityUp) ∧
         Nonempty (ChapterTasteGate BesselInequalityUp) ∧
-          besselInequalityEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+          besselInequalityFields
+              (BesselInequalityUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty) =
+            [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+              BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
     ⟨BesselInequalityTasteGate_single_carrier_alignment_decode_encode,
       ⟨besselInequalityBHistCarrier⟩,
