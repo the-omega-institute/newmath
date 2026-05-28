@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\SmoothManifoldUp$}
+\label{ch:concrete-instances-smoothmanifold-namecert}
+\origin{human}
+
+Following John M. Lee's smooth manifold presentation, the $\SmoothManifoldUp$ packet records a finite atlas, overlap, transition, and replay surface for a manifold object already routed through \autoref{ch:concrete-instances-manifold-namecert}, \autoref{ch:concrete-instances-topology-namecert}, \autoref{ch:concrete-instances-vecspace-namecert}, \autoref{ch:concrete-instances-continuousmap-namecert}, and \autoref{ch:concrete-instances-bundle-namecert}. It names the differentiable atlas boundary used by later bundle, connection, and metric consumers; it is not a host smooth-space primitive, not a global coordinate choice, and not an ambient classical maximal-atlas theorem.
+
+\begin{definition}[Smooth manifold carrier]
+\label{def:smoothmanifold-carrier}
+A $\SmoothManifoldUp$ carrier is a finite $\BHist$ packet
+$$
+M=(B,T,V,A,O,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the underlying $\ManifoldUp$ carrier row.
+\item $T$ is the $\TopologyUp$ chart-domain ledger, recording the displayed open-domain data used by the atlas.
+\item $V$ is the finite $\VecSpaceUp$ model row for the chart codomains.
+\item $A$ is the atlas-admission row, listing the chart names, domains, codomain windows, and coverage witnesses accepted by the packet.
+\item $O$ is the chart-overlap ledger, recording the finite intersections on which transition comparisons are requested.
+\item $S$ is the smooth-transition classifier row, whose entries are read through $\ContinuousMapUp$ and the displayed finite differentiability tests available on the model $\VecSpaceUp$ windows.
+\item $R$ is the $\BundleUp$ readiness row, exposing the atlas route that downstream tangent, frame, and coordinate-bundle packets may consume.
+\item $H$ records componentwise $\hsame$ transport for the manifold carrier, topology ledger, model vector space rows, atlas, overlaps, smooth-transition classifiers, bundle-readiness row, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from chart requests through $B,T,V,A,O,S,R$.
+\item $P$ is the $\Pkg$ provenance over $\SmoothManifoldUp$, $\ManifoldUp$, $\TopologyUp$, $\VecSpaceUp$, $\ContinuousMapUp$, $\BundleUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SmoothManifoldUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,T,V,A,O,S,R,H,C,P,N$. It has no coordinate for a selected maximal atlas, ambient set-theoretic smooth structure, global chart, classical paracompactness theorem, connection form, or Riemannian metric.
+\end{definition}
+
+\begin{theorem}[Smooth manifold NameCert obligations]
+\label{thm:smoothmanifold-namecert-obligations}
+For every accepted $\SmoothManifoldUp$ carrier $M=(B,T,V,A,O,S,R,H,C,P,N)$, the local $\NameCert_{\SmoothManifoldUp}$ surface consists exactly of carrier admission, atlas admission, chart-overlap smoothness, transition compatibility, $\hsame$ transport, $\Cont$ replay, package provenance, and local naming obligations. In particular, the atlas row must display finite chart admission, the overlap row must display every inspected intersection, the transition row must display smooth compatibility on those overlaps, and the replay row must reproduce the same route before any $\BundleUp$ consumer reads $R$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The base rows $B,T,V$ expose the topological manifold boundary, chart-domain ledger, and model vector-space windows before the atlas can be read.
+
+The atlas row $A$ is then checked against those rows. Its chart names, displayed domains, codomain windows, and finite coverage witnesses are the only admission data available to the packet.
+
+On each displayed overlap in $O$, the transition classifier $S$ reads the corresponding coordinate changes through $\ContinuousMapUp$ and the finite differentiability tests attached to the model $\VecSpaceUp$ windows. Transition compatibility is therefore stored in $S$ rather than in a hidden maximal-atlas object.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same rows, and $R$ exposes only that displayed atlas route to $\BundleUp$ consumers. Since the carrier has no coordinate for a selected maximal atlas, global chart, connection form, or metric tensor, the listed obligations exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Smooth manifold bundle-readiness route]
+\label{thm:smoothmanifold-bundle-readiness-route}
+Every $\BundleUp$-facing consumer of an accepted $\SmoothManifoldUp$ packet factors through the displayed route
+$$
+\ManifoldUp \longmapsto \TopologyUp \longmapsto \VecSpaceUp \longmapsto \ContinuousMapUp \longmapsto \BundleUp
+$$
+as represented by the rows $B,T,V,A,O,S,R,H,C,P,N$. The consumer may read coordinate-bundle readiness only after atlas admission, overlap smoothness, transition compatibility, transport, replay, provenance, and local naming rows have all been displayed.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligation theorem. It places every accepted bundle-facing read behind the carrier, topology, model-space, atlas, overlap, and transition rows.
+
+The row $R$ is downstream of $S$, so a bundle consumer cannot inspect a smooth coordinate route before transition compatibility has been displayed on each overlap requested by $O$. The rows $H$ and $C$ preserve the same order under transport and replay.
+
+The package and local naming rows record that the exposed route is the finite $\SmoothManifoldUp$ atlas surface. Therefore later bundle, connection, and metric packets consume a named differentiable-atlas boundary rather than an ambient maximal atlas or a global smooth-space primitive.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SmoothManifoldUp$ consumer that reaches $\BundleUp$ readiness without reading atlas admission, chart-overlap smoothness, transition compatibility, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows refutes this packet surface.}
+
+\closureat{SmoothManifoldUp}{seedStr}
+
+\begin{closurestatus}{\SmoothManifoldUp}
+  \constructivestory{A $\SmoothManifoldUp$ packet is generated from a Manifold carrier row, Topology chart-domain ledger, VecSpace model windows, atlas admission, chart-overlap ledger, smooth-transition classifier, Bundle readiness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:smoothmanifold-carrier}, \autoref{thm:smoothmanifold-namecert-obligations}, and \autoref{thm:smoothmanifold-bundle-readiness-route} seed the finite smooth-atlas route from manifold and topology rows to Bundle consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, selected maximal atlases, ambient smooth-space primitives, global charts, paracompactness, connections, or Riemannian metrics.}
+  \upgradepath{Obligation closure requires checked carrier admission, atlas admission, overlap smoothness, transition compatibility, transport, replay, provenance, and local naming for BEDC.Derived.SmoothManifoldUp.}
+\end{closurestatus}

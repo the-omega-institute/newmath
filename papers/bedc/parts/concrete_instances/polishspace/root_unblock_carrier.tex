@@ -33,6 +33,7 @@ Use the observation ledger $B$ to read root requests. Each complete-metric reque
 
 The rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no selected dense point, quotient completion equality, countable-choice schedule, or ambient real-completeness coordinate appears in the carrier, the common metric row exhausts the root-unblock source.
 \end{proof}
+\leanchecked{BEDC.Derived.PolishspaceUp.PolishSpaceRootUnblockCommonMetric}
 
 \begin{theorem}[PolishSpace complete-separable obligation surface]
 \label{thm:polishspace-complete-separable-obligation-surface}
@@ -96,4 +97,51 @@ Read a dense-name, Cauchy-window, or metric-radius request through $B$. By defin
 It remains to route the analytic rows. The complete row $K$ and separable row $D$ are consumed only after the window and readback rows have been displayed, and the common metric row $M$ is the metric source for both.
 
 Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no unscheduled oracle, selected dense sequence, quotient equality, choice row, or ambient completeness coordinate, every root read respects the displayed window discipline.
+\end{proof}
+
+\begin{definition}[Polish-space root Cauchy-basis carrier]
+\label{def:polishspace-root-cauchy-basis-carrier}
+The root Cauchy-basis carrier of an accepted $\PolishSpaceUp$ packet is the finite $\BHist$ row
+$$
+W=(M,K,D,S,R,B,A,H,C,P,N)
+$$
+where $M,K,D,S,R,B,H,C,P,N$ have the meanings of \autoref{def:polish-space-root-unblock-carrier}, and $A$ is the finite Cauchy-basis alignment row binding the complete-metric row $K$ and the separable dense-schedule row $D$ over the same $\MetricSpaceUp$ source, the same $\StreamNameUp$ finite-window schedule, and the same $\RegSeqRatUp$ readback data.
+
+The alignment row records only the scheduled dense Cauchy basis seen by the local packet. It does not choose dense points, identify quotient-completion representatives, add a countable-choice schedule, or assert ambient $\RealUp$ completeness outside the displayed readback seals.
+\end{definition}
+
+\begin{theorem}[PolishSpace root Cauchy-basis obligations]
+\label{thm:polishspace-root-cauchy-basis-obligations}
+Let $W=(M,K,D,S,R,B,A,H,C,P,N)$ be a Polish-space root Cauchy-basis carrier. The local $\NameCert_{\PolishSpaceUp}$ surface consists exactly of common metric admission through $M$, complete-metric handoff through $K$, separable-density handoff through $D$, $\StreamNameUp$ window discipline through $S$, $\RegSeqRatUp$ readback through $R$, Cauchy-basis alignment through $A$, observation ledger support through $B$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+
+No local obligation exports a selected dense point, quotient-completion equality, countable-choice schedule, ambient $\RealUp$ completeness principle, or second metric carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:polishspace-root-cauchy-basis-carrier}. The rows $M,K,D,S,R,B,A,H,C,P,N$ are displayed as finite coordinates, with $A$ placed after the stream and regular-rational readback rows that make the dense Cauchy basis observable.
+
+The common metric admission is inherited from \autoref{thm:polish-space-root-unblock-common-metric}. Both the complete-metric row $K$ and the separable-density row $D$ are read only over $M$.
+
+The finite observation discipline is inherited from \autoref{thm:polish-space-root-unblock-window-discipline}. Dense-name coverage, Cauchy-window data, and metric-radius comparisons pass through $S$ and $R$ before reaching $K$ or $D$.
+
+It remains to account for the Cauchy-basis row. By definition, $A$ binds the complete and separable reads to the same scheduled dense Cauchy basis over $M,S,R$; it adds no selected point or quotient representative. The rows $B,H,C,P,N$ then record the ledger, transport, replay, provenance, and local name for exactly that displayed packet.
+\end{proof}
+
+\begin{theorem}[PolishSpace completion-separability handoff]
+\label{thm:polishspace-root-completion-separability-handoff}
+Let $W=(M,K,D,S,R,B,A,H,C,P,N)$ be a Polish-space root Cauchy-basis carrier. Any completion-facing consumer or separability-facing consumer must factor through the single route
+$$
+M \longmapsto S \longmapsto R \longmapsto A \longmapsto K,D
+$$
+before it is used as a $\PolishSpaceUp$ root read. The rows $B,H,C,P,N$ then record the same observation ledger, componentwise transport, replay, provenance, and local naming for that route.
+
+Consequently the completion and separability faces cannot be consumed as independent host facts; they meet only through the scheduled dense Cauchy basis aligned by $A$.
+\end{theorem}
+\begin{proof}
+Start with a completion-facing request. The request has to read the metric source $M$, then the finite stream schedule $S$ and regular-rational readback $R$ that expose the Cauchy-window observations used by the complete row.
+
+Now read a separability-facing request. Its dense-name coverage uses the same $M,S,R$ route, since \autoref{def:polishspace-root-cauchy-basis-carrier} gives only one stream row and one readback row for the root packet.
+
+The alignment row $A$ is therefore the unique meeting point before $K$ and $D$ can be consumed together. It binds the complete-metric row and the separable dense-schedule row to the scheduled dense Cauchy basis, while $B,H,C,P,N$ preserve that route for downstream root reads.
+
+Because no selected dense point, quotient-completion equality, choice schedule, or ambient completeness coordinate is present in the carrier, the displayed route is the only completion-separability handoff exported by the packet.
 \end{proof}
