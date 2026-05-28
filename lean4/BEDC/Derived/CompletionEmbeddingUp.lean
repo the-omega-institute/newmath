@@ -227,4 +227,92 @@ theorem CompletionEmbeddingCarrier_obligation_closure_package [AskSetup] [Packag
   }
   exact ⟨cert, denseReadUnary, isoReadUnary, endpointReadUnary⟩
 
+theorem CompletionEmbeddingCarrier_public_interface [AskSetup] [PackageSetup]
+    {sourceMetric completionTarget denseImage isometry regularCauchy hausdorffBoundary
+      realSeal transport replay provenance localCert denseRead isoRead endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompletionEmbeddingCarrier sourceMetric completionTarget denseImage isometry regularCauchy
+        hausdorffBoundary realSeal transport replay provenance localCert bundle pkg ->
+      Cont regularCauchy denseImage denseRead ->
+        Cont denseRead isometry isoRead ->
+          Cont realSeal hausdorffBoundary endpointRead ->
+            PkgSig bundle endpointRead pkg ->
+              SemanticNameCert
+                    (fun row : BHist => hsame row endpointRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row sourceMetric ∨ hsame row regularCauchy ∨
+                        hsame row denseImage ∨ hsame row isometry ∨ hsame row realSeal ∨
+                          hsame row hausdorffBoundary ∨ hsame row denseRead ∨
+                            hsame row isoRead ∨ hsame row endpointRead)
+                    (fun row : BHist =>
+                      hsame row endpointRead ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle endpointRead pkg)
+                    hsame ∧
+                  UnaryHistory sourceMetric ∧ UnaryHistory denseRead ∧ UnaryHistory isoRead ∧
+                    UnaryHistory endpointRead ∧ Cont sourceMetric regularCauchy denseImage ∧
+                      Cont regularCauchy denseImage denseRead ∧
+                        Cont denseRead isometry isoRead ∧
+                          Cont realSeal hausdorffBoundary endpointRead ∧
+                            PkgSig bundle provenance pkg ∧
+                              PkgSig bundle endpointRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert
+  intro carrier regularDense denseIso realBoundary endpointPkg
+  obtain ⟨sourceMetricUnary, _completionTargetUnary, denseImageUnary, isometryUnary,
+    regularCauchyUnary, hausdorffBoundaryUnary, realSealUnary, _transportUnary,
+      _replayUnary, _provenanceUnary, _localCertUnary, sourceDense, _denseSeal,
+        provenancePkg, _localSemantic⟩ := carrier
+  have denseReadUnary : UnaryHistory denseRead :=
+    unary_cont_closed regularCauchyUnary denseImageUnary regularDense
+  have isoReadUnary : UnaryHistory isoRead :=
+    unary_cont_closed denseReadUnary isometryUnary denseIso
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed realSealUnary hausdorffBoundaryUnary realBoundary
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row endpointRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row sourceMetric ∨ hsame row regularCauchy ∨ hsame row denseImage ∨
+              hsame row isometry ∨ hsame row realSeal ∨ hsame row hausdorffBoundary ∨
+                hsame row denseRead ∨ hsame row isoRead ∨ hsame row endpointRead)
+          (fun row : BHist =>
+            hsame row endpointRead ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle endpointRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpointRead
+        ⟨hsame_refl endpointRead, endpointReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, provenancePkg, endpointPkg⟩
+  }
+  exact
+    ⟨cert, sourceMetricUnary, denseReadUnary, isoReadUnary, endpointReadUnary, sourceDense,
+      regularDense, denseIso, realBoundary, provenancePkg, endpointPkg⟩
+
 end BEDC.Derived.CompletionEmbeddingUp
