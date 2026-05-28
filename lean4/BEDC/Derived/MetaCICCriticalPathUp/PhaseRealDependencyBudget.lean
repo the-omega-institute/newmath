@@ -72,4 +72,42 @@ theorem MetaCICCriticalPathL10SourceCut [AskSetup] [PackageSetup]
   }
   exact ⟨cert, sourceCutUnary, dyadicStreamRegseq⟩
 
+theorem MetaCICCriticalPathStreamNameRegSeqRatRouteOrder [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName streamSchedule regSeqReadback realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathPacket strongNorm normalForm obstruction handoff dischargeSocket
+        transport route provenance localName bundle pkg →
+      Cont route localName streamSchedule →
+        Cont streamSchedule localName regSeqReadback →
+          Cont regSeqReadback localName realSeal →
+            PkgSig bundle streamSchedule pkg →
+              PkgSig bundle regSeqReadback pkg →
+                PkgSig bundle realSeal pkg →
+                  UnaryHistory streamSchedule ∧ UnaryHistory regSeqReadback ∧
+                    UnaryHistory realSeal ∧ Cont route localName streamSchedule ∧
+                      Cont streamSchedule localName regSeqReadback ∧
+                        Cont regSeqReadback localName realSeal ∧
+                          PkgSig bundle provenance pkg ∧
+                            PkgSig bundle streamSchedule pkg ∧
+                              PkgSig bundle regSeqReadback pkg ∧
+                                PkgSig bundle realSeal pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig ProbeBundle UnaryHistory
+  intro packet routeLocalNameSchedule scheduleLocalNameReadback readbackLocalNameSeal
+    streamSchedulePkg regSeqReadbackPkg realSealPkg
+  obtain ⟨_strongNormUnary, _normalFormUnary, _obstructionUnary, _handoffUnary,
+    _dischargeSocketUnary, _transportUnary, routeUnary, _provenanceUnary, localNameUnary,
+    _strongNormNormalFormRoute, _handoffObstructionSocket, _transportLocalName,
+    provenancePkg⟩ := packet
+  have streamScheduleUnary : UnaryHistory streamSchedule :=
+    unary_cont_closed routeUnary localNameUnary routeLocalNameSchedule
+  have regSeqReadbackUnary : UnaryHistory regSeqReadback :=
+    unary_cont_closed streamScheduleUnary localNameUnary scheduleLocalNameReadback
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed regSeqReadbackUnary localNameUnary readbackLocalNameSeal
+  exact
+    ⟨streamScheduleUnary, regSeqReadbackUnary, realSealUnary, routeLocalNameSchedule,
+      scheduleLocalNameReadback, readbackLocalNameSeal, provenancePkg, streamSchedulePkg,
+      regSeqReadbackPkg, realSealPkg⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp
