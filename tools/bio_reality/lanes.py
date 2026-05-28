@@ -445,7 +445,9 @@ def _oracle_session_backfill_lane(store: BioRealityStore) -> dict[str, Any]:
             "closed_reason": "backfilled_substantive_server_response",
             "max_turns_reached": False,
         }
-        with base.with_suffix(".jsonl").open("w", encoding="utf-8") as fh:
+        jsonl_path = Path(str(base) + ".jsonl")
+        md_path = Path(str(base) + ".md")
+        with jsonl_path.open("w", encoding="utf-8") as fh:
             fh.write(json.dumps(session, ensure_ascii=False) + "\n")
             for idx, t in enumerate(sub_turn_records):
                 fh.write(json.dumps({
@@ -480,7 +482,7 @@ def _oracle_session_backfill_lane(store: BioRealityStore) -> dict[str, Any]:
                 "```",
                 "",
             ]
-        base.with_suffix(".md").write_text("\n".join(digest_lines) + "\n", encoding="utf-8")
+        md_path.write_text("\n".join(digest_lines) + "\n", encoding="utf-8")
         eid = f"event.{hashlib.sha256((topic + created).encode()).hexdigest()[:16]}"
         subject_id = f"{lane}.{hashlib.sha256(topic.encode()).hexdigest()[:12]}"
         event = {
