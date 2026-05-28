@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\RieszThorinInterpolationUp$}
+\label{ch:concrete-instances-riesz-thorin-interpolation-namecert}
+\origin{human}
+
+Following Riesz, Thorin, and Stein-Weiss, the $\RieszThorinInterpolationUp$ packet records the finite interpolation certificate by which two endpoint bounded-operator rows and a Hadamard three-lines strip estimate expose one interpolated norm bound. It sits after the strip-bound packet of \autoref{ch:concrete-instances-hadamard-three-lines-namecert}, the endpoint normed-space surface of \autoref{ch:concrete-instances-normedspace-namecert}, the bounded-operator row of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the interpolation carrier of \autoref{ch:concrete-instances-interpolation-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names the displayed certificate only; it does not import a host interpolation functor, quotient operator equality, selected extremal analytic family, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Riesz-Thorin interpolation carrier]
+\label{def:riesz-thorin-interpolation-carrier}
+A $\RieszThorinInterpolationUp$ carrier is a finite $\BHist$ packet
+$$
+T=(X_0,X_1,Y_0,Y_1,A_0,A_1,E_0,E_1,S,\Theta,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X_0,X_1,Y_0,Y_1$ are endpoint $\NormedSpaceUp$ rows for the source and target normed spaces at the two endpoints.
+\item $A_0,A_1$ are endpoint $\BoundedLinearOperatorUp$ rows, recording the same displayed operator action with endpoint norm bounds over the corresponding normed-space rows.
+\item $E_0,E_1$ are endpoint exponent rows, storing the source and target exponent ledgers and their rational comparison data.
+\item $S$ is the $\HadamardThreeLinesUp$ strip-estimate row used to compare the endpoint bounds along the displayed interpolation strip.
+\item $\Theta$ is the interpolation-parameter row, storing the inspected parameter, its endpoint incidence, and the convex-weight ledger consumed by $S$.
+\item $B$ is the $\RealUp$ norm-bound ledger exporting the interpolated bound only after $A_0,A_1,E_0,E_1,S,\Theta$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for endpoint normed spaces, bounded operators, exponent rows, strip estimate, interpolation parameter, norm-bound ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an interpolated-bound request through $X_0,X_1,Y_0,Y_1,A_0,A_1,E_0,E_1,S,\Theta,B,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RieszThorinInterpolationUp$, $\HadamardThreeLinesUp$, $\NormedSpaceUp$, $\BoundedLinearOperatorUp$, $\InterpolationUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RieszThorinInterpolationUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through these displayed rows. It has no coordinate for a host interpolation space, quotient equality of operators, selected extremal analytic family, non-displayed exponent completion, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Riesz-Thorin interpolation NameCert obligations]
+\label{thm:riesz-thorin-interpolation-namecert-obligations}
+For every accepted $\RieszThorinInterpolationUp$ carrier
+$$
+T=(X_0,X_1,Y_0,Y_1,A_0,A_1,E_0,E_1,S,\Theta,B,H,C,P,N),
+$$
+the local $\NameCert_{\RieszThorinInterpolationUp}$ surface consists exactly of endpoint normed-space admission through $X_0,X_1,Y_0,Y_1$, bounded-operator endpoint admission through $A_0,A_1$, endpoint exponent admission through $E_0,E_1$, Hadamard three-lines strip-estimate compatibility through $S$, interpolation-parameter admission through $\Theta$, interpolated $\RealUp$ norm-bound export through $B$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riesz-thorin-interpolation-carrier}. The rows $X_0,X_1,Y_0,Y_1$ provide the endpoint normed-space surfaces, and $A_0,A_1$ are the only bounded-operator coordinates available to the classifier.
+
+The exponent and strip data are then forced by row order. The endpoint exponent rows $E_0,E_1$ and the interpolation parameter $\Theta$ determine the displayed convex weights, while the $\HadamardThreeLinesUp$ row $S$ is the sole strip-estimate route that can compare endpoint bounds.
+
+The bound row $B$ reads only after those endpoint and strip rows are displayed. It exports the interpolated $\RealUp$ norm-bound ledger, not a selected analytic family or a host interpolation space.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since every excluded host object lacks a carrier coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\closureat{RieszThorinInterpolationUp}{seedStr}
+
+\begin{closurestatus}{\RieszThorinInterpolationUp}
+  \constructivestory{A $\RieszThorinInterpolationUp$ packet is generated from endpoint NormedSpace rows, endpoint BoundedLinearOperator rows, endpoint exponent rows, a HadamardThreeLines strip-estimate row, an interpolation-parameter row, a RealUp norm-bound ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riesz-thorin-interpolation-carrier} and \autoref{thm:riesz-thorin-interpolation-namecert-obligations} seed the finite Riesz-Thorin interpolation carrier over endpoint normed spaces, bounded operators, exponent rows, strip estimates, interpolation parameters, norm-bound ledgers, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host interpolation spaces, quotient operator equality, selected extremal analytic families, non-displayed exponent completion, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked endpoint normed-space admission, bounded-operator admission, endpoint exponent compatibility, HadamardThreeLines strip-estimate compatibility, interpolation-parameter admission, RealUp norm-bound export, transport, replay, provenance, and local naming for BEDC.Derived.RieszThorinInterpolationUp.}
+\end{closurestatus}
