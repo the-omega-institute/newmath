@@ -92,11 +92,33 @@ jobs:
       - name: Build dossier visualization data
         run: python3 tools/build_dossier_status.py
 
+      - name: Restore NameCert HTML cache
+        uses: actions/cache@v4
+        with:
+          path: docs/dossier/namecert
+          key: namecert-html-${{ hashFiles('papers/bedc/parts/concrete_instances/**/*.tex', 'papers/bedc/make4ht-dossier.cfg', 'tools/build_namecert_html.py') }}
+          restore-keys: |
+            namecert-html-
+
+      - name: Install make4ht dependencies
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            make4ht texlive-latex-recommended texlive-latex-extra \
+            texlive-fonts-recommended texlive-fonts-extra dvisvgm
+
+      - name: Build NameCert HTML pages
+        run: python3 tools/build_namecert_html.py --manifest docs/dossier/data/namecert_sources.json --dependency docs/dossier/data/dependency.json --jobs 2 --strict
+
       - name: Glossary completeness gate
         run: python3 tools/check_glossary.py
 
       - name: Render dossier
         run: quarto render docs/dossier/
+
+      - name: Check published NameCert HTML links
+        run: python3 tools/check_namecert_html.py --full --site-root docs/dossier/_site
 
       - name: Verify PDF reached _site
         run: |
