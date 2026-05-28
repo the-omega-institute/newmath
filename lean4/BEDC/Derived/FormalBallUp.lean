@@ -269,4 +269,25 @@ theorem FormalBallCarrier_completion_obligation_triad [AskSetup] [PackageSetup]
     ⟨metricUnary, radiusUnary, dyadicUnary, windowUnary, basisUnary, completionUnary,
       basisRoute, completionRoute, provenancePkg, completionPkg⟩
 
+theorem FormalBallCarrier_public_window_export [AskSetup] [PackageSetup]
+    {M R D W H C P N publicWindow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FormalBallCarrier M R D W H C P N bundle pkg ->
+      Cont M R D ->
+        Cont D W publicWindow ->
+          PkgSig bundle publicWindow pkg ->
+            UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory D ∧ UnaryHistory W ∧
+              UnaryHistory publicWindow ∧ Cont M R D ∧ Cont D W publicWindow ∧
+                PkgSig bundle P pkg ∧ PkgSig bundle publicWindow pkg := by
+  -- BEDC touchpoint anchor: FormalBallCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier metricRadiusRoute publicWindowRoute publicWindowPkg
+  obtain ⟨metricUnary, radiusUnary, dyadicUnary, windowUnary, _transportUnary,
+    _replayUnary, _provenanceUnary, _nameCertUnary, _metricRadius, _dyadicWindowReplay,
+    _transportReplay, provenancePkg⟩ := carrier
+  have publicWindowUnary : UnaryHistory publicWindow :=
+    unary_cont_closed dyadicUnary windowUnary publicWindowRoute
+  exact
+    ⟨metricUnary, radiusUnary, dyadicUnary, windowUnary, publicWindowUnary,
+      metricRadiusRoute, publicWindowRoute, provenancePkg, publicWindowPkg⟩
+
 end BEDC.Derived.FormalBallUp
