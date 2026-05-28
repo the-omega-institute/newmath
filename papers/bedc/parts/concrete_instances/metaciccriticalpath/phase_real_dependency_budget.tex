@@ -19,6 +19,7 @@ Finally use the readiness triad. Theorems~\ref{thm:metacic-critical-path-real-st
 \label{thm:metacic-critical-path-streamname-regseqrat-route-order}
 For every Phase Real or Completion consumer of an accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the route order is fixed: the $\StreamNameUp$ schedule row is read before any $\RegSeqRatUp$ readback row, and both are read before the $\RealUp$ seal handoff. A consumer that tries to read regular-rational data or a Real seal without the displayed StreamName schedule is outside the L10 dependency budget of the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathStreamNameRegSeqRatRouteOrder}
 \begin{proof}
 First read the root packet. Theorems~\ref{thm:metacic-critical-path-root-unblock-carrier-readiness} and~\ref{thm:metacic-critical-path-root-unblock-consumer-readiness} make $S,N,O,U,D,H,C,P,L$ the whole consumer surface and exclude host scheduler state, undisplayed dependency edges, closed subject reduction, and full consistency.
 
