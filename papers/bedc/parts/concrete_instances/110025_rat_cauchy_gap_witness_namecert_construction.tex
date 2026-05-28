@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\RatCauchyGapWitnessUp$}
+\label{ch:concrete-instances-rat-cauchy-gap-witness-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive completion of the rationals, the $\RatCauchyGapWitnessUp$ packet records the finite obstruction visible at the $\RatUp$ boundary before any real-name or completion-facing consumer reads a limit. It sits after the rational carrier of \autoref{ch:concrete-instances-rat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a displayed gap witness for rational Cauchy bracketing; it does not export a host irrational, quotient completion class, choice-selected limit, or ambient $\RealUp$ completeness theorem.
+
+\begin{definition}[Rat Cauchy gap witness carrier]
+\label{def:rat-cauchy-gap-witness-carrier}
+A $\RatCauchyGapWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+G=(L,U,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the rational lower-bracket row, exposing a finite $\RatUp$ source, monotone lower estimates, and the rational comparison probes consumed by the witness.
+\item $U$ is the rational upper-bracket row, exposing the matching $\RatUp$ source, monotone upper estimates, and the rational separation probes kept visible to the consumer.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ladder, recording the dyadic widths used to compare lower and upper brackets at each requested precision.
+\item $W$ is the $\StreamNameUp$ window schedule, listing the finite observation windows through which the bracket rows are inspected.
+\item $R$ is the $\RegSeqRatUp$ handoff row, recording the regular-rational readback discipline available before the terminal seal is cited.
+\item $E$ is the $\RealUp$ seal boundary, present only as a downstream boundary saying where a real-name consumer may later read a sealed object.
+\item $H$ records componentwise $\hsame$ transport for the bracket, tolerance, window, handoff, seal, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from rational brackets through dyadic tolerances, finite windows, regular-rational readback, and the real seal boundary.
+\item $P$ is the $\Pkg$ provenance over $\RatCauchyGapWitnessUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RatCauchyGapWitnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $L,U,D,W,R,E,H,C,P,N$. It has no coordinate for a host irrational number, quotient-completion representative, selected limit, countable-choice principle, or ambient completeness assertion.
+\end{definition}
+
+\begin{theorem}[Rat Cauchy gap witness NameCert obligations]
+\label{thm:rat-cauchy-gap-witness-namecert-obligations}
+For every accepted $\RatCauchyGapWitnessUp$ carrier $G=(L,U,D,W,R,E,H,C,P,N)$, the local $\NameCert_{\RatCauchyGapWitnessUp}$ surface consists exactly of five mathematical obligation rows: rational lower and upper brackets through $L,U$; dyadic tolerance control through $D$; finite stream-window inspection through $W$; regular-rational handoff through $R$; and the terminal real-seal boundary through $E$. The structural rows $H,C,P,N$ transport, replay, source, and name that same packet, and no host irrational, quotient completion, or choice-selected limit is exported.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:rat-cauchy-gap-witness-carrier}. The rows $L$ and $U$ are the only rational bracket coordinates, and both are read through the $\RatUp$ source rather than through a completed real object.
+
+Next inspect the precision route. The dyadic row $D$ supplies the tolerance ladder, the stream row $W$ supplies the finite observation windows, and the regular-rational row $R$ supplies the handoff available to completion-facing consumers.
+
+The seal row $E$ is only a boundary row. It records where a later $\RealUp$ consumer may read a terminal seal, while the present certificate still exposes the rational brackets, dyadic tolerances, stream windows, and regular-rational handoff.
+
+Finally apply the structural rows. Componentwise transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve the displayed packet. Since the carrier has no coordinate for a host irrational, quotient-completion representative, selected limit, or choice principle, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RatCauchyGapWitnessUp$ consumer must expose rational lower and upper brackets, a dyadic tolerance ladder, finite stream windows, a regular-rational handoff, a real-seal boundary, transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows before it can cite the witness.}
+
+\independenceWitness{rat, dyadicratcore, streamname, regseqrat, real: none is bijective with $\RatCauchyGapWitnessUp$, because this carrier alone binds rational lower and upper brackets to the dyadic tolerance ladder, finite window schedule, regular-rational handoff, terminal seal boundary, transport, replay, provenance, and local NameCert rows without exporting a completed real.}
+
+\closureat{RatCauchyGapWitnessUp}{seedStr}
+
+\begin{closurestatus}{\RatCauchyGapWitnessUp}
+  \constructivestory{A $\RatCauchyGapWitnessUp$ packet is generated from rational lower and upper bracket rows, a DyadicRatCore tolerance ladder, a StreamName window schedule, a RegSeqRat handoff, a RealUp seal boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rat-cauchy-gap-witness-carrier} and \autoref{thm:rat-cauchy-gap-witness-namecert-obligations} seed the finite rational Cauchy gap witness over $L,U,D,W,R,E,H,C,P,N$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host irrational existence, quotient completion equality, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked rational bracket, dyadic tolerance, finite window, regular-rational handoff, real-seal boundary, transport, replay, provenance, and local naming rows for BEDC.Derived.RatCauchyGapWitnessUp.}
+\end{closurestatus}
