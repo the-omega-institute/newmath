@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\RieszRepresentationFiniteLatticeUp$}
+\label{ch:concrete-instances-riesz-representation-finite-lattice-namecert}
+\origin{human}
+
+Following Riesz and Markov-Kakutani on positive linear functionals over finite lattice data, the $\RieszRepresentationFiniteLatticeUp$ packet records the BEDC-safe finite representation surface for lattice-positive functionals. It consumes the order rows of \autoref{ch:concrete-instances-poset-namecert}, the lattice rows of \autoref{ch:concrete-instances-lattice-namecert}, the one-sided real boundary of \autoref{ch:concrete-instances-real-namecert}, and the lower and upper real approximation rows of \autoref{ch:concrete-instances-lowerreal-namecert} and \autoref{ch:concrete-instances-upperreal-namecert}. The packet is a finite naming certificate for positive functional handoff; it does not assert sigma-additivity, measure completion, quotient dual equality, choice-selected representing measures, or ambient Banach-space representation.
+
+\begin{definition}[Riesz representation finite lattice carrier]
+\label{def:riesz-representation-finite-lattice-carrier}
+A $\RieszRepresentationFiniteLatticeUp$ carrier is a finite $\BHist$ packet
+$$
+R=(L,O,F,A,B,P,H,C,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LatticeUp$ row, exposing the finite join, meet, top, bottom, and lattice comparison data used by the representation read.
+\item $O$ is the $\PosetUp$ row supporting the order classifier shared by the lattice and positivity checks.
+\item $F$ is the $\FunctionalAnalysisUp$-style positive functional row, recording additivity on displayed compatible lattice pieces and positivity on the order-positive cone.
+\item $A$ is the one-sided $\RealUp$ boundary row through which the functional values are read.
+\item $B$ is the $\LowerRealUp$ and $\UpperRealUp$ bracketing row, storing finite lower and upper cuts that witness the one-sided value interval.
+\item $P$ is the $\Pkg$ provenance over $\RieszRepresentationFiniteLatticeUp$, $\LatticeUp$, $\PosetUp$, $\RealUp$, $\LowerRealUp$, $\UpperRealUp$, $\FunctionalAnalysisUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $H$ records componentwise $\hsame$ transport for lattice, order, positive-functional, one-sided real, bracketing, provenance, replay, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a positive-functional request through $L,O,F,A,B,P,H$.
+\item $N$ is the local $\NameCert_{\RieszRepresentationFiniteLatticeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,O,F,A,B,P,H,C,N$. It has no coordinate for completed measure spaces, quotient dual equality, countable joins, choice-selected representing measures, sigma-additivity, or host functional-analysis completion.
+\end{definition}
+
+\begin{theorem}[Riesz representation finite lattice NameCert obligations]
+\label{thm:riesz-representation-finite-lattice-namecert-obligations}
+For every accepted $\RieszRepresentationFiniteLatticeUp$ carrier
+$$
+R=(L,O,F,A,B,P,H,C,N),
+$$
+the local $\NameCert_{\RieszRepresentationFiniteLatticeUp}$ surface consists exactly of finite lattice admission, shared poset classifier transport, positive-functional row exposure, one-sided real value readback, lower and upper real bracketing, provenance, componentwise transport, displayed continuation replay, and local naming through $L,O,F,A,B,P,H,C,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riesz-representation-finite-lattice-carrier}. The rows $L,O,F,A,B,P,H,C,N$ are the whole accepted packet.
+
+The representation read starts with the lattice and order rows. The positive-functional row $F$ is checked only against the displayed lattice operations and the common order classifier supplied by $O$.
+
+The value side is bounded by $A$ and $B$. The one-sided $\RealUp$ row exposes the value seal, while the $\LowerRealUp$ and $\UpperRealUp$ row records the finite bracketing data used by the consumer.
+
+Finally $P,H,C,N$ source, transport, replay, and name the same route. Since the carrier contains no additional coordinate, measure completion, quotient dual equality, countable joins, selected representing measures, and host completion remain outside the local certificate.
+\end{proof}
+
+\begin{theorem}[Riesz representation finite lattice positive-functional handoff]
+\label{thm:riesz-representation-finite-lattice-positive-functional-handoff}
+Every positive-functional consumer of an accepted $\RieszRepresentationFiniteLatticeUp$ carrier factors through the finite route
+$$
+\LatticeUp,\ \PosetUp,\ \RealUp,\ \LowerRealUp,\ \UpperRealUp,\ \FunctionalAnalysisUp
+$$
+together with $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows before it exports a representation token.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:riesz-representation-finite-lattice-namecert-obligations}. The theorem exposes the lattice, order, positive-functional, one-sided real, bracketing, transport, replay, provenance, and naming rows as the whole obligation surface.
+
+A downstream consumer can therefore read a representation token only after $L,O,F,A,B$ have been displayed in the same finite packet. The structural rows $P,H,C,N$ preserve that route and do not add a second source of representation data.
+
+No row supplies a completed measure, quotient dual equality, countable lattice operation, selected representing measure, sigma-additivity principle, or host Banach-space representation. The handoff is exactly the finite positive-functional route stated above.
+\end{proof}
+
+\closureat{RieszRepresentationFiniteLatticeUp}{seedStr}
+
+\begin{closurestatus}{\RieszRepresentationFiniteLatticeUp}
+  \constructivestory{A $\RieszRepresentationFiniteLatticeUp$ packet is generated from finite lattice rows, poset classifier rows, positive-functional rows, one-sided Real rows, lower and upper real bracketing rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riesz-representation-finite-lattice-carrier}, \autoref{thm:riesz-representation-finite-lattice-namecert-obligations}, and \autoref{thm:riesz-representation-finite-lattice-positive-functional-handoff} seed the finite positive-functional representation route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim sigma-additive measure representation, completed measure spaces, quotient dual equality, countable lattice joins, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked finite lattice admission, order-positive functional exposure, one-sided value bracketing, replay, transport, provenance, and local naming for BEDC.Derived.RieszRepresentationFiniteLatticeUp.}
+\end{closurestatus}
