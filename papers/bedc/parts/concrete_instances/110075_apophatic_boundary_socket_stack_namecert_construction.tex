@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\ApophaticBoundarySocketStackUp$}
+\label{ch:concrete-instances-apophatic-boundary-socket-stack-namecert}
+\origin{ai}
+
+The $\ApophaticBoundarySocketStackUp$ packet realizes the apophatic socket-stack branch of \autoref{ch:visions-subhub-apophatic} as finite boundary/refusal NameCert data. It sits over the typed socket taxonomy of \autoref{ch:concrete-instances-typedgapsockettaxonomy-namecert}, the socket-kind classifier of \autoref{ch:concrete-instances-socketkindclassifier-namecert}, the supply ledger of \autoref{ch:concrete-instances-supplysocketledger-namecert}, the far-end refusal socket of \autoref{ch:concrete-instances-apophaticfarendsocket-namecert}, and the named externality surface of \autoref{ch:concrete-instances-apophaticname-namecert}. The packet names a stacked visible-socket boundary; it does not supply the far end, discharge the refusal row, collapse socket kinds, or replace the named boundary by a host predicate.
+
+\begin{definition}[Apophatic boundary socket stack carrier]
+\label{def:apophatic-boundary-socket-stack-carrier}
+An $\ApophaticBoundarySocketStackUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,K_D,L,F,A,V,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TypedGapSocketTaxonomyUp$ row naming the typed boundary class of each socket in the stack.
+\item $K_D$ is the $\SocketKindClassifierUp$ row classifying the visible socket kind at each stack layer.
+\item $L$ is the $\SupplySocketLedgerUp$ row recording which visible supply request is being ledgered.
+\item $F$ is the $\ApophaticFarEndSocketUp$ row marking the far-end refusal boundary without supplying its content.
+\item $A$ is the $\ApophaticNameUp$ row naming the externality position that the stack refuses to internalize.
+\item $V$ is the visible stack-order row, listing the finite order in which typed socket, classifier, ledger, far-end, and name rows are read.
+\item $R$ is the refusal row, recording that a consumer may factor through the visible socket and refusal rows but may not replace them by hidden host supply.
+\item $H$ records componentwise $\hsame$ transport for $T,K_D,L,F,A,V,R,C,P,N$.
+\item $C$ records displayed $\Cont$ replay through the visible stack order and refusal row.
+\item $P$ is the $\Pkg$ provenance over $\TypedGapSocketTaxonomyUp$, $\SocketKindClassifierUp$, $\SupplySocketLedgerUp$, $\ApophaticFarEndSocketUp$, $\ApophaticNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ApophaticBoundarySocketStackUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,K_D,L,F,A,V,R,H,C,P,N$. It has no coordinate for supplied far-end content, untyped sockets, anonymous supply, hidden host predicates, quotient equality, or discharged apophatic refusal.
+\end{definition}
+
+\begin{theorem}[Apophatic boundary socket stack NameCert obligations]
+\label{thm:apophatic-boundary-socket-stack-namecert-obligations}
+For every accepted $\ApophaticBoundarySocketStackUp$ carrier $K=(T,K_D,L,F,A,V,R,H,C,P,N)$, the local $\NameCert_{\ApophaticBoundarySocketStackUp}$ surface consists exactly of carrier admission, typed socket exposure, kind-classifier exposure, supply-ledger exposure, far-end refusal exposure, apophatic name exposure, visible stack-order determinacy, refusal-row exactness, componentwise transport, displayed replay, provenance, and local naming. Every accepted stack consumer factors through the visible socket rows $T,K_D,L,V$ and the refusal/name rows $F,A,R$ before any public read is available.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:apophatic-boundary-socket-stack-carrier}. The socket-facing rows are $T,K_D,L,V$, and the refusal/name rows are $F,A,R$.
+
+The stack order row $V$ forces those rows to be read in a finite visible order. Thus a consumer cannot inspect the supply ledger or far-end boundary without first carrying the typed socket and classifier rows that identify the visible socket.
+
+The refusal row $R$ is downstream of $F$ and $A$. It records refusal of internalization, so the public read is a boundary read rather than a supplied far-end witness or a hidden host predicate.
+
+Transport, replay, provenance, and naming preserve the same finite packet. Since the refused objects have no carrier coordinate, the accepted stack factors through exactly the visible socket and refusal rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ApophaticBoundarySocketStackUp$ consumer factors through the visible socket rows $T,K_D,L,V$ and the refusal rows $F,A,R$; a purported consumer that omits either side is rejected by the local NameCert.}
+
+\independenceWitness{typedgapsockettaxonomy, socketkindclassifier, supplysocketledger, apophaticfarendsocket, apophaticname: TypedGapSocketTaxonomyUp records the typed class without the stack order, SocketKindClassifierUp names one kind row without the far-end refusal, SupplySocketLedgerUp records requests without the apophatic name, ApophaticFarEndSocketUp marks the refusal boundary without the full visible stack, and ApophaticNameUp names the externality without the socket-kind and ledger rows. None is bijective to the full $T,K_D,L,F,A,V,R,H,C,P,N$ carrier under NameCert-row preservation.}
+
+\closureat{ApophaticBoundarySocketStackUp}{seedStr}
+
+\begin{closurestatus}{\ApophaticBoundarySocketStackUp}
+  \constructivestory{An $\ApophaticBoundarySocketStackUp$ packet is generated from typed socket taxonomy, socket-kind classifier, supply-ledger, apophatic far-end socket, apophatic name, visible stack-order, refusal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:apophatic-boundary-socket-stack-carrier} and \autoref{thm:apophatic-boundary-socket-stack-namecert-obligations} seed the finite visible-socket and refusal stack certificate over typed socket, classifier, ledger, far-end, name, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close supplied far-end content, hidden host predicates, quotient equality, discharged apophatic refusal, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, visible socket exposure, stack-order determinacy, refusal exactness, transport, replay, provenance, and local naming for BEDC.Derived.ApophaticBoundarySocketStackUp.}
+\end{closurestatus}
