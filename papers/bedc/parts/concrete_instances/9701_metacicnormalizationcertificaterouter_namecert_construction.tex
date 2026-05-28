@@ -236,6 +236,20 @@ Next apply the kernel-scope and generator-compiler routes. Theorem~\ref{thm:meta
 Finally use the inductive acceptance scope. Theorem~\ref{thm:metacic-normalization-certificate-router-inductive-acceptance-scope} binds the $L$ row to the audit anchor, candidate evidence, closed projection, generator, compiler, transport, replay, provenance, and local naming rows. Hence every normalization read is scoped to the BEDC kernel route carried by the accepted packet.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization certificate router candidate soundness]
+\label{thm:metacic-normalization-certificate-router-candidate-soundness}
+An accepted $\MetaCICNormalizationCertificateRouterUp$ packet may expose candidate-mediated normalization evidence only when the audit map $A$, candidate row $K$, generator row $U$, compiler row $G$, projection row $D$, and inductive acceptance row $L$ all agree on the same finite $\BHist$ packet. If any one of those rows is absent or names a different packet, then no normalization certificate, no-infinite-reduction certificate, or public router export is available from $S$.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface and candidate determinacy. Theorem~\ref{thm:metacic-normalization-certificate-router-obligation-surface} lists the candidate row before readback, and \autoref{thm:metacic-normalization-certificate-router-candidate-determinacy} determines $S$ from the displayed candidate evidence in $K$.
+
+Next attach the projection and producer rows. Projection coverage keeps $D$ as the closed-substitution consumer of that same evidence, while the generator-compiler route keeps $U$ and $G$ inside the same accepted packet.
+
+The inductive row is then scoped by \autoref{thm:metacic-normalization-certificate-router-inductive-acceptance-scope}. It binds $L$ to the audit anchor, candidate evidence, closed projection, generator, compiler, transport, replay, provenance, and local naming rows rather than to a detached host kernel claim.
+
+Finally apply the scoped kernel route. Theorem~\ref{thm:metacic-normalization-certificate-router-scoped-kernel-route} permits normalization output only through the ordered finite route $A,K,S,P,D,U,G,L,H,C,Q,N$. Therefore disagreement among $A,K,U,G,D,L$ leaves no carrier coordinate from which $S$ can export a normalization certificate, a no-infinite-reduction certificate, or a public router output.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization certificate router public export]
 \label{thm:metacic-normalization-certificate-router-public-export}
 An accepted $\MetaCICNormalizationCertificateRouterUp$ packet exports exactly the public router surface already scoped by its carrier: generator recursion through $U$, ground-compiler recognition through $G$, kernel-inductive acceptance through $L$, closed-substitution boundary reads through $D$, residual-candidate determinacy through $K,S,P$, and non-escape through $H,C,Q,N$. The public interface contains no new MetaCIC primitive, evidence-free normalizer, host reduction equality, quotient reduction row, or closed-term normalization read outside
@@ -335,6 +349,7 @@ Finally attach the public residual handoff. Theorem~\ref{thm:metacic-normalizati
 \label{thm:metacic-normalization-certificate-router-public-adequacy}
 Let $R=(A,K,S,P,D,U,G,L,H,C,Q,N)$ be an accepted $\MetaCICNormalizationCertificateRouterUp$ carrier. Suppose its public export surface, no-infinite-reduction handoff, critical-pair discharge, and frontier residual audit rows are all displayed. Then $R$ exports exactly the candidate-mediated normalization certificate surface needed by downstream MetaCIC consumers: the route through $A,K,S,P,D,U,G,L,H,C,Q,N$ together with the named frontier, residual-substitution, and confluence-critical-pair boundary rows. The adequacy claim does not assert a full strong-normalization theorem, global confluence, unrestricted substitution, host conversion equality, or quotient reduction equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICNormalizationCertificateRouterUp.MetaCICNormalizationCertificateRouterPublicAdequacy}
 \begin{proof}
 Start with the public export and consumer boundary. Theorems~\ref{thm:metacic-normalization-certificate-router-public-export} and~\ref{thm:metacic-normalization-certificate-router-public-consumer-boundary} identify the downstream surface as the ordered route through $A,K,S,P,D,U,G,L,H,C,Q,N$.
 

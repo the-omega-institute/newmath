@@ -24,6 +24,7 @@ K=(S,N,O,U,D,H,C,P,L)
 $$
 be an accepted $\MetaCICCriticalPathUp$ root-unblock packet. Candidate-mediated strong-normalization and confluence rows may consume the displayed L10 readiness rows $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ as source evidence for the current Phase Real and Completion route. Those four rows do not fill the subject-reduction discharge socket $D$ unless a separate subject-reduction certificate is displayed in the same packet route.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateFrontierL10DischargeBoundary}
 \begin{proof}
 Start with the candidate-discharge frontier, \autoref{thm:metacic-critical-path-candidate-discharge-frontier}. It keeps candidate-mediated strong-normalization, confluence-facing, and bounded-decidability rows downstream of the visible obstruction row $O$ and discharge socket $D$.
 
@@ -48,4 +49,52 @@ Start with the candidate-discharge frontier, \autoref{thm:metacic-critical-path-
 Next apply the L10 discharge boundary, \autoref{thm:metaciccriticalpath-candidate-frontier-l10-discharge-boundary}. That theorem lets the packet consume the displayed source-readiness rows without treating any Real or Completion readiness row as the missing subject-reduction certificate.
 
 Finally use discharge-socket coverage, \autoref{thm:metacic-critical-path-discharge-socket-coverage}. A bounded-conversion row can support decidability and confluence inspection, but the socket $D$ is filled only by a displayed subject-reduction certificate row. Hence candidate evidence remains separate from subject-reduction discharge.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate-discharge frontier coverage]
+\label{thm:metaciccriticalpath-candidate-discharge-frontier-coverage}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ root-unblock packet. The candidate-discharge frontier covers every permitted strong-normalization, confluence, bounded-conversion, and L10 source-readiness read only through the displayed rows $S,N,O,U,D,H,C,P,L$ and the four visible faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. The coverage keeps the subject-reduction obstruction row $O$ and discharge socket $D$ visible throughout and does not claim that subject reduction has been supplied.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:metacic-critical-path-candidate-discharge-frontier}. It keeps candidate-mediated normalization, confluence-facing, and bounded-decidability rows downstream of the visible obstruction and socket rows.
+
+Add the L10 boundary from \autoref{thm:metaciccriticalpath-candidate-frontier-l10-discharge-boundary}. That result permits the four source-readiness faces to support the Phase Real and Completion route while refusing to read them as a subject-reduction certificate.
+
+Finally apply \autoref{thm:metaciccriticalpath-bounded-conversion-candidate-boundary} and \autoref{thm:metacic-critical-path-discharge-socket-coverage}. Together they force bounded conversion and every downstream socket read to preserve $O$ and $D$ unless a separate subject-reduction row is displayed.
+\end{proof}
+
+\begin{theorem}[MetaCIC Real root budget lock]
+\label{thm:metaciccriticalpath-real-root-budget-lock}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ root-unblock packet. Any Real-facing or Completion-facing root budget consumed by the candidate frontier is locked to the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ readiness rows, carried through the same finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route as $K$. The lock supplies L10 source budget only; it does not close subject reduction, quotient stream equality, selected host limits, host real equality, trichotomy, open-cover compactness, or completed-real closure.
+\end{theorem}
+\begin{proof}
+Read the L10 source side through \autoref{thm:metacic-critical-path-l10-four-object-exit-certificate}. It displays exactly the dyadic budget, StreamName schedule, RegSeqRat readback, and Real seal rows before the Phase Real and Completion exit can be consumed.
+
+Use \autoref{thm:metacic-critical-path-phase-real-source-obligations}. The four faces are carried as finite source obligations through the same packet route, so the Real-facing budget cannot be replaced by an aggregate host object.
+
+Now apply \autoref{thm:metaciccriticalpath-candidate-discharge-frontier-coverage}. The candidate frontier may consume this source budget only while the obstruction row and discharge socket remain visible. Therefore the root budget is locked as readiness evidence and cannot discharge subject reduction or add any excluded completion principle.
+\end{proof}
+
+\begin{theorem}[MetaCIC substitution boundary routing]
+\label{thm:metaciccriticalpath-substitution-boundary-routing}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ root-unblock packet. Substitution-facing reads that pass through the bounded-conversion or confluence side of the candidate frontier must route through the displayed handoff row $U$, the obstruction row $O$, the discharge socket $D$, and the structural rows $H,C,P,L$ before they may consume the L10 readiness rows. Such reads may support bounded conversion and candidate checking, but they do not supply the missing subject-reduction certificate.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:metacic-critical-path-substitution-handoff-visibility}. It keeps substitution-facing reads visible through the handoff route and prevents the handoff row from becoming a detached theorem export.
+
+Next use \autoref{thm:metaciccriticalpath-bounded-conversion-candidate-boundary}. Bounded conversion, confluence, and candidate rows remain attached to the same packet and keep the obstruction and discharge rows visible.
+
+Finally apply \autoref{thm:metaciccriticalpath-real-root-budget-lock}. The L10 faces may be consumed only as source-readiness rows behind the visible socket route. Hence substitution-boundary routing can serve bounded conversion and candidate checking, while subject reduction remains open until a separate certificate row is displayed.
 \end{proof}

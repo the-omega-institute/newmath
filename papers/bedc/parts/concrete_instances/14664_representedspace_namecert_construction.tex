@@ -119,6 +119,7 @@ Replay and provenance through $C,P,N$ preserve the route already named by $\rho$
 \label{thm:representedspace-target-handoff-nonescape}
 Every $\RealUp$-facing target handoff from an accepted $\RepresentedSpaceUp$ carrier $R=(S,W,\rho,X,T,H,C,P,N)$ factors through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The handoff exports no quotient names, selected representatives, host equality, completeness witness, or choice principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.RepresentedSpaceCarrier\_target\_handoff\_nonescape}
 \begin{proof}
 Start with the name schedule obligation. It forces the target handoff to read $S,W$ before the representation relation is consumed.
 
@@ -158,6 +159,7 @@ $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data. Since the carrier has
 no coordinate for quotient names, selected representatives, host real equality,
 completeness, or choice, no such route can be read by a consumer.
 \end{proof}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.RepresentedSpaceCarrier\_streamname\_real\_handoff}
 
 \begin{theorem}[RepresentedSpace schedule representation exactness]
 \label{thm:representedspace-schedule-representation-exactness}
@@ -317,6 +319,42 @@ Begin with \autoref{thm:representedspace-streamname-representation-source}. It f
 Apply \autoref{thm:representedspace-realization-exactness}. The realized target is exactly the displayed relation row between the scheduled source observations and the target carrier, so an effective metric consumer cannot substitute an implicit realizer or selected name.
 
 Finally use \autoref{thm:representedspace-target-seal-ledger-package}. Its ledger route packages the real-facing target through $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance, the terminal $\RealUp$ seal, transport, replay, provenance, and local naming. Hence the effective metric or completion consumer receives the finite handoff before any distance or completion read is available.
+\end{proof}
+
+\begin{theorem}[RepresentedSpace effective-metric root obligations]
+\label{thm:representedspace-root-effective-metric-obligations}
+Every effective metric read of an accepted $\RepresentedSpaceUp$ carrier $R=(S,W,\rho,X,T,H,C,P,N)$ must pass through the displayed $\StreamNameUp$ schedule $S$, observation windows $W$, representation relation $\rho$, target row $X$, classifier transport $T$, componentwise $\hsame$ rows $H$, replay row $C$, provenance row $P$, and local $\NameCert$ row $N$. In the real-facing case, the same read exposes the $\RegSeqRatUp$ and $\DyadicRatCoreUp$ rows named by the target seal before any $\RealUp$ seal is available.
+\end{theorem}
+\begin{proof}
+Open \autoref{def:representedspace-carrier}. The source schedule, observation windows, relation, target row, transport, replay, provenance, and naming rows are coordinates of the same finite packet.
+
+Apply \autoref{thm:representedspace-namecert-obligations} and \autoref{thm:representedspace-realization-exactness}. They force every target-facing read to move through $S,W,\rho,X,T,H,C,P,N$ rather than through a selected name or host representation equality.
+
+For real-facing metric reads, apply \autoref{thm:representedspace-target-seal-ledger-package}. It records the $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ route attached to the displayed target seal.
+\end{proof}
+
+\begin{theorem}[RepresentedSpace completion-readback root obligations]
+\label{thm:representedspace-root-completion-readback-obligations}
+Every completion readback consumed from an accepted $\RepresentedSpaceUp$ carrier is routed through $S,W,\rho,X,T,H,C,P,N$ and through the displayed $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ handoff rows before completion vocabulary is available. It cannot use quotient representatives, selected Cauchy names, host equality, or ambient completion data.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:representedspace-effective-metric-realizer-handoff}. It places effective metric and completion consumers behind the finite stream schedule, representation relation, regular readback, dyadic tolerance, and Real seal route.
+
+The realization is exact by \autoref{thm:representedspace-realization-exactness}, so the completion readback remains attached to $\rho$ and $X$. The target seal ledger package then supplies the regular-rational and dyadic rows used by completion-facing reads.
+
+The excluded objects are not coordinates of \autoref{def:representedspace-carrier}; transport, replay, provenance, and local naming preserve the displayed route.
+\end{proof}
+
+\begin{theorem}[RepresentedSpace Real-seal root obligations]
+\label{thm:representedspace-root-real-seal-obligations}
+Every $\RealUp$ seal read exported by an accepted $\RepresentedSpaceUp$ carrier is obtained from the displayed $S,W,\rho,X,T,H,C,P,N$ route and from the $\RegSeqRatUp$ and $\DyadicRatCoreUp$ target-seal ledger. No $\RealUp$ consumer receives host real equality, quotient representation data, selected realizers, countable choice, or an ambient completeness theorem from the represented-space packet.
+\end{theorem}
+\begin{proof}
+Read the target row $X$ through \autoref{thm:representedspace-realization-exactness}. The target is available only through the displayed relation between scheduled source observations and the carrier row.
+
+Apply \autoref{thm:representedspace-target-seal-ledger-package}. It packages every real-facing target seal through regular rational readback, dyadic tolerance data, the terminal Real seal, componentwise transport, replay, provenance, and local naming.
+
+Since the packet has no coordinate for host equality, quotient representatives, selected realizers, choice, or ambient completeness, the Real-seal route is exactly the displayed finite handoff.
 \end{proof}
 
 \begin{closurestatus}{\RepresentedSpaceUp}
