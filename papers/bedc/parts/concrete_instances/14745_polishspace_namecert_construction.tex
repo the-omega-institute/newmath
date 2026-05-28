@@ -99,6 +99,82 @@ quotient completion equality, arbitrary open covers, or ambient host sets.
 Hence the six listed rows exhaust the local Polish-space naming obligations.
 \end{proof}
 
+\begin{theorem}[Polish-space dense-schedule root obligation]
+\label{thm:polishspace-dense-schedule-root-obligation}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. The
+root dense-schedule obligation is the finite route that reads the
+$\SeparableMetricUp$ row $D$ only after the $\MetricSpaceUp$ row $M$, the
+$\StreamNameUp$ schedule $S$, the $\RegSeqRatUp$ readback row $R$, and the
+observation ledger $W$ have been fixed by $\BHist$ support, componentwise
+$\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the
+local $\NameCert$ row. It exports no choice-selected dense point and no
+ambient enumeration theorem.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:polish-space-namecert-obligations}. Carrier admission
+exposes $M,D,S,R,W,H,C,G,N$ as displayed rows of the same packet.
+
+The classifier-transport clause uses $H$ to keep the dense schedule over the
+metric surface $M$. The exactness clause makes $W$ the only route from a
+dense-name request to the stream schedule $S$ and the regular rational
+readback row $R$.
+
+Replay the request through $C$ and source it through $G,N$. Since the carrier
+has no coordinate for a selected dense subset or an external enumeration, the
+root dense-schedule obligation is exactly the finite route just displayed.
+\end{proof}
+
+\begin{theorem}[Polish-space complete-metric root obligation]
+\label{thm:polishspace-complete-metric-root-obligation}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. The
+root complete-metric obligation reads the $\CompleteMetricUp$ handoff $K$
+only over the already fixed $\MetricSpaceUp$ surface $M$ and through the same
+$\StreamNameUp$, $\RegSeqRatUp$, and observation-ledger rows $S,R,W$ used by
+dense-schedule consumers. The supporting rows are precisely the displayed
+$\BHist$ packet, $\hsame$ transport $H$, $\Cont$ replay $C$, $\Pkg$
+provenance $G$, and local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:polish-space-namecert-obligations}. Its carrier-admission
+and classifier-transport rows require $K$ to remain over the metric carrier
+$M$ before any completion-facing request is consumed.
+
+The stability row transports $K$ together with $D,S,R,W$. Thus a Cauchy-window
+request and a dense-name request share the same stream schedule, regular
+rational readback, and finite observation ledger.
+
+The replay and provenance rows $C,G,N$ add only routing, sourcing, and local
+naming. No quotient completion, selected limit, ambient completeness
+principle, or separate host metric is present in the carrier, so the
+complete-metric root obligation is bounded by these rows.
+\end{proof}
+
+\begin{theorem}[Polish-space StreamName-to-Real root obligation]
+\label{thm:polishspace-streamname-real-root-obligation}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. Every
+StreamName-to-Real readback at the root factors through the displayed
+$\StreamNameUp$ row $S$, $\RegSeqRatUp$ row $R$, and observation ledger $W$
+before it can be consumed as metric, complete-metric, or separable-metric
+evidence. The factorization is supported only by the $\BHist$ rows,
+componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$
+provenance $G$, and local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Start with the admitted packet and its observation-ledger exactness from
+\autoref{thm:polish-space-namecert-obligations}. Any readback request must
+enter through the stream schedule $S$ and the regular rational row $R$.
+
+The ledger $W$ records which finite rational windows are inspected before
+the result is used by $M,K$, or $D$. Componentwise transport in $H$ keeps
+these rows on the same accepted carrier, while $C$ replays the displayed
+route.
+
+The provenance and naming rows $G,N$ identify the packet but do not add an
+ambient real-completeness claim, a selected limit, or an external readback
+oracle. Therefore the StreamName-to-Real root obligation is precisely the
+finite factorization through $S,R,W,H,C,G,N$.
+\end{proof}
+
 \begin{theorem}[Polish-space StreamName dense handoff]
 \label{thm:polish-space-streamname-countable-dense-handoff}
 Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. Every

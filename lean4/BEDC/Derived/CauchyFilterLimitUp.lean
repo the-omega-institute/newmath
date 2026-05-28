@@ -137,6 +137,29 @@ theorem CauchyFilterLimitCarrier_directed_net_coverage [AskSetup] [PackageSetup]
       toleranceSealTransport, sealNameConsumer', consumerRouteDirected, provenancePkg,
       directedPkg⟩
 
+theorem CauchyFilterLimitCarrier_basis_saturation_obligation [AskSetup] [PackageSetup]
+    {basis filter window readback tolerance sealRow transport route provenance name basisRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterLimitCarrier basis filter window readback tolerance sealRow transport route
+        provenance name bundle pkg ->
+      Cont basis filter basisRead ->
+        PkgSig bundle basisRead pkg ->
+          UnaryHistory basis ∧ UnaryHistory filter ∧ UnaryHistory basisRead ∧
+            Cont basis filter window ∧ Cont basis filter basisRead ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle basisRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier basisFilterRead basisReadPkg
+  obtain ⟨basisUnary, filterUnary, _windowUnary, _readbackUnary, _toleranceUnary,
+    _sealRowUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    basisFilterWindow, _windowReadbackTolerance, _toleranceSealTransport,
+    _transportRouteProvenance, _sealProvenanceName, provenancePkg, _namePkg⟩ := carrier
+  have basisReadUnary : UnaryHistory basisRead :=
+    unary_cont_closed basisUnary filterUnary basisFilterRead
+  exact
+    ⟨basisUnary, filterUnary, basisReadUnary, basisFilterWindow, basisFilterRead,
+      provenancePkg, basisReadPkg⟩
+
 theorem CauchyFilterLimitCarrier_directed_net_handoff [AskSetup] [PackageSetup]
     {basis filter window readback tolerance sealRow transport route provenance name directed tail
       convergence directedRead : BHist}
