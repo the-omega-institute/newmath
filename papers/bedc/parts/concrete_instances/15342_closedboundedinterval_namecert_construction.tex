@@ -275,6 +275,7 @@ Let $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ be an accepted $\ClosedBoundedIntervalUp$ carr
 
 Consequently such a consumer factors through \autoref{def:closed-bounded-interval-carrier}, \autoref{def:closed-bounded-interval-finite-cover-window}, \autoref{thm:closed-bounded-interval-source-nonescape}, and \autoref{thm:closed-bounded-interval-net-handoff}. It does not export open-cover compactness, selected subcovers, countable choice, quotient real equality, trichotomy, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedboundedintervalUp.ClosedBoundedIntervalPacket\_finite\_net\_compactness\_route}
 \begin{proof}
 Project the carrier and finite-cover window. The carrier exposes only $L,U,O,Q,D,S,R,E,H,C,P,N$, while the window exposes $S_0,R_0,Q_0,D_0,E_0$ as subwindow, readback, containment, dyadic, and seal rows attached to the same endpoint route.
 
@@ -701,14 +702,27 @@ Use \autoref{thm:closed-bounded-interval-net-handoff} and \autoref{thm:closed-bo
 
 Thus every accepted read is scoped by the carrier/classifier pair of \autoref{def:closed-bounded-interval-carrier} and \autoref{def:closed-bounded-interval-classifier}. Since neither definition contains a coordinate for the refused host data, no downstream consumer can add such a coordinate while preserving the displayed route.
 \end{proof}
+
+\begin{theorem}[Closed bounded interval obligation closure]
+\label{thm:closed-bounded-interval-obligation-closure}
+For every accepted $\ClosedBoundedIntervalUp$ carrier $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$, the carrier and classifier of \autoref{def:closed-bounded-interval-carrier} and \autoref{def:closed-bounded-interval-classifier}, the NameCert obligations of \autoref{thm:closed-bounded-interval-namecert-obligations}, endpoint-order transport of \autoref{thm:closed-bounded-interval-endpoint-order-transport}, net handoff of \autoref{thm:closed-bounded-interval-net-handoff}, nested compactness handoff of \autoref{thm:closed-bounded-interval-nested-compactness-handoff}, source obligation package of \autoref{thm:closed-bounded-interval-source-obligation-package}, and nonescape rows of \autoref{thm:closed-bounded-interval-source-nonescape}, \autoref{thm:closed-bounded-interval-finite-cover-nonescape}, and \autoref{thm:closed-bounded-interval-consumer-nonescape-obligations} exhaust the full finite NameCert obligation surface for closed bounded interval consumers.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier. They expose exactly the lower endpoint, upper endpoint, endpoint-order, rational containment, dyadic containment, StreamName, RegSeqRat, Real-seal, transport, replay, provenance, and local naming rows.
+
+Apply the obligation and transport theorems. The NameCert obligation theorem lists the local rows, endpoint-order transport keeps $O$ upstream of containment, and the net and nested compactness handoffs place all downstream interval consumers behind the same displayed package.
+
+Finally apply the source package and nonescape boundaries. They force net, finite-cover, nested-window, located-cover, uniform-modulus, and compactness-facing consumers to remain inside $L,U,O,Q,D,S,R,E,H,C,P,N$, so the listed results close the obligation surface without importing open-cover compactness, selected subcovers, quotient equality, trichotomy, choice, or ambient completeness.
+\end{proof}
 \closureat{ClosedBoundedIntervalUp}{seedStr}
+\closureat{ClosedBoundedIntervalUp}{obligationStr}
 
 \begin{closurestatus}{\ClosedBoundedIntervalUp}
   \constructivestory{A $\ClosedBoundedIntervalUp$ packet is generated from lower and upper located endpoint rows, an endpoint-order row, rational and dyadic containment ledgers, StreamName windows, RegSeqRat readbacks, a RealUp seal, hsame transports, Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:closed-bounded-interval-carrier}, \autoref{def:closed-bounded-interval-classifier}, \autoref{thm:closed-bounded-interval-namecert-obligations}, \autoref{thm:closed-bounded-interval-endpoint-order-transport}, \autoref{thm:closed-bounded-interval-net-handoff}, and \autoref{thm:closed-bounded-interval-nested-compactness-handoff} bind the finite base carrier for closed bounded intervals before net, uniform-modulus, and nested-window compactness consumers add their own rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:closed-bounded-interval-obligation-closure} binds the carrier, classifier, endpoint-order transport, net handoff, nested compactness handoff, source obligation package, and nonescape rows as the finite obligation surface before net, uniform-modulus, located-cover, nested-window, and compactness consumers add their own rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, open-cover compactness, quotient real equality, trichotomy, selected points of the interval, or ambient Real completeness.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier preservation, endpoint-order transport, and net-handoff nonescape for BEDC.Derived.ClosedBoundedIntervalUp.}
+  \upgradepath{Scoped closure requires a single scoped route theorem binding the obligation package to all interval-net, nested-window, located-cover, uniform-modulus, and compactness-facing consumers for BEDC.Derived.ClosedBoundedIntervalUp.}
 \end{closurestatus}

@@ -506,4 +506,122 @@ theorem TotalBoundedMetricCarrier_finite_net_obligation [AskSetup] [PackageSetup
   }
   exact ⟨cert, finiteNetUnary, provenancePkg⟩
 
+theorem TotalBoundedMetricCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    (T : TotallyBoundedMetricUp)
+    {M R E D S Q H C P N netRead toleranceRead readback endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    totallyBoundedMetricFields T = [M, R, E, D, S, Q, H, C, P, N] →
+      UnaryHistory M →
+        UnaryHistory R →
+          UnaryHistory E →
+            UnaryHistory D →
+              UnaryHistory S →
+                UnaryHistory Q →
+                  Cont M R toleranceRead →
+                    Cont D E netRead →
+                      Cont netRead S readback →
+                        Cont readback Q endpoint →
+                          PkgSig bundle P pkg →
+                            SemanticNameCert
+                                (fun row : BHist => hsame row endpoint ∧ UnaryHistory row)
+                                (fun row : BHist =>
+                                  hsame row M ∨ hsame row R ∨ hsame row E ∨
+                                    hsame row D ∨ hsame row S ∨ hsame row Q ∨
+                                      Cont D E netRead)
+                                (fun row : BHist => hsame row endpoint ∧ PkgSig bundle P pkg)
+                                hsame ∧
+                              UnaryHistory toleranceRead ∧ UnaryHistory netRead ∧
+                                UnaryHistory readback ∧ UnaryHistory endpoint := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro _fields MUnary RUnary EUnary DUnary SUnary QUnary metricRoute netRoute readbackRoute
+    endpointRoute provenancePkg
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed MUnary RUnary metricRoute
+  have netUnary : UnaryHistory netRead :=
+    unary_cont_closed DUnary EUnary netRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed netUnary SUnary readbackRoute
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed readbackUnary QUnary endpointRoute
+  have sourceAtEndpoint :
+      (fun row : BHist => hsame row endpoint ∧ UnaryHistory row) endpoint := by
+    exact ⟨hsame_refl endpoint, endpointUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row endpoint ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row R ∨ hsame row E ∨ hsame row D ∨ hsame row S ∨
+              hsame row Q ∨ Cont D E netRead)
+          (fun row : BHist => hsame row endpoint ∧ PkgSig bundle P pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpoint sourceAtEndpoint
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row _source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr netRoute)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, provenancePkg⟩
+  }
+  exact ⟨cert, toleranceUnary, netUnary, readbackUnary, endpointUnary⟩
+
 end BEDC.Derived.TotallyBoundedMetricUp.TasteGate
+
+namespace BEDC.Derived.TotalBoundedMetricUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+theorem TotalBoundedMetricCarrier_cauchy_window_extraction [AskSetup] [PackageSetup]
+    {metric realMetric epsilonNet dyadic stream readback transport replay provenance localCert
+      windowRead netRead compactRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.TotallyBoundedMetricUp.TasteGate.TotallyBoundedMetricCarrier metric
+        realMetric epsilonNet dyadic stream readback transport replay provenance localCert
+        bundle pkg ->
+      Cont dyadic stream windowRead ->
+        Cont epsilonNet windowRead netRead ->
+          Cont netRead readback compactRead ->
+            PkgSig bundle compactRead pkg ->
+              UnaryHistory dyadic ∧ UnaryHistory stream ∧ UnaryHistory epsilonNet ∧
+                UnaryHistory readback ∧ UnaryHistory windowRead ∧ UnaryHistory netRead ∧
+                  UnaryHistory compactRead ∧ Cont dyadic stream windowRead ∧
+                    Cont epsilonNet windowRead netRead ∧ Cont netRead readback compactRead ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle compactRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier dyadicStreamWindow epsilonWindowNet netReadbackCompact compactPkg
+  obtain ⟨_metricUnary, _realMetricUnary, epsilonNetUnary, dyadicUnary, streamUnary,
+    readbackUnary, _transportUnary, _replayUnary, _provenanceUnary, _localCertUnary,
+    _metricRealMetricEpsilonNet, _dyadicStreamReadback, _transportReplayProvenance,
+      provenancePkg, _localCertPkg⟩ := carrier
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed dyadicUnary streamUnary dyadicStreamWindow
+  have netUnary : UnaryHistory netRead :=
+    unary_cont_closed epsilonNetUnary windowUnary epsilonWindowNet
+  have compactUnary : UnaryHistory compactRead :=
+    unary_cont_closed netUnary readbackUnary netReadbackCompact
+  exact
+    ⟨dyadicUnary, streamUnary, epsilonNetUnary, readbackUnary, windowUnary, netUnary,
+      compactUnary, dyadicStreamWindow, epsilonWindowNet, netReadbackCompact, provenancePkg,
+      compactPkg⟩
+
+end BEDC.Derived.TotalBoundedMetricUp

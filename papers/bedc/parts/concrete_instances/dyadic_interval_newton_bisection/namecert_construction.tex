@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\DyadicIntervalNewtonBisectionUp$}
+\label{ch:concrete-instances-dyadic-interval-newton-bisection-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DyadicIntervalNewtonBisectionUp$ packet records the finite branch where interval Newton narrowing is interleaved with dyadic bisection before a regular Cauchy or Real-facing consumer reads the result. It refines the dyadic endpoint surface of \autoref{ch:concrete-instances-dyadicinterval-namecert}, the Newton enclosure certificate of \autoref{ch:concrete-instances-intervalnewton-namecert}, the bisection step of \autoref{ch:concrete-instances-intervalhalving-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives root-isolation and completion routes a finite certificate without importing quotient reals, selected roots, trichotomy, countable choice, or ambient completeness.
+
+\begin{definition}[Dyadic interval Newton bisection carrier]
+\label{def:dyadic-interval-newton-bisection-carrier}
+A $\DyadicIntervalNewtonBisectionUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(D,I,H,N,B,R,E,T,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicIntervalUp$ endpoint row for the parent cell and the inspected child cells.
+\item $I$ is the $\IntervalNewtonUp$ correction row, including the displayed enclosure and containment ledger.
+\item $H$ is the $\IntervalHalvingUp$ bisection row used when the Newton enclosure does not yet supply the retained child cell.
+\item $N$ records the finite narrowing decision: accept the Newton child, accept the bisection child, or replay both rows before the next finite inspection.
+\item $B$ is the dyadic diameter and containment ledger attached to the retained child interval.
+\item $R$ is the $\RegSeqRatUp$ readback row produced only after $D,I,H,N,B$ have been displayed.
+\item $E$ is the terminal $\RealUp$ seal row exposed to completion consumers.
+\item $T$ records componentwise $\hsame$ transport for the dyadic interval, Newton row, halving row, narrowing decision, diameter ledger, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the same rows.
+\item $P$ is the $\Pkg$ provenance over $\DyadicIntervalNewtonBisectionUp$, $\DyadicIntervalUp$, $\IntervalNewtonUp$, $\IntervalHalvingUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\DyadicIntervalNewtonBisectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $D,I,H,N,B,R,E,T,C,P,L$. It has no coordinate for a selected zero, quotient real equality, host trichotomy, completed branch choice, or ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Dyadic interval Newton bisection NameCert obligations]
+\label{thm:dyadic-interval-newton-bisection-namecert-obligations}
+For every accepted $\DyadicIntervalNewtonBisectionUp$ carrier $Z=(D,I,H,N,B,R,E,T,C,P,L)$, the local $\NameCert_{\DyadicIntervalNewtonBisectionUp}$ surface consists exactly of carrier admission, dyadic endpoint exposure, interval Newton correction exposure, interval-halving fallback exposure, retained-child narrowing, diameter containment, regular rational readback, terminal Real sealing, componentwise transport, displayed replay, package provenance, and local naming for the carrier of \autoref{def:dyadic-interval-newton-bisection-carrier}.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-interval-newton-bisection-carrier}. The dyadic row $D$, Newton row $I$, halving row $H$, narrowing row $N$, and diameter ledger $B$ are the only rows that expose interval refinement data.
+
+The readback rows are downstream of that finite refinement. Row $R$ can read a regular rational name only after the retained dyadic child and its containment ledger are displayed, and row $E$ seals only that readback route.
+
+Transport, replay, provenance, and local naming are exactly $T,C,P,L$. Since the carrier has no selected-root, quotient-real, trichotomy, completed-branch, or completeness coordinate, those objects cannot become local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Dyadic interval Newton bisection regular Cauchy handoff]
+\label{thm:dyadic-interval-newton-bisection-regular-cauchy-handoff}
+Every $\RegSeqRatUp$, $\RealUp$, root-isolation, or completion-facing consumer of an accepted $\DyadicIntervalNewtonBisectionUp$ carrier factors through the finite route
+$$
+\DyadicIntervalUp
+\longmapsto
+\IntervalNewtonUp
+\longmapsto
+\IntervalHalvingUp
+\longmapsto
+\RegSeqRatUp
+\longmapsto
+\RealUp .
+$$
+The handoff supplies retained dyadic child data, Newton or bisection narrowing, a diameter ledger, regular rational readback, and a terminal Real seal. It supplies no quotient real, selected root, trichotomy proof, countable-choice branch, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $Z=(D,I,H,N,B,R,E,T,C,P,L)$. The rows $D,I,H,N,B$ expose the entire finite narrowing branch before any regular Cauchy consumer can inspect the packet.
+
+Read $R$ through the retained child and diameter ledger. The regular rational handoff is therefore attached to the displayed dyadic interval, Newton enclosure, and bisection fallback rows, not to an external root selector.
+
+Finally read the terminal seal $E$ through $T,C,P,L$. These structural rows preserve the same finite route under transport, replay, provenance, and local naming. No stronger principle is present among the carrier coordinates, so every completion-facing read remains the displayed handoff.
+\end{proof}
+
+\closureat{DyadicIntervalNewtonBisectionUp}{seedStr}
+
+\begin{closurestatus}{\DyadicIntervalNewtonBisectionUp}
+  \constructivestory{A $\DyadicIntervalNewtonBisectionUp$ packet is generated from a DyadicInterval endpoint row, an IntervalNewton correction row, an IntervalHalving fallback row, a retained-child narrowing decision, a dyadic diameter ledger, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-interval-newton-bisection-carrier}, \autoref{thm:dyadic-interval-newton-bisection-namecert-obligations}, and \autoref{thm:dyadic-interval-newton-bisection-regular-cauchy-handoff} seed the finite interval Newton and dyadic bisection route over DyadicIntervalUp, IntervalNewtonUp, IntervalHalvingUp, RegSeqRatUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient reals, selected roots, trichotomy, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic endpoint exposure, Newton correction exposure, halving fallback exposure, retained-child narrowing, diameter containment, regular readback, Real-seal nonescape, transport, replay, provenance, and local NameCert field faithfulness for BEDC.Derived.DyadicIntervalNewtonBisectionUp.}
+\end{closurestatus}
