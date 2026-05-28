@@ -226,4 +226,36 @@ theorem RiemannStieltjesCarrier_darboux_mesh_refinement [AskSetup] [PackageSetup
     ⟨regulatedUnary, variationUnary, taggedUnary, stepUnary, handoffUnary, meshUnary,
       refinedEndpointUnary, meshRoute, refinedEndpointRoute, namePkg⟩
 
+theorem RiemannStieltjesCarrier_bounded_variation_jump_boundary [AskSetup] [PackageSetup]
+    {regulated variation tagged step handoff sealRow transportRow replayRow provenance nameRow
+      jumpRead meshRead handoffRead terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RiemannStieltjesCarrier regulated variation tagged step handoff sealRow transportRow replayRow
+      provenance nameRow bundle pkg ->
+      Cont variation tagged jumpRead ->
+        Cont jumpRead step meshRead ->
+          Cont meshRead handoff handoffRead ->
+            Cont handoffRead sealRow terminalRead ->
+              UnaryHistory variation ∧ UnaryHistory jumpRead ∧ UnaryHistory meshRead ∧
+                UnaryHistory handoffRead ∧ UnaryHistory terminalRead ∧
+                  Cont variation tagged jumpRead ∧ Cont jumpRead step meshRead ∧
+                    Cont meshRead handoff handoffRead ∧
+                      Cont handoffRead sealRow terminalRead ∧ PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier jumpRoute meshRoute handoffRoute terminalRoute
+  obtain ⟨_regulatedUnary, variationUnary, taggedUnary, stepUnary, handoffUnary, sealUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _regulatedTaggedRoute, _handoffRoute,
+    _replayRoute, namePkg⟩ := carrier
+  have jumpUnary : UnaryHistory jumpRead :=
+    unary_cont_closed variationUnary taggedUnary jumpRoute
+  have meshUnary : UnaryHistory meshRead :=
+    unary_cont_closed jumpUnary stepUnary meshRoute
+  have handoffReadUnary : UnaryHistory handoffRead :=
+    unary_cont_closed meshUnary handoffUnary handoffRoute
+  have terminalUnary : UnaryHistory terminalRead :=
+    unary_cont_closed handoffReadUnary sealUnary terminalRoute
+  exact
+    ⟨variationUnary, jumpUnary, meshUnary, handoffReadUnary, terminalUnary, jumpRoute,
+      meshRoute, handoffRoute, terminalRoute, namePkg⟩
+
 end BEDC.Derived.RiemannStieltjesUp

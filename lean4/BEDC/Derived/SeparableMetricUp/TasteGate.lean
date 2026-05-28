@@ -252,6 +252,25 @@ def SeparableMetricCarrier [AskSetup] [PackageSetup]
                 (fun row : BHist => UnaryHistory row ∧ PkgSig bundle provenance pkg)
                 (fun row row' : BHist => hsame row row')
 
+theorem SeparableMetricCarrier_countable_density_admission [AskSetup] [PackageSetup]
+    {metric dense windows tolerance readback sealRow transports routes provenance
+      localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SeparableMetricCarrier metric dense windows tolerance readback sealRow transports routes
+        provenance localCert bundle pkg ->
+      UnaryHistory metric ∧ UnaryHistory dense ∧ UnaryHistory windows ∧
+        UnaryHistory tolerance ∧ UnaryHistory readback ∧ UnaryHistory sealRow ∧
+          UnaryHistory transports ∧ UnaryHistory routes ∧ UnaryHistory provenance ∧
+            UnaryHistory localCert ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory PkgSig SemanticNameCert
+  intro carrier
+  obtain ⟨metricUnary, denseUnary, windowsUnary, toleranceUnary, readbackUnary, sealUnary,
+    transportsUnary, routesUnary, provenanceUnary, localCertUnary, _denseWindowRoute,
+      _toleranceReadbackRoute, _sealRoute, provenancePkg, _localSemantic⟩ := carrier
+  exact
+    ⟨metricUnary, denseUnary, windowsUnary, toleranceUnary, readbackUnary, sealUnary,
+      transportsUnary, routesUnary, provenanceUnary, localCertUnary, provenancePkg⟩
+
 theorem SeparableMetricCarrier_dense_window_stability [AskSetup] [PackageSetup]
     {metric dense windows tolerance readback sealRow transports routes provenance localCert
       windows' tolerance' consumer : BHist}
