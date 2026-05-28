@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\CauchyModulusFunctorialityUp$}
+\label{ch:concrete-instances-cauchy-modulus-functoriality-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyModulusFunctorialityUp$ packet records the finite data needed to transport displayed Cauchy moduli along a BEDC route without turning that route into a host function equality. It sits between the dyadic tolerance source $\DyadicRatCoreUp$ of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation route $\StreamNameUp$ of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback $\RegSeqRatUp$ of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name seal $\RealUp$ of \autoref{ch:concrete-instances-real-namecert}, the pullback discipline $\CauchyModulusPullbackUp$ of \autoref{ch:concrete-instances-cauchy-modulus-pullback-namecert}, and the regular stability surface $\RegularCauchyModulusStabilityUp$ of \autoref{ch:concrete-instances-regular-cauchy-modulus-stability-namecert}.
+
+\begin{definition}[Cauchy modulus functoriality carrier]
+\label{def:cauchy-modulus-functoriality-carrier}
+A $\CauchyModulusFunctorialityUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,T,R,D,W,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source Cauchy-modulus row, naming the inspected source modulus and its finite request boundary.
+\item $T$ is the target Cauchy-modulus row, naming the target modulus after transport along the displayed route.
+\item $R$ is the route-map row, recording the finite BEDC route that carries source requests to target requests without asserting equality of host functions.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, read through \autoref{ch:concrete-instances-dyadicratcore-namecert}, that keeps each modulus comparison on dyadic rational bounds.
+\item $W$ is the $\StreamNameUp$ finite-window row, read through \autoref{ch:concrete-instances-streamname-namecert}, that records the observation window used by the transported modulus request.
+\item $Q$ is the $\RegSeqRatUp$ readback row, read through \autoref{ch:concrete-instances-regseqrat-namecert}, that turns the transported window into a regular rational comparison.
+\item $E$ is the $\RealUp$ seal, read through \autoref{ch:concrete-instances-real-namecert}, that exposes only the terminal real-name boundary reached by the finite route.
+\item $H$ records componentwise $\hsame$ transport for source modulus, target modulus, route map, dyadic tolerance ledger, StreamName window, RegSeqRat readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a transported modulus request through $S,T,R,D,W,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusFunctorialityUp$, $\CauchyModulusPullbackUp$, $\RegularCauchyModulusStabilityUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyModulusFunctorialityUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host function equality, a selected limit, quotient real equality, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy modulus functoriality NameCert obligations]
+\label{thm:cauchy-modulus-functoriality-namecert-obligations}
+For every accepted $\CauchyModulusFunctorialityUp$ carrier
+$$
+F=(S,T,R,D,W,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyModulusFunctorialityUp}$ obligations are exactly the finite route obligations listed by the carrier: source-modulus admission, target-modulus admission, route-map exposure, dyadic tolerance preservation, StreamName window preservation, RegSeqRat readback preservation, Real-seal non-escape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The route may use the sibling certificates for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyModulusPullbackUp$, and $\RegularCauchyModulusStabilityUp$, but it exports no host function equality, selected limit, quotient real equality, trichotomy, countable choice, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-functoriality-carrier}. The source and target modulus rows are $S,T$, and the finite transport route is the displayed row $R$.
+
+The numeric side is then forced through $D,W,Q$. The dyadic ledger $D$ supplies the tolerance comparisons, the StreamName window $W$ supplies the finite observation boundary, and the RegSeqRat row $Q$ supplies the regular rational readback.
+
+The terminal read is sealed by $E$. It records only the Real-facing boundary reached by the same finite route, so it cannot introduce a selected limit or quotient-real equality.
+
+Finally transport and replay through $H,C,P,N$. These rows preserve the same carrier components under $\hsame$, $\Cont$, package provenance, and local naming. Since the carrier contains no coordinates for host function equality, selected limits, quotient real equality, trichotomy, countable choice, or ambient completeness, the listed NameCert obligations exhaust the packet.
+\end{proof}
+
+\closureat{CauchyModulusFunctorialityUp}{seedStr}
+
+\begin{closurestatus}{\CauchyModulusFunctorialityUp}
+  \constructivestory{A $\CauchyModulusFunctorialityUp$ packet is generated from source and target Cauchy-modulus rows, a finite route-map row, DyadicRatCore tolerance ledgers, StreamName windows, RegSeqRat readback rows, Real seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-functoriality-carrier} and \autoref{thm:cauchy-modulus-functoriality-namecert-obligations} seed the finite modulus-transport certificate over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyModulusPullbackUp$, $\RegularCauchyModulusStabilityUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function equality, selected limits, quotient real equality, trichotomy, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, route-map exposure, dyadic tolerance preservation, StreamName window preservation, RegSeqRat readback preservation, Real-seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyModulusFunctorialityUp.}
+\end{closurestatus}
