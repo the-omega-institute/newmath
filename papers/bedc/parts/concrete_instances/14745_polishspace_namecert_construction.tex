@@ -99,6 +99,42 @@ quotient completion equality, arbitrary open covers, or ambient host sets.
 Hence the six listed rows exhaust the local Polish-space naming obligations.
 \end{proof}
 
+\begin{theorem}[Polish-space StreamName basis]
+\label{thm:polish-space-streamname-basis}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. Every basis-level dense-name read of $P$ factors through the displayed $\StreamNameUp$ row $S$ and the $\RegSeqRatUp$ readback row $R$ before it can be consumed as $\MetricSpaceUp$, $\CompleteMetricUp$, or $\SeparableMetricUp$ evidence. The factorization is supported exactly by the $\BHist$ packet, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $G$, and the local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:polish-space-carrier}. The stream schedule $S$, regular rational readback $R$, and observation ledger $W$ are displayed before any dense-name consumer can read the separable row $D$.
+
+Use \autoref{thm:polish-space-namecert-obligations}. Its observation-exactness clause makes $W$ the only route from a basis request to finite stream positions and regular rational windows, while $H$ keeps the metric, completion, separable, stream, and readback rows on the same accepted packet.
+
+Replay the request through $C$ and source it through $G,N$. Since the carrier has no selected dense sequence, quotient point equality, host complete separable space, or choice-selected oracle coordinate, the basis read is exactly the displayed StreamName and RegSeqRat route.
+\end{proof}
+
+\begin{theorem}[Polish-space complete-separable handoff]
+\label{thm:polish-space-complete-separable-handoff}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. A complete-separable consumer may read $P$ only as the finite handoff from the $\MetricSpaceUp$ row $M$, the $\CompleteMetricUp$ handoff $K$, the $\SeparableMetricUp$ schedule $D$, the $\StreamNameUp$ row $S$, and the $\RegSeqRatUp$ readback row $R$, with $W,H,C,G,N$ preserving observation, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+First expose the carrier rows. The metric row $M$ is the common source, while $K$ and $D$ are only the displayed completion and separability rows over that source.
+
+The StreamName and RegSeqRat rows provide the finite inspection route for the dense schedule and Cauchy-window requests. The ledger $W$ records those inspections, and $H$ transports all five mathematical rows together.
+
+Finally replay the handoff through $C$ and attach $G,N$. The packet contains no host complete separable space, quotient completion equality, choice-selected dense sequence, or ambient $\RealUp$ completeness row, so the complete-separable handoff is bounded by $M,K,D,S,R,W,H,C,G,N$.
+\end{proof}
+
+\begin{theorem}[Polish-space completion nonescape]
+\label{thm:polish-space-completion-nonescape}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. Every completion-facing consumer read factors through the displayed $\CompleteMetricUp$ row $K$, $\StreamNameUp$ row $S$, $\RegSeqRatUp$ readback row $R$, observation ledger $W$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $G$, local $\NameCert$ row $N$, and any terminal $\RealUp$ seal already exposed by those rows. No read escapes to host complete separable spaces, quotient point equality, choice-selected dense sequences, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from a completion-facing request and project the accepted packet. The only completion row is $K$, and its finite windows are recorded through $S,R,W$ before a terminal real-name seal can be consumed.
+
+Apply \autoref{thm:polish-space-namecert-obligations}. Carrier admission and classifier transport keep the completion handoff over the metric source $M$, while observation exactness prevents a completion request from bypassing the stream and regular-rational readback rows.
+
+The structural rows $H,C,G,N$ transport, replay, source, and name that same finite route. Since no coordinate names a host completion, quotient point equality, selected dense sequence, or ambient real-completeness theorem, every completion-facing consumer remains inside the displayed packet.
+\end{proof}
+
 \begin{theorem}[Polish-space dense-schedule root obligation]
 \label{thm:polishspace-dense-schedule-root-obligation}
 Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ carrier. The
