@@ -642,6 +642,16 @@ def verify_propext_still_impure(theorem_fqn: str) -> bool:
     global _PROPEXT_VERIFY_OUTPUT
     if _PROPEXT_VERIFY_OUTPUT is None:
         try:
+            # Resync oleans before reading #print axioms. axiom-purity runs in
+            # the main checkout, where the builder daemon concurrently rebuilds
+            # the shared .lake; a #print-axioms read racing an in-flight rebuild
+            # reports phantom propext violations (observed 2026-05-29: this guard
+            # flagged HausdorffMetricTasteGate_single_carrier_alignment impure and
+            # dispatched per-theorem codex heals every cycle while a full-tree run
+            # was simultaneously pure=19661 impure=0). A fresh lake build pins a
+            # consistent olean set so the guard reads true state, not a race.
+            run(["lake", "build"], cwd=REPO_ROOT / "lean4", check=False,
+                capture=True, timeout=600)
             res = run(
                 [
                     "python3",
