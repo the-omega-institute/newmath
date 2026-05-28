@@ -92,6 +92,73 @@ theorem RepresentedSpaceCarrier_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, nameScheduleReplay, relationTargetTransport, provenancePkg⟩
 
+theorem RepresentedSpaceCarrier_representation_relation_exactness [AskSetup] [PackageSetup]
+    {name schedule relation target transport replay provenance localName relationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.RepresentedSpaceUp name schedule relation target transport replay
+        provenance localName bundle pkg →
+      Cont relation target relationRead →
+        PkgSig bundle relationRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row transport ∨ hsame row relationRead)
+              (fun row : BHist =>
+                hsame row relation ∨ hsame row target ∨ hsame row transport ∨
+                  hsame row relationRead)
+              (fun _row : BHist => PkgSig bundle provenance pkg ∧ PkgSig bundle relationRead pkg)
+              hsame ∧
+            UnaryHistory relationRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier relationReadRoute relationReadPkg
+  obtain ⟨_nameUnary, _scheduleUnary, relationUnary, targetUnary, _transportUnary,
+    _replayUnary, _provenanceUnary, _localNameUnary, _nameScheduleReplay,
+    relationTargetTransport, _localNameTransport, provenancePkg⟩ := carrier
+  have relationReadUnary : UnaryHistory relationRead :=
+    unary_cont_closed relationUnary targetUnary relationReadRoute
+  have transportSameRelationRead : hsame transport relationRead :=
+    cont_respects_hsame (hsame_refl relation) (hsame_refl target) relationTargetTransport
+      relationReadRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row transport ∨ hsame row relationRead)
+          (fun row : BHist =>
+            hsame row relation ∨ hsame row target ∨ hsame row transport ∨
+              hsame row relationRead)
+          (fun _row : BHist => PkgSig bundle provenance pkg ∧ PkgSig bundle relationRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro transport (Or.inl (hsame_refl transport))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases source with
+        | inl sameTransport =>
+            exact Or.inl (hsame_trans (hsame_symm sameRows) sameTransport)
+        | inr sameRelationRead =>
+            exact Or.inr (hsame_trans (hsame_symm sameRows) sameRelationRead)
+    }
+    pattern_sound := by
+      intro _row source
+      cases source with
+      | inl sameTransport =>
+          exact Or.inr (Or.inr (Or.inl sameTransport))
+      | inr sameRelationRead =>
+          exact Or.inr (Or.inr (Or.inr sameRelationRead))
+    ledger_sound := by
+      intro _row _source
+      exact ⟨provenancePkg, relationReadPkg⟩
+  }
+  have _relationReadTransportExact : hsame relationRead transport :=
+    hsame_symm transportSameRelationRead
+  exact ⟨cert, relationReadUnary⟩
+
 end RepresentedSpaceUp
 
 end BEDC.Derived
