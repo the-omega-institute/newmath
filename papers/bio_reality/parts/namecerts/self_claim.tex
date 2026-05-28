@@ -1,5 +1,60 @@
-\subsection{NameCert: self.claim}
-\label{sec:namecert-self_claim}
+\subsection{Boundary Status of an ORF-Eligibility Seed}\label{sec:bioreality-self-claim-orEligibility-boundary}
 \origin{ai}
 
-This BioReality namecert is awaiting codex re-authoring. Most recent attempt failed the chapter hygiene gate; issues recorded: template\_residue: BEDC 5-tuple, template\_residue: lean target sketch (statement-only), template\_residue: internal newmath/bedc derivation, template\_residue: bridge disclaimer, template\_residue: external reality sources. The committed registry record at \path{tools/bio\_reality/registries/claims.json} still tracks the underlying claim self.claim and its experiment runs.
+\paragraph{Finite-row object.}
+This BioReality record concerns the claimed layer $\mathrm{orf\_eligibility}$ for open-reading-frame eligibility from start/stop codon enumeration.  The record is deliberately not a biological ORF claim.  Its carrier is recorded as awaiting reality contact, its only listed distinction is awaiting reality contact, its internal structure is none, and its readback is awaiting reality contact.  Thus the finite packet is a seed boundary object: it records what would have to be tested before an ORF-eligibility assertion could be made, but it does not itself supply the external sequence, transcript, or curated interval needed for that test.
+
+\paragraph{Codon-row evidence retained inside the boundary.}
+The finite codon geometry attached to the packet is concrete.  In fact $\mathrm{h0.R.motif.compression}$, verified in run $338799579a87$, records the thirteen-row set
+$$
+\begin{aligned}
+R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\\
+&\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\},
+\end{aligned}
+$$
+with no missing rows and no extra rows relative to the motif union.  The record $\mathrm{h0.M.equals.WNR.CUN}$, verified in run $a53ef0f36703$, gives a twenty-row set
+$$
+\begin{aligned}
+M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
+&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
+\end{aligned}
+$$
+and separately records $|M|=20$.  These rows are admissible as finite BEDC coordinates for the packet.  They are not, by themselves, admissible as observed biological intervals.
+
+\paragraph{Saturation and quotient data.}
+The record $\mathrm{h0.f3.saturation}$, verified in run $f4eee68dd2c3$, gives the equality $M=\mathrm{Med}(R)\cup\{\mathrm{ACA}\}$ with the same twenty rows listed for $M$.  It also records
+$$
+\begin{aligned}
+\mathrm{Sat}_{f3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
+&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
+\end{aligned}
+$$
+so the saturation omits exactly the two displayed $M$ rows $\mathrm{ACA}$ and $\mathrm{ACG}$, and the recorded $f3$ boundary is empty.  The quotient geometry record $\mathrm{h0.quotient.geometry}$, verified in run $fd0a506a0881$, gives the $M$ face vector
+$$
+\begin{aligned}
+(20,38,26,8,1),
+\end{aligned}
+$$
+the quotient face vector
+$$
+\begin{aligned}
+(10,14,6,1),
+\end{aligned}
+$$
+and quotient size $10$.  It also records ten quotient rows,
+$$
+\begin{aligned}
+& (0,0,0,0,1),\ (0,0,0,1,1),\ (0,0,1,0,1),\ (0,0,1,1,1),\ (0,1,0,0,0),\\
+& (0,1,0,1,1),\ (1,0,0,0,1),\ (1,0,0,1,1),\ (1,0,1,0,1),\ (1,0,1,1,1).
+\end{aligned}
+$$
+The product-decomposition field is empty in the finite row data.  This absence is not interpreted as a biological negative result; it only says that this packet does not carry a product-decomposition witness.
+
+\paragraph{Self-check gate.}
+The self-check record $\mathrm{self.claim}$, verified in run $0f47d2f0cf41$, states the boundary as follows: BioReality self-check only; no codon geometry is promoted across biological layers.  The same self-check records checked gate count $3$.  In this section that count is read only as a finite internal gate count for the boundary packet.  It is not read as a validation count for an organism, gene, transcript, protein product, folding class, phenotype, mechanism, or conserved biological role.
+
+\paragraph{Probe meaning.}
+The two probes attached to the packet are boundary-mismatch probes.  The probe $\mathrm{orf.eligibility.boundary.requires.contact}$ says that a start/stop-window ORF-eligibility seed must remain at boundary status unless an external sequence or transcript contact supplies the observed biological interval.  Its break condition is the assertion of ORF eligibility, translation realization, folded structure, physical admissibility, or biological function from start/stop-window enumeration alone.  The probe $\mathrm{orf.eligibility.contact.gap.check}$ gives the same restriction in contact-gap form: the packet breaks if it records an ORF-eligibility claim while no sequence database, transcript evidence, or curated annotation contact can test the proposed interval.  Both probes require a curated ORF interval annotation contact, and the contact list for the present record is empty.
+
+\paragraph{Cannot-claim boundary.}
+Consequently this packet has a sharp local boundary.  The finite rows $R$, $M$, $\mathrm{Sat}_{f3}(R)$, the face vectors, the quotient rows, the quotient size $10$, and the self-check gate count $3$ may be cited as finite-row data for this BioReality seed.  They do not imply translation, folding, physical admissibility, biological function, biochemical mechanism, evolutionary universality, or even observed ORF eligibility.  None of those claims follows unless a separate reality contact supplies a concrete biological interval and an appropriate test path for the claimed layer.  Until such contact is attached, the mathematically valid status is exactly boundary status: the packet says what would have to be checked, not that the biological object has already been realized.
