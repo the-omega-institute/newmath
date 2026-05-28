@@ -610,6 +610,7 @@ import BEDC.Derived.BaireCategoryUp.CountableChoiceBoundary
 import BEDC.Derived.BaireCategoryUp.CountableChoiceRefusal
 import BEDC.Derived.BaireCategoryUp.DenseOpenScheduleScope
 import BEDC.Derived.BaireCategoryUp.DenseOpenThreadObligation
+import BEDC.Derived.BaireCategoryUp.DenseOpenThreadTotality
 import BEDC.Derived.BaireCategoryUp.FiniteMeetDensityHandoff
 import BEDC.Derived.BaireCategoryUp.FiniteScheduleChoiceFreeInduction
 import BEDC.Derived.BaireCategoryUp.LimitThreadNonescape
@@ -5479,6 +5480,7 @@ import BEDC.Derived.RealPlaneUp
 import BEDC.Derived.RealPolynomialUp.TasteGate
 import BEDC.Derived.RealPowerSeriesUp
 import BEDC.Derived.RealPowerSeriesUp.CauchyProductHandoff
+import BEDC.Derived.RealPowerSeriesUp.CoefficientProductRadiusExhaustion
 import BEDC.Derived.RealPowerSeriesUp.CoefficientTailObligations
 import BEDC.Derived.RealPowerSeriesUp.CoefficientWindowLedger
 import BEDC.Derived.RealPowerSeriesUp.EndpointNonescapeTriad
