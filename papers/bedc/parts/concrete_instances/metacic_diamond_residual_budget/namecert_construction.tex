@@ -93,6 +93,77 @@ therefore still reads through $T,F,R,S,J,E,L,D,H,P,N$ and cannot promote the
 budget extension into the refused endpoint claims.
 \end{proof}
 
+\begin{theorem}[MetaCIC residual-budget frontier accounting]
+\label{thm:metacic-diamond-residual-budget-obligation-frontier-accounting}
+For every accepted $\MetaCICDiamondResidualBudgetUp$ carrier
+$B=(T,F,R,J,S,E,L,D,H,C,P,N)$, the typed-window row $T$, redex-frontier row
+$F$, residual-budget row $R$, and substitution-boundary row $S$ must be
+displayed before $J$ is a valid candidate-join row. A consumer that reads $J$
+without the prior $T,F,R,S$ accounting is outside the accepted residual-budget
+carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:metacic-diamond-residual-budget-carrier}. The candidate-join
+coordinate $J$ is not a primitive endpoint theorem; it is listed after typed
+windows, redex frontiers, residual budgets, and the visible substitution
+boundary.
+
+Apply
+\autoref{thm:metacic-diamond-residual-budget-endpoint-boundary}. The displayed
+route places $T,F,R,S$ before $J$, and the endpoint boundary prevents the join
+row from being read as a premise-free confluence theorem.
+
+Thus $J$ is valid only as a candidate-join row mediated by the frontier and
+budget accounting rows already displayed in the carrier.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-budget candidate-join visibility]
+\label{thm:metacic-diamond-residual-budget-obligation-candidate-join-visibility}
+Every consumer of the candidate-join row $J$ in an accepted
+$\MetaCICDiamondResidualBudgetUp$ packet must also expose the residual-envelope
+handoff $E$, closed-premise-ledger handoff $L$, local-diamond handoff $D$, and
+the structural rows $H,C,P,N$. The candidate join is therefore consumed only
+through the displayed sibling handoffs and local NameCert structure.
+\end{theorem}
+\begin{proof}
+Project the same carrier. The rows following $J$ are precisely the sibling
+handoffs $E,L,D$ and the structural rows $H,C,P,N$.
+
+Use \autoref{thm:metacic-diamond-residual-budget-endpoint-boundary}. Its route
+continues from $J$ through $E,L,D$ and then through the transport, replay,
+provenance, and naming rows.
+
+Therefore a consumer of $J$ must keep the residual envelope, closed premise
+ledger, local diamond witness, and local structural surface visible. Nothing
+in the carrier permits a bare candidate-join read detached from those rows.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-budget endpoint non-escape]
+\label{thm:metacic-diamond-residual-budget-obligation-endpoint-nonescape}
+No accepted $\MetaCICDiamondResidualBudgetUp$ packet proves
+$\mathsf{BetaParallelSubstitutionCompatibility}$, full parallel diamond, or
+arbitrary closed Church--Rosser. The packet exposes only typed windows, redex
+frontiers, residual budgets, candidate joins, substitution-boundary visibility,
+sibling handoffs, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:metacic-diamond-residual-budget-carrier}. Its coordinates are
+$T,F,R,J,S,E,L,D,H,C,P,N$, and none of them is an endpoint proof row for
+substitution compatibility, full parallel diamond, or closed Church--Rosser.
+
+Apply
+\autoref{thm:metacic-diamond-residual-budget-endpoint-boundary}. The endpoint
+boundary states that confluence consumers remain on the displayed
+residual-budget route and may not promote candidate joins or residual
+envelopes into the refused endpoint claims.
+
+Transport, replay, provenance, and naming preserve the same finite packet.
+They do not add endpoint proof data, so the three endpoint claims remain
+outside the accepted certificate.
+\end{proof}
+
 \falsifiablePrediction{A confluence packet that omits either the residual-budget row $R$ or the candidate-join row $J$ is rejected as a $\MetaCICDiamondResidualBudgetUp$ packet, even when it carries local diamond, residual-envelope, or closed-premise-ledger rows.}
 
 \independenceWitness{metacic-local-diamond-witness, metacic-confluence-residual-envelope, metacic-confluence-substitution-boundary, closed-parallel-diamond-premise-ledger: $\MetaCICDiamondResidualBudgetUp$ is not bijective to any listed sibling because it binds typed windows, redex frontiers, residual-budget accounting, candidate joins, a visible substitution boundary, residual envelope, premise ledger, local diamond witness, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ into one finite confluence-facing packet.}

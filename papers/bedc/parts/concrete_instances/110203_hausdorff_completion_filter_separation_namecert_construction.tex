@@ -41,6 +41,34 @@ Read the two seals in order. The $\MetricCompletionUp$ seal $M$ records the metr
 The structural rows do not add new completion data. Componentwise $\hsame$ transport $T$, displayed $\Cont$ replay $Q$, $\Pkg$ provenance $P$, and local naming $N$ preserve the same packet, so the exported route is exactly the separated Cauchy-filter completion route and no stronger ambient principle is available.
 \end{proof}
 
+\begin{theorem}[Hausdorff completion filter separation stability]
+\label{thm:hausdorff-completion-filter-separation-obligation-separation-stability}
+For every accepted $\HausdorffCompletionFilterSeparationUp$ carrier $(F,H,S,C,M,R,T,Q,P,N)$, componentwise $\hsame$ transport preserves the displayed order
+$$
+F \longmapsto H,S,C \longmapsto M,R \longmapsto T,Q,P,N .
+$$
+Hausdorff separation therefore remains upstream of the $\MetricCompletionUp$ and $\RealUp$ seals whenever the packet is transported or replayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hausdorff-completion-filter-separation-carrier}. The Cauchy-filter completion source is $F$, the separation and separated-completion rows are $H,S,C$, and the completion-facing seals are $M,R$.
+
+Use \autoref{thm:hausdorff-completion-filter-separation-namecert-obligations}. Its transport and replay clause assigns $T$ and $Q$ to the same finite packet rather than to a new completion source.
+
+Thus transporting the packet preserves the route from $F$ through $H,S,C$ before $M,R$ are read. The structural rows $T,Q,P,N$ record stability, replay, provenance, and naming after the separation rows have already been displayed.
+\end{proof}
+
+\begin{theorem}[Hausdorff completion filter Real seal non-escape]
+\label{thm:hausdorff-completion-filter-separation-seal-nonescape}
+For every accepted $\HausdorffCompletionFilterSeparationUp$ carrier $(F,H,S,C,M,R,T,Q,P,N)$, the $\RealUp$ seal row $R$ cannot be read as a quotient-filter construction, selected representative, countable-choice limit selector, host equality of completion points, or ambient $\RealUp$ completeness. It seals only the displayed completion route that has already passed through $F,H,S,C,M$ and the structural rows $T,Q,P,N$.
+\end{theorem}
+\begin{proof}
+Project the same carrier. The only Real-facing coordinate is $R$, and it appears after the Cauchy-filter source, Hausdorff row, separated-completion handoff, and metric-completion seal.
+
+Apply \autoref{thm:hausdorff-completion-filter-separation-namecert-obligations}. The obligations identify $R$ as a seal agreement row for the displayed packet, while the transport, replay, provenance, and naming rows preserve that packet without adding new Real data.
+
+No coordinate stores quotient-filter construction, a selected representative, a countable-choice limit selector, host equality, or ambient Real completeness. The seal therefore cannot escape the displayed separated-filter route.
+\end{proof}
+
 \begin{closurestatus}{\HausdorffCompletionFilterSeparationUp}
   \constructivestory{A $\HausdorffCompletionFilterSeparationUp$ packet is generated from Cauchy-filter completion data, Hausdorff separation data, separated-completion handoff data, MetricCompletion and Real seals, componentwise transport, continuation replay, package provenance, and local naming.}
   \theoryclosure{\seedClosure}
