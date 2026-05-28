@@ -228,6 +228,56 @@ theorem NetConvergenceCarrier_stream_readback_route
   exact
     ⟨sameF, sameS, sameR, sameL, streamRoute, sealRoute, sealSame, fields⟩
 
+theorem NetConvergenceCarrier_boundary_readback
+    {D T E A F S R L H C P M cauchyRead realRead : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M ->
+      Cont D T E ->
+        Cont E F cauchyRead ->
+          Cont F S realRead ->
+            Cont realRead R L ->
+              hsame cauchyRead D ->
+                hsame L D ->
+                  SemanticNameCert
+                      (fun row : BHist =>
+                        hsame row D ∧ NetConvergenceCarrier D T E A F S R L H C P M)
+                      (fun row : BHist => Cont D T E ∧ Cont E F cauchyRead ∧ hsame row D)
+                      (fun row : BHist => Cont F S realRead ∧ Cont realRead R L ∧ hsame row D)
+                      hsame ∧
+                    Cont D T E ∧ Cont E F cauchyRead ∧ Cont F S realRead ∧
+                      Cont realRead R L := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  intro carrier directedTail cauchyRoute realRoute realSeal cauchySame boundarySame
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row D ∧ NetConvergenceCarrier D T E A F S R L H C P M)
+          (fun row : BHist => Cont D T E ∧ Cont E F cauchyRead ∧ hsame row D)
+          (fun row : BHist => Cont F S realRead ∧ Cont realRead R L ∧ hsame row D)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro D ⟨hsame_refl D, carrier⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨directedTail, cauchyRoute, source.left⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨realRoute, realSeal, source.left⟩
+  }
+  exact ⟨cert, directedTail, cauchyRoute, realRoute, realSeal⟩
+
 theorem NetConvergenceCarrier_entourage_tail_stability
     {D T E A F S R L H C P M D' T' E' A' F' S' R' L' H' C' P' M' handoff
       handoff' : BHist} :
