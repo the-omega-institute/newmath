@@ -16,14 +16,12 @@ inductive BanachAlgebraUp : Type where
       BanachAlgebraUp
   deriving DecidableEq
 
-def BanachAlgebraTasteGate_single_carrier_alignment_encodeBHist : BHist → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
+def BanachAlgebraTasteGate_single_carrier_alignment_encodeBHist : BHist -> RawEvent
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: BanachAlgebraTasteGate_single_carrier_alignment_encodeBHist h
   | BHist.e1 h => BMark.b1 :: BanachAlgebraTasteGate_single_carrier_alignment_encodeBHist h
 
-def BanachAlgebraTasteGate_single_carrier_alignment_decodeBHist : RawEvent → BHist
-  -- BEDC touchpoint anchor: BHist BMark
+def BanachAlgebraTasteGate_single_carrier_alignment_decodeBHist : RawEvent -> BHist
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0
       (BanachAlgebraTasteGate_single_carrier_alignment_decodeBHist tail)
@@ -31,11 +29,10 @@ def BanachAlgebraTasteGate_single_carrier_alignment_decodeBHist : RawEvent → B
       (BanachAlgebraTasteGate_single_carrier_alignment_decodeBHist tail)
 
 private theorem BanachAlgebraTasteGate_single_carrier_alignment_decode_encode :
-    ∀ h : BHist,
+    forall h : BHist,
       BanachAlgebraTasteGate_single_carrier_alignment_decodeBHist
           (BanachAlgebraTasteGate_single_carrier_alignment_encodeBHist h) =
         h := by
-  -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
   | Empty => rfl
@@ -43,24 +40,20 @@ private theorem BanachAlgebraTasteGate_single_carrier_alignment_decode_encode :
   | e1 h ih => exact congrArg BHist.e1 ih
 
 def BanachAlgebraTasteGate_single_carrier_alignment_fields :
-    BanachAlgebraUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
+    BanachAlgebraUp -> List BHist
   | BanachAlgebraUp.mk ring norm banach productControl completionSeal transport replay
       provenance localName =>
       [ring, norm, banach, productControl, completionSeal, transport, replay, provenance,
         localName]
 
 def BanachAlgebraTasteGate_single_carrier_alignment_toEventFlow :
-    BanachAlgebraUp → EventFlow :=
-  -- BEDC touchpoint anchor: BHist BMark
+    BanachAlgebraUp -> EventFlow :=
   fun x =>
     (BanachAlgebraTasteGate_single_carrier_alignment_fields x).map
       BanachAlgebraTasteGate_single_carrier_alignment_encodeBHist
 
 def BanachAlgebraTasteGate_single_carrier_alignment_fromEventFlow :
-    EventFlow → Option BanachAlgebraUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  fun
+    EventFlow -> Option BanachAlgebraUp
   | ring :: norm :: banach :: productControl :: completionSeal :: transport :: replay ::
       provenance :: localName :: [] =>
       some
@@ -77,11 +70,10 @@ def BanachAlgebraTasteGate_single_carrier_alignment_fromEventFlow :
   | _ => none
 
 private theorem BanachAlgebraTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : BanachAlgebraUp,
+    forall x : BanachAlgebraUp,
       BanachAlgebraTasteGate_single_carrier_alignment_fromEventFlow
           (BanachAlgebraTasteGate_single_carrier_alignment_toEventFlow x) =
         some x := by
-  -- BEDC touchpoint anchor: BHist BMark
   intro token
   cases token with
   | mk ring norm banach productControl completionSeal transport replay provenance localName =>
@@ -93,9 +85,8 @@ private theorem BanachAlgebraTasteGate_single_carrier_alignment_round_trip :
 private theorem BanachAlgebraTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : BanachAlgebraUp} :
     BanachAlgebraTasteGate_single_carrier_alignment_toEventFlow x =
-        BanachAlgebraTasteGate_single_carrier_alignment_toEventFlow y →
+        BanachAlgebraTasteGate_single_carrier_alignment_toEventFlow y ->
       x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
   intro hxy
   have optionEq : some x = some y := by
     calc
@@ -111,30 +102,27 @@ private theorem BanachAlgebraTasteGate_single_carrier_alignment_toEventFlow_inje
   exact Option.some.inj optionEq
 
 private theorem BanachAlgebraTasteGate_single_carrier_alignment_field_faithful :
-    ∀ x y : BanachAlgebraUp,
+    forall x y : BanachAlgebraUp,
       BanachAlgebraTasteGate_single_carrier_alignment_fields x =
-          BanachAlgebraTasteGate_single_carrier_alignment_fields y →
+          BanachAlgebraTasteGate_single_carrier_alignment_fields y ->
         x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk ring₁ norm₁ banach₁ productControl₁ completionSeal₁ transport₁ replay₁
-      provenance₁ localName₁ =>
+  | mk ring1 norm1 banach1 productControl1 completionSeal1 transport1 replay1
+      provenance1 localName1 =>
       cases y with
-      | mk ring₂ norm₂ banach₂ productControl₂ completionSeal₂ transport₂ replay₂
-          provenance₂ localName₂ =>
+      | mk ring2 norm2 banach2 productControl2 completionSeal2 transport2 replay2
+          provenance2 localName2 =>
           cases hfields
           rfl
 
 instance BanachAlgebraTasteGate_single_carrier_alignment_BHistCarrier :
     BHistCarrier BanachAlgebraUp where
-  -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := BanachAlgebraTasteGate_single_carrier_alignment_toEventFlow
   fromEventFlow := BanachAlgebraTasteGate_single_carrier_alignment_fromEventFlow
 
 instance BanachAlgebraTasteGate_single_carrier_alignment_ChapterTasteGate :
     ChapterTasteGate BanachAlgebraUp where
-  -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change
@@ -148,13 +136,11 @@ instance BanachAlgebraTasteGate_single_carrier_alignment_ChapterTasteGate :
 
 instance BanachAlgebraTasteGate_single_carrier_alignment_FieldFaithful :
     FieldFaithful BanachAlgebraUp where
-  -- BEDC touchpoint anchor: BHist BMark
   fields := BanachAlgebraTasteGate_single_carrier_alignment_fields
   field_faithful := BanachAlgebraTasteGate_single_carrier_alignment_field_faithful
 
 instance BanachAlgebraTasteGate_single_carrier_alignment_Nontrivial :
     Nontrivial BanachAlgebraUp where
-  -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨BanachAlgebraUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
@@ -166,11 +152,10 @@ instance BanachAlgebraTasteGate_single_carrier_alignment_Nontrivial :
 
 def BanachAlgebraTasteGate_single_carrier_alignment_taste_gate :
     ChapterTasteGate BanachAlgebraUp :=
-  -- BEDC touchpoint anchor: BHist BMark
   BanachAlgebraTasteGate_single_carrier_alignment_ChapterTasteGate
 
 theorem BanachAlgebraTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
+    (forall h : BHist,
       BanachAlgebraTasteGate_single_carrier_alignment_decodeBHist
           (BanachAlgebraTasteGate_single_carrier_alignment_encodeBHist h) =
         h) ∧
@@ -179,7 +164,6 @@ theorem BanachAlgebraTasteGate_single_carrier_alignment :
             BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
         [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
           BHist.Empty, BHist.Empty, BHist.Empty] := by
-  -- BEDC touchpoint anchor: BHist BMark
   exact ⟨BanachAlgebraTasteGate_single_carrier_alignment_decode_encode, rfl⟩
 
 end BEDC.Derived.BanachAlgebraUp
