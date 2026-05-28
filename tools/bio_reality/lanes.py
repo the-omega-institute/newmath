@@ -1656,6 +1656,30 @@ def _load_writeback_lane_config() -> dict[str, Any]:
     return {}
 
 
+def _load_writeback_heal_config() -> dict[str, Any]:
+    raw = _load_pipeline_config().get("writeback_heal")
+    config = raw if isinstance(raw, dict) else {}
+    return {
+        "enabled": bool(config.get("enabled", True)),
+        "max_attempts": max(1, int(config.get("max_attempts", 2))),
+        "timeout_seconds": max(1, int(config.get("timeout_seconds", 600))),
+        "recurring_threshold": max(1, int(config.get("recurring_threshold", 3))),
+        "recurring_window_seconds": max(1, int(config.get("recurring_window_seconds", 21600))),
+        "path_whitelist_prefix": str(config.get("path_whitelist_prefix") or "papers/bio_reality/"),
+    }
+
+
+def _tex_env() -> dict[str, str]:
+    env = os.environ.copy()
+    tex_candidates = ["/Library/TeX/texbin", "/usr/local/texlive/2026basic/bin/universal-darwin", "/usr/local/texlive/2025basic/bin/universal-darwin"]
+    existing_path = env.get("PATH", "")
+    for tex_dir in tex_candidates:
+        if Path(tex_dir).exists() and tex_dir not in existing_path:
+            existing_path = f"{tex_dir}:{existing_path}" if existing_path else tex_dir
+    env["PATH"] = existing_path
+    return env
+
+
 def _run_command(repo_root: Path, cmd: list[str], *, timeout: float = 60.0) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         cmd,
@@ -3040,6 +3064,8 @@ def _codex_chapter_gate_issues(
         issues.append(r"chapter missing \origin{ai}")
     if r"\autoref{" in chapter_text:
         issues.append(r"chapter contains forbidden \autoref")
+    if re.search(r"\\(?:chapter|section|part)\b", chapter_text):
+        issues.append(r"chapter contains forbidden top-level sectioning (\chapter/\section/\part); use \subsection or deeper")
     issues.extend(bedc_writeback_gates.no_top_level_math_envs(chapter_text))
     issues.extend(bedc_writeback_gates.no_naked_leanstmt(chapter_text))
     return issues
@@ -3074,6 +3100,229 @@ def _codex_written_content(
             break
         corrective_feedback = issues
     return None
+
+
+def _run_writeback_make_check(paper_dir: Path) -> tuple[int, str]:
+    try:
+        completed = subprocess.run(
+            ["make", "check"],
+            cwd=paper_dir,
+            env=_tex_env(),
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=300.0,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return 124, str(exc)
+    return completed.returncode, (completed.stdout or "") + (completed.stderr or "")
+
+
+def _writeback_heal_state_path(store: BioRealityStore) -> Path:
+    return store.paths.root / "state" / "writeback_heal_signatures.jsonl"
+
+
+def _last_bio_reality_tex_file(output: str) -> str:
+    matches = re.findall(r"\(\.?/?(parts/[^()\s]*\.tex|papers/bio_reality/[^()\s]*\.tex)", output)
+    if not matches:
+        matches = re.findall(r"(\.?/?parts/[^:\s()]*\.tex|\bpapers/bio_reality/[^:\s()]*\.tex)", output)
+    if not matches:
+        return ""
+    rel = matches[-1].lstrip("./")
+    if rel.startswith("papers/bio_reality/"):
+        return rel
+    return f"papers/bio_reality/{rel}"
+
+
+def _writeback_heal_macro(output: str) -> str:
+    line_match = re.search(r"l\.\d+\s+(\\[A-Za-z@]+)", output)
+    if line_match:
+        return line_match.group(1)
+    control_match = re.search(r"Undefined control sequence\.\s*(?:\n.*?)*?\n\s*(\\[A-Za-z@]+)", output)
+    if control_match:
+        return control_match.group(1)
+    return hashlib.sha256(_tail_text(output, 800).encode("utf-8")).hexdigest()[:16]
+
+
+def _parse_writeback_heal_error(output: str, paper_dir: Path) -> dict[str, str]:
+    combined = output
+    log_path = paper_dir / "main.log"
+    if log_path.exists():
+        try:
+            combined = combined + "\n" + log_path.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            pass
+    if "! Undefined control sequence." in combined:
+        category = "undefined_control_sequence"
+    elif "Missing $ inserted" in combined:
+        category = "missing_dollar"
+    elif "Extra }, or forgotten" in combined or "Extra }" in combined:
+        category = "extra_brace"
+    elif re.search(r"File `[^']+' not found", combined) or "I can't find file" in combined or "Emergency stop" in combined and r"\input" in combined:
+        category = "file_not_found"
+    else:
+        category = "other"
+    rel_file = _last_bio_reality_tex_file(combined)
+    macro_or_hash = _writeback_heal_macro(combined)
+    signature = f"{category}:{rel_file or 'unknown'}:{macro_or_hash}"
+    return {
+        "category": category,
+        "rel_file": rel_file,
+        "macro_or_hash": macro_or_hash,
+        "signature": signature,
+        "tail": _tail_text(combined, 4000),
+    }
+
+
+def _append_writeback_heal_record(store: BioRealityStore, record: dict[str, Any]) -> None:
+    append_jsonl(_writeback_heal_state_path(store), [{"ts": now_iso(), **record}])
+
+
+def _writeback_heal_recent_count(store: BioRealityStore, signature: str, window_seconds: int) -> int:
+    cutoff = time.time() - window_seconds
+    count = 0
+    for record in read_jsonl(_writeback_heal_state_path(store)):
+        if str(record.get("signature") or "") != signature:
+            continue
+        if _parse_iso_seconds(record.get("ts")) >= cutoff and str(record.get("action") or "") in {"attempt", "healed", "unresolved", "whitelist_violation", "codex_failed"}:
+            count += 1
+    return count
+
+
+def _writeback_heal_prompt(rel_file: str, content: str, error_tail: str) -> str:
+    return "\n".join(
+        [
+            "# Task",
+            "Repair exactly one LaTeX compile error in a BioReality paper source file.",
+            "",
+            "# Project constraints",
+            "- The paper uses documentclass article; top-level \\chapter, \\section, and \\part are forbidden inside namecert or conjecture body files.",
+            "- Use \\subsection or deeper sectioning only.",
+            "- Do not use \\autoref.",
+            "- Display math must use $$...$$, with each $$ on its own line.",
+            "- FooUp-style math macros must appear inside math mode.",
+            "- Preserve the NameCert structure, semantic claims, origin marker, labels, and local evidence boundaries.",
+            "- Fix only the shown compile error; do not add new theory, citations, or unrelated prose.",
+            "",
+            f"# File: {rel_file}",
+            "```tex",
+            content,
+            "```",
+            "",
+            "# pdflatex error tail",
+            "```text",
+            error_tail,
+            "```",
+            "",
+            "# Output schema",
+            'Return exactly one JSON object: {"fixed_content": "<complete corrected file content>", "note": "short note"}',
+        ]
+    )
+
+
+def _parse_writeback_heal_json(stdout: str) -> dict[str, Any] | None:
+    parsed = _extract_json_object_from_text(_extract_codex_event_text(stdout))
+    if not isinstance(parsed, dict):
+        return None
+    if not isinstance(parsed.get("fixed_content"), str):
+        return None
+    if not isinstance(parsed.get("note"), str):
+        parsed["note"] = ""
+    return parsed
+
+
+def _run_writeback_heal_codex(prompt: str, repo_root: Path, timeout_seconds: int) -> tuple[dict[str, Any] | None, str, str]:
+    try:
+        completed = subprocess.run(
+            [
+                "codex",
+                "exec",
+                "--dangerously-bypass-approvals-and-sandbox",
+                "--sandbox",
+                "read-only",
+                "--json",
+                "-C",
+                str(repo_root),
+                "-",
+            ],
+            input=prompt,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=timeout_seconds,
+            check=False,
+        )
+    except (subprocess.TimeoutExpired, OSError) as exc:
+        return None, "", f"subprocess_error: {exc}"
+    if completed.returncode != 0:
+        return None, completed.stdout or "", completed.stderr or ""
+    return _parse_writeback_heal_json(completed.stdout or ""), completed.stdout or "", completed.stderr or ""
+
+
+def run_writeback_heal_lane(store: BioRealityStore) -> dict[str, Any]:
+    try:
+        config = _load_writeback_heal_config()
+        if not config["enabled"]:
+            return {"lane": "bio-H", "skipped": "disabled"}
+        repo_root = store.paths.root.parent.parent
+        paper_dir = store.paths.paper_main.parent
+        if not (paper_dir / "Makefile").exists():
+            return {"lane": "bio-H", "skipped": "no_makefile"}
+        returncode, output = _run_writeback_make_check(paper_dir)
+        if returncode == 0:
+            return {"lane": "bio-H", "status": "clean"}
+        error = _parse_writeback_heal_error(output, paper_dir)
+        signature = error["signature"]
+        if _writeback_heal_recent_count(store, signature, int(config["recurring_window_seconds"])) >= int(config["recurring_threshold"]):
+            _append_writeback_heal_record(store, {"signature": signature, "action": "recurring_skip"})
+            return {"lane": "bio-H", "status": "recurring_skip", "signature": signature, "category": error["category"], "attempts": 0}
+
+        attempts = 0
+        last_error = error
+        for attempt in range(1, int(config["max_attempts"]) + 1):
+            rel_file = last_error.get("rel_file") or ""
+            if not rel_file:
+                _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "unresolved", "reason": "no_target_file"})
+                return {"lane": "bio-H", "status": "unresolved", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts}
+            if not rel_file.startswith(str(config["path_whitelist_prefix"])):
+                _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "whitelist_violation", "rel_file": rel_file})
+                return {"lane": "bio-H", "status": "unresolved", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts, "reason": "whitelist_violation"}
+            repo_resolved = repo_root.resolve()
+            whitelist_root = (repo_resolved / str(config["path_whitelist_prefix"])).resolve()
+            target = (repo_resolved / rel_file).resolve()
+            try:
+                target.relative_to(repo_resolved)
+                target.relative_to(whitelist_root)
+            except ValueError:
+                _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "whitelist_violation", "rel_file": rel_file})
+                return {"lane": "bio-H", "status": "unresolved", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts, "reason": "whitelist_violation"}
+            try:
+                content = target.read_text(encoding="utf-8")
+            except OSError as exc:
+                _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "unresolved", "reason": str(exc)})
+                return {"lane": "bio-H", "status": "unresolved", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts, "error": str(exc)}
+            attempts = attempt
+            _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "attempt", "attempt": attempt, "rel_file": rel_file})
+            prompt = _writeback_heal_prompt(rel_file, content, last_error.get("tail") or "")
+            parsed, raw_stdout, raw_stderr = _run_writeback_heal_codex(prompt, repo_root, int(config["timeout_seconds"]))
+            if parsed is None:
+                _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "codex_failed", "attempt": attempt, "stderr_tail": _tail_text(raw_stderr, 800), "stdout_tail": _tail_text(raw_stdout, 800)})
+                continue
+            try:
+                target.write_text(str(parsed["fixed_content"]).rstrip() + "\n", encoding="utf-8")
+            except OSError as exc:
+                _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "unresolved", "attempt": attempt, "reason": str(exc)})
+                return {"lane": "bio-H", "status": "unresolved", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts, "error": str(exc)}
+            returncode, output = _run_writeback_make_check(paper_dir)
+            if returncode == 0:
+                _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "healed", "attempt": attempt, "rel_file": rel_file})
+                return {"lane": "bio-H", "status": "healed", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts}
+            last_error = _parse_writeback_heal_error(output, paper_dir)
+        _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "unresolved", "attempts": attempts})
+        return {"lane": "bio-H", "status": "unresolved", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts}
+    except Exception as exc:
+        return {"lane": "bio-H", "status": "error", "error": str(exc)}
 
 
 def _write_namecert_proposals(
@@ -3209,19 +3458,11 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
     pdf_build_detail = ""
     paper_dir = paths.paper_main.parent
     if (paper_dir / "Makefile").exists():
-        # launchctl-managed daemon has a sparse PATH; ensure TeX bin is reachable.
-        env = os.environ.copy()
-        tex_candidates = ["/Library/TeX/texbin", "/usr/local/texlive/2026basic/bin/universal-darwin", "/usr/local/texlive/2025basic/bin/universal-darwin"]
-        existing_path = env.get("PATH", "")
-        for tex_dir in tex_candidates:
-            if Path(tex_dir).exists() and tex_dir not in existing_path:
-                existing_path = f"{tex_dir}:{existing_path}" if existing_path else tex_dir
-        env["PATH"] = existing_path
         try:
             build = subprocess.run(
                 ["make", "-s"],
                 cwd=paper_dir,
-                env=env,
+                env=_tex_env(),
                 text=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
