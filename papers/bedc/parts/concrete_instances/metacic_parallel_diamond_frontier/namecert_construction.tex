@@ -76,6 +76,26 @@ The handoff theorem \autoref{thm:metacic-parallel-diamond-frontier-handoff} supp
 Since no row discharges residual substitution or full closed confluence, the route is a sharper obligation boundary rather than a completed Church--Rosser certificate.
 \end{proof}
 
+\begin{theorem}[MetaCIC local-diamond frontier]
+\label{thm:metacic-local-diamond-frontier}
+Let
+$$
+F_0=(P,K,J_0,R,S,C,B,O,H,T,G,N)
+\quad\text{and}\quad
+F_1=(P,K,J_1,R,S,C,B,O,H,T,G,N)
+$$
+be accepted $\MetaCICParallelDiamondFrontierUp$ packets with the same residual-substitution premise row $P$ and the same critical-pair row $K$. If the candidate-join rows $J_0$ and $J_1$ agree through the displayed residual-frontier row $R$, then every confluence-audit consumer reads the same conditional local-diamond handoff through $S,C,B,O,H,T,G,N$. The obstruction row $O$ remains visible in the handoff, so the result does not discharge residual-substitution compatibility, subject reduction, full closed Church--Rosser, evaluator equality, quotient equality of terms, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the two carriers through \autoref{def:metacic-parallel-diamond-frontier-carrier}. The hypotheses identify the premise and peak rows $P,K$, and they make the two candidate-join rows agree at the residual-frontier row $R$.
+
+Apply \autoref{thm:metacic-parallel-diamond-frontier-obligations} to each packet. The only confluence-facing rows available to a consumer before replay are $P,K,J,R,S,C,B,O$, with the structural rows $H,T,G,N$ attached to the same packet.
+
+Now use \autoref{thm:metacic-parallel-diamond-frontier-handoff} and \autoref{thm:metacic-parallel-diamond-frontier-route}. Since $P,K$ agree and $J_0,J_1$ agree through $R$, both handoff readings reach the same closed-checker row $S$, closed-normal fragment row $C$, bounded-check row $B$, obstruction row $O$, transport row $H$, replay row $T$, provenance row $G$, and local name row $N$.
+
+The obstruction row is not removed by this comparison. It is carried in both packets and remains part of the consumer-visible handoff, so the theorem records a local-diamond frontier fact rather than a proof of the missing residual-substitution or closed confluence endpoints.
+\end{proof}
+
 The Lean follow-up supplies $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ TasteGate instances in \texttt{lean4/BEDC/Derived/MetaCICParallelDiamondFrontierUp/TasteGate.lean} by exhibiting distinct accepted and refused frontier packets and by matching on the rows $P,K,J,R,S,C,B,O,H,T,G,N$.
 
 \closureat{MetaCICParallelDiamondFrontierUp}{seedStr}
