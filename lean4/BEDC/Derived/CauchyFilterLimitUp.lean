@@ -266,4 +266,66 @@ theorem CauchyFilterLimitCarrier_regular_readback_obligation [AskSetup] [Package
       windowReadbackRegular, regularToleranceSeal, toleranceSealTransport, provenancePkg,
       sealPkg⟩
 
+theorem CauchyFilterLimitCarrier_ledger_refusal_obligation [AskSetup] [PackageSetup]
+    {basis filter window readback tolerance sealRow transport route provenance name rejectedRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterLimitCarrier basis filter window readback tolerance sealRow transport route
+        provenance name bundle pkg ->
+      Cont name rejectedRead sealRow ->
+        SemanticNameCert
+            (fun row : BHist => hsame row sealRow ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row basis ∨ hsame row filter ∨ hsame row window ∨
+                hsame row readback ∨ hsame row tolerance ∨ hsame row sealRow ∨
+                  hsame row name)
+            (fun row : BHist =>
+              PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧ hsame row sealRow)
+            hsame ∧
+          UnaryHistory rejectedRead ∧ UnaryHistory sealRow := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier nameRejectedSeal
+  obtain ⟨_basisUnary, _filterUnary, _windowUnary, _readbackUnary, _toleranceUnary,
+    sealRowUnary, _transportUnary, _routeUnary, _provenanceUnary, nameUnary,
+    _basisFilterWindow, _windowReadbackTolerance, _toleranceSealTransport,
+    _transportRouteProvenance, _sealProvenanceName, provenancePkg, namePkg⟩ := carrier
+  have rejectedReadUnary : UnaryHistory rejectedRead :=
+    (unary_cont_factors_from_result nameRejectedSeal sealRowUnary).right
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRow ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row basis ∨ hsame row filter ∨ hsame row window ∨
+              hsame row readback ∨ hsame row tolerance ∨ hsame row sealRow ∨
+                hsame row name)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧ hsame row sealRow)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sealRow
+        ⟨hsame_refl sealRow, sealRowUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, namePkg, source.left⟩
+  }
+  exact ⟨cert, rejectedReadUnary, sealRowUnary⟩
+
 end BEDC.Derived.CauchyFilterLimitUp
