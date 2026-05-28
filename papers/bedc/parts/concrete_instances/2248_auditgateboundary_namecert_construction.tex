@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-auditgateboundary-namecert}
 \origin{human}
 
-The $\AuditGateBoundaryUp$ surface packages the manuscript and Lean audit gates as a finite naming certificate. It is not a proof that the entire repository is complete. It records the exact boundary packets by which source-token scans, axiom-purity reports, paper-Lean target audits, origin and import conservativity ledgers, transport rows, continuation routes, package provenance, GAP boundary rows, and the local naming row remain visible to downstream governance consumers. The displayed audit consumer routes use the finite continuation-trace reading of \autoref{ch:concrete-instances-continuationtrace-namecert} as the sibling surface that makes replay and route inspection explicit.
+The $\AuditGateBoundaryUp$ surface packages the manuscript and Lean audit gates as a finite naming certificate. It is not a proof that the entire repository is complete. It records the exact boundary packets by which source-token scans, axiom-purity reports, paper-Lean target audits, origin and import conservativity ledgers, transport rows, continuation routes, package provenance, GAP boundary rows, and the local naming row remain visible to downstream governance consumers. The source-token and forbidden-dependency rows share their refusal ledger with \autoref{ch:concrete-instances-axiom-dependency-tuple-namecert}, while the marker-resolution row is read against the audit-map interface of \autoref{ch:concrete-instances-auditmapinterface-namecert}. The displayed audit consumer routes use the finite continuation-trace reading of \autoref{ch:concrete-instances-continuationtrace-namecert} as the sibling surface that makes replay and route inspection explicit.
 
 \begin{definition}[AuditGateBoundary carrier]
 \label{def:audit-gate-boundary-carrier}
@@ -311,6 +311,7 @@ A=(S,D,L,O,H,C,P,G,N),
 $$
 the source-token row $S$ and the dependency report row $D$ are the only rows by which source-token reads and axiom-query reads enter the boundary. Every such read must then pass through the shared support rows $H,C,P,G,N$ before it can be consumed as an $\AuditGateBoundaryUp$ verdict surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.AuditGateBoundaryUp.AuditGateBoundaryCarrier\_kernel\_query\_scope}
 \begin{proof}
 Project the carrier of \autoref{def:audit-gate-boundary-carrier}. The row $S$ is the only source-token scan row, and the row $D$ is the only axiom-purity dependency report row.
 
