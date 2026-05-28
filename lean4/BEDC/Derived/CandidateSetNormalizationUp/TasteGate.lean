@@ -10,10 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive CandidateSetNormalizationUp : Type where
-  | mk :
-      (candidate closedTerm adequacy noInfinite obstruction transport replay provenance
-        localName : BHist) →
-        CandidateSetNormalizationUp
+  | mk (K T A I O H C P N : BHist) : CandidateSetNormalizationUp
   deriving DecidableEq
 
 def candidateSetNormalizationEncodeBHist : BHist → RawEvent
@@ -28,9 +25,9 @@ def candidateSetNormalizationDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (candidateSetNormalizationDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (candidateSetNormalizationDecodeBHist tail)
 
-private theorem candidateSetNormalization_decode_encode_bhist :
-    ∀ h : BHist, candidateSetNormalizationDecodeBHist
-      (candidateSetNormalizationEncodeBHist h) = h := by
+private theorem candidateSetNormalizationDecode_encode_bhist :
+    ∀ h : BHist,
+      candidateSetNormalizationDecodeBHist (candidateSetNormalizationEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -43,31 +40,54 @@ private theorem candidateSetNormalization_decode_encode_bhist :
 
 def candidateSetNormalizationFields : CandidateSetNormalizationUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | CandidateSetNormalizationUp.mk candidate closedTerm adequacy noInfinite obstruction
-      transport replay provenance localName =>
-      [candidate, closedTerm, adequacy, noInfinite, obstruction, transport, replay, provenance,
-        localName]
+  | CandidateSetNormalizationUp.mk K T A I O H C P N => [K, T, A, I, O, H, C, P, N]
 
 def candidateSetNormalizationToEventFlow : CandidateSetNormalizationUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (candidateSetNormalizationFields x).map candidateSetNormalizationEncodeBHist
+  | x => List.map candidateSetNormalizationEncodeBHist (candidateSetNormalizationFields x)
 
 def candidateSetNormalizationFromEventFlow : EventFlow → Option CandidateSetNormalizationUp
   -- BEDC touchpoint anchor: BHist BMark
-  | candidate :: closedTerm :: adequacy :: noInfinite :: obstruction :: transport :: replay ::
-      provenance :: localName :: [] =>
-      some
-        (CandidateSetNormalizationUp.mk
-          (candidateSetNormalizationDecodeBHist candidate)
-          (candidateSetNormalizationDecodeBHist closedTerm)
-          (candidateSetNormalizationDecodeBHist adequacy)
-          (candidateSetNormalizationDecodeBHist noInfinite)
-          (candidateSetNormalizationDecodeBHist obstruction)
-          (candidateSetNormalizationDecodeBHist transport)
-          (candidateSetNormalizationDecodeBHist replay)
-          (candidateSetNormalizationDecodeBHist provenance)
-          (candidateSetNormalizationDecodeBHist localName))
-  | _ => none
+  | [] => none
+  | K :: restK =>
+      match restK with
+      | [] => none
+      | T :: restT =>
+          match restT with
+          | [] => none
+          | A :: restA =>
+              match restA with
+              | [] => none
+              | I :: restI =>
+                  match restI with
+                  | [] => none
+                  | O :: restO =>
+                      match restO with
+                      | [] => none
+                      | H :: restH =>
+                          match restH with
+                          | [] => none
+                          | C :: restC =>
+                              match restC with
+                              | [] => none
+                              | P :: restP =>
+                                  match restP with
+                                  | [] => none
+                                  | N :: restN =>
+                                      match restN with
+                                      | [] =>
+                                          some
+                                            (CandidateSetNormalizationUp.mk
+                                              (candidateSetNormalizationDecodeBHist K)
+                                              (candidateSetNormalizationDecodeBHist T)
+                                              (candidateSetNormalizationDecodeBHist A)
+                                              (candidateSetNormalizationDecodeBHist I)
+                                              (candidateSetNormalizationDecodeBHist O)
+                                              (candidateSetNormalizationDecodeBHist H)
+                                              (candidateSetNormalizationDecodeBHist C)
+                                              (candidateSetNormalizationDecodeBHist P)
+                                              (candidateSetNormalizationDecodeBHist N))
+                                      | _ :: _ => none
 
 private theorem candidateSetNormalization_round_trip :
     ∀ x : CandidateSetNormalizationUp,
@@ -76,45 +96,43 @@ private theorem candidateSetNormalization_round_trip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk candidate closedTerm adequacy noInfinite obstruction transport replay provenance
-      localName =>
+  | mk K T A I O H C P N =>
       change
         some
           (CandidateSetNormalizationUp.mk
             (candidateSetNormalizationDecodeBHist
-              (candidateSetNormalizationEncodeBHist candidate))
+              (candidateSetNormalizationEncodeBHist K))
             (candidateSetNormalizationDecodeBHist
-              (candidateSetNormalizationEncodeBHist closedTerm))
+              (candidateSetNormalizationEncodeBHist T))
             (candidateSetNormalizationDecodeBHist
-              (candidateSetNormalizationEncodeBHist adequacy))
+              (candidateSetNormalizationEncodeBHist A))
             (candidateSetNormalizationDecodeBHist
-              (candidateSetNormalizationEncodeBHist noInfinite))
+              (candidateSetNormalizationEncodeBHist I))
             (candidateSetNormalizationDecodeBHist
-              (candidateSetNormalizationEncodeBHist obstruction))
+              (candidateSetNormalizationEncodeBHist O))
             (candidateSetNormalizationDecodeBHist
-              (candidateSetNormalizationEncodeBHist transport))
+              (candidateSetNormalizationEncodeBHist H))
             (candidateSetNormalizationDecodeBHist
-              (candidateSetNormalizationEncodeBHist replay))
+              (candidateSetNormalizationEncodeBHist C))
             (candidateSetNormalizationDecodeBHist
-              (candidateSetNormalizationEncodeBHist provenance))
+              (candidateSetNormalizationEncodeBHist P))
             (candidateSetNormalizationDecodeBHist
-              (candidateSetNormalizationEncodeBHist localName))) =
-          some
-            (CandidateSetNormalizationUp.mk candidate closedTerm adequacy noInfinite obstruction
-              transport replay provenance localName)
-      rw [candidateSetNormalization_decode_encode_bhist candidate,
-        candidateSetNormalization_decode_encode_bhist closedTerm,
-        candidateSetNormalization_decode_encode_bhist adequacy,
-        candidateSetNormalization_decode_encode_bhist noInfinite,
-        candidateSetNormalization_decode_encode_bhist obstruction,
-        candidateSetNormalization_decode_encode_bhist transport,
-        candidateSetNormalization_decode_encode_bhist replay,
-        candidateSetNormalization_decode_encode_bhist provenance,
-        candidateSetNormalization_decode_encode_bhist localName]
+              (candidateSetNormalizationEncodeBHist N))) =
+          some (CandidateSetNormalizationUp.mk K T A I O H C P N)
+      rw [candidateSetNormalizationDecode_encode_bhist K,
+        candidateSetNormalizationDecode_encode_bhist T,
+        candidateSetNormalizationDecode_encode_bhist A,
+        candidateSetNormalizationDecode_encode_bhist I,
+        candidateSetNormalizationDecode_encode_bhist O,
+        candidateSetNormalizationDecode_encode_bhist H,
+        candidateSetNormalizationDecode_encode_bhist C,
+        candidateSetNormalizationDecode_encode_bhist P,
+        candidateSetNormalizationDecode_encode_bhist N]
 
 private theorem candidateSetNormalizationToEventFlow_injective
     {x y : CandidateSetNormalizationUp} :
-    candidateSetNormalizationToEventFlow x = candidateSetNormalizationToEventFlow y → x = y := by
+    candidateSetNormalizationToEventFlow x = candidateSetNormalizationToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -129,35 +147,32 @@ private theorem candidateSetNormalization_fields_faithful :
     ∀ x y : CandidateSetNormalizationUp,
       candidateSetNormalizationFields x = candidateSetNormalizationFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
+  intro x y h
   cases x with
-  | mk candidate₁ closedTerm₁ adequacy₁ noInfinite₁ obstruction₁ transport₁ replay₁
-      provenance₁ localName₁ =>
+  | mk K₁ T₁ A₁ I₁ O₁ H₁ C₁ P₁ N₁ =>
       cases y with
-      | mk candidate₂ closedTerm₂ adequacy₂ noInfinite₂ obstruction₂ transport₂ replay₂
-          provenance₂ localName₂ =>
-          injection hfields with hCandidate tail0
-          injection tail0 with hClosedTerm tail1
-          injection tail1 with hAdequacy tail2
-          injection tail2 with hNoInfinite tail3
-          injection tail3 with hObstruction tail4
-          injection tail4 with hTransport tail5
-          injection tail5 with hReplay tail6
-          injection tail6 with hProvenance tail7
-          injection tail7 with hLocalName _
-          subst hCandidate
-          subst hClosedTerm
-          subst hAdequacy
-          subst hNoInfinite
-          subst hObstruction
-          subst hTransport
-          subst hReplay
-          subst hProvenance
-          subst hLocalName
+      | mk K₂ T₂ A₂ I₂ O₂ H₂ C₂ P₂ N₂ =>
+          injection h with hK tail0
+          injection tail0 with hT tail1
+          injection tail1 with hA tail2
+          injection tail2 with hI tail3
+          injection tail3 with hO tail4
+          injection tail4 with hH tail5
+          injection tail5 with hC tail6
+          injection tail6 with hP tail7
+          injection tail7 with hN _
+          subst hK
+          subst hT
+          subst hA
+          subst hI
+          subst hO
+          subst hH
+          subst hC
+          subst hP
+          subst hN
           rfl
 
-instance candidateSetNormalizationBHistCarrier :
-    BHistCarrier CandidateSetNormalizationUp where
+instance candidateSetNormalizationBHistCarrier : BHistCarrier CandidateSetNormalizationUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := candidateSetNormalizationToEventFlow
   fromEventFlow := candidateSetNormalizationFromEventFlow
@@ -167,15 +182,15 @@ instance candidateSetNormalizationChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change candidateSetNormalizationFromEventFlow (candidateSetNormalizationToEventFlow x) =
-      some x
+    change
+      candidateSetNormalizationFromEventFlow (candidateSetNormalizationToEventFlow x) =
+        some x
     exact candidateSetNormalization_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (candidateSetNormalizationToEventFlow_injective heq)
 
-instance candidateSetNormalizationFieldFaithful :
-    FieldFaithful CandidateSetNormalizationUp where
+instance candidateSetNormalizationFieldFaithful : FieldFaithful CandidateSetNormalizationUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := candidateSetNormalizationFields
   field_faithful := candidateSetNormalization_fields_faithful
@@ -183,9 +198,9 @@ instance candidateSetNormalizationFieldFaithful :
 instance candidateSetNormalizationNontrivial : Nontrivial CandidateSetNormalizationUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨CandidateSetNormalizationUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      CandidateSetNormalizationUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
+    ⟨CandidateSetNormalizationUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      CandidateSetNormalizationUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
@@ -194,5 +209,38 @@ instance candidateSetNormalizationNontrivial : Nontrivial CandidateSetNormalizat
 def taste_gate : ChapterTasteGate CandidateSetNormalizationUp :=
   -- BEDC touchpoint anchor: BHist BMark
   candidateSetNormalizationChapterTasteGate
+
+theorem CandidateSetNormalizationTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      candidateSetNormalizationDecodeBHist (candidateSetNormalizationEncodeBHist h) = h) ∧
+      (∀ x : CandidateSetNormalizationUp,
+        candidateSetNormalizationFromEventFlow (candidateSetNormalizationToEventFlow x) =
+          some x) ∧
+        (∀ x y : CandidateSetNormalizationUp,
+          candidateSetNormalizationToEventFlow x =
+              candidateSetNormalizationToEventFlow y →
+            x = y) ∧
+          candidateSetNormalizationEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact candidateSetNormalizationDecode_encode_bhist
+  · constructor
+    · exact candidateSetNormalization_round_trip
+    · constructor
+      · intro x y heq
+        exact candidateSetNormalizationToEventFlow_injective heq
+      · rfl
+
+theorem CandidateSetNormalizationTasteGate_fieldfaithful_nontrivial :
+    Nonempty (BHistCarrier CandidateSetNormalizationUp) ∧
+      Nonempty (ChapterTasteGate CandidateSetNormalizationUp) ∧
+        Nonempty (FieldFaithful CandidateSetNormalizationUp) ∧
+          Nonempty (Nontrivial CandidateSetNormalizationUp) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨⟨candidateSetNormalizationBHistCarrier⟩,
+      ⟨candidateSetNormalizationChapterTasteGate⟩,
+      ⟨candidateSetNormalizationFieldFaithful⟩,
+      ⟨candidateSetNormalizationNontrivial⟩⟩
 
 end BEDC.Derived.CandidateSetNormalizationUp
