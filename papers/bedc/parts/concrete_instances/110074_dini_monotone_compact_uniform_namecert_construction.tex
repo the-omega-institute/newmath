@@ -69,12 +69,30 @@ The handoff row $U$ consumes exactly that finite data. It first reads the local 
 The structural rows $H,C,P,N$ export no analytic data beyond that route. Therefore the consumer receives a compact-uniform Dini handoff through the named sibling packets, with no host function equality, hidden completion, selected radius outside the carrier, or open-cover compactness.
 \end{proof}
 
+\begin{theorem}[Dini monotone compact-uniform finite descent]
+\label{thm:dini-monotone-compact-uniform-finite-descent}
+For an accepted $\DiniMonotoneCompactUniformUp$ carrier
+$$
+D=(X,F,M,L,R,V,U,H,C,P,N),
+$$
+every compact-uniform tolerance export descends through the pointwise monotone rows $M,L$ on the finite $\ProbeBundle$ cover $V$ and the rational budget $R$ before $U$ may expose a single uniform read. The export cannot introduce a host supremum, selected minimum radius, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dini-monotone-compact-uniform-carrier}. The only rows between the compact source and the uniform handoff are the continuous family $F$, monotone ledger $M$, pointwise-limit row $L$, rational budget $R$, finite cover row $V$, and handoff row $U$.
+
+Apply the finite-cover extraction theorem \autoref{thm:dini-monotone-compact-uniform-finite-cover-extraction}. It forces $V$ to be read as finite $\ProbeBundle$ data after the pointwise monotone rows and the tolerance budget have been displayed.
+
+Apply the budget handoff theorem \autoref{thm:dini-monotone-compact-uniform-budget-handoff}. The row $U$ can expose a single compact-uniform read only through the already displayed $R,V$ route, and the structural rows $H,C,P,N$ preserve that route without adding analytic data.
+
+Row exhaustion now removes the excluded alternatives. The carrier has no coordinate for a host supremum, selected minimum radius, open-cover compactness, or ambient $\RealUp$ completeness, so none of those objects can be exported by the finite descent.
+\end{proof}
+
 \closureat{DiniMonotoneCompactUniformUp}{seedStr}
 
 \begin{closurestatus}{\DiniMonotoneCompactUniformUp}
   \constructivestory{A $\DiniMonotoneCompactUniformUp$ packet is generated from compact metric source rows, continuous-map family rows, monotone ledgers, pointwise-limit rows, rational tolerance budgets, finite ProbeBundle cover rows, uniform-modulus and uniform-limit handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:dini-monotone-compact-uniform-carrier}, \autoref{thm:dini-monotone-compact-uniform-carrier-obligations}, \autoref{thm:dini-monotone-compact-uniform-finite-cover-extraction}, and \autoref{thm:dini-monotone-compact-uniform-budget-handoff} seed the constructive compact-uniform Dini carrier surface.}
+  \scopeclosed{\autoref{def:dini-monotone-compact-uniform-carrier}, \autoref{thm:dini-monotone-compact-uniform-carrier-obligations}, \autoref{thm:dini-monotone-compact-uniform-finite-cover-extraction}, \autoref{thm:dini-monotone-compact-uniform-budget-handoff}, and \autoref{thm:dini-monotone-compact-uniform-finite-descent} seed the constructive compact-uniform Dini carrier surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Lean verification, arbitrary open-cover compactness, host suprema, quotient function equality, selected radii outside the finite ProbeBundle, ambient Real completeness, or bridge checking.}
