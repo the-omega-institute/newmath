@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\CompletionLadderUp$}
+\label{ch:concrete-instances-completion-ladder-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\CompletionLadderUp$ packet records the finite BEDC naming surface that ties the current Real and Completion route into one phase object. It sits over the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite-window stream surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the separated-completion boundary of \autoref{ch:concrete-instances-separatedcompletion-namecert}, and the completion-unit handoff of \autoref{ch:concrete-instances-cauchycompletionunit-namecert}. The ladder is a finite dependency packet for the phase route; it is not quotient stream equality, not a selected limit, not countable choice, not trichotomy, not open-cover compactness, and not a completeness theorem for $\RealUp$.
+
+\begin{definition}[Completion ladder carrier]
+\label{def:completion-ladder-carrier}
+A $\CompletionLadderUp$ carrier is a finite $\BHist$ packet
+$$
+L=(D,W,R,E,S,U,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ dyadic tolerance row naming the precision requests that enter the route.
+\item $W$ is the $\StreamNameUp$ stream-window row listing the finite observations read at those tolerances.
+\item $R$ is the $\RegSeqRatUp$ regular readback row obtained from $D$ and $W$.
+\item $E$ is the $\RealUp$ seal row, available only after the dyadic tolerance, stream window, and regular readback rows have been displayed.
+\item $S$ is the $\SeparatedCompletionUp$ witness row that consumes the same displayed real-facing route as a separated completion boundary.
+\item $U$ is the $\CauchyCompletionUnitUp$ unit row that records the source-to-completion handoff along the same finite route.
+\item $H$ records componentwise $\hsame$ transport for dyadic tolerance, stream window, regular readback, Real seal, separated-completion witness, Cauchy-completion unit, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+D,W \longmapsto R \longmapsto E \longmapsto S,U .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CompletionLadderUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\SeparatedCompletionUp$, $\CauchyCompletionUnitUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompletionLadderUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,W,R,E,S,U,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, open-cover compactness, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Completion ladder NameCert obligations]
+\label{thm:completion-ladder-namecert-obligations}
+For every accepted $\CompletionLadderUp$ carrier $L=(D,W,R,E,S,U,H,C,P,N)$, the local $\NameCert_{\CompletionLadderUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the dyadic tolerance, stream window, regular readback, Real seal, separated-completion witness, Cauchy-completion unit, componentwise transport, continuation replay, package provenance, and local naming rows;
+\item tolerance-window compatibility, requiring each finite stream read in $W$ to be indexed by a dyadic tolerance request in $D$ before regular readback is inspected;
+\item regular-readback exactness, requiring every $\RegSeqRatUp$ read in $R$ to consume only the displayed $D,W$ route;
+\item Real-seal order, requiring $E$ to be read only after $D,W,R$ have been displayed;
+\item completion-boundary order, requiring $S$ and $U$ to consume the same $D,W,R,E$ route through the stored continuation row $C$;
+\item transport stability, requiring componentwise $\hsame$ transport in $H$ to preserve the listed route and no other completion data;
+\item ledger non-escape, excluding quotient stream equality, selected limits, countable choice, trichotomy, open-cover compactness, and completeness of $\RealUp$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:completion-ladder-carrier}. The tuple lists the dyadic tolerance row, stream-window row, regular readback row, Real seal, separated-completion witness, Cauchy-completion unit, transport rows, replay row, provenance, and local name.
+
+The first dependency step reads $D$ and $W$. Since $W$ is the only stream-window coordinate and $D$ is the only tolerance coordinate, each finite observation entering the regular readback must pass through those two rows.
+
+The regular readback row $R$ is then downstream of $D,W$, and the Real seal row $E$ is downstream of $R$. The replay row $C$ records this order before either completion-facing row is inspected.
+
+The separated-completion witness $S$ and Cauchy-completion unit $U$ therefore consume the same displayed $D,W,R,E$ route. Componentwise transport by $H$ preserves those rows, while $P$ and $N$ source and name the same packet.
+
+No remaining coordinate can export quotient stream equality, selected limits, countable choice, trichotomy, open-cover compactness, or $\RealUp$ completeness. Thus the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Completion ladder separated Real route]
+\label{thm:completion-ladder-separated-real-route}
+Every accepted $\CompletionLadderUp$ carrier factors any separated-completion or completion-unit consumer through the finite route
+$$
+\DyadicRatCoreUp,\quad
+\StreamNameUp,\quad
+\RegSeqRatUp,\quad
+\RealUp,\quad
+\SeparatedCompletionUp,\quad
+\CauchyCompletionUnitUp .
+$$
+Equivalently, a consumer of $S$ or $U$ must first read the displayed dyadic tolerance row $D$, stream-window row $W$, regular readback row $R$, and Real seal row $E$, with componentwise transport, continuation replay, provenance, and local naming supplied by $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $L=(D,W,R,E,S,U,H,C,P,N)$. The only completion-facing rows are $S$ and $U$, so any separated-completion or completion-unit consumer must inspect one of those coordinates.
+
+The definition places both coordinates after $D,W,R,E$. The continuation row $C$ records the same order, forcing each consumer read to pass from dyadic tolerance and finite window through regular rational readback before the Real seal is available.
+
+Componentwise $\hsame$ transport by $H$ may rename the rows, but it preserves the displayed route rather than adding a second stream, a chosen limit, or a host completion object. The package and local name rows $P,N$ then record that the consumer is reading the same finite packet.
+
+Since the carrier contains no row for quotient stream equality, selected limits, countable choice, trichotomy, open-cover compactness, or $\RealUp$ completeness, the separated Real route above is the whole exported completion-facing surface.
+\end{proof}
+
+\begin{closurestatus}{\CompletionLadderUp}
+  \constructivestory{A $\CompletionLadderUp$ packet is generated from DyadicRatCore tolerance requests, StreamName finite windows, RegSeqRat readback, a RealUp seal, a SeparatedCompletion witness, a CauchyCompletionUnit handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:completion-ladder-carrier}, \autoref{thm:completion-ladder-namecert-obligations}, and \autoref{thm:completion-ladder-separated-real-route} seed the finite Real and Completion ladder over DyadicRatCore, StreamName, RegSeqRat, Real, SeparatedCompletion, CauchyCompletionUnit, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, countable choice, trichotomy, open-cover compactness, bridge checking, Lean verification, or completeness of $\RealUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance-window compatibility, regular readback exactness, Real-seal order, separated-completion routing, completion-unit routing, componentwise transport stability, and ledger non-escape for BEDC.Derived.CompletionLadderUp.}
+\end{closurestatus}
