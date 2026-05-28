@@ -121,6 +121,33 @@ Finally apply neutral-spine separation. Theorem~\ref{thm:metacic-confluence-resi
 Thus a consumer that omits $S$, $B$, $O$, $F$, or $Z$ has not consumed the finite residual-substitution boundary required for the endpoint. It can read only the conditional residual envelope carried by the displayed rows, and no route to $\mathrm{BetaParallelDiamondClosed}$ is exported.
 \end{proof}
 
+\begin{theorem}[MetaCIC residual envelope diamond route]
+\label{thm:metacic-confluence-residual-envelope-diamond-route}
+Every $\MetaCICConfluenceResidualEnvelopeUp$ read that exposes a closed-diamond consumer row factors first through the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, the bounded residual-substitution frontier of \autoref{ch:concrete-instances-bounded-residual-substitution-frontier-namecert}, and the MetaCIC open-frontier ledger of \autoref{ch:concrete-instances-metacic-open-frontier-ledger-namecert}. The residual envelope may then expose the closed-diamond consumer only through the displayed rows $T,R,S,B,J,O,F,U,Z,H,C,P,N$, and it exports no direct route to $\mathrm{BetaParallelDiamondClosed}$.
+\end{theorem}
+\begin{proof}
+Start from the closed-diamond consumption boundary,
+\autoref{thm:metacic-confluence-residual-envelope-closed-diamond-consumption}.
+It requires a consumer to display the full row inventory
+$T,R,S,B,J,O,F,U,Z,H,C,P,N$ before the closed-diamond endpoint can be cited.
+
+The substitution-sensitive part of that inventory is not local to the
+envelope alone. The residual-substitution boundary keeps the substitution
+premise visible, the bounded residual-substitution frontier bounds the
+frontier read, and the open-frontier ledger records the confluence endpoint
+as a frontier entry rather than as a discharged theorem.
+
+Reading $S,B,J,O$ through those siblings fixes the route before the consumer
+can inspect $F,U,Z,H,C,P,N$. The fuel, neutral-spine, budget, transport,
+replay, provenance, and naming rows preserve the same route and do not add a
+closed-diamond coordinate.
+
+Therefore the closed-diamond consumer row, when present, is exposed only
+after the three sibling packets and the envelope inventory have been read.
+No direct route to $\mathrm{BetaParallelDiamondClosed}$ is available from the
+residual envelope alone.
+\end{proof}
+
 The Lean TasteGate site for $\MetaCICConfluenceResidualEnvelopeUp$ must provide explicit $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for this carrier surface. These instances must keep the residual windows, substitution boundary, checker status, local joins, obstruction row, fuel trace, neutral spine, normalization budget, transport, replay, provenance, and local naming distinguishable.
 
 \closureat{MetaCICConfluenceResidualEnvelopeUp}{seedStr}
