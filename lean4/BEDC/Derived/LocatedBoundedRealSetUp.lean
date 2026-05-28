@@ -343,4 +343,54 @@ theorem LocatedBoundedRealSetCarrier_interval_bound_handoff [AskSetup] [PackageS
       }
       exact ⟨membershipUnary, intervalUnary, dyadicUnary, realSealUnary, cert⟩
 
+theorem LocatedBoundedRealSetCarrier_nonescape [AskSetup] [PackageSetup]
+    (B : LocatedBoundedRealSetUp)
+    {M I D W R E H C P N membershipRead intervalRead dyadicRead realSeal terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    locatedBoundedRealSetFields B = [M, I, D, W, R, E, H, C, P, N] ->
+      UnaryHistory M ->
+        UnaryHistory I ->
+          UnaryHistory D ->
+            UnaryHistory W ->
+              UnaryHistory R ->
+                UnaryHistory E ->
+                  UnaryHistory C ->
+                    UnaryHistory N ->
+                      Cont M W membershipRead ->
+                        Cont I D intervalRead ->
+                          Cont intervalRead R dyadicRead ->
+                            Cont dyadicRead E realSeal ->
+                              Cont realSeal C terminalRead ->
+                                PkgSig bundle terminalRead pkg ->
+                                  UnaryHistory membershipRead ∧
+                                    UnaryHistory intervalRead ∧
+                                      UnaryHistory dyadicRead ∧ UnaryHistory realSeal ∧
+                                        UnaryHistory terminalRead ∧
+                                          Cont M W membershipRead ∧
+                                            Cont I D intervalRead ∧
+                                              Cont intervalRead R dyadicRead ∧
+                                                Cont dyadicRead E realSeal ∧
+                                                  Cont realSeal C terminalRead ∧
+                                                    PkgSig bundle terminalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro fieldEq mUnary iUnary dUnary wUnary rUnary eUnary cUnary _nUnary membershipRoute
+    intervalRoute dyadicRoute realSealRoute terminalRoute terminalPkg
+  cases B with
+  | mk MB IB DB WB RB EB HB CB PB NB =>
+      cases fieldEq
+      have membershipUnary : UnaryHistory membershipRead :=
+        unary_cont_closed mUnary wUnary membershipRoute
+      have intervalUnary : UnaryHistory intervalRead :=
+        unary_cont_closed iUnary dUnary intervalRoute
+      have dyadicUnary : UnaryHistory dyadicRead :=
+        unary_cont_closed intervalUnary rUnary dyadicRoute
+      have realSealUnary : UnaryHistory realSeal :=
+        unary_cont_closed dyadicUnary eUnary realSealRoute
+      have terminalUnary : UnaryHistory terminalRead :=
+        unary_cont_closed realSealUnary cUnary terminalRoute
+      exact
+        ⟨membershipUnary, intervalUnary, dyadicUnary, realSealUnary, terminalUnary,
+          membershipRoute, intervalRoute, dyadicRoute, realSealRoute, terminalRoute,
+          terminalPkg⟩
+
 end BEDC.Derived.LocatedBoundedRealSetUp

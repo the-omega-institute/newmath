@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\CauchySequenceCriterionUp$}
+\label{ch:concrete-instances-cauchy-sequence-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy criteria, the $\CauchySequenceCriterionUp$ packet records the textbook sequence criterion as finite BEDC data. It ties a sequence source to the dyadic tolerance discipline of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-window naming discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the public real seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only the finite route from tolerance data to regular-Cauchy and real consumers; it does not supply a choice-selected subsequence, quotient equality of limits, host completion, or ambient completeness principle.
+
+\begin{definition}[CauchySequenceCriterion carrier]
+\label{def:cauchy-sequence-criterion-carrier}
+A $\CauchySequenceCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(A,M,D,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the sequence-source row, displaying the named sequence and the finite request interface through which a downstream consumer asks for terms.
+\item $M$ is the modulus-schedule row, displaying the finite schedule that turns a requested dyadic tolerance into a stage bound.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance-ledger row, recording the positive dyadic thresholds, comparisons, and tolerance refinements read by the schedule.
+\item $S$ is the $\StreamNameUp$ window row, exposing only finite windows of the sequence after the schedule row has supplied their stage bounds.
+\item $R$ is the $\RegSeqRatUp$ regular-Cauchy readback row reached from $A,M,D,S$.
+\item $E$ is the $\RealUp$ seal row available only after the regular-Cauchy readback has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the sequence source, schedule, dyadic tolerance ledger, stream windows, regular readback, Real seal, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from a criterion request through $A,M,D,S,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchySequenceCriterionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySequenceCriterionUp}$ row.
+\end{enumerate}
+The classifier accepts only packets whose criterion consumer first displays the sequence source, modulus schedule, dyadic tolerance ledger, stream-window row, regular-Cauchy readback, Real seal, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows listed above.
+\end{definition}
+
+\begin{theorem}[CauchySequenceCriterion NameCert obligations]
+\label{thm:cauchy-sequence-criterion-namecert-obligations}
+For every accepted $\CauchySequenceCriterionUp$ carrier
+$$
+Q=(A,M,D,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchySequenceCriterionUp}$ surface consists exactly of sequence-source admission, modulus-schedule admission, dyadic tolerance-ledger exposure, finite stream-window exposure, regular-Cauchy readback, Real seal readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through the rows of $Q$. No obligation may be discharged by a choice-selected subsequence, quotient equality of limits, host completion, ambient completeness, or an unbounded open-cover argument.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-sequence-criterion-carrier}. Its analytic rows are precisely the sequence source $A$, modulus schedule $M$, dyadic tolerance ledger $D$, stream windows $S$, regular-Cauchy readback $R$, and Real seal $E$.
+
+The tolerance rows determine the access order. A criterion consumer reads $M$ before it can turn a dyadic request from $D$ into a finite stage bound, and it reads $S$ only through the finite windows exposed by that bound.
+
+The readback rows add no external completion object. The row $R$ repacks the displayed tolerance and window data as regular-Cauchy readback, and $E$ seals that readback as the public real-facing output.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no coordinate of $Q$ stores a selected subsequence, quotient limit equality, host completion, ambient completeness witness, or open-cover argument, the displayed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[CauchySequenceCriterion L10 handoff]
+\label{thm:cauchy-sequence-criterion-l10-handoff}
+Every L10 consumer read of an accepted $\CauchySequenceCriterionUp$ carrier factors through the finite route
+$$
+\DyadicRatCoreUp
+\longmapsto
+\StreamNameUp
+\longmapsto
+\RegSeqRatUp
+\longmapsto
+\RealUp .
+$$
+The handoff reaches the displayed $\RealUp$ seal only through the sequence source, modulus schedule, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\CauchySequenceCriterionUp}$ row carried by the same packet.
+\end{theorem}
+\begin{proof}
+Begin with the sequence source $A$ and modulus schedule $M$. They expose the named sequence and the finite stage bounds required by any dyadic tolerance request.
+
+Next read the dyadic tolerance ledger $D$ and stream-window row $S$. The ledger supplies the positive thresholds and comparisons, while the stream row supplies only the finite windows named by the schedule.
+
+Attach the regular-Cauchy readback row $R$. It is the unique displayed route by which the dyadic-window data becomes a regular rational sequence consumer.
+
+The Real seal closes the route. The row $E$ is reached only after $R$, and the structural rows $H,C,P,N$ carry the same finite data through transport, replay, provenance, and local naming. Hence the L10 handoff exposes a constructive sequence criterion rather than a selected subsequence, quotient limit, host completion, or ambient completeness theorem.
+\end{proof}
+
+\closureat{CauchySequenceCriterionUp}{seedStr}
+
+\begin{closurestatus}{\CauchySequenceCriterionUp}
+  \constructivestory{A $\CauchySequenceCriterionUp$ packet is generated from a sequence source, modulus schedule, dyadic tolerance ledger, stream windows, RegSeqRat readback, Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-sequence-criterion-carrier}, \autoref{thm:cauchy-sequence-criterion-namecert-obligations}, and \autoref{thm:cauchy-sequence-criterion-l10-handoff} seed the L10 route from dyadic sequence criteria to regular-Cauchy and Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close choice-selected subsequences, quotient equality of limits, host completion, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus schedule exposure, dyadic tolerance-ledger exactness, stream-window handoff, RegSeqRat/Real seal readback, transport, replay, provenance, and local naming for BEDC.Derived.CauchySequenceCriterionUp.}
+\end{closurestatus}
