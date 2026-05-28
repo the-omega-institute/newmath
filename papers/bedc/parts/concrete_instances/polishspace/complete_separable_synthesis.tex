@@ -1,0 +1,37 @@
+\begin{theorem}[Polish-space complete-separable synthesis]
+\label{thm:polish-space-root-complete-separable-synthesis}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ packet. Its
+root complete-separable route exposes the $\CompleteMetricUp$ row $K$ and
+the $\SeparableMetricUp$ row $D$ only over the same $\MetricSpaceUp$ carrier
+$M$, with $\StreamNameUp$ windows $S$, $\RegSeqRatUp$ readback $R$,
+observation ledger $W$, componentwise $\hsame$ transport $H$, displayed
+$\Cont$ replay $C$, $\Pkg$ provenance $G$, and local $\NameCert$ rows $N$.
+Consequently every complete-separable consumer of $P$ reads one common route
+$$
+M \longmapsto (K,D) \longmapsto (S,R,W) \longmapsto (H,C,G,N),
+$$
+and no choice-selected dense sequence, external completion coordinate,
+separate host metric, or quotient-completion equality is exported.
+\end{theorem}
+\begin{proof}
+Project $P$ by \autoref{def:polish-space-carrier}. The carrier exposes
+$M,K,D,S,R,W,H,C,G,N$ as displayed rows of one finite $\BHist$ packet.
+
+Apply \autoref{thm:polish-space-namecert-obligations}. Carrier admission
+places the complete-metric handoff $K$ and the separable-metric schedule $D$
+inside the same local $\NameCert_{\PolishSpaceUp}$ surface, while classifier
+transport uses $H$ to compare both rows only after transport to the common
+metric source $M$.
+
+Use \autoref{thm:polishspace-root-density-obligations} and
+\autoref{thm:polishspace-root-completion-obligations}. The density obligation
+forces $D$ to be read through $S,R,W$ over $M$, and the completion obligation
+forces $K$ to use the same metric source and the same finite observation
+route.
+
+It remains to package the shared readback. The rows $C,G,N$ replay, source,
+and name the route already fixed by $M,K,D,S,R,W,H$. Because the carrier has
+no coordinate for the excluded dense selector, external completion, separate
+host metric, or quotient-completion equality, the displayed route is the only
+complete-separable synthesis exported by an accepted Polish-space packet.
+\end{proof}
