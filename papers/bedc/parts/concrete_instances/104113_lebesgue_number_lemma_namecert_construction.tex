@@ -53,6 +53,20 @@ Then read $R$. By the obligations of \autoref{thm:lebesgue-number-lemma-namecert
 Finally the uniform-modulus handoff $U$ may consume that ledger through $H,C,P,N$. The route therefore refines the existing finite-ledger packet without creating a synonym for it.
 \end{proof}
 
+\begin{theorem}[Lebesgue number lemma finite-net route]
+\label{thm:lebesgue-number-lemma-finite-net-route}
+Every finite-net read used by an accepted $\LebesgueNumberLemmaUp$ packet factors through the $\CompactMetricUp$ source row, the $\MetricUp$ ball-observation row, the displayed finite cover or pointwise-radius family, the $\FiniteLebesgueNumberUp$ positive-radius ledger, and the $\UniformModulusUp$ handoff. It cannot be replaced by arbitrary open-cover compactness or a selected subcover.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:lebesgue-number-lemma-carrier}. A finite-net read is visible only through $K,M,F,R,U,H,C,P,N$.
+
+The compact source row $K$ supplies the finite-net and located coverage data, while $M$ supplies the metric ball observations used to test the displayed cover or pointwise-radius row $F$. The positive radius ledger $R$ is then the $\FiniteLebesgueNumberUp$ row for that displayed data.
+
+The existing NameCert obligations in \autoref{thm:lebesgue-number-lemma-namecert-obligations} and the uniform-modulus handoff of \autoref{thm:lebesgue-number-lemma-uniform-modulus-handoff} compose this route before $U$ is available to compact-uniform-continuity consumers.
+
+Since arbitrary open-cover compactness and selected subcovers are not coordinates of $K,M,F,R,U,H,C,P,N$, no finite-net read in the packet can be replaced by those host principles.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\LebesgueNumberLemmaUp$ compact-uniform-continuity read must expose a $\CompactMetricUp$ source row, $\MetricUp$ ball rows, a $\ContinuousMapUp$ pointwise-radius family when present, a $\FiniteLebesgueNumberUp$ positive radius ledger, a terminal $\UniformModulusUp$ handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
 
 \independenceWitness{compactmetric, metric, continuousmap, finite-lebesgue-number, uniformmodulus: $\LebesgueNumberLemmaUp$ is not bijective to any listed sibling because it binds the compact-cover-to-positive-radius theorem route between the compact metric source and the finite Lebesgue-number ledger before a UniformModulus consumer can read the result.}
