@@ -1228,6 +1228,7 @@ import BEDC.Derived.CauchyFilterMeetUp.TasteGate
 import BEDC.Derived.CauchyFilterModulusTransferUp.TasteGate
 import BEDC.Derived.CauchyFilterNetCorrespondenceUp.TasteGate
 import BEDC.Derived.CauchyFilterRegularizationUp.TasteGate
+import BEDC.Derived.CauchyFilterSubbasisUp.TasteGate
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyInterleavingProductUp.TasteGate
 import BEDC.Derived.CauchyInverseBudgetUp.RouteSurface
@@ -1682,14 +1683,17 @@ import BEDC.Derived.CauchyfiltercompletionUp.BasisSeparatedReflector
 import BEDC.Derived.CauchyfiltercompletionUp.BasisUniformHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.CompletionFunctorFactorization
 import BEDC.Derived.CauchyfiltercompletionUp.PvariationWindowBound
+import BEDC.Derived.CauchyfiltercompletionUp.QuotientNonescape
 import BEDC.Derived.CauchyfiltercompletionUp.RealSealHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.RealSealSourceExhaustion
 import BEDC.Derived.CauchyfiltercompletionUp.RegularReadbackCompleteness
+import BEDC.Derived.CauchyfiltercompletionUp.RegulatedIntegralHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.RootCarrierAdmissionObligation
 import BEDC.Derived.CauchyfiltercompletionUp.RootLimitExistence
 import BEDC.Derived.CauchyfiltercompletionUp.RootRealSealHandoff
 import BEDC.Derived.CauchyfiltercompletionUp.RootUnblock
 import BEDC.Derived.CauchyfiltercompletionUp.SealFactorizationObligation
+import BEDC.Derived.CauchyfiltercompletionUp.TasteGate
 import BEDC.Derived.CauchyfiltercompletionUp.UniformCompletionUniversalProperty
 import BEDC.Derived.CausalCommitmentUp
 import BEDC.Derived.CausalCommitmentUp.CarrierObligation
@@ -4400,6 +4404,7 @@ import BEDC.Derived.MetaCICConfluenceAuditUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceCriticalPairBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPathUp
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedNormalizationCandidateLedger
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierL10DischargeBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNDischargeRow
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNFrontier
@@ -5842,6 +5847,7 @@ import BEDC.Derived.RegularCauchyFamilyUp.TasteGate
 import BEDC.Derived.RegularCauchyFieldDistributivityUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterUp
 import BEDC.Derived.RegularCauchyFilterUp.BasisRows
+import BEDC.Derived.RegularCauchyFilterUp.MatureRouteExhaustion
 import BEDC.Derived.RegularCauchyFilterUp.RealSealConsumerExhaustion
 import BEDC.Derived.RegularCauchyFilterUp.ScopedHandoff
 import BEDC.Derived.RegularCauchyFilterUp.TailStability
