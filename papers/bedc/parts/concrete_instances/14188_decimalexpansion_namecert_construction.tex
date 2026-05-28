@@ -158,6 +158,39 @@ are displayed, and the terminal seal row $E$ remains downstream of $R$ with
 the structural rows $H,C,P,N$ preserving the same route.
 \end{proof}
 
+\begin{theorem}[DecimalExpansion window normalization obligation]\label{thm:decimal-expansion-window-normalization-obligation}
+Every accepted $\DecimalExpansionUp$ packet must display the finite digit ledger $D$ and finite window ledger $W$ before any place-value, dyadic-comparison, regular-rational, or real-seal row can be read. Equivalently, every public read of $V,Q,R,E$ factors through the finite decimal-prefix surface named in \autoref{def:decimal-expansion-carrier} and constrained by \autoref{thm:decimal-expansion-namecert-obligations}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:decimal-expansion-carrier}. The rows are ordered as $D,W,V,Q,R,E,H,C,P,N$, so digit admission and inspected-window admission are the visible source rows for the packet.
+
+Apply the NameCert obligations of \autoref{thm:decimal-expansion-namecert-obligations}. Carrier admission and ledger exhaustion require every consumer to read only displayed coordinates, hence no consumer can reach $V,Q,R,E$ without first reading $D$ and $W$.
+
+The L10 sibling route is the same finite-window route already used by \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. Thus window normalization is a finite ledger obligation, not an infinite decimal-stream selection.
+\end{proof}
+
+\begin{theorem}[DecimalExpansion dyadic comparison handoff]\label{thm:decimal-expansion-dyadic-comparison-handoff}
+For every accepted $\DecimalExpansionUp$ packet, the place-value row $V$ reaches the $\RegSeqRatUp$ handoff only through the comparison row $Q$ and the $\DyadicRatCoreUp$ and rational comparison surface. No direct route from a decimal place-value sum to $R$ or $E$ is exported by the packet.
+\end{theorem}
+\begin{proof}
+Read \autoref{def:decimal-expansion-carrier}. The row $V$ records the base-ten rational place-value sum, while $Q$ is the displayed $\DyadicRatCoreUp$ and rational comparison row.
+
+Apply \autoref{thm:decimal-expansion-namecert-obligations}. The obligation surface places $Q$ between place-value evaluation and the $\RegSeqRatUp$ handoff, and classifier transport is componentwise through that same displayed row.
+
+Finally apply \autoref{thm:decimal-expansion-regseqrat-handoff}. It states that finite digit rows pass through rational place-value rows and dyadic comparison rows before reaching $R$ and the terminal seal $E$. The dyadic handoff therefore uses the existing routes of \autoref{ch:concrete-instances-dyadicratcore-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, with no bypass from $V$ to $R$.
+\end{proof}
+
+\begin{theorem}[DecimalExpansion Real seal nonescape]\label{thm:decimal-expansion-real-seal-nonescape}
+The terminal row $E$ of an accepted $\DecimalExpansionUp$ packet exports only the displayed $\RealUp$ seal reached from $D,W,V,Q,R$. It exports no quotient real, endpoint resolver, trichotomy decision, selected decimal stream, or $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with the real readback boundary of \autoref{thm:decimal-expansion-real-readback-boundary}. Every $\RealUp$ read factors through the finite route from $\StreamNameUp$ windows to decimal place value, dyadic comparison, $\RegSeqRatUp$ handoff, and then the seal row $E$.
+
+Use \autoref{thm:decimal-expansion-dyadic-comparison-handoff} to keep the route through $Q$ and $R$. The seal is downstream of those displayed rows, so it cannot introduce an endpoint resolver, trichotomy row, or selected stream that is not already present in the carrier.
+
+Finally project the excluded-coordinate clause of \autoref{def:decimal-expansion-carrier}. Since quotient reals, endpoint convention resolvers, trichotomy decisions, selected representatives, selected decimal streams, and completeness witnesses are absent from the displayed packet, none escapes through $E$.
+\end{proof}
+
 \begin{closurestatus}{\DecimalExpansionUp}
   \constructivestory{A $\DecimalExpansionUp$ packet is generated from finite decimal digit rows, decimal-place windows, rational place-value rows, dyadic/rational comparison rows, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
