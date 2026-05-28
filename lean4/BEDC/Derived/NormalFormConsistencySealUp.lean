@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.NormalFormConsistencySealUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -275,5 +278,21 @@ theorem NormalFormConsistencySealTasteGate_single_carrier_alignment :
         · intro x w m hw hm
           exact BMark_generated_cases m
         · rfl
+
+theorem NormalFormConsistencySealSubjectReductionBoundary
+    {typing falseRow normality theoremRow boundary closedRead : BHist} :
+    UnaryHistory typing ->
+      UnaryHistory normality ->
+        UnaryHistory boundary ->
+          Cont typing normality theoremRow ->
+            Cont theoremRow boundary closedRead ->
+              UnaryHistory theoremRow ∧ UnaryHistory closedRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro typingUnary normalityUnary boundaryUnary subjectRoute boundaryRoute
+  have theoremRowUnary : UnaryHistory theoremRow :=
+    unary_cont_closed typingUnary normalityUnary subjectRoute
+  have closedReadUnary : UnaryHistory closedRead :=
+    unary_cont_closed theoremRowUnary boundaryUnary boundaryRoute
+  exact ⟨theoremRowUnary, closedReadUnary⟩
 
 end BEDC.Derived.NormalFormConsistencySealUp
