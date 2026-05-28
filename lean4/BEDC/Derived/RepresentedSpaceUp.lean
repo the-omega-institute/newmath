@@ -159,6 +159,57 @@ theorem RepresentedSpaceCarrier_representation_relation_exactness [AskSetup] [Pa
     hsame_symm transportSameRelationRead
   exact ⟨cert, relationReadUnary⟩
 
+theorem RepresentedSpaceCarrier_name_schedule_obligation [AskSetup] [PackageSetup]
+    {name schedule relation target transport replay provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.RepresentedSpaceUp name schedule relation target transport replay
+        provenance localName bundle pkg →
+      UnaryHistory name ∧ UnaryHistory schedule ∧ Cont name schedule replay ∧
+        SemanticNameCert
+          (fun row : BHist => hsame row schedule ∧ UnaryHistory row)
+          (fun row : BHist => hsame row name ∨ hsame row schedule ∨ hsame row replay)
+          (fun row : BHist => hsame row schedule ∧ PkgSig bundle provenance pkg)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier
+  obtain ⟨nameUnary, scheduleUnary, _relationUnary, _targetUnary, _transportUnary,
+    _replayUnary, _provenanceUnary, _localNameUnary, nameScheduleReplay,
+    _relationTargetTransport, _localNameTransport, provenancePkg⟩ := carrier
+  have sourceSchedule :
+      (fun row : BHist => hsame row schedule ∧ UnaryHistory row) schedule := by
+    exact ⟨hsame_refl schedule, scheduleUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row schedule ∧ UnaryHistory row)
+          (fun row : BHist => hsame row name ∨ hsame row schedule ∨ hsame row replay)
+          (fun row : BHist => hsame row schedule ∧ PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro schedule sourceSchedule
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inl source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, provenancePkg⟩
+  }
+  exact ⟨nameUnary, scheduleUnary, nameScheduleReplay, cert⟩
+
 end RepresentedSpaceUp
 
 end BEDC.Derived
