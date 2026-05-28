@@ -12,6 +12,20 @@ Closedness preservation is carried separately by $Q$. Each trace edge may be rea
 Finally, $H,C,P,N$ transport, replay, package, and name exactly these displayed rows. Since no strong-normalization certificate is a coordinate of the bounded route, the socket boundary refuses any consumer that tries to read strong normalization from fuel alone.
 \end{proof}
 
+\begin{theorem}[Normalization candidate socket candidate-set fuel route]
+\label{thm:normalization-candidate-socket-candidate-set-fuel-route}
+If an accepted $\NormalizationCandidateSocketUp$ packet exposes the candidate-set row $E$ and bounded fuel row $U$, then every bounded normalization read factors through candidate evidence, the closedness-preservation trace, App and Pi adequacy rows, the bounded trace, and the structural rows $H,C,P,N$. The route uses the candidate-set readback row $E$, the App adequacy row $A$, the Pi adequacy row $B$, the bounded trace row $T$, the closedness-preservation row $Q$, and the fuel row $U$; it does not export global strong normalization or completed closed consistency.
+\end{theorem}
+\begin{proof}
+Project the socket rows from \autoref{def:normalization-candidate-socket-carrier}. The candidate-set row $E$ supplies the candidate evidence available to the bounded read, while the adequacy rows $A$ and $B$ keep application and Pi cases attached to that evidence.
+
+Use \autoref{thm:normalization-candidate-socket-fuel-boundary}. The bounded fuel row $U$ and trace row $T$ display the finite computation, and the closedness-preservation row $Q$ accompanies each recorded step.
+
+The transport and replay rows preserve the order of the read. Thus $H,C,P,N$ can move and name only the route that has already passed through candidate evidence, adequacy rows, bounded fuel, bounded trace, and closedness preservation.
+
+Since neither the candidate-set route nor the bounded-fuel boundary contains a coordinate for global strong normalization or completed closed consistency, those conclusions are not exported by the packet.
+\end{proof}
+
 \begin{theorem}[Normalization candidate socket candidate-set readback]
 \label{thm:normalization-candidate-socket-candidate-set-readback}
 If an accepted $\NormalizationCandidateSocketUp$ packet exposes the candidate-set row $E$, then closed typed strong-normalization and no-infinite-reduction reads factor through the finite route
