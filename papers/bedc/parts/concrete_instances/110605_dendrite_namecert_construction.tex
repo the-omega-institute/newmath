@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\DendriteUp$}
+\label{ch:concrete-instances-dendrite-namecert}
+\origin{human}
+
+Following Nadler and Kuratowski on continuum theory, the $\DendriteUp$ packet records the finite BEDC surface for a locally connected compact metric continuum whose tree-like form is read through unique arcs and cutpoint separation. It sits over the compact metric carrier of \autoref{ch:concrete-instances-compactmetric-namecert}, the locally connected surface of \autoref{ch:concrete-instances-locally-connected-namecert}, the Peano continuum boundary of \autoref{ch:concrete-instances-peano-continuum-namecert}, and the tree certificate of \autoref{ch:concrete-instances-tree-namecert}. The packet names displayed endpoint, unique-arc, and cutpoint-separation rows; it does not import host continua, arbitrary path spaces, open-cover compactness, or quotient equality of arcs.
+
+\begin{definition}[Dendrite carrier]
+\label{def:dendrite-carrier}
+A $\DendriteUp$ carrier is a finite $\BHist$ packet
+$$
+D=(K,L,P,T,E,A,C,H,R,G,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row, exposing the metric distance rows, finite ProbeBundle-net rows, complete-limit witness rows, and rational tolerance comparisons already certified by the compact-metric chapter.
+\item $L$ is the $\LocallyConnectedUp$ row, recording the displayed connected neighbourhood refinements through which local arc and cutpoint requests are inspected.
+\item $P$ is the $\PeanoContinuumUp$ row, binding the compact metric and locally connected continuum surfaces before any dendrite consumer reads an arc boundary.
+\item $T$ is the $\TreeUp$ row, recording the finite tree-like separation surface used to rule out cycle-shaped routes.
+\item $E$ is the endpoint ledger, listing endpoint rows and their neighbourhood-read witnesses.
+\item $A$ is the unique-arc ledger, recording for every displayed endpoint or carried point pair the finite arc row, its endpoint membership rows, and its non-branching comparison rows.
+\item $C$ is the cutpoint-separation ledger, recording the displayed separation rows used when removing a carried point disconnects the relevant finite tree-like boundary.
+\item $H$ records componentwise $\hsame$ transport for compact metric data, local connectedness data, Peano-continuum data, tree data, endpoint rows, unique-arc rows, cutpoint-separation rows, replay, provenance, and local naming.
+\item $R$ records displayed $\Cont$ replay from a dendrite request through $K,L,P,T,E,A,C,H,G,Q,N$.
+\item $G$ is the $\Pkg$ provenance over $\DendriteUp$, $\CompactMetricUp$, $\LocallyConnectedUp$, $\PeanoContinuumUp$, $\TreeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $Q$ records the local source and consumer provenance for endpoint, unique-arc, and cutpoint-separation reads.
+\item $N$ is the local $\NameCert_{\DendriteUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host continuum, arbitrary path selection, open-cover compactness, cycle elimination by excluded middle, or quotient equality of arcs.
+\end{definition}
+
+\begin{theorem}[Dendrite NameCert obligations]
+\label{thm:dendrite-namecert-obligations}
+For every accepted $\DendriteUp$ carrier
+$$
+D=(K,L,P,T,E,A,C,H,R,G,Q,N),
+$$
+the local $\NameCert_{\DendriteUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the compact metric source, locally connected row, Peano-continuum row, tree row, endpoint ledger, unique-arc ledger, cutpoint-separation ledger, transport, replay, provenance, source provenance, and local naming;
+\item compact-continuum visibility, requiring every dendrite consumer to read compact metric and local connectedness data through $K,L,P$ before reading endpoint or arc rows;
+\item tree-like exactness, requiring the non-cycle and separation information to pass through $T$ and the cutpoint-separation ledger $C$;
+\item unique-arc exactness, requiring every arc-facing read to use the displayed ledger $A$ with its endpoint membership and non-branching comparison rows;
+\item endpoint exactness, requiring endpoint reads to use only the displayed endpoint ledger $E$ and not a host boundary predicate;
+\item $\hsame$, $\Cont$, and $\Pkg$ stability, requiring componentwise transport, displayed replay, and provenance to preserve precisely the listed rows;
+\item non-escape, excluding host continua, arbitrary path spaces, open-cover compactness, selected arc representatives, and quotient equality of arcs.
+\end{enumerate}
+No dendrite obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dendrite-carrier}. The accepted tuple displays exactly the compact metric source, local connectedness, Peano-continuum row, tree row, endpoint ledger, unique-arc ledger, cutpoint-separation ledger, transport, replay, provenance, source provenance, and local naming.
+
+The compact-continuum route is $K,L,P$. The compact metric source supplies distance, finite-net, complete-limit, and tolerance-comparison rows; the locally connected row supplies connected neighbourhood refinements; and the Peano-continuum row binds those surfaces before endpoint or arc data are exposed.
+
+The tree-like route is $T,E,A,C$. The tree row supplies the finite non-cycle surface, the endpoint ledger records boundary reads, the unique-arc ledger records the displayed arc row between carried point pairs, and the cutpoint-separation ledger records the separation witnesses used by downstream consumers.
+
+Finally, $H,R,G,Q,N$ transport, replay, source, and name the same finite packet. Since the carrier has no row for a host continuum, arbitrary path space, open-cover compactness principle, selected arc representative, or quotient equality of arcs, the listed obligations exhaust the local $\NameCert_{\DendriteUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Dendrite unique-arc handoff]
+\label{thm:dendrite-unique-arc-handoff}
+Every unique-arc or cutpoint-facing consumer of an accepted $\DendriteUp$ carrier must read the finite route
+$$
+\CompactMetricUp,\ \LocallyConnectedUp,\ \PeanoContinuumUp,\ \TreeUp
+\longmapsto
+E,A,C,H,R,G,Q,N .
+$$
+The handoff exposes endpoint rows, unique-arc rows, cutpoint-separation rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. It does not expose arbitrary host paths, open-cover compactness, selected arc representatives, quotient equality of arcs, or a continuum object outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Start with the compact-continuum source. The rows $K,L,P$ force a consumer to read the compact metric, locally connected, and Peano-continuum surfaces before any arc-facing data can be inspected.
+
+Next read the tree row $T$. This is the only row carrying the tree-like non-cycle surface, so a later cutpoint or arc argument cannot replace it by a host graph or a classical continuum theorem.
+
+The endpoint and arc data are then $E,A,C$. Endpoint reads pass through $E$, unique-arc reads pass through $A$, and cutpoint-separation reads pass through $C$; the three ledgers remain tied to the same compact-continuum and tree source rows.
+
+The structural rows $H,R,G,Q,N$ preserve this route under transport, replay, provenance, and local naming. Because no excluded host-side row appears in the carrier, the consumer receives exactly the displayed unique-arc handoff and nothing stronger.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DendriteUp$ read must expose CompactMetric, LocallyConnected, PeanoContinuum, Tree, endpoint, unique-arc, cutpoint-separation, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, source provenance, and local $\NameCert$ rows before a continuum or arc consumer can inspect the dendrite boundary.}
+
+\independenceWitness{compactmetric, locally-connected, peano-continuum, tree: $\DendriteUp$ is not bijective to any listed sibling because it binds endpoint, unique-arc, and cutpoint-separation ledgers over their common compact-continuum and tree-like source.}
+
+\closureat{DendriteUp}{seedStr}
+
+\begin{closurestatus}{\DendriteUp}
+  \constructivestory{A $\DendriteUp$ packet is generated from CompactMetricUp, LocallyConnectedUp, PeanoContinuumUp, TreeUp, endpoint rows, unique-arc rows, cutpoint-separation rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, source provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dendrite-carrier}, \autoref{thm:dendrite-namecert-obligations}, and \autoref{thm:dendrite-unique-arc-handoff} seed the finite dendrite certificate over compact metric, locally connected, Peano-continuum, tree, endpoint, unique-arc, cutpoint-separation, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host continua, arbitrary path spaces, open-cover compactness, selected arc representatives, quotient equality of arcs, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-continuum visibility, tree-like exactness, endpoint exactness, unique-arc exactness, cutpoint-separation exactness, transport, replay, provenance, and local naming for BEDC.Derived.DendriteUp.}
+\end{closurestatus}
