@@ -618,6 +618,20 @@ Next use \autoref{thm:real-power-series-cauchy-product-radius-budget}. The produ
 Finally apply \autoref{thm:real-power-series-endpoint-seal-factorization} and \autoref{thm:real-power-series-product-endpoint-nonescape}. The endpoint seal remains downstream of the common window route and the excluded host, selector, analytic-continuation, choice, and completeness objects have no carrier coordinate.
 \end{proof}
 
+\begin{theorem}[Real power series coefficient-product-radius exhaustion]
+\label{thm:realpowerseries-coefficient-product-radius-exhaustion}
+Let $K=(A,Z,X,R,W,S,M,E,H,C,P,N)$ be an accepted $\RealPowerSeriesUp$ packet, and let a downstream endpoint-facing consumer request an evaluation, product evaluation, or radius-limited read of $K$. Then the consumer must first expose the coefficient windows $A,W$; when products are present it must also expose a displayed $\CauchyProductUp$ ledger $B$ for the product coefficients cited by $P$; it must then expose the radius or subradius row $R$, the selected majorant row $M$, the partial-sum rows $S$, the $\RegSeqRatUp$ and $\DyadicRatCoreUp$ readback route, and only then the endpoint seal $E$. The resulting read exports no host product of infinite sums, endpoint selector, analytic-continuation equality, quotient function equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the coefficient-window ledger. Theorems \autoref{thm:real-power-series-coefficient-window-ledger} and \autoref{thm:real-power-series-coefficient-window-transport} force every evaluation or product request to display the coefficient source $A$ and the finite windows $W$ before the endpoint row can be inspected.
+
+For product-facing requests, apply \autoref{thm:real-power-series-cauchy-product-radius-budget} and \autoref{thm:real-power-series-product-coefficient-window-lock}. These place the $\CauchyProductUp$ product ledger on the same finite coefficient-window route and prevent a product consumer from reading undisplayed product coefficients.
+
+Next read the radius side. The radius-window handoff and radius-majorant coverage theorems require the radius or subradius row $R$ and the selected majorant row $M$ before the partial sums and endpoint seal are consumed.
+
+Finally apply \autoref{thm:real-power-series-endpoint-seal-factorization}, \autoref{thm:realpowerseries-endpoint-nonescape-triad}, and \autoref{thm:real-power-series-radius-composition}. The partial-sum rows $S$, the regular-rational and dyadic readback route, and the endpoint seal $E$ are downstream of the displayed coefficient, product, radius, and majorant rows. Since the excluded analytic, quotient, selector, choice, and completeness objects have no carrier coordinate, the listed route exhausts every endpoint-facing read.
+\end{proof}
+
 \falsifiablePrediction{Every $\RealPowerSeriesUp$ endpoint-facing read factors through a coefficient or FormalPowerSeries row, center Real row, argument Real row, displayed radius or subradius row, finite StreamName windows, partial-sum RealSeries row, majorant data from M-test or ratio/root-test rows, endpoint Real seal, transport, continuation, provenance, and local naming.}
 
 \independenceWitness{realseries, weierstrass-mtest, regular-cauchy-ratio-test, regular-cauchy-root-test, formalpowerseries, convergence-radius, real, regseqrat, streamname, dyadicratcore: $\RealPowerSeriesUp$ is not bijective to any listed sibling because it jointly carries coefficient-stream access, center and argument Real rows, displayed radius windows, finite polynomial partial sums, selected majorant routes, endpoint sealing, transport, continuation, provenance, and local naming.}
