@@ -4443,7 +4443,6 @@ import BEDC.Derived.MetaCICCriticalPathUp.KernelFrontierExposure
 import BEDC.Derived.MetaCICCriticalPathUp.L10EntryBudgetSynchronization
 import BEDC.Derived.MetaCICCriticalPathUp.L10FourFaceClosureReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.L10NormalizationDischargeBudget
-import BEDC.Derived.MetaCICCriticalPathUp.L10PrefixDependencyInduction
 import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObligation
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNamingExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurface
@@ -5475,7 +5474,6 @@ import BEDC.Derived.RealIntegerPartUp
 import BEDC.Derived.RealIntegerPartUp.TasteGate
 import BEDC.Derived.RealIntervalArithmeticUp.TasteGate
 import BEDC.Derived.RealIntervalDistanceUp.TasteGate
-import BEDC.Derived.RealLimitStabilityUp
 import BEDC.Derived.RealLimitUniquenessSealUp
 import BEDC.Derived.RealLimitUniquenessSealUp.TasteGate
 import BEDC.Derived.RealLimitUniquenessWitnessUp.TasteGate
@@ -5520,6 +5518,7 @@ import BEDC.Derived.RealPowerSeriesUp.RootCoefficientWindowCoverage
 import BEDC.Derived.RealPowerSeriesUp.RootEndpointNonescape
 import BEDC.Derived.RealPowerSeriesUp.RootRadiusMajorantTriad
 import BEDC.Derived.RealPowerSeriesUp.TasteGate
+import BEDC.Derived.RealPrefixDiagnosticUp
 import BEDC.Derived.RealRationalApproximationUp.TasteGate
 import BEDC.Derived.RealRootBracketUp.TasteGate
 import BEDC.Derived.RealRootExistenceUp.TasteGate
