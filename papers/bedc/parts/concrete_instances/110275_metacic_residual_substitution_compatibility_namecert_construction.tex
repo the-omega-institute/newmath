@@ -72,6 +72,22 @@ The candidate boundary of \autoref{ch:concrete-instances-metacic-candidate-close
 Since completed Church--Rosser and arbitrary closed-source confluence are absent from the carrier, the candidate-closed projection route cannot export them. It hands off only the displayed residual-substitution compatibility boundary.
 \end{proof}
 
+\begin{theorem}[MetaCIC residual-substitution obligation closure surface]
+\label{thm:metacic-residual-substitution-obligation-closure-surface}
+For every accepted $\MetaCICResidualSubstitutionCompatibilityUp$ carrier
+$$
+M=(s,t,b,j,g,a,h,c,p,n),
+$$
+the obligation surface is exactly the displayed source term, substituted term, parallel branch, residual join, closedness guard, atom-shape separation, transport, replay, provenance, and naming rows. The candidate-closed projection boundary receives only this guarded compatibility packet.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metacic-residual-substitution-compatibility-namecert-obligations}. It identifies carrier admission, branch-shape disjointness, substitution residual replay, closed-source guarding, transport, replay, provenance, and naming as rows of $s,t,b,j,g,a,h,c,p,n$.
+
+Apply \autoref{thm:metacic-residual-substitution-compatibility-candidate-projection-route}. The candidate boundary receives the source, substitution, beta-parallel branch, residual-join, closedness, and atom-shape data only through that guarded projection route.
+
+Therefore the obligation surface packages the candidate handoff without exporting full closed Church--Rosser, arbitrary closed-source confluence, or unguarded substitution compatibility. Those claims are not coordinates of the carrier and are not supplied by the candidate projection.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\MetaCICResidualSubstitutionCompatibilityUp$ read displays source term, substituted term, parallel branch, residual join, closedness guard, atom-shape separation, hsame transport, Cont replay, Pkg provenance, and local naming rows before the conditional MetaCIC confluence bridge can consume it.}
 
 \independenceWitness{metacic-confluence-audit: $\MetaCICResidualSubstitutionCompatibilityUp$ is not a completed confluence theorem because it carries only the finite residual-substitution compatibility boundary consumed by the conditional parallel-diamond route.}
