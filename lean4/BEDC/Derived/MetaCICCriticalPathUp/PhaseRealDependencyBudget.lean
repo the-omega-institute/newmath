@@ -110,4 +110,69 @@ theorem MetaCICCriticalPathStreamNameRegSeqRatRouteOrder [AskSetup] [PackageSetu
       scheduleLocalNameReadback, readbackLocalNameSeal, provenancePkg, streamSchedulePkg,
       regSeqReadbackPkg, realSealPkg⟩
 
+theorem MetaCICCriticalPathPhaseRealExitConjunction [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction unblock discharge handoff continuation provenance
+      localName dyadic stream regseq realSeal exitRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathOpenPhaseSourceLedger strongNorm normalForm obstruction unblock
+        discharge handoff continuation provenance localName dyadic stream regseq realSeal
+        bundle pkg →
+      Cont dyadic stream regseq →
+        Cont regseq realSeal exitRead →
+          PkgSig bundle exitRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row exitRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row dyadic ∨ hsame row stream ∨ hsame row regseq ∨
+                    hsame row realSeal ∨ hsame row exitRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont dyadic stream regseq ∧
+                    Cont regseq realSeal exitRead ∧ PkgSig bundle exitRead pkg)
+                hsame ∧
+              UnaryHistory exitRead ∧ PkgSig bundle realSeal pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro ledger dyadicStreamRegseq regseqRealSealExit exitReadPkg
+  obtain ⟨_packet, _dyadicUnary, _streamUnary, regseqUnary, realSealUnary,
+    _dyadicStreamRegseq, _regseqRealSealHandoff, realSealPkg⟩ := ledger
+  have exitReadUnary : UnaryHistory exitRead :=
+    unary_cont_closed regseqUnary realSealUnary regseqRealSealExit
+  have exitReadCarrier :
+      (fun row : BHist => hsame row exitRead ∧ UnaryHistory row) exitRead := by
+    exact ⟨hsame_refl exitRead, exitReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row exitRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row dyadic ∨ hsame row stream ∨ hsame row regseq ∨
+              hsame row realSeal ∨ hsame row exitRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont dyadic stream regseq ∧
+              Cont regseq realSeal exitRead ∧ PkgSig bundle exitRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro exitRead exitReadCarrier
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, dyadicStreamRegseq, regseqRealSealExit, exitReadPkg⟩
+  }
+  exact ⟨cert, exitReadUnary, realSealPkg⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp
