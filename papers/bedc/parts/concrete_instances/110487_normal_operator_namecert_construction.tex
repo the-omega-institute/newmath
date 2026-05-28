@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\NormalOperatorUp$}
+\label{ch:concrete-instances-normal-operator-namecert}
+\origin{human}
+
+Following Reed and Simon, the $\NormalOperatorUp$ packet records the standard normal-operator surface as finite NameCert data over displayed Hilbert and inner-product candidates. It consumes the inner-product carrier of \autoref{ch:concrete-instances-innerproduct-namecert}, the Hilbert carrier of \autoref{ch:concrete-instances-hilbert-namecert}, the linear-map rows of \autoref{ch:concrete-instances-linearmap-namecert}, the operator-norm boundary of \autoref{ch:concrete-instances-operator-norm-namecert}, and the downstream spectral-theorem consumer of \autoref{ch:concrete-instances-spectraltheorem-namecert}. The packet exposes only a bounded linear operator, its displayed adjoint-action row, the norm ledger, and the normality commutator row; it does not claim spectral measure existence, functional calculus, diagonalization, projection-valued measures, or a host operator algebra.
+
+\begin{definition}[NormalOperator carrier]
+\label{def:normal-operator-carrier}
+For a displayed $\HilbertUp$ candidate $H$ with $\InnerProductUp$ row $I$, a $\NormalOperatorUp(H)$ carrier is a finite $\BHist$ packet
+$$
+\mathcal{N}=(H,I,T,T^\ast,A,K,Q,L,H_T,C,P,N)
+$$
+with the following ten displayed fields:
+\begin{enumerate}
+\item $H$ is the $\HilbertUp$ carrier row and $I$ is the $\InnerProductUp$ row over the same point-history carrier.
+\item $T$ is a bounded $\LinearMapUp$ endpoint action on the carried Hilbert endpoints.
+\item $T^\ast$ is the displayed adjoint-action row, certified by the finite inner-product comparison
+$$
+\langle T x,y\rangle_I \;\hsame\; \langle x,T^\ast y\rangle_I
+$$
+for the vector histories inspected by the packet.
+\item $A$ is the adjoint-domain ledger, recording that the adjoint row is read over the same Hilbert, inner-product, linear-map, and boundedness surfaces as $T$.
+\item $K$ is the $\OperatorNormUp$ bound row for $T$ and for the displayed adjoint action $T^\ast$.
+\item $Q$ is the normality commutator row
+$$
+T^\ast T \;\hsame\; T T^\ast
+$$
+read only on certified vector histories.
+\item $L$ is the operator graph ledger: it stores inspected input histories, output histories, linearity rows, adjoint rows, norm-bound rows, and the commutator row.
+\item $H_T$ records componentwise $\hsame$ transport for the Hilbert source, inner-product row, endpoint actions, adjoint row, norm row, commutator row, and ledger.
+\item $C$ records displayed $\Cont$ replay for endpoint action requests, adjoint-action requests, norm-bound requests, and commutator inspections.
+\item $P,N$ are the $\Pkg$ provenance and local $\NameCert_{\NormalOperatorUp}$ naming rows.
+\end{enumerate}
+The classifier compares accepted carriers by action agreement on certified vector histories, adjoint-action agreement on the same inspected histories, transport of the operator-norm row, and transport of the graph, adjoint, normality, continuation, provenance, and local-name ledgers. It has no coordinate for host operator equality, quotient completion, spectral measures, eigenvector bases, or external functional calculus.
+\end{definition}
+
+\begin{theorem}[NormalOperator NameCert obligations]
+\label{thm:normal-operator-namecert-obligations}
+For every accepted $\NormalOperatorUp$ carrier
+$$
+\mathcal{N}=(H,I,T,T^\ast,A,K,Q,L,H_T,C,P,N),
+$$
+the local $\NameCert_{\NormalOperatorUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the common $\HilbertUp$ and $\InnerProductUp$ rows;
+\item bounded $\LinearMapUp$ action for $T$ on certified vector histories;
+\item adjoint-action agreement for $T^\ast$ against the displayed inner product;
+\item $\OperatorNormUp$ bound rows for the operator action and adjoint action;
+\item normality commutator exactness through the displayed row $Q$;
+\item graph-ledger exactness for input histories, output histories, linearity rows, adjoint rows, norm rows, and commutator rows;
+\item classifier transport by action agreement, adjoint-action agreement, norm-row agreement, and componentwise ledger transport;
+\item $\Cont$ replay, $\Pkg$ provenance, and local naming for exactly the displayed packet;
+\item refusal of spectral measure existence, diagonalization, projection-valued measures, host operator quotients, and unrecorded functional calculus.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:normal-operator-carrier}. The Hilbert and inner-product source rows, endpoint action, adjoint-action row, adjoint-domain ledger, norm row, commutator row, graph ledger, transport row, continuation row, provenance row, and local name are the full displayed inventory.
+
+The adjoint and boundedness obligations are read before any spectral consumer appears. The adjoint row is the finite inner-product comparison for certified vector histories, and the norm row is the displayed $\OperatorNormUp$ bound attached to both endpoint actions.
+
+Normality is exactly the commutator row $Q$. Because $Q$ compares $T^\ast T$ and $T T^\ast$ only through inspected vector histories and their graph ledger, the packet does not appeal to host equality of operators.
+
+Finally $H_T,C,P,N$ transport, replay, source, and name those rows. Since the carrier has no spectral-measure, diagonalization, projection-valued-measure, quotient, or functional-calculus coordinate, the listed rows exhaust the local normal-operator NameCert obligations.
+\end{proof}
+
+\begin{theorem}[NormalOperator InnerProduct spectral anchor]
+\label{thm:normal-operator-innerproduct-spectral-anchor}
+Every downstream spectral read of an accepted $\NormalOperatorUp$ packet factors through the common Hilbert and inner-product rows, the bounded linear action, the displayed adjoint-action row, the operator-norm bound, and the normality commutator ledger before it can be consumed by the $\SpectralTheoremUp$ surface. The route is
+$$
+(H,I) \longmapsto (T,T^\ast,A,K,Q,L) \longmapsto (H_T,C,P,N),
+$$
+and it exports no spectral projection, spectral measure, eigenbasis, Borel functional calculus, or host operator-algebra equality.
+\end{theorem}
+\begin{proof}
+Expose the accepted packet by \autoref{def:normal-operator-carrier}. The only analytic source rows are the Hilbert carrier, inner-product comparison row, endpoint action, displayed adjoint action, norm bound, and normality commutator.
+
+Apply \autoref{thm:normal-operator-namecert-obligations}. The graph ledger forces the operator action, adjoint action, boundedness evidence, and commutator evidence to be read from one finite packet, and classifier transport keeps the operator and adjoint rows over the same certified vector histories.
+
+It remains to hand the packet to spectral consumers. The $\SpectralTheoremUp$ chapter may consume the normality anchor only through the displayed rows already named here. Because no spectral projection, spectral measure, eigenbasis, Borel functional calculus, or host operator-algebra equality is a field of the carrier, the anchor supplies a pre-spectral normal-operator surface rather than a spectral theorem.
+\end{proof}
+
+\closureat{NormalOperatorUp}{seedStr}
+
+\begin{closurestatus}{\NormalOperatorUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:normal-operator-carrier}, \autoref{thm:normal-operator-namecert-obligations}, and \autoref{thm:normal-operator-innerproduct-spectral-anchor} seed the normal-operator surface over Hilbert, inner-product, bounded linear-map, adjoint-action, operator-norm, and commutator rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim spectral measures, spectral projections, diagonalization, eigenbasis construction, Borel functional calculus, host operator quotients, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, adjoint-action agreement, norm-bound stability, normality commutator exactness, classifier transport, graph-ledger exactness, spectral-consumer nonescape, and bridge data for BEDC.Derived.NormalOperatorUp.}
+  \constructivestory{A $\NormalOperatorUp$ packet is generated from a Hilbert source, an inner-product row, a bounded linear endpoint action, a displayed adjoint action, operator-norm bounds, a normality commutator row, graph and transport ledgers, continuation replay, provenance, and a local NameCert row.}
+\end{closurestatus}
