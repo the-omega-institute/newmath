@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\DecimalIntervalRealUp$}
+\label{ch:concrete-instances-decimal-interval-real-namecert}
+\origin{human}
+
+Bishop--Bridges constructive analysis uses rational and decimal brackets as finite evidence before a real name is treated as complete. The $\DecimalIntervalRealUp$ packet records this decimal-bracket carrier as BEDC NameCert data. It sits after the decimal prefix surface of \autoref{ch:concrete-instances-decimalexpansion-namecert}, the finite decimal stream of \autoref{ch:concrete-instances-decimal-stream-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the located interval source of \autoref{ch:concrete-instances-located-real-interval-namecert}. The packet gives L10 Real and Completion consumers a finite decimal interval carrier without quotient reals, trichotomy, selected representatives, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Decimal interval real carrier]
+\label{def:decimal-interval-real-carrier}
+A $\DecimalIntervalRealUp$ carrier is a finite $\BHist$ packet
+$$
+J=(A,B,D,W,Q,R,E,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the lower finite decimal-prefix row, read through $\DecimalExpansionUp$ and the finite $\DecimalStreamUp$ schedule.
+\item $B$ is the upper finite decimal-prefix row, read through the same decimal surfaces and carrying the advertised bracket side.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger translating decimal place values into dyadic comparison margins.
+\item $W$ is the $\StreamNameUp$ window schedule opened for endpoint-prefix reads, bracket comparison, and downstream replay.
+\item $Q$ is the bracket-order row, recording that the lower decimal prefix and upper decimal prefix are compared only through the displayed tolerance ledger.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the endpoint windows, decimal prefix rows, dyadic ledger, and bracket-order row.
+\item $E$ is the $\RealUp$ seal row, available only after the regular rational readback has been displayed.
+\item $L$ is the $\LocatedRealIntervalUp$ handoff row that consumes the same endpoint, tolerance, readback, and seal rows as a located interval boundary.
+\item $H$ records componentwise $\hsame$ transport for endpoint prefixes, tolerance rows, windows, bracket order, regular readback, real seal, located interval handoff, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a decimal-bracket request through endpoint prefixes, dyadic comparison, finite windows, regular readback, real sealing, and located interval handoff.
+\item $P$ is the $\Pkg$ provenance over $\DecimalIntervalRealUp$, $\DecimalExpansionUp$, $\DecimalStreamUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\LocatedRealIntervalUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DecimalIntervalRealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,B,D,W,Q,R,E,L,H,C,P,N$. It has no coordinate for a quotient real, a trichotomy decision, a selected decimal representative, host endpoint equality, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Decimal interval real NameCert obligations]
+\label{thm:decimal-interval-real-namecert-obligations}
+For every accepted $\DecimalIntervalRealUp$ carrier $J=(A,B,D,W,Q,R,E,L,H,C,P,N)$, the local $\NameCert_{\DecimalIntervalRealUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the lower decimal prefix, upper decimal prefix, dyadic tolerance ledger, stream windows, bracket-order row, regular rational readback, real seal, located interval handoff, transport, replay, provenance, and local naming rows;
+\item decimal-prefix visibility, requiring endpoint reads to enter through $A$ and $B$ before any bracket comparison is inspected;
+\item tolerance discipline, requiring the place-value comparison to use the displayed $\DyadicRatCoreUp$ row $D$ and no hidden real-order oracle;
+\item window discipline, requiring each endpoint and comparison read to be scheduled by the finite $\StreamNameUp$ row $W$;
+\item regular-readback order, requiring $R$ to consume $A,B,D,W,Q$ before any $\RealUp$ seal is available;
+\item located-interval handoff, requiring $L$ to consume the same endpoint, tolerance, readback, and seal route rather than a host interval;
+\item componentwise $\hsame$ transport and displayed $\Cont$ replay for exactly the rows carried by $H$ and $C$;
+\item ledger non-escape, excluding quotient reals, trichotomy, selected decimal representatives, host endpoint equality, countable choice, and ambient $\RealUp$ completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:decimal-interval-real-carrier}. The projection exposes exactly the two decimal endpoint-prefix rows, the dyadic tolerance ledger, the finite window schedule, the bracket-order row, the regular readback, the terminal real seal, the located interval handoff, transport, replay, provenance, and local naming.
+
+The endpoint reads are visible before comparison. Rows $A$ and $B$ carry the finite decimal prefixes, while $D$ supplies the dyadic margin used to compare their place-value readings. The row $W$ schedules the inspected prefixes and comparison windows, so the bracket-order row $Q$ has no access to a hidden real-order decision.
+
+The real-facing route is downstream of the finite bracket data. Row $R$ is read only after $A,B,D,W,Q$ have been displayed, and row $E$ seals the result only after that regular rational readback.
+
+Finally, the located interval handoff $L$ consumes the same displayed route, while $H,C,P,N$ transport, replay, source, and name the packet. Since no remaining coordinate stores quotient equality, trichotomy, a selected decimal representative, host endpoint equality, countable choice, or $\RealUp$ completeness, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Decimal interval real seal handoff]
+\label{thm:decimal-interval-real-real-seal-handoff}
+Every $\RealUp$ or $\LocatedRealIntervalUp$ read exported by an accepted $\DecimalIntervalRealUp$ carrier factors through the finite route
+$$
+\DecimalExpansionUp,\ \DecimalStreamUp,\ \DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \LocatedRealIntervalUp .
+$$
+Equivalently, a downstream Real and Completion consumer receives the two decimal endpoint-prefix rows, the dyadic comparison ledger, the finite window row, the regular rational readback, the terminal real seal, the located interval handoff, transport, replay, provenance, and local naming before it can use the bracket.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $J=(A,B,D,W,Q,R,E,L,H,C,P,N)$. The only real-facing row is $E$, and the only located-interval row is $L$.
+
+The definition places $E$ after the endpoint-prefix rows $A,B$, the dyadic tolerance ledger $D$, the window schedule $W$, the bracket-order row $Q$, and the regular rational readback $R$. Thus a $\RealUp$ consumer must first inspect the decimal, dyadic, window, and readback rows.
+
+The located interval handoff is not an alternate route. Row $L$ consumes the same $A,B,D,W,Q,R,E$ path, and componentwise transport through $H$ preserves that path under $\hsame$.
+
+The replay, provenance, and local naming rows only record the displayed carrier. They do not add quotient reals, trichotomy, selected representatives, host endpoint equality, countable choice, or ambient $\RealUp$ completeness, so the displayed route is the whole exported handoff.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DecimalIntervalRealUp$ read displays two finite decimal-prefix rows, one dyadic comparison ledger, one finite StreamName window row, one RegSeqRat readback row, one RealUp seal row, one LocatedRealIntervalUp handoff row, and local transport, replay, provenance, and naming rows before it is consumed as a decimal bracket.}
+
+\independenceWitness{decimalexpansion, decimal-stream, dyadicratcore, streamname, regseqrat, real, located-real-interval: $\DecimalIntervalRealUp$ is not bijective to any listed sibling because it binds two ordered decimal endpoint-prefix rows, one dyadic comparison ledger, finite observation windows, regular rational readback, RealUp sealing, located interval handoff, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ into one accepted bracket packet.}
+
+\closureat{DecimalIntervalRealUp}{seedStr}
+
+\begin{closurestatus}{\DecimalIntervalRealUp}
+  \constructivestory{A $\DecimalIntervalRealUp$ packet is generated from lower and upper decimal-prefix rows, DecimalStream windows, a DyadicRatCore comparison ledger, a StreamName schedule, a RegSeqRat readback, a RealUp seal, a LocatedRealIntervalUp handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:decimal-interval-real-carrier}, \autoref{thm:decimal-interval-real-namecert-obligations}, and \autoref{thm:decimal-interval-real-real-seal-handoff} seed the finite decimal-bracket route over DecimalExpansionUp, DecimalStreamUp, DyadicRatCoreUp, StreamNameUp, RegSeqRatUp, RealUp, LocatedRealIntervalUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.DecimalIntervalRealUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient reals, trichotomy, selected decimal representatives, host endpoint equality, countable choice, Lean verification, bridge checking, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, decimal-prefix visibility, dyadic tolerance discipline, finite-window discipline, regular-readback order, Real seal handoff, located interval handoff, transport, replay, provenance, and ledger non-escape for BEDC.Derived.DecimalIntervalRealUp.}
+\end{closurestatus}
