@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\LocatedIntervalHalvingUp$}
+\label{ch:concrete-instances-located-interval-halving-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive interval-halving analysis, the $\LocatedIntervalHalvingUp$ packet isolates the one-step finite halving certificate that later bisection and convergence chapters consume. It reads the midpoint route of \autoref{ch:concrete-instances-located-interval-midpoint-namecert}, the retained-child route of \autoref{ch:concrete-instances-located-interval-bisection-namecert}, the finite-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the downstream convergence consumer of \autoref{ch:concrete-instances-bisection-convergence-namecert}. The certificate names one visible halving step, not an infinite branch, a selected limit, host interval equality, or ambient completeness.
+
+\begin{definition}[Located interval halving carrier]
+\label{def:located-interval-halving-carrier}
+A $\LocatedIntervalHalvingUp$ carrier is a finite $\BHist$ packet
+$$
+H=(I,M,L,R,S,D,Q,E,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the source located real interval row. It supplies the lower endpoint, upper endpoint, radius budget, locator reads, locatedness modulus, and endpoint-order observations for the parent interval.
+\item $M$ is the $\LocatedIntervalMidpointUp$ row. It records the displayed midpoint route and the two child endpoint-transport rows before any retained side is selected.
+\item $L$ and $R$ are the left-child and right-child interval rows opened from $M$.
+\item $S$ is the side row. It records the finite locator, sign, containment, or requested-side datum that selects which of $L,R$ is retained for this halving step.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row. It records the common scale, half-radius budget, and dyadic comparison data used by the one-step diameter estimate.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the retained child endpoints and midpoint windows.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $I,M,L,R,S,D,Q$ have been displayed.
+\item $T$ records componentwise $\hsame$ transport for the source interval, midpoint row, child intervals, side row, dyadic tolerance row, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a halving request through source inspection, midpoint construction, child exposure, side retention, dyadic tolerance checking, regular readback, and the Real-facing seal.
+\item $P$ is the $\Pkg$ provenance over $\LocatedIntervalHalvingUp$, $\LocatedIntervalMidpointUp$, $\LocatedIntervalBisectionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedIntervalHalvingUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one located interval halving packet. It has no coordinate for host interval equality, real trichotomy, quotient representatives, countable choice, an infinite branch, selected limits, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[LocatedIntervalHalving NameCert obligations]
+\label{thm:located-interval-halving-namecert-obligations}
+For every accepted $\LocatedIntervalHalvingUp$ carrier
+$$
+H=(I,M,L,R,S,D,Q,E,T,C,P,N),
+$$
+the local $\NameCert_{\LocatedIntervalHalvingUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source located interval, midpoint row, two child intervals, side row, dyadic tolerance row, regular readback, Real seal, transport, replay, provenance, and local naming;
+\item source discipline, requiring every endpoint, radius, locator, locatedness, and order read to factor through $I$ before midpoint or side data are inspected;
+\item midpoint exposure, requiring $M$ to display the midpoint and both child endpoint-transport routes before the retained side is read;
+\item side retention, requiring $S$ to choose only between the displayed children $L$ and $R$ and to export no infinite branch selector;
+\item dyadic halving exactness, requiring $D$ to attach the retained child to the common scale and half-radius budget used by the one-step diameter estimate;
+\item Real-facing handoff, requiring $Q,E,T,C,P,N$ to route the retained child through regular rational readback, the terminal Real seal, transport, replay, provenance, and local naming;
+\item ledger exhaustion, excluding host interval equality, real trichotomy, quotient representatives, countable choice, infinite branches, selected limits, ambient $\RealUp$ completeness, Lean verification, and bridge data.
+\end{enumerate}
+No located interval halving obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-interval-halving-carrier}. The displayed tuple exposes the source interval, midpoint route, two child intervals, side row, dyadic tolerance row, regular readback, Real seal, and structural rows as finite $\BHist$ coordinates.
+
+Source discipline is supplied by $I$. The halving request starts from the source located interval row, so endpoint, radius, locator, locatedness, and order observations cannot be replaced by a host closed interval object.
+
+Midpoint exposure is supplied by $M,L,R$. The midpoint row displays the two child endpoint-transport routes, and the child interval rows make those two finite cells available before any retained side is read.
+
+Side retention and dyadic exactness are supplied by $S$ and $D$. The side row selects only between the displayed children, while the dyadic row records the common scale and half-radius budget for that retained child.
+
+Finally $Q,E,T,C,P,N$ carry the retained child to regular rational readback, the terminal Real seal, componentwise transport, displayed replay, provenance, and local naming. Since every visible coordinate has already been listed, the excluded host equality, trichotomy, quotient, choice, branch, limit, completeness, verification, and bridge objects cannot be projected.
+\end{proof}
+
+\begin{theorem}[LocatedIntervalHalving RegSeqRat and Real handoff]
+\label{thm:located-interval-halving-regseqrat-real-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\LocatedIntervalHalvingUp$ carrier reads the retained child only after the finite route
+$$
+I \longmapsto M,L,R \longmapsto S,D \longmapsto Q \longmapsto E
+$$
+has been displayed. Consequently the handoff consumed by \autoref{ch:concrete-instances-located-interval-bisection-namecert} and \autoref{ch:concrete-instances-bisection-convergence-namecert} is a one-step located halving certificate over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows, not a selected branch, a quotient representative, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $H=(I,M,L,R,S,D,Q,E,T,C,P,N)$. The only source coordinate is $I$, so a readback or Real-facing consumer first receives the displayed located interval data.
+
+Next the consumer reads $M,L,R$. These rows display the midpoint and both child intervals before the retained child is selected, so the later route cannot hide a midpoint construction or child endpoint transport.
+
+The retained side is then fixed by $S$ and measured by $D$. The side row chooses between the displayed children, and the dyadic tolerance row records the common-scale half-radius estimate for that child.
+
+Only after those rows are displayed does $Q$ expose the regular rational readback and $E$ expose the terminal Real seal. The structural rows $T,C,P,N$ replay, transport, record provenance, and name the same finite route. Thus downstream bisection and convergence consumers receive a visible one-step halving certificate and no selected infinite branch, quotient representative, or ambient completeness coordinate.
+\end{proof}
+
+\closureat{LocatedIntervalHalvingUp}{seedStr}
+
+\begin{closurestatus}{\LocatedIntervalHalvingUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-interval-halving-carrier}, \autoref{thm:located-interval-halving-namecert-obligations}, and \autoref{thm:located-interval-halving-regseqrat-real-handoff} seed the one-step located interval halving route through source interval, midpoint, child interval, side-retention, dyadic tolerance, regular readback, Real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host interval equality, real trichotomy, quotient representatives, countable choice, infinite branches, selected limits, ambient $\RealUp$ completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, midpoint exposure, side retention, dyadic halving exactness, RegSeqRat and Real handoff, and non-escape proofs for BEDC.Derived.LocatedIntervalHalvingUp.}
+  \constructivestory{A $\LocatedIntervalHalvingUp$ packet is generated from one source located interval row, one LocatedIntervalMidpointUp row, two child interval rows, one finite side-retention row, one DyadicRatCoreUp tolerance row, one RegSeqRatUp readback row, one RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
