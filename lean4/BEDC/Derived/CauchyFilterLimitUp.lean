@@ -237,4 +237,33 @@ theorem CauchyFilterLimitCarrier_directed_net_handoff [AskSetup] [PackageSetup]
     ⟨cert, tailUnary, convergenceUnary, directedReadUnary, basisDirectedTail,
       tailRouteConvergence, convergenceSealDirected⟩
 
+theorem CauchyFilterLimitCarrier_regular_readback_obligation [AskSetup] [PackageSetup]
+    {basis filter window readback tolerance sealRow transport route provenance name regularRead
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterLimitCarrier basis filter window readback tolerance sealRow transport route
+        provenance name bundle pkg ->
+      Cont window readback regularRead ->
+        Cont regularRead tolerance sealRead ->
+          PkgSig bundle sealRead pkg ->
+            UnaryHistory window ∧ UnaryHistory readback ∧ UnaryHistory tolerance ∧
+              UnaryHistory regularRead ∧ UnaryHistory sealRead ∧
+                Cont window readback regularRead ∧ Cont regularRead tolerance sealRead ∧
+                  Cont tolerance sealRow transport ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier windowReadbackRegular regularToleranceSeal sealPkg
+  obtain ⟨_basisUnary, _filterUnary, windowUnary, readbackUnary, toleranceUnary,
+    _sealRowUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    _basisFilterWindow, _windowReadbackTolerance, toleranceSealTransport,
+    _transportRouteProvenance, _sealProvenanceName, provenancePkg, _namePkg⟩ := carrier
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed windowUnary readbackUnary windowReadbackRegular
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularUnary toleranceUnary regularToleranceSeal
+  exact
+    ⟨windowUnary, readbackUnary, toleranceUnary, regularUnary, sealReadUnary,
+      windowReadbackRegular, regularToleranceSeal, toleranceSealTransport, provenancePkg,
+      sealPkg⟩
+
 end BEDC.Derived.CauchyFilterLimitUp
