@@ -53,6 +53,42 @@ Finally, $H,R,T,P,N$ record transport, replay, route preservation, provenance, a
 \end{proof}
 \leanchecked{BEDC.Derived.SeparatedCompletionUp.SeparatedCompletionCarrier\_semantic\_name\_certificate}
 
+\begin{theorem}[SeparatedCompletion source-metric obligation]
+\label{thm:separated-completion-source-metric-obligation}
+Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. Every $\BHist$ or $\NameCert_{\SeparatedCompletionUp}$ read that exposes completion-facing metric data must first enter through the source metric row $M$. The later rows $D,C,Z,U,H,R,T,P,N$ may transport, replay, source, and name that read, but none of them supplies an independent source metric, an external complete metric space, a quotient completion, or host equality of completed points.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:separated-completion-carrier}. The coordinate $M$ is the displayed source metric row and is the only carrier coordinate with source-metric status.
+
+Apply \autoref{thm:separated-completion-namecert-obligations}. Carrier admission and dense-source compatibility place $M$ before the dense row $D$ and the completion handoff $C$, while the remaining rows only compare, transport, replay, source, and locally name the same displayed route.
+
+Since the carrier has no external complete-space, quotient-completion, host-equality, or second source-metric coordinate, every metric read is a read through $M$ preserved by $H,R,T,P,N$.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion dense-embedding obligation]
+\label{thm:separated-completion-dense-embedding-obligation}
+Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. Every dense source read consumed by a completion-facing row must pass through the dense embedding row $D$ before the completion handoff row $C$ is public. No row of the packet may treat $C$, $Z$, or $U$ as a dense embedding unless the preceding $M,D$ route has already been displayed in the same $\BHist$ packet.
+\end{theorem}
+\begin{proof}
+Read the displayed tuple in \autoref{def:separated-completion-carrier}. The row $D$ is the dense $\CompletionEmbeddingUp$ row, and $C$ is the downstream completion handoff row.
+
+Use the dense-source compatibility clause of \autoref{thm:separated-completion-namecert-obligations}. It requires every completion-facing consumer to read $M$ and $D$ before $C$, so the handoff cannot be used as a substitute dense embedding.
+
+The separated classifier $Z$ and uniqueness row $U$ are later rows over the same route. Thus a dense source read reaches $C,Z,U$ only after the displayed $M,D$ entrance has been recorded in $\BHist$ and replayed by the local $\Cont$ data.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion zero-distance obligation]
+\label{thm:separated-completion-zero-distance-obligation}
+Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. Every separated comparison must read the zero-distance classifier row $Z$ before any uniqueness-boundary row $U$ is consumed. The comparison is therefore a finite classifier route through $M,D,C,Z,U$ with $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming, not host equality, selected representatives, quotient completion equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The row $Z$ is the only separated zero-distance classifier row, while $U$ records uniqueness over the same source, dense, completion, and classifier route.
+
+Apply separated-classifier exactness from \autoref{thm:separated-completion-namecert-obligations}. A comparison of completion readings reaches $Z$ only after $C$ has been displayed, and uniqueness-boundary exactness reads $U$ over that same $M,D,C,Z$ route.
+
+The structural rows $H,R,T,P,N$ preserve, replay, source, and name the route without adding a second comparison principle. Because the excluded host-equality, representative, quotient, and ambient-completeness objects are absent from the carrier, every separated comparison must pass through $Z$ before $U$.
+\end{proof}
+
 \begin{definition}[SeparatedCompletion kernel route]
 \label{def:separated-completion-kernel-route}
 The separated-completion kernel route of an accepted carrier $S=(M,D,C,Z,U,H,R,T,P,N)$ is the ordered readback
@@ -118,6 +154,42 @@ The shared rows $M,D,C,Z,P$ fix the source metric, dense embedding, completion h
 Any remaining comparison must therefore inspect $U,U'$ and the corresponding transport, replay, route-preservation, and local naming rows. These rows compare completion exports only over the already displayed route.
 
 No carrier coordinate supplies quotient equality, selected representatives, host equality, choice, or Real completeness. Thus seal uniqueness is local to $U,U'$ and the displayed $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ data.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion diagonal classifier obligation]
+\label{thm:separatedcompletion-diagonal-classifier-obligation}
+Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. Every diagonal classifier read comparing a completion-facing row with itself is forced through the separated classifier row $Z$ after the dense route $M,D,C$ has been displayed. The read is a $\BHist$-visible zero-distance comparison preserved by $\hsame$ and $\Cont$ data, not a host equality, quotient-completion equality, selected representative, countable-choice schedule, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:separated-completion-carrier}. The only separated comparison coordinate is $Z$, and it appears downstream from the source metric row $M$, dense embedding row $D$, and completion handoff row $C$.
+
+Apply the NameCert obligations of \autoref{thm:separated-completion-namecert-obligations}. They require dense-source compatibility before $C$ is consumed and separated-classifier exactness before any comparison is public.
+
+The diagonal case does not add a new coordinate. Transport and replay are still the displayed rows $H,R,T$, so the comparison remains inside the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface. Since the excluded objects have no carrier field, the diagonal classifier obligation is forced through $Z$.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion separated-limit handoff obligation]
+\label{thm:separatedcompletion-separated-limit-handoff}
+Let $S=(M,D,C,Z,U,H,R,T,P,N)$ be an accepted $\SeparatedCompletionUp$ carrier. Every separated-limit handoff read must pass through the source metric row $M$, dense embedding row $D$, completion handoff row $C$, separated classifier row $Z$, and uniqueness boundary row $U$ before the structural rows $H,R,T,P,N$ are consumed. No consumer can obtain that handoff from a quotient completion, a selected representative, host equality of completed points, countable choice, or an ambient Real-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the dense route. The carrier exposes $M,D,C$ as the only entrance to completion-facing reads, and \autoref{thm:separated-completion-dense-factorization} makes every such read factor through that entrance.
+
+Next read the separated boundary. The classifier row $Z$ and uniqueness row $U$ are later rows in the same accepted packet, so a separated-limit handoff can consume them only after the dense handoff is visible.
+
+Finally attach $H,R,T,P,N$. These rows transport, replay, source, and name the same route rather than adding another completion object. The carrier therefore supplies no quotient, selected representative, host equality, choice, or ambient completeness coordinate from which a bypassing handoff could be read.
+\end{proof}
+
+\begin{theorem}[SeparatedCompletion nonescape obligation]
+\label{thm:separatedcompletion-nonescape-obligation}
+For every accepted $\SeparatedCompletionUp$ carrier $S=(M,D,C,Z,U,H,R,T,P,N)$, the local $\NameCert_{\SeparatedCompletionUp}$ surface exports only the displayed rows $M,D,C,Z,U,H,R,T,P,N$. It exports no quotient completion, no selected representative, no countable-choice schedule, no host equality of completed points, and no ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Use the carrier admission and obligation surface of \autoref{def:separated-completion-carrier} and \autoref{thm:separated-completion-namecert-obligations}. They enumerate exactly the rows available to the accepted packet.
+
+The dense route $M,D,C$, the separated classifier $Z$, and the uniqueness boundary $U$ account for the analytic part of the surface. The structural rows $H,R,T,P,N$ account for componentwise $\hsame$ transport, displayed $\Cont$ replay, route preservation, provenance, and local naming.
+
+There is no remaining coordinate to project a quotient completion, representative selector, choice schedule, host equality, or ambient Real-completeness theorem. Hence every exported obligation remains inside the displayed finite carrier.
 \end{proof}
 
 \begin{theorem}[SeparatedCompletion window transport]
