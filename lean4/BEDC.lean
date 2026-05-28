@@ -5409,6 +5409,7 @@ import BEDC.Derived.RealPolynomialUp.TasteGate
 import BEDC.Derived.RealPowerSeriesUp
 import BEDC.Derived.RealPowerSeriesUp.CauchyProductHandoff
 import BEDC.Derived.RealPowerSeriesUp.CoefficientWindowLedger
+import BEDC.Derived.RealPowerSeriesUp.EndpointNonescapeTriad
 import BEDC.Derived.RealPowerSeriesUp.EndpointSealFactorization
 import BEDC.Derived.RealPowerSeriesUp.EndpointSealScope
 import BEDC.Derived.RealPowerSeriesUp.EvaluationWindowExhaustion
