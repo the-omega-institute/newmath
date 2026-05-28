@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyUniformContinuityUp$}
+\label{ch:concrete-instances-regular-cauchy-uniform-continuity-namecert}
+\origin{human}
+
+Following Bishop and Bridges, uniform continuity on displayed constructive real names is read here as a finite regular-Cauchy handoff rather than as host function equality or a completed-real theorem. The $\RegularCauchyUniformContinuityUp$ packet records the standard fact that a displayed uniform modulus carries regular Cauchy names to regular Cauchy names. Its dependency surface is the finite $\StreamNameUp$ window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational row of \autoref{ch:concrete-instances-regseqrat-namecert}, the pointwise map rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the tolerance rows of \autoref{ch:concrete-instances-uniformmodulus-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Regular Cauchy uniform-continuity carrier]
+\label{def:regular-cauchy-uniform-continuity-carrier}
+A $\RegularCauchyUniformContinuityUp$ carrier is a finite $\BHist$ packet
+$$
+U=(S,W,R,M,D,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\StreamNameUp$ finite-window family opened for the regular Cauchy source name.
+\item $W$ records the target-window schedule requested by the regular Cauchy conclusion.
+\item $R$ is the source $\RegSeqRatUp$ regularity row, including the rational tail bounds read on the windows in $S$.
+\item $M$ is the $\ContinuousMapUp$ pointwise map row, read only through displayed source and target observations.
+\item $D$ is the $\UniformModulusUp$ tolerance row that turns each target precision request into a source precision budget.
+\item $T$ is the target $\RegSeqRatUp$ regularity row obtained by replaying $D$ against $R$ through $M$ on the windows $S,W$.
+\item $E$ is the terminal $\RealUp$ seal row exposed only after the target regularity row $T$ is displayed.
+\item $H$ records componentwise $\hsame$ transport for $S,W,R,M,D,T,E$ and for the structural replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a target tolerance request through $D$, then $S,R,M,W$, then the target regularity row $T$, and finally the seal row $E$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyUniformContinuityUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyUniformContinuityUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,W,R,M,D,T,E,H,C,P,N$ and the displayed replay order. It has no coordinate for host function equality, quotient streams, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy uniform-continuity NameCert obligations]
+\label{thm:regular-cauchy-uniform-continuity-namecert-obligations}
+For every accepted $\RegularCauchyUniformContinuityUp$ carrier $U=(S,W,R,M,D,T,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyUniformContinuityUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the source stream windows, target window schedule, source regular-rational row, pointwise map row, uniform tolerance row, target regular-rational row, Real seal, transport, replay, provenance, and local naming row;
+\item source regularity exactness, requiring every source observation to be read through $S$ and $R$ before the map row is inspected;
+\item uniform tolerance exactness, requiring each target precision request to obtain its source budget only through $D$;
+\item pointwise replay exactness, requiring the map row $M$ to be applied only to source observations admitted by $S,R,D$;
+\item target regularity handoff, requiring the target $\RegSeqRatUp$ row $T$ to be produced before the $\RealUp$ seal $E$ is exposed;
+\item transport and continuation preservation, requiring $H$ and $C$ to preserve the displayed coordinates and their replay order;
+\item provenance exhaustion, requiring $P$ to name only the sibling chapters and kernel rows listed in \autoref{def:regular-cauchy-uniform-continuity-carrier};
+\item local naming, requiring $N$ to name exactly the $\RegularCauchyUniformContinuityUp$ certificate row.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-uniform-continuity-carrier}. The accepted packet exposes exactly $S,W,R,M,D,T,E,H,C,P,N$, so every local obligation must be read from that finite inventory.
+
+The source side is exhausted by $S$ and $R$. The stream row opens only finite windows, and the regular-rational row supplies the tail bounds on those windows before any map or target read is available.
+
+The tolerance step is exhausted by $D$. A target precision request first reads the uniform-modulus row, which supplies the source precision budget used to choose the source observations.
+
+The pointwise map step is then replayed through $M$. Since $M$ is the only map coordinate and its inputs have already been confined to $S,R,D$, no host function equality or external continuity principle can enter this step.
+
+The target handoff is recorded by $T$ and sealed by $E$. The continuation row places $T$ before $E$, while the transport row preserves the same coordinates under $\hsame$.
+
+Finally inspect $P$ and $N$. The provenance row names only the sibling surfaces listed in the carrier, and the local naming row names only this certificate. Hence the eight obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy uniform-continuity handoff]
+\label{thm:regular-cauchy-uniform-continuity-regseqrat-handoff}
+Let $U=(S,W,R,M,D,T,E,H,C,P,N)$ be an accepted $\RegularCauchyUniformContinuityUp$ carrier. Every target $\RegSeqRatUp$ read exported by $U$ factors through the finite route
+$$
+S,R,D,M,W,T .
+$$
+Consequently a displayed uniform modulus carries the source regular Cauchy name to the target regular Cauchy name before any $\RealUp$ seal or completion-facing consumer can read the packet.
+\end{theorem}
+\begin{proof}
+Start with a target precision request. The uniform-modulus row $D$ converts that request into a source precision budget, and the source budget selects only the finite source windows named by $S$.
+
+Read the source regularity row next. The row $R$ supplies the regular Cauchy tail control on those windows, so the pointwise map row receives only displayed source observations.
+
+Apply the pointwise map row $M$ through the continuation route. The target-window schedule $W$ records the finite target observations required by the regularity conclusion.
+
+The target regularity row $T$ is the only target $\RegSeqRatUp$ coordinate in the carrier. Since the continuation order places $T$ after $S,R,D,M,W$ and before the seal row $E$, every target regular Cauchy read factors through the displayed finite route.
+\end{proof}
+
+\closureat{RegularCauchyUniformContinuityUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyUniformContinuityUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-uniform-continuity-carrier}, \autoref{thm:regular-cauchy-uniform-continuity-namecert-obligations}, and \autoref{thm:regular-cauchy-uniform-continuity-regseqrat-handoff} seed the finite route by which displayed uniform moduli carry regular Cauchy names to regular Cauchy names over StreamName windows, RegSeqRat rows, ContinuousMap pointwise rows, UniformModulus tolerance rows, and Real seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function equality, quotient streams, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source regularity exactness, uniform tolerance exactness, pointwise replay exactness, target regularity handoff, transport and continuation preservation, provenance exhaustion, and local naming for BEDC.Derived.RegularCauchyUniformContinuityUp.}
+  \constructivestory{A $\RegularCauchyUniformContinuityUp$ packet is generated from StreamName windows, RegSeqRat source and target rows, a ContinuousMap pointwise row, a UniformModulus tolerance row, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
