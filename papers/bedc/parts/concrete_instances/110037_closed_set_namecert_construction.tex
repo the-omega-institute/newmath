@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\ClosedSetUp$}
+\label{ch:concrete-instances-closed-set-namecert}
+\origin{human}
+
+Following Bourbaki and Bishop-style topology, the $\ClosedSetUp$ packet records a closed-set surface as finite complement-open and boundary readback data rather than as a host powerset predicate. It sits after the topology source of \autoref{ch:concrete-instances-topology-namecert}, the optional metric boundary route of \autoref{ch:concrete-instances-metric-namecert}, and the real-name boundary of \autoref{ch:concrete-instances-real-namecert}; it supplies the closed-row consumed by \autoref{ch:concrete-instances-compact-image-closed-namecert}.
+
+\begin{definition}[Closed-set carrier]
+\label{def:closed-set-carrier}
+A $\ClosedSetUp$ carrier is a finite $\BHist$ packet
+$$
+F=(T,M,O,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the topology source row whose open-neighborhood observations provide the ambient interface for the set;
+\item $M$ is the optional metric boundary row, used only when a metric source is displayed and otherwise absent from the classifier;
+\item $O$ is the complement-open witness row, recording the finite open observations by which an exterior request is accepted;
+\item $L$ is the limit and closure readback row, exposing only displayed finite convergence or adherence tests attached to $T,M,O$;
+\item $H$ records componentwise $\hsame$ transport for the topology source, optional metric boundary, complement-open witness, limit readback, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay of closed-set requests through the same topology, metric, complement-open, and readback rows;
+\item $P$ is the $\Pkg$ provenance over $\ClosedSetUp$, $\TopologyUp$, $\MetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ClosedSetUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $T,M,O,L,H,C,P,N$. It has no coordinate for a host complement operator, quotient point equality, a selected limit, or ambient compactness.
+\end{definition}
+
+\begin{theorem}[Closed-set NameCert obligations]
+\label{thm:closed-set-namecert-obligations}
+For every accepted $\ClosedSetUp$ carrier $F=(T,M,O,L,H,C,P,N)$, the local $\NameCert_{\ClosedSetUp}$ surface consists exactly of finite obligations for carrier admission; topology-source exposure through $T$; optional metric-boundary compatibility through $M$; complement-open witnessing through $O$; limit and closure readback through $L$; componentwise $\hsame$ stability through $H$; displayed $\Cont$ replay through $C$; $\Pkg$ provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:closed-set-carrier}. The accepted packet displays the topology source, optional metric boundary, complement-open witness, limit readback, transport, replay, provenance, and local name as one finite $\BHist$ surface.
+
+The topology and metric obligations are read first. A closed-set request begins with $T$, and any metric boundary information is available only through the displayed optional row $M$.
+
+The complement-open and limit-readback obligations are then $O$ and $L$. Exterior evidence is an open witness over the displayed topology source, while closure or limit inspection is a finite readback row attached to that witness and boundary route.
+
+Finally $H,C,P,N$ preserve, replay, source, and name exactly those rows. Since the carrier has no coordinate for host complements, quotient point equality, selected limits, or ambient compactness, the listed obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Closed-set complement-open route]
+\label{thm:closed-set-complement-open-route}
+Every topology, metric, Real, compact-image, or boundary-facing consumer of an accepted $\ClosedSetUp$ carrier reaches the closed boundary only through the route
+$$
+T,M,O,L,H,C,P,N .
+$$
+Thus a closed-set read factors through the topology source, optional metric boundary, complement-open witness, transport, replay, provenance, and local NameCert rows, and not through a host complement, quotient point equality, selected limit, or ambient compactness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $F=(T,M,O,L,H,C,P,N)$. The topology source $T$ is the first row available to any consumer, and the optional metric boundary $M$ can only refine that same displayed source.
+
+The complement-open witness $O$ is the only row that exposes exterior information. The limit and closure readback row $L$ is downstream of $T,M,O$, so a consumer cannot inspect a boundary point before reading the displayed open-complement route.
+
+The structural rows do not add a second closed-set surface. Componentwise transport $H$, replay $C$, provenance $P$, and local naming $N$ preserve the displayed route for topology, metric, Real, compact-image, and boundary-facing consumers.
+
+Because no carrier coordinate stores a host complement operator, quotient point equality, selected limit, or ambient compactness theorem, no such data can be exported through the $\ClosedSetUp$ certificate.
+\end{proof}
+
+\closureat{ClosedSetUp}{seedStr}
+
+\begin{closurestatus}{\ClosedSetUp}
+  \constructivestory{A $\ClosedSetUp$ packet is generated from a topology source row, optional metric boundary row, complement-open witness row, finite limit and closure readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-set-carrier}, \autoref{thm:closed-set-namecert-obligations}, and \autoref{thm:closed-set-complement-open-route} seed the finite complement-open closed-set route consumed by topology, metric, Real, compact-image, and boundary-facing readers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not assert host complements, quotient point equality, selected limits, ambient compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, topology-source exposure, optional metric-boundary compatibility, complement-open witnessing, limit and closure readback, transport stability, replay, provenance, and local naming for BEDC.Derived.ClosedSetUp.}
+\end{closurestatus}
