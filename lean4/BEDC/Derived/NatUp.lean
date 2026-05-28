@@ -303,6 +303,13 @@ theorem NatUnaryPrefix_cont_tail_cases {h k tail : BHist} :
       exact Or.inr
         ⟨BHist.e1 tail, tailUnary, (fun empty => by cases empty), tailCont⟩
 
+theorem NatUnaryHistory_codomain_mirror_boundary {h k tail : BHist} :
+    UnaryHistory h -> UnaryHistory tail -> Cont h tail k ->
+      hsame h k ∨ NatUnaryStrictPrefix h k := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame NatUnaryStrictPrefix
+  intro _sourceUnary tailUnary tailCont
+  exact NatUnaryPrefix_cont_tail_cases tailUnary tailCont
+
 theorem NatUp_unary_standard_bridge :
     (BEDC.FKernel.ExternalBinary.bwordLength BHist.Empty = 0) ∧
       (forall h : BHist, UnaryHistory h ->
