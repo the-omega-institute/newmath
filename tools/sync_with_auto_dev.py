@@ -40,6 +40,8 @@ SOURCE_BRANCH = "codex-auto-dev"   # pipeline output (codex workers)
 MIRROR_BRANCH = "auto-dev"          # stable mirror
 UPSTREAM_BRANCH = "dev"             # external main branch (user / external commits)
 CODEX_PATH = shutil.which("codex") or "/opt/homebrew/bin/codex"
+VALIDATION_WORKTREE = Path("/tmp/.bedc_sync_validate_wt")
+VALIDATION_BRANCH = "bedc-sync-validate"
 CONFLICT_PROMPT = """You are resolving git merge conflicts in the BEDC mathematics project.
 
 The merge currently has unresolved conflicts. Files with `<<<<<<<` / `=======` / `>>>>>>>` markers:
@@ -66,11 +68,11 @@ If you cannot resolve a conflict (genuinely incompatible semantic intent, build 
 """
 
 
-def run(cmd, *, cwd=REPO_ROOT, check=True, capture=False, env=None):
+def run(cmd, *, cwd=REPO_ROOT, check=True, capture=False, env=None, timeout=None):
     """Run a subprocess; raise on non-zero unless check=False."""
     res = subprocess.run(
         cmd, cwd=cwd, env=env,
-        capture_output=capture, text=True,
+        capture_output=capture, text=True, timeout=timeout,
     )
     if check and res.returncode != 0:
         out = (res.stdout or "") + (res.stderr or "")
@@ -330,6 +332,135 @@ def sync_one_direction(target: str, source: str, *, no_push: bool) -> bool:
     return True
 
 
+def _rev_list_count(range_expr: str) -> int:
+    res = run(["git", "rev-list", "--count", range_expr],
+              capture=True, check=False)
+    if res.returncode != 0:
+        return 0
+    out = res.stdout.strip()
+    return int(out) if out.isdigit() else 0
+
+
+def _origin_sha(branch: str) -> str | None:
+    res = run(["git", "rev-parse", f"origin/{branch}"],
+              capture=True, check=False)
+    if res.returncode != 0:
+        return None
+    return res.stdout.strip() or None
+
+
+def _remove_validation_worktree() -> None:
+    if VALIDATION_WORKTREE.exists():
+        res = git("worktree", "remove", "--force", str(VALIDATION_WORKTREE),
+                  check=False, capture=True)
+        if res.returncode != 0:
+            print(f"[sync] dev->auto-dev validation: could not remove old "
+                  f"worktree: {((res.stdout or '') + (res.stderr or '')).strip()[:200]}")
+
+
+def _run_validation_gate(cmd: list[str], *, cwd: Path, label: str,
+                         timeout: int | None = None) -> bool:
+    try:
+        res = run(cmd, cwd=cwd, check=False, capture=True, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        print(f"[sync] dev->auto-dev validation: {label} timed out after {timeout}s")
+        return False
+    except Exception as exc:
+        print(f"[sync] dev->auto-dev validation: {label} could not run: {exc}")
+        return False
+    if res.returncode == 0:
+        return True
+    out = ((res.stdout or "") + (res.stderr or "")).strip().splitlines()
+    tail = out[-1] if out else "no output"
+    print(f"[sync] dev->auto-dev validation: {label} failed rc={res.returncode}: {tail[:240]}")
+    return False
+
+
+def validate_dev_merge_in_worktree() -> tuple[bool, str | None, str | None]:
+    """Validate origin/dev -> auto-dev in an isolated worktree before push."""
+    if _rev_list_count(f"origin/{MIRROR_BRANCH}..origin/{UPSTREAM_BRANCH}") == 0:
+        print("[sync] dev->auto-dev: no new dev commits; skipping validation")
+        return True, _origin_sha(UPSTREAM_BRANCH), _origin_sha(MIRROR_BRANCH)
+
+    dev_sha = _origin_sha(UPSTREAM_BRANCH)
+    mirror_sha = _origin_sha(MIRROR_BRANCH)
+    if not dev_sha or not mirror_sha:
+        print("[sync] dev->auto-dev validation: missing origin SHA")
+        return False, dev_sha, mirror_sha
+
+    _remove_validation_worktree()
+    git("branch", "-D", VALIDATION_BRANCH, check=False, capture=True)
+    add = git("worktree", "add", "-b", VALIDATION_BRANCH, str(VALIDATION_WORKTREE),
+              f"origin/{MIRROR_BRANCH}", check=False, capture=True)
+    if add.returncode != 0:
+        print(f"[sync] dev->auto-dev validation: worktree add failed: "
+              f"{((add.stdout or '') + (add.stderr or '')).strip()[:240]}")
+        return False, dev_sha, mirror_sha
+
+    merge = run(["git", "merge", "--no-ff", "--no-edit", dev_sha],
+                cwd=VALIDATION_WORKTREE, check=False, capture=True)
+    if merge.returncode != 0:
+        run(["git", "merge", "--abort"], cwd=VALIDATION_WORKTREE,
+            check=False, capture=True)
+        print(f"[sync] dev->auto-dev validation: merge failed rc={merge.returncode}")
+        return False, dev_sha, mirror_sha
+
+    if not _run_validation_gate(["make", "warn"],
+                                cwd=VALIDATION_WORKTREE / "papers" / "bedc",
+                                label="make warn"):
+        return False, dev_sha, mirror_sha
+    if not _run_validation_gate(["python3", "lean4/scripts/bedc_ci.py", "audit"],
+                                cwd=VALIDATION_WORKTREE,
+                                label="bedc_ci audit"):
+        return False, dev_sha, mirror_sha
+    if not _run_validation_gate(["lake", "build"],
+                                cwd=VALIDATION_WORKTREE / "lean4",
+                                label="lake build", timeout=1800):
+        return False, dev_sha, mirror_sha
+
+    print("[sync] dev->auto-dev validation: merge and local gates passed")
+    return True, dev_sha, mirror_sha
+
+
+def sync_dev_to_auto_dev_validated(*, no_push: bool) -> bool:
+    """Validate dev -> auto-dev in a scratch worktree, then apply in main checkout."""
+    if _rev_list_count(f"origin/{MIRROR_BRANCH}..origin/{UPSTREAM_BRANCH}") == 0:
+        print("[sync] dev->auto-dev: no new dev commits; skipping")
+        return True
+    ok, dev_sha, mirror_sha = validate_dev_merge_in_worktree()
+    if not ok:
+        return False
+    if _origin_sha(UPSTREAM_BRANCH) != dev_sha or _origin_sha(MIRROR_BRANCH) != mirror_sha:
+        print("[sync] dev->auto-dev: origin moved after validation; retry next cycle")
+        return False
+    if no_push:
+        return sync_one_direction(MIRROR_BRANCH, dev_sha, no_push=True)
+
+    if has_local_branch(MIRROR_BRANCH):
+        git("checkout", MIRROR_BRANCH)
+        ff = git("merge", "--ff-only", mirror_sha, check=False, capture=True)
+        if ff.returncode != 0:
+            print("[sync] dev->auto-dev: local auto-dev cannot fast-forward to validated base")
+            return False
+    else:
+        git("checkout", "-b", MIRROR_BRANCH, mirror_sha)
+    merge = git("merge", "--no-ff", "--no-edit", dev_sha,
+                check=False, capture=True)
+    if merge.returncode != 0:
+        git("merge", "--abort", check=False, capture=True)
+        print("[sync] dev->auto-dev: validated merge failed in main checkout; retry next cycle")
+        return False
+    push = run(["git", "push", "origin", f"HEAD:refs/heads/{MIRROR_BRANCH}"],
+               check=False, capture=True)
+    if push.returncode != 0:
+        print(f"[sync] dev->auto-dev: push failed after validation rc={push.returncode}; "
+              f"retry next cycle")
+        return False
+    git("fetch", "origin", "--prune", check=False, capture=True)
+    print("[sync] dev->auto-dev: pushed locally validated merge")
+    return True
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--no-push", action="store_true",
@@ -359,8 +490,7 @@ def main():
         # subsequent steps). If origin/dev doesn't exist (e.g. fresh
         # repo), this step is a no-op.
         if has_remote_branch(UPSTREAM_BRANCH):
-            if not sync_one_direction(MIRROR_BRANCH, f"origin/{UPSTREAM_BRANCH}",
-                                      no_push=args.no_push):
+            if not sync_dev_to_auto_dev_validated(no_push=args.no_push):
                 success = False
                 return
         else:
@@ -456,7 +586,7 @@ def _existing_open_pr() -> dict | None:
                    "--base", UPSTREAM_BRANCH,
                    "--state", "open",
                    "--label", PR_LABEL,
-                   "--json", "number,headRefName,mergeable,statusCheckRollup,title",
+                   "--json", "number,headRefName,headRefOid,mergeable,statusCheckRollup,title",
                    "--limit", "5"],
                   capture=True, check=False)
         if res.returncode != 0:
@@ -485,6 +615,81 @@ def _all_checks_green(pr: dict) -> bool:
     return True
 
 
+def _pr_has_failed_check(pr: dict) -> bool:
+    """Return True if any PR check has a terminal failure/cancelled state."""
+    rollup = pr.get("statusCheckRollup") or []
+    failed = {
+        "ACTION_REQUIRED",
+        "CANCELLED",
+        "ERROR",
+        "FAILURE",
+        "FAILED",
+        "STARTUP_FAILURE",
+        "TIMED_OUT",
+    }
+    for check in rollup:
+        conclusion = (check.get("conclusion") or check.get("state") or "").upper()
+        if conclusion in failed:
+            return True
+    return False
+
+
+def _auto_dev_advanced_past(pr_head: str | None) -> int:
+    """Return commit count from PR head to current origin/auto-dev."""
+    if not pr_head:
+        return 0
+    return _rev_list_count(f"{pr_head}..origin/{MIRROR_BRANCH}")
+
+
+def _auto_dev_head_green() -> bool:
+    """Return True iff a recent completed/success run targets origin/auto-dev HEAD."""
+    head = _origin_sha(MIRROR_BRANCH)
+    if not head:
+        return False
+    res = run(["gh", "run", "list",
+               "--branch", MIRROR_BRANCH,
+               "--limit", "5",
+               "--json", "status,conclusion,headSha"],
+              capture=True, check=False)
+    if res.returncode != 0:
+        return False
+    try:
+        import json as _json
+        runs = _json.loads(res.stdout or "[]")
+    except Exception:
+        return False
+    for row in runs:
+        if (row.get("headSha") == head
+                and str(row.get("status") or "").lower() == "completed"
+                and str(row.get("conclusion") or "").lower() == "success"):
+            return True
+    return False
+
+
+def _close_stale_pr(pr: dict, advanced_by: int) -> bool:
+    number = pr["number"]
+    head_ref = pr.get("headRefName")
+    head = _origin_sha(MIRROR_BRANCH) or "current auto-dev HEAD"
+    comment = (
+        f"Superseded by fresh auto-dev HEAD {head} "
+        f"({advanced_by} commit(s) past this PR head)."
+    )
+    close = run(["gh", "pr", "close", str(number), "--comment", comment],
+                capture=True, check=False)
+    if close.returncode != 0:
+        print(f"[sync] dev-catchup: close stale PR #{number} failed: "
+              f"{((close.stdout or '') + (close.stderr or '')).strip()[:300]}")
+        return False
+    if head_ref:
+        delete = run(["git", "push", "origin", "--delete", head_ref],
+                     capture=True, check=False)
+        if delete.returncode != 0:
+            print(f"[sync] dev-catchup: delete stale branch {head_ref} failed: "
+                  f"{((delete.stdout or '') + (delete.stderr or '')).strip()[:300]}")
+    print(f"[sync] dev-catchup: closed stale PR #{number}; opening a fresh one")
+    return True
+
+
 def sync_dev_catchup_pr() -> None:
     """Open / auto-merge a PR from a fresh auto-dev branch back into dev.
 
@@ -499,8 +704,10 @@ def sync_dev_catchup_pr() -> None:
     if not has_remote_branch(UPSTREAM_BRANCH):
         return
 
-    # Phase A: handle any existing open PR (merge if green, leave otherwise).
+    # Phase A: handle any existing open PR (merge if green, replace if stale).
     pr = _existing_open_pr()
+    force_open_pr = False
+    reasons = []
     if pr is not None:
         if _all_checks_green(pr):
             number = pr["number"]
@@ -516,10 +723,28 @@ def sync_dev_catchup_pr() -> None:
             else:
                 print(f"[sync] dev-catchup: PR #{number} merged "
                       f"into {UPSTREAM_BRANCH}; branch {head_ref} deleted")
+            return
+
+        if _pr_has_failed_check(pr):
+            pr_head = pr.get("headRefOid")
+            advanced_by = _auto_dev_advanced_past(pr_head)
+            if advanced_by <= 0:
+                print(f"[sync] dev-catchup: PR #{pr['number']} failed, "
+                      f"but {MIRROR_BRANCH} has not advanced past it")
+                return
+            if not _auto_dev_head_green():
+                print(f"[sync] dev-catchup: PR #{pr['number']} failed, "
+                      f"but current {MIRROR_BRANCH} HEAD is not green yet")
+                return
+            if not _close_stale_pr(pr, advanced_by):
+                return
+            force_open_pr = True
+            reasons.append(f"stale failed PR superseded by {MIRROR_BRANCH} "
+                           f"advancing {advanced_by} commit(s)")
         else:
             print(f"[sync] dev-catchup: PR #{pr['number']} open; "
                   f"checks not yet green — leaving in place")
-        return
+            return
 
     # Phase B: no open PR. Check whether one is needed.
     dev_iso = _origin_commit_iso(UPSTREAM_BRANCH)
@@ -535,8 +760,7 @@ def sync_dev_catchup_pr() -> None:
     except Exception:
         ahead_count = 0
 
-    needs_pr = False
-    reasons = []
+    needs_pr = force_open_pr
     if age_hours is not None and age_hours >= PR_AGE_THRESHOLD_HOURS:
         needs_pr = True
         reasons.append(f"dev last commit {age_hours:.1f}h ago "
