@@ -24,6 +24,8 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted carriers only through $K,T,A,I,O,H,C,P,N$. It contains no coordinate for evidence-free closed-term normalization, componentwise application normalization, host reduction normalization, quotient reduction equality, subject-reduction discharge, or a global normalization oracle.
 \end{definition}
+\leandef{BEDC.Derived.CandidateSetNormalizationUp.CandidateSetNormalizationUp}
+\leanchecked{BEDC.Derived.CandidateSetNormalizationUp.CandidateSetNormalizationTasteGate\_single\_carrier\_alignment}
 
 \begin{definition}[Candidate-set normalization frontier filter]
 \label{def:candidate-set-normalization-frontier-filter}
@@ -88,8 +90,6 @@ The frontier-dependency rows of \autoref{ch:concrete-instances-metacic-frontier-
 Finally compare with the spectral-trigger surface of \autoref{ch:concrete-instances-wobble-quotient-spectral-trigger-namecert}. A trigger row would have to be present as an additional obstruction or replay coordinate, but the $\CandidateSetNormalizationUp$ classifier contains no such coordinate beyond $O$ and $C$. The second pass is therefore idempotent on accepted candidate rows and creates no further spectral-trigger row.
 \end{proof}
 
-The Lean-side TasteGate surface for this packet requires future $\mathsf{Nontrivial}\ \CandidateSetNormalizationUp$ and $\mathsf{FieldFaithful}\ \CandidateSetNormalizationUp$ instances in \texttt{lean4/BEDC/Derived/CandidateSetNormalizationUp/TasteGate.lean}. Those instances must distinguish candidate-set evidence, closed-term projection, adequacy, no-infinite-reduction, obstruction, transport, replay, provenance, and local naming as separate fields.
-
 \falsifiablePrediction{No accepted closed-term strong-normalization read through $\CandidateSetNormalizationUp$ bypasses candidate evidence or candidate-set evidence.}
 
 \independenceWitness{metacicredexfrontier, metacicnormalizationfrontier, bounded-normal-equality-checker, metacicopenproblemledger: none is bijective because $\CandidateSetNormalizationUp$ jointly carries candidate-set evidence, closed-term projection, application and Pi adequacy, no-infinite-reduction, obstruction, transport, replay, provenance, and local NameCert rows.}
@@ -100,7 +100,8 @@ The Lean-side TasteGate surface for this packet requires future $\mathsf{Nontriv
   \constructivestory{A $\CandidateSetNormalizationUp$ packet is generated from finite candidate-set evidence, a closed typed term projection, application and Pi adequacy, a no-infinite-reduction row, an obstruction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:metacic-candidate-set-normalization-carrier} and \autoref{thm:metacic-candidate-set-normalization-obligations} seed the finite candidate-set normalization surface.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.CandidateSetNormalizationUp.CandidateSetNormalizationUp}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim unconditional MetaCIC strong normalization, evidence-free application normalization, subject reduction, host normalization, quotient reduction equality, Lean verification, or bridge checking.}
   \upgradepath{Obligation closure requires checked candidate-set evidence, closed-term projection, application and Pi adequacy, no-infinite-reduction, obstruction exactness, transport replay, and TasteGate field faithfulness for BEDC.Derived.CandidateSetNormalizationUp.}
