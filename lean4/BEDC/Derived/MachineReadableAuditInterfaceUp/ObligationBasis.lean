@@ -196,4 +196,62 @@ theorem MachineReadableAuditInterface_falsifiable_prediction [AskSetup] [Package
   }
   exact ⟨cert, exportUnary, refusalUnary, reportUnary, verdictUnary⟩
 
+theorem MachineReadableAuditInterface_sibling_independence [AskSetup] [PackageSetup]
+    {S C E R F H K P N reportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MachineReadableAuditInterfaceCarrier S C E R F H K P N bundle pkg ->
+      Cont E R reportRead ->
+        PkgSig bundle reportRead pkg ->
+          SemanticNameCert
+                (fun row : BHist => hsame row reportRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row S ∨ hsame row C ∨ hsame row E ∨ hsame row R ∨
+                    hsame row F ∨ hsame row reportRead)
+                (fun row : BHist =>
+                  hsame row reportRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle reportRead pkg)
+                hsame ∧
+              UnaryHistory S ∧ UnaryHistory C ∧ UnaryHistory E ∧ UnaryHistory R ∧
+                UnaryHistory F ∧ UnaryHistory reportRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig SemanticNameCert
+  intro carrier reportRoute reportPkg
+  obtain ⟨SUnary, CUnary, EUnary, RUnary, FUnary, _HUnary, _KUnary, _PUnary,
+    _NUnary, _schemaCarrierRoute, _reportCarrierRoute, _replayCarrierRoute,
+    carrierPkg, _namePkg⟩ := carrier
+  have reportUnary : UnaryHistory reportRead :=
+    unary_cont_closed EUnary RUnary reportRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row reportRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row C ∨ hsame row E ∨ hsame row R ∨ hsame row F ∨
+              hsame row reportRead)
+          (fun row : BHist =>
+            hsame row reportRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle reportRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro reportRead ⟨hsame_refl reportRead, reportUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, carrierPkg, reportPkg⟩
+  }
+  exact ⟨cert, SUnary, CUnary, EUnary, RUnary, FUnary, reportUnary⟩
+
 end BEDC.Derived.MachineReadableAuditInterfaceUp

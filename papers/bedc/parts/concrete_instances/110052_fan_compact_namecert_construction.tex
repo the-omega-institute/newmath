@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\FanCompactUp$}
+\label{ch:concrete-instances-fan-compact-namecert}
+\origin{human}
+
+Following Brouwer and Bishop--Bridges, the $\FanCompactUp$ packet records constructive compactness of binary spread data by finite bars and prefix induction rather than by open-cover compactness. It sits beside the Boolean and list carriers of \autoref{ch:concrete-instances-bool-namecert} and \autoref{ch:concrete-instances-list-namecert}, the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the compact-metric surface of \autoref{ch:concrete-instances-compactmetric-namecert}, and the downstream uniform-modulus consumer of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet supplies a finite-means bridge from binary prefix rows to compact-uniform-continuity arguments without importing countable choice, host tree sets, open-cover compactness, or completeness of $\RealUp$.
+
+\begin{definition}[FanCompact carrier]
+\label{def:fan-compact-carrier}
+A $\FanCompactUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B,L,T,W,R,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BoolUp$ alphabet row, recording the two branch symbols available at each binary prefix.
+\item $L$ is the $\ListUp$ prefix row, recording finite binary words, prefix extension, and prefix concatenation as finite rows.
+\item $T$ is the finite binary prefix tree row admitted by the packet, with each node read only through $B$ and $L$.
+\item $W$ is the $\StreamNameUp$ window row, recording the finite prefix observed before a branch consumer reads the stream.
+\item $R$ is the bar-cover row, recording a finite $\ProbeBundle$ of prefix tests whose success covers every admitted stream route.
+\item $I$ is the finite-bar induction ledger, recording the leaf tests, backward prefix step, and root conclusion used by the fan argument.
+\item $H$ records componentwise $\hsame$ transport for $B,L,T,W,R,I,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a binary-prefix request through the stream window, bar row, induction ledger, compact-metric handoff, and uniform-modulus consumer boundary.
+\item $P$ is the $\Pkg$ provenance over $\FanCompactUp$, $\BoolUp$, $\ListUp$, $\StreamNameUp$, $\CompactMetricUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FanCompactUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,L,T,W,R,I,H,C,P,N$. No row stores a countable-choice selector, a host tree set, an open-cover compactness theorem, a selected infinite branch outside the displayed stream windows, or completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[FanCompact finite bar induction]
+\label{thm:fan-compact-finite-bar-induction}
+For an accepted $\FanCompactUp$ carrier $F=(B,L,T,W,R,I,H,C,P,N)$, every public bar-coverage read factors through the finite route
+$$
+B \longmapsto L \longmapsto T \longmapsto W \longmapsto R \longmapsto I .
+$$
+The induction ledger $I$ is the only row that may turn finite prefix coverage into a root conclusion, and the resulting handoff can be consumed by $\CompactMetricUp$ and $\UniformModulusUp$ only through the displayed replay row $C$ and provenance row $P$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The binary alphabet row $B$ and finite prefix row $L$ are the only sources from which the tree row $T$ can be read.
+
+The stream window row $W$ fixes the observed prefix before any bar test is applied. The bar row $R$ is therefore a finite $\ProbeBundle$ over displayed prefixes, not a host set of infinite branches.
+
+The ledger $I$ supplies the leaf checks and the backward prefix step. Applying it produces the root bar conclusion for the admitted prefix tree while keeping every step attached to $B,L,T,W,R$.
+
+Finally $C$ and $P$ route the result to compact-metric and uniform-modulus consumers. Since the excluded objects are not coordinates of $F$, the route exports no countable choice, host tree set, open-cover compactness, selected branch outside the window rows, or $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[FanCompact NameCert obligations]
+\label{thm:fan-compact-namecert-obligations}
+For the carrier of \autoref{def:fan-compact-carrier}, the local $\NameCert_{\FanCompactUp}$ surface consists exactly of carrier admission for $F=(B,L,T,W,R,I,H,C,P,N)$, Boolean alphabet exposure through $B$, finite prefix exposure through $L$, binary tree admission through $T$, finite stream-window exposure through $W$, bar-cover exposure through $R$, finite-bar induction through $I$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:fan-compact-carrier}. The packet exposes exactly the ten rows $B,L,T,W,R,I,H,C,P,N$.
+
+Read $B,L,T,W,R,I$ in order. Boolean symbols and finite lists determine the prefix rows, the stream window fixes the observed branch segment, the bar row lists the finite tests, and the induction ledger supplies the only permitted root conclusion.
+
+Transport, replay, provenance, and local naming are then read through $H,C,P,N$. These rows preserve the finite prefix route and do not add countable choice, host tree sets, open-cover compactness, Real completeness, or selected infinite branches.
+\end{proof}
+
+\begin{closurestatus}{\FanCompactUp}
+  \constructivestory{A $\FanCompactUp$ packet is generated from Boolean alphabet rows, finite binary prefix rows, a finite prefix tree, stream-name windows, a finite bar-cover ProbeBundle, a finite-bar induction ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fan-compact-carrier}, \autoref{thm:fan-compact-finite-bar-induction}, and \autoref{thm:fan-compact-namecert-obligations} seed the finite fan-compactness certificate surface for compact-metric and uniform-modulus consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, countable choice, host tree sets, open-cover compactness, selected infinite branches outside displayed stream windows, or completeness of $\RealUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite bar-cover exposure, induction-ledger exactness, stream-window routing, compact-metric handoff, uniform-modulus handoff, transport, replay, provenance, and local naming for BEDC.Derived.FanCompactUp.}
+\end{closurestatus}
