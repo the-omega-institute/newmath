@@ -53,6 +53,52 @@ The convergence ledger $M$ records the finite regularity evidence used by the co
 Finally $H,C,P,N$ transport, replay, source, and name exactly the same finite packet. Since the carrier has no additional coordinate, the six listed rows exhaust the local NameCert surface.
 \end{proof}
 
+\begin{theorem}[Regular-Cauchy readback route]
+\label{thm:bishop-real-construction-regular-cauchy-readback}
+For every accepted $\BishopRealConstructionUp$ carrier
+$$
+B=(D,S,Q,R,M,E,H,C,P,N),
+$$
+every rational approximant exported by $B$ is read along the displayed route
+$$
+D,S \longrightarrow Q \longrightarrow R \longrightarrow M.
+$$
+In particular, the approximant first uses the dyadic tolerance ledger $D$ and finite stream windows $S$, then passes through the regular-Cauchy source $Q$, the $\RegSeqRatUp$ readback row $R$, and the convergence ledger $M$ before it is available to any later row of the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-real-construction-carrier}. Its only rows capable of naming rational approximants are the finite windows $S$, the regular-Cauchy source $Q$, and the regular readback row $R$, all measured against the dyadic budget $D$.
+
+Apply \autoref{thm:bishop-real-construction-namecert-obligations}. The regular-Cauchy readback obligation requires exported rational approximants to pass through $Q,R$, while the convergence-ledger exposure obligation records the finite regularity evidence in $M$. Since the classifier compares packets only through $D,S,Q,R,M,E,H,C,P,N$, no alternate approximant coordinate is available.
+\end{proof}
+
+\begin{theorem}[Real seal handoff]
+\label{thm:bishop-real-construction-real-seal-handoff}
+For every accepted $\BishopRealConstructionUp$ carrier
+$$
+B=(D,S,Q,R,M,E,H,C,P,N),
+$$
+every $\RealUp$ consumer reaches the seal row $E$ only after the dyadic ledger $D$, finite stream windows $S$, regular-Cauchy source $Q$, regular readback $R$, and convergence ledger $M$ have been displayed, and only through the transport, replay, provenance, and local naming rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the displayed tuple in \autoref{def:bishop-real-construction-carrier}. The seal row $E$ is declared downstream of $D,S,Q,R,M$, and the remaining public movement of the packet is carried by componentwise $\hsame$ transport $H$, $\Cont$ replay $C$, provenance $P$, and local naming $N$.
+
+Apply the seal nonescape and provenance-name exhaustion clauses of \autoref{thm:bishop-real-construction-namecert-obligations}. They force the $\RealUp$ seal to remain attached to the same finite route, so a consumer can reach $E$ only through the displayed handoff rows rather than through a hidden host-side real object.
+\end{proof}
+
+\begin{theorem}[Ledger nonescape]
+\label{thm:bishop-real-construction-ledger-nonescape}
+For every accepted $\BishopRealConstructionUp$ carrier
+$$
+B=(D,S,Q,R,M,E,H,C,P,N),
+$$
+the packet contains no coordinate for quotient stream equality, selected host limits, countable choice, host real equality, Dedekind-cut substitution, or ambient $\RealUp$ completeness. Any accepted comparison or consumer read must therefore be witnessed inside the rows $D,S,Q,R,M,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The classifier is explicitly restricted to the displayed rows $D,S,Q,R,M,E,H,C,P,N$, and the definition states that the excluded principles have no coordinate in the packet.
+
+Apply the seal nonescape clause of \autoref{thm:bishop-real-construction-namecert-obligations}. It blocks the listed host-side or quotient-side replacements at the NameCert surface. The exhaustion clause then shows that $H,C,P,N$ only transport, replay, source, and name the same finite packet, so they cannot introduce a new equality, limit, choice, cut, or completeness row.
+\end{proof}
+
 \closureat{BishopRealConstructionUp}{seedStr}
 
 \begin{closurestatus}{\BishopRealConstructionUp}
