@@ -14,6 +14,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -533,6 +534,51 @@ def _load_pipeline_config() -> dict[str, Any]:
 def _load_oracle_integration_config() -> dict[str, Any]:
     config = _load_pipeline_config().get("oracle_integration")
     return config if isinstance(config, dict) else {}
+
+
+def _bio_oracle_health_payload(server_url: str, timeout: int = 3) -> dict[str, Any]:
+    try:
+        url = server_url.rstrip("/") + "/health"
+        with urllib.request.urlopen(url, timeout=timeout) as response:
+            data = json.loads(response.read().decode("utf-8"), strict=False)
+    except Exception:
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def _bio_oracle_health(server_url: str, timeout: int = 3) -> bool:
+    data = _bio_oracle_health_payload(server_url, timeout=timeout)
+    return data.get("status") == "ok" and data.get("kind") == "bio-oracle"
+
+
+def run_oracle_server_lane(store: BioRealityStore) -> dict[str, Any]:
+    try:
+        config = _load_oracle_integration_config()
+        server_url = str(config.get("server_url") or "http://127.0.0.1:8769")
+        health = _bio_oracle_health_payload(server_url)
+        if health.get("status") == "ok" and health.get("kind") == "bio-oracle":
+            summary: dict[str, Any] = {"lane": "bio-O", "status": "already_up"}
+            if "active_userscript_tabs" in health:
+                summary["active_tabs"] = health.get("active_userscript_tabs")
+            return summary
+        repo_root = _repo_root_from_store(store)
+        server_script = repo_root / "tools" / "bio_reality" / "oracle" / "bio_reality_oracle_server.py"
+        log_path = repo_root / "tools" / "bio_reality" / "state" / "oracle_server.log"
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+        with log_path.open("ab") as log_handle:
+            proc = subprocess.Popen(
+                ["python3", str(server_script)],
+                cwd=str(repo_root),
+                stdout=log_handle,
+                stderr=log_handle,
+                start_new_session=True,
+            )
+        time.sleep(3)
+        if _bio_oracle_health(server_url):
+            return {"lane": "bio-O", "status": "spawned", "pid": proc.pid}
+        return {"lane": "bio-O", "status": "spawn_failed"}
+    except Exception as exc:
+        return {"lane": "bio-O", "status": "error", "error": str(exc)}
 
 
 def _repo_root_from_store(store: BioRealityStore) -> Path:

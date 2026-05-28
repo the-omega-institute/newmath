@@ -54,6 +54,9 @@ def should_stop() -> bool:
 def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_dispatch: int = 1) -> NestedLoopRunner:
     store = BioRealityStore(paths)
 
+    def oracle_server_ensure() -> dict[str, object]:
+        return lanes.run_oracle_server_lane(store)
+
     def sync_auto_dev() -> dict[str, object]:
         return lanes.run_sync_lane(store)
 
@@ -104,6 +107,7 @@ def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_disp
 
     return NestedLoopRunner(
         [
+            LoopUnit("bio_O_oracle_server_ensure", oracle_server_ensure),
             LoopUnit("bio_S_sync_auto_dev", sync_auto_dev),
             LoopUnit("bio_P_packet_targets", packet_targets),
             LoopUnit("bio_V_vision_intake", vision_intake),
