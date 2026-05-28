@@ -4682,6 +4682,7 @@ import BEDC.Derived.MetricProjectionUp
 import BEDC.Derived.MetricProjectionUp.TasteGate
 import BEDC.Derived.MetricSpaceCompactContinuitySourceLockUp.TasteGate
 import BEDC.Derived.MetricSubspaceUp.TasteGate
+import BEDC.Derived.MetricTopologyUp.BallBasisScope
 import BEDC.Derived.MetricTopologyUp.TasteGate
 import BEDC.Derived.MetricTriangleUniformEstimateUp
 import BEDC.Derived.MetricTriangleUniformEstimateUp.CenterBoundContinuation
