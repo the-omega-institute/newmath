@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\QRDecompositionUp$}
+\label{ch:concrete-instances-qr-decomposition-namecert}
+\origin{human}
+
+Following Golub--Van Loan and Gram--Schmidt finite-dimensional linear algebra, the $\QRDecompositionUp$ packet records a displayed QR factorization route as finite BEDC data over $\MatrixUp$, $\VecSpaceUp$, $\FieldUp$, $\GramSchmidtUp$, and $\DeterminantUp$. It consumes the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the vector-space rows of \autoref{ch:concrete-instances-vecspace-namecert}, the scalar rows of \autoref{ch:concrete-instances-field-namecert}, the orthogonalization packet of \autoref{ch:concrete-instances-gram-schmidt-namecert}, and the determinant boundary of \autoref{ch:concrete-instances-determinant-namecert}. The packet names only the finite factorization ledger; it is not a host-level theorem that every matrix admits a selected factorization, nor does it export spectral data, polar decomposition, rank choice, quotient equality, or an ambient norm-completion principle.
+
+\begin{definition}[QR decomposition carrier]
+\label{def:qr-decomposition-carrier}
+A $\QRDecompositionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(A,Q_0,R,G,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the input $\MatrixUp$ row, including the finite column table, scalar-source row, and vector-space coordinate ledger to be factorized.
+\item $Q_0$ is the orthonormal-column packet, listing the displayed output columns together with their inherited $\VecSpaceUp$, $\FieldUp$, and inner-product support rows.
+\item $R$ is the upper-triangular packet, recording the finite coefficient table, zero-below-diagonal rows, diagonal pivot witnesses or refusal rows, and scalar provenance.
+\item $G$ is the $\GramSchmidtUp$ handoff row that reads the columns of $A$ through the orthogonalization route before any $Q_0$ or $R$ read is exposed.
+\item $T$ is the triangular and reconstruction ledger. It records that every displayed column of $A$ is replayed from the corresponding finite combination of $Q_0$ columns with coefficients from $R$.
+\item $H$ records componentwise $\hsame$ transport for the input matrix, orthonormal-column packet, upper-triangular packet, Gram--Schmidt handoff, triangular and reconstruction ledger, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+A \longmapsto G \longmapsto Q_0,R \longmapsto T \longmapsto H .
+$$
+\item $P$ is the $\Pkg$ provenance over $\QRDecompositionUp$, $\MatrixUp$, $\VecSpaceUp$, $\FieldUp$, $\GramSchmidtUp$, $\DeterminantUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\QRDecompositionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,Q_0,R,G,T,H,C,P,N$. It has no coordinate for a selected global basis, spectral factorization, polar decomposition, rank choice, quotient equality, or a host matrix theorem outside the displayed finite rows.
+\end{definition}
+
+\begin{theorem}[QRDecompositionUp NameCert obligations]
+\label{thm:qr-decomposition-namecert-obligations}
+For every accepted $\QRDecompositionUp$ carrier
+$$
+Q=(A,Q_0,R,G,T,H,C,P,N),
+$$
+the local $\NameCert_{\QRDecompositionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item input admission for the displayed $\MatrixUp$ row $A$ and its $\VecSpaceUp$ and $\FieldUp$ support;
+\item Gram--Schmidt handoff admission for $G$, requiring the column read of $A$ to pass through the accepted $\GramSchmidtUp$ orthogonalization packet;
+\item orthonormal-column exposure for $Q_0$, requiring each displayed column to be read from the handoff row rather than from a chosen ambient basis;
+\item upper-triangular exposure for $R$, requiring all below-diagonal zero rows, diagonal pivot witnesses or refusal rows, and scalar coefficient rows to be displayed;
+\item reconstruction exactness for $T$, requiring the finite column replay of $A$ from $Q_0$ and $R$ to use only the recorded coefficient rows;
+\item transport, replay, provenance, and local naming through $H,C,P,N$, preserving exactly the displayed factorization packet.
+\end{enumerate}
+No QR decomposition obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:qr-decomposition-carrier}. The input matrix row $A$ is the only source of displayed columns, and its scalar and vector-space support is inherited from the named dependency rows.
+
+Read the handoff row $G$. It routes those columns through the $\GramSchmidtUp$ packet, so the orthonormal-column packet $Q_0$ and coefficient table $R$ cannot be inspected before the finite orthogonalization replay has been displayed.
+
+The upper-triangular obligations are exactly the rows of $R$: below-diagonal zero entries, diagonal pivot witnesses or refusal rows, and scalar coefficients. The reconstruction ledger $T$ then checks each column of $A$ against the displayed finite combination of $Q_0$ columns using those same coefficients.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same tuple. Since the carrier has no coordinate for a selected global basis, spectral factorization, polar decomposition, rank choice, quotient equality, or host matrix theorem, the six listed rows exhaust the local naming surface.
+\end{proof}
+
+\begin{theorem}[Gram--Schmidt handoff for QR decomposition]
+\label{thm:qr-decomposition-gram-schmidt-handoff}
+Every $\QRDecompositionUp$ consumer that reads an orthonormal-column row, an upper-triangular coefficient row, or a reconstruction row must first pass through the $\GramSchmidtUp$ handoff row $G$ of \autoref{def:qr-decomposition-carrier}. Consequently QR reads are finite handoffs from displayed matrix columns to the triangular replay packet, not selected bases or ambient factorization objects.
+\end{theorem}
+\begin{proof}
+Start with any accepted QR carrier. The only rows that expose $Q_0$, $R$, and $T$ are typed after the handoff row $G$ in the displayed route
+$$
+A \longmapsto G \longmapsto Q_0,R \longmapsto T .
+$$
+
+The handoff row consumes the same matrix columns that $A$ displays and reads them through $\GramSchmidtUp$. Therefore a consumer that asks for an orthonormal column, triangular coefficient, or reconstruction component must first inspect $G$.
+
+Componentwise $\hsame$ transport and $\Cont$ replay preserve that order, while $\Pkg$ provenance and the local $\NameCert_{\QRDecompositionUp}$ row name only this route. Thus no selected basis, ambient QR theorem, or external factorization object is exported by the handoff.
+\end{proof}
+
+\closureat{QRDecompositionUp}{seedStr}
+
+\begin{closurestatus}{\QRDecompositionUp}
+  \constructivestory{A $\QRDecompositionUp$ packet is generated from a displayed input MatrixUp row, orthonormal-column packet, upper-triangular coefficient packet, GramSchmidtUp handoff, triangular reconstruction ledger, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:qr-decomposition-carrier}, \autoref{thm:qr-decomposition-namecert-obligations}, and \autoref{thm:qr-decomposition-gram-schmidt-handoff} seed the finite QR factorization packet over displayed matrix, vector-space, field, Gram--Schmidt, determinant, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global existence of QR decomposition, selected bases, spectral factorization, polar decomposition, rank choice, quotient equality, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked input admission, Gram--Schmidt handoff admission, orthonormal-column exposure, upper-triangular exposure, reconstruction exactness, and transport/provenance/name exhaustion for BEDC.Derived.QRDecompositionUp.}
+\end{closurestatus}
