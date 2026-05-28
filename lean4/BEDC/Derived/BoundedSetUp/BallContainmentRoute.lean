@@ -23,6 +23,64 @@ def BoundedSetCarrier [AskSetup] [PackageSetup]
         Cont S center transport ∧ Cont transport radius replay ∧
           PkgSig bundle provenance pkg ∧ PkgSig bundle nameRow pkg
 
+theorem BoundedSetCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
+    {X S center radius ball transport replay provenance nameRow : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedSetCarrier X S center radius ball transport replay provenance nameRow bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist => hsame row nameRow ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row S ∨ hsame row center ∨ hsame row radius ∨
+              hsame row ball ∨ Cont S center transport ∨ Cont transport radius replay)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg ∧ PkgSig bundle nameRow pkg ∧ hsame row nameRow)
+          hsame ∧
+        UnaryHistory X ∧ UnaryHistory S ∧ UnaryHistory center ∧ UnaryHistory radius ∧
+          UnaryHistory ball ∧ UnaryHistory transport ∧ UnaryHistory replay ∧
+            UnaryHistory provenance ∧ UnaryHistory nameRow ∧ Cont S center transport ∧
+              Cont transport radius replay ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle nameRow pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier
+  obtain ⟨xUnary, sUnary, centerUnary, radiusUnary, ballUnary, transportUnary, replayUnary,
+    provenanceUnary, nameUnary, subsetCenter, radiusReplay, provenancePkg, namePkg⟩ := carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row nameRow ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row S ∨ hsame row center ∨ hsame row radius ∨
+              hsame row ball ∨ Cont S center transport ∨ Cont transport radius replay)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg ∧ PkgSig bundle nameRow pkg ∧ hsame row nameRow)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro nameRow ⟨hsame_refl nameRow, nameUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row _source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl subsetCenter)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, namePkg, source.left⟩
+  }
+  exact
+    ⟨cert, xUnary, sUnary, centerUnary, radiusUnary, ballUnary, transportUnary, replayUnary,
+      provenanceUnary, nameUnary, subsetCenter, radiusReplay, provenancePkg, namePkg⟩
+
 theorem BoundedSetCarrier_ball_containment_route [AskSetup] [PackageSetup]
     {X S center radius ball transport replay provenance nameRow memberRead ballRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

@@ -86,6 +86,20 @@ Replay the route through $C$ after transport. The same ordered route from the pa
 Repack the transported rows with the same provenance and local naming data. Since the classifier has no coordinate outside the displayed rows, the transported packet is accepted by the same finite rule.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy uniqueness tail-shift stability]
+\label{thm:regular-cauchy-uniqueness-tail-shift-stability}
+Let $U=(X,Y,S,T,D,E,R,H,C,P,N)$ be an accepted $\RegularCauchyUniquenessUp$ carrier whose paired $\RegSeqRatUp$ windows have the same $\RealUp$ seal row $R$ and the same uniqueness tolerance ledger $D$. For any finite $\StreamNameUp$ tail shift of the displayed windows $S,T$, the shifted windows preserve the uniqueness handoff through the same $\RegSeqRatUp$ readback, $\CauchySequenceEquivalenceUp$ comparison row, and $\RealUp$ seal boundary, with $H,C,P,N$ carrying the transported route.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The paired names $X,Y$, windows $S,T$, dyadic tolerance ledger $D$, comparison row $E$, and seal row $R$ are all displayed before any Real-facing read is available.
+
+Apply \autoref{thm:regular-cauchy-uniqueness-tolerance-exactness}. The tail-shifted windows are still read at the same displayed tolerance source $D$, so the $\RegSeqRatUp$ readback and comparison row cannot import an external estimate.
+
+Use \autoref{thm:regular-cauchy-uniqueness-transport-invariance} for the shifted windows and their transported structural rows. The same route through $X,Y,S,T,D,E,R$ remains accepted after the finite reindexing.
+
+Finally apply \autoref{thm:regular-cauchy-uniqueness-real-seal-nonescape}. Since the seal is downstream from the same comparison row and the carrier has no quotient stream equality, selected limit, countable-choice, ambient-completeness, or host-equality coordinate, the finite tail shift preserves the uniqueness handoff.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy uniqueness Real seal nonescape]
 \label{thm:regular-cauchy-uniqueness-real-seal-nonescape}
 Every $\RealUp$-facing read from an accepted $\RegularCauchyUniquenessUp$ packet factors through the paired $\RegSeqRatUp$ rows $X,Y$, the paired $\StreamNameUp$ windows $S,T$, the $\DyadicRatCoreUp$ tolerance row $D$, the $\CauchySequenceEquivalenceUp$ comparison row $E$, and only then the seal row $R$, with $H,C,P,N$ preserving the same route.
