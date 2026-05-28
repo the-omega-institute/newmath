@@ -41,3 +41,19 @@ The closed-substitution siblings are consumed only as boundary data. $\MetaCICCl
 
 Because $D$ remains a socket and $O$ remains visible, the packet cannot convert these boundary rows into subject reduction or closed consistency. The theorem records the dependency surface and no verification-axis change.
 \end{proof}
+
+\begin{theorem}[MetaCIC critical-path L10 candidate-discharge order]
+\label{thm:metacic-critical-path-l10-candidate-discharge-order}
+Every accepted $\MetaCICCriticalPathUp$ packet reads any Real-and-Completion candidate-discharge surface through the finite route
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+before the normal-form endpoint row $N$ or discharge socket $D$ of \autoref{def:metacic-critical-path-packet} may be consumed. The row $L$ is the open-phase source ledger for this route, while $S,N,O,U,D$ remain MetaCIC critical-path rows. The theorem records the candidate-discharge ordering; it does not claim subject reduction, closed consistency, or completion of the Real-and-Completion phase.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $K=(S,N,O,U,D,H,C,P,L)$ from \autoref{def:metacic-critical-path-packet}. The rows $S,N,O,U,D$ name the MetaCIC normalization surface, normal-form endpoint, obstruction, handoff support, and discharge socket.
+
+The open Real-and-Completion data are carried by $L$. A candidate-discharge read that mentions Real-facing source data must therefore display the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ route through that ledger before it can consume either $N$ or $D$.
+
+Transport through $H$, replay through $C$, and provenance through $P$ preserve this separation of roles. Since $D$ remains a socket and $N$ remains an endpoint row, the carrier supplies an ordering obligation only, not subject reduction or a closed consistency theorem.
+\end{proof}
