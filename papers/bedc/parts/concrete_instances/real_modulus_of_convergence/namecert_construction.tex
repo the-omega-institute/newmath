@@ -75,6 +75,22 @@ The composition step is local to those three rows. The tolerance request in $D$ 
 Only after this pre-seal read may the route pass through $M$ and then to $E,H,C,P,N$. Because the carrier has no coordinate for quotient stream equality or a selected host limit, the composed window route cannot identify stream representatives or choose a limit outside the displayed NameCert data.
 \end{proof}
 
+\begin{theorem}[Real modulus of convergence monotone-window refinement]
+\label{thm:real-modulus-of-convergence-monotone-window-refinement}
+Let $R=(D,W,Q,M,E,H,C,P,N)$ be an accepted $\RealModulusOfConvergenceUp$ carrier, and let two displayed dyadic tolerance requests be related by the monotone ledger $M$. The later request refines the earlier one only through a weakly later $\StreamNameUp$ window, preserves the same $\RegSeqRatUp$ readback route, and reaches the same $\RealUp$ seal boundary before any Real or Completion consumer may use the modulus schedule. The refinement route is
+$$
+D,W,Q,M \longmapsto E \longmapsto H,C,P,N .
+$$
+It exports no quotient stream, selected limit, countable-choice schedule, or ambient $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-modulus-of-convergence-carrier}. The two tolerance requests are displayed through the same dyadic row $D$, so their comparison is available only through the packet's monotone ledger $M$.
+
+Use tail stability for the later request and window composition for the resulting read. Theorem~\ref{thm:real-modulus-of-convergence-tail-stability} forces the later request to use a weakly later finite $\StreamNameUp$ window, while Theorem~\ref{thm:real-modulus-of-convergence-window-composition} keeps the dyadic row, the window row, and the $\RegSeqRatUp$ readback row on the same pre-seal route.
+
+Finally route the refined read through $E,H,C,P,N$. The visible $\RealUp$ seal boundary is reached only after $D,W,Q,M$ have been displayed, and no carrier coordinate supplies quotient streams, selected limits, countable choice, or ambient Real completeness.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\RealModulusOfConvergenceUp$ Real or Completion consumer factors through one displayed $\DyadicRatCoreUp$ tolerance row, one $\StreamNameUp$ finite-window row, one $\RegSeqRatUp$ readback row, one monotone convergence-modulus ledger, one $\RealUp$ seal handoff, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before it may use a convergence-modulus claim.}
 
 \independenceWitness{dyadicratcore, streamname, regseqrat, real: $\RealModulusOfConvergenceUp$ is not bijective to any listed sibling because the siblings separately supply tolerance comparisons, finite windows, regular rational readback, and terminal Real sealing, while this packet uniquely binds them to a monotone convergence-modulus ledger consumed by the L10 Real and Completion route.}
@@ -84,7 +100,7 @@ Only after this pre-seal read may the route pass through $M$ and then to $E,H,C,
 \begin{closurestatus}{\RealModulusOfConvergenceUp}
   \constructivestory{A $\RealModulusOfConvergenceUp$ packet is generated from a DyadicRatCore tolerance row, a StreamName finite-window row, a RegSeqRat readback row, a monotone convergence-modulus ledger, a RealUp seal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-modulus-of-convergence-carrier}, \autoref{thm:real-modulus-of-convergence-namecert-obligations}, \autoref{thm:real-modulus-of-convergence-tail-stability}, and \autoref{thm:real-modulus-of-convergence-window-composition} seed the explicit convergence-modulus ledger over DyadicRatCore, StreamName, RegSeqRat, and Real rows.}
+  \scopeclosed{\autoref{def:real-modulus-of-convergence-carrier}, \autoref{thm:real-modulus-of-convergence-namecert-obligations}, \autoref{thm:real-modulus-of-convergence-tail-stability}, \autoref{thm:real-modulus-of-convergence-window-composition}, and \autoref{thm:real-modulus-of-convergence-monotone-window-refinement} seed the explicit convergence-modulus ledger over DyadicRatCore, StreamName, RegSeqRat, and Real rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Real completeness, quotient stream equality, selected host limits, countable choice, host real equality, Lean verification, or bridge checking.}
