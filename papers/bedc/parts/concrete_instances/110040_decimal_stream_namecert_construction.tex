@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\DecimalStreamUp$}
+\label{ch:concrete-instances-decimal-stream-namecert}
+\origin{human}
+
+Following Bishop and Bridges on decimal presentations of constructive real numbers, the $\DecimalStreamUp$ packet records the finite base-ten stream surface that sits between decimal prefix data and real-name readback. It refines the finite prefix discipline of \autoref{ch:concrete-instances-decimalexpansion-namecert} without asking $\DecimalExpansionUp$ to carry an infinite stream role, and it routes later reads through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\DecimalRealUp$, and $\SignedDigitStreamUp$ as displayed finite windows.
+
+\begin{definition}[DecimalStream carrier]
+\label{def:decimal-stream-carrier}
+A $\DecimalStreamUp$ carrier is a finite $\BHist$ packet
+$$
+D=(E,S,W,L,Q,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the $\DecimalExpansionUp$ prefix row, carrying admitted signed decimal prefixes and their endpoint policy.
+\item $S$ is the $\StreamNameUp$ schedule row, exposing only finite digit windows requested by a downstream consumer.
+\item $W$ is the decimal window ledger, recording observed base-ten digits, place indices, and prefix bounds for each request in $S$.
+\item $L$ is the place-value ledger that evaluates every displayed window as a rational base-ten partial sum.
+\item $Q$ is the $\DyadicRatCoreUp$ comparison row that translates the place-value ledger into dyadic tolerance data.
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained from the dyadic comparison windows.
+\item $A$ is the $\RealUp$ and $\DecimalRealUp$ seal boundary, with the $\SignedDigitStreamUp$ sibling used only as a comparison surface for finite-window stream behavior.
+\item $H$ records componentwise $\hsame$ transport for $E,S,W,L,Q,R,A$ and the local structural rows.
+\item $C$ records displayed $\Cont$ replay from a digit-window request through the decimal prefix, stream schedule, place-value ledger, dyadic comparison, regular-rational handoff, and terminal real seal.
+\item $P$ is the $\Pkg$ provenance over $\DecimalStreamUp$, $\DecimalExpansionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\DecimalRealUp$, $\SignedDigitStreamUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DecimalStreamUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an infinite decimal object, quotient stream equality, a selected decimal expansion at endpoints, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[DecimalStream NameCert obligations]
+\label{thm:decimal-stream-namecert-obligations}
+For every accepted $\DecimalStreamUp$ carrier $D=(E,S,W,L,Q,R,A,H,C,P,N)$, the local $\NameCert_{\DecimalStreamUp}$ surface consists exactly of carrier admission, finite digit-window exposure, base-ten place-value ledger evaluation, dyadic comparison handoff, regular-rational readback, Real and DecimalReal seal nonescape, signed-digit sibling comparison, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:decimal-stream-carrier}. The rows $E,S,W,L,Q,R,A$ are the only decimal-prefix, stream-window, place-value, dyadic, regular-rational, and real-facing rows available to the packet.
+
+Finite digit-window exposure is forced by $S$ and $W$. A downstream read can inspect only the requested base-ten windows, so no infinite decimal stream, hidden tail, or endpoint selector appears.
+
+The place-value ledger $L$ then turns each window into rational partial-sum data. The dyadic row $Q$ and regular-rational row $R$ transport that ledger into the same $\DyadicRatCoreUp$ and $\RegSeqRatUp$ route used by the L10 real boundary.
+
+Finally, $A,H,C,P,N$ seal, transport, replay, source, and locally name the route. Since the carrier lacks quotient stream equality, selected endpoint expansions, host real equality, countable choice, and ambient completeness coordinates, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[DecimalStream real readback boundary]
+\label{thm:decimal-stream-real-readback-boundary}
+Every $\RealUp$ or $\DecimalRealUp$ read of an accepted $\DecimalStreamUp$ packet factors through the finite route
+$$
+\DecimalExpansionUp,\ \StreamNameUp,\ \DecimalStreamUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+The comparison with $\SignedDigitStreamUp$ is only a finite-window sibling comparison. The readback exports no infinite decimal stream, no quotient of streams, no selected endpoint expansion, no host equality of real representatives, and no $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with an accepted packet and project the rows of \autoref{def:decimal-stream-carrier}. A real-facing read must inspect the decimal prefix row $E$, the stream schedule $S$, and the requested window ledger $W$ before place-value data are available.
+
+The place-value ledger $L$ is then compared through $Q$ and handed to $R$. Thus the Real-facing route is the finite dyadic and regular-rational route already used by $\DyadicRatCoreUp$ and $\RegSeqRatUp$ consumers.
+
+The terminal seal row $A$ records only the $\RealUp$ and $\DecimalRealUp$ boundary reached by that route. The $\SignedDigitStreamUp$ sibling is cited for finite-window comparison behavior and does not add a second stream quotient.
+
+Transport and replay through $H$ and $C$ preserve the same rows, while $P$ and $N$ source and name them. No excluded infinite stream, quotient, endpoint selector, host equality, or completeness coordinate is present, so the displayed boundary is exact.
+\end{proof}
+
+\closureat{DecimalStreamUp}{seedStr}
+
+\begin{closurestatus}{\DecimalStreamUp}
+  \constructivestory{A $\DecimalStreamUp$ packet is generated from DecimalExpansion prefix rows, finite StreamName digit windows, place-value ledgers, DyadicRatCore comparison rows, RegSeqRat handoff rows, RealUp and DecimalRealUp seal rows, SignedDigitStream sibling comparison, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:decimal-stream-carrier}, \autoref{thm:decimal-stream-namecert-obligations}, and \autoref{thm:decimal-stream-real-readback-boundary} seed the finite decimal stream surface from decimal prefixes to dyadic, regular-rational, and real-name consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim an infinite decimal stream object, quotient stream equality, selected endpoint expansions, host real equality, countable choice, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked finite digit-window admission, place-value ledger exactness, dyadic comparison handoff, RegSeqRat readback, Real-seal nonescape, transport replay, provenance, and local naming for BEDC.Derived.DecimalStreamUp.}
+\end{closurestatus}
