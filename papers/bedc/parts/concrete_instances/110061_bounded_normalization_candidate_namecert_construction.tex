@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\BoundedNormalizationCandidateUp$}
+\label{ch:concrete-instances-bounded-normalization-candidate-namecert}
+\origin{human}
+
+Following Tait and Girard reducibility candidates, the $\BoundedNormalizationCandidateUp$ packet records a finite candidate-mediated normalization boundary for MetaCIC closed terms. It reads the audit surface of \autoref{ch:metacic-normalization-audit-map} through the existing normalization audit packet of \autoref{ch:concrete-instances-metacic-normalization-audit-packet-namecert}, the critical-path ledger of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, and the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}. The packet names a bounded fuel row, closed-term row, candidate row, Pi and application adequacy rows, no-infinite-reduction row, transport, replay, provenance, and local naming; it does not assert global strong normalization for every closed MetaCIC term.
+
+\begin{definition}[BoundedNormalizationCandidate carrier]
+\label{def:bounded-normalization-candidate-carrier}
+A $\BoundedNormalizationCandidateUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,F,E,A,\Pi,S,I,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed MetaCIC term row, recording the term, type, context boundary, and closedness evidence read by the audit map.
+\item $F$ is the bounded fuel row, recording the finite reduction budget and the visible step counter for this candidate route.
+\item $E$ is the reducibility-candidate evidence row, recording the candidate, closed-candidate, or candidate-set membership object consumed by the route.
+\item $A$ is the application adequacy row, recording the function-side Pi evidence, argument evidence, and application-candidate handoff.
+\item $\Pi$ is the Pi adequacy row, recording binder-side candidate data and neutral-normal evidence when a Pi route is inspected.
+\item $S$ is the strong-normalization projection row, downstream of $E,A,\Pi$ and bounded by $F$.
+\item $I$ is the no-infinite-reduction projection row, downstream of $S$ and still attached to the same candidate evidence.
+\item $R$ is the frontier-refusal row, recording requests for evidence-free closed-term normalization, unrestricted subject reduction, global confluence, quotient syntax equality, or host evaluator soundness.
+\item $H$ records componentwise $\hsame$ transport for $T,F,E,A,\Pi,S,I,R,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a normalization-audit request through the bounded candidate route.
+\item $P$ is the $\Pkg$ provenance over $\BoundedNormalizationCandidateUp$, \autoref{ch:metacic-normalization-audit-map}, $\MetaCICNormalizationAuditPacketUp$, $\MetaCICCriticalPathUp$, $\MetaCICNormalizationFrontierUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedNormalizationCandidateUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,F,E,A,\Pi,S,I,R,H,C,P,N$. It has no coordinate for unconditional closed-term normalization, evidence-free strong normalization, unrestricted subject reduction, global confluence, quotient syntax equality, host evaluation soundness, or completed closed consistency.
+\end{definition}
+
+\begin{theorem}[BoundedNormalizationCandidate NameCert obligations]
+\label{thm:bounded-normalization-candidate-namecert-obligations}
+For the carrier of \autoref{def:bounded-normalization-candidate-carrier}, the local $\NameCert_{\BoundedNormalizationCandidateUp}$ surface consists exactly of carrier admission for $K=(T,F,E,A,\Pi,S,I,R,H,C,P,N)$, closed-term exposure through $T$, bounded fuel exposure through $F$, candidate evidence through $E$, application adequacy through $A$, Pi adequacy through $\Pi$, candidate-mediated strong-normalization projection through $S$, no-infinite-reduction projection through $I$, frontier refusal through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The closed term row $T$ and bounded fuel row $F$ give the finite normalization request, while $E$ is the only row carrying candidate evidence.
+
+Read the adequacy rows $A$ and $\Pi$ as refinements of the same candidate route. They do not create a second normalization source; they only describe how applications and Pi-shaped terms remain inside the candidate-mediated boundary.
+
+The strong-normalization projection $S$ is downstream of $E,A,\Pi,F$, and the no-infinite-reduction projection $I$ is downstream of $S$. Requests that drop this evidence pass to the frontier row $R$.
+
+Transport, replay, provenance, and local naming through $H,C,P,N$ preserve these rows. Since the excluded global principles are absent from the carrier, no NameCert projection can export them.
+\end{proof}
+
+\begin{theorem}[BoundedNormalizationCandidate frontier handoff]
+\label{thm:bounded-normalization-candidate-frontier-handoff}
+Every public normalization, strong-normalization, or no-infinite-reduction read from an accepted $\BoundedNormalizationCandidateUp$ carrier factors through the finite route
+$$
+T \longmapsto F \longmapsto E \longmapsto (A,\Pi) \longmapsto S \longmapsto I \longmapsto R .
+$$
+Thus the packet realizes the finite candidate, fuel, closed-term, Pi/application adequacy, and no-infinite-reduction frontier rows used by \autoref{ch:metacic-normalization-audit-map}, without claiming global strong normalization or closing the subject-reduction and confluence boundaries.
+\end{theorem}
+\begin{proof}
+Start with a public normalization read. The closed term row $T$ records the inspected term, and the fuel row $F$ records the finite budget, but neither row alone supplies strong normalization.
+
+The read must pass through $E$. Candidate, closed-candidate, or candidate-set evidence is then refined by application adequacy $A$ and Pi adequacy $\Pi$ before the strong-normalization projection $S$ is available.
+
+The no-infinite-reduction projection $I$ reuses the output of $S$. If a consumer asks for evidence-free normalization, unrestricted subject reduction, global confluence, quotient syntax equality, host evaluator soundness, or completed closed consistency, the frontier row $R$ keeps that request outside the exported packet.
+
+The structural rows $H,C,P,N$ replay and name this same route for downstream MetaCIC audit consumers. Therefore the handoff is a bounded candidate-mediated frontier object, not a global theorem about all closed MetaCIC terms.
+\end{proof}
+
+\begin{closurestatus}{\BoundedNormalizationCandidateUp}
+  \constructivestory{A $\BoundedNormalizationCandidateUp$ packet is generated from a closed MetaCIC term row, bounded fuel row, reducibility-candidate evidence, application adequacy, Pi adequacy, candidate-mediated SN projection, no-infinite-reduction projection, frontier refusal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-normalization-candidate-carrier}, \autoref{thm:bounded-normalization-candidate-namecert-obligations}, and \autoref{thm:bounded-normalization-candidate-frontier-handoff} seed the finite bounded candidate route for MetaCIC normalization audit consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, global strong normalization, evidence-free closed-term normalization, unrestricted subject reduction, global confluence, quotient syntax equality, host evaluator soundness, or completed closed consistency.}
+  \upgradepath{Obligation closure requires checked carrier admission, fuel-route exactness, candidate evidence exposure, Pi and application adequacy routing, SN projection, no-infinite-reduction projection, frontier refusal, transport, replay, provenance, and local naming for BEDC.Derived.BoundedNormalizationCandidateUp.}
+\end{closurestatus}
