@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\PicardThresholdCauchyHandoffUp$}
+\label{ch:concrete-instances-picard-threshold-cauchy-handoff-namecert}
+\origin{human}
+
+Following Banach, Picard, and Bishop--Bridges constructive analysis, the $\PicardThresholdCauchyHandoffUp$ packet records the finite handoff from an explicit contraction estimate to the Cauchy threshold consumed by the regular-rational and real endpoint routes. It sits between the Banach fixed-point modulus packet of \autoref{ch:concrete-instances-banach-fixed-point-modulus-namecert}, the Picard iteration and error-estimate packets of \autoref{ch:concrete-instances-picard-iteration-namecert} and \autoref{ch:concrete-instances-picard-error-estimate-namecert}, and the regular Cauchy completion boundary of \autoref{ch:concrete-instances-regular-cauchy-located-completion-namecert}. The packet gives the endpoint route a single displayed Cauchy-threshold surface without selecting a fixed point, quotienting completion names, or importing ambient $\RealUp$ completeness.
+
+\begin{definition}[Picard threshold Cauchy handoff carrier]
+\label{def:picard-threshold-cauchy-handoff-carrier}
+A $\PicardThresholdCauchyHandoffUp$ carrier is a finite $\BHist$ packet
+$$
+H=(B,I,E,M,R,K,S,T,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $B$ is the $\BanachFixedPointModulusUp$ source row whose contraction-rate route has already exposed the rational Lipschitz and finite Picard ledgers.
+\item $I$ is the $\PicardIterationUp$ ledger of adjacent iterate windows and replay order.
+\item $E$ is the $\PicardErrorEstimateUp$ row, carrying the residual-and-ratio estimate used to bound the Picard tail.
+\item $M$ is the $\CauchyModulusUp$ threshold row produced from $B,I,E$ for each requested dyadic or rational tolerance.
+\item $R$ is the $\RegSeqRatUp$ readback row made available only after the threshold row $M$ has been displayed.
+\item $K$ is the $\CompleteMetricUp$ service row consumed at the handoff boundary, not an ambient completeness theorem.
+\item $S$ is the terminal $\RealUp$ seal row reached only after $M,R,K$ have been read.
+\item $T$ stores componentwise $\hsame$ transports for the Banach-modulus, Picard-iteration, error-estimate, Cauchy-threshold, regular-rational, complete-metric, real-seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from the contraction-rate request through $B,I,E,M,R,K,S,T,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\PicardThresholdCauchyHandoffUp$, $\BanachFixedPointModulusUp$, $\PicardIterationUp$, $\PicardErrorEstimateUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, $\CompleteMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PicardThresholdCauchyHandoffUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $B,I,E,M,R,K,S,T,C,P,N$. It has no coordinate for a selected fixed point, host fixed-point equality, quotient completion equality, detached Cauchy selector, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Picard threshold Cauchy handoff NameCert obligations]
+\label{thm:picard-threshold-cauchy-handoff-namecert-obligations}
+For every accepted $\PicardThresholdCauchyHandoffUp$ carrier $H=(B,I,E,M,R,K,S,T,C,P,N)$, the local $\NameCert_{\PicardThresholdCauchyHandoffUp}$ surface consists exactly of carrier admission for the displayed rows; Banach-modulus source visibility through $B$; Picard-iteration visibility through $I$; error-estimate visibility through $E$; Cauchy-threshold construction through $M$; regular-rational readback through $R$; complete-metric service access through $K$; real seal access through $S$; classifier stability through $T$ and $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:picard-threshold-cauchy-handoff-carrier}. The accepted packet exposes exactly the Banach-modulus source row, the Picard-iteration ledger, the error-estimate row, the Cauchy-threshold row, the regular-rational readback, the complete-metric service, the real seal, and the structural rows.
+
+The threshold rows are ordered. The rows $B,I,E$ must be displayed before $M$ can answer a tolerance request, since $M$ is the only coordinate that records the finite Cauchy threshold.
+
+The endpoint rows are downstream. The row $R$ reads the threshold as regular rational data, $K$ is the visible complete-metric service row, and $S$ is exposed only after those rows have been displayed. Transport, replay, provenance, and local naming are exhausted by $T,C,P,N$, so no further NameCert obligation is present.
+\end{proof}
+
+\begin{theorem}[Picard threshold Cauchy handoff Real seal]
+\label{thm:picard-threshold-cauchy-handoff-real-seal}
+Every $\RealUp$-facing endpoint read of an accepted $\PicardThresholdCauchyHandoffUp$ carrier factors through the finite route
+$$
+\BanachFixedPointModulusUp,\ \PicardIterationUp,\ \PicardErrorEstimateUp
+\longmapsto
+\CauchyModulusUp
+\longmapsto
+\RegSeqRatUp,\ \CompleteMetricUp
+\longmapsto
+\RealUp .
+$$
+Thus the real seal is reached only after the explicit Picard threshold has been displayed as a $\CauchyModulusUp$ row and repacked through the regular-rational and complete-metric handoff rows. The route exports no selected fixed point, quotient completion equality, detached Cauchy selector, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a real-facing endpoint request. The only contraction-rate source row is $B$, and its Picard data are refined in the visible rows $I$ and $E$, so the request first reads those rows.
+
+The threshold stage is forced by $M$. Apply the Banach fixed-point modulus route of \autoref{thm:banach-fixed-point-modulus-picard-handoff} together with the Picard iteration surface of \autoref{ch:concrete-instances-picard-iteration-namecert} and the error-estimate surface of \autoref{ch:concrete-instances-picard-error-estimate-namecert}. These sources supply the displayed threshold row without adding a selected endpoint.
+
+After $M$ is fixed, the readback and completion rows $R$ and $K$ expose the regular-rational and complete-metric boundary used by \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-completemetric-namecert}. The seal row $S$ is then the only $\RealUp$ coordinate, and the structural rows $T,C,P,N$ preserve the same route.
+\end{proof}
+
+\closureat{PicardThresholdCauchyHandoffUp}{seedStr}
+
+\begin{closurestatus}{\PicardThresholdCauchyHandoffUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:picard-threshold-cauchy-handoff-carrier}, \autoref{thm:picard-threshold-cauchy-handoff-namecert-obligations}, and \autoref{thm:picard-threshold-cauchy-handoff-real-seal} seed the finite Picard-threshold handoff from BanachFixedPointModulus, PicardIteration, and PicardErrorEstimate rows to CauchyModulus, RegSeqRat, CompleteMetric, and RealUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected fixed points, host fixed-point equality, quotient completion equality, detached Cauchy selectors, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Picard-threshold construction, regular-rational readback, complete-metric service access, real-seal ordering, classifier stability, provenance, and local naming for BEDC.Derived.PicardThresholdCauchyHandoffUp.}
+  \constructivestory{A $\PicardThresholdCauchyHandoffUp$ packet is generated from a BanachFixedPointModulus source row, PicardIteration ledger, PicardErrorEstimate row, CauchyModulus threshold, RegSeqRat readback, CompleteMetric service row, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
