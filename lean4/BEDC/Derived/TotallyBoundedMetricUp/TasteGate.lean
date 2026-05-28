@@ -212,7 +212,8 @@ def TotallyBoundedMetricCarrier [AskSetup] [PackageSetup]
   UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory D ∧
     UnaryHistory S ∧ UnaryHistory Q ∧ UnaryHistory H ∧ UnaryHistory C ∧
       UnaryHistory P ∧ UnaryHistory N ∧ Cont M R E ∧ Cont D S Q ∧
-        Cont H C P ∧ PkgSig bundle P pkg
+        Cont H C P ∧ PkgSig bundle P pkg ∧ Cont M R D ∧ Cont D E S ∧
+          Cont S Q C ∧ PkgSig bundle N pkg
 
 theorem TotallyBoundedMetricCarrier_finite_net_factorization [AskSetup] [PackageSetup]
     {M R E D S Q H C P N metricRead toleranceRead finiteNetRead windowRead : BHist}
@@ -233,7 +234,8 @@ theorem TotallyBoundedMetricCarrier_finite_net_factorization [AskSetup] [Package
   intro carrier metricRoute toleranceRoute finiteNetRoute windowRoute windowPkg
   obtain ⟨MUnary, RUnary, EUnary, DUnary, SUnary, _QUnary, _HUnary, _CUnary,
     _PUnary, _NUnary, _metricFamilyRoute, _windowReadbackRoute, _transportReplayRoute,
-    carrierPkg⟩ := carrier
+    carrierPkg, _metricToleranceRoute, _toleranceFiniteNetRoute, _windowReplayRoute,
+    _nameCertPkg⟩ := carrier
   have metricUnary : UnaryHistory metricRead :=
     unary_cont_closed MUnary RUnary metricRoute
   have toleranceUnary : UnaryHistory toleranceRead :=
@@ -271,7 +273,8 @@ theorem TotalBoundedMetricCauchyCoverObligation [AskSetup] [PackageSetup]
   obtain ⟨metricUnary, realMetricUnary, epsilonNetUnary, dyadicUnary, streamUnary,
     regseqUnary, _transportUnary, _replayUnary, provenanceUnary, _localNameUnary,
     _metricRealMetricEpsilonNet, _dyadicStreamRegseq, _transportReplayProvenance,
-    provenancePkg⟩ := carrier
+    provenancePkg, _metricDyadicRoute, _dyadicEpsilonRoute, _streamRegseqReplayRoute,
+    _localNamePkg⟩ := carrier
   have cauchyCoverUnary : UnaryHistory cauchyCover :=
     unary_cont_closed dyadicUnary epsilonNetUnary dyadicEpsilonCover
   have sourceCover :
@@ -337,7 +340,8 @@ theorem TotalBoundedMetricCarrier_finite_net_obligation [AskSetup] [PackageSetup
   obtain ⟨_metricUnary, _realMetricUnary, epsilonNetUnary, dyadicUnary, _streamUnary,
     _readbackUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
     _metricRealEpsilonRoute, _dyadicStreamReadback, _transportReplayProvenance,
-    provenancePkg⟩ := carrier
+    provenancePkg, _metricDyadicRoute, _dyadicEpsilonRoute, _streamReadbackReplayRoute,
+    _localNamePkg⟩ := carrier
   have finiteNetUnary : UnaryHistory finiteNetRead :=
     unary_cont_closed dyadicUnary epsilonNetUnary dyadicEpsilonNetRead
   have sourceFiniteNet :
