@@ -911,6 +911,7 @@ import BEDC.Derived.BoundedSetUp.DiameterConsumerHandoff
 import BEDC.Derived.BoundedSetUp.LocatedDiameterReadback
 import BEDC.Derived.BoundedSetUp.MetricBallContainmentDependency
 import BEDC.Derived.BoundedSetUp.MetricBallHandoff
+import BEDC.Derived.BoundedSetUp.MetricBornologyConsumer
 import BEDC.Derived.BoundedSetUp.NameCertLedgerNonescape
 import BEDC.Derived.BoundedSetUp.ObligationCarrierAdmission
 import BEDC.Derived.BoundedSetUp.ObligationConsumerPackage
@@ -6795,6 +6796,7 @@ import BEDC.Derived.VerifiedOutputHarnessUp.TasteGate
 import BEDC.Derived.VermaModuleUp
 import BEDC.Derived.VietorisRipsComplexUp
 import BEDC.Derived.VietorisRipsComplexUp.TasteGate
+import BEDC.Derived.ViscositySolutionUp.TasteGate
 import BEDC.Derived.VitaliCoverUp.TasteGate
 import BEDC.Derived.VolterraIntegralOperatorUp.TasteGate
 import BEDC.Derived.VonneumannalgebraUp
