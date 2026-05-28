@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\ProximalMapUp$}
+\label{ch:concrete-instances-proximal-map-namecert}
+\origin{human}
+
+Following Rockafellar's convex-analysis treatment of subdifferentials and resolvents, and Boyd--Vandenberghe's finite optimization presentation of proximal operators, the $\ProximalMapUp$ packet records the displayed proximal minimization surface as BEDC NameCert data. It sits after the convex-set carrier of \autoref{ch:concrete-instances-convexset-namecert}, the conjugacy rows of \autoref{ch:concrete-instances-convex-conjugate-namecert}, the Fenchel-duality handoff of \autoref{ch:concrete-instances-fenchelduality-namecert}, the positive-cone order boundary of \autoref{ch:concrete-instances-positive-cone-namecert}, the stationarity ledger of \autoref{ch:concrete-instances-kkt-namecert}, the real seal of \autoref{ch:concrete-instances-real-namecert}, and the vector-space source of \autoref{ch:concrete-instances-vecspace-namecert}. The packet gives subdifferential and monotone-operator consumers a finite resolvent-facing route without asserting a selected global minimizer, Hilbert projection theorem, host lower semicontinuity, or ambient completeness.
+
+\section{ProximalMap Carrier}
+\label{sec:proximal-map-carrier}
+
+\begin{definition}[ProximalMap carrier]
+\label{def:proximal-map-carrier}
+A $\ProximalMapUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,F,u,z,R,D,K,G,O,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ is the displayed vector-space source row, read through $\VecSpaceUp$ and the real scalar seal of $\RealUp$;
+\item $F$ is the convex functional and domain row, including the visible $\ConvexSetUp$ and $\ConvexConjugateUp$ surfaces used by the request;
+\item $u$ is the input point row in the carried vector-space source;
+\item $z$ is the displayed candidate output row;
+\item $R$ is the real penalty and distance-evaluation row used for the displayed expression $F(y)+\frac{1}{2\lambda}\lVert y-u\rVert^2$ at the finitely inspected comparison points;
+\item $D$ is the finite dominance ledger recording that the candidate row is no worse than each displayed comparison row;
+\item $K$ is the KKT stationarity row tying the candidate, penalty, cone boundary, and finite residual rows to the $\KKTUp$ packet;
+\item $G$ is the Fenchel and convex-conjugate handoff row, read only after $F,R,D,K$ have been displayed;
+\item $O$ is the convex-resolvent consumer row for later subdifferential or monotone-operator packets;
+\item $H$ records componentwise $\hsame$ transport for the vector-space source, convex functional, input, candidate, real penalty, dominance ledger, KKT stationarity, Fenchel handoff, resolvent consumer, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay from a proximal request through convex admission, real penalty evaluation, stationarity, duality, dominance, and resolvent-facing readback;
+\item $P$ is the $\Pkg$ provenance over $\ProximalMapUp$, $\ConvexSetUp$, $\ConvexConjugateUp$, $\FenchelDualityUp$, $\PositiveConeUp$, $\KKTUp$, $\RealUp$, $\VecSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ProximalMapUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an ambient Hilbert projection theorem, a selected minimizer outside the displayed candidate row, host lower semicontinuity, global coercivity, quotient vector equality, or an existence theorem for every input.
+\end{definition}
+
+\section{ProximalMap Certificate}
+\label{sec:proximal-map-certificate}
+
+\begin{theorem}[ProximalMap NameCert obligations]
+\label{thm:proximal-map-namecert-obligations}
+For every accepted $\ProximalMapUp$ carrier $Q=(X,F,u,z,R,D,K,G,O,H,C,P,N)$, the local $\NameCert_{\ProximalMapUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the vector-space source, convex functional, input point, candidate output, real penalty row, dominance ledger, KKT row, Fenchel handoff, resolvent consumer row, transport, replay, provenance, and local naming;
+\item penalty evaluation exactness, requiring every proximal comparison to read the same $\RealUp$ penalty row $R$ and the same $\VecSpaceUp$ source row $X$ before any dominance claim is exported;
+\item convex-domain compatibility, requiring the candidate and comparison points to be admitted through the $\ConvexSetUp$ row carried by $F$;
+\item stationarity compatibility, requiring the displayed residual, cone boundary, and multiplier data to pass through the $\KKTUp$ and $\PositiveConeUp$ rows before any optimality-facing read is public;
+\item Fenchel and conjugacy handoff, requiring dual or subgradient consumers to pass through $\ConvexConjugateUp$ and $\FenchelDualityUp$ only after the dominance and stationarity rows have been displayed;
+\item non-escape from global minimizer selection, host projection theorems, quotient vector equality, lower-semicontinuity assumptions, and ambient completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $X,F,u,z,R,D,K,G,O$ are the complete proximal surface, while $H,C,P,N$ are the structural route that transports, replays, sources, and names the same packet.
+
+Penalty exactness is a finite ledger condition. A comparison with a point $y$ can be read only when the relevant vector-space rows in $X$, convex-domain rows in $F$, and real penalty value in $R$ are all displayed, and the dominance row in $D$ names that comparison.
+
+Stationarity and order compatibility are then read through $K$ and the provenance row $P$. The KKT and positive-cone rows may inspect only the displayed residual, cone, multiplier, real, and vector entries already present in the packet.
+
+The Fenchel and conjugacy handoff is downstream of the same displayed data. Since no coordinate of $Q$ stores a selected global minimizer, a Hilbert projection theorem, quotient vector equality, lower-semicontinuity evidence, or ambient completeness, those principles cannot be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[ProximalMap convex-resolvent handoff]
+\label{thm:proximal-map-convex-resolvent-handoff}
+Every subdifferential, monotone-operator, or splitting-method consumer of an accepted $\ProximalMapUp$ packet must factor through the finite route
+$$
+X,F,u,z,R,D,K,G,O \longmapsto H,C,P,N .
+$$
+The consumer may read the candidate $z$ as a resolvent-facing output only after the convex-domain row, real penalty row, dominance ledger, KKT stationarity row, positive-cone boundary, and Fenchel-duality handoff have all been displayed. It receives no selected minimizer for unlisted inputs, no maximal-monotone theorem, no quotient vector equality, no host projection semantics, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the candidate row. By \autoref{def:proximal-map-carrier}, the row $z$ is only one displayed output candidate in the finite packet, and it is tied to the input row $u$ and vector-space source row $X$.
+
+The dominance ledger $D$ and penalty row $R$ supply the proximal comparison surface. They are read through the same convex-domain row $F$ and the same real scalar seal, so a consumer cannot replace the displayed comparisons by an external minimization predicate.
+
+Next read the stationarity and duality boundary. The row $K$ routes optimality-facing material through the KKT and positive-cone packets, while $G$ routes conjugacy-facing material through the convex-conjugate and Fenchel-duality packets. The resolvent consumer row $O$ is exposed only after those rows are present.
+
+Transport, continuation replay, package provenance, and local naming preserve exactly this route through $H,C,P,N$. Since the carrier lacks coordinates for unlisted input selection, maximal-monotone closure, quotient vector equality, host projection semantics, or completeness, the handoff stops at the finite convex-resolvent boundary.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ProximalMapUp$ consumer read factors through a VecSpaceUp source, ConvexSetUp and ConvexConjugateUp functional rows, one displayed input, one displayed candidate output, a RealUp penalty row, a finite dominance ledger, KKTUp stationarity rows, PositiveConeUp order rows, FenchelDualityUp handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert.}
+
+\independenceWitness{convexset, convex-conjugate, fenchelduality, positive-cone, kkt, real, vecspace: $\ProximalMapUp$ is not bijective to any listed sibling because it jointly carries an input row, candidate output row, real penalty ledger, dominance comparisons, stationarity boundary, Fenchel handoff, and resolvent-facing consumer row in one finite packet.}
+
+\closureat{ProximalMapUp}{seedStr}
+
+\begin{closurestatus}{\ProximalMapUp}
+  \constructivestory{A $\ProximalMapUp$ packet is generated from a vector-space source, convex functional and domain rows, one input point, one candidate output, RealUp penalty evaluations, finite dominance comparisons, KKT stationarity, PositiveCone order, FenchelDuality and ConvexConjugate handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:proximal-map-carrier}, \autoref{thm:proximal-map-namecert-obligations}, and \autoref{thm:proximal-map-convex-resolvent-handoff} seed the finite proximal-resolvent certificate surface over convex, real, vector-space, KKT, cone, and Fenchel rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a global proximal existence theorem, selected minimizers for all inputs, Hilbert projection semantics, maximal-monotone closure, quotient vector equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, penalty evaluation exactness, convex-domain compatibility, stationarity compatibility, Fenchel handoff, resolvent consumer boundary, transport, replay, provenance, and local naming for BEDC.Derived.ProximalMapUp.}
+\end{closurestatus}

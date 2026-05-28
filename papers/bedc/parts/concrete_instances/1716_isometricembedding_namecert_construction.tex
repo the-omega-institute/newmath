@@ -216,6 +216,43 @@ Finally invoke real-distance route determinacy. \autoref{thm:isometric-embedding
 \end{proof}
 \leanchecked{BEDC.Derived.IsometricEmbeddingUp.IsometricEmbeddingCarrier\_distance\_route\_reflection\_lock}
 
+\begin{theorem}[IsometricEmbedding obligation-closure surface]
+\label{thm:isometric-embedding-obligation-closure-surface}
+The obligation surface for $\IsometricEmbeddingUp$ is exhausted by the local
+carrier admission, classifier transport, distance-preservation obligation,
+separated consumer route, completion-reflection handoff, Hausdorff separation
+boundary, and real-distance route determinacy. Equivalently, every accepted
+packet can be consumed only through the displayed rows
+$X,Y,F,D_X,D_Y,R,T,Q,P,N$ and not through host function equality, quotient
+maps, selected representatives, ambient completion existence, or external
+Hausdorff separation principles.
+\end{theorem}
+\begin{proof}
+Start with carrier admission and classifier transport. Apply
+\autoref{thm:isometric-embedding-carrier-admission} and
+\autoref{thm:isometric-embedding-classifier-transport} to fix the displayed
+packet rows and keep comparisons componentwise.
+
+Use the distance-preservation obligation next. By
+\autoref{thm:isometric-embedding-distance-preservation-obligation}, the
+source-to-target comparison is the route from $D_X$ through $F$ to $D_Y$ and
+then to the $\RealUp$ reflection row $R$.
+
+Now bind the downstream consumers. The separated route of
+\autoref{thm:isometric-embedding-separated-consumer-route}, the
+completion-reflection handoff of
+\autoref{thm:isometric-embedding-completion-reflection-handoff}, and the
+Hausdorff boundary of
+\autoref{thm:isometric-embedding-hausdorff-separation-boundary} leave no
+additional completion-facing row.
+
+Finally apply \autoref{thm:isometric-embedding-real-distance-route-determinacy}
+and \autoref{thm:isometric-embedding-distance-route-reflection-lock}. These
+results identify the same finite route as the only real-distance and
+completion-facing surface, so the listed local theorems exhaust the
+obligation-closure surface.
+\end{proof}
+
 \closureat{IsometricEmbeddingUp}{seedStr}
 
 \begin{closurestatus}{\IsometricEmbeddingUp}
