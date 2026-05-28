@@ -258,17 +258,7 @@ Apply \autoref{thm:metacic-critical-path-consistency-handoff}. It routes a consi
 The boundary is stable under the rest of the packet. \autoref{thm:metacic-critical-path-obstruction-boundary}, \autoref{thm:metacic-critical-path-transport-row-stability}, \autoref{thm:metacic-critical-path-provenance-nonescape}, \autoref{thm:metacic-critical-path-local-naming-exhaustion}, \autoref{thm:metacic-critical-path-discharge-socket-nonescape}, and \autoref{thm:metacic-critical-path-handoff-row-totality} keep the obstruction, socket, row inventory, provenance, and local naming visible. Thus the readback reaches $N$ and no stronger theorem export.
 \end{proof}
 
-\begin{theorem}[MetaCIC critical-path normalization source visibility]
-\label{thm:metacic-critical-path-normalization-source-visibility}
-Every consistency-facing read of an accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$ must expose the closed-strong-normalization source row $S$ before it reads the normal-form row $N$. A read that starts at $N$ without $S$ is not a read of the accepted root-unblock packet.
-\end{theorem}
-\begin{proof}
-Project the carrier through \autoref{def:metacic-critical-path-packet}. The packet displays $S$ as the closed-strong-normalization route and $N$ as the normal-form consistency row, with no abbreviated carrier containing only $N$.
-
-Apply \autoref{thm:metacic-critical-path-consistency-handoff} and \autoref{thm:metacic-critical-path-normal-form-readback-boundary}. The handoff routes consistency-facing consumers from $S$ to $N$, while the readback boundary stops the exported claim at $N$.
-
-The obstruction and socket rows stay attached by \autoref{thm:metacic-critical-path-obstruction-boundary} and \autoref{thm:metacic-critical-path-discharge-socket-nonescape}. Hence the read of $N$ is visible only after $S$ has been displayed inside the same packet.
-\end{proof}
+\input{parts/concrete_instances/metaciccriticalpath/normalization_source_visibility}
 
 \begin{theorem}[MetaCIC critical-path decidability handoff visibility]
 \label{thm:metacic-critical-path-decidability-handoff-visibility}
