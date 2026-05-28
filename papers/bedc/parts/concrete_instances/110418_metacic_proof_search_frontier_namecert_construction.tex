@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICProofSearchFrontierUp$}
+\label{ch:concrete-instances-metacic-proof-search-frontier-namecert}
+\origin{ai}
+
+The $\MetaCICProofSearchFrontierUp$ packet realizes the proof-search boundary in \autoref{sec:metacic-open-problems-normalization} as finite NameCert data. It sits beside the critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the subject-reduction discharge socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, and the bounded normal-conversion bridge of \autoref{ch:concrete-instances-bounded-normal-conversion-bridge-namecert}. The packet names the exact frontier at which candidate evidence, bounded normal endpoints, discharge sockets, obstruction rows, transport, replay, provenance, and local naming may be consumed by a proof-search reader without claiming unrestricted closed consistency.
+
+\falsifiablePrediction{Any accepted proof-search consumer reaching a closed-consistency read without first exposing the discharge socket row refutes the $\MetaCICProofSearchFrontierUp$ carrier.}
+
+\independenceWitness{metaciccriticalpath, subjectreductiondischargesocket, metacicnormalizationfrontier, boundednormalconversionbridge: the critical path records dependency pressure without local proof-search candidates; the discharge socket records subject-reduction inputs without bounded normal endpoints; the normalization frontier records candidate evidence without proof-search replay; and the bounded normal-conversion bridge records endpoint comparison without the discharge socket. None is bijective to $\MetaCICProofSearchFrontierUp$.}
+
+\begin{definition}[MetaCIC proof-search frontier carrier]
+\label{def:metacic-proof-search-frontier-carrier}
+A $\MetaCICProofSearchFrontierUp$ carrier is a finite $\BHist$ packet
+$$
+F=(K,D,N,B,A,E,O,T,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\MetaCICCriticalPathUp$ row, retaining the closed-consistency dependency pressure over subject reduction, normalization, decidability, confluence, and examples.
+\item $D$ is the $\SubjectReductionDischargeSocketUp$ row, recording the socket through which proof-search evidence must pass before a closed-consistency consumer may read the subject-reduction boundary.
+\item $N$ is the $\MetaCICNormalizationFrontierUp$ row, exposing candidate evidence, closed-candidate evidence, finished-normal endpoints, and retained normalization obstruction data.
+\item $B$ is the $\BoundedNormalConversionBridgeUp$ row, recording the bounded normal endpoint bridge used by conversion-facing proof-search checks.
+\item $A$ is the candidate-evidence row, storing the finite proof-search candidates, their local support rows, and the bounded normal endpoint they claim to reach.
+\item $E$ is the discharge-socket evidence row, pairing each accepted candidate with the socket read needed before closed-consistency handoff.
+\item $O$ is the obstruction row, retaining the excluded endpoints: unrestricted subject reduction, unrestricted closed normalization, global conversion decidability, kernel consistency, and proof-search completeness.
+\item $T$ records componentwise $\hsame$ transport for $K,D,N,B,A,E,O$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from proof-search candidate admission through the critical path, discharge socket, normalization frontier, bounded bridge, evidence, obstruction, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICProofSearchFrontierUp$, $\MetaCICCriticalPathUp$, $\SubjectReductionDischargeSocketUp$, $\MetaCICNormalizationFrontierUp$, $\BoundedNormalConversionBridgeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\MetaCICProofSearchFrontierUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,D,N,B,A,E,O,T,C,P,L$. It has no coordinate for unrestricted subject reduction, unrestricted closed normalization, global conversion decidability, kernel consistency, proof-search completeness, or an unmediated closed-consistency read.
+\end{definition}
+
+\begin{theorem}[MetaCIC proof-search frontier NameCert obligations]
+\label{thm:metacic-proof-search-frontier-namecert-obligations}
+For every accepted $\MetaCICProofSearchFrontierUp$ carrier $F=(K,D,N,B,A,E,O,T,C,P,L)$, the local $\NameCert_{\MetaCICProofSearchFrontierUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item critical-path exposure through $K$;
+\item subject-reduction discharge-socket exposure through $D$;
+\item normalization-frontier exposure through $N$;
+\item bounded normal-conversion bridge exposure through $B$;
+\item candidate-evidence admission through $A$;
+\item discharge-socket evidence pairing through $E$;
+\item obstruction retention through $O$;
+\item componentwise transport through $T$;
+\item displayed replay through $C$;
+\item provenance through $P$ and local naming through $L$.
+\end{enumerate}
+No accepted proof-search read may skip the discharge socket row, and no local obligation is stored outside $K,D,N,B,A,E,O,T,C,P,L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-proof-search-frontier-carrier}. Rows $K,D,N,B$ are the already named frontier surfaces, while $A$ and $E$ store the local candidate and discharge-socket evidence.
+
+The closed-consistency-facing read must pass through $D$ and $E$. Candidate evidence in $A$ may reach a bounded normal endpoint through $N$ and $B$, but it is not eligible for the consistency handoff until the discharge socket row has been exposed.
+
+The obstruction row $O$ remains part of the packet throughout the read. It prevents the bounded proof-search frontier from being cited as unrestricted subject reduction, unrestricted normalization, global conversion decidability, kernel consistency, or proof-search completeness.
+
+Finally $T,C,P,L$ transport, replay, source, and name the same finite route. Since the carrier has no coordinate for the excluded endpoints or for an unmediated closed-consistency read, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC proof-search frontier discharge boundary]
+\label{thm:metacic-proof-search-frontier-discharge-boundary}
+Every closed-consistency-facing consumer of an accepted $\MetaCICProofSearchFrontierUp$ packet factors through the finite route
+$$
+\MetaCICCriticalPathUp \longmapsto \SubjectReductionDischargeSocketUp \longmapsto \MetaCICNormalizationFrontierUp \longmapsto \BoundedNormalConversionBridgeUp
+$$
+and then through the local candidate-evidence, discharge-socket evidence, obstruction, transport, replay, provenance, and NameCert rows. The route exports a bounded proof-search frontier only; it does not prove unrestricted subject reduction, unrestricted closed normalization, global conversion decidability, kernel consistency, or proof-search completeness. Future Lean work in $\mathsf{TasteGate.lean}$ must provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances before the carrier can be used as a checked proof-search taste gate.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:metacic-proof-search-frontier-namecert-obligations}. It forces the proof-search consumer to expose the critical path and the subject-reduction discharge socket before candidate evidence is treated as consistency-facing data.
+
+The normalization and bounded conversion rows then bound the endpoint. The rows $N$ and $B$ justify only the displayed finished-normal and bounded-normal comparison reads, so the proof-search route remains a finite candidate route rather than a global theorem.
+
+The local rows $A,E,O,T,C,P,L$ preserve the discharge boundary. Candidate evidence is paired with the socket read, the obstruction row remains visible, and transport plus replay keep the consumer on the displayed packet.
+\end{proof}
+
+\begin{closurestatus}{\MetaCICProofSearchFrontierUp}
+  \constructivestory{A $\MetaCICProofSearchFrontierUp$ packet is generated from MetaCICCriticalPath, SubjectReductionDischargeSocket, MetaCICNormalizationFrontier, BoundedNormalConversionBridge, candidate evidence, discharge-socket evidence, obstruction, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-proof-search-frontier-carrier}, \autoref{thm:metacic-proof-search-frontier-namecert-obligations}, and \autoref{thm:metacic-proof-search-frontier-discharge-boundary} seed the finite proof-search frontier for MetaCIC closed-consistency consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim unrestricted subject reduction, unrestricted closed normalization, global conversion decidability, kernel consistency, proof-search completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked candidate admission, bounded-normal endpoint routing, discharge-socket exposure, obstruction retention, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICProofSearchFrontierUp.}
+\end{closurestatus}
