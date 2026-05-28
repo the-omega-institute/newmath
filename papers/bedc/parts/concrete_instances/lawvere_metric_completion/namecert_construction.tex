@@ -105,6 +105,20 @@ carrier coordinates, no completion-facing read can substitute them for the
 FormalBall approximation gate.
 \end{proof}
 
+\begin{theorem}[Lawvere metric completion FormalBall profile initiality]
+\label{thm:lawvere-metric-completion-formal-ball-profile-initiality}
+Let $L=(M,Y,F,D,A,T,R,S,H,C,P,N)$ be an accepted $\LawvereMetricCompletionUp$ packet. Any completion-facing directed-profile read that reaches the $\DyadicRatCoreUp$ tolerance row $T$, the $\RegSeqRatUp$ readback row $R$, or the $\RealUp$ sealing row $S$ first factors through the $\FormalBallUp$ approximation row $A$ after the $\YonedaCompletionUp$ profile row $Y$. Thus $A$ is the initial completion-facing approximation gate after Yoneda profile data; no later tolerance, readback, or seal consumer may bypass it through quotient profile equality, selected profile limits, symmetric completion collapse, host enriched colimits, choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lawvere-metric-completion-carrier}. The displayed order places $Y$ before the finite probe and directed-profile rows, then places the FormalBall row $A$ before the tolerance, readback, and seal rows $T,R,S$.
+
+Apply \autoref{thm:lawvere-metric-completion-namecert-obligations}. The NameCert obligations force every completion-facing consumer to inspect the directed source admission, YonedaCompletion handoff, finite probe comparison, directed profile admission, FormalBall approximation, DyadicRatCore tolerance accounting, RegSeqRat readback, Real sealing, transport, replay, provenance, and local naming rows in the displayed carrier surface.
+
+Apply \autoref{thm:lawvere-metric-completion-finite-profile-nonescape} and \autoref{thm:lawvere-metric-completion-directed-profile-composition}. These theorems identify the finite route through $\MetricUp$, $\YonedaCompletionUp$, $\FormalBallUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, so the directed profile cannot leave the packet before the FormalBall row is read.
+
+Finally apply \autoref{thm:lawvere-metric-completion-formal-ball-universality-route}. It names $A$ as the mandatory approximation row between $Y$ and the later tolerance, readback, and seal rows. The carrier has no coordinates for quotient profile equality, selected profile limits, symmetric completion collapse, host enriched colimits, choice, or ambient completeness, so none of those objects can serve as an earlier completion-facing gate.
+\end{proof}
+
 \falsifiablePrediction{Removing any one of the $\YonedaCompletionUp$ handoff, finite probe-comparison row, $\FormalBallUp$ approximation row, $\DyadicRatCoreUp$ tolerance row, $\RegSeqRatUp$ readback row, $\RealUp$ seal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, or local $\NameCert$ row makes \autoref{thm:lawvere-metric-completion-finite-profile-nonescape} false: a completion consumer could no longer verify the displayed directed-profile route.}
 
 \independenceWitness{yonedacompletion, metriccompletion, formalball, dyadicratcore, regseqrat, real: $\LawvereMetricCompletionUp$ is not bijective to any listed sibling because it jointly carries directed source distances, Yoneda profile handoff, finite probe comparisons, formal-ball approximations, dyadic tolerance accounting, regular rational readback, Real sealing, transport, replay, provenance, and local naming rows.}
