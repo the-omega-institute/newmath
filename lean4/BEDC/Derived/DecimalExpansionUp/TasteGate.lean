@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DecimalExpansionUp.TasteGate
@@ -135,3 +136,49 @@ theorem DecimalExpansionTasteGate_single_carrier_alignment :
   exact ⟨(fun _ _ _ _ _ _ _ _ _ _ => rfl), rfl⟩
 
 end BEDC.Derived.DecimalExpansionUp.TasteGate
+
+namespace BEDC.Derived.DecimalExpansionUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
+
+theorem DecimalExpansionDigitLedgerInjection {D W V Q route : BHist} :
+    UnaryHistory D ->
+      UnaryHistory W ->
+        UnaryHistory Q ->
+          Cont D W V -> Cont V Q route -> UnaryHistory V ∧ UnaryHistory route := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro dUnary wUnary qUnary digitWindow placeComparison
+  have placeUnary : UnaryHistory V :=
+    unary_cont_closed dUnary wUnary digitWindow
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed placeUnary qUnary placeComparison
+  exact ⟨placeUnary, routeUnary⟩
+
+theorem DecimalExpansionEndpointNormalizationHandoff
+    {D W V Q R E «prefix» comparison handoff «seal» : BHist} :
+    UnaryHistory D ->
+      UnaryHistory W ->
+        UnaryHistory V ->
+          UnaryHistory Q ->
+            UnaryHistory R ->
+              Cont D W «prefix» ->
+                Cont «prefix» V comparison ->
+                  Cont comparison Q handoff ->
+                    Cont handoff R «seal» ->
+                      UnaryHistory «prefix» ∧
+                        UnaryHistory comparison ∧ UnaryHistory handoff ∧ UnaryHistory «seal» := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro dUnary wUnary vUnary qUnary rUnary digitWindow prefixPlace comparisonDyadic handoffRat
+  have prefixUnary : UnaryHistory «prefix» :=
+    unary_cont_closed dUnary wUnary digitWindow
+  have comparisonUnary : UnaryHistory comparison :=
+    unary_cont_closed prefixUnary vUnary prefixPlace
+  have handoffUnary : UnaryHistory handoff :=
+    unary_cont_closed comparisonUnary qUnary comparisonDyadic
+  have sealUnary : UnaryHistory «seal» :=
+    unary_cont_closed handoffUnary rUnary handoffRat
+  exact ⟨prefixUnary, comparisonUnary, handoffUnary, sealUnary⟩
+
+end BEDC.Derived.DecimalExpansionUp
