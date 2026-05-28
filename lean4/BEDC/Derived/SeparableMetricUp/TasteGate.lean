@@ -290,4 +290,35 @@ theorem SeparableMetricCarrier_dense_window_stability [AskSetup] [PackageSetup]
       windowsUnary', toleranceUnary', consumerUnary, denseWindowRoute, toleranceReadbackRoute,
       consumerRoute, provenancePkg, consumerPkg⟩
 
+theorem SeparableMetricCarrier_tolerance_net_replay [AskSetup] [PackageSetup]
+    {metric dense windows tolerance readback sealRow transports routes provenance localCert
+      request consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SeparableMetricCarrier metric dense windows tolerance readback sealRow transports routes
+        provenance localCert bundle pkg ->
+      Cont dense windows tolerance ->
+        Cont tolerance readback sealRow ->
+          Cont sealRow routes request ->
+            Cont request transports consumer ->
+              PkgSig bundle consumer pkg ->
+                UnaryHistory metric ∧ UnaryHistory dense ∧ UnaryHistory windows ∧
+                  UnaryHistory tolerance ∧ UnaryHistory readback ∧ UnaryHistory sealRow ∧
+                    UnaryHistory request ∧ UnaryHistory consumer ∧
+                      Cont dense windows tolerance ∧ Cont tolerance readback sealRow ∧
+                        Cont sealRow routes request ∧ Cont request transports consumer ∧
+                          PkgSig bundle provenance pkg ∧ PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig SemanticNameCert
+  intro carrier denseWindowRoute toleranceReadbackRoute requestRoute consumerRoute consumerPkg
+  obtain ⟨metricUnary, denseUnary, windowsUnary, toleranceUnary, readbackUnary, sealUnary,
+    transportsUnary, routesUnary, _provenanceUnary, _localCertUnary, _carrierDenseRoute,
+      _carrierToleranceRoute, _carrierSealRoute, provenancePkg, _localSemantic⟩ := carrier
+  have requestUnary : UnaryHistory request :=
+    unary_cont_closed sealUnary routesUnary requestRoute
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed requestUnary transportsUnary consumerRoute
+  exact
+    ⟨metricUnary, denseUnary, windowsUnary, toleranceUnary, readbackUnary, sealUnary,
+      requestUnary, consumerUnary, denseWindowRoute, toleranceReadbackRoute, requestRoute,
+      consumerRoute, provenancePkg, consumerPkg⟩
+
 end BEDC.Derived.SeparableMetricUp
