@@ -146,4 +146,47 @@ theorem CauchyRootUnaryAdmission [AskSetup] [PackageSetup]
     ⟨tailReadUnary, toleranceReadUnary, realReadUnary, tailRoute, toleranceRoute,
       realRoute⟩
 
+theorem CauchyRootFilterModulusCompatibility
+    {S Q D R E H C P N streamRequest toleranceRead readbackRead sealRead
+      structuralRead namedRead : BHist} :
+    UnaryHistory S ->
+      UnaryHistory Q ->
+        UnaryHistory D ->
+          UnaryHistory R ->
+            UnaryHistory E ->
+              UnaryHistory H ->
+                UnaryHistory C ->
+                  UnaryHistory P ->
+                    UnaryHistory N ->
+                      Cont S Q streamRequest ->
+                        Cont streamRequest D toleranceRead ->
+                          Cont toleranceRead R readbackRead ->
+                            Cont readbackRead E sealRead ->
+                              Cont H C structuralRead ->
+                                Cont P N namedRead ->
+                                  UnaryHistory streamRequest ∧
+                                    UnaryHistory toleranceRead ∧
+                                      UnaryHistory readbackRead ∧
+                                        UnaryHistory sealRead ∧
+                                          UnaryHistory structuralRead ∧
+                                            UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro sUnary qUnary dUnary rUnary eUnary hUnary cUnary pUnary nUnary streamRoute
+    toleranceRoute readbackRoute sealRoute structuralRoute namingRoute
+  have streamRequestUnary : UnaryHistory streamRequest :=
+    unary_cont_closed sUnary qUnary streamRoute
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed streamRequestUnary dUnary toleranceRoute
+  have readbackReadUnary : UnaryHistory readbackRead :=
+    unary_cont_closed toleranceReadUnary rUnary readbackRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackReadUnary eUnary sealRoute
+  have structuralReadUnary : UnaryHistory structuralRead :=
+    unary_cont_closed hUnary cUnary structuralRoute
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed pUnary nUnary namingRoute
+  exact
+    ⟨streamRequestUnary, toleranceReadUnary, readbackReadUnary, sealReadUnary,
+      structuralReadUnary, namedReadUnary⟩
+
 end BEDC.Derived.CauchyUp
