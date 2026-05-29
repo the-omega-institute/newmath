@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\ParallelDiamondResidualUp$}
+\label{ch:concrete-instances-parallel-diamond-residual-namecert}
+\origin{ai}
+
+The $\ParallelDiamondResidualUp$ packet realizes the MetaCIC confluence audit boundary of \autoref{ch:metacic-confluence-audit-map} as finite residual-join data. It sits after the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, the residual-substitution compatibility packet of \autoref{ch:concrete-instances-metacic-residual-substitution-compatibility-namecert}, and the local-join ledger of \autoref{ch:concrete-instances-metacic-local-join-ledger-namecert}. The chapter records the concrete residual frontier that a later conditional parallel-diamond bridge may consume; it does not claim full Church--Rosser, closed arbitrary-term confluence, or unconditional substitution compatibility.
+
+\begin{definition}[ParallelDiamondResidual carrier]
+\label{def:parallel-diamond-residual-carrier}
+A $\ParallelDiamondResidualUp$ carrier is a finite $\BHist$ packet
+$$
+J=(P,F,S,L,B,C,O,H,T,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the parallel peak row. It records a source MetaCIC term and the two parallel reducts whose residuals must be compared.
+\item $F$ is the residual frontier row. It records the finite redex-frontier cells, binder depths, and residual tags visible at the peak.
+\item $S$ is the $\MetacicResidualSubstitutionBoundaryUp$ row naming the substitution-sensitive boundary consumed by the residual comparison.
+\item $L$ is the $\MetacicLocalJoinLedgerUp$ row recording candidate common reducts for the displayed frontier cells.
+\item $B$ is the bounded checker row. It records the finite checks that the candidate joins respect the residual tags and binder depths displayed in $F$.
+\item $C$ is the $\MetacicResidualSubstitutionCompatibilityUp$ handoff row. It is a named compatibility interface, not a proof that the interface is globally available.
+\item $O$ is the obstruction row. It records any remaining residual-substitution cell that is not discharged by $S,L,B,C$.
+\item $H$ records componentwise $\hsame$ transport for peaks, residual frontiers, substitution boundaries, local joins, bounded checks, compatibility handoffs, obstruction rows, replay, provenance, and local naming.
+\item $T$ records displayed $\Cont$ replay for the same residual-join packet.
+\item $G$ is the $\Pkg$ provenance over $\ParallelDiamondResidualUp$, $\MetacicResidualSubstitutionBoundaryUp$, $\MetacicResidualSubstitutionCompatibilityUp$, $\MetacicLocalJoinLedgerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ParallelDiamondResidualUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $P,F,S,L,B,C,O,H,T,G,N$. It has no coordinate for full Church--Rosser, arbitrary closed confluence, unconditional substitution compatibility, quotienting of terms, or a global parallel-diamond theorem.
+\end{definition}
+
+\begin{theorem}[ParallelDiamondResidual NameCert obligations]
+\label{thm:parallel-diamond-residual-namecert-obligations}
+For every accepted $\ParallelDiamondResidualUp$ carrier
+$$
+J=(P,F,S,L,B,C,O,H,T,G,N),
+$$
+the local $\NameCert_{\ParallelDiamondResidualUp}$ surface consists exactly of parallel peak exposure, residual frontier exposure, residual-substitution boundary exposure, local-join ledger exposure, bounded residual checking, compatibility-interface handoff, obstruction-row exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A consumer may read the residual local-join packet only after the frontier $F$, boundary row $S$, ledger row $L$, and bounded checker $B$ are displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier $J=(P,F,S,L,B,C,O,H,T,G,N)$. The analytic rows are the peak, residual frontier, substitution boundary, local-join ledger, bounded checker, compatibility handoff, and obstruction row.
+
+The compatibility row is downstream of the displayed frontier and checker. It names the interface consumed by the conditional parallel-diamond route, while the obstruction row keeps undiscovered residual-substitution cells visible.
+
+The structural rows $H,T,G,N$ transport, replay, source, and name the same finite packet. Since the carrier has no coordinate for full Church--Rosser or an unconditional global diamond, the NameCert surface stops at residual local joins and their boundary rows.
+\end{proof}
+
+\begin{theorem}[ParallelDiamondResidual conditional handoff]
+\label{thm:parallel-diamond-residual-conditional-handoff}
+Every $\ParallelDiamondResidualUp$ residual-join read offered to the MetaCIC confluence route factors through
+$$
+\MetacicResidualSubstitutionBoundaryUp \longmapsto \MetacicLocalJoinLedgerUp \longmapsto \MetacicResidualSubstitutionCompatibilityUp .
+$$
+The handoff supplies finite residual-frontier, local-join, bounded-checker, and obstruction data for the conditional parallel-diamond bridge; it does not assert the bridge, full Church--Rosser, or arbitrary closed-term confluence.
+\end{theorem}
+\begin{proof}
+Start with the residual frontier $F$ and the substitution boundary row $S$. These rows display the finite cells whose residual algebra must be inspected.
+
+The local-join ledger $L$ and bounded checker $B$ then record candidate common reducts and the finite checks against the displayed frontier. The compatibility handoff $C$ can only be read after these rows have been exposed.
+
+Finally the obstruction row $O$ and structural rows $H,T,G,N$ preserve the same conditional boundary. They do not add a global confluence theorem, so the export remains a residual local-join packet for a later bridge.
+\end{proof}
+
+\falsifiablePrediction{Every $\ParallelDiamondResidualUp$ handoff reaches $\MetacicResidualSubstitutionCompatibilityUp$ only through displayed parallel peaks, residual frontiers, $\MetacicResidualSubstitutionBoundaryUp$, $\MetacicLocalJoinLedgerUp$, bounded residual checks, obstruction rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{metacic-residual-substitution-boundary, metacic-residual-substitution-compatibility, metacic-local-join-ledger: $\ParallelDiamondResidualUp$ is not bijective to any listed sibling because it jointly carries parallel peaks, residual frontiers, boundary rows, local-join ledgers, bounded checks, compatibility handoffs, obstruction rows, transport, replay, provenance, and local naming.}
+
+\closureat{ParallelDiamondResidualUp}{seedStr}
+
+\begin{closurestatus}{\ParallelDiamondResidualUp}
+  \constructivestory{A $\ParallelDiamondResidualUp$ packet is generated from a parallel peak row, residual frontier, $\MetacicResidualSubstitutionBoundaryUp$ row, $\MetacicLocalJoinLedgerUp$ row, bounded checker, $\MetacicResidualSubstitutionCompatibilityUp$ handoff, obstruction row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:parallel-diamond-residual-carrier}, \autoref{thm:parallel-diamond-residual-namecert-obligations}, and \autoref{thm:parallel-diamond-residual-conditional-handoff} seed the finite residual local-join route for the conditional MetaCIC parallel-diamond boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim full Church--Rosser, arbitrary closed-term confluence, unconditional substitution compatibility, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual-frontier exactness, substitution-boundary routing, local-join ledger exposure, bounded-checker exactness, compatibility handoff nonescape, obstruction-row exposure, transport, replay, provenance, and local naming for BEDC.Derived.ParallelDiamondResidualUp.}
+\end{closurestatus}
