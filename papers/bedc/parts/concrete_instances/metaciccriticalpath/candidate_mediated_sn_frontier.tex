@@ -347,6 +347,56 @@ Use the candidate-normalization budget and socket-exhaustion theorems, \autoref{
 Finally invoke the subject-reduction boundary, \autoref{thm:metacic-critical-path-candidate-mediated-sn-subject-reduction-boundary}. It is exactly the alternative in the statement: either the replay keeps $D$ displayed, or a separate subject-reduction row outside the candidate-mediated frontier must be cited.
 \end{proof}
 
+\begin{definition}[MetaCIC frontier budget factorization]
+\label{def:metacic-critical-path-frontier-budget-factorization}
+For an accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+the candidate-frontier budget factorization is the displayed packet
+$$
+\mathcal{F}(K)=
+(S,N,U,D,H,C,P,L;\DyadicRatCoreUp,\StreamNameUp,\RegSeqRatUp,\RealUp)
+$$
+read in five layers: the candidate-normalization budget rows $S,N$, the confluence handoff row $U$, the subject-reduction discharge socket $D$, the L10 entry budget $\DyadicRatCoreUp,\StreamNameUp,\RegSeqRatUp,\RealUp$, and the closed-normal readback rows $H,C,P,L$. A consumer is factorized through $\mathcal{F}(K)$ exactly when its frontier read exposes those five layers before it exports any strong-normalization, confluence-facing, decidability-facing, Phase Real, or Completion-facing conclusion.
+\end{definition}
+
+\begin{theorem}[MetaCIC candidate frontier L10 budget lock]
+\label{thm:metacic-critical-path-candidate-frontier-l10-budget-lock}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Every candidate-mediated strong-normalization discharge that reaches an L10 readback must pass through the factorization packet $\mathcal{F}(K)$ of \autoref{def:metacic-critical-path-frontier-budget-factorization}. In particular, the route first exposes the candidate-normalization rows $S,N$, the confluence handoff row $U$, and the discharge socket $D$; then it reads $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ as the L10 entry budget; only then may it consume $H,C,P,L$ as closed-normal readback rows.
+\end{theorem}
+\begin{proof}
+Start with discharge coverage, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier-discharge-coverage}. It says that any finite consumer replay through the candidate-mediated frontier either preserves the socket $D$ or cites a separate subject-reduction row outside the frontier.
+
+Next apply the candidate-normalization budget theorem, \autoref{thm:metacic-critical-path-candidate-normalization-budget}. It identifies the candidate-facing surface as the rows $S,N,U,H,C,P,L$ together with the four L10 faces, while keeping the obstruction row and discharge socket visible.
+
+Use the closed-normal-form readback and L10 readback theorems, \autoref{thm:metacic-critical-path-candidate-mediated-sn-closed-normal-form-readback} and \autoref{thm:metacic-criticalpath-candidate-mediated-sn-l10-readback}. These force every readback that reaches Phase Real or Completion data to expose $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before the exported rows are consumed.
+
+The five layers listed in \autoref{def:metacic-critical-path-frontier-budget-factorization} are exactly the rows preserved by those three results. Hence any L10-reaching discharge has already passed through $\mathcal{F}(K)$, and no alternate route can bypass the displayed candidate, handoff, discharge, L10, or readback layers.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization budget nonescape]
+\label{thm:metacic-critical-path-normalization-budget-nonescape}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. No route from the candidate-mediated frontier exports strong normalization, confluence, beta-conversion decidability, or Real-completion entry unless it displays the candidate rows $S,N$, the handoff row $U$, the discharge socket $D$, the L10 entry budget $\DyadicRatCoreUp,\StreamNameUp,\RegSeqRatUp,\RealUp$, and the closed-normal readback rows $H,C,P,L$ as the factorization packet $\mathcal{F}(K)$. The route exports no closed subject reduction, quotient term equality, host equality, selected limits, ambient $\RealUp$ completeness, or kernel consistency beyond that packet.
+\end{theorem}
+\begin{proof}
+First read the candidate frontier L10 budget lock, \autoref{thm:metacic-critical-path-candidate-frontier-l10-budget-lock}. Any discharge that reaches L10 readback is already forced through the displayed factorization packet.
+
+Next use socket exhaustion and subject-reduction boundary, \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion} and \autoref{thm:metacic-critical-path-candidate-mediated-sn-subject-reduction-boundary}. These keep $D$ visible unless a separate subject-reduction row is cited, so the candidate budget cannot become closed subject reduction by replay alone.
+
+Apply the candidate-mediated SN route and normal-form discharge theorems, \autoref{thm:metacic-critical-path-candidate-mediated-sn-route} and \autoref{thm:metacic-critical-path-candidate-mediated-frontier-normal-form-discharge}. They confine strong-normalization, confluence-facing, decidability-facing, and normal-form exports to the finite rows in $\mathcal{F}(K)$.
+
+Since quotient term equality, host equality, selected limits, ambient $\RealUp$ completeness, and kernel consistency are not coordinates of $\mathcal{F}(K)$, no route that only reads the candidate-mediated frontier can export them. Real-completion entry is therefore a budgeted L10 readback, not a global metatheoretic escape.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate-mediated SN route]
 \label{thm:metacic-critical-path-candidate-mediated-sn-route}
 Let
