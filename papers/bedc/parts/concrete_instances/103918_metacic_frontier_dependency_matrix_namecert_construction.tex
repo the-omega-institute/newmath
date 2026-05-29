@@ -66,6 +66,18 @@ In the positive case, row exhaustion gives one of $B,A,L,P$. In the obstruction 
 The structural rows $H,C,K,E$ preserve and name the selected matrix entry. They do not add a closed theorem or a completed audit-map result, so the consumer remains inside finite frontier accounting.
 \end{proof}
 
+\begin{theorem}[MetaCIC frontier dependency matrix substitution support]
+\label{thm:metacic-frontier-dependency-matrix-substitution-support}
+Every beta-substitution or application-argument consumer of an accepted $\MetaCICFrontierDependencyMatrixUp$ packet first factors through one of the positive support rows $B,A,L,P$. Every dependent-codomain, normalization, decidability, or confluence consumer first factors through one of the obstruction rows $Q,N,D,J$. The packet therefore supplies a finite substitution-support route for subject-reduction discharge, but it exports no closed subject-reduction theorem, no global normalization theorem, no total decidability theorem, and no confluence theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-frontier-dependency-matrix-carrier}. The substitution-facing support rows are exactly $B,A,L,P$, with $B$ carrying beta substitution and $A$ carrying application-argument stability.
+
+The remaining frontier consumers are separated by row polarity. Dependent-codomain reads pass through $Q$, normalization reads through $N$, decidability reads through $D$, and confluence or critical-pair reads through $J$.
+
+Exhaust the route classifier $R$. Since every row is tagged before replay through $H,C,K,E$, a consumer cannot cross from a positive support row into a closed global theorem, and an obstruction row cannot be read as a completed MetaCIC result.
+\end{proof}
+
 \closureat{MetaCICFrontierDependencyMatrixUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICFrontierDependencyMatrixUp}
