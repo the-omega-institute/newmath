@@ -91,6 +91,69 @@ theorem NormedSpaceCarrier_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, metricUnary, completionUnary⟩
 
+theorem NormedSpaceCarrier_metric_nonescape [AskSetup] [PackageSetup]
+    {V R N M Q H T P C metricRead completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NormedSpaceCarrier V R N M Q H T P C bundle pkg ->
+      Cont V N metricRead ->
+        Cont metricRead Q completionRead ->
+          PkgSig bundle completionRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row V ∨ hsame row R ∨ hsame row N ∨ hsame row M ∨
+                    hsame row Q ∨ hsame row metricRead ∨ hsame row completionRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont V N metricRead ∧
+                    Cont metricRead Q completionRead ∧ PkgSig bundle completionRead pkg)
+                hsame ∧
+              UnaryHistory metricRead ∧ UnaryHistory completionRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame SemanticNameCert
+  intro carrier metricRoute completionRoute completionPkg
+  obtain ⟨VUnary, _RUnary, NUnary, _MUnary, QUnary, _HUnary, _TUnary, _PUnary, _CUnary,
+    _vectorNormRoute, _completionFacingRoute, _replayRoute, _provenancePkg, _localPkg⟩ :=
+      carrier
+  have metricUnary : UnaryHistory metricRead :=
+    unary_cont_closed VUnary NUnary metricRoute
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed metricUnary QUnary completionRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row V ∨ hsame row R ∨ hsame row N ∨ hsame row M ∨
+              hsame row Q ∨ hsame row metricRead ∨ hsame row completionRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont V N metricRead ∧
+              Cont metricRead Q completionRead ∧ PkgSig bundle completionRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro completionRead ⟨hsame_refl completionRead, completionUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left)))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right, metricRoute, completionRoute, completionPkg⟩
+  }
+  exact ⟨cert, metricUnary, completionUnary⟩
+
 def NormedSpaceZeroCarrier (V R N Z T S M C P K : BHist) : Prop :=
   -- BEDC touchpoint anchor: BHist Cont UnaryHistory
   UnaryHistory V ∧ UnaryHistory R ∧ UnaryHistory N ∧ UnaryHistory Z ∧
