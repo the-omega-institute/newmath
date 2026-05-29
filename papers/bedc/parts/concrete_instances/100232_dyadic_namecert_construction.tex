@@ -54,6 +54,20 @@ Transport and replay are componentwise. The $\hsame$ row $H$ preserves each disp
 Finally inspect $P$ and $N$. Provenance and local naming mention only $Q,S,R,E,H,C$, so the excluded choice, trichotomy, quotient, host-equality, and completeness data have no projection from the packet.
 \end{proof}
 
+\begin{theorem}[DyadicUp real-seal factorization]
+\label{thm:dyadic-up-real-seal-factorization}
+Let $D=(Q,S,R,E,H,C,P,N)$ be an accepted $\DyadicUp$ carrier. Every $\RealUp$-facing consumer of $D$ must read the displayed dyadic core $Q$, the finite stream window $S$, the regular rational row $R$, and the terminal real seal $E$ in that order before it can export a Real-facing name.
+
+Consequently a downstream Real or Completion route cannot introduce selected binary expansions, quotient stream representatives, trichotomy, host real equality, countable choice, or ambient completeness while still claiming to consume the same $\DyadicUp$ packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-up-carrier}. The only Real-facing coordinate is $E$, and it is displayed after the dyadic rational core $Q$, finite window row $S$, and regular rational row $R$.
+
+Apply \autoref{thm:dyadic-up-namecert-obligations}. Its dyadic core, stream, regular-sequence, and real-seal obligations force each precision request through $Q,S,R,E$ before any local name can be read by a downstream Real consumer.
+
+The structural rows $H,C,P,N$ only preserve, replay, account for, and name that same displayed route. Since the excluded analytic and quotient objects are absent from the carrier, they cannot be inserted by a Real-facing consumer without leaving the accepted $\DyadicUp$ NameCert surface.
+\end{proof}
+
 The dyadic Cauchy interface packets collect finite approximation and
 tail-envelope certificates for displayed real-name routes before Real and
 Completion consumers can read them. This interface consumes the DyadicRatCore
