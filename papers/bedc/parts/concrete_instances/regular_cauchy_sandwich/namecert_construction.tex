@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySandwichUp$}
+\label{ch:concrete-instances-regular-cauchy-sandwich-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchySandwichUp$ packet names the two-sided bracketing surface used when regular Cauchy data is read by a real-completion consumer. It sits between the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the tail agreement boundary of \autoref{ch:concrete-instances-cauchy-tail-equivalence-namecert}. The packet records lower and upper regular tails as finite BEDC rows; it is not a quotient stream, a selected limit, a trichotomy principle, or an ambient completeness theorem.
+
+\begin{definition}[Regular Cauchy sandwich carrier]
+\label{def:regular-cauchy-sandwich-carrier}
+A $\RegularCauchySandwichUp$ carrier is a finite $\BHist$ packet
+$$
+S=(L,U,T,D,W_L,W_U,R_L,R_U,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower regular-Cauchy row, read through $\RegSeqRatUp$ data.
+\item $U$ is the upper regular-Cauchy row, read through $\RegSeqRatUp$ data.
+\item $T$ is the common tail-agreement row inherited from $\CauchyTailEquivalenceUp$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger controlling both bracket sides at the same precision request.
+\item $W_L$ and $W_U$ are the finite $\StreamNameUp$ windows opened for the lower and upper sides.
+\item $R_L$ and $R_U$ are the two $\RegSeqRatUp$ readback rows exposed after the windows are displayed.
+\item $E$ is the $\RealUp$ seal row reached only after both sides, the common tail row, the dyadic ledger, the windows, and the readbacks have been consumed.
+\item $H$ records componentwise $\hsame$ transport for the lower side, upper side, tail row, ledger, windows, readbacks, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each finite precision request through
+$$
+L,U,T,D,W_L,W_U,R_L,R_U \longmapsto E,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchySandwichUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyTailEquivalenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchySandwichUp}$ row.
+\end{enumerate}
+The classifier accepts only packets in which the lower and upper regular rows, common tail agreement, dyadic tolerance ledger, finite windows, readbacks, and terminal seal belong to the same displayed bracketing route. It has no coordinate for quotient stream equality, selected limits, trichotomy, apartness decision, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy sandwich NameCert obligations]
+\label{thm:regular-cauchy-sandwich-namecert-obligations}
+For every accepted $\RegularCauchySandwichUp$ carrier
+$$
+S=(L,U,T,D,W_L,W_U,R_L,R_U,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchySandwichUp}$ surface consists exactly of lower regular-row exposure, upper regular-row exposure, common tail-agreement exposure, shared dyadic tolerance accounting, lower and upper finite-window exposure, lower and upper RegSeqRat readback, terminal Real seal routing, componentwise transport, continuation replay, package provenance, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple in \autoref{def:regular-cauchy-sandwich-carrier}. The lower and upper sides are displayed as $L$ and $U$, and the only row that binds them is the common tail-agreement coordinate $T$.
+
+The shared ledger $D$ fixes the precision request for both sides. The finite windows $W_L,W_U$ are opened against that same ledger, and the readback rows $R_L,R_U$ expose exactly the inspected regular rational data.
+
+The seal row $E$ is downstream of those rows, while $H,C,P,N$ transport, replay, source, and name the same packet. Since no excluded analytic coordinate occurs in the carrier, the local NameCert surface is exactly the displayed bracketing route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy sandwich window bracketing]
+\label{thm:regular-cauchy-sandwich-window-bracketing}
+Let
+$$
+S=(L,U,T,D,W_L,W_U,R_L,R_U,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchySandwichUp$ carrier. Every finite precision request consumed by the packet reads the two-sided route
+$$
+L,U,T,D \longmapsto W_L,W_U \longmapsto R_L,R_U \longmapsto E,H,P,N .
+$$
+Thus lower and upper regular windows are bracketed by one displayed tolerance ledger and one common tail-agreement row, not by quotient representatives, selected limits, trichotomy, apartness decision, countable choice, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with a finite precision request. The packet exposes only one dyadic tolerance ledger $D$, so both sides of the bracket are read against the same displayed tolerance data.
+
+The lower and upper windows $W_L,W_U$ are then opened after the common tail row $T$ has been displayed. Their readbacks $R_L,R_U$ remain attached to the same packet, so neither side can be replaced by an external quotient stream or a selected representative.
+
+The terminal seal $E$ is reached only after both readbacks. Transport, replay, provenance, and local naming through $H,C,P,N$ preserve that order for every accepted request, which gives the claimed two-sided bracketing route.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy sandwich Real seal nonescape]
+\label{thm:regular-cauchy-sandwich-real-seal-nonescape}
+No $\RealUp$ seal read accepted by a $\RegularCauchySandwichUp$ carrier can bypass the displayed route through the lower and upper regular rows, common tail agreement, shared dyadic ledger, lower and upper StreamName windows, lower and upper RegSeqRat readbacks, and local structural rows. Equivalently, every accepted terminal seal read is attached to
+$$
+S=(L,U,T,D,W_L,W_U,R_L,R_U,E,H,C,P,N)
+$$
+and cannot be separated from those rows by quotient stream equality, selected limits, trichotomy, apartness decision, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-sandwich-namecert-obligations}. It exposes the Real seal row $E$ only as part of the local NameCert surface containing the two regular rows, common tail row, ledger, windows, readbacks, and structural rows.
+
+Now use \autoref{thm:regular-cauchy-sandwich-window-bracketing}. Every precision request reaches the readbacks through the same two-sided route, so a seal read detached from one side of the bracket is not a read of this packet.
+
+Finally inspect \autoref{def:regular-cauchy-sandwich-carrier}. The carrier contains no coordinate for quotient stream equality, selected limits, trichotomy, apartness decision, countable choice, host real equality, or ambient Real completeness. A purported seal read using such data therefore lies outside the accepted $\RegularCauchySandwichUp$ carrier.
+\end{proof}
+
+\closureat{RegularCauchySandwichUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchySandwichUp}
+  \constructivestory{A $\RegularCauchySandwichUp$ packet is generated from lower and upper regular-Cauchy rows, a common tail-agreement row, a shared dyadic tolerance ledger, lower and upper StreamName windows, lower and upper RegSeqRat readbacks, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-sandwich-carrier}, \autoref{thm:regular-cauchy-sandwich-namecert-obligations}, \autoref{thm:regular-cauchy-sandwich-window-bracketing}, and \autoref{thm:regular-cauchy-sandwich-real-seal-nonescape} seed the finite two-sided regular-Cauchy bracketing route over DyadicRatCore, StreamName, RegSeqRat, Real, and CauchyTailEquivalence rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, trichotomy, apartness decision, countable choice, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, common tail exactness, shared dyadic tolerance accounting, two-sided StreamName window routing, RegSeqRat readback, Real seal routing, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchySandwichUp.}
+\end{closurestatus}
