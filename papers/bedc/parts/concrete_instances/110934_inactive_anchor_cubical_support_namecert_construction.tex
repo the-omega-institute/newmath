@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\InactiveAnchorCubicalSupportUp$}
+\label{ch:concrete-instances-inactive-anchor-cubical-support-namecert}
+\origin{ai}
+
+The $\InactiveAnchorCubicalSupportUp$ packet realizes the inactive-anchor closure and cubical-support complex of \autoref{def:philosophy-inactive-anchor-closure} and \autoref{def:philosophy-cubical-support-complex} as finite BEDC NameCert data. It consumes the six-coordinate codon source of \autoref{ch:concrete-instances-codon-six-bit-window-namecert}, the DNA boundary-tile classifier of \autoref{ch:concrete-instances-dna-window-six-boundary-tile-namecert}, the six-boundary coverage route of \autoref{ch:concrete-instances-six-boundary-tile-coverage-namecert}, and the boundary-trigger closure packet of \autoref{ch:concrete-instances-dna-boundary-trigger-closure-namecert}. The packet records inactive anchors, cubical support cells, the displayed $f$-vector, and the no-$3$-cell row as finite data; it is not a biological mechanism, stochastic fitness model, quotient codon semantics, or hidden cubical-homology oracle.
+
+\begin{definition}[Inactive-anchor cubical support carrier]
+\label{def:inactive-anchor-cubical-support-carrier}
+An $\InactiveAnchorCubicalSupportUp$ carrier is a finite $\BHist$ packet
+$$
+S=(W,T,A,K,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\CodonSixBitWindowUp$ source-window row exposing the six bit coordinates used to read support vertices.
+\item $T$ is the $\DnaWindowSixBoundaryTileUp$ boundary-tile row exposing the stop/Trp and Ile/Met boundary classifiers consumed by the support window.
+\item $A$ records the inactive-anchor row, including $\mathrm{UGG}$, $\mathrm{AAG}$, and $\mathrm{ACA}$ as displayed inactive boundary vertices rather than as a hidden biological table.
+\item $K$ records the cubical support complex row, whose cells are exactly the displayed axis-aligned subcubes whose vertices lie in the carried active support.
+\item $F$ records the displayed active-support $f$-vector row and no-$3$-cell row from \autoref{thm:philosophy-active-cubical-f-vector}.
+\item $H$ records componentwise $\hsame$ transport for source windows, boundary tiles, inactive anchors, cubical cells, $f$-vector rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from source windows to boundary tiles, from boundary tiles to inactive-anchor rows, from anchor rows to cubical cells, and from cells to the displayed $f$-vector and no-$3$-cell row.
+\item $P$ is the $\Pkg$ provenance over $\InactiveAnchorCubicalSupportUp$, $\CodonSixBitWindowUp$, $\DnaWindowSixBoundaryTileUp$, $\SixBoundaryTileCoverageUp$, $\DnaBoundaryTriggerClosureUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\InactiveAnchorCubicalSupportUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,T,A,K,F,H,C,P,N$. It has no coordinate for an empirical code table, stochastic evolutionary law, quotient codon semantics, unrestricted cell enumeration, or host homology computation.
+\end{definition}
+
+\begin{theorem}[Inactive-anchor cubical support NameCert obligations]
+\label{thm:inactive-anchor-cubical-support-namecert-obligations}
+For every accepted $\InactiveAnchorCubicalSupportUp$ carrier $S=(W,T,A,K,F,H,C,P,N)$, the local $\NameCert_{\InactiveAnchorCubicalSupportUp}$ surface consists exactly of source-window admission, boundary-tile admission, inactive-anchor admission, cubical-support cell admission, displayed $f$-vector and no-$3$-cell admission, componentwise transport, displayed replay, provenance, local naming, and non-escape from empirical code tables, stochastic dynamics, quotient codon equality, unrestricted enumeration, and host homology oracles.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:inactive-anchor-cubical-support-carrier}. The rows $W,T,A,K,F,H,C,P,N$ are the only rows available to an accepted packet.
+
+The source and boundary rows are read first. The $\CodonSixBitWindowUp$ row exposes the six-coordinate source window, and the $\DnaWindowSixBoundaryTileUp$ row exposes the boundary-tile classifier before any inactive anchor or cubical cell can be consumed.
+
+The finite cubical rows are downstream. The anchor row $A$ displays the inactive vertices, $K$ displays the cells supported by the carried vertices, and $F$ records the active-support $f$-vector and no-$3$-cell boundary. Transport, replay, provenance, and local naming preserve that same finite route, so no excluded host object can be exported.
+\end{proof}
+
+\begin{theorem}[Inactive-anchor cubical support nonescape]
+\label{thm:inactive-anchor-cubical-support-nonescape}
+Every accepted $\InactiveAnchorCubicalSupportUp$ read factors through
+$$
+\CodonSixBitWindowUp,\ \DnaWindowSixBoundaryTileUp \longmapsto A \longmapsto K \longmapsto F \longmapsto H,C,P,N .
+$$
+The read preserves the displayed active-support $f$-vector and no-$3$-cell row, and it cannot escape to an empirical code table, stochastic dynamics, quotient codon semantics, unrestricted cubical enumeration, or host homology oracle.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations. They force source-window and boundary-tile admission before any inactive-anchor or cubical-support read.
+
+The anchor and cubical rows then determine the support data. The row $A$ supplies the inactive anchors, $K$ supplies the finite cubical support complex, and $F$ records the displayed $f$-vector and no-$3$-cell row.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since none of the excluded host structures is a carrier coordinate, every accepted read remains inside the displayed route.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\InactiveAnchorCubicalSupportUp$ packet that changes the displayed active-support $f$-vector or admits a $3$-cell while preserving $W,T,A,K,F,H,C,P,N$ refutes the carrier of \autoref{def:inactive-anchor-cubical-support-carrier}.}
+
+\independenceWitness{codon-six-bit-window, dna-window-six-boundary-tile, six-boundary-tile-coverage, dna-boundary-trigger-closure: $\InactiveAnchorCubicalSupportUp$ is not bijective to any listed sibling because it jointly carries inactive-anchor rows, cubical-support cell rows, displayed $f$-vector data, no-$3$-cell refusal, transport, replay, provenance, and local naming.}
+
+The Lean follow-up \texttt{BEDC.Derived.InactiveAnchorCubicalSupportUp} must provide explicit $\Nontrivial\ \InactiveAnchorCubicalSupportUp$ and $\FieldFaithful\ \InactiveAnchorCubicalSupportUp$ instances preserving $W,T,A,K,F,H,C,P,N$ as separate displayed fields.
+
+\closureat{InactiveAnchorCubicalSupportUp}{seedStr}
+
+\begin{closurestatus}{\InactiveAnchorCubicalSupportUp}
+  \constructivestory{An $\InactiveAnchorCubicalSupportUp$ packet is generated from CodonSixBitWindowUp source windows, DnaWindowSixBoundaryTileUp boundary tiles, inactive-anchor rows, cubical-support cells, displayed f-vector and no-3-cell rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:inactive-anchor-cubical-support-carrier}, \autoref{thm:inactive-anchor-cubical-support-namecert-obligations}, and \autoref{thm:inactive-anchor-cubical-support-nonescape} seed the finite inactive-anchor cubical support route over codon-window, boundary-tile, anchor, cubical-cell, and f-vector rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close empirical code tables, stochastic evolutionary dynamics, quotient codon semantics, unrestricted cubical enumeration, host homology computation, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-window admission, boundary-tile admission, inactive-anchor admission, cubical-support cell admission, f-vector preservation, no-3-cell nonescape, Nontrivial InactiveAnchorCubicalSupportUp, and FieldFaithful InactiveAnchorCubicalSupportUp for BEDC.Derived.InactiveAnchorCubicalSupportUp.}
+\end{closurestatus}
