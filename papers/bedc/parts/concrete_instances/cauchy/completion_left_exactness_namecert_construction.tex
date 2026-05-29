@@ -42,6 +42,46 @@ The finite-limit boundary is read through $S,U,D,K$. The source row supplies the
 The remaining rows $E,H,C,P,N$ transport and name the same route. Since quotient completion equality, selected representatives, selected finite limits, countable choice, host equality, and ambient completeness have no carrier coordinate, projection of the displayed rows exhausts the NameCert obligations.
 \end{proof}
 
+\begin{theorem}[Cauchy completion left-exactness carrier admission]
+\label{thm:cauchy-completion-left-exactness-carrier-admission}
+For every accepted $\CauchyCompletionLeftExactnessUp$ carrier
+$$
+L=(S,U,D,K,E,H,C,P,N),
+$$
+the source finite-limit row $S$, completion unit row $U$, dense image row $D$, kernel-pair preservation row $K$, extension ledger $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, provenance row $P$, and local $\NameCert$ row $N$ are all admitted as finite coordinates of the same packet. No completion-facing read may treat one of these rows as ambient host data detached from the carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-left-exactness-carrier}. Its coordinates are exactly $S,U,D,K,E,H,C,P,N$, so each named row is admitted by carrier membership.
+
+Apply \autoref{thm:cauchy-completion-left-exactness-namecert-obligations}. The obligation surface requires every completion-facing finite-limit read to expose $S,U,D,K$ before the extension, transport, replay, provenance, and naming rows can be consumed.
+
+Since quotient completion equality, selected representatives, selected finite limits, countable choice, host equality, and ambient $\RealUp$ completeness have no carrier coordinate, none of the admitted rows can be reread as detached host data.
+\end{proof}
+
+\begin{theorem}[Cauchy completion left-exactness unit-density route]
+\label{thm:cauchy-completion-left-exactness-unit-density-route}
+Every displayed finite-limit comparison read through an accepted $\CauchyCompletionLeftExactnessUp$ carrier factors first through the source finite-limit row $S$, then through the completion unit row $U$, and then through the dense image row $D$ before the extension ledger $E$ and structural rows $H,C,P,N$ are inspected. This route records the finite source-to-completion passage without selecting representatives of completed objects or invoking countable choice.
+\end{theorem}
+\begin{proof}
+Begin with the carrier admission theorem \autoref{thm:cauchy-completion-left-exactness-carrier-admission}. It keeps $S,U,D$ as visible coordinates of the same finite packet.
+
+The source row $S$ supplies the finite-limit data before completion is read. The unit row $U$ records the displayed source-to-completion unit for each object named by $S$, and the dense image row $D$ keeps the resulting completion-facing comparison tied back to the same source and unit rows.
+
+Only after this route is exposed can $E,H,C,P,N$ be consumed. The extension ledger and the structural rows transport, replay, package, and name the source-unit-density passage; they do not add selected representatives, countable choice, or host equality of completed objects.
+\end{proof}
+
+\begin{theorem}[Cauchy completion left-exactness kernel-pair preservation]
+\label{thm:cauchy-completion-left-exactness-kernel-pair-preservation}
+For every accepted $\CauchyCompletionLeftExactnessUp$ carrier $L=(S,U,D,K,E,H,C,P,N)$, any equalizer, pullback, or kernel-pair comparison visible after completion is read through the displayed kernel-pair row $K$ together with the source finite-limit row $S$, completion unit row $U$, and dense image row $D$. The comparison cannot be exported as quotient completion equality, a selected finite limit, or ambient equality of completed objects.
+\end{theorem}
+\begin{proof}
+Project the kernel-pair coordinate $K$ from the carrier. By definition, $K$ records equalizer and pullback comparisons through displayed source kernel-pair data rather than through a host quotient.
+
+Use the unit-density route theorem \autoref{thm:cauchy-completion-left-exactness-unit-density-route}. It places every completion-facing finite-limit comparison behind $S,U,D$, so the kernel-pair row is read as part of the same source-to-completion passage.
+
+Finally apply \autoref{thm:cauchy-completion-left-exactness-namecert-obligations}. The rows $E,H,C,P,N$ only extend, transport, replay, package, and name the displayed comparison. They add no coordinate for quotient completion equality, selected finite limits, or ambient equality of completed objects, so preservation remains confined to $K$ and its source, unit, and dense-image context.
+\end{proof}
+
 \closureat{CauchyCompletionLeftExactnessUp}{seedStr}
 
 \begin{closurestatus}{\CauchyCompletionLeftExactnessUp}
