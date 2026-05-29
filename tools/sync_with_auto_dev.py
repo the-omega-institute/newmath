@@ -713,7 +713,14 @@ def _hours_since(iso_str: str) -> float | None:
         # Older Pythons get a manual reparse via email.utils.
         try:
             from datetime import datetime, timezone
-            dt = datetime.fromisoformat(iso_str)
+            # gh emits a trailing 'Z' (e.g. 2026-05-29T17:23:21Z); Python's
+            # datetime.fromisoformat only accepts that on 3.11+. Normalize so
+            # the parse works on 3.9/3.10 too — otherwise this returns None for
+            # every gh createdAt and the age-box PR-replace path never fires.
+            iso_norm = iso_str.strip()
+            if iso_norm.endswith(("Z", "z")):
+                iso_norm = iso_norm[:-1] + "+00:00"
+            dt = datetime.fromisoformat(iso_norm)
             if dt.tzinfo is None:
                 dt = dt.replace(tzinfo=timezone.utc)
             from datetime import datetime as _dt
