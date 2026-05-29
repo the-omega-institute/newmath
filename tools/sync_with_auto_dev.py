@@ -678,6 +678,17 @@ def main():
 PR_LABEL = "auto-dev-sync"
 PR_BRANCH_PREFIX = "auto-dev-sync"
 PR_AGE_THRESHOLD_HOURS = 24
+# An un-merged catch-up PR open past this many hours is closed and reopened
+# on the current auto-dev tip, regardless of pending/failed check state, as
+# long as auto-dev has advanced past its head. auto-dev produces commits
+# continuously, so a stale PR head never lands on its own — the only way the
+# catch-up PR stays fresh is to time-box it. Env-overridable (no restart;
+# the sync daemon re-execs this script each cycle) to match the rest of the
+# daemon knobs (AUTO_HEAL_INTERVAL_SECONDS etc.).
+try:
+    PR_REPLACE_OPEN_HOURS = float(os.environ.get("BEDC_PR_REPLACE_OPEN_HOURS", "6"))
+except (TypeError, ValueError):
+    PR_REPLACE_OPEN_HOURS = 6.0
 
 
 def _gh_available() -> bool:
@@ -721,7 +732,7 @@ def _existing_open_pr() -> dict | None:
                    "--base", UPSTREAM_BRANCH,
                    "--state", "open",
                    "--label", PR_LABEL,
-                   "--json", "number,headRefName,headRefOid,mergeable,statusCheckRollup,title",
+                   "--json", "number,headRefName,headRefOid,mergeable,statusCheckRollup,title,createdAt",
                    "--limit", "5"],
                   capture=True, check=False)
         if res.returncode != 0:
@@ -774,31 +785,6 @@ def _auto_dev_advanced_past(pr_head: str | None) -> int:
     if not pr_head:
         return 0
     return _rev_list_count(f"{pr_head}..origin/{MIRROR_BRANCH}")
-
-
-def _auto_dev_head_green() -> bool:
-    """Return True iff a recent completed/success run targets origin/auto-dev HEAD."""
-    head = _origin_sha(MIRROR_BRANCH)
-    if not head:
-        return False
-    res = run(["gh", "run", "list",
-               "--branch", MIRROR_BRANCH,
-               "--limit", "5",
-               "--json", "status,conclusion,headSha"],
-              capture=True, check=False)
-    if res.returncode != 0:
-        return False
-    try:
-        import json as _json
-        runs = _json.loads(res.stdout or "[]")
-    except Exception:
-        return False
-    for row in runs:
-        if (row.get("headSha") == head
-                and str(row.get("status") or "").lower() == "completed"
-                and str(row.get("conclusion") or "").lower() == "success"):
-            return True
-    return False
 
 
 def _close_stale_pr(pr: dict, advanced_by: int) -> bool:
@@ -860,25 +846,41 @@ def sync_dev_catchup_pr() -> None:
                       f"into {UPSTREAM_BRANCH}; branch {head_ref} deleted")
             return
 
-        if _pr_has_failed_check(pr):
-            pr_head = pr.get("headRefOid")
-            advanced_by = _auto_dev_advanced_past(pr_head)
-            if advanced_by <= 0:
-                print(f"[sync] dev-catchup: PR #{pr['number']} failed, "
-                      f"but {MIRROR_BRANCH} has not advanced past it")
-                return
-            if not _auto_dev_head_green():
-                print(f"[sync] dev-catchup: PR #{pr['number']} failed, "
-                      f"but current {MIRROR_BRANCH} HEAD is not green yet")
-                return
+        # Not green. Decide whether to replace it with a fresh PR.
+        pr_head = pr.get("headRefOid")
+        advanced_by = _auto_dev_advanced_past(pr_head)
+        open_age = _hours_since(pr.get("createdAt") or "")
+
+        # (a) Failed checks + auto-dev has new commits → close and reopen
+        #     immediately on the fresh tip to try again. We do NOT wait for
+        #     the auto-dev HEAD to be green: the whole point of reopening is
+        #     to retry with newer content, and this giant library rarely
+        #     shows an all-green HEAD, so gating on it would strand the PR.
+        if _pr_has_failed_check(pr) and advanced_by > 0:
             if not _close_stale_pr(pr, advanced_by):
                 return
             force_open_pr = True
-            reasons.append(f"stale failed PR superseded by {MIRROR_BRANCH} "
+            reasons.append(f"failed PR superseded by {MIRROR_BRANCH} "
                            f"advancing {advanced_by} commit(s)")
+        # (b) Age-box the stuck-pending case: a PR whose checks never resolve
+        #     (perpetually pending, never flips to a failure conclusion) is
+        #     replaced once it has been open past PR_REPLACE_OPEN_HOURS and
+        #     auto-dev has moved past its head.
+        elif (open_age is not None and open_age >= PR_REPLACE_OPEN_HOURS
+                and advanced_by > 0):
+            if not _close_stale_pr(pr, advanced_by):
+                return
+            force_open_pr = True
+            reasons.append(f"PR open {open_age:.1f}h without merge "
+                           f"(threshold {PR_REPLACE_OPEN_HOURS}h); "
+                           f"{MIRROR_BRANCH} advanced {advanced_by} commit(s)")
         else:
-            print(f"[sync] dev-catchup: PR #{pr['number']} open; "
-                  f"checks not yet green — leaving in place")
+            age_txt = f"{open_age:.1f}h" if open_age is not None else "?"
+            failed = "failed" if _pr_has_failed_check(pr) else "pending"
+            print(f"[sync] dev-catchup: PR #{pr['number']} open {age_txt} "
+                  f"({failed}) — leaving in place "
+                  f"({MIRROR_BRANCH} not ahead, or pending & < "
+                  f"{PR_REPLACE_OPEN_HOURS}h)")
             return
 
     # Phase B: no open PR. Check whether one is needed.
