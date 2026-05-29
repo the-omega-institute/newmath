@@ -1,5 +1,63 @@
-\subsection{NameCert: self.claim}
-\label{sec:namecert-self_claim}
+\subsection{Boundary record for ORF eligibility}
+\label{sec:bioreality-self-claim-or February-eligibility-boundary}
 \origin{ai}
 
-This BioReality namecert is awaiting codex re-authoring. Most recent attempt failed the chapter hygiene gate; issues recorded: template\_residue: BEDC 5-tuple, template\_residue: lean target sketch (statement-only), template\_residue: internal newmath/bedc derivation, template\_residue: bridge disclaimer, template\_residue: external reality sources. The committed registry record at \path{tools/bio\_reality/registries/claims.json} still tracks the underlying claim self.claim and its experiment runs.
+\paragraph{Object and layer.}
+This BioReality record concerns open-reading-frame eligibility as a finite start/stop-window question.  The claimed layer is \texttt{orf\_eligibility}, and the biological object is not a protein, not a translated molecule, and not a functional genomic unit.  It is the weaker finite-row question of whether an externally supplied nucleotide interval is eligible under start/stop codon enumeration.  The record is therefore a boundary record: it may describe what would have to be checked once an external sequence, transcript, or curated interval annotation is attached, but it does not itself supply that biological contact.
+
+\paragraph{Minimal BEDC form.}
+The BEDC minimal form has carrier ``awaiting reality contact'', a single distinction also recorded as ``awaiting reality contact'', no internal structure, and readback ``awaiting reality contact''.  Thus the internal coordinate is deliberately null at the biological layer.  The packet is not a promoted biological claim; it is a guard against such promotion.  The local self-check records the boundary as ``BioReality self-check only; no codon geometry is promoted across biological layers'', with checked gate count $3$.
+
+\paragraph{Finite codon rows available below the biological contact.}
+The verified finite rows include a codon set $R$ obtained by motif compression:
+$$
+\begin{aligned}
+R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
+\end{aligned}
+$$
+The same check reports no missing rows and no extra rows: $\mathrm{no\_missing}=\varnothing$ and $\mathrm{no\_extra}=\varnothing$.  A larger finite set $M$ has cardinality $20$ and is verified as $M=\mathrm{WNR}\cup\mathrm{CUN}$:
+$$
+\begin{aligned}
+M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
+&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+\end{aligned}
+$$
+These rows are finite codon-geometry data.  They are admissible as enumeration facts, but they do not by themselves constitute an observed ORF interval.
+
+\paragraph{Saturation and quotient geometry.}
+The $f_3$ saturation row verifies
+$$
+\begin{aligned}
+\mathrm{Sat}_{f_3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
+\end{aligned}
+$$
+so this saturated row is $M$ with $\mathrm{ACA}$ and $\mathrm{ACG}$ absent.  The same finite check records $M=\mathrm{Med}(R)\cup\{\mathrm{ACA},\mathrm{ACG}\}$ and an empty $f_3$ boundary, $\partial f_3=\varnothing$.  The geometry audit gives the $M$ face vector
+$$
+\begin{aligned}
+(f_0,f_1,f_2,f_3,f_4)(M)=(20,38,26,8,1),
+\end{aligned}
+$$
+with quotient size $10$ and quotient face vector
+$$
+\begin{aligned}
+(f_0,f_1,f_2,f_3)(M/{\sim})=(10,14,6,1).
+\end{aligned}
+$$
+The recorded quotient representatives are ten binary rows:
+$$
+\begin{aligned}
+& (0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),(0,1,0,0,0),\\
+& (0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),(1,0,1,0,1),(1,0,1,1,1).
+\end{aligned}
+$$
+These numbers locate the combinatorial coordinate precisely, but the coordinate is still only a codon-geometry coordinate.
+
+\paragraph{External ORF-window row.}
+The biological-layer input is an external finite nucleotide-window manifest dated $2026$-$05$-$25$.  It contains $1$ input window, the external window dataset is loaded with value $1$, and all windows are classified by start/stop enumeration with $1$ classified window out of $1$ input window.  The source is a curated finite nucleotide-window manifest for BioReality ORF start/stop enumeration, and the record explicitly treats those rows as external annotation inputs to the experiment, not BEDC-derived facts.  Its scope is \texttt{external\_window\_start\_stop\_enumeration\_only}, and its promotion guard is \texttt{orf\_eligibility\_only}.
+
+\paragraph{Boundary probes.}
+Two boundary probes enforce the local interpretation.  The first says that a start/stop-window ORF eligibility record must stay at boundary status unless an external sequence or transcript contact supplies the observed biological interval; it breaks if the pipeline asserts ORF eligibility, translation realization, folded structure, physical admissibility, or biological function from start/stop-window enumeration alone.  The second says that an ORF eligibility record is admissible only as a boundary probe while it lacks an external biological interval contact; it breaks if an ORF eligibility claim is recorded while no sequence database, transcript evidence, or curated annotation contact can test the proposed interval.  Both probes require the contact type \texttt{curated.orf.interval.annotation}.
+
+\paragraph{Cannot-claim boundary.}
+The local conclusion is negative in exactly the intended sense.  The finite rows above verify codon sets, saturation, quotient geometry, and one externally loaded start/stop-window classification row.  They do not verify translation, folding, physical admissibility, biochemical mechanism, organism-level function, evolutionary universality, or a general rule for biological coding.  No such claim follows unless a separate contact supplies the relevant biological evidence.  In particular, start/stop-window eligibility is not translation realization, is not folded structure, is not physical admissibility, and is not biological function.  Because the present contact list is empty, the chapter remains a boundary certificate for what must be tested rather than a certificate that an ORF exists in biological reality.

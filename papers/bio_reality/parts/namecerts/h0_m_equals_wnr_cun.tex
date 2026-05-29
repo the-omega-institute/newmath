@@ -1,5 +1,61 @@
-\subsection{NameCert: h0.M.equals.WNR.CUN}
-\label{sec:namecert-h0_m_equals_wnr_cun}
 \origin{ai}
+\subsection{Boundary status of start--stop ORF eligibility for the finite $M$ packet}
+\label{sec:bioreality-h0-m-equals-wnr-cun-orf-boundary}
 
-This BioReality namecert is awaiting codex re-authoring. Most recent attempt failed the chapter hygiene gate; issues recorded: template\_residue: BEDC 5-tuple, template\_residue: carrier reads back to observable data by following, template\_residue: TasteGate-style separation, template\_residue: lean target sketch (statement-only), template\_residue: internal newmath/bedc derivation, template\_residue: bridge disclaimer, template\_residue: external reality sources. The committed registry record at \path{tools/bio\_reality/registries/claims.json} still tracks the underlying claim h0.M.equals.WNR.CUN and its experiment runs.
+\paragraph{Finite packet.}
+This record concerns the finite codon packet whose biological reading is restricted to open-reading-frame eligibility from start/stop codon enumeration.  The verified finite carrier $M$ has cardinality $20$ and is exactly the listed union
+$$
+\begin{aligned}
+M = \{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
+&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+\end{aligned}
+$$
+The same run records the scalar size value $20$, so the displayed enumeration and the cardinality assertion agree.  The claim identifier $\mathrm{h0.M.equals.WNR.CUN}$ is therefore used here only as a finite-row coordinate: it says which codons are present in the packet and how many rows the packet contains.  It does not by itself say that any sequence, transcript, product, organism, or translated interval has been observed.
+
+\paragraph{Motif and saturation checks.}
+A second finite check identifies the motif row set
+$$
+\begin{aligned}
+R = \{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
+\end{aligned}
+$$
+For this row set the mismatch ledger reports no missing motif rows and no extra motif rows: $\mathrm{no\_missing}=\emptyset$ and $\mathrm{no\_extra}=\emptyset$.  The $f_3$ saturation check gives
+$$
+\begin{aligned}
+\operatorname{Sat}_{f_3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
+&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
+\end{aligned}
+$$
+and the displayed saturation omits precisely $\mathrm{ACA}$ and $\mathrm{ACG}$ from $M$.  The same audit states that the $f_3$ boundary is empty, $\partial_{f_3}=\emptyset$, and that $M$ is recovered as the mediated union of $R$ with the $\mathrm{ACA}$ branch.  These are internal finite-row facts about the packet.  They support a clean boundary ledger for the codon enumeration, but they do not create an observed ORF interval.
+
+\paragraph{Quotient geometry.}
+The quotient audit supplies two finite shape summaries.  The packet $M$ has $f$-vector
+$$
+\begin{aligned}
+(20,38,26,8,1),
+\end{aligned}
+$$
+while the quotient has $10$ rows and $f$-vector
+$$
+\begin{aligned}
+(10,14,6,1).
+\end{aligned}
+$$
+The quotient row list is
+$$
+\begin{aligned}
+& (0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),(0,1,0,0,0),\\
+& (0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),(1,0,1,0,1),(1,0,1,1,1).
+\end{aligned}
+$$
+Thus the geometric compression is finite, explicit, and row-complete at the level recorded by the experiment.  The product-decomposition mismatch field is empty, and the quotient size is exactly $10$.  This quotient geometry is useful for auditing how the codon rows are organized, but it remains a coordinate system internal to the packet.  No quotient row is interpreted here as a translated peptide, folded molecule, physically admissible state, biochemical mechanism, or biological function.
+
+\paragraph{ORF eligibility contact gap.}
+The ORF layer is more restrictive than the finite codon geometry.  The external-window audit reports that one external window dataset was loaded, with $\mathrm{window\_count}=1$, $\mathrm{input\_windows}=1$, and $\mathrm{classified}=1$.  Its declared scope is external-window start/stop enumeration only, with snapshot date $2026$-$05$-$25$.  The source description states that the nucleotide-window records are external annotation inputs to the experiment, not BEDC-derived facts.  The recorded no-promotion value is $\mathrm{orf\_eligibility\_only}$.  Therefore the only biological layer touched by this packet is the boundary question of whether a supplied nucleotide window can be classified by start/stop enumeration.
+
+\paragraph{Local boundary statement.}
+This chapter makes the following local assertion.  The finite $M$ packet, the motif set $R$, the $f_3$ saturation ledger, and the quotient geometry are internally checked finite-row data.  They are sufficient to say that the boundary probe is well formed as a start/stop-window eligibility seed.  They are not sufficient to say that an ORF exists in a biological sample.  A separate contact, such as a curated ORF interval annotation, a sequence record, or transcript evidence, must supply the observed biological interval before an ORF eligibility claim can be promoted from boundary status.
+
+\paragraph{Cannot-claim boundary.}
+No translation realization follows from this packet.  No folding claim follows from this packet.  No physical admissibility claim follows from this packet.  No biological function, mechanism, selective role, organism-level interpretation, or universality claim follows from this packet.  The self-check ledger records $3$ checked gates and states that no codon geometry is promoted across biological layers.  Consequently the present record is a BioReality boundary record: it preserves the exact finite codon enumeration and the one-window start/stop classification scope, while refusing every inference that would require an additional reality contact.
