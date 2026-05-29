@@ -2702,6 +2702,7 @@ import BEDC.Derived.DecidableRefutationBoundaryUp.NameCertObligations
 import BEDC.Derived.DecidableRefutationBoundaryUp.TasteGate
 import BEDC.Derived.DecidableRefutationUp.TasteGate
 import BEDC.Derived.DecimalEndpointNormalizationUp.TasteGate
+import BEDC.Derived.DecimalExpansionUp.FinitePrefixCompleteness
 import BEDC.Derived.DecimalExpansionUp.TasteGate
 import BEDC.Derived.DecimalIntervalRealUp
 import BEDC.Derived.DecimalNormalityUp.TasteGate
@@ -6017,6 +6018,7 @@ import BEDC.Derived.RegularCauchyHausdorffReflectionUp.TasteGate
 import BEDC.Derived.RegularCauchyInterleaveUp
 import BEDC.Derived.RegularCauchyInterleavingUp
 import BEDC.Derived.RegularCauchyInterleavingUp.BridgeReadbackScope
+import BEDC.Derived.RegularCauchyInterleavingUp.SwapSymmetryBoundary
 import BEDC.Derived.RegularCauchyInterleavingUp.TasteGate
 import BEDC.Derived.RegularCauchyInterpolationUp.TasteGate
 import BEDC.Derived.RegularCauchyIntervalSelectorUp
