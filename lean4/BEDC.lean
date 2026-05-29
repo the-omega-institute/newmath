@@ -6956,6 +6956,7 @@ import BEDC.Derived.TypeClassifierMembershipUp
 import BEDC.Derived.TypeClassifierRouteJoinUp.NameCertObligations
 import BEDC.Derived.TypeClassifierRouteJoinUp.TasteGate
 import BEDC.Derived.TypeLevelSocketExposureUp
+import BEDC.Derived.TypeLikeUp.ClassifierTransport
 import BEDC.Derived.TypeLikeUp.TasteGate
 import BEDC.Derived.TypePreservingCompilerUp
 import BEDC.Derived.TypedBetaCongruenceTriggerUp.TasteGate
