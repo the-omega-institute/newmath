@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\DyadicBracketApproximationUp$}
+\label{ch:concrete-instances-dyadic-bracket-approximation-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\DyadicBracketApproximationUp$ packet records the finite lower-upper dyadic bracket interface by which the L10 Real and Completion route reads a regular rational name at a requested precision before the terminal real seal is consumed. It sits over the dyadic arithmetic surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the equality boundary of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later density, located-order, and completion consumers a displayed bracket row rather than a prose appeal to approximation.
+
+\begin{definition}[DyadicBracketApproximation carrier]
+\label{def:dyadic-bracket-approximation-carrier}
+A $\DyadicBracketApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+B=(L,U,Q,I,S,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower $\DyadicRatCoreUp$ bracket row. It stores the inspected lower dyadic endpoint, its source observation, and the order evidence that the endpoint lies below the displayed regular read.
+\item $U$ is the upper $\DyadicRatCoreUp$ bracket row. It stores the inspected upper dyadic endpoint, its source observation, and the order evidence that the displayed regular read lies below the endpoint.
+\item $Q$ is the unary precision row. It records the requested precision as a finite unary budget and the dyadic radius derived from that budget.
+\item $I$ is the inclusion witness row. It records that the displayed regular readback lies inside the bracket $[L,U]$ at the precision carried by $Q$.
+\item $S$ is the shrink witness row. It records the successor-precision bracket whose lower and upper dyadic endpoints refine $L$ and $U$ without changing the source name.
+\item $W$ is the finite $\StreamNameUp$ observation window from which the bracket read is taken.
+\item $R$ is the $\RegSeqRatUp$ readback row produced from $W$ and the dyadic precision budget.
+\item $E$ is the $\CauchySequenceEquivalenceUp$ and terminal $\RealUp$ seal row reached only after the bracket, window, and readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $L,U,Q,I,S,W,R,E$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from a precision request through lower bracket, upper bracket, inclusion, shrink, finite window, regular readback, equivalence boundary, and real seal.
+\item $P$ is the $\Pkg$ provenance over $\DyadicBracketApproximationUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchySequenceEquivalenceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicBracketApproximationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,U,Q,I,S,W,R,E,H,C,P,N$. It has no coordinate for a selected real representative, quotient stream equality, host located-order oracle, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[DyadicBracketApproximation NameCert obligations]
+\label{thm:dyadic-bracket-approximation-namecert-obligations}
+For every accepted $\DyadicBracketApproximationUp$ carrier
+$$
+B=(L,U,Q,I,S,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicBracketApproximationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the lower dyadic bracket, upper dyadic bracket, unary precision, inclusion witness, shrink witness, finite stream window, regular rational readback, equivalence and real seal, transport, replay, provenance, and local naming;
+\item lower-upper discipline, requiring $L$ and $U$ to be read before any bracket consumer may inspect a regular or real-facing row;
+\item precision discipline, requiring $Q$ to expose a unary precision budget and the corresponding dyadic radius before the inclusion or shrink rows are available;
+\item inclusion discipline, requiring $I$ to bind the displayed regular readback between the lower and upper dyadic rows at the precision carried by $Q$;
+\item shrink discipline, requiring $S$ to refine the same source route at successor precision without replacing it by a selected limit or a quotient representative;
+\item readback discipline, requiring $W$ and $R$ to supply the finite StreamName and RegSeqRat route before the equivalence and $\RealUp$ seal row $E$ is read;
+\item seal nonescape, requiring $E,H,C,P,N$ to export only the displayed bracket route and no selected real representative, quotient stream equality, host located-order oracle, countable choice, trichotomy, or ambient $\RealUp$ completeness row.
+\end{enumerate}
+No DyadicBracketApproximation obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-bracket-approximation-carrier}. The accepted packet displays exactly the lower and upper dyadic brackets, unary precision, inclusion and shrink witnesses, finite window, regular readback, equivalence and real seal, and structural rows.
+
+The lower-upper and precision disciplines are the first stage of the route. The bracket endpoints $L,U$ and precision budget $Q$ must be visible before any inclusion, shrink, regular-readback, or Real-facing row is available.
+
+The inclusion and shrink disciplines are the constructive approximation stage. The row $I$ pins the displayed readback inside the dyadic bracket at the current budget, while $S$ records a successor bracket over the same source route rather than a chosen limit.
+
+Finally $W,R,E,H,C,P,N$ replay, seal, transport, package, and name the same route. Since selected representatives, quotient stream equality, host located-order oracles, countable choice, trichotomy, and ambient Real completeness are absent from the carrier, no local obligation can export them.
+\end{proof}
+
+\begin{theorem}[Dyadic bracket Real handoff]
+\label{thm:dyadic-bracket-approximation-real-handoff}
+Every $\RegSeqRatUp$, $\CauchySequenceEquivalenceUp$, $\RealUp$, or located-order consumer of an accepted $\DyadicBracketApproximationUp$ carrier factors through the displayed route
+$$
+L,U,Q \longmapsto I,S \longmapsto W,R \longmapsto E,H,C,P,N .
+$$
+The consumer may read lower and upper dyadic brackets, unary precision, inclusion, shrink, finite stream observations, regular rational readback, equivalence sealing, transport, replay, provenance, and local naming. It cannot replace that route by a selected real representative, quotient stream equality, host located-order oracle, countable choice, trichotomy, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $B=(L,U,Q,I,S,W,R,E,H,C,P,N)$. The only bracket data in the carrier are $L$ and $U$, and the only precision data are carried by $Q$.
+
+The inclusion and shrink rows are downstream of those bracket and precision rows. They bind the current readback and successor readback to the same displayed route, so no consumer can bypass the bracket by choosing a host representative.
+
+The finite-window and regular-readback rows $W,R$ then expose the L10 observation surface. The equivalence and Real seal row $E$ is terminal and is replayed only through $H,C,P,N$.
+
+Thus the displayed route exhausts the visible packet. The excluded quotient, choice, order-oracle, trichotomy, and ambient-completeness coordinates are not present in the carrier and cannot be exported by the handoff.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DyadicBracketApproximationUp$ read exposes one lower dyadic bracket row, one upper dyadic bracket row, one unary precision row, one inclusion witness, one shrink witness, one finite StreamName window, one RegSeqRat readback, one Cauchy-equivalence and Real seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before any Real or located-order consumer may inspect it.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, cauchy-equivalence-setoid, real: $\DyadicBracketApproximationUp$ is not bijective to any listed sibling because it jointly carries lower and upper bracket endpoints, unary precision, inclusion, shrink, finite windows, regular readback, equivalence sealing, transport, replay, provenance, and local naming in one L10 approximation packet.}
+
+\closureat{DyadicBracketApproximationUp}{seedStr}
+
+\begin{closurestatus}{\DyadicBracketApproximationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-bracket-approximation-carrier}, \autoref{thm:dyadic-bracket-approximation-namecert-obligations}, and \autoref{thm:dyadic-bracket-approximation-real-handoff} seed the finite lower-upper dyadic bracket route between displayed observations and regular real names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected real representatives, host located order, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, lower-upper discipline, unary precision exactness, inclusion and shrink witness stability, regular readback handoff, seal nonescape, and local naming for BEDC.Derived.DyadicBracketApproximationUp.}
+  \constructivestory{A $\DyadicBracketApproximationUp$ packet is generated from lower and upper $\DyadicRatCoreUp$ bracket rows, unary precision, inclusion and shrink witnesses, a finite $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\CauchySequenceEquivalenceUp$ and $\RealUp$ seal rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
