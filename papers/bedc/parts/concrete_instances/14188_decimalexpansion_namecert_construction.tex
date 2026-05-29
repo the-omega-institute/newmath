@@ -370,6 +370,46 @@ Add the endpoint-normalization handoff of \autoref{thm:decimal-expansion-endpoin
 Finally apply \autoref{thm:decimal-expansion-finite-prefix-separability-route} when the consumer asks for density or separability data. The $\RealSeparabilityUp$ surface receives only the finite normalized window, regular readback, and terminal seal, so the displayed rows exhaust the real-facing decimal window.
 \end{proof}
 
+\begin{theorem}[DecimalExpansion real-window audit route]
+\label{thm:decimal-expansion-real-window-exhaustion-audit-route}
+For every accepted $\DecimalExpansionUp$ packet $K=(D,W,V,Q,R,E,H,C,P,N)$, the finite-window exhaustion of \autoref{thm:decimal-expansion-real-window-exhaustion} is an audit route through exactly
+$$
+D,W,Q,R,E,H,C,P,N .
+$$
+Every $\RealUp$-facing read that begins in digit windows or endpoint-sensitive windows must pass through the displayed dyadic comparison, $\RegSeqRatUp$ readback, terminal Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before it is accepted as a decimal real-window observation.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:decimal-expansion-real-window-exhaustion}. It already confines real-facing decimal reads to finite digit windows, dyadic comparison, regular rational readback, endpoint normalization, optional finite-density inspection, and the terminal Real seal.
+
+Use \autoref{thm:decimal-expansion-real-readback-boundary} and \autoref{thm:decimal-expansion-dyadic-comparison-handoff} to name the concrete route. The read moves from $D,W$ through $Q$ before it reaches $R$ and $E$, so no selected decimal stream or quotient-real equality can enter the audit path.
+
+Finally append the structural rows supplied by \autoref{thm:decimal-expansion-namecert-obligations}. Componentwise transport, replay, provenance, and local naming are exactly $H,C,P,N$, and the carrier has no coordinate outside $D,W,V,Q,R,E,H,C,P,N$ from which another audit row could be read.
+\end{proof}
+
+\begin{theorem}[DecimalExpansion endpoint-window transport]
+\label{thm:decimal-expansion-endpoint-window-transport}
+For every accepted $\DecimalExpansionUp$ packet, endpoint-sensitive finite windows transport through the same endpoint-normalization handoff used by \autoref{thm:decimal-expansion-endpoint-normalization-handoff}. The transported read exposes only the displayed digit ledger $D$, window ledger $W$, dyadic comparison row $Q$, $\RegSeqRatUp$ handoff $R$, terminal $\RealUp$ seal $E$, and structural rows $H,C,P,N$; it does not select a decimal stream, choose a repeating-nine convention, or import a detached endpoint resolver.
+\end{theorem}
+\begin{proof}
+Project the packet through \autoref{def:decimal-expansion-carrier}. Endpoint-sensitive reads have access to the same finite rows as every other decimal consumer and no additional endpoint coordinate.
+
+Apply \autoref{thm:decimal-expansion-endpoint-normalization-handoff}. Its handoff sends the endpoint-sensitive part through $D,W,V,Q,R,E$ before a normalized real-decimal read is exported.
+
+The transport part is supplied by \autoref{thm:decimal-expansion-window-normalization-obligation} and \autoref{thm:decimal-expansion-finite-prefix-completeness}. Window refinement is componentwise through $H$, replay is through $C$, provenance through $P$, and the local name through $N$, so the endpoint window remains inside the displayed packet instead of selecting an external stream.
+\end{proof}
+
+\begin{theorem}[DecimalExpansion RegSeqRat prefix coverage]
+\label{thm:decimal-expansion-regseqrat-prefix-coverage}
+Every $\RegSeqRatUp$-facing decimal prefix read exported by an accepted $\DecimalExpansionUp$ packet is covered by finite digit windows together with dyadic comparison. Concretely, the read starts in $D,W$, evaluates its place-value and tolerance information through $V,Q$, reaches the regular rational row $R$, and then remains governed by $E,H,C,P,N$ before any downstream $\RealUp$ consumer may inspect it.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:decimal-expansion-regseqrat-handoff}. It places each regular-rational handoff after the finite decimal prefix and its comparison ledger, rather than after an infinite decimal stream.
+
+Apply \autoref{thm:decimal-expansion-dyadic-comparison-handoff}. The row $Q$ is the required finite dyadic comparison between place-value data and the regular rational route, so a $\RegSeqRatUp$ consumer cannot read $R$ directly from $D,W,V$.
+
+Finally combine \autoref{thm:decimal-expansion-finite-prefix-completeness} with \autoref{thm:decimal-expansion-real-window-exhaustion-audit-route}. The prefix remains covered by finite windows and dyadic comparison after the Real seal and structural rows are inspected, and no selected representative, trichotomy decision, or ambient completeness witness is exported.
+\end{proof}
+
 \begin{closurestatus}{\DecimalExpansionUp}
   \constructivestory{A $\DecimalExpansionUp$ packet is generated from finite decimal digit rows, decimal-place windows, rational place-value rows, dyadic/rational comparison rows, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
