@@ -126,6 +126,58 @@ theorem CauchyModulusSpaceNameCertObligations [AskSetup] [PackageSetup]
     unary_cont_closed scheduleUnary readbackUnary routeCont
   exact ⟨scheduleUnary, readbackUnary, routeUnary⟩
 
+theorem CauchySeedCarrierBoundary
+    {S W D R E H C P N window tolerance readback sealRow transport replay provenance
+      nameRoute : BHist} :
+    UnaryHistory S ->
+      UnaryHistory W ->
+        UnaryHistory D ->
+          UnaryHistory R ->
+            UnaryHistory E ->
+              UnaryHistory H ->
+                UnaryHistory C ->
+                  UnaryHistory P ->
+                    UnaryHistory N ->
+                      Cont S W window ->
+                        Cont window D tolerance ->
+                          Cont tolerance R readback ->
+                            Cont readback E sealRow ->
+                              Cont sealRow H transport ->
+                                Cont transport C replay ->
+                                  Cont replay P provenance ->
+                                    Cont provenance N nameRoute ->
+                                      UnaryHistory window ∧
+                                        UnaryHistory tolerance ∧
+                                          UnaryHistory readback ∧
+                                            UnaryHistory sealRow ∧
+                                              UnaryHistory transport ∧
+                                                UnaryHistory replay ∧
+                                                  UnaryHistory provenance ∧
+                                                    UnaryHistory nameRoute := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro sourceUnary windowUnary toleranceUnary readbackUnary sealUnary transportUnary replayUnary
+    provenanceUnary nameUnary sourceWindow windowTolerance toleranceReadback readbackSeal
+    sealTransport transportReplay replayProvenance provenanceName
+  have windowClosed : UnaryHistory window :=
+    unary_cont_closed sourceUnary windowUnary sourceWindow
+  have toleranceClosed : UnaryHistory tolerance :=
+    unary_cont_closed windowClosed toleranceUnary windowTolerance
+  have readbackClosed : UnaryHistory readback :=
+    unary_cont_closed toleranceClosed readbackUnary toleranceReadback
+  have sealClosed : UnaryHistory sealRow :=
+    unary_cont_closed readbackClosed sealUnary readbackSeal
+  have transportClosed : UnaryHistory transport :=
+    unary_cont_closed sealClosed transportUnary sealTransport
+  have replayClosed : UnaryHistory replay :=
+    unary_cont_closed transportClosed replayUnary transportReplay
+  have provenanceClosed : UnaryHistory provenance :=
+    unary_cont_closed replayClosed provenanceUnary replayProvenance
+  have nameClosed : UnaryHistory nameRoute :=
+    unary_cont_closed provenanceClosed nameUnary provenanceName
+  exact
+    ⟨windowClosed, toleranceClosed, readbackClosed, sealClosed, transportClosed, replayClosed,
+      provenanceClosed, nameClosed⟩
+
 theorem CauchyRootUnaryAdmission [AskSetup] [PackageSetup]
     {stream request dyadic readback realSeal _transport _replay _provenance _localName tailRead
       toleranceRead realRead : BHist} :
