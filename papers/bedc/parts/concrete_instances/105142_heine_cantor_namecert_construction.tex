@@ -53,6 +53,25 @@ Fold the finite family of radius rows $R$ into the single source row $M$. The fo
 Finally use the target estimate row $T$. Compact-net coverage places two source points near a listed center, the pointwise rows in $R$ estimate their images at that center, and the target metric ledger combines the estimates at precision $E$. Replay by $C$ then presents $M$ to the $\UniformModulusUp$ consumer, while $P$ and $A$ record the provenance and local naming ledger.
 \end{proof}
 
+\begin{theorem}[Heine-Cantor finite-net radius fold]
+\label{thm:heine-cantor-finite-net-radius-fold}
+Let
+$$
+K=(X,Y,F,E,N,R,L,M,T,H,C,P,A)
+$$
+be an accepted $\HeineCantorUp$ carrier. The row $M$ is obtained only by a finite fold over the pointwise radius rows $R$ indexed by the finite net $N$. When located interval data is present, the row $L$ supplies the mesh and refinement handoff before the fold is read. Consequently every $\UniformModulusUp$ consumer of $K$ must read $N,R,L$ before it reads the folded modulus row $M$ and the target estimate row $T$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:heine-cantor-carrier}. The finite-net row is $N$, the pointwise radius inventory is $R$, the located mesh and refinement handoff is $L$, and the exported modulus row is $M$.
+
+Apply \autoref{thm:heine-cantor-compact-uniform-modulus}. Its route forces every compact uniform-modulus export through
+$$
+X,F,E \longmapsto N,R,L \longmapsto M,T \longmapsto H,C,P,A.
+$$
+
+The fold is finite because its indices are exactly the centers listed by the $\mathsf{ProbeBundle}$ net row $N$. The located interval row $L$ refines the mesh when such data is used, but it does not replace the net-indexed radius list by open-cover compactness or selected subcovers. Thus any consumer must read $N,R,L$ before the folded row $M$ and the estimate row $T$ are visible.
+\end{proof}
+
 \begin{theorem}[Heine-Cantor Dini window handoff]
 \label{thm:heine-cantor-dini-window-handoff}
 A $\DiniUniformConvergenceUp$ consumer may use the $\HeineCantorUp$ compact uniform modulus only through the finite route
