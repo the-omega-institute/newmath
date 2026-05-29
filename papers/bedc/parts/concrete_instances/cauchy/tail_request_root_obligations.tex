@@ -1,0 +1,47 @@
+\begin{theorem}[Cauchy tail request carrier]
+\label{thm:cauchy-tail-request-carrier}
+The $\CauchyUp$ root tail-request surface is the finite $\BHist$ packet
+$$
+T=(W,Q,D,R,E,H,C,P,N)
+$$
+whose rows are finite $\StreamNameUp$ windows, a directed later-window request, $\DyadicRatCoreUp$ tolerances, $\RegSeqRatUp$ readback, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CauchyUp}$ naming. It is the same finite request surface isolated by \autoref{def:cauchy-tail-request-carrier} and consumed by \autoref{ch:concrete-instances-finite-cauchy-filter-namecert}.
+\end{theorem}
+\begin{proof}
+Project the Cauchy seed carrier of \autoref{def:cauchy-seed-carrier}. The rows $W,D,R,E,H,C,P,N$ already expose finite windows, dyadic tolerance, regular readback, Real sealing, transport, replay, provenance, and local naming.
+
+Insert the directed request row $Q$ between the window row and the tolerance row. The resulting tuple is exactly the $\CauchyTailRequestUp$ carrier of \autoref{def:cauchy-tail-request-carrier}, with the same $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ sibling anchors.
+
+Because \autoref{def:finite-cauchy-filter-carrier} reads its tail coordinate as a finite directed request row, the root Cauchy packet supplies the carrier surface required by the finite filter route without adding quotient filters, selected limits, host equality, choice, or Real completeness.
+\end{proof}
+
+\begin{theorem}[Cauchy directed-tail NameCert obligations]
+\label{thm:cauchy-directed-tail-namecert-obligations}
+For the root tail-request packet $T=(W,Q,D,R,E,H,C,P,N)$ of \autoref{thm:cauchy-tail-request-carrier}, the local $\NameCert_{\CauchyUp}$ directed-tail obligation surface consists exactly of carrier admission, request classifier visibility, stability under later-window refinement, tolerance exactness, readback exactness, ledger routing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. These obligations are read through the sibling rows of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{ch:concrete-instances-finite-cauchy-filter-namecert}.
+\end{theorem}
+\begin{proof}
+Carrier admission is the tuple display in \autoref{thm:cauchy-tail-request-carrier}. The request classifier is the row $Q$, and it is visible only after the finite window row $W$ has named the inspected StreamName windows.
+
+Stability and tolerance exactness are read from $Q$ and $D$ together. A later-window refinement changes only the displayed request route and must keep the dyadic budget attached to that route before any regular rational readback is accepted.
+
+Readback exactness and ledger routing place $R$ downstream of $W,Q,D$ and place $E$ downstream of $R$. Thus the Real-facing seal cannot serve as a selected limit, quotient-stream comparison, host equality witness, or ambient completeness principle.
+
+The structural rows $H,C,P,N$ supply transport, replay, provenance, and local naming. Projecting \autoref{thm:cauchy-tail-request-namecert-obligations} gives the same row list for the named request surface, while \autoref{thm:finite-cauchy-filter-namecert-obligations} identifies the finite-filter consumer that reads that request.
+\end{proof}
+
+\begin{theorem}[Cauchy filter Real seal route]
+\label{thm:cauchy-filter-real-seal-route}
+Every $\RealUp$-facing Cauchy consumer that reads a filter, completion, or regular-name seal factors through the finite tail-request packet of \autoref{thm:cauchy-tail-request-carrier} before it can read $E$. The route is
+$$
+\StreamNameUp \longmapsto \CauchyTailRequestUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp,
+$$
+with $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows preserved throughout.
+\end{theorem}
+\begin{proof}
+Start with a Real-facing Cauchy read. The seed boundary of \autoref{thm:cauchy-seed-real-seal-boundary} already forces the read through finite windows, dyadic tolerance, regular readback, and the terminal Real seal.
+
+Refine the seed route by \autoref{thm:cauchy-tail-request-carrier}. The finite request row $Q$ is inserted before the tolerance ledger, so no downstream consumer reaches $D$, $R$, or $E$ without first reading the directed-tail request surface.
+
+Apply \autoref{thm:cauchy-directed-tail-namecert-obligations}. Its ledger and exactness clauses keep $W,Q,D,R,E$ in order, and its structural clauses preserve the same route through $H,C,P,N$.
+
+Finally compare with \autoref{thm:finite-cauchy-filter-real-route}. The filter consumer reads the same finite route before consuming the Real seal, so every Real-facing Cauchy answer factors through the displayed tail request rather than through quotient filters, selected limits, countable choice, host equality, or Real completeness.
+\end{proof}

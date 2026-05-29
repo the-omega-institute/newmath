@@ -80,6 +80,24 @@ The structural rows $H,T,P,N$ preserve and expose these displayed rows. They do 
 Therefore any consumer that exports a dimension-bound claim without reading $K,E,C,R,O,L,H,T,P,N$ leaves the carrier surface and is not reading a $\CoveringDimensionUp$ certificate.
 \end{proof}
 
+\begin{theorem}[Covering dimension finite-density route]
+\label{thm:real-separability-coveringdimension-finite-density-route}
+Every compact metric cover-refinement consumer that uses dense $\RealUp$ witnesses to read a $\CoveringDimensionUp$ packet must consume $\RealSeparabilityUp$ only through finite rational and dyadic density rows before the order-bound ledger is exposed. For an accepted carrier
+$$
+D=(K,E,C,R,O,L,H,T,P,N),
+$$
+the route first displays the compact metric source $K$, finite epsilon-net row $E$, finite cover row $C$, refinement map $R$, RealSeparability density handoff, and only then the order-bound row $O$, Lebesgue ledger $L$, transport $H$, replay $T$, provenance $P$, and local naming row $N$. It exports no arbitrary open-cover compactness, selected dense points, choice-selected refinements, or host dimension theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted $\CoveringDimensionUp$ carrier. The rows $K,E,C,R,O,L,H,T,P,N$ are the only compact metric source, finite-net, cover, refinement, order-bound, Lebesgue-ledger, transport, replay, provenance, and local naming rows available to the dimension consumer.
+
+If the cover-refinement read uses dense Real witnesses, the density source is not selected from an ambient dense set. It is read through \autoref{ch:concrete-instances-real-separability-namecert}, where rational enumeration, dyadic tolerance, finite StreamName windows, RegSeqRat readback, and the terminal $\RealUp$ seal are displayed as finite rows.
+
+Insert that RealSeparability route before $O$ is exposed. The finite cover and refinement rows $C,R$ may inspect dense rational and dyadic witnesses, but the overlap count in $O$ is read only after those witnesses have passed through the separability packet rather than through a choice-selected point.
+
+Finally $L,H,T,P,N$ replay and name the same route. Since the covering-dimension carrier has no arbitrary open-cover coordinate, choice-selected refinement, or host dimension theorem, and the RealSeparability route has no selected dense point or ambient completeness coordinate, the composed finite-density route exports none of them.
+\end{proof}
+
 \falsifiablePrediction{A consumer that claims a $\CoveringDimensionUp$ bound while omitting the finite cover row, refinement map row, order-bound witness row, compact Lebesgue ledger, $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$ rows refutes the carrier of \autoref{def:covering-dimension-carrier}.}
 
 \independenceWitness{compactmetric, finite-epsilon-net, compact-cover-lebesgue-ledger: $\CoveringDimensionUp$ binds a finite cover row, a refinement map, an order-bound ledger, compact finite-net provenance, and Lebesgue-ledger compatibility in one NameCert packet; each named sibling lacks at least one of these rows as a local dimension-obligation coordinate.}

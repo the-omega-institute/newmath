@@ -1,0 +1,52 @@
+\chapter{A Concrete Naming Certificate for $\CauchyTailRequestUp$}
+\label{ch:concrete-instances-cauchy-tail-request-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyTailRequestUp$ packet isolates the finite directed-tail request that a Cauchy or completion consumer must expose before it can read a regular rational name or a terminal real-name seal. It sits beside the finite window carrier of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal seal of \autoref{ch:concrete-instances-real-namecert}, and the finite filter surface of \autoref{ch:concrete-instances-finite-cauchy-filter-namecert}. The packet names the request row consumed by those sibling routes; it is not a quotient filter, a selected limit, a countable-choice schedule, host stream equality, host real equality, or a completeness theorem for $\RealUp$.
+
+\begin{definition}[Cauchy tail request carrier]
+\label{def:cauchy-tail-request-carrier}
+A $\CauchyTailRequestUp$ carrier is a finite $\BHist$ packet
+$$
+T=(W,Q,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ row recording the finite source windows inspected by the request.
+\item $Q$ is the directed tail request row, naming the finite later-window obligations and their refinement order.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used by the directed tail request.
+\item $R$ is the $\RegSeqRatUp$ readback obtained from the displayed windows and tolerances.
+\item $E$ is the $\RealUp$ seal row reachable only after $W,Q,D,R$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for the window, request, tolerance, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the same finite directed-tail route.
+\item $P$ records $\Pkg$ provenance over $\CauchyTailRequestUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\FiniteCauchyFilterUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyTailRequestUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,Q,D,R,E,H,C,P,N$. It has no coordinate for quotient filters, selected limits, countable choice, host equality of streams, host real equality, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Cauchy tail request NameCert obligations]
+\label{thm:cauchy-tail-request-namecert-obligations}
+For the carrier of \autoref{def:cauchy-tail-request-carrier}, the local $\NameCert_{\CauchyTailRequestUp}$ surface consists exactly of carrier admission, finite $\StreamNameUp$ window exposure, directed-tail visibility, $\DyadicRatCoreUp$ tolerance preservation, $\RegSeqRatUp$ readback, $\RealUp$ seal routing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every $\FiniteCauchyFilterUp$ consumer that reads a directed-tail row receives it through this displayed request surface.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $T=(W,Q,D,R,E,H,C,P,N)$. The rows $W,Q,D$ expose the finite windows, directed tail request, and dyadic tolerance ledger before any regular-rational or real-facing read is admitted.
+
+The readback row $R$ is downstream of those displayed rows. It therefore records only the $\RegSeqRatUp$ observation generated from the named windows and tolerance ledger, not an external sequence or choice schedule.
+
+The seal row $E$ is terminal for the request route. Transport through $H$ and replay through $C$ preserve exactly the displayed route, while $P$ and $N$ record provenance and local naming.
+
+Finally compare the route with \autoref{thm:finite-cauchy-filter-namecert-obligations}. The finite filter packet consumes its directed-tail row as a request coordinate, and the rows above are precisely the admitted request surface available to that consumer. Since no remaining coordinate exists, quotient filters, selected limits, countable choice, host equality, Real completeness, Lean verification, and bridge checking are outside the chapter claim.
+\end{proof}
+
+\closureat{CauchyTailRequestUp}{seedStr}
+
+\begin{closurestatus}{\CauchyTailRequestUp}
+  \constructivestory{A $\CauchyTailRequestUp$ packet is generated from finite StreamName windows, a directed tail request row, DyadicRatCore tolerance data, RegSeqRat readback, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-tail-request-carrier} and \autoref{thm:cauchy-tail-request-namecert-obligations} specify the finite directed-tail request carrier and its filter-facing route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient filters, selected limits, countable choice, host equality, Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean carrier encoding and checked theorems for tail visibility, tolerance preservation, readback, seal routing, transport, replay, provenance, and local naming.}
+\end{closurestatus}
