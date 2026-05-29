@@ -1,0 +1,109 @@
+\chapter{A Concrete Naming Certificate for $\RealizerSpaceUp$}
+\label{ch:concrete-instances-realizer-space-namecert}
+\origin{human}
+
+Following Weihrauch-style realizability over represented spaces, the
+$\RealizerSpaceUp$ packet records the finite interface at which a represented
+input name, an admissible Cauchy route, and a target readback are allowed to
+meet. It sits between the represented-space syntax of
+\autoref{ch:concrete-instances-representedspace-namecert} and the admissible
+Cauchy consumption of
+\autoref{ch:concrete-instances-admissible-representation-namecert}, while
+routing every real-facing read through
+\autoref{ch:concrete-instances-cauchy-representation-namecert},
+\autoref{ch:concrete-instances-streamname-namecert},
+\autoref{ch:concrete-instances-regseqrat-namecert},
+\autoref{ch:concrete-instances-dyadicratcore-namecert}, and
+\autoref{ch:concrete-instances-real-namecert}. The carrier treats a realizer as
+displayed finite NameCert data, not as a quotient of names or a selected host
+function.
+
+\begin{definition}[RealizerSpace carrier]
+\label{def:realizer-space-carrier}
+A $\RealizerSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+R=(X,A,K,W,Q,D,E,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\RepresentedSpaceUp$ source row whose input observations are
+read only through its finite representation interface.
+\item $A$ is the $\AdmissibleRepresentationUp$ row exposing the finality route
+for represented-space consumers.
+\item $K$ is the $\CauchyRepresentationUp$ source row used by the admissible
+consumer before any real-facing output is read.
+\item $W$ is the $\StreamNameUp$ finite-window schedule shared by the input
+name, Cauchy source, and output request.
+\item $Q$ is the realizer-relation row; it relates displayed input windows to
+displayed output windows only through the local finite schedule.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the output readback.
+\item $E$ is the terminal $\RealUp$ seal reached after the stream, regular
+rational, Cauchy, and dyadic rows have been replayed.
+\item $F$ is the admissible-finality handoff row, forcing every displayed
+represented-space consumer to factor through $A,K,W,Q,D,E$ before output data
+are read.
+\item $H$ records componentwise $\hsame$ transport for the represented source,
+admissible row, Cauchy row, window schedule, relation row, dyadic ledger, real
+seal, finality row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an input precision request
+through $X,A,K,W,Q,D,E,F$.
+\item $P$ is the $\Pkg$ provenance over $\RealizerSpaceUp$,
+$\RepresentedSpaceUp$, $\AdmissibleRepresentationUp$,
+$\CauchyRepresentationUp$, $\StreamNameUp$, $\RegSeqRatUp$,
+$\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealizerSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only after transporting these rows to
+a common finite surface. It has no coordinate for quotient names, selected
+realizers, host function equality, countable choice, metric completeness, or
+ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RealizerSpace NameCert obligations]
+\label{thm:realizer-space-namecert-obligations}
+For every accepted $\RealizerSpaceUp$ carrier
+$R=(X,A,K,W,Q,D,E,F,H,C,P,N)$, the local
+$\NameCert_{\RealizerSpaceUp}$ surface consists exactly of the following rows:
+\begin{enumerate}
+\item carrier admission for the displayed represented source, admissible row,
+Cauchy source, finite windows, realizer relation, dyadic ledger, real seal,
+finality handoff, transport, replay, provenance, and local naming;
+\item realizer-relation exposure, requiring $Q$ to be the only displayed route
+from input windows to output windows;
+\item admissible finality, requiring $A$ and $F$ to force consumer access
+through the same Cauchy route before output data are read;
+\item the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$
+handoff through $W,K,D,E$;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$
+provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:realizer-space-carrier}. Carrier admission
+exposes $X,A,K,W,Q,D,E,F,H,C,P,N$ and no further coordinate.
+
+The realizer relation is the row $Q$. By construction it is read after the
+represented source, admissible row, Cauchy source, and finite stream schedule,
+so a consumer cannot replace it by a selected host function or quotient-name
+map.
+
+Admissible finality is supplied by $A$ and $F$. These rows force every
+represented-space consumer to pass through the same Cauchy route, with the
+regular rational, dyadic, and real-facing rows opened before output data are
+available.
+
+Finally attach $H,C,P,N$. Transport, replay, provenance, and local naming
+preserve exactly the displayed packet. Since none of the excluded objects is a
+carrier coordinate, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{closurestatus}{\RealizerSpaceUp}
+  \constructivestory{A $\RealizerSpaceUp$ packet is generated from a $\RepresentedSpaceUp$ source, an $\AdmissibleRepresentationUp$ row, a $\CauchyRepresentationUp$ source, finite $\StreamNameUp$ windows, a realizer relation, $\DyadicRatCoreUp$ tolerance data, a $\RealUp$ seal, finality handoff, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:realizer-space-carrier} and \autoref{thm:realizer-space-namecert-obligations} seed the finite realizer interface from represented input names through admissible Cauchy consumption to real-facing output seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient names, selected realizers, host function equality, countable choice, metric completeness, ambient $\RealUp$ completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, realizer relation exposure, admissible finality, StreamName/RegSeqRat/DyadicRatCore/Real handoff, transport, replay, provenance, and local naming for BEDC.Derived.RealizerSpaceUp.}
+\end{closurestatus}
