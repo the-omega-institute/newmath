@@ -70,6 +70,20 @@ $$
 The source coordinate $B$ supplies the $\BaireCategoryUp$ dense-open schedule, $U$ supplies the $\CompleteMetricBaireSurfaceUp$ inspection row, $K$ and $M$ supply the $\CompleteMetricUp$ and $\MetricSpaceUp$ service rows, $S$ and $R$ supply the finite $\StreamNameUp$ and $\RegSeqRatUp$ readback, and $E$ supplies the terminal $\RealUp$ seal. The structural rows $H,C,P,N$ transport, replay, source, and name only this route.
 \end{definition}
 
+\begin{theorem}[BaireCategoryTheorem schedule induction]
+\label{thm:baire-category-theorem-schedule-induction}
+Let $T=(B,U,K,M,S,R,E,H,C,P,N)$ be an accepted $\BaireCategoryTheoremUp$ carrier. For every finite dense-open prefix listed in the $\BaireCategoryUp$ schedule row $B$, the prefix is matched by a predecessor ball, a successor refinement ball, a complete-metric Cauchy-thread row, $\StreamNameUp$ finite windows, $\RegSeqRatUp$ readback, and a terminal $\RealUp$ seal in the same order as the route of \autoref{def:baire-category-theorem-finite-certificate-route}. The structural rows $H,C,P,N$ preserve the constructed prefix route under componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Use primitive induction over the displayed finite schedule prefix in $B$. The base case reads the initial ball data from the carrier of \autoref{def:baire-category-theorem-carrier} and the metric comparison row made available by $M$. The NameCert obligations of \autoref{thm:baire-category-theorem-namecert-obligations} attach that initial read to the complete-metric inspection route before any theorem-level consumer can inspect it.
+
+For the successor step, assume the predecessor prefix already has its predecessor ball, Cauchy-thread row, finite windows, regular-rational readback, and real seal. Consume the next dense-open request from $B$, refine inside the predecessor ball through the $\CompleteMetricBaireSurfaceUp$ and $\CompleteMetricUp$ rows $U,K$, and record the successor refinement ball through the same metric row $M$.
+
+Append the finite observation data through $S$ and $R$. The $\StreamNameUp$ windows record the schedule, center, radius, and tolerance reads for the successor ball, and the $\RegSeqRatUp$ readback converts those finite windows into the regular-rational row used before the terminal seal $E$.
+
+Finally transport the extended prefix through $H,C,P,N$. These rows do not introduce a second schedule or an unrecorded point; they preserve the route named by \autoref{def:baire-category-theorem-finite-certificate-route}. Thus every finite dense-open prefix is matched by the displayed predecessor, successor, Cauchy-thread, finite-window, readback, and real-seal rows in order.
+\end{proof}
+
 \begin{theorem}[BaireCategoryTheorem route nonescape]
 \label{thm:baire-category-theorem-route-nonescape}
 Every theorem-level read admitted by an accepted $\BaireCategoryTheoremUp$ carrier is exhausted by the finite certificate route of \autoref{def:baire-category-theorem-finite-certificate-route}. In particular, any downstream complete-metric, compactness, or Baire-surface consumer receives the displayed chain through $\BaireCategoryUp$, $\CompleteMetricBaireSurfaceUp$, $\CompleteMetricUp$, $\MetricSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, together with $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support, and no additional host intersection, choice selector, open-cover compactness row, or ambient real-completeness row.

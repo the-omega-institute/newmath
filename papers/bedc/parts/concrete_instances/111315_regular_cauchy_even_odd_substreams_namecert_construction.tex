@@ -1,0 +1,96 @@
+\chapter{Regular Cauchy Even-Odd Substreams NameCert Construction}
+\label{ch:concrete-instances-regular-cauchy-even-odd-substreams-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\RegularCauchyEvenOddSubstreamsUp$ packet records the standard constructive passage from one regular Cauchy name to its even and odd substreams before a Real or Completion consumer reads either side. It sits over the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the two-source interleaving packet of \autoref{ch:concrete-instances-regularcauchyinterleaving-namecert}, and the finite interleaving criterion of \autoref{ch:concrete-instances-cauchy-interleaving-criterion-namecert}. The packet supplies a displayed subsequence route for the L10 Real and Completion corridor; it does not choose a new limit, quotient streams, or import ambient completeness.
+
+\begin{definition}[Regular Cauchy even-odd substreams carrier]
+\label{def:regular-cauchy-even-odd-substreams-carrier}
+A $\RegularCauchyEvenOddSubstreamsUp$ carrier is a finite $\BHist$ packet
+$$
+X=(S,E,O,D,R,A,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source regular Cauchy row. It names one $\RegSeqRatUp$ source together with the finite precision requests inspected by the parity split.
+\item $E$ is the even selector-window row. It displays the finite windows read from the source at indices $2n$ and records no schedule beyond the even selector.
+\item $O$ is the odd selector-window row. It displays the finite windows read from the source at indices $2n+1$ and records no schedule beyond the odd selector.
+\item $D$ is the $\DyadicRatCoreUp$ budget row. It stores the shared dyadic radius, split tolerance, comparison windows, and common-scale data used by both selector windows.
+\item $R$ is the paired $\RegSeqRatUp$ readback row obtained from the even and odd windows under the budget $D$.
+\item $A$ is the $\RealUp$ seal boundary for the even readback, available only after $S,E,D,R$ have been displayed.
+\item $B$ is the $\RealUp$ seal boundary for the odd readback, available only after $S,O,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, even selector windows, odd selector windows, dyadic budget, paired readbacks, two Real seal boundaries, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an even or odd substream request through $S,E,O,D,R,A,B,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyEvenOddSubstreamsUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\RegularCauchyInterleavingUp$, $\CauchyInterleavingCriterionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyEvenOddSubstreamsUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,E,O,D,R,A,B,H,C,P,N$. The carrier has no coordinate for quotient stream equality, a selected host limit, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy even-odd substreams NameCert obligations]
+\label{thm:regular-cauchy-even-odd-substreams-namecert-obligations}
+For every accepted $\RegularCauchyEvenOddSubstreamsUp$ carrier
+$$
+X=(S,E,O,D,R,A,B,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyEvenOddSubstreamsUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source regular Cauchy row, even selector windows, odd selector windows, dyadic budget, paired readbacks, two Real seal boundaries, transport, replay, provenance, and local naming rows;
+\item source visibility, requiring both parity branches to read the same displayed $\RegSeqRatUp$ source row $S$;
+\item even-window exactness, requiring every even branch request to pass through the selector windows $E$ and the budget $D$ before any readback is visible;
+\item odd-window exactness, requiring every odd branch request to pass through the selector windows $O$ and the same budget $D$ before any readback is visible;
+\item paired regular readback admission through $R$, requiring the two $\RegSeqRatUp$ readbacks to use the selector windows and the shared dyadic ledger already displayed;
+\item two Real seal boundaries through $A$ and $B$, requiring the even and odd Real-facing reads to remain downstream from their parity windows, $D$, $R$, $H$, and $C$;
+\item componentwise transport, displayed replay, package provenance, and local naming for exactly $S,E,O,D,R,A,B,H,C,P,N$;
+\item refusal of quotient stream equality, selected host limits, countable choice, trichotomy, and ambient $\RealUp$ completeness as local certificate data.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-even-odd-substreams-carrier}. Its displayed inventory is exactly $S,E,O,D,R,A,B,H,C,P,N$, so the source row, parity selector windows, dyadic budget, paired readbacks, two seals, and structural rows exhaust the packet.
+
+The source visibility clause is read from $S$. Both parity branches share that row, so neither branch can replace the source by a second hidden regular name.
+
+Even-window and odd-window exactness are read from $E$ and $O$ under the shared dyadic row $D$. The even branch exposes only indices of the form $2n$, while the odd branch exposes only indices of the form $2n+1$, and both branches use the same tolerance ledger before the readback row is consumed.
+
+The paired readback row $R$ is downstream from those windows. It repacks the two selector routes as $\RegSeqRatUp$ readbacks without adding a quotient stream or selected host limit.
+
+Finally the Real seals $A$ and $B$ are reached only after the corresponding parity route has been transported by $H$ and replayed by $C$. Since $P$ and $N$ name only the displayed packet, the listed rows are the complete local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy even-odd Real-seal nonescape]
+\label{thm:regular-cauchy-even-odd-substreams-real-seal-nonescape}
+Every Real or Completion consumer of an accepted $\RegularCauchyEvenOddSubstreamsUp$ carrier factors through one of the two finite parity routes
+$$
+\begin{aligned}
+S,E,D &\longmapsto R \longmapsto A \longmapsto H,C,P,N,\\
+S,O,D &\longmapsto R \longmapsto B \longmapsto H,C,P,N.
+\end{aligned}
+$$
+The even route reads the even selector windows and the odd route reads the odd selector windows, but both routes share the same source row, dyadic budget, paired regular readback, transport, replay, provenance, and local naming. Hence no consumer reaches a $\RealUp$ seal through quotient stream equality, a chosen host limit, countable choice, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Apply the obligation surface of \autoref{thm:regular-cauchy-even-odd-substreams-namecert-obligations}. It confines every accepted packet to the displayed source, two parity selector rows, one dyadic budget, paired readback, two seal rows, and structural data.
+
+For an even request, the consumer reads $S,E,D$ before $R$ and then reaches $A$. The route has no coordinate other than the even selector windows and the shared budget, so the even seal cannot bypass the displayed packet.
+
+For an odd request, the consumer reads $S,O,D$ before $R$ and then reaches $B$. This is the same source and budget route with the odd selector row in place of the even selector row.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the two routes componentwise. Because the carrier contains no quotient stream equality, selected host limit, countable-choice row, trichotomy branch, or ambient completeness coordinate, every Real or Completion consumer remains inside one of the two displayed parity routes.
+\end{proof}
+
+\falsifiablePrediction{Every $\RegularCauchyEvenOddSubstreamsUp$ Real or Completion read is refuted if it reaches either $\RealUp$ seal without displaying the source RegSeqRat row, the selected even or odd StreamName windows, the shared DyadicRatCore budget, the paired RegSeqRat readback row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, real, regular-cauchy-interleaving, cauchy-interleaving-criterion: $\RegularCauchyEvenOddSubstreamsUp$ is not bijective to any listed sibling because it jointly carries one source regular Cauchy name, two parity selector-window routes, one shared dyadic budget, paired regular readbacks, two Real seal boundaries, transport, replay, provenance, and local naming as one displayed packet.}
+
+\closureat{RegularCauchyEvenOddSubstreamsUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyEvenOddSubstreamsUp}
+  \constructivestory{A $\RegularCauchyEvenOddSubstreamsUp$ packet is generated from one RegSeqRat source, even selector windows, odd selector windows, a shared DyadicRatCore budget, paired RegSeqRat readbacks, two RealUp seal boundaries, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-even-odd-substreams-carrier}, \autoref{thm:regular-cauchy-even-odd-substreams-namecert-obligations}, and \autoref{thm:regular-cauchy-even-odd-substreams-real-seal-nonescape} seed the parity-substream route used by L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, quotient stream equality, selected host limits, countable choice, trichotomy, ambient RealUp completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, parity-window exactness, shared dyadic budget exactness, paired regular readback admission, two Real-seal nonescape clauses, transport stability, replay stability, provenance exhaustion, and local naming for BEDC.Derived.RegularCauchyEvenOddSubstreamsUp.}
+\end{closurestatus}
