@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v4.42 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.43 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Dedup partial drop handling
 
@@ -163,7 +163,11 @@ For each target in the list above:
    `chapter_worthiness` field explaining carrier novelty, classifier novelty,
    NameCert obligation surface, dependency anchors, downstream consumer, and
    why no existing chapter can host it. If this field is missing, abort that
-   target rather than creating a chapter. Every new chapter file under
+   target rather than creating a chapter. When creating a new concrete-instance
+   chapter path `papers/bedc/parts/concrete_instances/<NN>_<slug>_namecert_construction.tex`,
+   allocate `<NN>` by running `python3 papers/bedc/scripts/allocate_concrete_instance_id.py`
+   once; do NOT infer the number from local `ls`, `sort`, `tail`, `awk`,
+   or random offsets. Every new chapter file under
    `papers/bedc/parts/` with `\chapter{...}` MUST contain exactly one
    top-level `\origin{human}` or `\origin{ai}` line near the top after
    `\chapter{...}` and `\label{...}`. Pick `human` for traditional-math
