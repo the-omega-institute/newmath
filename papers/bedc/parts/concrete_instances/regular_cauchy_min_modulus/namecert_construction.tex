@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyMinModulusUp$}
+\label{ch:concrete-instances-regular-cauchy-min-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyMinModulusUp$ packet records the finite scheduling surface for taking the pointwise minimum of two displayed regular-Cauchy modulus schedules. It sits between the shared-modulus meet packet of \autoref{ch:concrete-instances-cauchymodulusmeet-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback boundary of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite L10 Real-and-Completion route: it names the displayed minimum-modulus schedule, not a selected quotient stream, an ambient completeness theorem, or a choice principle over all precision requests.
+
+\begin{definition}[Regular Cauchy minimum-modulus carrier]\label{def:regular-cauchy-min-modulus-carrier}
+A $\RegularCauchyMinModulusUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S_0,S_1,M,m,W,Q,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_0$ and $S_1$ are the two regular-Cauchy schedules whose finite precision requests are to be synchronized.
+\item $M$ is the $\CauchyModulusMeetUp$ row that displays the common meet surface inherited from the two source schedules.
+\item $m$ is the finite minimum row, recording the requestwise smaller admitted threshold after the two source schedules and the meet row have been read.
+\item $W$ is the $\StreamNameUp$ window ledger naming exactly which source windows are inspected by the minimum schedule.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the same windows and the same displayed thresholds.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger storing denominator budgets, dyadic radii, slack comparisons, and the finite inequalities used by $M$ and $m$.
+\item $E$ is the terminal $\RealUp$ seal reached only after $S_0,S_1,M,m,W,Q,D$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the two schedules, the meet row, the minimum row, the stream windows, the regular-rational readback, the dyadic ledger, the real seal, the provenance row, and the local name.
+\item $C$ stores displayed $\Cont$ replay from a finite precision request through $S_0,S_1,M,m,W,Q,D,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyMinModulusUp$, $\CauchyModulusMeetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyMinModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient stream equality, a selected limit, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy minimum-modulus NameCert obligations]\label{thm:regular-cauchy-min-modulus-namecert-obligations}
+For every accepted $\RegularCauchyMinModulusUp$ carrier
+$$
+R=(S_0,S_1,M,m,W,Q,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyMinModulusUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the two displayed regular-Cauchy schedules, the $\CauchyModulusMeetUp$ row, the finite minimum row, stream windows, regular rational readback, dyadic tolerance ledger, terminal real seal, transport, replay, provenance, and local naming rows;
+\item meet compatibility, requiring $M$ to be read through the sibling shared-modulus surface of \autoref{ch:concrete-instances-cauchymodulusmeet-namecert} before the minimum row $m$ is consumed;
+\item finite minimum exactness, requiring each request in $m$ to name the smaller displayed threshold among the two transported source schedules after the dyadic comparisons in $D$ have been read;
+\item readback stability, requiring the same $\StreamNameUp$ windows $W$ and $\RegSeqRatUp$ row $Q$ to be replayed under componentwise $\hsame$ transport;
+\item ledger rows for $\Cont$ replay, $\Pkg$ provenance, the $\RealUp$ seal handoff, and the local naming certificate.
+\end{enumerate}
+No accepted obligation row is stored outside $S_0,S_1,M,m,W,Q,D,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-min-modulus-carrier}. The accepted packet displays the two schedules, the meet row, the minimum row, finite windows, regular readback, dyadic ledger, Real seal, transport, replay, provenance, and local name.
+
+The meet compatibility row is read before the minimum row because $m$ is meaningful only after the common surface $M$ has synchronized the two source schedules. The sibling packet \autoref{ch:concrete-instances-cauchymodulusmeet-namecert} supplies exactly this shared-modulus boundary.
+
+The finite minimum exactness row is then a dyadic comparison inside $D$. It chooses no infinite stream representative and invokes no ambient completeness theorem; it records only the displayed smaller threshold for each finite request.
+
+Finally $W,Q,E,H,C,P,N$ replay the same route for stream, regular-rational, and Real-facing consumers. Since none of the carrier coordinates stores quotient stream equality, selected limits, host real equality, countable choice, or ambient completeness, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy minimum-modulus L10 route]\label{thm:regular-cauchy-min-modulus-l10-route}
+Let $R=(S_0,S_1,M,m,W,Q,D,E,H,C,P,N)$ be an accepted $\RegularCauchyMinModulusUp$ carrier. Every L10 Real-and-Completion consumer of the minimum schedule factors through the finite route
+$$
+S_0,S_1 \longmapsto M \longmapsto m,D \longmapsto W,Q \longmapsto E \longmapsto H,C,P,N .
+$$
+The route first reads the two regular-Cauchy schedules, then the shared $\CauchyModulusMeetUp$ surface, then the finite minimum row with its $\DyadicRatCoreUp$ tolerance ledger, then the $\StreamNameUp$ windows and $\RegSeqRatUp$ readback, and only then reaches the terminal $\RealUp$ seal. It exports no quotient stream equality, selected limit, hidden completion object, countable-choice selector, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier and the obligation theorem above. They force every consumer request to retain $S_0,S_1,M,m,W,Q,D,E,H,C,P,N$ as one finite packet.
+
+The shared-modulus step reads $M$ before any minimum schedule is used. Thus the consumer is not comparing unrelated streams; it is reading the two source schedules through the same displayed meet surface and the same transported tolerance boundary.
+
+The minimum step reads $m$ together with $D$. The row $D$ carries the dyadic comparisons and tolerance budgets, while $m$ records only the finite threshold selected by those displayed comparisons.
+
+The stream and regular-rational handoff is then mediated by $W$ and $Q$, and the terminal seal by $E$. The structural rows $H,C,P,N$ transport, replay, source, and name the same route. Hence every L10 consumer factors through the displayed sequence, with no quotient stream, selected limit, hidden completion object, countable choice, or ambient completeness coordinate available.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyMinModulusUp$ consumer that reaches a $\RegSeqRatUp$ readback or $\RealUp$ seal without reading $S_0,S_1,M,m,W,Q,D,E,H,C,P,N$ refutes the carrier surface.}
+
+\independenceWitness{cauchymodulusmeet, streamname, regseqrat, dyadicratcore, real: no listed sibling supplies the joint packet containing two regular-Cauchy schedules, a shared meet row, a finite minimum row, stream windows, regular rational readback, dyadic tolerance ledger, terminal Real seal, transport, replay, provenance, and local NameCert row.}
+
+\closureat{RegularCauchyMinModulusUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyMinModulusUp}
+  \constructivestory{A $\RegularCauchyMinModulusUp$ packet is generated from two regular-Cauchy schedules, a CauchyModulusMeet row, a finite minimum row, StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-min-modulus-carrier}, \autoref{thm:regular-cauchy-min-modulus-namecert-obligations}, and \autoref{thm:regular-cauchy-min-modulus-l10-route} seed the finite minimum-modulus route from two regular-Cauchy schedules through a shared meet surface to stream, regular-rational, and Real-facing consumers.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean theorem verification, bridge checking, quotient stream equality, selected limits, hidden completion objects, countable choice, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, meet compatibility, finite minimum exactness, readback stability, and the L10 Real-and-Completion route for BEDC.Derived.RegularCauchyMinModulusUp.}
+\end{closurestatus}
