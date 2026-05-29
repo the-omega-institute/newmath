@@ -5348,6 +5348,7 @@ import BEDC.Derived.PinGroupUp.CliffordConjugationLedger
 import BEDC.Derived.PinGroupUp.ReflectionExtension
 import BEDC.Derived.PinGroupUp.RootScopedObligationPackage
 import BEDC.Derived.PoincareInequalityUp
+import BEDC.Derived.PointwiseLimitUp.TasteGate
 import BEDC.Derived.PointwiseModulusLedgerUp.TasteGate
 import BEDC.Derived.PoissonKernelUp.TasteGate
 import BEDC.Derived.PolePlacementUp
@@ -5371,6 +5372,7 @@ import BEDC.Derived.PolishspaceUp.RootCauchyBasisObligations
 import BEDC.Derived.PolishspaceUp.RootCompleteSeparableSynthesis
 import BEDC.Derived.PolishspaceUp.RootCompletionObligations
 import BEDC.Derived.PolishspaceUp.RootCompletionSeparabilityHandoff
+import BEDC.Derived.PolishspaceUp.StreamNameBasis
 import BEDC.Derived.PolishspaceUp.StreamNameRealDependencyAnchor
 import BEDC.Derived.PolishspaceUp.TasteGate
 import BEDC.Derived.PolynomialUp
