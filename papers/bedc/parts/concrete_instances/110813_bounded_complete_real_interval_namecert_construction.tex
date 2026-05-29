@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\BoundedCompleteRealIntervalUp$}
+\label{ch:concrete-instances-bounded-complete-real-interval-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real intervals, the $\BoundedCompleteRealIntervalUp$ packet records a bounded interval together with the finite nested-window route used by Real and completion consumers. It sits over the dyadic rational arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a bounded interval principle for displayed nested windows; it does not assert open-cover compactness, a global supremum operator, quotient real equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[BoundedCompleteRealInterval carrier]
+\label{def:bounded-complete-real-interval-carrier}
+A $\BoundedCompleteRealIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(B,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the bounded interval row. It records the inspected lower and upper $\RealUp$ endpoint names, the boundedness witness visible to the packet, and the local containment predicate for interval windows.
+\item $D$ is the $\DyadicRatCoreUp$ endpoint ledger. It records the dyadic rational cuts used to compare successive windows and to certify the displayed diameter bound.
+\item $W$ is the $\StreamNameUp$ window row. It lists exactly the finite endpoint and interval observations that may be inspected by the nested-window route.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same dyadic cuts and stream windows.
+\item $E$ is the terminal $\RealUp$ seal row reached by every Real-facing extraction from $B,D,W,R$.
+\item $H$ records componentwise $\hsame$ transport for bounded interval rows, dyadic ledgers, stream windows, regular rational readbacks, Real seals, replay, provenance, and the local name.
+\item $C$ records displayed $\Cont$ replay from a nested-window request through $B,D,W,R,E$.
+\item $P$ is the $\Pkg$ provenance over $\BoundedCompleteRealIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedCompleteRealIntervalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,D,W,R,E,H,C,P,N$. There is no coordinate for open-cover compactness, a selected supremum, host interval equality, quotient equality of Real names, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[BoundedCompleteRealInterval NameCert obligations]
+\label{thm:bounded-complete-real-interval-obligations}
+For every accepted $\BoundedCompleteRealIntervalUp$ carrier
+$$
+I=(B,D,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\BoundedCompleteRealIntervalUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the bounded interval row, dyadic endpoint ledger, stream windows, regular rational readback, Real seal, componentwise transport, continuation replay, package provenance, and local naming row;
+\item bounded-window visibility, requiring every interval read to pass through the displayed lower-upper row $B$ and its local containment predicate;
+\item dyadic diameter discipline, requiring $D$ to witness the inspected endpoint comparisons and the shrinking-width estimates used by the extraction route;
+\item stream-readback exactness, requiring $W$ and $R$ to reuse the same finite endpoint observations and dyadic cuts rather than selecting a second Real representative;
+\item Real-seal nonescape, requiring every Real-facing output to pass through $E$ after $B,D,W,R$ have all been projected;
+\item structural preservation through $H,C,P,N$, with no exported row for open-cover compactness, selected suprema, host interval equality, quotient Real equality, countable choice, trichotomy, or ambient Real completeness.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bounded-complete-real-interval-carrier}. The accepted packet displays exactly the bounded interval row, dyadic endpoint ledger, stream windows, regular rational readback, Real seal, and the structural rows.
+
+Bounded-window visibility is forced by $B$. A consumer can inspect only the finite lower-upper interval data and the local containment predicate already present in the carrier.
+
+Dyadic diameter discipline is forced by $D$. The endpoint comparisons and shrinking-width estimates used by the packet are the only numerical rows available to the later stream and readback rows.
+
+The rows $W$ and $R$ are downstream of the same dyadic ledger. They schedule finite observations and repack them as regular rational readback without replacing the bounded interval by a second Real representative.
+
+Finally, $E,H,C,P,N$ close the route. The Real seal is reached only after $B,D,W,R$, while transport, replay, provenance, and naming preserve the same displayed data. Since no excluded coordinate occurs in the carrier, the local NameCert surface has exactly the listed obligations.
+\end{proof}
+
+\begin{theorem}[BoundedCompleteRealInterval nested-interval extraction]
+\label{thm:bounded-complete-real-interval-nested-interval-extraction}
+Let $I=(B,D,W,R,E,H,C,P,N)$ be an accepted $\BoundedCompleteRealIntervalUp$ carrier. Every nested-window extraction exported by $I$ factors through the finite route
+$$
+B\longmapsto D\longmapsto W\longmapsto R\longmapsto E
+$$
+before it can inspect transport, replay, provenance, or local naming rows. The extracted Real-facing read is therefore determined by the bounded interval row, the dyadic diameter ledger, the stream windows, and the regular rational readback visible in the packet.
+\end{theorem}
+\begin{proof}
+Begin with a nested-window extraction from $I$. The carrier gives no source row before the bounded interval row $B$, so the lower-upper interval data and local containment predicate are inspected first.
+
+The extraction then projects the dyadic ledger $D$. This fixes the endpoint comparisons and diameter estimates available to the finite window schedule.
+
+Next the extraction passes through $W$ and $R$. The stream row exposes only the finite endpoint observations allowed by $B,D$, and the regular rational row repacks those same observations as the readback consumed by the Real seal.
+
+Only after this route has been displayed can the extraction reach $E$. The remaining rows $H,C,P,N$ preserve, replay, source, and name the same route, so the exported extraction is exhausted by the displayed bounded-window data.
+\end{proof}
+
+\closureat{BoundedCompleteRealIntervalUp}{seedStr}
+
+\begin{closurestatus}{\BoundedCompleteRealIntervalUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-complete-real-interval-carrier}, \autoref{thm:bounded-complete-real-interval-obligations}, and \autoref{thm:bounded-complete-real-interval-nested-interval-extraction} seed the bounded real interval packet over dyadic endpoint ledgers, StreamName windows, RegSeqRat readbacks, and the terminal Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, a global supremum operator, host interval equality, quotient real equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-window visibility, dyadic diameter discipline, stream-readback exactness, Real-seal nonescape, structural preservation, and nested-window extraction for BEDC.Derived.BoundedCompleteRealIntervalUp.}
+  \constructivestory{A $\BoundedCompleteRealIntervalUp$ packet is generated from a bounded Real interval row, a DyadicRatCore endpoint ledger, StreamName windows, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+\end{closurestatus}

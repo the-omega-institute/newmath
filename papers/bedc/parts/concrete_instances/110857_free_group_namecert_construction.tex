@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\FreeGroupUp$}
+\label{ch:concrete-instances-free-group-namecert}
+\origin{human}
+
+Following Magnus--Karrass--Solitar, \emph{Combinatorial Group Theory}, the $\FreeGroupUp$ packet records the free group on a displayed finite generator interface as reduced signed words rather than as a quotient presentation. It sits after the word carrier of \autoref{ch:concrete-instances-list-namecert}, the unit and multiplication rows of \autoref{ch:concrete-instances-monoid-namecert}, and the inverse-bearing algebra surface of \autoref{ch:concrete-instances-group-namecert}. The packet gives the algebra hierarchy a finite reduced-word constructor; it does not identify a quotient group, complete a presentation theory, select normal forms outside the carrier, or assert host equality of generated subgroups.
+
+\begin{definition}[Free group reduced-word carrier]
+\label{def:free-group-carrier}
+A $\FreeGroupUp$ carrier is a finite $\BHist$ packet
+$$
+F=(G,S,W,R,M,I,U,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the finite generator row, exposing exactly the accepted generator names.
+\item $S$ is the signed-generator row, whose entries are pairs of a generator from $G$ and an orientation bit.
+\item $W$ is the finite word row over $S$, read through the list discipline of \autoref{ch:concrete-instances-list-namecert}.
+\item $R$ is the reduction row that deletes adjacent inverse pairs until no adjacent cancellation cell remains.
+\item $M$ is the multiplication row, concatenating two word rows and then applying $R$.
+\item $I$ is the inverse row, reversing the word row and flipping each orientation bit.
+\item $U$ is the unit row, naming the empty reduced word.
+\item $J$ is the handoff row into the $\GroupUp$ surface of \autoref{ch:concrete-instances-group-namecert}.
+\item $H$ records componentwise $\hsame$ transport for $G,S,W,R,M,I,U,J,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from generator inspection through signed words, reduction, multiplication, inverse, unit, and the group handoff.
+\item $P$ is the $\Pkg$ provenance over $\FreeGroupUp$, $\ListUp$, $\MonoidUp$, $\GroupUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FreeGroupUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these twelve rows. It has no coordinate for quotient presentation equality, a host word problem solver, a chosen normal form outside $R$, unrestricted subgroup generation, or completed presentation theory.
+\end{definition}
+
+\begin{theorem}[Free group NameCert obligations]
+\label{thm:free-group-namecert-obligations}
+For every accepted $\FreeGroupUp$ packet $F=(G,S,W,R,M,I,U,J,H,C,P,N)$, carrier admission, signed-generator classification, reduced-word stability, multiplication replay, inverse replay, unit exposure, and the group-facing handoff are all exhausted by the displayed rows of \autoref{def:free-group-carrier}. Any $\GroupUp$ consumer receives the finite reduced-word packet through $J$ after $G,S,W,R,M,I,U,H,C,P,N$ have been displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier. The generator row $G$, signed row $S$, word row $W$, reduction row $R$, multiplication row $M$, inverse row $I$, unit row $U$, and handoff row $J$ are the only algebraic coordinates available to a consumer.
+
+The list-facing part is finite because $W$ is read through \autoref{ch:concrete-instances-list-namecert}. The monoid-facing operation is not a host concatenation oracle: it is the displayed concatenate-then-reduce row $M$, with $U$ as the empty reduced word and $R$ as the cancellation boundary.
+
+The inverse-bearing group-facing part is then exposed through $I$ and $J$. Componentwise transport $H$, replay $C$, provenance $P$, and local naming $N$ preserve the same rows under accepted package reads, so no quotient presentation equality, selected external normal form, subgroup-generation closure, or completed presentation theory can enter the certificate.
+\end{proof}
+
+\begin{theorem}[Free group reduction normal-form stability]
+\label{thm:free-group-reduction-normal-form}
+In an accepted $\FreeGroupUp$ packet, the reduction row $R$ is stable under the finite cancellation scan: if a signed word has no adjacent inverse pair after $R$ has acted, then concatenating with the unit row $U$, applying the inverse row $I$ twice, or transporting the word componentwise by $H$ leaves the same reduced-word row for every downstream read.
+\end{theorem}
+\begin{proof}
+Begin with the finite word row $W$ and reduction row $R$. The scan performed by $R$ inspects adjacent signed-generator cells in the displayed list and deletes only inverse neighbours, so the result is a word row whose remaining adjacent cells are not inverse pairs.
+
+The unit cases use the empty word row $U$. Concatenating a reduced word with $U$ on either side introduces no signed-generator cell, hence no new adjacent inverse pair, and the reduction row returns the same displayed word row.
+
+For inverse stability, $I$ reverses the word and flips orientations. Applying $I$ twice restores the original finite list of signed cells, and $R$ has no new cancellation cell to remove beyond those already absent after the first reduction.
+
+Finally, $H$ transports the generator, signed-word, reduction, multiplication, inverse, and unit rows componentwise. Therefore normal-form stability is a property of the displayed reduced-word rows, not of an external quotient or a selected host representative.
+\end{proof}
+
+\begin{theorem}[Free group universal word handoff]
+\label{thm:free-group-universal-word-handoff}
+Every group-facing consumer of an accepted $\FreeGroupUp$ packet must receive the handoff
+$$
+G,S,W,R,M,I,U,H,C,P,N \longrightarrow J
+$$
+before it reads the target $\GroupUp$ surface. The handoff says that a generator interpretation is consumed as finite signed words, reduction, multiplication, inverse, unit, transport, replay, provenance, and local naming; it does not export quotient group equality, a completed presentation, or a proof that every external group element has a selected word representative.
+\end{theorem}
+\begin{proof}
+Read the handoff row $J$ through the carrier. Its source rows are exactly the generator row, signed-generator row, word row, reduction row, multiplication row, inverse row, unit row, transport row, replay row, provenance row, and local name row.
+
+Use the obligation surface of \autoref{thm:free-group-namecert-obligations}. Any $\GroupUp$ consumer has already passed through the list, monoid, and group sibling surfaces named in the chapter introduction, so the only algebra it sees is the finite reduced-word packet.
+
+The normal-form stability of \autoref{thm:free-group-reduction-normal-form} supplies the cancellation boundary needed by the handoff. Since the packet has no quotient-presentation coordinate, no selected external representative, and no completed presentation row, the universal read is a finite word handoff into $\GroupUp$ rather than a claim of quotient group equality.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FreeGroupUp$ consumer that reaches the $\GroupUp$ handoff first exposes finite generator rows, signed-generator rows, finite list-word rows, cancellation reduction, multiplication, inverse, unit, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.}
+
+\independenceWitness{list, monoid, group: $\FreeGroupUp$ is not bijective to any listed sibling because it binds signed-generator words and cancellation reduction before exposing the inverse-bearing group handoff.}
+
+\closureat{FreeGroupUp}{seedStr}
+
+\begin{closurestatus}{\FreeGroupUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:free-group-carrier}, \autoref{thm:free-group-namecert-obligations}, \autoref{thm:free-group-reduction-normal-form}, and \autoref{thm:free-group-universal-word-handoff} seed the finite reduced-word constructor and its group-facing handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient group equality, completed presentation theory, subgroup generation, selected external normal forms, host word-problem decidability, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, signed-generator classification, cancellation reduction stability, multiplication and inverse replay, unit stability, and group handoff exactness for BEDC.Derived.FreeGroupUp.}
+  \constructivestory{A $\FreeGroupUp$ packet is generated from finite generator rows, signed-generator rows, finite list-word rows, cancellation reduction rows, multiplication, inverse, unit, a group-facing handoff, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+\end{closurestatus}
