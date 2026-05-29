@@ -4079,6 +4079,7 @@ import BEDC.Derived.IsometricEmbeddingUp
 import BEDC.Derived.IsometricEmbeddingUp.DistanceReflection
 import BEDC.Derived.IsometricEmbeddingUp.TasteGate
 import BEDC.Derived.IwasawaUp
+import BEDC.Derived.JensenInequalityUp.TasteGate
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.JordanVariationDecompositionUp.TasteGate
 import BEDC.Derived.KKTUp
@@ -4507,10 +4508,12 @@ import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealSourceObligations
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealStatusProductReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionFrontierFilter
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionReadinessPackage
+import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionSourceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.RealSealNoInfiniteReductionHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.RealStreamNameSourceReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatCandidateNormalizationRoute
 import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatReadbackReadiness
+import BEDC.Derived.MetaCICCriticalPathUp.RootDischargeExactness
 import BEDC.Derived.MetaCICCriticalPathUp.RootUnblockAdmission
 import BEDC.Derived.MetaCICCriticalPathUp.RouteExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.RouteReplay
@@ -5217,6 +5220,7 @@ import BEDC.Derived.PointwiseModulusLedgerUp.TasteGate
 import BEDC.Derived.PolePlacementUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
+import BEDC.Derived.PolishspaceUp.CompleteSeparableUnblockPackage
 import BEDC.Derived.PolishspaceUp.NameCertObligations
 import BEDC.Derived.PolishspaceUp.ObservationLedgerExhaustion
 import BEDC.Derived.PolishspaceUp.TasteGate
@@ -6230,6 +6234,7 @@ import BEDC.Derived.SeparatedCompletionUp
 import BEDC.Derived.SeparatedLimitUniquenessUp.TasteGate
 import BEDC.Derived.SeparatedMetricReflectionUp.TasteGate
 import BEDC.Derived.SeparatedMetricUp.CarrierBoundary
+import BEDC.Derived.SeparatedMetricUp.CauchyEquivalenceLimitCoherence
 import BEDC.Derived.SeparatedMetricUp.CauchyUniquenessRootPackage
 import BEDC.Derived.SeparatedMetricUp.CompletionHandoffNonescape
 import BEDC.Derived.SeparatedMetricUp.CompletionLimitUniquenessRoute
