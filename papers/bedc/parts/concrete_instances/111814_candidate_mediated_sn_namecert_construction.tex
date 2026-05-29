@@ -58,6 +58,18 @@ The adequacy and no-infinite-reduction rows are not independent endpoints. They 
 The sibling route row $R$ records where the public MetaCIC boundaries are read. It preserves the normalization frontier and confluence audit as named sources, and therefore blocks the evidence-free closed-term claim.
 \end{proof}
 
+\begin{theorem}[Candidate-mediated SN has no hidden oracle]
+\label{thm:candidate-mediated-sn-no-hidden-oracle}
+Every StrongNormalizable row exported by an accepted $\CandidateMediatedSNUp$ packet factors through one of the displayed Candidate, ClosedCandidate, or CandidateSet evidence rows named by the carrier. If no such evidence row is displayed, the packet exports only the boundary ledger over $\MetaCICCriticalPathUp$, $\MetaCICNormalizationFrontierUp$, $\MetaCICConfluenceAuditPacketUp$, and $\NormalFormConsistencySealUp$, and it exports no blanket strong-normalization conclusion for all closed typed MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Read the packet through the normalization audit map and then project the carrier of \autoref{def:candidate-mediated-sn-carrier}. The only positive normalization source in the carrier is the evidence pair $E,C$, where $E$ names Candidate, ClosedCandidate, or CandidateSet membership and $C$ records the closure data needed by that evidence.
+
+The exported strong-normalization row $S$ and the no-infinite-reduction row $NF$ sit downstream of those displayed rows. Thus any StrongNormalizable export must pass through the candidate evidence before it reaches the closed typed term row $T$.
+
+If the candidate evidence is absent, the remaining visible rows are obstruction, route, transport, replay, provenance, and local naming. They preserve the MetaCIC boundary ledger and the sibling audit sources, but they contain no coordinate from which an evidence-free closed-term strong-normalization theorem can be read.
+\end{proof}
+
 \begin{theorem}[Candidate-mediated obstruction frontier]
 \label{thm:candidate-mediated-sn-obstruction-frontier}
 Every public strong-normalization or no-infinite-reduction read exported by an accepted $\CandidateMediatedSNUp$ carrier
