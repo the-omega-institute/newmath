@@ -156,6 +156,54 @@ Next apply \autoref{thm:normed-space-completion-handoff}. Completion-facing read
 Finally use \autoref{thm:normed-space-root-unblock-source-triad}. The structural rows $H,T,P,C$ transport, replay, source, and name the same route for downstream Banach, Hilbert, bounded-operator, and functional-analysis consumers, so the displayed packet admits no basis choice, classical duality, host equality, selected limit, or ambient Banach/Hilbert datum.
 \end{proof}
 
+\begin{theorem}[NormedSpace vector transport obligation]
+\label{thm:normed-space-vector-transport-obligation}
+Let
+$$
+S=(V,R,N,M,Q,H,T,P,C)
+$$
+be an accepted $\NormedSpaceUp$ packet. Every vector-space read exported to Banach, Hilbert, bounded-operator, or functional-analysis consumers must transport the displayed row $V$ through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows $H,T,P,C$ that name $S$, while keeping the norm row $N$, the real row $R$, the induced metric row $M$, and the completion-facing row $Q$ in scope. The transport cannot be replaced by host vector equality, quotient completion, selected limits, basis choice, or host normed-space equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:normed-space-carrier}. The row $V$ is the only vector-space source, and $H,T,P,C$ are the only componentwise transport, replay, provenance, and local naming rows available to a consumer.
+
+Apply \autoref{thm:normed-space-namecert-obligations}. Its classifier-transport row compares packet reads through $V,R,N,M,Q,H,T,P,C$ and never through host extensional equality.
+
+Finally use \autoref{thm:normed-space-root-unblock-source-triad}. The vector-space source is transported through the norm row and the same structural rows before any downstream consumer can read it. Since the carrier has no quotient-completion, selected-limit, basis-choice, or host normed-space equality coordinate, the displayed transport route is forced.
+\end{proof}
+
+\begin{theorem}[NormedSpace real-norm metric factorization]
+\label{thm:normed-space-real-norm-metric-factorization}
+For every accepted $\NormedSpaceUp$ packet
+$$
+S=(V,R,N,M,Q,H,T,P,C),
+$$
+each metric comparison exported by $M$ factors through the real-valued norm route $V,R,N$ before it reaches the structural rows $H,T,P,C$ and the completion-facing row $Q$. Thus the identity, triangle, and scalar-size reads seen by a downstream consumer are $\BHist$-anchored $\hsame$ and $\Cont$ reads through the displayed rows, not host metric equality, quotient completion, selected limits, basis choice, or host normed-space equality.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:normed-space-metric-nonescape}. The induced metric row $M$ can read a distance only as the norm of a displayed vector difference through $V,N,R$.
+
+The zero, triangle, and scalar rows then come from the established norm obligations. By \autoref{thm:normed-space-zero-exactness}, zero distance returns to the displayed vector-zero classifier in $V$ after reading the real zero and order data in $R$. By \autoref{thm:normed-space-triangle-scalar-compatibility}, triangle and scalar-size reads pass through $V,R,N$.
+
+Transport the resulting metric read through $H,T,P,C$, with completion-facing requests held in $Q$. The carrier contains no host metric equality, quotient completion, selected limit, basis choice, or host normed-space equality row, so the real-norm factorization is the only exported metric route.
+\end{proof}
+
+\begin{theorem}[NormedSpace completion request budget]
+\label{thm:normed-space-completion-request-budget}
+Let
+$$
+S=(V,R,N,M,Q,H,T,P,C)
+$$
+be an accepted $\NormedSpaceUp$ packet. Every completion request exported by $Q$ is budgeted by the already displayed vector, real, norm, and metric rows $V,R,N,M$ and is transported through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows $H,T,P,C$. The request may carry Cauchy windows and tolerance data only; it may not add quotient completion, selected limits, basis choice, host vector equality, host normed-space equality, or an ambient Banach/Hilbert object.
+\end{theorem}
+\begin{proof}
+Read the completion-facing row in \autoref{def:normed-space-carrier}. The row $Q$ records Cauchy windows, tolerance requests, and handoff data, and it is attached to the rows $V,R,N,M,H,T,P,C$ of the same packet.
+
+Apply \autoref{thm:normed-space-completion-handoff}. Banach, Hilbert, bounded-operator, and functional-analysis consumers must read the displayed route $V,R,N,M,Q$ before the structural rows $H,T,P,C$ can export the handoff.
+
+Use \autoref{thm:normed-space-banach-completion-nonescape} to close the boundary. Because the packet has no quotient-completion, selected-limit, basis-choice, host vector equality, host normed-space equality, or ambient Banach/Hilbert coordinate, $Q$ supplies only the finite request budget for later completion work.
+\end{proof}
+
 \paragraph{VecSpace carrier transport obligation.}
 Every $\NormedSpaceUp$ consumer that needs the vector-space source must read the $\VecSpaceUp$ carrier row $V$ through the $\NormUp$ row $N$ and the structural rows $H,T,P,C$. The transported carrier is therefore a finite $\BHist$ route with $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming; it is not a host vector-space equality or an abstract source-equivalence comparison.
 
