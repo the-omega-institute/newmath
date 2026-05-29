@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyBinarySplittingUp$}
+\label{ch:concrete-instances-regular-cauchy-binary-splitting-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyBinarySplittingUp$ packet records the finite binary splitting route by which a regular Cauchy rational name is read at a dyadic tolerance, split into left and right finite windows, and sealed back into the $\RealUp$ boundary without selecting a host-real limit. It sits over the observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the binary tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later interval, located-order, and completion consumers a displayed binary split schedule rather than a prose appeal to completeness or countable choice.
+
+\begin{definition}[Regular Cauchy binary splitting carrier]
+\label{def:regular-cauchy-binary-splitting-carrier}
+A $\RegularCauchyBinarySplittingUp$ carrier is a finite $\BHist$ packet
+$$
+B=(W_0,W_1,D_0,D_1,R_0,R_1,A,\Sigma,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W_0$ and $W_1$ are the two finite $\StreamNameUp$ windows inspected by the left and right branches of the split.
+\item $D_0$ and $D_1$ are the two $\DyadicRatCoreUp$ binary tolerance cells. They record the requested dyadic precision, the branch radii, the midpoint comparison budget, and the remaining slack for recombination.
+\item $R_0$ and $R_1$ are the corresponding $\RegSeqRatUp$ readback rows exposed from $W_0,W_1,D_0,D_1$.
+\item $A$ is the $\RealUp$ seal row reached only after both windows, both tolerance cells, and both regular readbacks have been displayed.
+\item $\Sigma$ is the binary split schedule. It records the finite branch order, the midpoint comparison, the left-right recombination route, and the branch tag consumed by downstream interval or completion requests.
+\item $H$ records componentwise $\hsame$ transport for windows, tolerance cells, readbacks, the Real seal, split schedule, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a Real or Completion request through $W_0,W_1,D_0,D_1,R_0,R_1,A,\Sigma,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyBinarySplittingUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyBinarySplittingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W_0,W_1,D_0,D_1,R_0,R_1,A,\Sigma,H,C,P,N$. It has no coordinate for a selected real limit, quotient stream equality, countable choice, trichotomy, host located-order oracle, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy binary splitting NameCert obligations]
+\label{thm:regular-cauchy-binary-splitting-namecert-obligations}
+For every accepted $\RegularCauchyBinarySplittingUp$ carrier
+$$
+B=(W_0,W_1,D_0,D_1,R_0,R_1,A,\Sigma,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyBinarySplittingUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for two finite $\StreamNameUp$ windows, two $\DyadicRatCoreUp$ tolerance cells, two $\RegSeqRatUp$ readbacks, one $\RealUp$ seal, one binary split schedule, transport, replay, provenance, and local naming;
+\item window discipline, requiring $W_0$ and $W_1$ to be read before any branch readback or Real-facing seal row is available;
+\item tolerance discipline, requiring $D_0$ and $D_1$ to expose the requested precision, branch radii, midpoint comparison budget, and recombination slack before the split schedule may be consumed;
+\item readback discipline, requiring $R_0$ and $R_1$ to be produced from the displayed windows and tolerance cells rather than from a selected host limit;
+\item schedule discipline, requiring $\Sigma$ to record the branch order, midpoint comparison, recombination route, and branch tag before interval or completion consumers inspect the packet;
+\item seal discipline, requiring $A,H,C,P,N$ to export only the displayed split route and no selected real limit, quotient stream equality, countable choice, trichotomy, host located-order oracle, or ambient completeness row.
+\end{enumerate}
+No RegularCauchyBinarySplitting obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-binary-splitting-carrier}. The accepted tuple exposes exactly two finite windows, two dyadic tolerance cells, two regular rational readbacks, one Real seal, one split schedule, and the structural transport, replay, provenance, and naming rows.
+
+The window and tolerance disciplines form the first stage of the route. The two windows $W_0,W_1$ and the two tolerance cells $D_0,D_1$ must be visible before any branch readback, midpoint comparison, or Real-facing row is available.
+
+The readback and schedule disciplines form the constructive splitting stage. The rows $R_0,R_1$ are produced from the displayed windows and dyadic cells, while $\Sigma$ records the branch order, midpoint comparison, recombination route, and downstream branch tag.
+
+Finally $A,H,C,P,N$ seal, transport, replay, source, and name the same route. Since selected real limits, quotient stream equality, countable choice, trichotomy, host located-order oracles, and ambient completeness are absent from the carrier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy binary splitting Real-seal nonescape]
+\label{thm:regular-cauchy-binary-splitting-real-seal-nonescape}
+Every $\RegSeqRatUp$, interval, located-order, $\RealUp$, or Completion consumer of an accepted $\RegularCauchyBinarySplittingUp$ carrier factors through the displayed route
+$$
+W_0,W_1 \longmapsto D_0,D_1 \longmapsto R_0,R_1 \longmapsto \Sigma \longmapsto A,H,C,P,N .
+$$
+The consumer may read finite windows, dyadic binary tolerance cells, regular rational branch readbacks, the binary split schedule, the terminal Real seal, transport, replay, provenance, and local naming. It cannot replace that route by a selected real limit, quotient stream equality, countable choice, trichotomy, host located-order oracle, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $B=(W_0,W_1,D_0,D_1,R_0,R_1,A,\Sigma,H,C,P,N)$. The only observation data in the carrier are the two finite windows $W_0,W_1$, and the only tolerance data are the two dyadic cells $D_0,D_1$.
+
+The regular readbacks $R_0,R_1$ are downstream of those rows. They expose branch values through finite StreamName windows and dyadic tolerance cells, not through a selected real representative.
+
+The split schedule $\Sigma$ is the only branch-order and recombination row. It records the midpoint comparison and downstream branch tag before any interval, located-order, Real, or Completion consumer may use the packet.
+
+The Real seal $A$ and the structural rows $H,C,P,N$ preserve the same displayed route. The excluded limit, quotient, choice, trichotomy, oracle, and completeness coordinates are not present in the carrier, so they cannot escape through the seal.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyBinarySplittingUp$ read exposes two $\StreamNameUp$ windows, two $\DyadicRatCoreUp$ binary tolerance cells, two $\RegSeqRatUp$ readbacks, one $\RealUp$ seal row, one binary split schedule, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before any Real or Completion consumer may inspect it.}
+
+\independenceWitness{streamname, dyadicratcore, regseqrat, real: $\RegularCauchyBinarySplittingUp$ is not bijective to any listed sibling because it jointly carries two finite windows, two binary tolerance cells, two regular readbacks, one Real seal, one branch schedule, transport, replay, provenance, and local naming in one L10 splitting packet.}
+
+\closureat{RegularCauchyBinarySplittingUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyBinarySplittingUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-binary-splitting-carrier}, \autoref{thm:regular-cauchy-binary-splitting-namecert-obligations}, and \autoref{thm:regular-cauchy-binary-splitting-real-seal-nonescape} seed the finite binary splitting route between displayed regular Cauchy rational reads and the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected real limits, quotient stream equality, countable choice, trichotomy, host located order, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window discipline, binary tolerance exactness, branch readback stability, split schedule determinacy, Real-seal nonescape, and local naming for BEDC.Derived.RegularCauchyBinarySplittingUp.}
+  \constructivestory{A $\RegularCauchyBinarySplittingUp$ packet is generated from two finite $\StreamNameUp$ windows, two $\DyadicRatCoreUp$ binary tolerance cells, two $\RegSeqRatUp$ readbacks, one $\RealUp$ seal, one binary split schedule, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
