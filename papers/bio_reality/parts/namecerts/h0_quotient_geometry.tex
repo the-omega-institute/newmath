@@ -1,58 +1,39 @@
-\subsection{Quotient geometry as an ORF-eligibility boundary}\label{subsec:bioreality-h0-quotient-geometry}
+\subsection{Quotient Geometry at the ORF-Eligibility Boundary}\label{subsec:h-zero-quotient-geometry}
 \origin{ai}
 
 \paragraph{Finite packet.}
-This BioReality record is a finite-row boundary packet for open-reading-frame eligibility from start/stop codon enumeration. Its biological object is not an observed open reading frame; it is the question of what a start/stop-window enumeration would be allowed to claim before any separate sequence, transcript, or curated interval contact has been attached. The packet therefore carries a strict boundary status. It may record the finite codon geometry checked by the row computation, but it may not promote that geometry to translation, folding, physical admissibility, function, mechanism, or universality.
+The packet $h0.quotient.geometry$ is an ai-discovered vision-level record about a finite codon geometry that has not yet made biological contact. Its biological object is open-reading-frame eligibility from start/stop codon enumeration, but the present carrier remains only a finite row object: it is not an observed ORF, not a transcript interval, and not a translated product. The verified finite carrier $M$ has cardinality $20$ and is exactly the listed union
+$\{AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}$.
+A smaller motif row set $R$ is verified as
+$\{AAA,AGA,AGG,AUA,CUA,CUC,CUG,CUU,UAA,UAG,UCA,UGA,UUA\}$,
+with no missing motif rows and no extra motif rows. These are finite enumeration facts, not biological realization facts.
 
-The finite carrier named $M$ has cardinality $20$. The checked list is
-$$
-\begin{aligned}
-M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
-&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
-\end{aligned}
-$$
-The same run verifies that this carrier is exactly the union denoted by $\mathrm{WNR}\cup\mathrm{CUN}$ in the finite enumeration, again with size $20$. A second finite motif set $R$ is also fixed by explicit row equality:
-$$
-\begin{aligned}
-R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
-\end{aligned}
-$$
-For this equality the missing list is empty and the extra list is empty, so the record is a finite identity of enumerated rows rather than a statistical association.
-
-\paragraph{Quotient geometry.}
-The quotient check attached to claim $h0.quotient.geometry$ verifies two finite face-vector statements and one explicit quotient image. The carrier $M$ has face vector
-$$
-\begin{aligned}
-f(M)&=(20,38,26,8,1),
-\end{aligned}
-$$
-and the quotient image $\pi(M)$ has size $10$ and face vector
-$$
-\begin{aligned}
-f(\pi(M))&=(10,14,6,1).
-\end{aligned}
-$$
-The verified quotient rows are
-$$
-\begin{aligned}
-\pi(M)=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),(0,1,0,0,0),\\
-&(0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),(1,0,1,0,1),(1,0,1,1,1)\}.
-\end{aligned}
-$$
-The product-decomposition discrepancy list for $M$ is empty, so the finite check records no row-level obstruction to the product-decomposition assertion in this packet. This is still only a combinatorial statement about the enumerated carrier and its quotient image. The value $|\pi(M)|=10$ is not a count of biological open reading frames, transcripts, proteins, folds, or functions.
+\paragraph{Quotient rows.}
+The quotient projection recorded for $M$ has size $10$. The verified quotient rows are
+$$(\begin{aligned}
+\pi_M=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),\\
+&(0,1,0,0,0),(0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),\\
+&(1,0,1,0,1),(1,0,1,1,1)\}.
+\end{aligned})$$
+The finite geometry therefore records a compression from $20$ codon rows to $10$ quotient rows. The verified $f$-vector for $M$ is
+$$(\begin{aligned}
+f(M)=(20,38,26,8,1),
+\end{aligned})$$
+and the verified quotient $f$-vector is
+$$(\begin{aligned}
+f(\pi_M)=(10,14,6,1).
+\end{aligned})$$
+The empty certificate for $M$ being a product decomposition is recorded as a positive finite check in the data, so the row geometry may be read as a product-shaped finite combinatorial object. This reading is internal to the packet and does not license an external molecular interpretation.
 
 \paragraph{Saturation boundary.}
-The finite saturation record supplies an additional internal check. It verifies
-$$
-\begin{aligned}
-\mathrm{Sat}_{f3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
-&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
-\end{aligned}
-$$
-This is $M$ with $\mathrm{ACA}$ and $\mathrm{ACG}$ absent from the displayed saturation list, while the separately verified equality $M=\mathrm{Med}(R)\cup\{\mathrm{ACA},\mathrm{ACG}\}$ restores the full $20$-row carrier. The recorded $f3$ boundary list is empty. These facts are useful as finite consistency checks: the enumerated motif rows, mediated rows, and quotient rows agree with the packet's internal bookkeeping. They do not provide a biological interval contact.
+The finite-row saturation check states that
+$$(\begin{aligned}
+\operatorname{Sat}_{f3}(R)=\{&AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+&UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\},
+\end{aligned})$$
+so the saturation contains $18$ rows. The same run records $M=\operatorname{Med}(R)\cup\{ACA\}$ as the full $20$-row set
+$\{AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}$.
+The boundary entry for $f3$ is zero. Thus the packet has a precise finite distinction: the saturation route accounts for all rows except the two-row boundary involving $ACA$ and $ACG$, while the mediated carrier restores the full $20$-row set. This is a combinatorial boundary statement only. It does not say that $ACA$ or $ACG$ has a biological role in an ORF, and it does not assert any translation, folding, physical admissibility, function, mechanism, or universality.
 
 \paragraph{Reality-contact gate.}
-The packet contains no attached reality contact: there is no curated ORF interval annotation, no sequence database contact, no transcript evidence, and no external biological interval against which an ORF-eligibility claim can be tested. The local self-check states that no codon geometry is promoted across biological layers, and the checked gate count is $3$. Therefore the admissible conclusion is only this: the row data define a boundary probe for what would have to be checked if a biological interval contact were later supplied.
-
-The cannot-claim boundary is part of the mathematical content of the record. Start/stop-window geometry alone does not realize an observed open reading frame. It does not imply translation realization, folded structure, physical admissibility, biological function, molecular mechanism, evolutionary universality, or organism-level relevance. Any such assertion would require a separate contact capable of testing that layer. Until that contact is present, the quotient geometry remains a finite-row NameCert boundary record for ORF eligibility and nothing stronger.
+The local ORF-eligibility layer is explicitly contact-gated. The two probes require a curated ORF interval annotation or an equivalent external sequence or transcript contact before any ORF-eligibility claim can be made. In the present packet the list of reality contacts is empty. Consequently the only admissible conclusion is the boundary conclusion: start/stop-window enumeration gives a finite object that says what would have to be tested, not that an ORF has been observed. The self-check records the boundary sentence that no codon geometry is promoted across biological layers, with $3$ checked gates. Hence the chapter cannot claim translation realization, folded structure, physical admissibility, biological function, mechanism, or universality. Those claims would require a separate contact supplying an observed interval and a distinct test at the relevant biological layer.
