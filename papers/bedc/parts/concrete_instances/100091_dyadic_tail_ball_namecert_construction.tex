@@ -129,6 +129,22 @@ Apply \autoref{thm:dyadic-tail-ball-monotone-inclusion}. It identifies the accep
 Finally, invoke late-window stability from \autoref{thm:dyadic-tail-ball-window-stability}. The structural rows transport, replay, source, and name the refined packet without adding quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient Real completeness.
 \end{proof}
 
+\begin{theorem}[DyadicTailBall radius-monotone containment]
+\label{thm:dyadic-tail-ball-radius-monotone-containment}
+Let $T=(B,D,F,R,H,C,P,N)$ be an accepted $\DyadicTailBallUp$ packet, and let $T'=(B',D,F',R,H',C',P',N')$ be an accepted refined packet with the same $\DyadicTailBoundUp$ ledger $D$, the same $\RegularCauchyTailFilterUp$ handoff shape, and the same $\RealCauchyCriterionUp$ consumer row $R$. Suppose $B'$ displays a smaller radius than $B$ and the refined late-tail handoff still feeds the containment ledger of $B'$ before $R$ is read. Then every accepted refined containment read remains a read of the same finite $\DyadicTailBallUp$ route
+$$
+\DyadicTailBoundUp \longmapsto \RegularCauchyTailFilterUp \longmapsto \DyadicBallUp \longmapsto \RealCauchyCriterionUp .
+$$
+The containment refinement exports no quotient stream, selected limit, countable-choice selector, trichotomy, host real equality, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Start with radius monotonicity from \autoref{thm:dyadic-tail-ball-radius-monotonicity}. The smaller displayed radius changes only the dyadic-ball radius coordinate, while the shared tail-bound ledger $D$ and Real Cauchy criterion consumer $R$ keep the public route fixed.
+
+Apply monotone inclusion from \autoref{thm:dyadic-tail-ball-monotone-inclusion}. Since the refined handoff preserves the same dyadic tail-bound ledger and the same downstream consumer boundary, accepted containment reads for the refined packet are still reads through the displayed dyadic-ball containment row.
+
+Use late-window stability from \autoref{thm:dyadic-tail-ball-window-stability}. The refined structural rows $H',C',P',N'$ transport, replay, source, and name the same late-tail route without adding quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient Real completeness.
+\end{proof}
+
 \begin{theorem}[DyadicTailBall threshold refinement route]
 \label{thm:dyadic-tail-ball-threshold-refinement-route}
 Let $T=(B,D,F,R,H,C,P,N)$ and $T'=(B,D',F',R,H',C',P',N')$ be accepted $\DyadicTailBallUp$ packets with the same dyadic-ball row $B$, the same dyadic tolerance budget, the same regular Cauchy tail-filter handoff shape, and the same $\RealCauchyCriterionUp$ consumer row $R$. Suppose $D'$ tightens only the displayed threshold of $D$, and suppose the refined handoff still routes the admitted late-tail observations through $F'$ before they enter $B$ and $R$. Then every accepted containment read factors through the same finite route
