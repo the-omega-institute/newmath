@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\RieszInterpolationUp$}
+\label{ch:concrete-instances-riesz-interpolation-namecert}
+\origin{human}
+
+Following Riesz and Kantorovich ordered-vector-lattice interpolation, the $\RieszInterpolationUp$ packet records the finite BEDC naming surface for lower-pair and upper-pair interpolation inside an ordered abelian source. It sits beside the ordered vector-lattice carrier of \autoref{ch:concrete-instances-riesz-space-namecert}, the join-meet rows of \autoref{ch:concrete-instances-lattice-namecert}, the positive-cone boundary of \autoref{ch:concrete-instances-positive-cone-namecert}, and the least-upper-bound consumer of \autoref{ch:concrete-instances-least-upper-bound-namecert}. The packet names the interpolation witness route; it is not a host lattice-completion principle, a hidden supremum selector, or an ambient real-order oracle.
+
+\begin{definition}[RieszInterpolation carrier]
+\label{def:riesz-interpolation-carrier}
+A $\RieszInterpolationUp$ carrier is a finite $\BHist$ packet
+$$
+I=(G,L,P,A,B,W,H,C,S,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the ordered abelian or ordered-group source row, naming the carried additive endpoint, zero, inverse, addition ledger, order comparison, and order-compatibility evidence used by the interpolation request.
+\item $L$ is the lattice or order row, read through $\LatticeUp$ or $\RieszSpaceUp$, recording the finite meet-join and order-refinement rows on the same endpoint as $G$.
+\item $P$ is the positive-cone row, read through $\PositiveConeUp$, exposing only the displayed nonnegative-difference tests used to compare lower, witness, and upper rows.
+\item $A$ is the lower-pair row, recording two lower bounds $a_{0},a_{1}$ and their order relations against the upper pair inside the same ordered source.
+\item $B$ is the upper-pair row, recording two upper bounds $b_{0},b_{1}$ and the displayed comparisons $a_{i}\leq b_{j}$ required before interpolation can be requested.
+\item $W$ is the interpolation witness row, naming a displayed point $w$ with $a_{0}\leq w$, $a_{1}\leq w$, $w\leq b_{0}$, and $w\leq b_{1}$ through the positive-cone and lattice rows.
+\item $H$ records componentwise $\hsame$ transport for the ordered source, lattice row, positive-cone row, lower-pair row, upper-pair row, witness row, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from an interpolation request through $G,L,P,A,B,W,H$ back to the same finite ordered surface.
+\item $S$ is the $\Pkg$ provenance row over $\RieszInterpolationUp$, $\RieszSpaceUp$, $\LatticeUp$, $\PositiveConeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RieszInterpolationUp}$ row binding the interpolation packet.
+\end{enumerate}
+The classifier compares accepted packets only through $G,L,P,A,B,W,H,C,S,N$. It has no coordinate for an external ordered group, a selected completion, a host supremum operation, or an ambient Real completeness proof.
+\end{definition}
+
+\begin{theorem}[RieszInterpolation NameCert obligations]
+\label{thm:riesz-interpolation-namecert-obligations}
+For every accepted $\RieszInterpolationUp$ carrier $I=(G,L,P,A,B,W,H,C,S,N)$, the local $\NameCert_{\RieszInterpolationUp}$ surface consists exactly of carrier admission, ordered abelian or ordered-group source compatibility, lattice or order-row compatibility, positive-cone comparison, lower-pair display, upper-pair display, interpolation-witness display, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. A downstream $\RealUp$ or completion-order-bound consumer may read the witness only along the displayed route
+$$
+G,L,P,A,B \longrightarrow W \longrightarrow H,C,S,N .
+$$
+It receives no host metric completion, no hidden order quotient, no chosen supremum, and no additional Real-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:riesz-interpolation-carrier}. The rows $G,L,P$ expose the ordered source, lattice or Riesz-space order rows, and positive-cone comparison surface, while $A$ and $B$ display the lower and upper pairs for the interpolation request.
+
+The witness row $W$ is accepted only against those displayed comparisons. Its four inequalities are read through the positive-cone and lattice rows already carried by $P$ and $L$, so the witness cannot be detached from the finite ordered-group source.
+
+The structural rows $H,C,S,N$ preserve the same route under classifier transport, continuation replay, provenance, package data, and local naming. Since the carrier has no coordinate for a host completion, quotient representative, chosen supremum, or ambient Real-completeness principle, every downstream order-bound consumer receives only the displayed interpolation witness surface.
+\end{proof}
+
+\closureat{RieszInterpolationUp}{seedStr}
+
+\begin{closurestatus}{\RieszInterpolationUp}
+  \constructivestory{A $\RieszInterpolationUp$ packet is generated from an ordered abelian or ordered-group source row, lattice or order rows, a positive-cone row, displayed lower and upper pairs, an interpolation witness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riesz-interpolation-carrier} and \autoref{thm:riesz-interpolation-namecert-obligations} seed the finite interpolation certificate over $\RieszSpaceUp$, $\LatticeUp$, $\PositiveConeUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows for later Real and completion order-bound consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host ordered groups, selected suprema, metric completion, quotient representatives, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, ordered-source compatibility, lattice or order-row compatibility, positive-cone comparison, lower-pair and upper-pair display, witness display, transport, replay, provenance, and local naming for BEDC.Derived.RieszInterpolationUp.}
+\end{closurestatus}
