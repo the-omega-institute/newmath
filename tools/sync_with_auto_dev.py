@@ -461,6 +461,42 @@ def sync_dev_to_auto_dev_validated(*, no_push: bool) -> bool:
     return True
 
 
+def _restore_autostash(stash_oid: str | None) -> None:
+    """Re-apply our own autostash by OID, never leaving the main checkout
+    dirty across ticks.
+
+    Replaces the old `git stash pop check=False`, which had two fatal flaws:
+    (1) it popped `stash@{0}` — the top of the SHARED stack — so it could
+    discard a sibling worker's stash; (2) on a pop conflict it silently kept
+    the stash AND left the working tree with unmerged paths / leftover
+    untracked files, so every subsequent tick saw a dirty tree, stashed
+    again, and re-conflicted — the engine behind the 394-deep stash pile and
+    the auto-dev starvation.
+
+    New behaviour: apply the EXACT OID we stashed (not the top of stack); on
+    a clean apply, drop our stash so it does not accumulate; on conflict,
+    hard-reset tracked files to HEAD (the committed pipeline state — what we
+    discard is preserved in the kept stash) so no unmerged paths cross the
+    tick boundary, and keep the stash on the stack for manual / GC recovery.
+    We deliberately do NOT `git clean -fd` here: untracked files created by
+    other daemons during our tick are not ours to delete.
+    """
+    ref = stash_oid if stash_oid else "stash@{0}"
+    short = ref[:12] if stash_oid else ref
+    print(f"[sync] restoring autostash {short}")
+    apply = git("stash", "apply", ref, check=False, capture=True)
+    if apply.returncode == 0:
+        # Clean re-apply: drop our stash so the stack does not grow.
+        git("stash", "drop", ref, check=False, capture=True)
+        return
+    out = ((apply.stdout or "") + (apply.stderr or "")).strip()[:240]
+    print(f"[sync] autostash re-apply failed ({out}); hard-resetting tracked "
+          f"files to HEAD and quarantining stash {short} for GC/manual "
+          f"recovery (NOT cleaning untracked — may belong to other daemons)",
+          file=sys.stderr)
+    git("reset", "--hard", "HEAD", check=False, capture=True)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--no-push", action="store_true",
@@ -474,53 +510,74 @@ def main():
     git("fetch", "origin", "--prune")
 
     # Working-tree dirty: stash with -u so untracked files come along.
+    # Capture the EXACT stash commit OID we create. Restore must touch only
+    # THIS stash, never `stash@{0}` — the git stash stack is shared across
+    # all worktrees, so a bare `git stash pop` can pop a sibling worker's or
+    # another daemon's stash (the `recovered-non-R4851-...-from-stash-pop`
+    # stash on the stack is hard evidence this happened).
     stashed = False
+    stash_oid = None
     if working_tree_dirty():
         print("[sync] working tree dirty; stashing with -u")
         git("stash", "push", "-u", "-m", f"sync_with_auto_dev autostash {os.getpid()}")
+        res = git("rev-parse", "--verify", "--quiet", "stash@{0}",
+                  check=False, capture=True)
+        stash_oid = res.stdout.strip() if res.returncode == 0 else None
         stashed = True
 
     success = True
     try:
-        # Step 0: auto-dev <- origin/dev
-        # Pull external user / supervisor commits from `dev` (the main
-        # upstream branch) into the stable mirror. On conflict, codex
-        # resolves inside auto-dev (no need to involve codex-auto-dev
-        # yet — the pipeline branch picks up the merged content via the
-        # subsequent steps). If origin/dev doesn't exist (e.g. fresh
-        # repo), this step is a no-op.
-        if has_remote_branch(UPSTREAM_BRANCH):
-            if not sync_dev_to_auto_dev_validated(no_push=args.no_push):
-                success = False
-                return
-        else:
-            print(f"[sync] origin/{UPSTREAM_BRANCH} missing; skipping dev → auto-dev step")
+        # Step 1 (mirror, runs FIRST): auto-dev <- codex-auto-dev
+        # The cheap, must-always-run mirror that keeps the stable branch
+        # tracking pipeline output. Its content is already gated per round,
+        # so it merges in seconds. Run it BEFORE the expensive external-dev
+        # validation below so a slow/timing-out dev merge can never starve
+        # it (observed 2026-05-29: auto-dev fell 768 commits / ~12h behind
+        # because the 1800s dev-validation lake build timed out every tick
+        # and the old Step-0-first ordering gated the mirror behind it).
+        if not sync_one_direction(MIRROR_BRANCH, SOURCE_BRANCH,
+                                  no_push=args.no_push):
+            success = False
+            return
 
-        # Step 1: codex-auto-dev <- auto-dev
-        # Pulls auto-dev (now containing dev's content + any hand-edits)
-        # into the pipeline integration branch so codex workers see them
-        # on next round dispatch.
+        # Step 2: codex-auto-dev <- auto-dev
+        # Pull auto-dev (which carries any external dev content merged in by
+        # a prior tick's Step 3) into the pipeline integration branch so
+        # codex workers see it on next round dispatch.
         if not sync_one_direction(SOURCE_BRANCH, f"origin/{MIRROR_BRANCH}",
                                   no_push=args.no_push):
             success = False
             return
 
-        # Step 2: auto-dev <- codex-auto-dev
-        # Mirrors the codex pipeline output back to the stable branch.
-        # After this completes both branches point at the same commit
-        # (or differ only by the merge commit direction).
-        if not sync_one_direction(MIRROR_BRANCH, SOURCE_BRANCH,
-                                  no_push=args.no_push):
-            success = False
-            return
+        # Step 3 (external upstream, runs LAST): auto-dev <- origin/dev
+        # Pull external user / supervisor commits from `dev` into the stable
+        # mirror. Gated by a scratch-worktree lake build that commonly times
+        # out (1800s) under pipeline load. Run LAST and treat failure as
+        # NON-FATAL: the mirror above already converged this tick, so a
+        # timeout here only delays external dev content by one tick — it
+        # never starves auto-dev. dev content reaches the pipeline on the
+        # next tick whose validation passes (Step 2). Only bail if the
+        # failed dev merge left the main checkout dirty (in-checkout merge
+        # conflict that needs careful handling).
+        if has_remote_branch(UPSTREAM_BRANCH):
+            if not sync_dev_to_auto_dev_validated(no_push=args.no_push):
+                if working_tree_dirty():
+                    print("[sync] dev -> auto-dev failed AND working tree "
+                          "dirty; bailing this tick for safety")
+                    success = False
+                    return
+                print("[sync] dev -> auto-dev validation failed (likely "
+                      "lake-build timeout); mirror already converged this "
+                      "tick, external dev content waits for next passing tick")
+        else:
+            print(f"[sync] origin/{UPSTREAM_BRANCH} missing; skipping dev → auto-dev step")
     finally:
         # Always switch back to the branch the user started on.
         if original != current_branch():
             print(f"[sync] switching back to {original}")
             git("checkout", original, check=False)
         if stashed:
-            print("[sync] restoring stash")
-            git("stash", "pop", check=False)
+            _restore_autostash(stash_oid)
 
     if success:
         print(f"[sync] done: {SOURCE_BRANCH} <-> {MIRROR_BRANCH} converged "
