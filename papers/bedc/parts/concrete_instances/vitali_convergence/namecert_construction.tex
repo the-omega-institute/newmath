@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\VitaliConvergenceUp$}
+\label{ch:concrete-instances-vitali-convergence-namecert}
+\origin{human}
+
+Following Vitali and Bishop--Bridges constructive integration, the $\VitaliConvergenceUp$ packet records the finite surface by which uniform integrability, convergence-in-measure windows, and integral readback rows are retained before a convergence consumer reads the Vitali conclusion. It sits after the measure surface of \autoref{ch:concrete-instances-measure-namecert}, the integral row of \autoref{ch:concrete-instances-integral-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the dominated-convergence packet of \autoref{ch:concrete-instances-dominated-convergence-namecert}. The packet names only displayed convergence and uniform-integrability rows; it does not assert measure completion, almost-everywhere quotient equality, selected subsequences, countable choice, or a host theorem about all measurable functions.
+
+\begin{definition}[Vitali convergence carrier]
+\label{def:vitali-convergence-carrier}
+A $\VitaliConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+V=(M,I,F,U,L,R,E,D,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $M$ is the $\MeasureUp$ source row for the displayed measurable-event requests.
+\item $I$ is the $\IntegralUp$ readback row for the integrals that the packet may compare.
+\item $F$ is the finite family row for the displayed integrands.
+\item $U$ is the uniform-integrability row, recording only finite tail and small-set budget requests already routed through $M$ and $I$.
+\item $L$ is the convergence-in-measure window row.
+\item $R$ is the $\RegSeqRatUp$ readback row for rational tolerances on integral and measure budgets.
+\item $E$ is the terminal $\RealUp$ seal row for the displayed limit budget.
+\item $D$ is the handoff row to $\DominatedConvergenceUp$, used only when a displayed domination row supplies a sibling majorant route.
+\item $H$ records componentwise $\hsame$ transport for $M,I,F,U,L,R,E,D$.
+\item $C$ records displayed $\Cont$ replay of the same route.
+\item $P$ is the $\Pkg$ provenance over $\VitaliConvergenceUp$, $\MeasureUp$, $\IntegralUp$, $\RegSeqRatUp$, $\RealUp$, $\DominatedConvergenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\VitaliConvergenceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for measure completion, quotient equality of functions, almost-everywhere representative selection, countable choice, or a detached ambient convergence theorem.
+\end{definition}
+
+\begin{theorem}[Vitali convergence NameCert obligations]
+\label{thm:vitali-convergence-namecert-obligations}
+For every accepted $\VitaliConvergenceUp$ carrier $V=(M,I,F,U,L,R,E,D,H,C,P,N)$, the local $\NameCert_{\VitaliConvergenceUp}$ surface consists exactly of carrier admission for $V$, measure-source admission through $M$, integral readback through $I$, displayed integrand-family exposure through $F$, uniform-integrability budget exposure through $U$, convergence-in-measure window exposure through $L$, regular rational tolerance readback through $R$, terminal real seal through $E$, dominated-convergence handoff through $D$, componentwise $\hsame$ stability through $H$, $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:vitali-convergence-carrier}. The available analytic rows are exactly $M,I,F,U,L,R,E,D$, and the structural rows are $H,C,P,N$.
+
+Uniform integrability is exposed only by $U$. Its finite tail and small-set budgets can be read after the measure and integral rows $M,I$ have already been displayed, so it is not an ambient boundedness principle or a hidden domination theorem.
+
+The convergence side is exposed by $L,R,E$. The convergence-in-measure windows pass through rational tolerance readback before the terminal real seal is consumed.
+
+Finally, $D,H,C,P,N$ give the optional dominated-convergence handoff, transport, replay, provenance, and local naming of the same rows. Since the carrier has no further coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Vitali convergence uniform-integrability handoff]
+\label{thm:vitali-convergence-uniform-integrability-handoff}
+Every integral-facing or real-facing consumer of an accepted $\VitaliConvergenceUp$ carrier $V=(M,I,F,U,L,R,E,D,H,C,P,N)$ must read the uniform-integrability row $U$ together with the convergence-in-measure row $L$ before it consumes the terminal $\RealUp$ seal $E$. If the consumer also uses a dominated-convergence sibling route, that route is exposed only through $D$ after the same $M,I,F,U,L,R,E$ rows have been displayed.
+\end{theorem}
+\begin{proof}
+Begin with a consumer of $V$. By \autoref{def:vitali-convergence-carrier}, the only measure and integral entry points are $M$ and $I$, and the only integrand-family row is $F$.
+
+The uniform-integrability budget is then forced through $U$. A consumer may inspect finite tail and small-set budgets, but only as rows attached to the displayed measure and integral surfaces.
+
+The convergence read is $L \longmapsto R \longmapsto E$. The convergence-in-measure windows and rational tolerances are visible before the real seal is reached.
+
+The dominated-convergence handoff is separate. The row $D$ can be consumed only after the same visible rows have been retained, so it cannot replace Vitali uniform integrability by a hidden host majorant or an almost-everywhere quotient.
+\end{proof}
+
+\falsifiablePrediction{A consumer that claims a $\VitaliConvergenceUp$ integral-limit read while omitting the measure source, integral row, integrand family, uniform-integrability budget, convergence-in-measure window, rational tolerance readback, real seal, dominated-convergence handoff, $\hsame$, $\Cont$, $\Pkg$, or local $\NameCert$ rows refutes the carrier of \autoref{def:vitali-convergence-carrier}.}
+
+\independenceWitness{measure, integral, regseqrat, real, dominated-convergence: $\VitaliConvergenceUp$ is not bijective to any listed sibling because it jointly carries uniform-integrability budgets, convergence-in-measure windows, rational tolerance readback, real sealing, dominated-convergence handoff, transport, replay, provenance, and local naming over a displayed integrand family.}
+
+\closureat{VitaliConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\VitaliConvergenceUp}
+  \constructivestory{A $\VitaliConvergenceUp$ packet is generated from a displayed Measure row, Integral readback row, integrand-family row, uniform-integrability budget row, convergence-in-measure window row, RegSeqRat tolerance row, Real seal row, DominatedConvergence handoff row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:vitali-convergence-carrier}, \autoref{thm:vitali-convergence-namecert-obligations}, and \autoref{thm:vitali-convergence-uniform-integrability-handoff} seed the finite Vitali convergence route through Measure, Integral, RegSeqRat, Real, and dominated-convergence rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure completion, almost-everywhere quotient equality, selected subsequences, countable choice, Lean verification, bridge checking, or a host theorem about all measurable functions.}
+  \upgradepath{Obligation closure requires checked carrier admission, uniform-integrability visibility, convergence-in-measure visibility, rational tolerance readback, Real seal handoff, dominated-convergence sibling routing, transport and replay stability, and nonescape for BEDC.Derived.VitaliConvergenceUp.}
+\end{closurestatus}

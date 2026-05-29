@@ -6,6 +6,7 @@ K=(S,N,O,U,D,H,C,P,L)
 $$
 be an accepted $\MetaCICCriticalPathUp$ root-unblock packet. Any candidate-mediated strong-normalization or confluence consumer that attempts to read the discharge socket $D$ must first display residual-budget rows, substitution-boundary rows, closed-premise ledger rows, and local-diamond rows, all attached to the same packet rows $S,N,O,U,D,H,C,P,L$. Without those four frontier families, the read may inspect the candidate-mediated budget and confluence-decidability handoff, but it cannot treat $D$ as discharged.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathResidualBudgetDischargeFrontier}
 \begin{proof}
 Begin with the candidate-mediated SN frontier, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. It forces a strong-normalization consumer to display the packet rows and the L10 source faces before the handoff row $U$ is consumed.
 
@@ -14,4 +15,20 @@ Next add the SN confluence-decidability budget and discharge-socket readiness, \
 Now use the candidate-discharge frontier, \autoref{thm:metacic-critical-path-candidate-discharge-frontier}. It keeps the obstruction row $O$ and discharge socket $D$ visible while candidate-mediated strong-normalization, confluence, and bounded-decidability rows are consumed.
 
 Finally attach the residual and diamond budget side through \autoref{thm:metacic-diamond-residual-budget-obligation-frontier-accounting}, \autoref{thm:metacic-diamond-residual-budget-substitution-visibility}, \autoref{thm:closed-parallel-diamond-premise-conditional-boundary}, and \autoref{thm:metacic-local-diamond-witness-candidate-join-exactness}. The resulting frontier requires residual-budget rows, substitution-boundary rows, closed-premise ledger rows, and local-diamond rows before a discharge-socket read is available, and none of those rows supplies closed subject reduction by itself.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-budget socket route]
+\label{thm:metacic-critical-path-residual-budget-socket-route}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ root-unblock packet. Any candidate-mediated strong-normalization discharge that crosses the residual frontier must expose the candidate row, residual budget row, socket and normalization route, and finite audit ledger before any downstream confluence or decidability consumer may read the discharge. In particular, the read factors through $S,N,O,U,D,H,C,P,L$ together with the residual-budget, substitution-boundary, closed-premise, and local-diamond rows required by \autoref{thm:metacic-critical-path-residual-budget-discharge-frontier}.
+\end{theorem}
+\begin{proof}
+Start from the residual-budget discharge frontier, \autoref{thm:metacic-critical-path-residual-budget-discharge-frontier}. It already requires the residual-budget, substitution-boundary, closed-premise ledger, and local-diamond families to be attached to the same packet rows $S,N,O,U,D,H,C,P,L$ before $D$ is treated as discharged.
+
+Now isolate the socket read. The candidate-mediated frontier \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier} exposes the candidate row and L10 source faces before strong-normalization handoff, while \autoref{thm:metacic-critical-path-candidate-discharge-frontier} keeps the obstruction and discharge socket visible during the candidate-mediated handoff.
+
+Finally combine the normalization and audit side. The SN confluence-decidability budget and socket-readiness theorems force the confluence-audit and closed-substitution rows to remain visible before any confluence or decidability consumer reads the discharge. Thus crossing the residual frontier supplies a socket route only after the candidate row, residual budget row, normalization route, and finite audit ledger have all been displayed.
 \end{proof}
