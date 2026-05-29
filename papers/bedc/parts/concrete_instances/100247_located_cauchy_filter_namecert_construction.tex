@@ -89,6 +89,18 @@ Use the regular-tail exactness clause of the same theorem. The basis refinement 
 The remaining rows only preserve or consume the finite route. Hence quotient filters, selected limits, countable choice, hidden basis inspection, host equality, and ambient completeness are absent from the refinement path.
 \end{proof}
 
+\begin{theorem}[Located Cauchy filter choice-free basis]
+\label{thm:located-cauchy-filter-choice-free-basis}
+Every accepted $\LocatedCauchyFilterUp$ read factors through the displayed filter row $F$, basis row $B$, regular tail ledger $R$, $\StreamNameUp$ and $\RegSeqRatUp$ readback rows $S,Q$, dyadic located-tail rows $D,T$, and the $\RealUp$ seal row $E$ before any limit-facing consumer can inspect it. The route introduces no countable choice, hidden filter selection, quotient filter equality, selected limit, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier $L=(F,B,R,S,Q,D,T,E,H,C,P,N)$ using \autoref{def:located-cauchy-filter-carrier}. The displayed filter and basis rows are $F$ and $B$, and the regular tail and located dyadic rows are $R,D,T$.
+
+Apply the basis-refinement route of \autoref{thm:located-cauchy-filter-basis-refinement-route}. A located-tail read first fixes the Cauchy filter row and then refines through the displayed basis row at the requested dyadic tolerance before the downstream sequence or real-facing rows are visible.
+
+Now combine the Real seal boundary of \autoref{thm:located-cauchy-filter-real-seal-boundary} with the regular sequence handoff of \autoref{thm:located-cauchy-filter-regular-sequence-handoff}. The route through $S,Q,D,T$ reaches the seal $E$ only as displayed finite readback data, so no countable-choice selector or hidden filter selection is introduced.
+\end{proof}
+
 \begin{theorem}[Located Cauchy filter Real seal boundary]
 \label{thm:located-cauchy-filter-real-seal-boundary}
 Every $\RealUp$-facing read exported by an accepted $\LocatedCauchyFilterUp$ carrier factors through the complete finite route
