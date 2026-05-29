@@ -59,12 +59,32 @@ The terminal seal is last. The $\RealUp$ row $L$ is consumed only after $R$ has 
 Thus any $\RegSeqRatUp$ or $\RealUp$ consumer sees exactly the route stated in the theorem and cannot bypass it through a hidden analytic object.
 \end{proof}
 
+\begin{theorem}[Cauchy modulus bridge choice-free schedule]
+\label{thm:cauchy-modulus-bridge-choice-free-schedule}
+Let
+$$
+B=(Q,M,E,S,D,R,L,H,C,P,N)
+\quad\text{and}\quad
+B'=(Q',M',E',S',D',R',L',H',C',P',N')
+$$
+be accepted $\CauchyModulusBridgeUp$ carriers. If they agree componentwise on the displayed rows $Q,M,E,S,D,R,L,H,C,P,N$, then they determine the same modulus schedule and the same $\RealUp$ seal. No consumer of either packet can insert a countable-choice schedule, hidden modulus oracle, selected host limit, or extra selector coordinate between the criterion request and the terminal seal.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{def:cauchy-modulus-bridge-carrier}. The hypothesis identifies every displayed coordinate of $B$ and $B'$, so the criterion requests, explicit modulus rows, effective handoff rows, stream windows, dyadic ledgers, regular readbacks, Real seals, transport, replay, provenance, and local names are the same.
+
+Use \autoref{thm:cauchy-modulus-bridge-namecert-obligations} to read the NameCert surface. Its obligation list has no row outside $Q,M,E,S,D,R,L,H,C,P,N$, so there is no remaining coordinate in which a second schedule or selector could differ.
+
+Apply \autoref{thm:cauchy-modulus-bridge-effective-criterion-handoff}. The consumer order is forced as $Q$ then $M$ then $E$ then $S$ then $D$ then $R$ then $L$, and the terminal $\RealUp$ seal is downstream from the same regular-rational readback.
+
+Thus the two accepted packets determine the same choice-free schedule and the same Real seal. The excluded choice and selector objects cannot be inserted because the carrier and its NameCert obligations expose no such coordinate.
+\end{proof}
+
 \closureat{CauchyModulusBridgeUp}{seedStr}
 
 \begin{closurestatus}{\CauchyModulusBridgeUp}
   \constructivestory{A $\CauchyModulusBridgeUp$ packet is generated from a CauchyCriterion request row, a CauchyModulus schedule, an effective Cauchy criterion handoff, finite StreamName windows, a DyadicRatCore tolerance ledger, a RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-modulus-bridge-carrier}, \autoref{thm:cauchy-modulus-bridge-namecert-obligations}, and \autoref{thm:cauchy-modulus-bridge-effective-criterion-handoff} seed the finite bridge from Cauchy-criterion requests to explicit modulus schedules before RegSeqRat and Real consumers read the route.}
+  \scopeclosed{\autoref{def:cauchy-modulus-bridge-carrier}, \autoref{thm:cauchy-modulus-bridge-namecert-obligations}, \autoref{thm:cauchy-modulus-bridge-effective-criterion-handoff}, and \autoref{thm:cauchy-modulus-bridge-choice-free-schedule} seed the finite bridge from Cauchy-criterion requests to explicit modulus schedules before RegSeqRat and Real consumers read the route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, selected limits, hidden modulus oracles, countable choice, trichotomy, host sequence equality, ambient Real completeness, Lean verification, or bridge checking.}
