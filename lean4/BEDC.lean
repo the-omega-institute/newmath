@@ -3704,6 +3704,7 @@ import BEDC.Derived.FormalBallUp.LocatedRadiusWindow
 import BEDC.Derived.FormalBallUp.ObligationClosureExport
 import BEDC.Derived.FormalBallUp.RadiusOrderHandoff
 import BEDC.Derived.FormalBallUp.RoundedFilterAdmission
+import BEDC.Derived.FormalBallUp.RoundedFilterCauchyBoundary
 import BEDC.Derived.FormalBallUp.TasteGate
 import BEDC.Derived.FormalBallUp.UniformCompletionRoute
 import BEDC.Derived.FormalConstantEmpiricalValueBoundaryUp.TasteGate
@@ -6466,6 +6467,7 @@ import BEDC.Derived.SobolevUp.TasteGate
 import BEDC.Derived.SobolevUp.TestFunctionSource
 import BEDC.Derived.SobolevUp.TraceBoundaryObligation
 import BEDC.Derived.SobolevUp.TraceWindowObligation
+import BEDC.Derived.SobolevUp.WeakDerivativeRootUnblockPackage
 import BEDC.Derived.SobolevUp.WeakDerivativeRoute
 import BEDC.Derived.SobolevUp.WeakDerivativeScope
 import BEDC.Derived.SocketKindClassifierUp.NameCertObligations
