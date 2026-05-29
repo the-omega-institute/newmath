@@ -1,46 +1,5 @@
+\subsection{NameCert: h0.M.equals.WNR.CUN}
+\label{sec:namecert-h0_m_equals_wnr_cun}
 \origin{ai}
-\subsection{Open-reading-frame eligibility as a contact boundary}
-\label{sec:h0-m-equals-wnr-cun-orf-eligibility-boundary}
 
-\paragraph{Finite packet.}
-The packet records a finite codon geometry that can be inspected without treating it as an observed biological interval.  The central finite row is the set $M$, whose recorded cardinality is $20$.  In the run $a53ef0f36703$, the equality $M=WNR\cup CUN$ is represented by the following complete list:
-$$
-\begin{aligned}
-M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,\\
-    &CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
-\end{aligned}
-$$
-This is a finite-row statement only.  It says that the named coordinate packet has exactly these $20$ codons under the recorded decomposition, not that any transcript, genome interval, translated peptide, folded molecule, physical object, or biological function has been observed.
-
-\paragraph{Compressed subrow.}
-The companion motif-compression fact, recorded in run $338799579a87$, identifies a finite row $R$ with no missing and no extra entries relative to its motif union.  Its complete recorded content is
-$$
-\begin{aligned}
-R=\{&AAA,AGA,AGG,AUA,CUA,CUC,CUG,CUU,UAA,UAG,UCA,UGA,UUA\}.
-\end{aligned}
-$$
-Thus $R$ has $13$ displayed entries as written in the finite packet, while $M$ has $20$ entries.  The packet also records that the motif comparison has empty discrepancy rows, written as $no\_extra=\varnothing$ and $no\_missing=\varnothing$.  These empty rows are useful as internal finite checks, but they do not supply a biological contact.  They cannot be read as evidence that a start codon was used, that a stop codon terminated translation, or that any open reading frame exists in a curated sequence.
-
-\paragraph{Saturation row.}
-The saturation record from run $f4eee68dd2c3$ states that $M$ is recovered as $Med(R)\cup\{ACA,ACG\}$, with the same $20$ codons listed for $M$.  The recorded $f_3$ saturation of $R$ omits precisely $ACA$ and $ACG$ from $M$ and contains
-$$
-\begin{aligned}
-Sat_{f_3}(R)=\{&AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
-&UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
-\end{aligned}
-$$
-The boundary row $f3\_boundary\_is\_zero$ is empty.  This makes the packet internally sharp: the finite closure calculation has a named gap and a zero boundary record.  It still remains an eligibility boundary rather than an eligibility claim, because no external sequence, transcript, or curated interval annotation is attached to test whether these codons occur as an open reading frame in a biological substrate.
-
-\paragraph{Quotient geometry.}
-The quotient-geometry run $fd0a506a0881$ records the $M$-side $f$-vector as $(20,38,26,8,1)$ and the quotient $f$-vector as $(10,14,6,1)$.  The same run records $|\pi_M|=10$ and the ten quotient rows
-$$
-\begin{aligned}
-\pi_M=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),\\
-&(0,1,0,0,0),(0,1,0,0,1),(1,0,0,0,1),(1,0,1,1),\\
-&(1,0,1,0,1),(1,0,1,1,1)\}.
-\end{aligned}
-$$
-The row above is a coordinate quotient in the packet.  It is not a module classification, not a kinetic model, and not a measurement of biological incidence.  No lambda value, p-value, hit rate, or sample-count statistic is part of this finite row.  Therefore the quotient data may organize the internal codon geometry, but it cannot promote the packet to translation realization, folded structure, physical admissibility, functional annotation, mechanism, or universality.
-
-\paragraph{Boundary verdict.}
-The self-check run $0f47d2f0cf41$ records the local boundary sentence: BioReality self-check only; no codon geometry is promoted across biological layers.  Its checked gate count is $3$.  The two boundary probes agree with this reading.  The first probe requires a curated open-reading-frame interval annotation before start/stop-window geometry may be treated as an observed ORF.  The second probe marks a contact gap whenever the packet records ORF eligibility without sequence database evidence, transcript evidence, or curated annotation.  Hence the local verdict is that $h0.M.equals.WNR.CUN$ supplies a finite NameCert-style boundary packet for open-reading-frame eligibility.  It is admissible as a description of what a later contact would have to test.  It does not itself claim translation, folding, physical admissibility, function, mechanism, or universality, and none of those claims follows unless a separate reality contact supplies the relevant biological interval and observation channel.
+This BioReality namecert is awaiting codex re-authoring. Most recent attempt failed the chapter hygiene gate; issues recorded: template\_residue: BEDC 5-tuple, template\_residue: carrier reads back to observable data by following, template\_residue: TasteGate-style separation, template\_residue: lean target sketch (statement-only), template\_residue: internal newmath/bedc derivation, template\_residue: bridge disclaimer, template\_residue: external reality sources. The committed registry record at \path{tools/bio\_reality/registries/claims.json} still tracks the underlying claim h0.M.equals.WNR.CUN and its experiment runs.
