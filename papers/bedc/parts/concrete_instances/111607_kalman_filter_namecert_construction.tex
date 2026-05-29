@@ -1,15 +1,16 @@
 \chapter{A Concrete Naming Certificate for $\KalmanFilterUp$}
-\label{ch:concrete-instances-kalmanfilter-namecert}
+\label{ch:concrete-instances-kalman-filter-namecert}
 \origin{human}
 
-The $\KalmanFilterUp$ interface records the finite prediction-and-update packet of a discrete linear estimator. Its BEDC surface consumes $\NameCert_{\DynSystemUp}$ for transition rows, $\NameCert_{\ControlObservabilityUp}$ for observation rows, $\NameCert_{\MatrixUp}$ for covariance and gain updates, $\NameCert_{\VecSpaceUp}$ for state and measurement rows, and $\NameCert_{\LinMapUp}$ for the displayed linear maps. Standard references are Kailath, Sayed, and Hassibi, \emph{Linear Estimation} (2000), and Anderson and Moore, \emph{Optimal Filtering} (1979).
+Following Kalman and Bucy, the $\KalmanFilterUp$ interface records the finite prediction-and-update packet of a discrete linear estimator. Its BEDC surface consumes $\NameCert_{\DynSystemUp}$ for transition rows, $\NameCert_{\ControlObservabilityUp}$ for observation rows, $\NameCert_{\MatrixUp}$ for covariance and gain updates, $\NameCert_{\VecSpaceUp}$ for state and measurement rows, and $\NameCert_{\LinMapUp}$ for the displayed linear maps. Standard references are Kailath, Sayed, and Hassibi, \emph{Linear Estimation} (2000), and Anderson and Moore, \emph{Optimal Filtering} (1979).
 
-The dependency surface is displayed through existing concrete siblings: \autoref{ch:concrete-instances-statespacemodel-namecert} supplies the state-transition packet, \autoref{ch:concrete-instances-riccati-namecert} supplies the Riccati covariance ledger, and \autoref{ch:concrete-instances-controlobservability-namecert} supplies the observability row. $\KalmanFilterUp$ consumes those rows as finite $\mathsf{BHist}$ coordinates before exposing its prediction-update $\NameCert$ surface.
+The dependency surface is displayed through existing concrete siblings: \autoref{ch:concrete-instances-statespacemodel-namecert} supplies the state-transition packet, \autoref{ch:concrete-instances-riccati-namecert} supplies the Riccati covariance ledger, \autoref{ch:concrete-instances-controlobservability-namecert} supplies the observability row, \autoref{ch:concrete-instances-matrix-namecert} and \autoref{ch:concrete-instances-linearmap-namecert} supply the linear algebra rows, \autoref{ch:concrete-instances-probspace-namecert} and \autoref{ch:concrete-instances-randomvar-namecert} mark the non-exported stochastic boundary, \autoref{ch:concrete-instances-estimator-namecert} supplies the estimator comparison surface, and \autoref{ch:concrete-instances-real-namecert} supplies the scalar real rows. $\KalmanFilterUp$ consumes those rows as finite $\mathsf{BHist}$ coordinates before exposing its prediction-update $\NameCert$ surface.
 
 \section{Finite carrier}
 \label{sec:kalmanfilter-carrier}
 
 \begin{definition}[KalmanFilterUp BHist carrier]
+\label{def:kalman-filter-carrier}
 \label{def:kalmanfilter-bhist-carrier}
 A $\KalmanFilterUp$ carrier is a finite $\mathsf{BHist}$ packet whose visible rows are:
 \begin{enumerate}
@@ -26,6 +27,7 @@ No host stochastic process, probability measure, analytic convergence theorem, i
 \leandef{BEDC.Derived.KalmanFilterUp.KalmanFilterCarrier}
 
 \begin{theorem}[KalmanFilterUp prediction and update obligation]
+\label{thm:kalman-filter-prediction-update-route}
 \label{thm:kalmanfilter-prediction-update-obligation}
 Every accepted $\KalmanFilterUp$ packet exposes a finite prediction row, innovation row, gain row, and posterior-update row. The prediction row reads the transition and prior estimate through $\DynSystemUp$, $\VecSpaceUp$, and $\LinMapUp$; the update row reads the observation, innovation, gain, and posterior estimate through $\ControlObservabilityUp$, $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$. Each row remains a $\mathsf{BHist}$ row with its displayed $\Cont/\mathsf{Pkg}$ provenance.
 \end{theorem}
@@ -73,6 +75,7 @@ Apply the same componentwise transport to the prediction, innovation, gain, and 
 \leanchecked{BEDC.Derived.KalmanFilterUp.KalmanFilterCarrier\_estimate\_transport}
 
 \begin{theorem}[KalmanFilterUp NameCert obligation surface]
+\label{thm:kalman-filter-namecert-obligations}
 \label{thm:kalmanfilter-namecert-obligation-surface}
 The local $\NameCert_{\KalmanFilterUp}$ obligation surface consists of five finite rows:
 \begin{enumerate}

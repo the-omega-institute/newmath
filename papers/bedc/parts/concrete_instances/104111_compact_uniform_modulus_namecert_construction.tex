@@ -109,6 +109,20 @@ Apply \autoref{thm:compact-uniform-modulus-finite-net-fold}. The fold routes eve
 Finally use \autoref{thm:compact-uniform-modulus-real-separability-handoff}. Its handoff already identifies the Real-facing route through the same finite rows. Replacing the RealSeparability consumer by a $\RealUp$ consumer changes only the terminal read, not the finite ledger that supplies it.
 \end{proof}
 
+\begin{theorem}[Compact uniform continuity Lebesgue-number factorization]
+\label{thm:compact-uniform-continuity-lebesgue-number-factorization}
+Let $M=(X,K,F,L,Q,U,H,C,P,N)$ be an accepted $\CompactUniformModulusUp$ carrier. Whenever the compact finite-net row $K$ and pointwise-continuity row $F$ are presented as a finite cover, every exported $\UniformModulusUp$ row $U$ factors through the finite Lebesgue-number route of \autoref{ch:concrete-instances-lebesgue-number-lemma-namecert}. The factorization is through displayed finite rows: compact finite-net data, pointwise-radius cover rows, rational lower-bound ledger, and the uniform-modulus output route. It does not pass through a selected host Lebesgue number, selected subcover, host minimum, sequence extraction, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the compact finite-net fold of \autoref{thm:compact-uniform-modulus-finite-net-fold}. The exported uniform-modulus read must pass through $X,K,F,L,Q,U,H,C,P,N$, so the finite cover data from $K$ and the pointwise-radius data from $F$ are already displayed before $U$ is visible.
+
+When $K$ and $F$ are presented as a finite cover, read the finite Lebesgue-number route of \autoref{ch:concrete-instances-lebesgue-number-lemma-namecert}. Its positive-radius ledger consumes compact metric and metric rows, the displayed cover or pointwise-radius family, and the finite $\FiniteLebesgueNumberUp$ radius row before handing the result to $\UniformModulusUp$.
+
+The rational lower-bound ledger $Q$ is the comparison row by which the compact uniform-modulus packet consumes that finite positive-radius data. Thus the output route factors through the same displayed finite rows used by the Lebesgue-number packet, and no selected host Lebesgue number is introduced.
+
+Finally apply \autoref{thm:compact-uniform-modulus-namecert-obligations}. The non-escape row excludes selected Lebesgue numbers, selected subcovers, host minima, sequence extraction, and ambient completeness, so the factorization remains internal to the finite BEDC ledger.
+\end{proof}
+
 \begin{closurestatus}{\CompactUniformModulusUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:compact-uniform-modulus-namecert-carrier}, \autoref{thm:compact-uniform-modulus-namecert-obligations}, and \autoref{thm:compact-uniform-modulus-finite-net-fold} seed the finite uniform-modulus packet over metric, compact finite-net, pointwise continuity, local fold, rational comparison, output, transport, replay, provenance, and local NameCert rows.}
