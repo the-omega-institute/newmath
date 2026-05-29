@@ -520,6 +520,42 @@ Combine it with \autoref{thm:decimal-expansion-regseqrat-prefix-coverage}. The p
 Finally apply \autoref{thm:decimal-expansion-real-readback-boundary} and \autoref{thm:decimal-expansion-real-window-exhaustion-audit-route}. The Real seal $E$ is a terminal packet row after $D,W,V,Q,R$, so the density-facing read stays finite and refuses quotient reals, selected streams, endpoint selectors, trichotomy, and ambient completeness.
 \end{proof}
 
+\begin{theorem}[DecimalExpansion carry normalization totality]
+\label{thm:decimal-expansion-carry-normalization-totality}
+For every accepted $\DecimalExpansionUp$ finite digit-window packet $K=(D,W,V,Q,R,E,H,C,P,N)$, every carry or borrow read over the inspected decimal window has a normalized finite-window representative using only the rows $D,W,V,Q$. The normalized representative preserves the same $\RegSeqRatUp$ handoff row $R$ and the same terminal $\RealUp$ seal row $E$, and it introduces no selected decimal stream, endpoint convention, quotient real, trichotomy decision, or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Induct over the finite digit window named by $D,W$. The empty and one-place windows normalize by reading the displayed place-value row $V$ and leave $Q,R,E$ unchanged.
+
+For the extension step, replay the local carry ledger inside the next displayed digit position. The dyadic comparison row $Q$ records the tolerance effect of the carry move, so the normalized prefix still reaches the same finite comparison surface.
+
+Finally use \autoref{thm:decimal-expansion-regseqrat-prefix-coverage} and \autoref{thm:decimal-expansion-real-seal-factorization}. Since $R$ and $E$ are downstream of the normalized finite prefix, no extra stream selector, endpoint convention, quotient representative, trichotomy row, or completeness coordinate can appear.
+\end{proof}
+
+\begin{theorem}[DecimalExpansion signed window transport]
+\label{thm:decimal-expansion-signed-window-transport}
+Let $K=(D,W,V,Q,R,E,H,C,P,N)$ be an accepted $\DecimalExpansionUp$ packet. If a signed decimal consumer attaches a displayed sign row to the same finite window and transports that signed read by the componentwise $\hsame$ row $H$, then the transported read preserves the digit ledger $D$, window row $W$, place-value row $V$, dyadic comparison row $Q$, $\RegSeqRatUp$ handoff $R$, and terminal $\RealUp$ seal $E$. The sign transport therefore remains a finite decimal-window route and does not create a second magnitude, selected signed expansion, quotient real, trichotomy decision, or detached Real seal.
+\end{theorem}
+\begin{proof}
+Start from the componentwise transport row $H$ in \autoref{def:decimal-expansion-carrier}. It transports the displayed packet rows and has no independent coordinate for a second magnitude or a selected signed expansion.
+
+The transported signed read still exposes $D,W,V,Q$ before it reaches $R$. Apply \autoref{thm:decimal-expansion-window-normalization-obligation} to keep the place-value and dyadic comparison data attached to the same finite window.
+
+The terminal seal is then controlled by \autoref{thm:decimal-expansion-real-readback-boundary}. Since $E$ is read only after the $\RegSeqRatUp$ handoff, the signed transport cannot bypass the finite decimal route or import quotient equality, trichotomy, or a detached Real-facing value.
+\end{proof}
+
+\begin{theorem}[DecimalExpansion RegSeqRat digit replay]
+\label{thm:decimal-expansion-regseqrat-digit-replay}
+Every $\RegSeqRatUp$ read exported by an accepted $\DecimalExpansionUp$ packet is replayable from the finite digit ledger. Concretely, for $K=(D,W,V,Q,R,E,H,C,P,N)$, the row $R$ is determined for downstream consumers by replaying $D,W$ through the place-value row $V$ and dyadic comparison row $Q$ before the terminal seal $E$ is exposed. No downstream consumer can replace that replay by a quotient real, selected decimal stream, endpoint selector, trichotomy decision, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Read the digit ledger through \autoref{thm:decimal-expansion-digit-ledger-injection}. Every comparison use of $Q$ first displays the same finite digit and window rows $D,W$ together with the place-value row $V$.
+
+Next apply \autoref{thm:decimal-expansion-regseqrat-prefix-coverage}. The $\RegSeqRatUp$ row is covered by finite digit windows and dyadic comparison, so replaying $D,W,V,Q$ reconstructs the public route to $R$.
+
+Finally use \autoref{thm:decimal-expansion-regseqrat-density-unblock}. The density-facing handoff and the Real seal remain finite BEDC routes, leaving no coordinate for quotient reals, selected decimal streams, endpoint selectors, trichotomy, or ambient completeness.
+\end{proof}
+
 \begin{closurestatus}{\DecimalExpansionUp}
   \constructivestory{A $\DecimalExpansionUp$ packet is generated from finite decimal digit rows, decimal-place windows, rational place-value rows, dyadic/rational comparison rows, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
