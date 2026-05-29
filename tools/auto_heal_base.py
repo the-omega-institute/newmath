@@ -970,24 +970,105 @@ after the failing gate passes locally.
 
 
 CI_HEAL_CACHE = Path("/tmp/auto_heal_ci_seen.json")
+CI_HEAL_MAX_ATTEMPTS = 3
+
+
+def _ci_attempts() -> dict[str, int]:
+    try:
+        data = json.loads(CI_HEAL_CACHE.read_text())
+    except Exception:
+        return {}
+    if isinstance(data, dict):
+        attempts: dict[str, int] = {}
+        for key, value in data.items():
+            try:
+                attempts[str(int(key))] = max(0, int(value))
+            except Exception:
+                continue
+        return attempts
+    if isinstance(data, list):
+        attempts = {}
+        for item in data:
+            try:
+                attempts[str(int(item))] = CI_HEAL_MAX_ATTEMPTS
+            except Exception:
+                continue
+        return attempts
+    return {}
+
+
+def _write_ci_attempts(attempts: dict[str, int]) -> None:
+    if len(attempts) > 200:
+        attempts = dict(sorted(attempts.items(), key=lambda kv: int(kv[0]))[-200:])
+    try:
+        CI_HEAL_CACHE.write_text(json.dumps(attempts, sort_keys=True))
+    except Exception:
+        pass
 
 
 def _ci_seen() -> set[int]:
     try:
-        return set(json.loads(CI_HEAL_CACHE.read_text()))
+        return {
+            int(run_id)
+            for run_id, attempts in _ci_attempts().items()
+            if attempts >= CI_HEAL_MAX_ATTEMPTS
+        }
     except Exception:
         return set()
 
 
 def _mark_ci_seen(run_id: int) -> None:
-    seen = _ci_seen()
-    seen.add(run_id)
-    if len(seen) > 200:
-        seen = set(sorted(seen)[-200:])
-    try:
-        CI_HEAL_CACHE.write_text(json.dumps(sorted(seen)))
-    except Exception:
-        pass
+    attempts = _ci_attempts()
+    attempts[str(int(run_id))] = CI_HEAL_MAX_ATTEMPTS
+    _write_ci_attempts(attempts)
+
+
+def _ci_mark_failed_attempt(run_id: int, failure: dict, reason: str) -> int:
+    attempts = _ci_attempts()
+    key = str(int(run_id))
+    count = min(CI_HEAL_MAX_ATTEMPTS, attempts.get(key, 0) + 1)
+    attempts[key] = count
+    _write_ci_attempts(attempts)
+    if count >= CI_HEAL_MAX_ATTEMPTS:
+        payload = dict(failure)
+        payload.update({
+            "attempts": count,
+            "reason": reason,
+            "suggested_action": "CI heal 已达到有界重试上限，人工查看失败日志和最近 heal commit",
+        })
+        log_heal_alert(
+            category="CI_HEAL_EXHAUSTED",
+            details=payload,
+            cooldown_count=0,
+            note="CI heal 连续失败达到上限，停止对此 run 自动派发 codex",
+        )
+    else:
+        print(
+            f"[heal] CI heal attempt {count}/{CI_HEAL_MAX_ATTEMPTS} "
+            f"recorded for run {run_id}: {reason}",
+            file=sys.stderr,
+            flush=True,
+        )
+    return count
+
+
+def _classify_ci_unfixable(log_tail: str) -> str | None:
+    if "TeX capacity exceeded" in log_tail:
+        return "PDF_CAPACITY"
+    if "Fatal error occurred, no output PDF file produced" not in log_tail:
+        return None
+    capacity_terms = [
+        "pool size=",
+        "max_strings",
+        "main memory",
+        "hash size",
+        "save_size",
+        "buffer size",
+        "number of strings",
+    ]
+    if any(term in log_tail for term in capacity_terms):
+        return "PDF_CAPACITY"
+    return None
 
 
 def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
@@ -1066,7 +1147,7 @@ def heal_ci_failure(failure: dict) -> bool:
         ], check=False, capture=True, timeout=120)
     except Exception as e:
         print(f"[heal] gh run view {run_id} failed: {e}", file=sys.stderr)
-        _mark_ci_seen(run_id)
+        _ci_mark_failed_attempt(run_id, failure, "gh run view failed")
         return False
     log_tail = (r.stdout or "")[-8192:]
     if not log_tail.strip():
@@ -1079,8 +1160,26 @@ def heal_ci_failure(failure: dict) -> bool:
         except Exception:
             pass
     if not log_tail.strip():
-        print(f"[heal] CI run {run_id} produced empty log; marking seen",
+        print(f"[heal] CI run {run_id} produced empty log; recording attempt",
               file=sys.stderr)
+        _ci_mark_failed_attempt(run_id, failure, "empty CI log")
+        return False
+    unfixable = _classify_ci_unfixable(log_tail)
+    if unfixable:
+        payload = dict(failure)
+        payload.update({
+            "suggested_action": (
+                "抬高 Makefile + reusable-pdf.yml 的 pool_size/max_strings 等 "
+                "kpathsea 容量量"
+            ),
+            "log_tail": log_tail[-1000:],
+        })
+        log_heal_alert(
+            category=unfixable,
+            details=payload,
+            cooldown_count=0,
+            note="CI 日志显示 TeX 引擎容量限制，codex 修改章节内容无法修复",
+        )
         _mark_ci_seen(run_id)
         return False
     # Best-effort job guess: first line matching `<job>\t<step>\t...`.
@@ -1097,16 +1196,16 @@ def heal_ci_failure(failure: dict) -> bool:
               .replace("__JOB__", job_guess))
     signature = _ci_fix_signature(log_tail, failure)
     if _recurring_fix_loop(signature, "CI fix", failure):
-        _mark_ci_seen(run_id)
+        _ci_mark_failed_attempt(run_id, failure, "recurring CI fix loop")
         return False
     prompt = _with_fix_signature(prompt, signature)
-    _mark_ci_seen(run_id)  # prevent ping-pong even if codex fails
     head_before = git("rev-parse", "HEAD", capture=True).stdout.strip()
     rc = call_codex(prompt, timeout=1800)
     head_after = git("rev-parse", "HEAD", capture=True).stdout.strip()
     if head_before == head_after:
         print(f"[heal] codex did not commit on CI run {run_id} (rc={rc})",
               file=sys.stderr)
+        _ci_mark_failed_attempt(run_id, failure, "codex did not commit")
         return False
     return True
 
@@ -2171,10 +2270,17 @@ def cycle() -> None:
                 continue
             attempted = True
             print(f"[heal] CI failure detected (run={failure['run_id']} "
-                  f"workflow={failure.get('workflow','?')}); invoking codex",
+                  f"workflow={failure.get('workflow','?')}); triaging",
                   flush=True)
             if heal_ci_failure(failure):
-                verify_then_push("CI fix")
+                if verify_then_push("CI fix"):
+                    _mark_ci_seen(failure["run_id"])
+                else:
+                    _ci_mark_failed_attempt(
+                        failure["run_id"],
+                        failure,
+                        "local verify or push failed after CI heal commit",
+                    )
                 return  # one heal per cycle is enough
             break
         if not attempted:
