@@ -85,6 +85,29 @@ Finally, $P$ and $N$ route the refined mesh through the local package and classi
 \end{proof}
 \leanchecked{BEDC.Derived.RiemannStieltjesUp.RiemannStieltjesCarrier\_darboux\_mesh\_refinement}
 
+\begin{theorem}[Riemann--Stieltjes bounded-variation jump boundary]
+\label{thm:riemann-stieltjes-bounded-variation-jump-boundary}
+Every accepted $\RiemannStieltjesUp$ carrier reads integrator jump data only through the displayed $\BoundedVariationUp$ row before the tagged-sum and regulated-integral rows are consumed. For
+$$
+R=(F,A,T,S,I,E,H,C,P,N),
+$$
+the order of every jump-facing read is
+$$
+A \longrightarrow T,S \longrightarrow I \longrightarrow E .
+$$
+The route cannot replace bounded-variation evidence by a measure space, selected limit, host function quotient, or ambient choice.
+\end{theorem}
+\leanchecked{BEDC.Derived.RiemannStieltjesUp.RiemannStieltjesCarrier\_bounded\_variation\_jump\_boundary}
+\begin{proof}
+Project the carrier rows $F,A,T,S,I,E,H,C,P,N$ from \autoref{def:riemann-stieltjes-carrier}. The integrator row $A$ is the only displayed source of bounded-variation evidence and transported endpoint jumps.
+
+Use \autoref{thm:riemann-stieltjes-namecert-obligations}. It places bounded-variation ledger control before the regulated-integral handoff, so a tagged-sum read cannot consume jump data except through $A$.
+
+Apply \autoref{thm:riemann-stieltjes-darboux-mesh-refinement}. The finite mesh and dyadic step rows $T,S$ are read after the bounded-variation row and before the handoff row $I$, and the endpoint seal $E$ remains downstream of that handoff.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same order. Since the packet has no coordinate for measure spaces, selected limits, host function quotients, or ambient choice, the displayed bounded-variation jump boundary cannot be replaced by any of them.
+\end{proof}
+
 \closureat{RiemannStieltjesUp}{seedStr}
 
 \begin{closurestatus}{\RiemannStieltjesUp}

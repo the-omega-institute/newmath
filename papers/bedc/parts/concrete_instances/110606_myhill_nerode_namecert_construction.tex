@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\MyhillNerodeUp$}
+\label{ch:concrete-instances-myhill-nerode-namecert}
+\origin{human}
+
+Following Myhill and Nerode, the $\MyhillNerodeUp$ packet records the finite right-congruence classifier behind regular languages and minimal finite automata as displayed BEDC data. It consumes accepted-word rows from \autoref{ch:concrete-instances-regularlanguage-namecert}, presentation rows from \autoref{ch:concrete-instances-finite-automaton-namecert}, finite carrier rows from \autoref{ch:concrete-instances-finset-namecert}, and word-spine rows from \autoref{ch:concrete-instances-list-namecert}. The packet does not import an external quotient of all languages; it names the finite distinguishability ledger that a minimization consumer can audit.
+
+\begin{definition}[Myhill--Nerode carrier]
+\label{def:myhill-nerode-carrier}
+A $\MyhillNerodeUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+M=(\Sigma,W,L,E,C,D,Q,\delta,q_0,F,\mu,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Sigma$ is the finite alphabet row, read through $\FinSetUp$.
+\item $W$ is the finite word-window row, read through $\ListUp$ over $\Sigma$.
+\item $L$ is the accepted-word observation ledger supplied by a $\RegularLanguageUp$ packet.
+\item $E$ is the finite right-congruence table on the displayed word window.
+\item $C$ is the context-extension row recording that suffix extension by displayed words preserves the table.
+\item $D$ is the distinguishability row naming a displayed suffix witness whenever two table rows are separated.
+\item $Q$ is the finite state row whose states are the displayed equivalence classes of $E$.
+\item $\delta$ is the transition row induced by appending one alphabet symbol to a class representative.
+\item $q_0$ is the start class of the empty word.
+\item $F$ is the accepting-class row, determined by membership in the accepted-word ledger.
+\item $\mu$ is the minimization handoff row from the right-congruence table to the finite automaton presentation.
+\item $H$ stores componentwise $\hsame$ transport for alphabet, word-window, language, congruence, suffix, state, transition, accepting, and minimization rows.
+\item $R$ stores $\Cont$ replay from a regular-language query through the displayed right-congruence table.
+\item $P$ stores $\Pkg$ provenance over $\RegularLanguageUp$, $\FiniteAutomatonUp$, $\FinSetUp$, $\ListUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MyhillNerodeUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $\Sigma,W,L,E,C,D,Q,\delta,q_0,F,\mu,H,R,P,N$. It has no coordinate for an infinite language quotient, a nondeterministic presentation, a regular-expression conversion, or a proof that an arbitrary external automaton has already been minimized.
+\end{definition}
+
+\begin{theorem}[Myhill--Nerode NameCert obligations]
+\label{thm:myhill-nerode-namecert-obligations}
+For every accepted $\MyhillNerodeUp$ carrier
+$$
+M=(\Sigma,W,L,E,C,D,Q,\delta,q_0,F,\mu,H,R,P,N),
+$$
+the local $\NameCert_{\MyhillNerodeUp}$ surface consists exactly of finite alphabet exposure, word-window exposure, accepted-word observation, right-congruence tabulation, suffix-stability replay, distinguishability witnesses, quotient-state construction, induced transition replay, start-class selection, accepting-class selection, minimization handoff, componentwise transport, continuation replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:myhill-nerode-carrier}. The rows $\Sigma,W,L,E,C,D$ expose the finite observation table and the suffix-stability checks used to read right congruence.
+
+The rows $Q,\delta,q_0,F$ then repackage the table as a deterministic finite automaton presentation. Since $Q$ is built from the displayed classes of $E$, the transition row is read by extending a representative by one displayed alphabet symbol and returning to the corresponding class.
+
+The rows $\mu,H,R,P,N$ keep the minimization handoff, transport, replay, provenance, and local name attached to the same packet. No omitted coordinate can supply an external quotient, nondeterministic branch, or regular-expression conversion, so the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Myhill--Nerode DFA minimization handoff]
+\label{thm:myhill-nerode-dfa-minimization-handoff}
+Every $\RegularLanguageUp$ consumer that claims a minimal deterministic finite automaton through a $\MyhillNerodeUp$ packet must expose the finite right-congruence row $E$, the suffix-stability row $C$, the distinguishability row $D$, the quotient-state row $Q$, the induced transition row $\delta$, the accepting-class row $F$, and the minimization handoff row $\mu$. The handoff may feed a $\FiniteAutomatonUp$ presentation with those rows, but it does not identify arbitrary automaton presentations, choose a nondeterministic branch, or translate the packet into a regular-expression proof.
+\end{theorem}
+\begin{proof}
+Begin with the obligation theorem \autoref{thm:myhill-nerode-namecert-obligations}. It forces every minimization read through the displayed right-congruence table, suffix-stability replay, and distinguishability witnesses before any quotient-state row is consumed.
+
+The quotient construction then uses the finite rows $Q,\delta,q_0,F$ to build a deterministic presentation. This presentation is compatible with the finite automaton carrier of \autoref{ch:concrete-instances-finite-automaton-namecert} because it exposes finite states, a finite alphabet, a transition table, a start state, accepting states, and replay rows.
+
+The minimization handoff remains bounded by the displayed table. It proves only the certificate route from regular-language observations to the minimal finite presentation named by the packet; stronger equivalence claims are absent from the carrier.
+\end{proof}
+
+\closureat{MyhillNerodeUp}{seedStr}
+
+\begin{closurestatus}{\MyhillNerodeUp}
+  \constructivestory{A $\MyhillNerodeUp$ packet is generated from a finite alphabet row, word-window row, accepted-word observation ledger, right-congruence table, suffix-stability row, distinguishability witnesses, quotient-state row, induced transition row, start class, accepting classes, minimization handoff, componentwise transport, continuation replay, provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:myhill-nerode-carrier}, \autoref{thm:myhill-nerode-namecert-obligations}, and \autoref{thm:myhill-nerode-dfa-minimization-handoff} seed the finite right-congruence certificate and its deterministic-minimization handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary automaton equivalence, nondeterministic minimization, regular-expression conversion, host-language quotients, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, right-congruence stability, distinguishability coverage, quotient-state exactness, induced-transition replay, minimization handoff, TasteGate coverage, transport, replay, provenance, and local naming for BEDC.Derived.MyhillNerodeUp.}
+\end{closurestatus}

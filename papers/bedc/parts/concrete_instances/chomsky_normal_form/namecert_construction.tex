@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\ChomskyNormalFormUp$}
+\label{ch:concrete-instances-chomsky-normal-form-namecert}
+\origin{human}
+
+Following Hopcroft--Ullman and Sipser, the $\ChomskyNormalFormUp$ packet records the finite normal-form handoff for a context-free grammar as BEDC NameCert data. It sits beside the grammar carrier of \autoref{ch:concrete-instances-contextfreegrammar-namecert}, the finite word rows of \autoref{ch:concrete-instances-list-namecert}, and the regular-language comparison surface of \autoref{ch:concrete-instances-regularlanguage-namecert}, with parse-tree rows consumed by downstream grammar chapters. The packet names the displayed nonterminal, terminal, production, start, nullable, unit-production, binarization, and language-preservation rows before any consumer may read a grammar as a Chomsky-normal-form grammar.
+
+\begin{definition}[ChomskyNormalForm carrier]
+\label{def:chomsky-normal-form-carrier}
+A $\ChomskyNormalFormUp$ carrier is a finite $\BHist$ packet
+$$
+F=(G,N,T,S,P,E,U,B,L,H,C,K,A)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the source $\ContextFreeGrammarUp$ row whose variables, terminals, productions, start symbol, derivation relation, and language surface are visible to the packet.
+\item $N$ is the nonterminal vocabulary row for the normal-form grammar, including the finite renamed variables introduced by binarization.
+\item $T$ is the terminal vocabulary row inherited from the source grammar and exposed through finite word rows.
+\item $S$ is the start-symbol row, including the displayed fresh-start handling used when the source grammar derives the empty word.
+\item $P$ is the production-shape row, requiring every displayed production to be terminal, binary nonterminal, or the admitted start-empty row.
+\item $E$ is the nullable and empty-word ledger, recording exactly where the construction retains or removes empty productions.
+\item $U$ is the unit-production elimination ledger, recording the finite route by which unit edges are replaced by ordinary productions.
+\item $B$ is the binarization ledger, recording the finite chain of helper variables used to replace long right-hand sides.
+\item $L$ is the language-preservation row comparing the source grammar and the normal-form grammar through finite derivation trees and finite word reads.
+\item $H$ records componentwise $\hsame$ transport for the source grammar, vocabulary rows, start row, production-shape row, elimination ledgers, binarization ledger, language-preservation row, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a grammar consumer through $G,N,T,S,P,E,U,B,L$.
+\item $K$ is the $\Pkg$ provenance over $\ChomskyNormalFormUp$, $\ContextFreeGrammarUp$, $\ListUp$, $\RegularLanguageUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $A$ is the local $\NameCert_{\ChomskyNormalFormUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an unrestricted grammar quotient, an erased derivation equivalence, a host parser, countable grammar enumeration, or ambient language equality.
+\end{definition}
+
+\begin{theorem}[ChomskyNormalForm NameCert obligations]
+\label{thm:chomsky-normal-form-namecert-obligations}
+For every accepted $\ChomskyNormalFormUp$ carrier
+$$
+F=(G,N,T,S,P,E,U,B,L,H,C,K,A),
+$$
+the local $\NameCert_{\ChomskyNormalFormUp}$ surface consists exactly of carrier admission for the displayed grammar rows, production-shape certification, empty-production handling, unit-production elimination, binarization, language-preservation readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No obligation is stored outside the finite rows of $F$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:chomsky-normal-form-carrier}. The packet displays the source grammar, the normal-form vocabulary, the start row, the production-shape row, the nullable and unit ledgers, the binarization ledger, the language-preservation row, and the structural rows.
+
+Production-shape certification is read from $P$. The row admits only terminal productions, binary nonterminal productions, and the displayed start-empty case, so the local certificate has no remaining route to arbitrary grammar productions.
+
+Empty-production and unit-production handling are read from $E$ and $U$. These ledgers record the finite eliminations before $L$ may compare languages, preventing a consumer from replacing the construction by an erased grammar equivalence.
+
+Binarization is read from $B$, and language preservation is read from $L$. The structural rows $H,C,K,A$ transport, replay, source, and name the same finite route, while no carrier coordinate contains a quotient grammar, host parser, countable enumeration, or ambient language equality.
+\end{proof}
+
+\begin{theorem}[ChomskyNormalForm CFG handoff]
+\label{thm:chomsky-normal-form-cfg-handoff}
+Every $\ContextFreeGrammarUp$ consumer that reads an accepted $\ChomskyNormalFormUp$ packet must pass through the displayed route
+$$
+G \longrightarrow E,U,B \longrightarrow P \longrightarrow L
+$$
+and then through $H,C,K,A$. Thus the packet hands a context-free grammar to downstream normal-form consumers only after the empty-production ledger, unit-production ledger, binarization ledger, production-shape row, and language-preservation row have been displayed. It does not export a host parser, a quotient grammar equality, an erased derivation equivalence, a countable-choice grammar selector, or ambient language extensionality.
+\end{theorem}
+\begin{proof}
+Begin with a consumer read of the source grammar row $G$. The carrier does not expose the normal-form grammar as a bare replacement; it orders the read through the finite ledgers $E,U,B$.
+
+The production-shape row $P$ is downstream of those ledgers. It verifies that the resulting productions have the Chomsky-normal-form shape before a language-facing read is available.
+
+The language-preservation row $L$ then compares only finite derivation-tree and finite word reads. Finally $H,C,K,A$ transport, replay, source, and name that route for CFG consumers. Since the excluded parser, quotient, erased-equivalence, selector, and ambient-extensionality objects are absent from the carrier, the handoff is exactly the displayed finite BEDC route.
+\end{proof}
+
+\closureat{ChomskyNormalFormUp}{seedStr}
+
+\begin{closurestatus}{\ChomskyNormalFormUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:chomsky-normal-form-carrier}, \autoref{thm:chomsky-normal-form-namecert-obligations}, and \autoref{thm:chomsky-normal-form-cfg-handoff} seed the finite context-free grammar route from source grammar rows through Chomsky-normal-form ledgers to language-preservation readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close parser implementation, quotient grammar equality, erased derivation equivalence, countable grammar selection, ambient language extensionality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, production-shape exactness, empty-production handling, unit-production elimination, binarization, language-preservation readback, transport, replay, provenance, and local naming for BEDC.Derived.ChomskyNormalFormUp.}
+  \constructivestory{A $\ChomskyNormalFormUp$ packet is generated from a source CFG row, normal-form vocabulary rows, a start row, production-shape evidence, nullable and unit-production ledgers, a binarization ledger, language-preservation readback, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert data.}
+\end{closurestatus}

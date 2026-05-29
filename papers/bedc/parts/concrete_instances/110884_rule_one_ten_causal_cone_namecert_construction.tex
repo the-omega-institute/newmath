@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\RuleOneTenCausalConeUp$}
+\label{ch:concrete-instances-rule-one-ten-causal-cone-namecert}
+\origin{human}
+
+Following Cook's Rule 110 universality theorem and Wolfram's cellular automata
+classification, the $\RuleOneTenCausalConeUp$ packet records a finite causal
+cone rather than an ambient infinite cellular universe. It consumes the
+cellular automaton carrier of
+\autoref{ch:concrete-instances-cellularautomaton-namecert}, the local update
+surface of \autoref{ch:concrete-instances-cellularlocalupdaterule-namecert},
+the cellular substrate row of
+\autoref{ch:concrete-instances-cellularsubstrate-namecert}, and the Rule 110
+glider catalog of
+\autoref{ch:concrete-instances-rule110glidercatalog-namecert}. The packet names
+only finite windows, update-ledger rows, boundary rows, traces, transport,
+replay, provenance, and a local NameCert row.
+
+\begin{definition}[Rule 110 causal-cone carrier]
+\label{def:rule-one-ten-causal-cone-carrier}
+A $\RuleOneTenCausalConeUp$ carrier is a finite $\BHist$ packet
+$$
+R=(I,U,T,L,B,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the initial finite window row, naming the cells inspected at time
+$0$ together with their left and right indices.
+\item $U$ is the local Rule 110 update ledger, exposing the eight radius-one
+cases used to compute successor cells inside the window.
+\item $T$ is the time-depth row, bounding the number of successor rows present
+in the cone.
+\item $L$ is the left boundary row, recording the finite boundary cells needed
+to replay the left edge of the cone.
+\item $B$ is the right boundary row, recording the finite boundary cells needed
+to replay the right edge of the cone.
+\item $O$ is the observed cone-trace row, listing the finite space-time cells
+computed from $I,U,T,L,B$.
+\item $H$ records componentwise $\hsame$ transport for the initial window,
+update ledger, time depth, boundary rows, observed trace, replay, provenance,
+and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a cone observation request
+through $I,U,T,L,B,O$.
+\item $P$ is the $\Pkg$ provenance over $\RuleOneTenCausalConeUp$,
+$\CellularAutomatonUp$, $\CellularLocalUpdateRuleUp$,
+$\CellularSubstrateUp$, $\RuleOneTenGliderCatalogUp$, $\BHist$, $\hsame$,
+$\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RuleOneTenCausalConeUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows. It
+contains no coordinate for an infinite configuration, a full orbit, a
+universality proof, unbounded glider search, quotient orbit equality, or a
+substrate semantics outside the finite cone.
+\end{definition}
+
+\begin{theorem}[Rule 110 causal-cone NameCert obligations]
+\label{thm:rule-one-ten-causal-cone-namecert-obligations}
+For every accepted $\RuleOneTenCausalConeUp$ carrier
+$R=(I,U,T,L,B,O,H,C,P,N)$, the local
+$\NameCert_{\RuleOneTenCausalConeUp}$ surface consists exactly of initial-window
+admission through $I$, local Rule 110 update-ledger exposure through $U$,
+time-depth bounding through $T$, left and right boundary replay through $L,B$,
+observed cone trace exposure through $O$, componentwise $\hsame$ transport
+through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through
+$P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rule-one-ten-causal-cone-carrier}. The
+finite cellular data are exactly $I,U,T,L,B,O$ together with the structural rows
+$H,C,P,N$.
+
+The update ledger is read locally. Each displayed successor cell in $O$ is
+justified by the Rule 110 radius-one case stored in $U$, with $T$ bounding the
+number of rows and $L,B$ supplying the finite edge data needed for replay.
+
+Transport and replay preserve that finite cone. The componentwise $\hsame$ rows
+compare only displayed rows, while $C$ replays the same local-window route and
+$P,N$ source and name it. Since no infinite configuration, full orbit,
+unbounded search, quotient orbit equality, or host universality coordinate is
+present, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{closurestatus}{\RuleOneTenCausalConeUp}
+  \constructivestory{A $\RuleOneTenCausalConeUp$ packet is generated from an initial finite window, local Rule 110 update ledger, time-depth row, left and right boundary rows, observed cone trace, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rule-one-ten-causal-cone-carrier} and \autoref{thm:rule-one-ten-causal-cone-namecert-obligations} seed the finite Rule 110 causal-cone packet over local windows, update ledgers, boundary rows, observed traces, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Rule 110 universality, an ambient infinite cellular universe, a full orbit, unbounded glider search, quotient orbit equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked finite-window admission, local update exposure, time-depth bounding, boundary replay, trace exposure, transport, replay, provenance, and local naming for BEDC.Derived.RuleOneTenCausalConeUp.}
+\end{closurestatus}

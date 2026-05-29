@@ -43,6 +43,26 @@ The regular rational handoff $Q$ is then read through the monotone ledger $M$. M
 The Real seal row $E$ is downstream of $D,W,Q,M$. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route, so no quotient equality of streams, selected host limit, countable-choice schedule, host real equality, or ambient completeness theorem can be exported by the local classifier.
 \end{proof}
 
+\begin{theorem}[Real modulus of convergence CauchyModulus handoff]
+\label{thm:real-modulus-convergence-cauchy-modulus-handoff}
+Every accepted $\RealModulusOfConvergenceUp$ read factors its modulus request through the displayed $\CauchyModulusUp$ row before it reaches the terminal Real-facing seal. The route is
+$$
+\CauchyModulusUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp
+\longmapsto \RealUp
+\longmapsto \hsame,\Cont,\Pkg,\NameCert .
+$$
+Thus every Real or Completion consumer sees the convergence request as Cauchy-modulus data, regular rational readback, dyadic tolerance accounting, the terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$. It exports no selected tail, quotient real equality, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-modulus-of-convergence-carrier}. The dyadic tolerance row $D$, finite-window row $W$, regular rational readback row $Q$, and monotone ledger $M$ are the displayed data from which the modulus request is read.
+
+Use the existing Cauchy modulus dependency route. It identifies the request as a $\CauchyModulusUp$ handoff before the regular rational row $Q$ and the dyadic row $D$ are consumed by the Real-facing seal.
+
+Apply \autoref{thm:real-modulus-of-convergence-namecert-obligations}. The terminal row $E$ is downstream of the displayed modulus, readback, and tolerance rows, and $H,C,P,N$ only transport, replay, source, and name that same route.
+
+Since the carrier has no coordinate for a selected tail, quotient real equality, countable-choice schedule, or ambient Real completeness, the handoff cannot export any of those objects to a Real or Completion consumer.
+\end{proof}
+
 \begin{theorem}[Real modulus of convergence tail stability]
 \label{thm:real-modulus-of-convergence-tail-stability}
 Let $R=(D,W,Q,M,E,H,C,P,N)$ be an accepted $\RealModulusOfConvergenceUp$ packet. For any later dyadic tolerance request transported through the monotone ledger $M$, the corresponding read uses a weakly later finite $\StreamNameUp$ window, the same $\RegSeqRatUp$ handoff route, and the same downstream $\RealUp$ seal boundary before any Real or Completion consumer may use the convergence claim. The routed tail-stability surface is exactly
@@ -89,6 +109,24 @@ Project the carrier of \autoref{def:real-modulus-of-convergence-carrier}. The tw
 Use tail stability for the later request and window composition for the resulting read. Theorem~\ref{thm:real-modulus-of-convergence-tail-stability} forces the later request to use a weakly later finite $\StreamNameUp$ window, while Theorem~\ref{thm:real-modulus-of-convergence-window-composition} keeps the dyadic row, the window row, and the $\RegSeqRatUp$ readback row on the same pre-seal route.
 
 Finally route the refined read through $E,H,C,P,N$. The visible $\RealUp$ seal boundary is reached only after $D,W,Q,M$ have been displayed, and no carrier coordinate supplies quotient streams, selected limits, countable choice, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Real modulus RegSeqRat uniqueness handoff]
+\label{thm:real-modulus-convergence-regseqrat-uniqueness-handoff}
+Let $R=(D,W,Q,M,E,H,C,P,N)$ and $R'=(D',W',Q',M',E',H',C',P',N')$ be accepted $\RealModulusOfConvergenceUp$ packets. If the two packets expose the same $\DyadicRatCoreUp$ tolerance row, the same $\StreamNameUp$ finite-window row, the same $\RegSeqRatUp$ readback row, and the same monotone modulus ledger, then every $\RegSeqRatUp$ uniqueness consumer and every $\RealUp$ seal consumer reads the same finite convergence route
+$$
+D,W,Q,M \longmapsto E \longmapsto H,C,P,N .
+$$
+Equivalently, the uniqueness-facing consumer cannot distinguish $R$ from $R'$ except through the displayed handoff rows $D,W,Q,M$ and their downstream seal, transport, replay, provenance, and local naming rows. The handoff exports no quotient stream, selected limit, countable-choice schedule, host Real equality, or ambient $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Project the two carriers through \autoref{def:real-modulus-of-convergence-carrier}. The hypotheses identify the tolerance row, finite-window row, regular rational readback row, and monotone ledger, so both packets present the same pre-seal route $D,W,Q,M$ to any uniqueness-facing consumer.
+
+Apply \autoref{thm:real-modulus-of-convergence-tail-stability}. Later tolerance requests must use weakly later finite windows and preserve the same $\RegSeqRatUp$ handoff route, so the identified rows cannot split into two independent tails.
+
+Apply \autoref{thm:real-modulus-of-convergence-window-composition} and \autoref{thm:real-modulus-of-convergence-monotone-window-refinement}. These results keep the dyadic tolerance, finite window, readback row, and monotone ledger on the same route before the Real-facing seal is reached.
+
+The downstream rows $E,H,C,P,N$ are therefore read only as seal, transport, replay, provenance, and local naming for that route. Since the carrier excludes quotient streams, selected limits, countable choice, host Real equality, and ambient completeness, neither a $\RegSeqRatUp$ uniqueness consumer nor a $\RealUp$ seal consumer can read any further distinguishing datum.
 \end{proof}
 
 \falsifiablePrediction{Every accepted $\RealModulusOfConvergenceUp$ Real or Completion consumer factors through one displayed $\DyadicRatCoreUp$ tolerance row, one $\StreamNameUp$ finite-window row, one $\RegSeqRatUp$ readback row, one monotone convergence-modulus ledger, one $\RealUp$ seal handoff, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before it may use a convergence-modulus claim.}

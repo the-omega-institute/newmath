@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\DyadicIntervalHullUp$}
+\label{ch:concrete-instances-dyadic-interval-hull-namecert}
+\origin{human}
+
+Following Moore interval analysis and Bishop--Bridges constructive interval arithmetic, the $\DyadicIntervalHullUp$ packet records the finite lower-upper dyadic enclosure route used before Real and Completion consumers inspect an interval hull. It sits next to the endpoint carrier of \autoref{ch:concrete-instances-dyadicinterval-namecert}, the interval-operation packet of \autoref{ch:concrete-instances-dyadic-interval-arithmetic-namecert}, the located hull surface of \autoref{ch:concrete-instances-located-real-interval-hull-namecert}, and the located endpoint route of \autoref{ch:concrete-instances-locatedinterval-namecert}. The packet names a constructive enclosure certificate for displayed dyadic endpoints; it is not a host interval primitive, not a selected real endpoint pair, and not an appeal to ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic interval hull carrier]
+\label{def:dyadic-interval-hull-carrier}
+A $\DyadicIntervalHullUp$ carrier is a finite $\BHist$ packet
+$$
+H=(L,U,O,A,B,S,R,E,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower dyadic endpoint row accepted by $\DyadicRatCoreUp$.
+\item $U$ is the upper dyadic endpoint row accepted by $\DyadicRatCoreUp$.
+\item $O$ is the endpoint-order witness, recording the displayed comparison $L\leq U$ through the same dyadic scale ledger.
+\item $A$ is the hull enclosure ledger, listing every inspected source endpoint or cell and its containment proof inside the displayed dyadic interval.
+\item $B$ is the $\DyadicIntervalUp$ handoff row, packaging $L,U,O,A$ as the dyadic interval consumed by interval-arithmetic neighbours.
+\item $S$ is the $\StreamNameUp$ window row through which located endpoint observers may read finite endpoint approximations.
+\item $R$ is the $\RegSeqRatUp$ readback row for the same endpoint windows.
+\item $E$ is the $\RealUp$ seal row, reached only after the dyadic interval row, located-real hull row, stream windows, and regular rational readbacks have been displayed.
+\item $T$ records componentwise $\hsame$ transport for endpoints, order witnesses, enclosure ledgers, located-real handoff rows, stream windows, readbacks, real seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from endpoint requests through $L,U,O,A,B,S,R$ and then to $E$.
+\item $P$ is the $\Pkg$ provenance over $\DyadicIntervalHullUp$, $\DyadicIntervalUp$, $\DyadicRatCoreUp$, $\LocatedRealIntervalHullUp$, $\LocatedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicIntervalHullUp}$ row.
+\end{enumerate}
+The classifier compares accepted hulls only through these rows. It has no coordinate for host intervals, selected real endpoints, quotient stream equality, trichotomy, countable choice, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic interval hull NameCert obligations]
+\label{thm:dyadic-interval-hull-namecert-obligations}
+For every accepted $\DyadicIntervalHullUp$ carrier $H=(L,U,O,A,B,S,R,E,T,C,P,N)$, the local $\NameCert_{\DyadicIntervalHullUp}$ surface consists exactly of carrier admission, endpoint ordering, hull containment, located-real route, non-escape, transport, replay, provenance, and local naming obligations. Carrier admission displays the lower endpoint, upper endpoint, order witness, enclosure ledger, $\DyadicIntervalUp$ handoff, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local NameCert row. No obligation is stored outside those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The lower and upper endpoint rows $L,U$ are both dyadic rational core rows, and $O$ is the only order witness available to the packet.
+
+The enclosure ledger $A$ is then read before any interval consumer sees the hull. It records finite containment of the displayed source endpoints or cells in the same lower-upper dyadic boundary.
+
+The located-real route is the ordered handoff through $B,S,R,E$. The dyadic interval row packages the endpoint ledger, the stream row exposes finite endpoint windows, the regular rational row records readback, and the real row seals the terminal boundary.
+
+Finally $T,C,P,N$ preserve and name the route. Since the carrier has no coordinate for a host interval, selected endpoint pair, quotient stream, trichotomy, choice principle, or ambient completeness theorem, the listed obligations exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Dyadic interval hull located-real route]
+\label{thm:dyadic-interval-hull-located-real-route}
+Every $\RealUp$- or Completion-facing consumer of an accepted $\DyadicIntervalHullUp$ packet factors through the route
+$$
+\DyadicIntervalUp \longmapsto \DyadicRatCoreUp \longmapsto \LocatedRealIntervalHullUp \longmapsto \LocatedIntervalUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+as displayed by the rows $L,U,O,A,B,S,R,E,T,C,P,N$. The consumer may inspect a hull only after the dyadic endpoints, order witness, containment ledger, located interval handoff, stream windows, regular rational readback, terminal real seal, transport, replay, provenance, and local naming rows have all been displayed.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:dyadic-interval-hull-namecert-obligations}. It places every accepted read behind $L,U,O,A$, so the consumer first sees a finite dyadic lower-upper enclosure.
+
+The row $B$ is the dyadic interval handoff. It is the only route from endpoint rows to interval consumers, and it keeps the hull attached to the displayed $\DyadicRatCoreUp$ comparisons.
+
+The located-real portion then runs through the finite windows $S$ and readbacks $R$ before the seal $E$ is exposed. This is exactly the located interval route consumed by the surrounding located-real hull and located-interval chapters.
+
+Transport, replay, provenance, and local naming preserve the row order. Therefore no Real or Completion consumer can bypass the dyadic interval, dyadic core, located hull, located interval, stream, regular rational, and real-seal rows.
+\end{proof}
+
+\closureat{DyadicIntervalHullUp}{seedStr}
+
+\begin{closurestatus}{\DyadicIntervalHullUp}
+  \constructivestory{A $\DyadicIntervalHullUp$ packet is generated from lower and upper DyadicRatCore endpoint rows, an endpoint-order witness, a hull enclosure ledger, DyadicInterval and located-real handoff rows, StreamName windows, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-interval-hull-carrier}, \autoref{thm:dyadic-interval-hull-namecert-obligations}, and \autoref{thm:dyadic-interval-hull-located-real-route} seed the finite dyadic hull route from endpoint rows to Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host interval primitives, selected real endpoint pairs, quotient stream equality, trichotomy, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint ordering, hull containment, located-real routing, non-escape, transport, replay, provenance, and local naming for BEDC.Derived.DyadicIntervalHullUp.}
+\end{closurestatus}

@@ -47,6 +47,21 @@ Associativity of finite chain concatenation is therefore harmless at the paper l
 Finally use \autoref{thm:dyadic-rat-core-signed-exponent-source-determinacy} and \autoref{thm:dyadic-rat-core-namecert-obligation-surface}. They identify the downstream $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ L10 dyadic face with exactly the displayed signed mantissa, positive unary exponent, denominator ledger, comparison, radius, transport, replay, provenance, and local NameCert rows, leaving no quotient rational, host normalization, selected endpoint, countable choice, metric-completeness, or ambient-completeness coordinate.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore refinement-chain induction]\label{thm:dyadic-rat-core-refinement-chain-induction}
+Let $Q=(m,e,\ell,W,R,H,C,P,N)$ be a signed-exponent $\DyadicRatCoreUp$ carrier, and let $\mathcal{R}$ be the class of finite displayed chains that start at $Q$ and whose adjacent steps are positive-unary refinements of the exponent row transporting the signed mantissa $m$, exponent row $e$, denominator ledger $\ell$, common-exponent window $W$, tolerance-radius row $R$, componentwise $\hsame$ row $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\DyadicRatCoreUp}$ row $N$. If a predicate $\Phi$ on such finite chains holds for the empty chain at $Q$, and if $\Phi(\Gamma)$ implies $\Phi(\Gamma')$ whenever $\Gamma'$ is obtained from $\Gamma$ by appending one displayed positive-unary refinement step whose transported surface is accepted by the same $\hsame$, $\Cont$, $\Pkg$, and local naming rows and whose downstream face is the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ L10 dyadic face of the carrier, then $\Phi(\Gamma)$ holds for every finite chain $\Gamma\in\mathcal{R}$.
+\end{theorem}
+\begin{proof}
+Induct on the finite displayed chain. The empty chain is the base clause in the hypothesis, and its visible surface is precisely the carrier rows $m,e,\ell,W,R,H,C,P,N$ of \autoref{def:dyadic-rat-core-signed-exponent-carrier}.
+
+For the successor step, write the chain as a shorter displayed chain followed by one positive-unary exponent refinement. By the induction hypothesis $\Phi$ holds for the shorter chain.
+
+The appended step is stable by \autoref{thm:dyadic-rat-core-common-exponent-stability}: the transported common-exponent window still reads only the signed mantissa, positive unary exponent, denominator ledger, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local NameCert rows.
+
+Apply \autoref{thm:dyadic-rat-core-tolerance-radius-monotonicity} to the same step. The tolerance-radius row is monotone along the displayed refinement and remains attached to the denominator and comparison rows already carried by the shorter chain. The successor premise for $\Phi$ therefore applies, including the downstream $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ L10 face.
+
+This proves the induction principle for every finite displayed refinement chain without adding quotient rational equality, host normalization, selected endpoints, countable choice, metric completeness, or ambient Real completeness.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore signed-exponent NameCert obligation surface]
 \label{thm:dyadic-rat-core-namecert-obligation-surface}
 For the signed-exponent carrier of \autoref{def:dyadic-rat-core-signed-exponent-carrier}, the local $\NameCert_{\DyadicRatCoreUp}$ obligation surface consists exactly of signed mantissa admission through $m$, positive unary exponent admission through $e$, denominator-ledger exposure through $\ell$, common-exponent comparison through $W$, tolerance-radius monotonicity through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. This surface is the finite obligation layer consumed by $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ when they read dyadic source data.

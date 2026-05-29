@@ -96,6 +96,30 @@ Now use \autoref{thm:metacic-parallel-diamond-frontier-handoff} and \autoref{thm
 The obstruction row is not removed by this comparison. It is carried in both packets and remains part of the consumer-visible handoff, so the theorem records a local-diamond frontier fact rather than a proof of the missing residual-substitution or closed confluence endpoints.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond residual-substitution scope]
+\label{thm:metacic-parallel-diamond-frontier-residual-substitution-scope}
+Every use of the $\MetaCICParallelDiamondFrontierUp$ local-diamond frontier must pass through the residual-substitution boundary, the confluence critical-pair boundary, and the closed-normal fragment before it claims a local join. In carrier terms, a consumer must expose the residual-substitution premise row $P$, the critical-pair row $K$, the residual-frontier row $R$, the closed checker seal row $S$, and the closed-normal fragment row $C$ before reading the candidate-join handoff. The resulting claim remains a local frontier claim; it does not close full Church--Rosser, subject reduction, evaluator equality, quotient equality of terms, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Apply the route theorem \autoref{thm:metacic-parallel-diamond-frontier-route}. It requires the residual-substitution premise row, the critical-pair row, the residual-frontier row, the closed-checker seal, and the closed-normal fragment to remain visible before the conditional handoff is consumed.
+
+Then apply the local-diamond frontier theorem \autoref{thm:metacic-local-diamond-frontier}. The agreement of candidate-join rows is read only through the displayed residual-frontier row, and the obstruction row remains visible in the handoff.
+
+The sibling boundaries named in the chapter introduction supply exactly the surrounding scope: the residual-substitution boundary names the missing compatibility premise, the confluence critical-pair boundary names the local peak surface, and the closed-normal fragment names the already available normal-source joins. Since none of these rows removes the obstruction row, the theorem records a residual-substitution-scoped local join rather than any stronger confluence endpoint.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond frontier premise retention]
+\label{thm:metacic-parallel-diamond-frontier-premise-retention}
+Any accepted $\MetaCICParallelDiamondFrontierUp$ packet whose local-diamond handoff is consumed retains the residual-substitution premise row $P$ through the critical-pair row $K$, residual-frontier row $R$, closed-checker row $S$, and closed-normal row $C$. No consumer may reinterpret that handoff as residual-substitution compatibility, premise-free parallel diamond, full Church--Rosser, subject reduction, evaluator equality, quotient equality of terms, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Apply the obligations theorem \autoref{thm:metacic-parallel-diamond-frontier-obligations}. It makes $P$ a first-class residual-substitution premise row and keeps $K,R,S,C$ among the confluence-facing rows rather than structural metadata.
+
+Next use the handoff and route theorems, \autoref{thm:metacic-parallel-diamond-frontier-handoff} and \autoref{thm:metacic-parallel-diamond-frontier-route}. They require a consumer to expose the premise, critical-pair, residual-frontier, checker, and closed-normal rows before the conditional handoff is read.
+
+Finally apply the residual-substitution scope theorem \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-scope}. Since the local-diamond frontier remains scoped by the residual-substitution boundary and the obstruction row is still visible, the retained handoff cannot be retyped as any of the refused confluence endpoints.
+\end{proof}
+
 The Lean follow-up supplies $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ TasteGate instances in \texttt{lean4/BEDC/Derived/MetaCICParallelDiamondFrontierUp/TasteGate.lean} by exhibiting distinct accepted and refused frontier packets and by matching on the rows $P,K,J,R,S,C,B,O,H,T,G,N$.
 
 \closureat{MetaCICParallelDiamondFrontierUp}{seedStr}

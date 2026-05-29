@@ -332,6 +332,7 @@ The boundary results rule out the stronger reads. By \autoref{thm:metacic-critic
 \label{thm:metacic-critical-path-root-discharge-exactness}
 For every root-facing $\MetaCICCriticalPathUp$ consumer of an accepted packet $K=(S,N,O,U,D,H,C,P,L)$, the discharge socket $D$ may be treated as exact only as the displayed finite socket row. The exactness read requires the rows $S,N,O,U,D,H,C,P,L$ to remain visible, and it imports no closed subject-reduction row into the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_root\_discharge\_exactness}
 \begin{proof}
 Project the consumer through \autoref{def:metacic-critical-path-packet}. The packet displays $D$ as a discharge-bundle socket alongside the strong-normalization row, normal-form row, obstruction row, handoff row, transport row, continuation row, provenance row, and local naming row.
 
@@ -351,6 +352,7 @@ Route exhaustion and handoff row totality make the inventory total. The theorem 
 
 Carrier admission supplies the root packet on which totality is read. By \autoref{thm:metacic-critical-path-carrier-admission}, the carrier has exactly the nine displayed rows, including $O$ and $D$. Hence every root route from $S$ to normal-form readback at $N$ is one of the three continuation legs in $C$.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_root\_route\_totality}
 
 \begin{theorem}[MetaCIC critical-path root consumer readiness]
 \label{thm:metacic-critical-path-root-consumer-readiness}
@@ -444,6 +446,7 @@ Apply \autoref{thm:metacic-critical-path-route-exhaustion}. Every critical-path 
 
 The slice adds only $B=D$ and the query row $Q$. By \autoref{thm:metacic-critical-path-discharge-socket-nonescape}, $B$ remains a socket rather than a filled theorem. By \autoref{thm:metacic-critical-path-frontier-coverage}, $Q$ only asks for a read through the displayed slice rows. Thus the ledger is total at $R$ and cannot acquire a closed-consistency coordinate from replay, handoff, or query readback.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathFrontierSlice\_route\_ledger\_totality}
 
 \begin{theorem}[MetaCIC critical-path frontier nonescape]
 \label{thm:metacic-critical-path-nonescape}

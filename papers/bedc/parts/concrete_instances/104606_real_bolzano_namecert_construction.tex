@@ -57,6 +57,40 @@ Finally $H,C,P,N$ transport, replay, source, and name the same packet rows. Sinc
 \end{proof}
 \leanchecked{BEDC.Derived.RealBolzanoUp.RealBolzanoTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[RealBolzano bracket seal route]
+\label{thm:real-bolzano-bracket-seal-route}
+Every accepted $\RealBolzanoUp$ sign-change read passes through endpoint real rows, located sign witnesses, the sign-change ledger, dyadic bracket ledger, comparison row, regular handoff, and terminal Real seal along the finite route
+$$
+a,b,L,U,S,D,J,R,E,H,C,P,N .
+$$
+The route records bracket-to-seal data for later root-bracketing consumers, but it does not provide unrestricted intermediate value, a selected root, real trichotomy, quotient real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-bolzano-carrier}. The endpoint rows $a,b$ are the only real sources, and the located sign witnesses $L,U$ are read from those endpoint windows at displayed precision.
+
+Use \autoref{thm:real-bolzano-namecert-obligations}. Its obligation rows place the sign-change ledger $S$ before the dyadic bracket ledger $D$, keep each retained bracket inside the displayed interval through $J$, and assemble the regular handoff $R$ from retained bracket windows rather than from a selected root.
+
+The same obligation surface requires the Real seal $E$ to remain downstream of $a,b,L,U,S,D,J,R$, with $H,C,P,N$ transporting and naming only that finite packet. Since no excluded endpoint principle occurs in the carrier, the bracket-to-seal route exports only displayed sign-change and bracketing data.
+\end{proof}
+
+\begin{theorem}[RealBolzano bracket-refinement stability]
+\label{thm:real-bolzano-bracket-refinement-stability}
+Let
+$$
+B=(a,b,L,U,S,D,J,R,E,H,C,P,N)
+$$
+be an accepted $\RealBolzanoUp$ carrier. Replacing one retained dyadic bracket row in $D$ by a displayed midpoint refinement that preserves the opposed located sign witnesses and passes the comparison row $J$ yields another accepted $\RealBolzanoUp$ packet with the same downstream $\RegSeqRatUp$ handoff and $\RealUp$ seal route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-bolzano-carrier}. The changed coordinate is a single retained bracket row inside $D$; the endpoint rows $a,b$, the located sign witnesses $L,U$, the sign-change ledger $S$, and the comparison row $J$ remain displayed packet data.
+
+Use \autoref{thm:real-bolzano-namecert-obligations}. Its dependency order keeps $S$ before $D$ and $J$ before $R$, so the midpoint replacement is admitted only when the opposed located sign witnesses are still present and the refined bracket still passes the displayed comparison row.
+
+Transport the changed bracket row componentwise through $H$ and replay the same finite request through $C$. The provenance row $P$ and local naming row $N$ continue to name the packet with the refined bracket ledger.
+
+Finally apply \autoref{thm:real-bolzano-bracket-seal-route}. The regular handoff $R$ is still assembled from the retained bracket windows, and the terminal Real seal $E$ remains downstream of $a,b,L,U,S,D,J,R$. No selected root, real trichotomy, quotient equality, unrestricted intermediate value, or ambient completeness coordinate is introduced by the refinement.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\RealBolzanoUp$ read factors through two endpoint Real rows, two located sign witnesses, one sign-change ledger, one dyadic bracket ledger, one comparison row, one RegSeqRat handoff, one terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before any intermediate-value or root-bracketing consumer may inspect it.}
 
 \independenceWitness{real, regseqrat, dyadicratcore, closedboundedinterval, regular-cauchy-comparison, real-root-bracket: $\RealBolzanoUp$ is not bijective to any listed sibling because it jointly carries endpoint real rows, located sign witnesses, a sign-change ledger, dyadic bracket refinement, comparison nonescape, regular handoff, real seal routing, transport, replay, provenance, and local naming.}

@@ -1,0 +1,112 @@
+\chapter{A Concrete Naming Certificate for $\LocatedCauchyFilterBasisUp$}
+\label{ch:concrete-instances-located-cauchy-filter-basis-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LocatedCauchyFilterBasisUp$ packet names the finite located-basis interface used by the L10 Real and Completion route before the data are promoted to a located Cauchy filter. It refines the basis-generator surface of \autoref{ch:concrete-instances-cauchy-filter-basis-namecert} and the located filter route of \autoref{ch:concrete-instances-located-cauchy-filter-namecert}; its finite reads pass through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and finally the downstream seal boundary of \autoref{ch:concrete-instances-real-namecert}. The chapter isolates the basis-level located witness, not a completed filter, quotient Cauchy name, selected real, or ambient completeness principle.
+
+\begin{definition}[Located Cauchy filter basis carrier]
+\label{def:cauchy-filter-basis-real-carrier}
+A $\LocatedCauchyFilterBasisUp$ carrier is a finite $\BHist$ packet
+$$
+K=(B,L,S,R,D,W,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\CauchyFilterBasisUp$ row naming the finite basis elements and their common-refinement witnesses.
+\item $L$ is the located-basis request row. It records the displayed dyadic ball request and the basis element that is asserted to meet it.
+\item $S$ is the $\StreamNameUp$ finite-window row attached to the same located request.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the windows in $S$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the requested ball, inclusion comparison, and refinement radius.
+\item $W$ is the finite witness row that the selected basis element meets the requested located ball after $S,R,D$ have been replayed.
+\item $T$ is the tail-refinement row sending the located basis witness to the filter-level route of $\LocatedCauchyFilterUp$.
+\item $E$ is the downstream $\RealUp$ seal boundary, reachable only after the basis, located request, finite windows, readback, tolerance, witness, and tail-refinement rows have been consumed.
+\item $H$ records componentwise $\hsame$ transport for all displayed rows.
+\item $C$ records displayed $\Cont$ replay from a located basis request through $B,L,S,R,D,W,T,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedCauchyFilterBasisUp$, $\CauchyFilterBasisUp$, $\LocatedCauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedCauchyFilterBasisUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for completed filters, quotient stream equality, selected representatives, countable choice, trichotomy, host real equality, or completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Located Cauchy filter basis NameCert obligations]
+\label{thm:cauchy-filter-basis-real-obligations}
+For every accepted $\LocatedCauchyFilterBasisUp$ carrier $K=(B,L,S,R,D,W,T,E,H,C,P,N)$, the local $\NameCert_{\LocatedCauchyFilterBasisUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite basis row, located request row, stream windows, regular rational readback, dyadic tolerance ledger, located witness, tail-refinement handoff, seal boundary, transport, continuation, provenance, and local naming row;
+\item located basis classification, requiring two accepted reads to agree precisely when their displayed requests admit a common basis refinement after $H$ transports the $B,L,S,R,D,W$ rows;
+\item finite-window replay, requiring the located request to inspect only the windows in $S$ before the readback row $R$ and tolerance ledger $D$ are available;
+\item witness exactness, requiring $W$ to show that the displayed basis element meets the requested dyadic ball using only the finite rows $S,R,D$;
+\item tail refinement, requiring $T$ to hand the located basis witness to the $\LocatedCauchyFilterUp$ route before any real-facing seal can be read;
+\item nonescape, excluding completed filters, quotient streams, selected representatives, countable choice, trichotomy, host real equality, and $\RealUp$ completeness.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-filter-basis-real-carrier}. The visible rows are exactly the finite basis data, located request, stream windows, rational readback, dyadic ledger, witness, tail refinement, seal boundary, transport, replay, provenance, and name.
+
+The dependency anchors are the basis carrier of \autoref{ch:concrete-instances-cauchy-filter-basis-namecert} and the located filter consumer of \autoref{ch:concrete-instances-located-cauchy-filter-namecert}. The finite observations, rational readbacks, tolerance ledgers, and terminal seal are read through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+Classifier comparison is componentwise. Transport by $H$ moves the basis row, located request, window row, readback row, tolerance ledger, and witness row to a common finite comparison surface, while $C$ replays the same order.
+
+The located witness is finite. A request first reads $S$, then $R$, then $D$, and only then may $W$ certify that the displayed basis element meets the requested dyadic ball.
+
+The tail-refinement row $T$ is the only route to $\LocatedCauchyFilterUp$, and $E$ is downstream from that route. Hence $P$ and $N$ cannot export completed filters, quotient streams, selected representatives, choice, trichotomy, host real equality, or real completeness.
+\end{proof}
+
+\begin{theorem}[Located Cauchy filter basis tail refinement]
+\label{thm:cauchy-filter-basis-real-tail-refinement}
+Let $K=(B,L,S,R,D,W,T,E,H,C,P,N)$ be an accepted $\LocatedCauchyFilterBasisUp$ carrier. Every located basis read factors through the finite route
+$$
+B,L \longmapsto S \longmapsto R \longmapsto D \longmapsto W \longmapsto T .
+$$
+The row $T$ then exposes the same witness as a filter-level located tail request for $\LocatedCauchyFilterUp$, with no bypass around the $\StreamNameUp$ finite windows, $\RegSeqRatUp$ readback, or $\DyadicRatCoreUp$ tolerance ledger.
+\end{theorem}
+\begin{proof}
+Start with a located basis read. The rows $B$ and $L$ fix the displayed basis element and the dyadic ball request; neither row contains a sequence readback or a filter-level located-tail witness by itself.
+
+Replay the continuation row $C$. The request reaches the finite window row $S$, then the regular rational readback row $R$, and then the dyadic tolerance ledger $D$.
+
+Only after those finite rows have been consumed can $W$ certify the located hit. The row $T$ repackages that same finite witness for the $\LocatedCauchyFilterUp$ route, so the handoff cannot skip the StreamName, RegSeqRat, or DyadicRatCore ledgers.
+\end{proof}
+
+\begin{theorem}[Located Cauchy filter basis Real seal handoff]
+\label{thm:cauchy-filter-basis-real-seal-handoff}
+For every accepted $\LocatedCauchyFilterBasisUp$ carrier $K=(B,L,S,R,D,W,T,E,H,C,P,N)$, every $\RealUp$-facing read exposed by $P$ factors through the tail-refinement row $T$ and then through the seal boundary $E$. Equivalently, the only real-facing route visible in the packet is
+$$
+B,L,S,R,D,W \longmapsto T \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the Real seal is downstream of the located basis witness and cannot be read from basis elements, windows, rational readbacks, or dyadic tolerances alone.
+\end{theorem}
+\begin{proof}
+Project the seal boundary row. The carrier lists $E$ after the finite basis route and after the tail-refinement row $T$, so the seal is not a coordinate of $B,L,S,R,D$, or $W$.
+
+Replay the route by $C$. A real-facing request must first consume the basis row, located request, window row, readback row, tolerance ledger, and located witness, and must then pass through $T$.
+
+Transport by $H$ preserves the same dependency order under classifier comparison. The provenance and local naming rows therefore record a downstream Real seal handoff rather than a selected limit, quotient equality, host real equality, or completeness witness.
+\end{proof}
+
+\begin{theorem}[Located Cauchy filter basis nonescape]
+\label{thm:cauchy-filter-basis-real-nonescape}
+An accepted $\LocatedCauchyFilterBasisUp$ packet cannot export any consumer route that reaches outside the finite rows
+$$
+B,L,S,R,D,W,T,E,H,C,P,N.
+$$
+In particular, any consumer asking for a completed filter, quotient Cauchy name, selected representative, countable-choice schedule, trichotomy decision, host real equality, or ambient completeness proof is refused by the carrier and by the local $\NameCert_{\LocatedCauchyFilterBasisUp}$ obligations.
+\end{theorem}
+\begin{proof}
+Inspect the carrier rows of \autoref{def:cauchy-filter-basis-real-carrier}. They include only finite BHist data, hsame transport, Cont replay, dyadic tolerance ledgers, StreamName windows, RegSeqRat readbacks, the located basis witness, the LocatedCauchyFilter tail route, and the Real seal boundary.
+
+The obligation surface of \autoref{thm:cauchy-filter-basis-real-obligations} is exhaustive. Every accepted consumer must pass through those listed rows, and no obligation names a hidden completed filter, quotient stream, selected representative, choice schedule, trichotomy decision, host equality, or completeness proof.
+
+The tail and seal theorems keep the downstream routes ordered. Since $T$ and $E$ are reached only after the finite located basis witness is replayed, the packet has no escape path around its displayed finite data.
+\end{proof}
+
+\begin{closurestatus}{\LocatedCauchyFilterBasisUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-filter-basis-real-carrier}, \autoref{thm:cauchy-filter-basis-real-obligations}, \autoref{thm:cauchy-filter-basis-real-tail-refinement}, \autoref{thm:cauchy-filter-basis-real-seal-handoff}, and \autoref{thm:cauchy-filter-basis-real-nonescape} seed the located finite-basis interface between CauchyFilterBasis, LocatedCauchyFilter, StreamName, RegSeqRat, DyadicRatCore, and Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim completed filters, quotient Cauchy names, selected representatives, countable choice, trichotomy, host real equality, ambient Real completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Lean closure requires carrier admission, the located basis obligation surface, tail refinement, Real seal handoff, and nonescape for BEDC.Derived.LocatedCauchyFilterBasisUp.}
+  \constructivestory{The construction starts from a CauchyFilterBasis row, reads a located dyadic request through StreamName windows, RegSeqRat readbacks, and DyadicRatCore ledgers, packages the finite witness as a LocatedCauchyFilter tail route, and treats Real access only as downstream seal provenance.}
+\end{closurestatus}

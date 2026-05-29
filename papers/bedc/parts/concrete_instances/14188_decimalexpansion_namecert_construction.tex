@@ -213,6 +213,26 @@ Apply the Real seal nonescape theorem \autoref{thm:decimal-expansion-real-seal-n
 Finally use the countable-density role of $\RealSeparabilityUp$ described in the chapter introduction. The same finite decimal-prefix windows that feed $D,W,V,Q,R,E$ are the windows counted by the RealSeparability route, so the factorization records a finite dense readback path rather than a direct decimal-to-real shortcut.
 \end{proof}
 
+\begin{theorem}[DecimalExpansion digit-carry determinacy]
+\label{thm:decimal-expansion-digit-carry-determinacy}
+Let
+$$
+K=(D,W,V,Q,R,E,H,C,P,N)
+\quad\text{and}\quad
+K'=(D',W',V',Q',R',E',H',C',P',N')
+$$
+be accepted $\DecimalExpansionUp$ packets. If $K$ and $K'$ display the same finite digit window and the same dyadic place-value ledger before their terminal seals are read, then they expose the same $\RegSeqRatUp$ readback route before the $\RealUp$ seal. Carry normalization is confined to the finite window ledger: it may rewrite the displayed digit and place-value rows inside $D,W,V,Q$, but it cannot introduce a second regular-rational route, a direct decimal-to-real shortcut, a quotient real, a selected representative, or an ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with window normalization, \autoref{thm:decimal-expansion-window-normalization-obligation}. It forces both packets to display their finite digit ledgers and finite window ledgers before $V,Q,R,E$ can be read, so the shared window fixes the source surface for any carry operation.
+
+Use the dyadic comparison handoff, \autoref{thm:decimal-expansion-dyadic-comparison-handoff}. The shared dyadic place-value ledger places both packets on the same comparison row before either packet reaches a $\RegSeqRatUp$ handoff.
+
+Next apply the dyadic normalization lock, \autoref{thm:decimal-expansion-dyadic-normalization-lock}. It prevents carry normalization from bypassing the dyadic and regular-rational route; the normalized digit rows remain confined to the finite window and comparison ledgers.
+
+Finally use Real seal factorization, \autoref{thm:decimal-expansion-real-seal-factorization}. The terminal seal is downstream of $D,W,V,Q,R$, so equality of the displayed window and dyadic place-value ledger determines the readback route before $E$ is exposed. Since the carrier has no quotient-real, selected-representative, direct decimal-stream, or completeness coordinate, carry normalization exports no additional route beyond the finite ledger.
+\end{proof}
+
 \begin{theorem}[DecimalExpansion separability density obligation]
 \label{thm:decimal-expansion-separability-density-obligation}
 Every accepted $\DecimalExpansionUp$ packet supplies its $\RealSeparabilityUp$ density reads only through finite decimal-prefix windows. More precisely, a density-window consumer must read the digit ledger $D$, the decimal-place window ledger $W$, the place-value row $V$, the dyadic comparison row $Q$, the regular rational handoff $R$, the terminal real seal $E$, and then the structural rows $H,C,P,N$ of \autoref{def:decimal-expansion-carrier}; no dense route is exported from an infinite decimal stream, a quotient real, or a selected representative.
@@ -236,6 +256,7 @@ The $\StreamNameUp$ role is therefore fixed before dyadic comparison begins. The
 
 Apply the dyadic comparison handoff of \autoref{thm:decimal-expansion-dyadic-comparison-handoff}. Since $Q$ is the only displayed route from place value to the $\RegSeqRatUp$ handoff, each dyadic comparison read carries the prior $D,W,V$ injection into finite StreamName windows with it.
 \end{proof}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionDigitLedgerInjection}
 
 \begin{theorem}[DecimalExpansion finite prefix completeness]
 \label{thm:decimal-expansion-finite-prefix-completeness}
@@ -269,6 +290,43 @@ Use the window normalization obligation \autoref{thm:decimal-expansion-window-no
 Apply the dyadic comparison handoff of \autoref{thm:decimal-expansion-dyadic-comparison-handoff}. The comparison row $Q$ is the only displayed passage from place-value data in $V$ toward the regular rational row $R$ and the seal $E$.
 
 The endpoint-sensitive part is therefore delegated to \autoref{ch:concrete-instances-decimal-endpoint-normalization-namecert}. Only after that finite endpoint-normalization surface has acted on the same $D,W,V,Q,R,E$ route may the canonical readback surface of \autoref{ch:concrete-instances-real-decimal-normal-form-namecert} read the normalized prefix. The excluded endpoint convention, quotient real, selected stream, and completeness witness are absent from the DecimalExpansion carrier and cannot be supplied by this handoff.
+\end{proof}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionEndpointNormalizationHandoff}
+
+\begin{theorem}[DecimalExpansion endpoint Cauchy schedule]
+\label{thm:decimal-expansion-endpoint-cauchy-schedule}
+Every endpoint-sensitive Cauchy schedule consumer of an accepted $\DecimalExpansionUp$ packet must traverse the finite digit window rows $D,W$, dyadic comparison row $Q$, $\RegSeqRatUp$ readback row $R$, endpoint normalization, and the terminal $\RealUp$ seal row $E$ before any real-facing decimal read is exported. The schedule exposes only finite prefix observations and their normalized endpoint route; it does not select a decimal stream, choose a repeating-nine convention, or invoke ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the endpoint-normalization handoff of \autoref{thm:decimal-expansion-endpoint-normalization-handoff}. It already forces every endpoint-sensitive read through the displayed $D,W,V,Q,R,E$ route before the normalized decimal surface is read.
+
+Use finite prefix completeness from \autoref{thm:decimal-expansion-finite-prefix-completeness}. The packet has no additional coordinate beyond the displayed digit, window, place-value, dyadic comparison, regular readback, Real seal, transport, replay, provenance, and naming rows.
+
+The Cauchy schedule is therefore read through the same finite route. The dyadic comparison $Q$ supplies the requested tolerance window, $R$ supplies regular rational readback, endpoint normalization resolves only the displayed finite endpoint case, and $E$ is the terminal Real seal for the real-facing read.
+\end{proof}
+
+\begin{theorem}[DecimalExpansion finite-prefix separability route]
+\label{thm:decimal-expansion-finite-prefix-separability-route}
+Every finite-prefix separability consumer of an accepted $\DecimalExpansionUp$ packet must read finite digit windows $D,W$, dyadic comparison $Q$, $\RegSeqRatUp$ readback $R$, endpoint normalization, the $\RealSeparabilityUp$ finite-density route, and the terminal $\RealUp$ seal $E$ before treating the decimal packet as a real-separating datum.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:decimal-expansion-carrier}. A separability read receives the same finite prefix data as every other consumer: digit windows, place values, dyadic comparisons, regular rational readback, Real sealing, transport, replay, provenance, and local naming.
+
+Apply the finite prefix completeness theorem \autoref{thm:decimal-expansion-finite-prefix-completeness}. It prevents a separability consumer from asking for an infinite decimal stream or a selected representative outside the packet.
+
+Now use the Real seal factorization already cited by the chapter and route density through \autoref{ch:concrete-instances-real-separability-namecert}. Endpoint normalization acts before this density read, so the finite decimal prefix is normalized, read back through $R$, and sealed by $E$ before the $\RealSeparabilityUp$ surface consumes it.
+\end{proof}
+
+\begin{theorem}[DecimalExpansion real window exhaustion]
+\label{thm:decimal-expansion-real-window-exhaustion}
+For an accepted $\DecimalExpansionUp$ packet, any $\RealUp$-facing decimal read is exhausted by finite digit windows $D,W$, dyadic comparison $Q$, $\RegSeqRatUp$ readback $R$, endpoint normalization, optional $\RealSeparabilityUp$ finite-density inspection, and the terminal Real seal $E$. No real-facing consumer can bypass these rows by importing selected decimal streams, quotient-real equality, trichotomy, or Real completeness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:decimal-expansion-real-readback-boundary}. It places every real-facing read behind the displayed decimal windows, dyadic comparison, regular rational readback, and Real seal.
+
+Add the endpoint-normalization handoff of \autoref{thm:decimal-expansion-endpoint-normalization-handoff}. Endpoint-sensitive reads do not create a second route; they use the same finite prefix rows and then pass through the finite endpoint-normalization surface.
+
+Finally apply \autoref{thm:decimal-expansion-finite-prefix-separability-route} when the consumer asks for density or separability data. The $\RealSeparabilityUp$ surface receives only the finite normalized window, regular readback, and terminal seal, so the displayed rows exhaust the real-facing decimal window.
 \end{proof}
 
 \begin{closurestatus}{\DecimalExpansionUp}
