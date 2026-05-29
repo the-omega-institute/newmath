@@ -4445,6 +4445,7 @@ import BEDC.Derived.ManifoldUp.TransitionCoherence
 import BEDC.Derived.ManifoldUp.TransitionCoherenceLedger
 import BEDC.Derived.ManifoldUp.TransitionLedger
 import BEDC.Derived.MapperUp
+import BEDC.Derived.MarkedRealUp
 import BEDC.Derived.MarkovChainUp
 import BEDC.Derived.MarkovChainUp.FinitePrefix
 import BEDC.Derived.MarkovChainUp.FinitePrefixRestriction
@@ -4971,6 +4972,7 @@ import BEDC.Derived.NestedIntervalIntersectionUp
 import BEDC.Derived.NestedIntervalIntersectionUp.TasteGate
 import BEDC.Derived.NestedIntervalRealUp.TasteGate
 import BEDC.Derived.NestedIntervalSelectionUp.TasteGate
+import BEDC.Derived.NestedIntervalTheoremUp.TasteGate
 import BEDC.Derived.NestedIntervalUp
 import BEDC.Derived.NestedIntervalsTheoremUp.TasteGate
 import BEDC.Derived.NetConvergenceUp
@@ -5298,12 +5300,14 @@ import BEDC.Derived.PointwiseModulusLedgerUp.TasteGate
 import BEDC.Derived.PolePlacementUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
+import BEDC.Derived.PolishspaceUp.CompleteMetricSeparableSynthesis
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationSurface
 import BEDC.Derived.PolishspaceUp.CompleteSeparableUnblockPackage
 import BEDC.Derived.PolishspaceUp.CompletionDensityReadback
 import BEDC.Derived.PolishspaceUp.NameCertLedgerExactness
 import BEDC.Derived.PolishspaceUp.NameCertObligations
 import BEDC.Derived.PolishspaceUp.ObservationLedgerExhaustion
+import BEDC.Derived.PolishspaceUp.RegSeqRatWindowUnblock
 import BEDC.Derived.PolishspaceUp.RootCauchyBasisCarrier
 import BEDC.Derived.PolishspaceUp.RootCauchyBasisObligations
 import BEDC.Derived.PolishspaceUp.RootCompletionObligations
