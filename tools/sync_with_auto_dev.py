@@ -532,8 +532,19 @@ def _restore_autostash(stash_oid: str | None) -> None:
     We deliberately do NOT `git clean -fd` here: untracked files created by
     other daemons during our tick are not ours to delete.
     """
-    ref = stash_oid if stash_oid else "stash@{0}"
-    short = ref[:12] if stash_oid else ref
+    if not stash_oid:
+        # OID capture failed right after a successful `stash push` (rare). The
+        # local changes ARE safely stashed (push -u already cleaned the tree),
+        # we just don't know which entry is ours. NEVER fall back to
+        # `stash@{0}` — the stack is shared across all worktrees, so the top
+        # may be another process's stash. Leave our stash on the stack for
+        # manual / GC recovery instead of risking a wrong-stash apply/drop.
+        print("[sync] autostash OID was not captured; NOT touching stash@{0} "
+              "(shared stack); leaving our stash on the stack for GC/manual "
+              "recovery", file=sys.stderr)
+        return
+    ref = stash_oid
+    short = ref[:12]
     print(f"[sync] restoring autostash {short}")
     try:
         with acquire_main_checkout_lock(timeout=120):

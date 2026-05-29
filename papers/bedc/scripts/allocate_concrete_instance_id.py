@@ -96,37 +96,18 @@ def _allocate_locked() -> int:
 
 
 def allocate() -> int:
+    """Allocate a globally-unique concrete-instance number under the shared
+    lock. FAIL CLOSED: if the lock is unavailable / times out / the counter
+    write fails, raise — never return an unsynchronized `_files_max()+1`. Two
+    concurrent callers both taking such a fallback would return the SAME
+    number, which is exactly the collision this allocator exists to prevent
+    (P22207/P22209 both got 110934). A non-zero exit tells the caller to retry,
+    which is correct; a duplicate number is silent corruption."""
     _install_tools_path()
-    try:
-        from repo_push_lock import acquire_push_lock
-    except Exception as exc:
-        fallback = _files_max() + 1
-        print(
-            f"warning: concrete-instance-id lock unavailable ({exc}); "
-            f"falling back to {fallback}",
-            file=sys.stderr,
-        )
-        return fallback
+    from repo_push_lock import acquire_push_lock  # propagate ImportError → fail closed
 
-    try:
-        with acquire_push_lock("concrete-instance-id", timeout=30):
-            return _allocate_locked()
-    except TimeoutError as exc:
-        fallback = _files_max() + 1
-        print(
-            f"warning: concrete-instance-id lock timed out ({exc}); "
-            f"falling back to {fallback}",
-            file=sys.stderr,
-        )
-        return fallback
-    except Exception as exc:
-        fallback = _files_max() + 1
-        print(
-            f"warning: concrete-instance-id allocation failed ({exc}); "
-            f"falling back to {fallback}",
-            file=sys.stderr,
-        )
-        return fallback
+    with acquire_push_lock("concrete-instance-id", timeout=30):
+        return _allocate_locked()
 
 
 def main() -> int:
@@ -145,7 +126,14 @@ def main() -> int:
         print(f"files_max={files_max} counter={counter} next={next_id}")
         return 0
 
-    print(allocate())
+    try:
+        print(allocate())
+    except Exception as exc:
+        # Fail closed: emit NO number on stdout, error to stderr, non-zero
+        # exit. The caller must retry rather than risk a duplicate number.
+        print(f"error: concrete-instance-id allocation failed, not allocating "
+              f"(retry): {exc}", file=sys.stderr)
+        return 1
     return 0
 
 
