@@ -60,9 +60,8 @@ For each conflicted file:
 1. `git diff :2:<path>` and `git diff :3:<path>` to see HEAD's vs incoming version.
 2. Resolve manually (edit the file to drop conflict markers + chosen content).
 3. After all files resolved: run `bash papers/bedc/scripts/check_tex_size.sh` (must exit 0) and `cd lean4&& lake build` if any `.lean` file was touched (must succeed).
-4. `git add <each-file>` for each resolved file.
-5. `git commit --no-edit` to finalize the merge. Do NOT amend.
-6. Do NOT `git push`.
+4. Do NOT run `git add` or `git commit`; leave the resolved file contents in the working tree. The daemon will stage and commit under its shared lock.
+5. Do NOT `git push`.
 
 If you cannot resolve a conflict (genuinely incompatible semantic intent, build fails after resolution, etc.), run `git merge --abort` and explain in your final message what blocked the resolution.
 """
@@ -84,6 +83,12 @@ def git(*args, **kwargs):
     return run(["git", *args], **kwargs)
 
 
+def acquire_main_checkout_lock(timeout: int = 120):
+    from repo_push_lock import acquire_push_lock  # tools/ is on sys.path
+
+    return acquire_push_lock(SOURCE_BRANCH, timeout=timeout)
+
+
 def current_branch() -> str:
     return git("rev-parse", "--abbrev-ref", "HEAD", capture=True).stdout.strip()
 
@@ -96,6 +101,48 @@ def working_tree_dirty() -> bool:
 def conflicted_files() -> list[str]:
     out = git("diff", "--name-only", "--diff-filter=U", capture=True).stdout
     return [line for line in out.splitlines() if line]
+
+
+def has_conflict_markers(path: str) -> bool:
+    try:
+        text = (REPO_ROOT / path).read_text(encoding="utf-8", errors="ignore")
+    except Exception:
+        return True
+    return any(marker in text for marker in ("<<<<<<<", "=======", ">>>>>>>"))
+
+
+def write_locked_git_wrapper(wrapper_dir: Path) -> dict[str, str]:
+    real_git = shutil.which("git") or "/usr/bin/git"
+    tools_path = str(REPO_ROOT / "tools")
+    wrapper = wrapper_dir / "git"
+    wrapper.write_text(
+        "#!/usr/bin/env python3\n"
+        "import os\n"
+        "import subprocess\n"
+        "import sys\n"
+        f"sys.path.insert(0, {tools_path!r})\n"
+        "from repo_push_lock import acquire_push_lock\n"
+        f"REAL_GIT = {real_git!r}\n"
+        f"BRANCH = {SOURCE_BRANCH!r}\n"
+        "WRITE_CMDS = {'add', 'commit', 'reset', 'checkout', 'merge', 'pull', 'stash', 'push'}\n"
+        "argv = sys.argv[1:]\n"
+        "cmd = argv[0] if argv else ''\n"
+        "def run_git():\n"
+        "    return subprocess.call([REAL_GIT, *argv])\n"
+        "try:\n"
+        "    if cmd in WRITE_CMDS:\n"
+        "        with acquire_push_lock(BRANCH, timeout=120):\n"
+        "            sys.exit(run_git())\n"
+        "    sys.exit(run_git())\n"
+        "except TimeoutError as exc:\n"
+        "    print(f'[sync] push lock timeout in codex git {cmd}: {exc}', file=sys.stderr)\n"
+        "    sys.exit(75)\n",
+        encoding="utf-8",
+    )
+    wrapper.chmod(0o755)
+    env = os.environ.copy()
+    env["PATH"] = str(wrapper_dir) + os.pathsep + env.get("PATH", "")
+    return env
 
 
 def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
@@ -130,8 +177,10 @@ def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
         "-",
     ]
     try:
-        with open(prompt_file, "r") as pf:
-            res = subprocess.run(cmd, stdin=pf, cwd=work_dir, text=True)
+        with tempfile.TemporaryDirectory(prefix="bedc-sync-git-") as git_wrapper_dir:
+            env = write_locked_git_wrapper(Path(git_wrapper_dir))
+            with open(prompt_file, "r") as pf:
+                res = subprocess.run(cmd, stdin=pf, cwd=work_dir, text=True, env=env)
     finally:
         os.unlink(prompt_file)
 
@@ -139,22 +188,27 @@ def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
         print(f"[sync] codex exec returned rc={res.returncode}", file=sys.stderr)
         return False
 
-    # Verify resolution: no remaining conflicts and no MERGE_HEAD (commit was made).
-    if conflicted_files():
-        print(f"[sync] codex left unresolved conflicts: {conflicted_files()}", file=sys.stderr)
+    unresolved = [path for path in files if has_conflict_markers(path)]
+    if unresolved:
+        print(f"[sync] codex left conflict markers: {unresolved}", file=sys.stderr)
         return False
-    merge_head = (REPO_ROOT / ".git" / "MERGE_HEAD").exists()
-    if merge_head:
-        print("[sync] codex resolved conflicts but did not commit (MERGE_HEAD still present)", file=sys.stderr)
-        # Try to commit ourselves with a default message.
-        git("commit", "--no-edit")
+    with acquire_main_checkout_lock(timeout=120):
+        merge_head = (REPO_ROOT / ".git" / "MERGE_HEAD").exists()
+        if merge_head:
+            git("add", "--", *files)
+            remaining = conflicted_files()
+            if remaining:
+                print(f"[sync] codex left unresolved index conflicts: {remaining}", file=sys.stderr)
+                return False
+            git("commit", "--no-edit")
     return True
 
 
 def merge_with_codex_fallback(target: str, label: str) -> bool:
     """Merge `target` into HEAD. On conflict, invoke codex once. Returns True on success."""
     print(f"[sync] {label}: merging {target}...")
-    res = git("merge", "--no-ff", "--no-edit", target, check=False, capture=True)
+    with acquire_main_checkout_lock(timeout=120):
+        res = git("merge", "--no-ff", "--no-edit", target, check=False, capture=True)
     if res.returncode == 0:
         print(f"[sync] {label}: merge clean")
         return True
@@ -172,7 +226,8 @@ def merge_with_codex_fallback(target: str, label: str) -> bool:
 
     if not call_codex_to_resolve(REPO_ROOT):
         print(f"[sync] {label}: codex could not resolve; aborting merge", file=sys.stderr)
-        git("merge", "--abort", check=False)
+        with acquire_main_checkout_lock(timeout=120):
+            git("merge", "--abort", check=False)
         return False
 
     print(f"[sync] {label}: codex resolved conflicts and committed")
@@ -194,29 +249,10 @@ def push_branch(branch: str, *, set_upstream: bool = False,
     Each retry refetches origin and remerges so we push the latest
     incorporated tip, not a stale local tip that would just race again.
 
-    Concurrency: wraps each push attempt in `acquire_push_lock`
-    against a sync-private lock file (`.git/sync-<branch>.push.lock`),
-    NOT the orchestrator-shared `.git/<branch>.push.lock`. Rationale:
-    sharing the orchestrator lock starves the sync daemon — with 22
-    workers (paper 10 + lean 12) each holding it for 5-30s per merge
-    commit push, sync's 900s timeout consistently lost the race
-    (observed 2026-05-17: codex-auto-dev ran 79 commits ahead of
-    auto-dev for >30 min). Sync's own lock only serializes future
-    concurrent sync invocations against each other (currently only
-    one daemon, but defensive). The git-level push race against
-    orchestrator pushes is handled by the existing 5x retry-with-
-    backoff loop below — git push is atomic at the server, so the
-    advisory lock is purely an optimization to avoid wasted
-    fetch+merge work, which we trade for sync liveness.
+    Concurrency: wraps each push attempt in the orchestrator-shared
+    codex-auto-dev lock so main-checkout index writers serialize with
+    the other tools daemons and orchestrator merge paths.
     """
-    from contextlib import nullcontext
-    try:
-        from repo_push_lock import acquire_push_lock as _pl  # tools/ is on sys.path
-        # 300s is plenty for sync-private lock (no contention with
-        # orchestrators); only serializes future concurrent sync runs.
-        push_lock_cm = lambda: _pl(f"sync-{branch}", timeout=300)
-    except Exception:
-        push_lock_cm = lambda: nullcontext()
     env = os.environ.copy()
     env.setdefault("LEAN4_GUARDRAILS_BYPASS", "1")
     backoff = 1.0
@@ -227,7 +263,7 @@ def push_branch(branch: str, *, set_upstream: bool = False,
             cmd.extend(["--set-upstream", "origin", branch])
         else:
             cmd.extend(["origin", branch])
-        with push_lock_cm():
+        with acquire_main_checkout_lock(timeout=120):
             res = subprocess.run(cmd, cwd=REPO_ROOT, env=env)
         if res.returncode == 0:
             if attempt > 1:
@@ -245,18 +281,20 @@ def push_branch(branch: str, *, set_upstream: bool = False,
         backoff = min(backoff * 2, 16.0)
         # Pull latest origin into branch via merge --no-ff so a fresh
         # SHA gets pushed. If the merge itself fails the retry stops.
-        fetch = git("fetch", "origin", branch,
-                    check=False, capture=True)
-        if fetch.returncode != 0:
-            print(f"[sync] push retry refetch failed: {fetch.stderr.strip()[:200]}",
-                  file=sys.stderr)
-            continue
-        merge = git("merge", "--no-ff", "--no-edit", f"origin/{branch}",
-                    check=False, capture=True)
+        with acquire_main_checkout_lock(timeout=120):
+            fetch = git("fetch", "origin", branch,
+                        check=False, capture=True)
+            if fetch.returncode != 0:
+                print(f"[sync] push retry refetch failed: {fetch.stderr.strip()[:200]}",
+                      file=sys.stderr)
+                continue
+            merge = git("merge", "--no-ff", "--no-edit", f"origin/{branch}",
+                        check=False, capture=True)
         if merge.returncode != 0:
             # Merge conflict or other error — abort and let outer loop
             # handle (codex conflict resolver path).
-            git("merge", "--abort", check=False, capture=True)
+            with acquire_main_checkout_lock(timeout=120):
+                git("merge", "--abort", check=False, capture=True)
             print(f"[sync] push retry remerge had conflict; aborting retry",
                   file=sys.stderr)
             return last_rc
@@ -296,9 +334,10 @@ def ensure_local_tracks_origin(branch: str) -> bool:
         # conflict resolution. Leaving the divergence as-is wedges the
         # rest of the sync (push step gets `non-fast-forward` rejection
         # forever).
-        git("checkout", branch)
-        ff = git("merge", "--ff-only", f"origin/{branch}",
-                 check=False, capture=True)
+        with acquire_main_checkout_lock(timeout=120):
+            git("checkout", branch)
+            ff = git("merge", "--ff-only", f"origin/{branch}",
+                     check=False, capture=True)
         if ff.returncode == 0:
             return True
         print(f"[sync] {branch} cannot ff origin/{branch} (diverged); "
@@ -311,21 +350,27 @@ def ensure_local_tracks_origin(branch: str) -> bool:
             return False
         return True
     # Create new local tracking branch from origin.
-    git("checkout", "-b", branch, f"origin/{branch}")
+    with acquire_main_checkout_lock(timeout=120):
+        git("checkout", "-b", branch, f"origin/{branch}")
     return True
 
 
 def sync_one_direction(target: str, source: str, *, no_push: bool) -> bool:
     """Checkout `target`, merge `source` into it, push origin/<target>.
     Returns True on success."""
-    if not ensure_local_tracks_origin(target):
+    try:
+        if not ensure_local_tracks_origin(target):
+            return False
+        label = f"{target} <- {source}"
+        if not merge_with_codex_fallback(source, label=label):
+            return False
+        if no_push:
+            return True
+        rc = push_branch(target)
+    except TimeoutError as exc:
+        print(f"[sync] push lock timeout while syncing {target}: {exc}",
+              file=sys.stderr)
         return False
-    label = f"{target} <- {source}"
-    if not merge_with_codex_fallback(source, label=label):
-        return False
-    if no_push:
-        return True
-    rc = push_branch(target)
     if rc != 0:
         print(f"[sync] push origin {target} failed (rc={rc})", file=sys.stderr)
         return False
@@ -436,27 +481,33 @@ def sync_dev_to_auto_dev_validated(*, no_push: bool) -> bool:
     if no_push:
         return sync_one_direction(MIRROR_BRANCH, dev_sha, no_push=True)
 
-    if has_local_branch(MIRROR_BRANCH):
-        git("checkout", MIRROR_BRANCH)
-        ff = git("merge", "--ff-only", mirror_sha, check=False, capture=True)
-        if ff.returncode != 0:
-            print("[sync] dev->auto-dev: local auto-dev cannot fast-forward to validated base")
-            return False
-    else:
-        git("checkout", "-b", MIRROR_BRANCH, mirror_sha)
-    merge = git("merge", "--no-ff", "--no-edit", dev_sha,
-                check=False, capture=True)
-    if merge.returncode != 0:
-        git("merge", "--abort", check=False, capture=True)
-        print("[sync] dev->auto-dev: validated merge failed in main checkout; retry next cycle")
+    try:
+        with acquire_main_checkout_lock(timeout=120):
+            if has_local_branch(MIRROR_BRANCH):
+                git("checkout", MIRROR_BRANCH)
+                ff = git("merge", "--ff-only", mirror_sha, check=False, capture=True)
+                if ff.returncode != 0:
+                    print("[sync] dev->auto-dev: local auto-dev cannot fast-forward to validated base")
+                    return False
+            else:
+                git("checkout", "-b", MIRROR_BRANCH, mirror_sha)
+            merge = git("merge", "--no-ff", "--no-edit", dev_sha,
+                        check=False, capture=True)
+            if merge.returncode != 0:
+                git("merge", "--abort", check=False, capture=True)
+                print("[sync] dev->auto-dev: validated merge failed in main checkout; retry next cycle")
+                return False
+            push = run(["git", "push", "origin", f"HEAD:refs/heads/{MIRROR_BRANCH}"],
+                       check=False, capture=True)
+            if push.returncode != 0:
+                print(f"[sync] dev->auto-dev: push failed after validation rc={push.returncode}; "
+                      f"retry next cycle")
+                return False
+            git("fetch", "origin", "--prune", check=False, capture=True)
+    except TimeoutError as exc:
+        print(f"[sync] push lock timeout during validated dev merge: {exc}",
+              file=sys.stderr)
         return False
-    push = run(["git", "push", "origin", f"HEAD:refs/heads/{MIRROR_BRANCH}"],
-               check=False, capture=True)
-    if push.returncode != 0:
-        print(f"[sync] dev->auto-dev: push failed after validation rc={push.returncode}; "
-              f"retry next cycle")
-        return False
-    git("fetch", "origin", "--prune", check=False, capture=True)
     print("[sync] dev->auto-dev: pushed locally validated merge")
     return True
 
@@ -481,20 +532,36 @@ def _restore_autostash(stash_oid: str | None) -> None:
     We deliberately do NOT `git clean -fd` here: untracked files created by
     other daemons during our tick are not ours to delete.
     """
-    ref = stash_oid if stash_oid else "stash@{0}"
-    short = ref[:12] if stash_oid else ref
-    print(f"[sync] restoring autostash {short}")
-    apply = git("stash", "apply", ref, check=False, capture=True)
-    if apply.returncode == 0:
-        # Clean re-apply: drop our stash so the stack does not grow.
-        git("stash", "drop", ref, check=False, capture=True)
+    if not stash_oid:
+        # OID capture failed right after a successful `stash push` (rare). The
+        # local changes ARE safely stashed (push -u already cleaned the tree),
+        # we just don't know which entry is ours. NEVER fall back to
+        # `stash@{0}` — the stack is shared across all worktrees, so the top
+        # may be another process's stash. Leave our stash on the stack for
+        # manual / GC recovery instead of risking a wrong-stash apply/drop.
+        print("[sync] autostash OID was not captured; NOT touching stash@{0} "
+              "(shared stack); leaving our stash on the stack for GC/manual "
+              "recovery", file=sys.stderr)
         return
-    out = ((apply.stdout or "") + (apply.stderr or "")).strip()[:240]
-    print(f"[sync] autostash re-apply failed ({out}); hard-resetting tracked "
-          f"files to HEAD and quarantining stash {short} for GC/manual "
-          f"recovery (NOT cleaning untracked — may belong to other daemons)",
-          file=sys.stderr)
-    git("reset", "--hard", "HEAD", check=False, capture=True)
+    ref = stash_oid
+    short = ref[:12]
+    print(f"[sync] restoring autostash {short}")
+    try:
+        with acquire_main_checkout_lock(timeout=120):
+            apply = git("stash", "apply", ref, check=False, capture=True)
+            if apply.returncode == 0:
+                # Clean re-apply: drop our stash so the stack does not grow.
+                git("stash", "drop", ref, check=False, capture=True)
+                return
+            out = ((apply.stdout or "") + (apply.stderr or "")).strip()[:240]
+            print(f"[sync] autostash re-apply failed ({out}); hard-resetting tracked "
+                  f"files to HEAD and quarantining stash {short} for GC/manual "
+                  f"recovery (NOT cleaning untracked — may belong to other daemons)",
+                  file=sys.stderr)
+            git("reset", "--hard", "HEAD", check=False, capture=True)
+    except TimeoutError as exc:
+        print(f"[sync] push lock timeout while restoring autostash {short}: {exc}",
+              file=sys.stderr)
 
 
 def main():
@@ -519,9 +586,15 @@ def main():
     stash_oid = None
     if working_tree_dirty():
         print("[sync] working tree dirty; stashing with -u")
-        git("stash", "push", "-u", "-m", f"sync_with_auto_dev autostash {os.getpid()}")
-        res = git("rev-parse", "--verify", "--quiet", "stash@{0}",
-                  check=False, capture=True)
+        try:
+            with acquire_main_checkout_lock(timeout=120):
+                git("stash", "push", "-u", "-m", f"sync_with_auto_dev autostash {os.getpid()}")
+                res = git("rev-parse", "--verify", "--quiet", "stash@{0}",
+                          check=False, capture=True)
+        except TimeoutError as exc:
+            print(f"[sync] push lock timeout while stashing dirty tree: {exc}",
+                  file=sys.stderr)
+            return
         stash_oid = res.stdout.strip() if res.returncode == 0 else None
         stashed = True
 
@@ -575,7 +648,12 @@ def main():
         # Always switch back to the branch the user started on.
         if original != current_branch():
             print(f"[sync] switching back to {original}")
-            git("checkout", original, check=False)
+            try:
+                with acquire_main_checkout_lock(timeout=120):
+                    git("checkout", original, check=False)
+            except TimeoutError as exc:
+                print(f"[sync] push lock timeout while switching back to {original}: {exc}",
+                      file=sys.stderr)
         if stashed:
             _restore_autostash(stash_oid)
 
