@@ -2717,6 +2717,7 @@ import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
 import BEDC.Derived.DefinitionTheoremProofAuditUp.TasteGate
 import BEDC.Derived.DeformQuantizationUp
 import BEDC.Derived.DenjoyIntegralUp.TasteGate
+import BEDC.Derived.DenseCauchyEmbeddingUp.TasteGate
 import BEDC.Derived.DenseExtensionMetricUp.TasteGate
 import BEDC.Derived.DenseImageCompletionUp.TasteGate
 import BEDC.Derived.DenseUniformEmbeddingUp
@@ -3040,6 +3041,7 @@ import BEDC.Derived.DirectedSetUp.TasteGate
 import BEDC.Derived.DirichletApproximationUp.TasteGate
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
+import BEDC.Derived.DirichletUniformConvergenceUp.TasteGate
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.DivisibilityUp
@@ -4270,6 +4272,7 @@ import BEDC.Derived.LinearMapUp.Image
 import BEDC.Derived.LinearMapUp.PointwiseClassifier
 import BEDC.Derived.LinearMapUp.StdBridge
 import BEDC.Derived.LinearMapUp.ZeroClassifierUniqueness
+import BEDC.Derived.LiouvilleNumberUp.TasteGate
 import BEDC.Derived.LipschitzContinuityHandoffUp.TasteGate
 import BEDC.Derived.LipschitzFunctionUp.TasteGate
 import BEDC.Derived.LipschitzMapUp
@@ -5281,8 +5284,10 @@ import BEDC.Derived.PolishspaceUp.CompleteSeparableUnblockPackage
 import BEDC.Derived.PolishspaceUp.CompletionDensityReadback
 import BEDC.Derived.PolishspaceUp.NameCertObligations
 import BEDC.Derived.PolishspaceUp.ObservationLedgerExhaustion
+import BEDC.Derived.PolishspaceUp.RootCauchyBasisCarrier
 import BEDC.Derived.PolishspaceUp.RootCauchyBasisObligations
 import BEDC.Derived.PolishspaceUp.RootCompletionObligations
+import BEDC.Derived.PolishspaceUp.RootCompletionSeparabilityHandoff
 import BEDC.Derived.PolishspaceUp.StreamNameRealDependencyAnchor
 import BEDC.Derived.PolishspaceUp.TasteGate
 import BEDC.Derived.PolynomialUp
@@ -6794,10 +6799,12 @@ import BEDC.Derived.ToposUp
 import BEDC.Derived.ToposUp.NameCertObligationSurface
 import BEDC.Derived.TotalBoundedMetricUp.TasteGate
 import BEDC.Derived.TotalHostFuelHandoffUp.TasteGate
+import BEDC.Derived.TotalVariationFunctionUp.TasteGate
 import BEDC.Derived.TotallyBoundedClosureUp.TasteGate
 import BEDC.Derived.TotallyBoundedMetricUp.TasteGate
 import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.TotallyBoundedUp.TasteGate
+import BEDC.Derived.TotallyDisconnectedSpaceUp.TasteGate
 import BEDC.Derived.TowerEndpointReflectionUp.TasteGate
 import BEDC.Derived.TowerEquivalenceUp.NameCertObligations
 import BEDC.Derived.TowerEquivalenceUp.RefinementSeparation
