@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\RuleOneTenPatternClassifierUp$}
+\label{ch:concrete-instances-rule110-pattern-classifier-namecert}
+\origin{ai}
+
+The $\RuleOneTenPatternClassifierUp$ packet realizes the Rule 110 pattern-classifier branch of \autoref{ch:visions-cellular-automaton-substrate-reading} as finite BEDC NameCert data. It consumes the cellular automaton carrier of \autoref{ch:concrete-instances-cellularautomaton-namecert}, the row-classifier surface of \autoref{ch:concrete-instances-cellularrowclassifier-namecert}, the pattern catalog of \autoref{ch:concrete-instances-cellularpatterncatalog-namecert}, the local-stencil observation route of \autoref{ch:concrete-instances-local-stencil-observation-namecert}, and the Rule 110 glider catalog of \autoref{ch:concrete-instances-rule110glidercatalog-namecert}. The packet names finite row windows, transition-table reads, orbit prefixes, pattern tags, transport, replay, provenance, and a local NameCert row; it is not a universality theorem, an infinite-orbit classifier, an undecidable continuation oracle, or a hidden substrate semantics.
+
+\begin{definition}[Rule 110 pattern classifier carrier]
+\label{def:rule110-pattern-classifier-carrier}
+A $\RuleOneTenPatternClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+R=(W,T,O,G,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the finite row-window row, naming the inspected Rule 110 space-time rectangle and its boundary cells.
+\item $T$ is the transition-table row, exposing the eight local update cases used to advance the window.
+\item $O$ is the orbit-prefix row, recording the finite sequence of rows replayed from the initial window by $T$.
+\item $G$ is the glider and ether catalog row consumed from $\RuleOneTenGliderCatalogUp$ and $\CellularPatternCatalogUp$.
+\item $K$ is the classifier-tag row, assigning each inspected subwindow to a displayed ether, glider, collision, boundary, or unknown tag.
+\item $H$ stores componentwise $\hsame$ transport for windows, transition-table rows, orbit prefixes, tags, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a classifier request through $W,T,O,G,K$.
+\item $P$ is the $\Pkg$ provenance over $\RuleOneTenPatternClassifierUp$, $\CellularAutomatonUp$, $\CellularRowClassifierUp$, $\CellularPatternCatalogUp$, $\RuleOneTenGliderCatalogUp$, $\LocalStencilObservationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RuleOneTenPatternClassifierUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for infinite continuation, termination of all continuations, host universality, unbounded pattern search, quotient orbit equality, or a substrate semantics outside the displayed rows.
+\end{definition}
+
+\begin{theorem}[Rule 110 pattern classifier NameCert obligations]
+\label{thm:rule110-pattern-classifier-namecert-obligations}
+For every accepted $\RuleOneTenPatternClassifierUp$ carrier
+$$
+R=(W,T,O,G,K,H,C,P,N),
+$$
+the local $\NameCert_{\RuleOneTenPatternClassifierUp}$ surface consists exactly of row-window admission through $W$, transition-table exposure through $T$, orbit-prefix replay through $O$, catalog lookup through $G$, classifier-tag exactness through $K$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:rule110-pattern-classifier-carrier}. The finite cellular rows are exactly the inspected window $W$, transition table $T$, orbit prefix $O$, catalog row $G$, classifier row $K$, and the structural rows $H,C,P,N$.
+
+The transition-table row is read before the orbit prefix, so every displayed successor row is justified by the same eight local Rule 110 cases. The classifier tag is then attached to a finite subwindow already present in $O$ and compared against the catalog row $G$.
+
+The transport and replay rows preserve that order. Since the carrier contains no infinite continuation coordinate, no all-continuations termination field, no unbounded pattern search, no quotient orbit equality, and no host universality proof, the local NameCert obligations are exhausted by the listed finite rows.
+\end{proof}
+
+\falsifiablePrediction{A $\RuleOneTenPatternClassifierUp$ classifier read that assigns a glider, ether, collision, boundary, or unknown tag without exposing the finite row window, transition-table row, orbit-prefix row, catalog row, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows refutes the carrier of \autoref{def:rule110-pattern-classifier-carrier}.}
+
+\independenceWitness{continuationautomaton, finiteprefixautomaton, continuationtermination, typecheckingmembershiptrace, classifiermorphism: $\RuleOneTenPatternClassifierUp$ is not bijective to any listed sibling because it jointly carries Rule 110 row windows, the transition table, orbit prefixes, catalog tags, classifier transport, replay, provenance, and local NameCert rows.}
+
+The Lean TasteGate file for this packet must provide $\mathsf{Nontrivial}\ \RuleOneTenPatternClassifierUp$ and $\mathsf{FieldFaithful}\ \RuleOneTenPatternClassifierUp$ instances for the displayed rows $W,T,O,G,K,H,C,P,N$ before the classifier can serve as a verified taste-gate consumer.
+
+\closureat{RuleOneTenPatternClassifierUp}{seedStr}
+
+\begin{closurestatus}{\RuleOneTenPatternClassifierUp}
+  \constructivestory{A $\RuleOneTenPatternClassifierUp$ packet is generated from a finite Rule 110 row window, transition table, orbit prefix, pattern catalog, classifier tags, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rule110-pattern-classifier-carrier} and \autoref{thm:rule110-pattern-classifier-namecert-obligations} seed the finite Rule 110 pattern-classifier packet over row-window, transition-table, orbit-prefix, catalog, tag, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a universality theorem, infinite-orbit classification, continuation termination, unbounded pattern search, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked row-window admission, transition-table exposure, orbit-prefix replay, catalog lookup, classifier-tag exactness, TasteGate nontriviality, field faithfulness, transport, replay, provenance, and local naming for BEDC.Derived.RuleOneTenPatternClassifierUp.}
+\end{closurestatus}

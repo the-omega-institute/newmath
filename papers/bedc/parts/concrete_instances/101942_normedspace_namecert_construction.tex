@@ -110,6 +110,61 @@ Completion-facing requests then pass through $Q$. This row stores only Cauchy wi
 The structural rows $H,T,P,C$ preserve the same route under transport, replay, provenance, and local naming. Thus every listed consumer sees exactly the displayed VecSpace, Real, Metric, and Completion rows, and no host normed-space structure or choice-based completion datum is introduced.
 \end{proof}
 
+\begin{theorem}[NormedSpace root-unblock source triad]
+\label{thm:normed-space-root-unblock-source-triad}
+For every accepted $\NormedSpaceUp$ packet
+$$
+S=(V,R,N,M,Q,H,T,P,C),
+$$
+the root-unblock handoff to Banach, Hilbert, bounded-operator, and functional-analysis consumers is exhausted by the following three displayed source obligations:
+\begin{enumerate}
+\item the $\VecSpaceUp$ carrier is transported through the $\NormUp$ row $N$ by the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows that name $S$;
+\item the $\MetricUp$ identity-of-indiscernibles read is routed through the zero norm row, the $\RealUp$ zero and order cells in $R$, and the displayed vector-zero classifier in $V$;
+\item the $\CompletionUp$ handoff is a nonescape handoff through $Q,H,T,P,C$, carrying only Cauchy windows and tolerance requests derived from $V,R,N,M$.
+\end{enumerate}
+No source obligation quantifies over abstract source-equivalence pairs, and no consumer receives host vector equality, quotient completion, selected limits, basis choice, classical duality, or an ambient Banach or Hilbert structure.
+\end{theorem}
+\begin{proof}
+Project the carrier $S$. The vector-space source is the row $V$, and the norm row $N$ is the only row that can expose a real-valued norm read over vectors from $V$.
+
+For the carrier-transport obligation, read $V$ through $N$ and then through $H,T,P,C$. This keeps the $\VecSpaceUp$ source inside the same $\BHist$ packet and makes the local $\NameCert$ row the only naming boundary.
+
+For identity of indiscernibles, use \autoref{thm:normed-space-zero-exactness}. The zero norm row reads the $\RealUp$ zero and order cells in $R$ and then returns to the displayed vector-zero classifier in $V$, so the induced $\MetricUp$ row $M$ has no independent equality source.
+
+For completion handoff, use \autoref{thm:normed-space-completion-handoff}. The row $Q$ stores Cauchy windows and tolerance requests only after the vector, Real, norm, and metric rows have been displayed, while $H,T,P,C$ preserve the same route for downstream consumers.
+
+Thus the three obligations are finite source rows of the packet itself. Since no abstract source-equivalence pair, host vector equality, quotient completion, selected limit, basis choice, classical duality, or ambient Banach or Hilbert coordinate occurs in $S$, the root-unblock surface is exactly the displayed triad.
+\end{proof}
+
+\begin{theorem}[NormedSpace Banach-completion nonescape]
+\label{thm:normed-space-banach-completion-nonescape}
+Every Banach, Hilbert, bounded-operator, or functional-analysis consumer of an accepted $\NormedSpaceUp$ packet
+$$
+S=(V,R,N,M,Q,H,T,P,C)
+$$
+must read the displayed route $V,R,N,M,Q,H,T,P,C$ before any completion-facing handoff is available. The packet exposes vector operations only through $\VecSpaceUp$ row $V$, real-valued norm and scalar-size data only through $R,N$, metric comparisons only through the induced metric row $M$, and completion requests only through $Q,H,T,P,C$.
+
+It cannot supply quotient completion, selected limits, basis choice, host vector equality, classical duality, or ambient Banach/Hilbert structure.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:normed-space-zero-exactness} for the vector-zero boundary. A zero norm read returns to the displayed vector-zero classifier in $V$ after passing through the $\RealUp$ zero and order cells in $R$, so no host vector equality or quotient equality can enter through the norm row.
+
+Use \autoref{thm:normed-space-metric-nonescape} for metric consumers. The metric row $M$ reads distance as a norm of a displayed vector difference through $V,N,R$, and therefore has no independent host metric or ambient Banach coordinate.
+
+Next apply \autoref{thm:normed-space-completion-handoff}. Completion-facing reads pass through $Q$ only after the vector, Real, norm, and metric rows have been displayed, and $Q$ stores Cauchy windows and tolerance requests rather than a quotient completion or selected completed point.
+
+Finally use \autoref{thm:normed-space-root-unblock-source-triad}. The structural rows $H,T,P,C$ transport, replay, source, and name the same route for downstream Banach, Hilbert, bounded-operator, and functional-analysis consumers, so the displayed packet admits no basis choice, classical duality, host equality, selected limit, or ambient Banach/Hilbert datum.
+\end{proof}
+
+\paragraph{VecSpace carrier transport obligation.}
+Every $\NormedSpaceUp$ consumer that needs the vector-space source must read the $\VecSpaceUp$ carrier row $V$ through the $\NormUp$ row $N$ and the structural rows $H,T,P,C$. The transported carrier is therefore a finite $\BHist$ route with $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming; it is not a host vector-space equality or an abstract source-equivalence comparison.
+
+\paragraph{Metric zero-row identity obligation.}
+Every $\MetricUp$ identity-of-indiscernibles read exported by $M$ must pass through the zero norm row in $N$, the $\RealUp$ zero and order cells in $R$, and the displayed vector-zero classifier in $V$. The packet supplies metric identity only through this zero-norm route, not through quotient vector equality, host metric equality, basis coordinates, or an external ordered-field argument.
+
+\paragraph{Completion handoff nonescape obligation.}
+Every $\CompletionUp$ request exported by $Q$ is a handoff over the already displayed $V,R,N,M$ rows. The completion-facing consumer receives Cauchy windows and tolerance requests transported by $H$, replayed by $T$, sourced by $P$, and named by $C$, but receives no quotient completion, selected completed point, choice principle, ambient Banach object, or Hilbert-space structure.
+
 \falsifiablePrediction{An accepted $\NormedSpaceUp$ consumer that reaches a Banach, Hilbert, bounded-operator, or functional-analysis read without first reading the displayed rows $V,R,N,M,Q,H,T,P,C$ refutes the carrier surface.}
 
 \independenceWitness{norm, normed-real-line, metricspace, cauchycompletion: no listed sibling supplies the full non-singleton packet $S=(V,R,N,M,Q,H,T,P,C)$, because each sibling contributes only a singleton norm instance, a one-dimensional real-line normed surface, a metric readback, or a completion handoff while this chapter binds the general normed-vector-space NameCert interface into one finite carrier.}
