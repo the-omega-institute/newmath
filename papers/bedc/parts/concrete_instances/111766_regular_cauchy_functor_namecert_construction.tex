@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyFunctorUp$}
+\label{ch:concrete-instances-regular-cauchy-functor-namecert}
+\origin{human}
+
+Following Bishop and Bridges on uniform maps between regular Cauchy presentations, the $\RegularCauchyFunctorUp$ packet records the finite transport route by which a regular Cauchy name in one displayed presentation is read as a regular Cauchy name in another. It sits between the finite $\StreamNameUp$ windows of \autoref{ch:concrete-instances-streamname-namecert}, the rational regular readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion-facing functorial surface of \autoref{ch:concrete-instances-cauchycompletionfunctor-namecert}. The packet names functorial transport as displayed $\BHist$ data; it does not assert quotient representative equality, select a limiting real, or import ambient completeness.
+
+\begin{definition}[Regular Cauchy functor carrier]
+\label{def:regular-cauchy-functor-carrier}
+A $\RegularCauchyFunctorUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,T,M,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\StreamNameUp$ row, recording the inspected source windows, source precision requests, and regular Cauchy tail schedule.
+\item $T$ is the target $\StreamNameUp$ row, recording the target windows produced by the transported readback.
+\item $M$ is the modulus row, naming the finite precision conversion that sends each target request to a source request.
+\item $R$ is the mapped $\RegSeqRatUp$ readback row, assembled from the source windows in $S$, the target windows in $T$, and the modulus row $M$.
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance-control row, recording the dyadic radii, slack, comparison budget, and tail inequalities used by the transport.
+\item $H$ is the componentwise $\hsame$ transport row for $S,T,M,R,Q,C,P,N$.
+\item $C$ is the displayed $\Cont$ replay row from a target precision request through the modulus row, source window, mapped readback, dyadic tolerance ledger, and target window.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyFunctorUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyCompletionFunctorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyFunctorUp}$ row binding the displayed transport packet.
+\end{enumerate}
+The classifier compares accepted packets only through $S,T,M,R,Q,H,C,P,N$. It has no coordinate for selected limits, quotient stream representatives, host function extensionality, full $\RealUp$ completeness, countable choice, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy functor NameCert obligations]
+\label{thm:regular-cauchy-functor-namecert-obligations}
+For every accepted $\RegularCauchyFunctorUp$ carrier
+$$
+F=(S,T,M,R,Q,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyFunctorUp}$ surface consists exactly of carrier admission, source-window display, target-window display, modulus-row display, mapped $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance control, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-functor-carrier}. The analytic rows are $S,T,M,R,Q$: they expose the source observations, target observations, finite precision conversion, mapped rational readback, and dyadic tolerance budget.
+
+The structural rows cannot add a new analytic coordinate. The row $H$ preserves the displayed components, $C$ replays the same request route, $P$ records the sibling dependencies, and $N$ names the resulting packet.
+
+Since no row for selected limits, quotient representatives, or host function equality is present, the listed rows exhaust the local NameCert obligations. Any transport claim omitting one of them is only a projection of $F$, not an accepted $\RegularCauchyFunctorUp$ packet.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy functor composition law]
+\label{thm:regular-cauchy-functor-composition-law}
+Let $F=(S,T,M,R,Q,H,C,P,N)$ and $G=(T,U,M',R',Q',H',C',P',N')$ be accepted $\RegularCauchyFunctorUp$ packets whose target row of $F$ is the source row of $G$. Their displayed composite is the finite packet obtained by composing the modulus rows $M'$ after $M$, replaying the source-to-middle and middle-to-target windows through $C$ and $C'$, and concatenating the readback, tolerance, transport, provenance, and local-name rows. The composite exports only the resulting $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data.
+\end{theorem}
+\begin{proof}
+Read the shared row $T$ as the middle window surface. The first packet transports a target request for $T$ back to $S$ by $M,C$, while the second transports a target request for $U$ back to $T$ by $M',C'$.
+
+Compose the request conversions in the displayed order. The replay route first uses $C'$ to reach the middle request, then $C$ to reach the source request; the readback rows $R,R'$ and tolerance rows $Q,Q'$ supply the rational and dyadic evidence for the same route.
+
+The remaining rows are structural. Componentwise transport is inherited from $H,H'$, provenance is repacked from $P,P'$, and the local names $N,N'$ bind the composite certificate. No additional host equality or selected limit is introduced by this finite repacking.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy functor Real seal nonescape]
+\label{thm:regular-cauchy-functor-real-seal-nonescape}
+Every $\RealUp$-facing consumer of an accepted $\RegularCauchyFunctorUp$ packet factors through the displayed source and target $\StreamNameUp$ rows, the modulus row, the mapped $\RegSeqRatUp$ readback, and the $\DyadicRatCoreUp$ tolerance-control row before any real-name seal can be read. The packet exports no selected limit, no quotient representative, no full $\RealUp$ completeness theorem, and no independent host map.
+\end{theorem}
+\begin{proof}
+Use the carrier $F=(S,T,M,R,Q,H,C,P,N)$. A real-name read can only use the target windows in $T$ after the replay route has opened the precision conversion $M$, the source windows $S$, the mapped readback $R$, and the dyadic tolerance ledger $Q$.
+
+The rows $H,C,P,N$ preserve, replay, source, and name this same finite route. They do not contain a coordinate for selecting a limit or replacing the displayed stream by a quotient representative.
+
+Thus any $\RealUp$ seal obtained from the packet remains downstream of the named regular Cauchy transport surface. A consumer that asks for ambient completeness or a host map has left the carrier described in \autoref{def:regular-cauchy-functor-carrier}.
+\end{proof}
+
+\closureat{RegularCauchyFunctorUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyFunctorUp}
+  \constructivestory{A $\RegularCauchyFunctorUp$ packet is generated from source and target StreamName windows, a finite modulus row, mapped RegSeqRat readback, DyadicRatCore tolerance control, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-functor-carrier}, \autoref{thm:regular-cauchy-functor-namecert-obligations}, \autoref{thm:regular-cauchy-functor-composition-law}, and \autoref{thm:regular-cauchy-functor-real-seal-nonescape} seed the finite functorial transport surface for regular Cauchy names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient representatives, full Real completeness, host function equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-window display, target-window display, modulus conversion, RegSeqRat readback exactness, DyadicRatCore tolerance control, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyFunctorUp.}
+\end{closurestatus}
