@@ -1,0 +1,38 @@
+\begin{theorem}[Regular Cauchy gluing L10 sibling route]
+\label{thm:regular-cauchy-gluing-l10-sibling-route}
+Every accepted $\RegularCauchyGluingUp$ packet reads its local gluing route
+through the L10 sibling lattice before it exports a NameCert row. The route
+first consumes the $\DyadicRatCoreUp$ tolerance rows of
+\autoref{ch:concrete-instances-dyadicratcore-namecert}, the $\StreamNameUp$
+finite observation windows of
+\autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$
+regular readbacks of \autoref{ch:concrete-instances-regseqrat-namecert}, the
+terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and
+the Cauchy reindexing handoff of
+\autoref{ch:concrete-instances-cauchy-reindexing-namecert}.
+
+Thus the gluing packet exports only a local finite NameCert route over the
+displayed dyadic, stream, regular-rational, Real-seal, and reindexing rows. It
+does not expose quotient stream equality, selected representatives, host real
+equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-gluing-carrier}. Its
+visible rows are two local regular windows, the common dyadic ledger, the
+finite observation row, the glued regular readback, the Real seal, and the
+transport, replay, provenance, and naming rows.
+
+Apply \autoref{thm:regular-cauchy-gluing-namecert-obligations}. The local
+NameCert surface must read exactly those rows, with the dyadic ledger,
+StreamName windows, RegSeqRat readback, and Real seal appearing before the
+certificate is exported.
+
+Use \autoref{thm:regular-cauchy-gluing-cauchy-reindexing-handoff} for the
+reindexing component. It identifies the same dyadic, stream, and regular
+readback rows as a $\CauchyReindexingUp$-compatible route.
+
+The exclusions are inherited from the carrier inventory and the overlap
+stability theorem. Since no coordinate stores quotient stream equality,
+selected representatives, host real equality, choice, or ambient completeness,
+the L10 sibling route remains a finite local NameCert route.
+\end{proof}
