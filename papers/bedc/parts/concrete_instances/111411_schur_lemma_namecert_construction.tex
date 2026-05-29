@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\SchurLemmaUp$}
+\label{ch:concrete-instances-schur-lemma-namecert}
+\origin{human}
+
+Following Schur and the finite-group representation-theory treatments of Serre and Fulton--Harris, the $\SchurLemmaUp$ packet records the finite Hom-intertwiner boundary for irreducible representation rows. It sits between the finite representation carrier of \autoref{ch:concrete-instances-finite-group-representation-namecert}, the character-theory trace surface of \autoref{ch:concrete-instances-charactertheory-namecert}, the representation-ring package of \autoref{ch:concrete-instances-representationring-namecert}, the orthogonality route of \autoref{ch:concrete-instances-schurorthogonality-namecert}, and the character-table consumer of \autoref{ch:concrete-instances-character-table-namecert}.
+
+\begin{definition}[SchurLemma carrier]
+\label{def:schur-lemma-carrier}
+A $\SchurLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+K=(U,V,H,S,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is an irreducible finite representation row over the same finite group source used by \autoref{def:finite-group-representation-carrier};
+\item $V$ is a second irreducible finite representation row over the same finite group source;
+\item $H$ is the displayed $\mathsf{Hom}$ and intertwiner row from $U$ to $V$, recording equivariance rather than all host linear maps;
+\item $S$ is the scalar-or-zero boundary: when the two irreducible rows are the same finite representation row, accepted endomorphism reads factor through one scalar row, and when they are distinct no nonzero intertwiner row is exported;
+\item $T$ records componentwise $\hsame$ transport for the representation rows, Hom row, scalar-or-zero boundary, route, provenance, and naming rows;
+\item $R$ records displayed $\Cont$ replay from the finite representation packet through the Hom row into the scalar-or-zero boundary;
+\item $P$ is the $\Pkg$ provenance over $\FiniteGroupRepresentationUp$, $\CharacterTheoryUp$, $\RepresentationRingUp$, $\SchurOrthogonalityUp$, $\CharacterTableUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\SchurLemmaUp}$ row.
+\end{enumerate}
+The carrier is exactly this finite representation-theory packet. It has no coordinate for a host abelian category, unrestricted module category, global algebra closure, or unrecorded linear-map equality.
+\end{definition}
+
+\begin{theorem}[SchurLemma NameCert obligations]
+\label{thm:schur-lemma-namecert-obligations}
+For the carrier of \autoref{def:schur-lemma-carrier}, the local $\NameCert_{\SchurLemmaUp}$ surface consists exactly of carrier admission for $K=(U,V,H,S,T,R,P,N)$, irreducible finite representation exposure through $U,V$, Hom-intertwiner exposure through $H$, scalar-or-zero boundary exposure through $S$, componentwise $\hsame$ transport through $T$, displayed $\Cont$ replay through $R$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The packet lists $U,V,H,S,T,R,P,N$ as its whole public surface, so the local certificate cannot introduce a second Hom object, a host representation category, or a hidden linear-map equality relation.
+
+Read the representation rows first. The rows $U$ and $V$ are finite irreducible representation rows of the same group source, and the Hom row $H$ is accepted only as an equivariant row between them.
+
+The scalar-or-zero boundary is then read through $S$. It records scalar endomorphism reads in the same-row case and zero Hom reads in the distinct-row case. The rows $T,R,P,N$ transport, replay, package, and name only that finite packet.
+\end{proof}
+
+\begin{theorem}[SchurLemma character-table handoff]
+\label{thm:schur-lemma-character-table-handoff}
+Every accepted $\SchurLemmaUp$ packet exports to $\CharacterTableUp$ only the finite Hom-intertwiner boundary needed by the Schur-orthogonality and character-pairing routes. The handoff reads $U,V,H,S$ before $T,R,P,N$ and exports no host representation category, unrestricted matrix algebra, quotient computation, or globally chosen basis.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:schur-lemma-carrier}. The downstream character-table consumer sees exactly the two irreducible representation rows, the displayed Hom-intertwiner row, and the scalar-or-zero boundary.
+
+Use the neighboring representation-theory packets as routing anchors. The finite representation chapter supplies the representation rows, the character-theory and representation-ring chapters supply trace and sum surfaces, and the Schur-orthogonality chapter consumes the scalar-or-zero boundary before the character-table chapter reads pairings.
+
+The structural rows $T,R,P,N$ preserve that same finite packet under transport, replay, provenance, and local naming. Since no host category, unrestricted matrix algebra, quotient computation, or chosen-basis row appears in the carrier, the character-table handoff cannot export one.
+\end{proof}
+
+\begin{closurestatus}{\SchurLemmaUp}
+  \constructivestory{A $\SchurLemmaUp$ packet is generated from two irreducible finite representation rows, a displayed Hom-intertwiner row, a scalar-or-zero boundary row, componentwise transport, displayed continuation replay, package provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:schur-lemma-carrier}, \autoref{thm:schur-lemma-namecert-obligations}, and \autoref{thm:schur-lemma-character-table-handoff} seed the finite Hom-intertwiner boundary between irreducible representation rows and the character-table consumer.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a host representation category, unrestricted module-category Hom, quotient computation, globally chosen bases, Lean verification, or bridge checking for $\SchurLemmaUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, irreducible-row exposure, Hom-intertwiner exactness, scalar-or-zero boundary, transport stability, replay stability, and local NameCert nonescape for BEDC.Derived.SchurLemmaUp.}
+\end{closurestatus}
