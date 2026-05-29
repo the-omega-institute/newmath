@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\ModulusCompositionScheduleUp$}
+\label{ch:concrete-instances-modulus-composition-schedule-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\ModulusCompositionScheduleUp$ packet records the finite schedule data by which two Cauchy moduli are composed before a regular rational readback is sealed as a Real name. It sits over the finite schedule surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the modulus arithmetic route of \autoref{ch:concrete-instances-cauchymodulusarithmetic-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives the L10 Real and Completion route a concrete object for composing precision schedules; it is not a quotient-real equality principle, selected limit, trichotomy, countable-choice schedule, hidden infinite stream, or ambient completeness theorem.
+
+\begin{definition}[Modulus composition schedule carrier]
+\label{def:modulus-composition-schedule-carrier}
+A $\ModulusCompositionScheduleUp$ carrier is a finite $\BHist$ packet
+$$
+M=(\mu,\nu,W_{\mu},W_{\nu},\varepsilon,\delta,R,A,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\mu$ and $\nu$ are the two source $\CauchyModulusUp$ schedule rows whose precision requests are to be composed.
+\item $W_{\mu}$ and $W_{\nu}$ are finite $\StreamNameUp$ windows displaying the inspected reads for the outer and inner schedules.
+\item $\varepsilon$ is the requested $\DyadicRatCoreUp$ tolerance row at the terminal Real-facing scale.
+\item $\delta$ is the intermediate $\DyadicRatCoreUp$ tolerance row selected by the outer schedule and then fed to the inner schedule.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained after both finite windows have been inspected at the displayed tolerances.
+\item $A$ is the $\CauchyModulusArithmeticUp$ row witnessing that the two schedule reads compose from $\varepsilon$ through $\delta$ to the displayed regular rational readback.
+\item $E$ is the terminal $\RealUp$ seal row reached from $R$ after the composed schedule has been displayed.
+\item $H$ records componentwise $\hsame$ transport for $\mu,\nu,W_{\mu},W_{\nu},\varepsilon,\delta,R,A,E$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from a composed precision request through two Cauchy-modulus rows, two finite stream windows, dyadic tolerances, arithmetic composition, regular rational readback, and the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\ModulusCompositionScheduleUp$, $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyModulusArithmeticUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ModulusCompositionScheduleUp}$ row.
+\end{enumerate}
+The classifier compares accepted schedule packets only through $\mu,\nu,W_{\mu},W_{\nu},\varepsilon,\delta,R,A,E,H,C,P,N$. It has no coordinate for quotient real representatives, selected limits, trichotomy, countable choice, hidden infinite streams, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Modulus composition schedule NameCert obligations]
+\label{thm:modulus-composition-schedule-namecert-obligations}
+For every accepted $\ModulusCompositionScheduleUp$ carrier
+$$
+M=(\mu,\nu,W_{\mu},W_{\nu},\varepsilon,\delta,R,A,E,H,C,P,N),
+$$
+the local $\NameCert_{\ModulusCompositionScheduleUp}$ surface consists exactly of two $\CauchyModulusUp$ schedule exposures, two finite $\StreamNameUp$ window exposures, terminal and intermediate $\DyadicRatCoreUp$ tolerance exposure, $\RegSeqRatUp$ readback, $\CauchyModulusArithmeticUp$ composition exposure, terminal $\RealUp$ seal exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every Real or Completion consumer must expose $\mu,\nu,W_{\mu},W_{\nu},\varepsilon,\delta,R,A,E$ before the structural rows $H,C,P,N$ can be consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:modulus-composition-schedule-carrier}. The analytic rows are exactly $\mu,\nu,W_{\mu},W_{\nu},\varepsilon,\delta,R,A,E$, while $H,C,P,N$ are the structural transport, replay, provenance, and naming rows.
+
+The terminal tolerance $\varepsilon$ is read before the outer schedule row $\mu$ supplies the intermediate tolerance $\delta$. The inner schedule row $\nu$ is then inspected through $W_{\nu}$ at that intermediate tolerance, so the packet does not contain a free-standing precision oracle.
+
+The readback row $R$ and arithmetic row $A$ bind both schedule reads to the same displayed composition route. Hence a consumer cannot use the Real seal $E$ without first exposing the two moduli, two finite windows, and both dyadic tolerance rows.
+
+Since the carrier has no coordinate for quotient representatives, selected limits, trichotomy, countable choice, hidden streams, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Modulus composition schedule Real handoff]
+\label{thm:modulus-composition-schedule-real-handoff}
+Every $\RealUp$ or Completion-facing consumer of an accepted $\ModulusCompositionScheduleUp$ packet reaches the terminal Real seal only through the displayed finite route
+$$
+\CauchyModulusUp
+\longmapsto
+\StreamNameUp
+\longmapsto
+\DyadicRatCoreUp
+\longmapsto
+\CauchyModulusArithmeticUp
+\longmapsto
+\RegSeqRatUp
+\longmapsto
+\RealUp .
+$$
+The handoff may use the two schedule rows, the two inspected stream windows, terminal and intermediate dyadic tolerances, arithmetic composition, and regular rational readback, but it cannot replace them by quotient real equality, a selected limit, trichotomy, countable choice, an uninspected infinite stream, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the Real or Completion-facing read of $M$. The terminal tolerance $\varepsilon$ and the outer schedule row $\mu$ determine the intermediate tolerance $\delta$, so the consumer sees a finite precision request before the inner schedule is inspected.
+
+The stream rows $W_{\mu}$ and $W_{\nu}$ display the only window reads available to the two schedule rows. The arithmetic row $A$ then records that the outer and inner reads compose through the displayed dyadic tolerances.
+
+The regular rational readback $R$ is downstream of this arithmetic route, and the terminal seal $E$ is downstream of $R$. Therefore the Real handoff factors through the finite schedule packet and the excluded host principles remain absent from the carrier.
+\end{proof}
+
+\closureat{ModulusCompositionScheduleUp}{seedStr}
+
+\begin{closurestatus}{\ModulusCompositionScheduleUp}
+  \constructivestory{A $\ModulusCompositionScheduleUp$ packet is generated from two CauchyModulus schedules, two StreamName windows, terminal and intermediate DyadicRatCore tolerances, RegSeqRat readback, CauchyModulusArithmetic composition, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:modulus-composition-schedule-carrier}, \autoref{thm:modulus-composition-schedule-namecert-obligations}, and \autoref{thm:modulus-composition-schedule-real-handoff} seed the finite composed-modulus schedule route for L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, selected limits, trichotomy, countable choice, uninspected infinite streams, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, two-modulus exposure, two-window exposure, dyadic tolerance routing, modulus arithmetic exactness, RegSeqRat readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.ModulusCompositionScheduleUp.}
+\end{closurestatus}

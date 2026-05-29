@@ -1149,6 +1149,7 @@ import BEDC.Derived.CauchyCompletionTraceUp.TasteGate
 import BEDC.Derived.CauchyCompletionTriangleIdentityUp.TasteGate
 import BEDC.Derived.CauchyCompletionUnitUp
 import BEDC.Derived.CauchyCompletionUnitUp.TasteGate
+import BEDC.Derived.CauchyCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.CauchyCompletionUniversalReflectorUp
 import BEDC.Derived.CauchyCompressionUp.TasteGate
 import BEDC.Derived.CauchyCondensationTestUp.TasteGate
@@ -6282,6 +6283,7 @@ import BEDC.Derived.RepresentedSpaceUp.RealizationTransport
 import BEDC.Derived.RepresentedSpaceUp.RealizerReadbackWindow
 import BEDC.Derived.RepresentedSpaceUp.ScopePackage
 import BEDC.Derived.RepresentedSpaceUp.StreamNameRepresentationSource
+import BEDC.Derived.RepresentedSpaceUp.TargetSealLedgerPackage
 import BEDC.Derived.RepresentedSpaceUp.TranslationNonescape
 import BEDC.Derived.ResearchProgrammeAuditLoopUp.TasteGate
 import BEDC.Derived.ResearchProgrammeExecutionGateUp.TasteGate
@@ -6953,7 +6955,6 @@ import BEDC.Derived.TypeClassifierMembershipUp
 import BEDC.Derived.TypeClassifierRouteJoinUp.NameCertObligations
 import BEDC.Derived.TypeClassifierRouteJoinUp.TasteGate
 import BEDC.Derived.TypeLevelSocketExposureUp
-import BEDC.Derived.TypeLikeUp.ClassifierTransport
 import BEDC.Derived.TypeLikeUp.TasteGate
 import BEDC.Derived.TypePreservingCompilerUp
 import BEDC.Derived.TypedBetaCongruenceTriggerUp.TasteGate
