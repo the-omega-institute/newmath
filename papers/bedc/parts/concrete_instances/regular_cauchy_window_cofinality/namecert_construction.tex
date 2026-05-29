@@ -56,6 +56,23 @@ Next use the regular rational readback. The row $R$ is available only after $S,D
 Finally attach the Real-facing boundary. The structural rows $H,C,P,N$ preserve the same route, and any downstream $\RealUp$ read receives only the displayed finite cofinal window with its dyadic tolerance and regular rational readback.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy window cofinality tail directedness]
+\label{thm:regular-cauchy-window-cofinality-tail-directedness}
+For two accepted $\RegularCauchyWindowCofinalityUp$ packets over the same precision route, the displayed cofinal modulus schedules admit a later finite tail window whose $\StreamNameUp$ row, $\DyadicRatCoreUp$ tolerance row, $\RegSeqRatUp$ readback row, and $\RealUp$ seal factor through both original windows. The common-window read remains inside the displayed rows of the two packets and does not use quotient stream equality, selected limits, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project both carriers by \autoref{def:regular-cauchy-window-cofinality-carrier}. Each packet exposes the same precision route before its finite stream window $S$, dyadic tolerance row $D$, regular rational readback row $R$, and cofinal schedule row $M$ can be consumed.
+
+Use the two displayed cofinal schedule rows. Applying $M$ in the first packet and $M$ in the second packet gives two finite tail requests; choose a displayed later unary threshold that is later than both requests in the common precision route.
+
+At that later threshold, the stream window, dyadic tolerance, regular readback, and Real-facing seal are read through the same finite tail. By \autoref{thm:regular-cauchy-window-cofinality-sibling-route}, the consumer must still factor through
+$$
+\StreamNameUp,\DyadicRatCoreUp,M \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+
+The construction uses only the carrier rows and the later finite threshold. It introduces no quotient stream equality, selected limit, countable-choice selector, or ambient completeness principle.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\RegularCauchyWindowCofinalityUp$ read displays one precision row, one finite $\StreamNameUp$ window row, one $\DyadicRatCoreUp$ tolerance row, one $\RegSeqRatUp$ readback row, one Cauchy modulus schedule row, and local transport, replay, provenance, and naming rows before it is consumed by a Real or Completion route.}
 
 \independenceWitness{streamname, dyadicratcore, regseqrat, real: $\RegularCauchyWindowCofinalityUp$ is not bijective to any listed sibling because it binds a precision request, finite stream window, dyadic tolerance ledger, regular rational readback, cofinal modulus schedule, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ into one accepted completion-facing packet.}

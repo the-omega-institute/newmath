@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\ClaimStatusAuditUp$}
+\label{ch:concrete-instances-claim-status-audit-namecert}
+\origin{human}
+
+The $\ClaimStatusAuditUp$ packet realizes the legitimate-claim audit of \autoref{ch:visions-legitimate-claim-audit} as a finite NameCert carrier for theorem, condition, route, evidence, non-evidence, meta, refusal, $\mathsf{GAP}$, and socket readings. It sits beside the named externality discipline of \autoref{ch:concrete-instances-apophaticname-namecert}, the claim-row admission surface of \autoref{ch:concrete-instances-claimregistrylayer-namecert}, the registry export boundary of \autoref{ch:concrete-instances-registry-export-surface-namecert}, and the theorem-gap registry of \autoref{ch:concrete-instances-theoremgapregistry-namecert}. Those siblings name refused supply, admit claim entries, expose export rows, and bind theorem/gap entries; this packet audits their status rows before any claim is read as stronger than its displayed support.
+
+\begin{definition}[ClaimStatusAudit carrier]
+\label{def:legitimate-claim-status-audit-carrier}
+A $\ClaimStatusAuditUp$ carrier is a finite $\BHist$ packet
+$$
+U=(E,T,R,V,G,S,A,X,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the finite communicable expression row being audited.
+\item $T$ is the theorem-or-condition row when the expression has closed proof data or displayed hypotheses.
+\item $R$ is the route row, recording transports, equivalence chains, or proof-search paths without upgrading them to theorem content.
+\item $V$ is the evidence row, paired with any non-evidence refusal attached to reports, metrics, traces, or numerical data.
+\item $G$ is the $\TheoremGapRegistryUp$ row recording theorem-strength entries and $\mathsf{GAP}$ entries.
+\item $S$ is the socket row read through $\ApophaticNameUp$ when requested supply is named but not internalized.
+\item $A$ is the $\ClaimRegistryLayerUp$ admission row for the audited claim entry.
+\item $X$ is the $\RegistryExportSurfaceUp$ row controlling whether the audited status may be exported.
+\item $H$ records componentwise $\hsame$ transport for $E,T,R,V,G,S,A,X$.
+\item $C$ records displayed $\Cont$ replay of the same audit route.
+\item $P$ is the $\Pkg$ provenance over $\ClaimStatusAuditUp$, $\ApophaticNameUp$, $\ClaimRegistryLayerUp$, $\RegistryExportSurfaceUp$, $\TheoremGapRegistryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClaimStatusAuditUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a global truth predicate, a hidden proof oracle, an unmarked external dependency, or an export permission stronger than the displayed status row.
+\end{definition}
+
+\begin{theorem}[ClaimStatusAudit NameCert obligations]
+\label{thm:legitimate-claim-status-audit-namecert-obligations}
+For every accepted $\ClaimStatusAuditUp$ carrier $U=(E,T,R,V,G,S,A,X,H,C,P,N)$, the local $\NameCert_{\ClaimStatusAuditUp}$ surface consists exactly of expression admission, theorem-or-condition classification, route classification, evidence and non-evidence classification, theorem-gap registry reading, apophatic socket reading, claim-registry admission, registry-export exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. No accepted audit may read a route row as a theorem row, an evidence row as proof, a socket row as supplied content, or an unexported registry row as public claim content.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:legitimate-claim-status-audit-carrier}. The expression row $E$ is classified only through $T,R,V,G,S,A,X$ before the structural rows are read.
+
+The theorem-or-condition row $T$ is separate from the route row $R$ and the evidence row $V$. Therefore a route, trace, metric, or report can be preserved as admissible audit data without being retyped as a closed theorem.
+
+The gap and socket rows $G,S$ are read through the theorem-gap registry and apophatic naming surfaces. A missing dependency is thereby named as a boundary rather than consumed as internal proof content.
+
+Finally $A,X,H,C,P,N$ admit, export, transport, replay, source, and name the same status packet. Since the export row is displayed, a consumer cannot bypass it; since the socket row is apophatic, the far end cannot become supplied content inside the carrier.
+\end{proof}
+
+\begin{theorem}[ClaimStatusAudit nonescape]
+\label{thm:legitimate-claim-status-audit-nonescape}
+Every downstream reading of an accepted $\ClaimStatusAuditUp$ packet factors through the finite audit route
+$$
+\ApophaticNameUp \longmapsto \ClaimRegistryLayerUp \longmapsto \TheoremGapRegistryUp \longmapsto \RegistryExportSurfaceUp .
+$$
+Thus theorem, route, evidence, refusal, $\mathsf{GAP}$, and socket readings remain status rows of the same carrier and cannot escape into unmarked theorem content or unrestricted public export.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:legitimate-claim-status-audit-namecert-obligations}. It identifies the rows through which every accepted claim-status read must pass.
+
+The apophatic-name row handles missing or refused supply as a named boundary. The claim-registry row admits the expression as a claim entry, while the theorem-gap row distinguishes theorem-strength support from gap exposure.
+
+The registry-export surface is terminal for public reading. If it does not display the appropriate export status, the carrier still records the audit row but does not provide public theorem content. The structural rows preserve this nonescape condition under transport and replay.
+\end{proof}
+
+\closureat{ClaimStatusAuditUp}{seedStr}
+
+\begin{closurestatus}{\ClaimStatusAuditUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:legitimate-claim-status-audit-carrier}, \autoref{thm:legitimate-claim-status-audit-namecert-obligations}, and \autoref{thm:legitimate-claim-status-audit-nonescape} seed the finite claim-status audit route through apophatic names, claim registry rows, theorem-gap rows, registry export, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a global truth predicate, global proof search, hidden proof oracle, unmarked external supply, unrestricted registry export, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, status classification, route/evidence separation, theorem-gap reading, apophatic socket reading, registry admission, export control, transport, replay, provenance, local naming, and nonescape for BEDC.Derived.ClaimStatusAuditUp.}
+  \constructivestory{A $\ClaimStatusAuditUp$ packet is generated from a finite expression row, theorem-or-condition row, route row, evidence and non-evidence row, theorem-gap registry row, apophatic socket row, claim-registry admission, registry-export exposure, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
