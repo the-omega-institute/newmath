@@ -1,0 +1,73 @@
+\chapter{Located Uniform Cauchy Principle NameCert Construction}
+\label{ch:concrete-instances-located-uniform-cauchy-principle-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy approximations and located apartness data, the $\LocatedUniformCauchyPrincipleUp$ packet records the finite BEDC surface of a uniform Cauchy budget that can be read from dyadic tolerance evidence. It consumes the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation schedules of \autoref{ch:concrete-instances-streamname-namecert}, the rational regular-sequence route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal interface of \autoref{ch:concrete-instances-real-namecert}. The packet names only finite budgets, located comparison rows, stability transport, replay, provenance, and a local NameCert row; it does not claim Real completeness, open-cover compactness, quotient stream equality, or selected limits.
+
+\begin{definition}[Located uniform Cauchy principle carrier]
+\label{def:located-uniform-cauchy-principle-carrier}
+A $\LocatedUniformCauchyPrincipleUp$ carrier is a finite $\BHist$ packet
+$$
+U=(D,S,R,L,B,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, naming the finite dyadic radii and the scale-window comparisons used by the request.
+\item $S$ is the $\StreamNameUp$ schedule row, naming the finite observation windows that ask for simultaneous tail control.
+\item $R$ is the $\RegSeqRatUp$ regular-sequence row, exposing the rational approximants and the finite tail-index data visible to the schedule.
+\item $L$ is the located-comparison row, listing the dyadic inequalities that decide whether two displayed rational approximants are already within the requested tolerance window.
+\item $B$ is the uniform-budget row, assigning to each displayed dyadic request a finite tail threshold shared by the named observation windows.
+\item $E$ is the exactness row, stating that every comparison consumed by $B$ is witnessed by the rows $D,S,R,L$ and by no ambient real-equality oracle.
+\item $H$ stores componentwise $\hsame$ transport for tolerance rows, schedules, rational sequence rows, located comparisons, uniform budgets, exactness, replay, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ replay from a uniform Cauchy request through $D,S,R,L,B,E$ and back to the same finite request surface.
+\item $P$ is the $\Pkg$ provenance over $\LocatedUniformCauchyPrincipleUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedUniformCauchyPrincipleUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for Real completeness, open-cover compactness, quotient stream equality, selected limits, countable choice, or host real equality.
+\end{definition}
+
+\begin{theorem}[Located uniform Cauchy obligation surface]
+\label{thm:located-uniform-cauchy-principle-obligation-surface}
+For every accepted $\LocatedUniformCauchyPrincipleUp$ carrier
+$$
+U=(D,S,R,L,B,E,H,C,P,N),
+$$
+the public obligation surface consists exactly of dyadic tolerance admission through $D$, finite observation scheduling through $S$, rational regular-sequence exposure through $R$, located comparison exposure through $L$, uniform tail-budget assignment through $B$, exactness through $E$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:located-uniform-cauchy-principle-carrier}. The finite source rows are exactly the dyadic tolerance row $D$, the schedule row $S$, the regular-sequence row $R$, the located-comparison row $L$, and the budget and exactness rows $B,E$.
+
+The uniform budget is read from finite dyadic and rational data. Each threshold in $B$ is indexed by a displayed tolerance request from $D$ and a displayed observation window from $S$, while $L$ records the comparison evidence that the rational approximants exposed by $R$ fit the same request.
+
+The exactness row $E$ prevents the budget from using a hidden Real-completeness or quotient-stream coordinate. The remaining rows $H,C,P,N$ transport, replay, source, and name only this finite route, so the listed rows exhaust the public obligation surface.
+\end{proof}
+
+\begin{theorem}[Located uniform Cauchy NameCert]
+\label{thm:located-uniform-cauchy-principle-namecert}
+Every accepted $\LocatedUniformCauchyPrincipleUp$ carrier
+$$
+U=(D,S,R,L,B,E,H,C,P,N)
+$$
+presents a local $\NameCert_{\LocatedUniformCauchyPrincipleUp}$ whose dependency boundary is confined to $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the finite $\RealUp$ terminal seal interface named in $P$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:located-uniform-cauchy-principle-obligation-surface}. The rows $D,S,R,L,B,E$ provide the complete finite budget route, and $H,C,P,N$ provide stability, replay, provenance, and naming for that route.
+
+Since $P$ names $\RealUp$ only as a terminal seal interface and the carrier contains no field for selected limits, quotient stream equality, open-cover compactness, countable choice, or Real completeness, any consumer of $N$ can recover only the finite located uniform Cauchy certificate described by the displayed rows.
+\end{proof}
+
+\falsifiablePrediction{A $\LocatedUniformCauchyPrincipleUp$ consumer that exports a uniform Cauchy budget without exposing dyadic tolerance data, stream observation schedules, regular-sequence rational rows, located comparison rows, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows refutes the carrier of \autoref{def:located-uniform-cauchy-principle-carrier}.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: $\LocatedUniformCauchyPrincipleUp$ is not bijective to any listed sibling because it jointly carries dyadic tolerance requests, finite observation schedules, rational regular-sequence rows, located comparison evidence, shared tail budgets, exactness, transport, replay, provenance, and local naming.}
+
+\closureat{LocatedUniformCauchyPrincipleUp}{seedStr}
+
+\begin{closurestatus}{\LocatedUniformCauchyPrincipleUp}
+  \constructivestory{A $\LocatedUniformCauchyPrincipleUp$ packet is generated from finite dyadic tolerance requests, stream observation schedules, rational regular-sequence rows, located comparison evidence, shared tail budgets, exactness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-uniform-cauchy-principle-carrier}, \autoref{thm:located-uniform-cauchy-principle-obligation-surface}, and \autoref{thm:located-uniform-cauchy-principle-namecert} seed the finite located uniform Cauchy packet over dyadic, stream-name, regular-sequence, and Real terminal-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Real completeness, open-cover compactness, quotient stream equality, selected limits, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked dyadic tolerance admission, finite schedule admission, regular-sequence exposure, located comparison exposure, shared budget exactness, transport, replay, provenance, and local naming for BEDC.Derived.LocatedUniformCauchyPrincipleUp.}
+\end{closurestatus}
