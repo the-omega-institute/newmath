@@ -3,7 +3,7 @@ import BEDC.FKernel.Mark
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CauchyCompletionUniversalPropertyUp.TasteGate
+namespace BEDC.Derived.CauchyCompletionUniversalPropertyUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -11,7 +11,8 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive CauchyCompletionUniversalPropertyUp : Type where
-  | mk (D K T F E L H C P N : BHist) : CauchyCompletionUniversalPropertyUp
+  | mk (D K T F E L H C P N : BHist) :
+      CauchyCompletionUniversalPropertyUp
   deriving DecidableEq
 
 def cauchyCompletionUniversalPropertyEncodeBHist : BHist → RawEvent
@@ -26,7 +27,7 @@ def cauchyCompletionUniversalPropertyDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (cauchyCompletionUniversalPropertyDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (cauchyCompletionUniversalPropertyDecodeBHist tail)
 
-private theorem CauchyCompletionUniversalPropertyTasteGate_decode_encode :
+private theorem CauchyCompletionUniversalPropertyTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
       cauchyCompletionUniversalPropertyDecodeBHist
           (cauchyCompletionUniversalPropertyEncodeBHist h) =
@@ -51,26 +52,43 @@ def cauchyCompletionUniversalPropertyToEventFlow :
     (cauchyCompletionUniversalPropertyFields x).map
       cauchyCompletionUniversalPropertyEncodeBHist
 
+private def cauchyCompletionUniversalPropertyEventAtDefault :
+    Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest =>
+      cauchyCompletionUniversalPropertyEventAtDefault index rest
+
 def cauchyCompletionUniversalPropertyFromEventFlow :
     EventFlow → Option CauchyCompletionUniversalPropertyUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fun
-  | D :: K :: T :: F :: E :: L :: H :: C :: P :: N :: [] =>
-      some
-        (CauchyCompletionUniversalPropertyUp.mk
-          (cauchyCompletionUniversalPropertyDecodeBHist D)
-          (cauchyCompletionUniversalPropertyDecodeBHist K)
-          (cauchyCompletionUniversalPropertyDecodeBHist T)
-          (cauchyCompletionUniversalPropertyDecodeBHist F)
-          (cauchyCompletionUniversalPropertyDecodeBHist E)
-          (cauchyCompletionUniversalPropertyDecodeBHist L)
-          (cauchyCompletionUniversalPropertyDecodeBHist H)
-          (cauchyCompletionUniversalPropertyDecodeBHist C)
-          (cauchyCompletionUniversalPropertyDecodeBHist P)
-          (cauchyCompletionUniversalPropertyDecodeBHist N))
-  | _ => none
+  fun ef =>
+    some
+      (CauchyCompletionUniversalPropertyUp.mk
+        (cauchyCompletionUniversalPropertyDecodeBHist
+          (cauchyCompletionUniversalPropertyEventAtDefault 0 ef))
+        (cauchyCompletionUniversalPropertyDecodeBHist
+          (cauchyCompletionUniversalPropertyEventAtDefault 1 ef))
+        (cauchyCompletionUniversalPropertyDecodeBHist
+          (cauchyCompletionUniversalPropertyEventAtDefault 2 ef))
+        (cauchyCompletionUniversalPropertyDecodeBHist
+          (cauchyCompletionUniversalPropertyEventAtDefault 3 ef))
+        (cauchyCompletionUniversalPropertyDecodeBHist
+          (cauchyCompletionUniversalPropertyEventAtDefault 4 ef))
+        (cauchyCompletionUniversalPropertyDecodeBHist
+          (cauchyCompletionUniversalPropertyEventAtDefault 5 ef))
+        (cauchyCompletionUniversalPropertyDecodeBHist
+          (cauchyCompletionUniversalPropertyEventAtDefault 6 ef))
+        (cauchyCompletionUniversalPropertyDecodeBHist
+          (cauchyCompletionUniversalPropertyEventAtDefault 7 ef))
+        (cauchyCompletionUniversalPropertyDecodeBHist
+          (cauchyCompletionUniversalPropertyEventAtDefault 8 ef))
+        (cauchyCompletionUniversalPropertyDecodeBHist
+          (cauchyCompletionUniversalPropertyEventAtDefault 9 ef)))
 
-private theorem CauchyCompletionUniversalPropertyTasteGate_round_trip :
+private theorem CauchyCompletionUniversalPropertyTasteGate_single_carrier_alignment_round_trip :
     ∀ x : CauchyCompletionUniversalPropertyUp,
       cauchyCompletionUniversalPropertyFromEventFlow
           (cauchyCompletionUniversalPropertyToEventFlow x) =
@@ -79,44 +97,59 @@ private theorem CauchyCompletionUniversalPropertyTasteGate_round_trip :
   intro x
   cases x with
   | mk D K T F E L H C P N =>
-      simp only [cauchyCompletionUniversalPropertyToEventFlow,
-        cauchyCompletionUniversalPropertyFields,
-        cauchyCompletionUniversalPropertyFromEventFlow, List.map_cons, List.map_nil,
-        CauchyCompletionUniversalPropertyTasteGate_decode_encode]
+      change
+        some
+            (CauchyCompletionUniversalPropertyUp.mk
+              (cauchyCompletionUniversalPropertyDecodeBHist
+                (cauchyCompletionUniversalPropertyEncodeBHist D))
+              (cauchyCompletionUniversalPropertyDecodeBHist
+                (cauchyCompletionUniversalPropertyEncodeBHist K))
+              (cauchyCompletionUniversalPropertyDecodeBHist
+                (cauchyCompletionUniversalPropertyEncodeBHist T))
+              (cauchyCompletionUniversalPropertyDecodeBHist
+                (cauchyCompletionUniversalPropertyEncodeBHist F))
+              (cauchyCompletionUniversalPropertyDecodeBHist
+                (cauchyCompletionUniversalPropertyEncodeBHist E))
+              (cauchyCompletionUniversalPropertyDecodeBHist
+                (cauchyCompletionUniversalPropertyEncodeBHist L))
+              (cauchyCompletionUniversalPropertyDecodeBHist
+                (cauchyCompletionUniversalPropertyEncodeBHist H))
+              (cauchyCompletionUniversalPropertyDecodeBHist
+                (cauchyCompletionUniversalPropertyEncodeBHist C))
+              (cauchyCompletionUniversalPropertyDecodeBHist
+                (cauchyCompletionUniversalPropertyEncodeBHist P))
+              (cauchyCompletionUniversalPropertyDecodeBHist
+                (cauchyCompletionUniversalPropertyEncodeBHist N))) =
+          some (CauchyCompletionUniversalPropertyUp.mk D K T F E L H C P N)
+      rw [CauchyCompletionUniversalPropertyTasteGate_single_carrier_alignment_decode D,
+        CauchyCompletionUniversalPropertyTasteGate_single_carrier_alignment_decode K,
+        CauchyCompletionUniversalPropertyTasteGate_single_carrier_alignment_decode T,
+        CauchyCompletionUniversalPropertyTasteGate_single_carrier_alignment_decode F,
+        CauchyCompletionUniversalPropertyTasteGate_single_carrier_alignment_decode E,
+        CauchyCompletionUniversalPropertyTasteGate_single_carrier_alignment_decode L,
+        CauchyCompletionUniversalPropertyTasteGate_single_carrier_alignment_decode H,
+        CauchyCompletionUniversalPropertyTasteGate_single_carrier_alignment_decode C,
+        CauchyCompletionUniversalPropertyTasteGate_single_carrier_alignment_decode P,
+        CauchyCompletionUniversalPropertyTasteGate_single_carrier_alignment_decode N]
 
-private theorem CauchyCompletionUniversalPropertyTasteGate_toEventFlow_injective
+private theorem CauchyCompletionUniversalPropertyTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CauchyCompletionUniversalPropertyUp} :
     cauchyCompletionUniversalPropertyToEventFlow x =
         cauchyCompletionUniversalPropertyToEventFlow y →
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro hxy
-  have optionEq : some x = some y := by
-    calc
-      some x =
-          cauchyCompletionUniversalPropertyFromEventFlow
-            (cauchyCompletionUniversalPropertyToEventFlow x) :=
-        (CauchyCompletionUniversalPropertyTasteGate_round_trip x).symm
-      _ =
-          cauchyCompletionUniversalPropertyFromEventFlow
-            (cauchyCompletionUniversalPropertyToEventFlow y) :=
-        congrArg cauchyCompletionUniversalPropertyFromEventFlow hxy
-      _ = some y := CauchyCompletionUniversalPropertyTasteGate_round_trip y
-  exact Option.some.inj optionEq
-
-private theorem CauchyCompletionUniversalPropertyTasteGate_fields_faithful
-    {x y : CauchyCompletionUniversalPropertyUp} :
-    cauchyCompletionUniversalPropertyFields x =
-        cauchyCompletionUniversalPropertyFields y →
-      x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro h
-  cases x with
-  | mk D1 K1 T1 F1 E1 L1 H1 C1 P1 N1 =>
-      cases y with
-      | mk D2 K2 T2 F2 E2 L2 H2 C2 P2 N2 =>
-          cases h
-          rfl
+  intro heq
+  have hread :
+      cauchyCompletionUniversalPropertyFromEventFlow
+          (cauchyCompletionUniversalPropertyToEventFlow x) =
+        cauchyCompletionUniversalPropertyFromEventFlow
+          (cauchyCompletionUniversalPropertyToEventFlow y) :=
+    congrArg cauchyCompletionUniversalPropertyFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans
+      (CauchyCompletionUniversalPropertyTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (CauchyCompletionUniversalPropertyTasteGate_single_carrier_alignment_round_trip y)))
 
 instance cauchyCompletionUniversalPropertyBHistCarrier :
     BHistCarrier CauchyCompletionUniversalPropertyUp where
@@ -133,30 +166,23 @@ instance cauchyCompletionUniversalPropertyChapterTasteGate :
       cauchyCompletionUniversalPropertyFromEventFlow
           (cauchyCompletionUniversalPropertyToEventFlow x) =
         some x
-    exact CauchyCompletionUniversalPropertyTasteGate_round_trip x
+    exact CauchyCompletionUniversalPropertyTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (CauchyCompletionUniversalPropertyTasteGate_toEventFlow_injective heq)
-
-instance cauchyCompletionUniversalPropertyFieldFaithful :
-    FieldFaithful CauchyCompletionUniversalPropertyUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := cauchyCompletionUniversalPropertyFields
-  field_faithful := by
-    intro x y h
-    exact CauchyCompletionUniversalPropertyTasteGate_fields_faithful h
-
-def taste_gate : ChapterTasteGate CauchyCompletionUniversalPropertyUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  cauchyCompletionUniversalPropertyChapterTasteGate
+    exact hxy
+      (CauchyCompletionUniversalPropertyTasteGate_single_carrier_alignment_toEventFlow_injective
+        heq)
 
 theorem CauchyCompletionUniversalPropertyTasteGate_single_carrier_alignment :
     (∀ D K T F E L H C P N : BHist,
-      cauchyCompletionUniversalPropertyFields
+        cauchyCompletionUniversalPropertyFields
           (CauchyCompletionUniversalPropertyUp.mk D K T F E L H C P N) =
-        [D, K, T, F, E, L, H, C, P, N]) ∧
+            [D, K, T, F, E, L, H, C, P, N]) ∧
       cauchyCompletionUniversalPropertyEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
-  exact ⟨(fun _ _ _ _ _ _ _ _ _ _ => rfl), rfl⟩
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  constructor
+  · intro D K T F E L H C P N
+    rfl
+  · rfl
 
-end BEDC.Derived.CauchyCompletionUniversalPropertyUp.TasteGate
+end BEDC.Derived.CauchyCompletionUniversalPropertyUp
