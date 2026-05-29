@@ -3178,6 +3178,23 @@ def _run_writeback_make_check(paper_dir: Path) -> tuple[int, str]:
     return completed.returncode, (completed.stdout or "") + (completed.stderr or "")
 
 
+def _run_writeback_make_pdf(paper_dir: Path) -> tuple[int, str]:
+    try:
+        completed = subprocess.run(
+            ["make", "-s"],
+            cwd=paper_dir,
+            env=_tex_env(),
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=300.0,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return 1, str(exc)
+    return completed.returncode, (completed.stdout or "") + (completed.stderr or "")
+
+
 def _writeback_heal_state_path(store: BioRealityStore) -> Path:
     return store.paths.root / "state" / "writeback_heal_signatures.jsonl"
 
@@ -3330,7 +3347,12 @@ def run_writeback_heal_lane(store: BioRealityStore) -> dict[str, Any]:
             return {"lane": "bio-H", "skipped": "no_makefile"}
         returncode, output = _run_writeback_make_check(paper_dir)
         if returncode == 0:
-            return {"lane": "bio-H", "status": "clean"}
+            pdf_path = paper_dir / "main.pdf"
+            pdf_rebuilt = "skipped_present"
+            if not pdf_path.exists():
+                pdf_returncode, _pdf_output = _run_writeback_make_pdf(paper_dir)
+                pdf_rebuilt = "ok" if pdf_returncode == 0 else "failed"
+            return {"lane": "bio-H", "status": "clean", "pdf_rebuilt": pdf_rebuilt}
         error = _parse_writeback_heal_error(output, paper_dir)
         signature = error["signature"]
         if _writeback_heal_recent_count(store, signature, int(config["recurring_window_seconds"])) >= int(config["recurring_threshold"]):
@@ -3376,7 +3398,9 @@ def run_writeback_heal_lane(store: BioRealityStore) -> dict[str, Any]:
             returncode, output = _run_writeback_make_check(paper_dir)
             if returncode == 0:
                 _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "healed", "attempt": attempt, "rel_file": rel_file})
-                return {"lane": "bio-H", "status": "healed", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts}
+                pdf_returncode, _pdf_output = _run_writeback_make_pdf(paper_dir)
+                pdf_rebuilt = "ok" if pdf_returncode == 0 else "failed"
+                return {"lane": "bio-H", "status": "healed", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts, "pdf_rebuilt": pdf_rebuilt}
             last_error = _parse_writeback_heal_error(output, paper_dir)
         _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "unresolved", "attempts": attempts})
         return {"lane": "bio-H", "status": "unresolved", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts}
