@@ -1,0 +1,811 @@
+---
+title: "RH 路线闭合与停机边界"
+subtitle: "为什么 route 不可判定不会让 Riemann 假设变成独立命题 — 以及一个有限 RH 证明 datum 实际上必须供给什么"
+author: "The Omega Institute"
+date: 2026-05-28
+description: "一篇 BEDC dossier: RH route closure、有限证明数据、grounding rank、停机层 route 不可判定、双审计基底, 以及有限非 oracle RH decision claim 的最大边界."
+---
+
+```{=html}
+<div class="lang-switch"><a href="rh-route-halting-boundary.qmd">English</a></div>
+```
+
+核心结论:
+
+$$
+\boxed{\text{route 不可判定} \not\Rightarrow \text{RH 独立}}
+$$
+
+$$
+\boxed{\text{有限 RH decision strength} \Rightarrow \text{四种 RH decision data 之一}}
+$$
+
+也就是说:
+
+> 停机边界阻断的是"对所有 theorem route 给出总闭合判定"的 classifier.
+> 它不决定固定命题 $\mathsf{RH}$.
+> 一个有限、非 oracle 的表达若真的改变 RH decision layer, 必须供给 proof
+> datum、构造性反例、针对某个命名 fragment 的 RH-specific independence
+> theorem, 或者有限 route-closure certificate.
+
+## 0. 总览
+
+BEDC 把三个经常被混在一起的问题分开.
+第一, 固定命题 $\mathsf{RH}$ 是什么?
+第二, 什么样的有限 route 算是闭合它?
+第三, 是否存在一个 classifier 判定所有 route 的闭合?
+
+这些答案的逻辑地位不同.
+第一项是固定 $\Pi$-statement.
+第二项是局部 proof data.
+第三项是停机层的 totality request.
+
+```
+                         fixed BEDC statement
+                                RH
+                                 |
+                                 v
+             proof datum / counterexample / meta-theorem
+                                 |
+                                 v
+                       concrete RH route work
+              condition, equivalence chain, rule tower
+                                 |
+              +------------------+------------------+
+              |                                     |
+              v                                     v
+       finite witnessed route              infinite ungrounded tower
+              |                                     |
+              v                                     v
+            closes RH                         GAP socket / T
+                                                    |
+                                                    v
+                                      cannot be consumed as proof
+
+       global route closure decider?
+                    |
+                    v
+          encodes arbitrary Cont-chain halting
+                    |
+                    v
+            forbidden Type VII request
+
+       but this does not decide the fixed RH statement.
+```
+
+因此这篇 dossier 的主张很窄, 也很强:
+
+$$
+\boxed{
+\text{无 global route decider}
+\quad\text{且}\quad
+\text{无 RH decision datum}
+\quad\Rightarrow\quad
+\text{RH 留在边界上}
+}
+$$
+
+这不是 $\mathsf{RH}$ 的否定解.
+这也不是独立性证明.
+这是有限 humanly communicable strengthening 必须实际供给什么的审计规则.
+
+## 1. RH 作为固定 Pi-statement
+
+**Definition 1.1 RH predicate**
+
+Riemann 假设, 记作 $\mathsf{RH}$, 是一个固定的构造性
+$\Pi$-statement:
+
+$$
+\mathsf{RH}
+:=
+\forall s.\,
+\mathsf{ZetaZero}(s)
+\wedge
+\mathsf{InCritStrip}(s)
+\Rightarrow
+\mathsf{OnCritLine}(s).
+$$
+
+这里 $s$ 在 zeta-zero surface 的 complex histories 上取值.
+谓词 $\mathsf{InCritStrip}(s)$ 表示 $s$ 位于 critical strip.
+谓词 $\mathsf{ZetaZero}(s)$ 表示 $s$ 处的 zeta value 是 zero history.
+谓词 $\mathsf{OnCritLine}(s)$ 表示 $s$ 的实部被 BEDC 的构造性等同
+witness 识别为 $1/2$.
+
+**Definition 1.2 Constructive RH proof datum**
+
+一个 $\mathsf{RH}$ 的构造性 proof datum 是总 witness function
+
+$$
+\Phi :
+\{s \mid \mathsf{ZetaZero}(s) \wedge \mathsf{InCritStrip}(s)\}
+\to
+\{\text{witness of } \mathsf{OnCritLine}(s)\}.
+$$
+
+证明不是悬在 kernel 之上的一句"所有零点都在直线上".
+证明是函数 $\Phi$: 它消费任意 critical-strip zero witness, 并返回对应的
+critical-line witness.
+
+**Definition 1.3 Constructive RH counterexample datum**
+
+一个构造性反证 datum 是一个 packet
+
+$$
+s_0,\quad
+\mathsf{ZetaZero}(s_0),\quad
+\mathsf{InCritStrip}(s_0),\quad
+\neg\mathsf{OnCritLine}(s_0).
+$$
+
+最后一项是正信息: 它给出离开 critical line 的构造性 separation, 而不是仅仅
+找不到 line witness.
+
+**Theorem 1.4 RH is not a route class**
+
+命题 $\mathsf{RH}$ 是一个固定 $\Pi$-statement, 不是所有可能证明 route 的类.
+
+**Proof.** route 是 search object、condition chain、proof program、rule
+tower 或 certificate family.  命题 $\mathsf{RH}$ 是这些 route 可能闭合也
+可能不能闭合的 target.  因而 route classifier 位于固定公式之上一层.
+这个高层的 total classifier 失败, 本身不会为固定公式产生证明、反例或
+fragment-specific independence theorem. $\square$
+
+## 2. RH 周围的三层
+
+**Definition 2.1 RH condition**
+
+一个 RH condition 是一对 $(K, \tau)$, 其中 $K$ 是一个 displayed condition,
+并且
+
+$$
+\tau : K \to \mathsf{RH}
+$$
+
+是 certified transport.
+$K$ 可以是 classifier、spectral statement、positivity statement、zero-set
+statement、operator statement, 或其他 BEDC proposition.
+如果还供给了 witness $k:K$, 那么 $\tau(k)$ 就是沿这条 route 的
+$\mathsf{RH}$ 证明.
+
+**Definition 2.2 Finite RH condition**
+
+RH condition $(K,\tau)$ 是 finite, 当且仅当以下数据全部在场:
+
+1. $K$ 的 finite naming certificate 或 proof packet;
+2. displayed witness $k:K$;
+3. checked transport $\tau:K\to\mathsf{RH}$;
+4. complete dependency ledger;
+5. axiom-purity pass;
+6. 没有 hidden selector、quotient collapse、proposition-extensional
+collapse、external proof source 或 unclosed $\mathsf{GAP}$.
+
+**Theorem 2.3 Finite RH condition closes RH**
+
+若 $(K,\tau)$ 是 finite RH condition, 且 $k:K$ 是它的 displayed witness,
+则 $\mathsf{RH}$ 在这条 route 上闭合.
+
+**Proof.** transport component 的类型是 $\tau:K\to\mathsf{RH}$.
+把它作用到 witness $k:K$, 得到 $\tau(k):\mathsf{RH}$.
+finiteness clauses 保证这个应用是内部 proof data: witness、transport、
+dependency ledger 与 purity constraints 都被展示出来, 而不是由未标记的
+meta-level supply 输入. $\square$
+
+**Definition 2.4 RH condition chain**
+
+RH condition chain 是一个序列
+
+$$
+K_0,K_1,K_2,\ldots
+$$
+
+其中
+
+$$
+K_0=\mathsf{RH}
+$$
+
+并且在每个声称 equivalence 的阶段都有 displayed transports
+
+$$
+K_n \to K_{n+1},
+$$
+
+$$
+K_{n+1} \to K_n.
+$$
+
+当某个 level $N$ 供给 witness $w_N:K_N$, 并且 reverse transports 把
+$w_N$ 带回 $K_0$ 时, 这条 chain 在 $N$ 处闭合.
+
+**Theorem 2.5 Equivalence chains transport obligations**
+
+无限 chain
+
+$$
+\mathsf{RH}
+\Longleftrightarrow
+K_1
+\Longleftrightarrow
+K_2
+\Longleftrightarrow
+\cdots
+$$
+
+本身不证明 $\mathsf{RH}$.
+只有当某个 displayed stage 有 witness 并且这个 witness 能被 transport
+回 $K_0$ 时, 它才证明 $\mathsf{RH}$.
+
+**Proof.** 每个 equivalence 都提供相邻 obligations 之间的 transport.
+transport 移动已有 witness; 它不创造 witness.
+如果没有任何 stage $K_N$ 有 witness $w_N:K_N$, reverse chain 就没有
+term 可以消费.  这条 chain 只改变剩余 $\mathsf{GAP}$ 的坐标系统, 并没有
+discharge 它. $\square$
+
+## 3. Grounding rank
+
+**Definition 3.1 Rule-presented condition**
+
+一个 infinite RH condition 是 rule-presented, 当它由 displayed generator、
+recognizer、continuation system、classifier 或 packet family 供给, 而不是
+由裸 external totality claim 供给.
+
+它是 closed-rule-presented, 当 generator 自身具有:
+
+1. finite naming certificate;
+2. totality witness;
+3. correctness witness;
+4. dependency ledger.
+
+**Definition 3.2 Grounding rank**
+
+RH condition 的 grounding rank 由以下 clauses 定义:
+
+$$
+\mathrm{rank}(K)=0
+$$
+
+当 condition 自身具有 finite certificate 和 finite witness packet.
+
+$$
+\mathrm{rank}(K)=n+1
+$$
+
+当 condition 由一个 grounding rank 为 $n$ 的 rule 生成.
+
+$$
+\mathrm{rank}(K)=\omega
+$$
+
+当没有 finite rank 可用.
+
+**Theorem 3.3 Finite rank gives finite route**
+
+若 RH condition 的 grounding rank 是 $N<\omega$, 且从 rule tower 的
+finite top 回到 $\mathsf{RH}$ 的每个 transport 都有 finite certificate,
+则该 condition 决定一条通往 $\mathsf{RH}$ 的 finite BEDC proof route.
+
+**Proof.** 展开 finite rank.  在 top level 有 finite certificate 和 witness
+packet.  它下面的 certified rules 逐步生成下一层更低的 condition.
+certified transports 把由此得到的 witness 沿 tower 往下携带, 直到到达
+$K_0=\mathsf{RH}$.  被消费的 rules 和 transports 只有有限多个, 所以这条
+route 仍是 finite BEDC object, 即使它所 presentation 的 condition 有无限
+extension. $\square$
+
+**Theorem 3.4 Omega-rank towers are T-sockets**
+
+若 RH route 的 grounding rank 是 $\omega$, 则该 route 不是
+$\mathsf{RH}$ 的内部证明.
+它是一个 $\mathsf{GAP}$ socket, 其 far end 由 apophatic boundary
+$\mathsf{T}$ 命名.
+
+**Proof.** rank $\omega$ 表示每个 displayed rule 仍然要求更高的 rule.
+没有任何 finite layer 供给 BEDC 把 route 当作 proof data 消费所需的 top
+certificate.  把整个 tower 当成一个对象只会移动需求: tower-object 自身
+现在需要 generator、certificate、totality witness、correctness witness 和
+ledger.  当这些不在场时, 这个需求被记录为 $\mathsf{GAP}$ socket.
+这种 socket 的 far end 只有 apophatic reading:
+
+$$
+\mathrm{FarEnd}(\mathrm{socket})
+\equiv_{\mathrm{apo}}
+\mathsf{T}.
+$$
+
+这命名的是 internalization 的边界; 它不是 proof term. $\square$
+
+## 4. Closure deciders and halting
+
+**Definition 4.1 Global theorem-route closure decider**
+
+global theorem-route closure decider 是一个 BEDC classifier $D$: 对每个
+theorem target $A$ 和每个 proof-search route $R$, 它判定 $R$ 是否最终输出
+$A$ 的 closed proof.
+
+**Theorem 4.2 No global theorem-route closure decider**
+
+BEDC 中不存在 global theorem-route closure decider.
+
+**Proof.** 假设存在这样的 classifier $D$.
+给定任意 certificate $NameCert_P$ 和 history $h$, 构造一条 route
+$R_{NameCert_P,h}$: 它 replay 从 $h$ 出发的 $Cont_P$-chain, 并且仅当该
+chain 终止时输出一个固定 trivial target 的 proof.
+
+于是 $D$ 作用于这个 trivial target 和 $R_{NameCert_P,h}$, 就判定从 $h$
+出发的 $Cont_P$-chain 是否终止.
+这就是任意 certificate-history pair 上的 halting predicate.
+diagonal halting obstruction 拒绝这样的 total predicate, 因为它会在
+certificate stratum 关闭 open meta loop.
+因此 $D$ 不存在. $\square$
+
+**Definition 4.3 RH-route closure decider**
+
+RH-route closure decider 是一个 classifier: 对指定类中的 RH condition
+chains、rule towers 或 proof-output programs, 它判定该 route 是否最终产生
+$\mathsf{RH}$ 的 proof.
+
+**Theorem 4.4 Expressive RH deciders are Type VII sockets**
+
+若一个 RH-route closure decider 覆盖的 route class 足够表达任意
+$Cont$-chain termination problem, 则它的请求是 Type VII socket, 不是
+internal BEDC classifier.
+
+**Proof.** 由 expressiveness assumption, 每个 halting instance
+$(NameCert_P,h)$ 都可被表示为一条 RH-directed route 的 closure.
+于是拟议的 decider 将判定任意 $Cont_P$-chain termination.
+这正是 no-global-decider theorem 排除的 certificate-stratum halting
+predicate.  在 socket taxonomy 下, total truth predicates、runtime
+validators、self-certifying checkers 和 halting-level self-reference closure
+的请求都是 Type VII sockets.  因此拟议的 decider 不是 closed classifier;
+它是一个被命名的 self-reference boundary. $\square$
+
+## 5. Fixed RH is not made independent by halting
+
+**Theorem 5.1 Fixed RH is not made independent by halting**
+
+global closure decider 不存在, 并不推出
+
+$$
+\mathsf{BEDC}\not\vdash\mathsf{RH}
+$$
+
+以及
+
+$$
+\mathsf{BEDC}\not\vdash\neg\mathsf{RH}.
+$$
+
+**Proof.** halting obstruction 关心的是任意 certificate-history pairs 或任意
+theorem routes 上的 uniform classification.
+公式 $\mathsf{RH}$ 是一个固定 $\Pi$-statement.
+固定 statement 可以可证, 可以被构造性反例 refute, 也可以相对于某个
+fragment independent.
+第三种结果需要关于该 fragment 的 RH-specific meta-theorem.
+它不能仅从 uniform route-closure classifier 不存在推出. $\square$
+
+这是与粗糙 Goedel slogan 的关键差别.
+halting boundary 说的是:
+
+$$
+\neg
+\exists D.\,
+\forall A,R.\,
+D(A,R)
+\text{ decides route closure}.
+$$
+
+它并没有说:
+
+$$
+\mathsf{RH}
+\text{ is undecidable in BEDC}.
+$$
+
+第一句是 uniform 且 route-level 的.
+第二句是关于某个 named fragment 中一个 named mathematical proposition 的.
+从第一句走到第二句, 需要的正是第一句所禁止的那种 hidden global
+proof-search oracle.
+
+## 6. 双审计基底
+
+**Theorem 6.1 MetaCIC and GroundCompiler are distinct audit bases**
+
+RH route boundary 通过两个协同的 audit bases 读取:
+$\mathsf{MetaCIC}$ 和 $\mathsf{GroundCompiler}$.
+前者审计 closed-CIC meta-theory surface.
+后者审计 event flows、source channels、generated recognizers、certificate
+gates 和 non-claim rows.
+二者都不 collapse 成另一个.
+
+**Proof.** $\mathsf{MetaCIC}$ audit 关心 typing surfaces、substitution、
+reduction geometry、normalisation、confluence fragments、decidable checking,
+以及从 local checks 到 full subject reduction 的 blocked lift.
+$\mathsf{GroundCompiler}$ audit 关心另一块 surface: event-flow
+representation、source-channel separation、recognizer generation、
+certificate-gate passage 和 no-hidden-input discipline.
+
+一条 RH proof route 必须通过相关 proof-theoretic checks, 也必须通过相关
+compiler-facing visibility checks.  一个 surface 上的 pass 不是另一个
+surface 上的 pass.  local parser boundary 不能变成 certificate-level
+halting classifier; decidable type-checking surface 也不能变成 global
+theorem-route closure decider. $\square$
+
+这两个 bases 通过拒绝两种不同 smuggling moves 来协作:
+
+```
+MetaCIC audit:
+    no hidden proof-theoretic collapse
+    no classical shortcut treated as kernel data
+    no unchecked theorem-route totality
+
+GroundCompiler audit:
+    no hidden source channel
+    no generated recognizer without certificate gate
+    no event flow treated as proof merely because it was produced
+```
+
+## 7. 有限 human expression maximality
+
+**Definition 7.1 Finite communicable expression**
+
+finite communicable mathematical expression 是任何可以交换、检查和审计的
+有限书写或可编程 mathematical artifact.
+例子包括 definition、theorem、proof、counterexample、conjecture、
+axiomatic extension、equivalence、proof route、algorithm、condition chain、
+rule tower、meta-theorem、numerical certificate、spectral condition、
+operator condition 或 zeta-specific analytic packet.
+
+**Definition 7.2 BEDC encoding premise for finite expression**
+
+finite-expression encoding premise 说: 每个与 $\mathsf{RH}$ 相关的 finite
+communicable mathematical expression 都能在 BEDC 中读作以下 surfaces 之一:
+
+1. statement row;
+2. proof row;
+3. program row;
+4. condition route;
+5. $NameCert$ packet;
+6. $\mathsf{Pkg}$ packet;
+7. $\mathsf{GAP}$ row;
+8. socket row;
+9. cannot-claim row;
+10. meta-theorem row.
+
+这是 encoding premise, 不是 truth-completeness premise.
+它说明有限表达如何被审计.
+它不声称每个数学真理已经被证明.
+
+**Definition 7.3 Non-oracular expression**
+
+一个 finite expression 是 non-oracular, 当它不消费以下任何 unmarked supply:
+
+1. global truth predicate;
+2. global halting oracle;
+3. global proof-search oracle;
+4. global RH-route decider;
+5. hidden $\mathsf{Classical.choice}$;
+6. hidden $\mathsf{Quot.sound}$;
+7. hidden $\mathsf{propext}$;
+8. unledgered external supply;
+9. unmarked meta-closure.
+
+如果这样的 supply 被请求, 该 expression 只有在把请求暴露为
+$\mathsf{GAP}$ socket, 且其 far end 以 apophatic 方式命名时, 才仍然是
+non-oracular.
+
+**Definition 7.4 RH decision datum**
+
+RH decision datum 是四种 artifacts 之一.
+
+第一:
+
+$$
+\Phi:\mathsf{RH}.
+$$
+
+这是固定 RH $\Pi$-statement 的构造性 proof datum.
+
+第二:
+
+$$
+s_0,\quad
+\mathsf{ZetaZero}(s_0),\quad
+\mathsf{InCritStrip}(s_0),\quad
+\neg\mathsf{OnCritLine}(s_0).
+$$
+
+这是 constructive counterexample packet.
+
+第三:
+
+$$
+F\not\vdash\mathsf{RH}
+\quad\text{and}\quad
+F\not\vdash\neg\mathsf{RH}
+$$
+
+针对某个 chosen fragment $F$.
+这是 RH-specific independence theorem.
+
+第四: finite route-closure certificate, 由 displayed route stage witness 和
+certified transports back to $\mathsf{RH}$ 组成.
+
+**Definition 7.5 RH boundary statement**
+
+RH boundary statement 是以下 claims 的合取:
+
+1. $\mathsf{RH}$ 是 zeta-zero critical strip 上的固定 $\Pi$-statement;
+2. 证明必须供给 total witness function $\Phi$;
+3. 反证必须供给 constructive counterexample packet;
+4. independence 必须是关于 chosen fragment 的 RH-specific meta-theorem;
+5. RH condition 只有通过 witness 和 certified transport 才证明
+$\mathsf{RH}$;
+6. 没有 witnessed stage 的 equivalence chain 只 transport obligations,
+不产生 proof;
+7. 没有 finite grounding rank 的 infinite rule tower 是 $\mathsf{GAP}$
+socket;
+8. global route-closure classifier 是 halting oracle;
+9. unclosed RH decision request 只有 apophatic far-end reading
+
+$$
+\mathrm{FarEnd}(\mathrm{socket}_{\mathsf{RH}})
+\equiv_{\mathrm{apo}}
+\mathsf{T}.
+$$
+
+**Definition 7.6 Strict RH-decision strengthening**
+
+一个 finite expression 在 decision layer strictly strengthens RH boundary
+statement, 当它声称的不只是 boundary placement.
+例子包括: 声称 $\mathsf{RH}$ 被证明、被 refute 或 independent; 声称某条
+concrete RH route closes 或 cannot close; 声称所有 relevant routes are
+decidable; 或声称 infinite condition 可在没有 finite grounding 的情况下被
+当作 proof resource 消费.
+
+**Theorem 7.7 Finite non-oracular RH boundary maximality**
+
+假设 finite-expression encoding premise.
+再假设没有供给 RH proof datum、constructive RH counterexample packet、
+RH-specific independence theorem 或 finite RH route-closure certificate,
+并且 global halting or proof-search oracles 不被允许.
+那么任何 finite communicable non-oracular expression, 若在 decision layer
+strictly strengthens RH boundary statement, 就供给一个 RH decision datum.
+
+**Proof.** 令 $E$ 是 finite communicable non-oracular expression, 并假设它在
+decision layer strictly strengthens RH boundary statement.  由 encoding
+premise, $E$ 在 BEDC 中可读作 statement、proof、program、route、
+certificate、gap、socket、cannot-claim row 或 meta-theorem row.
+
+若 $E$ 证明 $\mathsf{RH}$, 则 $\mathsf{RH}$ 的 constructive form 迫使它供给
+total function $\Phi$: 从 critical-strip zeta-zero witnesses 到
+$\mathsf{OnCritLine}$ witnesses.  这是 proof datum.
+
+若 $E$ 构造性地 refutes $\mathsf{RH}$, 则它必须展示 complex history $s_0$
+以及 witnesses $\mathsf{ZetaZero}(s_0)$、$\mathsf{InCritStrip}(s_0)$ 和
+$\neg\mathsf{OnCritLine}(s_0)$.  这是 counterexample datum.
+
+若 $E$ 声称 $\mathsf{RH}$ 在 fragment $F$ 上 independent, 则它必须供给
+fragment-specific meta-theorem
+$F\not\vdash\mathsf{RH}$ 和 $F\not\vdash\neg\mathsf{RH}$.
+这是 independence datum.
+它不能仅从 halting boundary 推出.
+
+若 $E$ 闭合一条 concrete RH route, 则它必须展示 route stage witness 和
+certified transports back to $\mathsf{RH}$.
+这是 finite route-closure certificate.
+
+若 $E$ 只供给另一个 equivalent condition 或一条 infinite chain of equivalent
+conditions, 它只是 transport $\mathsf{GAP}$, 而不是 close it.
+这种 expression 不是 strict decision-layer strengthening.
+
+若 $E$ 声称 infinite rule tower 可在没有 finite grounding 的情况下被消费,
+则缺席的 finite top certificate 被记录为 $\mathsf{GAP}$ socket, 其 far end
+由 $\mathsf{T}$ 命名.
+除非供给 finite grounding 和 closure certificate, 否则没有 strict
+decision-layer strengthening.
+
+若 $E$ 供给 global route-closure decider, 则它变成 halting predicate,
+从而变成 open-meta-loop closure.  这违反 non-oracularity, 除非该请求被暴露
+为 socket.  socketed request 是 boundary placement, 不是 decision datum.
+
+这些 cases 穷尽了 finite encoded expression 在 RH decision layer 上声称更多
+东西的方式.  因此每个 non-oracular strict strengthening 都供给一个 RH
+decision datum. $\square$
+
+**Corollary 7.8 Local RH work remains admissible**
+
+finite non-oracular work 可以引入额外 RH equivalences、condition chains、
+finite exclusions of route classes、zeta-continuation packets、zero-counting
+witnesses、critical-strip barriers、Hilbert--Polya style packets、
+Li-criterion generators, 或 RH-specific independence interfaces.
+这种 work 只有在产生 RH decision datum 时才改变 RH decision layer.
+
+**Proof.** 列出的每个 artifact 都是 finite communicable expression, 因而在
+encoding premise 下有 BEDC reading.  如果它保持 local、conditional 或
+socketed, 它 refined boundary 但没有决定 $\mathsf{RH}$.  如果它 strictly
+strengthens decision layer, maximality theorem 迫使它供给四种 RH decision
+data 之一. $\square$
+
+**Corollary 7.9 RH boundary summary**
+
+BEDC 可以把 $\mathsf{RH}$ 表述为固定构造性 $\Pi$-statement, 可以识别 finite
+RH conditions as proof routes, 也可以拒绝没有 finite grounding 的 infinite
+rule towers, 把它们作为 $\mathsf{GAP}/\mathsf{T}$ sockets.
+它也可以通过 halting boundary 拒绝 global route-closure deciders.
+在 finite-expression encoding premise 下, 这个 boundary 在 RH decision layer
+上对 finite communicable non-oracular expressions 是 maximal: 任何 strict
+strengthening 都供给 proof datum、counterexample datum、fragment-specific
+independence datum 或 finite route-closure certificate.
+
+**Proof.** 第一项来自 $\mathsf{RH}$ 的 fixed $\Pi$-statement 和 constructive
+proof form.  第二项是 finite RH condition closure.  第三项是 omega-rank
+socket theorem.  第四项是 no-global route-decider theorem.  maximality claim
+就是 Theorem 7.7. $\square$
+
+## 8. Apophatic far end 不决定
+
+**Corollary 8.1 The apophatic far end does not decide RH**
+
+边界读法
+
+$$
+\mathrm{FarEnd}(\mathrm{socket}_{\mathsf{RH}})
+\equiv_{\mathrm{apo}}
+\mathsf{T}
+$$
+
+不供给 $\Phi$、反例、independence theorem 或 route-closure certificate.
+
+**Proof.** 符号 $\mathsf{T}$ 命名一个未 internalized supply socket 的 far
+end.  它不是 kernel object、proof term、zeta value、decision classifier 或
+global oracle.  它记录的是请求离开 closed fragment 的位置, 不是
+$\mathsf{RH}$ 的答案. $\square$
+
+实际读法很简单:
+
+```
+socket_RH asks for more than the closed fragment has displayed
+        |
+        v
+FarEnd(socket_RH) ==_apo T
+        |
+        v
+boundary named, answer not supplied
+```
+
+命名 far end 防止虚假的 possession claim.
+它不会把 proof data 的缺席变成 absence 的证明.
+
+## 9. ASCII 总结图
+
+```
+                         RH
+          fixed constructive Pi-statement
+                         |
+                         v
+       proof datum? counterexample? independence theorem?
+                         |
+             +-----------+-----------+
+             |                       |
+             v                       v
+       decision datum          no decision datum
+             |                       |
+             v                       v
+          RH changes          inspect proposed route
+                                     |
+                                     v
+                         finite witnessed route?
+                                     |
+                    +----------------+----------------+
+                    |                                 |
+                    v                                 v
+              yes: closes RH                 no: condition chain /
+                                             rule tower / program
+                                                    |
+                                                    v
+                                      finite grounding rank?
+                                                    |
+                              +---------------------+------------------+
+                              |                                        |
+                              v                                        v
+                     finite top certificate                  omega-rank demand
+                              |                                        |
+                              v                                        v
+                       finite route to RH                      GAP socket
+                                                                       |
+                                                                       v
+                                                                FarEnd ==_apo T
+
+       global route closure decider
+                    |
+                    v
+       decides arbitrary Cont-chain termination
+                    |
+                    v
+       halting predicate / open-meta-loop closure
+                    |
+                    v
+       rejected as Type VII socket
+```
+
+## 10. 最干净公式
+
+$$
+\boxed{
+\mathsf{RH}
+=
+\forall s.\,
+\mathsf{ZetaZero}(s)
+\wedge
+\mathsf{InCritStrip}(s)
+\Rightarrow
+\mathsf{OnCritLine}(s)
+}
+$$
+
+$$
+\boxed{
+(K,\tau,k)
+\quad\Rightarrow\quad
+\tau(k):\mathsf{RH}
+}
+$$
+
+$$
+\boxed{
+\text{equivalence chain without witness}
+=
+\text{transported GAP}
+}
+$$
+
+$$
+\boxed{
+\mathrm{rank}(R)=\omega
+\quad\Rightarrow\quad
+R=\mathsf{GAP}\text{-socket},\ 
+\mathrm{FarEnd}(R)\equiv_{\mathrm{apo}}\mathsf{T}
+}
+$$
+
+$$
+\boxed{
+\text{global route closure decider}
+\Rightarrow
+\text{halting oracle}
+\Rightarrow
+\text{Type VII socket}
+}
+$$
+
+$$
+\boxed{
+\text{finite non-oracular strict RH strengthening}
+\Rightarrow
+\text{RH decision datum}
+}
+$$
+
+## 11. 一句话总结
+
+> 停机边界阻断 total route-closure classifiers, 而不是直接决定固定 RH
+> statement; 在 finite-expression 与 non-oracular discipline 下, 任何真正推动
+> RH decision layer 的有限表达, 都必须供给 proof datum、constructive
+> counterexample、RH-specific independence theorem 或 finite route-closure
+> certificate.
+
+### 相关阅读
+
+```{=html}
+<div class="cta-choices">
+  <a href="halting-as-open-meta-loop.zh-CN.qmd"><strong>停机问题作为 open meta loop</strong><br/>BEDC 的 open meta loop 在运行层的形式, 以及 total halting predicate 背后的 diagonal obstruction.</a>
+  <a href="apophatic-infinity.zh-CN.qmd"><strong>否定式无穷</strong><br/>T 作为 far end 的读法: 它不是内部 object, 也不是答案.</a>
+  <a href="goedel-boundary-as-data.zh-CN.qmd"><strong>Goedel 边界作为数据</strong><br/>固定 statement、self-reference 与 data-bearing meta-theorem 之间的边界.</a>
+  <a href="boundary-not-axiom.zh-CN.qmd"><strong>边界, 不是公理</strong><br/>为什么被暴露的 boundary 不是 hidden axiom, 也不授权 unmarked closure.</a>
+  <a href="no-exception-everything-inside.zh-CN.qmd"><strong>没有例外, 一切都在内部</strong><br/>每个 admissible claim 都必须暴露 carrier、witness 与 audit surface 的纪律.</a>
+</div>
+```
+
+— *The Omega Institute*  
+*newmath / BEDC, May 2026*
