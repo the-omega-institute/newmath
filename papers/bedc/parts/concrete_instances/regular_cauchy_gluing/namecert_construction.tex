@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyGluingUp$}
+\label{ch:concrete-instances-regular-cauchy-gluing-namecert}
+\origin{human}
+
+Bishop--Bridges style regular Cauchy gluing records the finite route by which two compatible local regular rational windows can be read as one BEDC real-name boundary without passing through quotient representatives or an ambient completeness theorem. The $\RegularCauchyGluingUp$ packet sits after the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the reindexing route of \autoref{ch:concrete-instances-cauchy-reindexing-namecert}.
+
+\begin{definition}[Regular Cauchy gluing carrier]
+\label{def:regular-cauchy-gluing-carrier}
+A $\RegularCauchyGluingUp$ carrier is a finite $\BHist$ packet
+$$
+G=(L,R,D,S,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $R$ are the left and right compatible regular Cauchy windows, each carrying finite $\StreamNameUp$ observations and a local $\RegSeqRatUp$ readback row.
+\item $D$ is the common $\DyadicRatCoreUp$ refinement ledger recording the shared dyadic radii, endpoint comparisons, overlap budgets, and refinement witnesses used by both windows.
+\item $S$ is the joint $\StreamNameUp$ observation row, exposing exactly the finite indices inspected on the left window, right window, and overlap.
+\item $Q$ is the glued $\RegSeqRatUp$ readback row obtained by reading the two local regular rows through the common ledger $D$.
+\item $E$ is the $\RealUp$ seal reached only after $L,R,D,S,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two windows, common dyadic ledger, finite observations, glued readback, real seal, replay, provenance, and local certificate.
+\item $C$ records displayed $\Cont$ replay of the same finite gluing route.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyGluingUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyReindexingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyGluingUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that the two local windows are compatible on the displayed overlap through $D,S,Q,H,C,P,N$. It has no coordinate for quotient sequence equality, selected representatives, host real equality, countable choice, or completeness of $\RealUp$.
+\end{definition}
+
+\begin{definition}[Regular Cauchy gluing classifier]
+\label{def:regular-cauchy-gluing-classifier}
+The $\RegularCauchyGluingUp$ classifier compares accepted carriers only through the tuple $L,R,D,S,Q,E,H,C,P,N$. Two packets are indistinguishable for this classifier precisely when the left and right window rows, the common dyadic refinement ledger, the finite observation row, the glued regular readback, the terminal real seal, and the transport, replay, provenance, and naming rows are componentwise the same under the displayed $\hsame$ routes.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy gluing NameCert obligations]
+\label{thm:regular-cauchy-gluing-namecert-obligations}
+For every accepted $\RegularCauchyGluingUp$ carrier $G=(L,R,D,S,Q,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyGluingUp}$ surface consists exactly of carrier admission for the two compatible regular Cauchy windows, common $\DyadicRatCoreUp$ refinement through $D$, finite $\StreamNameUp$ observation through $S$, glued $\RegSeqRatUp$ readback through $Q$, terminal $\RealUp$ sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic rows before the seal are exactly the two regular windows $L,R$, the common dyadic ledger $D$, the finite observation row $S$, and the glued regular readback $Q$.
+
+The overlap obligation is finite. Its comparisons are stored in $D$ and read through the same inspected indices in $S$, so the two local $\RegSeqRatUp$ rows feed one glued readback row $Q$ without adding a quotient representative.
+
+Transport, replay, provenance, and local naming are supplied by $H,C,P,N$. Repacking these projections gives the listed $\NameCert_{\RegularCauchyGluingUp}$ surface, and the carrier definition leaves no hidden row for selected representatives, host equality, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy gluing overlap stability]
+\label{thm:regular-cauchy-gluing-overlap-stability}
+Let $G=(L,R,D,S,Q,E,H,C,P,N)$ be an accepted $\RegularCauchyGluingUp$ carrier. Any refinement of the displayed overlap that is transported by $H$ and replayed by $C$ preserves the same glued $\RegSeqRatUp$ readback $Q$ and the same $\RealUp$ seal row $E$. Consequently downstream Real and Completion consumers receive only the finite gluing packet and not quotient stream equality, selected representatives, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the displayed overlap ledger. The common dyadic row $D$ records every radius and endpoint comparison used by both local windows, while $S$ records the finite observations on which those comparisons are made.
+
+Apply the classifier of \autoref{def:regular-cauchy-gluing-classifier}. A refinement transported by $H$ and replayed by $C$ can change neither the componentwise ledger coordinates nor the finite observation coordinates exposed to the classifier.
+
+The glued readback row $Q$ is therefore the same row after refinement, and the $\RealUp$ seal $E$ is read only through $Q$ together with $H,C,P,N$. Since the carrier contains no quotient, selector, host-equality, choice, or completeness coordinate, none of those data can be exported by overlap stability.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy gluing Cauchy-reindexing handoff]
+\label{thm:regular-cauchy-gluing-cauchy-reindexing-handoff}
+Every accepted $\RegularCauchyGluingUp$ carrier factors its gluing route through the finite $\CauchyReindexingUp$ surface recorded in $P$. The handoff exposes the common dyadic refinement ledger $D$, the finite observation row $S$, and the glued regular readback row $Q$ as a reindexing-compatible route, and it exposes no global quotient of regular Cauchy names or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Read the package provenance $P$. It names the route through $\CauchyReindexingUp$ together with $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+The carrier rows $D,S,Q$ are exactly the finite data consumed by that route: $D$ supplies the common refinement ledger, $S$ supplies the inspected windows, and $Q$ supplies the regular rational readback after the two local windows agree on the overlap.
+
+The support rows $H,C,N$ transport, replay, and name this same finite path. Thus the handoff is reindexing-compatible BEDC data, not a quotient of regular names, a selected representative, or a completeness theorem.
+\end{proof}
+
+\closureat{RegularCauchyGluingUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyGluingUp}
+  \constructivestory{A $\RegularCauchyGluingUp$ packet is generated from two compatible regular Cauchy windows, a common $\DyadicRatCoreUp$ refinement ledger, finite $\StreamNameUp$ observations, a glued $\RegSeqRatUp$ readback, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-gluing-carrier}, \autoref{def:regular-cauchy-gluing-classifier}, \autoref{thm:regular-cauchy-gluing-namecert-obligations}, \autoref{thm:regular-cauchy-gluing-overlap-stability}, and \autoref{thm:regular-cauchy-gluing-cauchy-reindexing-handoff} seed the finite gluing route for compatible regular Cauchy windows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, host real equality, countable choice, ambient completeness of $\RealUp$, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exposure, common dyadic-refinement exactness, overlap stability, CauchyReindexing handoff, Real seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyGluingUp.}
+\end{closurestatus}
