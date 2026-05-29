@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\SimpleFunctionApproximationUp$}
+\label{ch:concrete-instances-simple-function-approximation-namecert}
+\origin{human}
+
+Following Caratheodory and Bourbaki measurable approximation, the $\SimpleFunctionApproximationUp$ packet names the finite-range measurable surface by which a measurable real-facing map is approximated without importing completed measure theory or host function equality. It sits after the preimage-ledger map surface of \autoref{ch:concrete-instances-measurable-function-namecert}, the event-value rows of \autoref{ch:concrete-instances-measure-namecert}, the generated-set boundary of \autoref{ch:concrete-instances-borel-set-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet records finite range cells, measurable preimage rows, displayed tolerance data, finite observations, transport, replay, provenance, and local naming.
+
+\begin{definition}[Simple function approximation carrier]
+\label{def:simple-function-approximation-carrier}
+A $\SimpleFunctionApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M,F,R,E,T,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the source $\MeasureUp$ row, exposing only the measurable event surface and event-value readback needed by the approximation packet.
+\item $F$ is the input $\MeasurableFunctionUp$ row, read through its displayed target-event and preimage ledger rather than through a host function object.
+\item $R$ is the finite range ledger, listing the displayed $\RealUp$ values that the simple approximation may return.
+\item $E$ is the finite cell ledger, assigning each range row in $R$ to a measurable source cell whose admission is read through $\BorelSetUp$, $\MeasureUp$, and the preimage rows of $F$.
+\item $T$ is the displayed $\RealUp$ tolerance row, naming the approximation budget used by the current consumer.
+\item $O$ is the finite $\StreamNameUp$ observation row, recording the visible source probes, range reads, and tolerance comparisons exposed to the packet.
+\item $H$ stores componentwise $\hsame$ transport for the measure source, measurable-function row, finite range ledger, cell ledger, tolerance row, observation row, provenance, and local naming rows.
+\item $C$ stores the displayed $\Cont$ replay from source-event inspection through finite cell selection, range-value readback, tolerance comparison, and observation replay.
+\item $P$ is the $\Pkg$ provenance over $\SimpleFunctionApproximationUp$, $\MeasurableFunctionUp$, $\MeasureUp$, $\BorelSetUp$, $\RealUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SimpleFunctionApproximationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,F,R,E,T,O,H,C,P,N$. It has no coordinate for almost-everywhere quotient classes, completed measures, selected representatives, ambient integration theorems, or equality of host functions.
+\end{definition}
+
+\begin{theorem}[Simple function approximation NameCert obligations]
+\label{thm:simple-function-approximation-namecert-obligations}
+For the carrier of \autoref{def:simple-function-approximation-carrier}, the local $\NameCert_{\SimpleFunctionApproximationUp}$ surface consists exactly of carrier admission for the measure source, measurable-function row, finite range ledger, measurable cell ledger, displayed $\RealUp$ tolerance row, finite $\StreamNameUp$ observations, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every accepted approximation consumer must read the finite cells through $E$, the measurable preimage route through $F$, the range values through $R$, and the tolerance comparison through $T$ before any sibling $\MeasureUp$, $\BorelSetUp$, $\RealUp$, or $\StreamNameUp$ row is exported.
+\end{theorem}
+\begin{proof}
+Project the carrier $S=(M,F,R,E,T,O,H,C,P,N)$. The measure source $M$ and measurable-function row $F$ are the only rows from which measurable event and preimage information can be read.
+
+Read the finite approximation data. The range ledger $R$ supplies the displayed real values, the cell ledger $E$ ties each range value to a measurable source cell, and the tolerance row $T$ records the visible approximation budget against which the current observations are compared.
+
+Replay the observation and structural rows. The row $O$ records the finite StreamName probes, while $H,C,P,N$ transport, replay, source, and name the same route through the sibling certificates. Since no further coordinate is present, the listed rows exhaust the NameCert obligation surface and cannot export quotient classes, completed measures, selected representatives, ambient integration theorems, or host function equality.
+\end{proof}
+
+\begin{theorem}[Simple function approximation finite-cell route]
+\label{thm:simple-function-approximation-finite-cell-route}
+Every accepted $\SimpleFunctionApproximationUp$ read factors through the finite route
+$$
+M,F \longmapsto E \longmapsto R,T \longmapsto O \longmapsto H,C,P,N .
+$$
+Thus a consumer receives a finite measurable partition-by-cells with displayed real values and a displayed tolerance budget, not an almost-everywhere quotient class, completed measure, selected representative, ambient integral, or equality proof for host functions.
+\end{theorem}
+\begin{proof}
+Start with an accepted approximation request. The request first exposes the measure source and the measurable-function row, so every cell read is grounded in the displayed source-event and preimage ledgers.
+
+The cell ledger $E$ is finite. Each displayed cell is paired with a range value from $R$, and the tolerance row $T$ supplies the visible real-valued budget for the comparison requested by the consumer.
+
+Finally replay the observations and structural rows. The finite StreamName row $O$ records only the exposed probes, while $H,C,P,N$ transport and name the route. No hidden coordinate remains from which a quotient, completion, representative selection, integration theorem, or host equality could be recovered.
+\end{proof}
+
+\falsifiablePrediction{A $\SimpleFunctionApproximationUp$ consumer that obtains an almost-everywhere quotient class, completed measure, selected representative, ambient integration theorem, or host function equality without first reading $M,F,R,E,T,O,H,C,P,N$ refutes the carrier of \autoref{def:simple-function-approximation-carrier}.}
+
+\independenceWitness{measurablefunction, measure, borelset, real, streamname: no listed sibling supplies the whole ten-row packet $S=(M,F,R,E,T,O,H,C,P,N)$, because each sibling contributes only preimage-ledger, event-value, generated-set, real-name, or finite-observation data while this chapter binds the finite-range approximation surface with tolerance, transport, replay, provenance, and local naming.}
+
+\closureat{SimpleFunctionApproximationUp}{seedStr}
+
+\begin{closurestatus}{\SimpleFunctionApproximationUp}
+  \constructivestory{A $\SimpleFunctionApproximationUp$ packet is generated from a measure source, a measurable-function preimage ledger, finite range cells, a displayed Real tolerance row, finite StreamName observations, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:simple-function-approximation-carrier}, \autoref{thm:simple-function-approximation-namecert-obligations}, and \autoref{thm:simple-function-approximation-finite-cell-route} seed the finite-range measurable approximation surface over source events, preimage rows, cell ledgers, range values, tolerance rows, observations, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close almost-everywhere quotient classes, completed measures, selected representatives, ambient integration theorems, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-cell exactness, measurable preimage preservation, Real tolerance replay, StreamName observation stability, and quotient-refusal proofs for BEDC.Derived.SimpleFunctionApproximationUp.}
+\end{closurestatus}
