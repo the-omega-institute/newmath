@@ -75,6 +75,30 @@ theorem CauchyModulusSpaceFiniteRoute [AskSetup] [PackageSetup]
     unary_cont_closed streamUnary realSealUnary streamRealSealRoute
   exact ⟨routeUnary, streamRealSealRoute, provenancePkg, localNamePkg⟩
 
+theorem CauchySeedRealSealBoundary {W D R E toleranceRead readbackRead sealRead : BHist} :
+    UnaryHistory W →
+      UnaryHistory D →
+        UnaryHistory R →
+          UnaryHistory E →
+            Cont W D toleranceRead →
+              Cont toleranceRead R readbackRead →
+                Cont readbackRead E sealRead →
+                  UnaryHistory toleranceRead ∧ UnaryHistory readbackRead ∧
+                    UnaryHistory sealRead ∧ Cont W D toleranceRead ∧
+                      Cont toleranceRead R readbackRead ∧ Cont readbackRead E sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro windowUnary toleranceUnary readbackUnary sealUnary windowToleranceRead
+    toleranceReadbackRead readbackSealRead
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed windowUnary toleranceUnary windowToleranceRead
+  have readbackReadUnary : UnaryHistory readbackRead :=
+    unary_cont_closed toleranceReadUnary readbackUnary toleranceReadbackRead
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackReadUnary sealUnary readbackSealRead
+  exact
+    ⟨toleranceReadUnary, readbackReadUnary, sealReadUnary, windowToleranceRead,
+      toleranceReadbackRead, readbackSealRead⟩
+
 def CauchyModulusSpaceCarrier (I S W D R Q H C P N : BHist) : Prop :=
   -- BEDC touchpoint anchor: BHist Cont UnaryHistory
   UnaryHistory I ∧ UnaryHistory S ∧ UnaryHistory W ∧ UnaryHistory D ∧
