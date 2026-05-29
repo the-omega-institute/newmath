@@ -1,0 +1,126 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveLipschitzFlowUp$}
+\label{ch:concrete-instances-constructive-lipschitz-flow-namecert}
+\origin{human}
+
+Following Picard and Lindelof, local flow data are treated here as a finite
+constructive package: a metric phase row, a rational time-window row, a local
+Lipschitz budget, an Euler-style approximation schedule, and a replay ledger
+that records how each requested window is inspected. The
+$\ConstructiveLipschitzFlowUp$ packet names the local existence interface for
+ODE consumers without importing host flows, selected maximal intervals,
+ambient completeness, or global continuation. Its local-flow route consumes
+the Lipschitz budget surface of
+\autoref{ch:concrete-instances-lipschitz-modulus-namecert} together with the
+map boundary of \autoref{ch:concrete-instances-lipschitzmap-namecert}, the
+phase metric row of \autoref{ch:concrete-instances-metric-namecert}, the
+regular time-window readback of
+\autoref{ch:concrete-instances-regseqrat-namecert}, and the finite schedule
+surface of \autoref{ch:concrete-instances-streamname-namecert}.
+
+\begin{definition}[Constructive Lipschitz flow carrier]
+\label{def:constructive-lipschitz-flow-carrier}
+A $\ConstructiveLipschitzFlowUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M,T,L,E,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricSpaceUp$ phase row containing the point-history
+carrier, metric readbacks, distance classifier, and local metric
+$\NameCert$.
+\item $T$ is the rational time-window row, read through $\RegSeqRatUp$
+windows and not through a host interval object.
+\item $L$ is the local Lipschitz budget row; it records the radius,
+time-length, and contraction budget inspected by the packet.
+\item $E$ is the finite approximation schedule, read as a $\StreamNameUp$
+sequence of local Euler windows.
+\item $W$ is the observation ledger joining metric-radius requests, time
+windows, Lipschitz-budget checks, and approximation-window readbacks.
+\item $H$ records componentwise $\hsame$ transport for $M,T,L,E,W$ and the
+local certificate rows.
+\item $C$ records the displayed $\Cont$ replay from a requested local flow
+window to its metric, time, Lipschitz, and approximation rows.
+\item $P$ is the $\Pkg$ provenance over $\MetricSpaceUp$, $\RegSeqRatUp$,
+$\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConstructiveLipschitzFlowUp}$ row.
+\end{enumerate}
+The classifier compares two accepted carriers only by transporting these
+displayed rows to a common metric, time-window, Lipschitz-budget, and
+approximation-schedule surface. It has no coordinate for a selected host
+solution curve, maximal interval, quotient trajectory, or ambient
+completeness theorem.
+\end{definition}
+
+\begin{theorem}[Constructive Lipschitz flow NameCert obligations]
+\label{thm:constructive-lipschitz-flow-namecert-obligations}
+For every accepted $\ConstructiveLipschitzFlowUp$ carrier
+$F=(M,T,L,E,W,H,C,P,N)$, the local
+$\NameCert_{\ConstructiveLipschitzFlowUp}$ surface consists exactly of the
+carrier admission row, classifier-transport row, local Lipschitz-budget row,
+finite approximation-schedule row, observation-ledger exactness row,
+continuation-replay row, package-provenance row, and local naming row. These
+rows bind $\MetricSpaceUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\BHist$,
+$\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ as the whole public obligation
+surface.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:constructive-lipschitz-flow-carrier}. The projection displays
+the phase metric row $M$, time-window row $T$, Lipschitz budget $L$,
+approximation schedule $E$, observation ledger $W$, transport row $H$,
+continuation row $C$, provenance row $P$, and local name $N$.
+
+Classifier transport uses $H$ to keep all rows over one metric and one
+time-window surface. The Lipschitz budget is therefore read with the same
+metric-radius and rational time data as the approximation schedule.
+
+The ledger exactness clause is exhausted by $W$. Every local-flow request
+must pass through the displayed metric, time, budget, and schedule windows
+before it reaches the $\Cont$ replay row.
+
+Finally attach $P$ and $N$. These rows source and name the displayed packet;
+they add no host solution curve, selected maximal interval, quotient
+trajectory, or ambient completeness principle. Hence the listed rows exhaust
+the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Constructive Lipschitz flow local-window boundary]
+\label{thm:constructive-lipschitz-flow-local-window-boundary}
+Every downstream ODE consumer of an accepted
+$\ConstructiveLipschitzFlowUp$ carrier
+$F=(M,T,L,E,W,H,C,P,N)$ must read local flow data through the displayed
+metric row $M$, rational time-window row $T$, Lipschitz budget $L$,
+approximation schedule $E$, observation ledger $W$, componentwise transport
+$H$, continuation replay $C$, package provenance $P$, and local $\NameCert$
+row $N$. The packet supplies no global flow, no selected maximal interval,
+no quotient trajectory equality, no closed completeness of the phase space,
+and no host-level uniqueness theorem.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligation surface of
+\autoref{thm:constructive-lipschitz-flow-namecert-obligations}. It exposes
+only the metric, time, budget, schedule, ledger, transport, replay,
+provenance, and naming rows.
+
+A local-window request first fixes its rational time window and its metric
+radius through $T$ and $M$. The Lipschitz budget $L$ and approximation
+schedule $E$ can then be inspected only through the ledger $W$.
+
+The continuation row $C$ replays this finite inspection route, while $H$
+keeps the rows componentwise stable and $P,N$ record provenance and naming.
+Since no carrier coordinate stores a host flow or maximal interval, the
+downstream consumer receives only the displayed local-window data.
+\end{proof}
+
+\closureat{ConstructiveLipschitzFlowUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveLipschitzFlowUp}
+  \constructivestory{A $\ConstructiveLipschitzFlowUp$ packet is generated from a phase metric row, rational time-window row, local Lipschitz budget, finite approximation schedule, observation ledger, componentwise transport, displayed continuation replay, package provenance, and local naming data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-lipschitz-flow-carrier}, \autoref{thm:constructive-lipschitz-flow-namecert-obligations}, and \autoref{thm:constructive-lipschitz-flow-local-window-boundary} define the local flow carrier and seed the ODE-facing local-window route over $\MetricSpaceUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a Lean target, global flows, selected maximal intervals, quotient trajectories, phase-space completeness, host uniqueness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, Lipschitz-budget exactness, approximation-schedule replay, and local-window non-escape for the same packet.}
+\end{closurestatus}

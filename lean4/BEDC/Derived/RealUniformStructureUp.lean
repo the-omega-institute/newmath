@@ -66,6 +66,89 @@ theorem RealUniformStructureCarrier_metric_uniformity_handoff [AskSetup] [Packag
     ⟨rUnary, mUnary, radiusUnary, entourageUnary, filterUnary, radiusCont,
       entourageCont, filterCont, pPkg, filterPkg⟩
 
+theorem RealUniformStructureCarrier_l10_gate [AskSetup] [PackageSetup]
+    {R M U F D S Q H C P N endpointRead radiusRead windowRead readbackRead filterRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealUniformStructureCarrier R M U F D S Q H C P N bundle pkg ->
+      Cont R M endpointRead ->
+        Cont endpointRead D radiusRead ->
+          Cont radiusRead S windowRead ->
+            Cont windowRead Q readbackRead ->
+              Cont readbackRead U filterRead ->
+                PkgSig bundle filterRead pkg ->
+                  UnaryHistory endpointRead ∧ UnaryHistory radiusRead ∧
+                    UnaryHistory windowRead ∧ UnaryHistory readbackRead ∧
+                      UnaryHistory filterRead ∧ Cont R M endpointRead ∧
+                        Cont endpointRead D radiusRead ∧ Cont radiusRead S windowRead ∧
+                          Cont windowRead Q readbackRead ∧ Cont readbackRead U filterRead ∧
+                            PkgSig bundle P pkg ∧ PkgSig bundle filterRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier endpointCont radiusCont windowCont readbackCont filterCont filterPkg
+  have rUnary : UnaryHistory R := carrier.left
+  have mUnary : UnaryHistory M := carrier.right.left
+  have uUnary : UnaryHistory U := carrier.right.right.left
+  have dUnary : UnaryHistory D := carrier.right.right.right.right.left
+  have sUnary : UnaryHistory S := carrier.right.right.right.right.right.left
+  have qUnary : UnaryHistory Q := carrier.right.right.right.right.right.right.left
+  have pPkg : PkgSig bundle P pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed rUnary mUnary endpointCont
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed endpointUnary dUnary radiusCont
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed radiusUnary sUnary windowCont
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed windowUnary qUnary readbackCont
+  have filterUnary : UnaryHistory filterRead :=
+    unary_cont_closed readbackUnary uUnary filterCont
+  exact
+    ⟨endpointUnary, radiusUnary, windowUnary, readbackUnary, filterUnary, endpointCont,
+      radiusCont, windowCont, readbackCont, filterCont, pPkg, filterPkg⟩
+
+theorem RealUniformStructureCarrier_located_filter_compatibility [AskSetup] [PackageSetup]
+    {R M U F D S Q H C P N locatedTail radiusRead windowRead readbackRead filterRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealUniformStructureCarrier R M U F D S Q H C P N bundle pkg ->
+      Cont R D radiusRead ->
+        Cont radiusRead U filterRead ->
+          Cont filterRead S windowRead ->
+            Cont windowRead Q readbackRead ->
+              Cont readbackRead F locatedTail ->
+                PkgSig bundle locatedTail pkg ->
+                  UnaryHistory R ∧ UnaryHistory D ∧ UnaryHistory U ∧ UnaryHistory F ∧
+                    UnaryHistory S ∧ UnaryHistory Q ∧ UnaryHistory radiusRead ∧
+                      UnaryHistory filterRead ∧ UnaryHistory windowRead ∧
+                        UnaryHistory readbackRead ∧ UnaryHistory locatedTail ∧
+                          Cont R D radiusRead ∧ Cont radiusRead U filterRead ∧
+                            Cont filterRead S windowRead ∧ Cont windowRead Q readbackRead ∧
+                              Cont readbackRead F locatedTail ∧ PkgSig bundle P pkg ∧
+                                PkgSig bundle locatedTail pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier radiusCont filterCont windowCont readbackCont locatedCont locatedPkg
+  have rUnary : UnaryHistory R := carrier.left
+  have uUnary : UnaryHistory U := carrier.right.right.left
+  have fUnary : UnaryHistory F := carrier.right.right.right.left
+  have dUnary : UnaryHistory D := carrier.right.right.right.right.left
+  have sUnary : UnaryHistory S := carrier.right.right.right.right.right.left
+  have qUnary : UnaryHistory Q := carrier.right.right.right.right.right.right.left
+  have pPkg : PkgSig bundle P pkg :=
+    carrier.right.right.right.right.right.right.right.right.right.right.right
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed rUnary dUnary radiusCont
+  have filterUnary : UnaryHistory filterRead :=
+    unary_cont_closed radiusUnary uUnary filterCont
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed filterUnary sUnary windowCont
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed windowUnary qUnary readbackCont
+  have locatedUnary : UnaryHistory locatedTail :=
+    unary_cont_closed readbackUnary fUnary locatedCont
+  exact
+    ⟨rUnary, dUnary, uUnary, fUnary, sUnary, qUnary, radiusUnary, filterUnary,
+      windowUnary, readbackUnary, locatedUnary, radiusCont, filterCont, windowCont,
+      readbackCont, locatedCont, pPkg, locatedPkg⟩
+
 theorem RealUniformStructureCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {R M U F D S Q H C P N routeRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

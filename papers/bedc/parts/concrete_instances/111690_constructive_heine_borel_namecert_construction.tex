@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveHeineBorelUp$}
+\label{ch:concrete-instances-constructive-heine-borel-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\ConstructiveHeineBorelUp$ packet records the finite-subcover route for a closed real interval using only displayed interval endpoints, a dyadic mesh, finite cover requests, selected finite subcover rows, and Real readback. It consumes the real carrier of \autoref{ch:concrete-instances-real-namecert}, the dyadic arithmetic discipline of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the StreamName window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the interval variant in \autoref{ch:concrete-instances-heineborelinterval-namecert}. It is a finite NameCert packet for an interval-cover search, not a claim of arbitrary open-cover compactness.
+
+\begin{definition}[Constructive Heine--Borel finite-subcover carrier]
+\label{def:constructive-heine-borel-carrier}
+A $\ConstructiveHeineBorelUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,B,D,G,F,S,W,Q,R,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $A$ and $B$ are the closed interval endpoint rows, read through $\RealUp$ seals and regular rational names;
+\item $D$ is the dyadic mesh row, recording a finite dyadic partition and its endpoint refinement data through $\DyadicRatCoreUp$;
+\item $G$ is the finite cover-request row, recording finitely many interval-cover tests against the displayed mesh windows;
+\item $F$ is the finite-subcover selection row, storing the displayed finite list of cover indices that answer the tested mesh;
+\item $S$ is the StreamName window row, exposing the finite windows used to read the endpoints and test membership;
+\item $W$ is the RegSeqRat readback row, transporting the endpoint and mesh reads through regular rational sequence data;
+\item $Q$ is the Real seal row, recording the interval and cover reads as $\RealUp$ data without quotient real equality;
+\item $R$ records refusal of arbitrary open-cover compactness, choice-selected subcovers, quotient real equality, and ambient Real completeness;
+\item $H$ stores componentwise $\hsame$ transport for endpoint, mesh, cover-request, finite-subcover, stream-window, regular-sequence, Real-seal, refusal, replay, provenance, and local naming rows;
+\item $C$ stores displayed $\Cont$ replay for the same finite route;
+\item $P$ is the $\Pkg$ provenance over $\ConstructiveHeineBorelUp$, $\RealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\HeineBorelIntervalUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ConstructiveHeineBorelUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an arbitrary open cover, a non-finite subcover, a choice-selected subcover, quotient equality of reals, or an ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Constructive Heine--Borel NameCert obligations]
+\label{thm:constructive-heine-borel-namecert-obligations}
+For the carrier of \autoref{def:constructive-heine-borel-carrier}, the local $\NameCert_{\ConstructiveHeineBorelUp}$ surface consists exactly of endpoint admission, dyadic mesh admission, finite cover-request coverage, finite-subcover selection, StreamName window readback, RegSeqRat readback, Real seal preservation, refusal accountability, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier $K=(A,B,D,G,F,S,W,Q,R,H,C,P,N)$. The endpoint rows $A,B$, dyadic mesh row $D$, cover-request row $G$, and finite-subcover row $F$ are the only analytic coordinates of the packet.
+
+The readback rows then bind the finite search to the real substrate. StreamName windows in $S$ expose the finite interval reads, RegSeqRat rows in $W$ replay the rational approximations, and the Real seal $Q$ keeps the endpoint and cover tests inside displayed $\RealUp$ data.
+
+Finally the refusal row $R$ blocks the classical readings, while $H,C,P,N$ transport, replay, source, and name the same rows. Since no further coordinate is present, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Constructive Heine--Borel finite-subcover route]
+\label{thm:constructive-heine-borel-finite-subcover-route}
+Every accepted $\ConstructiveHeineBorelUp$ packet exports a finite-subcover reading only through the route
+$$
+A,B,D,G,F,S,W,Q,R,H,C,P,N .
+$$
+The selected finite subcover row $F$ must be read after the endpoint rows, dyadic mesh row, and finite cover-request row, and before the transport, replay, provenance, and local naming rows. The packet does not export an arbitrary open-cover compactness theorem or a choice-selected subcover.
+\end{theorem}
+\begin{proof}
+Begin with the endpoint and mesh data. The rows $A,B,D$ display the closed interval endpoints and the dyadic partition on which the finite search is performed.
+
+Next read the cover request. The row $G$ records only finitely many tested cover windows, so the subcover row $F$ selects from a finite displayed list rather than from an ambient open cover.
+
+The readback and structural rows preserve this route. Rows $S,W,Q$ attach the StreamName, RegSeqRat, and Real seal data, while $H,C,P,N$ keep the route stable under transport, replay, provenance, and naming. The refusal row $R$ excludes the classical readings named in the statement.
+\end{proof}
+
+\begin{theorem}[Constructive Heine--Borel Real-seal nonescape]
+\label{thm:constructive-heine-borel-real-seal-nonescape}
+Let $K=(A,B,D,G,F,S,W,Q,R,H,C,P,N)$ be an accepted $\ConstructiveHeineBorelUp$ packet. Any Real-facing consumer of the finite-subcover route must read the StreamName windows $S$, RegSeqRat readback $W$, and Real seal $Q$ together with the endpoint, mesh, cover, finite-subcover, refusal, transport, replay, provenance, and naming rows. It cannot replace this route by quotient real equality, ambient Real completeness, or an unlogged compactness principle.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:constructive-heine-borel-namecert-obligations}. It places the finite endpoint, mesh, cover-request, finite-subcover, StreamName, RegSeqRat, and Real-seal rows in one packet.
+
+The Real-facing route is therefore not an ambient equality route. The seal $Q$ is read only after $S$ and $W$ expose the finite windows and regular rational readbacks that generated the endpoint and mesh tests.
+
+Apply \autoref{thm:constructive-heine-borel-finite-subcover-route} to close the nonescape boundary. A consumer that bypasses $S,W,Q$ or imports ambient completeness no longer reads the accepted $\ConstructiveHeineBorelUp$ carrier.
+\end{proof}
+
+\falsifiablePrediction{A finite-subcover consumer that exports a subcover without reading $D,G,F,S,W,Q$ refutes the $\ConstructiveHeineBorelUp$ carrier.}
+
+\independenceWitness{real, dyadicratcore, streamname, regseqrat, heineborelinterval: the real carrier supplies sealed values without a finite cover search, the dyadic core supplies mesh arithmetic without interval coverage, StreamName and RegSeqRat supply readback without subcover selection, and the interval variant supplies interval-facing constraints without this finite endpoint-mesh-cover packet. None is bijective to $\ConstructiveHeineBorelUp$.}
+
+\closureat{ConstructiveHeineBorelUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveHeineBorelUp}
+  \constructivestory{A $\ConstructiveHeineBorelUp$ packet is generated from endpoint, dyadic mesh, finite cover-request, finite-subcover, StreamName, RegSeqRat, Real-seal, refusal, transport, replay, provenance, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-heine-borel-carrier}, \autoref{thm:constructive-heine-borel-namecert-obligations}, \autoref{thm:constructive-heine-borel-finite-subcover-route}, and \autoref{thm:constructive-heine-borel-real-seal-nonescape} seed the finite-subcover NameCert route for a closed interval.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary open-cover compactness, choice-selected subcovers, quotient real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked endpoint, dyadic mesh, finite cover-request, finite-subcover, StreamName, RegSeqRat, Real-seal, and refusal rows for BEDC.Derived.ConstructiveHeineBorelUp.}
+\end{closurestatus}

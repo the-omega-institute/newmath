@@ -548,6 +548,17 @@ interface package, not a $\RealUp$ completion theorem or a $\RegSeqRat$
 regularity theorem.
 \end{proof}
 
+\begin{theorem}[StreamNameUp public L10 exit handoff]
+\label{thm:streamname-public-l10-exit-handoff}
+The public $\StreamNameUp$ finite-window interface supplies exactly the countable-name observation row required by the L10 Real-and-Completion exit bundle. A $\RealUp$ consumer may read that row only as the StreamName face of the four-object route: the $\DyadicRatCoreUp$ tolerance ledger and the $\RegSeqRatUp$ regular readback must still be displayed before any terminal $\RealUp$ seal is consumed.
+\end{theorem}
+
+\begin{proof}
+Apply \autoref{thm:streamname-public-finite-window-interface} and \autoref{thm:streamname-public-interface-export-package}. They identify the public finite-window and countable-name rows exported by $\StreamNameUp$ and leave dyadic tolerance, regularity, and Real completion outside the StreamName package.
+
+Therefore the L10 exit bundle may use $\StreamNameUp$ as its observation row, but the downstream Real read still factors through the separate $\DyadicRatCoreUp$ and $\RegSeqRatUp$ faces before the $\RealUp$ seal is visible.
+\end{proof}
+
 \begin{theorem}[StreamNameUp public scoped dependency package]
 \label{thm:streamname-public-scoped-dependency-package}
 The public $\StreamNameUp$ export has the following exact scoped dependency

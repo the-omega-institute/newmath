@@ -96,6 +96,7 @@ Let $T=(B,D,F,R,H,C,P,N)$ and $T'=(B,D',F',R,H',C',P',N')$ be accepted $\DyadicT
 
 Equivalently, tightening the displayed threshold or tolerance budget while preserving $B$ and $R$ gives a monotone inclusion of accepted containment reads. The inclusion exports no quotient stream, selected limit, countable-choice selector, trichotomy, host real equality, or ambient $\RealUp$ completeness row.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicTailBallUp.DyadicTailBallMonotoneInclusion}
 \begin{proof}
 Project the two accepted carriers through \autoref{def:dyadic-tail-ball-carrier}. The public ball row $B$ and Real Cauchy criterion row $R$ are shared, so the containment target and terminal consumer boundary do not change.
 
@@ -127,6 +128,25 @@ Apply \autoref{thm:dyadic-tail-ball-monotone-inclusion}. It identifies the accep
 
 Finally, invoke late-window stability from \autoref{thm:dyadic-tail-ball-window-stability}. The structural rows transport, replay, source, and name the refined packet without adding quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient Real completeness.
 \end{proof}
+
+\begin{theorem}[DyadicTailBall threshold refinement route]
+\label{thm:dyadic-tail-ball-threshold-refinement-route}
+Let $T=(B,D,F,R,H,C,P,N)$ and $T'=(B,D',F',R,H',C',P',N')$ be accepted $\DyadicTailBallUp$ packets with the same dyadic-ball row $B$, the same dyadic tolerance budget, the same regular Cauchy tail-filter handoff shape, and the same $\RealCauchyCriterionUp$ consumer row $R$. Suppose $D'$ tightens only the displayed threshold of $D$, and suppose the refined handoff still routes the admitted late-tail observations through $F'$ before they enter $B$ and $R$. Then every accepted containment read factors through the same finite route
+$$
+\DyadicTailBoundUp \longmapsto \RegularCauchyTailFilterUp \longmapsto \DyadicBallUp \longmapsto \RealCauchyCriterionUp .
+$$
+Thus threshold refinement is a late-window route refinement at fixed radius and fixed consumer boundary; it is not a quotient stream, selected limit, countable-choice selector, trichotomy, host real equality, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The dyadic-ball row $B$, the dyadic tolerance budget, and the Real Cauchy criterion row $R$ are fixed, so the only public change is the displayed threshold inside $D$ together with its regular Cauchy handoff $F'$.
+
+Apply the regular Cauchy consumer route of \autoref{thm:dyadic-tail-ball-regular-cauchy-consumer-route}. Both packets must read the same ordered route from tail-bound ledger to late-tail filter, then to dyadic-ball containment, and finally to the Real Cauchy criterion consumer.
+
+Use late-window stability from \autoref{thm:dyadic-tail-ball-window-stability}. Tightening the threshold while keeping the tolerance budget and downstream rows fixed only delays the window at which the same containment evidence is replayed; it does not create a new radius, a new consumer row, or an external convergence predicate.
+
+Finally apply monotone inclusion from \autoref{thm:dyadic-tail-ball-monotone-inclusion}. The refined threshold route preserves accepted containment reads through the same $B$ and $R$, while $H',C',P',N'$ transport, replay, source, and name only the displayed rows. Since quotient streams, selected limits, countable choice, trichotomy, host real equality, and ambient Real completeness are absent from the carrier inventory, the refined route cannot export them.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicTailBallUp.DyadicTailBallThresholdRefinementRoute}
 
 \begin{theorem}[Dyadic tail ball RealEquality consumer]
 \label{thm:dyadic-tail-ball-real-equality-consumer}

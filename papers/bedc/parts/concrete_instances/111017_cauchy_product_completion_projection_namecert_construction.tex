@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\CauchyProductCompletionProjectionUp$}
+\label{ch:concrete-instances-cauchy-product-completion-projection-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive products of Cauchy completions and Kelley on product uniformities, the $\CauchyProductCompletionProjectionUp$ packet records the coordinate projection surface for an accepted product-completion read. It sits downstream of the product packet of \autoref{ch:concrete-instances-cauchy-product-completion-namecert} and the completion-product route of \autoref{ch:concrete-instances-cauchy-completion-product-namecert}, while every coordinate read still passes through the $\StreamNameUp$ windows of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ readbacks of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\DyadicRatCoreUp$ budgets of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[CauchyProductCompletionProjection carrier]
+\label{def:cauchy-product-completion-projection-carrier}
+A $\CauchyProductCompletionProjectionUp$ carrier is a finite $\BHist$ packet
+$$
+J=(Q,\pi_0,\pi_1,S_0,S_1,D_0,D_1,R_0,R_1,L_0,L_1,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the accepted $\CauchyProductCompletionUp$ product-completion packet whose coordinate route is being inspected.
+\item $\pi_0,\pi_1$ are the left and right projection selector rows, each naming which displayed coordinate window is exposed.
+\item $S_0,S_1$ are the coordinate $\StreamNameUp$ windows opened by the two projection selectors.
+\item $D_0,D_1$ are the $\DyadicRatCoreUp$ budget rows attached to the finite coordinate observations read from those windows.
+\item $R_0,R_1$ are the $\RegSeqRatUp$ readback rows obtained from the same coordinate windows and dyadic budgets.
+\item $L_0,L_1$ are the coordinate completion-seal rows witnessing that each projected read remains inside the product-completion packet.
+\item $H$ records componentwise $\hsame$ transport for the product packet, selectors, stream windows, dyadic budgets, regular readbacks, and coordinate completion seals.
+\item $C$ records the $\Cont$ replay from the product-completion packet through the selected coordinate window, dyadic budget, regular readback, and completion seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyProductCompletionProjectionUp$, $\CauchyProductCompletionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyProductCompletionProjectionUp}$ row.
+\end{enumerate}
+The carrier compares accepted projections only through $Q,\pi_0,\pi_1,S_0,S_1,D_0,D_1,R_0,R_1,L_0,L_1,H,C,P,N$. It has no coordinate for quotient completion equality, selected representatives, countable choice, host product equality, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[CauchyProductCompletionProjection NameCert obligations]
+\label{thm:cauchy-product-completion-projection-namecert-obligations}
+For an accepted packet
+$$
+J=(Q,\pi_0,\pi_1,S_0,S_1,D_0,D_1,R_0,R_1,L_0,L_1,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyProductCompletionProjectionUp}$ surface consists exactly of product-packet admission, selector exposure, coordinate stream-window exposure, dyadic-budget accounting, regular readback, coordinate completion-seal nonescape, componentwise transport, replay, provenance, and local naming for the displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-product-completion-projection-carrier}. The row $Q$ supplies the already displayed product-completion packet, while $\pi_0,\pi_1$ determine which coordinate route is being opened.
+
+For each selector, the corresponding stream window is read before any dyadic budget or regular readback is available. Thus $S_0,S_1$ precede $D_0,D_1$, and the regular rows $R_0,R_1$ are exposed only through those windows and budgets.
+
+The completion-seal rows $L_0,L_1$ bind the coordinate read back to $Q$. The transport table $H$ and replay table $C$ preserve the same product packet, selector, window, budget, readback, and seal rows, while $P$ and $N$ record provenance and local naming.
+
+Since these are the only carrier coordinates, the NameCert surface has no route to quotient completion equality, selected representatives, countable choice, host product equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[CauchyProductCompletionProjection route]
+\label{thm:cauchy-product-completion-projection-route}
+Every coordinate read exported by an accepted $\CauchyProductCompletionProjectionUp$ carrier factors through
+$$
+\CauchyProductCompletionUp,\ \StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The left and right selectors expose only the displayed coordinate windows and their completion seals; they do not turn the product-completion packet into a host tuple, a quotient-completion equality, or a chosen representative.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $J$. The selector rows $\pi_0,\pi_1$ are not host projections; they are displayed BEDC rows attached to the product-completion packet $Q$.
+
+Reading either selector first opens the matching $\StreamNameUp$ window. The dyadic budget row is then inspected, and the $\RegSeqRatUp$ readback is obtained from the same finite coordinate window.
+
+The coordinate completion seal is the last coordinate-facing row before export. It keeps the read inside the product-completion packet named by $Q$, and the structural rows $H,C,P,N$ attach transport, replay, provenance, and local naming to the same route.
+
+Thus every projection read remains a finite NameCert route through the displayed rows. No coordinate of $J$ supplies quotient completion equality, selected representatives, countable choice, host product equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{closurestatus}{\CauchyProductCompletionProjectionUp}
+  \constructivestory{A $\CauchyProductCompletionProjectionUp$ packet is generated from an accepted CauchyProductCompletion packet, left and right projection selector rows, coordinate StreamName windows, DyadicRatCore budgets, RegSeqRat readbacks, coordinate completion seals, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-product-completion-projection-carrier}, \autoref{thm:cauchy-product-completion-projection-namecert-obligations}, and \autoref{thm:cauchy-product-completion-projection-route} seed the finite coordinate-projection route for product completions.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected representatives, countable choice, host product equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification can encode carrier admission, selector exposure, coordinate window accounting, regular readback, completion-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyProductCompletionProjectionUp.}
+\end{closurestatus}

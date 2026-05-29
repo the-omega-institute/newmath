@@ -24,6 +24,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier reads accepted packets only through $D,S,R,Q,W,H,K,P,N$. It has no coordinate for quotient stream equality, a selected limit representative, countable choice, trichotomy, host rational order, or ambient $\RealUp$ completeness.
 \end{definition}
+\leanchecked{BEDC.Derived.LocatedRegSeqRatUp.LocatedRegSeqRatTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[LocatedRegSeqRat NameCert obligations]
 \label{thm:located-regseqrat-namecert-obligations}
@@ -72,6 +73,24 @@ Project the accepted carrier as $L=(D,S,R,Q,W,H,K,P,N)$. The carrier exposes the
 Apply \autoref{thm:located-regseqrat-namecert-obligations} to identify the displayed location surface and \autoref{thm:located-regseqrat-realup-handoff} to route Real-facing reads through the terminal $\RealUp$ seal. The existing handoff makes the consumer pass through the same finite rows rather than through an external completion principle.
 
 The locatedness row is therefore downstream of finite windows, regular rational readback, and dyadic tolerance data. Since the carrier has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient completeness, no consumer-visible located read can bypass this modulus route.
+\end{proof}
+
+\begin{theorem}[LocatedRegSeqRat Bishop located-completion handoff]
+\label{thm:located-regseqrat-bishop-completion-handoff}
+Every $\BishopLocatedCompletionUp$ read sourced from an accepted $\LocatedRegSeqRatUp$ packet must pass through the displayed DyadicRatCore tolerance ledger, StreamName window schedule, RegSeqRat readback row, located comparison row, finite tail-window row, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before a completion-facing located seal is exposed. The completion consumer therefore reads the route
+$$
+\DyadicRatCoreUp,\StreamNameUp,\RegSeqRatUp,\LocatedRealUp,\RealUp \longmapsto \BishopLocatedCompletionUp
+$$
+only through the finite rows $D,S,R,Q,W,H,K,P,N$ of \autoref{def:located-regseqrat-carrier}.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier as $L=(D,S,R,Q,W,H,K,P,N)$. By \autoref{thm:located-regseqrat-namecert-obligations}, the local NameCert surface exposes the dyadic tolerance ledger, stream windows, regular rational readback, located comparison row, tail-window row, transport, replay, provenance, and local naming as the complete set of readable rows.
+
+Apply \autoref{thm:located-regseqrat-tail-window-stability} to keep the same finite suffix after transport. The completion-facing consumer cannot move the located comparison away from the displayed tail-window route, because every transported location request must replay $D,S,R,Q,W$ before it can inspect local naming.
+
+Apply \autoref{thm:located-regseqrat-realup-handoff} and \autoref{thm:located-regseqrat-modulus-consumer-route}. These results force Real-facing and Completion-facing reads through the located row, the finite StreamName window, the RegSeqRat readback, the DyadicRatCore tolerance ledger, and the terminal $\RealUp$ seal before any consumer-visible located read is exported.
+
+The $\BishopLocatedCompletionUp$ consumer therefore receives a located completion seal only after the same finite rows have been displayed. Since the $\LocatedRegSeqRatUp$ carrier contains no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient completeness, none of those objects can be inserted into the handoff.
 \end{proof}
 
 \closureat{LocatedRegSeqRatUp}{seedStr}

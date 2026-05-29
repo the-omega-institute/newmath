@@ -1,0 +1,91 @@
+\chapter{A Concrete Naming Certificate for $\FiniteDifferenceUp$}
+\label{ch:concrete-instances-finite-difference-namecert}
+\origin{human}
+
+Following Newton and standard finite-difference calculus, the $\FiniteDifferenceUp$ packet records finite stencil evaluation as displayed BEDC window data rather than as a host derivative or a completed real-function equality. It sits over the real-name boundary of \autoref{ch:concrete-instances-real-namecert}, the derivative-facing route of \autoref{ch:concrete-instances-derivative-namecert}, the calculus boundary of \autoref{ch:concrete-instances-calculus-namecert}, the Taylor consumer of \autoref{ch:concrete-instances-taylor-theorem-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet supplies derivative, calculus, and Taylor consumers with a finite-difference surface; it does not claim host differentiability, an infinite function object, quotient real equality, Real completeness, selected limits, or a Taylor remainder theorem.
+
+\begin{definition}[Finite difference carrier]
+\label{def:finite-difference-carrier}
+A $\FiniteDifferenceUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,H_0,L,D,Q,R,E,B,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source-function window row, listing the finite input-output observations read from a $\StreamNameUp$ source.
+\item $H_0$ is the step-history row, recording the displayed base point, step requests, mesh refinements, and endpoint reuse schedule.
+\item $L$ is the finite stencil row, naming the inspected offsets, coefficients, order tag, and normalization denominator.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used for step-size, coefficient, and denominator budgeting.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the rational stencil sum and its finite error ledger.
+\item $R$ is the terminal $\RealUp$ seal row reached only after $Q$ has been read.
+\item $E$ is the consumer-boundary row for $\DerivativeUp$, $\CalculusUp$, and $\TaylorTheoremUp$, exposing only the finite stencil route to those chapters.
+\item $B$ records componentwise $\hsame$ transport for the source windows, step history, stencil, dyadic tolerance, regular readback, Real seal, consumer boundary, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay of the finite route
+$$
+S,H_0,L \longmapsto D \longmapsto Q \longmapsto R \longmapsto E .
+$$
+\item $C$ is the classifier row, comparing accepted packets only through the same displayed source windows, step history, stencil, tolerance, readback, Real seal, and consumer boundary.
+\item $P$ is the $\Pkg$ provenance over $\FiniteDifferenceUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\DerivativeUp$, $\CalculusUp$, $\TaylorTheoremUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteDifferenceUp}$ row.
+\end{enumerate}
+The classifier has no coordinate for an ambient function space, a host derivative, a quotient real equality, a selected limit, a Taylor remainder object, or $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[FiniteDifferenceUp NameCert obligations]
+\label{thm:finite-difference-namecert-obligations}
+For every accepted $\FiniteDifferenceUp$ carrier
+$$
+F=(S,H_0,L,D,Q,R,E,B,T,C,P,N),
+$$
+the local $\NameCert_{\FiniteDifferenceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item source-window admission for $S$, requiring every function value used by the stencil to be displayed as finite $\StreamNameUp$ data;
+\item step-history admission for $H_0$, requiring the base point, step, mesh-refinement, and endpoint-reuse schedule to be named before a stencil sum is read;
+\item stencil admission for $L$, requiring offsets, coefficients, order tags, and denominators to be finite rows;
+\item dyadic budgeting for $D$, requiring all step-size, coefficient, and denominator tolerance checks to pass through $\DyadicRatCoreUp$;
+\item regular rational readback for $Q$, requiring the finite stencil sum to pass through $\RegSeqRatUp$ before any real seal is exposed;
+\item Real seal exposure for $R$, requiring every real-valued difference read to be downstream of $Q$;
+\item derivative, calculus, and Taylor boundary exposure for $E$, requiring those consumers to see only the displayed finite stencil route;
+\item transport, replay, classifier, provenance, and local naming through $B,T,C,P,N$, preserving exactly the same finite packet.
+\end{enumerate}
+No finite-difference obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-difference-carrier}. The source row $S$ and step-history row $H_0$ are the only places where input values, base points, steps, mesh requests, and endpoint reuse can be read.
+
+The stencil row $L$ fixes the finite offsets, coefficients, order tag, and denominator. The dyadic row $D$ then supplies the only tolerance budget for the displayed step and coefficient data.
+
+The numerical readback must pass through $Q$ before a real-facing consumer can inspect $R$. Thus the route exports a regular rational stencil read and then a terminal $\RealUp$ seal, not a host derivative or quotient real equality.
+
+Finally $E$ exposes the same finite route to $\DerivativeUp$, $\CalculusUp$, and $\TaylorTheoremUp$, while $B,T,C,P,N$ transport, replay, compare, source, and name the same tuple. Since the carrier has no ambient function-space, selected-limit, Taylor-remainder, host-differentiability, or completeness coordinate, the listed rows exhaust the local naming surface.
+\end{proof}
+
+\begin{theorem}[FiniteDifferenceUp Taylor handoff]
+\label{thm:finite-difference-taylor-handoff}
+Every $\TaylorTheoremUp$, $\DerivativeUp$, or $\CalculusUp$ consumer of an accepted $\FiniteDifferenceUp$ packet receives only the displayed route
+$$
+\StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+Concretely, the consumer first reads finite source-function windows and step history, then the finite stencil, then dyadic tolerance budgeting, then regular rational readback, and only then a terminal real seal. The handoff does not export host differentiability, an infinite function graph, a quotient-real equality, a selected limiting derivative, a Taylor remainder theorem, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:finite-difference-namecert-obligations}. They place every accepted read on the displayed rows $S,H_0,L,D,Q,R,E,B,T,C,P,N$.
+
+A derivative-facing or calculus-facing consumer can therefore inspect only the source windows, step history, and finite stencil before a numerical budget is available. The dyadic row $D$ supplies that budget, and the regular rational row $Q$ is the only readback route from the stencil sum.
+
+The Taylor-facing boundary is $E$, which is downstream of the same $Q$ and $R$ rows. Componentwise $\hsame$ transport and $\Cont$ replay preserve this order, while $\Pkg$ provenance and the local $\NameCert$ row name exactly the same finite packet.
+
+The excluded differentiability, infinite-graph, quotient-equality, selected-limit, Taylor-remainder, and completeness claims are absent from the carrier and cannot be recovered from the handoff.
+\end{proof}
+
+\closureat{FiniteDifferenceUp}{seedStr}
+
+\begin{closurestatus}{\FiniteDifferenceUp}
+  \constructivestory{A $\FiniteDifferenceUp$ packet is generated from source-function windows, step history, a finite stencil, DyadicRatCore tolerance budgeting, RegSeqRat readback, a RealUp seal, Derivative/Calculus/Taylor consumer boundaries, componentwise hsame transport, Cont replay, classifier routing, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-difference-carrier}, \autoref{thm:finite-difference-namecert-obligations}, and \autoref{thm:finite-difference-taylor-handoff} seed the finite stencil evaluation surface over StreamName, DyadicRatCore, RegSeqRat, Real, Derivative, Calculus, Taylor, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host differentiability, infinite function objects, quotient real equality, selected limiting derivatives, Taylor remainder theorems, Real completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked source-window admission, step-history admission, stencil admission, dyadic budgeting, regular readback, Real sealing, consumer-boundary exposure, and transport/provenance/name exhaustion for BEDC.Derived.FiniteDifferenceUp.}
+\end{closurestatus}

@@ -62,6 +62,48 @@ Now pass to the completion-facing consumers. The $\RealCauchyCompletionUp$ and $
 The excluded principles are absent by inspection of the tuple. Quotient stream equality, selected representatives, host real equality, countable choice, located completeness, and ambient completion objects are not coordinates of $F$, so the regular handoff cannot export them.
 \end{proof}
 
+\begin{theorem}[FastCauchyReal modulus extraction route]
+\label{thm:fast-cauchy-real-modulus-extraction-route}
+For an accepted $\FastCauchyRealUp$ carrier $F=(D,S,R,E,H,C,P,N)$, the fast dyadic row $D$ and stream window row $S$ expose a convergence modulus only through $\FastCauchyModulusUp$ or \autoref{ch:concrete-instances-regular-cauchy-modulus-extraction-namecert} before the $\RegSeqRatUp$ row $R$ is read. The carrier exports no detached modulus selector, quotient stream equality, or ambient completion object outside the displayed route $D,S,R,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fast-cauchy-real-carrier}. The rows $D$ and $S$ are the only source rows that can answer a finite precision request before regular readback.
+
+Apply the NameCert obligations of \autoref{thm:fast-cauchy-real-namecert-obligations}. Fast tolerance exactness keeps the modulus information in $D$, and window compatibility keeps the observations in $S$ tied to that same budget.
+
+The regular handoff theorem \autoref{thm:fast-cauchy-real-regular-handoff} places $R$ downstream of $D,S$. Thus any modulus consumed before $R$ must be the displayed fast-modulus surface or the regular Cauchy extraction route, not a separate selector.
+\end{proof}
+
+\begin{theorem}[FastCauchyReal modulus readback determinacy]
+\label{thm:fast-cauchy-real-modulus-readback-determinacy}
+Let $F=(D,S,R,E,H,C,P,N)$ be an accepted $\FastCauchyRealUp$ carrier. Any two accepted reads of the same fast tolerance row $D$ through the same $\StreamNameUp$ window row $S$ and $\RegSeqRatUp$ row $R$ reach the same terminal $\RealUp$ seal boundary $E$ under componentwise $\hsame$ transport and displayed $\Cont$ replay.
+
+The determinacy route is exactly
+$$
+D,S,R \longmapsto E \longmapsto H,C,P,N .
+$$
+It does not use selected limits, quotient streams, countable choice, host real equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fast-cauchy-real-carrier}. The rows $D,S,R,E$ are stored in one finite $\BHist$ packet, and $E$ is terminal only for the displayed route from fast tolerance to stream window to regular readback.
+
+Use \autoref{thm:fast-cauchy-real-modulus-extraction-route}. Both accepted reads expose their modulus data through the same $D$ and $S$ before the row $R$ is consumed, so neither read can introduce a detached modulus selector or a second stream representative.
+
+Finally apply \autoref{thm:fast-cauchy-real-regular-handoff}. The regular handoff places $E$ downstream of the same $D,S,R$ route, and the rows $H,C,P,N$ transport, replay, source, and name that route componentwise. Since the carrier has no selected-limit, quotient-stream, choice, host-equality, or ambient-completeness coordinate, the two reads have the same terminal Real seal boundary.
+\end{proof}
+
+\begin{theorem}[FastCauchyReal completion consumer route]
+\label{thm:fast-cauchy-real-completion-consumer-route}
+Every $\RealCauchyCompletionUp$ or $\CauchyRealPresentationUp$ consumer of an accepted $\FastCauchyRealUp$ packet factors through the displayed rows $D,S,R,E,H,C,P,N$. The completion-facing read first uses the fast dyadic tolerance data, then the finite stream windows, then the regular rational handoff, then the terminal $\RealUp$ seal, and finally the structural transport, replay, provenance, and naming rows. It receives no selected host limit, quotient Cauchy class, countable-choice schedule, or ambient completeness witness from the packet.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:fast-cauchy-real-regular-handoff}. It already forces completion-facing consumers to receive the regular rational Cauchy name through $D,S,R,E$ and then through the structural rows.
+
+Use \autoref{thm:fast-cauchy-real-modulus-extraction-route} for the pre-handoff part of the read. The modulus data is exposed only through the fast dyadic row and stream window row before $R$ is consumed.
+
+Finally project the excluded-coordinate clause of \autoref{def:fast-cauchy-real-carrier}. Since selected host limits, quotient Cauchy classes, choice schedules, and ambient completeness witnesses are not coordinates of $F$, no Real or Completion consumer can obtain them from this route.
+\end{proof}
+
 \closureat{FastCauchyRealUp}{seedStr}
 
 \begin{closurestatus}{\FastCauchyRealUp}

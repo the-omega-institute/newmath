@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\RegulatedCauchyModulusUp$}
+\label{ch:concrete-instances-regulated-cauchy-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive moduli of Cauchy convergence, the $\RegulatedCauchyModulusUp$ packet records an explicit finite threshold schedule for a regular rational Cauchy name before the terminal real-name seal is consumed. It sits after the regular rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the Cauchy modulus rows of \autoref{ch:concrete-instances-cauchymodulus-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet gives the L10 Real and Completion route a non-quotient explicit-modulus carrier; it does not select a limit, quotient streams, invoke countable choice, assert host equality, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[Regulated Cauchy modulus carrier]
+\label{def:regulated-cauchy-modulus-carrier}
+A $\RegulatedCauchyModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(R,Q,W,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ source row whose finite rational reads are being regulated.
+\item $Q$ is the explicit modulus threshold row, recording the displayed tolerance request and the finite index bound at which the Cauchy comparison is certified.
+\item $W$ is the $\StreamNameUp$ finite-window row used to expose the source reads needed by $Q$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger controlling the requested radius, the comparison budget, and the readback precision.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $R,Q,W,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, threshold, window, tolerance, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through $R,Q,W,D,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegulatedCauchyModulusUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegulatedCauchyModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,Q,W,D,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, host real equality, countable choice, trichotomy, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Regulated Cauchy modulus NameCert obligations]
+\label{thm:regulated-cauchy-modulus-namecert-obligations}
+For every accepted $\RegulatedCauchyModulusUp$ carrier $M=(R,Q,W,D,E,H,C,P,N)$, the local $\NameCert_{\RegulatedCauchyModulusUp}$ surface consists exactly of carrier admission, source-window exposure, explicit threshold exactness, dyadic tolerance control, real-seal nonescape, componentwise transport, displayed replay, package provenance, and local naming. Each obligation is read through the finite route
+$$
+R,Q,W,D \longrightarrow E \longrightarrow H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regulated-cauchy-modulus-carrier}. The packet first exposes the regular rational source $R$, the explicit threshold row $Q$, the stream windows $W$, and the dyadic tolerance ledger $D$.
+
+The threshold obligation is local to $Q$. It records a displayed tolerance request and a finite index bound, while $W$ supplies the finite source reads and $D$ supplies the dyadic comparison budget used to check the requested tail comparison.
+
+The terminal seal row $E$ is downstream of those four rows. Componentwise transport through $H$ and replay through $C$ preserve the same order, and $P,N$ record package provenance and the local NameCert comparison.
+
+Since quotient streams, selected limits, host real equality, countable choice, trichotomy, and ambient completeness do not occur among the carrier coordinates, no NameCert obligation can be discharged outside the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Regulated Cauchy modulus real handoff]
+\label{thm:regulated-cauchy-modulus-real-handoff}
+Every $\RealUp$ consumer of an accepted $\RegulatedCauchyModulusUp$ packet must first read the $\RegSeqRatUp$ source row, the explicit modulus threshold, the $\StreamNameUp$ finite windows, and the $\DyadicRatCoreUp$ tolerance ledger. The handoff to the seal row $E$ therefore supplies a finite explicit-modulus route from regular rational data to Real-facing data, not a host limit theorem or a quotient construction.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier $M=(R,Q,W,D,E,H,C,P,N)$. The source row $R$ is the only regular rational input, and the threshold row $Q$ is the only displayed modulus schedule.
+
+The stream windows $W$ expose the finite observations required by that schedule. The dyadic ledger $D$ supplies the tolerance comparison that makes the schedule a regulated Cauchy read rather than an unbounded stream claim.
+
+Only after $R,Q,W,D$ are present may the consumer read $E$ as the terminal $\RealUp$ seal. Transport, replay, provenance, and local naming keep the same route visible to downstream consumers.
+
+The carrier has no coordinate for a selected limit, quotient stream equality, host real equality, countable choice, trichotomy, or ambient Real completeness. Thus every Real-facing handoff factors through the finite explicit-modulus rows.
+\end{proof}
+
+\closureat{RegulatedCauchyModulusUp}{seedStr}
+
+\begin{closurestatus}{\RegulatedCauchyModulusUp}
+  \constructivestory{A $\RegulatedCauchyModulusUp$ packet is generated from a RegSeqRat source row, explicit modulus threshold row, finite StreamName windows, DyadicRatCore tolerance ledger, terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regulated-cauchy-modulus-carrier}, \autoref{thm:regulated-cauchy-modulus-namecert-obligations}, and \autoref{thm:regulated-cauchy-modulus-real-handoff} seed the explicit-modulus route from regular rational source data to a Real-facing seal.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RegulatedCauchyModulusUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, countable choice, trichotomy, host real equality, Lean verification, bridge checking, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-window exposure, explicit threshold exactness, dyadic tolerance control, real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegulatedCauchyModulusUp.}
+\end{closurestatus}

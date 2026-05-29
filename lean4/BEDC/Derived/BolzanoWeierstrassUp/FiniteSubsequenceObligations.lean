@@ -154,6 +154,39 @@ theorem BolzanoWeierstrassCarrier_bounded_subsequence_cluster_obligation
       readbackUnary, clusterUnary, intervalRoute, extractionRoute, readbackRoute,
       clusterRoute, carrierPkg, clusterPkg⟩
 
+theorem BolzanoWeierstrassCarrier_bounded_source_factorization [AskSetup] [PackageSetup]
+    {S K R Q E H C P N boundedSource intervalTree extracted readback : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BolzanoWeierstrassCarrier S K R Q E H C P N bundle pkg ->
+      Cont S H boundedSource ->
+        Cont boundedSource K intervalTree ->
+          Cont intervalTree R extracted ->
+            Cont extracted Q readback ->
+              PkgSig bundle readback pkg ->
+                UnaryHistory S ∧ UnaryHistory K ∧ UnaryHistory R ∧ UnaryHistory Q ∧
+                  UnaryHistory H ∧ UnaryHistory boundedSource ∧ UnaryHistory intervalTree ∧
+                    UnaryHistory extracted ∧ UnaryHistory readback ∧ Cont S H boundedSource ∧
+                      Cont boundedSource K intervalTree ∧ Cont intervalTree R extracted ∧
+                        Cont extracted Q readback ∧ PkgSig bundle P pkg ∧
+                          PkgSig bundle readback pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier boundedRoute intervalRoute extractionRoute readbackRoute readbackPkg
+  obtain ⟨SUnary, KUnary, RUnary, QUnary, _EUnary, HUnary, _CUnary, _PUnary,
+    _NUnary, _sourceIntervalRoute, _readbackSealRoute, _transportReplayRoute,
+    carrierPkg⟩ := carrier
+  have boundedUnary : UnaryHistory boundedSource :=
+    unary_cont_closed SUnary HUnary boundedRoute
+  have intervalUnary : UnaryHistory intervalTree :=
+    unary_cont_closed boundedUnary KUnary intervalRoute
+  have extractedUnary : UnaryHistory extracted :=
+    unary_cont_closed intervalUnary RUnary extractionRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed extractedUnary QUnary readbackRoute
+  exact
+    ⟨SUnary, KUnary, RUnary, QUnary, HUnary, boundedUnary, intervalUnary,
+      extractedUnary, readbackUnary, boundedRoute, intervalRoute, extractionRoute,
+      readbackRoute, carrierPkg, readbackPkg⟩
+
 theorem BolzanoWeierstrassPublicNonescapePackage [AskSetup] [PackageSetup]
     {S K R Q E H C P N selector cluster publicRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -183,5 +216,49 @@ theorem BolzanoWeierstrassPublicNonescapePackage [AskSetup] [PackageSetup]
     ⟨SUnary, KUnary, RUnary, QUnary, EUnary, selectorUnary, clusterUnary,
       publicReadUnary, selectorRoute, readbackRoute, clusterRoute, publicRoute,
       carrierPkg, publicPkg⟩
+
+theorem BolzanoWeierstrassCarrier_bounded_cluster_route [AskSetup] [PackageSetup]
+    {S K R Q E H C P N boundedSource intervalTree extracted readback cluster publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BolzanoWeierstrassCarrier S K R Q E H C P N bundle pkg ->
+      Cont S H boundedSource ->
+        Cont boundedSource K intervalTree ->
+          Cont intervalTree R extracted ->
+            Cont extracted Q readback ->
+              Cont readback E cluster ->
+                Cont cluster C publicRead ->
+                  PkgSig bundle publicRead pkg ->
+                    UnaryHistory S ∧ UnaryHistory K ∧ UnaryHistory R ∧ UnaryHistory Q ∧
+                      UnaryHistory E ∧ UnaryHistory H ∧ UnaryHistory C ∧
+                        UnaryHistory boundedSource ∧ UnaryHistory intervalTree ∧
+                          UnaryHistory extracted ∧ UnaryHistory readback ∧
+                            UnaryHistory cluster ∧ UnaryHistory publicRead ∧
+                              Cont S H boundedSource ∧ Cont boundedSource K intervalTree ∧
+                                Cont intervalTree R extracted ∧ Cont extracted Q readback ∧
+                                  Cont readback E cluster ∧ Cont cluster C publicRead ∧
+                                    PkgSig bundle P pkg ∧ PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier boundedRoute intervalRoute extractionRoute readbackRoute clusterRoute
+    publicRoute publicPkg
+  obtain ⟨SUnary, KUnary, RUnary, QUnary, EUnary, HUnary, CUnary, _PUnary,
+    _NUnary, _sourceIntervalRoute, _readbackSealRoute, _transportReplayRoute,
+    carrierPkg⟩ := carrier
+  have boundedUnary : UnaryHistory boundedSource :=
+    unary_cont_closed SUnary HUnary boundedRoute
+  have intervalUnary : UnaryHistory intervalTree :=
+    unary_cont_closed boundedUnary KUnary intervalRoute
+  have extractedUnary : UnaryHistory extracted :=
+    unary_cont_closed intervalUnary RUnary extractionRoute
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed extractedUnary QUnary readbackRoute
+  have clusterUnary : UnaryHistory cluster :=
+    unary_cont_closed readbackUnary EUnary clusterRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed clusterUnary CUnary publicRoute
+  exact
+    ⟨SUnary, KUnary, RUnary, QUnary, EUnary, HUnary, CUnary, boundedUnary,
+      intervalUnary, extractedUnary, readbackUnary, clusterUnary, publicUnary,
+      boundedRoute, intervalRoute, extractionRoute, readbackRoute, clusterRoute,
+      publicRoute, carrierPkg, publicPkg⟩
 
 end BEDC.Derived.BolzanoWeierstrassUp

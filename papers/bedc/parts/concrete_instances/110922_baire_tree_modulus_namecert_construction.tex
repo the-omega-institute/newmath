@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\BaireTreeModulusUp$}
+\label{ch:concrete-instances-baire-tree-modulus-namecert}
+\origin{human}
+
+Following Brouwer and Troelstra--van Dalen on bars, spreads, and choice sequences, the $\BaireTreeModulusUp$ packet records the finite-prefix tree/bar modulus that a continuity consumer may read before it reaches a Baire-space or real-facing handoff. It sits beside the Baire-space prefix-cylinder surface of \autoref{ch:concrete-instances-bairespace-namecert}, the choice-sequence prefix rows of \autoref{ch:concrete-instances-choice-sequence-namecert}, the spread-law admission route of \autoref{ch:concrete-instances-spread-law-namecert}, and the finite-modulus boundary of \autoref{ch:concrete-instances-brouwer-continuity-principle-namecert}. The packet is a finite NameCert carrier for tree admission, bar coverage, modulus extraction, and handoff provenance; it is not a host Baire function, a selected infinite branch, a countable-choice principle, a quotient stream, or an ambient real-completeness theorem.
+
+\begin{definition}[Baire tree/bar modulus carrier]
+\label{def:baire-tree-modulus-carrier}
+A $\BaireTreeModulusUp$ carrier is a finite $\BHist$ packet
+$$
+T=(B,S,Q,W,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the finite tree/bar admission row, recording the decidable finite-prefix tree, the bar classifier, and the displayed depth window.
+\item $S$ is the $\SpreadLawUp$ row that admits the same prefixes and records extension compatibility for the tree.
+\item $Q$ is the $\ChoiceSequenceUp$ row carrying the displayed choice-sequence prefix answers that the modulus may inspect.
+\item $W$ is the $\BaireSpaceUp$ prefix-cylinder window, aligning the tree/bar prefixes with the stream-name schedule and unary answer rows.
+\item $M$ is the modulus row, extracting a finite prefix bound from $B,S,Q,W$ for the downstream continuity read.
+\item $H$ records componentwise $\hsame$ transport for the tree/bar, spread, choice-sequence, Baire-window, modulus, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+B,S,Q,W \longmapsto M .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BaireTreeModulusUp$, $\BaireSpaceUp$, $\ChoiceSequenceUp$, $\SpreadLawUp$, $\BrouwerContinuityPrincipleUp$, $\StreamNameUp$, $\NatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BaireTreeModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,S,Q,W,M,H,C,P,N$. It has no coordinate for a completed host stream, a selected branch through the tree, countable choice, quotient stream equality, an external topology on Baire space, or real-completeness data.
+\end{definition}
+
+\begin{theorem}[Baire tree/bar modulus NameCert obligations]
+\label{thm:baire-tree-modulus-namecert-obligations}
+For every accepted $\BaireTreeModulusUp$ carrier $T=(B,S,Q,W,M,H,C,P,N)$, the local $\NameCert_{\BaireTreeModulusUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item tree/bar admission through $B$, including the decidable finite-prefix tree, bar classifier, and displayed depth window;
+\item spread and choice compatibility through $S,Q$, requiring every admitted prefix to be a $\SpreadLawUp$ prefix and every inspected answer to be a displayed $\ChoiceSequenceUp$ prefix row;
+\item Baire prefix-cylinder alignment through $W$, tying the tree window to the $\BaireSpaceUp$ stream schedule, $\NatUp$ index rows, unary answers, and prefix-cylinder classifier;
+\item finite modulus extraction through $M$, producing the bound used by the $\BrouwerContinuityPrincipleUp$ consumer without selecting a branch;
+\item transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No obligation is stored outside these rows, and no accepted packet exports a completed Baire function, a selected infinite branch, countable choice, quotient stream equality, external topology, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:baire-tree-modulus-carrier}. The tuple displays exactly the tree/bar row, spread-law row, choice-sequence row, Baire prefix-window row, modulus row, transport, replay, provenance, and local naming data.
+
+The tree and bar obligations are finite. Row $B$ gives the decidable prefix tree, the bar classifier, and the displayed depth window, so the argument ranges over named finite prefixes rather than a selected infinite branch.
+
+Rows $S,Q,W$ supply the cross-chapter route. The spread-law row admits the same prefixes as legal tree extensions, the choice-sequence row supplies only displayed prefix answers, and the Baire-space row aligns those answers with the prefix-cylinder schedule of \autoref{ch:concrete-instances-bairespace-namecert}.
+
+The modulus row $M$ is then read as a finite bound for the continuity consumer of \autoref{ch:concrete-instances-brouwer-continuity-principle-namecert}. Since $M$ is computed from $B,S,Q,W$, it cannot introduce a host stream, branch selector, quotient equality, topology, or completeness datum.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. These rows exhaust the local NameCert surface, so the listed five obligation rows are the whole accepted packet.
+\end{proof}
+
+\begin{theorem}[Baire tree/bar modulus continuity handoff]
+\label{thm:baire-tree-modulus-continuity-handoff}
+Every continuity read of an accepted $\BaireTreeModulusUp$ packet factors through
+$$
+B,S,Q,W,M,H,C,P,N .
+$$
+Before any $\BrouwerContinuityPrincipleUp$ or real-facing handoff is available, the consumer must display the finite tree/bar row, the $\SpreadLawUp$ admission route, the $\ChoiceSequenceUp$ prefix answers, the $\BaireSpaceUp$ prefix-cylinder window, the extracted modulus row, and the structural provenance rows. The handoff cannot obtain quotient stream equality, a completed Baire function, a selected branch, countable choice, or ambient real completeness from the packet.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:baire-tree-modulus-namecert-obligations}. It forces every accepted consumer to read $B,S,Q,W$ before the modulus row $M$ is available.
+
+The sibling chapters determine the handoff route. The Baire-space surface of \autoref{ch:concrete-instances-bairespace-namecert} supplies the prefix-cylinder window, \autoref{ch:concrete-instances-choice-sequence-namecert} supplies displayed choice-sequence answers, and \autoref{ch:concrete-instances-spread-law-namecert} supplies legal prefix extension.
+
+Once $M$ is displayed, \autoref{ch:concrete-instances-brouwer-continuity-principle-namecert} may consume the finite modulus as its prefix bound. The structural rows $H,C,P,N$ preserve the same finite route under transport, replay, provenance, and local naming.
+
+No excluded datum appears in $T$. Thus a continuity or real-facing read cannot bypass the tree/bar, spread, choice, Baire-window, modulus, and provenance rows.
+\end{proof}
+
+\closureat{BaireTreeModulusUp}{seedStr}
+
+\begin{closurestatus}{\BaireTreeModulusUp}
+  \constructivestory{A $\BaireTreeModulusUp$ packet is generated from finite tree/bar admission, SpreadLaw prefix admission, ChoiceSequence prefix answers, BaireSpace prefix-cylinder windows, finite modulus extraction, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:baire-tree-modulus-carrier}, \autoref{thm:baire-tree-modulus-namecert-obligations}, and \autoref{thm:baire-tree-modulus-continuity-handoff} seed the finite-prefix tree/bar modulus route consumed by BaireSpace, ChoiceSequence, SpreadLaw, and BrouwerContinuityPrinciple rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Brouwer continuity as a theorem, fan compactness, selected infinite branches, countable choice, quotient stream equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tree/bar admission, SpreadLaw compatibility, ChoiceSequence prefix inspection, BaireSpace prefix-cylinder alignment, modulus extraction, transport, replay, provenance, and local naming for BEDC.Derived.BaireTreeModulusUp.}
+\end{closurestatus}

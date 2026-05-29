@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.NormalFormConsistencySealUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -275,5 +278,49 @@ theorem NormalFormConsistencySealTasteGate_single_carrier_alignment :
         · intro x w m hw hm
           exact BMark_generated_cases m
         · rfl
+
+theorem NormalFormConsistencySealSubjectReductionBoundary
+    {typing falseRow normality theoremRow boundary closedRead : BHist} :
+    UnaryHistory typing ->
+      UnaryHistory normality ->
+        UnaryHistory boundary ->
+          Cont typing normality theoremRow ->
+            Cont theoremRow boundary closedRead ->
+              UnaryHistory theoremRow ∧ UnaryHistory closedRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro typingUnary normalityUnary boundaryUnary subjectRoute boundaryRoute
+  have theoremRowUnary : UnaryHistory theoremRow :=
+    unary_cont_closed typingUnary normalityUnary subjectRoute
+  have closedReadUnary : UnaryHistory closedRead :=
+    unary_cont_closed theoremRowUnary boundaryUnary boundaryRoute
+  exact ⟨theoremRowUnary, closedReadUnary⟩
+
+theorem NormalFormConsistencySealClosedNormalFrontier
+    {T F N K H C P L typedFalse normalTheorem closedRoute namedRoute : BHist} :
+    UnaryHistory T ->
+      UnaryHistory F ->
+        UnaryHistory N ->
+          UnaryHistory K ->
+            UnaryHistory H ->
+              Cont T F typedFalse ->
+                Cont N K normalTheorem ->
+                  Cont typedFalse normalTheorem closedRoute ->
+                    Cont closedRoute H namedRoute ->
+                      UnaryHistory typedFalse ∧
+                        UnaryHistory normalTheorem ∧
+                          UnaryHistory closedRoute ∧
+                            UnaryHistory namedRoute := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro typingUnary falseUnary normalUnary theoremUnary transportUnary
+    typedFalseRoute normalTheoremRoute closedRouteRoute namedRouteRoute
+  have typedFalseUnary : UnaryHistory typedFalse :=
+    unary_cont_closed typingUnary falseUnary typedFalseRoute
+  have normalTheoremUnary : UnaryHistory normalTheorem :=
+    unary_cont_closed normalUnary theoremUnary normalTheoremRoute
+  have closedRouteUnary : UnaryHistory closedRoute :=
+    unary_cont_closed typedFalseUnary normalTheoremUnary closedRouteRoute
+  have namedRouteUnary : UnaryHistory namedRoute :=
+    unary_cont_closed closedRouteUnary transportUnary namedRouteRoute
+  exact ⟨typedFalseUnary, normalTheoremUnary, closedRouteUnary, namedRouteUnary⟩
 
 end BEDC.Derived.NormalFormConsistencySealUp

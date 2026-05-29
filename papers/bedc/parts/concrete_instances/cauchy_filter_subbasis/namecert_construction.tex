@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\CauchyFilterSubbasisUp$}
+\label{ch:concrete-instances-cauchy-filter-subbasis-namecert}
+\origin{human}
+
+Following Kelley and Bourbaki, the $\CauchyFilterSubbasisUp$ packet records the standard subbasis-to-filter generation surface needed before a completion-facing Cauchy filter can be read as a finite BEDC route. It sits between the filter-base interface of \autoref{ch:concrete-instances-filterbase-namecert}, the Cauchy-filter packet of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the completion boundary of \autoref{ch:concrete-instances-cauchyfiltercompletion-namecert}, the finite window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite generation interface only; it does not quotient filters, select limits, invoke countable choice, use host equality, or assume ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy filter subbasis carrier]
+\label{def:cauchy-filter-subbasis-carrier}
+A $\CauchyFilterSubbasisUp$ carrier is a finite $\BHist$ packet
+$$
+S=(U,I,E,G,B,F,W,T,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the finite subbasis-token row naming the primitive neighbourhood requests available to the packet.
+\item $I$ is the finite-intersection row, recording which finite families of subbasis tokens are admitted as generated basic requests.
+\item $E$ is the generated-event row, displaying the $\BHist$ surface attached to each finite intersection request.
+\item $G$ is the generation ledger, storing the inclusion reads from subbasis tokens into generated base events and the closure reads from finite intersections into base requests.
+\item $B$ is the generated $\FilterBaseUp$ row exposed to downstream filter consumers.
+\item $F$ is the $\CauchyFilterUp$ row obtained from the generated base together with the displayed Cauchy comparison requests.
+\item $W$ is the $\StreamNameUp$ finite-window row used when a completion-facing consumer reads generated tails.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance-accounting row for the generated Cauchy comparisons.
+\item $R$ is the $\RegSeqRatUp$ readback row for retained regular rational windows.
+\item $L$ is the $\RealUp$ seal row reached only after the generated base, Cauchy row, window row, tolerance ledger, and readback row have been displayed.
+\item $H$ records componentwise $\hsame$ transport for subbasis tokens, finite intersections, generated events, generation ledgers, filterbase rows, Cauchy rows, windows, tolerances, readbacks, Real seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from subbasis requests through finite intersections, generated filterbase rows, Cauchy-filter rows, finite windows, tolerance accounting, readback, and Real sealing.
+\item $P$ is the $\Pkg$ provenance over $\CauchyFilterSubbasisUp$, $\FilterBaseUp$, $\CauchyFilterUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyFilterSubbasisUp}$ row.
+\end{enumerate}
+The classifier reads only $U,I,E,G,B,F,W,T,R,L,H,C,P,N$. It has no coordinate for an ultrafilter extension, quotient equality of filters, selected limits, countable-choice schedules, host equality of generated sets, or ambient completeness.
+\end{definition}
+\leandef{BEDC.Derived.CauchyFilterSubbasisUp.CauchyFilterSubbasisUp}
+
+\begin{theorem}[Cauchy filter subbasis NameCert obligations]
+\label{thm:cauchy-filter-subbasis-namecert-obligations}
+For every accepted $\CauchyFilterSubbasisUp$ carrier $S=(U,I,E,G,B,F,W,T,R,L,H,C,P,N)$, the local $\NameCert_{\CauchyFilterSubbasisUp}$ surface consists exactly of carrier admission, finite subbasis-token exposure, finite-intersection generation, generated-event admission, generation-ledger coverage, $\FilterBaseUp$ handoff, $\CauchyFilterUp$ handoff, $\StreamNameUp$ window exposure, $\DyadicRatCoreUp$ tolerance accounting, $\RegSeqRatUp$ readback, $\RealUp$ sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-filter-subbasis-carrier}. The visible generation data are exactly the rows $U,I,E,G$, so a consumer first reads primitive tokens, finite intersections, generated events, and the inclusion ledger.
+
+The generated filter route is then $B,F,W,T,R,L$. The $\FilterBaseUp$ row is exposed before the $\CauchyFilterUp$ row, and the finite windows, dyadic tolerance ledger, regular rational readback, and Real seal are downstream from that generated filter route.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same rows. Since the classifier contains no coordinate for an ultrafilter extension, quotient filter equality, selected limit, countable-choice schedule, host equality, or ambient completeness, the local NameCert surface is exactly the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[Cauchy filter subbasis filterbase generation]
+\label{thm:cauchy-filter-subbasis-filterbase-generation}
+Every completion-facing read exported by an accepted $\CauchyFilterSubbasisUp$ carrier factors through the generated $\FilterBaseUp$ row $B$ before it reaches the $\CauchyFilterUp$ row $F$, the $\StreamNameUp$ row $W$, the $\DyadicRatCoreUp$ tolerance row $T$, the $\RegSeqRatUp$ readback row $R$, and the $\RealUp$ seal row $L$. Thus subbasis generation is visible as finite BEDC data rather than as a hidden host filter construction.
+\end{theorem}
+\begin{proof}
+Begin with the generation rows of \autoref{def:cauchy-filter-subbasis-carrier}. The only route from primitive subbasis tokens to a downstream filter read is through $U,I,E,G$, and the generated base is stored as the row $B$.
+
+Apply the NameCert obligation theorem. It requires every Cauchy-filter and completion-facing consumer to inspect the generated $\FilterBaseUp$ handoff before reading $F,W,T,R,L$.
+
+The structural rows preserve the same route. Componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming $N$ keep the subbasis-to-filter generation inside the finite packet.
+
+No excluded coordinate remains. Hence quotient filters, selected limits, countable-choice schedules, host equality of generated filters, and ambient completeness cannot be used in place of the displayed $\FilterBaseUp$ generation row.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyFilterSubbasisUp$ completion-facing read factors through finite subbasis tokens, finite intersections, generated events, the generation ledger, a generated FilterBaseUp row, a CauchyFilterUp row, StreamNameUp windows, DyadicRatCoreUp tolerance accounting, RegSeqRatUp readback, a RealUp seal, hsame transport, Cont replay, Pkg provenance, and local NameCert naming.}
+
+\independenceWitness{filterbase, cauchyfilter, cauchyfiltercompletion, streamname, regseqrat, real: $\CauchyFilterSubbasisUp$ is not bijective to any listed sibling because it jointly carries primitive subbasis tokens, finite-intersection generation, generated events, generation-ledger coverage, generated filterbase handoff, Cauchy-filter handoff, finite windows, tolerance accounting, readback, Real sealing, transport, replay, provenance, and local naming rows.}
+
+\closureat{CauchyFilterSubbasisUp}{seedStr}
+
+\begin{closurestatus}{\CauchyFilterSubbasisUp}
+  \constructivestory{A $\CauchyFilterSubbasisUp$ packet is generated from finite subbasis tokens, finite-intersection rows, generated-event rows, a generation ledger, a generated FilterBaseUp row, a CauchyFilterUp handoff, StreamNameUp windows, DyadicRatCoreUp tolerance accounting, RegSeqRatUp readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-filter-subbasis-carrier}, \autoref{thm:cauchy-filter-subbasis-namecert-obligations}, and \autoref{thm:cauchy-filter-subbasis-filterbase-generation} seed the finite subbasis-to-filter generation route over generated filterbase, Cauchy-filter, window, tolerance, readback, seal, transport, replay, provenance, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient filters, selected limits, countable choice, host equality of generated filters, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-intersection generation, generation-ledger coverage, generated FilterBaseUp handoff, CauchyFilterUp handoff, window exposure, tolerance accounting, readback, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.CauchyFilterSubbasisUp.}
+\end{closurestatus}

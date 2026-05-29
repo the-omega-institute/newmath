@@ -1,4 +1,5 @@
 import BEDC.Derived.BaireCategoryUp.TasteGate
+import BEDC.Derived.BaireCategoryUp.CountableChoiceRefusal
 import BEDC.FKernel.Cont
 
 namespace BEDC.Derived.BaireCategoryUp

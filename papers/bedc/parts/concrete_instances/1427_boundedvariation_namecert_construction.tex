@@ -326,17 +326,31 @@ Use the partition ledger of \autoref{def:bounded-variation-partition-ledger}. A 
 Finally apply \autoref{thm:bounded-variation-cauchy-consumer-boundary}. Every $\RegSeqRatUp$ or $\RealUp$ consumer is exhausted by those ledger rows, so the dependency scope is exactly the cited RealUp, RegSeqRatUp, StreamNameUp, and DyadicRatCoreUp sibling surface together with the local $\BoundedVariationUp$ provenance.
 \end{proof}
 
+\begin{theorem}[BoundedVariation public NameCert export]
+\label{thm:boundedvariation-public-namecert-export}
+Every public $\BoundedVariationUp$ consumer receives exactly the finite interval-partition rows of \autoref{def:bounded-variation-partition-ledger}, the endpoint rows of \autoref{def:bounded-variation-carrier}, the dyadic variation rows, the common-refinement rows of \autoref{thm:bounded-variation-common-refinement-classifier-exactness}, the displayed $\hsame$ rows, the $\Cont$ replay rows, the $\Pkg$ provenance rows, and the local $\NameCert$ rows described by the carrier and obligation theorems.
+\end{theorem}
+\leanchecked{BEDC.Derived.BoundedVariationUp.BoundedVariationCarrier\_public\_namecert\_export}
+\begin{proof}
+Read the carrier through \autoref{def:bounded-variation-carrier}. Its interval, endpoint, dyadic variation, refinement, transport, route, provenance, and naming coordinates are the only coordinates available to a $\BoundedVariationUp$ packet.
+
+Next read the partition ledger through \autoref{def:bounded-variation-partition-ledger}. It adds only finite ordered partition rows, edge rows, endpoint rows, dyadic observations, variation sums, and common-refinement rows.
+
+Apply \autoref{thm:bounded-variation-namecert-obligations}, \autoref{thm:bounded-variation-partition-scope-binding}, and \autoref{thm:bounded-variation-real-dependency-scope}. These results keep every public consumer on the same finite carrier, partition, endpoint, dyadic, refinement, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface, and no row outside that surface is present for export.
+\end{proof}
+
 \closureat{BoundedVariationUp}{seedStr}
 \closureat{BoundedVariationUp}{obligationStr}
 \closureat{BoundedVariationUp}{scopedStr}
+\closureat{BoundedVariationUp}{publicStr}
 
 \begin{closurestatus}{\BoundedVariationUp}
   \constructivestory{A $\BoundedVariationUp$ packet is generated from an interval row, a finite ordered partition ledger, $\RealUp$ or $\RegSeqRatUp$ endpoint names, $\DyadicRatCoreUp$ edge observations, a finite dyadic variation-sum row, common-refinement rows, displayed transport, continuation, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:bounded-variation-partition-scope-binding}, \autoref{thm:bounded-variation-refinement-ledger-scope}, \autoref{thm:bounded-variation-endpoint-transport-scope}, and \autoref{thm:bounded-variation-real-dependency-scope} bind finite partition variation, common-refinement comparison, endpoint transport, dyadic variation-sum ledger, sibling dependency scope, and no-escape boundary to the displayed $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ scope.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:bounded-variation-partition-scope-binding}, \autoref{thm:bounded-variation-refinement-ledger-scope}, \autoref{thm:bounded-variation-endpoint-transport-scope}, \autoref{thm:bounded-variation-real-dependency-scope}, and \autoref{thm:boundedvariation-public-namecert-export} bind finite partition variation, common-refinement comparison, endpoint transport, dyadic variation-sum ledger, sibling dependency scope, no-escape boundary, and public consumer export to the displayed $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\mathsf{BHist}$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close completed function spaces, variation measures, host suprema over all partitions, quotient real-valued functions, hidden partition families, Jordan decomposition, or bridge checking.}
-  \upgradepath{Public closure requires a public finite-variation consumer theorem over the same displayed partition and endpoint transport surface.}
+  \upgradepath{Lean verification and bridge checking remain the next verification-axis obligations for the same public finite-variation consumer surface.}
 \end{closurestatus}

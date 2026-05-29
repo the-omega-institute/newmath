@@ -1,0 +1,132 @@
+\chapter{A Concrete Naming Certificate for $\PointedMetricSpaceUp$}
+\label{ch:concrete-instances-pointed-metric-space-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on based metric spaces, the
+$\PointedMetricSpaceUp$ packet records a metric carrier together with a named
+basepoint route before completion, loop-space, or embedding consumers are
+allowed to inspect point-level data. It sits over the $\MetricSpaceUp$ carrier
+of \autoref{ch:concrete-instances-metric-namecert}, reads names through the
+$\StreamNameUp$ windows of
+\autoref{ch:concrete-instances-streamname-namecert}, passes regular rational
+distance observations through \autoref{ch:concrete-instances-regseqrat-namecert}
+and the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and
+offers a based source for the distance-preserving consumer route of
+\autoref{ch:concrete-instances-isometric-embedding-namecert}. The certificate
+names only finite BEDC rows; it does not import host points, quotient metric
+equality, selected representatives, or ambient completeness.
+
+\begin{definition}[Pointed metric space carrier]
+\label{def:pointed-metric-space-carrier}
+A $\PointedMetricSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+P=(M,b,D,S,R,E,H,C,P_0,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricSpaceUp$ metric carrier row.
+\item $b$ is the basepoint name row, stored as finite BEDC data attached to
+$M$ rather than as a host-level point.
+\item $D$ is the basepoint distance ledger, recording the finite requests
+that compare $b$ with inspected metric names.
+\item $S$ is the $\StreamNameUp$ window row through which basepoint and metric
+names are inspected.
+\item $R$ is the $\RegSeqRatUp$ readback row for the displayed distance
+windows.
+\item $E$ is the $\RealUp$ seal row for the basepoint-distance observations.
+\item $H$ records componentwise $\hsame$ transport for $M,b,D,S,R,E$ and the
+local certificate rows.
+\item $C$ records displayed $\Cont$ replay from a based metric request through
+the stream windows, regular rational readback, and real-distance seal.
+\item $P_0$ is the $\Pkg$ provenance over $\PointedMetricSpaceUp$,
+$\MetricSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$,
+$\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PointedMetricSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only after transporting the metric
+carrier, basepoint name, distance ledger, stream windows, regular readback,
+real seal, replay, provenance, and local naming rows together.
+\end{definition}
+
+\begin{theorem}[Pointed metric space NameCert obligations]
+\label{thm:pointed-metric-space-namecert-obligations}
+For every accepted $\PointedMetricSpaceUp$ carrier
+$P=(M,b,D,S,R,E,H,C,P_0,N)$, the local
+$\NameCert_{\PointedMetricSpaceUp}$ surface consists exactly of the following
+obligation rows:
+\begin{enumerate}
+\item carrier admission for the metric row, basepoint name, basepoint distance
+ledger, stream windows, regular rational readback, real-distance seal,
+transport, replay, provenance, and local naming rows;
+\item common-carrier classification, requiring every comparison of basepoint
+data to be read over the transported metric row $M$;
+\item basepoint-distance exposure, requiring every basepoint comparison to
+pass through $D,S,R,E$ before any completion-facing or embedding-facing
+consumer reads it;
+\item package provenance and local naming for exactly the displayed finite
+packet.
+\end{enumerate}
+No NameCert obligation is stored in a host point, quotient metric equality, a
+selected representative, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:pointed-metric-space-carrier}. The
+projection exposes the metric row, basepoint name, distance ledger, stream
+windows, regular readback, real seal, transport, replay, provenance, and local
+name as the only available coordinates.
+
+The classifier route is common-carrier. Componentwise transport in $H$ moves
+$M,b,D,S,R,E$ together, so a consumer cannot compare a basepoint name over one
+metric carrier with distance observations over another.
+
+The distance ledger fixes the read order. A basepoint comparison is first a
+finite request in $D$, then a scheduled stream observation in $S$, then a
+regular rational readback in $R$, and only then a $\RealUp$ distance seal in
+$E$.
+
+Finally replay $C$ and attach $P_0,N$. Since the carrier has no coordinate for
+host points, quotient equality, selected representatives, or ambient
+completeness, the listed rows exhaust the local naming surface.
+\end{proof}
+
+\begin{theorem}[Pointed metric space basepoint nonescape]
+\label{thm:pointed-metric-space-basepoint-nonescape}
+Let $P=(M,b,D,S,R,E,H,C,P_0,N)$ be an accepted
+$\PointedMetricSpaceUp$ carrier. Every completion-facing, loop-space-facing,
+or isometric-embedding-facing consumer of the basepoint row $b$ must read it
+through the displayed route
+$$
+M,b,D \longmapsto S \longmapsto R \longmapsto E \longmapsto H,C,P_0,N .
+$$
+Thus the basepoint is exported only as finite named metric data over $M$, not
+as a host point, quotient representative, selected completion point, or
+ambient metric-equality witness.
+\end{theorem}
+\begin{proof}
+Begin with carrier admission. The only row naming the basepoint is $b$, and it
+is stored beside the metric carrier $M$ and distance ledger $D$.
+
+Read the inspection route next. The stream windows $S$ and regular rational
+readback $R$ display every observed distance from the basepoint before the
+$\RealUp$ seal $E$ is available to downstream consumers.
+
+Transport and replay preserve that same route. The rows $H,C,P_0,N$ move,
+replay, source, and name the displayed packet; they do not add host points,
+quotient representatives, selected completion points, or ambient metric
+equality.
+
+Therefore every based consumer receives exactly the finite route displayed in
+the statement.
+\end{proof}
+
+\closureat{PointedMetricSpaceUp}{seedStr}
+
+\begin{closurestatus}{\PointedMetricSpaceUp}
+  \constructivestory{A $\PointedMetricSpaceUp$ packet is generated from a $\MetricSpaceUp$ carrier, a named basepoint row, a basepoint distance ledger, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, a $\RealUp$ distance seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:pointed-metric-space-carrier}, \autoref{thm:pointed-metric-space-namecert-obligations}, and \autoref{thm:pointed-metric-space-basepoint-nonescape} seed the based metric route over $\MetricSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, host point equality, quotient metric equality, selected completion points, loop-space closure, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, basepoint-distance exposure, classifier transport, basepoint nonescape, and downstream completion and isometric-embedding consumer alignment for BEDC.Derived.PointedMetricSpaceUp.}
+\end{closurestatus}

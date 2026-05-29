@@ -49,6 +49,20 @@ The supporting rows $F,U,Z$ then separate bounded computation, neutral-spine cas
 Finally $H,C,P,N$ transport, replay, source, and name the same finite surface. Since no remaining coordinate contains an unconditional substitution-compatibility or closed-diamond proof, the packet certifies only the residual-envelope boundary and not the endpoint theorem.
 \end{proof}
 
+\begin{theorem}[MetaCIC confluence residual critical-pair audit surface]
+\label{thm:metacic-confluence-residual-critical-pair}
+For an accepted $\MetaCICConfluenceResidualEnvelopeUp$ packet with two displayed one-step residual branches, the finite critical-pair audit surface consists only of the source term row, the two residual branch rows, the shared candidate mediator row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\MetaCICConfluenceResidualEnvelopeUp}$ row. The audit surface does not assert global confluence, strong normalization, decidability of all residual joins, or host quotient conversion.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-confluence-residual-envelope-carrier}. The typed-window row $T$ supplies the source term row, while $R,B,J,O$ display the residual frontier, bounded checker status, local join ledger, and obstruction boundary from which the two one-step branches and the candidate mediator are read.
+
+Apply the residual envelope NameCert surface theorem. It requires residual-frontier exposure, substitution-boundary exposure, bounded-checker status, local-join ledger exposure, obstruction retention, bounded fuel replay, neutral-spine separation, normalization-budget non-escape, transport, replay, provenance, and local naming before any confluence-facing consumer reads the envelope.
+
+Compare the two displayed branch rows only through the candidate mediator row retained in $J$ and the obstruction boundary retained in $O$. The transport row $H$ and replay row $C$ preserve those displayed rows componentwise; they do not add a new conversion relation or quotient syntax equality.
+
+Carrier-field exhaustion gives the non-escape claim. Since the accepted packet has no coordinate for global confluence, strong normalization, full join decidability, or host quotient conversion, the critical-pair read is only the finite audit surface stated above.
+\end{proof}
+
 \begin{theorem}[MetaCIC confluence residual envelope checker-status determinacy]
 \label{thm:metacic-confluence-residual-envelope-checker-status-determinacy}
 For every accepted $\MetaCICConfluenceResidualEnvelopeUp$ carrier $E=(T,R,S,B,J,O,F,U,Z,H,C,P,N)$, any confluence consumer that reads the bounded checker status $B$ must read exactly one of the displayed accepted, rejected, or obstruction alternatives supplied by the residual-checker route. The later rows $J,O,F,U,Z,H,C,P,N$ cannot change that status and cannot turn it into unconditional $\mathrm{BetaParallelDiamondClosed}$.
@@ -105,6 +119,52 @@ Next read the checker and obstruction rows. The checker-status determinacy theor
 Finally apply neutral-spine separation. Theorem~\ref{thm:metacic-confluence-residual-envelope-neutral-spine-separation} refuses to promote a neutral-spine read into a beta residual branch unless the residual frontier, substitution boundary, checker, local join, fuel trace, and normalization budget are all displayed.
 
 Thus a consumer that omits $S$, $B$, $O$, $F$, or $Z$ has not consumed the finite residual-substitution boundary required for the endpoint. It can read only the conditional residual envelope carried by the displayed rows, and no route to $\mathrm{BetaParallelDiamondClosed}$ is exported.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual envelope diamond route]
+\label{thm:metacic-confluence-residual-envelope-diamond-route}
+Every $\MetaCICConfluenceResidualEnvelopeUp$ read that exposes a closed-diamond consumer row factors first through the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, the bounded residual-substitution frontier of \autoref{ch:concrete-instances-bounded-residual-substitution-frontier-namecert}, and the MetaCIC open-frontier ledger of \autoref{ch:concrete-instances-metacic-open-frontier-ledger-namecert}. The residual envelope may then expose the closed-diamond consumer only through the displayed rows $T,R,S,B,J,O,F,U,Z,H,C,P,N$, and it exports no direct route to $\mathrm{BetaParallelDiamondClosed}$.
+\end{theorem}
+\begin{proof}
+Start from the closed-diamond consumption boundary,
+\autoref{thm:metacic-confluence-residual-envelope-closed-diamond-consumption}.
+It requires a consumer to display the full row inventory
+$T,R,S,B,J,O,F,U,Z,H,C,P,N$ before the closed-diamond endpoint can be cited.
+
+The substitution-sensitive part of that inventory is not local to the
+envelope alone. The residual-substitution boundary keeps the substitution
+premise visible, the bounded residual-substitution frontier bounds the
+frontier read, and the open-frontier ledger records the confluence endpoint
+as a frontier entry rather than as a discharged theorem.
+
+Reading $S,B,J,O$ through those siblings fixes the route before the consumer
+can inspect $F,U,Z,H,C,P,N$. The fuel, neutral-spine, budget, transport,
+replay, provenance, and naming rows preserve the same route and do not add a
+closed-diamond coordinate.
+
+Therefore the closed-diamond consumer row, when present, is exposed only
+after the three sibling packets and the envelope inventory have been read.
+No direct route to $\mathrm{BetaParallelDiamondClosed}$ is available from the
+residual envelope alone.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual envelope closed-join boundary]
+\label{thm:metacic-residual-envelope-closed-join-boundary}
+Every closed-join or closed-diamond consumer of an accepted $\MetaCICConfluenceResidualEnvelopeUp$ packet $E=(T,R,S,B,J,O,F,U,Z,H,C,P,N)$ must read the envelope rows in the following boundary order: typed window, residual frontier, substitution boundary, checker status, local join, obstruction, fuel, neutral spine, normalization budget, transport, replay, provenance, and local naming. Equivalently, a consumer may cite the closed-join row only after the displayed route
+$$
+T,R,S,B,J,O,F,U,Z,H,C,P,N
+$$
+has been consumed. The boundary exports no unrestricted $\mathrm{BetaParallelDiamondClosed}$ theorem, no unrestricted substitution compatibility, no subject reduction theorem, and no Church--Rosser theorem.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert surface theorem,
+\autoref{thm:metacic-confluence-residual-envelope-namecert-surface}. It fixes the visible surface of an accepted envelope as precisely $T,R,S,B,J,O,F,U,Z,H,C,P,N$.
+
+Next read the residual-sensitive part of the route. The checker-status determinacy theorem fixes $B$ before the local join is inspected, while obstruction monotonicity keeps $O$ visible through the later rows. Thus $J$ can be read only as a local join under the already displayed residual frontier, substitution boundary, checker status, and obstruction boundary.
+
+Apply the closed-diamond consumption boundary and the diamond route. Together they force any closed-diamond or closed-join consumer through the same full inventory, and the sibling residual-substitution boundary, bounded frontier, and open-frontier ledger prevent the envelope from presenting the endpoint as a discharged global theorem.
+
+Finally inspect the excluded coordinates. Since the carrier has no row for unrestricted closed diamond, substitution compatibility, subject reduction, or Church--Rosser, the closed-join read is exactly the ordered finite boundary stated above.
 \end{proof}
 
 The Lean TasteGate site for $\MetaCICConfluenceResidualEnvelopeUp$ must provide explicit $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances for this carrier surface. These instances must keep the residual windows, substitution boundary, checker status, local joins, obstruction row, fuel trace, neutral spine, normalization budget, transport, replay, provenance, and local naming distinguishable.

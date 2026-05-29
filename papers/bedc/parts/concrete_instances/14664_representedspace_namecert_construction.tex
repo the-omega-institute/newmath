@@ -67,6 +67,7 @@ displayed packet.
 \end{enumerate}
 No NameCert obligation is stored outside those five rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.RepresentedSpaceCarrier\_namecert\_obligations}
 \begin{proof}
 Project the carrier of \autoref{def:representedspace-carrier}. The projection
 exposes the name carrier, finite stream schedule, representation relation,
@@ -99,6 +100,7 @@ The NameCert obligations of \autoref{thm:representedspace-namecert-obligations} 
 
 The structural rows $H,C,P,N$ only transport, replay, source, and name that same scheduled route. They do not add an unscheduled representation oracle.
 \end{proof}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.RepresentedSpaceCarrier\_name\_schedule\_obligation}
 
 \begin{theorem}[RepresentedSpace representation relation exactness]
 \label{thm:representedspace-representation-relation-exactness}
@@ -111,11 +113,13 @@ Classifier transport through $T,H$ compares the same components on a finite surf
 
 Replay and provenance through $C,P,N$ preserve the route already named by $\rho$. Therefore every accepted target read factors through $\rho$ and no bypass is certified.
 \end{proof}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.RepresentedSpaceCarrier\_representation\_relation\_exactness}
 
 \begin{theorem}[RepresentedSpace target handoff nonescape]
 \label{thm:representedspace-target-handoff-nonescape}
 Every $\RealUp$-facing target handoff from an accepted $\RepresentedSpaceUp$ carrier $R=(S,W,\rho,X,T,H,C,P,N)$ factors through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The handoff exports no quotient names, selected representatives, host equality, completeness witness, or choice principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.RepresentedSpaceCarrier\_target\_handoff\_nonescape}
 \begin{proof}
 Start with the name schedule obligation. It forces the target handoff to read $S,W$ before the representation relation is consumed.
 
@@ -155,6 +159,7 @@ $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data. Since the carrier has
 no coordinate for quotient names, selected representatives, host real equality,
 completeness, or choice, no such route can be read by a consumer.
 \end{proof}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.RepresentedSpaceCarrier\_streamname\_real\_handoff}
 
 \begin{theorem}[RepresentedSpace schedule representation exactness]
 \label{thm:representedspace-schedule-representation-exactness}
@@ -167,6 +172,7 @@ Replay through $C$ preserves this order. The continuation row starts from the pr
 
 Finally attach $P$ and $N$. Provenance and local naming source the same scheduled route, and the carrier has no coordinate for an unscheduled representation oracle.
 \end{proof}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.RepresentedSpaceCarrier\_schedule\_representation\_exactness}
 
 \begin{theorem}[RepresentedSpace classifier transport]
 \label{thm:representedspace-classifier-transport}
@@ -179,6 +185,7 @@ The representation and target rows move with the same schedule. Thus $\rho$ and 
 
 The structural rows $C,P,N$ then replay, source, and name the transported packet. Since no host equality, quotient class, or selected representative is present in the carrier, transport is exhausted by the listed components.
 \end{proof}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.RepresentedSpaceCarrier\_classifier\_transport}
 
 \begin{theorem}[RepresentedSpace target seal nonescape]
 \label{thm:representedspace-target-seal-nonescape}
@@ -191,6 +198,7 @@ Apply the schedule exactness theorem. The target read has already exposed the fi
 
 Finally replay the structural rows $H,C,P,N$. They keep the read inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data. Coordinate exhaustion blocks any route that skips RegSeqRat, DyadicRatCore, the Real seal, transport, replay, provenance, or local naming.
 \end{proof}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.RepresentedSpaceCarrier\_target\_seal\_nonescape}
 
 \begin{theorem}[RepresentedSpace realizer readback window]
 \label{thm:representedspace-realizer-readback-window}
@@ -203,6 +211,7 @@ Use \autoref{thm:representedspace-namecert-obligations}. Its exactness clause ma
 
 Finally apply \autoref{thm:representedspace-target-seal-nonescape}. In the real-facing case the route reaches the regular rational readback, dyadic tolerance ledger, and terminal Real seal before replaying the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ evidence. Since no quotient-name or selected-host coordinate is present, every realizer readback window remains inside the displayed route.
 \end{proof}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.RepresentedSpaceCarrier\_realizer\_readback\_window}
 
 \begin{theorem}[RepresentedSpace NameCert scope package]
 \label{thm:representedspace-namecert-scope-package}
@@ -215,6 +224,7 @@ Classifier transport contributes only $T$ together with the componentwise transp
 
 The real-facing part is bounded by \autoref{thm:representedspace-streamname-real-handoff} and \autoref{thm:representedspace-target-seal-nonescape}. Those theorems force the target route through $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The listed package is therefore the whole represented-space scope.
 \end{proof}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.ScopePackage.RepresentedSpaceCarrier\_namecert\_scope\_package}
 
 \begin{theorem}[RepresentedSpace translation nonescape]
 \label{thm:representedspace-translation-nonescape}
@@ -227,6 +237,7 @@ The classifier-transport theorem then fixes the comparison surface for $S,W,\rho
 
 For a real-facing target, \autoref{thm:representedspace-realizer-readback-window} supplies the readback window through $\RegSeqRatUp$ and $\RealUp$ before the structural rows are replayed. The carrier has no coordinate outside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ for this route, so the translation has no escape path.
 \end{proof}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.RepresentedSpaceCarrier\_translation\_nonescape}
 
 \begin{theorem}[RepresentedSpace admissible name coverage]
 \label{thm:representedspace-admissible-name-coverage}
@@ -243,6 +254,7 @@ Use the representation relation row $\rho$ next. It is the sole route from those
 
 Finally transport and replay the route. The componentwise $\hsame$ rows in $H$ keep $S,W,\rho,X,T,C,P,N$ on the same finite comparison surface, while $C$ replays the inspected windows and $P,N$ source the resulting NameCert row. Thus every admissible name covered by the representation row is covered by the displayed finite route.
 \end{proof}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.RepresentedSpaceCarrier\_admissible\_name\_coverage}
 
 \begin{theorem}[RepresentedSpace completion-boundary refusal]
 \label{thm:representedspace-completion-boundary-refusal}
@@ -267,6 +279,7 @@ Transport the realized read along those rows. The finite $\StreamNameUp$ windows
 
 Finally replay the structural evidence on the second packet. The $\Cont$ row reproduces the same inspected windows, while $\Pkg$ provenance and the local $\NameCert$ row source the transported certificate. No unrecorded realization map, quotient equality, or host representative is introduced by the transport.
 \end{proof}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.RepresentedSpaceCarrier\_realization\_transport}
 
 \begin{theorem}[RepresentedSpace StreamName representation source]
 \label{thm:representedspace-streamname-representation-source}
@@ -279,6 +292,7 @@ Apply the NameCert obligations and the realization transport theorem. Both place
 
 The structural rows $T,H,C,P,N$ transport, replay, source, and name the same route. Since the carrier has no coordinate for an implicit oracle, quotient name, or selected representative, the representation source is exactly the scheduled StreamName surface.
 \end{proof}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.RepresentedSpaceCarrier\_streamname\_representation\_source}
 
 \begin{theorem}[RepresentedSpace realization exactness]
 \label{thm:representedspace-realization-exactness}
@@ -316,10 +330,66 @@ Apply \autoref{thm:representedspace-realization-exactness}. The realized target 
 Finally use \autoref{thm:representedspace-target-seal-ledger-package}. Its ledger route packages the real-facing target through $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance, the terminal $\RealUp$ seal, transport, replay, provenance, and local naming. Hence the effective metric or completion consumer receives the finite handoff before any distance or completion read is available.
 \end{proof}
 
+\begin{theorem}[RepresentedSpace effective-metric root obligations]
+\label{thm:representedspace-root-effective-metric-obligations}
+Every effective metric read of an accepted $\RepresentedSpaceUp$ carrier $R=(S,W,\rho,X,T,H,C,P,N)$ must pass through the displayed $\StreamNameUp$ schedule $S$, observation windows $W$, representation relation $\rho$, target row $X$, classifier transport $T$, componentwise $\hsame$ rows $H$, replay row $C$, provenance row $P$, and local $\NameCert$ row $N$. In the real-facing case, the same read exposes the $\RegSeqRatUp$ and $\DyadicRatCoreUp$ rows named by the target seal before any $\RealUp$ seal is available.
+\end{theorem}
+\begin{proof}
+Open \autoref{def:representedspace-carrier}. The source schedule, observation windows, relation, target row, transport, replay, provenance, and naming rows are coordinates of the same finite packet.
+
+Apply \autoref{thm:representedspace-namecert-obligations} and \autoref{thm:representedspace-realization-exactness}. They force every target-facing read to move through $S,W,\rho,X,T,H,C,P,N$ rather than through a selected name or host representation equality.
+
+For real-facing metric reads, apply \autoref{thm:representedspace-target-seal-ledger-package}. It records the $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ route attached to the displayed target seal.
+\end{proof}
+
+\begin{theorem}[RepresentedSpace completion-readback root obligations]
+\label{thm:representedspace-root-completion-readback-obligations}
+Every completion readback consumed from an accepted $\RepresentedSpaceUp$ carrier is routed through $S,W,\rho,X,T,H,C,P,N$ and through the displayed $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ handoff rows before completion vocabulary is available. It cannot use quotient representatives, selected Cauchy names, host equality, or ambient completion data.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:representedspace-effective-metric-realizer-handoff}. It places effective metric and completion consumers behind the finite stream schedule, representation relation, regular readback, dyadic tolerance, and Real seal route.
+
+The realization is exact by \autoref{thm:representedspace-realization-exactness}, so the completion readback remains attached to $\rho$ and $X$. The target seal ledger package then supplies the regular-rational and dyadic rows used by completion-facing reads.
+
+The excluded objects are not coordinates of \autoref{def:representedspace-carrier}; transport, replay, provenance, and local naming preserve the displayed route.
+\end{proof}
+
+\begin{theorem}[RepresentedSpace Real-seal root obligations]
+\label{thm:representedspace-root-real-seal-obligations}
+Every $\RealUp$ seal read exported by an accepted $\RepresentedSpaceUp$ carrier is obtained from the displayed $S,W,\rho,X,T,H,C,P,N$ route and from the $\RegSeqRatUp$ and $\DyadicRatCoreUp$ target-seal ledger. No $\RealUp$ consumer receives host real equality, quotient representation data, selected realizers, countable choice, or an ambient completeness theorem from the represented-space packet.
+\end{theorem}
+\begin{proof}
+Read the target row $X$ through \autoref{thm:representedspace-realization-exactness}. The target is available only through the displayed relation between scheduled source observations and the carrier row.
+
+Apply \autoref{thm:representedspace-target-seal-ledger-package}. It packages every real-facing target seal through regular rational readback, dyadic tolerance data, the terminal Real seal, componentwise transport, replay, provenance, and local naming.
+
+Since the packet has no coordinate for host equality, quotient representatives, selected realizers, choice, or ambient completeness, the Real-seal route is exactly the displayed finite handoff.
+\end{proof}
+
+\begin{theorem}[RepresentedSpace admissible finality]
+\label{thm:representedspace-admissible-finality}
+Let an accepted $\RepresentedSpaceUp$ carrier $R=(S,W,\rho,X,T,H,C,P,N)$ be consumed by a $\RealUp$-facing represented-space consumer that also exposes an $\AdmissibleRepresentationUp$ packet. Before the consumer reads output data, the displayed route must factor through
+$$
+\RepresentedSpaceUp \longmapsto \CauchyRepresentationUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp .
+$$
+The factorization is the finite represented-space carrier route of \autoref{def:representedspace-carrier}, the exact representation relation of \autoref{thm:representedspace-representation-relation-exactness}, the StreamName-to-Real handoff of \autoref{thm:representedspace-streamname-real-handoff}, and the admissible Cauchy finality interface of \autoref{ch:concrete-instances-admissible-representation-namecert} and \autoref{ch:concrete-instances-cauchy-representation-namecert}. It excludes quotient names, selected representatives, host real equality, countable choice, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Open the represented-space carrier. By \autoref{def:representedspace-carrier}, the only source available to the consumer is the displayed finite route through $S,W,\rho,X,T,H,C,P,N$.
+
+Use \autoref{thm:representedspace-representation-relation-exactness}. The representation relation $\rho$ is the sole certified path from scheduled stream observations to the target carrier, so an admissible consumer cannot bypass the displayed representation row.
+
+Apply \autoref{thm:representedspace-streamname-real-handoff}. In the real-facing case the target route opens the $\StreamNameUp$ schedule, then the regular rational and dyadic readback rows, and only then reaches the terminal $\RealUp$ seal.
+
+The exposed $\AdmissibleRepresentationUp$ packet supplies the finality clause of \autoref{ch:concrete-instances-admissible-representation-namecert}, while \autoref{ch:concrete-instances-cauchy-representation-namecert} supplies the Cauchy source used by that clause. Since none of the represented-space carrier coordinates stores quotient names, selected representatives, host real equality, countable choice, or ambient real completeness, the displayed factorization is the whole admissible-finality route.
+\end{proof}
+
+\closureat{RepresentedSpaceUp}{obligationStr}
+
 \begin{closurestatus}{\RepresentedSpaceUp}
   \constructivestory{A $\RepresentedSpaceUp$ packet is generated from a displayed name carrier, finite $\StreamNameUp$ schedule, representation relation, target carrier, classifier transport, componentwise $\hsame$ rows, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:representedspace-carrier}, \autoref{thm:representedspace-namecert-obligations}, \autoref{thm:representedspace-streamname-real-handoff}, \autoref{thm:representedspace-realizer-readback-window}, \autoref{thm:representedspace-namecert-scope-package}, \autoref{thm:representedspace-translation-nonescape}, \autoref{thm:representedspace-admissible-name-coverage}, \autoref{thm:representedspace-completion-boundary-refusal}, and \autoref{thm:representedspace-realization-transport} seed the finite represented-space interface from stream names to real-facing target rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:representedspace-carrier}, \autoref{thm:representedspace-namecert-obligations}, \autoref{thm:representedspace-representation-relation-exactness}, \autoref{thm:representedspace-streamname-real-handoff}, \autoref{thm:representedspace-realization-transport}, \autoref{thm:representedspace-target-handoff-nonescape}, \autoref{thm:representedspace-effective-metric-realizer-handoff}, \autoref{thm:representedspace-root-completion-readback-obligations}, \autoref{thm:representedspace-root-real-seal-obligations}, and \autoref{thm:representedspace-admissible-finality} close the listed obligation inventory for carrier rows, representation relation exactness, StreamName/Real handoff, classifier transport, target seal nonescape, effective-metric handoff, completion-readback, Real-seal, and admissible finality.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Real completeness, quotient representations, selected host representatives, host equality, a choice principle, or a Lean theorem.}
