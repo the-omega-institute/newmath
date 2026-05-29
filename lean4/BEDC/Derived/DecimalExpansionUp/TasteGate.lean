@@ -181,6 +181,29 @@ theorem DecimalExpansionEndpointNormalizationHandoff
     unary_cont_closed handoffUnary rUnary handoffRat
   exact ⟨prefixUnary, comparisonUnary, handoffUnary, sealUnary⟩
 
+theorem DecimalExpansionEndpointCauchySchedule
+    {D W V Q R E endpointRead cauchyRead sealRead : BHist} :
+    UnaryHistory D →
+      UnaryHistory W →
+        UnaryHistory V →
+          UnaryHistory Q →
+            UnaryHistory R →
+              UnaryHistory E →
+                Cont D W endpointRead →
+                  Cont endpointRead Q cauchyRead →
+                    Cont cauchyRead R sealRead →
+                      UnaryHistory endpointRead ∧
+                        UnaryHistory cauchyRead ∧ UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro dUnary wUnary _vUnary qUnary rUnary _eUnary endpointStep cauchyStep sealStep
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed dUnary wUnary endpointStep
+  have cauchyUnary : UnaryHistory cauchyRead :=
+    unary_cont_closed endpointUnary qUnary cauchyStep
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed cauchyUnary rUnary sealStep
+  exact ⟨endpointUnary, cauchyUnary, sealUnary⟩
+
 theorem DecimalExpansionDigitWindowObligations
     {D W V Q R E H C P N digitWindow placeValue dyadic regseq realSeal transport replay
       provenance nameRoute : BHist} :
