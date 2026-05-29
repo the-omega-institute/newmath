@@ -56,6 +56,18 @@ The noncollapse clauses now rule out aggregate substitution. Theorem~\ref{thm:re
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPhaseRealStatusProductReadiness}
 
+\begin{theorem}[MetaCIC L10 four-face discharge readiness]
+\label{thm:metacic-critical-path-l10-four-face-discharge-readiness}
+For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, Phase Real and Completion exit evidence can be consumed through $K$ only when each of the four L10 faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ exposes its own local discharge-readiness row. The aggregate MetaCIC route may display the four-object exit certificate and the status-product readiness surface, but it cannot provide a missing face-local discharge row for any one of the four faces.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:metacic-critical-path-phase-real-status-product-readiness}. It reads downstream readiness as a product of the four local face records and refuses an aggregate MetaCIC route credential as a substitute for those records.
+
+Next apply face-local target locality through \autoref{thm:metacic-critical-path-l10-face-leantarget-locality}. The $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ target and bridge rows remain attached to their own chapters, so a discharge-readiness row attached to one face cannot be moved to another face or supplied by the route as a whole.
+
+Finally apply the four-face deficiency refusal of \autoref{thm:metacic-critical-path-four-face-deficiency-refusal}. If any face lacks the local row required for consumption, the missing coordinate blocks the Phase Real and Completion exit read. Thus the MetaCIC route can package the four faces, but it cannot discharge a face whose local readiness row is absent.
+\end{proof}
+
 \begin{theorem}[MetaCIC Phase Real exit refusal boundary]
 \label{thm:metacic-critical-path-phase-real-exit-refusal-boundary}
 For every accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the Phase Real exit through $K$ refuses quotient stream equality, selected host limits, host equality, trichotomy, open-cover compactness, countable choice, and completed-real closure. The only accepted exit data are the four finite object rows of Theorem~\ref{thm:metacic-critical-path-phase-real-four-face-obligation-surface} together with their local status-product rows of Theorem~\ref{thm:metacic-critical-path-phase-real-status-product-readiness}.
