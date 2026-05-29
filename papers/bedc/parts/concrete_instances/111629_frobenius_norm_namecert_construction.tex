@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\FrobeniusNormUp$}
+\label{ch:concrete-instances-frobenius-norm-namecert}
+\origin{human}
+
+Following Horn and Johnson on matrix analysis, the $\FrobeniusNormUp$ packet records the finite square-sum matrix norm as BEDC NameCert data. It sits over the finite matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the scalar endpoint discipline of \autoref{ch:concrete-instances-real-namecert}, the vector-space transport rows of \autoref{ch:concrete-instances-vecspace-namecert}, the norm interface of \autoref{ch:concrete-instances-norm-namecert}, the orthogonalization route of \autoref{ch:concrete-instances-gram-schmidt-namecert}, and the scalar-bound surface of \autoref{ch:concrete-instances-operator-norm-namecert}. The packet names the finite Hilbert--Schmidt ledger for displayed entries; it is not a host supremum, spectral theorem, singular-value theorem, quotient matrix equality, or selected basis construction.
+
+\begin{definition}[FrobeniusNorm carrier]
+\label{def:frobenius-norm-carrier}
+A $\FrobeniusNormUp$ carrier is a finite $\BHist$ packet
+$$
+F=(A,E,S,R,N_0,V,G,O,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the input $\MatrixUp$ row, exposing a finite row-column table together with its scalar-source and shape ledgers.
+\item $E$ is the finite entry-read row, listing exactly the displayed matrix entries to be squared and summed.
+\item $S$ is the square-sum ledger, recording the finite addition route for the displayed real squares of the entries in $E$.
+\item $R$ is the $\RealUp$ readback row carrying the nonnegative square-sum endpoint and the square-root boundary used for the norm value.
+\item $N_0$ is the $\NormUp$ comparison row, asserting that the displayed norm coordinate is read from $S$ and $R$ rather than from an ambient operator supremum.
+\item $V$ is the $\VecSpaceUp$ scalar-transport row, recording compatibility of the entry table with scalar multiplication and finite matrix addition.
+\item $G$ is the $\GramSchmidtUp$ sibling row used by column-orthogonalization consumers that compare the square-sum ledger with displayed column data.
+\item $O$ is the $\OperatorNormUp$ sibling row used by bounded-operator consumers that read the Frobenius ledger as a finite norm bound, not as the defining operator norm.
+\item $H$ records componentwise $\hsame$ transport for the matrix row, entry reads, square-sum ledger, real readback, norm comparison, vector-space scalar transport, sibling rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a matrix-norm request through $A,E,S,R,N_0,V,G,O,H$.
+\item $P$ is the $\Pkg$ provenance over $\FrobeniusNormUp$, $\MatrixUp$, $\RealUp$, $\NormUp$, $\VecSpaceUp$, $\GramSchmidtUp$, $\OperatorNormUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\FrobeniusNormUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,E,S,R,N_0,V,G,O,H,C,P,L$. It has no coordinate for singular values, spectral decomposition, host supremum over unit vectors, quotient matrix equality, selected orthonormal bases, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[FrobeniusNorm NameCert obligations]
+\label{thm:frobenius-norm-namecert-obligations}
+For every accepted $\FrobeniusNormUp$ carrier
+$$
+F=(A,E,S,R,N_0,V,G,O,H,C,P,L),
+$$
+the local $\NameCert_{\FrobeniusNormUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item matrix admission for the displayed $\MatrixUp$ row $A$ and its finite entry table $E$;
+\item square-sum readback through $S$ and $R$, requiring every norm value to be read from the finite real square ledger of the displayed entries;
+\item norm and scalar-transport compatibility through $N_0$ and $V$, preserving matrix addition and scalar multiplication at the carrier boundary;
+\item sibling consumption through $G$ and $O$, exposing only the Gram--Schmidt column route and the OperatorNorm bound route attached to the same finite ledger;
+\item componentwise transport, displayed replay, provenance, and local naming through $H,C,P,L$.
+\end{enumerate}
+No Frobenius-norm obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:frobenius-norm-carrier}. The only matrix data available to the packet are the finite table $A$ and the entry row $E$.
+
+The square-sum obligation is the ledger $S$ together with its $\RealUp$ endpoint $R$. Each entry is squared and folded by the displayed finite addition route, so the norm value is read from the square-sum row rather than selected from a host norm function.
+
+The rows $N_0$ and $V$ record compatibility with the norm interface and vector-space scalar transport. They preserve the finite entry ledger under the displayed matrix operations without adding quotient matrix equality.
+
+Finally the sibling rows $G$ and $O$ expose exactly how Gram--Schmidt and operator-norm consumers may use the same square-sum packet. The structural rows $H,C,P,L$ transport, replay, source, and name only this finite route, so the five listed rows exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[FrobeniusNorm square-sum route]
+\label{thm:frobenius-norm-square-sum-route}
+Every $\FrobeniusNormUp$ consumer that reads a matrix norm value must pass through the finite route
+$$
+A \longmapsto E \longmapsto S \longmapsto R \longmapsto N_0 .
+$$
+The route exposes the displayed matrix entries, their real square-sum ledger, and the norm comparison row before any vector-space transport, Gram--Schmidt handoff, or operator-norm bound row is consumed.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $F=(A,E,S,R,N_0,V,G,O,H,C,P,L)$. Carrier projection first exposes the matrix table and the finite entry row.
+
+The square-sum ledger $S$ is downstream of those entries, and the $\RealUp$ readback row $R$ is downstream of the ledger. Hence a norm consumer cannot inspect the displayed norm comparison $N_0$ before the finite entry squares and their sum have been displayed.
+
+The vector-space, Gram--Schmidt, and OperatorNorm rows are sibling-facing consumers of the same route. They may transport or compare the finite ledger, but they do not replace it by a host supremum, spectral calculation, or selected basis.
+\end{proof}
+
+\begin{theorem}[FrobeniusNorm sibling compatibility]
+\label{thm:frobenius-norm-sibling-compatibility}
+The $\GramSchmidtUp$ row $G$ and the $\OperatorNormUp$ row $O$ of an accepted $\FrobeniusNormUp$ carrier consume the same displayed square-sum route $A,E,S,R,N_0$. A Gram--Schmidt consumer reads column data through $G$ only after the finite entry ledger is fixed, and an OperatorNorm consumer reads $O$ only as a finite bound-facing comparison row over that ledger.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:frobenius-norm-square-sum-route}. Both sibling rows occur after the matrix table, entry reads, square-sum ledger, real readback, and norm comparison row.
+
+The Gram--Schmidt handoff therefore receives displayed column data already governed by the same entry ledger. It cannot choose a second basis or alter the square-sum route.
+
+The OperatorNorm handoff receives a finite bound-facing comparison row. It does not convert the Frobenius packet into the host supremum definition of operator norm, because the only available scalar data are $S,R,N_0$ transported by $H$ and replayed by $C$.
+\end{proof}
+
+\closureat{FrobeniusNormUp}{seedStr}
+
+\begin{closurestatus}{\FrobeniusNormUp}
+  \constructivestory{A $\FrobeniusNormUp$ packet is generated from a displayed MatrixUp table, finite entry reads, real square-sum ledger, RealUp readback, NormUp comparison, VecSpaceUp scalar transport, GramSchmidtUp and OperatorNormUp sibling rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:frobenius-norm-carrier}, \autoref{thm:frobenius-norm-namecert-obligations}, \autoref{thm:frobenius-norm-square-sum-route}, and \autoref{thm:frobenius-norm-sibling-compatibility} seed the finite matrix square-sum norm packet and its sibling consumption routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close singular-value theory, spectral decomposition, host operator supremum, quotient matrix equality, selected orthonormal bases, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked matrix admission, square-sum readback, norm comparison, scalar transport, sibling compatibility, transport, replay, provenance, and local naming for BEDC.Derived.FrobeniusNormUp.}
+\end{closurestatus}
