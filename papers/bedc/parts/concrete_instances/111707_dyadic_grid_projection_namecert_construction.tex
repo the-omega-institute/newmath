@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\DyadicGridProjectionUp$}
+\label{ch:concrete-instances-dyadic-grid-projection-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real approximation by rational grids, the $\DyadicGridProjectionUp$ packet records the finite operation that projects a displayed real observation onto adjacent dyadic endpoints at a requested unary precision. It sits after the rational denominator discipline of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular Cauchy readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the dyadic rounding surface of \autoref{ch:concrete-instances-dyadicrounding-namecert}. The packet gives L10 Real and Completion routes a constructive grid object without importing host rounding, trichotomy, quotient reals, selected limits, or ambient completeness.
+
+\begin{definition}[Dyadic grid projection carrier]
+\label{def:dyadic-grid-projection}
+A $\DyadicGridProjectionUp$ carrier is a finite $\BHist$ packet
+$$
+G=(x,n,a,b,I,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $x$ is the source observation row, carrying the finite real-name or regular Cauchy read requested by the consumer.
+\item $n$ is the unary precision row, naming the dyadic scale at which the grid is inspected.
+\item $a$ and $b$ are adjacent $\DyadicRatCoreUp$ endpoint rows at precision $n$.
+\item $I$ is the interval-containment row, displaying that the finite observation of $x$ lies inside the closed dyadic window bounded by $a$ and $b$.
+\item $E$ is the finite error-budget row, recording the tolerance consumed by the projection and the remaining budget available to downstream readback.
+\item $H$ records componentwise $\hsame$ transport for source observations, unary precision rows, dyadic endpoints, containment windows, error budgets, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+x,n,a,b,I,E \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\DyadicGridProjectionUp$, $\DyadicRatCoreUp$, $\DyadicRoundingUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicGridProjectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $x,n,a,b,I,E,H,C,P,N$. It has no coordinate for host rounding, trichotomy on rationals, quotient real equality, selected Cauchy limits, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic grid projection endpoint coverage]
+\label{thm:dyadic-grid-projection-endpoint-coverage}
+For every accepted $\DyadicGridProjectionUp$ carrier $G=(x,n,a,b,I,E,H,C,P,N)$, the endpoint rows $a$ and $b$ are exposed as adjacent $\DyadicRatCoreUp$ endpoints at the displayed unary precision $n$, and the containment row $I$ is read only through that adjacent pair. Hence a consumer receives a finite dyadic window covering the displayed source observation $x$ without a host rounding operator or trichotomy oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-grid-projection}. The only endpoint coordinates are $a$ and $b$, and their role is fixed by the displayed unary precision row $n$.
+
+The containment row $I$ is listed after the endpoint rows, so it can be read only as a finite interval statement over the same adjacent dyadic pair. The finite error budget $E$ records the tolerated projection loss but does not add a selector for an exact host representative.
+
+Transport, replay, provenance, and local naming preserve the same rows. Since the carrier has no coordinate for host rounding, rational trichotomy, quotient real equality, selected limits, or ambient completeness, the coverage exported by the packet is exactly the displayed finite endpoint window.
+\end{proof}
+
+\begin{theorem}[Dyadic grid projection regular-real handoff]
+\label{thm:dyadic-grid-projection-regseqrat-real-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\DyadicGridProjectionUp$ packet must factor through the finite route
+$$
+x,n,a,b,I,E \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The handoff may use the displayed dyadic endpoints, containment row, and remaining finite error budget, but it cannot replace them by quotient reals, selected limits, or an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the source observation $x$ and unary precision $n$. The packet exposes adjacent dyadic endpoints $a,b$ and the interval-containment row $I$ before any regular Cauchy or real-name consumer reads the projection.
+
+The finite error budget $E$ is the only tolerance ledger carried across the handoff. A $\RegSeqRatUp$ read therefore receives a displayed dyadic window and budget rather than a selected representative of a quotient stream.
+
+Finally the $\RealUp$ seal can consume only the same finite data through $H,C,P,N$. The carrier supplies no host limit selection or completeness principle, so the regular-real handoff remains a finite NameCert route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DyadicGridProjectionUp$ read displays one source-observation row, one unary precision row, two adjacent $\DyadicRatCoreUp$ endpoint rows, one interval-containment row, one finite error-budget row, and local transport, replay, provenance, and naming rows before it is consumed by a regular Cauchy or Real route.}
+
+\independenceWitness{dyadicratcore, dyadicrounding, regseqrat, real: $\DyadicGridProjectionUp$ is not bijective to any listed sibling because it binds a source observation, unary precision, adjacent dyadic endpoints, interval containment, finite error budget, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ into one accepted projection packet.}
+
+\closureat{DyadicGridProjectionUp}{seedStr}
+
+\begin{closurestatus}{\DyadicGridProjectionUp}
+  \constructivestory{A $\DyadicGridProjectionUp$ packet is generated from a source observation, unary precision, adjacent DyadicRatCore endpoints, interval containment, finite error budget, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-grid-projection}, \autoref{thm:dyadic-grid-projection-endpoint-coverage}, and \autoref{thm:dyadic-grid-projection-regseqrat-real-handoff} seed the finite dyadic grid-projection route over DyadicRatCore, RegSeqRat, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host rounding, rational trichotomy, quotient real equality, selected limits, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source-observation admission, unary precision handling, adjacent dyadic endpoint coverage, interval containment, finite error-budget transport, replay, provenance, and local naming for BEDC.Derived.DyadicGridProjectionUp.}
+\end{closurestatus}
