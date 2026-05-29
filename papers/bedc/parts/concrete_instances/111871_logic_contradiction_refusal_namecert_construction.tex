@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\LogicContradictionRefusalUp$}
+\label{ch:concrete-instances-logic-contradiction-refusal-namecert}
+\origin{ai}
+
+The $\LogicContradictionRefusalUp$ packet realizes the contradiction-request boundary of \autoref{sec:visions-philosophy-logic-contradiction-meta-loop} as finite NameCert data. It sits after the broader logic and meta-loop packet of \autoref{ch:concrete-instances-logiccontradictionmetaloop-namecert}, the local refutation boundary of \autoref{ch:concrete-instances-refutationboundary-namecert}, the host-primitive leakage audit of \autoref{ch:concrete-instances-hostprimitiveleakage-namecert}, and the quotient-collapse refusal surface of \autoref{ch:concrete-instances-quotient-soundness-boundary-namecert}. The packet records a request to use contradiction as a global exporter, the finite reason that the request is refused, and the route by which local refutation remains available without host-level explosion.
+
+\begin{definition}[LogicContradictionRefusal carrier]
+\label{def:logic-contradiction-refusal-carrier}
+A $\LogicContradictionRefusalUp$ carrier is a finite $\BHist$ packet
+$$
+K=(Q,L,R,G,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the contradiction-request row. It records the proposed use of a local inconsistency, impossible branch, or false row as an exporter for an arbitrary global claim.
+\item $L$ is the local-refutation row. It identifies the finite context in which the contradiction is licensed and the boundary beyond which the refutation is not a proof-producing rule.
+\item $R$ is the refusal row. It records that the request in $Q$ is refused as a host-level explosion, total-truth closure, unrestricted choice step, quotient collapse, or halting-closure oracle.
+\item $G$ is the gate row inherited from the $\LogicContradictionMetaLoopUp$ surface. It keeps proof-pattern discipline and open meta-loop refusal visible before any downstream logical consumer reads the packet.
+\item $B$ is the sibling-boundary row. It records the overlap with $\RefutationBoundaryUp$, $\HostPrimitiveLeakageUp$, and $\QuotientSoundnessBoundaryUp$ without identifying this packet with any of them.
+\item $H$ records componentwise $\hsame$ transport for $Q,L,R,G,B$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from contradiction request through local refutation, refusal, gate boundary, sibling boundary, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\LogicContradictionRefusalUp$, $\LogicContradictionMetaLoopUp$, $\RefutationBoundaryUp$, $\HostPrimitiveLeakageUp$, $\QuotientSoundnessBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LogicContradictionRefusalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,L,R,G,B,H,C,P,N$. It has no coordinate for ex falso as a host primitive, total truth, unrestricted choice, quotient representative collapse, global proof search, halting closure, or a closed meta-loop classifier.
+\end{definition}
+
+\begin{theorem}[LogicContradictionRefusal NameCert obligations]
+\label{thm:logic-contradiction-refusal-namecert-obligations}
+For every accepted $\LogicContradictionRefusalUp$ carrier
+$$
+K=(Q,L,R,G,B,H,C,P,N),
+$$
+the local $\NameCert_{\LogicContradictionRefusalUp}$ surface consists exactly of contradiction-request admission through $Q$, local-refutation exposure through $L$, refusal through $R$, gate-boundary discipline through $G$, sibling-boundary separation through $B$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$. The accepted packet refuses any route from local contradiction management to host-level explosion, total truth, unrestricted choice, quotient collapse, global proof search, halting closure, or a closed meta-loop classifier.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:logic-contradiction-refusal-carrier}. The rows $Q,L,R,G,B,H,C,P,N$ are the entire visible packet.
+
+The contradiction request and local refutation rows separate the proposed exporter from the finite context that licenses a local negative result. Thus $Q$ may record a request for global explosion while $L$ records only the local refutation boundary.
+
+The refusal and gate rows then block the exporter. The row $R$ refuses host-level explosion, total truth, unrestricted choice, quotient collapse, global proof search, halting closure, and closed meta-loop classification, while $G$ keeps the broader logic/meta-loop discipline in view.
+
+Finally $B,H,C,P,N$ preserve the sibling boundary, transport, replay, provenance, and naming rows. Since none of the excluded host-level coordinates occurs in the carrier, no local NameCert obligation can export them.
+\end{proof}
+
+\begin{theorem}[Logic contradiction refusal nonescape]
+\label{thm:logic-contradiction-refusal-nonescape}
+Every accepted $\LogicContradictionRefusalUp$ read factors through the displayed route
+$$
+Q,L \longmapsto R,G,B \longmapsto H,C,P,N .
+$$
+The route may expose a contradiction request, a local refutation boundary, a refusal row, the logic/meta-loop gate, sibling-boundary separation, transport, replay, provenance, and local naming. It cannot export a host explosion rule, total truth row, unrestricted choice step, quotient collapse, global proof-search result, halting closure, or closed meta-loop classifier.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $K=(Q,L,R,G,B,H,C,P,N)$. The only row that records the requested contradiction use is $Q$, and the only row that records the locally licensed negative content is $L$.
+
+The refusal row $R$ is downstream of both. It rejects the global exporter while leaving the local refutation row visible, so the packet does not erase contradiction management; it blocks only the attempt to turn it into a host-level proof primitive.
+
+The gate and sibling-boundary rows $G$ and $B$ keep the refusal aligned with the broader meta-loop discipline and with the adjacent refutation, host-leakage, and quotient-boundary packets. Transport, replay, provenance, and naming are then carried only by $H,C,P,N$.
+
+Thus the stated route exhausts the accepted read. The excluded explosion, total-truth, choice, quotient-collapse, global-search, halting, and closed-meta coordinates are absent from the packet.
+\end{proof}
+
+\begin{theorem}[Logic contradiction refusal TasteGate obligation]
+\label{thm:logic-contradiction-refusal-tastegate-obligation}
+The Lean \texttt{TasteGate.lean} development for $\LogicContradictionRefusalUp$ must later supply explicit $\mathsf{Nontrivial}\ \LogicContradictionRefusalUp$ and $\mathsf{FieldFaithful}\ \LogicContradictionRefusalUp$ instances. Nontriviality must distinguish at least one accepted local-refutation refusal packet from a packet that turns $Q$ into host-level explosion, and field faithfulness must preserve the row order
+$$
+Q,L,R,G,B,H,C,P,N
+$$
+before any checked carrier-alignment theorem may serve as a public TasteGate realization.
+\end{theorem}
+\begin{proof}
+The nontrivial boundary is forced by \autoref{thm:logic-contradiction-refusal-nonescape}: an accepted refusal packet preserves local refutation while blocking host-level explosion. A packet that turns the request row $Q$ into an arbitrary-claim exporter therefore cannot be the same accepted carrier.
+
+Field faithfulness is the corresponding row-preservation obligation. A faithful read must keep the request, local refutation, refusal, gate, sibling boundary, transport, replay, provenance, and naming rows in the displayed order rather than replacing them by an external logical primitive.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LogicContradictionRefusalUp$ read exposes one contradiction-request row, one local-refutation row, one refusal row, one logic/meta-loop gate row, one sibling-boundary row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before any logic-boundary consumer may inspect it.}
+
+\independenceWitness{logiccontradictionmetaloop, refutationboundary, hostprimitiveleakage, quotientsoundnessboundary: $\LogicContradictionRefusalUp$ is not bijective to any listed sibling because it jointly carries a contradiction request, local refutation boundary, refusal row, meta-loop gate, sibling separation, transport, replay, provenance, and local naming while specifically refusing host-level explosion.}
+
+\closureat{LogicContradictionRefusalUp}{seedStr}
+
+\begin{closurestatus}{\LogicContradictionRefusalUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:logic-contradiction-refusal-carrier}, \autoref{thm:logic-contradiction-refusal-namecert-obligations}, \autoref{thm:logic-contradiction-refusal-nonescape}, and \autoref{thm:logic-contradiction-refusal-tastegate-obligation} seed the finite contradiction-request refusal route over local refutation and open meta-loop boundary rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host-level explosion, total truth, unrestricted choice, quotient collapse, global proof search, halting closure, closed meta-loop classification, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, contradiction-request exactness, local-refutation boundary, refusal nonescape, TasteGate nontriviality, field faithfulness, transport, replay, provenance, and local naming for BEDC.Derived.LogicContradictionRefusalUp.}
+  \constructivestory{A $\LogicContradictionRefusalUp$ packet is generated from a contradiction-request row, local-refutation row, refusal row, logic/meta-loop gate row, sibling-boundary row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
