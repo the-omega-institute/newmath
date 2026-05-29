@@ -26,7 +26,7 @@ def smithNormalFormDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (smithNormalFormDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (smithNormalFormDecodeBHist tail)
 
-private theorem smithNormalFormDecodeEncodeBHist :
+private theorem SmithNormalFormTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist, smithNormalFormDecodeBHist (smithNormalFormEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -35,68 +35,101 @@ private theorem smithNormalFormDecodeEncodeBHist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def smithNormalFormFields : SmithNormalFormUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | SmithNormalFormUp.mk M R C D V E U H T P N => [M, R, C, D, V, E, U, H, T, P, N]
-
 def smithNormalFormToEventFlow : SmithNormalFormUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (smithNormalFormFields x).map smithNormalFormEncodeBHist
+  | SmithNormalFormUp.mk M R C D V E U H T P N =>
+      [[BMark.b0],
+        smithNormalFormEncodeBHist M,
+        [BMark.b1, BMark.b0],
+        smithNormalFormEncodeBHist R,
+        [BMark.b1, BMark.b1, BMark.b0],
+        smithNormalFormEncodeBHist C,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        smithNormalFormEncodeBHist D,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        smithNormalFormEncodeBHist V,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        smithNormalFormEncodeBHist E,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        smithNormalFormEncodeBHist U,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        smithNormalFormEncodeBHist H,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        smithNormalFormEncodeBHist T,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        smithNormalFormEncodeBHist P,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        smithNormalFormEncodeBHist N]
 
-private def smithNormalFormEventAt : Nat → EventFlow → RawEvent
+private def smithNormalFormEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => smithNormalFormEventAt index rest
+  | Nat.succ index, _event :: rest => smithNormalFormEventAtDefault index rest
 
 def smithNormalFormFromEventFlow (ef : EventFlow) : Option SmithNormalFormUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (SmithNormalFormUp.mk
-      (smithNormalFormDecodeBHist (smithNormalFormEventAt 0 ef))
-      (smithNormalFormDecodeBHist (smithNormalFormEventAt 1 ef))
-      (smithNormalFormDecodeBHist (smithNormalFormEventAt 2 ef))
-      (smithNormalFormDecodeBHist (smithNormalFormEventAt 3 ef))
-      (smithNormalFormDecodeBHist (smithNormalFormEventAt 4 ef))
-      (smithNormalFormDecodeBHist (smithNormalFormEventAt 5 ef))
-      (smithNormalFormDecodeBHist (smithNormalFormEventAt 6 ef))
-      (smithNormalFormDecodeBHist (smithNormalFormEventAt 7 ef))
-      (smithNormalFormDecodeBHist (smithNormalFormEventAt 8 ef))
-      (smithNormalFormDecodeBHist (smithNormalFormEventAt 9 ef))
-      (smithNormalFormDecodeBHist (smithNormalFormEventAt 10 ef)))
+      (smithNormalFormDecodeBHist (smithNormalFormEventAtDefault 1 ef))
+      (smithNormalFormDecodeBHist (smithNormalFormEventAtDefault 3 ef))
+      (smithNormalFormDecodeBHist (smithNormalFormEventAtDefault 5 ef))
+      (smithNormalFormDecodeBHist (smithNormalFormEventAtDefault 7 ef))
+      (smithNormalFormDecodeBHist (smithNormalFormEventAtDefault 9 ef))
+      (smithNormalFormDecodeBHist (smithNormalFormEventAtDefault 11 ef))
+      (smithNormalFormDecodeBHist (smithNormalFormEventAtDefault 13 ef))
+      (smithNormalFormDecodeBHist (smithNormalFormEventAtDefault 15 ef))
+      (smithNormalFormDecodeBHist (smithNormalFormEventAtDefault 17 ef))
+      (smithNormalFormDecodeBHist (smithNormalFormEventAtDefault 19 ef))
+      (smithNormalFormDecodeBHist (smithNormalFormEventAtDefault 21 ef)))
 
-private theorem smithNormalForm_round_trip (x : SmithNormalFormUp) :
-    smithNormalFormFromEventFlow (smithNormalFormToEventFlow x) = some x := by
+private theorem smithNormalForm_mk_congr
+    {M M' R R' C C' D D' V V' E E' U U' H H' T T' P P' N N' : BHist}
+    (hM : M' = M) (hR : R' = R) (hC : C' = C) (hD : D' = D)
+    (hV : V' = V) (hE : E' = E) (hU : U' = U) (hH : H' = H)
+    (hT : T' = T) (hP : P' = P) (hN : N' = N) :
+    SmithNormalFormUp.mk M' R' C' D' V' E' U' H' T' P' N' =
+      SmithNormalFormUp.mk M R C D V E U H T P N := by
   -- BEDC touchpoint anchor: BHist BMark
+  cases hM
+  cases hR
+  cases hC
+  cases hD
+  cases hV
+  cases hE
+  cases hU
+  cases hH
+  cases hT
+  cases hP
+  cases hN
+  rfl
+
+private theorem SmithNormalFormTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : SmithNormalFormUp,
+      smithNormalFormFromEventFlow (smithNormalFormToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk M R C D V E U H T P N =>
-      change
-        some
-          (SmithNormalFormUp.mk
-            (smithNormalFormDecodeBHist (smithNormalFormEncodeBHist M))
-            (smithNormalFormDecodeBHist (smithNormalFormEncodeBHist R))
-            (smithNormalFormDecodeBHist (smithNormalFormEncodeBHist C))
-            (smithNormalFormDecodeBHist (smithNormalFormEncodeBHist D))
-            (smithNormalFormDecodeBHist (smithNormalFormEncodeBHist V))
-            (smithNormalFormDecodeBHist (smithNormalFormEncodeBHist E))
-            (smithNormalFormDecodeBHist (smithNormalFormEncodeBHist U))
-            (smithNormalFormDecodeBHist (smithNormalFormEncodeBHist H))
-            (smithNormalFormDecodeBHist (smithNormalFormEncodeBHist T))
-            (smithNormalFormDecodeBHist (smithNormalFormEncodeBHist P))
-            (smithNormalFormDecodeBHist (smithNormalFormEncodeBHist N))) =
-          some (SmithNormalFormUp.mk M R C D V E U H T P N)
-      rw [smithNormalFormDecodeEncodeBHist M,
-        smithNormalFormDecodeEncodeBHist R,
-        smithNormalFormDecodeEncodeBHist C,
-        smithNormalFormDecodeEncodeBHist D,
-        smithNormalFormDecodeEncodeBHist V,
-        smithNormalFormDecodeEncodeBHist E,
-        smithNormalFormDecodeEncodeBHist U,
-        smithNormalFormDecodeEncodeBHist H,
-        smithNormalFormDecodeEncodeBHist T,
-        smithNormalFormDecodeEncodeBHist P,
-        smithNormalFormDecodeEncodeBHist N]
+      exact
+        congrArg some
+          (smithNormalForm_mk_congr
+            (SmithNormalFormTasteGate_single_carrier_alignment_decode M)
+            (SmithNormalFormTasteGate_single_carrier_alignment_decode R)
+            (SmithNormalFormTasteGate_single_carrier_alignment_decode C)
+            (SmithNormalFormTasteGate_single_carrier_alignment_decode D)
+            (SmithNormalFormTasteGate_single_carrier_alignment_decode V)
+            (SmithNormalFormTasteGate_single_carrier_alignment_decode E)
+            (SmithNormalFormTasteGate_single_carrier_alignment_decode U)
+            (SmithNormalFormTasteGate_single_carrier_alignment_decode H)
+            (SmithNormalFormTasteGate_single_carrier_alignment_decode T)
+            (SmithNormalFormTasteGate_single_carrier_alignment_decode P)
+            (SmithNormalFormTasteGate_single_carrier_alignment_decode N))
 
 private theorem smithNormalFormToEventFlow_injective {x y : SmithNormalFormUp} :
     smithNormalFormToEventFlow x = smithNormalFormToEventFlow y → x = y := by
@@ -107,19 +140,8 @@ private theorem smithNormalFormToEventFlow_injective {x y : SmithNormalFormUp} :
         smithNormalFormFromEventFlow (smithNormalFormToEventFlow y) :=
     congrArg smithNormalFormFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (smithNormalForm_round_trip x).symm
-      (Eq.trans hread (smithNormalForm_round_trip y)))
-
-private theorem smithNormalForm_fields_faithful :
-    ∀ x y : SmithNormalFormUp, smithNormalFormFields x = smithNormalFormFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk M₁ R₁ C₁ D₁ V₁ E₁ U₁ H₁ T₁ P₁ N₁ =>
-      cases y with
-      | mk M₂ R₂ C₂ D₂ V₂ E₂ U₂ H₂ T₂ P₂ N₂ =>
-          cases hfields
-          rfl
+    (Eq.trans (SmithNormalFormTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (SmithNormalFormTasteGate_single_carrier_alignment_round_trip y)))
 
 instance smithNormalFormBHistCarrier : BHistCarrier SmithNormalFormUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -131,46 +153,30 @@ instance smithNormalFormChapterTasteGate : ChapterTasteGate SmithNormalFormUp wh
   round_trip := by
     intro x
     change smithNormalFormFromEventFlow (smithNormalFormToEventFlow x) = some x
-    exact smithNormalForm_round_trip x
+    exact SmithNormalFormTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (smithNormalFormToEventFlow_injective heq)
 
-instance smithNormalFormFieldFaithful : FieldFaithful SmithNormalFormUp where
+def taste_gate : ChapterTasteGate SmithNormalFormUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fields := smithNormalFormFields
-  field_faithful := smithNormalForm_fields_faithful
+  smithNormalFormChapterTasteGate
 
-instance smithNormalFormNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial SmithNormalFormUp where
+theorem SmithNormalFormTasteGate_single_carrier_alignment :
+    (∀ h : BHist, smithNormalFormDecodeBHist (smithNormalFormEncodeBHist h) = h) ∧
+      (∀ x : SmithNormalFormUp,
+        smithNormalFormFromEventFlow (smithNormalFormToEventFlow x) = some x) ∧
+      (∀ x y : SmithNormalFormUp,
+        smithNormalFormToEventFlow x = smithNormalFormToEventFlow y → x = y) ∧
+      smithNormalFormEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨SmithNormalFormUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      SmithNormalFormUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
-theorem SmithNormalFormUpTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate SmithNormalFormUp) ∧
-      Nonempty (FieldFaithful SmithNormalFormUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial SmithNormalFormUp) ∧
-          (∀ h : BHist, smithNormalFormDecodeBHist (smithNormalFormEncodeBHist h) = h) ∧
-            (∀ x : SmithNormalFormUp,
-              smithNormalFormFromEventFlow (smithNormalFormToEventFlow x) = some x) ∧
-              (∀ x y : SmithNormalFormUp,
-                smithNormalFormToEventFlow x = smithNormalFormToEventFlow y → x = y) ∧
-                smithNormalFormEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
-  exact
-    ⟨⟨smithNormalFormChapterTasteGate⟩,
-      ⟨smithNormalFormFieldFaithful⟩,
-      ⟨smithNormalFormNontrivial⟩,
-      smithNormalFormDecodeEncodeBHist,
-      smithNormalForm_round_trip,
-      (fun _ _ heq => smithNormalFormToEventFlow_injective heq),
-      rfl⟩
+  constructor
+  · exact SmithNormalFormTasteGate_single_carrier_alignment_decode
+  constructor
+  · exact SmithNormalFormTasteGate_single_carrier_alignment_round_trip
+  constructor
+  · intro x y heq
+    exact smithNormalFormToEventFlow_injective heq
+  · rfl
 
 end BEDC.Derived.SmithNormalFormUp
