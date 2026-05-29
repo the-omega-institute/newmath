@@ -4876,6 +4876,7 @@ import BEDC.Derived.ModuleUp.KernelExactness
 import BEDC.Derived.ModuleUp.KernelSubmoduleClosure
 import BEDC.Derived.ModuleUp.StdBridge
 import BEDC.Derived.ModuleUp.ZeroActionAnnihilation
+import BEDC.Derived.ModulusContinuityUp.CauchyRoute
 import BEDC.Derived.ModulusContinuityUp.CompositionRoute
 import BEDC.Derived.ModulusContinuityUp.TasteGate
 import BEDC.Derived.ModulusIndexedDiagonalReadbackUp.TasteGate
@@ -6233,6 +6234,7 @@ import BEDC.Derived.RiemannIntegralUp.RegSeqRatHandoffTotality
 import BEDC.Derived.RiemannIntegralUp.TasteGate
 import BEDC.Derived.RiemannRearrangementUp
 import BEDC.Derived.RiemannRearrangementUp.TasteGate
+import BEDC.Derived.RiemannStieltjesUp.RouteClosure
 import BEDC.Derived.RiemannStieltjesUp.TasteGate
 import BEDC.Derived.RiemannSumGaugeUp.TasteGate
 import BEDC.Derived.RiemannSumUp

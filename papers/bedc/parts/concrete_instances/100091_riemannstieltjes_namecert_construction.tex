@@ -116,6 +116,7 @@ R=(F,A,T,S,I,E,H,C,P,N),
 $$
 every downstream refinement-window read is exhausted by the displayed rows $A,T,S,I,E,H,C,P,N$. In particular, no consumer can bypass the $\RiemannSumUp$ row $T$, the $\DyadicStepFunctionUp$ row $S$, the $\BoundedVariationUp$ row $A$, the $\RegulatedIntegralUp$ row $I$, or the $\RealUp$ seal $E$ when reading a refinement of the Riemann--Stieltjes packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannStieltjesUp.RiemannStieltjesCarrier\_refinement\_window\_exhaustion}
 \begin{proof}
 Project the accepted carrier from \autoref{def:riemann-stieltjes-carrier}. The only refinement-facing rows available to a consumer are the bounded-variation integrator row $A$, the tagged-sum row $T$, the dyadic step row $S$, the regulated-integral handoff row $I$, the endpoint seal $E$, and the structural rows $H,C,P,N$.
 
@@ -138,6 +139,7 @@ F,A,T,S,H,C,P,N \longrightarrow I .
 $$
 It cannot be replaced by a host measure integral, a quotient of integrators, a selected limiting partition, or an unrecorded real equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannStieltjesUp.RiemannStieltjesCarrier\_regulated\_integrator\_transport}
 \begin{proof}
 Project the carrier from \autoref{def:riemann-stieltjes-carrier}. The regulated integrand row $F$ and the bounded-variation integrator row $A$ are the only sources from which the packet can read the two integration inputs.
 
