@@ -176,4 +176,26 @@ theorem CauchySeedCarrierBoundary
     ⟨windowClosed, toleranceClosed, readbackClosed, sealClosed, transportClosed, replayClosed,
       provenanceClosed, nameClosed⟩
 
+theorem CauchyRootUnaryAdmission [AskSetup] [PackageSetup]
+    {stream request dyadic readback realSeal _transport _replay _provenance _localName tailRead
+      toleranceRead realRead : BHist} :
+    UnaryHistory stream -> UnaryHistory request -> UnaryHistory dyadic ->
+      UnaryHistory readback -> UnaryHistory realSeal -> Cont stream request tailRead ->
+        Cont tailRead dyadic toleranceRead -> Cont toleranceRead readback realRead ->
+          UnaryHistory tailRead ∧ UnaryHistory toleranceRead ∧ UnaryHistory realRead ∧
+            Cont stream request tailRead ∧ Cont tailRead dyadic toleranceRead ∧
+              Cont toleranceRead readback realRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory AskSetup PackageSetup
+  intro streamUnary requestUnary dyadicUnary readbackUnary _realSealUnary tailRoute
+    toleranceRoute realRoute
+  have tailReadUnary : UnaryHistory tailRead :=
+    unary_cont_closed streamUnary requestUnary tailRoute
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed tailReadUnary dyadicUnary toleranceRoute
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed toleranceReadUnary readbackUnary realRoute
+  exact
+    ⟨tailReadUnary, toleranceReadUnary, realReadUnary, tailRoute, toleranceRoute,
+      realRoute⟩
+
 end BEDC.Derived.CauchyUp
