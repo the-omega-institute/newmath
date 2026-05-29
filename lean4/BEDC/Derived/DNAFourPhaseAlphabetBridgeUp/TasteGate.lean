@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DNAFourPhaseAlphabetBridgeUp
@@ -289,5 +290,30 @@ theorem DNAFourPhaseAlphabetBridgeTasteGate_single_carrier_alignment :
   · intro x y heq
     exact dnaFourPhaseAlphabetBridgeToEventFlow_injective heq
   · rfl
+
+theorem DNAFourPhaseAlphabetBridgeUpTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate DNAFourPhaseAlphabetBridgeUp) ∧
+      Nonempty (FieldFaithful DNAFourPhaseAlphabetBridgeUp) ∧
+        Nonempty (Nontrivial DNAFourPhaseAlphabetBridgeUp) ∧
+          (forall h : BHist,
+            dnaFourPhaseAlphabetBridgeDecodeBHist
+                (dnaFourPhaseAlphabetBridgeEncodeBHist h) =
+              h) ∧
+            (forall x : DNAFourPhaseAlphabetBridgeUp,
+              dnaFourPhaseAlphabetBridgeFromEventFlow
+                  (dnaFourPhaseAlphabetBridgeToEventFlow x) =
+                some x) ∧
+              (forall x y : DNAFourPhaseAlphabetBridgeUp,
+                dnaFourPhaseAlphabetBridgeToEventFlow x =
+                    dnaFourPhaseAlphabetBridgeToEventFlow y ->
+                  x = y) ∧
+                dnaFourPhaseAlphabetBridgeEncodeBHist BHist.Empty = ([] : List BMark) := by
+  constructor
+  · exact ⟨dnaFourPhaseAlphabetBridgeChapterTasteGate⟩
+  constructor
+  · exact ⟨dnaFourPhaseAlphabetBridgeFieldFaithful⟩
+  constructor
+  · exact ⟨dnaFourPhaseAlphabetBridgeNontrivial⟩
+  exact DNAFourPhaseAlphabetBridgeTasteGate_single_carrier_alignment
 
 end BEDC.Derived.DNAFourPhaseAlphabetBridgeUp
