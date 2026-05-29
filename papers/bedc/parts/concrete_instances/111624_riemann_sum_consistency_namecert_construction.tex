@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\RiemannSumConsistencyUp$}
+\label{ch:concrete-instances-riemann-sum-consistency-namecert}
+\origin{human}
+
+Following Bishop and Bridges on finite Riemann sums and Darboux brackets, the $\RiemannSumConsistencyUp$ packet records the finite route by which a displayed Riemann-sum row is compared with Darboux envelope rows over a common mesh before any integration consumer reads it. It sits between the tagged-sum carrier of \autoref{ch:concrete-instances-riemannsum-namecert}, the Darboux upper/lower surface of \autoref{ch:concrete-instances-darboux-sum-namecert}, the mesh-refinement carrier of \autoref{ch:concrete-instances-finite-partition-mesh-namecert}, the regulated-function packet of \autoref{ch:concrete-instances-regulated-function-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite consistency boundary; it does not assert full Riemann integrability, Lebesgue integration, selected limits, host real equality, or choice.
+
+\begin{definition}[RiemannSumConsistency carrier]
+\label{def:riemann-sum-consistency-carrier}
+A $\RiemannSumConsistencyUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,D,M,F,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\RiemannSumUp$ row, carrying the tagged finite sum, tag-containment witnesses, cell widths, and finite arithmetic replay.
+\item $D$ is the $\DarbouxSumUp$ envelope row, carrying the lower sum, upper sum, and finite upper-minus-lower gap over the same displayed cell family.
+\item $M$ is the $\FinitePartitionMeshUp$ row, exposing the common finite mesh, endpoint adjacency, and refinement witness through which both $S$ and $D$ are read.
+\item $F$ is the $\RegulatedFunctionUp$ row, recording the finite oscillation and local constancy data used to place the tagged values of $S$ between the Darboux brackets of $D$.
+\item $E$ is the $\RealUp$ seal row reached only after $S,D,M,F$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the Riemann-sum row, Darboux envelope row, finite mesh row, regulated-function row, real seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a mesh-refinement request through $M$, then through the Riemann-sum and Darboux rows $S,D$, then through the regulated-function check $F$, and finally to the seal row $E$.
+\item $P$ is the $\Pkg$ provenance over $\RiemannSumConsistencyUp$, $\RiemannSumUp$, $\DarbouxSumUp$, $\FinitePartitionMeshUp$, $\RegulatedFunctionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RiemannSumConsistencyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,D,M,F,E,H,C,P,N$. It has no coordinate for a completed Riemann integral, Lebesgue integration, a selected limiting partition sequence, host equality of real functions, quotient real equality, countable choice, or ambient $\RealUp$ completeness beyond the displayed seal.
+\end{definition}
+
+\begin{theorem}[RiemannSumConsistency NameCert obligations]
+\label{thm:riemann-sum-consistency-namecert-obligations}
+For every accepted $\RiemannSumConsistencyUp$ carrier
+$$
+K=(S,D,M,F,E,H,C,P,N),
+$$
+the local $\NameCert_{\RiemannSumConsistencyUp}$ surface consists exactly of carrier admission for the displayed rows, Riemann-sum exposure through $S$, Darboux envelope exposure through $D$, common finite mesh exposure through $M$, regulated-function compatibility through $F$, terminal real-seal routing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riemann-sum-consistency-carrier}. The accepted packet exposes exactly the Riemann-sum row $S$, Darboux envelope row $D$, mesh row $M$, regulated-function row $F$, real seal $E$, and structural rows $H,C,P,N$.
+
+The mesh row is read before either comparison side is consumed. Hence the tagged sum and the Darboux lower/upper sums are both attached to the displayed finite cell family named by $M$.
+
+The regulated-function row supplies the finite compatibility check. It records only the carried oscillation and local-read data needed to compare the tag values in $S$ with the lower and upper brackets in $D$.
+
+Transport and replay are componentwise. The row $H$ preserves the same displayed rows, and $C$ replays the route from mesh request to tagged sum, Darboux envelope, regulated-function comparison, and terminal seal.
+
+Finally inspect $P$ and $N$. They source and name only the listed rows, so full integrability, Lebesgue integration, selected limits, host real equality, quotient real equality, choice, and ambient completeness have no projection from the packet.
+\end{proof}
+
+\begin{theorem}[RiemannSumConsistency Darboux bridge]
+\label{thm:riemann-sum-consistency-darboux-bridge}
+Every Darboux-facing read of an accepted $\RiemannSumConsistencyUp$ carrier factors through the finite route
+$$
+M\longmapsto (S,D)\longmapsto F\longmapsto E .
+$$
+The consumer receives the tagged finite sum of $S$ and the Darboux lower/upper envelope of $D$ over the mesh $M$, with $F$ certifying the finite regulated-function comparison before the real seal $E$ is exposed. No read bypasses this route by importing a host integral, a Lebesgue-measure object, a selected limiting sequence of partitions, host real equality, or choice.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:riemann-sum-consistency-namecert-obligations}. It requires carrier admission through the rows of \autoref{def:riemann-sum-consistency-carrier}.
+
+The mesh row $M$ is the common source of cells. Once $M$ is displayed, the Riemann-sum row $S$ supplies the finite tagged-sum side, and the Darboux row $D$ supplies the lower and upper envelope side over the same cells.
+
+The row $F$ is then the only compatibility row between those sides. It records the regulated-function evidence that the tag-value reads used by $S$ sit inside the Darboux bracket reads carried by $D$.
+
+The real seal $E$ is downstream of this finite comparison. Since the excluded analytic objects are not carrier coordinates, a Darboux-facing consumer can only read the displayed consistency bridge through $M,S,D,F,E,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[RiemannSumConsistency mesh refinement]
+\label{thm:riemann-sum-consistency-mesh-refinement}
+For every accepted $\RiemannSumConsistencyUp$ carrier, any displayed refinement of the finite mesh row $M$ must transport the Riemann-sum row $S$, Darboux envelope row $D$, regulated-function row $F$, and real seal $E$ through the same componentwise $\hsame$ and $\Cont$ replay rows. The refined packet remains a finite consistency certificate and exports no selected tag family, selected limiting mesh, host function equality, Lebesgue integration row, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the mesh row of the carrier. A refinement request is visible only through the $\FinitePartitionMeshUp$ row $M$ and the stored structural rows $H,C$.
+
+Transport acts componentwise on the comparison rows. The $\hsame$ row $H$ moves the Riemann-sum, Darboux envelope, regulated-function, and real-seal coordinates to the displayed refinement without adding a new coordinate.
+
+Replay then rebuilds the comparison route. The $\Cont$ row $C$ reads the refined mesh first, then replays the tagged-sum side, Darboux envelope side, regulated-function compatibility check, and terminal seal in the same order.
+
+Thus refinement changes only the displayed finite mesh data and its transported comparison rows. The packet still contains no selected tag family, limiting mesh sequence, host function equality, Lebesgue integration object, or ambient completeness principle.
+\end{proof}
+
+\closureat{RiemannSumConsistencyUp}{seedStr}
+
+\begin{closurestatus}{\RiemannSumConsistencyUp}
+  \constructivestory{A $\RiemannSumConsistencyUp$ packet is generated from a RiemannSumUp row, DarbouxSumUp envelope row, FinitePartitionMeshUp row, RegulatedFunctionUp row, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-sum-consistency-carrier}, \autoref{thm:riemann-sum-consistency-namecert-obligations}, \autoref{thm:riemann-sum-consistency-darboux-bridge}, and \autoref{thm:riemann-sum-consistency-mesh-refinement} seed the finite consistency route between Riemann sums, Darboux envelopes, mesh refinement, regulated-function comparison, and the RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full Riemann integrability, Lebesgue integration, selected limits, host real equality, quotient real equality, choice, ambient Real completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, Riemann-sum exposure, Darboux envelope exposure, finite mesh refinement, regulated-function compatibility, Real seal routing, transport, replay, provenance, and local naming for BEDC.Derived.RiemannSumConsistencyUp.}
+\end{closurestatus}

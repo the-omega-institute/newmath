@@ -269,4 +269,58 @@ theorem CauchyContinuityPrincipleCarrier_regseqrat_handoff [AskSetup] [PackageSe
       sealReadUnary, toleranceModulus, toleranceSource, sourceTarget, targetSeal, provenanceSig,
       sealSig⟩
 
+theorem CauchyContinuityPrincipleCarrier_modulus_composition_handoff [AskSetup] [PackageSetup]
+    {source₁ windows₁ tolerance₁ modulus₁ uniformity₁ target₁ sealRow₁ transport₁ replay₁
+      provenance₁ localName₁ source₂ windows₂ tolerance₂ modulus₂ uniformity₂ target₂ sealRow₂
+      transport₂ replay₂ provenance₂ localName₂ toleranceRead₁ sourceRead₁ targetRead₁
+      toleranceRead₂ sourceRead₂ targetRead₂ sealRead₂ : BHist}
+    {bundle₁ bundle₂ : ProbeBundle ProbeName} {pkg₁ pkg₂ : Pkg} :
+    CauchyContinuityPrincipleCarrier source₁ windows₁ tolerance₁ modulus₁ uniformity₁ target₁
+      sealRow₁ transport₁ replay₁ provenance₁ localName₁ bundle₁ pkg₁ ->
+      CauchyContinuityPrincipleCarrier source₂ windows₂ tolerance₂ modulus₂ uniformity₂ target₂
+        sealRow₂ transport₂ replay₂ provenance₂ localName₂ bundle₂ pkg₂ ->
+        Cont tolerance₁ modulus₁ toleranceRead₁ ->
+          Cont toleranceRead₁ source₁ sourceRead₁ ->
+            Cont sourceRead₁ target₁ targetRead₁ ->
+              hsame targetRead₁ source₂ ->
+                Cont tolerance₂ modulus₂ toleranceRead₂ ->
+                  Cont toleranceRead₂ source₂ sourceRead₂ ->
+                    Cont sourceRead₂ target₂ targetRead₂ ->
+                      Cont targetRead₂ sealRow₂ sealRead₂ ->
+                        PkgSig bundle₂ sealRead₂ pkg₂ ->
+                          UnaryHistory targetRead₁ ∧ UnaryHistory source₂ ∧
+                            UnaryHistory toleranceRead₂ ∧ UnaryHistory sourceRead₂ ∧
+                              UnaryHistory targetRead₂ ∧ UnaryHistory sealRead₂ ∧
+                                hsame targetRead₁ source₂ ∧
+                                  Cont sourceRead₂ target₂ targetRead₂ ∧
+                                    PkgSig bundle₂ sealRead₂ pkg₂ := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory hsame
+  intro carrier₁ carrier₂ toleranceModulus₁ toleranceSource₁ sourceTarget₁ targetSource
+    toleranceModulus₂ toleranceSource₂ sourceTarget₂ targetSeal₂ sealSig₂
+  obtain ⟨sourceUnary₁, _windowsUnary₁, toleranceUnary₁, modulusUnary₁, _uniformityUnary₁,
+    targetUnary₁, _sealUnary₁, _transportUnary₁, _replayUnary₁, _provenanceUnary₁,
+    _localNameUnary₁, _provenanceSig₁, _localNameSig₁⟩ := carrier₁
+  obtain ⟨_sourceUnary₂, _windowsUnary₂, toleranceUnary₂, modulusUnary₂, _uniformityUnary₂,
+    targetUnary₂, sealUnary₂, _transportUnary₂, _replayUnary₂, _provenanceUnary₂,
+    _localNameUnary₂, _provenanceSig₂, _localNameSig₂⟩ := carrier₂
+  have toleranceReadUnary₁ : UnaryHistory toleranceRead₁ :=
+    unary_cont_closed toleranceUnary₁ modulusUnary₁ toleranceModulus₁
+  have sourceReadUnary₁ : UnaryHistory sourceRead₁ :=
+    unary_cont_closed toleranceReadUnary₁ sourceUnary₁ toleranceSource₁
+  have targetReadUnary₁ : UnaryHistory targetRead₁ :=
+    unary_cont_closed sourceReadUnary₁ targetUnary₁ sourceTarget₁
+  have sourceUnary₂ : UnaryHistory source₂ :=
+    unary_transport targetReadUnary₁ targetSource
+  have toleranceReadUnary₂ : UnaryHistory toleranceRead₂ :=
+    unary_cont_closed toleranceUnary₂ modulusUnary₂ toleranceModulus₂
+  have sourceReadUnary₂ : UnaryHistory sourceRead₂ :=
+    unary_cont_closed toleranceReadUnary₂ sourceUnary₂ toleranceSource₂
+  have targetReadUnary₂ : UnaryHistory targetRead₂ :=
+    unary_cont_closed sourceReadUnary₂ targetUnary₂ sourceTarget₂
+  have sealReadUnary₂ : UnaryHistory sealRead₂ :=
+    unary_cont_closed targetReadUnary₂ sealUnary₂ targetSeal₂
+  exact
+    ⟨targetReadUnary₁, sourceUnary₂, toleranceReadUnary₂, sourceReadUnary₂,
+      targetReadUnary₂, sealReadUnary₂, targetSource, sourceTarget₂, sealSig₂⟩
+
 end BEDC.Derived.CauchyContinuityPrincipleUp
