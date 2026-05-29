@@ -168,10 +168,6 @@ def load_namecert_manifest(path: Path) -> list[dict]:
     return rows
 
 
-def load_manifest(path: Path) -> list[dict]:
-    return load_namecert_manifest(path)
-
-
 def namecert_indexes(rows: list[dict]) -> tuple[dict[str, dict], dict[str, dict]]:
     by_source: dict[str, dict] = {}
     by_slug: dict[str, dict] = {}
@@ -227,6 +223,72 @@ def detect_namecert_row(path: Path, text: str, by_source: dict[str, dict], by_sl
     return None
 
 
+def _paper_tex_body(path: Path, main_tex: Path) -> str:
+    text = text_without_comments(path.read_text(encoding="utf-8", errors="ignore"))
+    if path.resolve() == main_tex.resolve() and "\\begin{document}" in text:
+        return text.split("\\begin{document}", 1)[1]
+    return text
+
+
+def _walk_main_inputs(path: Path, main_tex: Path, part: str = "", chapter: str = "") -> list[tuple[Path, str, str]]:
+    if not path.exists() or path.suffix.lower() != ".tex":
+        return []
+    rows: list[tuple[Path, str, str]] = []
+    cursor_part = part
+    cursor_chapter = chapter
+    for match in STRUCTURE_RE.finditer(_paper_tex_body(path, main_tex)):
+        command, value = match.group(1), match.group(2).strip()
+        if command == "part":
+            cursor_part = value
+        elif command == "chapter":
+            cursor_chapter = value
+        elif command in {"input", "include"}:
+            child = resolve_tex_input(value, path.parent)
+            if child is None or not child.exists():
+                continue
+            rows.append((child, cursor_part, cursor_chapter))
+            rows.extend(_walk_main_inputs(child, main_tex, cursor_part, cursor_chapter))
+    return rows
+
+
+def _build_paper_row(
+    path: Path,
+    order: int,
+    part: str,
+    chapter: str,
+    by_source: dict[str, dict],
+    by_slug: dict[str, dict],
+) -> dict:
+    text = path.read_text(encoding="utf-8", errors="ignore")
+    nc_row = detect_namecert_row(path, text, by_source, by_slug)
+    title = tex_title(path, chapter or human_title(path))
+    if nc_row:
+        slug = str(nc_row["slug"])
+        html_url = str(nc_row.get("html_url") or f"namecert/{slug}/")
+        region = str(nc_row.get("region") or normalize_region(slug))
+        kind = "namecert"
+        reused = True
+    else:
+        slug = source_slug(path)
+        html_url = f"paper/{order}-{slug}/"
+        region = normalize_region(slug)
+        kind = "tex"
+        reused = False
+    return {
+        "scope": "paper",
+        "kind": kind,
+        "order": order,
+        "part": part,
+        "chapter": title if re.search(r"\\chapter\{", text_without_comments(text)) else chapter,
+        "slug": slug,
+        "title": title,
+        "source": relative_source(path),
+        "region": region,
+        "html_url": html_url,
+        "reused_namecert": reused,
+    }
+
+
 def scan_paper_sources(main_tex: Path = MAIN_TEX, namecert_rows: list[dict] | None = None) -> list[dict]:
     """Walk the paper input tree and return manifest rows in document order."""
     if namecert_rows is None:
@@ -235,65 +297,13 @@ def scan_paper_sources(main_tex: Path = MAIN_TEX, namecert_rows: list[dict] | No
     rows: list[dict] = []
     seen_sources: set[Path] = set()
     order = 0
-
-    def emit(path: Path, part: str, chapter: str) -> None:
-        nonlocal order
+    for path, part, chapter in _walk_main_inputs(main_tex.resolve(), main_tex.resolve()):
         resolved = path.resolve()
         if resolved in seen_sources or not resolved.exists() or resolved.suffix.lower() != ".tex":
-            return
+            continue
         seen_sources.add(resolved)
-        text = resolved.read_text(encoding="utf-8", errors="ignore")
-        nc_row = detect_namecert_row(resolved, text, by_source, by_slug)
         order += 1
-        title = tex_title(resolved, chapter or human_title(resolved))
-        if nc_row:
-            slug = str(nc_row["slug"])
-            html_url = str(nc_row.get("html_url") or f"namecert/{slug}/")
-            region = str(nc_row.get("region") or normalize_region(slug))
-            kind = "namecert"
-            reused = True
-        else:
-            slug = source_slug(resolved)
-            html_url = f"paper/{order}-{slug}/"
-            region = normalize_region(slug)
-            kind = "tex"
-            reused = False
-        rows.append({
-            "scope": "paper",
-            "kind": kind,
-            "order": order,
-            "part": part,
-            "chapter": title if re.search(r"\\chapter\{", text_without_comments(text)) else chapter,
-            "slug": slug,
-            "title": title,
-            "source": relative_source(resolved),
-            "region": region,
-            "html_url": html_url,
-            "reused_namecert": reused,
-        })
-
-    def walk(path: Path, part: str, chapter: str) -> None:
-        if not path.exists() or path.suffix.lower() != ".tex":
-            return
-        text = text_without_comments(path.read_text(encoding="utf-8", errors="ignore"))
-        if path.resolve() == main_tex.resolve() and "\\begin{document}" in text:
-            text = text.split("\\begin{document}", 1)[1]
-        cursor_part = part
-        cursor_chapter = chapter
-        for match in STRUCTURE_RE.finditer(text):
-            command, value = match.group(1), match.group(2).strip()
-            if command == "part":
-                cursor_part = value
-            elif command == "chapter":
-                cursor_chapter = value
-            elif command in {"input", "include"}:
-                child = resolve_tex_input(value, path.parent)
-                if child is None or not child.exists():
-                    continue
-                emit(child, cursor_part, cursor_chapter)
-                walk(child, cursor_part, cursor_chapter)
-
-    walk(main_tex.resolve(), "", "")
+        rows.append(_build_paper_row(resolved, order, part, chapter, by_source, by_slug))
     return rows
 
 
@@ -700,7 +710,7 @@ def limited_manifest_rows(rows: list[dict], selected: list[dict]) -> list[dict]:
     return [row for row in rows if str(row.get("source")) in selected_sources or str(row.get("html_url")) in selected_urls]
 
 
-def main() -> int:
+def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--scope", choices=sorted(SCOPES), default="namecert")
     parser.add_argument("--manifest", type=Path, default=DEFAULT_NAMECERT_MANIFEST)
@@ -722,37 +732,41 @@ def main() -> int:
     parser.add_argument("-m", "--mode", default="", help="make4ht mode, e.g. mathjax")
     parser.add_argument("--force", action="store_true", help="ignore per-page stamps and rebuild selected pages")
     parser.add_argument("--write-manifest-only", action="store_true")
-    args = parser.parse_args()
+    return parser.parse_args()
 
-    namecert_rows, paper_rows = load_rows_for_scope(args.scope, args.manifest, args.paper_manifest)
+
+def _select_rows(args: argparse.Namespace, namecert_rows: list[dict], paper_rows: list[dict]) -> list[dict]:
     render_rows = rows_to_render(args.scope, namecert_rows, paper_rows)
     if args.limit and args.limit > 0:
         if args.scope == "all":
-            selected = rows_to_render(
+            return rows_to_render(
                 args.scope,
                 namecert_rows[: args.limit],
                 paper_rows[: args.limit],
             )
-        else:
-            selected = render_rows[: args.limit]
-    else:
-        selected = render_rows
+        return render_rows[: args.limit]
+    return render_rows
 
+
+def _write_selected_manifests(
+    args: argparse.Namespace,
+    namecert_rows: list[dict],
+    paper_rows: list[dict],
+    selected: list[dict],
+) -> None:
     if args.scope in {"namecert", "all"}:
         rows = limited_manifest_rows(namecert_rows, selected) if args.write_selected_manifest else namecert_rows
         write_manifest(args.manifest, rows)
     if args.scope in {"paper", "all"}:
         rows = limited_manifest_rows(paper_rows, selected) if args.write_selected_manifest else paper_rows
         write_manifest(args.paper_manifest, rows)
-    if args.write_manifest_only:
-        print(
-            f"[namecert-html] wrote manifests: namecert={len(namecert_rows)} paper={len(paper_rows)} scope={args.scope}"
-        )
-        return 0
 
-    if not selected:
-        print("[namecert-html] no sources selected")
-        return 0
+
+def _prepare_render_context(
+    args: argparse.Namespace,
+    namecert_rows: list[dict],
+    paper_rows: list[dict],
+) -> tuple[dict[str, list[str]], dict[str, list[str]], dict[str, dict], str, bool] | int:
     if shutil.which("make4ht") is None:
         print("[namecert-html] make4ht not found", file=sys.stderr)
         return 1
@@ -766,6 +780,18 @@ def main() -> int:
     NAMECERT_OUT_ROOT.mkdir(parents=True, exist_ok=True)
     PAPER_OUT_ROOT.mkdir(parents=True, exist_ok=True)
     macro_prelude = collect_macro_prelude(all_manifest_rows)
+    return upstream, downstream, rows_by_region, macro_prelude, use_build_dir
+
+
+def _render_selected_rows(
+    args: argparse.Namespace,
+    selected: list[dict],
+    rows_by_region: dict[str, dict],
+    upstream: dict[str, list[str]],
+    downstream: dict[str, list[str]],
+    use_build_dir: bool,
+    macro_prelude: str,
+) -> tuple[list[dict], int]:
     workers = max(1, args.jobs)
     failures: list[dict] = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
@@ -797,6 +823,10 @@ def main() -> int:
             if not result["ok"]:
                 failures.append(result)
 
+    return failures, cached_count
+
+
+def _finish_render(args: argparse.Namespace, selected: list[dict], failures: list[dict], cached_count: int) -> int:
     if failures:
         for fail in failures:
             print(f"[namecert-html] {fail.get('scope', args.scope)}:{fail['slug']}: {fail['error']}", file=sys.stderr)
@@ -808,6 +838,35 @@ def main() -> int:
     built_count = len(selected) - cached_count
     print(f"[namecert-html] built {built_count}/{len(selected)} page(s); cached {cached_count}")
     return 0
+
+
+def main() -> int:
+    args = parse_args()
+    namecert_rows, paper_rows = load_rows_for_scope(args.scope, args.manifest, args.paper_manifest)
+    selected = _select_rows(args, namecert_rows, paper_rows)
+    _write_selected_manifests(args, namecert_rows, paper_rows, selected)
+    if args.write_manifest_only:
+        print(
+            f"[namecert-html] wrote manifests: namecert={len(namecert_rows)} paper={len(paper_rows)} scope={args.scope}"
+        )
+        return 0
+    if not selected:
+        print("[namecert-html] no sources selected")
+        return 0
+    context = _prepare_render_context(args, namecert_rows, paper_rows)
+    if isinstance(context, int):
+        return context
+    upstream, downstream, rows_by_region, macro_prelude, use_build_dir = context
+    failures, cached_count = _render_selected_rows(
+        args,
+        selected,
+        rows_by_region,
+        upstream,
+        downstream,
+        use_build_dir,
+        macro_prelude,
+    )
+    return _finish_render(args, selected, failures, cached_count)
 
 
 if __name__ == "__main__":

@@ -47,7 +47,7 @@ def validate_url(url: object, prefixes: tuple[str, ...]) -> str | None:
     return None
 
 
-def load_manifest_rows(path: Path) -> list[dict]:
+def read_manifest_rows(path: Path) -> list[dict]:
     if not path.exists():
         return []
     manifest = load_json(path)
@@ -61,7 +61,7 @@ def check_namecert_manifest(
     require_manifest_pages: bool = False,
 ) -> list[str]:
     errors: list[str] = []
-    sources = load_manifest_rows(manifest_path)
+    sources = read_manifest_rows(manifest_path)
     for source in sources:
         slug = source.get("slug")
         region = source.get("region")
@@ -85,7 +85,7 @@ def check_paper_manifest(
     require_manifest_pages: bool = False,
 ) -> list[str]:
     errors: list[str] = []
-    sources = load_manifest_rows(paper_manifest_path)
+    sources = read_manifest_rows(paper_manifest_path)
     for source in sources:
         slug = source.get("slug")
         url = source.get("html_url")
@@ -110,7 +110,7 @@ def check_dependency_links(
 ) -> list[str]:
     errors: list[str] = []
     dep = load_json(dependency_path)
-    sources = load_manifest_rows(manifest_path)
+    sources = read_manifest_rows(manifest_path)
     nodes = dep.get("nodes", []) if isinstance(dep, dict) else []
     node_by_region = {n.get("id"): n for n in nodes if isinstance(n, dict)}
     urls_by_region: dict[str, set[str]] = {}
