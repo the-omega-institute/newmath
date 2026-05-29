@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\LowDiscrepancySequenceUp$}
+\label{ch:concrete-instances-low-discrepancy-sequence-namecert}
+\origin{human}
+
+Following Niederreiter and Kuipers--Niederreiter on uniform distribution and star discrepancy, the $\LowDiscrepancySequenceUp$ packet records finite sampling windows whose axis-aligned box counts are available to numerical-integration consumers. It sits over the rational coordinate carrier of \autoref{ch:concrete-instances-rat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, the tagged Riemann route of \autoref{ch:concrete-instances-riemannintegral-namecert}, and the Darboux comparison route of \autoref{ch:concrete-instances-darbouxintegral-namecert}. The packet names finite count and discrepancy-budget data; it does not import measure theory, probability, selected infinite sequence data, or an ambient equidistribution theorem.
+
+\begin{definition}[Low-discrepancy sequence carrier]
+\label{def:low-discrepancy-sequence-carrier}
+A $\LowDiscrepancySequenceUp$ carrier is a finite $\BHist$ packet
+$$
+L=(P,Q,B,D,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the sample-point window row, listing a finite prefix of sample points with rational coordinate names.
+\item $Q$ is the rational box-test row, listing anchored axis-aligned rational boxes whose endpoints are read through $\RatUp$ and whose real-facing comparisons are sealed through $\RealUp$.
+\item $B$ is the exact finite-count row, assigning to each displayed box the number of sample points from $P$ that fall inside it.
+\item $D$ is the star-discrepancy budget row, recording the rational error budget attached to the displayed count comparison.
+\item $H$ records componentwise $\hsame$ transport for sample windows, box tests, exact counts, discrepancy budgets, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a sampling request through $P,Q,B,D,H,G,N$.
+\item $G$ is the $\Pkg$ provenance over $\LowDiscrepancySequenceUp$, $\RatUp$, $\RealUp$, $\RiemannIntegralUp$, $\DarbouxIntegralUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LowDiscrepancySequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $P,Q,B,D,H,C,G,N$. It has no coordinate for a host probability space, Lebesgue measure, selected infinite sequence, asymptotic limit, randomized sampler, or ambient real-completeness principle.
+\end{definition}
+
+\begin{theorem}[Low-discrepancy sequence NameCert obligations]
+\label{thm:low-discrepancy-sequence-namecert-obligations}
+For every accepted $\LowDiscrepancySequenceUp$ carrier $L=(P,Q,B,D,H,C,G,N)$, the local $\NameCert_{\LowDiscrepancySequenceUp}$ surface consists exactly of five finite obligation rows: carrier admission for $P,Q,B,D,H,C,G,N$; rational box-test exactness through $Q$; exact finite membership counts through $B$; star-discrepancy budget exposure through $D$; and transport, replay, provenance, and local naming through $H,C,G,N$ with non-escape from host measure, probability, selected infinite sequences, randomized sampling, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:low-discrepancy-sequence-carrier}. The only sampling data rows are the finite sample window $P$, rational box tests $Q$, exact finite counts $B$, and discrepancy budgets $D$.
+
+The rational box-test row is finite. Each box endpoint is read through the rational carrier and compared only through the displayed real-facing seal, so the test row does not add a measure algebra or probability event space.
+
+The exact count row is tied to the displayed window. It records membership counts for the boxes already listed in $Q$, and the discrepancy row $D$ records the budget attached to those counts rather than an asymptotic theorem.
+
+Finally $H,C,G,N$ transport, replay, source, and name the same packet. Since the excluded host objects are not coordinates of $L$, the five listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Low-discrepancy sequence star-discrepancy route]
+\label{thm:low-discrepancy-sequence-star-discrepancy-route}
+Every numerical-integration consumer of an accepted $\LowDiscrepancySequenceUp$ packet may read only the finite route
+$$
+P,Q \longmapsto B,D \longmapsto H,C,G,N .
+$$
+In particular, a $\RiemannIntegralUp$ or $\DarbouxIntegralUp$ consumer may use the displayed box counts and discrepancy budgets as finite sampling evidence, but it may not read host measure, probability, selected infinite sequence data, randomized sampling, or an asymptotic equidistribution endpoint from the packet.
+\end{theorem}
+\begin{proof}
+Start with an integration-facing request. The packet first exposes the finite sample window $P$ and the rational box tests $Q$, so every downstream read is already tied to displayed finite data.
+
+The rows $B$ and $D$ are the only numerical sampling rows. The count row supplies exact finite membership counts, and the discrepancy row supplies the rational error budget available to the integration consumer.
+
+The structural rows $H,C,G,N$ preserve the same route. They do not add measure, probability, selected infinite sequence data, randomized sampling, or asymptotic convergence data, so the integration consumer remains inside the finite star-discrepancy route.
+\end{proof}
+
+\closureat{LowDiscrepancySequenceUp}{seedStr}
+
+\begin{closurestatus}{\LowDiscrepancySequenceUp}
+  \constructivestory{A $\LowDiscrepancySequenceUp$ packet is generated from finite sample-point windows, rational box tests, exact finite counts, star-discrepancy budgets, componentwise hsame transport, displayed Cont replay, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:low-discrepancy-sequence-carrier}, \autoref{thm:low-discrepancy-sequence-namecert-obligations}, and \autoref{thm:low-discrepancy-sequence-star-discrepancy-route} seed the finite star-discrepancy sampling certificate for Riemann and Darboux integration consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host measure, probability, selected infinite sequence data, randomized sampling, asymptotic equidistribution, ambient real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rational box-test exactness, finite-count exactness, discrepancy-budget exposure, transport, replay, provenance, local naming, and TasteGate nontriviality with field faithfulness for BEDC.Derived.LowDiscrepancySequenceUp.}
+\end{closurestatus}

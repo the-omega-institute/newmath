@@ -175,4 +175,33 @@ theorem PseudometricCarrier_quotient_reflection_route [AskSetup] [PackageSetup]
     ⟨cert, reflectionUnary, completionUnary, streamReadbackDyadic, dyadicSealZero,
       localNamePkg, completionPkg⟩
 
+theorem PseudometricCarrier_distance_source [AskSetup] [PackageSetup]
+    {point distance dyadic stream readback sealRow zeroRow transport replay localName
+      distanceRead sealedDistance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PseudometricCarrier point distance dyadic stream readback sealRow zeroRow transport replay
+        localName bundle pkg ->
+      Cont distance stream distanceRead ->
+        Cont distanceRead sealRow sealedDistance ->
+          PkgSig bundle sealedDistance pkg ->
+            UnaryHistory distance ∧ UnaryHistory stream ∧ UnaryHistory readback ∧
+              UnaryHistory dyadic ∧ UnaryHistory sealRow ∧ UnaryHistory distanceRead ∧
+                UnaryHistory sealedDistance ∧ Cont distance stream distanceRead ∧
+                  Cont stream readback dyadic ∧ Cont dyadic sealRow zeroRow ∧
+                    Cont distanceRead sealRow sealedDistance ∧ PkgSig bundle localName pkg ∧
+                      PkgSig bundle sealedDistance pkg := by
+  -- BEDC touchpoint anchor: PseudometricCarrier BHist Cont ProbeBundle PkgSig
+  intro carrier distanceRoute sealedRoute sealedPkg
+  obtain ⟨_pointUnary, distanceUnary, dyadicUnary, streamUnary, readbackUnary, sealUnary,
+    _zeroUnary, _transportUnary, _replayUnary, _localNameUnary, streamReadbackDyadic,
+    dyadicSealZero, _localNameZero, localNamePkg⟩ := carrier
+  have distanceReadUnary : UnaryHistory distanceRead :=
+    unary_cont_closed distanceUnary streamUnary distanceRoute
+  have sealedDistanceUnary : UnaryHistory sealedDistance :=
+    unary_cont_closed distanceReadUnary sealUnary sealedRoute
+  exact
+    ⟨distanceUnary, streamUnary, readbackUnary, dyadicUnary, sealUnary, distanceReadUnary,
+      sealedDistanceUnary, distanceRoute, streamReadbackDyadic, dyadicSealZero, sealedRoute,
+      localNamePkg, sealedPkg⟩
+
 end BEDC.Derived.PseudometricUp
