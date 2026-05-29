@@ -11,7 +11,9 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive UniformSequentialContinuityUp : Type where
-  | mk (F M S WX WY RX RY DX DY EX EY H C P N : BHist) : UniformSequentialContinuityUp
+  | mk
+      (F M S W_X W_Y R_X R_Y D_X D_Y E_X E_Y H C P N : BHist) :
+      UniformSequentialContinuityUp
   deriving DecidableEq
 
 def uniformSequentialContinuityEncodeBHist : BHist → RawEvent
@@ -26,9 +28,10 @@ def uniformSequentialContinuityDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (uniformSequentialContinuityDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (uniformSequentialContinuityDecodeBHist tail)
 
-private theorem uniformSequentialContinuityDecodeEncodeBHist :
+private theorem UniformSequentialContinuityTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
-      uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEncodeBHist h) = h := by
+      uniformSequentialContinuityDecodeBHist
+        (uniformSequentialContinuityEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -36,110 +39,139 @@ private theorem uniformSequentialContinuityDecodeEncodeBHist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def uniformSequentialContinuityFields : UniformSequentialContinuityUp → List BHist
+def uniformSequentialContinuityFields :
+    UniformSequentialContinuityUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | UniformSequentialContinuityUp.mk F M S WX WY RX RY DX DY EX EY H C P N =>
-      [F, M, S, WX, WY, RX, RY, DX, DY, EX, EY, H, C, P, N]
+  | UniformSequentialContinuityUp.mk
+      F M S W_X W_Y R_X R_Y D_X D_Y E_X E_Y H C P N =>
+      [F, M, S, W_X, W_Y, R_X, R_Y, D_X, D_Y, E_X, E_Y, H, C, P, N]
 
-def uniformSequentialContinuityToEventFlow : UniformSequentialContinuityUp → EventFlow
+def uniformSequentialContinuityToEventFlow :
+    UniformSequentialContinuityUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (uniformSequentialContinuityFields x).map uniformSequentialContinuityEncodeBHist
+  fun x => (uniformSequentialContinuityFields x).map uniformSequentialContinuityEncodeBHist
 
-private def uniformSequentialContinuityEventAt : Nat → EventFlow → RawEvent
+def uniformSequentialContinuityEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => uniformSequentialContinuityEventAt index rest
+  | Nat.succ index, _event :: rest =>
+      uniformSequentialContinuityEventAtDefault index rest
 
-def uniformSequentialContinuityFromEventFlow (ef : EventFlow) :
-    Option UniformSequentialContinuityUp :=
+def uniformSequentialContinuityFromEventFlow :
+    EventFlow → Option UniformSequentialContinuityUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (UniformSequentialContinuityUp.mk
-      (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEventAt 0 ef))
-      (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEventAt 1 ef))
-      (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEventAt 2 ef))
-      (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEventAt 3 ef))
-      (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEventAt 4 ef))
-      (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEventAt 5 ef))
-      (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEventAt 6 ef))
-      (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEventAt 7 ef))
-      (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEventAt 8 ef))
-      (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEventAt 9 ef))
-      (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEventAt 10 ef))
-      (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEventAt 11 ef))
-      (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEventAt 12 ef))
-      (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEventAt 13 ef))
-      (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEventAt 14 ef)))
+  fun ef =>
+    some
+      (UniformSequentialContinuityUp.mk
+        (uniformSequentialContinuityDecodeBHist
+          (uniformSequentialContinuityEventAtDefault 0 ef))
+        (uniformSequentialContinuityDecodeBHist
+          (uniformSequentialContinuityEventAtDefault 1 ef))
+        (uniformSequentialContinuityDecodeBHist
+          (uniformSequentialContinuityEventAtDefault 2 ef))
+        (uniformSequentialContinuityDecodeBHist
+          (uniformSequentialContinuityEventAtDefault 3 ef))
+        (uniformSequentialContinuityDecodeBHist
+          (uniformSequentialContinuityEventAtDefault 4 ef))
+        (uniformSequentialContinuityDecodeBHist
+          (uniformSequentialContinuityEventAtDefault 5 ef))
+        (uniformSequentialContinuityDecodeBHist
+          (uniformSequentialContinuityEventAtDefault 6 ef))
+        (uniformSequentialContinuityDecodeBHist
+          (uniformSequentialContinuityEventAtDefault 7 ef))
+        (uniformSequentialContinuityDecodeBHist
+          (uniformSequentialContinuityEventAtDefault 8 ef))
+        (uniformSequentialContinuityDecodeBHist
+          (uniformSequentialContinuityEventAtDefault 9 ef))
+        (uniformSequentialContinuityDecodeBHist
+          (uniformSequentialContinuityEventAtDefault 10 ef))
+        (uniformSequentialContinuityDecodeBHist
+          (uniformSequentialContinuityEventAtDefault 11 ef))
+        (uniformSequentialContinuityDecodeBHist
+          (uniformSequentialContinuityEventAtDefault 12 ef))
+        (uniformSequentialContinuityDecodeBHist
+          (uniformSequentialContinuityEventAtDefault 13 ef))
+        (uniformSequentialContinuityDecodeBHist
+          (uniformSequentialContinuityEventAtDefault 14 ef)))
 
-private theorem uniformSequentialContinuity_round_trip
-    (x : UniformSequentialContinuityUp) :
-    uniformSequentialContinuityFromEventFlow
-      (uniformSequentialContinuityToEventFlow x) = some x := by
+private theorem UniformSequentialContinuityTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : UniformSequentialContinuityUp,
+      uniformSequentialContinuityFromEventFlow
+        (uniformSequentialContinuityToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
-  | mk F M S WX WY RX RY DX DY EX EY H C P N =>
+  | mk F M S W_X W_Y R_X R_Y D_X D_Y E_X E_Y H C P N =>
       change
         some
           (UniformSequentialContinuityUp.mk
-            (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEncodeBHist F))
-            (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEncodeBHist M))
-            (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEncodeBHist S))
-            (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEncodeBHist WX))
-            (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEncodeBHist WY))
-            (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEncodeBHist RX))
-            (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEncodeBHist RY))
-            (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEncodeBHist DX))
-            (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEncodeBHist DY))
-            (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEncodeBHist EX))
-            (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEncodeBHist EY))
-            (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEncodeBHist H))
-            (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEncodeBHist C))
-            (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEncodeBHist P))
-            (uniformSequentialContinuityDecodeBHist (uniformSequentialContinuityEncodeBHist N))) =
-          some (UniformSequentialContinuityUp.mk F M S WX WY RX RY DX DY EX EY H C P N)
-      rw [uniformSequentialContinuityDecodeEncodeBHist F,
-        uniformSequentialContinuityDecodeEncodeBHist M,
-        uniformSequentialContinuityDecodeEncodeBHist S,
-        uniformSequentialContinuityDecodeEncodeBHist WX,
-        uniformSequentialContinuityDecodeEncodeBHist WY,
-        uniformSequentialContinuityDecodeEncodeBHist RX,
-        uniformSequentialContinuityDecodeEncodeBHist RY,
-        uniformSequentialContinuityDecodeEncodeBHist DX,
-        uniformSequentialContinuityDecodeEncodeBHist DY,
-        uniformSequentialContinuityDecodeEncodeBHist EX,
-        uniformSequentialContinuityDecodeEncodeBHist EY,
-        uniformSequentialContinuityDecodeEncodeBHist H,
-        uniformSequentialContinuityDecodeEncodeBHist C,
-        uniformSequentialContinuityDecodeEncodeBHist P,
-        uniformSequentialContinuityDecodeEncodeBHist N]
+            (uniformSequentialContinuityDecodeBHist
+              (uniformSequentialContinuityEncodeBHist F))
+            (uniformSequentialContinuityDecodeBHist
+              (uniformSequentialContinuityEncodeBHist M))
+            (uniformSequentialContinuityDecodeBHist
+              (uniformSequentialContinuityEncodeBHist S))
+            (uniformSequentialContinuityDecodeBHist
+              (uniformSequentialContinuityEncodeBHist W_X))
+            (uniformSequentialContinuityDecodeBHist
+              (uniformSequentialContinuityEncodeBHist W_Y))
+            (uniformSequentialContinuityDecodeBHist
+              (uniformSequentialContinuityEncodeBHist R_X))
+            (uniformSequentialContinuityDecodeBHist
+              (uniformSequentialContinuityEncodeBHist R_Y))
+            (uniformSequentialContinuityDecodeBHist
+              (uniformSequentialContinuityEncodeBHist D_X))
+            (uniformSequentialContinuityDecodeBHist
+              (uniformSequentialContinuityEncodeBHist D_Y))
+            (uniformSequentialContinuityDecodeBHist
+              (uniformSequentialContinuityEncodeBHist E_X))
+            (uniformSequentialContinuityDecodeBHist
+              (uniformSequentialContinuityEncodeBHist E_Y))
+            (uniformSequentialContinuityDecodeBHist
+              (uniformSequentialContinuityEncodeBHist H))
+            (uniformSequentialContinuityDecodeBHist
+              (uniformSequentialContinuityEncodeBHist C))
+            (uniformSequentialContinuityDecodeBHist
+              (uniformSequentialContinuityEncodeBHist P))
+            (uniformSequentialContinuityDecodeBHist
+              (uniformSequentialContinuityEncodeBHist N))) =
+          some (UniformSequentialContinuityUp.mk
+            F M S W_X W_Y R_X R_Y D_X D_Y E_X E_Y H C P N)
+      rw [UniformSequentialContinuityTasteGate_single_carrier_alignment_decode F,
+        UniformSequentialContinuityTasteGate_single_carrier_alignment_decode M,
+        UniformSequentialContinuityTasteGate_single_carrier_alignment_decode S,
+        UniformSequentialContinuityTasteGate_single_carrier_alignment_decode W_X,
+        UniformSequentialContinuityTasteGate_single_carrier_alignment_decode W_Y,
+        UniformSequentialContinuityTasteGate_single_carrier_alignment_decode R_X,
+        UniformSequentialContinuityTasteGate_single_carrier_alignment_decode R_Y,
+        UniformSequentialContinuityTasteGate_single_carrier_alignment_decode D_X,
+        UniformSequentialContinuityTasteGate_single_carrier_alignment_decode D_Y,
+        UniformSequentialContinuityTasteGate_single_carrier_alignment_decode E_X,
+        UniformSequentialContinuityTasteGate_single_carrier_alignment_decode E_Y,
+        UniformSequentialContinuityTasteGate_single_carrier_alignment_decode H,
+        UniformSequentialContinuityTasteGate_single_carrier_alignment_decode C,
+        UniformSequentialContinuityTasteGate_single_carrier_alignment_decode P,
+        UniformSequentialContinuityTasteGate_single_carrier_alignment_decode N]
 
-private theorem uniformSequentialContinuityToEventFlow_injective
+private theorem UniformSequentialContinuityTasteGate_single_carrier_alignment_injective
     {x y : UniformSequentialContinuityUp} :
-    uniformSequentialContinuityToEventFlow x = uniformSequentialContinuityToEventFlow y →
-      x = y := by
+    uniformSequentialContinuityToEventFlow x =
+      uniformSequentialContinuityToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      uniformSequentialContinuityFromEventFlow (uniformSequentialContinuityToEventFlow x) =
-        uniformSequentialContinuityFromEventFlow (uniformSequentialContinuityToEventFlow y) :=
+      uniformSequentialContinuityFromEventFlow
+          (uniformSequentialContinuityToEventFlow x) =
+        uniformSequentialContinuityFromEventFlow
+          (uniformSequentialContinuityToEventFlow y) :=
     congrArg uniformSequentialContinuityFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (uniformSequentialContinuity_round_trip x).symm
-      (Eq.trans hread (uniformSequentialContinuity_round_trip y)))
-
-private theorem uniformSequentialContinuity_fields_faithful :
-    ∀ x y : UniformSequentialContinuityUp,
-      uniformSequentialContinuityFields x = uniformSequentialContinuityFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk F₁ M₁ S₁ WX₁ WY₁ RX₁ RY₁ DX₁ DY₁ EX₁ EY₁ H₁ C₁ P₁ N₁ =>
-      cases y with
-      | mk F₂ M₂ S₂ WX₂ WY₂ RX₂ RY₂ DX₂ DY₂ EX₂ EY₂ H₂ C₂ P₂ N₂ =>
-          cases hfields
-          rfl
+    (Eq.trans
+      (UniformSequentialContinuityTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (UniformSequentialContinuityTasteGate_single_carrier_alignment_round_trip y)))
 
 instance uniformSequentialContinuityBHistCarrier :
     BHistCarrier UniformSequentialContinuityUp where
@@ -153,55 +185,32 @@ instance uniformSequentialContinuityChapterTasteGate :
   round_trip := by
     intro x
     change
-      uniformSequentialContinuityFromEventFlow (uniformSequentialContinuityToEventFlow x) =
-        some x
-    exact uniformSequentialContinuity_round_trip x
+      uniformSequentialContinuityFromEventFlow
+        (uniformSequentialContinuityToEventFlow x) = some x
+    exact UniformSequentialContinuityTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (uniformSequentialContinuityToEventFlow_injective heq)
+    exact hxy (UniformSequentialContinuityTasteGate_single_carrier_alignment_injective heq)
 
-instance uniformSequentialContinuityFieldFaithful :
-    FieldFaithful UniformSequentialContinuityUp where
+theorem UniformSequentialContinuityTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      uniformSequentialContinuityDecodeBHist
+        (uniformSequentialContinuityEncodeBHist h) = h) ∧
+      (∀ x : UniformSequentialContinuityUp,
+        uniformSequentialContinuityFromEventFlow
+          (uniformSequentialContinuityToEventFlow x) = some x) ∧
+      (∀ x y : UniformSequentialContinuityUp,
+        uniformSequentialContinuityToEventFlow x =
+          uniformSequentialContinuityToEventFlow y → x = y) ∧
+      uniformSequentialContinuityEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  fields := uniformSequentialContinuityFields
-  field_faithful := uniformSequentialContinuity_fields_faithful
-
-instance uniformSequentialContinuityNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial UniformSequentialContinuityUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨UniformSequentialContinuityUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      UniformSequentialContinuityUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
-theorem UniformSequentialContinuityUpTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate UniformSequentialContinuityUp) ∧
-      Nonempty (FieldFaithful UniformSequentialContinuityUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial UniformSequentialContinuityUp) ∧
-          (∀ h : BHist,
-            uniformSequentialContinuityDecodeBHist
-              (uniformSequentialContinuityEncodeBHist h) = h) ∧
-            (∀ x : UniformSequentialContinuityUp,
-              uniformSequentialContinuityFromEventFlow
-                (uniformSequentialContinuityToEventFlow x) = some x) ∧
-              (∀ x y : UniformSequentialContinuityUp,
-                uniformSequentialContinuityToEventFlow x =
-                  uniformSequentialContinuityToEventFlow y → x = y) ∧
-                uniformSequentialContinuityEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
-  exact
-    ⟨⟨uniformSequentialContinuityChapterTasteGate⟩,
-      ⟨uniformSequentialContinuityFieldFaithful⟩,
-      ⟨uniformSequentialContinuityNontrivial⟩,
-      uniformSequentialContinuityDecodeEncodeBHist,
-      uniformSequentialContinuity_round_trip,
-      (fun _ _ heq => uniformSequentialContinuityToEventFlow_injective heq),
-      rfl⟩
+  constructor
+  · exact UniformSequentialContinuityTasteGate_single_carrier_alignment_decode
+  constructor
+  · exact UniformSequentialContinuityTasteGate_single_carrier_alignment_round_trip
+  constructor
+  · intro x y heq
+    exact UniformSequentialContinuityTasteGate_single_carrier_alignment_injective heq
+  · rfl
 
 end BEDC.Derived.UniformSequentialContinuityUp
