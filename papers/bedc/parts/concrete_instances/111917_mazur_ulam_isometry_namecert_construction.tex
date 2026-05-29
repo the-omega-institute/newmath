@@ -1,0 +1,79 @@
+\chapter{Mazur--Ulam Isometry NameCert Construction}
+\label{ch:concrete-instances-mazur-ulam-isometry-namecert}
+\origin{human}
+
+Following Mazur and Ulam, the $\MazurUlamIsometryUp$ packet records the finite BEDC surface on which a surjective isometry between real normed spaces is inspected as midpoint-preserving and affine after its basepoint translation is displayed. It sits over the source and target normed carriers of \autoref{ch:concrete-instances-normedspace-namecert}, the scalar seal of \autoref{ch:concrete-instances-real-namecert}, the vector-operation rows of \autoref{ch:concrete-instances-vecspace-namecert}, and the induced-distance readback of \autoref{ch:concrete-instances-metric-namecert}. The chapter names the classical Mazur--Ulam route as finite history, classifier, midpoint, and affine-transport data; it does not import host affine geometry, choice of a global inverse outside the displayed isometry graph, or ambient Banach completeness.
+
+\begin{definition}[Mazur--Ulam isometry carrier]
+\label{def:mazur-ulam-isometry-carrier}
+A $\MazurUlamIsometryUp$ carrier is a finite $\BHist$ packet
+$$
+U=(E,F,G,M,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the source $\NormedSpaceUp$ row, exposing its $\VecSpaceUp$ operations, $\RealUp$ scalar reads, norm row, induced $\MetricSpaceUp$ distance row, transport, replay, provenance, and local naming.
+\item $F$ is the target $\NormedSpaceUp$ row with the same displayed vector, scalar, norm, metric, transport, replay, provenance, and local naming surface.
+\item $G$ is the isometry graph row, recording accepted source histories, accepted target histories, distance equality through the metric rows of $E,F$, surjectivity by displayed target witnesses, and the distinguished basepoint pair used for translation.
+\item $M$ is the midpoint ledger, listing each accepted pair of source histories, the displayed source midpoint read, its graph image, the displayed target midpoint read of the two graph images, and the equality certificate connecting those target reads.
+\item $A$ is the affine-transport row, recording the translated map that sends the source basepoint to the target basepoint and preserving midpoint, dyadic convex, additive, and real-scalar reads through finite $\RealUp$ and $\VecSpaceUp$ ledgers.
+\item $H$ records componentwise $\hsame$ transport for $E,F,G,M,A$ and the support rows.
+\item $C$ records displayed $\Cont$ replay for isometry inspection, midpoint requests, dyadic refinement, affine transport, and downstream Banach or operator-facing consumers.
+\item $P$ is the $\Pkg$ provenance over $\MazurUlamIsometryUp$, $\NormedSpaceUp$, $\RealUp$, $\VecSpaceUp$, $\MetricSpaceUp$, $\BanachUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MazurUlamIsometryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,F,G,M,A,H,C,P,N$. It has no coordinate for host affine hulls, quotient point equality, selected inverse functions outside $G$, ambient Banach completion, or non-displayed scalar extensionality.
+\end{definition}
+
+\begin{theorem}[Mazur--Ulam midpoint preservation]
+\label{thm:mazur-ulam-midpoint-preservation}
+For every accepted $\MazurUlamIsometryUp$ carrier
+$$
+U=(E,F,G,M,A,H,C,P,N),
+$$
+each midpoint read exported by the isometry graph $G$ factors through the midpoint ledger $M$. Thus a consumer receives the source midpoint row, the two endpoint graph rows, the target midpoint row, and the displayed equality certificate as one finite packet, with no appeal to host convexity or undisplayed affine structure.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:mazur-ulam-isometry-carrier}. The graph row $G$ supplies the accepted source endpoints, their target images, and the metric equality data, while $M$ is the only row whose coordinates mention midpoint comparison.
+
+A midpoint request therefore cannot be answered by the graph alone. It must read the source midpoint through the $\VecSpaceUp$ and $\RealUp$ rows of $E$, read the target midpoint through the corresponding rows of $F$, and then use the equality certificate stored in $M$.
+
+The transport and replay rows $H,C$ preserve exactly this dependency. Since the carrier has no host affine-hull row, no ambient convexity coordinate, and no selected inverse outside $G$, the displayed midpoint ledger exhausts the midpoint-preservation surface.
+\end{proof}
+
+\begin{theorem}[Mazur--Ulam affine linearity]
+\label{thm:mazur-ulam-affine-linearity}
+For every accepted $\MazurUlamIsometryUp$ carrier $U=(E,F,G,M,A,H,C,P,N)$, every affine read of the translated isometry factors through the affine-transport row $A$ after the graph row $G$ and midpoint ledger $M$ have been displayed. The exported affine route consists of the basepoint translation, midpoint preservation, dyadic convex refinement, additivity readback, real-scalar readback, and componentwise transport through the same source and target normed carriers.
+\end{theorem}
+\begin{proof}
+Begin with the basepoint pair in $G$. The translated map is a displayed graph read sending the chosen source basepoint to the chosen target basepoint; no separate inverse or host affine map is available in the carrier.
+
+The midpoint step is supplied by $M$. Repeated midpoint inspection gives the dyadic convex ledger over the $\RealUp$ and $\VecSpaceUp$ rows already visible in $E$ and $F$.
+
+The affine row $A$ packages the remaining additivity and real-scalar readback. Its entries are typed over the same graph, midpoint, scalar, and vector-operation rows, so downstream consumers cannot replace the finite route by an ambient linearity theorem, a quotient equality of functions, or an external Banach-space completion.
+\end{proof}
+
+\begin{theorem}[Mazur--Ulam NameCert obligations]
+\label{thm:mazur-ulam-namecert-obligations}
+For every accepted $\MazurUlamIsometryUp$ carrier $U=(E,F,G,M,A,H,C,P,N)$, the local $\NameCert_{\MazurUlamIsometryUp}$ surface consists exactly of source normed-carrier admission, target normed-carrier admission, isometry-graph exactness, midpoint-ledger preservation, affine-transport readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:mazur-ulam-isometry-carrier}. The only analytic rows are $E,F,G,M,A$, and the only structural rows are $H,C,P,N$.
+
+The first two obligations expose the source and target normed-space data. These rows bind vector operations, real scalars, norms, and induced metrics before the isometry graph can be inspected.
+
+Graph exactness is read from $G$, midpoint preservation from $M$, and affine transport from $A$. Each row depends on the preceding displayed rows, so the NameCert surface records a single route from isometry data to midpoint preservation and then to affine readback.
+
+Finally $H,C,P,N$ move, replay, source, and name the same packet. Since no carrier coordinate stores host affine geometry, an undisplayed inverse, quotient function equality, Banach completeness, or external scalar extensionality, the listed rows exhaust the local obligations.
+\end{proof}
+
+\closureat{MazurUlamIsometryUp}{seedStr}
+\begin{closurestatus}{\MazurUlamIsometryUp}
+  \constructivestory{A $\MazurUlamIsometryUp$ packet is generated from source and target NormedSpace rows, an isometry graph, a midpoint ledger, an affine-transport row, componentwise hsame transport, displayed replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:mazur-ulam-isometry-carrier}, \autoref{thm:mazur-ulam-midpoint-preservation}, \autoref{thm:mazur-ulam-affine-linearity}, and \autoref{thm:mazur-ulam-namecert-obligations} seed the finite Mazur--Ulam route over NormedSpace, Real, VecSpace, MetricSpace, and Banach-facing rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Banach completeness, inverse selection beyond the displayed graph, host affine geometry, quotient equality of maps, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source and target carrier admission, isometry-graph exactness, midpoint-ledger preservation, affine-transport readback, transport, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}
