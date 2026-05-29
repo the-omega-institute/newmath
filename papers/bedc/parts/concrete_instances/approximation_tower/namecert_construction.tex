@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\ApproximationTowerUp$}
+\label{ch:concrete-instances-approximation-tower-namecert}
+\origin{ai}
+
+The $\ApproximationTowerUp$ packet realizes the finite level-and-window tower of \autoref{ch:visions-reality-constrained-approximation-towers} as BEDC NameCert data. It sits beside the finite stream observations of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. Those siblings provide windows, readback, tolerance, and sealing rows; this packet binds them into one finite approximation tower without adding a hidden limit selector, quotient stream, ambient completeness theorem, or physical-adequacy row.
+
+\begin{definition}[ApproximationTower carrier]
+\label{def:approximation-tower-carrier}
+An $\ApproximationTowerUp$ carrier is a finite $\BHist$ packet
+$$
+A=(L,W,D,R,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $L$ is the finite level ledger naming the approximation stages consumed by the tower.
+\item $W$ is the $\StreamNameUp$ window row recording the finite observations available at each level.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row assigning displayed dyadic error bounds to the levels.
+\item $R$ is the $\RegSeqRatUp$ readback row that compares successive level observations through regular rational data.
+\item $E$ is the $\RealUp$ seal row reached only after the finite windows, dyadic tolerances, and regular readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $L,W,D,R,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the level ledger, finite windows, dyadic tolerances, regular readback, and real seal.
+\item $P$ is the $\Pkg$ provenance over $\ApproximationTowerUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ApproximationTowerUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a hidden source, quotient stream equality, selected limit point, ambient completeness theorem, or physical-adequacy classifier.
+\end{definition}
+\leanstmt{BEDC.Derived.ApproximationTowerUp}
+
+\begin{theorem}[ApproximationTower finite NameCert surface]
+\label{thm:approximation-tower-finite-namecert-surface}
+For every accepted $\ApproximationTowerUp$ carrier $A=(L,W,D,R,E,H,C,P,N)$, the local $\NameCert_{\ApproximationTowerUp}$ surface consists exactly of carrier admission for the finite level ledger, finite window exposure through $W$, dyadic tolerance exposure through $D$, regular rational readback through $R$, terminal $\RealUp$ sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+No accepted read exports a hidden limit selector, quotient stream, unbounded level family, ambient real-completeness row, or physical-adequacy classifier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:approximation-tower-carrier}. Its analytic rows are $L,W,D,R,E$, and its structural rows are $H,C,P,N$.
+
+The level ledger $L$ fixes the finite tower shape before any observation is read. The window row $W$ then exposes the finite stream observations at those levels, and the dyadic row $D$ supplies the displayed tolerance bounds attached to the same levels.
+
+The regular readback row $R$ compares the displayed windows through rational data, after which the real seal $E$ may be consumed. Transport, replay, provenance, and local naming preserve only this route through $H,C,P,N$.
+
+Since the carrier has no coordinate for a hidden source, quotient stream, selected limit, ambient real completeness, or physical-adequacy classifier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\closureat{ApproximationTowerUp}{seedStr}
+
+\begin{closurestatus}{\ApproximationTowerUp}
+  \constructivestory{An $\ApproximationTowerUp$ packet is generated from a finite level ledger, StreamName windows, DyadicRatCore tolerances, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:approximation-tower-carrier} and \autoref{thm:approximation-tower-finite-namecert-surface} seed the finite approximation tower over level, window, dyadic tolerance, regular readback, real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not provide checked Lean obligations, hidden-source recovery, quotient stream equality, ambient completeness, physical adequacy, or a selected limit for $\ApproximationTowerUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exposure, dyadic tolerance exactness, regular readback, real sealing, transport, replay, provenance, and local naming for BEDC.Derived.ApproximationTowerUp.}
+\end{closurestatus}
