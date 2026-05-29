@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\BoundedSelfAdjointOperatorUp$}
+\label{ch:concrete-instances-bounded-self-adjoint-operator-namecert}
+\origin{human}
+
+Following Reed--Simon and Conway on bounded self-adjoint operators on Hilbert spaces, the $\BoundedSelfAdjointOperatorUp$ packet records the finite BEDC surface on which a bounded operator can be read together with its adjoint witness and symmetry row. It sits after the Hilbert carrier of \autoref{ch:concrete-instances-hilbert-namecert}, the inner-product row of \autoref{ch:concrete-instances-innerproduct-namecert}, the operator-norm boundary of \autoref{ch:concrete-instances-operator-norm-namecert}, the normal-operator packet of \autoref{ch:concrete-instances-normal-operator-namecert}, and the spectral-radius consumer boundary of \autoref{ch:concrete-instances-spectral-radius-namecert}. The packet names bounded self-adjoint operator data; it does not assert spectral-measure existence, functional calculus, compactness, diagonalization, or a host operator-space equality.
+
+\begin{definition}[Bounded self-adjoint operator carrier]
+\label{def:bounded-self-adjoint-operator-carrier}
+A $\BoundedSelfAdjointOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+A=(H,I,G,N,J,S,R,T,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the $\HilbertUp$ carrier row for the source and target Hilbert endpoint.
+\item $I$ is the $\InnerProductUp$ row through which adjoint comparisons are read.
+\item $G$ is the bounded operator graph row, recording the displayed action on accepted vectors.
+\item $N$ is the $\OperatorNormUp$ bound row attached to the same graph.
+\item $J$ is the adjoint witness row, pairing the action row with the inner-product transpose read.
+\item $S$ is the self-adjoint symmetry row, identifying the displayed operator row with its adjoint witness through the same $\hsame$ route.
+\item $R$ is the spectral-consumer boundary row read by $\NormalOperatorUp$ and $\SpectralRadiusUp$ consumers before any spectral request is allowed.
+\item $T$ records componentwise transport for the Hilbert carrier, inner-product row, graph, norm bound, adjoint witness, symmetry, spectral boundary, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite operator observation through graph inspection, norm-bound readback, adjoint comparison, symmetry checking, and spectral-consumer boundary exposure.
+\item $P$ is the $\Pkg$ provenance over $\BoundedSelfAdjointOperatorUp$, $\HilbertUp$, $\InnerProductUp$, $\BoundedLinearOperatorUp$, $\OperatorNormUp$, $\NormalOperatorUp$, $\SpectralRadiusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\BoundedSelfAdjointOperatorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $H,I,G,N,J,S,R,T,C,P,L$. The carrier has no coordinate for spectral measures, eigenbasis selection, compactness, quotient operator equality, unbounded domains, or an ambient functional calculus.
+\end{definition}
+
+\begin{theorem}[Bounded self-adjoint operator NameCert obligations]
+\label{thm:bounded-self-adjoint-operator-namecert-obligations}
+For every accepted $\BoundedSelfAdjointOperatorUp$ carrier
+$$
+A=(H,I,G,N,J,S,R,T,C,P,L),
+$$
+the local $\NameCert_{\BoundedSelfAdjointOperatorUp}$ surface consists exactly of carrier admission, Hilbert-source exposure, inner-product readback, bounded graph admission, operator-norm control, adjoint witness display, self-adjoint symmetry, spectral-consumer boundary exposure, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bounded-self-adjoint-operator-carrier}. The accepted packet exposes exactly the Hilbert, inner-product, graph, norm, adjoint, symmetry, spectral-boundary, transport, replay, provenance, and naming rows.
+
+The boundedness obligation is read from $G,N$. The graph row records the displayed operator action, and the operator-norm row supplies the finite bound consumed by downstream operator-theory packets.
+
+The adjoint and symmetry obligations are read from $I,J,S$. The inner-product row provides the comparison surface, the adjoint witness row records the transpose read, and the self-adjoint row identifies the accepted operator with that witness.
+
+Finally $R,T,C,P,L$ keep every normal-operator or spectral-radius consumer behind the same finite packet. Since no carrier row stores a spectral measure, eigenbasis, compactness assertion, quotient operator equality, unbounded-domain extension, or functional calculus, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Bounded self-adjoint operator adjoint symmetry]
+\label{thm:bounded-self-adjoint-operator-adjoint-symmetry}
+For every accepted $\BoundedSelfAdjointOperatorUp$ carrier $A=(H,I,G,N,J,S,R,T,C,P,L)$, any consumer that reads the operator graph through $G$ and the adjoint witness through $J$ must read the self-adjoint symmetry row $S$ over the same Hilbert and inner-product rows $H,I$ before it can export a $\NormalOperatorUp$ or $\SpectralRadiusUp$ boundary read.
+\end{theorem}
+\begin{proof}
+Begin with the graph and adjoint rows. The graph row $G$ is typed over the Hilbert carrier $H$, while the adjoint witness $J$ is read through the inner-product row $I$ over the same source.
+
+Apply the NameCert obligations above. They require $S$ to be displayed as the row binding the operator graph and adjoint witness before the packet is consumed as self-adjoint data.
+
+The spectral boundary row $R$ is downstream of this symmetry check. Transport, replay, provenance, and local naming through $T,C,P,L$ preserve the same route, so no consumer can replace the displayed adjoint symmetry by a host operator equality, spectral decomposition, compactness claim, or functional-calculus object.
+\end{proof}
+
+\closureat{BoundedSelfAdjointOperatorUp}{seedStr}
+\begin{closurestatus}{\BoundedSelfAdjointOperatorUp}
+  \constructivestory{A $\BoundedSelfAdjointOperatorUp$ packet is generated from a Hilbert carrier, an inner-product row, a bounded operator graph, an operator-norm bound, an adjoint witness, a self-adjoint symmetry row, a spectral-consumer boundary, componentwise transport, displayed replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-self-adjoint-operator-carrier}, \autoref{thm:bounded-self-adjoint-operator-namecert-obligations}, and \autoref{thm:bounded-self-adjoint-operator-adjoint-symmetry} seed the bounded self-adjoint operator packet over Hilbert, inner-product, operator-norm, normal-operator, and spectral-radius rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close spectral measures, positive-operator calculus, compactness, diagonalization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded graph admission, norm control, adjoint witness exactness, self-adjoint symmetry, spectral-consumer boundary, transport, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}
