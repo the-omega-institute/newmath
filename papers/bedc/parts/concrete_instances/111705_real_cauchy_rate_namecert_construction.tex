@@ -1,0 +1,54 @@
+\chapter{A Concrete Naming Certificate for $\RealCauchyRateUp$}
+\label{ch:concrete-instances-real-cauchy-rate-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive real analysis, the $\RealCauchyRateUp$ packet records the finite rate certificate by which a regular rational sequence is sealed as a real name. It sits after the positive dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, and the regular-sequence readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and before the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names the rate boundary only; it does not assert quotient real equality, selected representatives, trichotomy, countable choice, or ambient real completeness.
+
+\begin{definition}[Real Cauchy-rate carrier]
+\label{def:real-cauchy-rate-carrier}
+A $\RealCauchyRateUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,S,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ positive-tolerance ledger, carrying the dyadic radii and comparison budget used to test a regular Cauchy tail.
+\item $S$ is the $\StreamNameUp$ finite-window row opened at the tolerance and tail indices requested by $D$.
+\item $Q$ is the $\RegSeqRatUp$ regularity row, recording the rational readback and tail-comparison schedule served by the window row $S$.
+\item $R$ is the $\RealUp$ seal row receiving the accepted regular rational name after the displayed rate data has been read.
+\item $H$ records componentwise $\hsame$ transport for the dyadic tolerance, stream window, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from positive dyadic tolerance requests through finite StreamName windows, RegSeqRat regularity, and the Real seal handoff.
+\item $P$ is the $\Pkg$ provenance over $\RealCauchyRateUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealCauchyRateUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,Q,R,H,C,P,N$. It has no coordinate for quotient real equality, a selected representative stream, trichotomy, countable-choice selection, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Real Cauchy-rate regular NameCert]
+\label{thm:real-cauchy-rate-regular-namecert}
+For every accepted $\RealCauchyRateUp$ carrier $K=(D,S,Q,R,H,C,P,N)$, the local NameCert surface consists exactly of carrier admission, positive dyadic tolerance stability, $\RegSeqRatUp$ compatibility, $\RealUp$ seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and ledger non-escape from quotient real equality, selected representatives, trichotomy, countable choice, and ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-cauchy-rate-carrier}. The projection exposes only the dyadic tolerance ledger, finite stream window, regular rational readback, Real seal, transport, replay, provenance, and local naming rows.
+
+Tolerance stability is read from the row $D$. A positive dyadic request can be transported only by the componentwise $\hsame$ row $H$ and replayed only by the displayed $\Cont$ row $C$, so the same tolerance budget remains visible after transport.
+
+RegSeqRat compatibility is downstream of the finite window. The window row $S$ is opened before the regularity row $Q$ is inspected, and the theorem records that the Real-facing readback remains a regular rational tail rather than a host stream quotient.
+
+The Real seal handoff is the row $R$. It consumes the displayed route $D,S,Q$ and exports only the named real boundary supplied by the packet.
+
+Finally $P$ and $N$ exhaust provenance and naming. Since the excluded host objects are not carrier coordinates, the local ledger cannot export them.
+\end{proof}
+
+\closureat{RealCauchyRateUp}{seedStr}
+
+\begin{closurestatus}{\RealCauchyRateUp}
+  \constructivestory{A $\RealCauchyRateUp$ packet is generated from a DyadicRatCore positive-tolerance ledger, finite StreamName windows, RegSeqRat regular rational readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-cauchy-rate-carrier} and \autoref{thm:real-cauchy-rate-regular-namecert} seed the finite rate certificate between $\RegSeqRatUp$ and $\RealUp$ through $\DyadicRatCoreUp$ and $\StreamNameUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RealCauchyRateUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, selected representatives, trichotomy, countable-choice selection, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance stability, regular-sequence compatibility, Real seal handoff, and ledger non-escape for the same finite rate packet.}
+\end{closurestatus}
