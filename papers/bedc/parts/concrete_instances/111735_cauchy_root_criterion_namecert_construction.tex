@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRootCriterionUp$}
+\label{ch:concrete-instances-cauchy-root-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyRootCriterionUp$ packet records the finite root-test convergence data by which a real series source enters the regular Cauchy root-test route before any endpoint seal is read. It sits beside the real-series carrier of \autoref{ch:concrete-instances-realseries-namecert}, the regular root-test packet of \autoref{ch:concrete-instances-regular-cauchy-root-test-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The certificate names the constructive root criterion as displayed finite rows; it does not choose an infinite sum, import host completeness, or select a limit.
+
+\begin{definition}[Cauchy root criterion carrier]
+\label{def:cauchy-root-criterion-carrier}
+A $\CauchyRootCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,Q,W,D,T,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\RealSeriesUp$ source row, exposing the real-valued term stream only through the series packet.
+\item $Q$ is the root-bound witness row, recording a displayed dyadic bound below the unit scale and the finite entry index after which the bound is admitted.
+\item $W$ is the finite $\StreamNameUp$ tail-window row used to inspect the term stream and partial-tail data named by $A$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, carrying the precision cells, slack conversions, and comparison budgets used by the root-bound witness.
+\item $T$ is the $\RegularCauchyRootTestUp$ handoff row that turns $Q,W,D$ into a regular Cauchy tail route.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained only after the root-test handoff has consumed the same tail windows and dyadic tolerance row.
+\item $E$ is the $\RealUp$ seal row reached only after the regular rational readback is displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, root-bound, window, tolerance, handoff, readback, seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a root-bound request through $A,Q,W,D,T,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyRootCriterionUp$, $\RealSeriesUp$, $\RegularCauchyRootTestUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyRootCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host root-limit theorem, selected infinite sum, quotient stream equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy root criterion NameCert obligations]
+\label{thm:cauchy-root-criterion-namecert-obligations}
+For every accepted $\CauchyRootCriterionUp$ carrier $K=(A,Q,W,D,T,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyRootCriterionUp}$ surface consists exactly of carrier admission for the displayed packet, $\RealSeriesUp$ source exposure, root-bound witness exposure, finite $\StreamNameUp$ tail-window admission, $\DyadicRatCoreUp$ tolerance exactness, $\RegularCauchyRootTestUp$ handoff, $\RegSeqRatUp$ readback, $\RealUp$ seal non-escape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:cauchy-root-criterion-carrier}. The source, witness, window, tolerance, handoff, readback, seal, and structural rows are precisely $A,Q,W,D,T,R,E,H,C,P,N$.
+
+The root-bound portion is read through $Q,W,D$. The bound and entry index are displayed by $Q$, the inspected tail data are displayed by $W$, and the tolerance comparisons are displayed by $D$.
+
+The handoff row $T$ is then forced through $\RegularCauchyRootTestUp$. It consumes the same windows and dyadic budget before any regular rational readback $R$ can be exposed.
+
+Finally $E,H,C,P,N$ seal, transport, replay, source, and name the same route. Since no omitted coordinate exists for host root limits, selected sums, quotient equality, choice, trichotomy, or ambient completeness, these rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy root criterion RealSeries handoff]
+\label{thm:cauchy-root-criterion-real-series-handoff}
+Every $\RealSeriesUp$ consumer of an accepted $\CauchyRootCriterionUp$ packet reaches a $\RegSeqRatUp$ readback and then a $\RealUp$ seal only through the finite route
+$$
+\RealSeriesUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegularCauchyRootTestUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+Thus the root criterion supplies downstream RealSeries and RealPowerSeries chapters with a finite convergence-test certificate, while exporting no host completeness theorem, selected infinite sum, quotient stream equality, countable-choice schedule, or detached Real seal.
+\end{theorem}
+\begin{proof}
+Start with the source row $A$. It exposes only the real-series term surface and cannot by itself supply convergence, an infinite sum, or an endpoint.
+
+Read the finite tail windows and dyadic tolerance ledger next. The rows $W$ and $D$ place every inspected root-bound request inside displayed StreamName and DyadicRatCore data.
+
+Apply the regular root-test handoff row $T$. It is the only route from the root-bound witness to a regular Cauchy tail, and the readback row $R$ is downstream of that handoff.
+
+The terminal Real seal $E$ is therefore reached only after $R$. Componentwise transport, displayed replay, provenance, and local naming preserve this order, so no consumer receives host completeness, a selected sum, quotient stream equality, choice data, or a detached seal.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyRootCriterionUp$ endpoint read factors through a RealSeries source row, root-bound witness, finite StreamName tail windows, DyadicRatCore tolerance ledger, RegularCauchyRootTest handoff, RegSeqRat readback, RealUp seal, transport, replay, provenance, and local NameCert row.}
+
+\independenceWitness{realseries, regular-cauchy-root-test, streamname, dyadicratcore, regseqrat, real: no listed sibling supplies the whole eleven-row packet $K=(A,Q,W,D,T,R,E,H,C,P,N)$, because each sibling contributes only the source series, root-test handoff, finite windows, dyadic tolerance, regular readback, or endpoint seal while this packet binds them into one finite NameCert route.}
+
+\closureat{CauchyRootCriterionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRootCriterionUp}
+  \constructivestory{A $\CauchyRootCriterionUp$ packet is generated from a RealSeries source row, root-bound witness, finite StreamName tail windows, DyadicRatCore tolerance ledger, RegularCauchyRootTest handoff, RegSeqRat readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-root-criterion-carrier}, \autoref{thm:cauchy-root-criterion-namecert-obligations}, and \autoref{thm:cauchy-root-criterion-real-series-handoff} seed the finite root-test convergence route from RealSeries data to regular rational readback and the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host completeness, selected infinite sums, quotient stream equality, countable choice, trichotomy, RealPowerSeries convergence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, root-bound witness exactness, finite window coverage, dyadic tolerance exactness, root-test handoff, RegSeqRat readback, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyRootCriterionUp.}
+\end{closurestatus}
