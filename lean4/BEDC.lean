@@ -3959,6 +3959,7 @@ import BEDC.Derived.HausdorffSpaceUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HeineCantorUp.TasteGate
 import BEDC.Derived.HellySelectionUp.TasteGate
+import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
 import BEDC.Derived.HenstockKurzweilUp.TasteGate
 import BEDC.Derived.HilbertCubeUp.TasteGate
 import BEDC.Derived.HilbertUp
