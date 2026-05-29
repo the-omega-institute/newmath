@@ -68,6 +68,24 @@ The consumer must therefore pass through $A,B,W,T,K,Q,R$. These rows display the
 The remaining rows $H,C,P,N$ preserve the same route under componentwise transport, replay it for accepted requests, record its package provenance, and name it locally. Because no excluded object is a carrier coordinate, the Real seal cannot bypass the finite product route.
 \end{proof}
 
+\begin{theorem}[Mertens absolute-convergence product route]
+\label{thm:mertens-absolute-convergence-product-route}
+Let $M=(A,B,W,K,T,Q,R,E,H,C,P,N)$ be an accepted $\MertensCauchyProductTheoremUp$ carrier. If the displayed tail row $T$ is read as an $\AbsoluteConvergenceUp$ witness for one source series, then every downstream product-convergence consumer must read the route through
+$$
+\AbsoluteConvergenceUp \longmapsto \CauchyProductCriterionUp \longmapsto
+(\CauchySeriesProductUp\ \text{or}\ \FastSeriesProductUp) \longmapsto
+\RegSeqRatUp \longmapsto \RealUp
+$$
+before invoking $\CauchyProductConvergenceUp$. The branch therefore exports the Mertens theorem to product-convergence consumers only through the absolute-convergence handoff, the finite product criterion, the product packet, the regular rational readback, and the terminal Real seal.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:mertens-cauchy-product-theorem-carrier}. Under the stated branch hypothesis, the tail row $T$ is not merely an unnamed tail ledger: it is displayed as an $\AbsoluteConvergenceUp$ row and is therefore subject to the handoff and Real-seal nonescape routes of \autoref{thm:absolute-convergence-cauchy-majorant-handoff} and \autoref{thm:absolute-convergence-real-seal-nonescape}.
+
+Feed this displayed tail row into the local route of \autoref{thm:mertens-cauchy-product-theorem-real-seal-route}. The route forces the consumer through $W,T,K,Q,R,E$; hence the absolute-convergence branch reaches the product packet only after the $\CauchyProductCriterionUp$ handoff and reaches the terminal seal only after the $\CauchySeriesProductUp$ or $\FastSeriesProductUp$ packet and the $\RegSeqRatUp$ readback.
+
+Finally compose this finite Mertens route with the downstream fusion theorem \autoref{thm:cauchy-product-convergence-tail-budget-fusion}. A $\CauchyProductConvergenceUp$ consumer that consumes the Mertens surface reads the source-window and tail-control stage before any regular rational, dyadic, stream-name, or Real-seal product data. Thus the absolute-convergence branch cannot enter product convergence except through the displayed criterion, product, readback, and Real-seal corridor.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\MertensCauchyProductTheoremUp$ consumer that reaches a terminal $\RealUp$ seal while omitting a source-series row, CauchyConvolution window, tail ledger, CauchyProductCriterion handoff, product packet, RegSeqRat readback, transport row, replay row, provenance row, or local naming row refutes the packet.}
 
 \independenceWitness{cauchyconvolution, cauchy-product-criterion, cauchy-series-product, fastseriesproduct, regseqrat, real: no listed sibling supplies the whole theorem packet $M=(A,B,W,K,T,Q,R,E,H,C,P,N)$, because each sibling contributes only convolution cells, a criterion handoff, a product packet, readback, or terminal seal while this chapter binds them as one finite Mertens certificate.}

@@ -114,6 +114,23 @@ Now identify this ordered prefix with \autoref{def:stolz-cesaro-finite-differenc
 It remains to account for stability under accepted replay. By \autoref{thm:stolz-cesaro-namecert-obligations}, $\hsame$, $\Cont$, $\Pkg$, and local naming preserve the same finite-difference route, while the sibling $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyConvergenceModulusUp$, $\MonotoneSubsequenceUp$, and $\RealUp$ surfaces supply only their displayed rows. Thus every accepted completion-facing read is mediated by $Z_{\Delta}$ before $Q$ or $E$ becomes visible.
 \end{proof}
 
+\begin{theorem}[Stolz-Cesaro RegSeqRat handoff]\label{thm:stolz-cesaro-regseqrat-handoff}
+For every accepted $\StolzCesaroUp$ packet $Z=(A,B,\Delta A,\Delta B,D,T,Q,E,H,C,P,N)$, an accepted read of the row $Q$ is exactly the $\RegSeqRatUp$ handoff induced by the finite-difference subcarrier
+$$
+Z_{\Delta}=(A,B,\Delta A,\Delta B,D,T).
+$$
+Conversely, any accepted finite-difference packet exposing $Z_{\Delta}$ together with the displayed transport $H$, replay $C$, provenance $P$, and local name $N$ repacks as the same $Q$ handoff, and cannot supply a host limit, quotient stream, choice-selected subsequence, ambient completeness witness, or detached $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Start with an accepted read of $Q$. By \autoref{thm:stolz-cesaro-cauchy-tail-handoff}, that read is admitted only after the displayed route through $A,B,\Delta A,\Delta B,D,T$ has been exposed, so the source of $Q$ is the finite-difference subcarrier $Z_{\Delta}$.
+
+The exact obligation surface is supplied by \autoref{thm:stolz-cesaro-namecert-obligations}. It identifies carrier admission, denominator positivity, dyadic ratio transport, the tail schedule, $\Cont$ replay, $\Pkg$ provenance, and local naming as the rows that preserve the finite-difference route before $Q$ is read.
+
+For the converse, begin with an accepted finite-difference packet exposing $Z_{\Delta}$ and the structural rows $H,C,P,N$. The same obligation theorem preserves the route under displayed transport and replay, while \autoref{thm:stolz-cesaro-cauchy-tail-handoff} places the $\RegSeqRatUp$ row immediately after that route and before any $\RealUp$ seal-facing row.
+
+Thus the repacked packet reaches exactly the same $Q$ handoff. The excluded host limit, quotient stream, choice-selected subsequence, ambient-completeness, and detached-seal objects have no coordinate in $Z_{\Delta}$ or in the structural rows that name and replay it.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\StolzCesaroUp$ consumer that reaches a $\RegSeqRatUp$ handoff or $\RealUp$ seal-facing row without the displayed numerator windows, denominator windows, numerator differences, positive denominator steps, dyadic ratio-difference ledger, and finite tail-window schedule refutes the carrier surface.}
 
 \independenceWitness{streamname, regseqrat, dyadicratcore, cauchyconvergencemodulus, monotonesubsequence, real: no listed sibling supplies the whole twelve-row packet $Z=(A,B,\Delta A,\Delta B,D,T,Q,E,H,C,P,N)$, because each sibling contributes only a stream, regular-rational, dyadic, convergence-schedule, monotone-source, or real-seal surface while this chapter binds the quotient-tail certificate with transport, replay, provenance, and local naming.}
