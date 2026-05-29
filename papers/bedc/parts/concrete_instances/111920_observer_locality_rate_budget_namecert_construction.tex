@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\ObserverLocalityRateBudgetUp$}
+\label{ch:concrete-instances-observer-locality-rate-budget-namecert}
+\origin{ai}
+
+The $\ObserverLocalityRateBudgetUp$ packet realizes the Inter-Hist Locality maximum-rate read as a finite paired-observer budget rather than as a global frame, metric tensor, or host-valued speed. It consumes the multi-history configuration route of \autoref{ch:concrete-instances-multihistconfig-namecert}, the cross-Hist causal route of \autoref{ch:concrete-instances-crosshistcausal-namecert}, the maximum causal-rate surface of \autoref{ch:concrete-instances-maxcausalrate-namecert}, the public maximum-rate gate of \autoref{ch:concrete-instances-maxratereadgate-namecert}, and the rate-boundary refusal of \autoref{ch:concrete-instances-inter-hist-rate-boundary-namecert}. The packet is a concrete finite budget for observer-locality reads; it is not a global synchronization row, privileged frame, hidden clock, ambient metric geometry, or selected real-valued velocity.
+
+\begin{definition}[Observer locality rate-budget carrier]
+\label{def:observer-locality-rate-budget-carrier}
+An $\ObserverLocalityRateBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,C,R,G,S,T,N,H,K,P)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the paired $\mathsf{MultiHistConfig}$ row, naming the two observer histories and their local history classifiers without adding a global synchronization row.
+\item $C$ is the $\mathsf{CrossHistCausal}$ row, recording the displayed causal-dependence reads between the two histories.
+\item $R$ is the $\mathsf{MaxCausalRate}$ row, exposing the maximum-rate bound only as a finite causal-rate read over $M$ and $C$.
+\item $G$ is the $\mathsf{MaxRateReadGate}$ row, requiring observer-symmetry and no-global-frame refusal before the rate read becomes public.
+\item $S$ is the observer-symmetry budget row, recording the two-direction comparison that prevents either history from serving as the privileged frame.
+\item $T$ is the transport row for paired-history $\hsame$ and $\psame$ movement across the same causal-rate budget.
+\item $N$ is the no-global-frame refusal row, blocking shared clocks, global coordinates, metric tensors, host speeds, and selected synchronization data.
+\item $H$ records componentwise $\hsame$ transport for the paired histories, causal row, rate row, read gate, symmetry budget, transport, refusal, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from a requested public rate read through $M,C,R,G,S,T,N$ and then to the structural rows.
+\item $P$ is the $\Pkg$ provenance and local $\NameCert_{\ObserverLocalityRateBudgetUp}$ naming row over the displayed packet.
+\end{enumerate}
+The classifier compares accepted packets only through $M,C,R,G,S,T,N,H,K,P$. It has no coordinate for a global frame, universal clock, metric geometry, host real-valued speed, selected observer representative, or choice principle.
+\end{definition}
+
+\begin{theorem}[Observer locality rate-budget NameCert obligations]
+\label{thm:observer-locality-rate-budget-namecert-obligations}
+For every accepted $\ObserverLocalityRateBudgetUp$ carrier $B=(M,C,R,G,S,T,N,H,K,P)$, the local $\NameCert_{\ObserverLocalityRateBudgetUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item paired-history admission through $M$;
+\item cross-Hist causal admission through $C$;
+\item maximum causal-rate admission through $R$;
+\item public maximum-rate gating through $G$;
+\item observer-symmetry budgeting through $S$;
+\item paired-history transport through $T,H$;
+\item no-global-frame refusal through $N$;
+\item displayed replay, provenance, and local naming through $K,P$.
+\end{enumerate}
+Every public maximum-rate read must pass through the observer-symmetry budget and the no-global-frame refusal before a consumer may cite the rate bound.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:observer-locality-rate-budget-carrier}. The paired histories enter through $M$, causal dependence through $C$, and the maximum-rate bound through $R$.
+
+The read cannot become public at that point. The gate row $G$ requires the observer-symmetry budget $S$ and the no-global-frame refusal row $N$, while $T$ and $H$ preserve the paired-history route under displayed transport.
+
+Finally replay and provenance are supplied by $K,P$. Because the carrier contains no further rows, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Observer locality rate-budget nonescape]
+\label{thm:observer-locality-rate-budget-nonescape}
+Every public rate read exported by an accepted $\ObserverLocalityRateBudgetUp$ carrier factors through
+$$
+M,C,R,G,S,T,N,H,K,P .
+$$
+In particular, omitting either the observer-symmetry budget $S$ or the no-global-frame refusal $N$ prevents the read from being public. The packet exports no global frame, universal clock, ambient metric geometry, selected observer representative, host real-valued velocity, or choice principle.
+\end{theorem}
+\begin{proof}
+Begin with a public rate read. By \autoref{thm:observer-locality-rate-budget-namecert-obligations}, the read must expose paired histories, cross-Hist causality, and maximum causal-rate data through $M,C,R$.
+
+The gate row $G$ then checks the symmetry budget $S$ and no-global-frame refusal $N$. If either row is absent, the requested read lacks one of the named obligations and cannot pass the local certificate.
+
+Transport and replay through $T,H,K$ preserve that same route, and $P$ names it. Since the excluded global-frame, clock, metric, selected-observer, host-velocity, and choice data are absent from the carrier, they cannot be exported.
+\end{proof}
+
+\begin{theorem}[Observer locality rate-budget Lean carrier boundary]
+\label{thm:observer-locality-rate-budget-lean-carrier-boundary}
+The follow-up Lean carrier for $\ObserverLocalityRateBudgetUp$ must expose a nontrivial public object and a field-faithful public classifier in `lean4/BEDC/Derived/ObserverLocalityRateBudgetUp/TasteGate.lean`. Concretely, the carrier boundary is satisfied only when the Lean side provides `Nontrivial ObserverLocalityRateBudgetUp` and `FieldFaithful ObserverLocalityRateBudgetUp` for the same finite rows displayed in \autoref{def:observer-locality-rate-budget-carrier}.
+\end{theorem}
+\begin{proof}
+The paper-side packet is not a purely verbal refusal; it carries the finite rows $M,C,R,G,S,T,N,H,K,P$. A Lean carrier that collapsed those rows to a singleton without public field separation would fail to represent the observer-symmetry and no-global-frame budget as distinguishable data.
+
+The required nontriviality gives at least one public object boundary beyond the empty carrier. Field faithfulness then ties the public classifier to the displayed rows, so a maximum-rate read cannot be accepted after erasing the symmetry or refusal coordinates.
+
+Thus the Lean follow-up must provide both named interfaces in the indicated TasteGate file before the carrier can be treated as a faithful formal companion to this chapter.
+\end{proof}
+
+\falsifiablePrediction{Any public $\ObserverLocalityRateBudgetUp$ maximum-rate read that omits either observer-symmetry or no-global-frame refusal refutes the packet.}
+
+\independenceWitness{multihistconfig, crosshistcausal, maxcausalrate, maxratereadgate, interhistrateboundary: $\ObserverLocalityRateBudgetUp$ is not bijective to any listed sibling because it jointly carries paired histories, causal rows, maximum-rate rows, public read gating, observer-symmetry budgets, no-global-frame refusal, transport, replay, provenance, and local naming.}
+
+\closureat{ObserverLocalityRateBudgetUp}{seedStr}
+
+\begin{closurestatus}{\ObserverLocalityRateBudgetUp}
+  \constructivestory{An $\ObserverLocalityRateBudgetUp$ packet is generated from paired MultiHistConfig rows, CrossHistCausal rows, MaxCausalRate rows, MaxRateReadGate rows, observer-symmetry budgets, transport rows, no-global-frame refusal, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observer-locality-rate-budget-carrier}, \autoref{thm:observer-locality-rate-budget-namecert-obligations}, \autoref{thm:observer-locality-rate-budget-nonescape}, and \autoref{thm:observer-locality-rate-budget-lean-carrier-boundary} seed the finite observer-locality rate-budget certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global synchronization, privileged frames, hidden clocks, ambient metric geometry, selected observers, host real-valued velocities, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked paired-history admission, causal-row admission, maximum-rate admission, read-gate exactness, observer-symmetry budgeting, no-global-frame refusal, transport, replay, provenance, local naming, nontriviality, and field faithfulness for BEDC.Derived.ObserverLocalityRateBudgetUp.}
+\end{closurestatus}
