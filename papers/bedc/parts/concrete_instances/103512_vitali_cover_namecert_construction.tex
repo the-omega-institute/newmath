@@ -80,6 +80,26 @@ The consumer handoff is downstream of those rows. The $\MeasureUp$ row $M$ reads
 Transport by $H$, replay by $C$, provenance by $P$, and naming by $N$ preserve the same finite route. No excluded infinite or completed covering principle has a carrier coordinate from which it could be exported.
 \end{proof}
 
+\begin{theorem}[VitaliCover Besicovitch finite-overlap boundary]
+\label{thm:vitali-cover-besicovitch-finite-overlap-boundary}
+Let
+$$
+V=(I,D,E,F,M,R,H,C,P,N)
+$$
+be an accepted $\VitaliCoverUp$ carrier. Every measure-facing read of its accepted finite selection may be routed through a bounded finite-overlap shadow ledger when the selected intervals are compared against the finite Vitali request rows and the finite epsilon-net request rows of \autoref{ch:concrete-instances-finite-vitali-cover-namecert} and \autoref{ch:concrete-instances-finite-epsilon-net-namecert}.
+
+The shadow ledger is bounded entirely by the displayed rows $I,D,E,F,M,R,H,C,P,N$: $I$ supplies the finite interval candidates, $D$ supplies pairwise disjointness for selected rows, $E$ and $F$ supply finite request coverage and selected-subfamily membership, and $M$ is the only $\MeasureUp$-facing additive read. The boundary exports no measure completion, countable selection, open-cover compactness, quotient real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier along \autoref{def:vitali-cover-carrier}. The finite interval rows $I$ are the only source of candidate intervals, and the selected rows of $F$ can be read only after their finite request witnesses in $E$ have been displayed.
+
+The bounded-overlap shadow is therefore not an additional covering theorem. It is the finite ledger obtained by comparing the selected rows in $F$ against the finite Vitali and epsilon-net request surfaces named by \autoref{ch:concrete-instances-finite-vitali-cover-namecert} and \autoref{ch:concrete-instances-finite-epsilon-net-namecert}.
+
+Use $D$ as the pairwise disjointness boundary for the selected subfamily. Since every selected interval is checked against that ledger before the measure handoff, a measure-facing consumer can count overlaps only through the finite shadow already exposed by $I,D,E,F$.
+
+Finally route the additive read through $M$ and the endpoint seals through $R$, with $H,C,P,N$ transporting, replaying, sourcing, and naming the same rows. By \autoref{ch:concrete-instances-measure-namecert}, this is a finite measure-facing ledger, not a completion, countable-selection, compactness, quotient-real, or ambient-completeness principle.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\VitaliCoverUp$ measure-facing read factors through a finite DyadicInterval family, a pairwise disjointness ledger, a FiniteEpsilonNet request row, a finite selection row, a Measure handoff, a Real endpoint boundary, transport, continuation, provenance, and local naming.}
 
 \independenceWitness{dyadicinterval, finite-epsilon-net, measure, real: $\VitaliCoverUp$ is not bijective to any listed sibling because it jointly carries interval candidates, finite request coverage, pairwise disjointness, selected-subfamily ordering, measure handoff, real endpoint seals, transport, continuation, provenance, and local naming.}
