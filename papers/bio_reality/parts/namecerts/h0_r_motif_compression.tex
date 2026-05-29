@@ -1,46 +1,5 @@
+\subsection{NameCert: h0.R.motif.compression}
+\label{sec:namecert-h0_r_motif_compression}
 \origin{ai}
 
-\subsection{ORF-Eligibility Boundary Record from the $R$ Motif Compression}
-\label{subsec:bioreality-h0-r-motif-compression-orf-boundary}
-
-\paragraph{Finite row packet.}
-This BioReality record is the finite-row packet with claim identifier $\mathrm{h0.R.motif.compression}$.  Its biological object is open-reading-frame eligibility as seen only through start/stop codon enumeration.  The verified compressed row set is
-$$
-\begin{aligned}
-R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
-\end{aligned}
-$$
-The finite check for this packet reports no missing rows and no extra rows: $\mathrm{no\_missing}=\varnothing$ and $\mathrm{no\_extra}=\varnothing$.  Thus the row-level statement made here is only that the listed thirteen codons are exactly the rows in the verified motif union for this packet.  The experiment run attached to this equality is $338799579a87$, verified at $2026$-$05$-$28$ $23{:}38{:}53+00{:}00$.
-
-\paragraph{Ambient motif frame.}
-The same packet is linked to the finite ambient motif set $M$, whose verified cardinality is $20$.  The recorded equality $M=\mathrm{WNR}\cup\mathrm{CUN}$ is realized by
-$$
-\begin{aligned}
-M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
-\end{aligned}
-$$
-This ambient set is not itself an ORF observation.  It is a finite codon-coordinate frame in which the thirteen rows of $R$ can be compared against a twenty-row motif carrier.  The chapter therefore records a compression fact internal to the enumerated codon table: $R$ occupies $13$ of the $20$ rows of $M$, while the larger $M$ certificate supplies the explicit surrounding rows $\mathrm{AAG}$, $\mathrm{ACA}$, $\mathrm{ACG}$, $\mathrm{AUG}$, $\mathrm{UCG}$, $\mathrm{UGG}$, and $\mathrm{UUG}$ outside $R$.
-
-\paragraph{Saturation and quotient checks.}
-The linked saturation check records
-$$
-\begin{aligned}
-\mathrm{Sat}_{f3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
-\end{aligned}
-$$
-and the recorded boundary exception set is empty: $f3\_boundary\_is\_zero=\varnothing$.  The same check records $M=\mathrm{Med}(R)\cup\{\mathrm{ACA}\}$ as the twenty-row list already displayed.  On the quotient side, the finite geometry check gives the $M$ f-vector $(20,38,26,8,1)$, quotient f-vector $(10,14,6,1)$, and quotient size $10$.  The quotient rows recorded for $\pi_M$ are
-$$
-\begin{aligned}
-\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),(0,1,0,0,0),\\
-&(0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),(1,0,1,0,1),(1,0,1,1,1)\}.
-\end{aligned}
-$$
-These numbers are finite-row invariants of the codon-coordinate packet.  They do not supply a transcript, an interval annotation, a ribosome contact, a protein product, a folded structure, or an experimental phenotype.
-
-\paragraph{ORF-eligibility boundary.}
-The conjectural biological layer attached to this record is $\mathrm{orf\_eligibility}$, but the packet contains no reality contact.  Its carrier and readback are therefore explicitly recorded as awaiting reality contact, with no internal biological structure beyond the finite enumeration just stated.  The two local probes say the same thing from complementary sides.  First, a start/stop-window ORF-eligibility seed must remain a boundary record unless an external sequence, transcript, or curated interval annotation supplies the observed biological interval.  Second, the packet fails as an ORF-eligibility claim if it records such a claim while no sequence database, transcript evidence, or curated annotation can test the proposed interval.  The required contact named by both probes is $\mathrm{curated.orf.interval.annotation}$, and this chapter has no such contact attached.
-
-\paragraph{Cannot-claim boundary.}
-Consequently, this section claims only an exact finite-row motif compression and its linked finite checks.  It does not claim that any listed start or stop window is an observed open reading frame.  It does not claim translation realization, folded structure, physical admissibility, biological function, mechanism, evolutionary conservation, or universality.  It also does not claim that BEDC coordinate structure alone realizes $\mathrm{orf\_eligibility}$.  Promotion to any higher biological layer requires a separate contact that can test the proposed interval against an external biological source.  The self-check attached to this packet records this boundary in three checked gates and states that no codon geometry is promoted across biological layers.
+This BioReality namecert is awaiting codex re-authoring. Most recent attempt failed the chapter hygiene gate; issues recorded: template\_residue: BEDC 5-tuple, template\_residue: carrier reads back to observable data by following, template\_residue: TasteGate-style separation, template\_residue: lean target sketch (statement-only), template\_residue: internal newmath/bedc derivation, template\_residue: bridge disclaimer, template\_residue: external reality sources. The committed registry record at \path{tools/bio\_reality/registries/claims.json} still tracks the underlying claim h0.R.motif.compression and its experiment runs.
