@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\FiniteObservationReflectionUp$}
+\label{ch:concrete-instances-finite-observation-reflection-namecert}
+\origin{ai}
+
+The $\FiniteObservationReflectionUp$ packet realizes the finite observation trace and open prediction horizon of \autoref{sec:observation-and-reflection} as one NameCert surface. It sits beside $\ObservationReflectionPacketUp$ of \autoref{ch:concrete-instances-observationreflectionpacket-namecert}, the finite window interface of \autoref{ch:concrete-instances-finite-observation-interface-namecert}, the reflective inquiry carrier of \autoref{ch:concrete-instances-reflective-inquiry-namecert}, and the open reflection boundary of \autoref{ch:concrete-instances-reflection-gap-boundary-namecert}. Those siblings expose observation roles, windows, paired inquiry, or gap boundaries separately; this packet binds source, finite observation trace, signature, classifier, package, ledger, and open-continuation rows as one finite observation-reflection certificate.
+
+\begin{definition}[Finite observation-reflection carrier]
+\label{def:finite-observation-reflection-carrier}
+A $\FiniteObservationReflectionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,O,G,C,P,L,E,T,R,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source row naming the reality-facing or formal-reflection source under inspection.
+\item $O$ is the finite observation-trace row, read through a displayed $\FiniteObservationInterfaceUp$ window.
+\item $G$ is the observed-signature row extracted from the finite trace.
+\item $C$ is the classifier row comparing the source claim with the observed signature.
+\item $P$ is the package row recording the model, law, or inquiry certificate that is being tested against the trace.
+\item $L$ is the ledger row for approximation budgets, rejected fits, and unresolved residue.
+\item $E$ is the open-continuation row preserving the prediction horizon beyond the displayed trace.
+\item $T$ records componentwise $\hsame$ transport for $S,O,G,C,P,L,E$.
+\item $R$ records displayed $\Cont$ replay from source and trace through signature, classifier, package, ledger, and open continuation.
+\item $N$ is the local $\NameCert_{\FiniteObservationReflectionUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a final physical oracle, a closed prediction horizon, source-domain identity, host validation, quotient trace equality, or an unbounded observation schedule.
+\end{definition}
+
+\begin{theorem}[Finite observation-reflection NameCert obligations]
+\label{thm:finite-observation-reflection-namecert-obligations}
+For every accepted $\FiniteObservationReflectionUp$ carrier $F=(S,O,G,C,P,L,E,T,R,N)$, the local $\NameCert_{\FiniteObservationReflectionUp}$ surface consists exactly of carrier admission, source exposure through $S$, finite observation-trace exposure through $O$, observed-signature exposure through $G$, classifier exposure through $C$, package exposure through $P$, ledger exposure through $L$, open-continuation exposure through $E$, componentwise transport through $T$, displayed replay through $R$, and local naming through $N$.
+
+These obligations bind the observation-reflection route
+$$
+\ObservationReflectionPacketUp \longmapsto \FiniteObservationInterfaceUp \longmapsto \ReflectiveInquiryUp \longmapsto \ReflectionGapBoundaryUp
+$$
+without adding final truth, closed prediction, source identity, host validation, quotient trace equality, or an unbounded schedule.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-observation-reflection-carrier}. The source and observation rows $S,O$ are displayed separately, so the packet can relate source claims to traces without identifying them.
+
+The signature, classifier, and package rows $G,C,P$ supply the finite comparison surface. They read the observed trace and the tested certificate as rows of the packet rather than as external host judgments.
+
+The ledger and open-continuation rows then preserve non-finality. Row $L$ records budgets, rejected fits, and unresolved residue, while $E$ keeps the prediction horizon open beyond the finite trace.
+
+Finally $T,R,N$ transport, replay, and name exactly the same rows. Since no final oracle, closed horizon, source identity, quotient trace, or unbounded schedule is present, the local NameCert surface has precisely the listed obligations.
+\end{proof}
+
+\begin{theorem}[Finite observation-reflection open horizon]
+\label{thm:finite-observation-reflection-open-horizon}
+Let $F=(S,O,G,C,P,L,E,T,R,N)$ be an accepted $\FiniteObservationReflectionUp$ packet. Every consumer that reads an observation-reflection judgment from $F$ must pass through the source row $S$, the finite observation trace $O$, the signature row $G$, the classifier row $C$, the package row $P$, the ledger row $L$, and the open-continuation row $E$.
+
+In particular, the packet can certify a finite source--trace--signature fit while refusing to close the prediction horizon or identify the source with its observations.
+\end{theorem}
+\begin{proof}
+Begin with the trace route. The source row $S$ and finite observation row $O$ are distinct coordinates, and the signature row $G$ is extracted only from the displayed finite trace.
+
+The classifier and package rows $C,P$ then record the tested fit. This fit is ledgered by $L$, which keeps approximation budgets, rejected alternatives, and unresolved residue visible to downstream readers.
+
+The open-continuation row $E$ is read before the local name is exported. Componentwise transport and replay through $T,R$ preserve that order, so a consumer cannot turn a finite observation-reflection packet into a final truth oracle or a closed prediction horizon.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteObservationReflectionUp$ read exposes source, finite observation trace, signature, classifier, package, ledger, open continuation, transport, replay, and local NameCert rows before exporting an observation-reflection judgment.}
+
+\independenceWitness{observationreflectionpacket, finiteobservationinterface, reflectiveinquiry, reflectiongapboundary: $\FiniteObservationReflectionUp$ is not bijective to any listed sibling because it jointly carries source, finite trace, signature, classifier, package, ledger, and open-continuation rows in one NameCert surface.}
+
+\closureat{FiniteObservationReflectionUp}{seedStr}
+
+\begin{closurestatus}{\FiniteObservationReflectionUp}
+  \constructivestory{A $\FiniteObservationReflectionUp$ packet is generated from source, finite observation trace, observed signature, classifier, package, ledger, open continuation, componentwise transport, displayed replay, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-observation-reflection-carrier}, \autoref{thm:finite-observation-reflection-namecert-obligations}, and \autoref{thm:finite-observation-reflection-open-horizon} seed the finite observation-reflection route and its open prediction horizon.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close final physical truth, final formal truth, source-domain identity, host validation, quotient trace equality, unbounded observation schedules, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source, observation-trace, signature, classifier, package, ledger, open-continuation, transport, and replay rows for BEDC.Derived.FiniteObservationReflectionUp.}
+\end{closurestatus}
