@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BioReality Oracle Bridge (macOS, multi-turn)
 // @namespace    omega-bio-reality
-// @version      2.2
+// @version      2.3
 // @description  BioReality-pipeline ChatGPT bridge bio-2.0 with automath-stable waiting and BEDC project/PDF routing. Talks to bio_reality_oracle_server.py on :8769.
 // @match        https://chatgpt.com/*
 // @match        https://chat.openai.com/*
@@ -17,7 +17,7 @@
 (function () {
   "use strict";
 
-  try { console.log("[bio] userscript IIFE entered, version bio-2.0"); } catch {}
+  try { console.log("[bio] userscript IIFE entered, version bio-2.3"); } catch {}
 
   try {
     if (window.top !== window.self) {
@@ -45,7 +45,7 @@
   const MAX_WAIT = 7200000;
   const DEFAULT_MIN_RESPONSE_LENGTH = 1000;
   const REQUIRE_FOREGROUND_TO_CLAIM = false;
-  const SCRIPT_VERSION = "bio-2.2";
+  const SCRIPT_VERSION = "bio-2.3";
   const BIOREALITY_PROJECT_PREFIX = "/g/g-p-6a098a6e69688191a6afd91978c585ef-ge-ben-ha-gen-zhi-lu";
   const BIOREALITY_PROJECT_HOME = `https://chatgpt.com${BIOREALITY_PROJECT_PREFIX}/project`;
 
@@ -90,6 +90,10 @@
   if (!AGENT_ID) return;
 
   let busy = false;
+  let polling = false;
+  let audioCtx = null;
+  let keepAliveOscillator = null;
+  let keepAliveGain = null;
   let active = (() => {
     const urlOptIn = window.location.search.includes("bio=");
     try {
@@ -112,9 +116,63 @@
     updatePanel();
   }
 
+  function startKeepAlive() {
+    if (audioCtx && keepAliveOscillator) return;
+    try {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) {
+        log("Web Audio keep-alive unavailable");
+        return;
+      }
+      audioCtx = new AudioContextClass();
+      keepAliveOscillator = audioCtx.createOscillator();
+      keepAliveGain = audioCtx.createGain();
+      keepAliveGain.gain.value = 0;
+      keepAliveOscillator.connect(keepAliveGain);
+      keepAliveGain.connect(audioCtx.destination);
+      keepAliveOscillator.start();
+      log("Web Audio keep-alive started");
+    } catch (err) {
+      log(`Web Audio keep-alive failed: ${err.message}`);
+      audioCtx = null;
+      keepAliveOscillator = null;
+      keepAliveGain = null;
+    }
+  }
+
+  function resumeKeepAlive() {
+    if (!audioCtx || typeof audioCtx.resume !== "function") return;
+    try {
+      const resumed = audioCtx.resume();
+      if (resumed && typeof resumed.catch === "function") {
+        resumed.catch((err) => log(`Web Audio resume failed: ${err.message}`));
+      }
+    } catch (err) {
+      log(`Web Audio resume failed: ${err.message}`);
+    }
+  }
+
+  function stopKeepAlive() {
+    try {
+      if (keepAliveOscillator) keepAliveOscillator.stop();
+    } catch {}
+    try {
+      if (audioCtx && typeof audioCtx.close === "function") audioCtx.close();
+    } catch {}
+    audioCtx = null;
+    keepAliveOscillator = null;
+    keepAliveGain = null;
+  }
+
   function toggleActive() {
     active = !active;
     try { sessionStorage.setItem("bio_active", active ? "1" : "0"); } catch {}
+    if (active) {
+      startKeepAlive();
+      resumeKeepAlive();
+    } else {
+      stopKeepAlive();
+    }
     log(active ? "ACTIVATED — polling will start (this tab only)" : "PAUSED — your ChatGPT is free");
     updatePanel();
   }
@@ -1587,29 +1645,41 @@
     return true;
   }
 
-  async function pollLoop() {
-    while (true) {
-      active = _readActive();
-      if (active && !busy) {
-        if (enforceProjectBeforePolling()) {
-          await sleep(POLL_INTERVAL);
-          continue;
-        }
-        try {
-          const task = await serverGet(`/task?agent=${encodeURIComponent(agentId())}`);
-          if (task && task.task_id && task.status !== "idle") {
-            if (!_readActive()) {
-              log("Task available but PAUSED — skipping");
-            } else {
-              await processTask(task);
-            }
-          }
-        } catch (err) {
-          if (logHistory.length === 0 || !logHistory[logHistory.length-1].includes("unreachable")) {
-            log(`Server unreachable (${SERVER})`);
-          }
+  async function pollOnce(reason = "poll") {
+    active = _readActive();
+    if (!active || busy || polling) return;
+    polling = true;
+    try {
+      if (enforceProjectBeforePolling()) return;
+      const task = await serverGet(`/task?agent=${encodeURIComponent(agentId())}`);
+      if (task && task.task_id && task.status !== "idle") {
+        if (!_readActive()) {
+          log("Task available but PAUSED — skipping");
+        } else {
+          log(`Polling wake (${reason}) claimed task ${task.task_id}`);
+          await processTask(task);
         }
       }
+    } catch (err) {
+      if (logHistory.length === 0 || !logHistory[logHistory.length-1].includes("unreachable")) {
+        log(`Server unreachable (${SERVER})`);
+      }
+    } finally {
+      polling = false;
+    }
+  }
+
+  function onVisibilityChange() {
+    if (document.visibilityState !== "visible") return;
+    active = _readActive();
+    if (!active) return;
+    resumeKeepAlive();
+    pollOnce("visible");
+  }
+
+  async function pollLoop() {
+    while (true) {
+      await pollOnce("interval");
       await sleep(POLL_INTERVAL);
     }
   }
@@ -1617,6 +1687,11 @@
   // ── Bootstrap ────────────────────────────────────────────────────────
   async function init() {
     log(`BioReality Oracle Bridge ${SCRIPT_VERSION} loaded — ${active ? "ACTIVE" : "PAUSED"} — agent=${agentId()}`);
+    if (active) {
+      startKeepAlive();
+      resumeKeepAlive();
+    }
+    document.addEventListener("visibilitychange", onVisibilityChange);
 
     const phase = getTaskPhase();
     const navTaskId = tabGet("nav_task_id", "");
