@@ -54,6 +54,28 @@ Transport and replay are componentwise. The $\hsame$ row $H$ preserves each disp
 Finally inspect $P$ and $N$. Provenance and local naming mention only $Q,S,R,E,H,C$, so the excluded choice, trichotomy, quotient, host-equality, and completeness data have no projection from the packet.
 \end{proof}
 
+\begin{theorem}[DyadicUp four-face route nonescape]
+\label{thm:dyadic-up-four-face-route-nonescape}
+Every $\RealUp$-facing consumer of an accepted $\DyadicUp$ carrier
+$$
+D=(Q,S,R,E,H,C,P,N)
+$$
+must reach the real seal only through the ordered route
+$$
+\DyadicRatCoreUp\longmapsto\StreamNameUp\longmapsto\RegSeqRatUp\longmapsto\RealUp .
+$$
+Equivalently, the consumer first reads the dyadic rational core row $Q$, then the finite stream-window row $S$, then the regular rational sequence row $R$, and only then the real seal row $E$, with $H$ and $C$ preserving and replaying that order. The packet exports no selected binary expansion, quotient stream representative, host real equality, trichotomy, choice, or completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-up-carrier}. The four consumer-facing rows are exactly $Q,S,R,E$, and the structural rows are exactly $H,C,P,N$.
+
+Read the rows in the order required by \autoref{thm:dyadic-up-namecert-obligations}. A precision request reaches the dyadic rational tolerance ledger $Q$ before it can open the stream window $S$, and the regular rational row $R$ is attached to that same displayed window.
+
+The real seal row $E$ is downstream of $Q,S,R$. Componentwise $\hsame$ transport in $H$ preserves the four rows, while $\Cont$ replay in $C$ repeats the same finite route rather than selecting a different representative.
+
+Finally inspect provenance and local naming. The rows $P,N$ source and name only $Q,S,R,E,H,C$, so selected binary expansions, quotient stream representatives, host real equality, trichotomy, choice, and completeness have no coordinate from which to escape.
+\end{proof}
+
 The dyadic Cauchy interface packets collect finite approximation and
 tail-envelope certificates for displayed real-name routes before Real and
 Completion consumers can read them. This interface consumes the DyadicRatCore
