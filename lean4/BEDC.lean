@@ -757,6 +757,7 @@ import BEDC.Derived.BolzanoWeierstrassUp.SubsequenceNonescape
 import BEDC.Derived.BolzanoWeierstrassUp.SubsequenceWindowPublicity
 import BEDC.Derived.BolzanoWeierstrassUp.TailModulusWindowStability
 import BEDC.Derived.BolzanoWeierstrassUp.TasteGate
+import BEDC.Derived.BolzanoWeierstrassUp.WindowRetentionRefinement
 import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.BoolUp.StdBridge
@@ -3932,6 +3933,7 @@ import BEDC.Derived.HashLikeFiberBoundaryUp.TasteGate
 import BEDC.Derived.HashUp
 import BEDC.Derived.HausdorffCompletionEnvelopeUp.SeparatedMetricRoute
 import BEDC.Derived.HausdorffCompletionEnvelopeUp.TasteGate
+import BEDC.Derived.HausdorffCompletionUniversalUp.TasteGate
 import BEDC.Derived.HausdorffCompletionUp
 import BEDC.Derived.HausdorffCompletionUp.CarrierNameCertObligations
 import BEDC.Derived.HausdorffCompletionUp.CauchySourceRouteScope
