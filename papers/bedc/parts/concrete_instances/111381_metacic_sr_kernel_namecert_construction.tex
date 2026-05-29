@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-metacic-sr-kernel-namecert}
 \origin{ai}
 
-The $\MetacicSrKernelUp$ packet realizes the subject-reduction discharge branch of \autoref{ch:sr-discharge-routes} as one finite kernel carrier. It sits between the open-phase audit of $\MetaCICCriticalPathUp$ in \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the four-face obligation packet $\MetaCICSubjectReductionObligationUp$ in \autoref{ch:concrete-instances-metacic-subject-reduction-obligation-namecert}, the route socket $\SubjectReductionDischargeSocketUp$ in \autoref{ch:concrete-instances-subjectreductiondischargesocket-namecert}, the closed-substitution boundary $\ClosedTermSubstitutionBoundaryUp$ in \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, and the candidate/endpoint frontier $\MetaCICNormalizationFrontierUp$ in \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}. The packet gives later formalization a concrete finite place to discharge typing-preservation routes without replacing the four discharge faces by a parameter echo.
+The $\MetacicSrKernelUp$ packet realizes the subject-reduction discharge branch of \autoref{ch:sr-discharge-routes} as one finite kernel carrier. It sits between the open-phase audit of $\MetaCICCriticalPathUp$ in \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the four-face obligation packet $\MetaCICSubjectReductionObligationUp$ in \autoref{ch:concrete-instances-metacic-subject-reduction-obligation-namecert}, the route socket $\SubjectReductionDischargeSocketUp$ in \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, the closed-substitution boundary $\ClosedTermSubstitutionBoundaryUp$ in \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, and the candidate/endpoint frontier $\MetaCICNormalizationFrontierUp$ in \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}. The packet gives later formalization a concrete finite place to discharge typing-preservation routes without replacing the four discharge faces by a parameter echo.
 
 \begin{theorem}[MetacicSrKernelUp carrier]\label{thm:metacic-sr-kernel-carrier}
 A $\MetacicSrKernelUp$ carrier is a finite $\BHist$ packet
@@ -67,3 +67,13 @@ Finally $F$ packages the visible discharge for a consumer, while $H,R,G,M$ prese
 \independenceWitness{metaciccriticalpath, metacic-subject-reduction-obligation, subjectreductiondischargesocket, closedtermsubstitutionboundary, metacicnormalizationfrontier: MetacicSrKernelUp is not bijective to any listed sibling because it simultaneously carries the critical-path ledger, four discharge faces, route socket, closed-substitution boundary, normalization-frontier boundary, finite handoff row, transport, replay, provenance, and local NameCert naming.}
 
 \closureat{MetacicSrKernelUp}{seedStr}
+
+\begin{closurestatus}{\MetacicSrKernelUp}
+  \constructivestory{A $\MetacicSrKernelUp$ packet is generated from the critical-path ledger, four subject-reduction obligation faces, route socket, closed-substitution boundary, normalization-frontier boundary, finite handoff row, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{thm:metacic-sr-kernel-carrier}, \autoref{thm:metacic-sr-kernel-namecert-obligations}, and \autoref{thm:metacic-sr-kernel-discharge-route} seed the finite subject-reduction kernel route surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close beta substitution, application-argument stability, lambda-domain preservation, Pi-domain preservation, closed subject reduction, global normalization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, four-face discharge exposure, socket compatibility, closed-substitution and normalization-frontier compatibility, handoff routing, transport, replay, provenance, and local naming for BEDC.Derived.MetacicSrKernelUp.}
+\end{closurestatus}
