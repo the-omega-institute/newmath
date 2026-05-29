@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\CompactApartnessProfileUp$}
+\label{ch:concrete-instances-compact-apartness-profile-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CompactApartnessProfileUp$ packet records the finite compact-metric apartness profile used when total-bounded finite nets, completion service rows, and apartness-topology separation rows must be read together without importing open-cover compactness. It sits between the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the total-boundedness surface of \autoref{ch:concrete-instances-totallybounded-namecert}, the complete-metric boundary of \autoref{ch:concrete-instances-completemetric-namecert}, and the apartness topology route of \autoref{ch:concrete-instances-apartnesstopology-namecert}. The packet exposes a finite profile for compact-metric consumers: named net centers, mesh bounds, completion handoff, apartness separation, transport, replay, provenance, and local naming, not an arbitrary open-cover compactness theorem.
+
+\begin{definition}[Compact apartness profile carrier]
+\label{def:compact-apartness-profile-carrier}
+A $\CompactApartnessProfileUp$ carrier is a finite $\BHist$ packet
+$$
+A=(K,T,C,S,F,R,H,E,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row, exposing the metric, finite compactness request, and compact-metric provenance visible to downstream consumers.
+\item $T$ is the $\TotallyBoundedUp$ finite-net row, naming the displayed centers, mesh tolerance, and finite coverage ledger.
+\item $C$ is the $\CompleteMetricUp$ service row, available only as the completion-facing handoff attached to accepted Cauchy-style reads.
+\item $S$ is the $\ApartnessTopologyUp$ separation row, recording the apartness neighbourhood and located separation data used by profile consumers.
+\item $F$ is the finite handoff row tying $T$ to $S$: each requested mesh cell carries the apartness-visible boundary data that the consumer may inspect.
+\item $R$ is the completion handoff row tying $T$ and $C$: finite net reads may request a completion service only through the displayed compact-metric and complete-metric rows.
+\item $H$ records componentwise $\hsame$ transport for compact-metric, total-bounded, complete-metric, apartness, handoff, provenance, and local naming rows.
+\item $E$ records displayed $\Cont$ replay from a profile request through the finite-net, apartness, and completion handoff rows.
+\item $P$ is the $\Pkg$ provenance over $\CompactApartnessProfileUp$, $\CompactMetricUp$, $\TotallyBoundedUp$, $\CompleteMetricUp$, $\ApartnessTopologyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CompactApartnessProfileUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,T,C,S,F,R,H,E,P,N$. It has no coordinate for arbitrary open covers, selected subcovers, quotient completion equality, an apartness-free compactness principle, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Compact apartness profile NameCert obligations]
+\label{thm:compact-apartness-profile-namecert-obligations}
+For every accepted $\CompactApartnessProfileUp$ carrier
+$$
+A=(K,T,C,S,F,R,H,E,P,N),
+$$
+the local $\NameCert_{\CompactApartnessProfileUp}$ surface consists exactly of finite obligation rows for compact-metric source exposure, total-bounded finite-net exposure, complete-metric service exposure, apartness-topology separation exposure, finite-net apartness handoff, finite-net completion handoff, componentwise transport, displayed replay, provenance, and local naming. No obligation row may be discharged by arbitrary open-cover compactness, a selected subcover, quotient completion equality, apartness-free compactness, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-apartness-profile-carrier}. The tuple displays the compact-metric source, total-bounded finite-net row, complete-metric service row, apartness-topology separation row, the two handoff rows, transport, replay, provenance, and local naming.
+
+The finite-net obligations are exhausted by $T,F,R$. The row $T$ supplies centers and mesh bounds, while $F$ and $R$ state exactly how those finite reads are handed to apartness and completion consumers.
+
+The nonescape clauses follow by coordinate inspection. Since no row names an arbitrary cover, a selected subcover, quotient completion equality, apartness-free compactness, or ambient real-completeness theorem, the local NameCert surface cannot export such data.
+\end{proof}
+
+\begin{theorem}[Compact apartness profile finite-net apartness handoff]
+\label{thm:compact-apartness-profile-finite-net-apartness-handoff}
+Every accepted $\CompactApartnessProfileUp$ packet sends a finite-net read to an apartness-topology consumer only through
+$$
+K,\quad T,\quad S,\quad F,\quad H,\quad E,\quad P,\quad N.
+$$
+The same packet sends any completion-facing read only through $K,T,C,R,H,E,P,N$. Thus the profile connects total-boundedness, completion service, and apartness separation by displayed finite rows, without exporting an open-cover compactness principle or an apartness-free completion theorem.
+\end{theorem}
+\begin{proof}
+Start with a finite-net request. The compact-metric source $K$ names the metric side, and the total-bounded row $T$ supplies the finite centers and mesh tolerance inspected by the consumer.
+
+For apartness-facing reads, the only separation coordinate is $S$, and the only finite-net-to-apartness connector is $F$. Transport and replay must therefore pass through $H,E,P,N$ after those rows have been selected.
+
+For completion-facing reads, the only service coordinate is $C$, and the finite-net-to-completion connector is $R$. Coordinate exhaustion separates this route from the apartness handoff and leaves no coordinate for arbitrary open covers, selected subcovers, apartness-free compactness, quotient completion equality, or ambient real completeness.
+\end{proof}
+
+\closureat{CompactApartnessProfileUp}{seedStr}
+
+\begin{closurestatus}{\CompactApartnessProfileUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-apartness-profile-carrier}, \autoref{thm:compact-apartness-profile-namecert-obligations}, and \autoref{thm:compact-apartness-profile-finite-net-apartness-handoff} seed the finite profile connecting compact-metric, total-bounded, complete-metric, and apartness-topology rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected subcover existence, quotient completion equality, apartness-free compactness, ambient real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-net exposure, apartness handoff, completion handoff, transport replay, provenance, and nonescape for BEDC.Derived.CompactApartnessProfileUp.}
+  \constructivestory{A $\CompactApartnessProfileUp$ packet is generated from compact-metric source data, total-bounded finite-net data, complete-metric service data, apartness-topology separation data, two handoff rows, componentwise hsame transport, displayed Cont replay, provenance, and a local NameCert row.}
+\end{closurestatus}
