@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\GramDeterminantUp$}
+\label{ch:concrete-instances-gram-determinant-namecert}
+\origin{human}
+
+Following Gram and classical finite-dimensional inner-product theory, the $\GramDeterminantUp$ packet records the finite determinant surface obtained from displayed inner products of a finite vector family. It consumes the inner-product rows of \autoref{ch:concrete-instances-innerproduct-namecert}, the matrix-entry carrier of \autoref{ch:concrete-instances-matrix-namecert}, the determinant boundary of \autoref{ch:concrete-instances-determinant-namecert}, and the finite coordinate discipline of \autoref{ch:concrete-instances-finite-orthonormal-basis-namecert}. The packet names the finite Gram matrix, its determinant row, and its principal-minor ledger; it is not a Hilbert-space compactness theorem, a selected orthonormal basis, a quotient-vector equality principle, or a positive-definiteness theorem outside the displayed rows.
+
+\begin{definition}[Gram determinant carrier]
+\label{def:gram-determinant-carrier}
+A $\GramDeterminantUp$ carrier is a finite $\BHist$ packet
+$$
+G=(V,I,A,M,D,J,T,R,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $V$ is the finite vector-row bundle whose entries are the carried vectors $v_1,\ldots,v_n$;
+\item $I$ is the $\InnerProductUp$ row over the same vector endpoints, exposing the scalar reads $\langle v_i,v_j\rangle$ for every displayed pair;
+\item $A$ is the scalar-entry ledger that records each inner-product value as a finite BEDC scalar history;
+\item $M$ is the $\MatrixUp$ row whose $(i,j)$ entry is read from the scalar row $\langle v_i,v_j\rangle$;
+\item $D$ is the $\DeterminantUp$ row naming the determinant of the displayed matrix row $M$;
+\item $J$ is the finite principal-minor ledger, one determinant row for each displayed principal submatrix of $M$;
+\item $T$ stores transport data for reindexing the finite vector rows, scalar inner-product rows, matrix-entry rows, determinant row, and principal-minor rows;
+\item $R$ stores replay data from vector rows to scalar entries, from scalar entries to matrix rows, and from matrix rows to determinant and principal-minor rows;
+\item $H$ records componentwise $\hsame$ transport for $V,I,A,M,D,J,T,R,C,P,N$;
+\item $C$ records the displayed $\Cont$ routes by which determinant and principal-minor consumers read the packet;
+\item $P$ is the $\Pkg$ provenance over $\GramDeterminantUp$, $\InnerProductUp$, $\MatrixUp$, $\DeterminantUp$, finite vector bundles, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\GramDeterminantUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through the finite vector rows, scalar inner-product rows, matrix-entry rows, determinant rows, principal-minor rows, transport, replay, provenance, continuation, and local naming data.
+\end{definition}
+
+\begin{theorem}[Gram determinant NameCert obligations]
+\label{thm:gram-determinant-namecert-obligations}
+For the carrier of \autoref{def:gram-determinant-carrier}, the local $\NameCert_{\GramDeterminantUp}$ surface consists exactly of five finite obligations: carrier admission for $G=(V,I,A,M,D,J,T,R,H,C,P,N)$; scalar-entry exactness requiring every matrix entry in $M$ to be read from the corresponding $\InnerProductUp$ scalar row in $A$; determinant exactness requiring $D$ to consume only the displayed $\MatrixUp$ row $M$; principal-minor exactness requiring each row of $J$ to consume a displayed principal submatrix of $M$; and transport-replay stability for $T,R,H,C,P,N$ under the same finite row inventory.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:gram-determinant-carrier}. The accepted packet lists vector rows, inner-product scalar rows, matrix-entry rows, determinant rows, principal-minor rows, transport, replay, componentwise $\hsame$, continuation, provenance, and local naming.
+
+The scalar-entry and determinant clauses are read in order. First $I$ and $A$ expose the finite family of scalar inner-products. Then $M$ records those scalars as matrix entries, and $D$ reads only that displayed matrix row through the determinant certificate of \autoref{ch:concrete-instances-determinant-namecert}.
+
+The principal-minor clauses are finite subpacket reads of the same matrix row. Each minor in $J$ is indexed by displayed rows of $V$ and by the matching submatrix entries in $M$, so no ambient matrix quotient or host positivity theorem is imported.
+
+Finally $T,R,H,C,P,N$ preserve and replay the same inventory. Since the carrier has no coordinate for a selected orthonormal basis, quotient-vector equality, Hilbert completion, or external positive-definiteness principle, the five obligations exhaust the local certificate surface.
+\end{proof}
+
+\closureat{GramDeterminantUp}{seedStr}
+
+\begin{closurestatus}{\GramDeterminantUp}
+  \constructivestory{A $\GramDeterminantUp$ packet is generated from a finite vector-row bundle, inner-product scalar rows, a matrix-entry row, determinant and principal-minor rows, transport, replay, componentwise hsame, Cont replay, Pkg provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:gram-determinant-carrier} and \autoref{thm:gram-determinant-namecert-obligations} declare the finite carrier and NameCert obligation surface for Gram determinant packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim positive semidefiniteness, Gram determinant vanishing criteria, quotient-vector equality, selected orthonormal bases, Hilbert completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked scalar-entry exactness, determinant exactness, principal-minor exactness, transport, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}
