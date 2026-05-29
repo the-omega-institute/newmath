@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\DiracPointMassUp$}
+\label{ch:concrete-instances-dirac-point-mass-namecert}
+\origin{human}
+
+Following Dirac and Kolmogorov, the $\DiracPointMassUp$ packet records the standard point-mass probability measure as finite BEDC NameCert data. It sits over the measurable carrier of \autoref{ch:concrete-instances-measure-namecert}, the probability-space surface of \autoref{ch:concrete-instances-probspace-namecert}, the measurable-read discipline of \autoref{ch:concrete-instances-randomvar-namecert}, the distribution handoff of \autoref{ch:concrete-instances-distribution-namecert}, and the terminal scalar readback of \autoref{ch:concrete-instances-real-namecert}. The packet names the singleton mass route only; it does not select a host measure, import a powerset sigma algebra, choose representatives, or assert ambient real completeness.
+
+\begin{definition}[Dirac point-mass carrier]
+\label{def:dirac-point-mass-carrier}
+A $\DiracPointMassUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,p,E,U,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\MeasureUp/\ProbSpaceUp$ carrier row, including the displayed measurable universe and probability-space admission data.
+\item $p$ is the point row, naming the selected support point only as a finite BEDC datum internal to the packet.
+\item $E$ is the event row, recording the finite event-membership read that decides whether the displayed event contains $p$.
+\item $U$ is the unit-mass ledger, assigning the $\RealUp$ value $1$ to events whose displayed membership row contains $p$ and $0$ otherwise.
+\item $D$ is the $\DistributionUp$ and pushforward readback row, exposing how a $\RandomVarUp$ consumer reads the point mass through the image of $p$.
+\item $H$ records componentwise $\hsame$ transport for the measure source, point, event, unit ledger, distribution readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an event request through $X,p,E,U,D$ and then to the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\DiracPointMassUp$, $\MeasureUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\DistributionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DiracPointMassUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host measure selector, powerset event oracle, quotient representative, countable-choice schedule, selected limit, or ambient $\RealUp$ completeness principle.
+\end{definition}
+
+\begin{theorem}[Dirac point-mass NameCert obligations]
+\label{thm:dirac-point-mass-namecert-obligations}
+For every accepted $\DiracPointMassUp$ carrier $Q=(X,p,E,U,D,H,C,P,N)$, the local $\NameCert_{\DiracPointMassUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission, requiring the displayed $\MeasureUp$ and $\ProbSpaceUp$ source row $X$ before any event read is public;
+\item point-event exactness, requiring the event row $E$ to expose whether the displayed event contains the point row $p$;
+\item unit-mass ledger stability, requiring $U$ to preserve the $0/1$ $\RealUp$ readback under componentwise $\hsame$ transport and displayed replay;
+\item distribution handoff, requiring every $\RandomVarUp$ and $\DistributionUp$ consumer to read the image of $p$ through $D$ after $X,p,E,U$ are displayed;
+\item non-escape from host measure choice, requiring $H,C,P,N$ to name only the displayed packet and to export no host measure selector, powerset event oracle, quotient representative, selected limit, or ambient $\RealUp$ completeness row.
+\end{enumerate}
+No local point-mass obligation is stored outside $X,p,E,U,D,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dirac-point-mass-carrier}. The source row $X$ admits the measure and probability-space surface, while the point row $p$ and event row $E$ are the only rows that can decide membership in the displayed event.
+
+The unit ledger $U$ is then forced by the point-event read. If $E$ displays membership of $p$, the ledger reads the terminal $\RealUp$ unit value; otherwise it reads the terminal zero value. Componentwise transport through $H$ and replay through $C$ preserve the same event decision and the same scalar readback.
+
+For a random-variable or distribution consumer, the row $D$ is downstream of the same point and event data. It records the pushforward read only through the image of the displayed point, so the distribution handoff cannot bypass the finite point-mass ledger.
+
+Finally $P$ and $N$ source and name precisely this packet. Since no row stores a host measure selector, powerset event oracle, quotient representative, selected limit, or ambient real-completeness principle, the five listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\closureat{DiracPointMassUp}{seedStr}
+
+\begin{closurestatus}{\DiracPointMassUp}
+  \constructivestory{A $\DiracPointMassUp$ packet is generated from a displayed MeasureUp and ProbSpaceUp source, a point row, an event-membership row, a unit-mass RealUp ledger, a RandomVarUp and DistributionUp readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dirac-point-mass-carrier} and \autoref{thm:dirac-point-mass-namecert-obligations} seed the finite point-mass packet over MeasureUp, ProbSpaceUp, RandomVarUp, DistributionUp, and RealUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host measure selection, powerset sigma-algebra generation, quotient representatives, countable choice, selected limits, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, point-event exactness, unit-mass ledger stability, distribution handoff, transport, replay, provenance, and local naming for BEDC.Derived.DiracPointMassUp.}
+\end{closurestatus}
