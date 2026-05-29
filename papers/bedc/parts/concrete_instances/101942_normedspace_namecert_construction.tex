@@ -240,6 +240,77 @@ The metric and completion parts of the handoff are already fixed. Apply \autoref
 Use \autoref{thm:normed-space-banach-completion-nonescape} for the downstream boundary. It prevents Banach and Hilbert consumers from receiving a completed host object or selected limit. Since bounded-operator and functional-analysis consumers depend on the same displayed normed-space packet, their handoff is forced through the same rows.
 \end{proof}
 
+\begin{theorem}[NormedSpace carrier transport completion service]
+\label{thm:normedspace-carrier-transport-completion-service}
+For every accepted $\NormedSpaceUp$ packet $S=(V,R,N,M,Q,H,T,P,C)$,
+carrier transport through the componentwise $\hsame$ rows preserves the common
+$\VecSpaceUp$, $\RealUp$, $\MetricUp$, and $\CompletionUp$ service rows. A
+completion-facing consumer transported along $H$ therefore receives the same
+vector carrier, real-valued norm, induced metric, completion request budget,
+displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ route, not a
+host equivalence of normed spaces or a selected completed object.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $V,R,N,M,Q$ are the displayed analytic
+service rows, while $H,T,P,C$ transport, replay, source, and name them.
+
+Use the componentwise clauses in $H$. They move the vector carrier, real row,
+norm row, metric row, and completion budget to a common finite comparison
+surface without changing which rows are exposed.
+
+The completion service is then read through $Q$ together with $T,P,C$. Since
+the carrier has no coordinate for a host equivalence or selected completion,
+transport preserves the displayed service route and nothing else.
+\end{proof}
+
+\begin{theorem}[NormedSpace Real norm metric route]
+\label{thm:normedspace-real-norm-metric-route}
+Every metric read induced by the norm of an accepted $\NormedSpaceUp$ packet
+$S=(V,R,N,M,Q,H,T,P,C)$ factors through the $\RealUp$ norm row $R,N$, the
+triangle ledger, the scalar compatibility row, the induced metric row $M$,
+displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row.
+The metric route is therefore the finite norm route of the carrier, not host
+metric equality, quotient vector equality, basis coordinates, or an external
+ordered-field theorem.
+\end{theorem}
+\begin{proof}
+Begin with the normed-space carrier. The norm is not a detached metric; it is
+stored as the real-valued norm row $N$ over the real row $R$ and vector source
+$V$.
+
+Apply the triangle and scalar compatibility obligations already displayed in
+the packet. They are the finite ledgers that allow a norm read to become a
+metric read through $M$.
+
+The structural rows $T,P,C$ replay, source, and name this route, while $H$
+keeps it stable under componentwise transport. Hence every induced metric read
+factors through the displayed Real norm route.
+\end{proof}
+
+\begin{theorem}[NormedSpace functional-analysis root package]
+\label{thm:normedspace-functional-analysis-root-package}
+The displayed norm, induced metric, vector-space carrier, completion request
+budget, replay, provenance, and naming rows of an accepted $\NormedSpaceUp$
+packet $S=(V,R,N,M,Q,H,T,P,C)$ form the root package consumed by Banach,
+Hilbert, bounded-operator, and functional-analysis chapters. Downstream
+chapters receive the finite rows $V,R,N,M,Q,H,T,P,C$ and their local
+$\NameCert$ surface; they do not receive a completed host normed space, a basis
+choice, a quotient completion, selected limits, or a classical duality theorem.
+\end{theorem}
+\begin{proof}
+Read the functional-analysis handoff of
+\autoref{thm:normedspace-functional-analysis-handoff}. It already places every
+downstream consumer behind the displayed rows $V,R,N,M,Q,H,T,P,C$.
+
+The carrier transport service and Real norm metric route identify the two root
+interfaces needed by those consumers: completion-facing transport through
+$Q,H,T,P,C$ and metric-facing norm reads through $V,R,N,M$.
+
+Package the two interfaces with the local naming row. Banach, Hilbert,
+bounded-operator, and functional-analysis chapters may depend on that finite
+root package, but the excluded host objects are not exported by the carrier.
+\end{proof}
+
 \paragraph{VecSpace carrier transport obligation.}
 Every $\NormedSpaceUp$ consumer that needs the vector-space source must read the $\VecSpaceUp$ carrier row $V$ through the $\NormUp$ row $N$ and the structural rows $H,T,P,C$. The transported carrier is therefore a finite $\BHist$ route with $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming; it is not a host vector-space equality or an abstract source-equivalence comparison.
 
