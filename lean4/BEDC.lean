@@ -629,6 +629,7 @@ import BEDC.Derived.BaireSpaceUp.TasteGate
 import BEDC.Derived.BaireUltrametricUp.TasteGate
 import BEDC.Derived.BanachAlgebraUp.TasteGate
 import BEDC.Derived.BanachContractionPrincipleUp.TasteGate
+import BEDC.Derived.BanachDualUp.TasteGate
 import BEDC.Derived.BanachFixedPointUp
 import BEDC.Derived.BanachSpaceUp.TasteGate
 import BEDC.Derived.BanachUp
