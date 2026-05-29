@@ -72,6 +72,22 @@ The structural rows $H,C,P,N$ only transport, replay, package, and locally name 
 Thus any read of one of the excluded objects would require a coordinate absent from $O=(W,R,V,T,H,C,P,N)$. Such a read is outside the accepted local stencil observation certificate.
 \end{proof}
 
+\begin{theorem}[LocalStencilObservation Rule 110 classifier route]
+\label{thm:local-stencil-observation-rule110-classifier-route}
+Any Rule 110 local-pattern classifier read exported through $\LocalStencilObservationUp$ must expose the finite rows
+$$
+W,R,V,T,H,C,P,N
+$$
+before it can cite the global cellular substrate of \autoref{ch:visions-cellular-automaton-substrate-reading}, the whole-automaton packet of \autoref{ch:concrete-instances-cellularautomaton-namecert}, the local update packet of \autoref{ch:concrete-instances-cellularlocalupdaterule-namecert}, the finite pattern catalog of \autoref{ch:concrete-instances-cellularpatterncatalog-namecert}, or any Cook-frontier row named by the substrate reading. The route exports one finite local classifier observation, not a global Rule 110 universality witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:local-stencil-observation-carrier}. The accepted local observation exposes the neighbourhood stencil $W$, local-rule row $R$, observed finite row window $V$, classifier row $T$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local name $N$.
+
+Apply \autoref{thm:local-stencil-observation-nonescape}. It excludes unbounded orbits, hidden catalog reads, global Rule 110 classifiers, and detached universality witnesses from the packet, so a Cook-frontier or substrate citation cannot precede the local rows.
+
+Finally use the sibling boundary supplied by the cellular automaton, local update, and pattern catalog chapters. Those chapters may be cited through $P$ only after the local stencil, rule, observed window, and classifier rows have been displayed; they do not add a second classifier coordinate to $\LocalStencilObservationUp$.
+\end{proof}
+
 \begin{theorem}[LocalStencilObservation sibling independence]
 \label{thm:local-stencil-observation-sibling-independence}
 The $\LocalStencilObservationUp$ carrier is not bijective to the sibling packets $\CellularAutomatonUp$, $\CellularLocalUpdateRuleUp$, or $\CellularPatternCatalogUp$. It retains the joint local observation surface $W,R,V,T,H,C,P,N$, while those siblings respectively retain a finite orbit ledger, a next-cell update surface, or a catalog lookup table not present as an internal coordinate of this packet.
