@@ -1,0 +1,11 @@
+\begin{theorem}[Measure probability sigma dependency forward link]
+\label{thm:measure-probability-sigma-dependency-forward-link}
+Every $\ProbSpaceUp$ or $\IntegralUp$ consumer of an accepted $\MeasureUp$ packet must pass through the displayed sigma-event source rows, finite additivity and readback rows, and $\NameCert_{\MeasureUp}$ provenance before reading probability mass or integral value rows. The probability-facing route of \autoref{ch:concrete-instances-probspace-namecert} and the integral-facing route of \autoref{ch:concrete-instances-integral-namecert} therefore share the same $\MeasureUp$ dependency lattice rather than reading detached probability primitives, host measures, or independent value selectors.
+\end{theorem}
+\begin{proof}
+Start with the sigma-event and source rows already displayed by the $\MeasureUp$ carrier. They name the measurable-event family, event classifier, empty-event boundary, and source value route before any probability or integration consumer appears.
+
+Next read finite additivity and readback. These rows expose the disjoint-union mass ledger and the value route used by probability normalization and integral accumulation, so neither consumer can bypass the measure packet when it reads mass or integral data.
+
+Finally pass through provenance and local naming. The $\Pkg$ and $\NameCert_{\MeasureUp}$ rows seal the shared dependency lattice, and the sibling probability and integral chapters can consume only the sealed event-and-value surface. No detached host measure, independent probability primitive, or selected value representative is exported.
+\end{proof}
