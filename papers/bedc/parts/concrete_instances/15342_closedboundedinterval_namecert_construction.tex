@@ -439,6 +439,7 @@ Finally use $H,C,P,N$. These structural rows replay and name exactly the display
 \label{thm:closed-bounded-interval-located-cover-source-totality}
 Any located-cover consumer of an accepted $\ClosedBoundedIntervalUp$ carrier $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$ must read the endpoint rows $L,U,O$, containment ledgers $Q,D$, $\StreamNameUp$ row $S$, $\RegSeqRatUp$ readback $R$, $\RealUp$ seal $E$, and structural rows $H,C,P,N$ before consuming a $\LocatedIntervalCoverUp$ row. The located-cover source is therefore the full displayed endpoint-and-containment packet, not a parameter echo of the cover consumer.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedboundedintervalUp.ClosedBoundedIntervalPacket\_located\_cover\_source\_totality}
 \begin{proof}
 Project the carrier and the source window. The carrier of \autoref{def:closed-bounded-interval-carrier} lists $L,U,O,Q,D,S,R,E,H,C,P,N$, while \autoref{def:closed-bounded-interval-source-window} reads the same rows as the endpoint-source packet.
 
@@ -451,6 +452,7 @@ Finally use the located-cover handoff. Theorem~\ref{thm:closed-bounded-interval-
 \label{thm:closed-bounded-interval-compactness-consumer-boundary}
 Any $\NestedIntervalCompactnessUp$ consumer, finite-net compactness consumer, or Real-completion consumer that reads an accepted $\ClosedBoundedIntervalUp$ packet must keep the endpoint rows, dyadic-net rows, located-cover rows, and nested compactness rows displayed before any compactness conclusion is consumed. Thus every such consumer factors through the carrier route of \autoref{def:closed-bounded-interval-carrier}, the dyadic-net obligations of \autoref{thm:closed-bounded-interval-dyadic-net-obligations}, the located-cover handoff of \autoref{thm:closed-bounded-interval-located-cover-handoff}, and the nested compactness handoff of \autoref{thm:closed-bounded-interval-nested-compactness-handoff}.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedboundedintervalUp.ClosedBoundedIntervalPacket\_compactness\_consumer\_boundary}
 \begin{proof}
 First read the source carrier. The endpoint, order, containment, window, readback, seal, transport, replay, provenance, and naming rows of $I$ are the only rows a consumer can project from $\ClosedBoundedIntervalUp$.
 
