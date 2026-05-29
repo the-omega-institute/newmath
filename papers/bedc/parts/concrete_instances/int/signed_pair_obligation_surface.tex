@@ -1,0 +1,46 @@
+\begin{definition}[Int signed-pair carrier]
+\label{def:int-signed-pair-carrier}
+The root signed-pair carrier for $\IntUp$ is the displayed Nat-and-Add row
+$$
+\mathsf{IntSignedPairCarrier}(a,b)
+:=
+\mathsf{IntPairCarrier}(a,b),
+$$
+where $a$ and $b$ are unary $\NatUp$ magnitude rows and the balancing classifier between $(a,b)$ and $(c,d)$ is read by the additive certificate as the cross-addition comparison $a+d=c+b$. In BEDC notation this is the existing row $\mathsf{IntPairClassifier}((a,b),(c,d))$, whose comparison is routed through $\mathsf{append}(a,d)$ and $\mathsf{append}(c,b)$ under the $\AddUp$ continuation ledger.
+\end{definition}
+
+\begin{theorem}[Int signed-pair classifier stability]
+\label{thm:int-signed-pair-classifier-stability}
+The classifier of \autoref{def:int-signed-pair-carrier} is stable under componentwise $\hsame$ transport of the four unary magnitude rows and under displayed $\Cont$ replay of the two cross-addition ledgers. Thus an accepted comparison $(a,b)\sim(c,d)$ remains the same $\IntUp$ classifier row after the Nat magnitudes and Add balance witnesses are transported through the local finite ledger.
+\end{theorem}
+\begin{proof}
+Project the signed-pair carrier through \autoref{def:intup-difference-pair-carrier} and the classifier through \autoref{def:intup-difference-pair-classifier}. The carrier rows are unary Nat magnitudes, and the classifier row is the single $\hsame$ comparison between the two cross-addition histories.
+
+Transport the four magnitude rows componentwise. The $\hsame$ rows preserve the displayed unary histories, while the $\Cont$ replay rows rebuild the two additive histories $\mathsf{append}(a,d)$ and $\mathsf{append}(c,b)$ in the transported context.
+
+Apply the balanced-context stability already recorded for the Int pair classifier. The resulting row is again an $\mathsf{IntPairClassifier}$ comparison, so no host quotient, primitive subtraction, ordered-ring law, or external integer equality has been introduced.
+\end{proof}
+
+\begin{theorem}[Int additive inverse ledger]
+\label{thm:int-additive-inverse-ledger}
+Every accepted $\IntUp$ signed-pair row $(a,b)$ carries a displayed inverse ledger row obtained by swapping the two unary components to $(b,a)$. The ledger is finite-row data: it records the Nat magnitudes, the Add balance context, componentwise $\hsame$ transport, and the local NameCert route, but it does not assert a full group law or ordered-ring interface for $\IntUp$.
+\end{theorem}
+\begin{proof}
+Start from the signed-pair carrier. Both $a$ and $b$ are unary Nat rows, so the swapped pair $(b,a)$ is again admitted by the same carrier definition.
+
+The inverse ledger is the displayed swap of the two coordinates. Its compatibility with the classifier is read through the same cross-addition pattern: the comparison for a pair and its swapped companion is expressed by the Add continuation ledger, not by a primitive subtraction operation.
+
+The structural rows then transport and replay this swap inside the local packet. Since the chapter has no row for a full ordered ring, the theorem records only the inverse ledger surface needed by downstream rational and dyadic consumers.
+\end{proof}
+
+\begin{theorem}[Int Rat and Dyadic source handoff]
+\label{thm:int-rat-dyadic-source-handoff}
+Every $\RatUp$ numerator read and every $\DyadicRatCoreUp$ mantissa read that consumes $\IntUp$ data first receives the signed-pair carrier of \autoref{def:int-signed-pair-carrier}, the Nat magnitude rows, the Add balance ledger, and the inverse ledger of \autoref{thm:int-additive-inverse-ledger}. The handoff supplies signed mantissa data only as a finite $\IntUp$ row before $\RatUp$ denominator normalization, $\DyadicRatCoreUp$ routing, $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, or the terminal $\RealUp$ seal can be inspected.
+\end{theorem}
+\begin{proof}
+Read the rational boundary first. The $\RatUp$ carrier consumes an integer numerator row, and the Int chapter exposes that numerator as the signed-pair carrier rather than as a host integer quotient.
+
+Next use the dyadic mantissa route of \autoref{thm:int-dyadic-mantissa-real-route}. It places the same signed row before the $\DyadicRatCoreUp$ mantissa and denominator packet, so dyadic consumers inherit the Nat magnitude and Add balance data already displayed by $\IntUp$.
+
+Finally pass to the L10 route through $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. Those consumers can inspect only the finite signed mantissa handoff and its structural ledger; they receive no primitive subtraction row, full ordered-ring closure, quotient rational equality, selected real limit, or ambient completeness witness.
+\end{proof}
