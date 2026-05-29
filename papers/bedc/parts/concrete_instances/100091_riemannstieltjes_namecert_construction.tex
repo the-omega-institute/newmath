@@ -108,6 +108,24 @@ Apply \autoref{thm:riemann-stieltjes-darboux-mesh-refinement}. The finite mesh a
 The structural rows $H,C,P,N$ transport, replay, source, and name the same order. Since the packet has no coordinate for measure spaces, selected limits, host function quotients, or ambient choice, the displayed bounded-variation jump boundary cannot be replaced by any of them.
 \end{proof}
 
+\begin{theorem}[Riemann--Stieltjes refinement-window exhaustion]
+\label{thm:riemann-stieltjes-refinement-window-exhaustion}
+For every accepted $\RiemannStieltjesUp$ carrier
+$$
+R=(F,A,T,S,I,E,H,C,P,N),
+$$
+every downstream refinement-window read is exhausted by the displayed rows $A,T,S,I,E,H,C,P,N$. In particular, no consumer can bypass the $\RiemannSumUp$ row $T$, the $\DyadicStepFunctionUp$ row $S$, the $\BoundedVariationUp$ row $A$, the $\RegulatedIntegralUp$ row $I$, or the $\RealUp$ seal $E$ when reading a refinement of the Riemann--Stieltjes packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier from \autoref{def:riemann-stieltjes-carrier}. The only refinement-facing rows available to a consumer are the bounded-variation integrator row $A$, the tagged-sum row $T$, the dyadic step row $S$, the regulated-integral handoff row $I$, the endpoint seal $E$, and the structural rows $H,C,P,N$.
+
+Apply \autoref{thm:riemann-stieltjes-regulated-integral-handoff}. It forces every endpoint-facing read to pass through $F,A,T,S,I$ before $E$ is visible, so the endpoint seal cannot be used as a shortcut around the displayed finite rows.
+
+Apply \autoref{thm:riemann-stieltjes-darboux-mesh-refinement} and \autoref{thm:riemann-stieltjes-bounded-variation-jump-boundary}. The former confines mesh refinement to the tagged-sum and dyadic-step route, while the latter places every jump-facing integrator read behind the bounded-variation row $A$.
+
+The rows $H,C,P,N$ transport, replay, source, and name exactly this route. Since the carrier has no coordinate for a hidden refinement oracle, measure completion, selected limiting partition, host function quotient, or ambient real equality, the listed rows exhaust every downstream refinement-window read.
+\end{proof}
+
 \begin{theorem}[Riemann--Stieltjes regulated-integrator transport]
 \label{thm:riemann-stieltjes-regulated-integrator-transport}
 Every $\RiemannStieltjesUp$ read that is consumed as a regulated-integral handoff must pass through the bounded-variation integrator row $A$ and the tagged-sum row $T$ before the handoff row $I$ is visible. For an accepted carrier
