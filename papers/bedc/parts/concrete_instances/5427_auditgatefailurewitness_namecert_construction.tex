@@ -547,6 +547,28 @@ Use replay factorization and gate-row exhaustion. Every public consumer route re
 Finally apply diagnostic row inversion. A public refusal read determines the displayed diagnostic row $D$ and no alternate diagnostic, repair, host supply, theorem content, or internalizer. Thus replay and naming preserve the same diagnostic packet without adding hidden support.
 \end{proof}
 
+\begin{theorem}[Audit-gate failure-witness public diagnostic export]
+\label{thm:auditgatefailurewitness-public-diagnostic-export}
+For every accepted $\AuditGateFailureWitnessUp$ packet
+$$
+W=(G,F,R,D,H,C,P,N),
+$$
+the public diagnostic route exported by the packet is exactly
+$$
+G\longrightarrow F\longrightarrow D\longrightarrow R
+$$
+followed by the support rows $H,C,P,N$. A public consumer may read the gate row, the failed item, the diagnostic, the refusal target, componentwise transport, displayed replay, provenance, and local naming, but it receives no theorem-content row, host-supply row, marker-repair row, admitted internalizer, replacement diagnostic, or detached refusal object.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The gate row $G$, failed item $F$, refusal target $R$, diagnostic row $D$, and support rows $H,C,P,N$ are the only visible public coordinates.
+
+Use diagnostic scope closure and refusal handoff scope. They place every public refusal read on the displayed route from $G$ to $F$, then through $D$, and then to $R$ before replay and support rows are consumed.
+
+Apply replay ledger scope to the support rows. Componentwise transport, displayed replay, provenance, and local naming preserve the same diagnostic packet and do not add repair, theorem-content, host-supply, or replacement diagnostic coordinates.
+
+Finally use origin import boundary and composition input exhaustion. These exclude internalization, gate bypass, detached composed refusal content, and theorem content for the failed item, so the route $G,F,D,R,H,C,P,N$ is the public diagnostic export boundary.
+\end{proof}
+
 The Lean follow-up for this chapter must provide \texttt{Derived/AuditGateFailureWitnessUp/TasteGate.lean} with $\mathsf{Nontrivial}\ \AuditGateFailureWitnessUp$ and $\mathsf{FieldFaithful}\ \AuditGateFailureWitnessUp$ instances for the same finite carrier.
 \leanchecked{BEDC.Derived.AuditGateFailureWitnessUp.AuditGateFailureWitnessTasteGate\_single\_carrier\_alignment}
 
@@ -556,12 +578,12 @@ The Lean follow-up for this chapter must provide \texttt{Derived/AuditGateFailur
 
 \begin{closurestatus}{\AuditGateFailureWitnessUp}
   \constructivestory{An $\AuditGateFailureWitnessUp$ packet is generated from a gate row, a failed boundary item, a refusal target, diagnostic readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:audit-gate-failure-witness-carrier}, \autoref{thm:audit-gate-failure-witness-namecert-obligations}, \autoref{thm:audit-gate-failure-witness-composition-handoff}, \autoref{thm:audit-gate-failure-witness-diagnostic-scope-closure}, \autoref{thm:audit-gate-failure-witness-refusal-handoff-scope}, \autoref{thm:audit-gate-failure-witness-replay-ledger-scope}, and \leanchecked{BEDC.Derived.AuditGateFailureWitnessUp.taste\_gate} bind failed audit-gate verdicts as diagnostic NameCert packets with visible refusal handoff.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:audit-gate-failure-witness-carrier}, \autoref{thm:audit-gate-failure-witness-namecert-obligations}, \autoref{thm:audit-gate-failure-witness-composition-handoff}, \autoref{thm:audit-gate-failure-witness-diagnostic-scope-closure}, \autoref{thm:audit-gate-failure-witness-refusal-handoff-scope}, \autoref{thm:audit-gate-failure-witness-replay-ledger-scope}, \autoref{thm:auditgatefailurewitness-public-diagnostic-export}, and \leanchecked{BEDC.Derived.AuditGateFailureWitnessUp.taste\_gate} bind failed audit-gate verdicts as public diagnostic NameCert packets with visible refusal handoff.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.AuditGateFailureWitnessUp.AuditGateFailureWitnessTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close Lean verification, a public standard bridge, audit-policy completeness, automatic repair of failed targets, or theorem content for failed boundary items.}
-  \upgradepath{Public closure requires a public export theorem over the same diagnostic witness packet, refusal handoff, replay ledger, provenance, and local NameCert surface.}
+  \notclaimed{This chapter does not close a public standard bridge, audit-policy completeness, automatic repair of failed targets, or theorem content for failed boundary items.}
+  \upgradepath{Bridge closure requires a standard bridge over the same diagnostic witness packet, refusal handoff, replay ledger, provenance, and local NameCert surface.}
 \end{closurestatus}
