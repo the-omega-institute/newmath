@@ -133,3 +133,18 @@ representatives, host equality, or ambient completeness, every downstream
 read passes through the StreamName and RegSeqRat windows before any
 Real-facing consumer is available.
 \end{proof}
+\leanchecked{BEDC.Derived.PolishspaceUp.PolishSpaceRegSeqRatWindowUnblock}
+
+\begin{theorem}[Polish-space RegSeqRat--Real handoff]
+\label{thm:polishspace-complete-separable-regseqrat-real-handoff}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ packet whose complete-separable route is read through the root unblock surface of \autoref{def:polish-space-root-unblock-surface}. Any $\RealUp$-facing consumer of that route can be reached only after the $\StreamNameUp$ row $S$ and the $\RegSeqRatUp$ row $R$ expose their finite windows over the same $\MetricSpaceUp$ row $M$ that supports the $\CompleteMetricUp$ row $K$ and the $\SeparableMetricUp$ row $D$. The handoff exports no selected dense point, quotient completion representative, host equality, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start from the root unblock surface. The rows $M,K,D,S,R,W,H,C,G,N$ are displayed as one finite packet, so the stream and regular-rational windows are already tied to the same metric row as the complete and separable data.
+
+Apply \autoref{thm:polish-space-complete-separable-unblock-package}. It forces both $K$ and $D$ to be consumed over $M$ and through the common $S,R,W$ observation surface before the packet can be replayed by $H,C,G,N$.
+
+Now use \autoref{thm:polish-space-regseqrat-window-unblock}. Every downstream read that reaches a Real-facing consumer must pass through $S$ and $R$ first. Combining the two routes gives the required top-window handoff from complete separability to the finite RegSeqRat readback.
+
+The excluded dense selector, quotient completion representative, host equality, and ambient completeness rows are absent from the carrier. Therefore the Real-facing consumer receives only the displayed route over $M$.
+\end{proof}

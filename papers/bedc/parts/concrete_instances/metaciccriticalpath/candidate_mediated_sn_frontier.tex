@@ -64,6 +64,42 @@ The discharge-row theorem keeps $D$ separate, and socket exhaustion keeps $O,D$ 
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateMediatedFrontierL10Readback}
 
+\begin{theorem}[MetaCIC candidate frontier Real source lock]
+\label{thm:metacic-critical-path-candidate-frontier-real-source-lock}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any candidate-mediated handoff that reads the row $U$ must expose $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ as source rows, with the obstruction row $O$ and discharge socket $D$ still visible, before any confluence-facing or decidability-facing consumer reads the handoff. The handoff therefore treats the $\RealUp$ face as a named L10 source row, not as selected limits, host equality, ambient Real completeness, quotient term equality, closed subject reduction, full confluence, or beta-conversion decidability.
+\end{theorem}
+\begin{proof}
+Start from the candidate-mediated frontier and L10 readback theorems, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier} and \autoref{thm:metacic-critical-path-candidate-mediated-frontier-l10-readback}. Together they require the finite candidate rows and the four L10 faces before the handoff row $U$ is consumed.
+
+Apply the handshake theorem, \autoref{thm:metacic-critical-path-sn-confluence-decidability-handshake}. It permits confluence-facing or decidability-facing replay only after the candidate-mediated source rows have been displayed.
+
+Use the discharge-row theorem, socket separation, and socket exhaustion, \autoref{thm:metacic-critical-path-candidate-mediated-sn-discharge-row}, \autoref{thm:metacic-critical-path-candidate-mediated-frontier-socket-separation}, and \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}. These keep $O$ and $D$ visible while the finite handoff reads $U$.
+
+Since the displayed source rows contain no coordinate for selected limits, host equality, Real completeness, quotient term equality, closed subject reduction, full confluence, or beta-decidability, the Real-facing source lock exports only the named L10 row sequence.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate frontier RegSeqRat handoff]
+\label{thm:metacic-critical-path-candidate-frontier-regseqrat-handoff}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. The $\RegSeqRatUp$ readback row is the only regular-rational route available to a candidate-mediated handoff through $U$. Consequently the frontier exports no selected limit, quotient term equality, host equality, ambient $\RealUp$ completeness, closed subject reduction, full confluence, or alternate regular-rational approximation route beyond the displayed $\DyadicRatCoreUp,\StreamNameUp,\RegSeqRatUp,\RealUp$ source window.
+\end{theorem}
+\begin{proof}
+Read the L10 readback theorem, \autoref{thm:metacic-critical-path-candidate-mediated-frontier-l10-readback}. It places $\RegSeqRatUp$ inside the four-face source window that must be exposed before any confluence-facing or decidability-facing consumer reads $U$.
+
+Next use the frontier handoff totality theorem, \autoref{thm:metacic-critical-path-candidate-mediated-frontier-handoff-totality}. The handoff surface is exhausted by $S,N,U,H,C,P,L$, the visible rows $O,D$, and the same four L10 faces.
+
+Apply discharge coverage and socket exhaustion, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier-discharge-coverage} and \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}. They leave no hidden coordinate through which another regular-rational route could fill $D$ or bypass the displayed source window.
+
+Thus the only regular-rational readback available to the handoff is the named $\RegSeqRatUp$ row. The excluded selected-limit, quotient-equality, host-equality, Real-completeness, closed-subject-reduction, and full-confluence claims are not exported by the frontier.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate-mediated frontier handoff totality]
 \label{thm:metacic-critical-path-candidate-mediated-frontier-handoff-totality}
 Let
@@ -104,6 +140,7 @@ Use the discharge-row theorem and discharge-socket induction, \autoref{thm:metac
 
 Finally apply socket exhaustion, \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}. Once $S,N,U,H,C,P,L$ and the four L10 faces have been consumed, the packet has no remaining coordinate that could hide a closed subject-reduction row or discharge the obstruction. The listed global metatheoretic, quotient, selected-limit, host-equality, and completeness claims therefore remain outside the handoff.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateMediatedFrontierObstructionNonescape}
 
 \begin{theorem}[MetaCIC candidate frontier discharge coverage]
 \label{thm:metacic-critical-path-candidate-frontier-discharge-coverage}
@@ -285,6 +322,7 @@ $$
 $$
 cannot be consumed as a closed subject-reduction row unless $K$ separately displays a subject-reduction coordinate. The candidate-mediated evidence may feed the frontier and the confluence-decidability handoff, but it does not identify reduction preservation for arbitrary closed terms, fill the discharge socket $D$, or erase the obstruction row $O$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateSNBoundary}
 \begin{proof}
 First apply the candidate-mediated SN frontier, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. It places the evidence on the finite rows $S,N,U,H,C,P,L$ together with the four L10 faces before any handoff consumer reads $U$.
 
