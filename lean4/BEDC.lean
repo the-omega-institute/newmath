@@ -2068,6 +2068,7 @@ import BEDC.Derived.CompactOpenMetricUp
 import BEDC.Derived.CompactOpenMetricUp.TasteGate
 import BEDC.Derived.CompactOperatorUp
 import BEDC.Derived.CompactOperatorUp.TasteGate
+import BEDC.Derived.CompactUniformContinuityModulusUp.TasteGate
 import BEDC.Derived.CompactUniformContinuitySchemeUp.TasteGate
 import BEDC.Derived.CompactUniformContinuityUp
 import BEDC.Derived.CompactUniformContinuityUp.BridgeModulusAssembly
@@ -2153,6 +2154,7 @@ import BEDC.Derived.CompleteSeparableMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparatedMetricUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceUp.TasteGate
 import BEDC.Derived.CompletionAdjointUp.TasteGate
+import BEDC.Derived.CompletionComparisonUp.TasteGate
 import BEDC.Derived.CompletionEmbeddingUp
 import BEDC.Derived.CompletionEmbeddingUp.TasteGate
 import BEDC.Derived.CompletionExtensionUniquenessUp.TasteGate
@@ -3962,6 +3964,7 @@ import BEDC.Derived.HausdorffSpaceUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HeineCantorUp.TasteGate
 import BEDC.Derived.HellySelectionUp.TasteGate
+import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
 import BEDC.Derived.HenstockKurzweilUp.TasteGate
 import BEDC.Derived.HilbertCubeUp.TasteGate
 import BEDC.Derived.HilbertUp
@@ -4350,6 +4353,7 @@ import BEDC.Derived.LocatedApartnessUp.TasteGate
 import BEDC.Derived.LocatedArchimedeanUp.TasteGate
 import BEDC.Derived.LocatedBoundedRealSequenceUp.TasteGate
 import BEDC.Derived.LocatedBoundedRealSetUp
+import BEDC.Derived.LocatedCauchyCompletionFunctorUp.TasteGate
 import BEDC.Derived.LocatedCauchyFilterCompletionUp.TasteGate
 import BEDC.Derived.LocatedCauchyFilterUp.TasteGate
 import BEDC.Derived.LocatedCauchyModulusUp.TasteGate
@@ -4583,6 +4587,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionReadinessPackage
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionSNBudget
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionSNBudgetSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionSourceBudget
+import BEDC.Derived.MetaCICCriticalPathUp.RealRootBudgetLock
 import BEDC.Derived.MetaCICCriticalPathUp.RealSealNoInfiniteReductionHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.RealStreamNameSourceReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.RegSeqRatCandidateNormalizationRoute
@@ -4789,6 +4794,7 @@ import BEDC.Derived.MetricCoveringNumberUp.TasteGate
 import BEDC.Derived.MetricEntourageUp
 import BEDC.Derived.MetricProjectionUp
 import BEDC.Derived.MetricProjectionUp.TasteGate
+import BEDC.Derived.MetricReverseTriangleInequalityUp
 import BEDC.Derived.MetricSpaceCompactContinuitySourceLockUp.TasteGate
 import BEDC.Derived.MetricSubspaceUp.TasteGate
 import BEDC.Derived.MetricTopologyUp.BallBasisScope
@@ -5303,12 +5309,14 @@ import BEDC.Derived.PointwiseModulusLedgerUp.TasteGate
 import BEDC.Derived.PolePlacementUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
+import BEDC.Derived.PolishspaceUp.CompleteMetricSeparableSynthesis
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationSurface
 import BEDC.Derived.PolishspaceUp.CompleteSeparableUnblockPackage
 import BEDC.Derived.PolishspaceUp.CompletionDensityReadback
 import BEDC.Derived.PolishspaceUp.NameCertLedgerExactness
 import BEDC.Derived.PolishspaceUp.NameCertObligations
 import BEDC.Derived.PolishspaceUp.ObservationLedgerExhaustion
+import BEDC.Derived.PolishspaceUp.RegSeqRatWindowUnblock
 import BEDC.Derived.PolishspaceUp.RootCauchyBasisCarrier
 import BEDC.Derived.PolishspaceUp.RootCauchyBasisObligations
 import BEDC.Derived.PolishspaceUp.RootCompletionObligations
