@@ -30,6 +30,20 @@ and classifier rather than by transporting data across a second source.
 \end{proof}
 \leanchecked{BEDC.Derived.LieGroupUp.LieGroupSingleton\_source\_lock}
 
+\begin{theorem}[LieGroup manifold and group anchor]
+\label{thm:liegroup-manifold-group-anchor}
+The singleton $\LieGroupUp$ source is accepted only after the $\GroupUp$ operation rows of \autoref{ch:concrete-instances-group-namecert} and the $\ManifoldUp$ chart rows of \autoref{ch:concrete-instances-manifold-namecert} have been read. Its public source ledger projects the shared predicate $L_{\emp}$ through those two dependency surfaces and exports no independent ambient smooth-group carrier.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:liegroup-singleton-source-lock}. The carrier predicate $L_{\emp}$ and the restricted classifier $R_{\emp}$ are the single source used by the group carrier, manifold point and chart-domain carrier, and Lie-group carrier.
+
+Project the $\GroupUp$ rows through \autoref{ch:concrete-instances-group-namecert}. The operation, unit, inverse, and law rows are the singleton history rows named by the source-lock theorem, so the Lie-group packet cannot be accepted before those algebraic rows are visible.
+
+Project the $\ManifoldUp$ rows through \autoref{ch:concrete-instances-manifold-namecert}. The chart domain, chart value, and transition row are the singleton chart rows named by the same source lock, so the smooth side is read from the displayed manifold surface rather than from a separate smooth carrier.
+
+Therefore the source ledger is a joint read of the displayed $\GroupUp$ and $\ManifoldUp$ dependency rows. Since every exported carrier and classifier is the shared $L_{\emp}$ and $R_{\emp}$ projection, no independent ambient smooth-group carrier is available to downstream consumers.
+\end{proof}
+
 \begin{theorem}[LieGroup singleton exact ledger]
 \label{thm:liegroup-singleton-exact-ledger}
 For the singleton $\LieGroupUp$ package, the accepted ledger consists exactly
