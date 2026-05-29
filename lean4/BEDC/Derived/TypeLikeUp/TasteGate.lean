@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.TypeLikeUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -135,5 +138,51 @@ theorem TypeLikeTasteGate_single_carrier_alignment :
   · intro x y heq
     exact typeLikeToEventFlow_injective heq
   · rfl
+
+theorem TypeLikeNameCertObligations
+    {B F Q E H C P N fiber classifier endpoint transport replay provenance nameRoute : BHist} :
+    UnaryHistory B ->
+      UnaryHistory F ->
+        UnaryHistory Q ->
+          UnaryHistory E ->
+            UnaryHistory H ->
+              UnaryHistory C ->
+                UnaryHistory P ->
+                  UnaryHistory N ->
+                    Cont B F fiber ->
+                      Cont fiber Q classifier ->
+                        Cont classifier E endpoint ->
+                          Cont endpoint H transport ->
+                            Cont transport C replay ->
+                              Cont replay P provenance ->
+                                Cont provenance N nameRoute ->
+                                  UnaryHistory fiber ∧
+                                    UnaryHistory classifier ∧
+                                      UnaryHistory endpoint ∧
+                                        UnaryHistory transport ∧
+                                          UnaryHistory replay ∧
+                                            UnaryHistory provenance ∧
+                                              UnaryHistory nameRoute := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro baseUnary fiberUnary classifierUnary endpointUnary transportUnary replayUnary
+    provenanceUnary nameUnary fiberCont classifierCont endpointCont transportCont replayCont
+    provenanceCont nameCont
+  have fiberClosed : UnaryHistory fiber :=
+    unary_cont_closed baseUnary fiberUnary fiberCont
+  have classifierClosed : UnaryHistory classifier :=
+    unary_cont_closed fiberClosed classifierUnary classifierCont
+  have endpointClosed : UnaryHistory endpoint :=
+    unary_cont_closed classifierClosed endpointUnary endpointCont
+  have transportClosed : UnaryHistory transport :=
+    unary_cont_closed endpointClosed transportUnary transportCont
+  have replayClosed : UnaryHistory replay :=
+    unary_cont_closed transportClosed replayUnary replayCont
+  have provenanceClosed : UnaryHistory provenance :=
+    unary_cont_closed replayClosed provenanceUnary provenanceCont
+  have nameClosed : UnaryHistory nameRoute :=
+    unary_cont_closed provenanceClosed nameUnary nameCont
+  exact
+    ⟨fiberClosed, classifierClosed, endpointClosed, transportClosed, replayClosed,
+      provenanceClosed, nameClosed⟩
 
 end BEDC.Derived.TypeLikeUp
