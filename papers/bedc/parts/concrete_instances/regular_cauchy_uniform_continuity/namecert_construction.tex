@@ -74,6 +74,26 @@ Apply the pointwise map row $M$ through the continuation route. The target-windo
 The target regularity row $T$ is the only target $\RegSeqRatUp$ coordinate in the carrier. Since the continuation order places $T$ after $S,R,D,M,W$ and before the seal row $E$, every target regular Cauchy read factors through the displayed finite route.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy uniform-continuity window composition]
+\label{thm:regular-cauchy-uniform-continuity-window-composition}
+Let $U=(S,W,R,M,D,T,E,H,C,P,N)$ be an accepted $\RegularCauchyUniformContinuityUp$ carrier. Suppose two target precision requests are displayed in the target-window schedule $W$, and suppose their $\UniformModulusUp$ rows refine through the same tolerance row $D$. Then the two requests compose to one source-window budget over $S,R$ before the pointwise map row $M$ is read.
+
+The two resulting target rows both factor through the same continuation route
+$$
+S,R,D,M,W,T,E.
+$$
+Thus the composed target read is a finite window-stability statement for the displayed carrier only: it exports no host function equality, quotient stream, selected limit, countable choice, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier and the local NameCert obligations from \autoref{def:regular-cauchy-uniform-continuity-carrier} and \autoref{thm:regular-cauchy-uniform-continuity-namecert-obligations}. The only rows available for target precision requests are the schedule $W$, the tolerance row $D$, the source windows $S$, the source regularity row $R$, the pointwise map row $M$, the target regularity row $T$, and the seal row $E$.
+
+For the two requested target precisions, use the uniform tolerance exactness obligation twice. Because both requests refine through the same $D$ row, their source precision needs are read as one finite source-window budget on $S$ with regular-rational control supplied by $R$.
+
+Apply \autoref{thm:regular-cauchy-uniform-continuity-regseqrat-handoff} to each resulting target read. The handoff forces both reads through $S,R,D,M,W,T$, so the target rows factor through $W,T$ before either can reach the seal row $E$.
+
+Finally inspect the carrier inventory. There is no coordinate for host function equality, quotient streams, selected limits, countable choice, or ambient $\RealUp$ completeness, so the composed route is exactly the displayed finite window route.
+\end{proof}
+
 \closureat{RegularCauchyUniformContinuityUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyUniformContinuityUp}

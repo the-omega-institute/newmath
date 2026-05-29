@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\FiniteObservationConfluenceBudgetUp$}
+\label{ch:concrete-instances-finite-observation-confluence-budget-namecert}
+\origin{ai}
+
+The $\FiniteObservationConfluenceBudgetUp$ packet realizes the MetaCIC residual-confluence frontier as a finite observation surface. It sits beside the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, the bounded residual frontier of \autoref{ch:concrete-instances-bounded-residual-substitution-frontier-namecert}, the residual checker of \autoref{ch:concrete-instances-metacic-confluence-residual-checker-namecert}, and the bounded normal-conversion bridge of \autoref{ch:concrete-instances-bounded-normal-conversion-bridge-namecert}. The packet records a typed finite window, local join evidence, bounded checker status, obstruction retention, transport, replay, provenance, and local naming without claiming full residual substitution compatibility, subject reduction, or unconditional confluence.
+
+\begin{definition}[Finite observation confluence-budget carrier]
+\label{def:finite-observation-confluence-budget-carrier}
+A $\FiniteObservationConfluenceBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+F=(T,R,L,B,O,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed finite-window row, recording the closed term, typed context fragment, and observation depth inspected by the packet.
+\item $R$ is the residual-frontier row, recording only the residual substitutions visible inside the displayed window.
+\item $L$ is the local-join row, naming the bounded join diagram accepted inside that window.
+\item $B$ is the bounded-checker row, recording the finite checker budget, checker result, and replay fuel.
+\item $O$ is the obstruction-retention row, preserving the subject-reduction and residual-substitution boundary that prevents the packet from becoming a full confluence theorem.
+\item $S$ is the transport row from bounded conversion and finished-normal endpoint evidence into the same finite observation budget.
+\item $H$ records componentwise $\hsame$ transport for typed windows, residual frontiers, local joins, bounded checks, obstruction rows, transport rows, replay, provenance, and naming.
+\item $C$ records displayed $\Cont$ replay from a candidate confluence request through $T,R,L,B,O,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteObservationConfluenceBudgetUp$, $\MetaCICCriticalPathUp$, $\MetaCICConfluenceResidualCheckerUp$, $\BoundedResidualSubstitutionFrontierUp$, $\BoundedNormalConversionBridgeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteObservationConfluenceBudgetUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through $T,R,L,B,O,S,H,C,P,N$. It has no coordinate for unrestricted residual substitution, global subject reduction, arbitrary closed star confluence, quotient conversion equality, or an unbounded normalizer.
+\end{definition}
+
+\begin{theorem}[Finite observation confluence-budget NameCert obligations]
+\label{thm:finite-observation-confluence-budget-namecert-obligations}
+For every accepted $\FiniteObservationConfluenceBudgetUp$ carrier $F=(T,R,L,B,O,S,H,C,P,N)$, the local $\NameCert_{\FiniteObservationConfluenceBudgetUp}$ surface consists exactly of typed-window admission, residual-frontier admission, local-join recording, bounded-checker exactness, obstruction retention, bounded-conversion transport, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming for the finite carrier of \autoref{def:finite-observation-confluence-budget-carrier}.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $T,R,L,B,O,S$ are the only mathematical data rows: typed observation window, residual frontier, local join, bounded checker, retained obstruction, and bounded-conversion transport.
+
+The bounded-checker exactness is tied to the local join row, not to an unbounded confluence theorem. The obstruction row remains present in the same carrier, so the accepted packet can expose local candidate evidence while still retaining the subject-reduction and residual-substitution boundary.
+
+Rows $H,C,P,N$ preserve and name the same finite surface. Since the carrier contains no unrestricted residual-substitution, global subject-reduction, arbitrary confluence, quotient-conversion, or unbounded-normalization coordinate, the listed obligations are exact.
+\end{proof}
+
+\begin{theorem}[Finite observation confluence-budget obstruction retention]
+\label{thm:finite-observation-confluence-budget-obstruction-retention}
+Every accepted $\FiniteObservationConfluenceBudgetUp$ packet that exposes a local join row also exposes the bounded-checker row and the obstruction-retention row before any MetaCIC confluence consumer can read the packet as evidence. Thus a candidate confluence read factors through
+$$
+T,R \longmapsto L,B,O \longmapsto S \longmapsto H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Start with the typed window and residual frontier. The rows $T$ and $R$ determine the finite observation budget in which any local join can be interpreted.
+
+The join row $L$ is accepted only with the bounded checker $B$. The obstruction row $O$ remains adjacent to that checker, so the packet records the local join together with the precise residual-substitution and subject-reduction boundary still blocking full confluence.
+
+The transport row $S$ and structural rows $H,C,P,N$ replay the same finite budget. They cannot remove the obstruction row or enlarge the bounded checker into a global confluence proof.
+\end{proof}
+
+\falsifiablePrediction{If the bounded-checker row is removed, no accepted packet can expose both a local join row and a subject-reduction obstruction-retention row.}
+
+\independenceWitness{metacic-residual-substitution-boundary, bounded-residual-substitution-frontier, metacic-confluence-residual-checker, bounded-normal-conversion-bridge: the confluence-budget carrier includes a simultaneous finite observation budget and local-join row not bijective to any single residual or conversion endpoint packet.}
+
+\closureat{FiniteObservationConfluenceBudgetUp}{seedStr}
+
+\begin{closurestatus}{\FiniteObservationConfluenceBudgetUp}
+  \constructivestory{A $\FiniteObservationConfluenceBudgetUp$ packet is generated from typed finite-window rows, residual-frontier rows, local joins, bounded-checker rows, obstruction-retention rows, bounded-conversion transport, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-observation-confluence-budget-carrier}, \autoref{thm:finite-observation-confluence-budget-namecert-obligations}, and \autoref{thm:finite-observation-confluence-budget-obstruction-retention} seed the finite observation confluence-budget packet for MetaCIC residual-confluence consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted residual substitution, global subject reduction, arbitrary closed star confluence, quotient conversion equality, unbounded normalization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, typed-window coverage, residual-frontier exactness, local-join exposure, bounded-checker exactness, obstruction retention, bounded-conversion transport stability, replay stability, provenance exhaustion, and Nontrivial and FieldFaithful TasteGate instances for BEDC.Derived.FiniteObservationConfluenceBudgetUp.}
+\end{closurestatus}

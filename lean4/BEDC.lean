@@ -2688,6 +2688,7 @@ import BEDC.Derived.CurvatureUp.VisibleInputExhaustion
 import BEDC.Derived.CutRegularizationUp.TasteGate
 import BEDC.Derived.CyclotomicUp
 import BEDC.Derived.CyclotomicUp.SplittingPolynomial
+import BEDC.Derived.DNAFourPhaseAlphabetBridgeUp.TasteGate
 import BEDC.Derived.DarbouxContinuityUp.TasteGate
 import BEDC.Derived.DarbouxIntegralUp
 import BEDC.Derived.DarbouxIntegralUp.TasteGate
@@ -4105,6 +4106,7 @@ import BEDC.Derived.IntermediateValueUp.SignChangeLedger
 import BEDC.Derived.IntermediateValueUp.TasteGate
 import BEDC.Derived.InterpolationUp
 import BEDC.Derived.IntervalArithmeticUp
+import BEDC.Derived.IntervalBisectionTreeUp.TasteGate
 import BEDC.Derived.IntervalBisectionUp.TasteGate
 import BEDC.Derived.IntervalLengthUp.TasteGate
 import BEDC.Derived.IntervalUp
@@ -5386,6 +5388,7 @@ import BEDC.Derived.ProofTermErasureClassifierUp.TasteGate
 import BEDC.Derived.ProofTermErasureTraceUp.TasteGate
 import BEDC.Derived.ProofTraceAuditWitnessUp.TasteGate
 import BEDC.Derived.ProofWitnessChainUp.TasteGate
+import BEDC.Derived.ProperMapUp.TasteGate
 import BEDC.Derived.ProperMetricUp
 import BEDC.Derived.ProperMetricUp.TasteGate
 import BEDC.Derived.PropextTransportBoundaryUp
@@ -7085,6 +7088,7 @@ import BEDC.Derived.UniformModulusUp.StdBridge
 import BEDC.Derived.UniformModulusUp.TasteGate
 import BEDC.Derived.UniformPartitionUp.TasteGate
 import BEDC.Derived.UniformReflectionKernelUp.TasteGate
+import BEDC.Derived.UniformSequentialContinuityUp.TasteGate
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.UniqueChoicePrincipleUp.DeterministicReadback
 import BEDC.Derived.UniqueChoicePrincipleUp.NameCertObligations
