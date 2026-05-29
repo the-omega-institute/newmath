@@ -689,6 +689,7 @@ import BEDC.Derived.BishopCompactnessCriterionUp.TasteGate
 import BEDC.Derived.BishopCompleteMetricUp.TasteGate
 import BEDC.Derived.BishopCompletionInductionUp.TasteGate
 import BEDC.Derived.BishopCompletionModulusUp.TasteGate
+import BEDC.Derived.BishopCompletionTheoremUp.TasteGate
 import BEDC.Derived.BishopCompletionUniversalBoundaryUp.NameCertObligations
 import BEDC.Derived.BishopCompletionUniversalBoundaryUp.TasteGate
 import BEDC.Derived.BishopFanModulusUp
@@ -3921,6 +3922,7 @@ import BEDC.Derived.HausdorffSpaceUp.OpenNeighborhoodTransport
 import BEDC.Derived.HausdorffSpaceUp.PointSeparationChoicefree
 import BEDC.Derived.HausdorffSpaceUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
+import BEDC.Derived.HeineCantorUp.TasteGate
 import BEDC.Derived.HellySelectionUp.TasteGate
 import BEDC.Derived.HenstockKurzweilUp.TasteGate
 import BEDC.Derived.HilbertCubeUp.TasteGate
@@ -4217,6 +4219,7 @@ import BEDC.Derived.LayeredRelationDisplayUp.TasteGate
 import BEDC.Derived.LayeredRelationFailureBoundaryUp.TasteGate
 import BEDC.Derived.LayeredRelationGateUp.TasteGate
 import BEDC.Derived.LayeredRelationSiteUp.TasteGate
+import BEDC.Derived.LebesgueNumberLemmaUp.TasteGate
 import BEDC.Derived.LeibnizAlternatingRemainderUp.TasteGate
 import BEDC.Derived.LengthSpaceUp.TasteGate
 import BEDC.Derived.LesserLimitedOmniscienceUp
