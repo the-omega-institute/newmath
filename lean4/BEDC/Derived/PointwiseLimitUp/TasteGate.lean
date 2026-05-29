@@ -25,7 +25,7 @@ def pointwiseLimitDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (pointwiseLimitDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (pointwiseLimitDecodeBHist tail)
 
-private theorem PointwiseLimitTasteGate_single_carrier_alignment_decode_encode :
+private theorem PointwiseLimitTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist, pointwiseLimitDecodeBHist (pointwiseLimitEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -37,43 +37,44 @@ private theorem PointwiseLimitTasteGate_single_carrier_alignment_decode_encode :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-def pointwiseLimitFields : PointwiseLimitUp → List BHist
+private def pointwiseLimitFields : PointwiseLimitUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | PointwiseLimitUp.mk X Y F I S Q R E H C K N => [X, Y, F, I, S, Q, R, E, H, C, K, N]
 
 def pointwiseLimitToEventFlow : PointwiseLimitUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (pointwiseLimitFields x).map pointwiseLimitEncodeBHist
+  | token => (pointwiseLimitFields token).map pointwiseLimitEncodeBHist
 
-private def pointwiseLimitEventAt : Nat → EventFlow → RawEvent
+private def pointwiseLimitEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => pointwiseLimitEventAt index rest
+  | Nat.succ index, _event :: rest => pointwiseLimitEventAtDefault index rest
 
 def pointwiseLimitFromEventFlow (ef : EventFlow) : Option PointwiseLimitUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (PointwiseLimitUp.mk
-      (pointwiseLimitDecodeBHist (pointwiseLimitEventAt 0 ef))
-      (pointwiseLimitDecodeBHist (pointwiseLimitEventAt 1 ef))
-      (pointwiseLimitDecodeBHist (pointwiseLimitEventAt 2 ef))
-      (pointwiseLimitDecodeBHist (pointwiseLimitEventAt 3 ef))
-      (pointwiseLimitDecodeBHist (pointwiseLimitEventAt 4 ef))
-      (pointwiseLimitDecodeBHist (pointwiseLimitEventAt 5 ef))
-      (pointwiseLimitDecodeBHist (pointwiseLimitEventAt 6 ef))
-      (pointwiseLimitDecodeBHist (pointwiseLimitEventAt 7 ef))
-      (pointwiseLimitDecodeBHist (pointwiseLimitEventAt 8 ef))
-      (pointwiseLimitDecodeBHist (pointwiseLimitEventAt 9 ef))
-      (pointwiseLimitDecodeBHist (pointwiseLimitEventAt 10 ef))
-      (pointwiseLimitDecodeBHist (pointwiseLimitEventAt 11 ef)))
+      (pointwiseLimitDecodeBHist (pointwiseLimitEventAtDefault 0 ef))
+      (pointwiseLimitDecodeBHist (pointwiseLimitEventAtDefault 1 ef))
+      (pointwiseLimitDecodeBHist (pointwiseLimitEventAtDefault 2 ef))
+      (pointwiseLimitDecodeBHist (pointwiseLimitEventAtDefault 3 ef))
+      (pointwiseLimitDecodeBHist (pointwiseLimitEventAtDefault 4 ef))
+      (pointwiseLimitDecodeBHist (pointwiseLimitEventAtDefault 5 ef))
+      (pointwiseLimitDecodeBHist (pointwiseLimitEventAtDefault 6 ef))
+      (pointwiseLimitDecodeBHist (pointwiseLimitEventAtDefault 7 ef))
+      (pointwiseLimitDecodeBHist (pointwiseLimitEventAtDefault 8 ef))
+      (pointwiseLimitDecodeBHist (pointwiseLimitEventAtDefault 9 ef))
+      (pointwiseLimitDecodeBHist (pointwiseLimitEventAtDefault 10 ef))
+      (pointwiseLimitDecodeBHist (pointwiseLimitEventAtDefault 11 ef)))
 
-private theorem PointwiseLimitTasteGate_single_carrier_alignment_round_trip
-    (x : PointwiseLimitUp) :
-    pointwiseLimitFromEventFlow (pointwiseLimitToEventFlow x) = some x := by
+private theorem PointwiseLimitTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : PointwiseLimitUp,
+      pointwiseLimitFromEventFlow (pointwiseLimitToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  cases x with
+  intro token
+  cases token with
   | mk X Y F I S Q R E H C K N =>
       change
         some
@@ -91,18 +92,18 @@ private theorem PointwiseLimitTasteGate_single_carrier_alignment_round_trip
             (pointwiseLimitDecodeBHist (pointwiseLimitEncodeBHist K))
             (pointwiseLimitDecodeBHist (pointwiseLimitEncodeBHist N))) =
           some (PointwiseLimitUp.mk X Y F I S Q R E H C K N)
-      rw [PointwiseLimitTasteGate_single_carrier_alignment_decode_encode X,
-        PointwiseLimitTasteGate_single_carrier_alignment_decode_encode Y,
-        PointwiseLimitTasteGate_single_carrier_alignment_decode_encode F,
-        PointwiseLimitTasteGate_single_carrier_alignment_decode_encode I,
-        PointwiseLimitTasteGate_single_carrier_alignment_decode_encode S,
-        PointwiseLimitTasteGate_single_carrier_alignment_decode_encode Q,
-        PointwiseLimitTasteGate_single_carrier_alignment_decode_encode R,
-        PointwiseLimitTasteGate_single_carrier_alignment_decode_encode E,
-        PointwiseLimitTasteGate_single_carrier_alignment_decode_encode H,
-        PointwiseLimitTasteGate_single_carrier_alignment_decode_encode C,
-        PointwiseLimitTasteGate_single_carrier_alignment_decode_encode K,
-        PointwiseLimitTasteGate_single_carrier_alignment_decode_encode N]
+      rw [PointwiseLimitTasteGate_single_carrier_alignment_decode X,
+        PointwiseLimitTasteGate_single_carrier_alignment_decode Y,
+        PointwiseLimitTasteGate_single_carrier_alignment_decode F,
+        PointwiseLimitTasteGate_single_carrier_alignment_decode I,
+        PointwiseLimitTasteGate_single_carrier_alignment_decode S,
+        PointwiseLimitTasteGate_single_carrier_alignment_decode Q,
+        PointwiseLimitTasteGate_single_carrier_alignment_decode R,
+        PointwiseLimitTasteGate_single_carrier_alignment_decode E,
+        PointwiseLimitTasteGate_single_carrier_alignment_decode H,
+        PointwiseLimitTasteGate_single_carrier_alignment_decode C,
+        PointwiseLimitTasteGate_single_carrier_alignment_decode K,
+        PointwiseLimitTasteGate_single_carrier_alignment_decode N]
 
 private theorem PointwiseLimitTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : PointwiseLimitUp} :
@@ -116,17 +117,6 @@ private theorem PointwiseLimitTasteGate_single_carrier_alignment_toEventFlow_inj
   exact Option.some.inj
     (Eq.trans (PointwiseLimitTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (PointwiseLimitTasteGate_single_carrier_alignment_round_trip y)))
-
-private theorem PointwiseLimitTasteGate_single_carrier_alignment_fields_faithful :
-    ∀ x y : PointwiseLimitUp, pointwiseLimitFields x = pointwiseLimitFields y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk X₁ Y₁ F₁ I₁ S₁ Q₁ R₁ E₁ H₁ C₁ K₁ N₁ =>
-      cases y with
-      | mk X₂ Y₂ F₂ I₂ S₂ Q₂ R₂ E₂ H₂ C₂ K₂ N₂ =>
-          cases hfields
-          rfl
 
 instance pointwiseLimitBHistCarrier : BHistCarrier PointwiseLimitUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -143,43 +133,18 @@ instance pointwiseLimitChapterTasteGate : ChapterTasteGate PointwiseLimitUp wher
     intro x y hxy heq
     exact hxy (PointwiseLimitTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-instance pointwiseLimitFieldFaithful : FieldFaithful PointwiseLimitUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := pointwiseLimitFields
-  field_faithful := PointwiseLimitTasteGate_single_carrier_alignment_fields_faithful
-
-instance pointwiseLimitNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial PointwiseLimitUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨PointwiseLimitUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
-      PointwiseLimitUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
-def PointwiseLimitTasteGate_single_carrier_alignment_taste_gate :
-    ChapterTasteGate PointwiseLimitUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  pointwiseLimitChapterTasteGate
-
 theorem PointwiseLimitTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate PointwiseLimitUp) ∧
-      Nonempty (FieldFaithful PointwiseLimitUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial PointwiseLimitUp) ∧
-          (∀ h : BHist, pointwiseLimitDecodeBHist (pointwiseLimitEncodeBHist h) = h) ∧
-            (∀ x : PointwiseLimitUp,
-              pointwiseLimitFromEventFlow (pointwiseLimitToEventFlow x) = some x) ∧
-              pointwiseLimitEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+    (∀ h : BHist, pointwiseLimitDecodeBHist (pointwiseLimitEncodeBHist h) = h) ∧
+      (∀ x : PointwiseLimitUp,
+        pointwiseLimitFromEventFlow (pointwiseLimitToEventFlow x) = some x) ∧
+        (∀ x y : PointwiseLimitUp,
+          pointwiseLimitToEventFlow x = pointwiseLimitToEventFlow y → x = y) ∧
+          pointwiseLimitEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨⟨pointwiseLimitChapterTasteGate⟩, ⟨pointwiseLimitFieldFaithful⟩,
-      ⟨pointwiseLimitNontrivial⟩,
-      PointwiseLimitTasteGate_single_carrier_alignment_decode_encode,
-      PointwiseLimitTasteGate_single_carrier_alignment_round_trip, rfl⟩
+    ⟨PointwiseLimitTasteGate_single_carrier_alignment_decode,
+      PointwiseLimitTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => PointwiseLimitTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.PointwiseLimitUp
