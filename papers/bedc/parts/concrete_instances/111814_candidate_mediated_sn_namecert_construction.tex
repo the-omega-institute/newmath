@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\CandidateMediatedSNUp$}
+\label{ch:concrete-instances-candidate-mediated-sn-namecert}
+\origin{ai}
+
+The $\CandidateMediatedSNUp$ packet realizes the candidate-mediated branch of \autoref{ch:metacic-normalization-audit-map} as finite NameCert data. It reads the sibling MetaCIC sources \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}, and \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert} as route anchors, while keeping candidate evidence explicit before any strong-normalization conclusion is exported. The packet is a normalization-evidence landing, not a blanket theorem that every closed typed MetaCIC term is strongly normalizing without displayed candidate data.
+
+\begin{definition}[Candidate-mediated strong-normalization carrier]
+\label{def:candidate-mediated-sn-carrier}
+A $\CandidateMediatedSNUp$ carrier is a finite $\BHist$ packet
+$$
+M=(T,E,C,S,A,NF,O,R,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed typed MetaCIC term row consumed by the endpoint projection.
+\item $E$ is the candidate-evidence row, allowing Candidate, ClosedCandidate, or CandidateSet membership evidence to be named without erasure.
+\item $C$ is the candidate-closure row, recording the closure and beta-stability data needed by the candidate route.
+\item $S$ is the strong-normalization export row downstream of $E$ and $C$.
+\item $A$ is the Pi/application adequacy row, keeping function and argument reads inside the same candidate-mediated interface.
+\item $NF$ is the no-infinite-reduction projection row obtained from the same strong-normalization evidence.
+\item $O$ is the obstruction row naming subject-reduction, substitution, confluence, and closed-consistency boundaries that remain outside this packet.
+\item $R$ is the frontier route row, reading $\MetaCICCriticalPathUp$, $\MetaCICNormalizationFrontierUp$, $\MetaCICConfluenceAuditPacketUp$, and $\NormalFormConsistencySealUp$ as named sources rather than replacing them.
+\item $H$ records componentwise $\hsame$ transport for the typed term, candidate evidence, closure, strong-normalization export, adequacy, no-infinite-reduction projection, obstruction, route, replay, provenance, and local naming rows.
+\item $Q$ records displayed $\Cont$ replay from candidate evidence to the strong-normalization and no-infinite-reduction endpoint rows.
+\item $P$ is the $\Pkg$ provenance over $\CandidateMediatedSNUp$, \autoref{ch:metacic-normalization-audit-map}, \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}, \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CandidateMediatedSNUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,E,C,S,A,NF,O,R,H,Q,P,N$.
+\end{definition}
+
+\begin{theorem}[Candidate-mediated strong-normalization NameCert obligations]
+\label{thm:candidate-mediated-sn-namecert-obligations}
+For every accepted $\CandidateMediatedSNUp$ carrier
+$$
+M=(T,E,C,S,A,NF,O,R,H,Q,P,N),
+$$
+the local $\NameCert_{\CandidateMediatedSNUp}$ surface consists exactly of closed typed term admission through $T$, candidate evidence through $E$, candidate closure through $C$, strong-normalization export through $S$, Pi/application adequacy through $A$, no-infinite-reduction projection through $NF$, obstruction visibility through $O$, route anchoring through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $Q$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:candidate-mediated-sn-carrier}. The closed typed term row $T$ names the endpoint shape, but it does not carry strong normalization on its own.
+
+The evidence rows $E$ and $C$ are the positive source. The export row $S$ and no-infinite-reduction row $NF$ are downstream of that source, while $A$ keeps Pi and application reads inside the candidate-mediated route.
+
+The obstruction and route rows are also part of the certificate. They expose the critical-path, normalization-frontier, confluence-audit, and normal-form-consistency boundaries rather than silently converting them into unconditional normalization.
+
+Finally $H,Q,P,N$ provide transport, replay, provenance, and local naming. Since no carrier coordinate stores an evidence-free closed-term strong-normalization theorem, the listed rows exhaust the packet.
+\end{proof}
+
+\begin{theorem}[Candidate-mediated strong-normalization frontier handoff]
+\label{thm:candidate-mediated-sn-frontier-handoff}
+Every strong-normalization read exported by an accepted $\CandidateMediatedSNUp$ packet factors through displayed candidate evidence before it reaches a closed typed term endpoint. The route may cite $\MetaCICCriticalPathUp$, $\MetaCICNormalizationFrontierUp$, $\MetaCICConfluenceAuditPacketUp$, and $\NormalFormConsistencySealUp$ as sibling anchors, but it cannot erase the Candidate, ClosedCandidate, or CandidateSet evidence row into a global closed-term normalization theorem.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:candidate-mediated-sn-namecert-obligations}. The endpoint row $T$ is read only after the evidence and closure rows have been opened.
+
+The adequacy and no-infinite-reduction rows are not independent endpoints. They are downstream projections of the same candidate-mediated source, so application, Pi, and infinite-reduction reads remain attached to $E$ and $C$.
+
+The sibling route row $R$ records where the public MetaCIC boundaries are read. It preserves the normalization frontier and confluence audit as named sources, and therefore blocks the evidence-free closed-term claim.
+\end{proof}
+
+\begin{theorem}[Candidate-mediated strong-normalization TasteGate obligation]
+\label{thm:candidate-mediated-sn-tastegate-obligation}
+Future Lean support for $\CandidateMediatedSNUp$ requires TasteGate $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances. Nontriviality must distinguish an accepted packet with displayed candidate evidence from a closed typed term row without that evidence, and field faithfulness must preserve the row order
+$$
+T \longmapsto E \longmapsto C \longmapsto S \longmapsto A \longmapsto NF \longmapsto O \longmapsto R \longmapsto H,Q,P,N
+$$
+before any carrier-alignment theorem can serve as a checked realization.
+\end{theorem}
+\begin{proof}
+Nontriviality follows from the carrier boundary. Removing $E$ or $C$ leaves the closed typed term endpoint without the evidence route that supplies strong normalization.
+
+Field faithfulness is the row-order condition. If a TasteGate projection permutes or erases $E,C,S,A,NF,O,R,H,Q,P,N$, the packet no longer represents the candidate-mediated route named by \autoref{def:candidate-mediated-sn-carrier}.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CandidateMediatedSNUp$ strong-normalization read exposes candidate evidence before the endpoint: closed typed term row first, candidate evidence second, candidate closure third, strong-normalization export fourth, Pi/application adequacy fifth, no-infinite-reduction projection sixth, and obstruction, route, transport, replay, provenance, and local naming rows thereafter.}
+
+\independenceWitness{metacic-normalization-audit-map, metacic-critical-path, metacic-normalization-frontier, metacic-confluence-audit-packet, normal-form-consistency-seal: $\CandidateMediatedSNUp$ is not bijective to any listed source because it isolates the evidence-carrying strong-normalization route while preserving each sibling as a named boundary rather than a replacement theorem.}
+
+\closureat{CandidateMediatedSNUp}{seedStr}
+
+\begin{closurestatus}{\CandidateMediatedSNUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:candidate-mediated-sn-carrier}, \autoref{thm:candidate-mediated-sn-namecert-obligations}, \autoref{thm:candidate-mediated-sn-frontier-handoff}, and \autoref{thm:candidate-mediated-sn-tastegate-obligation} seed the candidate-mediated strong-normalization evidence route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unconditional strong normalization for every closed typed MetaCIC term, subject reduction, arbitrary substitution preservation, global confluence, closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate-evidence visibility, candidate-closure stability, strong-normalization export, Pi/application adequacy routing, no-infinite-reduction projection, obstruction visibility, TasteGate nontriviality, field faithfulness, transport, replay, provenance, and local naming for BEDC.Derived.CandidateMediatedSNUp.}
+  \constructivestory{A $\CandidateMediatedSNUp$ packet is generated from a closed typed term row, candidate evidence, candidate closure, strong-normalization export, Pi/application adequacy rows, no-infinite-reduction projection, obstruction boundaries, sibling route anchors, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
