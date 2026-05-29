@@ -58,6 +58,22 @@ Use the threshold row $M$ to pass from the refined dyadic request to a weakly la
 The Real-facing endpoint is still the row $R$, followed by $H,C,P,N$. Because the route has no quotient stream coordinate, selected-limit coordinate, choice schedule, or ambient completeness coordinate, the tail refinement is exactly the displayed finite lattice refinement.
 \end{proof}
 
+\begin{theorem}[Dyadic Cauchy modulus lattice common-refinement exhaustion]
+\label{thm:dyadic-cauchy-modulus-lattice-common-refinement-exhaustion}
+Let $L=(D,M,W,Q,R,J,H,C,P,N)$ be an accepted $\DyadicCauchyModulusLatticeUp$ packet. If two dyadic tolerance requests are accepted by the same packet, then any common refinement visible to a Real or Completion consumer must be a displayed row of the directed lattice component $J$. After that refinement is chosen inside $J$, every consumer still factors through the same route
+$$
+D,M,J \longmapsto W,Q \longmapsto R \longmapsto H,C,P,N .
+$$
+Thus common-refinement reads cannot pass through quotient streams, selected limits, host modulus functions, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-cauchy-modulus-lattice-carrier}. The only component that compares dyadic tolerance requests is $J$, and it records finite meet and weak-later comparisons between requests already displayed by $D$ and served by $M$.
+
+Apply \autoref{thm:dyadic-cauchy-modulus-lattice-tail-refinement} to the first request and then to the second request. Both refinements remain on weakly later $\CauchyConvergenceModulusUp$ thresholds, finite $\StreamNameUp$ windows, the same $\RegSeqRatUp$ readback route, and the same downstream $\RealUp$ seal boundary.
+
+Now use \autoref{thm:dyadic-cauchy-modulus-lattice-real-seal-handoff}. The Real-facing handoff is available only after the dyadic tolerance, convergence-modulus, lattice, window, and readback rows have been displayed, and the structural rows $H,C,P,N$ preserve that same finite route. Since the carrier has no quotient-stream, selected-limit, host-modulus, or ambient-completeness coordinate, the displayed common refinement in $J$ exhausts the consumer-visible comparison.
+\end{proof}
+
 \begin{theorem}[Dyadic Cauchy modulus lattice Real seal handoff]
 \label{thm:dyadic-cauchy-modulus-lattice-real-seal-handoff}
 Every accepted $\DyadicCauchyModulusLatticeUp$ packet exposes its $\RealUp$ seal only after the dyadic tolerance row, convergence-modulus row, directed lattice row, finite $\StreamNameUp$ window, and $\RegSeqRatUp$ readback have all been displayed. Thus any Real or Completion consumer using the lattice must factor through
