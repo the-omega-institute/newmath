@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\FiniteModulusRealUp$}
+\label{ch:concrete-instances-finite-modulus-real-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\FiniteModulusRealUp$ packet records a real-name route whose modulus ledger is finite and explicit at every consumer read. It sits between the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the real-modulus criterion of \autoref{ch:concrete-instances-real-modulus-criterion-namecert}. The packet gives Real and Completion consumers a modulus-visible carrier without quotienting Cauchy streams, selecting host limits, invoking countable choice, or asserting ambient $\RealUp$ completeness.
+
+\begin{definition}[FiniteModulusReal carrier]
+\label{def:finite-modulus-real-carrier}
+A $\FiniteModulusRealUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,R,D,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ window row, naming exactly the finite observation windows read by the carrier at the requested precision.
+\item $R$ is the $\RegSeqRatUp$ readback row, translating the inspected stream windows into regular rational approximation data.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic scales and comparison rows used by the displayed approximations.
+\item $M$ is the explicit finite modulus ledger, assigning to each retained precision request the finite window of $S$ and dyadic tolerance data in $D$ required before the readback row $R$ may be consumed.
+\item $E$ is the terminal $\RealUp$ seal boundary reached only after $S,R,D,M$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the stream windows, regular readback, dyadic tolerance ledger, finite modulus ledger, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite Real or Completion read through $S,R,D,M,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteModulusRealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, the real-modulus criterion, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteModulusRealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,D,M,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected host limits, countable choice, undecorated Real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[FiniteModulusReal NameCert obligations]
+\label{thm:finite-modulus-real-namecert-obligations}
+For every accepted $\FiniteModulusRealUp$ carrier
+$$
+F=(S,R,D,M,E,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteModulusRealUp}$ surface consists exactly of carrier admission for stream windows, regular rational readback, dyadic tolerances, explicit finite modulus rows, terminal Real seal routing, componentwise transport, displayed continuation replay, package provenance, and local naming. Every Real or Completion consumer read of the packet must expose the finite modulus row $M$ before it consumes $R$ or $E$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-modulus-real-carrier}. The analytic rows are $S,R,D,M,E$, and the structural rows $H,C,P,N$ transport, replay, source, and name the same packet.
+
+The read order is finite. A precision request first selects the window named in $S$ and the dyadic tolerance data recorded in $D$. The finite modulus ledger $M$ binds those two rows to the requested read before the regular rational row $R$ may be consumed.
+
+The terminal seal $E$ is downstream of $S,R,D,M$. Componentwise transport through $H$ and continuation replay through $C$ preserve the same displayed rows, while $P$ and $N$ record provenance and local naming. Since the carrier has no additional coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[FiniteModulusReal RegSeqRat handoff]
+\label{thm:finite-modulus-real-regseqrat-handoff}
+For every accepted $\FiniteModulusRealUp$ carrier $F=(S,R,D,M,E,H,C,P,N)$, the $\RegSeqRatUp$ readback row $R$ is consumed only after the finite stream windows $S$, dyadic tolerance ledger $D$, and explicit modulus ledger $M$ have been displayed. Thus downstream regular rational consumers receive a finite modulus-indexed approximation route, not a quotient Cauchy stream or selected host limit.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:finite-modulus-real-carrier}. The row $R$ is the only regular rational readback coordinate, and it is listed after the stream-window row $S$, dyadic tolerance ledger $D$, and explicit finite modulus ledger $M$.
+
+Apply \autoref{thm:finite-modulus-real-namecert-obligations}. A consumer read must expose $M$ before consuming $R$, so the demanded regular rational approximation is tied to a displayed finite window and a displayed dyadic tolerance row.
+
+Transport and replay add no hidden readback source. The rows $H,C,P,N$ preserve and name the same finite route, so a downstream $\RegSeqRatUp$ consumer cannot inspect quotient stream equality, a selected limit, countable choice, or ambient Real completeness through this handoff.
+\end{proof}
+
+\begin{theorem}[FiniteModulusReal Real seal nonescape]
+\label{thm:finite-modulus-real-real-seal-nonescape}
+Every terminal $\RealUp$ seal read of an accepted $\FiniteModulusRealUp$ carrier factors through
+$$
+S,D,M \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+No Real or Completion consumer can bypass the explicit finite modulus ledger before reading the terminal seal.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $F=(S,R,D,M,E,H,C,P,N)$. By \autoref{def:finite-modulus-real-carrier}, the only terminal Real boundary is the row $E$.
+
+Use \autoref{thm:finite-modulus-real-namecert-obligations}. The seal row $E$ is downstream of the stream windows, dyadic tolerance ledger, explicit modulus ledger, and regular rational readback. Therefore a consumer that has not displayed $S,D,M,R$ has not reached the packet's terminal seal.
+
+The structural rows do not create another Real-facing boundary. They transport, replay, source, and name the same finite packet, so the seal route cannot escape to quotient equality, selected host limits, countable choice, undecorated Real equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteModulusRealUp$ consumer that reaches $\RegSeqRatUp$ readback or the terminal $\RealUp$ seal without the displayed finite modulus ledger $M$ refutes the carrier surface.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, real-modulus-criterion: no listed sibling supplies the whole nine-row packet $F=(S,R,D,M,E,H,C,P,N)$, because each sibling contributes finite windows, regular readback, dyadic tolerance data, terminal Real sealing, or a modulus criterion while this chapter binds them into one local NameCert carrier.}
+
+\closureat{FiniteModulusRealUp}{seedStr}
+
+\begin{closurestatus}{\FiniteModulusRealUp}
+  \constructivestory{A $\FiniteModulusRealUp$ packet is generated from finite StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, an explicit finite modulus ledger, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-modulus-real-carrier}, \autoref{thm:finite-modulus-real-namecert-obligations}, \autoref{thm:finite-modulus-real-regseqrat-handoff}, and \autoref{thm:finite-modulus-real-real-seal-nonescape} seed the finite explicit-modulus Real carrier over StreamName, RegSeqRat, DyadicRatCore, Real, and real-modulus criterion rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected host limits, countable choice, undecorated Real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exposure, dyadic tolerance exactness, explicit modulus routing, RegSeqRat handoff, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteModulusRealUp.}
+\end{closurestatus}
