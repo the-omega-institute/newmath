@@ -1,11 +1,13 @@
 import BEDC.Derived.EvenOddCauchyCriterionUp.TasteGate
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.EvenOddCauchyCriterionUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
 def EvenOddCauchyCriterionCarrier (A B SA SB eps M D F R H C P N : BHist) : Prop :=
@@ -49,5 +51,37 @@ theorem EvenOddCauchyCriterionCarrier_real_seal_route
     ⟨aUnary, bUnary, saUnary, sbUnary, epsUnary, mUnary, dUnary, fUnary, rUnary,
       selectedUnary, budgetUnary, toleranceUnary, fusionUnary, sealUnary, selectedRoute,
       budgetRoute, toleranceRoute, fusionRoute, sealRoute⟩
+
+theorem EvenOddCauchyCriterionCarrier_namecert_obligations
+    {A B SA SB eps M D F R H C P N localName : BHist} :
+    EvenOddCauchyCriterionCarrier A B SA SB eps M D F R H C P N →
+      SemanticNameCert
+        (fun row : BHist =>
+          EvenOddCauchyCriterionCarrier A B SA SB eps M D F R H C P N ∧
+            hsame row localName)
+        (fun row : BHist =>
+          EvenOddCauchyCriterionCarrier A B SA SB eps M D F R H C P N ∧
+            hsame row localName)
+        (fun row : BHist =>
+          EvenOddCauchyCriterionCarrier A B SA SB eps M D F R H C P N ∧
+            hsame row localName)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist SemanticNameCert hsame NameCert UnaryHistory
+  intro carrier
+  constructor
+  · constructor
+    · exact Exists.intro localName ⟨carrier, hsame_refl localName⟩
+    · intro row _source
+      exact hsame_refl row
+    · intro _row _other same
+      exact hsame_symm same
+    · intro _row _middle _other sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    · intro row other same source
+      exact ⟨source.left, hsame_trans (hsame_symm same) source.right⟩
+  · intro _row source
+    exact source
+  · intro _row source
+    exact source
 
 end BEDC.Derived.EvenOddCauchyCriterionUp
