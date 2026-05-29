@@ -4262,6 +4262,7 @@ import BEDC.Derived.LinearMapUp.Image
 import BEDC.Derived.LinearMapUp.PointwiseClassifier
 import BEDC.Derived.LinearMapUp.StdBridge
 import BEDC.Derived.LinearMapUp.ZeroClassifierUniqueness
+import BEDC.Derived.LiouvilleNumberUp.TasteGate
 import BEDC.Derived.LipschitzContinuityHandoffUp.TasteGate
 import BEDC.Derived.LipschitzFunctionUp.TasteGate
 import BEDC.Derived.LipschitzMapUp
@@ -6779,6 +6780,7 @@ import BEDC.Derived.TotallyBoundedClosureUp.TasteGate
 import BEDC.Derived.TotallyBoundedMetricUp.TasteGate
 import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.TotallyBoundedUp.TasteGate
+import BEDC.Derived.TotallyDisconnectedSpaceUp.TasteGate
 import BEDC.Derived.TowerEndpointReflectionUp.TasteGate
 import BEDC.Derived.TowerEquivalenceUp.NameCertObligations
 import BEDC.Derived.TowerEquivalenceUp.RefinementSeparation
