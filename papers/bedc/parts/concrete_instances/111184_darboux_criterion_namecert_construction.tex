@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\DarbouxCriterionUp$}
+\label{ch:concrete-instances-darboux-criterion-namecert}
+\origin{human}
+
+Following Darboux, Riemann, and Bishop--Bridges constructive integration, the $\DarbouxCriterionUp$ packet records the upper-lower gap test as finite NameCert evidence. It sits between the lower and upper Darboux sum packets of \autoref{ch:concrete-instances-lower-darboux-sum-namecert} and \autoref{ch:concrete-instances-upper-darboux-sum-namecert}, the Darboux-sum surface of \autoref{ch:concrete-instances-darbouxsum-namecert}, and the Riemann-facing consumers of \autoref{ch:concrete-instances-riemannintegrable-namecert} and \autoref{ch:concrete-instances-riemannintegral-namecert}. The packet exposes a displayed partition, lower sum, upper sum, gap, tolerance, regular rational readback, and real seal; it does not import host suprema, measure completion, a selected mesh, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Darboux criterion carrier]
+\label{def:darboux-criterion-carrier}
+A $\DarbouxCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(P,L,U,G,T,R,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the finite partition row, recording the inspected interval endpoints and refinement requests.
+\item $L$ is the $\LowerDarbouxSumUp$ row attached to $P$.
+\item $U$ is the $\UpperDarbouxSumUp$ row attached to the same partition row $P$.
+\item $G$ is the upper-minus-lower gap row comparing $U$ and $L$ inside the displayed rational ledger.
+\item $T$ is the tolerance row, recording the positive rational request against which $G$ is checked.
+\item $R$ is the $\RegSeqRatUp$ readback row reached from the same finite partition and gap evidence.
+\item $E$ is the terminal $\RealUp$ seal row, exposed only after $P,L,U,G,T,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for partition, lower-sum, upper-sum, gap, tolerance, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through $P,L,U,G,T,R,E$.
+\item $Q$ is the $\Pkg$ provenance over $\DarbouxCriterionUp$, $\DarbouxSumUp$, $\LowerDarbouxSumUp$, $\UpperDarbouxSumUp$, $\RiemannIntegrableUp$, $\RiemannIntegralUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DarbouxCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host suprema or infima, measure completion, a selected mesh, an ambient completeness principle, a quotient real, or a global integration theorem.
+\end{definition}
+
+\begin{theorem}[Darboux criterion NameCert obligations]
+\label{thm:darboux-criterion-namecert-obligations}
+For every accepted $\DarbouxCriterionUp$ carrier
+$$
+K=(P,L,U,G,T,R,E,H,C,Q,N),
+$$
+the local $\NameCert_{\DarbouxCriterionUp}$ surface consists exactly of carrier admission for the displayed rows, partition exposure, lower-sum and upper-sum compatibility over the same partition, gap comparison against the tolerance row, regular rational readback, terminal real-seal routing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No obligation is stored outside $P,L,U,G,T,R,E,H,C,Q,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The accepted packet exposes the partition row $P$, the paired lower and upper Darboux sum rows $L,U$, the gap row $G$, the tolerance row $T$, the regular readback row $R$, the seal row $E$, and the structural rows $H,C,Q,N$.
+
+The lower and upper sum rows are tied to the same partition row, so a gap comparison cannot switch partitions while the criterion is being read. The tolerance row fixes the request against which the displayed gap is checked.
+
+The regular readback and real seal are downstream of those finite rows. Componentwise transport and replay preserve the same order, while provenance and naming record the listed sibling packets.
+
+Since host suprema, measure completion, selected meshes, quotient reals, ambient completeness, and global integration theorems are absent from the carrier coordinates, the displayed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Darboux criterion upper-lower gap route]
+\label{thm:darboux-criterion-upper-lower-gap-route}
+Every $\RiemannIntegrableUp$, $\RiemannIntegralUp$, or regulated-integral-facing read of an accepted $\DarbouxCriterionUp$ packet factors through the finite route
+$$
+P,L,U \longmapsto G,T \longmapsto R \longmapsto E .
+$$
+Thus the consumer first reads a displayed partition, lower Darboux sum, and upper Darboux sum; then it reads the upper-minus-lower gap and tolerance rows; then it reads the $\RegSeqRatUp$ handoff and terminal $\RealUp$ seal. The packet exports no direct route through host suprema, measure completion, selected mesh choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:darboux-criterion-namecert-obligations}. They require carrier admission and classifier transport through the displayed rows of \autoref{def:darboux-criterion-carrier}.
+
+The partition row $P$ is read before either sum row can be used. The rows $L$ and $U$ are therefore paired over the same finite partition, and $G$ is the displayed comparison between those paired rows.
+
+The tolerance row $T$ is the only request against which the gap is consumed. After that finite comparison has been displayed, the read may pass to $R$ and then to the real seal row $E$.
+
+The excluded routes are not coordinates of the carrier. Hence every integration-facing consumer receives the upper-lower gap criterion only through the finite partition, sum, gap, tolerance, regular-readback, and seal route.
+\end{proof}
+
+\closureat{DarbouxCriterionUp}{seedStr}
+
+\begin{closurestatus}{\DarbouxCriterionUp}
+  \constructivestory{A $\DarbouxCriterionUp$ packet is generated from a displayed partition, lower and upper Darboux sum rows, an upper-minus-lower gap row, a tolerance row, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:darboux-criterion-carrier}, \autoref{thm:darboux-criterion-namecert-obligations}, and \autoref{thm:darboux-criterion-upper-lower-gap-route} seed the finite upper-lower gap criterion for Riemann-facing and regulated-integral-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host suprema, measure completion, selected mesh choice, quotient real equality, ambient Real completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, partition exposure, paired lower and upper sum compatibility, gap tolerance comparison, regular readback, real-seal routing, transport, replay, provenance, and local naming for BEDC.Derived.DarbouxCriterionUp.}
+\end{closurestatus}
