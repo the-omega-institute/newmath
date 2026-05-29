@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\CompactRealIntervalMinimumUp$}
+\label{ch:concrete-instances-compact-real-interval-minimum-namecert}
+\origin{human}
+
+Following Weierstrass and Bishop--Bridges constructive analysis, the $\CompactRealIntervalMinimumUp$ packet records the interval-minimum half of the compact-real extreme-value route as finite BEDC NameCert data. It sits over the compact interval source of \autoref{ch:concrete-instances-bishop-compact-interval-namecert}, the closed bounded interval source of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the continuous-map row of \autoref{ch:concrete-instances-continuousmap-namecert}, the located lower-bound route dual to \autoref{ch:concrete-instances-locatedsupremum-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is minimum-specific: it exposes lower-bound attainment windows without importing open-cover compactness, trichotomy, quotient real equality, selected host extrema, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Compact real interval minimum carrier]
+\label{def:compact-real-interval-minimum-carrier}
+A $\CompactRealIntervalMinimumUp$ carrier is a finite $\BHist$ packet
+$$
+M=(I,K,F,L,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\ClosedBoundedIntervalUp$ source row, carrying endpoint order, interval containment, finite endpoint windows, and real endpoint seals.
+\item $K$ is the compact interval row, read through $\BishopCompactIntervalUp$ or $\CompactMetricUp$, exposing only the finite inspection surface admitted for the interval source.
+\item $F$ is the $\ContinuousMapUp$ row for the real-valued map on the displayed compact interval.
+\item $L$ is the lower-bound and located-supremum-dual row, recording that every inspected value is above a displayed lower-bound candidate and that the candidate is reached through finite located windows rather than by trichotomy.
+\item $W$ is the finite witness-window row, recording the interval windows in which $F$ and $L$ meet a terminal value seal.
+\item $R$ is the $\RegSeqRatUp$ readback row for the value and lower-bound comparison windows.
+\item $E$ is the $\RealUp$ value seal row reached only after $I,K,F,L,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the interval source, compact source, continuous-map row, lower-bound row, witness windows, regular readbacks, Real seals, replay rows, provenance rows, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from minimum-attainment requests through $I,K,F,L,W,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CompactRealIntervalMinimumUp$, $\ClosedBoundedIntervalUp$, $\BishopCompactIntervalUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\LocatedSupremumUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactRealIntervalMinimumUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for open-cover compactness, arbitrary real trichotomy, quotient real equality, a selected host minimum, a selected host maximum, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Compact real interval minimum NameCert obligations]
+\label{thm:compact-real-interval-minimum-namecert-obligations}
+For every accepted $\CompactRealIntervalMinimumUp$ carrier
+$$
+M=(I,K,F,L,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\CompactRealIntervalMinimumUp}$ surface consists exactly of carrier admission for the closed bounded interval source, compact interval source, continuous-map row, lower-bound and located-supremum-dual row, finite witness-window row, $\RegSeqRatUp$ readback, $\RealUp$ value seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No minimum obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-real-interval-minimum-carrier}. The interval row $I$ and compact row $K$ expose the only compact-real source windows available to the packet, while $F$ records the continuous real-valued map inspected on those windows.
+
+Read the lower-bound and witness rows next. The row $L$ gives the displayed lower-bound comparison as the dual of the located-supremum route, and $W$ binds that comparison to finite source windows where the map row and bound row meet.
+
+The regular and real-facing rows are downstream. The row $R$ records the regular rational readback of the same finite comparisons, while $E$ seals only those displayed reads as $\RealUp$ values.
+
+The remaining rows $H,C,P,N$ transport, replay, source, and locally name the same route. Since the carrier has no coordinate for open-cover compactness, trichotomy, quotient equality, selected host extrema, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Compact real interval minimum located attainment]
+\label{thm:compact-real-interval-minimum-located-attainment}
+Every accepted $\CompactRealIntervalMinimumUp$ consumer that reads a minimum value factors through the displayed route
+$$
+I,K \longmapsto F,L \longmapsto W \longmapsto R,E \longmapsto H,C,P,N .
+$$
+Thus the compact-real interval-minimum surface exports only a finite witness-window route from a closed bounded compact interval and continuous-map row to a located lower-bound row, regular rational readback, and $\RealUp$ value seal. It does not export open-cover compactness, trichotomy, quotient real equality, selected host extrema, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the source rows. The closed bounded interval source and compact interval source are displayed as $I$ and $K$, so every later value comparison is scoped to the same finite compact-real interval windows.
+
+Feed the source into the continuous-map and lower-bound rows. The row $F$ exposes only displayed value reads, while $L$ records the lower-bound comparison through the located-supremum-dual route rather than through a host order decision.
+
+Use the witness-window and readback rows together. The row $W$ records where the compact interval inspection meets the lower-bound comparison, and $R$ repacks those comparisons as $\RegSeqRatUp$ data before the $\RealUp$ seal $E$ is read.
+
+Finally, transport and replay preserve the route through $H$ and $C$, while $P$ and $N$ provide provenance and local naming. No row supplies open-cover compactness, trichotomy, quotient real equality, selected host extrema, or ambient completeness, so every accepted minimum read remains inside the displayed route.
+\end{proof}
+
+\falsifiablePrediction{Every $\CompactRealIntervalMinimumUp$ minimum read factors through $\ClosedBoundedIntervalUp$, $\BishopCompactIntervalUp$ or $\CompactMetricUp$, $\ContinuousMapUp$, $\LocatedSupremumUp$-dual lower-bound data, $\RegSeqRatUp$, and $\RealUp$ before reaching finite witness windows and the local $\NameCert_{\CompactRealIntervalMinimumUp}$ row.}
+
+\independenceWitness{bishopcompactinterval, closedboundedinterval, continuousmap, locatedsupremum, real: $\CompactRealIntervalMinimumUp$ is not bijective to any listed sibling because it jointly carries a compact interval source, continuous-map row, located lower-bound route, finite witness-window row, regular readback, Real value seal, transport, replay, provenance, and local naming.}
+
+\closureat{CompactRealIntervalMinimumUp}{seedStr}
+
+\begin{closurestatus}{\CompactRealIntervalMinimumUp}
+  \constructivestory{A $\CompactRealIntervalMinimumUp$ packet is generated from a ClosedBoundedIntervalUp source row, a BishopCompactIntervalUp or CompactMetricUp compact source row, a ContinuousMapUp real-valued map row, a lower-bound row dual to LocatedSupremumUp, finite witness windows, RegSeqRatUp readbacks, RealUp value seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-real-interval-minimum-carrier}, \autoref{thm:compact-real-interval-minimum-namecert-obligations}, and \autoref{thm:compact-real-interval-minimum-located-attainment} seed the finite compact-real interval-minimum route over interval, compact-source, continuous-map, lower-bound, witness-window, regular readback, and Real seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, trichotomy, quotient real equality, selected host extrema, ambient $\RealUp$ completeness, Lean verification, or bridge checking for $\CompactRealIntervalMinimumUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, NameCert obligations, finite witness-window exactness, lower-bound routing, regular readback, Real value sealing, replay stability, and nonescape for BEDC.Derived.CompactRealIntervalMinimumUp.}
+\end{closurestatus}
