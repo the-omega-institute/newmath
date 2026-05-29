@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailMajorantUp$}
+\label{ch:concrete-instances-regular-cauchy-tail-majorant-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\RegularCauchyTailMajorantUp$ packet names the explicit tail-majorant data used when regular rational sequences are read through finite tolerances. It sits between the $\RegSeqRatUp$ source of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\StreamNameUp$ schedule of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the modulus surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, and the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet records a finite threshold service for tail estimates; it is not a completeness theorem, a selected limit operator, or a quotient equality on real names.
+
+\falsifiablePrediction{Removing the majorant-threshold row permits a $\RegSeqRatUp$ readback or $\RealUp$ seal to cite a tail estimate without naming the finite stage after which the estimate is valid. Removing the dyadic tolerance row prevents the threshold from being checked against a displayed rational error bound.}
+
+\independenceWitness{Nearest siblings include $\RegularCauchyTailBudgetUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$. None is bijective to $\RegularCauchyTailMajorantUp$ because the budget packet stores observation service, the modulus packet stores a general tolerance schedule, the regular sequence packet stores the source reads, the stream packet stores names, the dyadic packet stores rational tolerances, and the real packet stores a seal rather than the finite tail-majorant threshold binding them.}
+
+\begin{definition}[Regular Cauchy tail majorant carrier]
+\label{def:regular-cauchy-tail-majorant-carrier}
+A $\RegularCauchyTailMajorantUp$ carrier is a finite $\BHist$ packet
+$$
+J=(S,M,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ schedule naming the inspected regular-sequence tail requests.
+\item $M$ is the majorant-threshold row assigning to each displayed tolerance request a finite stage after which the tail estimate is accepted.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger whose dyadic entries are the error bounds tested by $M$.
+\item $R$ is the $\RegSeqRatUp$ readback row that exposes the regular rational sequence only through the displayed schedule, threshold, and dyadic tolerance rows.
+\item $E$ is the $\RealUp$ seal row available only after the scheduled tail-majorant readback has been replayed.
+\item $H$ records componentwise $\hsame$ transport for the schedule, majorant threshold, dyadic tolerance, regular readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from schedule requests through the majorant threshold, dyadic tolerance ledger, regular readback, and seal handoff.
+\item $P$ is the $\Pkg$ provenance over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyTailMajorantUp}$ row.
+\end{enumerate}
+The carrier accepts only packets whose regular Cauchy tail estimates are read through a displayed finite majorant threshold for the requested dyadic tolerance before any $\RealUp$ seal row is consumed.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tail majorant NameCert obligations]
+\label{thm:regular-cauchy-tail-majorant-namecert-obligations}
+For the carrier of \autoref{def:regular-cauchy-tail-majorant-carrier}, the local $\NameCert_{\RegularCauchyTailMajorantUp}$ surface consists exactly of carrier admission for
+$$
+J=(S,M,D,R,E,H,C,P,N),
+$$
+schedule exposure through $S$, majorant-threshold exposure through $M$, dyadic tolerance readability through $D$, regular rational readback through $R$, seal handoff through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The displayed rows $S,M,D,R,E,H,C,P,N$ are the only coordinates of an accepted $\RegularCauchyTailMajorantUp$ packet.
+
+Read the analytic rows in order. The schedule row $S$ names the inspected tail requests, the threshold row $M$ supplies the finite majorant stage for each displayed request, and the dyadic row $D$ supplies the tolerance being tested.
+
+The readback and seal rows are downstream of that finite service. The $\RegSeqRatUp$ row $R$ may be read only after $S,M,D$ have been displayed, and the $\RealUp$ seal row $E$ consumes that readback rather than creating an ambient limit.
+
+Finally $H,C,P,N$ transport, replay, package, and name the same finite route. Since no carrier coordinate stores quotient real equality, a selected limit, countable choice, or completeness, the local NameCert obligations are exactly the displayed rows.
+\end{proof}
+
+\begin{closurestatus}{\RegularCauchyTailMajorantUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-majorant-carrier} and \autoref{thm:regular-cauchy-tail-majorant-namecert-obligations} bind the seed carrier and local NameCert surface for explicit regular Cauchy tail majorants.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completeness of $\RealUp$, selected limits, quotient equality of real names, countable choice, or Lean verification.}
+  \upgradepath{Formalization requires a Lean carrier for the schedule, dyadic tolerance, regular readback, seal handoff, and finite majorant-threshold rows.}
+  \constructivestory{A $\RegularCauchyTailMajorantUp$ packet is generated from a finite stream schedule, displayed majorant thresholds, dyadic tolerance rows, regular readback, a seal handoff, componentwise transport, continuation replay, package provenance, and a local $\NameCert$ row.}
+\end{closurestatus}
