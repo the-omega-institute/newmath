@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\ProofTraceNormalFormUp$}
+\label{ch:concrete-instances-proof-trace-normal-form-namecert}
+\origin{ai}
+
+The $\ProofTraceNormalFormUp$ packet realizes the type-checking-as-classifier-membership vision of \autoref{ch:visions-type-checking-as-classifier-membership} as a finite proof-trace normal-form surface. It sits after the typed endpoint boundary of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, the preservation row of \autoref{ch:concrete-instances-subjectreduction-namecert}, the classifier-membership surface of \autoref{ch:concrete-instances-typeclassifiermembership-namecert}, and the concrete type-checking classifier packet of \autoref{ch:concrete-instances-type-checking-classifier-membership-namecert}. The packet records proof trace, $\Ext$ membership, typed $\Cont$ replay, subject-reduction handoff, terminal normal-form boundary, transport, provenance, and local naming; it does not export host conversion, normalization oracles, erased proof semantics, or quotient term equality.
+
+\begin{definition}[ProofTraceNormalForm carrier]
+\label{def:proof-trace-normal-form-carrier}
+A $\ProofTraceNormalFormUp$ carrier is a finite $\BHist$ packet
+$$
+F=(T,E,R,S,V,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the proof-trace row, listing the finite rule applications and term windows whose type-checking path is being inspected.
+\item $E$ is the $\Ext$ classifier-membership row read through $\TypeClassifierMembershipUp$.
+\item $R$ is the typed $\Cont$ replay row recording the displayed reduction route for the trace.
+\item $S$ is the $\SubjectReductionUp$ handoff row that preserves membership along the displayed route.
+\item $V$ is the $\TypedReductionNormalFormUp$ terminal-boundary row for the final typed normal form.
+\item $J$ is the $\TypeCheckingClassifierMembershipUp$ row that binds the same membership, derivation, preservation, and erasure-facing data into a finite checker packet.
+\item $H$ records componentwise $\hsame$ transport for the proof trace, membership, route, preservation, normal-form, checker, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from proof-trace inspection through membership, typed reduction, preservation, and terminal normal-form access.
+\item $P$ is the $\Pkg$ provenance over $\ProofTraceNormalFormUp$, $\TypeClassifierMembershipUp$, $\SubjectReductionUp$, $\TypedReductionNormalFormUp$, $\TypeCheckingClassifierMembershipUp$, $\BHist$, $\Ext$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ProofTraceNormalFormUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,E,R,S,V,J,H,C,P,N$. It has no coordinate for host conversion, semantic equality of terms, a normalization oracle, proof objects outside the displayed trace, quotient term representatives, or ambient global normalization.
+\end{definition}
+
+\begin{theorem}[ProofTraceNormalForm NameCert obligations]
+\label{thm:proof-trace-normal-form-namecert-obligations}
+For every accepted $\ProofTraceNormalFormUp$ carrier
+$$
+F=(T,E,R,S,V,J,H,C,P,N),
+$$
+the local $\NameCert_{\ProofTraceNormalFormUp}$ surface consists exactly of proof-trace admission, classifier-membership exposure, typed-route replay, subject-reduction handoff, terminal normal-form access, checker-packet alignment, componentwise transport, displayed continuation replay, provenance, local naming, and non-escape from host conversion or normalization oracles.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:proof-trace-normal-form-carrier}. The trace row $T$, membership row $E$, typed route $R$, preservation row $S$, normal-form row $V$, and checker row $J$ are the only analytic coordinates.
+
+The membership and route rows are read before the normal-form boundary. The subject-reduction row $S$ preserves the displayed membership through the typed continuation route $R$, and the row $V$ is reached only after that preservation handoff.
+
+The checker row $J$ aligns the same data with the finite type-checking classifier packet. It does not add host conversion or a normalization procedure; it records membership, derivation, preservation, and erasure-facing rows already visible to the packet.
+
+The rows $H,C,P,N$ transport, replay, source, and name this finite surface. Since no other coordinate occurs in the carrier, no accepted consumer can leave the displayed proof-trace normal-form route.
+\end{proof}
+
+\begin{theorem}[ProofTraceNormalForm terminal route]
+\label{thm:proof-trace-normal-form-terminal-route}
+Every terminal normal-form read exported by an accepted $\ProofTraceNormalFormUp$ carrier factors through
+$$
+T \to E \to R \to S \to V \to J
+$$
+with $H,C,P,N$ preserving and naming the same route. The read uses proof trace, classifier membership, typed reduction replay, subject reduction, terminal boundary, and checker alignment, but it does not use host conversion, semantic term equality, quotient representatives, erased proof semantics, or a normalization oracle.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $F=(T,E,R,S,V,J,H,C,P,N)$. The terminal row is $V$, and the carrier places it after the proof trace, membership row, typed continuation route, and subject-reduction handoff.
+
+The checker row $J$ records that the same route is a finite type-checking classifier packet. This alignment is downstream of the displayed membership and preservation data, not a separate host checker.
+
+Finally $H,C,P,N$ transport, replay, source, and name the route. Because the carrier has no host conversion, semantic equality, quotient representative, erased proof semantics, or normalization-oracle coordinate, the terminal read cannot use one.
+\end{proof}
+
+\closureat{ProofTraceNormalFormUp}{seedStr}
+
+\begin{closurestatus}{\ProofTraceNormalFormUp}
+  \constructivestory{A $\ProofTraceNormalFormUp$ packet is generated from a proof-trace row, Ext classifier-membership row, typed Cont replay row, SubjectReductionUp handoff, TypedReductionNormalFormUp terminal row, TypeCheckingClassifierMembershipUp alignment row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:proof-trace-normal-form-carrier}, \autoref{thm:proof-trace-normal-form-namecert-obligations}, and \autoref{thm:proof-trace-normal-form-terminal-route} seed the finite proof-trace route from classifier membership to terminal typed normal form.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host conversion, semantic equality of terms, quotient representatives, erased proof semantics, normalization oracles, global normalization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked proof-trace admission, classifier-membership exposure, typed-route replay, subject-reduction handoff, terminal normal-form access, checker-packet alignment, transport, replay, provenance, local naming, and non-escape for BEDC.Derived.ProofTraceNormalFormUp.}
+\end{closurestatus}
