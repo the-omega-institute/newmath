@@ -393,4 +393,109 @@ theorem LocatedBoundedRealSetCarrier_nonescape [AskSetup] [PackageSetup]
           membershipRoute, intervalRoute, dyadicRoute, realSealRoute, terminalRoute,
           terminalPkg⟩
 
+theorem LocatedBoundedRealSetCarrier_displayed_route [AskSetup] [PackageSetup]
+    (B : LocatedBoundedRealSetUp)
+    {M I D W R E H C P N membershipRead intervalRead dyadicRead realSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    locatedBoundedRealSetFields B = [M, I, D, W, R, E, H, C, P, N] ->
+      UnaryHistory M ->
+        UnaryHistory I ->
+          UnaryHistory D ->
+            UnaryHistory W ->
+              UnaryHistory R ->
+                UnaryHistory E ->
+                  Cont M W membershipRead ->
+                    Cont I D intervalRead ->
+                      Cont intervalRead R dyadicRead ->
+                        Cont dyadicRead E realSeal ->
+                          PkgSig bundle P pkg ->
+                            SemanticNameCert
+                                (fun row : BHist =>
+                                  hsame row realSeal ∧ UnaryHistory row ∧
+                                    locatedBoundedRealSetFields B =
+                                      [M, I, D, W, R, E, H, C, P, N])
+                                (fun row : BHist =>
+                                  (hsame row M ∨ hsame row I ∨ hsame row D ∨
+                                      hsame row W ∨ hsame row R ∨ hsame row E ∨
+                                        Cont M W membershipRead ∨ Cont I D intervalRead ∨
+                                          Cont intervalRead R dyadicRead ∨
+                                            Cont dyadicRead E realSeal) ∧
+                                    locatedBoundedRealSetFields B =
+                                      [M, I, D, W, R, E, H, C, P, N])
+                                (fun row : BHist =>
+                                  PkgSig bundle P pkg ∧ hsame row realSeal ∧
+                                    locatedBoundedRealSetFields B =
+                                      [M, I, D, W, R, E, H, C, P, N])
+                                hsame ∧
+                              UnaryHistory membershipRead ∧ UnaryHistory intervalRead ∧
+                                UnaryHistory dyadicRead ∧ UnaryHistory realSeal := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig SemanticNameCert hsame
+  intro fieldEq mUnary iUnary dUnary wUnary rUnary eUnary membershipRoute intervalRoute
+    dyadicRoute realSealRoute provenancePkg
+  cases B with
+  | mk MB IB DB WB RB EB HB CB PB NB =>
+      cases fieldEq
+      have membershipUnary : UnaryHistory membershipRead :=
+        unary_cont_closed mUnary wUnary membershipRoute
+      have intervalUnary : UnaryHistory intervalRead :=
+        unary_cont_closed iUnary dUnary intervalRoute
+      have dyadicUnary : UnaryHistory dyadicRead :=
+        unary_cont_closed intervalUnary rUnary dyadicRoute
+      have realSealUnary : UnaryHistory realSeal :=
+        unary_cont_closed dyadicUnary eUnary realSealRoute
+      have cert :
+          SemanticNameCert
+              (fun row : BHist =>
+                hsame row realSeal ∧ UnaryHistory row ∧
+                  locatedBoundedRealSetFields (LocatedBoundedRealSetUp.mk M I D W R E H C P N) =
+                    [M, I, D, W, R, E, H, C, P, N])
+              (fun row : BHist =>
+                (hsame row M ∨ hsame row I ∨ hsame row D ∨ hsame row W ∨ hsame row R ∨
+                    hsame row E ∨ Cont M W membershipRead ∨ Cont I D intervalRead ∨
+                      Cont intervalRead R dyadicRead ∨ Cont dyadicRead E realSeal) ∧
+                  locatedBoundedRealSetFields (LocatedBoundedRealSetUp.mk M I D W R E H C P N) =
+                    [M, I, D, W, R, E, H, C, P, N])
+              (fun row : BHist =>
+                PkgSig bundle P pkg ∧ hsame row realSeal ∧
+                  locatedBoundedRealSetFields (LocatedBoundedRealSetUp.mk M I D W R E H C P N) =
+                    [M, I, D, W, R, E, H, C, P, N])
+              hsame := {
+        core := {
+          carrier_inhabited :=
+            Exists.intro realSeal ⟨hsame_refl realSeal, realSealUnary, rfl⟩
+          equiv_refl := by
+            intro row _source
+            exact hsame_refl row
+          equiv_symm := by
+            intro _row _other sameRows
+            exact hsame_symm sameRows
+          equiv_trans := by
+            intro _row _middle _other sameLeft sameRight
+            exact hsame_trans sameLeft sameRight
+          carrier_respects_equiv := by
+            intro _row _other sameRows source
+            exact
+              ⟨hsame_trans (hsame_symm sameRows) source.left,
+                unary_transport source.right.left sameRows,
+                source.right.right⟩
+        }
+        pattern_sound := by
+          intro _row source
+          exact
+            ⟨Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr realSealRoute)))))))),
+              source.right.right⟩
+        ledger_sound := by
+          intro _row source
+          exact ⟨provenancePkg, source.left, source.right.right⟩
+      }
+      exact ⟨cert, membershipUnary, intervalUnary, dyadicUnary, realSealUnary⟩
+
 end BEDC.Derived.LocatedBoundedRealSetUp
