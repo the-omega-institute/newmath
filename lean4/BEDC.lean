@@ -5947,6 +5947,7 @@ import BEDC.Derived.RegularCauchyCompletionFrontierUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCompletionFrontierUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionMonadUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUniquenessUp.TasteGate
+import BEDC.Derived.RegularCauchyCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUniversalUp.TasteGate
 import BEDC.Derived.RegularCauchyCompositionUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalExtractionUp.TasteGate
