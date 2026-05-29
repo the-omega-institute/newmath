@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for $\RiemannStieltjesIntegrationPartsUp$}
+\label{ch:concrete-instances-riemann-stieltjes-integration-parts-namecert}
+\origin{human}
+
+Following Riemann, Stieltjes, and Bishop--Bridges, the $\RiemannStieltjesIntegrationPartsUp$ packet records integration by parts as finite NameCert data over a regulated integrand and a bounded-variation integrator. It consumes the Riemann--Stieltjes surface of \autoref{ch:concrete-instances-riemannstieltjes-namecert}, the variation ledger of \autoref{ch:concrete-instances-boundedvariation-namecert}, the regulated-function schedule of \autoref{ch:concrete-instances-regulated-function-namecert}, the tagged finite-sum row of \autoref{ch:concrete-instances-riemannsum-namecert}, the dyadic step approximation row of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed endpoint rows, finite partition rows, transported jump rows, two Riemann--Stieltjes handoff rows, and the boundary-term ledger; it does not add measure integration, quotient functions, selected limits, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Riemann--Stieltjes integration-by-parts carrier]
+\label{def:riemann-stieltjes-integration-parts-carrier}
+A $\RiemannStieltjesIntegrationPartsUp$ carrier is a finite $\BHist$ packet
+$$
+I=(F,G,V,R,S,D,B,E,H,C,P,N)
+$$
+with displayed rows: $F$ is the $\RegulatedFunctionUp$ integrand row; $G$ is the regulated integrator row; $V$ is the $\BoundedVariationUp$ ledger for $G$; $R$ is the forward $\RiemannStieltjesUp$ handoff for $\int F\,dG$; $S$ is the reverse handoff for $\int G\,dF$ when the displayed variation rows license it; $D$ is the common $\RiemannSumUp$ partition ledger; $B$ is the endpoint boundary row $F(b)G(b)-F(a)G(a)$; $E$ is the $\RealUp$ seal of the accepted identity; and $H,C,P,N$ are the componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\RiemannStieltjesIntegrationPartsUp}$ rows.
+\end{definition}
+
+\begin{theorem}[Riemann--Stieltjes integration-by-parts NameCert obligations]
+\label{thm:riemann-stieltjes-integration-parts-namecert-obligations}
+For every accepted carrier $I=(F,G,V,R,S,D,B,E,H,C,P,N)$, the local $\NameCert_{\RiemannStieltjesIntegrationPartsUp}$ surface consists exactly of carrier admission; regulated-function exposure for $F,G$; bounded-variation control through $V$; common tagged-partition exposure through $D$; forward and reverse Riemann--Stieltjes handoffs through $R,S$; endpoint-boundary exactness through $B,E$; componentwise transport, replay, provenance, and local naming through $H,C,P,N$; and non-escape from measure spaces, quotient functions, selected limits, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The rows $F,G,V,D$ expose the regulated and bounded-variation data before either integration row is read.
+
+The rows $R$ and $S$ are then checked over the same finite partition ledger. Since both handoffs use the same $D$ and the same endpoint transports, their finite summand ledgers can be compared without introducing a host limit.
+
+Finally $B$ records the two endpoint products and $E$ seals the displayed equality. Transport and replay through $H,C,P,N$ preserve the same rows, so no hidden measure, function quotient, choice of representatives, selected limit, or ambient completeness coordinate remains available.
+\end{proof}
+
+\begin{theorem}[Riemann--Stieltjes integration-by-parts boundary]
+\label{thm:riemann-stieltjes-integration-parts-boundary}
+Every accepted $\RiemannStieltjesIntegrationPartsUp$ packet exposes the integration-by-parts boundary only through the finite route
+$$
+F,G,V,D \longmapsto R,S \longmapsto B \longmapsto E .
+$$
+Thus a consumer may read the boundary term $F(b)G(b)-F(a)G(a)$ only after the regulated-function rows, bounded-variation ledger, common Riemann-sum partition row, and both Riemann--Stieltjes handoff rows have been displayed.
+\end{theorem}
+\begin{proof}
+Start with a boundary-facing consumer. The carrier has no boundary row except $B$, and $B$ is downstream of the endpoint reads supplied by the regulated rows $F,G$.
+
+The common finite partition row $D$ aligns the two integration handoffs. Reading $R$ and $S$ over $D$ accounts for the forward and reverse summand ledgers before the endpoint product row is exposed.
+
+The real seal $E$ is therefore read only after $B$. The structural rows $H,C,P,N$ transport, replay, source, and name the same route, so the packet exports the integration-by-parts identity as finite NameCert data rather than as a host theorem about completed integrals.
+\end{proof}
+
+\closureat{RiemannStieltjesIntegrationPartsUp}{seedStr}
+\begin{closurestatus}{\RiemannStieltjesIntegrationPartsUp}
+  \constructivestory{A $\RiemannStieltjesIntegrationPartsUp$ packet is generated from regulated-function rows, a bounded-variation ledger, common Riemann-sum partition data, two Riemann--Stieltjes handoffs, endpoint boundary rows, componentwise transport, displayed replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-stieltjes-integration-parts-carrier}, \autoref{thm:riemann-stieltjes-integration-parts-namecert-obligations}, and \autoref{thm:riemann-stieltjes-integration-parts-boundary} seed the finite integration-by-parts packet over displayed Riemann--Stieltjes, bounded-variation, regulated-function, Riemann-sum, dyadic-step, and real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure-theoretic integration, quotient function equality, selected limits, global variation measures, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-partition stability, two handoff rows, endpoint-boundary exactness, transport, replay, provenance, and local naming for the same packet.}
+\end{closurestatus}
