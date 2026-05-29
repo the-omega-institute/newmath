@@ -1,0 +1,43 @@
+\chapter{A Concrete Naming Certificate for $\LegendreFenchelEnvelopeUp$}
+\label{ch:concrete-instances-legendre-fenchel-envelope-namecert}
+\origin{human}
+
+Following Rockafellar, the $\LegendreFenchelEnvelopeUp$ packet names the finite convex-envelope surface obtained by reading epigraph windows, supporting affine minorants, convex-conjugate data, and biconjugate comparison rows before any optimization consumer may inspect the result. It sits after the convex-set carrier of \autoref{ch:concrete-instances-convexset-namecert}, the Fenchel-duality ledger of \autoref{ch:concrete-instances-fenchelduality-namecert}, and the proximal-resolvent handoff of \autoref{ch:concrete-instances-proximal-map-namecert}; it also exposes KKT-facing and convex-conjugate-facing rows for certificates that need a displayed envelope without importing an ambient lower-semicontinuous hull, host supremum operator, quotient function space, or choice-selected minimizer.
+
+\begin{definition}[Legendre--Fenchel envelope carrier]
+\label{def:legendre-fenchel-envelope}
+A $\LegendreFenchelEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(W,A,D,B,R,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the epigraph window row, read through the $\ConvexSetUp$ carrier and recording the finite domain, value, and order comparisons visible to the envelope request.
+\item $A$ is the supporting affine minorant ledger, listing the finitely displayed affine lower bounds and their compatibility with the same epigraph window.
+\item $D$ is the convex conjugate readback row, exposing the pairing, dual-vector, and budgeted conjugacy data that a $\ConvexConjugateUp$ or $\FenchelDualityUp$ consumer may inspect.
+\item $B$ is the biconjugate-envelope row, recording the displayed comparison between the primal epigraph window and the conjugate readback route.
+\item $R$ is the proximal consumer row, allowing a $\ProximalMapUp$ request to read the envelope only after the window, minorant, conjugate, and biconjugate rows have been displayed.
+\item $K$ is the KKT and Fenchel ledger row, tying stationarity, supporting minorants, and dual comparison data to the $\KKTUp$ and $\FenchelDualityUp$ packets.
+\item $H$ records componentwise $\hsame$ transport for the epigraph window, affine minorants, conjugate readback, biconjugate envelope, proximal consumer, KKT and Fenchel ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from epigraph admission through supporting minorants, conjugate readback, biconjugate comparison, proximal consumption, and KKT/Fenchel ledger inspection.
+\item $P$ is the $\Pkg$ provenance over $\LegendreFenchelEnvelopeUp$, $\ConvexSetUp$, $\ConvexConjugateUp$, $\FenchelDualityUp$, $\ProximalMapUp$, $\KKTUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LegendreFenchelEnvelopeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,A,D,B,R,K,H,C,P,N$. It has no coordinate for an external lower-semicontinuous hull, host biconjugation theorem, selected supremum witness, quotient equality of functions, ambient locally convex topology, or global minimization principle.
+\end{definition}
+
+\falsifiablePrediction{Every accepted $\LegendreFenchelEnvelopeUp$ consumer read factors through an epigraph window, supporting affine minorant ledger, convex conjugate readback, biconjugate-envelope row, proximal consumer row, KKT/Fenchel ledger row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert.}
+
+\independenceWitness{convexset, fenchelduality, proximal-map, convex-conjugate, kkt: $\LegendreFenchelEnvelopeUp$ is not bijective to any listed sibling because it jointly carries an epigraph window, supporting affine minorants, conjugate readback, biconjugate envelope comparison, proximal consumer route, and KKT/Fenchel ledger in one finite packet.}
+
+\closureat{LegendreFenchelEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\LegendreFenchelEnvelopeUp}
+  \constructivestory{A $\LegendreFenchelEnvelopeUp$ packet is generated from an epigraph window, supporting affine minorant ledger, convex conjugate readback, biconjugate-envelope row, proximal consumer row, KKT and Fenchel ledger row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:legendre-fenchel-envelope} seeds the finite envelope certificate surface over convex-set, convex-conjugate, Fenchel-duality, proximal-map, and KKT rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a host biconjugation theorem, lower-semicontinuous hull existence, selected supporting functional, quotient function equality, ambient locally convex topology, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, affine-minorant ledger exactness, conjugate readback, biconjugate-envelope comparison, proximal consumer boundary, KKT/Fenchel ledger visibility, transport, replay, provenance, and local naming for BEDC.Derived.LegendreFenchelEnvelopeUp.}
+\end{closurestatus}
