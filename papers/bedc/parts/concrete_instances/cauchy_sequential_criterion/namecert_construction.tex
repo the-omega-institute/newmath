@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\CauchySequentialCriterionUp$}
+\label{ch:concrete-instances-cauchy-sequential-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\CauchySequentialCriterionUp$ packet records the finite sequential Cauchy criterion consumed by the L10 Real and Completion phase before a terminal real-name or completion-facing handoff is read. It sits after the Cauchy-modulus space of \autoref{ch:concrete-instances-cauchy-modulus-space-namecert}, the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later Real and Completion consumers explicit finite Cauchy-window data rather than an informal convergence phrase.
+
+\begin{definition}[Cauchy sequential criterion carrier]
+\label{def:cauchy-sequential-criterion-carrier}
+A $\CauchySequentialCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,W,R,D,E,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\CauchyModulusSpaceUp$ row, carrying the modulus schedule that chooses windows for each displayed tolerance request;
+\item $W$ is the $\StreamNameUp$ row, exposing the inspected stream entries and finite window boundaries;
+\item $R$ is the $\RegSeqRatUp$ row, reading the inspected entries as regular rational data;
+\item $D$ is the $\DyadicRatCoreUp$ row, recording the tolerance and pairwise-distance arithmetic used by the Cauchy test;
+\item $E$ is the $\RealUp$ seal row available only after the regular rational and dyadic rows have been displayed;
+\item $L$ is the sequential criterion ledger, binding tolerance requests to windows and pairwise tails;
+\item $H$ records componentwise $\hsame$ transport for $A,W,R,D,E,L,C,P,N$;
+\item $C$ records displayed $\Cont$ replay for the same window route;
+\item $P$ is the $\Pkg$ provenance over $\CauchySequentialCriterionUp$, $\CauchyModulusSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CauchySequentialCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient stream equality, a selected host limit, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy sequential criterion window obligations]
+\label{thm:cauchy-sequential-criterion-window-obligations}
+For the carrier of \autoref{def:cauchy-sequential-criterion-carrier}, the local $\NameCert_{\CauchySequentialCriterionUp}$ surface consists exactly of modulus admission through $A$, stream-window inspection through $W$, regular rational readback through $R$, dyadic tolerance checking through $D$, Real seal handoff through $E$, criterion-ledger binding through $L$, and structural transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier $K=(A,W,R,D,E,L,H,C,P,N)$. The Cauchy-modulus row $A$ supplies the finite schedule, and $W$ supplies the stream windows on which that schedule is inspected.
+
+Read the arithmetic rows next. The regular rational row $R$ and dyadic row $D$ compare displayed tail entries at the requested tolerance, while the ledger $L$ binds those comparisons to the same window schedule.
+
+Finally the terminal seal and structural rows are replayed. The row $E$ is downstream of the displayed regular rational and dyadic data, and $H,C,P,N$ only transport, replay, source, and name the same finite route. Therefore the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy sequential criterion Real handoff]
+\label{thm:cauchy-sequential-criterion-real-handoff}
+Every Real or Completion consumer of an accepted $\CauchySequentialCriterionUp$ packet must read
+$$
+A,W,R,D,E,L,H,C,P,N
+$$
+before treating a sequential Cauchy claim as a real-facing or completion-facing handoff. The handoff factors through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\CauchyModulusSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ seal rows; it exports no quotient stream, selected limit, countable choice, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the window obligations of \autoref{thm:cauchy-sequential-criterion-window-obligations}. They require the modulus schedule, stream windows, regular rational readback, dyadic tolerance arithmetic, and criterion ledger to be displayed before the terminal seal is read.
+
+The structural rows keep the handoff finite. Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve the same rows rather than adding a host completion object.
+
+Since the carrier has no coordinate for quotient stream equality, selected limits, countable choice, host real equality, or ambient completeness, every Real or Completion consumer receives exactly the displayed Cauchy-window route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CauchySequentialCriterionUp$ consumer that reaches a Real or Completion handoff without first exposing the modulus schedule, stream window, regular rational readback, dyadic tolerance, terminal Real seal, ledger, transport, replay, provenance, and naming rows refutes the carrier surface.}
+
+\independenceWitness{cauchy-modulus-space, streamname, regseqrat, dyadicratcore, real: the modulus-space packet supplies schedules without terminal sequence readback; StreamName supplies windows without regular rational arithmetic; RegSeqRat supplies readback without dyadic tolerance ledgers; DyadicRatCore supplies arithmetic without a sequential carrier; RealUp supplies the terminal seal without the criterion ledger. None is bijective to $\CauchySequentialCriterionUp$.}
+
+\closureat{CauchySequentialCriterionUp}{seedStr}
+
+\begin{closurestatus}{\CauchySequentialCriterionUp}
+  \constructivestory{A $\CauchySequentialCriterionUp$ packet is generated from a CauchyModulusSpace schedule, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance arithmetic, a RealUp seal, a sequential criterion ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-sequential-criterion-carrier}, \autoref{thm:cauchy-sequential-criterion-window-obligations}, and \autoref{thm:cauchy-sequential-criterion-real-handoff} seed the finite sequential Cauchy-window route for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected host limits, countable choice, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked modulus admission, stream-window inspection, regular rational readback, dyadic tolerance checking, Real seal handoff, ledger binding, transport, replay, provenance, and local naming for BEDC.Derived.CauchySequentialCriterionUp.}
+\end{closurestatus}

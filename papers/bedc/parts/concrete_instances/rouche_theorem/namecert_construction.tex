@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\RoucheTheoremUp$}
+\label{ch:concrete-instances-rouche-theorem-namecert}
+\origin{human}
+
+Following Ahlfors and Conway, the $\RoucheTheoremUp$ packet names the finite contour-zero stability surface that lets a holomorphic perturbation be compared with a base holomorphic function along a displayed boundary. It sits beside the residue ledger of \autoref{ch:concrete-instances-residue-namecert}, the point-evaluation route of \autoref{ch:concrete-instances-cauchy-integral-formula-namecert}, the contour socket of \autoref{ch:concrete-instances-contourintegralsocket-namecert}, and the complex differentiability and real-comparison infrastructure already exposed by their neighbouring chapters. The chapter records only certificate-bound contour admissibility, boundary dominance, and finite zero-count ledger handoffs; it does not claim global analytic continuation, host winding-number completeness, or an unrestricted homotopy theorem.
+
+\begin{definition}[Rouche theorem carrier]
+\label{def:rouche-theorem-carrier}
+A $\RoucheTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+R=(C,F,G,B,Z,I,L,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the contour-admissibility row, naming the finite boundary contour and the containment witness for the analytic region being inspected.
+\item $F$ is the base holomorphic row for $f$, including the local complex differentiability and contour-avoidance data used by the zero-count ledger.
+\item $G$ is the perturbation holomorphic row for $g$, displayed over the same contour window and the same complex arithmetic surface.
+\item $B$ is the boundary-dominance row, recording the finite comparison $|g|<|f|$ on the displayed contour boundary through the real-order rows available to the packet.
+\item $Z$ is the zero-count ledger row, listing the finite interior zero accounting read for $f$ and for $f+g$.
+\item $I$ is the residue and Cauchy-integral handoff row, routing the zero-count comparison through the residue chapter and the Cauchy integral formula chapter without adding a second analytic oracle.
+\item $L$ is the stability ledger row, recording that the two displayed zero-count ledgers agree inside the accepted contour window.
+\item $H$ records componentwise $\hsame$ transport for contour, holomorphic, boundary-dominance, zero-count, integral-handoff, stability, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\RoucheTheoremUp$, $\ContourIntegralSocketUp$, $\ResidueUp$, $\CauchyIntegralFormulaUp$, $\ComplexDifferentiabilityUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RoucheTheoremUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $C,F,G,B,Z,I,L,H,P,N$. It has no coordinate for a host analytic-continuation theorem, unbounded root isolation, quotient path equality, or classical compactness oracle outside the displayed packet.
+\end{definition}
+
+The local NameCert obligation sketch has five grouped rows:
+\begin{enumerate}
+\item contour admission through $C$;
+\item paired holomorphic source admission through $F,G$;
+\item boundary dominance through $B$;
+\item finite zero-count and residue/Cauchy-integral handoff through $Z,I$;
+\item stability, transport, provenance, and local naming through $L,H,P,N$.
+\end{enumerate}
+
+\begin{theorem}[Rouche theorem NameCert obligations]
+\label{thm:rouche-theorem-namecert-obligations}
+For every accepted $\RoucheTheoremUp$ carrier $R=(C,F,G,B,Z,I,L,H,P,N)$, the local $\NameCert_{\RoucheTheoremUp}$ surface consists exactly of contour admissibility through $C$, holomorphic source rows for $f$ and $g$ through $F,G$, boundary dominance through $B$, finite zero-count ledger exposure through $Z$, residue and Cauchy-integral handoffs through $I$, stability-ledger exactness through $L$, componentwise $\hsame$ transport through $H$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The accepted rows are exactly $C,F,G,B,Z,I,L,H,P,N$, so the NameCert surface is finite and componentwise visible.
+
+The contour row $C$ supplies the only boundary window. The holomorphic rows $F$ and $G$ are read on that same window, and the dominance row $B$ is attached to the displayed boundary comparison $|g|<|f|$ rather than to an ambient analytic theorem.
+
+The zero-count ledger $Z$ and handoff row $I$ route the comparison through the residue and Cauchy-integral neighbours. The stability row $L$ records the resulting equality of displayed ledgers, while $H,P,N$ transport, source, and name the same data. Since no carrier coordinate stores global analytic continuation or unbounded root isolation, the listed rows exhaust the obligations.
+\end{proof}
+
+\begin{theorem}[Rouche theorem contour zero stability]
+\label{thm:rouche-namecert-contour-zero-stability}
+If an accepted $\RoucheTheoremUp$ packet displays contour admissibility $C$, holomorphic rows $F,G$ for $f$ and $g$, boundary dominance $B$ with $|g|<|f|$ on the displayed contour boundary, residue and Cauchy-integral handoffs $I$, and a finite zero-count ledger $Z$, then the stability ledger $L$ preserves the zero-count read for $f$ and $f+g$ inside that contour window. The claim is only the certificate-bound equality of displayed ledgers; it is not a claim of global analytic continuation, unrestricted homotopy invariance, or host completeness for all contours.
+\end{theorem}
+\begin{proof}
+Start with the contour row $C$. It fixes the finite boundary and interior window in which the two holomorphic rows $F$ and $G$ can be compared.
+
+The boundary-dominance row $B$ is read next. Because $B$ is part of the packet, the comparison $|g|<|f|$ is visible at the same contour boundary rather than imported as an external maximum principle.
+
+Use the handoff row $I$ to pass through the residue and Cauchy-integral routes named in \autoref{ch:concrete-instances-residue-namecert} and \autoref{ch:concrete-instances-cauchy-integral-formula-namecert}. These handoffs identify the finite zero-count reads recorded in $Z$.
+
+Finally $L$ records equality of the two displayed zero-count ledger entries, and $H,P,N$ preserve that equality under transport, provenance, and local naming. No row supplies global analytic continuation or unrestricted contour completeness, so the result remains the stated certificate-bound stability claim.
+\end{proof}
+
+\falsifiablePrediction{A packet that omits contour admissibility $C$, either holomorphic row $F,G$, the boundary-dominance row $B$, or the residue and Cauchy-integral handoff row $I$ cannot be accepted as a $\RoucheTheoremUp$ packet, even if it records a candidate zero-count equality.}
+
+\independenceWitness{residue, cauchy-integral-formula, contourintegralsocket, complex-differentiability, real: $\RoucheTheoremUp$ is not bijective to any listed sibling because it jointly binds contour admissibility, paired holomorphic rows, boundary dominance, zero-count ledgers, residue and Cauchy-integral handoffs, stability, transport, provenance, and local naming into one finite packet.}
+
+\closureat{RoucheTheoremUp}{seedStr}
+
+\begin{closurestatus}{\RoucheTheoremUp}
+  \constructivestory{A $\RoucheTheoremUp$ packet is generated from contour-admissibility rows, paired holomorphic rows, boundary-dominance rows, finite zero-count ledgers, residue and Cauchy-integral handoffs, stability ledgers, componentwise hsame transport, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rouche-theorem-carrier}, \autoref{thm:rouche-theorem-namecert-obligations}, and \autoref{thm:rouche-namecert-contour-zero-stability} seed the finite contour-zero stability certificate over existing contour, residue, Cauchy-integral, complex-differentiability, real-comparison, transport, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global analytic continuation, unrestricted homotopy invariance, host winding-number completeness, unbounded root isolation, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked contour admissibility, paired holomorphic rows, boundary-dominance comparison, residue and Cauchy-integral handoffs, zero-count ledger exactness, stability transport, and non-escape for BEDC.Derived.RoucheTheoremUp.}
+\end{closurestatus}
