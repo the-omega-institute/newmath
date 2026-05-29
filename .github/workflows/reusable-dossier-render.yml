@@ -95,9 +95,11 @@ jobs:
 
       - name: Build sampled NameCert HTML pages
         run: |
-          rm -rf docs/dossier/namecert
+          rm -rf docs/dossier/namecert docs/dossier/paper
           python3 tools/build_namecert_html.py \
+            --scope all \
             --manifest docs/dossier/data/namecert_sources.json \
+            --paper-manifest docs/dossier/data/paper_sources.json \
             --dependency docs/dossier/data/dependency.json \
             --jobs 2 \
             --limit 20 \
@@ -111,7 +113,7 @@ jobs:
         run: quarto render docs/dossier/
 
       - name: Check sampled NameCert HTML links
-        run: python3 tools/check_namecert_html.py --allow-partial --site-root docs/dossier/_site
+        run: python3 tools/check_namecert_html.py --scope all --allow-partial --site-root docs/dossier/_site
 
       - name: Verify PDF reached _site
         run: |
@@ -186,13 +188,15 @@ jobs:
       - name: Build dossier visualization data
         run: python3 tools/build_dossier_status.py
 
-      - name: Restore NameCert HTML cache
+      - name: Restore dossier HTML cache
         uses: actions/cache@v4
         with:
-          path: docs/dossier/namecert
-          key: namecert-html-${{ hashFiles('papers/bedc/parts/concrete_instances/**/*.tex', 'papers/bedc/make4ht-dossier.cfg', 'tools/build_namecert_html.py') }}
+          path: |
+            docs/dossier/namecert
+            docs/dossier/paper
+          key: dossier-html-${{ hashFiles('papers/bedc/**/*.tex', 'papers/bedc/make4ht-dossier.cfg', 'tools/build_namecert_html.py') }}
           restore-keys: |
-            namecert-html-
+            dossier-html-
 
       - name: Check full TeXLive make4ht
         run: make4ht --version || (echo "make4ht not found in full TeXLive image" && exit 1)
@@ -200,7 +204,9 @@ jobs:
       - name: Build all NameCert HTML pages
         run: |
           python3 tools/build_namecert_html.py \
+            --scope all \
             --manifest docs/dossier/data/namecert_sources.json \
+            --paper-manifest docs/dossier/data/paper_sources.json \
             --dependency docs/dossier/data/dependency.json \
             --jobs 2 \
             --allow-failures
@@ -213,7 +219,7 @@ jobs:
 
       - name: Check published NameCert HTML links
         continue-on-error: true
-        run: python3 tools/check_namecert_html.py --full --site-root docs/dossier/_site
+        run: python3 tools/check_namecert_html.py --scope all --full --site-root docs/dossier/_site
 
       - name: Verify PDF reached _site
         run: |
