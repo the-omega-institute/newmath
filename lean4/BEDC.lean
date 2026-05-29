@@ -4358,6 +4358,7 @@ import BEDC.Derived.LocalTimeFiberUp
 import BEDC.Derived.LocalTimeFiberUp.TasteGate
 import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LocalityCellUp.TasteGate
+import BEDC.Derived.LocallyCompactUp.ClosedBallNeighborhoodBase
 import BEDC.Derived.LocallyCompactUp.TasteGate
 import BEDC.Derived.LocatedApartnessUp.TasteGate
 import BEDC.Derived.LocatedArchimedeanUp.TasteGate
@@ -5031,6 +5032,7 @@ import BEDC.Derived.NormalSpaceUp.TietzeExtensionRefusal
 import BEDC.Derived.NormalSpaceUp.TopologyConsumerBoundary
 import BEDC.Derived.NormalSpaceUp.UrysohnCozeroLocalization
 import BEDC.Derived.NormalSpaceUp.UrysohnLemmaConsumerExactness
+import BEDC.Derived.NormedSpaceUp
 import BEDC.Derived.NormedSpaceUp.TasteGate
 import BEDC.Derived.NuclearUp
 import BEDC.Derived.NullSequenceUp
@@ -5510,6 +5512,7 @@ import BEDC.Derived.QuotientStreamRefusalUp
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
 import BEDC.Derived.RaabeDuhamelTestUp.TasteGate
 import BEDC.Derived.RadonMeasureUp
+import BEDC.Derived.RadonMeasureUp.TasteGate
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.RapidCauchyNameUp.TasteGate
@@ -5664,6 +5667,7 @@ import BEDC.Derived.RealLimitUniquenessSealUp.TasteGate
 import BEDC.Derived.RealLimitUniquenessWitnessUp.TasteGate
 import BEDC.Derived.RealLimitUp
 import BEDC.Derived.RealLocatorUp.TasteGate
+import BEDC.Derived.RealLogarithmUp.TasteGate
 import BEDC.Derived.RealMetricLocatednessBracketUp.TasteGate
 import BEDC.Derived.RealMetricUp
 import BEDC.Derived.RealMetricUp.TasteGate
@@ -6356,6 +6360,7 @@ import BEDC.Derived.ScientificIdealizationResidueSealUp.ScopeRefinement
 import BEDC.Derived.ScientificIdealizationResidueSealUp.TasteGate
 import BEDC.Derived.ScientificModelBridgeUp.Carrier
 import BEDC.Derived.ScientificModelBridgeUp.TasteGate
+import BEDC.Derived.ScientificObjectUp.RecordClassifierAdmission
 import BEDC.Derived.ScientificObjectUp.TasteGate
 import BEDC.Derived.ScottRealUp.TasteGate
 import BEDC.Derived.SecondCountableUp
@@ -6403,6 +6408,7 @@ import BEDC.Derived.SeqUp.TasteGate
 import BEDC.Derived.SequenceFilterBridgeUp.TasteGate
 import BEDC.Derived.SequentialCompactUp.ObligationReadiness
 import BEDC.Derived.SequentialCompactUp.TasteGate
+import BEDC.Derived.SequentialCompactnessUp.BolzanoWeierstrassWindow
 import BEDC.Derived.SequentialCompactnessUp.CompactMetricRoute
 import BEDC.Derived.SequentialCompactnessUp.NameCertObligations
 import BEDC.Derived.SequentialCompactnessUp.SelectorRefusal
