@@ -34,16 +34,6 @@ def page_exists(site_root: Path, html_url: str) -> bool:
     return page_path(site_root, html_url).exists()
 
 
-def allowed_prefixes(scope: str) -> tuple[str, ...]:
-    if scope == "namecert":
-        return ("namecert/",)
-    if scope == "paper":
-        return ("paper/", "namecert/")
-    if scope == "all":
-        return ("namecert/", "paper/")
-    raise ValueError(f"unknown scope: {scope}")
-
-
 def validate_url(url: object, prefixes: tuple[str, ...]) -> str | None:
     if not isinstance(url, str) or not url:
         return f"html_url must be a non-empty string: {url!r}"

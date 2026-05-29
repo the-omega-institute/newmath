@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Build standalone HTML pages for BEDC dossier sources.
+"""Build paginated HTML pages for BEDC dossier sources.
 
-The first delivery keeps the paper HTML path inside this NameCert builder.
-TODO: after the first full-paper release, evaluate whether a PaperHtml module
-split removes enough duplication to justify the extra layer.
+The builder renders NameCert chapters, full-paper chapters, or both according
+to ``--scope namecert|paper|all`` and writes the matching manifest rows.
 """
 
 from __future__ import annotations
@@ -38,7 +37,6 @@ DEFAULT_MANIFEST = DEFAULT_NAMECERT_MANIFEST
 LABEL_RE = re.compile(r"\\label\{ch:concrete-instances-([a-z0-9-]+)-namecert\}")
 INPUT_RE = re.compile(r"\\(?:input|include)\{([^}]+)\}")
 STRUCTURE_RE = re.compile(r"\\(part|chapter|input|include)\{([^{}]+)\}")
-COMMAND_RE = re.compile(r"\\(?:part|chapter|input|include)\{[^{}]+\}")
 MACRO_LINE_RE = re.compile(
     r"^\s*\\(?:(?:re)?newcommand|providecommand)\*?\s*(?:\{\\[A-Za-z@]+\}|\\[A-Za-z@]+)"
     r"(?:\s*\[[^\]]+\]){0,2}\s*\{.*\}\s*$"
@@ -230,6 +228,7 @@ def detect_namecert_row(path: Path, text: str, by_source: dict[str, dict], by_sl
 
 
 def scan_paper_sources(main_tex: Path = MAIN_TEX, namecert_rows: list[dict] | None = None) -> list[dict]:
+    """Walk the paper input tree and return manifest rows in document order."""
     if namecert_rows is None:
         namecert_rows = scan_namecert_sources()
     by_source, by_slug = namecert_indexes(namecert_rows)
@@ -308,6 +307,7 @@ def load_paper_manifest(path: Path, main_tex: Path, namecert_rows: list[dict]) -
 
 
 def load_rows_for_scope(scope: str, manifest: Path, paper_manifest: Path) -> tuple[list[dict], list[dict]]:
+    """Load the NameCert and paper row sets requested by the command scope."""
     if scope not in SCOPES:
         raise SystemExit(f"unknown scope: {scope}")
     namecert_rows = load_namecert_manifest(manifest)
@@ -401,6 +401,7 @@ def collect_tex_inputs(source_path: Path) -> list[Path]:
 
 
 def guard_macro_declaration(text: str) -> str:
+    """Convert replayable macro declarations to non-conflicting declarations."""
     stripped = text.strip()
     if re.match(r"^\\newcommand\*?", stripped):
         return re.sub(r"^\\newcommand", r"\\providecommand", stripped, count=1)
@@ -408,6 +409,7 @@ def guard_macro_declaration(text: str) -> str:
 
 
 def extract_macro_declarations(path: Path) -> list[str]:
+    """Read simple top-level TeX macro declarations from one source file."""
     if not path.exists() or path.suffix.lower() != ".tex":
         return []
     declarations: list[str] = []
@@ -422,6 +424,7 @@ def extract_macro_declarations(path: Path) -> list[str]:
 
 
 def collect_macro_prelude(rows: list[dict]) -> str:
+    """Collect macro declarations needed by standalone chapter wrappers."""
     seen: set[str] = set()
     declarations: list[str] = []
     source_paths = [ROOT / str(row["source"]) for row in rows if row.get("source")]
@@ -680,6 +683,7 @@ def unique_by_html_url(rows: list[dict]) -> list[dict]:
 
 
 def rows_to_render(scope: str, namecert_rows: list[dict], paper_rows: list[dict]) -> list[dict]:
+    """Return unique render rows for a scope, keyed by published URL."""
     if scope == "namecert":
         return unique_by_html_url(namecert_rows)
     if scope == "paper":
@@ -690,6 +694,7 @@ def rows_to_render(scope: str, namecert_rows: list[dict], paper_rows: list[dict]
 
 
 def limited_manifest_rows(rows: list[dict], selected: list[dict]) -> list[dict]:
+    """Keep manifest rows selected by source path or published URL."""
     selected_sources = {str(row.get("source")) for row in selected}
     selected_urls = {str(row.get("html_url")) for row in selected}
     return [row for row in rows if str(row.get("source")) in selected_sources or str(row.get("html_url")) in selected_urls]

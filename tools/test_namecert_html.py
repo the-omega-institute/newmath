@@ -303,6 +303,49 @@ class NamecertHtmlTests(unittest.TestCase):
         self.assertTrue(errors)
         self.assertTrue(any("missing" in err and "paper/foo" in err for err in errors))
 
+    def test_rows_to_render_all_scope_skips_reused_namecert_url(self) -> None:
+        namecert_rows = [{
+            "scope": "namecert",
+            "slug": "foo",
+            "source": "papers/bedc/parts/concrete_instances/foo/namecert_construction.tex",
+            "html_url": "namecert/foo/",
+        }]
+        paper_rows = [
+            {
+                "scope": "paper",
+                "slug": "foo",
+                "source": "papers/bedc/parts/concrete_instances/foo/namecert_construction.tex",
+                "html_url": "namecert/foo/",
+                "reused_namecert": True,
+            },
+            {
+                "scope": "paper",
+                "slug": "bar",
+                "source": "papers/bedc/parts/bar.tex",
+                "html_url": "paper/2-bar/",
+                "reused_namecert": False,
+            },
+        ]
+
+        rows = build_namecert_html.rows_to_render("all", namecert_rows, paper_rows)
+
+        self.assertEqual([row["html_url"] for row in rows], ["namecert/foo/", "paper/2-bar/"])
+
+    def test_limited_manifest_rows_keeps_selected_url_or_source(self) -> None:
+        manifest_rows = [
+            {"slug": "foo", "source": "a.tex", "html_url": "namecert/foo/"},
+            {"slug": "bar", "source": "b.tex", "html_url": "paper/bar/"},
+            {"slug": "baz", "source": "c.tex", "html_url": "paper/baz/"},
+        ]
+        selected = [
+            {"slug": "url-match", "source": "other.tex", "html_url": "namecert/foo/"},
+            {"slug": "source-match", "source": "b.tex", "html_url": "paper/other/"},
+        ]
+
+        rows = build_namecert_html.limited_manifest_rows(manifest_rows, selected)
+
+        self.assertEqual([row["slug"] for row in rows], ["foo", "bar"])
+
 
 if __name__ == "__main__":
     unittest.main()
