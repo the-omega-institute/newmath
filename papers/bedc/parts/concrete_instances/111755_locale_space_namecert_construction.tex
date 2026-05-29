@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\LocaleSpaceUp$}
+\label{ch:concrete-instances-locale-space-namecert}
+\origin{human}
+
+Following Johnstone and constructive locale theory, the $\LocaleSpaceUp$ packet records the point-free topology surface in which open observations are primary and point carriers are optional downstream reads. It sits after the indexed-open topology of \autoref{ch:concrete-instances-topology-namecert}, the meet--join order interface of \autoref{ch:concrete-instances-lattice-namecert}, the Boolean endpoint discipline of \autoref{ch:concrete-instances-booleanalgebra-namecert}, and the displayed membership surface of \autoref{ch:concrete-instances-setlike-namecert}. The packet names finite frame rows, cover-refinement rows, and topology handoff rows without importing host powersets, quotient point spaces, selected points, excluded middle over opens, or choice over covers.
+
+\begin{definition}[Locale space carrier]
+\label{def:locale-space-carrier}
+A $\LocaleSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+L=(O,J,M,T,CV,B,S,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the open-index carrier row, read point-free as the visible open observation surface.
+\item $J$ is the finite-join row, recording displayed finite unions of open indices.
+\item $M$ is the finite-meet row, recording displayed finite intersections of open indices.
+\item $T$ is the top and bottom row, naming the maximal and empty opens through finite BEDC observations.
+\item $CV$ is the cover-refinement row, recording when one finite open family refines another.
+\item $B$ is the $\BooleanAlgebraUp$ boundary row used only for clopen or complemented subledgers; it does not make the whole locale Boolean.
+\item $S$ is the $\SetLikeUp$ membership-read row for consumers that later inspect a displayed point or probe, not a source of points for the locale itself.
+\item $H$ records componentwise $\hsame$ transport for the open carrier, lattice operations, cover row, Boolean boundary, membership-read row, replay, provenance, and local naming.
+\item $R$ records displayed $\Cont$ replay from a locale request through $O,J,M,T,CV,B,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocaleSpaceUp$, $\TopologyUp$, $\LatticeUp$, $\BooleanAlgebraUp$, $\SetLikeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocaleSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $O,J,M,T,CV,B,S,H,R,P,N$. It has no coordinate for host powersets, point-set extensionality, quotient spaces, selected points, choice-indexed covers, or a global Boolean algebra of all opens.
+\end{definition}
+
+\begin{theorem}[Locale space NameCert obligations]
+\label{thm:locale-space-namecert-obligations}
+For every accepted $\LocaleSpaceUp$ carrier
+$$
+L=(O,J,M,T,CV,B,S,H,R,P,N),
+$$
+the local $\NameCert_{\LocaleSpaceUp}$ surface consists exactly of open-index admission through $O$; finite joins through $J$; finite meets through $M$; top and bottom open rows through $T$; cover-refinement exactness through $CV$; clopen boundary reads through $B$ when a complemented subledger is displayed; point or probe membership reads through $S$ only after the point-free rows are exposed; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $R$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:locale-space-carrier}. The rows $O,J,M,T,CV$ display the point-free open surface before any point-facing or Boolean-facing consumer is consulted.
+
+The Boolean boundary row $B$ is local to complemented subledgers. It may certify a clopen or complemented finite fragment, but it cannot replace the locale carrier by a global $\BooleanAlgebraUp$ object because the carrier has no coordinate for excluded middle over all opens.
+
+The membership row $S$ is downstream of the open rows. A point or probe consumer may read displayed membership only after the locale has exposed the open-index, lattice, and cover-refinement rows.
+
+Finally, $H,R,P,N$ transport, replay, source, and name the same route. Since no carrier coordinate supplies host powersets, quotient point spaces, selected points, or choice-indexed covers, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Locale space finite-meet cover route]
+\label{thm:locale-space-finite-meet-cover-route}
+Every accepted $\LocaleSpaceUp$ consumer that compares a finite meet of opens against a cover must route the comparison through
+$$
+O,J,M,T \longmapsto CV \longmapsto B,S,H,R,P,N .
+$$
+Thus a $\TopologyUp$, $\LatticeUp$, $\BooleanAlgebraUp$, or $\SetLikeUp$ consumer may inherit only the displayed open-index carrier, finite meet and join rows, top and bottom rows, cover-refinement row, optional complemented-subledger boundary, displayed membership reads, transport, replay, provenance, and local name. The route exports no host powerset of opens, no quotient point space, no selected point, no choice-indexed cover, and no global Boolean algebra of all opens.
+\end{theorem}
+\begin{proof}
+Start with the point-free open carrier $O$. The finite-meet request is read through $M$, while the finite-join and endpoint rows $J,T$ keep the comparison inside the same lattice-facing open ledger.
+
+The cover comparison is then the row $CV$. It refines finite families of displayed open indices and therefore consumes the open carrier and lattice rows before any complemented or point-facing read is available.
+
+Only after that route may a consumer inspect $B$ or $S$. The Boolean boundary row can name complemented finite fragments, and the membership row can serve a displayed point or probe, but neither row supplies the source carrier.
+
+The rows $H,R,P,N$ preserve the same route by transport, replay, provenance, and naming. Hence the finite-meet cover comparison is point-free until the optional downstream reads are explicitly displayed.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LocaleSpaceUp$ read exposes open-index admission, finite joins, finite meets, top and bottom opens, cover-refinement, optional complemented-subledger boundary, displayed membership reads, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before a topology, lattice, Boolean, or setlike consumer may use a locale claim.}
+
+\independenceWitness{topology, lattice, booleanalgebra, setlike: $\LocaleSpaceUp$ is not bijective to any listed sibling because it binds point-free open-index, finite lattice, cover-refinement, optional clopen-boundary, and downstream membership rows in a single finite NameCert packet.}
+
+\closureat{LocaleSpaceUp}{seedStr}
+
+\begin{closurestatus}{\LocaleSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:locale-space-carrier}, \autoref{thm:locale-space-namecert-obligations}, and \autoref{thm:locale-space-finite-meet-cover-route} seed the point-free open-index, finite lattice, and cover-refinement route over topology, lattice, Boolean-boundary, setlike, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a host powerset of opens, quotient point-space representation, selected points, choice-indexed covers, spatiality, global Boolean algebra of opens, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite join and meet exactness, endpoint open exactness, cover-refinement stability, complemented-boundary restriction, membership-read boundary, transport, replay, provenance, and local naming for BEDC.Derived.LocaleSpaceUp.}
+  \constructivestory{A $\LocaleSpaceUp$ packet is generated from an open-index carrier row, finite join and meet rows, top and bottom open rows, cover-refinement rows, optional Boolean boundary rows, setlike membership-read rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
