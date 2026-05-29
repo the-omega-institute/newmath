@@ -1477,6 +1477,12 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
                 history = claim.setdefault("history", [])
                 if isinstance(history, list):
                     history.append(_history_entry("needs_rerun", "experiment script or acceptance changed since last run"))
+            elif status == "needs_data" and experiment is not None and not _missing_required_data(repo_root, experiment):
+                claim["status"] = "needs_rerun"
+                status = "needs_rerun"
+                history = claim.setdefault("history", [])
+                if isinstance(history, list):
+                    history.append(_history_entry("needs_rerun", "required_data now available"))
             else:
                 continue
         if experiment is None:
