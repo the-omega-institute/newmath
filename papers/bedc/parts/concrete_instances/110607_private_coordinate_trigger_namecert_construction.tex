@@ -59,12 +59,28 @@ For the reverse read, the cover row already gives full coverage. The witness row
 Thus the criterion row $K$ is exactly the finite private-coordinate minimal-cover test. The transport, replay, provenance, and local naming rows carry this test without converting it into any sibling classifier.
 \end{proof}
 
+\begin{theorem}[Private-coordinate trigger finite-set cover route]
+\label{thm:private-coordinate-trigger-finset-cover-route}
+Every accepted $\PrivateCoordinateTriggerUp$ packet reads its support-family row as a finite-set-indexed cover through \autoref{ch:concrete-instances-finset-namecert}. The exclusions from regular-language and automaton presentations are bounded by \autoref{ch:concrete-instances-regularlanguage-namecert} and \autoref{ch:concrete-instances-finite-automaton-namecert}: the private-coordinate carrier may display finite support rows, recognizer-like acceptance tests, or transition-like exclusion checks, but it exports the minimal-cover criterion only through the rows $\Omega,A,U,V,\pi,E,K,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier
+$$
+T=(\Omega,A,U,V,\pi,E,K,H,C,P,N).
+$$
+The row $\Omega$ is the displayed coordinate object, and $A$ is read as a finite family of supports indexed by the finite-set surface. The cover ledger $U$ then witnesses coverage of every coordinate in $\Omega$ by those displayed supports.
+
+The rows $V,\pi,E$ are the extra private-coordinate ledger. They attach one witness coordinate to each support, record membership in that support, and record exclusion from every other displayed support. These rows are not supplied by the finite-set sibling, nor by the regular-language or finite-automaton presentations.
+
+Consequently $K$ is a private-coordinate minimal-cover read rather than a bare finite-set cover, a regular-language recognizer, or an automaton acceptance predicate. The structural rows $H,C,P,N$ transport and replay only this displayed packet, so the sibling route records the finite-combinatorial surface without replacing the private-coordinate data.
+\end{proof}
+
 \closureat{PrivateCoordinateTriggerUp}{seedStr}
 
 \begin{closurestatus}{\PrivateCoordinateTriggerUp}
   \constructivestory{A $\PrivateCoordinateTriggerUp$ packet is generated from a finite trigger-coordinate row, support-family row, cover ledger, per-support private-coordinate witness ledger, membership and exclusion rows, minimal-cover criterion row, componentwise transport, continuation replay, provenance, and local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:private-coordinate-trigger-carrier}, \autoref{thm:private-coordinate-trigger-namecert-obligations}, and \autoref{thm:private-coordinate-trigger-minimal-cover-criterion} seed the finite NameCert packet for private-coordinate minimal-cover witnesses.}
+  \scopeclosed{\autoref{def:private-coordinate-trigger-carrier}, \autoref{thm:private-coordinate-trigger-namecert-obligations}, \autoref{thm:private-coordinate-trigger-minimal-cover-criterion}, and \autoref{thm:private-coordinate-trigger-finset-cover-route} seed the finite NameCert packet for private-coordinate minimal-cover witnesses.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, regular-language recognition, finite-automaton minimization, Boolean classifier completeness, or enumeration beyond the displayed private-coordinate criterion.}
