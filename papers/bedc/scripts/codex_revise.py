@@ -461,6 +461,21 @@ def read_timeout(key: str, default: int, *, lo: int = 60, hi: int = 14400) -> in
 _origin_sync_stop = threading.Event()
 
 
+def _origin_sync_push_lock():
+    from contextlib import nullcontext
+    import sys as _sys
+
+    _tools_path = str(REPO_ROOT / "tools")
+    if _tools_path not in _sys.path:
+        _sys.path.insert(0, _tools_path)
+    try:
+        from repo_push_lock import acquire_push_lock as _pl
+    except Exception as exc:
+        logger.warning(f"[origin-sync] push-lock import failed: {exc}; using process lock only")
+        return nullcontext()
+    return _pl("codex-auto-dev", timeout=120)
+
+
 def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
     """Background ticker: rebase local base onto origin/<base> when remote
     is ahead.
@@ -492,41 +507,84 @@ def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
                 f"[origin-sync] origin/{base_branch} is {ahead} commit(s) "
                 f"ahead — merging into local"
             )
+            r3 = None
             with _git_lock:
-                r3 = subprocess.run(
-                    ["git", "pull", "--no-rebase", "--no-edit", "--autostash",
-                     "origin", base_branch],
-                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=120,
-                )
+                try:
+                    push_lock_cm = _origin_sync_push_lock()
+                    with push_lock_cm:
+                        stash_oid = None
+                        dirty = subprocess.run(
+                            ["git", "status", "--porcelain"],
+                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
+                        ).stdout.strip()
+                        if dirty:
+                            st = subprocess.run(
+                                ["git", "stash", "push", "-u", "-m", f"origin-sync-{os.getpid()}"],
+                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                            )
+                            if st.returncode != 0:
+                                logger.warning(
+                                    f"[origin-sync] stash push failed; skipping sync: "
+                                    f"{(st.stderr or '').strip()[:200]}"
+                                )
+                                continue
+                            sr = subprocess.run(
+                                ["git", "rev-parse", "--verify", "--quiet", "stash@{0}"],
+                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
+                            )
+                            stash_oid = (sr.stdout or "").strip() or None
+
+                        r3 = subprocess.run(
+                            ["git", "pull", "--no-rebase", "--no-edit",
+                             "origin", base_branch],
+                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=120,
+                        )
+                        if r3.returncode != 0:
+                            logger.warning(
+                                f"[origin-sync] merge failed (returncode={r3.returncode}); "
+                                f"stderr={(r3.stderr or '').strip()[:200]}"
+                            )
+                            if (REPO_ROOT / ".git" / "MERGE_HEAD").exists():
+                                logger.warning("[origin-sync] mid-merge detected, aborting")
+                                subprocess.run(
+                                    ["git", "merge", "--abort"],
+                                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                                )
+                            rebase_merge = REPO_ROOT / ".git" / "rebase-merge"
+                            rebase_apply = REPO_ROOT / ".git" / "rebase-apply"
+                            if rebase_merge.exists() or rebase_apply.exists():
+                                logger.warning("[origin-sync] stale mid-rebase detected, aborting")
+                                subprocess.run(
+                                    ["git", "rebase", "--abort"],
+                                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                                )
+
+                        if stash_oid:
+                            ap = subprocess.run(
+                                ["git", "stash", "apply", stash_oid],
+                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                            )
+                            if ap.returncode == 0:
+                                subprocess.run(
+                                    ["git", "stash", "drop", stash_oid],
+                                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                                )
+                            else:
+                                subprocess.run(
+                                    ["git", "reset", "--hard", "HEAD"],
+                                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                                )
+                                logger.warning(
+                                    f"[origin-sync] autostash {stash_oid[:12]} re-apply "
+                                    "conflicted; reset tracked, kept stash for GC"
+                                )
+                except TimeoutError as exc:
+                    logger.warning(f"[origin-sync] push lock timeout; skipping sync: {exc}")
+                    continue
+
                 if r3.returncode == 0:
                     logger.info(f"[origin-sync] merged origin/{base_branch} into local")
                 else:
-                    logger.warning(
-                        f"[origin-sync] merge failed (returncode={r3.returncode}); "
-                        f"stderr={(r3.stderr or '').strip()[:200]}"
-                    )
-                    # Abort any in-flight merge / leftover rebase to leave the
-                    # main repo clean — otherwise worker pushes hit
-                    # "merge in progress" / "rebase in progress" forever.
-                    if (REPO_ROOT / ".git" / "MERGE_HEAD").exists():
-                        logger.warning("[origin-sync] mid-merge detected, aborting")
-                        subprocess.run(
-                            ["git", "merge", "--abort"],
-                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                        )
-                    rebase_merge = REPO_ROOT / ".git" / "rebase-merge"
-                    rebase_apply = REPO_ROOT / ".git" / "rebase-apply"
-                    if rebase_merge.exists() or rebase_apply.exists():
-                        logger.warning("[origin-sync] stale mid-rebase detected, aborting")
-                        subprocess.run(
-                            ["git", "rebase", "--abort"],
-                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                        )
-                    # Best-effort autostash pop (safe no-op if nothing stashed).
-                    subprocess.run(
-                        ["git", "stash", "pop"],
-                        cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                    )
                     # Verify clean state after recovery.
                     rs = subprocess.run(
                         ["git", "status", "--porcelain"],
