@@ -1,0 +1,690 @@
+---
+title: "合法主张问题"
+subtitle: "一个有限闭合系统对一段有限表达可以诚实地主张什么 — 以及为什么 BEDC 是普适审计接口, 不是普适真理占有"
+author: "The Omega Institute"
+date: 2026-05-28
+description: "一篇 dossier essay, 讨论有限闭合系统能赋予有限表达的最强诚实状态: theorem、condition、route、evidence、non-evidence、meta-claim、refusal、GAP、socket 或 T-boundary."
+---
+
+```{=html}
+<div class="lang-switch"><a href="legitimate-claim-audit.qmd">English</a></div>
+```
+
+核心结论:
+
+$$
+\boxed{\text{合法主张} = \text{maximal non-oracular audited status}}
+$$
+
+$$
+\boxed{\text{BEDC} = \text{universal audit interface} \neq \text{universal truth possession}}
+$$
+
+即:
+
+> 一个有限闭合系统若要诚实地谈论一段有限表达, 只能给它赋予一个被审计的状态. 这个状态可以是 proof、condition、route、evidence、non-evidence、meta-claim、refusal、$\mathsf{GAP}$、socket 或 $\mathsf{T}$-boundary. 它不能把未命名的外部供给消耗成 theorem content.
+
+## 0. 总览
+
+合法主张问题是一个简单压力的审计形式:
+
+> 给定一个有限闭合系统 $\mathcal{C}$ 和一段有限表达 $E$, $\mathcal{C}$ 可以诚实地主张的最强内容是什么?
+
+答案不总是 "theorem".
+答案也不总是 "failure".
+答案是一行 claim-status.
+
+```
+finite expression E
+        |
+        v
+encoded for audit in closed substrate C
+        |
+        v
+dependency inspection
+        |
+        +--> all required supply generated / certified / ledgered
+        |          |
+        |          v
+        |   theorem / conditional / route / evidence / non-evidence / meta
+        |
+        +--> requested supply not generated
+                   |
+                   v
+             GAP / socket / refusal
+                   |
+                   v
+             far end read apophatically as T
+```
+
+BEDC 的纪律不是把每个 claim 都变成 proof.
+它的纪律是每个有限 claim 必须得到一个诚实的 audit position.
+Proof 是一行.
+Boundary 是一行.
+Refusal 也是一行.
+
+关键区分是:
+
+$$
+\text{audit universality} \neq \text{truth-total oracle}.
+$$
+
+BEDC 普适化的是有限 claim 必须经过的接口.
+它不声称占有 claim 可能指向的每一个 truth.
+
+## 1. 有限表达与闭合主张基底
+
+**Definition 1.1 Finite communicable expression**
+
+有限可交流表达是一段可以交换、检查、审计的有限 inscription 或 program fragment.
+
+Definitions、theorems、proofs、conjectures、programs、algorithms、theories、physical interpretations、observation reports、equivalences、proof routes、rule towers、meta-theorems、counterexamples、numerical evidence, 只要其呈现形式有限, 都属于此类.
+
+表达本身可以量化到一个无限 extension.
+有限性说的是被写下来的 artifact.
+
+$$
+\boxed{\text{finite expression} = \text{finite presented artifact, not necessarily finite subject matter}}
+$$
+
+**Definition 1.2 Closed claim substrate**
+
+闭合主张基底是一个系统 $\mathcal{C}$, 其中每一个内部使用都必须经过 records、generators、classifiers、continuations、ledgers、packages、certificates 或 audit gates.
+
+若某个依赖不能通过这些结构被生成、定义、证明、分类、认证或入账, 它就不能作为匿名 theorem content 进入系统.
+它必须暴露为一个具名边界请求.
+
+简写如下:
+
+```
+inside C:
+  generated
+  defined
+  proved
+  classified
+  certified
+  ledgered
+  audited
+
+not allowed:
+  anonymous outside supply used as theorem content
+```
+
+**Principle 1.3 Closedness as named externality**
+
+对 BEDC 来说, closedness 是一个 accounting invariant:
+
+$$
+\text{closed}
+\quad = \quad
+\text{all external dependencies have apophatic names}.
+$$
+
+这个 invariant 不是说外部压力从不出现.
+它说的是, 任何外部压力都不能在没有 visible name、ledger 或 socket 的情况下被消耗.
+
+因此 BEDC 可以严格, 但不需要沉默.
+它可以命名边界.
+它可以拒绝内化边界.
+它不能假装边界已经是 proof.
+
+**Definition 1.4 Positive and apophatic names**
+
+Positive name 命名一个内部生成或内部指定的对象:
+
+```
+carrier
+constructor family
+operation
+law
+eliminator
+classifier
+certificate field
+```
+
+Apophatic name 命名一个外部依赖位置.
+它让依赖可引用, 把依赖变成可审计单元, 并标出内部 digestion 停止的边界.
+
+Apophatic name 不会把这个依赖转换成:
+
+```
+theorem
+object
+witness
+quotient representative
+proposition equality
+causal law
+proof source
+```
+
+这条禁止正是 audit 的核心.
+具名 gap 是可见的.
+它不会因为有名字而被解决.
+
+**Definition 1.5 Gap, socket, and far end**
+
+对一个闭合主张基底 $\mathcal{C}$, 当请求 $\mathrm{req}$ 要求的内容不是由展示的 substrate 产生时, 它形成:
+
+$$
+\mathsf{GAP}_{\mathcal{C}}(\mathrm{req})
+$$
+
+若这个 gap 被命名为 typed 或 ledgered boundary position, 它形成:
+
+$$
+\mathrm{socket}_{\mathcal{C}}(\mathrm{req}).
+$$
+
+对 forward-binding socket $s$, 它的 far end 只有 apophatic reading:
+
+$$
+\mathrm{FarEnd}(s) \equiv_{\mathrm{apo}} \mathsf{T}.
+$$
+
+$\mathsf{T}$ 不是 proof source、state、rule、value 或 global oracle.
+它是未内化供给的 common far-end name.
+
+```
+request not produced by C
+        |
+        v
+      GAP
+        |
+        v
+ named boundary position
+        |
+        v
+     socket
+        |
+        v
+ FarEnd(socket) ≡_apo T
+```
+
+## 2. Claim status taxonomy
+
+**Definition 2.1 Claim status**
+
+对闭合主张基底 $\mathcal{C}$ 和有限可交流表达 $E$, $\mathsf{ClaimStatus}_{\mathcal{C}}(E)$ 是 $\mathcal{C}$ 可以赋予 $E$ 的 audited status.
+
+主要行如下:
+
+| Row | Status |
+|---|---|
+| Theorem row | $E$ 在 substrate 中有 closed proof. |
+| Conditional row | $E$ 相对于已展示 hypotheses、setup fields 或 witness obligations 闭合. |
+| Route row | $E$ 给出 transports、equivalences 或 proof-search route, 但还没有关闭目标所需的 witness. |
+| Evidence row | $E$ 给出 trace、report、numerical datum 或 metric indication, 可作为 evidence, 但不是 theorem content. |
+| Non-evidence row | $E$ 给出一个被明确禁止作为 proof evidence 的 report. |
+| Meta row | $E$ 是关于 fragment、system、proof surface 或 audit layer 的 claim, 不是 object language 的 kernel-level theorem. |
+| Refusal row | $E$ 试图消耗 hidden supply, 因而被拒绝为 internal claim. |
+| $\mathsf{GAP}$ row | $E$ 暴露了 displayed substrate 没有产生的 requested content. |
+| Socket row | $E$ 命名了这类 requested content 必须进入的 boundary position. |
+
+这些行防止一个常见混淆.
+一个 claim 可以有意义, 但不是 theorem.
+一个 claim 可以相关, 但不是 evidence.
+一个 claim 可以是 route, 但不是 proof.
+一个 claim 可以被拒绝, 但不是被忽略.
+
+**Definition 2.2 Claim compiler**
+
+闭合 substrate 的 claim compiler 是如下审计操作:
+
+$$
+\mathsf{Compile}_{\mathcal{C}}
+  : \mathsf{FiniteExpr}
+  \longrightarrow
+  \mathsf{ClaimStatus}_{\mathcal{C}}.
+$$
+
+它的输入可以是 proof traces、programs、definitions、observations、theories、routes、equivalence chains 或 meta-claims.
+它的输出是 claim-status rows.
+
+因此 compiler 不只是 theorem machine.
+它是 proof auditor、boundary detector 和 refusal surface.
+
+```
+proof trace          \
+program              \
+definition            \
+observation            --> Compile_C --> claim-status row
+theory                /
+route                /
+meta-claim          /
+```
+
+## 3. Claim-status exhaustion 与 no hidden supply
+
+**Theorem 4.1 Claim-status exhaustion**
+
+设 $\mathcal{C}$ 是闭合主张基底, $E$ 是一段为 audit 编码的有限可交流表达.
+那么 $E$ 的每一种 accepted reading 都落入某一行 claim-status.
+
+若 $E$ 请求的 supply 不是由 $\mathcal{C}$ 生成的, 那么在该 supply 被 discharge 之前, $E$ 不能被读成 unconditional theorem row.
+
+**Proof.** 检查 encoded expression 的依赖.
+若它们全部通过 $\mathcal{C}$ 被生成、定义、证明、分类、认证或入账, 则该表达落在内部一侧: theorem、condition、evidence、non-evidence、route 或 meta-row, 具体取决于所给数据的形状.
+
+若某个 dependency 被请求但没有被产生, closedness invariant 阻止匿名内部使用.
+这个请求因此被记录为 $\mathsf{GAP}$.
+若该请求被命名为 boundary position, 它被记录为 socket.
+若表达试图把缺失 supply 消耗为 theorem content, 正确状态就是 refusal.
+
+这些替代项穷尽 admissible audit readings. $\square$
+
+**Theorem 4.2 No hidden supply**
+
+在闭合主张基底中, ungenerated、uncertified、unledgered supply 若被消耗为 theorem content, 就会破坏 closedness.
+同一个 supply 若被暴露为 socket 且不作为 internal proof source 消耗, 就保持 closedness.
+
+**Proof.** Closedness 要求每个 internal use 都被生成、认证或入账, 且每个 external dependency 都有 apophatic name.
+Ungenerated supply 若被消耗为 theorem content, 就是匿名 external dependency, 因而违反 invariant.
+
+若该 supply 被暴露为 socket, substrate 并不声称自己在内部拥有它.
+它记录 requested shape 和 non-internalization boundary.
+因此 accounting invariant 得到保持. $\square$
+
+**Corollary 4.3 Naming prevents smuggling**
+
+Apophatic naming 不会仅仅通过命名而解决被请求的问题.
+它防止被请求的 supply 被偷渡进 theorem content.
+
+**Proof.** Socket 给 audit gate 一个稳定目标:
+
+```
+site
+requested supply
+non-internalization marker
+relevant gate
+```
+
+仅仅命名 socket 不会产生 witness 或 theorem. $\square$
+
+## 4. Dual audit bases
+
+**Definition 4.1 MetaCIC audit base**
+
+$\mathsf{MetaCIC}$ audit base 是 closed-CIC meta-theory surface.
+它审计 typing surfaces、beta steps、closedness、substitution、consistency assembly、subject reduction、normalisation、confluence 和 decidable checking.
+
+MetaCIC base 询问:
+
+```
+Does this proof-theoretic surface type?
+Do reductions behave?
+Does substitution preserve the relevant structure?
+Is the proof surface closed where it claims closure?
+```
+
+**Definition 4.2 GroundCompiler audit base**
+
+$\mathsf{GroundCompiler}$ audit base 是 compiler-facing surface.
+它审计 event flows、source channels、generated recognizers、certificate gates、metric boundaries、cannot-claim rows、streaming discipline 和 hidden-input boundaries.
+
+GroundCompiler base 询问:
+
+```
+How did this artifact enter?
+What channel carried it?
+Which recognizer accepted it?
+Which gate certified it?
+Where is the hidden-input boundary?
+```
+
+**Principle 4.3 Dual-base non-collapse**
+
+BEDC self-audit 使用 $\mathsf{GroundCompiler}$ 与 $\mathsf{MetaCIC}$ 的 composition, 而不是把二者 collapse.
+
+GroundCompiler acceptance 本身不会变成 proof-theoretic theorem.
+MetaCIC local decidability 也不会变成 global compiler 或 route oracle.
+
+这两个 bases 是坐标, 不是替代品.
+
+**Theorem 4.4 Dual audit of claim status**
+
+对同时涉及 compiled artifacts 和 proof-theoretic content 的 claims, 合法状态必须经过两个 audit bases.
+一个 base 上的 pass 不能静默 discharge 另一个 base 上的 blocked edge.
+
+**Proof.** GroundCompiler rows 认证 artifact 如何进入 displayed event、source-channel、recognizer 和 certificate-gate surface.
+MetaCIC rows 认证 proof-theoretic claim 如何在 typing、reduction、substitution 和 closedness 上表现.
+
+这些是不同坐标.
+若 claim 缺少 source-channel boundary, MetaCIC typing 不会提供它.
+若 claim 缺少 subject-reduction transport, compiler recognition row 不会提供它.
+因此两个 bases 协作, 但不互相替代. $\square$
+
+## 5. 无限 claim 与 global deciders
+
+**Definition 5.1 Finite grounding**
+
+无限 claim $A_{\infty}$ 有 finite grounding, 当且仅当它由有限 generator、recognizer、continuation system、classifier 或 packet family 呈现, 并同时带有:
+
+```
+NameCert
+totality witness
+correctness witness
+dependency ledger
+```
+
+这些数据必须足以生成所需 instances 或 witnesses.
+
+Claim 可以覆盖无限多 cases.
+Grounding 必须有 finite top.
+
+**Definition 5.2 Grounding rank**
+
+当 claim 本身有有限 certificate 时, grounding rank 是 $0$.
+
+当 claim 由 rank 为 $n$ 的 rule 生成时, 它的 rank 是 $n+1$.
+
+若没有可用的 finite rank, rank 是 $\omega$.
+
+```
+rank 0:
+  finite certificate already present
+
+rank n+1:
+  generated by a certified rule of rank n
+
+rank omega:
+  no finite top certificate available
+```
+
+**Theorem 5.3 Infinite-claim closure**
+
+有 finite grounding rank 的无限 claim 可以作为 auditable BEDC claim 使用.
+Rank 为 $\omega$ 的无限 claim 不能被消耗为 proof resource.
+除非继续给出 finite grounding, 否则它成为 $\mathsf{GAP}$ socket.
+
+**Proof.** Finite rank 给出 finite top certificate.
+Certified transports 或 generation steps 随后把有限 tower 展开到 target claim.
+
+Rank $\omega$ 没有 finite top.
+把整个 tower 当成单一对象, 只会产生一个进一步要求: 需要该 tower 的 generator 和 certificate.
+没有这些数据, 这个 demand 就是 gap.
+一旦被命名, 它就是 socket, 其 far end 被 apophatically 读成 $\mathsf{T}$. $\square$
+
+**Definition 5.4 Global closure decider**
+
+Global closure decider 是一个 classifier:
+
+$$
+D_{\mathrm{all}}(A,R)
+$$
+
+它对每个 theorem target $A$ 与 proof route $R$ 判定 $R$ 是否最终输出 $A$ 的 closed proof.
+
+它不是 local checker.
+它是 total route oracle.
+
+**Theorem 5.5 Global closure deciders are not legitimate claim content**
+
+没有 global closure decider 可以成为合法的 internal BEDC claim object.
+
+**Proof.** 假设这样的 decider 在 substrate 内合法.
+对任意 certificate-level continuation system $\mathsf{NameCert}_P$ 和 history $h$, 形成一条 route: 它从 $h$ 运行 $\mathsf{Cont}_P$-chain, 并且恰好在该 chain 终止时输出一个 trivial target 的固定 proof.
+
+该 decider 会判定这条 route 是否 closes.
+因此它会判定 $\mathsf{Cont}_P$-chain 是否 terminates.
+
+这就是 certificate stratum 上的 halting predicate.
+它把所有 route-termination questions 变成一个内部总判定, 从而关闭 open meta loop.
+Diagonal continuation 随后给出标准矛盾:
+
+```
+build D using the alleged total decider
+run D on itself
+if the decider says "closes", D refuses closure
+if the decider says "does not close", D closes
+```
+
+所以 $D_{\mathrm{all}}$ 不是 legitimate claim content.
+它最多能作为 boundary request、refused oracle 或 socket 出现. $\square$
+
+## 6. 合法主张定理
+
+**Definition 6.1 Legitimate-claim problem**
+
+Legitimate-claim problem 问的是:
+
+> 给定闭合主张基底 $\mathcal{C}$ 和有限可交流表达 $E$, $\mathcal{C}$ 能赋予 $E$ 的最强 non-oracular status 是什么?
+
+"Strongest" 与 "non-oracular" 必须同时保留.
+最强合法状态不是最强可想象断言.
+它是由 displayed generators、classifiers、continuations、ledgers、packages、certificates、audit gates、gap reports 和 sockets 支持的最强断言.
+
+**Theorem 6.2 Legitimate-claim theorem**
+
+BEDC 解决了有限可交流表达相对于闭合主张基底的 legitimate-claim problem.
+它赋予 claim 的是从 displayed generators、classifiers、continuations、ledgers、packages、certificates、audit gates、MetaCIC rows、GroundCompiler rows、gap reports 和 sockets 中可取得的最强 non-oracular claim status.
+
+**Proof.** 由 claim-status exhaustion, encoded finite expression 的每一种 accepted reading 都落入 claim-status row.
+
+若所有相关 dependencies 都是 internal, 最强状态由 displayed proof、condition、route、evidence、non-evidence 或 meta-row 读出.
+
+若某个 dependency 没有生成, no hidden supply 阻止匿名消耗, 并强制 gap 或 socket reading.
+
+若 claim 同时需要 compiler-facing 与 proof-theoretic support, dual audit 阻止任何一个 audit base 冒充另一个.
+
+若 claim 试图使用 global closure oracle, no-global-decider theorem 将它作为 open-meta-loop closure 拒绝.
+
+因此 assigned status 是 non-oracular, 且相对于 displayed data 最大. $\square$
+
+**Corollary 6.3 Universal audit interface, not universal truth possession**
+
+BEDC 是 universal audit interface, 不是 universal truth possession.
+
+它不主张:
+
+```
+every true proposition is provable
+every question is decidable
+every external object is internalizable
+every boundary problem has a positive solution
+```
+
+它主张每个 finite claim 必须暴露其状态: theorem、condition、route、evidence、non-evidence、meta-claim、refusal、$\mathsf{GAP}$、socket 或 $\mathsf{T}$-boundary.
+
+**Proof.** Legitimate-claim theorem 给 finite claim 赋予 audited status.
+有些状态是 proofs.
+另一些状态是 conditional、evidential、boundary 或 refusal statuses.
+因此该 theorem 给出的是 audit interface, 不是 total truth predicate. $\square$
+
+## 7. RH 作为 witness-target test
+
+**Corollary 7.1 RH at maximal mathematical pressure**
+
+Riemann Hypothesis 展示了 legitimate-claim theorem 在最大数学压力下的形态.
+在 BEDC 中, 它是一个固定 constructive $\Pi$-statement.
+
+主要 decision data 有四类:
+
+| Outcome | Required data |
+|---|---|
+| Proof | 一个关闭 constructive $\Pi$-statement 的 witness function. |
+| Disproof | 一个 explicit counterexample packet. |
+| Independence | 一个 fragment-specific meta-theorem. |
+| Route without closure | 一个 displayed equivalence chain 或 proof-search route, 但缺少关闭 RH 所需的 witness. |
+
+没有 finite grounding 的 infinite rule towers 成为 sockets.
+Global route deciders 是 halting-style oracles.
+
+**Proof.** 在这个 reading 中, RH 不是模糊压力.
+它是一个固定 mathematical target, 其合法状态取决于 displayed data.
+
+Proof 必须给出 witness function.
+Disproof 必须给出 explicit counterexample packet.
+Independence 必须是关于指定 fragment 的 theorem.
+Equivalence chains 与 analytic routes 在给出缺失 witness 之前都是 routes.
+
+因此 RH 正是 legitimate-claim theorem 在最大数学压力下的实例. $\square$
+
+## 8. Observer / time / space language 作为 claim-status reconstruction
+
+**Corollary 8.1 Observer language**
+
+同一个 audit interface 适用于 observer、time、space 与 universe language.
+这些 vocabulary 不能作为匿名背景被接受.
+它必须被重构为 record accumulation、local inscription、inter-history coherence、gap report、socket 或 $\mathsf{T}$-boundary.
+
+**Proof.** 闭合 observational system 有 finite records、local inscriptions、forward-binding sockets 与 common far-end name $\mathsf{T}$.
+
+关于 observers、time、space 或 universe 的 claims 因此通过同一个 status surface 进入:
+
+```
+generated records when available
+coherence rows when displayed
+gap reports when a dependency is requested
+sockets when requested supply is not internalized
+T-boundaries at the far end
+```
+
+任何 observer、time 或 space term 都不能漂浮为匿名 background supply.
+它必须获得 claim status. $\square$
+
+## 9. 有限闭合系统可以没有 hidden supply 地说话
+
+**Corollary 9.1 Honest speech**
+
+有限闭合系统可以谈论 infinity、proof、programs、observers、time、space、truth、self-reference 与 externality, 而不把 unmarked external supply 变成 theorem content.
+
+**Proof.** 系统通过赋予 claim status 来说话, 而不是假装每个 claim 都是 internal theorem.
+
+Infinite claims 需要 finite grounding.
+Proof claims 需要 proof data.
+Program claims 面对 halting boundary.
+Observer claims 面对 inscription 与 socket boundary.
+Externality 被 apophatically 命名.
+
+每一种情形都保持 closedness invariant.
+这种 speech 是诚实的, 因为它暴露自己拥有什么、缺什么、route 指向什么、拒绝内化什么. $\square$
+
+## 10. 总结图
+
+```
+finite communicable expression E
+        |
+        v
+closed claim substrate C
+        |
+        v
+Compile_C(E)
+        |
+        v
+dependency audit
+        |
+        +------------------------------+
+        |                              |
+        v                              v
+ internal support               requested supply
+ generated / certified          not generated
+ / ledgered                     by C
+        |                              |
+        v                              v
+ theorem / conditional          GAP
+ route / evidence               |
+ non-evidence / meta            v
+        |                       named boundary
+        |                              |
+        |                              v
+        |                           socket
+        |                              |
+        |                              v
+        |                       FarEnd ≡_apo T
+        |                              |
+        +---------------+--------------+
+                        |
+                        v
+            strongest non-oracular status
+                        |
+                        v
+              legitimate claim content
+```
+
+## 11. 最干净公式
+
+$$
+\boxed{
+\mathsf{Compile}_{\mathcal{C}}
+  : \mathsf{FiniteExpr}
+  \to
+  \mathsf{ClaimStatus}_{\mathcal{C}}
+}
+$$
+
+$$
+\boxed{
+\text{closed}
+=
+\text{all external dependencies have apophatic names}
+}
+$$
+
+$$
+\boxed{
+\mathrm{FarEnd}(\mathrm{socket}_{\mathcal{C}}(\mathrm{req}))
+\equiv_{\mathrm{apo}}
+\mathsf{T}
+}
+$$
+
+$$
+\boxed{
+\text{finite grounding rank} < \omega
+\Rightarrow
+\text{auditable infinite claim}
+}
+$$
+
+$$
+\boxed{
+\text{rank } \omega
+\Rightarrow
+\mathsf{GAP}/\text{socket unless further grounding is supplied}
+}
+$$
+
+$$
+\boxed{
+\text{global closure decider}
+=
+\text{halting-style oracle}
+}
+$$
+
+$$
+\boxed{
+\text{legitimate claim}
+=
+\text{strongest displayed non-oracular claim status}
+}
+$$
+
+$$
+\boxed{
+\text{BEDC}
+=
+\text{universal audit interface}
+\neq
+\text{universal truth possession}
+}
+$$
+
+## 12. 一句话总结
+
+> 一个有限闭合系统可以通过把有限可交流表达编译到 displayed data 支持的最强 non-oracular claim status 来诚实地说话; 它不能把未命名 outside supply、infinite rule towers、observer background 或 global route oracles 变成 theorem content.
+
+### 相关阅读
+
+```{=html}
+<div class="cta-choices">
+  <a href="rh-route-halting-boundary.zh-CN.qmd"><strong>RH route 与 halting boundary</strong><br/>姊妹 dossier: RH 作为 constructive witness target 与 route boundary.</a>
+  <a href="apophatic-infinity.zh-CN.qmd"><strong>否定式无穷</strong><br/>为什么 T 是 finite readout fibers 的 apophatic far end, 不是一个 infinite object.</a>
+  <a href="no-exception-everything-inside.zh-CN.qmd"><strong>无例外: 一切折入</strong><br/>records、classifiers、continuations 与 sockets 如何给每个可被考虑的对象一个 audit position.</a>
+  <a href="boundary-not-axiom.zh-CN.qmd"><strong>边界, 不是公理</strong><br/>为什么 boundary marker 不是 hidden axiom 或 proof source.</a>
+  <a href="halting-as-open-meta-loop.zh-CN.qmd"><strong>停机问题作为 open meta loop</strong><br/>同一个 no-global-oracle boundary 的运行层形式.</a>
+</div>
+```
+
+— *The Omega Institute*  
+*newmath / BEDC, May 2026*
