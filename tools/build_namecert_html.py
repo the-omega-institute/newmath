@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
+import hashlib
 import json
 import os
 import re
@@ -19,6 +20,7 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 PAPER_DIR = ROOT / "papers" / "bedc"
@@ -27,7 +29,9 @@ OUT_ROOT = ROOT / "docs" / "dossier" / "namecert"
 DEFAULT_MANIFEST = ROOT / "docs" / "dossier" / "data" / "namecert_sources.json"
 DEFAULT_DEPENDENCY = ROOT / "docs" / "dossier" / "data" / "dependency.json"
 LABEL_RE = re.compile(r"\\label\{ch:concrete-instances-([a-z0-9-]+)-namecert\}")
+INPUT_RE = re.compile(r"\\(?:input|include)\{([^}]+)\}")
 PUBLISH_SUFFIXES = {".html", ".css", ".png", ".svg", ".jpg", ".jpeg", ".gif", ".webp"}
+STAMP_NAME = ".namecert-stamp"
 PAGE_CSS = """
 <style>
 :root { color-scheme: light; }
@@ -134,6 +138,102 @@ def nav_html(row: dict, rows_by_region: dict[str, dict], up: list[str], down: li
     return '<nav class="dossier-nav">' + " ".join(parts) + "</nav>"
 
 
+def update_hash_file(h: Any, label: str, path: Path) -> None:
+    h.update(f"file:{label}\n".encode("utf-8"))
+    rel = str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path)
+    h.update(rel.encode("utf-8"))
+    h.update(b"\n")
+    if path.exists():
+        h.update(path.read_bytes())
+    else:
+        h.update(b"<missing>")
+    h.update(b"\n")
+
+
+def resolve_tex_input(name: str, base_dir: Path) -> Path | None:
+    raw = name.strip()
+    if not raw:
+        return None
+    candidates = []
+    raw_path = Path(raw)
+    if raw_path.suffix:
+        names = [raw_path]
+    else:
+        names = [raw_path, Path(f"{raw}.tex")]
+    for item in names:
+        if item.is_absolute():
+            candidates.append(item)
+        else:
+            candidates.extend([base_dir / item, PAPER_DIR / item, ROOT / item])
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate.resolve()
+    return (PAPER_DIR / names[-1]).resolve()
+
+
+def collect_tex_inputs(source_path: Path) -> list[Path]:
+    pending = [source_path.resolve()]
+    seen: set[Path] = set()
+    ordered: list[Path] = []
+    while pending:
+        path = pending.pop()
+        if path in seen:
+            continue
+        seen.add(path)
+        ordered.append(path)
+        if not path.exists() or path.suffix.lower() != ".tex":
+            continue
+        text = path.read_text(encoding="utf-8", errors="ignore")
+        for match in INPUT_RE.finditer(text):
+            resolved = resolve_tex_input(match.group(1), path.parent)
+            if resolved is not None and resolved not in seen:
+                pending.append(resolved)
+    return sorted(ordered, key=lambda p: str(p))
+
+
+def region_fingerprint(
+    row: dict,
+    rows_by_region: dict[str, dict],
+    upstream: dict[str, list[str]],
+    downstream: dict[str, list[str]],
+    mode: str,
+    strict: bool,
+    nav: str,
+    source_path: Path,
+) -> str:
+    region = row.get("region") or normalize_region(str(row["slug"]))
+    up = upstream.get(str(region), [])
+    down = downstream.get(str(region), [])
+    payload = {
+        "version": 1,
+        "slug": row["slug"],
+        "region": region,
+        "source": row["source"],
+        "mode": mode,
+        "strict": strict,
+        "upstream": up,
+        "downstream": down,
+        "nav": nav,
+        "neighbor_slugs": {
+            r: rows_by_region[r]["slug"]
+            for r in sorted(set(up + down))
+            if r in rows_by_region and "slug" in rows_by_region[r]
+        },
+    }
+    h = hashlib.sha256()
+    h.update(json.dumps(payload, sort_keys=True, ensure_ascii=False).encode("utf-8"))
+    h.update(b"\n")
+    update_hash_file(h, "source", source_path)
+    for input_path in collect_tex_inputs(source_path):
+        if input_path != source_path.resolve():
+            update_hash_file(h, "tex-input", input_path)
+    for input_path in collect_tex_inputs(PAPER_DIR / "preamble.tex"):
+        update_hash_file(h, "preamble-input", input_path)
+    update_hash_file(h, "make4ht-dossier.cfg", PAPER_DIR / "make4ht-dossier.cfg")
+    update_hash_file(h, "build_namecert_html.py", Path(__file__).resolve())
+    return h.hexdigest()
+
+
 def write_wrapper(tmpdir: Path, row: dict, nav: str) -> Path:
     source = row["source"]
     wrapper = tmpdir / "namecert-wrapper.tex"
@@ -180,6 +280,7 @@ def run_make4ht(
     mode: str,
     strict: bool,
     use_build_dir: bool,
+    force: bool,
 ) -> dict:
     slug = row["slug"]
     region = row.get("region") or normalize_region(slug)
@@ -187,11 +288,28 @@ def run_make4ht(
     if not source_path.exists():
         return {"slug": slug, "ok": False, "error": f"missing source {source_path}"}
 
+    nav = nav_html(row, rows_by_region, upstream.get(region, []), downstream.get(region, []))
+    fingerprint = region_fingerprint(
+        row,
+        rows_by_region,
+        upstream,
+        downstream,
+        mode,
+        strict,
+        nav,
+        source_path,
+    )
     out_dir = OUT_ROOT / slug
+    stamp = out_dir / STAMP_NAME
+    index = out_dir / "index.html"
+    if not force and index.exists() and stamp.exists():
+        cached = stamp.read_text(encoding="utf-8", errors="ignore").strip()
+        if cached == fingerprint:
+            return {"slug": slug, "ok": True, "cached": True, "error": "", "returncode": 0}
+
     if out_dir.exists():
         shutil.rmtree(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    nav = nav_html(row, rows_by_region, upstream.get(region, []), downstream.get(region, []))
     with tempfile.TemporaryDirectory(prefix=f"namecert-{slug}-") as td:
         tmpdir = Path(td)
         wrapper = write_wrapper(tmpdir, row, nav)
@@ -232,7 +350,6 @@ def run_make4ht(
                 else:
                     shutil.copy2(item, dest)
         debug_files = list(out_dir.rglob("*"))[:20]
-    index = out_dir / "index.html"
     ok = proc.returncode == 0 and index.exists()
     if ok:
         polish_html(index)
@@ -247,11 +364,12 @@ def run_make4ht(
             err = "HTML lacks MathML/MathJax output"
         else:
             err = ""
+            stamp.write_text(f"{fingerprint}\n", encoding="utf-8")
     else:
         err = (proc.stderr or proc.stdout)[-4000:]
         if not err:
             err = f"make4ht returned {proc.returncode}; files: {[str(p.relative_to(out_dir)) for p in debug_files]}"
-    return {"slug": slug, "ok": ok, "error": err, "returncode": proc.returncode}
+    return {"slug": slug, "ok": ok, "cached": False, "error": err, "returncode": proc.returncode}
 
 
 def write_manifest(path: Path, rows: list[dict]) -> None:
@@ -277,6 +395,7 @@ def main() -> int:
         help="report failed pages but exit successfully after building the rest",
     )
     parser.add_argument("-m", "--mode", default="", help="make4ht mode, e.g. mathjax")
+    parser.add_argument("--force", action="store_true", help="ignore per-region stamps and rebuild selected pages")
     parser.add_argument("--write-manifest-only", action="store_true")
     args = parser.parse_args()
 
@@ -314,13 +433,19 @@ def main() -> int:
                 args.mode,
                 args.strict,
                 use_build_dir,
+                args.force,
             )
             for row in selected
         ]
+        cached_count = 0
         for fut in concurrent.futures.as_completed(futs):
             result = fut.result()
-            status = "ok" if result["ok"] else "FAIL"
-            print(f"[namecert-html] {status} {result['slug']}")
+            if result.get("cached"):
+                cached_count += 1
+                print(f"[namecert-html] cached {result['slug']}")
+            else:
+                status = "ok" if result["ok"] else "FAIL"
+                print(f"[namecert-html] {status} {result['slug']}")
             if not result["ok"]:
                 failures.append(result)
 
@@ -328,10 +453,12 @@ def main() -> int:
         for fail in failures:
             print(f"[namecert-html] {fail['slug']}: {fail['error']}", file=sys.stderr)
         if args.allow_failures:
-            print(f"[namecert-html] built {len(selected) - len(failures)}/{len(selected)} page(s); {len(failures)} failed")
+            built_count = len(selected) - len(failures) - cached_count
+            print(f"[namecert-html] built {built_count}/{len(selected)} page(s); cached {cached_count}; {len(failures)} failed")
             return 0
         return 1
-    print(f"[namecert-html] built {len(selected)} page(s)")
+    built_count = len(selected) - cached_count
+    print(f"[namecert-html] built {built_count}/{len(selected)} page(s); cached {cached_count}")
     return 0
 
 
