@@ -5950,6 +5950,7 @@ import BEDC.Derived.RegularCauchyExtensionalityUp.TasteGate
 import BEDC.Derived.RegularCauchyFamilyUp
 import BEDC.Derived.RegularCauchyFamilyUp.TasteGate
 import BEDC.Derived.RegularCauchyFieldDistributivityUp.TasteGate
+import BEDC.Derived.RegularCauchyFilterRefinementUp.TasteGate
 import BEDC.Derived.RegularCauchyFilterUp
 import BEDC.Derived.RegularCauchyFilterUp.BasisRows
 import BEDC.Derived.RegularCauchyFilterUp.MatureRouteExhaustion
