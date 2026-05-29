@@ -323,4 +323,33 @@ theorem NormalFormConsistencySealClosedNormalFrontier
     unary_cont_closed closedRouteUnary transportUnary namedRouteRoute
   exact ⟨typedFalseUnary, normalTheoremUnary, closedRouteUnary, namedRouteUnary⟩
 
+theorem NormalFormConsistencySealFiniteWindowDeterminacy
+    {T F N K H T' F' N' K' H' typedFalse typedFalse' normalTheorem normalTheorem'
+      closedRoute closedRoute' namedRoute namedRoute' : BHist} :
+    hsame T T' ->
+      hsame F F' ->
+        hsame N N' ->
+          hsame K K' ->
+            hsame H H' ->
+              Cont T F typedFalse ->
+                Cont N K normalTheorem ->
+                  Cont typedFalse normalTheorem closedRoute ->
+                    Cont closedRoute H namedRoute ->
+                      Cont T' F' typedFalse' ->
+                        Cont N' K' normalTheorem' ->
+                          Cont typedFalse' normalTheorem' closedRoute' ->
+                            Cont closedRoute' H' namedRoute' ->
+                              hsame namedRoute namedRoute' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro sameTyping sameFalse sameNormal sameTheorem sameBoundary typedFalseRoute
+    normalTheoremRoute closedRouteRoute namedRouteRoute typedFalseRoute'
+    normalTheoremRoute' closedRouteRoute' namedRouteRoute'
+  have typedFalseSame : hsame typedFalse typedFalse' :=
+    cont_respects_hsame sameTyping sameFalse typedFalseRoute typedFalseRoute'
+  have normalTheoremSame : hsame normalTheorem normalTheorem' :=
+    cont_respects_hsame sameNormal sameTheorem normalTheoremRoute normalTheoremRoute'
+  have closedRouteSame : hsame closedRoute closedRoute' :=
+    cont_respects_hsame typedFalseSame normalTheoremSame closedRouteRoute closedRouteRoute'
+  exact cont_respects_hsame closedRouteSame sameBoundary namedRouteRoute namedRouteRoute'
+
 end BEDC.Derived.NormalFormConsistencySealUp
