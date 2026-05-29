@@ -1,33 +1,5 @@
+\subsection{NameCert: self.claim}
+\label{sec:namecert-self_claim}
 \origin{ai}
-\subsection{ORF Eligibility Boundary for a Self-Claim Seed}
-\label{subsec:bioreality-self-claim-orf-eligibility-boundary}
 
-\paragraph{Record.}
-The BioReality record considered here is the finite-row seed with identifier $\texttt{self.claim}$ and biological object ``open-reading-frame eligibility from start/stop codon enumeration.'' Its declared layer is $\texttt{orf\_eligibility}$. The BEDC minimal form does not yet carry a biological interval: the carrier, the readback, and the only listed distinction are all recorded as awaiting reality contact, while the internal structure is recorded as none. Consequently the record is not an observed open reading frame. It is a boundary packet saying what would have to be tested before an ORF-eligibility assertion could be made.
-
-\paragraph{Finite codon rows.}
-The finite codon ledger attached to the packet contains two relevant codon sets. The motif-compression row gives
-$$
-\begin{aligned}
-R=\{&\texttt{AAA},\texttt{AGA},\texttt{AGG},\texttt{AUA},\texttt{CUA},\texttt{CUC},\texttt{CUG},\texttt{CUU},\texttt{UAA},\texttt{UAG},\texttt{UCA},\texttt{UGA},\texttt{UUA}\}.
-\end{aligned}
-$$
-This row reports no missing codons and no extra codons relative to the recorded motif union. The marker set row gives $|M|=20$ and identifies
-$$
-\begin{aligned}
-M=\{&\texttt{AAA},\texttt{AAG},\texttt{ACA},\texttt{ACG},\texttt{AGA},\texttt{AGG},\texttt{AUA},\texttt{AUG},\texttt{CUA},\texttt{CUC},\texttt{CUG},\texttt{CUU},\texttt{UAA},\texttt{UAG},\texttt{UCA},\texttt{UCG},\texttt{UGA},\texttt{UGG},\texttt{UUA},\texttt{UUG}\}.
-\end{aligned}
-$$
-A separate saturation row records $\operatorname{Sat}_{f3}(R)=M\setminus\{\texttt{ACA},\texttt{ACG}\}$, namely the eighteen codons $\texttt{AAA}$, $\texttt{AAG}$, $\texttt{AGA}$, $\texttt{AGG}$, $\texttt{AUA}$, $\texttt{AUG}$, $\texttt{CUA}$, $\texttt{CUC}$, $\texttt{CUG}$, $\texttt{CUU}$, $\texttt{UAA}$, $\texttt{UAG}$, $\texttt{UCA}$, $\texttt{UCG}$, $\texttt{UGA}$, $\texttt{UGG}$, $\texttt{UUA}$, and $\texttt{UUG}$. The same saturation row records an empty $f3$ boundary, so the row is a finite combinatorial closure statement, not a biological observation.
-
-\paragraph{Quotient geometry.}
-The quotient-geometry row gives the finite vector for $M$ as $(20,38,26,8,1)$ and the quotient finite vector as $(10,14,6,1)$. The quotient image has size $10$ and is recorded by the ten binary rows $(0,0,0,0,1)$, $(0,0,0,1,1)$, $(0,0,1,0,1)$, $(0,0,1,1,1)$, $(0,1,0,0,0)$, $(0,1,0,0,1)$, $(1,0,0,0,1)$, $(1,0,0,1,1)$, $(1,0,1,0,1)$, and $(1,0,1,1,1)$. These numbers are permitted evidence for the finite row shape of the packet. They do not by themselves provide a sequence interval, a transcript, a curated ORF annotation, a translation product, or a functional assignment.
-
-\paragraph{External-window contact status.}
-The only ORF-window row attached to the record is explicitly scoped as external-window start/stop enumeration only. It reports that an external window dataset was loaded, with snapshot date $\texttt{2026\text{-}05\text{-}25}$, window count $1$, input windows $1$, and classified windows $1$. Its source is a curated finite nucleotide-window manifest for BioReality ORF start/stop enumeration, and the row itself states that those records are external annotation inputs to the experiment, not BEDC-derived facts. The row also records $\texttt{no\_geometry\_to\_translation\_promotion}=\texttt{orf\_eligibility\_only}$. Thus the admissible reading is narrow: the finite window has been classified by start/stop enumeration, but this does not certify translation realization.
-
-\paragraph{Boundary probes.}
-The two probes attached to the seed are both boundary-mismatch probes. The first, $\texttt{orf.eligibility.boundary.requires.contact}$, requires a $\texttt{curated.orf.interval.annotation}$ contact and is supported only while the packet remains a boundary probe for what would have to be tested. It breaks if the pipeline asserts ORF eligibility, translation realization, folded structure, physical admissibility, or biological function from start/stop-window enumeration alone. The second, $\texttt{orf.eligibility.contact.gap.check}$, has the same required contact and breaks if an ORF eligibility assertion is recorded while no sequence database, transcript evidence, or curated annotation contact can test the proposed interval. Since the contact list is empty, both probes keep the packet at boundary status.
-
-\paragraph{Self-check verdict.}
-The self-check row has experiment run identifier $\texttt{0f47d2f0cf41}$ and records checked gate count $3$. Its boundary field states that this is a BioReality self-check only and that no codon geometry is promoted across biological layers. The local verdict is therefore: this packet is ready as a finite boundary record for the $\texttt{orf\_eligibility}$ layer, but it is not ready as an ORF-eligibility assertion about a biological interval. No translation, folding, physical admissibility, function, mechanism, or universality follows unless a separate sequence, transcript, or curated-annotation contact supplies it.
+This BioReality namecert is awaiting codex re-authoring. Most recent attempt failed the chapter hygiene gate; issues recorded: template\_residue: BEDC 5-tuple, template\_residue: lean target sketch (statement-only), template\_residue: internal newmath/bedc derivation, template\_residue: bridge disclaimer, template\_residue: external reality sources. The committed registry record at \path{tools/bio\_reality/registries/claims.json} still tracks the underlying claim self.claim and its experiment runs.
