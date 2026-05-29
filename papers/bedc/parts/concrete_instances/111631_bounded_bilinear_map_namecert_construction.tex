@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\BoundedBilinearMapUp$}
+\label{ch:concrete-instances-bounded-bilinear-map-namecert}
+\origin{human}
+
+Following Bourbaki's normed-module treatment and Ryan's account of tensor products, the $\BoundedBilinearMapUp$ packet records a two-input bounded map as finite NameCert data rather than as a disguised one-input operator. It is grounded in the algebraic tensor-product surface of \autoref{ch:concrete-instances-tensorproduct-namecert}, the operator-norm rows of \autoref{ch:concrete-instances-operator-norm-namecert}, the projective tensor norm route of \autoref{ch:concrete-instances-projective-tensor-norm-namecert}, and the bounded-linear-operator interface of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}.
+
+\begin{definition}[Bounded bilinear map carrier]
+\label{def:bounded-bilinear-map-carrier}
+For displayed normed or Banach source rows $E,F$ and a displayed target row $G$, a $\BoundedBilinearMapUp(E,F;G)$ carrier is a finite $\BHist$ packet
+$$
+\mathcal{B}=(E,F,G,B,K,L,R,T,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $B$ is a displayed two-input endpoint action on carried endpoints of $E$ and $F$ with target endpoints in $G$.
+\item $K$ is a RealUp bound endpoint and $L$ is the finite ledger asserting additivity and scalar compatibility in each input separately.
+\item $R$ records the boundedness row: every accepted endpoint pair reads through the source norm rows and the estimate named by $K$ before a target norm claim is public.
+\item $T$ records the tensor handoff row from the two-input action to the displayed $\TensorProductUp$ and $\ProjectiveTensorNormUp$ routes.
+\item $P$ is the $\Pkg$ provenance over $\BoundedBilinearMapUp$, $\TensorProductUp$, $\OperatorNormUp$, $\ProjectiveTensorNormUp$, $\BoundedLinearOperatorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedBilinearMapUp}$ row.
+\end{enumerate}
+The classifier compares accepted representatives only through componentwise $\hsame$ transport of the two source endpoint rows, the target endpoint row, the bound endpoint, the bilinearity ledger, the boundedness ledger, the tensor handoff row, provenance, and local naming. It has no coordinate for currying into a host function space, quotienting by extensional equality, selecting a completed tensor representative, or importing a bridge.
+\end{definition}
+
+\begin{theorem}[Bounded bilinear map NameCert obligations]
+\label{thm:bounded-bilinear-map-namecert-obligations}
+For every accepted $\BoundedBilinearMapUp$ carrier $\mathcal{B}=(E,F,G,B,K,L,R,T,P,N)$, the local $\NameCert_{\BoundedBilinearMapUp}$ surface consists of carrier admission, separate additivity and homogeneity in both input coordinates, classifier stability under the two source rows and the target row, norm-bound exactness through $K$ and $R$, tensor-handoff exactness through $T$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and refusal of hidden currying, host function extensionality, tensor quotient completion, selected decompositions, and bridge data.
+\end{theorem}
+\begin{proof}
+Project the finite carrier of \autoref{def:bounded-bilinear-map-carrier}. The endpoint action $B$, bound endpoint $K$, bilinearity ledger $L$, boundedness ledger $R$, tensor handoff row $T$, provenance row $P$, and local name row $N$ are all displayed before any public read is accepted.
+
+The bilinearity obligations are the four rows in $L$: additivity in the first input, additivity in the second input, scalar compatibility in the first input, and scalar compatibility in the second input. Each row is stated over carried source endpoints and carried target endpoints, so the proof uses only the packet coordinates and their componentwise transports.
+
+The boundedness obligation is read from $R$. It exposes the source norm rows and the RealUp bound endpoint $K$ before the target norm estimate is exported. The classifier stability row follows by transporting $B,K,L,R,T,P,N$ along the displayed $\hsame$ data for $E,F,G$.
+
+Finally $T$ gives the tensor handoff and $P,N$ give provenance and local naming. Since the carrier has no row for host currying, host function extensionality, quotient completion, selected tensor decompositions, or bridge checking, those objects cannot appear in the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bounded bilinear map operator-norm handoff]
+\label{thm:bounded-bilinear-map-operator-norm-handoff}
+Every operator-norm consumer of an accepted $\BoundedBilinearMapUp$ packet factors through the displayed route
+$$
+\OperatorNormUp,\BoundedLinearOperatorUp,\BHist,\hsame,\Cont,\Pkg,\NameCert .
+$$
+It may read the bound endpoint $K$ and the finite boundedness ledger $R$ as an operator-norm witness for the bilinear action, but it receives no curried host operator, no host supremum over unit balls, no quotient equality of maps, and no selected norm-attaining pair.
+\end{theorem}
+\begin{proof}
+Begin with a public operator-norm read. By \autoref{def:bounded-bilinear-map-carrier}, the only norm-facing coordinates are $K$ and $R$, together with the endpoint action $B$ and the bilinearity ledger $L$.
+
+The row $R$ supplies the finite estimate before the consumer reaches $\OperatorNormUp$. The bounded-linear-operator sibling can consume this data only as a displayed boundedness witness: it sees the two-input action and its ledger, not a host-level curried function.
+
+The non-attainment and quotient exclusions follow from the same projection. No carrier coordinate stores a unit-ball supremum, a selected pair attaining the bound, an extensional quotient of maps, or a bridge row, so the handoff cannot export those objects.
+\end{proof}
+
+\begin{theorem}[Bounded bilinear map projective tensor route]
+\label{thm:bounded-bilinear-map-projective-tensor-route}
+Every projective-tensor consumer of an accepted $\BoundedBilinearMapUp$ packet factors through the displayed route
+$$
+\TensorProductUp,\ProjectiveTensorNormUp,\BoundedLinearOperatorUp,\BHist,\hsame,\Cont,\Pkg,\NameCert .
+$$
+The handoff row $T$ sends elementary tensor reads to the two-input action $B$ and sends finite decomposition reads to the finite bound ledger $R$. It does not create a completed projective tensor product, an ambient universal property, a selected minimizing decomposition, or an equality principle beyond the displayed tensor-product classifier.
+\end{theorem}
+\begin{proof}
+Read the tensor handoff row $T$ from the carrier. For an elementary tensor, $T$ names the route from the displayed tensor-product row to the endpoint action $B$ on the two carried source endpoints.
+
+For a finite projective decomposition, the route repeats this elementary read across the displayed finite list and then invokes the boundedness ledger $R$ for the finite scalar estimate. The construction therefore uses the same finite rows consumed by \autoref{ch:concrete-instances-projective-tensor-norm-namecert}.
+
+Nothing in the route adds completion data. The tensor-product classifier, finite decomposition ledger, bound row, transport row, replay row, provenance row, and local naming row are the only sources of public information, so completed tensor products, universal host properties, selected minimizing decompositions, and stronger equality principles remain outside the packet.
+\end{proof}
+
+\begin{theorem}[Bounded bilinear map nonescape boundary]
+\label{thm:bounded-bilinear-map-nonescape}
+Every accepted $\BoundedBilinearMapUp$ consumer factors through
+$$
+\TensorProductUp,\OperatorNormUp,\ProjectiveTensorNormUp,\BoundedLinearOperatorUp,\BHist,\hsame,\Cont,\Pkg,\NameCert .
+$$
+In particular, the packet cannot export host currying, host function extensionality, quotient equality of bilinear maps, completed tensor products, selected decompositions, norm-attaining pairs, ambient Banach completion, or bridge checking data.
+\end{theorem}
+\begin{proof}
+Let a consumer read an accepted carrier. The carrier projection exposes only $E,F,G,B,K,L,R,T,P,N$ and the componentwise transport and replay data attached to those rows.
+
+The operator-norm path uses $K$ and $R$ as in \autoref{thm:bounded-bilinear-map-operator-norm-handoff}. The projective-tensor path uses $T$ and then returns to $B$ and $R$ as in \autoref{thm:bounded-bilinear-map-projective-tensor-route}. Both paths are finite BEDC routes through displayed histories and local naming.
+
+The excluded objects are absent from every coordinate. Since no row stores host currying, extensional equality, quotient equality, a completed tensor product, a selected decomposition, a norm-attaining pair, ambient completion data, or a bridge, no public consumer can read them from the packet.
+\end{proof}
+
+\closureat{BoundedBilinearMapUp}{seedStr}
+
+\begin{closurestatus}{\BoundedBilinearMapUp}
+  \constructivestory{A $\BoundedBilinearMapUp$ packet is generated from two displayed source rows, one displayed target row, a two-input endpoint action, a RealUp bound endpoint, separate bilinearity rows, a boundedness ledger, a tensor handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-bilinear-map-carrier}, \autoref{thm:bounded-bilinear-map-namecert-obligations}, \autoref{thm:bounded-bilinear-map-operator-norm-handoff}, \autoref{thm:bounded-bilinear-map-projective-tensor-route}, and \autoref{thm:bounded-bilinear-map-nonescape} seed the finite two-input bounded-map surface over tensor-product, operator-norm, projective-tensor-norm, and bounded-linear-operator rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host currying, host function extensionality, quotient equality of bilinear maps, completed tensor products, selected decompositions, norm-attaining pairs, or ambient Banach completion.}
+  \upgradepath{Obligation closure requires checked carrier admission, separate bilinearity, classifier stability, norm-bound exactness, tensor handoff, operator-norm handoff, projective-tensor route, transport, replay, provenance, local naming, and nonescape for BEDC.Derived.BoundedBilinearMapUp.}
+\end{closurestatus}
