@@ -1031,8 +1031,10 @@ def heal_ci_failure(failure: dict) -> bool:
     return True
 
 
-def detect_propext_violations_from_log() -> list[str]:
-    """Parse the orchestrator log tail for `<theorem> -> propext` lines.
+def detect_propext_violations_from_log(
+    window_minutes: int = GATE_STORM_WINDOW_MINUTES,
+) -> list[str]:
+    """Parse the orchestrator log tail for recent `<theorem> -> propext` lines.
 
     The lean orchestrator logs the full `[bedc-ci] axiom-purity FAIL`
     output when an R-round hits the pre-merge axiom-purity gate. This
@@ -1042,7 +1044,17 @@ def detect_propext_violations_from_log() -> list[str]:
     Only consulted when `detect_gate_storms()` reports an
     `axiom-purity --strict` storm — i.e., when the pipeline has
     already surfaced the failure. Passive consumption, not active
-    polling."""
+    polling.
+
+    A 4 MB tail spans many hours, and each transient pre-merge gate hit
+    (impure=1, then resolved by recovery) leaves a `-> propext` block
+    behind. Without a time window the parser accumulated ~12-16 stale
+    violations from distinct old rounds and re-verified all of them every
+    cycle (each cycle pays one lake-build + axiom-purity resync), even
+    though the full tree is provably pure. The `-> propext` continuation
+    lines carry no timestamp, so attribute each to the most recent
+    timestamped orchestrator line and keep only those inside the same
+    window the storm detector uses."""
     try:
         size = LEAN_ORCH_LOG.stat().st_size
         with LEAN_ORCH_LOG.open("rb") as f:
@@ -1051,10 +1063,19 @@ def detect_propext_violations_from_log() -> list[str]:
             tail = f.read().decode("utf-8", errors="ignore")
     except Exception:
         return []
+    cutoff = datetime.now() - timedelta(minutes=window_minutes)
     violations: list[str] = []
+    last_ts: datetime | None = None
     for line in tail.splitlines():
+        ts = _parse_log_timestamp(line)
+        if ts is not None:
+            last_ts = ts
         s = line.strip()
         if " -> propext" not in s:
+            continue
+        # Skip blocks whose governing timestamp is stale (or absent because
+        # the timestamped header scrolled out of the tail window).
+        if last_ts is None or last_ts < cutoff:
             continue
         name = s.split(" -> propext", 1)[0].strip()
         if name and name not in violations:

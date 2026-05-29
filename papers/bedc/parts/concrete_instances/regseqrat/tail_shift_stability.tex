@@ -13,3 +13,19 @@ Apply classifier transport to the shifted window. Since the transported $\hsame$
 
 Finally close by common-refinement determinacy. The original scheduled window and the shifted window restrict to the same displayed finite RegSeqRat source surface on their common refinement, so their classifier reads agree before any terminal $\RealUp$ seal is opened.
 \end{proof}
+
+\begin{theorem}[RegSeqRat two-shift common-refinement compatibility]
+\label{thm:regseqrat-tail-shift-common-refinement}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $t_0$ and $t_1$ be two displayed unary tail indices for the $\StreamNameUp$ schedule carried by $P$. Suppose the two shifted finite windows admit one displayed common finite refinement on which they expose the same transported StreamName schedule, the same $\DyadicRatCoreUp$ endpoint and radius rows, the same regularity ledgers, the same componentwise $\hsame$ rows, the same displayed $\Cont$ routes, the same $\Pkg$ provenance, and the same local $\NameCert$ rows. Then the two shifted reads determine the same $\mathsf{RegSeqRatClassifier}$ value before any $\RealUp$ seal row is consumed.
+
+Equivalently, whenever two displayed tail shifts of an accepted RegSeqRat packet are compared through a common finite refinement carrying the full StreamName, DyadicRatCore, regularity, transport, continuation, package, and naming support, the classifier has only one finite source row to read. The theorem exports no quotient stream equality, selected limit, countable-choice schedule, metric-completeness datum, completion point, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-shift-stability} to the $t_0$-shifted window. Its classifier read is the original RegSeqRat finite source surface transported along the first displayed StreamName tail index.
+
+Apply the same theorem to the $t_1$-shifted window. Its classifier read is likewise the original finite source surface transported along the second displayed tail index.
+
+Use the common finite refinement to compare the two transported supports. By hypothesis the StreamName schedule, DyadicRatCore endpoint and radius rows, regularity ledgers, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows coincide on that refinement, so common-refinement determinacy gives one visible finite source row for both shifted windows.
+
+The classifier can inspect only that visible finite RegSeqRat source surface. Since neither shifted read opens a quotient stream, selected limit, choice schedule, metric-completeness datum, or ambient Real-completeness coordinate, no further row remains that could distinguish the two classifier values before the $\RealUp$ seal is consumed.
+\end{proof}
