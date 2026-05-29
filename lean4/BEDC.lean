@@ -995,6 +995,7 @@ import BEDC.Derived.CantorDiagonalRealUncountabilityUp.TasteGate
 import BEDC.Derived.CantorFanBarrierUp.TasteGate
 import BEDC.Derived.CantorFunctionUp.TasteGate
 import BEDC.Derived.CantorIntersectionModulusUp
+import BEDC.Derived.CantorIntersectionTheoremUp.TasteGate
 import BEDC.Derived.CantorIntersectionUp
 import BEDC.Derived.CantorIntersectionUp.DiagonalCofinalReadback
 import BEDC.Derived.CantorIntersectionUp.PublicCompletionConsumer
@@ -4970,7 +4971,6 @@ import BEDC.Derived.NestedIntervalIntersectionUp
 import BEDC.Derived.NestedIntervalIntersectionUp.TasteGate
 import BEDC.Derived.NestedIntervalRealUp.TasteGate
 import BEDC.Derived.NestedIntervalSelectionUp.TasteGate
-import BEDC.Derived.NestedIntervalTheoremUp.TasteGate
 import BEDC.Derived.NestedIntervalUp
 import BEDC.Derived.NestedIntervalsTheoremUp.TasteGate
 import BEDC.Derived.NetConvergenceUp
