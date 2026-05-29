@@ -87,6 +87,53 @@ Finally invoke candidate-normalization socket exhaustion. Once the displayed sur
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateMediatedFrontierHandoffTotality}
 
+\begin{theorem}[MetaCIC candidate-mediated frontier obstruction nonescape]
+\label{thm:metacic-critical-path-candidate-mediated-frontier-obstruction-nonescape}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Every finite handoff that uses candidate-mediated strong-normalization evidence keeps the obstruction row $O$ and the discharge socket $D$ visible until a separate closed subject-reduction row is displayed. The handoff may consume $S,N,U,H,C,P,L$ and the L10 faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, but it cannot erase $O$, fill $D$, or export closed subject reduction, full confluence, global beta-conversion decidability, quotient term equality, selected limits, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the candidate-mediated frontier and the handoff totality theorem, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier} and \autoref{thm:metacic-critical-path-candidate-mediated-frontier-handoff-totality}. They identify the handoff surface as the finite route through $S,N,U,H,C,P,L$, the visible boundary rows $O,D$, and the four L10 faces.
+
+Apply the handshake theorem \autoref{thm:metacic-critical-path-sn-confluence-decidability-handshake}. It permits confluence-facing or decidability-facing replay only through the displayed route, and it leaves $O,D$ open unless the packet separately displays closed subject reduction.
+
+Use the discharge-row theorem and discharge-socket induction, \autoref{thm:metacic-critical-path-candidate-mediated-sn-discharge-row} and \autoref{thm:metacic-critical-path-discharge-socket-induction}. These keep $D$ separate from the candidate-mediated rows while finite replay consumes the handoff surface.
+
+Finally apply socket exhaustion, \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}. Once $S,N,U,H,C,P,L$ and the four L10 faces have been consumed, the packet has no remaining coordinate that could hide a closed subject-reduction row or discharge the obstruction. The listed global metatheoretic, quotient, selected-limit, host-equality, and completeness claims therefore remain outside the handoff.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate frontier discharge coverage]
+\label{thm:metacic-critical-path-candidate-frontier-discharge-coverage}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Every finite candidate-mediated handoff that first consumes the strong-normalization frontier and then reaches the confluence-decidability boundary is exhausted by the replay rows
+$$
+S,N,U,H,C,P,L,
+$$
+the visible obstruction and socket rows $O,D$, and the four L10 faces
+$$
+\DyadicRatCoreUp,\qquad
+\StreamNameUp,\qquad
+\RegSeqRatUp,\qquad
+\RealUp .
+$$
+The coverage conclusion is only this finite discharge surface. It refuses closed subject reduction, arbitrary strong normalization, full confluence, beta-conversion decidability, quotient term equality, selected limits, host equality, and $\RealUp$ completeness unless a later packet displays separate rows for those claims.
+\end{theorem}
+\begin{proof}
+Begin with the candidate-mediated frontier theorem and handoff totality, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier} and \autoref{thm:metacic-critical-path-candidate-mediated-frontier-handoff-totality}. They force any accepted handoff through $S,N,U,H,C,P,L$ together with the four L10 faces before a confluence-facing or decidability-facing consumer reaches the handoff boundary.
+
+Next apply obstruction nonescape, \autoref{thm:metacic-critical-path-candidate-mediated-frontier-obstruction-nonescape}. The obstruction row $O$ and discharge socket $D$ remain visible while the frontier is consumed, so the handoff cannot erase the subject-reduction socket by replaying candidate-mediated SN evidence.
+
+Use the discharge-row theorem and discharge-socket induction, \autoref{thm:metacic-critical-path-candidate-mediated-sn-discharge-row} and \autoref{thm:metacic-critical-path-discharge-socket-induction}. These make the finite discharge route stable under each consumed row and keep $D$ separate from $S,N,U,H,C,P,L$.
+
+Finally read the existing discharge coverage theorem, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier-discharge-coverage}. It packages the same rows as the whole available frontier budget. Since none of the displayed coordinates is closed subject reduction, arbitrary strong normalization, global confluence, beta-conversion decidability, quotient term equality, selected limits, host equality, or $\RealUp$ completeness, the stated refusals remain outside the discharge coverage.
+\end{proof}
+
 \begin{theorem}[MetaCIC SN confluence decidability handshake]
 \label{thm:metacic-critical-path-sn-confluence-decidability-handshake}
 Let
@@ -150,6 +197,7 @@ K=(S,N,O,U,D,H,C,P,L)
 $$
 be an accepted $\MetaCICCriticalPathUp$ packet, and let $F$ be a finite closed-term frontier whose rows replay the candidate-mediated strong-normalization row $S$, the normal-form endpoint $N$, the handoff row $U$, the componentwise transport row $H$, the displayed continuation row $C$, the provenance row $P$, and the local naming row $L$. If every row of $F$ is consumed through the frontier of \autoref{def:metacic-critical-path-candidate-mediated-frontier}, then induction over $F$ preserves the obstruction row $O$ and keeps the discharge socket $D$ unfilled unless the packet also contains an explicit closed subject-reduction row. In particular, candidate-mediated strong normalization, confluence-facing replay, and decidability-facing replay do not by themselves introduce a closed subject-reduction coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathDischargeSocketInduction}
 \begin{proof}
 Induct over the finite frontier rows. The empty frontier exposes no consumer row, so the accepted packet remains exactly $K=(S,N,O,U,D,H,C,P,L)$ with $O$ and $D$ still visible.
 
@@ -175,6 +223,7 @@ Next use the confluence-decidability consumer boundary, \autoref{thm:metacic-cri
 
 Apply the candidate-mediated SN discharge row and the discharge-socket induction, \autoref{thm:metacic-critical-path-candidate-mediated-sn-discharge-row} and \autoref{thm:metacic-critical-path-discharge-socket-induction}. These results keep $D$ separate from the budget rows and preserve $O$ while finite frontier rows are consumed. Since the packet has no coordinate for quotient term equality, host equality, selected limits, or $\RealUp$ completeness, the displayed budget is the whole normalization surface available to the consumer.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateNormalizationBudget}
 
 \begin{theorem}[MetaCIC candidate-normalization socket exhaustion]
 \label{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}
