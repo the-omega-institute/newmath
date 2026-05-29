@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\MarkedRealUp$}
+\label{ch:concrete-instances-marked-real-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive real analysis, the $\MarkedRealUp$ packet records a $\RealUp$ name together with a visible mark row for zero, positive, negative, and apartness evidence. It sits after the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the apartness interface of \autoref{ch:concrete-instances-apartnessreal-namecert}, and the located-real boundary of \autoref{ch:concrete-instances-locatedreal-namecert}. The packet lets order-facing and apartness-facing consumers inspect a finite evidence mark before reading the Real seal; it does not assert trichotomy, decide host real equality, choose a sign globally, or identify marked names by quotient representatives.
+
+\begin{definition}[MarkedReal carrier]
+\label{def:marked-real-carrier}
+A $\MarkedRealUp$ carrier is a finite $\BHist$ packet
+$$
+M=(R,S,A,L,Z,Pm,Nm,Q,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the underlying $\RealUp$ seal row.
+\item $S$ is the $\StreamNameUp$ finite-window row for the real name inspected by the mark.
+\item $A$ is the $\RegSeqRatUp$ readback row extracted from the displayed stream windows.
+\item $L$ is the $\LocatedRealUp$ locality row, recording the finite locatedness request that makes the mark visible at the requested precision.
+\item $Z$ is the zero-mark row. It records finite evidence that the inspected name is being used through a zero-facing branch, without turning that evidence into host equality with zero.
+\item $Pm$ is the positive-mark row. It records a finite positive witness, such as a displayed rational lower gap, before any positive consumer may read the Real seal.
+\item $Nm$ is the negative-mark row. It records a finite negative witness, such as a displayed rational upper gap, before any negative consumer may read the Real seal.
+\item $Q$ is the $\ApartnessRealUp$ mark row, recording the finite apartness witness that separates the marked name from a requested comparison name or zero-facing boundary.
+\item $H$ records componentwise $\hsame$ transport for the Real seal, stream windows, regular readback, locatedness row, four mark rows, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a mark request through $S,A,L,Z,Pm,Nm,Q,R,H,K,N$.
+\item $K$ is the $\Pkg$ provenance over $\MarkedRealUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\ApartnessRealUp$, $\LocatedRealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MarkedRealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,S,A,L,Z,Pm,Nm,Q,H,C,K,N$. It has no coordinate for trichotomy, host equality of real values, selected sign functions, quotient representatives, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[MarkedReal NameCert obligations]
+\label{thm:marked-real-namecert-obligations}
+For every accepted $\MarkedRealUp$ carrier
+$$
+M=(R,S,A,L,Z,Pm,Nm,Q,H,C,K,N),
+$$
+the local $\NameCert_{\MarkedRealUp}$ surface consists exactly of carrier admission for the underlying Real seal, finite StreamName windows, regular rational readback, locatedness request, zero mark, positive mark, negative mark, apartness mark, componentwise transport, displayed continuation replay, package provenance, and local naming. Any consumer that uses a zero, positive, negative, or apartness reading must expose the corresponding visible mark row before it consumes the terminal $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:marked-real-carrier}. The analytic rows are the Real seal $R$, the finite window and readback rows $S,A$, the locatedness row $L$, and the four mark rows $Z,Pm,Nm,Q$.
+
+A mark consumer cannot bypass these rows. The zero-facing branch reads $Z$, the positive-facing branch reads $Pm$, the negative-facing branch reads $Nm$, and the apartness-facing branch reads $Q$ before it reaches the common Real seal $R$.
+
+The structural rows $H,C,K,N$ transport, replay, source, and name the same displayed packet. Since the carrier has no trichotomy coordinate, selected sign function, host equality coordinate, quotient representative, countable-choice coordinate, or ambient completeness row, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MarkedReal Real seal handoff]
+\label{thm:marked-real-real-seal-handoff}
+Every $\MarkedRealUp$ read that reaches the terminal $\RealUp$ seal factors through a finite route
+$$
+S,A,L \longmapsto Z,Pm,Nm,Q \longmapsto R \longmapsto H,C,K,N .
+$$
+Thus the exported object is a Real name equipped with visible zero, positive, negative, and apartness evidence rows, not a trichotomy principle, host equality decision, or chosen sign representative.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $M=(R,S,A,L,Z,Pm,Nm,Q,H,C,K,N)$. By \autoref{def:marked-real-carrier}, the only terminal Real boundary is $R$.
+
+The finite route first exposes the stream windows $S$, regular rational readback $A$, and locatedness row $L$. These rows place the requested read in the same finite name context as the underlying Real seal.
+
+Next the visible mark rows are inspected. The rows $Z,Pm,Nm,Q$ record zero-facing, positive-facing, negative-facing, and apartness-facing evidence as displayed data. None of them decides all signs of all Real names, and none identifies the carrier with a host real value.
+
+Finally the route reaches $R$ and then the structural rows $H,C,K,N$. These rows preserve the same marked packet by componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ data, so the handoff exposes exactly the marked Real name stated above.
+\end{proof}
+
+\falsifiablePrediction{A $\MarkedRealUp$ consumer that reads the terminal $\RealUp$ seal as positive, negative, zero-facing, or apart from a boundary without first exposing $Pm$, $Nm$, $Z$, or $Q$ respectively refutes the carrier surface.}
+
+\independenceWitness{real, regseqrat, streamname, apartnessreal, locatedreal: no listed sibling supplies the whole twelve-row packet $M=(R,S,A,L,Z,Pm,Nm,Q,H,C,K,N)$, because the siblings provide the Real seal, regular readback, finite windows, apartness witness, or locatedness boundary separately while this chapter binds all four visible mark rows to one local NameCert carrier.}
+
+\closureat{MarkedRealUp}{seedStr}
+
+\begin{closurestatus}{\MarkedRealUp}
+  \constructivestory{A $\MarkedRealUp$ packet is generated from a terminal $\RealUp$ seal, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, a $\LocatedRealUp$ request row, visible zero, positive, negative, and apartness mark rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:marked-real-carrier}, \autoref{thm:marked-real-namecert-obligations}, and \autoref{thm:marked-real-real-seal-handoff} seed the visible-mark Real carrier over Real, RegSeqRat, StreamName, ApartnessReal, and LocatedReal rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.MarkedRealUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim trichotomy, host real equality, globally selected signs, quotient representatives, countable choice, ambient $\RealUp$ completeness, checked NameCert obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, visible mark exposure, zero-mark discipline, positive-mark discipline, negative-mark discipline, apartness-mark discipline, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.MarkedRealUp.}
+\end{closurestatus}
