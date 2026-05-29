@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\TaylorTheoremUp$}
+\label{ch:concrete-instances-taylor-theorem-namecert}
+\origin{human}
+
+Following Taylor and the validated-numerics treatment of finite Taylor models, the $\TaylorTheoremUp$ packet records the finite theorem-facing route from displayed derivative data to a polynomial jet and a checked remainder envelope. It sits after the Taylor-model enclosure surface of \autoref{ch:concrete-instances-taylormodel-namecert}, the derivative observation row of \autoref{ch:concrete-instances-derivative-namecert}, the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the dyadic rational arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular-rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite Taylor theorem certificate for one displayed center, order, domain window, derivative ledger, polynomial jet, and remainder bound; it does not import analytic convergence, quotient real equality, selected limits, or a host Taylor series.
+
+\begin{definition}[Taylor theorem carrier]
+\label{def:taylor-theorem-carrier}
+A $\TaylorTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+T=(D,J,P,R,E,Q,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DerivativeUp$ row naming the center, finite order, domain window, and derivative observations inspected by the packet.
+\item $J$ is the finite jet ledger. Each coefficient is read through $\DyadicRatCoreUp$ arithmetic and the same derivative window named by $D$.
+\item $P$ is the $\PolynomialUp$ row assembled from the displayed finite jet ledger.
+\item $R$ is the finite remainder-envelope row. It records the derivative-order budget, dyadic interval or ball enclosure, and endpoint window used to bound the residual after $P$ is read.
+\item $E$ is the $\TaylorModelUp$ enclosure row that packages the displayed polynomial part and remainder envelope as a validated finite jet.
+\item $Q$ is the $\RegSeqRatUp$ and $\RealUp$ readback route for polynomial values, derivative observations, and the remainder bound.
+\item $H$ records componentwise $\hsame$ transport for derivative, jet, polynomial, remainder, Taylor-model, readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from every Taylor-theorem read through $D,J,P,R,E,Q,H,G,N$.
+\item $G$ is the $\Pkg$ provenance over $\TaylorTheoremUp$, $\TaylorModelUp$, $\DerivativeUp$, $\PolynomialUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\TaylorTheoremUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,J,P,R,E,Q,H,C,G,N$. It has no coordinate for an infinite Taylor series, analytic convergence, quotient equality of real names, selected limiting values, or an ambient smooth-function theorem.
+\end{definition}
+
+\begin{theorem}[Taylor theorem NameCert obligations]
+\label{thm:taylor-theorem-namecert-obligations}
+For every accepted $\TaylorTheoremUp$ carrier
+$$
+T=(D,J,P,R,E,Q,H,C,G,N),
+$$
+the local $\NameCert_{\TaylorTheoremUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed derivative row, finite jet ledger, polynomial row, remainder envelope, Taylor-model enclosure, readback route, transport, replay, provenance, and local naming rows;
+\item derivative-to-jet routing, requiring every coefficient in $J$ to be read from the finite $\DerivativeUp$ observations in $D$ and through $\DyadicRatCoreUp$ arithmetic;
+\item polynomial assembly, requiring $P$ to use exactly the displayed finite coefficient rows in $J$;
+\item remainder-envelope exposure, requiring $R$ to bind the next derivative-order budget, the domain window, and the dyadic enclosure before any error bound is exported;
+\item Taylor-model handoff, requiring $E$ to package only the displayed $P$ and $R$ rows;
+\item regular and real readback, requiring $Q$ to pass through $\RegSeqRatUp$ before the terminal $\RealUp$ seal is visible;
+\item non-escape from analytic convergence, quotient real equality, selected limits, and host Taylor series semantics.
+\end{enumerate}
+No $\TaylorTheoremUp$ obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:taylor-theorem-carrier}. The theorem-facing data are exactly $D,J,P,R,E,Q$, and the structural rows are exactly $H,C,G,N$.
+
+The derivative-to-jet route is finite. Each coefficient read is a displayed entry of $J$, and the definition of $J$ attaches that entry to the derivative row $D$ and to dyadic rational arithmetic through $\DyadicRatCoreUp$.
+
+Polynomial assembly and remainder exposure are then separate rows. The polynomial row $P$ consumes only the coefficients in $J$, while the remainder row $R$ consumes the derivative-order budget and domain window before any bound is exported.
+
+Finally the Taylor-model and readback rows seal the route. The row $E$ packages the polynomial and remainder as a finite Taylor-model enclosure, and $Q$ sends the same displayed data through $\RegSeqRatUp$ and $\RealUp$. Since no carrier coordinate names a host Taylor series or a selected limit, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Taylor theorem finite remainder envelope]
+\label{thm:taylor-theorem-finite-remainder-envelope}
+Every accepted $\TaylorTheoremUp$ carrier exports a remainder claim only through the displayed route
+$$
+\DerivativeUp \longmapsto \DyadicRatCoreUp \longmapsto \PolynomialUp \longmapsto \TaylorModelUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+More precisely, a consumer must first read the derivative row $D$, finite jet ledger $J$, polynomial row $P$, remainder-envelope row $R$, Taylor-model enclosure $E$, and regular-rational and real readback row $Q$ before it may cite an error bound for the displayed polynomial approximation. The exported envelope is not an analytic convergence theorem, a quotient equality of real functions, a selected limit, or an ambient Taylor-series object.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $T=(D,J,P,R,E,Q,H,C,G,N)$. The only source of derivative information is $D$, and the only coefficient ledger is the finite row $J$ read through $\DyadicRatCoreUp$.
+
+Next assemble the approximation. The polynomial row $P$ is built from $J$, and the remainder row $R$ binds the derivative-order budget, domain window, and dyadic enclosure that measure the residual after that polynomial row has been fixed.
+
+Then pass through the enclosure and readback rows. The Taylor-model row $E$ packages the polynomial and remainder as one finite validated jet, while $Q$ routes the resulting value and bound through $\RegSeqRatUp$ and the terminal $\RealUp$ seal.
+
+The transport, replay, provenance, and local naming rows preserve exactly this route. Because the carrier contains no coordinate for analytic convergence, quotient function equality, selected limits, or host Taylor series semantics, every exported remainder envelope is exhausted by the displayed finite rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\TaylorTheoremUp$ remainder-envelope read factors through a DerivativeUp row, a DyadicRatCore coefficient ledger, a PolynomialUp row, a TaylorModelUp enclosure, a RegSeqRatUp readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+
+\independenceWitness{taylormodel, derivative, polynomial, dyadicratcore, regseqrat, real: $\TaylorTheoremUp$ is not bijective to any listed sibling because it jointly binds finite derivative observations, coefficient arithmetic, polynomial assembly, a theorem-facing remainder envelope, Taylor-model enclosure, regular-rational readback, real sealing, transport, replay, provenance, and local naming in one certificate.}
+
+\closureat{TaylorTheoremUp}{seedStr}
+
+\begin{closurestatus}{\TaylorTheoremUp}
+  \constructivestory{A $\TaylorTheoremUp$ packet is generated from a DerivativeUp row, a finite DyadicRatCore coefficient ledger, a PolynomialUp row, a finite remainder envelope, a TaylorModelUp enclosure, RegSeqRatUp and RealUp readback, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:taylor-theorem-carrier}, \autoref{thm:taylor-theorem-namecert-obligations}, and \autoref{thm:taylor-theorem-finite-remainder-envelope} seed the finite Taylor theorem route from derivative observations through polynomial jets to displayed remainder envelopes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close analytic convergence, quotient equality of real names, selected limits, host Taylor series semantics, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, derivative-to-jet routing, polynomial assembly, finite remainder-envelope exposure, Taylor-model handoff, regular and real readback, and non-escape for BEDC.Derived.TaylorTheoremUp.}
+\end{closurestatus}
