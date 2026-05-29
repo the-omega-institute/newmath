@@ -496,6 +496,48 @@ def build_events(store: BioRealityStore) -> list[dict[str, Any]]:
                     result,
                 )
             )
+    try:
+        claims_by_id = _load_claims_registry(store)
+        experiments_document = _load_experiments_document(store.paths.experiments_registry)
+        experiment_by_id = {
+            str(item.get("experiment_id")): item
+            for item in experiments_document.get("experiments", [])
+            if isinstance(item, dict) and item.get("experiment_id")
+        }
+    except Exception:
+        claims_by_id = {}
+        experiment_by_id = {}
+    repo_root = SCRIPT_DIR.parent.parent
+    plain_dependency_re = re.compile(r"^[A-Za-z0-9._+-]+$")
+    for claim_id, claim in claims_by_id.items():
+        if str(claim.get("status") or "") != "needs_external":
+            continue
+        experiment_id = str(claim.get("experiment_id") or "")
+        experiment = experiment_by_id.get(experiment_id)
+        script_path = str(experiment.get("script_path") or "") if isinstance(experiment, dict) else ""
+        script_file = repo_root / script_path if script_path else None
+        if script_file is not None and script_file.exists():
+            continue
+        depends_on = claim.get("depends_on") if isinstance(claim.get("depends_on"), list) else []
+        external_preconditions = [
+            str(item)
+            for item in depends_on
+            if isinstance(item, str) and not plain_dependency_re.fullmatch(item)
+        ]
+        events.append(
+            _event(
+                "claim_redesign_proposed",
+                "bio-Plan",
+                "claim",
+                claim_id,
+                "needs_external claim 尚未 materialize: 起草 experiment 脚本 + 在 experiments.json 注册 required_data 指向可由 bio-data-fetcher 抓取的外部数据文件; 把 claim.depends_on 中的散文前置条件替换为 claim-ID 依赖或移入 experiment.required_data, 使该 claim 转入 needs_data 自动取数路径",
+                {
+                    "claim_id": claim_id,
+                    "experiment_id": claim.get("experiment_id"),
+                    "external_preconditions": external_preconditions,
+                },
+            )
+        )
     events = _dedup(events, "event_id")
     return _backfill_oracle_consultation_events(store, events)
 
