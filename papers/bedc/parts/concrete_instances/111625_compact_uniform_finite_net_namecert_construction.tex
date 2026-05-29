@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\CompactUniformFiniteNetUp$}
+\label{ch:concrete-instances-compact-uniform-finite-net-namecert}
+\origin{human}
+
+Following the finite-net proof of Heine--Cantor isolated in \autoref{ch:visions-compact-uniform-continuity}, the $\CompactUniformFiniteNetUp$ packet names the compact finite-net object consumed by uniform-modulus constructions. It reads compact admission from \autoref{ch:concrete-instances-compact-namecert}, metric distance rows from \autoref{ch:concrete-instances-metric-namecert}, continuous pointwise-modulus rows from \autoref{ch:concrete-instances-continuous-namecert}, rational lower-bound rows from \autoref{ch:concrete-instances-rat-namecert}, and the uniform-modulus handoff of \autoref{ch:concrete-instances-uniformmodulus-namecert}. Its finite spine is the kernel $\ProbeBundle$ of \autoref{ch:core-generated-probe-bundles-and-signature-events}; the packet exposes only the named bundle, center rows, rational radius rows, coverage rows, lower-bound fold, transport, replay, provenance, and local naming.
+
+\begin{definition}[CompactUniformFiniteNet carrier]
+\label{def:compact-uniform-finite-net-carrier}
+A $\CompactUniformFiniteNetUp$ carrier is a finite $\BHist$ packet
+$$
+K=(C,M,Q,B,E,R,L,U,H,D,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the $\CompactUp$ source row admitting the compact object.
+\item $M$ is the $\MetricUp$ distance row used by the finite-net coverage witnesses.
+\item $Q$ is the $\ContinuousUp$ pointwise-modulus source row whose center radii are consumed downstream.
+\item $B$ is the finite $\ProbeBundle$ row of bundled probe names.
+\item $E$ is the center and coverage row, assigning center histories and displayed distance witnesses to bundled probes.
+\item $R$ is the positive $\RatUp$ radius ledger attached to the bundled centers.
+\item $L$ is the rational lower-bound fold row over the finite bundle.
+\item $U$ is the $\UniformModulusUp$ handoff row produced from the same finite-net and lower-bound data.
+\item $H$ records componentwise $\hsame$ transport for $C,M,Q,B,E,R,L,U$.
+\item $D$ records displayed $\Cont$ replay of the finite-net inspection, radius readback, lower-bound fold, and handoff.
+\item $P$ is the $\Pkg$ provenance over $\CompactUniformFiniteNetUp$, $\CompactUp$, $\MetricUp$, $\ContinuousUp$, $\RatUp$, $\UniformModulusUp$, $\ProbeBundle$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactUniformFiniteNetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a choice-selected subcover, selected Lebesgue number, sequential compactness argument, quotient point equality, ambient real completeness theorem, or external modulus selector.
+\end{definition}
+
+\begin{theorem}[CompactUniformFiniteNet NameCert obligations]
+\label{thm:compact-uniform-finite-net-namecert-obligations}
+For every accepted $\CompactUniformFiniteNetUp$ packet $K=(C,M,Q,B,E,R,L,U,H,D,P,N)$, the local $\NameCert_{\CompactUniformFiniteNetUp}$ surface consists exactly of compact source admission, metric distance exposure, continuous pointwise-modulus exposure, finite $\ProbeBundle$ admission, center and coverage exposure, rational radius exposure, rational lower-bound folding, uniform-modulus handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A consumer may not replace this surface by selected subcovers, selected Lebesgue numbers, sequential compactness, ambient $\RealUp$ completeness, or an external modulus selector.
+\end{theorem}
+
+\begin{proof}
+Project the carrier of \autoref{def:compact-uniform-finite-net-carrier}. The finite-net rows are exactly $B,E,R,L$, while $C,M,Q,U$ locate the compact, metric, continuous, and uniform-modulus interfaces around them.
+
+The fold is internal to the finite bundle. The row $L$ reads only the rational radii carried by $R$ over the displayed $\ProbeBundle$ row $B$, so no selected subcover or selected Lebesgue number is introduced.
+
+The structural rows $H,D,P,N$ preserve the same finite surface. Since no coordinate stores sequential compactness, quotient point equality, ambient $\RealUp$ completeness, or an external selector, the displayed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CompactUniformFiniteNetUp$ read is refuted if a UniformModulusUp handoff is reached without displaying the CompactUp source, MetricUp distance row, ContinuousUp pointwise-modulus row, finite ProbeBundle row, center and coverage row, RatUp radius ledger, rational lower-bound fold, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{compact, metric, continuous, rat, uniformmodulus, and probebundle: none is bijective to the compact-uniform finite-net packet because only $\CompactUniformFiniteNetUp$ records the finite center bundle, rational lower-bound fold, and uniform-modulus handoff in one local NameCert surface.}
+
+\closureat{CompactUniformFiniteNetUp}{seedStr}
+
+\begin{closurestatus}{\CompactUniformFiniteNetUp}
+  \constructivestory{A $\CompactUniformFiniteNetUp$ packet is generated from CompactUp source admission, MetricUp distance rows, ContinuousUp pointwise-modulus rows, a finite ProbeBundle row, center and coverage rows, positive RatUp radius rows, a rational lower-bound fold, UniformModulusUp handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-uniform-finite-net-carrier} and \autoref{thm:compact-uniform-finite-net-namecert-obligations} seed the finite ProbeBundle object promised by compact-uniform-continuity.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected subcovers, selected Lebesgue numbers, sequential compactness, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite ProbeBundle exposure, center coverage, rational radius readback, lower-bound fold, uniform-modulus handoff, transport, replay, provenance, and local naming for BEDC.Derived.CompactUniformFiniteNetUp.}
+\end{closurestatus}
