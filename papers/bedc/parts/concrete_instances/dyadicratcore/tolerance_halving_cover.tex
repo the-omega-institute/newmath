@@ -10,3 +10,36 @@ Next use the common-scale triangle ledger, \autoref{thm:dyadicratcore-common-sca
 
 Finally apply the terminal four-face tolerance exhaustion theorem, \autoref{thm:dyadicratcore-terminal-four-face-tolerance-exhaustion}. The $\StreamNameUp$, $\RegSeqRatUp$, and local $\RealUp$ faces have no fifth tolerance source outside the displayed DyadicRatCore ledger and support rows. The halved row is therefore the finite-window handoff consumed by StreamName requests and RegSeqRat regularity checks, with the stated transport and nonescape clauses preserved.
 \end{proof}
+
+\begin{theorem}[DyadicRatCore halving-cover RegSeqRat handoff]
+\label{thm:dyadicratcore-halving-cover-regseqrat-handoff}
+Every $\RegSeqRatUp$ regularity check consuming a positive $\DyadicRatCoreUp$
+tolerance row may replace that row by the halved finite refinement supplied by
+\autoref{thm:dyadicratcore-tolerance-halving-cover}. The replacement preserves
+the $\StreamNameUp$ request rows, the $\RegSeqRatUp$ classifier and regularity
+rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$
+provenance, and local $\NameCert$ support.
+
+The refined read is still a finite regularity read over the displayed
+DyadicRatCore ledger. It does not invoke host rational order, quotient stream
+equality, selected limits, countable choice, host real equality, or ambient
+$\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadicratcore-tolerance-halving-cover} to the positive
+tolerance row consumed by the regularity check. It supplies the halved positive
+row in a displayed finite refinement window while preserving the dyadic ledger,
+transport, replay, provenance, and local naming rows.
+
+Then use the RegSeqRat common-window compatibility supplied by
+\autoref{thm:regseqrat-tail-stable-cover-common-window-lock}. The original
+regularity read and the halved refinement are compared on one accepted common
+finite window, so the $\StreamNameUp$ request rows and the $\RegSeqRatUp$
+classifier and regularity rows are unchanged as public source data.
+
+Finally the terminal four-face tolerance exhaustion from
+\autoref{thm:dyadicratcore-tolerance-halving-cover} rules out a second
+tolerance source. The RegSeqRat check therefore consumes the halved row through
+the same finite BEDC support rather than through host order, quotient streams,
+selected limits, choice, host equality, or ambient completeness.
+\end{proof}
