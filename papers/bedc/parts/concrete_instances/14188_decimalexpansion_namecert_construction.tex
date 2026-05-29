@@ -108,6 +108,40 @@ through an infinite stream, quotient real, selected endpoint convention, or
 ambient completeness principle is outside the carrier.
 \end{proof}
 
+\begin{theorem}[DecimalExpansion tail digit stability]
+\label{thm:decimal-expansion-tail-digit-stability}
+For every accepted $\DecimalExpansionUp$ packet
+$$
+K=(D,W,V,Q,R,E,H,C,P,N),
+$$
+finite digit tails are stable under the displayed $\hsame$ transport row $H$. A consumer that transports the accepted packet can compare tail digits only through the same finite digit ledger $D$, window ledger $W$, place-value row $V$, dyadic comparison row $Q$, regular handoff $R$, real seal $E$, replay row $C$, provenance row $P$, and local name row $N$.
+\end{theorem}
+\begin{proof}
+Project the obligation surface of \autoref{thm:decimal-expansion-namecert-obligations}. The only digit data are the displayed rows $D$ and $W$, and every place-value or real-facing read is downstream of them.
+
+The transport row $H$ is componentwise through the same carrier coordinates. Therefore a transported tail cannot acquire a new infinite decimal stream or a new endpoint selector; it can only replay the displayed finite tail rows already present in $D,W,V,Q,R,E,C,P,N$.
+\end{proof}
+
+\begin{theorem}[DecimalExpansion rational Real handoff]
+\label{thm:decimal-expansion-rat-real-handoff}
+For every accepted $\DecimalExpansionUp$ packet $K=(D,W,V,Q,R,E,H,C,P,N)$, the rational place-value row $V$ must pass through the displayed $\DyadicRatCoreUp$ and rational comparison row $Q$, then through the $\RegSeqRatUp$ handoff row $R$, before the terminal $\RealUp$ seal row $E$ is public. No consumer can read a real-valued decimal prefix directly from $D,W,V$.
+\end{theorem}
+\begin{proof}
+Read the carrier order in \autoref{def:decimal-expansion-carrier}. The rows list digit data, window data, place-value evaluation, dyadic/rational comparison, regular handoff, and real seal as $D,W,V,Q,R,E$.
+
+Apply \autoref{thm:decimal-expansion-namecert-obligations}. Carrier admission and classifier transport preserve this order componentwise, and ledger exhaustion prevents any route from bypassing $Q$ or $R$ before reaching $E$.
+\end{proof}
+
+\begin{theorem}[DecimalExpansion nonescape]
+\label{thm:decimal-expansion-nonescape}
+Every accepted $\DecimalExpansionUp$ packet $K=(D,W,V,Q,R,E,H,C,P,N)$ exports exactly the finite decimal-prefix, dyadic comparison, regular handoff, real seal, transport, replay, provenance, and naming rows listed in \autoref{def:decimal-expansion-carrier}. It exports no infinite decimal, quotient real, endpoint selector, host trichotomy row, selected representative, or $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Use ledger exhaustion from \autoref{thm:decimal-expansion-namecert-obligations}. The accepted packet has exactly the coordinates $D,W,V,Q,R,E,H,C,P,N$, so every public read is a projection or replay of those rows.
+
+The excluded objects would require a coordinate outside the displayed carrier: an infinite digit stream, a quotient real, a selector for endpoints, a trichotomy decision, a selected representative, or a completeness witness. Since no such coordinate is present, no accepted consumer can recover it from the packet.
+\end{proof}
+
 \begin{theorem}[DecimalExpansion RealUp readback boundary]\label{thm:decimal-expansion-real-readback-boundary}
 Every $\RealUp$ read of an accepted $\DecimalExpansionUp$ packet factors
 through the finite route
