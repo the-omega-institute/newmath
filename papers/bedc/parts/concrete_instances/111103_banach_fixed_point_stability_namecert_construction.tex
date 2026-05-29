@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\BanachFixedPointStabilityUp$}
+\label{ch:concrete-instances-banach-fixed-point-stability-namecert}
+\origin{human}
+
+Following Banach and Bishop--Bridges constructive metric analysis, the $\BanachFixedPointStabilityUp$ packet records the finite stability surface by which a displayed contraction orbit keeps its fixed-point seal attached to explicit Picard and Cauchy-modulus data. It sits after the fixed-point certificate of \autoref{ch:concrete-instances-banach-fixed-point-namecert}, the iteration ledger of \autoref{ch:concrete-instances-picard-iteration-namecert}, the contraction surface of \autoref{ch:concrete-instances-contractionmapping-namecert}, the complete-metric boundary of \autoref{ch:concrete-instances-completemetric-namecert}, the modulus schedule of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a stability handoff for fixed-point consumers; it is not ambient real completeness, a selected host fixed point, a quotient orbit, a global contraction theorem, or a choice principle.
+
+\begin{definition}[Banach fixed point stability carrier]
+\label{def:banach-fixed-point-stability-carrier}
+A $\BanachFixedPointStabilityUp$ carrier is a finite $\BHist$ packet
+$$
+B=(F,I,T,M,Q,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\BanachFixedPointUp$ source row naming the fixed-point certificate whose stability is being inspected.
+\item $I$ is the $\PicardIterationUp$ orbit row, recording the finite prefix and tail schedule consumed by the stability packet.
+\item $T$ is the $\ContractionMappingUp$ row that exposes the displayed contraction constant, comparison window, and contraction replay surface.
+\item $M$ is the $\CompleteMetricUp$ dependency row, available only as the completion boundary used by the Picard orbit and not as ambient completeness for $\RealUp$.
+\item $Q$ is the $\CauchyModulusUp$ stability schedule for the orbit tail and perturbation tolerance.
+\item $R$ is the $\RegSeqRatUp$ readback row reached only after $I,T,M,Q$ have been displayed.
+\item $E$ is the terminal $\RealUp$ seal row available only after the fixed-point source, Picard orbit, contraction row, completion boundary, modulus schedule, and regular-rational readback have been read.
+\item $H$ records componentwise $\hsame$ transport for the displayed source, orbit, contraction, completion, modulus, readback, real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the fixed-point source through $F,I,T,M,Q,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BanachFixedPointStabilityUp$, $\BanachFixedPointUp$, $\PicardIterationUp$, $\ContractionMappingUp$, $\CompleteMetricUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BanachFixedPointStabilityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,I,T,M,Q,R,E,H,C,P,N$. It has no coordinate for a selected host fixed point, quotient orbit equality, ambient $\RealUp$ completeness, global contraction soundness, trichotomy, or countable choice.
+\end{definition}
+
+\begin{theorem}[Banach fixed point stability NameCert obligations]
+\label{thm:banach-fixed-point-stability-namecert-obligations}
+For every accepted $\BanachFixedPointStabilityUp$ carrier $B=(F,I,T,M,Q,R,E,H,C,P,N)$, the local $\NameCert_{\BanachFixedPointStabilityUp}$ surface consists exactly of carrier admission for the displayed fixed-point source $F$, Picard orbit $I$, contraction row $T$, complete-metric dependency $M$, Cauchy-modulus schedule $Q$, regular-rational readback $R$, terminal real seal $E$, componentwise transport $H$, displayed replay $C$, package provenance $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:banach-fixed-point-stability-carrier}. The analytic rows visible to a stability consumer are exactly $F,I,T,M,Q,R,E$, followed by transport, replay, provenance, and naming.
+
+The fixed-point source is not read alone. The Picard row $I$ and contraction row $T$ display the orbit and contraction comparison before the complete-metric dependency $M$ and modulus schedule $Q$ can be consumed.
+
+The Real-facing endpoint is downstream from the same finite route. The regular-rational row $R$ is read only from the displayed orbit, contraction, completion, and modulus rows, and the terminal seal $E$ is read only after $R$.
+
+Finally $H,C,P,N$ transport, replay, source, and name this packet. Since the carrier has no excluded coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Banach fixed point stability Picard-Cauchy handoff]
+\label{thm:banach-fixed-point-stability-picard-cauchy-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\BanachFixedPointStabilityUp$ packet factors through the finite route
+$$
+\BanachFixedPointUp \longmapsto \PicardIterationUp \longmapsto \ContractionMappingUp \longmapsto \CompleteMetricUp \longmapsto \CauchyModulusUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The handoff exposes only the displayed fixed-point source, Picard orbit, contraction comparison, complete-metric dependency, Cauchy-modulus schedule, regular-rational readback, terminal real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. It exports no selected host fixed point, quotient orbit equality, hidden completion theorem, ambient $\RealUp$ completeness, global contraction soundness, trichotomy, or countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:banach-fixed-point-stability-namecert-obligations}. It places every stability read behind the fixed-point source, Picard orbit, contraction comparison, complete-metric dependency, and explicit modulus schedule.
+
+Next open the handoff to regular-rational data. The rows $I,T,M,Q$ determine the displayed Cauchy tail route, so the $\RegSeqRatUp$ row $R$ is a finite readback from those rows rather than a quotient orbit or host-selected fixed point.
+
+The terminal real seal is last. The $\RealUp$ row $E$ is consumed only after $R$ has been displayed, while $H,C,P,N$ preserve the same dependency order under transport, replay, provenance, and local naming.
+
+Thus any $\RegSeqRatUp$ or $\RealUp$ consumer sees exactly the stated Picard-Cauchy route and cannot bypass it through an ambient completeness or choice object.
+\end{proof}
+
+\closureat{BanachFixedPointStabilityUp}{seedStr}
+
+\begin{closurestatus}{\BanachFixedPointStabilityUp}
+  \constructivestory{A $\BanachFixedPointStabilityUp$ packet is generated from a BanachFixedPoint source row, PicardIteration orbit, ContractionMapping comparison, CompleteMetric dependency, CauchyModulus schedule, RegSeqRat readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:banach-fixed-point-stability-carrier}, \autoref{thm:banach-fixed-point-stability-namecert-obligations}, and \autoref{thm:banach-fixed-point-stability-picard-cauchy-handoff} seed the finite stability handoff from Banach fixed-point data through Picard, contraction, completion, modulus, regular-rational, and real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected host fixed points, quotient orbit equality, hidden completion theorems, ambient RealUp completeness, global contraction soundness, trichotomy, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Picard orbit ordering, contraction comparison stability, complete-metric dependency confinement, Cauchy-modulus exactness, RegSeqRat handoff, RealUp seal confinement, transport stability, continuation replay, and provenance nonescape for BEDC.Derived.BanachFixedPointStabilityUp.}
+\end{closurestatus}
