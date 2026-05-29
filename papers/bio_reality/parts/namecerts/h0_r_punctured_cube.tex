@@ -1,56 +1,56 @@
-\subsection{A Punctured Codon Cube at the Code-Read Boundary}\label{sec:b_reality_h0_r_punctured_cube}
+\subsection{A Punctured-Cube Boundary Tile in the Standard-Code Readback}\label{subsec:h0-r-punctured-cube}
 \origin{ai}
 
-\paragraph{Finite carrier.}
-The finite object in this record is the six-bit codon cube $Q_6$, read only as a coordinate display for standard-code labels.  The observed row $R$ is the following thirteen-codon subset:
+\paragraph{Finite carrier and reality contact.}
+This record concerns the claim h0.R.punctured.cube at the code-read layer.  The carrier is the six-bit codon cube $Q_6$, read through a curated standard-code table that assigns each codon an amino-acid or stop label.  The reality contact is therefore a label table contact: it supports codon-label readback and local split checks, but it is not a contact for translation realization, folded structure, physical admissibility, biological function, mechanism, or universality.  The finite row singled out by the computation is
 $$
 \begin{aligned}
 R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
 &\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
 \end{aligned}
 $$
-The cardinality check gives $|R|=13$, and the same row is returned by the punctured-cube test.  Its finite face count is reported as
+The independent cardinality check gives $|R|=13$, with the same thirteen codons returned in the same finite support.  The punctured-cube check reports the face-count vector
 $$
 \begin{aligned}
-(f_0,f_1,f_2)=(13,16,4),
+f(R)=(13,16,4),
 \end{aligned}
 $$
-so the relevant geometry is not merely a count of selected codons: it contains thirteen vertices, sixteen edge incidences, and four two-dimensional local faces inside the window-six display.  The biological contact used here is only the curated standard-code table, which assigns each codon to an amino-acid or stop label.  Thus the readback is a code-label readback, not an observation of translation dynamics or protein structure.
+so the row is not being treated merely as a list of exceptional labels; it is being treated as a finite subcomplex of the codon cube with thirteen vertices, sixteen one-dimensional incidences, and four two-dimensional faces.
 
-\paragraph{Local tile statement.}
-The conjectural content is that the window-six coordinates expose a local boundary tile in the standard-code label table.  The row $R$ consists of the codons
+\paragraph{Spectral and null-model readings.}
+The spectral run separates the observed local row from a generic label-set description.  It reports $\lambda_M=0.6752479308830213$, $\lambda_R=0.4758352843197002$, and $\mu=3.051487585298128$.  The radial cubic residual is numerically zero at the displayed precision, with both the cubic-polynomial check and the radial-polynomial check returning $-6.224354365258478\cdot 10^{-12}$.  Thus the finite row has a stable spectral readback at the stated tolerance, while the comparison set $M$ is recorded by size rather than by a codon list in the supplied data.  The observed $M$ size is $20$.
+
+The shape-significance run used $N=2000$ sampled tables, seed $42$, and $57377$ distinct-sample attempts, with $55377$ duplicate retries.  It found $1$ exact shape match and $25$ matches with Jaccard overlap at least $0.9$.  Hence
 $$
 \begin{aligned}
-&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA},
+p_{\mathrm{exact}}&=0.0005,\\
+p_{\mathrm{Jaccard}\ge 0.9}&=0.0125.
 \end{aligned}
 $$
-which is exactly the row returned by the finite punctured-cube probe.  The local module accounting is complete: the thirteen codons are assigned with no missing rows, no extra module codons, and no unassigned codons.  The module split is
+The amino-acid-class-preserving null model also used $N=2000$ and seed $42$.  It found $0$ exact shape matches, $7$ lower-tail samples at or below the observed $M$ size, and therefore reports
 $$
 \begin{aligned}
-\mathrm{agr}&=\{\mathrm{AGA},\mathrm{AGG}\},&
-\mathrm{ar\_lys}&=\{\mathrm{AAA}\},&
+p_{\mathrm{class\ exact}}&=0.0,\\
+p_{\mathrm{class\ lower\ tail}}&=0.0035.
+\end{aligned}
+$$
+These values support a local finite-row anomaly relative to the tested null models.  They do not, by themselves, identify a causal biological mechanism.
+
+\paragraph{Module decomposition and leave-one tests.}
+The module-classification check assigns all thirteen codons in $R$ and reports no extras, no missing codons, and no unassigned codons.  The six modules are
+$$
+\begin{aligned}
+\mathrm{agr}&=\{\mathrm{AGA},\mathrm{AGG}\},\\
+\mathrm{ar\_lys}&=\{\mathrm{AAA}\},\\
 \mathrm{cun}&=\{\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}\},\\
-\mathrm{ile\_met}&=\{\mathrm{AUA}\},&
-\mathrm{ssn}&=\{\mathrm{UCA},\mathrm{UUA}\},&
+\mathrm{ile\_met}&=\{\mathrm{AUA}\},\\
+\mathrm{ssn}&=\{\mathrm{UCA},\mathrm{UUA}\},\\
 \mathrm{stop\_trp}&=\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
 \end{aligned}
 $$
-The completeness row reports $R\_\mathrm{size}=13$ and $\mathrm{assigned\_count}=13$.  This is the finite reason the record is about a punctured cube rather than a loose list of codon exceptions.
+The classification summary gives $R$ size $13$ and assigned count $13$, confirming that the module partition covers exactly the punctured-cube row.
 
-\paragraph{Spectral and sampling checks.}
-The associated spectral row reports $\lambda_M=0.6752479308830213$, $\lambda_R=0.4758352843197002$, and $\mu=3.051487585298128$.  The cubic or radial polynomial residual is $-6.224354365258478\cdot 10^{-12}$, so the numeric check is at roundoff scale for this finite computation:
-$$
-\begin{aligned}
-\lambda_M&=0.6752479308830213,\\
-\lambda_R&=0.4758352843197002,\\
-\mu&=3.051487585298128,\\
-P(\lambda_M,\lambda_R,\mu)&=-6.224354365258478\cdot 10^{-12}.
-\end{aligned}
-$$
-The shape-significance run used $N=2000$ samples with seed $42$.  It found one exact shape match, giving $p_{\mathrm{exact}}=0.0005$, and twenty-five high-Jaccard matches with threshold at least $0.9$, giving $p_{J\geq 0.9}=0.0125$.  The same row records $57377$ distinct-sample attempts and $55377$ duplicate retries, which is important: the null comparison is finite and strained by repeated proposals rather than an unlimited independent draw from a simple continuous space.  The amino-acid-class preserving null reports observed $M$-size $20$, exact-match count $0$, lower-tail count $7$, $p_{\mathrm{aa\ class\ exact}}=0.0$, and $p_{\mathrm{aa\ class\ lower\ tail}}=0.0035$ over $N=2000$ trials with seed $42$.
+The leave-one-code-out run evaluated $23$ tables and $63$ targets.  Against a baseline hit rate of $0.19821739130434785$, it reports hit rate in $M-T$ equal to $0.9365079365079365$, hit rate in $M-T$ plus boundary equal to $0.9841269841269841$, and hit rate above baseline equal to $0.9841269841269841$.  By family, the five-family summary gives hit-rate-above-baseline values $0.8333333333333334$ for alternative yeast and $1.0$ for bacterial-plastid, candidate-other, mitochondrial, and nuclear-ciliate families.  The leave-one-codon-out run reports anchor count $0$, boundary count $5$, closure coverage high $8$, predictable count $8$, and recovery rate $1.0$.
 
-\paragraph{Readback tests.}
-The leave-one-code-out row evaluated $23$ tables and $63$ total targets.  Its baseline hit rate is $0.19821739130434785$, while the hit rate above baseline is $0.9841269841269841$.  The hit rate inside $M-T$ is $0.9365079365079365$, and the hit rate inside $M-T$ plus boundary is $0.9841269841269841$.  Family accounting gives five families.  The family hit rates above baseline are $0.8333333333333334$ for alternative yeast, $1.0$ for bacterial plastid, $1.0$ for candidate other, $1.0$ for mitochondrial, and $1.0$ for nuclear ciliate.  The leave-one-codon-out row reports anchor count $0$, boundary count $5$, high closure coverage $8$, predictable count $8$, and recovery rate $1.0$.  These numbers support a code-layer boundary statement: omitted codon labels are often recoverable or boundary-controlled within this finite display.
-
-\paragraph{Reality-contact boundary.}
-The contact is a curated standard genetic-code bridge.  It can test codon-label readback and the local codon-tile label split, but it cannot test translation realization, structural order, physical admissibility, function realization, folded structure, or a universal biological mechanism.  Therefore the supported claim is deliberately narrow.  The finite row says that a thirteen-codon punctured-cube subset appears in the window-six coordinate display and has a stable local module and boundary profile against the reported null probes.  It does not say that DNA obeys this geometry as a biological necessity.  It does not say that amino-acid labels determine folded protein structure.  It does not say that the local tile is translation, folding, physical admissibility, function, mechanism, or universality.  Any such promotion would require a separate contact that directly observes the higher layer.
+\paragraph{Interpretation boundary.}
+The local conclusion is a finite code-read statement: window-six coordinates expose a punctured-cube boundary tile whose thirteen-codon support, face vector, spectral readings, null-model frequencies, module partition, and leave-one recovery behavior are all finite-row observations.  The curated standard-code table supplies the external labels needed to read this row as a codon-label pattern.  No stronger biological claim follows from this contact.  In particular, the row does not show that translation is realized by the geometry, that an amino-acid sequence folds, that a physical state is admissible, that a function is performed, that a universal mechanism has been found, or that DNA obeys this cube geometry as a biological necessity.  Any such promotion would require a separate contact at the corresponding layer.  With the supplied data, the correct status is therefore: a local punctured-cube code-read boundary is supported; translation, folding, physical admissibility, function, mechanism, and universality remain outside the claim.
