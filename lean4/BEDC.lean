@@ -4521,6 +4521,7 @@ import BEDC.Derived.MetaCICConfluenceCriticalPairBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPathUp
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedConversionCandidateBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedNormalizationCandidateLedger
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateDischargeFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierL10DischargeBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNDischargeRow
@@ -6206,6 +6207,7 @@ import BEDC.Derived.RegulatedCauchyModulusUp
 import BEDC.Derived.RegulatedFunctionUp.TasteGate
 import BEDC.Derived.RegulatedIntegralUp.DarbouxRiemannCompatibility
 import BEDC.Derived.RegulatedIntegralUp.Nonescape
+import BEDC.Derived.RegulatedIntegralUp.RealCompletionRoute
 import BEDC.Derived.RegulatedIntegralUp.TasteGate
 import BEDC.Derived.RegulatedRealFunctionUp.IntegrationHandoff
 import BEDC.Derived.RegulatedRealFunctionUp.IntegrationHandoffBoundary
