@@ -136,6 +136,54 @@ For completion handoff, use \autoref{thm:normed-space-completion-handoff}. The r
 Thus the three obligations are finite source rows of the packet itself. Since no abstract source-equivalence pair, host vector equality, quotient completion, selected limit, basis choice, classical duality, or ambient Banach or Hilbert coordinate occurs in $S$, the root-unblock surface is exactly the displayed triad.
 \end{proof}
 
+\begin{theorem}[NormedSpace completion-facing obligation triad]
+\label{thm:normed-space-completion-facing-obligation-triad}
+For every accepted $\NormedSpaceUp$ packet
+$$
+S=(V,R,N,M,Q,H,T,P,C),
+$$
+the completion-facing surface is exhausted by the displayed $\VecSpaceUp$ row $V$, the $\RealUp$ row $R$, the norm row $N$, the induced $\MetricUp$ row $M$, and the Cauchy-window handoff row $Q$ transported and replayed through $H,T,P,C$. No completion-facing obligation is stored outside the VecSpace, Real, Norm, Metric, and Cauchy-window rows.
+\end{theorem}
+\begin{proof}
+Project the carrier $S$. The rows $V,R,N,M,Q$ are the only coordinates that a completion consumer can inspect before structural transport and replay.
+
+Apply \autoref{thm:normed-space-zero-exactness} to pin zero reads to $V,R,N$. Apply \autoref{thm:normed-space-metric-nonescape} to pin distance reads to the induced metric row $M$ through the same vector, norm, and Real rows.
+
+Use \autoref{thm:normed-space-completion-handoff} and \autoref{thm:normed-space-root-unblock-source-triad}. The handoff theorem identifies $Q$ as the only Cauchy-window and tolerance-request boundary, while the triad theorem shows that downstream consumers receive the displayed route rather than an abstract source-equivalence surface.
+
+Therefore the completion-facing obligations are exactly the VecSpace, Real, Norm, Metric, and Cauchy-window rows, preserved by $H,T,P,C$.
+\end{proof}
+
+\begin{theorem}[NormedSpace completion-facing nonescape]
+\label{thm:normed-space-completion-facing-nonescape}
+Let $S=(V,R,N,M,Q,H,T,P,C)$ be an accepted $\NormedSpaceUp$ packet. No quotient completion, selected limit, basis choice, host vector equality, ambient Banach structure, or ambient Hilbert structure can be read from $Q,H,T,P,C$. These rows transport, replay, source, and locally name only the displayed completion-facing route already determined by $V,R,N,M$.
+\end{theorem}
+\begin{proof}
+Read the completion-facing row $Q$. By \autoref{thm:normed-space-completion-handoff}, this row stores Cauchy windows and tolerance requests only after the vector, Real, norm, and metric rows have been displayed.
+
+Apply \autoref{thm:normed-space-metric-nonescape}. The metric row feeding $Q$ is induced from $V,N,R$, so $Q$ cannot import an independent host metric or quotient equality.
+
+Finally use \autoref{thm:normed-space-root-unblock-source-triad}. The rows $H,T,P,C$ preserve the same finite route for downstream consumers. Since quotient completions, selected limits, basis choices, host vector equality, and ambient Banach or Hilbert structures are absent from the carrier, none can be read from the completion-facing surface.
+\end{proof}
+
+\begin{theorem}[NormedSpace consumer exhaustion]
+\label{thm:normed-space-consumer-exhaustion}
+Every Banach, Hilbert, bounded-operator, or functional-analysis consumer of an accepted $\NormedSpaceUp$ packet must factor through the displayed route
+$$
+V,R,N,M,Q,H,T,P,C .
+$$
+The consumer obtains vector operations from $V$, real scalar and norm comparisons from $R,N$, metric comparisons from $M$, completion-facing windows from $Q$, and structural transport, replay, provenance, and local naming from $H,T,P,C$; no additional host analysis structure is exported by the packet.
+\end{theorem}
+\begin{proof}
+Start with a downstream analysis request. By \autoref{thm:normed-space-completion-facing-obligation-triad}, the only completion-facing surface available to the request is the displayed VecSpace, Real, Norm, Metric, and Cauchy-window route.
+
+Use \autoref{thm:normed-space-completion-facing-nonescape}. The structural rows do not add quotient completion, selected limits, basis choice, host vector equality, or ambient Banach/Hilbert structure.
+
+Apply \autoref{thm:normed-space-completion-handoff}. Banach, Hilbert, bounded-operator, and functional-analysis consumers all receive their data from the same displayed route $V,R,N,M,Q,H,T,P,C$.
+
+Thus every such consumer factors through the named finite packet, and the consumer surface is exhausted by that route.
+\end{proof}
+
 \begin{theorem}[NormedSpace Banach-completion nonescape]
 \label{thm:normed-space-banach-completion-nonescape}
 Every Banach, Hilbert, bounded-operator, or functional-analysis consumer of an accepted $\NormedSpaceUp$ packet
