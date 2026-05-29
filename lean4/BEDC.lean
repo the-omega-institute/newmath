@@ -2244,6 +2244,7 @@ import BEDC.Derived.ConsciousObserverStateUp.RoutePackageExactness
 import BEDC.Derived.ConsciousObserverStateUp.RouteScopePackage
 import BEDC.Derived.ConsciousUniverseSpaceUp.NameCertObligations
 import BEDC.Derived.ConsciousUniverseSpaceUp.TasteGate
+import BEDC.Derived.ConstructiveCantorTheoremUp.TasteGate
 import BEDC.Derived.ConstructiveCompletionModulusUp
 import BEDC.Derived.ConstructiveCompletionModulusUp.FiniteRoute
 import BEDC.Derived.ConstructiveCompletionModulusUp.TasteGate
@@ -2253,6 +2254,7 @@ import BEDC.Derived.ContactUp
 import BEDC.Derived.ContactUp.TasteGate
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.ContextFreeGrammarUp.TasteGate
+import BEDC.Derived.ContextFreePumpingLemmaUp.TasteGate
 import BEDC.Derived.ContextWindowCommitmentUp.TasteGate
 import BEDC.Derived.ContextualClassReadingUp
 import BEDC.Derived.ContinuationAutomatonUp.TasteGate
@@ -7084,6 +7086,7 @@ import BEDC.Derived.UniformModulusUp.TasteGate
 import BEDC.Derived.UniformPartitionUp.TasteGate
 import BEDC.Derived.UniformReflectionKernelUp.TasteGate
 import BEDC.Derived.UniformSpaceUp
+import BEDC.Derived.UniformlyConvexSpaceUp.TasteGate
 import BEDC.Derived.UniqueChoicePrincipleUp.DeterministicReadback
 import BEDC.Derived.UniqueChoicePrincipleUp.NameCertObligations
 import BEDC.Derived.UniqueChoicePrincipleUp.TasteGate
