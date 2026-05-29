@@ -2437,6 +2437,7 @@ import BEDC.Derived.ContinuousUp.VisibleSourceRestrictionReassociation
 import BEDC.Derived.ContinuousUp.VisibleTerminalModulusExtension
 import BEDC.Derived.ContourIntegralOperationUp
 import BEDC.Derived.ContourIntegralSocketUp
+import BEDC.Derived.ContourIntegralSocketUp.TasteGate
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ContourReversalLedgerUp.TasteGate
 import BEDC.Derived.ContourSumWindowUp.TasteGate
@@ -3576,6 +3577,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.SelectorRadiusDomain
 import BEDC.Derived.FiniteLebesgueNumberUp.SourceChainAdmission
 import BEDC.Derived.FiniteLebesgueNumberUp.TailRadiusAdmission
 import BEDC.Derived.FiniteLebesgueNumberUp.TailRadiusTransport
+import BEDC.Derived.FiniteLebesgueNumberUp.TasteGate
 import BEDC.Derived.FiniteLebesgueNumberUp.TerminalRadiusExhaustion
 import BEDC.Derived.FiniteLebesgueNumberUp.TerminalRadiusStability
 import BEDC.Derived.FiniteLebesgueNumberUp.TerminalReadiness
@@ -5512,6 +5514,7 @@ import BEDC.Derived.QuotientStreamRefusalUp
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
 import BEDC.Derived.RaabeDuhamelTestUp.TasteGate
 import BEDC.Derived.RadonMeasureUp
+import BEDC.Derived.RadonMeasureUp.TasteGate
 import BEDC.Derived.RamseyUp
 import BEDC.Derived.RandomVarUp
 import BEDC.Derived.RapidCauchyNameUp.TasteGate
@@ -6145,6 +6148,7 @@ import BEDC.Derived.RegularCauchyScaleUp.RealSealHandoffObligation
 import BEDC.Derived.RegularCauchyScaleUp.ScaleCarrierObligation
 import BEDC.Derived.RegularCauchyScaleUp.ScopedClosureRoute
 import BEDC.Derived.RegularCauchyScaleUp.ScopedRealConsumerBoundary
+import BEDC.Derived.RegularCauchyScaleUp.TasteGate
 import BEDC.Derived.RegularCauchyScaleUp.UnitScalarBoundary
 import BEDC.Derived.RegularCauchySelectorBudgetUp
 import BEDC.Derived.RegularCauchySeparationUp.TasteGate
@@ -6359,6 +6363,7 @@ import BEDC.Derived.ScientificIdealizationResidueSealUp.ScopeRefinement
 import BEDC.Derived.ScientificIdealizationResidueSealUp.TasteGate
 import BEDC.Derived.ScientificModelBridgeUp.Carrier
 import BEDC.Derived.ScientificModelBridgeUp.TasteGate
+import BEDC.Derived.ScientificObjectUp.RecordClassifierAdmission
 import BEDC.Derived.ScientificObjectUp.TasteGate
 import BEDC.Derived.ScottRealUp.TasteGate
 import BEDC.Derived.SecondCountableUp
