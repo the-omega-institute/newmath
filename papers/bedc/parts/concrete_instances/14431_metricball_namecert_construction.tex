@@ -177,10 +177,26 @@ Use \autoref{thm:metric-ball-finite-intersection-readiness} for finite combinati
 The bounded-set route of \autoref{thm:metric-ball-boundedset-containment-route} gives the same restriction from the containment side. It hands downstream consumers the transported center-radius comparison and no host subset, selected maximum, compactness witness, or ambient $\RealUp$ completeness coordinate.
 \end{proof}
 
+\begin{theorem}[MetricBall public export]
+\label{thm:metricball-public-export}
+The public $\MetricBallUp$ export is the center-radius membership packet
+$$
+B=(X,d,c,r,\rho,m,H,C,P,N)
+$$
+of \autoref{def:metric-ball-carrier}. Topology, bounded-set, finite-intersection, compact-net, and metric consumers may consume the packet only through the displayed distance-comparison row $m$, together with its metric source $X,d$, center $c$, radius and positivity rows $r,\rho$, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:metric-ball-carrier}. The only membership-facing coordinate is the comparison row $m$, and the rows $X,d,c,r,\rho,H,C,P,N$ are precisely the data that make that comparison transportable and replayable.
+
+For topology consumers, apply \autoref{thm:metric-ball-topology-handoff}. For bounded-set consumers, apply \autoref{thm:metric-ball-boundedset-containment-route}. For finite-intersection and metric-entry consumers, use \autoref{thm:metric-ball-finite-intersection-readiness} and \autoref{thm:metric-ball-cauchy-filter-entry-boundary}.
+
+Each route reads the same center-radius comparison before any downstream object is available. Since the carrier has no ambient powerset, selected radius, compactness, host subset, quotient equality, or Real completeness coordinate, the displayed packet is exactly the public export surface.
+\end{proof}
+
 \begin{closurestatus}{\MetricBallUp}
   \constructivestory{A $\MetricBallUp$ packet is generated from a MetricSpace carrier row, a MetricDistanceWitness row, a center row, a RatUp or RealUp positive-radius row, a membership comparison row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:metric-ball-carrier}, \autoref{thm:metric-ball-namecert-obligations}, \autoref{thm:metric-ball-refinement-obligations}, \autoref{thm:metric-ball-topology-handoff}, and \autoref{thm:metric-ball-finite-intersection-readiness} display the obligation surface over $\MetricSpaceUp$, $\RealUp$, $\RatUp$, $\TopologyUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$; the bounded-set, positive-radius, transport, real-window, and Cauchy-filter rows remain downstream routes through the same center-radius packet.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:metricball-public-export} exports the center-radius membership packet of \autoref{def:metric-ball-carrier}, with \autoref{thm:metric-ball-namecert-obligations}, \autoref{thm:metric-ball-refinement-obligations}, \autoref{thm:metric-ball-topology-handoff}, and \autoref{thm:metric-ball-finite-intersection-readiness} displaying the obligation surface over $\MetricSpaceUp$, $\RealUp$, $\RatUp$, $\TopologyUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim a full metric topology, arbitrary generated-open closure, compactness, continuity, quotient equality for metric points, or a standard bridge.}
