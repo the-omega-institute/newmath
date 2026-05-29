@@ -58,6 +58,47 @@ to a host rational number.
 \end{definition}
 \leandef{BEDC.Derived.DyadicRatCoreUp.DyadicRatCoreClassifier}
 
+\begin{definition}[DyadicRatCore common-exponent scale packet]
+\label{def:dyadicratcore-common-exponent-scale}
+For accepted dyadic packets $D=(m,e,\ell,P)$ and $D'=(m',e',\ell',P')$, a $\mathsf{DyadicRatCoreCommonExponentScale}(D,D')$ packet is the finite scale tuple
+$$
+(E,s,s',r,P_E).
+$$
+Here $E$ is the displayed positive unary exponent row above both $e$ and $e'$, $s$ transports the mantissa and denominator ledger of $D$ to the common denominator $2^E$, $s'$ transports the corresponding rows of $D'$ to $2^E$, $r$ is the $\RatUp$ classifier row comparing the transported mantissas, and $P_E$ is the $\Pkg$ provenance row binding the same $\IntUp$ and $\RatUp$ sibling certificates already cited by \autoref{thm:dyadic-rat-core-rat-int-sibling-route}. The packet has no coordinate for a quotient rational representative, host denominator selector, host integer normalization, or $\RealUp$ endpoint.
+\end{definition}
+
+\begin{theorem}[DyadicRatCore common-exponent classifier stability]
+\label{thm:dyadicratcore-scale-classifier-stability}
+Let $D=(m,e,\ell,P)$ and $D'=(m',e',\ell',P')$ be accepted $\DyadicRatCoreUp$ packets, and let $(E,s,s',r,P_E)$ be a $\mathsf{DyadicRatCoreCommonExponentScale}(D,D')$ packet. If $D,D',E,s,s',r,P_E$ are transported componentwise through displayed $\hsame$, $\Cont$, and $\Pkg$ rows that preserve the visible $\IntUp$ and $\RatUp$ sibling provenance, then the transported tuple is again a common-exponent scale packet and it witnesses the same $\mathsf{DyadicRatCoreClassifier}$ comparison at the transported common exponent.
+
+The classifier read remains confined to the transported mantissa rows, positive unary exponent rows, denominator ledgers, $\RatUp$ comparison row, and provenance rows. It does not acquire a quotient rational carrier, host denominator selector, host integer normalization, or $\RealUp$ endpoint.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of $D$ and $D'$ using \autoref{def:dyadicratcore-carrier}. The only source rows available for scaling are the signed mantissas, positive unary exponent histories, denominator ledgers, and $\Pkg$ rows carrying the $\IntUp$ and $\RatUp$ provenance.
+
+Project the common-exponent scale packet of \autoref{def:dyadicratcore-common-exponent-scale}. The rows $s$ and $s'$ are precisely the displayed transports from the two original exponent ledgers to $E$, and $r$ is precisely the $\RatUp$ classifier row between the scaled mantissas.
+
+Transport these rows componentwise through the supplied $\hsame$ and displayed $\Cont$ data. The transported exponent remains the common positive unary row, the transported ledgers remain the two denominator ledgers at that row, and the transported $\RatUp$ comparison is still attached to the same sibling provenance.
+
+Finally apply the classifier definition \autoref{def:dyadicratcore-classifier}. It reads exactly the common exponent, transported denominator ledgers, scaled mantissas, and $\RatUp$ classifier row. Since no other carrier coordinate exists, the transported tuple witnesses the same classifier comparison and cannot import any refused host object.
+\end{proof}
+
+\begin{theorem}[DyadicRatCore tolerance halving closure]
+\label{thm:dyadicratcore-tolerance-halving-closure}
+Let $D=(m,e,\ell,P)$ be an accepted $\DyadicRatCoreUp$ tolerance packet, and suppose a displayed successor unary exponent row $e^+$ extends $e$ by one denominator-halving step. If the mantissa, denominator ledger, endpoint comparison, distance row, radius row, $\hsame$ transport, displayed $\Cont$ replay, and $\Pkg$ provenance are transported along this successor row, then the resulting packet is again accepted by the dyadic tolerance ledger.
+
+Equivalently, one displayed unary halving step preserves the finite DyadicRatCore tolerance surface: the accepted rows are still the $\IntUp$/$\RatUp$ mantissa provenance, positive unary exponent history, denominator ledger, dyadic comparison rows, transport rows, continuation rows, and package provenance, with no quotient rational equality, host normalization, selected real endpoint, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start from the accepted carrier row of \autoref{def:dyadicratcore-carrier}. The exponent data are stored as positive unary history, so adjoining one displayed successor row gives another visible positive unary exponent history rather than a hidden denominator selector.
+
+Transport the denominator ledger along the successor row. The ledger for $2^e$ is replayed into the ledger for $2^{e^+}$, and the mantissa provenance remains attached to the same $\IntUp$ and $\RatUp$ certificates.
+
+Read the tolerance rows after transport. Endpoint comparisons, distance rows, and radius rows are all part of the same finite dyadic packet, so halving the displayed denominator scale repacks them as the next accepted tolerance window.
+
+Finally use the exclusion clause of the carrier definition and the common-exponent classifier discipline of \autoref{def:dyadicratcore-classifier}. The halved packet still exposes only displayed mantissa, exponent, ledger, comparison, transport, continuation, and provenance rows, so the dyadic tolerance ledger remains accepted without adding quotient rational equality, host normalization, selected endpoints, or ambient real completeness.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore denominator ledger transport]
 \label{thm:dyadicratcore-denominator-ledger}
 Let $D=(m,e,\ell,P)$ be an accepted $\DyadicRatCoreUp$ packet, and let
