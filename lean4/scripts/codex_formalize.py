@@ -612,21 +612,6 @@ def read_lake_parallel(default: int) -> int:
 _origin_sync_stop = threading.Event()
 
 
-def _origin_sync_push_lock():
-    from contextlib import nullcontext
-    import sys as _sys
-
-    _tools_path = str(REPO_ROOT / "tools")
-    if _tools_path not in _sys.path:
-        _sys.path.insert(0, _tools_path)
-    try:
-        from repo_push_lock import acquire_push_lock as _pl
-    except Exception as exc:
-        logger.warning(f"[origin-sync] push-lock import failed: {exc}; using process lock only")
-        return nullcontext()
-    return _pl("codex-auto-dev", timeout=120)
-
-
 def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
     """Background ticker: rebase local base onto origin/<base> when remote
     is ahead.
@@ -658,130 +643,77 @@ def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
                 f"[origin-sync] origin/{base_branch} is {ahead} commit(s) "
                 f"ahead — merging into local"
             )
-            r3 = None
-            recovery_prompt = None
-            try:
-                push_lock_cm = _origin_sync_push_lock()
-                with push_lock_cm:
-                    with _git_lock:
-                        stash_oid = None
-                        dirty = subprocess.run(
-                            ["git", "status", "--porcelain"],
-                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
-                        ).stdout.strip()
-                        if dirty:
-                            st = subprocess.run(
-                                ["git", "stash", "push", "-u", "-m", f"origin-sync-{os.getpid()}"],
-                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                            )
-                            if st.returncode != 0:
-                                logger.warning(
-                                    f"[origin-sync] stash push failed; skipping sync: "
-                                    f"{(st.stderr or '').strip()[:200]}"
-                                )
-                                continue
-                            sr = subprocess.run(
-                                ["git", "rev-parse", "--verify", "--quiet", "stash@{0}"],
-                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
-                            )
-                            stash_oid = (sr.stdout or "").strip() or None
-
-                        r3 = subprocess.run(
-                            ["git", "pull", "--no-rebase", "--no-edit",
-                             "origin", base_branch],
-                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=120,
-                        )
-                        if r3.returncode != 0:
-                            logger.warning(
-                                f"[origin-sync] merge failed (returncode={r3.returncode}); "
-                                f"stderr={(r3.stderr or '').strip()[:200]}"
-                            )
-                            if (REPO_ROOT / ".git" / "MERGE_HEAD").exists():
-                                logger.warning("[origin-sync] mid-merge detected, aborting")
-                                subprocess.run(
-                                    ["git", "merge", "--abort"],
-                                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                                )
-                            rebase_merge = REPO_ROOT / ".git" / "rebase-merge"
-                            rebase_apply = REPO_ROOT / ".git" / "rebase-apply"
-                            if rebase_merge.exists() or rebase_apply.exists():
-                                logger.warning("[origin-sync] stale mid-rebase detected, aborting")
-                                subprocess.run(
-                                    ["git", "rebase", "--abort"],
-                                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                                )
-
-                        if stash_oid:
-                            ap = subprocess.run(
-                                ["git", "stash", "apply", stash_oid],
-                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                            )
-                            if ap.returncode == 0:
-                                subprocess.run(
-                                    ["git", "stash", "drop", stash_oid],
-                                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                                )
-                            else:
-                                subprocess.run(
-                                    ["git", "reset", "--hard", "HEAD"],
-                                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                                )
-                                logger.warning(
-                                    f"[origin-sync] autostash {stash_oid[:12]} re-apply "
-                                    "conflicted; reset tracked, kept stash for GC"
-                                )
-
-                        if r3.returncode == 0:
-                            logger.info(f"[origin-sync] merged origin/{base_branch} into local")
-                        else:
-                            rs = subprocess.run(
-                                ["git", "status", "--porcelain"],
-                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
-                            )
-                            status_output = (rs.stdout or "").strip()
-                            if status_output:
-                                logger.warning(
-                                    "[origin-sync] main repo NOT CLEAN after auto recovery — "
-                                    "delegating to codex"
-                                )
-                                recovery_prompt = (
-                                    _load_prompt("origin_sync_recover")
-                                    .replace("<REPO_ROOT>", str(REPO_ROOT))
-                                    .replace("<BASE_BRANCH>", base_branch)
-                                    .replace("<STATUS_OUTPUT>", status_output[:2000] or "(empty)")
-                                    .replace("<REBASE_STDERR>", (r3.stderr or "").strip()[:2000] or "(empty)")
-                                )
-            except TimeoutError as exc:
-                logger.warning(f"[origin-sync] push lock timeout; skipping sync: {exc}")
-                continue
-
-            if recovery_prompt:
-                try:
-                    codex_exec(
-                        recovery_prompt,
-                        work_dir=REPO_ROOT,
-                        timeout_seconds=600,
+            with _git_lock:
+                r3 = subprocess.run(
+                    ["git", "pull", "--no-rebase", "--no-edit", "--autostash",
+                     "origin", base_branch],
+                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=120,
+                )
+                if r3.returncode == 0:
+                    logger.info(f"[origin-sync] merged origin/{base_branch} into local")
+                else:
+                    logger.warning(
+                        f"[origin-sync] merge failed (returncode={r3.returncode}); "
+                        f"stderr={(r3.stderr or '').strip()[:200]}"
                     )
-                except Exception as exc:
-                    logger.error(f"[origin-sync] codex recovery raised: {exc}")
-                    continue
-                try:
-                    push_lock_cm = _origin_sync_push_lock()
-                    with push_lock_cm:
-                        with _git_lock:
+                    # Abort any in-flight merge / leftover rebase to leave the
+                    # main repo clean — otherwise worker pushes hit
+                    # "merge in progress" / "rebase in progress" forever.
+                    if (REPO_ROOT / ".git" / "MERGE_HEAD").exists():
+                        logger.warning("[origin-sync] mid-merge detected, aborting")
+                        subprocess.run(
+                            ["git", "merge", "--abort"],
+                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                        )
+                    rebase_merge = REPO_ROOT / ".git" / "rebase-merge"
+                    rebase_apply = REPO_ROOT / ".git" / "rebase-apply"
+                    if rebase_merge.exists() or rebase_apply.exists():
+                        logger.warning("[origin-sync] stale mid-rebase detected, aborting")
+                        subprocess.run(
+                            ["git", "rebase", "--abort"],
+                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                        )
+                    # Best-effort autostash pop (safe no-op if nothing stashed).
+                    subprocess.run(
+                        ["git", "stash", "pop"],
+                        cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
+                    )
+                    # Verify clean state after recovery.
+                    rs = subprocess.run(
+                        ["git", "status", "--porcelain"],
+                        cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
+                    )
+                    if (rs.stdout or "").strip():
+                        logger.warning(
+                            "[origin-sync] main repo NOT CLEAN after auto recovery — "
+                            "delegating to codex"
+                        )
+                        try:
+                            prompt = (
+                                _load_prompt("origin_sync_recover")
+                                .replace("<REPO_ROOT>", str(REPO_ROOT))
+                                .replace("<BASE_BRANCH>", base_branch)
+                                .replace("<STATUS_OUTPUT>", (rs.stdout or "").strip()[:2000] or "(empty)")
+                                .replace("<REBASE_STDERR>", (r3.stderr or "").strip()[:2000] or "(empty)")
+                            )
+                            codex_exec(
+                                prompt,
+                                work_dir=REPO_ROOT,
+                                timeout_seconds=600,
+                            )
                             rs2 = subprocess.run(
                                 ["git", "status", "--porcelain"],
                                 cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
                             )
-                    if (rs2.stdout or "").strip():
-                        logger.error(
-                            f"[origin-sync] codex recovery FAILED, repo still not clean: "
-                            f"{(rs2.stdout or '').strip()[:300]} — manual fix needed"
-                        )
-                    else:
-                        logger.info("[origin-sync] codex recovery succeeded; repo clean")
-                except TimeoutError as exc:
-                    logger.warning(f"[origin-sync] push lock timeout after codex recovery: {exc}")
+                            if (rs2.stdout or "").strip():
+                                logger.error(
+                                    f"[origin-sync] codex recovery FAILED, repo still not clean: "
+                                    f"{(rs2.stdout or '').strip()[:300]} — manual fix needed"
+                                )
+                            else:
+                                logger.info("[origin-sync] codex recovery succeeded; repo clean")
+                        except Exception as exc:
+                            logger.error(f"[origin-sync] codex recovery raised: {exc}")
         except Exception as exc:
             logger.warning(f"[origin-sync] error: {exc}")
 
@@ -1207,76 +1139,51 @@ def _sync_local_with_origin(*, model: Optional[str] = None) -> bool:
     containing origin's content; False only when codex cannot resolve a
     real conflict.
 
+    Caller has typically already done `git fetch origin BASE_BRANCH`.
     Saves and restores the original HEAD if not on BASE_BRANCH.
     """
-    try:
-        push_lock_cm = _origin_sync_push_lock()
-        with push_lock_cm:
-            with _git_lock:
-                head = run_cmd(["git", "symbolic-ref", "--short", "-q", "HEAD"],
-                               cwd=REPO_ROOT, timeout=10)
-                original_branch = (head.stdout or "").strip()
-                run_cmd(["git", "fetch", "origin", BASE_BRANCH],
-                        cwd=REPO_ROOT, timeout=300)
+    head = run_cmd(["git", "symbolic-ref", "--short", "-q", "HEAD"],
+                   cwd=REPO_ROOT, timeout=10)
+    original_branch = (head.stdout or "").strip()
 
-                if original_branch != BASE_BRANCH:
-                    co = run_cmd(["git", "checkout", BASE_BRANCH],
-                                 cwd=REPO_ROOT, timeout=30)
-                    if co.returncode != 0:
-                        logger.error(
-                            f"_sync_local_with_origin: cannot checkout {BASE_BRANCH}: "
-                            f"{(co.stderr or '')[-200:]}"
-                        )
-                        return False
-
-                ff = run_cmd(["git", "merge", "--ff-only", f"origin/{BASE_BRANCH}"],
-                             cwd=REPO_ROOT, timeout=30)
-                if ff.returncode == 0:
-                    if original_branch and original_branch != BASE_BRANCH:
-                        run_cmd(["git", "checkout", original_branch],
-                                cwd=REPO_ROOT, check=False, timeout=30)
-                    return True
-                merge = run_cmd(
-                    ["git", "merge", "--no-ff", "--no-edit", f"origin/{BASE_BRANCH}"],
-                    cwd=REPO_ROOT, timeout=120,
-                )
-                if merge.returncode == 0:
-                    if original_branch and original_branch != BASE_BRANCH:
-                        run_cmd(["git", "checkout", original_branch],
-                                cwd=REPO_ROOT, check=False, timeout=30)
-                    return True
-                logger.warning(
-                    f"local {BASE_BRANCH} <-> origin/{BASE_BRANCH} merge conflict; "
-                    "invoking codex to resolve"
-                )
-    except TimeoutError as exc:
-        logger.warning(f"_sync_local_with_origin: push lock timeout; skipping sync: {exc}")
-        return False
-
-    resolved = _codex_resolve_conflicts(REPO_ROOT, model=model)
+    if original_branch != BASE_BRANCH:
+        co = run_cmd(["git", "checkout", BASE_BRANCH],
+                     cwd=REPO_ROOT, timeout=30)
+        if co.returncode != 0:
+            logger.error(
+                f"_sync_local_with_origin: cannot checkout {BASE_BRANCH}: "
+                f"{(co.stderr or '')[-200:]}"
+            )
+            return False
 
     try:
-        push_lock_cm = _origin_sync_push_lock()
-        with push_lock_cm:
-            with _git_lock:
-                if resolved:
-                    if original_branch and original_branch != BASE_BRANCH:
-                        run_cmd(["git", "checkout", original_branch],
-                                cwd=REPO_ROOT, check=False, timeout=30)
-                    return True
-                run_cmd(["git", "merge", "--abort"], cwd=REPO_ROOT, check=False)
-                if original_branch and original_branch != BASE_BRANCH:
-                    run_cmd(["git", "checkout", original_branch],
-                            cwd=REPO_ROOT, check=False, timeout=30)
-    except TimeoutError as exc:
-        logger.warning(f"_sync_local_with_origin: push lock timeout during cleanup: {exc}")
+        ff = run_cmd(["git", "merge", "--ff-only", f"origin/{BASE_BRANCH}"],
+                     cwd=REPO_ROOT, timeout=30)
+        if ff.returncode == 0:
+            return True
+        merge = run_cmd(
+            ["git", "merge", "--no-ff", "--no-edit", f"origin/{BASE_BRANCH}"],
+            cwd=REPO_ROOT, timeout=120,
+        )
+        if merge.returncode == 0:
+            return True
+        logger.warning(
+            f"local {BASE_BRANCH} <-> origin/{BASE_BRANCH} merge conflict; "
+            "invoking codex to resolve"
+        )
+        resolved = _codex_resolve_conflicts(REPO_ROOT, model=model)
+        if resolved:
+            return True
+        run_cmd(["git", "merge", "--abort"], cwd=REPO_ROOT, check=False)
+        logger.error(
+            f"local {BASE_BRANCH} <-> origin/{BASE_BRANCH} sync failed; "
+            "codex could not resolve"
+        )
         return False
-
-    logger.error(
-        f"local {BASE_BRANCH} <-> origin/{BASE_BRANCH} sync failed; "
-        "codex could not resolve"
-    )
-    return False
+    finally:
+        if original_branch and original_branch != BASE_BRANCH:
+            run_cmd(["git", "checkout", original_branch],
+                    cwd=REPO_ROOT, check=False, timeout=30)
 
 
 def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> bool:
@@ -1294,9 +1201,17 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
     4. Fast-forward LOCAL BASE_BRANCH to the merged worktree tip.
     5. Push to origin and verify origin contains the worktree tip.
 
-    Concurrency: shared main-checkout git sequences use the cross-process
-    `acquire_push_lock(BASE_BRANCH)` advisory flock outside `_git_lock`.
-    Codex conflict recovery and hard gates run outside both locks.
+    Concurrency: the entire sequence holds (a) `_git_lock` (process-local,
+    serializes this orchestrator's worker threads) AND (b) the cross-process
+    `acquire_push_lock(BASE_BRANCH)` advisory flock on
+    `.git/<BASE_BRANCH>.push.lock`. The cross-process lock prevents the
+    paper-side orchestrator (`codex_revise.py`) and the bidirectional sync
+    daemon (`sync_with_auto_dev.py`) from concurrently pushing to the same
+    remote branch — the root cause of the chronic `ff update of <branch>
+    failed` and `Merge failed — non-fast-forward` rejections (47% + 23% of
+    R-round FAILs on 2026-05-14). Both other daemons must wrap their
+    own push paths in `acquire_push_lock("codex-auto-dev")` for the
+    serialization to be complete.
     """
     # _push_lock_cm imported at module top via lazy attempt — keeps the
     # daemon importable even when tools/repo_push_lock.py is missing on
@@ -1320,12 +1235,15 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
 
     logger.info(f"Merging {wt.branch} into {BASE_BRANCH}...")
 
-    if not _sync_local_with_origin(model=model):
-        logger.error(
-            f"[R{wt.round_number}] local {BASE_BRANCH} could not "
-            f"sync with origin/{BASE_BRANCH}; aborting attempt"
-        )
-        return False
+    # Phase 1a: fetch + sync local BASE — needs _git_lock (shared main checkout refs)
+    with _git_lock:
+        run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
+        if not _sync_local_with_origin(model=model):
+            logger.error(
+                f"[R{wt.round_number}] local {BASE_BRANCH} could not "
+                f"sync with origin/{BASE_BRANCH}; aborting attempt"
+            )
+            return False
 
     # Phase 1b: worktree-local work (per-worker, NO _git_lock — each worker has own worktree)
     merge = run_cmd(
@@ -1460,15 +1378,15 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
         with _git_lock:
             run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=60)
             new_base_sha = run_cmd(["git", "rev-parse", f"origin/{BASE_BRANCH}"], cwd=REPO_ROOT).stdout.strip()
-        if new_base_sha != captured_base_sha:
-            merge = run_cmd(["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH], cwd=wt.path, timeout=180)
-            if merge.returncode != 0:
-                logger.warning(f"[R{wt.round_number}] retry merge conflict, invoking codex")
-                resolved = _codex_resolve_conflicts(wt.path, model=model)
-                if not resolved:
-                    run_cmd(["git", "merge", "--abort"], cwd=wt.path)
-                    return False
-            captured_base_sha = new_base_sha
+            if new_base_sha != captured_base_sha:
+                merge = run_cmd(["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH], cwd=wt.path, timeout=180)
+                if merge.returncode != 0:
+                    logger.warning(f"[R{wt.round_number}] retry merge conflict, invoking codex")
+                    resolved = _codex_resolve_conflicts(wt.path, model=model)
+                    if not resolved:
+                        run_cmd(["git", "merge", "--abort"], cwd=wt.path)
+                        return False
+                captured_base_sha = new_base_sha
 
     return False
 
