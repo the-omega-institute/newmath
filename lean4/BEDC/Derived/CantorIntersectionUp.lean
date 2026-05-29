@@ -1,10 +1,12 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived.CantorIntersectionUp
 
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 
 inductive CantorIntersectionCarrier where
   | packet
@@ -100,5 +102,48 @@ theorem CantorIntersectionRealSealNonescape (x : CantorIntersectionCarrier) :
           append (append (append (append W D) E) R) H,
           append C P,
           rfl, rfl, rfl, rfl, rfl, rfl, rfl⟩
+
+theorem CantorIntersectionDyadicIntervalBasisBridge
+    {N W D E R H C P Q basisCell regularRead realRead : BHist} :
+    Cont D E basisCell ->
+      Cont basisCell R regularRead ->
+        Cont regularRead H realRead ->
+          SemanticNameCert
+            (fun row : BHist =>
+              hsame row realRead ∧
+                ∃ x : CantorIntersectionCarrier,
+                  x = CantorIntersectionCarrier.packet N W D E R H C P Q)
+            (fun _row : BHist =>
+              Cont D E basisCell ∧
+                Cont basisCell R regularRead ∧ Cont regularRead H realRead)
+            (fun row : BHist => hsame row realRead)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  intro hDE hBasisR hRegularH
+  refine
+    { core :=
+        { carrier_inhabited := ?carrier_inhabited
+          equiv_refl := ?equiv_refl
+          equiv_symm := ?equiv_symm
+          equiv_trans := ?equiv_trans
+          carrier_respects_equiv := ?carrier_respects_equiv }
+      pattern_sound := ?pattern_sound
+      ledger_sound := ?ledger_sound }
+  · exact
+      ⟨realRead, And.intro rfl
+        ⟨CantorIntersectionCarrier.packet N W D E R H C P Q, rfl⟩⟩
+  · intro h _source
+    exact hsame_refl h
+  · intro h k hsameHK
+    exact hsame_symm hsameHK
+  · intro h k r hsameHK hsameKR
+    exact hsame_trans hsameHK hsameKR
+  · intro h k hsameHK sourceH
+    cases hsameHK
+    exact sourceH
+  · intro _row _source
+    exact And.intro hDE (And.intro hBasisR hRegularH)
+  · intro _row source
+    exact source.left
 
 end BEDC.Derived.CantorIntersectionUp

@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\SpecializationOrderUp$}
+\label{ch:concrete-instances-specialization-order-namecert}
+\origin{human}
+
+Following Alexandroff and standard topology, the specialization preorder of a topological space is read through open-neighbourhood implication rather than host point equality. The $\SpecializationOrderUp$ packet sits after the indexed-open topology of \autoref{ch:concrete-instances-topology-namecert}, the observable-open truth classifier of \autoref{ch:concrete-instances-sierpinski-space-namecert}, the membership discipline of \autoref{ch:concrete-instances-setlike-namecert}, and the separated order surface of \autoref{ch:concrete-instances-poset-namecert}. It is also the topology-side order interface consumed by the metric-generated topology handoff of \autoref{ch:concrete-instances-metric-topology-namecert}. The packet names only finite open-set implication data; it does not import quotient point equality, selected representatives, powerset extensionality, excluded middle over opens, or choice-based separation.
+
+\begin{definition}[SpecializationOrder carrier]
+\label{def:specialization-order-carrier}
+A $\SpecializationOrderUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,O,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the topology row, carrying the accepted indexed-open source, finite open-neighbourhood requests, and topology closure witnesses read from \autoref{ch:concrete-instances-topology-namecert}.
+\item $O$ is the open-set membership classifier, recording for each displayed point and accepted open index whether the point is observed inside that open through the local open-row interface.
+\item $R$ is the specialization relation row. A displayed comparison $x \leq_{\mathsf{spec}} y$ is admitted only when every open-membership read true at $x$ in $O$ is replayed as true at $y$ through the same topology row $T$.
+\item $H$ records componentwise $\hsame$ transport for the topology row, open-set membership classifier, specialization relation row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an open-neighbourhood request through $T$ and $O$ into the specialization relation row $R$.
+\item $P$ is the $\Pkg$ provenance over $\SpecializationOrderUp$, the topology, Sierpinski, SetLike, Poset, metric-topology, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ surfaces.
+\item $N$ is the local $\NameCert_{\SpecializationOrderUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host point equality, quotient points, selected separated representatives, powerset equality of opens, excluded middle over open membership, or choice-based separation.
+\end{definition}
+
+\begin{theorem}[SpecializationOrder NameCert obligations]
+\label{thm:specialization-order-namecert-obligations}
+For every accepted $\SpecializationOrderUp$ carrier $K=(T,O,R,H,C,P,N)$, the local $\NameCert_{\SpecializationOrderUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the topology row, open-set membership classifier, specialization relation row, transport, replay, provenance, and local naming;
+\item classifier transport, requiring $H$ to preserve every open-membership read in $O$ along displayed $\hsame$ moves;
+\item reflexivity, read by replaying each open-membership observation for a point back to the same point through $O$;
+\item transitivity, read by composing two displayed open-neighbourhood implication rows inside $R$;
+\item topology handoff, requiring every public order comparison to factor through the indexed-open row $T$ before it reaches $R$;
+\item sibling nonescape, forbidding quotient point equality, host separation, selected representatives, powerset extensionality, excluded middle, and choice data not displayed in $K$;
+\item local naming through the provenance row $P$ and the local certificate row $N$.
+\end{enumerate}
+These rows exhaust the packet obligations. A downstream T0-reflection, formal-topology, metric-topology, or separated-order consumer receives only the displayed open-neighbourhood implication route.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:specialization-order-carrier}. The packet exposes only $T,O,R,H,C,P,N$, so each local obligation must be read from the topology row, the open-membership classifier, the specialization relation, or the structural rows.
+
+Classifier transport is componentwise. The $H$ row moves topology indices, point reads, open-membership observations, and specialization comparisons together, so an accepted classifier read cannot detach from the topology row that generated it.
+
+Reflexivity and transitivity are internal to $R$. Reflexivity reuses the same open-membership read at the same point, while transitivity composes the two displayed implication routes through the common open index. No quotient or host equality coordinate is involved.
+
+The topology handoff and sibling nonescape follow from the carrier boundary. Every public order read passes through $T$ and $O$ before $R$, and the rows $P,N$ name only that route. Since quotient points, selected representatives, powerset extensionality, excluded middle, and choice-based separation are absent from the packet, none can be exported as a NameCert obligation.
+\end{proof}
+
+\begin{theorem}[SpecializationOrder topology handoff]
+\label{thm:specialization-order-topology-handoff}
+Every accepted $\SpecializationOrderUp$ packet reads its preorder only from open-set implication:
+$$
+x \leq_{\mathsf{spec}} y
+\quad\text{means that every displayed open-neighbourhood read true at }x\text{ is replayed as true at }y.
+$$
+The handoff exports no quotient point equality, no selected representative, and no choice-based separation principle.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $K=(T,O,R,H,C,P,N)$. The topology row $T$ supplies the only accepted open indices, and $O$ supplies the only membership reads for those opens.
+
+The specialization row $R$ is defined as the replay of those membership reads from source point to target point. Thus a preorder comparison can be inspected by checking the displayed implication from each open-neighbourhood observation at $x$ to the corresponding observation at $y$.
+
+Finally $H,C,P,N$ preserve, replay, source, and name that same implication route. The carrier has no coordinate for quotient points, selected representatives, host equality, or choice-based separation, so the topology handoff cannot export any of them.
+\end{proof}
+
+\closureat{SpecializationOrderUp}{seedStr}
+
+\begin{closurestatus}{\SpecializationOrderUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:specialization-order-carrier}, \autoref{thm:specialization-order-namecert-obligations}, and \autoref{thm:specialization-order-topology-handoff} seed the open-neighbourhood implication interface between topology rows and order-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient point equality, T0 reflection, formal topology, metric separation, choice-based separation, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, open-membership classifier transport, reflexivity, transitivity, topology handoff, sibling nonescape, provenance, and local naming for BEDC.Derived.SpecializationOrderUp.}
+  \constructivestory{A $\SpecializationOrderUp$ packet is generated from a topology row, an open-set membership classifier, a specialization relation row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

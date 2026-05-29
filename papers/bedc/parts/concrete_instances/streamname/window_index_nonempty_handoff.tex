@@ -47,6 +47,41 @@ results rule out quotient stream equality, selected limits, and ambient
 completeness as exported StreamName data.
 \end{proof}
 
+\begin{theorem}[StreamName finite-window support minimality]
+\label{thm:streamname-finite-window-nonempty}
+Any downstream $\RegSeqRatUp$ or $\RealUp$ finite-window consumer that reads a
+$\StreamNameUp$ package must preserve at least one displayed
+$\mathsf{ProbeBundle}$ membership row together with its
+$\mathsf{UnaryHistory}$ index through the same $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ support. Deleting that row destroys the consumer route rather than
+moving it to quotient stream equality, selected limits, or ambient
+completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:streamname-window-index-nonempty-handoff}. It forces
+any RegSeqRat or Real finite-window consumer to expose a displayed observation
+through a finite $\mathsf{ProbeBundle}$, its membership row, and the certified
+$\mathsf{UnaryHistory}$ index before regularity or seal data are readable.
+
+Place the same row in the finite-window meet of
+\autoref{thm:streamname-finite-window-lattice-meet-exhaustion}. The exhaustion
+result says that the consumer can only read the displayed classifier,
+membership, unary-history, dyadic ledger, transport, replay, provenance, and
+local-name rows carried by that finite surface.
+
+Now apply
+\autoref{thm:streamname-regseqrat-real-lattice-dependency}. The RegSeqRat
+readback and Real seal are downstream of the same StreamName finite-window
+surface, so their $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support still
+contains the nonempty observation row.
+
+If that row is deleted, the displayed membership and unary-history coordinates
+needed by the handoff are absent. The exclusion clauses in the handoff,
+exhaustion, and dependency results leave no coordinate for quotient stream
+equality, selected limits, or ambient completeness to supply a replacement
+route.
+\end{proof}
+
 \begin{theorem}[StreamName window-index route determinacy]
 \label{thm:streamname-window-index-route-determinacy}
 Let $\mathcal W$ and $\mathcal W'$ be accepted finite $\StreamNameUp$ packets
