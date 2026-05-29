@@ -54,6 +54,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.SourceChainAdmission
 import BEDC.Derived.FiniteLebesgueNumberUp.ObligationCoverageRow
 import BEDC.Derived.FiniteLebesgueNumberUp.UniformModulusRadiusScope
 import BEDC.Derived.FiniteLebesgueNumberUp.RootCoverageLedger
+import BEDC.Derived.FiniteLebesgueNumberUp.TasteGate
 
 namespace BEDC.Derived.FiniteLebesgueNumberUp
 
