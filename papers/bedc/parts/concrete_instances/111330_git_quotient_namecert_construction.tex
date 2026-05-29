@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\GITQuotientUp$}
+\label{ch:concrete-instances-git-quotient-namecert}
+\origin{human}
+
+Following Mumford's geometric invariant theory, the $\GITQuotientUp$ packet records the finite quotient-facing route from a projective or affine scheme presentation with group action data to invariant-ring rows, semistable-window rows, orbit-separation rows, and a displayed quotient name. It sits after the scheme carrier of \autoref{ch:concrete-instances-scheme-namecert}, the affine-variety surface of \autoref{ch:concrete-instances-affinevar-namecert}, the projective-variety surface of \autoref{ch:concrete-instances-projectivevar-namecert}, the group certificate of \autoref{ch:concrete-instances-group-namecert}, the field certificate of \autoref{ch:concrete-instances-field-namecert}, and the ring certificate of \autoref{ch:concrete-instances-ring-namecert}. The packet names a finite GIT quotient certificate without importing host quotient equality, stack objects, selected orbit representatives, or an external moduli functor.
+
+\begin{definition}[GIT quotient carrier]
+\label{def:git-quotient-carrier}
+A $\GITQuotientUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(S,A,P,G,I,Q,O,H,C,L,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\SchemeUp$ source row naming the ambient scheme surface and the affine-cover ledger on which the quotient construction is read.
+\item $A$ is the $\AffineVarUp$ chart row used for invariant-ring computations on affine windows of $S$.
+\item $P$ is the $\ProjectiveVarUp$ presentation row naming the projective closure, homogeneous coordinates, linearization window, and projective incidence ledger.
+\item $G$ is the acting $\GroupUp$ row over the displayed $\FieldUp$ and $\RingUp$ scalar rows consumed by the action and invariant-ring ledgers.
+\item $I$ is the invariant-ring ledger. It records the finite generator rows, relation rows, grading rows, and action-fixedness checks used to form the quotient coordinate packet.
+\item $Q$ is the quotient-name row. It records the displayed affine or projective quotient carrier obtained from $I$ and the selected semistable window, but it is not a host quotient object.
+\item $O$ is the orbit-separation ledger. It records semistable-window membership, closed-orbit comparison rows, invariant-value comparison rows, and refusal rows for unstable histories.
+\item $H$ records componentwise $\hsame$ transport for the scheme, affine, projective, group, scalar, invariant-ring, quotient-name, orbit-separation, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from every quotient read through $S,A,P,G,I,Q,O,H,L,N$.
+\item $L$ is the $\Pkg$ provenance over $\GITQuotientUp$, $\SchemeUp$, $\AffineVarUp$, $\ProjectiveVarUp$, $\GroupUp$, $\FieldUp$, $\RingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\GITQuotientUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these finite rows. It has no coordinate for host quotient equality, quotient stacks, selected orbit representatives, external moduli functors, or unstated invariant-theory completions.
+\end{definition}
+
+\begin{theorem}[GIT quotient NameCert obligations]
+\label{thm:git-quotient-namecert-obligations}
+For every accepted $\GITQuotientUp$ carrier
+$$
+Z=(S,A,P,G,I,Q,O,H,C,L,N),
+$$
+the local $\NameCert_{\GITQuotientUp}$ surface consists exactly of scheme admission through $S$, affine-chart admission through $A$, projective-presentation admission through $P$, group-action and scalar admission through $G$, invariant-ring visibility through $I$, quotient-name exposure through $Q$, orbit-separation and semistable-window routing through $O$, componentwise transport through $H$, displayed replay through $C$, provenance through $L$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:git-quotient-carrier}. The geometric source rows are $S,A,P,G$, the quotient-facing rows are $I,Q,O$, and the structural rows are $H,C,L,N$.
+
+The invariant-ring obligation is finite. Its generator, relation, grading, and action-fixedness entries are rows inside $I$, and each is read through the affine chart, projective presentation, group action, and scalar certificates already displayed by $A,P,G$.
+
+The quotient-name and orbit-separation obligations are then separate rows. The row $Q$ exposes only the quotient carrier built from the invariant ledger and semistable window, while $O$ records which semistable histories can be separated by invariant values and which unstable histories are refused.
+
+Transport, replay, provenance, and local naming preserve exactly these rows. Since no coordinate names a host quotient, quotient stack, selected orbit representative, or external moduli functor, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[GIT quotient invariant-ring handoff]
+\label{thm:git-quotient-invariant-ring-handoff}
+Every downstream read of an accepted $\GITQuotientUp$ quotient-name row factors through the invariant-ring ledger
+$$
+S,A,P,G \longmapsto I \longmapsto Q .
+$$
+Thus the quotient carrier is exposed as finite invariant-ring and semistable-window data over the displayed scheme, affine, projective, group, field, and ring rows, not as a host quotient object or a stack presentation.
+\end{theorem}
+\begin{proof}
+Start with the displayed source rows $S,A,P,G$. They supply the scheme cover, affine chart, projective presentation, action row, and scalar rows on which invariant functions are allowed to be read.
+
+Read the invariant-ring ledger $I$. The finite generator, relation, grading, and fixedness checks in $I$ are the only rows used to build the quotient coordinate packet.
+
+The quotient-name row $Q$ is then a projection from that packet together with the semistable-window data carried by $O$. The structural rows $H,C,L,N$ can transport and replay this route, but they cannot add a host quotient object or a stack presentation.
+\end{proof}
+
+\begin{theorem}[GIT quotient orbit-separation nonescape]
+\label{thm:git-quotient-orbit-separation-nonescape}
+No accepted $\GITQuotientUp$ packet exports orbit separation outside the displayed semistable-window and invariant-value rows. If a consumer compares two semistable histories, the comparison must pass through $O$ and the invariant values supplied by $I$; if a history lies outside the displayed semistable window, the refusal row in $O$ blocks quotient-name export for that history.
+\end{theorem}
+\begin{proof}
+Project an accepted packet $Z=(S,A,P,G,I,Q,O,H,C,L,N)$. The only orbit-facing row is $O$, and the only scalar-valued separating data available to $O$ are the invariant values recorded by $I$.
+
+For semistable histories, $O$ requires the displayed window-membership row before any comparison is read. The comparison is then routed to invariant values from $I$, so separation remains inside the finite invariant-ring ledger.
+
+For histories outside the semistable window, the refusal row in $O$ prevents the quotient-name row $Q$ from being exported for that history. Componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming preserve the refusal because none of them introduces an additional orbit classifier.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\GITQuotientUp$ quotient-name read factors through a SchemeUp row, an AffineVarUp chart row, a ProjectiveVarUp presentation row, GroupUp action data over FieldUp and RingUp scalar rows, an invariant-ring ledger, a semistable-window ledger, orbit-separation rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+
+\independenceWitness{scheme, affinevar, projectivevar, group, field, ring: $\GITQuotientUp$ is not bijective to any listed sibling because it jointly binds a group action, invariant-ring rows, semistable-window rows, quotient-name exposure, orbit-separation refusal, transport, replay, provenance, and local naming in one certificate.}
+
+\closureat{GITQuotientUp}{seedStr}
+
+\begin{closurestatus}{\GITQuotientUp}
+  \constructivestory{A $\GITQuotientUp$ packet is generated from a SchemeUp source row, AffineVarUp chart row, ProjectiveVarUp presentation row, GroupUp action data over FieldUp and RingUp scalar rows, invariant-ring rows, semistable-window rows, orbit-separation rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:git-quotient-carrier}, \autoref{thm:git-quotient-namecert-obligations}, \autoref{thm:git-quotient-invariant-ring-handoff}, and \autoref{thm:git-quotient-orbit-separation-nonescape} seed the finite invariant-ring and semistable-window route for GIT quotient consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host quotient equality, quotient stacks, selected orbit representatives, external moduli functors, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, invariant-ring handoff, semistable-window routing, orbit-separation refusal, quotient-name exposure, replay stability, provenance exhaustion, and local naming for BEDC.Derived.GITQuotientUp.}
+\end{closurestatus}

@@ -108,6 +108,52 @@ Apply \autoref{thm:riemann-stieltjes-darboux-mesh-refinement}. The finite mesh a
 The structural rows $H,C,P,N$ transport, replay, source, and name the same order. Since the packet has no coordinate for measure spaces, selected limits, host function quotients, or ambient choice, the displayed bounded-variation jump boundary cannot be replaced by any of them.
 \end{proof}
 
+\begin{theorem}[Riemann--Stieltjes regulated-integrator transport]
+\label{thm:riemann-stieltjes-regulated-integrator-transport}
+Every $\RiemannStieltjesUp$ read that is consumed as a regulated-integral handoff must pass through the bounded-variation integrator row $A$ and the tagged-sum row $T$ before the handoff row $I$ is visible. For an accepted carrier
+$$
+R=(F,A,T,S,I,E,H,C,P,N),
+$$
+the route to $I$ is the displayed BEDC row route
+$$
+F,A,T,S,H,C,P,N \longrightarrow I .
+$$
+It cannot be replaced by a host measure integral, a quotient of integrators, a selected limiting partition, or an unrecorded real equality.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:riemann-stieltjes-carrier}. The regulated integrand row $F$ and the bounded-variation integrator row $A$ are the only sources from which the packet can read the two integration inputs.
+
+Use the tagged-sum and step rows next. The row $T$ displays the finite tagged partition, while $S$ records the dyadic step approximation used by the regulated-integral handoff.
+
+The handoff row $I$ is therefore downstream of $F,A,T,S$. Componentwise transport through $H$ and continuation replay through $C$ preserve the same order, and $P,N$ record provenance and local naming without adding any bypass coordinate.
+
+Since the carrier has no coordinate for measure integration, integrator quotients, selected limiting partitions, or host real equality, every regulated-integrator transport consumed by the packet remains on this finite route.
+\end{proof}
+
+\begin{theorem}[Riemann--Stieltjes bounded-variation ledger]
+\label{thm:riemann-stieltjes-bounded-variation-ledger}
+For every accepted $\RiemannStieltjesUp$ carrier $R=(F,A,T,S,I,E,H,C,P,N)$, each integrator jump, variation read, and endpoint contribution used by the tagged sum is consumed as a visible $\BHist$ ledger row inside $A$ before it is transported through $H,C,P,N$. The packet exports no hidden variation functional, measure-space control object, selected jump enumeration, or quotient of integrators.
+\end{theorem}
+\begin{proof}
+Read the bounded-variation component $A$ from the carrier. By \autoref{thm:riemann-stieltjes-bounded-variation-jump-boundary}, jump-facing reads begin at $A$ and cannot enter the tagged-sum route from any outside source.
+
+The finite tagged-sum row $T$ consumes only the displayed cells and tags, while the dyadic step row $S$ supplies the corresponding finite integrand approximants. Thus every variation contribution used in the sum is already a visible row before the handoff row $I$ is read.
+
+Transport and replay do not create new variation data. The rows $H$ and $C$ move and replay the same ledger entries, while $P$ and $N$ identify the package and local NameCert surface. The excluded host objects have no coordinate in $R$, so the ledger is exactly the displayed bounded-variation row.
+\end{proof}
+
+\begin{theorem}[Riemann--Stieltjes mesh refinement stability]
+\label{thm:riemann-stieltjes-mesh-refinement-stability}
+If an accepted $\RiemannStieltjesUp$ carrier is read along a mesh refinement, the refined packet preserves the same componentwise $\hsame$ transport, displayed $\Cont$ replay, and $\Pkg$ provenance route over $F,A,T,S,I,E,H,C,P,N$. Refinement may subdivide the visible tagged partition row, but it cannot introduce a new integrator, a new regulated-integral handoff, host function equality, selected limits, or a measure-space bridge.
+\end{theorem}
+\begin{proof}
+Start with the Darboux mesh-refinement theorem, \autoref{thm:riemann-stieltjes-darboux-mesh-refinement}. It confines every refinement-facing read to the displayed rows $T,S,A,I,E$ together with the structural rows.
+
+Refining the mesh changes only the visible tagged partition and the corresponding dyadic step rows. The bounded-variation ledger remains the row $A$, and the regulated-integral handoff remains the row $I$ reached after the refined finite data are displayed.
+
+The structural route is unchanged. Componentwise $\hsame$ transport is recorded by $H$, continuation replay by $C$, and provenance by $P$ before the local naming row $N$ accepts the refined packet. Because no host equality, selected limit, new integrator, or measure bridge occurs among the coordinates, refinement preserves the same finite BEDC route.
+\end{proof}
+
 \closureat{RiemannStieltjesUp}{seedStr}
 
 \begin{closurestatus}{\RiemannStieltjesUp}
