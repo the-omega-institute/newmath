@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\FrobeniusReciprocityUp$}
+\label{ch:concrete-instances-frobenius-reciprocity-namecert}
+\origin{human}
+
+Following Frobenius on induced characters, Serre's finite-group representation theory, and the induction--restriction formulation used by Fulton--Harris, the $\FrobeniusReciprocityUp$ packet records the finite comparison row between induction from a subgroup and restriction to that subgroup. It consumes the action rows of \autoref{ch:concrete-instances-finite-group-representation-namecert}, the subgroup source of \autoref{ch:concrete-instances-subgroup-namecert}, the representation-ring ledger of \autoref{ch:concrete-instances-representationring-namecert}, the induction--restriction packet of \autoref{ch:concrete-instances-inducedrep-namecert}, and the character-pairing surface of \autoref{ch:concrete-instances-charactertheory-namecert}. The packet names only finite source rows, adjunction ledgers, character-pairing boundaries, transport, replay, provenance, and downstream handoff rows; it does not assert a host category of representations, a functor equality, semisimplicity, Schur orthogonality, or a completed character table.
+
+\begin{theorem}[FrobeniusReciprocityUp source obligations]\label{thm:frobenius-reciprocity-source-obligations}
+For every accepted $\FrobeniusReciprocityUp$ packet, the source surface is the displayed finite tuple
+$$
+\mathcal{F}=(G,H,R,I,Q,\Phi,\eta,\epsilon,\chi,\lambda,C,P,N),
+$$
+where $G$ is the consumed $\FiniteGroupRepresentationUp$ action row, $H$ is the consumed $\SubgroupUp$ row, $R$ is the consumed $\RepresentationRingUp$ ledger, $I$ is the consumed $\InducedRepUp$ induction--restriction row, $Q$ is the consumed $\CharacterTheoryUp$ pairing row, $\Phi$ is the Frobenius comparison row, $\eta,\epsilon$ are the displayed unit and counit rows, $\chi$ is the character-pairing boundary, $\lambda$ is the finite ledger of visible source and endpoint reads, $C$ is componentwise $\Cont$ replay, $P$ is $\Pkg$ provenance, and $N$ is the local $\NameCert_{\FrobeniusReciprocityUp}$ row. No source obligation is imported from a host representation category, quotient carrier, functor category, or external adjunction object.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The source rows are precisely $G,H,R,I,Q$ together with the local comparison rows $\Phi,\eta,\epsilon,\chi,\lambda,C,P,N$.
+
+The consumed rows are already finite BEDC certificates. The finite-group representation row supplies the action display, the subgroup row supplies the inclusion boundary, the representation-ring row supplies the Grothendieck ledger, the induced-representation row supplies the induction--restriction endpoints, and the character-theory row supplies the pairing surface.
+
+Since the tuple has no coordinate for a host representation category, quotient carrier, functor category, or external adjunction object, the listed rows exhaust the source obligations.
+\end{proof}
+
+\begin{theorem}[FrobeniusReciprocityUp adjunction ledger]\label{thm:frobenius-reciprocity-adjunction-ledger}
+The adjunction data of an accepted $\FrobeniusReciprocityUp$ packet are exactly the finite rows $\Phi,\eta,\epsilon,\lambda$ over the consumed sources $H,R,I$. The row $\Phi$ compares the displayed induction endpoint with the displayed restriction endpoint, $\eta$ and $\epsilon$ record the unit and counit witnesses as $\mathsf{BHist}$ rows, and $\lambda$ records the visible continuations among source, endpoint, and Frobenius reads. The ledger exports no host naturality square, functor equality, adjunction object, or semisimple decomposition.
+\end{theorem}
+\begin{proof}
+Begin with the induction--restriction source. The packet consumes the $\InducedRepUp$ row $I$, so the available endpoints are the displayed induction and restriction rows already carried by that certificate.
+
+The Frobenius comparison is read through $\Phi$. The unit and counit witnesses are read through $\eta$ and $\epsilon$, and every visible path among source and endpoint reads is recorded by the finite ledger $\lambda$.
+
+Exactness is projection from the tuple. Any row outside $\Phi,\eta,\epsilon,\lambda$ is not part of the adjunction ledger, and no host naturality square or functor equality can be recovered from a coordinate that the packet does not carry.
+\end{proof}
+
+\begin{theorem}[FrobeniusReciprocityUp character-pairing boundary]\label{thm:frobenius-reciprocity-character-pairing-boundary}
+Every character-pairing read of a $\FrobeniusReciprocityUp$ packet factors through the consumed $\CharacterTheoryUp$ row $Q$, the representation-ring source $R$, the induction--restriction source $I$, and the displayed pairing boundary $\chi$ before it can inspect $\Phi,\eta,\epsilon$ or $\lambda$. The boundary supplies only the finite character-pairing comparison needed for reciprocity and does not export Schur orthogonality, irreducible decomposition, character-table computation, or a completed class-function algebra.
+\end{theorem}
+\begin{proof}
+Read the character side first. The only character-theory coordinate is $Q$, and the only representation-ring coordinate feeding it is $R$.
+
+The induction and restriction endpoints enter through $I$. The displayed pairing boundary $\chi$ then names the finite comparison used by the Frobenius row before the ledger reads $\Phi,\eta,\epsilon,\lambda$.
+
+Because the tuple has no coordinate for Schur orthogonality, irreducible decomposition, character-table computation, or a completed class-function algebra, every character-pairing read remains inside the stated finite boundary.
+\end{proof}
+
+\begin{theorem}[FrobeniusReciprocityUp NameCert surface]\label{thm:frobenius-reciprocity-namecert-surface}
+The $\NameCert_{\FrobeniusReciprocityUp}$ obligation surface is the conjunction of the source obligations of \autoref{thm:frobenius-reciprocity-source-obligations}, the adjunction ledger of \autoref{thm:frobenius-reciprocity-adjunction-ledger}, the character-pairing boundary of \autoref{thm:frobenius-reciprocity-character-pairing-boundary}, componentwise $\hsame$ transport on all displayed source and ledger rows, finite $\Cont$ replay through $C$, and $\Pkg$ provenance through $P$. The surface exports no obligation outside the displayed tuple $\mathcal{F}$.
+\end{theorem}
+\begin{proof}
+First combine the source obligations with the adjunction ledger. The source theorem identifies the consumed BEDC certificates, and the ledger theorem identifies the only Frobenius comparison, unit, counit, and continuation rows.
+
+Next add the character-pairing boundary. It places every character read behind $Q,R,I,\chi$ before the Frobenius ledger can be inspected.
+
+Finally apply componentwise transport and replay. The rows $C$ and $P$ preserve exactly the displayed tuple, and the local row $N$ names the resulting certificate. Since no obligation outside $\mathcal{F}$ is available, these clauses give the stated NameCert surface.
+\end{proof}
+
+\begin{theorem}[FrobeniusReciprocityUp consumer handoff]\label{thm:frobenius-reciprocity-consumer-handoff}
+A downstream consumer of $\FrobeniusReciprocityUp$ may read exactly the consumed finite-group action row $G$, subgroup row $H$, representation-ring row $R$, induced-representation row $I$, character-theory row $Q$, Frobenius rows $\Phi,\eta,\epsilon$, character-pairing boundary $\chi$, visible ledger $\lambda$, replay row $C$, provenance row $P$, and local name row $N$. Any consumer handoff to $\InducedRepUp$, $\RepresentationRingUp$, or $\CharacterTheoryUp$ factors through those rows and cannot bypass them through a host category, functor equality, semisimplicity theorem, or character-table computation.
+\end{theorem}
+\begin{proof}
+Start with a downstream read. The only visible source coordinates are $G,H,R,I,Q$, and the only local Frobenius coordinates are $\Phi,\eta,\epsilon,\chi,\lambda,C,P,N$.
+
+For an $\InducedRepUp$ consumer, the handoff is through $I$ together with the Frobenius rows. For a $\RepresentationRingUp$ consumer, the handoff is through $R$ and the source ledger. For a $\CharacterTheoryUp$ consumer, the handoff is through $Q$ and the pairing boundary $\chi$.
+
+The replay and provenance rows preserve the same finite route. Thus a consumer cannot bypass the displayed packet through a host category, functor equality, semisimplicity theorem, or character-table computation.
+\end{proof}
+
+\closureat{FrobeniusReciprocityUp}{seedStr}
+
+\begin{closurestatus}{\FrobeniusReciprocityUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{thm:frobenius-reciprocity-source-obligations}, \autoref{thm:frobenius-reciprocity-adjunction-ledger}, \autoref{thm:frobenius-reciprocity-character-pairing-boundary}, \autoref{thm:frobenius-reciprocity-namecert-surface}, and \autoref{thm:frobenius-reciprocity-consumer-handoff} seed the finite Frobenius reciprocity certificate over displayed finite-group representation, subgroup, representation-ring, induced-representation, and character-theory rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, semisimplicity, Schur orthogonality, irreducible decomposition, character-table computation, functor-category equality, or a host adjunction theorem.}
+  \upgradepath{Obligation closure requires checked carrier admission, adjunction-ledger exactness, character-pairing boundary, NameCert surface, and downstream handoff for the same finite packet.}
+  \constructivestory{A $\FrobeniusReciprocityUp$ packet is generated from consumed finite-group representation, subgroup, representation-ring, induced-representation, and character-theory rows, then records a finite Frobenius comparison, unit and counit rows, character-pairing boundary, visible continuation ledger, package provenance, and local NameCert evidence.}
+\end{closurestatus}

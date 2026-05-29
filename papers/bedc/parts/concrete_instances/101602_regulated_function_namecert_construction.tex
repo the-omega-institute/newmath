@@ -54,14 +54,42 @@ The chosen mesh row determines the visible step approximant in $A$. That approxi
 It remains to reach $S$. The tail ledger $T$ records that the selected approximant belongs to the displayed regulated schedule at the requested tolerance. Only then does $C$ expose the finite sum handoff row $S$, whose consumers are the Darboux sum and Riemann integral surfaces. No carrier coordinate offers a host quotient of functions, a measure-theoretic integral, an open-cover compactness proof, a selected limit, or an ambient completeness witness for $\RealUp$.
 \end{proof}
 
-\closureat{RegulatedFunctionUp}{seedStr}
+\begin{theorem}[Regulated function obligation closure package]
+\label{thm:regulated-function-obligation-closure-package}
+The carrier of \autoref{def:regulated-function-carrier}, the NameCert surface of \autoref{thm:regulated-function-namecert-obligations}, and the step-approximation handoff of \autoref{thm:regulated-function-step-approximation-handoff} jointly supply the finite obligation surface for $\RegulatedFunctionUp$. This surface consists exactly of carrier admission, $\RealUp$ domain admission, $\DyadicMeshUp$ admission, $\DyadicStepFunctionUp$ schedule admission, tolerance-tail routing, Darboux/Riemann finite-sum handoff, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, local $\NameCert$ admission, and non-escape from host function quotients, measure-theoretic integration, open-cover compactness, selected limits, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $F=(D,M,A,T,S,H,C,P,N)$. The carrier definition displays exactly the domain row, mesh ledger, step schedule, tail ledger, handoff row, transport row, continuation row, provenance row, and local naming row.
+
+The NameCert-obligation theorem identifies these displayed rows as the full local obligation surface. In particular, $D$ carries real-domain admission, $M$ carries dyadic mesh admission, $A$ carries dyadic step-function schedule admission, $T$ carries tolerance-tail routing, and $S$ carries the Darboux/Riemann finite-sum handoff.
+
+The handoff theorem then supplies the integration-facing direction. It forces every consumer of $S$ to pass through $D,M,A,T$ first. Rows $H,C,P,N$ preserve, replay, source, and name the same route, so the excluded host structures never become available as obligations.
+\end{proof}
+
+\begin{theorem}[Regulated function scoped kernel route]
+\label{thm:regulated-function-scoped-kernel-route}
+Every accepted $\RegulatedFunctionUp$ consumer read factors through the displayed route
+$$
+D,M,A,T,S,H,C,P,N
+$$
+over $\RealUp$, $\DyadicMeshUp$, $\DyadicStepFunctionUp$, $\DarbouxSumUp$, $\RiemannIntegralUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. No accepted read factors through host function quotients, measure-theoretic integration, open-cover compactness, selected limits, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection. The only analytic rows in an accepted packet are the real-domain row $D$, the dyadic mesh ledger $M$, the dyadic step-function schedule $A$, the tolerance-tail ledger $T$, and the finite-sum handoff row $S$.
+
+The obligation closure package binds those analytic rows to the structural rows $H,C,P,N$. Thus componentwise transport, continuation replay, provenance, and local naming do not create a second carrier surface; they route the same finite data through the BEDC kernel objects listed in the statement.
+
+Finally apply the step-approximation handoff. Any integration-facing consumer reaches $S$ only after reading $D,M,A,T$, and any structural consumer reaches those rows only through $H,C,P,N$. This exhausts the scoped kernel route and leaves no coordinate for the excluded host objects.
+\end{proof}
+
+\closureat{RegulatedFunctionUp}{scopedStr}
 
 \begin{closurestatus}{\RegulatedFunctionUp}
   \constructivestory{A $\RegulatedFunctionUp$ packet is generated from a real-domain row, a finite dyadic mesh ledger, a dyadic step-function approximation schedule, a tolerance-tail ledger, a Darboux/Riemann finite-sum handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regulated-function-carrier}, \autoref{thm:regulated-function-namecert-obligations}, and \autoref{thm:regulated-function-step-approximation-handoff} seed the finite regulated-function surface over real-domain, dyadic mesh, dyadic step-function, tail-ledger, and finite-sum handoff rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:regulated-function-carrier}, \autoref{thm:regulated-function-namecert-obligations}, \autoref{thm:regulated-function-step-approximation-handoff}, \autoref{thm:regulated-function-obligation-closure-package}, and \autoref{thm:regulated-function-scoped-kernel-route} close the finite regulated-function surface over real-domain, dyadic mesh, dyadic step-function, tail-ledger, finite-sum handoff, transport, continuation, provenance, and naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host function quotients, measure-theoretic integration, open-cover compactness, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, mesh and step-schedule admission, tolerance-tail routing, Darboux/Riemann handoff, non-escape, and field faithfulness for BEDC.Derived.RegulatedFunctionUp.}
+  \upgradepath{Lean verification requires checked carrier admission, mesh and step-schedule admission, tolerance-tail routing, Darboux/Riemann handoff, non-escape, and field faithfulness for BEDC.Derived.RegulatedFunctionUp.}
 \end{closurestatus}

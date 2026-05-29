@@ -44,6 +44,18 @@ The structural rows $H,C,P,N$ then transport, replay, package, and name exactly 
 \end{proof}
 \leanchecked{BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.TasteGate.RealityConstrainedFinalSynthesisLedgerTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[Reality-constrained final-synthesis-ledger model-selection handoff]
+\label{thm:reality-constrained-final-synthesis-ledger-model-selection-handoff}
+For every accepted $\RealityConstrainedFinalSynthesisLedgerUp$ carrier $Z=(T,R,M,F,B,O,S,H,C,P,N)$, a final-synthesis export must read the model-selection boundary row $B$ before the observer-invariant public reading row $O$ and the synthesis-scope row $S$ are consumed. The truth-certificate row $T$, reality-constrained TruthCert row $R$, methodology-ledger row $M$, and open-fit failure row $F$ cannot bypass $B$, erase finite defeat, or turn the export into final model--reality identity.
+\end{theorem}
+\begin{proof}
+Project the carrier $Z=(T,R,M,F,B,O,S,H,C,P,N)$. The model-selection boundary row $B$ is a displayed coordinate of the same packet as the truth, methodology, failure, observer, and scope rows.
+
+Apply \autoref{thm:reality-constrained-final-synthesis-ledger-obligations}. The local NameCert surface requires model-selection-boundary visibility together with observer-invariant public reading and synthesis-scope exactness, so the public rows $O$ and $S$ are not consumed apart from $B$.
+
+Finally use the sibling-independence theorem \autoref{thm:reality-constrained-final-synthesis-ledger-sibling-independence}. The final-synthesis ledger is not merely the truth, methodology, failure, or model-selection sibling in isolation; it binds the rows in one carrier. Therefore $T,R,M,F$ cannot bypass the boundary row, and the finite defeat recorded by $B$ remains visible whenever the export is read.
+\end{proof}
+
 \begin{theorem}[Reality-constrained final-synthesis-ledger sibling independence]
 \label{thm:reality-constrained-final-synthesis-ledger-sibling-independence}
 The $\RealityConstrainedFinalSynthesisLedgerUp$ carrier is not bijective to $\PhysicalTruthCertificateUp$, $\RealityConstrainedTruthCertUp$, $\RealityConstrainedMethodologyLedgerUp$, $\RealityConstrainedFailureSurfaceUp$, or $\ModelSelectionBoundaryUp$. The final-synthesis ledger uniquely binds truth fields, methodology export, failure exposure, model-selection boundary, observer invariance, synthesis scope, transport, replay, provenance, and local naming in one finite carrier.
@@ -72,7 +84,6 @@ The Lean follow-up must provide \texttt{Nontrivial RealityConstrainedFinalSynthe
   \scopeclosed{The seed scope is the carrier of \autoref{def:reality-constrained-final-synthesis-ledger-carrier}, the obligation surface of \autoref{thm:reality-constrained-final-synthesis-ledger-obligations}, and the sibling-independence witness of \autoref{thm:reality-constrained-final-synthesis-ledger-sibling-independence}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
   \notclaimed{This chapter does not claim final model--reality identity, unbounded confirmation, hidden observer privilege, erased defeat, Lean verification, or bridge checking.}
   \upgradepath{Next obligations are Lean carrier encoding, TasteGate nontriviality, and field faithfulness for the displayed final-synthesis ledger.}
 \end{closurestatus}
