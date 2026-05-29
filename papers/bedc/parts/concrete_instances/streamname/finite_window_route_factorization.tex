@@ -146,3 +146,42 @@ standard-bridge data, ambient completeness, metric-completeness rows, or any
 off-route completion witness. Hence the terminal consumer remains inside the
 finite StreamName--$\RegSeqRat$--$\RealUp$ seal boundary.
 \end{proof}
+
+\begin{theorem}[StreamName finite-window observation factorization]
+\label{thm:streamname-finite-window-observation-factorization}
+Every accepted finite observation of a $\StreamNameUp$ packet that is consumed
+by a $\RegSeqRatUp$ reader and then by a terminal $\RealUp$ seal factors through
+the displayed finite window, the $\RegSeqRatUp$ readback row, the
+$\DyadicRatCoreUp$ tolerance ledger, and the terminal Real seal before any
+endpoint read is exposed.
+
+Equivalently, the public observation route is exhausted by the
+$\mathsf{RatStreamNameCarrier}$ and $\mathsf{RatStreamNameClassifier}$ rows,
+the $\mathsf{ProbeBundle}$ and $\mathsf{InBundle}$ rows, the
+$\mathsf{UnaryHistory}$ observations, the $\hsame$ transports, the finite
+$\Cont$ ledger, the accepted dyadic tolerance entries, the accepted
+$\RegSeqRat$ pointwise seal rows, the shared $\Pkg$ provenance, and the
+$\RealUp$ endpoint seal row. It exposes no selected limit, quotient stream
+equality, host real equality, completion object, Classical datum, or
+standard-bridge datum.
+\end{theorem}
+\begin{proof}
+First use
+\autoref{thm:streamname-regseqrat-finite-window-cover-refinement-exhaustion}.
+It compares the displayed finite window with every certified refinement and
+keeps the same exhausted $\RegSeqRat$ consumer surface and endpoint boundary.
+
+Next apply
+\autoref{thm:streamname-regseqrat-real-finite-window-route-factorization}. The
+public read is forced through the StreamName carrier and classifier rows,
+bundle membership, unary observations, transports, finite ledger, dyadic
+tolerance ledger, accepted $\RegSeqRat$ rows, provenance, and the endpoint
+seal.
+
+Finally invoke
+\autoref{thm:streamname-regseqrat-real-finite-route-terminal-nonescape}. The
+terminal boundary prevents the endpoint read from opening a selected limit,
+quotient stream equality, host real equality, completion object, Classical
+datum, or standard-bridge datum. Carrier projection then leaves exactly the
+finite observation route listed in the statement.
+\end{proof}
