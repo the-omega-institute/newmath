@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\CauchyProductRegSeqUp$}
+\label{ch:concrete-instances-cauchy-product-regseq-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy sequences and finite product constructions, the $\CauchyProductRegSeqUp$ packet records the componentwise product of two regular Cauchy rational names as finite BEDC data. It consumes the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readbacks of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}, and the finite product carrier of \autoref{ch:concrete-instances-prod-namecert}. The packet supplies a product-regularity source for later Real algebra and product-metric routes without invoking quotient streams, selected limits, host real equality, countable choice, or Real completeness.
+
+\begin{definition}[CauchyProductRegSeq carrier]
+\label{def:cauchy-product-regseq-carrier}
+A $\CauchyProductRegSeqUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S_0,S_1,R_0,R_1,D,P,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_0$ and $S_1$ are the two $\StreamNameUp$ finite-window rows inspected from the component regular names.
+\item $R_0$ and $R_1$ are the two $\RegSeqRatUp$ readback rows obtained from those windows.
+\item $D$ is the shared $\DyadicRatCoreUp$ tolerance ledger used for both component reads and for the product-window budget.
+\item $P$ is the $\ProdUp$ product row pairing the two readbacks at the displayed dyadic precision.
+\item $H$ stores componentwise $\hsame$ transport for both stream windows, both regular readbacks, the dyadic ledger, the product row, replay, provenance, and local naming.
+\item $C$ stores the displayed $\Cont$ replay from $S_0,S_1$ through $R_0,R_1,D$ into the product row $P$ and the product regular-sequence boundary.
+\item $Q$ is the $\Pkg$ provenance over $\CauchyProductRegSeqUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\ProdUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyProductRegSeqUp}$ row.
+\end{enumerate}
+The accepted packet stores only this shared finite tolerance route. It does not identify streams by quotient equality, select a product limit, call on host real multiplication, use countable choice, or appeal to ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CauchyProductRegSeq regularity]
+\label{thm:cauchy-product-regseq-regularity}
+Let
+$$
+K=(S_0,S_1,R_0,R_1,D,P,H,C,Q,N)
+$$
+be an accepted $\CauchyProductRegSeqUp$ packet. If the component windows $S_0,S_1$ are read back by $R_0,R_1$ as regular rational names and the dyadic budget $D$ is shared by the two component reads and the product row $P$, then the packet exposes a product regular-sequence route through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and $\ProdUp$. Every product-regularity consumer is exhausted by $S_0,S_1,R_0,R_1,D,P,H,C,Q,N$ before any product seal is exported.
+
+In particular, the route exports no quotient stream equality, selected limit, host real equality, countable-choice selector, independent Real product carrier, or ambient Real completeness witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-product-regseq-carrier}. The two StreamName rows $S_0,S_1$ are the only observation windows available to the consumer, and the two RegSeqRat rows $R_0,R_1$ are the only regular rational readbacks obtained from them.
+
+Next read the shared dyadic ledger $D$. Because both component readbacks and the product row $P$ use this same finite tolerance data, the product regularity request remains on one displayed budget route rather than splitting into independent ambient Real names.
+
+The product row $P$ then pairs the two regular readbacks through the finite product surface of \autoref{ch:concrete-instances-prod-namecert}. The transport row $H$ and replay row $C$ preserve the componentwise regularity data under displayed $\hsame$ and $\Cont$ moves, while the provenance row $Q$ and local name $N$ record exactly the sibling surfaces cited by the packet.
+
+Since no listed row contains a quotient stream, a selected limit, a host equality test, a choice functional, a detached Real product carrier, or an ambient completeness principle, no product-regularity consumer can read such data from the accepted packet.
+\end{proof}
+
+\begin{closurestatus}{\CauchyProductRegSeqUp}
+  \constructivestory{A $\CauchyProductRegSeqUp$ packet is generated from two StreamName finite windows, two RegSeqRat readbacks, one shared DyadicRatCore tolerance ledger, a finite product row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-product-regseq-carrier} and \autoref{thm:cauchy-product-regseq-regularity} seed the finite product route for two regular Cauchy rational names over shared dyadic tolerance data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host real multiplication, quotient equality of streams, selected product limits, countable choice, independent Real product completeness, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, componentwise regularity transport, product-budget conservation, and Real-seal nonescape for the displayed packet.}
+\end{closurestatus}

@@ -365,4 +365,90 @@ theorem MetaCICCriticalPathConfluenceDecidabilityCandidateSNFrontier
   }
   exact ⟨cert, frontierReadUnary, provenancePkg⟩
 
+theorem MetaCICCriticalPathNeutralSpineDecidabilityBudget [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName dyadicBudget streamSchedule regReadback realSeal neutralRead decidabilityRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathPacket strongNorm normalForm obstruction handoff dischargeSocket transport
+        route provenance localName bundle pkg ->
+      Cont route localName dyadicBudget ->
+        Cont dyadicBudget route streamSchedule ->
+          Cont streamSchedule normalForm regReadback ->
+            Cont regReadback provenance realSeal ->
+              Cont realSeal dischargeSocket neutralRead ->
+                Cont neutralRead route decidabilityRead ->
+                  PkgSig bundle neutralRead pkg ->
+                    PkgSig bundle decidabilityRead pkg ->
+                      PkgSig bundle realSeal pkg ->
+                        SemanticNameCert
+                            (fun row : BHist => hsame row decidabilityRead ∧ UnaryHistory row)
+                            (fun row : BHist =>
+                              hsame row dyadicBudget ∨ hsame row streamSchedule ∨
+                                hsame row regReadback ∨ hsame row realSeal ∨
+                                  hsame row neutralRead ∨ hsame row decidabilityRead)
+                            (fun row : BHist =>
+                              UnaryHistory row ∧ PkgSig bundle decidabilityRead pkg ∧
+                                PkgSig bundle realSeal pkg)
+                            hsame ∧
+                          UnaryHistory decidabilityRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro packet routeLocalNameBudget budgetRouteSchedule scheduleNormalFormReadback
+    readbackProvenanceSeal sealSocketNeutral neutralRouteDecidability neutralReadPkg
+    decidabilityReadPkg realSealPkg
+  obtain ⟨_strongNormUnary, normalFormUnary, _obstructionUnary, _handoffUnary,
+    dischargeSocketUnary, _transportUnary, routeUnary, provenanceUnary, localNameUnary,
+    _strongNormNormalFormRoute, _handoffObstructionSocket, _transportLocalName,
+    provenancePkg⟩ := packet
+  have dyadicBudgetUnary : UnaryHistory dyadicBudget :=
+    unary_cont_closed routeUnary localNameUnary routeLocalNameBudget
+  have streamScheduleUnary : UnaryHistory streamSchedule :=
+    unary_cont_closed dyadicBudgetUnary routeUnary budgetRouteSchedule
+  have regReadbackUnary : UnaryHistory regReadback :=
+    unary_cont_closed streamScheduleUnary normalFormUnary scheduleNormalFormReadback
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed regReadbackUnary provenanceUnary readbackProvenanceSeal
+  have neutralReadUnary : UnaryHistory neutralRead :=
+    unary_cont_closed realSealUnary dischargeSocketUnary sealSocketNeutral
+  have decidabilityReadUnary : UnaryHistory decidabilityRead :=
+    unary_cont_closed neutralReadUnary routeUnary neutralRouteDecidability
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row decidabilityRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row dyadicBudget ∨ hsame row streamSchedule ∨
+              hsame row regReadback ∨ hsame row realSeal ∨
+                hsame row neutralRead ∨ hsame row decidabilityRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle decidabilityRead pkg ∧
+              PkgSig bundle realSeal pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro decidabilityRead
+          ⟨hsame_refl decidabilityRead, decidabilityReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, decidabilityReadPkg, realSealPkg⟩
+  }
+  exact ⟨cert, decidabilityReadUnary, provenancePkg⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp
