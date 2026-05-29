@@ -14,8 +14,9 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def RadonMeasureUp : Type :=
-  Unit
+inductive RadonMeasureUp : Type where
+  | mk (X M O K V D H C P N : BHist) : RadonMeasureUp
+  deriving DecidableEq
 
 namespace RadonMeasureUp
 
