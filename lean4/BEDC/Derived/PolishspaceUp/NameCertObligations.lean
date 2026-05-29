@@ -264,6 +264,51 @@ theorem PolishSpaceRootUnblockCommonMetric [AskSetup] [PackageSetup]
   }
   exact ⟨cert, completionUnary, denseUnary, rootUnary⟩
 
+theorem PolishSpaceRootStreamReadbackObligations [AskSetup] [PackageSetup]
+    {metric complete separable stream readback ledger transport replay provenance localName
+      metricRead completionRead denseRead rootRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory metric →
+      UnaryHistory complete →
+        UnaryHistory separable →
+          UnaryHistory stream →
+            UnaryHistory readback →
+              UnaryHistory ledger →
+                UnaryHistory transport →
+                  Cont metric stream metricRead →
+                    Cont complete stream completionRead →
+                      Cont separable stream denseRead →
+                        Cont ledger transport replay →
+                          Cont replay readback rootRead →
+                            PkgSig bundle provenance pkg →
+                              PkgSig bundle localName pkg →
+                                UnaryHistory metricRead ∧ UnaryHistory completionRead ∧
+                                  UnaryHistory denseRead ∧ UnaryHistory replay ∧
+                                    UnaryHistory rootRead ∧ Cont metric stream metricRead ∧
+                                      Cont complete stream completionRead ∧
+                                        Cont separable stream denseRead ∧
+                                          Cont replay readback rootRead ∧
+                                            PkgSig bundle provenance pkg ∧
+                                              PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro metricUnary completeUnary separableUnary streamUnary readbackUnary ledgerUnary
+    transportUnary metricStreamRead completeStreamRead separableStreamRead ledgerTransportReplay
+    replayReadbackRoot provenancePkg localNamePkg
+  have metricReadUnary : UnaryHistory metricRead :=
+    unary_cont_closed metricUnary streamUnary metricStreamRead
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed completeUnary streamUnary completeStreamRead
+  have denseReadUnary : UnaryHistory denseRead :=
+    unary_cont_closed separableUnary streamUnary separableStreamRead
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed ledgerUnary transportUnary ledgerTransportReplay
+  have rootReadUnary : UnaryHistory rootRead :=
+    unary_cont_closed replayUnary readbackUnary replayReadbackRoot
+  exact
+    ⟨metricReadUnary, completionReadUnary, denseReadUnary, replayUnary, rootReadUnary,
+      metricStreamRead, completeStreamRead, separableStreamRead, replayReadbackRoot,
+      provenancePkg, localNamePkg⟩
+
 theorem PolishspaceRootDensityObligations [AskSetup] [PackageSetup]
     {metric complete separable stream readback ledger transport route provenance localName
       denseRead observationRead : BHist}

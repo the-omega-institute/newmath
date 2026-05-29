@@ -101,6 +101,26 @@ $$
 inside the packet.
 \end{proof}
 
+\begin{theorem}[NestedIntervalReal diameter modulus]
+\label{thm:nested-interval-real-diameter-modulus}
+For every accepted $\NestedIntervalRealUp$ carrier
+$$
+J=(I,B,D,E,W,R,S,H,C,P,N),
+$$
+each displayed precision request whose witness lies in the dyadic diameter ledger $D$ yields a finite diameter-modulus row by the route
+$$
+D \longrightarrow B \longrightarrow E \longrightarrow W \longrightarrow R \longrightarrow S .
+$$
+The request first checks the nested bisection path in $B$, then the endpoint seals in $E$, then the matching finite windows in $W$, then the regular readback row $R$, and finally the terminal $\RealUp$ seal $S$. The row is a regular Cauchy modulus export for RegSeqRat and Real consumers, not a selected intersection point, open-cover compactness principle, quotient real equality, countable-choice selector, host real equality, or $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the precision request and its witness in $D$. The Cauchy selection route of \autoref{thm:nested-interval-real-cauchy-selection} already orders such a request through the displayed diameter witness, the bisection path, the endpoint seals, the finite windows, regular readback, and terminal seal.
+
+The tail-modulus readback of \autoref{thm:nested-interval-real-tail-modulus-readback} then identifies the downstream handoff from the diameter ledger to $W,R,S$. Combining the two routes inserts the bisection ledger $B$ and endpoint seals $E$ before the regular readback is exposed.
+
+Thus the extracted modulus row is finite and carrier-local. The structural rows $H,C,P,N$ transport, replay, source, and name the same route, while \autoref{thm:nested-interval-real-ledger-nonescape} excludes selected intersection points, open-cover compactness, quotient real equality, countable choice, host equality, and Real completeness.
+\end{proof}
+
 \begin{theorem}[NestedIntervalReal Cauchy seal]
 \label{thm:nested-interval-real-cauchy-seal}
 For every accepted $\NestedIntervalRealUp$ carrier
