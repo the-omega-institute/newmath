@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\WassersteinUp$}
+\label{ch:concrete-instances-wasserstein-namecert}
+\origin{human}
+
+Following Kantorovich and Villani on optimal transport, the $\WassersteinUp$ packet names finite transport-plan rows between displayed probability or distribution packets over a metric source. It sits beside the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the probability packet of \autoref{ch:concrete-instances-probspace-namecert}, the distribution ledger of \autoref{ch:concrete-instances-distribution-namecert}, and the real-valued cost seal of \autoref{ch:concrete-instances-real-namecert}. The chapter records only the displayed transport-plan interface; it does not claim Monge maps, optimal plan existence, measure-theoretic completion, duality, or selected minimizers.
+
+\begin{definition}[Wasserstein transport-plan carrier]
+\label{def:wasserstein-transport-plan-carrier}
+A $\WassersteinUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+W=(M,K,\mu,\nu,\Gamma,A,B,C,H,R,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $M$ is a displayed $\MetricUp$ source, optionally strengthened by a $\CompactMetricUp$ finite-cover ledger $K$ when the plan is read through compact support;
+\item $\mu$ and $\nu$ are $\ProbSpaceUp$ or $\DistributionUp$ marginal packets over displayed source rows of $M$;
+\item $\Gamma$ is a finite coupling support table whose entries name only listed source pairs and nonnegative displayed masses;
+\item $A$ and $B$ are marginal-readback ledgers asserting that the finite row and column sums of $\Gamma$ recover the displayed marginals $\mu$ and $\nu$;
+\item $C$ is the transport-cost ledger through $\RealUp$, reading each support-pair cost from the metric row of $M$ and summing it against the corresponding coupling entry;
+\item $H$ records componentwise $\hsame$ for the metric source, optional compact ledger, marginal packets, coupling entries, marginal ledgers, cost ledger, provenance, and local naming row;
+\item $R$ records displayed $\Cont$ replay routes from the metric and marginal rows to the coupling table, from the coupling table to the marginal ledgers, and from the cost ledger to the downstream real-valued consumer;
+\item $P$ is the $\Pkg$ provenance tying the metric, compact, probability, distribution, coupling, marginal-readback, and real-cost rows to their source packets;
+\item $N$ is the local $\NameCert_{\WassersteinUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets componentwise by $\hsame$ on the listed rows. No coordinate stores an ambient measure completion, a quotient of plans, a Monge function, a dual certificate, or a selected optimizer.
+\end{definition}
+
+\begin{theorem}[Wasserstein NameCert obligations]
+\label{thm:wasserstein-namecert-obligations}
+For every accepted $\WassersteinUp$ carrier
+$$
+W=(M,K,\mu,\nu,\Gamma,A,B,C,H,R,P,N),
+$$
+the local $\NameCert_{\WassersteinUp}$ surface consists of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission: the accepted object is exactly the displayed $\mathsf{BHist}$ packet with metric source, optional compact ledger, two marginal packets, finite coupling table, marginal-readback ledgers, real-valued cost ledger, transport, replay, provenance, and local naming rows;
+\item marginal exactness: the ledgers $A$ and $B$ are the only marginal readbacks exported by the packet, and they recover $\mu$ and $\nu$ from finite sums of $\Gamma$;
+\item finite coupling support: every coupling entry read by a consumer is indexed by a displayed source pair and carries a displayed nonnegative mass row;
+\item transport-cost readback: the scalar cost exported to a $\RealUp$ consumer is the finite ledger $C$ obtained from metric costs on the listed support pairs and the corresponding coupling entries;
+\item provenance and name exhaustion: $\hsame$, $\Cont$, $\Pkg$, and $N$ preserve the same rows and introduce no Monge map, optimality witness, measure completion, dual certificate, or unlisted minimizer.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:wasserstein-transport-plan-carrier}. Its visible coordinates are the metric source, optional compact ledger, two marginal packets, coupling support table, two marginal-readback ledgers, real-valued cost ledger, componentwise transport, replay, provenance, and local naming row.
+
+The carrier admission row is therefore immediate from the displayed $\mathsf{BHist}$ packet. Marginal exactness is read from $A$ and $B$: each ledger is attached to finite sums of $\Gamma$, so a consumer has no second route to a marginal outside the listed coupling table.
+
+Finite coupling support follows by inspecting $\Gamma$. Every entry is indexed by a displayed support pair from the metric source, and transport by $H$ preserves those indices componentwise rather than creating a quotient plan.
+
+Finally read the cost ledger $C$ through $\RealUp$. It sums only the metric costs named for listed support pairs against the visible coupling entries. The replay, provenance, and local naming rows preserve this same finite route, so the five obligation rows exhaust the Wasserstein transport-plan packet without adding Monge, optimality, completion, duality, or minimizer data.
+\end{proof}
+
+\closureat{WassersteinUp}{obligationStr}
+
+\begin{closurestatus}{\WassersteinUp}
+  \constructivestory{A $\WassersteinUp$ packet is generated from a metric source, optional compact ledger, two displayed probability or distribution marginals, a finite coupling support table, marginal-readback ledgers, a real-valued transport-cost ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:wasserstein-transport-plan-carrier} and \autoref{thm:wasserstein-namecert-obligations} close the finite transport-plan carrier and NameCert obligation surface for Wasserstein-style metric coupling packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Monge maps, optimal plan existence, measure-theoretic completion, Kantorovich duality, choice-selected minimizers, Lean verification, or bridge checking.}
+  \upgradepath{Lean verification requires checked carrier admission, marginal exactness, finite coupling support, transport-cost readback, provenance exhaustion, and TasteGate nontriviality with field faithfulness for BEDC.Derived.WassersteinUp.}
+\end{closurestatus}
