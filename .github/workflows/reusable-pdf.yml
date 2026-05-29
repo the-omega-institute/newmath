@@ -26,6 +26,14 @@ on:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  # 论文规模 (数千章 / 两万余页) 撑爆 pdflatex 默认字符串池
+  # (pool_size=5417750). 这些是 kpathsea 运行时可调量 (非 format-dump 固定),
+  # env 覆盖 texmf.cnf 即可抬高容量, 无需重建 format.
+  pool_size: 300000000
+  max_strings: 12000000
+  hash_extra: 4000000
+  string_vacancies: 200000
+  pool_free: 200000
 
 jobs:
   build-main-pdf:

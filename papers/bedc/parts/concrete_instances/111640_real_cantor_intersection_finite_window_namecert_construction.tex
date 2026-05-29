@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\RealCantorIntersectionFiniteWindowUp$}
+\label{ch:concrete-instances-real-cantor-intersection-finite-window-namecert}
+\origin{human}
+
+Following Bishop and Bridges on nested interval principles, the $\RealCantorIntersectionFiniteWindowUp$ packet records the finite Real-facing window by which nested located intervals are inspected before a real-name seal is read. It sits over the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the nested/Cantor neighbours \autoref{ch:concrete-instances-nestedinterval-namecert} and \autoref{ch:concrete-instances-cantor-intersection-metric-namecert}. The packet names a finite witness route for Real and Completion consumers; it does not claim open-cover compactness, countable choice, quotient reals, or ambient $\RealUp$ completeness.
+
+\begin{definition}[RealCantorIntersectionFiniteWindow carrier]
+\label{def:real-cantor-intersection-finite-window-carrier}
+A $\RealCantorIntersectionFiniteWindowUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(I,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the nested located-interval row, carrying the visible interval prefix, the containment witness, and the located endpoint tests read from the nested-interval surface.
+\item $D$ is the $\DyadicRatCoreUp$ diameter ledger, recording the dyadic width bounds and tolerance requests attached to the displayed prefix.
+\item $W$ is the $\StreamNameUp$ finite-window row naming exactly the interval and endpoint observations inspected by the consumer.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed windows and the diameter ledger.
+\item $E$ is the terminal $\RealUp$ seal row exposed only after $I,D,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the nested interval, diameter, window, readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+I,D \longmapsto W \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RealCantorIntersectionFiniteWindowUp$, $\NestedIntervalUp$, $\CantorIntersectionMetricUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealCantorIntersectionFiniteWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,D,W,R,E,H,C,P,N$ and the displayed replay order. It has no coordinate for an infinite intersection selector, quotient real equality, open-cover compactness, countable choice, selected limits, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RealCantorIntersectionFiniteWindow NameCert obligations]
+\label{thm:real-cantor-intersection-nested-window-obligations}
+For every accepted $\RealCantorIntersectionFiniteWindowUp$ carrier
+$$
+Q=(I,D,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\RealCantorIntersectionFiniteWindowUp}$ surface consists exactly of carrier admission, nested located-interval exposure, dyadic diameter accounting, finite StreamName window exposure, RegSeqRat readback, Real-seal routing, componentwise transport, displayed continuation replay, package provenance, and local naming. Every Real or Completion consumer read of the packet must pass through the finite nested-window route
+$$
+I,D \longmapsto W \longmapsto R \longmapsto E
+$$
+before the terminal seal is public.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-cantor-intersection-finite-window-carrier}. The accepted packet exposes exactly the nested interval row $I$, dyadic diameter ledger $D$, finite window row $W$, regular readback row $R$, Real seal $E$, and the structural rows $H,C,P,N$.
+
+The analytic obligations are read by projection through those rows. The nested located-interval row supplies the visible containment prefix and endpoint locatedness, while the dyadic ledger supplies the diameter budget that makes the inspected prefix usable for a Real-facing read.
+
+Next the window and readback rows fix the finite observation route. The StreamName row $W$ names the inspected observations, and the RegSeqRat row $R$ is the only regular rational readback coordinate generated from them.
+
+Finally the seal and structural rows close the packet. The continuation row places $E$ after $I,D,W,R$, the transport row preserves the same coordinates, and $P,N$ source and name only this local certificate. Since no further coordinate occurs in the carrier, the listed rows exhaust the NameCert obligations and exclude open-cover compactness, countable choice, quotient reals, selected limits, and ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{RealCantorIntersectionFiniteWindowUp}{seedStr}
+
+\begin{closurestatus}{\RealCantorIntersectionFiniteWindowUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-cantor-intersection-finite-window-carrier} and \autoref{thm:real-cantor-intersection-nested-window-obligations} seed the finite Cantor-intersection window route over nested located intervals, dyadic diameter ledgers, StreamName windows, RegSeqRat readback, and the terminal Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, countable choice, quotient reals, selected infinite intersections, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, nested located-interval exposure, diameter accounting, finite-window exposure, regular readback, Real-seal routing, transport, replay, provenance, and local naming for BEDC.Derived.RealCantorIntersectionFiniteWindowUp.}
+  \constructivestory{A $\RealCantorIntersectionFiniteWindowUp$ packet is generated from nested located intervals, a DyadicRatCore diameter ledger, StreamName windows, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
