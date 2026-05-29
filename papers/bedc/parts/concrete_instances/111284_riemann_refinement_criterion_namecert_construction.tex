@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\RiemannRefinementCriterionUp$}
+\label{ch:concrete-instances-riemann-refinement-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges on Riemann--Darboux integration, the $\RiemannRefinementCriterionUp$ packet records the finite refinement criterion that lets a tagged Riemann-sum consumer compare upper Darboux rows against a gauge-local partition route. It sits after the tagged partition carrier of \autoref{ch:concrete-instances-tagged-real-partition-namecert}, the upper Darboux-sum carrier of \autoref{ch:concrete-instances-upper-darboux-sum-namecert}, the Riemann sum gauge packet of \autoref{ch:concrete-instances-riemann-sum-gauge-namecert}, and the Cousin cover carrier of \autoref{ch:concrete-instances-cousin-cover-namecert}. The packet supplies the finite refinement surface consumed by integrability criteria without importing host partitions, selected mesh limits, quotient function equality, choice, open-cover compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Riemann refinement criterion carrier]
+\label{def:riemann-refinement-criterion-carrier}
+A $\RiemannRefinementCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+R=(I,T,U,G,C,M,D,W,E,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the closed bounded interval row shared by the refinement comparison.
+\item $T$ is the $\TaggedRealPartitionUp$ source row, including the finite cell order, tag containment, and mesh exactness visible before refinement is read.
+\item $U$ is the $\UpperDarbouxSumUp$ row whose upper-sum ledger is compared against the refined tagged route.
+\item $G$ is the $\RiemannSumGaugeUp$ row, carrying the positive rational gauge, mesh ledger, and finite tagged-sum handoff.
+\item $C$ is the $\CousinCoverUp$ gauge-cover row supplying the finite local cover route that admits the refined cells.
+\item $M$ is the common-refinement mesh row, listing the displayed refinement map from the tagged partition row into the gauge-cover and upper-sum rows.
+\item $D$ is the Darboux-gap lock row, recording the finite upper-bound comparison that remains visible after the common refinement has been read.
+\item $W$ is the window and readback row for interval endpoints, tags, gauges, cover cells, and upper-sum values.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the tagged partition, gauge, Cousin cover, refinement mesh, and Darboux-gap rows are displayed.
+\item $H$ records componentwise $\hsame$ transport for interval, partition, upper-sum, gauge, cover, refinement, Darboux-gap, window, seal, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from a refinement request through $I,T,U,G,C,M,D,W,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RiemannRefinementCriterionUp$, $\TaggedRealPartitionUp$, $\UpperDarbouxSumUp$, $\RiemannSumGaugeUp$, $\CousinCoverUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RiemannRefinementCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed finite rows. It has no coordinate for host partitions, selected mesh limits, quotient function equality, choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Riemann refinement criterion NameCert obligations]
+\label{thm:riemann-refinement-criterion-namecert-obligations}
+For every accepted $\RiemannRefinementCriterionUp$ carrier $R=(I,T,U,G,C,M,D,W,E,H,K,P,N)$, the local $\NameCert_{\RiemannRefinementCriterionUp}$ surface consists exactly of carrier admission for the interval, tagged partition, upper Darboux-sum, Riemann sum gauge, Cousin cover, refinement mesh, Darboux-gap lock, window, seal, transport, replay, provenance, and local naming rows.
+
+Every refinement-facing consumer must read the tagged partition row $T$ from \autoref{ch:concrete-instances-tagged-real-partition-namecert}, the upper-sum row $U$ from \autoref{ch:concrete-instances-upper-darboux-sum-namecert}, the gauge row $G$ from \autoref{ch:concrete-instances-riemann-sum-gauge-namecert}, and the gauge-cover row $C$ from \autoref{ch:concrete-instances-cousin-cover-namecert} before the common-refinement mesh row $M$ and Darboux-gap lock row $D$ are available.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riemann-refinement-criterion-carrier}. The tuple displays the only rows available to a refinement consumer: interval source, tagged partition, upper-sum, gauge, Cousin cover, common refinement, Darboux-gap lock, finite windows, terminal seal, transport, replay, provenance, and local naming.
+
+The source rows are $T,U,G,C$. The tagged partition supplies finite cells and tags, the upper Darboux row supplies the upper-bound ledger, the Riemann sum gauge row supplies the gauge mesh, and the Cousin cover row supplies local gauge cover cells.
+
+The refinement rows are $M,D$. The mesh row $M$ binds those four source rows into one common finite refinement before the Darboux-gap lock $D$ can be read.
+
+Finally $W,E,H,K,P,N$ preserve the same displayed route through finite windows, the terminal Real seal, transport, replay, provenance, and local naming. Since the carrier has no coordinate for the refused host objects, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Riemann refinement criterion Darboux gap lock]
+\label{thm:riemann-refinement-criterion-darboux-gap-lock}
+In every accepted $\RiemannRefinementCriterionUp$ packet, the Darboux-gap row $D$ is readable only after the common-refinement mesh row $M$ has already displayed the tagged partition, upper Darboux-sum, Riemann sum gauge, and Cousin cover sources. Thus a Darboux or Riemann-integrability consumer cannot replace the refinement route by host partitions, selected mesh limits, quotient function equality, choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the source rows from \autoref{def:riemann-refinement-criterion-carrier}. The Darboux-gap row is not listed as an independent analytic conclusion; it appears after the tagged partition, upper-sum, gauge, cover, and common-refinement rows.
+
+Apply \autoref{thm:riemann-refinement-criterion-namecert-obligations}. Its obligation surface requires $T,U,G,C$ to be exposed before $M$, and $M$ before $D$.
+
+The structural rows only transport and replay the same finite packet. Therefore the Darboux-gap read is locked to the displayed refinement route and cannot be promoted to any refused host-level principle.
+\end{proof}
+
+\begin{theorem}[Riemann refinement criterion integral handoff]
+\label{thm:riemann-refinement-criterion-integral-handoff}
+Every Riemann-integrability or gauge-integral consumer of an accepted $\RiemannRefinementCriterionUp$ packet receives only the finite handoff
+$$
+\TaggedRealPartitionUp,\ \UpperDarbouxSumUp,\ \RiemannSumGaugeUp,\ \CousinCoverUp
+\longmapsto M \longmapsto D \longmapsto W,E,H,K,P,N .
+$$
+The handoff exports a refinement criterion over displayed finite rows, not an ambient theorem about all host partitions or all mesh limits.
+\end{theorem}
+\begin{proof}
+Start with a consumer read. The packet first exposes the tagged partition, upper Darboux-sum, Riemann sum gauge, and Cousin cover rows through the sibling chapters cited in the carrier.
+
+The common-refinement mesh row $M$ then aligns those sources. The Darboux-gap lock row $D$ is read only along that aligned route, and the window and seal rows $W,E$ expose the Real-facing observations after the finite rows are visible.
+
+Transport, replay, provenance, and local naming through $H,K,P,N$ preserve the same route. No carrier coordinate supplies host partition equality, selected limiting meshes, choice, compactness, quotient function equality, or ambient completeness, so the integral handoff is exactly the displayed finite criterion.
+\end{proof}
+
+\closureat{RiemannRefinementCriterionUp}{seedStr}
+
+\begin{closurestatus}{\RiemannRefinementCriterionUp}
+  \constructivestory{A $\RiemannRefinementCriterionUp$ packet is generated from a closed bounded interval row, TaggedRealPartition source, UpperDarbouxSum ledger, RiemannSumGauge mesh row, CousinCover gauge-cover row, common-refinement mesh row, Darboux-gap lock, finite windows, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-refinement-criterion-carrier}, \autoref{thm:riemann-refinement-criterion-namecert-obligations}, \autoref{thm:riemann-refinement-criterion-darboux-gap-lock}, and \autoref{thm:riemann-refinement-criterion-integral-handoff} seed the finite refinement criterion between tagged partitions, upper Darboux sums, Riemann sum gauges, and Cousin covers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host partitions, selected mesh limits, quotient function equality, choice, open-cover compactness, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tagged-partition source lock, upper-sum handoff, gauge mesh exactness, Cousin cover locality, Darboux-gap lock, integral handoff, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RiemannRefinementCriterionUp.}
+\end{closurestatus}
