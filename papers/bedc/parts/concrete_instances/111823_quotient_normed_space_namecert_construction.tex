@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\QuotientNormedSpaceUp$}
+\label{ch:concrete-instances-quotient-normed-space-namecert}
+\origin{human}
+
+Following Bourbaki and Bishop--Bridges, the $\QuotientNormedSpaceUp$ packet records the finite NameCert surface for quotient normed spaces by a closed linear subspace. It sits downstream from the $\NormedSpaceUp$ carrier of \autoref{ch:concrete-instances-normedspace-namecert}, the $\MetricSpaceUp$ distance readback of \autoref{ch:concrete-instances-metric-namecert}, the completion boundary of \autoref{ch:concrete-instances-completion-namecert}, and bounded-operator consumers such as \autoref{ch:concrete-instances-boundedlinearoperator-namecert}. The packet names quotient norm and induced metric data; it does not export a selected representative, a host quotient object, an ambient Banach completion, or a choice principle.
+
+\begin{definition}[Quotient normed-space carrier]
+\label{def:quotient-normed-space-carrier}
+A $\QuotientNormedSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(E,S,Q,N,M,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the source $\NormedSpaceUp$ row, exposing only the displayed VecSpace, Real, norm, induced metric, completion-facing, transport, replay, provenance, and local naming rows of the source packet.
+\item $S$ is the closed-subspace row, carrying membership, linear closure, zero inclusion, and norm-closedness evidence as classifier rows over the source normed-space data.
+\item $Q$ is the coset-classifier row, identifying histories exactly when their displayed difference is certified by the closed-subspace row $S$.
+\item $N$ is the quotient norm row, reading the infimum-style quotient norm only through source norm observations, coset witnesses, and rational tolerance ledgers displayed in $E,S,Q$.
+\item $M$ is the induced metric row, whose distance between quotient classes is the quotient norm read of their displayed difference.
+\item $H$ records componentwise $\hsame$ transport for $E,S,Q,N,M$ and the support rows.
+\item $C$ records displayed $\Cont$ replay for quotient-classifier, quotient-norm, induced-metric, and downstream bounded-operator requests.
+\item $P$ is the $\Pkg$ provenance over $\QuotientNormedSpaceUp$, $\NormedSpaceUp$, $\MetricSpaceUp$, $\CompletionUp$, $\BoundedLinearOperatorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\QuotientNormedSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,S,Q,N,M,H,C,P,L$. It has no coordinate for representative choice, host quotient equality, selected completion limits, basis data, or an external Banach carrier.
+\end{definition}
+
+\begin{theorem}[Quotient normed-space NameCert obligations]
+\label{thm:quotient-normed-space-namecert-obligations}
+For every accepted $\QuotientNormedSpaceUp$ carrier
+$$
+Z=(E,S,Q,N,M,H,C,P,L),
+$$
+the local $\NameCert_{\QuotientNormedSpaceUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item source admission, requiring the quotient packet to read its vector operations, Real norm values, induced metric data, and completion-facing requests through the $\NormedSpaceUp$ source row $E$;
+\item closed-subspace stability, requiring membership, linear closure, zero inclusion, and norm-closedness to be witnessed by the subspace row $S$ over the same source classifier;
+\item coset-classifier exactness, requiring the row $Q$ to compare quotient histories only by displayed differences certified in $S$;
+\item quotient-norm and metric handoff, requiring $N$ to read quotient norms through source norm observations and rational tolerance ledgers, and requiring $M$ to read distances as quotient norm reads;
+\item support replay, requiring $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support through $H,C,P,L$ for bounded-operator, completion, Banach, and Hilbert consumers without adding representative choice, host quotient equality, selected limits, or ambient carrier data.
+\end{enumerate}
+No quotient normed-space obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:quotient-normed-space-carrier}. The source row $E$, closed-subspace row $S$, coset classifier $Q$, quotient norm $N$, induced metric $M$, and support rows $H,C,P,L$ are the only visible coordinates.
+
+The first two obligations follow by reading $E$ and $S$ before any quotient request. The source supplies the normed-space route, while the subspace row supplies membership, linear closure, zero inclusion, and norm-closedness over that same route.
+
+The coset obligation is then exact along $Q$. Two quotient histories can be compared only by a displayed difference certified in $S$, so no representative selector or host quotient equality can enter the comparison.
+
+The norm and metric obligations are forced by $N$ and $M$. A quotient norm read uses source norm observations and rational tolerance ledgers, and the metric row reads distance as the quotient norm of a displayed difference.
+
+Finally $H,C,P,L$ replay and name the same finite route for completion and bounded-operator consumers. Since the carrier contains no selected representative, host quotient object, selected limit, basis datum, or ambient Banach coordinate, the five listed rows exhaust the NameCert surface.
+\end{proof}
+
+\closureat{QuotientNormedSpaceUp}{seedStr}
+\begin{closurestatus}{\QuotientNormedSpaceUp}
+  \constructivestory{A $\QuotientNormedSpaceUp$ packet is generated from a source normed-space row, a closed-subspace row, a coset-classifier row, a quotient-norm row, an induced metric row, componentwise transport, displayed replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:quotient-normed-space-carrier} and \autoref{thm:quotient-normed-space-namecert-obligations} seed the quotient normed-space packet over NormedSpace, MetricSpace, Completion, and bounded-operator consumer rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Banach quotient completeness, representative selection, quotient completion, bounded-operator factorization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source admission, closed-subspace stability, coset exactness, quotient-norm handoff, induced metric handoff, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}
