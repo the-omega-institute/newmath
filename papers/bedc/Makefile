@@ -23,7 +23,7 @@ warn:
 # concurrent pdflatex invocations across every worktree and the main checkout
 # so parallel paper rounds don't dogpile the CPU and start timing out.
 main.pdf: precheck main.tex preamble.tex $(wildcard frontmatter/*.tex parts/**/*.tex appendices/*.tex)
-	python3 scripts/with_pdf_slot.py -- bash -c 'pdflatex -draftmode -interaction=batchmode main.tex; pdflatex -interaction=batchmode main.tex'
+	python3 scripts/with_pdf_slot.py -- bash -c 'export pool_size=60000000 max_strings=3000000 hash_extra=800000 string_vacancies=200000 pool_free=200000; pdflatex -draftmode -interaction=batchmode main.tex; pdflatex -interaction=batchmode main.tex'
 # Round-local sanity: pure-text static checks only, no pdflatex invocation.
 # The precheck dependency runs four python/bash gates: file size,
 # forbidden math env, marker uniqueness, NAMING.md compliance. The
