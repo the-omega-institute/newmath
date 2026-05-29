@@ -74,6 +74,24 @@ Apply the NameCert obligations of \autoref{thm:fast-cauchy-real-namecert-obligat
 The regular handoff theorem \autoref{thm:fast-cauchy-real-regular-handoff} places $R$ downstream of $D,S$. Thus any modulus consumed before $R$ must be the displayed fast-modulus surface or the regular Cauchy extraction route, not a separate selector.
 \end{proof}
 
+\begin{theorem}[FastCauchyReal modulus readback determinacy]
+\label{thm:fast-cauchy-real-modulus-readback-determinacy}
+Let $F=(D,S,R,E,H,C,P,N)$ be an accepted $\FastCauchyRealUp$ carrier. Any two accepted reads of the same fast tolerance row $D$ through the same $\StreamNameUp$ window row $S$ and $\RegSeqRatUp$ row $R$ reach the same terminal $\RealUp$ seal boundary $E$ under componentwise $\hsame$ transport and displayed $\Cont$ replay.
+
+The determinacy route is exactly
+$$
+D,S,R \longmapsto E \longmapsto H,C,P,N .
+$$
+It does not use selected limits, quotient streams, countable choice, host real equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fast-cauchy-real-carrier}. The rows $D,S,R,E$ are stored in one finite $\BHist$ packet, and $E$ is terminal only for the displayed route from fast tolerance to stream window to regular readback.
+
+Use \autoref{thm:fast-cauchy-real-modulus-extraction-route}. Both accepted reads expose their modulus data through the same $D$ and $S$ before the row $R$ is consumed, so neither read can introduce a detached modulus selector or a second stream representative.
+
+Finally apply \autoref{thm:fast-cauchy-real-regular-handoff}. The regular handoff places $E$ downstream of the same $D,S,R$ route, and the rows $H,C,P,N$ transport, replay, source, and name that route componentwise. Since the carrier has no selected-limit, quotient-stream, choice, host-equality, or ambient-completeness coordinate, the two reads have the same terminal Real seal boundary.
+\end{proof}
+
 \begin{theorem}[FastCauchyReal completion consumer route]
 \label{thm:fast-cauchy-real-completion-consumer-route}
 Every $\RealCauchyCompletionUp$ or $\CauchyRealPresentationUp$ consumer of an accepted $\FastCauchyRealUp$ packet factors through the displayed rows $D,S,R,E,H,C,P,N$. The completion-facing read first uses the fast dyadic tolerance data, then the finite stream windows, then the regular rational handoff, then the terminal $\RealUp$ seal, and finally the structural transport, replay, provenance, and naming rows. It receives no selected host limit, quotient Cauchy class, countable-choice schedule, or ambient completeness witness from the packet.
