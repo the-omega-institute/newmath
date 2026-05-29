@@ -330,6 +330,77 @@ def git(*args, **kwargs):
     return run(["git", *args], **kwargs)
 
 
+def import_push_lock():
+    from contextlib import nullcontext
+    import sys as _sys
+
+    tools_path = str(REPO_ROOT / "tools")
+    if tools_path not in _sys.path:
+        _sys.path.insert(0, tools_path)
+    try:
+        from repo_push_lock import acquire_push_lock
+
+        return acquire_push_lock
+    except Exception as exc:
+        print(f"[heal] push lock import failed: {exc}", file=sys.stderr)
+
+        def _fallback(_branch: str, timeout: int = 120):
+            del _branch, timeout
+            return nullcontext()
+
+        return _fallback
+
+
+def untracked_derived_dirs(porcelain: str) -> list[str]:
+    out: set[str] = set()
+    prefix = "lean4/BEDC/Derived/"
+    for raw in porcelain.splitlines():
+        if not raw.startswith("?? "):
+            continue
+        path = raw[3:].strip()
+        if not path.startswith(prefix):
+            continue
+        rest = path[len(prefix):]
+        name = rest.split("/", 1)[0]
+        if name.endswith("Up"):
+            out.add(prefix + name + "/")
+    return sorted(out)
+
+
+def write_locked_git_wrapper(wrapper_dir: Path) -> dict[str, str]:
+    real_git = shutil.which("git") or "/usr/bin/git"
+    tools_path = str(REPO_ROOT / "tools")
+    wrapper = wrapper_dir / "git"
+    wrapper.write_text(
+        "#!/usr/bin/env python3\n"
+        "import os\n"
+        "import subprocess\n"
+        "import sys\n"
+        f"sys.path.insert(0, {tools_path!r})\n"
+        "from repo_push_lock import acquire_push_lock\n"
+        f"REAL_GIT = {real_git!r}\n"
+        f"BRANCH = {BASE_BRANCH!r}\n"
+        "WRITE_CMDS = {'add', 'commit', 'reset', 'checkout', 'merge', 'pull', 'stash', 'push'}\n"
+        "argv = sys.argv[1:]\n"
+        "cmd = argv[0] if argv else ''\n"
+        "def run_git():\n"
+        "    return subprocess.call([REAL_GIT, *argv])\n"
+        "try:\n"
+        "    if cmd in WRITE_CMDS:\n"
+        "        with acquire_push_lock(BRANCH, timeout=120):\n"
+        "            sys.exit(run_git())\n"
+        "    sys.exit(run_git())\n"
+        "except TimeoutError as exc:\n"
+        "    print(f'[heal] push lock timeout in codex git {cmd}: {exc}', file=sys.stderr)\n"
+        "    sys.exit(75)\n",
+        encoding="utf-8",
+    )
+    wrapper.chmod(0o755)
+    env = os.environ.copy()
+    env["PATH"] = str(wrapper_dir) + os.pathsep + env.get("PATH", "")
+    return env
+
+
 def _tail_text(text: str, limit: int = 500) -> str:
     if isinstance(text, bytes):
         text = text.decode("utf-8", errors="ignore")
@@ -513,8 +584,17 @@ def verify_then_push(phase: str) -> bool:
         note="codex 的 heal 提交破坏了本地 CI，已阻止 push 并尝试回退",
     )
     try:
-        git("reset", "--hard", "HEAD^", check=False, capture=True)
+        acquire_push_lock = import_push_lock()
+        with acquire_push_lock(BASE_BRANCH, timeout=120):
+            git("reset", "--hard", "HEAD^", check=False, capture=True)
         print("[heal] reverted heal commit (verify failed)", flush=True)
+    except TimeoutError as exc:
+        log_heal_alert(
+            category="PUSH_LOCK_TIMEOUT",
+            details={"phase": phase, "operation": "reset", "error": str(exc)},
+            cooldown_count=0,
+            note="共享 push lock 超时，本 tick 不执行 reset",
+        )
     except Exception as exc:
         print(f"[heal] revert failed: {exc}", file=sys.stderr, flush=True)
     return False
@@ -1252,8 +1332,10 @@ def call_codex(prompt: str, cwd: Path = REPO_ROOT, timeout: int = 1800) -> int:
         "-",
     ]
     try:
-        with open(prompt_file, "r") as pf:
-            res = subprocess.run(cmd, stdin=pf, cwd=cwd, text=True)
+        with tempfile.TemporaryDirectory(prefix="bedc-heal-git-") as git_wrapper_dir:
+            env = write_locked_git_wrapper(Path(git_wrapper_dir))
+            with open(prompt_file, "r") as pf:
+                res = subprocess.run(cmd, stdin=pf, cwd=cwd, text=True, env=env)
     finally:
         os.unlink(prompt_file)
     return res.returncode
@@ -1940,8 +2022,20 @@ def run_verify_only() -> int:
 
 
 def push_to_origin() -> bool:
-    res = run(["git", "push", "origin", BASE_BRANCH],
-              check=False, capture=True, timeout=60)
+    acquire_push_lock = import_push_lock()
+    try:
+        with acquire_push_lock(BASE_BRANCH, timeout=120):
+            res = run(["git", "push", "origin", BASE_BRANCH],
+                      check=False, capture=True, timeout=60)
+    except TimeoutError as exc:
+        print(f"[heal] push lock timeout: {exc}", file=sys.stderr)
+        log_heal_alert(
+            category="PUSH_LOCK_TIMEOUT",
+            details={"operation": "push", "error": str(exc)},
+            cooldown_count=0,
+            note="共享 push lock 超时，本 tick 跳过 push",
+        )
+        return False
     if res.returncode != 0:
         print(f"[heal] push failed: {res.stderr}", file=sys.stderr)
         return False
@@ -1984,6 +2078,15 @@ def cycle() -> None:
     # `.pipeline_parallel.json` is also tolerated (autotune rewrites
     # every 300s; codex never touches it).
     porcelain = git("status", "--porcelain", capture=True).stdout
+    derived_blocking = untracked_derived_dirs(porcelain)
+    if derived_blocking:
+        log_heal_alert(
+            category="UNTRACKED_DERIVED_DIRT",
+            details={"dirs": derived_blocking[:20]},
+            cooldown_count=0,
+            note="主 checkout 存在未跟踪 Derived 目录，本 tick 不执行会污染工作树的操作",
+        )
+        return
     blocking = []
     for raw in porcelain.splitlines():
         if not raw:
@@ -2031,9 +2134,20 @@ def cycle() -> None:
         # Tree clean; reset stuck-dirt counter.
         _write_stuck_dirt_state(0, frozenset())
     # Fetch and try ff.
-    run(["git", "fetch", "origin", BASE_BRANCH], check=False, timeout=60)
-    run(["git", "merge", "--ff-only", f"origin/{BASE_BRANCH}"],
-         check=False, timeout=30)
+    acquire_push_lock = import_push_lock()
+    try:
+        with acquire_push_lock(BASE_BRANCH, timeout=120):
+            run(["git", "fetch", "origin", BASE_BRANCH], check=False, timeout=60)
+            run(["git", "merge", "--ff-only", f"origin/{BASE_BRANCH}"],
+                 check=False, timeout=30)
+    except TimeoutError as exc:
+        log_heal_alert(
+            category="PUSH_LOCK_TIMEOUT",
+            details={"operation": "fetch_ff", "error": str(exc)},
+            cooldown_count=0,
+            note="共享 push lock 超时，本 tick 跳过 fetch/ff",
+        )
+        return
 
     # Detect dup labels.
     dups = detect_dup_labels()

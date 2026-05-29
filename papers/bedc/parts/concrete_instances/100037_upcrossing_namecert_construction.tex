@@ -115,6 +115,20 @@ Finally use \autoref{thm:upcrossing-inequality-martingale-convergence-handoff}. 
 \end{proof}
 \leanchecked{BEDC.Derived.UpcrossingUp.UpcrossingMartingaleConvergenceConsumer}
 
+\begin{theorem}[Upcrossing finite ledger handoff]
+\label{thm:upcrossing-finite-ledger-handoff}
+For every accepted $\UpcrossingUp$ carrier, the completed-crossing count, the bounded $\OptionalStoppingUp$ stopped-window ledger, and the lower and upper $\RealUp$ boundary-rational rows form the only finite handoff consumed by the $\MartingaleConvergenceUp$ route of \autoref{thm:upcrossing-martingale-convergence-consumer}. The handoff is transported by the displayed $\hsame$ rows and replayed by the displayed $\Cont$ rows; it exports no almost-sure quotient equality, no unbounded stopping index, and no measure-completion carrier.
+\end{theorem}
+\begin{proof}
+Induct on the finite crossing ledger $(L,S)$ of \autoref{def:upcrossing-carrier}. In the empty case, the completed-crossing count is zero and the stopped-window ledger has no lower-to-upper pair to export.
+
+For a lower-boundary row, the displayed boundary-rational data record a pending crossing against $a$. The stopped-window row is bounded by the current finite horizon, and no completed count is added.
+
+For an upper-boundary row following a pending lower row, the displayed comparison against $b$ closes exactly one finite pair. The completed-count row, the two boundary-rational rows, and the bounded stopped-window row are updated inside the same $\BHist$ packet.
+
+The induction preserves the handoff under componentwise $\hsame$ transport and displayed $\Cont$ replay. Since the carrier contains no coordinate for almost-sure quotient equality, unbounded stopping, or measure completion, the martingale-convergence consumer can read only this finite ledger package.
+\end{proof}
+
 \begin{theorem}[Upcrossing no-escape boundary]
 \label{thm:upcrossing-nonescape}
 The public boundary of $\UpcrossingUp$ exports only the finite crossing-count ledger for a displayed martingale window and fixed boundary pair $a<_R b$. It exports no martingale convergence theorem, no almost-sure quotient equality, no unbounded stopping principle, no measure completion, and no standard bridge beyond the finite rows explicitly carried by \autoref{def:upcrossing-carrier}.
