@@ -2347,7 +2347,6 @@ def run_merge_back_lane(store: BioRealityStore) -> dict[str, Any]:
       - feat is NOT an ancestor of upstream HEAD (i.e. upstream has commits we
         haven't merged in yet — bio-S handles that direction)
       - too soon since previous merge-back
-      - working tree dirty
     """
     try:
         config = _load_keep_lane_config()
@@ -2371,12 +2370,6 @@ def run_merge_back_lane(store: BioRealityStore) -> dict[str, Any]:
     if not _network_available():
         return {"lane": "bio-M", "skipped": "network_unreachable"}
     repo_root = store.paths.root.parent.parent
-    try:
-        status = _run_command(repo_root, ["git", "status", "--porcelain"], timeout=30.0)
-        if status.returncode != 0 or status.stdout.strip():
-            return {"lane": "bio-M", "skipped": "dirty_worktree", "porcelain": status.stdout[:300]}
-    except (OSError, subprocess.TimeoutExpired) as exc:
-        return {"lane": "bio-M", "skipped": f"git_status_error: {exc}"}
     try:
         fetch = _run_command(repo_root, ["git", "fetch", remote, upstream], timeout=60.0)
         if fetch.returncode != 0:
