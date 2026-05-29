@@ -1,0 +1,17 @@
+\begin{theorem}[Cauchy finite-window modulus pullback]
+\label{thm:cauchy-finite-window-modulus-pullback}
+Every accepted $\CauchyUp$ modulus read pulls back to the same finite $\StreamNameUp$ window of \autoref{ch:concrete-instances-streamname-namecert}, the same $\DyadicRatCoreUp$ tolerance row of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the same $\RegSeqRatUp$ readback row of \autoref{ch:concrete-instances-regseqrat-namecert}, and the same terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert} before any consumer can inspect a Cauchy value. In the notation of \autoref{def:cauchy-carrier}, the pullback route is
+$$
+S,D,M,Q \longmapsto R \longmapsto E \longmapsto H,C,P,N .
+$$
+No quotient stream equality, selected limit, host real equality, countable-choice coordinate, trichotomy, open-cover compactness, or ambient $\RealUp$ completeness row is available along this route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:cauchy-carrier}. The finite stream window $S$, dyadic tolerance row $D$, modulus row $M$, compatibility row $Q$, regular-rational readback $R$, and terminal Real seal $E$ are the only rows available before the structural rows are read.
+
+Apply \autoref{thm:cauchy-namecert-obligations}. It identifies the local $\NameCert_{\CauchyUp}$ surface with stream-window stability, dyadic tolerance exactness, regular-rational readback, displayed modulus admission, modulus/readback compatibility, Real seal ordering, transport, replay, provenance, and local naming.
+
+Now use \autoref{thm:cauchy-modulus-readback-route}. A precision request first reads $S,D,M,Q$, then reaches $R$, and only then reaches $E$. The route is sharpened by \autoref{thm:cauchy-core-streamname-regseqrat-window}, which keeps the $\RegSeqRatUp$ row behind the displayed $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance, modulus, and compatibility rows.
+
+Finally apply \autoref{thm:cauchy-core-regseqrat-real-seal}. The terminal Real seal is reached only after the $\RegSeqRatUp$ readback has been displayed. Thus every accepted modulus read pulls back to the same four L10 sibling rows before a consumer sees a Cauchy value, and none of the excluded quotient, selected-limit, choice, order, compactness, or completeness coordinates can be inserted.
+\end{proof}
