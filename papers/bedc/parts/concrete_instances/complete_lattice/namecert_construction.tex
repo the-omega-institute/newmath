@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\CompleteLatticeUp$}
+\label{ch:concrete-instances-complete-lattice-namecert}
+\origin{human}
+
+Following Tarski and Bourbaki, the $\CompleteLatticeUp$ packet records the finite order-theoretic interface in which every displayed certified family has a named join and meet row. It sits above the meet--join order surface of \autoref{ch:concrete-instances-lattice-namecert}, the antisymmetric order carrier of \autoref{ch:concrete-instances-poset-namecert}, and the displayed membership discipline of \autoref{ch:concrete-instances-setlike-namecert}. The packet names the rows needed by fixed-point and domain-theoretic consumers while excluding host powersets, Zorn-style maximal principles, unrestricted choice, quotient representatives, and ambient ordinal iteration.
+
+\begin{definition}[Complete lattice carrier]
+\label{def:complete-lattice-carrier}
+A $\CompleteLatticeUp$ carrier is a finite $\BHist$ packet
+$$
+L=(O,F,J,M,T,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the underlying order row, read through $\PosetUp$ and $\LatticeUp$ and carrying the visible comparison, meet, and join obligations.
+\item $F$ is the bounded certified-family row. It records only displayed $\SetLikeUp$ membership data together with finite lower-bound and upper-bound witnesses for the family being inspected.
+\item $J$ is the displayed join schedule assigning a least upper bound row to the certified family in $F$.
+\item $M$ is the displayed meet schedule assigning a greatest lower bound row to the certified family in $F$.
+\item $T$ is the monotone-map row, recording a displayed self-map whose order-preservation is checked against the comparison row in $O$.
+\item $B$ is the fixed-point boundary row. It records the finite pre-fixed and post-fixed comparison surface visible to a Tarski-style consumer, without selecting an ordinal chain.
+\item $H$ records componentwise $\hsame$ transport for $O,F,J,M,T,B,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from an order request through the certified-family row, the join and meet schedules, the monotone-map row, and the fixed-point boundary row.
+\item $P$ is the $\Pkg$ provenance over $\CompleteLatticeUp$, $\LatticeUp$, $\PosetUp$, $\SetLikeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompleteLatticeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $O,F,J,M,T,B,H,C,P,N$. It has no coordinate for a host powerset, Zorn lemma, unrestricted choice, quotient representatives, selected ordinal iteration, or an ambient complete lattice object.
+\end{definition}
+
+\begin{theorem}[Complete lattice NameCert obligations]
+\label{thm:complete-lattice-namecert-obligations}
+For every accepted $\CompleteLatticeUp$ carrier
+$$
+L=(O,F,J,M,T,B,H,C,P,N),
+$$
+the local $\NameCert_{\CompleteLatticeUp}$ surface consists exactly of order-row admission, bounded certified-family exposure, displayed join scheduling, displayed meet scheduling, monotone-map exposure, fixed-point boundary exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every fixed-point-facing read must expose $O,F,J,M,T,B$ before it may consume transport, replay, provenance, or naming rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:complete-lattice-carrier}. The order row $O$ supplies the only comparison surface, and the family row $F$ supplies the only displayed family whose bounds may be inspected.
+
+The join and meet schedules are finite rows attached to that same family. Thus a consumer cannot replace $J$ or $M$ by an ambient supremum or infimum operation; it must read the displayed schedule bound to $F$.
+
+The monotone-map row $T$ and fixed-point boundary row $B$ are downstream of $O,F,J,M$. They name only the comparison data needed by a fixed-point consumer, while $H,C,P,N$ transport, replay, source, and name the same finite route.
+
+Since no excluded host principle or representative selector occurs as a carrier coordinate, these rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Complete lattice monotone fixed-point boundary]
+\label{thm:complete-lattice-monotone-fixed-point-boundary}
+Every fixed-point-facing consumer of an accepted $\CompleteLatticeUp$ packet factors through the finite route
+$$
+O,F,J,M,T \longmapsto B
+$$
+before it may read any fixed-point boundary. The exported boundary records monotone-map comparison, certified-family bounds, displayed joins, and displayed meets; it does not export a host powerset construction, Zorn lemma, unrestricted choice, quotient representative, selected ordinal iteration, global Knaster--Tarski theorem, or ambient domain-theoretic completion.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:complete-lattice-namecert-obligations}. They force the consumer to expose the order row, family row, join schedule, meet schedule, monotone-map row, and fixed-point boundary row before any structural support row is read.
+
+The row $B$ is therefore not an independent theorem of fixed-point existence. It is a boundary ledger over the displayed order and completeness schedules, and it is meaningful only after $O,F,J,M,T$ have been consumed.
+
+Transport and replay preserve this route componentwise, while provenance and local naming keep it tied to the $\CompleteLatticeUp$ packet. The absence of powerset, choice, quotient, ordinal-iteration, and ambient-completion coordinates prevents the boundary from exporting any of the excluded fixed-point principles.
+\end{proof}
+
+\closureat{CompleteLatticeUp}{seedStr}
+
+\begin{closurestatus}{\CompleteLatticeUp}
+  \constructivestory{A $\CompleteLatticeUp$ packet is generated from an order row, a bounded certified-family row, displayed join and meet schedules, a monotone-map row, a fixed-point boundary row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:complete-lattice-carrier}, \autoref{thm:complete-lattice-namecert-obligations}, and \autoref{thm:complete-lattice-monotone-fixed-point-boundary} seed the finite complete-lattice surface over order, certified-family, join, meet, monotone-map, fixed-point boundary, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host powersets, Zorn lemma, unrestricted choice, quotient representatives, selected ordinal iteration, global Knaster--Tarski fixed-point existence, ambient domain-theoretic completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, order-row exposure, certified-family boundedness, join-schedule exactness, meet-schedule exactness, monotone-map preservation, fixed-point boundary nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CompleteLatticeUp.}
+\end{closurestatus}
