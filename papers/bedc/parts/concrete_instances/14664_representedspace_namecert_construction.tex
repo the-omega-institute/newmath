@@ -384,12 +384,24 @@ Apply \autoref{thm:representedspace-streamname-real-handoff}. In the real-facing
 The exposed $\AdmissibleRepresentationUp$ packet supplies the finality clause of \autoref{ch:concrete-instances-admissible-representation-namecert}, while \autoref{ch:concrete-instances-cauchy-representation-namecert} supplies the Cauchy source used by that clause. Since none of the represented-space carrier coordinates stores quotient names, selected representatives, host real equality, countable choice, or ambient real completeness, the displayed factorization is the whole admissible-finality route.
 \end{proof}
 
+\begin{theorem}[RepresentedSpace scoped package]
+\label{thm:representedspace-scoped-package}
+Let an accepted $\RepresentedSpaceUp$ packet expose the name schedule, representation relation, target handoff, $\StreamNameUp$ Real handoff, effective-metric realizer handoff, completion-readback obligations, Real-seal obligations, and admissible finality rows named in \autoref{def:representedspace-carrier}. Then it exports a scoped $\NameCert$ package over $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\EffectiveMetricSpaceUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package is read only through the displayed carrier route $S,W,\rho,X,T,H,C,P,N$, and it does not add quotient names, selected representatives, host real equality, countable choice, ambient completion data, or a separate parameter-transport equivalence.
+\end{theorem}
+\begin{proof}
+Begin with the local carrier and obligation surface. Apply \autoref{thm:representedspace-namecert-obligations}, \autoref{thm:representedspace-name-schedule-obligation}, \autoref{thm:representedspace-representation-relation-exactness}, and \autoref{thm:representedspace-target-handoff-nonescape} to expose the schedule, representation relation, target handoff, transport, replay, provenance, and local naming rows.
+
+For the real-facing route, use \autoref{thm:representedspace-streamname-real-handoff}, \autoref{thm:representedspace-effective-metric-realizer-handoff}, and \autoref{thm:representedspace-root-real-seal-obligations}. These rows force every metric or Real-seal consumer through the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ handoff before any target read is available.
+
+For completion and admissibility, apply \autoref{thm:representedspace-root-completion-readback-obligations} and \autoref{thm:representedspace-admissible-finality}. The completion-readback and admissible-finality rows are downstream of the same carrier route, so the scoped package is exactly the displayed finite $\NameCert$ surface and not a new equivalence between unrelated parameter families.
+\end{proof}
+
 \closureat{RepresentedSpaceUp}{obligationStr}
 
 \begin{closurestatus}{\RepresentedSpaceUp}
   \constructivestory{A $\RepresentedSpaceUp$ packet is generated from a displayed name carrier, finite $\StreamNameUp$ schedule, representation relation, target carrier, classifier transport, componentwise $\hsame$ rows, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:representedspace-carrier}, \autoref{thm:representedspace-namecert-obligations}, \autoref{thm:representedspace-representation-relation-exactness}, \autoref{thm:representedspace-streamname-real-handoff}, \autoref{thm:representedspace-realization-transport}, \autoref{thm:representedspace-target-handoff-nonescape}, \autoref{thm:representedspace-effective-metric-realizer-handoff}, \autoref{thm:representedspace-root-completion-readback-obligations}, \autoref{thm:representedspace-root-real-seal-obligations}, and \autoref{thm:representedspace-admissible-finality} close the listed obligation inventory for carrier rows, representation relation exactness, StreamName/Real handoff, classifier transport, target seal nonescape, effective-metric handoff, completion-readback, Real-seal, and admissible finality.}
+  \scopeclosed{\autoref{def:representedspace-carrier}, \autoref{thm:representedspace-namecert-obligations}, \autoref{thm:representedspace-representation-relation-exactness}, \autoref{thm:representedspace-streamname-real-handoff}, \autoref{thm:representedspace-realization-transport}, \autoref{thm:representedspace-target-handoff-nonescape}, \autoref{thm:representedspace-effective-metric-realizer-handoff}, \autoref{thm:representedspace-root-completion-readback-obligations}, \autoref{thm:representedspace-root-real-seal-obligations}, \autoref{thm:representedspace-admissible-finality}, and \autoref{thm:representedspace-scoped-package} close the listed obligation inventory for carrier rows, representation relation exactness, StreamName/Real handoff, classifier transport, target seal nonescape, effective-metric handoff, completion-readback, Real-seal, admissible finality, and scoped package export.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Real completeness, quotient representations, selected host representatives, host equality, a choice principle, or a Lean theorem.}
