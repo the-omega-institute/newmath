@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\YoungSymmetrizerUp$}
+\label{ch:concrete-instances-young-symmetrizer-namecert}
+\origin{human}
+
+Following Fulton and Harris on Young symmetrizers and polynomial representations, the $\YoungSymmetrizerUp$ packet records the finite tableau rows that turn a partition shape into row symmetrization, column antisymmetrization, and a displayed tensor-to-matrix action. It sits between the shape discipline of \autoref{ch:concrete-instances-partition-namecert}, the character readback of \autoref{ch:concrete-instances-charactertheory-namecert}, the Grothendieck consumer of \autoref{ch:concrete-instances-representationring-namecert}, the multilinear source of \autoref{ch:concrete-instances-tensorproduct-namecert}, and the displayed action rows of \autoref{ch:concrete-instances-matrix-namecert}. The packet is finite: it names the symmetrizer route without importing semisimplicity, Specht module irreducibility, Schur functor exactness, host group algebra idempotence, or quotient representation categories.
+
+\begin{definition}[YoungSymmetrizerUp carrier]\label{def:young-symmetrizer-carrier}
+A $\YoungSymmetrizerUp$ carrier is a finite $\BHist$ packet
+$$
+\begin{gathered}
+Y=(P,D,T,R,C,S,A,E,M,H,U,V,G,N).
+\end{gathered}
+$$
+Here $P$ is the consumed $\PartitionUp$ shape row; $D$ is the Young diagram row for that shape; $T$ is a tableau row whose entries fill the boxes of $D$; $R$ is the row-stabilizer ledger listing the permutations that preserve each row of $T$; $C$ is the column-stabilizer ledger listing the permutations that preserve each column of $T$; $S$ is the row-symmetrizer formal sum over $R$; $A$ is the column-antisymmetrizer formal signed sum over $C$; $E$ is the ordered composite row for the formal Young symmetrizer $S A$; $M$ is the displayed tensor and matrix action row over the $\TensorProductUp$ and $\MatrixUp$ sources; $H$ gives componentwise $\hsame$ transport for $P,D,T,R,C,S,A,E,M$; $U$ gives displayed $\Cont$ replay for the same finite route; $V$ is the consumer ledger for $\CharacterTheoryUp$ and $\RepresentationRingUp$ readback; $G$ is the $\Pkg$ provenance over $\PartitionUp$, $\CharacterTheoryUp$, $\RepresentationRingUp$, $\TensorProductUp$, $\MatrixUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$; and $N$ is the local $\NameCert_{\YoungSymmetrizerUp}$ row.
+\end{definition}
+
+\begin{theorem}[YoungSymmetrizerUp NameCert obligations]\label{thm:young-symmetrizer-namecert-obligations}
+For every accepted carrier $Y=(P,D,T,R,C,S,A,E,M,H,U,V,G,N)$ of \autoref{def:young-symmetrizer-carrier}, the local $\NameCert_{\YoungSymmetrizerUp}$ surface consists exactly of the following finite obligation rows:
+\begin{itemize}
+\item shape admission, requiring $P$ to expose the partition shape and $D$ to list precisely its diagram boxes;
+\item tableau admission, requiring $T$ to fill the boxes of $D$ and to induce the row and column incidence ledgers used by $R$ and $C$;
+\item row symmetrizer exactness, requiring $S$ to be the finite formal sum over the row-stabilizer ledger $R$;
+\item column antisymmetrizer exactness, requiring $A$ to be the finite signed formal sum over the column-stabilizer ledger $C$;
+\item action display, requiring $E$ and $M$ to route the composite $S A$ through the tensor and matrix rows rather than through an ambient group-algebra object;
+\item consumer confinement, requiring every $\CharacterTheoryUp$ or $\RepresentationRingUp$ read to pass through $V$ after the finite tensor/matrix action has been displayed;
+\item structural replay, requiring $H,U,G,N$ to transport, replay, account for, and name exactly the rows already listed.
+\end{itemize}
+No accepted $\YoungSymmetrizerUp$ packet exports an irreducible module theorem, a complete character formula, a semisimple decomposition, or equality inside an unlisted host group algebra.
+\end{theorem}
+
+\begin{proof}
+Inspect the coordinates of $Y$. The shape and tableau rows $P,D,T$ determine the finite incidence data, while $R$ and $C$ are only the displayed stabilizer ledgers for that incidence data.
+
+The formal rows $S,A,E$ are then determined by finite replay over $R$ and $C$. Their only action surface is the displayed tensor/matrix row $M$, so a consumer cannot replace the route by an ambient group-algebra calculation without leaving the packet.
+
+Finally $H,U,V,G,N$ do not add new mathematical rows. They transport, replay, expose, account for, and name the finite route already visible in $P,D,T,R,C,S,A,E,M$.
+\end{proof}
+
+\begin{theorem}[YoungSymmetrizerUp idempotent route]\label{thm:young-symmetrizer-idempotent-route}
+Let $Y=(P,D,T,R,C,S,A,E,M,H,U,V,G,N)$ be an accepted $\YoungSymmetrizerUp$ carrier. Any downstream route that reads the Young-symmetrizer idempotent behavior from $Y$ must factor through the displayed finite chain
+$$
+\begin{gathered}
+P,D,T \longrightarrow R,C \longrightarrow S,A \longrightarrow E \longrightarrow M \longrightarrow V,N.
+\end{gathered}
+$$
+The route may expose the row symmetrizer, the column antisymmetrizer, and the tensor/matrix action as a finite certificate surface; it does not claim normalized primitive idempotence, irreducible Specht image, Schur functor exactness, or a complete representation-ring decomposition.
+\end{theorem}
+
+\begin{proof}
+Start with the displayed source chain. The partition and tableau rows are the only source of row and column incidence, so every stabilizer read reaches $R$ or $C$ through $P,D,T$.
+
+The symmetrizer and antisymmetrizer rows are formal finite sums over those stabilizers. Thus the composite row $E$ is available only after $S$ and $A$ have been displayed.
+
+The action and consumer boundary are then forced by $M$ and $V$. The packet contains no row for normalized scalar inversion, quotient module projection, or semisimplicity, so the idempotent behavior remains a finite route claim over the displayed action rather than a host-level representation-theoretic closure theorem.
+\end{proof}
+
+\falsifiablePrediction{Every future $\YoungSymmetrizerUp$ Lean carrier can be audited by counting exactly one partition shape row, one tableau row, two stabilizer ledgers, two formal-sum rows, one composite row, one tensor/matrix action row, and one local $\NameCert$ row before any $\RepresentationRingUp$ consumer is admitted.}
+
+\independenceWitness{partition, charactertheory, representationring, tensorproduct, matrix: YoungSymmetrizerUp is not bijective to any listed sibling because it jointly carries tableau incidence, row and column stabilizer ledgers, row symmetrization, column antisymmetrization, a composite tensor/matrix action, consumer confinement, and local NameCert provenance.}
+
+\closureat{YoungSymmetrizerUp}{seedStr}
