@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRateNormalFormUp$}
+\label{ch:concrete-instances-cauchy-rate-normal-form-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive Cauchy completion, the $\CauchyRateNormalFormUp$ packet records the finite rate-normalization row that turns an arbitrary displayed Cauchy-rate request into the monotone schedule consumed by the L10 Real and Completion route. It sits after the $\CauchyRateUp$ comparison surface of \autoref{ch:concrete-instances-cauchy-rate-comparison-namecert}, the modulus-normal-form packet of \autoref{ch:concrete-instances-cauchy-modulus-normal-form-namecert}, and the fast Cauchy route of \autoref{ch:concrete-instances-fastcauchy-namecert}; it reads finite windows through \autoref{ch:concrete-instances-streamname-namecert}, rational tails through \autoref{ch:concrete-instances-regseqrat-namecert}, dyadic tolerances through \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real seal through \autoref{ch:concrete-instances-real-namecert}. The chapter names rate normalization as a finite carrier, not as a host modulus function, quotient stream equality, selected tail, countable-choice schedule, or ambient completeness theorem.
+
+\begin{definition}[CauchyRateNormalForm carrier]
+\label{def:cauchy-rate-normal-form-carrier}
+A $\CauchyRateNormalFormUp$ carrier is a finite $\BHist$ packet
+$$
+R=(q,\rho,\nu,D,S,G,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $q$ is the precision-request row naming the rational or dyadic tolerance scale submitted by a Real or Completion consumer.
+\item $\rho$ is the raw $\CauchyRateUp$ row before monotone normalization.
+\item $\nu$ is the normalized monotone rate row, recording the finite threshold schedule accepted for the same request $q$.
+\item $D$ is the $\DyadicRatCoreUp$ tail ledger, carrying the dyadic slack and comparison budget used to certify that $\nu$ bounds the raw row $\rho$ at the requested scale.
+\item $S$ is the $\StreamNameUp$ window row through which the source observations and threshold indices are inspected.
+\item $G$ is the $\RegSeqRatUp$ readback row obtained from the displayed stream windows and the normalized threshold row.
+\item $E$ is the $\RealUp$ seal row reached only after $q,\rho,\nu,D,S,G$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the precision request, raw rate, normalized rate, dyadic ledger, stream windows, regular readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through raw-rate inspection, monotone normalization, dyadic tail accounting, finite windows, regular readback, and the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyRateNormalFormUp$, $\CauchyRateUp$, $\CauchyModulusUp$, $\CauchyModulusNormalFormUp$, $\FastCauchyUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyRateNormalFormUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for an external monotone majorant, quotient equality of Cauchy names, selected representatives, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CauchyRateNormalForm NameCert obligations]
+\label{thm:cauchy-rate-normal-form-obligations}
+For every accepted $\CauchyRateNormalFormUp$ carrier
+$$
+R=(q,\rho,\nu,D,S,G,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyRateNormalFormUp}$ surface consists exactly of precision-request admission, raw Cauchy-rate exposure, normalized monotone rate exposure, dyadic tail-ledger accounting, finite $\StreamNameUp$ window inspection, $\RegSeqRatUp$ readback, $\RealUp$ seal non-escape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every Real or Completion consumer must expose $q,\rho,\nu,D,S,G$ before the seal row $E$ can be consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-rate-normal-form-carrier}. The analytic rows are exactly the precision request, raw rate, normalized rate, dyadic tail ledger, finite windows, regular readback, and Real seal.
+
+The raw rate row $\rho$ is not consumed directly by the downstream Real seal. The replay row $C$ first routes the precision request $q$ through $\rho$ and then through the monotone row $\nu$.
+
+The dyadic ledger $D$ certifies the tail budget for the same request, while $S$ and $G$ display the finite observations and regular rational readback produced under the normalized threshold.
+
+Rows $H,P,N$ transport, source, and name only that displayed route. Since no excluded host object is present as a coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CauchyRateNormalForm Real seal handoff]
+\label{thm:cauchy-rate-normal-form-real-seal}
+Every $\RealUp$ or Completion-facing consumer accepted by a $\CauchyRateNormalFormUp$ carrier reads the finite route
+$$
+\CauchyRateUp \longmapsto \CauchyModulusUp \longmapsto \DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+through the normalized monotone row $\nu$ and the support rows $H,C,P,N$. Consequently the consumer receives a displayed rate-normalized threshold, a dyadic tail budget, finite observation windows, regular rational readback, and a terminal Real seal; it receives no host modulus function, selected tail, quotient stream equality, countable-choice schedule, or ambient Real completeness witness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $R=(q,\rho,\nu,D,S,G,E,H,C,P,N)$. The precision request $q$ and raw Cauchy-rate row $\rho$ are visible, but the carrier exposes them to Real consumers only through the normalized row $\nu$.
+
+Read the dyadic ledger $D$ at the same request. This ledger supplies the tail budget that makes $\nu$ a usable monotone rate for the displayed route.
+
+The stream and readback rows $S,G$ then inspect the finite windows selected by the normalized threshold. Only after those rows are displayed can the terminal seal row $E$ be consumed.
+
+The support rows $H,C,P,N$ preserve the same route under transport, replay, provenance, and local naming. The excluded host and choice principles are absent from the carrier, so no Real or Completion consumer can bypass the finite normalized-rate surface.
+\end{proof}
+
+\closureat{CauchyRateNormalFormUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRateNormalFormUp}
+  \constructivestory{A $\CauchyRateNormalFormUp$ packet is generated from a precision request, raw CauchyRate row, normalized monotone rate row, DyadicRatCore tail ledger, StreamName windows, RegSeqRat readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-rate-normal-form-carrier}, \autoref{thm:cauchy-rate-normal-form-obligations}, and \autoref{thm:cauchy-rate-normal-form-real-seal} seed the finite rate-normalization route consumed by L10 Real and Completion packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, selected limits, host monotone majorants, countable choice, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, raw-rate exposure, monotone normalization, dyadic tail-budget exactness, regular readback, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyRateNormalFormUp.}
+\end{closurestatus}
