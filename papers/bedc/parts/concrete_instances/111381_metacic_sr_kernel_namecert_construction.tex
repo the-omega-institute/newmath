@@ -62,6 +62,24 @@ Project $B,A,L,P$ from those rows. The closed-term and normalization-frontier co
 Finally $F$ packages the visible discharge for a consumer, while $H,R,G,M$ preserve and name the route. No row in the carrier provides a replacement theorem, so the discharge remains a finite kernel route.
 \end{proof}
 
+\begin{theorem}[MetacicSrKernelUp closed-substitution discharge]\label{thm:metacic-sr-kernel-closed-substitution-discharge}
+Let $K=(C,O,S,B,A,L,P,T,N,F,H,R,G,M)$ be an accepted $\MetacicSrKernelUp$ packet. A subject-reduction consumer may use the beta, application-argument, lambda-domain, and Pi-domain discharge rows $B,A,L,P$ only through the same closed-term projection row $T$ and normalization-frontier row $N$ before the finite handoff $F$ is read. Replacing $T$ by a host substitution theorem, quotient reduction equality, or hidden closed-consistency theorem leaves the accepted carrier.
+\end{theorem}
+
+\begin{proof}
+Project the carrier of \autoref{thm:metacic-sr-kernel-carrier}. The four discharge rows $B,A,L,P$ are displayed only after the critical-path, obligation, and socket rows $C,O,S$.
+
+Apply \autoref{thm:metacic-sr-kernel-namecert-obligations}. It exposes the four discharge faces through the same obligation and socket surface and records compatibility with the closed-term boundary $T$ and normalization-frontier boundary $N$.
+
+Apply \autoref{thm:metacic-sr-kernel-discharge-route}. The route forces
+$$
+C \longrightarrow O,S \longrightarrow B,A,L,P \longrightarrow T,N \longrightarrow F \longrightarrow M
+$$
+before a subject-reduction consumer can read the finite handoff.
+
+The structural rows $H,R,G,M$ transport, replay, source, and name that route. Since the carrier has no coordinate for a host substitution theorem, quotient reduction equality, or hidden closed-consistency theorem, replacing $T$ by any such object exits the accepted packet.
+\end{proof}
+
 \falsifiablePrediction{The Lean follow-up for $\MetacicSrKernelUp$ must provide \texttt{Nontrivial MetacicSrKernelUp} and \texttt{FieldFaithful MetacicSrKernelUp} in \texttt{TasteGate.lean}, and the instance audit must expose exactly four discharge-face fields before any finite subject-reduction handoff is admitted.}
 
 \independenceWitness{metaciccriticalpath, metacic-subject-reduction-obligation, subjectreductiondischargesocket, closedtermsubstitutionboundary, metacicnormalizationfrontier: MetacicSrKernelUp is not bijective to any listed sibling because it simultaneously carries the critical-path ledger, four discharge faces, route socket, closed-substitution boundary, normalization-frontier boundary, finite handoff row, transport, replay, provenance, and local NameCert naming.}
@@ -69,11 +87,11 @@ Finally $F$ packages the visible discharge for a consumer, while $H,R,G,M$ prese
 \closureat{MetacicSrKernelUp}{seedStr}
 
 \begin{closurestatus}{\MetacicSrKernelUp}
-  \constructivestory{A $\MetacicSrKernelUp$ packet is generated from a MetaCIC critical-path ledger, a four-face subject-reduction obligation row, a discharge-socket row, beta-substitution, application-argument, lambda-domain, and Pi-domain discharge rows, closed-term substitution and normalization-frontier boundary rows, a finite handoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \constructivestory{A $\MetacicSrKernelUp$ packet is generated from the MetaCIC critical-path ledger, a four-face subject-reduction obligation row, a discharge-socket row, beta-substitution, application-argument, lambda-domain, and Pi-domain discharge rows, closed-substitution and normalization-frontier boundaries, a finite handoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{thm:metacic-sr-kernel-carrier}, \autoref{thm:metacic-sr-kernel-namecert-obligations}, and \autoref{thm:metacic-sr-kernel-discharge-route} seed the finite subject-reduction kernel route over MetaCIC critical-path, obligation, socket, closed-substitution, and normalization-frontier rows.}
+  \scopeclosed{\autoref{thm:metacic-sr-kernel-carrier}, \autoref{thm:metacic-sr-kernel-namecert-obligations}, and \autoref{thm:metacic-sr-kernel-discharge-route} bind the finite four-face subject-reduction kernel route and its handoff surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not claim closed subject reduction, unrestricted dependent-codomain preservation, erased substitution stability, global normalization, closed consistency, checked NameCert obligations, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, four-face discharge exposure, socket compatibility, closed-term boundary compatibility, normalization-frontier compatibility, finite handoff nonescape, transport, replay, provenance, and local naming for BEDC.Derived.MetacicSrKernelUp.}
+  \notclaimed{This chapter does not prove closed subject reduction, unrestricted dependent-codomain preservation, erased substitution stability, global normalization, closed consistency, Lean verification, or a bridge-checked public schema.}
+  \upgradepath{Obligation closure requires checked carrier admission, four-face discharge exposure, socket compatibility, closed-substitution boundary compatibility, normalization-frontier compatibility, handoff non-escape, transport stability, replay stability, provenance exhaustion, and local naming for BEDC.Derived.MetacicSrKernelUp.}
 \end{closurestatus}
