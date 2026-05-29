@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICNormalEndpointComparatorUp$}
+\label{ch:concrete-instances-metacic-normal-endpoint-comparator-namecert}
+\origin{ai}
+
+The $\MetaCICNormalEndpointComparatorUp$ packet realizes the bounded-conversion endpoint bridge named by the MetaCIC decidability audit map of \autoref{ch:metacic-decidable-audit-map}. It sits between the bounded normal conversion bridge of \autoref{ch:concrete-instances-bounded-normal-conversion-bridge-namecert}, the decidable conversion frontier of \autoref{ch:concrete-instances-metacic-decidable-conversion-frontier-namecert}, the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the normal-form consistency seal of \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}, and the critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}. The packet is a finite comparator for finished bounded normal endpoints; it is not a global beta-conversion decider, not a strong-normalization theorem, and not a host equality oracle.
+
+\begin{definition}[MetaCIC normal endpoint comparator carrier]
+\label{def:metacic-normal-endpoint-comparator-carrier}
+A $\MetaCICNormalEndpointComparatorUp$ carrier is a finite $\BHist$ packet
+$$
+E=(T,L,R,B,F,S,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed closed-term pair row supplied by the decidable conversion frontier.
+\item $L$ and $R$ are the left and right bounded-normal computation traces, each carrying fuel, output syntax, and finished-endpoint evidence.
+\item $B$ is the $\BoundedNormalConversionBridgeUp$ row, exposing the bounded comparison result and its soundness route.
+\item $F$ is the $\MetaCICNormalizationFrontierUp$ row, recording that both bounded traces have reached named normal endpoints at the comparator fuel.
+\item $S$ is the $\NormalFormConsistencySealUp$ row, checking that the two endpoint witnesses are read through the same normal-form consistency surface.
+\item $Q$ is the $\MetaCICCriticalPathUp$ row that keeps the comparator tied to the decidability and normalization critical path rather than to an unrestricted conversion oracle.
+\item $H$ records componentwise $\hsame$ transport for the term pair, endpoint traces, bridge, frontier, seal, critical-path, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a bounded conversion request through endpoint computation, finished-normal evidence, endpoint comparison, consistency sealing, and critical-path accounting.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICNormalEndpointComparatorUp$, $\MetaCICDecidableConversionFrontierUp$, $\BoundedNormalConversionBridgeUp$, $\MetaCICNormalizationFrontierUp$, $\NormalFormConsistencySealUp$, $\MetaCICCriticalPathUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICNormalEndpointComparatorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,L,R,B,F,S,Q,H,C,P,N$. It has no coordinate for unrestricted conversion decidability, fuel-erased normalization, strong normalization, proof irrelevance, quotienting of syntax, or host equality.
+\end{definition}
+
+\begin{theorem}[MetaCIC normal endpoint comparator NameCert obligations]
+\label{thm:metacic-normal-endpoint-comparator-namecert-obligations}
+For every accepted $\MetaCICNormalEndpointComparatorUp$ carrier
+$$
+E=(T,L,R,B,F,S,Q,H,C,P,N),
+$$
+the local $\NameCert_{\MetaCICNormalEndpointComparatorUp}$ surface consists exactly of typed closed-term pair admission through $T$, left and right bounded endpoint traces through $L,R$, bounded conversion bridge exposure through $B$, normalization-frontier endpoint evidence through $F$, normal-form consistency sealing through $S$, critical-path accounting through $Q$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-normal-endpoint-comparator-carrier}. The computational rows are exactly the term pair $T$, the endpoint traces $L,R$, the bounded conversion bridge $B$, the normalization frontier $F$, the consistency seal $S$, and the critical-path row $Q$.
+
+The endpoint evidence is finite because $L$ and $R$ carry bounded traces at a displayed fuel. The row $F$ records that those traces have reached finished normal endpoints before the comparator is consumed.
+
+The comparison then passes through $B$ and $S$. The bridge supplies the bounded conversion handoff, and the seal checks that the endpoint witnesses are compared through the same normal-form consistency surface.
+
+Finally $Q,H,C,P,N$ keep the packet on the MetaCIC critical path, transport it componentwise, replay it, source it, and name it. Since the carrier contains no unrestricted conversion, fuel-erased normalization, strong-normalization, proof-irrelevance, syntax-quotient, or host-equality coordinate, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Bounded conversion endpoint handoff]
+\label{thm:metacic-normal-endpoint-comparator-bounded-conversion-handoff}
+Every $\MetaCICNormalEndpointComparatorUp$ consumer that promotes bounded conversion evidence to a finished endpoint comparison must factor through
+$$
+\MetaCICDecidableConversionFrontierUp,\quad \BoundedNormalConversionBridgeUp,\quad \MetaCICNormalizationFrontierUp,\quad \NormalFormConsistencySealUp,\quad \MetaCICCriticalPathUp .
+$$
+The handoff supplies only typed closed-term pair data, bounded traces, finished endpoint evidence, endpoint consistency, critical-path accounting, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:metacic-normal-endpoint-comparator-namecert-obligations}. The typed closed-term pair is read first through $T$, while $L$ and $R$ record the bounded normal computations to be compared.
+
+The row $F$ is the endpoint boundary: it must be displayed before a bounded comparison can be read as a finished normal-form comparison. The bridge row $B$ and seal row $S$ then compare those endpoints through the bounded-conversion and normal-form consistency surfaces.
+
+The critical-path row $Q$ prevents the handoff from being read as a global conversion theorem. The structural rows $H,C,P,N$ preserve and name only this finite route, so the consumer receives no unrestricted conversion decider or host equality oracle.
+\end{proof}
+
+\falsifiablePrediction{A MetaCIC conversion consumer that reads a finished endpoint comparison while omitting either bounded endpoint trace, the bounded-normal-conversion bridge, the normalization-frontier endpoint evidence, the normal-form consistency seal, the critical-path row, transport, replay, provenance, or local naming refutes $\MetaCICNormalEndpointComparatorUp$.}
+
+\independenceWitness{metacic-decidable-conversion-frontier, bounded-normal-conversion-bridge, metacicnormalizationfrontier, normal-form-consistency-seal, metaciccriticalpath: $\MetaCICNormalEndpointComparatorUp$ is not bijective to any listed sibling because it jointly carries typed closed-term pair data, two bounded endpoint traces, bounded conversion bridge data, finished-normal endpoint evidence, consistency sealing, critical-path accounting, transport, replay, provenance, and local NameCert rows in one comparator packet.}
+
+The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \MetaCICNormalEndpointComparatorUp$ and $\mathsf{FieldFaithful}\ \MetaCICNormalEndpointComparatorUp$ instances in $\mathsf{TasteGate.lean}$ for the same finite carrier.
+
+\closureat{MetaCICNormalEndpointComparatorUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICNormalEndpointComparatorUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-normal-endpoint-comparator-carrier}, \autoref{thm:metacic-normal-endpoint-comparator-namecert-obligations}, and \autoref{thm:metacic-normal-endpoint-comparator-bounded-conversion-handoff} seed the finite comparator that hands bounded conversion evidence to finished normal endpoints.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim unrestricted conversion decidability, fuel-erased normalization, strong normalization, proof irrelevance, quotient syntax equality, host equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint trace exactness, bounded bridge exposure, normalization-frontier endpoint evidence, normal-form consistency sealing, critical-path accounting, transport, replay, provenance, local naming, and TasteGate nontriviality with field faithfulness for BEDC.Derived.MetaCICNormalEndpointComparatorUp.}
+  \constructivestory{A $\MetaCICNormalEndpointComparatorUp$ packet is generated from typed closed-term pair data, two bounded endpoint traces, BoundedNormalConversionBridge data, MetaCICNormalizationFrontier endpoint evidence, NormalFormConsistencySeal data, MetaCICCriticalPath accounting, componentwise hsame transport, displayed Cont replay, provenance, and a local NameCert row.}
+\end{closurestatus}
