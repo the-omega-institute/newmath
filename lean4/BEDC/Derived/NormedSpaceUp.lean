@@ -195,4 +195,33 @@ theorem NormedSpaceCarrier_triangle_scalar_compatibility [AskSetup] [PackageSetu
     unary_cont_closed rUnary nUnary scalarRoute
   exact ⟨triangleUnary, scalarUnary, triangleRoute, scalarRoute⟩
 
+theorem NormedSpaceCarrier_cauchy_window_handoff [AskSetup] [PackageSetup]
+    {V R N M Q H T P C normRead metricRead completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NormedSpaceCarrier V R N M Q H T P C bundle pkg ->
+      Cont V R normRead ->
+        Cont normRead M metricRead ->
+          Cont metricRead Q completionRead ->
+            PkgSig bundle completionRead pkg ->
+              UnaryHistory V ∧ UnaryHistory R ∧ UnaryHistory N ∧ UnaryHistory M ∧
+                UnaryHistory Q ∧ UnaryHistory normRead ∧ UnaryHistory metricRead ∧
+                  UnaryHistory completionRead ∧ Cont V R normRead ∧
+                    Cont normRead M metricRead ∧ Cont metricRead Q completionRead ∧
+                      PkgSig bundle P pkg ∧ PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier normRoute metricRoute completionRoute completionPkg
+  obtain ⟨vUnary, rUnary, nUnary, mUnary, qUnary, _hUnary, _tUnary, _pUnary,
+    _cUnary, _vectorNormRoute, _completionFacingRoute, _replayRoute, provenancePkg,
+    _localPkg⟩ := carrier
+  have normReadUnary : UnaryHistory normRead :=
+    unary_cont_closed vUnary rUnary normRoute
+  have metricReadUnary : UnaryHistory metricRead :=
+    unary_cont_closed normReadUnary mUnary metricRoute
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed metricReadUnary qUnary completionRoute
+  exact
+    ⟨vUnary, rUnary, nUnary, mUnary, qUnary, normReadUnary, metricReadUnary,
+      completionReadUnary, normRoute, metricRoute, completionRoute, provenancePkg,
+      completionPkg⟩
+
 end BEDC.Derived.NormedSpaceUp
