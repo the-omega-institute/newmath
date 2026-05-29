@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\RegularTopologicalSpaceUp$}
+\label{ch:concrete-instances-regular-topological-space-namecert}
+\origin{human}
+
+Following Kelley and Engelking, the $\RegularTopologicalSpaceUp$ packet records the textbook separation surface in which a displayed point and a displayed closed-set row are separated by open neighbourhoods. It sits over the indexed-open carrier of \autoref{ch:concrete-instances-topology-namecert}, beside the separation-function route of \autoref{ch:concrete-instances-urysohn-lemma-namecert}, before the metrization route of \autoref{ch:concrete-instances-urysohn-metrization-namecert}, and beside the metric consumer surface of \autoref{ch:concrete-instances-metric-namecert}. The packet names only a local regularity read over displayed open and closed rows; it does not import host powersets, classical complements, arbitrary normality, selected functions, or a host metric.
+
+\begin{definition}[Regular topological space carrier]
+\label{def:regular-topological-space-carrier}
+A $\RegularTopologicalSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+R=(T,O,F,M,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row, carrying the open-index classifier, open-neighbourhood membership reads, and finite closure witnesses available to the packet.
+\item $O$ is the open-neighbourhood row for the displayed point, recording the named open containing the point before any separation request is consumed.
+\item $F$ is the closed-set row disjoint from the displayed point, presented as a finite ledger over the same topology source rather than as a host complement.
+\item $M$ is the point-membership row, tying the inspected point to $O$ and excluding it from $F$ by displayed membership and nonmembership reads.
+\item $S$ is the separation-witness row, recording open rows $U,V$ with the point in $U$, the closed row $F$ contained in $V$, and no accepted overlap between $U$ and $V$.
+\item $H$ records componentwise $\hsame$ transport for the topology source, open-neighbourhood row, closed-set row, point-membership row, separation witnesses, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a regularity request through $T,O,F,M,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularTopologicalSpaceUp$, $\TopologyUp$, $\UrysohnLemmaUp$, $\UrysohnMetrizationUp$, $\MetricSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularTopologicalSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,O,F,M,S,H,C,P,N$. It has no coordinate for host complements, external powersets, selected Urysohn functions, normal-space separation, metrization outside a displayed route, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Regular topological space NameCert obligations]
+\label{thm:regular-topological-space-namecert-obligations}
+For every accepted $\RegularTopologicalSpaceUp$ carrier
+$$
+R=(T,O,F,M,S,H,C,P,N),
+$$
+the local $\NameCert_{\RegularTopologicalSpaceUp}$ surface consists exactly of topology-source admission through $T$; open-neighbourhood admission through $O$; closed-set row admission through $F$; point-membership and point-nonmembership readback through $M$; regular separation exactness through $S$; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-topological-space-carrier}. The accepted packet displays the topology source, the point neighbourhood, the closed-set row, the point-membership row, the separation witness, and the structural rows.
+
+The open-neighbourhood and closed-set obligations are read before separation. The rows $O,F,M$ identify the inspected point, the containing open, and the closed row avoided by that point over the same $\TopologyUp$ source.
+
+Regular separation exactness is the row $S$. It supplies the two separating open rows and their disjointness read, so the certificate has no need for a selected complement or an ambient powerset argument.
+
+The rows $H,C,P,N$ transport, replay, package, and name the same finite route. Since no further coordinate is present, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular topological space neighbourhood separation]
+\label{thm:regular-topological-space-neighborhood-separation}
+Every neighbourhood-separation read exported by an accepted $\RegularTopologicalSpaceUp$ packet must first display a $\TopologyUp$ source row, a point-open row, a closed-set row disjoint from the displayed point, and the point-membership row tying them together. Only after those rows are visible may a consumer read the separating open-neighbourhood pair, and the later $\UrysohnLemmaUp$, $\UrysohnMetrizationUp$, or $\MetricSpaceUp$ consumer receives only that displayed finite route.
+\end{theorem}
+\begin{proof}
+Begin with the topology source $T$. It supplies indexed open rows, but no regularity assertion is available until the packet displays the point-open row $O$, the closed-set row $F$, and the membership row $M$.
+
+The separation witness is downstream of those rows. The row $S$ records the two separating open neighbourhoods, the containment of the closed-set row in one of them, the displayed point membership in the other, and the disjointness read between the two open rows.
+
+Transport and replay preserve the same order. The componentwise $\hsame$ row $H$ and displayed $\Cont$ row $C$ reread $T,O,F,M,S$ before provenance or local naming can be inspected.
+
+Thus a later Urysohn, metrization, or metric consumer receives a finite regularity route over the displayed topology source. It receives no host complement, external powerset, selected separating function, normal-space theorem, or host metric from the regular-space packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularTopologicalSpaceUp$ read exposes a $\TopologyUp$ source row, an open-neighbourhood row, a closed-set row, a point-membership row, a separation-witness row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{topology, urysohn-lemma, urysohn-metrization, metric: $\RegularTopologicalSpaceUp$ is not bijective to any listed sibling because it binds point-versus-closed-set neighbourhood separation as a local finite packet between topology and metrization consumers.}
+
+\closureat{RegularTopologicalSpaceUp}{seedStr}
+
+\begin{closurestatus}{\RegularTopologicalSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-topological-space-carrier}, \autoref{thm:regular-topological-space-namecert-obligations}, and \autoref{thm:regular-topological-space-neighborhood-separation} seed the finite point-versus-closed-set neighbourhood separation route over topology rows, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close normality, Hausdorff separation, Urysohn function construction, metrization, host powersets, selected complements, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, open-neighbourhood readback, closed-set row exactness, point-membership stability, separation-witness exactness, transport, replay, provenance, and local naming for BEDC.Derived.RegularTopologicalSpaceUp.}
+  \constructivestory{A $\RegularTopologicalSpaceUp$ packet is generated from a Topology source row, point open-neighbourhood rows, closed-set rows, point-membership rows, separation witnesses, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
