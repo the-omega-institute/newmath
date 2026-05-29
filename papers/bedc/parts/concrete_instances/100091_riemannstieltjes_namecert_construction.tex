@@ -116,6 +116,7 @@ R=(F,A,T,S,I,E,H,C,P,N),
 $$
 every downstream refinement-window read is exhausted by the displayed rows $A,T,S,I,E,H,C,P,N$. In particular, no consumer can bypass the $\RiemannSumUp$ row $T$, the $\DyadicStepFunctionUp$ row $S$, the $\BoundedVariationUp$ row $A$, the $\RegulatedIntegralUp$ row $I$, or the $\RealUp$ seal $E$ when reading a refinement of the Riemann--Stieltjes packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannStieltjesUp.RiemannStieltjesCarrier\_refinement\_window\_exhaustion}
 \begin{proof}
 Project the accepted carrier from \autoref{def:riemann-stieltjes-carrier}. The only refinement-facing rows available to a consumer are the bounded-variation integrator row $A$, the tagged-sum row $T$, the dyadic step row $S$, the regulated-integral handoff row $I$, the endpoint seal $E$, and the structural rows $H,C,P,N$.
 
@@ -138,6 +139,7 @@ F,A,T,S,H,C,P,N \longrightarrow I .
 $$
 It cannot be replaced by a host measure integral, a quotient of integrators, a selected limiting partition, or an unrecorded real equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannStieltjesUp.RiemannStieltjesCarrier\_regulated\_integrator\_transport}
 \begin{proof}
 Project the carrier from \autoref{def:riemann-stieltjes-carrier}. The regulated integrand row $F$ and the bounded-variation integrator row $A$ are the only sources from which the packet can read the two integration inputs.
 
@@ -152,6 +154,7 @@ Since the carrier has no coordinate for measure integration, integrator quotient
 \label{thm:riemann-stieltjes-bounded-variation-ledger}
 For every accepted $\RiemannStieltjesUp$ carrier $R=(F,A,T,S,I,E,H,C,P,N)$, each integrator jump, variation read, and endpoint contribution used by the tagged sum is consumed as a visible $\BHist$ ledger row inside $A$ before it is transported through $H,C,P,N$. The packet exports no hidden variation functional, measure-space control object, selected jump enumeration, or quotient of integrators.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannStieltjesUp.RiemannStieltjesCarrier\_bounded\_variation\_ledger}
 \begin{proof}
 Read the bounded-variation component $A$ from the carrier. By \autoref{thm:riemann-stieltjes-bounded-variation-jump-boundary}, jump-facing reads begin at $A$ and cannot enter the tagged-sum route from any outside source.
 
@@ -164,6 +167,7 @@ Transport and replay do not create new variation data. The rows $H$ and $C$ move
 \label{thm:riemann-stieltjes-mesh-refinement-stability}
 If an accepted $\RiemannStieltjesUp$ carrier is read along a mesh refinement, the refined packet preserves the same componentwise $\hsame$ transport, displayed $\Cont$ replay, and $\Pkg$ provenance route over $F,A,T,S,I,E,H,C,P,N$. Refinement may subdivide the visible tagged partition row, but it cannot introduce a new integrator, a new regulated-integral handoff, host function equality, selected limits, or a measure-space bridge.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannStieltjesUp.RiemannStieltjesCarrier\_mesh\_refinement\_stability}
 \begin{proof}
 Start with the Darboux mesh-refinement theorem, \autoref{thm:riemann-stieltjes-darboux-mesh-refinement}. It confines every refinement-facing read to the displayed rows $T,S,A,I,E$ together with the structural rows.
 
