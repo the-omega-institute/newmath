@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\CauchyDedekindGapRouterUp$}
+\label{ch:concrete-instances-cauchy-dedekind-gap-router-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real analysis, the $\CauchyDedekindGapRouterUp$ packet records the finite route by which a regular Cauchy real presentation and a located Dedekind-cut boundary are compared without selecting a host limit or quotient representative. It sits over the dyadic tolerance cells of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, the located-cut completion surface of \autoref{ch:concrete-instances-located-cut-completion-namecert}, and the Cauchy--Dedekind boundary of \autoref{ch:concrete-instances-dedekind-cut-cauchy-boundary-namecert}. The router is a finite NameCert carrier for the comparison gap; it is not a construction of $\RealUp$ from primitive cuts and not an ambient completeness theorem.
+
+\begin{definition}[Cauchy--Dedekind gap-router carrier]\label{def:cauchy-dedekind-gap-router-carrier}
+A $\CauchyDedekindGapRouterUp$ carrier is a finite $\BHist$ packet
+$$
+G=(D,S,R,E,L,B,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, carrying the positive dyadic gaps, refinements, and comparison cells used by both sides of the route.
+\item $S$ is the $\StreamNameUp$ finite-window schedule for the observed Cauchy name and the observed cut-boundary probes.
+\item $R$ is the $\RegSeqRatUp$ readback row, binding the Cauchy-facing windows in $S$ to regular rational observations.
+\item $E$ is the terminal $\RealUp$ seal reached only after $D,S,R$ have been displayed.
+\item $L$ is the $\LocatedCutUp$ lower-and-upper cut ledger addressed by the same dyadic and stream windows.
+\item $B$ is the $\DedekindCutCauchyBoundaryUp$ boundary row comparing the displayed regular readback with the displayed located-cut ledger.
+\item $J$ is the gap-routing judgment row. It records, for each public comparison request, which dyadic gap cell in $D$ routes the request through $R$ toward $E$ or through $L,B$ toward the boundary surface.
+\item $H$ records componentwise $\hsame$ transport for the dyadic, stream, readback, real-seal, located-cut, boundary, judgment, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the comparison route
+$$
+D,S \longmapsto R,E \qquad\text{and}\qquad D,S \longmapsto L,B,J .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyDedekindGapRouterUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\LocatedCutUp$, $\DedekindCutCauchyBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyDedekindGapRouterUp}$ row.
+\end{enumerate}
+The classifier accepts only packets displaying exactly these rows. It has no coordinate for quotient stream equality, primitive Dedekind-cut equality, selected limits, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy--Dedekind gap-router NameCert obligations]\label{thm:cauchy-dedekind-gap-router-namecert-obligations}
+For an accepted $\CauchyDedekindGapRouterUp$ carrier
+$$
+G=(D,S,R,E,L,B,J,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyDedekindGapRouterUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the dyadic tolerance ledger, stream-window schedule, regular rational readback, real seal, located-cut ledger, Cauchy--Dedekind boundary row, gap-routing judgment, transport, replay, provenance, and local naming rows;
+\item window exactness, requiring every public comparison request to be addressed by $S$ before either the Cauchy-facing readback $R$ or the located-cut ledger $L$ can be inspected;
+\item dyadic gap exactness, requiring every routed comparison to consume a displayed positive dyadic cell from $D$;
+\item Cauchy-side handoff, requiring the $\RealUp$ seal $E$ to be downstream of $D,S,R$;
+\item cut-side handoff, requiring the boundary row $B$ to compare only the displayed $R$ and $L$ rows;
+\item routing determinacy, requiring $J$ to name the gap cell and side of the comparison without adding a second equality principle;
+\item classifier transport and replay, requiring $H$ and $C$ to preserve exactly the listed rows;
+\item non-escape, excluding quotient stream equality, primitive cut equality, selected limits, trichotomy, countable choice, and ambient $\RealUp$ completeness.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-dedekind-gap-router-carrier}. The accepted packet exposes the dyadic, stream, regular readback, real-seal, located-cut, boundary, judgment, and structural rows as one finite display.
+
+Window exactness follows from the shared row $S$. A public request cannot reach either the Cauchy-facing row $R$ or the located-cut row $L$ until its finite observation window has been named.
+
+Dyadic gap exactness is supplied by $D$. The same positive dyadic cell is the comparison budget used by the regular readback and by the located boundary row, so the router cannot introduce an unbudgeted comparison.
+
+The Cauchy-side handoff reaches $E$ only after $D,S,R$ have been displayed. The cut-side handoff reaches $B$ only after $D,S,L$ and the common readback row have been displayed.
+
+The routing row $J$ then records which displayed gap cell and side of the comparison is used. Since $J$ is a row of the carrier rather than an external equality principle, it cannot export quotient stream equality or primitive cut equality.
+
+Finally $H,C,P,N$ transport, replay, source, and name only the listed rows. The excluded completeness and choice principles have no carrier coordinate and therefore cannot become local obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy--Dedekind gap-router L10 handoff]\label{thm:cauchy-dedekind-gap-router-l10-handoff}
+Every Real or Completion consumer of an accepted $\CauchyDedekindGapRouterUp$ carrier factors through the finite route
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \LocatedCutUp,\ \DedekindCutCauchyBoundaryUp .
+$$
+The exported comparison is a displayed gap route between regular Cauchy readback and located Dedekind boundary data, not a quotient stream, primitive cut equality, selected host limit, trichotomy split, countable-choice construction, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the public rows from \autoref{def:cauchy-dedekind-gap-router-carrier}. The dyadic ledger $D$ and stream schedule $S$ are read before either comparison side is public.
+
+On the Cauchy-facing side, $R$ reads the finite windows as regular rational observations and $E$ seals that route as a $\RealUp$ boundary. On the cut-facing side, $L$ exposes only located lower-and-upper tests and $B$ compares those tests with the same regular readback.
+
+The judgment row $J$ attaches each comparison request to a displayed gap cell. Thus a consumer can move between the Cauchy and Dedekind presentations only through $D,S,R,E,L,B,J$.
+
+The structural rows $H,C,P,N$ preserve and name that route. Since no excluded principle appears as a carrier coordinate, the handoff exports only the finite BEDC comparison surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyDedekindGapRouterUp$ comparison request factors through displayed DyadicRatCore, StreamName, RegSeqRat, RealUp, LocatedCut, DedekindCutCauchyBoundary, routing judgment, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, located-cut-completion, cauchy-dedekind-boundary: $\CauchyDedekindGapRouterUp$ is not bijective to any listed sibling because it jointly carries the shared dyadic gap ledger, finite observation windows, regular readback, Real seal, located-cut ledger, boundary comparison row, routing judgment, transport, replay, provenance, and local NameCert row.}
+
+\closureat{CauchyDedekindGapRouterUp}{seedStr}
+
+\begin{closurestatus}{\CauchyDedekindGapRouterUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-dedekind-gap-router-carrier}, \autoref{thm:cauchy-dedekind-gap-router-namecert-obligations}, and \autoref{thm:cauchy-dedekind-gap-router-l10-handoff} seed the finite Cauchy--Dedekind gap route over DyadicRatCore, StreamName, RegSeqRat, RealUp, LocatedCut, DedekindCutCauchyBoundary, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, primitive cut equality, selected host limits, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window exactness, dyadic gap exactness, Cauchy-side handoff, cut-side handoff, routing determinacy, classifier transport, replay, and non-escape for BEDC.Derived.CauchyDedekindGapRouterUp.}
+  \constructivestory{A $\CauchyDedekindGapRouterUp$ packet is generated from DyadicRatCore gap cells, StreamName finite windows, RegSeqRat readback, a RealUp seal, a LocatedCut ledger, a DedekindCutCauchyBoundary comparison row, a routing judgment, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
