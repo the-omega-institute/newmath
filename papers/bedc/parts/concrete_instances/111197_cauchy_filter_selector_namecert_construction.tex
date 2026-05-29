@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\CauchyFilterSelectorUp$}
+\label{ch:concrete-instances-cauchy-filter-selector-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Kelley filter terminology, the $\CauchyFilterSelectorUp$ packet records the finite selector interface by which a Cauchy-filter read can be inspected through named windows before any Real or Completion consumer reads the resulting boundary. It sits after the Cauchy-filter surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion handoff of \autoref{ch:concrete-instances-metriccompletion-namecert}. The packet gives the Phase Real and Completion route a finite selector row without quotient filters, host-selected representatives, countable choice, or ambient Real completeness.
+
+\begin{definition}[Cauchy filter selector carrier]
+\label{def:cauchy-filter-selector-carrier}
+A $\CauchyFilterSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+S=(F,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the source $\CauchyFilterUp$ row, including its displayed base packets, directed refinement ledger, and Cauchy evidence surface.
+\item $W$ is the finite selector-window row. It records the displayed filter request, the finite family of inspected base packets, and the chosen window among those already exposed by $F$.
+\item $R$ is the $\RegSeqRatUp$ readback row extracted from the selected windows in $W$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the filter request, the selector comparison, and the readback radius consumed by $R$.
+\item $E$ is the completion-or-Real seal row, read either as a $\MetricCompletionUp$ handoff or as the downstream $\RealUp$ seal after $F,W,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the filter row, selector windows, regular readback, dyadic ledger, seal row, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a Cauchy-filter request through $F,W,R,D,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyFilterSelectorUp$, $\CauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\MetricCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyFilterSelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,W,R,D,E,H,C,P,N$. It has no coordinate for quotient filters, host-selected representatives, countable-choice schedules, host real equality, or completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Cauchy filter selector NameCert obligations]
+\label{thm:cauchy-filter-selector-namecert-obligations}
+For every accepted $\CauchyFilterSelectorUp$ carrier $S=(F,W,R,D,E,H,C,P,N)$, the local $\NameCert_{\CauchyFilterSelectorUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source Cauchy-filter data, selector windows, regular readback, dyadic tolerance ledger, completion-or-Real seal, transport, replay, provenance, and local naming row;
+\item selector-window exactness, requiring the selected window to be one of the finite windows already displayed in $W$ over the source filter row $F$;
+\item regular readback handoff, requiring every numeric read to pass through the $\RegSeqRatUp$ row $R$ after the selector window is fixed;
+\item dyadic ledger stability, requiring the same $\DyadicRatCoreUp$ tolerance row $D$ to govern the selector comparison and the readback radius;
+\item seal boundary, requiring any $\MetricCompletionUp$ or $\RealUp$ consumer to read $E$ only after $F,W,R,D$ have been displayed and replayed;
+\item nonescape, excluding quotient filters, host-selected representatives, countable choice, host real equality, and ambient Real completeness.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-filter-selector-carrier}. The visible packet consists of the source filter row $F$, selector windows $W$, regular readback $R$, dyadic ledger $D$, seal boundary $E$, and the structural rows $H,C,P,N$.
+
+Selector-window exactness is row-local. The selector does not choose from an undisplayed filter; it names one of the finite windows stored in $W$ and read over the already exposed Cauchy-filter row $F$.
+
+The readback and tolerance obligations are ordered by the carrier. A numeric read reaches $R$ only after $W$ fixes the finite window, and the same dyadic ledger $D$ supplies the tolerance budget for both the selector comparison and the regular readback radius.
+
+The seal boundary is downstream. The replay row $C$ routes every completion-facing or real-facing request through $F,W,R,D$ before $E$, while $H$ preserves this order under componentwise transport.
+
+Since the carrier contains no quotient-filter coordinate, host-selected representative, choice schedule, host real equality, or Real completeness row, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy filter selector RegSeqRat handoff]
+\label{thm:cauchy-filter-selector-regseqrat-handoff}
+Let $S=(F,W,R,D,E,H,C,P,N)$ be an accepted $\CauchyFilterSelectorUp$ carrier. Every selector read that exports regular numerical data factors through the finite route
+$$
+\CauchyFilterUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp .
+$$
+Concretely, the source filter row $F$ exposes the finite base request, the selector-window row $W$ exposes the inspected $\StreamNameUp$ windows, the readback row $R$ exposes the $\RegSeqRatUp$ data, and the dyadic ledger $D$ supplies the tolerance budget used by that readback.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The source request is held in $F$, but $F$ alone does not expose a regular rational name to downstream consumers.
+
+Replay the selector route by $C$. The request first reaches the finite selector windows $W$, and those windows are the only place where the relevant $\StreamNameUp$ observations are visible.
+
+After $W$ is fixed, the readback row $R$ supplies the $\RegSeqRatUp$ data. The tolerance row $D$ is then read as the dyadic budget controlling the selector comparison and the regular readback.
+
+Transport by $H$ preserves the same order. Thus the handoff is a finite BEDC route from Cauchy filters to stream windows, regular readbacks, and dyadic tolerances, not a quotient of filters or a selected host representative.
+\end{proof}
+
+\begin{theorem}[Cauchy filter selector Real and completion seal boundary]
+\label{thm:cauchy-filter-selector-real-seal-boundary}
+For every accepted $\CauchyFilterSelectorUp$ carrier $S=(F,W,R,D,E,H,C,P,N)$, every $\MetricCompletionUp$ or $\RealUp$ consumer read exposed by $P$ factors through the seal row $E$ only after the source Cauchy-filter data, finite selector windows, regular readback, and dyadic tolerance ledger have been displayed. The visible boundary is
+$$
+F,W,R,D \longmapsto E \longmapsto H,C,P,N .
+$$
+Therefore the packet provides a finite selector interface for the Real and Completion route without exporting quotient filters, host-selected representatives, countable choice, host real equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Read the seal row in the carrier. The row $E$ is placed after the source filter data, selector windows, regular readback, and dyadic tolerance ledger, so a completion-facing or real-facing consumer cannot reach it from $F$ alone.
+
+The replay row $C$ fixes the same order for every accepted request. It first consumes $F$, then the selector windows $W$, then the regular readback $R$, and then the dyadic tolerance ledger $D$ before the seal row is available.
+
+Componentwise transport by $H$ does not add a new route. It preserves the displayed rows under classifier comparison, while $P$ and $N$ record only the provenance and local naming boundary of that finite route.
+
+The excluded objects are absent from the carrier and from the replay path. Hence the completion-or-Real seal is exactly the displayed downstream boundary, not a quotient filter, selected representative, choice schedule, host equality, or completeness principle.
+\end{proof}
+
+\begin{closurestatus}{\CauchyFilterSelectorUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-filter-selector-carrier}, \autoref{thm:cauchy-filter-selector-namecert-obligations}, \autoref{thm:cauchy-filter-selector-regseqrat-handoff}, and \autoref{thm:cauchy-filter-selector-real-seal-boundary} seed the finite selector interface between CauchyFilter, StreamName, RegSeqRat, DyadicRatCore, Real, and MetricCompletion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient filters, host-selected representatives, countable choice, host real equality, ambient Real completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Lean closure requires carrier admission, selector-window exactness, RegSeqRat handoff, dyadic ledger stability, and Real or Completion seal boundary for BEDC.Derived.CauchyFilterSelectorUp.}
+  \constructivestory{The construction starts from a displayed CauchyFilter row, reads a finite selector window through StreamName observations, extracts RegSeqRat data under a DyadicRatCore tolerance ledger, and exposes Real or MetricCompletion access only through the downstream seal row.}
+\end{closurestatus}
