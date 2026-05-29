@@ -60,6 +60,20 @@ The row $F$ is the endpoint boundary: it must be displayed before a bounded comp
 The critical-path row $Q$ prevents the handoff from being read as a global conversion theorem. The structural rows $H,C,P,N$ preserve and name only this finite route, so the consumer receives no unrestricted conversion decider or host equality oracle.
 \end{proof}
 
+\begin{theorem}[Closed-normal comparator vision obligations]
+\label{thm:metacic-normal-endpoint-comparator-vision-obligations}
+The $\MetaCICNormalEndpointComparatorUp$ packet exposes exactly the finite comparator surface consumed by \autoref{ch:closed-normal-consistency-main-result}: closed normal endpoint rows, false-endpoint exclusion rows, and comparator determinacy rows are read through the displayed term pair $T$, bounded traces $L,R$, bounded conversion bridge $B$, normalization frontier $F$, normal-form consistency seal $S$, critical-path row $Q$, componentwise transport $H$, replay $C$, provenance $P$, and local naming $N$. No consumer of this surface receives unrestricted conversion decidability, fuel-erased normalization, proof irrelevance, syntax quotient equality, or host equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-normal-endpoint-comparator-carrier}. The closed normal endpoint rows are precisely the finished bounded traces $L,R$ read together with the normalization-frontier evidence $F$.
+
+The false-endpoint exclusion row is read through the normal-form consistency seal $S$ and the critical-path row $Q$. Those rows are the only coordinates tying the finished endpoint comparison to the closed-normal consistency boundary of \autoref{ch:closed-normal-consistency-main-result}.
+
+Comparator determinacy is then read through the bounded conversion bridge $B$ over the same typed pair $T$. The structural rows $H,C,P,N$ transport, replay, source, and name this finite route.
+
+Since the carrier contains no unrestricted conversion decider, fuel-erased normalizer, proof-irrelevance coordinate, syntax quotient, or host equality oracle, the listed rows are the complete comparator obligation surface consumed by the closed-normal consistency route.
+\end{proof}
+
 \falsifiablePrediction{A MetaCIC conversion consumer that reads a finished endpoint comparison while omitting either bounded endpoint trace, the bounded-normal-conversion bridge, the normalization-frontier endpoint evidence, the normal-form consistency seal, the critical-path row, transport, replay, provenance, or local naming refutes $\MetaCICNormalEndpointComparatorUp$.}
 
 \independenceWitness{metacic-decidable-conversion-frontier, bounded-normal-conversion-bridge, metacicnormalizationfrontier, normal-form-consistency-seal, metaciccriticalpath: $\MetaCICNormalEndpointComparatorUp$ is not bijective to any listed sibling because it jointly carries typed closed-term pair data, two bounded endpoint traces, bounded conversion bridge data, finished-normal endpoint evidence, consistency sealing, critical-path accounting, transport, replay, provenance, and local NameCert rows in one comparator packet.}

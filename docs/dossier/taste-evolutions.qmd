@@ -20,18 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-05-29T04:46:41Z
+> 最后刷新: 2026-05-29T08:12:57Z
 
-**Daemon 状态**: monitor (monitor cycle 109, adjust_since_research 3, round_counter 24226, last_adjust rule_evolution_skipped_or_failed)
+**Daemon 状态**: monitor (monitor cycle 112, adjust_since_research 3, round_counter 24527, last_adjust rule_evolution_skipped_or_failed)
 
-**待处理 queue** (992 条 finding):
-- isolated_theorem: 736 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
+**待处理 queue** (994 条 finding):
+- isolated_theorem: 738 条; 代表样本 `derived`, `realityconstrainedtruthcert`, `towerequivalence`
 - unauthorized_capstone: 209 条; 代表样本 `00_concrete_instance_macros`, `prod`, `kleene_tree`
 - low_entropy_template: 45 条; 代表样本 `realityconstrainedmodelaudit`, `lipschitzmap`, `zetacontinuationwitness`
 - missing_origin: 2 条; 代表样本 `dyadic`, `cauchy_completion_idempotent`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 201 次
+- TASTE ALERT category=isolated_theorem: 160 次
 - TASTE ALERT category=low_entropy_template: 15 次
 - TASTE ALERT category=cycle_exception: 6 次
 - TASTE ALERT category=resolution_gate_failed: 1 次
@@ -190,6 +190,8 @@ to case-by-case judgment.
 - 2026-05-26T21:32:56Z: `resolved` `leave_with_rationale` for `BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket_provenance_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket_provenance_nonescape:70dfcbc3`). Rationale: The theorem has real BEDC content: it constructs a SemanticNameCert for provenance-read nonescape, is the primary Lean marker for the paper theorem `metacic-critical-path-provenance-nonescape`, and the paper uses that theorem as a dependency in multiple later MetaCICCriticalPath arguments. I attempted to add a downstream Lean consumer in `DownstreamReadinessBoundary.lean`, but `lake build` failed because the proposed consumer required transporting `PkgSig bundle row pkg` across `hsame`, which is not available in the existing interface. Per task instructions, I reverted the attempted edit and leave the theorem with this rationale rather than deleting or staging it. Gate results: lake_build=error: BEDC/Derived/MetaCICCriticalPathUp/DownstreamReadinessBoundary.lean:142:56: Application type mismatch: source.right.right has type PkgSig bundle _row pkg but is expected to have type PkgSig bundle _row' pkg, audit=skipped, phase_d_lint=skipped.
 
 - 2026-05-28T22:14:36Z: `resolved` `add_downstream_user` for `BEDC.Derived.UniformLimitUp.UniformLimitCarrier_seal_factorization` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.UniformLimitUp.UniformLimitCarrier_seal_factorization:edae215e`). Rationale: The target is not a disposable wrapper: it extracts the finite endpoint route from a UniformLimit carrier, including UnaryHistory rows, Cont routing, and PkgSig endpoint provenance. The paper uses it as the UniformLimit closure anchor and as the informal basis for continuity-facing handoffs, but Lean had no downstream reference. I added a UniformLimitContinuity consumer theorem that calls the target directly and packages the factorized endpoint route with a continuity-consumer Cont row. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-05-29T07:14:51Z: `resolved` `add_downstream_user` for `BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket_downstream_readiness_boundary` (flag `isolated_theorem`, finding `isolated_theorem:metaciccriticalpath:BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket_downstream_readiness_boundary:187e0135`). Rationale: The target has real BEDC content: it constructs a downstream SemanticNameCert from an accepted MetaCICCriticalPathPacket, a route-to-local-name continuation, and downstream package evidence. It was isolated because the later root-consumer theorem reproved a broader readiness surface instead of consuming this boundary. I added a sibling consumer theorem that directly invokes the flagged theorem and combines its downstream readiness certificate with discharge-row visibility, tying the downstream surface to the obstruction/discharge socket boundary rather than leaving it as a paper-only marker. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 

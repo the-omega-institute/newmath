@@ -54,4 +54,32 @@ theorem DiagonalLimitCompatibilityRootFormalKernelScope [AskSetup] [PackageSetup
       supportUnary, budgetSelectorRoot, rootBudgetWindowRoot, rootWindowRegseqReadback,
       rootReadbackRealSealRoot, routeCertSupport, provenancePkg, supportPkg⟩
 
+theorem DiagonalLimitCompatibility_root_formal_kernel_scope [AskSetup] [PackageSetup]
+    {diagonal triangle sealRow dyadic windows readback realSeal transport route provenance cert
+      rootScope : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DiagonalLimitCompatibilityCarrier diagonal triangle sealRow dyadic windows readback realSeal
+        transport route provenance cert bundle pkg →
+      Cont route cert rootScope →
+        PkgSig bundle rootScope pkg →
+          UnaryHistory diagonal ∧ UnaryHistory triangle ∧ UnaryHistory dyadic ∧
+            UnaryHistory windows ∧ UnaryHistory readback ∧ UnaryHistory realSeal ∧
+              UnaryHistory route ∧ UnaryHistory cert ∧ UnaryHistory rootScope ∧
+                Cont diagonal triangle sealRow ∧ Cont dyadic windows readback ∧
+                  Cont readback realSeal route ∧ Cont route cert rootScope ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle rootScope pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier routeCertScope rootScopePkg
+  obtain ⟨diagonalUnary, triangleUnary, _sealRowUnary, dyadicUnary, windowsUnary,
+    readbackUnary, realSealUnary, _transportUnary, routeUnary, _provenanceUnary, certUnary,
+    diagonalTriangleSeal, dyadicWindowsReadback, readbackRealSealRoute,
+    _routeCertTransport, provenancePkg⟩ := carrier
+  have rootScopeUnary : UnaryHistory rootScope :=
+    unary_cont_closed routeUnary certUnary routeCertScope
+  exact
+    ⟨diagonalUnary, triangleUnary, dyadicUnary, windowsUnary, readbackUnary,
+      realSealUnary, routeUnary, certUnary, rootScopeUnary, diagonalTriangleSeal,
+      dyadicWindowsReadback, readbackRealSealRoute, routeCertScope, provenancePkg,
+      rootScopePkg⟩
+
 end BEDC.Derived.DiagonallimitcompatibilityUp
