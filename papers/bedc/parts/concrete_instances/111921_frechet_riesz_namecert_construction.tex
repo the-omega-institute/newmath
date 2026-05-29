@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\FrechetRieszUp$}
+\label{ch:concrete-instances-frechet-riesz-namecert}
+\origin{human}
+
+Following Frechet and Riesz on Hilbert-space representation of bounded linear functionals, the $\FrechetRieszUp$ packet records the finite Hilbert-dual surface on which a scalar functional is read through a representing vector. It sits over the Hilbert carrier of \autoref{ch:concrete-instances-hilbert-namecert}, the inner-product rows of \autoref{ch:concrete-instances-innerproduct-namecert}, the scalar-functional surface of \autoref{ch:concrete-instances-bounded-linear-functional-namecert}, the projection-theorem route of \autoref{ch:concrete-instances-orthogonal-projection-theorem-namecert}, the Riesz--Fischer completion handoff of \autoref{ch:concrete-instances-riesz-fischer-namecert}, and the scalar endpoint seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only the displayed representing-vector route; it does not import an ambient dual-space isomorphism, quotient functional equality, a selected vector outside the packet, or a full Hilbert-space representation theorem as a host principle.
+
+\begin{definition}[Frechet--Riesz carrier]
+\label{def:frechet-riesz-carrier}
+A $\FrechetRieszUp$ carrier is a finite $\BHist$ packet
+$$
+F=(H,I,L,V,E,K,P,R,T,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the $\HilbertUp$ source row, including the carried endpoints, additive and scalar rows, norm row, completeness boundary, and classifier inherited by the packet.
+\item $I$ is the $\InnerProductUp$ row over the same source, exposing scalar pairing values through the terminal $\RealUp$ seal.
+\item $L$ is the $\BoundedLinearFunctionalUp(H)$ row, carrying the scalar action, linearity ledger, bounded-operator reading, and bound endpoint.
+\item $V$ is the representing-vector candidate row, a carried endpoint of the same Hilbert source.
+\item $E$ is the inner-product evaluation row recording, for each carried endpoint $x$ inspected by the packet, the scalar comparison
+$$
+L(x) \sim_{\RealUp} \langle x,V\rangle .
+$$
+\item $K$ is the norm-control row, binding the functional bound from $L$ to the Hilbert norm of $V$ and to the scalar endpoint discipline of $\RealUp$.
+\item $P$ is the $\OrthogonalProjectionTheoremUp$ handoff row, recording the projection-theorem route used to isolate the representing-vector candidate from the kernel-facing orthogonality data.
+\item $R$ is the $\RieszFischerUp$ handoff row, recording the coefficient-window and completion route used when the representing-vector candidate is read through Hilbert completion data.
+\item $T$ records componentwise $\hsame$ transport for $H,I,L,V,E,K,P,R$ and for the local structural rows.
+\item $C$ records displayed $\Cont$ replay from a Hilbert-dual request through the Hilbert source, bounded functional, representing-vector candidate, evaluation ledger, norm-control row, projection handoff, and Riesz--Fischer handoff.
+\item $Q$ is the $\Pkg$ provenance over $\FrechetRieszUp$, $\HilbertUp$, $\InnerProductUp$, $\BoundedLinearFunctionalUp$, $\OrthogonalProjectionTheoremUp$, $\RieszFischerUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FrechetRieszUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed Hilbert classifier, scalar-functional classifier, representing-vector transport, scalar evaluation transport, norm-control transport, projection and Riesz--Fischer handoff transport, replay, provenance, and local naming rows. It has no coordinate for a host dual-space isomorphism, quotient equality of functionals, nonconstructive orthogonal complement selection, unrestricted Hahn--Banach extension, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Frechet--Riesz NameCert obligations]
+\label{thm:frechet-riesz-namecert-obligations}
+For every accepted $\FrechetRieszUp$ carrier $F=(H,I,L,V,E,K,P,R,T,C,Q,N)$, the local $\NameCert_{\FrechetRieszUp}$ surface consists exactly of these finite obligation rows:
+\begin{enumerate}
+\item Hilbert source admission through $H$ and inner-product admission through $I$;
+\item scalar-functional admission through the $\BoundedLinearFunctionalUp$ row $L$;
+\item representing-vector candidate admission through the carried endpoint row $V$;
+\item scalar evaluation exactness through the displayed ledger $E$ over the $\RealUp$ endpoint seal;
+\item norm-control exactness through $K$, binding the functional bound and representing-vector norm without a host supremum;
+\item projection handoff through $P$, routed through $\OrthogonalProjectionTheoremUp$ before any kernel-orthogonality read is public;
+\item Riesz--Fischer handoff through $R$, routed through coefficient-window and completion data before any Hilbert completion read is public;
+\item componentwise transport, replay, provenance, and local naming through $T,C,Q,N$;
+\item non-escape from ambient Hilbert-dual isomorphisms, quotient functional equality, selected representatives, unrestricted Hahn--Banach separation, and hidden closed-subspace projection data.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The analytic surface is exactly the Hilbert source $H$, the inner-product row $I$, the scalar-functional row $L$, the representing-vector candidate $V$, the scalar evaluation ledger $E$, the norm-control row $K$, and the two handoff rows $P,R$.
+
+The bounded functional is read before the representing vector is exposed. Its scalar action and bound pass through $\BoundedLinearFunctionalUp$ and $\RealUp$, while the comparison with $\langle x,V\rangle$ is recorded only in the displayed ledger $E$ over carried Hilbert endpoints.
+
+The two theorem-facing handoffs are then forced to stay finite. The projection handoff $P$ reads kernel-facing orthogonality through $\OrthogonalProjectionTheoremUp$, and the Riesz--Fischer handoff $R$ reads completion-facing data through coefficient windows and displayed Hilbert rows.
+
+Finally attach $T,C,Q,N$. These rows transport, replay, source, and locally name the same packet, and no remaining coordinate can manufacture a host dual-space isomorphism, quotient functional equality, selected representative, unrestricted Hahn--Banach witness, or hidden projection theorem. Hence the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Frechet--Riesz Hilbert-dual handoff]
+\label{thm:frechet-riesz-hilbert-dual-handoff}
+Every Hilbert-dual consumer of an accepted $\FrechetRieszUp$ packet must read the route
+$$
+\HilbertUp,\InnerProductUp,\BoundedLinearFunctionalUp,\OrthogonalProjectionTheoremUp,\RieszFischerUp,\RealUp
+\longmapsto
+\FrechetRieszUp
+$$
+before it may treat a bounded scalar-valued functional as represented by a Hilbert endpoint. The exported handoff is the finite packet $F=(H,I,L,V,E,K,P,R,T,C,Q,N)$: the consumer receives the functional row $L$, the representing endpoint $V$, the scalar ledger $E$, the norm-control row $K$, the projection and Riesz--Fischer handoffs $P,R$, and the structural rows $T,C,Q,N$, but no ambient dual-space equality or choice-selected representative.
+\end{theorem}
+\begin{proof}
+Start with a consumer asking for Hilbert-dual data. The source and scalar values are already confined to the displayed $\HilbertUp$, $\InnerProductUp$, and $\RealUp$ rows, so the consumer cannot inspect a host function space before reading $H,I,L$.
+
+The representing-vector read is then mediated by $V,E,K$. The row $V$ supplies a carried Hilbert endpoint, $E$ records the scalar comparison with the functional values, and $K$ records the norm-control boundary. These rows are part of the carrier and do not assert a global dual-space isomorphism.
+
+The remaining access to analytic existence data factors through the two handoffs. The projection-theorem row $P$ supplies the finite orthogonality route, while the Riesz--Fischer row $R$ supplies the coefficient-window and completion route. Replaying the packet through $T,C,Q,N$ yields the displayed $\FrechetRieszUp$ handoff and nothing beyond it.
+\end{proof}
+
+\closureat{FrechetRieszUp}{seedStr}
+
+\begin{closurestatus}{\FrechetRieszUp}
+  \constructivestory{A $\FrechetRieszUp$ packet is generated from a displayed Hilbert source, an inner-product row, a bounded scalar-functional row, a representing-vector candidate, scalar evaluation ledgers, norm-control data, orthogonal-projection and Riesz--Fischer handoffs, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:frechet-riesz-carrier}, \autoref{thm:frechet-riesz-namecert-obligations}, and \autoref{thm:frechet-riesz-hilbert-dual-handoff} seed the finite Hilbert-dual representing-vector packet over Hilbert, inner-product, bounded-linear-functional, projection, Riesz--Fischer, Real, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close an ambient Hilbert-dual isomorphism, quotient equality of functionals, selected representatives, unrestricted Hahn--Banach extension, full projection-theorem existence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked Hilbert source admission, bounded-functional admission, representing-vector admission, scalar evaluation exactness, norm-control exactness, projection handoff, Riesz--Fischer handoff, transport, replay, provenance, and local naming for BEDC.Derived.FrechetRieszUp.}
+\end{closurestatus}

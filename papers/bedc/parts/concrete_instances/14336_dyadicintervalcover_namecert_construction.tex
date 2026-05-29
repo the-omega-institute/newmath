@@ -49,6 +49,58 @@ Next inspect the cover surface. The finite row $V$ contains the whole list of me
 Thus the decision surface is exhausted by $M,R,Q,V,A$ together with the displayed transports in $H$. A later regular-sequence tail, quotient equality of real names, host equality, countable choice, selected limits, and Real completeness are absent from the packet, so they cannot affect the finite-window cover read.
 \end{proof}
 
+\begin{theorem}[DyadicIntervalCover finite-window carrier]
+\label{thm:dyadicintervalcover-finite-window-carrier}
+Every accepted $\DyadicIntervalCoverUp$ packet exposes only finite interval-window rows over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. For a carrier
+$$
+I=(L,U,M,R,V,W,Q,A,H,C,P,N),
+$$
+the endpoint rows $L,U$, mesh row $M$, radius ledger $R$, membership row $V$, window row $W$, readback row $Q$, and seal row $A$ form the whole displayed cover surface before the local $\NameCert_{\DyadicIntervalCoverUp}$ row is exported.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-interval-cover-carrier}. The endpoint, mesh, radius, and membership rows are finite dyadic interval-window data, and the only Real-facing rows are the displayed StreamName windows, RegSeqRat readback, and terminal Real seal.
+
+Apply \autoref{thm:dyadic-interval-cover-regular-sequence-window-exhaustion}. It forces every regular-name cover read through $M,R,Q,V,A$ together with the finite window row $W$ before any cover decision is consumed. The L10 sibling dependencies are exactly the dyadic arithmetic of $\DyadicRatCoreUp$, the finite observation surface of $\StreamNameUp$, the regular-rational readback of $\RegSeqRatUp$, and the visible seal of $\RealUp$.
+
+Since the carrier contains no row beyond $L,U,M,R,V,W,Q,A,H,C,P,N$, the finite-window surface is exhausted by those rows.
+\end{proof}
+
+\begin{theorem}[DyadicIntervalCover refinement stability]
+\label{thm:dyadicintervalcover-refinement-stability}
+Let
+$$
+I=(L,U,M,R,V,W,Q,A,H,C,P,N)
+$$
+and
+$$
+I'=(L',U',M',R',V',W',Q',A',H',C',P',N')
+$$
+be accepted $\DyadicIntervalCoverUp$ packets. If a displayed refinement carries componentwise $\hsame$ data from the endpoint, mesh, radius, membership, window, readback, and seal rows of $I$ to the corresponding rows of $I'$, and the replay rows display the same $\Cont$ route through those transported coordinates, then the refined cover preserves the same finite interval-window route over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project both carriers. The rows available to the refinement are precisely the finite endpoint rows, mesh rows, radius ledgers, membership rows, finite windows, regular readbacks, Real seals, and structural rows listed in \autoref{def:dyadic-interval-cover-carrier}.
+
+Apply \autoref{thm:dyadic-interval-cover-regular-sequence-window-exhaustion} to $I$ and $I'$. The cover read in each packet is exhausted by the displayed mesh, radius, readback, membership, and seal rows. Componentwise $\hsame$ in $H,H'$ identifies those rows as packet data, and the displayed $\Cont$ replay in $C,C'$ preserves the route through the same L10 siblings.
+
+Thus refinement changes only the displayed finite interval rows and their transported membership witnesses. It does not create an open-cover compactness row, a selected subcover, a host equality test, a quotient stream, a choice functional, or a Real-completeness witness.
+\end{proof}
+
+\begin{theorem}[DyadicIntervalCover ledger exactness]
+\label{thm:dyadicintervalcover-ledger-exactness}
+The $\DyadicIntervalCoverUp$ cover ledger is exact for the displayed finite windows. In an accepted carrier
+$$
+I=(L,U,M,R,V,W,Q,A,H,C,P,N),
+$$
+the radius ledger $R$ and membership row $V$ account for exactly the dyadic endpoint comparisons and regular-name windows read through $L,U,M,W,Q,A$. The ledger exports no open-cover compactness theorem, selected subcover, host real equality, quotient stream, countable choice, or Real completeness.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The ledger row $R$ supplies the tolerance data for endpoint comparisons and for each inspected regular-name window, while $V$ records the finite membership witnesses at that tolerance.
+
+Use \autoref{thm:dyadic-interval-cover-regular-sequence-window-exhaustion}. Every cover decision reads only $M,R,Q,V,A$ after the StreamName window $W$ has been opened, so the ledger has no hidden tail coordinate beyond the finite rows.
+
+The sibling dependencies are the dyadic arithmetic surface $\DyadicRatCoreUp$, the window surface $\StreamNameUp$, the readback surface $\RegSeqRatUp$, and the terminal seal $\RealUp$. Since none of those rows supplies open-cover compactness, a selected subcover, host equality, quotient equality, choice, or completeness, the accepted ledger cannot export any such principle.
+\end{proof}
+
 \begin{closurestatus}{\DyadicIntervalCoverUp}
   \constructivestory{A $\DyadicIntervalCoverUp$ packet is generated from dyadic lower and upper endpoint rows, a mesh index, a radius ledger, finite cover-membership rows, StreamName windows, RegSeqRat readbacks, a Real seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
