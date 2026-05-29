@@ -491,8 +491,27 @@ def main():
         # repo), this step is a no-op.
         if has_remote_branch(UPSTREAM_BRANCH):
             if not sync_dev_to_auto_dev_validated(no_push=args.no_push):
+                # NON-FATAL when the working tree is clean. The dev -> auto-dev
+                # external-upstream merge is gated by a lake build (run in a
+                # scratch worktree); under pipeline load that validation
+                # commonly times out (1800s). That MUST NOT skip Steps 1-2 —
+                # the codex-auto-dev <-> auto-dev mirror is independent (its
+                # content is already gated per round) and is what keeps
+                # auto-dev tracking the pipeline. Returning here every cycle
+                # starved auto-dev (observed 2026-05-29: auto-dev 747 commits
+                # / ~12h behind codex-auto-dev). dev's external content simply
+                # waits for a tick whose validation passes. Only bail if the
+                # failed dev merge left the tree dirty (in-main-checkout merge
+                # conflict that needs careful handling).
                 success = False
-                return
+                if working_tree_dirty():
+                    print("[sync] dev -> auto-dev failed AND working tree "
+                          "dirty; bailing this tick for safety")
+                    return
+                print("[sync] dev -> auto-dev validation failed (likely "
+                      "validation lake-build timeout); continuing to "
+                      "codex-auto-dev <-> auto-dev mirror so auto-dev does "
+                      "not starve")
         else:
             print(f"[sync] origin/{UPSTREAM_BRANCH} missing; skipping dev → auto-dev step")
 
