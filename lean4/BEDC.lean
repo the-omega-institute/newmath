@@ -3799,7 +3799,6 @@ import BEDC.Derived.GoursatUp.TasteGate
 import BEDC.Derived.GradedAlgebraUp
 import BEDC.Derived.GramSchmidtUp.TasteGate
 import BEDC.Derived.GraphUp
-import BEDC.Derived.GroebnerBasisUp.TasteGate
 import BEDC.Derived.GromovHausdorffUp.NameCertObligations
 import BEDC.Derived.GromovHausdorffUp.TasteGate
 import BEDC.Derived.GronwallInequalityUp.TasteGate
@@ -5022,6 +5021,7 @@ import BEDC.Derived.ObserverTraceSealUp.TasteGate
 import BEDC.Derived.ObserverperspectiveclassifierUp
 import BEDC.Derived.OdeUp
 import BEDC.Derived.OnePointCompactificationUp.TasteGate
+import BEDC.Derived.OneSidedLimitUp.TasteGate
 import BEDC.Derived.OnticAdequacyAuditUp.NameCert
 import BEDC.Derived.OnticAdequacyAuditUp.TasteGate
 import BEDC.Derived.OnticResidueLatticeUp.TasteGate
@@ -5894,6 +5894,7 @@ import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.RegularCauchyComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionEndpointUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCompletionEndpointUp.TasteGate
+import BEDC.Derived.RegularCauchyCompletionEnvelopeUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionFrontierUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCompletionFrontierUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionMonadUp.TasteGate
