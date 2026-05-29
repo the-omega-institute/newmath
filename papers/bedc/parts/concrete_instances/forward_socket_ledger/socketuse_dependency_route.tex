@@ -1,0 +1,11 @@
+\begin{theorem}[Forward socket ledger SocketUse dependency route]
+\label{thm:forward-socket-ledger-socketuse-dependency-route}
+Let $F=(K,R,A,G,T,H,C,P,N)$ be an accepted $\ForwardSocketLedgerUp$ carrier. Any accepted forward socket export that consumes the far-end boundary row $T$ factors through the visible socket-use ledger of \autoref{ch:concrete-instances-socket-use-ledger-namecert} before the local $\NameCert_{\ForwardSocketLedgerUp}$ row is read. In particular, the export route must first expose the supply ledger of \autoref{ch:concrete-instances-supplysocketledger-namecert}, the far-end boundary of \autoref{ch:concrete-instances-apophaticfarendsocket-namecert}, the socket-use event rows $A,S,Q,V,R,H,C,P,N$ of $\SocketUseLedgerUp$, and only then the forward rows $K,R,A,G,T,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:forward-socket-ledger-carrier}. The forward packet presents the requested supply shape, non-internalization marker, $\mathsf{GAP}$ ledger, and far-end boundary as visible rows rather than as an internal object.
+
+Use the supply-socket and far-end sibling routes cited in the carrier provenance. The supply ledger accounts for the requested shape and refusal route, while the apophatic far-end socket keeps the boundary row non-internalized.
+
+The visible consumption of that boundary is the role of $\SocketUseLedgerUp$. Its event rows expose the marked use and refusal ledger before an audit consumer reaches a local socket-use NameCert row. Therefore a forward export that cites $T$ must pass through that event surface before $N$ may name the forward packet.
+\end{proof}
