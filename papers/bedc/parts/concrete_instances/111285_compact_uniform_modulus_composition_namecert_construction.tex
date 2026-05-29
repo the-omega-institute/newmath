@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\CompactUniformModulusCompositionUp$}
+\label{ch:concrete-instances-compact-uniform-modulus-composition-namecert}
+\origin{human}
+
+Following the Bishop--Bridges and Heine--Cantor treatment of uniformly continuous maps on compact metric data, the $\CompactUniformModulusCompositionUp$ packet records the finite tolerance-only composition surface for two compact-uniform modulus rows. It sits after the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the continuous-map carrier of \autoref{ch:concrete-instances-continuousmap-namecert}, the compact uniform modulus row of \autoref{ch:concrete-instances-compact-uniform-modulus-namecert}, the metric-triangle estimate of \autoref{ch:concrete-instances-metric-triangle-uniform-estimate-namecert}, and the stability packet of \autoref{ch:concrete-instances-compact-uniform-modulus-stability-namecert}. The packet supplies the finite composition object used by compact-open and compact-uniform-continuity consumers without exporting a host function space, quotient point equality, selected global modulus, choice schedule, or ambient compactness theorem.
+
+\begin{definition}[Compact uniform modulus composition carrier]
+\label{def:compact-uniform-modulus-composition-carrier}
+A $\CompactUniformModulusCompositionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,Y,Z,F,G,M_F,M_G,A,T,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X,Y,Z$ are compact metric source, middle, and target rows, with finite net and distance ledgers visible at the requested tolerances.
+\item $F$ and $G$ are $\ContinuousMapUp$ rows for the two displayed maps.
+\item $M_F$ is the first $\CompactUniformModulusUp$ row, turning a target tolerance for $Y$ into a source tolerance for $X$ along $F$.
+\item $M_G$ is the second $\CompactUniformModulusUp$ row, turning a target tolerance for $Z$ into a source tolerance for $Y$ along $G$.
+\item $A$ is the tolerance-assembly row, recording that a $Z$-tolerance request is first read by $M_G$ and that its resulting $Y$-tolerance request is then read by $M_F$.
+\item $T$ is the $\MetricTriangleUniformEstimateUp$ row that keeps the two transported estimates on the same metric route.
+\item $U$ is the downstream $\UniformModulusUp$ consumer row for the composite map.
+\item $H$ records componentwise $\hsame$ transport for compact metric sources, continuous maps, modulus rows, tolerance assembly, triangle estimate, consumer, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a composite tolerance request through $Z,M_G,Y,M_F,X,A,T,U,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CompactUniformModulusCompositionUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\CompactUniformModulusUp$, $\MetricTriangleUniformEstimateUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactUniformModulusCompositionUp}$ row.
+\end{enumerate}
+The classifier compares accepted composition packets only by these finite rows. It contains no host function-space composition theorem, quotient point equality, selected global modulus, choice schedule, or ambient compactness principle.
+\end{definition}
+
+\begin{theorem}[Compact uniform modulus composition NameCert obligations]
+\label{thm:compact-uniform-modulus-composition-namecert-obligations}
+For every accepted $\CompactUniformModulusCompositionUp$ carrier $Q=(X,Y,Z,F,G,M_F,M_G,A,T,U,H,C,P,N)$, the local $\NameCert_{\CompactUniformModulusCompositionUp}$ surface consists exactly of compact source admission through $X,Y,Z$, continuous-map admission through $F,G$, first and second compact-uniform modulus reads through $M_F,M_G$, tolerance assembly through $A$, metric-triangle transport through $T$, uniform-modulus export through $U$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-uniform-modulus-composition-carrier}. The compact metric rows, continuous-map rows, compact-uniform modulus rows, assembly row, triangle estimate, uniform-modulus consumer, and structural rows are exactly the displayed coordinates.
+
+The tolerance route is ordered by $A$. A requested $Z$-tolerance is consumed by $M_G$ to expose a $Y$-tolerance, and only that displayed $Y$-tolerance is then consumed by $M_F$ to expose the source tolerance over $X$.
+
+The triangle estimate $T$ and consumer row $U$ read the same assembled route. Transport, replay, provenance, and local naming preserve it through $H,C,P,N$.
+
+Since the carrier has no coordinate for host function-space composition, quotient point equality, selected moduli, choice, or ambient compactness, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Compact uniform modulus composition tolerance route]
+\label{thm:compact-uniform-modulus-composition-tolerance-route}
+Every compact-open or compact-uniform-continuity consumer of an accepted $\CompactUniformModulusCompositionUp$ packet reads the composite modulus only through
+$$
+M_G \longmapsto A \longmapsto M_F \longmapsto T \longmapsto U .
+$$
+Thus the composite tolerance is assembled from two displayed compact-uniform modulus rows and the metric-triangle ledger, not from a selected host-level modulus for the composite map.
+\end{theorem}
+\begin{proof}
+Begin with the consumer's target tolerance for the $Z$ row. The second modulus row $M_G$ supplies the middle-space tolerance, and the assembly row $A$ records that this is the only tolerance handed to $M_F$.
+
+The first modulus row $M_F$ returns the source-space tolerance over $X$. The metric-triangle row $T$ then transports the two displayed estimates into the bound consumed by $U$.
+
+The structural rows $H,C,P,N$ preserve this route. Since there is no host composition coordinate or selected global modulus in the carrier, every consumer remains on the displayed tolerance chain.
+\end{proof}
+
+\begin{theorem}[Compact uniform modulus composition nonescape]
+\label{thm:compact-uniform-modulus-composition-nonescape}
+No accepted $\CompactUniformModulusCompositionUp$ packet exports quotient point equality, a selected global modulus, a choice schedule, an ambient compactness theorem, or a host function-space composition proof. It exports only the two continuous-map rows, two compact-uniform modulus rows, the tolerance assembly row, the metric-triangle estimate, the uniform-modulus consumer, and the structural NameCert rows.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only analytic rows are $F,G,M_F,M_G,A,T,U$ over the compact metric sources $X,Y,Z$.
+
+Apply \autoref{thm:compact-uniform-modulus-composition-namecert-obligations}. The local NameCert obligations require the consumer to read the two modulus rows and the tolerance assembly before the uniform-modulus export.
+
+The refused host objects are absent from the carrier and cannot be produced by transport, replay, provenance, or local naming. Therefore the accepted packet exports only the displayed finite composition route.
+\end{proof}
+
+\closureat{CompactUniformModulusCompositionUp}{seedStr}
+
+\begin{closurestatus}{\CompactUniformModulusCompositionUp}
+  \constructivestory{A $\CompactUniformModulusCompositionUp$ packet is generated from compact metric source, middle, and target rows, two ContinuousMap rows, two CompactUniformModulus rows, a tolerance-assembly row, a MetricTriangleUniformEstimate row, a UniformModulus consumer row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-uniform-modulus-composition-carrier}, \autoref{thm:compact-uniform-modulus-composition-namecert-obligations}, \autoref{thm:compact-uniform-modulus-composition-tolerance-route}, and \autoref{thm:compact-uniform-modulus-composition-nonescape} seed the finite tolerance-only composition route for compact-uniform modulus consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function-space composition, quotient point equality, selected global moduli, choice schedules, ambient compactness theorems, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked compact source admission, continuous-map admission, first and second modulus reads, tolerance assembly, metric-triangle transport, uniform-modulus export, replay stability, provenance exhaustion, and local naming for BEDC.Derived.CompactUniformModulusCompositionUp.}
+\end{closurestatus}
