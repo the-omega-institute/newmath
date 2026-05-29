@@ -713,7 +713,14 @@ def _hours_since(iso_str: str) -> float | None:
         # Older Pythons get a manual reparse via email.utils.
         try:
             from datetime import datetime, timezone
-            dt = datetime.fromisoformat(iso_str)
+            # gh emits a trailing 'Z' (e.g. 2026-05-29T17:23:21Z); Python's
+            # datetime.fromisoformat only accepts that on 3.11+. Normalize so
+            # the parse works on 3.9/3.10 too — otherwise this returns None for
+            # every gh createdAt and the age-box PR-replace path never fires.
+            iso_norm = iso_str.strip()
+            if iso_norm.endswith(("Z", "z")):
+                iso_norm = iso_norm[:-1] + "+00:00"
+            dt = datetime.fromisoformat(iso_norm)
             if dt.tzinfo is None:
                 dt = dt.replace(tzinfo=timezone.utc)
             from datetime import datetime as _dt
@@ -787,31 +794,6 @@ def _auto_dev_advanced_past(pr_head: str | None) -> int:
     return _rev_list_count(f"{pr_head}..origin/{MIRROR_BRANCH}")
 
 
-def _auto_dev_head_green() -> bool:
-    """Return True iff a recent completed/success run targets origin/auto-dev HEAD."""
-    head = _origin_sha(MIRROR_BRANCH)
-    if not head:
-        return False
-    res = run(["gh", "run", "list",
-               "--branch", MIRROR_BRANCH,
-               "--limit", "5",
-               "--json", "status,conclusion,headSha"],
-              capture=True, check=False)
-    if res.returncode != 0:
-        return False
-    try:
-        import json as _json
-        runs = _json.loads(res.stdout or "[]")
-    except Exception:
-        return False
-    for row in runs:
-        if (row.get("headSha") == head
-                and str(row.get("status") or "").lower() == "completed"
-                and str(row.get("conclusion") or "").lower() == "success"):
-            return True
-    return False
-
-
 def _close_stale_pr(pr: dict, advanced_by: int) -> bool:
     number = pr["number"]
     head_ref = pr.get("headRefName")
@@ -876,14 +858,22 @@ def sync_dev_catchup_pr() -> None:
         advanced_by = _auto_dev_advanced_past(pr_head)
         open_age = _hours_since(pr.get("createdAt") or "")
 
-        # (a) Age-box: a catch-up PR open past PR_REPLACE_OPEN_HOURS without
-        #     merging is closed and reopened on the current auto-dev tip, as
-        #     long as auto-dev has advanced past its head (else the reopen
-        #     would be byte-identical). Applies to BOTH pending and failed
-        #     check states and does NOT require the auto-dev HEAD to be green
-        #     — auto-dev keeps producing commits, so waiting for a green HEAD
-        #     can strand the PR indefinitely while its head rots.
-        if (open_age is not None and open_age >= PR_REPLACE_OPEN_HOURS
+        # (a) Failed checks + auto-dev has new commits → close and reopen
+        #     immediately on the fresh tip to try again. We do NOT wait for
+        #     the auto-dev HEAD to be green: the whole point of reopening is
+        #     to retry with newer content, and this giant library rarely
+        #     shows an all-green HEAD, so gating on it would strand the PR.
+        if _pr_has_failed_check(pr) and advanced_by > 0:
+            if not _close_stale_pr(pr, advanced_by):
+                return
+            force_open_pr = True
+            reasons.append(f"failed PR superseded by {MIRROR_BRANCH} "
+                           f"advancing {advanced_by} commit(s)")
+        # (b) Age-box the stuck-pending case: a PR whose checks never resolve
+        #     (perpetually pending, never flips to a failure conclusion) is
+        #     replaced once it has been open past PR_REPLACE_OPEN_HOURS and
+        #     auto-dev has moved past its head.
+        elif (open_age is not None and open_age >= PR_REPLACE_OPEN_HOURS
                 and advanced_by > 0):
             if not _close_stale_pr(pr, advanced_by):
                 return
@@ -891,29 +881,13 @@ def sync_dev_catchup_pr() -> None:
             reasons.append(f"PR open {open_age:.1f}h without merge "
                            f"(threshold {PR_REPLACE_OPEN_HOURS}h); "
                            f"{MIRROR_BRANCH} advanced {advanced_by} commit(s)")
-        # (b) Fast replace: a clearly-failed PR is superseded before the age
-        #     box fires, but only when the current auto-dev HEAD is itself
-        #     green so the fresh PR has a real chance to merge immediately.
-        elif _pr_has_failed_check(pr):
-            if advanced_by <= 0:
-                print(f"[sync] dev-catchup: PR #{pr['number']} failed, "
-                      f"but {MIRROR_BRANCH} has not advanced past it")
-                return
-            if not _auto_dev_head_green():
-                print(f"[sync] dev-catchup: PR #{pr['number']} failed, "
-                      f"current {MIRROR_BRANCH} HEAD not green yet — "
-                      f"will age-box at {PR_REPLACE_OPEN_HOURS}h")
-                return
-            if not _close_stale_pr(pr, advanced_by):
-                return
-            force_open_pr = True
-            reasons.append(f"stale failed PR superseded by {MIRROR_BRANCH} "
-                           f"advancing {advanced_by} commit(s)")
         else:
             age_txt = f"{open_age:.1f}h" if open_age is not None else "?"
-            print(f"[sync] dev-catchup: PR #{pr['number']} open {age_txt}; "
-                  f"checks not green — leaving in place "
-                  f"(< {PR_REPLACE_OPEN_HOURS}h or {MIRROR_BRANCH} not ahead)")
+            failed = "failed" if _pr_has_failed_check(pr) else "pending"
+            print(f"[sync] dev-catchup: PR #{pr['number']} open {age_txt} "
+                  f"({failed}) — leaving in place "
+                  f"({MIRROR_BRANCH} not ahead, or pending & < "
+                  f"{PR_REPLACE_OPEN_HOURS}h)")
             return
 
     # Phase B: no open PR. Check whether one is needed.

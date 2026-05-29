@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\GalerkinProjectionUp$}
+\label{ch:concrete-instances-galerkin-projection-namecert}
+\origin{human}
+
+Following Cea and Galerkin finite-dimensional projection theory, the $\GalerkinProjectionUp$ packet records the finite trial-space route by which weak Sobolev data are tested against a displayed finite basis and returned as a residual certificate. It sits between the weak-data surface of \autoref{ch:concrete-instances-sobolev-namecert}, the inner-product and norm discipline of \autoref{ch:concrete-instances-hilbert-namecert} and \autoref{ch:concrete-instances-normedspace-namecert}, the linear operator rows of \autoref{ch:concrete-instances-linearmap-namecert}, and the finite coordinate ledger of \autoref{ch:concrete-instances-matrix-namecert}. The packet supplies a constructive projection certificate without importing host Hilbert projection machinery, quotient function spaces, selected representatives, global minimizers, or choice.
+
+\begin{definition}[Galerkin projection carrier]
+\label{def:galerkin-projection-carrier}
+A $\GalerkinProjectionUp$ carrier is a finite $\BHist$ packet
+$$
+G=(S,H,L,M,V,B,A,b,u,r,O,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\SobolevUp$ weak-data source row carrying the finite testable function data requested by the problem.
+\item $H$ is the $\HilbertUp$ or $\NormedSpaceUp$ ambient norm row used only through displayed inner-product and norm comparisons.
+\item $L$ is the $\LinearMapUp$ bilinear or operator row that supplies the weak equation being tested.
+\item $M$ is the $\MatrixUp$ coordinate row for the finite stiffness and load tables.
+\item $V$ is the finite trial-space row, listing the accepted basis names and the admissible finite coefficient windows.
+\item $B$ is the basis-evaluation row, displaying how each trial basis element is read back into the weak-data carrier.
+\item $A$ and $b$ are the finite linear system rows induced by the operator row $L$ and the trial row $V$.
+\item $u$ is the computed trial coefficient row inside the displayed finite coordinate packet.
+\item $r$ is the residual row, recording the finite test residual against every displayed trial basis element.
+\item $O$ is the residual-orthogonality row, exposing that the residual readback vanishes on the displayed trial-space tests.
+\item $T$ records componentwise $\hsame$ transport for weak source rows, norm rows, operator rows, matrix rows, trial rows, basis readback, finite system rows, coefficient rows, residual rows, orthogonality rows, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+S,H,L,M,V,B,A,b,u,r,O \longmapsto T,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\GalerkinProjectionUp$, $\SobolevUp$, $\HilbertUp$, $\NormedSpaceUp$, $\LinearMapUp$, $\MatrixUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\GalerkinProjectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,H,L,M,V,B,A,b,u,r,O,T,C,P,N$. It has no coordinate for host minimizers, quotient function spaces, selected representatives, ambient Hilbert projection operators, global compactness, or choice.
+\end{definition}
+
+\begin{theorem}[Galerkin projection NameCert obligations]
+\label{thm:galerkin-projection-namecert-obligations}
+Every accepted $\GalerkinProjectionUp$ packet exposes its trial-space, finite-coordinate, and residual-certificate obligations through the displayed route
+$$
+\BHist(S,H,L,M,V,B,A,b,u,r,O)
+\longrightarrow
+\hsame(T)
+\longrightarrow
+\Cont(C)
+\longrightarrow
+\Pkg(P)
+\longrightarrow
+\NameCert_{\GalerkinProjectionUp}(N).
+$$
+The NameCert row may read the sibling packets $\SobolevUp$, $\HilbertUp$, $\NormedSpaceUp$, $\LinearMapUp$, and $\MatrixUp$ only through their displayed local rows. It cannot replace the finite trial packet by a quotient function space, a selected equivalence-class representative, a host Hilbert projection theorem, a global minimizer, or a choice principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:galerkin-projection-carrier}. The source, ambient norm, weak operator, matrix coordinate, trial-space, basis-readback, finite system, coefficient, residual, and orthogonality rows are all listed before transport and replay.
+
+The transport row $T$ is componentwise, so it preserves each displayed dependency separately. The replay row $C$ then records the finite route from those rows to provenance and local naming; it does not add a selector for a host representative.
+
+Finally the package row $P$ cites only the sibling NameCert surfaces named in the statement, and the local row $N$ closes the packet over that finite route. Since no carrier coordinate names a host minimizer, quotient function space, selected representative, ambient projection operator, global compactness witness, or choice schedule, the certificate obligations are exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[Galerkin finite-subspace residual orthogonality]
+\label{thm:galerkin-projection-finite-subspace-residual-orthogonality}
+For every accepted $\GalerkinProjectionUp$ packet $G=(S,H,L,M,V,B,A,b,u,r,O,T,C,P,N)$, the residual row $r$ is exposed to downstream consumers only together with the finite trial-space row $V$, the basis-readback row $B$, the matrix system rows $A,b$, and the residual-orthogonality row $O$. Thus every residual certificate is a finite-subspace statement: each displayed trial basis test reads zero residual through $O$, while no consumer obtains an ambient minimizer, quotient-function representative, or selected best approximation outside the packet.
+\end{theorem}
+\begin{proof}
+Read the finite trial-space row $V$ and the basis-readback row $B$. These rows specify exactly which test functions are visible to the residual certificate.
+
+The finite system rows $A,b$ and coefficient row $u$ determine the residual row $r$ inside the same displayed coordinate packet. The orthogonality row $O$ then records the zero residual checks against the basis tests carried by $V$ and $B$.
+
+Transport and replay preserve that finite list through $T$ and $C$, while $P$ and $N$ seal the result as local NameCert data. Because the carrier has no coordinate for ambient minimizers, quotient function spaces, selected representatives, or choice, the exported orthogonality claim is exactly the finite-subspace residual certificate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\GalerkinProjectionUp$ read displays weak source, ambient norm, operator, matrix, finite trial-space, basis-readback, finite system, coefficient, residual, orthogonality, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows before any Sobolev, Hilbert, linear-map, matrix, or normed-space consumer reads the projection.}
+
+\independenceWitness{sobolev, hilbert, linearmap, matrix, normedspace: $\GalerkinProjectionUp$ is not bijective to any listed sibling because it binds finite trial-space admission, coordinate system rows, computed coefficients, residual readback, residual orthogonality, componentwise transport, displayed replay, provenance, and local naming into one accepted projection packet.}
+
+\closureat{GalerkinProjectionUp}{seedStr}
+
+\begin{closurestatus}{\GalerkinProjectionUp}
+  \constructivestory{A $\GalerkinProjectionUp$ packet is generated from displayed Sobolev weak data, Hilbert or NormedSpace comparison rows, a LinearMap weak operator row, Matrix coordinate rows, a finite trial-space basis, finite system rows, computed coefficients, residual readback, residual orthogonality, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:galerkin-projection-carrier}, \autoref{thm:galerkin-projection-namecert-obligations}, and \autoref{thm:galerkin-projection-finite-subspace-residual-orthogonality} seed the finite Galerkin projection route over Sobolev, Hilbert, LinearMap, Matrix, and NormedSpace rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host Hilbert projection machinery, quotient function spaces, selected representatives, global minimizers, choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked trial-space admission, finite matrix-system construction, residual readback, residual orthogonality, transport stability, replay, provenance, and local naming for BEDC.Derived.GalerkinProjectionUp.}
+\end{closurestatus}
