@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\PerronFrobeniusUp$}
+\label{ch:concrete-instances-perron-frobenius-namecert}
+\origin{human}
+
+Following Perron and Frobenius, the $\PerronFrobeniusUp$ packet records the finite linear-algebra route by which a nonnegative matrix exposes a positive cone, iterate windows, normalized comparison rows, radius bounds, and eigenvector-window evidence. It consumes the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the vector-space carrier of \autoref{ch:concrete-instances-vecspace-namecert}, the positive-real boundary of \autoref{ch:concrete-instances-positivereal-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a NameCert interface for downstream finite spectral consumers; it does not import host eigenvectors, spectral choice, classical compactness, quotient real equality, or an ambient linear-operator theory.
+
+\begin{definition}[PerronFrobenius carrier]
+\label{def:perron-frobenius-carrier}
+A $\PerronFrobeniusUp$ carrier is a finite $\BHist$ packet
+$$
+K=(M,C,I,R,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the nonnegative square $\MatrixUp$ row, exposing its entries only through displayed $\RealUp$ and $\PositiveRealUp$ comparison data.
+\item $C$ is the positive-cone row in the ambient $\VecSpaceUp$ source, recording which displayed vector histories are admitted as nonnegative or positive witnesses for the matrix action.
+\item $I$ is the finite iterate-and-normalization ledger, listing the chosen powers, cone inputs, normalization denominators, and normalized output rows inspected by the certificate.
+\item $R$ is the radius-and-eigenvector-window row, recording finite lower and upper real bounds for the candidate radius together with a finite window where $Mv$ and $rv$ are compared.
+\item $E$ is the endpoint row that exposes the final cone-compatible comparison between the normalized iterate window and the radius window.
+\item $H$ records componentwise $\hsame$ transport for matrix, cone, iterate, radius-window, endpoint, replay, provenance, and naming rows.
+\item $T$ records displayed $\Cont$ replay from the matrix row through the cone, iterate, normalization, radius-window, and endpoint rows.
+\item $P$ is the $\Pkg$ provenance over $\PerronFrobeniusUp$, $\MatrixUp$, $\VecSpaceUp$, $\PositiveRealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\PerronFrobeniusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,C,I,R,E,H,T,P,N$. It has no coordinate for a selected host eigenvector, a completed projective cone, spectral radius as a quotient real, compactness of the simplex, irreducibility classification, or an external Jordan form.
+\end{definition}
+
+\begin{theorem}[PerronFrobenius NameCert obligations]
+\label{thm:perron-frobenius-namecert-obligations}
+For every accepted $\PerronFrobeniusUp$ carrier $K=(M,C,I,R,E,H,T,P,N)$, the local $\NameCert_{\PerronFrobeniusUp}$ surface consists exactly of carrier admission for the nonnegative matrix row, positive-cone row, finite iterate-and-normalization ledger, radius-and-eigenvector-window row, endpoint comparison row, componentwise transport, displayed replay, package provenance, and local naming. Any consumer that reads a Perron-facing radius or cone-vector witness must expose $M,C,I,R,E$ before it consumes the structural rows $H,T,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:perron-frobenius-carrier}. The analytic rows are the matrix row $M$, positive-cone row $C$, iterate-and-normalization ledger $I$, radius-and-window row $R$, and endpoint row $E$.
+
+The NameCert obligations are precisely the projections of those rows together with the structural data. Matrix nonnegativity is read through $M$, cone admission through $C$, finite power and normalization data through $I$, candidate radius and eigenvector-window comparison through $R$, and endpoint compatibility through $E$.
+
+The rows $H,T,P,N$ transport, replay, source, and name the same packet. Since no host eigenvector, spectral-choice operator, quotient real, compactness argument, or external Jordan form appears as a carrier coordinate, the displayed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[PerronFrobenius positive cone route]
+\label{thm:perron-frobenius-positive-cone-route}
+Every positive-cone read of an accepted $\PerronFrobeniusUp$ packet factors through the finite route
+$$
+M,C \longmapsto I \longmapsto R,E \longmapsto H,T,P,N .
+$$
+Thus a downstream spectral consumer receives only a nonnegative matrix row, a displayed cone row, finite iterate and normalization data, and a finite radius-window comparison; it does not receive a selected Perron eigenvector or a host spectral theorem.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $K=(M,C,I,R,E,H,T,P,N)$. The only matrix source is $M$, and the only cone source is $C$.
+
+The route next reads the finite iterate-and-normalization ledger $I$. This ledger is finite BEDC data: it records displayed powers, cone inputs, normalization denominators, and normalized output rows rather than an infinite limiting process.
+
+The radius-and-eigenvector-window row $R$ and endpoint row $E$ compare only finite windows. They can witness the compatibility of the displayed iterate window with the candidate radius bounds, but they do not choose a global eigenvector or identify a host spectral radius.
+
+Finally the route passes through $H,T,P,N$. These rows preserve the same displayed packet under $\hsame$, $\Cont$, $\Pkg$, and local naming, so every positive-cone consumer remains inside the finite carrier surface.
+\end{proof}
+
+\falsifiablePrediction{A $\PerronFrobeniusUp$ consumer that reads a Perron-facing radius or cone-vector witness without exposing the matrix row, positive-cone row, iterate ledger, radius-window row, and endpoint row refutes the carrier surface.}
+
+\independenceWitness{matrix, vecspace, positivereal, real: no listed sibling supplies the whole nine-row packet $K=(M,C,I,R,E,H,T,P,N)$, because the siblings provide matrix entries, vector operations, positive-real comparisons, and real seals separately while this chapter binds them to one finite PerronFrobenius NameCert route.}
+
+\closureat{PerronFrobeniusUp}{seedStr}
+
+\begin{closurestatus}{\PerronFrobeniusUp}
+  \constructivestory{A $\PerronFrobeniusUp$ packet is generated from a nonnegative Matrix row, a positive VecSpace cone row, finite iterate and normalization data, a radius-and-eigenvector-window row, an endpoint comparison row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:perron-frobenius-carrier}, \autoref{thm:perron-frobenius-namecert-obligations}, and \autoref{thm:perron-frobenius-positive-cone-route} seed the finite Perron-Frobenius carrier over Matrix, VecSpace, PositiveReal, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a selected host eigenvector, spectral choice, quotient-real spectral radius, irreducibility classification, classical compactness, external Jordan form, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, matrix nonnegativity exposure, positive-cone exposure, iterate normalization, radius-window comparison, endpoint compatibility, transport, replay, provenance, and local naming for BEDC.Derived.PerronFrobeniusUp.}
+\end{closurestatus}
