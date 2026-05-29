@@ -1,46 +1,5 @@
-\subsection{Start--stop window enumeration as an ORF-eligibility boundary record}\label{subsec:h0-m-equals-wnr-cun-orf-eligibility-boundary}
+\subsection{NameCert: h0.M.equals.WNR.CUN}
+\label{sec:namecert-h0_m_equals_wnr_cun}
 \origin{ai}
 
-\paragraph{Finite packet.}
-This BioReality record concerns the finite codon packet indexed by the claim identifier \texttt{h0.M.equals.WNR.CUN}.  The biological reading assigned to the packet is deliberately narrow: it is an open-reading-frame eligibility seed obtained from start/stop codon enumeration.  The packet does not yet contain a curated sequence interval, transcript observation, database annotation, ribosome-profiling contact, peptide evidence, structural contact, or functional assay.  Its status is therefore a boundary record for the layer \texttt{orf\_eligibility}, not a realized ORF claim.
-
-The primary finite equality checks that the set $M$ is exactly the union named by the WNR and CUN row construction.  The verified cardinality is $20$, and the enumerated rows are
-$$\begin{aligned}
-M=\{&\texttt{AAA},\texttt{AAG},\texttt{ACA},\texttt{ACG},\texttt{AGA},\texttt{AGG},\texttt{AUA},\texttt{AUG},\texttt{CUA},\texttt{CUC},\\
-&\texttt{CUG},\texttt{CUU},\texttt{UAA},\texttt{UAG},\texttt{UCA},\texttt{UCG},\texttt{UGA},\texttt{UGG},\texttt{UUA},\texttt{UUG}\}.
-\end{aligned}$$
-This list is the whole finite object used by the seed.  The equality does not by itself select a genomic interval, transcript coordinate, organism, reading frame in an observed molecule, or initiation context.
-
-\paragraph{Motif row and saturation checks.}
-A second finite check identifies the compressed motif row $R$ as the following $13$ codons:
-$$\begin{aligned}
-R=\{&\texttt{AAA},\texttt{AGA},\texttt{AGG},\texttt{AUA},\texttt{CUA},\texttt{CUC},\texttt{CUG},\texttt{CUU},\texttt{UAA},\texttt{UAG},\\
-&\texttt{UCA},\texttt{UGA},\texttt{UUA}\}.
-\end{aligned}$$
-The motif-compression audit reports no missing rows and no extra rows relative to that finite union.  The three-step saturation fact records that $\operatorname{Sat}_{f3}(R)$ is $M$ with exactly the two codons \texttt{ACA} and \texttt{ACG} absent:
-$$\begin{aligned}
-\operatorname{Sat}_{f3}(R)=\{&\texttt{AAA},\texttt{AAG},\texttt{AGA},\texttt{AGG},\texttt{AUA},\texttt{AUG},\texttt{CUA},\texttt{CUC},\texttt{CUG},\\
-&\texttt{CUU},\texttt{UAA},\texttt{UAG},\texttt{UCA},\texttt{UCG},\texttt{UGA},\texttt{UGG},\texttt{UUA},\texttt{UUG}\}.
-\end{aligned}$$
-The same check records an empty $f3$ boundary, expressed in the source data as the empty list.  It also records that adding the \texttt{ACA} row to the mediated construction recovers the same $20$-element set $M$.  These are finite row identities inside the codon packet.  They are not evidence that any row is translated in a cell, admitted by a physical folding process, or used in a biological mechanism.
-
-\paragraph{Quotient geometry.}
-The quotient-geometry contact is still internal to the finite packet.  The $M$-complex has $f$-vector
-$$\begin{aligned}
-f(M)=(20,38,26,8,1),
-\end{aligned}$$
-and the quotient has $10$ projected rows with quotient $f$-vector
-$$\begin{aligned}
-f(M/{\sim})=(10,14,6,1).
-\end{aligned}$$
-The recorded quotient projection has size $10$ and consists of the binary rows
-$$\begin{aligned}
-\pi_M=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),(0,1,0,0,0),\\
-&(0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),(1,0,1,0,1),(1,0,1,1,1)\}.
-\end{aligned}$$
-This quotient data is useful for checking that the finite packet has a stable internal geometry.  It does not supply an external biological coordinate.  In particular, quotient rows are not transcript intervals, annotated ORFs, proteins, folded domains, physical states, functions, pathways, or conserved mechanisms.
-
-\paragraph{Boundary gate for ORF eligibility.}
-The self-check records the boundary sentence: \emph{BioReality self-check only; no codon geometry is promoted across biological layers}.  It also records a checked gate count of $3$.  The operational meaning is local and restrictive.  A start/stop-window enumeration may define what would have to be tested for ORF eligibility, but it does not make the ORF-eligibility claim true.  To leave boundary status, this packet needs a separate reality contact of the kind named \texttt{curated.orf.interval.annotation}, or an equivalent external biological interval contact capable of testing the proposed sequence or transcript interval.
-
-The two probes attached to the packet enforce the same boundary.  The first probe breaks the packet if the pipeline asserts ORF eligibility, translation realization, folded structure, physical admissibility, or biological function from start/stop-window enumeration alone.  The second probe breaks the packet if it records an ORF eligibility claim while no sequence database, transcript evidence, or curated annotation contact can test the interval.  Thus the present record supports only the statement that a finite codon-window seed has been enumerated and internally checked.  It does not support translation, folding, physical admissibility, function, mechanism, conservation, organism-level relevance, or universality unless a separate contact supplies that layer-specific evidence.
+This BioReality namecert is awaiting codex re-authoring. Most recent attempt failed the chapter hygiene gate; issues recorded: template\_residue: BEDC 5-tuple, template\_residue: carrier reads back to observable data by following, template\_residue: TasteGate-style separation, template\_residue: lean target sketch (statement-only), template\_residue: internal newmath/bedc derivation, template\_residue: bridge disclaimer, template\_residue: external reality sources. The committed registry record at \path{tools/bio\_reality/registries/claims.json} still tracks the underlying claim h0.M.equals.WNR.CUN and its experiment runs.
