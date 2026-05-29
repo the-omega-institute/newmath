@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\SnakeLemmaUp$}
+\label{ch:concrete-instances-snake-lemma-namecert}
+\origin{human}
+
+Following Cartan--Eilenberg and Weibel homological algebra, the $\SnakeLemmaUp$ packet records the finite diagram chase that turns two exact rows and compatible vertical maps into the connecting boundary route. It sits over the abelian-category carrier of \autoref{ch:concrete-instances-abeliancat-namecert}, the homology carrier of \autoref{ch:concrete-instances-homology-namecert}, the spectral-sequence consumer surface that exposes $\DerivedFunctorUp$ rows in \autoref{ch:concrete-instances-spectralseq-namecert}, and the derived-functor interface of \autoref{ch:concrete-instances-derivedfunctor-namecert}. The packet names a displayed exactness boundary; it does not import quotient-object equality, kernel-cokernel object extensionality, or an ambient abelian-category diagram oracle.
+
+\begin{definition}[Snake lemma carrier]
+\label{def:snake-lemma-carrier}
+A $\SnakeLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,R_0,R_1,V,K,C,E,\partial,H,T,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\AbelianCatUp$ source row carrying the additive kernel-cokernel surface in which the diagram is read.
+\item $R_0$ and $R_1$ are the upper and lower exact-row ledgers, each exposing three displayed object rows, two morphism rows, and the local image-kernel containment needed for exactness.
+\item $V$ is the vertical-compatibility row, recording the three displayed vertical morphisms and the two commutative squares that align $R_0$ with $R_1$.
+\item $K$ is the kernel-row ledger for the left and middle vertical maps.
+\item $C$ is the cokernel-row ledger for the middle and right vertical maps.
+\item $E$ is the exactness-boundary row, recording that the kernel leg, connecting boundary, and cokernel leg form the displayed exact boundary chain.
+\item $\partial$ is the connecting-boundary row from the right kernel surface to the left cokernel surface.
+\item $H$ records componentwise $\hsame$ transport for the abelian-category source, exact rows, vertical squares, kernel rows, cokernel rows, boundary rows, replay, provenance, and local naming.
+\item $T$ records displayed $\Cont$ replay from the two exact rows and vertical squares to $K,C,E,\partial,H,P,L$.
+\item $P$ is the $\Pkg$ provenance over $\SnakeLemmaUp$, $\AbelianCatUp$, $\HomologyUp$, $\DerivedFunctorUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\SnakeLemmaUp}$ row.
+\end{enumerate}
+The classifier compares accepted snake-lemma packets only through these rows. It contains no coordinate for host quotient representatives, unbounded diagram search, selected elements outside the displayed histories, or equality of ambient abelian-category objects.
+\end{definition}
+
+\begin{theorem}[Snake lemma NameCert obligations]
+\label{thm:snake-lemma-namecert-obligations}
+For every accepted $\SnakeLemmaUp$ carrier
+$$
+S=(A,R_0,R_1,V,K,C,E,\partial,H,T,P,L),
+$$
+the local $\NameCert_{\SnakeLemmaUp}$ surface consists exactly of abelian-category source exposure through $A$, upper and lower exact-row exposure through $R_0,R_1$, vertical-square compatibility through $V$, kernel-row exposure through $K$, cokernel-row exposure through $C$, exact-boundary exposure through $E$, connecting-boundary exposure through $\partial$, componentwise transport through $H$, displayed replay through $T$, package provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:snake-lemma-carrier}. The rows $A,R_0,R_1,V$ expose the ambient additive kernel-cokernel surface, the two exact rows, and the square compatibility before any boundary read is allowed.
+
+The kernel and cokernel ledgers are then read from $K$ and $C$. They supply the visible source and target surfaces for the connecting row $\partial$, while $E$ records the exactness statement tying the kernel leg, boundary leg, and cokernel leg into one chain.
+
+Transport, replay, provenance, and local naming preserve this same finite packet through $H,T,P,L$. Since no excluded quotient representative, host object equality, or unbounded diagram search appears among the coordinates, the listed rows exhaust the local certificate obligations.
+\end{proof}
+
+\begin{theorem}[Snake lemma exact boundary]
+\label{thm:snake-lemma-exact-boundary}
+Every downstream $\HomologyUp$ or $\DerivedFunctorUp$ consumer of an accepted $\SnakeLemmaUp$ packet reads the boundary route
+$$
+\ker(v_2)\longmapsto \operatorname{coker}(v_0)
+$$
+only through the displayed chain
+$$
+\AbelianCatUp \longmapsto (R_0,R_1,V) \longmapsto (K,C) \longmapsto (\partial,E) \longmapsto (H,T,P,L).
+$$
+Thus the consumer receives one finite exact-boundary packet of abelian-category source rows, exact-row ledgers, vertical-square ledgers, kernel and cokernel rows, the connecting-boundary row, exactness-boundary evidence, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Start with the abelian-category source row $A$. The two exact rows $R_0,R_1$ and the vertical-compatibility row $V$ expose exactly the diagram data on which the classical snake-lemma chase depends.
+
+Read $K$ and $C$ next. These rows identify the displayed kernel and cokernel surfaces that the connecting boundary is permitted to connect, without choosing representatives outside the finite histories.
+
+The boundary row $\partial$ and exactness row $E$ then supply the only route from the right kernel surface to the left cokernel surface. A homology or derived-functor consumer therefore reads the boundary as a named packet, not as an ambient quotient construction.
+
+Finally $H,T,P,L$ keep the same route stable under componentwise history equality, displayed replay, provenance, and local naming. No quotient-object equality, host diagram oracle, or unbounded element chase is exported.
+\end{proof}
+
+\closureat{SnakeLemmaUp}{seedStr}
+
+\begin{closurestatus}{\SnakeLemmaUp}
+  \constructivestory{A $\SnakeLemmaUp$ packet is generated from an AbelianCat source row, two exact-row ledgers, vertical-square compatibility rows, kernel-row and cokernel-row ledgers, a connecting-boundary row, an exactness-boundary row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:snake-lemma-carrier}, \autoref{thm:snake-lemma-namecert-obligations}, and \autoref{thm:snake-lemma-exact-boundary} seed the finite snake-lemma packet over abelian-category source rows, exact-row ledgers, vertical-square compatibility, kernel rows, cokernel rows, connecting-boundary rows, exactness-boundary evidence, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient-object equality, host abelian-category equality, unbounded diagram search, or ambient element-chase completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, exact-row exposure, vertical-square compatibility, kernel-row exposure, cokernel-row exposure, connecting-boundary construction, exactness-boundary preservation, replay stability, provenance exhaustion, and local naming for BEDC.Derived.SnakeLemmaUp.}
+\end{closurestatus}

@@ -168,6 +168,7 @@ K=(S,N,O,U,D,H,C,P,L)
 $$
 be an accepted $\MetaCICCriticalPathUp$ packet, and let $F$ be a finite closed-term frontier whose rows replay the candidate-mediated strong-normalization row $S$, the normal-form endpoint $N$, the handoff row $U$, the componentwise transport row $H$, the displayed continuation row $C$, the provenance row $P$, and the local naming row $L$. If every row of $F$ is consumed through the frontier of \autoref{def:metacic-critical-path-candidate-mediated-frontier}, then induction over $F$ preserves the obstruction row $O$ and keeps the discharge socket $D$ unfilled unless the packet also contains an explicit closed subject-reduction row. In particular, candidate-mediated strong normalization, confluence-facing replay, and decidability-facing replay do not by themselves introduce a closed subject-reduction coordinate.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathDischargeSocketInduction}
 \begin{proof}
 Induct over the finite frontier rows. The empty frontier exposes no consumer row, so the accepted packet remains exactly $K=(S,N,O,U,D,H,C,P,L)$ with $O$ and $D$ still visible.
 
@@ -193,6 +194,7 @@ Next use the confluence-decidability consumer boundary, \autoref{thm:metacic-cri
 
 Apply the candidate-mediated SN discharge row and the discharge-socket induction, \autoref{thm:metacic-critical-path-candidate-mediated-sn-discharge-row} and \autoref{thm:metacic-critical-path-discharge-socket-induction}. These results keep $D$ separate from the budget rows and preserve $O$ while finite frontier rows are consumed. Since the packet has no coordinate for quotient term equality, host equality, selected limits, or $\RealUp$ completeness, the displayed budget is the whole normalization surface available to the consumer.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateNormalizationBudget}
 
 \begin{theorem}[MetaCIC candidate-normalization socket exhaustion]
 \label{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}

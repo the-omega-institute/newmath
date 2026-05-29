@@ -183,6 +183,18 @@ Apply the NameCert obligations of \autoref{thm:decimal-expansion-namecert-obliga
 The L10 sibling route is the same finite-window route already used by \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. Thus window normalization is a finite ledger obligation, not an infinite decimal-stream selection.
 \end{proof}
 
+\begin{theorem}[DecimalExpansion prefix stability]
+\label{thm:decimal-expansion-prefix-stability}
+For every accepted $\DecimalExpansionUp$ packet $K=(D,W,V,Q,R,E,H,C,P,N)$, finite decimal prefixes are stable under $\StreamNameUp$ window refinement and componentwise $\hsame$ transport. If a consumer refines the inspected window $W$ without changing the displayed prefix rows in $D$, then the place-value row $V$, the dyadic tolerance row $Q$, the $\RegSeqRatUp$ handoff $R$, and the terminal $\RealUp$ seal $E$ remain attached to the same prefix route before any downstream read is exposed.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:decimal-expansion-carrier}. The digit ledger $D$ and window ledger $W$ are the only source rows from which a finite decimal prefix can be read.
+
+Use the window normalization obligation of \autoref{thm:decimal-expansion-window-normalization-obligation}. It forces every public read of $V,Q,R,E$ to pass through the displayed $D,W$ prefix surface, so a window refinement that preserves the displayed prefix rows cannot change the downstream route.
+
+The $\StreamNameUp$ sibling of \autoref{ch:concrete-instances-streamname-namecert} supplies the finite-window discipline, and the structural row $H$ transports the same prefix componentwise through $\hsame$. The dyadic and regular-rational consumers of \autoref{ch:concrete-instances-dyadicratcore-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert} therefore receive the same place-value and tolerance route before the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert} is read.
+\end{proof}
+
 \begin{theorem}[DecimalExpansion dyadic comparison handoff]\label{thm:decimal-expansion-dyadic-comparison-handoff}
 For every accepted $\DecimalExpansionUp$ packet, the place-value row $V$ reaches the $\RegSeqRatUp$ handoff only through the comparison row $Q$ and the $\DyadicRatCoreUp$ and rational comparison surface. No direct route from a decimal place-value sum to $R$ or $E$ is exported by the packet.
 \end{theorem}
@@ -192,6 +204,20 @@ Read \autoref{def:decimal-expansion-carrier}. The row $V$ records the base-ten r
 Apply \autoref{thm:decimal-expansion-namecert-obligations}. The obligation surface places $Q$ between place-value evaluation and the $\RegSeqRatUp$ handoff, and classifier transport is componentwise through that same displayed row.
 
 Finally apply \autoref{thm:decimal-expansion-regseqrat-handoff}. It states that finite digit rows pass through rational place-value rows and dyadic comparison rows before reaching $R$ and the terminal seal $E$. The dyadic handoff therefore uses the existing routes of \autoref{ch:concrete-instances-dyadicratcore-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, with no bypass from $V$ to $R$.
+\end{proof}
+
+\begin{theorem}[DecimalExpansion dyadic rational readback]
+\label{thm:decimal-expansion-dyadic-rational-readback}
+Every finite decimal prefix admitted by an accepted $\DecimalExpansionUp$ packet is read through $\DyadicRatCoreUp$, $\RatUp$, and $\RegSeqRatUp$ before any $\RealUp$ seal is public. Concretely, the prefix rows $D,W$ first determine the rational place-value row $V$, the dyadic and rational comparison row $Q$ then supplies the finite tolerance comparison, and only then may the regular rational handoff $R$ and terminal seal $E$ be consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:decimal-expansion-carrier}. The packet orders the rows as $D,W,V,Q,R,E,H,C,P,N$, so decimal digits and inspected windows are read before place values, dyadic tolerance, regular readback, and the real seal.
+
+Apply prefix stability, \autoref{thm:decimal-expansion-prefix-stability}. It keeps the finite prefix route fixed under $\StreamNameUp$ window refinement and $\hsame$ transport, which is the only way a downstream consumer can compare refined windows.
+
+Now use the dyadic comparison handoff of \autoref{thm:decimal-expansion-dyadic-comparison-handoff}. The row $Q$ is the displayed $\DyadicRatCoreUp$ and rational comparison route, so the $\RegSeqRatUp$ handoff of \autoref{ch:concrete-instances-regseqrat-namecert} cannot be reached directly from $V$.
+
+The terminal real read is the seal discipline of \autoref{ch:concrete-instances-real-namecert}, and the decimal normal-form consumer of \autoref{ch:concrete-instances-real-decimal-normal-form-namecert} reads only after this finite dyadic and regular-rational route has been displayed.
 \end{proof}
 
 \begin{theorem}[DecimalExpansion dyadic normalization lock]\label{thm:decimal-expansion-dyadic-normalization-lock}
@@ -206,12 +232,12 @@ Finally apply \autoref{thm:decimal-expansion-real-readback-boundary}. The termin
 \end{proof}
 
 \begin{theorem}[DecimalExpansion Real seal nonescape]\label{thm:decimal-expansion-real-seal-nonescape}
-The terminal row $E$ of an accepted $\DecimalExpansionUp$ packet exports only the displayed $\RealUp$ seal reached from $D,W,V,Q,R$. It exports no quotient real, endpoint resolver, trichotomy decision, selected decimal stream, or $\RealUp$ completeness witness.
+The terminal row $E$ of an accepted $\DecimalExpansionUp$ packet exports only the displayed $\RealUp$ seal reached from $D,W,V,Q,R$. It exports no quotient real equality, endpoint resolver, trichotomy decision, selected digit stream, selected decimal stream, countable-choice selector, ambient $\RealUp$ completeness, or $\RealUp$ completeness witness.
 \end{theorem}
 \begin{proof}
 Begin with the real readback boundary of \autoref{thm:decimal-expansion-real-readback-boundary}. Every $\RealUp$ read factors through the finite route from $\StreamNameUp$ windows to decimal place value, dyadic comparison, $\RegSeqRatUp$ handoff, and then the seal row $E$.
 
-Use \autoref{thm:decimal-expansion-dyadic-comparison-handoff} to keep the route through $Q$ and $R$. The seal is downstream of those displayed rows, so it cannot introduce an endpoint resolver, trichotomy row, or selected stream that is not already present in the carrier.
+Use \autoref{thm:decimal-expansion-dyadic-rational-readback} to keep the route through $Q$ and $R$. The seal is downstream of the dyadic, rational, and regular-rational rows, so it cannot introduce an endpoint resolver, trichotomy row, selected digit stream, selected decimal stream, or countable-choice selector that is not already present in the carrier.
 
 Finally project the excluded-coordinate clause of \autoref{def:decimal-expansion-carrier}. Since quotient reals, endpoint convention resolvers, trichotomy decisions, selected representatives, selected decimal streams, and completeness witnesses are absent from the displayed packet, none escapes through $E$.
 \end{proof}

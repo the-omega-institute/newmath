@@ -1,14 +1,80 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.SeparatedCompletionUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+
+def SeparatedCompletionCarrier [AskSetup] [PackageSetup]
+    (metric dense completion classifier unique transport replay ledger provenance nameRow :
+      BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory metric ∧ UnaryHistory dense ∧ UnaryHistory completion ∧
+    UnaryHistory classifier ∧ UnaryHistory unique ∧ UnaryHistory transport ∧
+      UnaryHistory replay ∧ UnaryHistory ledger ∧ UnaryHistory provenance ∧
+        UnaryHistory nameRow ∧ Cont metric dense completion ∧
+          Cont completion classifier unique ∧ Cont unique transport replay ∧
+            Cont replay ledger nameRow ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle nameRow pkg
+
+theorem SeparatedCompletionCarrier_semantic_package [AskSetup] [PackageSetup]
+    {metric dense completion classifier unique transport replay ledger provenance nameRow :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SeparatedCompletionCarrier metric dense completion classifier unique transport replay
+        ledger provenance nameRow bundle pkg →
+      SemanticNameCert
+          (fun row : BHist => hsame row completion ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row metric ∨ hsame row dense ∨ hsame row completion ∨
+              hsame row classifier ∨ hsame row unique)
+          (fun row : BHist =>
+            PkgSig bundle provenance pkg ∧ PkgSig bundle nameRow pkg ∧
+              hsame row completion)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier
+  obtain ⟨_metricUnary, _denseUnary, completionUnary, _classifierUnary, _uniqueUnary,
+    _transportUnary, _replayUnary, _ledgerUnary, _provenanceUnary, _nameRowUnary,
+    _metricDenseCompletion, _completionClassifierUnique, _uniqueTransportReplay,
+    _replayLedgerNameRow, provenancePkg, nameRowPkg⟩ := carrier
+  have completionWitness :
+      (fun row : BHist => hsame row completion ∧ UnaryHistory row) completion := by
+    exact ⟨hsame_refl completion, completionUnary⟩
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro completion completionWitness
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inl source.left))
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, nameRowPkg, source.left⟩
+  }
 
 theorem SeparatedCompletionCarrier_semantic_name_certificate
     (M D C Z U H R T P N : BHist) :
