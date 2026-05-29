@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\CauchyModulusSubsequenceUp$}
+\label{ch:concrete-instances-cauchy-modulus-subsequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyModulusSubsequenceUp$ packet records the finite route by which a bounded regular Cauchy source exposes a modulus-indexed subsequence schedule without exporting an infinite selector. It sits between the bounded subsequence envelope of \autoref{ch:concrete-instances-bounded-regular-cauchy-subsequence-namecert}, the regular subsequence route of \autoref{ch:concrete-instances-regular-cauchy-subsequence-namecert}, the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a constructive completion-facing certificate: it supplies a monotone cofinal schedule, finite windows, tolerance accounting, and a Real seal, but not countable choice, quotient stream equality, a selected infinite subsequence, host equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy modulus subsequence carrier]
+\label{def:cauchy-modulus-subsequence-carrier}
+A $\CauchyModulusSubsequenceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(B,M,T,W,D,Q,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the accepted $\BoundedRegularCauchySubsequenceUp$ source row whose bounded regular Cauchy data are available before any subsequence-modulus request is read.
+\item $M$ is the modulus row. It records the requested Cauchy tolerance discipline and the finite comparison budget used by the subsequence schedule.
+\item $T$ is the monotone cofinal schedule row. It records the finite evidence that requested indices are sent to later source windows and that the schedule is cofinal in the displayed source.
+\item $W$ records the finite $\StreamNameUp$ windows selected by the schedule row $T$ at the requested modulus levels.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to those windows.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the displayed windows and dyadic tolerances.
+\item $R$ is the $\RegularCauchySubsequenceUp$ handoff row reached from $B,M,T,W,D,Q$.
+\item $E$ is the terminal $\RealUp$ seal reached only after the bounded source, modulus, schedule, windows, tolerance ledger, regular readback, and regular subsequence handoff have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the bounded source, modulus, cofinal schedule, windows, dyadic ledger, regular readback, regular subsequence handoff, terminal seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a subsequence-modulus request through $B,M,T,W,D,Q,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusSubsequenceUp$, $\BoundedRegularCauchySubsequenceUp$, $\RegularCauchySubsequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyModulusSubsequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,M,T,W,D,Q,R,E,H,C,P,N$. It has no coordinate for a selected infinite subsequence, quotient stream equality, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy modulus subsequence NameCert obligations]
+\label{thm:cauchy-modulus-subsequence-namecert-obligations}
+For every accepted $\CauchyModulusSubsequenceUp$ carrier $S=(B,M,T,W,D,Q,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyModulusSubsequenceUp}$ surface consists exactly of carrier admission, bounded-source admission through $B$, modulus monotonicity through $M$, monotone cofinal schedule admission through $T$, finite-window determinacy through $W$, dyadic tolerance accounting through $D$, regular rational readback through $Q$, $\RegularCauchySubsequenceUp$ handoff through $R$, Real-seal nonescape through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:cauchy-modulus-subsequence-carrier}. Its analytic coordinates are exactly the bounded source $B$, modulus row $M$, monotone cofinal schedule $T$, finite windows $W$, dyadic tolerance ledger $D$, regular readback $Q$, regular subsequence handoff $R$, and terminal Real seal $E$.
+
+The modulus and schedule obligations are displayed before any support row is inspected. The row $M$ supplies the tolerance discipline, while $T$ records monotonicity and cofinality for the finite requested indices. The window row $W$ and tolerance row $D$ then determine which $\StreamNameUp$ windows and dyadic bounds are visible at those requests.
+
+The readback and seal obligations remain downstream. The row $Q$ reads the visible windows as $\RegSeqRatUp$ data, $R$ records the $\RegularCauchySubsequenceUp$ handoff, and $E$ is reachable only after the preceding rows have been displayed. Rows $H,C,P,N$ transport, replay, source, and name that same finite route, so no further NameCert obligation remains outside the listed coordinates.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus subsequence window determinacy]
+\label{thm:cauchy-modulus-subsequence-window-determinacy}
+Every consumer admitted by an accepted $\CauchyModulusSubsequenceUp$ carrier must read the bounded source $B$, modulus row $M$, monotone cofinal schedule $T$, finite windows $W$, dyadic tolerance ledger $D$, regular rational readback $Q$, regular subsequence handoff $R$, and terminal Real seal $E$ before reading the transport, replay, provenance, or local naming rows. The packet exports no selected infinite subsequence, quotient stream equality, countable choice, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a consumer read. By \autoref{def:cauchy-modulus-subsequence-carrier}, the only consumer-facing route before the support rows is the ordered list $B,M,T,W,D,Q,R,E$.
+
+The rows $B,M,T$ fix the source, tolerance request, and monotone cofinal schedule. The row $W$ then supplies only the finite windows named by that schedule, and $D$ supplies the dyadic tolerance ledger attached to those windows. Thus the visible subsequence data are determined by displayed finite requests, not by an externally selected infinite object.
+
+The remaining analytic rows are also fixed by the displayed windows. The readback row $Q$ converts those windows into $\RegSeqRatUp$ data, $R$ records the regular subsequence handoff, and $E$ is the terminal Real seal for that route. Since the carrier contains no coordinate for quotient stream equality, countable choice, host equality, or ambient $\RealUp$ completeness, the support rows $H,C,P,N$ can only preserve the displayed finite packet.
+\end{proof}
+
+\closureat{CauchyModulusSubsequenceUp}{seedStr}
+
+\begin{closurestatus}{\CauchyModulusSubsequenceUp}
+  \constructivestory{A $\CauchyModulusSubsequenceUp$ packet is generated from a bounded regular Cauchy source, a modulus row, a monotone cofinal schedule, finite StreamName windows, a DyadicRatCore tolerance ledger, a RegSeqRat readback row, a RegularCauchySubsequence handoff, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-subsequence-carrier}, \autoref{thm:cauchy-modulus-subsequence-namecert-obligations}, and \autoref{thm:cauchy-modulus-subsequence-window-determinacy} seed the constructive subsequence-modulus route over bounded regular Cauchy data, finite windows, dyadic tolerances, regular readback, regular subsequence handoff, Real sealing, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected infinite subsequences, quotient stream equality, countable choice, host equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Lean verification requires carrier admission, modulus monotonicity, cofinal schedule admission, finite-window determinacy, dyadic tolerance accounting, RegSeqRat readback, RegularCauchySubsequence handoff, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyModulusSubsequenceUp.}
+\end{closurestatus}

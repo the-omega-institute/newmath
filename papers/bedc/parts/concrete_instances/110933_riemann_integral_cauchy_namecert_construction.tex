@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\RiemannIntegralCauchyUp$}
+\label{ch:concrete-instances-riemann-integral-cauchy-namecert}
+\origin{human}
+
+Following Riemann and Bishop--Bridges constructive integration, the $\RiemannIntegralCauchyUp$ packet records the finite Cauchy convergence route by which tagged-gauge sums, Darboux upper/lower gaps, integrability evidence, regular rational readback, and a terminal real seal are named as one integration-facing certificate. It sits after the tagged-gauge surface of \autoref{ch:concrete-instances-riemann-sum-gauge-namecert}, the Darboux finite-sum boundary of \autoref{ch:concrete-instances-darboux-sum-namecert}, the gap witness of \autoref{ch:concrete-instances-riemann-integrable-namecert}, the regular rational sequence row of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite Cauchy convergence certificate for later integral-value consumers; it does not import host limits, quotient equality, choice, measure completion, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Riemann integral Cauchy carrier]
+\label{def:riemann-integral-cauchy-carrier}
+A $\RiemannIntegralCauchyUp$ carrier is a finite $\BHist$ packet
+$$
+K=(G,D,I,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\RiemannSumGaugeUp$ row naming the tagged finite partitions, gauge-radius requests, mesh comparisons, and finite Riemann-sum reads.
+\item $D$ is the $\DarbouxSumUp$ row naming the lower and upper finite Darboux sums, their shared partition interface, and their upper-minus-lower gap comparison.
+\item $I$ is the $\RiemannIntegrableUp$ gap witness row, recording that the displayed Darboux gap answers the carried tolerance request before an integral value is read.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same tagged-gauge and Darboux-gap route, with no detached sequence coordinate.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $G,D,I,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for tagged-gauge rows, Darboux rows, integrability rows, regular readback rows, real-seal rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from gauge requests to finite sums, from finite sums to Darboux gaps, from gaps to regular rational readback, and from readback to the terminal real seal.
+\item $P$ is the $\Pkg$ provenance over $\RiemannIntegralCauchyUp$, $\RiemannSumGaugeUp$, $\DarbouxSumUp$, $\RiemannIntegrableUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RiemannIntegralCauchyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $G,D,I,R,E,H,C,P,N$. It has no coordinate for a host limit, quotient equality of functions, a choice-selected partition family, measure completion, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Riemann integral Cauchy NameCert obligations]
+\label{thm:riemann-integral-cauchy-namecert-obligations}
+For every accepted $\RiemannIntegralCauchyUp$ carrier $K=(G,D,I,R,E,H,C,P,N)$, the local $\NameCert_{\RiemannIntegralCauchyUp}$ surface consists exactly of carrier admission, tagged-gauge admission, Darboux upper/lower gap admission, Riemann-integrability gap witnessing, $\RegSeqRatUp$ readback, terminal $\RealUp$ sealing, componentwise transport, displayed replay, provenance, local naming, and non-escape from host limits, quotient equality, choice, measure completion, and ambient real completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:riemann-integral-cauchy-carrier}. The accepted packet displays exactly the tagged-gauge row $G$, Darboux-sum row $D$, integrability witness $I$, regular readback $R$, real seal $E$, transports $H$, replay rows $C$, provenance $P$, and local name $N$.
+
+The Cauchy evidence is finite. The row $G$ supplies tagged-gauge sums, the row $D$ supplies the upper and lower Darboux sums, and the row $I$ records the finite gap witness before any readback or real-facing value appears.
+
+The readback and seal rows are downstream. The row $R$ reads the same finite route as regular rational convergence data, and $E$ seals only that displayed readback. Transport, replay, provenance, and naming preserve the same coordinates, so the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Riemann integral Cauchy Darboux handoff]
+\label{thm:riemann-integral-cauchy-darboux-handoff}
+Every accepted $\RiemannIntegralCauchyUp$ packet hands a Cauchy integral value to $\RegSeqRatUp$ and $\RealUp$ only through the finite route
+$$
+\RiemannSumGaugeUp \longmapsto \DarbouxSumUp \longmapsto \RiemannIntegrableUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The Darboux handoff uses the same tagged-gauge row cited by \autoref{ch:concrete-instances-riemann-sum-gauge-namecert} and the same upper/lower gap row cited by \autoref{ch:concrete-instances-darboux-sum-namecert}; it cannot be replaced by a detached host limit, quotient equality of functions, selected partitions, measure completion, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:riemann-integral-cauchy-carrier}. The tagged-gauge row $G$ must be read before the Darboux row $D$, and $D$ must be read before the integrability gap witness $I$.
+
+The row $I$ is the only bridge from Darboux gap evidence to a Cauchy readback. Once $I$ is displayed, $R$ repacks the same data as a $\RegSeqRatUp$ row, and $E$ seals that readback as the real-facing value.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name this same route. Since the carrier contains no host limit, quotient equality, selected partition family, measure-completion row, or ambient completeness coordinate, every Cauchy integral handoff factors through the displayed Darboux route.
+\end{proof}
+
+\closureat{RiemannIntegralCauchyUp}{seedStr}
+
+\begin{closurestatus}{\RiemannIntegralCauchyUp}
+  \constructivestory{A $\RiemannIntegralCauchyUp$ packet is generated from a RiemannSumGaugeUp tagged-gauge row, DarbouxSumUp upper/lower gap row, RiemannIntegrableUp gap witness, RegSeqRatUp readback, RealUp terminal seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-integral-cauchy-carrier}, \autoref{thm:riemann-integral-cauchy-namecert-obligations}, and \autoref{thm:riemann-integral-cauchy-darboux-handoff} seed the finite Cauchy integration route over tagged-gauge, Darboux-gap, integrability, regular-rational, and real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host limits, quotient equality of functions, selected partition families, measure completion, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tagged-gauge admission, Darboux-gap admission, integrability gap witnessing, RegSeqRat readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RiemannIntegralCauchyUp.}
+\end{closurestatus}
