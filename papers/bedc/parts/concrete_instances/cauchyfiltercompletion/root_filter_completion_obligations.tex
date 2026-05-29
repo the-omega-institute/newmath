@@ -58,6 +58,7 @@ Finally $P$ and $N$ source and name the same route. Since the packet has no quot
 \label{thm:cauchyfiltercompletion-root-filter-route}
 Every accepted $\CauchyFilterCompletionUp$ carrier read by a completion-facing consumer factors through the displayed $\FilterBaseUp/\CauchyFilterUp$ source row, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CauchyFilterCompletionUp}$ row before the completion data are consumed. The route cannot use quotient filters, selected limits, countable choice, host equality of completed points, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionRootFilterRoute}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-filter-completion-carrier}. Its displayed rows are exactly $C,W,T,R,L,H,K,P,N$, with the root filter source entering through $C$.
 
@@ -66,4 +67,18 @@ Apply \autoref{thm:cauchy-filter-completion-root-filterbase-source-coverage-obli
 Next apply \autoref{thm:cauchy-filter-completion-root-real-seal-handoff-obligation}. The terminal seal $L$ is available only after the source row, windows, tolerance ledger, and readback have been replayed through $K$ and preserved by $H,P,N$.
 
 Finally apply \autoref{thm:cauchyfiltercompletion-root-filter-scope-closure}. The scope-closure theorem exhausts the displayed finite route and excludes quotient filters, selected limits, countable-choice schedules, host equality, and ambient completeness coordinates.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletion public export]
+\label{thm:cauchy-filter-completion-public-export}
+An accepted $\CauchyFilterCompletionUp$ carrier exports a public completion-facing route only through the displayed $\FilterBaseUp/\CauchyFilterUp$ source row, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CauchyFilterCompletionUp}$ row. The exported route exposes no quotient filters, selected limits, countable-choice schedule, host equality of completed points, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+First compose carrier admission with source coverage. Apply \autoref{thm:cauchy-filter-completion-root-carrier-admission-obligation} to keep $C,W,T,R,L,H,K,P,N$ inside one finite $\BHist$ packet, then apply \autoref{thm:cauchy-filter-completion-root-filterbase-source-coverage-obligation} to force every read of $W,T,R,L$ through the displayed $\FilterBaseUp/\CauchyFilterUp$ source behind $C$.
+
+Next compose the Real-seal handoff. Apply \autoref{thm:cauchy-filter-completion-root-real-seal-handoff-obligation}; the terminal seal $L$ is reached only after the source, finite windows, tolerance ledger, and regular readback have been replayed through $K$ and preserved by $H,P,N$.
+
+Finally apply \autoref{thm:cauchyfiltercompletion-root-filter-route}. That theorem packages the same source row, $\StreamNameUp$ windows, $\DyadicRatCoreUp$ ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local naming data as the only completion-facing route.
+
+The refusal clause follows because none of the composed obligations introduces a quotient-filter coordinate, selected limit, countable-choice schedule, host equality of completed points, or ambient-completeness witness.
 \end{proof}
