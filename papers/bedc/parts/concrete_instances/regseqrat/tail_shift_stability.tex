@@ -67,4 +67,45 @@ same finite support and no quotient stream, selected limit, choice schedule,
 metric-completeness datum, completion point, or ambient Real-completeness
 coordinate remains available.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-shift diagonal budget]
+\label{thm:regseqrat-tail-shift-diagonal-budget}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $t$ be a displayed unary
+tail index for the $\StreamNameUp$ schedule carried by $P$. If the scheduled
+tail shift is read through a common finite window, then the shifted read
+preserves the diagonal dyadic tolerance budget consumed by the downstream
+$\RealUp$ seal route. The preserved budget is the same componentwise ledger
+used by the finite-cover diagonal induction of
+\autoref{thm:regseqrat-finite-cover-induction-diagonal}; it is transported
+through the StreamName schedule, the DyadicRatCore endpoint and radius rows,
+the RegSeqRat regularity ledgers, componentwise $\hsame$ rows, displayed
+$\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows.
+
+The statement exports no quotient stream equality, selected limit,
+countable-choice schedule, metric-completeness datum, completion point, or
+ambient Real-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Induct over the displayed finite window. In the initial window, the diagonal
+dyadic tolerance row is one of the visible DyadicRatCore budget rows consumed
+by the accepted RegSeqRat packet.
+
+For the tail step, apply
+\autoref{thm:regseqrat-tail-shift-stability}. It transports the StreamName
+schedule, endpoint rows, dyadic-radius rows, regularity ledgers, and support
+rows along the displayed unary tail index.
+
+Compare two shifted reads by
+\autoref{thm:regseqrat-tail-shift-common-refinement} and then restrict to the
+common finite window using
+\autoref{thm:regseqrat-tail-shift-window-stability}. The common refinement
+keeps the classifier read and downstream RealUp seal route on the same
+finite support.
+
+Finally invoke
+\autoref{thm:regseqrat-finite-cover-induction-diagonal}. The displayed
+diagonal budget rows are transported componentwise along the same finite
+window, so the Real seal consumes the preserved dyadic tolerance budget rather
+than an ambient limit or completeness coordinate.
+\end{proof}
 \closureat{RegSeqRatUp}{seedStr}
