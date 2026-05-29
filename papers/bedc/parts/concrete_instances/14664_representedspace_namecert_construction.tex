@@ -359,6 +359,24 @@ Apply \autoref{thm:representedspace-target-seal-ledger-package}. It packages eve
 Since the packet has no coordinate for host equality, quotient representatives, selected realizers, choice, or ambient completeness, the Real-seal route is exactly the displayed finite handoff.
 \end{proof}
 
+\begin{theorem}[RepresentedSpace admissible finality]
+\label{thm:representedspace-admissible-finality}
+Let an accepted $\RepresentedSpaceUp$ carrier $R=(S,W,\rho,X,T,H,C,P,N)$ be consumed by a $\RealUp$-facing represented-space consumer that also exposes an $\AdmissibleRepresentationUp$ packet. Before the consumer reads output data, the displayed route must factor through
+$$
+\RepresentedSpaceUp \longmapsto \CauchyRepresentationUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp .
+$$
+The factorization is the finite represented-space carrier route of \autoref{def:representedspace-carrier}, the exact representation relation of \autoref{thm:representedspace-representation-relation-exactness}, the StreamName-to-Real handoff of \autoref{thm:representedspace-streamname-real-handoff}, and the admissible Cauchy finality interface of \autoref{ch:concrete-instances-admissible-representation-namecert} and \autoref{ch:concrete-instances-cauchy-representation-namecert}. It excludes quotient names, selected representatives, host real equality, countable choice, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Open the represented-space carrier. By \autoref{def:representedspace-carrier}, the only source available to the consumer is the displayed finite route through $S,W,\rho,X,T,H,C,P,N$.
+
+Use \autoref{thm:representedspace-representation-relation-exactness}. The representation relation $\rho$ is the sole certified path from scheduled stream observations to the target carrier, so an admissible consumer cannot bypass the displayed representation row.
+
+Apply \autoref{thm:representedspace-streamname-real-handoff}. In the real-facing case the target route opens the $\StreamNameUp$ schedule, then the regular rational and dyadic readback rows, and only then reaches the terminal $\RealUp$ seal.
+
+The exposed $\AdmissibleRepresentationUp$ packet supplies the finality clause of \autoref{ch:concrete-instances-admissible-representation-namecert}, while \autoref{ch:concrete-instances-cauchy-representation-namecert} supplies the Cauchy source used by that clause. Since none of the represented-space carrier coordinates stores quotient names, selected representatives, host real equality, countable choice, or ambient real completeness, the displayed factorization is the whole admissible-finality route.
+\end{proof}
+
 \begin{closurestatus}{\RepresentedSpaceUp}
   \constructivestory{A $\RepresentedSpaceUp$ packet is generated from a displayed name carrier, finite $\StreamNameUp$ schedule, representation relation, target carrier, classifier transport, componentwise $\hsame$ rows, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
