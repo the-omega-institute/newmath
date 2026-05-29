@@ -309,6 +309,74 @@ theorem SeparableMetricCarrier_dense_window_stability [AskSetup] [PackageSetup]
       windowsUnary', toleranceUnary', consumerUnary, denseWindowRoute, toleranceReadbackRoute,
       consumerRoute, provenancePkg, consumerPkg⟩
 
+theorem SeparableMetricCarrier_dense_window_metric_compatibility [AskSetup] [PackageSetup]
+    {metric dense windows tolerance readback sealRow transports routes provenance localCert
+      metricRead toleranceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SeparableMetricCarrier metric dense windows tolerance readback sealRow transports routes
+        provenance localCert bundle pkg ->
+      Cont metric tolerance metricRead ->
+        Cont metricRead readback toleranceRead ->
+          PkgSig bundle toleranceRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row toleranceRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row metric ∨ hsame row tolerance ∨ hsame row metricRead ∨
+                    hsame row readback ∨ hsame row toleranceRead)
+                (fun row : BHist =>
+                  hsame row toleranceRead ∧ PkgSig bundle toleranceRead pkg ∧
+                    PkgSig bundle provenance pkg)
+                hsame ∧
+              UnaryHistory metricRead ∧ UnaryHistory toleranceRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier metricToleranceRead metricReadbackTolerance toleranceReadPkg
+  obtain ⟨metricUnary, _denseUnary, _windowsUnary, toleranceUnary, readbackUnary, _sealUnary,
+    _transportsUnary, _routesUnary, _provenanceUnary, _localCertUnary, _denseWindowRoute,
+    _toleranceReadbackRoute, _sealRoute, provenancePkg, _localSemantic⟩ := carrier
+  have metricReadUnary : UnaryHistory metricRead :=
+    unary_cont_closed metricUnary toleranceUnary metricToleranceRead
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed metricReadUnary readbackUnary metricReadbackTolerance
+  have sourceToleranceRead :
+      (fun row : BHist => hsame row toleranceRead ∧ UnaryHistory row) toleranceRead := by
+    exact ⟨hsame_refl toleranceRead, toleranceReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row toleranceRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row metric ∨ hsame row tolerance ∨ hsame row metricRead ∨
+              hsame row readback ∨ hsame row toleranceRead)
+          (fun row : BHist =>
+            hsame row toleranceRead ∧ PkgSig bundle toleranceRead pkg ∧
+              PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro toleranceRead sourceToleranceRead
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      cases source.left
+      exact ⟨hsame_refl toleranceRead, toleranceReadPkg, provenancePkg⟩
+  }
+  exact ⟨cert, metricReadUnary, toleranceReadUnary⟩
+
 theorem SeparableMetricCarrier_tolerance_net_replay [AskSetup] [PackageSetup]
     {metric dense windows tolerance readback sealRow transports routes provenance localCert
       request consumer : BHist}
