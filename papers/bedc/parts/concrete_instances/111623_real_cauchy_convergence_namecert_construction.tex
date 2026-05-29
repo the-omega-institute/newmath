@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\RealCauchyConvergenceUp$}
+\label{ch:concrete-instances-real-cauchy-convergence-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive treatment of real convergence by explicit Cauchy moduli, the $\RealCauchyConvergenceUp$ packet records the finite route by which a displayed tail schedule for regular rational names is consumed before the terminal $\RealUp$ seal is read. It sits over the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion-facing regular Cauchy boundary of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}. The packet names a convergence certificate for L10 Real and Completion consumers; it does not assert ambient completeness of $\RealUp$, select a host limit, quotient Cauchy streams, invoke countable choice, or compare completed host real values.
+
+\begin{definition}[RealCauchyConvergence carrier]
+\label{def:real-cauchy-convergence-carrier}
+A $\RealCauchyConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+G=(D,S,R,T,B,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, containing the dyadic error requests and comparison budgets inspected by the convergence consumer.
+\item $S$ is the $\StreamNameUp$ finite-window schedule opened at the tail thresholds named for those dyadic requests.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the scheduled windows and dyadic comparisons.
+\item $T$ is the displayed Cauchy modulus tail row, assigning each dyadic tolerance a finite tail index and the late-window reuse condition needed by convergence checks.
+\item $B$ is the $\BishopRegularCauchyCompletionUp$ boundary row, recording that the same $D,S,R,T$ data are read as a completion-facing regular Cauchy packet before any Real seal is exposed.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the tail modulus, finite windows, regular readback, and completion boundary have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the tolerance ledger, window schedule, regular readback, tail modulus, completion boundary, Real seal, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a convergence request through $T$, then through $D,S,R,B$, and finally into the terminal $\RealUp$ seal.
+\item $P$ is the $\Pkg$ provenance over $\RealCauchyConvergenceUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BishopRegularCauchyCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealCauchyConvergenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,R,T,B,E,H,C,P,N$. The carrier has no coordinate for quotient stream equality, selected limits, countable-choice schedules, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[RealCauchyConvergence NameCert obligations]
+\label{thm:real-cauchy-convergence-namecert-obligations}
+For every accepted $\RealCauchyConvergenceUp$ carrier
+$$
+G=(D,S,R,T,B,E,H,C,P,N),
+$$
+the local $\NameCert_{\RealCauchyConvergenceUp}$ surface consists exactly of carrier admission, dyadic tolerance exposure, finite tail-window inspection, regular rational readback, displayed Cauchy modulus tail control, completion-boundary handoff, Real-seal routing, componentwise transport, displayed replay, provenance, local naming, and non-escape from the displayed rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:real-cauchy-convergence-carrier}. The accepted packet exposes the tolerance ledger $D$, finite windows $S$, regular readback $R$, tail modulus row $T$, completion boundary $B$, terminal Real seal $E$, and structural rows $H,C,P,N$.
+
+The convergence obligations are then read in order. The dyadic core of \autoref{ch:concrete-instances-dyadicratcore-namecert} supplies the tolerance requests, the stream interface of \autoref{ch:concrete-instances-streamname-namecert} supplies the finite inspected windows, and the regular rational route of \autoref{ch:concrete-instances-regseqrat-namecert} packages those windows as the displayed readback row.
+
+The tail and completion rows are the only convergence-specific data. The row $T$ fixes the late-window threshold for each displayed tolerance, while the boundary row $B$ routes the same data through \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert} before the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert} is consumed.
+
+Finally $H$ and $C$ transport and replay the same coordinates, while $P$ and $N$ record provenance and local naming. Since no other coordinate occurs in the carrier, the NameCert surface exports none of the excluded quotient, selected-limit, choice, host-equality, completeness, verification, or bridge data.
+\end{proof}
+
+\begin{theorem}[RealCauchyConvergence regular seal route]
+\label{thm:real-cauchy-convergence-regular-seal}
+Every $\RealUp$-facing read exported by an accepted $\RealCauchyConvergenceUp$ carrier factors through the finite route
+$$
+T,D,S,R \longmapsto B \longmapsto E
+$$
+before the terminal $\RealUp$ seal can be consumed. Thus a consumer receives the displayed Cauchy modulus tail threshold, dyadic tolerance rows, finite stream windows, regular rational readback, and the Bishop regular Cauchy completion boundary before any Real seal is visible.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $G=(D,S,R,T,B,E,H,C,P,N)$. By \autoref{thm:real-cauchy-convergence-namecert-obligations}, the only Real-facing row is $E$, and it is downstream of the displayed tail, dyadic, stream, regular-readback, and completion-boundary rows.
+
+The route cannot skip the tail row because $T$ is the only coordinate assigning late thresholds to dyadic tolerance requests. It cannot skip $D$ or $S$ because the dyadic ledger and finite windows are the only displayed sources for the inspected regular rational reads.
+
+The completion boundary is also forced. The row $B$ is the sole $\BishopRegularCauchyCompletionUp$ handoff available to a Real or Completion consumer, so the terminal seal is read only after the regular readback $R$ has been routed through that boundary.
+
+Transport, replay, provenance, and local naming preserve the same sequence of rows. Since $H,C,P,N$ add no quotient stream equality, selected limit, countable-choice schedule, host equality, or ambient completeness theorem, every $\RealUp$-facing read reaches $E$ only through the displayed convergence packet.
+\end{proof}
+
+\closureat{RealCauchyConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\RealCauchyConvergenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-cauchy-convergence-carrier}, \autoref{thm:real-cauchy-convergence-namecert-obligations}, and \autoref{thm:real-cauchy-convergence-regular-seal} seed the finite convergence packet linking displayed Cauchy modulus tails, $\DyadicRatCoreUp$ tolerance rows, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\BishopRegularCauchyCompletionUp$ handoff, and the terminal $\RealUp$ seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ambient $\RealUp$ completeness, quotient Cauchy equality, selected limits, countable choice, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tail-modulus exposure, dyadic tolerance exactness, finite-window inspection, regular rational readback, completion-boundary handoff, Real-seal routing, transport stability, replay stability, provenance, local naming, and non-escape for BEDC.Derived.RealCauchyConvergenceUp.}
+  \constructivestory{A $\RealCauchyConvergenceUp$ packet is generated from a displayed Cauchy modulus tail row, DyadicRatCore tolerance data, StreamName finite windows, RegSeqRat readback, a BishopRegularCauchyCompletion boundary row, a terminal RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
