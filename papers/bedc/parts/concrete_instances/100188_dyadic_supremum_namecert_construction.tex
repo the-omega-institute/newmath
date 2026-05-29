@@ -72,6 +72,20 @@ The row $R$ is the sole handoff to $\RegSeqRatUp$ approximation data, and $E$ is
 Finally $H,C,P,N$ package the route. Componentwise transport and continuation replay preserve the same finite ledgers, while provenance records the dependency anchors. Since every exported read is reached through this route, there is no remaining coordinate from which arbitrary least-upper-bound completeness, quotient cuts, selected suprema, trichotomy, host Real equality, countable choice, or Real completeness could be read.
 \end{proof}
 
+\begin{theorem}[DyadicSupremum finite-window exhaustion]
+\label{thm:dyadic-supremum-finite-window-exhaustion}
+Every accepted $\DyadicSupremumUp$ consumer read of the lower-approximation ledger factors through a finite list of dyadic upper-bound and lower-approximation rows before any $\LocatedSupremumUp$ or $\RealUp$ consumer sees the handoff.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:dyadic-supremum-carrier}. The only rows available to a lower-approximation read are the bounded dyadic family row $B$, the lower-approximation ledger $A$, the finite window row $W$, and the dyadic tolerance row $D$.
+
+Use \autoref{thm:dyadic-supremum-namecert-obligations}. Its obligation surface exposes upper-bound rows through $B,D$, lower-approximation witnesses through $A,W,D$, finite-window stability through $H,C$, dyadic tolerance exactness through $D$, regular rational handoff through $R$, Real seal non-escape through $E$, provenance through $P$, and local naming through $N$.
+
+Apply \autoref{thm:dyadic-supremum-located-cut-handoff}. The handoff to $\LocatedSupremumUp$ or $\RealUp$ appears only after the finite dyadic ledgers have been displayed and routed through $R$ and $E$.
+
+Thus the consumer read is exhausted by the finite window named in $W$ together with the dyadic rows displayed in $B,A,D$. The packet introduces no arbitrary least-upper-bound completeness, quotient cut, selected supremum, trichotomy, host Real equality, countable choice, or Real completeness coordinate.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\DyadicSupremumUp$ consumer that reaches a located-supremum or Real-facing read without the displayed $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance row, and $\RegSeqRatUp$ handoff refutes the carrier surface.}
 
 \independenceWitness{dyadicratcore, dyadicinterval, streamname, regseqrat, real, locatedsupremum: no listed sibling supplies the whole ten-row packet $S=(B,A,W,D,R,E,H,C,P,N)$, because each sibling contributes dyadic comparison rows, interval rows, finite windows, regular rational handoff data, a Real seal boundary, or a located-supremum consumer while this chapter binds the dyadic upper-bound and lower-approximation route with transport, replay, provenance, and local naming.}
