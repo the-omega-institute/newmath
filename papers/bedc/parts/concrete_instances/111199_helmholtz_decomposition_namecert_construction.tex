@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\HelmholtzDecompositionUp$}
+\label{ch:concrete-instances-helmholtz-decomposition-namecert}
+\origin{human}
+
+Following Helmholtz and Hodge-style decomposition theory, the $\HelmholtzDecompositionUp$ packet records the finite BEDC surface by which a displayed vector-field row is read as the sum of a gradient-potential row and a divergence-free row over a Hilbert source. It consumes the Hilbert carrier of \autoref{ch:concrete-instances-hilbert-namecert}, the vector-space operations of \autoref{ch:concrete-instances-vecspace-namecert}, the linear-map rows of \autoref{ch:concrete-instances-linearmap-namecert}, and the projection-theorem surface of \autoref{ch:concrete-instances-orthogonal-projection-theorem-namecert}. The packet names only the displayed analytic decomposition route; it does not assert PDE solvability, global boundary regularity, unique gauges, Sobolev completeness, or a host Hodge theorem.
+
+\begin{definition}[Helmholtz decomposition carrier]
+\label{def:helmholtz-decomposition-carrier}
+A $\HelmholtzDecompositionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(H,V,G,D,O,B,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the $\HilbertUp$ source row. It supplies the ambient inner-product and norm-facing carrier on which the vector field and both components are read.
+\item $V$ is the vector-field row. It records the admitted field endpoint together with the $\VecSpaceUp$ addition, subtraction, and scalar rows used to state the splitting.
+\item $G$ is the gradient-potential row. It names a potential window and the displayed $\LinearMapUp$ route that reads its gradient as a vector-field component.
+\item $D$ is the divergence-free row. It records the classifier saying that the second component lies in the displayed kernel row selected by the divergence operator.
+\item $O$ is the orthogonal-projection row. It reads the gradient component and the divergence-free component through the projection-theorem surface of \autoref{ch:concrete-instances-orthogonal-projection-theorem-namecert}.
+\item $B$ is the boundary ledger. It records exactly which boundary observations are available before a projection or divergence-free read is exposed.
+\item $T$ records componentwise $\hsame$ transport for the Hilbert source, vector field, gradient-potential row, divergence-free row, projection row, boundary ledger, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a Helmholtz-decomposition request through $H,V,G,D,O,B,T,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\HelmholtzDecompositionUp$, $\HilbertUp$, $\VecSpaceUp$, $\LinearMapUp$, $\OrthogonalProjectionTheoremUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HelmholtzDecompositionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $H,V,G,D,O,B,T,C,P,N$. It has no coordinate for a host PDE solution operator, selected gauge, ambient Sobolev space, hidden boundary regularity theorem, quotient vector-field equality, or unrestricted Hodge decomposition.
+\end{definition}
+
+\begin{theorem}[Helmholtz decomposition NameCert obligations]
+\label{thm:helmholtz-decomposition-namecert-obligations}
+For every accepted $\HelmholtzDecompositionUp$ carrier $K=(H,V,G,D,O,B,T,C,P,N)$, the local $\NameCert_{\HelmholtzDecompositionUp}$ surface consists exactly of the following finite obligation families:
+\begin{enumerate}
+\item Hilbert-source admission for the displayed $\HilbertUp$ row $H$;
+\item vector-field admission for the field endpoint and $\VecSpaceUp$ operations stored in $V$;
+\item gradient-potential admission for the potential window and $\LinearMapUp$ gradient route stored in $G$;
+\item divergence-free admission for the kernel classifier stored in $D$;
+\item orthogonal-projection admission for the projection row $O$ over the gradient and divergence-free components;
+\item boundary-ledger admission for the displayed boundary observations stored in $B$;
+\item componentwise transport, displayed replay, provenance, and local naming through $T,C,P,N$.
+\end{enumerate}
+Consequently a downstream PDE, variational, or Hodge-facing consumer may read Helmholtz data only through the displayed Hilbert, vector-space, linear-map, projection, boundary, transport, replay, provenance, and local naming rows. The packet exports no host PDE solver, gauge selector, Sobolev-completion theorem, quotient vector-field equality, or unrestricted Hodge decomposition.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:helmholtz-decomposition-carrier}. The visible analytic rows are the Hilbert source $H$, the vector-field row $V$, the gradient-potential row $G$, the divergence-free row $D$, the orthogonal-projection row $O$, and the boundary ledger $B$.
+
+The source and algebraic rows are read first. The Hilbert row comes from \autoref{ch:concrete-instances-hilbert-namecert}, while $V$ supplies the vector operations inherited from \autoref{ch:concrete-instances-vecspace-namecert}. Thus the decomposition statement is formed only inside a displayed carrier.
+
+Next the two component rows are exposed. The gradient-potential row $G$ factors its gradient read through the linear-map surface of \autoref{ch:concrete-instances-linearmap-namecert}, and the divergence-free row $D$ supplies the displayed kernel classifier before any splitting conclusion is available.
+
+The projection and boundary rows then bind the route. The row $O$ reads the orthogonal splitting discipline through \autoref{ch:concrete-instances-orthogonal-projection-theorem-namecert}, while $B$ restricts the boundary observations available to that read.
+
+Finally $T,C,P,N$ transport, replay, source, and name the same displayed rows. Since no excluded analytic object is a coordinate of $K$, the listed obligation families exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Helmholtz decomposition orthogonal splitting route]
+\label{thm:helmholtz-decomposition-orthogonal-splitting-route}
+Every splitting read accepted from a $\HelmholtzDecompositionUp$ packet factors through the finite route
+$$
+\HilbertUp
+\longmapsto
+\VecSpaceUp
+\longmapsto
+\LinearMapUp
+\longmapsto
+\OrthogonalProjectionTheoremUp
+\longmapsto
+\NameCert_{\HelmholtzDecompositionUp}.
+$$
+The exported surface is a displayed field row together with a gradient-potential component, a divergence-free component, an orthogonal projection ledger, and a boundary ledger. It does not provide a global PDE solution operator, a selected gauge, Sobolev regularity, quotient equality of vector fields, or the full Hodge decomposition theorem.
+\end{theorem}
+\begin{proof}
+Start from an accepted packet $K=(H,V,G,D,O,B,T,C,P,N)$. A consumer first opens the Hilbert row $H$, so every norm, orthogonality, and projection read remains attached to the same displayed source.
+
+The vector-space row $V$ then supplies the algebra needed to read the field as the sum of two displayed components. This step uses only the finite operations exposed by \autoref{ch:concrete-instances-vecspace-namecert}.
+
+The gradient-potential component is read through $G$ and the linear-map surface of \autoref{ch:concrete-instances-linearmap-namecert}. The divergence-free component is read through $D$, whose kernel classifier is already part of the packet.
+
+The orthogonal splitting claim is finally routed through $O$ and the projection-theorem packet of \autoref{ch:concrete-instances-orthogonal-projection-theorem-namecert}. The boundary ledger $B$ records the available boundary observations before the local name $N$ is exposed.
+
+Transport and replay through $T$ and $C$ preserve this order, while $P$ records the provenance of the same finite route. No host solver, gauge selector, Sobolev regularity theorem, quotient equality, or unrestricted Hodge theorem is introduced.
+\end{proof}
+
+\closureat{HelmholtzDecompositionUp}{seedStr}
+
+\begin{closurestatus}{\HelmholtzDecompositionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:helmholtz-decomposition-carrier}, \autoref{thm:helmholtz-decomposition-namecert-obligations}, and \autoref{thm:helmholtz-decomposition-orthogonal-splitting-route} seed the finite Helmholtz decomposition packet over Hilbert, vector-space, linear-map, projection, boundary, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim PDE solvability, global gauges, Sobolev regularity, quotient vector-field equality, unrestricted Hodge decomposition, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure asks for checked Hilbert-source admission, vector-field admission, gradient-potential admission, divergence-free admission, orthogonal-projection admission, boundary-ledger admission, transport, replay, provenance, and local naming for BEDC.Derived.HelmholtzDecompositionUp.}
+  \constructivestory{A $\HelmholtzDecompositionUp$ packet is generated from a displayed Hilbert source, a vector-field row, a gradient-potential row read through LinearMapUp, a divergence-free kernel row, an orthogonal-projection row, a boundary ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
