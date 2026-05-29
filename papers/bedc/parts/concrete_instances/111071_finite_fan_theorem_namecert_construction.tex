@@ -45,6 +45,60 @@ The bar evidence is finite because $I$ and $W$ are displayed ledgers. The Bool e
 Finally $H,T,P,N$ transport, replay, source, and name the same finite route. Since the carrier contains no coordinate for open covers, countable choice, selected branches, quotient streams, or completed real data, the listed rows exhaust the local NameCert surface.
 \end{proof}
 
+\begin{theorem}[Finite fan prefix-order exactness]
+\label{thm:finite-fan-theorem-prefix-order-exactness}
+Let
+$$
+\mathcal{B}=(S,C,B,I,W,H,T,P,N)
+$$
+be an accepted $\FiniteFanTheoremUp$ carrier. Every accepted branch-facing read exposes the $\StreamNameUp$ finite-window row $S$ before it can read either the $\CantorSpaceUp$ prefix row $C$ or the $\BaireSpaceUp$ prefix row $B$, and exposes the $\NatUp$ depth ledger inside $I$ before it can read the finite bar-window row $W$.
+
+Consequently the public prefix order of the packet is exactly
+$$
+S \longrightarrow C,B \quad\text{and}\quad I \longrightarrow W
+$$
+with all exported reads then transported and named through $H,T,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:finite-fan-theorem-carrier}. The row $S$ is the only displayed finite observation schedule for branch-facing consumers, while $C$ and $B$ are retained as tree and branch prefix rows read through that schedule.
+
+The depth order is also a carrier projection. The row $I$ pairs Boolean endpoint decisions with Nat depth indices and branch-length comparisons, while $W$ only lists the prefixes inspected at the displayed depths. Thus $W$ cannot be read before the depth coordinates in $I$ have been exposed.
+
+Finally $H,T,P,N$ preserve the same ordered rows under transport, traversal, provenance, and local naming. No listed carrier row supplies an alternate prefix order.
+\end{proof}
+
+\begin{theorem}[Finite fan bar-window coverage]
+\label{thm:finite-fan-theorem-bar-window-coverage}
+For every accepted $\FiniteFanTheoremUp$ carrier
+$$
+\mathcal{B}=(S,C,B,I,W,H,T,P,N),
+$$
+each accepted finite bar window in $W$ is covered by a displayed finite prefix family read from $S,C,B,I$. The bar-window read cannot inspect a branch outside the recorded $\BoolUp/\NatUp$ finite ledger $I$, and every prefix used by the read is one of the prefixes retained by the finite observation schedule $S$ and the Cantor or Baire prefix rows $C,B$.
+\end{theorem}
+\begin{proof}
+Use the carrier rows from \autoref{def:finite-fan-theorem-carrier}. The finite observation schedule $S$ records the inspected windows, the Cantor and Baire rows $C,B$ retain the branch prefixes available to the packet, and $I$ records the Boolean endpoint labels and Nat depth comparisons.
+
+The bar row $W$ is defined only as a finite bar-window row over those displayed depths. Hence an accepted read of $W$ is already indexed by the prefixes and depths carried by $S,C,B,I$; there is no carrier coordinate for a branch outside that finite ledger.
+
+The transport and replay rows do not add new branches. They move the same finite family through $H,T,P,N$, so coverage remains exactly the displayed finite prefix family.
+\end{proof}
+
+\begin{theorem}[Finite fan nonescape]
+\label{thm:finite-fan-theorem-nonescape}
+Let
+$$
+\mathcal{B}=(S,C,B,I,W,H,T,P,N)
+$$
+be an accepted $\FiniteFanTheoremUp$ carrier. Any consumer reaching the local $\NameCert_{\FiniteFanTheoremUp}$ row $N$ factors through $S,C,B,I,W,H,T,P,N$ and therefore exports no open-cover compactness, countable choice, selected infinite branch, or quotient stream equality.
+\end{theorem}
+\begin{proof}
+Carrier admission gives the complete row list $S,C,B,I,W,H,T,P,N$. A consumer that reaches $N$ must first pass through the displayed traversal row $T$, provenance row $P$, and transport row $H$ attached to the same finite prefix-bar packet.
+
+The source rows are exhausted by $S,C,B,I,W$. These rows carry finite windows, prefix trees, branch rows, endpoint and depth ledgers, and finite bar decisions only. None of them contains an open cover, a countable-choice selector, an infinite branch choice, or a quotient equality of streams.
+
+Thus the local naming row can export only the displayed finite packet. The nonlisted principles are outside the carrier and cannot be recovered by a NameCert consumer.
+\end{proof}
+
 \falsifiablePrediction{Every $\FiniteFanTheoremUp$ branch-facing read factors through one $\StreamNameUp$ finite-window row, one $\CantorSpaceUp$ binary tree row, one $\BaireSpaceUp$ branch row, one combined $\BoolUp$ and $\NatUp$ finite prefix ledger, one finite bar-window row, componentwise $\hsame$ transport, displayed $\Cont$ traversal, $\Pkg$ provenance, and local naming.}
 
 \independenceWitness{streamname, cantorspace, bairespace, bool, nat: $\FiniteFanTheoremUp$ is not bijective to any listed sibling because it jointly carries binary and countable prefix rows with a finite bar-window ledger as one branch-facing packet.}
