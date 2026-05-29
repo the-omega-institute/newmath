@@ -405,6 +405,10 @@ def finding_resolution_worktree_for_key(key: str) -> Path:
     return Path("/tmp") / f"wt-taste-resolve-{sanitize_branch_piece(key)[:48]}"
 
 
+def research_worktree_for_pid() -> Path:
+    return Path("/tmp") / f"wt-taste-research-{os.getpid()}"
+
+
 def finding_resolution_names(entry: dict[str, Any]) -> tuple[Path, str, str]:
     qid = str(entry.get("id") or "")
     raw = qid or json.dumps(entry, sort_keys=True, default=str)
@@ -828,8 +832,14 @@ def sync_phase(state: dict[str, Any], dry_run: bool) -> ChangedArtifacts | None:
         print(f"[taste] tracked working tree dirt; skipping cycle: {dirty[:5]}", file=sys.stderr)
         return None
 
-    git("fetch", "origin", BASE_BRANCH, check=False)
-    merge = git("merge", "--ff-only", f"origin/{BASE_BRANCH}", check=False, capture=True)
+    acquire_push_lock = import_push_lock()
+    try:
+        with acquire_push_lock(BASE_BRANCH, timeout=120):
+            git("fetch", "origin", BASE_BRANCH, check=False)
+            merge = git("merge", "--ff-only", f"origin/{BASE_BRANCH}", check=False, capture=True)
+    except TimeoutError as exc:
+        append_alert("push_lock_timeout", {"operation": "sync_phase", "error": str(exc)})
+        return None
     if merge.returncode != 0:
         append_alert("sync_failed", {"stderr": tail(merge.stderr or merge.stdout or "")})
         return None
@@ -1736,12 +1746,18 @@ def commit_dossier_refresh_if_needed(changed: bool, dry_run: bool) -> None:
     status = git("status", "--porcelain", "--", rel(TASTE_EVOLUTIONS_FILE), check=False, capture=True)
     if status.returncode != 0 or not status.stdout.strip():
         return
-    git("add", rel(TASTE_EVOLUTIONS_FILE))
-    commit = git("commit", "-m", "taste: refresh dossier observation snapshot", check=False, capture=True)
-    if commit.returncode != 0:
-        append_alert("dossier_snapshot_commit_failed", {"stderr": tail(commit.stderr or commit.stdout or "")})
+    acquire_push_lock = import_push_lock()
+    try:
+        with acquire_push_lock(BASE_BRANCH, timeout=120):
+            git("add", rel(TASTE_EVOLUTIONS_FILE))
+            commit = git("commit", "-m", "taste: refresh dossier observation snapshot", check=False, capture=True)
+            if commit.returncode != 0:
+                append_alert("dossier_snapshot_commit_failed", {"stderr": tail(commit.stderr or commit.stdout or "")})
+                return
+            push = git("push", "origin", BASE_BRANCH, check=False, capture=True)
+    except TimeoutError as exc:
+        append_alert("dossier_snapshot_push_failed", {"stderr": str(exc)})
         return
-    push = git("push", "origin", BASE_BRANCH, check=False, capture=True)
     if push.returncode != 0:
         append_alert("dossier_snapshot_push_failed", {"stderr": tail(push.stderr or push.stdout or "")})
 
@@ -1847,18 +1863,24 @@ def record_rule_evolution_ship_commit(flag: str, commit_sha: str | None) -> bool
 def commit_rule_evolution_dossier_record(flag: str, commit_sha: str | None) -> None:
     if not record_rule_evolution_ship_commit(flag, commit_sha):
         return
-    git("add", rel(TASTE_EVOLUTIONS_FILE))
-    commit = git(
-        "commit",
-        "-m",
-        f"taste: record rule evolution ship {sanitize_branch_piece(flag)}",
-        check=False,
-        capture=True,
-    )
-    if commit.returncode != 0:
-        append_alert("dossier_rule_evolution_record_commit_failed", {"flag": flag, "stderr": tail(commit.stderr or commit.stdout or "")})
+    acquire_push_lock = import_push_lock()
+    try:
+        with acquire_push_lock(BASE_BRANCH, timeout=120):
+            git("add", rel(TASTE_EVOLUTIONS_FILE))
+            commit = git(
+                "commit",
+                "-m",
+                f"taste: record rule evolution ship {sanitize_branch_piece(flag)}",
+                check=False,
+                capture=True,
+            )
+            if commit.returncode != 0:
+                append_alert("dossier_rule_evolution_record_commit_failed", {"flag": flag, "stderr": tail(commit.stderr or commit.stdout or "")})
+                return
+            push = git("push", "origin", BASE_BRANCH, check=False, capture=True)
+    except TimeoutError as exc:
+        append_alert("dossier_rule_evolution_record_push_failed", {"flag": flag, "stderr": str(exc)})
         return
-    push = git("push", "origin", BASE_BRANCH, check=False, capture=True)
     if push.returncode != 0:
         append_alert("dossier_rule_evolution_record_push_failed", {"flag": flag, "stderr": tail(push.stderr or push.stdout or "")})
 
@@ -1904,21 +1926,31 @@ def dispatch_research(dry_run: bool, commit: str) -> tuple[bool, list[Finding]]:
             "rationale": "Dry-run exercises RESEARCH state plumbing without running codex.",
         }]
         return True, research_payload_to_findings(sample, commit)
-    before_dirty = set(dirty_paths())
-    res = run(
-        [CODEX_PATH, "exec", "--dangerously-bypass-approvals-and-sandbox", "-C", str(REPO_ROOT), META_PROMPT_RESEARCH],
-        cwd=REPO_ROOT,
-        check=False,
-        capture=True,
-        timeout=TIMEOUTS["codex"],
-    )
-    if res.returncode != 0:
-        append_alert("research_codex_failed", {"stderr": tail((res.stdout or "") + (res.stderr or ""))})
+    worktree = research_worktree_for_pid()
+    git("worktree", "remove", "--force", str(worktree), check=False, capture=True)
+    if worktree.exists():
+        shutil.rmtree(worktree)
+    add = git("worktree", "add", str(worktree), BASE_BRANCH, check=False, capture=True)
+    if add.returncode != 0:
+        append_alert("research_worktree_failed", {"stderr": tail(add.stderr or add.stdout or "")})
         return False, []
-    unexpected_dirty = sorted(set(dirty_paths()) - before_dirty)
-    if unexpected_dirty:
-        append_alert("research_codex_touched_files", {"dirty": unexpected_dirty[:20]})
-        return False, []
+    try:
+        res = run(
+            [CODEX_PATH, "exec", "--dangerously-bypass-approvals-and-sandbox", "-C", str(worktree), META_PROMPT_RESEARCH],
+            cwd=worktree,
+            check=False,
+            capture=True,
+            timeout=TIMEOUTS["codex"],
+        )
+        if res.returncode != 0:
+            append_alert("research_codex_failed", {"stderr": tail((res.stdout or "") + (res.stderr or ""))})
+            return False, []
+        dirty = run(["git", "status", "--porcelain"], cwd=worktree, check=False, capture=True, timeout=30).stdout
+        if dirty.strip():
+            append_alert("research_codex_touched_files", {"dirty": dirty.splitlines()[:20]})
+            return False, []
+    finally:
+        git("worktree", "remove", "--force", str(worktree), check=False, capture=True)
     payload = extract_json_array((res.stdout or "") + "\n" + (res.stderr or ""))
     if payload is None:
         append_alert("research_json_parse_failed", {"output_tail": tail((res.stdout or "") + (res.stderr or ""))})
@@ -2153,14 +2185,14 @@ def commit_resolution_dossier_if_needed(changed: bool, dry_run: bool) -> None:
     status = git("status", "--porcelain", "--", rel(TASTE_EVOLUTIONS_FILE), check=False, capture=True)
     if status.returncode != 0 or not status.stdout.strip():
         return
-    git("add", rel(TASTE_EVOLUTIONS_FILE))
-    commit = git("commit", "-m", "taste: record finding resolution", check=False, capture=True)
-    if commit.returncode != 0:
-        append_alert("resolution_dossier_commit_failed", {"stderr": tail(commit.stderr or commit.stdout or "")})
-        return
     acquire_push_lock = import_push_lock()
     try:
         with acquire_push_lock(BASE_BRANCH, timeout=120):
+            git("add", rel(TASTE_EVOLUTIONS_FILE))
+            commit = git("commit", "-m", "taste: record finding resolution", check=False, capture=True)
+            if commit.returncode != 0:
+                append_alert("resolution_dossier_commit_failed", {"stderr": tail(commit.stderr or commit.stdout or "")})
+                return
             push = git("push", "origin", BASE_BRANCH, check=False, capture=True)
     except TimeoutError as exc:
         append_alert("resolution_dossier_push_failed", {"stderr": str(exc)})
@@ -2738,18 +2770,24 @@ def update_approval_status(
     if not changed:
         append_alert("approval_update_missing", {"id": approval_id, "status": status})
         return False
-    write_json(APPROVALS_FILE, data)
-    git("add", rel(APPROVALS_FILE))
     msg = f"taste: mark approval {status} {short_hash(approval_id)}"
-    commit = git("commit", "-m", msg, check=False, capture=True)
-    if commit.returncode != 0:
-        append_alert("approval_status_commit_failed", {"id": approval_id, "stderr": tail(commit.stderr)})
+    acquire_push_lock = import_push_lock()
+    try:
+        with acquire_push_lock(BASE_BRANCH, timeout=120):
+            write_json(APPROVALS_FILE, data)
+            git("add", rel(APPROVALS_FILE))
+            commit = git("commit", "-m", msg, check=False, capture=True)
+            if commit.returncode != 0:
+                append_alert("approval_status_commit_failed", {"id": approval_id, "stderr": tail(commit.stderr)})
+                return False
+            if push:
+                pushed = git("push", "origin", BASE_BRANCH, check=False, capture=True)
+                if pushed.returncode != 0:
+                    append_alert("approval_status_push_failed", {"id": approval_id, "stderr": tail(pushed.stderr)})
+                    return False
+    except TimeoutError as exc:
+        append_alert("approval_status_push_failed", {"id": approval_id, "stderr": str(exc)})
         return False
-    if push:
-        pushed = git("push", "origin", BASE_BRANCH, check=False, capture=True)
-        if pushed.returncode != 0:
-            append_alert("approval_status_push_failed", {"id": approval_id, "stderr": tail(pushed.stderr)})
-            return False
     return True
 
 
@@ -2793,29 +2831,34 @@ def validate_rule_evolution_touched(worktree: Path, touched: list[str]) -> tuple
 
 
 def merge_rule_evolution_worktree(worktree: Path, branch: str, flag: str, cluster_key: str) -> tuple[bool, str, str | None]:
-    fetch = git("fetch", "origin", BASE_BRANCH, check=False, capture=True)
-    if fetch.returncode != 0:
-        return False, f"fetch failed: {tail(fetch.stderr)}", None
-    merge_base = git("merge", f"origin/{BASE_BRANCH}", check=False, capture=True)
-    if merge_base.returncode != 0:
-        return False, f"base merge failed: {tail(merge_base.stderr or merge_base.stdout)}", None
-    merge = git(
-        "merge",
-        "--no-ff",
-        branch,
-        "-m",
-        f"taste: rule evolution {sanitize_branch_piece(flag)} {cluster_key}",
-        check=False,
-        capture=True,
-    )
-    if merge.returncode != 0:
-        git("merge", "--abort", check=False, capture=True)
-        return False, f"worktree merge failed: {tail(merge.stderr or merge.stdout)}", None
-    commit_sha = git("rev-parse", "HEAD", capture=True).stdout.strip()
-    push = git("push", "origin", BASE_BRANCH, check=False, capture=True)
-    if push.returncode != 0:
-        return False, f"push failed: {tail(push.stderr or push.stdout)}", commit_sha
-    return True, "merged and pushed", commit_sha
+    acquire_push_lock = import_push_lock()
+    try:
+        with acquire_push_lock(BASE_BRANCH, timeout=120):
+            fetch = git("fetch", "origin", BASE_BRANCH, check=False, capture=True)
+            if fetch.returncode != 0:
+                return False, f"fetch failed: {tail(fetch.stderr)}", None
+            merge_base = git("merge", f"origin/{BASE_BRANCH}", check=False, capture=True)
+            if merge_base.returncode != 0:
+                return False, f"base merge failed: {tail(merge_base.stderr or merge_base.stdout)}", None
+            merge = git(
+                "merge",
+                "--no-ff",
+                branch,
+                "-m",
+                f"taste: rule evolution {sanitize_branch_piece(flag)} {cluster_key}",
+                check=False,
+                capture=True,
+            )
+            if merge.returncode != 0:
+                git("merge", "--abort", check=False, capture=True)
+                return False, f"worktree merge failed: {tail(merge.stderr or merge.stdout)}", None
+            commit_sha = git("rev-parse", "HEAD", capture=True).stdout.strip()
+            push = git("push", "origin", BASE_BRANCH, check=False, capture=True)
+            if push.returncode != 0:
+                return False, f"push failed: {tail(push.stderr or push.stdout)}", commit_sha
+            return True, "merged and pushed", commit_sha
+    except TimeoutError as exc:
+        return False, f"push lock timeout: {exc}", None
 
 
 def dispatch_rule_evolution(
@@ -2922,7 +2965,13 @@ def process_confirmed_approvals(
             update_approval_status(qid, "failed", failure_reason=msg, push=False)
             append_alert("confirmed_rule_evolution_failed", {"id": qid, "failure_reason": msg})
     if ok:
-        pushed = git("push", "origin", BASE_BRANCH, check=False, capture=True)
+        acquire_push_lock = import_push_lock()
+        try:
+            with acquire_push_lock(BASE_BRANCH, timeout=120):
+                pushed = git("push", "origin", BASE_BRANCH, check=False, capture=True)
+        except TimeoutError as exc:
+            append_alert("approval_status_push_failed", {"ids": approval_ids, "stderr": str(exc)})
+            return min(1, cap)
         if pushed.returncode != 0:
             append_alert("approval_status_push_failed", {"ids": approval_ids, "stderr": tail(pushed.stderr)})
     return min(1, cap)
