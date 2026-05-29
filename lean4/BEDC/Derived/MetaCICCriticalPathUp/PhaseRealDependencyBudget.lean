@@ -175,6 +175,74 @@ theorem MetaCICCriticalPathPhaseRealExitConjunction [AskSetup] [PackageSetup]
   }
   exact ⟨cert, exitReadUnary, realSealPkg⟩
 
+theorem MetaCICCriticalPathRealSealNoCompletenessEscape [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction unblock discharge handoff continuation provenance
+      localName dyadic stream regseq realSeal escapeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathOpenPhaseSourceLedger strongNorm normalForm obstruction unblock
+        discharge handoff continuation provenance localName dyadic stream regseq realSeal
+        bundle pkg →
+      Cont realSeal provenance escapeRead →
+        PkgSig bundle escapeRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row escapeRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row dyadic ∨ hsame row stream ∨ hsame row regseq ∨
+                  hsame row realSeal ∨ hsame row escapeRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ PkgSig bundle escapeRead pkg ∧
+                  PkgSig bundle realSeal pkg)
+              hsame ∧
+            UnaryHistory escapeRead ∧ PkgSig bundle realSeal pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro ledger sealProvenanceEscape escapePkg
+  obtain ⟨packet, _dyadicUnary, _streamUnary, _regseqUnary, realSealUnary,
+    _dyadicStreamRegseq, _regseqRealSealHandoff, realSealPkg⟩ := ledger
+  obtain ⟨_strongNormUnary, _normalFormUnary, _obstructionUnary, _unblockUnary,
+    _dischargeUnary, _handoffUnary, _continuationUnary, provenanceUnary,
+    _localNameUnary, _strongNormNormalFormContinuation, _unblockObstructionDischarge,
+    _handoffLocalName, _provenancePkg⟩ := packet
+  have escapeUnary : UnaryHistory escapeRead :=
+    unary_cont_closed realSealUnary provenanceUnary sealProvenanceEscape
+  have escapeSource :
+      (fun row : BHist => hsame row escapeRead ∧ UnaryHistory row) escapeRead := by
+    exact ⟨hsame_refl escapeRead, escapeUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row escapeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row dyadic ∨ hsame row stream ∨ hsame row regseq ∨
+              hsame row realSeal ∨ hsame row escapeRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle escapeRead pkg ∧
+              PkgSig bundle realSeal pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro escapeRead escapeSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, escapePkg, realSealPkg⟩
+  }
+  exact ⟨cert, escapeUnary, realSealPkg⟩
+
 theorem MetaCICCriticalPathPhaseRealBudgetExhaustion [AskSetup] [PackageSetup]
     {strongNorm normalForm obstruction unblock discharge handoff continuation provenance
       localName dyadic stream regseq realSeal exitRead budgetExit : BHist}
