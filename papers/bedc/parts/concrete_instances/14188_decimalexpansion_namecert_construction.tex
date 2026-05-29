@@ -62,6 +62,20 @@ Real-completeness witness.
 \end{definition}
 \leanchecked{BEDC.Derived.DecimalExpansionUp.TasteGate.DecimalExpansionTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[DecimalExpansion digit-window obligations]
+\label{thm:decimal-expansion-digit-window-obligations}
+Every real-facing read of an accepted $\DecimalExpansionUp$ packet must consume the digit ledger $D$, finite window ledger $W$, place-value row $V$, dyadic comparison row $Q$, $\RegSeqRatUp$ handoff row $R$, and terminal $\RealUp$ seal row $E$ in that order. The structural rows $H,C,P,N$ transport, replay, source, and name only this displayed route, so no decimal consumer can read a real-facing value before the finite digit window and dyadic comparison have both been displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:decimal-expansion-carrier}. Its public real-facing coordinates appear as $D,W,V,Q,R,E$ before the structural rows $H,C,P,N$.
+
+The finite-window discipline is the same one used by the sibling routes of \autoref{ch:concrete-instances-binaryexpansion-namecert}, \autoref{ch:concrete-instances-continuedfraction-namecert}, and \autoref{ch:concrete-instances-streamname-namecert}. A consumer first receives inspected digits and positions, not an infinite stream.
+
+Apply the NameCert obligations of \autoref{thm:decimal-expansion-namecert-obligations}. Carrier admission and ledger exhaustion force every $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer to inspect only displayed rows, with $V$ and $Q$ between the digit window and the regular-rational handoff.
+
+Finally read the seal row $E$ downstream of $R$. Since the carrier has no coordinate for a direct decimal stream, quotient real, selected representative, or completeness witness, the ordered digit-window route is the only real-facing decimal read exported by the packet.
+\end{proof}
+
 \begin{theorem}[DecimalExpansion NameCert obligations]\label{thm:decimal-expansion-namecert-obligations}
 The seed $\NameCert_{\DecimalExpansionUp}$ obligation surface consists exactly
 of the rows in \autoref{def:decimal-expansion-carrier}. Carrier admission
