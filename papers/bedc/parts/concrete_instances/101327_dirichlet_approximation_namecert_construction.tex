@@ -76,6 +76,26 @@ The real-facing input is read through windows. The row $S$ supplies the finite S
 Only after these rows are present can $R$ and then $E$ be read. Transport, replay, provenance, and local naming preserve this route, so the exported approximation cannot depend on host real equality, quotient representatives, choice-selected best approximants, trichotomy, or ambient Real completeness.
 \end{proof}
 
+\begin{theorem}[Dirichlet approximation denominator window]
+\label{thm:dirichlet-approximation-denominator-window}
+Every downstream approximation consumer of an accepted $\DirichletApproximationUp$ carrier
+$$
+A=(Q,B,M,D,S,G,R,E,H,C,P,N)
+$$
+that uses a denominator-bound read must expose the displayed rows in the order
+$$
+Q \longmapsto B \longmapsto M \longmapsto D,S,G,R,E .
+$$
+In particular, a $\KroneckerApproximationUp$ consumer using the Dirichlet handoff row $D$ and a $\RationalBestApproximationUp$ consumer using the denominator-budget surface must first read the rational source row $Q$, then the finite denominator-bound row $B$, and then the Stern--Brocot or Farey route $M$ before consuming dyadic tolerance, StreamName, RegSeqRat, RealRationalApproximation, or terminal Real rows.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:dirichlet-approximation-carrier}. The rational source row $Q$ is the only source for exported approximants and interval endpoints, while the row $B$ is the only displayed denominator budget.
+
+Apply \autoref{thm:dirichlet-approximation-finite-handoff}. Its handoff route places the mediant row $M$ before the dyadic tolerance row $D$, the StreamName window row $S$, the RegSeqRat readback row $G$, and the real-facing rows $R,E$.
+
+Thus any consumer that needs a denominator-bound read must pass through $Q,B,M$ before it can consume the remaining approximation rows. This covers the $\KroneckerApproximationUp$ handoff that cites the Dirichlet row $D$ and the $\RationalBestApproximationUp$ handoff that reuses the same denominator-budget surface.
+\end{proof}
+
 \closureat{DirichletApproximationUp}{seedStr}
 
 \begin{closurestatus}{\DirichletApproximationUp}
