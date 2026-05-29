@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\SignedDecimalExpansionUp$}
+\label{ch:concrete-instances-signed-decimal-expansion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\SignedDecimalExpansionUp$ packet presents a real-facing decimal datum by a displayed sign row, finite digit-window rows, a carry ledger, the unsigned $\DecimalExpansionUp$ prefix surface of \autoref{ch:concrete-instances-decimalexpansion-namecert}, the normalized real-decimal route of \autoref{ch:concrete-instances-real-decimal-normal-form-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The point is not to select an infinite decimal expansion for a real. It is to name the finite BEDC certificate by which a signed decimal window can be normalized, replayed as a $\RegSeqRatUp$ route, and then handed to $\RealUp$ without quotient representatives, trichotomy, endpoint choice, or ambient completeness.
+
+\begin{definition}[Signed decimal expansion carrier]
+\label{def:signed-decimal-expansion-carrier}
+A $\SignedDecimalExpansionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,D,W,A,L,U,Z,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the sign row, recording either a nonnegative read or a negative read of the same finite magnitude surface.
+\item $D$ is the finite digit ledger, listing the inspected base-ten digits and the distinguished decimal point window.
+\item $W$ is the finite $\StreamNameUp$ window through which the digit ledger is read.
+\item $A$ is the unsigned $\DecimalExpansionUp$ magnitude row, exposing the finite decimal-prefix carrier and its dyadic place-value comparison.
+\item $L$ is the carry ledger, recording all local carry and borrow moves used inside the inspected window.
+\item $U$ is the normalized $\RealDecimalNormalFormUp$ row, reached only after $S,D,W,A,L$ have been displayed.
+\item $Z$ is the zero-window boundary row, identifying the unique displayed route by which the positive and negative presentations of zero agree.
+\item $R$ is the $\RegSeqRatUp$ replay row obtained from the signed normalized windows and the dyadic comparison data.
+\item $E$ is the terminal $\RealUp$ seal row reached from $R$.
+\item $H$ records componentwise $\hsame$ transport for $S,D,W,A,L,U,Z,R,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a signed decimal request through digit windows, carry normalization, regular rational readback, and the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\SignedDecimalExpansionUp$, $\DecimalExpansionUp$, $\RealDecimalNormalFormUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SignedDecimalExpansionUp}$ row.
+\end{enumerate}
+The classifier compares accepted signed decimal packets only through $S,D,W,A,L,U,Z,R,E,H,C,P,N$. It has no coordinate for a chosen infinite decimal stream, a quotient real representative, an endpoint convention selector, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Signed decimal expansion NameCert obligations]
+\label{thm:signed-decimal-expansion-namecert-obligations}
+For every accepted $\SignedDecimalExpansionUp$ carrier
+$$
+K=(S,D,W,A,L,U,Z,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\SignedDecimalExpansionUp}$ surface consists exactly of sign exposure, finite digit-window exposure, unsigned $\DecimalExpansionUp$ magnitude exposure, carry-ledger normalization, $\RealDecimalNormalFormUp$ normalized-window exposure, zero-window agreement, $\RegSeqRatUp$ replay, terminal $\RealUp$ seal exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every real-facing consumer must read $S,D,W,A,L,U,Z,R,E$ before any structural row is consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:signed-decimal-expansion-carrier}. The analytic rows are exactly $S,D,W,A,L,U,Z,R,E$, while $H,C,P,N$ are the structural transport, replay, provenance, and naming rows.
+
+The unsigned magnitude row $A$ is read only after the sign and finite digit-window rows $S,D,W$. Thus the signed presentation cannot hide a second decimal magnitude or an infinite stream behind the sign.
+
+The carry ledger $L$ and normalized row $U$ then force all local carry and borrow moves to be replayed inside the same finite window. The zero boundary $Z$ identifies the only displayed agreement route between the two signed presentations of zero.
+
+Finally $R$ and $E$ are downstream rows. The regular rational replay must be exposed before the terminal Real seal, and no carrier coordinate remains for quotient representatives, endpoint choice, trichotomy, choice schedules, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Signed decimal expansion decimal normalization route]
+\label{thm:signed-decimal-expansion-decimal-normalization-route}
+Every accepted $\SignedDecimalExpansionUp$ packet routes its signed digit window through the unsigned $\DecimalExpansionUp$ magnitude row and the $\RealDecimalNormalFormUp$ normalization row before any $\RegSeqRatUp$ replay or $\RealUp$ seal can be read. In the notation of \autoref{def:signed-decimal-expansion-carrier}, every consumer of $R$ or $E$ first consumes
+$$
+S,D,W,A,L,U,Z .
+$$
+Consequently the sign row and carry ledger are normalized as finite BEDC data, not by selecting a preferred infinite decimal expansion or an endpoint convention.
+\end{theorem}
+\begin{proof}
+Begin with the carrier ordering in \autoref{def:signed-decimal-expansion-carrier}. The rows $S,D,W$ expose the signed finite window, and $A$ places its magnitude inside the existing $\DecimalExpansionUp$ finite-prefix surface.
+
+The carry ledger $L$ is replayed before $U$ is public. Since $U$ is the $\RealDecimalNormalFormUp$ row, every normalized decimal read is attached to the displayed carry ledger rather than to a detached stream convention.
+
+The rows $R$ and $E$ occur only after $Z$ has recorded the zero-window boundary. Thus downstream consumers receive a normalized finite signed route, and the packet exports no shortcut from raw signed digits to a regular rational or real-facing value.
+\end{proof}
+
+\begin{theorem}[Signed decimal expansion Real seal handoff]
+\label{thm:signed-decimal-expansion-real-seal-handoff}
+For every accepted $\SignedDecimalExpansionUp$ packet, the terminal $\RealUp$ seal is reached only through the $\RegSeqRatUp$ replay row assembled from the signed normalized windows. The handoff factors through the displayed chain
+$$
+\SignedDecimalExpansionUp
+\longrightarrow
+\DecimalExpansionUp
+\longrightarrow
+\RealDecimalNormalFormUp
+\longrightarrow
+\RegSeqRatUp
+\longrightarrow
+\RealUp .
+$$
+It does not export quotient real equality, a selected decimal representative, trichotomy, countable choice, endpoint uniqueness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read $R$ through the normalized-window route of \autoref{thm:signed-decimal-expansion-decimal-normalization-route}. The signed carrier has already exposed the sign row, finite digit ledger, carry ledger, unsigned magnitude row, normalized row, and zero boundary before $R$ can be consumed.
+
+The terminal seal row $E$ is downstream of $R$. Hence a Real-facing consumer sees only the regular rational replay produced by the signed normalized windows.
+
+The nonescape clause follows from the carrier coordinates in \autoref{def:signed-decimal-expansion-carrier}. None of them is a quotient representative, selected decimal stream, trichotomy decision, countable-choice schedule, endpoint convention selector, or completeness witness.
+\end{proof}
+
+\closureat{SignedDecimalExpansionUp}{seedStr}
+
+\begin{closurestatus}{\SignedDecimalExpansionUp}
+  \constructivestory{A $\SignedDecimalExpansionUp$ packet is generated from a sign row, finite decimal digit windows, an unsigned DecimalExpansion magnitude row, a finite carry ledger, a RealDecimalNormalForm normalized row, a zero-window boundary, RegSeqRat replay, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:signed-decimal-expansion-carrier}, \autoref{thm:signed-decimal-expansion-namecert-obligations}, \autoref{thm:signed-decimal-expansion-decimal-normalization-route}, and \autoref{thm:signed-decimal-expansion-real-seal-handoff} seed the finite signed decimal presentation and its RegSeqRat-to-Real handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, selected infinite decimal streams, endpoint uniqueness, trichotomy, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, sign transport, carry-ledger normalization, zero-window agreement, RegSeqRat replay, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.SignedDecimalExpansionUp.}
+\end{closurestatus}
