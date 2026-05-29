@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\ObservabilityGramianUp$}
+\label{ch:concrete-instances-observability-gramian-namecert}
+
+\origin{human}
+The $\ObservabilityGramianUp$ interface records the finite observability Gramian packet of a finite-dimensional linear control system. Its textbook source is the finite-horizon observability Gramian in Kalman's control-theoretic duality and the matrix-ledger presentation used by Kailath, Sayed, and Hassibi for linear estimation. The BEDC packet is the finite dual certificate read beside $\ReachabilityGramianUp$ in \autoref{ch:concrete-instances-reachabilitygramian-namecert}; it is not an ambient analytic observability theorem.
+
+The dependency anchors are the finite observation surface of \autoref{ch:concrete-instances-controlobservability-namecert}, the reachability dual surface of \autoref{ch:concrete-instances-controlcontrollability-namecert}, the matrix rows of \autoref{ch:concrete-instances-matrix-namecert}, the vector-space rows of \autoref{ch:concrete-instances-vecspace-namecert}, and the linear-map rows of \autoref{ch:concrete-instances-linearmap-namecert}. These anchors force the Gramian to be read as displayed $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$ data before a control consumer can compare it with the reachability Gramian.
+
+\section{Carrier definition}
+\label{sec:observability-gramian-carrier}
+
+\begin{definition}[ObservabilityGramianUp finite carrier]
+\label{def:observability-gramian-carrier}
+An $\ObservabilityGramianUp$ carrier is a finite $\BHist$ packet with rows
+$$
+\begin{aligned}
+(A,C,n,W,L,R,P,N).
+\end{aligned}
+$$
+Here $A$ is the displayed transition-matrix row, $C$ is the displayed output-matrix row, $n$ is a unary finite-horizon row, $W$ is the displayed finite Gramian-sum ledger with summand rows
+$$
+\begin{aligned}
+C^{\mathsf T}C,\quad A^{\mathsf T}C^{\mathsf T}CA,\quad (A^{\mathsf T})^2C^{\mathsf T}CA^2,\quad \ldots,\quad (A^{\mathsf T})^{n-1}C^{\mathsf T}CA^{n-1},
+\end{aligned}
+$$
+$L$ is the componentwise $\hsame$ transport ledger for the transition, output, horizon, summand, and Gramian endpoint rows, $R$ is the finite dual-readback row comparing $W$ with the observation-matrix rows $C,CA,\ldots,CA^{n-1}$ of $\ControlObservabilityUp$, $P$ is the $\Pkg$ provenance over $\ObservabilityGramianUp$, $\ControlObservabilityUp$, $\ControlControllabilityUp$, $\ReachabilityGramianUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$, and $N$ is the local $\NameCert_{\ObservabilityGramianUp}$ row.
+
+The classifier compares accepted packets only by componentwise $\hsame$ transport of the $A,C,n,W,L,R,P,N$ rows. It does not quotient by a host unobservable subspace, analytic trajectory family, Riccati equation, spectral factorization, infinite-horizon Gramian, or external estimator object.
+\end{definition}
+
+\section{Certificate surface}
+\label{sec:observability-gramian-certificate}
+
+\begin{theorem}[ObservabilityGramianUp NameCert obligations]
+\label{thm:observability-gramian-namecert-obligations}
+The local $\NameCert_{\ObservabilityGramianUp}$ obligation surface has exactly five finite rows:
+\begin{enumerate}
+\item carrier admission for the displayed $A,C,n,W,L,R,P,N$ packet of \autoref{def:observability-gramian-carrier};
+\item classifier transport under componentwise $\hsame$ of the transition, output, horizon, Gramian, summand-ledger, dual-readback, package, and local certificate rows;
+\item finite sum ledger exactness, saying that the Gramian endpoint inside $W$ is read only as the finite sum of the displayed adjoint-output summands inside $W$;
+\item observability handoff, saying that the observation-matrix surface of $\ControlObservabilityUp$ can consume $A$, $C$, $n$, $W$, $L$, and $R$ only through the displayed $\MatrixUp$, $\VecSpaceUp$, $\LinMapUp$, $\Cont$, and $\Pkg$ rows;
+\item dual non-escape, saying that no accepted route exports a host unobservable subspace, analytic output trajectory, Riccati solution, spectral factorization, infinite-horizon Gramian, covariance process, or external estimator.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier row is \autoref{def:observability-gramian-carrier}. It displays the transition row, output row, unary horizon, Gramian endpoint, summand ledger, transport ledger, dual-readback row, package provenance, and local naming row as finite $\BHist$ coordinates.
+
+Classifier transport is componentwise. Replacing each displayed coordinate by an $\hsame$-matched coordinate leaves the same finite packet shape, so the transported packet is again admitted by the carrier.
+
+For finite sum exactness, inspect $W$. Each summand is a displayed matrix product formed from $A$, $C$, and transposes, and the Gramian endpoint is the finite fold of precisely those rows. The readback row $R$ ties that ledger to the observation rows without introducing a host observability theorem.
+
+The observability handoff is a projection to the shared $A$, $C$, and $n$ rows, to the finite observation rows of $\ControlObservabilityUp$, and to the Gramian sum named by $W$. Because those rows are already packaged with $\MatrixUp$, $\VecSpaceUp$, and $\LinMapUp$ provenance, a downstream observability certificate can read them without importing analytic control-system semantics.
+
+Dual non-escape follows from constructor inspection of the carrier. The packet has no coordinate for a host unobservable subspace, analytic output trajectory, Riccati solution, spectral factorization, infinite-horizon Gramian, covariance process, or external estimator, so none of those objects can be projected by a consumer route.
+\end{proof}
+
+\begin{theorem}[ObservabilityGramianUp finite dual handoff]
+\label{thm:observability-gramian-dual-handoff}
+Every $\ControlObservabilityUp$, $\ControlControllabilityUp$, or $\ReachabilityGramianUp$ consumer of an accepted $\ObservabilityGramianUp$ packet can read only the displayed $A$ row, $C$ row, unary horizon row $n$, finite Gramian-summand and endpoint row $W$, $\hsame$ transport ledger $L$, dual-readback row $R$, $\Pkg$ provenance, and local $\NameCert$ row of \autoref{def:observability-gramian-carrier}. The handoff supplies the finite dual route from observation rows to the reachability-side Gramian ledger, but it supplies no host Kalman decomposition, no analytic trajectory semantics, and no infinite-horizon duality theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted packet to the rows $A,C,n,W,L,R,P,N$. The first three rows are the finite control-system coordinates shared with $\ControlObservabilityUp$, while $W$ records the finite adjoint-output Gramian ledger and $L$ records componentwise transport over those same coordinates.
+
+The dual-readback row $R$ ties the summands in $W$ to the observation rows $C,CA,\ldots,CA^{n-1}$. Thus a $\ControlObservabilityUp$ consumer reads the packet through the observation matrix surface, and a $\ControlControllabilityUp$ or $\ReachabilityGramianUp$ consumer reads only the dual comparison route named by the shared package provenance.
+
+The carrier contains no row for a host Kalman decomposition, analytic trajectory semantics, or infinite-horizon duality theorem. Therefore the handoff is exactly the finite BEDC packet projection and does not add a control-theory semantic bridge.
+\end{proof}
+
+\begin{theorem}[ObservabilityGramianUp ledger non-escape]
+\label{thm:observability-gramian-ledger-nonescape}
+Every exported route from an accepted $\ObservabilityGramianUp$ packet factors through the finite rows $A,C,n,W,L,R,P,N$ of \autoref{def:observability-gramian-carrier}. In particular, the packet exports no ambient unobservable subspace, no analytic output trajectory family, no Riccati solution, no spectral factorization, no stochastic covariance process, no infinite-horizon Gramian, and no external numerical estimator.
+\end{theorem}
+\begin{proof}
+Take an exported consumer route and project the carrier. The available coordinates are exactly the transition row, output row, horizon row, finite Gramian-summand and endpoint row, transport ledger, dual-readback row, package provenance, and local certificate row.
+
+The NameCert obligations account for carrier admission, classifier transport, finite sum exactness, observability handoff, and dual non-escape. Each obligation is stated over those displayed coordinates and is preserved by the stored $\hsame$, $\Cont$, and $\Pkg$ rows.
+
+Thus every export factors through the listed finite coordinates. Since the carrier contains no ambient unobservable subspace, analytic output trajectory family, Riccati solution, spectral factorization, stochastic covariance process, infinite-horizon Gramian, or external numerical estimator, no accepted route can supply one downstream.
+\end{proof}
+
+\closureat{ObservabilityGramianUp}{seedStr}
+
+\begin{closurestatus}{\ObservabilityGramianUp}
+  \constructivestory{An $\ObservabilityGramianUp$ packet is generated from displayed transition and output matrix rows, a unary finite horizon, the finite adjoint-output Gramian summand and endpoint row, componentwise $\hsame$ transport ledger, a dual-readback row to the observation-matrix surface, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:observability-gramian-carrier}, \autoref{thm:observability-gramian-namecert-obligations}, \autoref{thm:observability-gramian-dual-handoff}, and \autoref{thm:observability-gramian-ledger-nonescape} bind the finite carrier, five-row NameCert surface, dual handoff, and non-escape boundary for observability Gramian packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host unobservable-subspace semantics, analytic output trajectories, Riccati theory, spectral factorization, stochastic covariance, infinite-horizon Gramians, numerical estimators, or a checked Lean certificate.}
+  \upgradepath{Obligation closure requires a Lean carrier encoding and checked finite-ledger theorems for finite sum exactness, dual handoff, and non-escape.}
+\end{closurestatus}
