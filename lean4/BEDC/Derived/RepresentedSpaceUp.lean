@@ -273,6 +273,90 @@ theorem RepresentedSpaceCarrier_target_handoff_nonescape [AskSetup] [PackageSetu
   }
   exact ⟨cert, targetReadUnary, provenancePkg⟩
 
+theorem RepresentedSpaceCarrier_target_seal_nonescape [AskSetup] [PackageSetup]
+    {name schedule relation target transport replay provenance localName targetRead sealRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.RepresentedSpaceUp name schedule relation target transport replay
+        provenance localName bundle pkg →
+      Cont target localName targetRead →
+        Cont targetRead localName sealRead →
+          PkgSig bundle targetRead pkg →
+            PkgSig bundle sealRead pkg →
+              SemanticNameCert
+                  (fun row : BHist =>
+                    (hsame row targetRead ∨ hsame row sealRead) ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row target ∨ hsame row localName ∨ hsame row targetRead ∨
+                      hsame row sealRead ∨ hsame row transport)
+                  (fun row : BHist =>
+                    (hsame row targetRead ∨ hsame row sealRead) ∧ PkgSig bundle row pkg ∧
+                      PkgSig bundle provenance pkg)
+                  hsame ∧
+                UnaryHistory targetRead ∧ UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier targetLocalNameRead targetSealRead targetReadPkg sealReadPkg
+  obtain ⟨_nameUnary, _scheduleUnary, _relationUnary, targetUnary, _transportUnary,
+    _replayUnary, _provenanceUnary, localNameUnary, _nameScheduleReplay,
+    _relationTargetTransport, _localNameTransport, provenancePkg⟩ := carrier
+  have targetReadUnary : UnaryHistory targetRead :=
+    unary_cont_closed targetUnary localNameUnary targetLocalNameRead
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed targetReadUnary localNameUnary targetSealRead
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row targetRead ∨ hsame row sealRead) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row target ∨ hsame row localName ∨ hsame row targetRead ∨
+              hsame row sealRead ∨ hsame row transport)
+          (fun row : BHist =>
+            (hsame row targetRead ∨ hsame row sealRead) ∧ PkgSig bundle row pkg ∧
+              PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro targetRead ⟨Or.inl (hsame_refl targetRead), targetReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases source.left with
+        | inl sameTarget =>
+            exact
+              ⟨Or.inl (hsame_trans (hsame_symm sameRows) sameTarget),
+                unary_transport source.right sameRows⟩
+        | inr sameSeal =>
+            exact
+              ⟨Or.inr (hsame_trans (hsame_symm sameRows) sameSeal),
+                unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameTarget =>
+          exact Or.inr (Or.inr (Or.inl sameTarget))
+      | inr sameSeal =>
+          exact Or.inr (Or.inr (Or.inr (Or.inl sameSeal)))
+    ledger_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameTarget =>
+          cases sameTarget
+          exact ⟨Or.inl (hsame_refl targetRead), targetReadPkg, provenancePkg⟩
+      | inr sameSeal =>
+          cases sameSeal
+          exact ⟨Or.inr (hsame_refl sealRead), sealReadPkg, provenancePkg⟩
+  }
+  exact ⟨cert, targetReadUnary, sealReadUnary⟩
+
 theorem RepresentedSpaceCarrier_streamname_real_handoff [AskSetup] [PackageSetup]
     {name schedule relation target transport replay provenance localName streamRead targetRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
