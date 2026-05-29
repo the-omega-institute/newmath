@@ -224,6 +224,7 @@ Classifier transport contributes only $T$ together with the componentwise transp
 
 The real-facing part is bounded by \autoref{thm:representedspace-streamname-real-handoff} and \autoref{thm:representedspace-target-seal-nonescape}. Those theorems force the target route through $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The listed package is therefore the whole represented-space scope.
 \end{proof}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.ScopePackage.RepresentedSpaceCarrier\_namecert\_scope\_package}
 
 \begin{theorem}[RepresentedSpace translation nonescape]
 \label{thm:representedspace-translation-nonescape}
@@ -276,6 +277,7 @@ Transport the realized read along those rows. The finite $\StreamNameUp$ windows
 
 Finally replay the structural evidence on the second packet. The $\Cont$ row reproduces the same inspected windows, while $\Pkg$ provenance and the local $\NameCert$ row source the transported certificate. No unrecorded realization map, quotient equality, or host representative is introduced by the transport.
 \end{proof}
+\leanchecked{BEDC.Derived.RepresentedSpaceUp.RepresentedSpaceCarrier\_realization\_transport}
 
 \begin{theorem}[RepresentedSpace StreamName representation source]
 \label{thm:representedspace-streamname-representation-source}
@@ -379,10 +381,12 @@ Apply \autoref{thm:representedspace-streamname-real-handoff}. In the real-facing
 The exposed $\AdmissibleRepresentationUp$ packet supplies the finality clause of \autoref{ch:concrete-instances-admissible-representation-namecert}, while \autoref{ch:concrete-instances-cauchy-representation-namecert} supplies the Cauchy source used by that clause. Since none of the represented-space carrier coordinates stores quotient names, selected representatives, host real equality, countable choice, or ambient real completeness, the displayed factorization is the whole admissible-finality route.
 \end{proof}
 
+\closureat{RepresentedSpaceUp}{obligationStr}
+
 \begin{closurestatus}{\RepresentedSpaceUp}
   \constructivestory{A $\RepresentedSpaceUp$ packet is generated from a displayed name carrier, finite $\StreamNameUp$ schedule, representation relation, target carrier, classifier transport, componentwise $\hsame$ rows, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:representedspace-carrier}, \autoref{thm:representedspace-namecert-obligations}, \autoref{thm:representedspace-streamname-real-handoff}, \autoref{thm:representedspace-realizer-readback-window}, \autoref{thm:representedspace-namecert-scope-package}, \autoref{thm:representedspace-translation-nonescape}, \autoref{thm:representedspace-admissible-name-coverage}, \autoref{thm:representedspace-completion-boundary-refusal}, and \autoref{thm:representedspace-realization-transport} seed the finite represented-space interface from stream names to real-facing target rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:representedspace-carrier}, \autoref{thm:representedspace-namecert-obligations}, \autoref{thm:representedspace-representation-relation-exactness}, \autoref{thm:representedspace-streamname-real-handoff}, \autoref{thm:representedspace-realization-transport}, \autoref{thm:representedspace-target-handoff-nonescape}, \autoref{thm:representedspace-effective-metric-realizer-handoff}, \autoref{thm:representedspace-root-completion-readback-obligations}, \autoref{thm:representedspace-root-real-seal-obligations}, and \autoref{thm:representedspace-admissible-finality} close the listed obligation inventory for carrier rows, representation relation exactness, StreamName/Real handoff, classifier transport, target seal nonescape, effective-metric handoff, completion-readback, Real-seal, and admissible finality.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Real completeness, quotient representations, selected host representatives, host equality, a choice principle, or a Lean theorem.}
