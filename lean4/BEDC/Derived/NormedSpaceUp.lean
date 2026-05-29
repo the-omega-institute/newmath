@@ -113,4 +113,23 @@ theorem NormedSpaceCarrier_zero_exactness [AskSetup] [PackageSetup]
     unary_cont_closed vUnary zeroNormUnary zeroRouteCont
   exact ⟨zeroNormUnary, zeroRouteUnary⟩
 
+theorem NormedSpaceCarrier_triangle_scalar_compatibility [AskSetup] [PackageSetup]
+    {V R N M Q H T P C triangleRead scalarRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NormedSpaceCarrier V R N M Q H T P C bundle pkg ->
+      Cont V N triangleRead ->
+        Cont R N scalarRead ->
+          UnaryHistory triangleRead ∧ UnaryHistory scalarRead ∧ Cont V N triangleRead ∧
+            Cont R N scalarRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory NormedSpaceCarrier ProbeBundle Pkg
+  intro carrier triangleRoute scalarRoute
+  obtain ⟨vUnary, rUnary, nUnary, _mUnary, _qUnary, _hUnary, _tUnary, _pUnary,
+    _cUnary, _vectorNormRoute, _completionFacingRoute, _replayRoute, _provenancePkg,
+    _localPkg⟩ := carrier
+  have triangleUnary : UnaryHistory triangleRead :=
+    unary_cont_closed vUnary nUnary triangleRoute
+  have scalarUnary : UnaryHistory scalarRead :=
+    unary_cont_closed rUnary nUnary scalarRoute
+  exact ⟨triangleUnary, scalarUnary, triangleRoute, scalarRoute⟩
+
 end BEDC.Derived.NormedSpaceUp
