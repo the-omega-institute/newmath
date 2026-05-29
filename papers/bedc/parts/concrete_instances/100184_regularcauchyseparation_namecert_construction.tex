@@ -66,6 +66,24 @@ The modulus row is the last analytic gate before the seal boundary. It converts 
 Finally read $E$ as a boundary row. The package reaches $\RealUp$ only after the finite route through $L,R,W,D,M$ has been displayed, and the transport, continuation, provenance, and local naming rows preserve that route. Therefore every equality or separation read factors through $W,D,M$ before reaching the Real seal boundary.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy separation zero-distance reflection]
+\label{thm:regular-cauchy-separation-zero-distance-reflection}
+Let $K=(L,R,W,D,M,E,H,C,P,N)$ be an accepted $\RegularCauchySeparationUp$ packet. Suppose the separation read uses the same displayed $\StreamNameUp$ windows for $L$ and $R$, and suppose the $\DyadicRatCoreUp$ tolerance ledger collapses through the $\CauchyModulusUp$ row $M$ to the zero-distance boundary. Then the $\RealUp$ seal receives equality evidence only through the finite route
+$$
+(L,R)\longmapsto W\longmapsto D\longmapsto M\longmapsto E .
+$$
+The packet exports no quotient real equality, host real equality, trichotomy, selected limit, countable choice, or ambient completeness assertion.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:regular-cauchy-separation-carrier}. The equality-facing read has access only to the two regular rational names $L,R$, the finite window ledger $W$, the dyadic tolerance ledger $D$, the modulus row $M$, the Real seal boundary $E$, and the structural rows $H,C,P,N$.
+
+Use the NameCert obligations of \autoref{thm:regular-cauchy-separation-namecert-obligations}. Classifier exposure forces the two displayed StreamName windows to be read before the dyadic tolerance ledger can be interpreted as equality evidence.
+
+Apply the modulus boundary theorem \autoref{thm:regular-cauchy-separation-modulus-boundary}. When the tolerance ledger collapses through $M$ to the zero-distance boundary, the collapse is still routed through $W,D,M$ before any Real seal read occurs.
+
+The conclusion is therefore a finite route statement. The carrier has no quotient-real coordinate, no trichotomy coordinate, no selected-limit coordinate, and no ambient-completeness coordinate, while $H,C,P,N$ preserve only the displayed rows.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\RegularCauchySeparationUp$ consumer that reaches an equality or separation read without the displayed $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledger, and $\CauchyModulusUp$ separation-modulus row refutes the carrier surface.}
 
 \independenceWitness{regseqrat, streamname, dyadicratcore, cauchymodulus, real: no listed sibling supplies the whole ten-row packet $K=(L,R,W,D,M,E,H,C,P,N)$, because each sibling contributes only regular-name rows, finite windows, dyadic tolerances, modulus evidence, or a Real seal boundary while this chapter binds the separation route with transport, replay, provenance, and local naming.}
