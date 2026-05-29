@@ -71,6 +71,18 @@ The rows $T$ and $F$ then route the same readback through the tolerance-scale an
 Finally, $H,C,P,N$ transport, replay, package, and name that same route. Since no excluded coordinate appears in the packet, the consumer receives only the displayed finite normalization route over the listed BEDC rows.
 \end{proof}
 
+\begin{theorem}[Dyadic exponent-shift canonical window]
+\label{thm:dyadic-exponent-shift-canonical-window}
+Let $E=(M,U,K,S,D,T,F,H,C,P,N)$ be an accepted $\DyadicExponentShiftUp$ packet. The packet exposes the same canonical finite observation window through $\DyadicRatCoreUp$, $\DyadicToleranceScaleUp$, $\DyadicNormalFormUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$: exponent shifting changes only the displayed normalization ledger $K,S,D,T,F$, not the downstream $\RealUp$ seal route through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:dyadic-exponent-shift-carrier}. The rows $M,U,K,S,D,T,F$ display the mantissa, unary exponent, shift request, common-scale comparison, dyadic readback, tolerance-scale handoff, and normal-form handoff before any downstream consumer reads the packet.
+
+Apply the normalization handoff of \autoref{thm:dyadic-exponent-shift-normalization-handoff}. It forces every $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ read through the same finite route from $M,U,K$ into $S,D,T,F$ and then into the structural rows.
+
+Finally read the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows componentwise through $H$ and replay them through $C$. The exponent shift therefore changes the displayed normalization ledger only; the downstream real-name seal remains the same transported and replayed finite window.
+\end{proof}
+
 \closureat{DyadicExponentShiftUp}{seedStr}
 
 \begin{closurestatus}{\DyadicExponentShiftUp}
