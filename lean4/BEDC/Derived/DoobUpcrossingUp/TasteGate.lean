@@ -189,6 +189,12 @@ def taste_gate : ChapterTasteGate DoobUpcrossingUp :=
   -- BEDC touchpoint anchor: BHist BMark
   doobUpcrossingChapterTasteGate
 
+theorem DoobUpcrossingTasteGate_single_carrier_alignment_gate_witnesses :
+    Nonempty (ChapterTasteGate DoobUpcrossingUp) ∧
+      Nonempty (FieldFaithful DoobUpcrossingUp) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  exact ⟨⟨doobUpcrossingChapterTasteGate⟩, ⟨doobUpcrossingFieldFaithful⟩⟩
+
 theorem DoobUpcrossingTasteGate_single_carrier_alignment :
     (∀ h : BHist, doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist h) = h) ∧
       (∀ x : DoobUpcrossingUp,
@@ -197,6 +203,7 @@ theorem DoobUpcrossingTasteGate_single_carrier_alignment :
           doobUpcrossingToEventFlow x = doobUpcrossingToEventFlow y → x = y) ∧
           doobUpcrossingEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  have _gateWitnesses := DoobUpcrossingTasteGate_single_carrier_alignment_gate_witnesses
   exact
     ⟨DoobUpcrossingTasteGate_single_carrier_alignment_decode_encode,
       DoobUpcrossingTasteGate_single_carrier_alignment_round_trip,
