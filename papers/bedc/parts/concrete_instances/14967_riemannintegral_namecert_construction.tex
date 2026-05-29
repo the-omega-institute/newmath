@@ -222,14 +222,34 @@ Finally use the real-seal and scope-closure boundaries, \autoref{thm:riemann-int
 \end{proof}
 \leanchecked{BEDC.Derived.RiemannIntegralUp.RiemannIntegralUp\_StdBridge}
 
+\begin{theorem}[Riemann integral mature package]
+\label{thm:riemannintegral-mature-package}
+The $\RiemannIntegralUp$ chapter exports a downstream comparison package whose rows are exactly the tagged-sum ledger, Darboux-gap ledger, $\RegSeqRatUp$ handoff, mesh-refinement locality route, public tagged-mesh certificate, and bridge-schema handoff displayed above. Any comparison consumer must read the route through
+$$
+M,T,F,S,D,G,R,H,C,P,N
+$$
+before it compares a Riemann integral claim with another integration presentation. The package does not expose quotient equality of functions, choice-selected tags, open-cover compactness, measure-space integration, host completeness, or an additional paper-side closure obligation.
+\end{theorem}
+\begin{proof}
+Start with the public tagged-mesh certificate of \autoref{thm:riemann-integral-public-tagged-mesh-certificate}. It names $M,T,F,S,D,G,R,H,C,P,N$ as the public export surface for every $\RiemannIntegralUp$ packet.
+
+Attach the finite computational rows. The tagged-sum totality and tagged-sum ledger nonescape theorems, \autoref{thm:riemann-integral-tagged-sum-totality} and \autoref{thm:riemann-integral-tagged-sum-ledger-nonescape}, keep $S$ over the displayed mesh, tag, and integrand-read rows.
+
+Next attach the Darboux and regular-rational rows. The Darboux-gap exactness, RegSeqRat handoff totality, and Darboux-RegSeqRat handoff theorems, \autoref{thm:riemann-integral-darboux-gap-exactness}, \autoref{thm:riemann-integral-regseqrat-handoff-totality}, and \autoref{thm:riemann-integral-darboux-regseqrat-handoff}, force $G$ and $R$ to remain downstream of the same tagged-mesh and Darboux bracket route.
+
+Finally apply mesh-refinement locality and the bridge-schema handoff, \autoref{thm:riemann-integral-mesh-refinement-locality} and \autoref{thm:riemann-integral-bridge-schema-handoff}. They make refinement and bridge comparison consume the same rows before any outside presentation is compared, while the carrier has no coordinate for the excluded host objects. Thus the listed rows form the mature downstream comparison package.
+\end{proof}
+
 \closureat{RiemannIntegralUp}{bridgedStr}
+\closureat{RiemannIntegralUp}{matureStr}
 
 \begin{closurestatus}{\RiemannIntegralUp}
   \constructivestory{A $\RiemannIntegralUp$ packet is generated from a dyadic mesh row, finite tag containment row, integrand-read window, finite Riemann-sum row, Darboux comparison row, gap ledger, regular-rational and real-facing handoff, componentwise transport, continuation replay, provenance, and a local NameCert row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:riemann-integral-carrier}, \autoref{thm:riemann-integral-namecert-obligations}, \autoref{thm:riemann-integral-darboux-step-scope}, \autoref{thm:riemann-integral-real-seal-boundary}, and \autoref{thm:riemann-integral-bridge-schema-handoff} bind the carrier, NameCert obligations, Darboux-step scope, Real-seal boundary, and paper bridge surface for the tagged-mesh Riemann integration route over $\DyadicMeshUp$, $\DyadicStepFunctionUp$, $\DarbouxIntegralUp$, $\RegSeqRatUp$, and $\RealUp$.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{paperBridge}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:riemann-integral-carrier}, \autoref{thm:riemann-integral-namecert-obligations}, \autoref{thm:riemann-integral-darboux-step-scope}, \autoref{thm:riemann-integral-real-seal-boundary}, \autoref{thm:riemann-integral-bridge-schema-handoff}, and \autoref{thm:riemannintegral-mature-package} bind the carrier, NameCert obligations, Darboux-step scope, Real-seal boundary, paper bridge surface, and mature downstream comparison package for the tagged-mesh Riemann integration route over $\DyadicMeshUp$, $\DyadicStepFunctionUp$, $\DarbouxIntegralUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \formalstatus{\bridgeCheckedV}
+  \leantarget{BEDC.Derived.RiemannIntegralUp.RiemannIntegralUp\_StdBridge}
+  \bridgestatus{bridgeChecked}
   \notclaimed{This chapter does not close host completeness, quotient real equality, open-cover compactness, measure-theoretic integration, Lean verification, or bridge checking.}
-  \upgradepath{Mature closure requires worked bridge examples and downstream comparison for the displayed tagged-mesh route, while machine bridge checking remains a formal-axis obligation for BEDC.Derived.RiemannIntegralUp.}
+  \upgradepath{No further formal-axis upgrade remains for the recorded standard bridge.}
 \end{closurestatus}
