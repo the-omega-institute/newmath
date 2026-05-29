@@ -267,3 +267,44 @@ exhaustion of \autoref{thm:real-regseqrat-terminal-budget-exhaustion}. They
 confirm that any RealUp-facing consumer reads the same finite packet rather
 than an ambient completion or completeness datum.
 \end{proof}
+
+\begin{theorem}[StreamName finite-request terminal support minimality]
+\label{thm:streamname-finite-request-terminal-support-minimality}
+Every accepted $\RealUp$-facing finite request on the
+$\StreamNameUp,\DyadicRatCoreUp,\RegSeqRatUp,\RealUp$ route has minimal public
+support exactly the displayed $\StreamNameUp$ schedule, the
+$\DyadicRatCoreUp$ endpoint-radius ledger, the $\RegSeqRatUp$
+regularity/readback surface, the terminal $\RealUp$ seal boundary, and the
+support rows
+$$
+\BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert.
+$$
+Removing any one of these faces prevents the existing classifier pullback,
+exactness, kernel pullback, and nonescape route from being invoked as a public
+finite-request certificate.
+
+The support is minimal only for this displayed route. It does not assert a
+host sequence equality, quotient stream equality, selected limit,
+countable-choice schedule, metric-completeness row, ambient completion point,
+or independent $\RealUp$ completeness datum.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:streamname-finite-request-section-pullback-exactness}. The
+accepted request is exact only when the StreamName schedule, DyadicRatCore
+endpoint-radius ledger, RegSeqRat regularity/readback surface, Real seal
+boundary, and support rows are all present in the same finite section.
+
+Next use
+\autoref{thm:streamname-finite-request-section-kernel-pullback}. The kernel
+part of the route identifies the displayed support rows as the public source
+of transport, replay, provenance, and local naming. Removing any one of those
+rows breaks the kernel pullback rather than producing a smaller accepted
+certificate.
+
+Finally apply
+\autoref{thm:streamname-finite-request-section-nonescape}. Since the route
+exports none of the excluded host, quotient, choice, completion, or Real
+completeness coordinates, no omitted face can be recovered from an ambient
+object outside the displayed finite support.
+\end{proof}

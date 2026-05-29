@@ -659,6 +659,36 @@ The regular and approximation rows are then read in order. Theorems~\ref{thm:far
 The context rows $B,A,M,L,S,H,C,P,N$ are preserved by carrier admission, classifier transport, and local naming replay. Thus every rational-window approximation consumer factors through the displayed Farey packet rows, and the excluded quotient, selection, trichotomy, choice, and completeness objects remain absent from the carrier.
 \end{proof}
 
+\begin{theorem}[Farey sequence denominator-monotone coverage]
+\label{thm:fareysequence-denominator-monotone-coverage}
+For every accepted $\FareySequenceUp$ carrier $F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N)$, the displayed denominator row $L$ covers each boundary entry of $B$ monotonically along the finite row order before any $W,R,G,E$ approximation consumer is read. The coverage is a $\BHist$ and $\NameCert_{\FareySequenceUp}$ fact over $B,A,M,L,T,H,C,P,N$, transported only by the displayed $\hsame$ rows and replayed only through the displayed $\Cont$ rows.
+\end{theorem}
+\begin{proof}
+Induct over the displayed boundary row $B$. The first and last rows are read from carrier admission, while each adjacent step is checked by the determinant-one row $A$ and the denominator budget row $L$.
+
+At a mediant insertion, the row $M$ supplies the inserted numerator-denominator data and $T$ keeps the dyadic tolerance request attached to the same budget. Componentwise transport through $H$ and replay through $C$ preserve that finite budget row, so downstream $W,R,G,E$ reads cannot introduce a larger hidden denominator source.
+\end{proof}
+
+\begin{theorem}[Farey sequence Stern--Brocot cofinal bracket]
+\label{thm:fareysequence-stern-brocot-cofinal-bracket}
+For every accepted $\FareySequenceUp$ carrier $F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N)$, every displayed Stern--Brocot bracket consumed through $S$ is cofinal with a finite adjacent bracket already present in $B,A,M,L,T$. The cofinality certificate is the carried $\BHist$ route through $S,H,C,P,N$, not a host order-completeness or infinite-branch selector.
+\end{theorem}
+\begin{proof}
+Induct over the finite Stern--Brocot handoff row $S$. The base bracket is one of the adjacent pairs in $B$ checked by $A$, with its denominator budget read from $L$.
+
+For a refinement step, the mediant row $M$ inserts the next bracket inside the previous adjacent pair and the tolerance row $T$ records the requested depth. Since $H,C,P,N$ transport, replay, source, and name only those rows, the bracket exported to a consumer is cofinal inside the displayed finite Farey context.
+\end{proof}
+
+\begin{theorem}[Farey sequence real rational-approximation unblock]
+\label{thm:fareysequence-real-rational-approximation-unblock}
+For every accepted $\FareySequenceUp$ carrier $F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N)$, a $\RealRationalApproximationUp$ consumer may read an approximation route only after the finite coverage rows $B,A,M,L,T,S,D,Q,W,R,G$ have been displayed. The terminal $\RealUp$ seal $E$ is therefore reached through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert_{\FareySequenceUp}$ rows, with no selected best approximant, quotient real equality, trichotomy, choice, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the rational-source rows. The boundary row $B$, adjacency row $A$, mediant row $M$, denominator row $L$, tolerance row $T$, Stern--Brocot row $S$, density row $D$, and rational source row $Q$ form the finite rational bracket inventory.
+
+The approximation route then passes through $W,R,G$ in order: stream window, regular readback, and real-rational handoff. Transport through $H$, replay through $C$, and provenance through $P,N$ keep the terminal seal $E$ attached to that inventory, so a Real or Completion consumer receives a finite rational-approximation route and no hidden selector.
+\end{proof}
+
 \begin{theorem}[Farey sequence adjacency obligation]
 \label{thm:farey-sequence-adjacency-obligation}
 For every accepted $\FareySequenceUp$ carrier
