@@ -482,56 +482,50 @@ def main():
 
     success = True
     try:
-        # Step 0: auto-dev <- origin/dev
-        # Pull external user / supervisor commits from `dev` (the main
-        # upstream branch) into the stable mirror. On conflict, codex
-        # resolves inside auto-dev (no need to involve codex-auto-dev
-        # yet — the pipeline branch picks up the merged content via the
-        # subsequent steps). If origin/dev doesn't exist (e.g. fresh
-        # repo), this step is a no-op.
-        if has_remote_branch(UPSTREAM_BRANCH):
-            if not sync_dev_to_auto_dev_validated(no_push=args.no_push):
-                # NON-FATAL when the working tree is clean. The dev -> auto-dev
-                # external-upstream merge is gated by a lake build (run in a
-                # scratch worktree); under pipeline load that validation
-                # commonly times out (1800s). That MUST NOT skip Steps 1-2 —
-                # the codex-auto-dev <-> auto-dev mirror is independent (its
-                # content is already gated per round) and is what keeps
-                # auto-dev tracking the pipeline. Returning here every cycle
-                # starved auto-dev (observed 2026-05-29: auto-dev 747 commits
-                # / ~12h behind codex-auto-dev). dev's external content simply
-                # waits for a tick whose validation passes. Only bail if the
-                # failed dev merge left the tree dirty (in-main-checkout merge
-                # conflict that needs careful handling).
-                success = False
-                if working_tree_dirty():
-                    print("[sync] dev -> auto-dev failed AND working tree "
-                          "dirty; bailing this tick for safety")
-                    return
-                print("[sync] dev -> auto-dev validation failed (likely "
-                      "validation lake-build timeout); continuing to "
-                      "codex-auto-dev <-> auto-dev mirror so auto-dev does "
-                      "not starve")
-        else:
-            print(f"[sync] origin/{UPSTREAM_BRANCH} missing; skipping dev → auto-dev step")
+        # Step 1 (mirror, runs FIRST): auto-dev <- codex-auto-dev
+        # The cheap, must-always-run mirror that keeps the stable branch
+        # tracking pipeline output. Its content is already gated per round,
+        # so it merges in seconds. Run it BEFORE the expensive external-dev
+        # validation below so a slow/timing-out dev merge can never starve
+        # it (observed 2026-05-29: auto-dev fell 768 commits / ~12h behind
+        # because the 1800s dev-validation lake build timed out every tick
+        # and the old Step-0-first ordering gated the mirror behind it).
+        if not sync_one_direction(MIRROR_BRANCH, SOURCE_BRANCH,
+                                  no_push=args.no_push):
+            success = False
+            return
 
-        # Step 1: codex-auto-dev <- auto-dev
-        # Pulls auto-dev (now containing dev's content + any hand-edits)
-        # into the pipeline integration branch so codex workers see them
-        # on next round dispatch.
+        # Step 2: codex-auto-dev <- auto-dev
+        # Pull auto-dev (which carries any external dev content merged in by
+        # a prior tick's Step 3) into the pipeline integration branch so
+        # codex workers see it on next round dispatch.
         if not sync_one_direction(SOURCE_BRANCH, f"origin/{MIRROR_BRANCH}",
                                   no_push=args.no_push):
             success = False
             return
 
-        # Step 2: auto-dev <- codex-auto-dev
-        # Mirrors the codex pipeline output back to the stable branch.
-        # After this completes both branches point at the same commit
-        # (or differ only by the merge commit direction).
-        if not sync_one_direction(MIRROR_BRANCH, SOURCE_BRANCH,
-                                  no_push=args.no_push):
-            success = False
-            return
+        # Step 3 (external upstream, runs LAST): auto-dev <- origin/dev
+        # Pull external user / supervisor commits from `dev` into the stable
+        # mirror. Gated by a scratch-worktree lake build that commonly times
+        # out (1800s) under pipeline load. Run LAST and treat failure as
+        # NON-FATAL: the mirror above already converged this tick, so a
+        # timeout here only delays external dev content by one tick — it
+        # never starves auto-dev. dev content reaches the pipeline on the
+        # next tick whose validation passes (Step 2). Only bail if the
+        # failed dev merge left the main checkout dirty (in-checkout merge
+        # conflict that needs careful handling).
+        if has_remote_branch(UPSTREAM_BRANCH):
+            if not sync_dev_to_auto_dev_validated(no_push=args.no_push):
+                if working_tree_dirty():
+                    print("[sync] dev -> auto-dev failed AND working tree "
+                          "dirty; bailing this tick for safety")
+                    success = False
+                    return
+                print("[sync] dev -> auto-dev validation failed (likely "
+                      "lake-build timeout); mirror already converged this "
+                      "tick, external dev content waits for next passing tick")
+        else:
+            print(f"[sync] origin/{UPSTREAM_BRANCH} missing; skipping dev → auto-dev step")
     finally:
         # Always switch back to the branch the user started on.
         if original != current_branch():
