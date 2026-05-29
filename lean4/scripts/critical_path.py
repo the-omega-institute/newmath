@@ -133,6 +133,21 @@ def read_deps_ready_threshold(default: int = DEFAULT_DEPS_READY_THRESHOLD) -> in
     return default
 
 
+def read_dispatch_concurrency() -> dict[str, int]:
+    """读 .pipeline_parallel.json 的 lean/paper 并发值（只读，不改）。
+    供 dispatch_window 计算用：强制分发窗口随并发缩放，避免 N 个 worker
+    被固定 top[0..2] 逼到同一两个热点章节。"""
+    lean_d, paper_d = 12, 8
+    try:
+        if PARALLEL_CONFIG_FILE.exists():
+            data = json.loads(PARALLEL_CONFIG_FILE.read_text(encoding="utf-8"))
+            lean_d = int(data.get("lean", lean_d))
+            paper_d = int(data.get("paper", paper_d))
+    except Exception:
+        pass
+    return {"lean": max(1, min(lean_d, 40)), "paper": max(1, min(paper_d, 40))}
+
+
 def read_paper_priority_config() -> dict[str, object]:
     mode = "free"
     strength = 0.0
@@ -2852,6 +2867,9 @@ def main(argv: list[str] | None = None) -> int:
     )
     formal_axis_top = formal_axis_top_full[:10]
 
+    _conc = read_dispatch_concurrency()
+    _top_n = len(rolled)
+
     payload = {
         "computed_at": datetime.now(timezone.utc).isoformat(),
         "deps_ready_threshold": strict,
@@ -2872,6 +2890,10 @@ def main(argv: list[str] | None = None) -> int:
         "formal_axis_top_total": len(formal_axis_top_full),
         "granularity": "sibling",
         "top": rolled[:25],
+        "dispatch_window": {
+            "lean": (max(3, min(_conc["lean"], _top_n)) if _top_n else 3),
+            "paper": (max(3, min(_conc["paper"], _top_n)) if _top_n else 3),
+        },
         "top_root_unblocks": root_unblocks[:10],
         "top_empty_roots_total": len(empty_roots),
         "top_empty_roots": empty_roots[:10],
