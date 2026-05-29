@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DoobUpcrossingUp
@@ -10,8 +11,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive DoobUpcrossingUp : Type where
-  | mk (omega martingale lower upper horizon upcrossing expectation bound transports routes
-      provenance nameCert : BHist) : DoobUpcrossingUp
+  | mk (Ω M a b N U E B H C P Q : BHist) : DoobUpcrossingUp
   deriving DecidableEq
 
 def doobUpcrossingEncodeBHist : BHist → RawEvent
@@ -26,7 +26,7 @@ def doobUpcrossingDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (doobUpcrossingDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (doobUpcrossingDecodeBHist tail)
 
-private theorem doobUpcrossingDecode_encode_bhist :
+private theorem DoobUpcrossingTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist, doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -40,77 +40,72 @@ private theorem doobUpcrossingDecode_encode_bhist :
 
 def doobUpcrossingFields : DoobUpcrossingUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | DoobUpcrossingUp.mk omega martingale lower upper horizon upcrossing expectation bound
-      transports routes provenance nameCert =>
-      [omega, martingale, lower, upper, horizon, upcrossing, expectation, bound, transports,
-        routes, provenance, nameCert]
+  | DoobUpcrossingUp.mk Ω M a b N U E B H C P Q =>
+      [Ω, M, a, b, N, U, E, B, H, C, P, Q]
 
-def doobUpcrossingToEventFlow : DoobUpcrossingUp → EventFlow :=
+def doobUpcrossingToEventFlow : DoobUpcrossingUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x => (doobUpcrossingFields x).map doobUpcrossingEncodeBHist
+  | x => (doobUpcrossingFields x).map doobUpcrossingEncodeBHist
 
-private def doobUpcrossingRawAt : Nat → EventFlow → RawEvent
+private def doobUpcrossingEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, event :: _ => event
-  | Nat.succ _, [] => []
-  | Nat.succ n, _ :: rest => doobUpcrossingRawAt n rest
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => doobUpcrossingEventAt index rest
 
-def doobUpcrossingFromEventFlow (flow : EventFlow) : Option DoobUpcrossingUp :=
+def doobUpcrossingFromEventFlow (ef : EventFlow) : Option DoobUpcrossingUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (DoobUpcrossingUp.mk
-      (doobUpcrossingDecodeBHist (doobUpcrossingRawAt 0 flow))
-      (doobUpcrossingDecodeBHist (doobUpcrossingRawAt 1 flow))
-      (doobUpcrossingDecodeBHist (doobUpcrossingRawAt 2 flow))
-      (doobUpcrossingDecodeBHist (doobUpcrossingRawAt 3 flow))
-      (doobUpcrossingDecodeBHist (doobUpcrossingRawAt 4 flow))
-      (doobUpcrossingDecodeBHist (doobUpcrossingRawAt 5 flow))
-      (doobUpcrossingDecodeBHist (doobUpcrossingRawAt 6 flow))
-      (doobUpcrossingDecodeBHist (doobUpcrossingRawAt 7 flow))
-      (doobUpcrossingDecodeBHist (doobUpcrossingRawAt 8 flow))
-      (doobUpcrossingDecodeBHist (doobUpcrossingRawAt 9 flow))
-      (doobUpcrossingDecodeBHist (doobUpcrossingRawAt 10 flow))
-      (doobUpcrossingDecodeBHist (doobUpcrossingRawAt 11 flow)))
+      (doobUpcrossingDecodeBHist (doobUpcrossingEventAt 0 ef))
+      (doobUpcrossingDecodeBHist (doobUpcrossingEventAt 1 ef))
+      (doobUpcrossingDecodeBHist (doobUpcrossingEventAt 2 ef))
+      (doobUpcrossingDecodeBHist (doobUpcrossingEventAt 3 ef))
+      (doobUpcrossingDecodeBHist (doobUpcrossingEventAt 4 ef))
+      (doobUpcrossingDecodeBHist (doobUpcrossingEventAt 5 ef))
+      (doobUpcrossingDecodeBHist (doobUpcrossingEventAt 6 ef))
+      (doobUpcrossingDecodeBHist (doobUpcrossingEventAt 7 ef))
+      (doobUpcrossingDecodeBHist (doobUpcrossingEventAt 8 ef))
+      (doobUpcrossingDecodeBHist (doobUpcrossingEventAt 9 ef))
+      (doobUpcrossingDecodeBHist (doobUpcrossingEventAt 10 ef))
+      (doobUpcrossingDecodeBHist (doobUpcrossingEventAt 11 ef)))
 
-private theorem doobUpcrossing_round_trip :
+private theorem DoobUpcrossingTasteGate_single_carrier_alignment_round_trip :
     ∀ x : DoobUpcrossingUp,
       doobUpcrossingFromEventFlow (doobUpcrossingToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk omega martingale lower upper horizon upcrossing expectation bound transports routes
-      provenance nameCert =>
+  | mk Ω M a b N U E B H C P Q =>
       change
         some
           (DoobUpcrossingUp.mk
-            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist omega))
-            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist martingale))
-            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist lower))
-            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist upper))
-            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist horizon))
-            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist upcrossing))
-            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist expectation))
-            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist bound))
-            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist transports))
-            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist routes))
-            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist provenance))
-            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist nameCert))) =
-          some
-            (DoobUpcrossingUp.mk omega martingale lower upper horizon upcrossing expectation
-              bound transports routes provenance nameCert)
-      rw [doobUpcrossingDecode_encode_bhist omega,
-        doobUpcrossingDecode_encode_bhist martingale,
-        doobUpcrossingDecode_encode_bhist lower,
-        doobUpcrossingDecode_encode_bhist upper,
-        doobUpcrossingDecode_encode_bhist horizon,
-        doobUpcrossingDecode_encode_bhist upcrossing,
-        doobUpcrossingDecode_encode_bhist expectation,
-        doobUpcrossingDecode_encode_bhist bound,
-        doobUpcrossingDecode_encode_bhist transports,
-        doobUpcrossingDecode_encode_bhist routes,
-        doobUpcrossingDecode_encode_bhist provenance,
-        doobUpcrossingDecode_encode_bhist nameCert]
+            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist Ω))
+            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist M))
+            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist a))
+            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist b))
+            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist N))
+            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist U))
+            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist E))
+            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist B))
+            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist H))
+            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist C))
+            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist P))
+            (doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist Q))) =
+          some (DoobUpcrossingUp.mk Ω M a b N U E B H C P Q)
+      rw [DoobUpcrossingTasteGate_single_carrier_alignment_decode_encode Ω,
+        DoobUpcrossingTasteGate_single_carrier_alignment_decode_encode M,
+        DoobUpcrossingTasteGate_single_carrier_alignment_decode_encode a,
+        DoobUpcrossingTasteGate_single_carrier_alignment_decode_encode b,
+        DoobUpcrossingTasteGate_single_carrier_alignment_decode_encode N,
+        DoobUpcrossingTasteGate_single_carrier_alignment_decode_encode U,
+        DoobUpcrossingTasteGate_single_carrier_alignment_decode_encode E,
+        DoobUpcrossingTasteGate_single_carrier_alignment_decode_encode B,
+        DoobUpcrossingTasteGate_single_carrier_alignment_decode_encode H,
+        DoobUpcrossingTasteGate_single_carrier_alignment_decode_encode C,
+        DoobUpcrossingTasteGate_single_carrier_alignment_decode_encode P,
+        DoobUpcrossingTasteGate_single_carrier_alignment_decode_encode Q]
 
 private theorem doobUpcrossingToEventFlow_injective {x y : DoobUpcrossingUp} :
     doobUpcrossingToEventFlow x = doobUpcrossingToEventFlow y → x = y := by
@@ -121,20 +116,41 @@ private theorem doobUpcrossingToEventFlow_injective {x y : DoobUpcrossingUp} :
         doobUpcrossingFromEventFlow (doobUpcrossingToEventFlow y) :=
     congrArg doobUpcrossingFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (doobUpcrossing_round_trip x).symm
-      (Eq.trans hread (doobUpcrossing_round_trip y)))
+    (Eq.trans (DoobUpcrossingTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (DoobUpcrossingTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem doobUpcrossing_fields_faithful :
+private theorem doobUpcrossingFields_faithful :
     ∀ x y : DoobUpcrossingUp, doobUpcrossingFields x = doobUpcrossingFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk omega₁ martingale₁ lower₁ upper₁ horizon₁ upcrossing₁ expectation₁ bound₁
-      transports₁ routes₁ provenance₁ nameCert₁ =>
+  | mk Ω₁ M₁ a₁ b₁ N₁ U₁ E₁ B₁ H₁ C₁ P₁ Q₁ =>
       cases y with
-      | mk omega₂ martingale₂ lower₂ upper₂ horizon₂ upcrossing₂ expectation₂ bound₂
-          transports₂ routes₂ provenance₂ nameCert₂ =>
-          cases hfields
+      | mk Ω₂ M₂ a₂ b₂ N₂ U₂ E₂ B₂ H₂ C₂ P₂ Q₂ =>
+          injection hfields with hΩ tail0
+          injection tail0 with hM tail1
+          injection tail1 with ha tail2
+          injection tail2 with hb tail3
+          injection tail3 with hN tail4
+          injection tail4 with hU tail5
+          injection tail5 with hE tail6
+          injection tail6 with hB tail7
+          injection tail7 with hH tail8
+          injection tail8 with hC tail9
+          injection tail9 with hP tail10
+          injection tail10 with hQ _
+          subst hΩ
+          subst hM
+          subst ha
+          subst hb
+          subst hN
+          subst hU
+          subst hE
+          subst hB
+          subst hH
+          subst hC
+          subst hP
+          subst hQ
           rfl
 
 instance doobUpcrossingBHistCarrier : BHistCarrier DoobUpcrossingUp where
@@ -147,7 +163,7 @@ instance doobUpcrossingChapterTasteGate : ChapterTasteGate DoobUpcrossingUp wher
   round_trip := by
     intro x
     change doobUpcrossingFromEventFlow (doobUpcrossingToEventFlow x) = some x
-    exact doobUpcrossing_round_trip x
+    exact DoobUpcrossingTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (doobUpcrossingToEventFlow_injective heq)
@@ -155,28 +171,43 @@ instance doobUpcrossingChapterTasteGate : ChapterTasteGate DoobUpcrossingUp wher
 instance doobUpcrossingFieldFaithful : FieldFaithful DoobUpcrossingUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := doobUpcrossingFields
-  field_faithful := doobUpcrossing_fields_faithful
+  field_faithful := doobUpcrossingFields_faithful
+
+instance doobUpcrossingNontrivial : Nontrivial DoobUpcrossingUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨DoobUpcrossingUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      DoobUpcrossingUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 def taste_gate : ChapterTasteGate DoobUpcrossingUp :=
   -- BEDC touchpoint anchor: BHist BMark
   doobUpcrossingChapterTasteGate
 
-theorem DoobUpcrossingUpTasteGate_single_carrier_alignment :
+theorem DoobUpcrossingTasteGate_single_carrier_alignment_gate_witnesses :
     Nonempty (ChapterTasteGate DoobUpcrossingUp) ∧
-      (∀ h : BHist, doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist h) = h) ∧
-        (∀ x : DoobUpcrossingUp,
-          doobUpcrossingFromEventFlow (doobUpcrossingToEventFlow x) = some x) ∧
-          (∀ x y : DoobUpcrossingUp,
-            doobUpcrossingToEventFlow x = doobUpcrossingToEventFlow y → x = y) ∧
-            doobUpcrossingEncodeBHist BHist.Empty = ([] : RawEvent) ∧
-              doobUpcrossingEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
+      Nonempty (FieldFaithful DoobUpcrossingUp) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  exact ⟨⟨doobUpcrossingChapterTasteGate⟩, ⟨doobUpcrossingFieldFaithful⟩⟩
+
+theorem DoobUpcrossingTasteGate_single_carrier_alignment :
+    (∀ h : BHist, doobUpcrossingDecodeBHist (doobUpcrossingEncodeBHist h) = h) ∧
+      (∀ x : DoobUpcrossingUp,
+        doobUpcrossingFromEventFlow (doobUpcrossingToEventFlow x) = some x) ∧
+        (∀ x y : DoobUpcrossingUp,
+          doobUpcrossingToEventFlow x = doobUpcrossingToEventFlow y → x = y) ∧
+          doobUpcrossingEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  have _gateWitnesses := DoobUpcrossingTasteGate_single_carrier_alignment_gate_witnesses
   exact
-    ⟨⟨doobUpcrossingChapterTasteGate⟩,
-      doobUpcrossingDecode_encode_bhist,
-      doobUpcrossing_round_trip,
-      fun _ _ heq => doobUpcrossingToEventFlow_injective heq,
-      rfl,
+    ⟨DoobUpcrossingTasteGate_single_carrier_alignment_decode_encode,
+      DoobUpcrossingTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => doobUpcrossingToEventFlow_injective heq),
       rfl⟩
 
 end BEDC.Derived.DoobUpcrossingUp

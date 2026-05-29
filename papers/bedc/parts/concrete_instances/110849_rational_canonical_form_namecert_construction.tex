@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\RationalCanonicalFormUp$}
+\label{ch:concrete-instances-rational-canonical-form-namecert}
+\origin{human}
+
+Following Frobenius and standard linear algebra treatments of finite-dimensional operators, the $\RationalCanonicalFormUp$ packet records the rational canonical form of a displayed finite linear operator as BEDC NameCert data. It consumes the finite matrix rows of \autoref{ch:concrete-instances-matrix-namecert}, the linear-map surface of \autoref{ch:concrete-instances-linearmap-namecert}, the polynomial source of \autoref{ch:concrete-instances-polynomial-namecert}, the module and vector-space carriers of \autoref{ch:concrete-instances-module-namecert} and \autoref{ch:concrete-instances-vecspace-namecert}, and the invariant-factor route supplied by \autoref{ch:concrete-instances-smith-normal-form-namecert}. The packet names only a finite certificate surface for companion-block assembly; it does not assert a host Jordan form theorem, algebraic closure, eigenvalue selection, basis choice outside the displayed rows, or a global classification oracle.
+
+\begin{definition}[Rational canonical form carrier]
+\label{def:rational-canonical-form-carrier}
+A $\RationalCanonicalFormUp$ carrier is a finite $\BHist$ packet
+$$
+F=(V,L,M,S,I,B,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the $\VecSpaceUp$ or $\ModuleUp$ source row naming the finite underlying carrier and its scalar action.
+\item $L$ is the $\LinearMapUp$ row naming the endomorphism whose canonical form is being read.
+\item $M$ is the $\MatrixUp$ presentation row for the same endomorphism over the displayed finite basis data already carried by $V$ and $L$.
+\item $S$ is the consumed $\SmithNormalFormUp$ dependency row applied to the polynomial matrix route attached to $M$.
+\item $I$ is the invariant-factor $\PolynomialUp$ row, listing monic polynomial factors with the divisibility ledger exposed by $S$.
+\item $B$ is the companion-block row, assembling one finite block for each invariant factor in $I$ and recording the row and column positions used by the assembly.
+\item $A$ is the block-assembly exactness row, stating that the displayed $\MatrixUp$ presentation is transported to the companion-block matrix through the same $\LinearMapUp$ and $\PolynomialUp$ rows.
+\item $H$ stores componentwise $\hsame$ transport for the vector or module source, linear map, matrix presentation, Smith-normal dependency, invariant factors, companion blocks, assembly row, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a canonical-form request through $V,L,M,S,I,B,A$ and back to the same finite operator surface.
+\item $P$ is the $\Pkg$ provenance over $\RationalCanonicalFormUp$, $\MatrixUp$, $\LinearMapUp$, $\PolynomialUp$, $\ModuleUp$, $\VecSpaceUp$, $\SmithNormalFormUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RationalCanonicalFormUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for selected eigenvalues, algebraic closure, host similarity classification, non-displayed basis choice, quotient matrix equality, or a detached canonical-form oracle.
+\end{definition}
+
+\begin{theorem}[Rational canonical form NameCert obligations]
+\label{thm:rational-canonical-form-namecert-obligations}
+For every accepted $\RationalCanonicalFormUp$ carrier
+$$
+F=(V,L,M,S,I,B,A,H,C,P,N),
+$$
+the local $\NameCert_{\RationalCanonicalFormUp}$ surface consists exactly of finite source admission for $V,L,M$, Smith-normal dependency routing through $S$, invariant-factor exposure through $I$, companion-block assembly through $B$, block-assembly exactness through $A$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:rational-canonical-form-carrier}. The algebraic source rows are exactly the vector or module carrier $V$, the endomorphism row $L$, the finite matrix presentation $M$, the Smith-normal dependency row $S$, the invariant-factor row $I$, and the companion-block assembly rows $B,A$.
+
+The invariant factors are not read from a host classification theorem. They are exposed as $\PolynomialUp$ rows whose divisibility and matrix-reduction dependency is routed through $\SmithNormalFormUp$ before any companion block is assembled.
+
+The companion-block row $B$ is finite because it is indexed by the displayed invariant-factor list $I$. The exactness row $A$ then compares the assembled block matrix with the original $\MatrixUp$ presentation through the same $\LinearMapUp$ endpoint and componentwise $\hsame$ transport.
+
+Finally $H,C,P,N$ transport, replay, source, and name only this finite route. Since the carrier contains no coordinate for eigenvalue selection, algebraic closure, host similarity classification, non-displayed basis choice, quotient matrix equality, or a detached canonical-form oracle, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{A $\RationalCanonicalFormUp$ consumer that exports a canonical-form matrix while omitting the Smith-normal dependency row, invariant-factor polynomial row, companion-block assembly row, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, or local $\NameCert$ rows refutes the carrier of \autoref{def:rational-canonical-form-carrier}.}
+
+\independenceWitness{matrix, linearmap, polynomial, module, vecspace, smith-normal-form: $\RationalCanonicalFormUp$ is not bijective to any listed sibling because it jointly carries the finite operator source, matrix presentation, invariant-factor polynomial ledger, Smith-normal dependency, companion-block assembly, exactness row, transport, replay, provenance, and local naming.}
+
+\closureat{RationalCanonicalFormUp}{seedStr}
+
+\begin{closurestatus}{\RationalCanonicalFormUp}
+  \constructivestory{A $\RationalCanonicalFormUp$ packet is generated from VecSpaceUp or ModuleUp source data, a LinearMapUp endomorphism row, a MatrixUp presentation, a SmithNormalFormUp dependency route, invariant-factor PolynomialUp rows, companion-block assembly rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-canonical-form-carrier} and \autoref{thm:rational-canonical-form-namecert-obligations} seed the finite rational-canonical-form packet over matrix, linear-map, polynomial, module, vector-space, and Smith-normal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim eigenvalue selection, algebraic closure, host similarity classification, non-displayed basis choice, quotient matrix equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, invariant-factor exposure, Smith-normal dependency routing, companion-block assembly, exactness, transport, replay, provenance, and local naming for BEDC.Derived.RationalCanonicalFormUp.}
+\end{closurestatus}

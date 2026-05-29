@@ -642,6 +642,16 @@ def verify_propext_still_impure(theorem_fqn: str) -> bool:
     global _PROPEXT_VERIFY_OUTPUT
     if _PROPEXT_VERIFY_OUTPUT is None:
         try:
+            # Resync oleans before reading #print axioms. axiom-purity runs in
+            # the main checkout, where the builder daemon concurrently rebuilds
+            # the shared .lake; a #print-axioms read racing an in-flight rebuild
+            # reports phantom propext violations (observed 2026-05-29: this guard
+            # flagged HausdorffMetricTasteGate_single_carrier_alignment impure and
+            # dispatched per-theorem codex heals every cycle while a full-tree run
+            # was simultaneously pure=19661 impure=0). A fresh lake build pins a
+            # consistent olean set so the guard reads true state, not a race.
+            run(["lake", "build"], cwd=REPO_ROOT / "lean4", check=False,
+                capture=True, timeout=600)
             res = run(
                 [
                     "python3",
@@ -1021,8 +1031,10 @@ def heal_ci_failure(failure: dict) -> bool:
     return True
 
 
-def detect_propext_violations_from_log() -> list[str]:
-    """Parse the orchestrator log tail for `<theorem> -> propext` lines.
+def detect_propext_violations_from_log(
+    window_minutes: int = GATE_STORM_WINDOW_MINUTES,
+) -> list[str]:
+    """Parse the orchestrator log tail for recent `<theorem> -> propext` lines.
 
     The lean orchestrator logs the full `[bedc-ci] axiom-purity FAIL`
     output when an R-round hits the pre-merge axiom-purity gate. This
@@ -1032,7 +1044,17 @@ def detect_propext_violations_from_log() -> list[str]:
     Only consulted when `detect_gate_storms()` reports an
     `axiom-purity --strict` storm — i.e., when the pipeline has
     already surfaced the failure. Passive consumption, not active
-    polling."""
+    polling.
+
+    A 4 MB tail spans many hours, and each transient pre-merge gate hit
+    (impure=1, then resolved by recovery) leaves a `-> propext` block
+    behind. Without a time window the parser accumulated ~12-16 stale
+    violations from distinct old rounds and re-verified all of them every
+    cycle (each cycle pays one lake-build + axiom-purity resync), even
+    though the full tree is provably pure. The `-> propext` continuation
+    lines carry no timestamp, so attribute each to the most recent
+    timestamped orchestrator line and keep only those inside the same
+    window the storm detector uses."""
     try:
         size = LEAN_ORCH_LOG.stat().st_size
         with LEAN_ORCH_LOG.open("rb") as f:
@@ -1041,10 +1063,19 @@ def detect_propext_violations_from_log() -> list[str]:
             tail = f.read().decode("utf-8", errors="ignore")
     except Exception:
         return []
+    cutoff = datetime.now() - timedelta(minutes=window_minutes)
     violations: list[str] = []
+    last_ts: datetime | None = None
     for line in tail.splitlines():
+        ts = _parse_log_timestamp(line)
+        if ts is not None:
+            last_ts = ts
         s = line.strip()
         if " -> propext" not in s:
+            continue
+        # Skip blocks whose governing timestamp is stale (or absent because
+        # the timestamped header scrolled out of the tail window).
+        if last_ts is None or last_ts < cutoff:
             continue
         name = s.split(" -> propext", 1)[0].strip()
         if name and name not in violations:
@@ -1318,10 +1349,28 @@ def _extract_error_before_failed(
     return context[failed_index][1].strip()[:500]
 
 
+_ROUND_FAILED_RE = re.compile(
+    r"\[[RP]\d+\]\s+(?:"
+    r"(?:Round\s+)?FAILED\s*$"          # lean MainThread tally / worker round-fail
+    r"|push attempts exhausted\b"        # paper/lean terminal push-retry exhaustion
+    r"|Merge failed\b"                   # terminal merge failure -> recovery queue
+    r"|All targets duplicated by other rounds"  # in-flight target saturation abort
+    r")"
+)
+
+
 def _preceding_failures(context: list[tuple[datetime, str]]) -> list[dict]:
     failures: list[dict] = []
     for idx, (_, line) in enumerate(context):
-        if "Round FAILED" not in line:
+        # Two log forms reach the cooldown context window: the worker-thread
+        # "[worker_N] [R<N>] Round FAILED" and the MainThread tally
+        # "[MainThread] [R<N>] FAILED" that immediately precedes the cooldown.
+        # The MainThread form is the one actually present in the 5-min window,
+        # so matching only the literal "Round FAILED" left preceding_fails empty
+        # for every cooldown (UNKNOWN alerts with no snippet). Anchor FAILED to
+        # the round id at end-of-line so recoverable lines like
+        # "[P<N>] Post-merge drift audit FAILED -- asking codex" don't match.
+        if not _ROUND_FAILED_RE.search(line):
             continue
         rid = _extract_round_id(line)
         snippet = _extract_error_before_failed(context, idx)
@@ -1521,7 +1570,17 @@ def classify_cooldown_cause(cooldown: dict) -> tuple[str, dict]:
         }
 
     # 4. PUSH_LOCK_STARVATION
-    m = re.search(r"push lock for branch.*held for more than \d+s", text)
+    # Two surface forms of the same root cause (workers losing the origin push
+    # race under high concurrency): the internal push lock held too long, and
+    # the ff-update retry loop exhausting its attempt budget on persistent
+    # "Diverging branches can't be fast-forwarded". The latter ("push attempts
+    # exhausted (N)") is the dominant cooldown driver at high parallelism and
+    # was previously falling to UNKNOWN.
+    m = re.search(
+        r"push lock for branch.*held for more than \d+s"
+        r"|push attempts exhausted \(\d+\)",
+        text,
+    )
     if m:
         return "PUSH_LOCK_STARVATION", {
             "snippet": m.group(0),

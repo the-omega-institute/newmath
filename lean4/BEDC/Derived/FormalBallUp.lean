@@ -555,4 +555,42 @@ theorem FormalBallCarrier_completion_basis_nonescape [AskSetup] [PackageSetup]
       radiusReadUnary, basisReadUnary, completionReadUnary, radiusRoute, basisRoute,
       completionRoute, provenancePkg, completionPkg⟩
 
+theorem FormalBallCarrier_rounded_filter_admission_package [AskSetup] [PackageSetup]
+    {M R D W H C P N centerRead radiusRead windowRead roundedRead packageRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FormalBallCarrier M R D W H C P N bundle pkg ->
+      Cont M R centerRead ->
+        Cont R D radiusRead ->
+          Cont D W windowRead ->
+            Cont radiusRead windowRead roundedRead ->
+              Cont roundedRead C packageRead ->
+                PkgSig bundle packageRead pkg ->
+                  UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory D ∧ UnaryHistory W ∧
+                    UnaryHistory C ∧ UnaryHistory centerRead ∧ UnaryHistory radiusRead ∧
+                      UnaryHistory windowRead ∧ UnaryHistory roundedRead ∧
+                        UnaryHistory packageRead ∧ Cont M R centerRead ∧
+                          Cont R D radiusRead ∧ Cont D W windowRead ∧
+                            Cont radiusRead windowRead roundedRead ∧
+                              Cont roundedRead C packageRead ∧ PkgSig bundle P pkg ∧
+                                PkgSig bundle packageRead pkg := by
+  -- BEDC touchpoint anchor: FormalBallCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier centerRoute radiusRoute windowRoute roundedRoute packageRoute packagePkg
+  obtain ⟨metricUnary, radiusUnary, dyadicUnary, windowUnary, _transportUnary,
+    replayUnary, _provenanceUnary, _nameCertUnary, _metricRadius, _dyadicWindowReplay,
+    _transportReplay, provenancePkg⟩ := carrier
+  have centerReadUnary : UnaryHistory centerRead :=
+    unary_cont_closed metricUnary radiusUnary centerRoute
+  have radiusReadUnary : UnaryHistory radiusRead :=
+    unary_cont_closed radiusUnary dyadicUnary radiusRoute
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed dyadicUnary windowUnary windowRoute
+  have roundedReadUnary : UnaryHistory roundedRead :=
+    unary_cont_closed radiusReadUnary windowReadUnary roundedRoute
+  have packageReadUnary : UnaryHistory packageRead :=
+    unary_cont_closed roundedReadUnary replayUnary packageRoute
+  exact
+    ⟨metricUnary, radiusUnary, dyadicUnary, windowUnary, replayUnary, centerReadUnary,
+      radiusReadUnary, windowReadUnary, roundedReadUnary, packageReadUnary, centerRoute,
+      radiusRoute, windowRoute, roundedRoute, packageRoute, provenancePkg, packagePkg⟩
+
 end BEDC.Derived.FormalBallUp

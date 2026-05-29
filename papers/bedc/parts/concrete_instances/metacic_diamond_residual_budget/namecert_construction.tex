@@ -118,6 +118,22 @@ Thus $J$ is valid only as a candidate-join row mediated by the frontier and
 budget accounting rows already displayed in the carrier.
 \end{proof}
 
+\begin{theorem}[MetaCIC residual-budget substitution visibility]
+\label{thm:metacic-diamond-residual-budget-substitution-visibility}
+Every accepted candidate-join read through $J$ keeps the substitution-boundary row $S$ visible along the route
+$$
+T,F,R,S \longmapsto J \longmapsto E,L,D \longmapsto H,P,N .
+$$
+Therefore a residual-budget read cannot be promoted to $\mathsf{BetaParallelSubstitutionCompatibility}$, full parallel diamond, or arbitrary closed Church--Rosser.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:metacic-diamond-residual-budget-endpoint-boundary}. Its displayed route places typed windows $T$, redex frontiers $F$, residual budgets $R$, and the substitution boundary $S$ before any candidate join $J$ is exported.
+
+Apply \autoref{thm:metacic-diamond-residual-budget-obligation-frontier-accounting}. It states that a $J$ read without prior $T,F,R,S$ accounting lies outside the accepted residual-budget carrier.
+
+The downstream rows $E,L,D,H,P,N$ are sibling handoffs and structural rows on the same route. They do not discharge $S$ or add an endpoint proof, so the accepted read remains a finite residual-budget boundary rather than a promoted confluence theorem.
+\end{proof}
+
 \begin{theorem}[MetaCIC residual-budget candidate-join visibility]
 \label{thm:metacic-diamond-residual-budget-obligation-candidate-join-visibility}
 Every consumer of the candidate-join row $J$ in an accepted
