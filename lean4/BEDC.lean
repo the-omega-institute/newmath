@@ -1895,6 +1895,7 @@ import BEDC.Derived.ClosedBoundedIntervalUp.RootConsumerCompleteness
 import BEDC.Derived.ClosedBoundedIntervalUp.RootCoverRefinementSource
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceCarrierAdmission
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceRealSealRoute
+import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceScopeRoute
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceScopedCoverage
 import BEDC.Derived.ClosedBoundedIntervalUp.RootSourceWindowExactness
 import BEDC.Derived.ClosedBoundedIntervalUp.ScopedSourcePackage
@@ -3746,6 +3747,7 @@ import BEDC.Derived.FormalBallUp.FilterBasisRoute
 import BEDC.Derived.FormalBallUp.LocatedRadiusWindow
 import BEDC.Derived.FormalBallUp.ObligationClosureExport
 import BEDC.Derived.FormalBallUp.RadiusOrderHandoff
+import BEDC.Derived.FormalBallUp.RadiusOrderScopePackage
 import BEDC.Derived.FormalBallUp.RoundedFilterAdmission
 import BEDC.Derived.FormalBallUp.RoundedFilterCauchyBoundary
 import BEDC.Derived.FormalBallUp.TasteGate
@@ -4592,6 +4594,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.FourFaceConfluenceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.FourFaceDeficiencyRefusal
 import BEDC.Derived.MetaCICCriticalPathUp.FourFaceSocketSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.FourSourceOwnerNoncollapse
+import BEDC.Derived.MetaCICCriticalPathUp.FrontierCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.KernelFrontierExposure
 import BEDC.Derived.MetaCICCriticalPathUp.L10CandidateDischargeOrder
 import BEDC.Derived.MetaCICCriticalPathUp.L10EntryBudgetSynchronization
