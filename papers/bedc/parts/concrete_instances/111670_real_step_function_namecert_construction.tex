@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\RealStepFunctionUp$}
+\label{ch:concrete-instances-real-step-function-namecert}
+\origin{human}
+
+Following Riemann and Bishop--Bridges constructive analysis, the $\RealStepFunctionUp$ packet records finite step functions over located real intervals as BEDC NameCert data. It refines the finite partition-to-value surface of \autoref{ch:concrete-instances-step-function-namecert} along the tagged real interval route and feeds the Darboux/Riemann consumer boundary of \autoref{ch:concrete-instances-riemann-integrable-namecert}. The packet supplies the RealUp-specific step-function interface used by integration chapters without importing host functions, quotient equality of integrands, selected refinement limits, measure completion, or ambient real completeness.
+
+\begin{definition}[Real step function carrier]
+\label{def:real-step-function-carrier}
+A $\RealStepFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+E=(I,T,V,S,R,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\RealUp$ interval-domain row, carrying the located real endpoints and interval-side admission data on which the function is read.
+\item $T$ is the $\TaggedRealPartitionUp$ cell row, listing finitely many ordered tagged real subintervals, endpoint incidence, tag containment, and coverage over the row $I$.
+\item $V$ is the $\StepFunctionUp$ value row, assigning one displayed value row to each tagged cell of $T$ and exposing constant-on-cell admission only through that finite cell list.
+\item $S$ is the $\RiemannSumUp$ readback row computed from the tagged cells, cell widths, tags, and displayed values.
+\item $R$ is the $\RiemannIntegrableUp$ handoff row, exposing the Darboux/Riemann consumer route that may use $I,T,V,S$ as finite integrability evidence.
+\item $G$ is the $\RegulatedFunctionUp$ comparison row, recording that the same finite cell-value surface can be read as a regulated-function approximation boundary when a downstream chapter asks for that interface.
+\item $H$ records componentwise $\hsame$ transport for the interval-domain row, tagged partition, step-value row, Riemann-sum readback, integrability handoff, regulated comparison, continuation replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from $I$ to $T$, from $T,V$ to $S$, from $I,T,V,S$ to $R$, and from the same finite rows to $G$.
+\item $P$ is the $\Pkg$ provenance over $\RealStepFunctionUp$, $\RealUp$, $\TaggedRealPartitionUp$, $\StepFunctionUp$, $\RiemannSumUp$, $\RiemannIntegrableUp$, $\RegulatedFunctionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealStepFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host-level function, quotient equality of integrands, a selected refining partition sequence, a measure-space completion, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Real step function NameCert obligations]
+\label{thm:real-step-function-namecert-obligations}
+For every accepted $\RealStepFunctionUp$ carrier $E=(I,T,V,S,R,G,H,C,P,N)$, the local $\NameCert_{\RealStepFunctionUp}$ surface consists exactly of real interval-domain admission, tagged real partition exposure, finite step-value exposure, Riemann-sum readback, Riemann-integrable handoff, regulated-function comparison, componentwise transport, displayed replay, provenance, local naming, and non-escape from host functions, quotient integrand equality, selected refinement limits, measure completion, open-cover compactness, and ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-step-function-carrier}. The interval-domain row $I$, tagged partition row $T$, and value row $V$ are the only rows from which a consumer can read the domain cells and their constant values.
+
+The integration-facing rows are downstream of that finite data. The row $S$ is computed from the tagged cells, widths, tags, and displayed values, while $R$ admits a $\RiemannIntegrableUp$ consumer only after $I,T,V,S$ have been displayed.
+
+The regulated-function comparison uses the same rows. The row $G$ does not introduce another function object; it records only the regulated approximation boundary supplied by the finite cell-value surface.
+
+Finally $H,C,P,N$ preserve, replay, source, and name exactly this packet. Since the excluded host objects are not carrier coordinates, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Real step function Riemann readback]
+\label{thm:real-step-function-riemann-readback}
+Every Riemann-facing read of an accepted $\RealStepFunctionUp$ carrier factors through the finite route
+$$
+\RealUp \longmapsto \TaggedRealPartitionUp \longmapsto \StepFunctionUp \longmapsto \RiemannSumUp \longmapsto \RiemannIntegrableUp
+$$
+together with the $\RegulatedFunctionUp$ comparison row and the structural rows $H,C,P,N$. The route exports finite tagged real interval data and displayed constant values, not a host integrand, quotient function class, selected mesh limit, measure-theoretic completion, or ambient real-completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the real interval-domain row $I$. A Riemann-facing consumer cannot observe a cell or tag before the tagged real partition row $T$ displays the finite subdivision and containment data over that interval.
+
+Next read the step-value row $V$. Each value is attached to a displayed cell, so the finite sum row $S$ is computed from visible tags, cell widths, and displayed constant values rather than from a host function.
+
+The integrability handoff is the row $R$. It can be consumed only after the finite Riemann-sum readback has been displayed, and the regulated comparison row $G$ is tied to the same cell-value surface.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name this route without adding another analytic coordinate. Therefore the readback remains inside the displayed RealUp interval, tagged partition, step-function, sum, integrability, and regulated-function rows.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RealStepFunctionUp$ read is refuted if its $\RiemannIntegrableUp$ handoff remains while the displayed $\RealUp$ interval row, $\TaggedRealPartitionUp$ cells, $\StepFunctionUp$ value rows, and $\RiemannSumUp$ readback are removed.}
+
+\independenceWitness{real-interval, tagged-partition, step-values, riemann-sum, riemann-integrable, regulated-function: none is bijective with $\RealStepFunctionUp$ because the packet jointly carries interval-domain data, tagged real cells, displayed constant values, finite Riemann-sum readback, integrability handoff, regulated comparison, componentwise transport, replay, provenance, and local naming rows.}
+
+\closureat{RealStepFunctionUp}{seedStr}
+
+\begin{closurestatus}{\RealStepFunctionUp}
+  \constructivestory{A $\RealStepFunctionUp$ packet is generated from a RealUp interval-domain row, TaggedRealPartitionUp cells, StepFunctionUp values, RiemannSumUp readback, RiemannIntegrableUp handoff, RegulatedFunctionUp comparison, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-step-function-carrier}, \autoref{thm:real-step-function-namecert-obligations}, and \autoref{thm:real-step-function-riemann-readback} seed the finite RealUp interval step-function surface over tagged real partitions, step-value rows, Riemann sums, Riemann integrability, and regulated-function comparison.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host function equality, quotient integrands, selected refinement limits, measure completion, open-cover compactness, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tagged partition exposure, step-value exposure, Riemann-sum readback, Riemann-integrable handoff, regulated comparison, and structural transport for BEDC.Derived.RealStepFunctionUp.}
+\end{closurestatus}
