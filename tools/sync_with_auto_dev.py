@@ -682,8 +682,13 @@ PR_AGE_THRESHOLD_HOURS = 24
 # on the current auto-dev tip, regardless of pending/failed check state, as
 # long as auto-dev has advanced past its head. auto-dev produces commits
 # continuously, so a stale PR head never lands on its own — the only way the
-# catch-up PR stays fresh is to time-box it.
-PR_REPLACE_OPEN_HOURS = 6
+# catch-up PR stays fresh is to time-box it. Env-overridable (no restart;
+# the sync daemon re-execs this script each cycle) to match the rest of the
+# daemon knobs (AUTO_HEAL_INTERVAL_SECONDS etc.).
+try:
+    PR_REPLACE_OPEN_HOURS = float(os.environ.get("BEDC_PR_REPLACE_OPEN_HOURS", "6"))
+except (TypeError, ValueError):
+    PR_REPLACE_OPEN_HOURS = 6.0
 
 
 def _gh_available() -> bool:
