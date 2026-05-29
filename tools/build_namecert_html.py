@@ -166,7 +166,21 @@ def polish_html(path: Path) -> None:
     path.write_text(html, encoding="utf-8")
 
 
-def run_make4ht(row: dict, rows_by_region: dict[str, dict], upstream: dict[str, list[str]], downstream: dict[str, list[str]], mode: str, strict: bool) -> dict:
+def make4ht_supports_build_dir() -> bool:
+    proc = subprocess.run(["make4ht", "--help"], text=True, capture_output=True)
+    help_text = f"{proc.stdout}\n{proc.stderr}"
+    return "--build-dir" in help_text or "-B,--build-dir" in help_text
+
+
+def run_make4ht(
+    row: dict,
+    rows_by_region: dict[str, dict],
+    upstream: dict[str, list[str]],
+    downstream: dict[str, list[str]],
+    mode: str,
+    strict: bool,
+    use_build_dir: bool,
+) -> dict:
     slug = row["slug"]
     region = row.get("region") or normalize_region(slug)
     source_path = ROOT / row["source"]
@@ -198,16 +212,17 @@ def run_make4ht(row: dict, rows_by_region: dict[str, dict], upstream: dict[str, 
             "-a", "warning",
             "-c", str(cfg),
             "-d", str(out_dir),
-            "-B", str(build_dir),
             "-j", "index",
         ]
+        if use_build_dir:
+            cmd.extend(["-B", str(build_dir)])
         if mode and mode != "mathjax":
             cmd.extend(["-m", mode])
         cmd.append(wrapper.name)
         env = os.environ.copy()
         env["TEXINPUTS"] = f"{PAPER_DIR}{os.pathsep}{ROOT}{os.pathsep}{env.get('TEXINPUTS', '')}"
         proc = subprocess.run(cmd, cwd=tmpdir, env=env, text=True, capture_output=True)
-        if (build_dir / "index.html").exists():
+        if use_build_dir and (build_dir / "index.html").exists():
             for item in build_dir.iterdir():
                 if item.is_file() and item.suffix.lower() not in PUBLISH_SUFFIXES:
                     continue
@@ -268,6 +283,9 @@ def main() -> int:
     if shutil.which("make4ht") is None:
         print("[namecert-html] make4ht not found", file=sys.stderr)
         return 1
+    use_build_dir = make4ht_supports_build_dir()
+    if not use_build_dir:
+        print("[namecert-html] make4ht lacks --build-dir; using temporary cwd with output-dir only")
 
     upstream, downstream = dependency_edges(args.dependency)
     rows_by_region = by_region(rows)
@@ -276,7 +294,16 @@ def main() -> int:
     failures: list[dict] = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
         futs = [
-            pool.submit(run_make4ht, row, rows_by_region, upstream, downstream, args.mode, args.strict)
+            pool.submit(
+                run_make4ht,
+                row,
+                rows_by_region,
+                upstream,
+                downstream,
+                args.mode,
+                args.strict,
+                use_build_dir,
+            )
             for row in selected
         ]
         for fut in concurrent.futures.as_completed(futs):
