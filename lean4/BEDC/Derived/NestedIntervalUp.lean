@@ -780,9 +780,9 @@ namespace BEDC.Derived
 
 structure NestedIntervalTheoremUp where
   nestedWindow : BEDC.Derived.NestedIntervalUp.NestedIntervalUp
-  dyadicLedger : BHist
-  streamWindow : BHist
-  regularReadback : BHist
-  realSeal : BHist
+  dyadicLedger : BEDC.FKernel.Hist.BHist
+  streamWindow : BEDC.FKernel.Hist.BHist
+  regularReadback : BEDC.FKernel.Hist.BHist
+  realSeal : BEDC.FKernel.Hist.BHist
 
 end BEDC.Derived
