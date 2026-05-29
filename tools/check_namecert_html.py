@@ -38,6 +38,7 @@ def check(
     manifest_path: Path = MANIFEST_PATH,
     site_root: Path = DEFAULT_SITE_ROOT,
     allow_partial: bool = True,
+    require_manifest_pages: bool = False,
 ) -> list[str]:
     errors: list[str] = []
     dep = load_json(dependency_path)
@@ -81,7 +82,7 @@ def check(
         if not isinstance(url, str) or not url.startswith("namecert/") or ".." in url:
             errors.append(f"manifest {slug}: html_url must stay under namecert/: {url!r}")
             continue
-        if not allow_partial and not page_exists(site_root, url):
+        if (require_manifest_pages or not allow_partial) and not page_exists(site_root, url):
             errors.append(f"manifest {slug}: missing {page_path(site_root, url)}")
 
     for nid in ("kernel", "observer", "interhist"):
@@ -103,7 +104,7 @@ def self_test() -> int:
         man = data / "namecert_sources.json"
         dep.write_text(json.dumps({"nodes": [{"id": "foo", "html_url": "namecert/foo/"}, {"id": "kernel"}]}), encoding="utf-8")
         man.write_text(json.dumps([{"slug": "foo", "region": "foo", "html_url": "namecert/foo/"}]), encoding="utf-8")
-        assert check(dep, man, site_root=html) == []
+        assert check(dep, man, site_root=html, require_manifest_pages=True) == []
         dep.write_text(json.dumps({"nodes": [{"id": "foo", "html_url": "../foo/"}]}), encoding="utf-8")
         assert check(dep, man, site_root=html)
     print("[check-namecert-html] self-test ok")
@@ -115,12 +116,21 @@ def main() -> int:
     parser.add_argument("--dependency", type=Path, default=DEP_PATH)
     parser.add_argument("--manifest", type=Path, default=MANIFEST_PATH)
     parser.add_argument("--site-root", type=Path, default=DEFAULT_SITE_ROOT)
+    parser.add_argument("--allow-partial", action="store_true", help="validate URL structure without requiring every page to exist")
     parser.add_argument("--full", action="store_true", help="require every manifest page to exist")
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args()
+    if args.full and args.allow_partial:
+        parser.error("--full and --allow-partial are mutually exclusive")
     if args.self_test:
         return self_test()
-    errors = check(args.dependency, args.manifest, site_root=args.site_root, allow_partial=not args.full)
+    errors = check(
+        args.dependency,
+        args.manifest,
+        site_root=args.site_root,
+        allow_partial=args.allow_partial or not args.full,
+        require_manifest_pages=args.allow_partial,
+    )
     if errors:
         for err in errors:
             print(f"[check-namecert-html] {err}")

@@ -265,18 +265,29 @@ def main() -> int:
     parser.add_argument("--dependency", type=Path, default=DEFAULT_DEPENDENCY)
     parser.add_argument("--jobs", type=int, default=1)
     parser.add_argument("--limit", type=int, default=0)
+    parser.add_argument(
+        "--write-selected-manifest",
+        action="store_true",
+        help="when --limit is used, write only selected rows to the manifest",
+    )
     parser.add_argument("--strict", action="store_true")
+    parser.add_argument(
+        "--allow-failures",
+        action="store_true",
+        help="report failed pages but exit successfully after building the rest",
+    )
     parser.add_argument("-m", "--mode", default="", help="make4ht mode, e.g. mathjax")
     parser.add_argument("--write-manifest-only", action="store_true")
     args = parser.parse_args()
 
     rows = load_manifest(args.manifest)
-    write_manifest(args.manifest, rows)
+    selected = rows[: args.limit] if args.limit and args.limit > 0 else rows
+    manifest_rows = selected if args.write_selected_manifest else rows
+    write_manifest(args.manifest, manifest_rows)
     if args.write_manifest_only:
-        print(f"[namecert-html] wrote manifest {args.manifest} ({len(rows)} sources)")
+        print(f"[namecert-html] wrote manifest {args.manifest} ({len(manifest_rows)} sources)")
         return 0
 
-    selected = rows[: args.limit] if args.limit and args.limit > 0 else rows
     if not selected:
         print("[namecert-html] no sources selected")
         return 0
@@ -316,6 +327,9 @@ def main() -> int:
     if failures:
         for fail in failures:
             print(f"[namecert-html] {fail['slug']}: {fail['error']}", file=sys.stderr)
+        if args.allow_failures:
+            print(f"[namecert-html] built {len(selected) - len(failures)}/{len(selected)} page(s); {len(failures)} failed")
+            return 0
         return 1
     print(f"[namecert-html] built {len(selected)} page(s)")
     return 0
