@@ -12,6 +12,11 @@ Use this skill when the user asks to run both BEDC Codex pipelines together, to 
 
 **This skill operates UNATTENDED.** The operator has long sessions running the pipeline and explicitly does not want to be paged for every routine decision. Default to autonomous action; only escalate for decisions that change policy or scope.
 
+**NEVER use AskUserQuestion / interactive popups in this skill.** Unattended means there is no one watching to click. A popup blocks the loop and is forbidden. For any decision:
+- If it's in autonomous scope (mechanical fix, prompt/lint/critical_path edit, hot-reloadable change, free-restart daemon) → just do it and report what you did.
+- If it's operator-scope (the items under "Operator-scope" below: concurrency/resource budget, orchestrator restart, destructive ops, architecture/topology) → do NOT pop a question and do NOT block. Instead: **take the safe default** (usually: leave it untouched / defer to the operator's other codex-led system) and surface the decision as **one or two sentences in your normal text reply** ("X is operator-scope — left untouched; if you want it changed, say so"). The operator reads the transcript asynchronously and will tell you in a later turn. Continue the loop without waiting.
+- Concurrency / `.pipeline_parallel.json` keys specifically are owned by the operator's external codex-led system — never edit them, never popup about them; just report the observation.
+
 ### Auto-fix without asking
 
 When you detect a concrete bug or gap from monitor events, CI logs, sync daemon failures, or worker output, and the fix path is mechanical:
@@ -29,12 +34,14 @@ Examples of issues to auto-fix without confirmation:
 - Sync daemon retry loops caused by a fixable working-tree pollution pattern
 - Pre-merge gate gaps where a check exists in `make precheck` / `make warn` but isn't in `bedc_ci.py audit` (the orchestrator's only hook)
 
-### Still ask the operator for
+### Operator-scope (defer + report in text — NEVER popup-ask)
 
-- **Restart decisions** — orchestrator restart loses in-flight workers (~15 worker × 5-15min each); operator may prefer to wait for natural drain. The exception: `auto_heal` / `autotune` / `sync` daemons restart freely (small state, fast respawn).
-- **Architecture choices** — picking between Option A vs B vs E (lock split vs integrator topology), changing branch topology, changing concurrency caps
-- **Scope expansion** — adding new HEAL ALERT categories, new gates that change worker-side prompt rules, anything that touches more than ~3 source files
-- **Anything destructive** — `git push --force`, `git reset --hard origin/...`, deleting non-cleanup worktrees, killing in-flight workers
+These are NOT in autonomous scope. In unattended mode you do NOT act on them unilaterally AND you do NOT pop a question — you take the safe default (leave untouched / defer to the operator's external system) and note it in one sentence in your text reply so the operator can decide later:
+
+- **Concurrency / resource budget** — `.pipeline_parallel.json` keys (`paper` / `lean` / `lean_lake` / timeouts). Owned by the operator's external codex-led system. Never edit, never popup. Under memory pressure (e.g. swap-saturation stalling lean's heavy lake-merge), report the diagnosis + that concurrency reduction is the lever, but leave the file to the operator's system.
+- **Restart decisions** — orchestrator restart loses in-flight workers (~15 worker × 5-15min each). EXCEPTION (still autonomous): restart is in scope when an orchestrator-body change you just shipped needs it, or the pipeline has wedged >30min — then restart without asking. `auto_heal` / `autotune` / `sync` daemons restart freely.
+- **Architecture choices** — lock-split vs integrator topology, branch-topology changes. Report a recommendation; don't enact a topology change unprompted.
+- **Anything destructive** — `git push --force`, `git reset --hard origin/...`, deleting non-cleanup worktrees, killing in-flight workers. (Force-killing a wedged/deadlocked orchestrator for a restart is the sanctioned exception, per "manual BASE surgery #2".)
 
 ### Pattern stays: analyze → fix → verify
 
