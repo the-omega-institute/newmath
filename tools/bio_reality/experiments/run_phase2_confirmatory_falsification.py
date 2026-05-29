@@ -26,6 +26,14 @@ FORBIDDEN_PROMOTIONS = {
     "global biological law",
     "universal mechanism",
 }
+POSITIVE_THRESHOLDS = {
+    "replication": {"min_n": 40, "min_rate": 0.80, "max_p": 0.01},
+    "boundary_probe": {"min_n": 40, "min_rate": 0.70, "max_p": 0.01},
+}
+ABSENCE_THRESHOLDS = {
+    "negative_control": {"min_n": 20},
+    "critical_ablation": {"min_n": 20},
+}
 
 
 def now_iso() -> str:
@@ -181,10 +189,10 @@ def main() -> int:
     result = base_result(started_at)
     try:
         data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
-        replication = positive_condition_check(data, "replication", min_n=20, min_rate=0.80, max_p=0.01)
-        boundary = positive_condition_check(data, "boundary_probe", min_n=20, min_rate=0.70, max_p=0.01)
-        negative = absence_condition_check(data, "negative_control", min_n=10)
-        ablation = absence_condition_check(data, "critical_ablation", min_n=10)
+        replication = positive_condition_check(data, "replication", **POSITIVE_THRESHOLDS["replication"])
+        boundary = positive_condition_check(data, "boundary_probe", **POSITIVE_THRESHOLDS["boundary_probe"])
+        negative = absence_condition_check(data, "negative_control", **ABSENCE_THRESHOLDS["negative_control"])
+        ablation = absence_condition_check(data, "critical_ablation", **ABSENCE_THRESHOLDS["critical_ablation"])
         checks = [
             {
                 "name": "external_confirmatory_dataset_loaded",
@@ -240,7 +248,7 @@ def main() -> int:
                     "source": data.get("source", ""),
                     "snapshot_date": data.get("snapshot_date", ""),
                     "target_claim_ids": data.get("target_claim_ids", []),
-                    "stronger_statistic": "exact one-sided binomial tests with minimum independent trial counts plus zero-tolerance negative and ablation controls",
+                    "stronger_statistic": "exact one-sided binomial tests with doubled minimum independent trial counts plus zero-tolerance negative and ablation controls",
                 },
             }
         )

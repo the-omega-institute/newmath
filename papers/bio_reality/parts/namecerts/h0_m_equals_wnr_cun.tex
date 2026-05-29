@@ -1,53 +1,5 @@
-\subsection{Finite Codon Boundary for ORF-Eligibility Seeds}\label{sec:biorality-h0-m-equals-wnr-cun}
+\subsection{NameCert: h0.M.equals.WNR.CUN}
+\label{sec:namecert-h0_m_equals_wnr_cun}
 \origin{ai}
 
-\paragraph{Finite row.}
-This BioReality record is a finite boundary packet for the biological layer named \emph{open-reading-frame eligibility from start/stop codon enumeration}. Its central checked row is the claim \texttt{h0.M.equals.WNR.CUN}. The experiment run \texttt{a53ef0f36703}, verified at \texttt{2026-05-29T20:36:11+00:00}, records that the finite carrier $M$ has exactly $20$ codons and is precisely the displayed union of the WNR and CUN rows. In the notation of this packet, the complete row is
-$$
-\begin{aligned}
-M = \{&\texttt{AAA},\texttt{AAG},\texttt{ACA},\texttt{ACG},\texttt{AGA},\texttt{AGG},\texttt{AUA},\texttt{AUG},\texttt{CUA},\texttt{CUC},\\
-&\texttt{CUG},\texttt{CUU},\texttt{UAA},\texttt{UAG},\texttt{UCA},\texttt{UCG},\texttt{UGA},\texttt{UGG},\texttt{UUA},\texttt{UUG}\},\\
-|M| &= 20.
-\end{aligned}
-$$
-This is an enumeration fact about a finite codon set. It is not, by itself, an observed transcript, an open reading frame in a biological sample, a translated peptide, a folded molecule, a physically admissible state, a mechanism, a function, or a universal biological law.
-
-\paragraph{Compressed motif row.}
-The linked row \texttt{h0.R.motif.compression}, from experiment run \texttt{338799579a87}, gives a second finite check on the same packet. It records that the motif-compressed row $R$ contains $13$ codons and that the comparison has no missing and no extra codons. The row is
-$$
-\begin{aligned}
-R = \{&\texttt{AAA},\texttt{AGA},\texttt{AGG},\texttt{AUA},\texttt{CUA},\texttt{CUC},\texttt{CUG},\texttt{CUU},\texttt{UAA},\texttt{UAG},\\
-&\texttt{UCA},\texttt{UGA},\texttt{UUA}\},\\
-\mathrm{no\_missing} &= \varnothing,\\
-\mathrm{no\_extra} &= \varnothing.
-\end{aligned}
-$$
-Thus the packet has a concrete internal distinction between the $20$-element carrier row $M$ and the $13$-element motif row $R$. This distinction can be used to name a finite combinatorial boundary, but it cannot discharge any biological contact requirement.
-
-\paragraph{Saturation and boundary rows.}
-The finite saturation row \texttt{h0.f3.saturation}, from experiment run \texttt{f4eee68dd2c3}, records that the $f_3$ saturation of $R$ is the $18$-element set obtained from $M$ by excluding \texttt{ACA} and \texttt{ACG}. It also records an empty third-boundary witness, written in the row data as \texttt{f3\_boundary\_is\_zero}. Locally, this says
-$$
-\begin{aligned}
-\mathrm{Sat}_{f_3}(R) = M \setminus \{\texttt{ACA},\texttt{ACG}\},\qquad
-|\mathrm{Sat}_{f_3}(R)| = 18,\qquad
-\partial_{f_3} = \varnothing.
-\end{aligned}
-$$
-The same saturation record also states that $M$ is recovered as \texttt{Med\_R\_union\_ACA}; in concrete terms, the displayed $20$-element carrier is the finite closure row used by this seed packet. These are row-level equalities inside the packet. They do not assert that a biological system realizes the row.
-
-\paragraph{Quotient geometry.}
-The geometry check \texttt{h0.quotient.geometry}, from experiment run \texttt{fd0a506a0881}, records two further scalar controls. The carrier $M$ has finite vector $(20,38,26,8,1)$, while its quotient has finite vector $(10,14,6,1)$. The quotient projection has $10$ rows:
-$$
-\begin{aligned}
-f(M) &= (20,38,26,8,1),\\
-f(\pi_M) &= (10,14,6,1),\\
-|\pi_M| &= 10.
-\end{aligned}
-$$
-The recorded quotient rows are binary five-tuples, and the experiment stores the exact ten-row projection. This supplies a finite geometric readback for the codon carrier, not a biochemical or evolutionary explanation. In particular, the quotient geometry is not a license to infer translation, folding, physical admissibility, mechanism, function, or universality.
-
-\paragraph{ORF-eligibility contact boundary.}
-The biological layer named in this chapter is \texttt{orf\_eligibility}. The finite ORF contact row \texttt{h2.orf.start\_stop.window\_eligibility}, from experiment run \texttt{c26a0d6656f7}, records one external-window dataset, one input window, and one classified window. Its scope is explicitly \texttt{external\_window\_start\_stop\_enumeration\_only}; its source is a curated finite nucleotide-window manifest; its snapshot date is \texttt{2026-05-25}. The row also records \texttt{no\_geometry\_to\_translation\_promotion} with value \texttt{orf\_eligibility\_only}. Therefore the only admissible biological reading here is conditional: start/stop-window enumeration can state a boundary test for ORF eligibility only when a separate sequence, transcript, or curated interval contact supplies the observed biological interval.
-
-\paragraph{Cannot-claim boundary.}
-The packet has no attached reality contacts in this row. The required contact named by the probes is \texttt{curated.orf.interval.annotation}, but the contact list is empty. Consequently, the present chapter makes no claim that any listed codon row is translated, folded, physically admissible, functional, mechanistic, or universal. It also makes no claim that BEDC coordinate geometry alone realizes \texttt{orf\_eligibility}. The self-check row \texttt{self.claim}, from experiment run \texttt{0f47d2f0cf41}, records $3$ checked gates and states the boundary condition directly: no codon geometry is promoted across biological layers. The packet is therefore a finite, auditable name certificate for a boundary probe. It identifies what would have to be tested by a separate biological contact, while keeping the combinatorial row, the quotient row, and the ORF-eligibility layer distinct.
+This BioReality namecert is awaiting codex re-authoring. Most recent attempt failed the chapter hygiene gate; issues recorded: template\_residue: BEDC 5-tuple, template\_residue: carrier reads back to observable data by following, template\_residue: TasteGate-style separation, template\_residue: lean target sketch (statement-only), template\_residue: internal newmath/bedc derivation, template\_residue: bridge disclaimer, template\_residue: external reality sources. The committed registry record at \path{tools/bio\_reality/registries/claims.json} still tracks the underlying claim h0.M.equals.WNR.CUN and its experiment runs.
