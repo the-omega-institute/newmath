@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyModulusCompressionUp$}
+\label{ch:concrete-instances-regular-cauchy-modulus-compression-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy reals and explicit moduli, the $\RegularCauchyModulusCompressionUp$ packet records the finite route by which a regular Cauchy name may be read through coarser monotone modulus windows before it reaches a $\RegSeqRatUp$ readback and a terminal $\RealUp$ seal. It sits beside the stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational sequence surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the Cauchy modulus route of \autoref{ch:concrete-instances-cauchymodulus-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only a displayed compression ledger for finite tolerance windows; it does not assert a selected optimal modulus, a quotient of Cauchy names, countable choice, or ambient real completeness.
+
+\begin{definition}[Regular Cauchy modulus-compression carrier]
+\label{def:regular-cauchy-modulus-compression-carrier}
+A $\RegularCauchyModulusCompressionUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,Q,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source regular-Cauchy window row, recording the finite prefix of the original name together with the tolerance requests visible to the consumer.
+\item $Q$ is the monotone compression schedule, assigning each requested tolerance window a displayed coarser window and recording the monotonicity checks between consecutive requests.
+\item $D$ is the dyadic tolerance ledger over $\DyadicRatCoreUp$, keeping every compressed bound as a finite dyadic rational comparison.
+\item $R$ is the $\RegSeqRatUp$ readback row, recording the regular rational sequence obtained by reading the compressed windows through $S,Q,D$.
+\item $E$ is the terminal $\RealUp$ seal row, recording that the readback surface is consumed only through the displayed real-name endpoint.
+\item $H$ records componentwise $\hsame$ transport for $S,Q,D,R,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through the compression schedule, dyadic ledger, regular-sequence readback, and real seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyModulusCompressionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyModulusCompressionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an optimal modulus, a host limit, quotient equality of Cauchy names, countable choice, a completed real-space structure, or a fuel-erased stream evaluator.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy modulus-compression NameCert obligations]
+\label{thm:regular-cauchy-modulus-compression-namecert-obligations}
+For every accepted $\RegularCauchyModulusCompressionUp$ carrier
+$$
+M=(S,Q,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyModulusCompressionUp}$ surface consists exactly of carrier admission for the source regular-Cauchy windows, monotone compression schedule, dyadic tolerance ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. Any compressed tolerance read must expose $S,Q,D$ before $R,E,H,C,P,N$ can be consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-modulus-compression-carrier}. The visible rows are precisely the source windows, compression schedule, dyadic ledger, readback row, real seal, transport, replay, provenance, and local name.
+
+The finite compression boundary is read through $S,Q,D$. The source row supplies the original regular-Cauchy requests, the schedule row records which coarser windows answer them, and the dyadic row keeps the tolerance comparisons inside $\DyadicRatCoreUp$.
+
+The remaining rows $R,E,H,C,P,N$ only read back, seal, transport, replay, package, and name that displayed route. Since the carrier has no coordinate for an optimal modulus, host limit, quotient equality, countable choice, completed real-space structure, or stream evaluator, these rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy modulus-compression real seal route]
+\label{thm:regular-cauchy-modulus-compression-real-seal-route}
+Every $\RealUp$ consumer of an accepted $\RegularCauchyModulusCompressionUp$ packet factors through the displayed route
+$$
+\StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+Concretely, the consumer first reads the source regular-Cauchy windows $S$, then the monotone compression schedule $Q$, then the dyadic tolerance ledger $D$, then the $\RegSeqRatUp$ readback row $R$, and only then the terminal $\RealUp$ seal $E$. It cannot inspect an uncompressed host sequence, select a least modulus, identify Cauchy names by quotient equality, or bypass the displayed dyadic and regular-sequence rows.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $M=(S,Q,D,R,E,H,C,P,N)$. The carrier definition places every tolerance request first in the source-window row $S$ and then in the schedule row $Q$, so a real-facing consumer has no direct access to an ambient sequence.
+
+Next use the dyadic ledger $D$. It is the only row that compares the compressed windows as finite tolerance data, and it records those comparisons inside $\DyadicRatCoreUp$ before any regular-sequence readback is available.
+
+The readback row $R$ repacks the displayed compressed windows as a $\RegSeqRatUp$ surface, and the seal row $E$ is the only $\RealUp$ endpoint attached to the packet. The transport and replay rows $H,C$ preserve this order componentwise, while $P,N$ only record provenance and naming.
+
+Thus every real-facing read follows the displayed stream, dyadic, regular-sequence, and real-seal route, with no coordinate for a least modulus, quotient Cauchy equality, host sequence, or bypass around the finite ledger.
+\end{proof}
+
+\closureat{RegularCauchyModulusCompressionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyModulusCompressionUp}
+  \constructivestory{A $\RegularCauchyModulusCompressionUp$ packet is generated from source regular-Cauchy windows, a monotone compression schedule, a dyadic tolerance ledger, a RegSeqRat readback row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-modulus-compression-carrier}, \autoref{thm:regular-cauchy-modulus-compression-namecert-obligations}, and \autoref{thm:regular-cauchy-modulus-compression-real-seal-route} seed the finite modulus-compression route from regular Cauchy windows to RegSeqRat and RealUp.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close optimal modulus selection, quotient equality of Cauchy names, countable choice, host real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, schedule monotonicity exposure, dyadic tolerance confinement, RegSeqRat readback, RealUp sealing, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyModulusCompressionUp.}
+\end{closurestatus}
