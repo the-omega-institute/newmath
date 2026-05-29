@@ -6470,6 +6470,7 @@ import BEDC.Derived.SimplicialSetUp
 import BEDC.Derived.SimplicialSetUp.TasteGate
 import BEDC.Derived.SingletonSource
 import BEDC.Derived.SliceCategoryUp
+import BEDC.Derived.SmithNormalFormUp.TasteGate
 import BEDC.Derived.SmugglingPatternClassifierUp.TasteGate
 import BEDC.Derived.SmythCompletionUp
 import BEDC.Derived.SmythCompletionUp.TasteGate
