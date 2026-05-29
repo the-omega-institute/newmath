@@ -25,3 +25,21 @@ Now use \autoref{thm:streamname-common-refinement-real-seal-confluence}. The ind
 
 Finally apply the RegSeqRat and RealUp handoff separation statements in the StreamName child files, in particular \autoref{thm:streamname-regseqrat-pointwise-handoff} and \autoref{thm:streamname-real-regseq-obligation-separation}. They keep regularity, completion, quotient, metric-completeness, host-index, and seal-classifier data outside the common-refinement source tuple.
 \end{proof}
+
+\begin{theorem}[StreamName common-refinement associativity]
+\label{thm:streamname-common-refinement-associativity}
+Let $\mathcal W_0,\mathcal W_1,\mathcal W_2$ be three compatible public finite-window $\StreamNameUp$ packages over the same certified endpoint maps. If successive common-refinement packages are displayed for both parenthesizations
+$$
+(\mathcal W_0 \cap \mathcal W_1) \cap \mathcal W_2
+\quad\text{and}\quad
+\mathcal W_0 \cap (\mathcal W_1 \cap \mathcal W_2),
+$$
+then the two resulting packages expose the same scheduled observation rows, $\hsame$ transports, $\Cont$ replay rows, $\Pkg$ provenance, and local $\NameCert$ row. The common-refinement read exports no completion object, quotient stream equality, host-index equality, metric-completeness row, or off-ledger $\RealUp$ classifier row.
+\end{theorem}
+\begin{proof}
+Project each parenthesized package to its finite-window carrier. Compatibility says that every scheduled observation row is a restriction of the same three displayed windows, so either parenthesization exposes the same source rows.
+
+Transport the common rows componentwise through the displayed $\hsame$ witnesses and replay them through the same $\Cont$ route. The $\Pkg$ provenance and local $\NameCert$ row are then read from the same finite source tuple.
+
+Finally use common-refinement public exactness. It keeps every downstream $\RegSeqRatUp$ and $\RealUp$ handoff inside the common-refinement source tuple, so neither parenthesization can add completion, quotient, host-index, metric-completeness, or off-ledger classifier data.
+\end{proof}
