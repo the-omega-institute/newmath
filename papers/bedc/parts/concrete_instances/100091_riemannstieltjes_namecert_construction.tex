@@ -152,6 +152,7 @@ Since the carrier has no coordinate for measure integration, integrator quotient
 \label{thm:riemann-stieltjes-bounded-variation-ledger}
 For every accepted $\RiemannStieltjesUp$ carrier $R=(F,A,T,S,I,E,H,C,P,N)$, each integrator jump, variation read, and endpoint contribution used by the tagged sum is consumed as a visible $\BHist$ ledger row inside $A$ before it is transported through $H,C,P,N$. The packet exports no hidden variation functional, measure-space control object, selected jump enumeration, or quotient of integrators.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannStieltjesUp.RiemannStieltjesCarrier\_bounded\_variation\_ledger}
 \begin{proof}
 Read the bounded-variation component $A$ from the carrier. By \autoref{thm:riemann-stieltjes-bounded-variation-jump-boundary}, jump-facing reads begin at $A$ and cannot enter the tagged-sum route from any outside source.
 
@@ -164,12 +165,53 @@ Transport and replay do not create new variation data. The rows $H$ and $C$ move
 \label{thm:riemann-stieltjes-mesh-refinement-stability}
 If an accepted $\RiemannStieltjesUp$ carrier is read along a mesh refinement, the refined packet preserves the same componentwise $\hsame$ transport, displayed $\Cont$ replay, and $\Pkg$ provenance route over $F,A,T,S,I,E,H,C,P,N$. Refinement may subdivide the visible tagged partition row, but it cannot introduce a new integrator, a new regulated-integral handoff, host function equality, selected limits, or a measure-space bridge.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannStieltjesUp.RiemannStieltjesCarrier\_mesh\_refinement\_stability}
 \begin{proof}
 Start with the Darboux mesh-refinement theorem, \autoref{thm:riemann-stieltjes-darboux-mesh-refinement}. It confines every refinement-facing read to the displayed rows $T,S,A,I,E$ together with the structural rows.
 
 Refining the mesh changes only the visible tagged partition and the corresponding dyadic step rows. The bounded-variation ledger remains the row $A$, and the regulated-integral handoff remains the row $I$ reached after the refined finite data are displayed.
 
 The structural route is unchanged. Componentwise $\hsame$ transport is recorded by $H$, continuation replay by $C$, and provenance by $P$ before the local naming row $N$ accepts the refined packet. Because no host equality, selected limit, new integrator, or measure bridge occurs among the coordinates, refinement preserves the same finite BEDC route.
+\end{proof}
+
+\begin{theorem}[Riemann--Stieltjes bounded-variation partition coverage]
+\label{thm:riemann-stieltjes-bounded-variation-partition-coverage}
+For every accepted $\RiemannStieltjesUp$ carrier
+$$
+R=(F,A,T,S,I,E,H,C,P,N),
+$$
+each cell of the finite $\BHist$ partition row $T$ is covered by a bounded-variation jump or oscillation row displayed inside $A$ before the regulated-integral handoff $I$ is public. The coverage is stable under componentwise $\hsame$ transport, replayed by $\Cont$ through $C$, sourced by the $\Pkg$ provenance row $P$, and named by the local $\NameCert_{\RiemannStieltjesUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier and read the finite partition row $T$. Its cells and tags are $\BHist$ entries, so coverage can be checked cell by cell rather than by a host partition object.
+
+Induct over the displayed partition refinement rows. The base row is the original tagged partition, where \autoref{thm:riemann-stieltjes-bounded-variation-ledger} supplies the integrator jump and variation entries from $A$. In the refinement step, the subdivided cells inherit the same bounded-variation control by the mesh-refinement stability theorem and the bounded-variation jump boundary.
+
+The structural rows preserve the coverage. Transport through $H$ moves the displayed jump and oscillation rows componentwise, replay through $C$ keeps the cell-to-jump route in the same order, and $P,N$ record the package source and local certificate name. Thus $I$ can only read a partition whose cells are already covered by the displayed bounded-variation rows.
+\end{proof}
+
+\begin{theorem}[Riemann--Stieltjes regulated-integral mesh handoff]
+\label{thm:riemann-stieltjes-regulated-integral-mesh-handoff}
+Every mesh-facing read of an accepted $\RiemannStieltjesUp$ carrier reaches the $\RegulatedIntegralUp$ handoff row $I$ only after the finite $\BHist$ partition row $T$, the bounded-variation jump and oscillation rows in $A$, and the dyadic step approximation row $S$ have been displayed. The route is invariant under $\hsame$ transport, replayed by $\Cont$, sourced by $\Pkg$ provenance, and accepted by the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Project $R=(F,A,T,S,I,E,H,C,P,N)$. The endpoint seal $E$ is downstream of $I$, and the handoff theorem already places $I$ after the integrand, integrator, tagged-sum, and dyadic-step rows.
+
+Induct over the finite mesh refinement rows. At the base mesh, the partition row $T$ and step row $S$ are displayed directly, and the bounded-variation partition coverage theorem supplies the jump and oscillation rows from $A$. At a refinement step, \autoref{thm:riemann-stieltjes-mesh-refinement-stability} preserves the same $A,T,S,I$ order while subdividing only the visible partition row.
+
+Finally transport and replay do not change the route. The row $H$ moves each displayed mesh, jump, oscillation, and step entry componentwise; $C$ replays the handoff order; and $P,N$ provide provenance and local naming. Hence a regulated-integral consumer cannot reach $I$ without first reading the displayed finite mesh and bounded-variation control.
+\end{proof}
+
+\begin{theorem}[Riemann--Stieltjes step-integrator exactness]
+\label{thm:riemann-stieltjes-step-integrator-exactness}
+For an accepted $\RiemannStieltjesUp$ carrier $R=(F,A,T,S,I,E,H,C,P,N)$, each dyadic step contribution consumed by the handoff row $I$ is exact with respect to the bounded-variation integrator row $A$: the value is computed from the displayed step value in $S$, the corresponding finite $\BHist$ partition cell in $T$, and the jump or oscillation ledger row in $A$. No hidden measure integral, selected limiting partition, host integrator quotient, or ambient real equality is used.
+\end{theorem}
+\begin{proof}
+Read the step row $S$ together with the partition row $T$. Each step contribution names a displayed cell and a displayed step value, so the integrator contribution must be supplied by the bounded-variation ledger already present in $A$.
+
+Proceed by induction over the displayed partition refinement rows. The base contribution is exact by direct projection from $S,T,A$: the step value is paired with the integrator jump or oscillation entry carried by the same cell. In the refinement step, the mesh-refinement stability theorem transports the subdivided step entries, while bounded-variation partition coverage supplies the matching integrator rows for every child cell.
+
+The remaining structural rows only preserve this calculation. Componentwise $\hsame$ transport in $H$ keeps step values, cells, and integrator ledger rows aligned; $\Cont$ replay through $C$ repeats the same finite route; and $P,N$ record provenance and local NameCert acceptance. The excluded host objects are absent from the carrier, so step-integrator exactness is a finite BEDC row calculation.
 \end{proof}
 
 \closureat{RiemannStieltjesUp}{seedStr}

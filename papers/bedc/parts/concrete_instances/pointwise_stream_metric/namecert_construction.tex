@@ -104,6 +104,47 @@ $$
 Since none of the cited surfaces stores host functions, quotient streams, selected representatives, countable-choice schedules, or ambient completeness, the completion-facing read cannot acquire them.
 \end{proof}
 
+\begin{theorem}[Pointwise stream metric finite-window consumption]
+\label{thm:pointwise-stream-metric-finite-window-consumption}
+Every metric-distance read from an accepted $\PointwiseStreamMetricUp$ packet
+first consumes the displayed $\StreamNameUp$ finite window, the $\RegSeqRatUp$
+readback row, the terminal $\RealUp$ seal, and the $\MetricSpaceUp$ distance
+row. The consumed route is the finite packet
+$$
+S,W,D,R,E,M,H,C,P,N
+$$
+of \autoref{def:pointwise-stream-metric-carrier}, with the dyadic ledger $D$
+bounding the window comparison before the Real seal and metric row are read.
+
+The route is invariant under accepted scheduled window replacement transported
+by $H$ and replayed by $C$. It exposes no quotient stream equality, selected
+stream representative, host function equality, countable-choice schedule, or
+ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:pointwise-stream-metric-carrier}. The
+metric-distance read has only the stream source, finite window schedule,
+dyadic ledger, regular readback, Real seal, metric row, transport, replay,
+provenance, and local naming coordinates available.
+
+Apply \autoref{thm:pointwise-stream-metric-sibling-route}. It orders the
+reader through the $\StreamNameUp$ finite window, the $\RegSeqRatUp$ readback,
+the terminal $\RealUp$ seal, and then the $\MetricSpaceUp$ row.
+
+Use \autoref{thm:pointwise-stream-metric-real-completion-anchor} to connect
+the same route to completion-facing consumers. The dyadic ledger remains a
+displayed coordinate of the packet, so the read cannot bypass the finite
+window and regular readback.
+
+Finally invoke \autoref{thm:pointwise-stream-metric-reindexing-stability}. Any
+scheduled replacement transported by $H$ and replayed by $C$ preserves the
+same stream windows, dyadic ledger, readback, Real seal, metric row,
+provenance, and local naming row. Since the carrier has no quotient stream,
+selected representative, host function equality, choice schedule, or ambient
+completeness coordinate, the finite-window consumption route is exhausted by
+the displayed packet.
+\end{proof}
+
 \closureat{PointwiseStreamMetricUp}{seedStr}
 
 \begin{closurestatus}{\PointwiseStreamMetricUp}
