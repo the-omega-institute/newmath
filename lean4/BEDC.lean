@@ -5623,6 +5623,7 @@ import BEDC.Derived.RealSequenceLimitUp.TailWindowTransport
 import BEDC.Derived.RealSequenceLimitUp.TasteGate
 import BEDC.Derived.RealSeriesCauchyCriterionUp
 import BEDC.Derived.RealSeriesCauchyCriterionUp.TasteGate
+import BEDC.Derived.RealSeriesRatioTestUp.TasteGate
 import BEDC.Derived.RealSeriesUp.EndpointReadback
 import BEDC.Derived.RealSeriesUp.RootCauchyProductBudget
 import BEDC.Derived.RealSeriesUp.RootTailFactorization
