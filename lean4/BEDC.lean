@@ -732,6 +732,7 @@ import BEDC.Derived.BitVectorUp.TasteGate
 import BEDC.Derived.BolzanoCauchyUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassSelectorUp.TasteGate
 import BEDC.Derived.BolzanoWeierstrassUp.BoundedSequenceSource
+import BEDC.Derived.BolzanoWeierstrassUp.BoundedWindowInduction
 import BEDC.Derived.BolzanoWeierstrassUp.BoundedWindowNonemptyExtraction
 import BEDC.Derived.BolzanoWeierstrassUp.ClosedIntervalClusterHandoff
 import BEDC.Derived.BolzanoWeierstrassUp.ClusterCauchyWindow
@@ -6210,6 +6211,7 @@ import BEDC.Derived.RepresentedSpaceUp.AdmissibleNameCoverage
 import BEDC.Derived.RepresentedSpaceUp.RealizationTransport
 import BEDC.Derived.RepresentedSpaceUp.RealizerReadbackWindow
 import BEDC.Derived.RepresentedSpaceUp.ScopePackage
+import BEDC.Derived.RepresentedSpaceUp.StreamNameRepresentationSource
 import BEDC.Derived.RepresentedSpaceUp.TranslationNonescape
 import BEDC.Derived.ResearchProgrammeAuditLoopUp.TasteGate
 import BEDC.Derived.ResearchProgrammeExecutionGateUp.TasteGate
