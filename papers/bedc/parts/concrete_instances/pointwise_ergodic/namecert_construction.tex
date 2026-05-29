@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\PointwiseErgodicUp$}
+\label{ch:concrete-instances-pointwise-ergodic-namecert}
+\origin{human}
+
+Following Birkhoff and von Neumann on pointwise ergodic averages, the $\PointwiseErgodicUp$ packet records only the finite orbit-window and average-readback data that a BEDC consumer may inspect before any almost-everywhere convergence theorem is visible. It sits after the transformation and invariant-row surface of \autoref{ch:concrete-instances-ergodic-namecert}, the event and mass rows of \autoref{ch:concrete-instances-measure-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names finite orbit segments, summation ledgers, average rows, measure-context rows, real seals, transport, replay, provenance, and local naming; it does not assert the classical pointwise ergodic theorem.
+
+\begin{definition}[PointwiseErgodic carrier]
+\label{def:pointwise-ergodic-carrier}
+A $\PointwiseErgodicUp$ carrier is a finite $\BHist$ packet
+$$
+P=(E,M,O,S,A,R,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the $\ErgodicUp$ row exposing the displayed measure-preserving transformation and invariant-row ledger consumed by the packet.
+\item $M$ is the $\MeasureUp$ row carrying the finite measurable-event and mass requests attached to the inspected orbit windows.
+\item $O$ is the orbit-window row, listing the finitely many iterates of the displayed transformation that are currently read.
+\item $S$ is the finite summation ledger for the values read along $O$.
+\item $A$ is the finite average row, obtained from $S$ and the displayed window length before any limiting conclusion is available.
+\item $R$ is the $\RealUp$ seal row for the average values exported to real-facing consumers.
+\item $H$ records componentwise $\hsame$ transport for the ergodic, measure, orbit, summation, average, real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an orbit-average request through $E,M,O,S,A$ and into $R$.
+\item $Q$ is the $\Pkg$ provenance over $\PointwiseErgodicUp$, $\ErgodicUp$, $\MeasureUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\PointwiseErgodicUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,M,O,S,A,R,H,C,Q,N$. It has no coordinate for full almost-everywhere convergence, countable choice, a selected invariant representative, quotient equality of functions, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[PointwiseErgodic NameCert obligations]
+\label{thm:pointwise-ergodic-namecert-obligations}
+For every accepted $\PointwiseErgodicUp$ carrier
+$$
+P=(E,M,O,S,A,R,H,C,Q,N),
+$$
+the local $\NameCert_{\PointwiseErgodicUp}$ surface consists exactly of carrier admission, ergodic-row exposure, measure-context exposure, orbit-window inspection, finite summation accounting, finite average formation, real-seal routing, componentwise transport, displayed replay, provenance, local naming, and non-escape from the excluded host principles.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:pointwise-ergodic-carrier}. The analytic rows are $E,M,O,S,A,R$, and the structural rows are $H,C,Q,N$.
+
+The orbit-window row $O$ is finite. The summation ledger $S$ reads only the displayed iterates in that window, and the average row $A$ is formed from the same finite ledger before any limiting statement can be consumed.
+
+The measure and real rows do not supply an almost-everywhere theorem. The measure row $M$ records the finite event and mass context for the inspected windows, while $R$ seals only the displayed average values.
+
+Finally $H,C,Q,N$ transport, replay, source, and name the same route. Since no other coordinate occurs in the carrier, the NameCert surface exports none of full almost-everywhere convergence, countable choice, selected invariant representatives, quotient equality of functions, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[PointwiseErgodic finite average route]
+\label{thm:pointwise-ergodic-finite-average-route}
+Every real-facing read exported by an accepted $\PointwiseErgodicUp$ carrier factors through
+$$
+E \to M \to O \to S \to A \to R
+$$
+before the average value is consumed. The route records an ergodic source row, finite measure context, displayed orbit window, summation ledger, finite average row, and terminal real seal, but it does not assert convergence of the averages on an almost-everywhere set.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $P=(E,M,O,S,A,R,H,C,Q,N)$. By \autoref{def:pointwise-ergodic-carrier}, the only average coordinate is $A$, and it is downstream of the orbit-window and summation rows.
+
+The ergodic row $E$ supplies the transformation ledger, and $M$ supplies the finite measure context in which the inspected orbit window is read. The window $O$ and summation ledger $S$ then determine the finite average row.
+
+The terminal real-facing read is $R$. Transport, replay, provenance, and local naming through $H,C,Q,N$ preserve this route and do not add a convergence coordinate.
+\end{proof}
+
+\closureat{PointwiseErgodicUp}{seedStr}
+
+\begin{closurestatus}{\PointwiseErgodicUp}
+  \constructivestory{A $\PointwiseErgodicUp$ packet is generated from an ErgodicUp source row, a MeasureUp finite context row, a displayed orbit-window row, a finite summation ledger, a finite average row, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:pointwise-ergodic-carrier}, \autoref{thm:pointwise-ergodic-namecert-obligations}, and \autoref{thm:pointwise-ergodic-finite-average-route} seed the finite orbit-average certificate over ErgodicUp, MeasureUp, and RealUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full almost-everywhere convergence, countable choice, selected invariant representatives, quotient equality of functions, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, ergodic-row exposure, measure-context exposure, orbit-window inspection, summation accounting, finite average formation, real-seal routing, transport, replay, provenance, local naming, and non-escape for BEDC.Derived.PointwiseErgodicUp.}
+\end{closurestatus}
