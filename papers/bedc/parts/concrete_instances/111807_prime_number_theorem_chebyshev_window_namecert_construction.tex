@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\PrimeNumberTheoremChebyshevWindowUp$}
+\label{ch:concrete-instances-prime-number-theorem-chebyshev-window-namecert}
+\origin{human}
+
+Following Chebyshev and de la Vallee Poussin style prime-counting estimates, the $\PrimeNumberTheoremChebyshevWindowUp$ packet names the finite window in which a prime-counting read, logarithmic comparison ledger, and displayed tolerance record can be inspected without importing the full analytic proof of the prime number theorem. It sits after the natural-number source rows of the arithmetic chapters, the rational and dyadic tolerance carriers of \autoref{ch:concrete-instances-rat-namecert} and \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-facing seal of \autoref{ch:concrete-instances-real-namecert}. The packet records only finite counting windows, displayed prime predicates, logarithmic comparison rows, tolerance reads, transport, replay, provenance, and local naming.
+
+\begin{definition}[Prime number theorem Chebyshev window carrier]
+\label{def:prime-number-theorem-chebyshev-window-carrier}
+A $\PrimeNumberTheoremChebyshevWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(A,P,\Pi,L,D,R,O,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\NatUp$ arithmetic source row. It records the inspected finite interval, endpoint order, successor arithmetic, and bounded summation surface for the counting request.
+\item $P$ is the $\PrimeUp$ predicate row. It stores the prime-admission read for each inspected natural-number entry and the finite exclusion rows for composites visible inside the window.
+\item $\Pi$ is the prime-counting window row. It records the displayed value of the finite counting function on the inspected interval and the endpoint comparison used by downstream reads.
+\item $L$ is the logarithmic comparison ledger. It stores the finite logarithm table, monotonicity comparisons, and Chebyshev-style upper and lower comparison rows attached to the same endpoint.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row. It records dyadic slack, denominator bounds, and interval comparisons for the displayed counting and logarithmic reads.
+\item $R$ is the $\RealUp$ read row. It receives only the rational and dyadic tolerance data already displayed by $D$ and $L$.
+\item $O$ is the order-provenance row. It records the $\NatUp$, $\PrimeUp$, $\RatUp$, and order comparisons used by $A,P,\Pi,L,D,R$.
+\item $H$ records componentwise $\hsame$ transport for arithmetic sources, prime predicates, counting windows, logarithmic ledgers, dyadic and real reads, order provenance, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a prime-counting request through $A,P,\Pi,L,D,R,O,H,Q,N$.
+\item $Q$ is the $\Pkg$ provenance over $\PrimeNumberTheoremChebyshevWindowUp$, $\NatUp$, $\PrimeUp$, $\RatUp$, order rows, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PrimeNumberTheoremChebyshevWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,P,\Pi,L,D,R,O,H,C,Q,N$. It has no coordinate for analytic continuation, the full asymptotic prime number theorem, zero-free regions, choice, a host prime-distribution oracle, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Prime number theorem Chebyshev window obligations]
+\label{thm:prime-number-theorem-chebyshev-window-obligations}
+For every accepted $\PrimeNumberTheoremChebyshevWindowUp$ carrier
+$$
+W=(A,P,\Pi,L,D,R,O,H,C,Q,N),
+$$
+the local $\NameCert_{\PrimeNumberTheoremChebyshevWindowUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the natural-number arithmetic source, prime predicate row, prime-counting window, logarithmic comparison ledger, dyadic tolerance read, real-facing read, order provenance, transport, replay, package provenance, and local naming;
+\item prime-window exposure, requiring $A,P,\Pi$ to display the inspected endpoint interval, prime-admission reads, composite exclusions, and finite counting value before any comparison can be exported;
+\item logarithmic comparison control, requiring $L$ to attach Chebyshev-style upper and lower comparison rows to the same endpoint and counting window;
+\item dyadic and real nonescape, requiring $D$ and $R$ to read only displayed rational, dyadic, and order data from $L$ and $\Pi$;
+\item local naming, requiring $O,H,C,Q,N$ to preserve exactly the displayed arithmetic, prime, logarithmic, tolerance, real-facing, and provenance rows.
+\end{enumerate}
+No prime-counting obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:prime-number-theorem-chebyshev-window-carrier}. The accepted packet displays exactly the arithmetic source, prime predicate, counting window, logarithmic comparison ledger, tolerance rows, real-facing read, order provenance, and structural rows listed in the statement.
+
+The prime-window exposure is finite. The rows $A$ and $P$ inspect only the bounded natural-number interval and its displayed prime or composite evidence, while $\Pi$ records the corresponding finite counting value.
+
+The logarithmic comparison control is read next. The row $L$ attaches the Chebyshev-style upper and lower comparison rows to the same endpoint and the same counting window, so no independent analytic-continuation or zero-free-region theorem enters the packet.
+
+The dyadic and real-facing rows remain downstream. The row $D$ supplies the rational and dyadic slack ledger, $R$ reads only that displayed tolerance surface as real-facing data, and $O$ keeps the natural-number, prime, rational, and order provenance visible.
+
+Finally $H,C,Q,N$ transport, replay, source, and name the same packet. Since the carrier contains no coordinate for analytic continuation, the full asymptotic prime number theorem, zero-free regions, choice, a host prime-distribution oracle, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Prime number theorem Chebyshev window route]
+\label{thm:prime-number-theorem-chebyshev-window-route}
+Every real-facing comparison read exported by an accepted $\PrimeNumberTheoremChebyshevWindowUp$ carrier
+$$
+W=(A,P,\Pi,L,D,R,O,H,C,Q,N)
+$$
+factors through the finite route
+$$
+A,P,\Pi,L,D,O \longmapsto R .
+$$
+Thus the exported read is witnessed by a natural-number source row, a prime predicate row, a finite prime-counting window, a logarithmic comparison ledger, dyadic and rational tolerance data, and order provenance, not by analytic continuation, the full asymptotic theorem, zero-free regions, choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start with a real-facing comparison read from the accepted carrier. The only row with that target is $R$, and the carrier places $R$ downstream of the arithmetic, prime, counting, logarithmic, dyadic, and order rows.
+
+The source and counting rows determine the finite prime-counting data. The row $A$ fixes the inspected natural-number interval, $P$ supplies prime-admission and composite-exclusion reads, and $\Pi$ records the displayed finite counting value for that same window.
+
+The comparison rows then control the exported estimate. The row $L$ records the logarithmic comparison ledger, $D$ supplies the dyadic and rational slack, and $O$ records the order provenance that binds these comparisons to the same endpoint.
+
+Only after those rows are fixed can $R$ read the packet as real-facing comparison data. Transport, replay, package provenance, and local naming preserve this route through $H,C,Q,N$, so none of the excluded ambient principles can enter the exported read.
+\end{proof}
+
+\falsifiablePrediction{Every $\PrimeNumberTheoremChebyshevWindowUp$ real-facing comparison read passes through $\NatUp$, $\PrimeUp$, a finite prime-counting window, a logarithmic comparison ledger, $\RatUp$ and $\DyadicRatCoreUp$ tolerance rows, order provenance, $\RealUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before any counting estimate is visible.}
+
+\independenceWitness{nat, prime, rat, dyadicratcore, real, order: $\PrimeNumberTheoremChebyshevWindowUp$ is not bijective to any listed sibling because it jointly carries a natural-number source row, prime predicate row, finite counting window, logarithmic comparison ledger, dyadic and rational tolerance reads, real-facing read, order provenance, transport, replay, provenance, and local naming.}
+
+\closureat{PrimeNumberTheoremChebyshevWindowUp}{seedStr}
+
+\begin{closurestatus}{\PrimeNumberTheoremChebyshevWindowUp}
+  \constructivestory{A $\PrimeNumberTheoremChebyshevWindowUp$ packet is generated from NatUp arithmetic source rows, PrimeUp predicate rows, finite prime-counting windows, logarithmic comparison ledgers, RatUp and DyadicRatCoreUp tolerance reads, RealUp read rows, order provenance, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:prime-number-theorem-chebyshev-window-carrier}, \autoref{thm:prime-number-theorem-chebyshev-window-obligations}, and \autoref{thm:prime-number-theorem-chebyshev-window-route} seed the finite Chebyshev-window route from natural-number and prime rows through counting windows, logarithmic comparisons, dyadic and rational tolerances, real-facing reads, order provenance, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close analytic continuation, the full asymptotic prime number theorem, zero-free regions, choice, host prime-distribution oracles, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked arithmetic source admission, prime predicate exposure, finite counting-window exactness, logarithmic comparison control, dyadic and real nonescape, order provenance, transport, replay, provenance, and local naming for BEDC.Derived.PrimeNumberTheoremChebyshevWindowUp.}
+\end{closurestatus}
