@@ -26,6 +26,20 @@ The transport and replay rows preserve the order of the read. Thus $H,C,P,N$ can
 Since neither the candidate-set route nor the bounded-fuel boundary contains a coordinate for global strong normalization or completed closed consistency, those conclusions are not exported by the packet.
 \end{proof}
 
+\begin{theorem}[Normalization candidate socket fuel-boundary candidate gate]
+\label{thm:normalization-candidate-socket-fuel-boundary-candidate-gate}
+A fuel-indexed normalization read of an accepted $\NormalizationCandidateSocketUp$ packet may lower or inspect the finite fuel boundary only while at least one of the candidate rows $K,D,E$ remains visible. If $K,D,E$ are erased, the read is forced to the frontier refusal row $F$ and cannot export no-infinite-reduction, evidence-erased strong normalization, global confluence, quotient syntax equality, host evaluator soundness, or completed closed consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:normalization-candidate-socket-carrier}. The strong-normalization and no-infinite-reduction exports are mediated by the candidate rows $K,D,E$, while the fuel row is only route data for bounded inspection.
+
+Apply the boundary theorem \autoref{thm:normalization-candidate-socket-boundary}. It places normalization-facing reads downstream of visible candidate evidence rather than downstream of the closed term window alone.
+
+Use candidate-erasure refusal, \autoref{thm:normalization-candidate-socket-candidate-erasure-refusal}. When $K,D,E$ are removed, the packet has no candidate evidence to support a no-infinite-reduction read, so the frontier refusal row $F$ is the only admissible boundary.
+
+Thus fuel inspection can refine a displayed bounded trace but cannot replace reducibility-candidate evidence. The excluded strong-normalization, confluence, quotient, evaluator, and consistency conclusions require coordinates absent from the fuel boundary.
+\end{proof}
+
 \begin{theorem}[Normalization candidate socket candidate-set readback]
 \label{thm:normalization-candidate-socket-candidate-set-readback}
 If an accepted $\NormalizationCandidateSocketUp$ packet exposes the candidate-set row $E$, then closed typed strong-normalization and no-infinite-reduction reads factor through the finite route
