@@ -1,5 +1,32 @@
-\subsection{NameCert: h0.R.motif.compression}
-\label{sec:namecert-h0_r_motif_compression}
+\subsection{Motif compression as an ORF-eligibility boundary record}\label{sec:bioreality-h0-r-motif-compression}
 \origin{ai}
 
-This BioReality namecert is awaiting codex re-authoring. Most recent attempt failed the chapter hygiene gate; issues recorded: template\_residue: BEDC 5-tuple, template\_residue: carrier reads back to observable data by following, template\_residue: TasteGate-style separation, template\_residue: lean target sketch (statement-only), template\_residue: internal newmath/bedc derivation, template\_residue: bridge disclaimer, template\_residue: external reality sources. The committed registry record at \path{tools/bio\_reality/registries/claims.json} still tracks the underlying claim h0.R.motif.compression and its experiment runs.
+\paragraph{Finite row being reported.}
+The row with identifier $h0.R.motif.compression$ records a finite motif-compression fact, not a biological realization claim.  Its verified motif set $R$ has exactly the following thirteen codons:
+$$
+\begin{aligned}
+R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
+\end{aligned}
+$$
+The finite check reports no missing codons and no extra codons in this equality: $\mathrm{no\_missing}=\varnothing$ and $\mathrm{no\_extra}=\varnothing$.  Thus the only positive content of the row is that this thirteen-element list is exactly the motif union tested by run $338799579a87$ at timestamp $2026$-$05$-$29T23{:}01{:}24+00{:}00$.  The row is therefore a closed finite enumeration statement about the displayed set $R$.
+
+\paragraph{Relation to the ambient codon finite set.}
+The same packet also contains the finite ambient set $M$ from $h0.M.equals.WNR.CUN$.  That check gives $|M|=20$ and lists
+$$
+\begin{aligned}
+M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\\
+&\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\\
+&\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+\end{aligned}
+$$
+Consequently $R$ is not being presented as all of $M$: the packet explicitly separates a thirteen-codon motif row from a twenty-codon ambient row.  The difference between these two finite lists is part of the boundary discipline.  The compression fact is allowed to say that the specified motif list is exactly recovered, but it is not allowed to say that codon membership in $R$ realizes an open reading frame in an observed biological sequence.
+
+\paragraph{Saturation and quotient geometry checks.}
+The companion saturation row $h0.f3.saturation$ reports that $\operatorname{Sat}_{f3}(R)$ is the eighteen-codon set obtained from $M$ by omitting $\mathrm{ACA}$ and $\mathrm{ACG}$, and it records $f3\_boundary\_is\_zero=\varnothing$.  In the same packet, the quotient-geometry row $h0.quotient.geometry$ reports the ambient $M$ face vector $(20,38,26,8,1)$ and the quotient face vector $(10,14,6,1)$, with quotient size $10$.  These numbers are useful as finite internal checks: they say that the row is not just a loose prose motif label, but is attached to concrete cardinality, saturation, and quotient data.  They do not change the biological layer.  A finite quotient of size $10$, a face vector beginning with $20$, or an eighteen-element saturation image remains a BEDC-side or combinatorial datum unless an external biological contact supplies the relevant interval.
+
+\paragraph{ORF-eligibility boundary.}
+The biological object attached to this row is open-reading-frame eligibility from start/stop codon enumeration.  The linked ORF window check $h2.orf.start\_stop.window\_eligibility$ reports one external nucleotide-window input and one classified window: $\mathrm{input\_windows}=1$, $\mathrm{classified}=1$, $\mathrm{window\_count}=1$, with snapshot date $2026$-$05$-$25$.  Its own scope string is external-window start/stop enumeration only, and its promotion guard says $\mathrm{no\_geometry\_to\_translation\_promotion}=\mathrm{orf\_eligibility\_only}$.  The self-check row separately records $3$ checked gates and states that no codon geometry is promoted across biological layers.  Therefore the present chapter treats the data as a boundary probe for what an ORF-eligibility contact would have to test, not as evidence that such a contact has already been supplied.
+
+\paragraph{Local cannot-claim boundary.}
+No translation realization follows from the thirteen-codon motif equality, from the twenty-codon ambient set, from the eighteen-codon saturation row, from the quotient size $10$, or from the single classified start/stop window.  No folded structure, physical admissibility, biological function, molecular mechanism, regulatory role, selective explanation, or universality follows from these finite rows.  In particular, a start/stop-window pattern is not an observed open reading frame unless a separate sequence, transcript, or curated interval annotation is attached as a reality contact.  The packet itself lists no such contact: the contact list is empty, and the required contact named by the probes is $\mathrm{curated.orf.interval.annotation}$.  The correct reading is therefore narrow: $h0.R.motif.compression$ is a verified finite motif-compression record whose ORF relevance remains at boundary status until an external biological interval contact is provided.
