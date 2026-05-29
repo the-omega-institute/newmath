@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\LowerDarbouxSumUp$}
+\label{ch:concrete-instances-lower-darboux-sum-namecert}
+\origin{human}
+
+Following Darboux and Riemann, the $\LowerDarbouxSumUp$ packet isolates the lower-sum side of Darboux integration before the full upper/lower gap is read. It is the lower companion to \autoref{ch:concrete-instances-upper-darboux-sum-namecert} and supplies the missing finite half used by \autoref{ch:concrete-instances-darboux-sum-namecert}. The packet reads the integrability boundary of \autoref{ch:concrete-instances-riemann-integrable-namecert}, the displayed finite partition mesh of \autoref{ch:concrete-instances-finite-partition-mesh-namecert}, and the step-function bracket rows of \autoref{ch:concrete-instances-dyadicstepfunction-namecert}; it exports no host infimum, selected mesh limit, quotient function equality, open-cover compactness theorem, or ambient $\RealUp$ completeness coordinate.
+
+\begin{definition}[Lower Darboux sum carrier]\label{def:lower-darboux-sum-carrier}
+A $\LowerDarbouxSumUp$ carrier is a finite $\BHist$ packet
+$$
+L=(P,B,D,S,I,R,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the finite partition-mesh row, naming the ordered displayed cells, endpoint ledger, width ledger, and refinement handle used by every lower-sum read.
+\item $B$ is the cell lower-bound ledger. For each displayed cell it records the chosen lower value row and the comparison proof that the carried value is below every admitted sample value in that cell.
+\item $D$ is the $\DyadicStepFunctionUp$ row over the same partition cells, carrying the step values used to display the lower envelope.
+\item $S$ is the finite lower Darboux-sum row computed from the displayed widths in $P$ and the lower values exposed by $B$ and $D$.
+\item $I$ is the $\RiemannIntegrableUp$ and $\DarbouxSumUp$ handoff row, recording that the lower-sum read is available before any upper-sum, gap, or integral seal is requested.
+\item $R$ is the $\RealUp$ comparison row, exposing only the finite real-name comparison needed by lower-bound consumers.
+\item $H$ records componentwise $\hsame$ transport for the partition mesh, lower-bound ledger, dyadic step row, finite lower sum, handoff, comparison row, replay, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from partition cells to lower-bound reads, from lower-bound reads to the dyadic step row, from the dyadic step row to the finite lower sum, and from the lower sum to the handoff row.
+\item $Q$ is the $\Pkg$ provenance over $\LowerDarbouxSumUp$, $\UpperDarbouxSumUp$, $\DarbouxSumUp$, $\RiemannIntegrableUp$, $\FinitePartitionMeshUp$, $\DyadicStepFunctionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LowerDarbouxSumUp}$ row.
+\end{enumerate}
+The classifier reads accepted packets only through $P,B,D,S,I,R,H,C,Q,N$. It has no coordinate for a host infimum, a selected mesh limit, an upper Darboux sum, an upper-minus-lower gap, quotient equality of functions, open-cover compactness, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Lower Darboux sum NameCert obligations]\label{thm:lower-darboux-sum-namecert-obligations}
+For every accepted $\LowerDarbouxSumUp$ carrier
+$$
+L=(P,B,D,S,I,R,H,C,Q,N),
+$$
+the local $\NameCert_{\LowerDarbouxSumUp}$ surface consists exactly of the following five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed partition mesh, cell lower-bound ledger, dyadic step row, finite lower sum, Darboux and Riemann handoff, comparison row, transport, replay, provenance, and local naming row;
+\item partition-mesh stability, requiring each transported refinement of $P$ to preserve the displayed cell-width ledger and to route lower-bound reads through the same refinement handle;
+\item lower-bound ledger transport, requiring $B$ and $D$ to move componentwise by $\hsame$ while preserving the stated lower relation on every displayed cell;
+\item finite lower-sum replay, requiring $S$ to be recomputed from the transported cell widths and transported lower values before any handoff row can be consumed;
+\item ledger non-escape, requiring $I,R,H,C,Q,N$ to expose only the displayed lower-sum route and to exclude host infima, selected mesh limits, quotient function equality, open-cover compactness, ambient $\RealUp$ completeness, upper-sum rows, and gap rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of \autoref{def:lower-darboux-sum-carrier}. The accepted packet displays exactly the partition mesh, lower-bound ledger, dyadic step row, finite lower sum, handoff, comparison, transport, replay, provenance, and local naming rows.
+
+Partition-mesh stability is read before any numerical sum. The row $P$ fixes the displayed cells and widths, so a transported refinement can only expose a lower-bound read through the same finite mesh ledger and refinement handle.
+
+The lower-bound ledger is then transported componentwise. The rows $B$ and $D$ move together under $H$, while replay through $C$ rebuilds the lower envelope and then the finite lower sum row $S$.
+
+The handoff and non-escape clauses are exhausted by $S,I,R,H,C,Q,N$. Since no carrier coordinate stores a host infimum, selected mesh limit, quotient function equality, open-cover compactness theorem, ambient completeness row, upper-sum row, or gap row, the local NameCert surface is exactly the five listed obligations.
+\end{proof}
+
+\begin{theorem}[Lower Darboux finite partition handoff]\label{thm:lower-darboux-sum-finite-partition-handoff}
+Every $\DarbouxSumUp$ or $\RiemannIntegrableUp$ consumer of an accepted $\LowerDarbouxSumUp$ carrier $L=(P,B,D,S,I,R,H,C,Q,N)$ must first read the finite partition mesh $P$, the lower-bound ledger $B$, the $\DyadicStepFunctionUp$ row $D$, the finite lower sum $S$, and the comparison row $R$, with transport, replay, provenance, and local naming supplied by $H,C,Q,N$. The consumer therefore receives a finite partition-and-lower-envelope route rather than a host infimum, a selected mesh limit, quotient function equality, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows upstream of every exported lower-sum read are $P,B,D,S,R$ together with the structural rows $H,C,Q,N$.
+
+For a $\DarbouxSumUp$ read, the handoff row $I$ is reachable only after the partition mesh, lower-bound ledger, dyadic step row, and finite lower sum have been replayed. For a $\RiemannIntegrableUp$ read, the same row $S$ is the lower finite half that a later upper/lower gap comparison must consume.
+
+Coordinate exhaustion closes the handoff. The packet has no analytic coordinate beyond the displayed rows, so the consumer cannot bypass the finite route through a host infimum, selected mesh limit, quotient equality, compactness theorem, or ambient completeness row.
+\end{proof}
+
+\begin{theorem}[Lower Darboux gap boundary]\label{thm:lower-darboux-sum-darboux-gap-boundary}
+Let $L=(P,B,D,S,I,R,H,C,Q,N)$ be an accepted $\LowerDarbouxSumUp$ carrier. Any later $\DarbouxSumUp$ upper-minus-lower gap row that uses $L$ must take $S$ as its lower finite sum over the displayed partition mesh $P$ and the displayed lower envelope $B,D$. The lower-sum side of the gap therefore remains fixed by the finite lower packet and cannot be replaced by a host infimum, quotient function equality, selected limiting mesh, open-cover compactness, ambient $\RealUp$ completeness, or an independently chosen lower bracket.
+\end{theorem}
+\begin{proof}
+Start with the finite partition handoff of \autoref{thm:lower-darboux-sum-finite-partition-handoff}. Any Darboux-facing consumer already reads $P,B,D,S$ with $H,C,Q,N$ before it can ask for a gap row.
+
+Compare this lower half with the upper half named by \autoref{ch:concrete-instances-upper-darboux-sum-namecert} and the combined surface of \autoref{ch:concrete-instances-darboux-sum-namecert}. The gap row can combine a transported upper finite sum with the transported lower finite sum, but the lower input remains the row $S$ replayed from the displayed mesh and lower envelope.
+
+The boundary is therefore finite and local. Since $L$ contains no coordinate for an alternate lower bracket, host infimum, selected mesh limit, quotient equality, compactness theorem, or ambient completeness row, no later gap consumer can replace the lower side without leaving the displayed packet.
+\end{proof}
+
+\closureat{LowerDarbouxSumUp}{seedStr}
+
+\begin{closurestatus}{\LowerDarbouxSumUp}
+  \constructivestory{A $\LowerDarbouxSumUp$ packet is generated from finite partition-mesh rows, cell lower-bound ledgers, dyadic step-function rows, finite lower-sum rows, Darboux and Riemann handoff rows, Real comparison rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lower-darboux-sum-carrier}, \autoref{thm:lower-darboux-sum-namecert-obligations}, \autoref{thm:lower-darboux-sum-finite-partition-handoff}, and \autoref{thm:lower-darboux-sum-darboux-gap-boundary} seed the finite lower-sum packet over displayed partition meshes, cell lower-bound reads, dyadic-step rows, finite-sum rows, Darboux and Riemann handoff, $\RealUp$ comparison, transport, replay, provenance, local naming, and Darboux gap-boundary rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host infima, selected mesh limits, quotient function equality, open-cover compactness, upper Darboux sums, upper-minus-lower gap construction, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, partition-mesh stability, lower-bound ledger transport, finite lower-sum replay, finite partition handoff, Darboux gap boundary, componentwise transport, displayed replay, provenance, local naming, ledger non-escape, and TasteGate field faithfulness for BEDC.Derived.LowerDarbouxSumUp.}
+\end{closurestatus}
