@@ -1,4 +1,5 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary.History
 import BEDC.FKernel.Ask
@@ -14,6 +15,7 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Package
+open BEDC.FKernel.NameCert
 
 theorem CauchyCompletionLeftExactnessNameCertObligations
     {S U D K E H C P N sourceUnit denseKernel extension route : BHist} :
@@ -197,5 +199,76 @@ theorem CauchyRootUnaryAdmission [AskSetup] [PackageSetup]
   exact
     ⟨tailReadUnary, toleranceReadUnary, realReadUnary, tailRoute, toleranceRoute,
       realRoute⟩
+
+theorem CauchyRootRegSeqRatRealHandoff [AskSetup] [PackageSetup]
+    {stream request dyadic readback realSeal transport replay provenance localName
+      requestRead toleranceRead rationalRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory stream ->
+      UnaryHistory request ->
+        UnaryHistory dyadic ->
+          UnaryHistory readback ->
+            UnaryHistory realSeal ->
+              UnaryHistory transport ->
+                UnaryHistory replay ->
+                  Cont stream request requestRead ->
+                    Cont requestRead dyadic toleranceRead ->
+                      Cont toleranceRead readback rationalRead ->
+                        Cont rationalRead realSeal sealRead ->
+                          PkgSig bundle provenance pkg ->
+                            PkgSig bundle localName pkg ->
+                              SemanticNameCert
+                                  (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+                                  (fun row : BHist =>
+                                    hsame row stream ∨ hsame row request ∨
+                                      hsame row dyadic ∨ hsame row readback ∨
+                                        hsame row realSeal ∨ hsame row sealRead)
+                                  (fun row : BHist =>
+                                    UnaryHistory row ∧ PkgSig bundle provenance pkg ∧
+                                      PkgSig bundle localName pkg)
+                                  hsame ∧
+                                UnaryHistory requestRead ∧ UnaryHistory toleranceRead ∧
+                                  UnaryHistory rationalRead ∧ UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig SemanticNameCert
+  intro streamUnary requestUnary dyadicUnary readbackUnary realSealUnary _transportUnary
+    _replayUnary streamRequest toleranceRoute rationalRoute sealRoute provenancePkg localNamePkg
+  have requestReadUnary : UnaryHistory requestRead :=
+    unary_cont_closed streamUnary requestUnary streamRequest
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed requestReadUnary dyadicUnary toleranceRoute
+  have rationalReadUnary : UnaryHistory rationalRead :=
+    unary_cont_closed toleranceReadUnary readbackUnary rationalRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed rationalReadUnary realSealUnary sealRoute
+  have sourceSeal :
+      (fun row : BHist => hsame row sealRead ∧ UnaryHistory row) sealRead := by
+    exact ⟨hsame_refl sealRead, sealReadUnary⟩
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro sealRead sourceSeal
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.right, provenancePkg, localNamePkg⟩
+    }
+  · exact ⟨requestReadUnary, toleranceReadUnary, rationalReadUnary, sealReadUnary⟩
 
 end BEDC.Derived.CauchyUp
