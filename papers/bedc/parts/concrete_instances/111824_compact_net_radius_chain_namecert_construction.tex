@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\CompactNetRadiusChainUp$}
+\label{ch:concrete-instances-compact-net-radius-chain-namecert}
+\origin{human}
+
+Following the Heine--Cantor compact finite-net tradition, the $\CompactNetRadiusChainUp$ packet records the finite NameCert surface that turns compact metric finite nets and pointwise continuity radii into a uniform-modulus handoff. It reads compact centers from $\CompactMetricUp$ as in \autoref{ch:concrete-instances-compactmetric-namecert}, pointwise graph radii from $\ContinuousMapUp$ as in \autoref{ch:concrete-instances-continuousmap-namecert}, tolerance-only output through $\UniformModulusUp$ as in \autoref{ch:concrete-instances-uniformmodulus-namecert}, and rational comparison through $\DyadicRatCoreUp$ and $\RatUp$ as in \autoref{ch:concrete-instances-dyadicratcore-namecert} and \autoref{ch:concrete-instances-rat-namecert}. The packet is a finite radius-chain carrier; it is not an external Lebesgue-number selector, not a sequential compactness proof, and not a choice-based modulus.
+
+\begin{definition}[Compact net radius-chain carrier]
+\label{def:compact-net-radius-chain-carrier}
+A $\CompactNetRadiusChainUp$ carrier is a finite $\BHist$ packet
+$$
+R=(K,F,A,B,D,U,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact-net center row, carrying a nonempty $\mathsf{ProbeBundle}$ of center histories and coverage witnesses over a compact metric source.
+\item $F$ is the continuous-map row, exposing pointwise radius data for the displayed graph through the same source metric and target metric rows.
+\item $A$ is the pointwise radius row, assigning each bundled center a positive rational or dyadic radius history accepted by the continuous-map modulus ledger.
+\item $B$ is the rational lower-bound fold row, folding the finite radius family through $\RatUp$ order readback and preserving a classifier-stable positive lower bound.
+\item $D$ is the dyadic tolerance ledger, recording halving, thirding, and comparison requests through $\DyadicRatCoreUp$ and the surrounding $\RatUp$ seal.
+\item $U$ is the uniform-modulus handoff row, reading a tolerance-only precision history from $B,D$ and routing it to $\UniformModulusUp$ consumers.
+\item $H$ records componentwise $\hsame$ transport for $K,F,A,B,D,U$ and the support rows.
+\item $C$ records displayed $\Cont$ replay from compact coverage, pointwise modulus reads, rational folds, dyadic tolerance comparisons, and uniform-modulus handoff.
+\item $P$ is the $\Pkg$ provenance over $\CompactNetRadiusChainUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\DyadicRatCoreUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\CompactNetRadiusChainUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,F,A,B,D,U,H,C,P,L$. It has no coordinate for a host finite set, an external minimum selector, a sequential compactness branch, or a hidden modulus choice.
+\end{definition}
+
+\begin{theorem}[Compact net radius-chain NameCert obligations]
+\label{thm:compact-net-radius-chain-namecert-obligations}
+For every accepted $\CompactNetRadiusChainUp$ carrier
+$$
+R=(K,F,A,B,D,U,H,C,P,L),
+$$
+the local $\NameCert_{\CompactNetRadiusChainUp}$ surface consists exactly of compact-net center admission, continuous-map pointwise radius admission, rational lower-bound folding, dyadic tolerance bookkeeping, uniform-modulus handoff, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier. The compact centers, continuous-map radii, rational fold, dyadic tolerance ledger, uniform-modulus handoff, transport, replay, provenance, and naming rows are the only displayed coordinates.
+
+The compact-net row $K$ supplies a finite $\mathsf{ProbeBundle}$ of centers and coverage witnesses. The continuous-map row $F$ and pointwise radius row $A$ attach a local radius ledger to each bundled center over the same metric source.
+
+The fold row $B$ reads the finite family through the $\RatUp$ order, while the dyadic ledger $D$ supplies the half-radius and tolerance comparisons needed by the metric triangle estimate. These rows produce a positive lower-bound history rather than an external minimum.
+
+The handoff row $U$ packages that lower bound as a tolerance-only precision for $\UniformModulusUp$ consumers. Transport, replay, provenance, and local naming through $H,C,P,L$ preserve the same finite route, and no host finite set, sequential compactness branch, or hidden modulus selector remains available.
+\end{proof}
+
+\closureat{CompactNetRadiusChainUp}{seedStr}
+\begin{closurestatus}{\CompactNetRadiusChainUp}
+  \constructivestory{A $\CompactNetRadiusChainUp$ packet is generated from compact-net centers, pointwise continuous-map radii, a rational lower-bound fold, a dyadic tolerance ledger, a uniform-modulus handoff row, componentwise transport, displayed replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-net-radius-chain-carrier} and \autoref{thm:compact-net-radius-chain-namecert-obligations} seed the compact finite-net radius-chain packet for uniform-modulus consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the full Heine--Cantor theorem, Lean verification, bridge checking, sequential compactness, or a host modulus selector.}
+  \upgradepath{Obligation closure requires checked compact-center admission, pointwise-radius admission, rational lower-bound folding, dyadic tolerance bookkeeping, uniform-modulus handoff, transport, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}
