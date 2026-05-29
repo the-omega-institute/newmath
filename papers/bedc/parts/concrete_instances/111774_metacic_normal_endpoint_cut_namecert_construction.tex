@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICNormalEndpointCutUp$}
+\label{ch:concrete-instances-metacic-normal-endpoint-cut-namecert}
+\origin{ai}
+
+The $\MetaCICNormalEndpointCutUp$ packet realizes the normalization endpoint boundary of \autoref{sec:metacic-open-problems-normalization} as finite BEDC data. It sits beside the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the bounded normal-conversion bridge of \autoref{ch:concrete-instances-bounded-normal-conversion-bridge-namecert}, the subject-reduction discharge socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, and the normal-endpoint budget of \autoref{ch:concrete-instances-metacic-normal-endpoint-budget-namecert}. The packet records where candidate evidence, a finished-normal endpoint, an obstruction row, and a discharge socket must remain separated before a closed-normal consumer may read the endpoint.
+
+\begin{definition}[MetaCICNormalEndpointCut carrier]
+\label{def:metacic-normal-endpoint-cut-carrier}
+A $\MetaCICNormalEndpointCutUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,A,B,F,O,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the empty-context typed closed-term row under discussion by the normalization frontier.
+\item $A$ is the candidate-evidence row, read through $\MetaCICNormalizationFrontierUp$ before strong-normality or endpoint data may be consumed.
+\item $B$ is the bounded normal-computation row, recording the finite computation budget and the bounded-normal endpoint read by $\BoundedNormalConversionBridgeUp$.
+\item $F$ is the finished-normal endpoint row, available only after $A$ and $B$ have both been displayed.
+\item $O$ is the obstruction row retaining the fact that arbitrary closed typed terms are not admitted to the candidate interface without displayed evidence.
+\item $D$ is the $\SubjectReductionDischargeSocketUp$ row, keeping beta-substitution, application-argument, lambda-domain, and Pi-domain discharge obligations separate from finished-normal endpoint data.
+\item $H$ records componentwise $\hsame$ transport for the closed-term, candidate, bounded-normal, finished-normal, obstruction, discharge-socket, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a closed-normal endpoint request through $T,A,B,F,O,D,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICNormalEndpointCutUp$, $\MetaCICNormalizationFrontierUp$, $\MetaCICCriticalPathUp$, $\BoundedNormalConversionBridgeUp$, $\SubjectReductionDischargeSocketUp$, $\MetaCICNormalEndpointBudgetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICNormalEndpointCutUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,A,B,F,O,D,H,C,P,N$. It has no coordinate for evidence-free strong normalization, erased discharge sockets, host conversion equality, quotient syntax equality, global confluence, or completed closed consistency.
+\end{definition}
+
+\begin{theorem}[MetaCICNormalEndpointCut socket nonescape]
+\label{thm:metacic-normal-endpoint-cut-socket-nonescape}
+For every accepted $\MetaCICNormalEndpointCutUp$ carrier $K=(T,A,B,F,O,D,H,C,P,N)$, a consumer that reaches the finished-normal endpoint row $F$ must still retain the obstruction row $O$ and the discharge socket row $D$. In particular, erasing $D$ before $F$ is read leaves no valid route to the local $\NameCert_{\MetaCICNormalEndpointCutUp}$ surface.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-normal-endpoint-cut-carrier}. The finished-normal endpoint row $F$ is not stored alone; it is one coordinate of the finite packet $T,A,B,F,O,D,H,C,P,N$.
+
+The candidate and bounded-normal rows provide the positive endpoint route. The row $A$ supplies candidate evidence through the normalization frontier, while $B$ supplies bounded normal computation through the conversion bridge. The endpoint row $F$ is available only after both rows have been displayed.
+
+The obstruction and discharge rows record what remains outside that positive route. The row $O$ blocks a read that treats every empty-context typed closed term as already inside the candidate interface, and $D$ keeps the subject-reduction discharge obligations visible before consistency-facing consumers use the endpoint.
+
+Finally $H,C,P,N$ transport, replay, source, and name the entire packet. If $D$ is erased before $F$ is read, the replay row no longer reaches the displayed discharge socket, so the local NameCert route is incomplete.
+\end{proof}
+
+\falsifiablePrediction{Any consumer erasing the $\SubjectReductionDischargeSocketUp$ row before a finished-normal $\MetaCICNormalEndpointCutUp$ endpoint row lacks a valid NameCert route through candidate evidence, bounded-normal endpoint data, obstruction retention, transport, replay, provenance, and local naming.}
+
+\independenceWitness{metacicnormalizationfrontier, metaciccriticalpath, boundednormalconversionbridge, subjectreductiondischargesocket, metacicnormalendpointbudget: no listed sibling is bijective with $\MetaCICNormalEndpointCutUp$ because this packet jointly carries typed closed-term data, candidate evidence, bounded-normal computation, a finished-normal endpoint, an obstruction row, a discharge socket, transport, replay, provenance, and local NameCert data.}
+
+\closureat{MetaCICNormalEndpointCutUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICNormalEndpointCutUp}
+  \constructivestory{A $\MetaCICNormalEndpointCutUp$ packet is generated from an empty-context typed closed-term row, candidate evidence, bounded-normal computation, a finished-normal endpoint, obstruction retention, a subject-reduction discharge socket, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-normal-endpoint-cut-carrier} and \autoref{thm:metacic-normal-endpoint-cut-socket-nonescape} seed the finite normal-endpoint cut separating candidate evidence, finished-normal endpoint data, obstruction retention, and the subject-reduction discharge socket.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim evidence-free strong normalization, erased discharge sockets, host conversion equality, quotient syntax equality, global confluence, completed closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate evidence exposure, bounded-normal endpoint routing, finished-normal endpoint sealing, obstruction retention, discharge-socket nonescape, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICNormalEndpointCutUp.}
+\end{closurestatus}
