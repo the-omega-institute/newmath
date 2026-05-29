@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\FiniteDimensionalSpectralGapUp$}
+\label{ch:concrete-instances-finite-dimensional-spectral-gap-namecert}
+\origin{human}
+
+Following Horn and Johnson, \emph{Matrix Analysis}, the $\FiniteDimensionalSpectralGapUp$ packet records the finite matrix-analysis route by which a displayed matrix or finite-dimensional operator exposes an isolated eigen-window and a positive separation radius before any completed host spectrum is imported. It sits after the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the linear-map interface of \autoref{ch:concrete-instances-linearmap-namecert}, the vector-space carrier of \autoref{ch:concrete-instances-vecspace-namecert}, the spectral-radius boundary of \autoref{ch:concrete-instances-spectral-radius-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite separation certificate for downstream perturbation and spectral-theorem routes; it does not choose eigenvectors, complete a spectrum, or identify a host operator with an ambient spectral object.
+
+\begin{definition}[Finite-dimensional spectral-gap carrier]
+\label{def:finite-dimensional-spectral-gap-namecert-carrier}
+A $\FiniteDimensionalSpectralGapUp$ carrier is a finite $\BHist$ packet
+$$
+G=(M,T,V,E,D,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the square $\MatrixUp$ row, exposing the finite entry table and shape ledger.
+\item $T$ is the $\LinearMapUp$ or finite operator row read from $M$ over the displayed $\VecSpaceUp$ source $V$.
+\item $V$ is the finite-dimensional $\VecSpaceUp$ row, carrying the basis-window and scalar-action data used by the matrix/operator comparison.
+\item $E$ is the finite eigen-window row. It lists the displayed candidate eigenvalue cells, multiplicity tags when present, and the matrix-action comparison rows used to test each cell.
+\item $D$ is the $\DyadicRatCoreUp$ separation-radius row, recording a positive dyadic distance between the distinguished eigen-window and every other displayed spectral window.
+\item $R$ is the $\SpectralRadiusUp$ bound row, exposing the radius or norm-growth boundary used to keep the displayed windows inside the same finite operator packet.
+\item $S$ is the terminal $\RealUp$ seal row for the gap radius and the accepted eigen-window endpoints.
+\item $H$ records componentwise $\hsame$ transport for $M,T,V,E,D,R,S$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+\MatrixUp,\LinearMapUp,\VecSpaceUp,\SpectralRadiusUp,\DyadicRatCoreUp
+\longmapsto E,D,R,S
+\longmapsto \FiniteDimensionalSpectralGapUp .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FiniteDimensionalSpectralGapUp$, $\MatrixUp$, $\LinearMapUp$, $\VecSpaceUp$, $\SpectralRadiusUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteDimensionalSpectralGapUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,T,V,E,D,R,S,H,C,P,N$. It has no coordinate for a completed host spectrum, selected eigenvectors, spectral projections, Schur or Jordan form, quotient equality of matrices, ambient compactness, or choice.
+\end{definition}
+
+\begin{theorem}[Finite-dimensional spectral-gap NameCert obligations]
+\label{thm:finite-dimensional-spectral-gap-namecert-obligations}
+For every accepted $\FiniteDimensionalSpectralGapUp$ carrier
+$$
+G=(M,T,V,E,D,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteDimensionalSpectralGapUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item matrix/operator admission for the displayed $\MatrixUp$ row $M$, $\LinearMapUp$ row $T$, and $\VecSpaceUp$ row $V$;
+\item finite eigen-window admission through $E$, including only the displayed candidate cells and matrix-action comparison rows;
+\item dyadic separation and real sealing through $D$ and $S$, requiring the gap radius and eigen-window endpoints to be read from displayed dyadic and real-name rows;
+\item spectral-radius compatibility through $R$, bounding the accepted windows inside the same finite operator packet without replacing them by a completed spectrum;
+\item componentwise transport, displayed replay, provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No spectral-gap obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-dimensional-spectral-gap-namecert-carrier}. The matrix, operator, and vector-space rows $M,T,V$ are the only source rows from which a consumer can read the finite-dimensional action.
+
+The eigen-window obligation is the row $E$. It displays candidate cells and the corresponding action comparisons, so the packet exposes a finite windowed test rather than a selected eigenbasis or a host eigenspace.
+
+The gap radius is read through $D$ and $S$. The dyadic row records positive separation from the other displayed windows, and the real seal records the endpoint data that downstream consumers may inspect.
+
+The spectral-radius row $R$ supplies only a finite bound-facing boundary over the same operator packet. Together with $H,C,P,N$, it transports, replays, sources, and names the displayed surface, so the five listed rows exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Finite-dimensional spectral-gap nonescape]
+\label{thm:finite-dimensional-spectral-gap-nonescape}
+Every spectral-gap read of an accepted $\FiniteDimensionalSpectralGapUp$ packet factors through the route
+$$
+M,T,V \longmapsto E \longmapsto D,S \longmapsto R \longmapsto H,C,P,N .
+$$
+Consequently the distinguished eigen-window and its separation radius remain inside the displayed finite matrix/operator packet. A downstream consumer receives no completed host spectrum, no selected eigenvector, no spectral projection, no Schur or Jordan decomposition, no quotient matrix equality, and no choice principle.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $G=(M,T,V,E,D,R,S,H,C,P,N)$. Carrier projection first exposes the matrix row, the induced linear-map row, and the finite vector-space source.
+
+The eigen-window row $E$ is downstream of those rows. It can compare displayed candidate cells with the matrix action, but it cannot introduce an eigenvector selector or an ambient spectral set because neither appears as a carrier coordinate.
+
+The separation data are then read through $D$ and $S$. The positive dyadic radius and its real seal are attached to the same displayed window, so a consumer cannot detach the gap from the finite packet that produced it.
+
+Finally the spectral-radius bound $R$ and the structural rows $H,C,P,N$ keep the readback within the same transported and replayed surface. Since the excluded spectral objects have no field in the packet, the route cannot escape to a host spectrum or a choice-based eigenvalue selection.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteDimensionalSpectralGapUp$ consumer exposes the matrix row, linear-map row, finite vector-space row, eigen-window row, dyadic separation row, spectral-radius bound row, RealUp seal, componentwise transport, replay, provenance, and local naming before reading a spectral-gap conclusion.}
+
+\independenceWitness{matrix, linearmap, vecspace, spectralradius, dyadicratcore, real: MatrixUp supplies finite entries without an eigen-window separation row; LinearMapUp supplies action rows without a named gap; VecSpaceUp supplies scalar and basis transport without spectral separation; SpectralRadiusUp supplies a radius boundary without isolating a window; DyadicRatCoreUp supplies rational tolerances without matrix action; RealUp seals endpoints without naming the finite spectral-gap packet.}
+
+\closureat{FiniteDimensionalSpectralGapUp}{seedStr}
+
+\begin{closurestatus}{\FiniteDimensionalSpectralGapUp}
+  \constructivestory{A $\FiniteDimensionalSpectralGapUp$ packet is generated from a displayed MatrixUp row, a LinearMapUp finite operator row, a VecSpaceUp source row, a finite eigen-window row, a DyadicRatCore separation-radius row, a SpectralRadiusUp bound row, a RealUp seal row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-dimensional-spectral-gap-namecert-carrier}, \autoref{thm:finite-dimensional-spectral-gap-namecert-obligations}, \autoref{thm:finite-dimensional-spectral-gap-nonescape}, the falsifiable prediction, and the independence witness seed the finite matrix spectral-gap packet and its nonescape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a completed host spectrum, selected eigenvectors, spectral projections, Schur or Jordan decomposition, quotient matrix equality, ambient compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked matrix/operator admission, finite eigen-window admission, dyadic separation, Real sealing, spectral-radius compatibility, transport, replay, provenance, and consumer nonescape for BEDC.Derived.FiniteDimensionalSpectralGapUp.}
+\end{closurestatus}
