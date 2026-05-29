@@ -105,8 +105,9 @@ jobs:
           set -euo pipefail
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
-            make4ht texlive-latex-recommended texlive-latex-extra \
+            texlive-extra-utils texlive-latex-recommended texlive-latex-extra \
             texlive-fonts-recommended texlive-fonts-extra dvisvgm
+          make4ht --version || (echo "make4ht not found after install" && exit 1)
 
       - name: Build NameCert HTML pages
         run: python3 tools/build_namecert_html.py --manifest docs/dossier/data/namecert_sources.json --dependency docs/dossier/data/dependency.json --jobs 2 --strict
