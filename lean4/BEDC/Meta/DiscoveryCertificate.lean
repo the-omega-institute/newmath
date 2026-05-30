@@ -9,31 +9,21 @@ open BEDC.FKernel.NameCert
 open BEDC.Meta.TasteGate
 
 structure CertifiedClassifierState
-    (SourceSpec PatternSpec LedgerPolicy : BHist -> Prop)
+    (SourceSpec PatternSpec StabilitySpec LedgerPolicy : BHist -> Prop)
     (ClassifierSpec : BHist -> BHist -> Prop) where
   semantic_namecert : SemanticNameCert SourceSpec PatternSpec LedgerPolicy ClassifierSpec
+  stability_sound : forall {h : BHist}, SourceSpec h -> StabilitySpec h
 
 structure NameCertFiveRows
-    {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
+    {SourceSpec PatternSpec StabilitySpec LedgerPolicy : BHist -> Prop}
     {ClassifierSpec : BHist -> BHist -> Prop}
-    (state : CertifiedClassifierState SourceSpec PatternSpec LedgerPolicy ClassifierSpec) where
-  source : BHist
-  pattern : BHist
-  classifier : BHist
-  stability : BHist
-  ledger : BHist
-  source_member : SourceSpec source
-  pattern_member : SourceSpec pattern
-  classifier_member : SourceSpec classifier
-  stability_member : SourceSpec stability
-  ledger_member : SourceSpec ledger
-
-def ClassifierEquivalentOn
-    (Scope : BHist -> Prop)
-    (ClassifierA ClassifierB : BHist -> BHist -> Prop) : Prop :=
-  forall {h k : BHist}, Scope h -> Scope k ->
-    (ClassifierA h k -> ClassifierB h k) ∧
-      (ClassifierB h k -> ClassifierA h k)
+    (state : CertifiedClassifierState
+      SourceSpec PatternSpec StabilitySpec LedgerPolicy ClassifierSpec) where
+  source : {h : BHist // SourceSpec h}
+  pattern : {h : BHist // SourceSpec h ∧ PatternSpec h}
+  classifier : {h : BHist // SourceSpec h ∧ ClassifierSpec h h}
+  stability : {h : BHist // SourceSpec h ∧ StabilitySpec h}
+  ledger : {h : BHist // SourceSpec h ∧ LedgerPolicy h}
 
 structure ClassifierDisagreement
     (Scope : BHist -> Prop)
@@ -87,14 +77,16 @@ theorem discoveryCost_benefit_positive (cost : DiscoveryCost) : cost.benefit > 0
       exact Nat.zero_lt_succ n
 
 structure StructuralDiscovery
-    (BeforeSource BeforePattern BeforeLedger : BHist -> Prop)
+    (BeforeSource BeforePattern BeforeStability BeforeLedger : BHist -> Prop)
     (BeforeClassifier : BHist -> BHist -> Prop)
-    (AfterSource AfterPattern AfterLedger : BHist -> Prop)
+    (AfterSource AfterPattern AfterStability AfterLedger : BHist -> Prop)
     (AfterClassifier : BHist -> BHist -> Prop) where
   before_state :
-    CertifiedClassifierState BeforeSource BeforePattern BeforeLedger BeforeClassifier
+    CertifiedClassifierState
+      BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
   after_state :
-    CertifiedClassifierState AfterSource AfterPattern AfterLedger AfterClassifier
+    CertifiedClassifierState
+      AfterSource AfterPattern AfterStability AfterLedger AfterClassifier
   before_rows : NameCertFiveRows before_state
   after_rows : NameCertFiveRows after_state
   scope : BHist -> Prop
@@ -102,14 +94,14 @@ structure StructuralDiscovery
     ClassifierNonEquivalent scope BeforeSource AfterSource BeforeClassifier AfterClassifier
 
 structure PositiveDiscovery
-    (BeforeSource BeforePattern BeforeLedger : BHist -> Prop)
+    (BeforeSource BeforePattern BeforeStability BeforeLedger : BHist -> Prop)
     (BeforeClassifier : BHist -> BHist -> Prop)
-    (AfterSource AfterPattern AfterLedger : BHist -> Prop)
+    (AfterSource AfterPattern AfterStability AfterLedger : BHist -> Prop)
     (AfterClassifier : BHist -> BHist -> Prop) where
   benefit :
     StructuralDiscovery
-      BeforeSource BeforePattern BeforeLedger BeforeClassifier
-      AfterSource AfterPattern AfterLedger AfterClassifier
+      BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+      AfterSource AfterPattern AfterStability AfterLedger AfterClassifier
   cost : DiscoveryCost
   debt : BHist
   scope_seal : ScopeSeal
@@ -119,110 +111,145 @@ structure PositiveDiscovery
 structure DiscoveryTasteGate
     (X : Type)
     [BHistCarrier X]
-    (BeforeSource BeforePattern BeforeLedger : BHist -> Prop)
+    (BeforeSource BeforePattern BeforeStability BeforeLedger : BHist -> Prop)
     (BeforeClassifier : BHist -> BHist -> Prop)
-    (AfterSource AfterPattern AfterLedger : BHist -> Prop)
+    (AfterSource AfterPattern AfterStability AfterLedger : BHist -> Prop)
     (AfterClassifier : BHist -> BHist -> Prop) where
   positive :
     PositiveDiscovery
-      BeforeSource BeforePattern BeforeLedger BeforeClassifier
-      AfterSource AfterPattern AfterLedger AfterClassifier
+      BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+      AfterSource AfterPattern AfterStability AfterLedger AfterClassifier
   admission : ChapterTasteGate X
 
 theorem certifiedClassifierState_semantic_namecert
-    {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
+    {SourceSpec PatternSpec StabilitySpec LedgerPolicy : BHist -> Prop}
     {ClassifierSpec : BHist -> BHist -> Prop}
-    (state : CertifiedClassifierState SourceSpec PatternSpec LedgerPolicy ClassifierSpec) :
+    (state :
+      CertifiedClassifierState
+        SourceSpec PatternSpec StabilitySpec LedgerPolicy ClassifierSpec) :
     SemanticNameCert SourceSpec PatternSpec LedgerPolicy ClassifierSpec := by
   exact state.semantic_namecert
 
-theorem certifiedClassifierState_ledger_witness
-    {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
+theorem certifiedClassifierState_stability_sound
+    {SourceSpec PatternSpec StabilitySpec LedgerPolicy : BHist -> Prop}
     {ClassifierSpec : BHist -> BHist -> Prop}
-    (state : CertifiedClassifierState SourceSpec PatternSpec LedgerPolicy ClassifierSpec) :
+    (state :
+      CertifiedClassifierState
+        SourceSpec PatternSpec StabilitySpec LedgerPolicy ClassifierSpec)
+    {h : BHist} :
+    SourceSpec h -> StabilitySpec h := by
+  exact state.stability_sound
+
+theorem certifiedClassifierState_ledger_witness
+    {SourceSpec PatternSpec StabilitySpec LedgerPolicy : BHist -> Prop}
+    {ClassifierSpec : BHist -> BHist -> Prop}
+    (state :
+      CertifiedClassifierState
+        SourceSpec PatternSpec StabilitySpec LedgerPolicy ClassifierSpec) :
     exists h : BHist, LedgerPolicy h := by
   exact semanticNameCert_ledger_policy_witness state.semantic_namecert
 
 theorem structuralDiscovery_classifier_shift
-    {BeforeSource BeforePattern BeforeLedger : BHist -> Prop}
+    {BeforeSource BeforePattern BeforeStability BeforeLedger : BHist -> Prop}
     {BeforeClassifier : BHist -> BHist -> Prop}
-    {AfterSource AfterPattern AfterLedger : BHist -> Prop}
+    {AfterSource AfterPattern AfterStability AfterLedger : BHist -> Prop}
     {AfterClassifier : BHist -> BHist -> Prop}
     (discovery :
       StructuralDiscovery
-        BeforeSource BeforePattern BeforeLedger BeforeClassifier
-        AfterSource AfterPattern AfterLedger AfterClassifier) :
+        BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+        AfterSource AfterPattern AfterStability AfterLedger AfterClassifier) :
     ClassifierNonEquivalent discovery.scope BeforeSource AfterSource
       BeforeClassifier AfterClassifier := by
   exact discovery.classifier_shift
 
 theorem structuralDiscovery_after_rows
-    {BeforeSource BeforePattern BeforeLedger : BHist -> Prop}
+    {BeforeSource BeforePattern BeforeStability BeforeLedger : BHist -> Prop}
     {BeforeClassifier : BHist -> BHist -> Prop}
-    {AfterSource AfterPattern AfterLedger : BHist -> Prop}
+    {AfterSource AfterPattern AfterStability AfterLedger : BHist -> Prop}
     {AfterClassifier : BHist -> BHist -> Prop}
     (discovery :
       StructuralDiscovery
-        BeforeSource BeforePattern BeforeLedger BeforeClassifier
-        AfterSource AfterPattern AfterLedger AfterClassifier) :
+        BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+        AfterSource AfterPattern AfterStability AfterLedger AfterClassifier) :
     exists rows : NameCertFiveRows discovery.after_state, rows = discovery.after_rows := by
   exact Exists.intro discovery.after_rows rfl
 
 theorem nameCertFiveRows_classifier_self
-    {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
+    {SourceSpec PatternSpec StabilitySpec LedgerPolicy : BHist -> Prop}
     {ClassifierSpec : BHist -> BHist -> Prop}
-    {state : CertifiedClassifierState SourceSpec PatternSpec LedgerPolicy ClassifierSpec}
+    {state :
+      CertifiedClassifierState
+        SourceSpec PatternSpec StabilitySpec LedgerPolicy ClassifierSpec}
     (rows : NameCertFiveRows state) :
-    ClassifierSpec rows.classifier rows.classifier := by
-  exact state.semantic_namecert.core.equiv_refl rows.classifier_member
+    ClassifierSpec rows.classifier.val rows.classifier.val := by
+  exact rows.classifier.property.right
 
 theorem nameCertFiveRows_pattern_ledger
-    {SourceSpec PatternSpec LedgerPolicy : BHist -> Prop}
+    {SourceSpec PatternSpec StabilitySpec LedgerPolicy : BHist -> Prop}
     {ClassifierSpec : BHist -> BHist -> Prop}
-    {state : CertifiedClassifierState SourceSpec PatternSpec LedgerPolicy ClassifierSpec}
+    {state :
+      CertifiedClassifierState
+        SourceSpec PatternSpec StabilitySpec LedgerPolicy ClassifierSpec}
     (rows : NameCertFiveRows state) :
-    PatternSpec rows.source ∧ LedgerPolicy rows.source := by
+    PatternSpec rows.pattern.val ∧ LedgerPolicy rows.ledger.val := by
   exact And.intro
-    (state.semantic_namecert.pattern_sound rows.source_member)
-    (state.semantic_namecert.ledger_sound rows.source_member)
+    rows.pattern.property.right
+    rows.ledger.property.right
+
+theorem nameCertFiveRows_named_row_projection
+    {SourceSpec PatternSpec StabilitySpec LedgerPolicy : BHist -> Prop}
+    {ClassifierSpec : BHist -> BHist -> Prop}
+    {state :
+      CertifiedClassifierState
+        SourceSpec PatternSpec StabilitySpec LedgerPolicy ClassifierSpec}
+    (rows : NameCertFiveRows state) :
+    PatternSpec rows.pattern.val ∧
+      StabilitySpec rows.stability.val ∧
+        LedgerPolicy rows.ledger.val := by
+  exact And.intro
+    (state.semantic_namecert.pattern_sound rows.pattern.property.left)
+    (And.intro
+      (state.stability_sound rows.stability.property.left)
+      (state.semantic_namecert.ledger_sound rows.ledger.property.left))
 
 theorem positiveDiscovery_structural
-    {BeforeSource BeforePattern BeforeLedger : BHist -> Prop}
+    {BeforeSource BeforePattern BeforeStability BeforeLedger : BHist -> Prop}
     {BeforeClassifier : BHist -> BHist -> Prop}
-    {AfterSource AfterPattern AfterLedger : BHist -> Prop}
+    {AfterSource AfterPattern AfterStability AfterLedger : BHist -> Prop}
     {AfterClassifier : BHist -> BHist -> Prop}
     (discovery :
       PositiveDiscovery
-        BeforeSource BeforePattern BeforeLedger BeforeClassifier
-        AfterSource AfterPattern AfterLedger AfterClassifier) :
+        BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+        AfterSource AfterPattern AfterStability AfterLedger AfterClassifier) :
     exists structural :
       StructuralDiscovery
-        BeforeSource BeforePattern BeforeLedger BeforeClassifier
-        AfterSource AfterPattern AfterLedger AfterClassifier,
+        BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+        AfterSource AfterPattern AfterStability AfterLedger AfterClassifier,
       structural = discovery.benefit := by
   exact Exists.intro discovery.benefit rfl
 
 theorem positiveDiscovery_positive_cost
-    {BeforeSource BeforePattern BeforeLedger : BHist -> Prop}
+    {BeforeSource BeforePattern BeforeStability BeforeLedger : BHist -> Prop}
     {BeforeClassifier : BHist -> BHist -> Prop}
-    {AfterSource AfterPattern AfterLedger : BHist -> Prop}
+    {AfterSource AfterPattern AfterStability AfterLedger : BHist -> Prop}
     {AfterClassifier : BHist -> BHist -> Prop}
     (discovery :
       PositiveDiscovery
-        BeforeSource BeforePattern BeforeLedger BeforeClassifier
-        AfterSource AfterPattern AfterLedger AfterClassifier) :
-    discovery.cost.benefit > 0 := by
-  exact discoveryCost_benefit_positive discovery.cost
+        BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+        AfterSource AfterPattern AfterStability AfterLedger AfterClassifier) :
+    discovery.cost.cost + discovery.cost.debt + discovery.cost.scopeSeal <
+      discovery.cost.benefit := by
+  exact costPositive discovery.cost
 
 theorem positiveDiscovery_classifier_shift
-    {BeforeSource BeforePattern BeforeLedger : BHist -> Prop}
+    {BeforeSource BeforePattern BeforeStability BeforeLedger : BHist -> Prop}
     {BeforeClassifier : BHist -> BHist -> Prop}
-    {AfterSource AfterPattern AfterLedger : BHist -> Prop}
+    {AfterSource AfterPattern AfterStability AfterLedger : BHist -> Prop}
     {AfterClassifier : BHist -> BHist -> Prop}
     (discovery :
       PositiveDiscovery
-        BeforeSource BeforePattern BeforeLedger BeforeClassifier
-        AfterSource AfterPattern AfterLedger AfterClassifier) :
+        BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+        AfterSource AfterPattern AfterStability AfterLedger AfterClassifier) :
     ClassifierNonEquivalent discovery.benefit.scope BeforeSource AfterSource
       BeforeClassifier AfterClassifier := by
   exact structuralDiscovery_classifier_shift discovery.benefit
@@ -230,18 +257,18 @@ theorem positiveDiscovery_classifier_shift
 theorem discoveryTasteGate_positive
     {X : Type}
     [BHistCarrier X]
-    {BeforeSource BeforePattern BeforeLedger : BHist -> Prop}
+    {BeforeSource BeforePattern BeforeStability BeforeLedger : BHist -> Prop}
     {BeforeClassifier : BHist -> BHist -> Prop}
-    {AfterSource AfterPattern AfterLedger : BHist -> Prop}
+    {AfterSource AfterPattern AfterStability AfterLedger : BHist -> Prop}
     {AfterClassifier : BHist -> BHist -> Prop}
     (gate :
       DiscoveryTasteGate X
-        BeforeSource BeforePattern BeforeLedger BeforeClassifier
-        AfterSource AfterPattern AfterLedger AfterClassifier) :
+        BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+        AfterSource AfterPattern AfterStability AfterLedger AfterClassifier) :
     exists positive :
       PositiveDiscovery
-        BeforeSource BeforePattern BeforeLedger BeforeClassifier
-        AfterSource AfterPattern AfterLedger AfterClassifier,
+        BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+        AfterSource AfterPattern AfterStability AfterLedger AfterClassifier,
       positive = gate.positive := by
   exact Exists.intro gate.positive rfl
 
