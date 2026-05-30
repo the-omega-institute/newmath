@@ -404,4 +404,82 @@ theorem NormedSpaceCarrier_completion_facing_nonescape [AskSetup] [PackageSetup]
   }
   exact ⟨cert, completionUnary, replayUnary, provenancePkg⟩
 
+theorem NormedSpaceCarrier_vector_transport_obligation [AskSetup] [PackageSetup]
+    {V R N M Q H T P C vectorRead transportedRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    NormedSpaceCarrier V R N M Q H T P C bundle pkg ->
+      Cont V H vectorRead ->
+        Cont vectorRead T transportedRead ->
+          Cont transportedRead C namedRead ->
+            PkgSig bundle P pkg ->
+              PkgSig bundle namedRead pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row V ∨ hsame row H ∨ hsame row T ∨ hsame row C ∨
+                        hsame row P ∨ hsame row vectorRead ∨
+                          hsame row transportedRead ∨ hsame row namedRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont V H vectorRead ∧
+                        Cont vectorRead T transportedRead ∧
+                          Cont transportedRead C namedRead ∧ PkgSig bundle P pkg ∧
+                            PkgSig bundle namedRead pkg)
+                    hsame ∧
+                  UnaryHistory V ∧ UnaryHistory H ∧ UnaryHistory T ∧
+                    UnaryHistory C ∧ UnaryHistory vectorRead ∧
+                      UnaryHistory transportedRead ∧ UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier vectorRoute transportRoute namedRoute provenancePkg namedPkg
+  obtain ⟨vUnary, _rUnary, _nUnary, _mUnary, _qUnary, hUnary, tUnary, _pUnary, cUnary,
+    _vectorNormRoute, _completionFacingRoute, _replayRoute, _carrierProvenancePkg,
+    _localPkg⟩ := carrier
+  have vectorReadUnary : UnaryHistory vectorRead :=
+    unary_cont_closed vUnary hUnary vectorRoute
+  have transportedReadUnary : UnaryHistory transportedRead :=
+    unary_cont_closed vectorReadUnary tUnary transportRoute
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed transportedReadUnary cUnary namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row V ∨ hsame row H ∨ hsame row T ∨ hsame row C ∨
+              hsame row P ∨ hsame row vectorRead ∨
+                hsame row transportedRead ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont V H vectorRead ∧
+              Cont vectorRead T transportedRead ∧
+                Cont transportedRead C namedRead ∧ PkgSig bundle P pkg ∧
+                  PkgSig bundle namedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro namedRead ⟨hsame_refl namedRead, namedReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, vectorRoute, transportRoute, namedRoute, provenancePkg, namedPkg⟩
+  }
+  exact
+    ⟨cert, vUnary, hUnary, tUnary, cUnary, vectorReadUnary, transportedReadUnary,
+      namedReadUnary⟩
+
 end BEDC.Derived.NormedSpaceUp
