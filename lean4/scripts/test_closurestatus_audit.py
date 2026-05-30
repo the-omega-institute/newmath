@@ -1,6 +1,8 @@
 """Unit tests for the closurestatus block parser in bedc_ci.py."""
 import sys
 import unittest
+from contextlib import redirect_stdout
+from io import StringIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
@@ -9,10 +11,14 @@ sys.path.insert(0, str(Path(__file__).parent))
 from bedc_ci import (  # type: ignore[import-not-found]
     CLOSURESTATUS_BEGIN_RE,
     CLOSURESTATUS_FIELD_RE,
+    _discovery_candidate_blocks,
     audit_payload,
+    cmd_discovery_audit,
     collect_closurestatus_blocks,
     diagnose_closurestatus_block,
     diagnose_closurestatus_open_fields,
+    discovery_audit_payload,
+    parser as bedc_parser,
 )
 
 
@@ -196,6 +202,123 @@ class ClosurestatusDiagnosticsTests(unittest.TestCase):
         self.assertIn("closurestatus_open_errors", payload)
         self.assertEqual(payload["closurestatus_open_warnings_count"], 0)
         self.assertGreater(payload["closurestatus_open_errors_count"], 0)
+
+
+class DiscoveryAuditTests(unittest.TestCase):
+    def _block(self, **overrides):
+        base = {
+            "file": "papers/bedc/parts/x.tex",
+            "line": 10,
+            "region": "Foo",
+            "theory_closure": "scopedClosure",
+            "formal_status": "theoremCheckedV",
+            "lean_target": "BEDC.Foo.example",
+            "bridge_status": "none",
+            "origin": "ai",
+            "raw_body": r"\scopeclosed{local packet}",
+            "open_fields": {},
+        }
+        base.update(overrides)
+        return base
+
+    def test_discovery_audit_subcommand_dispatches_to_command(self) -> None:
+        args = bedc_parser().parse_args(["discovery-audit", "--json"])
+        self.assertIs(args.func, cmd_discovery_audit)
+        self.assertTrue(args.json)
+
+    def test_discovery_audit_reports_ledger_gaps(self) -> None:
+        payload = discovery_audit_payload([self._block()])
+        kinds = {item["kind"] for item in payload["ledger_gaps"]}
+        self.assertIn("missing_closureclaimkind", kinds)
+        self.assertIn("missing_closurenamecert", kinds)
+        self.assertIn("missing_closureledger", kinds)
+        self.assertIn("missing_closureclassifierincrement", kinds)
+
+    def test_discovery_audit_reports_positive_discovery_missing_positive_rows(self) -> None:
+        payload = discovery_audit_payload([
+            self._block(
+                open_fields={
+                    "closureclaimkind": "positiveDiscovery",
+                    "closurenamecert": "NameCert row",
+                    "closureledger": "positive gate ledger",
+                    "closureclassifierincrement": "1",
+                }
+            )
+        ])
+        kinds = {item["kind"] for item in payload["ledger_gaps"]}
+        self.assertIn("missing_closuregate", kinds)
+        self.assertIn("missing_closureweightprofile", kinds)
+
+    def test_discovery_audit_reports_scope_global_keyword_risk(self) -> None:
+        payload = discovery_audit_payload([
+            self._block(raw_body=r"\scopeclosed{This gives a global classifier.}")
+        ])
+        self.assertEqual(payload["scope_global_risk_count"], 1)
+        item = payload["scope_global_risks"][0]
+        self.assertEqual(item["file"], "papers/bedc/parts/x.tex")
+        self.assertEqual(item["line"], 10)
+        self.assertEqual(item["evidence"], "global")
+
+    def test_discovery_audit_reports_verification_ledger_gaps(self) -> None:
+        payload = discovery_audit_payload([
+            self._block(
+                open_fields={
+                    "closureclaimkind": "discovery",
+                    "closurenamecert": "NameCert row",
+                    "closureledger": "namecert rows",
+                    "closureclassifierincrement": "1",
+                }
+            )
+        ])
+        kinds = {item["kind"] for item in payload["verification_ledger_gaps"]}
+        self.assertIn("missing_transcription_ledger_cue", kinds)
+        self.assertIn("missing_backend_ledger_cue", kinds)
+        self.assertIn("missing_trust_ledger_cue", kinds)
+        self.assertIn("missing_dependency_ledger_cue", kinds)
+
+    def test_discovery_candidate_scope_excludes_non_candidate_blocks(self) -> None:
+        cases = {
+            "human_origin": self._block(origin="human"),
+            "seed_closure": self._block(theory_closure="seedClosure"),
+            "missing_theory_closure": self._block(theory_closure=None),
+            "parser_error": self._block(error="unterminated closurestatus block"),
+        }
+        for name, block in cases.items():
+            with self.subTest(name=name):
+                self.assertEqual(_discovery_candidate_blocks([block]), [])
+                payload = discovery_audit_payload([block])
+                self.assertEqual(payload["candidate_count"], 0)
+                self.assertEqual(payload["ledger_gap_count"], 0)
+                self.assertEqual(payload["scope_global_risk_count"], 0)
+                self.assertEqual(payload["verification_ledger_gap_count"], 0)
+                self.assertEqual(payload["ledger_gaps"], [])
+                self.assertEqual(payload["scope_global_risks"], [])
+                self.assertEqual(payload["verification_ledger_gaps"], [])
+
+    def test_discovery_audit_reports_unknown_ledger_kind(self) -> None:
+        payload = discovery_audit_payload([
+            self._block(
+                open_fields={
+                    "closureclaimkind": "discovery",
+                    "closurenamecert": "NameCert row",
+                    "closureledger": "opaque packet row",
+                    "closureclassifierincrement": "1",
+                }
+            )
+        ])
+        matches = [
+            item for item in payload["ledger_gaps"]
+            if item["kind"] == "kind_unknown"
+        ]
+        self.assertEqual(len(matches), 1)
+        self.assertEqual(matches[0]["evidence"], "opaque packet row")
+
+    def test_discovery_audit_command_never_fails(self) -> None:
+        args = type("Args", (), {"json": True, "verbose": False})()
+        with patch("bedc_ci.collect_closurestatus_blocks", return_value=[self._block()]), \
+            redirect_stdout(StringIO()):
+            rc = cmd_discovery_audit(args)
+        self.assertEqual(rc, 0)
 
 
 if __name__ == "__main__":
