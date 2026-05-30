@@ -84,6 +84,24 @@ Use \autoref{thm:metacic-critical-path-candidate-mediated-sn-conditional-budget}
 Finally apply \autoref{thm:metacic-critical-path-bounded-normalization-candidate-ledger}. The bounded-normalization candidate ledger supplies checker provenance for the same candidate-mediated route, while the accepted packet still has no coordinate for subject reduction, global confluence, beta-conversion decidability, quotient term equality, selected limits, host equality, or Real completeness.
 \end{proof}
 
+\begin{theorem}[MetaCIC bounded checker frontier separation]
+\label{thm:metacic-critical-path-bounded-checker-frontier-separation}
+Any bounded checker read that consumes candidate-mediated strong-normalization evidence from an accepted $\MetaCICCriticalPathUp$ packet must keep the candidate row $K$, strong-normalization endpoint rows $S,N$, open discharge socket $D$, and the four L10 faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+as separate displayed premises before the checker budget is read. The checker may pass those premises through the displayed handoff, transport, replay, provenance, and local naming rows, but it may not collapse them into subject reduction, global confluence, beta-conversion decidability, quotient equality, selected limit, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:metacic-confluence-candidate-mediated-sn-obligation-surface}. It displays the SN endpoint, discharge socket, handoff, transport, replay, provenance, local name, and four L10 faces before any checker-facing budget can be consumed.
+
+Apply \autoref{thm:metacic-critical-path-candidate-discharge-schedule-exhaustion}. The candidate row $K$ is part of the finite schedule, so it must remain visible before the bounded checker reads its budget.
+
+Use \autoref{thm:metacic-critical-path-candidate-mediated-sn-conditional-budget} and \autoref{thm:metacic-critical-path-four-face-bounded-checker-gate}. These keep the route conditional on $D$ and require the four L10 faces to be displayed as the checker boundary.
+
+Finally apply \autoref{thm:metacic-criticalpath-candidate-mediated-sn-premise-split}. The candidate row, endpoint row, socket row, and L10 face row remain separate premises, so none can be repacked as closed subject reduction, global confluence, beta-conversion decidability, quotient equality, a selected limit, or Real completeness.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate-mediated SN premise split]
 \label{thm:metacic-criticalpath-candidate-mediated-sn-premise-split}
 Any consumer passing candidate-mediated strong-normalization evidence from an accepted $\MetaCICCriticalPathUp$ packet into a confluence-facing or decidability-facing budget must display four separate premise rows before the budget is read:
