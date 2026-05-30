@@ -115,6 +115,26 @@ theorem CauchyContinuousMap_regseqrat_image (M : BEDC.Derived.CauchyContinuousMa
       |>.trans (append_assoc M.windows M.toleranceLedger M.imageReadback)
   · exact hsame_refl M.imageReadback
 
+theorem CauchyContinuousMap_real_seal_handoff (M : BEDC.Derived.CauchyContinuousMapUp)
+    {windowTolerance imageRead sealRead : BHist} :
+    Cont M.windows M.toleranceLedger windowTolerance →
+      Cont windowTolerance M.imageReadback imageRead →
+        Cont imageRead M.realSealHandoff sealRead →
+          hsame imageRead (append M.windows (append M.toleranceLedger M.imageReadback)) ∧
+            hsame sealRead
+              (append (append M.windows (append M.toleranceLedger M.imageReadback))
+                M.realSealHandoff) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame append
+  intro windowRoute imageRoute sealRoute
+  have imageExact :
+      hsame imageRead (append M.windows (append M.toleranceLedger M.imageReadback)) :=
+    imageRoute.trans
+      ((congrArg (fun row => append row M.imageReadback) windowRoute).trans
+        (append_assoc M.windows M.toleranceLedger M.imageReadback))
+  constructor
+  · exact imageExact
+  · exact sealRoute.trans (congrArg (fun row => append row M.realSealHandoff) imageExact)
+
 end CauchyContinuousMapUp
 
 end BEDC.Derived
