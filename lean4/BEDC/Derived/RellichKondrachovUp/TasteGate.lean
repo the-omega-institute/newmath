@@ -1,11 +1,47 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
+
+namespace BEDC.Derived
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+def RellichKondrachovUp [AskSetup] [PackageSetup]
+    (domain weakDerivative sobolev embedding compactMetric completeMetric schedule ledger
+      transport provenance localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont hsame PkgSig
+  UnaryHistory domain ∧ UnaryHistory weakDerivative ∧ UnaryHistory sobolev ∧
+    UnaryHistory embedding ∧ UnaryHistory compactMetric ∧ UnaryHistory completeMetric ∧
+      UnaryHistory schedule ∧ UnaryHistory ledger ∧ UnaryHistory transport ∧
+        UnaryHistory provenance ∧ UnaryHistory localName ∧
+          Cont weakDerivative sobolev embedding ∧ Cont compactMetric completeMetric schedule ∧
+            Cont schedule ledger provenance ∧ hsame transport ledger ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg
+
+end BEDC.Derived
 
 namespace BEDC.Derived.RellichKondrachovUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -152,5 +188,55 @@ theorem RellichKondrachovTasteGate_single_carrier_alignment :
       rellichKondrachov_decode_encode_bhist,
       rellichKondrachov_round_trip,
       rfl⟩
+
+theorem RellichKondrachovCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {domain weakDerivative sobolev embedding compactMetric completeMetric schedule ledger
+      transport provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.RellichKondrachovUp domain weakDerivative sobolev embedding compactMetric
+      completeMetric schedule ledger transport provenance localName bundle pkg →
+      SemanticNameCert
+        (fun row : BHist =>
+          BEDC.Derived.RellichKondrachovUp domain weakDerivative sobolev embedding
+            compactMetric completeMetric schedule ledger transport provenance localName
+            bundle pkg ∧ hsame row localName)
+        (fun row : BHist =>
+          BEDC.Derived.RellichKondrachovUp domain weakDerivative sobolev embedding
+            compactMetric completeMetric schedule ledger transport provenance localName
+            bundle pkg ∧ hsame row localName)
+        (fun row : BHist =>
+          BEDC.Derived.RellichKondrachovUp domain weakDerivative sobolev embedding
+            compactMetric completeMetric schedule ledger transport provenance localName
+            bundle pkg ∧ hsame row localName)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame
+  intro carrier
+  have carrierWitness :
+      BEDC.Derived.RellichKondrachovUp domain weakDerivative sobolev embedding compactMetric
+        completeMetric schedule ledger transport provenance localName bundle pkg :=
+    carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro localName ⟨carrierWitness, hsame_refl localName⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other same
+        exact hsame_symm same
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other same source
+        exact ⟨source.left, hsame_trans (hsame_symm same) source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact source
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
 
 end BEDC.Derived.RellichKondrachovUp
