@@ -2,17 +2,16 @@
 
 from __future__ import annotations
 
-import re
 import sys
 from pathlib import Path
 
 
 REPO = Path(__file__).resolve().parents[2]
 TOKEN = "Structurally" + "Atomic"
-FORBIDDEN = re.compile(
-    re.escape(TOKEN) + r"\.(nearest_siblings|worker|routing|public)|"
-    r"(worker|routing|public)[A-Za-z0-9_.-]*" + re.escape(TOKEN)
-)
+EXEMPT_REL_PATHS = {
+    "lean4/scripts/test_structurally_atomic_boundary.py": "self token-split sentinel",
+}
+SOURCE_SUFFIXES = {".lean", ".py", ".md", ".txt", ".yml", ".yaml", ".sh"}
 
 
 def main() -> int:
@@ -21,17 +20,17 @@ def main() -> int:
         for path in root.rglob("*"):
             if not path.is_file():
                 continue
-            if path.suffix not in {".lean", ".py", ".md", ".txt"}:
+            if path.suffix not in SOURCE_SUFFIXES:
                 continue
             rel = path.relative_to(REPO).as_posix()
-            if rel == "lean4/scripts/test_structurally_atomic_boundary.py":
+            if rel in EXEMPT_REL_PATHS:
                 continue
             text = path.read_text(encoding="utf-8", errors="replace")
             for lineno, line in enumerate(text.splitlines(), start=1):
-                if FORBIDDEN.search(line):
+                if TOKEN in line:
                     violations.append(f"{rel}:{lineno}:{line.strip()}")
     assert not violations, "forbidden boundary usage:\n" + "\n".join(violations)
-    print("OK: boundary token is not active public-boundary or worker-routing input")
+    print("OK: boundary token is absent from lean4/tools source")
     return 0
 
 

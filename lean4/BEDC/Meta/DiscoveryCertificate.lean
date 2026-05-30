@@ -25,6 +25,16 @@ structure NameCertFiveRows
   stability : {h : BHist // SourceSpec h ∧ StabilitySpec h}
   ledger : {h : BHist // SourceSpec h ∧ LedgerPolicy h}
 
+def ClassifierEquivalentOn
+    (Scope : BHist -> Prop)
+    (SourceA SourceB : BHist -> Prop)
+    (ClassifierA ClassifierB : BHist -> BHist -> Prop) : Prop :=
+  forall {left right : BHist},
+    Scope left -> Scope right ->
+      SourceA left -> SourceA right ->
+        SourceB left -> SourceB right ->
+          (ClassifierA left right <-> ClassifierB left right)
+
 structure ClassifierDisagreement
     (Scope : BHist -> Prop)
     (SourceA SourceB : BHist -> Prop)
@@ -50,20 +60,57 @@ inductive ClassifierNonEquivalent
       ClassifierDisagreement Scope SourceB SourceA ClassifierB ClassifierA ->
       ClassifierNonEquivalent Scope SourceA SourceB ClassifierA ClassifierB
 
+theorem classifierNonEquivalent_not_equivalentOn
+    {Scope : BHist -> Prop}
+    {SourceA SourceB : BHist -> Prop}
+    {ClassifierA ClassifierB : BHist -> BHist -> Prop} :
+    ClassifierNonEquivalent Scope SourceA SourceB ClassifierA ClassifierB ->
+      Not (ClassifierEquivalentOn Scope SourceA SourceB ClassifierA ClassifierB) := by
+  intro nonEquivalent equivalent
+  cases nonEquivalent with
+  | left disagreement =>
+      have same :
+          ClassifierA disagreement.left disagreement.right <->
+            ClassifierB disagreement.left disagreement.right :=
+        equivalent
+          disagreement.left_scope
+          disagreement.right_scope
+          disagreement.left_source_a
+          disagreement.right_source_a
+          disagreement.left_source_b
+          disagreement.right_source_b
+      exact disagreement.negative (same.mp disagreement.positive)
+  | right disagreement =>
+      have same :
+          ClassifierA disagreement.left disagreement.right <->
+            ClassifierB disagreement.left disagreement.right :=
+        equivalent
+          disagreement.left_scope
+          disagreement.right_scope
+          disagreement.left_source_b
+          disagreement.right_source_b
+          disagreement.left_source_a
+          disagreement.right_source_a
+      exact disagreement.negative (same.mpr disagreement.positive)
+
 structure ScopeSeal where
   carrier : BHist -> Prop
   anchor : BHist
   anchored : carrier anchor
+
+def PositiveCostProtocol
+    (benefit cost debt scopeSeal : Nat) : Prop :=
+  cost + debt + scopeSeal < benefit
 
 structure DiscoveryCost where
   benefit : Nat
   cost : Nat
   debt : Nat
   scopeSeal : Nat
-  positive_margin : cost + debt + scopeSeal < benefit
+  positive_margin : PositiveCostProtocol benefit cost debt scopeSeal
 
 theorem costPositive (cost : DiscoveryCost) :
-    cost.cost + cost.debt + cost.scopeSeal < cost.benefit := by
+    PositiveCostProtocol cost.benefit cost.cost cost.debt cost.scopeSeal := by
   exact cost.positive_margin
 
 theorem discoveryCost_benefit_positive (cost : DiscoveryCost) : cost.benefit > 0 := by
@@ -237,8 +284,9 @@ theorem positiveDiscovery_positive_cost
       PositiveDiscovery
         BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
         AfterSource AfterPattern AfterStability AfterLedger AfterClassifier) :
-    discovery.cost.cost + discovery.cost.debt + discovery.cost.scopeSeal <
-      discovery.cost.benefit := by
+    PositiveCostProtocol
+      discovery.cost.benefit discovery.cost.cost discovery.cost.debt
+      discovery.cost.scopeSeal := by
   exact costPositive discovery.cost
 
 theorem positiveDiscovery_classifier_shift
