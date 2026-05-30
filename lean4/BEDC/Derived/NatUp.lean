@@ -310,6 +310,22 @@ theorem NatUnaryHistory_codomain_mirror_boundary {h k tail : BHist} :
   intro _sourceUnary tailUnary tailCont
   exact NatUnaryPrefix_cont_tail_cases tailUnary tailCont
 
+theorem NatUnaryTerminal_empty_classifier {h tail : BHist} :
+    UnaryHistory tail -> Cont BHist.Empty tail h ->
+      UnaryHistory h ∧ (hsame h BHist.Empty ∨ ∃ t : BHist, hsame h (BHist.e1 t)) := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro tailUnary emptyTailCont
+  have hUnary : UnaryHistory h := unary_cont_closed unary_empty tailUnary emptyTailCont
+  constructor
+  · exact hUnary
+  · cases h with
+    | Empty =>
+        exact Or.inl rfl
+    | e0 z =>
+        exact False.elim (unary_no_zero_extension hUnary)
+    | e1 t =>
+        exact Or.inr ⟨t, rfl⟩
+
 theorem NatUp_unary_standard_bridge :
     (BEDC.FKernel.ExternalBinary.bwordLength BHist.Empty = 0) ∧
       (forall h : BHist, UnaryHistory h ->

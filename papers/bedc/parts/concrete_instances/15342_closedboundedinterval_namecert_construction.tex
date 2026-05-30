@@ -725,15 +725,28 @@ Apply the obligation and transport theorems. The NameCert obligation theorem lis
 
 Finally apply the source package and nonescape boundaries. They force net, finite-cover, nested-window, located-cover, uniform-modulus, and compactness-facing consumers to remain inside $L,U,O,Q,D,S,R,E,H,C,P,N$, so the listed results close the obligation surface without importing open-cover compactness, selected subcovers, quotient equality, trichotomy, choice, or ambient completeness.
 \end{proof}
+
+\begin{theorem}[ClosedBoundedInterval scoped kernel envelope]
+\label{thm:closed-bounded-interval-scoped-kernel-envelope}
+For every accepted $\ClosedBoundedIntervalUp$ carrier $I=(L,U,O,Q,D,S,R,E,H,C,P,N)$, the carrier, classifier, endpoint containment, dyadic-net, located-cover, nested-compactness, uniform-modulus, and consumer non-escape rows displayed in this chapter are all scoped over $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. No interval-net, nested-window, located-cover, uniform-modulus, or compactness-facing consumer can read beyond that kernel envelope while preserving the displayed carrier route.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:closed-bounded-interval-obligation-closure}. It already collects the carrier, classifier, endpoint-order transport, net handoff, nested compactness handoff, source obligation package, and nonescape rows as the finite obligation surface.
+
+The source rows in that package are exactly the lower and upper $\RealUp$ endpoint rows, the $\RegSeqRatUp$ readback row, the $\StreamNameUp$ window row, the $\DyadicRatCoreUp$ containment ledger, and the structural $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The net, located-cover, nested-window, uniform-modulus, and compactness-facing consumers enter only through the handoff and nonescape theorems named there.
+
+Thus every consumer route remains inside the displayed kernel envelope. Since no theorem in the package adds quotient real equality, selected interval points, trichotomy, open-cover compactness, or ambient completeness, no accepted consumer can expose those coordinates.
+\end{proof}
 \closureat{ClosedBoundedIntervalUp}{seedStr}
 \closureat{ClosedBoundedIntervalUp}{obligationStr}
+\closureat{ClosedBoundedIntervalUp}{scopedStr}
 
 \begin{closurestatus}{\ClosedBoundedIntervalUp}
   \constructivestory{A $\ClosedBoundedIntervalUp$ packet is generated from lower and upper located endpoint rows, an endpoint-order row, rational and dyadic containment ledgers, StreamName windows, RegSeqRat readbacks, a RealUp seal, hsame transports, Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{thm:closed-bounded-interval-obligation-closure} binds the carrier, classifier, endpoint-order transport, net handoff, nested compactness handoff, source obligation package, and nonescape rows as the finite obligation surface before net, uniform-modulus, located-cover, nested-window, and compactness consumers add their own rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:closed-bounded-interval-scoped-kernel-envelope} binds the carrier, classifier, endpoint containment, dyadic-net, located-cover, nested-compactness, uniform-modulus, and consumer non-escape rows over $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, open-cover compactness, quotient real equality, trichotomy, selected points of the interval, or ambient Real completeness.}
-  \upgradepath{Scoped closure requires a single scoped route theorem binding the obligation package to all interval-net, nested-window, located-cover, uniform-modulus, and compactness-facing consumers for BEDC.Derived.ClosedBoundedIntervalUp.}
+  \upgradepath{Public closure requires Lean verification of the scoped kernel envelope and a public consumer surface for BEDC.Derived.ClosedBoundedIntervalUp.}
 \end{closurestatus}
