@@ -43,7 +43,7 @@ theorem PolishspaceRootBasisWindowExactness [AskSetup] [PackageSetup]
   intro carrier metricStreamBasis alignmentCompleteRead alignmentSeparableRead
     completionDenseFinal localNamePkg
   obtain ⟨metricUnary, completeUnary, separableUnary, streamUnary, _readbackUnary,
-    _ledgerUnary, alignmentUnary, _transportUnary, _metricCompleteAlignment,
+    _ledgerUnary, alignmentUnary, _transportUnary, _localNameUnary, _metricCompleteAlignment,
     _alignmentStreamReadback, _ledgerTransportRoute, provenancePkg⟩ := carrier
   have basisUnary : UnaryHistory basisRead :=
     unary_cont_closed metricUnary streamUnary metricStreamBasis
