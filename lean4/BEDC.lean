@@ -1026,6 +1026,7 @@ import BEDC.Derived.CantorSetUp.PrefixGapSeparation
 import BEDC.Derived.CantorSetUp.RealMembershipHandoff
 import BEDC.Derived.CantorSetUp.TasteGate
 import BEDC.Derived.CantorSetUp.TernaryPrefixClassifier
+import BEDC.Derived.CantorSetUp.TernaryPrefixDensity
 import BEDC.Derived.CantorSetUp.TriadicWindowStability
 import BEDC.Derived.CantorSpaceUp
 import BEDC.Derived.CantorSpaceUp.StreamNameBoolScope
@@ -4463,6 +4464,7 @@ import BEDC.Derived.LocatedIntervalUp.RealStreamBracketCorrespondence
 import BEDC.Derived.LocatedIntervalUp.StdBridge
 import BEDC.Derived.LocatedIntervalUp.TasteGate
 import BEDC.Derived.LocatedLimitUp.NameCertObligations
+import BEDC.Derived.LocatedLimitUp.RealSealRoute
 import BEDC.Derived.LocatedLimitUp.TasteGate
 import BEDC.Derived.LocatedMetricCompletionUp.TasteGate
 import BEDC.Derived.LocatedMetricUp
@@ -5478,6 +5480,7 @@ import BEDC.Derived.PreRealUp.TasteGate
 import BEDC.Derived.PreSheafUp
 import BEDC.Derived.PrecompactCompletionUp.TasteGate
 import BEDC.Derived.PrecompactMetricUp
+import BEDC.Derived.PrecompactMetricUp.CauchyFilterHandoff
 import BEDC.Derived.PredictiveDescentUp.StabilityScope
 import BEDC.Derived.PredictiveDescentUp.TasteGate
 import BEDC.Derived.PrefixObserverUp
