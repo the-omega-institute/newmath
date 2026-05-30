@@ -1,9 +1,14 @@
 """Unit tests for the derived theorem-status reader view."""
+import json
+import subprocess
 import sys
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
+
+REPO = Path(__file__).resolve().parents[2]
+CMD = [sys.executable, str(REPO / "lean4/scripts/bedc_ci.py"), "theorem-status"]
 
 sys.path.insert(0, str(Path(__file__).parent))
 import bedc_ci  # type: ignore[import-not-found]
@@ -98,6 +103,30 @@ class TheoremStatusViewTests(unittest.TestCase):
         self.assertEqual(payload["source"], "derived-from-canonical-sources")
         self.assertEqual(payload["records_total"], 0)
         self.assertEqual(payload["theorem_status_records"], [])
+
+    def test_cli_json_branch(self) -> None:
+        result = subprocess.run(
+            [*CMD, "--json"],
+            capture_output=True,
+            text=True,
+            cwd=REPO,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertIn("source", payload)
+        self.assertIn("records_total", payload)
+        self.assertIn("theorem_status_records", payload)
+        self.assertEqual(payload["records_total"], len(payload["theorem_status_records"]))
+
+    def test_cli_text_branch(self) -> None:
+        result = subprocess.run(
+            CMD,
+            capture_output=True,
+            text=True,
+            cwd=REPO,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(result.stdout.strip())
 
 
 if __name__ == "__main__":

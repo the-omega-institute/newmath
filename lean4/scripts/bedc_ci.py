@@ -1,19 +1,7 @@
 #!/usr/bin/env python3
 """BEDC Lean automation helpers for audit, inventory, and verification.
 
-Subcommands:
-  - audit: scan Lean / paper sources for BEDC-specific forbidden constructs and mismatches
-  - inventory: build a declaration + paper-label + Lean-marker inventory
-  - manifest: emit a release-grade JSON manifest (inventory + git/package metadata)
-  - marker-existence-audit: report paper markers that do not resolve in Lean
-  - manifest-check: check selected Lean theorem type shapes against a manifest
-  - metacic-purity: report axiom dependencies for BEDC.MetaCIC declarations
-  - verify-files: run ``lake env lean`` on one or more Lean files
-
-Newmath adaptation note:
-  - This is a BEDC rewrite of automath's ``omega_ci.py``.
-  - There is no deeply nested theory root here; the paper lives under ``papers/bedc/``.
-  - The dedicated zero-axiom gate remains ``python3 tools/check-axioms.py``; this helper covers the broader audit surface.
+Run ``python3 lean4/scripts/bedc_ci.py --help`` for the canonical subcommand list.
 """
 
 from __future__ import annotations
@@ -145,6 +133,24 @@ class LeanMarkerRecord:
     line: int
     macro: str
     target: str
+
+
+@dataclass(frozen=True)
+class TheoremStatusEnvironment:
+    kind: str
+    title: str | None
+    start_line: int
+    statement_body: str
+    statement_base_line: int
+    relation_text: str
+    relation_base_line: int
+
+
+@dataclass(frozen=True)
+class TheoremStatusRelationWindow:
+    proof_line: int | None
+    marker_scan_end: int
+    reference_scan_end: int
 
 
 @dataclass(frozen=True)
@@ -596,11 +602,148 @@ def _lean_resolution_for_markers(
     ]
 
 
-def collect_theorem_status_records() -> list[dict[str, object]]:
-    lean_names = collect_marker_existence_lean_names()
+def _closure_blocks_by_file() -> dict[str, list[dict]]:
     closure_by_file: dict[str, list[dict]] = {}
     for block in collect_closurestatus_blocks(PAPER_PARTS_ROOT):
         closure_by_file.setdefault(str(block.get("file", "")), []).append(block)
+    return closure_by_file
+
+
+def _theorem_status_environment(
+    text: str,
+    match: re.Match[str],
+) -> TheoremStatusEnvironment:
+    kind = match.group("kind")
+    end_re = re.compile(r"\\end\{" + re.escape(kind) + r"\}")
+    end_match = end_re.search(text, match.end())
+    statement_end = end_match.end() if end_match else match.end()
+    statement_body = text[match.end(): end_match.start() if end_match else match.end()]
+
+    next_match = THEOREM_STATUS_NEXT_BOUNDARY_RE.search(text, statement_end)
+    relation_end = next_match.start() if next_match else len(text)
+
+    return TheoremStatusEnvironment(
+        kind=kind,
+        title=_title_value(match.group("title")),
+        start_line=_line_for_offset(text, match.start()),
+        statement_body=statement_body,
+        statement_base_line=_line_for_offset(text, match.end()),
+        relation_text=text[statement_end:relation_end],
+        relation_base_line=_line_for_offset(text, statement_end),
+    )
+
+
+def _theorem_status_relation_window(
+    env: TheoremStatusEnvironment,
+) -> TheoremStatusRelationWindow:
+    proof_match = THEOREM_STATUS_PROOF_BEGIN_RE.search(env.relation_text)
+    if not proof_match:
+        return TheoremStatusRelationWindow(
+            proof_line=None,
+            marker_scan_end=len(env.relation_text),
+            reference_scan_end=len(env.relation_text),
+        )
+
+    proof_line = env.relation_base_line + env.relation_text.count("\n", 0, proof_match.start())
+    proof_end_match = THEOREM_STATUS_PROOF_END_RE.search(
+        env.relation_text,
+        proof_match.end(),
+    )
+    return TheoremStatusRelationWindow(
+        proof_line=proof_line,
+        marker_scan_end=proof_match.start(),
+        reference_scan_end=proof_end_match.end() if proof_end_match else len(env.relation_text),
+    )
+
+
+def _theorem_status_label(env: TheoremStatusEnvironment) -> str | None:
+    labels = [
+        item["label"]
+        for item in _label_records_in_text(env.statement_body, env.statement_base_line)
+    ]
+    return str(labels[0]) if labels else None
+
+
+def _marker_payload(markers: list[LeanMarkerRecord]) -> list[dict[str, object]]:
+    return [
+        {
+            "file": marker.file,
+            "line": marker.line,
+            "macro": marker.macro,
+            "target": marker.target,
+        }
+        for marker in markers
+    ]
+
+
+def _theorem_status_markers(
+    env: TheoremStatusEnvironment,
+    window: TheoremStatusRelationWindow,
+    file_name: str,
+) -> list[LeanMarkerRecord]:
+    local_marker_text = env.relation_text[:window.marker_scan_end]
+    markers = _lean_marker_records_in_text(env.statement_body, env.statement_base_line, file_name)
+    markers.extend(_lean_marker_records_in_text(local_marker_text, env.relation_base_line, file_name))
+    return markers
+
+
+def _theorem_status_references(
+    env: TheoremStatusEnvironment,
+    window: TheoremStatusRelationWindow,
+) -> list[dict[str, object]]:
+    refs = _references_in_text(env.statement_body, env.statement_base_line)
+    refs.extend(_references_in_text(env.relation_text[:window.reference_scan_end], env.relation_base_line))
+    seen_refs: set[tuple[str, str, int]] = set()
+    reference_payload: list[dict[str, object]] = []
+    for ref in refs:
+        key = (str(ref["macro"]), str(ref["label"]), int(ref["line"]))
+        if key in seen_refs:
+            continue
+        seen_refs.add(key)
+        reference_payload.append(ref)
+    return reference_payload
+
+
+def _next_closurestatus(
+    blocks: list[dict],
+    start_line: int,
+) -> dict[str, object] | None:
+    for block in blocks:
+        if int(block.get("line") or 0) >= start_line:
+            return _closurestatus_projection(block)
+    return None
+
+
+def _theorem_status_record(
+    text: str,
+    match: re.Match[str],
+    file_name: str,
+    closure_blocks: list[dict],
+    lean_names: set[str],
+) -> dict[str, object]:
+    env = _theorem_status_environment(text, match)
+    window = _theorem_status_relation_window(env)
+    markers = _theorem_status_markers(env, window, file_name)
+    return {
+        "label": _theorem_status_label(env),
+        "kind": env.kind,
+        "title": env.title,
+        "file": file_name,
+        "line": env.start_line,
+        "chapter_label": _chapter_label_before(text, match.start()),
+        "statement_site": _site(file_name, env.start_line),
+        "proof_site": _site(file_name, window.proof_line),
+        "references": _theorem_status_references(env, window),
+        "lean_markers": _marker_payload(markers),
+        "lean_resolution": _lean_resolution_for_markers(markers, lean_names),
+        "chapter_closurestatus": _next_closurestatus(closure_blocks, env.start_line),
+        "dna_roles": theorem_status_empty_dna_roles(),
+    }
+
+
+def collect_theorem_status_records() -> list[dict[str, object]]:
+    lean_names = collect_marker_existence_lean_names()
+    closure_by_file = _closure_blocks_by_file()
 
     records: list[dict[str, object]] = []
     for path in part_tex_files():
@@ -611,82 +754,13 @@ def collect_theorem_status_records() -> list[dict[str, object]]:
             key=lambda block: int(block.get("line") or 0),
         )
         for match in THEOREM_STATUS_BEGIN_RE.finditer(text):
-            kind = match.group("kind")
-            start_line = _line_for_offset(text, match.start())
-            end_re = re.compile(r"\\end\{" + re.escape(kind) + r"\}")
-            end_match = end_re.search(text, match.end())
-            statement_end = end_match.end() if end_match else match.end()
-            statement_body = text[match.end(): end_match.start() if end_match else match.end()]
-            statement_base_line = _line_for_offset(text, match.end())
-
-            next_match = THEOREM_STATUS_NEXT_BOUNDARY_RE.search(text, statement_end)
-            relation_end = next_match.start() if next_match else len(text)
-            relation_text = text[statement_end:relation_end]
-            relation_base_line = _line_for_offset(text, statement_end)
-
-            labels = [
-                item["label"]
-                for item in _label_records_in_text(statement_body, statement_base_line)
-            ]
-            label = str(labels[0]) if labels else None
-
-            proof_line: int | None = None
-            proof_match = THEOREM_STATUS_PROOF_BEGIN_RE.search(relation_text)
-            if proof_match:
-                proof_line = relation_base_line + relation_text.count("\n", 0, proof_match.start())
-                proof_end_match = THEOREM_STATUS_PROOF_END_RE.search(relation_text, proof_match.end())
-                marker_scan_end = proof_match.start()
-                reference_scan_end = proof_end_match.end() if proof_end_match else len(relation_text)
-            else:
-                marker_scan_end = len(relation_text)
-                reference_scan_end = len(relation_text)
-
-            local_marker_text = relation_text[:marker_scan_end]
-            markers = _lean_marker_records_in_text(statement_body, statement_base_line, file_name)
-            markers.extend(_lean_marker_records_in_text(local_marker_text, relation_base_line, file_name))
-            marker_payload = [
-                {
-                    "file": marker.file,
-                    "line": marker.line,
-                    "macro": marker.macro,
-                    "target": marker.target,
-                }
-                for marker in markers
-            ]
-
-            refs = _references_in_text(statement_body, statement_base_line)
-            refs.extend(_references_in_text(relation_text[:reference_scan_end], relation_base_line))
-            seen_refs: set[tuple[str, str, int]] = set()
-            reference_payload: list[dict[str, object]] = []
-            for ref in refs:
-                key = (str(ref["macro"]), str(ref["label"]), int(ref["line"]))
-                if key in seen_refs:
-                    continue
-                seen_refs.add(key)
-                reference_payload.append(ref)
-
-            chapter_label = _chapter_label_before(text, match.start())
-            chapter_closurestatus = None
-            for block in local_closure_blocks:
-                if int(block.get("line") or 0) >= start_line:
-                    chapter_closurestatus = _closurestatus_projection(block)
-                    break
-
-            records.append({
-                "label": label,
-                "kind": kind,
-                "title": _title_value(match.group("title")),
-                "file": file_name,
-                "line": start_line,
-                "chapter_label": chapter_label,
-                "statement_site": _site(file_name, start_line),
-                "proof_site": _site(file_name, proof_line),
-                "references": reference_payload,
-                "lean_markers": marker_payload,
-                "lean_resolution": _lean_resolution_for_markers(markers, lean_names),
-                "chapter_closurestatus": chapter_closurestatus,
-                "dna_roles": theorem_status_empty_dna_roles(),
-            })
+            records.append(_theorem_status_record(
+                text,
+                match,
+                file_name,
+                local_closure_blocks,
+                lean_names,
+            ))
     return records
 
 
