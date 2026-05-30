@@ -1393,6 +1393,21 @@ def _missing_required_data(repo_root: Path, experiment: dict[str, Any]) -> list[
     return missing
 
 
+def _claim_has_any_experiment_run(runs_path: Path, claim_id: str) -> bool:
+    try:
+        with runs_path.open("r", encoding="utf-8") as handle:
+            for line in handle:
+                try:
+                    record = json.loads(line)
+                except (TypeError, json.JSONDecodeError):
+                    continue
+                if isinstance(record, dict) and str(record.get("claim_id") or "") == claim_id:
+                    return True
+    except OSError:
+        return False
+    return False
+
+
 def _write_claims_document(path: Path, document: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(document, indent=2, ensure_ascii=False, sort_keys=False) + "\n", encoding="utf-8")
@@ -1483,6 +1498,12 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
                 history = claim.setdefault("history", [])
                 if isinstance(history, list):
                     history.append(_history_entry("needs_rerun", "required_data now available"))
+            elif status == "needs_data" and experiment is not None and not _claim_has_any_experiment_run(store.paths.experiment_runs, str(claim.get("claim_id") or "")):
+                claim["status"] = "needs_rerun"
+                status = "needs_rerun"
+                history = claim.setdefault("history", [])
+                if isinstance(history, list):
+                    history.append(_history_entry("needs_rerun", "freshly materialized, no prior experiment_run - kicking off"))
             else:
                 continue
         if experiment is None:
