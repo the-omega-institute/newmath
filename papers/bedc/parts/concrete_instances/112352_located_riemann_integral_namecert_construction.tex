@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRiemannIntegralUp$}
+\label{ch:concrete-instances-located-riemann-integral-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive integration, the $\LocatedRiemannIntegralUp$ packet names a located Riemann integral by finite partition data, regulated handoff rows, dyadic error ledgers, and the terminal $\RealUp$ seal. It consumes the Riemann-sum surface of \autoref{ch:concrete-instances-riemannsum-namecert}, the regulated-integral handoff of \autoref{ch:concrete-instances-regulatedintegral-namecert}, the dyadic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the StreamName windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite L10 analysis certificate; it is not host integral equality, a selected limiting process, open-cover compactness, countable choice, or ambient Real completeness.
+
+\begin{definition}[LocatedRiemannIntegral carrier]
+\label{def:located-riemann-integral-carrier}
+A $\LocatedRiemannIntegralUp$ carrier is a finite $\BHist$ packet
+$$
+I=(A,M,\Sigma,G,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the located interval source row. It records the two located endpoints, the inhabited interval evidence visible to the packet, and the side condition that all partition points are read inside the displayed source interval.
+\item $M$ is the finite partition mesh row. It lists the ordered nodes, the mesh bound, and the finite refinement witnesses admitted for this integral request.
+\item $\Sigma$ is the $\RiemannSumUp$ row, recording the tagged subinterval sums obtained from $A$ and $M$ through the sibling Riemann-sum certificate.
+\item $G$ is the $\RegulatedIntegralUp$ handoff row. It exposes the regulated step approximation and integral handoff only after the partition mesh and RiemannSum rows have been displayed.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, carrying the dyadic error requests, mesh-refinement budget, and comparison rows used to certify located convergence of the displayed sums.
+\item $W$ is the $\StreamNameUp$ window row for finite observation of the sum stream and regulated handoff stream.
+\item $R$ is the $\RegSeqRatUp$ readback row, translating the displayed finite windows into regular rational approximants for the integral value.
+\item $E$ is the terminal $\RealUp$ seal row reached after the source interval, mesh, RiemannSum row, regulated handoff, dyadic ledger, StreamName windows, and RegSeqRat readback have all been replayed.
+\item $H$ records componentwise $\hsame$ transport for $A,M,\Sigma,G,D,W,R,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through $A,M,\Sigma,G,D,W,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRiemannIntegralUp$, $\RiemannSumUp$, $\RegulatedIntegralUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedRiemannIntegralUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,M,\Sigma,G,D,W,R,E,H,C,P,N$. It has no coordinate for host integral equality, selected limits, open-cover compactness, countable choice, ambient Real completeness, or any equality outside the displayed finite rows.
+\end{definition}
+
+\begin{theorem}[LocatedRiemannIntegral NameCert obligations]
+\label{thm:located-riemann-integral-namecert-obligations}
+For every accepted $\LocatedRiemannIntegralUp$ carrier
+$$
+I=(A,M,\Sigma,G,D,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedRiemannIntegralUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the located interval source, finite partition mesh, RiemannSum row, regulated-integral handoff, dyadic tolerance ledger, StreamName windows, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming rows;
+\item partition-mesh exactness, requiring every displayed sum to read the same located interval row $A$ and one of the finite partition refinements recorded by $M$;
+\item located-modulus exposure, requiring the dyadic ledger $D$ to display the mesh and tolerance budget used by the RiemannSum and regulated-integral rows;
+\item sum-convergence ledger, requiring the route from $\Sigma$ through $G,D,W,R$ to expose the finite windows and regular rational approximants before the Real seal can be read;
+\item Real seal nonescape, requiring $E$ to be downstream of $A,M,\Sigma,G,D,W,R$ and to export no host integral equality or ambient completeness theorem;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming through $H,C,P,N$;
+\item refusal of host integral equality, selected limits, open-cover compactness, countable choice, and ambient Real completeness as carrier coordinates, replay edges, or provenance rows.
+\end{enumerate}
+No obligation is stored outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-riemann-integral-carrier}. The packet displays the located interval, mesh, RiemannSum, regulated handoff, dyadic, window, readback, seal, transport, replay, provenance, and naming rows as one finite $\BHist$ carrier.
+
+Partition-mesh exactness follows by reading $A$ and $M$ before $\Sigma$. The Riemann-sum row is tied to the same interval source and the same finite refinement ledger, so no selected partition limit or host integral object can supply the sum.
+
+The located-modulus and sum-convergence obligations are then read through $D,W,R$. The dyadic ledger supplies the tolerance and mesh budget, the StreamName row exposes finite observation windows, and the RegSeqRat row gives the regular rational readback before $E$ is available.
+
+Finally $H,C,P,N$ transport, replay, source, and name only that displayed route. Since the carrier has no row for host integral equality, selected limits, open-cover compactness, countable choice, or ambient Real completeness, the local NameCert surface is exhausted by the listed obligations.
+\end{proof}
+
+\falsifiablePrediction{Every $\LocatedRiemannIntegralUp$ acceptance trace exposes one located interval source, one finite partition mesh, one $\RiemannSumUp$ row, one $\RegulatedIntegralUp$ handoff, one $\DyadicRatCoreUp$ tolerance ledger, one $\StreamNameUp$ window row, one $\RegSeqRatUp$ readback, one terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{riemannsum, regulatedintegral, dyadicratcore, streamname, regseqrat, real: $\LocatedRiemannIntegralUp$ is not bijective to any listed sibling because it jointly carries the located interval source, mesh, sum, regulated handoff, dyadic tolerance, finite-window, regular-readback, Real-seal, transport, replay, provenance, and local NameCert rows as one integral packet.}
+
+\closureat{LocatedRiemannIntegralUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRiemannIntegralUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-riemann-integral-carrier} and \autoref{thm:located-riemann-integral-namecert-obligations} seed a finite constructive Riemann integral packet over located intervals, partition meshes, Riemann sums, regulated handoff, dyadic tolerance, readback, and Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host integral equality, selected limiting processes, open-cover compactness, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, partition-mesh exactness, located-modulus exposure, sum-convergence ledger, Real seal nonescape, transport, replay, provenance, and local naming for the displayed $\LocatedRiemannIntegralUp$ packet.}
+  \constructivestory{A $\LocatedRiemannIntegralUp$ packet is generated from a located interval source, a finite partition mesh, a RiemannSum row, a RegulatedIntegral handoff, dyadic tolerance, StreamName windows, RegSeqRat readback, a Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

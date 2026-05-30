@@ -3901,6 +3901,35 @@ def _first_markdown_paragraph(text: str) -> str:
     return paragraphs[0] if paragraphs else ""
 
 
+def _canonical_bedc_subdir_slug(value: str) -> str:
+    slug = re.sub(r"_namecert_construction$", "", str(value or "").strip())
+    slug = re.sub(r"^\d{4,6}_", "", slug)
+    slug = re.sub(r"[^a-z0-9_]+", "_", slug.lower()).strip("_")
+    slug = re.sub(r"_+", "_", slug)
+    if not slug or not re.match(r"^[a-z][a-z0-9_]*$", slug):
+        return ""
+    return slug
+
+
+def _validate_canonical_bedc_layout(hub_text: str, spine_text: str, subdir_slug: str) -> list[str]:
+    expected_input = rf"\input{{parts/concrete_instances/{subdir_slug}/namecert_construction}}"
+    expected_label = rf"\label{{ch:concrete-instances-{subdir_slug}-namecert}}"
+    hub_lines = [line.strip() for line in hub_text.splitlines()]
+    spine_lines = [line.strip() for line in spine_text.splitlines()]
+    issues: list[str] = []
+    if expected_input not in hub_lines:
+        issues.append(f"hub: missing canonical input line {expected_input}")
+    prefixed_input = re.search(r"\\input\{parts/concrete_instances/\d{4,6}_[^{}]*/namecert_construction\}", hub_text)
+    if prefixed_input:
+        issues.append(f"hub: prefixed subdir input forbidden: {prefixed_input.group(0)}")
+    if expected_label not in spine_lines:
+        issues.append(f"spine: missing canonical chapter label {expected_label}")
+    prefixed_label = re.search(r"\\label\{ch:concrete-instances-\d{4,6}_[^{}]*-namecert\}", spine_text)
+    if prefixed_label:
+        issues.append(f"spine: prefixed chapter label forbidden: {prefixed_label.group(0)}")
+    return issues
+
+
 def _auto_discovered_bedc_mappings(proposal_dir: Path, mapped_claim_ids: set[str]) -> list[dict[str, Any]]:
     if not proposal_dir.exists():
         return []
@@ -3925,12 +3954,15 @@ def _auto_discovered_bedc_mappings(proposal_dir: Path, mapped_claim_ids: set[str
         if not slug_match or not carrier_match:
             continue
         proposed_slug = slug_match.group(1)
+        subdir_slug = _canonical_bedc_subdir_slug(proposed_slug)
+        if not subdir_slug:
+            continue
         carrier_name = carrier_match.group(1)
         derived.append(
             {
                 "claim_id": claim_id,
                 "hub_filename": f"{proposed_slug}.tex",
-                "subdir_slug": proposed_slug.rsplit("_namecert_construction", 1)[0],
+                "subdir_slug": subdir_slug,
                 "carrier_name": carrier_name.rstrip("Up"),
                 "natural_language": f"the finite reality-bound seed witness for {claim_id}",
             }
@@ -3950,12 +3982,10 @@ def _tex_literal(value: Any) -> str:
 
 def _render_bedc_hub(mapping: dict[str, Any]) -> str:
     claim_id = _tex_literal(mapping.get("claim_id", "unnamed"))
-    subdir_slug = str(mapping.get("subdir_slug") or "bioreality_packet")
+    subdir_slug = _canonical_bedc_subdir_slug(str(mapping.get("subdir_slug") or "")) or "bioreality_packet"
     return "\n".join(
         [
-            f"% Auto-generated BioReality NameCert hub for {claim_id}.",
-            "% This hub follows the newmath concrete-instances hub+subdir layout.",
-            r"% Only orienting prose and \input lines are allowed here.",
+            f"The BioReality writeback packet for {claim_id} is held in its canonical child file.",
             rf"\input{{parts/concrete_instances/{subdir_slug}/namecert_construction}}",
             "",
         ]
@@ -3964,7 +3994,7 @@ def _render_bedc_hub(mapping: dict[str, Any]) -> str:
 
 def _render_bedc_spine(mapping: dict[str, Any], proposal_text: str, conjecture: dict[str, Any] | None) -> str:
     claim_id = _tex_literal(mapping.get("claim_id", "unnamed"))
-    subdir_slug = str(mapping.get("subdir_slug") or "bioreality_packet")
+    subdir_slug = _canonical_bedc_subdir_slug(str(mapping.get("subdir_slug") or "")) or "bioreality_packet"
     carrier_name = re.sub(r"[^A-Za-z0-9]", "", str(mapping.get("carrier_name") or "BioRealityPacket")) or "BioRealityPacket"
     natural_language = _tex_literal(mapping.get("natural_language", "a finite reality-bound BioReality packet"))
     _ = proposal_text
@@ -4072,7 +4102,7 @@ def _codex_author_prompt(
 ) -> str:
     claim_id = str(target.get("claim_id") or "")
     carrier_name = re.sub(r"Up$", "", str(target.get("carrier_name") or ""))
-    subdir_slug = str(target.get("subdir_slug") or "")
+    subdir_slug = _canonical_bedc_subdir_slug(str(target.get("subdir_slug") or ""))
     hub_filename = str(target.get("hub_filename") or "")
     facts_json = json.dumps(verified_facts, ensure_ascii=False, indent=2, sort_keys=True)
     lines = [
@@ -4097,6 +4127,9 @@ def _codex_author_prompt(
         r"- \FooUp 类宏在 text-mode 参数必须 $...$ 包裹",
         "- spine <= 800 行",
         r"- hub <= 15 行, 仅 \input + orienting prose, 无 theorem env, 无 closurestatus",
+        r"- BEDC concrete-instances 必须使用 canonical hub+subdir: hub_filename 是 <NN>_<slug>_namecert_construction.tex, subdir_slug 是纯净 <slug>, 匹配 ^[a-z][a-z0-9_]*$, 绝不带 <NN>_ 数字前缀",
+        r"- hub_content 的唯一 \input 必须是 \input{parts/concrete_instances/<subdir_slug>/namecert_construction}",
+        r"- spine_content 的 chapter label 必须是 \label{ch:concrete-instances-<subdir_slug>-namecert}",
         "- 完整 closurestatus block (constructivestory / theoryclosure / scopeclosed / formalstatus / bridgestatus / notclaimed / upgradepath) 全 7 字段非空",
         "",
         "# 必须章节特定差异化 (反对 generic template)",
@@ -4287,7 +4320,10 @@ def _linked_conjecture_for_claim(conjectures: list[dict[str, Any]], claim_id: st
 
 
 def _ensure_aggregator_line(aggregator: Path, subdir_slug: str) -> None:
-    line = rf"\input{{parts/concrete_instances/{subdir_slug}/namecert_construction}}"
+    canonical_slug = _canonical_bedc_subdir_slug(subdir_slug)
+    if not canonical_slug:
+        raise ValueError(f"invalid BEDC subdir slug: {subdir_slug!r}")
+    line = rf"\input{{parts/concrete_instances/{canonical_slug}/namecert_construction}}"
     if aggregator.exists():
         text = aggregator.read_text(encoding="utf-8")
         if line in text.splitlines():
@@ -4343,7 +4379,7 @@ def run_bedc_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
             skipped_by_dedup += 1
             continue
         hub_filename = str(mapping.get("hub_filename") or "")
-        subdir_slug = str(mapping.get("subdir_slug") or "")
+        subdir_slug = _canonical_bedc_subdir_slug(str(mapping.get("subdir_slug") or ""))
         if not claim_id or not hub_filename or not subdir_slug:
             issues_summary.append({"claim_id": claim_id, "issues": ["mapping missing claim_id, hub_filename, or subdir_slug"]})
             continue
@@ -4427,6 +4463,7 @@ def run_bedc_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
                     int(writer_config["min_used_fact_ids"]),
                 )
                 candidate_issues.extend(str(issue) for issue in gate_result["issues"])
+                candidate_issues.extend(_validate_canonical_bedc_layout(hub_text, spine_text, subdir_slug))
                 if not candidate_issues:
                     break
                 if attempt_index >= int(writer_config["max_retries"]) or not writer_config["corrective_retry_on_gate_failure"]:
@@ -4451,6 +4488,11 @@ def run_bedc_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
                 used_fact_ids,
                 int(writer_config["min_used_fact_ids"]) if writer_config["enabled"] else 0,
             )
+        canonical_issues = _validate_canonical_bedc_layout(hub_text, spine_text, subdir_slug)
+        if canonical_issues:
+            gate_result = dict(gate_result)
+            gate_result["passed"] = False
+            gate_result["issues"] = list(gate_result.get("issues", [])) + canonical_issues
         if not gate_result["passed"]:
             blocked_by_gate += 1
             issue_record = {"claim_id": claim_id, "issues": gate_result["issues"]}
