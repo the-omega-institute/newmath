@@ -279,6 +279,46 @@ Add the restricted-comprehension and extensional boundary controls from \autoref
 Finally replay \autoref{thm:setlike-membership-route}. The structural rows $H,C,P,N$ preserve and name the same finite route, so the subset ledger seen by downstream TypeLike, FirstOrder, and ModelTheory consumers contains no powerset, unrestricted comprehension, quotient equality, or external inclusion coordinate.
 \end{proof}
 
+\begin{theorem}[SetLike classifier extensional nonescape]
+\label{thm:setlike-classifier-extensional-nonescape}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, the extensional row $E$ can compare only displayed membership rows over $M,Q,I,R$. It cannot export quotient equality of sets, powersets, unrestricted separation, host set equality, or an external inclusion predicate; any accepted extensional read must keep $E$ inside the structural route $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project $E$ from the carrier of \autoref{def:setlike-carrier}. The carrier assigns $E$ to the extensionality-boundary ledger, not to a quotient or host equality coordinate.
+
+Use the extensional boundary route of \autoref{thm:setlike-extensional-boundary-route}. That theorem forces every extensional read through the membership-boundary subcarrier $S_{\partial}=(M,Q,I,R,E)$ before the structural rows are replayed.
+
+Finally apply \autoref{thm:setlike-classifier-transport-exactness} and \autoref{thm:setlike-subset-ledger-obligation}. Classifier transport stays on the displayed $Q$ surface, and the downstream ledger exposes no powerset, unrestricted comprehension, quotient equality, or host inclusion coordinate.
+\end{proof}
+
+\begin{theorem}[SetLike restricted comprehension membership factorization]
+\label{thm:setlike-restricted-comprehension-membership-factorization}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, every restricted-comprehension read through $R$ first factors through the membership source $M$, displayed classifier $Q$, and subset implication row $I$. Only after this factorization may the read use $H,C,P,N$ for transport, replay, provenance, and local naming; it cannot create a powerset row, unrestricted separation principle, host subset object, or external comprehension predicate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:setlike-bounded-comprehension-obligation}. It admits $R$ only as a restricted-comprehension row bounded by a displayed certified family over $M,Q,I$.
+
+The common classifier is fixed by \autoref{thm:setlike-subset-comprehension-stability}. Subset implication through $I$ and restricted comprehension through $R$ share the membership classifier $Q$ over the source $M$, so a comprehension read cannot skip the membership route.
+
+Apply bounded comprehension nonescape and ledger scope closure, \autoref{thm:setlike-bounded-comprehension-nonescape} and \autoref{thm:setlike-ledger-scope-closure}. The structural rows $H,C,P,N$ preserve the displayed factorization and add no powerset, unrestricted separation, host subset object, or external comprehension coordinate.
+\end{proof}
+
+\begin{theorem}[SetLike TypeLike FirstOrder ModelTheory consumer boundary]
+\label{thm:setlike-typelike-firstorder-modeltheory-consumer-boundary}
+Every $\TypeLikeUp$, $\FirstOrderUp$, or $\ModelTheoryUp$ consumer of an accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$ must cite the SetLike route through
+$$
+M,Q,I,R,E \longmapsto H,C,P,N .
+$$
+Such a consumer cannot replace the route by external satisfaction, host membership, quotient equality of sets, a powerset row, unrestricted comprehension, or a host universe of sets.
+\end{theorem}
+\begin{proof}
+Use the membership route theorem \autoref{thm:setlike-membership-route}. It already states that TypeLike, FirstOrder, and ModelTheory sibling reads may use $\SetLikeUp$ only through the carried membership route.
+
+Next apply the subset ledger obligation and classifier extensional nonescape, \autoref{thm:setlike-subset-ledger-obligation} and \autoref{thm:setlike-classifier-extensional-nonescape}. These results keep subset, comprehension, and extensionality reads on $M,Q,I,R,E$ before $H,C,P,N$ are used.
+
+Finally invoke \autoref{thm:setlike-ledger-scope-closure}. A consumer leaving the displayed route lacks the required carrier rows, while a consumer staying on it receives the complete local ledger. Therefore external satisfaction, host membership, quotient equality, powersets, unrestricted comprehension, and host universes are outside the accepted SetLike consumer boundary.
+\end{proof}
+
 \closureat{SetLikeUp}{seedStr}
 
 \begin{closurestatus}{\SetLikeUp}
