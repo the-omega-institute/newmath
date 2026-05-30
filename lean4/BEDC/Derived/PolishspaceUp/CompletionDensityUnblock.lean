@@ -25,8 +25,8 @@ theorem PolishSpaceCompletionDensityUnblock [AskSetup] [PackageSetup]
   intro carrier metricSeparableDensity densityPkg
   rcases carrier with
     ⟨metricUnary, completeUnary, separableUnary, streamUnary, readbackUnary, _ledgerUnary,
-      _alignmentUnary, _transportUnary, _metricCompleteAlignment, _alignmentStreamReadback,
-      _ledgerTransportRoute, provenancePkg⟩
+      _alignmentUnary, _transportUnary, _localNameUnary, _metricCompleteAlignment,
+      _alignmentStreamReadback, _ledgerTransportRoute, provenancePkg⟩
   have densityUnary : UnaryHistory densityRoute :=
     unary_cont_closed metricUnary separableUnary metricSeparableDensity
   exact
