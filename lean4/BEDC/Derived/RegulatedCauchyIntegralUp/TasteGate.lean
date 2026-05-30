@@ -3,7 +3,7 @@ import BEDC.FKernel.Mark
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.RegulatedCauchyIntegralUp
+namespace BEDC.Derived.RegulatedCauchyIntegralUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -14,25 +14,21 @@ inductive RegulatedCauchyIntegralUp : Type where
   | mk (G T A W R E H C P N : BHist) : RegulatedCauchyIntegralUp
   deriving DecidableEq
 
-def RegulatedCauchyIntegralTasteGate_single_carrier_alignment_encodeBHist : BHist → RawEvent
+def regulatedCauchyIntegralEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h => BMark.b0 :: RegulatedCauchyIntegralTasteGate_single_carrier_alignment_encodeBHist h
-  | BHist.e1 h => BMark.b1 :: RegulatedCauchyIntegralTasteGate_single_carrier_alignment_encodeBHist h
+  | BHist.e0 h => BMark.b0 :: regulatedCauchyIntegralEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: regulatedCauchyIntegralEncodeBHist h
 
-def RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist : RawEvent → BHist
+def regulatedCauchyIntegralDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail =>
-      BHist.e0 (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist tail)
-  | BMark.b1 :: tail =>
-      BHist.e1 (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist tail)
+  | BMark.b0 :: tail => BHist.e0 (regulatedCauchyIntegralDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (regulatedCauchyIntegralDecodeBHist tail)
 
-private theorem RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode_encode :
+private theorem RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
-      RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist
-          (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_encodeBHist h) =
-        h := by
+      regulatedCauchyIntegralDecodeBHist (regulatedCauchyIntegralEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -40,149 +36,126 @@ private theorem RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def RegulatedCauchyIntegralTasteGate_single_carrier_alignment_fields :
-    RegulatedCauchyIntegralUp → List BHist
+def regulatedCauchyIntegralFields : RegulatedCauchyIntegralUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | RegulatedCauchyIntegralUp.mk G T A W R E H C P N => [G, T, A, W, R, E, H, C, P, N]
 
-def RegulatedCauchyIntegralTasteGate_single_carrier_alignment_toEventFlow :
-    RegulatedCauchyIntegralUp → EventFlow
+def regulatedCauchyIntegralToEventFlow : RegulatedCauchyIntegralUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x =>
-      (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_fields x).map
-        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_encodeBHist
+  | x => (regulatedCauchyIntegralFields x).map regulatedCauchyIntegralEncodeBHist
 
-def RegulatedCauchyIntegralTasteGate_single_carrier_alignment_fromEventFlow :
-    EventFlow → Option RegulatedCauchyIntegralUp
+private def RegulatedCauchyIntegralTasteGate_single_carrier_alignment_eventAt :
+    Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | G :: restG =>
-      match restG with
-      | T :: restT =>
-          match restT with
-          | A :: restA =>
-              match restA with
-              | W :: restW =>
-                  match restW with
-                  | R :: restR =>
-                      match restR with
-                      | E :: restE =>
-                          match restE with
-                          | H :: restH =>
-                              match restH with
-                              | C :: restC =>
-                                  match restC with
-                                  | P :: restP =>
-                                      match restP with
-                                      | N :: rest =>
-                                          match rest with
-                                          | [] =>
-                                              some
-                                                (RegulatedCauchyIntegralUp.mk
-                                                  (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist G)
-                                                  (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist T)
-                                                  (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist A)
-                                                  (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist W)
-                                                  (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist R)
-                                                  (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist E)
-                                                  (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist H)
-                                                  (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist C)
-                                                  (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist P)
-                                                  (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist N))
-                                          | _ :: _ => none
-                                      | [] => none
-                                  | [] => none
-                              | [] => none
-                          | [] => none
-                      | [] => none
-                  | [] => none
-              | [] => none
-          | [] => none
-      | [] => none
-  | [] => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest =>
+      RegulatedCauchyIntegralTasteGate_single_carrier_alignment_eventAt index rest
 
-private theorem RegulatedCauchyIntegralTasteGate_single_carrier_alignment_round_trip
-    (x : RegulatedCauchyIntegralUp) :
-    RegulatedCauchyIntegralTasteGate_single_carrier_alignment_fromEventFlow
-        (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_toEventFlow x) =
-      some x := by
+def regulatedCauchyIntegralFromEventFlow : EventFlow → Option RegulatedCauchyIntegralUp :=
   -- BEDC touchpoint anchor: BHist BMark
+  fun ef =>
+    some
+      (RegulatedCauchyIntegralUp.mk
+        (regulatedCauchyIntegralDecodeBHist
+          (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_eventAt 0 ef))
+        (regulatedCauchyIntegralDecodeBHist
+          (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_eventAt 1 ef))
+        (regulatedCauchyIntegralDecodeBHist
+          (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_eventAt 2 ef))
+        (regulatedCauchyIntegralDecodeBHist
+          (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_eventAt 3 ef))
+        (regulatedCauchyIntegralDecodeBHist
+          (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_eventAt 4 ef))
+        (regulatedCauchyIntegralDecodeBHist
+          (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_eventAt 5 ef))
+        (regulatedCauchyIntegralDecodeBHist
+          (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_eventAt 6 ef))
+        (regulatedCauchyIntegralDecodeBHist
+          (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_eventAt 7 ef))
+        (regulatedCauchyIntegralDecodeBHist
+          (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_eventAt 8 ef))
+        (regulatedCauchyIntegralDecodeBHist
+          (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_eventAt 9 ef)))
+
+private theorem RegulatedCauchyIntegralTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : RegulatedCauchyIntegralUp,
+      regulatedCauchyIntegralFromEventFlow (regulatedCauchyIntegralToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk G T A W R E H C P N =>
       change
         some
           (RegulatedCauchyIntegralUp.mk
-            (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist
-              (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_encodeBHist G))
-            (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist
-              (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_encodeBHist T))
-            (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist
-              (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_encodeBHist A))
-            (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist
-              (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_encodeBHist W))
-            (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist
-              (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_encodeBHist R))
-            (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist
-              (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_encodeBHist E))
-            (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist
-              (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_encodeBHist H))
-            (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist
-              (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_encodeBHist C))
-            (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist
-              (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_encodeBHist P))
-            (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decodeBHist
-              (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_encodeBHist N))) =
+            (regulatedCauchyIntegralDecodeBHist (regulatedCauchyIntegralEncodeBHist G))
+            (regulatedCauchyIntegralDecodeBHist (regulatedCauchyIntegralEncodeBHist T))
+            (regulatedCauchyIntegralDecodeBHist (regulatedCauchyIntegralEncodeBHist A))
+            (regulatedCauchyIntegralDecodeBHist (regulatedCauchyIntegralEncodeBHist W))
+            (regulatedCauchyIntegralDecodeBHist (regulatedCauchyIntegralEncodeBHist R))
+            (regulatedCauchyIntegralDecodeBHist (regulatedCauchyIntegralEncodeBHist E))
+            (regulatedCauchyIntegralDecodeBHist (regulatedCauchyIntegralEncodeBHist H))
+            (regulatedCauchyIntegralDecodeBHist (regulatedCauchyIntegralEncodeBHist C))
+            (regulatedCauchyIntegralDecodeBHist (regulatedCauchyIntegralEncodeBHist P))
+            (regulatedCauchyIntegralDecodeBHist (regulatedCauchyIntegralEncodeBHist N))) =
           some (RegulatedCauchyIntegralUp.mk G T A W R E H C P N)
-      rw [RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode_encode G,
-        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode_encode T,
-        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode_encode A,
-        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode_encode W,
-        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode_encode R,
-        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode_encode E,
-        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode_encode H,
-        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode_encode C,
-        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode_encode P,
-        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode_encode N]
+      rw [RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode G,
+        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode T,
+        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode A,
+        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode W,
+        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode R,
+        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode E,
+        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode H,
+        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode C,
+        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode P,
+        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode N]
 
 private theorem RegulatedCauchyIntegralTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : RegulatedCauchyIntegralUp} :
-    RegulatedCauchyIntegralTasteGate_single_carrier_alignment_toEventFlow x =
-        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_toEventFlow y →
-      x = y := by
+    regulatedCauchyIntegralToEventFlow x = regulatedCauchyIntegralToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      RegulatedCauchyIntegralTasteGate_single_carrier_alignment_fromEventFlow
-          (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_toEventFlow x) =
-        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_fromEventFlow
-          (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_toEventFlow y) :=
-    congrArg RegulatedCauchyIntegralTasteGate_single_carrier_alignment_fromEventFlow heq
+      regulatedCauchyIntegralFromEventFlow (regulatedCauchyIntegralToEventFlow x) =
+        regulatedCauchyIntegralFromEventFlow (regulatedCauchyIntegralToEventFlow y) :=
+    congrArg regulatedCauchyIntegralFromEventFlow heq
   exact Option.some.inj
     (Eq.trans (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_round_trip y)))
+      (Eq.trans hread
+        (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_round_trip y)))
 
-instance regulatedCauchyIntegralBHistCarrier :
-    BHistCarrier RegulatedCauchyIntegralUp where
+instance regulatedCauchyIntegralBHistCarrier : BHistCarrier RegulatedCauchyIntegralUp where
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := RegulatedCauchyIntegralTasteGate_single_carrier_alignment_toEventFlow
-  fromEventFlow := RegulatedCauchyIntegralTasteGate_single_carrier_alignment_fromEventFlow
+  toEventFlow := regulatedCauchyIntegralToEventFlow
+  fromEventFlow := regulatedCauchyIntegralFromEventFlow
 
 instance regulatedCauchyIntegralChapterTasteGate :
     ChapterTasteGate RegulatedCauchyIntegralUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      RegulatedCauchyIntegralTasteGate_single_carrier_alignment_fromEventFlow
-          (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_toEventFlow x) =
-        some x
+    change regulatedCauchyIntegralFromEventFlow (regulatedCauchyIntegralToEventFlow x) = some x
     exact RegulatedCauchyIntegralTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (RegulatedCauchyIntegralTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 theorem RegulatedCauchyIntegralTasteGate_single_carrier_alignment :
-    ChapterTasteGate RegulatedCauchyIntegralUp := by
+    (∀ h : BHist,
+      regulatedCauchyIntegralDecodeBHist (regulatedCauchyIntegralEncodeBHist h) = h) ∧
+      (∀ x : RegulatedCauchyIntegralUp,
+        regulatedCauchyIntegralFromEventFlow (regulatedCauchyIntegralToEventFlow x) = some x) ∧
+        (∀ x y : RegulatedCauchyIntegralUp,
+          regulatedCauchyIntegralToEventFlow x = regulatedCauchyIntegralToEventFlow y →
+            x = y) ∧
+          regulatedCauchyIntegralEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact regulatedCauchyIntegralChapterTasteGate
+  exact
+    ⟨RegulatedCauchyIntegralTasteGate_single_carrier_alignment_decode,
+      RegulatedCauchyIntegralTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        RegulatedCauchyIntegralTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
-end BEDC.Derived.RegulatedCauchyIntegralUp
+end BEDC.Derived.RegulatedCauchyIntegralUp.TasteGate
