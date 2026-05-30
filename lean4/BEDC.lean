@@ -730,6 +730,7 @@ import BEDC.Derived.BishopRegularCauchyCompletionUp
 import BEDC.Derived.BishopRegularCauchyCompletionUp.ClassifierTransport
 import BEDC.Derived.BishopRegularCauchyCompletionUp.ObligationClosurePackage
 import BEDC.Derived.BishopRegularCauchyCompletionUp.RealSealConsumer
+import BEDC.Derived.BishopRegularCauchyCompletionUp.RegularityEnvelope
 import BEDC.Derived.BishopRegularCauchyCompletionUp.TasteGate
 import BEDC.Derived.BishopRegularCauchyLimitSealUp.TasteGate
 import BEDC.Derived.BishopSequenceUp.TasteGate
@@ -1873,6 +1874,7 @@ import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.CliffordUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalCompactUp
+import BEDC.Derived.ClosedBoundedIntervalCompactUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalNetUp.CellCenterReadback
 import BEDC.Derived.ClosedBoundedIntervalNetUp.CompactUniformRoute
 import BEDC.Derived.ClosedBoundedIntervalNetUp.FiniteMeshCoverage
@@ -3358,7 +3360,9 @@ import BEDC.Derived.FastConvergentRealSequenceUp.TasteGate
 import BEDC.Derived.FastConvergentSeriesUp
 import BEDC.Derived.FastConvergentSeriesUp.Classifier
 import BEDC.Derived.FastConvergentSeriesUp.TasteGate
+import BEDC.Derived.FastRegularCauchyEquivalenceUp.NameCertObligations
 import BEDC.Derived.FastRegularCauchyEquivalenceUp.TasteGate
+import BEDC.Derived.FastRegularCauchyEquivalenceUp.TwoWayRoute
 import BEDC.Derived.FastSeriesProductUp
 import BEDC.Derived.FastSeriesProductUp.TasteGate
 import BEDC.Derived.FejerKernelUp.TasteGate
@@ -4585,7 +4589,6 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateDischargeFrontierCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateDischargeScheduleExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierDischargeCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierL10DischargeBoundary
-import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRealSourceLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierObstructionNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNDischarge
@@ -4951,6 +4954,7 @@ import BEDC.Derived.MetricUp.VisibleContextDeterminacy
 import BEDC.Derived.MetricUp.VisibleContextPublicCertificate
 import BEDC.Derived.MetricUp.VisibleContextSemantic
 import BEDC.Derived.MetrizableCompletionUp.TasteGate
+import BEDC.Derived.MichaelSelectionUp.TasteGate
 import BEDC.Derived.MinimalCauchyFilterUp.TasteGate
 import BEDC.Derived.MinkowskiRateGeometryUp.TasteGate
 import BEDC.Derived.MirrorSymmetryUp
@@ -5394,7 +5398,6 @@ import BEDC.Derived.PolePlacementUp
 import BEDC.Derived.PolicyUp
 import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.PolishspaceUp.CompleteMetricSeparableSynthesis
-import BEDC.Derived.PolishspaceUp.CompleteSeparableHandoff
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationSurface
 import BEDC.Derived.PolishspaceUp.CompleteSeparableRegSeqRatRealHandoff
 import BEDC.Derived.PolishspaceUp.CompleteSeparableUnblockPackage
@@ -6866,6 +6869,7 @@ import BEDC.Derived.TauberianRemainderUp.TasteGate
 import BEDC.Derived.TaylorModelUp
 import BEDC.Derived.TaylorModelUp.TasteGate
 import BEDC.Derived.TemperedDistributionUp.TasteGate
+import BEDC.Derived.TensorAlgebraUp.TasteGate
 import BEDC.Derived.TensorProductUp
 import BEDC.Derived.TermStratumChoiceClosureUp.TasteGate
 import BEDC.Derived.TerminationRefusalBoundaryUp.TasteGate
@@ -7038,6 +7042,7 @@ import BEDC.Derived.UnaryContinuationEndofunctorUp.TasteGate
 import BEDC.Derived.UnaryDirectionBridgeUp
 import BEDC.Derived.UnaryDirectionNormalizerUp.TasteGate
 import BEDC.Derived.UnaryZeroSpineStandardIsoUp
+import BEDC.Derived.UniformBoundednessPrincipleUp.TasteGate
 import BEDC.Derived.UniformBoundednessUp
 import BEDC.Derived.UniformBoundednessUp.TasteGate
 import BEDC.Derived.UniformCauchyCompletionUp.TasteGate
