@@ -2190,6 +2190,15 @@ def cycle() -> None:
     _reset_act_verify_cache()
     ts = time.strftime("%Y-%m-%d %H:%M:%S")
     print(f"[heal] {ts} tick", flush=True)
+    # A stale `.git/index.lock` from a crashed git process blocks every
+    # orchestrator merge (_sync_local_with_origin checkout of codex-auto-dev)
+    # AND can leave the main checkout stuck off codex-auto-dev — so sweep it
+    # BEFORE the branch check, else this cycle would skip and never reach it.
+    # Unlinking a >600s-old lock is safe on any branch.
+    try:
+        heal_stale_index_lock()
+    except Exception as exc:
+        print(f"[heal] heal_stale_index_lock crashed: {exc}", file=sys.stderr)
     # Always work on codex-auto-dev (or skip if not).
     try:
         cur = git("rev-parse", "--abbrev-ref", "HEAD", capture=True).stdout.strip()
