@@ -109,6 +109,22 @@ window, so the Real seal consumes the preserved dyadic tolerance budget rather
 than an ambient limit or completeness coordinate.
 \end{proof}
 
+\begin{theorem}[RegSeqRat tail-window cofinality]
+\label{thm:regseqrat-tail-window-cofinality}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let $W_0$ and $W_1$ be accepted scheduled tail windows over the same $\StreamNameUp$ source and the same $\DyadicRatCoreUp$ tolerance budget. Then $W_0$ and $W_1$ admit a common finite cofinal window whose $\mathsf{RegSeqRatClassifier}$ read agrees and whose downstream $\RealUp$ seal route is the same displayed route.
+
+The common cofinal window exposes only the shifted StreamName windows, DyadicRatCore tolerance ledger, RegSeqRat regularity ledgers, componentwise $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows. It exports no quotient stream equality, selected limits, countable choice, metric-completeness data, completion points, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Apply tail-shift stability, \autoref{thm:regseqrat-tail-shift-stability}, to both scheduled tail windows. Each accepted window reads the same original finite RegSeqRat source surface through its displayed StreamName tail.
+
+Use two-shift common-refinement compatibility, \autoref{thm:regseqrat-tail-shift-common-refinement}. Since the two windows share the StreamName source and DyadicRatCore tolerance budget, their displayed supports admit a common finite refinement with one classifier read.
+
+Next apply finite-window stability, \autoref{thm:regseqrat-tail-shift-window-stability}. It identifies the common refinement as a window on which the classifier read and downstream Real seal route are preserved together.
+
+Finally invoke the diagonal budget theorem, \autoref{thm:regseqrat-tail-shift-diagonal-budget}. The dyadic tolerance budget consumed by the downstream Real seal is the same componentwise ledger on the common cofinal window, leaving no quotient stream equality, selected limit, countable-choice schedule, metric-completeness datum, completion point, or ambient Real-completeness coordinate.
+\end{proof}
+
 \begin{theorem}[RegSeqRat tail-shift synchronized readback]
 \label{thm:regseqrat-tail-shift-synchronized-readback}
 Let $P$ and $Q$ be accepted $\RegSeqRatUp$ packets whose displayed tail-shift
