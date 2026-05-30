@@ -25,6 +25,55 @@ with the following rows:
 The carrier has no coordinate for an ambient powerset, unrestricted separation, quotient equality of sets, selected representatives, global choice of elements, or a host universe of all sets.
 \end{definition}
 
+\begin{definition}[SetLike membership carrier]
+\label{def:setlike-membership-carrier}
+For an accepted $\SetLikeUp$ carrier
+$$
+S=(M,Q,I,R,E,H,C,P,N),
+$$
+the membership carrier is the finite $\BHist$ surface
+$$
+S_{\in}=(M,Q,H,C,P,N).
+$$
+Here $M$ is the membership-source row, $Q$ is the classifier-based membership row, $H$ is the componentwise $\hsame$ transport for the displayed rows, $C$ is the $\Cont$ replay route, $P$ is the $\Pkg$ provenance, and $N$ is the local $\NameCert_{\SetLikeUp}$ row. The membership carrier has no coordinate for host elementhood, powersets, quotient equality of sets, unrestricted comprehension, or an external universe of sets.
+\end{definition}
+
+\begin{theorem}[SetLike membership stability]
+\label{thm:setlike-membership-stability}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, every classifier-based membership read through the membership carrier $S_{\in}=(M,Q,H,C,P,N)$ remains the same finite $\BHist$ read after componentwise $\hsame$ transport and $\Cont$ replay. In particular, transport may expose only the membership source $M$, classifier row $Q$, structural route $H,C$, provenance $P$, and local $\NameCert_{\SetLikeUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the membership carrier of \autoref{def:setlike-membership-carrier}. Its only membership data are the source row $M$ and the classifier row $Q$.
+
+Transport is componentwise through $H$, and replay is displayed through $C$. These rows preserve and expose the same classifier-based membership surface rather than creating a second element relation.
+
+The rows $P$ and $N$ source and name the same finite packet. Hence a transported membership read remains a $\BHist$ read through $M,Q,H,C,P,N$ and cannot become host elementhood, a powerset coordinate, quotient equality, or unrestricted comprehension.
+\end{proof}
+
+\begin{theorem}[SetLike subset ledger exactness]
+\label{thm:setlike-subset-ledger-exactness}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, the subset ledger is exact: every accepted subset read is the implication row $I$ over the classifier-based membership carrier $S_{\in}$, together with the restricted-comprehension row $R$ only as a bounded consumer of $M,Q,I$. No subset consumer receives host-set extensionality, a global inclusion predicate, quotient equality of sets, or a powerset row outside $M,Q,I,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the membership carrier $S_{\in}$ and the subset row $I$. The classifier $Q$ is the only membership classifier available to the implication row, and $M$ is the only membership source.
+
+The restricted-comprehension row $R$ is bounded by the same displayed route. It can consume $M,Q,I$ but does not provide an ambient subset object.
+
+Transport and replay through $H,C$ preserve the same ledger, while $P,N$ record provenance and local naming. Since no extra coordinate exists, the subset ledger is exactly the finite route $M,Q,I,R,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[SetLike comprehension scope]
+\label{thm:setlike-comprehension-scope}
+For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, restricted comprehension through $R$ is scoped by classifier-based membership over $M,Q$ and subset implication through $I$. The resulting read remains a finite $\BHist$ row transported by $H$, replayed by $C$, sourced by $P$, and named by $N$; it does not assert unrestricted separation, host-set extensionality, quotient equality, or a universe of all subsets.
+\end{theorem}
+\begin{proof}
+Read $R$ from the carrier of \autoref{def:setlike-carrier}. The row is restricted comprehension, not a powerset constructor.
+
+The scope is supplied by the membership carrier of \autoref{def:setlike-membership-carrier} and the implication row $I$. Thus a comprehension read is accepted only when its classifier is already routed through $M,Q,I$.
+
+Finally apply the structural rows. Componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming keep the same finite row visible, so the comprehension scope does not become unrestricted separation, host-set extensionality, quotient equality, or a universe of all subsets.
+\end{proof}
+
 \begin{theorem}[SetLike NameCert obligations]
 \label{thm:setlike-namecert-obligations}
 For every accepted $\SetLikeUp$ carrier
