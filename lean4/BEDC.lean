@@ -991,6 +991,7 @@ import BEDC.Derived.BrouwerContinuityPrincipleUp.TasteGate
 import BEDC.Derived.BrouwerFixedPointUp
 import BEDC.Derived.BrouwerFixedPointUp.TasteGate
 import BEDC.Derived.BrouwerOperationUp.TasteGate
+import BEDC.Derived.BrouwerSpreadBarUp.TasteGate
 import BEDC.Derived.BrouwerSpreadUp.TasteGate
 import BEDC.Derived.BrownianUp
 import BEDC.Derived.BudgetedRealSealRouteUp.NameCertObligations
