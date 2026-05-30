@@ -96,6 +96,24 @@ Apply \autoref{thm:nested-dyadic-cauchy-regseqrat-handoff} to each carrier and c
 The construction exports no completed intersection point, quotient stream equality, host real equality, countable-choice selector, or ambient completeness. It only glues two compatible finite tails through the common route available before $E$ or $E'$.
 \end{proof}
 
+\begin{theorem}[Nested dyadic Cauchy common-tail uniqueness]
+\label{thm:nested-dyadic-cauchy-common-tail-uniqueness}
+Let $K=(I,B,S,R,E,H,C,P,N)$ and $K'=(I',B',S',R',E',H',C',P',N')$ be accepted $\NestedDyadicCauchyUp$ carriers. Suppose the two packets admit a displayed common refinement $I^*,B^*,S^*$ and that the resulting $\RegSeqRatUp$ handoff row $R^*$ is the same displayed route for both packets. Then every $\RealUp$-facing read of either packet reaches the same terminal seal boundary through
+$$
+I^*\longmapsto B^*\longmapsto S^*\longmapsto R^*,
+$$
+without quotient stream equality, selected intersection point, host real equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Apply tail gluing, \autoref{thm:nested-dyadic-cauchy-tail-gluing}. The displayed common refinement $I^*,B^*,S^*$ forces both accepted packets through one regular-rational route before either Real seal is available.
+
+Use the RegSeqRat handoff theorem \autoref{thm:nested-dyadic-cauchy-regseqrat-handoff} for each carrier. Since the handoff row $R^*$ is the same displayed route for both packets, the two reads share the same finite route $I^*\mapsto B^*\mapsto S^*\mapsto R^*$.
+
+Finally apply the Real seal boundary theorem \autoref{thm:nested-dyadic-cauchy-real-seal-boundary}. A Real-facing consumer can inspect a terminal seal only after the regular rational handoff has been displayed, so both packets reach the same terminal boundary through the common route.
+
+The carrier inventory supplies the refusals. None of the cited theorems introduces quotient stream equality, a selected intersection point, host real equality, countable choice, or ambient completeness; they only compare the displayed finite tail route.
+\end{proof}
+
 \begin{theorem}[Nested dyadic Cauchy Real seal boundary]
 \label{thm:nested-dyadic-cauchy-real-seal-boundary}
 For every accepted $\NestedDyadicCauchyUp$ carrier $K=(I,B,S,R,E,H,C,P,N)$, every $\RealUp$-facing read factors through the regular rational handoff row $R$ before the seal row $E$ is available. The consumer receives the finite interval prefix, shrinking-width budget, StreamName schedule, RegSeqRat handoff, Real seal, and structural rows, but receives no completed intersection point, quotient stream equality, host real equality, countable-choice selector, or ambient completeness principle.
