@@ -1,0 +1,137 @@
+\chapter{A Concrete Naming Certificate for $\CauchyModulusCompletionSelectorUp$}
+\label{ch:concrete-instances-cauchy-modulus-completion-selector-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Weihrauch on effective completion, the
+$\CauchyModulusCompletionSelectorUp$ packet records the finite selector surface
+that passes an explicit Cauchy modulus into a completion-facing readback. It
+sits after the explicit rate rows of
+\autoref{ch:concrete-instances-cauchymodulus-namecert}, the finite observation
+windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular
+rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the
+dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert},
+and the effective completion boundary of
+\autoref{ch:concrete-instances-effective-cauchy-completion-namecert}. The
+packet names a displayed selector for modulus evidence only; it does not choose
+a Cauchy representative, quotient streams, assert ambient real completeness, or
+export host equality of completed objects.
+
+\begin{definition}[Cauchy-modulus completion selector carrier]\label{def:cauchy-modulus-completion-selector-carrier}
+A $\CauchyModulusCompletionSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M,W,Q,D,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\CauchyModulusUp$ rate row, recording the requested precision
+and the displayed threshold selected for the completion query.
+\item $W$ is the $\StreamNameUp$ finite-window row read at that threshold.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the same windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used by the selected window
+and by the regular readback.
+\item $E$ is the $\EffectiveCauchyCompletionUp$ completion-facing boundary row.
+\item $R$ is the terminal $\RealUp$ seal row reached through $M,W,Q,D,E$.
+\item $H$ records componentwise $\hsame$ transport for the displayed rows.
+\item $C$ records displayed $\Cont$ replay from a completion request through
+$M,W,Q,D,E,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over
+$\CauchyModulusCompletionSelectorUp$, $\CauchyModulusUp$, $\StreamNameUp$,
+$\RegSeqRatUp$, $\DyadicRatCoreUp$, $\EffectiveCauchyCompletionUp$, $\RealUp$,
+$\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyModulusCompletionSelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no
+coordinate for a hidden threshold choice, quotient stream equality, selected
+limit, host real equality, countable choice, or ambient completion principle.
+\end{definition}
+
+\begin{theorem}[Cauchy-modulus completion selector obligations]\label{thm:cauchy-modulus-completion-selector-namecert-obligations}
+For every accepted $\CauchyModulusCompletionSelectorUp$ carrier
+$$
+S=(M,W,Q,D,E,R,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyModulusCompletionSelectorUp}$ surface consists
+exactly of carrier admission for the explicit modulus row, finite stream-window
+row, regular rational readback row, dyadic tolerance row, effective completion
+boundary row, terminal real seal, componentwise $\hsame$ transport, displayed
+$\Cont$ replay, provenance, and local naming. Every completion-facing selector
+read must expose $M,W,Q,D,E,R$ before $H,C,P,N$ can be consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:cauchy-modulus-completion-selector-carrier}. Its coordinates are
+precisely the modulus, window, readback, tolerance, completion boundary, real
+seal, transport, replay, provenance, and local naming rows.
+
+The selector route is read through $M,W,Q,D,E,R$. The modulus row supplies the
+threshold for the query, the window row identifies the inspected observations,
+the regular readback row records the Cauchy data, the dyadic row records the
+precision budget, the effective completion row exposes the completion-facing
+boundary, and the real row seals that same route.
+
+The remaining rows $H,C,P,N$ transport, replay, package, and name the route
+already displayed. Since hidden threshold choice, quotient streams, selected
+limits, countable choice, host equality, and ambient completeness have no
+carrier coordinate, the listed rows exhaust the local obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy-modulus selector effective readback]\label{thm:cauchy-modulus-completion-selector-effective-readback}
+For every accepted $\CauchyModulusCompletionSelectorUp$ carrier
+$S=(M,W,Q,D,E,R,H,C,P,N)$, any completion-facing query that consumes the
+effective boundary row $E$ must first read the $\CauchyModulusUp$ row $M$, the
+$\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $Q$, and the
+$\DyadicRatCoreUp$ tolerance row $D$. Thus the selector exposes a finite,
+modulus-indexed readback before the completion boundary is visible.
+\end{theorem}
+\begin{proof}
+Begin with
+\autoref{thm:cauchy-modulus-completion-selector-namecert-obligations}. It
+requires the selector read to expose the modulus, window, readback, tolerance,
+completion, and seal rows before the structural rows are consumed.
+
+The effective boundary row $E$ is therefore not read from a completed object in
+isolation. It is reached only after $M$ selects the threshold, $W$ displays the
+finite observations, $Q$ records the regular rational readback, and $D$ records
+the dyadic budget used by that readback.
+
+Consequently the completion-facing route factors through the same finite
+selector surface. The carrier has no coordinate for bypassing $M,W,Q,D$ by a
+host-level limit, quotient stream, or selected representative.
+\end{proof}
+
+\begin{theorem}[Cauchy-modulus selector real-seal nonescape]\label{thm:cauchy-modulus-completion-selector-real-seal-nonescape}
+For every accepted $\CauchyModulusCompletionSelectorUp$ carrier
+$S=(M,W,Q,D,E,R,H,C,P,N)$, the $\RealUp$ seal row $R$ is scoped to the displayed
+selector route $M,W,Q,D,E$. No downstream Real or Completion consumer can use
+$R$ as evidence for an unrelated Cauchy name, a quotient-completion equality,
+a selected limit, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:cauchy-modulus-completion-selector-effective-readback}. Before
+the effective boundary is visible, the consumer has already read the explicit
+modulus, finite window, regular readback, and dyadic tolerance rows.
+
+The real seal row $R$ is listed in the carrier only after that same boundary.
+Thus any read of $R$ is a read of the displayed selector route
+$M,W,Q,D,E$, not of an independent completed-real object.
+
+Finally use
+\autoref{thm:cauchy-modulus-completion-selector-namecert-obligations}. The
+transport, replay, provenance, and naming rows preserve the same route and add
+no second seal surface. The excluded host equalities, quotient completions,
+selected limits, and ambient completeness claims therefore cannot escape the
+finite carrier boundary.
+\end{proof}
+
+\closureat{CauchyModulusCompletionSelectorUp}{seedStr}
+
+\begin{closurestatus}{\CauchyModulusCompletionSelectorUp}
+  \constructivestory{A $\CauchyModulusCompletionSelectorUp$ packet is generated from an explicit CauchyModulus row, a finite StreamName window, RegSeqRat readback, DyadicRatCore tolerance, EffectiveCauchyCompletion boundary, terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-completion-selector-carrier}, \autoref{thm:cauchy-modulus-completion-selector-namecert-obligations}, \autoref{thm:cauchy-modulus-completion-selector-effective-readback}, and \autoref{thm:cauchy-modulus-completion-selector-real-seal-nonescape} seed the finite selector surface between modulus evidence and completion-facing readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completions, selected representatives, selected limits, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus-window selection, regular-readback exposure, dyadic tolerance confinement, effective completion routing, terminal seal scope, transport, replay, provenance, and local naming for BEDC.Derived.CauchyModulusCompletionSelectorUp.}
+\end{closurestatus}

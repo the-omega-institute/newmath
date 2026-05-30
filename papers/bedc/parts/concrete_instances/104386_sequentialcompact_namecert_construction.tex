@@ -81,6 +81,54 @@ Next read the stream and subsequence windows. The row $S$ gives finite source-wi
 Finally apply the readback and seal rows. The row $R$ consumes only the selected windows from $W$, and the row $E$ seals only the accepted regular rational readback. The transport, continuation, provenance, and NameCert rows preserve this same handoff, so no host subsequence selector, quotient stream equality, open-cover compactness theorem, countable choice, or ambient Real completeness can be exported.
 \end{proof}
 
+\begin{theorem}[SequentialCompact selector monotonicity]
+\label{thm:sequential-compact-selector-monotonicity}
+For an accepted $\SequentialCompactUp$ carrier
+$$
+Q=(K,B,S,W,R,E,H,C,P,N),
+$$
+the selected finite windows exposed to any compact-metric or Baire-space completion consumer are monotone exactly because the row $W$ displays the selected index list, the selected source windows, and the monotonicity evidence for that list. No consumer may replace $W$ by an externally selected subsequence, countable-choice function, quotient stream selector, or host sequential compactness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:sequential-compact-carrier}. The only coordinate that stores selected windows is $W$, and its displayed data include the selected indices, selected source windows, and monotonicity evidence.
+
+Apply \autoref{thm:sequential-compact-finite-subsequence-handoff}. Any completion consumer reads $K,B,S$ before it reaches $W$, and the subsequent rows $R,E,H,C,P,N$ preserve the same finite handoff.
+
+Thus selector monotonicity is not imported from a host choice principle. It is the projection of the finite row $W$, transported by $H$ and replayed by $C$ without adding any second selector coordinate.
+\end{proof}
+
+\begin{theorem}[SequentialCompact RegSeqRat handoff exactness]
+\label{thm:sequential-compact-regseqrat-handoff-exactness}
+For an accepted $\SequentialCompactUp$ carrier
+$$
+Q=(K,B,S,W,R,E,H,C,P,N),
+$$
+the row $R$ is the only $\RegSeqRatUp$ handoff available after the finite subsequence-window row $W$ has been displayed. Every rational-tail budget, regular readback, or downstream completion request that depends on selected windows must pass through $R$ before it can reach the terminal $\RealUp$ seal $E$.
+\end{theorem}
+\begin{proof}
+Read the handoff order in \autoref{thm:sequential-compact-finite-subsequence-handoff}. The route reaches $\StreamNameUp$ through $S$, then the selected finite windows through $W$, and only then the regular rational readback through $R$.
+
+The carrier has no alternate regular rational coordinate. The rows $H$ and $C$ can transport and replay $R$, while $P$ and $N$ record provenance and naming for the same displayed row.
+
+Consequently exactness of the $\RegSeqRatUp$ handoff is a projection claim about $R$. A consumer that asks for rational-tail data after $W$ receives that row and cannot bypass it through quotient stream equality, a selected limit, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[SequentialCompact Real seal nonescape]
+\label{thm:sequential-compact-real-seal-nonescape}
+For an accepted $\SequentialCompactUp$ carrier
+$$
+Q=(K,B,S,W,R,E,H,C,P,N),
+$$
+the terminal $\RealUp$ row $E$ is reachable only after the compact metric source $K$, Baire cylinder row $B$, stream-window row $S$, subsequence-window row $W$, regular rational handoff $R$, and structural rows $H,C,P,N$ have been displayed. The seal exports no ambient Real completeness, selected limit, quotient equality of streams, countable choice, or host sequential compactness theorem.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The row $E$ is listed after $R$ and is described as the $\RealUp$ seal reached after the regular rational readback is accepted.
+
+Use \autoref{thm:sequential-compact-selector-monotonicity} to keep the selected finite windows inside $W$. Then use \autoref{thm:sequential-compact-regseqrat-handoff-exactness} to force every rational-tail read from those windows through $R$.
+
+It remains only to inspect the structural rows. Transport, replay, provenance, and naming preserve the displayed route $K,B,S,W,R,E$; they do not add completeness, quotient, or choice coordinates. Hence the real seal is a nonescaping endpoint of the finite handoff, not an ambient Real-completeness principle.
+\end{proof}
+
 \closureat{SequentialCompactUp}{seedStr}
 
 \begin{closurestatus}{\SequentialCompactUp}

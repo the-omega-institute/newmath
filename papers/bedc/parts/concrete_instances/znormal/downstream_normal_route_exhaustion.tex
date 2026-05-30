@@ -48,6 +48,23 @@ Use \autoref{thm:znormal-root-normal-word-route-exposure} to attach that classif
 Finally invoke \autoref{thm:znormal-downstream-normal-route-exhaustion}. Since every downstream normal route is already exhausted by the displayed packet and finite sibling surfaces, classifier compatibility contributes no route to host conversion, unrestricted evaluation, divergence detection, or global normalization.
 \end{proof}
 
+\begin{theorem}[$\ZNormalUp$ downstream ZCarry dependency route]
+\label{thm:znormal-downstream-normal-route-zcarry-dependency}
+Every downstream normal-form read of an accepted $\ZNormalUp$ packet
+$$
+Z=(T,F,V,K,R,H,C,P,N)
+$$
+consumes the normal-word row $K$ through \autoref{ch:concrete-instances-zeckendorf-normal-namecert} and \autoref{ch:concrete-instances-zcarry-namecert} before any terminal readback through $R,H,C,P,N$. The read therefore reaches ZeckendorfNormal and ZCarry sibling evidence as finite BEDC rows, not as host conversion, quotient normalization, unrestricted evaluation, divergence detection, or global normalization.
+\end{theorem}
+\leanchecked{BEDC.Derived.ZnormalUp.ZnormalPacket\_downstream\_zcarry\_dependency\_route}
+\begin{proof}
+Begin with \autoref{thm:znormal-downstream-normal-route-exhaustion}. It says that every downstream normal-form route is already exhausted by $T,F,V,K,R,H,C,P,N$ and that the row $K$ is the sibling normal-word route.
+
+Next apply \autoref{thm:znormal-finite-normalword-classifier-compatibility}. The classifier compatibility theorem forces $K$ to remain attached to the same terminal packet before any downstream consumer reads $R,H,C,P,N$.
+
+The two sibling labels name the concrete finite sources for that row. Thus $K$ is consumed through the ZeckendorfNormal and ZCarry chapters first, and the terminal readback can only replay the already displayed route.
+\end{proof}
+
 \begin{theorem}[$\ZNormalUp$ candidate-normal endpoint readback]
 \label{thm:znormal-candidate-normal-endpoint-readback}
 Every candidate-mediated normal endpoint consumer of an accepted $\ZNormalUp$ packet
