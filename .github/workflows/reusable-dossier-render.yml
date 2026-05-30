@@ -142,10 +142,15 @@ jobs:
           git -C "$GITHUB_WORKSPACE" fetch --no-tags --depth=2 origin "${{ inputs.checkout_ref }}"
           git -C "$GITHUB_WORKSPACE" checkout --force FETCH_HEAD
 
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-        with:
-          version: "1.9.37"
+      - name: Install Quarto (容器内直装,texlive-full 无 sudo)
+        run: |
+          set -euo pipefail
+          QV=1.9.37
+          curl -fsSL -o /tmp/quarto.tar.gz "https://github.com/quarto-dev/quarto-cli/releases/download/v${QV}/quarto-${QV}-linux-amd64.tar.gz"
+          mkdir -p /opt/quarto
+          tar -xzf /tmp/quarto.tar.gz -C /opt/quarto --strip-components=1
+          echo "/opt/quarto/bin" >> "$GITHUB_PATH"
+          /opt/quarto/bin/quarto --version
 
       - name: Set up Node.js (for dagre layout bake)
         uses: actions/setup-node@v4
