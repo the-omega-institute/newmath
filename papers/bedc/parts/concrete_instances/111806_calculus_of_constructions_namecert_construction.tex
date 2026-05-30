@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\CalculusOfConstructionsUp$}
+\label{ch:concrete-instances-calculus-of-constructions-namecert}
+\origin{human}
+
+Following Coquand and Huet, the $\CalculusOfConstructionsUp$ packet records the dependent-type calculus surface needed by the MetaCIC path as finite NameCert data. It extends the untyped syntax and substitution corridor of \autoref{ch:concrete-instances-lambdacalc-namecert}, keeps computability comparisons separate from the machine models of \autoref{ch:concrete-instances-computable-namecert} and \autoref{ch:concrete-instances-turingmachine-namecert}, and routes downstream dependent typing through the displayed MetaCIC typing, substitution, and subject-reduction surfaces of \autoref{ch:concrete-instances-typing-judgment-classifier-namecert}, \autoref{ch:concrete-instances-closed-substitution-boundary-namecert}, \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, and \autoref{ch:concrete-instances-metacic-subject-reduction-frontier-namecert}. The packet names a traditional calculus object without asserting consistency, normalization, quotient term equality, host function extensionality, or a completed MetaCIC development.
+
+\begin{definition}[CalculusOfConstructions carrier]
+\label{def:calculus-of-constructions-carrier}
+A $\CalculusOfConstructionsUp$ carrier is a finite $\BHist$ packet
+$$
+C=(S,\Pi,L,A,\Gamma,\Sigma,B,R,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite sort row, naming the primitive universe and proposition classifiers used by the calculus surface;
+\item $\Pi$ is the dependent-product row, naming the domain, codomain-in-context, and formation boundary for $\Pi$-types;
+\item $L$ is the lambda row, naming abstraction formation over a displayed context extension;
+\item $A$ is the application row, naming elimination of a displayed dependent-product term by a displayed argument;
+\item $\Gamma$ is the context row, carrying finite extension, lookup, weakening, and exchange ledgers without identifying contexts by a quotient;
+\item $\Sigma$ is the substitution row, carrying finite capture-avoiding substitution and context-substitution ledgers;
+\item $B$ is the beta-boundary row, recording the local beta computation interface between $L$, $A$, and $\Sigma$;
+\item $R$ is the subject-reduction boundary row, exposing only the parameterised MetaCIC discharge route through the existing subject-reduction socket;
+\item $H$ records componentwise $\hsame$ transport for $S,\Pi,L,A,\Gamma,\Sigma,B,R,P,N$;
+\item $K$ records displayed $\Cont$ replay from the calculus packet to the lambda-calculus, typing-classifier, substitution-boundary, and subject-reduction-frontier consumers;
+\item $P$ is the $\Pkg$ provenance over $\CalculusOfConstructionsUp$, $\LambdaCalcUp$, $\TypingJudgmentClassifierUp$, $\ClosedSubstitutionBoundaryUp$, $\SubjectReductionDischargeSocketUp$, $\MetaCICSubjectReductionFrontierUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CalculusOfConstructionsUp}$ row.
+\end{enumerate}
+The carrier contains no proof of global consistency, no strong-normalization theorem, no quotient equality of terms, no host-level function extensionality principle, and no completed MetaCIC kernel theorem.
+\end{definition}
+
+\begin{theorem}[CalculusOfConstructions NameCert obligations]
+\label{thm:calculus-of-constructions-namecert-obligations}
+For the carrier of \autoref{def:calculus-of-constructions-carrier}, the local $\NameCert_{\CalculusOfConstructionsUp}$ surface consists exactly of finite obligations for the sort row $S$, dependent-product row $\Pi$, lambda row $L$, application row $A$, context row $\Gamma$, substitution row $\Sigma$, beta-boundary row $B$, subject-reduction boundary row $R$, componentwise transport $H$, displayed replay $K$, provenance $P$, and local naming $N$. Any accepted public read of the packet must pass through these rows and cannot replace them by a normalization theorem, a consistency theorem, a quotient conversion oracle, or host function extensionality.
+\end{theorem}
+\begin{proof}
+Project the carrier $C$. Its primitive calculus data are exactly $S,\Pi,L,A,\Gamma,\Sigma$, so the syntax, context, and substitution obligations are finite rows rather than ambient metatheoretic assumptions.
+
+The boundary rows $B$ and $R$ add only local beta computation and the parameterised subject-reduction route. They do not add a closed subject-reduction theorem, because the route is read through the existing discharge socket and frontier.
+
+Finally inspect $H,K,P,N$. Transport, replay, provenance, and local naming preserve the displayed row inventory. Since no other coordinate is present, a consumer has no place from which to extract consistency, normalization, quotient term equality, or host extensionality.
+\end{proof}
+
+\begin{theorem}[CalculusOfConstructions substitution typing route]
+\label{thm:calculus-of-constructions-substitution-typing-route}
+Every accepted $\CalculusOfConstructionsUp$ consumer that asks for a substitution-stable typing route must read the carrier in the order
+$$
+\Gamma,\Sigma \longrightarrow S,\Pi,L,A \longrightarrow B,R \longrightarrow H,K,P,N.
+$$
+The context and substitution rows supply the finite substitution ledger, the sort and term-former rows supply the dependent typing surface, the beta and subject-reduction rows expose only the existing MetaCIC boundary, and the transport, replay, provenance, and naming rows keep the route inside the same finite packet. The route does not assert completed MetaCIC substitution admissibility, closed subject reduction, conversion soundness, normalization, or consistency.
+\end{theorem}
+\begin{proof}
+Start with $\Gamma,\Sigma$. These rows display the finite context and substitution ledgers, so a substitution-stable read begins with explicit context extension, lookup, weakening, exchange, and capture-avoiding substitution data.
+
+Next read $S,\Pi,L,A$. The sort, dependent-product, lambda, and application rows provide the dependent typing surface on which the substitution ledger acts. This is the calculus surface inherited from the Coquand--Huet presentation and routed through the $\LambdaCalcUp$ syntax corridor.
+
+The rows $B,R$ then expose the boundary to MetaCIC: beta computation is local to the displayed substitution row, and subject reduction is only the parameterised discharge route named by the socket and frontier chapters. Replaying the route through $H,K,P,N$ preserves the same finite rows, so no stronger MetaCIC theorem is exported by the calculus packet itself.
+\end{proof}
+
+\closureat{CalculusOfConstructionsUp}{seedStr}
+
+\begin{closurestatus}{\CalculusOfConstructionsUp}
+  \constructivestory{A $\CalculusOfConstructionsUp$ packet is generated from finite sort, dependent-product, lambda, application, context, substitution, beta-boundary, subject-reduction-boundary, componentwise transport, replay, provenance, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:calculus-of-constructions-carrier}, \autoref{thm:calculus-of-constructions-namecert-obligations}, and \autoref{thm:calculus-of-constructions-substitution-typing-route} bind the finite dependent-type calculus surface used by the MetaCIC path.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not prove consistency, normalization, quotient term equality, host function extensionality, completed MetaCIC substitution admissibility, closed subject reduction, Lean verification, or a public schema bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, sort and dependent-product exactness, context and substitution route exactness, beta-boundary preservation, subject-reduction boundary routing, provenance, local naming, and non-escape for the same finite packet.}
+\end{closurestatus}
