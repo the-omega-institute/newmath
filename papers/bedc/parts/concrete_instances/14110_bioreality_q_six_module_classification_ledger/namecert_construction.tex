@@ -1,0 +1,116 @@
+\chapter{A Concrete Naming Certificate for $\BioRealityQSixModuleClassificationLedgerUp$}
+\label{ch:concrete-instances-bioreality-q-six-module-classification-ledger-namecert}
+\origin{ai}
+
+The $\BioRealityQSixModuleClassificationLedgerUp$ packet names the finite module-classification surface for a query-six leave-one-codon evaluation. The displayed classification universe has size $13$, and the assigned-count row is also $13$. The six displayed modules are not placeholders: the AGR row contains $\mathrm{AGA}$ and $\mathrm{AGG}$, the AR/Lys row contains $\mathrm{AAA}$, the CUN row contains $\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}$, the Ile/Met row contains $\mathrm{AUA}$, the SSN row contains $\mathrm{UCA},\mathrm{UUA}$, and the stop/Trp row contains $\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}$. The residual rows are empty: no extra module codons, no codons missing from the module list, and no unassigned codons are carried by the packet.
+
+\begin{definition}[BioRealityQSixModuleClassificationLedger carrier]
+\label{def:bioreality-q-six-module-classification-ledger-carrier}
+A $\BioRealityQSixModuleClassificationLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+\begin{gathered}
+L=(R,A,G,K,C,I,S,T,E,M,U,V,H,Q,P,N)
+\end{gathered}
+$$
+with the following displayed rows:
+\begin{itemize}
+\item $R$ is the classification-scope row asserting $|R|=13$;
+\item $A$ is the assigned-count row asserting $A=13$;
+\item $G$ is the AGR module row carrying exactly $\mathrm{AGA}$ and $\mathrm{AGG}$;
+\item $K$ is the AR/Lys module row carrying exactly $\mathrm{AAA}$;
+\item $C$ is the CUN module row carrying exactly $\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}$;
+\item $I$ is the Ile/Met module row carrying exactly $\mathrm{AUA}$;
+\item $S$ is the SSN module row carrying exactly $\mathrm{UCA}$ and $\mathrm{UUA}$;
+\item $T$ is the stop/Trp module row carrying exactly $\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}$;
+\item $E$ is the extra-module-codon residual row, and it is empty;
+\item $M$ is the missing-from-modules residual row, and it is empty;
+\item $U$ is the unassigned-codon residual row, and it is empty;
+\item $V$ is the verification-time row recording that these rows were checked at $2026$-$05$-$26\,16\!:\!22\!:\!47+00\!:\!00$;
+\item $H$ is the componentwise $\hsame$ transport row for $R,A,G,K,C,I,S,T,E,M,U,V$;
+\item $Q$ is the displayed $\Cont$ replay row for the same finite classification packet;
+\item $P$ is the $\Pkg$ provenance row for the empirical run identifier \texttt{bbe8a4d0455b} and for the displayed module-classification rows;
+\item $N$ is the local $\NameCert_{\BioRealityQSixModuleClassificationLedgerUp}$ row naming exactly this packet.
+\end{itemize}
+The carrier has no slot for a codon outside the displayed thirteen-codon scope, no slot for a nonempty residual list, no p-value row, no biological-causation row, no probabilistic model, and no mechanism claim beyond this finite module-classification ledger.
+\end{definition}
+
+\begin{theorem}[Module-classification NameCert obligations]
+\label{thm:bioreality-q-six-module-classification-ledger-namecert-obligations}
+For every accepted $\BioRealityQSixModuleClassificationLedgerUp$ carrier $L=(R,A,G,K,C,I,S,T,E,M,U,V,H,Q,P,N)$, the local $\NameCert_{\BioRealityQSixModuleClassificationLedgerUp}$ surface consists exactly of classification-scope exposure through $R$, assigned-count exposure through $A$, six module-list exposures through $G,K,C,I,S,T$, three empty residual exposures through $E,M,U$, verification-time exposure through $V$, componentwise transport through $H$, displayed continuation replay through $Q$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+
+\begin{proof}
+Inspect an accepted carrier $L$. The rows $R$ and $A$ fix the finite accounting scope: the classified set has size $13$, and the number of assigned codons is $13$. The rows $G,K,C,I,S,T$ are the only module-list rows carried by the packet, and they display the AGR, AR/Lys, CUN, Ile/Met, SSN, and stop/Trp codon lists.
+
+The residual rows $E,M,U$ are explicitly empty. Therefore the carrier exposes no extra module codon, no codon missing from the displayed modules, and no unassigned codon. The rows $V,H,Q,P,N$ only record verification time, transport, replay, provenance, and local naming for the same packet, so no additional NameCert obligation can be read from the carrier.
+\end{proof}
+
+\begin{theorem}[Thirteen-codon completion reading]
+\label{thm:bioreality-q-six-module-classification-ledger-completion}
+Inside an accepted $\BioRealityQSixModuleClassificationLedgerUp$ carrier, the six module rows account for all thirteen classified codons:
+$$
+\begin{aligned}
+|R|&=13,\\
+A&=13,\\
+G&=\{\mathrm{AGA},\mathrm{AGG}\},\\
+K&=\{\mathrm{AAA}\},\\
+C&=\{\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}\},\\
+I&=\{\mathrm{AUA}\},\\
+S&=\{\mathrm{UCA},\mathrm{UUA}\},\\
+T&=\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
+\end{aligned}
+$$
+The module-list cardinalities are $2,1,4,1,2,3$, whose displayed sum is $13$.
+\end{theorem}
+
+\begin{proof}
+The carrier rows display the six module lists directly. Counting the displayed rows gives $2$ AGR codons, $1$ AR/Lys codon, $4$ CUN codons, $1$ Ile/Met codon, $2$ SSN codons, and $3$ stop/Trp codons. Their sum is
+$$
+\begin{aligned}
+2+1+4+1+2+3=13.
+\end{aligned}
+$$
+This agrees with both the classification-scope row $R$ and the assigned-count row $A$, so the accepted packet records a complete thirteen-codon module classification.
+\end{proof}
+
+\begin{theorem}[Residual emptiness boundary]
+\label{thm:bioreality-q-six-module-classification-ledger-residual-emptiness}
+Inside an accepted $\BioRealityQSixModuleClassificationLedgerUp$ carrier, the extra-module-codon list, the missing-from-modules list, and the unassigned-codon list are all empty:
+$$
+\begin{aligned}
+E&=\varnothing,\\
+M&=\varnothing,\\
+U&=\varnothing.
+\end{aligned}
+$$
+Consequently an accepted carrier certifies no codon outside the six displayed module rows and no unclassified codon inside the thirteen-codon scope.
+\end{theorem}
+
+\begin{proof}
+The equalities are the displayed contents of the three residual rows. Since $E$ is empty, no extra module codon is exported. Since $M$ is empty, the packet does not report a classified codon missing from the module lists. Since $U$ is empty, the packet does not report an unassigned codon. These rows are part of the same carrier as the $13$-scope row and the $13$-assignment row, so the emptiness claim is confined to that finite scope.
+\end{proof}
+
+\begin{theorem}[No mechanism escape]
+\label{thm:bioreality-q-six-module-classification-ledger-nonescape}
+An accepted $\BioRealityQSixModuleClassificationLedgerUp$ carrier does not certify a codon-level mechanism, a p-value, biological causation, a probabilistic model, an additional module, or any codon outside the displayed rows $G,K,C,I,S,T$. It certifies only the finite rows $R,A,G,K,C,I,S,T,E,M,U,V,H,Q,P,N$.
+\end{theorem}
+
+\begin{proof}
+Every exported datum of the carrier appears in one of the listed rows. The module rows list the codons, the count rows state $13$ and $13$, the residual rows are empty, and the remaining rows transport, replay, source, and name the same packet. None of these rows contains a statistical-test field, a mechanistic field, a probability model, or an additional codon list, so those claims are not exported by the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{If a later replay keeps the same $\BioRealityQSixModuleClassificationLedgerUp$ carrier name but changes the classified-scope size from $13$, the assigned count from $13$, any listed module row such as $\{\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}\}$ for CUN, or any of the three empty residual rows, then it is not the same finite packet under componentwise NameCert preservation.}
+
+\independenceWitness{q-six-module-classification-ledger: the carrier is separated by the simultaneous presence of the $13$-codon scope, the $13$-assignment count, the six module rows AGR $\{\mathrm{AGA},\mathrm{AGG}\}$, AR/Lys $\{\mathrm{AAA}\}$, CUN $\{\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}\}$, Ile/Met $\{\mathrm{AUA}\}$, SSN $\{\mathrm{UCA},\mathrm{UUA}\}$, stop/Trp $\{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}$, and the three empty residual rows. Removing any one of these rows yields a different empirical ledger rather than a bijective copy of this module-classification certificate.}
+
+\closureat{BioRealityQSixModuleClassificationLedgerUp}{seedStr}
+
+\begin{closurestatus}{\BioRealityQSixModuleClassificationLedgerUp}
+  \constructivestory{A $\BioRealityQSixModuleClassificationLedgerUp$ packet is generated from a thirteen-codon scope row, a thirteen-assignment count row, six displayed module-list rows, three empty residual rows, a verification-time row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the carrier, NameCert obligation surface, thirteen-codon completion reading, residual-emptiness boundary, non-escape theorem, falsifiable prediction, and independence witness for the finite BioReality query-six module-classification ledger.}
+  \formalstatus{\unformalized}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not claim codon-level mechanism, p-value significance, biological causation, a probabilistic model, an additional module, an additional codon, or any classification outside the displayed thirteen-codon empirical ledger.}
+  \upgradepath{A stronger status requires a checked bridge that imports the six module rows, the $13$-scope row, the $13$-assignment row, the three empty residual rows, and the provenance row into a formal carrier without adding data outside the displayed packet.}
+\end{closurestatus}
