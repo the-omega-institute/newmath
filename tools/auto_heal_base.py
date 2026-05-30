@@ -1773,9 +1773,18 @@ def classify_cooldown_cause(cooldown: dict) -> tuple[str, dict]:
         }
 
     # 5. CODEX_API_FAILURE
-    if re.search(r"Codex exec completed in \d+(?:\.\d+)?s \(rc=1\)", text):
-        if re.search(r"at capacity|Selected model is at capacity|stdout/stderr empty|empty stdout|empty stderr",
-                     text, re.IGNORECASE):
+    api_durs = re.findall(r"Codex exec completed in (\d+(?:\.\d+)?)s \(rc=1\)", text)
+    if api_durs:
+        explicit = re.search(
+            r"at capacity|Selected model is at capacity|stdout/stderr empty|empty stdout|empty stderr",
+            text, re.IGNORECASE)
+        # A fast rc=1 (far below any productive Phase B/C run, which take
+        # minutes to ~an hour) with no fixable signature matched in steps 1-4
+        # is the upstream API-transient signature (rate limit / capacity /
+        # quota) even when codex did not print the explicit capacity message —
+        # the common case is a silent fast rc=1. Threshold 120s << real runs.
+        fast_fail = any(float(d) < 120.0 for d in api_durs)
+        if explicit or fast_fail:
             return "CODEX_API_FAILURE", {
                 "snippet": "\n".join(snippets[-3:]) or text[-1200:],
                 "preceding_fails": failures,
@@ -2050,6 +2059,12 @@ def run_cooldown_self_test() -> int:
             "line": "[cooldown] 3 failures",
             "failures": [{"round_id": "R6", "snippet":
                           "Codex exec completed in 42s (rc=1): Selected model is at capacity"}],
+            "context": [],
+        }),
+        ("CODEX_API_FAILURE", {
+            "line": "[cooldown] 3 failures",
+            "failures": [{"round_id": "R12002", "snippet":
+                          "[recovery] Codex exec completed in 26.5s (rc=1)"}],
             "context": [],
         }),
         ("UNKNOWN", {
