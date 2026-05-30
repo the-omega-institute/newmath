@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\HahnDecompositionUp$}
+\label{ch:concrete-instances-hahn-decomposition-namecert}
+\origin{human}
+
+Following Hahn and standard signed-measure theory, the $\HahnDecompositionUp$ packet records the finite BEDC surface by which a signed measure is read through positive and negative regions before downstream integration or Radon representation consumers inspect it. It sits after the measure carrier of \autoref{ch:concrete-instances-measure-namecert}, the regular measure packet of \autoref{ch:concrete-instances-radon-measure-namecert}, the compact representation route of \autoref{ch:concrete-instances-riesz-markov-namecert}, the public integral row of \autoref{ch:concrete-instances-integral-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names a decomposition certificate; it does not import a host sigma-algebra completion, quotient equality of signed measures, or a choice-selected measurable partition.
+
+\begin{definition}[Hahn decomposition carrier]
+\label{def:hahn-decomposition-carrier}
+A $\HahnDecompositionUp$ carrier is a finite $\BHist$ packet
+$$
+D=(S,A,B,Z,M,R,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the signed-measure row, carrying the finite positive and negative variation ledgers visible to this certificate.
+\item $A$ is the positive-region row, naming the measurable region on which every displayed signed-measure read is nonnegative.
+\item $B$ is the negative-region row, naming the measurable region on which every displayed signed-measure read is nonpositive.
+\item $Z$ is the null-boundary row, recording the displayed overlap and complement boundary on which the decomposition exports no signed mass.
+\item $M$ is the $\MeasureUp$ readback row for the underlying measurable-event and finite-value surface.
+\item $R$ is the $\RadonMeasureUp$ regularity row used when a downstream regular-measure consumer asks for compact or open approximants.
+\item $L$ is the $\RieszMarkovUp$ representation row used when a compact positive-functional consumer reads the decomposed measure through a representing Radon packet.
+\item $E$ is the $\IntegralUp$ and $\RealUp$ readback row for integral values and terminal real seals produced from the displayed signed-measure side.
+\item $H$ records componentwise $\hsame$ transport for $S,A,B,Z,M,R,L,E$ and for every region, boundary, measure value, integral value, and real seal named by those rows.
+\item $C$ is the displayed $\Cont$ replay ledger routing signed-measure reads first through $A,B,Z$, then through $M,R,L,E$ when a downstream consumer asks for measure, Radon, Riesz--Markov, integral, or real output.
+\item $P$ is the $\Pkg$ provenance over $\HahnDecompositionUp$, $\MeasureUp$, $\RadonMeasureUp$, $\RieszMarkovUp$, $\IntegralUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local certificate rows.
+\item $N$ is the local $\NameCert_{\HahnDecompositionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by these twelve displayed rows. It has no coordinate for host signed-measure equality, a completed measure algebra, a selected measurable partition, countable choice, quotient equality of regions, or ambient standard-model measure theory.
+\end{definition}
+
+\begin{theorem}[Hahn decomposition NameCert obligations]
+\label{thm:hahn-decomposition-namecert-obligations}
+For every accepted $\HahnDecompositionUp$ carrier
+$$
+D=(S,A,B,Z,M,R,L,E,H,C,P,N),
+$$
+the local $\NameCert_{\HahnDecompositionUp}$ surface consists exactly of signed-measure admission through $S$, positive-region visibility through $A$, negative-region visibility through $B$, null-boundary exactness through $Z$, measure readback through $M$, Radon regularity handoff through $R$, Riesz--Markov representation handoff through $L$, integral and real readback through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hahn-decomposition-carrier}. It lists the signed-measure row, positive and negative region rows, null-boundary row, downstream measure-analysis rows, transport row, replay row, provenance row, and local naming row.
+
+The decomposition obligations are the visible rows $A,B,Z$ over the signed-measure row $S$. They state which region is read as positive, which region is read as negative, and where the null boundary prevents a consumer from extracting extra signed mass.
+
+The downstream obligations are the rows $M,R,L,E$. They force every measure, RadonMeasure, RieszMarkov, Integral, or Real readback to pass through displayed BEDC packets rather than through a host theorem about signed measures.
+
+Finally, $H,C,P,N$ preserve and name the same finite route. Since no other coordinate is present, the local NameCert surface is exhausted by the listed rows.
+\end{proof}
+
+\begin{theorem}[Hahn decomposition signed-measure route]
+\label{thm:hahn-decomposition-signed-measure-route}
+Every downstream consumer of an accepted $\HahnDecompositionUp$ carrier must read the signed-measure row $S$ through the positive region $A$, negative region $B$, and null boundary $Z$ before it may inspect the $\MeasureUp$, $\RadonMeasureUp$, $\RieszMarkovUp$, $\IntegralUp$, or $\RealUp$ rows $M,R,L,E$. The route is transported by $H$, replayed by $C$, packaged by $P$, and named by $N$.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{def:hahn-decomposition-carrier}. The only signed-measure coordinate is $S$, and its decomposition-facing rows are exactly $A,B,Z$.
+
+Apply \autoref{thm:hahn-decomposition-namecert-obligations}. The obligation surface requires positive-region visibility, negative-region visibility, and null-boundary exactness before any downstream readback row can be consumed.
+
+Now read the downstream rows in order. Measure consumers pass through $M$, regular-measure consumers pass through $R$, compact representation consumers pass through $L$, and integral or terminal real consumers pass through $E$. The replay ledger $C$ records those routes, while $H,P,N$ transport, source, and name them.
+
+Thus the signed-measure route is the displayed finite BEDC packet. It exports no host signed-measure equality, selected measurable partition, completed measure algebra, quotient equality of regions, countable choice, or ambient standard-model measure theorem.
+\end{proof}
+
+\closureat{HahnDecompositionUp}{seedStr}
+
+\begin{closurestatus}{\HahnDecompositionUp}
+  \constructivestory{A $\HahnDecompositionUp$ packet is generated from a signed-measure row, positive-region row, negative-region row, null-boundary row, MeasureUp readback, RadonMeasureUp regularity handoff, RieszMarkovUp representation handoff, IntegralUp and RealUp readback, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hahn-decomposition-carrier}, \autoref{thm:hahn-decomposition-namecert-obligations}, and \autoref{thm:hahn-decomposition-signed-measure-route} seed the finite signed-measure decomposition route through positive, negative, null-boundary, measure, Radon, Riesz--Markov, integral, and real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host signed-measure equality, selected measurable partitions, completed measure algebras, quotient equality of regions, countable choice, or ambient standard-model measure theory.}
+  \upgradepath{Obligation closure requires checked carrier admission, signed-measure classifier transport, positive-region visibility, negative-region visibility, null-boundary exactness, downstream measure readback, Radon and Riesz--Markov handoff, Integral and Real readback, transport stability, replay stability, and provenance for BEDC.Derived.HahnDecompositionUp.}
+\end{closurestatus}
