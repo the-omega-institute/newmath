@@ -1,31 +1,82 @@
-\subsection{NameCert: h1.leave.one.codon.out}
-\label{sec:namecert-h1_leave_one_codon_out}
-\noindent\textit{Proposed by bio-namer; review status: draft.}
+\subsection{Leave-one-codon-out recovery inside a local codon tile}
+\label{sec:bioreality-h1-leave-one-codon-out}
+\origin{ai}
 
-\paragraph{NameCert chapter slug.}
-Proposed slug: `14104\_bioreality\_q\_six\_leave\_one\_codon\_boundary\_namecert\_construction`. The concept is BioReality-namespaced and avoids Loning-occupied terms such as `Codon64`, `Q\_6`, `M\textasciicircum{}star`, `StopCodonZeckendorfSuffix`, support nerve, trigger lattice, reassignment spectrum, `dna\_window\_six\_boundary\_tiles`, and standard-code bridge-row terminology.
+\paragraph{Finite packet.}
+This record studies the standard-code codon table at the code-read layer, using a six-bit codon display as the finite coordinate carrier. The observed labels are not inferred from geometry; they are supplied by the curated standard genetic-code table, which assigns each codon to an amino-acid or stop label. The coordinate side is therefore allowed to expose local tile structure, while the biological label side remains an external contact. The leave-one-codon-out row has experiment run id \texttt{e9e1a6e41633}, verified at \texttt{2026-05-30T16:46:16+00:00}. Its finite counts are
+$$
+\begin{aligned}
+\operatorname{anchor\_count} &= 0,\\
+\operatorname{boundary\_count} &= 5,\\
+\operatorname{closure\_coverage\_high} &= 8,\\
+\operatorname{predictable\_count} &= 8,\\
+\operatorname{recovery\_rate} &= 1.0,\\
+\operatorname{recovery\_rate\_above\_threshold} &= 1.0.
+\end{aligned}
+$$
+Thus every codon tested in the high-coverage leave-one-codon-out portion is recovered by the finite local procedure, but the recovery is entirely code-layer recovery: it recovers label-table placement, not translation chemistry or protein-level realization.
 
-\paragraph{Carrier.}
-Carrier name: `BioRealityQSixLeaveOneCodonBoundary`. BEDC 5-tuple: `(carrier, distinctions, internal\_closure\_packet, external\_reality\_bridge, cannot\_claim\_boundary)`, where the carrier is a finite window-six codon-coordinate leave-one packet; distinctions separate predictable, boundary, anchor, and row-readback classes; internal\_closure\_packet records only BEDC coordinate, closure, relation, quotient, and local boundary bookkeeping; external\_reality\_bridge points to curated code-table contacts and reproducible experiment runs; and cannot\_claim\_boundary prevents the leave-one geometry from being promoted to translation, folding, physical admissibility, function, mechanism, or global biological law.
+\paragraph{Punctured-cube row.}
+The distinguished remainder set $R$ has cardinality $13$. The verified codons are
+$$
+\begin{aligned}
+R = \{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
+\end{aligned}
+$$
+The punctured-cube check reports the same set and has face-vector
+$$
+\begin{aligned}
+f(R)=(13,16,4).
+\end{aligned}
+$$
+This is the local tile boundary on which the row is based: thirteen codon vertices, sixteen one-dimensional adjacencies, and four square faces in the finite codon-cube display. The assertion is not that biological evolution must realize this geometry. The assertion is narrower: after the curated code labels are attached, this finite set is the observed local boundary object used by the leave-one-codon-out test.
 
-\paragraph{Distinctions.}
-- The linked conjecture's six-bit codon display, local tile face, singleton label corner, and three-point label class distinctions. - The experiment's predictable codon distinction for rows whose leave-one closure recovers the target under the local procedure. - The experiment's boundary codon distinction for rows whose leave-one closure behaves as a local boundary witness. - The experiment's anchor codon distinction for the structural-anchor slot, kept separate from both predictable and boundary rows. - The row-level distinction between the removed codon label, its local classification, and its closure-size witness. - The bridge distinction between curated standard-code label readback and internal BEDC coordinate, closure, quotient, and boundary structure.
+\paragraph{Module partition.}
+The module classification row assigns all thirteen codons in $R$ and reports no missing, extra, or unassigned codons. Its modules are
+$$
+\begin{aligned}
+\mathrm{agr} &= \{\mathrm{AGA},\mathrm{AGG}\},\\
+\mathrm{ar\_lys} &= \{\mathrm{AAA}\},\\
+\mathrm{cun} &= \{\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}\},\\
+\mathrm{ile\_met} &= \{\mathrm{AUA}\},\\
+\mathrm{ssn} &= \{\mathrm{UCA},\mathrm{UUA}\},\\
+\mathrm{stop\_trp} &= \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
+\end{aligned}
+$$
+The row records $R\_size=13$ and $assigned\_count=13$, with empty lists for extra module codons, missing codons, and unassigned codons. The classification therefore covers exactly the local remainder set. Each module has either predictable or boundary status in the finite test, which is why the recovery result can be stated without adding a hidden residual class.
 
-\paragraph{Readback.}
-The carrier reads back to observable data by following the `curated.standard.code.table` reality contact, the linked conjecture `codon.window6.local.tile.boundary`, claim `h1.leave.one.codon.out`, and the latest passed `leave\_one\_codon\_out` experiment run. The readback surface is a provenance pointer to curated code-label rows and reproducible leave-one codon classifications; the carrier itself records separated field structure and readback discipline, not a biological mechanism.
+\paragraph{Spectral and null checks.}
+The associated spectral row records
+$$
+\begin{aligned}
+\lambda_M &= 0.6752479308830213,\\
+\lambda_R &= 0.4758352843197002,\\
+\mu &= 3.051487585298128,\\
+\operatorname{radial\_polynomial\_value} &= -6.224354365258478\times 10^{-12}.
+\end{aligned}
+$$
+The same residual is reported for the cubic-polynomial check, so the numerical discrepancy is at rounding scale for this finite computation. The shape-significance row used $N=2000$ sampled controls, with $57377$ distinct-sample attempts and $55377$ duplicate retries. It found $1$ exact shape match and $25$ matches with Jaccard score at least $0.9$, giving
+$$
+\begin{aligned}
+p_{\mathrm{exact}} &= 0.0005,\\
+p_{\mathrm{Jaccard}\ge 0.9} &= 0.0125.
+\end{aligned}
+$$
+The amino-acid-class-preserving null row also used $N=2000$. It reports observed $M$-size $20$, exact-match count $0$, and $7$ lower-tail samples at or below the observed $M$-size, giving
+$$
+\begin{aligned}
+p_{\mathrm{aa\ class,exact}} &= 0.0,\\
+p_{\mathrm{aa\ class,lower\ tail}} &= 0.0035.
+\end{aligned}
+$$
+These controls make the local row harder to dismiss as an arbitrary relabeling artifact, but they still remain finite statistical checks against specified control procedures rather than proofs of mechanism.
 
-\paragraph{Internal newmath/BEDC derivation.}
-The internal content is a pure BEDC finite-coordinate packet: a BioReality-namespaced window-six carrier, a leave-one median-closure slot, a quotient-compatible local boundary slot, a relation between closure recovery and boundary classification fields, and a TasteGate-style separation between internal coordinate structure and external readback. No curated genetic-code entry, codon list, amino-acid label, recovery statistic, threshold, experiment count, translation table entry, or biological conclusion is a kernel fact. Such values remain bridge and provenance fields supplied by section 6.
+\paragraph{Relation to code-level leave-one-out tests.}
+The broader leave-one-code-out row evaluated $23$ tables and $63$ total targets. Its baseline hit rate is $0.19821739130434785$, while the reported hit rate above baseline is $0.9841269841269841$. The hit rate inside $M-T$ is $0.9365079365079365$, and the hit rate inside $M-T$ plus the boundary is $0.9841269841269841$. By family, the above-baseline hit rates are $1.0$ for bacterial-plastid, candidate-other, mitochondrial, and nuclear-ciliate families, and $0.8333333333333334$ for the alternative-yeast family. These rows support the same reading as the codon-level packet: local finite structure is repeatedly visible at the code-label layer, but the contact remains a label table.
 
-\paragraph{External reality sources.}
-- Curated genetic-code source pointer: `tools/bio\_reality/data/ncbi\_genetic\_codes.json` and reality contact `curated.standard.code.table`. - Conjecture pointer: `tools/bio\_reality/inbox/conjectures.jsonl` record `codon.window6.local.tile.boundary`. - Claim pointer: `tools/bio\_reality/registries/claims.json` record `h1.leave.one.codon.out`. - Experiment provenance pointer: `tools/bio\_reality/state/experiment\_runs.jsonl` latest passed `experiment\_run\_id` `e9e1a6e41633` for `leave\_one\_codon\_out`. - Gate/probe boundary pointer: probe `codon.local.tile.no.global.law` and contact `curated.standard.code.table`. - Statistical witness pointer: the linked conjecture's verified-facts entry for `h1.leave.one.codon.out` records recovery, boundary, anchor, and coverage witnesses by run reference; those witnesses remain external provenance and are not imported into this carrier.
+\paragraph{Scope boundary.}
+The support condition is deliberately narrow. The curated standard-code table can test codon-label readback and local label-split behavior. It cannot by itself test translation realization, folded structure, physical admissibility, biological function, a universal mechanism, or the claim that DNA must obey this coordinate geometry as a biological necessity. Amino-acid label sequences are not folded proteins. CUN, UUR, stop, tryptophan, arginine, lysine, isoleucine, and methionine labels are code-table labels in this packet, not structural observations. Any promotion beyond the code-read layer requires a separate contact that directly observes the higher layer being claimed.
 
-\paragraph{Cannot-claim boundary.}
-- This chapter does not claim biological-code necessity. - This chapter does not claim that window-six geometry realizes translation. - This chapter does not claim that leave-one codon recovery is a translation classifier. - This chapter does not claim that local boundary rows are folded protein structure, physical admissibility, biological function, or biochemical mechanism. - This chapter does not claim that a curated table row, amino-acid label, recovery statistic, threshold, experiment count, or statistical witness is a BEDC kernel fact. - This chapter does not claim that local codon-tile geometry is a global biological law. - This chapter does not claim evolution, causality, standard-code universality, reassignment necessity, or biological inevitability from the leave-one packet.
-
-\paragraph{Bridge disclaimer.}
-This proposal is a vision-level scientific-model bridge for a stable BioReality code-read leave-one codon claim. It is not a CheckedCert claim about molecular biology, and it does not turn a BEDC window-six coordinate, a local codon tile, a median-closure packet, a boundary classification, or an empirical recovery witness into translation realization, folded structure, physical admissibility, function realization, biological-code necessity, or a universal biological law; those require separate external reality contacts.
-
-\paragraph{Lean target sketch (statement-only).}
-`BEDC.Derived.BioRealityQSixLeaveOneCodonBoundaryUp.TasteGate` carrier alignment, with curated-table, experiment-run, and statistical-witness evidence represented only as bridge/provenance fields.
-
+\paragraph{Conclusion.}
+The finite row is ready as a BioReality record. It gives a concrete thirteen-codon punctured-cube boundary, a complete module assignment of those thirteen codons, perfect recovery in the reported leave-one-codon-out high-coverage row, nontrivial spectral scalars, and finite null comparisons with small empirical tail probabilities. The correct scientific interpretation is local and bounded: window-six codon coordinates expose a reproducible boundary-tile pattern after curated labels are attached, while all claims about translation, folding, physical admissibility, function, mechanism, or universality remain outside the evidence supplied here.
