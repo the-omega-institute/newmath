@@ -170,10 +170,35 @@
       "tools/bio_reality/inbox/mismatches.jsonl"
     ],
     "pre_commit_gates": [
-      ["python3", "-m", "py_compile", "tools/bio_reality/agent_bus.py", "tools/bio_reality/lanes.py", "tools/bio_reality/supervisor.py", "tools/bio_reality/store.py", "tools/bio_reality/deepening_gates.py", "tools/bio_reality/bio_reality_loop.py", "tools/bio_reality/vision_intake.py", "tools/bio_reality/signal_assimilator.py", "tools/bio_reality/framework.py"],
-      ["python3", "tools/bio_reality/deepening_gates.py", "--self-test"],
-      ["python3", "tools/bio_reality/agent_bus.py", "--self-test"],
-      ["python3", "tools/bio_reality/lanes.py", "--self-test"]
+      [
+        "python3",
+        "-m",
+        "py_compile",
+        "tools/bio_reality/agent_bus.py",
+        "tools/bio_reality/lanes.py",
+        "tools/bio_reality/supervisor.py",
+        "tools/bio_reality/store.py",
+        "tools/bio_reality/deepening_gates.py",
+        "tools/bio_reality/bio_reality_loop.py",
+        "tools/bio_reality/vision_intake.py",
+        "tools/bio_reality/signal_assimilator.py",
+        "tools/bio_reality/framework.py"
+      ],
+      [
+        "python3",
+        "tools/bio_reality/deepening_gates.py",
+        "--self-test"
+      ],
+      [
+        "python3",
+        "tools/bio_reality/agent_bus.py",
+        "--self-test"
+      ],
+      [
+        "python3",
+        "tools/bio_reality/lanes.py",
+        "--self-test"
+      ]
     ],
     "min_seconds_between_pushes": 60,
     "max_push_retries": 2,
@@ -270,7 +295,15 @@
       "lean4/BEDC/Derived/"
     ],
     "max_commits_per_sync": 50,
-    "min_seconds_between_syncs": 300
+    "min_seconds_between_syncs": 300,
+    "codex_resolve": {
+      "enabled": false,
+      "max_files": 5,
+      "timeout_seconds": 600,
+      "recurring_threshold": 3,
+      "recurring_window_seconds": 21600,
+      "comment": "Codex-based merge conflict resolver for bio-S. Default disabled. Set enabled=true to let codex auto-resolve up to max_files conflicts per cycle."
+    }
   },
   "oracle": {
     "enabled": true,
