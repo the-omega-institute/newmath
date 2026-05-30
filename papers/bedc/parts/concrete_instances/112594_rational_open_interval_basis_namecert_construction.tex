@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\RationalOpenIntervalBasisUp$}
+\label{ch:concrete-instances-rational-open-interval-basis-namecert}
+\origin{human}
+
+Following Bishop and Bridges on rational interval approximations and Bourbaki on bases for ordered topological spaces, the $\RationalOpenIntervalBasisUp$ packet records the finite BEDC carrier for rational open balls on the real line. It sits between the rational arithmetic of \autoref{ch:concrete-instances-rat-namecert}, the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite-window naming surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the real seal of \autoref{ch:concrete-instances-real-namecert}, the second-countability boundary of \autoref{ch:concrete-instances-second-countable-namecert}, and the dyadic interval comparison packet of \autoref{ch:concrete-instances-dyadic-interval-basis-namecert}. The chapter names only finite rational centers, positive radii, membership rows, finite observation windows, regular-sequence handoff, terminal real seals, transport, replay, provenance, and local naming.
+
+\begin{definition}[Rational open interval basis carrier]
+\label{def:rational-open-interval-basis-carrier}
+A $\RationalOpenIntervalBasisUp$ carrier is a finite $\BHist$ packet
+$$
+I=(Q,D,M,S,G,E,H,C,P,N)
+$$
+whose rows have the following displayed roles.
+\begin{enumerate}
+\item $Q$ is the rational-center row, carrying the $\RatUp$ center and the rational arithmetic needed to compare endpoints.
+\item $D$ is the positive radius row, displayed either as a positive rational radius or through a positive $\DyadicRatCoreUp$ refinement.
+\item $M$ is the interval-membership row, exposing exactly the two strict rational inequalities that certify an inspected point lies between the displayed endpoints.
+\item $S$ is the finite $\StreamNameUp$ window row, listing the coordinates read before the interval predicate is evaluated.
+\item $G$ is the $\RegSeqRatUp$ handoff row, sending the inspected rational-window evidence into a regular rational sequence name.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $Q,D,M,S,G$ have all remained visible.
+\item $H$ is the componentwise $\hsame$ transport for the displayed rows.
+\item $C$ is the displayed $\Cont$ replay route for rational centers, radii, membership checks, finite windows, regular-sequence handoff, and real seals.
+\item $P$ is the $\Pkg$ provenance over $\RationalOpenIntervalBasisUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\SecondCountableUp$, $\DyadicIntervalBasisUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RationalOpenIntervalBasisUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,D,M,S,G,E,H,C,P,N$. It has no coordinate for host topology, arbitrary open sets, quotient equality of reals, selected representatives, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Rational open interval basis NameCert obligations]
+\label{thm:rational-open-interval-basis-namecert-obligations}
+For every accepted $\RationalOpenIntervalBasisUp$ carrier $I=(Q,D,M,S,G,E,H,C,P,N)$, the local $\NameCert_{\RationalOpenIntervalBasisUp}$ surface consists exactly of the following five obligation rows.
+\begin{enumerate}
+\item carrier admission for the displayed rational center $Q$ and positive radius $D$;
+\item interval-membership exposure through $M$, with membership read only by the strict endpoint inequalities determined by $Q,D$;
+\item finite-window exposure through $S$, requiring every inspected real name to pass through a displayed $\StreamNameUp$ window before $M$ is consulted;
+\item regular-to-real handoff through $G,E$, requiring the $\RegSeqRatUp$ row before the terminal $\RealUp$ seal;
+\item structural closure through $H,C,P,N$, with provenance over the rational, dyadic, stream, regular-sequence, real, second-countable, and dyadic-interval sibling rows.
+\end{enumerate}
+No obligation row may be replaced by a host topology, an arbitrary open set lattice, quotient equality of reals, selected representatives, countable choice, or an ambient completeness theorem.
+\end{theorem}
+
+\begin{proof}
+Project the carrier of \autoref{def:rational-open-interval-basis-carrier}. The rows $Q$ and $D$ are the only rows carrying the center and radius data, and $M$ is the only row assigned to interval membership.
+
+The finite observation discipline is supplied by $S$. Any point-facing membership read must first expose its $\StreamNameUp$ window, after which $G$ and $E$ provide the regular-sequence handoff and terminal $\RealUp$ seal.
+
+Finally, $H,C,P,N$ transport, replay, source, and name exactly those rows. Since the carrier contains no coordinate for host topology, arbitrary opens, quotient real equality, selected representatives, countable choice, or ambient completeness, the five obligations exhaust the local naming surface.
+\end{proof}
+
+\begin{theorem}[Rational open interval basis finite-window nonescape]
+\label{thm:rational-open-interval-basis-finite-window-nonescape}
+For every accepted $\RationalOpenIntervalBasisUp$ carrier $I=(Q,D,M,S,G,E,H,C,P,N)$, every basis-membership read factors through the finite route
+$$
+\RatUp,\ \DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp
+$$
+before any second-countability or dyadic-interval consumer can cite it. The read exports no host topology, arbitrary open set, quotient equality of reals, selected representative, countable choice, or ambient real-completeness endpoint.
+\end{theorem}
+
+\begin{proof}
+Use \autoref{thm:rational-open-interval-basis-namecert-obligations}. The membership row $M$ cannot be read until the center row $Q$, radius row $D$, and finite stream window $S$ have been displayed.
+
+The completion-facing part of the route is then $G,E$. These rows place the regular rational handoff before the terminal real seal, so downstream references by $\SecondCountableUp$ or $\DyadicIntervalBasisUp$ receive only the finite basis packet.
+
+The structural rows $H,C,P,N$ add transport, replay, provenance, and naming, but no host topology or quotient endpoint. Thus the finite-window route is the whole export surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RationalOpenIntervalBasisUp$ membership read exposes a rational center row, a positive rational or dyadic radius row, the strict interval-membership row, a finite StreamName window, a RegSeqRat handoff, a RealUp seal, componentwise transport, continuation replay, provenance, and local naming.}
+
+\independenceWitness{rat, dyadicratcore, streamname, regseqrat, real, secondcountable, dyadicintervalbasis: $\RationalOpenIntervalBasisUp$ is not identical to any listed sibling because it binds rational centers and positive-radius membership before the finite-window handoff to regular rational names and the terminal RealUp seal.}
+
+\closureat{RationalOpenIntervalBasisUp}{seedStr}
