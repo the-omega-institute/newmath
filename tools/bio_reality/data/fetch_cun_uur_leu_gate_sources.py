@@ -268,6 +268,7 @@ def fetch_kazusa(source: dict[str, str]) -> str:
     record = parse_kazusa(payload)
     record.update(
         {
+            "schema_version": "bio_reality_curated_external_contact_v1",
             "source_name": "kazusa",
             "source_url": url,
             "organism": source["organism"],
@@ -275,6 +276,8 @@ def fetch_kazusa(source: dict[str, str]) -> str:
             "accession_or_id": source["species"],
             "fetched_by": "bio-data-fetcher",
             "intended_claim_id": CLAIM_ID,
+            "reality_contact_scope": "external_curated_codon_usage_counts_only",
+            "derivation_boundary": "not_bedc_kernel_content",
         }
     )
     path = write_json(source["basename"], record)
@@ -295,6 +298,7 @@ def fetch_gtrnadb(source: dict[str, str]) -> str:
     record = parse_gtrnadb_fasta(payload)
     record.update(
         {
+            "schema_version": "bio_reality_curated_external_contact_v1",
             "source_name": "gtrnadb",
             "source_url": source["url"],
             "organism": source["organism"],
@@ -302,6 +306,8 @@ def fetch_gtrnadb(source: dict[str, str]) -> str:
             "accession_or_id": source["accession_or_id"],
             "fetched_by": "bio-data-fetcher",
             "intended_claim_id": CLAIM_ID,
+            "reality_contact_scope": "external_curated_trna_leu_gene_copy_counts_only",
+            "derivation_boundary": "not_bedc_kernel_content",
         }
     )
     path = write_json(source["basename"], record)
