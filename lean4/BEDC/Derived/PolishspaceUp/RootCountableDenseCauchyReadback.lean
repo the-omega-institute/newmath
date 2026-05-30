@@ -32,7 +32,7 @@ theorem PolishspaceRootCountableDenseCauchyReadback [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
   intro carrier readbackAlignmentCauchy localNamePkg
   obtain ⟨metricUnary, _completeUnary, _separableUnary, streamUnary, readbackUnary,
-    _ledgerUnary, alignmentUnary, _transportUnary, _metricCompleteAlignment,
+    _ledgerUnary, alignmentUnary, _transportUnary, _localNameUnary, _metricCompleteAlignment,
     _alignmentStreamReadback, _ledgerTransportRoute, provenancePkg⟩ := carrier
   have cauchyUnary : UnaryHistory cauchyRead :=
     unary_cont_closed readbackUnary alignmentUnary readbackAlignmentCauchy
