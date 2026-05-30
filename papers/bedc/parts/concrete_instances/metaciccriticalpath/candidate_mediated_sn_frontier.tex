@@ -288,6 +288,31 @@ Apply the candidate-mediated SN discharge row and the discharge-socket induction
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateNormalizationBudget}
 
+\begin{theorem}[MetaCIC candidate-normalization L10 source exactness]
+\label{thm:metacic-critical-path-candidate-normalization-l10-source-exactness}
+For every accepted $\MetaCICCriticalPathUp$ packet
+$$
+K=(S,N,O,U,D,H,C,P,L),
+$$
+every candidate-normalization consumer whose budget is certified by \autoref{thm:metacic-critical-path-candidate-normalization-budget} reads exactly the four L10 faces
+$$
+\DyadicRatCoreUp,\qquad
+\StreamNameUp,\qquad
+\RegSeqRatUp,\qquad
+\RealUp
+$$
+together with the finite packet rows $S,N,U,H,C,P,L$. The obstruction row $O$ and the discharge socket $D$ remain visible throughout the read. The source-exact budget exports no closed subject reduction, global confluence, beta-conversion decidability, selected limit, quotient equality, host equality, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the candidate-mediated SN frontier, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. It places the consumer on the displayed strong-normalization rows and the four L10 faces, while keeping the obstruction row and discharge socket in the surrounding packet.
+
+Use the confluence-decidability consumer boundary, \autoref{thm:metacic-critical-path-confluence-decidability-consumer-boundary}. A confluence-facing or decidability-facing replay may inspect $U$ and the displayed frontier, but it receives no global confluence theorem, no beta-conversion decision procedure, and no closed subject-reduction row.
+
+Apply discharge-socket induction, \autoref{thm:metacic-critical-path-discharge-socket-induction}. Induction over the finite frontier preserves $O$ and leaves $D$ unfilled unless a separate closed subject-reduction coordinate is displayed.
+
+Finally use candidate-normalization socket exhaustion, \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}. Once $S,N,U,H,C,P,L$ and the four L10 faces have been consumed, no packet row remains from which to read selected limits, quotient equality, host equality, Real completeness, closed subject reduction, global confluence, or beta-decidability. The budget is therefore source-exact for exactly the named L10 route.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate-normalization socket exhaustion]
 \label{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}
 Let
