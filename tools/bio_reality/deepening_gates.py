@@ -22,6 +22,7 @@ ID_RE = re.compile(r"^[a-z0-9][a-z0-9._:-]*$")
 
 LAYERS = {
     "code_read",
+    "codon_usage_topology",
     "orf_eligibility",
     "translation_realization",
     "structural_order",
@@ -49,8 +50,50 @@ CONTACT_KINDS = {
     "physical_assay",
     "functional_assay",
     "phenotype_assay",
+    "perturbation_data",
     "curated_annotation",
     "manual_observation",
+}
+REALIZATION_CONTACT_KINDS_BY_LAYER = {
+    "translation_realization": {
+        "sequence_database",
+        "transcript_evidence",
+        "protein_measurement",
+        "perturbation_data",
+    },
+    "structural_order": {
+        "protein_measurement",
+        "structure_experiment",
+        "structure_prediction",
+        "perturbation_data",
+    },
+    "physical_admissibility": {
+        "structure_experiment",
+        "structure_prediction",
+        "physical_assay",
+        "perturbation_data",
+    },
+    "function_realization": {
+        "functional_assay",
+        "phenotype_assay",
+        "perturbation_data",
+    },
+    "system_phenotype": {
+        "functional_assay",
+        "phenotype_assay",
+        "perturbation_data",
+    },
+    "cross_layer_relation": {
+        "sequence_database",
+        "transcript_evidence",
+        "protein_measurement",
+        "structure_experiment",
+        "structure_prediction",
+        "physical_assay",
+        "functional_assay",
+        "phenotype_assay",
+        "perturbation_data",
+    },
 }
 PROBE_KINDS = {
     "finite_enumeration",
@@ -350,10 +393,13 @@ def validate_conjecture(
         normalized_layer = _normalize_layer_text(claimed_layer)
         can_test: list[str] = []
         cannot_test: list[str] = []
+        contact_kinds: set[str] = set()
         for contact_ref in contacts:
             contact_record = contact_by_id.get(contact_ref)
             if contact_record is None:
                 continue
+            if isinstance(contact_record.get("source_kind"), str):
+                contact_kinds.add(str(contact_record.get("source_kind")))
             can_test.extend(str(item) for item in contact_record.get("can_test", []) if isinstance(item, str))
             cannot_test.extend(str(item) for item in contact_record.get("cannot_test", []) if isinstance(item, str))
         layer_in_can_test = any(normalized_layer == _normalize_layer_text(item) or normalized_layer in _normalize_layer_text(item) for item in can_test)
@@ -361,6 +407,12 @@ def validate_conjecture(
             normalized_layer == _normalize_layer_text(item) or normalized_layer in _normalize_layer_text(item)
             for item in cannot_test
         )
+        realization_kinds = REALIZATION_CONTACT_KINDS_BY_LAYER.get(str(claimed_layer))
+        if realization_kinds is not None and not (contact_kinds & realization_kinds):
+            issues.append(
+                f"claimed_layer {claimed_layer} requires a non-code realization reality contact; "
+                f"genetic-code tables and BEDC geometry do not establish translation, structure, physical admissibility, function, or cross-layer law"
+            )
         if not layer_in_can_test and layer_in_cannot_test:
             issues.append(
                 f"claimed_layer {claimed_layer} is in cannot_test of all attached contacts; promote requires "
@@ -445,6 +497,18 @@ def self_test() -> int:
         "known_noise_or_bias": "fixture only",
         "can_test": ["code_read layer"],
         "cannot_test": ["protein realization", "biological function", "function realization"],
+        "null_reason": "",
+    }
+    perturbation_contact = {
+        "contact_id": "translation.perturbation.fixture",
+        "source_kind": "perturbation_data",
+        "source_ref": "fixture perturbation matrix",
+        "source_snapshot": "fixture",
+        "observed_fact": "A perturbation fixture records a translation-layer response.",
+        "resolution": "translation perturbation readback",
+        "known_noise_or_bias": "fixture only",
+        "can_test": ["translation_realization", "cross_layer_relation"],
+        "cannot_test": ["global biological law"],
         "null_reason": "",
     }
     conjecture = {
@@ -561,9 +625,52 @@ def self_test() -> int:
         "forbidden_claims": ["Coordinate evidence alone is not translation realization."],
         "null_reason": "",
     }
+    cross_layer_code_only = {
+        "conjecture_id": "cross.layer.code.only",
+        "biological_object": "DNA to protein",
+        "informal_statement": "The packet claims only a cross-layer relation.",
+        "bedc_minimal_form": {
+            "carrier": "codon window",
+            "distinctions": ["window boundary"],
+            "readback": "code table",
+            "internal_structure": ["coordinate"],
+        },
+        "claimed_layer": "cross_layer_relation",
+        "evidence_basis": ["external_reality", "bedc_coordinate"],
+        "reality_contact_refs": ["ncbi.standard.code"],
+        "probe_refs": [],
+        "forbidden_claims": ["The code table alone does not establish a cross-layer relation."],
+        "null_reason": "",
+    }
+    cross_layer_perturbed = {
+        "conjecture_id": "cross.layer.perturbed",
+        "biological_object": "DNA to protein",
+        "informal_statement": "The packet claims a bounded cross-layer relation with perturbation contact.",
+        "bedc_minimal_form": {
+            "carrier": "codon window",
+            "distinctions": ["window boundary"],
+            "readback": "perturbation readback",
+            "internal_structure": ["coordinate", "relation"],
+        },
+        "claimed_layer": "cross_layer_relation",
+        "evidence_basis": ["external_reality", "bedc_coordinate"],
+        "reality_contact_refs": ["translation.perturbation.fixture"],
+        "probe_refs": [],
+        "forbidden_claims": ["The perturbation readback is not a global biological law."],
+        "null_reason": "",
+    }
     results = gate_all(
-        [conjecture, overclaim, b1_overclaim, b3_conjecture, bedc_without_structure, mixed_none_structure],
-        [contact],
+        [
+            conjecture,
+            overclaim,
+            b1_overclaim,
+            b3_conjecture,
+            bedc_without_structure,
+            mixed_none_structure,
+            cross_layer_code_only,
+            cross_layer_perturbed,
+        ],
+        [contact, perturbation_contact],
         [b3_probe],
         [],
     )
@@ -592,6 +699,14 @@ def self_test() -> int:
     if by_id["bedc.structure.mixed"]["gate_status"] != "gate_blocked" or not any(
         "cannot mix none" in issue for issue in by_id["bedc.structure.mixed"]["issues"]
     ):
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    if by_id["cross.layer.code.only"]["gate_status"] != "gate_blocked" or not any(
+        "non-code realization reality contact" in issue for issue in by_id["cross.layer.code.only"]["issues"]
+    ):
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    if by_id["cross.layer.perturbed"]["gate_status"] != "gate_passed":
         print(json.dumps(results, indent=2), file=sys.stderr)
         return 1
     print("[bio-reality-gates] self-test ok")

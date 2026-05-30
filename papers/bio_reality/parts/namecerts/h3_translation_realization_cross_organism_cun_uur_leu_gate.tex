@@ -1,0 +1,35 @@
+\subsection{Cross-organism CUN/UUR leucine usage and tRNA-Leu copy-number contact}\label{sec:biorality-cross-organism-cun-uur-leu-gate}
+\origin{ai}
+
+\paragraph{Record.}
+This record concerns the claim \texttt{h3.translation\_realization.cross\_organism.cun\_uur\_leu\_gate}.  The biological datum under test is not a protein-level outcome, and it is not a direct observation of ribosome motion.  The measured object is the organism-indexed leucine codon contrast between the CUN and UUR synonymous families, paired with an organism-indexed tRNA-Leu gene-copy contrast.  The finite carrier has four readout coordinates: the log contrast $\log(\#\mathrm{CUN}/\#\mathrm{UUR})$, the tRNA-Leu gene-copy ratio, the organism label, and the amino-acid-composition control used to keep the comparison inside the leucine synonymous class rather than across unrelated amino-acid frequencies.
+
+\paragraph{Finite rows.}
+The validation run \texttt{675fdddb3187}, recorded at \texttt{2026-05-30T19:10:48+00:00}, loaded three organism rows: \texttt{homo\_sapiens}, \texttt{saccharomyces\_cerevisiae}, and \texttt{escherichia\_coli\_k12}.  The experiment identifier was \texttt{cross\_organism\_cun\_uur\_leu\_gate\_validation}.  The observed CUN-over-UUR log contrasts were
+$$
+\begin{aligned}
+\ell_{\mathrm{human}} &= 1.3514980212896148,\\
+\ell_{\mathrm{yeast}} &= -0.24869078488829677,\\
+\ell_{\mathrm{ecoli}} &= 1.0086640520051702.
+\end{aligned}
+$$
+The corresponding sign vector was $(1,-1,1)$, so the recorded Boolean \texttt{sign\_uniform} was false.  Thus the first finite check is a sign-reversal check: the leucine-family CUN/UUR contrast does not have one direction across the three loaded organisms.
+
+\paragraph{Paired statistic.}
+The same run reported a Pearson coefficient of $1.0$ for the organism-level paired statistic and a positive partial correlation with the tRNA-Leu copy-number ratio after amino-acid-composition control.  The partial-correlation field was
+$$
+\begin{aligned}
+n &= 3,\\
+r_{\partial} &= 1.0.
+\end{aligned}
+$$
+Within this finite table, the result is therefore a positive three-row association between the CUN/UUR leucine codon-usage contrast and the matched tRNA-Leu gene-copy ratio, after the comparison has been restricted by the synonymous leucine control.  The status of the run was \texttt{passed}.  No p-value, confidence interval, fitted slope, residual table, module-class label, hit-rate value, or larger row count was recorded in the finite packet, so none is asserted here.
+
+\paragraph{Interpretation.}
+The admissible interpretation is narrow.  The organism labels index a finite comparison of sequence-summary data and genome-annotation data.  The codon-usage contact says that per-organism resources report codon-count or codon-frequency summaries for coding sequences.  The tRNA contact says that genome annotations report organism-level tRNA-Leu gene-copy counts by anticodon family.  Combining the two contacts permits the bounded question: in the loaded organisms, does the CUN/UUR leucine contrast change sign, and does its controlled magnitude track the tRNA-Leu copy-number contrast?  For these three rows, the recorded answer is yes: the signs are not uniform, and the reported controlled correlation is positive with value $1.0$.
+
+\paragraph{Scope boundary.}
+This record does not by itself establish translation as a completed cellular process, ribosome kinetics, codon-specific elongation dynamics, protein folding, physical admissibility of a molecular state, biological function, or a universal cross-organism law.  It also does not turn the negative yeast sign and the positive human and \textit{E. coli} signs into a general directionality rule.  The measured contact is an organism-level association between codon-usage summaries and tRNA-Leu gene-copy summaries.  Any stronger statement would require a separate measurement channel, such as ribosome-profiling evidence for elongation behavior, a protein-output assay for abundance or function, or structural and physical assays for folding and admissibility.
+
+\paragraph{Identifier and contact discipline.}
+The normalized probe identifier is \texttt{cross\_organism.cun\_uur\_sign\_correlates\_with\_trna\_leu}.  Mixed-case biological notation such as tRNA-Leu remains descriptive prose, not packet evidence.  A standard genetic-code table can identify CUN and UUR as leucine codon families, but that table alone cannot supply organism-matched usage counts, tRNA gene-copy ratios, or a controlled cross-organism statistic.  The present passed record therefore rests on the paired codon-usage and tRNA-copy contacts together with the three finite rows above, not on identifier spelling and not on codon-label readback alone.

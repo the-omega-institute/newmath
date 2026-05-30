@@ -85,6 +85,18 @@ Use \autoref{thm:claim-registry-layer-public-export}. The public export theorem 
 Finally apply \autoref{thm:claim-registry-layer-no-unregistered-export}. Since a claim without an entry row and without a refusal-boundary row has no public export, every bridge-readable route from claim rows to package export must pass through the displayed packet $Q$.
 \end{proof}
 
+\begin{theorem}[Claim registry layer mature package claim index]
+\label{thm:claimregistrylayer-mature-package-claim-index}
+The public export theorem, no-unregistered-export theorem, and bridge route together form the mature package claim index for $\ClaimRegistryLayerUp$. A package-level claim is public exactly when it is read through the packet $Q=(E,R,B,C,F,V,H,P,N)$, rejected when both $E$ and $R$ are absent, and bridge-readable only through the same entry, refusal, closure-status, formal-target, provenance, verification-readback, transport, package, and local naming rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:claim-registry-layer-public-export}. It identifies the public package-claim surface with the displayed packet $Q=(E,R,B,C,F,V,H,P,N)$.
+
+Apply \autoref{thm:claim-registry-layer-no-unregistered-export}. This removes every prose-only package claim with neither entry row nor refusal-boundary row from the index.
+
+Use \autoref{thm:claim-registry-layer-bridge-route}. The bridge-readable route consumes the same packet rows and adds no separate claim coordinate, so the public export, rejection boundary, and bridge route are one complete package claim index.
+\end{proof}
+
 \closureat{ClaimRegistryLayerUp}{seedStr}
 \closureat{ClaimRegistryLayerUp}{obligationStr}
 \closureat{ClaimRegistryLayerUp}{publicStr}
@@ -92,11 +104,11 @@ Finally apply \autoref{thm:claim-registry-layer-no-unregistered-export}. Since a
 
 \begin{closurestatus}{\ClaimRegistryLayerUp}
   \constructivestory{A $\ClaimRegistryLayerUp$ packet is generated from claim-entry, refusal-boundary, closure-status, formal-target, provenance, verification-readback, componentwise hsame transport, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:claim-registry-layer-carrier}, \autoref{thm:claim-registry-layer-export-control}, \autoref{thm:claim-registry-layer-no-unregistered-export}, \autoref{thm:claim-registry-layer-public-export}, \autoref{thm:claim-registry-layer-bridge-route}, the falsifiable prediction, and the independence witness bind the carrier, export-control theorem, no-unregistered-export theorem, public export theorem, bridge route, and non-bijection surface for package-level claim export.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:claim-registry-layer-carrier}, \autoref{thm:claim-registry-layer-export-control}, \autoref{thm:claim-registry-layer-no-unregistered-export}, \autoref{thm:claim-registry-layer-public-export}, \autoref{thm:claim-registry-layer-bridge-route}, \autoref{thm:claimregistrylayer-mature-package-claim-index}, the falsifiable prediction, and the independence witness bind the carrier, export-control theorem, no-unregistered-export theorem, public export theorem, bridge route, mature package claim index, and non-bijection surface for package-level claim export.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean verification, bridge checking, full subject-index governance, or the correctness of every downstream registry row.}
-  \upgradepath{Bridge checking requires a Lean bridge theorem for the public $\ClaimRegistryLayerUp$ export surface.}
+  \upgradepath{Lean bridge checking remains the formal-axis next step for the public $\ClaimRegistryLayerUp$ export surface and mature package claim index.}
 \end{closurestatus}

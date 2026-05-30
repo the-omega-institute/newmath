@@ -162,6 +162,20 @@ Now use the window and tail clauses. The route of \autoref{thm:stream-map-finite
 Finally apply \autoref{thm:stream-map-namecert-obligation-surface}. Its listed rows exhaust the local $\NameCert_{\StreamMapUp}$ surface, so the paper closure claim here is an obligation package over the displayed finite rows only. It does not assert Lean verification, quotient stream equality, host function extensionality, selected limits, countable choice, or ambient $\RealUp$ completeness.
 \end{proof}
 
+\begin{theorem}[Stream map RegSeqRat and Real handoff]
+\label{thm:stream-map-regseq-real-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of a mapped stream accepted by a $\StreamMapUp$ carrier must first read source-window exactness, pointwise map stability, finite-window functoriality, tail-window determinacy, and tail-ledger nonescape. The handoff is therefore a finite pointwise stream route from source windows to regular rational readback and the terminal real seal, not a quotient stream equality, selected limit, host function extensionality, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Begin with pointwise stability from \autoref{thm:stream-map-pointwise-stability}. It keeps each target cell attached to the displayed source cell and point-map row rather than to a detached host function.
+
+Apply \autoref{thm:stream-map-finite-window-functoriality}. The mapped observation reaches the target window through the finite route $S,F,T,W$ before any downstream $Q,D,$ or $R$ row can be consumed.
+
+Now apply \autoref{thm:stream-map-tail-window-determinacy}. A regular rational or real-facing read that agrees on the source window, point-map row, target window, output window, and dyadic ledger must expose the same regular handoff before the terminal real seal is read.
+
+Finally apply \autoref{thm:stream-map-tail-ledger-nonescape}. The tail-facing consumer cannot bypass $S,F,T,W,D$ and cannot import quotient stream equality, selected limits, host function extensionality, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \closureat{StreamMapUp}{seedStr}
 
 \begin{closurestatus}{\StreamMapUp}

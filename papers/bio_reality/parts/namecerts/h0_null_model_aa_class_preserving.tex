@@ -1,35 +1,78 @@
-\subsection{NameCert: h0.null.model.aa\_class\_preserving}
-\label{sec:namecert-h0_null_model_aa_class_preserving}
-\noindent\textit{Proposed by bio-namer; review status: draft.}
+\subsection{Amino-acid-class preserving null model for the window-six codon tile}
+\label{sec:bior reality-h0-null-model-aa-class-preserving}
+\origin{ai}
 
-\paragraph{NameCert chapter slug.}
-Proposed slug: `14108\_bioreality\_q\_six\_aa\_class\_null\_ledger\_namecert\_construction`.
+\paragraph{Finite row.}
+This record concerns the standard-code codon table read only as a finite assignment of codons to amino-acid or stop labels.  The carrier is the six-coordinate codon cube $Q_6$, with the display coordinates supplied by the usual three-base codon alphabet after binary windowing.  The observed local object is a labelled tile with a singleton corner and a three-point label class.  The row is deliberately limited to the code-reading layer: it tests whether a local codon-coordinate pattern is unusually stable under an amino-acid-class preserving shuffle, while leaving biochemical realization outside the claim.
 
-The concept is BioReality-namespaced as a Q-six amino-acid-class-preserving null ledger. It avoids Loning's occupied `Codon64`, `Q\_6`, `M\textasciicircum{}\{star\}`, and `StopCodonZeckendorfSuffix` vocabulary by keeping the chapter name under the `BioRealityQSix` prefix.
+The distinguished boundary set is
+$$
+\begin{aligned}
+R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
+\end{aligned}
+$$
+It has cardinality $13$.  The same row identifies $R$ with a punctured-cube shape whose face data have $f$-vector
+$$
+\begin{aligned}
+(f_0,f_1,f_2)=(13,16,4).
+\end{aligned}
+$$
+The complementary measured tile size in the amino-acid-class preserving null experiment is $|M|=20$.
 
-\paragraph{Carrier.}
-Carrier name: `BioRealityQSixAaClassNullLedger`.
+\paragraph{Spectral coordinate check.}
+The finite coordinate calculation also gives a numerical spectral profile.  The recorded values are
+$$
+\begin{aligned}
+\lambda_M &= 0.6752479308830213,\\
+\lambda_R &= 0.4758352843197002,\\
+\mu &= 3.051487585298128.
+\end{aligned}
+$$
+The associated radial cubic evaluation is $-6.224354365258478\times 10^{-12}$, the same value recorded for the cubic residual.  At this precision the residual is a numerical zero check for the finite computation, not a new biological premise.  The spectral data therefore support the internal consistency of the coordinate row: $M$ and $R$ are not being compared only by cardinality, but also by a reproducible finite spectral readout.
 
-BEDC 5-tuple description: `(carrier, distinctions, relations, readback, boundary)`, where the carrier is a finite reality-bound packet, the distinctions separate codon-support rows and amino-acid-class strata, the relations record internal median-closure and spectrum bookkeeping, the readback points to curated codon-label observations, and the boundary refuses translation, folding, function, and global-law promotion.
+\paragraph{Null experiment.}
+The amino-acid-class preserving null model used seed $42$ and $N=2000$ sampled tables.  It produced no exact shape matches:
+$$
+\begin{aligned}
+\#\{\text{exact matches}\} &= 0,\\
+p_{\mathrm{exact}} &= 0.0.
+\end{aligned}
+$$
+The lower-tail event, counted as null samples with size at most the observed $|M|=20$, occurred $7$ times in $2000$ trials, giving
+$$
+\begin{aligned}
+p_{\mathrm{lower\ tail}}=\frac{7}{2000}=0.0035.
+\end{aligned}
+$$
+Thus the observed local shape is rare even after preserving amino-acid-class information.  This is a code-table statement: the null keeps label-class structure in the shuffle and still fails to reproduce the exact local tile in the sampled row.
 
-\paragraph{Distinctions.}
-- `observed\_R\_codons`: the reassigned-codon support read from the curated standard-code contact and experiment run. - `observed\_M\_codons`: the median-closure codon set computed by the BioReality experiment. - `aa\_class\_distribution\_of\_R`: the experiment's charged, hydrophobic, polar, and stop class partition over the reassigned support. - `sampled\_size\_distribution\_summary`: the null-model comparison family for amino-acid-class-preserving samples. - `lower\_tail\_count\_le\_observed\_M\_size`: the lower-tail statistical witness field. - `exact\_match\_count`: the exact-shape statistical witness field.
+A separate shape-significance row, also with seed $42$ and $N=2000$, found $1$ exact shape match and $25$ matches at Jaccard similarity at least $0.9$.  Its probabilities were
+$$
+\begin{aligned}
+p_{\mathrm{shape}} &= 0.0005,\\
+p_{\mathrm{Jaccard}\ge 0.9} &= 0.0125.
+\end{aligned}
+$$
+That sampling required $57377$ distinct-sample attempts and $55377$ duplicate retries.  These counts matter because the finite table space is small enough for repeated proposals to collide often; the reported probabilities are tied to the actual deduplicated sampling process rather than to an informal asymptotic heuristic.
 
-\paragraph{Readback.}
-The carrier reads back to observable data only through the curated standard-code ledger and the recorded `null\_model\_aa\_class\_preserving` experiment run. Its observable side is the comparison between curated codon-label rows and the finite experiment output fields, not an internal claim that BEDC derives the biological code.
+\paragraph{Leave-one readback tests.}
+The code-level readback has two leave-one checks.  In the leave-one-code-out table experiment, $23$ code tables supplied $63$ targets.  The baseline hit rate was $0.19821739130434785$, while the observed hit rate above baseline was $0.9841269841269841$.  The hit rate inside $M\setminus T$ was $0.9365079365079365$, and the hit rate after adjoining the boundary was $0.9841269841269841$.  By family, the hit rates above baseline were $1.0$ for bacterial-plastid, mitochondrial, nuclear-ciliate, and candidate-other families, and $0.8333333333333334$ for the alternative-yeast family, across $5$ families.
 
-\paragraph{Internal newmath/BEDC derivation.}
-The internal content is the finite carrier alignment for a Q-six BioReality packet: codon-coordinate bookkeeping, a median-closure row, a spectrum row, a quotient/readback row, and a null-ledger row. The BEDC side may speak about finite distinctions, closure membership, relation preservation, and carrier-field separation. It must not internalize curated biological labels, NCBI table entries, p-values, sample counts, or observed codon lists as kernel facts.
+The leave-one-codon-out row records $8$ predictable cases, $5$ boundary cases, and $0$ anchor cases.  Its closure-coverage count is $8$, and its recovery rate is $1.0$.  The module classification accounts for all $13$ codons in $R$ with no missing or extra module codons.  The modules are
+$$
+\begin{aligned}
+\mathrm{agr} &= \{\mathrm{AGA},\mathrm{AGG}\},\\
+\mathrm{ar\_lys} &= \{\mathrm{AAA}\},\\
+\mathrm{cun} &= \{\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU}\},\\
+\mathrm{ile\_met} &= \{\mathrm{AUA}\},\\
+\mathrm{ssn} &= \{\mathrm{UCA},\mathrm{UUA}\},\\
+\mathrm{stop\_trp} &= \{\mathrm{UAA},\mathrm{UAG},\mathrm{UGA}\}.
+\end{aligned}
+$$
+The accounting row has $R$-size $13$, assigned count $13$, no unassigned codons, no missing module entries, and no extra module entries.  Every listed module has either a predictable or boundary status in the recorded row.
 
-\paragraph{External reality sources.}
-External provenance is by pointer: curated NCBI genetic-code table contacts, linked conjecture `codon.window6.local.tile.boundary`, claim `h0.null.model.aa\_class\_preserving`, and experiment run `e8d5de747a0c`. Statistical witnesses are referenced by their field names in that run, especially `p\_value\_aa\_class\_lower\_tail`, `p\_value\_aa\_class\_exact\_shape`, `lower\_tail\_count\_le\_observed\_M\_size`, and `exact\_match\_count`. These remain bridge and provenance fields; they are not promoted into internal BEDC theorem hypotheses or Lean constants.
+\paragraph{Reality contact and scope.}
+The reality contact is the curated standard genetic-code table.  It supplies codon-to-label assignments at codon-label resolution.  The contact can test code readback and the local label split of the codon tile.  It does not observe translation in a ribosome, folded protein structure, physical admissibility of a molecule, biological function, or a universal generating mechanism.  Consequently, the result here is not a claim that DNA must obey this geometry as a biological necessity, and it is not a claim that a codon-tile split determines protein function.
 
-\paragraph{Cannot-claim boundary.}
-- This chapter does not claim biological-code necessity. - This chapter does not claim that Q-six geometry realizes translation. - This chapter does not claim folded protein structure, biochemical physical admissibility, or molecular function. - This chapter does not claim that the observed null-model rarity is a universal biological mechanism. - This chapter does not claim that amino-acid-class-preserving samples define a global law of genetic-code evolution. - This chapter does not claim that codon/window geometry alone determines curated biological labels.
-
-\paragraph{Bridge disclaimer.}
-This proposal is a vision-level scientific-model bridge for a BioReality NameCert packet. It is not a CheckedCert claim about molecular biology, and it does not turn a coordinate carrier, median-closure row, null-model witness, or codon-label ledger into translation, folded structure, physical admissibility, function, or a biological law. External curated reality remains a bridge contact; internal BEDC derivation remains finite carrier bookkeeping.
-
-\paragraph{Lean target sketch (statement-only).}
-Text-only sketch: `BEDC.Derived.BioRealityQSixAaClassNullLedgerUp.TasteGate` would carry carrier-field separation and TasteGate alignment for the finite ledger, with external curated rows represented only as bridge/provenance fields.
-
+The supported conclusion is narrower and finite: within the standard-code label table, the window-six coordinate row isolates a $13$-codon punctured-cube boundary and a $20$-site measured tile whose shape is rare under amino-acid-class preserving null sampling.  The same row is compatible with the spectral check and with the leave-one recovery data.  Any promotion beyond code-layer label readback requires another contact that directly measures the promoted layer.  In particular, no translation, folding, structural order, physical admissibility, biological function, mechanism, or universality follows from this row alone.
