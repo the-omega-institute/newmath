@@ -31,6 +31,18 @@ BOUNDARY_SPLIT_TARGET = BOUNDARY_TARGET // 3
 DNA_COMPLEMENT = str.maketrans("ACGTNacgtn", "TGCANtgcan")
 DNA_TO_RNA = str.maketrans({"T": "U", "t": "u"})
 ALLOWED_BASES = set("UCAG")
+REQUIRED_MANIFEST_FIELDS = {
+    "fetched_at",
+    "source_url",
+    "source_name",
+    "accession_or_id",
+    "sha256",
+    "byte_size",
+    "content_type",
+    "fetched_by",
+    "intended_claim_id",
+    "license_or_terms",
+}
 
 sys.path.insert(0, str(DATA_DIR))
 
@@ -95,6 +107,9 @@ def write_manifest(
     }
     if extra:
         manifest.update(extra)
+    missing = sorted(field for field in REQUIRED_MANIFEST_FIELDS if not manifest.get(field))
+    if missing:
+        raise ValueError(f"manifest {basename} is missing required provenance fields: {missing}")
     (MANIFEST_DIR / f"{basename}.json").write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
