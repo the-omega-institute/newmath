@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\BrownianBridgeUp$}
+\label{ch:concrete-instances-brownian-bridge-namecert}
+\origin{human}
+
+Following Doob's treatment of Brownian bridge conditioning, the $\BrownianBridgeUp$ packet records the finite BEDC route by which a Brownian path segment is conditioned to meet a displayed endpoint without importing a host conditional-law object. It sits between the Brownian motion carrier of \autoref{ch:concrete-instances-brownian-namecert}, the transition-row discipline of \autoref{ch:concrete-instances-markovchain-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives stochastic-process consumers one named bridge-conditioning route before a filtration, regular conditional probability, quotient path law, selected endpoint representative, or ambient Gaussian process theorem is available.
+
+\begin{definition}[BrownianBridge carrier]
+\label{def:brownian-bridge-carrier}
+A $\BrownianBridgeUp$ carrier is a finite $\BHist$ packet
+$$
+B=(W,T,E,K,S,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\BrownianUp$ source row, exposing only the finite path-window and increment data read by the bridge.
+\item $T$ is the displayed time-window row, including the initial time, terminal time, and inspected intermediate time coordinates.
+\item $E$ is the endpoint row, carrying the terminal $\RealUp$ target value and the endpoint observation window to which the path is conditioned.
+\item $K$ is the Markov-transition conditioning row, read through the adjacent finite transition surface of $\MarkovChainUp$ rather than through a host conditional distribution.
+\item $S$ is the $\StreamNameUp$ finite-window row selecting path observations, endpoint windows, and conditioning requests.
+\item $Q$ is the $\RegSeqRatUp$ regular readback row for the displayed bridge values, time gaps, and endpoint comparisons.
+\item $R$ is the terminal $\RealUp$ seal row reached by stochastic-process or completion-facing consumers after $S$ and $Q$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for Brownian source, time, endpoint, transition, stream, regular, Real seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a bridge-conditioning request through the same finite rows.
+\item $P$ is the $\Pkg$ provenance over $\BrownianBridgeUp$, $\BrownianUp$, $\MarkovChainUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BrownianBridgeUp}$ row.
+\end{enumerate}
+The classifier compares accepted bridge packets only through these rows. It has no coordinate for a host Brownian bridge process, a filtration, a regular conditional probability, quotient path equality, selected path representative, Gaussian density theorem, or ambient stochastic-process completion.
+\end{definition}
+
+\begin{theorem}[BrownianBridge NameCert obligations]
+\label{thm:brownian-bridge-namecert-obligations}
+For every accepted $\BrownianBridgeUp$ carrier $B=(W,T,E,K,S,Q,R,H,C,P,N)$, the local $\NameCert_{\BrownianBridgeUp}$ surface consists exactly of carrier admission for the Brownian source, displayed time and endpoint rows, Markov-transition conditioning row, StreamName windows, RegSeqRat readback, Real seal, componentwise transport, displayed replay, provenance, and local naming. Every bridge-conditioning read is exhausted by those rows and exports no filtration, regular conditional probability, quotient path law, selected endpoint representative, or host Gaussian-process object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:brownian-bridge-carrier}. The visible rows are exactly $W,T,E,K,S,Q,R,H,C,P,N$, so any local certificate obligation must be read from one of those displayed coordinates.
+
+The stochastic source is $W,T,E,K$. The Brownian row supplies the finite path-window data, the time and endpoint rows bind the bridge request, and the Markov-transition row records the conditioning surface without creating a separate host conditional-law object.
+
+The numerical and structural reads are $S,Q,R,H,C,P,N$. StreamName windows and RegSeqRat readback expose finite observations before the Real seal is visible, while transport, replay, provenance, and local naming keep the same packet stable for downstream consumers.
+\end{proof}
+
+\begin{theorem}[BrownianBridge conditioning route]
+\label{thm:brownian-bridge-conditioning-route}
+Every Brownian-path, Markov-transition, Real, or Completion consumer of an accepted $\BrownianBridgeUp$ packet factors through the displayed route
+$$
+W,T,E \longmapsto K \longmapsto S,Q \longmapsto R,H,C,P,N .
+$$
+Thus the bridge endpoint is read first as finite Brownian and time-window data, then through the Markov conditioning row, and only then through StreamName windows, regular rational readback, and the terminal Real seal.
+\end{theorem}
+\begin{proof}
+Begin with the Brownian source and endpoint data. The rows $W,T,E$ determine the inspected Brownian path windows, the time interval, and the terminal endpoint request; they do not yet expose a completed path law.
+
+Next read the conditioning row $K$. This row is the only bridge-specific transition surface and is tied to the Markov-chain dependency of \autoref{ch:concrete-instances-markovchain-namecert}, so a consumer cannot replace it by a regular conditional probability or a host filtration.
+
+Finally pass through the numerical route. The StreamName row $S$ and RegSeqRat row $Q$ expose finite bridge observations and rational comparisons before the Real seal $R$ is consumed, and $H,C,P,N$ transport, replay, source, and name the same finite packet.
+\end{proof}
+
+\closureat{BrownianBridgeUp}{seedStr}
+
+\begin{closurestatus}{\BrownianBridgeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:brownian-bridge-carrier}, \autoref{thm:brownian-bridge-namecert-obligations}, and \autoref{thm:brownian-bridge-conditioning-route} seed the finite Brownian bridge route over Brownian source windows, time and endpoint rows, Markov conditioning, StreamName windows, RegSeqRat readback, Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, filtrations, regular conditional probabilities, quotient path laws, selected endpoint representatives, Gaussian density theorems, standard bridge checking, or ambient stochastic-process completion.}
+  \upgradepath{Obligation closure requires checked carrier admission, Brownian source exposure, endpoint conditioning, Markov-transition routing, StreamName windows, RegSeqRat readback, Real sealing, nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BrownianBridgeUp.}
+  \constructivestory{A $\BrownianBridgeUp$ packet is generated from Brownian source windows, displayed time and endpoint rows, a Markov-transition conditioning row, StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
