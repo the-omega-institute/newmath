@@ -1222,6 +1222,64 @@ POSITIVE_DISCOVERY_REQUIREMENTS = {
     "closuregate": "gate evidence",
     "closureweightprofile": "weight profile evidence",
 }
+DISCOVERY_LEDGER_KIND_KEYWORDS = {
+    "transcription": (
+        "transcription",
+        "transcribe",
+        "paper-to-lean",
+        "paper to lean",
+        "statement",
+    ),
+    "backend": (
+        "backend",
+        "lean",
+        "kernel",
+        "lake",
+        "ci",
+        "pdflatex",
+    ),
+    "trust": (
+        "trust",
+        "trusted",
+        "audit",
+        "checked",
+        "witness",
+    ),
+    "dependency": (
+        "dependency",
+        "dependencies",
+        "depends",
+        "import",
+        "parent",
+        "parents",
+        "upstream",
+        "lineage",
+    ),
+    "positive": (
+        "positive",
+        "gate",
+        "weight",
+        "classifier",
+    ),
+    "namecert": (
+        "namecert",
+        "name cert",
+    ),
+}
+DISCOVERY_VERIFICATION_CUES = ("transcription", "backend", "trust", "dependency")
+DISCOVERY_SCOPE_GLOBAL_TERMS = (
+    "global",
+    "globally",
+    "universal",
+    "universally",
+    "all",
+    "every",
+    "any",
+    "arbitrary",
+    "canonical",
+    "complete",
+    "general",
+)
 
 
 def detect_orphan_concrete_subdirs() -> list[dict]:
@@ -1447,6 +1505,156 @@ def diagnose_closurestatus_open_fields(block: dict) -> tuple[list[dict[str, obje
                     )
                 )
     return warnings, errors
+
+
+def _discovery_item(block: dict, kind: str, message: str, evidence: str = "") -> dict[str, object]:
+    item: dict[str, object] = {
+        "file": block["file"],
+        "line": block["line"],
+        "region": f"{block['region']}Up",
+        "kind": kind,
+        "message": message,
+    }
+    if evidence:
+        item["evidence"] = evidence
+    return item
+
+
+def _classify_discovery_ledger_kind(text: str) -> str:
+    lower = text.lower()
+    hits = [
+        kind
+        for kind, needles in DISCOVERY_LEDGER_KIND_KEYWORDS.items()
+        if any(needle in lower for needle in needles)
+    ]
+    return hits[0] if len(hits) == 1 else "kind_unknown"
+
+
+def _discovery_candidate_blocks(blocks: list[dict]) -> list[dict]:
+    return [
+        block
+        for block in blocks
+        if block.get("origin") == "ai"
+        and block.get("theory_closure") not in (None, "seedClosure")
+        and not block.get("error")
+    ]
+
+
+def _field_text(open_fields: dict, *names: str) -> str:
+    return "\n".join(
+        str(open_fields.get(name, ""))
+        for name in names
+        if str(open_fields.get(name, "")).strip()
+    )
+
+
+def discovery_audit_payload(blocks: list[dict]) -> dict[str, object]:
+    candidates = _discovery_candidate_blocks(blocks)
+    ledger_gaps: list[dict[str, object]] = []
+    scope_global_risks: list[dict[str, object]] = []
+    verification_ledger_gaps: list[dict[str, object]] = []
+
+    for block in candidates:
+        open_fields = block.get("open_fields") or {}
+        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        namecert = str(open_fields.get("closurenamecert", "")).strip()
+        ledger = str(open_fields.get("closureledger", "")).strip()
+        classifier_increment = str(open_fields.get("closureclassifierincrement", "")).strip()
+        ledger_kind = _classify_discovery_ledger_kind(ledger) if ledger else "kind_unknown"
+
+        if not claim_kind:
+            ledger_gaps.append(
+                _discovery_item(
+                    block,
+                    "missing_closureclaimkind",
+                    "\\closureclaimkind is absent",
+                )
+            )
+        if not namecert:
+            ledger_gaps.append(
+                _discovery_item(
+                    block,
+                    "missing_closurenamecert",
+                    "\\closurenamecert is absent",
+                )
+            )
+        if not ledger:
+            ledger_gaps.append(
+                _discovery_item(
+                    block,
+                    "missing_closureledger",
+                    "\\closureledger is absent",
+                )
+            )
+        if not classifier_increment:
+            ledger_gaps.append(
+                _discovery_item(
+                    block,
+                    "missing_closureclassifierincrement",
+                    "\\closureclassifierincrement is absent",
+                )
+            )
+        if ledger and ledger_kind == "kind_unknown":
+            ledger_gaps.append(
+                _discovery_item(
+                    block,
+                    "kind_unknown",
+                    "\\closureledger exists but no ledger kind keyword was detected",
+                    ledger,
+                )
+            )
+        if claim_kind == "positiveDiscovery":
+            for field in ("closuregate", "closureweightprofile"):
+                if not str(open_fields.get(field, "")).strip():
+                    ledger_gaps.append(
+                        _discovery_item(
+                            block,
+                            f"missing_{field}",
+                            f"\\{field} is absent for positiveDiscovery",
+                        )
+                    )
+
+        raw_body = str(block.get("raw_body") or "")
+        lower_body = raw_body.lower()
+        for term in DISCOVERY_SCOPE_GLOBAL_TERMS:
+            if re.search(rf"\b{re.escape(term)}\b", lower_body):
+                scope_global_risks.append(
+                    _discovery_item(
+                        block,
+                        "scope_global_keyword",
+                        f"scope text contains global-sounding keyword '{term}'",
+                        term,
+                    )
+                )
+                break
+
+        verification_text = _field_text(
+            open_fields,
+            "closureledger",
+            "closureparents",
+            "closurelineage",
+        )
+        lower_verification_text = verification_text.lower()
+        for cue in DISCOVERY_VERIFICATION_CUES:
+            if cue not in lower_verification_text:
+                verification_ledger_gaps.append(
+                    _discovery_item(
+                        block,
+                        f"missing_{cue}_ledger_cue",
+                        f"formal verification claim lacks {cue} ledger cue",
+                    )
+                )
+
+    return {
+        "informational": True,
+        "candidate_count": len(candidates),
+        "ledger_gaps": ledger_gaps,
+        "ledger_gap_count": len(ledger_gaps),
+        "scope_global_risks": scope_global_risks,
+        "scope_global_risk_count": len(scope_global_risks),
+        "verification_ledger_gaps": verification_ledger_gaps,
+        "verification_ledger_gap_count": len(verification_ledger_gaps),
+    }
 
 
 def audit_payload() -> dict[str, object]:
@@ -2599,6 +2807,41 @@ def cmd_conservativity_audit(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_discovery_audit(args: argparse.Namespace) -> int:
+    payload = discovery_audit_payload(collect_closurestatus_blocks(PAPER_PARTS_ROOT))
+    if args.json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        print(
+            "[bedc-ci] discovery-audit (informational):"
+            f" candidates={payload['candidate_count']}"
+            f" ledger_gaps={payload['ledger_gap_count']}"
+            f" scope_global_risks={payload['scope_global_risk_count']}"
+            f" verification_ledger_gaps={payload['verification_ledger_gap_count']}"
+        )
+        if args.verbose:
+            for title, key in (
+                ("ledger gaps", "ledger_gaps"),
+                ("scope/global risks", "scope_global_risks"),
+                ("verification ledger gaps", "verification_ledger_gaps"),
+            ):
+                items = payload[key]
+                if not items:
+                    continue
+                print(f"[bedc-ci] {title}:")
+                for item in items[:80]:
+                    evidence = item.get("evidence")
+                    suffix = f" evidence={evidence!r}" if evidence else ""
+                    print(
+                        f"  {item['file']}:{item['line']}"
+                        f" {item['region']} {item['kind']}:"
+                        f" {item['message']}{suffix}"
+                    )
+                if len(items) > 80:
+                    print(f"  ... and {len(items) - 80} more")
+    return 0
+
+
 def cmd_axiom_purity(args: argparse.Namespace) -> int:
     """Check that every BEDC theorem's transitive axiom dependency set is
     contained within the allowed Lean stdlib subset.
@@ -2956,6 +3199,14 @@ def parser() -> argparse.ArgumentParser:
     conservativity_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
     conservativity_p.add_argument("--verbose", "-v", action="store_true", help="Show per-chapter detail")
     conservativity_p.set_defaults(func=cmd_conservativity_audit)
+
+    discovery_p = sub.add_parser(
+        "discovery-audit",
+        help="Informational survey of ai-origin discovery ledger, scope, and verification cues (always exit 0)",
+    )
+    discovery_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
+    discovery_p.add_argument("--verbose", "-v", action="store_true", help="Show per-gap detail")
+    discovery_p.set_defaults(func=cmd_discovery_audit)
 
     carrier_iso_p = sub.add_parser(
         "carrier-isomorphism",
