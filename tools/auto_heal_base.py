@@ -2209,6 +2209,13 @@ def cycle() -> None:
         print(f"[heal] not on {BASE_BRANCH} (on {cur}); skipping cycle",
               file=sys.stderr)
         return
+    # A stale `.git/index.lock` from a crashed git process blocks every
+    # orchestrator merge (_sync_local_with_origin checkout) and this cycle's
+    # own fetch/ff — sweep it before anything else.
+    try:
+        heal_stale_index_lock()
+    except Exception as exc:
+        print(f"[heal] heal_stale_index_lock crashed: {exc}", file=sys.stderr)
     # Cooldown cause analysis runs FIRST, observation-only / alert-only.
     # Previously this was at end of cycle but never reached because
     # every prior heal phase (dup labels / CI / propext / gate-storm)
