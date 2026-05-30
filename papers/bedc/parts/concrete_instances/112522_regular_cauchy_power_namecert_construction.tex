@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyPowerUp$}
+\label{ch:concrete-instances-regular-cauchy-power-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy real arithmetic, the $\RegularCauchyPowerUp$ packet records finite integer powers of one displayed regular Cauchy rational name as a bounded product route. It sits after the regular rational source surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the binary regular product packet of \autoref{ch:concrete-instances-regularcauchyproduct-namecert}, the finite product packet of \autoref{ch:concrete-instances-regular-cauchy-finite-product-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The carrier packages repeated multiplication by a unary exponent without importing host exponentiation, quotient stream equality, selected limits, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy power carrier]\label{def:regular-cauchy-power-carrier}
+A $\RegularCauchyPowerUp$ carrier is a finite $\BHist$ packet
+$$
+K=(n,A,W,D,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $n$ is the finite unary exponent row. It records the requested integer power by a bounded successor chain, with the zeroth row reserved for the displayed unit read.
+\item $A$ is the $\RegSeqRatUp$ source row whose scheduled rational observations are multiplied repeatedly.
+\item $W$ is the $\StreamNameUp$ window family for the source reads, intermediate product reads, and final power-facing read.
+\item $D$ is the $\DyadicRatCoreUp$ budget and observation row, storing source dyadic observations, intermediate product observations, requested radii, unit cells, and slack cells.
+\item $S$ is the displayed multiplication schedule. Each successor step cites either a $\RegularCauchyProductUp$ row for the current accumulator multiplied by $A$ or a $\RegularCauchyFiniteProductUp$ row for the finite fold named by $n$.
+\item $R$ is the $\RegSeqRatUp$ readback row for the final power, obtained only from $n,A,W,D,S$.
+\item $E$ is the $\RealUp$ seal row reached after the regular readback of the power has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the exponent, source, windows, dyadic observations, product schedule, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from any finite power request through the same rows.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyPowerUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyProductUp$, $\RegularCauchyFiniteProductUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyPowerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $n,A,W,D,S,R,E,H,C,P,N$. It has no coordinate for host exponentiation, quotient streams, selected limits, ambient completeness, Lean verification, or bridge credentials.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy power NameCert obligations]\label{thm:regular-cauchy-power-namecert-obligations}
+For every accepted $\RegularCauchyPowerUp$ carrier
+$$
+K=(n,A,W,D,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyPowerUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the unary exponent, source $\RegSeqRatUp$ row, synchronized $\StreamNameUp$ windows, $\DyadicRatCoreUp$ observations and slack cells, repeated product schedule, final readback, $\RealUp$ seal, transport, replay, provenance, and local name;
+\item exponent-window coverage, requiring each successor stage named by $n$ to open the source row $A$ and the accumulator window used by the displayed product step;
+\item dyadic product-budget exactness, requiring each intermediate product observation to consume its assigned radius and slack cells from $D$ and the schedule row $S$;
+\item RegSeqRat readback stability, requiring the final power readback $R$ to depend only on the displayed exponent, source, windows, dyadic budget rows, and product schedule;
+\item Real seal non-escape, requiring $E,H,C,P,N$ to expose no host exponentiation, quotient stream equality, selected limit, trichotomy, ambient completeness theorem, Lean verification, or bridge credential.
+\end{enumerate}
+No Regular Cauchy power obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:regular-cauchy-power-carrier}. The displayed tuple $n,A,W,D,S,R,E,H,C,P,N$ is the entire public surface, so carrier admission is exactly the admission of those rows.
+
+Exponent-window coverage is forced by the unary exponent row. The base stage names the displayed unit read, and each successor stage opens the source row $A$ together with the accumulator window selected by $W$.
+
+Dyadic exactness is the joint role of $D$ and $S$. The observation row supplies the component and accumulator dyadic cells, while the schedule row records the binary product route or finite product route used at each successor stage.
+
+The final regular readback row $R$ is downstream of $n,A,W,D,S$. Therefore readback stability follows from the carrier order: no power-facing $\RegSeqRatUp$ data can be inspected until the exponent route, synchronized windows, dyadic observations, and product budget have already been displayed.
+
+Finally, the seal, transport, replay, provenance, and local name rows preserve only this displayed route. Since none of the excluded objects is a coordinate of the carrier, the listed five rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy power product induction]\label{thm:regular-cauchy-power-product-induction}
+Let
+$$
+K=(n,A,W,D,S,R,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyPowerUp$ carrier. Induction on the finite unary exponent row $n$ shows that every intermediate power read remains inside the displayed product schedule $S$. The base read is the unit row recorded in $D$, and each successor read is obtained from the previous accumulator and the source row $A$ through the next $\RegularCauchyProductUp$ or $\RegularCauchyFiniteProductUp$ schedule cell. Thus no stage of the power read leaves the rows $n,A,W,D,S,R,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Proceed by induction over the unary exponent row. In the base case, the carrier exposes the unit cell in $D$ and the corresponding base entry in $S$, so the zeroth power read is already inside the displayed schedule.
+
+For the successor step, assume the accumulator read for the current exponent has been displayed through $W,D,S$. The next schedule cell in $S$ cites the binary $\RegularCauchyProductUp$ route for multiplying that accumulator by the source row $A$, or the equivalent $\RegularCauchyFiniteProductUp$ fold cell named by the same finite exponent route.
+
+The dyadic budget row $D$ supplies the observation and slack cells for that product cell, while $W$ supplies the synchronized source and accumulator windows. The successor accumulator is therefore a displayed schedule read, not a host exponentiation step.
+
+After the last successor stage, the final accumulator is repacked as $R$ and then sealed by $E$. The remaining rows $H,C,P,N$ transport, replay, source, and name the same route, so every intermediate and final power read stays inside the displayed product schedule.
+\end{proof}
+
+\falsifiablePrediction{Every $\RegularCauchyPowerUp$ power-facing read factors through a finite unary exponent row, one RegSeqRat source row, synchronized StreamName windows, DyadicRatCore observations and slack cells, a repeated RegularCauchyProduct or RegularCauchyFiniteProduct schedule, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, regularcauchyproduct, regular-cauchy-finite-product, real: $\RegularCauchyPowerUp$ is not bijective to any listed sibling because it jointly carries a finite unary exponent route, a single reusable regular Cauchy source, synchronized accumulator windows, dyadic product-budget accounting, final RegSeqRat readback, RealUp sealing, transport, continuation, provenance, and local naming.}
+
+\closureat{RegularCauchyPowerUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyPowerUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-power-carrier}, \autoref{thm:regular-cauchy-power-namecert-obligations}, and \autoref{thm:regular-cauchy-power-product-induction} seed the finite power route from a displayed regular Cauchy source through synchronized windows, dyadic product budgets, repeated product schedule cells, final RegSeqRat readback, and RealUp sealing.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RegularCauchyPowerUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host exponentiation, quotient stream equality, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, exponent-window coverage, budget exactness, readback stability, seal non-escape, and local naming for BEDC.Derived.RegularCauchyPowerUp.}
+  \constructivestory{A $\RegularCauchyPowerUp$ packet is generated from a finite unary exponent row, one RegSeqRat source row, synchronized StreamName windows, DyadicRatCore observations and slack cells, a repeated product schedule, final RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
