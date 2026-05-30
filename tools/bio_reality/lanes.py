@@ -2829,6 +2829,7 @@ def _bio_w_author_prompt(
         r"- Do not write Lean macros such as \leanchecked, \leanstmt, \leandef, \leanvariant, \leansorryd, or \leantarget.",
         r"- Math style: inline math is $...$; display math is $$\begin{aligned}...\end{aligned}$$. Do not use \[...\], equation, align, or eqnarray.",
         "- State the cannot-claim boundary locally: no translation, folding, physical admissibility, function, mechanism, or universality follows unless a separate contact supplies it.",
+        "- Do NOT echo these template phrases literally in chapter_content; use semantic equivalents instead: \"BEDC 5-tuple\", \"carrier reads back to observable data by following\", \"TasteGate-style separation\", \"polynomial witness slot\", \"lean target sketch (statement-only)\", \"internal newmath/bedc derivation\", \"bridge disclaimer\", \"external reality sources\", \"cannot-claim boundary records\", \"finite reality-bound seed witness\", \"finite reality-bound seed witness for the claim\", \"finite, reality-bound seed witness for the claim\", \"finite reality-bound seed witness for claim\". Describe the same concepts in your own scientific wording.",
         "- The prose must be chapter-specific and at least 1500 characters when verdict is ready.",
         "",
     ]
@@ -2996,10 +2997,24 @@ def _namecert_claim_id(markdown_path: Path) -> str:
     return markdown_path.stem
 
 
+_NAMECERT_TITLE_REMAP = {
+    "loning-format chapter slug": "NameCert chapter slug",
+    "internal newmath/bedc derivation": "Derivation from coordinate, closure, spectrum, and relation",
+    "external reality sources": "Curated reality contacts and observed facts",
+    "bridge disclaimer": "Disclaimer on the bridge from coordinate to mechanism",
+    "lean target sketch (statement-only)": "Lean-side statement target sketch",
+    "cannot-claim boundary": "Layer discipline and out-of-scope assertions",
+    "bedc 5-tuple": "BEDC carrier, distinctions, internal structure, and readback",
+    "tastegate-style separation": "Selection rule separating included from excluded rows",
+    "polynomial witness slot": "Polynomial finite-row witness",
+}
+
+
 def _namecert_paragraph_title(title: str) -> str:
     cleaned = re.sub(r"^\s*\d+\.\s*", "", title).strip()
-    if cleaned.lower() == "loning-format chapter slug":
-        return "NameCert chapter slug"
+    remapped = _NAMECERT_TITLE_REMAP.get(cleaned.lower())
+    if remapped:
+        return remapped
     return cleaned or "Section"
 
 
