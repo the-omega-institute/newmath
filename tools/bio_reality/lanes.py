@@ -2079,6 +2079,7 @@ def _bios_codex_resolve_merge(
     selected = conflict_files[:max_files]
     resolved_paths: list[str] = []
     failures: list[dict[str, Any]] = []
+    take_theirs_bedc = bool(cfg.get("papers_bedc_take_theirs") or False)
     for rel_path in selected:
         target = repo_root / rel_path
         try:
@@ -2086,6 +2087,17 @@ def _bios_codex_resolve_merge(
             target_resolved.relative_to(repo_root.resolve())
         except (ValueError, OSError):
             failures.append({"path": rel_path, "reason": "path_outside_repo"})
+            continue
+        if take_theirs_bedc and rel_path.startswith("papers/bedc/"):
+            try:
+                co = _run_command(repo_root, ["git", "checkout", "--theirs", "--", rel_path], timeout=30.0)
+                if co.returncode != 0:
+                    failures.append({"path": rel_path, "reason": "checkout_theirs_failed", "stderr": (co.stderr or "")[-200:]})
+                    continue
+            except (OSError, subprocess.TimeoutExpired) as exc:
+                failures.append({"path": rel_path, "reason": "checkout_theirs_exception", "error": str(exc)})
+                continue
+            resolved_paths.append(rel_path)
             continue
         try:
             content = target.read_text(encoding="utf-8", errors="replace")

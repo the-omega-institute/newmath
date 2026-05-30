@@ -172,18 +172,38 @@ def write_manifest(
     if source_name not in ALLOWED_MANIFEST_SOURCE_NAMES:
         raise ValueError(f"manifest source_name is not allowed: {source_name}")
     MANIFEST_DIR.mkdir(parents=True, exist_ok=True)
+    digest = hashlib.sha256(payload).hexdigest()
     manifest = {
         "fetched_at": now_iso(),
         "source_url": url,
         "source_name": source_name,
         "accession_or_id": accession_or_id,
-        "sha256": hashlib.sha256(payload).hexdigest(),
+        "sha256": digest,
         "byte_size": len(payload),
         "content_type": content_type,
         "fetched_by": "bio-data-fetcher",
         "intended_claim_id": CLAIM_ID,
         "license_or_terms": license_or_terms,
     }
+    required = {
+        "fetched_at",
+        "source_url",
+        "source_name",
+        "accession_or_id",
+        "sha256",
+        "byte_size",
+        "content_type",
+        "fetched_by",
+        "intended_claim_id",
+        "license_or_terms",
+    }
+    missing = sorted(required.difference(manifest))
+    if missing:
+        raise ValueError(f"manifest is missing required provenance fields: {missing}")
+    if manifest["byte_size"] != len(payload) or manifest["sha256"] != digest:
+        raise ValueError("manifest payload digest or byte size mismatch")
+    if manifest["fetched_by"] != "bio-data-fetcher" or manifest["intended_claim_id"] != CLAIM_ID:
+        raise ValueError("manifest provenance identity mismatch")
     (MANIFEST_DIR / f"{basename}.json").write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",

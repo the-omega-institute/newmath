@@ -297,12 +297,13 @@
     "max_commits_per_sync": 50,
     "min_seconds_between_syncs": 300,
     "codex_resolve": {
-      "enabled": false,
-      "max_files": 5,
-      "timeout_seconds": 600,
+      "enabled": true,
+      "max_files": 30,
+      "timeout_seconds": 900,
       "recurring_threshold": 3,
       "recurring_window_seconds": 21600,
-      "comment": "Codex-based merge conflict resolver for bio-S. Default disabled. Set enabled=true to let codex auto-resolve up to max_files conflicts per cycle."
+      "papers_bedc_take_theirs": true,
+      "comment": "bio-S 自动 codex resolve: content conflicts → codex 改写; modify/delete (DU/UD) in papers/bedc/ → 取 theirs (loning 域). 上限 max_files; 同 signature 6h 内重复 ≥ recurring_threshold 次则 skip."
     }
   },
   "oracle": {
