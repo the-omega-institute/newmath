@@ -7664,6 +7664,7 @@ import BEDC.Manifest
 import BEDC.Manifest.Core
 import BEDC.Manifest.Entries
 import BEDC.Meta
+import BEDC.Meta.DiscoveryCertificate
 import BEDC.Meta.TasteGate
 import BEDC.MetaCIC
 import BEDC.MetaCIC.AtomInfer
