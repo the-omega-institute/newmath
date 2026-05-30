@@ -776,6 +776,7 @@ import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.BoolUp.StdBridge
 import BEDC.Derived.BoolUpEndpoint
+import BEDC.Derived.BorelCantelliUp.TasteGate
 import BEDC.Derived.BornologyUp.TasteGate
 import BEDC.Derived.BorrowedRecursorBoundaryUp.TasteGate
 import BEDC.Derived.BoundaryAdmissionDecisionUp.TasteGate
@@ -5453,6 +5454,7 @@ import BEDC.Derived.PolishspaceUp.RootCauchyBasisCarrier
 import BEDC.Derived.PolishspaceUp.RootCauchyBasisObligations
 import BEDC.Derived.PolishspaceUp.RootCompleteSeparableSynthesis
 import BEDC.Derived.PolishspaceUp.RootCompletionObligations
+import BEDC.Derived.PolishspaceUp.RootCompletionSeparabilityExhaustion
 import BEDC.Derived.PolishspaceUp.RootCompletionSeparabilityHandoff
 import BEDC.Derived.PolishspaceUp.RootUnblockSurface
 import BEDC.Derived.PolishspaceUp.RootUnblockWindowDiscipline
@@ -5551,6 +5553,7 @@ import BEDC.Derived.PropextTransportBoundaryUp.TasteGate
 import BEDC.Derived.PseudometricUp
 import BEDC.Derived.PseudometricUp.ClassifierTransportObligation
 import BEDC.Derived.PseudometricUp.CompletionNonescapeObligation
+import BEDC.Derived.PseudometricUp.DependencyReadyPackage
 import BEDC.Derived.PseudometricUp.DistanceReadbackObligation
 import BEDC.Derived.PseudometricUp.LedgerNonescapeObligation
 import BEDC.Derived.PseudometricUp.LocatedMetricSourceExhaustion
@@ -7497,6 +7500,7 @@ import BEDC.Derived.ZnormalUp.DownstreamNormalFormPackage
 import BEDC.Derived.ZnormalUp.DownstreamNormalFormReadiness
 import BEDC.Derived.ZnormalUp.DownstreamReadinessObligationPackage
 import BEDC.Derived.ZnormalUp.DownstreamRouteDeterminacy
+import BEDC.Derived.ZnormalUp.DownstreamZcarryDependencyRoute
 import BEDC.Derived.ZnormalUp.FiniteFuelCarrierAdmission
 import BEDC.Derived.ZnormalUp.FiniteFuelClassifierStability
 import BEDC.Derived.ZnormalUp.FiniteNormalwordClassifierCompatibility
