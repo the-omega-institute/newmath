@@ -62,6 +62,15 @@
       "loop_name": "bio_W_writeback_paper",
       "role": "standalone BioReality paper writeback from gate-passed research memory",
       "durable_write_allowed": true,
+      "codex_writer": {
+        "enabled": true,
+        "max_retries": 2,
+        "timeout": 600,
+        "log_dir": "tools/bio_reality/state/writeback_codex_logs",
+        "min_audit_score": 7,
+        "min_used_fact_ids": 2,
+        "corrective_retry": true
+      },
       "durable_write_scope": [
         "papers/bio_reality/main.tex",
         "papers/bio_reality/parts/codon_window_reality_boundary.tex"
@@ -93,6 +102,14 @@
       "durable_write_allowed": false
     }
   ],
+  "writeback_heal": {
+    "enabled": true,
+    "max_attempts": 2,
+    "timeout_seconds": 600,
+    "recurring_threshold": 3,
+    "recurring_window_seconds": 21600,
+    "path_whitelist_prefix": "papers/bio_reality/"
+  },
   "bootstrap_policy": {
     "empty_memory_bootstrap": true,
     "first_profile": "dna_to_protein_realization",
@@ -153,19 +170,58 @@
       "tools/bio_reality/inbox/mismatches.jsonl"
     ],
     "pre_commit_gates": [
-      ["python3", "-m", "py_compile", "tools/bio_reality/agent_bus.py", "tools/bio_reality/lanes.py", "tools/bio_reality/supervisor.py", "tools/bio_reality/store.py", "tools/bio_reality/deepening_gates.py", "tools/bio_reality/bio_reality_loop.py", "tools/bio_reality/vision_intake.py", "tools/bio_reality/signal_assimilator.py", "tools/bio_reality/framework.py"],
-      ["python3", "tools/bio_reality/deepening_gates.py", "--self-test"],
-      ["python3", "tools/bio_reality/agent_bus.py", "--self-test"],
-      ["python3", "tools/bio_reality/lanes.py", "--self-test"]
+      [
+        "python3",
+        "-m",
+        "py_compile",
+        "tools/bio_reality/agent_bus.py",
+        "tools/bio_reality/lanes.py",
+        "tools/bio_reality/supervisor.py",
+        "tools/bio_reality/store.py",
+        "tools/bio_reality/deepening_gates.py",
+        "tools/bio_reality/bio_reality_loop.py",
+        "tools/bio_reality/vision_intake.py",
+        "tools/bio_reality/signal_assimilator.py",
+        "tools/bio_reality/framework.py"
+      ],
+      [
+        "python3",
+        "tools/bio_reality/deepening_gates.py",
+        "--self-test"
+      ],
+      [
+        "python3",
+        "tools/bio_reality/agent_bus.py",
+        "--self-test"
+      ],
+      [
+        "python3",
+        "tools/bio_reality/lanes.py",
+        "--self-test"
+      ]
     ],
     "min_seconds_between_pushes": 60,
-    "max_push_retries": 2
+    "max_push_retries": 2,
+    "merge_back": {
+      "enabled": true,
+      "upstream_branch": "auto-dev",
+      "min_seconds_between_merge_backs": 1800
+    }
   },
   "bedc_writeback": {
     "enabled": true,
     "target_concrete_instances_dir": "papers/bedc/parts/concrete_instances",
     "module_aggregator": "papers/bedc/parts/bio_reality_module.tex",
-    "max_writebacks_per_cycle": 1,
+    "max_writebacks_per_cycle": 5,
+    "codex_writer": {
+      "enabled": true,
+      "max_retries": 2,
+      "timeout_seconds": 600,
+      "log_dir": "tools/bio_reality/state/bedc_writeback_logs",
+      "min_audit_score": 7,
+      "min_used_fact_ids": 3,
+      "corrective_retry_on_gate_failure": true
+    },
     "skip_claim_ids": [
       "h0.M.equals.WNR.CUN",
       "h0.M.shape.significance",
@@ -239,7 +295,16 @@
       "lean4/BEDC/Derived/"
     ],
     "max_commits_per_sync": 50,
-    "min_seconds_between_syncs": 300
+    "min_seconds_between_syncs": 300,
+    "codex_resolve": {
+      "enabled": true,
+      "max_files": 30,
+      "timeout_seconds": 900,
+      "recurring_threshold": 3,
+      "recurring_window_seconds": 21600,
+      "papers_bedc_take_theirs": true,
+      "comment": "bio-S 自动 codex resolve: content conflicts → codex 改写; modify/delete (DU/UD) in papers/bedc/ → 取 theirs (loning 域). 上限 max_files; 同 signature 6h 内重复 ≥ recurring_threshold 次则 skip."
+    }
   },
   "oracle": {
     "enabled": true,
@@ -247,5 +312,25 @@
     "min_seconds_between_queries": 30,
     "max_query_chars": 4000,
     "max_result_wait_seconds": 600
+  },
+  "oracle_integration": {
+    "enabled": true,
+    "server_url": "http://127.0.0.1:8769",
+    "pdf_attach_path": "papers/bio_reality/main.pdf",
+    "persist_dir": "tools/bio_reality/state/oracle_sessions",
+    "bio_g": {
+      "enabled": true,
+      "max_turns": 10,
+      "min_seconds_between_consultations": 1800,
+      "codex_judge_timeout_seconds": 240,
+      "poll_timeout_seconds": 600
+    },
+    "bio_plan": {
+      "enabled": true,
+      "max_turns": 12,
+      "min_cycles_between_consultations": 5,
+      "codex_judge_timeout_seconds": 240,
+      "poll_timeout_seconds": 600
+    }
   }
 }
