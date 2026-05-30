@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\RealEqualityReflectionUp$}
+\label{ch:concrete-instances-real-equality-reflection-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive analysis, equality of real numbers is presented through regular Cauchy data and explicit tolerance control rather than through an ambient quotient oracle. The $\RealEqualityReflectionUp$ packet names the finite equality-reflection boundary where the setoid route of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert} is exposed to the equality-facing consumers of \autoref{ch:concrete-instances-real-equality-namecert}. It records the route from regular rational streams and dyadic tolerance rows into the $\RealUp$ seal without adding selected representatives, quotient equality as a primitive, countable choice, host real extensionality, Lean verification, or bridge checking.
+
+\begin{definition}[Real equality reflection carrier]
+\label{def:real-equality-reflection-carrier}
+A $\RealEqualityReflectionUp$ carrier is a finite $\BHist$ packet
+$$
+P=(Q,E,R,S,D,H,C,P_0,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\CauchyEquivalenceSetoidUp$ route that reads equality through finite Cauchy windows.
+\item $E$ is the $\RealEqualityUp$ consumer row whose equality-facing request is admitted only after $Q$ is visible.
+\item $R$ is the $\RegSeqRatUp$ regular rational source row used by the setoid route.
+\item $S$ is the $\StreamNameUp$ window row opened before any equality consumer reads the source.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the visible windows and regular rational readback.
+\item $H$ records componentwise $\hsame$ transport for the setoid route, equality consumer, source, windows, tolerance ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an equality-reflection request through $R,S,D,Q,E$ and then through the structural rows.
+\item $P_0$ is the $\Pkg$ provenance over $\RealEqualityReflectionUp$, $\CauchyEquivalenceSetoidUp$, $\RealEqualityUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealEqualityReflectionUp}$ row.
+\end{enumerate}
+The carrier is admitted only when every $\RealEqualityUp$ read is downstream of the displayed $\CauchyEquivalenceSetoidUp$ route and every route into the $\RealUp$ seal still exposes the regular source, opened window, dyadic tolerance row, transport, replay, provenance, and local name.
+\end{definition}
+
+\begin{theorem}[Real equality reflection NameCert obligation surface]
+\label{thm:real-equality-reflection-namecert-obligation-surface}
+For every accepted $\RealEqualityReflectionUp$ carrier
+$$
+P=(Q,E,R,S,D,H,C,P_0,N),
+$$
+the local $\NameCert_{\RealEqualityReflectionUp}$ surface consists exactly of carrier admission, setoid-route exposure, real-classifier reflection, transport, replay, provenance, and non-escape rows. Carrier admission displays $Q,E,R,S,D,H,C,P_0,N$; setoid-route exposure requires $Q$ to read $\CauchyEquivalenceSetoidUp$ through $R,S,D$; real-classifier reflection requires the equality-facing consumer row $E$ to remain downstream of that setoid route before any $\RealUp$ seal is read; transport, replay, and provenance are carried only by $H,C,P_0$; non-escape is the assertion that no quotient-equality oracle, selected representative, countable-choice schedule, ambient real extensionality, Lean verification, or bridge coordinate is present.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-equality-reflection-carrier}. The projection exposes one setoid route, one equality-facing consumer row, one regular rational source, one opened window row, one dyadic tolerance ledger, and the structural transport, replay, provenance, and naming rows.
+
+The setoid route is forced to pass through $R,S,D$ before the consumer row $E$ can read equality. Thus the packet first records the regular rational readback and finite StreamName inspection used by $\CauchyEquivalenceSetoidUp$.
+
+The equality-facing row then reflects only that visible route into the Real boundary. Since the only structural rows are $H,C,P_0,N$, the packet can transport, replay, source, and name the displayed route but cannot add a quotient oracle, selected representative, choice schedule, ambient extensionality, Lean proof, or bridge datum.
+\end{proof}
+
+\begin{theorem}[Real equality reflection Cauchy setoid route]
+\label{thm:real-equality-reflection-cauchy-setoid-route}
+Every $\RealEqualityUp$ consumer exported by an accepted $\RealEqualityReflectionUp$ carrier factors through the finite route
+$$
+R,S,D\longmapsto Q\longmapsto E\longmapsto \RealUp .
+$$
+In particular, the consumer first reads the $\RegSeqRatUp$ source, the $\StreamNameUp$ finite window, and the $\DyadicRatCoreUp$ tolerance row, then exposes the $\CauchyEquivalenceSetoidUp$ route, and only after that may it reach the equality-facing $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Begin with an equality-facing request. Carrier admission gives the displayed rows $R,S,D,Q,E$ and no direct coordinate from the request to a Real seal.
+
+Read $R,S,D$ first. These rows determine the regular source readback, finite window, and dyadic tolerance surface on which the Cauchy setoid comparison is visible.
+
+Now read the setoid row $Q$ and only then the consumer row $E$. The target equality consumer therefore sees $\CauchyEquivalenceSetoidUp$ before $\RealEqualityUp$ reaches the $\RealUp$ seal, so the route has no hidden quotient equality, selected representative, countable choice, ambient completeness, Lean verification, or bridge checking coordinate.
+\end{proof}
+
+\falsifiablePrediction{A $\RealEqualityUp$ consumer that reaches a $\RealUp$ equality-facing seal from accepted $\RealEqualityReflectionUp$ data without first exposing the $\RegSeqRatUp$ source, $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance row, and $\CauchyEquivalenceSetoidUp$ route refutes the carrier surface.}
+
+\independenceWitness{cauchy-equivalence-setoid, real-equality, regseqrat, streamname, dyadicratcore, real: no listed sibling supplies the whole nine-row packet $P=(Q,E,R,S,D,H,C,P_0,N)$, because each sibling contributes only setoid, equality-consumer, source, window, tolerance, or seal data while this chapter binds them with transport, replay, provenance, and local naming.}
+
+\begin{closurestatus}{\RealEqualityReflectionUp}
+  \constructivestory{A $\RealEqualityReflectionUp$ packet is generated from a CauchyEquivalenceSetoid route, a RealEquality consumer row, a RegSeqRat source row, StreamName windows, a DyadicRatCore tolerance ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row before the Real seal is read.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-equality-reflection-carrier}, \autoref{thm:real-equality-reflection-namecert-obligation-surface}, and \autoref{thm:real-equality-reflection-cauchy-setoid-route} seed the finite equality-reflection surface over regular rational sources, finite windows, dyadic tolerances, Cauchy setoid routing, equality-facing consumers, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient equality as primitive, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, setoid-route exposure, real-classifier reflection, transport, replay, provenance, and non-escape for BEDC.Derived.RealEqualityReflectionUp.}
+\end{closurestatus}
